@@ -5,7 +5,7 @@ function Home() {
     <div className="container">
       <header>
         <h1>Learn Astral Projection</h1>
-        <p className="subtitle">DON'T Explore the Realms Beyond Physical Reality with Trey</p>
+        <p className="subtitle">DO Explore the Realms Beyond Physical Reality with Trey</p>
       </header>
 
       <div className="section">
