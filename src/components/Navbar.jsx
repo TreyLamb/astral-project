@@ -12,6 +12,7 @@ function Navbar() {
             <ul className="dropdown">
               <li><Link to="/">Home</Link></li>
               <li><Link to="/daily-idiom">Daily Chéngyǔ</Link></li>
+              <li><Link to="/daily-idiom-widget">Chéngyǔ Widget</Link></li>
             </ul>
           </li>
           <li><Link to="/techniques">Techniques</Link></li>
