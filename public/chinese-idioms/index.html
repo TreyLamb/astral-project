@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Chéngyǔ · 每日成語</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="grid-overlay" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <div class="site-logo">成語 <span class="logo-sub">CHÉNGYǓ</span></div>
+      <div class="counter-wrap">
+        <span class="counter-label">IDIOMS REMAINING</span>
+        <span class="counter-value" id="counter">—</span>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="card" id="idiom-card">
+        <div class="day-badge" id="day-badge">DAY — OF —</div>
+
+        <div class="idiom-char" id="idiom-char" lang="zh-Hant">—</div>
+
+        <div class="rom-row">
+          <span class="rom-label">PINYIN</span>
+          <span class="rom-value mono" id="pinyin">—</span>
+          <span class="rom-sep">·</span>
+          <span class="rom-label">YALE</span>
+          <span class="rom-value mono" id="yale">—</span>
+        </div>
+
+        <div class="meaning" id="meaning">—</div>
+
+        <div class="divider"></div>
+
+        <div class="examples-block">
+          <div class="examples-title">例句 EXAMPLE</div>
+          <p class="ex-line ex-simplified" id="ex-simplified" lang="zh-Hans">—</p>
+          <p class="ex-line ex-traditional" id="ex-traditional" lang="zh-Hant">—</p>
+          <p class="ex-line ex-en" id="ex-en">—</p>
+        </div>
+
+        <div class="tags-row" id="tags-row"></div>
+      </div>
+
+      <p class="next-note" id="next-note">Next idiom at 12:01 AM</p>
+    </main>
+
+    <footer class="site-footer">
+      <span>每日成語 · Daily Chéngyǔ</span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

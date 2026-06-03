@@ -53,6 +53,45 @@ nav ul li a:hover {
   transform: translateY(-2px);
 }
 
+/* ── Dropdown ─────────────────────────────────────────── */
+.has-dropdown {
+  position: relative;
+}
+
+.has-dropdown .dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 6px 0;
+  min-width: 180px;
+  flex-direction: column;
+  gap: 0;
+  z-index: 100;
+}
+
+.has-dropdown:hover .dropdown {
+  display: flex;
+}
+
+.has-dropdown .dropdown li {
+  width: 100%;
+}
+
+.has-dropdown .dropdown li a {
+  border-radius: 0;
+  padding: 10px 18px;
+  font-size: 0.95em;
+  display: block;
+  width: 100%;
+}
+
+.has-dropdown .dropdown li:first-child a { border-radius: 8px 8px 0 0; }
+.has-dropdown .dropdown li:last-child a  { border-radius: 0 0 8px 8px; }
+
 @media (max-width: 768px) {
   nav ul {
     gap: 15px;

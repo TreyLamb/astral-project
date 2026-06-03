@@ -5,6 +5,7 @@ import Techniques from './pages/Techniques';
 import Experiences from './pages/Experiences';
 import Resources from './pages/Resources';
 import About from './pages/About';
+import DailyIdiom from './pages/DailyIdiom';
 import './App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/experiences" element={<Experiences />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/about" element={<About />} />
+          <Route path="/daily-idiom" element={<DailyIdiom />} />
         </Routes>
       </div>
     </Router>
