@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Menu</title>
+    <style>
+        @font-face {
+            font-family: 'Eater';
+            src: url('fonts/eater-regular.ttf') format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+body {
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-image: url('images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+        .title-container {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+        }
+
+        .menu-container {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+        }
+
+        h1 {
+            color: #240372;
+            margin: 0;
+            font-family: "Eater", serif;
+            font-size: 80px;
+            text-shadow:
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff,
+                0 0 3px #fff;
+        }
+
+        .button {
+            display: block;
+            padding: 10px 0;
+            margin: 10px 0;
+            font-size: 20px;
+            color: #000000;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: left;
+            font-family: "Eater", serif;
+            font-weight: 700;
+            text-shadow:
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff,
+                0 0 3px #fff;
+        }
+
+        .button:hover {
+            text-decoration: underline;
+        }
+
+        .tree-container {
+            position: absolute;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .tree-container img {
+            display: block;
+            height: auto;
+        }
+
+        .bird-container {
+            position: absolute;
+            top: 200px;
+            left: 1460px;
+        }
+
+        .bird-container img {
+            display: block;
+            width: 100px;
+        }
+
+        .sound-controls {
+            display: none;
+            position: absolute;
+            bottom: 70px;
+            left: 30px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .sound-controls.show {
+            display: block;
+        }
+
+        .volume-control {
+            margin: 10px 0;
+            color: white;
+            font-family: "Eater", serif;
+            font-size: 16px;
+        }
+
+        .volume-slider {
+            width: 150px;
+            margin-top: 5px;
+        }
+
+        .mute-button {
+            background: none;
+            border: 1px solid white;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: "Eater", serif;
+            margin-top: 10px;
+        }
+
+        .mute-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <audio id="background-music" loop>
+        <source src="music/Trogdor.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="tree-container">
+        <img src="images/tree.png" alt="tree">
+    </div>
+
+    <div class="bird-container">
+        <img src="images/bird3.gif" alt="bird">
+    </div>
+
+    <div class="title-container">
+        <h1>BIRDS!!</h1>
+    </div>
+
+    <div class="sound-controls" id="sound-controls">
+        <div class="volume-control">
+            Volume
+            <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="50">
+        </div>
+        <button class="mute-button" id="mute-button" onclick="toggleMute()">Mute</button>
+    </div>
+
+    <div class="menu-container">
+        <a href="game.html" class="button" id="start-button">Start Game</a>
+
+        <button class="button" id="settings-button" onclick="openSettings()">Settings</button>
+
+        <button class="button" id="sound-button" onclick="toggleSoundControls()">Sound</button>
+    </div>
+
+    <script>
+        const music = document.getElementById('background-music');
+        const volumeSlider = document.getElementById('volume-slider');
+        const muteButton = document.getElementById('mute-button');
+        const soundControls = document.getElementById('sound-controls');
+
+        // Set initial volume
+        music.volume = 0.5;
+
+        // Auto-play music when page loads (browsers may require user interaction)
+        window.addEventListener('load', () => {
+            music.play().catch(e => {
+                // If autoplay is blocked, music will start when user clicks Sound button
+                console.log('Autoplay blocked, click Sound to start music');
+            });
+        });
+
+        // Volume slider control
+        volumeSlider.addEventListener('input', (e) => {
+            music.volume = e.target.value / 100;
+            if (music.volume > 0 && music.muted) {
+                music.muted = false;
+                muteButton.textContent = 'Mute';
+            }
+        });
+
+        // Toggle sound controls panel
+        function toggleSoundControls() {
+            soundControls.classList.toggle('show');
+            // Try to play music if it hasn't started
+            if (music.paused) {
+                music.play();
+            }
+        }
+
+        // Mute/unmute toggle
+        function toggleMute() {
+            music.muted = !music.muted;
+            muteButton.textContent = music.muted ? 'Unmute' : 'Mute';
+        }
+
+        function openSettings() {
+            alert('Settings menu coming soon!');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Featherfell</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game-container {
+            width: 1920px;
+            height: 1080px;
+            min-width: 1920px;
+            min-height: 1080px;
+            max-width: 1920px;
+            max-height: 1080px;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            transform-origin: center center;
+            flex-shrink: 0;
+        }
+
+        .color-picker {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .color-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid black;
+            cursor: inherit;
+            transition: border-width 0.15s ease, transform 0.15s ease;
+        }
+
+        .color-circle.active {
+            border-width: 4px;
+            transform: scale(1.1);
+        }
+
+        .color-circle[data-color="1"] {
+            background: radial-gradient(circle at 30% 30%, #ffecd9, #ffd9b3);
+        }
+        .color-circle[data-color="1"].active {
+            background: radial-gradient(circle at 30% 30%, #ffb74d, #e65100);
+        }
+
+        .color-circle[data-color="2"] {
+            background: radial-gradient(circle at 30% 30%, #fce4ec, #f8bbd9);
+        }
+        .color-circle[data-color="2"].active {
+            background: radial-gradient(circle at 30% 30%, #f06292, #e91e63);
+        }
+
+        .color-circle[data-color="3"] {
+            background: radial-gradient(circle at 30% 30%, #e4f3e5, #c8e6c9);
+        }
+        .color-circle[data-color="3"].active {
+            background: radial-gradient(circle at 30% 30%, #81c784, #2e7d32);
+        }
+
+        .color-circle[data-color="4"] {
+            background: radial-gradient(circle at 30% 30%, #e3f0fa, #c5dff5);
+        }
+        .color-circle[data-color="4"].active {
+            background: radial-gradient(circle at 30% 30%, #64b5f6, #1565c0);
+        }
+
+        #game-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .feather-count {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            font-family: system-ui, sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+            z-index: 10;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="game-container" id="gameContainer">
+        <div id="game-canvas"></div>
+        <div class="color-picker">
+            <div class="color-circle active" data-color="1"></div>
+            <div class="color-circle" data-color="2"></div>
+            <div class="color-circle" data-color="3"></div>
+            <div class="color-circle" data-color="4"></div>
+        </div>
+
+        <div class="feather-count">feathers: <span id="featherCount">0</span></div>
+    </div>
+
+    <script>
+        // DOM Setup
+        const gameContainer = document.getElementById('gameContainer');
+        const GAME_WIDTH = 1920;
+        const GAME_HEIGHT = 1080;
+        let currentScale = 1;
+
+        function updateScale() {
+            const scaleX = window.innerWidth / GAME_WIDTH;
+            const scaleY = window.innerHeight / GAME_HEIGHT;
+            currentScale = Math.min(scaleX, scaleY);
+            gameContainer.style.transform = `scale(${currentScale})`;
+        }
+
+        updateScale();
+        window.addEventListener('resize', updateScale);
+
+        // Cursor system (DOM-based)
+        let activeColor = 1;
+        const cursorColors = {
+            1: '#e65100',
+            2: '#e91e63',
+            3: '#2e7d32',
+            4: '#1565c0'
+        };
+
+        let cursorRotation = 45;
+        let spinSpeed = 0;
+        let isHolding = false;
+        let holdStartTime = 0;
+        let animationFrame = null;
+        const maxSpinSpeed = 30;
+        let clickAnimating = false;
+        let clickTarget = 0;
+
+        function createDiamondCursor(color, rotation) {
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <rect x="4" y="4" width="16" height="16" fill="none" stroke="${color}" stroke-width="2" transform="rotate(${rotation % 360} 12 12)"/>
+            </svg>`;
+            return `url('data:image/svg+xml;utf8,${encodeURIComponent(svg)}') 12 12, auto`;
+        }
+
+        function updateCursor() {
+            document.body.style.cursor = createDiamondCursor(cursorColors[activeColor], cursorRotation);
+        }
+
+        function spinLoop() {
+            if (isHolding) {
+                const holdDuration = Math.min((Date.now() - holdStartTime) / 1000, 3);
+                spinSpeed = 2 + (holdDuration * holdDuration * 3);
+                if (holdDuration >= 3) spinSpeed = maxSpinSpeed;
+                cursorRotation = cursorRotation + spinSpeed;
+                updateCursor();
+                animationFrame = requestAnimationFrame(spinLoop);
+            }
+        }
+
+        function clickSpinLoop() {
+            if (clickAnimating) {
+                const diff = clickTarget - cursorRotation;
+                if (Math.abs(diff) < 1) {
+                    cursorRotation = clickTarget;
+                    clickAnimating = false;
+                    updateCursor();
+                    return;
+                }
+                cursorRotation += diff * 0.12;
+                updateCursor();
+                requestAnimationFrame(clickSpinLoop);
+            }
+        }
+
+        function setActiveColor(colorNum) {
+            if (colorNum < 1 || colorNum > 4) return;
+            activeColor = colorNum;
+
+            document.querySelectorAll('.color-circle').forEach(circle => {
+                circle.classList.remove('active');
+            });
+
+            const target = document.querySelector(`.color-circle[data-color="${colorNum}"]`);
+            if (target) target.classList.add('active');
+
+            updateCursor();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const num = parseInt(e.key);
+            if (num >= 1 && num <= 4) {
+                setActiveColor(num);
+            }
+        });
+
+        document.querySelectorAll('.color-circle').forEach(circle => {
+            circle.addEventListener('click', () => {
+                setActiveColor(parseInt(circle.dataset.color));
+            });
+        });
+
+        updateCursor();
+
+        // Feather count
+        let featherCount = 0;
+        const featherCountEl = document.getElementById('featherCount');
+
+        // Phaser Game
+        const birdColors = [0xe65100, 0xe91e63, 0x2e7d32, 0x1565c0];
+        const flightDuration = 2000;
+
+        class MainScene extends Phaser.Scene {
+            constructor() {
+                super({ key: 'MainScene' });
+                this.birds = [];
+                this.featherGroups = [];
+                this.clickIndicators = [];
+                this.birdOutlines = [];
+                this.graphics = null;
+            }
+
+            create() {
+                this.graphics = this.add.graphics();
+
+                // Spawn birds every second
+                this.time.addEvent({
+                    delay: 1000,
+                    callback: this.spawnBird,
+                    callbackScope: this,
+                    loop: true
+                });
+
+                // Input handling
+                this.input.on('pointerdown', (pointer) => {
+                    const gameX = pointer.x;
+                    const gameY = pointer.y;
+
+                    // Add click indicator (use active color)
+                    this.clickIndicators.push({
+                        x: gameX,
+                        y: gameY,
+                        startTime: this.time.now,
+                        duration: 1200,
+                        color: birdColors[activeColor - 1]
+                    });
+
+                    // Find nearest bird
+                    const { bird, distance } = this.findNearestBird(gameX, gameY);
+
+                    // Add bird outline if within 30px (use bird's color)
+                    if (bird && distance <= 30) {
+                        this.birdOutlines.push({
+                            x: bird.x,
+                            y: bird.y,
+                            radius: bird.size / 2,
+                            startTime: this.time.now,
+                            duration: 1200,
+                            color: bird.color
+                        });
+                    }
+
+                    // Hit bird if within 10px
+                    if (bird && distance <= 10) {
+                        this.hitBird(bird);
+                    }
+
+                    // Cursor spin
+                    isHolding = true;
+                    holdStartTime = Date.now();
+                    animationFrame = requestAnimationFrame(spinLoop);
+                });
+
+                this.input.on('pointerup', () => {
+                    if (isHolding) {
+                        const holdDuration = Date.now() - holdStartTime;
+                        isHolding = false;
+                        cancelAnimationFrame(animationFrame);
+
+                        if (holdDuration < 200) {
+                            clickTarget = Math.round((cursorRotation - 45) / 90) * 90 + 45 + 90;
+                            clickAnimating = true;
+                            requestAnimationFrame(clickSpinLoop);
+                        }
+                        spinSpeed = 0;
+                    }
+                });
+            }
+
+            spawnBird() {
+                const size = 50;
+                const goingRight = Math.random() > 0.5;
+                const startX = goingRight ? -size : GAME_WIDTH + size;
+                const endX = goingRight ? GAME_WIDTH + size : -size;
+                const startY = Math.random() * GAME_HEIGHT;
+                const endY = Math.random() * GAME_HEIGHT;
+                const color = birdColors[Math.floor(Math.random() * birdColors.length)];
+
+                this.birds.push({
+                    size,
+                    startX,
+                    endX,
+                    startY,
+                    endY,
+                    x: startX,
+                    y: startY,
+                    startTime: this.time.now,
+                    color
+                });
+            }
+
+            findNearestBird(mouseX, mouseY) {
+                let minDist = Infinity;
+                let nearestBird = null;
+
+                for (const bird of this.birds) {
+                    const radius = bird.size / 2;
+                    const dist = Math.sqrt((mouseX - bird.x) ** 2 + (mouseY - bird.y) ** 2) - radius;
+                    if (dist < minDist) {
+                        minDist = dist;
+                        nearestBird = bird;
+                    }
+                }
+
+                return { bird: nearestBird, distance: minDist };
+            }
+
+            hitBird(bird) {
+                // Calculate velocity
+                const totalDistX = bird.endX - bird.startX;
+                const totalDistY = bird.endY - bird.startY;
+                const vxBird = totalDistX / flightDuration * 1000;
+                const vyBird = totalDistY / flightDuration * 1000;
+
+                // Remove bird
+                const index = this.birds.indexOf(bird);
+                if (index > -1) this.birds.splice(index, 1);
+
+                // Update feather count
+                featherCount++;
+                featherCountEl.textContent = featherCount;
+
+                // Create feather group
+                const scale = bird.size / 16;
+                const numFeathers = 3 + Math.floor(Math.random() * 3);
+                const feathers = [];
+
+                for (let i = 0; i < numFeathers; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = (80 + Math.random() * 60) * scale;
+                    feathers.push({
+                        offsetX: 0,
+                        offsetY: 0,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        rotation: Math.random() * Math.PI * 2,
+                        rotationSpeed: (400 + Math.random() * 400) * Math.PI / 180,
+                        scale
+                    });
+                }
+
+                this.featherGroups.push({
+                    x: bird.x,
+                    y: bird.y,
+                    vxBird,
+                    vyBird,
+                    startTime: this.time.now,
+                    duration: 1000,
+                    feathers,
+                    featherDuration: 600,
+                    color: bird.color
+                });
+            }
+
+            update(time, delta) {
+                const now = this.time.now;
+                const deltaSeconds = delta / 1000;
+
+                // Update birds
+                for (let i = this.birds.length - 1; i >= 0; i--) {
+                    const bird = this.birds[i];
+                    const elapsed = now - bird.startTime;
+                    const progress = elapsed / flightDuration;
+
+                    if (progress >= 1) {
+                        this.birds.splice(i, 1);
+                        continue;
+                    }
+
+                    bird.x = bird.startX + (bird.endX - bird.startX) * progress;
+                    bird.y = bird.startY + (bird.endY - bird.startY) * progress;
+                }
+
+                // Update feather groups
+                for (let i = this.featherGroups.length - 1; i >= 0; i--) {
+                    const group = this.featherGroups[i];
+                    const elapsed = now - group.startTime;
+                    const progress = elapsed / group.duration;
+
+                    if (progress >= 1) {
+                        this.featherGroups.splice(i, 1);
+                        continue;
+                    }
+
+                    // Ease out container movement
+                    const easeOut = 1 - Math.pow(1 - progress, 2);
+                    const decay = 1 - easeOut;
+                    group.x += group.vxBird * decay * deltaSeconds;
+                    group.y += group.vyBird * decay * deltaSeconds;
+
+                    // Update individual feathers
+                    const featherProgress = elapsed / group.featherDuration;
+                    for (const feather of group.feathers) {
+                        feather.offsetX = feather.vx * Math.min(featherProgress, 1);
+                        feather.offsetY = feather.vy * Math.min(featherProgress, 1);
+                        feather.rotation += feather.rotationSpeed * deltaSeconds;
+                    }
+                }
+
+                // Clean up click indicators
+                for (let i = this.clickIndicators.length - 1; i >= 0; i--) {
+                    if (now - this.clickIndicators[i].startTime >= this.clickIndicators[i].duration) {
+                        this.clickIndicators.splice(i, 1);
+                    }
+                }
+
+                // Clean up bird outlines
+                for (let i = this.birdOutlines.length - 1; i >= 0; i--) {
+                    if (now - this.birdOutlines[i].startTime >= this.birdOutlines[i].duration) {
+                        this.birdOutlines.splice(i, 1);
+                    }
+                }
+
+                // Draw everything
+                this.graphics.clear();
+
+                // Draw birds
+                for (const bird of this.birds) {
+                    this.graphics.fillStyle(bird.color, 1);
+                    this.graphics.fillCircle(bird.x, bird.y, bird.size / 2);
+                }
+
+                // Draw feather groups
+                for (const group of this.featherGroups) {
+                    const elapsed = now - group.startTime;
+                    const featherProgress = Math.min(elapsed / group.featherDuration, 1);
+                    const opacity = 1 - featherProgress;
+
+                    this.graphics.fillStyle(group.color, opacity);
+
+                    for (const feather of group.feathers) {
+                        const x = group.x + feather.offsetX;
+                        const y = group.y + feather.offsetY;
+                        const size = feather.scale;
+
+                        // Draw rotated triangle
+                        const cos = Math.cos(feather.rotation);
+                        const sin = Math.sin(feather.rotation);
+
+                        const p1x = 0;
+                        const p1y = -10 * size;
+                        const p2x = -4 * size;
+                        const p2y = 0;
+                        const p3x = 4 * size;
+                        const p3y = 0;
+
+                        // Rotate points
+                        const r1x = x + p1x * cos - p1y * sin;
+                        const r1y = y + p1x * sin + p1y * cos;
+                        const r2x = x + p2x * cos - p2y * sin;
+                        const r2y = y + p2x * sin + p2y * cos;
+                        const r3x = x + p3x * cos - p3y * sin;
+                        const r3y = y + p3x * sin + p3y * cos;
+
+                        this.graphics.fillTriangle(r1x, r1y, r2x, r2y, r3x, r3y);
+                    }
+                }
+
+                // Draw click indicators
+                for (const indicator of this.clickIndicators) {
+                    const elapsed = now - indicator.startTime;
+                    const progress = elapsed / indicator.duration;
+                    const opacity = 1 - progress;
+
+                    this.graphics.fillStyle(indicator.color, opacity);
+                    this.graphics.fillCircle(indicator.x, indicator.y, 5);
+                }
+
+                // Draw bird outlines
+                for (const outline of this.birdOutlines) {
+                    const elapsed = now - outline.startTime;
+                    const progress = elapsed / outline.duration;
+                    const opacity = 1 - progress;
+
+                    this.graphics.lineStyle(2, outline.color, opacity);
+                    this.graphics.strokeCircle(outline.x, outline.y, outline.radius);
+                }
+            }
+        }
+
+        const config = {
+            type: Phaser.AUTO,
+            width: GAME_WIDTH,
+            height: GAME_HEIGHT,
+            parent: 'game-canvas',
+            transparent: true,
+            scene: MainScene
+        };
+
+        const game = new Phaser.Game(config);
+    </script>
+</body>
+</html>
