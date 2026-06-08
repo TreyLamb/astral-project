@@ -1,0 +1,510 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ── Body override when Lexicon is active ──────────────────────────────── */
+body.lexicon-mode {
+  background: #0d0d12 !important;
+}
+
+/* ── Page shell ─────────────────────────────────────────────────────────── */
+.lex-page {
+  min-height: calc(100vh - 80px);
+  background: #0d0d12;
+  color: #e8e4df;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.lex-loading {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #666;
+  letter-spacing: 0.1em;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+.lex-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 36px 12px;
+  flex-shrink: 0;
+}
+
+.lex-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #c9b99a 0%, #e8d5b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.lex-header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.lex-counter {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #6b6677;
+  letter-spacing: 0.04em;
+}
+
+.lex-action-btn {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid #333;
+  background: #1a1a22;
+  color: #aaa;
+  transition: all 0.18s ease;
+  letter-spacing: 0.03em;
+}
+
+.lex-action-btn:hover {
+  background: #252530;
+  color: #ddd;
+  border-color: #555;
+}
+
+.lex-action-btn.ghost {
+  background: transparent;
+  border-color: #2a2a35;
+  color: #555;
+}
+
+.lex-action-btn.ghost:hover {
+  color: #888;
+  border-color: #444;
+}
+
+/* ── Progress bar ───────────────────────────────────────────────────────── */
+.lex-progress {
+  height: 2px;
+  background: #1a1a22;
+  flex-shrink: 0;
+  margin: 0 36px 0;
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.lex-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8878c3, #c9a97a);
+  border-radius: 1px;
+  transition: width 0.5s ease;
+}
+
+/* ── Arena: three-column layout ─────────────────────────────────────────── */
+.lex-arena {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 28px 20px;
+  min-height: 0;
+}
+
+/* ── Drop zones ─────────────────────────────────────────────────────────── */
+.lex-zone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 16px;
+  border: 2px dashed transparent;
+  cursor: default;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+  user-select: none;
+}
+
+.zone-known {
+  background: rgba(22, 90, 52, 0.12);
+  border-color: rgba(52, 140, 90, 0.25);
+  margin-right: 16px;
+}
+
+.zone-known.zone-active {
+  background: rgba(22, 90, 52, 0.28);
+  border-color: rgba(52, 180, 100, 0.7);
+  transform: scale(1.02);
+}
+
+.zone-unknown {
+  background: rgba(120, 50, 30, 0.12);
+  border-color: rgba(180, 80, 40, 0.25);
+  margin-left: 16px;
+}
+
+.zone-unknown.zone-active {
+  background: rgba(120, 50, 30, 0.28);
+  border-color: rgba(220, 100, 50, 0.7);
+  transform: scale(1.02);
+}
+
+.zone-arrow {
+  font-size: 2rem;
+  opacity: 0.3;
+  transition: opacity 0.18s ease;
+}
+
+.lex-zone.zone-active .zone-arrow {
+  opacity: 0.9;
+}
+
+.zone-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #555;
+  transition: color 0.18s ease;
+}
+
+.zone-known .zone-label { color: #3a8a55; }
+.zone-unknown .zone-label { color: #a0522d; }
+
+.zone-known.zone-active .zone-label { color: #50c878; }
+.zone-unknown.zone-active .zone-label { color: #e07040; }
+
+.zone-count {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 500;
+  opacity: 0.5;
+  transition: opacity 0.18s;
+}
+
+.zone-known .zone-count { color: #3a8a55; }
+.zone-unknown .zone-count { color: #a0522d; }
+
+/* ── Card column ────────────────────────────────────────────────────────── */
+.lex-card-col {
+  width: 420px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ── Card stack ─────────────────────────────────────────────────────────── */
+:root {
+  --card-h: 116px;
+  --card-gap: 10px;
+}
+
+.lex-stack {
+  position: relative;
+  width: 100%;
+  height: calc(5 * (var(--card-h) + var(--card-gap)) - var(--card-gap));
+  overflow: hidden;
+}
+
+/* ── Individual word card ───────────────────────────────────────────────── */
+.lex-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--card-h);
+  background: #f5f0ea;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 22px;
+  cursor: default;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease,
+    box-shadow 0.2s ease;
+  transform: translateY(calc(var(--idx) * (var(--card-h) + var(--card-gap))));
+  will-change: transform, opacity;
+  overflow: hidden;
+}
+
+/* Top card */
+.lex-card.card-top {
+  cursor: grab;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.lex-card.card-top:active {
+  cursor: grabbing;
+}
+
+.lex-card.card-dragging {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  opacity: 0.85;
+}
+
+/* Exit animations — override the translateY */
+.lex-card.card-exit-known {
+  transform: translateX(-130%) rotate(-16deg) !important;
+  opacity: 0 !important;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.lex-card.card-exit-unknown {
+  transform: translateX(130%) rotate(16deg) !important;
+  opacity: 0 !important;
+  z-index: 50;
+  pointer-events: none;
+}
+
+/* ── Card content ───────────────────────────────────────────────────────── */
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-height: 0;
+}
+
+.card-word {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #1a1a2e;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.card-def {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.72rem;
+  color: #7a7a8a;
+  line-height: 1.4;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.lex-card:hover .card-def,
+.lex-card.card-top:focus-within .card-def {
+  max-height: 60px;
+  opacity: 1;
+}
+
+/* ── Sort buttons (top card only) ───────────────────────────────────────── */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  padding: 8px 0 2px;
+  flex-shrink: 0;
+}
+
+.card-sort-btn {
+  flex: 1;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+  border: 1px solid transparent;
+}
+
+.card-sort-btn:active { transform: scale(0.96); }
+.card-sort-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.sort-know {
+  background: rgba(22, 100, 60, 0.1);
+  color: #1e7040;
+  border-color: rgba(22, 100, 60, 0.2);
+}
+.sort-know:hover:not(:disabled) {
+  background: rgba(22, 100, 60, 0.18);
+  color: #158040;
+}
+
+.sort-nope {
+  background: rgba(160, 60, 30, 0.1);
+  color: #a0401e;
+  border-color: rgba(160, 60, 30, 0.2);
+}
+.sort-nope:hover:not(:disabled) {
+  background: rgba(160, 60, 30, 0.18);
+  color: #c04020;
+}
+
+/* ── Keyboard hint ──────────────────────────────────────────────────────── */
+.lex-kbd-hint {
+  font-size: 0.72rem;
+  color: #3a3a4a;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+/* ── Summary / completion screen ────────────────────────────────────────── */
+.lex-summary {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.lex-summary-inner {
+  text-align: center;
+  max-width: 480px;
+}
+
+.lex-summary-eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6b6677;
+  margin-bottom: 12px;
+}
+
+.lex-summary-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.4rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #e8e4df;
+  margin-bottom: 40px;
+  line-height: 1.15;
+}
+
+.lex-summary-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 44px;
+}
+
+.lex-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.lex-stat-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 3.2rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.known-stat .lex-stat-num { color: #4caf6e; }
+.unknown-stat .lex-stat-num { color: #e07848; }
+
+.lex-stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b6677;
+}
+
+.lex-stat-divider {
+  width: 1px;
+  height: 60px;
+  background: #2a2a35;
+}
+
+.lex-summary-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.lex-btn-primary {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(135deg, #8878c3, #c9a97a);
+  color: #fff;
+  transition: opacity 0.18s ease, transform 0.1s ease;
+  letter-spacing: 0.03em;
+}
+.lex-btn-primary:hover { opacity: 0.88; }
+.lex-btn-primary:active { transform: scale(0.97); }
+
+.lex-btn-ghost {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 12px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #2a2a35;
+  background: transparent;
+  color: #6b6677;
+  transition: all 0.18s ease;
+  letter-spacing: 0.03em;
+}
+.lex-btn-ghost:hover {
+  border-color: #555;
+  color: #aaa;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .lex-arena {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 16px;
+  }
+
+  .lex-zone {
+    width: 100%;
+    flex-direction: row;
+    padding: 14px 20px;
+    border-radius: 10px;
+    margin: 0 !important;
+    min-height: 56px;
+    gap: 12px;
+  }
+
+  .zone-arrow { font-size: 1.2rem; }
+  .zone-count { font-size: 1.2rem; }
+
+  .lex-card-col {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  :root {
+    --card-h: 108px;
+  }
+}
+
+@media (max-width: 480px) {
+  .lex-header { padding: 16px 16px 8px; }
+  .lex-title { font-size: 1.3rem; }
+  .lex-counter { display: none; }
+  .card-word { font-size: 1.3rem; }
+  :root { --card-h: 100px; }
+}
