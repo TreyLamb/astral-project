@@ -1,0 +1,5 @@
+# Tools to add to qa_skills_tracker.json later
+# Format reminder: { "tool": "Name", "notes": "description", "comfort": 0, "learningPath": [] }
+
+# --- Uncategorized ---
+

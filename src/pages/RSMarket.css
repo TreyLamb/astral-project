@@ -1,0 +1,116 @@
+* {
+  box-sizing: border-box;
+}
+
+.rs-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.rs-container h1 {
+  margin-bottom: 8px;
+}
+
+.rs-container h2 {
+  margin: 24px 0 10px;
+}
+
+.rs-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.rs-controls button {
+  padding: 8px 16px;
+  background-color: #466be4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.rs-controls button:hover:not(:disabled) {
+  background-color: #3555c4;
+}
+
+.rs-controls button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.rs-market-table {
+  width: 100%;
+  border: 1px solid #880e0e;
+  border-collapse: collapse;
+  margin-bottom: 8px;
+}
+
+.rs-market-table th,
+.rs-market-table td {
+  border: 1px solid #000000;
+  padding: 12px;
+  text-align: left;
+  background-color: #7794f1;
+}
+
+.rs-market-table th {
+  background-color: #466be4;
+  color: white;
+  font-weight: bold;
+}
+
+.rs-market-table tbody tr:hover td {
+  background: rgb(114, 8, 8);
+}
+
+.rs-add-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.rs-add-item input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 250px;
+}
+
+.rs-add-item button {
+  padding: 8px 16px;
+  background-color: #466be4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.rs-add-item button:hover {
+  background-color: #3555c4;
+}
+
+.rs-delete-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rs-delete-btn:hover {
+  background-color: #c0392b;
+}

@@ -1,0 +1,341 @@
+{
+  "meta": {
+    "purpose": "QA/Automation Engineer skill tracker — interview-readiness focused",
+    "comfort_scale": {
+      "0": "Never touched it",
+      "1": "Read about it / watched a video",
+      "2": "Tried it once, no real practice",
+      "3": "Used it in real work but gaps exist",
+      "4": "Comfortable, afraid of a technical test",
+      "5": "Ready for a technical test",
+      "6": "Could teach it / lead a team on it"
+    },
+    "target_level": 5
+  },
+  "categories": [
+    {
+      "category": "UI Automation Frameworks",
+      "items": [
+        {
+          "tool": "Selenium",
+          "comfort": 4,
+          "notes": "Used in real work. Gaps: POM fluency under pressure, dynamic waits, cross-browser config, framework structure from scratch.",
+          "study_path": [
+            "Build a POM-based project from scratch (not a tutorial clone — pick a real site)",
+            "Practice explicit waits: WebDriverWait + expected_conditions — know the difference from implicit",
+            "Know how to handle iframes, shadow DOM, dropdowns, file uploads",
+            "Be able to explain your framework architecture out loud in an interview",
+            "Practice writing a test without an IDE for 30 min (whiteboard-style)"
+          ]
+        },
+        {
+          "tool": "Appium",
+          "comfort": 4,
+          "notes": "Real job experience. Gaps: Desired Capabilities from scratch, handling different locator strategies under pressure.",
+          "study_path": [
+            "Be able to write a desired capabilities block from memory (platform, deviceName, app, automationName)",
+            "Know all 5 locator strategies cold: accessibility id, id, xpath, class name, -android uiautomator",
+            "Know why xpath is a last resort and what you'd use instead",
+            "Practice launching a test against an Android emulator with no help"
+          ]
+        },
+        {
+          "tool": "Playwright",
+          "comfort": 1,
+          "notes": "Never used but similar to Selenium conceptually. Modern, faster, async-native. High demand in 2026 market.",
+          "study_path": [
+            "Install and run 'npx playwright test' on a real site — just do it first",
+            "Understand: Playwright uses async/await natively vs Selenium's sync model",
+            "Learn auto-waiting — Playwright waits for elements to be actionable automatically",
+            "Learn page.locator() vs page.$() — know the modern API",
+            "Build one POM project in Playwright to translate your Selenium knowledge",
+            "Learn Playwright's built-in reporter and trace viewer"
+          ]
+        },
+        {
+          "tool": "Cypress",
+          "comfort": 0,
+          "notes": "Not on your list but appears heavily in job postings. JS-only, runs in browser, great DX.",
+          "study_path": [
+            "Understand the core difference: Cypress runs inside the browser, Selenium/Playwright run outside",
+            "Learn cy.get(), cy.contains(), cy.intercept() for API stubbing",
+            "Build one basic test suite — Cypress docs are very beginner-friendly",
+            "Know when you'd choose Cypress vs Playwright (JS-only apps vs cross-browser needs)"
+          ]
+        },
+        {
+          "tool": "Eggplant",
+          "comfort": 0,
+          "notes": "Image/AI-based testing tool. Niche but appears in some enterprise/government QA roles.",
+          "study_path": [
+            "Low priority unless a target job specifically lists it",
+            "Know what it IS: image recognition-based testing, no DOM access needed",
+            "Use case: legacy apps, thick clients, platforms where DOM automation isn't possible",
+            "Free trial + official docs are the only real path here"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "API Testing",
+      "items": [
+        {
+          "tool": "Postman",
+          "comfort": 3,
+          "notes": "Years of real use but gaps: can't build a request from scratch, failed technical test on Swagger integration, weak on HTTP verb semantics.",
+          "study_path": [
+            "HTTP VERB DRILL — memorize cold: GET (read), POST (create), PUT (full replace), PATCH (partial update), DELETE (delete)",
+            "Know status code families: 2xx success, 3xx redirect, 4xx client error, 5xx server error — and the key ones: 200, 201, 204, 400, 401, 403, 404, 409, 422, 500",
+            "Build a request completely from scratch: URL, headers, auth (Bearer token), body (JSON)",
+            "Learn Postman Collections + environments — set a base_url variable and use it",
+            "Learn Pre-request scripts and Tests tab (pm.test, pm.expect, pm.response)",
+            "Swagger/OpenAPI: import a swagger.json into Postman — it auto-generates the collection. Practice this.",
+            "Know what a contract test is and how Postman validates response schema",
+            "Learn Newman — Postman's CLI runner for CI/CD integration"
+          ]
+        },
+        {
+          "tool": "APIdog",
+          "comfort": 0,
+          "notes": "Postman competitor with built-in mock server and OpenAPI support. Growing in market.",
+          "study_path": [
+            "Low priority — if you know Postman deeply, APIdog is 80% transferable",
+            "Know it exists and what it offers over Postman: native mock server, better OpenAPI round-trip",
+            "30-min hands-on tutorial is enough to speak to it"
+          ]
+        },
+        {
+          "tool": "REST Assured (Java)",
+          "comfort": 0,
+          "notes": "Appears frequently in Java-stack QA job postings. Code-based API testing library.",
+          "study_path": [
+            "Learn the BDD syntax: given().header().when().get(url).then().statusCode(200)",
+            "Know how to deserialize JSON responses with Gson or Jackson",
+            "Medium priority if targeting Java shops — skip if Python-focused"
+          ]
+        },
+        {
+          "tool": "API Testing Concepts",
+          "comfort": 3,
+          "notes": "Know how to use tools but gaps in terminology, contract testing, auth flows.",
+          "study_path": [
+            "Know these cold: endpoint, payload, headers, auth (Basic, Bearer, OAuth2, API Key)",
+            "Understand REST vs SOAP — know why SOAP is legacy and what WSDL is",
+            "Contract testing: the idea that the API response matches an agreed schema (Pact framework)",
+            "Idempotency: GET/PUT/DELETE are idempotent, POST is not — know why this matters",
+            "Mock servers: when and why you'd stub an API during testing",
+            "Know what a 422 Unprocessable Entity means vs 400 Bad Request"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "CI/CD & DevOps",
+      "items": [
+        {
+          "tool": "Git / Git CLI",
+          "comfort": 3,
+          "notes": "Basic workflow known. Gaps: branching strategy, rebase vs merge, resolving conflicts, PR workflow.",
+          "study_path": [
+            "Know these cold: clone, add, commit, push, pull, branch, checkout, merge, status, log",
+            "Understand git rebase vs git merge — when you'd use each",
+            "Practice resolving a merge conflict manually",
+            "Know Gitflow or trunk-based development at a conceptual level",
+            "Be able to explain what a PR is and how you'd do a code review"
+          ]
+        },
+        {
+          "tool": "GitHub Actions",
+          "comfort": 2,
+          "notes": "High demand in 2026 market. YAML-based CI pipelines triggered by push/PR events.",
+          "study_path": [
+            "Understand the structure: workflow > job > step",
+            "Write a basic .github/workflows/test.yml that runs your Selenium or Playwright tests on push",
+            "Know: on: push/pull_request, runs-on: ubuntu-latest, uses: actions/checkout@v3",
+            "Learn how to set secrets in GitHub and reference them in workflows",
+            "Know what an artifact is in the GitHub Actions context (uploaded test reports)"
+          ]
+        },
+        {
+          "tool": "Jenkins",
+          "comfort": 1,
+          "notes": "Older but still very common in enterprise. Appears in many job postings.",
+          "study_path": [
+            "Understand: Jenkins is a self-hosted CI server, GitHub Actions is cloud-native",
+            "Know what a Jenkinsfile is and basic declarative pipeline syntax",
+            "Learn pipeline > agent > stages > stage > steps structure",
+            "Medium priority — GitHub Actions knowledge transfers conceptually"
+          ]
+        },
+        {
+          "tool": "Docker (basics)",
+          "comfort": 1,
+          "notes": "Appears in many senior QA postings. Running tests in containers is common.",
+          "study_path": [
+            "Know what a container is vs a VM — elevator pitch version",
+            "Learn: docker run, docker build, docker ps, docker exec",
+            "Understand a basic Dockerfile for a Python or Node test project",
+            "Know why you'd run Selenium tests in Docker (consistent environment, parallelism)",
+            "Selenium Grid in Docker is a bonus talking point"
+          ]
+        },
+        {
+          "tool": "Bash Scripting",
+          "comfort": 3,
+          "notes": "Know basic navigation. Gaps in writing scripts, conditionals, loops.",
+          "study_path": [
+            "Know these cold: ls, cd, pwd, mkdir, rm, cp, mv, cat, grep, echo, chmod",
+            "Write a basic script: shebang line, variables, if/else, for loop",
+            "Know how to make a script executable: chmod +x script.sh && ./script.sh",
+            "Learn how to pipe commands: grep 'ERROR' test.log | sort | uniq -c",
+            "Know exit codes: 0 = success, non-zero = failure — relevant for CI"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Test Management & Methodology",
+      "items": [
+        {
+          "tool": "JIRA",
+          "comfort": 4,
+          "notes": "Common in every QA role. Know the basics — deepen on test cycle vocabulary.",
+          "study_path": [
+            "Know the ticket lifecycle: Backlog > In Progress > In Review > Done",
+            "Understand epics, stories, sub-tasks, and bugs as issue types",
+            "Know how to write a proper bug report: steps to reproduce, expected vs actual, environment, severity",
+            "Learn Zephyr or Xray plugin concepts — test case management within JIRA"
+          ]
+        },
+        {
+          "tool": "Test Strategy & Design",
+          "comfort": 4,
+          "notes": "Strong from experience. Just needs sharper vocabulary for interviews.",
+          "study_path": [
+            "Know these terms cold: smoke, sanity, regression, integration, E2E, exploratory, UAT",
+            "Test pyramid: unit (lots) > integration (some) > E2E (few) — know why",
+            "Equivalence partitioning and boundary value analysis — be able to give an example",
+            "Know what risk-based testing is and when you'd apply it",
+            "Be able to answer: 'How would you test a login page?' with a structured, thorough answer"
+          ]
+        },
+        {
+          "tool": "TestNG / JUnit (Java)",
+          "comfort": 1,
+          "notes": "Appears often in Java-stack job postings as the test runner under Selenium.",
+          "study_path": [
+            "Know the annotations: @Test, @BeforeMethod, @AfterMethod, @BeforeClass, @DataProvider",
+            "Understand how TestNG.xml controls test execution",
+            "Medium priority — if targeting Python, know pytest instead"
+          ]
+        },
+        {
+          "tool": "pytest (Python)",
+          "comfort": 2,
+          "notes": "Python test runner — critical if your automation portfolio is Python-based.",
+          "study_path": [
+            "Know fixtures: @pytest.fixture, scope levels (function/class/session)",
+            "Know how to parametrize tests: @pytest.mark.parametrize",
+            "Know how to run: pytest -v, pytest -k 'test_login', pytest --html=report.html",
+            "Integrate with Selenium and understand conftest.py"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Languages & Scripting",
+      "items": [
+        {
+          "tool": "Python",
+          "comfort": 3,
+          "notes": "Self-teaching. Most common language for QA automation in 2026 market alongside Java.",
+          "study_path": [
+            "Be able to write a class, method, constructor (__init__) from scratch",
+            "Know list comprehensions, dicts, and how to read/write JSON",
+            "Understand try/except for error handling in test scripts",
+            "Be comfortable with pip, virtual environments, requirements.txt",
+            "POM pattern in Python: understand how to structure Page classes"
+          ]
+        },
+        {
+          "tool": "SQL",
+          "comfort": 3,
+          "notes": "Listed on your stack. Gaps likely in JOINs, subqueries, aggregation under interview pressure.",
+          "study_path": [
+            "Know cold: SELECT, FROM, WHERE, JOIN (INNER/LEFT/RIGHT), GROUP BY, HAVING, ORDER BY",
+            "Practice writing a JOIN between two tables by hand",
+            "Know the difference between WHERE and HAVING",
+            "Know COUNT, SUM, AVG, MAX, MIN",
+            "Be able to answer: 'Write a query to find all users who placed more than 3 orders'"
+          ]
+        },
+        {
+          "tool": "JavaScript (basics)",
+          "comfort": 1,
+          "notes": "Needed for Playwright (TypeScript/JS) and Cypress. Not required but high demand.",
+          "study_path": [
+            "Understand async/await — critical for Playwright",
+            "Know arrow functions, template literals, destructuring",
+            "Understand npm, package.json, node_modules basics",
+            "Medium priority — Python focus first, but JS opens Playwright/Cypress doors"
+          ]
+        },
+        {
+          "tool": "Vue / Nuxt (basics)",
+          "comfort": 0,
+          "notes": "Progressive JS framework. Nuxt is Vue equivalent of Next.js. Worth knowing exists.",
+          "study_path": [
+            "Vue is a JS frontend framework — like React but with a different syntax",
+            "Nuxt is to Vue what Next.js is to React: SSR, file-based routing, etc.",
+            "Low priority for QA automation — relevant if your team uses it and you need component tests",
+            "Vue Test Utils is the testing library — analogous to React Testing Library",
+            "Know it exists and what problems it solves"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Performance & Security Testing",
+      "items": [
+        {
+          "tool": "JMeter / k6 / Locust",
+          "comfort": 0,
+          "notes": "Load/performance testing tools. Appears in senior QA and DevOps-adjacent roles.",
+          "study_path": [
+            "Low priority for entry/mid-level. Know what they are and why they're used.",
+            "k6 is the modern choice — JS-based, CI-friendly",
+            "Be able to answer: 'What is load testing vs stress testing vs spike testing?'"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "Databases & Backend Tools",
+      "items": [
+        {
+          "tool": "Supabase",
+          "comfort": 0,
+          "notes": "Open-source Firebase alternative. Postgres + auth + storage + realtime, hosted.",
+          "study_path": [
+            "What it IS: a hosted Postgres database with a REST API auto-generated from your schema",
+            "Free tier is generous — good for portfolio projects",
+            "Supabase vs Railway: Supabase = managed Postgres with built-in auth/API. Railway = general app hosting.",
+            "Supabase client: npm install @supabase/supabase-js — then supabase.from(table).select()",
+            "Auth is built-in: email/password, OAuth — no need to build your own login system"
+          ]
+        },
+        {
+          "tool": "SQLite (local)",
+          "comfort": 2,
+          "notes": "File-based DB. Used in your FastAPI portfolio projects already.",
+          "study_path": [
+            "Know when to use SQLite vs Postgres: SQLite = single file, local/dev only. Postgres = production, multi-user.",
+            "Python: import sqlite3 — connect, cursor, execute, fetchall, commit",
+            "Know how to inspect a .db file: DB Browser for SQLite (GUI tool, free)",
+            "In FastAPI context: SQLAlchemy ORM vs raw sqlite3 — know the tradeoff"
+          ]
+        }
+      ]
+    }
+  ]
+}

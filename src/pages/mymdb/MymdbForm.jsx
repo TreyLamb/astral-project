@@ -1,0 +1,292 @@
+import { useState, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Storage } from './mymdbStorage';
+import { readFileAsDataUrl } from './mymdbUtils';
+import { useToast } from './MymdbApp';
+
+function StarInput({ rating, onChange }) {
+  const [hovered, setHovered] = useState(null);
+  const display = hovered ?? rating;
+
+  return (
+    <div className="mdb-star-input" role="group" aria-label="Rating out of 5">
+      {[1,2,3,4,5].map(n => (
+        <button
+          key={n}
+          type="button"
+          className={`mdb-star-input-star${display != null && n <= display ? ' lit' : ''}`}
+          onMouseEnter={() => setHovered(n)}
+          onMouseLeave={() => setHovered(null)}
+          onClick={() => onChange(n)}
+          aria-label={`${n} star${n > 1 ? 's' : ''}`}
+        >★</button>
+      ))}
+      <button
+        type="button"
+        className="mdb-star-clear"
+        onClick={() => onChange(null)}
+      >Clear</button>
+    </div>
+  );
+}
+
+export default function MymdbForm() {
+  const { id: editId } = useParams();
+  const navigate = useNavigate();
+  const showToast = useToast();
+
+  const editItem = editId ? Storage.getById(editId) : null;
+
+  const [type,         setType]         = useState(editItem?.type   ?? 'movie');
+  const [title,        setTitle]        = useState(editItem?.title  ?? '');
+  const [director,     setDirector]     = useState(editItem?.director ?? '');
+  const [author,       setAuthor]       = useState(editItem?.author   ?? '');
+  const [year,         setYear]         = useState(editItem?.year     ?? '');
+  const [genre,        setGenre]        = useState(editItem?.genre    ?? '');
+  const [status,       setStatus]       = useState(editItem?.status   ?? 'plan');
+  const [dateCompleted, setDateCompleted] = useState(editItem?.dateCompleted ?? '');
+  const [rating,       setRating]       = useState(editItem?.rating  ?? null);
+  const [notes,        setNotes]        = useState(editItem?.notes   ?? '');
+  const [coverDataUrl, setCoverDataUrl] = useState(editItem?.coverImage ?? null);
+  const [dragover,     setDragover]     = useState(false);
+
+  const coverInputRef = useRef(null);
+
+  async function setCover(file) {
+    if (file.size > 5 * 1024 * 1024) { showToast('Image too large (max 5 MB)', 'error'); return; }
+    const url = await readFileAsDataUrl(file);
+    setCoverDataUrl(url);
+  }
+
+  function goBack() {
+    if (editItem) navigate(`/mymdb/item/${editItem.id}`);
+    else          navigate('/mymdb');
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!title.trim()) { showToast('Please enter a title', 'error'); return; }
+
+    const data = {
+      title:         title.trim(),
+      type,
+      coverImage:    coverDataUrl,
+      rating,
+      director:      director.trim(),
+      author:        author.trim(),
+      year:          Number(year) || null,
+      genre:         genre.trim(),
+      status,
+      notes:         notes.trim(),
+      dateCompleted: status === 'completed' ? (dateCompleted || null) : null,
+    };
+
+    if (editItem) {
+      Storage.update(editItem.id, data);
+      showToast('Changes saved!', 'success');
+      navigate(`/mymdb/item/${editItem.id}`);
+    } else {
+      const saved = Storage.save(data);
+      showToast('Added to your library!', 'success');
+      navigate(`/mymdb/item/${saved.id}`);
+    }
+  }
+
+  return (
+    <div className="mdb-form-page">
+      <button className="mdb-back-btn" onClick={goBack}>
+        <span className="mdb-back-btn-arrow">←</span>
+        {editItem ? 'Back to item' : 'Back to Library'}
+      </button>
+
+      <h1>{editItem ? 'Edit Item' : 'Add New Item'}</h1>
+      <p className="mdb-form-subtitle">
+        {editItem ? `Editing "${editItem.title}"` : 'Track a movie or book in your library.'}
+      </p>
+
+      <div className="mdb-form-card">
+        <form onSubmit={handleSubmit} noValidate>
+
+          {/* Type */}
+          <div className="mdb-form-group">
+            <label className="mdb-form-label">Type</label>
+            <div className="mdb-type-toggle">
+              {['movie','book'].map(t => (
+                <button
+                  key={t}
+                  type="button"
+                  className={`mdb-type-btn${type === t ? ' active' : ''}`}
+                  onClick={() => setType(t)}
+                >
+                  {t === 'movie' ? '🎬 Movie' : '📚 Book'}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Title */}
+          <div className="mdb-form-group">
+            <label className="mdb-form-label" htmlFor="mdb-title">
+              Title <span className="mdb-required">*</span>
+            </label>
+            <input
+              id="mdb-title"
+              type="text"
+              className="mdb-form-input"
+              placeholder="e.g. The Shawshank Redemption"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              required
+              autoComplete="off"
+            />
+          </div>
+
+          {/* Cover image */}
+          <div className="mdb-form-group">
+            <label className="mdb-form-label">Cover Image</label>
+            <div
+              className={`mdb-cover-upload-area${dragover ? ' dragover' : ''}`}
+              onDragOver={e => { e.preventDefault(); setDragover(true); }}
+              onDragLeave={() => setDragover(false)}
+              onDrop={async e => {
+                e.preventDefault(); setDragover(false);
+                const file = e.dataTransfer.files[0];
+                if (file?.type.startsWith('image/')) await setCover(file);
+              }}
+            >
+              <input
+                ref={coverInputRef}
+                type="file"
+                accept="image/*"
+                onChange={async e => { const f = e.target.files[0]; if (f) await setCover(f); }}
+              />
+              {coverDataUrl ? (
+                <img src={coverDataUrl} className="mdb-cover-preview" alt="Cover preview" />
+              ) : (
+                <div className="mdb-cover-upload-placeholder">
+                  <div className="mdb-cover-upload-icon">🖼️</div>
+                  <div className="mdb-cover-upload-text">Click or drag to upload a cover image</div>
+                  <div className="mdb-cover-upload-hint">JPG, PNG, WebP — max 5 MB</div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Director (movies) */}
+          {type === 'movie' && (
+            <div className="mdb-form-group">
+              <label className="mdb-form-label" htmlFor="mdb-director">Director</label>
+              <input
+                id="mdb-director"
+                type="text"
+                className="mdb-form-input"
+                placeholder="e.g. Christopher Nolan"
+                value={director}
+                onChange={e => setDirector(e.target.value)}
+              />
+            </div>
+          )}
+
+          {/* Author (books) */}
+          {type === 'book' && (
+            <div className="mdb-form-group">
+              <label className="mdb-form-label" htmlFor="mdb-author">Author</label>
+              <input
+                id="mdb-author"
+                type="text"
+                className="mdb-form-input"
+                placeholder="e.g. Frank Herbert"
+                value={author}
+                onChange={e => setAuthor(e.target.value)}
+              />
+            </div>
+          )}
+
+          {/* Year + Genre */}
+          <div className="mdb-form-row">
+            <div className="mdb-form-group" style={{ marginBottom: 0 }}>
+              <label className="mdb-form-label" htmlFor="mdb-year">Year</label>
+              <input
+                id="mdb-year"
+                type="number"
+                className="mdb-form-input"
+                placeholder="e.g. 1994"
+                value={year}
+                onChange={e => setYear(e.target.value)}
+                min="1800" max="2099"
+              />
+            </div>
+            <div className="mdb-form-group" style={{ marginBottom: 0 }}>
+              <label className="mdb-form-label" htmlFor="mdb-genre">Genre</label>
+              <input
+                id="mdb-genre"
+                type="text"
+                className="mdb-form-input"
+                placeholder="e.g. Drama, Sci-Fi"
+                value={genre}
+                onChange={e => setGenre(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Status */}
+          <div className="mdb-form-group">
+            <label className="mdb-form-label" htmlFor="mdb-status">Status</label>
+            <select
+              id="mdb-status"
+              className="mdb-form-select"
+              value={status}
+              onChange={e => setStatus(e.target.value)}
+            >
+              <option value="plan">Plan to Watch / Read</option>
+              <option value="in-progress">Currently Watching / Reading</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+
+          {/* Date Completed */}
+          {status === 'completed' && (
+            <div className="mdb-form-group">
+              <label className="mdb-form-label" htmlFor="mdb-date-completed">Date Completed</label>
+              <input
+                id="mdb-date-completed"
+                type="date"
+                className="mdb-form-input"
+                value={dateCompleted}
+                onChange={e => setDateCompleted(e.target.value)}
+              />
+            </div>
+          )}
+
+          {/* Rating */}
+          <div className="mdb-form-group">
+            <label className="mdb-form-label">Rating (optional)</label>
+            <StarInput rating={rating} onChange={setRating} />
+          </div>
+
+          {/* Notes */}
+          <div className="mdb-form-group">
+            <label className="mdb-form-label" htmlFor="mdb-notes">Notes / Review</label>
+            <textarea
+              id="mdb-notes"
+              className="mdb-form-textarea"
+              placeholder="Your thoughts, a quick review, anything you want to remember…"
+              value={notes}
+              onChange={e => setNotes(e.target.value)}
+            />
+          </div>
+
+          <div className="mdb-form-actions">
+            <button type="button" className="mdb-btn mdb-btn-secondary" onClick={goBack}>
+              Cancel
+            </button>
+            <button type="submit" className="mdb-btn mdb-btn-primary">
+              {editItem ? '💾 Save Changes' : '+ Add to Library'}
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  );
+}
