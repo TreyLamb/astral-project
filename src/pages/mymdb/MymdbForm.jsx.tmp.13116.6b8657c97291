@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Storage } from './mymdbStorage';
 import { readFileAsDataUrl, getYouTubeId } from './mymdbUtils';
-import { useToast, useMymdbData } from './MymdbApp';
+import { useToast } from './MymdbApp';
 
 function StarInput({ rating, onChange }) {
   const [hovered, setHovered] = useState(null);
@@ -33,9 +34,8 @@ export default function MymdbForm() {
   const { id: editId } = useParams();
   const navigate = useNavigate();
   const showToast = useToast();
-  const { getItem, addItem, updateItem } = useMymdbData();
 
-  const editItem = editId ? getItem(editId) : null;
+  const editItem = editId ? Storage.getById(editId) : null;
 
   const [type,         setType]         = useState(editItem?.type   ?? 'movie');
   const [title,        setTitle]        = useState(editItem?.title  ?? '');
@@ -70,7 +70,7 @@ export default function MymdbForm() {
     else          navigate('/mymdb');
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     if (!title.trim()) { showToast('Please enter a title', 'error'); return; }
 
@@ -89,11 +89,11 @@ export default function MymdbForm() {
     };
 
     if (editItem) {
-      await updateItem(editItem.id, data);
+      Storage.update(editItem.id, data);
       showToast('Changes saved!', 'success');
       navigate(`/mymdb/item/${editItem.id}`);
     } else {
-      const saved = await addItem(data);
+      const saved = Storage.save(data);
       showToast('Added to your library!', 'success');
       navigate(`/mymdb/item/${saved.id}`);
     }

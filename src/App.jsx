@@ -1,3 +1,11 @@
+// ADDING A NEW PAGE — do all 4 steps or it won't work:
+// 1. Create src/pages/YourPage.jsx (and YourPage.css if needed)
+// 2. Import it below
+// 3. Add a <Route path="/your-path" element={<YourPage />} /> in the Routes block
+// 4. Add a <Link to="/your-path"> in src/components/Navbar.jsx
+//
+// EXCEPTION: standalone HTML tools (no React) go in public/ instead — see public/birds or public/chinese-idioms
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';

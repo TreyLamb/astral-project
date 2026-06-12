@@ -14,7 +14,7 @@ function Navbar() {
               <li><Link to="/daily-idiom">Daily Chéngyǔ</Link></li>
               <li><Link to="/daily-idiom-widget">Chéngyǔ Widget</Link></li>
               <li><Link to="/lexicon">The Lexicon</Link></li>
-              <li><a href="/birds/index.html">BIRDS!!</a></li>
+              <li><a href="/birds/index.html">BIRDS!!</a></li> {/* plain <a> not <Link> — static file in public/, Link would break it */}
               <li><Link to="/qa-tracker">QA Tracker</Link></li>
               <li><Link to="/mymdb">MyMDB</Link></li>
               <li><Link to="/rs-market">RS Market</Link></li>

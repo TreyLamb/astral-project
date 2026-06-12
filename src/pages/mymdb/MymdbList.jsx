@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Storage } from './mymdbStorage';
+import { useMymdbData } from './MymdbApp';
 import { coverGradient } from './mymdbUtils';
 
 function Stars({ rating }) {
@@ -69,7 +69,7 @@ export default function MymdbList() {
   const [search, setSearch] = useState('');
   const [sort,   setSort]   = useState('newest');
 
-  const allItems = Storage.getAll();
+  const { items: allItems, loading } = useMymdbData();
 
   const visible = useMemo(() => {
     let items = allItems;
@@ -98,6 +98,8 @@ export default function MymdbList() {
   const movies    = allItems.filter(i => i.type === 'movie').length;
   const books     = allItems.filter(i => i.type === 'book').length;
   const completed = allItems.filter(i => i.status === 'completed').length;
+
+  if (loading) return <div className="mdb-loading-screen">Loading your library…</div>;
 
   return (
     <>

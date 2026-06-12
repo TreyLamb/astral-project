@@ -1,8 +1,7 @@
 import { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Storage } from './mymdbStorage';
-import { coverGradient, formatDate, readFileAsDataUrl } from './mymdbUtils';
-import { useToast } from './MymdbApp';
+import { coverGradient, formatDate, readFileAsDataUrl, getYouTubeId } from './mymdbUtils';
+import { useToast, useMymdbData } from './MymdbApp';
 
 function Stars({ rating }) {
   if (rating == null) return <span className="mdb-stars" title="No rating">—</span>;
@@ -28,8 +27,12 @@ export default function MymdbDetail() {
   const navigate = useNavigate();
   const showToast = useToast();
 
-  const [item, setItem] = useState(() => Storage.getById(id));
+  const { getItem, updateItem, removeItem } = useMymdbData();
+  const item = getItem(id);
+
   const [lightboxSrc, setLightboxSrc] = useState(null);
+  const [galleryUrlInput, setGalleryUrlInput] = useState('');
+  const [showGalleryUrlInput, setShowGalleryUrlInput] = useState(false);
   const galleryUploadRef = useRef(null);
 
   if (!item) {
@@ -50,9 +53,9 @@ export default function MymdbDetail() {
     item.dateCompleted && { label: 'Date Completed', value: formatDate(item.dateCompleted) },
   ].filter(Boolean);
 
-  function handleDelete() {
+  async function handleDelete() {
     if (!confirm(`Delete "${item.title}"? This cannot be undone.`)) return;
-    Storage.remove(item.id);
+    await removeItem(item.id);
     showToast('Item deleted');
     navigate('/mymdb', { replace: true });
   }
@@ -61,8 +64,7 @@ export default function MymdbDetail() {
     const file = e.target.files[0];
     if (!file) return;
     const dataUrl = await readFileAsDataUrl(file);
-    Storage.update(item.id, { coverImage: dataUrl });
-    setItem(prev => ({ ...prev, coverImage: dataUrl }));
+    await updateItem(item.id, { coverImage: dataUrl });
     showToast('Cover updated', 'success');
   }
 
@@ -71,10 +73,19 @@ export default function MymdbDetail() {
     if (!files.length) return;
     const newUrls = await Promise.all(files.map(readFileAsDataUrl));
     const updated = [...(item.additionalImages || []), ...newUrls];
-    Storage.update(item.id, { additionalImages: updated });
-    setItem(prev => ({ ...prev, additionalImages: updated }));
+    await updateItem(item.id, { additionalImages: updated });
     showToast(`${files.length} image${files.length > 1 ? 's' : ''} added`, 'success');
     e.target.value = '';
+  }
+
+  async function handleGalleryUrlAdd() {
+    const url = galleryUrlInput.trim();
+    if (!url) return;
+    const updated = [...(item.additionalImages || []), url];
+    await updateItem(item.id, { additionalImages: updated });
+    setGalleryUrlInput('');
+    setShowGalleryUrlInput(false);
+    showToast('Image added', 'success');
   }
 
   return (
@@ -88,19 +99,28 @@ export default function MymdbDetail() {
         {/* Left: cover + gallery */}
         <div className="mdb-detail-cover-col">
           <div className="mdb-detail-cover">
-            {item.coverImage
-              ? <img src={item.coverImage} alt={`${item.title} cover`} />
-              : (
+            {(() => {
+              if (!item.coverImage) return (
                 <div className="mdb-detail-cover-placeholder" style={{ background: gradient }}>
                   {item.title.charAt(0).toUpperCase()}
                 </div>
-              )
-            }
+              );
+              const ytId = getYouTubeId(item.coverImage);
+              if (ytId) return (
+                <iframe
+                  src={`https://www.youtube.com/embed/${ytId}`}
+                  className="mdb-detail-cover-yt"
+                  allowFullScreen
+                  title={`${item.title} video`}
+                />
+              );
+              return <img src={item.coverImage} alt={`${item.title} cover`} />;
+            })()}
           </div>
 
           <label className="mdb-cover-change-label">
             <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleCoverChange} />
-            📷 Change cover
+            📷 Change cover (file)
           </label>
 
           <div className="mdb-detail-section">
@@ -119,10 +139,26 @@ export default function MymdbDetail() {
                   <img src={src} alt={`Additional image ${i + 1}`} loading="lazy" />
                 </div>
               ))}
-              <button
-                className="mdb-gallery-add-btn"
-                onClick={() => galleryUploadRef.current?.click()}
-              >+</button>
+              {showGalleryUrlInput ? (
+                <div className="mdb-gallery-url-input">
+                  <input
+                    type="text"
+                    placeholder="Paste image URL…"
+                    value={galleryUrlInput}
+                    onChange={e => setGalleryUrlInput(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') handleGalleryUrlAdd(); if (e.key === 'Escape') setShowGalleryUrlInput(false); }}
+                    autoFocus
+                  />
+                  <button type="button" onClick={handleGalleryUrlAdd}>Add</button>
+                  <button type="button" onClick={() => { setShowGalleryUrlInput(false); setGalleryUrlInput(''); }}>✕</button>
+                  <button type="button" className="mdb-gallery-file-btn" onClick={() => galleryUploadRef.current?.click()}>📁 file</button>
+                </div>
+              ) : (
+                <button
+                  className="mdb-gallery-add-btn"
+                  onClick={() => setShowGalleryUrlInput(true)}
+                >+</button>
+              )}
               <input
                 ref={galleryUploadRef}
                 type="file"

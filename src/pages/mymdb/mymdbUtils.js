@@ -21,6 +21,24 @@ export function coverGradient(title = '') {
   return `linear-gradient(145deg, ${GRADIENTS[idx][0]}, ${GRADIENTS[idx][1]})`;
 }
 
+// Extracts YouTube video ID from any common YouTube URL format.
+// Returns null if the URL is not a YouTube link.
+export function getYouTubeId(url) {
+  if (!url) return null;
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes('youtube.com')) {
+      if (u.pathname.startsWith('/shorts/')) return u.pathname.split('/shorts/')[1].split('/')[0];
+      if (u.pathname.startsWith('/embed/'))  return u.pathname.split('/embed/')[1].split('/')[0];
+      return u.searchParams.get('v');
+    }
+    if (u.hostname === 'youtu.be') return u.pathname.slice(1).split('/')[0];
+  } catch {
+    return null;
+  }
+  return null;
+}
+
 export function readFileAsDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
