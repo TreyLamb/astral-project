@@ -90,7 +90,7 @@ export default function MymdbDetail() {
 
   return (
     <>
-      <button className="mdb-back-btn" onClick={() => navigate(-1)}>
+      <button className="mdb-back-btn" onClick={() => navigate('/mymdb')}>
         <span className="mdb-back-btn-arrow">←</span>
         Back to Library
       </button>

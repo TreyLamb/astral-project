@@ -129,7 +129,7 @@ export default function MymdbApp() {
       <MymdbDataContext.Provider value={{ items, loading, getItem, addItem, updateItem, removeItem }}>
         <div className="mdb-wrapper">
           <div className="mdb-topbar">
-            <div className="mdb-brand">
+            <div className="mdb-brand" onClick={() => navigate('/mymdb')} style={{cursor:'pointer'}}>
               <span className="mdb-brand-icon">▶</span>
               MyMDB
             </div>
