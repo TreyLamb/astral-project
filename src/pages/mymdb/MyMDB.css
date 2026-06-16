@@ -1089,3 +1089,153 @@
   font-style: italic;
 }
 
+/* ================================================================
+   Quick-add buttons + modal
+   ================================================================ */
+.mdb-list-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.mdb-list-header-top h1 {
+  margin-bottom: 0;
+}
+.mdb-quickadd-btns {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.mdb-quickadd-btn {
+  padding: 8px 14px;
+  border-radius: var(--mdb-radius);
+  border: 1px solid var(--mdb-border);
+  background: var(--mdb-surface);
+  color: var(--mdb-text);
+  font-family: var(--mdb-font);
+  font-size: 0.83rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--mdb-ease), border-color var(--mdb-ease), color var(--mdb-ease);
+}
+.mdb-quickadd-btn:hover {
+  background: var(--mdb-accent);
+  color: #fff;
+  border-color: var(--mdb-accent);
+}
+
+.mdb-quickadd-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.mdb-quickadd-modal {
+  background: var(--mdb-bg);
+  border-radius: var(--mdb-radius-lg);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  width: 100%;
+  max-width: 460px;
+  padding: 24px;
+}
+.mdb-quickadd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.mdb-quickadd-header h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--mdb-text);
+  margin: 0;
+}
+.mdb-quickadd-close {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--mdb-text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--mdb-radius-sm);
+  line-height: 1;
+}
+.mdb-quickadd-close:hover {
+  color: var(--mdb-text);
+  background: var(--mdb-border);
+}
+.mdb-quickadd-hint {
+  font-size: 0.875rem;
+  color: var(--mdb-text-muted);
+  margin: 0 0 12px;
+}
+.mdb-quickadd-status {
+  padding: 28px;
+  text-align: center;
+  color: var(--mdb-text-muted);
+  font-size: 0.9rem;
+}
+.mdb-quickadd-selected {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 12px;
+  background: var(--mdb-surface);
+  border-radius: var(--mdb-radius);
+  border: 1px solid var(--mdb-border);
+}
+.mdb-quickadd-cover {
+  width: 52px;
+  height: 78px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.mdb-quickadd-info { flex: 1; min-width: 0; }
+.mdb-quickadd-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--mdb-text);
+  margin-bottom: 4px;
+}
+.mdb-quickadd-meta {
+  font-size: 0.8rem;
+  color: var(--mdb-text-muted);
+}
+.mdb-quickadd-rate-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--mdb-text);
+  margin: 0 0 10px;
+}
+.mdb-quickadd-skip {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  background: none;
+  border: 1px solid var(--mdb-border);
+  border-radius: var(--mdb-radius);
+  color: var(--mdb-text-muted);
+  font-family: var(--mdb-font);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: border-color var(--mdb-ease), color var(--mdb-ease);
+}
+.mdb-quickadd-skip:hover {
+  border-color: var(--mdb-text-muted);
+  color: var(--mdb-text);
+}
+
+@media (max-width: 520px) {
+  .mdb-list-header-top { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .mdb-quickadd-btns  { width: 100%; }
+  .mdb-quickadd-btn   { flex: 1; text-align: center; }
+}
+

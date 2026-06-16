@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMymdbData } from './MymdbApp';
 import { coverGradient } from './mymdbUtils';
+import QuickAddModal from './MymdbQuickAdd';
 
 function Stars({ rating }) {
   if (rating == null) return <span className="mdb-stars" title="No rating">—</span>;
@@ -65,9 +66,10 @@ function Card({ item, onClick }) {
 
 export default function MymdbList() {
   const navigate = useNavigate();
-  const [filter, setFilter] = useState('all');
-  const [search, setSearch] = useState('');
-  const [sort,   setSort]   = useState('newest');
+  const [filter,       setFilter]       = useState('all');
+  const [search,       setSearch]       = useState('');
+  const [sort,         setSort]         = useState('newest');
+  const [quickAddType, setQuickAddType] = useState(null);
 
   const { items: allItems, loading } = useMymdbData();
 
@@ -104,7 +106,17 @@ export default function MymdbList() {
   return (
     <>
       <div className="mdb-list-header">
-        <h1>My Library</h1>
+        <div className="mdb-list-header-top">
+          <h1>My Library</h1>
+          <div className="mdb-quickadd-btns">
+            <button className="mdb-quickadd-btn" onClick={() => setQuickAddType('movie')}>
+              Quick-add Movie
+            </button>
+            <button className="mdb-quickadd-btn" onClick={() => setQuickAddType('book')}>
+              Quick-add Book
+            </button>
+          </div>
+        </div>
         <div className="mdb-controls">
           <div className="mdb-search-wrap">
             <span className="mdb-search-icon">🔍</span>
@@ -180,6 +192,10 @@ export default function MymdbList() {
             </div>
           )}
         </>
+      )}
+
+      {quickAddType && (
+        <QuickAddModal type={quickAddType} onClose={() => setQuickAddType(null)} />
       )}
     </>
   );
