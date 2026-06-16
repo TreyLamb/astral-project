@@ -3,3 +3,17 @@
 
 # --- Uncategorized ---
 
+glob
+grep
+Healenium
+testim
+mabl
+honeybadger
+jetbrain
+applitools
+opensearch
+elastic
+splunk
+
+
+# Add a label for WHAT the tool genre/type is.

@@ -1,0 +1,38 @@
+<mxEditor>
+	<mxDefaultKeyHandler as="keyHandler">
+		<add as="33" action="exitGroup"/>
+		<add as="34" action="enterGroup"/>
+		<add as="35" action="refresh"/>
+		<add as="36" action="home"/>
+		<add as="37" action="selectPrevious"/>
+		<add as="38" action="selectParent"/>
+		<add as="40" action="selectChild"/>
+		<add as="39" action="selectNext"/>
+		<add as="46" action="delete"/>
+		<add as="8" action="groupOrUngroup"/>
+		<add as="87" action="moveUp"/>
+		<add as="65" action="moveLeft"/>
+		<add as="83" action="moveDown"/>
+		<add as="68" action="moveRight"/>
+		<add as="38" control="1" action="moveUpMod"/>
+		<add as="37" control="1" action="moveLeftMod"/>
+		<add as="40" control="1" action="moveDownMod"/>
+		<add as="39" control="1" action="moveRightMod"/>
+		<add as="65" control="1" action="selectAll"/>
+		<add as="90" control="1" action="undo"/>
+		<add as="89" control="1" action="redo"/>
+		<add as="88" control="1" action="cut"/>
+		<add as="67" control="1" action="copy"/>
+		<add as="86" control="1" action="paste"/>
+		<add as="71" control="1" action="group"/>
+		<add as="85" control="1" action="ungroup"/>
+		<add as="83" control="1" action="circuitSave"/>
+		<add as="112" action="viewFAQ"/>
+		<add as="116" action="refresh"/>
+		<add as="119" action="changeViewToggle"/>
+		<add as="107" action="zoomIn"/>
+		<add as="109" action="zoomOut"/>
+		<add as="192" action="configure"/>
+		<add as="82" action="rotate"/>
+	</mxDefaultKeyHandler>
+</mxEditor>

@@ -137,10 +137,7 @@ function Home() {
         </ul>
 
         <div className="warning">
-          <strong>Important:</strong> Astral projection is generally considered safe, but if you have
-          mental health concerns, sleep disorders, or anxiety, consult with a healthcare professional
-          before attempting these practices. Always approach the experience with positive intentions
-          and without fear.
+          <strong>Important:</strong> 
         </div>
       </div>
 

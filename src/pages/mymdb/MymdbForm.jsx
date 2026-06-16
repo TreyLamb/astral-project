@@ -2,6 +2,39 @@ import { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { readFileAsDataUrl, getYouTubeId } from './mymdbUtils';
 import { useToast, useMymdbData } from './MymdbApp';
+import TmdbSearch from './TmdbSearch';
+
+const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+
+async function fetchMovieDetails(movieTitle, movieYear) {
+  if (!TMDB_API_KEY) return {};
+  try {
+    const searchRes = await fetch(
+      `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(movieTitle)}`
+    );
+    const searchData = await searchRes.json();
+    const movie = searchData.results?.find(r => new Date(r.release_date).getFullYear() === movieYear);
+
+    if (!movie) return {};
+
+    const detailRes = await fetch(
+      `https://api.themoviedb.org/3/movie/${movie.id}/credits?api_key=${TMDB_API_KEY}`
+    );
+    const credits = await detailRes.json();
+
+    const director = credits.crew?.find(c => c.job === 'Director')?.name || null;
+    const castList = credits.cast?.slice(0, 5).map(c => ({
+      name: c.name,
+      character: c.character,
+      profilePath: c.profile_path,
+    })) || [];
+
+    return { director, castList };
+  } catch (e) {
+    console.error('Failed to fetch movie details:', e);
+    return {};
+  }
+}
 
 function StarInput({ rating, onChange }) {
   const [hovered, setHovered] = useState(null);
@@ -47,6 +80,7 @@ export default function MymdbForm() {
   const [dateCompleted, setDateCompleted] = useState(editItem?.dateCompleted ?? '');
   const [rating,       setRating]       = useState(editItem?.rating  ?? null);
   const [notes,        setNotes]        = useState(editItem?.notes   ?? '');
+  const [cast,         setCast]         = useState(editItem?.cast    ?? []);
   const [coverSrc,     setCoverSrc]     = useState(editItem?.coverImage ?? '');
   const [coverUrlInput, setCoverUrlInput] = useState(editItem?.coverImage ?? '');
 
@@ -70,6 +104,19 @@ export default function MymdbForm() {
     else          navigate('/mymdb');
   }
 
+  function handleTmdbSelect(suggestion) {
+    setYear(suggestion.year || year);
+    if (type === 'book' && suggestion.author) setAuthor(suggestion.author);
+    if (suggestion.coverImage && !coverSrc) setCoverSrc(suggestion.coverImage);
+
+    if (type === 'movie') {
+      fetchMovieDetails(suggestion.title, suggestion.year).then(details => {
+        if (details.director) setDirector(details.director);
+        if (details.castList) setCast(details.castList);
+      });
+    }
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     if (!title.trim()) { showToast('Please enter a title', 'error'); return; }
@@ -85,6 +132,7 @@ export default function MymdbForm() {
       genre:         genre.trim(),
       status,
       notes:         notes.trim(),
+      cast:          type === 'movie' ? cast : [],
       dateCompleted: status === 'completed' ? (dateCompleted || null) : null,
     };
 
@@ -136,15 +184,11 @@ export default function MymdbForm() {
             <label className="mdb-form-label" htmlFor="mdb-title">
               Title <span className="mdb-required">*</span>
             </label>
-            <input
-              id="mdb-title"
-              type="text"
-              className="mdb-form-input"
-              placeholder="e.g. The Shawshank Redemption"
+            <TmdbSearch
               value={title}
-              onChange={e => setTitle(e.target.value)}
-              required
-              autoComplete="off"
+              onChange={setTitle}
+              type={type}
+              onSelect={handleTmdbSelect}
             />
           </div>
 
@@ -208,6 +252,32 @@ export default function MymdbForm() {
                 value={director}
                 onChange={e => setDirector(e.target.value)}
               />
+            </div>
+          )}
+
+          {/* Cast (movies) */}
+          {type === 'movie' && cast.length > 0 && (
+            <div className="mdb-form-group">
+              <label className="mdb-form-label">Cast</label>
+              <div className="mdb-cast-list">
+                {cast.map((actor, i) => (
+                  <div key={i} className="mdb-cast-item">
+                    {actor.profilePath && (
+                      <img
+                        src={`https://image.tmdb.org/t/p/w200${actor.profilePath}`}
+                        alt={actor.name}
+                        className="mdb-cast-image"
+                      />
+                    )}
+                    <div className="mdb-cast-info">
+                      <div className="mdb-cast-name">{actor.name}</div>
+                      {actor.character && (
+                        <div className="mdb-cast-character">as {actor.character}</div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 

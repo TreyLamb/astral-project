@@ -18,6 +18,8 @@ function Navbar() {
               <li><Link to="/qa-tracker">QA Tracker</Link></li>
               <li><Link to="/mymdb">MyMDB</Link></li>
               <li><Link to="/rs-market">RS Market</Link></li>
+              <li><a href="/rustioclone/index.html">Rustio Clone</a></li>
+              <li><a href="/rustpunkio/index.html">RustPunkio</a></li>
             </ul>
           </li>
           <li><Link to="/techniques">Techniques</Link></li>

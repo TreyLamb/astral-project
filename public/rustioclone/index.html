@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RustPunkio — rPunkio Circuit Designer</title>
+
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/glyphicons.css" />
+  <link rel="stylesheet" href="css/multiselect.css" />
+  <link rel="stylesheet" href="mxgraph/css/common.css" />
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #pageWrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* ── Toolbar ── */
+    #toolbarContainer {
+      flex-shrink: 0;
+      min-height: 34px;
+      background: #f0f0f0;
+      border-bottom: 1px solid #ccc;
+      padding: 2px 4px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ── Split middle ── */
+    #splitWrapper {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    #sidebarContainer {
+      width: 200px;
+      min-width: 80px;
+      overflow-y: auto;
+      background: #fff;
+      border-right: 1px solid #ccc;
+      flex-shrink: 0;
+    }
+
+    #sidebarInfo {
+      padding: 4px 6px;
+      font-size: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .gutter {
+      width: 6px;
+      background: #ddd;
+      cursor: col-resize;
+      flex-shrink: 0;
+    }
+    .gutter:hover { background: #bbb; }
+
+    #graphContainer {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background-image: url('images/grid.gif');
+      cursor: crosshair;
+    }
+
+    /* ── Outline minimap (floats inside graphContainer) ── */
+    #outlineContainer {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 160px;
+      height: 120px;
+      border: 1px solid #aaa;
+      background: #fff;
+      overflow: hidden;
+      z-index: 50;
+    }
+
+    /* ── Loading overlay ── */
+    #loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.9);
+      padding: 20px 30px;
+      border-radius: 6px;
+      font-size: 16px;
+      z-index: 200;
+      display: none;
+    }
+
+    /* ── Config menu — all styles from .config-menu in common.css ── */
+    #configMenu.show { display: block; }
+
+    /* ── Social bar (toolbar row 2 overflow) ── */
+    #social-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    /* ── Status bar ── */
+    #statusContainer {
+      flex-shrink: 0;
+      height: 34px;
+      background: #222;
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      font-size: 12px;
+      gap: 12px;
+    }
+    #statusContainer a { color: #aac4ff; text-decoration: none; }
+    #statusContainer a:hover { text-decoration: underline; }
+
+    #status-branding {
+      font-weight: bold;
+      font-size: 14px;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    #status-links { display: flex; gap: 10px; }
+
+    /* ── Auth chip lives in the toolbar (injected after mxGraph builds it) ── */
+    #auth-chip {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 8px;
+      font-size: 12px;
+    }
+    #auth-btn {
+      padding: 3px 10px;
+      background: #4285f4;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    #auth-btn:hover { background: #3367d6; }
+    #auth-user { font-size: 12px; }
+
+    /* ── Hints restore button — fixed so nothing can cover it ── */
+    #hints-restore {
+      position: fixed;
+      bottom: 44px; /* clears the 34px status bar + gap */
+      right: 10px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      line-height: 0;
+      display: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="pageWrapper">
+
+    <!-- ── Toolbar ── -->
+    <div id="toolbarContainer">
+      <!-- mxGraph toolbar buttons get injected here by app.min.js -->
+    </div>
+
+    <!-- ── Main split: sidebar | canvas ── -->
+    <div id="splitWrapper">
+
+      <div id="sidebarContainer">
+        <div id="sidebarInfo">
+          <a href="#" id="faq-link" title="Frequently Asked Questions">FAQ</a>
+        </div>
+        <!-- Component icons injected by app.min.js -->
+      </div>
+
+      <div id="graphContainer">
+        <div id="loading">Loading…</div>
+
+        <!-- Minimap ── sits inside graph, positioned absolute -->
+        <div id="outlineContainer"></div>
+
+        <!-- Config menu — inside graphContainer so position:absolute is relative to it.
+             SVGs carry data-cfg so the svg:not([data-cfg]) guard in app.min.js skips them. -->
+        <div id="configMenu" class="config-menu">
+          <div class="config-item">
+            <span id="config-wirecolor-label">Wire Color:</span>
+            <svg data-cfg>
+              <line id="config-wirecolor"  x1="2" y1="15" x2="138" y2="15" stroke="#d3d3d3" stroke-width="3"/>
+              <line id="config-wirecolor2" x1="2" y1="15" x2="138" y2="15" stroke="#d3d3d3" stroke-width="2" class="flow"/>
+            </svg>
+          </div>
+          <div class="config-item">
+            <span id="config-hosecolor-label">Hose Color:</span>
+            <svg data-cfg>
+              <line id="config-hosecolor"  x1="2" y1="15" x2="138" y2="15" stroke="#d3d3d3" stroke-width="3"/>
+              <line id="config-hosecolor2" x1="2" y1="15" x2="138" y2="15" stroke="#d3d3d3" stroke-width="2" class="fflow"/>
+            </svg>
+          </div>
+          <div class="config-item">
+            <span id="config-pipecolor-label">Pipe Color:</span>
+            <svg data-cfg>
+              <line id="config-pipecolor"  x1="2" y1="15" x2="138" y2="15" stroke="#d3d3d3" stroke-width="3"/>
+              <line id="config-pipecolor2" x1="2" y1="15" x2="138" y2="15" stroke="#d3d3d3" stroke-width="2" class="iflow"/>
+            </svg>
+          </div>
+          <div class="config-subitem">
+            <div class="config-item">
+              <span id="config-sun-label">Sun:</span>
+              <input id="config-sun" type="range" min="0" max="100" value="100" title="100%"/>
+            </div>
+            <div class="config-item">
+              <span id="config-wind-label">Wind:</span>
+              <input id="config-wind" type="range" min="0" max="100" value="50" title="50%"/>
+            </div>
+            <div class="config-item">
+              <span id="config-water-label">Water:</span>
+              <input id="config-water" type="range" min="0" max="100" value="50" title="50%"/>
+            </div>
+            <div class="config-item">
+              <span id="config-speed-label">Speed:</span>
+              <input id="config-speed" type="range" min="0" max="20" value="10" title="100%"/>
+            </div>
+          </div>
+          <div id="configSubmenu" class="config-subitem"></div>
+        </div>
+
+        <!-- Social / share bar -->
+        <div id="social-bar"></div>
+      </div>
+
+    </div>
+
+    <!-- ── Status bar — branding + links only ── -->
+    <div id="statusContainer">
+      <span id="status-branding">RustPunkio</span>
+      <span id="status-links">
+        <a href="https://discord.gg/" target="_blank" title="Discord">Discord</a>
+        <a href="https://reddit.com/" target="_blank" title="Reddit">Reddit</a>
+      </span>
+    </div>
+
+  </div><!-- #pageWrapper -->
+
+  <!-- Auth chip — appended into toolbar by JS after mxGraph builds it -->
+  <div id="auth-chip" style="display:none;">
+    <span id="auth-user"></span>
+    <button id="auth-btn">Sign in with Google</button>
+  </div>
+
+  <!-- Hints restore button — fixed position, always on top -->
+  <button id="hints-restore" title="Show Hotkeys &amp; Tips">
+    <img src="images/zoom_in.png" width="20" height="20" alt="+" />
+  </button>
+
+  <!-- Hidden user info forms — app.min.js reads these to determine login state -->
+  <!-- Populated by Firebase auth handler below -->
+  <div id="userform" style="display:none;">
+    <input type="hidden" name="user_id" value="" />
+  </div>
+  <div id="logoutform" style="display:none;"></div>
+
+  <!-- ── Scripts ── (order matters) -->
+  <script src="js/src/mxClient.min.js"></script>
+  <script src="js/src/common.min.js"></script>
+  <script src="js/src/split.min.js"></script>
+  <script src="js/src/multiselect.min.js"></script>
+  <script src="js/src/SVG2Bitmap.min.js"></script>
+  <script src="js/src/gif.js"></script>
+  <script src="js/src/components.min.js"></script>
+  <script src="js/src/app.min.js"></script>
+  <!-- api.min.js excluded — RustPlusBot removed -->
+
+  <!-- ── Firebase Google Auth ── -->
+  <script type="module">
+    import { initializeApp }          from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+      from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+
+    // TODO: replace with your Firebase project config
+    const firebaseConfig = {
+      apiKey:            "",
+      authDomain:        "",
+      projectId:         "",
+      storageBucket:     "",
+      messagingSenderId: "",
+      appId:             "",
+    };
+
+    // Only init if config is filled in
+    if (firebaseConfig.apiKey) {
+      const app      = initializeApp(firebaseConfig);
+      const auth     = getAuth(app);
+      const provider = new GoogleAuthProvider();
+
+      const authBtn  = document.getElementById('auth-btn');
+      const authUser = document.getElementById('auth-user');
+      const userIdEl = document.querySelector('#userform input[name="user_id"]');
+
+      onAuthStateChanged(auth, user => {
+        if (user) {
+          userIdEl.value = user.uid;
+          authUser.textContent  = user.displayName || user.email;
+          authUser.style.display = 'inline';
+          authBtn.textContent   = 'Sign out';
+          authBtn.onclick       = () => signOut(auth);
+          // Expose to app.min.js via w.user if already initialised
+          if (window.__rpEditor) window.__rpEditor.user = { id: user.uid, options: {} };
+        } else {
+          userIdEl.value = '';
+          authUser.style.display = 'none';
+          authBtn.textContent = 'Sign in with Google';
+          authBtn.onclick     = () => signInWithPopup(auth, provider).catch(console.error);
+        }
+      });
+
+      authBtn.onclick = () => signInWithPopup(auth, provider).catch(console.error);
+    }
+  </script>
+
+  <!-- ── App init ── -->
+  <script>
+    window.addEventListener('load', function () {
+      var graphEl   = document.getElementById('graphContainer');
+      var outlineEl = document.getElementById('outlineContainer');
+      var toolbarEl = document.getElementById('toolbarContainer');
+      var statusEl  = document.getElementById('statusContainer');
+      var sidebarEl = document.getElementById('sidebarContainer');
+
+      // Set up resizable split pane between sidebar and graph
+      if (window.Split) {
+        Split(['#sidebarContainer', '#graphContainer'], {
+          sizes:       [18, 82],
+          minSize:     [80, 300],
+          gutterSize:  6,
+          snapOffset:  0,
+          direction:   'horizontal',
+          cursor:      'col-resize',
+          onDrag:      function () { window.appResize && window.appResize(); }
+        });
+      }
+
+      // Launch the mxGraph editor
+      // main(C=canvas, c=outline, e=toolbar, l=sidebar, t=status)
+      main(graphEl, outlineEl, toolbarEl, sidebarEl, statusEl);
+
+      // Expose editor reference for Firebase auth hook above
+      if (window.w) window.__rpEditor = window.w;
+
+      // Default to dark grid — timeout ensures it runs after app.min.js async setup
+      setTimeout(function () {
+        if (window.w && window.w.setDarkMode) window.w.setDarkMode(true);
+      }, 50);
+
+      // Move auth chip into the right end of the toolbar
+      var authChip = document.getElementById('auth-chip');
+      if (authChip) {
+        toolbarEl.style.display = 'flex';
+        toolbarEl.style.alignItems = 'center';
+        authChip.style.display = 'flex';
+        toolbarEl.appendChild(authChip);
+      }
+
+      // ── Enhance the hints div with a hotkey legend + collapse toggle ──
+      // main() creates #hints dynamically, so we patch it right after
+      var hints = document.getElementById('hints');
+      if (hints) {
+        // Only add sizing — keep every other CSS from the original
+        hints.style.height    = 'auto';
+        hints.style.maxHeight = '300px';
+        hints.style.width     = '260px';
+        hints.style.overflowY = 'auto';
+        hints.style.overflowX = 'hidden';
+        hints.style.padding   = '0';
+        hints.style.visibility = 'visible';
+        hints.title = '';
+
+        // Replace app.min.js content entirely with our structured list
+        hints.innerHTML = '';
+
+        // Header
+        var header = document.createElement('div');
+        header.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:4px 8px;font-weight:bold;font-size:12px;';
+        header.innerHTML = '<span>Hotkeys &amp; Tips</span>';
+
+        // Minimize button (zoom-out magnifying glass)
+        var collapseBtn = document.createElement('button');
+        collapseBtn.title = 'Minimize';
+        collapseBtn.style.cssText = 'border:none;background:transparent;cursor:pointer;padding:0;line-height:0;';
+        collapseBtn.innerHTML = '<img src="images/zoom_out.png" width="16" height="16" alt="−" />';
+        header.appendChild(collapseBtn);
+        hints.appendChild(header);
+
+        // Restore button — fixed-position element declared in HTML, always on top
+        var restoreBtn = document.getElementById('hints-restore');
+
+        // Body
+        var body = document.createElement('div');
+        body.style.cssText = 'padding:4px 8px 6px;';
+
+        var hotkeys = [
+          ['ALT (while drawing wire)',  'Lock waypoint — press again for extra turns'],
+          ['Arrow keys',                'Nudge selected (small)'],
+          ['Shift + Arrow',             'Nudge selected (large)'],
+          ['R',                         'Rotate selected 90°'],
+          ['Ctrl+G',                    'Group / Ungroup'],
+          ['Shift+drag / Right-drag',   'Pan canvas'],
+          ['Scroll wheel',              'Zoom in / out'],
+          ['Middle-click on wire',      'Delete wire'],
+          ['Right-click on wire',       'Set wire color'],
+          ['Right-click on component',  'Context menu'],
+          ['Escape',                    'Cancel / deselect'],
+        ];
+
+        hotkeys.forEach(function (pair) {
+          var row = document.createElement('div');
+          row.style.cssText = 'margin:3px 0;font-size:11px;line-height:1.4;';
+          row.innerHTML = '<b>' + pair[0] + '</b><br><span style="padding-left:8px;">' + pair[1] + '</span>';
+          body.appendChild(row);
+        });
+
+        hints.appendChild(body);
+
+        // Prevent clicks and scroll from reaching the canvas handlers
+        body.addEventListener('click',   function (e) { e.stopPropagation(); });
+        header.addEventListener('click', function (e) { e.stopPropagation(); });
+        hints.addEventListener('wheel',  function (e) { e.stopPropagation(); }, { passive: true });
+
+        // Collapse: hide hints, show restore button
+        collapseBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          hints.style.visibility  = 'hidden';
+          restoreBtn.style.display = 'block';
+        });
+
+        // Restore: show hints, hide restore button
+        restoreBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          hints.style.visibility  = 'visible';
+          restoreBtn.style.display = 'none';
+        });
+      }
+    });
+  </script>
+
+  <!-- ── ALT-key waypoint lock ──
+       While drawing a wire, press ALT to pin the current mouse position as an
+       intermediate waypoint. Press ALT again to add another. Works for any
+       direction — horizontal-first, vertical-first, or multi-turn routes.
+       All locked points clear automatically when the wire is completed or cancelled.
+  -->
+  <script>
+    (function () {
+      // Each entry starts as '__pending__' then resolves to an mxPoint
+      // on the next mousemove after the keypress.
+      var lockedWaypoints = [];
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Alt' && !e.repeat) {
+          e.preventDefault(); // stop browser alt-focus behaviour
+          lockedWaypoints.push('__pending__');
+        }
+      });
+
+      var origMove = mxConnectionHandler.prototype.mouseMove;
+      mxConnectionHandler.prototype.mouseMove = function (sender, me) {
+        if (this.first) { // only while actively drawing a wire
+          // Resolve any pending waypoints to the current mouse position
+          for (var i = 0; i < lockedWaypoints.length; i++) {
+            if (lockedWaypoints[i] === '__pending__') {
+              lockedWaypoints[i] = new mxPoint(me.getGraphX(), me.getGraphY());
+            }
+          }
+          // Push all resolved waypoints into the connection handler
+          var resolved = lockedWaypoints.filter(function (p) { return p !== '__pending__'; });
+          if (resolved.length > 0) this.waypoints = resolved.slice();
+        }
+        origMove.apply(this, arguments);
+      };
+
+      var origUp = mxConnectionHandler.prototype.mouseUp;
+      mxConnectionHandler.prototype.mouseUp = function (sender, me) {
+        lockedWaypoints = []; // clear all locks on finish or cancel
+        origUp.apply(this, arguments);
+      };
+    })();
+  </script>
+
+</body>
+</html>
