@@ -1239,3 +1239,267 @@
   .mdb-quickadd-btn   { flex: 1; text-align: center; }
 }
 
+/* ================================================================
+   Topbar left group (logo + nav tabs together)
+   ================================================================ */
+.mdb-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ================================================================
+   Topbar nav tabs  (Library | Fav Celebs)
+   ================================================================ */
+.mdb-nav-tabs {
+  display: flex;
+  gap: 4px;
+}
+.mdb-nav-tab {
+  padding: 7px 18px;
+  border-radius: 20px;
+  border: none;
+  background: transparent;
+  color: var(--mdb-text-muted);
+  font-family: var(--mdb-font);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--mdb-ease), color var(--mdb-ease);
+}
+.mdb-nav-tab:hover {
+  background: var(--mdb-surface-2);
+  color: var(--mdb-text);
+}
+.mdb-nav-tab.active {
+  background: var(--mdb-accent-light);
+  color: var(--mdb-accent);
+  font-weight: 600;
+}
+.mdb-nav-tab-celebs.active {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+/* ================================================================
+   Celebs mode — purple bg on the full wrapper, accent override on content
+   ================================================================ */
+.mdb-celebs-mode {
+  background: #40269e;
+  min-height: 100vh;
+}
+.mdb-celebs-main h1 {
+  color: #fff !important;
+}
+.mdb-celebs-main {
+  --mdb-accent:       #7c3aed;
+  --mdb-accent-hover: #6d28d9;
+  --mdb-accent-light: #f5f3ff;
+}
+
+/* Celeb department badge */
+.mdb-badge-celeb {
+  background: #ede9fe;
+  color:      #5b21b6;
+  border:     1px solid #ddd6fe;
+}
+
+/* Card variant */
+.mdb-celeb-card:hover {
+  border-color: #c4b5fd;
+}
+.mdb-celeb-cover-placeholder {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+}
+
+/* Suggestion covers for person search (circular crops) */
+.mdb-celeb-suggestion-cover {
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.mdb-celeb-suggestion-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Quick-add cover for celebs (portrait) */
+.mdb-celeb-quickadd-cover {
+  border-radius: 6px;
+  object-fit: cover;
+}
+.mdb-celeb-placeholder-sm {
+  width: 52px;
+  height: 72px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Save button full-width in quick-add modal */
+.mdb-celeb-save-btn {
+  width: 100%;
+  margin-top: 12px;
+  justify-content: center;
+}
+
+/* Detail page portrait */
+.mdb-celeb-detail-cover img {
+  border-radius: var(--mdb-radius);
+  width: 100%;
+  object-fit: cover;
+}
+.mdb-celeb-cover-placeholder-lg {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  font-size: 4rem;
+}
+
+/* Also known as list */
+.mdb-celeb-aka-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mdb-celeb-aka-item {
+  font-size: 0.85rem;
+  color: var(--mdb-text-muted);
+  padding: 3px 0;
+  border-bottom: 1px solid var(--mdb-border);
+}
+.mdb-celeb-aka-item:last-child { border-bottom: none; }
+
+/* Known for section header with hint */
+.mdb-detail-section-title { position: relative; }
+.mdb-celeb-pin-hint {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--mdb-text-faint);
+  margin-left: 8px;
+  font-style: italic;
+}
+
+/* Known for grid */
+.mdb-celeb-known-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.mdb-celeb-known-item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  background: var(--mdb-surface);
+  border: 1px solid var(--mdb-border);
+  border-radius: var(--mdb-radius-sm);
+  cursor: pointer;
+  transition: border-color var(--mdb-ease), background var(--mdb-ease);
+  position: relative;
+}
+.mdb-celeb-known-item:hover {
+  border-color: var(--mdb-accent);
+  background: var(--mdb-accent-light);
+}
+.mdb-celeb-known-item.pinned {
+  border-color: var(--mdb-accent);
+  background: var(--mdb-accent-light);
+}
+.mdb-celeb-known-item.pinned .mdb-celeb-known-title {
+  color: var(--mdb-accent);
+}
+.mdb-celeb-known-pin {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  color: var(--mdb-accent);
+  font-size: 0.8rem;
+}
+.mdb-celeb-known-type { font-size: 1rem; flex-shrink: 0; }
+.mdb-celeb-known-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mdb-text);
+  line-height: 1.3;
+}
+.mdb-celeb-known-meta {
+  font-size: 0.78rem;
+  color: var(--mdb-text-muted);
+  margin-top: 2px;
+}
+
+/* Pinned work in library card */
+.mdb-celeb-pinned-meta {
+  color: var(--mdb-accent);
+  font-style: italic;
+}
+
+/* Biography — collapsible */
+.mdb-celeb-bio-toggle {
+  cursor: pointer;
+  user-select: none;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+}
+.mdb-celeb-bio-toggle:hover { color: var(--mdb-accent); }
+.mdb-celeb-bio-arrow {
+  font-size: 0.7rem;
+  color: var(--mdb-text-faint);
+}
+.mdb-celeb-bio {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--mdb-text);
+  white-space: pre-line;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-top: 8px;
+}
+
+/* Form preview block */
+.mdb-celeb-form-preview {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 14px;
+  background: var(--mdb-surface-2);
+  border-radius: var(--mdb-radius);
+  margin-bottom: 20px;
+}
+.mdb-celeb-form-img {
+  width: 60px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: var(--mdb-radius-sm);
+  flex-shrink: 0;
+}
+.mdb-celeb-form-preview-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--mdb-text);
+}
+
+@media (max-width: 600px) {
+  .mdb-nav-tabs   { gap: 2px; }
+  .mdb-nav-tab    { padding: 6px 12px; font-size: 0.8rem; }
+  .mdb-celeb-known-grid { grid-template-columns: 1fr; }
+}
+
