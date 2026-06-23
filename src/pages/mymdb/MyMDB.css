@@ -1503,3 +1503,115 @@
   .mdb-celeb-known-grid { grid-template-columns: 1fr; }
 }
 
+/* ================================================================
+   Watchlist mode — deep rose/crimson bg, red accent
+   ================================================================ */
+.mdb-nav-tab-watchlist.active {
+  background: #ffe4e6;
+  color:      #be123c;
+}
+
+.mdb-watchlist-mode {
+  background: #7c1d2e;
+  min-height: 100vh;
+}
+
+.mdb-watchlist-main h1 {
+  color: #fff !important;
+}
+
+.mdb-watchlist-main {
+  --mdb-accent:       #e11d48;
+  --mdb-accent-hover: #be123c;
+  --mdb-accent-light: #fff1f2;
+}
+
+/* Watchlist card */
+.mdb-watchlist-card {
+  position: relative;
+}
+.mdb-watchlist-card:hover {
+  border-color: #fda4af;
+}
+
+.mdb-watchlist-cover-placeholder {
+  background: linear-gradient(135deg, #be123c, #e11d48);
+  font-size: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.8);
+}
+
+/* Priority flag button (top-right of card cover) */
+.mdb-watchlist-priority-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(0,0,0,0.45);
+  border: none;
+  border-radius: 4px;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+  padding: 4px 6px;
+  transition: background 0.15s, color 0.15s;
+  backdrop-filter: blur(4px);
+}
+.mdb-watchlist-priority-btn:hover,
+.mdb-watchlist-priority-btn.active {
+  background: rgba(225,29,72,0.85);
+  color: #fff;
+}
+
+/* Priority badge */
+.mdb-badge-watchlist-priority {
+  background: #ffe4e6;
+  color:      #be123c;
+  border:     1px solid #fda4af;
+}
+
+/* Note preview clamp */
+.mdb-watchlist-note-preview {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.78rem;
+}
+
+/* Quickadd btn watchlist variant */
+.mdb-quickadd-btn-watchlist {
+  background: #e11d48;
+  color: #fff;
+}
+.mdb-quickadd-btn-watchlist:hover {
+  background: #be123c;
+}
+
+/* Priority toggle button (form + detail) */
+.mdb-priority-toggle {
+  background: var(--mdb-surface-2);
+  border: 1px solid var(--mdb-border);
+  border-radius: var(--mdb-radius);
+  color: var(--mdb-text-muted);
+  cursor: pointer;
+  font-family: var(--mdb-font);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  transition: background var(--mdb-ease), color var(--mdb-ease), border-color var(--mdb-ease);
+  text-align: left;
+}
+.mdb-priority-toggle:hover {
+  border-color: #e11d48;
+  color: #be123c;
+}
+.mdb-priority-toggle.active {
+  background: #ffe4e6;
+  border-color: #fda4af;
+  color: #be123c;
+  font-weight: 600;
+}
+

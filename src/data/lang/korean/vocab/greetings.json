@@ -1,0 +1,14 @@
+[
+  { "word": "안녕하세요",         "romanization": "annyeonghaseyo",       "english": "Hello (formal)",                   "pos": "phrase",  "notes": "" },
+  { "word": "안녕",              "romanization": "annyeong",             "english": "Hi / Bye (casual)",                 "pos": "phrase",  "notes": "friends and close peers only" },
+  { "word": "좋은 아침이에요",    "romanization": "joeun achimieyo",      "english": "Good morning",                      "pos": "phrase",  "notes": "" },
+  { "word": "좋은 저녁이에요",    "romanization": "joeun jeonyeogieyo",   "english": "Good evening",                      "pos": "phrase",  "notes": "" },
+  { "word": "안녕히 가세요",      "romanization": "annyeonghi gaseyo",    "english": "Goodbye (to someone leaving)",      "pos": "phrase",  "notes": "" },
+  { "word": "안녕히 계세요",      "romanization": "annyeonghi gyeseyo",   "english": "Goodbye (said by the one leaving)", "pos": "phrase",  "notes": "" },
+  { "word": "감사합니다",         "romanization": "gamsahamnida",         "english": "Thank you (formal)",                "pos": "phrase",  "notes": "" },
+  { "word": "고마워요",           "romanization": "gomawoyo",             "english": "Thank you (informal)",              "pos": "phrase",  "notes": "" },
+  { "word": "천만에요",           "romanization": "cheonmaneyo",          "english": "You're welcome",                    "pos": "phrase",  "notes": "" },
+  { "word": "죄송합니다",         "romanization": "joesonghamnida",       "english": "I'm sorry (formal)",                "pos": "phrase",  "notes": "" },
+  { "word": "괜찮아요",           "romanization": "gwaenchanayo",         "english": "It's okay / Are you okay?",         "pos": "phrase",  "notes": "depends on tone/context" },
+  { "word": "만나서 반가워요",    "romanization": "mannaseo ban-gawoyo",  "english": "Nice to meet you",                  "pos": "phrase",  "notes": "" }
+]

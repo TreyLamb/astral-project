@@ -1,0 +1,14 @@
+[
+  { "word": "Здравствуйте",  "romanization": "Zdravstvuyte",   "english": "Hello (formal)",              "pos": "phrase",  "notes": "used with strangers/elders" },
+  { "word": "Привет",        "romanization": "Privet",          "english": "Hi (informal)",               "pos": "phrase",  "notes": "friends only" },
+  { "word": "Доброе утро",   "romanization": "Dobroye utro",   "english": "Good morning",                "pos": "phrase",  "notes": "" },
+  { "word": "Добрый день",   "romanization": "Dobryy den'",    "english": "Good afternoon",              "pos": "phrase",  "notes": "" },
+  { "word": "Добрый вечер",  "romanization": "Dobryy vecher",  "english": "Good evening",                "pos": "phrase",  "notes": "" },
+  { "word": "Спокойной ночи","romanization": "Spokoynoy nochi","english": "Good night",                  "pos": "phrase",  "notes": "" },
+  { "word": "До свидания",   "romanization": "Do svidaniya",   "english": "Goodbye (formal)",            "pos": "phrase",  "notes": "" },
+  { "word": "Пока",          "romanization": "Poka",           "english": "Bye (informal)",              "pos": "phrase",  "notes": "casual" },
+  { "word": "Спасибо",       "romanization": "Spasibo",        "english": "Thank you",                   "pos": "phrase",  "notes": "" },
+  { "word": "Пожалуйста",    "romanization": "Pozhaluysta",    "english": "Please / You're welcome",     "pos": "phrase",  "notes": "context-dependent" },
+  { "word": "Извините",      "romanization": "Izvinite",       "english": "Excuse me / Sorry (formal)",  "pos": "phrase",  "notes": "" },
+  { "word": "Очень приятно", "romanization": "Ochen' priyatno","english": "Nice to meet you",            "pos": "phrase",  "notes": "" }
+]

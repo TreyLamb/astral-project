@@ -80,3 +80,41 @@ export const CelebsStorage = {
     await deleteDoc(doc(db, 'users', userId, 'mymdb_celebs', id));
   },
 };
+
+// Watchlist lives at: users/{userId}/mymdb_watchlist/{itemId}
+function watchlistRef(userId) {
+  return collection(db, 'users', userId, 'mymdb_watchlist');
+}
+
+export const WatchlistStorage = {
+  async getAll(userId) {
+    const snap = await getDocs(watchlistRef(userId));
+    const items = snap.docs.map(d => ({ ...d.data(), id: d.id }));
+    return items.sort((a, b) => {
+      // priority items first, then by dateAdded desc
+      if (a.priority && !b.priority) return -1;
+      if (!a.priority && b.priority) return 1;
+      return b.dateAdded.localeCompare(a.dateAdded);
+    });
+  },
+
+  async save(userId, item) {
+    const newItem = {
+      dateAdded: new Date().toISOString().slice(0, 10),
+      notes: '',
+      priority: false,
+      ...item,
+      id: uid(),
+    };
+    await setDoc(doc(db, 'users', userId, 'mymdb_watchlist', newItem.id), newItem);
+    return newItem;
+  },
+
+  async update(userId, id, updates) {
+    await updateDoc(doc(db, 'users', userId, 'mymdb_watchlist', id), updates);
+  },
+
+  async remove(userId, id) {
+    await deleteDoc(doc(db, 'users', userId, 'mymdb_watchlist', id));
+  },
+};

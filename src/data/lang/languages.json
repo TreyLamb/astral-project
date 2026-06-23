@@ -1,0 +1,9 @@
+[
+  { "id": "english",  "name": "English",  "nativeName": "English",  "flag": "🇬🇧", "script": "latin",              "romanization": null,              "langCode": "en-US" },
+  { "id": "mandarin", "name": "Mandarin", "nativeName": "普通话",    "flag": "🇨🇳", "script": "simplified-chinese", "romanization": "Pinyin",          "langCode": "zh-CN" },
+  { "id": "cantonese","name": "Cantonese","nativeName": "廣東話",    "flag": "🇭🇰", "script": "traditional-chinese","romanization": "Jyutping",        "langCode": "zh-HK" },
+  { "id": "japanese", "name": "Japanese", "nativeName": "日本語",    "flag": "🇯🇵", "script": "mixed",              "romanization": "Rōmaji",          "langCode": "ja-JP" },
+  { "id": "korean",   "name": "Korean",   "nativeName": "한국어",     "flag": "🇰🇷", "script": "hangul",             "romanization": "Romanization",    "langCode": "ko-KR" },
+  { "id": "russian",  "name": "Russian",  "nativeName": "Русский",   "flag": "🇷🇺", "script": "cyrillic",           "romanization": "Transliteration", "langCode": "ru-RU" },
+  { "id": "german",   "name": "German",   "nativeName": "Deutsch",   "flag": "🇩🇪", "script": "latin",              "romanization": null,              "langCode": "de-DE" }
+]

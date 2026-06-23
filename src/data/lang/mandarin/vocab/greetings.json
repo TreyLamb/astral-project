@@ -1,0 +1,14 @@
+[
+  { "word": "你好",       "romanization": "nǐ hǎo",         "english": "Hello",                  "pos": "phrase",   "notes": "" },
+  { "word": "你好吗",     "romanization": "nǐ hǎo ma",       "english": "How are you?",           "pos": "phrase",   "notes": "" },
+  { "word": "早上好",     "romanization": "zǎo shàng hǎo",   "english": "Good morning",           "pos": "phrase",   "notes": "" },
+  { "word": "晚上好",     "romanization": "wǎn shàng hǎo",   "english": "Good evening",           "pos": "phrase",   "notes": "" },
+  { "word": "晚安",       "romanization": "wǎn ān",           "english": "Good night",             "pos": "phrase",   "notes": "" },
+  { "word": "再见",       "romanization": "zài jiàn",         "english": "Goodbye",                "pos": "phrase",   "notes": "" },
+  { "word": "谢谢",       "romanization": "xiè xiè",          "english": "Thank you",              "pos": "phrase",   "notes": "" },
+  { "word": "不客气",     "romanization": "bú kè qì",         "english": "You're welcome",         "pos": "phrase",   "notes": "" },
+  { "word": "请",         "romanization": "qǐng",             "english": "Please / May I",         "pos": "verb",     "notes": "" },
+  { "word": "对不起",     "romanization": "duì bu qǐ",        "english": "I'm sorry",              "pos": "phrase",   "notes": "formal apology" },
+  { "word": "没关系",     "romanization": "méi guān xi",      "english": "It's okay / No problem", "pos": "phrase",   "notes": "" },
+  { "word": "幸会",       "romanization": "xìng huì",         "english": "Nice to meet you",       "pos": "phrase",   "notes": "formal" }
+]

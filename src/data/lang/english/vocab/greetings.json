@@ -1,0 +1,14 @@
+[
+  { "word": "Hello",        "romanization": null, "english": "General greeting",           "pos": "phrase",   "notes": "" },
+  { "word": "Hi",           "romanization": null, "english": "Casual greeting",            "pos": "phrase",   "notes": "informal" },
+  { "word": "Good morning", "romanization": null, "english": "Morning greeting",            "pos": "phrase",   "notes": "" },
+  { "word": "Good evening", "romanization": null, "english": "Evening greeting",            "pos": "phrase",   "notes": "" },
+  { "word": "Goodbye",      "romanization": null, "english": "Farewell",                   "pos": "phrase",   "notes": "" },
+  { "word": "See you later","romanization": null, "english": "Casual farewell",             "pos": "phrase",   "notes": "informal" },
+  { "word": "Thank you",    "romanization": null, "english": "Express gratitude",           "pos": "phrase",   "notes": "" },
+  { "word": "You're welcome","romanization":null, "english": "Response to thank you",       "pos": "phrase",   "notes": "" },
+  { "word": "Please",       "romanization": null, "english": "Polite request particle",    "pos": "adverb",   "notes": "" },
+  { "word": "Excuse me",    "romanization": null, "english": "Get attention / apologize",  "pos": "phrase",   "notes": "" },
+  { "word": "Sorry",        "romanization": null, "english": "Apology",                    "pos": "phrase",   "notes": "" },
+  { "word": "Nice to meet you","romanization":null,"english": "First meeting greeting",     "pos": "phrase",   "notes": "" }
+]

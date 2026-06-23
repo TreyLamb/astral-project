@@ -19,6 +19,8 @@ import Lexicon from './pages/Lexicon';
 import QATracker from './pages/QATracker';
 import RSMarket from './pages/RSMarket';
 import MymdbApp from './pages/mymdb/MymdbApp';
+import LangApp      from './pages/lang/LangApp';
+import SqlQuestApp  from './pages/sqlquest/SqlQuestApp';
 import './App.css';
 
 function App() {
@@ -38,6 +40,8 @@ function App() {
           <Route path="/qa-tracker" element={<QATracker />} />
           <Route path="/rs-market" element={<RSMarket />} />
           <Route path="/mymdb/*" element={<MymdbApp />} />
+          <Route path="/lang/*"      element={<LangApp />} />
+          <Route path="/sql-quest" element={<SqlQuestApp />} />
         </Routes>
       </div>
     </Router>

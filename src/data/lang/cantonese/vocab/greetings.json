@@ -1,0 +1,14 @@
+[
+  { "word": "你好",       "romanization": "nei5 hou2",         "english": "Hello",                          "pos": "phrase",  "notes": "" },
+  { "word": "你好嗎",     "romanization": "nei5 hou2 maa3",    "english": "How are you?",                   "pos": "phrase",  "notes": "" },
+  { "word": "早晨",       "romanization": "zou2 san4",          "english": "Good morning",                   "pos": "phrase",  "notes": "" },
+  { "word": "晚安",       "romanization": "maan5 on1",          "english": "Good night",                     "pos": "phrase",  "notes": "" },
+  { "word": "再見",       "romanization": "zoi3 gin3",          "english": "Goodbye",                        "pos": "phrase",  "notes": "formal" },
+  { "word": "拜拜",       "romanization": "baai3 baai3",        "english": "Bye bye",                        "pos": "phrase",  "notes": "casual" },
+  { "word": "唔該",       "romanization": "m4 goi1",            "english": "Thank you (for a service)",      "pos": "phrase",  "notes": "also used as 'excuse me'" },
+  { "word": "多謝",       "romanization": "do1 ze6",            "english": "Thank you (for a gift/favor)",   "pos": "phrase",  "notes": "" },
+  { "word": "唔使客氣",   "romanization": "m4 sai2 haak3 hei3", "english": "You're welcome / Don't mention it","pos":"phrase", "notes": "" },
+  { "word": "對唔住",     "romanization": "deoi3 m4 zyu6",      "english": "Sorry",                          "pos": "phrase",  "notes": "" },
+  { "word": "冇問題",     "romanization": "mou5 man6 tai4",     "english": "No problem",                     "pos": "phrase",  "notes": "" },
+  { "word": "幸會",       "romanization": "hang6 wui6",         "english": "Nice to meet you",               "pos": "phrase",  "notes": "formal" }
+]

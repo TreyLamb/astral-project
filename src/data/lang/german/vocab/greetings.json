@@ -1,0 +1,14 @@
+[
+  { "word": "Hallo",              "romanization": null, "english": "Hello (general)",              "pos": "phrase",  "notes": "" },
+  { "word": "Guten Morgen",       "romanization": null, "english": "Good morning",                 "pos": "phrase",  "notes": "" },
+  { "word": "Guten Tag",          "romanization": null, "english": "Good day / Hello (formal)",    "pos": "phrase",  "notes": "daytime formal" },
+  { "word": "Guten Abend",        "romanization": null, "english": "Good evening",                 "pos": "phrase",  "notes": "" },
+  { "word": "Gute Nacht",         "romanization": null, "english": "Good night",                   "pos": "phrase",  "notes": "" },
+  { "word": "Auf Wiedersehen",    "romanization": null, "english": "Goodbye (formal)",             "pos": "phrase",  "notes": "until we meet again" },
+  { "word": "Tschüss",            "romanization": null, "english": "Bye (informal)",               "pos": "phrase",  "notes": "casual" },
+  { "word": "Danke",              "romanization": null, "english": "Thank you",                    "pos": "phrase",  "notes": "" },
+  { "word": "Danke schön",        "romanization": null, "english": "Thank you very much",          "pos": "phrase",  "notes": "" },
+  { "word": "Bitte",              "romanization": null, "english": "Please / You're welcome",      "pos": "phrase",  "notes": "also 'here you go'" },
+  { "word": "Entschuldigung",     "romanization": null, "english": "Excuse me / Sorry",            "pos": "phrase",  "notes": "" },
+  { "word": "Freut mich",         "romanization": null, "english": "Nice to meet you",             "pos": "phrase",  "notes": "short form of 'Es freut mich'" }
+]

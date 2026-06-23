@@ -1,0 +1,14 @@
+[
+  { "word": "こんにちは",           "romanization": "konnichiwa",          "english": "Hello (daytime)",         "pos": "phrase",  "notes": "" },
+  { "word": "おはようございます",   "romanization": "ohayō gozaimasu",     "english": "Good morning (formal)",   "pos": "phrase",  "notes": "" },
+  { "word": "おはよう",             "romanization": "ohayō",               "english": "Good morning (casual)",   "pos": "phrase",  "notes": "casual / friends/family" },
+  { "word": "こんばんは",           "romanization": "konbanwa",            "english": "Good evening",            "pos": "phrase",  "notes": "" },
+  { "word": "おやすみなさい",       "romanization": "oyasumi nasai",       "english": "Good night",              "pos": "phrase",  "notes": "" },
+  { "word": "さようなら",           "romanization": "sayōnara",            "english": "Goodbye (permanent)",     "pos": "phrase",  "notes": "implies won't see again soon" },
+  { "word": "またね",               "romanization": "mata ne",             "english": "See you later",           "pos": "phrase",  "notes": "casual" },
+  { "word": "ありがとうございます", "romanization": "arigatō gozaimasu",   "english": "Thank you (formal)",      "pos": "phrase",  "notes": "" },
+  { "word": "ありがとう",           "romanization": "arigatō",             "english": "Thank you (casual)",      "pos": "phrase",  "notes": "" },
+  { "word": "どういたしまして",     "romanization": "dō itashimashite",    "english": "You're welcome",          "pos": "phrase",  "notes": "" },
+  { "word": "すみません",           "romanization": "sumimasen",           "english": "Excuse me / I'm sorry",   "pos": "phrase",  "notes": "very versatile" },
+  { "word": "はじめまして",         "romanization": "hajimemashite",       "english": "Nice to meet you",        "pos": "phrase",  "notes": "said on first meeting" }
+]

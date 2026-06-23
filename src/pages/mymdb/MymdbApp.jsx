@@ -2,13 +2,16 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback, createContext, useContext, useRef } from 'react';
 import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 import { auth, googleProvider } from '../../firebase';
-import { FirestoreStorage, CelebsStorage } from './mymdbFirestore';
-import MymdbList        from './MymdbList';
-import MymdbDetail      from './MymdbDetail';
-import MymdbForm        from './MymdbForm';
-import MymdbCelebs      from './MymdbCelebs';
-import MymdbCelebDetail from './MymdbCelebDetail';
-import MymdbCelebForm   from './MymdbCelebForm';
+import { FirestoreStorage, CelebsStorage, WatchlistStorage } from './mymdbFirestore';
+import MymdbList            from './MymdbList';
+import MymdbDetail          from './MymdbDetail';
+import MymdbForm            from './MymdbForm';
+import MymdbCelebs          from './MymdbCelebs';
+import MymdbCelebDetail     from './MymdbCelebDetail';
+import MymdbCelebForm       from './MymdbCelebForm';
+import MymdbWatchlist       from './MymdbWatchlist';
+import MymdbWatchlistDetail from './MymdbWatchlistDetail';
+import MymdbWatchlistForm   from './MymdbWatchlistForm';
 import './MyMDB.css';
 
 // --- Toast context ---
@@ -22,6 +25,10 @@ export function useMymdbData() { return useContext(MymdbDataContext); }
 // --- Celebs data context ---
 export const MymdbCelebsContext = createContext(null);
 export function useMymdbCelebs() { return useContext(MymdbCelebsContext); }
+
+// --- Watchlist data context ---
+export const MymdbWatchlistContext = createContext(null);
+export function useMymdbWatchlist() { return useContext(MymdbWatchlistContext); }
 
 function MdbToast({ toast }) {
   if (!toast) return null;
@@ -50,15 +57,18 @@ function LoginScreen({ onLogin }) {
 export default function MymdbApp() {
   const navigate = useNavigate();
   const location = useLocation();
-  const isCelebsPath = location.pathname.startsWith('/mymdb/celebs');
+  const isCelebsPath    = location.pathname.startsWith('/mymdb/celebs');
+  const isWatchlistPath = location.pathname.startsWith('/mymdb/watchlist');
 
   // auth: undefined = still loading, null = not signed in, object = signed in
-  const [user,          setUser]          = useState(undefined);
-  const [items,         setItems]         = useState([]);
-  const [loading,       setLoading]       = useState(true);
-  const [celebs,        setCelebs]        = useState([]);
-  const [celebsLoading, setCelebsLoading] = useState(true);
-  const [toast,         setToast]         = useState(null);
+  const [user,             setUser]             = useState(undefined);
+  const [items,            setItems]            = useState([]);
+  const [loading,          setLoading]          = useState(true);
+  const [celebs,           setCelebs]           = useState([]);
+  const [celebsLoading,    setCelebsLoading]    = useState(true);
+  const [watchlist,        setWatchlist]        = useState([]);
+  const [watchlistLoading, setWatchlistLoading] = useState(true);
+  const [toast,            setToast]            = useState(null);
   const timerRef = useRef(null);
 
   const showToast = useCallback((message, type = '') => {
@@ -89,6 +99,15 @@ export default function MymdbApp() {
     CelebsStorage.getAll(user.uid)
       .then(data => { setCelebs(data); setCelebsLoading(false); })
       .catch(() => { showToast('Failed to load celebs', 'error'); setCelebsLoading(false); });
+  }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Load watchlist from Firestore
+  useEffect(() => {
+    if (!user) { setWatchlist([]); setWatchlistLoading(false); return; }
+    setWatchlistLoading(true);
+    WatchlistStorage.getAll(user.uid)
+      .then(data => { setWatchlist(data); setWatchlistLoading(false); })
+      .catch(() => { showToast('Failed to load watchlist', 'error'); setWatchlistLoading(false); });
   }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => () => clearTimeout(timerRef.current), []);
@@ -141,6 +160,33 @@ export default function MymdbApp() {
     setCelebs(prev => prev.filter(c => c.id !== id));
   }, [user]);
 
+  // --- Watchlist context helpers ---
+  const getWatchlistItem = useCallback((id) => watchlist.find(w => w.id === id) ?? null, [watchlist]);
+
+  function sortWatchlist(arr) {
+    return [...arr].sort((a, b) => {
+      if (a.priority && !b.priority) return -1;
+      if (!a.priority && b.priority) return 1;
+      return b.dateAdded.localeCompare(a.dateAdded);
+    });
+  }
+
+  const addWatchlistItem = useCallback(async (data) => {
+    const saved = await WatchlistStorage.save(user.uid, data);
+    setWatchlist(prev => sortWatchlist([saved, ...prev]));
+    return saved;
+  }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const updateWatchlistItem = useCallback(async (id, updates) => {
+    await WatchlistStorage.update(user.uid, id, updates);
+    setWatchlist(prev => sortWatchlist(prev.map(w => w.id === id ? { ...w, ...updates } : w)));
+  }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const removeWatchlistItem = useCallback(async (id) => {
+    await WatchlistStorage.remove(user.uid, id);
+    setWatchlist(prev => prev.filter(w => w.id !== id));
+  }, [user]);
+
   if (user === undefined) {
     return (
       <div className="mdb-wrapper">
@@ -158,61 +204,88 @@ export default function MymdbApp() {
     );
   }
 
+  const wrapperMode = isCelebsPath ? ' mdb-celebs-mode' : isWatchlistPath ? ' mdb-watchlist-mode' : '';
+  const mainMode    = isCelebsPath ? ' mdb-celebs-main' : isWatchlistPath ? ' mdb-watchlist-main' : '';
+
+  function addButtonLabel() {
+    if (isCelebsPath)    return '+ Add Celeb';
+    if (isWatchlistPath) return '+ Add Movie';
+    return '+ Add Item';
+  }
+
+  function addButtonTarget() {
+    if (isCelebsPath)    return '/mymdb/celebs/add';
+    if (isWatchlistPath) return '/mymdb/watchlist/add';
+    return '/mymdb/add';
+  }
+
   return (
     <ToastContext.Provider value={showToast}>
       <MymdbDataContext.Provider value={{ items, loading, getItem, addItem, updateItem, removeItem }}>
         <MymdbCelebsContext.Provider value={{ celebs, celebsLoading, getCeleb, addCeleb, updateCeleb, removeCeleb }}>
-          <div className={`mdb-wrapper${isCelebsPath ? ' mdb-celebs-mode' : ''}`}>
-            <div className="mdb-topbar">
-              <div className="mdb-topbar-left">
-                <div className="mdb-brand" onClick={() => navigate('/mymdb')} style={{ cursor: 'pointer' }}>
-                  <span className="mdb-brand-icon">▶</span>
-                  MyMDB
+          <MymdbWatchlistContext.Provider value={{ watchlist, watchlistLoading, getWatchlistItem, addWatchlistItem, updateWatchlistItem, removeWatchlistItem }}>
+            <div className={`mdb-wrapper${wrapperMode}`}>
+              <div className="mdb-topbar">
+                <div className="mdb-topbar-left">
+                  <div className="mdb-brand" onClick={() => navigate('/mymdb')} style={{ cursor: 'pointer' }}>
+                    <span className="mdb-brand-icon">▶</span>
+                    MyMDB
+                  </div>
+                  <nav className="mdb-nav-tabs">
+                    <button
+                      className={`mdb-nav-tab${!isCelebsPath && !isWatchlistPath ? ' active' : ''}`}
+                      onClick={() => navigate('/mymdb')}
+                    >
+                      Library
+                    </button>
+                    <button
+                      className={`mdb-nav-tab mdb-nav-tab-celebs${isCelebsPath ? ' active' : ''}`}
+                      onClick={() => navigate('/mymdb/celebs')}
+                    >
+                      ⭐ Fav Celebs
+                    </button>
+                    <button
+                      className={`mdb-nav-tab mdb-nav-tab-watchlist${isWatchlistPath ? ' active' : ''}`}
+                      onClick={() => navigate('/mymdb/watchlist')}
+                    >
+                      🎬 To Watch
+                    </button>
+                  </nav>
                 </div>
-                <nav className="mdb-nav-tabs">
+
+                <div className="mdb-topbar-right">
                   <button
-                    className={`mdb-nav-tab${!isCelebsPath ? ' active' : ''}`}
-                    onClick={() => navigate('/mymdb')}
+                    className="mdb-btn mdb-btn-primary"
+                    onClick={() => navigate(addButtonTarget())}
                   >
-                    Library
+                    {addButtonLabel()}
                   </button>
-                  <button
-                    className={`mdb-nav-tab mdb-nav-tab-celebs${isCelebsPath ? ' active' : ''}`}
-                    onClick={() => navigate('/mymdb/celebs')}
-                  >
-                    ⭐ Fav Celebs
+                  <button className="mdb-btn mdb-btn-secondary" onClick={handleLogout}>
+                    Sign out
                   </button>
-                </nav>
+                </div>
               </div>
 
-              <div className="mdb-topbar-right">
-                <button
-                  className="mdb-btn mdb-btn-primary"
-                  onClick={() => navigate(isCelebsPath ? '/mymdb/celebs/add' : '/mymdb/add')}
-                >
-                  {isCelebsPath ? '+ Add Celeb' : '+ Add Item'}
-                </button>
-                <button className="mdb-btn mdb-btn-secondary" onClick={handleLogout}>
-                  Sign out
-                </button>
+              <div className={`mdb-main${mainMode}`}>
+                <Routes>
+                  <Route index           element={<MymdbList />} />
+                  <Route path="item/:id" element={<MymdbDetail />} />
+                  <Route path="add"      element={<MymdbForm />} />
+                  <Route path="edit/:id" element={<MymdbForm />} />
+                  <Route path="celebs"          element={<MymdbCelebs />} />
+                  <Route path="celebs/add"      element={<MymdbCelebForm />} />
+                  <Route path="celebs/edit/:id" element={<MymdbCelebForm />} />
+                  <Route path="celebs/:id"      element={<MymdbCelebDetail />} />
+                  <Route path="watchlist"          element={<MymdbWatchlist />} />
+                  <Route path="watchlist/add"      element={<MymdbWatchlistForm />} />
+                  <Route path="watchlist/edit/:id" element={<MymdbWatchlistForm />} />
+                  <Route path="watchlist/:id"      element={<MymdbWatchlistDetail />} />
+                </Routes>
               </div>
-            </div>
 
-            <div className={`mdb-main${isCelebsPath ? ' mdb-celebs-main' : ''}`}>
-              <Routes>
-                <Route index           element={<MymdbList />} />
-                <Route path="item/:id" element={<MymdbDetail />} />
-                <Route path="add"      element={<MymdbForm />} />
-                <Route path="edit/:id" element={<MymdbForm />} />
-                <Route path="celebs"          element={<MymdbCelebs />} />
-                <Route path="celebs/add"      element={<MymdbCelebForm />} />
-                <Route path="celebs/edit/:id" element={<MymdbCelebForm />} />
-                <Route path="celebs/:id"      element={<MymdbCelebDetail />} />
-              </Routes>
+              <MdbToast toast={toast} />
             </div>
-
-            <MdbToast toast={toast} />
-          </div>
+          </MymdbWatchlistContext.Provider>
         </MymdbCelebsContext.Provider>
       </MymdbDataContext.Provider>
     </ToastContext.Provider>
