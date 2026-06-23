@@ -215,7 +215,7 @@ export default function MymdbApp() {
 
   function addButtonTarget() {
     if (isCelebsPath)    return '/mymdb/celebs/add';
-    if (isWatchlistPath) return '/mymdb/watchlist/add';
+    if (isWatchlistPath) return '/mymdb/watchlist?add=1';
     return '/mymdb/add';
   }
 
@@ -226,32 +226,29 @@ export default function MymdbApp() {
           <MymdbWatchlistContext.Provider value={{ watchlist, watchlistLoading, getWatchlistItem, addWatchlistItem, updateWatchlistItem, removeWatchlistItem }}>
             <div className={`mdb-wrapper${wrapperMode}`}>
               <div className="mdb-topbar">
-                <div className="mdb-topbar-left">
-                  <div className="mdb-brand" onClick={() => navigate('/mymdb')} style={{ cursor: 'pointer' }}>
-                    <span className="mdb-brand-icon">▶</span>
-                    MyMDB
-                  </div>
-                  <nav className="mdb-nav-tabs">
-                    <button
-                      className={`mdb-nav-tab${!isCelebsPath && !isWatchlistPath ? ' active' : ''}`}
-                      onClick={() => navigate('/mymdb')}
-                    >
-                      Library
-                    </button>
-                    <button
-                      className={`mdb-nav-tab mdb-nav-tab-celebs${isCelebsPath ? ' active' : ''}`}
-                      onClick={() => navigate('/mymdb/celebs')}
-                    >
-                      ⭐ Fav Celebs
-                    </button>
-                    <button
-                      className={`mdb-nav-tab mdb-nav-tab-watchlist${isWatchlistPath ? ' active' : ''}`}
-                      onClick={() => navigate('/mymdb/watchlist')}
-                    >
-                      🎬 To Watch
-                    </button>
-                  </nav>
+                <div className="mdb-brand" onClick={() => navigate('/mymdb')} style={{ cursor: 'pointer' }}>
+                  <span className="mdb-brand-icon">▶</span>
+                  MyMDB
                 </div>
+
+                <button
+                  className={`mdb-nav-tab${!isCelebsPath && !isWatchlistPath ? ' active' : ''}`}
+                  onClick={() => navigate('/mymdb')}
+                >
+                  Library
+                </button>
+                <button
+                  className={`mdb-nav-tab mdb-nav-tab-celebs${isCelebsPath ? ' active' : ''}`}
+                  onClick={() => navigate('/mymdb/celebs')}
+                >
+                  ⭐ Fav Celebs
+                </button>
+                <button
+                  className={`mdb-nav-tab mdb-nav-tab-watchlist${isWatchlistPath ? ' active' : ''}`}
+                  onClick={() => navigate('/mymdb/watchlist')}
+                >
+                  🎬 To Watch
+                </button>
 
                 <div className="mdb-topbar-right">
                   <button

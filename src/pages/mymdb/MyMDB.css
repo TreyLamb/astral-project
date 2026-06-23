@@ -40,12 +40,11 @@
 .mdb-topbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 14px clamp(16px, 5vw, 48px);
+  gap: 4px;
+  padding: 10px clamp(16px, 5vw, 48px);
   border-bottom: 1px solid var(--mdb-border);
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(12px);
-  margin-bottom: 0;
 }
 
 .mdb-brand {
@@ -54,6 +53,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-right: 8px;
 }
 
 /* Login + loading screens */
@@ -98,7 +98,7 @@
   font-size: 0.9rem;
 }
 
-.mdb-topbar-right { display: flex; gap: 8px; align-items: center; }
+.mdb-topbar-right { display: flex; gap: 8px; align-items: center; margin-left: auto; }
 
 .mdb-brand-icon {
   display: inline-flex;
@@ -1242,21 +1242,11 @@
 /* ================================================================
    Topbar left group (logo + nav tabs together)
    ================================================================ */
-.mdb-topbar-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
 /* ================================================================
-   Topbar nav tabs  (Library | Fav Celebs)
+   Topbar nav tabs  (Library | Fav Celebs | To Watch)
    ================================================================ */
-.mdb-nav-tabs {
-  display: flex;
-  gap: 4px;
-}
 .mdb-nav-tab {
-  padding: 7px 18px;
+  padding: 6px 14px;
   border-radius: 20px;
   border: none;
   background: transparent;
@@ -1507,8 +1497,11 @@
    Watchlist mode — deep rose/crimson bg, red accent
    ================================================================ */
 .mdb-nav-tab-watchlist.active {
-  background: #ffe4e6;
+  background: transparent;
   color:      #be123c;
+}
+.mdb-nav-tab-watchlist.active::after {
+  background: #be123c;
 }
 
 .mdb-watchlist-mode {
@@ -1613,5 +1606,29 @@
   border-color: #fda4af;
   color: #be123c;
   font-weight: 600;
+}
+
+/* Watchlist quick-add modal extras */
+.mdb-quickadd-notes {
+  margin-top: 8px;
+  min-height: 72px;
+  resize: vertical;
+}
+.mdb-quickadd-footer-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.mdb-quickadd-footer-btns .mdb-btn-primary { flex: 1; justify-content: center; }
+.mdb-watchlist-placeholder-sm {
+  width: 52px;
+  height: 72px;
+  background: linear-gradient(135deg, #be123c, #e11d48);
+  border-radius: var(--mdb-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
 }
 

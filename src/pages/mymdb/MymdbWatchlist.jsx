@@ -1,6 +1,7 @@
-import { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useMymdbWatchlist } from './MymdbApp';
+import WatchlistQuickAddModal from './MymdbWatchlistQuickAdd';
 
 function WatchlistCard({ item, onClick, onTogglePriority }) {
   return (
@@ -51,21 +52,28 @@ function WatchlistCard({ item, onClick, onTogglePriority }) {
 
 export default function MymdbWatchlist() {
   const navigate = useNavigate();
-  const [search, setSearch] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [search,   setSearch]   = useState('');
+  const [showAdd,  setShowAdd]  = useState(false);
 
   const { watchlist, watchlistLoading, updateWatchlistItem } = useMymdbWatchlist();
 
-  const visible = useMemo(() => {
-    let list = watchlist;
-    if (search.trim()) {
-      const q = search.toLowerCase();
-      list = list.filter(item =>
-        item.title.toLowerCase().includes(q) ||
-        (item.genre || '').toLowerCase().includes(q) ||
-        (item.notes || '').toLowerCase().includes(q)
-      );
+  // Topbar "+ Add Movie" navigates to ?add=1 — auto-open the modal
+  useEffect(() => {
+    if (searchParams.get('add') === '1') {
+      setShowAdd(true);
+      setSearchParams({}, { replace: true });
     }
-    return list;
+  }, [searchParams, setSearchParams]);
+
+  const visible = useMemo(() => {
+    if (!search.trim()) return watchlist;
+    const q = search.toLowerCase();
+    return watchlist.filter(item =>
+      item.title.toLowerCase().includes(q) ||
+      (item.genre || '').toLowerCase().includes(q) ||
+      (item.notes || '').toLowerCase().includes(q)
+    );
   }, [watchlist, search]);
 
   async function handleTogglePriority(item) {
@@ -80,7 +88,10 @@ export default function MymdbWatchlist() {
         <div className="mdb-list-header-top">
           <h1>To Watch</h1>
           <div className="mdb-quickadd-btns">
-            <button className="mdb-quickadd-btn mdb-quickadd-btn-watchlist" onClick={() => navigate('/mymdb/watchlist/add')}>
+            <button
+              className="mdb-quickadd-btn mdb-quickadd-btn-watchlist"
+              onClick={() => setShowAdd(true)}
+            >
               + Add Movie
             </button>
           </div>
@@ -105,7 +116,7 @@ export default function MymdbWatchlist() {
           <div className="mdb-empty-state-icon">🎬</div>
           <h3>Nothing queued up</h3>
           <p>Start building your watchlist.</p>
-          <button className="mdb-btn mdb-btn-primary" onClick={() => navigate('/mymdb/watchlist/add')}>
+          <button className="mdb-btn mdb-btn-primary" onClick={() => setShowAdd(true)}>
             + Add your first movie
           </button>
         </div>
@@ -130,6 +141,8 @@ export default function MymdbWatchlist() {
           )}
         </>
       )}
+
+      {showAdd && <WatchlistQuickAddModal onClose={() => setShowAdd(false)} />}
     </>
   );
 }
