@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
+import ParticleCanvas from '../components/ParticleCanvas';
 import './Home.css';
 
 const TILES = [
   { to: '/mymdb',                  name: 'MyMDB',           desc: 'movie & book library',          icon: '▶',  bg: '#0d1117', accent: '#3b82f6', rgb: '59,130,246',  span: 2 },
-  { to: '/rs-market',              name: 'RS Market',        desc: 'runescape grand exchange',       icon: '⚔️', bg: '#060f06', accent: '#22c55e', rgb: '34,197,94'   },
+  { to: '/rs-market',              name: 'RS Market',        desc: 'runescape grand exchange',       icon: '🏛️', bg: '#060f06', accent: '#22c55e', rgb: '34,197,94'   },
   { to: '/qa-tracker',             name: 'QA Tracker',       desc: 'self-rating for qa skills',      icon: '📊', bg: '#0a0d17', accent: '#818cf8', rgb: '129,140,248'  },
   { to: '/sql-quest',              name: 'SQL Quest',        desc: 'fight monsters with sql',        icon: '⚔️', bg: '#100820', accent: '#a78bfa', rgb: '167,139,250', span: 2 },
+  { to: '/python-game',            name: 'Code Trials',      desc: 'learn python by writing code',   icon: '🐍', bg: '#050d16', accent: '#38bdf8', rgb: '56,189,248'   },
   { to: '/birds/index.html',       name: 'BIRDS!!',          desc: 'bird watching game',             icon: '🐦', bg: '#08150c', accent: '#34d399', rgb: '52,211,153',  ext: true },
   { to: '/rustpunkio/index.html',  name: 'RustPunkio',      desc: 'rust-themed clicker',            icon: '🔧', bg: '#160900', accent: '#fb923c', rgb: '251,146,60',  ext: true },
   { to: '/rustioclone/index.html', name: 'Rustio Clone',    desc: 'multiplayer survival clone',     icon: '🌿', bg: '#071008', accent: '#86efac', rgb: '134,239,172', ext: true },
@@ -37,16 +39,7 @@ function Tile({ to, name, desc, icon, bg, accent, rgb, span, ext }) {
 export default function Home() {
   return (
     <div className="hm-page">
-
-      {/* ── Animated aurora background ── */}
-      <div className="hm-aurora" aria-hidden="true">
-        <div className="hm-blob b1" />
-        <div className="hm-blob b2" />
-        <div className="hm-blob b3" />
-        <div className="hm-blob b4" />
-        <div className="hm-blob b5" />
-        <div className="hm-blob b6" />
-      </div>
+      <ParticleCanvas />
 
       <div className="hm-wrap">
         <div className="hm-grid">

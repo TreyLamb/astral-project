@@ -1,0 +1,13 @@
+[
+  { "level": 1,  "xpRequired": 0,    "unlocks": [] },
+  { "level": 2,  "xpRequired": 100,  "unlocks": [] },
+  { "level": 3,  "xpRequired": 225,  "unlocks": ["skip"] },
+  { "level": 4,  "xpRequired": 400,  "unlocks": [] },
+  { "level": 5,  "xpRequired": 625,  "unlocks": ["campaign"] },
+  { "level": 6,  "xpRequired": 900,  "unlocks": ["trials"] },
+  { "level": 7,  "xpRequired": 1225, "unlocks": [] },
+  { "level": 8,  "xpRequired": 1600, "unlocks": [] },
+  { "level": 10, "xpRequired": 2500, "unlocks": [] },
+  { "level": 12, "xpRequired": 3600, "unlocks": [] },
+  { "level": 15, "xpRequired": 5625, "unlocks": [] }
+]

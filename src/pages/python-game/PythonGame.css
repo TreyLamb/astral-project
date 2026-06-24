@@ -1,0 +1,605 @@
+/* ── pg- prefix: Code Trials Python Game ── */
+
+/* ── Layout shell ── */
+.pg-app {
+  min-height: 100vh;
+  background: #050d16;
+  color: #c9d5e8;
+  font-family: inherit;
+  padding-top: 70px;
+}
+
+/* ── XP / level bar (shared across modes) ── */
+.pg-topbar {
+  background: rgba(5, 13, 22, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 70px;
+  z-index: 10;
+  backdrop-filter: blur(12px);
+}
+
+.pg-breadcrumb {
+  font-size: 0.82em;
+  color: rgba(200, 215, 238, 0.45);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pg-breadcrumb span {
+  color: rgba(200, 215, 238, 0.75);
+}
+
+.pg-level-badge {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #38bdf8;
+  font-size: 0.78em;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.pg-xp-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.pg-xp-bar {
+  flex: 1;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.pg-xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.pg-xp-label {
+  font-size: 0.74em;
+  color: rgba(200, 215, 238, 0.4);
+  white-space: nowrap;
+}
+
+/* ── Home screen ── */
+.pg-home {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.pg-home-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.pg-home-title {
+  font-size: 2.4em;
+  font-weight: 800;
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 60%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.pg-home-sub {
+  font-size: 0.98em;
+  color: rgba(200, 215, 238, 0.5);
+  margin: 0;
+}
+
+.pg-mode-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.pg-mode-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 24px;
+  cursor: pointer;
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.pg-mode-card:hover:not(.pg-mode-locked) {
+  transform: translateY(-4px);
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(56, 189, 248, 0.2);
+}
+
+.pg-mode-locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.pg-mode-icon {
+  font-size: 2em;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.pg-mode-name {
+  font-size: 1.15em;
+  font-weight: 700;
+  color: #e2eaf8;
+  margin: 0 0 4px;
+}
+
+.pg-mode-desc {
+  font-size: 0.84em;
+  color: rgba(200, 215, 238, 0.5);
+  margin: 0 0 12px;
+  line-height: 1.4;
+}
+
+.pg-mode-meta {
+  font-size: 0.75em;
+  color: rgba(200, 215, 238, 0.35);
+}
+
+.pg-mode-lock-label {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 0.72em;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 20px;
+  color: rgba(200, 215, 238, 0.4);
+}
+
+.pg-mode-progress {
+  margin-top: 10px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.pg-mode-progress-fill {
+  height: 100%;
+  background: #38bdf8;
+  border-radius: 2px;
+}
+
+/* ── Tutorial layout ── */
+.pg-tutorial {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* challenge info panel (left) */
+.pg-challenge-panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 24px;
+  position: sticky;
+  top: 120px;
+}
+
+.pg-challenge-step {
+  font-size: 0.76em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(200, 215, 238, 0.4);
+  margin-bottom: 6px;
+}
+
+.pg-challenge-title {
+  font-size: 1.35em;
+  font-weight: 700;
+  color: #e2eaf8;
+  margin: 0 0 8px;
+}
+
+.pg-concept-tag {
+  display: inline-block;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  color: #38bdf8;
+  font-size: 0.75em;
+  font-family: 'Courier New', Courier, monospace;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.pg-challenge-desc {
+  font-size: 0.88em;
+  color: rgba(200, 215, 238, 0.7);
+  line-height: 1.65;
+  white-space: pre-wrap;
+  margin: 0 0 20px;
+}
+
+.pg-hint-section {
+  margin-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 16px;
+}
+
+.pg-hint-btn {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  color: #f59e0b;
+  font-size: 0.82em;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.pg-hint-btn:hover {
+  background: rgba(245, 158, 11, 0.18);
+}
+
+.pg-hint-text {
+  margin-top: 10px;
+  font-size: 0.83em;
+  color: rgba(245, 158, 11, 0.85);
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  border-radius: 8px;
+  padding: 10px 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  font-family: inherit;
+}
+
+.pg-hint-tier {
+  font-size: 0.7em;
+  opacity: 0.6;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* code + results panel (right) */
+.pg-code-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pg-editor-wrap {
+  background: #0d1117;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.pg-editor-header {
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 8px 14px;
+  font-size: 0.74em;
+  color: rgba(200, 215, 238, 0.4);
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.04em;
+}
+
+.pg-editor {
+  display: block;
+  width: 100%;
+  min-height: 220px;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: vertical;
+  padding: 16px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+  line-height: 1.65;
+  color: #c9d5e8;
+  tab-size: 4;
+  box-sizing: border-box;
+}
+
+.pg-editor::placeholder {
+  color: rgba(200, 215, 238, 0.2);
+}
+
+.pg-editor-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.pg-run-btn {
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  border: none;
+  color: #fff;
+  font-size: 0.9em;
+  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.12s;
+  letter-spacing: 0.02em;
+}
+
+.pg-run-btn:hover:not(:disabled) {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.pg-run-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pg-loading-msg {
+  font-size: 0.8em;
+  color: rgba(200, 215, 238, 0.45);
+  animation: pg-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pg-pulse {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 0.9; }
+}
+
+/* results panel */
+.pg-results {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.pg-results-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.82em;
+  font-weight: 600;
+  color: rgba(200, 215, 238, 0.55);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pg-result-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 0.83em;
+}
+
+.pg-result-item:last-child {
+  border-bottom: none;
+}
+
+.pg-result-icon {
+  font-size: 1em;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pg-result-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.pg-result-label {
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.pg-result-pass .pg-result-label { color: #22c55e; }
+.pg-result-fail .pg-result-label { color: #ef4444; }
+
+.pg-result-detail {
+  color: rgba(200, 215, 238, 0.45);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.88em;
+  line-height: 1.4;
+}
+
+.pg-result-error {
+  color: #f87171;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.88em;
+  word-break: break-word;
+}
+
+.pg-results-summary {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pg-results-msg {
+  font-size: 0.9em;
+  font-weight: 600;
+}
+
+.pg-results-msg.pass  { color: #22c55e; }
+.pg-results-msg.fail  { color: rgba(200, 215, 238, 0.6); }
+
+.pg-next-btn {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: #22c55e;
+  font-size: 0.88em;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.pg-next-btn:hover {
+  background: rgba(34, 197, 94, 0.2);
+}
+
+/* XP gain flash */
+.pg-xp-flash {
+  font-size: 0.8em;
+  color: #38bdf8;
+  font-weight: 700;
+  animation: pg-xp-pop 0.5s ease;
+}
+
+@keyframes pg-xp-pop {
+  from { transform: scale(1.4); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* ── Pyodide loader overlay ── */
+.pg-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.pg-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(56, 189, 248, 0.15);
+  border-top-color: #38bdf8;
+  border-radius: 50%;
+  animation: pg-spin 0.8s linear infinite;
+}
+
+@keyframes pg-spin {
+  to { transform: rotate(360deg); }
+}
+
+.pg-loader-title {
+  font-size: 1em;
+  font-weight: 600;
+  color: rgba(200, 215, 238, 0.75);
+}
+
+.pg-loader-sub {
+  font-size: 0.82em;
+  color: rgba(200, 215, 238, 0.4);
+}
+
+/* ── Completion screen ── */
+.pg-complete {
+  max-width: 500px;
+  margin: 60px auto;
+  text-align: center;
+  padding: 24px;
+}
+
+.pg-complete-icon {
+  font-size: 3.5em;
+  margin-bottom: 16px;
+}
+
+.pg-complete-title {
+  font-size: 1.8em;
+  font-weight: 800;
+  color: #e2eaf8;
+  margin: 0 0 8px;
+}
+
+.pg-complete-sub {
+  font-size: 0.92em;
+  color: rgba(200, 215, 238, 0.55);
+  margin: 0 0 28px;
+  line-height: 1.5;
+}
+
+/* ── Stub mode pages ── */
+.pg-stub {
+  max-width: 600px;
+  margin: 60px auto;
+  text-align: center;
+  padding: 24px;
+}
+
+.pg-stub-icon {
+  font-size: 3em;
+  margin-bottom: 16px;
+}
+
+.pg-stub-title {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #e2eaf8;
+  margin: 0 0 8px;
+}
+
+.pg-stub-desc {
+  font-size: 0.9em;
+  color: rgba(200, 215, 238, 0.5);
+  margin: 0 0 24px;
+}
+
+/* ── Generic button ── */
+.pg-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(200, 215, 238, 0.8);
+  font-size: 0.85em;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  text-decoration: none;
+}
+
+.pg-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e2eaf8;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .pg-tutorial {
+    grid-template-columns: 1fr;
+  }
+
+  .pg-challenge-panel {
+    position: static;
+  }
+
+  .pg-mode-grid {
+    grid-template-columns: 1fr;
+  }
+}

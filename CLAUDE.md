@@ -122,3 +122,7 @@ When a feature needs its own internal pages/routes:
 - No comments explaining what code does. Only comments for non-obvious WHY.
 - No error handling for things that can't fail internally.
 - Keep CSS scoped — never reach outside a component's own file.
+
+## Game design — required reading
+
+When creating or discussing a game, read `game-design-workflow.md` (same directory as this file) before doing anything else. It is the source of truth for all game work and should be iterated on as games evolve — changes to the workflow apply to all future games.

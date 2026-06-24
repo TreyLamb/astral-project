@@ -1,0 +1,96 @@
+[
+  {
+    "id": "t1",
+    "level": 1,
+    "title": "Hello, World!",
+    "concept": "print()",
+    "type": "print",
+    "description": "Every coder starts here. Write a program that prints exactly:\n\nHello, World!",
+    "starter": "# Write your code below\n",
+    "testCases": [
+      { "id": "tc1", "expected": "Hello, World!", "visible": true }
+    ],
+    "hints": [
+      "The print() function outputs text to the screen.",
+      "Text in Python is wrapped in quotes — single or double both work: 'like this'",
+      "The solution: print('Hello, World!')"
+    ],
+    "xpReward": 50
+  },
+  {
+    "id": "t2",
+    "level": 2,
+    "title": "What's in a Name?",
+    "concept": "variables",
+    "type": "print",
+    "description": "Variables let you store values and reuse them. Create a variable called name and set it to the string 'Agent'. Then print:\n\nHello, Agent!",
+    "starter": "name = ''\nprint()\n",
+    "testCases": [
+      { "id": "tc1", "expected": "Hello, Agent!", "visible": true }
+    ],
+    "hints": [
+      "A variable stores a value. Use = to assign: name = 'Agent'",
+      "To include a variable in print(), use an f-string: f'Hello, {name}!'",
+      "Solution: name = 'Agent'\nprint(f'Hello, {name}!')"
+    ],
+    "xpReward": 75
+  },
+  {
+    "id": "t3",
+    "level": 3,
+    "title": "Listen Up",
+    "concept": "input()",
+    "type": "input",
+    "description": "Programs can receive data from the outside world. Your program will receive a number via input(). Print:\n\nThe number is X\n\n(where X is the number you received)",
+    "starter": "number = input()\nprint()\n",
+    "testCases": [
+      { "id": "tc1", "inputLines": ["42"], "expected": "The number is 42", "visible": true },
+      { "id": "tc2", "inputLines": ["7"],  "expected": "The number is 7",  "visible": true }
+    ],
+    "hints": [
+      "The variable number already holds the input value — you don't need to change that line.",
+      "Use an f-string inside print() to format the output: f'The number is {number}'",
+      "Solution: number = input()\nprint(f'The number is {number}')"
+    ],
+    "xpReward": 75
+  },
+  {
+    "id": "t4",
+    "level": 4,
+    "title": "Make a Decision",
+    "concept": "if / elif / else",
+    "type": "function",
+    "functionName": "classify",
+    "description": "Write a function called classify(n) that returns:\n\n'positive' if n > 0\n'negative' if n < 0\n'zero' if n == 0",
+    "starter": "def classify(n):\n    if n > 0:\n        return ''\n    elif n < 0:\n        return ''\n    else:\n        return ''\n",
+    "testCases": [
+      { "id": "tc1", "args": [5],  "expected": "positive", "visible": true },
+      { "id": "tc2", "args": [-3], "expected": "negative", "visible": true },
+      { "id": "tc3", "args": [0],  "expected": "zero",     "visible": true }
+    ],
+    "hints": [
+      "You need three branches: one for > 0, one for < 0, one for == 0.",
+      "Use if, elif, and else. Each branch should return a string.",
+      "Solution: return 'positive', return 'negative', return 'zero' in the three branches."
+    ],
+    "xpReward": 100
+  },
+  {
+    "id": "t5",
+    "level": 5,
+    "title": "Repeat Yourself",
+    "concept": "for loops",
+    "type": "print",
+    "description": "Loops let you repeat actions without writing the same code over and over. Print the numbers 1 through 5, each on its own line:\n\n1\n2\n3\n4\n5",
+    "starter": "for i in range(1, ):\n    print()\n",
+    "testCases": [
+      { "id": "tc1", "expected": "1\n2\n3\n4\n5", "visible": true }
+    ],
+    "hints": [
+      "Use a for loop with range() to count from 1 to 5.",
+      "range(1, 6) produces the numbers 1, 2, 3, 4, 5 (the end is exclusive).",
+      "Solution: for i in range(1, 6):\n    print(i)"
+    ],
+    "xpReward": 100
+  }
+]

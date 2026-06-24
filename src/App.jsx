@@ -20,7 +20,8 @@ import QATracker from './pages/QATracker';
 import RSMarket from './pages/RSMarket';
 import MymdbApp from './pages/mymdb/MymdbApp';
 import LangApp      from './pages/lang/LangApp';
-import SqlQuestApp  from './pages/sqlquest/SqlQuestApp';
+import SqlQuestApp    from './pages/sqlquest/SqlQuestApp';
+import PythonGameApp  from './pages/python-game/PythonGameApp';
 import './App.css';
 
 function App() {
@@ -41,7 +42,8 @@ function App() {
           <Route path="/rs-market" element={<RSMarket />} />
           <Route path="/mymdb/*" element={<MymdbApp />} />
           <Route path="/lang/*"      element={<LangApp />} />
-          <Route path="/sql-quest" element={<SqlQuestApp />} />
+          <Route path="/sql-quest"      element={<SqlQuestApp />} />
+          <Route path="/python-game/*"  element={<PythonGameApp />} />
         </Routes>
       </div>
     </Router>

@@ -19,6 +19,7 @@ function Navbar() {
               <li><Link to="/mymdb">MyMDB</Link></li>
               <li><Link to="/rs-market">RS Market</Link></li>
               <li><Link to="/sql-quest">SQL Quest</Link></li>
+              <li><Link to="/python-game">Code Trials</Link></li>
               <li><a href="/rustioclone/index.html">Rustio Clone</a></li>
               <li><a href="/rustpunkio/index.html">RustPunkio</a></li>
             </ul>
