@@ -1,0 +1,215 @@
+{
+  "gyms": [
+    {
+      "id": "gym1",
+      "name": "Initfields Gym",
+      "town": "Initfields",
+      "leaderName": "Prof. Ada",
+      "leaderTitle": "The Repository Keeper",
+      "badge": "Init Badge",
+      "badgeIcon": "🌱",
+      "requiredCommands": ["git init", "git status", "git add .", "git commit -m \"msg\""],
+      "commandCurriculum": ["init_call", "status_check", "stage_all", "commit"],
+      "introText": "Prof. Ada smiles warmly. 'Before you can be a Git trainer, you must learn the basics of a repository. Show me you can initialize, stage, and commit!'",
+      "winText": "Prof. Ada nods approvingly. 'You've mastered the fundamentals! Take the Init Badge. The journey of a thousand commits begins with git init.'",
+      "team": [
+        { "pokemonId": "blobby", "level": 8, "moves": ["status_check", "stage_file"] },
+        { "pokemonId": "diffrat", "level": 10, "moves": ["status_check", "diff_ray", "stage_file"] }
+      ],
+      "requiredBadges": 0
+    },
+    {
+      "id": "gym2",
+      "name": "Branch Forest Gym",
+      "town": "Branchwood",
+      "leaderName": "Leader Fern",
+      "leaderTitle": "The Branch Whisperer",
+      "badge": "Branch Badge",
+      "badgeIcon": "🌿",
+      "requiredCommands": ["git branch <name>", "git checkout <branch>", "git switch <branch>"],
+      "commandCurriculum": ["branch_out", "checkout", "switch_to"],
+      "introText": "Fern stands surrounded by branching trees. 'A true Git trainer never works on main! Branch early, branch often. Let's see if you know how.'",
+      "winText": "Fern tosses you the Branch Badge. 'Never fear the branch. A repo without branches is like a forest with only one tree.'",
+      "team": [
+        { "pokemonId": "treelog", "level": 16, "moves": ["branch_out", "log_scan"] },
+        { "pokemonId": "tagsworth", "level": 16, "moves": ["tag_mark", "log_scan"] },
+        { "pokemonId": "treelog", "level": 18, "moves": ["branch_out", "checkout", "log_scan"] }
+      ],
+      "requiredBadges": 1
+    },
+    {
+      "id": "gym3",
+      "name": "Merge Valley Gym",
+      "town": "Conflux City",
+      "leaderName": "Leader Vance",
+      "leaderTitle": "The Conflict Resolver",
+      "badge": "Merge Badge",
+      "badgeIcon": "🔀",
+      "requiredCommands": ["git merge <branch>", "git rebase <branch>"],
+      "commandCurriculum": ["merge_strike", "rebase_slash"],
+      "introText": "Vance cracks his knuckles. 'Merge conflicts are where weak trainers break. Show me your resolve. MERGE if you can!'",
+      "winText": "Vance exhales slowly. 'You resolved every conflict without breaking. The Merge Badge is yours. Use rebase wisely — power like that can rewrite the past.'",
+      "team": [
+        { "pokemonId": "conflixor", "level": 25, "moves": ["merge_strike", "branch_out"] },
+        { "pokemonId": "rebasil", "level": 25, "moves": ["rebase_slash", "reset_hard"] },
+        { "pokemonId": "conflixor", "level": 28, "moves": ["merge_strike", "rebase_slash", "checkout"] }
+      ],
+      "requiredBadges": 2
+    },
+    {
+      "id": "gym4",
+      "name": "Remote Shores Gym",
+      "town": "Originport",
+      "leaderName": "Leader Marina",
+      "leaderTitle": "The Remote Master",
+      "badge": "Remote Badge",
+      "badgeIcon": "🌊",
+      "requiredCommands": ["git remote", "git push", "git pull", "git fetch", "git clone <url>"],
+      "commandCurriculum": ["push_force", "pull_down", "fetch_wave", "clone_ray"],
+      "introText": "Marina gazes out at the network sea. 'All repos are islands, trainer. You must learn to connect them. Push and pull your way through my team if you dare!'",
+      "winText": "Marina hands you the Remote Badge. 'The network is now your ocean. Always fetch before you push — that's wisdom, not weakness.'",
+      "team": [
+        { "pokemonId": "cloneling", "level": 32, "moves": ["clone_ray", "fetch_wave"] },
+        { "pokemonId": "cloneling", "level": 32, "moves": ["clone_ray", "pull_down"] },
+        { "pokemonId": "fetchling", "level": 36, "moves": ["fetch_wave", "pull_down", "push_force"] }
+      ],
+      "requiredBadges": 3
+    },
+    {
+      "id": "gym5",
+      "name": "Log Mountain Gym",
+      "town": "Historyville",
+      "leaderName": "Leader Chrono",
+      "leaderTitle": "The Historian",
+      "badge": "Log Badge",
+      "badgeIcon": "📜",
+      "requiredCommands": ["git log", "git diff", "git show"],
+      "commandCurriculum": ["log_scan", "diff_ray"],
+      "introText": "Chrono adjusts his spectacles. 'History is everything, young trainer. Those who cannot read the past are doomed to repeat bad commits. Read the log!'",
+      "winText": "Chrono solemnly presents the Log Badge. 'Always know what came before. Every commit tells a story. Read them all.'",
+      "team": [
+        { "pokemonId": "logworm", "level": 38, "moves": ["log_scan", "diff_ray"] },
+        { "pokemonId": "diffhound", "level": 40, "moves": ["diff_ray", "log_scan", "stage_all"] },
+        { "pokemonId": "logworm", "level": 42, "moves": ["log_scan", "diff_ray", "reset_hard"] }
+      ],
+      "requiredBadges": 4
+    },
+    {
+      "id": "gym6",
+      "name": "Stash Cave Gym",
+      "town": "Stashborough",
+      "leaderName": "Leader Vera",
+      "leaderTitle": "The Hoarder",
+      "badge": "Stash Badge",
+      "badgeIcon": "📦",
+      "requiredCommands": ["git stash", "git stash pop"],
+      "commandCurriculum": ["stash_hide"],
+      "introText": "Vera peers at you from behind a pile of stashed changes. 'I never discard work — I stash it. Let's see if your stash is as deep as mine.'",
+      "winText": "Vera reluctantly hands over the Stash Badge. 'Fine. You earn it. But remember: a stash is temporary. Eventually you must commit or pop.'",
+      "team": [
+        { "pokemonId": "stashtail", "level": 44, "moves": ["stash_hide", "fetch_wave"] },
+        { "pokemonId": "tagmaster", "level": 44, "moves": ["tag_mark", "log_scan", "diff_ray"] },
+        { "pokemonId": "fetchling", "level": 48, "moves": ["stash_hide", "push_force", "pull_down"] }
+      ],
+      "requiredBadges": 5
+    },
+    {
+      "id": "gym7",
+      "name": "Reset Ridge Gym",
+      "town": "Revertton",
+      "leaderName": "Leader Reza",
+      "leaderTitle": "The Undoer",
+      "badge": "Reset Badge",
+      "badgeIcon": "⏪",
+      "requiredCommands": ["git reset --hard", "git revert <hash>", "git restore <file>"],
+      "commandCurriculum": ["reset_hard"],
+      "introText": "Reza smiles darkly. 'History can be rewritten. Mistakes can be undone. The question is — do YOU know how?'",
+      "winText": "Reza presses the Reset Badge into your hand. 'Use reset --hard sparingly. Once you lose history, it's gone. Unless... you know git reflog.'",
+      "team": [
+        { "pokemonId": "rebasil", "level": 50, "moves": ["reset_hard", "rebase_slash"] },
+        { "pokemonId": "revertoad", "level": 50, "moves": ["reset_hard", "log_scan"] },
+        { "pokemonId": "rebasil", "level": 54, "moves": ["reset_hard", "rebase_slash", "cherry_pick"] }
+      ],
+      "requiredBadges": 6
+    },
+    {
+      "id": "gym8",
+      "name": "Tag Tower Gym",
+      "town": "Versionpeak",
+      "leaderName": "Leader Semvera",
+      "leaderTitle": "The Release Master",
+      "badge": "Version Badge",
+      "badgeIcon": "🏆",
+      "requiredCommands": ["git tag <name>", "git cherry-pick <hash>"],
+      "commandCurriculum": ["tag_mark", "cherry_pick"],
+      "introText": "Semvera stands atop the tower, wind whipping her hair. 'Every great project has a v1.0. Every great trainer has their moment. This is yours. Show me everything you know!'",
+      "winText": "Semvera bows deeply. 'You've mastered the full command set. Take the Version Badge. The Git Council Elite Four awaits. Are you ready to face Originex?'",
+      "team": [
+        { "pokemonId": "tagmaster", "level": 56, "moves": ["tag_mark", "cherry_pick", "log_scan"] },
+        { "pokemonId": "switchraptor", "level": 58, "moves": ["rebase_slash", "cherry_pick", "merge_strike"] },
+        { "pokemonId": "mergetron", "level": 60, "moves": ["merge_strike", "commit", "cherry_pick", "push_force"] }
+      ],
+      "requiredBadges": 7
+    }
+  ],
+  "eliteFour": [
+    {
+      "id": "e4_1",
+      "name": "Eli",
+      "title": "Master of Files",
+      "introText": "You've come far, trainer. But the Elite Four are not gym leaders.",
+      "team": [
+        { "pokemonId": "diffhound", "level": 62, "moves": ["diff_ray", "stage_all", "commit", "reset_hard"] },
+        { "pokemonId": "logworm", "level": 64, "moves": ["log_scan", "diff_ray", "reset_hard", "commit"] },
+        { "pokemonId": "mergetron", "level": 66, "moves": ["commit", "stage_all", "merge_strike", "push_force"] }
+      ]
+    },
+    {
+      "id": "e4_2",
+      "name": "Petra",
+      "title": "Master of Processes",
+      "introText": "The branch is your friend and your enemy. I'll show you why.",
+      "team": [
+        { "pokemonId": "conflixor", "level": 65, "moves": ["merge_strike", "rebase_slash", "cherry_pick", "branch_out"] },
+        { "pokemonId": "switchraptor", "level": 66, "moves": ["rebase_slash", "checkout", "cherry_pick", "merge_strike"] },
+        { "pokemonId": "checkbird", "level": 68, "moves": ["branch_out", "merge_strike", "rebase_slash", "checkout"] }
+      ]
+    },
+    {
+      "id": "e4_3",
+      "name": "Neto",
+      "title": "Master of Networks",
+      "introText": "The remote is where the real battles happen. Push harder.",
+      "team": [
+        { "pokemonId": "cloneling", "level": 66, "moves": ["clone_ray", "fetch_wave", "push_force", "pull_down"] },
+        { "pokemonId": "pullmaster", "level": 68, "moves": ["pull_down", "push_force", "fetch_wave", "merge_strike"] },
+        { "pokemonId": "cloneling", "level": 70, "moves": ["clone_ray", "push_force", "cherry_pick", "pull_down"] }
+      ]
+    },
+    {
+      "id": "e4_4",
+      "name": "Syra",
+      "title": "Master of Systems",
+      "introText": "History is just the beginning. Let me show you what control really means.",
+      "team": [
+        { "pokemonId": "rebasil", "level": 68, "moves": ["reset_hard", "rebase_slash", "cherry_pick", "log_scan"] },
+        { "pokemonId": "tagmaster", "level": 70, "moves": ["tag_mark", "cherry_pick", "reset_hard", "log_scan"] },
+        { "pokemonId": "rebasil", "level": 72, "moves": ["reset_hard", "cherry_pick", "rebase_slash", "diff_ray"] }
+      ]
+    }
+  ],
+  "champion": {
+    "id": "champion",
+    "name": "Champion Linus",
+    "title": "Git Champion",
+    "introText": "So you made it. I created the first repository on this island. Every branch, every commit, every push — I've seen them all. Let's end this.",
+    "winText": "...You did it. A new champion emerges. The command line bends to your will. You are the greatest Git trainer this world has ever seen.",
+    "team": [
+      { "pokemonId": "mergetron", "level": 74, "moves": ["commit", "merge_strike", "push_force", "cherry_pick"] },
+      { "pokemonId": "switchraptor", "level": 74, "moves": ["rebase_slash", "cherry_pick", "checkout", "merge_strike"] },
+      { "pokemonId": "pullmaster", "level": 76, "moves": ["pull_down", "push_force", "clone_ray", "fetch_wave"] },
+      { "pokemonId": "rebasil", "level": 76, "moves": ["reset_hard", "rebase_slash", "cherry_pick", "log_scan"] },
+      { "pokemonId": "originex", "level": 80, "moves": ["push_force", "pull_down", "clone_ray", "cherry_pick"] }
+    ]
+  }
+}

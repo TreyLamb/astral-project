@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+server/.tokens.json
 
 # Environment variables (never commit these)
 .env

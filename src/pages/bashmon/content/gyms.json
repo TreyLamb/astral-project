@@ -1,0 +1,155 @@
+{
+  "gyms": [
+    {
+      "id": "gym1",
+      "name": "Listfield Gym",
+      "town": "Listfield",
+      "leaderName": "Prof. Shell",
+      "leaderTitle": "The Directory Keeper",
+      "badge": "List Badge",
+      "badgeIcon": "📋",
+      "requiredCommands": ["ls", "ls -la", "cat <file>", "echo <text>"],
+      "commandCurriculum": ["ls_scan", "cat_read", "echo_shout"],
+      "introText": "Prof. Shell adjusts her glasses. 'Every journey through the terminal begins with knowing where you are. Show me you can list, read, and echo before I let you pass!'",
+      "winText": "Prof. Shell smiles. 'You found what you were looking for. The List Badge is yours. Remember — ls -la shows you everything, even what hides in the shadows.'",
+      "team": [
+        { "pokemonId": "lsbird", "level": 8, "moves": ["ls_scan", "echo_shout"] },
+        { "pokemonId": "greprat", "level": 10, "moves": ["ls_scan", "cat_read", "echo_shout"] }
+      ],
+      "requiredBadges": 0
+    },
+    {
+      "id": "gym2",
+      "name": "Filebrook Gym",
+      "town": "Filebrook",
+      "leaderName": "Leader Fiona",
+      "leaderTitle": "The File Wrangler",
+      "badge": "File Badge",
+      "badgeIcon": "📁",
+      "requiredCommands": ["mkdir <dir>", "rm <file>", "mv <src> <dst>", "cp <src> <dst>"],
+      "commandCurriculum": ["mkdir_build", "rm_erase", "mv_slide", "cp_copy"],
+      "introText": "Fiona slams a folder shut. 'A sloppy filesystem is a sloppy mind! Move things, copy things, delete things — show me you CONTROL your files!'",
+      "winText": "Fiona tosses you the File Badge. 'Good. Your workspace is your weapon. Keep it clean, keep it organized. And never rm -rf / by accident.'",
+      "team": [
+        { "pokemonId": "findworm", "level": 14, "moves": ["find_seek", "ls_scan"] },
+        { "pokemonId": "lsbird", "level": 14, "moves": ["ls_scan", "echo_shout", "cat_read"] },
+        { "pokemonId": "chmodspider", "level": 17, "moves": ["chmod_lock", "cat_read"] }
+      ],
+      "requiredBadges": 1
+    },
+    {
+      "id": "gym3",
+      "name": "Pattern Gorge Gym",
+      "town": "Pattern Gorge",
+      "leaderName": "Leader Greg",
+      "leaderTitle": "The Pattern Seeker",
+      "badge": "Grep Badge",
+      "badgeIcon": "🔍",
+      "requiredCommands": ["grep <pattern> <file>", "find <path>", "cat <file>"],
+      "commandCurriculum": ["grep_hunt", "find_seek", "cat_read"],
+      "introText": "Greg peers at you over a magnifying glass. 'Data is everywhere. The question is whether you can FIND it. grep your way through my team!'",
+      "winText": "Greg lowers the magnifying glass. 'Pattern matched. You have the Grep Badge. Regex is the language of the gods — learn it well.'",
+      "team": [
+        { "pokemonId": "greprat", "level": 22, "moves": ["grep_hunt", "ls_scan"] },
+        { "pokemonId": "findworm", "level": 23, "moves": ["find_seek", "grep_hunt"] },
+        { "pokemonId": "grepmouse", "level": 25, "moves": ["grep_hunt", "find_seek", "ls_scan"] }
+      ],
+      "requiredBadges": 2
+    },
+    {
+      "id": "gym4",
+      "name": "Process Peak Gym",
+      "town": "Process Peak",
+      "leaderName": "Leader Petra",
+      "leaderTitle": "The Process Mistress",
+      "badge": "Process Badge",
+      "badgeIcon": "⚙️",
+      "requiredCommands": ["ps", "ps aux", "kill <PID>", "bg"],
+      "commandCurriculum": ["ps_spy", "kill_shot", "bg_hide"],
+      "introText": "Petra stares at a terminal screen scrolling with process IDs. 'My Bashmons haunt the process table. Can you hunt them down? Show me your kill command!'",
+      "winText": "Petra nods slowly. 'Process terminated. The Process Badge is yours. Always check ps aux before you rm — you might kill more than you intend.'",
+      "team": [
+        { "pokemonId": "psmon", "level": 30, "moves": ["ps_spy", "kill_shot"] },
+        { "pokemonId": "pipeling", "level": 32, "moves": ["pipe_combo", "bg_hide"] },
+        { "pokemonId": "psmon", "level": 34, "moves": ["ps_spy", "kill_shot", "bg_hide"] }
+      ],
+      "requiredBadges": 3
+    },
+    {
+      "id": "gym5",
+      "name": "Netfall City Gym",
+      "town": "Netfall City",
+      "leaderName": "Leader Nick",
+      "leaderTitle": "The Network Surfer",
+      "badge": "Network Badge",
+      "badgeIcon": "🌐",
+      "requiredCommands": ["ping <host>", "curl <url>", "ssh <host>", "wget <url>"],
+      "commandCurriculum": ["ping_probe", "curl_pull", "ssh_connect", "wget_fetch"],
+      "introText": "Nick stands at a blinking router terminal. 'The network connects everything — and my Bashmons swim through it like sharks. Ping me if you dare!'",
+      "winText": "Nick unplugs a cable and hands you the Network Badge. 'Connection established. Always encrypt your ssh, never curl into a pipe without checking.'",
+      "team": [
+        { "pokemonId": "sshfish", "level": 36, "moves": ["ping_probe", "ssh_connect"] },
+        { "pokemonId": "curlsnake", "level": 37, "moves": ["curl_pull", "wget_fetch"] },
+        { "pokemonId": "sshfish", "level": 40, "moves": ["ping_probe", "ssh_connect", "curl_pull"] }
+      ],
+      "requiredBadges": 4
+    },
+    {
+      "id": "gym6",
+      "name": "Sudo Summit Gym",
+      "town": "Sudo Summit",
+      "leaderName": "Leader Sam",
+      "leaderTitle": "The Root Authority",
+      "badge": "Sudo Badge",
+      "badgeIcon": "👑",
+      "requiredCommands": ["sudo <cmd>", "chmod <mode> <file>", "export VAR=value"],
+      "commandCurriculum": ["sudo_power", "chmod_lock", "export_boost"],
+      "introText": "Sam sits on an elevated platform, all screens showing root terminals. 'You've come far, trainer. But do you understand POWER? Real power requires permission. Take it!'",
+      "winText": "Sam descends from the platform. 'Root access granted. The Sudo Badge is yours. With great power comes great responsibility — sudo responsibly.'",
+      "team": [
+        { "pokemonId": "chmodspider", "level": 44, "moves": ["chmod_lock", "sudo_power"] },
+        { "pokemonId": "envcat", "level": 46, "moves": ["export_boost", "chmod_lock"] },
+        { "pokemonId": "envcat", "level": 49, "moves": ["export_boost", "sudo_power", "chmod_lock"] }
+      ],
+      "requiredBadges": 5
+    },
+    {
+      "id": "gym7",
+      "name": "Pipe Plains Gym",
+      "town": "Pipe Plains",
+      "leaderName": "Leader Paige",
+      "leaderTitle": "The Pipeline Architect",
+      "badge": "Pipe Badge",
+      "badgeIcon": "🔗",
+      "requiredCommands": ["cmd | cmd", "grep | grep", "ps aux | grep"],
+      "commandCurriculum": ["pipe_combo", "grep_hunt", "ps_spy"],
+      "introText": "Paige stands in a maze of literal pipes. 'One command alone is weak. Chain them together and you become unstoppable. Show me your pipes!'",
+      "winText": "Paige emerges from a tunnel. 'Beautiful piping. The Pipe Badge is yours. Remember — the pipe is the most powerful operator in the terminal.'",
+      "team": [
+        { "pokemonId": "pipeling", "level": 52, "moves": ["pipe_combo", "bg_hide"] },
+        { "pokemonId": "psmon", "level": 52, "moves": ["kill_shot", "pipe_combo", "ps_spy"] },
+        { "pokemonId": "pipeling", "level": 56, "moves": ["pipe_combo", "kill_shot", "bg_hide"] }
+      ],
+      "requiredBadges": 6
+    },
+    {
+      "id": "gym8",
+      "name": "Versionpeak Gym",
+      "town": "Versionpeak",
+      "leaderName": "Leader Victor",
+      "leaderTitle": "The Terminal Master",
+      "badge": "Terminal Badge",
+      "badgeIcon": "💻",
+      "requiredCommands": ["sudo <cmd>", "cmd | cmd", "find <path>", "chmod <mode> <file>"],
+      "commandCurriculum": ["sudo_power", "pipe_combo", "find_seek", "chmod_lock"],
+      "introText": "Victor stands before a wall of terminals. 'You've mastered individual commands. But can you wield them all together? The terminal is your canvas. Paint!'",
+      "winText": "Victor's screens go dark one by one. 'You ARE the terminal now. The Terminal Badge is yours. The Bashmon League awaits.'",
+      "team": [
+        { "pokemonId": "grepmouse", "level": 60, "moves": ["grep_hunt", "find_seek", "pipe_combo"] },
+        { "pokemonId": "envcat", "level": 62, "moves": ["export_boost", "sudo_power", "chmod_lock"] },
+        { "pokemonId": "sudodrake", "level": 66, "moves": ["sudo_power", "pipe_combo", "chmod_lock", "kill_shot"] }
+      ],
+      "requiredBadges": 7
+    }
+  ]
+}

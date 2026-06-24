@@ -16,10 +16,12 @@ function Navbar() {
               <li><Link to="/lexicon">The Lexicon</Link></li>
               <li><a href="/birds/index.html">BIRDS!!</a></li> {/* plain <a> not <Link> — static file in public/, Link would break it */}
               <li><Link to="/qa-tracker">QA Tracker</Link></li>
+              <li><Link to="/google-photos">Google Photos</Link></li>
               <li><Link to="/mymdb">MyMDB</Link></li>
               <li><Link to="/rs-market">RS Market</Link></li>
-              <li><Link to="/sql-quest">SQL Quest</Link></li>
-              <li><Link to="/python-game">Code Trials</Link></li>
+              <li><Link to="/gitmon">🔵 Gitmon Blue</Link></li>
+              <li><Link to="/bashmon">🔴 Bashmon Red</Link></li>
+              <li><Link to="/signal-lost">📡 Signal Lost</Link></li>
               <li><a href="/rustioclone/index.html">Rustio Clone</a></li>
               <li><a href="/rustpunkio/index.html">RustPunkio</a></li>
             </ul>

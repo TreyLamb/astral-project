@@ -1151,3 +1151,372 @@ When porting to a new subject, this separation is what makes it genuinely copy-p
 - Clarification when the design doc asks for it
 
 If both sides honor this contract, the game will be coherent and functional by the time it's "done".
+
+
+Game Design Patterns
+The toolkit. When designing a game in Step 2 of the workflow, draw from here.
+The core game loop
+Every game has a loop. The shorter and tighter it is, the more addictive. Define yours explicitly in the design doc.
+Loop length guide:
+30 seconds — arcade / blitz / single combat encounter
+1–2 minutes — single mission / floor / chapter
+5–10 minutes — full run / dungeon clear
+Session-long — full chapter of story, multi-stage build
+Most learning games should target the 30s–2min inner loop with longer meta-loops layered on top.
+Loop template:
+Player does X → game responds with Y → player gets Z → repeat with escalating W
+Examples:
+Pokémon battle loop: Player picks move → game animates outcome → player gets damage dealt or KO → repeat with stronger Pokémon
+CodeCombat loop: Player writes code → world executes it visibly → player gets level cleared or visible failure → repeat with new mechanic introduced
+SQL Quest dungeon (v2): Player types query → game validates and animates combat → player gets monster damaged or self damaged → repeat with harder monsters until floor cleared
+Replayability hooks (pick at least two)
+A game with one source of motivation gets boring fast. Stack them.
+Skill mastery — getting visibly better at the underlying skill. The base motivation of all learning games. Necessary but not sufficient.
+Collection — gather monsters, cards, achievements, lore entries, recipes. The Pokédex motivator.
+Progression — visible character growth, unlocked abilities, expanded options.
+Narrative — story chapters that unlock with play. Often the "hidden curriculum" trick from SQL Island.
+Score / leaderboard — chase personal best or others' best. Works for solo if framed as "PB" not "global rank".
+Build / loadout — choices the player makes that shape future play (deck-builders, RPG character build).
+Daily / streak — habit formation through daily rewards.
+Exploration — a world / map / dungeon with hidden areas.
+Time pressure — speedrun mode for skilled players.
+Optional challenges — bonus objectives that reward elegant solutions (CodeCombat's bonus for concise code).
+Rule of thumb: the primary mode of the game should have at least 2 of these stacked. The full game should hit 4–5 across all its modes.
+Progression archetypes
+Pick one as the spine.
+Linear gated
+Stages unlock in order. Each gate requires demonstrating a specific skill. Classic Mario / CodeCombat / tutorial-style.
+Best for: tutorial floors, story modes, structured curricula.
+Level + unlock
+Player has a level number. Each level unlocks something concrete (new mode, new ability, new area).
+Best for: the main meta-progression spine. Use in combination with linear gating.
+Mastery thresholds
+The player must hit a competence threshold (e.g., 5 wins on a query type) before harder content unlocks. Spaced-repetition friendly.
+Best for: subjects with discrete sub-skills (each SQL keyword, each Python construct).
+Run-based meta-progression
+Each playthrough is its own short game; meta-progression accumulates across runs. Roguelike / Slay the Spire pattern.
+Best for: subjects where varying the inputs each run keeps the gameplay fresh.
+Open world
+Player picks where to go. Some areas are harder. No forced path.
+Best for: advanced players or post-tutorial sandbox. Bad as the entire structure for a new learner.
+Stakes (pick at least one)
+Without stakes, victory is meaningless. Without meaningful loss, victory is just point accumulation.
+HP / lives — wrong answers chip away at a life pool. Run ends when depleted.
+Time — countdown that wrong answers accelerate or right answers extend.
+Streak — long streak with multiplier; wrong answer resets the multiplier (not the score).
+Resource — currency or consumable items (hints, shields, potions) spent on attempts or earned on success.
+Permadeath of progress — boss fights / dungeon runs that, if failed, lose run-specific progress (but not meta-progress).
+Rule: the stake must be felt. If losing all HP just shows a "Game Over" screen and the player restarts identically, the stake wasn't real. Failure should change the next attempt — fewer hints, smaller window, lost optional rewards.
+Surprise feature catalog (for Step 2)
+If the user invites surprise features, draw from here or invent your own. Each one is a candidate, not a default.
+Boss puzzles — periodic encounters that require a multi-part query / sequence
+Daily rotating challenge — one specific construct gets a 2x XP day
+Anti-pattern bestiary — wrong-but-common queries are themselves enemies (the "SELECT *" goblin)
+Loadout system — pre-run, pick 3 query types to "specialize in" for the run, getting bonuses but constrained options
+Elegant solution bonus — bonus XP for solving in fewer characters / lines than the par
+Speedrun ghost — your previous best run plays alongside you
+Boss replay journal — defeated bosses become entries in a journal, showing the queries you used to beat them
+Procedural mini-bosses — randomly generated query challenges that scale with player level
+Quest log — small, optional side objectives ("defeat 5 enemies using only WHERE clauses")
+Lore drops — story snippets unlocked by demonstrating constructs ("ancient text fragment, write a JOIN to translate it")
+What not to copy from real games
+Some real-game mechanics translate badly to learning games.
+Lootboxes / gacha — wastes the player's time on chance instead of skill
+Energy / wait timers — friction with no skill payoff; works for retention in commercial games but kills learning games
+Pay-to-skip — never relevant; no skipping the curriculum
+PvP / leaderboards with strangers — discourages beginners; if used, restrict to personal-best or friends-only
+How to use this file
+In the design doc (Step 2), explicitly cite which patterns the design draws from. If the design doesn't cite any, ask why — it's probably a quiz with cosmetics.
+Reference Games — Extracted Mechanics
+When the user names a game, do not list it. Extract the one mechanic that makes it stick and adapt it to the subject. Use this catalog as a starting point and add to it.
+Format for each entry:
+Mechanic — one sentence, the single thing
+Why it works — one sentence, the psychology
+Adapts to learning game as — one sentence
+CodeCombat
+Mechanic — split-screen: write code, run it, watch the character execute it; cannot skip a level without demonstrating the skill.
+Why it works — immediate visual feedback couples typing to consequence; no shortcut around mastery means the player actually learns rather than memorizes solutions.
+Adapts as — tutorial floors refuse to advance until the player writes the correct construct unaided; query execution shown as a visible action in the game world (spell cast, attack landing).
+Pokémon (Game Boy era)
+Mechanic — collection of 151 monsters, each tied to a type system that creates a strategy puzzle; escalating opponents force the player to expand the collection and evolve their team.
+Why it works — collection drive plus a deepening strategy layer creates two motivation sources stacked on the same loop.
+Adapts as — monster/enemy bestiary keyed to query types (the SELECT slime, the JOIN ogre, the subquery dragon); harder enemies require harder constructs, naturally pulling the player up the curriculum.
+Querymon (Codepip)
+Mechanic — Pokédex-style index of 151 monsters that the player searches by writing increasingly complex SELECT / WHERE / LIKE / aggregate queries.
+Why it works — wraps query practice in a search-and-discovery loop with completionist appeal.
+Adapts as — a "bestiary search" sub-mode where the player completes a collection by querying a database; orthogonal motivation to the combat mode.
+Mavis Beacon Teaches Typing
+Mechanic — multiple themed mini-games (racing, falling-words, etc.) wrap the same underlying skill (typing accuracy + speed) in completely different shells.
+Why it works — the same drill feels fresh in different visual containers; players self-select the framing they like best.
+Adapts as — multiple visual wrappers around the same query-input mechanic: arcade falling-asteroid mode, dungeon combat mode, gauntlet timed mode — same skill, different feel.
+SQL Island
+Mechanic — survival narrative where every progression step is a query: hungry? query for food. Lost? query for the path.
+Why it works — story stakes attach to skill execution; the curriculum is hidden inside a plot.
+Adapts as — chapter-based story mode where the next paragraph of the story only unlocks on a correct query; the curriculum is invisible from the player's perspective.
+Pokémon Go
+Mechanic — daily streak rewards + location-tied catches make the game a daily habit, not a weekend binge.
+Why it works — habit formation through daily bonuses creates retention that pure skill-progression doesn't.
+Adapts as — daily challenge with a streak multiplier; one specific query type that rotates daily and grants outsized XP.
+Duolingo
+Mechanic — heart system (limited mistakes per day) creates artificial scarcity and stakes around an otherwise free activity.
+Why it works — stakes on a skill drill keep the player focused; running out forces a break that paradoxically increases engagement.
+Adapts as — limited-attempt boss fights where wrong queries cost a "shield" or "potion"; running out ends the run, scoring the player on what they accomplished.
+Idle / Incremental games (Cookie Clicker, etc.)
+Mechanic — exponential unlocks where each tier of upgrade dramatically expands what the player can do, with the next tier always visible just out of reach.
+Why it works — visible-but-unreachable next-tier rewards drive sustained engagement far longer than linear progression.
+Adapts as — query types are upgrades the player visibly sees locked at low levels (JOINs visible but greyed out until level 5); seeing the locked construct creates pull.
+Slay the Spire / deck-builders
+Mechanic — run-based progression where each run builds a different "deck" of choices; meta-progression unlocks new options across runs.
+Why it works — replayability through combinatorial choice; no two runs are the same.
+Adapts as — "loadouts" the player builds before a dungeon run (you can prep with 5 SELECT spells and 2 JOIN bombs); decisions before the run, execution during it.
+How to use this catalog
+When designing a game in Step 2 (design doc), pick 2–3 mechanics from this list (or extract new ones) and explicitly state which ones the design is using. If the design isn't drawing from any of these or similar, that's a flag — the design is probably defaulting to "quiz with cosmetics".
+Architecture Template
+The reason a "SQL game" should make porting to a "Python game" or "C# game" easy is structural: separate the reusable game shell from the subject-specific data. If the separation is right, a subject swap is 4 file changes, not a rebuild.
+The two layers
+REUSABLE layer (write once, copy across subjects)
+These pieces should work identically regardless of subject. They take subject-specific data as input and don't know what subject they're serving.
+Game shell — outer container, navbar, mode router, results screen
+Mode router / state machine — switching between Menu / Tutorial / Dungeon / Campaign / etc.
+Progression engine — XP, levels, unlocks, computed from a config table
+Persistence layer — localStorage save/load of player state
+Challenge runner — takes a challenge object, renders input UI, awaits answer, calls validator, renders feedback
+Combat / dungeon UI — HP bars, animations, monster portraits, turn flow (the visual layer)
+UI primitives — buttons, panels, modals, results screens, level-up overlay
+Hint system UI — the framework for "request hint → reveal next tier"
+Streak / score tracking — generic counters with multiplier logic
+Achievement framework — list of earned achievements, unlock notifications
+SUBJECT-SPECIFIC layer (rewrite per subject)
+These pieces change for every new subject. Everything else stays.
+Validation function — given the player's input and the challenge's expected answer, return correct/incorrect. For SQL, runs the query and compares result sets. For Python, runs code against test cases. For vocab, normalizes and string-matches.
+Content database — the challenges themselves. Question text, expected answer, accepted variants, tier, tags.
+Tier definitions — what's a beginner / intermediate / advanced challenge for this subject. What constructs unlock at each level.
+Hint generator — subject-specific tier-1 / tier-2 / tier-3 hints. Can be templated.
+Subject lore / copy — monster names ("JOIN Ogre"), spell names ("cast SELECT"), tutorial story, mode names if themed.
+Validator UI affordances — does the input need a SQL editor with syntax highlighting? A Python REPL? A plain text field? This stays subject-specific but uses the same input slot in the challenge runner.
+Suggested file structure
+src/
+├── games/
+│   ├── shared/                       # REUSABLE LAYER
+│   │   ├── GameShell.jsx              # outer container, mode router
+│   │   ├── ChallengeRunner.jsx        # generic challenge UI + flow
+│   │   ├── ProgressionEngine.js       # XP, levels, unlock logic
+│   │   ├── PersistenceStore.js        # localStorage wrapper
+│   │   ├── ModesRegistry.js           # Tutorial / Dungeon / etc. registration
+│   │   ├── modes/
+│   │   │   ├── TutorialMode.jsx
+│   │   │   ├── DungeonMode.jsx
+│   │   │   ├── CampaignMode.jsx
+│   │   │   └── BlitzMode.jsx
+│   │   ├── components/
+│   │   │   ├── HPBar.jsx
+│   │   │   ├── XPBar.jsx
+│   │   │   ├── LevelUpOverlay.jsx
+│   │   │   ├── HintPanel.jsx
+│   │   │   ├── ResultsScreen.jsx
+│   │   │   ├── MonsterPortrait.jsx
+│   │   │   └── ...
+│   │   └── hooks/
+│   │       ├── usePlayerState.js
+│   │       └── useChallengeRunner.js
+│   │
+│   └── sql-quest/                    # SUBJECT-SPECIFIC LAYER (example)
+│       ├── index.jsx                  # mounts GameShell with this subject's config
+│       ├── config.js                  # tiers, unlocks, mode list for this subject
+│       ├── validator.js               # runs queries, compares result sets
+│       ├── content/
+│       │   ├── challenges.json        # all challenges, tagged by tier + construct
+│       │   ├── monsters.json          # subject-themed monster bestiary
+│       │   ├── tutorial.json          # tutorial steps
+│       │   └── lore.json              # subject-themed copy strings
+│       └── hints.js                   # subject-specific hint generator
+│
+└── games/python-game/                # NEXT SUBJECT — same shape
+├── index.jsx
+├── config.js
+├── validator.js                   # runs code via Pyodide, compares to test cases
+├── content/
+│   └── ...
+└── hints.js
+The contract
+The subject-specific config.js is the contract between the reusable shell and the subject. It exports a config object the shell consumes.
+js// games/sql-quest/config.js
+export default {
+subjectName: "SQL",
+tiers: [
+{ id: "beginner",  unlocks: ["SELECT", "WHERE"],            requiredLevel: 1 },
+{ id: "intermediate", unlocks: ["JOIN", "GROUP BY", "ORDER BY"], requiredLevel: 3 },
+{ id: "advanced",  unlocks: ["subqueries", "window functions"],  requiredLevel: 6 },
+],
+modes: ["tutorial", "dungeon", "campaign", "blitz"],
+// The two functions the shell calls into subject-specific code:
+validator: validateSqlQuery,           // (playerInput, challenge) => { correct, feedback }
+hintGenerator: generateSqlHint,        // (challenge, tier) => hintString
+// Theming
+monsterNames: ["SELECT Slime", "WHERE Wraith", "JOIN Ogre", ...],
+spellLabel: "Query",                   // "cast Query" instead of "cast Spell"
+inputComponent: SqlInputBox,           // the subject-specific input affordance
+};
+When porting to Python, the shape stays the same; only the values and validator change:
+js// games/python-game/config.js
+export default {
+subjectName: "Python",
+tiers: [
+{ id: "beginner", unlocks: ["print", "variables", "if"], requiredLevel: 1 },
+{ id: "intermediate", unlocks: ["loops", "functions", "lists"], requiredLevel: 3 },
+{ id: "advanced", unlocks: ["classes", "comprehensions", "decorators"], requiredLevel: 6 },
+],
+modes: ["tutorial", "dungeon", "campaign", "blitz"],
+validator: validatePythonCode,         // runs Pyodide, checks test cases
+hintGenerator: generatePythonHint,
+monsterNames: ["Print Slime", "Loop Wraith", "Class Ogre", ...],
+spellLabel: "Script",
+inputComponent: PythonInputBox,
+};
+The shell, modes, UI components, persistence, progression — all unchanged.
+When the contract leaks
+If, while building a new subject, you find yourself needing to modify files in games/shared/ — stop. Either:
+a) The new requirement should be folded into the config interface (add a config option, not a hardcoded subject check), or
+b) The shared layer is genuinely missing a feature and adding it benefits all subjects.
+Subject-specific logic in games/shared/ is a contract leak and erodes the whole point of the separation. Catch it before it spreads.
+What to commit to memory
+The two-layer separation. Any time you build, ask: "is this shared or subject-specific?" Anything subject-specific goes in the subject folder. Anything shared goes in shared. This single discipline is what
+Anti-Patterns — Don't Ship These
+The catalog of failure modes, with concrete examples from past builds. Pattern-match against these BEFORE shipping anything. If any of these apply, fix before shipping.
+
+Empty XP / empty levels
+
+The failure — XP accumulates, levels increment, but leveling up doesn't unlock anything concrete. The player has no reason to care about the number going up.
+Concrete example from the SQL Quest v1 build:
+Tracked XP per challenge.
+Showed "Level 3" on the player card.
+Nothing different happened at Level 3 than Level 1. Same modes, same challenges, same UI.
+Result: the user immediately called it out — "what's the point of XP, what's the point of levels."
+The fix — every level (or every few levels) must unlock something concrete:
+A new mode
+A new area / floor / zone
+A new ability / spell / construct (a new query type usable in combat)
+A new piece of content (a new monster, a new story chapter)
+A new cosmetic (acceptable as a tertiary unlock, not the only one)
+The smell test — describe the unlock without using the word "XP" or "level". If you can't, it's empty.
+
+Modes that don't differ
+
+The failure — multiple modes that share the same gameplay loop, differentiated only by cosmetic framing or framing words like "Campaign" vs "Quick Play".
+Concrete example from the SQL Quest v1 build:
+"Campaign" mode: work through challenges sequentially.
+"Quick Play" mode: do challenges with no time pressure.
+"Blitz" mode: do challenges with a 90s timer.
+Campaign and Quick Play were functionally identical. Blitz was actually distinct (added stakes via time).
+Result: the user said the game wasn't a game yet.
+The fix — for each mode, write one sentence: "the player picks this mode when they want X, which no other mode offers." If two modes share the same answer, kill or merge them.
+The smell test — show me three modes. If a player explains why they're choosing mode A over mode B, and the reason is "I want a different background" or "I want a different timer length", you have one mode wearing three hats.
+
+Educational checklist disguised as game
+
+The failure — wrapping a quiz in game language (XP, levels, achievements) without adding any actual game mechanics. The gameplay is "answer question, get point."
+Concrete example from the SQL Quest v1 build:
+Player answered SQL questions.
+Right answer awarded XP.
+Wrong answer did nothing except not award XP.
+A city skyline drew itself in the background as the player progressed.
+This was a quiz with a skyline. Not a game.
+The fix — add real game mechanics, not language:
+Damage — wrong answers cost something tangible (HP, lives, time, currency)
+Unlocks — right answers grant new capability, not just points
+Collection — accumulate monsters / artifacts / cards / something
+Exploration — a map / dungeon / world to move through
+Base-building — something the player constructs and returns to
+Loadout / build — choices the player makes about how to approach a challenge
+The v2 rebuild fixed this by making the Dungeon mode where wrong answers damaged the player and right answers damaged the monster — actual stakes.
+The smell test — if you strip out the educational content (replace SQL questions with "tap the button"), is there still a game? If the answer is no, you have a checklist.
+
+Tutorial that doesn't teach incrementally
+
+The failure — the tutorial throws all mechanics at the player at once, or it's "beginner" challenges that still assume base knowledge.
+Concrete example from the SQL Quest v1 build:
+Beginner difficulty: 8 challenges across SELECT, WHERE, fill-blank, multiple choice, write-the-query, debug-this.
+A genuine beginner couldn't pass any of them because they hadn't been taught what a SELECT statement looks like first.
+The user explicitly said: "I don't know how to do queries that well. I'm just gonna fail ten out of ten."
+The fix — tutorial structure:
+Each step introduces ONE new construct.
+The first instance of any construct is heavily scaffolded (fill-in-blank with one missing word, or keyword-chip buttons that build the query for the player).
+The player demonstrates mastery (writes it unaided once) before the tutorial advances.
+Hints are free in the tutorial. No XP cost for help.
+The player cannot skip ahead. The CodeCombat rule.
+The smell test — could a player who has never seen SQL (or Python, or whatever the subject is) start at step 1 and reach the end of the tutorial without external resources? If no, the tutorial is misnamed.
+
+Ignoring "surprise me"
+
+The failure — when the user explicitly invites unrequested design ("surprise me", "build it however you want", "make it fun", "use your judgment"), shipping only the literally-stated requirements.
+Concrete example from the SQL Quest v1 build:
+User said: "I want you to fully have all autonomy with this... think about all these things as if you're designing this game... add features that are gonna surprise me, not just things that I'm just saying."
+Shipped: exactly the requested modes (Campaign, Quick/Blitz), exactly the requested challenge types (fill-blank, multiple choice, write-query, debug, read), nothing beyond.
+Missing: any feature the user hadn't named. No collection, no meta-layer, no story, no dungeon, no loadout — until the user pointed out the gap.
+The fix — when invited, propose ONE feature the user did not ask for. Justify in one sentence why it amplifies the core loop. Ship it. Let them veto if they don't want it, but the proposal must be made.
+The smell test — list the features in the shipped game. Cross out everything the user explicitly requested. Is there anything left? If no, the surprise feature is missing.
+
+Listing references instead of extracting from them
+
+The failure — when the user names other games, returning a research summary instead of an extraction.
+Concrete example from the SQL Quest v1 build:
+User said: "reference what already exists... Mavis Beacon. There's other games like Khan Academy, Code Combat... do some research, pull from different things."
+Delivered: a paragraph each on Querymon, SQL Island, SQL Squid Game, SQL Police Department, Lost at SQL, CodeCombat.
+Missing: what specifically to steal from each. The paragraphs described the games. They did not extract mechanics.
+The fix — for each named game, write two lines:
+Line 1: the one mechanic that makes it stick.
+Line 2: how it adapts to the current subject.
+See reference-games.md for the format.
+The smell test — strip out the game names from the research section. Does what's left tell you what to build? If no, you wrote an encyclopedia entry, not extraction.
+
+Dead ends without purpose
+
+The failure — the player enters a path and cannot escape except by failure. The path teaches nothing, rewards nothing, and wastes time.
+Concrete example from game design:
+A side quest with no rewards and no exit
+A floor you enter but can't escape with any meaningful outcome
+A dialog branch that leads nowhere
+The fix — every path must have a purpose:
+Loot or reward
+Narrative discovery / environmental storytelling
+Optional challenge
+Pacing control
+Teaching something useful
+If a path doesn't serve one of these, it's a mistake. Delete it.
+The smell test — for every area, path, or side content: "Why would the player enter this?" If the answer is "by accident" or "no reason," it's a dead end without purpose.
+
+Hard blockers
+
+The failure — the player cannot proceed because a requirement is unclear, unavailable, or unfairly hidden.
+Concrete example from game design:
+A challenge that tests a construct the tutorial didn't teach
+A locked door with no hint where the key is
+A boss that requires a strategy the game never shows
+Why it's bad — especially dangerous when the player has already invested time and cannot recover cleanly. Feels arbitrary and unfair.
+The fix — ensure:
+Requirements are communicated clearly
+Progression dependencies are visible or learnable
+Fail states are recoverable (player can retry without restarting the entire game)
+Player is never trapped without options (unless that's the intentional design)
+A blocker should feel like a deliberate gate, not a design accident.
+The smell test — if the player fails a challenge, can they immediately understand why and what to try next? If not, it's a hard blocker.
+
+Building before designing
+
+The failure — writing React code as soon as the user says "make a game." No design doc. No architecture sketch. The build is reactive to whatever the user says next, never proactive.
+Concrete example from the SQL Quest v1 build:
+User said "build this game out however you want."
+Immediately wrote the React artifact. No design doc. No architecture. No reference extraction.
+Shipped a checklist disguised as a game (anti-pattern #3).
+6+ rounds of corrections followed.
+The fix — the design doc takes 10 minutes and prevents 5 rounds of corrections. The user is not asking for code on turn 1 — they are asking for a game. The path to a game is design first.
+The smell test — for every game build, was there a design doc the user approved before any code was written? If no, the workflow was skipped.
+
+Shipping the whole game in one dump
+
+The failure — building a 1,500-line artifact in a single turn. The user cannot give useful feedback on a finished product; they can only give useful feedback on pieces as they're built.
+Concrete example from the SQL Quest v1 build:
+Built the entire game (three modes, challenge generation, XP, hint system, skyline animation) in one shot.
+User feedback was about the whole game ("it's like 10% of what I was thinking"), which forced a near-total rebuild.
+The fix — build one mode end-to-end first. Show it. Get feedback. Then add the next layer. The user's feedback after seeing one mode is far more actionable than their feedback on a finished game.
+The smell test — was the user shown a playable slice and asked for feedback before the rest of the game was built? If no, expect a near-total rebuild on first feedback.

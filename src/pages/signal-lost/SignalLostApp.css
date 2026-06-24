@@ -1,0 +1,866 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+/* ============================================================
+   ROOT & LAYOUT
+   ============================================================ */
+.sl-root {
+  font-family: 'Share Tech Mono', monospace;
+  background: #020b18;
+  color: #00ff88;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Star field — pure CSS, no canvas */
+.sl-root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 30%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 50%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 90%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 45%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 10%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5%  55%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 95%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 40%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 85%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 20% 5%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 70%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 25%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 55%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 35%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 12% 75%, rgba(255,255,255,0.6) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sl-root > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   HOME SCREEN
+   ============================================================ */
+.sl-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.sl-boot-log {
+  font-size: 0.75rem;
+  color: #00bb66;
+  text-align: left;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 2rem;
+  min-height: 6rem;
+  line-height: 1.6;
+}
+
+.sl-boot-line {
+  display: block;
+  animation: sl-fadein 0.1s ease-in both;
+}
+
+@keyframes sl-fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.sl-title {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  color: #00ff88;
+  text-shadow:
+    0 0 10px #00ff88,
+    0 0 30px #00ff88,
+    0 0 60px #00cc66;
+  letter-spacing: 0.15em;
+  margin: 0 0 0.5rem;
+  animation: sl-pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes sl-pulse-glow {
+  0%, 100% { text-shadow: 0 0 10px #00ff88, 0 0 30px #00ff88, 0 0 60px #00cc66; }
+  50%       { text-shadow: 0 0 20px #00ff88, 0 0 50px #00ff88, 0 0 100px #00cc66; }
+}
+
+.sl-subtitle {
+  font-size: 0.85rem;
+  color: #ffaa00;
+  letter-spacing: 0.2em;
+  margin-bottom: 3rem;
+  text-shadow: 0 0 8px #ffaa00;
+}
+
+.sl-home-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.sl-btn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  padding: 0.75rem 2rem;
+  border: 1px solid currentColor;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sl-btn-primary {
+  color: #00ff88;
+  border-color: #00ff88;
+  box-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
+}
+.sl-btn-primary:hover {
+  background: rgba(0, 255, 136, 0.15);
+  box-shadow: 0 0 16px rgba(0, 255, 136, 0.5);
+}
+
+.sl-btn-secondary {
+  color: #00bb66;
+  border-color: #00bb66;
+}
+.sl-btn-secondary:hover {
+  background: rgba(0, 187, 102, 0.1);
+}
+
+.sl-btn-danger {
+  color: #ff4444;
+  border-color: #ff4444;
+}
+.sl-btn-danger:hover {
+  background: rgba(255, 68, 68, 0.15);
+}
+
+.sl-btn-dim {
+  color: #444;
+  border-color: #333;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   HOW TO PLAY MODAL
+   ============================================================ */
+.sl-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.sl-modal {
+  background: #030e1e;
+  border: 1px solid #00ff88;
+  box-shadow: 0 0 40px rgba(0, 255, 136, 0.2);
+  padding: 2rem;
+  max-width: 560px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.sl-modal h2 {
+  color: #00ff88;
+  text-shadow: 0 0 10px #00ff88;
+  margin: 0 0 1.5rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.15em;
+}
+
+.sl-modal p, .sl-modal li {
+  color: #88ccaa;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  margin-bottom: 0.5rem;
+}
+
+.sl-modal ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.sl-modal .sl-modal-highlight {
+  color: #ffaa00;
+}
+
+.sl-modal-close {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+/* ============================================================
+   GAME LAYOUT
+   ============================================================ */
+.sl-game {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* ============================================================
+   HUD
+   ============================================================ */
+.sl-hud {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #003322;
+  background: rgba(0, 10, 20, 0.9);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.sl-hud-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.sl-hud-label {
+  font-size: 0.55rem;
+  color: #446655;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.sl-hud-value {
+  font-size: 0.85rem;
+  color: #00ff88;
+}
+
+.sl-hud-value.warn  { color: #ffaa00; }
+.sl-hud-value.alert { color: #ff4444; }
+
+/* HP pips */
+.sl-hp-pips {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.sl-hp-pip {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #00ff88;
+  background: #00ff88;
+  box-shadow: 0 0 4px #00ff88;
+}
+.sl-hp-pip.empty {
+  background: transparent;
+  border-color: #224433;
+  box-shadow: none;
+}
+.sl-hp-pip.shield {
+  background: #4488ff;
+  border-color: #4488ff;
+  box-shadow: 0 0 6px #4488ff;
+}
+
+/* Signal / level bar */
+.sl-signal-bar-wrap {
+  flex: 1;
+  min-width: 120px;
+}
+.sl-signal-bar-track {
+  height: 6px;
+  background: #0a1a0f;
+  border: 1px solid #003322;
+  margin-top: 4px;
+}
+.sl-signal-bar-fill {
+  height: 100%;
+  background: #00ff88;
+  box-shadow: 0 0 6px #00ff88;
+  transition: width 0.3s ease;
+}
+
+/* Energy bar */
+.sl-energy-bar-track {
+  height: 6px;
+  background: #0a0a1a;
+  border: 1px solid #001133;
+  margin-top: 4px;
+  width: 80px;
+}
+.sl-energy-bar-fill {
+  height: 100%;
+  background: #4488ff;
+  box-shadow: 0 0 6px #4488ff;
+  transition: width 0.2s ease;
+}
+
+/* Combo display */
+.sl-combo {
+  font-size: 1.1rem;
+  color: #ffaa00;
+  text-shadow: 0 0 10px #ffaa00;
+  animation: sl-combo-pop 0.2s ease-out;
+}
+.sl-combo.max {
+  color: #ff4444;
+  text-shadow: 0 0 14px #ff4444;
+}
+@keyframes sl-combo-pop {
+  0%   { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+/* Score */
+.sl-score-val {
+  font-size: 1rem;
+  color: #00ff88;
+  text-shadow: 0 0 8px #00ff88;
+}
+
+/* Overdrive banner */
+.sl-overdrive-banner {
+  font-size: 0.7rem;
+  color: #ff4444;
+  text-shadow: 0 0 8px #ff4444;
+  letter-spacing: 0.1em;
+  animation: sl-blink 0.5s step-start infinite;
+}
+@keyframes sl-blink {
+  50% { opacity: 0; }
+}
+
+/* ============================================================
+   STATION BANNER
+   ============================================================ */
+.sl-station {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 0.4rem 1rem;
+  border-bottom: 1px solid #003322;
+  background: rgba(0, 5, 10, 0.7);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.sl-module {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-right: 1px solid #001a0a;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  transition: all 0.5s ease;
+  min-width: 60px;
+}
+.sl-module:last-child {
+  border-right: none;
+}
+
+.sl-module-icon {
+  font-size: 1.1rem;
+  margin-bottom: 2px;
+  filter: grayscale(1) brightness(0.3);
+  transition: filter 0.5s ease;
+}
+
+.sl-module-name {
+  font-size: 0.5rem;
+  color: #224433;
+  letter-spacing: 0.05em;
+  transition: color 0.5s ease;
+}
+
+/* Offline — dark red, barely visible */
+.sl-module.offline .sl-module-icon  { filter: grayscale(1) brightness(0.3); }
+.sl-module.offline .sl-module-name  { color: #331100; }
+
+/* Critical — dim red pulse */
+.sl-module.critical .sl-module-icon {
+  filter: grayscale(0) brightness(0.7) sepia(1) saturate(3) hue-rotate(330deg);
+  animation: sl-critical-pulse 1s ease-in-out infinite;
+}
+.sl-module.critical .sl-module-name { color: #ff4444; }
+@keyframes sl-critical-pulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+/* Online — full glow based on module type */
+.sl-module.online-red    .sl-module-icon { filter: drop-shadow(0 0 6px #ff4444); }
+.sl-module.online-red    .sl-module-name { color: #ff4444; }
+
+.sl-module.online-blue   .sl-module-icon { filter: drop-shadow(0 0 6px #4488ff); animation: sl-nav-pulse 2s ease-in-out infinite; }
+.sl-module.online-blue   .sl-module-name { color: #4488ff; }
+@keyframes sl-nav-pulse {
+  0%, 100% { filter: drop-shadow(0 0 4px #4488ff); }
+  50%       { filter: drop-shadow(0 0 10px #4488ff); }
+}
+
+.sl-module.online-green  .sl-module-icon { filter: drop-shadow(0 0 6px #00ff88); }
+.sl-module.online-green  .sl-module-name { color: #00ff88; }
+
+.sl-module.online-yellow .sl-module-icon {
+  filter: drop-shadow(0 0 6px #ffaa00);
+  animation: sl-antenna-rotate 4s linear infinite;
+}
+.sl-module.online-yellow .sl-module-name { color: #ffaa00; }
+@keyframes sl-antenna-rotate {
+  0%   { transform: rotate(0deg); }
+  25%  { transform: rotate(15deg); }
+  75%  { transform: rotate(-15deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.sl-module.online-bright .sl-module-icon {
+  filter: drop-shadow(0 0 10px #00ff88) brightness(1.5);
+  animation: sl-reactor-glow 1.5s ease-in-out infinite;
+}
+.sl-module.online-bright .sl-module-name { color: #00ff88; text-shadow: 0 0 6px #00ff88; }
+@keyframes sl-reactor-glow {
+  0%, 100% { filter: drop-shadow(0 0 8px #00ff88) brightness(1.3); }
+  50%       { filter: drop-shadow(0 0 16px #00ff88) brightness(1.8); }
+}
+
+.sl-module.online-transcend .sl-module-icon {
+  filter: drop-shadow(0 0 14px #ffffff) brightness(2);
+  animation: sl-transcend 0.8s ease-in-out infinite;
+}
+.sl-module.online-transcend .sl-module-name { color: #ffffff; text-shadow: 0 0 10px #fff; }
+@keyframes sl-transcend {
+  0%, 100% { transform: scale(1);    filter: drop-shadow(0 0 14px #ffffff) brightness(2); }
+  50%       { transform: scale(1.15); filter: drop-shadow(0 0 24px #aaffdd) brightness(3); }
+}
+
+/* ============================================================
+   PLAY FIELD
+   ============================================================ */
+.sl-play-field {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  border-bottom: 1px solid #003322;
+}
+
+/* Reactor core — left edge indicator */
+.sl-reactor-core {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(to bottom, transparent, #ff4444, transparent);
+  box-shadow: 2px 0 12px rgba(255, 68, 68, 0.4);
+  z-index: 2;
+}
+.sl-reactor-core.damaged {
+  box-shadow: 2px 0 20px rgba(255, 68, 68, 0.8);
+  animation: sl-reactor-hit 0.4s ease-out;
+}
+@keyframes sl-reactor-hit {
+  0%   { box-shadow: 2px 0 40px rgba(255, 68, 68, 1); }
+  100% { box-shadow: 2px 0 12px rgba(255, 68, 68, 0.4); }
+}
+
+/* Word packets */
+.sl-word-packet {
+  position: absolute;
+  white-space: nowrap;
+  padding: 3px 8px;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  background: rgba(0, 20, 10, 0.7);
+  font-size: 0.85rem;
+  color: #00ff88;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  transition: border-color 0.1s, color 0.1s, background 0.1s;
+  will-change: transform;
+}
+
+/* Currently targeted word — highlighted */
+.sl-word-packet.targeted {
+  color: #ffffff;
+  border-color: #00ff88;
+  background: rgba(0, 60, 30, 0.8);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+}
+
+/* Partially typed — show typed chars differently */
+.sl-word-typed-chars {
+  color: #ffaa00;
+}
+
+/* Completed — flash then fade */
+.sl-word-packet.completed {
+  color: #ffffff;
+  border-color: #ffaa00;
+  background: rgba(255, 200, 0, 0.15);
+  box-shadow: 0 0 20px rgba(255, 200, 0, 0.6);
+  animation: sl-word-complete 0.4s ease-out forwards;
+}
+@keyframes sl-word-complete {
+  0%   { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(0.8) translateY(-10px); }
+}
+
+/* Missed — red flash */
+.sl-word-packet.missed {
+  color: #ff4444;
+  border-color: #ff4444;
+  background: rgba(255, 50, 50, 0.2);
+  box-shadow: 0 0 20px rgba(255, 68, 68, 0.6);
+  animation: sl-word-miss 0.4s ease-out forwards;
+}
+@keyframes sl-word-miss {
+  0%   { opacity: 1; }
+  100% { opacity: 0; transform: scale(0.8); }
+}
+
+/* Frozen word */
+.sl-word-packet.frozen {
+  color: #aaddff;
+  border-color: #4488ff;
+  box-shadow: 0 0 8px rgba(68, 136, 255, 0.5);
+}
+
+/* PHRASE category — slightly different style */
+.sl-word-packet.phrase {
+  font-size: 0.78rem;
+  border-style: dashed;
+}
+
+/* LONG category */
+.sl-word-packet.long {
+  font-size: 0.78rem;
+  color: #ffaa00;
+  border-color: rgba(255, 170, 0, 0.3);
+}
+.sl-word-packet.long.targeted {
+  border-color: #ffaa00;
+  box-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
+}
+
+/* Slow beam overlay */
+.sl-slow-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(68, 136, 255, 0.05);
+  pointer-events: none;
+  z-index: 3;
+  animation: sl-slow-pulse 0.5s ease-in-out infinite;
+}
+@keyframes sl-slow-pulse {
+  0%, 100% { background: rgba(68, 136, 255, 0.03); }
+  50%       { background: rgba(68, 136, 255, 0.08); }
+}
+
+/* ============================================================
+   INPUT AREA
+   ============================================================ */
+.sl-input-area {
+  padding: 0.75rem 1rem;
+  background: rgba(0, 5, 10, 0.95);
+  border-top: 1px solid #003322;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.sl-input-prompt {
+  color: #00ff88;
+  font-size: 1rem;
+  flex-shrink: 0;
+  text-shadow: 0 0 6px #00ff88;
+}
+
+.sl-terminal-input {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #00ff88;
+  color: #00ff88;
+  outline: none;
+  flex: 1;
+  caret-color: #00ff88;
+  letter-spacing: 0.05em;
+}
+.sl-terminal-input::placeholder { color: #224433; }
+.sl-terminal-input:focus { border-bottom-color: #00ffaa; box-shadow: 0 2px 0 rgba(0,255,136,0.2); }
+
+/* ============================================================
+   SKILL BAR
+   ============================================================ */
+.sl-skill-bar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 3, 8, 0.9);
+  border-top: 1px solid #001a0a;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.sl-skill-btn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.7rem;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid #224433;
+  color: #446655;
+  transition: all 0.15s ease;
+}
+
+.sl-skill-btn.available {
+  border-color: #4488ff;
+  color: #4488ff;
+  box-shadow: 0 0 6px rgba(68, 136, 255, 0.2);
+}
+.sl-skill-btn.available:hover {
+  background: rgba(68, 136, 255, 0.15);
+  box-shadow: 0 0 12px rgba(68, 136, 255, 0.4);
+}
+.sl-skill-btn.active-effect {
+  border-color: #ffaa00;
+  color: #ffaa00;
+  box-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
+  animation: sl-skill-active 0.5s ease-in-out infinite;
+}
+@keyframes sl-skill-active {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 170, 0, 0.4); }
+  50%       { box-shadow: 0 0 20px rgba(255, 170, 0, 0.7); }
+}
+.sl-skill-btn.locked {
+  border-color: #1a1a1a;
+  color: #222;
+  cursor: not-allowed;
+}
+
+.sl-skill-key {
+  font-size: 0.6rem;
+  opacity: 0.6;
+}
+.sl-skill-cost {
+  font-size: 0.55rem;
+  opacity: 0.7;
+}
+
+/* ============================================================
+   STORY POPUP
+   ============================================================ */
+.sl-story-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 2rem;
+}
+
+.sl-story-inner {
+  border: 1px solid #00ff88;
+  background: #020c16;
+  box-shadow: 0 0 60px rgba(0, 255, 136, 0.15);
+  padding: 2rem;
+  max-width: 620px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.sl-story-title {
+  color: #ffaa00;
+  text-shadow: 0 0 10px #ffaa00;
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  margin: 0 0 1.5rem;
+  border-bottom: 1px solid #332200;
+  padding-bottom: 0.75rem;
+}
+
+.sl-story-text {
+  white-space: pre-wrap;
+  font-size: 0.78rem;
+  line-height: 1.8;
+  color: #88ccaa;
+  margin-bottom: 2rem;
+}
+
+.sl-story-dismiss {
+  font-size: 0.7rem;
+  color: #446655;
+  letter-spacing: 0.1em;
+  animation: sl-blink 1.2s step-start infinite;
+}
+
+/* ============================================================
+   LEVEL UP FLASH
+   ============================================================ */
+.sl-levelup-flash {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 150;
+  pointer-events: none;
+  animation: sl-levelup-anim 2s ease-out forwards;
+}
+
+.sl-levelup-text {
+  font-size: 2.5rem;
+  color: #00ff88;
+  text-shadow: 0 0 20px #00ff88, 0 0 60px #00ff88;
+  letter-spacing: 0.2em;
+  display: block;
+}
+
+.sl-levelup-sub {
+  font-size: 0.75rem;
+  color: #ffaa00;
+  letter-spacing: 0.1em;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+@keyframes sl-levelup-anim {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+  20%  { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+  70%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* ============================================================
+   GAME OVER SCREEN
+   ============================================================ */
+.sl-gameover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 1.5rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.sl-gameover-title {
+  font-size: 3rem;
+  color: #ff4444;
+  text-shadow: 0 0 20px #ff4444, 0 0 60px #ff4444;
+  letter-spacing: 0.2em;
+  animation: sl-pulse-red 2s ease-in-out infinite;
+}
+@keyframes sl-pulse-red {
+  0%, 100% { text-shadow: 0 0 20px #ff4444, 0 0 60px #ff4444; }
+  50%       { text-shadow: 0 0 40px #ff4444, 0 0 100px #ff4444; }
+}
+
+.sl-gameover-stats {
+  color: #88ccaa;
+  font-size: 0.8rem;
+  line-height: 2;
+}
+
+.sl-gameover-stat-label { color: #446655; }
+.sl-gameover-stat-val   { color: #00ff88; }
+
+.sl-gameover-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ============================================================
+   PAUSE SCREEN
+   ============================================================ */
+.sl-pause-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 180;
+}
+
+.sl-pause-box {
+  border: 1px solid #00ff88;
+  background: #020c16;
+  padding: 2rem 3rem;
+  text-align: center;
+}
+
+.sl-pause-title {
+  font-size: 1.5rem;
+  color: #00ff88;
+  text-shadow: 0 0 10px #00ff88;
+  letter-spacing: 0.2em;
+  margin-bottom: 1.5rem;
+}
+
+.sl-pause-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ============================================================
+   SCROLLBAR STYLING
+   ============================================================ */
+.sl-modal::-webkit-scrollbar,
+.sl-story-inner::-webkit-scrollbar { width: 4px; }
+.sl-modal::-webkit-scrollbar-track,
+.sl-story-inner::-webkit-scrollbar-track { background: #010810; }
+.sl-modal::-webkit-scrollbar-thumb,
+.sl-story-inner::-webkit-scrollbar-thumb { background: #004422; }
+
+/* ============================================================
+   AMBIENT REACTOR GLOW (when HP low)
+   ============================================================ */
+.sl-play-field.danger {
+  box-shadow: inset 0 0 40px rgba(255, 68, 68, 0.12);
+}
+.sl-play-field.critical-danger {
+  box-shadow: inset 0 0 60px rgba(255, 68, 68, 0.25);
+  animation: sl-danger-pulse 1s ease-in-out infinite;
+}
+@keyframes sl-danger-pulse {
+  0%, 100% { box-shadow: inset 0 0 60px rgba(255, 68, 68, 0.20); }
+  50%       { box-shadow: inset 0 0 80px rgba(255, 68, 68, 0.35); }
+}

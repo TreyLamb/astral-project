@@ -1,0 +1,141 @@
+{
+  "items": [
+    {
+      "id": "pokeball",
+      "name": "Pokéball",
+      "icon": "⚪",
+      "type": "ball",
+      "catchMultiplier": 1.0,
+      "cost": 200,
+      "description": "A basic ball for catching Gitmon. Works on weakened targets."
+    },
+    {
+      "id": "greatball",
+      "name": "Greatball",
+      "icon": "🔵",
+      "type": "ball",
+      "catchMultiplier": 1.5,
+      "cost": 600,
+      "description": "A good ball with a higher catch rate than a Pokéball."
+    },
+    {
+      "id": "ultraball",
+      "name": "Ultraball",
+      "icon": "🟡",
+      "type": "ball",
+      "catchMultiplier": 2.0,
+      "cost": 1200,
+      "description": "An ultra-performance ball. Best for rare and legendary Gitmon."
+    },
+    {
+      "id": "masterball",
+      "name": "Masterball",
+      "icon": "🟣",
+      "type": "ball",
+      "catchMultiplier": 255,
+      "cost": 0,
+      "description": "Catches any Gitmon without fail. Only one exists in the world."
+    },
+    {
+      "id": "potion",
+      "name": "Potion",
+      "icon": "🧪",
+      "type": "heal",
+      "healAmount": 20,
+      "cost": 300,
+      "description": "Restores 20 HP to one Gitmon."
+    },
+    {
+      "id": "super_potion",
+      "name": "Super Potion",
+      "icon": "💊",
+      "type": "heal",
+      "healAmount": 50,
+      "cost": 700,
+      "description": "Restores 50 HP to one Gitmon."
+    },
+    {
+      "id": "hyper_potion",
+      "name": "Hyper Potion",
+      "icon": "💉",
+      "type": "heal",
+      "healAmount": 120,
+      "cost": 1500,
+      "description": "Restores 120 HP to one Gitmon."
+    },
+    {
+      "id": "max_potion",
+      "name": "Max Potion",
+      "icon": "✨",
+      "type": "heal",
+      "healAmount": 999,
+      "cost": 2500,
+      "description": "Fully restores one Gitmon's HP."
+    },
+    {
+      "id": "revive",
+      "name": "Revive",
+      "icon": "💫",
+      "type": "revive",
+      "healAmount": 0.5,
+      "cost": 1500,
+      "description": "Revives a fainted Gitmon to half HP."
+    },
+    {
+      "id": "max_revive",
+      "name": "Max Revive",
+      "icon": "⭐",
+      "type": "revive",
+      "healAmount": 1.0,
+      "cost": 4000,
+      "description": "Revives a fainted Gitmon to full HP."
+    },
+    {
+      "id": "x_attack",
+      "name": "X Attack",
+      "icon": "⚔️",
+      "type": "stat_boost",
+      "stat": "attack",
+      "stages": 1,
+      "cost": 500,
+      "description": "Raises your Gitmon's Attack by 1 stage for this battle."
+    },
+    {
+      "id": "x_defense",
+      "name": "X Defense",
+      "icon": "🛡️",
+      "type": "stat_boost",
+      "stat": "defense",
+      "stages": 1,
+      "cost": 550,
+      "description": "Raises your Gitmon's Defense by 1 stage for this battle."
+    },
+    {
+      "id": "pp_restore",
+      "name": "Ether",
+      "icon": "🔋",
+      "type": "pp_restore",
+      "restoreAmount": 10,
+      "cost": 1200,
+      "description": "Restores 10 PP to one move."
+    },
+    {
+      "id": "full_restore",
+      "name": "Full Restore",
+      "icon": "🌟",
+      "type": "full_restore",
+      "cost": 3000,
+      "description": "Fully restores HP and cures all status conditions for one Gitmon."
+    }
+  ],
+  "shopsByTown": {
+    "initfields": ["pokeball", "potion"],
+    "branchwood": ["pokeball", "greatball", "potion", "super_potion", "x_attack"],
+    "conflux_city": ["greatball", "super_potion", "hyper_potion", "x_attack", "x_defense", "revive"],
+    "originport": ["greatball", "ultraball", "hyper_potion", "max_potion", "revive", "x_attack", "x_defense"],
+    "historyville": ["ultraball", "max_potion", "revive", "max_revive", "pp_restore"],
+    "stashborough": ["ultraball", "max_potion", "max_revive", "full_restore", "pp_restore"],
+    "revertton": ["ultraball", "max_potion", "max_revive", "full_restore", "pp_restore"],
+    "versionpeak": ["ultraball", "max_potion", "max_revive", "full_restore", "pp_restore", "x_attack", "x_defense"]
+  }
+}

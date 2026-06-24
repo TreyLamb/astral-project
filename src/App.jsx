@@ -18,10 +18,11 @@ import DailyIdiomWidget from './pages/DailyIdiomWidget';
 import Lexicon from './pages/Lexicon';
 import QATracker from './pages/QATracker';
 import RSMarket from './pages/RSMarket';
+import GooglePhotos from './pages/GooglePhotos';
 import MymdbApp from './pages/mymdb/MymdbApp';
-import LangApp      from './pages/lang/LangApp';
-import SqlQuestApp    from './pages/sqlquest/SqlQuestApp';
-import PythonGameApp  from './pages/python-game/PythonGameApp';
+import GitmonApp from './pages/gitmon/GitmonApp';
+import BashmonApp from './pages/bashmon/BashmonApp';
+import SignalLostApp from './pages/signal-lost/SignalLostApp';
 import './App.css';
 
 function App() {
@@ -40,10 +41,11 @@ function App() {
           <Route path="/lexicon" element={<Lexicon />} />
           <Route path="/qa-tracker" element={<QATracker />} />
           <Route path="/rs-market" element={<RSMarket />} />
-          <Route path="/mymdb/*" element={<MymdbApp />} />
-          <Route path="/lang/*"      element={<LangApp />} />
-          <Route path="/sql-quest"      element={<SqlQuestApp />} />
-          <Route path="/python-game/*"  element={<PythonGameApp />} />
+          <Route path="/google-photos" element={<GooglePhotos />} />
+          <Route path="/mymdb/*"       element={<MymdbApp />} />
+          <Route path="/gitmon/*"     element={<GitmonApp />} />
+          <Route path="/bashmon/*"    element={<BashmonApp />} />
+          <Route path="/signal-lost/*" element={<SignalLostApp />} />
         </Routes>
       </div>
     </Router>
