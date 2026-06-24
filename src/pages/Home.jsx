@@ -1,152 +1,61 @@
+import { Link } from 'react-router-dom';
 import './Home.css';
 
-function Home() {
+const TILES = [
+  { to: '/mymdb',                  name: 'MyMDB',           desc: 'movie & book library',          icon: '▶',  bg: '#0d1117', accent: '#3b82f6', rgb: '59,130,246',  span: 2 },
+  { to: '/rs-market',              name: 'RS Market',        desc: 'runescape grand exchange',       icon: '⚔️', bg: '#060f06', accent: '#22c55e', rgb: '34,197,94'   },
+  { to: '/qa-tracker',             name: 'QA Tracker',       desc: 'self-rating for qa skills',      icon: '📊', bg: '#0a0d17', accent: '#818cf8', rgb: '129,140,248'  },
+  { to: '/sql-quest',              name: 'SQL Quest',        desc: 'fight monsters with sql',        icon: '⚔️', bg: '#100820', accent: '#a78bfa', rgb: '167,139,250', span: 2 },
+  { to: '/birds/index.html',       name: 'BIRDS!!',          desc: 'bird watching game',             icon: '🐦', bg: '#08150c', accent: '#34d399', rgb: '52,211,153',  ext: true },
+  { to: '/rustpunkio/index.html',  name: 'RustPunkio',      desc: 'rust-themed clicker',            icon: '🔧', bg: '#160900', accent: '#fb923c', rgb: '251,146,60',  ext: true },
+  { to: '/rustioclone/index.html', name: 'Rustio Clone',    desc: 'multiplayer survival clone',     icon: '🌿', bg: '#071008', accent: '#86efac', rgb: '134,239,172', ext: true },
+  { to: '/daily-idiom',            name: 'Daily Chéngyǔ',   desc: 'new chinese idiom every day',    icon: '📖', bg: '#160404', accent: '#f87171', rgb: '248,113,113'  },
+  { to: '/lexicon',                name: 'The Lexicon',      desc: 'vocabulary study tool',          icon: '🔤', bg: '#090d14', accent: '#94a3b8', rgb: '148,163,184'  },
+  { to: '/daily-idiom-widget',     name: 'Chéngyǔ Widget',  desc: 'embeddable idiom display',       icon: '🪟', bg: '#141004', accent: '#fbbf24', rgb: '251,191,36'   },
+];
+
+function Tile({ to, name, desc, icon, bg, accent, rgb, span, ext }) {
+  const vars = { '--bg': bg, '--accent': accent, '--rgb': rgb };
+  const cls   = `hm-tile${span ? ' hm-tile-wide' : ''}`;
+  const inner = (
+    <>
+      <div className="hm-preview">
+        <span className="hm-icon">{icon}</span>
+        <div className="hm-glow" />
+      </div>
+      <div className="hm-foot">
+        <span className="hm-name">{name}</span>
+        <span className="hm-desc">{desc}</span>
+      </div>
+    </>
+  );
+  return ext
+    ? <a       href={to} className={cls} style={vars}>{inner}</a>
+    : <Link    to={to}   className={cls} style={vars}>{inner}</Link>;
+}
+
+export default function Home() {
   return (
-    <div className="container">
-      <header>
-        <h1>Learn Astral Projection</h1>
-        <p className="subtitle">DO Explore the Realms Beyond Physical Reality with Trey</p>
-      </header>
+    <div className="hm-page">
 
-      <div className="section">
-        <h2>What is Astral Projection?</h2>
-        <p className="intro">
-          Astral projection, also known as an out-of-body experience (OBE), is the practice of consciously
-          separating your consciousness from your physical body to explore non-physical planes of existence.
-          Practitioners report traveling through space, visiting distant locations, and experiencing realms
-          beyond ordinary perception.
-        </p>
+      {/* ── Animated aurora background ── */}
+      <div className="hm-aurora" aria-hidden="true">
+        <div className="hm-blob b1" />
+        <div className="hm-blob b2" />
+        <div className="hm-blob b3" />
+        <div className="hm-blob b4" />
+        <div className="hm-blob b5" />
+        <div className="hm-blob b6" />
       </div>
 
-      <div className="section">
-        <h2>Getting Started: Prerequisites</h2>
-        <ul className="tips-list">
-          <li>Practice meditation regularly to develop mental discipline and focus</li>
-          <li>Create a quiet, comfortable space free from distractions</li>
-          <li>Maintain a consistent sleep schedule</li>
-          <li>Keep a dream journal to enhance awareness</li>
-          <li>Cultivate patience - mastery takes time and practice</li>
-        </ul>
+      <div className="hm-wrap">
+        <div className="hm-grid">
+          {TILES.map(t => <Tile key={t.to} {...t} />)}
+        </div>
+
+        <footer className="hm-footer">made by trey</footer>
       </div>
 
-      <div className="section">
-        <h2>Step-by-Step Guide</h2>
-        <div className="steps">
-          <div className="step-card">
-            <div className="step-number">1</div>
-            <h3>Relaxation</h3>
-            <p>
-              Lie down in a comfortable position. Progressively relax each muscle group from
-              your toes to your head. Release all physical tension and let your body become
-              completely still.
-            </p>
-          </div>
-
-          <div className="step-card">
-            <div className="step-number">2</div>
-            <h3>Enter Hypnagogic State</h3>
-            <p>
-              Maintain awareness as your body falls asleep. You'll enter the state between
-              waking and sleeping. Stay conscious while your body becomes paralyzed - this
-              is normal and safe.
-            </p>
-          </div>
-
-          <div className="step-card">
-            <div className="step-number">3</div>
-            <h3>Deepen Your State</h3>
-            <p>
-              Focus on the darkness behind your closed eyes. You may see colors, patterns,
-              or lights. Let these visions come without attachment. Deepen your relaxation
-              and awareness.
-            </p>
-          </div>
-
-          <div className="step-card">
-            <div className="step-number">4</div>
-            <h3>Vibration Stage</h3>
-            <p>
-              Many experience vibrations or electrical sensations throughout the body.
-              Don't be alarmed - this is a sign you're ready to separate. Remain calm
-              and let the vibrations intensify.
-            </p>
-          </div>
-
-          <div className="step-card">
-            <div className="step-number">5</div>
-            <h3>Separation</h3>
-            <p>
-              Use a technique to separate: visualize floating upward, rolling out of your
-              body, or standing up. Maintain strong intention and confidence. Don't use
-              physical force - it's all mental.
-            </p>
-          </div>
-
-          <div className="step-card">
-            <div className="step-number">6</div>
-            <h3>Explore & Return</h3>
-            <p>
-              Once separated, explore your surroundings. Move by intention rather than
-              physical effort. To return, simply think of your body or intend to return.
-              You'll snap back instantly.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="section">
-        <h2>Popular Techniques</h2>
-
-        <div className="technique">
-          <h3>The Rope Technique</h3>
-          <p>
-            Visualize a rope hanging above you. Without moving your physical body, imagine
-            reaching up and climbing the rope hand over hand. Feel the texture and pull yourself
-            upward until you separate from your body.
-          </p>
-        </div>
-
-        <div className="technique">
-          <h3>The Roll-Out Method</h3>
-          <p>
-            Once deeply relaxed, imagine rolling to your side like you're getting out of bed.
-            Don't move physically - only visualize the motion. Your astral body should roll out
-            while your physical body remains still.
-          </p>
-        </div>
-
-        <div className="technique">
-          <h3>Wake Back to Bed (WBTB)</h3>
-          <p>
-            Set an alarm for 4-6 hours after falling asleep. Wake up, stay awake for 20-30 minutes,
-            then return to bed with the intention to astral project. Your mind will be alert while
-            your body quickly falls back to sleep.
-          </p>
-        </div>
-      </div>
-
-      <div className="section">
-        <h2>Tips for Success</h2>
-        <ul className="tips-list">
-          <li>Practice in the early morning hours when you're naturally in lighter sleep stages</li>
-          <li>Don't force it - remain calm and patient throughout the process</li>
-          <li>Use binaural beats or theta wave audio to enhance relaxation</li>
-          <li>Set clear intentions before each practice session</li>
-          <li>Document your experiences to track progress and identify patterns</li>
-          <li>Practice visualization exercises during the day to strengthen mental imagery</li>
-        </ul>
-
-        <div className="warning">
-          <strong>Important:</strong> 
-        </div>
-      </div>
-
-      <footer>
-        <p>Remember: Practice, patience, and persistence are key to mastering astral projection.</p>
-        <p>Trust your experiences and enjoy the journey!</p>
-      </footer>
     </div>
   );
 }
-
-export default Home;

@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { readFileAsDataUrl, getYouTubeId } from './mymdbUtils';
-import { useToast, useMymdbData } from './MymdbApp';
+import { useToast, useMymdbData, useMymdbWatchlist } from './MymdbApp';
 import TmdbSearch from './TmdbSearch';
 
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -64,25 +64,30 @@ function StarInput({ rating, onChange }) {
 
 export default function MymdbForm() {
   const { id: editId } = useParams();
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
+  const location  = useLocation();
   const showToast = useToast();
   const { getItem, addItem, updateItem } = useMymdbData();
+  const { removeWatchlistItem } = useMymdbWatchlist();
 
-  const editItem = editId ? getItem(editId) : null;
+  const editItem           = editId ? getItem(editId) : null;
+  const prefill            = location.state?.prefill ?? {};
+  const fromWatchlistId    = location.state?.fromWatchlistId ?? null;
+  const isFromWatchlist    = Boolean(fromWatchlistId);
 
-  const [type,         setType]         = useState(editItem?.type   ?? 'movie');
-  const [title,        setTitle]        = useState(editItem?.title  ?? '');
-  const [director,     setDirector]     = useState(editItem?.director ?? '');
-  const [author,       setAuthor]       = useState(editItem?.author   ?? '');
-  const [year,         setYear]         = useState(editItem?.year     ?? '');
-  const [genre,        setGenre]        = useState(editItem?.genre    ?? '');
-  const [status,       setStatus]       = useState(editItem?.status   ?? 'plan');
+  const [type,          setType]          = useState(editItem?.type          ?? prefill.type        ?? 'movie');
+  const [title,         setTitle]         = useState(editItem?.title         ?? prefill.title       ?? '');
+  const [director,      setDirector]      = useState(editItem?.director      ?? '');
+  const [author,        setAuthor]        = useState(editItem?.author        ?? '');
+  const [year,          setYear]          = useState(editItem?.year          ?? prefill.year        ?? '');
+  const [genre,         setGenre]         = useState(editItem?.genre         ?? prefill.genre       ?? '');
+  const [status,        setStatus]        = useState(editItem?.status        ?? prefill.status      ?? 'plan');
   const [dateCompleted, setDateCompleted] = useState(editItem?.dateCompleted ?? '');
-  const [rating,       setRating]       = useState(editItem?.rating  ?? null);
-  const [notes,        setNotes]        = useState(editItem?.notes   ?? '');
-  const [cast,         setCast]         = useState(editItem?.cast    ?? []);
-  const [coverSrc,     setCoverSrc]     = useState(editItem?.coverImage ?? '');
-  const [coverUrlInput, setCoverUrlInput] = useState(editItem?.coverImage ?? '');
+  const [rating,        setRating]        = useState(editItem?.rating        ?? null);
+  const [notes,         setNotes]         = useState(editItem?.notes         ?? prefill.notes       ?? '');
+  const [cast,          setCast]          = useState(editItem?.cast          ?? []);
+  const [coverSrc,      setCoverSrc]      = useState(editItem?.coverImage    ?? prefill.coverImage  ?? '');
+  const [coverUrlInput, setCoverUrlInput] = useState(editItem?.coverImage    ?? prefill.coverImage  ?? '');
 
   const coverInputRef = useRef(null);
 
@@ -100,8 +105,9 @@ export default function MymdbForm() {
   }
 
   function goBack() {
-    if (editItem) navigate(`/mymdb/item/${editItem.id}`);
-    else          navigate('/mymdb');
+    if (editItem)        navigate(`/mymdb/item/${editItem.id}`);
+    else if (isFromWatchlist) navigate('/mymdb/watchlist');
+    else                 navigate('/mymdb');
   }
 
   function handleTmdbSelect(suggestion) {
@@ -142,7 +148,12 @@ export default function MymdbForm() {
       navigate(`/mymdb/item/${editItem.id}`);
     } else {
       const saved = await addItem(data);
-      showToast('Added to your library!', 'success');
+      if (fromWatchlistId) {
+        await removeWatchlistItem(fromWatchlistId);
+        showToast(`"${data.title}" moved to Library!`, 'success');
+      } else {
+        showToast('Added to your library!', 'success');
+      }
       navigate(`/mymdb/item/${saved.id}`);
     }
   }
@@ -151,12 +162,16 @@ export default function MymdbForm() {
     <div className="mdb-form-page">
       <button className="mdb-back-btn" onClick={goBack}>
         <span className="mdb-back-btn-arrow">←</span>
-        {editItem ? 'Back to item' : 'Back to Library'}
+        {editItem ? 'Back to item' : isFromWatchlist ? 'Back to Watchlist' : 'Back to Library'}
       </button>
 
-      <h1>{editItem ? 'Edit Item' : 'Add New Item'}</h1>
+      <h1>{editItem ? 'Edit Item' : isFromWatchlist ? 'Move to Library' : 'Add New Item'}</h1>
       <p className="mdb-form-subtitle">
-        {editItem ? `Editing "${editItem.title}"` : 'Track a movie or book in your library.'}
+        {editItem
+          ? `Editing "${editItem.title}"`
+          : isFromWatchlist
+          ? `Fill in the details for "${prefill.title}" before adding it to your library.`
+          : 'Track a movie or book in your library.'}
       </p>
 
       <div className="mdb-form-card">

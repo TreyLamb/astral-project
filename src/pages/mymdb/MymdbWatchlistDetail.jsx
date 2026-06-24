@@ -1,12 +1,11 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useToast, useMymdbWatchlist, useMymdbData } from './MymdbApp';
+import { useToast, useMymdbWatchlist } from './MymdbApp';
 
 export default function MymdbWatchlistDetail() {
   const { id }     = useParams();
   const navigate   = useNavigate();
   const showToast  = useToast();
   const { getWatchlistItem, removeWatchlistItem, updateWatchlistItem } = useMymdbWatchlist();
-  const { addItem } = useMymdbData();
 
   const item = getWatchlistItem(id);
 
@@ -34,25 +33,21 @@ export default function MymdbWatchlistDetail() {
     await updateWatchlistItem(item.id, { priority: !item.priority });
   }
 
-  async function handleMoveToLibrary() {
-    if (!window.confirm(`Move "${item.title}" to your Library as "Plan to Watch"?`)) return;
-    await addItem({
-      title:      item.title,
-      type:       'movie',
-      year:       item.year,
-      genre:      item.genre,
-      notes:      item.notes,
-      coverImage: item.coverImage,
-      status:     'plan',
-      rating:     null,
-      director:   '',
-      author:     '',
-      cast:       [],
-      dateCompleted: null,
+  function handleMoveToLibrary() {
+    navigate('/mymdb/add', {
+      state: {
+        prefill: {
+          title:      item.title,
+          year:       item.year,
+          genre:      item.genre,
+          notes:      item.notes,
+          coverImage: item.coverImage,
+          type:       'movie',
+          status:     'plan',
+        },
+        fromWatchlistId: item.id,
+      },
     });
-    await removeWatchlistItem(item.id);
-    showToast(`"${item.title}" moved to Library!`, 'success');
-    navigate('/mymdb');
   }
 
   return (
