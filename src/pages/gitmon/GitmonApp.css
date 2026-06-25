@@ -2,168 +2,11 @@
 
 /* ── Root / Layout ── */
 .gm-root {
-  min-height: 100vh;
-  background: #1a1a2e;
+  min-height: calc(100vh - var(--nav-h, 70px));
+  background: #0a0f1a;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
+  flex-direction: column;
   font-family: 'Press Start 2P', monospace;
-}
-
-/* ── Game Boy Shell ── */
-.gm-shell {
-  width: 380px;
-  background: linear-gradient(160deg, #2d2d44 0%, #1e1e30 100%);
-  border-radius: 12px 12px 40px 40px / 12px 12px 24px 24px;
-  padding: 20px 20px 32px;
-  box-shadow:
-    inset 0 2px 4px rgba(255,255,255,0.07),
-    inset 0 -4px 8px rgba(0,0,0,0.4),
-    0 12px 48px rgba(0,0,0,0.7),
-    0 0 0 2px #0d0d1a;
-  position: relative;
-  user-select: none;
-}
-
-/* Brand label */
-.gm-brand {
-  text-align: center;
-  font-size: 0.45rem;
-  color: rgba(255,255,255,0.25);
-  letter-spacing: 0.15em;
-  margin-bottom: 12px;
-  text-transform: uppercase;
-}
-
-/* ── Screen Bezel ── */
-.gm-bezel {
-  background: #0d1117;
-  border-radius: 6px;
-  padding: 6px;
-  box-shadow:
-    inset 0 2px 6px rgba(0,0,0,0.8),
-    0 1px 0 rgba(255,255,255,0.05);
-  margin-bottom: 16px;
-}
-
-/* ── Screen ── */
-.gm-screen {
-  background: #0f1923;
-  border-radius: 4px;
-  min-height: 280px;
-  overflow: hidden;
-  position: relative;
-  image-rendering: pixelated;
-}
-
-/* CRT scanline overlay */
-.gm-screen::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,0.07) 2px,
-    rgba(0,0,0,0.07) 4px
-  );
-  pointer-events: none;
-  z-index: 100;
-}
-
-/* ── D-pad area (decorative) ── */
-.gm-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 8px;
-  margin-top: 8px;
-}
-
-.gm-dpad {
-  width: 64px;
-  height: 64px;
-  position: relative;
-}
-
-.gm-dpad-h,
-.gm-dpad-v {
-  position: absolute;
-  background: #111;
-  border-radius: 3px;
-}
-
-.gm-dpad-h {
-  width: 100%;
-  height: 33%;
-  top: 33%;
-  left: 0;
-}
-
-.gm-dpad-v {
-  width: 33%;
-  height: 100%;
-  top: 0;
-  left: 33%;
-}
-
-.gm-dpad-center {
-  position: absolute;
-  width: 33%;
-  height: 33%;
-  top: 33%;
-  left: 33%;
-  background: #1a1a1a;
-  border-radius: 2px;
-}
-
-.gm-ab-buttons {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.gm-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  font-size: 0.4rem;
-  font-family: 'Press Start 2P', monospace;
-  color: white;
-  box-shadow: 0 3px 0 rgba(0,0,0,0.4);
-  transition: transform 0.05s, box-shadow 0.05s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.gm-btn:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 rgba(0,0,0,0.4);
-}
-
-.gm-btn-a { background: #c0392b; }
-.gm-btn-b { background: #7f1c10; }
-
-.gm-start-select {
-  display: flex;
-  gap: 8px;
-}
-
-.gm-btn-small {
-  background: #333;
-  border: none;
-  color: rgba(255,255,255,0.4);
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.35rem;
-  padding: 4px 8px;
-  border-radius: 10px;
-  cursor: pointer;
-  transform: rotate(-20deg);
 }
 
 /* ── BATTLE SCREEN ── */
@@ -171,8 +14,12 @@
 .gm-battle {
   display: flex;
   flex-direction: column;
-  height: 280px;
+  height: calc(100vh - var(--nav-h, 70px));
 }
+
+/* When fight panel is open, field shrinks to 60% */
+.gm-battle[data-phase="fight"] .gm-battle-field { flex: 0 0 60%; }
+.gm-battle[data-phase="fight"] .gm-command-panel { flex: 0 0 40%; overflow-y: auto; }
 
 /* Upper battle field */
 .gm-battle-field {
@@ -208,9 +55,9 @@
 .gm-enemy-sprite {
   position: absolute;
   top: 12px;
-  left: 12px;
-  font-size: 3rem;
-  line-height: 1;
+  right: 12px;
+  width: 128px;
+  height: 128px;
   animation: gm-enemy-idle 2s ease-in-out infinite;
   filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
 }
@@ -229,9 +76,9 @@
 .gm-player-sprite {
   position: absolute;
   bottom: 12px;
-  right: 12px;
-  font-size: 3rem;
-  line-height: 1;
+  left: 12px;
+  width: 128px;
+  height: 128px;
   animation: gm-player-idle 2.5s ease-in-out infinite;
   filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
 }
@@ -250,7 +97,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.4rem;
+  font-size: 13px;
   color: #e0e0e0;
   margin-bottom: 3px;
   white-space: nowrap;
@@ -258,11 +105,11 @@
 
 .gm-mon-level {
   color: #aaa;
-  font-size: 0.35rem;
+  font-size: 11px;
 }
 
 .gm-hp-label {
-  font-size: 0.35rem;
+  font-size: 11px;
   color: #aaa;
   margin-bottom: 2px;
 }
@@ -270,7 +117,7 @@
 .gm-hp-bar-track {
   background: #333;
   border-radius: 2px;
-  height: 5px;
+  height: 8px;
   width: 100%;
   overflow: hidden;
 }
@@ -286,7 +133,7 @@
 .gm-hp-bar-fill.low   { background: #f44336; }
 
 .gm-hp-numbers {
-  font-size: 0.35rem;
+  font-size: 11px;
   color: #ccc;
   text-align: right;
   margin-top: 2px;
@@ -312,11 +159,11 @@
 .gm-textbox {
   background: #0a0f18;
   border-top: 2px solid rgba(255,255,255,0.1);
-  min-height: 70px;
-  padding: 8px 10px;
-  font-size: 0.45rem;
+  min-height: 100px;
+  padding: 20px 24px;
+  font-size: 14px;
   color: #e8e8e8;
-  line-height: 1.8;
+  line-height: 1.9;
   position: relative;
 }
 
@@ -331,8 +178,8 @@
 .gm-battle-menu {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  padding: 8px 10px;
+  gap: 8px;
+  padding: 16px 24px;
   background: #0a0f18;
   border-top: 2px solid rgba(255,255,255,0.1);
 }
@@ -343,8 +190,8 @@
   border-radius: 3px;
   color: #e0e0e0;
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.45rem;
-  padding: 6px 4px;
+  font-size: 14px;
+  padding: 12px 16px;
   cursor: pointer;
   transition: background 0.1s, color 0.1s;
   text-align: left;
@@ -362,6 +209,11 @@
   outline: none;
 }
 
+.gm-menu-btn.selected { background: rgba(126,200,227,0.15); border-color: rgba(126,200,227,0.6); color: #7ec8e3; }
+.gm-menu-btn.selected::before { opacity: 1; }
+.gm-menu-key { font-size: 10px; color: rgba(255,255,255,0.3); margin-left: 4px; }
+.gm-kb-hint  { font-size: 10px; color: rgba(255,255,255,0.3); }
+
 .gm-menu-btn:hover::before,
 .gm-menu-btn:focus::before {
   opacity: 1;
@@ -371,7 +223,7 @@
 .gm-command-panel {
   background: #050a10;
   border-top: 2px solid rgba(255,255,255,0.1);
-  padding: 8px 10px;
+  padding: 16px 24px;
 }
 
 .gm-moves-list {
@@ -382,20 +234,20 @@
 }
 
 .gm-move-chip {
-  font-size: 0.35rem;
+  font-size: 12px;
   color: #7ec8e3;
   background: rgba(126,200,227,0.08);
   border: 1px solid rgba(126,200,227,0.2);
   border-radius: 2px;
-  padding: 3px 5px;
+  padding: 6px 8px;
   line-height: 1.4;
 }
 
 .gm-move-chip .gm-move-hint {
   display: block;
-  color: rgba(255,255,255,0.35);
-  font-size: 0.3rem;
-  margin-top: 1px;
+  color: rgba(255,255,255,0.55);
+  font-size: 11px;
+  margin-top: 3px;
 }
 
 .gm-move-chip.no-pp {
@@ -415,7 +267,7 @@
 
 .gm-terminal-prompt {
   color: #7ec8e3;
-  font-size: 0.45rem;
+  font-size: 14px;
   white-space: nowrap;
 }
 
@@ -426,13 +278,13 @@
   outline: none;
   color: #e8e8e8;
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.45rem;
+  font-size: 14px;
   caret-color: #7ec8e3;
 }
 
 .gm-error-text {
   color: #f44336;
-  font-size: 0.38rem;
+  font-size: 12px;
   margin-top: 4px;
   line-height: 1.5;
 }
@@ -442,7 +294,7 @@
   border: none;
   color: rgba(255,255,255,0.4);
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.35rem;
+  font-size: 11px;
   cursor: pointer;
   margin-top: 4px;
   padding: 0;
@@ -456,14 +308,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 280px;
-  padding: 16px;
-  gap: 12px;
+  min-height: calc(100vh - var(--nav-h, 70px));
+  padding: 32px 40px;
+  gap: 16px;
   background: linear-gradient(180deg, #0a1628 0%, #071020 100%);
 }
 
 .gm-title {
-  font-size: 0.85rem;
+  font-size: 36px;
   color: #7ec8e3;
   text-shadow: 0 0 12px rgba(126,200,227,0.6), 2px 2px 0 #0a2a44;
   text-align: center;
@@ -472,7 +324,7 @@
 }
 
 .gm-subtitle {
-  font-size: 0.38rem;
+  font-size: 13px;
   color: rgba(255,255,255,0.35);
   text-align: center;
 }
@@ -483,8 +335,8 @@
   border-radius: 3px;
   color: #7ec8e3;
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.45rem;
-  padding: 8px 16px;
+  font-size: 14px;
+  padding: 14px 24px;
   cursor: pointer;
   transition: background 0.15s, transform 0.05s;
   width: 100%;
@@ -507,7 +359,7 @@
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 4px;
-  padding: 8px 4px;
+  padding: 12px 8px;
   cursor: pointer;
   text-align: center;
   transition: border-color 0.15s, background 0.15s;
@@ -519,15 +371,15 @@
   background: rgba(126,200,227,0.1);
 }
 
-.gm-starter-sprite { font-size: 2rem; display: block; margin-bottom: 4px; }
-.gm-starter-name   { font-size: 0.35rem; color: #e0e0e0; }
-.gm-starter-type   { font-size: 0.3rem;  color: #888; margin-top: 2px; }
+.gm-starter-sprite { display: block; margin-bottom: 4px; }
+.gm-starter-name   { font-size: 12px; color: #e0e0e0; }
+.gm-starter-type   { font-size: 11px; color: #888; margin-top: 2px; }
 
 /* ── OVERWORLD ── */
 .gm-overworld {
   display: flex;
   flex-direction: column;
-  min-height: 280px;
+  min-height: calc(100vh - var(--nav-h, 70px));
   background: #0a1628;
 }
 
@@ -538,7 +390,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.38rem;
+  font-size: 13px;
   color: #aaa;
 }
 
@@ -553,7 +405,7 @@
 }
 
 .gm-ow-desc {
-  font-size: 0.4rem;
+  font-size: 13px;
   color: #ccc;
   line-height: 1.8;
   margin-bottom: 6px;
@@ -571,8 +423,8 @@
   border-radius: 3px;
   color: #e0e0e0;
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.42rem;
-  padding: 6px 8px;
+  font-size: 13px;
+  padding: 10px 12px;
   cursor: pointer;
   text-align: left;
   transition: background 0.1s;
@@ -591,11 +443,14 @@
   padding: 5px 8px;
   display: flex;
   gap: 8px;
-  font-size: 0.35rem;
+  font-size: 11px;
   color: #777;
 }
 
 .gm-ow-money { color: #ffd700; }
+.gm-ow-log   { font-size: 13px; color: #ffd700; margin-top: 6px; line-height: 1.8; }
+.gm-qty-btn  { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #aaa; font-family: 'Press Start 2P',monospace; font-size: 11px; padding: 3px 8px; cursor: pointer; border-radius: 2px; }
+.gm-qty-val  { font-size: 11px; color: #e0e0e0; min-width: 14px; text-align: center; }
 
 /* ── PARTY / BAG ── */
 .gm-party-list {
@@ -616,11 +471,11 @@
 }
 
 .gm-party-slot.fainted { opacity: 0.4; }
-.gm-party-sprite { font-size: 1.4rem; }
+.gm-party-sprite { display: flex; align-items: center; }
 
 .gm-party-info { flex: 1; }
-.gm-party-name { font-size: 0.4rem; color: #e0e0e0; }
-.gm-party-stats { font-size: 0.32rem; color: #888; margin-top: 2px; }
+.gm-party-name { font-size: 13px; color: #e0e0e0; }
+.gm-party-stats { font-size: 11px; color: #888; margin-top: 2px; }
 
 /* ── LEVEL UP SCREEN ── */
 .gm-levelup {
@@ -628,15 +483,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 280px;
+  min-height: calc(100vh - var(--nav-h, 70px));
   gap: 8px;
   padding: 16px;
   background: radial-gradient(ellipse at center, #1a3a5c 0%, #0a1628 70%);
 }
 
-.gm-levelup-sprite { font-size: 4rem; }
-.gm-levelup-text   { font-size: 0.55rem; color: #ffd700; text-align: center; }
-.gm-levelup-sub    { font-size: 0.38rem; color: #ccc; text-align: center; line-height: 1.8; }
+.gm-levelup-sprite { display: flex; align-items: center; justify-content: center; }
+.gm-levelup-text   { font-size: 20px; color: #ffd700; text-align: center; }
+.gm-levelup-sub    { font-size: 13px; color: #ccc; text-align: center; line-height: 1.8; }
 
 /* ── EVOLVE SCREEN ── */
 .gm-evolve {
@@ -644,7 +499,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 280px;
+  min-height: calc(100vh - var(--nav-h, 70px));
   gap: 12px;
   padding: 16px;
   background: #fff;
@@ -660,14 +515,13 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  font-size: 3rem;
 }
 
 .gm-evolve-arrow { font-size: 1.5rem; color: #7ec8e3; }
-.gm-evolve-text  { font-size: 0.5rem; color: #e0e0e0; text-align: center; }
+.gm-evolve-text  { font-size: 14px; color: #e0e0e0; text-align: center; }
 
 /* ── Type badge colors ── */
-.gm-type { font-size: 0.35rem; border-radius: 2px; padding: 1px 4px; }
+.gm-type { font-size: 11px; border-radius: 2px; padding: 1px 4px; }
 .gm-type-FILE    { background: #5d8a5e; color: #e0f0e0; }
 .gm-type-PROCESS { background: #7c5cbf; color: #f0e0ff; }
 .gm-type-NETWORK { background: #1a6091; color: #d0e8ff; }
@@ -675,7 +529,7 @@
 
 /* ── Utility ── */
 .gm-press-a {
-  font-size: 0.4rem;
+  font-size: 14px;
   color: rgba(255,255,255,0.4);
   animation: gm-blink 1s step-end infinite;
   margin-top: 4px;

@@ -2,209 +2,339 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGitmon } from './GitmonApp';
 import { createMon, createWildEncounter, getSpeciesById } from './gitmonEngine';
-import GYMS_DATA from './content/gyms.json';
+import GYMS_DATA  from './content/gyms.json';
 import ITEMS_DATA from './content/items.json';
 
-const GYMS_MAP = Object.fromEntries(GYMS_DATA.gyms.map(g => [g.id, g]));
+const GYMS_MAP  = Object.fromEntries(GYMS_DATA.gyms.map(g => [g.id, g]));
 const ITEMS_MAP = Object.fromEntries(ITEMS_DATA.items.map(i => [i.id, i]));
 
-const TOWNS = {
-  initfields: {
-    name: 'Initfields',
-    desc: 'A quiet town where every trainer takes their first steps. Blank repos as far as the eye can see.',
-    gymId: 'gym1',
-    area: 'initfields',
+const SPRITE_BASE = 'https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen7x/regular';
+function spriteUrl(species) {
+  const id = species?.pokespriteId;
+  return id ? `${SPRITE_BASE}/${id}.png` : '';
+}
+
+// ── PHASE 1 WORLD MAP (Git-themed) ─────────────────────────────
+// Mirrors BashMon Phase 1 structure, flavored for git commands
+
+const WORLD_MAP = {
+  repo_town: {
+    name: 'Repo Town',
+    icon: '🏡',
+    type: 'town',
+    desc: `A quiet town where every trainer takes their first steps. Blank repos as far as the eye can see.
+Prof. Origin's lab sits to the north — she hands out starter Gitmon to new trainers.
+The air smells like fresh git inits and possibility.`,
+    connections: ['path_1'],
+    hasCenter: true,
+    shop: ['pokeball', 'potion'],
+  },
+
+  path_1: {
+    name: 'Path 1',
+    icon: '🌾',
+    type: 'route',
+    desc: `A straight path north through tall grass. Untracked Gitmon roam freely here.
+They respond to git status and git add commands — the building blocks of version control.
+The path leads to Status City, the first major trainer hub.`,
+    connections: ['repo_town', 'status_city'],
+    wildArea: 'path_1',
+  },
+
+  status_city: {
+    name: 'Status City',
+    icon: '🌿',
+    type: 'town',
+    desc: `A green city humming with commits. Trainers check their status constantly here.
+The Status Gym stands dark and locked — the leader is on a long sabbatical.
+You'll need all 7 other badges to challenge them.`,
+    connections: ['path_1', 'path_22', 'path_2'],
+    hasCenter: true,
     shop: ['pokeball', 'potion', 'super_potion'],
-    nextTown: 'branchwood',
-    prevTown: null,
+    gymLocked: true,
   },
-  branchwood: {
-    name: 'Branchwood',
-    desc: 'A forest town of branching paths. Every fork is a new possibility.',
-    gymId: 'gym2',
-    area: 'branch_forest',
+
+  path_22: {
+    name: 'Path 22',
+    icon: '🌄',
+    type: 'route',
+    desc: `A side route west of Status City. League-bound trainers warm up here.
+The grass holds Gitmon that know branch and checkout — trickier than Path 1.
+A familiar trainer might be lurking around the bend...`,
+    connections: ['status_city'],
+    wildArea: 'path_22',
+    event: 'rival_path22',
+  },
+
+  path_2: {
+    name: 'Path 2',
+    icon: '🌲',
+    type: 'route',
+    desc: `A forested path north from Status City toward the Add Forest.
+Diffrat and Blobby have moved into the undergrowth here.
+The forest entrance is visible ahead through the canopy.`,
+    connections: ['status_city', 'add_forest'],
+    wildArea: 'path_2',
+  },
+
+  add_forest: {
+    name: 'Add Forest',
+    icon: '🌳',
+    type: 'route',
+    desc: `A dense forest where unstaged changes lurk in every shadow.
+Gitmon here know git add, git branch, and git log — dangerous for the unprepared.
+NPC trainers await between the trees. Stage your moves carefully.`,
+    connections: ['path_2', 'commit_city'],
+    wildArea: 'add_forest',
+  },
+
+  commit_city: {
+    name: 'Commit City',
+    icon: '⛰️',
+    type: 'town',
+    desc: `A city built on a solid commit history. Every building is a clean merge.
+The Commit Gym challenges trainers on the git add, commit, and log commands.
+Leader Ada specializes in FILE-type Gitmon — she knows your diff before you do.`,
+    connections: ['add_forest', 'path_3'],
+    hasCenter: true,
     shop: ['pokeball', 'greatball', 'potion', 'super_potion', 'x_attack'],
-    nextTown: 'conflux_city',
-    prevTown: 'initfields',
-    requiredBadges: 1,
+    gymId: 'gym1',
   },
-  conflux_city: {
-    name: 'Conflux City',
-    desc: 'Where branches collide and merge into something greater. The air crackles with merge conflicts.',
-    gymId: 'gym3',
-    area: 'merge_valley',
-    shop: ['greatball', 'super_potion', 'hyper_potion', 'x_attack', 'x_defense'],
-    nextTown: 'originport',
-    prevTown: 'branchwood',
-    requiredBadges: 2,
+
+  path_3: {
+    name: 'Path 3',
+    icon: '🍃',
+    type: 'route',
+    desc: `A long path east from Commit City. Merge conflicts shimmer in the air.
+Trainers here carry powerful Gitmon that know branch and checkout.
+The air tastes like rebased commits and anticipation.`,
+    connections: ['commit_city', 'path_3_rest'],
+    wildArea: 'path_3',
   },
-  originport: {
-    name: 'Originport',
-    desc: 'A bustling harbor town. Ships carry code to remote servers across the network sea.',
-    gymId: 'gym4',
-    area: 'remote_shores',
-    shop: ['greatball', 'ultraball', 'hyper_potion', 'revive', 'pp_restore'],
-    nextTown: 'historyville',
-    prevTown: 'conflux_city',
-    requiredBadges: 3,
+
+  path_3_rest: {
+    name: 'Path 3 — Pokémon Center',
+    icon: '🏥',
+    type: 'rest',
+    desc: `A lone Pokémon Center at the edge of Conflict Cave.
+Trainers stop here to heal before attempting the cave system.
+"Conflict Cave is dangerous," the nurse says. "A rogue group has been forcing pushes inside."`,
+    connections: ['path_3', 'conflict_cave_1'],
+    hasCenter: true,
+    shop: ['pokeball', 'potion', 'super_potion'],
   },
-  historyville: {
-    name: 'Historyville',
-    desc: 'A city of archives and logs. Every commit tells a story here.',
-    gymId: 'gym5',
-    area: 'log_mountain',
-    shop: ['ultraball', 'hyper_potion', 'max_potion', 'revive', 'pp_restore'],
-    nextTown: 'stashborough',
-    prevTown: 'originport',
-    requiredBadges: 4,
+
+  conflict_cave_1: {
+    name: 'Conflict Cave — 1F',
+    icon: '🌑',
+    type: 'cave',
+    desc: `A maze-like cave riddled with unresolved merge conflicts.
+Gitmon that know merge_strike lurk in every corner.
+Someone has scrawled "<<<<<<< HEAD" on the cave walls. This is Rocket territory.`,
+    connections: ['path_3_rest', 'conflict_cave_2'],
+    wildArea: 'conflict_cave',
   },
-  stashborough: {
-    name: 'Stashborough',
-    desc: 'Deep in the cave network. Trainers come here to hide away their work-in-progress.',
-    gymId: 'gym6',
-    area: 'stash_cave',
-    shop: ['ultraball', 'max_potion', 'max_revive', 'pp_restore', 'full_restore'],
-    nextTown: 'revertton',
-    prevTown: 'historyville',
-    requiredBadges: 5,
+
+  conflict_cave_2: {
+    name: 'Conflict Cave — B1F',
+    icon: '🌘',
+    type: 'cave',
+    desc: `The second level. Conflict markers cover every surface — somebody merged badly in here.
+A discarded stash glimmers in the darkness — yours if you want it.
+The sound of force pushes echoes from below.`,
+    connections: ['conflict_cave_1', 'conflict_cave_3'],
+    wildArea: 'conflict_cave',
+    item: 'stash_gem',
   },
-  revertton: {
-    name: 'Revertton',
-    desc: 'A haunted town where past mistakes come back. Some changes cannot be undone.',
-    gymId: 'gym7',
-    area: 'reset_ridge',
-    shop: ['ultraball', 'full_restore', 'max_revive', 'pp_restore'],
-    nextTown: 'versionpeak',
-    prevTown: 'stashborough',
-    requiredBadges: 6,
+
+  conflict_cave_3: {
+    name: 'Conflict Cave — B2F',
+    icon: '🌒',
+    type: 'cave',
+    desc: `The deepest level. A rogue group has force-pushed the entire cave's commit history.
+Their enforcer stands guard over the exit, clutching a stolen branch fossil.
+The path east leads to Path 4 — if you can push through.`,
+    connections: ['conflict_cave_2', 'path_4'],
+    wildArea: 'conflict_cave',
+    event: 'rocket_cave3',
   },
-  versionpeak: {
-    name: 'Versionpeak',
-    desc: 'The summit. The Victory Road to the Gitmon League begins here.',
-    gymId: 'gym8',
-    area: 'origin_peak',
-    shop: ['masterball', 'full_restore', 'max_revive', 'pp_restore'],
-    nextTown: null,
-    prevTown: 'revertton',
-    requiredBadges: 7,
+
+  path_4: {
+    name: 'Path 4',
+    icon: '🌅',
+    type: 'route',
+    desc: `A wide path east from Conflict Cave. The sky is clear after the cave.
+Gitmon that know rebase and cherry-pick wander in the tall grass.
+A signpost in the distance points toward Merge City.`,
+    connections: ['conflict_cave_3'],
+    wildArea: 'path_4',
+    endOfPhase: true,
   },
 };
 
-const SHOP_SCREEN = 'shop';
-const CENTER_SCREEN = 'center';
-const TOWN_SCREEN = 'town';
-const GYM_SCREEN = 'gym';
-const PARTY_SCREEN = 'party';
+const RIVAL = {
+  name: 'BRANDON',
+  mon: { pokemonId: 'rattata', level: 9 },
+  introText: `BRANDON: Oh, you're finally here! I've been committing every day while you dragged your feet. Let's see what you've got!`,
+  winText:   `BRANDON: Hmph... you got lucky! My strategy was solid. I'll have better commits next time.`,
+  flagKey:   'rival_path22',
+};
+
+const ROCKET = {
+  name: 'ROGUE GRUNT',
+  mon: { pokemonId: 'zubat', level: 11 },
+  introText: `ROGUE GRUNT: Force push everything! Rewrite history! That's the Rogue Code way. You're not getting past me!`,
+  winText:   `ROGUE GRUNT: You reverted my changes! Take the branch fossil — Rogue Code WILL return!`,
+  flagKey:   'rocket_cave3',
+  reward:    { type: 'fossil', name: 'Branch Fossil' },
+};
+
+const SCREEN = { TOWN: 'town', SHOP: 'shop', CENTER: 'center', GYM: 'gym', PARTY: 'party', EVENT: 'event' };
 
 export default function GitmonOverworld() {
   const { save, updateSave } = useGitmon();
   const navigate = useNavigate();
-  const [screen, setScreen] = useState(TOWN_SCREEN);
-  const [log, setLog] = useState('');
-  const [shopQty, setShopQty] = useState({});
+  const [screen,     setScreen]     = useState(SCREEN.TOWN);
+  const [log,        setLog]        = useState('');
+  const [shopQty,    setShopQty]    = useState({});
+  const [pendingEvt, setPendingEvt] = useState(null);
 
   if (!save) { navigate('/gitmon/'); return null; }
 
-  const townId = save.currentTown || 'initfields';
-  const town = TOWNS[townId] || TOWNS.initfields;
-  const gym = GYMS_MAP[town.gymId];
+  const locId  = save.currentTown || 'repo_town';
+  const loc    = WORLD_MAP[locId]  || WORLD_MAP.repo_town;
+  const gym    = loc.gymId ? GYMS_MAP[loc.gymId] : null;
   const badges = save.badges || [];
-  const gymDefeated = badges.includes(town.gymId);
+  const flags  = save.flags  || {};
+  const gymDone = loc.gymId && badges.includes(loc.gymId);
 
-  // ── Healing ──
+  const aliveParty = (save.party || []).filter(m => m.hp > 0);
+  const leadMon    = aliveParty[0];
+
   function healParty() {
-    updateSave(s => {
-      s.party = s.party.map(m => ({ ...m, hp: m.maxHp }));
-      return s;
-    });
+    updateSave(s => ({ ...s, party: s.party.map(m => ({ ...m, hp: m.maxHp })) }));
     setLog('Your Gitmon were fully healed!');
-    setTimeout(() => setScreen(TOWN_SCREEN), 1600);
+    setTimeout(() => { setLog(''); setScreen(SCREEN.TOWN); }, 1500);
   }
 
-  // ── Travel ──
   function travelTo(destId) {
-    const dest = TOWNS[destId];
+    const dest = WORLD_MAP[destId];
     if (!dest) return;
-    if (dest.requiredBadges && badges.length < dest.requiredBadges) {
-      setLog(`You need ${dest.requiredBadges} badge(s) to travel here.`);
-      return;
+    updateSave(s => ({ ...s, currentTown: destId }));
+    setScreen(SCREEN.TOWN);
+    setLog('');
+
+    if (dest.event === 'rival_path22' && !flags.rival_path22) {
+      setPendingEvt({ trainer: RIVAL, onFight: launchRival });
+      setScreen(SCREEN.EVENT);
+    } else if (dest.event === 'rocket_cave3' && !flags.rocket_cave3) {
+      setPendingEvt({ trainer: ROCKET, onFight: launchRocket });
+      setScreen(SCREEN.EVENT);
     }
-    updateSave(s => { s.currentTown = destId; return s; });
-    setLog(`Arrived at ${dest.name}!`);
   }
 
-  // ── Wild battle ──
-  function goToGrass() {
-    const wild = createWildEncounter(town.area);
-    if (!wild) { setLog('No Gitmon in the area right now...'); return; }
-    navigate('/gitmon/battle', { state: { enemyMon: wild, isTrainer: false } });
-  }
-
-  // ── Gym battle ──
-  function challengeGym() {
-    if (!gym) return;
-    if (gymDefeated) { setLog(`You've already earned the ${gym.badge}!`); return; }
-    if (badges.length < (gym.requiredBadges || 0)) {
-      setLog(`You need ${gym.requiredBadges} badge(s) first!`);
-      return;
-    }
-
-    // Build gym leader's team from gym data
-    const leaderParty = gym.team.map(entry => {
-      const mon = createMon(entry.pokemonId, entry.level);
-      // Override with gym-specified moves
-      const moveSlots = entry.moves.map(id => {
-        const allMoves = mon.moves;
-        return allMoves.find(s => s.id === id) || { id, currentPp: 10, maxPp: 10 };
-      });
-      return { ...mon, moves: moveSlots };
+  function launchRival() {
+    const mon = createMon(RIVAL.mon.pokemonId, RIVAL.mon.level);
+    navigate('/gitmon/battle', {
+      state: {
+        enemyMon: { ...mon, isWild: false },
+        isTrainer: true,
+        trainerName: RIVAL.name,
+        winText: RIVAL.winText,
+        flagToSet: RIVAL.flagKey,
+        areaId: 'path_22',
+      },
     });
+  }
 
-    // Use last team member as "leader" they fight
-    const leaderMon = leaderParty[leaderParty.length - 1];
+  function launchRocket() {
+    const mon = createMon(ROCKET.mon.pokemonId, ROCKET.mon.level);
+    navigate('/gitmon/battle', {
+      state: {
+        enemyMon: { ...mon, isWild: false },
+        isTrainer: true,
+        trainerName: ROCKET.name,
+        winText: ROCKET.winText,
+        flagToSet: ROCKET.flagKey,
+        fossilReward: ROCKET.reward,
+        areaId: 'conflict_cave_3',
+      },
+    });
+  }
 
+  function goToGrass() {
+    if (!loc.wildArea) { setLog('No Gitmon in the area right now...'); return; }
+    const wild = createWildEncounter(loc.wildArea);
+    if (!wild) { setLog('The grass rustles... but nothing appears.'); return; }
+    navigate('/gitmon/battle', { state: { enemyMon: wild, isTrainer: false, areaId: locId } });
+  }
+
+  function collectItem(itemKey) {
+    const flagKey = `collected_${itemKey}`;
+    updateSave(s => ({
+      ...s,
+      flags: { ...(s.flags || {}), [flagKey]: true },
+      bag: { ...s.bag, [itemKey]: (s.bag[itemKey] || 0) + 1 },
+    }));
+    setLog('You found a Stash Gem! It pulses with unmerged energy.');
+  }
+
+  function challengeGym() {
+    if (loc.gymLocked) { setLog("The gym is locked. The leader is on sabbatical."); return; }
+    if (!gym) return;
+    if (gymDone) { setLog(`You already earned the ${gym.badge}!`); return; }
+    const ace = gym.team[gym.team.length - 1];
+    const leaderMon = createMon(ace.pokemonId, ace.level);
     navigate('/gitmon/battle', {
       state: {
         enemyMon: leaderMon,
         isTrainer: true,
         trainerName: gym.leaderName,
-        gymId: town.gymId,
+        gymId: loc.gymId,
         badge: gym.badge,
         winText: gym.winText,
         introText: gym.introText,
+        areaId: locId,
       },
     });
   }
 
-  // ── Shop ──
   function buyItem(itemId) {
     const item = ITEMS_MAP[itemId];
     if (!item) return;
-    const qty = shopQty[itemId] || 1;
+    const qty   = shopQty[itemId] || 1;
     const total = item.cost * qty;
-    if ((save.money || 0) < total) {
-      setLog("You don't have enough money!");
-      return;
-    }
-    updateSave(s => {
-      s.money = (s.money || 0) - total;
-      s.bag = s.bag || {};
-      s.bag[itemId] = (s.bag[itemId] || 0) + qty;
-      return s;
-    });
+    if ((save.money || 0) < total) { setLog('Not enough money!'); return; }
+    updateSave(s => ({
+      ...s,
+      money: (s.money || 0) - total,
+      bag: { ...s.bag, [itemId]: (s.bag[itemId] || 0) + qty },
+    }));
     setLog(`Bought ${qty}x ${item.name}!`);
   }
 
-  // ── Gym badge award on return ──
-  // (In a real flow, the battle screen would navigate back with state.won=true)
-  // For now, gym win is detected from badges list
+  // ── EVENT SCREEN ─────────────────────────────────────────────
 
-  const aliveParty = (save.party || []).filter(m => m.hp > 0);
-  const currentMon = aliveParty[0];
+  if (screen === SCREEN.EVENT && pendingEvt) {
+    const { trainer, onFight } = pendingEvt;
+    return (
+      <div className="gm-overworld">
+        <div className="gm-ow-header">
+          <span>{loc.icon} {loc.name}</span>
+        </div>
+        <div className="gm-ow-map">
+          <div className="gm-ow-desc" style={{ lineHeight: 2 }}>{trainer.introText}</div>
+          <div className="gm-ow-actions" style={{ marginTop: 8 }}>
+            <button className="gm-ow-btn" onClick={onFight}>⚔️ BATTLE {trainer.name}!</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-  // ── SHOP SCREEN ──
-  if (screen === SHOP_SCREEN) {
-    const shopItems = town.shop || [];
+  // ── SHOP SCREEN ──────────────────────────────────────────────
+
+  if (screen === SCREEN.SHOP) {
     return (
       <div className="gm-overworld">
         <div className="gm-ow-header">
@@ -212,98 +342,105 @@ export default function GitmonOverworld() {
           <span className="gm-ow-money">₿{save.money || 0}</span>
         </div>
         <div className="gm-ow-map">
-          <div className="gm-ow-desc">Welcome! Take a look around.</div>
+          <div className="gm-ow-desc">Take a look around!</div>
           <div className="gm-ow-actions">
-            {shopItems.map(id => {
+            {(loc.shop || []).map(id => {
               const item = ITEMS_MAP[id];
               if (!item) return null;
               const qty = shopQty[id] || 1;
               return (
                 <div key={id} style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
-                  <button
-                    className="gm-ow-btn"
-                    style={{ flex: 1 }}
-                    onClick={() => buyItem(id)}
-                  >
+                  <button className="gm-ow-btn" style={{ flex: 1 }} onClick={() => buyItem(id)}>
                     {item.icon} {item.name} — ₿{item.cost * qty}
                   </button>
-                  <button
-                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#aaa', fontFamily: "'Press Start 2P',monospace", fontSize: '0.35rem', padding: '3px 6px', cursor: 'pointer', borderRadius: 2 }}
-                    onClick={() => setShopQty(q => ({ ...q, [id]: Math.max(1, (q[id] || 1) - 1) }))}
-                  >-</button>
-                  <span style={{ fontSize: '0.4rem', color: '#e0e0e0', minWidth: 12, textAlign: 'center' }}>{qty}</span>
-                  <button
-                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#aaa', fontFamily: "'Press Start 2P',monospace", fontSize: '0.35rem', padding: '3px 6px', cursor: 'pointer', borderRadius: 2 }}
-                    onClick={() => setShopQty(q => ({ ...q, [id]: (q[id] || 1) + 1 }))}
-                  >+</button>
+                  <button className="gm-qty-btn"
+                    onClick={() => setShopQty(q => ({ ...q, [id]: Math.max(1, (q[id] || 1) - 1) }))}>−</button>
+                  <span className="gm-qty-val">{qty}</span>
+                  <button className="gm-qty-btn"
+                    onClick={() => setShopQty(q => ({ ...q, [id]: (q[id] || 1) + 1 }))}>+</button>
                 </div>
               );
             })}
           </div>
-          {log && <div style={{ fontSize: '0.38rem', color: '#ffd700', marginTop: 6 }}>{log}</div>}
+          {log && <div className="gm-ow-log">{log}</div>}
         </div>
         <div className="gm-ow-bottom">
-          <button className="gm-ow-btn" onClick={() => { setScreen(TOWN_SCREEN); setLog(''); }}>← EXIT</button>
+          <button className="gm-ow-btn" onClick={() => { setScreen(SCREEN.TOWN); setLog(''); }}>← EXIT</button>
         </div>
       </div>
     );
   }
 
-  // ── POKÉMON CENTER ──
-  if (screen === CENTER_SCREEN) {
+  // ── CENTER SCREEN ────────────────────────────────────────────
+
+  if (screen === SCREEN.CENTER) {
     return (
       <div className="gm-overworld">
-        <div className="gm-ow-header">
-          <span>🏥 GITMON CENTER</span>
-        </div>
+        <div className="gm-ow-header"><span>🏥 GITMON CENTER</span></div>
         <div className="gm-ow-map">
-          <div className="gm-ow-desc">
-            Welcome to the Gitmon Center! We restore your tired Gitmon to full health.
-          </div>
+          <div className="gm-ow-desc">Welcome! We restore your Gitmon to full health.</div>
           <div className="gm-ow-actions">
             <button className="gm-ow-btn" onClick={healParty}>HEAL MY GITMON</button>
           </div>
-          {log && <div style={{ fontSize: '0.38rem', color: '#7ec8e3', marginTop: 6 }}>{log}</div>}
+          {log && <div className="gm-ow-log" style={{ color: '#7ec8e3' }}>{log}</div>}
         </div>
         <div className="gm-ow-bottom">
-          <button className="gm-ow-btn" onClick={() => { setScreen(TOWN_SCREEN); setLog(''); }}>← EXIT</button>
+          <button className="gm-ow-btn" onClick={() => { setScreen(SCREEN.TOWN); setLog(''); }}>← BACK</button>
         </div>
       </div>
     );
   }
 
-  // ── GYM SCREEN ──
-  if (screen === GYM_SCREEN) {
+  // ── GYM SCREEN ───────────────────────────────────────────────
+
+  if (screen === SCREEN.GYM) {
+    if (loc.gymLocked) {
+      return (
+        <div className="gm-overworld">
+          <div className="gm-ow-header"><span>🔒 STATUS GYM</span></div>
+          <div className="gm-ow-map">
+            <div className="gm-ow-desc" style={{ lineHeight: 2 }}>
+              The doors are locked. A sign reads:{'\n\n'}
+              <em>"Gym Leader is on sabbatical. Please earn all 7 other badges and return."</em>
+            </div>
+          </div>
+          <div className="gm-ow-bottom">
+            <button className="gm-ow-btn" onClick={() => setScreen(SCREEN.TOWN)}>← BACK</button>
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="gm-overworld">
         <div className="gm-ow-header">
           <span>⚔️ {gym?.name}</span>
-          {gymDefeated && <span style={{ color: '#ffd700' }}>{gym?.badgeIcon} CLEARED</span>}
+          {gymDone && <span style={{ color: '#ffd700' }}>{gym?.badgeIcon} CLEARED</span>}
         </div>
         <div className="gm-ow-map">
           <div className="gm-ow-desc" style={{ lineHeight: 2 }}>
-            {gymDefeated
-              ? `You already defeated ${gym?.leaderName}. The ${gym?.badge} ${gym?.badgeIcon} glows on your badge case.`
+            {gymDone
+              ? `You already defeated ${gym?.leaderName}. The ${gym?.badge} ${gym?.badgeIcon} is yours.`
               : gym?.introText}
           </div>
           <div className="gm-ow-actions">
-            {!gymDefeated && (
+            {!gymDone && (
               <button className="gm-ow-btn" onClick={challengeGym}>
                 CHALLENGE {gym?.leaderName?.toUpperCase()}
               </button>
             )}
           </div>
-          {log && <div style={{ fontSize: '0.38rem', color: '#f44336', marginTop: 6 }}>{log}</div>}
+          {log && <div className="gm-ow-log" style={{ color: '#f44336' }}>{log}</div>}
         </div>
         <div className="gm-ow-bottom">
-          <button className="gm-ow-btn" onClick={() => { setScreen(TOWN_SCREEN); setLog(''); }}>← EXIT</button>
+          <button className="gm-ow-btn" onClick={() => { setScreen(SCREEN.TOWN); setLog(''); }}>← BACK</button>
         </div>
       </div>
     );
   }
 
-  // ── PARTY SCREEN ──
-  if (screen === PARTY_SCREEN) {
+  // ── PARTY SCREEN ─────────────────────────────────────────────
+
+  if (screen === SCREEN.PARTY) {
     return (
       <div className="gm-overworld">
         <div className="gm-ow-header">
@@ -312,90 +449,114 @@ export default function GitmonOverworld() {
         </div>
         <div className="gm-ow-map">
           <div className="gm-party-list">
-            {(save.party || []).map(mon => (
-              <div key={mon.uid} className={`gm-party-slot${mon.hp <= 0 ? ' fainted' : ''}`}>
-                <span className="gm-party-sprite">{mon.sprite}</span>
-                <div className="gm-party-info">
-                  <div className="gm-party-name">{mon.name} Lv.{mon.level}</div>
-                  <div className="gm-party-stats">
-                    HP {mon.hp}/{mon.maxHp} · {mon.type}<br />
-                    ATK {mon.attack} · DEF {mon.defense} · SPD {mon.speed}
+            {(save.party || []).map(mon => {
+              const species = getSpeciesById(mon.speciesId);
+              return (
+                <div key={mon.uid} className={`gm-party-slot${mon.hp <= 0 ? ' fainted' : ''}`}>
+                  {species && (
+                    <img src={spriteUrl(species)} alt={mon.name}
+                      style={{ width: 40, height: 30, imageRendering: 'pixelated' }} />
+                  )}
+                  <div className="gm-party-info">
+                    <div className="gm-party-name">{mon.name} Lv.{mon.level}</div>
+                    <div className="gm-party-stats">HP {mon.hp}/{mon.maxHp} · {mon.type}</div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
+            {(save.party || []).length === 0 && (
+              <div style={{ color: '#aaa', fontSize: 13 }}>No Gitmon yet. Choose a starter!</div>
+            )}
           </div>
         </div>
         <div className="gm-ow-bottom">
-          <button className="gm-ow-btn" onClick={() => setScreen(TOWN_SCREEN)}>← BACK</button>
+          <button className="gm-ow-btn" onClick={() => setScreen(SCREEN.TOWN)}>← BACK</button>
         </div>
       </div>
     );
   }
 
-  // ── MAIN TOWN SCREEN ──
-  const badgeCount = badges.length;
+  // ── MAIN TOWN / ROUTE SCREEN ─────────────────────────────────
+
+  const connections  = (loc.connections || []).map(id => ({ id, ...WORLD_MAP[id] }));
+  const hasStashGem  = loc.item === 'stash_gem' && !flags.collected_stash_gem;
+
   return (
     <div className="gm-overworld">
       <div className="gm-ow-header">
-        <span className="gm-ow-town">{town.name}</span>
-        <span style={{ color: '#aaa' }}>{save.playerName} · {badgeCount}🏅</span>
+        <span className="gm-ow-town">{loc.icon} {loc.name}</span>
+        <span style={{ color: '#aaa' }}>{save.playerName} · {badges.length}🏅</span>
       </div>
 
       <div className="gm-ow-map">
-        <div className="gm-ow-desc">{town.desc}</div>
+        <div className="gm-ow-desc">{loc.desc}</div>
 
         <div className="gm-ow-actions">
-          <button className="gm-ow-btn" onClick={goToGrass}>
-            🌾 WALK IN TALL GRASS
-          </button>
-          <button className="gm-ow-btn" onClick={() => setScreen(CENTER_SCREEN)}>
-            🏥 GITMON CENTER
-          </button>
-          <button className="gm-ow-btn" onClick={() => setScreen(SHOP_SCREEN)}>
-            🛒 POKÉ MART
-          </button>
-          {gym && (
-            <button
-              className="gm-ow-btn"
-              onClick={() => setScreen(GYM_SCREEN)}
-              disabled={badgeCount < (gym.requiredBadges || 0)}
-            >
-              ⚔️ {gymDefeated ? `GYM (${gym.badgeIcon} CLEARED)` : `CHALLENGE GYM`}
+          {loc.wildArea && (
+            <button className="gm-ow-btn" onClick={goToGrass}>🌾 WALK IN TALL GRASS</button>
+          )}
+
+          {hasStashGem && (
+            <button className="gm-ow-btn" onClick={() => collectItem('stash_gem')}>
+              ✨ PICK UP STASH GEM
             </button>
           )}
-          <button className="gm-ow-btn" onClick={() => setScreen(PARTY_SCREEN)}>
+
+          {loc.hasCenter && (
+            <button className="gm-ow-btn" onClick={() => setScreen(SCREEN.CENTER)}>
+              🏥 GITMON CENTER
+            </button>
+          )}
+
+          {loc.shop && (
+            <button className="gm-ow-btn" onClick={() => setScreen(SCREEN.SHOP)}>
+              🛒 POKÉ MART
+            </button>
+          )}
+
+          {(gym || loc.gymLocked) && (
+            <button className="gm-ow-btn" onClick={() => setScreen(SCREEN.GYM)}>
+              ⚔️ {loc.gymLocked ? 'GYM (LOCKED)' : gymDone ? `GYM ${gym?.badgeIcon} CLEARED` : 'CHALLENGE GYM'}
+            </button>
+          )}
+
+          <button className="gm-ow-btn" onClick={() => setScreen(SCREEN.PARTY)}>
             🐾 MY GITMON
           </button>
 
-          {/* Travel */}
           <div style={{ marginTop: 4, borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 4 }}>
-            {town.prevTown && (
-              <button className="gm-ow-btn" onClick={() => travelTo(town.prevTown)}>
-                ← {TOWNS[town.prevTown]?.name}
-              </button>
-            )}
-            {town.nextTown && (
-              <button
-                className="gm-ow-btn"
-                onClick={() => travelTo(town.nextTown)}
-                disabled={badgeCount < (TOWNS[town.nextTown]?.requiredBadges || 0)}
-              >
-                → {TOWNS[town.nextTown]?.name}
-                {TOWNS[town.nextTown]?.requiredBadges > badgeCount &&
-                  ` (need ${TOWNS[town.nextTown].requiredBadges}🏅)`}
-              </button>
-            )}
+            {connections.map(dest => {
+              const hasEvent = dest.event && !flags[dest.event];
+              return (
+                <button key={dest.id} className="gm-ow-btn" onClick={() => travelTo(dest.id)}>
+                  {dest.icon} → {dest.name}{hasEvent ? ' ⚠' : ''}
+                </button>
+              );
+            })}
           </div>
+
+          {loc.endOfPhase && (
+            <div style={{
+              fontSize: 13, color: '#7ec8e3', border: '1px solid rgba(126,200,227,0.4)',
+              borderRadius: 3, padding: '6px 10px', lineHeight: 1.8, marginTop: 4,
+            }}>
+              → MERGE CITY (5 km)
+              <br /><span style={{ color: '#666' }}>ROAD CLOSED — Coming in Phase 2</span>
+            </div>
+          )}
         </div>
 
-        {log && <div style={{ fontSize: '0.38rem', color: '#ffd700', marginTop: 6, lineHeight: 1.8 }}>{log}</div>}
+        {log && <div className="gm-ow-log">{log}</div>}
       </div>
 
       <div className="gm-ow-bottom">
         <span className="gm-ow-money">₿{save.money || 0}</span>
-        <span>·</span>
-        <span>{currentMon ? `${currentMon.sprite} ${currentMon.name} Lv.${currentMon.level}` : 'No Gitmon!'}</span>
+        {leadMon && (
+          <>
+            <span>·</span>
+            <span>{leadMon.name} Lv.{leadMon.level} HP {leadMon.hp}/{leadMon.maxHp}</span>
+          </>
+        )}
       </div>
     </div>
   );
