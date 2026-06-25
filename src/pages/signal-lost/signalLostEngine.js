@@ -115,7 +115,7 @@ export const SKILL_DEFS = [
     description: 'Freezes all incoming packets for 2 seconds.',
     energyCost: 20,
     unlockLevel: 3,
-    key: 'Q',
+    key: '1',
   },
   {
     id: 'clear_burst',
@@ -123,7 +123,7 @@ export const SKILL_DEFS = [
     description: 'Destroys all current packets. No points awarded.',
     energyCost: 30,
     unlockLevel: 5,
-    key: 'W',
+    key: '2',
   },
   {
     id: 'shield',
@@ -131,7 +131,7 @@ export const SKILL_DEFS = [
     description: 'Blocks the next 3 reactor hits.',
     energyCost: 25,
     unlockLevel: 8,
-    key: 'E',
+    key: '3',
   },
   {
     id: 'overdrive',
@@ -139,7 +139,7 @@ export const SKILL_DEFS = [
     description: '60 seconds of 2x score multiplier.',
     energyCost: 40,
     unlockLevel: 12,
-    key: 'R',
+    key: '4',
   },
 ];
 

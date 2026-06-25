@@ -126,3 +126,10 @@ When a feature needs its own internal pages/routes:
 ## Game design — required reading
 
 When creating or discussing a game, read `game-design-workflow.md` (same directory as this file) before doing anything else. It is the source of truth for all game work and should be iterated on as games evolve — changes to the workflow apply to all future games.
+
+## subagent spawning
+when using subagents use haiku more often for simple-er tasks.
+Make sure that if i ask you to spin up subagents that we have planned it thoroughly enough using a higher level agent so that haiku can't mess up any of the complicated logic/reasoning.
+
+## use haiku more often for simple file reads. use sonnet for responding logicially. 
+Haiku to parse the data, something smarter to understand it

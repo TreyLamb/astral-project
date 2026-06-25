@@ -126,6 +126,14 @@
       "type": "full_restore",
       "cost": 3000,
       "description": "Fully restores HP and cures all status conditions for one Gitmon."
+    },
+    {
+      "id": "rare_candy",
+      "name": "Rare Candy",
+      "icon": "🍬",
+      "type": "rare_candy",
+      "cost": 0,
+      "description": "A peculiar candy that instantly raises a mon's level by 1. Very rare."
     }
   ],
   "shopsByTown": {

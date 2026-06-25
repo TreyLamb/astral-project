@@ -100,16 +100,30 @@ export function validateCommand(input, mon) {
       return { move: moveDef, slot: moveSlot, error: null };
     }
   }
-  if (trimmed.startsWith('sudo') || trimmed.startsWith('ls') || trimmed.startsWith('cat') ||
-      trimmed.startsWith('grep') || trimmed.startsWith('find') || trimmed.startsWith('ps') ||
-      trimmed.startsWith('kill') || trimmed.startsWith('chmod') || trimmed.startsWith('export') ||
-      trimmed.startsWith('ping') || trimmed.startsWith('curl') || trimmed.startsWith('ssh') ||
-      trimmed.startsWith('wget') || trimmed.startsWith('mkdir') || trimmed.startsWith('rm') ||
-      trimmed.startsWith('mv') || trimmed.startsWith('cp') || trimmed.startsWith('echo') ||
-      trimmed.startsWith('bg') || trimmed.includes('|')) {
-    return { move: null, error: `${mon.name} doesn't know that command! Check your moves.` };
+
+  const firstWord = trimmed.split(/\s+/)[0].toLowerCase();
+
+  // Right command prefix, wrong format — show the correct usage
+  for (const moveSlot of mon.moves) {
+    const moveDef = MOVES_MAP[moveSlot.id];
+    if (!moveDef) continue;
+    const cmdPrefix = moveDef.id === 'pipe_combo' ? null : moveDef.command.split(/\s+/)[0].toLowerCase();
+    if (cmdPrefix === firstWord || (moveDef.id === 'pipe_combo' && trimmed.includes('|'))) {
+      return { move: null, error: `Wrong format! Correct usage: ${moveDef.hint}` };
+    }
   }
-  return { move: null, error: `That's not a valid bash command! Try ls, cat, grep, sudo...` };
+
+  // Known bash command but this pokemon doesn't have it
+  const allBashPrefixes = ['sudo','ls','cat','grep','find','ps','kill','chmod','export',
+    'ping','curl','ssh','wget','mkdir','rm','mv','cp','echo','bg'];
+  if (allBashPrefixes.includes(firstWord) || trimmed.includes('|')) {
+    const ownedCmds = mon.moves.map(s => MOVES_MAP[s.id]).filter(Boolean)
+      .map(m => m.command.split(' ')[0]).join(', ');
+    return { move: null, error: `${mon.name} doesn't know "${firstWord}"! Their commands: ${ownedCmds}` };
+  }
+
+  const hints = mon.moves.map(s => MOVES_MAP[s.id]?.hint).filter(Boolean).join(' · ');
+  return { move: null, error: `"${trimmed}" is not a bash command! Your moves: ${hints}` };
 }
 
 export function executePlayerTurn(moveDef, moveSlot, playerMon, enemyMon) {
@@ -135,6 +149,7 @@ export function executePlayerTurn(moveDef, moveSlot, playerMon, enemyMon) {
     log.push(`${playerMon.name}'s attack missed!`);
   } else {
     enemyMon.hp = Math.max(0, enemyMon.hp - damage);
+    log.push(`Hit for ${damage} damage!`);
     const effectText = getEffectivenessText(typeMulti);
     if (effectText) log.push(effectText);
     if (moveDef.effect === 'reveal_info') {
@@ -237,7 +252,10 @@ export function evolveMon(mon) {
 }
 
 export function createWildEncounter(area) {
-  const pool = POKEMON_DATA.pokemon.filter(p => p.area === area && !p.isStarter);
+  const pool = POKEMON_DATA.pokemon.filter(p => {
+    if (!p.area || p.isStarter) return false;
+    return Array.isArray(p.area) ? p.area.includes(area) : p.area === area;
+  });
   if (!pool.length) return null;
   const species = pool[Math.floor(Math.random() * pool.length)];
   const [min, max] = AREA_LEVELS[area] ?? [3, 8];
@@ -246,14 +264,23 @@ export function createWildEncounter(area) {
 }
 
 const AREA_LEVELS = {
-  initfields:    [3, 8],
-  branch_forest: [13, 18],
-  merge_valley:  [22, 28],
-  remote_shores: [30, 36],
-  log_mountain:  [36, 42],
-  stash_cave:    [42, 48],
-  reset_ridge:   [48, 55],
-  origin_peak:   [55, 65],
+  // Phase 1 routes
+  route_1:          [2, 5],
+  route_22:         [3, 6],
+  route_2:          [3, 6],
+  viridian_forest:  [3, 7],
+  route_3:          [8, 12],
+  mt_moon:          [8, 12],
+  route_4:          [11, 14],
+  // Phase 2+ (existing areas renamed to match world map)
+  initfields:       [3, 8],
+  branch_forest:    [13, 18],
+  merge_valley:     [22, 28],
+  remote_shores:    [30, 36],
+  log_mountain:     [36, 42],
+  stash_cave:       [42, 48],
+  reset_ridge:      [48, 55],
+  origin_peak:      [55, 65],
 };
 
 export function getMoveById(id)    { return MOVES_MAP[id] ?? null; }

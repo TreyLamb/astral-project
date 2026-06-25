@@ -494,7 +494,7 @@
   padding: 3px 8px;
   border: 1px solid rgba(0, 255, 136, 0.3);
   background: rgba(0, 20, 10, 0.7);
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: #00ff88;
   letter-spacing: 0.05em;
   pointer-events: none;
@@ -502,17 +502,18 @@
   will-change: transform;
 }
 
-/* Currently targeted word — highlighted */
+/* Currently targeted word — highlight the whole packet */
 .sl-word-packet.targeted {
-  color: #ffffff;
+  color: #e0e0e0;
   border-color: #00ff88;
-  background: rgba(0, 60, 30, 0.8);
+  background: rgba(0, 50, 25, 0.9);
   box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
 }
 
-/* Partially typed — show typed chars differently */
+/* Typed chars show yellow progress — same on every word type */
 .sl-word-typed-chars {
-  color: #ffaa00;
+  color: #ffcc00;
+  font-weight: bold;
 }
 
 /* Completed — flash then fade */
@@ -548,21 +549,16 @@
   box-shadow: 0 0 8px rgba(68, 136, 255, 0.5);
 }
 
-/* PHRASE category — slightly different style */
+/* PHRASE category — dashed border signals it's a multi-word packet */
 .sl-word-packet.phrase {
-  font-size: 0.78rem;
+  font-size: 0.88rem;
   border-style: dashed;
 }
 
-/* LONG category */
+/* LONG category — thicker solid border signals harder target */
 .sl-word-packet.long {
-  font-size: 0.78rem;
-  color: #ffaa00;
-  border-color: rgba(255, 170, 0, 0.3);
-}
-.sl-word-packet.long.targeted {
-  border-color: #ffaa00;
-  box-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
+  font-size: 0.88rem;
+  border-width: 2px;
 }
 
 /* Slow beam overlay */

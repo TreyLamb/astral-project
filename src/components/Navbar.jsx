@@ -1,7 +1,31 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
+const GAME_ROUTES = ['/bashmon', '/gitmon', '/signal-lost'];
+
 function Navbar() {
+  const location = useLocation();
+  const isGame = GAME_ROUTES.some(r => location.pathname.startsWith(r));
+
+  useEffect(() => {
+    if (isGame) {
+      document.documentElement.style.setProperty('--nav-h', '0px');
+      document.body.style.paddingTop = '0';
+    } else {
+      document.documentElement.style.removeProperty('--nav-h');
+      document.body.style.paddingTop = '';
+    }
+  }, [isGame]);
+
+  if (isGame) {
+    return (
+      <nav className="nav-minimal">
+        <Link to="/" className="nav-home-badge" title="Home">⚡</Link>
+      </nav>
+    );
+  }
+
   return (
     <nav>
       <div className="nav-container">

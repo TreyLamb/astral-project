@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBashmon } from './BashmonApp';
-import { getStarters, createMon } from './bashmonEngine';
+import { getStarters, createMon, getSpeciesById } from './bashmonEngine';
 
 const STARTERS = getStarters();
 
@@ -11,6 +11,13 @@ const TYPE_LABELS = {
   NETWORK: 'NETWORK type — Defensive & resilient',
 };
 
+const SPRITE_BASE = 'https://raw.githubusercontent.com/msikma/pokesprite/master';
+function spriteUrl(pokespriteId, size = 'lg') {
+  if (!pokespriteId) return '';
+  if (size === 'sm') return `${SPRITE_BASE}/icons/pokemon/regular/${pokespriteId}.png`;
+  return `${SPRITE_BASE}/pokemon-gen7x/regular/${pokespriteId}.png`;
+}
+
 export default function BashmonHome() {
   const { save, startNewGame } = useBashmon();
   const navigate = useNavigate();
@@ -19,7 +26,7 @@ export default function BashmonHome() {
   const [selected, setSelected] = useState(null);
 
   function handleContinue()  { navigate('/bashmon/overworld'); }
-  function handleNewGame()   { setPhase('name'); }
+  function handleNewGame()   { save ? setPhase('warn') : setPhase('name'); }
 
   function handleNameSubmit(e) {
     e.preventDefault();
@@ -38,13 +45,29 @@ export default function BashmonHome() {
     return (
       <div className="bm-home">
         <div className="bm-title">BASHMON<br />RED</div>
-        <div style={{ fontSize: '3rem', margin: '4px 0' }}>🐉</div>
+        <img src={spriteUrl('charizard')} alt="Sudodrake" style={{ width: 80, height: 80, objectFit: 'contain', margin: '4px 0' }} />
         <div className="bm-subtitle">VERSION 1.0</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, width: '100%', marginTop: 8 }}>
           {save && <button className="bm-home-btn" onClick={handleContinue}>CONTINUE</button>}
           <button className="bm-home-btn" onClick={handleNewGame}>NEW GAME</button>
         </div>
         <div className="bm-press-a">PRESS START</div>
+      </div>
+    );
+  }
+
+  if (phase === 'warn') {
+    return (
+      <div className="bm-home">
+        <div className="bm-title" style={{ fontSize: 22, color: '#f44336' }}>WARNING</div>
+        <div style={{ fontSize: 13, color: '#ccc', textAlign: 'center', lineHeight: 2, maxWidth: 400 }}>
+          Starting a new game will permanently erase your current save data.<br/>
+          <span style={{ color: '#ff6b35' }}>{save.playerName || 'Trainer'}</span>'s adventure will be lost.
+        </div>
+        <div style={{ display: 'flex', gap: 12, width: '100%', marginTop: 16 }}>
+          <button className="bm-home-btn" style={{ flex: 1 }} onClick={() => setPhase('name')}>YES, ERASE</button>
+          <button className="bm-home-btn" style={{ flex: 1 }} onClick={() => setPhase('title')}>NO, GO BACK</button>
+        </div>
       </div>
     );
   }
@@ -87,7 +110,7 @@ export default function BashmonHome() {
               className={`bm-starter-card${selected?.id === s.id ? ' selected' : ''}`}
               onClick={() => setSelected(s)}
             >
-              <span className="bm-starter-sprite">{s.sprite}</span>
+              <img src={spriteUrl(s.pokespriteId)} alt={s.name} style={{ width: 80, height: 80, objectFit: 'contain' }} className="bm-starter-sprite" />
               <span className="bm-starter-name">{s.name}</span>
               <span className="bm-starter-type">{s.type}</span>
             </button>

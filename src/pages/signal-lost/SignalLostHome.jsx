@@ -21,6 +21,7 @@ export default function SignalLostHome() {
   const [bootDone, setBootDone] = useState(false);
   const [showHowTo, setShowHowTo] = useState(false);
   const [confirmNew, setConfirmNew] = useState(false);
+  const isFirstPlay = !save;
 
   // Print boot lines one by one
   useEffect(() => {
@@ -29,13 +30,14 @@ export default function SignalLostHome() {
       if (i >= BOOT_LINES.length) {
         clearInterval(interval);
         setBootDone(true);
+        if (!save) setShowHowTo(true);
         return;
       }
       setBootLines(prev => [...prev, BOOT_LINES[i]]);
       i++;
     }, 220);
     return () => clearInterval(interval);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleContinue() {
     navigate('/signal-lost/play');

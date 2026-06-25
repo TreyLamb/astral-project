@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/PCT/Dropbox//**)",
+      "Read(//c/Users/PCT//**)",
+      "Bash(cp \"/c/Users/PCT/Dropbox/db_Projects/Code/astral-project/.env\" \"/c/Users/PCT/Projects/astral-project/.env\")",
+      "Bash(cp \"/c/Users/PCT/Dropbox/db_Projects/Code/astral-project/.env.local\" \"/c/Users/PCT/Projects/astral-project/.env.local\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}

@@ -32,14 +32,14 @@ function StationBanner({ level, modules }) {
   const unlockedIds = new Set(modules);
 
   const moduleDefs = [
-    { id: 'reactor',   icon: '⚛',  name: 'REACTOR',    color: 'red',    alwaysOn: true },
-    { id: 'engine',    icon: '🔧', name: 'ENGINE',     color: 'red',    alwaysOn: true },
-    { id: 'nav_array', icon: '🛰', name: 'NAV',        color: 'blue',   alwaysOn: false },
-    { id: 'life_support', icon: '💚', name: 'LIFE SYS', color: 'green', alwaysOn: false },
-    { id: 'comms_array',  icon: '📡', name: 'COMMS',   color: 'yellow', alwaysOn: false },
-    { id: 'reactor_60',   icon: '⚡', name: 'POWER',   color: 'bright', alwaysOn: false },
-    { id: 'full_power',   icon: '🌟', name: 'FULL PWR', color: 'bright', alwaysOn: false },
-    { id: 'transcendence',icon: '✦', name: 'TRANSCEND', color: 'transcend', alwaysOn: false },
+    { id: 'reactor',      icon: '⚛',  name: 'REACTOR',   color: 'red',       alwaysOn: true,  desc: 'Primary power reactor — always running' },
+    { id: 'engine',       icon: '🔧', name: 'ENGINE',    color: 'red',       alwaysOn: true,  desc: 'Thrust engine — maintains station orbit' },
+    { id: 'nav_array',    icon: '🛰', name: 'NAV',       color: 'blue',      alwaysOn: false, desc: 'Navigation array — unlocked at Level 2' },
+    { id: 'life_support', icon: '💚', name: 'LIFE SYS',  color: 'green',     alwaysOn: false, desc: 'Life support systems — unlocked at Level 4' },
+    { id: 'comms_array',  icon: '📡', name: 'COMMS',     color: 'yellow',    alwaysOn: false, desc: 'Communications array — unlocked at Level 6' },
+    { id: 'reactor_60',   icon: '⚡', name: 'POWER',     color: 'bright',    alwaysOn: false, desc: 'Reactor at 60% capacity — unlocked at Level 9' },
+    { id: 'full_power',   icon: '🌟', name: 'FULL PWR',  color: 'bright',    alwaysOn: false, desc: 'Full power output achieved — unlocked at Level 12' },
+    { id: 'transcendence',icon: '✦', name: 'TRANSCEND', color: 'transcend', alwaysOn: false, desc: 'Station transcendence — unlocked at Level 18' },
   ];
 
   function moduleClass(mod) {
@@ -55,7 +55,7 @@ function StationBanner({ level, modules }) {
   return (
     <div className="sl-station">
       {moduleDefs.map(mod => (
-        <div key={mod.id} className={moduleClass(mod)}>
+        <div key={mod.id} className={moduleClass(mod)} title={mod.desc}>
           <span className="sl-module-icon">{mod.icon}</span>
           <span className="sl-module-name">{mod.name}</span>
         </div>
@@ -64,7 +64,7 @@ function StationBanner({ level, modules }) {
   );
 }
 
-function HUD({ save, score, combo, overdrive, overdriveLeft }) {
+function HUD({ save, score, combo, overdrive, overdriveLeft, wpm }) {
   const hpPips = [];
   for (let i = 0; i < save.maxStationHp; i++) {
     hpPips.push(
@@ -115,6 +115,13 @@ function HUD({ save, score, combo, overdrive, overdriveLeft }) {
         <div className="sl-hud-block">
           <span className="sl-hud-label">COMBO</span>
           <span className={comboClass}>{combo}x</span>
+        </div>
+      )}
+
+      {wpm > 0 && (
+        <div className="sl-hud-block">
+          <span className="sl-hud-label">WPM</span>
+          <span className="sl-score-val">{wpm}</span>
         </div>
       )}
 
@@ -199,11 +206,24 @@ export default function SignalLostGame() {
   const energyTimerRef  = useRef(null);
   const overdriveTimerRef = useRef(null);
   const wordStartTimesRef = useRef({}); // wordId -> timestamp when player started typing it
+  const [wpm, setWpm]             = useState(0);
+  const wpmWordsRef               = useRef(0);   // words typed since session start
+  const wpmSessionStartRef        = useRef(null); // timestamp of first word typed
 
   // Sync refs
   useEffect(() => { saveRef.current  = save; },         [save]);
   useEffect(() => { activeRef.current = activeEffects; }, [activeEffects]);
   useEffect(() => { pausedRef.current = paused; },      [paused]);
+
+  // Enter key dismisses story popup (input is disabled while story shows)
+  useEffect(() => {
+    if (!story) return;
+    function onKey(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); dismissStory(); }
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [story]);
 
   // -------------------------
   //  RAF-based word movement
@@ -403,6 +423,12 @@ export default function SignalLostGame() {
     const startTime = wordStartTimesRef.current[word.id] || now;
     const timeToType = (now - startTime) / 1000;
 
+    // WPM tracking
+    if (!wpmSessionStartRef.current) wpmSessionStartRef.current = now;
+    wpmWordsRef.current += 1;
+    const elapsedMin = (now - wpmSessionStartRef.current) / 60000;
+    if (elapsedMin > 0) setWpm(Math.round(wpmWordsRef.current / elapsedMin));
+
     const newCombo = comboRef.current + 1;
     comboRef.current = newCombo;
     setCombo(newCombo);
@@ -447,7 +473,7 @@ export default function SignalLostGame() {
   //  Input handling
   // -------------------------
   function handleInput(e) {
-    const val = e.target.value;
+    const val = e.target.value.replace(/^\s+/, '');
     setInputVal(val);
 
     if (!val.trim()) return;
@@ -499,10 +525,11 @@ export default function SignalLostGame() {
       }
     }
 
-    // Skill hotkeys — only when input is not typing a word
+    // Skill hotkeys 1-4 — ALWAYS block the number from being typed
     const key = e.key.toUpperCase();
-    if (['Q','W','E','R'].includes(key)) {
-      const skillMap = { Q: 'slow_beam', W: 'clear_burst', E: 'shield', R: 'overdrive' };
+    if (['1','2','3','4'].includes(key)) {
+      e.preventDefault();
+      const skillMap = { '1': 'slow_beam', '2': 'clear_burst', '3': 'shield', '4': 'overdrive' };
       const skillId = skillMap[key];
       const skill   = SKILL_DEFS.find(s => s.id === skillId);
       const currentSave = saveRef.current;
@@ -512,7 +539,6 @@ export default function SignalLostGame() {
         currentSave.energy >= skill.energyCost &&
         !activeRef.current[skillId]
       ) {
-        e.preventDefault();
         activateSkill(skill);
       }
     }
@@ -689,13 +715,17 @@ export default function SignalLostGame() {
   if (!save) return null;
 
   return (
-    <div className="sl-game">
+    <div className="sl-game" onClick={e => {
+      // Click anywhere in the game area focuses the input (unless clicking a button)
+      if (!story && !paused && e.target.tagName !== 'BUTTON') inputRef.current?.focus();
+    }}>
       <HUD
         save={save}
         score={score}
         combo={combo}
         overdrive={activeEffects.overdrive}
         overdriveLeft={overdriveLeft}
+        wpm={wpm}
       />
 
       <StationBanner level={save.level} modules={save.stationModules} />

@@ -1,3 +1,5 @@
+:root { --nav-h: 70px; }
+
 * {
   margin: 0;
   padding: 0;

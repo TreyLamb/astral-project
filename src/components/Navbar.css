@@ -76,6 +76,8 @@ nav ul li a:hover {
   z-index: 100;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .has-dropdown:hover .dropdown {
@@ -102,6 +104,44 @@ nav ul li a:hover {
 
 .has-dropdown .dropdown li:first-child a { border-radius: 10px 10px 0 0; }
 .has-dropdown .dropdown li:last-child a  { border-radius: 0 0 10px 10px; }
+
+/* ── Minimal nav (game routes) ── */
+.nav-minimal {
+  position: fixed;
+  top: 0; left: 0;
+  height: 0;
+  overflow: visible;
+  z-index: 1000;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.nav-home-badge {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.35) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 5px !important;
+  color: rgba(255, 255, 255, 0.35) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.35) !important;
+  font-size: 12px !important;
+  font-family: inherit !important;
+  padding: 4px 8px !important;
+  text-decoration: none;
+  opacity: 0.4;
+  transition: opacity 0.2s, background 0.2s, color 0.2s;
+  display: block;
+  z-index: 1001;
+}
+
+.nav-home-badge:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.7) !important;
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
 
 @media (max-width: 768px) {
   nav ul { gap: 15px; }

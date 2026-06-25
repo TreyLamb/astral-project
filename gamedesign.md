@@ -9,6 +9,27 @@ A comprehensive skill for designing and building games (educational or entertain
 
 ---
 
+# Part 0: Layout and Presentation — Required for Every Game
+
+## Full-page rule (non-negotiable)
+
+Every game page MUST fill the entire viewport below the top navbar. The navbar is 70px tall. Games must use `height: calc(100vh - 70px)` (or equivalent flex fill) so zero screen space is wasted.
+
+**Do NOT:**
+- Use a fixed-width game "shell" (e.g., a 380px "Game Boy device" skin) that centers in the page and wastes >50% of the viewport
+- Use `min-height: 100vh` and then center a small widget inside it
+- Set font sizes below 14px for any readable game text (Press Start 2P at sub-14px is illegible)
+
+**DO:**
+- Have the game container fill all available vertical space
+- Keep decorative themes (color palettes, borders, fonts) but never let them constrain game size
+- Scale the UI to the viewport — battle fields expand, text boxes grow, sprites get bigger
+- Treat the full viewport as the game canvas. Pokemon emulator reference: the game fills the screen, text is readable, sprites are clearly visible.
+
+If a decorative skin (like a Game Boy device) makes the game unreadably small, remove the skin and keep the color theme instead.
+
+---
+
 # Part 1: Core Philosophy and Principles
 
 ## Design from the player outward
