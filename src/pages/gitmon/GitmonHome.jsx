@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGitmon } from './GitmonApp';
-import { getStarters, createMon } from './gitmonEngine';
+import { getStarters, createMon, getSpeciesById } from './gitmonEngine';
 
 const STARTERS = getStarters();
 
@@ -10,6 +10,12 @@ const TYPE_LABELS = {
   PROCESS: 'PROCESS type — Fast attacker',
   NETWORK: 'NETWORK type — Defensive tank',
 };
+
+const SPRITE_BASE = 'https://raw.githubusercontent.com/msikma/pokesprite/master';
+function spriteUrl(pokespriteId, size = 'lg') {
+  if (size === 'sm') return `${SPRITE_BASE}/icons/pokemon/regular/${pokespriteId}.png`;
+  return `${SPRITE_BASE}/pokemon-gen7x/regular/${pokespriteId}.png`;
+}
 
 export default function GitmonHome() {
   const { save, startNewGame } = useGitmon();
@@ -23,7 +29,11 @@ export default function GitmonHome() {
   }
 
   function handleNewGame() {
-    setPhase('name');
+    if (save) {
+      setPhase('warn');
+    } else {
+      setPhase('name');
+    }
   }
 
   function handleNameSubmit(e) {
@@ -37,6 +47,23 @@ export default function GitmonHome() {
     const starterMon = createMon(selected.id, 5);
     startNewGame(name.trim() || 'Trainer', selected.id, starterMon);
     navigate('/gitmon/overworld');
+  }
+
+  // Warning screen
+  if (phase === 'warn') {
+    return (
+      <div className="gm-home">
+        <div className="gm-title" style={{ fontSize: 22, color: '#f44336' }}>WARNING</div>
+        <div style={{ fontSize: 13, color: '#ccc', textAlign: 'center', lineHeight: 2, maxWidth: 400 }}>
+          Starting a new game will permanently erase your current save data.<br/>
+          <span style={{ color: '#7ec8e3' }}>{save.playerName || 'Trainer'}</span>'s adventure will be lost.
+        </div>
+        <div style={{ display: 'flex', gap: 12, width: '100%', marginTop: 16 }}>
+          <button className="gm-home-btn" style={{ flex: 1 }} onClick={() => setPhase('name')}>YES, ERASE</button>
+          <button className="gm-home-btn" style={{ flex: 1 }} onClick={() => setPhase('title')}>NO, GO BACK</button>
+        </div>
+      </div>
+    );
   }
 
   // Title screen
@@ -65,7 +92,7 @@ export default function GitmonHome() {
   if (phase === 'name') {
     return (
       <div className="gm-home">
-        <div style={{ fontSize: '0.45rem', color: '#ccc', marginBottom: 8, textAlign: 'center' }}>
+        <div style={{ fontSize: 14, color: '#ccc', marginBottom: 8, textAlign: 'center' }}>
           What is your name, trainer?
         </div>
         <form onSubmit={handleNameSubmit} style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -81,7 +108,7 @@ export default function GitmonHome() {
               borderRadius: 3,
               color: '#e8e8e8',
               fontFamily: "'Press Start 2P', monospace",
-              fontSize: '0.55rem',
+              fontSize: 14,
               padding: '8px 10px',
               width: '100%',
               outline: 'none',
@@ -98,7 +125,7 @@ export default function GitmonHome() {
   if (phase === 'starter') {
     return (
       <div className="gm-home">
-        <div style={{ fontSize: '0.42rem', color: '#ccc', marginBottom: 8, textAlign: 'center', lineHeight: 1.8 }}>
+        <div style={{ fontSize: 13, color: '#ccc', marginBottom: 8, textAlign: 'center', lineHeight: 1.8 }}>
           {name}, choose your first Gitmon!
         </div>
         <div className="gm-starter-grid">
@@ -108,16 +135,21 @@ export default function GitmonHome() {
               className={`gm-starter-card${selected?.id === s.id ? ' selected' : ''}`}
               onClick={() => setSelected(s)}
             >
-              <span className="gm-starter-sprite">{s.sprite}</span>
+              <img
+                src={spriteUrl(s.pokespriteId)}
+                alt={s.name}
+                style={{ width: 80, height: 80, objectFit: 'contain' }}
+                className="gm-starter-sprite"
+              />
               <span className="gm-starter-name">{s.name}</span>
               <span className="gm-starter-type">{s.type}</span>
             </button>
           ))}
         </div>
         {selected && (
-          <div style={{ fontSize: '0.35rem', color: '#aaa', textAlign: 'center', lineHeight: 1.8, margin: '4px 0' }}>
+          <div style={{ fontSize: 11, color: '#aaa', textAlign: 'center', lineHeight: 1.8, margin: '4px 0' }}>
             {selected.name} — {TYPE_LABELS[selected.type]}<br />
-            <span style={{ color: '#777', fontSize: '0.3rem' }}>{selected.description}</span>
+            <span style={{ color: '#777', fontSize: 10 }}>{selected.description}</span>
           </div>
         )}
         <div style={{ display: 'flex', gap: 6, width: '100%' }}>

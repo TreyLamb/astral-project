@@ -114,12 +114,22 @@ export function validateCommand(input, mon) {
     }
   }
 
-  // Check if it's any valid git command but not in moveset
-  if (trimmed.startsWith('git ')) {
-    return { move: null, error: `${mon.name} doesn't know that command! Check your moves.` };
+  if (trimmed.startsWith('git')) {
+    const inputSubcmd = trimmed.split(/\s+/)[1]?.toLowerCase();
+    // Right git subcommand, wrong format — show correct usage
+    const matchingMoves = mon.moves
+      .map(s => MOVES_MAP[s.id])
+      .filter(m => m && m.command.split(/\s+/)[1]?.toLowerCase() === inputSubcmd);
+    if (matchingMoves.length > 0) {
+      const hints = matchingMoves.map(m => m.hint).join(' or ');
+      return { move: null, error: `Wrong format! Correct usage: ${hints}` };
+    }
+    const ownedCmds = mon.moves.map(s => MOVES_MAP[s.id]).filter(Boolean)
+      .map(m => m.command.split(/\s+/).slice(0, 2).join(' ')).join(', ');
+    return { move: null, error: `${mon.name} doesn't know "git ${inputSubcmd || '?'}"! Their commands: ${ownedCmds}` };
   }
 
-  return { move: null, error: `That's not a valid git command! Type "git ..." to attack.` };
+  return { move: null, error: `That's not a git command! Type "git ..." to attack.` };
 }
 
 // Execute a player turn: returns { damage, missed, effectiveness, effectText, log }
@@ -144,6 +154,7 @@ export function executePlayerTurn(moveDef, moveSlot, playerMon, enemyMon) {
     log.push(`${playerMon.name}'s attack missed!`);
   } else {
     enemyMon.hp = Math.max(0, enemyMon.hp - damage);
+    log.push(`Hit for ${damage} damage!`);
     const effectText = getEffectivenessText(typeMulti);
     if (effectText) log.push(effectText);
     if (moveDef.effect === 'reveal_info') {
@@ -267,9 +278,11 @@ export function evolveMon(mon) {
   return mon;
 }
 
-// Create a wild encounter for a given area
 export function createWildEncounter(area) {
-  const pool = POKEMON_DATA.pokemon.filter(p => p.area === area && !p.isStarter);
+  const pool = POKEMON_DATA.pokemon.filter(p => {
+    if (!p.area || p.isStarter) return false;
+    return Array.isArray(p.area) ? p.area.includes(area) : p.area === area;
+  });
   if (!pool.length) return null;
   const species = pool[Math.floor(Math.random() * pool.length)];
   const levelMin = AREA_LEVELS[area]?.[0] ?? 3;
@@ -279,6 +292,19 @@ export function createWildEncounter(area) {
 }
 
 const AREA_LEVELS = {
+  // Phase 1 routes
+  repo_town:        [2,  5],
+  path_1:           [2,  5],
+  status_city:      [3,  6],
+  path_22:          [3,  6],
+  path_2:           [3,  6],
+  add_forest:       [3,  7],
+  commit_city:      [8, 12],
+  path_3:           [8, 12],
+  path_3_rest:      [8, 12],
+  conflict_cave:    [8, 12],
+  path_4:           [11,14],
+  // Phase 2+
   initfields:    [3, 8],
   branch_forest: [13, 18],
   merge_valley:  [22, 28],
