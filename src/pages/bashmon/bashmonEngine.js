@@ -272,6 +272,30 @@ const AREA_LEVELS = {
   route_3:          [8, 12],
   mt_moon:          [8, 12],
   route_4:          [11, 14],
+  // Phase 2 routes
+  route_25:         [13, 16],
+  cerulean_area:    [14, 18],
+  // Phase 3 routes
+  route_5:          [16, 20],
+  route_6:          [17, 21],
+  route_11:         [22, 27],
+  rock_tunnel:      [20, 25],
+  // Phase 4 routes
+  pokemon_tower:    [22, 28],
+  route_7:          [25, 30],
+  route_8:          [27, 32],
+  // Phase 5 routes
+  route_16:         [28, 33],
+  route_17:         [29, 34],
+  route_15:         [30, 35],
+  // Phase 6 routes
+  safari_zone:      [25, 30],
+  // Phase 7 routes
+  route_21:         [42, 48],
+  pokemon_mansion:  [40, 46],
+  // Phase 8 routes
+  route_22_ext:     [50, 55],
+  victory_road:     [52, 60],
   // Phase 2+ (existing areas renamed to match world map)
   initfields:       [3, 8],
   branch_forest:    [13, 18],
@@ -286,3 +310,70 @@ const AREA_LEVELS = {
 export function getMoveById(id)    { return MOVES_MAP[id] ?? null; }
 export function getSpeciesById(id) { return POKEMON_MAP[id] ?? null; }
 export function getStarters()      { return POKEMON_DATA.pokemon.filter(p => p.isStarter); }
+
+// Pick enemy's best move by power, deplete its PP, return { slot, move }
+export function getEnemyChallengeMove(enemyMon) {
+  const available = enemyMon.moves.filter(s => s.currentPp > 0);
+  if (!available.length) return null;
+  let best = available[0];
+  let bestScore = -1;
+  for (const slot of available) {
+    const def = MOVES_MAP[slot.id];
+    if (!def) continue;
+    const score = def.power ?? 0;
+    if (score > bestScore) { bestScore = score; best = slot; }
+  }
+  best.currentPp = Math.max(0, best.currentPp - 1);
+  return { slot: best, move: MOVES_MAP[best.id] };
+}
+
+// Validate the player's typed command against the current challenge move.
+// Returns { valid: bool, error: string|null }
+export function validatePlayerResponse(input, challengeMove) {
+  const trimmed = input.trim().toLowerCase();
+  if (!trimmed) return { valid: false, error: 'Type a command!' };
+
+  const challenge = challengeMove?.challenge;
+  if (challenge?.validCommands?.length) {
+    for (const valid of challenge.validCommands) {
+      const base = valid.toLowerCase();
+      if (
+        trimmed === base ||
+        trimmed.startsWith(base.split(' ')[0] + ' ') ||
+        (base.includes(' ') && trimmed.startsWith(base.split(' ').slice(0, 2).join(' ')))
+      ) {
+        return { valid: true, error: null };
+      }
+    }
+    return { valid: false, error: `Hint: ${challenge.playerPrompt || challengeMove.hint}` };
+  }
+
+  // Fallback: use commandPattern
+  if (challengeMove?.commandPattern) {
+    const pattern = new RegExp(challengeMove.commandPattern, 'i');
+    if (pattern.test(trimmed)) return { valid: true, error: null };
+  }
+  return { valid: false, error: `Try: ${challengeMove?.hint || 'a bash command'}` };
+}
+
+// Auto-attack: player's best move (by power × type) hits enemy after a correct response.
+export function executePlayerCounterAttack(playerMon, enemyMon) {
+  const available = playerMon.moves.filter(s => s.currentPp > 0);
+  if (!available.length) {
+    // Struggle — no PP left
+    const damage = Math.max(1, Math.floor(playerMon.level * 0.5));
+    enemyMon.hp  = Math.max(0, enemyMon.hp  - damage);
+    playerMon.hp = Math.max(0, playerMon.hp - Math.floor(damage / 4));
+    return { damage, log: [`${playerMon.name} used Struggle!`, `Hit for ${damage} damage!`] };
+  }
+  let best = available[0];
+  let bestScore = -1;
+  for (const slot of available) {
+    const def = MOVES_MAP[slot.id];
+    if (!def) continue;
+    const score = (def.power ?? 0) * getTypeMultiplier(def.type, enemyMon.type);
+    if (score > bestScore) { bestScore = score; best = slot; }
+  }
+  const moveDef = MOVES_MAP[best.id];
+  return executePlayerTurn(moveDef, best, playerMon, enemyMon);
+}

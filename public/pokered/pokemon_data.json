@@ -1,0 +1,7327 @@
+{
+  "pokemon": {
+    "ABRA": {
+      "hp": 25,
+      "atk": 20,
+      "def": 15,
+      "spd": 90,
+      "spc": 105,
+      "type1": "PSYCHIC_TYPE",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 200,
+      "startMoves": [
+        "TELEPORT"
+      ]
+    },
+    "AERODACTYL": {
+      "hp": 80,
+      "atk": 105,
+      "def": 65,
+      "spd": 130,
+      "spc": 60,
+      "type1": "ROCK",
+      "type2": "FLYING",
+      "catchRate": 45,
+      "startMoves": [
+        "WING_ATTACK",
+        "AGILITY"
+      ]
+    },
+    "ALAKAZAM": {
+      "hp": 55,
+      "atk": 50,
+      "def": 45,
+      "spd": 120,
+      "spc": 135,
+      "type1": "PSYCHIC_TYPE",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 50,
+      "startMoves": [
+        "TELEPORT",
+        "CONFUSION",
+        "DISABLE"
+      ]
+    },
+    "ARBOK": {
+      "hp": 60,
+      "atk": 85,
+      "def": 69,
+      "spd": 80,
+      "spc": 65,
+      "type1": "POISON",
+      "type2": "POISON",
+      "catchRate": 90,
+      "startMoves": [
+        "WRAP",
+        "LEER",
+        "POISON_STING"
+      ]
+    },
+    "ARCANINE": {
+      "hp": 90,
+      "atk": 110,
+      "def": 80,
+      "spd": 95,
+      "spc": 80,
+      "type1": "FIRE",
+      "type2": "FIRE",
+      "catchRate": 75,
+      "startMoves": [
+        "ROAR",
+        "EMBER",
+        "LEER",
+        "TAKE_DOWN"
+      ]
+    },
+    "ARTICUNO": {
+      "hp": 90,
+      "atk": 85,
+      "def": 100,
+      "spd": 85,
+      "spc": 125,
+      "type1": "ICE",
+      "type2": "FLYING",
+      "catchRate": 3,
+      "startMoves": [
+        "PECK",
+        "ICE_BEAM"
+      ]
+    },
+    "BEEDRILL": {
+      "hp": 65,
+      "atk": 80,
+      "def": 40,
+      "spd": 75,
+      "spc": 45,
+      "type1": "BUG",
+      "type2": "POISON",
+      "catchRate": 45,
+      "startMoves": [
+        "FURY_ATTACK"
+      ]
+    },
+    "BELLSPROUT": {
+      "hp": 50,
+      "atk": 75,
+      "def": 35,
+      "spd": 40,
+      "spc": 70,
+      "type1": "GRASS",
+      "type2": "POISON",
+      "catchRate": 255,
+      "startMoves": [
+        "VINE_WHIP",
+        "GROWTH"
+      ]
+    },
+    "BLASTOISE": {
+      "hp": 79,
+      "atk": 83,
+      "def": 100,
+      "spd": 78,
+      "spc": 85,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "TAIL_WHIP",
+        "BUBBLE",
+        "WATER_GUN"
+      ]
+    },
+    "BULBASAUR": {
+      "hp": 45,
+      "atk": 49,
+      "def": 49,
+      "spd": 45,
+      "spc": 65,
+      "type1": "GRASS",
+      "type2": "POISON",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "GROWL"
+      ]
+    },
+    "BUTTERFREE": {
+      "hp": 60,
+      "atk": 45,
+      "def": 50,
+      "spd": 70,
+      "spc": 80,
+      "type1": "BUG",
+      "type2": "FLYING",
+      "catchRate": 45,
+      "startMoves": [
+        "CONFUSION"
+      ]
+    },
+    "CATERPIE": {
+      "hp": 45,
+      "atk": 30,
+      "def": 35,
+      "spd": 45,
+      "spc": 20,
+      "type1": "BUG",
+      "type2": "BUG",
+      "catchRate": 255,
+      "startMoves": [
+        "TACKLE",
+        "STRING_SHOT"
+      ]
+    },
+    "CHANSEY": {
+      "hp": 250,
+      "atk": 5,
+      "def": 5,
+      "spd": 50,
+      "spc": 105,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 30,
+      "startMoves": [
+        "POUND",
+        "DOUBLESLAP"
+      ]
+    },
+    "CHARIZARD": {
+      "hp": 78,
+      "atk": 84,
+      "def": 78,
+      "spd": 100,
+      "spc": 85,
+      "type1": "FIRE",
+      "type2": "FLYING",
+      "catchRate": 45,
+      "startMoves": [
+        "SCRATCH",
+        "GROWL",
+        "EMBER",
+        "LEER"
+      ]
+    },
+    "CHARMANDER": {
+      "hp": 39,
+      "atk": 52,
+      "def": 43,
+      "spd": 65,
+      "spc": 50,
+      "type1": "FIRE",
+      "type2": "FIRE",
+      "catchRate": 45,
+      "startMoves": [
+        "SCRATCH",
+        "GROWL"
+      ]
+    },
+    "CHARMELEON": {
+      "hp": 58,
+      "atk": 64,
+      "def": 58,
+      "spd": 80,
+      "spc": 65,
+      "type1": "FIRE",
+      "type2": "FIRE",
+      "catchRate": 45,
+      "startMoves": [
+        "SCRATCH",
+        "GROWL",
+        "EMBER"
+      ]
+    },
+    "CLEFABLE": {
+      "hp": 95,
+      "atk": 70,
+      "def": 73,
+      "spd": 60,
+      "spc": 85,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 25,
+      "startMoves": [
+        "SING",
+        "DOUBLESLAP",
+        "MINIMIZE",
+        "METRONOME"
+      ]
+    },
+    "CLEFAIRY": {
+      "hp": 70,
+      "atk": 45,
+      "def": 48,
+      "spd": 35,
+      "spc": 60,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 150,
+      "startMoves": [
+        "POUND",
+        "GROWL"
+      ]
+    },
+    "CLOYSTER": {
+      "hp": 50,
+      "atk": 95,
+      "def": 180,
+      "spd": 70,
+      "spc": 85,
+      "type1": "WATER",
+      "type2": "ICE",
+      "catchRate": 60,
+      "startMoves": [
+        "WITHDRAW",
+        "SUPERSONIC",
+        "CLAMP",
+        "AURORA_BEAM"
+      ]
+    },
+    "CUBONE": {
+      "hp": 50,
+      "atk": 50,
+      "def": 95,
+      "spd": 35,
+      "spc": 40,
+      "type1": "GROUND",
+      "type2": "GROUND",
+      "catchRate": 190,
+      "startMoves": [
+        "BONE_CLUB",
+        "GROWL"
+      ]
+    },
+    "DEWGONG": {
+      "hp": 90,
+      "atk": 70,
+      "def": 80,
+      "spd": 70,
+      "spc": 95,
+      "type1": "WATER",
+      "type2": "ICE",
+      "catchRate": 75,
+      "startMoves": [
+        "HEADBUTT",
+        "GROWL",
+        "AURORA_BEAM"
+      ]
+    },
+    "DIGLETT": {
+      "hp": 10,
+      "atk": 55,
+      "def": 25,
+      "spd": 95,
+      "spc": 45,
+      "type1": "GROUND",
+      "type2": "GROUND",
+      "catchRate": 255,
+      "startMoves": [
+        "SCRATCH"
+      ]
+    },
+    "DITTO": {
+      "hp": 48,
+      "atk": 48,
+      "def": 48,
+      "spd": 48,
+      "spc": 48,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 35,
+      "startMoves": [
+        "TRANSFORM"
+      ]
+    },
+    "DODRIO": {
+      "hp": 60,
+      "atk": 110,
+      "def": 70,
+      "spd": 100,
+      "spc": 60,
+      "type1": "NORMAL",
+      "type2": "FLYING",
+      "catchRate": 45,
+      "startMoves": [
+        "PECK",
+        "GROWL",
+        "FURY_ATTACK"
+      ]
+    },
+    "DODUO": {
+      "hp": 35,
+      "atk": 85,
+      "def": 45,
+      "spd": 75,
+      "spc": 35,
+      "type1": "NORMAL",
+      "type2": "FLYING",
+      "catchRate": 190,
+      "startMoves": [
+        "PECK"
+      ]
+    },
+    "DRAGONAIR": {
+      "hp": 61,
+      "atk": 84,
+      "def": 65,
+      "spd": 70,
+      "spc": 70,
+      "type1": "DRAGON",
+      "type2": "DRAGON",
+      "catchRate": 45,
+      "startMoves": [
+        "WRAP",
+        "LEER",
+        "THUNDER_WAVE"
+      ]
+    },
+    "DRAGONITE": {
+      "hp": 91,
+      "atk": 134,
+      "def": 95,
+      "spd": 80,
+      "spc": 100,
+      "type1": "DRAGON",
+      "type2": "FLYING",
+      "catchRate": 45,
+      "startMoves": [
+        "WRAP",
+        "LEER",
+        "THUNDER_WAVE",
+        "AGILITY"
+      ]
+    },
+    "DRATINI": {
+      "hp": 41,
+      "atk": 64,
+      "def": 45,
+      "spd": 50,
+      "spc": 50,
+      "type1": "DRAGON",
+      "type2": "DRAGON",
+      "catchRate": 45,
+      "startMoves": [
+        "WRAP",
+        "LEER"
+      ]
+    },
+    "DROWZEE": {
+      "hp": 60,
+      "atk": 48,
+      "def": 45,
+      "spd": 42,
+      "spc": 90,
+      "type1": "PSYCHIC_TYPE",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 190,
+      "startMoves": [
+        "POUND",
+        "HYPNOSIS"
+      ]
+    },
+    "DUGTRIO": {
+      "hp": 35,
+      "atk": 80,
+      "def": 50,
+      "spd": 120,
+      "spc": 70,
+      "type1": "GROUND",
+      "type2": "GROUND",
+      "catchRate": 50,
+      "startMoves": [
+        "SCRATCH",
+        "GROWL",
+        "DIG"
+      ]
+    },
+    "EEVEE": {
+      "hp": 55,
+      "atk": 55,
+      "def": 50,
+      "spd": 55,
+      "spc": 65,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "SAND_ATTACK"
+      ]
+    },
+    "EKANS": {
+      "hp": 35,
+      "atk": 60,
+      "def": 44,
+      "spd": 55,
+      "spc": 40,
+      "type1": "POISON",
+      "type2": "POISON",
+      "catchRate": 255,
+      "startMoves": [
+        "WRAP",
+        "LEER"
+      ]
+    },
+    "ELECTABUZZ": {
+      "hp": 65,
+      "atk": 83,
+      "def": 57,
+      "spd": 105,
+      "spc": 85,
+      "type1": "ELECTRIC",
+      "type2": "ELECTRIC",
+      "catchRate": 45,
+      "startMoves": [
+        "QUICK_ATTACK",
+        "LEER"
+      ]
+    },
+    "ELECTRODE": {
+      "hp": 60,
+      "atk": 50,
+      "def": 70,
+      "spd": 140,
+      "spc": 80,
+      "type1": "ELECTRIC",
+      "type2": "ELECTRIC",
+      "catchRate": 60,
+      "startMoves": [
+        "TACKLE",
+        "SCREECH",
+        "SONICBOOM"
+      ]
+    },
+    "EXEGGCUTE": {
+      "hp": 60,
+      "atk": 40,
+      "def": 80,
+      "spd": 40,
+      "spc": 60,
+      "type1": "GRASS",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 90,
+      "startMoves": [
+        "BARRAGE",
+        "HYPNOSIS"
+      ]
+    },
+    "EXEGGUTOR": {
+      "hp": 95,
+      "atk": 95,
+      "def": 85,
+      "spd": 55,
+      "spc": 125,
+      "type1": "GRASS",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 45,
+      "startMoves": [
+        "BARRAGE",
+        "HYPNOSIS"
+      ]
+    },
+    "FARFETCHD": {
+      "hp": 52,
+      "atk": 65,
+      "def": 55,
+      "spd": 60,
+      "spc": 58,
+      "type1": "NORMAL",
+      "type2": "FLYING",
+      "catchRate": 45,
+      "startMoves": [
+        "PECK",
+        "SAND_ATTACK"
+      ]
+    },
+    "FEAROW": {
+      "hp": 65,
+      "atk": 90,
+      "def": 65,
+      "spd": 100,
+      "spc": 61,
+      "type1": "NORMAL",
+      "type2": "FLYING",
+      "catchRate": 90,
+      "startMoves": [
+        "PECK",
+        "GROWL",
+        "LEER"
+      ]
+    },
+    "FLAREON": {
+      "hp": 65,
+      "atk": 130,
+      "def": 60,
+      "spd": 65,
+      "spc": 110,
+      "type1": "FIRE",
+      "type2": "FIRE",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "SAND_ATTACK",
+        "QUICK_ATTACK",
+        "EMBER"
+      ]
+    },
+    "GASTLY": {
+      "hp": 30,
+      "atk": 35,
+      "def": 30,
+      "spd": 80,
+      "spc": 100,
+      "type1": "GHOST",
+      "type2": "POISON",
+      "catchRate": 190,
+      "startMoves": [
+        "LICK",
+        "CONFUSE_RAY",
+        "NIGHT_SHADE"
+      ]
+    },
+    "GENGAR": {
+      "hp": 60,
+      "atk": 65,
+      "def": 60,
+      "spd": 110,
+      "spc": 130,
+      "type1": "GHOST",
+      "type2": "POISON",
+      "catchRate": 45,
+      "startMoves": [
+        "LICK",
+        "CONFUSE_RAY",
+        "NIGHT_SHADE"
+      ]
+    },
+    "GEODUDE": {
+      "hp": 40,
+      "atk": 80,
+      "def": 100,
+      "spd": 20,
+      "spc": 30,
+      "type1": "ROCK",
+      "type2": "GROUND",
+      "catchRate": 255,
+      "startMoves": [
+        "TACKLE"
+      ]
+    },
+    "GLOOM": {
+      "hp": 60,
+      "atk": 65,
+      "def": 70,
+      "spd": 40,
+      "spc": 85,
+      "type1": "GRASS",
+      "type2": "POISON",
+      "catchRate": 120,
+      "startMoves": [
+        "ABSORB",
+        "POISONPOWDER",
+        "STUN_SPORE"
+      ]
+    },
+    "GOLBAT": {
+      "hp": 75,
+      "atk": 80,
+      "def": 70,
+      "spd": 90,
+      "spc": 75,
+      "type1": "POISON",
+      "type2": "FLYING",
+      "catchRate": 90,
+      "startMoves": [
+        "LEECH_LIFE",
+        "SCREECH",
+        "BITE"
+      ]
+    },
+    "GOLDEEN": {
+      "hp": 45,
+      "atk": 67,
+      "def": 60,
+      "spd": 63,
+      "spc": 50,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 225,
+      "startMoves": [
+        "PECK",
+        "TAIL_WHIP"
+      ]
+    },
+    "GOLDUCK": {
+      "hp": 80,
+      "atk": 82,
+      "def": 78,
+      "spd": 85,
+      "spc": 80,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 75,
+      "startMoves": [
+        "SCRATCH",
+        "TAIL_WHIP",
+        "DISABLE"
+      ]
+    },
+    "GOLEM": {
+      "hp": 80,
+      "atk": 110,
+      "def": 130,
+      "spd": 45,
+      "spc": 55,
+      "type1": "ROCK",
+      "type2": "GROUND",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "DEFENSE_CURL"
+      ]
+    },
+    "GRAVELER": {
+      "hp": 55,
+      "atk": 95,
+      "def": 115,
+      "spd": 35,
+      "spc": 45,
+      "type1": "ROCK",
+      "type2": "GROUND",
+      "catchRate": 120,
+      "startMoves": [
+        "TACKLE",
+        "DEFENSE_CURL"
+      ]
+    },
+    "GRIMER": {
+      "hp": 80,
+      "atk": 80,
+      "def": 50,
+      "spd": 25,
+      "spc": 40,
+      "type1": "POISON",
+      "type2": "POISON",
+      "catchRate": 190,
+      "startMoves": [
+        "POUND",
+        "DISABLE"
+      ]
+    },
+    "GROWLITHE": {
+      "hp": 55,
+      "atk": 70,
+      "def": 45,
+      "spd": 60,
+      "spc": 50,
+      "type1": "FIRE",
+      "type2": "FIRE",
+      "catchRate": 190,
+      "startMoves": [
+        "BITE",
+        "ROAR"
+      ]
+    },
+    "GYARADOS": {
+      "hp": 95,
+      "atk": 125,
+      "def": 79,
+      "spd": 81,
+      "spc": 100,
+      "type1": "WATER",
+      "type2": "FLYING",
+      "catchRate": 45,
+      "startMoves": [
+        "BITE",
+        "DRAGON_RAGE",
+        "LEER",
+        "HYDRO_PUMP"
+      ]
+    },
+    "HAUNTER": {
+      "hp": 45,
+      "atk": 50,
+      "def": 45,
+      "spd": 95,
+      "spc": 115,
+      "type1": "GHOST",
+      "type2": "POISON",
+      "catchRate": 90,
+      "startMoves": [
+        "LICK",
+        "CONFUSE_RAY",
+        "NIGHT_SHADE"
+      ]
+    },
+    "HITMONCHAN": {
+      "hp": 50,
+      "atk": 105,
+      "def": 79,
+      "spd": 76,
+      "spc": 35,
+      "type1": "FIGHTING",
+      "type2": "FIGHTING",
+      "catchRate": 45,
+      "startMoves": [
+        "COMET_PUNCH",
+        "AGILITY"
+      ]
+    },
+    "HITMONLEE": {
+      "hp": 50,
+      "atk": 120,
+      "def": 53,
+      "spd": 87,
+      "spc": 35,
+      "type1": "FIGHTING",
+      "type2": "FIGHTING",
+      "catchRate": 45,
+      "startMoves": [
+        "DOUBLE_KICK",
+        "MEDITATE"
+      ]
+    },
+    "HORSEA": {
+      "hp": 30,
+      "atk": 40,
+      "def": 70,
+      "spd": 60,
+      "spc": 70,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 225,
+      "startMoves": [
+        "BUBBLE"
+      ]
+    },
+    "HYPNO": {
+      "hp": 85,
+      "atk": 73,
+      "def": 70,
+      "spd": 67,
+      "spc": 115,
+      "type1": "PSYCHIC_TYPE",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 75,
+      "startMoves": [
+        "POUND",
+        "HYPNOSIS",
+        "DISABLE",
+        "CONFUSION"
+      ]
+    },
+    "IVYSAUR": {
+      "hp": 60,
+      "atk": 62,
+      "def": 63,
+      "spd": 60,
+      "spc": 80,
+      "type1": "GRASS",
+      "type2": "POISON",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "GROWL",
+        "LEECH_SEED"
+      ]
+    },
+    "JIGGLYPUFF": {
+      "hp": 115,
+      "atk": 45,
+      "def": 20,
+      "spd": 20,
+      "spc": 25,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 170,
+      "startMoves": [
+        "SING"
+      ]
+    },
+    "JOLTEON": {
+      "hp": 65,
+      "atk": 65,
+      "def": 60,
+      "spd": 130,
+      "spc": 110,
+      "type1": "ELECTRIC",
+      "type2": "ELECTRIC",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "SAND_ATTACK",
+        "QUICK_ATTACK",
+        "THUNDERSHOCK"
+      ]
+    },
+    "JYNX": {
+      "hp": 65,
+      "atk": 50,
+      "def": 35,
+      "spd": 95,
+      "spc": 95,
+      "type1": "ICE",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 45,
+      "startMoves": [
+        "POUND",
+        "LOVELY_KISS"
+      ]
+    },
+    "KABUTO": {
+      "hp": 30,
+      "atk": 80,
+      "def": 90,
+      "spd": 55,
+      "spc": 45,
+      "type1": "ROCK",
+      "type2": "WATER",
+      "catchRate": 45,
+      "startMoves": [
+        "SCRATCH",
+        "HARDEN"
+      ]
+    },
+    "KABUTOPS": {
+      "hp": 60,
+      "atk": 115,
+      "def": 105,
+      "spd": 80,
+      "spc": 70,
+      "type1": "ROCK",
+      "type2": "WATER",
+      "catchRate": 45,
+      "startMoves": [
+        "SCRATCH",
+        "HARDEN",
+        "ABSORB"
+      ]
+    },
+    "KADABRA": {
+      "hp": 40,
+      "atk": 35,
+      "def": 30,
+      "spd": 105,
+      "spc": 120,
+      "type1": "PSYCHIC_TYPE",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 100,
+      "startMoves": [
+        "TELEPORT",
+        "CONFUSION",
+        "DISABLE"
+      ]
+    },
+    "KAKUNA": {
+      "hp": 45,
+      "atk": 25,
+      "def": 50,
+      "spd": 35,
+      "spc": 25,
+      "type1": "BUG",
+      "type2": "POISON",
+      "catchRate": 120,
+      "startMoves": [
+        "HARDEN"
+      ]
+    },
+    "KANGASKHAN": {
+      "hp": 105,
+      "atk": 95,
+      "def": 80,
+      "spd": 90,
+      "spc": 40,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 45,
+      "startMoves": [
+        "COMET_PUNCH",
+        "RAGE"
+      ]
+    },
+    "KINGLER": {
+      "hp": 55,
+      "atk": 130,
+      "def": 115,
+      "spd": 75,
+      "spc": 50,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 60,
+      "startMoves": [
+        "BUBBLE",
+        "LEER",
+        "VICEGRIP"
+      ]
+    },
+    "KOFFING": {
+      "hp": 40,
+      "atk": 65,
+      "def": 95,
+      "spd": 35,
+      "spc": 60,
+      "type1": "POISON",
+      "type2": "POISON",
+      "catchRate": 190,
+      "startMoves": [
+        "TACKLE",
+        "SMOG"
+      ]
+    },
+    "KRABBY": {
+      "hp": 30,
+      "atk": 105,
+      "def": 90,
+      "spd": 50,
+      "spc": 25,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 225,
+      "startMoves": [
+        "BUBBLE",
+        "LEER"
+      ]
+    },
+    "LAPRAS": {
+      "hp": 130,
+      "atk": 85,
+      "def": 80,
+      "spd": 60,
+      "spc": 95,
+      "type1": "WATER",
+      "type2": "ICE",
+      "catchRate": 45,
+      "startMoves": [
+        "WATER_GUN",
+        "GROWL"
+      ]
+    },
+    "LICKITUNG": {
+      "hp": 90,
+      "atk": 55,
+      "def": 75,
+      "spd": 30,
+      "spc": 60,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 45,
+      "startMoves": [
+        "WRAP",
+        "SUPERSONIC"
+      ]
+    },
+    "MACHAMP": {
+      "hp": 90,
+      "atk": 130,
+      "def": 80,
+      "spd": 55,
+      "spc": 65,
+      "type1": "FIGHTING",
+      "type2": "FIGHTING",
+      "catchRate": 45,
+      "startMoves": [
+        "KARATE_CHOP",
+        "LOW_KICK",
+        "LEER"
+      ]
+    },
+    "MACHOKE": {
+      "hp": 80,
+      "atk": 100,
+      "def": 70,
+      "spd": 45,
+      "spc": 50,
+      "type1": "FIGHTING",
+      "type2": "FIGHTING",
+      "catchRate": 90,
+      "startMoves": [
+        "KARATE_CHOP",
+        "LOW_KICK",
+        "LEER"
+      ]
+    },
+    "MACHOP": {
+      "hp": 70,
+      "atk": 80,
+      "def": 50,
+      "spd": 35,
+      "spc": 35,
+      "type1": "FIGHTING",
+      "type2": "FIGHTING",
+      "catchRate": 180,
+      "startMoves": [
+        "KARATE_CHOP"
+      ]
+    },
+    "MAGIKARP": {
+      "hp": 20,
+      "atk": 10,
+      "def": 55,
+      "spd": 80,
+      "spc": 20,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 255,
+      "startMoves": [
+        "SPLASH"
+      ]
+    },
+    "MAGMAR": {
+      "hp": 65,
+      "atk": 95,
+      "def": 57,
+      "spd": 93,
+      "spc": 85,
+      "type1": "FIRE",
+      "type2": "FIRE",
+      "catchRate": 45,
+      "startMoves": [
+        "EMBER"
+      ]
+    },
+    "MAGNEMITE": {
+      "hp": 25,
+      "atk": 35,
+      "def": 70,
+      "spd": 45,
+      "spc": 95,
+      "type1": "ELECTRIC",
+      "type2": "ELECTRIC",
+      "catchRate": 190,
+      "startMoves": [
+        "TACKLE"
+      ]
+    },
+    "MAGNETON": {
+      "hp": 50,
+      "atk": 60,
+      "def": 95,
+      "spd": 70,
+      "spc": 120,
+      "type1": "ELECTRIC",
+      "type2": "ELECTRIC",
+      "catchRate": 60,
+      "startMoves": [
+        "TACKLE",
+        "SONICBOOM",
+        "THUNDERSHOCK"
+      ]
+    },
+    "MANKEY": {
+      "hp": 40,
+      "atk": 80,
+      "def": 35,
+      "spd": 70,
+      "spc": 35,
+      "type1": "FIGHTING",
+      "type2": "FIGHTING",
+      "catchRate": 190,
+      "startMoves": [
+        "SCRATCH",
+        "LEER"
+      ]
+    },
+    "MAROWAK": {
+      "hp": 60,
+      "atk": 80,
+      "def": 110,
+      "spd": 45,
+      "spc": 50,
+      "type1": "GROUND",
+      "type2": "GROUND",
+      "catchRate": 75,
+      "startMoves": [
+        "BONE_CLUB",
+        "GROWL",
+        "LEER",
+        "FOCUS_ENERGY"
+      ]
+    },
+    "MEOWTH": {
+      "hp": 40,
+      "atk": 45,
+      "def": 35,
+      "spd": 90,
+      "spc": 40,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 255,
+      "startMoves": [
+        "SCRATCH",
+        "GROWL"
+      ]
+    },
+    "METAPOD": {
+      "hp": 50,
+      "atk": 20,
+      "def": 55,
+      "spd": 30,
+      "spc": 25,
+      "type1": "BUG",
+      "type2": "BUG",
+      "catchRate": 120,
+      "startMoves": [
+        "HARDEN"
+      ]
+    },
+    "MEW": {
+      "hp": 100,
+      "atk": 100,
+      "def": 100,
+      "spd": 100,
+      "spc": 100,
+      "type1": "PSYCHIC_TYPE",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 45,
+      "startMoves": [
+        "POUND"
+      ]
+    },
+    "MEWTWO": {
+      "hp": 106,
+      "atk": 110,
+      "def": 90,
+      "spd": 130,
+      "spc": 154,
+      "type1": "PSYCHIC_TYPE",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 3,
+      "startMoves": [
+        "CONFUSION",
+        "DISABLE",
+        "SWIFT",
+        "PSYCHIC_M"
+      ]
+    },
+    "MOLTRES": {
+      "hp": 90,
+      "atk": 100,
+      "def": 90,
+      "spd": 90,
+      "spc": 125,
+      "type1": "FIRE",
+      "type2": "FLYING",
+      "catchRate": 3,
+      "startMoves": [
+        "PECK",
+        "FIRE_SPIN"
+      ]
+    },
+    "MR_MIME": {
+      "hp": 40,
+      "atk": 45,
+      "def": 65,
+      "spd": 90,
+      "spc": 100,
+      "type1": "PSYCHIC_TYPE",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 45,
+      "startMoves": [
+        "CONFUSION",
+        "BARRIER"
+      ]
+    },
+    "MUK": {
+      "hp": 105,
+      "atk": 105,
+      "def": 75,
+      "spd": 50,
+      "spc": 65,
+      "type1": "POISON",
+      "type2": "POISON",
+      "catchRate": 75,
+      "startMoves": [
+        "POUND",
+        "DISABLE",
+        "POISON_GAS"
+      ]
+    },
+    "NIDOKING": {
+      "hp": 81,
+      "atk": 92,
+      "def": 77,
+      "spd": 85,
+      "spc": 75,
+      "type1": "POISON",
+      "type2": "GROUND",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "HORN_ATTACK",
+        "POISON_STING",
+        "THRASH"
+      ]
+    },
+    "NIDOQUEEN": {
+      "hp": 90,
+      "atk": 82,
+      "def": 87,
+      "spd": 76,
+      "spc": 75,
+      "type1": "POISON",
+      "type2": "GROUND",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "SCRATCH",
+        "TAIL_WHIP",
+        "BODY_SLAM"
+      ]
+    },
+    "NIDORAN_F": {
+      "hp": 55,
+      "atk": 47,
+      "def": 52,
+      "spd": 41,
+      "spc": 40,
+      "type1": "POISON",
+      "type2": "POISON",
+      "catchRate": 235,
+      "startMoves": [
+        "GROWL",
+        "TACKLE"
+      ]
+    },
+    "NIDORAN_M": {
+      "hp": 46,
+      "atk": 57,
+      "def": 40,
+      "spd": 50,
+      "spc": 40,
+      "type1": "POISON",
+      "type2": "POISON",
+      "catchRate": 235,
+      "startMoves": [
+        "LEER",
+        "TACKLE"
+      ]
+    },
+    "NIDORINA": {
+      "hp": 70,
+      "atk": 62,
+      "def": 67,
+      "spd": 56,
+      "spc": 55,
+      "type1": "POISON",
+      "type2": "POISON",
+      "catchRate": 120,
+      "startMoves": [
+        "GROWL",
+        "TACKLE",
+        "SCRATCH"
+      ]
+    },
+    "NIDORINO": {
+      "hp": 61,
+      "atk": 72,
+      "def": 57,
+      "spd": 65,
+      "spc": 55,
+      "type1": "POISON",
+      "type2": "POISON",
+      "catchRate": 120,
+      "startMoves": [
+        "LEER",
+        "TACKLE",
+        "HORN_ATTACK"
+      ]
+    },
+    "NINETALES": {
+      "hp": 73,
+      "atk": 76,
+      "def": 75,
+      "spd": 100,
+      "spc": 100,
+      "type1": "FIRE",
+      "type2": "FIRE",
+      "catchRate": 75,
+      "startMoves": [
+        "EMBER",
+        "TAIL_WHIP",
+        "QUICK_ATTACK",
+        "ROAR"
+      ]
+    },
+    "ODDISH": {
+      "hp": 45,
+      "atk": 50,
+      "def": 55,
+      "spd": 30,
+      "spc": 75,
+      "type1": "GRASS",
+      "type2": "POISON",
+      "catchRate": 255,
+      "startMoves": [
+        "ABSORB"
+      ]
+    },
+    "OMANYTE": {
+      "hp": 35,
+      "atk": 40,
+      "def": 100,
+      "spd": 35,
+      "spc": 90,
+      "type1": "ROCK",
+      "type2": "WATER",
+      "catchRate": 45,
+      "startMoves": [
+        "WATER_GUN",
+        "WITHDRAW"
+      ]
+    },
+    "OMASTAR": {
+      "hp": 70,
+      "atk": 60,
+      "def": 125,
+      "spd": 55,
+      "spc": 115,
+      "type1": "ROCK",
+      "type2": "WATER",
+      "catchRate": 45,
+      "startMoves": [
+        "WATER_GUN",
+        "WITHDRAW",
+        "HORN_ATTACK"
+      ]
+    },
+    "ONIX": {
+      "hp": 35,
+      "atk": 45,
+      "def": 160,
+      "spd": 70,
+      "spc": 30,
+      "type1": "ROCK",
+      "type2": "GROUND",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "SCREECH"
+      ]
+    },
+    "PARAS": {
+      "hp": 35,
+      "atk": 70,
+      "def": 55,
+      "spd": 25,
+      "spc": 55,
+      "type1": "BUG",
+      "type2": "GRASS",
+      "catchRate": 190,
+      "startMoves": [
+        "SCRATCH"
+      ]
+    },
+    "PARASECT": {
+      "hp": 60,
+      "atk": 95,
+      "def": 80,
+      "spd": 30,
+      "spc": 80,
+      "type1": "BUG",
+      "type2": "GRASS",
+      "catchRate": 75,
+      "startMoves": [
+        "SCRATCH",
+        "STUN_SPORE",
+        "LEECH_LIFE"
+      ]
+    },
+    "PERSIAN": {
+      "hp": 65,
+      "atk": 70,
+      "def": 60,
+      "spd": 115,
+      "spc": 65,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 90,
+      "startMoves": [
+        "SCRATCH",
+        "GROWL",
+        "BITE",
+        "SCREECH"
+      ]
+    },
+    "PIDGEOT": {
+      "hp": 83,
+      "atk": 80,
+      "def": 75,
+      "spd": 91,
+      "spc": 70,
+      "type1": "NORMAL",
+      "type2": "FLYING",
+      "catchRate": 45,
+      "startMoves": [
+        "GUST",
+        "SAND_ATTACK",
+        "QUICK_ATTACK"
+      ]
+    },
+    "PIDGEOTTO": {
+      "hp": 63,
+      "atk": 60,
+      "def": 55,
+      "spd": 71,
+      "spc": 50,
+      "type1": "NORMAL",
+      "type2": "FLYING",
+      "catchRate": 120,
+      "startMoves": [
+        "GUST",
+        "SAND_ATTACK"
+      ]
+    },
+    "PIDGEY": {
+      "hp": 40,
+      "atk": 45,
+      "def": 40,
+      "spd": 56,
+      "spc": 35,
+      "type1": "NORMAL",
+      "type2": "FLYING",
+      "catchRate": 255,
+      "startMoves": [
+        "GUST"
+      ]
+    },
+    "PIKACHU": {
+      "hp": 35,
+      "atk": 55,
+      "def": 30,
+      "spd": 90,
+      "spc": 50,
+      "type1": "ELECTRIC",
+      "type2": "ELECTRIC",
+      "catchRate": 190,
+      "startMoves": [
+        "THUNDERSHOCK",
+        "GROWL"
+      ]
+    },
+    "PINSIR": {
+      "hp": 65,
+      "atk": 125,
+      "def": 100,
+      "spd": 85,
+      "spc": 55,
+      "type1": "BUG",
+      "type2": "BUG",
+      "catchRate": 45,
+      "startMoves": [
+        "VICEGRIP"
+      ]
+    },
+    "POLIWAG": {
+      "hp": 40,
+      "atk": 50,
+      "def": 40,
+      "spd": 90,
+      "spc": 40,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 255,
+      "startMoves": [
+        "BUBBLE"
+      ]
+    },
+    "POLIWHIRL": {
+      "hp": 65,
+      "atk": 65,
+      "def": 65,
+      "spd": 90,
+      "spc": 50,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 120,
+      "startMoves": [
+        "BUBBLE",
+        "HYPNOSIS",
+        "WATER_GUN"
+      ]
+    },
+    "POLIWRATH": {
+      "hp": 90,
+      "atk": 85,
+      "def": 95,
+      "spd": 70,
+      "spc": 70,
+      "type1": "WATER",
+      "type2": "FIGHTING",
+      "catchRate": 45,
+      "startMoves": [
+        "HYPNOSIS",
+        "WATER_GUN",
+        "DOUBLESLAP",
+        "BODY_SLAM"
+      ]
+    },
+    "PONYTA": {
+      "hp": 50,
+      "atk": 85,
+      "def": 55,
+      "spd": 90,
+      "spc": 65,
+      "type1": "FIRE",
+      "type2": "FIRE",
+      "catchRate": 190,
+      "startMoves": [
+        "EMBER"
+      ]
+    },
+    "PORYGON": {
+      "hp": 65,
+      "atk": 60,
+      "def": 70,
+      "spd": 40,
+      "spc": 75,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "SHARPEN",
+        "CONVERSION"
+      ]
+    },
+    "PRIMEAPE": {
+      "hp": 65,
+      "atk": 105,
+      "def": 60,
+      "spd": 95,
+      "spc": 60,
+      "type1": "FIGHTING",
+      "type2": "FIGHTING",
+      "catchRate": 75,
+      "startMoves": [
+        "SCRATCH",
+        "LEER",
+        "KARATE_CHOP",
+        "FURY_SWIPES"
+      ]
+    },
+    "PSYDUCK": {
+      "hp": 50,
+      "atk": 52,
+      "def": 48,
+      "spd": 55,
+      "spc": 50,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 190,
+      "startMoves": [
+        "SCRATCH"
+      ]
+    },
+    "RAICHU": {
+      "hp": 60,
+      "atk": 90,
+      "def": 55,
+      "spd": 100,
+      "spc": 90,
+      "type1": "ELECTRIC",
+      "type2": "ELECTRIC",
+      "catchRate": 75,
+      "startMoves": [
+        "THUNDERSHOCK",
+        "GROWL",
+        "THUNDER_WAVE"
+      ]
+    },
+    "RAPIDASH": {
+      "hp": 65,
+      "atk": 100,
+      "def": 70,
+      "spd": 105,
+      "spc": 80,
+      "type1": "FIRE",
+      "type2": "FIRE",
+      "catchRate": 60,
+      "startMoves": [
+        "EMBER",
+        "TAIL_WHIP",
+        "STOMP",
+        "GROWL"
+      ]
+    },
+    "RATICATE": {
+      "hp": 55,
+      "atk": 81,
+      "def": 60,
+      "spd": 97,
+      "spc": 50,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 90,
+      "startMoves": [
+        "TACKLE",
+        "TAIL_WHIP",
+        "QUICK_ATTACK"
+      ]
+    },
+    "RATTATA": {
+      "hp": 30,
+      "atk": 56,
+      "def": 35,
+      "spd": 72,
+      "spc": 25,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 255,
+      "startMoves": [
+        "TACKLE",
+        "TAIL_WHIP"
+      ]
+    },
+    "RHYDON": {
+      "hp": 105,
+      "atk": 130,
+      "def": 120,
+      "spd": 40,
+      "spc": 45,
+      "type1": "GROUND",
+      "type2": "ROCK",
+      "catchRate": 60,
+      "startMoves": [
+        "HORN_ATTACK",
+        "STOMP",
+        "TAIL_WHIP",
+        "FURY_ATTACK"
+      ]
+    },
+    "RHYHORN": {
+      "hp": 80,
+      "atk": 85,
+      "def": 95,
+      "spd": 25,
+      "spc": 30,
+      "type1": "GROUND",
+      "type2": "ROCK",
+      "catchRate": 120,
+      "startMoves": [
+        "HORN_ATTACK"
+      ]
+    },
+    "SANDSHREW": {
+      "hp": 50,
+      "atk": 75,
+      "def": 85,
+      "spd": 40,
+      "spc": 30,
+      "type1": "GROUND",
+      "type2": "GROUND",
+      "catchRate": 255,
+      "startMoves": [
+        "SCRATCH"
+      ]
+    },
+    "SANDSLASH": {
+      "hp": 75,
+      "atk": 100,
+      "def": 110,
+      "spd": 65,
+      "spc": 55,
+      "type1": "GROUND",
+      "type2": "GROUND",
+      "catchRate": 90,
+      "startMoves": [
+        "SCRATCH",
+        "SAND_ATTACK"
+      ]
+    },
+    "SCYTHER": {
+      "hp": 70,
+      "atk": 110,
+      "def": 80,
+      "spd": 105,
+      "spc": 55,
+      "type1": "BUG",
+      "type2": "FLYING",
+      "catchRate": 45,
+      "startMoves": [
+        "QUICK_ATTACK"
+      ]
+    },
+    "SEADRA": {
+      "hp": 55,
+      "atk": 65,
+      "def": 95,
+      "spd": 85,
+      "spc": 95,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 75,
+      "startMoves": [
+        "BUBBLE",
+        "SMOKESCREEN"
+      ]
+    },
+    "SEAKING": {
+      "hp": 80,
+      "atk": 92,
+      "def": 65,
+      "spd": 68,
+      "spc": 80,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 60,
+      "startMoves": [
+        "PECK",
+        "TAIL_WHIP",
+        "SUPERSONIC"
+      ]
+    },
+    "SEEL": {
+      "hp": 65,
+      "atk": 45,
+      "def": 55,
+      "spd": 45,
+      "spc": 70,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 190,
+      "startMoves": [
+        "HEADBUTT"
+      ]
+    },
+    "SHELLDER": {
+      "hp": 30,
+      "atk": 65,
+      "def": 100,
+      "spd": 40,
+      "spc": 45,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 190,
+      "startMoves": [
+        "TACKLE",
+        "WITHDRAW"
+      ]
+    },
+    "SLOWBRO": {
+      "hp": 95,
+      "atk": 75,
+      "def": 110,
+      "spd": 30,
+      "spc": 80,
+      "type1": "WATER",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 75,
+      "startMoves": [
+        "CONFUSION",
+        "DISABLE",
+        "HEADBUTT"
+      ]
+    },
+    "SLOWPOKE": {
+      "hp": 90,
+      "atk": 65,
+      "def": 65,
+      "spd": 15,
+      "spc": 40,
+      "type1": "WATER",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 190,
+      "startMoves": [
+        "CONFUSION"
+      ]
+    },
+    "SNORLAX": {
+      "hp": 160,
+      "atk": 110,
+      "def": 65,
+      "spd": 30,
+      "spc": 65,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 25,
+      "startMoves": [
+        "HEADBUTT",
+        "AMNESIA",
+        "REST"
+      ]
+    },
+    "SPEAROW": {
+      "hp": 40,
+      "atk": 60,
+      "def": 30,
+      "spd": 70,
+      "spc": 31,
+      "type1": "NORMAL",
+      "type2": "FLYING",
+      "catchRate": 255,
+      "startMoves": [
+        "PECK",
+        "GROWL"
+      ]
+    },
+    "SQUIRTLE": {
+      "hp": 44,
+      "atk": 48,
+      "def": 65,
+      "spd": 43,
+      "spc": 50,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "TAIL_WHIP"
+      ]
+    },
+    "STARMIE": {
+      "hp": 60,
+      "atk": 75,
+      "def": 85,
+      "spd": 115,
+      "spc": 100,
+      "type1": "WATER",
+      "type2": "PSYCHIC_TYPE",
+      "catchRate": 60,
+      "startMoves": [
+        "TACKLE",
+        "WATER_GUN",
+        "HARDEN"
+      ]
+    },
+    "STARYU": {
+      "hp": 30,
+      "atk": 45,
+      "def": 55,
+      "spd": 85,
+      "spc": 70,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 225,
+      "startMoves": [
+        "TACKLE"
+      ]
+    },
+    "TANGELA": {
+      "hp": 65,
+      "atk": 55,
+      "def": 115,
+      "spd": 60,
+      "spc": 100,
+      "type1": "GRASS",
+      "type2": "GRASS",
+      "catchRate": 45,
+      "startMoves": [
+        "CONSTRICT",
+        "BIND"
+      ]
+    },
+    "TAUROS": {
+      "hp": 75,
+      "atk": 100,
+      "def": 95,
+      "spd": 110,
+      "spc": 70,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE"
+      ]
+    },
+    "TENTACOOL": {
+      "hp": 40,
+      "atk": 40,
+      "def": 35,
+      "spd": 70,
+      "spc": 100,
+      "type1": "WATER",
+      "type2": "POISON",
+      "catchRate": 190,
+      "startMoves": [
+        "ACID"
+      ]
+    },
+    "TENTACRUEL": {
+      "hp": 80,
+      "atk": 70,
+      "def": 65,
+      "spd": 100,
+      "spc": 120,
+      "type1": "WATER",
+      "type2": "POISON",
+      "catchRate": 60,
+      "startMoves": [
+        "ACID",
+        "SUPERSONIC",
+        "WRAP"
+      ]
+    },
+    "VAPOREON": {
+      "hp": 130,
+      "atk": 65,
+      "def": 60,
+      "spd": 65,
+      "spc": 110,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "SAND_ATTACK",
+        "QUICK_ATTACK",
+        "WATER_GUN"
+      ]
+    },
+    "VENOMOTH": {
+      "hp": 70,
+      "atk": 65,
+      "def": 60,
+      "spd": 90,
+      "spc": 90,
+      "type1": "BUG",
+      "type2": "POISON",
+      "catchRate": 75,
+      "startMoves": [
+        "TACKLE",
+        "DISABLE",
+        "POISONPOWDER",
+        "LEECH_LIFE"
+      ]
+    },
+    "VENONAT": {
+      "hp": 60,
+      "atk": 55,
+      "def": 50,
+      "spd": 45,
+      "spc": 40,
+      "type1": "BUG",
+      "type2": "POISON",
+      "catchRate": 190,
+      "startMoves": [
+        "TACKLE",
+        "DISABLE"
+      ]
+    },
+    "VENUSAUR": {
+      "hp": 80,
+      "atk": 82,
+      "def": 83,
+      "spd": 80,
+      "spc": 100,
+      "type1": "GRASS",
+      "type2": "POISON",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "GROWL",
+        "LEECH_SEED",
+        "VINE_WHIP"
+      ]
+    },
+    "VICTREEBEL": {
+      "hp": 80,
+      "atk": 105,
+      "def": 65,
+      "spd": 70,
+      "spc": 100,
+      "type1": "GRASS",
+      "type2": "POISON",
+      "catchRate": 45,
+      "startMoves": [
+        "SLEEP_POWDER",
+        "STUN_SPORE",
+        "ACID",
+        "RAZOR_LEAF"
+      ]
+    },
+    "VILEPLUME": {
+      "hp": 75,
+      "atk": 80,
+      "def": 85,
+      "spd": 50,
+      "spc": 100,
+      "type1": "GRASS",
+      "type2": "POISON",
+      "catchRate": 45,
+      "startMoves": [
+        "STUN_SPORE",
+        "SLEEP_POWDER",
+        "ACID",
+        "PETAL_DANCE"
+      ]
+    },
+    "VOLTORB": {
+      "hp": 40,
+      "atk": 30,
+      "def": 50,
+      "spd": 100,
+      "spc": 55,
+      "type1": "ELECTRIC",
+      "type2": "ELECTRIC",
+      "catchRate": 190,
+      "startMoves": [
+        "TACKLE",
+        "SCREECH"
+      ]
+    },
+    "VULPIX": {
+      "hp": 38,
+      "atk": 41,
+      "def": 40,
+      "spd": 65,
+      "spc": 65,
+      "type1": "FIRE",
+      "type2": "FIRE",
+      "catchRate": 190,
+      "startMoves": [
+        "EMBER",
+        "TAIL_WHIP"
+      ]
+    },
+    "WARTORTLE": {
+      "hp": 59,
+      "atk": 63,
+      "def": 80,
+      "spd": 58,
+      "spc": 65,
+      "type1": "WATER",
+      "type2": "WATER",
+      "catchRate": 45,
+      "startMoves": [
+        "TACKLE",
+        "TAIL_WHIP",
+        "BUBBLE"
+      ]
+    },
+    "WEEDLE": {
+      "hp": 40,
+      "atk": 35,
+      "def": 30,
+      "spd": 50,
+      "spc": 20,
+      "type1": "BUG",
+      "type2": "POISON",
+      "catchRate": 255,
+      "startMoves": [
+        "POISON_STING",
+        "STRING_SHOT"
+      ]
+    },
+    "WEEPINBELL": {
+      "hp": 65,
+      "atk": 90,
+      "def": 50,
+      "spd": 55,
+      "spc": 85,
+      "type1": "GRASS",
+      "type2": "POISON",
+      "catchRate": 120,
+      "startMoves": [
+        "VINE_WHIP",
+        "GROWTH",
+        "WRAP"
+      ]
+    },
+    "WEEZING": {
+      "hp": 65,
+      "atk": 90,
+      "def": 120,
+      "spd": 60,
+      "spc": 85,
+      "type1": "POISON",
+      "type2": "POISON",
+      "catchRate": 60,
+      "startMoves": [
+        "TACKLE",
+        "SMOG",
+        "SLUDGE"
+      ]
+    },
+    "WIGGLYTUFF": {
+      "hp": 140,
+      "atk": 70,
+      "def": 45,
+      "spd": 45,
+      "spc": 50,
+      "type1": "NORMAL",
+      "type2": "NORMAL",
+      "catchRate": 50,
+      "startMoves": [
+        "SING",
+        "DISABLE",
+        "DEFENSE_CURL",
+        "DOUBLESLAP"
+      ]
+    },
+    "ZAPDOS": {
+      "hp": 90,
+      "atk": 90,
+      "def": 85,
+      "spd": 100,
+      "spc": 125,
+      "type1": "ELECTRIC",
+      "type2": "FLYING",
+      "catchRate": 3,
+      "startMoves": [
+        "THUNDERSHOCK",
+        "DRILL_PECK"
+      ]
+    },
+    "ZUBAT": {
+      "hp": 40,
+      "atk": 45,
+      "def": 35,
+      "spd": 55,
+      "spc": 40,
+      "type1": "POISON",
+      "type2": "FLYING",
+      "catchRate": 255,
+      "startMoves": [
+        "LEECH_LIFE"
+      ]
+    }
+  },
+  "moves": {
+    "POUND": {
+      "power": 40,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 35
+    },
+    "KARATE_CHOP": {
+      "power": 50,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 25
+    },
+    "DOUBLESLAP": {
+      "power": 15,
+      "type": "NORMAL",
+      "accuracy": 85,
+      "pp": 10
+    },
+    "COMET_PUNCH": {
+      "power": 18,
+      "type": "NORMAL",
+      "accuracy": 85,
+      "pp": 15
+    },
+    "MEGA_PUNCH": {
+      "power": 80,
+      "type": "NORMAL",
+      "accuracy": 85,
+      "pp": 20
+    },
+    "PAY_DAY": {
+      "power": 40,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "FIRE_PUNCH": {
+      "power": 75,
+      "type": "FIRE",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "ICE_PUNCH": {
+      "power": 75,
+      "type": "ICE",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "THUNDERPUNCH": {
+      "power": 75,
+      "type": "ELECTRIC",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "SCRATCH": {
+      "power": 40,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 35
+    },
+    "VICEGRIP": {
+      "power": 55,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "GUILLOTINE": {
+      "power": 1,
+      "type": "NORMAL",
+      "accuracy": 30,
+      "pp": 5
+    },
+    "RAZOR_WIND": {
+      "power": 80,
+      "type": "NORMAL",
+      "accuracy": 75,
+      "pp": 10
+    },
+    "SWORDS_DANCE": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "CUT": {
+      "power": 50,
+      "type": "NORMAL",
+      "accuracy": 95,
+      "pp": 30
+    },
+    "GUST": {
+      "power": 40,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 35
+    },
+    "WING_ATTACK": {
+      "power": 35,
+      "type": "FLYING",
+      "accuracy": 100,
+      "pp": 35
+    },
+    "WHIRLWIND": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 85,
+      "pp": 20
+    },
+    "FLY": {
+      "power": 70,
+      "type": "FLYING",
+      "accuracy": 95,
+      "pp": 15
+    },
+    "BIND": {
+      "power": 15,
+      "type": "NORMAL",
+      "accuracy": 75,
+      "pp": 20
+    },
+    "SLAM": {
+      "power": 80,
+      "type": "NORMAL",
+      "accuracy": 75,
+      "pp": 20
+    },
+    "VINE_WHIP": {
+      "power": 35,
+      "type": "GRASS",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "STOMP": {
+      "power": 65,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "DOUBLE_KICK": {
+      "power": 30,
+      "type": "FIGHTING",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "MEGA_KICK": {
+      "power": 120,
+      "type": "NORMAL",
+      "accuracy": 75,
+      "pp": 5
+    },
+    "JUMP_KICK": {
+      "power": 70,
+      "type": "FIGHTING",
+      "accuracy": 95,
+      "pp": 25
+    },
+    "ROLLING_KICK": {
+      "power": 60,
+      "type": "FIGHTING",
+      "accuracy": 85,
+      "pp": 15
+    },
+    "SAND_ATTACK": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "HEADBUTT": {
+      "power": 70,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "HORN_ATTACK": {
+      "power": 65,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 25
+    },
+    "FURY_ATTACK": {
+      "power": 15,
+      "type": "NORMAL",
+      "accuracy": 85,
+      "pp": 20
+    },
+    "HORN_DRILL": {
+      "power": 1,
+      "type": "NORMAL",
+      "accuracy": 30,
+      "pp": 5
+    },
+    "TACKLE": {
+      "power": 35,
+      "type": "NORMAL",
+      "accuracy": 95,
+      "pp": 35
+    },
+    "BODY_SLAM": {
+      "power": 85,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "WRAP": {
+      "power": 15,
+      "type": "NORMAL",
+      "accuracy": 85,
+      "pp": 20
+    },
+    "TAKE_DOWN": {
+      "power": 90,
+      "type": "NORMAL",
+      "accuracy": 85,
+      "pp": 20
+    },
+    "THRASH": {
+      "power": 90,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "DOUBLE_EDGE": {
+      "power": 100,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "TAIL_WHIP": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "POISON_STING": {
+      "power": 15,
+      "type": "POISON",
+      "accuracy": 100,
+      "pp": 35
+    },
+    "TWINEEDLE": {
+      "power": 25,
+      "type": "BUG",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "PIN_MISSILE": {
+      "power": 14,
+      "type": "BUG",
+      "accuracy": 85,
+      "pp": 20
+    },
+    "LEER": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "BITE": {
+      "power": 60,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 25
+    },
+    "GROWL": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 40
+    },
+    "ROAR": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "SING": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 55,
+      "pp": 15
+    },
+    "SUPERSONIC": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 55,
+      "pp": 20
+    },
+    "SONICBOOM": {
+      "power": 1,
+      "type": "NORMAL",
+      "accuracy": 90,
+      "pp": 20
+    },
+    "DISABLE": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 55,
+      "pp": 20
+    },
+    "ACID": {
+      "power": 40,
+      "type": "POISON",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "EMBER": {
+      "power": 40,
+      "type": "FIRE",
+      "accuracy": 100,
+      "pp": 25
+    },
+    "FLAMETHROWER": {
+      "power": 95,
+      "type": "FIRE",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "MIST": {
+      "power": 0,
+      "type": "ICE",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "WATER_GUN": {
+      "power": 40,
+      "type": "WATER",
+      "accuracy": 100,
+      "pp": 25
+    },
+    "HYDRO_PUMP": {
+      "power": 120,
+      "type": "WATER",
+      "accuracy": 80,
+      "pp": 5
+    },
+    "SURF": {
+      "power": 95,
+      "type": "WATER",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "ICE_BEAM": {
+      "power": 95,
+      "type": "ICE",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "BLIZZARD": {
+      "power": 120,
+      "type": "ICE",
+      "accuracy": 90,
+      "pp": 5
+    },
+    "PSYBEAM": {
+      "power": 65,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "BUBBLEBEAM": {
+      "power": 65,
+      "type": "WATER",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "AURORA_BEAM": {
+      "power": 65,
+      "type": "ICE",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "HYPER_BEAM": {
+      "power": 150,
+      "type": "NORMAL",
+      "accuracy": 90,
+      "pp": 5
+    },
+    "PECK": {
+      "power": 35,
+      "type": "FLYING",
+      "accuracy": 100,
+      "pp": 35
+    },
+    "DRILL_PECK": {
+      "power": 80,
+      "type": "FLYING",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "SUBMISSION": {
+      "power": 80,
+      "type": "FIGHTING",
+      "accuracy": 80,
+      "pp": 25
+    },
+    "LOW_KICK": {
+      "power": 50,
+      "type": "FIGHTING",
+      "accuracy": 90,
+      "pp": 20
+    },
+    "COUNTER": {
+      "power": 1,
+      "type": "FIGHTING",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "SEISMIC_TOSS": {
+      "power": 1,
+      "type": "FIGHTING",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "STRENGTH": {
+      "power": 80,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "ABSORB": {
+      "power": 20,
+      "type": "GRASS",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "MEGA_DRAIN": {
+      "power": 40,
+      "type": "GRASS",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "LEECH_SEED": {
+      "power": 0,
+      "type": "GRASS",
+      "accuracy": 90,
+      "pp": 10
+    },
+    "GROWTH": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 40
+    },
+    "RAZOR_LEAF": {
+      "power": 55,
+      "type": "GRASS",
+      "accuracy": 95,
+      "pp": 25
+    },
+    "SOLARBEAM": {
+      "power": 120,
+      "type": "GRASS",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "POISONPOWDER": {
+      "power": 0,
+      "type": "POISON",
+      "accuracy": 75,
+      "pp": 35
+    },
+    "STUN_SPORE": {
+      "power": 0,
+      "type": "GRASS",
+      "accuracy": 75,
+      "pp": 30
+    },
+    "SLEEP_POWDER": {
+      "power": 0,
+      "type": "GRASS",
+      "accuracy": 75,
+      "pp": 15
+    },
+    "PETAL_DANCE": {
+      "power": 70,
+      "type": "GRASS",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "STRING_SHOT": {
+      "power": 0,
+      "type": "BUG",
+      "accuracy": 95,
+      "pp": 40
+    },
+    "DRAGON_RAGE": {
+      "power": 1,
+      "type": "DRAGON",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "FIRE_SPIN": {
+      "power": 15,
+      "type": "FIRE",
+      "accuracy": 70,
+      "pp": 15
+    },
+    "THUNDERSHOCK": {
+      "power": 40,
+      "type": "ELECTRIC",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "THUNDERBOLT": {
+      "power": 95,
+      "type": "ELECTRIC",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "THUNDER_WAVE": {
+      "power": 0,
+      "type": "ELECTRIC",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "THUNDER": {
+      "power": 120,
+      "type": "ELECTRIC",
+      "accuracy": 70,
+      "pp": 10
+    },
+    "ROCK_THROW": {
+      "power": 50,
+      "type": "ROCK",
+      "accuracy": 65,
+      "pp": 15
+    },
+    "EARTHQUAKE": {
+      "power": 100,
+      "type": "GROUND",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "FISSURE": {
+      "power": 1,
+      "type": "GROUND",
+      "accuracy": 30,
+      "pp": 5
+    },
+    "DIG": {
+      "power": 100,
+      "type": "GROUND",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "TOXIC": {
+      "power": 0,
+      "type": "POISON",
+      "accuracy": 85,
+      "pp": 10
+    },
+    "CONFUSION": {
+      "power": 50,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 100,
+      "pp": 25
+    },
+    "PSYCHIC_M": {
+      "power": 90,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "HYPNOSIS": {
+      "power": 0,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 60,
+      "pp": 20
+    },
+    "MEDITATE": {
+      "power": 0,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 100,
+      "pp": 40
+    },
+    "AGILITY": {
+      "power": 0,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "QUICK_ATTACK": {
+      "power": 40,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "RAGE": {
+      "power": 20,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "TELEPORT": {
+      "power": 0,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "NIGHT_SHADE": {
+      "power": 0,
+      "type": "GHOST",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "MIMIC": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "SCREECH": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 85,
+      "pp": 40
+    },
+    "DOUBLE_TEAM": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "RECOVER": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "HARDEN": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "MINIMIZE": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "SMOKESCREEN": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "CONFUSE_RAY": {
+      "power": 0,
+      "type": "GHOST",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "WITHDRAW": {
+      "power": 0,
+      "type": "WATER",
+      "accuracy": 100,
+      "pp": 40
+    },
+    "DEFENSE_CURL": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 40
+    },
+    "BARRIER": {
+      "power": 0,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "LIGHT_SCREEN": {
+      "power": 0,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "HAZE": {
+      "power": 0,
+      "type": "ICE",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "REFLECT": {
+      "power": 0,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "FOCUS_ENERGY": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "BIDE": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "METRONOME": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "MIRROR_MOVE": {
+      "power": 0,
+      "type": "FLYING",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "SELFDESTRUCT": {
+      "power": 130,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 5
+    },
+    "EGG_BOMB": {
+      "power": 100,
+      "type": "NORMAL",
+      "accuracy": 75,
+      "pp": 10
+    },
+    "LICK": {
+      "power": 20,
+      "type": "GHOST",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "SMOG": {
+      "power": 20,
+      "type": "POISON",
+      "accuracy": 70,
+      "pp": 20
+    },
+    "SLUDGE": {
+      "power": 65,
+      "type": "POISON",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "BONE_CLUB": {
+      "power": 65,
+      "type": "GROUND",
+      "accuracy": 85,
+      "pp": 20
+    },
+    "FIRE_BLAST": {
+      "power": 120,
+      "type": "FIRE",
+      "accuracy": 85,
+      "pp": 5
+    },
+    "WATERFALL": {
+      "power": 80,
+      "type": "WATER",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "CLAMP": {
+      "power": 35,
+      "type": "WATER",
+      "accuracy": 75,
+      "pp": 10
+    },
+    "SWIFT": {
+      "power": 60,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "SKULL_BASH": {
+      "power": 100,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "SPIKE_CANNON": {
+      "power": 20,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "CONSTRICT": {
+      "power": 10,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 35
+    },
+    "AMNESIA": {
+      "power": 0,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "KINESIS": {
+      "power": 0,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 80,
+      "pp": 15
+    },
+    "SOFTBOILED": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "HI_JUMP_KICK": {
+      "power": 85,
+      "type": "FIGHTING",
+      "accuracy": 90,
+      "pp": 20
+    },
+    "GLARE": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 75,
+      "pp": 30
+    },
+    "DREAM_EATER": {
+      "power": 100,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "POISON_GAS": {
+      "power": 0,
+      "type": "POISON",
+      "accuracy": 55,
+      "pp": 40
+    },
+    "BARRAGE": {
+      "power": 15,
+      "type": "NORMAL",
+      "accuracy": 85,
+      "pp": 20
+    },
+    "LEECH_LIFE": {
+      "power": 20,
+      "type": "BUG",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "LOVELY_KISS": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 75,
+      "pp": 10
+    },
+    "SKY_ATTACK": {
+      "power": 140,
+      "type": "FLYING",
+      "accuracy": 90,
+      "pp": 5
+    },
+    "TRANSFORM": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "BUBBLE": {
+      "power": 20,
+      "type": "WATER",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "DIZZY_PUNCH": {
+      "power": 70,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "SPORE": {
+      "power": 0,
+      "type": "GRASS",
+      "accuracy": 100,
+      "pp": 15
+    },
+    "FLASH": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 70,
+      "pp": 20
+    },
+    "PSYWAVE": {
+      "power": 1,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 80,
+      "pp": 15
+    },
+    "SPLASH": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 40
+    },
+    "ACID_ARMOR": {
+      "power": 0,
+      "type": "POISON",
+      "accuracy": 100,
+      "pp": 40
+    },
+    "CRABHAMMER": {
+      "power": 90,
+      "type": "WATER",
+      "accuracy": 85,
+      "pp": 10
+    },
+    "EXPLOSION": {
+      "power": 170,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 5
+    },
+    "FURY_SWIPES": {
+      "power": 18,
+      "type": "NORMAL",
+      "accuracy": 80,
+      "pp": 15
+    },
+    "BONEMERANG": {
+      "power": 50,
+      "type": "GROUND",
+      "accuracy": 90,
+      "pp": 10
+    },
+    "REST": {
+      "power": 0,
+      "type": "PSYCHIC_TYPE",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "ROCK_SLIDE": {
+      "power": 75,
+      "type": "ROCK",
+      "accuracy": 90,
+      "pp": 10
+    },
+    "HYPER_FANG": {
+      "power": 80,
+      "type": "NORMAL",
+      "accuracy": 90,
+      "pp": 15
+    },
+    "SHARPEN": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "CONVERSION": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 30
+    },
+    "TRI_ATTACK": {
+      "power": 80,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "SUPER_FANG": {
+      "power": 1,
+      "type": "NORMAL",
+      "accuracy": 90,
+      "pp": 10
+    },
+    "SLASH": {
+      "power": 70,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 20
+    },
+    "SUBSTITUTE": {
+      "power": 0,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 10
+    },
+    "STRUGGLE": {
+      "power": 50,
+      "type": "NORMAL",
+      "accuracy": 100,
+      "pp": 10
+    }
+  },
+  "typeChart": {
+    "WATER:FIRE": 2,
+    "FIRE:GRASS": 2,
+    "FIRE:ICE": 2,
+    "GRASS:WATER": 2,
+    "ELECTRIC:WATER": 2,
+    "WATER:ROCK": 2,
+    "GROUND:FLYING": 0,
+    "WATER:WATER": 0.5,
+    "FIRE:FIRE": 0.5,
+    "ELECTRIC:ELECTRIC": 0.5,
+    "ICE:ICE": 0.5,
+    "GRASS:GRASS": 0.5,
+    "PSYCHIC_TYPE:PSYCHIC_TYPE": 0.5,
+    "FIRE:WATER": 0.5,
+    "GRASS:FIRE": 0.5,
+    "WATER:GRASS": 0.5,
+    "ELECTRIC:GRASS": 0.5,
+    "NORMAL:ROCK": 0.5,
+    "NORMAL:GHOST": 0,
+    "GHOST:GHOST": 2,
+    "FIRE:BUG": 2,
+    "FIRE:ROCK": 0.5,
+    "WATER:GROUND": 2,
+    "ELECTRIC:GROUND": 0,
+    "ELECTRIC:FLYING": 2,
+    "GRASS:GROUND": 2,
+    "GRASS:BUG": 0.5,
+    "GRASS:POISON": 0.5,
+    "GRASS:ROCK": 2,
+    "GRASS:FLYING": 0.5,
+    "ICE:WATER": 0.5,
+    "ICE:GRASS": 2,
+    "ICE:GROUND": 2,
+    "ICE:FLYING": 2,
+    "FIGHTING:NORMAL": 2,
+    "FIGHTING:POISON": 0.5,
+    "FIGHTING:FLYING": 0.5,
+    "FIGHTING:PSYCHIC_TYPE": 0.5,
+    "FIGHTING:BUG": 0.5,
+    "FIGHTING:ROCK": 2,
+    "FIGHTING:ICE": 2,
+    "FIGHTING:GHOST": 0,
+    "POISON:GRASS": 2,
+    "POISON:POISON": 0.5,
+    "POISON:GROUND": 0.5,
+    "POISON:BUG": 2,
+    "POISON:ROCK": 0.5,
+    "POISON:GHOST": 0.5,
+    "GROUND:FIRE": 2,
+    "GROUND:ELECTRIC": 2,
+    "GROUND:GRASS": 0.5,
+    "GROUND:BUG": 0.5,
+    "GROUND:ROCK": 2,
+    "GROUND:POISON": 2,
+    "FLYING:ELECTRIC": 0.5,
+    "FLYING:FIGHTING": 2,
+    "FLYING:BUG": 2,
+    "FLYING:GRASS": 2,
+    "FLYING:ROCK": 0.5,
+    "PSYCHIC_TYPE:FIGHTING": 2,
+    "PSYCHIC_TYPE:POISON": 2,
+    "BUG:FIRE": 0.5,
+    "BUG:GRASS": 2,
+    "BUG:FIGHTING": 0.5,
+    "BUG:FLYING": 0.5,
+    "BUG:PSYCHIC_TYPE": 2,
+    "BUG:GHOST": 0.5,
+    "BUG:POISON": 2,
+    "ROCK:FIRE": 2,
+    "ROCK:FIGHTING": 0.5,
+    "ROCK:GROUND": 0.5,
+    "ROCK:FLYING": 2,
+    "ROCK:BUG": 2,
+    "ROCK:ICE": 2,
+    "GHOST:NORMAL": 0,
+    "GHOST:PSYCHIC_TYPE": 0,
+    "FIRE:DRAGON": 0.5,
+    "WATER:DRAGON": 0.5,
+    "ELECTRIC:DRAGON": 0.5,
+    "GRASS:DRAGON": 0.5,
+    "ICE:DRAGON": 2,
+    "DRAGON:DRAGON": 2
+  },
+  "learnsets": {
+    "RHYDON": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 30,
+          "move": "STOMP"
+        },
+        {
+          "level": 35,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 40,
+          "move": "FURY_ATTACK"
+        },
+        {
+          "level": 48,
+          "move": "HORN_DRILL"
+        },
+        {
+          "level": 55,
+          "move": "LEER"
+        },
+        {
+          "level": 64,
+          "move": "TAKE_DOWN"
+        }
+      ]
+    },
+    "KANGASKHAN": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 26,
+          "move": "BITE"
+        },
+        {
+          "level": 31,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 36,
+          "move": "MEGA_PUNCH"
+        },
+        {
+          "level": 41,
+          "move": "LEER"
+        },
+        {
+          "level": 46,
+          "move": "DIZZY_PUNCH"
+        }
+      ]
+    },
+    "NIDORANM": {
+      "evos": [
+        {
+          "level": 16,
+          "into": "NIDORINO"
+        }
+      ],
+      "moves": [
+        {
+          "level": 8,
+          "move": "HORN_ATTACK"
+        },
+        {
+          "level": 14,
+          "move": "POISON_STING"
+        },
+        {
+          "level": 21,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 29,
+          "move": "FURY_ATTACK"
+        },
+        {
+          "level": 36,
+          "move": "HORN_DRILL"
+        },
+        {
+          "level": 43,
+          "move": "DOUBLE_KICK"
+        }
+      ]
+    },
+    "CLEFAIRY": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 13,
+          "move": "SING"
+        },
+        {
+          "level": 18,
+          "move": "DOUBLESLAP"
+        },
+        {
+          "level": 24,
+          "move": "MINIMIZE"
+        },
+        {
+          "level": 31,
+          "move": "METRONOME"
+        },
+        {
+          "level": 39,
+          "move": "DEFENSE_CURL"
+        },
+        {
+          "level": 48,
+          "move": "LIGHT_SCREEN"
+        }
+      ]
+    },
+    "SPEAROW": {
+      "evos": [
+        {
+          "level": 20,
+          "into": "FEAROW"
+        }
+      ],
+      "moves": [
+        {
+          "level": 9,
+          "move": "LEER"
+        },
+        {
+          "level": 15,
+          "move": "FURY_ATTACK"
+        },
+        {
+          "level": 22,
+          "move": "MIRROR_MOVE"
+        },
+        {
+          "level": 29,
+          "move": "DRILL_PECK"
+        },
+        {
+          "level": 36,
+          "move": "AGILITY"
+        }
+      ]
+    },
+    "VOLTORB": {
+      "evos": [
+        {
+          "level": 30,
+          "into": "ELECTRODE"
+        }
+      ],
+      "moves": [
+        {
+          "level": 17,
+          "move": "SONICBOOM"
+        },
+        {
+          "level": 22,
+          "move": "SELFDESTRUCT"
+        },
+        {
+          "level": 29,
+          "move": "LIGHT_SCREEN"
+        },
+        {
+          "level": 36,
+          "move": "SWIFT"
+        },
+        {
+          "level": 43,
+          "move": "EXPLOSION"
+        }
+      ]
+    },
+    "NIDOKING": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 8,
+          "move": "HORN_ATTACK"
+        },
+        {
+          "level": 14,
+          "move": "POISON_STING"
+        },
+        {
+          "level": 23,
+          "move": "THRASH"
+        }
+      ]
+    },
+    "SLOWBRO": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 18,
+          "move": "DISABLE"
+        },
+        {
+          "level": 22,
+          "move": "HEADBUTT"
+        },
+        {
+          "level": 27,
+          "move": "GROWL"
+        },
+        {
+          "level": 33,
+          "move": "WATER_GUN"
+        },
+        {
+          "level": 37,
+          "move": "WITHDRAW"
+        },
+        {
+          "level": 44,
+          "move": "AMNESIA"
+        },
+        {
+          "level": 55,
+          "move": "PSYCHIC_M"
+        }
+      ]
+    },
+    "IVYSAUR": {
+      "evos": [
+        {
+          "level": 32,
+          "into": "VENUSAUR"
+        }
+      ],
+      "moves": [
+        {
+          "level": 7,
+          "move": "LEECH_SEED"
+        },
+        {
+          "level": 13,
+          "move": "VINE_WHIP"
+        },
+        {
+          "level": 22,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 30,
+          "move": "RAZOR_LEAF"
+        },
+        {
+          "level": 38,
+          "move": "GROWTH"
+        },
+        {
+          "level": 46,
+          "move": "SLEEP_POWDER"
+        },
+        {
+          "level": 54,
+          "move": "SOLARBEAM"
+        }
+      ]
+    },
+    "EXEGGUTOR": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 28,
+          "move": "STOMP"
+        }
+      ]
+    },
+    "LICKITUNG": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 7,
+          "move": "STOMP"
+        },
+        {
+          "level": 15,
+          "move": "DISABLE"
+        },
+        {
+          "level": 23,
+          "move": "DEFENSE_CURL"
+        },
+        {
+          "level": 31,
+          "move": "SLAM"
+        },
+        {
+          "level": 39,
+          "move": "SCREECH"
+        }
+      ]
+    },
+    "EXEGGCUTE": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 25,
+          "move": "REFLECT"
+        },
+        {
+          "level": 28,
+          "move": "LEECH_SEED"
+        },
+        {
+          "level": 32,
+          "move": "STUN_SPORE"
+        },
+        {
+          "level": 37,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 42,
+          "move": "SOLARBEAM"
+        },
+        {
+          "level": 48,
+          "move": "SLEEP_POWDER"
+        }
+      ]
+    },
+    "GRIMER": {
+      "evos": [
+        {
+          "level": 38,
+          "into": "MUK"
+        }
+      ],
+      "moves": [
+        {
+          "level": 30,
+          "move": "POISON_GAS"
+        },
+        {
+          "level": 33,
+          "move": "MINIMIZE"
+        },
+        {
+          "level": 37,
+          "move": "SLUDGE"
+        },
+        {
+          "level": 42,
+          "move": "HARDEN"
+        },
+        {
+          "level": 48,
+          "move": "SCREECH"
+        },
+        {
+          "level": 55,
+          "move": "ACID_ARMOR"
+        }
+      ]
+    },
+    "GENGAR": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 29,
+          "move": "HYPNOSIS"
+        },
+        {
+          "level": 38,
+          "move": "DREAM_EATER"
+        }
+      ]
+    },
+    "NIDORANF": {
+      "evos": [
+        {
+          "level": 16,
+          "into": "NIDORINA"
+        }
+      ],
+      "moves": [
+        {
+          "level": 8,
+          "move": "SCRATCH"
+        },
+        {
+          "level": 14,
+          "move": "POISON_STING"
+        },
+        {
+          "level": 21,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 29,
+          "move": "BITE"
+        },
+        {
+          "level": 36,
+          "move": "FURY_SWIPES"
+        },
+        {
+          "level": 43,
+          "move": "DOUBLE_KICK"
+        }
+      ]
+    },
+    "NIDOQUEEN": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 8,
+          "move": "SCRATCH"
+        },
+        {
+          "level": 14,
+          "move": "POISON_STING"
+        },
+        {
+          "level": 23,
+          "move": "BODY_SLAM"
+        }
+      ]
+    },
+    "CUBONE": {
+      "evos": [
+        {
+          "level": 28,
+          "into": "MAROWAK"
+        }
+      ],
+      "moves": [
+        {
+          "level": 25,
+          "move": "LEER"
+        },
+        {
+          "level": 31,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 38,
+          "move": "THRASH"
+        },
+        {
+          "level": 43,
+          "move": "BONEMERANG"
+        },
+        {
+          "level": 46,
+          "move": "RAGE"
+        }
+      ]
+    },
+    "RHYHORN": {
+      "evos": [
+        {
+          "level": 42,
+          "into": "RHYDON"
+        }
+      ],
+      "moves": [
+        {
+          "level": 30,
+          "move": "STOMP"
+        },
+        {
+          "level": 35,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 40,
+          "move": "FURY_ATTACK"
+        },
+        {
+          "level": 45,
+          "move": "HORN_DRILL"
+        },
+        {
+          "level": 50,
+          "move": "LEER"
+        },
+        {
+          "level": 55,
+          "move": "TAKE_DOWN"
+        }
+      ]
+    },
+    "LAPRAS": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 16,
+          "move": "SING"
+        },
+        {
+          "level": 20,
+          "move": "MIST"
+        },
+        {
+          "level": 25,
+          "move": "BODY_SLAM"
+        },
+        {
+          "level": 31,
+          "move": "CONFUSE_RAY"
+        },
+        {
+          "level": 38,
+          "move": "ICE_BEAM"
+        },
+        {
+          "level": 46,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "ARCANINE": {
+      "evos": [],
+      "moves": []
+    },
+    "MEW": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 10,
+          "move": "TRANSFORM"
+        },
+        {
+          "level": 20,
+          "move": "MEGA_PUNCH"
+        },
+        {
+          "level": 30,
+          "move": "METRONOME"
+        },
+        {
+          "level": 40,
+          "move": "PSYCHIC_M"
+        }
+      ]
+    },
+    "GYARADOS": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 20,
+          "move": "BITE"
+        },
+        {
+          "level": 25,
+          "move": "DRAGON_RAGE"
+        },
+        {
+          "level": 32,
+          "move": "LEER"
+        },
+        {
+          "level": 41,
+          "move": "HYDRO_PUMP"
+        },
+        {
+          "level": 52,
+          "move": "HYPER_BEAM"
+        }
+      ]
+    },
+    "SHELLDER": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 18,
+          "move": "SUPERSONIC"
+        },
+        {
+          "level": 23,
+          "move": "CLAMP"
+        },
+        {
+          "level": 30,
+          "move": "AURORA_BEAM"
+        },
+        {
+          "level": 39,
+          "move": "LEER"
+        },
+        {
+          "level": 50,
+          "move": "ICE_BEAM"
+        }
+      ]
+    },
+    "TENTACOOL": {
+      "evos": [
+        {
+          "level": 30,
+          "into": "TENTACRUEL"
+        }
+      ],
+      "moves": [
+        {
+          "level": 7,
+          "move": "SUPERSONIC"
+        },
+        {
+          "level": 13,
+          "move": "WRAP"
+        },
+        {
+          "level": 18,
+          "move": "POISON_STING"
+        },
+        {
+          "level": 22,
+          "move": "WATER_GUN"
+        },
+        {
+          "level": 27,
+          "move": "CONSTRICT"
+        },
+        {
+          "level": 33,
+          "move": "BARRIER"
+        },
+        {
+          "level": 40,
+          "move": "SCREECH"
+        },
+        {
+          "level": 48,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "GASTLY": {
+      "evos": [
+        {
+          "level": 25,
+          "into": "HAUNTER"
+        }
+      ],
+      "moves": [
+        {
+          "level": 27,
+          "move": "HYPNOSIS"
+        },
+        {
+          "level": 35,
+          "move": "DREAM_EATER"
+        }
+      ]
+    },
+    "SCYTHER": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 17,
+          "move": "LEER"
+        },
+        {
+          "level": 20,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 24,
+          "move": "DOUBLE_TEAM"
+        },
+        {
+          "level": 29,
+          "move": "SLASH"
+        },
+        {
+          "level": 35,
+          "move": "SWORDS_DANCE"
+        },
+        {
+          "level": 42,
+          "move": "AGILITY"
+        }
+      ]
+    },
+    "STARYU": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 17,
+          "move": "WATER_GUN"
+        },
+        {
+          "level": 22,
+          "move": "HARDEN"
+        },
+        {
+          "level": 27,
+          "move": "RECOVER"
+        },
+        {
+          "level": 32,
+          "move": "SWIFT"
+        },
+        {
+          "level": 37,
+          "move": "MINIMIZE"
+        },
+        {
+          "level": 42,
+          "move": "LIGHT_SCREEN"
+        },
+        {
+          "level": 47,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "BLASTOISE": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 8,
+          "move": "BUBBLE"
+        },
+        {
+          "level": 15,
+          "move": "WATER_GUN"
+        },
+        {
+          "level": 24,
+          "move": "BITE"
+        },
+        {
+          "level": 31,
+          "move": "WITHDRAW"
+        },
+        {
+          "level": 42,
+          "move": "SKULL_BASH"
+        },
+        {
+          "level": 52,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "PINSIR": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 25,
+          "move": "SEISMIC_TOSS"
+        },
+        {
+          "level": 30,
+          "move": "GUILLOTINE"
+        },
+        {
+          "level": 36,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 43,
+          "move": "HARDEN"
+        },
+        {
+          "level": 49,
+          "move": "SLASH"
+        },
+        {
+          "level": 54,
+          "move": "SWORDS_DANCE"
+        }
+      ]
+    },
+    "TANGELA": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 29,
+          "move": "ABSORB"
+        },
+        {
+          "level": 32,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 36,
+          "move": "STUN_SPORE"
+        },
+        {
+          "level": 39,
+          "move": "SLEEP_POWDER"
+        },
+        {
+          "level": 45,
+          "move": "SLAM"
+        },
+        {
+          "level": 49,
+          "move": "GROWTH"
+        }
+      ]
+    },
+    "MISSINGNO1F": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNO20": {
+      "evos": [],
+      "moves": []
+    },
+    "GROWLITHE": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 18,
+          "move": "EMBER"
+        },
+        {
+          "level": 23,
+          "move": "LEER"
+        },
+        {
+          "level": 30,
+          "move": "TAKE_DOWN"
+        },
+        {
+          "level": 39,
+          "move": "AGILITY"
+        },
+        {
+          "level": 50,
+          "move": "FLAMETHROWER"
+        }
+      ]
+    },
+    "ONIX": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 15,
+          "move": "BIND"
+        },
+        {
+          "level": 19,
+          "move": "ROCK_THROW"
+        },
+        {
+          "level": 25,
+          "move": "RAGE"
+        },
+        {
+          "level": 33,
+          "move": "SLAM"
+        },
+        {
+          "level": 43,
+          "move": "HARDEN"
+        }
+      ]
+    },
+    "FEAROW": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 9,
+          "move": "LEER"
+        },
+        {
+          "level": 15,
+          "move": "FURY_ATTACK"
+        },
+        {
+          "level": 25,
+          "move": "MIRROR_MOVE"
+        },
+        {
+          "level": 34,
+          "move": "DRILL_PECK"
+        },
+        {
+          "level": 43,
+          "move": "AGILITY"
+        }
+      ]
+    },
+    "PIDGEY": {
+      "evos": [
+        {
+          "level": 18,
+          "into": "PIDGEOTTO"
+        }
+      ],
+      "moves": [
+        {
+          "level": 5,
+          "move": "SAND_ATTACK"
+        },
+        {
+          "level": 12,
+          "move": "QUICK_ATTACK"
+        },
+        {
+          "level": 19,
+          "move": "WHIRLWIND"
+        },
+        {
+          "level": 28,
+          "move": "WING_ATTACK"
+        },
+        {
+          "level": 36,
+          "move": "AGILITY"
+        },
+        {
+          "level": 44,
+          "move": "MIRROR_MOVE"
+        }
+      ]
+    },
+    "SLOWPOKE": {
+      "evos": [
+        {
+          "level": 37,
+          "into": "SLOWBRO"
+        }
+      ],
+      "moves": [
+        {
+          "level": 18,
+          "move": "DISABLE"
+        },
+        {
+          "level": 22,
+          "move": "HEADBUTT"
+        },
+        {
+          "level": 27,
+          "move": "GROWL"
+        },
+        {
+          "level": 33,
+          "move": "WATER_GUN"
+        },
+        {
+          "level": 40,
+          "move": "AMNESIA"
+        },
+        {
+          "level": 48,
+          "move": "PSYCHIC_M"
+        }
+      ]
+    },
+    "KADABRA": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 16,
+          "move": "CONFUSION"
+        },
+        {
+          "level": 20,
+          "move": "DISABLE"
+        },
+        {
+          "level": 27,
+          "move": "PSYBEAM"
+        },
+        {
+          "level": 31,
+          "move": "RECOVER"
+        },
+        {
+          "level": 38,
+          "move": "PSYCHIC_M"
+        },
+        {
+          "level": 42,
+          "move": "REFLECT"
+        }
+      ]
+    },
+    "GRAVELER": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 11,
+          "move": "DEFENSE_CURL"
+        },
+        {
+          "level": 16,
+          "move": "ROCK_THROW"
+        },
+        {
+          "level": 21,
+          "move": "SELFDESTRUCT"
+        },
+        {
+          "level": 29,
+          "move": "HARDEN"
+        },
+        {
+          "level": 36,
+          "move": "EARTHQUAKE"
+        },
+        {
+          "level": 43,
+          "move": "EXPLOSION"
+        }
+      ]
+    },
+    "CHANSEY": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 24,
+          "move": "SING"
+        },
+        {
+          "level": 30,
+          "move": "GROWL"
+        },
+        {
+          "level": 38,
+          "move": "MINIMIZE"
+        },
+        {
+          "level": 44,
+          "move": "DEFENSE_CURL"
+        },
+        {
+          "level": 48,
+          "move": "LIGHT_SCREEN"
+        },
+        {
+          "level": 54,
+          "move": "DOUBLE_EDGE"
+        }
+      ]
+    },
+    "MACHOKE": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 20,
+          "move": "LOW_KICK"
+        },
+        {
+          "level": 25,
+          "move": "LEER"
+        },
+        {
+          "level": 36,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 44,
+          "move": "SEISMIC_TOSS"
+        },
+        {
+          "level": 52,
+          "move": "SUBMISSION"
+        }
+      ]
+    },
+    "MRMIME": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 15,
+          "move": "CONFUSION"
+        },
+        {
+          "level": 23,
+          "move": "LIGHT_SCREEN"
+        },
+        {
+          "level": 31,
+          "move": "DOUBLESLAP"
+        },
+        {
+          "level": 39,
+          "move": "MEDITATE"
+        },
+        {
+          "level": 47,
+          "move": "SUBSTITUTE"
+        }
+      ]
+    },
+    "HITMONLEE": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 33,
+          "move": "ROLLING_KICK"
+        },
+        {
+          "level": 38,
+          "move": "JUMP_KICK"
+        },
+        {
+          "level": 43,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 48,
+          "move": "HI_JUMP_KICK"
+        },
+        {
+          "level": 53,
+          "move": "MEGA_KICK"
+        }
+      ]
+    },
+    "HITMONCHAN": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 33,
+          "move": "FIRE_PUNCH"
+        },
+        {
+          "level": 38,
+          "move": "ICE_PUNCH"
+        },
+        {
+          "level": 43,
+          "move": "THUNDERPUNCH"
+        },
+        {
+          "level": 48,
+          "move": "MEGA_PUNCH"
+        },
+        {
+          "level": 53,
+          "move": "COUNTER"
+        }
+      ]
+    },
+    "ARBOK": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 10,
+          "move": "POISON_STING"
+        },
+        {
+          "level": 17,
+          "move": "BITE"
+        },
+        {
+          "level": 27,
+          "move": "GLARE"
+        },
+        {
+          "level": 36,
+          "move": "SCREECH"
+        },
+        {
+          "level": 47,
+          "move": "ACID"
+        }
+      ]
+    },
+    "PARASECT": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 13,
+          "move": "STUN_SPORE"
+        },
+        {
+          "level": 20,
+          "move": "LEECH_LIFE"
+        },
+        {
+          "level": 30,
+          "move": "SPORE"
+        },
+        {
+          "level": 39,
+          "move": "SLASH"
+        },
+        {
+          "level": 48,
+          "move": "GROWTH"
+        }
+      ]
+    },
+    "PSYDUCK": {
+      "evos": [
+        {
+          "level": 33,
+          "into": "GOLDUCK"
+        }
+      ],
+      "moves": [
+        {
+          "level": 28,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 31,
+          "move": "DISABLE"
+        },
+        {
+          "level": 36,
+          "move": "CONFUSION"
+        },
+        {
+          "level": 43,
+          "move": "FURY_SWIPES"
+        },
+        {
+          "level": 52,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "DROWZEE": {
+      "evos": [
+        {
+          "level": 26,
+          "into": "HYPNO"
+        }
+      ],
+      "moves": [
+        {
+          "level": 12,
+          "move": "DISABLE"
+        },
+        {
+          "level": 17,
+          "move": "CONFUSION"
+        },
+        {
+          "level": 24,
+          "move": "HEADBUTT"
+        },
+        {
+          "level": 29,
+          "move": "POISON_GAS"
+        },
+        {
+          "level": 32,
+          "move": "PSYCHIC_M"
+        },
+        {
+          "level": 37,
+          "move": "MEDITATE"
+        }
+      ]
+    },
+    "GOLEM": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 11,
+          "move": "DEFENSE_CURL"
+        },
+        {
+          "level": 16,
+          "move": "ROCK_THROW"
+        },
+        {
+          "level": 21,
+          "move": "SELFDESTRUCT"
+        },
+        {
+          "level": 29,
+          "move": "HARDEN"
+        },
+        {
+          "level": 36,
+          "move": "EARTHQUAKE"
+        },
+        {
+          "level": 43,
+          "move": "EXPLOSION"
+        }
+      ]
+    },
+    "MISSINGNO32": {
+      "evos": [],
+      "moves": []
+    },
+    "MAGMAR": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 36,
+          "move": "LEER"
+        },
+        {
+          "level": 39,
+          "move": "CONFUSE_RAY"
+        },
+        {
+          "level": 43,
+          "move": "FIRE_PUNCH"
+        },
+        {
+          "level": 48,
+          "move": "SMOKESCREEN"
+        },
+        {
+          "level": 52,
+          "move": "SMOG"
+        },
+        {
+          "level": 55,
+          "move": "FLAMETHROWER"
+        }
+      ]
+    },
+    "MISSINGNO34": {
+      "evos": [],
+      "moves": []
+    },
+    "ELECTABUZZ": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 34,
+          "move": "THUNDERSHOCK"
+        },
+        {
+          "level": 37,
+          "move": "SCREECH"
+        },
+        {
+          "level": 42,
+          "move": "THUNDERPUNCH"
+        },
+        {
+          "level": 49,
+          "move": "LIGHT_SCREEN"
+        },
+        {
+          "level": 54,
+          "move": "THUNDER"
+        }
+      ]
+    },
+    "MAGNETON": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 21,
+          "move": "SONICBOOM"
+        },
+        {
+          "level": 25,
+          "move": "THUNDERSHOCK"
+        },
+        {
+          "level": 29,
+          "move": "SUPERSONIC"
+        },
+        {
+          "level": 38,
+          "move": "THUNDER_WAVE"
+        },
+        {
+          "level": 46,
+          "move": "SWIFT"
+        },
+        {
+          "level": 54,
+          "move": "SCREECH"
+        }
+      ]
+    },
+    "KOFFING": {
+      "evos": [
+        {
+          "level": 35,
+          "into": "WEEZING"
+        }
+      ],
+      "moves": [
+        {
+          "level": 32,
+          "move": "SLUDGE"
+        },
+        {
+          "level": 37,
+          "move": "SMOKESCREEN"
+        },
+        {
+          "level": 40,
+          "move": "SELFDESTRUCT"
+        },
+        {
+          "level": 45,
+          "move": "HAZE"
+        },
+        {
+          "level": 48,
+          "move": "EXPLOSION"
+        }
+      ]
+    },
+    "MISSINGNO38": {
+      "evos": [],
+      "moves": []
+    },
+    "MANKEY": {
+      "evos": [
+        {
+          "level": 28,
+          "into": "PRIMEAPE"
+        }
+      ],
+      "moves": [
+        {
+          "level": 15,
+          "move": "KARATE_CHOP"
+        },
+        {
+          "level": 21,
+          "move": "FURY_SWIPES"
+        },
+        {
+          "level": 27,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 33,
+          "move": "SEISMIC_TOSS"
+        },
+        {
+          "level": 39,
+          "move": "THRASH"
+        }
+      ]
+    },
+    "SEEL": {
+      "evos": [
+        {
+          "level": 34,
+          "into": "DEWGONG"
+        }
+      ],
+      "moves": [
+        {
+          "level": 30,
+          "move": "GROWL"
+        },
+        {
+          "level": 35,
+          "move": "AURORA_BEAM"
+        },
+        {
+          "level": 40,
+          "move": "REST"
+        },
+        {
+          "level": 45,
+          "move": "TAKE_DOWN"
+        },
+        {
+          "level": 50,
+          "move": "ICE_BEAM"
+        }
+      ]
+    },
+    "DIGLETT": {
+      "evos": [
+        {
+          "level": 26,
+          "into": "DUGTRIO"
+        }
+      ],
+      "moves": [
+        {
+          "level": 15,
+          "move": "GROWL"
+        },
+        {
+          "level": 19,
+          "move": "DIG"
+        },
+        {
+          "level": 24,
+          "move": "SAND_ATTACK"
+        },
+        {
+          "level": 31,
+          "move": "SLASH"
+        },
+        {
+          "level": 40,
+          "move": "EARTHQUAKE"
+        }
+      ]
+    },
+    "TAUROS": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 21,
+          "move": "STOMP"
+        },
+        {
+          "level": 28,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 35,
+          "move": "LEER"
+        },
+        {
+          "level": 44,
+          "move": "RAGE"
+        },
+        {
+          "level": 51,
+          "move": "TAKE_DOWN"
+        }
+      ]
+    },
+    "MISSINGNO3D": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNO3E": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNO3F": {
+      "evos": [],
+      "moves": []
+    },
+    "FARFETCHD": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 7,
+          "move": "LEER"
+        },
+        {
+          "level": 15,
+          "move": "FURY_ATTACK"
+        },
+        {
+          "level": 23,
+          "move": "SWORDS_DANCE"
+        },
+        {
+          "level": 31,
+          "move": "AGILITY"
+        },
+        {
+          "level": 39,
+          "move": "SLASH"
+        }
+      ]
+    },
+    "VENONAT": {
+      "evos": [
+        {
+          "level": 31,
+          "into": "VENOMOTH"
+        }
+      ],
+      "moves": [
+        {
+          "level": 24,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 27,
+          "move": "LEECH_LIFE"
+        },
+        {
+          "level": 30,
+          "move": "STUN_SPORE"
+        },
+        {
+          "level": 35,
+          "move": "PSYBEAM"
+        },
+        {
+          "level": 38,
+          "move": "SLEEP_POWDER"
+        },
+        {
+          "level": 43,
+          "move": "PSYCHIC_M"
+        }
+      ]
+    },
+    "DRAGONITE": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 10,
+          "move": "THUNDER_WAVE"
+        },
+        {
+          "level": 20,
+          "move": "AGILITY"
+        },
+        {
+          "level": 35,
+          "move": "SLAM"
+        },
+        {
+          "level": 45,
+          "move": "DRAGON_RAGE"
+        },
+        {
+          "level": 60,
+          "move": "HYPER_BEAM"
+        }
+      ]
+    },
+    "MISSINGNO43": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNO44": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNO45": {
+      "evos": [],
+      "moves": []
+    },
+    "DODUO": {
+      "evos": [
+        {
+          "level": 31,
+          "into": "DODRIO"
+        }
+      ],
+      "moves": [
+        {
+          "level": 20,
+          "move": "GROWL"
+        },
+        {
+          "level": 24,
+          "move": "FURY_ATTACK"
+        },
+        {
+          "level": 30,
+          "move": "DRILL_PECK"
+        },
+        {
+          "level": 36,
+          "move": "RAGE"
+        },
+        {
+          "level": 40,
+          "move": "TRI_ATTACK"
+        },
+        {
+          "level": 44,
+          "move": "AGILITY"
+        }
+      ]
+    },
+    "POLIWAG": {
+      "evos": [
+        {
+          "level": 25,
+          "into": "POLIWHIRL"
+        }
+      ],
+      "moves": [
+        {
+          "level": 16,
+          "move": "HYPNOSIS"
+        },
+        {
+          "level": 19,
+          "move": "WATER_GUN"
+        },
+        {
+          "level": 25,
+          "move": "DOUBLESLAP"
+        },
+        {
+          "level": 31,
+          "move": "BODY_SLAM"
+        },
+        {
+          "level": 38,
+          "move": "AMNESIA"
+        },
+        {
+          "level": 45,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "JYNX": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 18,
+          "move": "LICK"
+        },
+        {
+          "level": 23,
+          "move": "DOUBLESLAP"
+        },
+        {
+          "level": 31,
+          "move": "ICE_PUNCH"
+        },
+        {
+          "level": 39,
+          "move": "BODY_SLAM"
+        },
+        {
+          "level": 47,
+          "move": "THRASH"
+        },
+        {
+          "level": 58,
+          "move": "BLIZZARD"
+        }
+      ]
+    },
+    "MOLTRES": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 51,
+          "move": "LEER"
+        },
+        {
+          "level": 55,
+          "move": "AGILITY"
+        },
+        {
+          "level": 60,
+          "move": "SKY_ATTACK"
+        }
+      ]
+    },
+    "ARTICUNO": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 51,
+          "move": "BLIZZARD"
+        },
+        {
+          "level": 55,
+          "move": "AGILITY"
+        },
+        {
+          "level": 60,
+          "move": "MIST"
+        }
+      ]
+    },
+    "ZAPDOS": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 51,
+          "move": "THUNDER"
+        },
+        {
+          "level": 55,
+          "move": "AGILITY"
+        },
+        {
+          "level": 60,
+          "move": "LIGHT_SCREEN"
+        }
+      ]
+    },
+    "DITTO": {
+      "evos": [],
+      "moves": []
+    },
+    "MEOWTH": {
+      "evos": [
+        {
+          "level": 28,
+          "into": "PERSIAN"
+        }
+      ],
+      "moves": [
+        {
+          "level": 12,
+          "move": "BITE"
+        },
+        {
+          "level": 17,
+          "move": "PAY_DAY"
+        },
+        {
+          "level": 24,
+          "move": "SCREECH"
+        },
+        {
+          "level": 33,
+          "move": "FURY_SWIPES"
+        },
+        {
+          "level": 44,
+          "move": "SLASH"
+        }
+      ]
+    },
+    "KRABBY": {
+      "evos": [
+        {
+          "level": 28,
+          "into": "KINGLER"
+        }
+      ],
+      "moves": [
+        {
+          "level": 20,
+          "move": "VICEGRIP"
+        },
+        {
+          "level": 25,
+          "move": "GUILLOTINE"
+        },
+        {
+          "level": 30,
+          "move": "STOMP"
+        },
+        {
+          "level": 35,
+          "move": "CRABHAMMER"
+        },
+        {
+          "level": 40,
+          "move": "HARDEN"
+        }
+      ]
+    },
+    "MISSINGNO4F": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNO50": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNO51": {
+      "evos": [],
+      "moves": []
+    },
+    "VULPIX": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 16,
+          "move": "QUICK_ATTACK"
+        },
+        {
+          "level": 21,
+          "move": "ROAR"
+        },
+        {
+          "level": 28,
+          "move": "CONFUSE_RAY"
+        },
+        {
+          "level": 35,
+          "move": "FLAMETHROWER"
+        },
+        {
+          "level": 42,
+          "move": "FIRE_SPIN"
+        }
+      ]
+    },
+    "NINETALES": {
+      "evos": [],
+      "moves": []
+    },
+    "PIKACHU": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 9,
+          "move": "THUNDER_WAVE"
+        },
+        {
+          "level": 16,
+          "move": "QUICK_ATTACK"
+        },
+        {
+          "level": 26,
+          "move": "SWIFT"
+        },
+        {
+          "level": 33,
+          "move": "AGILITY"
+        },
+        {
+          "level": 43,
+          "move": "THUNDER"
+        }
+      ]
+    },
+    "RAICHU": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNO56": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNO57": {
+      "evos": [],
+      "moves": []
+    },
+    "DRATINI": {
+      "evos": [
+        {
+          "level": 30,
+          "into": "DRAGONAIR"
+        }
+      ],
+      "moves": [
+        {
+          "level": 10,
+          "move": "THUNDER_WAVE"
+        },
+        {
+          "level": 20,
+          "move": "AGILITY"
+        },
+        {
+          "level": 30,
+          "move": "SLAM"
+        },
+        {
+          "level": 40,
+          "move": "DRAGON_RAGE"
+        },
+        {
+          "level": 50,
+          "move": "HYPER_BEAM"
+        }
+      ]
+    },
+    "DRAGONAIR": {
+      "evos": [
+        {
+          "level": 55,
+          "into": "DRAGONITE"
+        }
+      ],
+      "moves": [
+        {
+          "level": 10,
+          "move": "THUNDER_WAVE"
+        },
+        {
+          "level": 20,
+          "move": "AGILITY"
+        },
+        {
+          "level": 35,
+          "move": "SLAM"
+        },
+        {
+          "level": 45,
+          "move": "DRAGON_RAGE"
+        },
+        {
+          "level": 55,
+          "move": "HYPER_BEAM"
+        }
+      ]
+    },
+    "KABUTO": {
+      "evos": [
+        {
+          "level": 40,
+          "into": "KABUTOPS"
+        }
+      ],
+      "moves": [
+        {
+          "level": 34,
+          "move": "ABSORB"
+        },
+        {
+          "level": 39,
+          "move": "SLASH"
+        },
+        {
+          "level": 44,
+          "move": "LEER"
+        },
+        {
+          "level": 49,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "KABUTOPS": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 34,
+          "move": "ABSORB"
+        },
+        {
+          "level": 39,
+          "move": "SLASH"
+        },
+        {
+          "level": 46,
+          "move": "LEER"
+        },
+        {
+          "level": 53,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "HORSEA": {
+      "evos": [
+        {
+          "level": 32,
+          "into": "SEADRA"
+        }
+      ],
+      "moves": [
+        {
+          "level": 19,
+          "move": "SMOKESCREEN"
+        },
+        {
+          "level": 24,
+          "move": "LEER"
+        },
+        {
+          "level": 30,
+          "move": "WATER_GUN"
+        },
+        {
+          "level": 37,
+          "move": "AGILITY"
+        },
+        {
+          "level": 45,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "SEADRA": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 19,
+          "move": "SMOKESCREEN"
+        },
+        {
+          "level": 24,
+          "move": "LEER"
+        },
+        {
+          "level": 30,
+          "move": "WATER_GUN"
+        },
+        {
+          "level": 41,
+          "move": "AGILITY"
+        },
+        {
+          "level": 52,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "MISSINGNO5E": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNO5F": {
+      "evos": [],
+      "moves": []
+    },
+    "SANDSHREW": {
+      "evos": [
+        {
+          "level": 22,
+          "into": "SANDSLASH"
+        }
+      ],
+      "moves": [
+        {
+          "level": 10,
+          "move": "SAND_ATTACK"
+        },
+        {
+          "level": 17,
+          "move": "SLASH"
+        },
+        {
+          "level": 24,
+          "move": "POISON_STING"
+        },
+        {
+          "level": 31,
+          "move": "SWIFT"
+        },
+        {
+          "level": 38,
+          "move": "FURY_SWIPES"
+        }
+      ]
+    },
+    "SANDSLASH": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 10,
+          "move": "SAND_ATTACK"
+        },
+        {
+          "level": 17,
+          "move": "SLASH"
+        },
+        {
+          "level": 27,
+          "move": "POISON_STING"
+        },
+        {
+          "level": 36,
+          "move": "SWIFT"
+        },
+        {
+          "level": 47,
+          "move": "FURY_SWIPES"
+        }
+      ]
+    },
+    "OMANYTE": {
+      "evos": [
+        {
+          "level": 40,
+          "into": "OMASTAR"
+        }
+      ],
+      "moves": [
+        {
+          "level": 34,
+          "move": "HORN_ATTACK"
+        },
+        {
+          "level": 39,
+          "move": "LEER"
+        },
+        {
+          "level": 46,
+          "move": "SPIKE_CANNON"
+        },
+        {
+          "level": 53,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "OMASTAR": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 34,
+          "move": "HORN_ATTACK"
+        },
+        {
+          "level": 39,
+          "move": "LEER"
+        },
+        {
+          "level": 44,
+          "move": "SPIKE_CANNON"
+        },
+        {
+          "level": 49,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "JIGGLYPUFF": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 9,
+          "move": "POUND"
+        },
+        {
+          "level": 14,
+          "move": "DISABLE"
+        },
+        {
+          "level": 19,
+          "move": "DEFENSE_CURL"
+        },
+        {
+          "level": 24,
+          "move": "DOUBLESLAP"
+        },
+        {
+          "level": 29,
+          "move": "REST"
+        },
+        {
+          "level": 34,
+          "move": "BODY_SLAM"
+        },
+        {
+          "level": 39,
+          "move": "DOUBLE_EDGE"
+        }
+      ]
+    },
+    "WIGGLYTUFF": {
+      "evos": [],
+      "moves": []
+    },
+    "EEVEE": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 27,
+          "move": "QUICK_ATTACK"
+        },
+        {
+          "level": 31,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 37,
+          "move": "BITE"
+        },
+        {
+          "level": 45,
+          "move": "TAKE_DOWN"
+        }
+      ]
+    },
+    "FLAREON": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 27,
+          "move": "QUICK_ATTACK"
+        },
+        {
+          "level": 31,
+          "move": "EMBER"
+        },
+        {
+          "level": 37,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 40,
+          "move": "BITE"
+        },
+        {
+          "level": 42,
+          "move": "LEER"
+        },
+        {
+          "level": 44,
+          "move": "FIRE_SPIN"
+        },
+        {
+          "level": 48,
+          "move": "RAGE"
+        },
+        {
+          "level": 54,
+          "move": "FLAMETHROWER"
+        }
+      ]
+    },
+    "JOLTEON": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 27,
+          "move": "QUICK_ATTACK"
+        },
+        {
+          "level": 31,
+          "move": "THUNDERSHOCK"
+        },
+        {
+          "level": 37,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 40,
+          "move": "THUNDER_WAVE"
+        },
+        {
+          "level": 42,
+          "move": "DOUBLE_KICK"
+        },
+        {
+          "level": 44,
+          "move": "AGILITY"
+        },
+        {
+          "level": 48,
+          "move": "PIN_MISSILE"
+        },
+        {
+          "level": 54,
+          "move": "THUNDER"
+        }
+      ]
+    },
+    "VAPOREON": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 27,
+          "move": "QUICK_ATTACK"
+        },
+        {
+          "level": 31,
+          "move": "WATER_GUN"
+        },
+        {
+          "level": 37,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 40,
+          "move": "BITE"
+        },
+        {
+          "level": 42,
+          "move": "ACID_ARMOR"
+        },
+        {
+          "level": 44,
+          "move": "HAZE"
+        },
+        {
+          "level": 48,
+          "move": "MIST"
+        },
+        {
+          "level": 54,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "MACHOP": {
+      "evos": [
+        {
+          "level": 28,
+          "into": "MACHOKE"
+        }
+      ],
+      "moves": [
+        {
+          "level": 20,
+          "move": "LOW_KICK"
+        },
+        {
+          "level": 25,
+          "move": "LEER"
+        },
+        {
+          "level": 32,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 39,
+          "move": "SEISMIC_TOSS"
+        },
+        {
+          "level": 46,
+          "move": "SUBMISSION"
+        }
+      ]
+    },
+    "ZUBAT": {
+      "evos": [
+        {
+          "level": 22,
+          "into": "GOLBAT"
+        }
+      ],
+      "moves": [
+        {
+          "level": 10,
+          "move": "SUPERSONIC"
+        },
+        {
+          "level": 15,
+          "move": "BITE"
+        },
+        {
+          "level": 21,
+          "move": "CONFUSE_RAY"
+        },
+        {
+          "level": 28,
+          "move": "WING_ATTACK"
+        },
+        {
+          "level": 36,
+          "move": "HAZE"
+        }
+      ]
+    },
+    "EKANS": {
+      "evos": [
+        {
+          "level": 22,
+          "into": "ARBOK"
+        }
+      ],
+      "moves": [
+        {
+          "level": 10,
+          "move": "POISON_STING"
+        },
+        {
+          "level": 17,
+          "move": "BITE"
+        },
+        {
+          "level": 24,
+          "move": "GLARE"
+        },
+        {
+          "level": 31,
+          "move": "SCREECH"
+        },
+        {
+          "level": 38,
+          "move": "ACID"
+        }
+      ]
+    },
+    "PARAS": {
+      "evos": [
+        {
+          "level": 24,
+          "into": "PARASECT"
+        }
+      ],
+      "moves": [
+        {
+          "level": 13,
+          "move": "STUN_SPORE"
+        },
+        {
+          "level": 20,
+          "move": "LEECH_LIFE"
+        },
+        {
+          "level": 27,
+          "move": "SPORE"
+        },
+        {
+          "level": 34,
+          "move": "SLASH"
+        },
+        {
+          "level": 41,
+          "move": "GROWTH"
+        }
+      ]
+    },
+    "POLIWHIRL": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 16,
+          "move": "HYPNOSIS"
+        },
+        {
+          "level": 19,
+          "move": "WATER_GUN"
+        },
+        {
+          "level": 26,
+          "move": "DOUBLESLAP"
+        },
+        {
+          "level": 33,
+          "move": "BODY_SLAM"
+        },
+        {
+          "level": 41,
+          "move": "AMNESIA"
+        },
+        {
+          "level": 49,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "POLIWRATH": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 16,
+          "move": "HYPNOSIS"
+        },
+        {
+          "level": 19,
+          "move": "WATER_GUN"
+        }
+      ]
+    },
+    "WEEDLE": {
+      "evos": [
+        {
+          "level": 7,
+          "into": "KAKUNA"
+        }
+      ],
+      "moves": []
+    },
+    "KAKUNA": {
+      "evos": [
+        {
+          "level": 10,
+          "into": "BEEDRILL"
+        }
+      ],
+      "moves": []
+    },
+    "BEEDRILL": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 12,
+          "move": "FURY_ATTACK"
+        },
+        {
+          "level": 16,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 20,
+          "move": "TWINEEDLE"
+        },
+        {
+          "level": 25,
+          "move": "RAGE"
+        },
+        {
+          "level": 30,
+          "move": "PIN_MISSILE"
+        },
+        {
+          "level": 35,
+          "move": "AGILITY"
+        }
+      ]
+    },
+    "MISSINGNO73": {
+      "evos": [],
+      "moves": []
+    },
+    "DODRIO": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 20,
+          "move": "GROWL"
+        },
+        {
+          "level": 24,
+          "move": "FURY_ATTACK"
+        },
+        {
+          "level": 30,
+          "move": "DRILL_PECK"
+        },
+        {
+          "level": 39,
+          "move": "RAGE"
+        },
+        {
+          "level": 45,
+          "move": "TRI_ATTACK"
+        },
+        {
+          "level": 51,
+          "move": "AGILITY"
+        }
+      ]
+    },
+    "PRIMEAPE": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 15,
+          "move": "KARATE_CHOP"
+        },
+        {
+          "level": 21,
+          "move": "FURY_SWIPES"
+        },
+        {
+          "level": 27,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 37,
+          "move": "SEISMIC_TOSS"
+        },
+        {
+          "level": 46,
+          "move": "THRASH"
+        }
+      ]
+    },
+    "DUGTRIO": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 15,
+          "move": "GROWL"
+        },
+        {
+          "level": 19,
+          "move": "DIG"
+        },
+        {
+          "level": 24,
+          "move": "SAND_ATTACK"
+        },
+        {
+          "level": 35,
+          "move": "SLASH"
+        },
+        {
+          "level": 47,
+          "move": "EARTHQUAKE"
+        }
+      ]
+    },
+    "VENOMOTH": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 24,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 27,
+          "move": "LEECH_LIFE"
+        },
+        {
+          "level": 30,
+          "move": "STUN_SPORE"
+        },
+        {
+          "level": 38,
+          "move": "PSYBEAM"
+        },
+        {
+          "level": 43,
+          "move": "SLEEP_POWDER"
+        },
+        {
+          "level": 50,
+          "move": "PSYCHIC_M"
+        }
+      ]
+    },
+    "DEWGONG": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 30,
+          "move": "GROWL"
+        },
+        {
+          "level": 35,
+          "move": "AURORA_BEAM"
+        },
+        {
+          "level": 44,
+          "move": "REST"
+        },
+        {
+          "level": 50,
+          "move": "TAKE_DOWN"
+        },
+        {
+          "level": 56,
+          "move": "ICE_BEAM"
+        }
+      ]
+    },
+    "MISSINGNO79": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNO7A": {
+      "evos": [],
+      "moves": []
+    },
+    "CATERPIE": {
+      "evos": [
+        {
+          "level": 7,
+          "into": "METAPOD"
+        }
+      ],
+      "moves": []
+    },
+    "METAPOD": {
+      "evos": [
+        {
+          "level": 10,
+          "into": "BUTTERFREE"
+        }
+      ],
+      "moves": []
+    },
+    "BUTTERFREE": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 12,
+          "move": "CONFUSION"
+        },
+        {
+          "level": 15,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 16,
+          "move": "STUN_SPORE"
+        },
+        {
+          "level": 17,
+          "move": "SLEEP_POWDER"
+        },
+        {
+          "level": 21,
+          "move": "SUPERSONIC"
+        },
+        {
+          "level": 26,
+          "move": "WHIRLWIND"
+        },
+        {
+          "level": 32,
+          "move": "PSYBEAM"
+        }
+      ]
+    },
+    "MACHAMP": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 20,
+          "move": "LOW_KICK"
+        },
+        {
+          "level": 25,
+          "move": "LEER"
+        },
+        {
+          "level": 36,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 44,
+          "move": "SEISMIC_TOSS"
+        },
+        {
+          "level": 52,
+          "move": "SUBMISSION"
+        }
+      ]
+    },
+    "MISSINGNO7F": {
+      "evos": [],
+      "moves": []
+    },
+    "GOLDUCK": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 28,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 31,
+          "move": "DISABLE"
+        },
+        {
+          "level": 39,
+          "move": "CONFUSION"
+        },
+        {
+          "level": 48,
+          "move": "FURY_SWIPES"
+        },
+        {
+          "level": 59,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "HYPNO": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 12,
+          "move": "DISABLE"
+        },
+        {
+          "level": 17,
+          "move": "CONFUSION"
+        },
+        {
+          "level": 24,
+          "move": "HEADBUTT"
+        },
+        {
+          "level": 33,
+          "move": "POISON_GAS"
+        },
+        {
+          "level": 37,
+          "move": "PSYCHIC_M"
+        },
+        {
+          "level": 43,
+          "move": "MEDITATE"
+        }
+      ]
+    },
+    "GOLBAT": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 10,
+          "move": "SUPERSONIC"
+        },
+        {
+          "level": 15,
+          "move": "BITE"
+        },
+        {
+          "level": 21,
+          "move": "CONFUSE_RAY"
+        },
+        {
+          "level": 32,
+          "move": "WING_ATTACK"
+        },
+        {
+          "level": 43,
+          "move": "HAZE"
+        }
+      ]
+    },
+    "MEWTWO": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 63,
+          "move": "BARRIER"
+        },
+        {
+          "level": 66,
+          "move": "PSYCHIC_M"
+        },
+        {
+          "level": 70,
+          "move": "RECOVER"
+        },
+        {
+          "level": 75,
+          "move": "MIST"
+        },
+        {
+          "level": 81,
+          "move": "AMNESIA"
+        }
+      ]
+    },
+    "SNORLAX": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 35,
+          "move": "BODY_SLAM"
+        },
+        {
+          "level": 41,
+          "move": "HARDEN"
+        },
+        {
+          "level": 48,
+          "move": "DOUBLE_EDGE"
+        },
+        {
+          "level": 56,
+          "move": "HYPER_BEAM"
+        }
+      ]
+    },
+    "MAGIKARP": {
+      "evos": [
+        {
+          "level": 20,
+          "into": "GYARADOS"
+        }
+      ],
+      "moves": [
+        {
+          "level": 15,
+          "move": "TACKLE"
+        }
+      ]
+    },
+    "MISSINGNO86": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNO87": {
+      "evos": [],
+      "moves": []
+    },
+    "MUK": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 30,
+          "move": "POISON_GAS"
+        },
+        {
+          "level": 33,
+          "move": "MINIMIZE"
+        },
+        {
+          "level": 37,
+          "move": "SLUDGE"
+        },
+        {
+          "level": 45,
+          "move": "HARDEN"
+        },
+        {
+          "level": 53,
+          "move": "SCREECH"
+        },
+        {
+          "level": 60,
+          "move": "ACID_ARMOR"
+        }
+      ]
+    },
+    "MISSINGNO8A": {
+      "evos": [],
+      "moves": []
+    },
+    "KINGLER": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 20,
+          "move": "VICEGRIP"
+        },
+        {
+          "level": 25,
+          "move": "GUILLOTINE"
+        },
+        {
+          "level": 34,
+          "move": "STOMP"
+        },
+        {
+          "level": 42,
+          "move": "CRABHAMMER"
+        },
+        {
+          "level": 49,
+          "move": "HARDEN"
+        }
+      ]
+    },
+    "CLOYSTER": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 50,
+          "move": "SPIKE_CANNON"
+        }
+      ]
+    },
+    "MISSINGNO8C": {
+      "evos": [],
+      "moves": []
+    },
+    "ELECTRODE": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 17,
+          "move": "SONICBOOM"
+        },
+        {
+          "level": 22,
+          "move": "SELFDESTRUCT"
+        },
+        {
+          "level": 29,
+          "move": "LIGHT_SCREEN"
+        },
+        {
+          "level": 40,
+          "move": "SWIFT"
+        },
+        {
+          "level": 50,
+          "move": "EXPLOSION"
+        }
+      ]
+    },
+    "CLEFABLE": {
+      "evos": [],
+      "moves": []
+    },
+    "WEEZING": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 32,
+          "move": "SLUDGE"
+        },
+        {
+          "level": 39,
+          "move": "SMOKESCREEN"
+        },
+        {
+          "level": 43,
+          "move": "SELFDESTRUCT"
+        },
+        {
+          "level": 49,
+          "move": "HAZE"
+        },
+        {
+          "level": 53,
+          "move": "EXPLOSION"
+        }
+      ]
+    },
+    "PERSIAN": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 12,
+          "move": "BITE"
+        },
+        {
+          "level": 17,
+          "move": "PAY_DAY"
+        },
+        {
+          "level": 24,
+          "move": "SCREECH"
+        },
+        {
+          "level": 37,
+          "move": "FURY_SWIPES"
+        },
+        {
+          "level": 51,
+          "move": "SLASH"
+        }
+      ]
+    },
+    "MAROWAK": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 25,
+          "move": "LEER"
+        },
+        {
+          "level": 33,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 41,
+          "move": "THRASH"
+        },
+        {
+          "level": 48,
+          "move": "BONEMERANG"
+        },
+        {
+          "level": 55,
+          "move": "RAGE"
+        }
+      ]
+    },
+    "MISSINGNO92": {
+      "evos": [],
+      "moves": []
+    },
+    "HAUNTER": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 29,
+          "move": "HYPNOSIS"
+        },
+        {
+          "level": 38,
+          "move": "DREAM_EATER"
+        }
+      ]
+    },
+    "ABRA": {
+      "evos": [
+        {
+          "level": 16,
+          "into": "KADABRA"
+        }
+      ],
+      "moves": []
+    },
+    "ALAKAZAM": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 16,
+          "move": "CONFUSION"
+        },
+        {
+          "level": 20,
+          "move": "DISABLE"
+        },
+        {
+          "level": 27,
+          "move": "PSYBEAM"
+        },
+        {
+          "level": 31,
+          "move": "RECOVER"
+        },
+        {
+          "level": 38,
+          "move": "PSYCHIC_M"
+        },
+        {
+          "level": 42,
+          "move": "REFLECT"
+        }
+      ]
+    },
+    "PIDGEOTTO": {
+      "evos": [
+        {
+          "level": 36,
+          "into": "PIDGEOT"
+        }
+      ],
+      "moves": [
+        {
+          "level": 5,
+          "move": "SAND_ATTACK"
+        },
+        {
+          "level": 12,
+          "move": "QUICK_ATTACK"
+        },
+        {
+          "level": 21,
+          "move": "WHIRLWIND"
+        },
+        {
+          "level": 31,
+          "move": "WING_ATTACK"
+        },
+        {
+          "level": 40,
+          "move": "AGILITY"
+        },
+        {
+          "level": 49,
+          "move": "MIRROR_MOVE"
+        }
+      ]
+    },
+    "PIDGEOT": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 5,
+          "move": "SAND_ATTACK"
+        },
+        {
+          "level": 12,
+          "move": "QUICK_ATTACK"
+        },
+        {
+          "level": 21,
+          "move": "WHIRLWIND"
+        },
+        {
+          "level": 31,
+          "move": "WING_ATTACK"
+        },
+        {
+          "level": 44,
+          "move": "AGILITY"
+        },
+        {
+          "level": 54,
+          "move": "MIRROR_MOVE"
+        }
+      ]
+    },
+    "STARMIE": {
+      "evos": [],
+      "moves": []
+    },
+    "BULBASAUR": {
+      "evos": [
+        {
+          "level": 16,
+          "into": "IVYSAUR"
+        }
+      ],
+      "moves": [
+        {
+          "level": 7,
+          "move": "LEECH_SEED"
+        },
+        {
+          "level": 13,
+          "move": "VINE_WHIP"
+        },
+        {
+          "level": 20,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 27,
+          "move": "RAZOR_LEAF"
+        },
+        {
+          "level": 34,
+          "move": "GROWTH"
+        },
+        {
+          "level": 41,
+          "move": "SLEEP_POWDER"
+        },
+        {
+          "level": 48,
+          "move": "SOLARBEAM"
+        }
+      ]
+    },
+    "VENUSAUR": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 7,
+          "move": "LEECH_SEED"
+        },
+        {
+          "level": 13,
+          "move": "VINE_WHIP"
+        },
+        {
+          "level": 22,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 30,
+          "move": "RAZOR_LEAF"
+        },
+        {
+          "level": 43,
+          "move": "GROWTH"
+        },
+        {
+          "level": 55,
+          "move": "SLEEP_POWDER"
+        },
+        {
+          "level": 65,
+          "move": "SOLARBEAM"
+        }
+      ]
+    },
+    "TENTACRUEL": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 7,
+          "move": "SUPERSONIC"
+        },
+        {
+          "level": 13,
+          "move": "WRAP"
+        },
+        {
+          "level": 18,
+          "move": "POISON_STING"
+        },
+        {
+          "level": 22,
+          "move": "WATER_GUN"
+        },
+        {
+          "level": 27,
+          "move": "CONSTRICT"
+        },
+        {
+          "level": 35,
+          "move": "BARRIER"
+        },
+        {
+          "level": 43,
+          "move": "SCREECH"
+        },
+        {
+          "level": 50,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "MISSINGNO9C": {
+      "evos": [],
+      "moves": []
+    },
+    "GOLDEEN": {
+      "evos": [
+        {
+          "level": 33,
+          "into": "SEAKING"
+        }
+      ],
+      "moves": [
+        {
+          "level": 19,
+          "move": "SUPERSONIC"
+        },
+        {
+          "level": 24,
+          "move": "HORN_ATTACK"
+        },
+        {
+          "level": 30,
+          "move": "FURY_ATTACK"
+        },
+        {
+          "level": 37,
+          "move": "WATERFALL"
+        },
+        {
+          "level": 45,
+          "move": "HORN_DRILL"
+        },
+        {
+          "level": 54,
+          "move": "AGILITY"
+        }
+      ]
+    },
+    "SEAKING": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 19,
+          "move": "SUPERSONIC"
+        },
+        {
+          "level": 24,
+          "move": "HORN_ATTACK"
+        },
+        {
+          "level": 30,
+          "move": "FURY_ATTACK"
+        },
+        {
+          "level": 39,
+          "move": "WATERFALL"
+        },
+        {
+          "level": 48,
+          "move": "HORN_DRILL"
+        },
+        {
+          "level": 54,
+          "move": "AGILITY"
+        }
+      ]
+    },
+    "MISSINGNO9F": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNOA0": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNOA1": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNOA2": {
+      "evos": [],
+      "moves": []
+    },
+    "PONYTA": {
+      "evos": [
+        {
+          "level": 40,
+          "into": "RAPIDASH"
+        }
+      ],
+      "moves": [
+        {
+          "level": 30,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 32,
+          "move": "STOMP"
+        },
+        {
+          "level": 35,
+          "move": "GROWL"
+        },
+        {
+          "level": 39,
+          "move": "FIRE_SPIN"
+        },
+        {
+          "level": 43,
+          "move": "TAKE_DOWN"
+        },
+        {
+          "level": 48,
+          "move": "AGILITY"
+        }
+      ]
+    },
+    "RAPIDASH": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 30,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 32,
+          "move": "STOMP"
+        },
+        {
+          "level": 35,
+          "move": "GROWL"
+        },
+        {
+          "level": 39,
+          "move": "FIRE_SPIN"
+        },
+        {
+          "level": 47,
+          "move": "TAKE_DOWN"
+        },
+        {
+          "level": 55,
+          "move": "AGILITY"
+        }
+      ]
+    },
+    "RATTATA": {
+      "evos": [
+        {
+          "level": 20,
+          "into": "RATICATE"
+        }
+      ],
+      "moves": [
+        {
+          "level": 7,
+          "move": "QUICK_ATTACK"
+        },
+        {
+          "level": 14,
+          "move": "HYPER_FANG"
+        },
+        {
+          "level": 23,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 34,
+          "move": "SUPER_FANG"
+        }
+      ]
+    },
+    "RATICATE": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 7,
+          "move": "QUICK_ATTACK"
+        },
+        {
+          "level": 14,
+          "move": "HYPER_FANG"
+        },
+        {
+          "level": 27,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 41,
+          "move": "SUPER_FANG"
+        }
+      ]
+    },
+    "NIDORINO": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 8,
+          "move": "HORN_ATTACK"
+        },
+        {
+          "level": 14,
+          "move": "POISON_STING"
+        },
+        {
+          "level": 23,
+          "move": "FOCUS_ENERGY"
+        },
+        {
+          "level": 32,
+          "move": "FURY_ATTACK"
+        },
+        {
+          "level": 41,
+          "move": "HORN_DRILL"
+        },
+        {
+          "level": 50,
+          "move": "DOUBLE_KICK"
+        }
+      ]
+    },
+    "NIDORINA": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 8,
+          "move": "SCRATCH"
+        },
+        {
+          "level": 14,
+          "move": "POISON_STING"
+        },
+        {
+          "level": 23,
+          "move": "TAIL_WHIP"
+        },
+        {
+          "level": 32,
+          "move": "BITE"
+        },
+        {
+          "level": 41,
+          "move": "FURY_SWIPES"
+        },
+        {
+          "level": 50,
+          "move": "DOUBLE_KICK"
+        }
+      ]
+    },
+    "GEODUDE": {
+      "evos": [
+        {
+          "level": 25,
+          "into": "GRAVELER"
+        }
+      ],
+      "moves": [
+        {
+          "level": 11,
+          "move": "DEFENSE_CURL"
+        },
+        {
+          "level": 16,
+          "move": "ROCK_THROW"
+        },
+        {
+          "level": 21,
+          "move": "SELFDESTRUCT"
+        },
+        {
+          "level": 26,
+          "move": "HARDEN"
+        },
+        {
+          "level": 31,
+          "move": "EARTHQUAKE"
+        },
+        {
+          "level": 36,
+          "move": "EXPLOSION"
+        }
+      ]
+    },
+    "PORYGON": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 23,
+          "move": "PSYBEAM"
+        },
+        {
+          "level": 28,
+          "move": "RECOVER"
+        },
+        {
+          "level": 35,
+          "move": "AGILITY"
+        },
+        {
+          "level": 42,
+          "move": "TRI_ATTACK"
+        }
+      ]
+    },
+    "AERODACTYL": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 33,
+          "move": "SUPERSONIC"
+        },
+        {
+          "level": 38,
+          "move": "BITE"
+        },
+        {
+          "level": 45,
+          "move": "TAKE_DOWN"
+        },
+        {
+          "level": 54,
+          "move": "HYPER_BEAM"
+        }
+      ]
+    },
+    "MISSINGNOAC": {
+      "evos": [],
+      "moves": []
+    },
+    "MAGNEMITE": {
+      "evos": [
+        {
+          "level": 30,
+          "into": "MAGNETON"
+        }
+      ],
+      "moves": [
+        {
+          "level": 21,
+          "move": "SONICBOOM"
+        },
+        {
+          "level": 25,
+          "move": "THUNDERSHOCK"
+        },
+        {
+          "level": 29,
+          "move": "SUPERSONIC"
+        },
+        {
+          "level": 35,
+          "move": "THUNDER_WAVE"
+        },
+        {
+          "level": 41,
+          "move": "SWIFT"
+        },
+        {
+          "level": 47,
+          "move": "SCREECH"
+        }
+      ]
+    },
+    "MISSINGNOAE": {
+      "evos": [],
+      "moves": []
+    },
+    "MISSINGNOAF": {
+      "evos": [],
+      "moves": []
+    },
+    "CHARMANDER": {
+      "evos": [
+        {
+          "level": 16,
+          "into": "CHARMELEON"
+        }
+      ],
+      "moves": [
+        {
+          "level": 9,
+          "move": "EMBER"
+        },
+        {
+          "level": 15,
+          "move": "LEER"
+        },
+        {
+          "level": 22,
+          "move": "RAGE"
+        },
+        {
+          "level": 30,
+          "move": "SLASH"
+        },
+        {
+          "level": 38,
+          "move": "FLAMETHROWER"
+        },
+        {
+          "level": 46,
+          "move": "FIRE_SPIN"
+        }
+      ]
+    },
+    "SQUIRTLE": {
+      "evos": [
+        {
+          "level": 16,
+          "into": "WARTORTLE"
+        }
+      ],
+      "moves": [
+        {
+          "level": 8,
+          "move": "BUBBLE"
+        },
+        {
+          "level": 15,
+          "move": "WATER_GUN"
+        },
+        {
+          "level": 22,
+          "move": "BITE"
+        },
+        {
+          "level": 28,
+          "move": "WITHDRAW"
+        },
+        {
+          "level": 35,
+          "move": "SKULL_BASH"
+        },
+        {
+          "level": 42,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "CHARMELEON": {
+      "evos": [
+        {
+          "level": 36,
+          "into": "CHARIZARD"
+        }
+      ],
+      "moves": [
+        {
+          "level": 9,
+          "move": "EMBER"
+        },
+        {
+          "level": 15,
+          "move": "LEER"
+        },
+        {
+          "level": 24,
+          "move": "RAGE"
+        },
+        {
+          "level": 33,
+          "move": "SLASH"
+        },
+        {
+          "level": 42,
+          "move": "FLAMETHROWER"
+        },
+        {
+          "level": 56,
+          "move": "FIRE_SPIN"
+        }
+      ]
+    },
+    "WARTORTLE": {
+      "evos": [
+        {
+          "level": 36,
+          "into": "BLASTOISE"
+        }
+      ],
+      "moves": [
+        {
+          "level": 8,
+          "move": "BUBBLE"
+        },
+        {
+          "level": 15,
+          "move": "WATER_GUN"
+        },
+        {
+          "level": 24,
+          "move": "BITE"
+        },
+        {
+          "level": 31,
+          "move": "WITHDRAW"
+        },
+        {
+          "level": 39,
+          "move": "SKULL_BASH"
+        },
+        {
+          "level": 47,
+          "move": "HYDRO_PUMP"
+        }
+      ]
+    },
+    "CHARIZARD": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 9,
+          "move": "EMBER"
+        },
+        {
+          "level": 15,
+          "move": "LEER"
+        },
+        {
+          "level": 24,
+          "move": "RAGE"
+        },
+        {
+          "level": 36,
+          "move": "SLASH"
+        },
+        {
+          "level": 46,
+          "move": "FLAMETHROWER"
+        },
+        {
+          "level": 55,
+          "move": "FIRE_SPIN"
+        }
+      ]
+    },
+    "MISSINGNOB5": {
+      "evos": [],
+      "moves": []
+    },
+    "FOSSILKABUTOPS": {
+      "evos": [],
+      "moves": []
+    },
+    "FOSSILAERODACTYL": {
+      "evos": [],
+      "moves": []
+    },
+    "MONGHOST": {
+      "evos": [],
+      "moves": []
+    },
+    "ODDISH": {
+      "evos": [
+        {
+          "level": 21,
+          "into": "GLOOM"
+        }
+      ],
+      "moves": [
+        {
+          "level": 15,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 17,
+          "move": "STUN_SPORE"
+        },
+        {
+          "level": 19,
+          "move": "SLEEP_POWDER"
+        },
+        {
+          "level": 24,
+          "move": "ACID"
+        },
+        {
+          "level": 33,
+          "move": "PETAL_DANCE"
+        },
+        {
+          "level": 46,
+          "move": "SOLARBEAM"
+        }
+      ]
+    },
+    "GLOOM": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 15,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 17,
+          "move": "STUN_SPORE"
+        },
+        {
+          "level": 19,
+          "move": "SLEEP_POWDER"
+        },
+        {
+          "level": 28,
+          "move": "ACID"
+        },
+        {
+          "level": 38,
+          "move": "PETAL_DANCE"
+        },
+        {
+          "level": 52,
+          "move": "SOLARBEAM"
+        }
+      ]
+    },
+    "VILEPLUME": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 15,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 17,
+          "move": "STUN_SPORE"
+        },
+        {
+          "level": 19,
+          "move": "SLEEP_POWDER"
+        }
+      ]
+    },
+    "BELLSPROUT": {
+      "evos": [
+        {
+          "level": 21,
+          "into": "WEEPINBELL"
+        }
+      ],
+      "moves": [
+        {
+          "level": 13,
+          "move": "WRAP"
+        },
+        {
+          "level": 15,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 18,
+          "move": "SLEEP_POWDER"
+        },
+        {
+          "level": 21,
+          "move": "STUN_SPORE"
+        },
+        {
+          "level": 26,
+          "move": "ACID"
+        },
+        {
+          "level": 33,
+          "move": "RAZOR_LEAF"
+        },
+        {
+          "level": 42,
+          "move": "SLAM"
+        }
+      ]
+    },
+    "WEEPINBELL": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 13,
+          "move": "WRAP"
+        },
+        {
+          "level": 15,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 18,
+          "move": "SLEEP_POWDER"
+        },
+        {
+          "level": 23,
+          "move": "STUN_SPORE"
+        },
+        {
+          "level": 29,
+          "move": "ACID"
+        },
+        {
+          "level": 38,
+          "move": "RAZOR_LEAF"
+        },
+        {
+          "level": 49,
+          "move": "SLAM"
+        }
+      ]
+    },
+    "VICTREEBEL": {
+      "evos": [],
+      "moves": [
+        {
+          "level": 13,
+          "move": "WRAP"
+        },
+        {
+          "level": 15,
+          "move": "POISONPOWDER"
+        },
+        {
+          "level": 18,
+          "move": "SLEEP_POWDER"
+        }
+      ]
+    }
+  }
+}

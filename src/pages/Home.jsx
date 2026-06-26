@@ -7,6 +7,7 @@ const TILES = [
   { to: '/rs-market',              name: 'RS Market',        desc: 'runescape grand exchange',       icon: '🏛️', bg: '#060f06', accent: '#22c55e', rgb: '34,197,94'   },
   { to: '/qa-tracker',             name: 'QA Tracker',       desc: 'self-rating for qa skills',      icon: '📊', bg: '#0a0d17', accent: '#818cf8', rgb: '129,140,248'  },
   { to: '/sql-quest',              name: 'SQL Quest',        desc: 'fight monsters with sql',        icon: '⚔️', bg: '#100820', accent: '#a78bfa', rgb: '167,139,250', span: 2 },
+  { to: '/pokered',                name: 'Pokémon Red',      desc: 'gen 1 overworld recreation',     icon: '🔴', bg: '#1a0505', accent: '#ef4444', rgb: '239,68,68',   span: 2 },
   { to: '/gitmon',                 name: 'Gitmon Blue',      desc: 'pokémon meets git cli',          icon: '💾', bg: '#040d1a', accent: '#7ec8e3', rgb: '126,200,227', span: 2 },
   { to: '/bashmon',                name: 'Bashmon Red',      desc: 'pokémon meets bash cli',         icon: '🐚', bg: '#1a0404', accent: '#ff6b35', rgb: '255,107,53'   },
   { to: '/signal-lost',            name: 'Signal Lost',      desc: 'keep the station alive by typing', icon: '📡', bg: '#020a0f', accent: '#00ff88', rgb: '0,255,136'   },

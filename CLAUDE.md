@@ -123,9 +123,44 @@ When a feature needs its own internal pages/routes:
 - No error handling for things that can't fail internally.
 - Keep CSS scoped — never reach outside a component's own file.
 
+## BashMon / GitMon git branching strategy
+
+**READ THIS BEFORE TOUCHING EITHER GAME.**
+
+There are three branches:
+
+| Branch | Purpose |
+|---|---|
+| `main` | Shared React/JSX/CSS + all non-game pages. The games live here as thin wrappers. |
+| `red` | BashMon-only files: `src/pages/bashmon/content/*.json` + `bashmonEngine.js` |
+| `blue` | GitMon-only files: `src/pages/gitmon/content/*.json` + `gitmonEngine.js` |
+
+**Workflow:**
+1. Bug fixes, shared logic, UI changes → commit to `main`
+2. After `main` is stable → `git merge main` into `red` and `blue`
+3. Bash-specific content/engine changes → `red` branch only
+4. Git-specific content/engine changes → `blue` branch only
+5. Never put bash/git command logic, move data, or area data on `main`
+
+**What stays on main (shared):**
+- `src/pages/shared/GameBattle.jsx` — unified battle component (NEVER put game-specific content here)
+- `src/pages/bashmon/BashmonBattle.jsx` — thin wrapper, passes config to GameBattle
+- `src/pages/gitmon/GitmonBattle.jsx` — thin wrapper, passes config to GameBattle
+- All overworld JSX, starter select JSX, app shells
+
+**What stays on red/blue (game-specific):**
+- `src/pages/bashmon/content/pokemon.json`, `moves.json`, `gyms.json`
+- `src/pages/bashmon/bashmonEngine.js`
+- `src/pages/gitmon/content/pokemon.json`, `moves.json`, `gyms.json`, `items.json`
+- `src/pages/gitmon/gitmonEngine.js`
+
+The two games are ~99% identical. Keeping the engines/content on their own branches means a single feature landed on main (e.g., a new battle phase) propagates to both games with one merge. No 2x work.
+
+---
+
 ## Game design — required reading
 
-When creating or discussing a game, read `game-design-workflow.md` (same directory as this file) before doing anything else. It is the source of truth for all game work and should be iterated on as games evolve — changes to the workflow apply to all future games.
+When creating or discussing a game, read `gamedesign.md` (same directory as this file) before doing anything else. It is the source of truth for all game work and should be iterated on as games evolve — changes to the workflow apply to all future games.
 
 ## subagent spawning
 when using subagents use haiku more often for simple-er tasks.

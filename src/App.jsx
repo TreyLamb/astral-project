@@ -23,6 +23,7 @@ import MymdbApp from './pages/mymdb/MymdbApp';
 import GitmonApp from './pages/gitmon/GitmonApp';
 import BashmonApp from './pages/bashmon/BashmonApp';
 import SignalLostApp from './pages/signal-lost/SignalLostApp';
+import PokeredApp from './pages/pokered/PokeredApp';
 import './App.css';
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Route path="/gitmon/*"     element={<GitmonApp />} />
           <Route path="/bashmon/*"    element={<BashmonApp />} />
           <Route path="/signal-lost/*" element={<SignalLostApp />} />
+          <Route path="/pokered/*"    element={<PokeredApp />} />
         </Routes>
       </div>
     </Router>

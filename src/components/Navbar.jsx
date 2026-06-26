@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
-const GAME_ROUTES = ['/bashmon', '/gitmon', '/signal-lost'];
+const GAME_ROUTES = ['/bashmon', '/gitmon', '/signal-lost', '/pokered'];
 
 function Navbar() {
   const location = useLocation();
@@ -46,6 +46,7 @@ function Navbar() {
               <li><Link to="/gitmon">🔵 Gitmon Blue</Link></li>
               <li><Link to="/bashmon">🔴 Bashmon Red</Link></li>
               <li><Link to="/signal-lost">📡 Signal Lost</Link></li>
+              <li><Link to="/pokered">🎮 Pokemon Red</Link></li>
               <li><a href="/rustioclone/index.html">Rustio Clone</a></li>
               <li><a href="/rustpunkio/index.html">RustPunkio</a></li>
             </ul>

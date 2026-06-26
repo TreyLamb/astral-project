@@ -1,0 +1,318 @@
+.pkr-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 70px);
+  background: #1a1a2e;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.pkr-screen {
+  position: relative;
+  display: inline-block;
+  border: 4px solid #4a4a6a;
+  border-radius: 4px;
+  box-shadow: 0 0 40px rgba(80, 100, 200, 0.3);
+  background: #000;
+}
+
+.pkr-canvas {
+  display: block;
+  /* 3x scale — pixelated for crisp Game Boy look */
+  width: 480px;
+  height: 432px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  /* Game Boy DMG green palette tint */
+  filter: sepia(20%) hue-rotate(70deg) saturate(180%) brightness(1.05);
+}
+
+.pkr-maplabel {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.75);
+  color: #c8c8a0;
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 2px;
+  pointer-events: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pkr-error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.9);
+  color: #ff6666;
+  font-family: monospace;
+  font-size: 11px;
+  padding: 10px 16px;
+  border-radius: 4px;
+  text-align: center;
+  max-width: 400px;
+}
+
+.pkr-encounter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.95);
+  border-top: 2px solid #6060a0;
+  padding: 10px 14px;
+  font-family: monospace;
+}
+
+.pkr-enc-msg {
+  color: #e0e0b0;
+  font-size: 11px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pkr-enc-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.pkr-enc-actions button {
+  background: #2a2a4a;
+  color: #c0c0e0;
+  border: 1px solid #5050a0;
+  padding: 4px 12px;
+  font-family: monospace;
+  font-size: 10px;
+  cursor: pointer;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+}
+
+.pkr-enc-actions button:hover {
+  background: #3a3a6a;
+}
+
+.pkr-dialogue {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: #0a0a0a;
+  border-top: 2px solid #6060a0;
+  padding: 10px 14px 8px;
+  cursor: pointer;
+  z-index: 8;
+}
+.pkr-dialogue-text {
+  color: #d0d0b0;
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  min-height: 28px;
+  white-space: pre-wrap;
+}
+.pkr-dialogue-tick {
+  display: block;
+  text-align: right;
+  color: #666;
+  font-size: 10px;
+  animation: blink 0.8s infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+.pkr-heal-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  background: rgba(0,0,0,0.92);
+  border-top: 2px solid #4488cc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  z-index: 9;
+}
+
+.pkr-heal-box {
+  color: #88ccff;
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.pkr-menu-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.pkr-menu-box {
+  background: #0d0d1a;
+  border: 2px solid #5a5aaa;
+  padding: 18px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 200px;
+}
+
+.pkr-menu-title {
+  color: #ffd700;
+  font-family: monospace;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.pkr-menu-extra-badge {
+  color: #888;
+  font-family: monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.pkr-menu-btn {
+  background: #1a1a2e;
+  border: 1px solid #4a4a6a;
+  color: #b0b0d0;
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 7px 12px;
+  cursor: pointer;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.pkr-menu-btn:hover { background: #2a2a4e; border-color: #7070aa; color: #fff; }
+
+.pkr-menu-home {
+  border-color: #aa3333;
+  color: #ff8888;
+  margin-top: 4px;
+}
+
+.pkr-menu-home:hover { background: #2e1a1a; border-color: #cc5555; color: #ffaaaa; }
+
+.pkr-menu-exit { color: #555; border-color: #333; margin-top: 4px; }
+.pkr-menu-exit:hover { background: #1a1a1a; border-color: #666; color: #aaa; }
+
+.pkr-menu-cursor { color: #ffd700; }
+.pkr-menu-selected { background: #1a1a3e; }
+
+.pkr-menu-wide { min-width: 260px; max-width: 300px; }
+
+.pkr-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #ffd700;
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.pkr-menu-back {
+  background: none;
+  border: none;
+  color: #888;
+  font-family: monospace;
+  font-size: 10px;
+  cursor: pointer;
+  padding: 0;
+}
+.pkr-menu-back:hover { color: #ccc; }
+
+.pkr-menu-empty {
+  color: #555;
+  font-family: monospace;
+  font-size: 10px;
+  padding: 6px 0;
+}
+
+.pkr-menu-mon {
+  border-bottom: 1px solid #1a1a2e;
+  padding: 6px 0;
+}
+.pkr-menu-mon-name {
+  font-family: monospace;
+  font-size: 11px;
+  color: #c0c0e0;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.pkr-menu-mon-lv { color: #888; font-size: 10px; }
+
+.pkr-menu-hprow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pkr-menu-hplabel { font-family: monospace; font-size: 9px; color: #888; width: 16px; }
+.pkr-menu-hptrack {
+  flex: 1;
+  height: 6px;
+  background: #222;
+  border: 1px solid #333;
+  overflow: hidden;
+}
+.pkr-menu-hpnum { font-family: monospace; font-size: 9px; color: #888; min-width: 44px; text-align: right; }
+
+.pkr-menu-item {
+  font-family: monospace;
+  font-size: 11px;
+  color: #c0c0e0;
+  text-transform: uppercase;
+  padding: 5px 0;
+  border-bottom: 1px solid #1a1a2e;
+}
+.pkr-menu-item-count { color: #888; }
+
+.pkr-menu-trainer-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: monospace;
+  font-size: 11px;
+  color: #c0c0e0;
+  text-transform: uppercase;
+  padding: 5px 0;
+  border-bottom: 1px solid #1a1a2e;
+}
+
+.pkr-controls {
+  margin-top: 12px;
+  color: #5a5a7a;
+  font-family: monospace;
+  font-size: 10px;
+  text-align: center;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.pkr-mapname {
+  color: #7070a0;
+}

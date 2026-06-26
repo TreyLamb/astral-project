@@ -123,13 +123,14 @@
 .bm-overworld { display: flex; flex-direction: column; min-height: calc(100vh - var(--nav-h, 70px)); background: #140202; }
 .bm-ow-header { background: #0a0101; border-bottom: 1px solid rgba(255,107,53,0.15); padding: 5px 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.38rem; color: #aaa; }
 .bm-ow-town   { color: #ff6b35; }
+/* Base map: used by SHOP / CENTER / GYM / PARTY / EVENT screens */
 .bm-ow-map    { flex: 1; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
 .bm-ow-desc   { font-size: 13px; color: #ccc; line-height: 1.8; margin-bottom: 6px; }
 .bm-ow-actions { display: flex; flex-direction: column; gap: 4px; }
 .bm-ow-btn {
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 3px;
-  color: #e0e0e0; font-family: 'Press Start 2P', monospace; font-size: 13px;
-  padding: 10px 12px; cursor: pointer; text-align: left; transition: background 0.1s;
+  color: #e0e0e0; font-family: 'Press Start 2P', monospace; font-size: 0.4rem;
+  padding: 8px 10px; cursor: pointer; text-align: left; transition: background 0.1s;
 }
 .bm-ow-btn::before { content: '▶ '; color: #ff6b35; }
 .bm-ow-btn:hover   { background: rgba(255,255,255,0.08); }
@@ -139,6 +140,172 @@
 .bm-ow-log    { font-size: 13px; color: #ffd700; margin-top: 6px; line-height: 1.8; }
 .bm-qty-btn   { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #aaa; font-family: 'Press Start 2P',monospace; font-size: 11px; padding: 3px 8px; cursor: pointer; border-radius: 2px; }
 .bm-qty-val   { font-size: 11px; color: #e0e0e0; min-width: 14px; text-align: center; }
+
+/* ── VISUAL MAP (TOWN screen only) ── */
+/* Override the base .bm-ow-map layout for the visual world view */
+.bm-ow-map.bm-ow-map--visual {
+  padding: 0;
+  position: relative;
+  height: 360px;
+  flex: 0 0 360px;
+  overflow: hidden;
+  border: 2px solid #333;
+  display: block; /* override flex-column from base */
+}
+
+.bm-ow-location-name {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.72);
+  color: #ffd700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.4rem;
+  font-family: 'Press Start 2P', monospace;
+  z-index: 20;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Overworld player sprite — separate from battle .bm-player-sprite */
+.bm-ow-player-sprite {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  transition: left 0.08s linear, top 0.08s linear;
+  z-index: 10;
+  pointer-events: none;
+  transform: translate(-50%, -80%);
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.9));
+}
+.bm-ow-player-pin {
+  width: 18px;
+  height: 18px;
+  background: #ff6b35;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255,107,53,0.9);
+  transform: translate(-50%, -50%);
+}
+
+/* Action buttons overlay on the visual map */
+.bm-ow-map--visual .bm-ow-actions {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 20;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+/* D-pad */
+.bm-ow-dpad {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  display: grid;
+  grid-template-columns: 32px 32px 32px;
+  grid-template-rows: 32px 32px 32px;
+  gap: 2px;
+  z-index: 20;
+}
+.bm-ow-dpad-btn {
+  background: rgba(0,0,0,0.62);
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  user-select: none;
+}
+.bm-ow-dpad-btn:active { background: rgba(255,107,53,0.3); }
+.bm-dpad-up    { grid-column: 2; grid-row: 1; }
+.bm-dpad-left  { grid-column: 1; grid-row: 2; }
+.bm-dpad-right { grid-column: 3; grid-row: 2; }
+.bm-dpad-down  { grid-column: 2; grid-row: 3; }
+
+/* Overworld flash message (above cmd bar) */
+.bm-ow-msg {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.88);
+  color: #7ec8e3;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.38rem;
+  z-index: 30;
+  pointer-events: none;
+  max-width: 80%;
+  text-align: center;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Log shown on the visual map (walk/encounter messages) */
+.bm-ow-log--map {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0,0,0,0.75);
+  color: #ffd700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.35rem;
+  z-index: 25;
+  pointer-events: none;
+  max-width: 50%;
+  text-align: right;
+}
+
+/* Command bar at the bottom of the TOWN screen */
+.bm-ow-cmd-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: #0a0a0a;
+  border-top: 2px solid #333;
+  flex-shrink: 0;
+}
+.bm-ow-cmd-prompt {
+  color: #4caf50;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  flex-shrink: 0;
+}
+.bm-ow-cmd-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e0e0e0;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  caret-color: #4caf50;
+  min-width: 0;
+}
+.bm-ow-cmd-input::placeholder { color: rgba(255,255,255,0.25); }
+.bm-ow-cmd-mon {
+  font-size: 0.32rem;
+  color: #888;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
 
 /* ── PARTY ── */
 .bm-party-list { display: flex; flex-direction: column; gap: 4px; padding: 8px; }
@@ -170,3 +337,65 @@
 .bm-type-SYSTEM  { background: #8a1a1a; color: #ffe0e0; }
 
 .bm-press-a { font-size: 14px; color: rgba(255,255,255,0.4); animation: bm-blink 1s step-end infinite; margin-top: 4px; }
+
+/* ── MAP TRANSITION FADE ── */
+.bm-ow-map--visual {
+  transition: opacity 0.3s ease;
+}
+.bm-ow-map--fading {
+  opacity: 0.15;
+}
+
+/* ── EXIT INDICATORS ── */
+.bm-exit-ind {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.75);
+  color: #ccc;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 3px 8px;
+  font-size: 0.45rem;
+  font-family: 'Press Start 2P', monospace;
+  pointer-events: auto;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  z-index: 5;
+  user-select: none;
+}
+.bm-exit-ind--near {
+  color: #ff6b35;
+  border-color: rgba(255, 107, 53, 0.7);
+  background: rgba(0, 0, 0, 0.9);
+}
+.bm-exit-ind:hover {
+  color: #ff6b35;
+  border-color: rgba(255, 107, 53, 0.5);
+}
+
+/* ── BUILDING ROW ── */
+.bm-ow-buildings {
+  display: flex;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #0d0d0d;
+  border-top: 1px solid #333;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+.bm-bld-btn {
+  background: #1a1a2e;
+  border: 1px solid #555;
+  color: #ccc;
+  padding: 4px 10px;
+  font-size: 0.5rem;
+  font-family: 'Press Start 2P', monospace;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.1s;
+}
+.bm-bld-btn:hover {
+  background: #ff6b35;
+  color: white;
+  border-color: #ff6b35;
+}

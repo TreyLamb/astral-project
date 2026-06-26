@@ -12,7 +12,14 @@
       "pp": 30,
       "description": "Scans the battlefield. Always hits. Reveals enemy info.",
       "effect": "reveal_info",
-      "hint": "Type: ls  or  ls -la"
+      "hint": "Type: ls  or  ls -la",
+      "challenge": {
+        "enemyText": "The enemy scans your filesystem with a rapid directory sweep!",
+        "playerPrompt": "List all files in the current directory",
+        "validCommands": ["ls", "ls -la", "ls -l", "ls -a", "ls -lh", "ls -lA"],
+        "tutorialText": "ls lists files and directories. Use ls -la to see hidden files (starting with .) and detailed permissions.",
+        "realWorldExample": "ls -la ~/Documents shows all files including hidden ones in your Documents folder"
+      }
     },
     {
       "id": "cat_read",
@@ -26,7 +33,14 @@
       "pp": 25,
       "description": "Reads the enemy's secrets. Reliable single-target damage.",
       "effect": null,
-      "hint": "Type: cat filename"
+      "hint": "Type: cat filename",
+      "challenge": {
+        "enemyText": "The enemy reads your config file and learns your secrets!",
+        "playerPrompt": "Display the contents of a file called 'config.txt'",
+        "validCommands": ["cat config.txt", "cat", "cat -n config.txt"],
+        "tutorialText": "cat prints file contents to your terminal. Add -n to see line numbers. Used constantly for reading logs and config files.",
+        "realWorldExample": "cat /etc/hosts shows your system's hostname-to-IP mappings"
+      }
     },
     {
       "id": "echo_shout",
@@ -40,7 +54,14 @@
       "pp": 25,
       "description": "Shouts a command into the void. Echoes through the filesystem.",
       "effect": null,
-      "hint": "Type: echo anything"
+      "hint": "Type: echo anything",
+      "challenge": {
+        "enemyText": "The enemy broadcasts a message to all terminals!",
+        "playerPrompt": "Print the message 'Hello World' to the terminal",
+        "validCommands": ["echo Hello World", "echo 'Hello World'", "echo \"Hello World\"", "echo"],
+        "tutorialText": "echo prints text to the terminal. Used in scripts to show messages, create files with >, and debug variable values.",
+        "realWorldExample": "echo $HOME shows the path of your home directory"
+      }
     },
     {
       "id": "mkdir_build",
@@ -54,7 +75,14 @@
       "pp": 20,
       "description": "Builds a defensive structure. Medium power, no frills.",
       "effect": null,
-      "hint": "Type: mkdir dirname"
+      "hint": "Type: mkdir dirname",
+      "challenge": {
+        "enemyText": "The enemy constructs a new directory fortress!",
+        "playerPrompt": "Create a new directory called 'projects'",
+        "validCommands": ["mkdir projects", "mkdir -p projects", "mkdir"],
+        "tutorialText": "mkdir creates new directories. Use mkdir -p to create nested directories at once (mkdir -p a/b/c).",
+        "realWorldExample": "mkdir -p ~/code/myproject/src creates the full path even if parent dirs don't exist"
+      }
     },
     {
       "id": "mv_slide",
@@ -68,7 +96,14 @@
       "pp": 15,
       "description": "Moves the attack sideways — hard to dodge, hard power.",
       "effect": null,
-      "hint": "Type: mv src dst"
+      "hint": "Type: mv src dst",
+      "challenge": {
+        "enemyText": "The enemy slides a file across the filesystem!",
+        "playerPrompt": "Move (or rename) a file from 'old.txt' to 'new.txt'",
+        "validCommands": ["mv old.txt new.txt", "mv"],
+        "tutorialText": "mv moves OR renames files. mv file.txt backup/ moves it to a folder. mv old.txt new.txt renames it.",
+        "realWorldExample": "mv report_draft.txt report_final.txt renames your draft to final"
+      }
     },
     {
       "id": "cp_copy",
@@ -82,7 +117,14 @@
       "pp": 20,
       "description": "Duplicates the attack force. Hits twice — once for each copy.",
       "effect": null,
-      "hint": "Type: cp src dst"
+      "hint": "Type: cp src dst",
+      "challenge": {
+        "enemyText": "The enemy duplicates your data with a swift copy!",
+        "playerPrompt": "Copy a file called 'data.txt' to 'backup.txt'",
+        "validCommands": ["cp data.txt backup.txt", "cp -r data.txt backup.txt", "cp"],
+        "tutorialText": "cp copies files. Use cp -r to copy entire directories recursively. Always copy before editing important files.",
+        "realWorldExample": "cp -r myproject/ myproject_backup/ creates a full backup of your project folder"
+      }
     },
     {
       "id": "rm_erase",
@@ -96,7 +138,14 @@
       "pp": 15,
       "description": "Deletes the enemy data block. Permanent and devastating.",
       "effect": null,
-      "hint": "Type: rm filename"
+      "hint": "Type: rm filename",
+      "challenge": {
+        "enemyText": "The enemy erases critical files from your system!",
+        "playerPrompt": "Remove a file called 'temp.txt'",
+        "validCommands": ["rm temp.txt", "rm -f temp.txt", "rm"],
+        "tutorialText": "rm permanently deletes files (no recycle bin!). Use rm -r for directories. NEVER run rm -rf / (deletes everything).",
+        "realWorldExample": "rm -r build/ cleans up your compiled output folder before a fresh build"
+      }
     },
     {
       "id": "grep_hunt",
@@ -110,7 +159,14 @@
       "pp": 15,
       "description": "Hunts for vulnerabilities in the enemy. High power, slightly unreliable.",
       "effect": null,
-      "hint": "Type: grep pattern file"
+      "hint": "Type: grep pattern file",
+      "challenge": {
+        "enemyText": "The enemy hunts through your logs for your secrets!",
+        "playerPrompt": "Search for the word 'error' inside a file called 'app.log'",
+        "validCommands": ["grep error app.log", "grep -i error app.log", "grep -n error app.log", "grep"],
+        "tutorialText": "grep searches for patterns inside files. -i ignores case, -n shows line numbers, -r searches entire directories.",
+        "realWorldExample": "grep -r 'TODO' src/ finds every TODO comment in your source code"
+      }
     },
     {
       "id": "find_seek",
@@ -124,7 +180,14 @@
       "pp": 10,
       "description": "Seeks deep into the system. High power but takes concentration.",
       "effect": null,
-      "hint": "Type: find . or find /path"
+      "hint": "Type: find . or find /path",
+      "challenge": {
+        "enemyText": "The enemy searches the entire filesystem for your hidden files!",
+        "playerPrompt": "Find all files named 'readme.md' starting from the current directory",
+        "validCommands": ["find . -name readme.md", "find . -name 'readme.md'", "find . -iname readme.md", "find"],
+        "tutorialText": "find locates files by name, type, size, or date. Searches recursively. Extremely powerful for finding things fast.",
+        "realWorldExample": "find . -name '*.log' -mtime +7 finds all log files older than 7 days"
+      }
     },
     {
       "id": "ps_spy",
@@ -138,7 +201,14 @@
       "pp": 30,
       "description": "Spies on enemy processes. Always hits. Reveals info.",
       "effect": "reveal_info",
-      "hint": "Type: ps  or  ps aux"
+      "hint": "Type: ps  or  ps aux",
+      "challenge": {
+        "enemyText": "The enemy spies on all running processes in your system!",
+        "playerPrompt": "List all currently running processes",
+        "validCommands": ["ps", "ps aux", "ps -ef", "ps -a"],
+        "tutorialText": "ps shows running processes. ps aux shows ALL processes with CPU/memory usage. Combine with grep to find specific programs.",
+        "realWorldExample": "ps aux | grep node finds any running Node.js processes on your machine"
+      }
     },
     {
       "id": "kill_shot",
@@ -152,7 +222,14 @@
       "pp": 10,
       "description": "Sends SIGKILL to the target process. Devastating but hard to land.",
       "effect": null,
-      "hint": "Type: kill 1234 (any number)"
+      "hint": "Type: kill 1234 (any number)",
+      "challenge": {
+        "enemyText": "The enemy terminates one of your essential processes!",
+        "playerPrompt": "Kill the process with PID 1234",
+        "validCommands": ["kill 1234", "kill -9 1234", "kill -15 1234"],
+        "tutorialText": "kill sends signals to processes. kill PID is a polite stop request. kill -9 PID is a force kill. Use ps to find the PID first.",
+        "realWorldExample": "kill -9 $(lsof -t -i:3000) force-kills whatever is running on port 3000"
+      }
     },
     {
       "id": "bg_hide",
@@ -166,7 +243,14 @@
       "pp": 20,
       "description": "Hides in the background. Raises Defense by one stage.",
       "effect": "raise_defense",
-      "hint": "Type: bg"
+      "hint": "Type: bg",
+      "challenge": {
+        "enemyText": "The enemy sends a process to hide in the background!",
+        "playerPrompt": "Resume a stopped job and run it in the background",
+        "validCommands": ["bg", "bg %1", "bg %2"],
+        "tutorialText": "bg resumes a paused job in the background. Use Ctrl+Z to pause a running program, then bg to resume it backgrounded. fg brings it back.",
+        "realWorldExample": "Run a long task, Ctrl+Z to pause it, bg to resume it while you do other work"
+      }
     },
     {
       "id": "pipe_combo",
@@ -180,7 +264,14 @@
       "pp": 8,
       "description": "Chains two commands together. Massive chained damage.",
       "effect": null,
-      "hint": "Type: anything | anything (e.g. ls | grep txt)"
+      "hint": "Type: anything | anything (e.g. ls | grep txt)",
+      "challenge": {
+        "enemyText": "The enemy chains commands together in a devastating pipeline!",
+        "playerPrompt": "List all files and pipe the output to grep to find ones named 'log'",
+        "validCommands": ["ls | grep log", "ls -la | grep log", "ps aux | grep", "cat file.txt | grep error"],
+        "tutorialText": "The pipe | sends the output of one command as input to another. This is one of bash's most powerful features for combining tools.",
+        "realWorldExample": "ps aux | grep python | grep -v grep shows only Python processes, excluding the grep itself"
+      }
     },
     {
       "id": "ping_probe",
@@ -194,7 +285,14 @@
       "pp": 20,
       "description": "Probes the enemy with network packets. Reliable mid-range move.",
       "effect": null,
-      "hint": "Type: ping hostname"
+      "hint": "Type: ping hostname",
+      "challenge": {
+        "enemyText": "The enemy probes your network with diagnostic packets!",
+        "playerPrompt": "Check if google.com is reachable on the network",
+        "validCommands": ["ping google.com", "ping -c 4 google.com", "ping -c 1 google.com", "ping"],
+        "tutorialText": "ping tests network connectivity by sending packets to a host. Use -c to limit the number of packets. Great for debugging network issues.",
+        "realWorldExample": "ping -c 3 8.8.8.8 checks if Google's DNS server is reachable (good basic connectivity test)"
+      }
     },
     {
       "id": "curl_pull",
@@ -208,7 +306,14 @@
       "pp": 15,
       "description": "Pulls data from the enemy server. Solid NETWORK attack.",
       "effect": null,
-      "hint": "Type: curl url"
+      "hint": "Type: curl url",
+      "challenge": {
+        "enemyText": "The enemy pulls data from a remote server at high speed!",
+        "playerPrompt": "Fetch the content of https://example.com",
+        "validCommands": ["curl https://example.com", "curl -s https://example.com", "curl -L https://example.com", "curl"],
+        "tutorialText": "curl makes HTTP requests from the terminal. -s is silent mode, -L follows redirects, -o saves to file. Used constantly for APIs and downloads.",
+        "realWorldExample": "curl -s https://api.github.com/users/octocat shows a GitHub user's profile as JSON"
+      }
     },
     {
       "id": "wget_fetch",
@@ -222,7 +327,14 @@
       "pp": 12,
       "description": "Downloads the enemy's HP directly. Relentless fetching attack.",
       "effect": null,
-      "hint": "Type: wget url"
+      "hint": "Type: wget url",
+      "challenge": {
+        "enemyText": "The enemy downloads an entire website to their server!",
+        "playerPrompt": "Download a file from https://example.com/file.zip",
+        "validCommands": ["wget https://example.com/file.zip", "wget -q https://example.com/file.zip", "wget"],
+        "tutorialText": "wget downloads files from the internet. Unlike curl, it saves to disk by default. Use -r to mirror entire websites.",
+        "realWorldExample": "wget https://nodejs.org/dist/v20.0.0/node-v20.0.0.tar.gz downloads the Node.js source"
+      }
     },
     {
       "id": "ssh_connect",
@@ -236,7 +348,14 @@
       "pp": 12,
       "description": "Opens an encrypted tunnel through the enemy's defenses.",
       "effect": null,
-      "hint": "Type: ssh hostname"
+      "hint": "Type: ssh hostname",
+      "challenge": {
+        "enemyText": "The enemy opens an encrypted tunnel to a remote server!",
+        "playerPrompt": "Connect to a remote server at user@192.168.1.100",
+        "validCommands": ["ssh user@192.168.1.100", "ssh user@hostname", "ssh -p 22 user@192.168.1.100", "ssh"],
+        "tutorialText": "ssh opens a secure encrypted shell on a remote machine. Uses port 22 by default. Use SSH keys instead of passwords for security.",
+        "realWorldExample": "ssh deploy@myserver.com connects you to your production server's terminal"
+      }
     },
     {
       "id": "chmod_lock",
@@ -250,7 +369,14 @@
       "pp": 10,
       "description": "Locks down the enemy's permissions. Crushing SYSTEM-type blow.",
       "effect": null,
-      "hint": "Type: chmod 755 file"
+      "hint": "Type: chmod 755 file",
+      "challenge": {
+        "enemyText": "The enemy locks down file permissions to block your access!",
+        "playerPrompt": "Make a script called 'run.sh' executable",
+        "validCommands": ["chmod +x run.sh", "chmod 755 run.sh", "chmod 700 run.sh", "chmod u+x run.sh", "chmod"],
+        "tutorialText": "chmod changes file permissions. chmod +x makes a file executable. 755 = owner can do everything, others can read/execute. 644 = standard file.",
+        "realWorldExample": "chmod +x deploy.sh lets you run your deployment script with ./deploy.sh"
+      }
     },
     {
       "id": "sudo_power",
@@ -264,7 +390,14 @@
       "pp": 8,
       "description": "Unleashes root-level destruction. The strongest move in the terminal.",
       "effect": null,
-      "hint": "Type: sudo anything (e.g. sudo rm -rf)"
+      "hint": "Type: sudo anything (e.g. sudo rm -rf)",
+      "challenge": {
+        "enemyText": "The enemy invokes root-level system privileges!",
+        "playerPrompt": "Run the command 'apt update' with administrator privileges",
+        "validCommands": ["sudo apt update", "sudo apt-get update", "sudo", "sudo -i"],
+        "tutorialText": "sudo runs commands as the superuser (root). Required for installing software, editing system files, and managing services. Use with caution.",
+        "realWorldExample": "sudo systemctl restart nginx restarts your web server with admin privileges"
+      }
     },
     {
       "id": "export_boost",
@@ -278,7 +411,14 @@
       "pp": 20,
       "description": "Exports a power variable. Raises Attack by one stage.",
       "effect": "raise_attack",
-      "hint": "Type: export KEY=value"
+      "hint": "Type: export KEY=value",
+      "challenge": {
+        "enemyText": "The enemy injects a variable into the global environment!",
+        "playerPrompt": "Set an environment variable called PATH_PREFIX to '/usr/local/bin'",
+        "validCommands": ["export PATH_PREFIX=/usr/local/bin", "export PATH_PREFIX='/usr/local/bin'", "export"],
+        "tutorialText": "export sets environment variables that are available to the current shell AND child processes. Variables without export are only in the current shell.",
+        "realWorldExample": "export NODE_ENV=production tells your Node.js app to run in production mode"
+      }
     }
   ]
 }

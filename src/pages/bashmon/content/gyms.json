@@ -6,6 +6,7 @@
       "town": "pewter_city",
       "leaderName": "Brock",
       "leaderTitle": "The Rock-Solid Trainer",
+      "leaderSprite": "https://archives.bulbagarden.net/media/upload/0/07/Spr_G_Brock.png",
       "badge": "Boulder Badge",
       "badgeIcon": "🪨",
       "requiredCommands": ["ls", "ls -la", "cat <file>", "echo <text>"],
@@ -24,16 +25,17 @@
       "town": "cerulean_city",
       "leaderName": "Misty",
       "leaderTitle": "The Tomboyish Mermaid",
+      "leaderSprite": "https://archives.bulbagarden.net/media/upload/7/76/Spr_G_Misty.png",
       "badge": "Cascade Badge",
       "badgeIcon": "💧",
       "requiredCommands": ["find <path>", "mkdir <dir>", "rm <file>", "mv <src> <dst>"],
       "commandCurriculum": ["find_seek", "mkdir_build", "rm_erase", "mv_slide"],
-      "introText": "Misty tosses her hair. 'I prefer cute things — like my NETWORK Bashmon. But don't mistake cute for weak. Prepare yourself!'",
-      "winText": "Misty hands over the Cascade Badge. 'You're better than I expected. Your file navigation is impressive. Keep pushing north!'",
+      "introText": "Misty tosses her hair. 'I like directory management — navigating the filesystem is an art. find, mkdir, mv, rm: that's my toolkit. Show me you can keep up!'",
+      "winText": "Misty hands over the Cascade Badge. 'You really know your way around a filesystem. The Cascade Badge is yours. Now — keep heading east!'",
       "team": [
-        { "pokemonId": "tentacool", "level": 14, "moves": ["ping_probe", "curl_pull"] },
-        { "pokemonId": "pidgeotto", "level": 14, "moves": ["ls_scan", "find_seek", "cat_read"] },
-        { "pokemonId": "golbat", "level": 17, "moves": ["ping_probe", "ssh_connect"] }
+        { "pokemonId": "nidoran-f", "level": 13, "moves": ["echo_shout", "mkdir_build"] },
+        { "pokemonId": "nidoran-m", "level": 15, "moves": ["echo_shout", "find_seek", "mkdir_build"] },
+        { "pokemonId": "clefairy", "level": 18, "moves": ["mkdir_build", "find_seek", "mv_slide"] }
       ],
       "requiredBadges": 1
     },
@@ -43,16 +45,17 @@
       "town": "vermilion_city",
       "leaderName": "Lt. Surge",
       "leaderTitle": "The Lightning American",
+      "leaderSprite": "https://archives.bulbagarden.net/media/upload/8/8c/Spr_G_Lt_Surge.png",
       "badge": "Thunder Badge",
       "badgeIcon": "⚡",
-      "requiredCommands": ["grep <pattern> <file>", "find <path>", "cat <file>"],
+      "requiredCommands": ["grep <pattern> <file>", "grep -i", "grep -n", "find <path>"],
       "commandCurriculum": ["grep_hunt", "find_seek", "cat_read"],
-      "introText": "Lt. Surge cracks his knuckles. 'In the war, we used bash to coordinate strikes. Grep saved my life! Think you can match my search power?'",
-      "winText": "Lt. Surge salutes. 'Pattern matched, soldier. The Thunder Badge is yours. grep is mightier than the sword!'",
+      "introText": "Lt. Surge cracks his knuckles. 'In the field, we used grep to scan logs under fire. Pattern matching saved lives! Think you can match my search power?'",
+      "winText": "Lt. Surge salutes. 'Pattern matched, soldier! The Thunder Badge is yours. grep is mightier than the sword — remember that!'",
       "team": [
-        { "pokemonId": "rattata", "level": 22, "moves": ["ps_spy", "kill_shot"] },
-        { "pokemonId": "fearow", "level": 23, "moves": ["find_seek", "grep_hunt"] },
-        { "pokemonId": "raticate", "level": 25, "moves": ["grep_hunt", "find_seek", "kill_shot"] }
+        { "pokemonId": "spearow", "level": 20, "moves": ["find_seek", "grep_hunt"] },
+        { "pokemonId": "fearow", "level": 23, "moves": ["grep_hunt", "find_seek"] },
+        { "pokemonId": "raticate", "level": 26, "moves": ["grep_hunt", "find_seek", "cat_read"] }
       ],
       "requiredBadges": 2
     },
@@ -62,6 +65,7 @@
       "town": "celadon_city",
       "leaderName": "Erika",
       "leaderTitle": "The Nature-Loving Princess",
+      "leaderSprite": "https://archives.bulbagarden.net/media/upload/0/09/Spr_G_Erika.png",
       "badge": "Rainbow Badge",
       "badgeIcon": "🌸",
       "requiredCommands": ["ps", "ps aux", "kill <PID>", "bg"],
@@ -70,8 +74,8 @@
       "winText": "Erika smiles softly. 'How elegant. The Rainbow Badge is yours. A calm mind and sharp ps skills will take you far.'",
       "team": [
         { "pokemonId": "mankey", "level": 30, "moves": ["ps_spy", "kill_shot"] },
-        { "pokemonId": "voltorb", "level": 32, "moves": ["ps_spy", "pipe_combo"] },
-        { "pokemonId": "primeape", "level": 34, "moves": ["ps_spy", "kill_shot", "pipe_combo"] }
+        { "pokemonId": "primeape", "level": 32, "moves": ["ps_spy", "bg_hide"] },
+        { "pokemonId": "raticate", "level": 34, "moves": ["ps_spy", "kill_shot", "bg_hide"] }
       ],
       "requiredBadges": 3
     },
@@ -81,6 +85,7 @@
       "town": "fuchsia_city",
       "leaderName": "Koga",
       "leaderTitle": "The Poisonous Ninja Master",
+      "leaderSprite": "https://archives.bulbagarden.net/media/upload/7/77/Spr_G_Koga.png",
       "badge": "Soul Badge",
       "badgeIcon": "🌐",
       "requiredCommands": ["ping <host>", "curl <url>", "ssh <host>", "wget <url>"],
@@ -100,6 +105,7 @@
       "town": "saffron_city",
       "leaderName": "Sabrina",
       "leaderTitle": "The Master of Psychic Power",
+      "leaderSprite": "https://archives.bulbagarden.net/media/upload/0/02/Spr_G_Sabrina.png",
       "badge": "Marsh Badge",
       "badgeIcon": "👑",
       "requiredCommands": ["sudo <cmd>", "chmod <mode> <file>", "export VAR=value"],
@@ -119,6 +125,7 @@
       "town": "cinnabar_island",
       "leaderName": "Blaine",
       "leaderTitle": "The Blazing Volcano Master",
+      "leaderSprite": "https://archives.bulbagarden.net/media/upload/e/ef/Spr_G_Blaine.png",
       "badge": "Volcano Badge",
       "badgeIcon": "🔗",
       "requiredCommands": ["cmd | cmd", "grep | grep", "ps aux | grep"],
@@ -138,6 +145,7 @@
       "town": "viridian_city",
       "leaderName": "Giovanni",
       "leaderTitle": "The Boss of Team Rocket",
+      "leaderSprite": "https://archives.bulbagarden.net/media/upload/6/6c/Spr_G_Giovanni.png",
       "badge": "Earth Badge",
       "badgeIcon": "💻",
       "requiredCommands": ["sudo <cmd>", "cmd | cmd", "find <path>", "chmod <mode> <file>"],
