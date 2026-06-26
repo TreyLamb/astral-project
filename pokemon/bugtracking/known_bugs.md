@@ -16,3 +16,5 @@
 14. Elite Four: player stuck, cannot navigate room or test doorways — low priority
 15. MUltiple VERSIONS OF oak in pallet town. 1. this shows that continuinty is problematic and that 2. ANY NPcs who have movement roles in the game are going to be duplicated later.
 16. Sub-tile sprite/tile alignment still slightly off — items on tables, tile graphics a few px high. Root cause suspected: `camX` still has `+ TILE` offset while `camY` was fixed to not have it (asymmetry). To investigate: try `camX = px - GB_W/2` and re-add `-8` to sprite sx to compensate. Low-med priority.
+17 - light tap to turn character (instead of any-tap will move the character)
+18 - up

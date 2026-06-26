@@ -13574,13 +13574,13 @@
         {
           "x": 8,
           "y": 0,
-          "dest": "LAST_MAP",
+          "dest": "ROUTE_2",
           "warpIdx": 2
         },
         {
           "x": 10,
           "y": 0,
-          "dest": "LAST_MAP",
+          "dest": "ROUTE_2",
           "warpIdx": 2
         },
         {

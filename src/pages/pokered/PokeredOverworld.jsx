@@ -28,7 +28,7 @@ function loadSpriteTransparent(src) {
 }
 const GB_W = 160;
 const GB_H = 144;
-const WALK_SPD = 8;   // tiles per second
+const WALK_SPD = 4;   // tiles per second (each step = 2 tiles = 16px, matching Gen1 movement speed)
 
 const DIR_DOWN  = 0;
 const DIR_UP    = 1;
@@ -88,7 +88,9 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     if (!ms) return false;
     const bx = Math.floor(tx / 4), by = Math.floor(ty / 4);
     if (bx < 0 || by < 0 || bx >= ms.mapInfo.w || by >= ms.mapInfo.h) return false;
-    const tileId = getTileId(tx, ty);
+    // Check the tile one column right — this is the Gen 1 collision representative
+    // for the 2x2 movement tile (offset (1,0) within the top-left graphical tile).
+    const tileId = getTileId(tx + 1, ty);
     const walkable = gameDataRef.current?.collision[ms.mapInfo.tileset] || [];
     return walkable.includes(tileId);
   }
@@ -130,26 +132,10 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
 
       mapStateRef.current = { mapId, mapInfo, blocks: new Uint8Array(blkBuf), blockset: new Uint8Array(bstBuf), tilesetImg: img };
 
-      // Position player — if landing tile is blocked, find nearest walkable tile
+      // Position player at warp destination exactly — coordinates from game_data are always even
       if (entryX !== null && entryY !== null) {
-        let lx = entryX, ly = entryY;
-        const walkSet = gd.collision[mapInfo.tileset] || [];
-        function tileAt(tx, ty) {
-          const bx = Math.floor(tx/4), by = Math.floor(ty/4);
-          if (bx<0||by<0||bx>=mapInfo.w||by>=mapInfo.h) return -1;
-          const bid = new Uint8Array(blkBuf)[by*mapInfo.w+bx];
-          return new Uint8Array(bstBuf)[bid*16+(ty%4)*4+(tx%4)];
-        }
-        if (!walkSet.includes(tileAt(lx, ly))) {
-          // Scan outward: below, above, sides, diagonals
-          const offsets = [[0,1],[0,-1],[-1,0],[1,0],[0,2],[1,1],[-1,1],[1,-1],[-1,-1]];
-          for (const [ox,oy] of offsets) {
-            const cx = lx+ox, cy = ly+oy;
-            if (walkSet.includes(tileAt(cx, cy))) { lx = cx; ly = cy; break; }
-          }
-        }
-        playerRef.current = { ...playerRef.current, x: lx, y: ly, isWalking: false, walkProg: 0, dx: 0, dy: 0 };
-        if (onMapChange) onMapChange(mapId, lx, ly);
+        playerRef.current = { ...playerRef.current, x: entryX, y: entryY, isWalking: false, walkProg: 0, dx: 0, dy: 0 };
+        if (onMapChange) onMapChange(mapId, entryX, entryY);
       }
       setMapLabel(mapId.replace(/_/g, ' '));
       setLoadError(null);
@@ -192,19 +178,17 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
       if (!lastId) return;
       const lastInfo = gd?.maps[lastId];
       if (!lastInfo) return;
-      const destWarp = lastInfo.warps[warp.warpIdx - 1] || { x: 5, y: 5 };
-      pendingMapRef.current = { mapId: lastId, x: destWarp.x, y: destWarp.y + 1 };
+      const destWarp = lastInfo.warps[warp.warpIdx - 1] || { x: 6, y: 6 };
+      pendingMapRef.current = { mapId: lastId, x: destWarp.x, y: destWarp.y };
       transitionRef.current = 1;
       return;
     }
     const destInfo = gd?.maps[warp.dest];
     if (!destInfo) return;
-    const destWarp = destInfo.warps[warp.warpIdx - 1] || { x: 5, y: 5 };
-    // Outdoor destinations (overworld/forest/plateau): spawn one step south of the door (+1).
-    // Indoor destinations (buildings/caves): spawn one step north of the corresponding
-    // warp tile (-1) so the player can walk south to exit naturally.
-    const destOutdoor = ['overworld','forest','plateau'].includes(destInfo.tileset);
-    pendingMapRef.current = { mapId: warp.dest, x: destWarp.x, y: destWarp.y + (destOutdoor ? 1 : -1) };
+    const destWarp = destInfo.warps[warp.warpIdx - 1] || { x: 6, y: 6 };
+    // Spawn exactly on the destination warp tile — checkNewTile only fires on step completion,
+    // not on spawn, so no immediate re-trigger loop.
+    pendingMapRef.current = { mapId: warp.dest, x: destWarp.x, y: destWarp.y };
     transitionRef.current = 1;
   }
 
@@ -221,12 +205,12 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     const dTW = destInfo.w * 4, dTH = destInfo.h * 4;
     let nx = p.x - conn.offset * 4;
     let ny = p.y - conn.offset * 4;
-    if (dir === 'north')      { ny = dTH - 3; nx = p.x - conn.offset * 4; }
+    if (dir === 'north')      { ny = dTH - 4; nx = p.x - conn.offset * 4; }
     else if (dir === 'south') { ny = 2;        nx = p.x - conn.offset * 4; }
-    else if (dir === 'west')  { nx = dTW - 3; ny = p.y - conn.offset * 4; }
+    else if (dir === 'west')  { nx = dTW - 4; ny = p.y - conn.offset * 4; }
     else if (dir === 'east')  { nx = 2;        ny = p.y - conn.offset * 4; }
-    nx = Math.max(1, Math.min(dTW - 2, nx));
-    ny = Math.max(1, Math.min(dTH - 2, ny));
+    nx = Math.max(2, Math.min(dTW - 4, nx));
+    ny = Math.max(2, Math.min(dTH - 4, ny));
 
     pendingMapRef.current = { mapId: conn.to, x: nx, y: ny };
     transitionRef.current = 1;
@@ -244,12 +228,10 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
       const isOutdoor = OUTDOOR_TS.includes(ms.mapInfo.tileset);
       const isLastMap = warp.dest === 'LAST_MAP';
       const approachDy = p.dir === DIR_DOWN ? 1 : p.dir === DIR_UP ? -1 : 0;
-      // Outdoor map (building entrance): player walks north to enter → approachDy === -1
-      // LAST_MAP (indoor exit door): player walks south to exit → approachDy === 1
-      // Indoor staircase (floor↔floor): fire regardless of direction
-      const shouldFire = isOutdoor ? approachDy === -1 :
-                         isLastMap ? approachDy === 1 :
-                         true;
+      // Outdoor map (building entrance): fire when walking north into it
+      // LAST_MAP: always fire — they sit at map edges, stepping on them always means exiting
+      // Indoor staircase (floor↔floor): fire on landing from any direction
+      const shouldFire = isOutdoor ? approachDy === -1 : true;
       if (shouldFire) { handleWarp(warp); return; }
       return; // wrong approach direction — skip warp and skip object text
     }
@@ -429,9 +411,9 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
         if (!ms) return;
         const faceDelta = [[0,1],[0,-1],[-1,0],[1,0]]; // DOWN UP LEFT RIGHT
         const [fdx, fdy] = faceDelta[p.dir] || [0,1];
-        const npc = ms.mapInfo.npcs.find(n => n.x === p.x+fdx && n.y === p.y+fdy);
+        const npc = ms.mapInfo.npcs.find(n => n.x === p.x+fdx*2 && n.y === p.y+fdy*2);
         if (npc) { startDialogue(npc); return; }
-        const fx = p.x + fdx, fy = p.y + fdy;
+        const fx = p.x + fdx*2, fy = p.y + fdy*2;
         // Facing a warp — check direction rule before entering
         const facedWarp = ms.mapInfo.warps.find(w => w.x === fx && w.y === fy);
         if (facedWarp) {
@@ -526,10 +508,10 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
           p.walkProg = Math.min(1, p.walkProg + WALK_SPD * dt);
           if (p.walkProg >= 1) {
             if (p.ledgeJump) {
-              p.x += p.dx * 2; p.y += p.dy * 2;
+              p.x += p.dx * 2; p.y += p.dy * 2; // ledge = 2 extra steps beyond the normal 1-step dx
               p.ledgeJump = false;
             } else {
-              p.x += p.dx; p.y += p.dy;
+              p.x += p.dx; p.y += p.dy; // dx is already ±2 (2 tiles per step)
             }
             p.stepPhase = 1 - p.stepPhase;
             p.walkProg = 0; p.isWalking = false; p.dx = 0; p.dy = 0;
@@ -549,10 +531,18 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
           p.dir = dir;
 
           if (ddx !== 0 || ddy !== 0) {
-            const nx = p.x + ddx, ny = p.y + ddy;
+            // Each player step = 2 graphical tiles (16px), matching Gen1 movement tile size
+            const nx = p.x + ddx * 2, ny = p.y + ddy * 2;
             const tW = ms.mapInfo.w * 4, tH = ms.mapInfo.h * 4;
             if (nx < 0 || ny < 0 || nx >= tW || ny >= tH) {
-              fn.handleMapEdge(ddx, ddy);
+              // Walking south into the building wall — find the matching LAST_MAP exit
+              if (ddy === 1) {
+                const exitWarp = ms.mapInfo.warps.find(w => w.x === p.x && w.dest === 'LAST_MAP');
+                if (exitWarp) fn.handleWarp(exitWarp);
+                else fn.handleMapEdge(ddx, ddy);
+              } else {
+                fn.handleMapEdge(ddx, ddy);
+              }
             } else {
               const nextTileId = fn.getTileId(nx, ny);
               const ledgeJump = fn.isValidLedge(p.x, p.y, ddx, ddy, nextTileId);
@@ -561,25 +551,17 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
               const isOutdoor = OUTDOOR_TS.includes(ms.mapInfo.tileset);
               const warpEntry = ms.mapInfo.warps.find(w => w.x === nx && w.y === ny);
               const isLastMap = warpEntry?.dest === 'LAST_MAP';
-              // LAST_MAP exit tiles are walkable floor — always allow stepping on them,
-              // but only TRIGGER the warp when walking south. Staircase/building entrance
-              // warps keep strict direction gating (must approach from the correct side).
-              // Allow stepping onto warp tiles even if not in normal walkable set.
-              // Staircase/outdoor: must approach from north. LAST_MAP doors: any dir ok.
-              // Outdoor map: can only step onto a warp by walking north (into a building)
-              // Indoor map: warp tiles (exits, stairs) are walkable from any direction
               const isWarpAllowed = !!warpEntry && (isOutdoor ? ddy === -1 : true);
               if (ledgeJump) {
-                const lx = nx + ddx, ly = ny + ddy;
+                const lx = nx + ddx * 2, ly = ny + ddy * 2;
                 if (lx >= 0 && ly >= 0 && lx < tW && ly < tH && fn.isWalkable(lx, ly)) {
-                  p.dx = ddx; p.dy = ddy;
+                  p.dx = ddx * 2; p.dy = ddy * 2;
                   p.isWalking = true; p.walkProg = 0;
                   p.ledgeJump = true;
                 }
               } else if (!npcBlocking && (fn.isWalkable(nx, ny) || isWarpAllowed)) {
-                p.dx = ddx; p.dy = ddy;
+                p.dx = ddx * 2; p.dy = ddy * 2;
                 p.isWalking = true; p.walkProg = 0;
-                // Warp fires in checkNewTile when player lands on the tile
               }
             }
           }

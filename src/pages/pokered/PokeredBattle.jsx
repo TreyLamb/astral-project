@@ -96,9 +96,9 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
         if (key === 'z' || key === 'Z' || key === ' ' || key === 'Enter') {
           e.preventDefault();
           setLogIdx(i => {
-            const next = i + 1;a
+            const next = i + 1;
             if (next >= logRef.current.length) {
-              if (resultRef.current) setPhasse('done');
+              if (resultRef.current) setPhase('done');
               else setPhase('action');
             }
             return next;

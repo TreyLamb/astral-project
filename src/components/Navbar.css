@@ -5,7 +5,7 @@ nav {
   right: 0;
   background: rgba(7, 10, 18, 0.88);
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 24px rgba(179, 32, 32, 0.4);
   z-index: 1000;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
