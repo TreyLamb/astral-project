@@ -7430,10 +7430,13 @@
           "warpIdx": 1
         },
         {
-          "x": 6,
-          "y": 22,
-          "dest": "VIRIDIAN_FOREST_NORTH_GATE",
-          "warpIdx": 2
+          
+  "x": 6,
+  "y": 22,
+  "dest": "VIRIDIAN_FOREST_NORTH_GATE",
+  "warpIdx": 2
+
+
         },
         {
           "x": 30,

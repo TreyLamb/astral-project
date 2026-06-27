@@ -55,6 +55,7 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   // React state — only for UI overlays
   const [mapLabel, setMapLabel]       = useState('');
   const [loadError, setLoadError]     = useState(null);
+  const [debugPos, setDebugPos]       = useState({ mapId: '', x: 0, y: 0 });
   const [showMenu, setShowMenu]       = useState(false);
   const showMenuRef = useRef(false);
   const [menuPage, setMenuPage]       = useState('main'); // 'main'|'pokemon'|'items'|'trainer'
@@ -133,10 +134,11 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
       mapStateRef.current = { mapId, mapInfo, blocks: new Uint8Array(blkBuf), blockset: new Uint8Array(bstBuf), tilesetImg: img };
 
       // Position player at warp destination exactly — coordinates from game_data are always even
-      if (entryX !== null && entryY !== null) {
-        playerRef.current = { ...playerRef.current, x: entryX, y: entryY, isWalking: false, walkProg: 0, dx: 0, dy: 0 };
-        if (onMapChange) onMapChange(mapId, entryX, entryY);
-      }
+    if (entryX !== null && entryY !== null) {
+  playerRef.current = { ...playerRef.current, x: entryX, y: entryY, isWalking: false, walkProg: 0, dx: 0, dy: 0 };
+  if (onMapChange) onMapChange(mapId, entryX, entryY);
+  setDebugPos({ mapId, x: entryX, y: entryY });
+}
       setMapLabel(mapId.replace(/_/g, ' '));
       setLoadError(null);
       transitionRef.current = 2; // fade in
@@ -231,8 +233,7 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
       // Outdoor map (building entrance): fire when walking north into it
       // LAST_MAP: always fire — they sit at map edges, stepping on them always means exiting
       // Indoor staircase (floor↔floor): fire on landing from any direction
-      const shouldFire = isOutdoor ? approachDy === -1 : true;
-      if (shouldFire) { handleWarp(warp); return; }
+const shouldFire = isOutdoor ? approachDy === -1 : true;      if (shouldFire) { handleWarp(warp); return; }
       return; // wrong approach direction — skip warp and skip object text
     }
 
@@ -251,11 +252,14 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   }
 
   // Update helpersRef every render so game loop has latest closures
-  function notifyPosition() {
-    const ms = mapStateRef.current;
-    const p  = playerRef.current;
-    if (ms && p && onPositionUpdate) onPositionUpdate(ms.mapId, p.x, p.y);
+function notifyPosition() {
+  const ms = mapStateRef.current;
+  const p  = playerRef.current;
+  if (ms && p) {
+    setDebugPos({ mapId: ms.mapId, x: p.x, y: p.y });
+    if (onPositionUpdate) onPositionUpdate(ms.mapId, p.x, p.y);
   }
+}
 
   helpersRef.current = { getTileId, isWalkable, isValidLedge, handleMapEdge, handleWarp, checkNewTile, notifyPosition };
 
@@ -659,8 +663,16 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   return (
     <div className="pkr-wrap">
       <div className="pkr-screen">
-        <canvas ref={canvasRef} width={GB_W} height={GB_H} className="pkr-canvas" />
-        {mapLabel && <div className="pkr-maplabel">{mapLabel}</div>}
+<canvas ref={canvasRef} width={GB_W} height={GB_H} className="pkr-canvas" />
+<div style={{
+  position: 'absolute', top: 4, right: 4, zIndex: 9999,
+  background: 'rgba(0,0,0,0.7)', color: '#0f0',
+  font: '10px monospace', padding: '2px 6px', borderRadius: 3,
+  pointerEvents: 'none', whiteSpace: 'nowrap'
+}}>
+  {debugPos.mapId} ({debugPos.x},{debugPos.y})
+</div>
+{mapLabel && <div className="pkr-maplabel">{mapLabel}</div>}
         {loadError && <div className="pkr-error">{loadError}</div>}
 
         {healMsg && (
