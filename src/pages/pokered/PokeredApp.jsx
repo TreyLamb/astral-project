@@ -10,6 +10,7 @@ export default function PokeredApp() {
   const [pokemonData, setPokemonData] = useState(null);
   const [gameState, setGameState]     = useState(null);
   const [wildEncounter, setWildEncounter] = useState(null);
+  const [trainerEncounter, setTrainerEncounter] = useState(null); // { trainerKey, partyIdx, party, name, baseMoney }
   // Stores the player's real position at the moment an encounter triggered,
   // so the overworld remounts at the correct location after battle.
   const battleReturnPos = useRef(null);
@@ -39,8 +40,15 @@ export default function PokeredApp() {
     setScreen('battle');
   }
 
+  function handleTrainerBattle(trainerEncounterData, mapId, x, y) {
+    battleReturnPos.current = playerPosRef.current ?? { mapId, x, y };
+    setTrainerEncounter(trainerEncounterData);
+    setScreen('battle');
+  }
+
   function handleBattleEnd({ result, updatedPlayer, caught }) {
     setWildEncounter(null);
+    setTrainerEncounter(null);
 
     setGameState(prev => {
       if (!prev) return prev;
@@ -244,11 +252,12 @@ export default function PokeredApp() {
     );
   }
 
-  if (screen === 'battle' && wildEncounter && gameState?.party?.[0]) {
+  if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.party?.[0]) {
     return (
       <PokeredBattle
         playerPokemon={gameState.party[0]}
         wildEncounter={wildEncounter}
+        trainerEncounter={trainerEncounter}
         pokemonData={pokemonData}
         onBattleEnd={handleBattleEnd}
         isExtra={gameState.isExtra}
@@ -266,6 +275,7 @@ export default function PokeredApp() {
             initialX={gameState.x}
             initialY={gameState.y}
             onEncounter={handleEncounter}
+            onTrainerBattle={handleTrainerBattle}
             onReturnHome={handleReturnHome}
             onHealParty={handleHealParty}
             onRequestStarter={handleRequestStarter}

@@ -35,7 +35,7 @@ const DIR_UP    = 1;
 const DIR_LEFT  = 2;
 const DIR_RIGHT = 3;
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onReturnHome, onHealParty, onRequestStarter, onOpenPC, onMapChange, onSave, onPositionUpdate, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle, onReturnHome, onHealParty, onRequestStarter, onOpenPC, onMapChange, onSave, onPositionUpdate, gameState, isExtra }) {
   const canvasRef = useRef();
 
   // Stable refs (never cause re-renders — game loop reads these directly)
@@ -51,11 +51,13 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   const transitionRef = useRef(0);     // 0=none, 1=fading out, 2=fading in
   const pendingMapRef = useRef(null);
   const lastMapIdRef  = useRef(null);  // map we came from, for LAST_MAP warps
+  const showWarpsRef  = useRef(false); // debug: highlight warp tiles on canvas
 
   // React state — only for UI overlays
   const [mapLabel, setMapLabel]       = useState('');
   const [loadError, setLoadError]     = useState(null);
   const [debugPos, setDebugPos]       = useState({ mapId: '', x: 0, y: 0 });
+  const [showWarps, setShowWarps]     = useState(false);
   const [showMenu, setShowMenu]       = useState(false);
   const showMenuRef = useRef(false);
   const [menuPage, setMenuPage]       = useState('main'); // 'main'|'pokemon'|'items'|'trainer'
@@ -226,20 +228,9 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     // Warp — direction check so the player must step onto it from the correct side
     const warp = ms.mapInfo.warps.find(w => w.x === p.x && w.y === p.y);
     if (warp) {
-      const OUTDOOR_TS = ['overworld', 'forest', 'plateau'];
-      const isOutdoor = OUTDOOR_TS.includes(ms.mapInfo.tileset);
-      const isLastMap = warp.dest === 'LAST_MAP';
-      const approachDy = p.dir === DIR_DOWN ? 1 : p.dir === DIR_UP ? -1 : 0;
-      // Outdoor map (building entrance): fire when walking north into it
-      // LAST_MAP: always fire — they sit at map edges, stepping on them always means exiting
-      // Indoor staircase (floor↔floor): fire on landing from any direction
-const shouldFire = isOutdoor ? approachDy === -1 : true;      if (shouldFire) { handleWarp(warp); return; }
-      return; // wrong approach direction — skip warp and skip object text
-    }
+    handleWarp(warp); return;}
 
-    // Wild encounter?
-    // Outdoor tilesets (overworld/forest/plateau) only trigger on the specific grass tile.
-    // Indoor/cave tilesets have no grass tile defined → encounters on any walkable tile.
+
     const grassTileList = gameDataRef.current?.grassTiles[ms.mapInfo.tileset];
     const tileId = getTileId(p.x, p.y);
     const onEncounterTile = !grassTileList ? true : grassTileList.includes(tileId);
@@ -310,20 +301,28 @@ function notifyPosition() {
 
   // ── NPC dialogue text ─────────────────────────────────────────────────────
   const NPC_TEXT = {
-    mom:    { lines: ["MOM: You need a rest!", "I'll heal your POKéMON!"], action: 'HEAL' },
-    oak:    { lines: ["OAK: Ah, you're here!", "Please, choose your first POKéMON!"], action: 'STARTER' },
-    nurse:  { lines: ["NURSE: Welcome!", "We restore POKéMON to full health!"], action: 'HEAL' },
+    mom:      { lines: ["MOM: You need a rest!", "I'll heal your POKéMON!"], action: 'HEAL' },
+    oak:      { lines: ["OAK: Ah, you're here!", "Please, choose your first POKéMON!"], action: 'STARTER' },
+    nurse:    { lines: ["NURSE: Welcome!", "We restore POKéMON to full health!"], action: 'HEAL' },
     oak_aide: { lines: ["OAK's AIDE: The professor is away on research."] },
-    daisy:  { lines: ["DAISY: Hi! I'm GARY's sister."] },
-    girl:   { lines: ["This town is famous for POKéMON research."] },
-    youngster: { lines: ["Want to trade POKéMON?"] },
-    guard:  { lines: ["GUARD: No entry without a BADGE!"] },
-    rocket: { lines: ["ROCKET: Prepare for trouble!"] },
-    scientist: { lines: ["SCIENTIST: We research POKéMON here."] },
-    fisher: { lines: ["FISHER: Nothing biting today..."] },
-    hiker:  { lines: ["HIKER: These mountains are tough!"] },
-    gramps: { lines: ["OLD MAN: I used to be a great trainer."] },
-    granny: { lines: ["OLD WOMAN: Take good care of your POKéMON."] },
+    daisy:    { lines: ["DAISY: Hi! I'm GARY's sister."] },
+    girl:     { lines: ["This town is famous for POKéMON research."] },
+    youngster:{ lines: ["YOUNGSTER: Hey! Wanna battle?"], action: 'BATTLE', trainerKey: 'Youngster', partyIdx: 0 },
+    guard:    { lines: ["GUARD: No entry without a BADGE!"] },
+    rocket:   { lines: ["ROCKET: Prepare for trouble!"], action: 'BATTLE', trainerKey: 'Rocket', partyIdx: 0 },
+    scientist:{ lines: ["SCIENTIST: Let's see your POKéMON!"], action: 'BATTLE', trainerKey: 'Scientist', partyIdx: 0 },
+    fisher:   { lines: ["FISHER: Nothing biting today..."] },
+    hiker:    { lines: ["HIKER: These mountains are tough!"], action: 'BATTLE', trainerKey: 'Hiker', partyIdx: 0 },
+    gramps:   { lines: ["OLD MAN: I used to be a great trainer."] },
+    granny:   { lines: ["OLD WOMAN: Take good care of your POKéMON."] },
+    brock:    { lines: ["BROCK: I'm BROCK!", "The PEWTER GYM LEADER!", "My rock-hard willpower makes me the best!"], action: 'BATTLE', trainerKey: 'Brock', partyIdx: 0 },
+    misty:    { lines: ["MISTY: Hi, I'm MISTY!", "The CERULEAN GYM LEADER!", "My policy is an all-out offensive!"], action: 'BATTLE', trainerKey: 'Misty', partyIdx: 0 },
+    surge:    { lines: ["LT.SURGE: Hey kid! I won't go easy on you!"], action: 'BATTLE', trainerKey: 'LtSurge', partyIdx: 0 },
+    erika:    { lines: ["ERIKA: Welcome to CELADON GYM.", "I shall show you the power of GRASS!"], action: 'BATTLE', trainerKey: 'Erika', partyIdx: 0 },
+    koga:     { lines: ["KOGA: Fwahahaha! You're in MY gym now!"], action: 'BATTLE', trainerKey: 'Koga', partyIdx: 0 },
+    blaine:   { lines: ["BLAINE: No questions! No excuses! I am BLAINE!"], action: 'BATTLE', trainerKey: 'Blaine', partyIdx: 0 },
+    sabrina:  { lines: ["SABRINA: I had a vision of your arrival..."], action: 'BATTLE', trainerKey: 'Sabrina', partyIdx: 0 },
+    giovanni: { lines: ["GIOVANNI: So! You've made it this far..."], action: 'BATTLE', trainerKey: 'Giovanni', partyIdx: 0 },
   };
 
   function npcText(spriteName) {
@@ -332,8 +331,8 @@ function notifyPosition() {
 
   function startDialogue(npc) {
     setShowMenu(false); showMenuRef.current = false;
-    const { lines, action } = npcText(npc.sprite);
-    setDialogue({ lines, idx: 0, action: action || null });
+    const { lines, action, trainerKey, partyIdx } = npcText(npc.sprite);
+    setDialogue({ lines, idx: 0, action: action || null, trainerKey: trainerKey || null, partyIdx: partyIdx ?? 0 });
   }
 
   function advanceDialogue() {
@@ -351,6 +350,14 @@ function notifyPosition() {
           const ms = mapStateRef.current;
           const p  = playerRef.current;
           setTimeout(() => onRequestStarter(ms?.mapId, p?.x, p?.y), 50);
+        }
+        if (prev.action === 'BATTLE' && onTrainerBattle) {
+          const ms = mapStateRef.current;
+          const p  = playerRef.current;
+          setTimeout(() => onTrainerBattle(
+            { trainerKey: prev.trainerKey, partyIdx: prev.partyIdx ?? 0 },
+            ms?.mapId, p?.x, p?.y
+          ), 50);
         }
         return null;
       }
@@ -605,6 +612,22 @@ function notifyPosition() {
           }
         }
 
+        // DEBUG: highlight every warp tile (toggled by showWarpsRef)
+        if (showWarpsRef.current) {
+          ctx.save();
+          for (const warp of ms.mapInfo.warps) {
+            const wsx = Math.round(warp.x * TILE - camX);
+            const wsy = Math.round(warp.y * TILE - camY);
+            if (wsx < -TILE || wsy < -TILE || wsx > GB_W + TILE || wsy > GB_H + TILE) continue;
+            ctx.fillStyle = 'rgba(255, 0, 0, 0.35)';
+            ctx.fillRect(wsx, wsy, TILE, TILE);
+            ctx.strokeStyle = warp.dest === 'LAST_MAP' ? '#ffff00' : '#ff00ff';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(wsx + 0.5, wsy + 0.5, TILE - 1, TILE - 1);
+          }
+          ctx.restore();
+        }
+
         // NPC sprites (drawn before player so player renders on top)
         for (const npc of ms.mapInfo.npcs) {
           const nsx = Math.round(npc.x * TILE - camX);
@@ -672,6 +695,20 @@ function notifyPosition() {
 }}>
   {debugPos.mapId} ({debugPos.x},{debugPos.y})
 </div>
+<label style={{
+  position: 'absolute', top: 26, right: 4, zIndex: 9999,
+  background: 'rgba(0,0,0,0.7)', color: '#0f0',
+  font: '10px monospace', padding: '2px 6px', borderRadius: 3,
+  cursor: 'pointer', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: 4
+}}>
+  <input
+    type="checkbox"
+    checked={showWarps}
+    onChange={e => { setShowWarps(e.target.checked); showWarpsRef.current = e.target.checked; }}
+    style={{ cursor: 'pointer', margin: 0 }}
+  />
+  warps
+</label>
 {mapLabel && <div className="pkr-maplabel">{mapLabel}</div>}
         {loadError && <div className="pkr-error">{loadError}</div>}
 

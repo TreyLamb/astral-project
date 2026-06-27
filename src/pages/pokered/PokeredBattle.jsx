@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { createWildPokemon, applyXP, tryCatch, xpForLevel } from './pokeredGameState';
+import { TRAINER_PARTIES } from './trainerParties';
+import { TRAINER_META } from './trainerMeta';
 import './PokeredBattle.css';
 
 const SPECIAL_TYPES = new Set(['FIRE','WATER','GRASS','ELECTRIC','PSYCHIC','ICE','DRAGON']);
@@ -50,7 +52,7 @@ function HpBar({ current, max }) {
   );
 }
 
-export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter, pokemonData, onBattleEnd, isExtra, playerItems }) {
+export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter, trainerEncounter, pokemonData, onBattleEnd, isExtra, playerItems }) {
   const [player, setPlayer]     = useState(() => ({ ...initPlayer, hp: initPlayer.hp, moves: initPlayer.moves.map(m => ({...m})) }));
   const [enemy, setEnemy]       = useState(null);
   const escapeAttemptsRef       = useRef(0);
@@ -62,6 +64,11 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
   const updatedPlayerRef        = useRef(null);
   const caughtMonRef            = useRef(null);
   const ballsLeft               = playerItems?.find(i => i.name === 'POKE_BALL')?.count ?? (isExtra ? 99 : 0);
+
+  // Trainer party queue
+  const isTrainer               = !!trainerEncounter;
+  const trainerPartyRef         = useRef(null); // remaining party [ {level, species}, ... ]
+  const trainerPartyIdxRef      = useRef(0);    // which mon in queue is active
 
   // Keyboard navigation — refs so the handler sees current values without re-registering
   const phaseRef   = useRef(phase);
@@ -77,10 +84,28 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
 
   // Build enemy once on mount
   useEffect(() => {
-    if (!wildEncounter || !pokemonData) return;
-    const wild = createWildPokemon(wildEncounter.species, wildEncounter.level, pokemonData);
-    setEnemy(wild);
-    pushLog([`A wild ${fmt(wildEncounter.species)} appeared!`, `Go, ${fmt(initPlayer.species)}!`], 'log');
+    if (!pokemonData) return;
+
+    if (trainerEncounter) {
+      const parties = TRAINER_PARTIES[trainerEncounter.trainerKey] ?? [];
+      const party   = parties[trainerEncounter.partyIdx ?? 0] ?? parties[0] ?? [];
+      if (!party.length) return;
+      trainerPartyRef.current = [...party];
+      trainerPartyIdxRef.current = 0;
+      const first = party[0];
+      const mon = createWildPokemon(first.species, first.level, pokemonData);
+      setEnemy(mon);
+      const meta = TRAINER_META[trainerEncounter.trainerKey];
+      const trainerName = meta?.name ?? trainerEncounter.trainerKey.toUpperCase();
+      pushLog([`${trainerName} wants to battle!`, `${trainerName} sent out ${fmt(first.species)}!`, `Go, ${fmt(initPlayer.species)}!`], 'log');
+      return;
+    }
+
+    if (wildEncounter) {
+      const wild = createWildPokemon(wildEncounter.species, wildEncounter.level, pokemonData);
+      setEnemy(wild);
+      pushLog([`A wild ${fmt(wildEncounter.species)} appeared!`, `Go, ${fmt(initPlayer.species)}!`], 'log');
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -126,8 +151,8 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
           e.preventDefault();
           const c = cursorRef.current;
           if (c === 0) setPhase('moves');
-          else if (c === 2 && ballsLeft > 0) document.dispatchEvent(new CustomEvent('pkr-throw-ball'));
-          else if (c === 3) document.dispatchEvent(new CustomEvent('pkr-run'));
+          else if (c === 2 && ballsLeft > 0 && !isTrainer) document.dispatchEvent(new CustomEvent('pkr-throw-ball'));
+          else if (c === 3 && !isTrainer) document.dispatchEvent(new CustomEvent('pkr-run'));
         }
         return;
       }
@@ -268,6 +293,22 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
       const { pokemon: leveled, messages: xpMsgs } = applyXP(finalPlayer, xp, pokemonData);
       msgs.push(...xpMsgs);
       finalPlayer = leveled;
+
+      // Trainer: send out next mon if available
+      if (isTrainer && trainerPartyRef.current) {
+        trainerPartyIdxRef.current += 1;
+        const next = trainerPartyRef.current[trainerPartyIdxRef.current];
+        if (next) {
+          const nextMon = createWildPokemon(next.species, next.level, pokemonData);
+          msgs.push(`Trainer sent out ${fmt(next.species)}!`);
+          updatedPlayerRef.current = finalPlayer;
+          pushLog(msgs, 'log', null);
+          setEnemy(nextMon);
+          setPlayer(prev => ({ ...prev, hp: pHp, moves: finalPlayer.moves }));
+          return;
+        }
+      }
+
       newResult = 'victory';
     } else if (pHp <= 0) {
       msgs.push(`${fmt(player.species)} fainted!`);
@@ -404,11 +445,11 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
                 <button className={`pkrb-action-btn${cursor===1?' pkrb-cursor':''}`}
                   onClick={() => setPhase('pkmn')} disabled>PKMn</button>
                 <button className={`pkrb-action-btn${cursor===2?' pkrb-cursor':''}`}
-                  onClick={() => setPhase('bag')} disabled={ballsLeft === 0}>
-                  {ballsLeft > 0 ? `ITEM(${ballsLeft})` : 'ITEM'}
+                  onClick={() => setPhase('bag')} disabled={isTrainer || ballsLeft === 0}>
+                  {ballsLeft > 0 && !isTrainer ? `ITEM(${ballsLeft})` : 'ITEM'}
                 </button>
                 <button className={`pkrb-action-btn${cursor===3?' pkrb-cursor':''}`}
-                  onClick={handleRun}>RUN</button>
+                  onClick={handleRun} disabled={isTrainer}>RUN</button>
               </div>
             </div>
           ) : phase === 'moves' ? (

@@ -12,9 +12,9 @@
 10. Item placement is off on Route 2 and possibly other maps — recurring coordinate issue
 11. Trainer battles not implemented (rival + gym battles) — med-high priority
 12. Several Extra mode start positions put player in stuck/unreachable location
-13. Items on the ground (pokeball pickups) give '...' — not obtainable — will block Mt. Moon — med priority
+13. Items on the ground (pokeball pickups) give '...' — not obtainable — will block Mt. Moon — med priority - partially fixed.
 14. Elite Four: player stuck, cannot navigate room or test doorways — low priority
 15. MUltiple VERSIONS OF oak in pallet town. 1. this shows that continuinty is problematic and that 2. ANY NPcs who have movement roles in the game are going to be duplicated later.
 16. Sub-tile sprite/tile alignment still slightly off — items on tables, tile graphics a few px high. Root cause suspected: `camX` still has `+ TILE` offset while `camY` was fixed to not have it (asymmetry). To investigate: try `camX = px - GB_W/2` and re-add `-8` to sprite sx to compensate. Low-med priority.
 17 - light tap to turn character (instead of any-tap will move the character)
-18 - up
+18 - warptile from house to outsidew of house,  warptile outside should lwan player  1 step further (not insidethe door. Low prio i thnk.)
