@@ -35,15 +35,21 @@ export default function PokeredApp() {
     setScreen('overworld');
   }
 
-  function handleEncounter(encounter, mapId, x, y) {
-    if (!gameState?.party?.[0] || gameState.party[0].hp <= 0) return; // lead fainted — no switch UI yet, block the encounter rather than soft-lock
+ function handleEncounter(encounter, mapId, x, y) {
+  console.log('encounter triggered, party:', gameState?.party?.map(m => m.hp));
+  console.log('screen:', screen, 'wildEncounter:', encounter);
+  // commented out during testing.
+ // const firstUsable = gameState?.party?.find(mon => mon.hp > 0);
+ // if (!firstUsable) return;
     battleReturnPos.current = playerPosRef.current ?? { mapId, x, y };
     setWildEncounter(encounter);
     setScreen('battle');
   }
 
   function handleTrainerBattle(trainerEncounterData, mapId, x, y) {
-    if (!gameState?.party?.[0] || gameState.party[0].hp <= 0) return;
+    //commented out during testing.
+   // const firstUsable = gameState?.party?.find(mon => mon.hp > 0);
+   // if (!firstUsable) return;
     battleReturnPos.current = playerPosRef.current ?? { mapId, x, y };
     setTrainerEncounter(trainerEncounterData);
     setScreen('battle');
@@ -280,10 +286,13 @@ export default function PokeredApp() {
     );
   }
 
-  if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.party?.[0]) {
-    return (
+if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.party?.[0]) {
+ console.log('sending to battle:', gameState.party[0]);  
+  return (
       <PokeredBattle
-        playerPokemon={gameState.party[0]}
+            // comment out during testing
+            // playerPokemon={gameState.party.find(mon => mon.hp > 0)}
+            playerPokemon={gameState.party[0]}  
         wildEncounter={wildEncounter}
         trainerEncounter={trainerEncounter}
         pokemonData={pokemonData}

@@ -256,7 +256,9 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
       const pool = ms.mapInfo.wild.pokemon;
       const pick = pool[Math.floor(Math.random() * pool.length)];
       encounterRef.current = pick;
-      if (onEncounter) onEncounter(pick, ms.mapId, p.x, p.y);
+      if (onEncounter) 
+        console.log('calling onEncounter, party:', gameState?.party?.map(m => m.hp));
+      onEncounter(pick, ms.mapId, p.x, p.y);
     }
   }
 

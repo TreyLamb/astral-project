@@ -96,7 +96,7 @@ function HpBar({ current, max }) {
 }
 
 export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter, trainerEncounter, pokemonData, onBattleEnd, isExtra, playerItems }) {
-  const [player, setPlayer]     = useState(() => ({ ...initPlayer, hp: initPlayer.hp, moves: initPlayer.moves.map(m => ({...m})) }));
+  const [player, setPlayer] = useState(() => ({ ...initPlayer, hp: initPlayer.hp, moves: (initPlayer.moves ?? []).map(m => ({...m})) }));
   const [enemy, setEnemy]       = useState(null);
   const escapeAttemptsRef       = useRef(0);
   const [log, setLog]           = useState([]);
