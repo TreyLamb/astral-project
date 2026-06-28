@@ -9,6 +9,7 @@ export default function PokeredApp() {
   const [screen, setScreen]           = useState('loading');
   const [pokemonData, setPokemonData] = useState(null);
   const [gameState, setGameState]     = useState(null);
+  const [speedMult, setSpeedMult] = useState(1);
   const [wildEncounter, setWildEncounter] = useState(null);
   const [trainerEncounter, setTrainerEncounter] = useState(null); // { trainerKey, partyIdx, party, name, baseMoney }
   // Stores the player's real position at the moment an encounter triggered,
@@ -313,6 +314,8 @@ export default function PokeredApp() {
             onPickUpItem={handlePickUpItem}
             gameState={gameState}
             isExtra={gameState.isExtra}
+            speedMult={speedMult}
+setSpeedMult={setSpeedMult}
           />
         } />
       </Routes>

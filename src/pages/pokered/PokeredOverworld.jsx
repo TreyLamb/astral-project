@@ -37,7 +37,7 @@ const DIR_UP    = 1;
 const DIR_LEFT  = 2;
 const DIR_RIGHT = 3;
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle, onReturnHome, onHealParty, onRequestStarter, onOpenPC, onMapChange, onSave, onPositionUpdate, onPickUpItem, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, onReturnHome, onHealParty, onRequestStarter, onOpenPC, onMapChange, onSave, onPositionUpdate, onPickUpItem, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -56,12 +56,13 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   const pendingMapRef = useRef(null);
   const lastMapIdRef  = useRef(null);  // map we came from, for LAST_MAP warps
   const showWarpsRef  = useRef(false); // debug: highlight warp tiles on canvas
+  const speedMultRef  = useRef(speedMult);
 
   // React state — only for UI overlays
   const [mapLabel, setMapLabel]       = useState('');
   const [loadError, setLoadError]     = useState(null);
   const [debugPos, setDebugPos]       = useState({ mapId: '', x: 0, y: 0 });
-  const [showWarps, setShowWarps]     = useState(false);
+ const [showWarps, setShowWarps]     = useState(false);
   const [showMenu, setShowMenu]       = useState(false);
   const showMenuRef = useRef(false);
   const [menuPage, setMenuPage]       = useState('main'); // 'main'|'pokemon'|'items'|'trainer'
@@ -566,7 +567,7 @@ function notifyPosition() {
       if (ms) {
         // Walk completion runs even during map transitions so animation finishes cleanly
         if (p.isWalking) {
-          p.walkProg = Math.min(1, p.walkProg + WALK_SPD * dt);
+p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * dt);
           if (p.walkProg >= 1) {
             if (p.ledgeJump) {
               p.x += p.dx * 2; p.y += p.dy * 2; // ledge = 2 extra steps beyond the normal 1-step dx
@@ -766,6 +767,21 @@ function notifyPosition() {
   />
   warps
 </label>
+<button
+  onClick={() => {
+    const next = speedMult === 1 ? 2 : speedMult === 2 ? 3 : 1;
+    setSpeedMult(next);
+    speedMultRef.current = next;
+  }}
+  style={{
+    position: 'absolute', top: 48, right: 4, zIndex: 9999,
+    background: 'rgba(0,0,0,0.7)', color: '#0f0',
+    font: '10px monospace', padding: '2px 6px', borderRadius: 3,
+    border: '1px solid #0f0', cursor: 'pointer', whiteSpace: 'nowrap'
+  }}
+>
+  spd {speedMult}x
+</button>
 {mapLabel && <div className="pkr-maplabel">{mapLabel}</div>}
         {loadError && <div className="pkr-error">{loadError}</div>}
 

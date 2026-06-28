@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "pokemon"
+		},
+		{
+			"path": "public/pokered"
+		},
+		{
+			"path": "src/pages/pokered"
+		}
+	]
+}
