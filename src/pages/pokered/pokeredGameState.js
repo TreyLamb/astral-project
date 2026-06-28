@@ -1,5 +1,6 @@
 // Game state management for Pokemon Red web recreation.
 // All data (levels, learnsets, stats) sourced directly from pret/pokered.
+// Warp point x,y values should NEVER be odd #'s.
 
 export const SAVE_KEY = 'pkr_save_v1';
 
@@ -169,15 +170,16 @@ export function createWildPokemon(species, level, pokemonData) {
 const GYM_ACE_LEVELS = [14, 21, 24, 29, 43, 43, 47, 50];
 const GYM_NAMES = ['Brock', 'Misty', 'Lt. Surge', 'Erika', 'Koga', 'Sabrina', 'Blaine', 'Giovanni'];
 // Starting position after each gym. PALLET_TOWN fallback used if map has coord issues.
+// Warp point x,y values should NEVER be odd #'s.
 const GYM_STARTS = [
-  { mapId: 'ROUTE_3',         x: 8,  y: 13 },
-  { mapId: 'CERULEAN_CITY',   x: 16, y: 29 },
-  { mapId: 'VERMILION_CITY',  x: 11, y: 29 },
-  { mapId: 'CELADON_CITY',    x: 10, y: 29 },
-  { mapId: 'FUCHSIA_CITY',    x: 10, y: 29 },
-  { mapId: 'SAFFRON_CITY',    x: 10, y: 29 },
-  { mapId: 'CINNABAR_ISLAND', x: 7,  y: 11 },
-  { mapId: 'VIRIDIAN_CITY',   x: 10, y: 29 },
+  { mapId: 'ROUTE_3',         x: 8,  y: 16 },
+  { mapId: 'CERULEAN_CITY',   x: 16, y: 30 },
+  { mapId: 'VERMILION_CITY',  x: 12, y: 30 },
+  { mapId: 'CELADON_CITY',    x: 10, y: 30 },
+  { mapId: 'FUCHSIA_CITY',    x: 10, y: 30 },
+  { mapId: 'SAFFRON_CITY',    x: 10, y: 30 },
+  { mapId: 'CINNABAR_ISLAND', x: 8,  y: 12 },
+  { mapId: 'VIRIDIAN_CITY',   x: 10, y: 30 },
 ];
 
 export function getExtraStateList() {
@@ -335,7 +337,7 @@ export function createNewGame(_pokemonData) {
   return {
     isExtra: false,
     mapId: 'REDS_HOUSE_2F',
-    x: 9,
+    x: 8,
     y: 8,
     party: [],
     badges: [],

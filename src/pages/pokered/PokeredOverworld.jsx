@@ -620,6 +620,12 @@ function notifyPosition() {
                   p.isWalking = true; p.walkProg = 0;
                   p.ledgeJump = true;
                 }
+                if (ddx !== 0 || ddy !== 0) {
+  const nx = p.x + ddx * 2, ny = p.y + ddy * 2;
+  const warpEntry = ms.mapInfo.warps.find(w => w.x === nx && w.y === ny);
+  const isWalkable = fn.isWalkable(nx, ny);
+  console.log(`Trying move to (${nx},${ny}): isWalkable=${isWalkable}, warp=${warpEntry?.dest}`);
+}
               } else if (!npcBlocking && (fn.isWalkable(nx, ny) || isWarpAllowed)) {
                 p.dx = ddx * 2; p.dy = ddy * 2;
                 p.isWalking = true; p.walkProg = 0;
