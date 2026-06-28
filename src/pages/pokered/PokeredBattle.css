@@ -98,6 +98,22 @@
   font-size: 9px;
   margin-left: 6px;
 }
+.pkrb-status-badge {
+  display: inline-block;
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  margin-left: 6px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: #fff;
+  vertical-align: middle;
+}
+.pkrb-status-SLP { background: #8a8aa0; }
+.pkrb-status-PSN { background: #a040a0; }
+.pkrb-status-BRN { background: #e06030; }
+.pkrb-status-PAR { background: #e0c020; color: #1a1a0a; }
+.pkrb-status-FRZ { background: #60c0e0; color: #1a1a0a; }
 
 /* HP bar */
 .pkrb-hpbar { display: flex; align-items: center; gap: 4px; }

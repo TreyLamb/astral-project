@@ -1,18 +1,46 @@
 import { useState, useEffect, useRef } from 'react';
-import { createWildPokemon, applyXP, tryCatch, xpForLevel } from './pokeredGameState';
+import { createWildPokemon, applyXP, tryCatch, xpForLevel, baseExpFor } from './pokeredGameState';
 import { TRAINER_PARTIES } from './trainerParties';
 import { TRAINER_META } from './trainerMeta';
+import { getMoveEffect, STATUS_LABEL, canApplyStatus } from './moveEffects';
 import './PokeredBattle.css';
 
 const SPECIAL_TYPES = new Set(['FIRE','WATER','GRASS','ELECTRIC','PSYCHIC','ICE','DRAGON']);
 
-function calcDamage(attacker, defender, moveName, pokemonData) {
-  const move = pokemonData.moves[moveName];
-  if (!move || move.power === 0) return null; // status move
+// Gen 1 crit chance: base_speed / 512, doubled by Focus Energy (not modeled yet) or
+// high-crit moves (Slash, Karate Chop, Razor Leaf, Crabhammer — not tracked per-move
+// here since pokemon_data.json has no "high crit" flag; using the base formula only).
+function critChance(attacker) {
+  return Math.min(255, Math.floor(attacker.spd / 2)) / 256;
+}
 
-  const atk = SPECIAL_TYPES.has(move.type) ? attacker.spc : attacker.atk;
-  const def = SPECIAL_TYPES.has(move.type) ? defender.spc : defender.def;
-  const base = Math.floor(Math.floor(2 * attacker.level / 5 + 2) * move.power * atk / def / 50) + 2;
+// Returns { hit:false } on a miss, or { hit:true, damage, crit, effText, statusMsg, didFlinch }
+function resolveAttack(attacker, defender, moveName, pokemonData) {
+  const move = pokemonData.moves[moveName];
+  if (!move) return { hit: true, damage: 0 };
+
+  // Accuracy check (Gen 1: roll vs move accuracy out of 100, no accuracy/evasion stages yet)
+  const acc = move.accuracy ?? 100;
+  if (Math.random() * 100 >= acc) return { hit: false };
+
+  const effect = getMoveEffect(moveName);
+
+  if (!move.power || move.power === 0) {
+    // Pure status/utility move — no damage, may still apply a status/confuse effect
+    const out = { hit: true, damage: null };
+    if (effect?.status && canApplyStatus(defender) && Math.random() < effect.chance) {
+      out.statusApplied = effect.status;
+    } else if (effect?.confuse && Math.random() < effect.confuse) {
+      out.confuseApplied = true;
+    }
+    return out;
+  }
+
+  const isCrit = Math.random() < critChance(attacker);
+  const atkStat = SPECIAL_TYPES.has(move.type) ? attacker.spc : attacker.atk;
+  const defStat = SPECIAL_TYPES.has(move.type) ? defender.spc : defender.def;
+  const lvl = isCrit ? attacker.level * 2 : attacker.level;
+  const base = Math.floor(Math.floor(2 * lvl / 5 + 2) * move.power * atkStat / defStat / 50) + 2;
   const stab = (move.type === attacker.type1 || move.type === attacker.type2) ? 1.5 : 1;
   const eff1 = pokemonData.typeChart[`${move.type}:${defender.type1}`] ?? 1;
   const eff2 = defender.type1 !== defender.type2
@@ -26,7 +54,18 @@ function calcDamage(attacker, defender, moveName, pokemonData) {
   else if (totalEff > 1) effText = "It's super effective!";
   else if (totalEff < 1) effText = "It's not very effective...";
 
-  return { damage, effText };
+  const out = { hit: true, damage, crit: isCrit, effText };
+  if (totalEff > 0) {
+    if (effect?.status && canApplyStatus(defender) && Math.random() < effect.chance) {
+      out.statusApplied = effect.status;
+    } else if (effect?.confuse && Math.random() < effect.confuse) {
+      out.confuseApplied = true;
+    }
+    if (effect?.flinchChance && Math.random() < effect.flinchChance) {
+      out.didFlinch = true;
+    }
+  }
+  return out;
 }
 
 function fmt(species) {
@@ -35,8 +74,12 @@ function fmt(species) {
 function fmtMove(name) { return name.replace(/_/g, ' '); }
 function spriteUrl(species) { return `/pokered/sprites/pokemon/${species.toLowerCase()}.png`; }
 
-// Wild Pokemon base exp (Gen 1: xp = baseExp * level / 7)
-const BASE_EXP_FALLBACK = 64;
+// Wild Pokemon base exp now sourced from the real Gen 1 table in pokeredGameState.js (baseExpFor)
+
+function StatusBadge({ status }) {
+  if (!status) return null;
+  return <span className={`pkrb-status-badge pkrb-status-${status}`}>{status}</span>;
+}
 
 function HpBar({ current, max }) {
   const pct = max > 0 ? Math.max(0, current) / max : 0;
@@ -63,6 +106,7 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
   const [cursor, setCursor]     = useState(0);      // keyboard cursor for menus
   const updatedPlayerRef        = useRef(null);
   const caughtMonRef            = useRef(null);
+  const moneyWonRef             = useRef(0);
   const ballsLeft               = playerItems?.find(i => i.name === 'POKE_BALL')?.count ?? (isExtra ? 99 : 0);
 
   // Trainer party queue
@@ -219,12 +263,59 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
   }
 
   // ── Turn resolution ──────────────────────────────────────────────────────────
-  function resolveTurns(playerMove, threw) {
+  // Returns true if `mon` is prevented from acting this turn by its status
+  // (sleep/freeze always prevent; paralysis has a 25% chance to prevent — Gen 1 odds).
+  // Pushes the relevant message into msgs and clears the status if it "wakes up".
+  function statusBlocksMove(mon, msgs, isPlayerSide) {
+    if (mon.status === 'SLP') {
+      if (mon.sleepTurns > 0) {
+        msgs.push(`${fmt(mon.species)} is fast asleep.`);
+        if (isPlayerSide) setPlayer(prev => ({ ...prev, sleepTurns: prev.sleepTurns - 1 }));
+        return true;
+      }
+      msgs.push(`${fmt(mon.species)} woke up!`);
+      if (isPlayerSide) setPlayer(prev => ({ ...prev, status: null, sleepTurns: 0 }));
+      return false;
+    }
+    if (mon.status === 'FRZ') {
+      msgs.push(`${fmt(mon.species)} is frozen solid!`);
+      return true;
+    }
+    if (mon.status === 'PAR' && Math.random() < 0.25) {
+      msgs.push(`${fmt(mon.species)} is paralyzed! It can't move!`);
+      return true;
+    }
+    return false;
+  }
+
+  // Confusion: 50% chance to hurt itself instead of acting. Returns true if the
+  // turn was consumed by self-hit confusion damage.
+  function checkConfusionSelfHit(mon, msgs, applyDamage) {
+    if (!mon.confused) return false;
+    if (mon.confused <= 0) { msgs.push(`${fmt(mon.species)} snapped out of confusion!`); return false; }
+    msgs.push(`${fmt(mon.species)} is confused!`);
+    if (Math.random() < 0.5) {
+      const dmg = Math.max(1, Math.floor(mon.maxHp / 8)); // approximation of Gen 1 typeless 40-power self-hit
+      msgs.push('It hurt itself due to confusion!');
+      applyDamage(dmg);
+      return true;
+    }
+    return false;
+  }
+
+  function applyStatusMsg(target, applied, msgs) {
+    if (!applied) return target;
+    msgs.push(`${fmt(target.species)} ${STATUS_LABEL[applied] || 'was afflicted!'}`);
+    return { ...target, status: applied, sleepTurns: applied === 'SLP' ? 1 + Math.floor(Math.random() * 3) : target.sleepTurns };
+  }
+
+  function resolveTurns(playerMove, threw, isStruggle) {
     const msgs = [];
     let pHp = player.hp;
     let eHp = enemy.hp;
     let newResult = null;
     let finalPlayer = { ...player, moves: player.moves.map(m => ({...m})) };
+    let finalEnemyPatch = {}; // status/confuse changes to merge into enemy state
 
     // Pokeball throw
     if (threw) {
@@ -242,8 +333,13 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
         // Enemy attacks after failed throw
         const move = pickEnemyMove(enemy);
         msgs.push(`${fmt(enemy.species)} used ${fmtMove(move.name)}!`);
-        const res = calcDamage(enemy, player, move.name, pokemonData);
-        if (res) { pHp = Math.max(0, pHp - res.damage); if (res.effText) msgs.push(res.effText); }
+        const res = resolveAttack(enemy, player, move.name, pokemonData);
+        if (!res.hit) { msgs.push('But it missed!'); }
+        else if (res.damage != null) {
+          pHp = Math.max(0, pHp - res.damage);
+          if (res.crit) msgs.push('A critical hit!');
+          if (res.effText) msgs.push(res.effText);
+        }
         setPlayer(prev => ({ ...prev, hp: pHp }));
         if (pHp <= 0) { msgs.push(`${fmt(player.species)} fainted!`); newResult = 'defeat'; }
         pushLog(msgs, 'log', newResult);
@@ -257,38 +353,138 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
 
     function doPlayerTurn() {
       if (!playerMove) return;
+      if (statusBlocksMove(finalPlayer, msgs, true)) return;
+      if (finalPlayer.confused > 0) {
+        const wasSelfHit = checkConfusionSelfHit(finalPlayer, msgs, dmg => { finalPlayer.hp = Math.max(0, finalPlayer.hp - dmg); pHp = finalPlayer.hp; });
+        finalPlayer = { ...finalPlayer, confused: Math.max(0, finalPlayer.confused - 1) };
+        if (wasSelfHit) return;
+      }
+
       msgs.push(`${fmt(player.species)} used ${fmtMove(playerMove.name)}!`);
-      // Deduct PP
-      finalPlayer.moves = finalPlayer.moves.map(m =>
-        m.name === playerMove.name ? { ...m, pp: Math.max(0, m.pp - 1) } : m
-      );
-      const res = calcDamage(player, enemy, playerMove.name, pokemonData);
-      if (!res) { msgs.push('But nothing happened!'); return; }
+      // Struggle doesn't consume PP — it's only used when every other move is already empty
+      if (!isStruggle) {
+        finalPlayer.moves = finalPlayer.moves.map(m =>
+          m.name === playerMove.name ? { ...m, pp: Math.max(0, m.pp - 1) } : m
+        );
+      }
+      const res = resolveAttack(player, enemy, playerMove.name, pokemonData);
+      if (!res.hit) { msgs.push('But it missed!'); return; }
+      if (res.damage == null) {
+        // Pure status move
+        if (res.statusApplied) {
+          const updated = applyStatusMsg(enemy, res.statusApplied, msgs);
+          finalEnemyPatch = { ...finalEnemyPatch, status: updated.status, sleepTurns: updated.sleepTurns };
+        } else if (res.confuseApplied) {
+          msgs.push(`${fmt(enemy.species)} became confused!`);
+          finalEnemyPatch = { ...finalEnemyPatch, confused: 3 + Math.floor(Math.random() * 3) };
+        } else {
+          msgs.push('But nothing happened!');
+        }
+        return;
+      }
       eHp = Math.max(0, eHp - res.damage);
+      if (res.crit) msgs.push('A critical hit!');
       if (res.effText) msgs.push(res.effText);
+      if (isStruggle) {
+        // Gen 1 Struggle recoil: 1/2 of the damage dealt, taken by the user
+        const recoil = Math.max(1, Math.floor(res.damage / 2));
+        pHp = Math.max(0, pHp - recoil);
+        finalPlayer.hp = pHp;
+        msgs.push(`${fmt(player.species)} is hit with recoil!`);
+      }
+      if (res.statusApplied) {
+        const updated = applyStatusMsg(enemy, res.statusApplied, msgs);
+        finalEnemyPatch = { ...finalEnemyPatch, status: updated.status, sleepTurns: updated.sleepTurns };
+      } else if (res.confuseApplied) {
+        msgs.push(`${fmt(enemy.species)} became confused!`);
+        finalEnemyPatch = { ...finalEnemyPatch, confused: 3 + Math.floor(Math.random() * 3) };
+      }
     }
 
     function doEnemyTurn() {
       if (eHp <= 0) return;
-      const move = pickEnemyMove(enemy);
+      const liveEnemy = { ...enemy, ...finalEnemyPatch, hp: eHp };
+      if (statusBlocksMove(liveEnemy, msgs, false)) return;
+      if (liveEnemy.confused > 0) {
+        const wasSelfHit = checkConfusionSelfHit(liveEnemy, msgs, dmg => { eHp = Math.max(0, eHp - dmg); });
+        finalEnemyPatch = { ...finalEnemyPatch, confused: Math.max(0, liveEnemy.confused - 1) };
+        if (wasSelfHit) return;
+      }
+
+      const move = pickEnemyMove(liveEnemy);
       msgs.push(`${fmt(enemy.species)} used ${fmtMove(move.name)}!`);
-      const res = calcDamage(enemy, player, move.name, pokemonData);
-      if (!res) { msgs.push('But nothing happened!'); return; }
+      const enemyIsStruggling = move.name === 'STRUGGLE' && liveEnemy.moves.every(m => m.pp <= 0);
+      if (!enemyIsStruggling) {
+        finalEnemyPatch = {
+          ...finalEnemyPatch,
+          moves: (finalEnemyPatch.moves ?? enemy.moves).map(m =>
+            m.name === move.name ? { ...m, pp: Math.max(0, m.pp - 1) } : m
+          ),
+        };
+      }
+      const res = resolveAttack(liveEnemy, finalPlayer, move.name, pokemonData);
+      if (!res.hit) { msgs.push('But it missed!'); return; }
+      if (res.damage == null) {
+        if (res.statusApplied) {
+          const updated = applyStatusMsg(finalPlayer, res.statusApplied, msgs);
+          finalPlayer = { ...finalPlayer, status: updated.status, sleepTurns: updated.sleepTurns };
+        } else if (res.confuseApplied) {
+          msgs.push(`${fmt(player.species)} became confused!`);
+          finalPlayer = { ...finalPlayer, confused: 3 + Math.floor(Math.random() * 3) };
+        } else {
+          msgs.push('But nothing happened!');
+        }
+        return;
+      }
       pHp = Math.max(0, pHp - res.damage);
+      if (res.crit) msgs.push('A critical hit!');
       if (res.effText) msgs.push(res.effText);
+      if (enemyIsStruggling) {
+        const recoil = Math.max(1, Math.floor(res.damage / 2));
+        eHp = Math.max(0, eHp - recoil);
+        msgs.push(`${fmt(enemy.species)} is hit with recoil!`);
+      }
+      if (res.statusApplied) {
+        const updated = applyStatusMsg(finalPlayer, res.statusApplied, msgs);
+        finalPlayer = { ...finalPlayer, status: updated.status, sleepTurns: updated.sleepTurns };
+      } else if (res.confuseApplied) {
+        msgs.push(`${fmt(player.species)} became confused!`);
+        finalPlayer = { ...finalPlayer, confused: 3 + Math.floor(Math.random() * 3) };
+      }
     }
 
     if (playerFirst) { doPlayerTurn(); doEnemyTurn(); }
     else             { doEnemyTurn(); doPlayerTurn(); }
 
+    // End-of-turn poison/burn chip damage (Gen 1: 1/16 max HP each, applied after both moves)
+    if (pHp > 0 && finalPlayer.status === 'PSN') {
+      const dmg = Math.max(1, Math.floor(finalPlayer.maxHp / 16));
+      pHp = Math.max(0, pHp - dmg);
+      msgs.push(`${fmt(player.species)} is hurt by poison!`);
+    } else if (pHp > 0 && finalPlayer.status === 'BRN') {
+      const dmg = Math.max(1, Math.floor(finalPlayer.maxHp / 16));
+      pHp = Math.max(0, pHp - dmg);
+      msgs.push(`${fmt(player.species)} is hurt by its burn!`);
+    }
+    if (eHp > 0 && finalEnemyPatch.status === 'PSN') {
+      const dmg = Math.max(1, Math.floor(enemy.maxHp / 16));
+      eHp = Math.max(0, eHp - dmg);
+      msgs.push(`${fmt(enemy.species)} is hurt by poison!`);
+    } else if (eHp > 0 && finalEnemyPatch.status === 'BRN') {
+      const dmg = Math.max(1, Math.floor(enemy.maxHp / 16));
+      eHp = Math.max(0, eHp - dmg);
+      msgs.push(`${fmt(enemy.species)} is hurt by its burn!`);
+    }
+
+
     finalPlayer = { ...finalPlayer, hp: pHp };
-    setPlayer(prev => ({ ...prev, hp: pHp, moves: finalPlayer.moves }));
-    setEnemy(prev => ({ ...prev, hp: eHp }));
+    setPlayer(prev => ({ ...prev, ...finalPlayer }));
+    setEnemy(prev => ({ ...prev, ...finalEnemyPatch, hp: eHp }));
 
     if (eHp <= 0) {
       msgs.push(`${fmt(enemy.species)} fainted!`);
       // XP calculation (Gen 1: baseExp * level / 7 for wild)
-      const baseExp = pokemonData.pokemon[enemy.species]?.baseExp ?? BASE_EXP_FALLBACK;
+      const baseExp = baseExpFor(enemy.species);
       const xp = Math.max(1, Math.floor(baseExp * enemy.level / 7));
       const { pokemon: leveled, messages: xpMsgs } = applyXP(finalPlayer, xp, pokemonData);
       msgs.push(...xpMsgs);
@@ -304,12 +500,25 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
           updatedPlayerRef.current = finalPlayer;
           pushLog(msgs, 'log', null);
           setEnemy(nextMon);
-          setPlayer(prev => ({ ...prev, hp: pHp, moves: finalPlayer.moves }));
+          setPlayer(prev => ({ ...prev, ...finalPlayer }));
           return;
         }
       }
 
       newResult = 'victory';
+      if (isTrainer && trainerEncounter) {
+        // pret/pokered: "money received after battle = base money × level of last enemy mon".
+        // TRAINER_META's baseMoney values (1500, 9900, etc.) are the table's raw digits scaled
+        // ×100 from the real base (confirmed against documented real values — e.g. Gym Leaders'
+        // true base is ₽99, not ₽9900 — so we divide back out before multiplying by level).
+        const meta = TRAINER_META[trainerEncounter.trainerKey];
+        const lastMonLevel = enemy.level; // last Pokemon sent out this battle
+        const prize = Math.max(0, Math.round((meta?.baseMoney ?? 0) / 100) * lastMonLevel);
+        if (prize > 0) {
+          msgs.push(`${fmt(player.species)}'s trainer got ₽${prize} for winning!`);
+          moneyWonRef.current = prize;
+        }
+      }
     } else if (pHp <= 0) {
       msgs.push(`${fmt(player.species)} fainted!`);
       newResult = 'defeat';
@@ -320,12 +529,15 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
   }
 
   function pickEnemyMove(mon) {
-    const damaging = mon.moves.filter(m => {
+    const usable = mon.moves.filter(m => m.pp > 0);
+    const pool = usable.length > 0 ? usable : null;
+    if (!pool) return { name: 'STRUGGLE', pp: 1, ppMax: 1 }; // out of PP — forced Struggle
+    const damaging = pool.filter(m => {
       const md = pokemonData.moves[m.name];
       return md && md.power > 0;
     });
-    const pool = damaging.length > 0 ? damaging : mon.moves;
-    return pool[Math.floor(Math.random() * pool.length)];
+    const finalPool = damaging.length > 0 ? damaging : pool;
+    return finalPool[Math.floor(Math.random() * finalPool.length)];
   }
 
   function handleRun() {
@@ -343,9 +555,12 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
       let pHp = player.hp;
       const move = pickEnemyMove(enemy);
       msgs.push(`${fmt(enemy.species)} used ${fmtMove(move.name)}!`);
-      const res = calcDamage(enemy, player, move.name, pokemonData);
-      if (res) {
+      const res = resolveAttack(enemy, player, move.name, pokemonData);
+      if (!res.hit) {
+        msgs.push('But it missed!');
+      } else if (res.damage != null) {
         pHp = Math.max(0, pHp - res.damage);
+        if (res.crit) msgs.push('A critical hit!');
         if (res.effText) msgs.push(res.effText);
       }
       setPlayer(prev => ({ ...prev, hp: pHp }));
@@ -359,10 +574,19 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
     }
   }
 
+  const allOutOfPP = player.moves.every(m => m.pp <= 0);
+
   function handleMove(idx) {
+    if (allOutOfPP) { handleStruggle(); return; }
     const move = player.moves[idx];
     if (!move || move.pp <= 0) return;
     resolveTurns(move, false);
+  }
+
+  // Struggle: forced 50-power Normal-type move that recoils 1/2 the damage dealt
+  // back onto the user. Used automatically when every move is out of PP.
+  function handleStruggle() {
+    resolveTurns({ name: 'STRUGGLE', pp: 1, ppMax: 1 }, false, true);
   }
 
   function handleBall() {
@@ -374,6 +598,7 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
       result,
       updatedPlayer: updatedPlayerRef.current ?? player,
       caught: caughtMonRef.current ?? null,
+      moneyWon: moneyWonRef.current || 0,
     });
   }
 
@@ -396,7 +621,7 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
 
         {/* Enemy info (top-left) */}
         <div className="pkrb-enemy-info">
-          <div className="pkrb-info-name">{fmt(enemy.species)}<span className="pkrb-lv">Lv{enemy.level}</span></div>
+          <div className="pkrb-info-name">{fmt(enemy.species)}<span className="pkrb-lv">Lv{enemy.level}</span><StatusBadge status={enemy.status} /></div>
           <HpBar current={enemy.hp} max={enemy.maxHp} />
         </div>
 
@@ -414,7 +639,7 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
 
         {/* Player info (middle-right) */}
         <div className="pkrb-player-info">
-          <div className="pkrb-info-name">{fmt(player.species)}<span className="pkrb-lv">Lv{player.level}</span></div>
+          <div className="pkrb-info-name">{fmt(player.species)}<span className="pkrb-lv">Lv{player.level}</span><StatusBadge status={player.status} /></div>
           <HpBar current={player.hp} max={player.maxHp} />
           <div className="pkrb-xprow">
             <span className="pkrb-xplabel">EXP</span>
@@ -455,7 +680,9 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
           ) : phase === 'moves' ? (
             <div className="pkrb-moves-layout">
               <div className="pkrb-moves-grid">
-                {[0,1,2,3].map(i => {
+                {allOutOfPP ? (
+                  <button className="pkrb-move-btn" onClick={handleStruggle}>STRUGGLE</button>
+                ) : [0,1,2,3].map(i => {
                   const m = player.moves[i];
                   if (!m) return <div key={i} className="pkrb-move-btn pkrb-move-empty">-</div>;
                   const md = pokemonData.moves[m.name];
@@ -468,7 +695,9 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
                 })}
               </div>
               <div className="pkrb-move-detail">
-                {player.moves[cursor] && (() => {
+                {allOutOfPP ? (
+                  <span className="pkrb-move-type">No PP left — Struggle only</span>
+                ) : player.moves[cursor] && (() => {
                   const m = player.moves[cursor];
                   const md = pokemonData.moves[m.name];
                   return <><span className="pkrb-move-type">{md?.type ?? '—'}</span><span className="pkrb-move-pp">PP {m.pp}/{m.ppMax}</span></>;

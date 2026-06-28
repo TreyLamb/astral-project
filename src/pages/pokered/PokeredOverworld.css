@@ -265,6 +265,22 @@
   margin-bottom: 4px;
 }
 .pkr-menu-mon-lv { color: #888; font-size: 10px; }
+.pkr-menu-status {
+  display: inline-block;
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  margin-left: 6px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: #fff;
+  vertical-align: middle;
+}
+.pkr-menu-status-SLP { background: #8a8aa0; }
+.pkr-menu-status-PSN { background: #a040a0; }
+.pkr-menu-status-BRN { background: #e06030; }
+.pkr-menu-status-PAR { background: #e0c020; color: #1a1a0a; }
+.pkr-menu-status-FRZ { background: #60c0e0; color: #1a1a0a; }
 
 .pkr-menu-hprow {
   display: flex;

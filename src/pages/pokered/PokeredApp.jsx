@@ -35,18 +35,22 @@ export default function PokeredApp() {
   }
 
   function handleEncounter(encounter, mapId, x, y) {
+    if (!gameState?.party?.[0] || gameState.party[0].hp <= 0) return; // lead fainted — no switch UI yet, block the encounter rather than soft-lock
     battleReturnPos.current = playerPosRef.current ?? { mapId, x, y };
     setWildEncounter(encounter);
     setScreen('battle');
   }
 
   function handleTrainerBattle(trainerEncounterData, mapId, x, y) {
+    if (!gameState?.party?.[0] || gameState.party[0].hp <= 0) return;
     battleReturnPos.current = playerPosRef.current ?? { mapId, x, y };
     setTrainerEncounter(trainerEncounterData);
     setScreen('battle');
   }
 
-  function handleBattleEnd({ result, updatedPlayer, caught }) {
+  function handleBattleEnd({ result, updatedPlayer, caught, moneyWon }) {
+    const wasTrainerVictory = result === 'victory' && !!trainerEncounter;
+    const beatenId = trainerEncounter?.trainerId;
     setWildEncounter(null);
     setTrainerEncounter(null);
 
@@ -64,9 +68,16 @@ export default function PokeredApp() {
         );
       }
 
+      let beatenTrainers = prev.beatenTrainers ?? [];
+      if (wasTrainerVictory && beatenId && !beatenTrainers.includes(beatenId)) {
+        beatenTrainers = [...beatenTrainers, beatenId];
+      }
+
+      const money = wasTrainerVictory ? (prev.money ?? 0) + (moneyWon ?? 0) : (prev.money ?? 0);
+
       // Restore exact position from before the battle — battleReturnPos was set from playerPosRef
       const pos = battleReturnPos.current ?? playerPosRef.current ?? { mapId: prev.mapId, x: prev.x, y: prev.y };
-      const newState = { ...prev, party, items, mapId: pos.mapId, x: pos.x, y: pos.y };
+      const newState = { ...prev, party, items, beatenTrainers, money, mapId: pos.mapId, x: pos.x, y: pos.y };
 
       if ((result === 'victory' || result === 'caught') && !prev.isExtra) {
         saveGame(newState);
@@ -84,6 +95,22 @@ export default function PokeredApp() {
       const healed = { ...prev, party: healParty(prev.party) };
       if (!prev.isExtra) saveGame(healed);
       return healed;
+    });
+  }
+
+  function handlePickUpItem(itemId, itemName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const pickedUpItems = prev.pickedUpItems ?? [];
+      if (pickedUpItems.includes(itemId)) return prev; // already collected this save
+      const items = [...(prev.items ?? [])];
+      const existing = items.find(it => it.name === itemName);
+      const newItems = existing
+        ? items.map(it => it.name === itemName ? { ...it, count: it.count + 1 } : it)
+        : [...items, { name: itemName, count: 1 }];
+      const newState = { ...prev, items: newItems, pickedUpItems: [...pickedUpItems, itemId] };
+      if (!prev.isExtra) saveGame(newState);
+      return newState;
     });
   }
 
@@ -283,6 +310,7 @@ export default function PokeredApp() {
             onMapChange={handleMapChange}
             onSave={handleSave}
             onPositionUpdate={handlePositionUpdate}
+            onPickUpItem={handlePickUpItem}
             gameState={gameState}
             isExtra={gameState.isExtra}
           />

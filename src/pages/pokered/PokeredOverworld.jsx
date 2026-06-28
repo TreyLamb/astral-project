@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { TRAINER_META } from './trainerMeta';
+import { TRAINER_PARTIES } from './trainerParties';
 import './PokeredOverworld.css';
 
 // Game Boy native resolution — CSS handles 3x scaling
@@ -35,8 +37,10 @@ const DIR_UP    = 1;
 const DIR_LEFT  = 2;
 const DIR_RIGHT = 3;
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle, onReturnHome, onHealParty, onRequestStarter, onOpenPC, onMapChange, onSave, onPositionUpdate, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle, onReturnHome, onHealParty, onRequestStarter, onOpenPC, onMapChange, onSave, onPositionUpdate, onPickUpItem, gameState, isExtra }) {
   const canvasRef = useRef();
+  const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
+  useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
 
   // Stable refs (never cause re-renders — game loop reads these directly)
   const keysRef       = useRef(new Set());
@@ -225,6 +229,19 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     const p  = playerRef.current;
     if (!ms || encounterRef.current) return;
 
+    // Ground item (poke_ball sprite) — walking onto its tile picks it up, once per save file.
+    const itemNpc = ms.mapInfo.npcs.find(n => n.sprite === 'poke_ball' && n.x === p.x && n.y === p.y);
+    if (itemNpc) {
+      const itemId = npcTrainerId(ms.mapId, itemNpc);
+      if (!pickedUpRef.current.has(itemId)) {
+        pickedUpRef.current.add(itemId); // mark immediately so the same tile can't double-fire mid-animation
+        // map data only flags *that* an item sits here, not which one (no per-location item
+        // table in game_data.json), so this grants a generic Potion rather than guessing contents.
+        setDialogue({ lines: ['You found a POTION!'], idx: 0, action: null });
+        if (onPickUpItem) onPickUpItem(itemId, 'POTION');
+      }
+    }
+
     // Warp — direction check so the player must step onto it from the correct side
     const warp = ms.mapInfo.warps.find(w => w.x === p.x && w.y === p.y);
     if (warp) {
@@ -329,10 +346,43 @@ function notifyPosition() {
     return NPC_TEXT[spriteName] || { lines: [`...`] };
   }
 
+  // Stable per-NPC-instance ID — same NPC always resolves to the same ID across
+  // visits, used as the key for "have I beaten this trainer" tracking.
+  function npcTrainerId(mapId, npc) {
+    return `${mapId}:${npc.x}:${npc.y}`;
+  }
+
+  // Different NPC instances that share a sprite (e.g. every "youngster" on a route)
+  // shouldn't all fight the exact same Lv11 Rattata/Ekans — pick a party variant
+  // deterministically from the NPC's own position so it's stable across visits
+  // but varies between instances.
+  function partyIdxForNpc(trainerKey, npc) {
+    const parties = TRAINER_PARTIES?.[trainerKey];
+    const count = parties?.length || 1;
+    const hash = (npc.x * 31 + npc.y * 17) % count;
+    return hash;
+  }
+
   function startDialogue(npc) {
     setShowMenu(false); showMenuRef.current = false;
-    const { lines, action, trainerKey, partyIdx } = npcText(npc.sprite);
-    setDialogue({ lines, idx: 0, action: action || null, trainerKey: trainerKey || null, partyIdx: partyIdx ?? 0 });
+    const ms = mapStateRef.current;
+    const { lines, action, trainerKey } = npcText(npc.sprite);
+
+    if (action === 'BATTLE' && trainerKey && ms) {
+      const id = npcTrainerId(ms.mapId, npc);
+      const beaten = (gameState?.beatenTrainers ?? []).includes(id);
+      if (beaten) {
+        const meta = TRAINER_META[trainerKey];
+        const name = meta?.name ?? trainerKey.toUpperCase();
+        setDialogue({ lines: [`${name}: ...`, `${name} is out of POKéMON to battle with!`], idx: 0, action: null });
+        return;
+      }
+      const partyIdx = partyIdxForNpc(trainerKey, npc);
+      setDialogue({ lines, idx: 0, action: 'BATTLE', trainerKey, partyIdx, trainerId: id });
+      return;
+    }
+
+    setDialogue({ lines, idx: 0, action: action || null, trainerKey: trainerKey || null, partyIdx: 0 });
   }
 
   function advanceDialogue() {
@@ -355,7 +405,7 @@ function notifyPosition() {
           const ms = mapStateRef.current;
           const p  = playerRef.current;
           setTimeout(() => onTrainerBattle(
-            { trainerKey: prev.trainerKey, partyIdx: prev.partyIdx ?? 0 },
+            { trainerKey: prev.trainerKey, partyIdx: prev.partyIdx ?? 0, trainerId: prev.trainerId },
             ms?.mapId, p?.x, p?.y
           ), 50);
         }
@@ -532,7 +582,7 @@ function notifyPosition() {
           }
         }
         // Key check runs immediately after step completion too — eliminates the one-frame standing flicker
-        if (!p.isWalking && transitionRef.current === 0 && !showMenuRef.current) {
+        if (!p.isWalking && transitionRef.current === 0 && !showMenuRef.current && !dialogueRef.current) {
           const keys = keysRef.current;
           let ddx = 0, ddy = 0, dir = p.dir;
           if      (keys.has('ArrowUp')    || keys.has('w') || keys.has('W')) { ddy = -1; dir = DIR_UP; }
@@ -557,7 +607,7 @@ function notifyPosition() {
             } else {
               const nextTileId = fn.getTileId(nx, ny);
               const ledgeJump = fn.isValidLedge(p.x, p.y, ddx, ddy, nextTileId);
-              const npcBlocking = ms.mapInfo.npcs.some(n => n.x === nx && n.y === ny);
+              const npcBlocking = ms.mapInfo.npcs.some(n => n.x === nx && n.y === ny && n.sprite !== 'poke_ball');
               const OUTDOOR_TS = ['overworld', 'forest', 'plateau'];
               const isOutdoor = OUTDOOR_TS.includes(ms.mapInfo.tileset);
               const warpEntry = ms.mapInfo.warps.find(w => w.x === nx && w.y === ny);
@@ -630,6 +680,7 @@ function notifyPosition() {
 
         // NPC sprites (drawn before player so player renders on top)
         for (const npc of ms.mapInfo.npcs) {
+          if (npc.sprite === 'poke_ball' && pickedUpRef.current.has(npcTrainerId(ms.mapId, npc))) continue;
           const nsx = Math.round(npc.x * TILE - camX);
           const nsy = Math.round(npc.y * TILE - camY) - 8;
           if (nsx < -16 || nsy < -16 || nsx > GB_W + 16 || nsy > GB_H + 16) continue;
@@ -751,6 +802,7 @@ function notifyPosition() {
                           <div className="pkr-menu-mon-name">
                             {menuCursor === i && <span className="pkr-menu-cursor">► </span>}
                             {mon.species.replace(/_/g,' ')} <span className="pkr-menu-mon-lv">Lv{mon.level}</span>
+                            {mon.status && <span className={`pkr-menu-status pkr-menu-status-${mon.status}`}>{mon.status}</span>}
                           </div>
                           <div className="pkr-menu-hprow">
                             <span className="pkr-menu-hplabel">HP</span>

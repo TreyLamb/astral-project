@@ -3,6 +3,55 @@
 
 export const SAVE_KEY = 'pkr_save_v1';
 
+// pokemon_data.json's `pokemon` dict and `learnsets` dict disagree on a handful of
+// species keys (the pokemon dict keeps the underscore from constants.asm, the
+// learnsets dict strips it). This maps pokemon-dict keys -> learnsets-dict keys so
+// lookups never silently miss.
+const LEARNSET_KEY_ALIAS = {
+  NIDORAN_M: 'NIDORANM',
+  NIDORAN_F: 'NIDORANF',
+  MR_MIME: 'MRMIME',
+};
+function learnsetFor(pokemonData, species) {
+  return pokemonData.learnsets[species] || pokemonData.learnsets[LEARNSET_KEY_ALIAS[species]] || null;
+}
+
+// Gen 1 base experience yield, by species (pret/pokered base_stats — this table has
+// no equivalent field in pokemon_data.json, so it's hand-entered here rather than guessed).
+const BASE_EXP_YIELD = {
+  BULBASAUR:64,IVYSAUR:141,VENUSAUR:208,CHARMANDER:65,CHARMELEON:142,CHARIZARD:209,
+  SQUIRTLE:66,WARTORTLE:143,BLASTOISE:210,CATERPIE:53,METAPOD:72,BUTTERFREE:198,
+  WEEDLE:52,KAKUNA:71,BEEDRILL:178,PIDGEY:55,PIDGEOTTO:113,PIDGEOT:172,
+  RATTATA:57,RATICATE:116,SPEAROW:58,FEAROW:162,EKANS:62,ARBOK:147,
+  PIKACHU:82,RAICHU:122,SANDSHREW:93,SANDSLASH:163,NIDORAN_F:55,NIDORINA:128,
+  NIDOQUEEN:227,NIDORAN_M:55,NIDORINO:128,NIDOKING:227,CLEFAIRY:113,CLEFABLE:217,
+  VULPIX:63,NINETALES:178,JIGGLYPUFF:95,WIGGLYTUFF:196,ZUBAT:54,GOLBAT:171,
+  ODDISH:78,GLOOM:132,VILEPLUME:184,PARAS:57,PARASECT:142,VENONAT:75,
+  VENOMOTH:158,DIGLETT:81,DUGTRIO:153,MEOWTH:69,PERSIAN:148,PSYDUCK:80,
+  GOLDUCK:174,MANKEY:74,PRIMEAPE:149,GROWLITHE:91,ARCANINE:213,POLIWAG:77,
+  POLIWHIRL:131,POLIWRATH:185,ABRA:73,KADABRA:145,ALAKAZAM:186,MACHOP:88,
+  MACHOKE:146,MACHAMP:193,BELLSPROUT:84,WEEPINBELL:151,VICTREEBEL:191,
+  TENTACOOL:67,TENTACRUEL:180,GEODUDE:85,GRAVELER:137,GOLEM:223,PONYTA:152,
+  RAPIDASH:192,SLOWPOKE:78,SLOWBRO:172,MAGNEMITE:89,MAGNETON:161,
+  FARFETCHD:94,DODUO:96,DODRIO:158,SEEL:100,DEWGONG:176,GRIMER:90,
+  MUK:190,SHELLDER:97,CLOYSTER:203,GASTLY:95,HAUNTER:126,GENGAR:190,
+  ONIX:108,DROWZEE:102,HYPNO:165,KRABBY:115,KINGLER:206,VOLTORB:103,
+  ELECTRODE:150,EXEGGCUTE:89,EXEGGUTOR:212,CUBONE:87,MAROWAK:124,
+  HITMONLEE:159,HITMONCHAN:159,LICKITUNG:127,KOFFING:68,WEEZING:172,
+  RHYHORN:135,RHYDON:204,CHANSEY:395,TANGELA:166,KANGASKHAN:172,
+  HORSEA:83,SEADRA:155,GOLDEEN:111,SEAKING:170,STARYU:106,STARMIE:207,
+  MR_MIME:161,SCYTHER:187,JYNX:159,ELECTABUZZ:172,MAGMAR:173,PINSIR:200,
+  TAUROS:172,MAGIKARP:62,GYARADOS:189,LAPRAS:219,DITTO:101,EEVEE:92,
+  VAPOREON:196,JOLTEON:197,FLAREON:198,PORYGON:163,OMANYTE:120,
+  OMASTAR:199,KABUTO:119,KABUTOPS:201,AERODACTYL:202,SNORLAX:154,
+  ARTICUNO:290,ZAPDOS:290,MOLTRES:290,DRATINI:60,DRAGONAIR:147,
+  DRAGONITE:270,MEWTWO:340,MEW:270,
+};
+const BASE_EXP_FALLBACK = 100;
+export function baseExpFor(species) {
+  return BASE_EXP_YIELD[species] ?? BASE_EXP_FALLBACK;
+}
+
 // Gen 1 stat formulas (from pokered engine)
 export function calcHP(base, level, iv = 9) {
   return Math.floor((base + iv) * 2 * level / 100 + level + 10);
@@ -11,39 +60,59 @@ export function calcStat(base, level, iv = 9) {
   return Math.floor((base + iv) * 2 * level / 100 + 5);
 }
 
-// Which Squirtle-line species at a given level (evolvesAt from evos_moves.asm)
+// Generic evolution lookup — works for any of the 3 starters or any other species
+// with a level-based evolution (stone/trade evolutions aren't in evos_moves data).
+export function nextEvolution(species, pokemonData) {
+  const ls = learnsetFor(pokemonData, species);
+  const evo = ls?.evos?.[0];
+  return evo ? { level: evo.level, into: evo.into } : null;
+}
+
+// Which species in this Pokemon's evolution line at a given level (handles any
+// level-evolving species, not just Squirtle). Falls back to `species` itself
+// if there's no further evolution.
+export function speciesAtLevel(species, level, pokemonData) {
+  let current = species;
+  for (let i = 0; i < 4; i++) { // safety bound — no Gen 1 line is longer than 3 stages
+    const evo = nextEvolution(current, pokemonData);
+    if (!evo || level < evo.level) break;
+    current = evo.into;
+  }
+  return current;
+}
+
+// Backwards-compatible helper used by the start screen's "extra" states (Blastoise line preview).
 export function squirtleLineSpecies(level) {
   if (level >= 36) return 'BLASTOISE';
   if (level >= 16) return 'WARTORTLE';
   return 'SQUIRTLE';
 }
 
-// Squirtle/Wartortle/Blastoise shared learnset from pokered evos_moves.asm
-const SQUIRTLE_LEARNSET = [
-  { level: 1,  move: 'TACKLE' },
-  { level: 1,  move: 'TAIL_WHIP' },
-  { level: 8,  move: 'BUBBLE' },
-  { level: 15, move: 'WATER_GUN' },
-  { level: 22, move: 'BITE' },
-  { level: 28, move: 'WITHDRAW' },
-  { level: 35, move: 'SKULL_BASH' },
-  { level: 42, move: 'HYDRO_PUMP' },
-];
-
-function movesAtLevel(level) {
-  const learned = SQUIRTLE_LEARNSET.filter(e => e.level <= level).map(e => e.move);
-  const base = learned.slice(-4);
-  // Add TM moves at higher levels (ice beam TM29 from pokered)
-  if (level >= 60 && base.length < 4) base.push('ICE_BEAM');
-  else if (level >= 60 && !base.includes('ICE_BEAM')) base[0] = 'ICE_BEAM';
-  return base;
+// Moves a freshly-created Pokemon of `species` would know at `level`,
+// using the real per-species learnset (startMoves + any moves learned by this level).
+function movesAtLevel(species, level, pokemonData) {
+  const base = pokemonData.pokemon[species];
+  const ls = learnsetFor(pokemonData, species);
+  const learned = (ls?.moves ?? []).filter(e => e.level <= level).map(e => e.move);
+  const all = [...(base?.startMoves ?? ['TACKLE']), ...learned];
+  // Keep only the last 4 distinct moves learned, latest-learned last (Gen 1 behavior:
+  // once you have 4 moves, a new one bumps out the oldest slot).
+  const seen = new Set();
+  const ordered = [];
+  for (const m of all) {
+    if (seen.has(m)) { ordered.splice(ordered.indexOf(m), 1); }
+    seen.add(m);
+    ordered.push(m);
+  }
+  return ordered.slice(-4);
 }
 
 export function createPlayerPokemon(species, level, pokemonData) {
   const base = pokemonData.pokemon[species];
   const iv = 15; // max DVs for player Pokemon
   const maxHp = calcHP(base.hp, level, iv);
-  const moveNames = movesAtLevel(level);
+  const moveNames = movesAtLevel(species, level, pokemonData);
+  const evo = nextEvolution(species, pokemonData);
   return {
     species, level,
     hp: maxHp, maxHp,
@@ -57,8 +126,8 @@ export function createPlayerPokemon(species, level, pokemonData) {
       return { name, pp: m.pp, ppMax: m.pp };
     }),
     exp: 0,
-    evolvesAt: species === 'SQUIRTLE' ? 16 : species === 'WARTORTLE' ? 36 : null,
-    evolvesInto: species === 'SQUIRTLE' ? 'WARTORTLE' : species === 'WARTORTLE' ? 'BLASTOISE' : null,
+    evolvesAt: evo?.level ?? null,
+    evolvesInto: evo?.into ?? null,
   };
 }
 
@@ -76,7 +145,7 @@ export function createWildPokemon(species, level, pokemonData) {
   }
   const iv = 9;
   const maxHp = calcHP(base.hp, level, iv);
-  const learnset = pokemonData.learnsets[species] || { moves: [] };
+  const learnset = learnsetFor(pokemonData, species) || { moves: [] };
   const allMoves = [
     ...(base.startMoves || ['TACKLE']),
     ...learnset.moves.filter(e => e.level <= level).map(e => e.move),
@@ -149,10 +218,18 @@ export function createExtraState(stateKey, pokemonData) {
     badges: Array.from({ length: numBadges }, (_, i) => i),
     money: 5000,
     items: [{ name: 'POKE_BALL', count: 20 }],
+    beatenTrainers: [],
+    pickedUpItems: [],
   };
 }
 
-// ── Gen 1 Medium-Slow XP formula (Squirtle line growth rate from pokered) ────
+// ── XP formula ────────────────────────────────────────────────────────────
+// Gen 1 actually has 4 different growth-rate groups (Fast/Medium-Fast/Medium-Slow/Slow)
+// split across the 151 species — e.g. Squirtle's line is Medium-Slow but Charmander's
+// is Medium-Fast, so they level at different rates from the same XP. This formula is
+// the Medium-Slow curve only, applied to every species as an approximation, because
+// pokemon_data.json has no per-species growth-rate field to pick the right one from.
+// Levelling will be somewhat off for species outside the Medium-Slow group.
 export function xpForLevel(n) {
   if (n <= 1) return 0;
   return Math.max(0, Math.floor(1.2 * n * n * n - 15 * n * n + 100 * n - 140));
@@ -188,7 +265,7 @@ export function applyXP(pokemon, xpGain, pokemonData) {
     messages.push(`${fmt(mon.species)} grew to level ${mon.level}!`);
 
     // New moves learned at this level (from pokered learnset)
-    const learnset = pokemonData.learnsets[mon.species];
+    const learnset = learnsetFor(pokemonData, mon.species);
     if (learnset) {
       for (const entry of learnset.moves) {
         if (entry.level === mon.level) {
@@ -212,8 +289,7 @@ export function applyXP(pokemon, xpGain, pokemonData) {
       if (newBase) {
         messages.push(`What? ${fmt(fromName)} is evolving!`);
         messages.push(`${fmt(fromName)} evolved into ${fmt(toName)}!`);
-        const newLs = pokemonData.learnsets[toName] || { evos: [] };
-        const nextEvo = newLs.evos[0] || null;
+        const nextEvo = nextEvolution(toName, pokemonData);
         mon = {
           ...mon,
           species: toName,
@@ -242,11 +318,15 @@ export function tryCatch(enemy, pokemonData) {
   return Math.random() * 256 < threshold + 1;
 }
 
-// Restore all party Pokemon to full HP/PP
+// Restore all party Pokemon to full HP/PP and clear status conditions (Gen 1: Pokemon
+// Centers heal HP, PP, AND status — sleep/poison/burn/paralyze/freeze/confusion all clear).
 export function healParty(party) {
   return party.map(mon => ({
     ...mon,
     hp: mon.maxHp,
+    status: null,
+    sleepTurns: 0,
+    confused: 0,
     moves: mon.moves.map(m => ({ ...m, pp: m.ppMax })),
   }));
 }
@@ -262,6 +342,8 @@ export function createNewGame(_pokemonData) {
     money: 500,
     items: [],
     pcBox: [{ name: 'POTION', count: 1 }],
+    beatenTrainers: [],
+    pickedUpItems: [],
   };
 }
 
