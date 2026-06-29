@@ -1,3 +1,0 @@
-Bug images will usually have comments in the meta data. check the comments for more information on what you are looking at in the picture.
-
-images or videos with "AC*" in the title are ACceptance criteria. I am pulling images from the web or from the emulator to show you what the original game code looks like when done correctly. we are working with the original game code so with tweaking we should be able to match the emulator 99.9%

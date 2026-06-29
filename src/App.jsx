@@ -23,7 +23,7 @@ import MymdbApp from './pages/mymdb/MymdbApp';
 import GitmonApp from './pages/gitmon/GitmonApp';
 import BashmonApp from './pages/bashmon/BashmonApp';
 import SignalLostApp from './pages/signal-lost/SignalLostApp';
-import PokeredApp from './pages/pokered/PokeredApp';
+import PokeredApp from './pages/pokered_page/PokeredApp';
 import './App.css';
 
 function App() {
