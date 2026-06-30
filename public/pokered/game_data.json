@@ -524,7 +524,54 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 54,
+          "y": 30,
+          "text": "TRAINER TIPS X ACCURACY boosts the accuracy of techniques! DIRE HIT jacks up the likelihood of critical hits! Get your items at CELADON DEPT. STORE!"
+        },
+        {
+          "x": 38,
+          "y": 30,
+          "text": "CELADON CITY The City of Rainbow Dreams"
+        },
+        {
+          "x": 84,
+          "y": 18,
+          "text": "CELADON CITY POKéMON CENTER A relaxing place to heal your POKéMON!"
+        },
+        {
+          "x": 26,
+          "y": 58,
+          "text": "CELADON CITY #MON GYM LEADER: ERIKA The Nature Loving Princess!"
+        },
+        {
+          "x": 42,
+          "y": 18,
+          "text": "CELADON MANSION"
+        },
+        {
+          "x": 24,
+          "y": 26,
+          "text": "Find what you need at CELADON DEPT. STORE!"
+        },
+        {
+          "x": 78,
+          "y": 42,
+          "text": "TRAINER TIPS GUARD SPEC. protects #MON against SPECIAL attacks such as fire and water! Get your items at CELADON DEPT. STORE!"
+        },
+        {
+          "x": 66,
+          "y": 42,
+          "text": "Coins exchanged for prizes! PRIZE EXCHANGE"
+        },
+        {
+          "x": 54,
+          "y": 42,
+          "text": "ROCKET GAME CORNER The playground for grown-ups!"
+        }
+      ]
     },
     "CELADON_DINER": {
       "blk": "CeladonDiner",
@@ -849,7 +896,14 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 8,
+          "y": 18,
+          "text": "CELADON MANSION Manager's Suite"
+        }
+      ]
     },
     "CELADON_MANSION_2F": {
       "blk": "CeladonMansion2F",
@@ -888,7 +942,14 @@
         }
       ],
       "npcs": [],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 8,
+          "y": 18,
+          "text": "GAME FREAK Meeting Room"
+        }
+      ]
     },
     "CELADON_MANSION_3F": {
       "blk": "CeladonMansion3F",
@@ -968,7 +1029,29 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 2,
+          "y": 6,
+          "text": "It's the game program! Messing with it could bug out the game!"
+        },
+        {
+          "x": 8,
+          "y": 6,
+          "text": "Someone's playing a game instead of working!"
+        },
+        {
+          "x": 2,
+          "y": 12,
+          "text": "It's the script! Better not look at the ending!"
+        },
+        {
+          "x": 8,
+          "y": 18,
+          "text": "GAME FREAK Development Room"
+        }
+      ]
     },
     "CELADON_MANSION_ROOF": {
       "blk": "CeladonMansionRoof",
@@ -1000,7 +1083,14 @@
         }
       ],
       "npcs": [],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 6,
+          "y": 14,
+          "text": "I KNOW EVERYTHING!"
+        }
+      ]
     },
     "CELADON_MANSION_ROOF_HOUSE": {
       "blk": "CeladonMansionRoofHouse",
@@ -1110,7 +1200,19 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 22,
+          "y": 8,
+          "text": "1F: SERVICE     COUNTER 2F: TRAINER'S     MARKET 3F: TV GAME SHOP 4F: WISEMAN GIFTS 5F: DRUG STORE ROOFTOP SQUARE: VENDING MACHINES"
+        },
+        {
+          "x": 28,
+          "y": 2,
+          "text": "1F: SERVICE     COUNTER"
+        }
+      ]
     },
     "CELADON_MART_2F": {
       "blk": "CeladonMart2F",
@@ -1183,7 +1285,14 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 28,
+          "y": 2,
+          "text": "Top Grade Items for Trainers! 2F: TRAINER'S     MARKET"
+        }
+      ]
     },
     "CELADON_MART_3F": {
       "blk": "CeladonMart3F",
@@ -1266,7 +1375,69 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 4,
+          "y": 8,
+          "text": "It's an SNES!"
+        },
+        {
+          "x": 6,
+          "y": 8,
+          "text": "An RPG! There's no time for that!"
+        },
+        {
+          "x": 10,
+          "y": 8,
+          "text": "It's an SNES!"
+        },
+        {
+          "x": 12,
+          "y": 8,
+          "text": "A sports game! Dad'll like that!"
+        },
+        {
+          "x": 4,
+          "y": 12,
+          "text": "It's an SNES!"
+        },
+        {
+          "x": 6,
+          "y": 12,
+          "text": "A puzzle game! Looks addictive!"
+        },
+        {
+          "x": 10,
+          "y": 12,
+          "text": "It's an SNES!"
+        },
+        {
+          "x": 12,
+          "y": 12,
+          "text": "A fighting game! Looks tough!"
+        },
+        {
+          "x": 28,
+          "y": 2,
+          "text": "3F: TV GAME SHOP"
+        },
+        {
+          "x": 8,
+          "y": 2,
+          "text": "Red and Blue! Both are #MON!"
+        },
+        {
+          "x": 12,
+          "y": 2,
+          "text": "Red and Blue! Both are #MON!"
+        },
+        {
+          "x": 20,
+          "y": 2,
+          "text": "Red and Blue! Both are #MON!"
+        }
+      ]
     },
     "CELADON_MART_4F": {
       "blk": "CeladonMart4F",
@@ -1329,7 +1500,14 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 28,
+          "y": 2,
+          "text": "Express yourself with gifts! 4F: WISEMAN GIFTS Evolution Special! Element STONEs on sale now!"
+        }
+      ]
     },
     "CELADON_MART_5F": {
       "blk": "CeladonMart5F",
@@ -1402,7 +1580,14 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 28,
+          "y": 2,
+          "text": "5F: DRUG STORE"
+        }
+      ]
     },
     "CELADON_MART_ELEVATOR": {
       "blk": "CeladonMartElevator",
@@ -1427,7 +1612,14 @@
         }
       ],
       "npcs": [],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 6,
+          "y": 0,
+          "text": "It's an elevator."
+        }
+      ]
     },
     "CELADON_MART_ROOF": {
       "blk": "CeladonMartRoof",
@@ -1466,7 +1658,29 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 20,
+          "y": 2,
+          "text": "It's a vending machine."
+        },
+        {
+          "x": 22,
+          "y": 2,
+          "text": "It's a vending machine."
+        },
+        {
+          "x": 24,
+          "y": 4,
+          "text": "It's a vending machine."
+        },
+        {
+          "x": 26,
+          "y": 4,
+          "text": "ROOFTOP SQUARE: VENDING MACHINES"
+        }
+      ]
     },
     "CELADON_POKECENTER": {
       "blk": "CeladonPokecenter",
@@ -2022,7 +2236,39 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 46,
+          "y": 38,
+          "text": "CERULEAN CITY A Mysterious, Blue Aura Surrounds It"
+        },
+        {
+          "x": 34,
+          "y": 58,
+          "text": "TRAINER TIPS Pressing B Button during evolution cancels the whole process."
+        },
+        {
+          "x": 52,
+          "y": 50,
+          "text": "CERULEAN CITY POKé MART We sell items for your journey!"
+        },
+        {
+          "x": 40,
+          "y": 34,
+          "text": "CERULEAN CITY POKéMON CENTER A relaxing place to heal your POKéMON!"
+        },
+        {
+          "x": 22,
+          "y": 50,
+          "text": "Grass and caves handled easily! BIKE SHOP"
+        },
+        {
+          "x": 54,
+          "y": 42,
+          "text": "CERULEAN CITY #MON GYM LEADER: MISTY The Tomboyish Mermaid!"
+        }
+      ]
     },
     "CERULEAN_GYM": {
       "blk": "CeruleanGym",
@@ -2309,7 +2555,14 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 6,
+          "y": 0,
+          "text": "TEAM ROCKET left a way out!"
+        }
+      ]
     },
     "CHAMPIONS_ROOM": {
       "blk": "ChampionsRoom",
@@ -2561,7 +2814,34 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 18,
+          "y": 10,
+          "text": "CINNABAR ISLAND The Fiery Town of Burning Desire"
+        },
+        {
+          "x": 32,
+          "y": 22,
+          "text": "CINNABAR ISLAND POKé MART We sell items for your journey!"
+        },
+        {
+          "x": 24,
+          "y": 22,
+          "text": "CINNABAR ISLAND POKéMON CENTER A relaxing place to heal your POKéMON!"
+        },
+        {
+          "x": 18,
+          "y": 22,
+          "text": "#MON LAB"
+        },
+        {
+          "x": 26,
+          "y": 6,
+          "text": "CINNABAR ISLAND #MON GYM LEADER: BLAINE The Hot-Headed Quiz Master!"
+        }
+      ]
     },
     "CINNABAR_LAB": {
       "blk": "CinnabarLab",
@@ -2618,7 +2898,29 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 6,
+          "y": 4,
+          "text": "A photo of the LAB's founder, DR.FUJI!"
+        },
+        {
+          "x": 18,
+          "y": 8,
+          "text": "#MON LAB Meeting Room"
+        },
+        {
+          "x": 26,
+          "y": 8,
+          "text": "#MON LAB R-and-D Room"
+        },
+        {
+          "x": 34,
+          "y": 8,
+          "text": "#MON LAB Testing Room"
+        }
+      ]
     },
     "CINNABAR_LAB_FOSSIL_ROOM": {
       "blk": "CinnabarLabFossilRoom",
@@ -2710,7 +3012,24 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 0,
+          "y": 8,
+          "text": "There's an e-mail message! ... The 3 legendary bird #MON are ARTICUNO, ZAPDOS and MOLTRES. Their whereabouts are unknown. We plan to explore the cavern close to CERULEAN. From: #MON RESEARCH TEAM ..."
+        },
+        {
+          "x": 2,
+          "y": 8,
+          "text": "There's an e-mail message! ... The 3 legendary bird #MON are ARTICUNO, ZAPDOS and MOLTRES. Their whereabouts are unknown. We plan to explore the cavern close to CERULEAN. From: #MON RESEARCH TEAM ..."
+        },
+        {
+          "x": 4,
+          "y": 2,
+          "text": "An amber pipe!"
+        }
+      ]
     },
     "CINNABAR_LAB_TRADE_ROOM": {
       "blk": "CinnabarLabTradeRoom",
@@ -3041,7 +3360,19 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 6,
+          "y": 10,
+          "text": "A game with MARIO wearing a bucket on his head!"
+        },
+        {
+          "x": 0,
+          "y": 2,
+          "text": "... My Secrets! Skill: Mimicry! Hobby: Collecting dolls! Favorite #MON: CLEFAIRY!"
+        }
+      ]
     },
     "DAYCARE": {
       "blk": "Daycare",
@@ -3528,7 +3859,79 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 30,
+          "y": 46,
+          "text": "FUCHSIA CITY Behold! It's Passion Pink!"
+        },
+        {
+          "x": 50,
+          "y": 30,
+          "text": "FUCHSIA CITY Behold! It's Passion Pink!"
+        },
+        {
+          "x": 34,
+          "y": 10,
+          "text": "SAFARI GAME #MON-U-CATCH!"
+        },
+        {
+          "x": 12,
+          "y": 26,
+          "text": "FUCHSIA CITY POKé MART We sell items for your journey!"
+        },
+        {
+          "x": 40,
+          "y": 54,
+          "text": "FUCHSIA CITY POKéMON CENTER A relaxing place to heal your POKéMON!"
+        },
+        {
+          "x": 54,
+          "y": 58,
+          "text": "SAFARI ZONE WARDEN's HOME"
+        },
+        {
+          "x": 42,
+          "y": 30,
+          "text": "#MON PARADISE SAFARI ZONE"
+        },
+        {
+          "x": 10,
+          "y": 58,
+          "text": "FUCHSIA CITY #MON GYM LEADER: KOGA The Poisonous Ninja Master"
+        },
+        {
+          "x": 66,
+          "y": 14,
+          "text": "Name: CHANSEY Catching one is all up to chance."
+        },
+        {
+          "x": 54,
+          "y": 14,
+          "text": "Name: VOLTORB The very image of a # BALL."
+        },
+        {
+          "x": 26,
+          "y": 14,
+          "text": "Name: KANGASKHAN A maternal #MON that raises its young in a pouch on its belly."
+        },
+        {
+          "x": 62,
+          "y": 26,
+          "text": "Name: SLOWPOKE Friendly and very slow moving."
+        },
+        {
+          "x": 26,
+          "y": 30,
+          "text": "Name: LAPRAS A.K.A. the king of the seas."
+        },
+        {
+          "x": 14,
+          "y": 14,
+          "text": "Name: OMANYTE A #MON that was resurrected from a fossil."
+        }
+      ]
     },
     "FUCHSIA_GOOD_ROD_HOUSE": {
       "blk": "FuchsiaGoodRodHouse",
@@ -3998,7 +4401,14 @@
           "sight": 4
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 18,
+          "y": 8,
+          "text": "Hey! A switch behind the poster!? Let's push it!"
+        }
+      ]
     },
     "GAME_CORNER_PRIZE_ROOM": {
       "blk": "GameCornerPrizeRoom",
@@ -4044,7 +4454,24 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 4,
+          "y": 4,
+          "text": "It's a prize counter."
+        },
+        {
+          "x": 8,
+          "y": 4,
+          "text": "It's a prize counter."
+        },
+        {
+          "x": 12,
+          "y": 4,
+          "text": "It's a prize counter."
+        }
+      ]
     },
     "HALL_OF_FAME": {
       "blk": "HallOfFame",
@@ -4501,7 +4928,39 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 22,
+          "y": 18,
+          "text": "LAVENDER TOWN The Noble Purple Town"
+        },
+        {
+          "x": 18,
+          "y": 6,
+          "text": "New SILPH SCOPE! Make the Invisible Plain to See! SILPH CO."
+        },
+        {
+          "x": 32,
+          "y": 26,
+          "text": "LAVENDER TOWN POKé MART We sell items for your journey!"
+        },
+        {
+          "x": 8,
+          "y": 10,
+          "text": "LAVENDER TOWN POKéMON CENTER A relaxing place to heal your POKéMON!"
+        },
+        {
+          "x": 10,
+          "y": 18,
+          "text": "LAVENDER VOLUNTEER #MON HOUSE"
+        },
+        {
+          "x": 34,
+          "y": 14,
+          "text": "May the Souls of #MON Rest Easy #MON TOWER"
+        }
+      ]
     },
     "LORELEIS_ROOM": {
       "blk": "LoreleisRoom",
@@ -4850,7 +5309,14 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 30,
+          "y": 46,
+          "text": "Beware! ZUBAT is a blood sucker!"
+        }
+      ]
     },
     "MT_MOON_B1F": {
       "blk": "MtMoonB1F",
@@ -5299,7 +5765,19 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 22,
+          "y": 4,
+          "text": "SPACE SHUTTLE COLUMBIA"
+        },
+        {
+          "x": 4,
+          "y": 10,
+          "text": "Meteorite that fell on MT.MOON. (MOON STONE?)"
+        }
+      ]
     },
     "NAME_RATERS_HOUSE": {
       "blk": "NameRatersHouse",
@@ -5543,7 +6021,29 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 26,
+          "y": 26,
+          "text": "OAK #MON RESEARCH LAB"
+        },
+        {
+          "x": 14,
+          "y": 18,
+          "text": "PALLET TOWN Shades of your journey await!"
+        },
+        {
+          "x": 6,
+          "y": 10,
+          "text": "RED's house"
+        },
+        {
+          "x": 22,
+          "y": 10,
+          "text": "BLUE's house"
+        }
+      ]
     },
     "PEWTER_CITY": {
       "blk": "PewterCity",
@@ -5663,7 +6163,44 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 38,
+          "y": 58,
+          "text": "TRAINER TIPS Any #MON that takes part in battle, however short, earns EXP!"
+        },
+        {
+          "x": 66,
+          "y": 38,
+          "text": "NOTICE! Thieves have been stealing #MON fossils at MT. MOON! Please call PEWTER POLICE with any info!"
+        },
+        {
+          "x": 48,
+          "y": 34,
+          "text": "PEWTER CITY POKé MART We sell items for your journey!"
+        },
+        {
+          "x": 28,
+          "y": 50,
+          "text": "PEWTER CITY POKéMON CENTER A relaxing place to heal your POKéMON!"
+        },
+        {
+          "x": 30,
+          "y": 18,
+          "text": "PEWTER MUSEUM OF SCIENCE"
+        },
+        {
+          "x": 22,
+          "y": 34,
+          "text": "PEWTER CITY #MON GYM LEADER: BROCK The Rock Solid #MON Trainer!"
+        },
+        {
+          "x": 50,
+          "y": 46,
+          "text": "PEWTER CITY A Stone Gray City"
+        }
+      ]
     },
     "PEWTER_GYM": {
       "blk": "PewterGym",
@@ -6029,7 +6566,19 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 2,
+          "y": 0,
+          "text": "Let's all listen politely to other trainers!"
+        },
+        {
+          "x": 12,
+          "y": 0,
+          "text": "If someone brags, brag right back!"
+        }
+      ]
     },
     "POKEMON_MANSION_1F": {
       "blk": "PokemonMansion1F",
@@ -7107,7 +7656,14 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 6,
+          "y": 2,
+          "text": "There's a movie on TV. Four boys are walking on railroad tracks. I better go too."
+        }
+      ]
     },
     "REDS_HOUSE_2F": {
       "blk": "RedsHouse2F",
@@ -7553,7 +8109,14 @@
         }
       ],
       "npcs": [],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 2,
+          "y": 2,
+          "text": "It appears to need a key."
+        }
+      ]
     },
     "ROCK_TUNNEL_1F": {
       "blk": "RockTunnel1F",
@@ -7691,7 +8254,14 @@
           "sight": 4
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 22,
+          "y": 58,
+          "text": "ROCK TUNNEL CERULEAN CITY - LAVENDER TOWN"
+        }
+      ]
     },
     "ROCK_TUNNEL_B1F": {
       "blk": "RockTunnelB1F",
@@ -7961,7 +8531,14 @@
             "species": "PIDGEY"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 18,
+          "y": 54,
+          "text": "ROUTE 1 PALLET TOWN - VIRIDIAN CITY"
+        }
+      ]
     },
     "ROUTE_10": {
       "blk": "Route10",
@@ -8142,7 +8719,29 @@
             "species": "SANDSHREW"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 14,
+          "y": 38,
+          "text": "ROCK TUNNEL"
+        },
+        {
+          "x": 24,
+          "y": 38,
+          "text": "ROUTE 10 POKéMON CENTER A relaxing place to heal your POKéMON!"
+        },
+        {
+          "x": 18,
+          "y": 110,
+          "text": "ROCK TUNNEL"
+        },
+        {
+          "x": 10,
+          "y": 82,
+          "text": "POWER PLANT"
+        }
+      ]
     },
     "ROUTE_11": {
       "blk": "Route11",
@@ -8370,7 +8969,14 @@
             "species": "DROWZEE"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 2,
+          "y": 10,
+          "text": "DIGLETT'S CAVE Tunnel to VERMILION CITY"
+        }
+      ]
     },
     "ROUTE_11_GATE_1F": {
       "blk": "Route11Gate1F",
@@ -8466,7 +9072,19 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 2,
+          "y": 4,
+          "text": "Looked into the binoculars. A big #MON is asleep on a road!"
+        },
+        {
+          "x": 12,
+          "y": 4,
+          "text": "Looked into the binoculars. The only way to get from CERULEAN CITY to LAVENDER is by way of the ROCK TUNNEL."
+        }
+      ]
     },
     "ROUTE_12": {
       "blk": "Route12",
@@ -8703,7 +9321,19 @@
             "species": "WEEPINBELL"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 26,
+          "y": 26,
+          "text": "ROUTE 12  North to LAVENDER"
+        },
+        {
+          "x": 22,
+          "y": 126,
+          "text": "SPORT FISHING AREA"
+        }
+      ]
     },
     "ROUTE_12_GATE_1F": {
       "blk": "Route12Gate1F",
@@ -8789,7 +9419,19 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 2,
+          "y": 4,
+          "text": "Looked into the binoculars. A man fishing!"
+        },
+        {
+          "x": 12,
+          "y": 4,
+          "text": "Looked into the binoculars. It's #MON TOWER!"
+        }
+      ]
     },
     "ROUTE_12_SUPER_ROD_HOUSE": {
       "blk": "Route12SuperRodHouse",
@@ -9029,7 +9671,24 @@
             "species": "WEEPINBELL"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 30,
+          "y": 26,
+          "text": "TRAINER TIPS Look to the left of that post!"
+        },
+        {
+          "x": 66,
+          "y": 10,
+          "text": "TRAINER TIPS Use SELECT to switch items in the ITEM window!"
+        },
+        {
+          "x": 62,
+          "y": 22,
+          "text": "ROUTE 13 North to SILENCE BRIDGE"
+        }
+      ]
     },
     "ROUTE_14": {
       "blk": "Route14",
@@ -9225,7 +9884,14 @@
             "species": "PIDGEOTTO"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 34,
+          "y": 26,
+          "text": "ROUTE 14 West to FUCHSIA CITY"
+        }
+      ]
     },
     "ROUTE_15": {
       "blk": "Route15",
@@ -9460,7 +10126,14 @@
             "species": "PIDGEOTTO"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 78,
+          "y": 18,
+          "text": "ROUTE 15 West to FUCHSIA CITY"
+        }
+      ]
     },
     "ROUTE_15_GATE_1F": {
       "blk": "Route15Gate1F",
@@ -9546,7 +10219,14 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 12,
+          "y": 4,
+          "text": "Looked into the binoculars. It looks like a small island!"
+        }
+      ]
     },
     "ROUTE_16": {
       "blk": "Route16",
@@ -9744,7 +10424,19 @@
             "species": "RATICATE"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 54,
+          "y": 22,
+          "text": "Enjoy the slope! CYCLING ROAD"
+        },
+        {
+          "x": 10,
+          "y": 34,
+          "text": "ROUTE 16 CELADON CITY - FUCHSIA CITY"
+        }
+      ]
     },
     "ROUTE_16_FLY_HOUSE": {
       "blk": "Route16FlyHouse",
@@ -9924,7 +10616,19 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 2,
+          "y": 4,
+          "text": "Looked into the binoculars. It's CELADON DEPT. STORE!"
+        },
+        {
+          "x": 12,
+          "y": 4,
+          "text": "Looked into the binoculars. There's a long path over water!"
+        }
+      ]
     },
     "ROUTE_17": {
       "blk": "Route17",
@@ -10088,7 +10792,39 @@
             "species": "FEAROW"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 18,
+          "y": 102,
+          "text": "It's a notice! Watch out for discarded items!"
+        },
+        {
+          "x": 18,
+          "y": 126,
+          "text": "TRAINER TIPS All #MON are unique. Even #MON of the same type and level grow at different rates."
+        },
+        {
+          "x": 18,
+          "y": 150,
+          "text": "TRAINER TIPS Press the A or B Button to stay in place while on a slope."
+        },
+        {
+          "x": 18,
+          "y": 174,
+          "text": "ROUTE 17 CELADON CITY - FUCHSIA CITY"
+        },
+        {
+          "x": 18,
+          "y": 222,
+          "text": "It's a notice! Don't throw the game, throw # BALLs instead!"
+        },
+        {
+          "x": 18,
+          "y": 282,
+          "text": "CYCLING ROAD Slope ends here!"
+        }
+      ]
     },
     "ROUTE_18": {
       "blk": "Route18",
@@ -10211,7 +10947,19 @@
             "species": "FEAROW"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 86,
+          "y": 14,
+          "text": "ROUTE 18 CELADON CITY - FUCHSIA CITY"
+        },
+        {
+          "x": 66,
+          "y": 10,
+          "text": "CYCLING ROAD No pedestrians permitted!"
+        }
+      ]
     },
     "ROUTE_18_GATE_1F": {
       "blk": "Route18Gate1F",
@@ -10297,7 +11045,19 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 2,
+          "y": 4,
+          "text": "Looked into the binoculars. PALLET TOWN is in the west!"
+        },
+        {
+          "x": 12,
+          "y": 4,
+          "text": "Looked into the binoculars. There are people swimming!"
+        }
+      ]
     },
     "ROUTE_19": {
       "blk": "Route19",
@@ -10417,7 +11177,14 @@
           "sight": 4
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 22,
+          "y": 18,
+          "text": "SEA ROUTE 19 FUCHSIA CITY - SEAFOAM ISLANDS"
+        }
+      ]
     },
     "ROUTE_2": {
       "blk": "Route2",
@@ -10564,7 +11331,19 @@
             "species": "CATERPIE"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 10,
+          "y": 130,
+          "text": "ROUTE 2 VIRIDIAN CITY - PEWTER CITY"
+        },
+        {
+          "x": 22,
+          "y": 22,
+          "text": "DIGLETT's CAVE"
+        }
+      ]
     },
     "ROUTE_20": {
       "blk": "Route20",
@@ -10699,7 +11478,19 @@
           "sight": 4
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 102,
+          "y": 14,
+          "text": "SEAFOAM ISLANDS"
+        },
+        {
+          "x": 114,
+          "y": 22,
+          "text": "SEAFOAM ISLANDS"
+        }
+      ]
     },
     "ROUTE_21": {
       "blk": "Route21",
@@ -11021,7 +11812,14 @@
             "species": "NIDORAN_M"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 14,
+          "y": 22,
+          "text": "#MON LEAGUE Front Gate"
+        }
+      ]
     },
     "ROUTE_22_GATE": {
       "blk": "Route22Gate",
@@ -11242,7 +12040,14 @@
             "species": "FEAROW"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 6,
+          "y": 66,
+          "text": "VICTORY ROAD GATE - #MON LEAGUE"
+        }
+      ]
     },
     "ROUTE_24": {
       "blk": "Route24",
@@ -11622,7 +12427,14 @@
             "species": "WEEDLE"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 86,
+          "y": 6,
+          "text": "SEA COTTAGE BILL lives here!"
+        }
+      ]
     },
     "ROUTE_2_GATE": {
       "blk": "Route2Gate",
@@ -11882,7 +12694,14 @@
             "species": "JIGGLYPUFF"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 118,
+          "y": 18,
+          "text": "ROUTE 3 MT.MOON AHEAD"
+        }
+      ]
     },
     "ROUTE_4": {
       "blk": "Route4",
@@ -12026,7 +12845,24 @@
             "species": "SANDSHREW"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 24,
+          "y": 10,
+          "text": "ROUTE 4 POKéMON CENTER A relaxing place to heal your POKéMON!"
+        },
+        {
+          "x": 34,
+          "y": 14,
+          "text": "MT.MOON Tunnel Entrance"
+        },
+        {
+          "x": 54,
+          "y": 14,
+          "text": "ROUTE 4 MT.MOON - CERULEAN CITY"
+        }
+      ]
     },
     "ROUTE_5": {
       "blk": "Route5",
@@ -12165,7 +13001,14 @@
             "species": "MEOWTH"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 34,
+          "y": 58,
+          "text": "UNDERGROUND PATH CERULEAN CITY - VERMILION CITY"
+        }
+      ]
     },
     "ROUTE_5_GATE": {
       "blk": "Route5Gate",
@@ -12408,7 +13251,14 @@
             "species": "MEOWTH"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 38,
+          "y": 30,
+          "text": "UNDERGROUND PATH CERULEAN CITY - VERMILION CITY"
+        }
+      ]
     },
     "ROUTE_6_GATE": {
       "blk": "Route6Gate",
@@ -12593,7 +13443,14 @@
             "species": "MEOWTH"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 6,
+          "y": 26,
+          "text": "UNDERGROUND PATH CELADON CITY - LAVENDER TOWN"
+        }
+      ]
     },
     "ROUTE_7_GATE": {
       "blk": "Route7Gate",
@@ -12869,7 +13726,14 @@
             "species": "VULPIX"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 34,
+          "y": 6,
+          "text": "UNDERGROUND PATH CELADON CITY - LAVENDER TOWN"
+        }
+      ]
     },
     "ROUTE_8_GATE": {
       "blk": "Route8Gate",
@@ -13111,7 +13975,14 @@
             "species": "SANDSHREW"
           }
         ]
-      }
+      },
+      "bgEvents": [
+        {
+          "x": 50,
+          "y": 14,
+          "text": "ROUTE 9 CERULEAN CITY- ROCK TUNNEL"
+        }
+      ]
     },
     "SAFARI_ZONE_CENTER": {
       "blk": "SafariZoneCenter",
@@ -13196,7 +14067,19 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 36,
+          "y": 40,
+          "text": "REST HOUSE"
+        },
+        {
+          "x": 28,
+          "y": 44,
+          "text": "TRAINER TIPS Press the START Button to check remaining time!"
+        }
+      ]
     },
     "SAFARI_ZONE_CENTER_REST_HOUSE": {
       "blk": "SafariZoneCenterRestHouse",
@@ -13329,7 +14212,24 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 52,
+          "y": 20,
+          "text": "REST HOUSE"
+        },
+        {
+          "x": 12,
+          "y": 8,
+          "text": "TRAINER TIPS The remaining time declines only while you walk!"
+        },
+        {
+          "x": 10,
+          "y": 46,
+          "text": "CENTER AREA NORTH: AREA 2"
+        }
+      ]
     },
     "SAFARI_ZONE_EAST_REST_HOUSE": {
       "blk": "SafariZoneEastRestHouse",
@@ -13540,7 +14440,34 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 72,
+          "y": 8,
+          "text": "REST HOUSE"
+        },
+        {
+          "x": 8,
+          "y": 50,
+          "text": "TRAINER TIPS The SECRET HOUSE is still ahead!"
+        },
+        {
+          "x": 26,
+          "y": 62,
+          "text": "AREA 2"
+        },
+        {
+          "x": 38,
+          "y": 66,
+          "text": "TRAINER TIPS #MON hide in tall grass! Zigzag through grassy areas to flush them out."
+        },
+        {
+          "x": 52,
+          "y": 56,
+          "text": "TRAINER TIPS Win a free HM for finding the SECRET HOUSE!"
+        }
+      ]
     },
     "SAFARI_ZONE_NORTH_REST_HOUSE": {
       "blk": "SafariZoneNorthRestHouse",
@@ -13740,7 +14667,29 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 24,
+          "y": 24,
+          "text": "REST HOUSE"
+        },
+        {
+          "x": 34,
+          "y": 6,
+          "text": "REQUEST NOTICE Please find the SAFARI WARDEN's lost GOLD TEETH. They're around here somewhere. Reward offered! Contact: WARDEN"
+        },
+        {
+          "x": 52,
+          "y": 8,
+          "text": "TRAINER TIPS Zone Exploration Campaign! The Search for the SECRET HOUSE!"
+        },
+        {
+          "x": 48,
+          "y": 44,
+          "text": "AREA 3 EAST: CENTER AREA"
+        }
+      ]
     },
     "SAFARI_ZONE_WEST_REST_HOUSE": {
       "blk": "SafariZoneWestRestHouse",
@@ -14031,7 +14980,59 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 34,
+          "y": 10,
+          "text": "SAFFRON CITY Shining, Golden Land of Commerce"
+        },
+        {
+          "x": 54,
+          "y": 10,
+          "text": "FIGHTING DOJO"
+        },
+        {
+          "x": 70,
+          "y": 10,
+          "text": "SAFFRON CITY #MON GYM LEADER: SABRINA The Master of Psychic #MON!"
+        },
+        {
+          "x": 52,
+          "y": 22,
+          "text": "SAFFRON CITY POKé MART We sell items for your journey!"
+        },
+        {
+          "x": 78,
+          "y": 38,
+          "text": "TRAINER TIPS FULL HEAL cures all ailments like sleep and burns. It costs a bit more, but it's more convenient."
+        },
+        {
+          "x": 10,
+          "y": 42,
+          "text": "TRAINER TIPS New GREAT BALL offers improved capture rates. Try it on those hard-to-catch #MON."
+        },
+        {
+          "x": 30,
+          "y": 42,
+          "text": "SILPH CO. OFFICE BUILDING"
+        },
+        {
+          "x": 20,
+          "y": 58,
+          "text": "SAFFRON CITY POKéMON CENTER A relaxing place to heal your POKéMON!"
+        },
+        {
+          "x": 54,
+          "y": 58,
+          "text": "MR.PSYCHIC's HOUSE"
+        },
+        {
+          "x": 2,
+          "y": 38,
+          "text": "SILPH's latest product! Release to be determined..."
+        }
+      ]
     },
     "SAFFRON_GYM": {
       "blk": "SaffronGym",
@@ -14979,7 +15980,19 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 18,
+          "y": 30,
+          "text": "Boulders might change the flow of water!"
+        },
+        {
+          "x": 46,
+          "y": 2,
+          "text": "DANGER Fast current!"
+        }
+      ]
     },
     "SILPH_CO_10F": {
       "blk": "SilphCo10F",
@@ -16299,7 +17312,14 @@
         }
       ],
       "npcs": [],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 6,
+          "y": 0,
+          "text": "It's an elevator."
+        }
+      ]
     },
     "SS_ANNE_1F": {
       "blk": "SSAnne1F",
@@ -17279,7 +18299,19 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 8,
+          "y": 2,
+          "text": "Yuck! Shouldn't have looked!"
+        },
+        {
+          "x": 2,
+          "y": 4,
+          "text": "How to Conquer Seasickness... The CAPTAIN's reading this!"
+        }
+      ]
     },
     "SS_ANNE_KITCHEN": {
       "blk": "SSAnneKitchen",
@@ -17712,7 +18744,44 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 54,
+          "y": 6,
+          "text": "VERMILION CITY The Port of Exquisite Sunsets"
+        },
+        {
+          "x": 74,
+          "y": 26,
+          "text": "NOTICE! ROUTE 12 may be blocked off by a sleeping #MON. Detour through ROCK TUNNEL to LAVENDER TOWN. VERMILION POLICE"
+        },
+        {
+          "x": 48,
+          "y": 26,
+          "text": "VERMILION CITY POKé MART We sell items for your journey!"
+        },
+        {
+          "x": 24,
+          "y": 6,
+          "text": "VERMILION CITY POKéMON CENTER A relaxing place to heal your POKéMON!"
+        },
+        {
+          "x": 14,
+          "y": 26,
+          "text": "#MON FAN CLUB All #MON fans welcome!"
+        },
+        {
+          "x": 14,
+          "y": 38,
+          "text": "VERMILION CITY #MON GYM LEADER: LT.SURGE The Lightning  American!"
+        },
+        {
+          "x": 58,
+          "y": 30,
+          "text": "VERMILION HARBOR"
+        }
+      ]
     },
     "VERMILION_DOCK": {
       "blk": "VermilionDock",
@@ -18627,7 +19696,39 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 34,
+          "y": 34,
+          "text": "VIRIDIAN CITY  The Eternally Green Paradise"
+        },
+        {
+          "x": 38,
+          "y": 2,
+          "text": "TRAINER TIPS Catch #MON and expand your collection! The more you have, the easier it is to fight!"
+        },
+        {
+          "x": 42,
+          "y": 58,
+          "text": "TRAINER TIPS The battle moves of #MON are limited by their POWER POINTs, PP. To replenish PP, rest your tired #MON at a #MON CENTER!"
+        },
+        {
+          "x": 60,
+          "y": 38,
+          "text": "VIRIDIAN CITY POKé MART We sell items for your journey!"
+        },
+        {
+          "x": 48,
+          "y": 50,
+          "text": "VIRIDIAN CITY POKéMON CENTER A relaxing place to heal your POKéMON!"
+        },
+        {
+          "x": 54,
+          "y": 14,
+          "text": "VIRIDIAN CITY #MON GYM"
+        }
+      ]
     },
     "VIRIDIAN_FOREST": {
       "blk": "ViridianForest",
@@ -18761,7 +19862,39 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 48,
+          "y": 80,
+          "text": "TRAINER TIPS If you want to avoid battles, stay away from grassy areas!"
+        },
+        {
+          "x": 32,
+          "y": 64,
+          "text": "For poison, use ANTIDOTE! Get it at #MON MARTs!"
+        },
+        {
+          "x": 52,
+          "y": 34,
+          "text": "TRAINER TIPS Contact PROF.OAK via PC to get your #DEX evaluated!"
+        },
+        {
+          "x": 8,
+          "y": 48,
+          "text": "TRAINER TIPS No stealing of #MON from other trainers! Catch only wild #MON!"
+        },
+        {
+          "x": 36,
+          "y": 90,
+          "text": "TRAINER TIPS Weaken #MON before attempting capture! When healthy, they may escape!"
+        },
+        {
+          "x": 4,
+          "y": 2,
+          "text": "LEAVING VIRIDIAN FOREST PEWTER CITY AHEAD"
+        }
+      ]
     },
     "VIRIDIAN_FOREST_NORTH_GATE": {
       "blk": "ViridianForestNorthGate",
@@ -19307,7 +20440,19 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": null,
+      "bgEvents": [
+        {
+          "x": 8,
+          "y": 6,
+          "text": "#MON photos and fossils."
+        },
+        {
+          "x": 10,
+          "y": 6,
+          "text": "#MON photos and fossils."
+        }
+      ]
     }
   },
   "collision": {

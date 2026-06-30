@@ -9,6 +9,14 @@ A React single-page app about astral projection, deployed on Vercel. The owner (
 
 ---
 
+## Other CLAUDE.md files exist in this repo — check for them
+This root file only auto-loads when your working directory is at or above repo root. Subfolders (e.g. `pokemon_OG/bugtracking/Lastmap markdowns/CLAUDE.md`) can have their own CLAUDE.md with folder-specific rules that will NOT auto-load otherwise. Before assuming you know all the project rules, check whether the folder(s) you're working in — or their parents — have their own CLAUDE.md, and read it. If you find one not listed here, note its path in this section so it's easier to spot next time.
+
+Known nested CLAUDE.md files:
+- `pokemon_OG/bugtracking/Lastmap markdowns/CLAUDE.md` — pokered (Pokemon Red port) project rules, architecture facts, checklist-sync workflow
+
+---
+
 ## Stack
 - React 18 + Vite
 - React Router v6 (BrowserRouter, Link, useNavigate, useParams)

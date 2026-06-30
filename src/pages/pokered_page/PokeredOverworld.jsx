@@ -130,6 +130,16 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     return ms.blockset[blockId * 16 + iy * 4 + ix];
   }
 
+  // data/tilesets/water_tilesets.asm — tilesets whose blocks mix a non-walkable
+  // sub-tile (water, fence, sign post) into an otherwise-walkable movement cell.
+  const WATER_TILESETS = ['overworld', 'forest', 'dojo', 'gym', 'ship', 'ship_port', 'cavern', 'facility', 'plateau'];
+
+  // KNOWN-FRAGILE: if water/fences/signs become walk-through-able again (or
+  // legit walkable tiles get wrongly blocked) in overworld/forest/cavern/etc,
+  // start here — see "Water-collision fix" in pokered_project memory before
+  // changing the offset/AND logic below. Two different "obvious" alternatives
+  // (switch fully to half-step; switch fully to the direct/no-offset tile)
+  // were already tried and rejected — they broke lab/gate/pokecenter badly.
   function isWalkable(tx, ty) {
     const ms = mapStateRef.current;
     if (!ms) return false;
@@ -139,29 +149,98 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     // for the 2x2 movement tile (offset (1,0) within the top-left graphical tile).
     const tileId = getTileId(tx + 1, ty);
     const walkable = gameDataRef.current?.collision[ms.mapInfo.tileset] || [];
-    return walkable.includes(tileId);
+    if (!walkable.includes(tileId)) return false;
+    // The offset alone can land on open ground neighboring a water/fence/sign
+    // sub-tile within the same cell (e.g. CINNABAR_ISLAND (6,0): direct tile is
+    // water, offset tile is the walkable sand next to it). Requiring the literal
+    // destination tile too only ever adds blocking — never removes it — so it
+    // can't regress tilesets that already work; audited globally at 0 newly-opened
+    // transitions across all water tilesets, 2-3% newly-blocked (overworld/cavern).
+    if (WATER_TILESETS.includes(ms.mapInfo.tileset)) {
+      const directTileId = getTileId(tx, ty);
+      if (!walkable.includes(directTileId)) return false;
+    }
+    return true;
   }
 
-  // Returns true if standing on (cx,cy) and moving (ddx,ddy) onto nextTileId is a valid ledge jump
-  function isValidLedge(cx, cy, ddx, ddy, nextTileId) {
+  // Ledges (engine/overworld/ledges.asm + data/tilesets/ledge_tiles.asm) are tileset-local:
+  // OG's HandleLedges only runs when wCurMapTileset == OVERWORLD ("ld a,[wCurMapTileset] / and a
+  // / ret nz"), and the ledge tile IDs it matches collide with unrelated graphics (incl. water)
+  // on other tilesets — every ledge check below is gated to mapInfo.tileset === 'overworld'.
+  //
+  // The table's standTile/ledgeTile pair is sampled at the HALF-STEP — the tile immediately in
+  // front (one our-tile-unit ahead), not the full 2-unit step destination. Verified empirically
+  // against the real map data: full-step sampling produces zero matches anywhere on Route 1 (a
+  // map with multiple visible ledges), while half-step sampling produces matches at exactly the
+  // visible ledge rows.
+
+  // Valid forward hop: standing on (cx,cy), stepping (ddx,ddy), and the registered entry's dir
+  // matches the direction taken.
+  function isValidLedge(cx, cy, ddx, ddy) {
+    const ms = mapStateRef.current;
+    if (!ms || ms.mapInfo.tileset !== 'overworld') return false;
     const gd = gameDataRef.current;
     if (!gd?.ledges?.length) return false;
     const currentTileId = getTileId(cx, cy);
+    const halfTileId = getTileId(cx + ddx, cy + ddy);
     const dir = ddy === 1 ? 'south' : ddy === -1 ? 'north' : ddx === 1 ? 'east' : 'west';
-    return gd.ledges.some(l => l.dir === dir && l.standTile === currentTileId && l.ledgeTile === nextTileId);
+    return gd.ledges.some(l => l.dir === dir && l.standTile === currentTileId && l.ledgeTile === halfTileId);
   }
 
-  // isWalkable check for NPCs: tile must be walkable AND the step must not cross a ledge.
-  // Ledges are hard walls for NPCs — they never jump.
+  // True if the (standTile, halfStepTile) pair matches a registered ledge, but NOT in the
+  // direction being attempted — i.e. crossing the ledge from the wrong side (walking back up
+  // from below, or sideways into a hop-only-from-the-other-side ledge). Blocks ordinary
+  // (non-hop) movement; a real hop in the registered direction is handled by isValidLedge instead.
+  function isLedgeBlockedWrongWay(cx, cy, ddx, ddy) {
+    const ms = mapStateRef.current;
+    if (!ms || ms.mapInfo.tileset !== 'overworld') return false;
+    const gd = gameDataRef.current;
+    if (!gd?.ledges?.length) return false;
+    const currentTileId = getTileId(cx, cy);
+    const halfTileId = getTileId(cx + ddx, cy + ddy);
+    const dir = ddy === 1 ? 'south' : ddy === -1 ? 'north' : ddx === 1 ? 'east' : 'west';
+    const matches = gd.ledges.filter(l => l.standTile === currentTileId && l.ledgeTile === halfTileId);
+    return matches.length > 0 && !matches.some(l => l.dir === dir);
+  }
+
+  // isWalkable check for NPCs: tile must be walkable, unoccupied by the player, AND the
+  // step must not cross a ledge. Ledges are hard walls for NPCs — they never jump, in any
+  // direction. Player-occupancy check mirrors OG's DetectCollisionBetweenSprites
+  // (engine/overworld/sprite_collisions.asm), which treats the player as just another
+  // sprite slot when checking NPC movement — without it, an NPC and the player can step
+  // onto the same tile in the same frame since only the player's side was checked before.
   function npcCanStep(fromX, fromY, toX, toY) {
     if (!isWalkable(toX, toY)) return false;
+    const p = playerRef.current;
+    if (p.x === toX && p.y === toY) return false;
+    if (p.isWalking) {
+      const mult = p.ledgeJump ? 2 : 1;
+      if (p.x + p.dx * mult === toX && p.y + p.dy * mult === toY) return false;
+    }
+    const ms = mapStateRef.current;
+    if (!ms || ms.mapInfo.tileset !== 'overworld') return true;
     const gd = gameDataRef.current;
     if (!gd?.ledges?.length) return true;
     const fromTile = getTileId(fromX, fromY);
-    const toTile   = getTileId(toX, toY);
-    const dx = toX - fromX, dy = toY - fromY;
-    const dir = dy > 0 ? 'south' : dy < 0 ? 'north' : dx > 0 ? 'east' : 'west';
-    return !gd.ledges.some(l => l.dir === dir && l.standTile === fromTile && l.ledgeTile === toTile);
+    const halfX = fromX + (toX - fromX) / 2, halfY = fromY + (toY - fromY) / 2;
+    const halfTile = getTileId(halfX, halfY);
+    return !gd.ledges.some(l => l.standTile === fromTile && l.ledgeTile === halfTile);
+  }
+
+  // OG displacement-counter leash (engine/overworld/movement.asm, CanWalkOntoTile).
+  // Each sprite has a per-axis counter starting at 8, incremented/decremented once per
+  // step taken (not per tile-unit — our coordinate doubling doesn't change this).
+  // Faithfully asymmetric: down/right can drift unbounded (an OG bug, kept intentionally),
+  // up/left are capped at 8 steps from spawn.
+  function dispWouldPass(live, axis, sign) {
+    if (axis === 'y') {
+      return sign > 0 ? (live.dispY + 1) >= 5 : (live.dispY - 1) >= 0;
+    }
+    return sign > 0 ? true : (live.dispX - 1) >= 0; // right is never blocked (OG bug)
+  }
+  function dispCommit(live, axis, sign) {
+    if (axis === 'y') live.dispY += sign > 0 ? 1 : -1;
+    else live.dispX += sign > 0 ? 1 : -1;
   }
 
   const loadMap = useCallback(async (mapId, entryX = null, entryY = null) => {
@@ -366,37 +445,32 @@ function notifyPosition() {
     }
   }
 
-  helpersRef.current = { getTileId, isWalkable, isValidLedge, npcCanStep, handleMapEdge, handleWarp, checkNewTile, notifyPosition, checkLOS, startDialogue };
+  helpersRef.current = { getTileId, isWalkable, isValidLedge, isLedgeBlockedWrongWay, npcCanStep, handleMapEdge, handleWarp, checkNewTile, notifyPosition, checkLOS, startDialogue };
 
   // ── Static object text (signed tiles, furniture, etc.) ───────────────────
   const OBJECT_TEXT = {
     REDS_HOUSE_2F: [
-      // PC — left cluster (x=0-1), user confirmed
+      // PC — left cluster, user confirmed
       { x: 0, y: 2, text: "It's a POKéMON PC. Connected to the STORAGE SYSTEM." },
-      { x: 1, y: 2, text: "It's a POKéMON PC. Connected to the STORAGE SYSTEM." },
-      { x: 0, y: 3, text: "It's a POKéMON PC." },
-      { x: 1, y: 3, text: "It's a POKéMON PC." },
-      // SNES/TV — rest of upper furniture row (x=2-5)
-      { x: 2, y: 2, text: "There's a SNES hooked up to the TV!" },
-      { x: 3, y: 2, text: "There's a SNES hooked up to the TV!" },
-      { x: 4, y: 2, text: "There's a SNES hooked up to the TV!" },
-      { x: 5, y: 2, text: "There's a SNES hooked up to the TV!" },
-      { x: 2, y: 3, text: "There's a SNES hooked up to the TV!" },
-      { x: 3, y: 3, text: "There's a SNES hooked up to the TV!" },
-      { x: 4, y: 3, text: "There's a SNES hooked up to the TV!" },
-      { x: 5, y: 3, text: "There's a SNES hooked up to the TV!" },
+      // SNES/TV — rest of upper furniture row
+      { x: 6, y: 8, text: "There's a SNES hooked up to the TV!" },
+      { x: 6, y: 10, text: "There's a SNES hooked up to the TV!" },
       // Wall / right side
       { x: 14, y: 2, text: "A bookshelf full of POKéMON guides." },
-      { x: 15, y: 2, text: "A bookshelf full of POKéMON guides." },
-    ],
-    REDS_HOUSE_1F: [
-      // TV from bg_event 3,1
-      { x: 3, y: 1, text: "There's a small TV." },
-      { x: 4, y: 1, text: "There's a small TV." },
     ],
   };
 
   function objectText(mapId, tx, ty) {
+    // game_data.json's bgEvents (OG-sourced, all 70 maps) take priority; OBJECT_TEXT
+    // below covers OG content that lives OUTSIDE the per-map bg_event/object_event
+    // tables — REDS_HOUSE_2F's PC (0,2) and SNES (6,10) are OG's "hidden_events"
+    // mechanism instead (data/events/hidden_events.asm: hidden_events_for
+    // REDS_HOUSE_2F -> OpenRedsPC at raw (0,1), PrintRedSNESText at raw (3,5);
+    // x2 for our grid matches exactly). Only the bookshelf (14,2) and the second
+    // SNES approach tile (6,8) are non-canon additions, kept intentionally.
+    const bgEvents = mapStateRef.current?.mapInfo?.bgEvents;
+    const bgMatch = bgEvents?.find(e => e.x === tx && e.y === ty);
+    if (bgMatch) return bgMatch.text;
     const objs = OBJECT_TEXT[mapId] || [];
     return objs.find(o => o.x === tx && o.y === ty)?.text ?? '...';
   }
@@ -404,8 +478,7 @@ function notifyPosition() {
   // Tiles that open the PC screen instead of showing static text
   const PC_TILES = {
     REDS_HOUSE_2F: [
-      { x: 0, y: 2 }, { x: 1, y: 2 },
-      { x: 0, y: 3 }, { x: 1, y: 3 },
+      { x: 0, y: 2 },
     ],
   };
 
@@ -571,6 +644,7 @@ function notifyPosition() {
         }
         if (e.key === 'z' || e.key === 'Z' || e.key === 'Enter') {
           e.preventDefault();
+          console.log('Facing tile:', fx, fy, 'tileId:', facedId, 'blocked:', !walkSet.includes(facedId));
           if (pg === 'main') {
             const extra = isExtraRef.current;
             const c = menuCursorRef.current;
@@ -602,9 +676,20 @@ function notifyPosition() {
         if (!ms) return;
         const faceDelta = [[0,1],[0,-1],[-1,0],[1,0]]; // DOWN UP LEFT RIGHT
         const [fdx, fdy] = faceDelta[p.dir] || [0,1];
-        const npc = ms.mapInfo.npcs.find(n => n.x === p.x+fdx*2 && n.y === p.y+fdy*2);
+        const targetX = p.x + fdx*2, targetY = p.y + fdy*2;
+        const npc = ms.mapInfo.npcs.find(n => {
+          const nid = npcTrainerId(ms.mapId, n);
+          const eng = trainerEngageRef.current;
+          if (eng?.id === nid) return eng.liveX === targetX && eng.liveY === targetY;
+          const bp = npcBattlePosRef.current.get(nid);
+          if (bp) return bp.x === targetX && bp.y === targetY;
+          const live = npcLivePosRef.current.get(nid);
+          const curX = live?.x ?? n.x, curY = live?.y ?? n.y;
+          return curX === targetX && curY === targetY;
+        });
         if (npc) { startDialogue(npc); return; }
         const fx = p.x + fdx*2, fy = p.y + fdy*2;
+console.log('Facing tile:', fx, fy);
         // Facing a warp — check direction rule before entering
         const facedWarp = ms.mapInfo.warps.find(w => w.x === fx && w.y === fy);
         if (facedWarp) {
@@ -620,6 +705,7 @@ function notifyPosition() {
         const gd = gameDataRef.current;
         const walkSet = gd?.collision[ms.mapInfo.tileset] || [];
         const facedId = getTileId(fx, fy);
+        console.log('facedId:', facedId, 'blocked:', facedId !== -1 && !walkSet.includes(facedId));
         if (facedId !== -1 && !walkSet.includes(facedId)) {
           setDialogue({ lines: [objectText(ms.mapId, fx, fy)], idx: 0, action: null });
         }
@@ -735,13 +821,30 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * dt);
                 fn.handleMapEdge(ddx, ddy);
               }
             } else {
-              const nextTileId = fn.getTileId(nx, ny);
-              const ledgeJump = fn.isValidLedge(p.x, p.y, ddx, ddy, nextTileId);
+              const ledgeJump = fn.isValidLedge(p.x, p.y, ddx, ddy);
+              const ledgeBlocked = !ledgeJump && fn.isLedgeBlockedWrongWay(p.x, p.y, ddx, ddy);
+              // Player-side half of NPC<->player collision. npcCanStep() (above, ~line 212) is
+              // the NPC-side half of the SAME mechanism, checking the player's position the
+              // mirror-image way this checks each NPC's. They must stay in sync: if you change
+              // what "occupied" means here (current tile, mid-step destination, engaging-trainer
+              // tile), make the matching change in npcCanStep, or NPCs and the player will be
+              // able to walk onto the same tile again (fixed 2026-06-30, OG ref:
+              // engine/overworld/sprite_collisions.asm DetectCollisionBetweenSprites).
               const npcBlocking = ms.mapInfo.npcs.some(n => {
                 if (n.sprite === 'poke_ball') return false;
                 const nid = npcTrainerId(ms.mapId, n);
                 const live = npcLivePosRef.current.get(nid);
-                return (live?.x ?? n.x) === nx && (live?.y ?? n.y) === ny;
+                const curX = live?.x ?? n.x, curY = live?.y ?? n.y;
+                if (curX === nx && curY === ny) return true;
+                // Also block the tile an NPC is currently mid-step into (prevents
+                // the player and a walking NPC from racing into the same tile).
+                if (live?.isWalking) {
+                  const destX = live.x + live.walkDx, destY = live.y + live.walkDy;
+                  if (destX === nx && destY === ny) return true;
+                }
+                const eng = trainerEngageRef.current;
+                if (eng?.id === nid && (eng.liveX === nx && eng.liveY === ny)) return true;
+                return false;
               });
               const OUTDOOR_TS = ['overworld', 'forest', 'plateau'];
               const isOutdoor = OUTDOOR_TS.includes(ms.mapInfo.tileset);
@@ -755,7 +858,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * dt);
                   p.isWalking = true; p.walkProg = 0;
                   p.ledgeJump = true;
                 }
-              } else if (!npcBlocking && (fn.isWalkable(nx, ny) || isWarpAllowed)) {
+              } else if (!ledgeBlocked && !npcBlocking && (fn.isWalkable(nx, ny) || isWarpAllowed)) {
                 p.dx = ddx * 2; p.dy = ddy * 2;
                 p.isWalking = true; p.walkProg = 0;
               }
@@ -777,13 +880,38 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * dt);
             npcBattlePosRef.current.set(eng.id, { x: eng.liveX, y: eng.liveY, facing: eng.facing });
             fn.startDialogue(eng.npc);
           } else {
-            // Step toward player (prefer vertical if equally close)
-            if (Math.abs(dy) >= Math.abs(dx)) {
-              eng.liveY += Math.sign(dy) * 2;
-              eng.facing = dy > 0 ? 'DOWN' : 'UP';
+            // Step toward player (prefer vertical if equally close), respecting walls and ledges
+            const tryVertical = Math.abs(dy) >= Math.abs(dx);
+            const stepAxis = (vertical) => {
+              if (vertical) {
+                const ny = eng.liveY + Math.sign(dy) * 2;
+                if (fn.npcCanStep(eng.liveX, eng.liveY, eng.liveX, ny)) {
+                  eng.liveY = ny;
+                  eng.facing = dy > 0 ? 'DOWN' : 'UP';
+                  return true;
+                }
+              } else {
+                const nx = eng.liveX + Math.sign(dx) * 2;
+                if (fn.npcCanStep(eng.liveX, eng.liveY, nx, eng.liveY)) {
+                  eng.liveX = nx;
+                  eng.facing = dx > 0 ? 'RIGHT' : 'LEFT';
+                  return true;
+                }
+              }
+              return false;
+            };
+            const moved = stepAxis(tryVertical) || (dx !== 0 && dy !== 0 && stepAxis(!tryVertical));
+            if (!moved) {
+              // Blocked on both axes — don't loop forever and freeze player input;
+              // force the encounter after a short stall instead of phasing through walls.
+              eng.stall = (eng.stall || 0) + 1;
+              if (eng.stall > 20) {
+                trainerEngageRef.current = null;
+                npcBattlePosRef.current.set(eng.id, { x: eng.liveX, y: eng.liveY, facing: eng.facing });
+                fn.startDialogue(eng.npc);
+              }
             } else {
-              eng.liveX += Math.sign(dx) * 2;
-              eng.facing = dx > 0 ? 'RIGHT' : 'LEFT';
+              eng.stall = 0;
             }
           }
         }
@@ -793,7 +921,6 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * dt);
       // Gen 1 model: each step takes WALK_SPD duration, then a random 0–127 frame delay before next step.
       // Collision is checked before committing any move; blocked NPCs just wait and retry.
       if (ms) {
-        const PATROL_RANGE = 8; // max tile distance from spawn in each axis
         const tW = ms.mapInfo.w * 4, tH = ms.mapInfo.h * 4;
         for (const npc of ms.mapInfo.npcs) {
           if (npc.movement === 'STAND' || npc.sprite === 'poke_ball') continue;
@@ -810,6 +937,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * dt);
               isWalking: false, walkDx: 0, walkDy: 0, walkProg: 0,
               delay: Math.random() * 128,  // stagger so NPCs don't all move at once
               walkDir: initDir,
+              dispX: 8, dispY: 8, // OG displacement-leash counters (see dispWouldPass/dispCommit)
             });
           }
 
@@ -835,40 +963,42 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * dt);
 
             if (npc.movement === 'WALK_UD') {
               const nextY = live.y + live.walkDir * 2;
-              const inRange = Math.abs(nextY - live.startY) <= PATROL_RANGE;
-              if (inRange && nextY >= 0 && nextY < tH && fn.npcCanStep(live.x, live.y, live.x, nextY)) {
+              const passDisp = dispWouldPass(live, 'y', live.walkDir);
+              if (passDisp && nextY >= 0 && nextY < tH && fn.npcCanStep(live.x, live.y, live.x, nextY)) {
                 dy = live.walkDir * 2;
                 newFacing = live.walkDir > 0 ? 'DOWN' : 'UP';
                 canMove = true;
+                dispCommit(live, 'y', live.walkDir);
               } else {
                 live.walkDir *= -1;  // reverse; try again next delay cycle
                 live.delay = Math.random() * 64;
               }
             } else if (npc.movement === 'WALK_LR') {
               const nextX = live.x + live.walkDir * 2;
-              const inRange = Math.abs(nextX - live.startX) <= PATROL_RANGE;
-              if (inRange && nextX >= 0 && nextX < tW && fn.npcCanStep(live.x, live.y, nextX, live.y)) {
+              const passDisp = dispWouldPass(live, 'x', live.walkDir);
+              if (passDisp && nextX >= 0 && nextX < tW && fn.npcCanStep(live.x, live.y, nextX, live.y)) {
                 dx = live.walkDir * 2;
                 newFacing = live.walkDir > 0 ? 'RIGHT' : 'LEFT';
                 canMove = true;
+                dispCommit(live, 'x', live.walkDir);
               } else {
                 live.walkDir *= -1;
                 live.delay = Math.random() * 64;
               }
             } else {
-              // WALK_ANY — pick a random walkable direction within range
-              const dirs = [[0,2,'DOWN'],[0,-2,'UP'],[2,0,'RIGHT'],[-2,0,'LEFT']];
-              const candidates = dirs.filter(([ddx, ddy]) => {
+              // WALK_ANY — pick a random walkable direction allowed by the displacement leash
+              const dirs = [[0,2,'DOWN','y',1],[0,-2,'UP','y',-1],[2,0,'RIGHT','x',1],[-2,0,'LEFT','x',-1]];
+              const candidates = dirs.filter(([ddx, ddy, , axis, sign]) => {
                 const nx2 = live.x + ddx, ny2 = live.y + ddy;
                 return nx2 >= 0 && ny2 >= 0 && nx2 < tW && ny2 < tH
-                  && Math.abs(nx2 - live.startX) <= PATROL_RANGE
-                  && Math.abs(ny2 - live.startY) <= PATROL_RANGE
+                  && dispWouldPass(live, axis, sign)
                   && fn.npcCanStep(live.x, live.y, nx2, ny2);
               });
               if (candidates.length > 0) {
-                const [ddx, ddy, face] = candidates[Math.floor(Math.random() * candidates.length)];
+                const [ddx, ddy, face, axis, sign] = candidates[Math.floor(Math.random() * candidates.length)];
                 dx = ddx; dy = ddy; newFacing = face;
                 canMove = true;
+                dispCommit(live, axis, sign);
               } else {
                 live.delay = Math.random() * 64;
               }
