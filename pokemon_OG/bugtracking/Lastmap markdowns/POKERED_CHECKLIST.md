@@ -3,6 +3,58 @@
 Source-verified against: `PokeredOverworld.jsx`, `PokeredBattle.jsx`, `pokeredGameState.js`,
 `moveEffects.js`, `trainerMeta.js`, `trainerParties.js`
 OG reference: `PokeRed_OG/` assembly source
+Last verified: 2026-06-30
+
+---
+
+// This is not a file for comments/notes on what you did when something is 100% complete. It's meant for checking your work off and making a note on something if it still needs more work.
+
+---
+
+## ⚡ NEXT SESSION — START HERE
+
+Read `pokemon_OG/bugtracking/SESSION_SUMMARY_2026-06-30.md` first — it explains the
+big changes from the 2026-06-30 session (full party system, whiteout, and a brand-new
+Gen-1 battle engine at `src/pages/pokered_page/battleEngine.js`).
+
+**Two kinds of remaining work: (A) playtest what's built, (B) wire data that's already extracted.**
+
+### A. Playtest-and-verify (built this session, compiles, NOT yet run in a browser)
+Do this BEFORE building anything new — these are load-bearing and untested:
+1. **Battle engine** (`battleEngine.js`) — fight many move types: stat moves (Growl,
+   Swords Dance), drain (Absorb), recoil (Double-Edge), multi-hit (Fury Attack), OHKO
+   (Horn Drill), charge (Solar Beam), trapping (Wrap), Substitute, Reflect, Hyper Beam,
+   Explosion, Transform, Leech Seed, Rest. Verify damage/HP/log all read sanely.
+2. **Party system** — switch mid-battle (costs a turn), faint→forced-switch, heal a
+   bench mon from the bag, catch when party full (→ goes to `gameState.pcMons`).
+3. **Whiteout** — lose all mons → money halves, party heals, respawn at last Pokécenter.
+
+### B. Wire the already-extracted OG data (in `src/pages/pokered_page/extracted_og_data/`)
+This data is verified and in the repo but **nothing reads it yet.** Each item below is
+"build the consuming system, then point it at the JSON":
+- **Per-location item pickups** ← `item_locations.json` (replace the current "every ball
+  = generic Potion" hack in `PokeredApp.handlePickUpItem`; the file is keyed by map with
+  x/y/item, already coordinate-matched to game_data.json `poke_ball` NPCs).
+- **Mart / shop system** ← `marts.json` + `prices.json` (needs a buy/sell UI + money;
+  Celadon 2F/5F have two clerks = array of two item lists).
+- **Fishing** ← `fishing.json` (needs Old/Good/Super Rod as usable items + water-tile
+  interaction; also wire the `wildWater` pools already sitting in game_data.json).
+- **Pokédex screen** ← `dex.json` (all 151 entries: kind/height/weight/description).
+- **Per-map NPC & trainer dialogue** ← `npc_dialogue.json` + `trainer_text.json`
+  (scripted NPCs are flagged `{scripted:true}` — handle those case-by-case; 5 special
+  trainers unresolved, see `extracted_og_data/limitations.json`).
+- **Trainer AI** ← `trainer_ai_tables.json` + `special_moves.json` (layer on top of
+  `battleEngine.pickEnemyMove`; note LoneMoves is dead code in OG — only TeamMoves and
+  Champion bonuses are live).
+
+### C. Not started at all (no data extracted, biggest remaining chunks)
+Badges (award + gate checks + stat boosts) · HM field moves (Cut/Surf/Strength/Flash/Fly)
+· event-flag system + full story events (Oak's parcel → Champion, Safari, fossils,
+legendaries, gym puzzles) · rival/Elite Four/Champion battle sequences · menus (status
+screen, party management, naming, level-up stat display) · day care / trades / gift mons
+· overworld extras (poison walk damage, warp pads, elevators, spinners, Itemfinder).
+
+See the detailed per-feature breakdown in the **NOT DONE** section below.
 
 ---
 
@@ -80,10 +132,19 @@ OG reference: `PokeRed_OG/` assembly source
 
 ✅ **Trainer battle trigger** — press A facing trainer → dialogue → battle
 - [ ] Claude  [ ] You
-- ⚠️ Uses sprite name to look up trainer class. `trainerClass` field does NOT exist in source — prior agent's claim was wrong.
+- `trainerClass` field now exists in `game_data.json` NPCs and is correctly used for party lookup and dialogue. Prior note claiming this was wrong is itself now out of date.
 
 ✅ **Stable party assignment** — position hash (`x*31 + y*17 % partyCount`) gives each NPC a consistent party variant
 - [ ] Claude  [ ] You
+
+✅ **NPC patrol movement** — `WALK_UD`, `WALK_LR`, `WALK_ANY` with displacement leash. Verified 2026-06-30.
+- [x] Claude  [ x] You
+
+✅ **NPC directional facing** — sprite row selected per facing direction, LEFT/RIGHT flip handled. Verified 2026-06-30.
+- [x] Claude  [ ] You 
+
+✅ **Trainer line of sight** — `checkLOS()` fires on every player step, checks `trainerClass` + `sight`, correct directional + distance logic. Verified 2026-06-30.
+- [x] Claude  [ ] You
 
 ---
 
@@ -152,7 +213,8 @@ OG reference: `PokeRed_OG/` assembly source
 
 ✅ **Level-up evolutions** — all species that evolve by level
 - [ ] Claude  [ ] You
-- ⚠️ Stone and trade evolutions not implemented
+- ⚠️ Trade evolutions not implemented
+- Stone evolutions now implemented via `STONE_EVOLUTIONS` table + `tryEvolveWithStone()` in `pokeredGameState.js`, usable from the overworld items menu (Evo Stone → item-target party-select page)
 
 ✅ **Per-species base XP yield**
 - [ ] Claude  [ ] You
@@ -167,50 +229,59 @@ OG reference: `PokeRed_OG/` assembly source
 
 ### 🔴 High Priority
 
-#### NPC System
-> Prior agent claimed LOS, trainer walk-up, patrol movement, and directional facing were done.
-> None of these exist in source. NPCs are fully static.
+### NPC System
 
-- ❌ **NPC patrol movement** — WALK_UD, WALK_LR, WALK_ANY from map objects data
-- ❌ **NPC directional facing** — correct sprite row based on facing direction
-  - Blocker: NPC spritesheets have no directional rows
-- ❌ **NPC turns to face player when talked to**
-  - Same blocker as above
-- ❌ **Trainer line of sight** — trainer spots player in front → triggers battle
-- ❌ **Trainer walk-up animation** — NPC walks tile-by-tile to player on trigger
-- ❌ **Exclamation mark bubble** — ! above trainer when they spot you
+✅ **NPC patrol movement** — `WALK_UD`, `WALK_LR`, `WALK_ANY` implemented with displacement leash (bounded back-and-forth). Verified in source ~line 920-1008.
+- [x] Claude  [ ] You
+
+✅ **NPC directional facing** — sprite row selected based on facing direction. `hasFacingFrames` checks sprite sheet height ≥ 64px; `facingRow` maps DOWN/UP/LEFT/RIGHT; LEFT/RIGHT flip handled. Verified ~line 1092-1097.
+- [x] Claude  [ ] You
+
+✅ **Trainer line of sight** — `checkLOS()` implemented. Checks `npc.trainerClass` + `npc.sight`, correct directional distance check scaled to 2-tile-step grid (`sight * 2`). Fires on every player step completion. Verified ~line 418-442.
+- [x] Claude  [ ] You
+
+⚠️ **Trainer walk-up animation** — exists (`trainerEngageRef`, `phase: 'walking'`, walk progression logic ~line 871-910) but currently bugged. Left unfinished intentionally.
+
+❌ **NPC turns to face player when talked to** — not implemented
+
+❌ **Exclamation mark bubble** — ! above trainer on LOS trigger, not implemented
 
 #### Party System
-- ❌ **Full 6-Pokémon party** — only slot 0 used in battle
-- ❌ **Party switching in battle** — PKMn button disabled
-- ❌ **Auto send-out next Pokémon on faint**
-- ❌ **Add caught Pokémon to party**
-- ❌ **Send to PC Box when party full**
-- ❌ **Blackout/Whiteout** — all faint → lose money → return to last Pokécenter
+- ⚠️ **Full 6-Pokémon party** — implemented 2026-06-30, **needs playtest** (see START HERE §A). `PokeredBattle` now takes `playerParty`; active mon + `partyRef`; returns `updatedParty`.
+  - [ ] Claude  [ ] You
+- ⚠️ **Party switching in battle** — implemented (PKMn button → party list, voluntary switch costs a turn). **Needs playtest.**
+  - [ ] Claude  [ ] You
+- ⚠️ **Forced send-out on faint** — implemented (`switch-faint` phase). **Needs playtest.**
+  - [ ] Claude  [ ] You
+- ⚠️ **Add caught Pokémon to party** — implemented in `handleBattleEnd`. **Needs playtest.**
+  - [ ] Claude  [ ] You
+- ⚠️ **Send to PC Box when party full** — implemented (`gameState.pcMons`). **Needs playtest.**
+  - [ ] Claude  [ ] You
+- ⚠️ **Blackout/Whiteout** — implemented (halve money, heal, respawn at `lastPokeCenter`), ported from `black_out.asm`. **Needs playtest.**
+  - [ ] Claude  [ ] You
 
 #### Battle Move Effects
-- ❌ **Stat modifiers** — Attack/Defense/Speed/Special up and down
-- ❌ **Drain moves** — Absorb, Mega Drain, Leech Life
-- ❌ **Recoil moves** — Take Down, Double-Edge, Submission
-- ❌ **One-hit KO moves** — Guillotine, Horn Drill, Fissure
-- ❌ **Multi-hit moves** — Fury Attack, Pin Missile etc.
-- ❌ **Charge moves** — Fly, Dig, Solar Beam, Skull Bash (2-turn)
-- ❌ **Trapping moves** — Wrap, Bind, Fire Spin
-- ❌ **Leech Seed**
-- ❌ **Substitute**
-- ❌ **Reflect / Light Screen**
-- ❌ **Mist**
-- ❌ **Focus Energy**
-- ❌ **Haze**
-- ❌ **Bide**
-- ❌ **Rage**
-- ❌ **Mimic**
-- ❌ **Disable**
-- ❌ **Transform**
-- ❌ **Hyper Beam** — must recharge next turn
-- ❌ **Explode / Self Destruct**
-- ❌ **Flinch turn-skip** — `didFlinch` is computed but not applied in `resolveTurns`
-- ❌ **Trainer AI** — currently picks random move, no effectiveness weighting
+⚠️ **ALL of the below were implemented 2026-06-30 in the new `battleEngine.js` (full
+Gen-1 effect interpreter, all 165 moves mapped in `moveEffects.js`). Compiles clean but
+NONE has been playtested yet — verify in a browser before trusting (see START HERE §A).**
+- [ ] Claude  [ ] You  — (one shared checkbox for the whole engine; check per-effect notes below if any fail)
+- ⚠️ **Stat modifiers** — all 6 stats, ±1/±2, self & target, side-effect variants
+- ⚠️ **Drain moves** — Absorb, Mega Drain, Leech Life, Dream Eater
+- ⚠️ **Recoil moves** — Take Down, Double-Edge, Submission, Struggle
+- ⚠️ **One-hit KO moves** — Guillotine, Horn Drill, Fissure (fail-if-slower)
+- ⚠️ **Multi-hit moves** — Fury Attack etc. (2–5) + twin-hit (Double Kick, Twineedle)
+- ⚠️ **Charge moves** — Solar Beam, Sky Attack, Razor Wind, Skull Bash + Fly/Dig invuln
+- ⚠️ **Trapping moves** — Wrap, Bind, Fire Spin, Clamp
+- ⚠️ **Leech Seed**, **Substitute**, **Reflect / Light Screen**, **Mist**, **Haze**
+- ⚠️ **Focus Energy** (OG quarter-crit bug preserved), **Bide**, **Rage**, **Mimic**,
+  **Disable**, **Transform** (reverts at battle end), **Conversion**, **Metronome**,
+  **Mirror Move**, **Counter**
+- ⚠️ **Hyper Beam** (recharge), **Explode / Self Destruct**, **Rest/Recover/Softboiled**,
+  **Super Fang**, fixed-damage (Seismic Toss/Night Shade/Sonic Boom/Dragon Rage/Psywave),
+  **Pay Day**, **Swift**, **Whirlwind/Roar/Teleport** (flee), **Splash**, **Jump Kick crash**
+- ⚠️ **Flinch turn-skip** — now actually consumed (was computed-but-ignored before)
+- ❌ **Trainer AI** — still random-ish (`battleEngine.pickEnemyMove`). Data extracted to
+  `extracted_og_data/trainer_ai_tables.json` + `special_moves.json`, NOT wired. (See START HERE §B.)
 
 #### Event / Flag System
 - ⚠️ **Event flag system** — only `beatenTrainers[]` and `pickedUpItems[]` exist, no general story-flag system
@@ -221,10 +292,18 @@ OG reference: `PokeRed_OG/` assembly source
 ### 🟡 Medium Priority
 
 #### Items & Inventory
-- ❌ **Item use in battle** — Potion, Super Potion, Revive, status heals
-- ❌ **Item use in overworld** — Repel, Escape Rope, Bike, Evo Stones
+- ✅ **Item use in battle** — Potion, Super Potion, Revive, status heals
+  - [ ] Claude  [x ] You  Semi-tested will take time to confirm
+  - Unified bag UI in `PokeredBattle.jsx` (BAG button lists medicine items + Poké Balls together). Selecting medicine calls `applyMedicineItem()` from `pokeredGameState.js`, updates local battle HP, passes turn to enemy. `onUseItem(name)` callback decrements bag count in `PokeredApp.jsx`.
+- ✅ **Item use in overworld** — Repel, Escape Rope, Bike, Evo Stones
+  - [ ] Claude  [ x] You Semi-tested will take time to confirm
+  - Repel: per-step countdown in `checkNewTile()`, suppresses encounters only when wild level < lead party level (matches OG). Wear-off toast via `healMsg`. Escape Rope: warps to `lastPokeCenter` (tracked on every pokecenter entry) defaulting to Pallet Town. Bicycle: outdoor-only toggle (`OUTDOOR_TS` gate), 2× walk speed multiplier at player walkProg site. Evo Stones: new `item-target` menu page (party-select, reuses existing HP-bar rendering), calls `tryEvolveWithStone()`.
+  - `ITEM_EFFECTS` catalog + `applyMedicineItem` + `STONE_EVOLUTIONS` + `tryEvolveWithStone` all in `pokeredGameState.js`.
+  - `handleUseItem(itemName, targetIdx)` in `PokeredApp.jsx` wired to both `PokeredBattle` and `PokeredOverworld` via `onUseItem` prop.
 - ❌ **Per-location item table** — every ground item currently gives a generic Potion
+
 - ❌ **Evolution stones** — Moon Stone, Fire/Water/Thunder/Leaf Stone
+  - (Stone mechanics implemented above; this item refers to picking them up from the world — not yet done since no per-location item table yet)
 - ❌ **Mart system** — browse and buy items per town
 - ❌ **Badges** — tracking, gate checks, passive stat effects
 
@@ -234,17 +313,20 @@ OG reference: `PokeRed_OG/` assembly source
 #### Overworld Features
 - ❌ **Poison damage while walking**
 - ❌ **Door step-out animation**
-- ❌ **Blackout map tracking** — last Pokécenter visited
+- ⚠️ **Blackout map tracking** — last Pokécenter visited tracked via `gameState.lastPokeCenter` (set in `handleMapChange` when tileset === 'pokecenter'). Used by Escape Rope. Full whiteout logic (party-wipe → warp + money loss) still not implemented.
 - ❌ **Hidden items** — Itemfinder
 - ❌ **Dungeon warp pads** — Rocket Hideout, Seafoam floor holes
 - ❌ **Elevator system** — Silph Co., Celadon Mart
 - ❌ **Spinner NPCs** — Silph Co., gyms
 
 #### Wild Encounters
-- ❌ **Water/Surf encounters**
+- ✅ **Wild encounter data — all areas wired**
+  - [ ] Claude  [ ] You
+  - 2026-06-30: parsed all 57 OG wild encounter tables from `data/wild/maps/*.asm` and populated `game_data.json` `wild` fields. All routes (1–25), Viridian Forest, Mt. Moon, Rock Tunnel, Pokémon Tower (3F–7F), Seafoam Islands, Pokémon Mansion, Safari Zone areas, Cerulean Cave, Power Plant, Victory Road, Diglett's Cave now have correct `{ rate, pokemon: [{level, species}] }` pools. Cave/facility/cemetery tilesets not in `grassTiles` → encounters fire on any walkable tile (correct OG behavior). Route 19/20 grass-rate-0 routes get `wildWater` pool stored for future Surf (no land encounters, correct). Tower 1F/2F rate=0 → remain `wild: null`.
+- ❌ **Water/Surf encounters** — `wildWater` pools now exist in `game_data.json` for water routes; need Surf HM + water-tile step detection to wire them
 - ❌ **Fishing encounters** — Old Rod, Good Rod, Super Rod
-- ❌ **Cave encounters** — any walkable tile, no grass needed
-- ❌ **Repel step counter**
+- ✅ **Repel step counter** — `repelStepsRef` decremented each step in `checkNewTile()`, suppresses wild encounters when active (see item-use in overworld above)
+  - [ ] Claude  [ ] You
 
 #### Trainer Battles
 - ❌ **All route/gym trainers wired** to correct NPC entries in game_data.json
@@ -305,14 +387,16 @@ OG reference: `PokeRed_OG/` assembly source
 | `data/maps/objects/*.asm`        | bg_events (signs/TVs/furniture text)        | ✅ Converted & wired (70 maps) |
 | `data/maps/objects/*.asm`        | NPC movement type, facing, dialogue refs    | 📦 .blk files exist; movement/facing/dialogue not extracted |
 | `data/events/hidden_events.asm`  | PC/TV/cable-club hidden interactions        | 📦 Only REDS_HOUSE_2F hand-converted; other maps (Bill's house, PokéCenters, Oak's Lab etc.) not extracted |
-| `data/items/marts.asm`           | Every town's shop inventory                 | ❌ Not converted                |
-| `data/items/prices.asm`          | Item buy/sell prices                        | ❌ Not converted                |
-| `data/wild/grass_water.asm`      | All wild encounter tables                   | ❌ Not converted                |
-| `data/wild/good_rod.asm`         | Fishing encounter tables                    | ❌ Not converted                |
-| `data/trainers/special_moves.asm`| Gym leader custom movesets                  | ❌ Not converted                |
-| `data/trainers/ai_pointers.asm`  | Trainer AI move selection logic             | ❌ Not converted                |
-| `scripts/*.asm`                  | Map event scripts, item locations, dialogue | ❌ Not converted                |
-| `data/pokemon/dex_entries.asm`   | Pokédex flavor text                         | ❌ Not converted                |
+| `data/items/marts.asm`           | Every town's shop inventory                 | 📦 Extracted → `extracted_og_data/marts.json`, NOT wired |
+| `data/items/prices.asm`          | Item buy/sell prices                        | 📦 Extracted → `extracted_og_data/prices.json`, NOT wired |
+| `data/wild/grass_water.asm`      | All wild encounter tables                   | ✅ Converted & wired (all 57 maps with encounter data) |
+| `data/wild/good_rod.asm` + super | Fishing encounter tables                    | 📦 Extracted → `extracted_og_data/fishing.json`, NOT wired |
+| `data/trainers/special_moves.asm`| Gym leader custom movesets                  | 📦 Extracted → `extracted_og_data/special_moves.json`, NOT wired |
+| `data/trainers/ai_pointers.asm`  | Trainer AI move selection logic             | 📦 Extracted → `extracted_og_data/trainer_ai_tables.json`, NOT wired |
+| `data/maps/objects` + `scripts`  | Item ball & hidden item locations           | 📦 Extracted → `extracted_og_data/item_locations.json` + `hidden_items.json`, NOT wired |
+| `scripts/*.asm` + `text/*.asm`   | Per-map NPC & trainer dialogue              | 📦 Extracted → `extracted_og_data/npc_dialogue.json` + `trainer_text.json`, NOT wired (5 special trainers unresolved) |
+| `data/pokemon/dex_entries.asm`   | Pokédex flavor text                         | 📦 Extracted → `extracted_og_data/dex.json` (all 151), NOT wired |
+| `data/moves/moves.asm`           | Move effect constants (165 moves)           | ✅ Converted & wired (`moveEffects.js` + `battleEngine.js`) |
 | `constants/event_constants.asm`  | Named story event flags                     | ❌ Not converted                |
 | `data/battle_anims/`             | Battle animation data                       | ❌ Not converted                |
 | `audio/`                         | Music and SFX                               | ❌ Not converted                |
@@ -340,11 +424,11 @@ Claude do not touch.
 18. Pokédex screen
 19. Audio (BGM + cries + SFX)
 20. Battle animations
-21. item-use in battle, catching pokemon etc.
+21.
 22. route 11.5 to route 12, 2 warps, and similar warps.(walking into the roof of gates)
 23. trainer position logic after battle is wrong. trainer teleports back to position instead of staying until map reloads.
 24. fix # / Poke character
-25. 
+25. *-location item pickup* - items pickup automatically by running into them
 26
 27
 28

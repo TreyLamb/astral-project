@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { saveGame, healParty, createPlayerPokemon } from './pokeredGameState';
+import { saveGame, healParty, createPlayerPokemon, ITEM_EFFECTS, tryEvolveWithStone } from './pokeredGameState';
 import PokeredStartScreen from './PokeredStartScreen';
 import PokeredOverworld from './PokeredOverworld';
 import PokeredBattle from './PokeredBattle';
@@ -55,7 +55,7 @@ export default function PokeredApp() {
     setScreen('battle');
   }
 
-  function handleBattleEnd({ result, updatedPlayer, caught, moneyWon }) {
+  function handleBattleEnd({ result, updatedParty, caught, moneyWon }) {
     const wasTrainerVictory = result === 'victory' && !!trainerEncounter;
     const beatenId = trainerEncounter?.trainerId;
     setWildEncounter(null);
@@ -64,9 +64,12 @@ export default function PokeredApp() {
     setGameState(prev => {
       if (!prev) return prev;
 
-      let party = [...prev.party];
-      if (updatedPlayer) party[0] = updatedPlayer;
-      if (caught && party.length < 6) party = [...party, caught];
+      let party = updatedParty ? [...updatedParty] : [...prev.party];
+      let pcMons = prev.pcMons ?? [];
+      if (caught) {
+        if (party.length < 6) party = [...party, caught];
+        else pcMons = [...pcMons, caught]; // party full → straight to the PC box (Gen 1)
+      }
 
       let items = prev.items ? [...prev.items] : [];
       if (result === 'caught') {
@@ -80,11 +83,22 @@ export default function PokeredApp() {
         beatenTrainers = [...beatenTrainers, beatenId];
       }
 
-      const money = wasTrainerVictory ? (prev.money ?? 0) + (moneyWon ?? 0) : (prev.money ?? 0);
+      let money = wasTrainerVictory ? (prev.money ?? 0) + (moneyWon ?? 0) : (prev.money ?? 0);
+
+      // Whiteout (OG ResetStatusAndHalveMoneyOnBlackout + HandleBlackOut): all party
+      // fainted → halve money, fully heal party, respawn at the last Pokémon Center.
+      if (result === 'defeat') {
+        money = Math.floor(money / 2);
+        party = healParty(party);
+        const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 8, y: 18 };
+        const newState = { ...prev, party, pcMons, items, beatenTrainers, money, mapId: dest.mapId, x: dest.x, y: dest.y };
+        if (!prev.isExtra) saveGame(newState);
+        return newState;
+      }
 
       // Restore exact position from before the battle — battleReturnPos was set from playerPosRef
       const pos = battleReturnPos.current ?? playerPosRef.current ?? { mapId: prev.mapId, x: prev.x, y: prev.y };
-      const newState = { ...prev, party, items, beatenTrainers, money, mapId: pos.mapId, x: pos.x, y: pos.y };
+      const newState = { ...prev, party, pcMons, items, beatenTrainers, money, mapId: pos.mapId, x: pos.x, y: pos.y };
 
       if ((result === 'victory' || result === 'caught') && !prev.isExtra) {
         saveGame(newState);
@@ -121,6 +135,75 @@ export default function PokeredApp() {
     });
   }
 
+  function consumeItem(items, itemName) {
+    const entry = items.find(i => i.name === itemName);
+    if (!entry) return items;
+    return entry.count > 1
+      ? items.map(i => i.name === itemName ? { ...i, count: i.count - 1 } : i)
+      : items.filter(i => i.name !== itemName);
+  }
+
+  // Reads/writes only through the setGameState updater (never the outer gameState
+  // closure) so this stays correct even when called via a stale prop reference from
+  // PokeredOverworld/PokeredBattle (their keyboard handlers capture onUseItem once).
+  function handleUseItem(itemName, targetIdx) {
+    const effect = ITEM_EFFECTS[itemName];
+    let result = { used: false, message: "It won't have any effect." };
+    if (!effect) return result;
+
+    setGameState(prev => {
+      if (!prev) return prev;
+      const items = prev.items ?? [];
+
+      if (effect.category === 'medicine') {
+        result = { used: true };
+        const next = { ...prev, items: consumeItem(items, itemName) };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+
+      if (effect.category === 'repel') {
+        result = { used: true, message: `You used the ${itemName.replace(/_/g, ' ')}!` };
+        const next = { ...prev, items: consumeItem(items, itemName), repelSteps: effect.steps };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+
+      if (effect.category === 'bicycle') {
+        const biking = !prev.isBiking;
+        result = { used: true, biking, message: biking ? 'You got on the Bicycle.' : 'You got off the Bicycle.' };
+        const next = { ...prev, isBiking: biking };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+
+      if (effect.category === 'escape_rope') {
+        const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 8, y: 18 };
+        result = { used: true, warpTo: dest, message: 'You used the Escape Rope!' };
+        const next = { ...prev, items: consumeItem(items, itemName) };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+
+      if (effect.category === 'stone') {
+        const mon = prev.party?.[targetIdx];
+        if (!mon) return prev;
+        const { mon: newMon, evolved, message } = tryEvolveWithStone(mon, itemName, pokemonData);
+        result = { used: evolved, message };
+        if (!evolved) return prev;
+        const party = [...prev.party];
+        party[targetIdx] = newMon;
+        const next = { ...prev, party, items: consumeItem(items, itemName) };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+
+      return prev;
+    });
+
+    return result;
+  }
+
   function handleRequestStarter(mapId, x, y) {
     const pos = playerPosRef.current ?? (mapId != null ? { mapId, x, y } : null);
     if (pos) setGameState(prev => prev ? { ...prev, ...pos } : prev);
@@ -135,8 +218,13 @@ export default function PokeredApp() {
     });
   }
 
-  function handleMapChange(mapId, x, y) {
-    setGameState(prev => prev ? { ...prev, mapId, x, y } : prev);
+  function handleMapChange(mapId, x, y, isPokeCenter) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = { ...prev, mapId, x, y };
+      if (isPokeCenter) next.lastPokeCenter = { mapId, x, y };
+      return next;
+    });
   }
 
   function handleOpenPC(mapId, x, y) {
@@ -196,6 +284,27 @@ export default function PokeredApp() {
       return newState;
     });
     setScreen('overworld');
+  }
+
+  function handleTeachMove(partyIdx, moveName, slotIdx) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const party = [...prev.party];
+      const mon = party[partyIdx];
+      if (!mon) return prev;
+      const moves = [...mon.moves];
+      const moveData = pokemonData?.moves[moveName];
+      const newMove = { name: moveName, pp: moveData?.pp ?? 20, ppMax: moveData?.pp ?? 20 };
+      if (slotIdx < 0 || moves.length < 4) {
+        moves.push(newMove);
+      } else {
+        moves[slotIdx] = newMove;
+      }
+      party[partyIdx] = { ...mon, moves };
+      const next = { ...prev, party };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
   }
 
   function handleReturnHome() {
@@ -287,18 +396,16 @@ export default function PokeredApp() {
   }
 
 if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.party?.[0]) {
- console.log('sending to battle:', gameState.party[0]);  
   return (
       <PokeredBattle
-            // comment out during testing
-            // playerPokemon={gameState.party.find(mon => mon.hp > 0)}
-            playerPokemon={gameState.party[0]}  
+        playerParty={gameState.party}
         wildEncounter={wildEncounter}
         trainerEncounter={trainerEncounter}
         pokemonData={pokemonData}
         onBattleEnd={handleBattleEnd}
         isExtra={gameState.isExtra}
         playerItems={gameState.items}
+        onUseItem={handleUseItem}
       />
     );
   }
@@ -321,6 +428,8 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onSave={handleSave}
             onPositionUpdate={handlePositionUpdate}
             onPickUpItem={handlePickUpItem}
+            onUseItem={handleUseItem}
+            onTeachMove={handleTeachMove}
             gameState={gameState}
             isExtra={gameState.isExtra}
             speedMult={speedMult}

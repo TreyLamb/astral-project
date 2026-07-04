@@ -1894,7 +1894,55 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 46,
+            "species": "GOLBAT"
+          },
+          {
+            "level": 46,
+            "species": "HYPNO"
+          },
+          {
+            "level": 46,
+            "species": "MAGNETON"
+          },
+          {
+            "level": 49,
+            "species": "DODRIO"
+          },
+          {
+            "level": 49,
+            "species": "VENOMOTH"
+          },
+          {
+            "level": 52,
+            "species": "ARBOK"
+          },
+          {
+            "level": 52,
+            "species": "SANDSLASH"
+          },
+          {
+            "level": 49,
+            "species": "KADABRA"
+          },
+          {
+            "level": 52,
+            "species": "PARASECT"
+          },
+          {
+            "level": 53,
+            "species": "RAICHU"
+          },
+          {
+            "level": 53,
+            "species": "DITTO"
+          }
+        ]
+      }
     },
     "CERULEAN_CAVE_2F": {
       "blk": "CeruleanCave2F",
@@ -1978,7 +2026,51 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 15,
+        "pokemon": [
+          {
+            "level": 51,
+            "species": "DODRIO"
+          },
+          {
+            "level": 51,
+            "species": "VENOMOTH"
+          },
+          {
+            "level": 51,
+            "species": "KADABRA"
+          },
+          {
+            "level": 52,
+            "species": "RHYDON"
+          },
+          {
+            "level": 52,
+            "species": "MAROWAK"
+          },
+          {
+            "level": 52,
+            "species": "ELECTRODE"
+          },
+          {
+            "level": 56,
+            "species": "CHANSEY"
+          },
+          {
+            "level": 54,
+            "species": "WIGGLYTUFF"
+          },
+          {
+            "level": 55,
+            "species": "DITTO"
+          },
+          {
+            "level": 60,
+            "species": "DITTO"
+          }
+        ]
+      }
     },
     "CERULEAN_CAVE_B1F": {
       "blk": "CeruleanCaveB1F",
@@ -2027,7 +2119,55 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 25,
+        "pokemon": [
+          {
+            "level": 55,
+            "species": "RHYDON"
+          },
+          {
+            "level": 55,
+            "species": "MAROWAK"
+          },
+          {
+            "level": 55,
+            "species": "ELECTRODE"
+          },
+          {
+            "level": 64,
+            "species": "CHANSEY"
+          },
+          {
+            "level": 64,
+            "species": "PARASECT"
+          },
+          {
+            "level": 64,
+            "species": "RAICHU"
+          },
+          {
+            "level": 57,
+            "species": "ARBOK"
+          },
+          {
+            "level": 57,
+            "species": "SANDSLASH"
+          },
+          {
+            "level": 65,
+            "species": "DITTO"
+          },
+          {
+            "level": 63,
+            "species": "DITTO"
+          },
+          {
+            "level": 67,
+            "species": "DITTO"
+          }
+        ]
+      }
     },
     "CERULEAN_CITY": {
       "blk": "CeruleanCity",
@@ -3433,7 +3573,51 @@
         }
       ],
       "npcs": [],
-      "wild": null
+      "wild": {
+        "rate": 20,
+        "pokemon": [
+          {
+            "level": 18,
+            "species": "DIGLETT"
+          },
+          {
+            "level": 19,
+            "species": "DIGLETT"
+          },
+          {
+            "level": 17,
+            "species": "DIGLETT"
+          },
+          {
+            "level": 20,
+            "species": "DIGLETT"
+          },
+          {
+            "level": 16,
+            "species": "DIGLETT"
+          },
+          {
+            "level": 15,
+            "species": "DIGLETT"
+          },
+          {
+            "level": 21,
+            "species": "DIGLETT"
+          },
+          {
+            "level": 22,
+            "species": "DIGLETT"
+          },
+          {
+            "level": 29,
+            "species": "DUGTRIO"
+          },
+          {
+            "level": 31,
+            "species": "DUGTRIO"
+          }
+        ]
+      }
     },
     "DIGLETTS_CAVE_ROUTE_11": {
       "blk": "DiglettsCaveRoute11",
@@ -5309,7 +5493,51 @@
           "sight": 0
         }
       ],
-      "wild": null,
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 8,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 7,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 9,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 8,
+            "species": "GEODUDE"
+          },
+          {
+            "level": 6,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 10,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 10,
+            "species": "GEODUDE"
+          },
+          {
+            "level": 8,
+            "species": "PARAS"
+          },
+          {
+            "level": 11,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 8,
+            "species": "CLEFAIRY"
+          }
+        ]
+      },
       "bgEvents": [
         {
           "x": 30,
@@ -5383,7 +5611,51 @@
         }
       ],
       "npcs": [],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 8,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 7,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 7,
+            "species": "GEODUDE"
+          },
+          {
+            "level": 8,
+            "species": "GEODUDE"
+          },
+          {
+            "level": 9,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 10,
+            "species": "PARAS"
+          },
+          {
+            "level": 10,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 11,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 9,
+            "species": "CLEFAIRY"
+          },
+          {
+            "level": 9,
+            "species": "GEODUDE"
+          }
+        ]
+      }
     },
     "MT_MOON_B2F": {
       "blk": "MtMoonB2F",
@@ -5513,7 +5785,51 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 9,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 9,
+            "species": "GEODUDE"
+          },
+          {
+            "level": 10,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 10,
+            "species": "GEODUDE"
+          },
+          {
+            "level": 11,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 10,
+            "species": "PARAS"
+          },
+          {
+            "level": 12,
+            "species": "PARAS"
+          },
+          {
+            "level": 10,
+            "species": "CLEFAIRY"
+          },
+          {
+            "level": 12,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 12,
+            "species": "CLEFAIRY"
+          }
+        ]
+      }
     },
     "MT_MOON_POKECENTER": {
       "blk": "MtMoonPokecenter",
@@ -6676,7 +6992,91 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 32,
+            "species": "KOFFING"
+          },
+          {
+            "level": 30,
+            "species": "KOFFING"
+          },
+          {
+            "level": 34,
+            "species": "PONYTA"
+          },
+          {
+            "level": 30,
+            "species": "PONYTA"
+          },
+          {
+            "level": 34,
+            "species": "GROWLITHE"
+          },
+          {
+            "level": 32,
+            "species": "PONYTA"
+          },
+          {
+            "level": 30,
+            "species": "GRIMER"
+          },
+          {
+            "level": 28,
+            "species": "PONYTA"
+          },
+          {
+            "level": 37,
+            "species": "WEEZING"
+          },
+          {
+            "level": 39,
+            "species": "MUK"
+          },
+          {
+            "level": 32,
+            "species": "GRIMER"
+          },
+          {
+            "level": 30,
+            "species": "GRIMER"
+          },
+          {
+            "level": 34,
+            "species": "PONYTA"
+          },
+          {
+            "level": 30,
+            "species": "PONYTA"
+          },
+          {
+            "level": 34,
+            "species": "VULPIX"
+          },
+          {
+            "level": 32,
+            "species": "PONYTA"
+          },
+          {
+            "level": 30,
+            "species": "KOFFING"
+          },
+          {
+            "level": 28,
+            "species": "PONYTA"
+          },
+          {
+            "level": 37,
+            "species": "MUK"
+          },
+          {
+            "level": 39,
+            "species": "WEEZING"
+          }
+        ]
+      }
     },
     "POKEMON_MANSION_2F": {
       "blk": "PokemonMansion2F",
@@ -6756,7 +7156,91 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 32,
+            "species": "GROWLITHE"
+          },
+          {
+            "level": 34,
+            "species": "KOFFING"
+          },
+          {
+            "level": 34,
+            "species": "KOFFING"
+          },
+          {
+            "level": 30,
+            "species": "PONYTA"
+          },
+          {
+            "level": 30,
+            "species": "KOFFING"
+          },
+          {
+            "level": 32,
+            "species": "PONYTA"
+          },
+          {
+            "level": 30,
+            "species": "GRIMER"
+          },
+          {
+            "level": 28,
+            "species": "PONYTA"
+          },
+          {
+            "level": 39,
+            "species": "WEEZING"
+          },
+          {
+            "level": 37,
+            "species": "MUK"
+          },
+          {
+            "level": 32,
+            "species": "VULPIX"
+          },
+          {
+            "level": 34,
+            "species": "GRIMER"
+          },
+          {
+            "level": 34,
+            "species": "GRIMER"
+          },
+          {
+            "level": 30,
+            "species": "PONYTA"
+          },
+          {
+            "level": 30,
+            "species": "GRIMER"
+          },
+          {
+            "level": 32,
+            "species": "PONYTA"
+          },
+          {
+            "level": 30,
+            "species": "KOFFING"
+          },
+          {
+            "level": 28,
+            "species": "PONYTA"
+          },
+          {
+            "level": 39,
+            "species": "MUK"
+          },
+          {
+            "level": 37,
+            "species": "WEEZING"
+          }
+        ]
+      }
     },
     "POKEMON_MANSION_3F": {
       "blk": "PokemonMansion3F",
@@ -6839,7 +7323,91 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 31,
+            "species": "KOFFING"
+          },
+          {
+            "level": 33,
+            "species": "GROWLITHE"
+          },
+          {
+            "level": 35,
+            "species": "KOFFING"
+          },
+          {
+            "level": 32,
+            "species": "PONYTA"
+          },
+          {
+            "level": 34,
+            "species": "PONYTA"
+          },
+          {
+            "level": 40,
+            "species": "WEEZING"
+          },
+          {
+            "level": 34,
+            "species": "GRIMER"
+          },
+          {
+            "level": 38,
+            "species": "WEEZING"
+          },
+          {
+            "level": 36,
+            "species": "PONYTA"
+          },
+          {
+            "level": 42,
+            "species": "MUK"
+          },
+          {
+            "level": 31,
+            "species": "GRIMER"
+          },
+          {
+            "level": 33,
+            "species": "VULPIX"
+          },
+          {
+            "level": 35,
+            "species": "GRIMER"
+          },
+          {
+            "level": 32,
+            "species": "PONYTA"
+          },
+          {
+            "level": 34,
+            "species": "MAGMAR"
+          },
+          {
+            "level": 40,
+            "species": "MUK"
+          },
+          {
+            "level": 34,
+            "species": "KOFFING"
+          },
+          {
+            "level": 38,
+            "species": "MUK"
+          },
+          {
+            "level": 36,
+            "species": "PONYTA"
+          },
+          {
+            "level": 42,
+            "species": "WEEZING"
+          }
+        ]
+      }
     },
     "POKEMON_MANSION_B1F": {
       "blk": "PokemonMansionB1F",
@@ -6938,7 +7506,91 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 33,
+            "species": "KOFFING"
+          },
+          {
+            "level": 31,
+            "species": "KOFFING"
+          },
+          {
+            "level": 35,
+            "species": "GROWLITHE"
+          },
+          {
+            "level": 32,
+            "species": "PONYTA"
+          },
+          {
+            "level": 31,
+            "species": "KOFFING"
+          },
+          {
+            "level": 40,
+            "species": "WEEZING"
+          },
+          {
+            "level": 34,
+            "species": "PONYTA"
+          },
+          {
+            "level": 35,
+            "species": "GRIMER"
+          },
+          {
+            "level": 42,
+            "species": "WEEZING"
+          },
+          {
+            "level": 42,
+            "species": "MUK"
+          },
+          {
+            "level": 33,
+            "species": "GRIMER"
+          },
+          {
+            "level": 31,
+            "species": "GRIMER"
+          },
+          {
+            "level": 35,
+            "species": "VULPIX"
+          },
+          {
+            "level": 32,
+            "species": "PONYTA"
+          },
+          {
+            "level": 31,
+            "species": "GRIMER"
+          },
+          {
+            "level": 40,
+            "species": "MUK"
+          },
+          {
+            "level": 34,
+            "species": "PONYTA"
+          },
+          {
+            "level": 35,
+            "species": "KOFFING"
+          },
+          {
+            "level": 38,
+            "species": "MAGMAR"
+          },
+          {
+            "level": 42,
+            "species": "WEEZING"
+          }
+        ]
+      }
     },
     "POKEMON_TOWER_1F": {
       "blk": "PokemonTower1F",
@@ -7133,7 +7785,51 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 20,
+            "species": "GASTLY"
+          },
+          {
+            "level": 21,
+            "species": "GASTLY"
+          },
+          {
+            "level": 22,
+            "species": "GASTLY"
+          },
+          {
+            "level": 23,
+            "species": "GASTLY"
+          },
+          {
+            "level": 19,
+            "species": "GASTLY"
+          },
+          {
+            "level": 18,
+            "species": "GASTLY"
+          },
+          {
+            "level": 24,
+            "species": "GASTLY"
+          },
+          {
+            "level": 20,
+            "species": "CUBONE"
+          },
+          {
+            "level": 22,
+            "species": "CUBONE"
+          },
+          {
+            "level": 25,
+            "species": "HAUNTER"
+          }
+        ]
+      }
     },
     "POKEMON_TOWER_4F": {
       "blk": "PokemonTower4F",
@@ -7219,7 +7915,51 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 20,
+            "species": "GASTLY"
+          },
+          {
+            "level": 21,
+            "species": "GASTLY"
+          },
+          {
+            "level": 22,
+            "species": "GASTLY"
+          },
+          {
+            "level": 23,
+            "species": "GASTLY"
+          },
+          {
+            "level": 19,
+            "species": "GASTLY"
+          },
+          {
+            "level": 18,
+            "species": "GASTLY"
+          },
+          {
+            "level": 25,
+            "species": "HAUNTER"
+          },
+          {
+            "level": 20,
+            "species": "CUBONE"
+          },
+          {
+            "level": 22,
+            "species": "CUBONE"
+          },
+          {
+            "level": 24,
+            "species": "GASTLY"
+          }
+        ]
+      }
     },
     "POKEMON_TOWER_5F": {
       "blk": "PokemonTower5F",
@@ -7305,7 +8045,51 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 20,
+            "species": "GASTLY"
+          },
+          {
+            "level": 21,
+            "species": "GASTLY"
+          },
+          {
+            "level": 22,
+            "species": "GASTLY"
+          },
+          {
+            "level": 23,
+            "species": "GASTLY"
+          },
+          {
+            "level": 19,
+            "species": "GASTLY"
+          },
+          {
+            "level": 18,
+            "species": "GASTLY"
+          },
+          {
+            "level": 25,
+            "species": "HAUNTER"
+          },
+          {
+            "level": 20,
+            "species": "CUBONE"
+          },
+          {
+            "level": 22,
+            "species": "CUBONE"
+          },
+          {
+            "level": 24,
+            "species": "GASTLY"
+          }
+        ]
+      }
     },
     "POKEMON_TOWER_6F": {
       "blk": "PokemonTower6F",
@@ -7381,7 +8165,51 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 15,
+        "pokemon": [
+          {
+            "level": 21,
+            "species": "GASTLY"
+          },
+          {
+            "level": 22,
+            "species": "GASTLY"
+          },
+          {
+            "level": 23,
+            "species": "GASTLY"
+          },
+          {
+            "level": 24,
+            "species": "GASTLY"
+          },
+          {
+            "level": 20,
+            "species": "GASTLY"
+          },
+          {
+            "level": 19,
+            "species": "GASTLY"
+          },
+          {
+            "level": 26,
+            "species": "HAUNTER"
+          },
+          {
+            "level": 22,
+            "species": "CUBONE"
+          },
+          {
+            "level": 24,
+            "species": "CUBONE"
+          },
+          {
+            "level": 28,
+            "species": "HAUNTER"
+          }
+        ]
+      }
     },
     "POKEMON_TOWER_7F": {
       "blk": "PokemonTower7F",
@@ -7440,7 +8268,51 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 15,
+        "pokemon": [
+          {
+            "level": 21,
+            "species": "GASTLY"
+          },
+          {
+            "level": 22,
+            "species": "GASTLY"
+          },
+          {
+            "level": 23,
+            "species": "GASTLY"
+          },
+          {
+            "level": 24,
+            "species": "GASTLY"
+          },
+          {
+            "level": 20,
+            "species": "GASTLY"
+          },
+          {
+            "level": 28,
+            "species": "HAUNTER"
+          },
+          {
+            "level": 22,
+            "species": "CUBONE"
+          },
+          {
+            "level": 24,
+            "species": "CUBONE"
+          },
+          {
+            "level": 28,
+            "species": "HAUNTER"
+          },
+          {
+            "level": 30,
+            "species": "HAUNTER"
+          }
+        ]
+      }
     },
     "POWER_PLANT": {
       "blk": "PowerPlant",
@@ -7613,7 +8485,59 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 21,
+            "species": "VOLTORB"
+          },
+          {
+            "level": 21,
+            "species": "MAGNEMITE"
+          },
+          {
+            "level": 20,
+            "species": "PIKACHU"
+          },
+          {
+            "level": 24,
+            "species": "PIKACHU"
+          },
+          {
+            "level": 23,
+            "species": "MAGNEMITE"
+          },
+          {
+            "level": 23,
+            "species": "VOLTORB"
+          },
+          {
+            "level": 32,
+            "species": "MAGNETON"
+          },
+          {
+            "level": 35,
+            "species": "MAGNETON"
+          },
+          {
+            "level": 33,
+            "species": "ELECTABUZZ"
+          },
+          {
+            "level": 36,
+            "species": "ELECTABUZZ"
+          },
+          {
+            "level": 33,
+            "species": "RAICHU"
+          },
+          {
+            "level": 36,
+            "species": "RAICHU"
+          }
+        ]
+      }
     },
     "REDS_HOUSE_1F": {
       "blk": "RedsHouse1F",
@@ -8254,7 +9178,51 @@
           "sight": 4
         }
       ],
-      "wild": null,
+      "wild": {
+        "rate": 15,
+        "pokemon": [
+          {
+            "level": 16,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 17,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 17,
+            "species": "GEODUDE"
+          },
+          {
+            "level": 15,
+            "species": "MACHOP"
+          },
+          {
+            "level": 16,
+            "species": "GEODUDE"
+          },
+          {
+            "level": 18,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 15,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 17,
+            "species": "MACHOP"
+          },
+          {
+            "level": 13,
+            "species": "ONIX"
+          },
+          {
+            "level": 15,
+            "species": "ONIX"
+          }
+        ]
+      },
       "bgEvents": [
         {
           "x": 22,
@@ -8381,7 +9349,51 @@
           "sight": 4
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 15,
+        "pokemon": [
+          {
+            "level": 16,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 17,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 17,
+            "species": "GEODUDE"
+          },
+          {
+            "level": 15,
+            "species": "MACHOP"
+          },
+          {
+            "level": 16,
+            "species": "GEODUDE"
+          },
+          {
+            "level": 18,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 17,
+            "species": "MACHOP"
+          },
+          {
+            "level": 17,
+            "species": "ONIX"
+          },
+          {
+            "level": 13,
+            "species": "ONIX"
+          },
+          {
+            "level": 18,
+            "species": "GEODUDE"
+          }
+        ]
+      }
     },
     "ROCK_TUNNEL_POKECENTER": {
       "blk": "RockTunnelPokecenter",
@@ -11184,7 +12196,52 @@
           "y": 18,
           "text": "SEA ROUTE 19 FUCHSIA CITY - SEAFOAM ISLANDS"
         }
-      ]
+      ],
+      "wildWater": {
+        "rate": 5,
+        "pokemon": [
+          {
+            "level": 5,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 10,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 15,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 5,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 10,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 15,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 20,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 30,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 35,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 40,
+            "species": "TENTACOOL"
+          }
+        ]
+      }
     },
     "ROUTE_2": {
       "blk": "Route2",
@@ -11490,7 +12547,52 @@
           "y": 22,
           "text": "SEAFOAM ISLANDS"
         }
-      ]
+      ],
+      "wildWater": {
+        "rate": 5,
+        "pokemon": [
+          {
+            "level": 5,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 10,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 15,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 5,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 10,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 15,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 20,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 30,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 35,
+            "species": "TENTACOOL"
+          },
+          {
+            "level": 40,
+            "species": "TENTACOOL"
+          }
+        ]
+      }
     },
     "ROUTE_21": {
       "blk": "Route21",
@@ -11642,7 +12744,12 @@
           {
             "level": 32,
             "species": "TANGELA"
-          },
+          }
+        ]
+      },
+      "wildWater": {
+        "rate": 5,
+        "pokemon": [
           {
             "level": 5,
             "species": "TENTACOOL"
@@ -14067,7 +15174,87 @@
           "sight": 0
         }
       ],
-      "wild": null,
+      "wild": {
+        "rate": 30,
+        "pokemon": [
+          {
+            "level": 22,
+            "species": "NIDORAN_M"
+          },
+          {
+            "level": 25,
+            "species": "RHYHORN"
+          },
+          {
+            "level": 22,
+            "species": "VENONAT"
+          },
+          {
+            "level": 24,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 31,
+            "species": "NIDORINO"
+          },
+          {
+            "level": 25,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 31,
+            "species": "NIDORINA"
+          },
+          {
+            "level": 30,
+            "species": "PARASECT"
+          },
+          {
+            "level": 23,
+            "species": "SCYTHER"
+          },
+          {
+            "level": 22,
+            "species": "NIDORAN_F"
+          },
+          {
+            "level": 25,
+            "species": "RHYHORN"
+          },
+          {
+            "level": 22,
+            "species": "VENONAT"
+          },
+          {
+            "level": 24,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 31,
+            "species": "NIDORINA"
+          },
+          {
+            "level": 25,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 31,
+            "species": "NIDORINO"
+          },
+          {
+            "level": 30,
+            "species": "PARASECT"
+          },
+          {
+            "level": 23,
+            "species": "PINSIR"
+          },
+          {
+            "level": 23,
+            "species": "CHANSEY"
+          }
+        ]
+      },
       "bgEvents": [
         {
           "x": 36,
@@ -14212,7 +15399,91 @@
           "sight": 0
         }
       ],
-      "wild": null,
+      "wild": {
+        "rate": 30,
+        "pokemon": [
+          {
+            "level": 24,
+            "species": "NIDORAN_M"
+          },
+          {
+            "level": 26,
+            "species": "DODUO"
+          },
+          {
+            "level": 22,
+            "species": "PARAS"
+          },
+          {
+            "level": 25,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 33,
+            "species": "NIDORINO"
+          },
+          {
+            "level": 23,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 24,
+            "species": "NIDORAN_F"
+          },
+          {
+            "level": 25,
+            "species": "PARASECT"
+          },
+          {
+            "level": 25,
+            "species": "KANGASKHAN"
+          },
+          {
+            "level": 28,
+            "species": "SCYTHER"
+          },
+          {
+            "level": 24,
+            "species": "NIDORAN_F"
+          },
+          {
+            "level": 26,
+            "species": "DODUO"
+          },
+          {
+            "level": 22,
+            "species": "PARAS"
+          },
+          {
+            "level": 25,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 33,
+            "species": "NIDORINA"
+          },
+          {
+            "level": 23,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 24,
+            "species": "NIDORAN_M"
+          },
+          {
+            "level": 25,
+            "species": "PARASECT"
+          },
+          {
+            "level": 25,
+            "species": "KANGASKHAN"
+          },
+          {
+            "level": 28,
+            "species": "PINSIR"
+          }
+        ]
+      },
       "bgEvents": [
         {
           "x": 52,
@@ -14440,7 +15711,79 @@
           "sight": 0
         }
       ],
-      "wild": null,
+      "wild": {
+        "rate": 30,
+        "pokemon": [
+          {
+            "level": 22,
+            "species": "NIDORAN_M"
+          },
+          {
+            "level": 26,
+            "species": "RHYHORN"
+          },
+          {
+            "level": 23,
+            "species": "PARAS"
+          },
+          {
+            "level": 25,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 30,
+            "species": "NIDORINO"
+          },
+          {
+            "level": 27,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 30,
+            "species": "NIDORINA"
+          },
+          {
+            "level": 22,
+            "species": "NIDORAN_F"
+          },
+          {
+            "level": 26,
+            "species": "RHYHORN"
+          },
+          {
+            "level": 23,
+            "species": "PARAS"
+          },
+          {
+            "level": 25,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 30,
+            "species": "NIDORINA"
+          },
+          {
+            "level": 27,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 30,
+            "species": "NIDORINO"
+          },
+          {
+            "level": 32,
+            "species": "VENOMOTH"
+          },
+          {
+            "level": 26,
+            "species": "CHANSEY"
+          },
+          {
+            "level": 28,
+            "species": "TAUROS"
+          }
+        ]
+      },
       "bgEvents": [
         {
           "x": 72,
@@ -14667,7 +16010,79 @@
           "sight": 0
         }
       ],
-      "wild": null,
+      "wild": {
+        "rate": 30,
+        "pokemon": [
+          {
+            "level": 25,
+            "species": "NIDORAN_M"
+          },
+          {
+            "level": 26,
+            "species": "DODUO"
+          },
+          {
+            "level": 23,
+            "species": "VENONAT"
+          },
+          {
+            "level": 24,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 33,
+            "species": "NIDORINO"
+          },
+          {
+            "level": 26,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 25,
+            "species": "NIDORAN_F"
+          },
+          {
+            "level": 25,
+            "species": "NIDORAN_F"
+          },
+          {
+            "level": 26,
+            "species": "DODUO"
+          },
+          {
+            "level": 23,
+            "species": "VENONAT"
+          },
+          {
+            "level": 24,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 33,
+            "species": "NIDORINA"
+          },
+          {
+            "level": 26,
+            "species": "EXEGGCUTE"
+          },
+          {
+            "level": 25,
+            "species": "NIDORAN_M"
+          },
+          {
+            "level": 31,
+            "species": "VENOMOTH"
+          },
+          {
+            "level": 26,
+            "species": "TAUROS"
+          },
+          {
+            "level": 28,
+            "species": "KANGASKHAN"
+          }
+        ]
+      },
       "bgEvents": [
         {
           "x": 24,
@@ -15627,7 +17042,87 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 15,
+        "pokemon": [
+          {
+            "level": 30,
+            "species": "SEEL"
+          },
+          {
+            "level": 30,
+            "species": "SLOWPOKE"
+          },
+          {
+            "level": 30,
+            "species": "SHELLDER"
+          },
+          {
+            "level": 30,
+            "species": "HORSEA"
+          },
+          {
+            "level": 28,
+            "species": "HORSEA"
+          },
+          {
+            "level": 21,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 29,
+            "species": "GOLBAT"
+          },
+          {
+            "level": 28,
+            "species": "PSYDUCK"
+          },
+          {
+            "level": 28,
+            "species": "SHELLDER"
+          },
+          {
+            "level": 38,
+            "species": "GOLDUCK"
+          },
+          {
+            "level": 30,
+            "species": "PSYDUCK"
+          },
+          {
+            "level": 30,
+            "species": "STARYU"
+          },
+          {
+            "level": 30,
+            "species": "KRABBY"
+          },
+          {
+            "level": 28,
+            "species": "KRABBY"
+          },
+          {
+            "level": 21,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 29,
+            "species": "GOLBAT"
+          },
+          {
+            "level": 28,
+            "species": "SLOWPOKE"
+          },
+          {
+            "level": 28,
+            "species": "STARYU"
+          },
+          {
+            "level": 38,
+            "species": "SLOWBRO"
+          }
+        ]
+      }
     },
     "SEAFOAM_ISLANDS_B1F": {
       "blk": "SeafoamIslandsB1F",
@@ -15708,7 +17203,91 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 30,
+            "species": "STARYU"
+          },
+          {
+            "level": 30,
+            "species": "HORSEA"
+          },
+          {
+            "level": 32,
+            "species": "SHELLDER"
+          },
+          {
+            "level": 32,
+            "species": "HORSEA"
+          },
+          {
+            "level": 28,
+            "species": "SLOWPOKE"
+          },
+          {
+            "level": 30,
+            "species": "SEEL"
+          },
+          {
+            "level": 30,
+            "species": "SLOWPOKE"
+          },
+          {
+            "level": 28,
+            "species": "SEEL"
+          },
+          {
+            "level": 38,
+            "species": "DEWGONG"
+          },
+          {
+            "level": 37,
+            "species": "SEADRA"
+          },
+          {
+            "level": 30,
+            "species": "SHELLDER"
+          },
+          {
+            "level": 30,
+            "species": "KRABBY"
+          },
+          {
+            "level": 32,
+            "species": "STARYU"
+          },
+          {
+            "level": 32,
+            "species": "KRABBY"
+          },
+          {
+            "level": 28,
+            "species": "PSYDUCK"
+          },
+          {
+            "level": 30,
+            "species": "SEEL"
+          },
+          {
+            "level": 30,
+            "species": "PSYDUCK"
+          },
+          {
+            "level": 28,
+            "species": "SEEL"
+          },
+          {
+            "level": 38,
+            "species": "DEWGONG"
+          },
+          {
+            "level": 37,
+            "species": "KINGLER"
+          }
+        ]
+      }
     },
     "SEAFOAM_ISLANDS_B2F": {
       "blk": "SeafoamIslandsB2F",
@@ -15789,7 +17368,87 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 30,
+            "species": "SEEL"
+          },
+          {
+            "level": 30,
+            "species": "SLOWPOKE"
+          },
+          {
+            "level": 32,
+            "species": "SEEL"
+          },
+          {
+            "level": 32,
+            "species": "SLOWPOKE"
+          },
+          {
+            "level": 28,
+            "species": "HORSEA"
+          },
+          {
+            "level": 30,
+            "species": "STARYU"
+          },
+          {
+            "level": 30,
+            "species": "HORSEA"
+          },
+          {
+            "level": 28,
+            "species": "SHELLDER"
+          },
+          {
+            "level": 30,
+            "species": "GOLBAT"
+          },
+          {
+            "level": 37,
+            "species": "SLOWBRO"
+          },
+          {
+            "level": 30,
+            "species": "PSYDUCK"
+          },
+          {
+            "level": 32,
+            "species": "SEEL"
+          },
+          {
+            "level": 32,
+            "species": "PSYDUCK"
+          },
+          {
+            "level": 28,
+            "species": "KRABBY"
+          },
+          {
+            "level": 30,
+            "species": "SHELLDER"
+          },
+          {
+            "level": 30,
+            "species": "KRABBY"
+          },
+          {
+            "level": 28,
+            "species": "STARYU"
+          },
+          {
+            "level": 30,
+            "species": "GOLBAT"
+          },
+          {
+            "level": 37,
+            "species": "GOLDUCK"
+          }
+        ]
+      }
     },
     "SEAFOAM_ISLANDS_B3F": {
       "blk": "SeafoamIslandsB3F",
@@ -15910,7 +17569,87 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 31,
+            "species": "SLOWPOKE"
+          },
+          {
+            "level": 31,
+            "species": "SEEL"
+          },
+          {
+            "level": 33,
+            "species": "SLOWPOKE"
+          },
+          {
+            "level": 33,
+            "species": "SEEL"
+          },
+          {
+            "level": 29,
+            "species": "HORSEA"
+          },
+          {
+            "level": 31,
+            "species": "SHELLDER"
+          },
+          {
+            "level": 31,
+            "species": "HORSEA"
+          },
+          {
+            "level": 29,
+            "species": "SHELLDER"
+          },
+          {
+            "level": 39,
+            "species": "SEADRA"
+          },
+          {
+            "level": 31,
+            "species": "PSYDUCK"
+          },
+          {
+            "level": 31,
+            "species": "SEEL"
+          },
+          {
+            "level": 33,
+            "species": "PSYDUCK"
+          },
+          {
+            "level": 33,
+            "species": "SEEL"
+          },
+          {
+            "level": 29,
+            "species": "KRABBY"
+          },
+          {
+            "level": 31,
+            "species": "STARYU"
+          },
+          {
+            "level": 31,
+            "species": "KRABBY"
+          },
+          {
+            "level": 29,
+            "species": "STARYU"
+          },
+          {
+            "level": 39,
+            "species": "KINGLER"
+          },
+          {
+            "level": 37,
+            "species": "DEWGONG"
+          }
+        ]
+      }
     },
     "SEAFOAM_ISLANDS_B4F": {
       "blk": "SeafoamIslandsB4F",
@@ -15980,7 +17719,87 @@
           "sight": 0
         }
       ],
-      "wild": null,
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 31,
+            "species": "HORSEA"
+          },
+          {
+            "level": 31,
+            "species": "SHELLDER"
+          },
+          {
+            "level": 33,
+            "species": "HORSEA"
+          },
+          {
+            "level": 33,
+            "species": "SHELLDER"
+          },
+          {
+            "level": 29,
+            "species": "SLOWPOKE"
+          },
+          {
+            "level": 31,
+            "species": "SEEL"
+          },
+          {
+            "level": 31,
+            "species": "SLOWPOKE"
+          },
+          {
+            "level": 29,
+            "species": "SEEL"
+          },
+          {
+            "level": 39,
+            "species": "SLOWBRO"
+          },
+          {
+            "level": 31,
+            "species": "KRABBY"
+          },
+          {
+            "level": 31,
+            "species": "STARYU"
+          },
+          {
+            "level": 33,
+            "species": "KRABBY"
+          },
+          {
+            "level": 33,
+            "species": "STARYU"
+          },
+          {
+            "level": 29,
+            "species": "PSYDUCK"
+          },
+          {
+            "level": 31,
+            "species": "SEEL"
+          },
+          {
+            "level": 31,
+            "species": "PSYDUCK"
+          },
+          {
+            "level": 29,
+            "species": "SEEL"
+          },
+          {
+            "level": 39,
+            "species": "GOLDUCK"
+          },
+          {
+            "level": 32,
+            "species": "GOLBAT"
+          }
+        ]
+      },
       "bgEvents": [
         {
           "x": 18,
@@ -19235,7 +21054,51 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 15,
+        "pokemon": [
+          {
+            "level": 24,
+            "species": "MACHOP"
+          },
+          {
+            "level": 26,
+            "species": "GEODUDE"
+          },
+          {
+            "level": 22,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 36,
+            "species": "ONIX"
+          },
+          {
+            "level": 39,
+            "species": "ONIX"
+          },
+          {
+            "level": 42,
+            "species": "ONIX"
+          },
+          {
+            "level": 41,
+            "species": "GRAVELER"
+          },
+          {
+            "level": 41,
+            "species": "GOLBAT"
+          },
+          {
+            "level": 42,
+            "species": "MACHOKE"
+          },
+          {
+            "level": 43,
+            "species": "MAROWAK"
+          }
+        ]
+      }
     },
     "VICTORY_ROAD_2F": {
       "blk": "VictoryRoad2F",
@@ -19426,7 +21289,51 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 10,
+        "pokemon": [
+          {
+            "level": 22,
+            "species": "MACHOP"
+          },
+          {
+            "level": 24,
+            "species": "GEODUDE"
+          },
+          {
+            "level": 26,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 36,
+            "species": "ONIX"
+          },
+          {
+            "level": 39,
+            "species": "ONIX"
+          },
+          {
+            "level": 42,
+            "species": "ONIX"
+          },
+          {
+            "level": 41,
+            "species": "MACHOKE"
+          },
+          {
+            "level": 40,
+            "species": "GOLBAT"
+          },
+          {
+            "level": 40,
+            "species": "MAROWAK"
+          },
+          {
+            "level": 43,
+            "species": "GRAVELER"
+          }
+        ]
+      }
     },
     "VICTORY_ROAD_3F": {
       "blk": "VictoryRoad3F",
@@ -19566,7 +21473,51 @@
           "sight": 0
         }
       ],
-      "wild": null
+      "wild": {
+        "rate": 15,
+        "pokemon": [
+          {
+            "level": 24,
+            "species": "MACHOP"
+          },
+          {
+            "level": 26,
+            "species": "GEODUDE"
+          },
+          {
+            "level": 22,
+            "species": "ZUBAT"
+          },
+          {
+            "level": 42,
+            "species": "ONIX"
+          },
+          {
+            "level": 40,
+            "species": "VENOMOTH"
+          },
+          {
+            "level": 45,
+            "species": "ONIX"
+          },
+          {
+            "level": 43,
+            "species": "GRAVELER"
+          },
+          {
+            "level": 41,
+            "species": "GOLBAT"
+          },
+          {
+            "level": 42,
+            "species": "MACHOKE"
+          },
+          {
+            "level": 45,
+            "species": "MACHOKE"
+          }
+        ]
+      }
     },
     "VIRIDIAN_CITY": {
       "blk": "ViridianCity",
@@ -19862,7 +21813,83 @@
           "sight": 0
         }
       ],
-      "wild": null,
+      "wild": {
+        "rate": 8,
+        "pokemon": [
+          {
+            "level": 4,
+            "species": "WEEDLE"
+          },
+          {
+            "level": 5,
+            "species": "KAKUNA"
+          },
+          {
+            "level": 3,
+            "species": "WEEDLE"
+          },
+          {
+            "level": 5,
+            "species": "WEEDLE"
+          },
+          {
+            "level": 4,
+            "species": "KAKUNA"
+          },
+          {
+            "level": 6,
+            "species": "KAKUNA"
+          },
+          {
+            "level": 4,
+            "species": "METAPOD"
+          },
+          {
+            "level": 3,
+            "species": "CATERPIE"
+          },
+          {
+            "level": 4,
+            "species": "CATERPIE"
+          },
+          {
+            "level": 5,
+            "species": "METAPOD"
+          },
+          {
+            "level": 3,
+            "species": "CATERPIE"
+          },
+          {
+            "level": 5,
+            "species": "CATERPIE"
+          },
+          {
+            "level": 4,
+            "species": "METAPOD"
+          },
+          {
+            "level": 6,
+            "species": "METAPOD"
+          },
+          {
+            "level": 4,
+            "species": "KAKUNA"
+          },
+          {
+            "level": 3,
+            "species": "WEEDLE"
+          },
+          {
+            "level": 3,
+            "species": "PIKACHU"
+          },
+          {
+            "level": 5,
+            "species": "PIKACHU"
+          }
+        ]
+      },
       "bgEvents": [
         {
           "x": 48,

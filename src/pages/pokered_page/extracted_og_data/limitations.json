@@ -1,0 +1,7 @@
+[
+  "GAME_CORNER object 11 (trainer, sprite SPRITE_ROCKET, class OPP_ROCKET): trainer text not resolved (no TrainerHeader match, Strategy B fallback failed)",
+  "OAKS_LAB object 1 (trainer, sprite SPRITE_BLUE, class OPP_RIVAL1): trainer text not resolved (no TrainerHeader match, Strategy B fallback failed)",
+  "ROUTE_24 object 1 (trainer, sprite SPRITE_COOLTRAINER_M, class OPP_ROCKET): trainer text not resolved (no TrainerHeader match, Strategy B fallback failed)",
+  "SILPH_CO_11F object 3 (trainer, sprite SPRITE_GIOVANNI, class OPP_GIOVANNI): trainer text not resolved (no TrainerHeader match, Strategy B fallback failed)",
+  "SS_ANNE_2F object 2 (trainer, sprite SPRITE_BLUE, class OPP_RIVAL1): trainer text not resolved (no TrainerHeader match, Strategy B fallback failed)"
+]

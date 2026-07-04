@@ -1,0 +1,350 @@
+{
+  "VIRIDIAN_FOREST": [
+    {
+      "x": 2,
+      "y": 36,
+      "item": "POTION"
+    },
+    {
+      "x": 32,
+      "y": 84,
+      "item": "ANTIDOTE"
+    }
+  ],
+  "MT_MOON_B2F": [
+    {
+      "x": 36,
+      "y": 24,
+      "item": "MOON_STONE"
+    },
+    {
+      "x": 66,
+      "y": 18,
+      "item": "ETHER"
+    }
+  ],
+  "ROUTE_25": [
+    {
+      "x": 76,
+      "y": 6,
+      "item": "ETHER"
+    },
+    {
+      "x": 20,
+      "y": 2,
+      "item": "ELIXER"
+    }
+  ],
+  "ROUTE_9": [
+    {
+      "x": 28,
+      "y": 14,
+      "item": "ETHER"
+    }
+  ],
+  "SS_ANNE_KITCHEN": [
+    {
+      "x": 26,
+      "y": 18,
+      "item": "GREAT_BALL"
+    }
+  ],
+  "SS_ANNE_B1F_ROOMS": [
+    {
+      "x": 6,
+      "y": 2,
+      "item": "HYPER_POTION"
+    }
+  ],
+  "ROUTE_10": [
+    {
+      "x": 18,
+      "y": 34,
+      "item": "SUPER_POTION"
+    },
+    {
+      "x": 32,
+      "y": 106,
+      "item": "MAX_ETHER"
+    }
+  ],
+  "ROCKET_HIDEOUT_B1F": [
+    {
+      "x": 42,
+      "y": 30,
+      "item": "PP_UP"
+    }
+  ],
+  "ROCKET_HIDEOUT_B3F": [
+    {
+      "x": 54,
+      "y": 34,
+      "item": "NUGGET"
+    }
+  ],
+  "ROCKET_HIDEOUT_B4F": [
+    {
+      "x": 50,
+      "y": 2,
+      "item": "SUPER_POTION"
+    }
+  ],
+  "POKEMON_TOWER_5F": [
+    {
+      "x": 8,
+      "y": 24,
+      "item": "ELIXER"
+    }
+  ],
+  "ROUTE_13": [
+    {
+      "x": 2,
+      "y": 28,
+      "item": "PP_UP"
+    },
+    {
+      "x": 32,
+      "y": 26,
+      "item": "CALCIUM"
+    }
+  ],
+  "SAFARI_ZONE_GATE": [
+    {
+      "x": 20,
+      "y": 2,
+      "item": "NUGGET"
+    }
+  ],
+  "SAFARI_ZONE_WEST": [
+    {
+      "x": 12,
+      "y": 10,
+      "item": "REVIVE"
+    }
+  ],
+  "SILPH_CO_5F": [
+    {
+      "x": 24,
+      "y": 6,
+      "item": "ELIXER"
+    }
+  ],
+  "SILPH_CO_9F": [
+    {
+      "x": 4,
+      "y": 30,
+      "item": "MAX_POTION"
+    }
+  ],
+  "COPYCATS_HOUSE_2F": [
+    {
+      "x": 2,
+      "y": 2,
+      "item": "NUGGET"
+    }
+  ],
+  "CERULEAN_CAVE_1F": [
+    {
+      "x": 28,
+      "y": 22,
+      "item": "RARE_CANDY"
+    }
+  ],
+  "CERULEAN_CAVE_B1F": [
+    {
+      "x": 54,
+      "y": 6,
+      "item": "ULTRA_BALL"
+    }
+  ],
+  "POWER_PLANT": [
+    {
+      "x": 34,
+      "y": 32,
+      "item": "MAX_ELIXER"
+    },
+    {
+      "x": 24,
+      "y": 2,
+      "item": "PP_UP"
+    }
+  ],
+  "SEAFOAM_ISLANDS_B2F": [
+    {
+      "x": 30,
+      "y": 30,
+      "item": "NUGGET"
+    }
+  ],
+  "SEAFOAM_ISLANDS_B4F": [
+    {
+      "x": 50,
+      "y": 34,
+      "item": "ULTRA_BALL"
+    }
+  ],
+  "POKEMON_MANSION_1F": [
+    {
+      "x": 16,
+      "y": 32,
+      "item": "MOON_STONE"
+    }
+  ],
+  "POKEMON_MANSION_3F": [
+    {
+      "x": 2,
+      "y": 18,
+      "item": "MAX_REVIVE"
+    }
+  ],
+  "POKEMON_MANSION_B1F": [
+    {
+      "x": 2,
+      "y": 18,
+      "item": "RARE_CANDY"
+    }
+  ],
+  "ROUTE_23": [
+    {
+      "x": 18,
+      "y": 88,
+      "item": "FULL_RESTORE"
+    },
+    {
+      "x": 38,
+      "y": 140,
+      "item": "ULTRA_BALL"
+    },
+    {
+      "x": 16,
+      "y": 180,
+      "item": "MAX_ETHER"
+    }
+  ],
+  "VICTORY_ROAD_2F": [
+    {
+      "x": 10,
+      "y": 4,
+      "item": "ULTRA_BALL"
+    },
+    {
+      "x": 52,
+      "y": 14,
+      "item": "FULL_RESTORE"
+    }
+  ],
+  "UNUSED_MAP_6F": [
+    {
+      "x": 28,
+      "y": 22,
+      "item": "MAX_ELIXER"
+    }
+  ],
+  "VIRIDIAN_CITY": [
+    {
+      "x": 28,
+      "y": 8,
+      "item": "POTION"
+    }
+  ],
+  "ROUTE_11": [
+    {
+      "x": 96,
+      "y": 10,
+      "item": "ESCAPE_ROPE"
+    }
+  ],
+  "ROUTE_12": [
+    {
+      "x": 4,
+      "y": 126,
+      "item": "HYPER_POTION"
+    }
+  ],
+  "ROUTE_17": [
+    {
+      "x": 30,
+      "y": 28,
+      "item": "RARE_CANDY"
+    },
+    {
+      "x": 16,
+      "y": 90,
+      "item": "FULL_RESTORE"
+    },
+    {
+      "x": 34,
+      "y": 144,
+      "item": "PP_UP"
+    },
+    {
+      "x": 8,
+      "y": 182,
+      "item": "MAX_REVIVE"
+    },
+    {
+      "x": 16,
+      "y": 242,
+      "item": "MAX_ELIXER"
+    }
+  ],
+  "UNDERGROUND_PATH_NORTH_SOUTH": [
+    {
+      "x": 6,
+      "y": 8,
+      "item": "FULL_RESTORE"
+    },
+    {
+      "x": 8,
+      "y": 68,
+      "item": "X_SPECIAL"
+    }
+  ],
+  "UNDERGROUND_PATH_WEST_EAST": [
+    {
+      "x": 24,
+      "y": 4,
+      "item": "NUGGET"
+    },
+    {
+      "x": 42,
+      "y": 10,
+      "item": "ELIXER"
+    }
+  ],
+  "CELADON_CITY": [
+    {
+      "x": 96,
+      "y": 30,
+      "item": "PP_UP"
+    }
+  ],
+  "SEAFOAM_ISLANDS_B3F": [
+    {
+      "x": 18,
+      "y": 32,
+      "item": "MAX_ELIXER"
+    }
+  ],
+  "VERMILION_CITY": [
+    {
+      "x": 28,
+      "y": 22,
+      "item": "MAX_ETHER"
+    }
+  ],
+  "CERULEAN_CITY": [
+    {
+      "x": 30,
+      "y": 16,
+      "item": "RARE_CANDY"
+    }
+  ],
+  "ROUTE_4": [
+    {
+      "x": 80,
+      "y": 6,
+      "item": "GREAT_BALL"
+    }
+  ]
+}

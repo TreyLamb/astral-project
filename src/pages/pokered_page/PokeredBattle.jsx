@@ -1,72 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { createWildPokemon, applyXP, tryCatch, xpForLevel, baseExpFor } from './pokeredGameState';
+import { createWildPokemon, applyXP, tryCatch, xpForLevel, baseExpFor, applyMedicineItem, ITEM_EFFECTS } from './pokeredGameState';
 import { TRAINER_PARTIES } from './trainerParties';
 import { TRAINER_META } from './trainerMeta';
-import { getMoveEffect, STATUS_LABEL, canApplyStatus } from './moveEffects';
+import { initBattleMon, stripVolatile, performRound, isLocked } from './battleEngine';
 import './PokeredBattle.css';
-
-const SPECIAL_TYPES = new Set(['FIRE','WATER','GRASS','ELECTRIC','PSYCHIC','ICE','DRAGON']);
-
-// Gen 1 crit chance: base_speed / 512, doubled by Focus Energy (not modeled yet) or
-// high-crit moves (Slash, Karate Chop, Razor Leaf, Crabhammer — not tracked per-move
-// here since pokemon_data.json has no "high crit" flag; using the base formula only).
-function critChance(attacker) {
-  return Math.min(255, Math.floor(attacker.spd / 2)) / 256;
-}
-
-// Returns { hit:false } on a miss, or { hit:true, damage, crit, effText, statusMsg, didFlinch }
-function resolveAttack(attacker, defender, moveName, pokemonData) {
-  const move = pokemonData.moves[moveName];
-  if (!move) return { hit: true, damage: 0 };
-
-  // Accuracy check (Gen 1: roll vs move accuracy out of 100, no accuracy/evasion stages yet)
-  const acc = move.accuracy ?? 100;
-  if (Math.random() * 100 >= acc) return { hit: false };
-
-  const effect = getMoveEffect(moveName);
-
-  if (!move.power || move.power === 0) {
-    // Pure status/utility move — no damage, may still apply a status/confuse effect
-    const out = { hit: true, damage: null };
-    if (effect?.status && canApplyStatus(defender) && Math.random() < effect.chance) {
-      out.statusApplied = effect.status;
-    } else if (effect?.confuse && Math.random() < effect.confuse) {
-      out.confuseApplied = true;
-    }
-    return out;
-  }
-
-  const isCrit = Math.random() < critChance(attacker);
-  const atkStat = SPECIAL_TYPES.has(move.type) ? attacker.spc : attacker.atk;
-  const defStat = SPECIAL_TYPES.has(move.type) ? defender.spc : defender.def;
-  const lvl = isCrit ? attacker.level * 2 : attacker.level;
-  const base = Math.floor(Math.floor(2 * lvl / 5 + 2) * move.power * atkStat / defStat / 50) + 2;
-  const stab = (move.type === attacker.type1 || move.type === attacker.type2) ? 1.5 : 1;
-  const eff1 = pokemonData.typeChart[`${move.type}:${defender.type1}`] ?? 1;
-  const eff2 = defender.type1 !== defender.type2
-    ? (pokemonData.typeChart[`${move.type}:${defender.type2}`] ?? 1) : 1;
-  const rand = (217 + Math.floor(Math.random() * 39)) / 255;
-  const totalEff = eff1 * eff2;
-  const damage = totalEff === 0 ? 0 : Math.max(1, Math.floor(base * stab * totalEff * rand));
-
-  let effText = '';
-  if (totalEff === 0) effText = `It doesn't affect ${fmt(defender.species)}...`;
-  else if (totalEff > 1) effText = "It's super effective!";
-  else if (totalEff < 1) effText = "It's not very effective...";
-
-  const out = { hit: true, damage, crit: isCrit, effText };
-  if (totalEff > 0) {
-    if (effect?.status && canApplyStatus(defender) && Math.random() < effect.chance) {
-      out.statusApplied = effect.status;
-    } else if (effect?.confuse && Math.random() < effect.confuse) {
-      out.confuseApplied = true;
-    }
-    if (effect?.flinchChance && Math.random() < effect.flinchChance) {
-      out.didFlinch = true;
-    }
-  }
-  return out;
-}
 
 function fmt(species) {
   return species.replace(/_/g, ' ').replace(/\b(\w)/g, c => c.toUpperCase());
@@ -95,8 +32,24 @@ function HpBar({ current, max }) {
   );
 }
 
-export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter, trainerEncounter, pokemonData, onBattleEnd, isExtra, playerItems }) {
-  const [player, setPlayer] = useState(() => ({ ...initPlayer, hp: initPlayer.hp, moves: (initPlayer.moves ?? []).map(m => ({...m})) }));
+export default function PokeredBattle({ playerParty, wildEncounter, trainerEncounter, pokemonData, onBattleEnd, isExtra, playerItems, onUseItem }) {
+  // Full-party battle: the active mon lives in `player` state; the whole party
+  // (including the active slot) lives in partyRef, synced at the end of every turn
+  // and on switches, and returned to the app as updatedParty at battle end.
+  const initialPartyRef = useRef(null);
+  if (!initialPartyRef.current) {
+    initialPartyRef.current = (playerParty ?? []).map(m => ({ ...m, moves: (m.moves ?? []).map(mv => ({ ...mv })) }));
+  }
+  const partyRef = useRef(initialPartyRef.current);
+  const firstIdx = Math.max(0, initialPartyRef.current.findIndex(m => m.hp > 0));
+  const activeIdxRef = useRef(firstIdx);
+  const initPlayer = initialPartyRef.current[firstIdx];
+  const [player, setPlayer] = useState(() => initBattleMon(initPlayer));
+  // Set when the active mon faints but a conscious bench mon exists — routes the
+  // post-log phase to the forced-switch menu instead of the action menu.
+  const forceSwitchRef = useRef(false);
+  // Medicine item picked in the bag, waiting for a party-member target.
+  const pendingItemRef = useRef(null);
   const [enemy, setEnemy]       = useState(null);
   const escapeAttemptsRef       = useRef(0);
   const [log, setLog]           = useState([]);
@@ -109,6 +62,16 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
   const moneyWonRef             = useRef(0);
   const ballsLeft               = playerItems?.find(i => i.name === 'POKE_BALL')?.count ?? (isExtra ? 99 : 0);
 
+  // Bag contents: Poké Balls (when catchable) followed by usable medicine items.
+  // Single combined vertical list so the BAG button covers both throw-and-heal actions.
+  function getBagEntries() {
+    const medicine = (playerItems ?? []).filter(i => ITEM_EFFECTS[i.name]?.category === 'medicine' && i.count > 0);
+    return [
+      ...(!isTrainer && ballsLeft > 0 ? [{ kind: 'ball', name: 'POKE_BALL', count: ballsLeft }] : []),
+      ...medicine.map(i => ({ kind: 'item', name: i.name, count: i.count })),
+    ];
+  }
+
   // Trainer party queue
   const isTrainer               = !!trainerEncounter;
   const trainerPartyRef         = useRef(null); // remaining party [ {level, species}, ... ]
@@ -120,11 +83,13 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
   const cursorRef  = useRef(cursor);
   const logIdxRef  = useRef(logIdx);
   const logRef     = useRef(log);
+  const playerRef  = useRef(player);
   useEffect(() => { phaseRef.current   = phase;  }, [phase]);
   useEffect(() => { resultRef.current  = result; }, [result]);
   useEffect(() => { cursorRef.current  = cursor; }, [cursor]);
   useEffect(() => { logIdxRef.current  = logIdx; }, [logIdx]);
   useEffect(() => { logRef.current     = log;    }, [log]);
+  useEffect(() => { playerRef.current  = player; }, [player]);
 
   // Build enemy once on mount
   useEffect(() => {
@@ -137,7 +102,7 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
       trainerPartyRef.current = [...party];
       trainerPartyIdxRef.current = 0;
       const first = party[0];
-      const mon = createWildPokemon(first.species, first.level, pokemonData);
+      const mon = initBattleMon(createWildPokemon(first.species, first.level, pokemonData));
       setEnemy(mon);
       const meta = TRAINER_META[trainerEncounter.trainerKey];
       const trainerName = meta?.name ?? trainerEncounter.trainerKey.toUpperCase();
@@ -168,6 +133,7 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
             const next = i + 1;
             if (next >= logRef.current.length) {
               if (resultRef.current) setPhase('done');
+              else if (forceSwitchRef.current) { setPhase('switch-faint'); setCursor(0); }
               else setPhase('action');
             }
             return next;
@@ -195,14 +161,44 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
           e.preventDefault();
           const c = cursorRef.current;
           if (c === 0) setPhase('moves');
-          else if (c === 2 && ballsLeft > 0 && !isTrainer) document.dispatchEvent(new CustomEvent('pkr-throw-ball'));
+          else if (c === 1 && benchAvailable()) { setPhase('pkmn'); setCursor(0); }
+          else if (c === 2 && getBagEntries().length > 0) { setPhase('bag'); setCursor(0); }
           else if (c === 3 && !isTrainer) document.dispatchEvent(new CustomEvent('pkr-run'));
         }
         return;
       }
 
+      if (ph === 'pkmn' || ph === 'switch-faint' || ph === 'bag-target') {
+        const n = partyRef.current.length;
+        if (key === 'ArrowUp'   || key === 'w' || key === 'W') { e.preventDefault(); setCursor(c => n > 0 ? (c - 1 + n) % n : 0); }
+        if (key === 'ArrowDown' || key === 's' || key === 'S') { e.preventDefault(); setCursor(c => n > 0 ? (c + 1) % n : 0); }
+        if ((key === 'x' || key === 'CapsLock' || key === 'Escape') && ph !== 'switch-faint') {
+          e.preventDefault();
+          setPhase(ph === 'bag-target' ? 'bag' : 'action');
+          setCursor(ph === 'bag-target' ? 0 : 1);
+        }
+        if (key === 'z' || key === 'Z' || key === 'Enter') {
+          e.preventDefault();
+          document.dispatchEvent(new CustomEvent(ph === 'bag-target' ? 'pkr-bag-target' : 'pkr-switch',
+            { detail: { idx: cursorRef.current, voluntary: ph === 'pkmn' } }));
+        }
+        return;
+      }
+
+      if (ph === 'bag') {
+        const n = getBagEntries().length;
+        if (key === 'ArrowUp'   || key === 'w' || key === 'W') { e.preventDefault(); setCursor(c => n > 0 ? (c - 1 + n) % n : 0); }
+        if (key === 'ArrowDown' || key === 's' || key === 'S') { e.preventDefault(); setCursor(c => n > 0 ? (c + 1) % n : 0); }
+        if (key === 'x' || key === 'CapsLock' || key === 'Escape') { e.preventDefault(); setPhase('action'); setCursor(2); }
+        if (key === 'z' || key === 'Z' || key === 'Enter') {
+          e.preventDefault();
+          document.dispatchEvent(new CustomEvent('pkr-bag-select', { detail: cursorRef.current }));
+        }
+        return;
+      }
+
       if (ph === 'moves') {
-        const numMoves = initPlayer.moves.length;
+        const numMoves = playerRef.current.moves.length;
         // 2x2 grid: [0][1] / [2][3] — no wrap, clamp to valid moves
         if (key === 'ArrowUp'    || key === 'w' || key === 'W') { e.preventDefault(); setCursor(c => c >= 2 ? c - 2 : c); }
         if (key === 'ArrowDown'  || key === 's' || key === 'S') { e.preventDefault(); setCursor(c => c + 2 < numMoves ? c + 2 : c); }
@@ -219,7 +215,7 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ballsLeft]);
+  }, [ballsLeft, playerItems]);
 
   // Custom event bridges (so keyboard handler can call functions without stale closures)
   useEffect(() => {
@@ -227,18 +223,27 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
     const ball = () => handleBall();
     const run  = () => handleRun();
     const move = (e) => handleMove(e.detail);
+    const bag  = (e) => handleBagSelect(e.detail);
+    const sw   = (e) => doSwitch(e.detail.idx, e.detail.voluntary);
+    const bagT = (e) => handleBagTarget(e.detail.idx);
     document.addEventListener('pkr-battle-end', end);
     document.addEventListener('pkr-throw-ball', ball);
     document.addEventListener('pkr-run', run);
     document.addEventListener('pkr-use-move', move);
+    document.addEventListener('pkr-bag-select', bag);
+    document.addEventListener('pkr-switch', sw);
+    document.addEventListener('pkr-bag-target', bagT);
     return () => {
       document.removeEventListener('pkr-battle-end', end);
       document.removeEventListener('pkr-throw-ball', ball);
       document.removeEventListener('pkr-run', run);
       document.removeEventListener('pkr-use-move', move);
+      document.removeEventListener('pkr-bag-select', bag);
+      document.removeEventListener('pkr-switch', sw);
+      document.removeEventListener('pkr-bag-target', bagT);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [player, enemy, result]); // re-register when battle state changes so stale closures don't form
+  }, [player, enemy, result, playerItems]); // re-register when battle state changes so stale closures don't form
 
   function pushLog(msgs, nextPhase, newResult) {
     setLog(msgs);
@@ -254,6 +259,8 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
         // Reached end of this log batch — decide next state
         if (result === 'victory' || result === 'defeat' || result === 'run' || result === 'caught') {
           setPhase('done');
+        } else if (forceSwitchRef.current) {
+          setPhase('switch-faint'); setCursor(0);
         } else {
           setPhase('action');
         }
@@ -263,244 +270,94 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
   }
 
   // ── Turn resolution ──────────────────────────────────────────────────────────
-  // Returns true if `mon` is prevented from acting this turn by its status
-  // (sleep/freeze always prevent; paralysis has a 25% chance to prevent — Gen 1 odds).
-  // Pushes the relevant message into msgs and clears the status if it "wakes up".
-  function statusBlocksMove(mon, msgs, isPlayerSide) {
-    if (mon.status === 'SLP') {
-      if (mon.sleepTurns > 0) {
-        msgs.push(`${fmt(mon.species)} is fast asleep.`);
-        if (isPlayerSide) setPlayer(prev => ({ ...prev, sleepTurns: prev.sleepTurns - 1 }));
-        return true;
-      }
-      msgs.push(`${fmt(mon.species)} woke up!`);
-      if (isPlayerSide) setPlayer(prev => ({ ...prev, status: null, sleepTurns: 0 }));
-      return false;
-    }
-    if (mon.status === 'FRZ') {
-      msgs.push(`${fmt(mon.species)} is frozen solid!`);
-      return true;
-    }
-    if (mon.status === 'PAR' && Math.random() < 0.25) {
-      msgs.push(`${fmt(mon.species)} is paralyzed! It can't move!`);
-      return true;
-    }
-    return false;
+  // All combat mechanics (status blocks, confusion, stat stages, every OG move
+  // effect) live in battleEngine.js — this component only owns the log/phase flow.
+
+  // Working copy of a mon for the engine to mutate (deep enough: moves + stages).
+  function liveCopy(mon) {
+    return {
+      ...mon,
+      moves: (mon.moves ?? []).map(m => ({ ...m })),
+      stages: { ...(mon.stages ?? { atk: 0, def: 0, spd: 0, spc: 0, acc: 0, eva: 0 }) },
+    };
   }
 
-  // Confusion: 50% chance to hurt itself instead of acting. Returns true if the
-  // turn was consumed by self-hit confusion damage.
-  function checkConfusionSelfHit(mon, msgs, applyDamage) {
-    if (!mon.confused) return false;
-    if (mon.confused <= 0) { msgs.push(`${fmt(mon.species)} snapped out of confusion!`); return false; }
-    msgs.push(`${fmt(mon.species)} is confused!`);
-    if (Math.random() < 0.5) {
-      const dmg = Math.max(1, Math.floor(mon.maxHp / 8)); // approximation of Gen 1 typeless 40-power self-hit
-      msgs.push('It hurt itself due to confusion!');
-      applyDamage(dmg);
-      return true;
-    }
-    return false;
+  // Active mon fainted: force a switch if a conscious bench mon exists, otherwise the
+  // whole party is out → blackout (OG HandleBlackOut — message here, money/heal in App).
+  // Returns the battle result (null = battle continues via forced switch).
+  function handleActiveFaint(faintedPlayer, msgs) {
+    partyRef.current[activeIdxRef.current] = { ...faintedPlayer, hp: 0 };
+    const hasBackup = partyRef.current.some((m, i) => i !== activeIdxRef.current && m.hp > 0);
+    if (hasBackup) { forceSwitchRef.current = true; return null; }
+    msgs.push('You are out of useable POKéMON!', 'You blacked out!');
+    return 'defeat';
   }
 
-  function applyStatusMsg(target, applied, msgs) {
-    if (!applied) return target;
-    msgs.push(`${fmt(target.species)} ${STATUS_LABEL[applied] || 'was afflicted!'}`);
-    return { ...target, status: applied, sleepTurns: applied === 'SLP' ? 1 + Math.floor(Math.random() * 3) : target.sleepTurns };
-  }
-
-  function resolveTurns(playerMove, threw, isStruggle) {
+  function resolveTurns(playerMove, threw, isStruggle, itemUse) {
     const msgs = [];
-    let pHp = player.hp;
-    let eHp = enemy.hp;
     let newResult = null;
-    let finalPlayer = { ...player, moves: player.moves.map(m => ({...m})) };
-    let finalEnemyPatch = {}; // status/confuse changes to merge into enemy state
+    const P = liveCopy(player);
+    const E = liveCopy(enemy);
 
-    // Pokeball throw
-    if (threw) {
+    let action;
+    if (itemUse) {
+      // Item use consumes the turn (OG wActionResultOrTookBattleTurn=1); enemy still acts.
+      Object.assign(P, itemUse.mon);
+      msgs.push(itemUse.message);
+      action = { type: 'pass' };
+    } else if (threw) {
       msgs.push(`${fmt(player.species)} threw a Poké Ball!`);
-      const caught = tryCatch({ ...enemy, hp: eHp }, pokemonData);
-      if (caught) {
-        msgs.push(`Gotcha! ${fmt(enemy.species)} was caught!`);
-        caughtMonRef.current = { ...enemy, hp: enemy.hp };
-        newResult = 'caught';
-        pushLog(msgs, 'log', newResult);
-        updatedPlayerRef.current = finalPlayer;
-        return;
-      } else {
-        msgs.push(`Oh no! The Pokémon broke free!`);
-        // Enemy attacks after failed throw
-        const move = pickEnemyMove(enemy);
-        msgs.push(`${fmt(enemy.species)} used ${fmtMove(move.name)}!`);
-        const res = resolveAttack(enemy, player, move.name, pokemonData);
-        if (!res.hit) { msgs.push('But it missed!'); }
-        else if (res.damage != null) {
-          pHp = Math.max(0, pHp - res.damage);
-          if (res.crit) msgs.push('A critical hit!');
-          if (res.effText) msgs.push(res.effText);
-        }
-        setPlayer(prev => ({ ...prev, hp: pHp }));
-        if (pHp <= 0) { msgs.push(`${fmt(player.species)} fainted!`); newResult = 'defeat'; }
-        pushLog(msgs, 'log', newResult);
-        updatedPlayerRef.current = finalPlayer;
+      if (tryCatch(E, pokemonData)) {
+        msgs.push(`Gotcha! ${fmt(E.species)} was caught!`);
+        caughtMonRef.current = stripVolatile(E);
+        updatedPlayerRef.current = P;
+        pushLog(msgs, 'log', 'caught');
         return;
       }
+      msgs.push('Oh no! The Pokémon broke free!');
+      action = { type: 'pass' };
+    } else {
+      action = { type: 'move', moveName: playerMove?.name };
     }
 
-    // Normal fight
-    const playerFirst = !playerMove || player.spd >= enemy.spd;
+    const round = performRound(P, E, action, pokemonData, { isTrainerBattle: isTrainer });
+    msgs.push(...round.msgs);
+    if (round.payDay) moneyWonRef.current += round.payDay;
 
-    function doPlayerTurn() {
-      if (!playerMove) return;
-      if (statusBlocksMove(finalPlayer, msgs, true)) return;
-      if (finalPlayer.confused > 0) {
-        const wasSelfHit = checkConfusionSelfHit(finalPlayer, msgs, dmg => { finalPlayer.hp = Math.max(0, finalPlayer.hp - dmg); pHp = finalPlayer.hp; });
-        finalPlayer = { ...finalPlayer, confused: Math.max(0, finalPlayer.confused - 1) };
-        if (wasSelfHit) return;
-      }
-
-      msgs.push(`${fmt(player.species)} used ${fmtMove(playerMove.name)}!`);
-      // Struggle doesn't consume PP — it's only used when every other move is already empty
-      if (!isStruggle) {
-        finalPlayer.moves = finalPlayer.moves.map(m =>
-          m.name === playerMove.name ? { ...m, pp: Math.max(0, m.pp - 1) } : m
-        );
-      }
-      const res = resolveAttack(player, enemy, playerMove.name, pokemonData);
-      if (!res.hit) { msgs.push('But it missed!'); return; }
-      if (res.damage == null) {
-        // Pure status move
-        if (res.statusApplied) {
-          const updated = applyStatusMsg(enemy, res.statusApplied, msgs);
-          finalEnemyPatch = { ...finalEnemyPatch, status: updated.status, sleepTurns: updated.sleepTurns };
-        } else if (res.confuseApplied) {
-          msgs.push(`${fmt(enemy.species)} became confused!`);
-          finalEnemyPatch = { ...finalEnemyPatch, confused: 3 + Math.floor(Math.random() * 3) };
-        } else {
-          msgs.push('But nothing happened!');
-        }
-        return;
-      }
-      eHp = Math.max(0, eHp - res.damage);
-      if (res.crit) msgs.push('A critical hit!');
-      if (res.effText) msgs.push(res.effText);
-      if (isStruggle) {
-        // Gen 1 Struggle recoil: 1/2 of the damage dealt, taken by the user
-        const recoil = Math.max(1, Math.floor(res.damage / 2));
-        pHp = Math.max(0, pHp - recoil);
-        finalPlayer.hp = pHp;
-        msgs.push(`${fmt(player.species)} is hit with recoil!`);
-      }
-      if (res.statusApplied) {
-        const updated = applyStatusMsg(enemy, res.statusApplied, msgs);
-        finalEnemyPatch = { ...finalEnemyPatch, status: updated.status, sleepTurns: updated.sleepTurns };
-      } else if (res.confuseApplied) {
-        msgs.push(`${fmt(enemy.species)} became confused!`);
-        finalEnemyPatch = { ...finalEnemyPatch, confused: 3 + Math.floor(Math.random() * 3) };
-      }
+    if (round.fled) {
+      // Teleport/Roar/Whirlwind ended the wild battle — no XP either way (Gen 1).
+      partyRef.current[activeIdxRef.current] = P;
+      updatedPlayerRef.current = P;
+      setPlayer(P); setEnemy(E);
+      pushLog(msgs, 'log', 'run');
+      return;
     }
 
-    function doEnemyTurn() {
-      if (eHp <= 0) return;
-      const liveEnemy = { ...enemy, ...finalEnemyPatch, hp: eHp };
-      if (statusBlocksMove(liveEnemy, msgs, false)) return;
-      if (liveEnemy.confused > 0) {
-        const wasSelfHit = checkConfusionSelfHit(liveEnemy, msgs, dmg => { eHp = Math.max(0, eHp - dmg); });
-        finalEnemyPatch = { ...finalEnemyPatch, confused: Math.max(0, liveEnemy.confused - 1) };
-        if (wasSelfHit) return;
-      }
+    let finalPlayer = P;
 
-      const move = pickEnemyMove(liveEnemy);
-      msgs.push(`${fmt(enemy.species)} used ${fmtMove(move.name)}!`);
-      const enemyIsStruggling = move.name === 'STRUGGLE' && liveEnemy.moves.every(m => m.pp <= 0);
-      if (!enemyIsStruggling) {
-        finalEnemyPatch = {
-          ...finalEnemyPatch,
-          moves: (finalEnemyPatch.moves ?? enemy.moves).map(m =>
-            m.name === move.name ? { ...m, pp: Math.max(0, m.pp - 1) } : m
-          ),
-        };
-      }
-      const res = resolveAttack(liveEnemy, finalPlayer, move.name, pokemonData);
-      if (!res.hit) { msgs.push('But it missed!'); return; }
-      if (res.damage == null) {
-        if (res.statusApplied) {
-          const updated = applyStatusMsg(finalPlayer, res.statusApplied, msgs);
-          finalPlayer = { ...finalPlayer, status: updated.status, sleepTurns: updated.sleepTurns };
-        } else if (res.confuseApplied) {
-          msgs.push(`${fmt(player.species)} became confused!`);
-          finalPlayer = { ...finalPlayer, confused: 3 + Math.floor(Math.random() * 3) };
-        } else {
-          msgs.push('But nothing happened!');
-        }
-        return;
-      }
-      pHp = Math.max(0, pHp - res.damage);
-      if (res.crit) msgs.push('A critical hit!');
-      if (res.effText) msgs.push(res.effText);
-      if (enemyIsStruggling) {
-        const recoil = Math.max(1, Math.floor(res.damage / 2));
-        eHp = Math.max(0, eHp - recoil);
-        msgs.push(`${fmt(enemy.species)} is hit with recoil!`);
-      }
-      if (res.statusApplied) {
-        const updated = applyStatusMsg(finalPlayer, res.statusApplied, msgs);
-        finalPlayer = { ...finalPlayer, status: updated.status, sleepTurns: updated.sleepTurns };
-      } else if (res.confuseApplied) {
-        msgs.push(`${fmt(player.species)} became confused!`);
-        finalPlayer = { ...finalPlayer, confused: 3 + Math.floor(Math.random() * 3) };
-      }
-    }
-
-    if (playerFirst) { doPlayerTurn(); doEnemyTurn(); }
-    else             { doEnemyTurn(); doPlayerTurn(); }
-
-    // End-of-turn poison/burn chip damage (Gen 1: 1/16 max HP each, applied after both moves)
-    if (pHp > 0 && finalPlayer.status === 'PSN') {
-      const dmg = Math.max(1, Math.floor(finalPlayer.maxHp / 16));
-      pHp = Math.max(0, pHp - dmg);
-      msgs.push(`${fmt(player.species)} is hurt by poison!`);
-    } else if (pHp > 0 && finalPlayer.status === 'BRN') {
-      const dmg = Math.max(1, Math.floor(finalPlayer.maxHp / 16));
-      pHp = Math.max(0, pHp - dmg);
-      msgs.push(`${fmt(player.species)} is hurt by its burn!`);
-    }
-    if (eHp > 0 && finalEnemyPatch.status === 'PSN') {
-      const dmg = Math.max(1, Math.floor(enemy.maxHp / 16));
-      eHp = Math.max(0, eHp - dmg);
-      msgs.push(`${fmt(enemy.species)} is hurt by poison!`);
-    } else if (eHp > 0 && finalEnemyPatch.status === 'BRN') {
-      const dmg = Math.max(1, Math.floor(enemy.maxHp / 16));
-      eHp = Math.max(0, eHp - dmg);
-      msgs.push(`${fmt(enemy.species)} is hurt by its burn!`);
-    }
-
-
-    finalPlayer = { ...finalPlayer, hp: pHp };
-    setPlayer(prev => ({ ...prev, ...finalPlayer }));
-    setEnemy(prev => ({ ...prev, ...finalEnemyPatch, hp: eHp }));
-
-    if (eHp <= 0) {
-      msgs.push(`${fmt(enemy.species)} fainted!`);
+    if (E.hp <= 0) {
+      msgs.push(`${fmt(E.species)} fainted!`);
       // XP calculation (Gen 1: baseExp * level / 7 for wild)
-      const baseExp = baseExpFor(enemy.species);
-      const xp = Math.max(1, Math.floor(baseExp * enemy.level / 7));
-      const { pokemon: leveled, messages: xpMsgs } = applyXP(finalPlayer, xp, pokemonData);
-      msgs.push(...xpMsgs);
-      finalPlayer = leveled;
+      const baseExp = baseExpFor(E.species);
+      const xp = Math.max(1, Math.floor(baseExp * E.level / 7));
+      if (finalPlayer.hp > 0) {
+        const { pokemon: leveled, messages: xpMsgs } = applyXP(finalPlayer, xp, pokemonData);
+        msgs.push(...xpMsgs);
+        finalPlayer = leveled;
+      }
 
       // Trainer: send out next mon if available
       if (isTrainer && trainerPartyRef.current) {
         trainerPartyIdxRef.current += 1;
         const next = trainerPartyRef.current[trainerPartyIdxRef.current];
         if (next) {
-          const nextMon = createWildPokemon(next.species, next.level, pokemonData);
+          const nextMon = initBattleMon(createWildPokemon(next.species, next.level, pokemonData));
           msgs.push(`Trainer sent out ${fmt(next.species)}!`);
+          partyRef.current[activeIdxRef.current] = finalPlayer;
           updatedPlayerRef.current = finalPlayer;
           pushLog(msgs, 'log', null);
           setEnemy(nextMon);
-          setPlayer(prev => ({ ...prev, ...finalPlayer }));
+          setPlayer(finalPlayer);
           return;
         }
       }
@@ -512,32 +369,24 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
         // ×100 from the real base (confirmed against documented real values — e.g. Gym Leaders'
         // true base is ₽99, not ₽9900 — so we divide back out before multiplying by level).
         const meta = TRAINER_META[trainerEncounter.trainerKey];
-        const lastMonLevel = enemy.level; // last Pokemon sent out this battle
-        const prize = Math.max(0, Math.round((meta?.baseMoney ?? 0) / 100) * lastMonLevel);
+        const prize = Math.max(0, Math.round((meta?.baseMoney ?? 0) / 100) * E.level);
         if (prize > 0) {
-          msgs.push(`${fmt(player.species)}'s trainer got ₽${prize} for winning!`);
-          moneyWonRef.current = prize;
+          msgs.push(`You got ₽${prize} for winning!`);
+          moneyWonRef.current += prize;
         }
       }
-    } else if (pHp <= 0) {
-      msgs.push(`${fmt(player.species)} fainted!`);
-      newResult = 'defeat';
+      // Explosion can take the user down with the target — the win still stands.
+      if (finalPlayer.hp <= 0) partyRef.current[activeIdxRef.current] = { ...finalPlayer, hp: 0 };
+    } else if (P.hp <= 0) {
+      msgs.push(`${fmt(P.species)} fainted!`);
+      newResult = handleActiveFaint(finalPlayer, msgs);
     }
 
+    if (finalPlayer.hp > 0) partyRef.current[activeIdxRef.current] = finalPlayer;
     updatedPlayerRef.current = finalPlayer;
+    setPlayer(finalPlayer);
+    setEnemy(E);
     pushLog(msgs, 'log', newResult);
-  }
-
-  function pickEnemyMove(mon) {
-    const usable = mon.moves.filter(m => m.pp > 0);
-    const pool = usable.length > 0 ? usable : null;
-    if (!pool) return { name: 'STRUGGLE', pp: 1, ppMax: 1 }; // out of PP — forced Struggle
-    const damaging = pool.filter(m => {
-      const md = pokemonData.moves[m.name];
-      return md && md.power > 0;
-    });
-    const finalPool = damaging.length > 0 ? damaging : pool;
-    return finalPool[Math.floor(Math.random() * finalPool.length)];
   }
 
   function handleRun() {
@@ -551,24 +400,19 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
     } else {
       escapeAttemptsRef.current = attempts + 1;
       const msgs = ["Can't escape!"];
-      // Enemy attacks after failed run
-      let pHp = player.hp;
-      const move = pickEnemyMove(enemy);
-      msgs.push(`${fmt(enemy.species)} used ${fmtMove(move.name)}!`);
-      const res = resolveAttack(enemy, player, move.name, pokemonData);
-      if (!res.hit) {
-        msgs.push('But it missed!');
-      } else if (res.damage != null) {
-        pHp = Math.max(0, pHp - res.damage);
-        if (res.crit) msgs.push('A critical hit!');
-        if (res.effText) msgs.push(res.effText);
-      }
-      setPlayer(prev => ({ ...prev, hp: pHp }));
-      updatedPlayerRef.current = { ...player, hp: pHp };
-      if (pHp <= 0) {
-        msgs.push(`${fmt(player.species)} fainted!`);
-        pushLog(msgs, 'log', 'defeat');
+      // Enemy attacks after failed run — full engine round with the player passing
+      const P = liveCopy(player);
+      const E = liveCopy(enemy);
+      const round = performRound(P, E, { type: 'pass' }, pokemonData, { isTrainerBattle: isTrainer });
+      msgs.push(...round.msgs);
+      setPlayer(P); setEnemy(E);
+      updatedPlayerRef.current = P;
+      if (round.fled) { pushLog(msgs, 'log', 'run'); return; }
+      if (P.hp <= 0) {
+        msgs.push(`${fmt(P.species)} fainted!`);
+        pushLog(msgs, 'log', handleActiveFaint(P, msgs));
       } else {
+        partyRef.current[activeIdxRef.current] = P;
         pushLog(msgs, 'log', null);
       }
     }
@@ -593,11 +437,79 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
     resolveTurns(null, true);
   }
 
+  function handleBagSelect(idx) {
+    const entry = getBagEntries()[idx];
+    if (!entry) return;
+    if (entry.kind === 'ball') { handleBall(); return; }
+    // Medicine needs a target — Gen 1 lets you heal/revive bench mons too.
+    pendingItemRef.current = entry.name;
+    setPhase('bag-target');
+    setCursor(activeIdxRef.current);
+  }
+
+  function handleBagTarget(idx) {
+    const itemName = pendingItemRef.current;
+    if (!itemName) return;
+    const isActive = idx === activeIdxRef.current;
+    const target = isActive ? player : partyRef.current[idx];
+    if (!target) return;
+    const { mon, used, message } = applyMedicineItem(target, itemName);
+    if (!used) { pushLog([message], 'log', null); return; }
+    pendingItemRef.current = null;
+    onUseItem?.(itemName);
+    if (isActive) {
+      resolveTurns(null, false, false, { mon, message });
+    } else {
+      partyRef.current[idx] = mon;
+      // Turn is still consumed — enemy attacks the active mon ({} = no change to active).
+      resolveTurns(null, false, false, { mon: {}, message });
+    }
+  }
+
+  function benchAvailable() {
+    return partyRef.current.some((m, i) => i !== activeIdxRef.current && m.hp > 0);
+  }
+
+  // Party switching. Voluntary switches consume the turn — the enemy gets a free
+  // attack on the incoming mon (Gen 1 behavior). Faint replacements don't.
+  function doSwitch(idx, voluntary) {
+    const cur = activeIdxRef.current;
+    const target = partyRef.current[idx];
+    if (!target || target.hp <= 0 || (voluntary && idx === cur)) return;
+    partyRef.current[cur] = { ...player };
+    activeIdxRef.current = idx;
+    const incoming = liveCopy(target);
+    const msgs = [];
+    let newResult = null;
+
+    if (voluntary) {
+      msgs.push(`${fmt(player.species)}, come back!`, `Go, ${fmt(incoming.species)}!`);
+      // The incoming mon eats a free enemy attack (Gen 1) — run a full engine round
+      // with the player passing so every enemy move effect resolves correctly.
+      const E = liveCopy(enemy);
+      const round = performRound(incoming, E, { type: 'pass' }, pokemonData, { isTrainerBattle: isTrainer });
+      msgs.push(...round.msgs);
+      setEnemy(E);
+      if (incoming.hp <= 0) { msgs.push(`${fmt(incoming.species)} fainted!`); newResult = handleActiveFaint(incoming, msgs); }
+    } else {
+      forceSwitchRef.current = false;
+      msgs.push(`Go, ${fmt(incoming.species)}!`);
+    }
+
+    if (incoming.hp > 0) partyRef.current[idx] = { ...incoming };
+    setPlayer(incoming);
+    updatedPlayerRef.current = incoming;
+    pushLog(msgs, 'log', newResult);
+  }
+
   function handleEnd() {
+    partyRef.current[activeIdxRef.current] = { ...(updatedPlayerRef.current ?? player) };
+    // Strip battle-only volatile state (stat stages, Substitute, Transform, etc.)
+    // before the party goes back to the overworld / save.
     onBattleEnd({
       result,
-      updatedPlayer: updatedPlayerRef.current ?? player,
-      caught: caughtMonRef.current ?? null,
+      updatedParty: partyRef.current.map(m => stripVolatile(m)),
+      caught: caughtMonRef.current ? stripVolatile(caughtMonRef.current) : null,
       moneyWon: moneyWonRef.current || 0,
     });
   }
@@ -668,10 +580,10 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
                 <button className={`pkrb-action-btn${cursor===0?' pkrb-cursor':''}`}
                   onClick={() => { setPhase('moves'); setCursor(0); }}>FIGHT</button>
                 <button className={`pkrb-action-btn${cursor===1?' pkrb-cursor':''}`}
-                  onClick={() => setPhase('pkmn')} disabled>PKMn</button>
+                  onClick={() => { setPhase('pkmn'); setCursor(0); }} disabled={!benchAvailable()}>PKMn</button>
                 <button className={`pkrb-action-btn${cursor===2?' pkrb-cursor':''}`}
-                  onClick={() => setPhase('bag')} disabled={isTrainer || ballsLeft === 0}>
-                  {ballsLeft > 0 && !isTrainer ? `ITEM(${ballsLeft})` : 'ITEM'}
+                  onClick={() => { setPhase('bag'); setCursor(0); }} disabled={getBagEntries().length === 0}>
+                  ITEM
                 </button>
                 <button className={`pkrb-action-btn${cursor===3?' pkrb-cursor':''}`}
                   onClick={handleRun} disabled={isTrainer}>RUN</button>
@@ -704,6 +616,44 @@ export default function PokeredBattle({ playerPokemon: initPlayer, wildEncounter
                 })()}
                 <button className="pkrb-back-btn" onClick={() => { setPhase('action'); setCursor(0); }}>BACK</button>
               </div>
+            </div>
+          ) : phase === 'bag' ? (
+            <div className="pkrb-bag-layout">
+              <div className="pkrb-bag-list">
+                {getBagEntries().length === 0 ? (
+                  <div className="pkrb-bag-empty">No usable items.</div>
+                ) : getBagEntries().map((entry, i) => (
+                  <button key={entry.name} className={`pkrb-bag-item${cursor===i?' pkrb-cursor':''}`}
+                    onClick={() => handleBagSelect(i)}>
+                    <span>{fmtMove(entry.name)}</span><span className="pkrb-bag-count">×{entry.count}</span>
+                  </button>
+                ))}
+              </div>
+              <button className="pkrb-back-btn" onClick={() => { setPhase('action'); setCursor(2); }}>BACK</button>
+            </div>
+          ) : (phase === 'pkmn' || phase === 'switch-faint' || phase === 'bag-target') ? (
+            <div className="pkrb-party-layout">
+              <div className="pkrb-party-title">
+                {phase === 'bag-target' ? `USE ${fmtMove(pendingItemRef.current ?? '')} ON:` :
+                 phase === 'switch-faint' ? 'CHOOSE NEXT POKéMON' : 'SWITCH POKéMON'}
+              </div>
+              <div className="pkrb-party-list">
+                {partyRef.current.map((m, i) => {
+                  const isActive = i === activeIdxRef.current;
+                  const mon = isActive ? player : m;
+                  return (
+                    <button key={i}
+                      className={`pkrb-party-row${cursor===i?' pkrb-cursor':''}${mon.hp<=0?' pkrb-party-fnt':''}`}
+                      onClick={() => phase === 'bag-target' ? handleBagTarget(i) : doSwitch(i, phase === 'pkmn')}>
+                      <span className="pkrb-party-name">{fmt(mon.species)}{isActive ? ' ●' : ''}<span className="pkrb-lv">Lv{mon.level}</span><StatusBadge status={mon.status} /></span>
+                      <HpBar current={mon.hp} max={mon.maxHp} />
+                    </button>
+                  );
+                })}
+              </div>
+              {phase !== 'switch-faint' && (
+                <button className="pkrb-back-btn" onClick={() => { setPhase(phase === 'bag-target' ? 'bag' : 'action'); setCursor(phase === 'bag-target' ? 0 : 1); }}>BACK</button>
+              )}
             </div>
           ) : null}
         </div>

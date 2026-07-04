@@ -318,6 +318,54 @@
   border-bottom: 1px solid #1a1a2e;
 }
 
+/* HM06 teach-move menu — wider box to fit 2-column move list */
+.pkr-menu-teach { min-width: 340px; max-width: 400px; }
+
+.pkr-teach-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px 4px;
+  max-height: 280px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 2px;
+}
+
+.pkr-teach-entry {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 3px 4px;
+  cursor: pointer;
+  text-align: left;
+  font-family: monospace;
+  font-size: 10px;
+  color: #b0b0d0;
+  text-transform: uppercase;
+  width: 100%;
+  border-bottom: 1px solid #111127;
+}
+.pkr-teach-entry:hover { background: #1a1a3e; }
+.pkr-teach-entry.pkr-menu-selected { background: #1a1a3e; }
+
+.pkr-teach-id   { color: #5a5aaa; font-size: 9px; min-width: 28px; flex-shrink: 0; }
+.pkr-teach-move { color: #c0c0e0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* "New move to learn" label on the slot-replace page */
+.pkr-teach-new-move {
+  font-family: monospace;
+  font-size: 11px;
+  color: #ffd700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 4px 0 8px;
+  border-bottom: 1px solid #2a2a5a;
+  margin-bottom: 4px;
+}
+
 .pkr-controls {
   margin-top: 12px;
   color: #5a5a7a;

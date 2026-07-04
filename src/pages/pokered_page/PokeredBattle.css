@@ -219,6 +219,33 @@
 .pkrb-move-type { color: #306230; font-size: 9px; text-transform: uppercase; }
 .pkrb-move-pp { color: #1a1a0a; font-size: 9px; }
 
+/* Bag layout: vertical scrollable item list | back button below */
+.pkrb-bag-layout { display: flex; flex-direction: column; flex: 1; gap: 4px; }
+.pkrb-bag-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 90px;
+}
+.pkrb-bag-item {
+  background: #c8e890;
+  border: 2px solid #306230;
+  color: #1a1a0a;
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+}
+.pkrb-bag-item:hover { background: #a8c870; }
+.pkrb-bag-count { color: #306230; }
+.pkrb-bag-empty { color: #306230; font-size: 10px; text-transform: uppercase; padding: 4px 0; }
+
 .pkrb-back-btn {
   background: transparent;
   border: 1px solid #306230;
@@ -247,6 +274,37 @@
 }
 .pkrb-btn:hover { background: #a8c870; }
 .pkrb-btn-sm { font-size: 9px; padding: 3px 10px; }
+
+/* Party list (PKMn switch / faint replacement / item target) */
+.pkrb-party-layout { display: flex; flex-direction: column; flex: 1; gap: 3px; }
+.pkrb-party-title { color: #306230; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+.pkrb-party-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 84px;
+}
+.pkrb-party-row {
+  background: #c8e890;
+  border: 2px solid #306230;
+  color: #1a1a0a;
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  padding: 3px 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+}
+.pkrb-party-row:hover { background: #a8c870; }
+.pkrb-party-row .pkrb-hpbar { width: 130px; flex-shrink: 0; }
+.pkrb-party-fnt { opacity: 0.55; }
+.pkrb-party-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* Keyboard cursor highlight */
 .pkrb-cursor {

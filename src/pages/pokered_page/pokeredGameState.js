@@ -198,7 +198,7 @@ export function createExtraState(stateKey, pokemonData) {
     name = 'Victory Road';
   } else if (stateKey === 'elite_four') {
     playerLevel = 85;
-    startPos = { mapId: 'LORELEIS_ROOM', x: 10, y: 4 };
+    startPos = { mapId: 'INDIGO_PLATEAU_LOBBY', x: 14, y: 16 };
     name = 'Elite Four';
   } else {
     const badgesOwned = stateKey + 1;
@@ -210,16 +210,37 @@ export function createExtraState(stateKey, pokemonData) {
   const pokemon = createPlayerPokemon(species, playerLevel, pokemonData);
   const numBadges = stateKey === 'victory_road' || stateKey === 'elite_four'
     ? 8 : stateKey + 1;
+
+  const needsTestTeam = stateKey === 'victory_road' || stateKey === 'elite_four';
+
+  const extraParty = needsTestTeam ? [
+    createPlayerPokemon('EEVEE',    playerLevel, pokemonData),
+    createPlayerPokemon('EEVEE',    playerLevel, pokemonData),
+    createPlayerPokemon('EEVEE',    playerLevel, pokemonData),
+    createPlayerPokemon('NIDORINO', playerLevel, pokemonData),
+    createPlayerPokemon('CLEFAIRY', playerLevel, pokemonData),
+  ] : [];
+
+  const extraItems = needsTestTeam ? [
+    { name: 'POKE_BALL',     count: 20 },
+    { name: 'HM06',          count: 1  },
+    { name: 'MOON_STONE',    count: 2  },
+    { name: 'FIRE_STONE',    count: 1  },
+    { name: 'WATER_STONE',   count: 1  },
+    { name: 'THUNDER_STONE', count: 1  },
+    { name: 'LEAF_STONE',    count: 1  },
+  ] : [{ name: 'POKE_BALL', count: 20 }, { name: 'HM06', count: 1 }];
+
   return {
     isExtra: true,
     name,
     mapId: startPos.mapId,
     x: startPos.x,
     y: startPos.y,
-    party: [pokemon],
+    party: [pokemon, ...extraParty],
     badges: Array.from({ length: numBadges }, (_, i) => i),
     money: 5000,
-    items: [{ name: 'POKE_BALL', count: 20 }],
+    items: extraItems,
     beatenTrainers: [],
     pickedUpItems: [],
   };
@@ -318,6 +339,171 @@ export function tryCatch(enemy, pokemonData) {
   const catchRate = base?.catchRate ?? 45;
   const threshold = Math.floor((3 * enemy.maxHp - 2 * enemy.hp) * catchRate / (3 * enemy.maxHp));
   return Math.random() * 256 < threshold + 1;
+}
+
+// ── Item use ──────────────────────────────────────────────────────────────
+// Catalog of usable items, categorized for the battle bag / overworld items menu.
+// Heal amounts and status-cure mappings sourced from pokered's
+// engine/items/item_effects.asm (ItemUseMedicine, ItemUseRepelCommon).
+export const ITEM_EFFECTS = {
+  POTION:       { category: 'medicine' },
+  SUPER_POTION: { category: 'medicine' },
+  HYPER_POTION: { category: 'medicine' },
+  MAX_POTION:   { category: 'medicine' },
+  FULL_RESTORE: { category: 'medicine' },
+  REVIVE:       { category: 'medicine' },
+  MAX_REVIVE:   { category: 'medicine' },
+  ANTIDOTE:     { category: 'medicine' },
+  BURN_HEAL:    { category: 'medicine' },
+  ICE_HEAL:     { category: 'medicine' },
+  AWAKENING:    { category: 'medicine' },
+  PARLYZ_HEAL:  { category: 'medicine' },
+  FULL_HEAL:    { category: 'medicine' },
+  REPEL:        { category: 'repel', steps: 100 },
+  SUPER_REPEL:  { category: 'repel', steps: 200 },
+  MAX_REPEL:    { category: 'repel', steps: 250 },
+  ESCAPE_ROPE:  { category: 'escape_rope' },
+  BICYCLE:      { category: 'bicycle' },
+  MOON_STONE:    { category: 'stone' },
+  FIRE_STONE:    { category: 'stone' },
+  THUNDER_STONE: { category: 'stone' },
+  WATER_STONE:   { category: 'stone' },
+  LEAF_STONE:    { category: 'stone' },
+  // Key item — never consumed, opens the full TM/HM teach-move menu in overworld.
+  HM06:          { category: 'hm06' },
+};
+
+const STATUS_CURES = {
+  ANTIDOTE: 'PSN', BURN_HEAL: 'BRN', ICE_HEAL: 'FRZ',
+  AWAKENING: 'SLP', PARLYZ_HEAL: 'PAR', FULL_HEAL: 'ANY',
+};
+// HEAL_AMOUNTS values: a number, Infinity (heal to full), or 'half' (Revive — half of max HP).
+const HEAL_AMOUNTS = {
+  POTION: 20, SUPER_POTION: 50, HYPER_POTION: 200,
+  MAX_POTION: Infinity, FULL_RESTORE: Infinity,
+  REVIVE: 'half', MAX_REVIVE: Infinity,
+};
+const REVIVE_ITEMS = new Set(['REVIVE', 'MAX_REVIVE']);
+
+// Apply a medicine-category item to a single party Pokemon. Pure function — returns
+// the (possibly unchanged) mon plus whether it actually did anything, matching OG's
+// ItemUseMedicine which leaves the turn/item untouched on a no-effect use.
+export function applyMedicineItem(mon, itemName) {
+  const name = fmt(mon.species);
+  const noEffect = { mon, used: false, message: "It won't have any effect." };
+
+  if (itemName in STATUS_CURES) {
+    const cure = STATUS_CURES[itemName];
+    if (!mon.status || (cure !== 'ANY' && mon.status !== cure)) return noEffect;
+    return { mon: { ...mon, status: null, sleepTurns: 0 }, used: true, message: `${name}'s status was cured!` };
+  }
+
+  if (itemName in HEAL_AMOUNTS) {
+    const healSpec = HEAL_AMOUNTS[itemName];
+    const fainted = mon.hp <= 0;
+    if (REVIVE_ITEMS.has(itemName)) {
+      if (!fainted) return noEffect;
+      const healed = healSpec === 'half' ? Math.floor(mon.maxHp / 2) : mon.maxHp;
+      return { mon: { ...mon, hp: Math.min(mon.maxHp, healed) }, used: true, message: `${name} was revived!` };
+    }
+    if (fainted) return noEffect; // non-Revive items can't act on a fainted mon
+    const curesStatusToo = itemName === 'FULL_RESTORE';
+    if (mon.hp >= mon.maxHp) {
+      if (curesStatusToo && mon.status) {
+        return { mon: { ...mon, status: null, sleepTurns: 0 }, used: true, message: `${name}'s status was cured!` };
+      }
+      return noEffect;
+    }
+    const healAmount = healSpec === Infinity ? mon.maxHp : healSpec;
+    const newHp = Math.min(mon.maxHp, mon.hp + healAmount);
+    const updated = { ...mon, hp: newHp };
+    if (curesStatusToo) { updated.status = null; updated.sleepTurns = 0; }
+    return { mon: updated, used: true, message: `${name} recovered ${newHp - mon.hp} HP!` };
+  }
+
+  return noEffect;
+}
+
+// Stone evolutions — not present in pokemon_data.json's learnsets (level-evos only),
+// so sourced directly from pokered's data/pokemon/evos_moves.asm (EVOLVE_ITEM entries).
+export const STONE_EVOLUTIONS = [
+  { species: 'CLEFAIRY',   stone: 'MOON_STONE',    into: 'CLEFABLE' },
+  { species: 'EXEGGCUTE',  stone: 'LEAF_STONE',    into: 'EXEGGUTOR' },
+  { species: 'SHELLDER',   stone: 'WATER_STONE',   into: 'CLOYSTER' },
+  { species: 'STARYU',     stone: 'WATER_STONE',   into: 'STARMIE' },
+  { species: 'GROWLITHE',  stone: 'FIRE_STONE',    into: 'ARCANINE' },
+  { species: 'VULPIX',     stone: 'FIRE_STONE',    into: 'NINETALES' },
+  { species: 'PIKACHU',    stone: 'THUNDER_STONE', into: 'RAICHU' },
+  { species: 'JIGGLYPUFF', stone: 'MOON_STONE',    into: 'WIGGLYTUFF' },
+  { species: 'EEVEE',      stone: 'FIRE_STONE',    into: 'FLAREON' },
+  { species: 'EEVEE',      stone: 'THUNDER_STONE', into: 'JOLTEON' },
+  { species: 'EEVEE',      stone: 'WATER_STONE',   into: 'VAPOREON' },
+  { species: 'POLIWHIRL',  stone: 'WATER_STONE',   into: 'POLIWRATH' },
+  { species: 'NIDORINO',   stone: 'MOON_STONE',    into: 'NIDOKING' },
+  { species: 'NIDORINA',   stone: 'MOON_STONE',    into: 'NIDOQUEEN' },
+  { species: 'GLOOM',      stone: 'LEAF_STONE',    into: 'VILEPLUME' },
+  { species: 'WEEPINBELL', stone: 'LEAF_STONE',    into: 'VICTREEBEL' },
+];
+
+// Full Gen 1 TM/HM → move mapping (item_constants.asm add_tm/add_hm, in item-ID order).
+// HM06 uses this list so the player can teach any move in the game from the overworld.
+export const TM_HM_MOVES = [
+  { id: 'TM01', move: 'MEGA_PUNCH'   }, { id: 'TM02', move: 'RAZOR_WIND'   },
+  { id: 'TM03', move: 'SWORDS_DANCE' }, { id: 'TM04', move: 'WHIRLWIND'    },
+  { id: 'TM05', move: 'MEGA_KICK'    }, { id: 'TM06', move: 'TOXIC'        },
+  { id: 'TM07', move: 'HORN_DRILL'   }, { id: 'TM08', move: 'BODY_SLAM'    },
+  { id: 'TM09', move: 'TAKE_DOWN'    }, { id: 'TM10', move: 'DOUBLE_EDGE'  },
+  { id: 'TM11', move: 'BUBBLEBEAM'   }, { id: 'TM12', move: 'WATER_GUN'    },
+  { id: 'TM13', move: 'ICE_BEAM'     }, { id: 'TM14', move: 'BLIZZARD'     },
+  { id: 'TM15', move: 'HYPER_BEAM'   }, { id: 'TM16', move: 'PAY_DAY'      },
+  { id: 'TM17', move: 'SUBMISSION'   }, { id: 'TM18', move: 'COUNTER'      },
+  { id: 'TM19', move: 'SEISMIC_TOSS' }, { id: 'TM20', move: 'RAGE'         },
+  { id: 'TM21', move: 'MEGA_DRAIN'   }, { id: 'TM22', move: 'SOLARBEAM'    },
+  { id: 'TM23', move: 'DRAGON_RAGE'  }, { id: 'TM24', move: 'THUNDERBOLT'  },
+  { id: 'TM25', move: 'THUNDER'      }, { id: 'TM26', move: 'EARTHQUAKE'   },
+  { id: 'TM27', move: 'FISSURE'      }, { id: 'TM28', move: 'DIG'          },
+  { id: 'TM29', move: 'PSYCHIC_M'    }, { id: 'TM30', move: 'TELEPORT'     },
+  { id: 'TM31', move: 'MIMIC'        }, { id: 'TM32', move: 'DOUBLE_TEAM'  },
+  { id: 'TM33', move: 'REFLECT'      }, { id: 'TM34', move: 'BIDE'         },
+  { id: 'TM35', move: 'METRONOME'    }, { id: 'TM36', move: 'SELFDESTRUCT' },
+  { id: 'TM37', move: 'EGG_BOMB'     }, { id: 'TM38', move: 'FIRE_BLAST'   },
+  { id: 'TM39', move: 'SWIFT'        }, { id: 'TM40', move: 'SKULL_BASH'   },
+  { id: 'TM41', move: 'SOFTBOILED'   }, { id: 'TM42', move: 'DREAM_EATER'  },
+  { id: 'TM43', move: 'SKY_ATTACK'   }, { id: 'TM44', move: 'REST'         },
+  { id: 'TM45', move: 'THUNDER_WAVE' }, { id: 'TM46', move: 'PSYWAVE'      },
+  { id: 'TM47', move: 'EXPLOSION'    }, { id: 'TM48', move: 'ROCK_SLIDE'   },
+  { id: 'TM49', move: 'TRI_ATTACK'   }, { id: 'TM50', move: 'SUBSTITUTE'   },
+  { id: 'HM01', move: 'CUT'          }, { id: 'HM02', move: 'FLY'          },
+  { id: 'HM03', move: 'SURF'         }, { id: 'HM04', move: 'STRENGTH'     },
+  { id: 'HM05', move: 'FLASH'        },
+];
+
+// Apply an evolution stone to a single party Pokemon. Pure function — mirrors the
+// species-swap shape applyXP already uses for level-up evolution (keep level, swap
+// species/types, recompute derived stats). Does NOT consume the stone on a no-effect
+// use — matches OG's ItemUseEvoStone .noEffect path.
+export function tryEvolveWithStone(mon, itemName, pokemonData) {
+  const entry = STONE_EVOLUTIONS.find(e => e.species === mon.species && e.stone === itemName);
+  const newBase = entry && pokemonData.pokemon[entry.into];
+  if (!entry || !newBase) return { mon, evolved: false, message: "It won't have any effect." };
+
+  const iv = 15;
+  const newMaxHp = calcHP(newBase.hp, mon.level, iv);
+  const nextEvo = nextEvolution(entry.into, pokemonData);
+  const evolved = {
+    ...mon,
+    species: entry.into,
+    type1: newBase.type1, type2: newBase.type2,
+    maxHp: newMaxHp,
+    hp: Math.min(mon.hp, newMaxHp),
+    atk: calcStat(newBase.atk, mon.level, iv),
+    def: calcStat(newBase.def, mon.level, iv),
+    spd: calcStat(newBase.spd, mon.level, iv),
+    spc: calcStat(newBase.spc, mon.level, iv),
+    evolvesAt: nextEvo?.level ?? null,
+    evolvesInto: nextEvo?.into ?? null,
+  };
+  return { mon: evolved, evolved: true, message: `${fmt(mon.species)} evolved into ${fmt(entry.into)}!` };
 }
 
 // Restore all party Pokemon to full HP/PP and clear status conditions (Gen 1: Pokemon

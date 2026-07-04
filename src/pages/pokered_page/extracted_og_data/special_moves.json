@@ -1,0 +1,40 @@
+{
+  "_format": "data/trainers/special_moves.asm defines TWO independent, differently-shaped tables, both consumed by engine/battle/read_trainer_party.asm's ReadTrainer routine, and BOTH only apply to trainers whose party data is $FF-flagged (per-Pokemon custom levels, see data/trainers/parties.asm) -- ReadTrainer's `.SpecialTrainer` branch. (1) LoneMoves is a FLAT array of (partyOffsetByte, move) pairs indexed by (wLoneAttackNo - 1)*2, i.e. wLoneAttackNo is a 1-based selector chosen per-caller, not a per-trainer-class key. The consuming code is: `ld a,[wLoneAttackNo] / dec a / add a / ld c,a ... ld hl,LoneMoves / add hl,bc / ld a,[hli] / ld d,[hl]` (reads the pair at that byte offset), then `ld hl, wEnemyMon1Moves + 2 / ld bc, PARTYMON_STRUCT_LENGTH / call AddNTimes / ld [hl], d` -- AddNTimes ('add bc to hl a times', home/array.asm) advances hl by partyOffsetByte * PARTYMON_STRUCT_LENGTH starting from party slot 1's move-slot-3 address, so the pair's first byte is a 0-based OFFSET from slot 1, meaning the real 1-based party slot that receives the move is (partyOffsetByte + 1); the move always overwrites the 3rd move slot (0-indexed slot 2, the '+2' in wEnemyMon1Moves+2) of whichever party slot that is. This is confirmed by content, not just arithmetic: attackNo 4 (the entry the source comment attributes to Erika, 'the fourth entry in the list') decodes to partyOffsetByte=2 -> party slot 3 -> MEGA_DRAIN, and Erika's third and final party Pokemon (data/trainers/parties.asm ErikaData) is Vileplume, a Grass-type that Mega Drain fits thematically -- confirming the +1 offset interpretation, not a raw 1:1 index. (2) TeamMoves is a small (trainerClass, move) lookup, walked linearly by ReadTrainer's `.AddTeamMove`/`.IterateTeamMoves` (`ld a,[hli] / cp b / jr z,.GiveTeamMoves`, b = trainer class number) and reached automatically for EVERY Elite-Four-style special trainer with wLoneAttackNo==0 -- it unconditionally overwrites the 3rd move slot (index 2) of PARTY SLOT 5 specifically (`ld [wEnemyMon5Moves + 2], a`), regardless of that trainer's actual party size, and is NOT gated by any percent/RNG check. RIVAL3 (the post-Hall-of-Fame champion rematch) is special-cased separately in `.ChampionRival` when no TeamMoves entry matches: it hardcodes SKY_ATTACK onto party slot 1 move-slot-3 (`wEnemyMon1Moves + 2`, his Pidgeot) and, onto party slot 6 move-slot-3 (`wEnemyMon6Moves + 2`, his own starter's final evolution), a type-matching move chosen by reading `wRivalStarter` (the RIVAL's own starter, opposite of the player's pick): BULBASAUR(STARTER3)->MEGA_DRAIN, CHARMANDER(STARTER1)->FIRE_BLAST, else SQUIRTLE->BLIZZARD.",
+
+  "criticalCaveat": "LoneMoves is confirmed DEAD/UNREACHABLE CODE in the shipped game. wLoneAttackNo is written to 0 on every single map load (engine/overworld/clear_variables.asm, ClearVariablesOnEnterMap: `xor a` ... `ld [wLoneAttackNo], a`) and is NEVER written to a nonzero value anywhere else in the entire disassembly -- verified by a case-insensitive grep for 'LoneAttackNo' across the whole PokeRed_OG tree, which returns exactly 4 hits: its RAM declaration (ram/wram.asm), the reset-to-0 in clear_variables.asm, the read in read_trainer_party.asm, and the descriptive comment block at the top of special_moves.asm itself. No file under scripts/ (Erika's gym script included) ever touches this variable, despite the comment '...e.g., erika's script writes 4 to [wLoneAttackNo] to get mega drain' -- that comment describes intended/beta behavior that does not exist in this build's actual scripts. Practical consequence: because wLoneAttackNo is always 0 when `.AddLoneMove` runs, EVERY $FF-flagged trainer (all gym leaders, both rivals, Giovanni, Prof. Oak, the Elite Four, and the Champion) always falls straight through to `.AddTeamMove`. Do not port LoneMoves as live gym-leader behavior unless the intent is to deliberately restore this cut beta feature -- if so, flag it explicitly as a deviation from OG-observable behavior.",
+
+  "loneMoves_deadCode": [
+    { "wLoneAttackNo": 1, "rawPartyOffsetByte": 1, "partySlot": 2, "move": "BIDE" },
+    { "wLoneAttackNo": 2, "rawPartyOffsetByte": 1, "partySlot": 2, "move": "BUBBLEBEAM" },
+    { "wLoneAttackNo": 3, "rawPartyOffsetByte": 2, "partySlot": 3, "move": "THUNDERBOLT" },
+    { "wLoneAttackNo": 4, "rawPartyOffsetByte": 2, "partySlot": 3, "move": "MEGA_DRAIN", "note": "the entry special_moves.asm's header comment cites for Erika; never actually triggered (see criticalCaveat)" },
+    { "wLoneAttackNo": 5, "rawPartyOffsetByte": 3, "partySlot": 4, "move": "TOXIC" },
+    { "wLoneAttackNo": 6, "rawPartyOffsetByte": 3, "partySlot": 4, "move": "PSYWAVE" },
+    { "wLoneAttackNo": 7, "rawPartyOffsetByte": 3, "partySlot": 4, "move": "FIRE_BLAST" },
+    { "wLoneAttackNo": 8, "rawPartyOffsetByte": 4, "partySlot": 5, "move": "FISSURE" }
+  ],
+
+  "teamMoves": {
+    "_target": "3rd move slot (0-indexed slot 2) of party slot 5 -- `ld [wEnemyMon5Moves + 2], a` in ReadTrainer's .GiveTeamMoves. Applies automatically and unconditionally, no RNG, no scripted trigger needed (unlike LoneMoves).",
+    "LORELEI": "BLIZZARD",
+    "BRUNO": "FISSURE",
+    "AGATHA": "TOXIC",
+    "LANCE": "BARRIER"
+  },
+
+  "championRivalBonus": {
+    "_trainerClass": "RIVAL3",
+    "_note": "Hardcoded fallback in ReadTrainer's .ChampionRival branch, reached when the trainer class isn't found in TeamMoves and equals RIVAL3. Two separate hardcoded assignments, not table-driven.",
+    "pidgeot": { "partySlot": 1, "moveSlot": 2, "move": "SKY_ATTACK", "condition": "unconditional" },
+    "starterFinalForm": {
+      "partySlot": 6,
+      "moveSlot": 2,
+      "condition": "keyed off wRivalStarter (the RIVAL's own starter, the counter to the player's choice)",
+      "moveByRivalStarter": {
+        "BULBASAUR": "MEGA_DRAIN",
+        "CHARMANDER": "FIRE_BLAST",
+        "SQUIRTLE": "BLIZZARD"
+      }
+    }
+  }
+}

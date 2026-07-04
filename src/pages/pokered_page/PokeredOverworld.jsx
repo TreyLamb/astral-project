@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { TRAINER_META } from './trainerMeta';
 import { TRAINER_PARTIES } from './trainerParties';
+import { ITEM_EFFECTS, TM_HM_MOVES } from './pokeredGameState';
 import './PokeredOverworld.css';
 
 // Game Boy native resolution — CSS handles 3x scaling
@@ -73,10 +74,25 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, onReturnHome, onHealParty, onRequestStarter, onOpenPC, onMapChange, onSave, onPositionUpdate, onPickUpItem, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, onReturnHome, onHealParty, onRequestStarter, onOpenPC, onMapChange, onSave, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
+  // Fresh-snapshot ref for the once-mounted keyboard handler below — gameState itself
+  // is stale there (effect deps are [onHealParty, onRequestStarter]).
+  const gsRef = useRef(gameState);
+  useEffect(() => { gsRef.current = gameState; }, [gameState]);
+  // Repel step counter — decremented locally per completed step in checkNewTile,
+  // never round-tripped to parent state every step (matches onPositionUpdate convention).
+  const repelStepsRef = useRef(gameState?.repelSteps ?? 0);
+  useEffect(() => { repelStepsRef.current = gameState?.repelSteps ?? 0; }, [gameState?.repelSteps]);
+  const bikingRef = useRef(!!gameState?.isBiking);
+  useEffect(() => { bikingRef.current = !!gameState?.isBiking; }, [gameState?.isBiking]);
+  // Holds the stone item name while the player picks a target party member.
+  const pendingStoneRef = useRef(null);
+  // Holds state across the 3-step HM06 teach flow: move → party target → slot.
+  const pendingTeachMoveRef   = useRef(null); // selected move name
+  const pendingTeachTargetRef = useRef(null); // selected party index
 
   // Stable refs (never cause re-renders — game loop reads these directly)
   const keysRef       = useRef(new Set());
@@ -277,7 +293,7 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
       // Position player at warp destination exactly — coordinates from game_data are always even
     if (entryX !== null && entryY !== null) {
   playerRef.current = { ...playerRef.current, x: entryX, y: entryY, isWalking: false, walkProg: 0, dx: 0, dy: 0 };
-  if (onMapChange) onMapChange(mapId, entryX, entryY);
+  if (onMapChange) onMapChange(mapId, entryX, entryY, mapInfo.tileset === 'pokecenter');
   setDebugPos({ mapId, x: entryX, y: entryY });
 }
       setMapLabel(mapId.replace(/_/g, ' '));
@@ -367,6 +383,16 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     const p  = playerRef.current;
     if (!ms || encounterRef.current) return;
 
+    // Repel — decremented once per completed step regardless of tile type, matching
+    // OG's TryDoWildEncounter (decrements before the encounter roll, every step).
+    if (repelStepsRef.current > 0) {
+      repelStepsRef.current -= 1;
+      if (repelStepsRef.current === 0) {
+        setHealMsg("REPEL's effect wore off!");
+        setTimeout(() => setHealMsg(''), 2000);
+      }
+    }
+
     // Ground item (poke_ball sprite) — walking onto its tile picks it up, once per save file.
     const itemNpc = ms.mapInfo.npcs.find(n => n.sprite === 'poke_ball' && n.x === p.x && n.y === p.y);
     if (itemNpc) {
@@ -395,9 +421,15 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     if (ms.mapInfo.wild && onEncounterTile && Math.random() * 256 < ms.mapInfo.wild.rate) {
       const pool = ms.mapInfo.wild.pokemon;
       const pick = pool[Math.floor(Math.random() * pool.length)];
-      encounterRef.current = pick;
-      if (onEncounter) onEncounter(pick, ms.mapId, p.x, p.y);
-      return;
+      // Repel suppresses only encounters with a wild mon weaker than the lead party
+      // member — not a blanket block (engine/battle/wild_encounters.asm).
+      const leadLevel = gsRef.current?.party?.[0]?.level ?? 0;
+      const repelled = repelStepsRef.current > 0 && (pick.level ?? 0) < leadLevel;
+      if (!repelled) {
+        encounterRef.current = pick;
+        if (onEncounter) onEncounter(pick, ms.mapId, p.x, p.y);
+        return;
+      }
     }
 
     // Check if player stepped into a trainer's line of sight
@@ -644,7 +676,6 @@ function notifyPosition() {
         }
         if (e.key === 'z' || e.key === 'Z' || e.key === 'Enter') {
           e.preventDefault();
-          console.log('Facing tile:', fx, fy, 'tileId:', facedId, 'blocked:', !walkSet.includes(facedId));
           if (pg === 'main') {
             const extra = isExtraRef.current;
             const c = menuCursorRef.current;
@@ -654,13 +685,96 @@ function notifyPosition() {
             else if (!extra && c === 3)    { if (onSave) onSave(); closeMenu(); }
             else if ((!extra && c === 4) || (extra && c === 3)) { if (onReturnHome) onReturnHome(); }
             else                           closeMenu();
+          } else if (pg === 'items') {
+            const items = gsRef.current?.items ?? [];
+            const item = items[menuCursorRef.current];
+            const effect = item && ITEM_EFFECTS[item.name];
+            if (effect?.category === 'repel') {
+              const res = onUseItem?.(item.name);
+              if (res?.used) { setHealMsg(res.message); setTimeout(() => setHealMsg(''), 2000); }
+              closeMenu();
+            } else if (effect?.category === 'escape_rope') {
+              const res = onUseItem?.(item.name);
+              if (res?.used) {
+                setHealMsg(res.message); setTimeout(() => setHealMsg(''), 2000);
+                if (res.warpTo) { pendingMapRef.current = res.warpTo; transitionRef.current = 1; }
+              }
+              closeMenu();
+            } else if (effect?.category === 'bicycle') {
+              const ms = mapStateRef.current;
+              const OUTDOOR_TS = ['overworld', 'forest', 'plateau'];
+              if (ms && OUTDOOR_TS.includes(ms.mapInfo.tileset)) {
+                const res = onUseItem?.(item.name);
+                if (res?.used) { setHealMsg(res.message); setTimeout(() => setHealMsg(''), 2000); }
+              } else {
+                setHealMsg("Can't ride the BICYCLE here.");
+                setTimeout(() => setHealMsg(''), 2000);
+              }
+              closeMenu();
+            } else if (effect?.category === 'stone') {
+              pendingStoneRef.current = item.name;
+              goPage('item-target');
+            } else if (effect?.category === 'hm06') {
+              pendingTeachMoveRef.current = null; pendingTeachTargetRef.current = null;
+              goPage('hm06-move');
+            }
+          } else if (pg === 'item-target') {
+            const party = gsRef.current?.party ?? [];
+            const idx = menuCursorRef.current;
+            const itemName = pendingStoneRef.current;
+            if (party[idx] && itemName) {
+              const res = onUseItem?.(itemName, idx);
+              setHealMsg(res?.message ?? "It won't have any effect.");
+              setTimeout(() => setHealMsg(''), 2000);
+            }
+            pendingStoneRef.current = null;
+            closeMenu();
+          } else if (pg === 'hm06-move') {
+            const entry = TM_HM_MOVES[menuCursorRef.current];
+            if (entry) { pendingTeachMoveRef.current = entry.move; goPage('hm06-target'); }
+          } else if (pg === 'hm06-target') {
+            const party = gsRef.current?.party ?? [];
+            const idx = menuCursorRef.current;
+            const mon = party[idx];
+            if (mon && pendingTeachMoveRef.current) {
+              if (mon.moves.length < 4) {
+                onTeachMove?.(idx, pendingTeachMoveRef.current, -1);
+                const moveName = pendingTeachMoveRef.current.replace(/_/g, ' ');
+                setHealMsg(`${mon.species.replace(/_/g,' ')} learned ${moveName}!`);
+                setTimeout(() => setHealMsg(''), 2500);
+                pendingTeachMoveRef.current = null; pendingTeachTargetRef.current = null;
+                closeMenu();
+              } else {
+                pendingTeachTargetRef.current = idx;
+                goPage('hm06-slot');
+              }
+            }
+          } else if (pg === 'hm06-slot') {
+            const partyIdx  = pendingTeachTargetRef.current;
+            const moveName  = pendingTeachMoveRef.current;
+            const party     = gsRef.current?.party ?? [];
+            const mon       = party[partyIdx];
+            if (mon && moveName != null && partyIdx != null) {
+              onTeachMove?.(partyIdx, moveName, menuCursorRef.current);
+              setHealMsg(`${mon.species.replace(/_/g,' ')} learned ${moveName.replace(/_/g,' ')}!`);
+              setTimeout(() => setHealMsg(''), 2500);
+            }
+            pendingTeachMoveRef.current = null; pendingTeachTargetRef.current = null;
+            closeMenu();
           }
           return;
         }
         if (e.key === 'x' || e.key === 'X' || e.key === 'Tab' || e.key === 'Escape') {
           e.preventDefault();
-          if (pg !== 'main') goPage('main');
-          else               closeMenu();
+          if (pg !== 'main') {
+            pendingStoneRef.current = null;
+            pendingTeachMoveRef.current = null; pendingTeachTargetRef.current = null;
+            // Step back within the HM06 flow; X from anywhere else goes straight to main.
+            const back = pg === 'hm06-target' ? 'hm06-move'
+                       : pg === 'hm06-slot'   ? 'hm06-target'
+                       : 'main';
+            goPage(back);
+          } else { closeMenu(); }
           return;
         }
         return; // block all other keys while menu is open
@@ -782,7 +896,7 @@ console.log('Facing tile:', fx, fy);
       if (ms) {
         // Walk completion runs even during map transitions so animation finishes cleanly
         if (p.isWalking) {
-p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * dt);
+p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingRef.current ? 2 : 1) * dt);
           if (p.walkProg >= 1) {
             if (p.ledgeJump) {
               p.x += p.dx * 2; p.y += p.dy * 2; // ledge = 2 extra steps beyond the normal 1-step dx
@@ -1242,6 +1356,144 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * dt);
                         </div>
                       );
                     })}
+                </div>
+              </div>
+            );
+          }
+
+          if (menuPage === 'item-target') {
+            menuItemCountRef.current = party.length;
+            return (
+              <div className="pkr-menu-overlay" onClick={closeMenu}>
+                <div className="pkr-menu-box pkr-menu-wide" onClick={e => e.stopPropagation()}>
+                  <div className="pkr-menu-header"><span>USE ON WHICH POKéMON?</span><button className="pkr-menu-back" onClick={() => setMenuPage('items')}>◀ BACK</button></div>
+                  {party.length === 0
+                    ? <div className="pkr-menu-empty">No POKéMON</div>
+                    : party.map((mon, i) => {
+                      const pct = hpPct(mon);
+                      return (
+                        <div key={i} className={`pkr-menu-mon${menuCursor === i ? ' pkr-menu-selected' : ''}`}>
+                          <div className="pkr-menu-mon-name">
+                            {menuCursor === i && <span className="pkr-menu-cursor">► </span>}
+                            {mon.species.replace(/_/g,' ')} <span className="pkr-menu-mon-lv">Lv{mon.level}</span>
+                            {mon.status && <span className={`pkr-menu-status pkr-menu-status-${mon.status}`}>{mon.status}</span>}
+                          </div>
+                          <div className="pkr-menu-hprow">
+                            <span className="pkr-menu-hplabel">HP</span>
+                            <div className="pkr-menu-hptrack"><div style={{width:`${pct*100}%`,height:'100%',background:hpColor(pct),transition:'width .2s'}}/></div>
+                            <span className="pkr-menu-hpnum">{fmtHp(mon)}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            );
+          }
+
+          if (menuPage === 'hm06-move') {
+            menuItemCountRef.current = TM_HM_MOVES.length;
+            return (
+              <div className="pkr-menu-overlay" onClick={closeMenu}>
+                <div className="pkr-menu-box pkr-menu-teach" onClick={e => e.stopPropagation()}>
+                  <div className="pkr-menu-header">
+                    <span>HM06 — TEACH MOVE</span>
+                    <button className="pkr-menu-back" onClick={() => setMenuPage('items')}>◀ BACK</button>
+                  </div>
+                  <div className="pkr-teach-grid">
+                    {TM_HM_MOVES.map((entry, i) => (
+                      <button key={entry.id}
+                        className={`pkr-teach-entry${menuCursor === i ? ' pkr-menu-selected' : ''}`}
+                        onClick={() => { pendingTeachMoveRef.current = entry.move; setMenuPage('hm06-target'); setMenuCursor(0); menuPageRef.current = 'hm06-target'; menuCursorRef.current = 0; }}>
+                        {menuCursor === i && <span className="pkr-menu-cursor">►</span>}
+                        <span className="pkr-teach-id">{entry.id}</span>
+                        <span className="pkr-teach-move">{entry.move.replace(/_/g,' ')}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (menuPage === 'hm06-target') {
+            menuItemCountRef.current = party.length;
+            const teachMove = pendingTeachMoveRef.current ?? '???';
+            return (
+              <div className="pkr-menu-overlay" onClick={closeMenu}>
+                <div className="pkr-menu-box pkr-menu-wide" onClick={e => e.stopPropagation()}>
+                  <div className="pkr-menu-header">
+                    <span>TEACH {teachMove.replace(/_/g,' ')} TO?</span>
+                    <button className="pkr-menu-back" onClick={() => { setMenuPage('hm06-move'); setMenuCursor(0); menuPageRef.current = 'hm06-move'; menuCursorRef.current = 0; }}>◀ BACK</button>
+                  </div>
+                  {party.length === 0
+                    ? <div className="pkr-menu-empty">No POKéMON</div>
+                    : party.map((mon, i) => {
+                      const pct = hpPct(mon);
+                      return (
+                        <div key={i} className={`pkr-menu-mon${menuCursor === i ? ' pkr-menu-selected' : ''}`}
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            pendingTeachMoveRef.current = teachMove;
+                            if (mon.moves.length < 4) {
+                              onTeachMove?.(i, teachMove, -1);
+                              setHealMsg(`${mon.species.replace(/_/g,' ')} learned ${teachMove.replace(/_/g,' ')}!`);
+                              setTimeout(() => setHealMsg(''), 2500);
+                              pendingTeachMoveRef.current = null; pendingTeachTargetRef.current = null;
+                              closeMenu();
+                            } else {
+                              pendingTeachTargetRef.current = i;
+                              setMenuPage('hm06-slot'); setMenuCursor(0);
+                              menuPageRef.current = 'hm06-slot'; menuCursorRef.current = 0;
+                            }
+                          }}>
+                          <div className="pkr-menu-mon-name">
+                            {menuCursor === i && <span className="pkr-menu-cursor">► </span>}
+                            {mon.species.replace(/_/g,' ')} <span className="pkr-menu-mon-lv">Lv{mon.level}</span>
+                            {mon.status && <span className={`pkr-menu-status pkr-menu-status-${mon.status}`}>{mon.status}</span>}
+                          </div>
+                          <div className="pkr-menu-hprow">
+                            <span className="pkr-menu-hplabel">HP</span>
+                            <div className="pkr-menu-hptrack"><div style={{width:`${pct*100}%`,height:'100%',background:hpColor(pct),transition:'width .2s'}}/></div>
+                            <span className="pkr-menu-hpnum">{fmtHp(mon)}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            );
+          }
+
+          if (menuPage === 'hm06-slot') {
+            const targetMon = party[pendingTeachTargetRef.current ?? 0];
+            const teachMove = pendingTeachMoveRef.current ?? '???';
+            menuItemCountRef.current = targetMon ? targetMon.moves.length : 0;
+            return (
+              <div className="pkr-menu-overlay" onClick={closeMenu}>
+                <div className="pkr-menu-box pkr-menu-wide" onClick={e => e.stopPropagation()}>
+                  <div className="pkr-menu-header">
+                    <span>REPLACE WHICH MOVE?</span>
+                    <button className="pkr-menu-back" onClick={() => { setMenuPage('hm06-target'); setMenuCursor(pendingTeachTargetRef.current ?? 0); menuPageRef.current = 'hm06-target'; menuCursorRef.current = pendingTeachTargetRef.current ?? 0; }}>◀ BACK</button>
+                  </div>
+                  <div className="pkr-teach-new-move">{teachMove.replace(/_/g,' ')}</div>
+                  {!targetMon
+                    ? <div className="pkr-menu-empty">—</div>
+                    : targetMon.moves.map((mv, i) => (
+                      <div key={i}
+                        className={`pkr-menu-item${menuCursor === i ? ' pkr-menu-selected' : ''}`}
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          onTeachMove?.(pendingTeachTargetRef.current, teachMove, i);
+                          setHealMsg(`${targetMon.species.replace(/_/g,' ')} learned ${teachMove.replace(/_/g,' ')}!`);
+                          setTimeout(() => setHealMsg(''), 2500);
+                          pendingTeachMoveRef.current = null; pendingTeachTargetRef.current = null;
+                          closeMenu();
+                        }}>
+                        {menuCursor === i && <span className="pkr-menu-cursor">► </span>}
+                        {mv.name.replace(/_/g,' ')} <span className="pkr-menu-item-count">PP {mv.pp}/{mv.ppMax}</span>
+                      </div>
+                    ))}
                 </div>
               </div>
             );
