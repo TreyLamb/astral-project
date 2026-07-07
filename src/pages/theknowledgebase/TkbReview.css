@@ -1,0 +1,204 @@
+/* Review flow, card, transitions, feedback for TKB */
+
+.tkb-wrapper .tkb-review {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem 1rem 3rem;
+}
+
+.tkb-wrapper .tkb-legend {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--tkb-ink-soft);
+  line-height: 1.4;
+}
+
+.tkb-wrapper .tkb-legend strong {
+  color: var(--tkb-ink);
+}
+
+.tkb-wrapper .tkb-review-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1 1 500px;
+  min-width: 280px;
+}
+
+.tkb-wrapper .tkb-question-dials {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.tkb-wrapper .tkb-dial-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--tkb-ink);
+  margin-bottom: 0.15rem;
+}
+
+.tkb-wrapper .tkb-dial-hint {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--tkb-ink-soft);
+  margin-bottom: 0.1rem;
+}
+
+.tkb-wrapper .tkb-card {
+  background: var(--tkb-surface);
+  border: 1px solid var(--tkb-border);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 560px;
+  min-height: 220px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid var(--tkb-accent);
+}
+
+.tkb-wrapper .tkb-card-question {
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.tkb-wrapper .tkb-card-answer {
+  margin-top: 1.25rem;
+  font-size: 1.1rem;
+  color: var(--tkb-ink-soft);
+  padding-top: 1.25rem;
+  border-top: 1px dashed var(--tkb-border);
+}
+
+.tkb-wrapper .tkb-card-meta {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--tkb-ink-soft);
+}
+
+.tkb-wrapper .tkb-card-tag {
+  background: var(--tkb-canvas);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--tkb-border);
+}
+
+.tkb-card-enter {
+  animation: tkb-card-in 0.14s ease-out;
+}
+
+@keyframes tkb-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tkb-flash-correct {
+  animation: tkb-flash-correct 0.12s ease-out;
+}
+
+.tkb-flash-wrong {
+  animation: tkb-flash-wrong 0.12s ease-out;
+}
+
+@keyframes tkb-flash-correct {
+  0% {
+    box-shadow: 0 0 0 0 var(--tkb-correct);
+  }
+  100% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+}
+
+@keyframes tkb-flash-wrong {
+  0% {
+    box-shadow: 0 0 0 0 var(--tkb-wrong);
+  }
+  100% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+}
+
+.tkb-wrapper .tkb-touch-controls {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 560px;
+}
+
+.tkb-wrapper .tkb-key-hints {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: var(--tkb-ink-soft);
+  margin-top: 0.5rem;
+}
+
+.tkb-wrapper .tkb-key {
+  background: var(--tkb-surface);
+  border: 1px solid var(--tkb-border);
+  border-radius: 4px;
+  padding: 0.1rem 0.45rem;
+  font-family: monospace;
+}
+
+.tkb-wrapper .tkb-review-quickfacts .tkb-card-question {
+  font-size: 1.5rem;
+}
+
+.tkb-wrapper .tkb-review-quickfacts .tkb-card {
+  min-height: 260px;
+}
+
+.tkb-wrapper .tkb-session-summary {
+  text-align: center;
+  padding: 2rem;
+}
+
+.tkb-wrapper .tkb-session-stats {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.tkb-wrapper .tkb-session-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tkb-wrapper .tkb-session-stat-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.tkb-wrapper .tkb-session-stat-label {
+  font-size: 0.8rem;
+  color: var(--tkb-ink-soft);
+}

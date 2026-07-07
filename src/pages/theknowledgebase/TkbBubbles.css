@@ -1,0 +1,97 @@
+/* Subject bubble page styles for TKB */
+
+.tkb-wrapper .tkb-bubbles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.tkb-wrapper .tkb-bubbles-toolbar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tkb-wrapper .tkb-bubble {
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  color: white;
+  text-align: center;
+  padding: 0.5rem;
+  transition: transform 0.15s ease;
+  animation: tkb-bubble-bob 4s ease-in-out infinite;
+}
+
+.tkb-wrapper .tkb-bubble:hover {
+  transform: scale(1.05);
+}
+
+.tkb-wrapper .tkb-bubble-name {
+  font-weight: 600;
+  font-size: 0.85rem;
+  line-height: 1.2;
+}
+
+.tkb-wrapper .tkb-bubble-count {
+  font-size: 0.7rem;
+  opacity: 0.85;
+}
+
+@keyframes tkb-bubble-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.tkb-bubble-coverage {
+  background: conic-gradient(
+    var(--tkb-correct) 0% var(--tkb-cov-basic, 0%),
+    var(--tkb-accent) var(--tkb-cov-basic, 0%)
+      calc(var(--tkb-cov-basic, 0%) + var(--tkb-cov-mid, 0%)),
+    var(--tkb-ink-soft)
+      calc(var(--tkb-cov-basic, 0%) + var(--tkb-cov-mid, 0%))
+      100%
+  );
+}
+
+.tkb-bubble-staleness {
+  background: var(--tkb-stale-color, var(--tkb-ink-soft));
+}
+
+.tkb-wrapper .tkb-popover {
+  position: absolute;
+  background: var(--tkb-surface);
+  border: 1px solid var(--tkb-border);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  min-width: 220px;
+  z-index: 20;
+}
+
+.tkb-wrapper .tkb-popover-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.tkb-wrapper .tkb-popover-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}

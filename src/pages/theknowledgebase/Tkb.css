@@ -1,0 +1,189 @@
+/* Design tokens and shell styles for TKB */
+
+:root {
+  --tkb-canvas: #f3efe7;
+  --tkb-surface: #faf7f0;
+  --tkb-ink: #2e2a24;
+  --tkb-ink-soft: #6b6459;
+  --tkb-border: #e2dcce;
+  --tkb-correct: #1e7d5f;
+  --tkb-wrong: #a63d2f;
+  --tkb-unsure: #8a7a52;
+  --tkb-accent: hsl(203, 68%, 55%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tkb-canvas: #1e1c18;
+    --tkb-surface: #26231d;
+    --tkb-ink: #f0ece3;
+    --tkb-ink-soft: #b8b0a0;
+    --tkb-border: #3a352c;
+  }
+}
+
+.tkb-wrapper {
+  min-height: 100vh;
+  background: var(--tkb-canvas);
+  color: var(--tkb-ink);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.tkb-wrapper .tkb-topbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: var(--tkb-surface);
+  border-bottom: 1px solid var(--tkb-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tkb-wrapper .tkb-brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-right: auto;
+}
+
+.tkb-wrapper .tkb-nav-tab {
+  background: none;
+  border: none;
+  font: inherit;
+  color: var(--tkb-ink);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.tkb-wrapper .tkb-nav-tab:hover {
+  background: var(--tkb-border);
+}
+
+.tkb-wrapper .tkb-nav-tab.active {
+  background: var(--tkb-accent);
+  color: white;
+}
+
+.tkb-wrapper .tkb-main {
+  padding: 1.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.tkb-wrapper .tkb-loading-screen {
+  padding: 4rem 2rem;
+  text-align: center;
+  color: var(--tkb-ink-soft);
+  font-size: 1.1rem;
+}
+
+.tkb-wrapper .tkb-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--tkb-ink);
+  color: var(--tkb-surface);
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 100;
+}
+
+.tkb-wrapper .tkb-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tkb-wrapper .tkb-toast.error {
+  background: var(--tkb-wrong);
+}
+
+.tkb-wrapper .tkb-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.15s ease;
+}
+
+.tkb-wrapper .tkb-btn:active {
+  transform: scale(0.97);
+}
+
+.tkb-wrapper .tkb-btn-primary {
+  background: var(--tkb-accent);
+  color: white;
+}
+
+.tkb-wrapper .tkb-btn-secondary {
+  background: transparent;
+  color: var(--tkb-ink);
+  border: 1px solid var(--tkb-border);
+}
+
+.tkb-wrapper .tkb-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tkb-wrapper .tkb-home {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.tkb-wrapper .tkb-profile-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.tkb-wrapper .tkb-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tkb-wrapper .tkb-settings-section {
+  background: var(--tkb-surface);
+  border: 1px solid var(--tkb-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.tkb-wrapper .tkb-settings-section h3 {
+  margin-top: 0;
+  font-size: 1rem;
+}
+
+.tkb-wrapper .tkb-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0;
+}
+
+.tkb-wrapper .tkb-slider-row label {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--tkb-ink-soft);
+}
+
+.tkb-wrapper .tkb-slider-row input[type="range"] {
+  flex: 2;
+  accent-color: var(--tkb-accent);
+}
+
+.tkb-wrapper .tkb-slider-row output {
+  width: 2.5rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}

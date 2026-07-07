@@ -11,8 +11,19 @@ const firebaseConfig = {
   appId:             import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+export let db = null;
+export let auth = null;
+export let googleProvider = null;
+export let firebaseReady = false;
 
-export const db           = getFirestore(app);
-export const auth         = getAuth(app);
-export const googleProvider = new GoogleAuthProvider();
+try {
+  const app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+  auth = getAuth(app);
+  googleProvider = new GoogleAuthProvider();
+  firebaseReady = true;
+} catch (err) {
+  // Missing/invalid VITE_FIREBASE_* env vars must not crash the whole app —
+  // MymdbApp checks firebaseReady and degrades gracefully instead.
+  console.error('Firebase failed to initialize — MyMDB will be unavailable:', err);
+}

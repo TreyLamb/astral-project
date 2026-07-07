@@ -20,9 +20,10 @@
 
 .pkr-canvas {
   display: block;
+  /* user changed canvas size. dont change.
   /* 3x scale — pixelated for crisp Game Boy look */
-  width: 480px;
-  height: 432px;
+  width:880px;
+  height: 760px;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   /* Game Boy DMG green palette tint */
@@ -131,6 +132,29 @@
   50%      { opacity: 0; }
 }
 
+/* Yes/No prompt — real OG's small 2-option box, shown over the dialogue text once it
+   finishes (e.g. the Mt Moon Magikarp salesman's "What do you say?"). */
+.pkr-yesno-box {
+  position: absolute;
+  top: -54px;
+  right: 8px;
+  background: #0a0a0a;
+  border: 2px solid #6060a0;
+  min-width: 70px;
+  padding: 4px 0;
+}
+.pkr-yesno-opt {
+  color: #d0d0b0;
+  font-family: monospace;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+.pkr-yesno-opt:hover { background: #1a1a3e; }
+.pkr-yesno-selected { background: #1a1a3e; color: #ffd700; }
+
 .pkr-heal-overlay {
   position: absolute;
   bottom: 0;
@@ -220,6 +244,7 @@
 
 .pkr-menu-cursor { color: #ffd700; }
 .pkr-menu-selected { background: #1a1a3e; }
+.pkr-menu-swap-marker { color: #ff6060; margin-right: 3px; }
 
 .pkr-menu-wide { min-width: 260px; max-width: 300px; }
 
@@ -306,6 +331,22 @@
   border-bottom: 1px solid #1a1a2e;
 }
 .pkr-menu-item-count { color: #888; }
+
+.pkr-menu-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3px 8px;
+  font-family: monospace;
+  font-size: 10px;
+  color: #b0b0d0;
+  text-transform: uppercase;
+  margin: 6px 0;
+  padding: 6px 0;
+  border-top: 1px solid #1a1a2e;
+  border-bottom: 1px solid #1a1a2e;
+}
+.pkr-menu-stats-grid span:nth-child(odd) { color: #888; }
+.pkr-menu-stats-grid span:nth-child(even) { color: #ffd700; text-align: right; }
 
 .pkr-menu-trainer-row {
   display: flex;

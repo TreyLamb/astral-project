@@ -30,7 +30,7 @@ const VOLATILE_KEYS = [
   'stages', 'subHp', 'reflect', 'lightScreen', 'mist', 'focusEnergy', 'leechSeed',
   'trapping', 'trappedBy', 'charging', 'invulnerable', 'recharge', 'disabled',
   'thrash', 'bideTurns', 'bideDamage', 'rage', 'flinched', 'lastUsedMove',
-  'lastDamageTaken', 'transformBackup',
+  'lastDamageTaken', 'transformBackup', 'confused',
 ];
 
 export function initBattleMon(mon) {

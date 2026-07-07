@@ -2,7 +2,51 @@
 // Each trainer has an array of parties (one per instance in the game world).
 // Party = array of { level, species } objects.
 
+// Rival (Gary/Blue) parties are flat arrays of [instance0-variant0, instance0-variant1,
+// instance0-variant2, instance1-variant0, ...]. "Variant" = which starter the rival is
+// using (always the one that counters the player's own starter, per OG's OaksLab.asm
+// counter table: CHARMANDER->rival SQUIRTLE, SQUIRTLE->rival BULBASAUR, BULBASAUR->rival
+// CHARMANDER). Variant order within each instance is fixed: 0=SQUIRTLE-line,
+// 1=BULBASAUR-line, 2=CHARMANDER-line — see RIVAL_VARIANT_OFFSET in PokeredOverworld.jsx.
 export const TRAINER_PARTIES = {
+  Rival1: [
+    // Oak's Lab
+    [{ level: 5, species: "SQUIRTLE" }],
+    [{ level: 5, species: "BULBASAUR" }],
+    [{ level: 5, species: "CHARMANDER" }],
+    // Route 22
+    [{ level: 9, species: "PIDGEY" }, { level: 8, species: "SQUIRTLE" }],
+    [{ level: 9, species: "PIDGEY" }, { level: 8, species: "BULBASAUR" }],
+    [{ level: 9, species: "PIDGEY" }, { level: 8, species: "CHARMANDER" }],
+    // Cerulean City
+    [{ level: 18, species: "PIDGEOTTO" }, { level: 15, species: "ABRA" }, { level: 15, species: "RATTATA" }, { level: 17, species: "SQUIRTLE" }],
+    [{ level: 18, species: "PIDGEOTTO" }, { level: 15, species: "ABRA" }, { level: 15, species: "RATTATA" }, { level: 17, species: "BULBASAUR" }],
+    [{ level: 18, species: "PIDGEOTTO" }, { level: 15, species: "ABRA" }, { level: 15, species: "RATTATA" }, { level: 17, species: "CHARMANDER" }],
+  ],
+  Rival2: [
+    // SS Anne 2F
+    [{ level: 19, species: "PIDGEOTTO" }, { level: 16, species: "RATICATE" }, { level: 18, species: "KADABRA" }, { level: 20, species: "WARTORTLE" }],
+    [{ level: 19, species: "PIDGEOTTO" }, { level: 16, species: "RATICATE" }, { level: 18, species: "KADABRA" }, { level: 20, species: "IVYSAUR" }],
+    [{ level: 19, species: "PIDGEOTTO" }, { level: 16, species: "RATICATE" }, { level: 18, species: "KADABRA" }, { level: 20, species: "CHARMELEON" }],
+    // Pokemon Tower 2F
+    [{ level: 25, species: "PIDGEOTTO" }, { level: 23, species: "GROWLITHE" }, { level: 22, species: "EXEGGCUTE" }, { level: 20, species: "KADABRA" }, { level: 25, species: "WARTORTLE" }],
+    [{ level: 25, species: "PIDGEOTTO" }, { level: 23, species: "GYARADOS" }, { level: 22, species: "GROWLITHE" }, { level: 20, species: "KADABRA" }, { level: 25, species: "IVYSAUR" }],
+    [{ level: 25, species: "PIDGEOTTO" }, { level: 23, species: "EXEGGCUTE" }, { level: 22, species: "GYARADOS" }, { level: 20, species: "KADABRA" }, { level: 25, species: "CHARMELEON" }],
+    // Silph Co. 7F
+    [{ level: 37, species: "PIDGEOT" }, { level: 38, species: "GROWLITHE" }, { level: 35, species: "EXEGGCUTE" }, { level: 35, species: "ALAKAZAM" }, { level: 40, species: "BLASTOISE" }],
+    [{ level: 37, species: "PIDGEOT" }, { level: 38, species: "GYARADOS" }, { level: 35, species: "GROWLITHE" }, { level: 35, species: "ALAKAZAM" }, { level: 40, species: "VENUSAUR" }],
+    [{ level: 37, species: "PIDGEOT" }, { level: 38, species: "EXEGGCUTE" }, { level: 35, species: "GYARADOS" }, { level: 35, species: "ALAKAZAM" }, { level: 40, species: "CHARIZARD" }],
+    // Route 22 (post-Silph)
+    [{ level: 47, species: "PIDGEOT" }, { level: 45, species: "RHYHORN" }, { level: 45, species: "GROWLITHE" }, { level: 47, species: "EXEGGCUTE" }, { level: 50, species: "ALAKAZAM" }, { level: 53, species: "BLASTOISE" }],
+    [{ level: 47, species: "PIDGEOT" }, { level: 45, species: "RHYHORN" }, { level: 45, species: "GYARADOS" }, { level: 47, species: "GROWLITHE" }, { level: 50, species: "ALAKAZAM" }, { level: 53, species: "VENUSAUR" }],
+    [{ level: 47, species: "PIDGEOT" }, { level: 45, species: "RHYHORN" }, { level: 45, species: "EXEGGCUTE" }, { level: 47, species: "GYARADOS" }, { level: 50, species: "ALAKAZAM" }, { level: 53, species: "CHARIZARD" }],
+  ],
+  Rival3: [
+    // Champion's Room
+    [{ level: 61, species: "PIDGEOT" }, { level: 59, species: "ALAKAZAM" }, { level: 61, species: "RHYDON" }, { level: 61, species: "ARCANINE" }, { level: 63, species: "EXEGGUTOR" }, { level: 65, species: "BLASTOISE" }],
+    [{ level: 61, species: "PIDGEOT" }, { level: 59, species: "ALAKAZAM" }, { level: 61, species: "RHYDON" }, { level: 61, species: "GYARADOS" }, { level: 63, species: "ARCANINE" }, { level: 65, species: "VENUSAUR" }],
+    [{ level: 61, species: "PIDGEOT" }, { level: 59, species: "ALAKAZAM" }, { level: 61, species: "RHYDON" }, { level: 61, species: "EXEGGUTOR" }, { level: 63, species: "GYARADOS" }, { level: 65, species: "CHARIZARD" }],
+  ],
   Youngster: [
     [{ level: 11, species: "RATTATA" }, { level: 11, species: "EKANS" }],
     [{ level: 14, species: "SPEAROW" }],

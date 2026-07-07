@@ -24,6 +24,7 @@ import GitmonApp from './pages/gitmon/GitmonApp';
 import BashmonApp from './pages/bashmon/BashmonApp';
 import SignalLostApp from './pages/signal-lost/SignalLostApp';
 import PokeredApp from './pages/pokered_page/PokeredApp';
+import TkbApp from './pages/theknowledgebase/TkbApp';
 import './App.css';
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
           <Route path="/bashmon/*"    element={<BashmonApp />} />
           <Route path="/signal-lost/*" element={<SignalLostApp />} />
           <Route path="/pokered/*"    element={<PokeredApp />} />
+          <Route path="/tkb/*"       element={<TkbApp />} />
         </Routes>
       </div>
     </Router>

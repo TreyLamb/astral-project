@@ -1,8 +1,13 @@
 // Game state management for Pokemon Red web recreation.
 // All data (levels, learnsets, stats) sourced directly from pret/pokered.
-// Warp point x,y values should NEVER be odd #'s.
+// Coordinate unit is 1 metatile (16px), matching OG's own wXCoord/wYCoord 1:1 (see pokered
+// CLAUDE.md + the noble-orbiting-hollerith coordinate-refactor plan). No even/odd restriction
+// anymore — every integer coordinate is a real, standable position.
 
-export const SAVE_KEY = 'pkr_save_v1';
+// Bumped from v1: old saves stored x/y in the previous raw-tile-doubled scale (half the intended
+// distance under the new unit) — versioning avoids silently misreading them instead of just
+// starting fresh.
+export const SAVE_KEY = 'pkr_save_v2';
 
 // pokemon_data.json's `pokemon` dict and `learnsets` dict disagree on a handful of
 // species keys (the pokemon dict keeps the underscore from constants.asm, the
@@ -145,6 +150,7 @@ export function createWildPokemon(species, level, pokemonData) {
     };
   }
   const iv = 9;
+  const evo = nextEvolution(species, pokemonData);
   const maxHp = calcHP(base.hp, level, iv);
   const learnset = learnsetFor(pokemonData, species) || { moves: [] };
   const allMoves = [
@@ -163,6 +169,8 @@ export function createWildPokemon(species, level, pokemonData) {
       const m = pokemonData.moves[name] || { pp: 20 };
       return { name, pp: m.pp, ppMax: m.pp };
     }),
+    evolvesAt: evo?.level ?? null,
+evolvesInto: evo?.into ?? null,
   };
 }
 
@@ -172,14 +180,14 @@ const GYM_NAMES = ['Brock', 'Misty', 'Lt. Surge', 'Erika', 'Koga', 'Sabrina', 'B
 // Starting position after each gym. PALLET_TOWN fallback used if map has coord issues.
 // Warp point x,y values should NEVER be odd #'s.
 const GYM_STARTS = [
-  { mapId: 'ROUTE_3',         x: 8,  y: 16 },
-  { mapId: 'CERULEAN_CITY',   x: 16, y: 30 },
-  { mapId: 'VERMILION_CITY',  x: 12, y: 30 },
-  { mapId: 'CELADON_CITY',    x: 10, y: 30 },
-  { mapId: 'FUCHSIA_CITY',    x: 10, y: 30 },
-  { mapId: 'SAFFRON_CITY',    x: 10, y: 30 },
-  { mapId: 'CINNABAR_ISLAND', x: 8,  y: 12 },
-  { mapId: 'VIRIDIAN_CITY',   x: 10, y: 30 },
+  { mapId: 'ROUTE_3',         x: 4, y: 8 },
+  { mapId: 'CERULEAN_CITY',   x: 8, y: 15 },
+  { mapId: 'VERMILION_CITY',  x: 6, y: 15 },
+  { mapId: 'CELADON_CITY',    x: 5, y: 15 },
+  { mapId: 'FUCHSIA_CITY',    x: 5, y: 15 },
+  { mapId: 'SAFFRON_CITY',    x: 5, y: 15 },
+  { mapId: 'CINNABAR_ISLAND', x: 4, y: 6 },
+  { mapId: 'VIRIDIAN_CITY',   x: 5, y: 15 },
 ];
 
 export function getExtraStateList() {
@@ -194,16 +202,16 @@ export function createExtraState(stateKey, pokemonData) {
   let playerLevel, startPos, name;
   if (stateKey === 'victory_road') {
     playerLevel = 70;
-    startPos = { mapId: 'VICTORY_ROAD_1F', x: 22, y: 2 };
+    startPos = { mapId: 'VICTORY_ROAD_1F', x: 11, y: 1 };
     name = 'Victory Road';
   } else if (stateKey === 'elite_four') {
     playerLevel = 85;
-    startPos = { mapId: 'INDIGO_PLATEAU_LOBBY', x: 14, y: 16 };
+    startPos = { mapId: 'INDIGO_PLATEAU_LOBBY', x: 7, y: 8 };
     name = 'Elite Four';
   } else {
     const badgesOwned = stateKey + 1;
     playerLevel = GYM_ACE_LEVELS[stateKey] + Math.round(10 * Math.pow(1.2, badgesOwned));
-    startPos = GYM_STARTS[stateKey] || { mapId: 'PALLET_TOWN', x: 8, y: 18 };
+    startPos = GYM_STARTS[stateKey] || { mapId: 'PALLET_TOWN', x: 4, y: 9 };
     name = `After ${GYM_NAMES[stateKey]}`;
   }
   const species = squirtleLineSpecies(playerLevel);
@@ -304,33 +312,49 @@ export function applyXP(pokemon, xpGain, pokemonData) {
       }
     }
 
-    // Evolution check (from pokered evos_moves.asm)
-    if (mon.evolvesAt && mon.level >= mon.evolvesAt && mon.evolvesInto) {
-      const fromName = mon.species;
-      const toName = mon.evolvesInto;
-      const newBase = pokemonData.pokemon[toName];
-      if (newBase) {
-        messages.push(`What? ${fmt(fromName)} is evolving!`);
-        messages.push(`${fmt(fromName)} evolved into ${fmt(toName)}!`);
-        const nextEvo = nextEvolution(toName, pokemonData);
-        mon = {
-          ...mon,
-          species: toName,
-          type1: newBase.type1, type2: newBase.type2,
-          maxHp: calcHP(newBase.hp, mon.level, iv),
-          hp: Math.min(mon.hp, calcHP(newBase.hp, mon.level, iv)),
-          atk: calcStat(newBase.atk, mon.level, iv),
-          def: calcStat(newBase.def, mon.level, iv),
-          spd: calcStat(newBase.spd, mon.level, iv),
-          spc: calcStat(newBase.spc, mon.level, iv),
-          evolvesAt: nextEvo?.level ?? null,
-          evolvesInto: nextEvo?.into ?? null,
-        };
-      }
-    }
   }
 
-  return { pokemon: mon, messages };
+  // Evolution (from pokered evos_moves.asm, EvolutionAfterBattle) is checked exactly ONCE,
+  // after every level-up from this XP grant has already been resolved above — not per
+  // intermediate level. Real OG: a huge XP jump that crosses two evolution thresholds only
+  // evolves one step immediately after the battle; the second evolution catches on the next
+  // level-up. The species/stat change itself is deliberately NOT applied here: real OG's
+  // EvolveMon plays a cancelable animation (B button) BEFORE ever touching the mon's species —
+  // cancelling means the mutation code never runs at all, the mon simply stays as it was. The
+  // caller shows that cancelable screen and only calls finalizeEvolution() below if it completes.
+  let pendingEvolution = null;
+  if (mon.evolvesAt && mon.level >= mon.evolvesAt && mon.evolvesInto && pokemonData.pokemon[mon.evolvesInto]) {
+    pendingEvolution = { from: mon.species, to: mon.evolvesInto };
+    messages.push(`What? ${fmt(mon.species)} is evolving!`);
+  }
+
+  return { pokemon: mon, messages, pendingEvolution };
+}
+
+// Applies a pending evolution (see applyXP's pendingEvolution) — call ONLY once the cancelable
+// evolution screen completes without being stopped. Mirrors the mutation real OG's EvolveMon
+// performs after its animation finishes (species/type/stats recalculated at the mon's current
+// level; evolvesAt/evolvesInto advanced to the next stage, if any).
+export function finalizeEvolution(mon, pokemonData) {
+  const iv = 15;
+  const toName = mon.evolvesInto;
+  const newBase = pokemonData.pokemon[toName];
+  if (!newBase) return mon;
+  const nextEvo = nextEvolution(toName, pokemonData);
+  const newMaxHp = calcHP(newBase.hp, mon.level, iv);
+  return {
+    ...mon,
+    species: toName,
+    type1: newBase.type1, type2: newBase.type2,
+    maxHp: newMaxHp,
+    hp: Math.min(mon.hp, newMaxHp),
+    atk: calcStat(newBase.atk, mon.level, iv),
+    def: calcStat(newBase.def, mon.level, iv),
+    spd: calcStat(newBase.spd, mon.level, iv),
+    spc: calcStat(newBase.spc, mon.level, iv),
+    evolvesAt: nextEvo?.level ?? null,
+    evolvesInto: nextEvo?.into ?? null,
+  };
 }
 
 // Gen 1 catch formula (from pokered engine/items/catch.asm)
@@ -523,12 +547,14 @@ export function createNewGame(_pokemonData) {
   return {
     isExtra: false,
     mapId: 'REDS_HOUSE_2F',
-    x: 8,
-    y: 8,
+    x: 4,
+    y: 4,
     party: [],
     badges: [],
     money: 500,
-    items: [],
+    // User-requested (2026-07-05): every new save starts with 5 Poké Balls, not OG-authentic
+    // (real Red gives you zero until Oak/a mart later) — do not "fix" this back to empty.
+    items: [{ name: 'POKE_BALL', count: 5 }],
     pcBox: [{ name: 'POTION', count: 1 }],
     beatenTrainers: [],
     pickedUpItems: [],
@@ -543,7 +569,18 @@ export function saveGame(state) {
 export function loadGame() {
   try {
     const raw = localStorage.getItem(SAVE_KEY);
-    return raw ? JSON.parse(raw) : null;
+    if (!raw) return null;
+    let state = JSON.parse(raw);
+    // User-requested one-time bonus (2026-07-05): existing saves get 10 Poké Balls added on
+    // their next load. Not OG-authentic, not a bug fix — do not remove or re-apply later.
+    if (!state.gotBallBonus2026_07_05) {
+      const items = state.items?.some(it => it.name === 'POKE_BALL')
+        ? state.items.map(it => it.name === 'POKE_BALL' ? { ...it, count: it.count + 10 } : it)
+        : [...(state.items ?? []), { name: 'POKE_BALL', count: 10 }];
+      state = { ...state, items, gotBallBonus2026_07_05: true };
+      saveGame(state);
+    }
+    return state;
   } catch { return null; }
 }
 

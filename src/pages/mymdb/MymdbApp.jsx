@@ -1,7 +1,7 @@
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback, createContext, useContext, useRef } from 'react';
 import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
-import { auth, googleProvider } from '../../firebase';
+import { auth, googleProvider, firebaseReady } from '../../firebase';
 import { FirestoreStorage, CelebsStorage, WatchlistStorage } from './mymdbFirestore';
 import MymdbList            from './MymdbList';
 import MymdbDetail          from './MymdbDetail';
@@ -40,6 +40,18 @@ function MdbToast({ toast }) {
 }
 
 function LoginScreen({ onLogin }) {
+  if (!firebaseReady) {
+    return (
+      <div className="mdb-login-screen">
+        <div className="mdb-login-card">
+          <div className="mdb-login-icon">▶</div>
+          <h2>MyMDB</h2>
+          <p>MyMDB is unavailable right now — Firebase isn't configured for this environment.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="mdb-login-screen">
       <div className="mdb-login-card">
@@ -78,6 +90,7 @@ export default function MymdbApp() {
   }, []);
 
   useEffect(() => {
+    if (!firebaseReady) { setUser(null); return; }
     const unsub = onAuthStateChanged(auth, u => setUser(u ?? null));
     return unsub;
   }, []);
@@ -113,11 +126,13 @@ export default function MymdbApp() {
   useEffect(() => () => clearTimeout(timerRef.current), []);
 
   async function handleLogin() {
+    if (!firebaseReady) return;
     try { await signInWithPopup(auth, googleProvider); }
     catch { showToast('Sign-in failed', 'error'); }
   }
 
   async function handleLogout() {
+    if (!firebaseReady) return;
     await signOut(auth);
     navigate('/mymdb');
   }
