@@ -160,10 +160,29 @@
 }
 .pgo-acc-trigger-name {
   flex: 1;
+  min-width: 0;
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Long account names step down in size instead of ellipsis-truncating or
+   overflowing their pill; the smallest step also wraps to 2 lines. */
+.pgo-acc-trigger-name.pgo-name-sm {
+  font-size: 12px;
+}
+.pgo-acc-trigger-name.pgo-name-xs {
+  font-size: 11px;
+}
+.pgo-acc-trigger-name.pgo-name-wrap {
+  white-space: normal;
+  text-overflow: clip;
+  line-height: 1.15;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .pgo-acc-trigger-caret {
   flex: none;
@@ -243,9 +262,28 @@
   display: flex;
   align-items: center;
   gap: 6px;
+}
+.pgo-acc-select-name {
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.pgo-acc-select-name.pgo-name-sm {
+  font-size: 11px;
+}
+.pgo-acc-select-name.pgo-name-xs {
+  font-size: 10px;
+}
+.pgo-acc-select-name.pgo-name-wrap {
+  white-space: normal;
+  text-overflow: clip;
+  line-height: 1.1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-align: left;
 }
 .pgo-acc-select:active {
   transform: scale(0.96);

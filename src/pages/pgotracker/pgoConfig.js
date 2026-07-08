@@ -15,6 +15,16 @@ export function typeColorFor(index) {
   return TYPE_COLORS[index % TYPE_COLORS.length];
 }
 
+// Long account names shrink a step at a time instead of ellipsis-truncating
+// or overflowing their pill; past a length threshold they also wrap to 2
+// lines at the smallest size. Caps at 2 steps down from the base font-size.
+export function nameSizeClass(name) {
+  const len = (name || '').length;
+  if (len <= 9) return '';
+  if (len <= 13) return 'pgo-name-sm';
+  return 'pgo-name-xs pgo-name-wrap';
+}
+
 // Done/not-done streak stats. Each is a checkbox on the Acc Dash (done = 1,
 // not done = 0) and a done-count + name list on the Main dash — same shape
 // for all five. Order here drives both the Acc Dash checkbox order and the

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { typeColorFor } from './pgoConfig';
+import { typeColorFor, nameSizeClass } from './pgoConfig';
 
 export default function AccountSwitcher({ accounts, activeAccountId, onSelect, onAdd, onRename }) {
   const [open, setOpen] = useState(false);
@@ -59,7 +59,9 @@ export default function AccountSwitcher({ accounts, activeAccountId, onSelect, o
           className="pgo-acc-trigger-dot"
           style={{ '--pgo-acc-color': activeAccount ? typeColorFor(activeIndex).bg : 'var(--pgo-ink-faint)' }}
         />
-        <span className="pgo-acc-trigger-name">{activeAccount ? activeAccount.name : 'Select account'}</span>
+        <span className={`pgo-acc-trigger-name ${activeAccount ? nameSizeClass(activeAccount.name) : ''}`}>
+          {activeAccount ? activeAccount.name : 'Select account'}
+        </span>
         <span className="pgo-acc-trigger-caret">{open ? '▴' : '▾'}</span>
       </button>
 
@@ -97,7 +99,7 @@ export default function AccountSwitcher({ accounts, activeAccountId, onSelect, o
                   style={{ '--pgo-acc-color': type.bg }}
                 >
                   <button className="pgo-acc-select" onClick={() => handleSelect(a.id)}>
-                    {a.name}
+                    <span className={`pgo-acc-select-name ${nameSizeClass(a.name)}`}>{a.name}</span>
                     {a.dashboard.research && <span className="pgo-acc-research-dot" />}
                   </button>
                   <button
