@@ -45,7 +45,9 @@ const MAX_SESSIONS = 200;
  * @property {string[]} styleTags
  * @property {string|null} sourceNote
  * @property {'seed'|'import'|'mock_adapter'} source
- * @property {'active'|'draft'} status
+ * @property {'active'|'draft'|'retired'} status - 'retired' is a soft
+ *   delete: excluded from selection (same as any non-'active' status) but
+ *   kept in storage so it can be restored from Settings.
  * @property {boolean} flagged
  * @property {string} createdAt - ISO date
  * @property {QuestionStats} stats

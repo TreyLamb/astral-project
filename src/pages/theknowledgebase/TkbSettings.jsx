@@ -34,6 +34,7 @@ export default function TkbSettings() {
   const [newFocusDate, setNewFocusDate] = useState('');
 
   const drafts = questions.filter(q => q.status === 'draft');
+  const removed = questions.filter(q => q.status === 'retired');
   const flagged = questions.filter(q => q.flagged);
   const cyclingCount = Object.values(cycles).filter(c => c.phase === 'active').length;
 
@@ -258,6 +259,32 @@ export default function TkbSettings() {
                   {d.question.slice(0, 60)}{d.question.length > 60 ? '…' : ''} — {subjectName(d.subjectId)}{' '}
                   <button className="tkb-btn tkb-btn-secondary" onClick={() => updateQuestion(d.id, { status: 'active' })}>
                     Approve
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+
+      <div className="tkb-settings-section">
+        <h3>Removed ({removed.length})</h3>
+        {removed.length === 0 ? (
+          <p>No removed questions.</p>
+        ) : (
+          <>
+            <button
+              className="tkb-btn tkb-btn-secondary"
+              onClick={() => removed.forEach(q => updateQuestion(q.id, { status: 'active' }))}
+            >
+              Restore All
+            </button>
+            <ul>
+              {removed.map(q => (
+                <li key={q.id}>
+                  {q.question.slice(0, 60)}{q.question.length > 60 ? '…' : ''} — {subjectName(q.subjectId)}{' '}
+                  <button className="tkb-btn tkb-btn-secondary" onClick={() => updateQuestion(q.id, { status: 'active' })}>
+                    Restore
                   </button>
                 </li>
               ))}

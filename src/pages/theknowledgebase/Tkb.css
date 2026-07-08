@@ -128,6 +128,12 @@
   border: 1px solid var(--tkb-border);
 }
 
+.tkb-wrapper .tkb-btn-danger {
+  background: transparent;
+  color: var(--tkb-wrong);
+  border: 1px solid var(--tkb-wrong);
+}
+
 .tkb-wrapper .tkb-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;

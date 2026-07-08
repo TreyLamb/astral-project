@@ -99,10 +99,16 @@ export default function TkbReview() {
   // keyboard parity everywhere, swipe as the mobile keyboard-equivalent).
   const currentQuestion = queue && queue[idx] ? getQuestion(queue[idx].questionId) : null;
 
+  function isServable(questionId) {
+    const q = getQuestion(questionId);
+    return !!q && q.status === 'active';
+  }
+
   function goToNext(nextQueue, nextTallies = tallies, nextRetries = retriesAdded) {
     let nextIdx = idx + 1;
-    // Skip past any question id that no longer resolves (e.g. deleted mid-session).
-    while (nextIdx < nextQueue.length && !getQuestion(nextQueue[nextIdx].questionId)) nextIdx++;
+    // Skip past any question id that no longer resolves (e.g. deleted mid-session)
+    // or was just removed via handleRemove (may still be queued later this session).
+    while (nextIdx < nextQueue.length && !isServable(nextQueue[nextIdx].questionId)) nextIdx++;
     if (nextIdx >= nextQueue.length) {
       finishSession(nextQueue, nextIdx, nextTallies, nextRetries, flaggedIds);
     } else {
@@ -152,8 +158,8 @@ export default function TkbReview() {
     if (!queue || idx <= 0) return;
     let prevIdx = idx - 1;
     // Skip past any question id that no longer resolves.
-    while (prevIdx > 0 && !getQuestion(queue[prevIdx].questionId)) prevIdx--;
-    if (!getQuestion(queue[prevIdx].questionId)) return;
+    while (prevIdx > 0 && !isServable(queue[prevIdx].questionId)) prevIdx--;
+    if (!isServable(queue[prevIdx].questionId)) return;
     setIdx(prevIdx);
     // Show the answer immediately - this is a "let me look at that again"
     // action, not an undo of the grade/stats already recorded for it.
@@ -182,6 +188,15 @@ export default function TkbReview() {
     if (!currentQuestion) return;
     enterCycle(currentQuestion.id, 'flagged');
     showToast('Added to recall cycle', '');
+  }
+
+  function handleRemove() {
+    if (!currentQuestion) return;
+    // Soft delete: excluded from all future sessions (see isServable), but
+    // kept in storage so it can be restored from Settings > Removed.
+    updateQuestion(currentQuestion.id, { status: 'retired' });
+    showToast('Question removed — won’t be asked again', '');
+    goToNext(queue);
   }
 
   function handleEndSession() {
@@ -232,6 +247,12 @@ export default function TkbReview() {
       if (e.key === 'Backspace') {
         e.preventDefault();
         handleBack();
+        return;
+      }
+
+      if (e.key === 'Delete') {
+        e.preventDefault();
+        handleRemove();
         return;
       }
 
@@ -353,6 +374,7 @@ export default function TkbReview() {
         <div><strong>Re-queue</strong> — wrong; shows again later this session, plus a multi-day recall boost</div>
         <div><strong>Unsure</strong> — shows again later this session (no recall boost)</div>
         <div><strong>Lock-in</strong> — force the multi-day recall boost even though you got it right</div>
+        <div><strong>Remove</strong> — bad/wrong question; never asked again (restorable in Settings)</div>
         <div><strong>End Session</strong> — stop early and see your summary</div>
       </aside>
 
@@ -439,6 +461,7 @@ export default function TkbReview() {
         )}
         <button className="tkb-btn tkb-btn-secondary" onClick={handleFlag}>Flag</button>
         <button className="tkb-btn tkb-btn-secondary" onClick={handleLockIn}>Lock-in</button>
+        <button className="tkb-btn tkb-btn-danger" onClick={handleRemove}>Remove</button>
         <button className="tkb-btn tkb-btn-secondary" onClick={handleEndSession}>End Session</button>
       </div>
 
@@ -455,6 +478,7 @@ export default function TkbReview() {
             <span><span className="tkb-key">3</span>/<span className="tkb-key">L</span> / swipe ↑ Unsure</span>
             <span><span className="tkb-key">F</span> / swipe ↓ Flag</span>
             <span><span className="tkb-key">A</span> Lock-in</span>
+            <span><span className="tkb-key">Delete</span> Remove question</span>
           </>
         )}
       </div>
