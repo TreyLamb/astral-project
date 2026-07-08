@@ -190,6 +190,18 @@ export default function TkbReview() {
     showToast('Added to recall cycle', '');
   }
 
+  function handleCopyQuestion(e) {
+    e.stopPropagation();
+    if (!currentQuestion) return;
+    const text = revealed
+      ? `Q: ${currentQuestion.question}\nA: ${currentQuestion.answer}`
+      : currentQuestion.question;
+    navigator.clipboard.writeText(text).then(
+      () => showToast('Copied to clipboard', ''),
+      () => showToast('Copy failed', 'error')
+    );
+  }
+
   function handleRemove() {
     if (!currentQuestion) return;
     // Soft delete: excluded from all future sessions (see isServable), but
@@ -426,6 +438,15 @@ export default function TkbReview() {
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
+        <button
+          type="button"
+          className="tkb-card-copy-btn"
+          onClick={handleCopyQuestion}
+          title="Copy to clipboard"
+          aria-label="Copy question to clipboard"
+        >
+          ⧉
+        </button>
         <div className="tkb-card-question">{question.question}</div>
         {revealed && (
           <div className="tkb-card-answer">

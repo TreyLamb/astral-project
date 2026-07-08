@@ -278,6 +278,12 @@ export default function TkbSettings() {
               onClick={() => removed.forEach(q => updateQuestion(q.id, { status: 'active' }))}
             >
               Restore All
+            </button>{' '}
+            <button
+              className="tkb-btn tkb-btn-secondary"
+              onClick={() => TkbStorage.downloadRemovedQuestions()}
+            >
+              Export as Text
             </button>
             <ul>
               {removed.map(q => (

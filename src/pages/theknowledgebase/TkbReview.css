@@ -58,6 +58,7 @@
 }
 
 .tkb-wrapper .tkb-card {
+  position: relative;
   background: var(--tkb-surface);
   border: 1px solid var(--tkb-border);
   border-radius: 16px;
@@ -67,6 +68,30 @@
   min-height: 220px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   border-left: 4px solid var(--tkb-accent);
+}
+
+.tkb-wrapper .tkb-card-copy-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--tkb-border);
+  border-radius: 8px;
+  background: var(--tkb-canvas);
+  color: var(--tkb-ink-soft);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.1s ease, color 0.15s ease;
+}
+
+.tkb-wrapper .tkb-card-copy-btn:hover {
+  color: var(--tkb-ink);
+}
+
+.tkb-wrapper .tkb-card-copy-btn:active {
+  transform: scale(0.9);
 }
 
 .tkb-wrapper .tkb-card-question {

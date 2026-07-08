@@ -423,6 +423,26 @@ export const TkbStorage = {
     URL.revokeObjectURL(url);
   },
 
+  // Retired (removed) questions live in the same 'tkb_questions_v1' localStorage
+  // key as everything else, just flagged status:'retired' — nothing physically
+  // moves. This export pulls just those out as plain question/answer pairs so
+  // they're easy to hand to Claude as "too hard for this test" examples.
+  downloadRemovedQuestions() {
+    const questions = loadRaw(KEYS.questions, []).filter(q => q.status === 'retired');
+    const subjects = loadRaw(KEYS.subjects, []);
+    const subjectName = (id) => subjects.find(s => s.id === id)?.name ?? '(unknown)';
+    const lines = questions.map(
+      (q) => `Q: ${q.question}\nA: ${q.answer}\nSubject: ${subjectName(q.subjectId)}\n`
+    );
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `tkb-removed-questions-${todayStr()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+
   /**
    * Accepts either:
    *  - a notes-to-questions-prompt.md array: [{question, answer, answer_alternates,
