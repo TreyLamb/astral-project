@@ -483,6 +483,14 @@ export default function TkbReview() {
         )}
       </div>
       </div>
+
+      <aside className="tkb-legend tkb-legend-right">
+        <div><strong>Tap card</strong> — reveal the answer</div>
+        <div><strong>Swipe →</strong> — Correct</div>
+        <div><strong>Swipe ←</strong> — Re-queue (wrong)</div>
+        <div><strong>Swipe ↑</strong> — Unsure</div>
+        <div><strong>Swipe ↓</strong> — Flag</div>
+      </aside>
     </div>
   );
 }
