@@ -10,9 +10,21 @@ function uid() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 }
 
+// Backfills any dashboard/inventory keys added to pgoConfig after an account
+// was first created (e.g. the raid pass items) — stored values always win,
+// this only fills in what's genuinely missing so it never shows "undefined".
+function withDefaults(account) {
+  return {
+    ...account,
+    dashboard: { ...emptyStats(), ...account.dashboard },
+    inventory: { ...emptyInventory(), ...account.inventory },
+  };
+}
+
 function loadAccounts() {
   try {
-    return JSON.parse(localStorage.getItem(ACCOUNTS_KEY)) || [];
+    const accounts = JSON.parse(localStorage.getItem(ACCOUNTS_KEY)) || [];
+    return accounts.map(withDefaults);
   } catch {
     return [];
   }

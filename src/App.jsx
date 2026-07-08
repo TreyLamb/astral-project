@@ -10,10 +10,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import Techniques from './pages/Techniques';
-import Experiences from './pages/Experiences';
-import Resources from './pages/Resources';
-import About from './pages/About';
 import DailyIdiom from './pages/DailyIdiom';
 import DailyIdiomWidget from './pages/DailyIdiomWidget';
 import Lexicon from './pages/Lexicon';
@@ -37,10 +33,6 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/techniques" element={<Techniques />} />
-            <Route path="/experiences" element={<Experiences />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/about" element={<About />} />
             <Route path="/daily-idiom" element={<DailyIdiom />} />
             <Route path="/daily-idiom-widget" element={<DailyIdiomWidget />} />
             <Route path="/lexicon" element={<Lexicon />} />

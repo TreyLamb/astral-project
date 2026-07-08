@@ -31,11 +31,22 @@ export const CHECK_STAT_CONFIG = [
   { key: 'transferred', label: 'Transferred', icon: '♻️', listRemaining: true },
 ];
 
-// The one stat that stays a real number per account (not a checkbox) — Main
-// dash shows it as a per-account list instead of a done-count.
-export const RAID_STAT = { key: 'raids', label: 'Raid Passes', icon: '🎟️' };
+// Raid passes are real inventory stock (not a daily dashboard counter) — this
+// is the single source of truth. Every place that shows/edits a raid pass
+// (Inventory, Overall's bulk raid section) reads/writes account.inventory
+// directly via these keys, so there's never a second copy to fall out of
+// sync. Icons use the same ticket emoji tinted per type (real Niantic art is
+// copyrighted; this app is emoji-icon-only everywhere else too) instead of
+// fetched game assets. `max` caps that item's count (undefined = unbounded).
+export const RAID_PASS_CONFIG = [
+  { key: 'freeraidpass', label: 'Free Raid Pass', icon: '🎟️', chipColor: '#B7B0A8' },
+  { key: 'premiumraidpass', label: 'Premium Raid Pass', icon: '🎟️', chipColor: '#F5A623' },
+  { key: 'remoteraidpass', label: 'Remote Raid Pass', icon: '🎟️', chipColor: '#4FA8E0', max: 3 },
+];
+const RAID_PASS_KEYS = RAID_PASS_CONFIG.map((c) => c.key);
 
 export const ITEM_CONFIG = [
+  ...RAID_PASS_CONFIG,
   { key: 'pokeball', label: 'Poké Ball', icon: '⚪' },
   { key: 'greatball', label: 'Great Ball', icon: '🔵' },
   { key: 'ultraball', label: 'Ultra Ball', icon: '🟡' },
@@ -54,12 +65,26 @@ export const ITEM_CONFIG = [
   { key: 'incubator', label: 'Incubator', icon: '🥚' },
 ];
 
+// Items shown in the plain Inventory list, i.e. everything except the raid
+// passes (which get their own dedicated colored section up top).
+export const NON_RAID_ITEM_CONFIG = ITEM_CONFIG.filter((c) => !RAID_PASS_KEYS.includes(c.key));
+
 export const STEPS = [1, 25, 50, 100];
+
+// Clamps to an item's configured max (raid pass caps like Remote's 3), or
+// just floors at 0 for anything uncapped. Use this on every inventory write
+// path (single-account bump, bulk bump) so the cap can never be bypassed
+// depending on which screen you're adjusting from.
+export function clampInventoryValue(key, value) {
+  const config = ITEM_CONFIG.find((c) => c.key === key);
+  const max = config?.max;
+  const floored = Math.max(0, value);
+  return max !== undefined ? Math.min(max, floored) : floored;
+}
 
 export function emptyStats() {
   const s = {};
   CHECK_STAT_CONFIG.forEach((c) => (s[c.key] = false));
-  s[RAID_STAT.key] = 0;
   return s;
 }
 

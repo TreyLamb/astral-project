@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import './Navbar.css';
@@ -30,6 +30,12 @@ const GAME_ROUTES = ['/bashmon', '/gitmon', '/signal-lost', '/pokered'];
 function Navbar() {
   const location = useLocation();
   const isGame = GAME_ROUTES.some(r => location.pathname.startsWith(r));
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Close the mobile panel on navigation so it doesn't stay open after a tap.
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (isGame) {
@@ -53,9 +59,21 @@ function Navbar() {
     <nav>
       <div className="nav-container">
         <div className="logo">Astral Journey!!</div>
-        <ul>
+        <button
+          className="nav-hamburger"
+          onClick={() => setMenuOpen((o) => !o)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+        >
+          {menuOpen ? '✕' : '☰'}
+        </button>
+        <ul className={menuOpen ? 'nav-open' : ''}>
           <li className="has-dropdown">
             <Link to="/">Home</Link>
+            {/* Always expanded on mobile (no tap-to-toggle) — the panel
+                itself is already a deliberate tap to open, adding a second
+                toggle just to see these was easy to miss and hid every item
+                below. Desktop keeps the hover-flyout via CSS. */}
             <ul className="dropdown">
               <li><Link to="/">Home</Link></li>
               <li><Link to="/daily-idiom">Daily Chéngyǔ</Link></li>
@@ -76,10 +94,6 @@ function Navbar() {
               <li><a href="/rustpunkio/index.html">RustPunkio</a></li>
             </ul>
           </li>
-          <li><Link to="/techniques">Techniques</Link></li>
-          <li><Link to="/experiences">Experiences</Link></li>
-          <li><Link to="/resources">Resources</Link></li>
-          <li><Link to="/about">About</Link></li>
         </ul>
         <AuthControl />
       </div>

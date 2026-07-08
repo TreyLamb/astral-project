@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { ITEM_CONFIG, STEPS, RAID_STAT, typeColorFor } from './pgoConfig';
+import { ITEM_CONFIG, STEPS, typeColorFor } from './pgoConfig';
 
-export default function BulkView({ accounts, step, onStepChange, onBulkResearch, onBulkStat, onBulkInventory }) {
+export default function BulkView({ accounts, step, onStepChange, onBulkResearch, onBulkInventory }) {
   const [selected, setSelected] = useState([]);
 
   function toggle(id) {
@@ -64,23 +64,8 @@ export default function BulkView({ accounts, step, onStepChange, onBulkResearch,
       </div>
 
       <div className="pgo-section-heading">
-        <h2>{RAID_STAT.label}</h2>
-        <span className="pgo-meta">common one — used simultaneously by a group</span>
-      </div>
-      <div className="pgo-bulk-action-row">
-        <button className="pgo-btn-step minus" disabled={none} onClick={() => onBulkStat(selected, 'raids', -1)}>
-          −1
-        </button>
-        <button className="pgo-btn-step primary" disabled={none} onClick={() => onBulkStat(selected, 'raids', 1)}>
-          +1
-        </button>
-        <button className="pgo-btn-step" disabled={none} onClick={() => onBulkStat(selected, 'raids', 5)}>
-          +5
-        </button>
-      </div>
-
-      <div className="pgo-section-heading">
         <h2>Bulk Inventory</h2>
+        <span className="pgo-meta">raid passes included — see Overall for a dedicated view</span>
       </div>
       <div className="pgo-step-toggle pgo-bulk-step-toggle">
         {STEPS.map((s) => (

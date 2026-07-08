@@ -1,22 +1,81 @@
-import { CHECK_STAT_CONFIG, RAID_STAT, typeColorFor } from './pgoConfig';
+import { useState } from 'react';
+import { CHECK_STAT_CONFIG, RAID_PASS_CONFIG, typeColorFor } from './pgoConfig';
 
-export default function MainDashboard({ accounts }) {
+function RaidPassSection({ config, accounts, selected, onToggleSelect, onBulkInventory }) {
+  const noneSelected = selected.length === 0;
+
+  return (
+    <div className="pgo-raid-section">
+      <div className="pgo-raid-section-header">
+        <span className="pgo-raid-section-icon" style={{ background: config.chipColor }}>
+          {config.icon}
+        </span>
+        <span className="pgo-raid-section-label">{config.label}</span>
+        <div className="pgo-raid-section-actions">
+          <button
+            className="pgo-btn-step minus"
+            disabled={noneSelected}
+            onClick={() => onBulkInventory(selected, config.key, -1)}
+          >
+            −1
+          </button>
+          <button
+            className="pgo-btn-step primary"
+            disabled={noneSelected}
+            onClick={() => onBulkInventory(selected, config.key, 1)}
+          >
+            +1
+          </button>
+        </div>
+      </div>
+      <div className="pgo-raid-account-grid">
+        {accounts.map((a) => (
+          <label key={a.id} className="pgo-raid-account-cell">
+            <input
+              type="checkbox"
+              checked={selected.includes(a.id)}
+              onChange={() => onToggleSelect(a.id)}
+            />
+            <span className="pgo-raid-account-name">{a.name}</span>
+            <span className="pgo-raid-account-count">
+              {config.max !== undefined ? `${a.inventory[config.key]}/${config.max}` : a.inventory[config.key]}
+            </span>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function MainDashboard({ accounts, onBulkInventory }) {
+  const [selected, setSelected] = useState([]);
+
+  function toggleSelect(id) {
+    setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+  }
+
   return (
     <div>
       <div className="pgo-section-heading">
-        <h2>{RAID_STAT.label}</h2>
-        <span className="pgo-meta">{accounts.length} trainer{accounts.length === 1 ? '' : 's'}</span>
+        <h2>Raid Passes</h2>
+        <span className="pgo-meta">
+          {selected.length > 0 ? `${selected.length} selected` : `${accounts.length} trainer${accounts.length === 1 ? '' : 's'} — tap names to select`}
+        </span>
       </div>
-      <div className="pgo-raid-list">
-        <div className="pgo-raid-list-inner">
-          {accounts.map((a, i) => (
-            <div key={a.id} className="pgo-raid-list-row" style={{ '--pgo-acc-color': typeColorFor(i).bg }}>
-              <span className="pgo-raid-list-name">{a.name}</span>
-              <span className="pgo-raid-list-count">{a.dashboard[RAID_STAT.key]}</span>
-            </div>
-          ))}
-        </div>
+      <div className="pgo-raid-select-row">
+        <button className="pgo-btn-step" onClick={() => setSelected(accounts.map((a) => a.id))}>Select All</button>
+        <button className="pgo-btn-step" onClick={() => setSelected([])}>Select None</button>
       </div>
+      {RAID_PASS_CONFIG.map((config) => (
+        <RaidPassSection
+          key={config.key}
+          config={config}
+          accounts={accounts}
+          selected={selected}
+          onToggleSelect={toggleSelect}
+          onBulkInventory={onBulkInventory}
+        />
+      ))}
 
       <div className="pgo-section-heading">
         <h2>All Accounts</h2>

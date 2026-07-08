@@ -30,6 +30,19 @@ nav .logo {
   background-clip: text;
 }
 
+nav .nav-hamburger {
+  display: none;
+  flex: none;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.1em;
+  line-height: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
 nav .nav-auth {
   display: flex;
   align-items: center;
@@ -181,7 +194,42 @@ nav ul li a:hover {
 }
 
 @media (max-width: 768px) {
-  nav ul { gap: 15px; }
-  nav ul li a { font-size: 0.9em; padding: 6px 12px; }
-  nav .logo { font-size: 1.2em; }
+  nav .nav-container {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 60px;
+    padding: 10px 16px;
+    row-gap: 10px;
+  }
+
+  nav .logo { order: 1; font-size: 1.15em; }
+  nav .nav-hamburger { display: block; order: 2; margin-left: auto; }
+  nav .nav-auth { order: 3; margin-left: 12px; }
+
+  /* Full-width collapsible panel — hidden until the hamburger opens it. */
+  nav ul {
+    order: 4;
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 2px;
+  }
+  nav ul.nav-open { display: flex; }
+
+  nav ul li a {
+    font-size: 1em;
+    padding: 10px 14px;
+  }
+
+  /* Home submenu: always expanded inline once the panel is open — no
+     separate toggle to find/miss, hover doesn't apply on touch anyway. */
+  .has-dropdown .dropdown {
+    display: flex;
+    position: static;
+    box-shadow: none;
+    border: none;
+    background: rgba(255, 255, 255, 0.03);
+    padding-left: 14px;
+    max-height: none;
+  }
 }

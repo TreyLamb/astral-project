@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { ITEM_CONFIG, STEPS } from './pgoConfig';
+import { NON_RAID_ITEM_CONFIG, RAID_PASS_CONFIG, STEPS } from './pgoConfig';
 
 function ItemRow({ item, count, step, onBump, onSet }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(count);
+  const display = item.max !== undefined ? `${count}/${item.max}` : count;
+  const atMax = item.max !== undefined && count >= item.max;
 
   function commit() {
     const n = Math.max(0, parseInt(draft, 10) || 0);
@@ -13,7 +15,9 @@ function ItemRow({ item, count, step, onBump, onSet }) {
 
   return (
     <div className="pgo-inv-item">
-      <div className="pgo-inv-icon">{item.icon}</div>
+      <div className="pgo-inv-icon" style={item.chipColor ? { background: item.chipColor } : undefined}>
+        {item.icon}
+      </div>
       <div className="pgo-inv-label">{item.label}</div>
       {editing ? (
         <input
@@ -33,12 +37,12 @@ function ItemRow({ item, count, step, onBump, onSet }) {
             setEditing(true);
           }}
         >
-          {count}
+          {display}
         </span>
       )}
       <div className="pgo-inv-btns">
         <button onClick={() => onBump(-step)}>−</button>
-        <button className="plus" onClick={() => onBump(step)}>
+        <button className="plus" disabled={atMax} onClick={() => onBump(step)}>
           +
         </button>
       </div>
@@ -68,8 +72,21 @@ export default function InventoryView({ account, step, onStepChange, onBump, onS
           ))}
         </div>
 
+        <div className="pgo-inv-rows pgo-inv-raid-rows">
+          {RAID_PASS_CONFIG.map((item) => (
+            <ItemRow
+              key={item.key}
+              item={item}
+              count={account.inventory[item.key]}
+              step={step}
+              onBump={(delta) => onBump(item.key, delta)}
+              onSet={(n) => onSet(item.key, n)}
+            />
+          ))}
+        </div>
+
         <div className="pgo-inv-rows">
-          {ITEM_CONFIG.map((item) => (
+          {NON_RAID_ITEM_CONFIG.map((item) => (
             <ItemRow
               key={item.key}
               item={item}

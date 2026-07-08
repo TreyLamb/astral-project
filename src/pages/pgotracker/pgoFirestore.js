@@ -21,6 +21,17 @@ function defaultSettings() {
   return { activeAccountId: null, activeView: 'dashboard', incrementStep: 1 };
 }
 
+// Backfills any dashboard/inventory keys added to pgoConfig after an account
+// was first created (e.g. the raid pass items) — stored values always win,
+// this only fills in what's genuinely missing so it never shows "undefined".
+function withDefaults(account) {
+  return {
+    ...account,
+    dashboard: { ...emptyStats(), ...account.dashboard },
+    inventory: { ...emptyInventory(), ...account.inventory },
+  };
+}
+
 export const PgoFirestore = {
   // No migration of any prior localStorage data, by explicit request —
   // signed-in users start with a single fresh "Trainer 1", same as a new guest.
@@ -34,7 +45,7 @@ export const PgoFirestore = {
 
   async getAccounts(uidStr) {
     const snap = await getDocs(accountsRef(uidStr));
-    return snap.docs.map((d) => d.data());
+    return snap.docs.map((d) => withDefaults(d.data()));
   },
 
   async addAccount(uidStr, name, accountCountForDefaultName) {

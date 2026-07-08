@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '../../AuthContext';
 import { PgoStorage } from './pgoStorage';
 import { PgoFirestore } from './pgoFirestore';
+import { clampInventoryValue } from './pgoConfig';
 import AccountSwitcher from './AccountSwitcher';
 import ViewTabs from './ViewTabs';
 import MainDashboard from './MainDashboard';
@@ -111,17 +112,15 @@ export default function PgoTracker() {
     updateSettings({ activeAccountId: account.id });
   }
 
-  async function handleBumpStat(key, delta) {
-    if (!activeAccount) return;
-    const next = Math.max(0, activeAccount.dashboard[key] + delta);
+  async function handleRenameAccount(id, name) {
     if (signedIn) {
       try {
-        const dashboard = await PgoFirestore.updateDashboard(user.uid, activeAccount.id, activeAccount.dashboard, { [key]: next });
-        setAccounts((prev) => prev.map((a) => (a.id === activeAccount.id ? { ...a, dashboard } : a)));
+        await PgoFirestore.renameAccount(user.uid, id, name);
+        setAccounts((prev) => prev.map((a) => (a.id === id ? { ...a, name } : a)));
       } catch (err) { handleSyncError(err); }
       return;
     }
-    PgoStorage.updateDashboard(activeAccount.id, { [key]: next });
+    PgoStorage.renameAccount(id, name);
     setAccounts(PgoStorage.getAccounts());
   }
 
@@ -154,7 +153,7 @@ export default function PgoTracker() {
 
   async function handleBumpItem(key, delta) {
     if (!activeAccount) return;
-    const next = Math.max(0, activeAccount.inventory[key] + delta);
+    const next = clampInventoryValue(key, activeAccount.inventory[key] + delta);
     if (signedIn) {
       try {
         const inventory = await PgoFirestore.updateInventory(user.uid, activeAccount.id, activeAccount.inventory, { [key]: next });
@@ -168,14 +167,15 @@ export default function PgoTracker() {
 
   async function handleSetItem(key, value) {
     if (!activeAccount) return;
+    const clamped = clampInventoryValue(key, value);
     if (signedIn) {
       try {
-        const inventory = await PgoFirestore.updateInventory(user.uid, activeAccount.id, activeAccount.inventory, { [key]: value });
+        const inventory = await PgoFirestore.updateInventory(user.uid, activeAccount.id, activeAccount.inventory, { [key]: clamped });
         setAccounts((prev) => prev.map((a) => (a.id === activeAccount.id ? { ...a, inventory } : a)));
       } catch (err) { handleSyncError(err); }
       return;
     }
-    PgoStorage.updateInventory(activeAccount.id, { [key]: value });
+    PgoStorage.updateInventory(activeAccount.id, { [key]: clamped });
     setAccounts(PgoStorage.getAccounts());
   }
 
@@ -195,33 +195,13 @@ export default function PgoTracker() {
     setAccounts(PgoStorage.getAccounts());
   }
 
-  async function handleBulkStat(ids, key, delta) {
-    if (signedIn) {
-      try {
-        for (const id of ids) {
-          const acc = accounts.find((a) => a.id === id);
-          if (!acc) continue;
-          const dashboard = await PgoFirestore.updateDashboard(user.uid, id, acc.dashboard, { [key]: Math.max(0, acc.dashboard[key] + delta) });
-          setAccounts((prev) => prev.map((a) => (a.id === id ? { ...a, dashboard } : a)));
-        }
-      } catch (err) { handleSyncError(err); }
-      return;
-    }
-    ids.forEach((id) => {
-      const acc = accounts.find((a) => a.id === id);
-      if (!acc) return;
-      PgoStorage.updateDashboard(id, { [key]: Math.max(0, acc.dashboard[key] + delta) });
-    });
-    setAccounts(PgoStorage.getAccounts());
-  }
-
   async function handleBulkInventory(ids, key, delta) {
     if (signedIn) {
       try {
         for (const id of ids) {
           const acc = accounts.find((a) => a.id === id);
           if (!acc) continue;
-          const inventory = await PgoFirestore.updateInventory(user.uid, id, acc.inventory, { [key]: Math.max(0, acc.inventory[key] + delta) });
+          const inventory = await PgoFirestore.updateInventory(user.uid, id, acc.inventory, { [key]: clampInventoryValue(key, acc.inventory[key] + delta) });
           setAccounts((prev) => prev.map((a) => (a.id === id ? { ...a, inventory } : a)));
         }
       } catch (err) { handleSyncError(err); }
@@ -230,7 +210,7 @@ export default function PgoTracker() {
     ids.forEach((id) => {
       const acc = accounts.find((a) => a.id === id);
       if (!acc) return;
-      PgoStorage.updateInventory(id, { [key]: Math.max(0, acc.inventory[key] + delta) });
+      PgoStorage.updateInventory(id, { [key]: clampInventoryValue(key, acc.inventory[key] + delta) });
     });
     setAccounts(PgoStorage.getAccounts());
   }
@@ -251,17 +231,19 @@ export default function PgoTracker() {
             activeAccountId={activeAccount?.id}
             onSelect={handleSelectAccount}
             onAdd={handleAddAccount}
+            onRename={handleRenameAccount}
           />
           <ViewTabs activeView={settings.activeView} onChange={(v) => updateSettings({ activeView: v })} />
         </header>
 
         <main className="pgo-content">
-          {settings.activeView === 'main' && <MainDashboard accounts={accounts} />}
+          {settings.activeView === 'main' && (
+            <MainDashboard accounts={accounts} onBulkInventory={handleBulkInventory} />
+          )}
 
           {settings.activeView === 'dashboard' && activeAccount && (
             <AccountDashboard
               account={activeAccount}
-              onBumpRaids={(delta) => handleBumpStat('raids', delta)}
               onToggleCheck={handleToggleCheck}
               onResetDay={handleResetDay}
             />
@@ -283,7 +265,6 @@ export default function PgoTracker() {
               step={settings.incrementStep}
               onStepChange={(step) => updateSettings({ incrementStep: step })}
               onBulkResearch={handleBulkResearch}
-              onBulkStat={handleBulkStat}
               onBulkInventory={handleBulkInventory}
             />
           )}

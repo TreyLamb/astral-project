@@ -1,0 +1,80 @@
+.wg-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 14, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+  animation: wg-fade-in 0.2s ease;
+}
+
+@keyframes wg-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.wg-card {
+  width: 100%;
+  max-width: 420px;
+  background: #0d1420;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 28px 26px;
+  box-shadow: 0 20px 60px -12px rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+.wg-card h2 {
+  margin: 0 0 10px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #60a5fa 0%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.wg-card p {
+  margin: 0 0 22px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.wg-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wg-btn {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.wg-btn-primary {
+  background: linear-gradient(135deg, #60a5fa 0%, #818cf8 100%);
+  color: #0b0d14;
+}
+.wg-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wg-btn-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.85);
+}
+.wg-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+}

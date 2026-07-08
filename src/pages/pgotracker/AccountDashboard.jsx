@@ -1,6 +1,6 @@
-import { CHECK_STAT_CONFIG, RAID_STAT } from './pgoConfig';
+import { CHECK_STAT_CONFIG } from './pgoConfig';
 
-export default function AccountDashboard({ account, onBumpRaids, onToggleCheck, onResetDay }) {
+export default function AccountDashboard({ account, onToggleCheck, onResetDay }) {
   return (
     <div>
       <div className="pgo-active-account-banner">
@@ -11,28 +11,6 @@ export default function AccountDashboard({ account, onBumpRaids, onToggleCheck, 
         <button className="pgo-banner-reset" onClick={onResetDay}>
           Reset Day
         </button>
-      </div>
-
-      <div className="pgo-stat-card">
-        <div className="pgo-stat-top">
-          <div className="pgo-stat-icon">{RAID_STAT.icon}</div>
-          <div className="pgo-stat-label">{RAID_STAT.label}</div>
-          <div className="pgo-stat-value">{account.dashboard[RAID_STAT.key]}</div>
-        </div>
-        <div className="pgo-stat-actions">
-          <button className="pgo-btn-step minus" onClick={() => onBumpRaids(-1)}>
-            −1
-          </button>
-          <button className="pgo-btn-step primary" onClick={() => onBumpRaids(1)}>
-            +1
-          </button>
-          <button className="pgo-btn-step" onClick={() => onBumpRaids(5)}>
-            +5
-          </button>
-          <button className="pgo-btn-step" onClick={() => onBumpRaids(10)}>
-            +10
-          </button>
-        </div>
       </div>
 
       {CHECK_STAT_CONFIG.map((s) => (

@@ -57,7 +57,9 @@
 /* ── Tile ── */
 
 .hm-tile {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 1 / 1;
   text-decoration: none;
   color: inherit;
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -67,10 +69,6 @@
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
   position: relative;
-}
-
-.hm-tile-wide {
-  grid-column: span 2;
 }
 
 .hm-tile:hover {
@@ -102,16 +100,13 @@
 
 .hm-preview {
   background: var(--bg);
-  height: 120px;
+  flex: 1;
+  min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
-}
-
-.hm-tile-wide .hm-preview {
-  height: 140px;
 }
 
 .hm-icon {
@@ -121,10 +116,6 @@
   z-index: 1;
   filter: drop-shadow(0 0 12px rgba(var(--rgb), 0.5));
   transition: transform 0.2s ease, filter 0.2s ease;
-}
-
-.hm-tile-wide .hm-icon {
-  font-size: 2.8rem;
 }
 
 .hm-tile:hover .hm-icon {
@@ -190,11 +181,5 @@
    ══════════════════════════════════════ */
 
 @media (max-width: 680px) {
-  .hm-grid { grid-template-columns: 1fr 1fr; }
-  .hm-tile-wide { grid-column: span 2; }
-}
-
-@media (max-width: 400px) {
-  .hm-grid { grid-template-columns: 1fr; }
-  .hm-tile-wide { grid-column: span 1; }
+  .hm-grid { grid-template-columns: repeat(2, 1fr); }
 }
