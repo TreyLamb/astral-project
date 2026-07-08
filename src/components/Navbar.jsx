@@ -1,6 +1,29 @@
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 import './Navbar.css';
+
+function AuthControl() {
+  const { user, firebaseReady, signIn, signOut } = useAuth();
+
+  if (!firebaseReady || user === undefined) return null;
+
+  if (user) {
+    return (
+      <div className="nav-auth">
+        {user.photoURL && <img className="nav-auth-avatar" src={user.photoURL} alt="" />}
+        <span className="nav-auth-name">{user.displayName?.split(' ')[0] ?? 'Signed in'}</span>
+        <button className="nav-auth-btn" onClick={signOut}>Sign out</button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="nav-auth">
+      <button className="nav-auth-btn nav-auth-btn-primary" onClick={signIn}>Sign in</button>
+    </div>
+  );
+}
 
 const GAME_ROUTES = ['/bashmon', '/gitmon', '/signal-lost', '/pokered'];
 
@@ -43,6 +66,7 @@ function Navbar() {
               <li><Link to="/google-photos">Google Photos</Link></li>
               <li><Link to="/mymdb">MyMDB</Link></li>
               <li><Link to="/tkb">TheKnowledgeBase</Link></li>
+              <li><Link to="/pgo-tracker">PGO Tracker</Link></li>
               <li><Link to="/rs-market">RS Market</Link></li>
               <li><Link to="/gitmon">🔵 Gitmon Blue</Link></li>
               <li><Link to="/bashmon">🔴 Bashmon Red</Link></li>
@@ -57,6 +81,7 @@ function Navbar() {
           <li><Link to="/resources">Resources</Link></li>
           <li><Link to="/about">About</Link></li>
         </ul>
+        <AuthControl />
       </div>
     </nav>
   );

@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon GO Tracker — Dark Gamer Mode</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+      color: #e0e0ff;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* ACCOUNT SWITCHER */
+    .account-switcher {
+      flex-shrink: 0;
+      padding: 12px 16px;
+      background: rgba(10, 14, 39, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(100, 200, 255, 0.1);
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .account-switcher::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .account-switcher::-webkit-scrollbar-track {
+      background: rgba(100, 200, 255, 0.05);
+    }
+
+    .account-switcher::-webkit-scrollbar-thumb {
+      background: rgba(100, 200, 255, 0.3);
+      border-radius: 2px;
+    }
+
+    .account-tabs {
+      display: flex;
+      gap: 8px;
+      min-width: min-content;
+      padding: 0 8px;
+    }
+
+    .account-tab {
+      flex-shrink: 0;
+      padding: 10px 16px;
+      background: rgba(30, 50, 100, 0.4);
+      border: 2px solid rgba(100, 150, 255, 0.3);
+      border-radius: 24px;
+      color: #a0c0ff;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .account-tab:hover {
+      border-color: rgba(100, 200, 255, 0.6);
+      background: rgba(40, 70, 120, 0.5);
+    }
+
+    .account-tab.active {
+      background: rgba(0, 200, 255, 0.2);
+      border-color: rgba(0, 255, 255, 0.8);
+      color: #00ffff;
+      box-shadow: 0 0 16px rgba(0, 200, 255, 0.4), inset 0 0 12px rgba(0, 200, 255, 0.1);
+    }
+
+    .account-actions {
+      flex-shrink: 0;
+      display: flex;
+      gap: 6px;
+      margin-left: 8px;
+    }
+
+    .account-action-btn {
+      padding: 10px 12px;
+      background: rgba(100, 50, 150, 0.3);
+      border: 2px solid rgba(150, 100, 255, 0.4);
+      border-radius: 20px;
+      color: #d0a0ff;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .account-action-btn:hover {
+      background: rgba(150, 80, 200, 0.4);
+      border-color: rgba(200, 150, 255, 0.8);
+      box-shadow: 0 0 12px rgba(150, 100, 255, 0.3);
+    }
+
+    /* MAIN CONTENT AREA */
+    .content-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .view-container {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .view-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .view-container::-webkit-scrollbar-track {
+      background: rgba(100, 200, 255, 0.05);
+    }
+
+    .view-container::-webkit-scrollbar-thumb {
+      background: rgba(100, 200, 255, 0.2);
+      border-radius: 3px;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* DASHBOARD VIEW */
+    .counter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .counter-card {
+      background: rgba(20, 40, 80, 0.5);
+      border: 1.5px solid rgba(0, 200, 255, 0.3);
+      border-radius: 16px;
+      padding: 16px;
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .counter-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .counter-card:hover {
+      border-color: rgba(0, 255, 255, 0.6);
+      box-shadow: 0 0 20px rgba(0, 200, 255, 0.2), inset 0 0 16px rgba(0, 200, 255, 0.05);
+    }
+
+    .counter-card:hover::before {
+      left: 100%;
+    }
+
+    .counter-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #80b0ff;
+      opacity: 0.9;
+    }
+
+    .counter-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #00ffff;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .counter-value:hover {
+      background: rgba(0, 255, 255, 0.1);
+    }
+
+    .counter-value.editing {
+      background: rgba(0, 255, 255, 0.2);
+      border: 1px solid rgba(0, 255, 255, 0.5);
+    }
+
+    .counter-input {
+      background: rgba(10, 20, 50, 0.8);
+      border: 1px solid rgba(0, 255, 255, 0.5);
+      border-radius: 6px;
+      color: #00ffff;
+      font-size: 24px;
+      font-weight: 700;
+      padding: 4px 6px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .counter-input:focus {
+      outline: none;
+      border-color: rgba(0, 255, 255, 0.9);
+      box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+    }
+
+    .counter-buttons {
+      display: flex;
+      gap: 6px;
+    }
+
+    .counter-btn {
+      flex: 1;
+      padding: 6px 8px;
+      background: rgba(0, 150, 200, 0.3);
+      border: 1px solid rgba(0, 200, 255, 0.4);
+      border-radius: 8px;
+      color: #80d0ff;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .counter-btn:active {
+      transform: scale(0.95);
+      background: rgba(0, 200, 255, 0.4);
+      box-shadow: 0 0 12px rgba(0, 200, 255, 0.3);
+    }
+
+    .counter-btn.minus {
+      background: rgba(200, 50, 100, 0.3);
+      border-color: rgba(200, 100, 150, 0.4);
+      color: #ff7090;
+    }
+
+    .counter-btn.minus:active {
+      background: rgba(200, 100, 150, 0.4);
+      box-shadow: 0 0 12px rgba(200, 50, 100, 0.3);
+    }
+
+    .toggle-pill {
+      width: 100%;
+      padding: 8px;
+      background: rgba(100, 50, 150, 0.3);
+      border: 1px solid rgba(150, 100, 200, 0.4);
+      border-radius: 12px;
+      color: #d0a0ff;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .toggle-pill.active {
+      background: rgba(100, 200, 50, 0.3);
+      border-color: rgba(150, 255, 100, 0.6);
+      color: #90ff70;
+      box-shadow: 0 0 10px rgba(100, 200, 50, 0.2);
+    }
+
+    /* INVENTORY VIEW */
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .inventory-item {
+      background: rgba(20, 40, 80, 0.5);
+      border: 1.5px solid rgba(150, 100, 255, 0.3);
+      border-radius: 12px;
+      padding: 12px;
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .inventory-item:hover {
+      border-color: rgba(150, 150, 255, 0.6);
+      box-shadow: 0 0 16px rgba(150, 100, 255, 0.15);
+    }
+
+    .inventory-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #c0a0ff;
+    }
+
+    .inventory-count {
+      font-size: 24px;
+      font-weight: 700;
+      color: #e0b0ff;
+      cursor: pointer;
+      padding: 2px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .inventory-count:hover {
+      background: rgba(150, 100, 255, 0.1);
+    }
+
+    .inventory-count.editing {
+      background: rgba(150, 100, 255, 0.2);
+      border: 1px solid rgba(150, 150, 255, 0.5);
+    }
+
+    .inventory-input {
+      background: rgba(10, 20, 50, 0.8);
+      border: 1px solid rgba(150, 150, 255, 0.5);
+      border-radius: 6px;
+      color: #e0b0ff;
+      font-size: 18px;
+      font-weight: 700;
+      padding: 4px 6px;
+      text-align: center;
+    }
+
+    .inventory-input:focus {
+      outline: none;
+      border-color: rgba(200, 150, 255, 0.9);
+      box-shadow: 0 0 12px rgba(150, 100, 255, 0.3);
+    }
+
+    .inventory-controls {
+      display: flex;
+      gap: 4px;
+    }
+
+    .inventory-btn {
+      flex: 1;
+      padding: 4px;
+      background: rgba(100, 80, 200, 0.3);
+      border: 1px solid rgba(120, 100, 200, 0.4);
+      border-radius: 6px;
+      color: #b0a0ff;
+      font-size: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 24px;
+    }
+
+    .inventory-btn:active {
+      transform: scale(0.93);
+      background: rgba(120, 100, 200, 0.4);
+      box-shadow: 0 0 10px rgba(120, 100, 200, 0.2);
+    }
+
+    .inventory-btn.minus {
+      background: rgba(200, 50, 100, 0.3);
+      border-color: rgba(200, 100, 150, 0.4);
+      color: #ff8090;
+    }
+
+    .inventory-btn.minus:active {
+      background: rgba(200, 100, 150, 0.4);
+      box-shadow: 0 0 10px rgba(200, 50, 100, 0.2);
+    }
+
+    .increment-step-control {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding: 12px;
+      background: rgba(50, 40, 100, 0.4);
+      border: 1px solid rgba(150, 100, 255, 0.3);
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #a0a0ff;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+    }
+
+    .step-btn {
+      padding: 8px 12px;
+      background: rgba(100, 80, 200, 0.3);
+      border: 1px solid rgba(120, 120, 200, 0.4);
+      border-radius: 8px;
+      color: #b0a0ff;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex: 1;
+    }
+
+    .step-btn.active {
+      background: rgba(0, 200, 255, 0.3);
+      border-color: rgba(0, 200, 255, 0.6);
+      color: #00ffff;
+      box-shadow: 0 0 10px rgba(0, 200, 255, 0.2);
+    }
+
+    .step-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* BOTTOM NAV */
+    .bottom-nav {
+      flex-shrink: 0;
+      display: flex;
+      gap: 0;
+      background: rgba(10, 14, 39, 0.95);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(100, 200, 255, 0.15);
+      padding: 8px 16px max(8px, env(safe-area-inset-bottom));
+    }
+
+    .nav-btn {
+      flex: 1;
+      padding: 12px 8px;
+      background: transparent;
+      border: 2px solid rgba(100, 150, 255, 0.2);
+      border-radius: 12px;
+      color: #80a0ff;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-btn:active {
+      transform: scale(0.95);
+    }
+
+    .nav-btn.active {
+      background: rgba(0, 200, 255, 0.2);
+      border-color: rgba(0, 255, 255, 0.8);
+      color: #00ffff;
+      box-shadow: 0 0 16px rgba(0, 200, 255, 0.3);
+    }
+
+    .nav-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    /* FAB RESET DAY */
+    .fab-group {
+      position: absolute;
+      bottom: max(80px, calc(80px + env(safe-area-inset-bottom)));
+      right: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 50;
+    }
+
+    .fab {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255, 50, 100, 0.4), rgba(200, 20, 100, 0.4));
+      border: 2px solid rgba(255, 100, 150, 0.6);
+      color: #ff6080;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 16px rgba(255, 50, 100, 0.2);
+      font-weight: 700;
+    }
+
+    .fab:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 24px rgba(255, 50, 100, 0.35);
+      background: linear-gradient(135deg, rgba(255, 80, 130, 0.5), rgba(220, 50, 130, 0.5));
+      border-color: rgba(255, 150, 180, 0.8);
+    }
+
+    .fab:active {
+      transform: scale(0.95);
+    }
+
+    .fab.reset-day {
+      background: linear-gradient(135deg, rgba(100, 50, 200, 0.4), rgba(150, 30, 200, 0.4));
+      border-color: rgba(150, 100, 255, 0.6);
+      color: #b080ff;
+      box-shadow: 0 4px 16px rgba(150, 50, 200, 0.2);
+    }
+
+    .fab.reset-day:hover {
+      box-shadow: 0 8px 24px rgba(150, 50, 200, 0.35);
+      background: linear-gradient(135deg, rgba(150, 80, 220, 0.5), rgba(180, 50, 230, 0.5));
+      border-color: rgba(200, 150, 255, 0.8);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .counter-grid,
+      .inventory-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Prevent scrollbar jumping */
+    html {
+      scrollbar-gutter: stable;
+    }
+
+    /* Touch optimization */
+    .counter-btn,
+    .inventory-btn,
+    .nav-btn,
+    .fab,
+    .step-btn,
+    .account-tab {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Selection color */
+    ::selection {
+      background: rgba(0, 200, 255, 0.3);
+      color: #00ffff;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- ACCOUNT SWITCHER -->
+    <div class="account-switcher">
+      <div class="account-tabs" id="accountTabs"></div>
+      <div class="account-actions">
+        <button class="account-action-btn" onclick="addAccount()">+ Add</button>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content-wrapper">
+      <div class="view-container">
+        <!-- DASHBOARD VIEW -->
+        <div class="view active" id="dashboardView">
+          <div class="counter-grid" id="counterGrid"></div>
+        </div>
+
+        <!-- INVENTORY VIEW -->
+        <div class="view" id="inventoryView">
+          <div class="increment-step-control">
+            <span class="step-label">Step:</span>
+            <button class="step-btn active" onclick="setStep(1, this)">1</button>
+            <button class="step-btn" onclick="setStep(25, this)">25</button>
+            <button class="step-btn" onclick="setStep(50, this)">50</button>
+            <button class="step-btn" onclick="setStep(100, this)">100</button>
+          </div>
+          <div class="inventory-grid" id="inventoryGrid"></div>
+        </div>
+      </div>
+
+      <!-- FAB GROUP -->
+      <div class="fab-group">
+        <button class="fab reset-day" onclick="resetDay()" title="Reset day counters">⟳</button>
+      </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav">
+      <button class="nav-btn active" onclick="switchView('dashboard', this)">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-btn" onclick="switchView('inventory', this)">
+        <span class="nav-icon">🎒</span>
+        <span>Inventory</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // State management
+    const accounts = [
+      {
+        id: 1,
+        name: 'Trainer Red',
+        dashboard: {
+          'Pokestops Spun': 142,
+          'Raid Passes': 8,
+          'Pokémon Caught': 287,
+          'Megas Evolved': 12,
+          'Pokémon Transferred': 64,
+          'Daily Research': true
+        },
+        inventory: {
+          'Poké Ball': 145,
+          'Great Ball': 78,
+          'Ultra Ball': 23,
+          'Potion': 12,
+          'Super Potion': 8,
+          'Hyper Potion': 3,
+          'Max Potion': 1,
+          'Revive': 5,
+          'Max Revive': 2,
+          'Razz Berry': 34,
+          'Nanab Berry': 18,
+          'Pinap Berry': 27,
+          'Incense': 6,
+          'Lucky Egg': 2,
+          'Star Piece': 4,
+          'Incubator': 3
+        }
+      },
+      {
+        id: 2,
+        name: 'Trainer Blue',
+        dashboard: {
+          'Pokestops Spun': 89,
+          'Raid Passes': 3,
+          'Pokémon Caught': 156,
+          'Megas Evolved': 5,
+          'Pokémon Transferred': 32,
+          'Daily Research': false
+        },
+        inventory: {
+          'Poké Ball': 200,
+          'Great Ball': 45,
+          'Ultra Ball': 12,
+          'Potion': 8,
+          'Super Potion': 4,
+          'Hyper Potion': 2,
+          'Max Potion': 0,
+          'Revive': 3,
+          'Max Revive': 1,
+          'Razz Berry': 20,
+          'Nanab Berry': 10,
+          'Pinap Berry': 15,
+          'Incense': 2,
+          'Lucky Egg': 0,
+          'Star Piece': 1,
+          'Incubator': 1
+        }
+      },
+      {
+        id: 3,
+        name: 'Trainer Green',
+        dashboard: {
+          'Pokestops Spun': 256,
+          'Raid Passes': 15,
+          'Pokémon Caught': 412,
+          'Megas Evolved': 28,
+          'Pokémon Transferred': 98,
+          'Daily Research': true
+        },
+        inventory: {
+          'Poké Ball': 300,
+          'Great Ball': 120,
+          'Ultra Ball': 50,
+          'Potion': 25,
+          'Super Potion': 15,
+          'Hyper Potion': 8,
+          'Max Potion': 5,
+          'Revive': 12,
+          'Max Revive': 8,
+          'Razz Berry': 60,
+          'Nanab Berry': 40,
+          'Pinap Berry': 50,
+          'Incense': 12,
+          'Lucky Egg': 5,
+          'Star Piece': 8,
+          'Incubator': 5
+        }
+      },
+      {
+        id: 4,
+        name: 'Trainer Yellow',
+        dashboard: {
+          'Pokestops Spun': 50,
+          'Raid Passes': 1,
+          'Pokémon Caught': 78,
+          'Megas Evolved': 0,
+          'Pokémon Transferred': 10,
+          'Daily Research': true
+        },
+        inventory: {
+          'Poké Ball': 50,
+          'Great Ball': 20,
+          'Ultra Ball': 5,
+          'Potion': 3,
+          'Super Potion': 1,
+          'Hyper Potion': 0,
+          'Max Potion': 0,
+          'Revive': 1,
+          'Max Revive': 0,
+          'Razz Berry': 10,
+          'Nanab Berry': 5,
+          'Pinap Berry': 8,
+          'Incense': 1,
+          'Lucky Egg': 0,
+          'Star Piece': 0,
+          'Incubator': 0
+        }
+      }
+    ];
+
+    let currentAccountId = 1;
+    let currentStep = 1;
+    let editingField = null;
+
+    // Initialize UI
+    function init() {
+      renderAccountTabs();
+      renderDashboard();
+      renderInventory();
+    }
+
+    function renderAccountTabs() {
+      const tabsContainer = document.getElementById('accountTabs');
+      tabsContainer.innerHTML = '';
+
+      accounts.forEach(account => {
+        const tab = document.createElement('button');
+        tab.className = `account-tab ${account.id === currentAccountId ? 'active' : ''}`;
+        tab.textContent = account.name;
+        tab.onclick = () => switchAccount(account.id);
+        tabsContainer.appendChild(tab);
+      });
+    }
+
+    function renderDashboard() {
+      const account = accounts.find(a => a.id === currentAccountId);
+      const grid = document.getElementById('counterGrid');
+      grid.innerHTML = '';
+
+      Object.entries(account.dashboard).forEach(([label, value]) => {
+        const card = document.createElement('div');
+        card.className = 'counter-card';
+
+        if (label === 'Daily Research') {
+          card.innerHTML = `
+            <div class="counter-label">${label}</div>
+            <button class="toggle-pill ${value ? 'active' : ''}" onclick="toggleResearch()">
+              ${value ? '✓ COMPLETED' : 'PENDING'}
+            </button>
+          `;
+        } else {
+          card.innerHTML = `
+            <div class="counter-label">${label}</div>
+            <div class="counter-value" onclick="startEdit('dashboard', '${label}', this)">${value}</div>
+            <div class="counter-buttons">
+              <button class="counter-btn minus" onclick="adjust('dashboard', '${label}', -${currentStep})">−${currentStep}</button>
+              <button class="counter-btn" onclick="adjust('dashboard', '${label}', 1)">+1</button>
+              <button class="counter-btn" onclick="adjust('dashboard', '${label}', 5)">+5</button>
+              <button class="counter-btn" onclick="adjust('dashboard', '${label}', 10)">+10</button>
+            </div>
+          `;
+        }
+
+        grid.appendChild(card);
+      });
+    }
+
+    function renderInventory() {
+      const account = accounts.find(a => a.id === currentAccountId);
+      const grid = document.getElementById('inventoryGrid');
+      grid.innerHTML = '';
+
+      Object.entries(account.inventory).forEach(([name, count]) => {
+        const item = document.createElement('div');
+        item.className = 'inventory-item';
+        item.innerHTML = `
+          <div class="inventory-name">${name}</div>
+          <div class="inventory-count" onclick="startEdit('inventory', '${name}', this)">${count}</div>
+          <div class="inventory-controls">
+            <button class="inventory-btn minus" onclick="adjust('inventory', '${name}', -${currentStep})">−</button>
+            <button class="inventory-btn" onclick="adjust('inventory', '${name}', 1)">+</button>
+          </div>
+        `;
+        grid.appendChild(item);
+      });
+    }
+
+    function switchAccount(id) {
+      currentAccountId = id;
+      renderAccountTabs();
+      renderDashboard();
+      renderInventory();
+    }
+
+    function switchView(view, btn) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+      document.getElementById(view === 'dashboard' ? 'dashboardView' : 'inventoryView').classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function adjust(type, field, amount) {
+      const account = accounts.find(a => a.id === currentAccountId);
+      const current = type === 'dashboard' ? account.dashboard[field] : account.inventory[field];
+      const newValue = Math.max(0, current + amount);
+
+      if (type === 'dashboard') {
+        account.dashboard[field] = newValue;
+      } else {
+        account.inventory[field] = newValue;
+      }
+
+      if (type === 'dashboard') {
+        renderDashboard();
+      } else {
+        renderInventory();
+      }
+    }
+
+    function toggleResearch() {
+      const account = accounts.find(a => a.id === currentAccountId);
+      account.dashboard['Daily Research'] = !account.dashboard['Daily Research'];
+      renderDashboard();
+    }
+
+    function startEdit(type, field, element) {
+      if (editingField) cancelEdit();
+
+      const account = accounts.find(a => a.id === currentAccountId);
+      const value = type === 'dashboard' ? account.dashboard[field] : account.inventory[field];
+
+      editingField = { type, field, element };
+
+      const input = document.createElement('input');
+      input.className = type === 'dashboard' ? 'counter-input' : 'inventory-input';
+      input.type = 'number';
+      input.value = value;
+      input.min = '0';
+
+      element.classList.add('editing');
+      element.replaceWith(input);
+      input.focus();
+      input.select();
+
+      const finishEdit = () => {
+        const newValue = Math.max(0, parseInt(input.value) || 0);
+        if (type === 'dashboard') {
+          account.dashboard[field] = newValue;
+        } else {
+          account.inventory[field] = newValue;
+        }
+        editingField = null;
+        if (type === 'dashboard') {
+          renderDashboard();
+        } else {
+          renderInventory();
+        }
+      };
+
+      input.onblur = finishEdit;
+      input.onkeypress = (e) => {
+        if (e.key === 'Enter') finishEdit();
+      };
+      input.onkeydown = (e) => {
+        if (e.key === 'Escape') {
+          editingField = null;
+          if (type === 'dashboard') {
+            renderDashboard();
+          } else {
+            renderInventory();
+          }
+        }
+      };
+    }
+
+    function cancelEdit() {
+      if (editingField) {
+        const type = editingField.type;
+        editingField = null;
+        if (type === 'dashboard') {
+          renderDashboard();
+        } else {
+          renderInventory();
+        }
+      }
+    }
+
+    function setStep(step, btn) {
+      currentStep = step;
+      document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function resetDay() {
+      const account = accounts.find(a => a.id === currentAccountId);
+      account.dashboard['Pokestops Spun'] = 0;
+      account.dashboard['Raid Passes'] = 0;
+      account.dashboard['Pokémon Caught'] = 0;
+      account.dashboard['Pokémon Transferred'] = 0;
+      account.dashboard['Daily Research'] = false;
+      // Megas and other persistent stats might not reset
+      renderDashboard();
+    }
+
+    function addAccount() {
+      const name = prompt('Account name:');
+      if (name) {
+        const newId = Math.max(...accounts.map(a => a.id)) + 1;
+        const newAccount = {
+          id: newId,
+          name,
+          dashboard: {
+            'Pokestops Spun': 0,
+            'Raid Passes': 0,
+            'Pokémon Caught': 0,
+            'Megas Evolved': 0,
+            'Pokémon Transferred': 0,
+            'Daily Research': false
+          },
+          inventory: {
+            'Poké Ball': 0,
+            'Great Ball': 0,
+            'Ultra Ball': 0,
+            'Potion': 0,
+            'Super Potion': 0,
+            'Hyper Potion': 0,
+            'Max Potion': 0,
+            'Revive': 0,
+            'Max Revive': 0,
+            'Razz Berry': 0,
+            'Nanab Berry': 0,
+            'Pinap Berry': 0,
+            'Incense': 0,
+            'Lucky Egg': 0,
+            'Star Piece': 0,
+            'Incubator': 0
+          }
+        };
+        accounts.push(newAccount);
+        currentAccountId = newId;
+        renderAccountTabs();
+        renderDashboard();
+        renderInventory();
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

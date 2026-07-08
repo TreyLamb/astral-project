@@ -1,0 +1,876 @@
+<title>PoGO Tracker — Card Stack</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+  :root{
+    --bg: #f6f4f1;
+    --surface: #ffffff;
+    --surface-sunken: #f0eee9;
+    --ink: #232025;
+    --ink-soft: #6f6a72;
+    --ink-faint: #a9a3ab;
+    --line: #ece8e3;
+    --accent: #ee6b6b;
+    --accent-soft: #fde6e6;
+    --accent-ink: #b23f3f;
+    --grass: #b7e4c7;
+    --grass-ink: #2f7a4d;
+    --water: #bcdcf5;
+    --water-ink: #2b6b96;
+    --fire: #ffd4b0;
+    --fire-ink: #b5601c;
+    --psychic: #e3d2f5;
+    --psychic-ink: #7d4bad;
+    --normal: #ded9d0;
+    --normal-ink: #7a7368;
+    --electric: #fbeba6;
+    --electric-ink: #93761a;
+    --radius-lg: 22px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+    --shadow-card: 0 1px 2px rgba(35,32,37,0.04), 0 8px 24px -8px rgba(35,32,37,0.10);
+    --shadow-pop: 0 4px 16px -4px rgba(35,32,37,0.18);
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg: #17151a;
+      --surface: #221f26;
+      --surface-sunken: #1c1a20;
+      --ink: #f2eef2;
+      --ink-soft: #b3aeb8;
+      --ink-faint: #746e79;
+      --line: #322e37;
+      --accent: #f18686;
+      --accent-soft: #3a2427;
+      --accent-ink: #f4a5a5;
+      --grass: #234a34;
+      --grass-ink: #8fd6ab;
+      --water: #1f3f56;
+      --water-ink: #9bcdf0;
+      --fire: #4a3420;
+      --fire-ink: #f3b877;
+      --psychic: #3a2c4d;
+      --psychic-ink: #cba8ec;
+      --normal: #35313a;
+      --normal-ink: #c3bdc7;
+      --electric: #453d1c;
+      --electric-ink: #ecd679;
+      --shadow-card: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -8px rgba(0,0,0,0.5);
+      --shadow-pop: 0 4px 16px -4px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #17151a; --surface: #221f26; --surface-sunken: #1c1a20; --ink: #f2eef2;
+    --ink-soft: #b3aeb8; --ink-faint: #746e79; --line: #322e37;
+    --accent: #f18686; --accent-soft: #3a2427; --accent-ink: #f4a5a5;
+    --grass: #234a34; --grass-ink: #8fd6ab; --water: #1f3f56; --water-ink: #9bcdf0;
+    --fire: #4a3420; --fire-ink: #f3b877; --psychic: #3a2c4d; --psychic-ink: #cba8ec;
+    --normal: #35313a; --normal-ink: #c3bdc7; --electric: #453d1c; --electric-ink: #ecd679;
+    --shadow-card: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -8px rgba(0,0,0,0.5);
+    --shadow-pop: 0 4px 16px -4px rgba(0,0,0,0.6);
+  }
+  :root[data-theme="light"]{
+    --bg: #f6f4f1; --surface: #ffffff; --surface-sunken: #f0eee9; --ink: #232025;
+    --ink-soft: #6f6a72; --ink-faint: #a9a3ab; --line: #ece8e3;
+    --accent: #ee6b6b; --accent-soft: #fde6e6; --accent-ink: #b23f3f;
+    --grass: #b7e4c7; --grass-ink: #2f7a4d; --water: #bcdcf5; --water-ink: #2b6b96;
+    --fire: #ffd4b0; --fire-ink: #b5601c; --psychic: #e3d2f5; --psychic-ink: #7d4bad;
+    --normal: #ded9d0; --normal-ink: #7a7368; --electric: #fbeba6; --electric-ink: #93761a;
+    --shadow-card: 0 1px 2px rgba(35,32,37,0.04), 0 8px 24px -8px rgba(35,32,37,0.10);
+    --shadow-pop: 0 4px 16px -4px rgba(35,32,37,0.18);
+  }
+
+  *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+
+  .app{
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    position: relative;
+  }
+
+  /* ---------- Header / account switcher ---------- */
+  .app-header{
+    padding: max(18px, env(safe-area-inset-top)) 0 10px;
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid var(--line);
+  }
+  .app-title{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: 0 18px 12px;
+  }
+  .app-title h1{
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .app-title .subtitle{
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .app-title-ball{
+    width: 26px; height: 26px; border-radius: 50%;
+    background: linear-gradient(180deg, var(--accent) 0 48%, var(--surface) 48% 54%, var(--surface) 54% 100%);
+    border: 2px solid var(--ink);
+    position: relative;
+    flex: none;
+  }
+  .app-title-ball::after{
+    content:"";
+    position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);
+    width:8px; height:8px; border-radius:50%;
+    background: var(--surface); border: 2px solid var(--ink);
+  }
+  .title-left{ display:flex; align-items:center; gap:10px; }
+
+  .account-scroller{
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 2px 18px 4px;
+    scrollbar-width: none;
+  }
+  .account-scroller::-webkit-scrollbar{ display:none; }
+
+  .acc-pill{
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 12px 6px 6px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-card);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    transition: transform .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
+    user-select: none;
+  }
+  .acc-pill:active{ transform: scale(0.96); }
+  .acc-pill.active{
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .acc-pill .avatar{
+    width: 24px; height: 24px; border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 11px; font-weight: 800; color: #fff;
+    flex: none;
+  }
+  .acc-pill .name{ white-space: nowrap; }
+  .acc-pill .research-dot{
+    width: 6px; height:6px; border-radius: 50%;
+    background: var(--grass-ink);
+    flex: none;
+    box-shadow: 0 0 0 2px var(--surface);
+  }
+  .acc-pill.active .research-dot{ box-shadow: 0 0 0 2px var(--ink); }
+
+  .acc-pill-add{
+    flex: none;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px dashed var(--ink-faint);
+    color: var(--ink-soft);
+    display:flex; align-items:center; justify-content:center;
+    font-size: 17px;
+    cursor: pointer;
+  }
+
+  /* ---------- Content ---------- */
+  .content{
+    flex: 1;
+    padding: 18px 18px 100px;
+    overflow-y: auto;
+  }
+  .view{ display: none; animation: fadeIn .25s ease; }
+  .view.active{ display: block; }
+  @keyframes fadeIn{ from{ opacity:0; transform: translateY(6px);} to{opacity:1; transform:none;} }
+
+  .section-heading{
+    display:flex; align-items: baseline; justify-content: space-between;
+    margin: 4px 2px 12px;
+  }
+  .section-heading h2{
+    font-size: 20px; margin:0; font-weight: 800; letter-spacing: -0.015em;
+  }
+  .section-heading .meta{ font-size: 12.5px; color: var(--ink-soft); font-weight: 600; }
+
+  .active-account-banner{
+    display:flex; align-items:center; gap: 12px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 16px;
+  }
+  .active-account-banner .avatar-lg{
+    width: 46px; height:46px; border-radius: 16px;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-weight:800; font-size:16px;
+    flex: none;
+  }
+  .active-account-banner .info{ flex: 1; min-width:0; }
+  .active-account-banner .info .n{ font-weight: 800; font-size: 15px; }
+  .active-account-banner .info .t{ font-size: 12.5px; color: var(--ink-soft); }
+  .banner-reset{
+    flex: none;
+    border: none;
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    font-weight: 700;
+    font-size: 12.5px;
+    padding: 9px 13px;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  .banner-reset:active{ transform: scale(0.96); }
+
+  /* ---------- Stat cards (config-driven) ---------- */
+  .stat-card{
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 12px;
+  }
+  .stat-top{
+    display:flex; align-items:center; gap: 12px; margin-bottom: 12px;
+  }
+  .stat-icon{
+    width: 38px; height: 38px; border-radius: 12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 18px;
+    flex: none;
+  }
+  .stat-label{
+    flex:1; font-weight: 700; font-size: 14px; color: var(--ink);
+  }
+  .stat-value{
+    font-size: 24px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+    min-width: 44px; text-align: right;
+  }
+  .stat-actions{
+    display:flex; gap: 8px;
+  }
+  .btn-step{
+    flex: 1;
+    border: none;
+    background: var(--surface-sunken);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 13.5px;
+    padding: 10px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform .1s ease, background .15s ease;
+  }
+  .btn-step:active{ transform: scale(0.94); background: var(--accent-soft); color: var(--accent-ink); }
+  .btn-step.primary{
+    background: var(--ink);
+    color: var(--bg);
+    flex: 1.3;
+  }
+  .btn-step.primary:active{ background: var(--accent); color: #fff; }
+  .btn-step.minus{ flex: 0.7; }
+
+  .toggle-card{
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 12px;
+    display:flex; align-items:center; gap: 12px;
+    cursor: pointer;
+  }
+  .toggle-card .stat-icon{ background: var(--electric); color: var(--electric-ink); }
+  .toggle-card .stat-label{ font-size: 14px; }
+  .toggle-card .sub{ font-size: 12px; color: var(--ink-soft); font-weight: 500; }
+  .switch{
+    width: 46px; height: 28px; border-radius: 999px;
+    background: var(--surface-sunken);
+    border: 1px solid var(--line);
+    position: relative;
+    flex: none;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .switch::after{
+    content:"";
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: var(--shadow-pop);
+    transition: transform .2s cubic-bezier(.4,1.4,.6,1);
+  }
+  .toggle-card.on .switch{ background: var(--grass-ink); border-color: var(--grass-ink); }
+  .toggle-card.on .switch::after{ transform: translateX(18px); }
+
+  /* ---------- Inventory ---------- */
+  .step-toggle{
+    display:flex; gap: 6px;
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 4px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 16px;
+  }
+  .step-toggle button{
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--ink-soft);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 9px 0;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .step-toggle button.active{
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .item-row{
+    display:flex; align-items:center; gap: 12px;
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 8px;
+  }
+  .item-icon{
+    width: 34px; height: 34px; border-radius: 10px;
+    background: var(--surface-sunken);
+    display:flex; align-items:center; justify-content:center;
+    font-size: 16px;
+    flex: none;
+  }
+  .item-label{ flex: 1; font-weight: 650; font-size: 13.5px; min-width: 0; }
+  .item-count-wrap{
+    flex: none;
+    width: 58px;
+    text-align: center;
+  }
+  .item-count{
+    font-weight: 800; font-size: 15px; font-variant-numeric: tabular-nums;
+    cursor: text;
+    padding: 4px 2px;
+    border-radius: 8px;
+  }
+  .item-count:active{ background: var(--surface-sunken); }
+  .item-count-input{
+    width: 100%;
+    text-align: center;
+    font-weight: 800;
+    font-size: 15px;
+    border: 1.5px solid var(--accent);
+    border-radius: 8px;
+    padding: 3px 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: inherit;
+  }
+  .item-btns{
+    display:flex; gap: 6px; flex: none;
+  }
+  .item-btns button{
+    width: 30px; height: 30px;
+    border-radius: 9px;
+    border: none;
+    background: var(--surface-sunken);
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 700;
+    display:flex; align-items:center; justify-content:center;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .item-btns button:active{ transform: scale(0.9); background: var(--accent-soft); color: var(--accent-ink); }
+  .item-btns button.plus{ background: var(--ink); color: var(--bg); }
+  .item-btns button.plus:active{ background: var(--accent); color: #fff; }
+
+  /* ---------- Bottom nav ---------- */
+  .bottom-nav{
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    gap: 10px;
+    padding: 10px 18px max(14px, env(safe-area-inset-bottom));
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+    z-index: 20;
+  }
+  .nav-btn{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 8px 0 7px;
+    border: none;
+    background: transparent;
+    color: var(--ink-faint);
+    font-weight: 700;
+    font-size: 11.5px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: color .15s ease, background .15s ease;
+  }
+  .nav-btn .ic{ font-size: 19px; }
+  .nav-btn.active{
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+  }
+
+  .toast{
+    position: fixed;
+    bottom: 86px;
+    left: 50%;
+    transform: translateX(-50%) translateY(12px);
+    background: var(--ink);
+    color: var(--bg);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: var(--shadow-pop);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+    z-index: 50;
+    white-space: nowrap;
+  }
+  .toast.show{ opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+
+<div class="app">
+  <header class="app-header">
+    <div class="app-title">
+      <div class="title-left">
+        <div class="app-title-ball"></div>
+        <div>
+          <h1>Trainer Log</h1>
+        </div>
+      </div>
+      <div class="subtitle" id="account-count-label">12 accounts</div>
+    </div>
+    <div class="account-scroller" id="account-scroller"></div>
+  </header>
+
+  <main class="content">
+    <section class="view active" id="view-dashboard">
+      <div class="active-account-banner" id="dash-banner">
+      </div>
+
+      <div class="section-heading">
+        <h2>Today</h2>
+        <span class="meta">tap +1, or hold for more</span>
+      </div>
+
+      <div id="stat-cards"></div>
+      <div class="toggle-card" id="research-toggle">
+        <div class="stat-icon">📋</div>
+        <div style="flex:1">
+          <div class="stat-label">Daily Research</div>
+          <div class="sub" id="research-sub">Not completed today</div>
+        </div>
+        <div class="switch"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-inventory">
+      <div class="section-heading">
+        <h2>Inventory</h2>
+        <span class="meta" id="inv-account-name"></span>
+      </div>
+
+      <div class="step-toggle" id="step-toggle"></div>
+      <div id="item-rows"></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-view="dashboard">
+      <span class="ic">🏠</span><span>Dashboard</span>
+    </button>
+    <button class="nav-btn" data-view="inventory">
+      <span class="ic">🎒</span><span>Inventory</span>
+    </button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var STAT_CONFIG = [
+    { key:'pokestops',   label:'Pokéstops Spun',   icon:'🔵', bg:'var(--water)',    fg:'var(--water-ink)' },
+    { key:'raidPasses',  label:'Raid Passes',      icon:'🎟️', bg:'var(--fire)',     fg:'var(--fire-ink)' },
+    { key:'caught',      label:'Pokémon Caught',   icon:'🎯', bg:'var(--grass)',    fg:'var(--grass-ink)' },
+    { key:'megas',       label:'Megas Evolved',    icon:'💠', bg:'var(--psychic)',  fg:'var(--psychic-ink)' },
+    { key:'transferred', label:'Transferred',      icon:'♻️', bg:'var(--normal)',   fg:'var(--normal-ink)' }
+  ];
+
+  var ITEM_CONFIG = [
+    { key:'pokeball',      label:'Poké Ball',     icon:'⚪' },
+    { key:'greatball',     label:'Great Ball',    icon:'🔵' },
+    { key:'ultraball',     label:'Ultra Ball',    icon:'🟡' },
+    { key:'potion',        label:'Potion',        icon:'💊' },
+    { key:'superpotion',   label:'Super Potion',  icon:'💊' },
+    { key:'hyperpotion',   label:'Hyper Potion',  icon:'💊' },
+    { key:'maxpotion',     label:'Max Potion',    icon:'💊' },
+    { key:'revive',        label:'Revive',        icon:'✨' },
+    { key:'maxrevive',     label:'Max Revive',    icon:'✨' },
+    { key:'razzberry',     label:'Razz Berry',    icon:'🍇' },
+    { key:'nanabberry',    label:'Nanab Berry',   icon:'🍌' },
+    { key:'pinapberry',    label:'Pinap Berry',   icon:'🍍' },
+    { key:'incense',       label:'Incense',       icon:'🌫️' },
+    { key:'luckyegg',      label:'Lucky Egg',     icon:'🥚' },
+    { key:'starpiece',     label:'Star Piece',    icon:'⭐' },
+    { key:'incubator',     label:'Incubator',     icon:'🥚' }
+  ];
+
+  var STEPS = [1, 25, 50, 100];
+
+  var NAMES = [
+    "Trey (Main)", "Trey (Alt 1)", "Sam", "Jordan B.", "Riley Q.",
+    "Casey Storm", "Morgan Vale", "Ash K.", "Willow", "Iris",
+    "Nova", "Piper"
+  ];
+
+  var AVATAR_HUES = [352, 18, 42, 150, 200, 265, 320, 8, 165, 230, 300, 60];
+
+  function seededRand(seed){
+    var x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  }
+
+  function makeAccounts(){
+    return NAMES.map(function(name, i){
+      var stats = {};
+      STAT_CONFIG.forEach(function(s, si){
+        stats[s.key] = Math.floor(seededRand(i * 13 + si * 7 + 1) * 40);
+      });
+      stats.dailyResearch = seededRand(i * 3 + 1) > 0.6;
+
+      var inventory = {};
+      ITEM_CONFIG.forEach(function(it, ii){
+        inventory[it.key] = Math.floor(seededRand(i * 31 + ii * 11 + 5) * 120);
+      });
+
+      return {
+        id: 'acc-' + i,
+        name: name,
+        hue: AVATAR_HUES[i % AVATAR_HUES.length],
+        stats: stats,
+        inventory: inventory
+      };
+    });
+  }
+
+  var state = {
+    accounts: makeAccounts(),
+    activeId: 'acc-0',
+    view: 'dashboard',
+    step: 25
+  };
+
+  function getActive(){
+    var found = null;
+    state.accounts.forEach(function(a){ if(a.id === state.activeId) found = a; });
+    return found;
+  }
+
+  function initials(name){
+    return name.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase();
+  }
+
+  function avatarStyle(hue){
+    return 'background: linear-gradient(140deg, hsl(' + hue + ',68%,68%), hsl(' + (hue+28) + ',68%,56%));';
+  }
+
+  var toastTimer = null;
+  function showToast(msg){
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 1200);
+  }
+
+  /* ---------------- Account scroller ---------------- */
+  function renderAccountScroller(){
+    var el = document.getElementById('account-scroller');
+    var html = state.accounts.map(function(a){
+      var active = a.id === state.activeId;
+      return (
+        '<div class="acc-pill' + (active ? ' active' : '') + '" data-acc="' + a.id + '">' +
+          '<div class="avatar" style="' + avatarStyle(a.hue) + '">' + initials(a.name) + '</div>' +
+          '<span class="name">' + a.name + '</span>' +
+          (a.stats.dailyResearch ? '<span class="research-dot"></span>' : '') +
+        '</div>'
+      );
+    }).join('');
+    html += '<div class="acc-pill-add" id="acc-add">+</div>';
+    el.innerHTML = html;
+    document.getElementById('account-count-label').textContent = state.accounts.length + ' accounts';
+  }
+
+  /* ---------------- Dashboard ---------------- */
+  function renderDashboard(){
+    var acc = getActive();
+
+    var banner = document.getElementById('dash-banner');
+    banner.innerHTML =
+      '<div class="avatar-lg" style="' + avatarStyle(acc.hue) + '">' + initials(acc.name) + '</div>' +
+      '<div class="info"><div class="n">' + acc.name + '</div><div class="t">Daily progress</div></div>' +
+      '<button class="banner-reset" id="reset-day">Reset Day</button>';
+
+    var cardsEl = document.getElementById('stat-cards');
+    cardsEl.innerHTML = STAT_CONFIG.map(function(s){
+      return (
+        '<div class="stat-card">' +
+          '<div class="stat-top">' +
+            '<div class="stat-icon" style="background:' + s.bg + ';color:' + s.fg + '">' + s.icon + '</div>' +
+            '<div class="stat-label">' + s.label + '</div>' +
+            '<div class="stat-value" data-stat-value="' + s.key + '">' + acc.stats[s.key] + '</div>' +
+          '</div>' +
+          '<div class="stat-actions">' +
+            '<button class="btn-step minus" data-stat="' + s.key + '" data-delta="-1">−1</button>' +
+            '<button class="btn-step primary" data-stat="' + s.key + '" data-delta="1">+1</button>' +
+            '<button class="btn-step" data-stat="' + s.key + '" data-delta="5">+5</button>' +
+            '<button class="btn-step" data-stat="' + s.key + '" data-delta="10">+10</button>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+
+    var toggle = document.getElementById('research-toggle');
+    toggle.classList.toggle('on', !!acc.stats.dailyResearch);
+    document.getElementById('research-sub').textContent = acc.stats.dailyResearch ? 'Completed today ✓' : 'Not completed today';
+  }
+
+  function bumpStat(key, delta){
+    var acc = getActive();
+    acc.stats[key] = Math.max(0, acc.stats[key] + delta);
+    var valEl = document.querySelector('[data-stat-value="' + key + '"]');
+    if(valEl) valEl.textContent = acc.stats[key];
+    var pill = document.querySelector('.acc-pill[data-acc="' + acc.id + '"] .name');
+  }
+
+  /* ---------------- Inventory ---------------- */
+  function renderStepToggle(){
+    var el = document.getElementById('step-toggle');
+    el.innerHTML = STEPS.map(function(s){
+      return '<button class="' + (state.step === s ? 'active' : '') + '" data-step="' + s + '">+' + s + '</button>';
+    }).join('');
+  }
+
+  function renderInventory(){
+    var acc = getActive();
+    document.getElementById('inv-account-name').textContent = acc.name;
+    var el = document.getElementById('item-rows');
+    el.innerHTML = ITEM_CONFIG.map(function(it){
+      return (
+        '<div class="item-row">' +
+          '<div class="item-icon">' + it.icon + '</div>' +
+          '<div class="item-label">' + it.label + '</div>' +
+          '<div class="item-count-wrap">' +
+            '<span class="item-count" data-item-value="' + it.key + '">' + acc.inventory[it.key] + '</span>' +
+          '</div>' +
+          '<div class="item-btns">' +
+            '<button class="minus" data-item="' + it.key + '" data-dir="-1">−</button>' +
+            '<button class="plus" data-item="' + it.key + '" data-dir="1">+</button>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  function bumpItem(key, dir){
+    var acc = getActive();
+    acc.inventory[key] = Math.max(0, acc.inventory[key] + dir * state.step);
+    var valEl = document.querySelector('[data-item-value="' + key + '"]');
+    if(valEl) valEl.textContent = acc.inventory[key];
+  }
+
+  function openInlineEdit(key){
+    var acc = getActive();
+    var span = document.querySelector('[data-item-value="' + key + '"]');
+    if(!span || span.tagName === 'INPUT') return;
+    var wrap = span.parentElement;
+    var input = document.createElement('input');
+    input.type = 'number';
+    input.className = 'item-count-input';
+    input.value = acc.inventory[key];
+    wrap.innerHTML = '';
+    wrap.appendChild(input);
+    input.focus();
+    input.select();
+
+    function commit(){
+      var v = parseInt(input.value, 10);
+      if(isNaN(v) || v < 0) v = 0;
+      acc.inventory[key] = v;
+      wrap.innerHTML = '<span class="item-count" data-item-value="' + key + '">' + v + '</span>';
+    }
+    input.addEventListener('blur', commit);
+    input.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){ input.blur(); }
+    });
+  }
+
+  /* ---------------- Views / nav ---------------- */
+  function setView(view){
+    state.view = view;
+    document.getElementById('view-dashboard').classList.toggle('active', view === 'dashboard');
+    document.getElementById('view-inventory').classList.toggle('active', view === 'inventory');
+    document.querySelectorAll('.nav-btn').forEach(function(b){
+      b.classList.toggle('active', b.dataset.view === view);
+    });
+    if(view === 'inventory'){ renderStepToggle(); renderInventory(); }
+  }
+
+  function setActiveAccount(id){
+    state.activeId = id;
+    renderAccountScroller();
+    if(state.view === 'dashboard') renderDashboard();
+    else renderInventory();
+  }
+
+  /* ---------------- Long-press for +1 (rapid bump) ---------------- */
+  var pressTimer = null, pressInterval = null;
+  function attachLongPress(container, selector, handler){
+    container.addEventListener('mousedown', function(e){
+      var t = e.target.closest(selector);
+      if(!t) return;
+      startPress(t, handler);
+    });
+    container.addEventListener('touchstart', function(e){
+      var t = e.target.closest(selector);
+      if(!t) return;
+      startPress(t, handler);
+    }, {passive:true});
+    ['mouseup','mouseleave','touchend','touchcancel'].forEach(function(evt){
+      container.addEventListener(evt, endPress);
+    });
+  }
+  function startPress(t, handler){
+    endPress();
+    pressTimer = setTimeout(function(){
+      pressInterval = setInterval(function(){ handler(t); }, 110);
+    }, 450);
+  }
+  function endPress(){
+    clearTimeout(pressTimer);
+    clearInterval(pressInterval);
+    pressTimer = null; pressInterval = null;
+  }
+
+  /* ---------------- Event wiring ---------------- */
+  document.getElementById('account-scroller').addEventListener('click', function(e){
+    var addBtn = e.target.closest('#acc-add');
+    if(addBtn){
+      var n = state.accounts.length + 1;
+      var newAcc = {
+        id: 'acc-new-' + Date.now(),
+        name: 'New Trainer ' + n,
+        hue: (n * 47) % 360,
+        stats: (function(){ var s = {}; STAT_CONFIG.forEach(function(c){ s[c.key]=0; }); s.dailyResearch=false; return s; })(),
+        inventory: (function(){ var s = {}; ITEM_CONFIG.forEach(function(c){ s[c.key]=0; }); return s; })()
+      };
+      state.accounts.push(newAcc);
+      renderAccountScroller();
+      showToast('Account added');
+      return;
+    }
+    var pill = e.target.closest('.acc-pill');
+    if(pill){ setActiveAccount(pill.dataset.acc); }
+  });
+
+  document.querySelector('.bottom-nav').addEventListener('click', function(e){
+    var b = e.target.closest('.nav-btn');
+    if(b) setView(b.dataset.view);
+  });
+
+  document.getElementById('view-dashboard').addEventListener('click', function(e){
+    if(e.target.closest('#reset-day')){
+      var acc = getActive();
+      STAT_CONFIG.forEach(function(s){ acc.stats[s.key] = 0; });
+      acc.stats.dailyResearch = false;
+      renderDashboard();
+      renderAccountScroller();
+      showToast('Day reset for ' + acc.name);
+      return;
+    }
+    if(e.target.closest('#research-toggle')){
+      var a = getActive();
+      a.stats.dailyResearch = !a.stats.dailyResearch;
+      renderDashboard();
+      renderAccountScroller();
+      return;
+    }
+    var btn = e.target.closest('.btn-step');
+    if(btn){
+      bumpStat(btn.dataset.stat, parseInt(btn.dataset.delta, 10));
+    }
+  });
+  attachLongPress(document.getElementById('view-dashboard'), '.btn-step.primary', function(t){
+    bumpStat(t.dataset.stat, parseInt(t.dataset.delta, 10));
+  });
+
+  document.getElementById('view-inventory').addEventListener('click', function(e){
+    var stepBtn = e.target.closest('#step-toggle button');
+    if(stepBtn){
+      state.step = parseInt(stepBtn.dataset.step, 10);
+      renderStepToggle();
+      showToast('Step set to ' + state.step);
+      return;
+    }
+    var countSpan = e.target.closest('.item-count');
+    if(countSpan){
+      openInlineEdit(countSpan.dataset.itemValue);
+      return;
+    }
+    var itemBtn = e.target.closest('.item-btns button');
+    if(itemBtn){
+      bumpItem(itemBtn.dataset.item, parseInt(itemBtn.dataset.dir, 10));
+    }
+  });
+  attachLongPress(document.getElementById('view-inventory'), '.item-btns button.plus', function(t){
+    bumpItem(t.dataset.item, 1);
+  });
+
+  /* ---------------- Init ---------------- */
+  renderAccountScroller();
+  renderDashboard();
+})();
+</script>

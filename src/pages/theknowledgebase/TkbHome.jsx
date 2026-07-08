@@ -1,13 +1,10 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PROFILES, getProfile } from './tkbPresets';
 import { useTkbData } from './TkbApp';
-import { TkbStorage } from './tkbStorage';
 
 export default function TkbHome() {
   const navigate = useNavigate();
-  const { settings, updateSettings } = useTkbData();
-  const [sessions] = useState(() => TkbStorage.getSessions());
+  const { settings, updateSettings, sessions } = useTkbData();
 
   return (
     <div className="tkb-home">

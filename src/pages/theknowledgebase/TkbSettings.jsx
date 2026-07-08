@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useTkbData, useTkbToast } from './TkbApp';
-import { TkbStorage } from './tkbStorage';
+import { buildExportData, buildRemovedQuestionsText, downloadJson, downloadText } from './tkbExport';
 
 function uid() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -12,10 +12,12 @@ export default function TkbSettings() {
     subjects,
     weights,
     cycles,
+    sessions,
     settings,
     updateQuestion,
     setWeight,
     updateSettings,
+    importQuestions,
   } = useTkbData();
   const showToast = useTkbToast();
 
@@ -66,8 +68,8 @@ export default function TkbSettings() {
     updateSettings({ focusWeeks: settings.focusWeeks.filter(f => f.id !== id) });
   }
 
-  function handleImport() {
-    const result = TkbStorage.importQuestions(importText);
+  async function handleImport() {
+    const result = await importQuestions(importText);
     if (result.restored) {
       showToast('Restored full backup', 'success');
     } else if (result.added === 0 && result.errors.length > 0) {
@@ -281,7 +283,7 @@ export default function TkbSettings() {
             </button>{' '}
             <button
               className="tkb-btn tkb-btn-secondary"
-              onClick={() => TkbStorage.downloadRemovedQuestions()}
+              onClick={() => downloadText('tkb-removed-questions', buildRemovedQuestionsText(questions, subjects))}
             >
               Export as Text
             </button>
@@ -301,7 +303,10 @@ export default function TkbSettings() {
 
       <div className="tkb-settings-section">
         <h3>Data</h3>
-        <button className="tkb-btn tkb-btn-primary" onClick={() => TkbStorage.downloadExport()}>
+        <button
+          className="tkb-btn tkb-btn-primary"
+          onClick={() => downloadJson('tkb-export', buildExportData({ subjects, questions, weights, cycles, sessions, settings }))}
+        >
           Export JSON
         </button>
         <div style={{ marginTop: '1rem' }}>

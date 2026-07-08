@@ -20,7 +20,7 @@ const KEYS = {
   settings: 'tkb_settings_v1',
 };
 
-const MAX_SESSIONS = 200;
+export const MAX_SESSIONS = 200;
 
 /**
  * @typedef {Object} QuestionStats
@@ -124,11 +124,11 @@ const MAX_SESSIONS = 200;
  * @property {FocusWeek[]} focusWeeks
  */
 
-function uid() {
+export function uid() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 }
 
-function todayStr() {
+export function todayStr() {
   return new Date().toISOString().slice(0, 10);
 }
 
@@ -146,7 +146,7 @@ function storeRaw(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-function defaultSettings() {
+export function defaultSettings() {
   return {
     schemaVersion: SCHEMA_VERSION,
     activeProfileId: 'main_recall',
@@ -161,7 +161,7 @@ function defaultSettings() {
 }
 
 // Migration hook: bump SCHEMA_VERSION and add a case here when a shape changes.
-function migrate(settings) {
+export function migrate(settings) {
   const version = settings?.schemaVersion ?? 0;
   if (version < SCHEMA_VERSION) {
     return { ...defaultSettings(), ...settings, schemaVersion: SCHEMA_VERSION };

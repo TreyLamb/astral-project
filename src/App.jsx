@@ -7,6 +7,7 @@
 // EXCEPTION: standalone HTML tools (no React) go in public/ instead — see public/birds or public/chinese-idioms
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './AuthContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Techniques from './pages/Techniques';
@@ -25,33 +26,37 @@ import BashmonApp from './pages/bashmon/BashmonApp';
 import SignalLostApp from './pages/signal-lost/SignalLostApp';
 import PokeredApp from './pages/pokered_page/PokeredApp';
 import TkbApp from './pages/theknowledgebase/TkbApp';
+import PgoTracker from './pages/pgotracker/PgoTracker';
 import './App.css';
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/techniques" element={<Techniques />} />
-          <Route path="/experiences" element={<Experiences />} />
-          <Route path="/resources" element={<Resources />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/daily-idiom" element={<DailyIdiom />} />
-          <Route path="/daily-idiom-widget" element={<DailyIdiomWidget />} />
-          <Route path="/lexicon" element={<Lexicon />} />
-          <Route path="/qa-tracker" element={<QATracker />} />
-          <Route path="/rs-market" element={<RSMarket />} />
-          <Route path="/google-photos" element={<GooglePhotos />} />
-          <Route path="/mymdb/*"       element={<MymdbApp />} />
-          <Route path="/gitmon/*"     element={<GitmonApp />} />
-          <Route path="/bashmon/*"    element={<BashmonApp />} />
-          <Route path="/signal-lost/*" element={<SignalLostApp />} />
-          <Route path="/pokered/*"    element={<PokeredApp />} />
-          <Route path="/tkb/*"       element={<TkbApp />} />
-        </Routes>
-      </div>
+      <AuthProvider>
+        <div className="App">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/techniques" element={<Techniques />} />
+            <Route path="/experiences" element={<Experiences />} />
+            <Route path="/resources" element={<Resources />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/daily-idiom" element={<DailyIdiom />} />
+            <Route path="/daily-idiom-widget" element={<DailyIdiomWidget />} />
+            <Route path="/lexicon" element={<Lexicon />} />
+            <Route path="/qa-tracker" element={<QATracker />} />
+            <Route path="/rs-market" element={<RSMarket />} />
+            <Route path="/google-photos" element={<GooglePhotos />} />
+            <Route path="/mymdb/*"       element={<MymdbApp />} />
+            <Route path="/gitmon/*"     element={<GitmonApp />} />
+            <Route path="/bashmon/*"    element={<BashmonApp />} />
+            <Route path="/signal-lost/*" element={<SignalLostApp />} />
+            <Route path="/pokered/*"    element={<PokeredApp />} />
+            <Route path="/tkb/*"       element={<TkbApp />} />
+            <Route path="/pgo-tracker" element={<PgoTracker />} />
+          </Routes>
+        </div>
+      </AuthProvider>
     </Router>
   );
 }

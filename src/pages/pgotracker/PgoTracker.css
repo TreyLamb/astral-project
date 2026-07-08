@@ -1,0 +1,757 @@
+/* PGO Tracker — bulk of the app follows design-2's card-stack aesthetic;
+   inventory gets a retro CRT/Pokedex skin (design-1); account pills and the
+   segmented view tabs borrow the bold, high-contrast pattern shared by
+   designs 1/4/5. All classes prefixed pgo- per CLAUDE.md sub-app rules. */
+
+.pgo-wrapper {
+  --pgo-bg: #f6f4f1;
+  --pgo-surface: #ffffff;
+  --pgo-surface-sunken: #f0eee9;
+  --pgo-ink: #232025;
+  --pgo-ink-soft: #6f6a72;
+  --pgo-ink-faint: #a9a3ab;
+  --pgo-line: #ece8e3;
+  --pgo-accent: #ee6b6b;
+  --pgo-accent-soft: #fde6e6;
+  --pgo-accent-ink: #b23f3f;
+  --pgo-radius-lg: 22px;
+  --pgo-radius-md: 16px;
+  --pgo-shadow-card: 0 1px 2px rgba(35, 32, 37, 0.04), 0 8px 24px -8px rgba(35, 32, 37, 0.1);
+  background: var(--pgo-bg);
+  color: var(--pgo-ink);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pgo-wrapper {
+    --pgo-bg: #17151a;
+    --pgo-surface: #221f26;
+    --pgo-surface-sunken: #1c1a20;
+    --pgo-ink: #f2eef2;
+    --pgo-ink-soft: #b3aeb8;
+    --pgo-ink-faint: #746e79;
+    --pgo-line: #322e37;
+    --pgo-accent: #f18686;
+    --pgo-accent-soft: #3a2427;
+    --pgo-accent-ink: #f4a5a5;
+    --pgo-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.pgo-loading {
+  align-items: center;
+  padding-top: 4rem;
+  justify-content: center;
+}
+
+.pgo-app {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Header ---------- */
+.pgo-header {
+  padding: 14px 0 0;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--pgo-bg);
+  border-bottom: 1px solid var(--pgo-line);
+}
+
+.pgo-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px 10px;
+}
+
+.pgo-title-row h1 {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.pgo-title-ball {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--pgo-accent) 0 48%, var(--pgo-surface) 48% 54%, var(--pgo-surface) 54% 100%);
+  border: 2px solid var(--pgo-ink);
+  position: relative;
+  flex: none;
+}
+.pgo-title-ball::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pgo-surface);
+  border: 2px solid var(--pgo-ink);
+}
+
+.pgo-sync-status {
+  margin-left: auto;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.pgo-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(90vw, 420px);
+  background: var(--pgo-ink);
+  color: var(--pgo-bg);
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.4);
+  z-index: 50;
+}
+.pgo-toast.error {
+  background: #a63d2f;
+  color: #fff;
+}
+
+/* ---------- Account switcher (design 1/4/5 flavor: bold, tinted, chunky) --- */
+.pgo-account-scroller {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 16px 10px;
+  scrollbar-width: none;
+}
+.pgo-account-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.pgo-acc-pill {
+  flex: none;
+  position: relative;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--pgo-surface);
+  border: 2px solid var(--pgo-acc-color, var(--pgo-line));
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--pgo-ink);
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.pgo-acc-pill:active {
+  transform: scale(0.96);
+}
+.pgo-acc-pill.active {
+  background: var(--pgo-acc-color, var(--pgo-accent));
+  color: #fff;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--pgo-acc-color, var(--pgo-accent)) 30%, transparent), 0 4px 12px -2px rgba(0, 0, 0, 0.25);
+}
+
+.pgo-acc-research-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 2px var(--pgo-acc-color, var(--pgo-accent));
+  flex: none;
+}
+.pgo-acc-pill.active .pgo-acc-research-dot {
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.pgo-acc-add {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--pgo-surface);
+  border: 2px dashed var(--pgo-ink-faint);
+  color: var(--pgo-ink-soft);
+  font-size: 17px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- View tabs (top segmented control shared by 1/3/5) ---------- */
+.pgo-view-tabs {
+  display: flex;
+  gap: 4px;
+  margin: 0 16px 10px;
+  background: var(--pgo-surface-sunken);
+  border: 1px solid var(--pgo-line);
+  border-radius: 14px;
+  padding: 4px;
+}
+.pgo-view-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--pgo-ink-soft);
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: 0.2px;
+  padding: 8px 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.pgo-view-tab.active {
+  background: var(--pgo-ink);
+  color: var(--pgo-bg);
+}
+
+/* ---------- Content ---------- */
+.pgo-content {
+  flex: 1;
+  padding: 16px 16px 60px;
+}
+
+.pgo-section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 4px 2px 12px;
+}
+.pgo-section-heading h2 {
+  font-size: 19px;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.pgo-meta {
+  font-size: 12px;
+  color: var(--pgo-ink-soft);
+  font-weight: 600;
+}
+
+/* ---------- MAIN dashboard: split done-count / names boxes ---------- */
+/* Retro Pokédex shell — chosen over the card-stack default. Left panel color
+   rotates per stat (same TYPE_COLORS used everywhere else in the app), right
+   panel is the cream readout (names). */
+.pgo-split-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pgo-split-card {
+  background: #2b2b2b;
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.pgo-split-card-inner {
+  display: flex;
+  width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f2ede1;
+  min-height: 60px;
+}
+
+.pgo-split-left {
+  flex: none;
+  width: 38%;
+  background: var(--pgo-card-color);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  border-right: 2px dashed rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 10px 8px;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+}
+.pgo-split-icon {
+  font-size: 15px;
+}
+.pgo-split-count {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+}
+.pgo-split-label {
+  font-size: 8.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  opacity: 0.95;
+}
+
+.pgo-split-names {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 8px 10px;
+  min-width: 0;
+  font-family: 'Courier New', monospace;
+}
+.pgo-split-name {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #1f2a17;
+  line-height: 1.5;
+}
+.pgo-split-name::before {
+  content: '> ';
+  color: #8a8578;
+}
+.pgo-split-name-empty {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #8a8578;
+  font-style: italic;
+}
+
+/* ---------- MAIN dashboard: raid pass list ---------- */
+/* Same dark bezel + cream readout as the split boxes, no green screen —
+   each row's left edge is colored per account instead. */
+.pgo-raid-list {
+  background: #2b2b2b;
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  margin-bottom: 20px;
+}
+.pgo-raid-list-inner {
+  background: #f2ede1;
+  border-radius: 6px;
+  padding: 6px;
+  font-family: 'Courier New', monospace;
+}
+.pgo-raid-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  margin-bottom: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  border-left: 4px solid var(--pgo-acc-color);
+  border-radius: 5px;
+}
+.pgo-raid-list-row:last-child {
+  margin-bottom: 0;
+}
+.pgo-raid-list-name {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #1f2a17;
+}
+.pgo-raid-list-count {
+  font-size: 12px;
+  font-weight: 800;
+  color: #1f2a17;
+  background: rgba(0, 0, 0, 0.08);
+  padding: 1px 8px;
+  border-radius: 4px;
+}
+
+.pgo-main-account-name {
+  font-weight: 700;
+  flex: 1;
+}
+
+/* ---------- Account dashboard (design-2 card stack) ---------- */
+.pgo-active-account-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--pgo-surface);
+  border-radius: var(--pgo-radius-lg);
+  padding: 14px 16px;
+  box-shadow: var(--pgo-shadow-card);
+  margin-bottom: 16px;
+}
+.pgo-active-account-info {
+  flex: 1;
+}
+.pgo-active-account-name {
+  font-weight: 800;
+  font-size: 15px;
+}
+.pgo-active-account-sub {
+  font-size: 12.5px;
+  color: var(--pgo-ink-soft);
+}
+.pgo-banner-reset {
+  border: none;
+  background: var(--pgo-accent-soft);
+  color: var(--pgo-accent-ink);
+  font-weight: 700;
+  font-size: 12.5px;
+  padding: 9px 13px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.pgo-banner-reset:active {
+  transform: scale(0.96);
+}
+
+.pgo-stat-card {
+  background: var(--pgo-surface);
+  border-radius: var(--pgo-radius-lg);
+  padding: 14px 16px;
+  box-shadow: var(--pgo-shadow-card);
+  margin-bottom: 12px;
+}
+.pgo-stat-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.pgo-stat-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--pgo-surface-sunken);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex: none;
+}
+.pgo-stat-label {
+  flex: 1;
+  font-weight: 700;
+  font-size: 14px;
+}
+.pgo-stat-value {
+  font-size: 22px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  min-width: 40px;
+  text-align: right;
+}
+.pgo-stat-actions {
+  display: flex;
+  gap: 8px;
+}
+.pgo-btn-step {
+  flex: 1;
+  border: none;
+  background: var(--pgo-surface-sunken);
+  color: var(--pgo-ink);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 9px 0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+.pgo-btn-step:active {
+  transform: scale(0.94);
+  background: var(--pgo-accent-soft);
+  color: var(--pgo-accent-ink);
+}
+.pgo-btn-step.primary {
+  background: var(--pgo-ink);
+  color: var(--pgo-bg);
+  flex: 1.3;
+}
+.pgo-btn-step.primary:active {
+  background: var(--pgo-accent);
+  color: #fff;
+}
+.pgo-btn-step.minus {
+  flex: 0.7;
+}
+
+.pgo-toggle-card {
+  background: var(--pgo-surface);
+  border-radius: var(--pgo-radius-lg);
+  padding: 14px 16px;
+  box-shadow: var(--pgo-shadow-card);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+.pgo-toggle-sub {
+  font-size: 12px;
+  color: var(--pgo-ink-soft);
+  font-weight: 500;
+}
+.pgo-switch {
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--pgo-surface-sunken);
+  border: 1px solid var(--pgo-line);
+  position: relative;
+  flex: none;
+  transition: background 0.2s ease;
+}
+.pgo-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s cubic-bezier(0.4, 1.4, 0.6, 1);
+}
+.pgo-toggle-card.on .pgo-switch {
+  background: #2f7a4d;
+  border-color: #2f7a4d;
+}
+.pgo-toggle-card.on .pgo-switch::after {
+  transform: translateX(18px);
+}
+
+/* ---------- Inventory (retro Pokedex-terminal skin) ---------- */
+.pgo-inventory-bezel {
+  background: #2b2b2b;
+  border-radius: 16px;
+  padding: 8px;
+  box-shadow: inset 0 0 0 2px #000, 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.pgo-inventory-screen {
+  background: linear-gradient(180deg, #9bbf6b, #7fa855);
+  border-radius: 10px;
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.pgo-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.06) 0px,
+    rgba(0, 0, 0, 0.06) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+}
+.pgo-inventory-screen .pgo-section-heading h2,
+.pgo-inventory-screen .pgo-meta {
+  color: #1f2a17;
+  font-family: 'Courier New', monospace;
+}
+
+.pgo-step-toggle {
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border: 2px solid #4a6b32;
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 12px;
+  position: relative;
+}
+.pgo-step-toggle button {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #1f2a17;
+  font-family: 'Courier New', monospace;
+  font-weight: 800;
+  font-size: 12px;
+  padding: 7px 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.pgo-step-toggle button.active {
+  background: #1f2a17;
+  color: #9bbf6b;
+}
+
+.pgo-inv-rows {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pgo-inv-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.35);
+  border: 2px solid #4a6b32;
+  border-radius: 10px;
+  padding: 7px 10px;
+}
+.pgo-inv-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex: none;
+}
+.pgo-inv-label {
+  flex: 1;
+  font-weight: 700;
+  font-size: 12.5px;
+  color: #1f2a17;
+  font-family: 'Courier New', monospace;
+  min-width: 0;
+}
+.pgo-inv-value {
+  font-weight: 800;
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+  min-width: 40px;
+  text-align: center;
+  color: #9bbf6b;
+  background: #1f2a17;
+  border-radius: 6px;
+  padding: 3px 4px;
+  cursor: text;
+}
+.pgo-inv-value-input {
+  width: 44px;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  font-weight: 800;
+  font-size: 14px;
+  background: #1f2a17;
+  color: #9bbf6b;
+  border: none;
+  border-radius: 6px;
+  padding: 3px 2px;
+}
+.pgo-inv-btns {
+  display: flex;
+  gap: 5px;
+  flex: none;
+}
+.pgo-inv-btns button {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  border: none;
+  background: #3a6ea5;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  line-height: 1;
+}
+.pgo-inv-btns button:active {
+  transform: scale(0.9);
+}
+.pgo-inv-btns button.plus {
+  background: #e8a33d;
+}
+
+/* ---------- Bulk actions (design-2 card style) ---------- */
+.pgo-bulk-account-list {
+  background: var(--pgo-surface);
+  border-radius: var(--pgo-radius-lg);
+  box-shadow: var(--pgo-shadow-card);
+  padding: 10px 12px;
+  margin-bottom: 20px;
+}
+.pgo-bulk-select-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.pgo-bulk-select-row .pgo-btn-step {
+  flex: none;
+  padding: 6px 12px;
+  font-size: 12px;
+}
+.pgo-bulk-account-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 6px;
+  border-left: 4px solid var(--pgo-acc-color);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.pgo-bulk-account-row:hover {
+  background: var(--pgo-surface-sunken);
+}
+.pgo-bulk-account-row input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--pgo-acc-color);
+  flex: none;
+}
+
+.pgo-bulk-action-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.pgo-bulk-step-toggle {
+  margin-bottom: 12px;
+}
+
+.pgo-bulk-item-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pgo-bulk-item-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--pgo-surface);
+  border-radius: var(--pgo-radius-md);
+  padding: 8px 12px;
+  box-shadow: var(--pgo-shadow-card);
+}
+.pgo-bulk-item-row .pgo-inv-icon {
+  background: var(--pgo-surface-sunken);
+}
+.pgo-bulk-item-row .pgo-inv-label {
+  color: var(--pgo-ink);
+  font-family: inherit;
+}
+.pgo-bulk-item-row .pgo-inv-btns button {
+  background: var(--pgo-surface-sunken);
+  color: var(--pgo-ink);
+}
+.pgo-bulk-item-row .pgo-inv-btns button.plus {
+  background: var(--pgo-ink);
+  color: var(--pgo-bg);
+}
+.pgo-bulk-item-row .pgo-inv-btns button:disabled,
+.pgo-bulk-action-row button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

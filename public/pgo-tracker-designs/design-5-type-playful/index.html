@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon GO Tracker - Type Playful</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --type-fire: #FF6B35;
+      --type-water: #5B9BD5;
+      --type-grass: #6BBD44;
+      --type-electric: #FFD700;
+      --type-psychic: #E699D3;
+      --type-ice: #96D8D8;
+      --type-dragon: #7038F8;
+      --type-dark: #705848;
+      --active-type: var(--type-fire);
+      --bg-light: #FFFFFF;
+      --text-dark: #2C2C2C;
+      --text-light: #666666;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #F5F5F5;
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: var(--bg-light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ===== HEADER & ACCOUNT SWITCHER ===== */
+    .header {
+      padding: 16px;
+      border-bottom: 3px solid var(--active-type);
+      transition: border-color 0.3s ease;
+    }
+
+    .header-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--text-dark);
+      letter-spacing: -0.5px;
+    }
+
+    .accounts-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scroll-behavior: smooth;
+    }
+
+    .accounts-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .accounts-scroll::-webkit-scrollbar-thumb {
+      background-color: var(--active-type);
+      border-radius: 2px;
+    }
+
+    .account-pill {
+      flex-shrink: 0;
+      padding: 10px 18px;
+      border-radius: 50px;
+      border: 3px solid transparent;
+      font-weight: 700;
+      font-size: 13px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: #F0F0F0;
+      color: var(--text-dark);
+      user-select: none;
+    }
+
+    .account-pill.active {
+      background-color: var(--active-type);
+      color: white;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .account-pill:hover {
+      transform: translateY(-2px);
+    }
+
+    .account-add {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--active-type);
+      color: white;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      font-weight: bold;
+    }
+
+    .account-add:hover {
+      transform: scale(1.1) rotate(90deg);
+    }
+
+    /* ===== NAVIGATION TABS ===== */
+    .nav-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #EEEEEE;
+      padding: 0 16px;
+    }
+
+    .nav-tab {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      background: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-light);
+      position: relative;
+      transition: color 0.2s ease;
+    }
+
+    .nav-tab.active {
+      color: var(--active-type);
+    }
+
+    .nav-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background-color: var(--active-type);
+      border-radius: 2px 2px 0 0;
+    }
+
+    /* ===== CONTENT AREA ===== */
+    .content {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== DASHBOARD ===== */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, var(--active-type) 0%, var(--active-type) 100%);
+      border-radius: 16px;
+      padding: 16px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .stat-card:active {
+      transform: scale(0.98);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 0.95;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 900;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-buttons {
+      display: flex;
+      gap: 6px;
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    .stat-btn {
+      flex: 1;
+      padding: 6px 8px;
+      border: none;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.25);
+      color: white;
+      font-weight: 700;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .stat-btn:active {
+      background-color: rgba(255, 255, 255, 0.4);
+      transform: scale(0.95);
+    }
+
+    /* Daily Research Card - Full Width with Achievement Badge */
+    .daily-research {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, var(--active-type) 0%, var(--active-type) 100%);
+      border-radius: 16px;
+      padding: 20px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .daily-research::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .daily-research-content {
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .daily-research-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 0.95;
+      margin-bottom: 4px;
+    }
+
+    .daily-research-status {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .daily-research.completed .daily-research-status::before {
+      content: '✓ ';
+      margin-right: 6px;
+    }
+
+    .daily-research-toggle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.25);
+      border: 3px solid rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .daily-research.completed .daily-research-toggle {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.6));
+      border-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.5), inset 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+
+    .daily-research-toggle:active {
+      transform: scale(0.95);
+    }
+
+    /* ===== INVENTORY ===== */
+    .inventory-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+
+    .inventory-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .step-toggle {
+      display: flex;
+      border-radius: 20px;
+      background-color: #F0F0F0;
+      padding: 4px;
+      gap: 0;
+    }
+
+    .step-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 16px;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      color: var(--text-light);
+    }
+
+    .step-btn.active {
+      background-color: var(--active-type);
+      color: white;
+    }
+
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .item-card {
+      background-color: #F9F9F9;
+      border-radius: 12px;
+      padding: 12px;
+      border: 2px solid #E0E0E0;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .item-card:active {
+      background-color: #F0F0F0;
+      border-color: var(--active-type);
+      transform: scale(0.98);
+    }
+
+    .item-icon {
+      font-size: 24px;
+      margin-bottom: 6px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+    }
+
+    .item-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .item-count {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .item-value {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--active-type);
+      flex: 1;
+      cursor: text;
+      padding: 4px 8px;
+      border-radius: 6px;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    .item-value.editing {
+      background-color: var(--active-type);
+      color: white;
+      outline: 2px solid var(--active-type);
+    }
+
+    .item-value input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: white;
+      font-weight: 900;
+      font-size: 20px;
+      text-align: center;
+      font-family: inherit;
+    }
+
+    .item-value input:focus {
+      outline: none;
+    }
+
+    .item-btn {
+      width: 28px;
+      height: 28px;
+      border: none;
+      border-radius: 6px;
+      background-color: var(--active-type);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .item-btn.minus {
+      opacity: 0.7;
+    }
+
+    .item-btn:active {
+      transform: scale(0.9);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: 16px;
+      border-top: 2px solid #EEEEEE;
+      display: flex;
+      gap: 12px;
+    }
+
+    .reset-day-btn {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--active-type) 0%, var(--active-type) 100%);
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .reset-day-btn:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .reset-day-btn::before {
+      content: '☀️ ';
+      margin-right: 6px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (min-width: 768px) {
+      .container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-radius: 20px;
+        max-height: 90vh;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      .daily-research {
+        grid-column: 1 / -1;
+      }
+
+      .inventory-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header with Account Switcher -->
+    <div class="header">
+      <div class="header-title">Pokémon GO</div>
+      <div class="accounts-scroll" id="accountsScroll">
+        <button class="account-pill active" data-account="0">Trainer 1</button>
+        <button class="account-pill" data-account="1">Trainer 2</button>
+        <button class="account-pill" data-account="2">Trainer 3</button>
+        <button class="account-pill" data-account="3">Trainer 4</button>
+        <button class="account-pill" data-account="4">Trainer 5</button>
+        <button class="account-pill" data-account="5">Trainer 6</button>
+        <button class="account-pill" data-account="6">Trainer 7</button>
+        <button class="account-pill" data-account="7">Trainer 8</button>
+        <button class="account-add" id="addAccountBtn" title="Add account">+</button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-view="dashboard">Dashboard</button>
+      <button class="nav-tab" data-view="inventory">Inventory</button>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content">
+      <!-- Dashboard View -->
+      <div id="dashboard" class="view active">
+        <div class="dashboard-grid" id="dashboardGrid">
+          <!-- Stats will be rendered here -->
+        </div>
+      </div>
+
+      <!-- Inventory View -->
+      <div id="inventory" class="view">
+        <div class="inventory-header">
+          <div class="inventory-title">Items</div>
+          <div class="step-toggle">
+            <button class="step-btn active" data-step="1">+1</button>
+            <button class="step-btn" data-step="25">+25</button>
+            <button class="step-btn" data-step="50">+50</button>
+            <button class="step-btn" data-step="100">+100</button>
+          </div>
+        </div>
+        <div class="inventory-grid" id="inventoryGrid">
+          <!-- Items will be rendered here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <button class="reset-day-btn" id="resetDayBtn">Reset Day</button>
+    </div>
+  </div>
+
+  <script>
+    // Type colors palette
+    const typeColors = [
+      '#FF6B35', // Fire
+      '#5B9BD5', // Water
+      '#6BBD44', // Grass
+      '#FFD700', // Electric
+      '#E699D3', // Psychic
+      '#96D8D8', // Ice
+      '#7038F8', // Dragon
+      '#705848'  // Dark
+    ];
+
+    // Item emojis
+    const itemIcons = {
+      'Poké Ball': '⚫',
+      'Great Ball': '🔵',
+      'Ultra Ball': '🔴',
+      'Master Ball': '🟣',
+      'Potion': '🧪',
+      'Super Potion': '💊',
+      'Hyper Potion': '💉',
+      'Max Potion': '💙',
+      'Revive': '💫',
+      'Max Revive': '⭐',
+      'Razz Berry': '🫐',
+      'Nanab Berry': '🍌',
+      'Pinap Berry': '🍍',
+      'Incense': '🌬️',
+      'Lucky Egg': '🥚',
+      'Star Piece': '✨',
+      'Incubator': '🥒'
+    };
+
+    // Account data structure
+    const accounts = [
+      {
+        type: 0,
+        name: 'Trainer 1',
+        dashboard: {
+          pokestops: 42,
+          raidPasses: 3,
+          pokemonCaught: 87,
+          megasEvolved: 5,
+          pokemonTransferred: 23,
+          dailyResearch: true
+        },
+        inventory: {
+          'Poké Ball': 120,
+          'Great Ball': 45,
+          'Ultra Ball': 12,
+          'Master Ball': 0,
+          'Potion': 30,
+          'Super Potion': 18,
+          'Hyper Potion': 8,
+          'Max Potion': 2,
+          'Revive': 15,
+          'Max Revive': 4,
+          'Razz Berry': 35,
+          'Nanab Berry': 20,
+          'Pinap Berry': 25,
+          'Incense': 5,
+          'Lucky Egg': 3,
+          'Star Piece': 2,
+          'Incubator': 1
+        }
+      },
+      {
+        type: 1,
+        name: 'Trainer 2',
+        dashboard: {
+          pokestops: 156,
+          raidPasses: 8,
+          pokemonCaught: 234,
+          megasEvolved: 12,
+          pokemonTransferred: 67,
+          dailyResearch: false
+        },
+        inventory: {
+          'Poké Ball': 200,
+          'Great Ball': 150,
+          'Ultra Ball': 85,
+          'Master Ball': 1,
+          'Potion': 0,
+          'Super Potion': 0,
+          'Hyper Potion': 0,
+          'Max Potion': 50,
+          'Revive': 25,
+          'Max Revive': 10,
+          'Razz Berry': 75,
+          'Nanab Berry': 50,
+          'Pinap Berry': 60,
+          'Incense': 12,
+          'Lucky Egg': 8,
+          'Star Piece': 5,
+          'Incubator': 3
+        }
+      },
+      {
+        type: 2,
+        name: 'Trainer 3',
+        dashboard: {
+          pokestops: 78,
+          raidPasses: 2,
+          pokemonCaught: 145,
+          megasEvolved: 7,
+          pokemonTransferred: 34,
+          dailyResearch: true
+        },
+        inventory: {
+          'Poké Ball': 80,
+          'Great Ball': 60,
+          'Ultra Ball': 30,
+          'Master Ball': 0,
+          'Potion': 50,
+          'Super Potion': 35,
+          'Hyper Potion': 15,
+          'Max Potion': 5,
+          'Revive': 20,
+          'Max Revive': 8,
+          'Razz Berry': 45,
+          'Nanab Berry': 30,
+          'Pinap Berry': 40,
+          'Incense': 6,
+          'Lucky Egg': 2,
+          'Star Piece': 1,
+          'Incubator': 2
+        }
+      },
+      {
+        type: 3,
+        name: 'Trainer 4',
+        dashboard: {
+          pokestops: 203,
+          raidPasses: 10,
+          pokemonCaught: 256,
+          megasEvolved: 18,
+          pokemonTransferred: 89,
+          dailyResearch: false
+        },
+        inventory: {
+          'Poké Ball': 250,
+          'Great Ball': 200,
+          'Ultra Ball': 120,
+          'Master Ball': 2,
+          'Potion': 0,
+          'Super Potion': 0,
+          'Hyper Potion': 0,
+          'Max Potion': 75,
+          'Revive': 35,
+          'Max Revive': 15,
+          'Razz Berry': 100,
+          'Nanab Berry': 75,
+          'Pinap Berry': 85,
+          'Incense': 20,
+          'Lucky Egg': 12,
+          'Star Piece': 8,
+          'Incubator': 4
+        }
+      },
+      {
+        type: 4,
+        name: 'Trainer 5',
+        dashboard: {
+          pokestops: 55,
+          raidPasses: 4,
+          pokemonCaught: 98,
+          megasEvolved: 3,
+          pokemonTransferred: 18,
+          dailyResearch: true
+        },
+        inventory: {
+          'Poké Ball': 90,
+          'Great Ball': 50,
+          'Ultra Ball': 20,
+          'Master Ball': 0,
+          'Potion': 40,
+          'Super Potion': 25,
+          'Hyper Potion': 10,
+          'Max Potion': 3,
+          'Revive': 16,
+          'Max Revive': 5,
+          'Razz Berry': 50,
+          'Nanab Berry': 35,
+          'Pinap Berry': 45,
+          'Incense': 4,
+          'Lucky Egg': 1,
+          'Star Piece': 0,
+          'Incubator': 1
+        }
+      },
+      {
+        type: 5,
+        name: 'Trainer 6',
+        dashboard: {
+          pokestops: 180,
+          raidPasses: 9,
+          pokemonCaught: 220,
+          megasEvolved: 14,
+          pokemonTransferred: 55,
+          dailyResearch: false
+        },
+        inventory: {
+          'Poké Ball': 210,
+          'Great Ball': 160,
+          'Ultra Ball': 90,
+          'Master Ball': 1,
+          'Potion': 0,
+          'Super Potion': 0,
+          'Hyper Potion': 0,
+          'Max Potion': 60,
+          'Revive': 28,
+          'Max Revive': 12,
+          'Razz Berry': 80,
+          'Nanab Berry': 55,
+          'Pinap Berry': 70,
+          'Incense': 14,
+          'Lucky Egg': 9,
+          'Star Piece': 6,
+          'Incubator': 3
+        }
+      },
+      {
+        type: 6,
+        name: 'Trainer 7',
+        dashboard: {
+          pokestops: 95,
+          raidPasses: 5,
+          pokemonCaught: 167,
+          megasEvolved: 9,
+          pokemonTransferred: 42,
+          dailyResearch: true
+        },
+        inventory: {
+          'Poké Ball': 110,
+          'Great Ball': 70,
+          'Ultra Ball': 35,
+          'Master Ball': 0,
+          'Potion': 35,
+          'Super Potion': 20,
+          'Hyper Potion': 8,
+          'Max Potion': 2,
+          'Revive': 18,
+          'Max Revive': 6,
+          'Razz Berry': 55,
+          'Nanab Berry': 40,
+          'Pinap Berry': 50,
+          'Incense': 7,
+          'Lucky Egg': 3,
+          'Star Piece': 2,
+          'Incubator': 2
+        }
+      },
+      {
+        type: 7,
+        name: 'Trainer 8',
+        dashboard: {
+          pokestops: 68,
+          raidPasses: 3,
+          pokemonCaught: 112,
+          megasEvolved: 4,
+          pokemonTransferred: 29,
+          dailyResearch: false
+        },
+        inventory: {
+          'Poké Ball': 100,
+          'Great Ball': 55,
+          'Ultra Ball': 25,
+          'Master Ball': 0,
+          'Potion': 45,
+          'Super Potion': 30,
+          'Hyper Potion': 12,
+          'Max Potion': 4,
+          'Revive': 19,
+          'Max Revive': 7,
+          'Razz Berry': 60,
+          'Nanab Berry': 42,
+          'Pinap Berry': 55,
+          'Incense': 8,
+          'Lucky Egg': 4,
+          'Star Piece': 3,
+          'Incubator': 1
+        }
+      }
+    ];
+
+    let currentAccountIndex = 0;
+    let currentStep = 1;
+    let editingItemIndex = null;
+
+    function updateColorScheme() {
+      const activeType = typeColors[accounts[currentAccountIndex].type];
+      document.documentElement.style.setProperty('--active-type', activeType);
+    }
+
+    function renderDashboard() {
+      const account = accounts[currentAccountIndex];
+      const dashboardGrid = document.getElementById('dashboardGrid');
+      dashboardGrid.innerHTML = '';
+
+      const stats = [
+        { key: 'pokestops', label: 'Pokéstops' },
+        { key: 'raidPasses', label: 'Raids' },
+        { key: 'pokemonCaught', label: 'Caught' },
+        { key: 'megasEvolved', label: 'Megas' },
+        { key: 'pokemonTransferred', label: 'Transferred' }
+      ];
+
+      stats.forEach((stat, idx) => {
+        const card = document.createElement('div');
+        card.className = 'stat-card';
+        const value = account.dashboard[stat.key];
+        card.innerHTML = `
+          <div class="stat-label">${stat.label}</div>
+          <div class="stat-value" data-stat="${stat.key}">${value}</div>
+          <div class="stat-buttons">
+            <button class="stat-btn" data-action="add" data-stat="${stat.key}" data-amount="1">+1</button>
+            <button class="stat-btn" data-action="add" data-stat="${stat.key}" data-amount="5">+5</button>
+            <button class="stat-btn" data-action="add" data-stat="${stat.key}" data-amount="10">+10</button>
+          </div>
+        `;
+        dashboardGrid.appendChild(card);
+      });
+
+      // Daily Research Card
+      const dailyCard = document.createElement('div');
+      dailyCard.className = `daily-research ${account.dashboard.dailyResearch ? 'completed' : ''}`;
+      dailyCard.innerHTML = `
+        <div class="daily-research-content">
+          <div class="daily-research-label">Today's Task</div>
+          <div class="daily-research-status">${account.dashboard.dailyResearch ? 'Research Complete' : 'Research Pending'}</div>
+        </div>
+        <button class="daily-research-toggle" data-action="toggleDaily"></button>
+      `;
+      dashboardGrid.appendChild(dailyCard);
+    }
+
+    function renderInventory() {
+      const account = accounts[currentAccountIndex];
+      const inventoryGrid = document.getElementById('inventoryGrid');
+      inventoryGrid.innerHTML = '';
+
+      Object.keys(account.inventory).forEach((itemName, idx) => {
+        const count = account.inventory[itemName];
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.innerHTML = `
+          <div class="item-icon">${itemIcons[itemName] || '📦'}</div>
+          <div class="item-name">${itemName}</div>
+          <div class="item-count">
+            <button class="item-btn minus" data-action="itemMinus" data-item="${itemName}">−</button>
+            <div class="item-value" data-item="${itemName}" data-index="${idx}">${count}</div>
+            <button class="item-btn" data-action="itemAdd" data-item="${itemName}">+</button>
+          </div>
+        `;
+        inventoryGrid.appendChild(card);
+      });
+    }
+
+    function updateStats() {
+      document.querySelectorAll('.stat-value').forEach(el => {
+        const stat = el.getAttribute('data-stat');
+        el.textContent = accounts[currentAccountIndex].dashboard[stat];
+      });
+    }
+
+    function switchAccount(index) {
+      currentAccountIndex = index;
+      document.querySelectorAll('.account-pill').forEach(pill => {
+        pill.classList.remove('active');
+      });
+      document.querySelector(`[data-account="${index}"]`).classList.add('active');
+      updateColorScheme();
+      renderDashboard();
+      renderInventory();
+      updateStats();
+    }
+
+    function switchView(viewName) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(viewName).classList.add('active');
+      document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelector(`[data-view="${viewName}"]`).classList.add('active');
+    }
+
+    // Event Listeners
+    document.querySelectorAll('.account-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        switchAccount(parseInt(pill.getAttribute('data-account')));
+      });
+    });
+
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        switchView(tab.getAttribute('data-view'));
+      });
+    });
+
+    document.querySelectorAll('.step-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentStep = parseInt(btn.getAttribute('data-step'));
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (e.target.getAttribute('data-action') === 'add') {
+        const stat = e.target.getAttribute('data-stat');
+        const amount = parseInt(e.target.getAttribute('data-amount'));
+        accounts[currentAccountIndex].dashboard[stat] += amount;
+        updateStats();
+      } else if (e.target.getAttribute('data-action') === 'toggleDaily') {
+        accounts[currentAccountIndex].dashboard.dailyResearch = !accounts[currentAccountIndex].dashboard.dailyResearch;
+        renderDashboard();
+      } else if (e.target.getAttribute('data-action') === 'itemAdd') {
+        const item = e.target.getAttribute('data-item');
+        accounts[currentAccountIndex].inventory[item] += currentStep;
+        renderInventory();
+      } else if (e.target.getAttribute('data-action') === 'itemMinus') {
+        const item = e.target.getAttribute('data-item');
+        accounts[currentAccountIndex].inventory[item] = Math.max(0, accounts[currentAccountIndex].inventory[item] - currentStep);
+        renderInventory();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('item-value') && !e.target.classList.contains('editing')) {
+        const item = e.target.getAttribute('data-item');
+        const currentVal = accounts[currentAccountIndex].inventory[item];
+        e.target.classList.add('editing');
+        e.target.innerHTML = `<input type="number" min="0" value="${currentVal}" autofocus>`;
+        const input = e.target.querySelector('input');
+        input.addEventListener('blur', () => {
+          const newVal = Math.max(0, parseInt(input.value) || 0);
+          accounts[currentAccountIndex].inventory[item] = newVal;
+          e.target.classList.remove('editing');
+          renderInventory();
+        });
+        input.addEventListener('keypress', (evt) => {
+          if (evt.key === 'Enter') {
+            input.blur();
+          }
+        });
+      }
+    });
+
+    document.getElementById('resetDayBtn').addEventListener('click', () => {
+      const account = accounts[currentAccountIndex];
+      account.dashboard.pokestops = 0;
+      account.dashboard.raidPasses = 0;
+      account.dashboard.pokemonCaught = 0;
+      account.dashboard.megasEvolved = 0;
+      account.dashboard.pokemonTransferred = 0;
+      account.dashboard.dailyResearch = false;
+      renderDashboard();
+      updateStats();
+    });
+
+    document.getElementById('addAccountBtn').addEventListener('click', () => {
+      const newAccountNum = accounts.length + 1;
+      const newAccount = {
+        type: accounts.length % typeColors.length,
+        name: `Trainer ${newAccountNum}`,
+        dashboard: {
+          pokestops: 0,
+          raidPasses: 0,
+          pokemonCaught: 0,
+          megasEvolved: 0,
+          pokemonTransferred: 0,
+          dailyResearch: false
+        },
+        inventory: {
+          'Poké Ball': 0,
+          'Great Ball': 0,
+          'Ultra Ball': 0,
+          'Master Ball': 0,
+          'Potion': 0,
+          'Super Potion': 0,
+          'Hyper Potion': 0,
+          'Max Potion': 0,
+          'Revive': 0,
+          'Max Revive': 0,
+          'Razz Berry': 0,
+          'Nanab Berry': 0,
+          'Pinap Berry': 0,
+          'Incense': 0,
+          'Lucky Egg': 0,
+          'Star Piece': 0,
+          'Incubator': 0
+        }
+      };
+      accounts.push(newAccount);
+      const scroll = document.getElementById('accountsScroll');
+      const pill = document.createElement('button');
+      pill.className = 'account-pill';
+      pill.setAttribute('data-account', accounts.length - 1);
+      pill.textContent = `Trainer ${newAccountNum}`;
+      pill.addEventListener('click', () => {
+        switchAccount(parseInt(pill.getAttribute('data-account')));
+      });
+      scroll.insertBefore(pill, scroll.lastChild);
+      switchAccount(accounts.length - 1);
+    });
+
+    // Initial render
+    updateColorScheme();
+    renderDashboard();
+    renderInventory();
+  </script>
+</body>
+</html>

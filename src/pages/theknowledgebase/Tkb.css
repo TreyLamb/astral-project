@@ -67,6 +67,14 @@
   color: white;
 }
 
+.tkb-wrapper .tkb-sync-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--tkb-ink-soft);
+  white-space: nowrap;
+  margin-left: 0.5rem;
+}
+
 .tkb-wrapper .tkb-main {
   padding: 1.5rem;
   max-width: 960px;
