@@ -5,6 +5,7 @@ import { emptyStats, emptyInventory } from './pgoConfig';
 
 const ACCOUNTS_KEY = 'pgo_accounts_v1';
 const SETTINGS_KEY = 'pgo_settings_v1';
+const PARTIES_KEY = 'pgo_parties_v1';
 
 function uid() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -48,6 +49,26 @@ function loadSettings() {
 
 function storeSettings(settings) {
   localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+}
+
+function loadParties() {
+  try {
+    return JSON.parse(localStorage.getItem(PARTIES_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function storeParties(parties) {
+  localStorage.setItem(PARTIES_KEY, JSON.stringify(parties));
+}
+
+// Guest numbering is per-group and assigned once at add time (based on how many guest
+// slots already exist in THIS group) — it does not renumber when an earlier guest is
+// removed, so "Guest 1, Guest 3" with a gap is expected if Guest 2 was removed, not a bug.
+function nextGuestLabel(members) {
+  const guestCount = members.filter((m) => m.guestLabel).length;
+  return `Guest ${guestCount + 1}`;
 }
 
 export const PgoStorage = {
@@ -133,5 +154,57 @@ export const PgoStorage = {
     const settings = { ...loadSettings(), ...updates };
     storeSettings(settings);
     return settings;
+  },
+
+  // Parties (Raid Parties / Gym Parties) — a "party" is a named group of members, each
+  // member either a real account (accountId, display name looked up live so a rename
+  // propagates) or a guest (guestLabel, "Guest N"). Same shape/logic for both raid and
+  // gym parties, distinguished only by the `type` field — filtered client-side.
+  getParties() {
+    return loadParties();
+  },
+
+  addParty(type, name) {
+    const parties = loadParties();
+    const countOfType = parties.filter((p) => p.type === type).length;
+    const party = { id: uid(), type, name: name || `Group ${countOfType + 1}`, members: [] };
+    parties.push(party);
+    storeParties(parties);
+    return party;
+  },
+
+  removeParty(id) {
+    storeParties(loadParties().filter((p) => p.id !== id));
+  },
+
+  renameParty(id, name) {
+    const parties = loadParties();
+    const idx = parties.findIndex((p) => p.id === id);
+    if (idx === -1) return null;
+    parties[idx] = { ...parties[idx], name };
+    storeParties(parties);
+    return parties[idx];
+  },
+
+  // member: { accountId } to add a real account, or {} / omitted to add a guest.
+  addMember(partyId, member = {}) {
+    const parties = loadParties();
+    const idx = parties.findIndex((p) => p.id === partyId);
+    if (idx === -1) return null;
+    const newMember = member.accountId
+      ? { id: uid(), accountId: member.accountId, guestLabel: null }
+      : { id: uid(), accountId: null, guestLabel: nextGuestLabel(parties[idx].members) };
+    parties[idx] = { ...parties[idx], members: [...parties[idx].members, newMember] };
+    storeParties(parties);
+    return parties[idx];
+  },
+
+  removeMember(partyId, memberId) {
+    const parties = loadParties();
+    const idx = parties.findIndex((p) => p.id === partyId);
+    if (idx === -1) return null;
+    parties[idx] = { ...parties[idx], members: parties[idx].members.filter((m) => m.id !== memberId) };
+    storeParties(parties);
+    return parties[idx];
   },
 };

@@ -3,6 +3,7 @@ const TABS = [
   { key: 'main', label: 'Overall' },
   { key: 'inventory', label: 'Inventory' },
   { key: 'bulk', label: 'Bulk' },
+  { key: 'parties', label: 'Parties' },
 ];
 
 export default function ViewTabs({ activeView, onChange }) {

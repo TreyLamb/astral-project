@@ -763,6 +763,25 @@ const OUTDOOR = ['overworld', 'plateau'];
       }
     }
 
+    // Pewter City "leaving east toward Route 3" blocker (scripts/PewterCity.asm
+    // PewterCityCheckPlayerLeavingEastScript) — same ambient proximity-trigger pattern as
+    // the Route 22 rival ambush above. Real OG: before EVENT_BEAT_BROCK, standing on any of
+    // 4 specific tiles right at the east edge shows the youngster's "go challenge the gym
+    // first" line and discards the buffered movement (wJoyIgnore) — this port has no input-
+    // discard concept mid-step, so the equivalent effect is just showing the blocking text;
+    // the player is free to keep pressing east and will simply re-trigger this every time
+    // they land back on one of these 4 tiles, which functionally prevents ever reaching the
+    // map-edge transition tile beyond them. Coordinates are OG's raw dbmapcoord values
+    // taken unconverted — wXCoord/wYCoord already match this port's metatile-unit p.x/p.y
+    // 1:1 post-refactor, confirmed via the dbmapcoord macro's own storage order.
+    if (ms.mapId === 'PEWTER_CITY' && !(gameState?.badges ?? []).includes(0)) {
+      const leavingEastCoords = [[35, 17], [36, 17], [37, 18], [37, 19]];
+      if (leavingEastCoords.some(([cx, cy]) => p.x === cx && p.y === cy)) {
+        setDialogue({ lines: ["You're a trainer\nright? BROCK's\nlooking for new\nchallengers!\nFollow me!"], idx: 0, action: null });
+        return;
+      }
+    }
+
     // Ground item (poke_ball sprite) — walking onto its tile picks it up, once per save file.
     const itemNpc = ms.mapInfo.npcs.find(n => n.sprite === 'poke_ball' && n.x === p.x && n.y === p.y);
     if (itemNpc) {
@@ -1230,6 +1249,15 @@ function notifyPosition() {
       } else {
         pickedUpRef.current.add(giftId);
         if (onPickUpItem) onPickUpItem(giftId, fossilName);
+        // Real OG's HideObject for the OTHER fossil fires immediately on this pickup
+        // (MtMoonB2FMoveSuperNerdScript runs right after GiveItem succeeds), not lazily
+        // whenever the player happens to walk up to it later. Mark it taken now too, so
+        // both fossil sprites correctly vanish from the map at the same moment instead of
+        // the leftover one lingering (visually pickable-looking) until directly interacted
+        // with — this was the second half of the bug the pickedUpRef render-skip fix below
+        // doesn't cover by itself.
+        if (otherGiftId && onMarkGiftTaken) onMarkGiftTaken(otherGiftId);
+        if (otherGiftId) pickedUpRef.current.add(otherGiftId);
         setDialogue({ lines: [`You got a ${fossilName.replace(/_/g, ' ')}!`], idx: 0, action: null });
       }
       return;
@@ -1626,7 +1654,9 @@ function notifyPosition() {
                 setTimeout(() => setHealMsg(''), 2000);
               }
               closeMenu();
-            } else if (effect?.category === 'stone') {
+            } else if (effect?.category === 'stone' || effect?.category === 'rare_candy') {
+              // pendingStoneRef is really "pending target-item" — reused as-is for any item
+              // needing a party-member target, not stone-specific despite the name.
               pendingStoneRef.current = item.name;
               goPage('item-target');
             } else if (effect?.category === 'hm06') {
@@ -1995,6 +2025,11 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
               // engine/overworld/sprite_collisions.asm DetectCollisionBetweenSprites).
               const npcBlocking = ms.mapInfo.npcs.some(n => {
                 if (n.sprite === 'poke_ball') return false;
+                // Same bug class as the render-skip fix above: a fossil is a solid obstacle
+                // in real OG only until HideObject removes it on pickup — after that the
+                // tile is ordinary walkable floor. Without this, a taken fossil's tile
+                // stayed permanently blocked even once its sprite was (now correctly) hidden.
+                if (n.sprite === 'fossil' && pickedUpRef.current.has(npcTrainerId(ms.mapId, n))) return false;
                 const nid = npcTrainerId(ms.mapId, n);
                 const live = npcLivePosRef.current.get(nid);
                 const curX = live?.x ?? n.x, curY = live?.y ?? n.y;
@@ -2246,7 +2281,13 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
         // NPC sprites (drawn before player so player renders on top)
         for (const npc of ms.mapInfo.npcs) {
           const nid = npcTrainerId(ms.mapId, npc);
-          if (npc.sprite === 'poke_ball' && pickedUpRef.current.has(nid)) continue;
+          // "poke_ball" was the only sprite ever excluded here — confirmed 2026-07-09 as a
+          // real bug (user-reported): fossil (and by the same class, old_amber, once that's
+          // ever wired as pickable) are OG ground-item sprites too, HideObject'd on pickup
+          // just like poke_ball, but were never added to this skip condition — so a taken
+          // fossil stayed visually on the map forever even though pickedUpRef correctly
+          // tracked it as gone.
+          if ((npc.sprite === 'poke_ball' || npc.sprite === 'fossil' || npc.sprite === 'old_amber') && pickedUpRef.current.has(nid)) continue;
           // Route 22 Rival1 vanishes for good after the ambush battle (real OG: HideObject in
           // Route22Rival1ExitScript) — unlike ordinary trainers, which stay and can be
           // re-talked-to. Scoped narrowly to this one instance; other rival battles elsewhere

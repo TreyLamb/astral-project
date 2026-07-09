@@ -9,6 +9,7 @@ import MainDashboard from './MainDashboard';
 import AccountDashboard from './AccountDashboard';
 import InventoryView from './InventoryView';
 import BulkView from './BulkView';
+import PartiesView from './PartiesView';
 import './PgoTracker.css';
 
 export default function PgoTracker() {
@@ -16,6 +17,7 @@ export default function PgoTracker() {
   const signedIn = !!user;
 
   const [accounts, setAccounts] = useState([]);
+  const [parties, setParties] = useState([]);
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState(null);
@@ -55,6 +57,17 @@ export default function PgoTracker() {
           if (cancelled) return;
           setAccounts(loadedAccounts);
           setSettings(homeSettings);
+          // Parties is newer/additive — a failure here (e.g. Firestore security rules not
+          // yet covering the pgo_parties collection) must NOT block the rest of the app
+          // from loading. Previously this was awaited inline with accounts/settings, so a
+          // thrown error here jumped straight to the outer catch BEFORE setSettings ever
+          // ran — loading flips to false but settings stays null forever, and the render
+          // guard (`loading || !settings`) gets stuck showing "Loading…" permanently.
+          try {
+            setParties(await PgoFirestore.getParties(user.uid));
+          } catch (err) {
+            console.error('PGO Tracker: failed to load parties (non-fatal)', err);
+          }
         } else {
           PgoStorage.seed();
           const loadedAccounts = PgoStorage.getAccounts();
@@ -66,6 +79,11 @@ export default function PgoTracker() {
           });
           setAccounts(loadedAccounts);
           setSettings(homeSettings);
+          try {
+            setParties(PgoStorage.getParties());
+          } catch (err) {
+            console.error('PGO Tracker: failed to load parties (non-fatal)', err);
+          }
         }
       } catch (err) {
         if (!cancelled) handleSyncError(err);
@@ -215,6 +233,72 @@ export default function PgoTracker() {
     setAccounts(PgoStorage.getAccounts());
   }
 
+  async function handleAddParty(type) {
+    const countOfType = parties.filter((p) => p.type === type).length;
+    if (signedIn) {
+      try {
+        const party = await PgoFirestore.addParty(user.uid, type, undefined, countOfType);
+        setParties((prev) => [...prev, party]);
+      } catch (err) { handleSyncError(err); }
+      return;
+    }
+    const party = PgoStorage.addParty(type);
+    setParties(PgoStorage.getParties());
+    return party;
+  }
+
+  async function handleRemoveParty(id) {
+    if (signedIn) {
+      try {
+        await PgoFirestore.removeParty(user.uid, id);
+        setParties((prev) => prev.filter((p) => p.id !== id));
+      } catch (err) { handleSyncError(err); }
+      return;
+    }
+    PgoStorage.removeParty(id);
+    setParties(PgoStorage.getParties());
+  }
+
+  async function handleRenameParty(id, name) {
+    if (signedIn) {
+      try {
+        await PgoFirestore.renameParty(user.uid, id, name);
+        setParties((prev) => prev.map((p) => (p.id === id ? { ...p, name } : p)));
+      } catch (err) { handleSyncError(err); }
+      return;
+    }
+    PgoStorage.renameParty(id, name);
+    setParties(PgoStorage.getParties());
+  }
+
+  async function handleAddPartyMember(partyId, member) {
+    if (signedIn) {
+      try {
+        const current = parties.find((p) => p.id === partyId);
+        if (!current) return;
+        const members = await PgoFirestore.addMember(user.uid, partyId, current.members, member);
+        setParties((prev) => prev.map((p) => (p.id === partyId ? { ...p, members } : p)));
+      } catch (err) { handleSyncError(err); }
+      return;
+    }
+    PgoStorage.addMember(partyId, member);
+    setParties(PgoStorage.getParties());
+  }
+
+  async function handleRemovePartyMember(partyId, memberId) {
+    if (signedIn) {
+      try {
+        const current = parties.find((p) => p.id === partyId);
+        if (!current) return;
+        const members = await PgoFirestore.removeMember(user.uid, partyId, current.members, memberId);
+        setParties((prev) => prev.map((p) => (p.id === partyId ? { ...p, members } : p)));
+      } catch (err) { handleSyncError(err); }
+      return;
+    }
+    PgoStorage.removeMember(partyId, memberId);
+    setParties(PgoStorage.getParties());
+  }
+
   return (
     <div className="pgo-wrapper">
       <div className="pgo-app">
@@ -266,6 +350,18 @@ export default function PgoTracker() {
               onStepChange={(step) => updateSettings({ incrementStep: step })}
               onBulkResearch={handleBulkResearch}
               onBulkInventory={handleBulkInventory}
+            />
+          )}
+
+          {settings.activeView === 'parties' && (
+            <PartiesView
+              parties={parties}
+              accounts={accounts}
+              onAddParty={handleAddParty}
+              onRemoveParty={handleRemoveParty}
+              onRenameParty={handleRenameParty}
+              onAddMember={handleAddPartyMember}
+              onRemoveMember={handleRemovePartyMember}
             />
           )}
         </main>

@@ -16,6 +16,16 @@ function accountsRef(uidStr) {
 function settingsDocRef(uidStr) {
   return doc(db, 'users', uidStr, 'pgo_meta', 'settings');
 }
+function partiesRef(uidStr) {
+  return collection(db, 'users', uidStr, 'pgo_parties');
+}
+
+// Same rule as pgoStorage.js: guest numbers are assigned once at add time from the
+// current guest count in that group, and don't renumber when an earlier guest is removed.
+function nextGuestLabel(members) {
+  const guestCount = members.filter((m) => m.guestLabel).length;
+  return `Guest ${guestCount + 1}`;
+}
 
 function defaultSettings() {
   return { activeAccountId: null, activeView: 'dashboard', incrementStep: 1 };
@@ -95,5 +105,41 @@ export const PgoFirestore = {
     const merged = { ...current, ...updates };
     await setDoc(settingsDocRef(uidStr), merged);
     return merged;
+  },
+
+  // Parties — mirrors pgoStorage.js's API 1:1, one doc per party under pgo_parties/{id},
+  // same shape (id, type, name, members[]) as the localStorage version.
+  async getParties(uidStr) {
+    const snap = await getDocs(partiesRef(uidStr));
+    return snap.docs.map((d) => d.data());
+  },
+
+  async addParty(uidStr, type, name, countOfTypeForDefaultName) {
+    const party = { id: uid(), type, name: name || `Group ${countOfTypeForDefaultName + 1}`, members: [] };
+    await setDoc(doc(db, 'users', uidStr, 'pgo_parties', party.id), party);
+    return party;
+  },
+
+  async removeParty(uidStr, id) {
+    await deleteDoc(doc(db, 'users', uidStr, 'pgo_parties', id));
+  },
+
+  async renameParty(uidStr, id, name) {
+    await updateDoc(doc(db, 'users', uidStr, 'pgo_parties', id), { name });
+  },
+
+  async addMember(uidStr, id, currentMembers, member = {}) {
+    const newMember = member.accountId
+      ? { id: uid(), accountId: member.accountId, guestLabel: null }
+      : { id: uid(), accountId: null, guestLabel: nextGuestLabel(currentMembers) };
+    const members = [...currentMembers, newMember];
+    await updateDoc(doc(db, 'users', uidStr, 'pgo_parties', id), { members });
+    return members;
+  },
+
+  async removeMember(uidStr, id, currentMembers, memberId) {
+    const members = currentMembers.filter((m) => m.id !== memberId);
+    await updateDoc(doc(db, 'users', uidStr, 'pgo_parties', id), { members });
+    return members;
   },
 };

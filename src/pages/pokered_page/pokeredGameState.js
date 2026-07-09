@@ -399,6 +399,12 @@ export const ITEM_EFFECTS = {
   THUNDER_STONE: { category: 'stone' },
   WATER_STONE:   { category: 'stone' },
   LEAF_STONE:    { category: 'stone' },
+  // engine/items/item_effects.asm ItemUseVitamin's .useRareCandy branch: raises level by
+  // exactly 1 (blocked at 100), sets EXP to the exact minimum for that new level (not a
+  // flat XP grant), then runs the same LearnMoveFromLevelUp + TryEvolvingMon calls an
+  // ordinary level-up does — reused directly via applyXP() rather than reimplemented, see
+  // the 'rare_candy' case in PokeredApp.jsx's handleUseItem.
+  RARE_CANDY:    { category: 'rare_candy' },
   // Key item — never consumed, opens the full TM/HM teach-move menu in overworld.
   HM06:          { category: 'hm06' },
   // Key items — never consumed. tier picks which extracted_og_data/fishing.json table

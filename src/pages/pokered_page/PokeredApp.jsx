@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { saveGame, healParty, createPlayerPokemon, ITEM_EFFECTS, tryEvolveWithStone } from './pokeredGameState';
+import { saveGame, healParty, createPlayerPokemon, ITEM_EFFECTS, tryEvolveWithStone, applyXP, xpForLevel, finalizeEvolution } from './pokeredGameState';
 import { TRAINER_META } from './trainerMeta';
 import { TRAINER_PARTIES } from './trainerParties';
 import PokeredStartScreen from './PokeredStartScreen';
@@ -409,6 +409,29 @@ export default function PokeredApp() {
         if (!evolved) return prev;
         const party = [...prev.party];
         party[targetIdx] = newMon;
+        const next = { ...prev, party, items: consumeItem(items, itemName) };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+
+      if (effect.category === 'rare_candy') {
+        const mon = prev.party?.[targetIdx];
+        if (!mon || mon.level >= 100) {
+          result = { used: false, message: "It won't have any effect." };
+          return prev;
+        }
+        // Real OG doesn't grant a flat XP amount — it sets EXP to exactly the minimum for
+        // the next level (engine/items/item_effects.asm .useRareCandy), so reuse applyXP
+        // with a computed gain rather than an arbitrary one; this also gets move-learning
+        // and the evolution check for free, same as any other level-up.
+        const xpGain = Math.max(0, xpForLevel(mon.level + 1) - (mon.exp || 0));
+        const { pokemon: leveled, pendingEvolution } = applyXP(mon, xpGain, pokemonData);
+        // Overworld item use has no cancelable evolution-animation screen (same
+        // simplification the stone branch above already makes) — finalize immediately.
+        const finalMon = pendingEvolution ? finalizeEvolution(leveled, pokemonData) : leveled;
+        result = { used: true, message: `${mon.species.replace(/_/g, ' ')} grew to level ${leveled.level}!` };
+        const party = [...prev.party];
+        party[targetIdx] = finalMon;
         const next = { ...prev, party, items: consumeItem(items, itemName) };
         if (!prev.isExtra) saveGame(next);
         return next;

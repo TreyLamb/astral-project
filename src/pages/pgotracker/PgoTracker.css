@@ -934,6 +934,195 @@
   flex: none;
 }
 
+/* ---------- Parties (Raid Parties / Gym Parties) ---------- */
+.pgo-party-section {
+  margin-bottom: 24px;
+}
+
+.pgo-party-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.pgo-party-card {
+  background: var(--pgo-surface);
+  border-radius: var(--pgo-radius-lg);
+  box-shadow: var(--pgo-shadow-card);
+  padding: 12px 14px;
+}
+
+.pgo-party-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.pgo-party-name {
+  font-weight: 700;
+  font-size: 14px;
+  cursor: text;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pgo-party-name-input {
+  font-weight: 700;
+  font-size: 14px;
+  border: 1px solid var(--pgo-line);
+  border-radius: 8px;
+  padding: 4px 8px;
+  background: var(--pgo-surface-sunken);
+  color: var(--pgo-ink);
+  flex: 1;
+  min-width: 0;
+}
+
+.pgo-party-remove {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: var(--pgo-surface-sunken);
+  color: var(--pgo-ink-soft);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+.pgo-party-remove:hover {
+  background: var(--pgo-accent-soft);
+  color: var(--pgo-accent-ink);
+}
+
+.pgo-party-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+  min-height: 26px;
+}
+
+.pgo-party-empty {
+  font-size: 12px;
+  color: var(--pgo-ink-faint);
+  padding: 4px 0;
+}
+
+.pgo-party-member-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 6px 5px 12px;
+  border-radius: 999px;
+  background: var(--pgo-surface-sunken);
+  border: 1px solid var(--pgo-line);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.pgo-party-member-chip button {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--pgo-ink-faint);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+}
+.pgo-party-member-chip button:hover {
+  background: var(--pgo-accent-soft);
+  color: var(--pgo-accent-ink);
+}
+
+.pgo-party-add-member {
+  width: 100%;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1.5px dashed var(--pgo-ink-faint);
+  background: transparent;
+  color: var(--pgo-ink-soft);
+  font-weight: 600;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.pgo-party-add-member:hover {
+  background: var(--pgo-surface-sunken);
+}
+
+.pgo-party-add-group {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: 2px dashed var(--pgo-ink-faint);
+  background: transparent;
+  color: var(--pgo-ink-soft);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+.pgo-party-add-group:hover {
+  background: var(--pgo-surface-sunken);
+}
+
+.pgo-party-picker-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  padding: 20px;
+}
+
+.pgo-party-picker {
+  background: var(--pgo-surface);
+  border-radius: var(--pgo-radius-md);
+  box-shadow: var(--pgo-shadow-card);
+  padding: 12px;
+  width: 100%;
+  max-width: 320px;
+  max-height: 70vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pgo-party-picker-title {
+  font-weight: 800;
+  font-size: 13px;
+  margin: 2px 2px 8px;
+}
+
+.pgo-party-picker-item {
+  text-align: left;
+  padding: 9px 10px;
+  border-radius: 10px;
+  border: none;
+  background: var(--pgo-surface-sunken);
+  color: var(--pgo-ink);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+}
+.pgo-party-picker-item:hover {
+  background: var(--pgo-line);
+}
+.pgo-party-picker-item.guest {
+  margin-top: 6px;
+  color: var(--pgo-accent-ink);
+  background: var(--pgo-accent-soft);
+}
+
 .pgo-bulk-action-row {
   display: flex;
   gap: 8px;
