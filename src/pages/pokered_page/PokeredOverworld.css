@@ -332,6 +332,20 @@
 }
 .pkr-menu-item-count { color: #888; }
 
+.pkr-menu-use-btn {
+  float: right;
+  background: #2a5a2a;
+  border: 1px solid #4a9a4a;
+  color: #c0ffc0;
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.pkr-menu-use-btn:hover { background: #3a7a3a; }
+
 .pkr-menu-stats-grid {
   display: grid;
   grid-template-columns: 1fr auto;

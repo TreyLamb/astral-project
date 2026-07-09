@@ -13,7 +13,8 @@ export default function PokeredApp() {
   const [screen, setScreen]           = useState('loading');
   const [pokemonData, setPokemonData] = useState(null);
   const [gameState, setGameState]     = useState(null);
-  const [speedMult, setSpeedMult] = useState(1);
+  // User-requested (2x default, 2.5x option added to the cycle).
+  const [speedMult, setSpeedMult] = useState(2);
   // Lifted (not local to PokeredOverworld) so it survives that component unmounting on
   // every overworld<->battle screen switch — see PokeredOverworld.jsx's showWarps comment.
   const [showWarps, setShowWarps] = useState(false);
@@ -137,7 +138,9 @@ export default function PokeredApp() {
       if (result === 'defeat') {
         money = Math.floor(money / 2);
         party = healParty(party);
-        const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 4, y: 9 };
+        // User-requested (2026-07-10): fall back to right outside Red's House door, not an
+        // arbitrary Pallet Town tile, when the player has never visited a real Pokécenter yet.
+        const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 5, y: 6 };
         const newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, dex, mapId: dest.mapId, x: dest.x, y: dest.y };
         if (!prev.isExtra) saveGame(newState);
         return newState;
@@ -180,7 +183,9 @@ export default function PokeredApp() {
       if (anyFainted && !party.some(m => m.hp > 0)) {
         const money = Math.floor((prev.money ?? 0) / 2);
         const healed = healParty(party);
-        const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 4, y: 9 };
+        // User-requested (2026-07-10): fall back to right outside Red's House door, not an
+        // arbitrary Pallet Town tile, when the player has never visited a real Pokécenter yet.
+        const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 5, y: 6 };
         result = { whiteout: true, dest };
         const next = { ...prev, party: healed, money, mapId: dest.mapId, x: dest.x, y: dest.y };
         if (!prev.isExtra) saveGame(next);
@@ -246,6 +251,21 @@ export default function PokeredApp() {
       const newState = { ...prev, items: newItems, pickedUpItems: [...pickedUpItems, itemId] };
       if (!prev.isExtra) saveGame(newState);
       return newState;
+    });
+  }
+
+  // HM field move: CUT (engine/overworld/cut.asm). Persists which tree blocks have been
+  // cut, per map, as a flat block-array index (see applyCutTrees/tryCut in
+  // PokeredOverworld.jsx) — re-applied to a map's block data every time it's loaded so a cut
+  // tree stays cut.
+  function handleCutTree(mapId, blockIndex) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const forMap = prev.cutTrees?.[mapId] ?? [];
+      if (forMap.includes(blockIndex)) return prev;
+      const next = { ...prev, cutTrees: { ...prev.cutTrees, [mapId]: [...forMap, blockIndex] } };
+      if (!prev.isExtra) saveGame(next);
+      return next;
     });
   }
 
@@ -357,7 +377,9 @@ export default function PokeredApp() {
       }
 
       if (effect.category === 'escape_rope') {
-        const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 4, y: 9 };
+        // User-requested (2026-07-10): fall back to right outside Red's House door, not an
+        // arbitrary Pallet Town tile, when the player has never visited a real Pokécenter yet.
+        const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 5, y: 6 };
         result = { used: true, warpTo: dest, message: 'You used the Escape Rope!' };
         const next = { ...prev, items: consumeItem(items, itemName) };
         if (!prev.isExtra) saveGame(next);
@@ -751,6 +773,7 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onDeliverParcel={handleDeliverParcel}
             onBuyItem={handleBuyItem}
             onGiveGuardDrink={handleGiveGuardDrink}
+            onCutTree={handleCutTree}
             onMetOldMan={handleMetOldMan}
             onRequestStarter={handleRequestStarter}
             onOpenPC={handleOpenPC}

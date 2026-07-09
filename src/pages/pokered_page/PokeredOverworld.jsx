@@ -117,7 +117,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onMapChange, onSave, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onMetOldMan, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onMapChange, onSave, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onMetOldMan, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -223,6 +223,75 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     if (ms.mapInfo.tileset === 'ship_port') return true;
     const tileId = getTileId(fx * 2, fy * 2);
     return tileId === 20 || tileId === 72 || tileId === 50; // $14, $48, $32
+  }
+
+  // engine/overworld/cut.asm UsedCut — on the 'overworld' tileset, both the cuttable tree
+  // ($3D) and a cuttable grass patch ($52) can be cut; OG also allows a GYM-tileset tree
+  // ($50) but no real placed map data ever uses it, so that branch is skipped here.
+  // ReplaceTreeTileBlock swaps the whole 4x4 tileset BLOCK containing the tree for its
+  // "post-cut" counterpart (CutTreeBlockSwaps, data/tilesets/cut_tree_blocks.asm) — not just
+  // the one sub-tile — since a tree's trunk/canopy spans multiple tiles within the block.
+  const CUT_TREE_BLOCK_SWAPS = { 50: 109, 51: 108, 52: 111, 53: 76, 96: 110, 11: 10, 60: 53, 63: 53, 61: 54 };
+  function isCuttableTile(tileId) {
+    return tileId === 61 || tileId === 82; // $3D tree, $52 grass
+  }
+  // Persisted per-map cut state (gameState.cutTrees[mapId] = [blockIndex, ...]) is re-applied
+  // to freshly-loaded block data in loadMap, below — see the .cutTrees application there.
+  function applyCutTrees(mapId, blocks) {
+    const cutIndices = gameState?.cutTrees?.[mapId];
+    if (!cutIndices?.length) return;
+    for (const idx of cutIndices) {
+      const swapped = CUT_TREE_BLOCK_SWAPS[blocks[idx]];
+      if (swapped !== undefined) blocks[idx] = swapped;
+    }
+  }
+  // Attempts to use CUT against whatever the player is currently facing — mirrors real OG's
+  // actual trigger (select CUT from a Pokémon's move list; it applies based on current
+  // facing, no separate "walk up and press Z on the tree" interaction exists in OG at all).
+  function tryCut() {
+    const ms = mapStateRef.current;
+    const p = playerRef.current;
+    if (!ms) return { ok: false, message: "Can't use that here." };
+    if (ms.mapInfo.tileset !== 'overworld') return { ok: false, message: 'Nothing to cut.' };
+    const faceDelta = [[0, 1], [0, -1], [-1, 0], [1, 0]];
+    const [fdx, fdy] = faceDelta[p.dir] || [0, 1];
+    // Same "half-step" raw-tile-ahead sampling as isHalfStepBlocked/isValidLedge (one raw
+    // 8px unit in the facing direction from the player's own raw position) — NOT a full
+    // metatile ahead. A tree's trunk (the cuttable tile) is the BOTTOM raw sub-tile of its
+    // metatile, same "decorative top / functional bottom sub-tile" authoring pattern already
+    // documented for ledges — sampling a full metatile ahead (tx*2,ty*2 of the target
+    // metatile) missed it entirely; confirmed via direct .blk/.bst inspection before wiring
+    // this (Cerulean City's tree: raw (38,57) = tile 61, which is one raw unit up from the
+    // player's own raw position when standing at metatile (19,29) facing up, not the target
+    // metatile's top-left corner).
+    const rawX = p.x * 2 + fdx, rawY = p.y * 2 + fdy;
+    const tileId = getTileId(rawX, rawY);
+    if (!isCuttableTile(tileId)) return { ok: false, message: 'Nothing to cut.' };
+    const bx = Math.floor(rawX / 4), by = Math.floor(rawY / 4);
+    const blockIndex = by * ms.mapInfo.w + bx;
+    const blockId = ms.blocks[blockIndex];
+    const swapped = CUT_TREE_BLOCK_SWAPS[blockId];
+    if (swapped === undefined) return { ok: false, message: 'Nothing to cut.' };
+    ms.blocks[blockIndex] = swapped;
+    return { ok: true, message: 'Used CUT!', mapId: ms.mapId, blockIndex };
+  }
+
+  // HM field moves usable from the overworld POKÉMON stats page (real OG: select the move
+  // from a Pokémon's move list, it applies immediately based on current facing — see tryCut's
+  // comment). Dispatches by move name; only CUT is wired so far, more field moves (SURF,
+  // STRENGTH, ...) extend this same switch as they're built.
+  const FIELD_MOVES = new Set(['CUT']);
+  function handleUseFieldMove(moveName) {
+    if (moveName === 'CUT') {
+      const result = tryCut();
+      setHealMsg(result.message);
+      setTimeout(() => setHealMsg(''), 2000);
+      if (result.ok) {
+        if (onCutTree) onCutTree(result.mapId, result.blockIndex);
+        showMenuRef.current = false; setShowMenu(false);
+        menuPageRef.current = 'main'; setMenuPage('main'); menuCursorRef.current = 0; setMenuCursor(0);
+      }
+    }
   }
 
   // data/tilesets/tileset_headers.asm's per-tileset "counter tiles" (up to 3 each, -1 = none).
@@ -488,7 +557,9 @@ const OUTDOOR = ['overworld', 'plateau'];
         }),
       ]);
 
-      mapStateRef.current = { mapId, mapInfo, blocks: new Uint8Array(blkBuf), blockset: new Uint8Array(bstBuf), tilesetImg: img };
+      const blocks = new Uint8Array(blkBuf);
+      applyCutTrees(mapId, blocks);
+      mapStateRef.current = { mapId, mapInfo, blocks, blockset: new Uint8Array(bstBuf), tilesetImg: img };
       trainerEngageRef.current = null;
       npcBattlePosRef.current = new Map();
       npcLivePosRef.current = new Map();
@@ -752,7 +823,11 @@ function notifyPosition() {
     const bgMatch = bgEvents?.find(e => e.x === tx && e.y === ty);
     if (bgMatch) return bgMatch.text;
     const objs = OBJECT_TEXT[mapId] || [];
-    return objs.find(o => o.x === tx && o.y === ty)?.text ?? '...';
+    // User-requested (2026-07-10): a blocked tile with no real sign/object data attached
+    // (a plain wall/rock/tree, nothing scripted there) should do nothing on Z, not show a
+    // generic "..." placeholder — that fallback previously fired for every un-extracted
+    // blocked tile game-wide, not just genuinely-empty ones.
+    return objs.find(o => o.x === tx && o.y === ty)?.text ?? null;
   }
 
   // Tiles that open the PC screen instead of showing static text — every entry sourced
@@ -1392,6 +1467,13 @@ function notifyPosition() {
             if (from != null && party[to] && onSwitchParty) onSwitchParty(from, to);
             pendingPartyIdxRef.current = null;
             goPage('pokemon');
+          } else if (pg === 'pokemon-stats') {
+            // Keyboard equivalent of the move list's "USE" button — only fires for a
+            // recognized field move; an ordinary battle move does nothing on Z here (Shift
+            // still reorders either way).
+            const mon = (gsRef.current?.party ?? [])[pendingPartyIdxRef.current];
+            const move = mon?.moves?.[menuCursorRef.current];
+            if (move && FIELD_MOVES.has(move.name)) handleUseFieldMove(move.name);
           } else if (pg === 'items') {
             const items = gsRef.current?.items ?? [];
             const item = items[menuCursorRef.current];
@@ -1611,7 +1693,8 @@ function notifyPosition() {
         // this bypasses isWalkable (which does its own conversion internally).
         const facedId = getTileId(fx * 2, fy * 2);
         if (facedId !== -1 && !walkSet.includes(facedId)) {
-          setDialogue({ lines: [objectText(ms.mapId, fx, fy)], idx: 0, action: null });
+          const text = objectText(ms.mapId, fx, fy);
+          if (text) setDialogue({ lines: [text], idx: 0, action: null });
         }
         return;
       }
@@ -2136,7 +2219,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
 </label>
 <button
   onClick={() => {
-    const next = speedMult === 1 ? 2 : speedMult === 2 ? 3 : 1;
+    const next = speedMult === 1 ? 2 : speedMult === 2 ? 2.5 : speedMult === 2.5 ? 3 : 1;
     setSpeedMult(next);
     speedMultRef.current = next;
   }}
@@ -2280,6 +2363,10 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
                       {menuCursor === i && <span className="pkr-menu-cursor">► </span>}
                       {moveSwapIdx === i && <span className="pkr-menu-swap-marker">▷</span>}
                       {m.name.replace(/_/g,' ')} — PP {m.pp}/{m.ppMax}
+                      {FIELD_MOVES.has(m.name) && (
+                        <button className="pkr-menu-use-btn"
+                          onClick={(e) => { e.stopPropagation(); handleUseFieldMove(m.name); }}>USE</button>
+                      )}
                     </div>
                   ))}
                 </div>
