@@ -269,6 +269,15 @@ export default function PokeredApp() {
     });
   }
 
+  function handleSetSurfing(surfing) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = { ...prev, isSurfing: surfing };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
   // Generic single-item cash purchase — currently just the Celadon Mart Roof vending
   // machines, but kept general (not vending-specific) in case a future single-NPC purchase
   // needs the same shape. Silently no-ops if unaffordable, matching handleShopBuy's existing
@@ -774,6 +783,7 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onBuyItem={handleBuyItem}
             onGiveGuardDrink={handleGiveGuardDrink}
             onCutTree={handleCutTree}
+            onSetSurfing={handleSetSurfing}
             onMetOldMan={handleMetOldMan}
             onRequestStarter={handleRequestStarter}
             onOpenPC={handleOpenPC}

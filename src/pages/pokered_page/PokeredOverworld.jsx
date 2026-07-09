@@ -117,7 +117,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onMapChange, onSave, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onMetOldMan, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onMapChange, onSave, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onSetSurfing, onMetOldMan, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -131,6 +131,8 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   useEffect(() => { repelStepsRef.current = gameState?.repelSteps ?? 0; }, [gameState?.repelSteps]);
   const bikingRef = useRef(!!gameState?.isBiking);
   useEffect(() => { bikingRef.current = !!gameState?.isBiking; }, [gameState?.isBiking]);
+  const surfingRef = useRef(!!gameState?.isSurfing);
+  useEffect(() => { surfingRef.current = !!gameState?.isSurfing; }, [gameState?.isSurfing]);
   // Holds the stone item name while the player picks a target party member.
   const pendingStoneRef = useRef(null);
   // Holds state across the 3-step HM06 teach flow: move → party target → slot.
@@ -173,6 +175,14 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   // PlayerStepOutFromDoor) — consumed once by the game loop to force one simulated
   // downward step, then cleared. See isDoorTile()/DOOR_TILE_IDS_BY_TILESET above.
   const stepOutPendingRef = useRef(false);
+  // engine/items/item_effects.asm .makePlayerMoveForward — real OG simulates one button
+  // press in the player's CURRENT facing direction both when starting AND stopping Surf
+  // (not just starting). Set by handleUseFieldMove('SURF'), consumed once by the game loop
+  // the same way stepOutPendingRef is, but direction comes from p.dir instead of being
+  // hardcoded down. Falls through the SAME collision/surf-bypass decision tree as ordinary
+  // input — it's a simulated keypress, not a bypass, so surf state must already be updated
+  // (see surfingRef.current set synchronously in handleUseFieldMove) before this runs.
+  const forcedSurfStepRef = useRef(false);
   // OG wStepCounter equivalent — counts completed steps mod 4 for out-of-battle poison
   // damage (see onPoisonTick call site in the game loop).
   const stepCounterRef = useRef(0);
@@ -223,6 +233,19 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     if (ms.mapInfo.tileset === 'ship_port') return true;
     const tileId = getTileId(fx * 2, fy * 2);
     return tileId === 20 || tileId === 72 || tileId === 50; // $14, $48, $32
+  }
+
+  // Surf's per-step destination check: is this an actual water tile ($14), on a
+  // WATER_TILESETS map. Deliberately separate from isWalkable() (see the EXTREMELY
+  // FRAGILE warning above it) — added as an OR-condition at the movement-decision call
+  // site only, never touching isWalkable's internals. Shore tiles ($48/$32, valid for
+  // isFacingWater's "can I START surfing here" check) are intentionally excluded — those
+  // are the land side of the shoreline, not water to surf onto.
+  function isSurfableTile(tx, ty) {
+    const ms = mapStateRef.current;
+    if (!ms || !WATER_TILESETS.includes(ms.mapInfo.tileset)) return false;
+    const tileId = getTileId(tx * 2, ty * 2);
+    return tileId === 20; // $14
   }
 
   // engine/overworld/cut.asm UsedCut — on the 'overworld' tileset, both the cuttable tree
@@ -276,11 +299,34 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     return { ok: true, message: 'Used CUT!', mapId: ms.mapId, blockIndex };
   }
 
+  // engine/items/item_effects.asm ItemUseSurfboard — real OG toggles wWalkBikeSurfState
+  // (0 normal / 2 surfing) by re-selecting Surf. Starting requires the faced tile to be
+  // shore/water (isFacingWater, already built for fishing); stopping requires the faced
+  // tile to be an ORDINARY passable tile (the tileset's normal collision list) — OG calls
+  // this .cannotStopSurfing otherwise. Mirrors tryCut's "selecting from the move list acts
+  // on current facing" trigger, not a walk-up-and-press-Z interaction.
+  function trySurf() {
+    const ms = mapStateRef.current;
+    const p = playerRef.current;
+    if (!ms) return { ok: false, message: "Can't use that here." };
+    const faceDelta = [[0, 1], [0, -1], [-1, 0], [1, 0]];
+    const [fdx, fdy] = faceDelta[p.dir] || [0, 1];
+    const fx = p.x + fdx, fy = p.y + fdy;
+    if (gameState?.isSurfing) {
+      const walkable = gameDataRef.current?.collision[ms.mapInfo.tileset] || [];
+      const tileId = getTileId(fx * 2, fy * 2);
+      if (!walkable.includes(tileId)) return { ok: false, message: "Can't surf here!" };
+      return { ok: true, surfing: false, message: 'Hopped off of SURF!' };
+    }
+    if (!isFacingWater(fx, fy)) return { ok: false, message: "Can't surf here!" };
+    return { ok: true, surfing: true, message: 'Used SURF!' };
+  }
+
   // HM field moves usable from the overworld POKÉMON stats page (real OG: select the move
   // from a Pokémon's move list, it applies immediately based on current facing — see tryCut's
   // comment). Dispatches by move name; only CUT is wired so far, more field moves (SURF,
   // STRENGTH, ...) extend this same switch as they're built.
-  const FIELD_MOVES = new Set(['CUT']);
+  const FIELD_MOVES = new Set(['CUT', 'SURF']);
   function handleUseFieldMove(moveName) {
     if (moveName === 'CUT') {
       const result = tryCut();
@@ -288,6 +334,21 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
       setTimeout(() => setHealMsg(''), 2000);
       if (result.ok) {
         if (onCutTree) onCutTree(result.mapId, result.blockIndex);
+        showMenuRef.current = false; setShowMenu(false);
+        menuPageRef.current = 'main'; setMenuPage('main'); menuCursorRef.current = 0; setMenuCursor(0);
+      }
+    } else if (moveName === 'SURF') {
+      const result = trySurf();
+      setHealMsg(result.message);
+      setTimeout(() => setHealMsg(''), 2000);
+      if (result.ok) {
+        // Update the ref synchronously (not just via the gameState prop round-trip, which
+        // lags a render+effect behind) so forcedSurfStepRef's very-next-frame movement check
+        // below sees the correct surf state immediately — same immediate-ref pattern used by
+        // pickedUpRef.current.add() for ground items.
+        surfingRef.current = result.surfing;
+        if (onSetSurfing) onSetSurfing(result.surfing);
+        forcedSurfStepRef.current = true; // OG .makePlayerMoveForward — both start and stop
         showMenuRef.current = false; setShowMenu(false);
         menuPageRef.current = 'main'; setMenuPage('main'); menuCursorRef.current = 0; setMenuCursor(0);
       }
@@ -597,6 +658,16 @@ const OUTDOOR = ['overworld', 'plateau'];
         setHealMsg('Nurse Joy: Welcome! We heal your Pokémon to full health!');
         setTimeout(() => setHealMsg(''), 3000);
       }
+      // User-requested keeper (2026-07-09): an earlier session accidentally auto-healed
+      // the party on every entry to Red's House (mom's doing). Not OG-authentic, but the
+      // user liked it and wants it kept intentionally, permanently. DO NOT remove/"fix"
+      // this — see POKERED_CHECKLIST.md's low-priority note; this is meant to be one of
+      // the very last things ever touched once the game is ~99.999% done.
+      if (mapId === 'REDS_HOUSE_1F' && onHealParty) {
+        onHealParty();
+        setHealMsg('MOM: Welcome home! I healed your POKéMON while you were out!');
+        setTimeout(() => setHealMsg(''), 3000);
+      }
     } catch (err) {
       const msg = err instanceof TypeError
         ? `⚠️ Local server is off — start it with "npm run dev" then reload`
@@ -731,9 +802,14 @@ const OUTDOOR = ['overworld', 'plateau'];
     // getTileId needs raw-tile units; p.x/p.y are logical (metatile) units — convert at this
     // call site since this bypasses isWalkable (which does its own conversion internally).
     const tileId = getTileId(p.x * 2, p.y * 2);
-    const onEncounterTile = !grassTileList ? true : grassTileList.includes(tileId);
-    if (ms.mapInfo.wild && onEncounterTile && Math.random() * 256 < ms.mapInfo.wild.rate) {
-      const pool = ms.mapInfo.wild.pokemon;
+    // engine/battle/wild_encounters.asm TryDoWildEncounter checks wWalkBikeSurfState==2 to
+    // roll the water table instead of the grass one — no grass-tile requirement while surfing,
+    // just literally standing on the water tile ($14, same ID isSurfableTile checks).
+    const isSurfingHere = surfingRef.current && tileId === 20;
+    const wildTable = isSurfingHere ? ms.mapInfo.wildWater : ms.mapInfo.wild;
+    const onEncounterTile = isSurfingHere ? true : (!grassTileList ? true : grassTileList.includes(tileId));
+    if (wildTable && onEncounterTile && Math.random() * 256 < wildTable.rate) {
+      const pool = wildTable.pokemon;
       const pick = pool[Math.floor(Math.random() * pool.length)];
       // Repel suppresses only encounters with a wild mon weaker than the lead party
       // member — not a blanket block (engine/battle/wild_encounters.asm).
@@ -1701,6 +1777,13 @@ function notifyPosition() {
 
       if (e.key === 'x' || e.key === 'Tab' || e.key === 'Escape') {
         if (dialogueRef.current) { advanceDialogue(); return; }
+      }
+      // User-requested (2026-07-09): only Tab opens the START menu now — X/Escape no
+      // longer do (X stays bound to dialogue-advance above, and to back/cancel navigation
+      // within an already-open menu, further up this handler — this only narrows the
+      // closed-menu "open" trigger).
+      if (e.key === 'Tab') {
+        e.preventDefault();
         const next = !showMenuRef.current;
         showMenuRef.current = next;
         setShowMenu(next);
@@ -1810,6 +1893,11 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
           if (stepOutPendingRef.current) {
             stepOutPendingRef.current = false;
             ddy = 1; dir = DIR_DOWN;
+          } else if (forcedSurfStepRef.current) {
+            forcedSurfStepRef.current = false;
+            const faceDelta = [[0, 1], [0, -1], [-1, 0], [1, 0]];
+            [ddx, ddy] = faceDelta[p.dir] || [0, 1];
+            dir = p.dir;
           } else {
             const keys = keysRef.current;
             if      (keys.has('ArrowUp')    || keys.has('w') || keys.has('W')) { ddy = -1; dir = DIR_UP; }
@@ -1835,7 +1923,19 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
               else fn.handleMapEdge(ddx, ddy);
             } else {
               const ledgeJump = fn.isValidLedge(p.x, p.y, ddx, ddy);
-              const ledgeBlocked = !ledgeJump && fn.isHalfStepBlocked(p.x, p.y, ddx, ddy);
+              // Surf exception: isHalfStepBlocked (EXTREMELY FRAGILE, see its own comment — never
+              // modify internals) correctly treats the water tile, and the shore's boundary
+              // sub-tile, as non-passable half-steps — right for ordinary walking, wrong while
+              // surfing (crossing onto more water) AND wrong when disembarking (crossing from
+              // water onto the shore's land tile, including the game loop's own forced dismount
+              // step — see forcedSurfStepRef). Bypass whenever the player's CURRENT tile is
+              // water: this engine has no way to physically stand on a water tile except while
+              // surfing, so it can never misfire on ordinary land-side ledge wrong-way blocking
+              // (which this half-step check exists for). Added here, not inside
+              // isHalfStepBlocked, matching this project's established pattern of additive
+              // exceptions at call sites for this function class.
+              const surfBypass = (surfingRef.current && isSurfableTile(nx, ny)) || isSurfableTile(p.x, p.y);
+              const ledgeBlocked = !ledgeJump && !surfBypass && fn.isHalfStepBlocked(p.x, p.y, ddx, ddy);
               // Player-side half of NPC<->player collision. npcCanStep() (above, ~line 212) is
               // the NPC-side half of the SAME mechanism, checking the player's position the
               // mirror-image way this checks each NPC's. They must stay in sync: if you change
@@ -1889,7 +1989,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
                   p.isWalking = true; p.walkProg = 0;
                   p.ledgeJump = true;
                 }
-              } else if (!ledgeBlocked && !npcBlocking && (fn.isWalkable(nx, ny) || isWarpAllowed)) {
+              } else if (!ledgeBlocked && !npcBlocking && (fn.isWalkable(nx, ny) || isWarpAllowed || (surfingRef.current && isSurfableTile(nx, ny)))) {
                 p.dx = ddx; p.dy = ddy;
                 p.isWalking = true; p.walkProg = 0;
               }
@@ -2631,7 +2731,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
         })()}
       </div>
       <div className="pkr-controls">
-        <div>Arrows/WASD · X = menu</div>
+        <div>Arrows/WASD · Tab = menu</div>
         <div className="pkr-mapname">{mapLabel}</div>
       </div>
     </div>
