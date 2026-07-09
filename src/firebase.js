@@ -24,11 +24,22 @@ try {
   // getAuth, ...) — it hooks into the request pipeline so those SDKs' calls
   // carry a verified token from the start. Doing this after was causing the
   // first burst of requests on every page load to go out unverified/invalid.
+  //
+  // Skipped entirely in local dev (2026-07-10): 'localhost' used to be a registered
+  // domain on the reCAPTCHA v3 key so real verification ran locally too — but repeated
+  // local dev server reloads (and, concretely, a session of heavy automated Playwright
+  // testing) exhausted reCAPTCHA's rate limit for that key, tripping App Check's
+  // "initial-throttle" (24h cooldown). Auth/Firestore calls don't fail loudly when that
+  // happens — App Check just never issues a token, so the calls hang forever with zero
+  // console errors, which looked like (and effectively was) the whole site being stuck
+  // loading. Prod was never affected since it never received that traffic. There's no
+  // legitimate security reason to App-Check-verify local dev traffic anyway — App Check
+  // exists to prove requests come from this real app, not scripted/local access, which
+  // is exactly what local dev IS. `import.meta.env.DEV` is Vite's own dev-vs-build flag,
+  // so this only affects `npm run dev` — a real production build still enforces normally.
   const appCheckSiteKey = import.meta.env.VITE_FIREBASE_APPCHECK_SITE_KEY;
-  if (appCheckSiteKey) {
+  if (appCheckSiteKey && !import.meta.env.DEV) {
     try {
-      // 'localhost' is a registered domain on the reCAPTCHA v3 key, so real
-      // verification works in local dev too — no debug token needed.
       initializeAppCheck(app, {
         provider: new ReCaptchaV3Provider(appCheckSiteKey),
         isTokenAutoRefreshEnabled: true,
