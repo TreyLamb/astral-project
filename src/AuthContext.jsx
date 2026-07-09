@@ -5,7 +5,7 @@
 // one `auth` instance from src/firebase.js.
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import {
-  onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, signOut,
+  onAuthStateChanged, signInWithRedirect, getRedirectResult, signOut,
 } from 'firebase/auth';
 import { auth, googleProvider, firebaseReady } from './firebase';
 
@@ -13,15 +13,6 @@ const AuthContext = createContext(null);
 
 export function useAuth() {
   return useContext(AuthContext);
-}
-
-// signInWithPopup gets silently blocked/killed on most mobile browsers
-// (Safari iOS and many Android browsers restrict JS-opened popup windows for
-// OAuth) — the click registers but nothing ever appears. Redirect (full page
-// navigation to Google and back) is the reliable pattern there; popup stays
-// on desktop since it's the nicer non-navigating UX and works fine there.
-function isMobile() {
-  return window.innerWidth <= 768 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
 export function AuthProvider({ children }) {
@@ -50,17 +41,24 @@ export function AuthProvider({ children }) {
     return () => { unsub(); clearTimeout(timeout); };
   }, []);
 
+  // Always redirect now, never popup (2026-07-10). Popup used to be the desktop path
+  // (nicer non-navigating UX, and it used to work) — dropped after hitting a real,
+  // reproducible failure: signInWithPopup relies on polling `popup.closed` to detect
+  // completion, which throws "Cross-Origin-Opener-Policy policy would block the
+  // window.closed call" under a strict COOP policy (a Chrome default in some contexts,
+  // not something this app sets — no COOP header anywhere in vite.config.js). When that
+  // polling breaks, the Firebase Auth SDK itself hits a known internal bug
+  // ("INTERNAL ASSERTION FAILED: Pending promise was never set") and the popup flow
+  // never completes — sign-in silently fails with no usable error. Redirect (full page
+  // navigation to Google and back) doesn't poll a popup handle at all, so it can't hit
+  // this class of failure on any platform.
   const signIn = useCallback(async () => {
     if (!firebaseReady) return { ok: false, error: 'Firebase is not configured in this environment.' };
     try {
-      if (isMobile()) {
-        // Navigates away immediately — nothing after this line runs in this
-        // page lifecycle. The page reloads signed-in once Google redirects back.
-        await signInWithRedirect(auth, googleProvider);
-        return { ok: true, redirecting: true };
-      }
-      await signInWithPopup(auth, googleProvider);
-      return { ok: true };
+      // Navigates away immediately — nothing after this line runs in this
+      // page lifecycle. The page reloads signed-in once Google redirects back.
+      await signInWithRedirect(auth, googleProvider);
+      return { ok: true, redirecting: true };
     } catch (err) {
       return { ok: false, error: err?.message ?? 'Sign-in failed' };
     }
