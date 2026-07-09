@@ -35,7 +35,19 @@ export function AuthProvider({ children }) {
     // normally either way once the SDK processes the redirect.
     getRedirectResult(auth).catch((err) => console.error('Redirect sign-in error:', err));
     const unsub = onAuthStateChanged(auth, (u) => setUser(u ?? null));
-    return unsub;
+    // Defensive fallback (2026-07-10): onAuthStateChanged can silently never fire at all —
+    // confirmed live when Firebase App Check hit its recaptcha rate limit
+    // ("appCheck/initial-throttle", 24h cooldown) and Auth's calls, which go through App
+    // Check's verification pipeline (see firebase.js's init-order comment), just hung with
+    // zero console errors or rejections. Since `user` starts at `undefined` ("still
+    // resolving") and every Firebase-gated feature site-wide (PGO Tracker, MyMDB, TKB, the
+    // Navbar sign-in button) waits on that, a silent hang here means the WHOLE SITE looks
+    // stuck loading, forever, with nothing to debug. If the listener hasn't resolved within
+    // 6s, assume signed-out so the site degrades to device-only mode instead of hanging —
+    // a real auth state arriving later still wins normally (only overrides while still
+    // `undefined`, never overwrites an already-resolved value).
+    const timeout = setTimeout(() => setUser((u) => (u === undefined ? null : u)), 6000);
+    return () => { unsub(); clearTimeout(timeout); };
   }, []);
 
   const signIn = useCallback(async () => {
