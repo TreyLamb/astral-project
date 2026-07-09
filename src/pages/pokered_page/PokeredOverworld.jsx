@@ -1,10 +1,45 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { TRAINER_META } from './trainerMeta';
 import { TRAINER_PARTIES } from './trainerParties';
-import { ITEM_EFFECTS, TM_HM_MOVES } from './pokeredGameState';
+import { ITEM_EFFECTS, TM_HM_MOVES, tryFish } from './pokeredGameState';
 import ITEM_LOCATIONS from './extracted_og_data/item_locations.json';
+import HIDDEN_ITEMS from './extracted_og_data/hidden_items.json';
 import NPC_DIALOGUE from './extracted_og_data/npc_dialogue.json';
+import DEX from './extracted_og_data/dex.json';
 import './PokeredOverworld.css';
+
+// dex.json's key order matches OG's real PokedexOrder table (data/pokemon/dex_order.asm)
+// exactly — each entry's 1-indexed position IS its National Pokédex number, so no separate
+// number table is needed. 3 keys use OG's internal DEX_* naming instead of this game's own
+// species-key convention (used by pokemon_data.json/party mons/sprites) — aliased here so
+// dex.json can be matched against gameState.dex.seen/caught, which store canonical names.
+const DEX_KEY_ALIASES = { NIDORANM: 'NIDORAN_M', NIDORANF: 'NIDORAN_F', MRMIME: 'MR_MIME' };
+
+// engine/events/vending_machine.asm's fixed 3-item menu (Cancel isn't listed — closing the
+// dialogue/answering NO to the last one covers it). Celadon Mart Roof's 3 physical machine
+// tiles (data/maps/objects/CeladonMartRoof.asm) all dispatch this identical menu.
+const VENDING_TILES = [{ x: 10, y: 1 }, { x: 11, y: 1 }, { x: 12, y: 2 }];
+const VENDING_DRINKS = [
+  { name: 'FRESH_WATER', price: 200, label: 'FRESH WATER' },
+  { name: 'SODA_POP', price: 300, label: 'SODA POP' },
+  { name: 'LEMONADE', price: 350, label: 'LEMONADE' },
+];
+function buildVendingPrompt(i) {
+  const d = VENDING_DRINKS[i];
+  const onNo = i < VENDING_DRINKS.length - 1 ? buildVendingPrompt(i + 1) : { lines: ['Come again!'] };
+  return {
+    lines: [`${d.label}. ¥${d.price}.\nOK?`],
+    yesNo: {
+      onYes: { lines: [`<PLAYER> bought a\n${d.label}!`], action: 'BUY_VENDING', buyItem: d.name, buyPrice: d.price },
+      onNo,
+    },
+  };
+}
+const DEX_ENTRIES = Object.keys(DEX).map((key, i) => ({
+  species: DEX_KEY_ALIASES[key] ?? key,
+  num: i + 1,
+  data: DEX[key],
+}));
 
 // Game Boy native resolution — CSS handles 3x scaling
 const TILE = 8;       // pixels per RAW tile — used only for block/tileset addressing and rendering.
@@ -82,7 +117,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onRequestStarter, onOpenPC, onOpenShop, onMapChange, onSave, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onMetOldMan, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onMapChange, onSave, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onMetOldMan, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -101,9 +136,11 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   // Holds state across the 3-step HM06 teach flow: move → party target → slot.
   const pendingTeachMoveRef   = useRef(null); // selected move name
   const pendingTeachTargetRef = useRef(null); // selected party index
-  // Holds the party index chosen from the POKéMON menu while picking STATS/SWITCH/CANCEL,
+  // Holds the party index chosen from the POKÉMON menu while picking STATS/SWITCH/CANCEL,
   // and (during SWITCH) which second slot to swap it with.
   const pendingPartyIdxRef = useRef(null);
+  // Holds the DEX_ENTRIES index (0-150) chosen from the POKÉDEX list while viewing its detail page.
+  const pendingDexIdxRef = useRef(null);
   // Move-reorder state for the stats screen (same SwapMovesInMenu mechanic as the battle move
   // menu) — state (not a ref) since it needs to trigger the ▷ marker's re-render.
   const [moveSwapIdx, setMoveSwapIdx] = useState(null);
@@ -132,6 +169,13 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   const trainerEngageRef  = useRef(null);      // { phase, npc, id, liveX, liveY, facing, walkProg }
   const npcBattlePosRef   = useRef(new Map()); // npcId → { x, y, facing } post-battle walk-up pos
   const npcLivePosRef     = useRef(new Map()); // npcId → { x, y, facing, startX, startY, walkProg, walkDir }
+  // Set by loadMap when a warp lands the player on a registered door tile (OG
+  // PlayerStepOutFromDoor) — consumed once by the game loop to force one simulated
+  // downward step, then cleared. See isDoorTile()/DOOR_TILE_IDS_BY_TILESET above.
+  const stepOutPendingRef = useRef(false);
+  // OG wStepCounter equivalent — counts completed steps mod 4 for out-of-battle poison
+  // damage (see onPoisonTick call site in the game loop).
+  const stepCounterRef = useRef(0);
 
   // React state — only for UI overlays
   const [mapLabel, setMapLabel]       = useState('');
@@ -169,6 +213,18 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   // sub-tile (water, fence, sign post) into an otherwise-walkable movement cell.
   const WATER_TILESETS = ['overworld', 'forest', 'dojo', 'gym', 'ship', 'ship_port', 'cavern', 'facility', 'plateau'];
 
+  // engine/items/item_effects.asm IsNextTileShoreOrWater — gates fishing (and Surf).
+  // Requires a WATER_TILESETS map AND the literal faced tile to be the water tile ($14)
+  // or one of 2 shore tiles ($48 Safari Zone east shore, $32 the usual east shore) — except
+  // on the SHIP_PORT tileset (Vermilion Dock), where OG skips the tile-ID check entirely.
+  function isFacingWater(fx, fy) {
+    const ms = mapStateRef.current;
+    if (!ms || !WATER_TILESETS.includes(ms.mapInfo.tileset)) return false;
+    if (ms.mapInfo.tileset === 'ship_port') return true;
+    const tileId = getTileId(fx * 2, fy * 2);
+    return tileId === 20 || tileId === 72 || tileId === 50; // $14, $48, $32
+  }
+
   // data/tilesets/tileset_headers.asm's per-tileset "counter tiles" (up to 3 each, -1 = none).
   // OG's real mechanic (home/overworld.asm IsSpriteOrSignInFrontOfPlayer / .extendRangeOverCounter):
   // if the tile directly in front of the player is one of these, the NPC search range doubles
@@ -185,6 +241,42 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     club:       [7, 23],      // $07,$17
     facility:   [18],         // $12
   };
+
+  // data/tilesets/door_tile_ids.asm — per-tileset door graphic tile IDs (hex -> decimal),
+  // used by OG's PlayerStepOutFromDoor (engine/overworld/auto_movement.asm) to force one
+  // simulated PAD_DOWN step after a warp lands the player on a door tile, so they visibly
+  // step out from the doorway instead of standing on it. Only tilesets OG actually
+  // registers get an entry here — everything else (reds_house, gym, pokecenter itself,
+  // cavern, cemetery, club, interior, underground, ship_port) is correctly absent, since
+  // OG's own DoorTileIDPointers table never lists them either (no step-out there in the
+  // real game — you already spawn standing inside, not visually on a door tile).
+  // OG's MUSEUM tileset (door id $3B) has no separate name in our data — Pewter Museum's
+  // maps were bucketed into 'house' at extraction time (same underlying tile graphics),
+  // so 'house' below carries both real HOUSE ($54) and MUSEUM ($3B) door ids.
+  const DOOR_TILE_IDS_BY_TILESET = {
+    overworld: [27, 88],   // $1B, $58
+    forest:    [58],       // $3A
+    gate:      [59],       // $3B — also OG "ForestGate"/"Museum"
+    house:     [84, 59],   // $54 (HOUSE) + $3B (MUSEUM, see note above)
+    ship:      [30],       // $1E
+    lobby:     [28, 56, 26], // $1C, $38, $1A
+    mansion:   [26, 28, 83], // $1A, $1C, $53
+    lab:       [52],       // $34
+    facility:  [67, 88, 27], // $43, $58, $1B
+    plateau:   [59, 27],   // $3B, $1B
+  };
+  // OG's MART tileset (door id $5E) has no separate name in our data either — marts share
+  // the 'pokecenter' tileset with real Pokécenters (identical graphics), but only MART
+  // registers a door tile in OG; POKECENTER doesn't (no step-out there). Real Pokécenter
+  // maps all end in _POKECENTER (same convention already used for the auto-heal fix above)
+  // — anything else on the 'pokecenter' tileset (marts, CELADON_HOTEL, INDIGO_PLATEAU_LOBBY)
+  // is treated as the MART case.
+  const MART_DOOR_TILE_ID = 94; // $5E
+
+  function isDoorTile(mapId, tileset, tileId) {
+    if (tileset === 'pokecenter') return !mapId.endsWith('_POKECENTER') && tileId === MART_DOOR_TILE_ID;
+    return (DOOR_TILE_IDS_BY_TILESET[tileset] ?? []).includes(tileId);
+  }
 
   // EXTREMELY FRAGILE — read this whole comment block before touching ANYTHING below,
   // including WATER_TILESETS, LEDGE_STAND_TILES_BY_TILESET, or the bottom-row check.
@@ -409,6 +501,10 @@ const OUTDOOR = ['overworld', 'plateau'];
   // of which should count as a "last Pokecenter" respawn point.
   if (onMapChange) onMapChange(mapId, entryX, entryY, mapId.endsWith('_POKECENTER'));
   setDebugPos({ mapId, x: entryX, y: entryY });
+  // OG PlayerStepOutFromDoor: if the warp landed the player on a registered door tile,
+  // force one simulated downward step next frame — see isDoorTile() above.
+  const landingTileId = getTileId(entryX * 2, entryY * 2 + 1); // bottom-left sub-tile, matches OG's lda_coord 8,9
+  stepOutPendingRef.current = isDoorTile(mapId, mapInfo.tileset, landingTileId);
 }
       setMapLabel(mapId.replace(/_/g, ' '));
       setLoadError(null);
@@ -634,12 +730,12 @@ function notifyPosition() {
     REDS_HOUSE_2F: [
       // PC — left cluster, user confirmed. Coordinates halved for the metatile-unit coordinate
       // refactor — (0,1) now matches OG's raw hidden_events.asm OpenRedsPC position exactly.
-      { x: 0, y: 1, text: "It's a POKéMON PC. Connected to the STORAGE SYSTEM." },
+      { x: 0, y: 1, text: "It's a POKÉMON PC. Connected to the STORAGE SYSTEM." },
       // SNES/TV — rest of upper furniture row. (3,5) matches OG's raw PrintRedSNESText position.
       { x: 3, y: 4, text: "There's a SNES hooked up to the TV!" },
       { x: 3, y: 5, text: "There's a SNES hooked up to the TV!" },
       // Wall / right side
-      { x: 7, y: 1, text: "A bookshelf full of POKéMON guides." },
+      { x: 7, y: 1, text: "A bookshelf full of POKÉMON guides." },
     ],
   };
 
@@ -659,11 +755,36 @@ function notifyPosition() {
     return objs.find(o => o.x === tx && o.y === ty)?.text ?? '...';
   }
 
-  // Tiles that open the PC screen instead of showing static text
+  // Tiles that open the PC screen instead of showing static text — every entry sourced
+  // from data/events/hidden_events.asm's OpenPokemonCenterPC hidden_event (coordinates
+  // already metatile-scale like all hidden_event/bg_event data, no ×2 needed). Real
+  // Pokémon Centers all share (13,3); a few non-Pokécenter locations also get a real OG
+  // PC (Safari Zone rest houses, Celadon Hotel/Mansion 2F, Indigo Plateau Lobby, the
+  // Cinnabar Lab fossil-revival room's 2 PCs, Silph Co. 11F) — included for the same
+  // reason, not just the "_POKECENTER" maps, since this is the same handler either way.
   const PC_TILES = {
     REDS_HOUSE_2F: [
       { x: 0, y: 1 },
     ],
+    VIRIDIAN_POKECENTER: [{ x: 13, y: 3 }],
+    PEWTER_POKECENTER: [{ x: 13, y: 3 }],
+    CERULEAN_POKECENTER: [{ x: 13, y: 3 }],
+    LAVENDER_POKECENTER: [{ x: 13, y: 3 }],
+    VERMILION_POKECENTER: [{ x: 13, y: 3 }],
+    CELADON_POKECENTER: [{ x: 13, y: 3 }],
+    FUCHSIA_POKECENTER: [{ x: 13, y: 3 }],
+    CINNABAR_POKECENTER: [{ x: 13, y: 3 }],
+    MT_MOON_POKECENTER: [{ x: 13, y: 3 }],
+    ROCK_TUNNEL_POKECENTER: [{ x: 13, y: 3 }],
+    SAFFRON_POKECENTER: [{ x: 13, y: 3 }],
+    CELADON_HOTEL: [{ x: 13, y: 3 }],
+    CELADON_MANSION_2F: [{ x: 0, y: 5 }],
+    SAFARI_ZONE_WEST_REST_HOUSE: [{ x: 13, y: 3 }],
+    SAFARI_ZONE_EAST_REST_HOUSE: [{ x: 13, y: 3 }],
+    SAFARI_ZONE_NORTH_REST_HOUSE: [{ x: 13, y: 3 }],
+    INDIGO_PLATEAU_LOBBY: [{ x: 15, y: 7 }],
+    CINNABAR_LAB_FOSSIL_ROOM: [{ x: 0, y: 4 }, { x: 2, y: 4 }],
+    SILPH_CO_11F: [{ x: 10, y: 12 }],
   };
 
   function isPCTile(mapId, tx, ty) {
@@ -673,26 +794,26 @@ function notifyPosition() {
   // ── Trainer battle dialogue (keyed by trainerClass from game_data.json NPC) ─
   const TRAINER_DIALOGUE = {
     Youngster:   ["YOUNGSTER: Hey! Wanna battle?"],
-    BugCatcher:  ["BUG CATCHER: Bugs are the best POKéMON!"],
-    Lass:        ["LASS: I like cute POKéMON!"],
+    BugCatcher:  ["BUG CATCHER: Bugs are the best POKÉMON!"],
+    Lass:        ["LASS: I like cute POKÉMON!"],
     Sailor:      ["SAILOR: You look like a tough trainer!"],
     JrTrainerM:  ["JR.TRAINER♂: I'm training to be the best!"],
     JrTrainerF:  ["JR.TRAINER♀: I won't lose to you!"],
-    Pokemaniac:  ["POKEMANIAC: POKéMON are my passion!"],
-    SuperNerd:   ["SUPER NERD: I've studied POKéMON thoroughly!"],
+    Pokemaniac:  ["POKEMANIAC: POKÉMON are my passion!"],
+    SuperNerd:   ["SUPER NERD: I've studied POKÉMON thoroughly!"],
     Hiker:       ["HIKER: These mountains are my home!"],
-    Biker:       ["BIKER: My POKéMON are tough as nails!"],
-    Burglar:     ["BURGLAR: Hand over your POKéMON!"],
-    Engineer:    ["ENGINEER: Let's test our POKéMON!"],
+    Biker:       ["BIKER: My POKÉMON are tough as nails!"],
+    Burglar:     ["BURGLAR: Hand over your POKÉMON!"],
+    Engineer:    ["ENGINEER: Let's test our POKÉMON!"],
     Fisher:      ["FISHERMAN: I'll reel you in!"],
     Swimmer:     ["SWIMMER: I'm the fastest swimmer around!"],
     CueBall:     ["CUE BALL: You want a piece of me?!"],
-    Gambler:     ["GAMBLER: I'll bet on my POKéMON!"],
+    Gambler:     ["GAMBLER: I'll bet on my POKÉMON!"],
     Beauty:      ["BEAUTY: Hmph! Don't stare!"],
     Psychic:     ["PSYCHIC: I can read your mind!"],
     Rocker:      ["ROCKER: Feel the power of rock!"],
-    Juggler:     ["JUGGLER: Watch my POKéMON perform!"],
-    Tamer:       ["TAMER: My POKéMON obey me perfectly!"],
+    Juggler:     ["JUGGLER: Watch my POKÉMON perform!"],
+    Tamer:       ["TAMER: My POKÉMON obey me perfectly!"],
     BirdKeeper:  ["BIRD KEEPER: My birds soar above all!"],
     Blackbelt:   ["BLACKBELT: My fists are lethal weapons!"],
     Scientist:   ["SCIENTIST: Let's conduct a battle experiment!"],
@@ -711,9 +832,9 @@ function notifyPosition() {
     Giovanni:    ["GIOVANNI: So! You've made it this far..."],
     Rival1:      ["BLUE: So! You're here too!"],
     Rival2:      ["BLUE: Hmm! So you've gotten a bit better!"],
-    Rival3:      ["BLUE: Pallet Town's POKéMON are the strongest!"],
+    Rival3:      ["BLUE: Pallet Town's POKÉMON are the strongest!"],
     Lorelei:     ["LORELEI: No one can best me in a battle!"],
-    Bruno:       ["BRUNO: We are simpatico, my POKéMON and I!"],
+    Bruno:       ["BRUNO: We are simpatico, my POKÉMON and I!"],
     Agatha:      ["AGATHA: A piddling trainer like you dares challenge me?"],
     Lance:       ["LANCE: I am LANCE, the strongest trainer here!"],
   };
@@ -726,12 +847,12 @@ function notifyPosition() {
 
   // ── Generic NPC text (non-trainer NPCs keyed by sprite name) ─────────────
   const NPC_TEXT = {
-    mom:      { lines: ["MOM: You need a rest!", "I'll heal your POKéMON!"], action: 'HEAL' },
-    oak:      { lines: ["OAK: Ah, you're here!", "Please, choose your first POKéMON!"], action: 'STARTER' },
-    nurse:    { lines: ["NURSE: Welcome!", "We restore POKéMON to full health!"], action: 'HEAL' },
+    mom:      { lines: ["MOM: You need a rest!", "I'll heal your POKÉMON!"], action: 'HEAL' },
+    oak:      { lines: ["OAK: Ah, you're here!", "Please, choose your first POKÉMON!"], action: 'STARTER' },
+    nurse:    { lines: ["NURSE: Welcome!", "We restore POKÉMON to full health!"], action: 'HEAL' },
     oak_aide: { lines: ["OAK's AIDE: The professor is away on research."] },
     daisy:    { lines: ["DAISY: Hi! I'm GARY's sister."] },
-    girl:     { lines: ["This town is famous for POKéMON research."] },
+    girl:     { lines: ["This town is famous for POKÉMON research."] },
     youngster:{ lines: ["YOUNGSTER: Hey there!"] },
     guard:    { lines: ["GUARD: No entry without a BADGE!"] },
     rocket:   { lines: ["ROCKET: You're in our way!"] },
@@ -739,8 +860,8 @@ function notifyPosition() {
     fisher:   { lines: ["FISHER: Nothing biting today..."] },
     hiker:    { lines: ["HIKER: These mountains are tough!"] },
     gramps:   { lines: ["OLD MAN: I used to be a great trainer."] },
-    granny:   { lines: ["OLD WOMAN: Take good care of your POKéMON."] },
-    gym_guide:{ lines: ["GYM GUIDE: This is a POKéMON GYM. Defeat the LEADER to earn a BADGE!"] },
+    granny:   { lines: ["OLD WOMAN: Take good care of your POKÉMON."] },
+    gym_guide:{ lines: ["GYM GUIDE: This is a POKÉMON GYM. Defeat the LEADER to earn a BADGE!"] },
     clerk:    { lines: ["CLERK: Welcome!", "May I help you?"], action: 'SHOP' },
     // Real OG script is script_cable_club_receptionist (engine/link/cable_club_npc.asm) —
     // the Trade Center/Colosseum link feature, which requires an actual second connected
@@ -766,14 +887,14 @@ function notifyPosition() {
     // Viridian City "Old Man" (ViridianCityOldManText) — his real post-demo dialogue, shown on
     // every visit AFTER the one-time catching-tutorial demo (see the VIRIDIAN_CITY:7 branch in
     // startDialogue, gated on gameState.metOldMan, which triggers the demo the first time).
-    'VIRIDIAN_CITY:7': ["Ahh, I've had my\ncoffee now and I\nfeel great!", "Sure you can go\nthrough!", "I see you're using\na POKéDEX.", "I'll show you how\nto catch POKéMON."],
+    'VIRIDIAN_CITY:7': ["Ahh, I've had my\ncoffee now and I\nfeel great!", "Sure you can go\nthrough!", "I see you're using\na POKÉDEX.", "I'll show you how\nto catch POKÉMON."],
     // Pewter City super nerd (PewterCitySuperNerd1Text) — OG asks whether you've seen the
     // museum first; PEWTER_MUSEUM isn't a wired map in this port, so this always takes the
     // "you haven't been" branch.
     'PEWTER_CITY:3': ["Did you check out\nthe MUSEUM?", "Really?\nYou absolutely\nhave to go!"],
     // Pewter City super nerd #2 (PewterCitySuperNerd2Text) — skips OG's yes/no gate straight
     // to the informative answer.
-    'PEWTER_CITY:4': ["Psssst!\nDo you know what\nI'm doing?", "I'm spraying REPEL\nto keep POKéMON\nout of my garden!"],
+    'PEWTER_CITY:4': ["Psssst!\nDo you know what\nI'm doing?", "I'm spraying REPEL\nto keep POKÉMON\nout of my garden!"],
     // Cerulean City woman training her Slowbro (CeruleanCityCooltrainerF1Text) and the
     // Slowbro itself (CeruleanCitySlowbroText) — OG randomly picks 1 of 3 flavor lines each
     // visit; this always shows the first (most common) one rather than adding RNG state.
@@ -783,7 +904,7 @@ function notifyPosition() {
     // script checks whether the player already has the stolen TM_DIG; this port doesn't
     // track individual TMs (see the Viridian fisherman/gym-badge comments), so it always
     // shows the "they stole it" branch.
-    'CERULEAN_TRASHED_HOUSE:1': ["Those miserable\nROCKETs!", "Look what they\ndid here!", "They stole a TM\nfor teaching\nPOKéMON how to\nDIG holes!", "That cost me a\nbundle, it did!"],
+    'CERULEAN_TRASHED_HOUSE:1': ["Those miserable\nROCKETs!", "Look what they\ndid here!", "They stole a TM\nfor teaching\nPOKÉMON how to\nDIG holes!", "That cost me a\nbundle, it did!"],
     // Vermilion City gambler (VermilionCityGambler1Text) — real condition is whether the SS
     // Anne has since departed (a late-game one-way story event this port doesn't track);
     // always takes the "still moored" branch, correct for the vast majority of a playthrough.
@@ -839,11 +960,11 @@ function notifyPosition() {
     if (here === 'ROUTE_1:1') {
       const giftId = npcTrainerId(ms.mapId, npc);
       if (pickedUpRef.current.has(giftId)) {
-        setDialogue({ lines: ["We also carry\nPOKé BALLs for\ncatching POKéMON!"], idx: 0, action: null });
+        setDialogue({ lines: ["We also carry\nPOKÉ BALLs for\ncatching POKÉMON!"], idx: 0, action: null });
       } else {
         pickedUpRef.current.add(giftId);
         if (onPickUpItem) onPickUpItem(giftId, 'POTION');
-        setDialogue({ lines: ["Hi! I work at a\nPOKéMON MART.", "It's a convenient\nshop, so please\nvisit us in\nVIRIDIAN CITY.", "You got a POTION!"], idx: 0, action: null });
+        setDialogue({ lines: ["Hi! I work at a\nPOKÉMON MART.", "It's a convenient\nshop, so please\nvisit us in\nVIRIDIAN CITY.", "You got a POTION!"], idx: 0, action: null });
       }
       return;
     }
@@ -856,7 +977,7 @@ function notifyPosition() {
       setDialogue({
         lines: gymReturned
           ? ["VIRIDIAN GYM's\nLEADER returned!"]
-          : ["This POKéMON GYM\nis always closed.", "I wonder who the\nLEADER is?"],
+          : ["This POKÉMON GYM\nis always closed.", "I wonder who the\nLEADER is?"],
         idx: 0, action: null,
       });
       return;
@@ -879,15 +1000,32 @@ function notifyPosition() {
       return;
     }
 
-    // Mt Moon B2F fossil choice (MtMoonB2FDomeFossilText/HelixFossilText) — real OG script
-    // doesn't actually make the two mutually exclusive (picking one never hides the other),
-    // so each is just a one-time pickup like a ground item. Not sprite 'poke_ball' so the
-    // generic ground-item path above doesn't catch these.
+    // Mt Moon B2F fossil choice (MtMoonB2FDomeFossilText/HelixFossilText). CORRECTED
+    // 2026-07-09: a prior session's comment here claimed real OG doesn't make the two
+    // mutually exclusive — false, traced directly from scripts/MtMoonB2F.asm this session.
+    // Real OG DOES enforce exactly one: after either EVENT_GOT_DOME_FOSSIL/EVENT_GOT_HELIX_FOSSIL
+    // is set, walking near the OTHER fossil's tile makes the "Super Nerd" NPC walk over, say
+    // "Then this is mine!", and HideObject the other fossil for good
+    // (MtMoonB2FSuperNerdTakesOtherFossilScript). This port has no per-tile proximity-trigger
+    // NPC-movement system to replicate that exact animation, so — same simplification style as
+    // this session's other single-NPC-gift collapses — the end result (at most one fossil ever
+    // obtainable) is applied immediately at pickup instead: taking one marks the other's giftId
+    // taken too (via onMarkGiftTaken, which records it in pickedUpItems without granting an
+    // item), rather than waiting for a proximity trigger that doesn't exist here.
     if (here === 'MT_MOON_B2F:6' || here === 'MT_MOON_B2F:7') {
       const fossilName = here === 'MT_MOON_B2F:6' ? 'DOME_FOSSIL' : 'HELIX_FOSSIL';
       const giftId = npcTrainerId(ms.mapId, npc);
+      const otherNpc = ms.mapInfo.npcs.find(n => n.sprite === 'fossil' && n !== npc);
+      const otherGiftId = otherNpc ? npcTrainerId(ms.mapId, otherNpc) : null;
+      const otherAlreadyTaken = otherGiftId && (gameState?.pickedUpItems ?? []).includes(otherGiftId);
       if (pickedUpRef.current.has(giftId)) {
         setDialogue({ lines: ['...'], idx: 0, action: null });
+      } else if (otherAlreadyTaken) {
+        // The other fossil was already taken — real OG's Super Nerd NPC swoops in and
+        // claims this one the moment you approach it, so it's never actually obtainable.
+        pickedUpRef.current.add(giftId);
+        if (onMarkGiftTaken) onMarkGiftTaken(giftId);
+        setDialogue({ lines: ["SUPER NERD:\nThen this is mine!"], idx: 0, action: null });
       } else {
         pickedUpRef.current.add(giftId);
         if (onPickUpItem) onPickUpItem(giftId, fossilName);
@@ -903,7 +1041,7 @@ function notifyPosition() {
     // gift (BillsHouseBillSSTicketText) — the SS Ticket is a real story-gating item (needed to
     // board the SS Anne), so it can't be left as a silent "..." like a pure-flavor NPC.
     if (here === 'BILLS_HOUSE:1') {
-      setDialogue({ lines: ["Hiya! I'm a\nPOKéMON......No\nI'm not! Call me\nBILL!", "When I'm in the\nTELEPORTER, go to\nmy PC and run the\nCell Separation\nSystem!"], idx: 0, action: null });
+      setDialogue({ lines: ["Hiya! I'm a\nPOKÉMON......No\nI'm not! Call me\nBILL!", "When I'm in the\nTELEPORTER, go to\nmy PC and run the\nCell Separation\nSystem!"], idx: 0, action: null });
       return;
     }
     if (here === 'BILLS_HOUSE:2') {
@@ -987,13 +1125,47 @@ function notifyPosition() {
       return;
     }
 
+    // Saffron City gate guards (engine/events/saffron_guards.asm) — Route 5/6/7/8 Gate all
+    // dispatch the identical check. Real OG: giving ANY ONE guard a drink (FRESH_WATER,
+    // SODA_POP, or LEMONADE, checked in that priority — GuardDrinksList) sets ONE shared flag
+    // that satisfies all 4 ("I'll share this with the other guards!"), not 4 separate gates.
+    // Same "informational only, not an actual boarding block" simplification already used for
+    // the SS Anne ticket guard above — this port doesn't hard-block movement through gates on
+    // any story-item check, so this doesn't newly gate the Saffron warp either.
+    if (['ROUTE_5_GATE:1', 'ROUTE_6_GATE:1', 'ROUTE_7_GATE:1', 'ROUTE_8_GATE:1'].includes(here)) {
+      if (gameState?.gaveSaffronGuardsDrink) {
+        setDialogue({ lines: ["Hi, thanks for\nthe cool drinks!"], idx: 0, action: null });
+      } else {
+        const drinkOrder = ['FRESH_WATER', 'SODA_POP', 'LEMONADE'];
+        const items = gameState?.items ?? [];
+        const haveDrink = drinkOrder.find(d => items.some(it => it.name === d && it.count > 0));
+        if (haveDrink) {
+          if (onGiveGuardDrink) onGiveGuardDrink(haveDrink);
+          setDialogue({
+            lines: [
+              "Whoa, boy!\nI'm parched!\n...\nHuh? I can have\nthis drink?\nGee, thanks!",
+              "...\nGlug glug...\n...\nGulp...\nIf you want to go\nto SAFFRON CITY...\n...\nYou can go on\nthrough. I'll\nshare this with\nthe other guards!",
+            ],
+            idx: 0, action: null,
+          });
+        } else {
+          setDialogue({ lines: ["I'm on guard duty.\nGee, I'm thirsty,\nthough!", "Oh wait there,\nthe road's closed."], idx: 0, action: null });
+        }
+      }
+      return;
+    }
+
     // Oak, back in his Lab (OaksLabOak1Text) — real OG script re-triggers STARTER selection
     // text on every single visit regardless of story progress, since it fell through to the
     // generic NPC_TEXT.oak fallback (which has action:'STARTER'). Once the player has a
-    // starter, the real branching logic applies instead: if they've beaten their Route 22
-    // rival battle and still have zero Poke Balls (spent them all trying to catch things),
-    // Oak gives 5 more. Pokédex-rating/parcel-delivery branches aren't tracked in this port
-    // (no dex or parcel sidequest system) and fall to the generic "come see me" branch.
+    // starter, the real branching logic applies instead, in real OG's own priority order
+    // (scripts/OaksLab.asm .check_for_poke_balls): if they've beaten their Route 22 rival
+    // battle and still have zero Poke Balls, Oak gives 5 more. Else, if they HAVEN'T beaten
+    // that rival yet and have zero balls, the Parcel branch applies instead (2026-07-09,
+    // new session: was previously untracked, fell through to the generic "come see me"
+    // text) — deliver OAKS_PARCEL if carrying it, otherwise the real "raise your young
+    // POKéMON" filler line. Pokédex-rating branch still not tracked (no dex-ownership
+    // state at the time this checks) and falls to "come see me" like before.
     if (here === 'OAKS_LAB:5' && (gameState?.party?.length ?? 0) > 0) {
       const hasPokeBalls = (gameState?.items ?? []).some(it => it.name === 'POKE_BALL' && it.count > 0);
       const beatRoute22Rival = (gameState?.beatenTrainers ?? []).includes('ROUTE_22:25:5');
@@ -1003,7 +1175,18 @@ function notifyPosition() {
           pickedUpRef.current.add(giftId);
           if (onPickUpItem) onPickUpItem(giftId, 'POKE_BALL', 5);
         }
-        setDialogue({ lines: ["When a wild\nPOKéMON appears,\nit's fair game.", "Just throw a POKé\nBALL at it and try\nto catch it!", "This won't always\nwork, though.", "A healthy POKéMON\ncould escape. You\nhave to be lucky!"], idx: 0, action: null });
+        setDialogue({ lines: ["When a wild\nPOKÉMON appears,\nit's fair game.", "Just throw a POKÉ\nBALL at it and try\nto catch it!", "This won't always\nwork, though.", "A healthy POKÉMON\ncould escape. You\nhave to be lucky!"], idx: 0, action: null });
+      } else if (!hasPokeBalls && !beatRoute22Rival) {
+        const hasParcel = (gameState?.items ?? []).some(it => it.name === 'OAKS_PARCEL');
+        if (hasParcel) {
+          if (onDeliverParcel) onDeliverParcel();
+          setDialogue({
+            lines: ["OAK: Oh, <PLAYER>!", "How is my old\nPOKéMON?", "Well, it seems to\nlike you a lot.", "You must be\ntalented as a\nPOKéMON trainer!", "What? You have\nsomething for me?", "<PLAYER> delivered\nOAK's PARCEL.", "Ah! This is the\ncustom POKé BALL\nI ordered!\nThank you!"],
+            idx: 0, action: null,
+          });
+        } else {
+          setDialogue({ lines: ["OAK: <PLAYER>,\nraise your young\nPOKéMON by making\nit fight!"], idx: 0, action: null });
+        }
       } else {
         setDialogue({ lines: ["OAK: Come see me\nsometimes.", "I want to know how\nyour research is\ncoming along."], idx: 0, action: null });
       }
@@ -1018,7 +1201,7 @@ function notifyPosition() {
       if (beaten) {
         const meta = TRAINER_META[npc.trainerClass];
         const name = meta?.name ?? npc.trainerClass.toUpperCase();
-        setDialogue({ lines: [`${name}: ...`, `${name} is out of POKéMON to battle with!`], idx: 0, action: null });
+        setDialogue({ lines: [`${name}: ...`, `${name} is out of POKÉMON to battle with!`], idx: 0, action: null });
         return;
       }
       // Rival encounters store the encounter *instance* (0,1,2...) in npc.partyIdx — the
@@ -1027,8 +1210,27 @@ function notifyPosition() {
       const isRival = npc.trainerClass?.startsWith('Rival');
       const variantOffset = isRival ? (RIVAL_VARIANT_OFFSET[gameState?.starterSpecies] ?? 0) : 0;
       const partyIdx = isRival ? (npc.partyIdx ?? 0) * 3 + variantOffset : (npc.partyIdx ?? 0);
-      setDialogue({ lines, idx: 0, action: 'BATTLE', trainerKey: npc.trainerClass, partyIdx, trainerId: id });
+      setDialogue({ lines, idx: 0, action: 'BATTLE', trainerKey: npc.trainerClass, partyIdx, trainerId: id, sprite: npc.sprite });
       return;
+    }
+
+    // Oak's Parcel quest (scripts/ViridianMart.asm): real OG auto-triggers this the moment
+    // the player first ENTERS the mart (no interaction needed) — this port is interaction-
+    // driven throughout, so it's simplified to firing on the first time the clerk is talked
+    // to instead, before the shop ever opens. One-time only (pickedUpRef gates it), and never
+    // re-fires once delivered (onDeliverParcel's OAKS_PARCEL_DELIVERED flag).
+    if (ms?.mapId === 'VIRIDIAN_MART' && npc.sprite === 'clerk') {
+      const parcelGiftId = npcTrainerId(ms.mapId, npc);
+      const delivered = (gameState?.pickedUpItems ?? []).includes('OAKS_PARCEL_DELIVERED');
+      if (!delivered && !pickedUpRef.current.has(parcelGiftId)) {
+        pickedUpRef.current.add(parcelGiftId);
+        if (onPickUpItem) onPickUpItem(parcelGiftId, 'OAKS_PARCEL');
+        setDialogue({
+          lines: ["Hey! You came from\nPALLET TOWN?", "You know PROF.\nOAK, right?", "His order came in.\nWill you take it\nto him?", "<PLAYER> got\nOAK's PARCEL!"],
+          idx: 0, action: null,
+        });
+        return;
+      }
     }
 
     if (action === 'SHOP' && ms) {
@@ -1058,7 +1260,7 @@ function notifyPosition() {
         // Trigger action AFTER dialogue closes
         if (prev.action === 'HEAL' && onHealParty) {
           onHealParty();
-          setHealMsg('Your POKéMON were healed!');
+          setHealMsg('Your POKÉMON were healed!');
           setTimeout(() => setHealMsg(''), 2000);
         }
         if (prev.action === 'STARTER' && onRequestStarter) {
@@ -1075,13 +1277,16 @@ function notifyPosition() {
           const ms = mapStateRef.current;
           const p  = playerRef.current;
           setTimeout(() => onTrainerBattle(
-            { trainerKey: prev.trainerKey, partyIdx: prev.partyIdx ?? 0, trainerId: prev.trainerId },
+            { trainerKey: prev.trainerKey, partyIdx: prev.partyIdx ?? 0, trainerId: prev.trainerId, sprite: prev.sprite },
             ms?.mapId, p?.x, p?.y
           ), 50);
         }
         if (prev.action === 'BUY_MAGIKARP' && onBuyMagikarp && prev.giftId) {
           pickedUpRef.current.add(prev.giftId);
           onBuyMagikarp(prev.giftId);
+        }
+        if (prev.action === 'BUY_VENDING' && onBuyItem && prev.buyItem && prev.buyPrice) {
+          onBuyItem(prev.buyItem, prev.buyPrice);
         }
         return null;
       }
@@ -1097,7 +1302,12 @@ function notifyPosition() {
       if (!prev?.yesNo) return prev;
       const choice = idx === 0 ? prev.yesNo.onYes : prev.yesNo.onNo;
       if (!choice?.lines?.length) return null;
-      return { lines: choice.lines, idx: 0, action: choice.action ?? null, giftId: prev.giftId };
+      // Forward the chosen branch's own yesNo/buyItem/buyPrice (not just lines/action) so a
+      // "No" answer can chain into a FOLLOW-UP yes/no prompt (e.g. the vending machine asking
+      // about each drink in turn) — advanceDialogue re-enters awaitingYesNo automatically once
+      // these lines finish, the same way the initial prompt did.
+      return { lines: choice.lines, idx: 0, action: choice.action ?? null, giftId: prev.giftId,
+        yesNo: choice.yesNo, buyItem: choice.buyItem ?? prev.buyItem, buyPrice: choice.buyPrice ?? prev.buyPrice };
     });
   }
 
@@ -1160,8 +1370,9 @@ function notifyPosition() {
             if      (c === 0)              goPage('pokemon');
             else if (c === 1)              goPage('items');
             else if (c === 2)              goPage('trainer');
-            else if (!extra && c === 3)    { if (onSave) onSave(); closeMenu(); }
-            else if ((!extra && c === 4) || (extra && c === 3)) { if (onReturnHome) onReturnHome(); }
+            else if (c === 3)              goPage('pokedex');
+            else if (!extra && c === 4)    { if (onSave) onSave(); closeMenu(); }
+            else if ((!extra && c === 5) || (extra && c === 4)) { if (onReturnHome) onReturnHome(); }
             else                           closeMenu();
           } else if (pg === 'pokemon') {
             const party = gsRef.current?.party ?? [];
@@ -1213,6 +1424,25 @@ function notifyPosition() {
             } else if (effect?.category === 'hm06') {
               pendingTeachMoveRef.current = null; pendingTeachTargetRef.current = null;
               goPage('hm06-move');
+            } else if (effect?.category === 'rod') {
+              const p = playerRef.current;
+              const ms = mapStateRef.current;
+              const faceDelta = [[0,1],[0,-1],[-1,0],[1,0]];
+              const [fdx, fdy] = faceDelta[p.dir] || [0,1];
+              const fx = p.x + fdx, fy = p.y + fdy;
+              if (!ms || !isFacingWater(fx, fy)) {
+                setHealMsg("Can't fish here.");
+                setTimeout(() => setHealMsg(''), 2000);
+              } else {
+                const bite = tryFish(effect.tier, ms.mapId);
+                if (!bite) {
+                  setHealMsg('Not even a nibble!');
+                  setTimeout(() => setHealMsg(''), 2000);
+                } else if (onEncounter) {
+                  onEncounter(bite, ms.mapId, p.x, p.y);
+                }
+              }
+              closeMenu();
             }
           } else if (pg === 'item-target') {
             const party = gsRef.current?.party ?? [];
@@ -1225,6 +1455,13 @@ function notifyPosition() {
             }
             pendingStoneRef.current = null;
             closeMenu();
+          } else if (pg === 'pokedex') {
+            const idx = menuCursorRef.current;
+            const seen = gsRef.current?.dex?.seen ?? [];
+            if (DEX_ENTRIES[idx] && seen.includes(DEX_ENTRIES[idx].species)) {
+              pendingDexIdxRef.current = idx;
+              goPage('pokedex-detail');
+            }
           } else if (pg === 'hm06-move') {
             const entry = TM_HM_MOVES[menuCursorRef.current];
             if (entry) { pendingTeachMoveRef.current = entry.move; goPage('hm06-target'); }
@@ -1265,7 +1502,7 @@ function notifyPosition() {
           if (pg !== 'main') {
             pendingStoneRef.current = null;
             pendingTeachMoveRef.current = null; pendingTeachTargetRef.current = null;
-            // Step back within the HM06 flow, or the POKéMON select/switch flow;
+            // Step back within the HM06 flow, or the POKÉMON select/switch flow;
             // X from anywhere else goes straight to main.
             const back = pg === 'hm06-target'          ? 'hm06-move'
                        : pg === 'hm06-slot'             ? 'hm06-target'
@@ -1336,6 +1573,37 @@ function notifyPosition() {
         }
         // Facing a PC tile — open PC screen (pass current pos so overworld remounts there)
         if (isPCTile(ms.mapId, fx, fy) && onOpenPC) { onOpenPC(ms.mapId, p.x, p.y); return; }
+        // Celadon Mart Roof vending machines (engine/events/vending_machine.asm) — the only
+        // real vending machines in the whole game (data/maps/objects/CeladonMartRoof.asm: 3
+        // bg_events, all dispatching the same VendingMachineMenu). Real OG shows a single
+        // 4-option cursor menu (3 drinks + Cancel); this port has no generic mid-dialogue N-way
+        // chooser, only Yes/No (built for the Magikarp salesman) — reused here as a chained
+        // "want X? Y/N, else ask about the next one" sequence via chooseYesNo's yesNo-forwarding,
+        // functionally equivalent (every drink reachable, correct price, no purchase without an
+        // explicit yes) even though the on-screen shape differs from the real cursor menu.
+        if (ms?.mapId === 'CELADON_MART_ROOF' && VENDING_TILES.some(t => t.x === fx && t.y === fy)) {
+          const prompt = buildVendingPrompt(0);
+          setDialogue({ lines: prompt.lines, idx: 0, action: null, yesNo: prompt.yesNo });
+          return;
+        }
+        // Hidden items (Itemfinder-findable ground items, data/events/hidden_item_coords.asm).
+        // OG's CheckForHiddenEvent (home/hidden_events.asm) checks this against the tile the
+        // player is FACING — same fx,fy as signs/PC above — regardless of whether that tile is
+        // walkable, unlike visible poke_ball items which are stood on. hidden_items.json uses
+        // the same old raw-tile-doubled scale as item_locations.json (confirmed: VIRIDIAN_FOREST
+        // (1,18)/(16,42) in OG source vs (2,36)/(32,84) here, exactly ×2) — same ×2 conversion.
+        const hiddenEntry = HIDDEN_ITEMS[ms.mapId]?.find(e => e.x === fx * 2 && e.y === fy * 2);
+        if (hiddenEntry) {
+          const hiddenId = `hidden:${ms.mapId}:${fx}:${fy}`;
+          if (!pickedUpRef.current.has(hiddenId)) {
+            pickedUpRef.current.add(hiddenId);
+            setDialogue({ lines: [`You found a ${hiddenEntry.item.replace(/_/g, ' ')}!`], idx: 0, action: null });
+            if (onPickUpItem) onPickUpItem(hiddenId, hiddenEntry.item);
+          } else {
+            setDialogue({ lines: ["There's nothing\nhere."], idx: 0, action: null });
+          }
+          return;
+        }
         // Facing any other blocked tile — show object text
         const gd = gameDataRef.current;
         const walkSet = gd?.collision[ms.mapInfo.tileset] || [];
@@ -1438,18 +1706,34 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             p.stepPhase = 1 - p.stepPhase;
             p.walkProg = 0; p.isWalking = false; p.dx = 0; p.dy = 0;
             fn.notifyPosition();
+            // Out-of-battle poison damage (OG ApplyOutOfBattlePoisonDamage): every 4th
+            // completed step, not gated on transitionRef since it should still tick even
+            // while a map fade is in progress (matches OG's wStepCounter, which isn't
+            // gated on the simulated-movement flag either — only blacking out is).
+            stepCounterRef.current = (stepCounterRef.current + 1) & 3;
+            if (stepCounterRef.current === 0 && onPoisonTick) {
+              const res = onPoisonTick();
+              if (res?.whiteout && res.dest) { pendingMapRef.current = res.dest; transitionRef.current = 1; }
+            }
             // Only check tile events if not already fading to a new map
             if (transitionRef.current === 0) fn.checkNewTile();
           }
         }
         // Key check runs immediately after step completion too — eliminates the one-frame standing flicker
         if (!p.isWalking && transitionRef.current === 0 && !showMenuRef.current && !dialogueRef.current && !trainerEngageRef.current) {
-          const keys = keysRef.current;
           let ddx = 0, ddy = 0, dir = p.dir;
-          if      (keys.has('ArrowUp')    || keys.has('w') || keys.has('W')) { ddy = -1; dir = DIR_UP; }
-          else if (keys.has('ArrowDown')  || keys.has('s') || keys.has('S')) { ddy =  1; dir = DIR_DOWN; }
-          else if (keys.has('ArrowLeft')  || keys.has('a') || keys.has('A')) { ddx = -1; dir = DIR_LEFT; }
-          else if (keys.has('ArrowRight') || keys.has('d') || keys.has('D')) { ddx =  1; dir = DIR_RIGHT; }
+          // OG PlayerStepOutFromDoor: a pending forced step takes priority over real input,
+          // matching OG's wJoyIgnore during the simulated joypad state (see loadMap above).
+          if (stepOutPendingRef.current) {
+            stepOutPendingRef.current = false;
+            ddy = 1; dir = DIR_DOWN;
+          } else {
+            const keys = keysRef.current;
+            if      (keys.has('ArrowUp')    || keys.has('w') || keys.has('W')) { ddy = -1; dir = DIR_UP; }
+            else if (keys.has('ArrowDown')  || keys.has('s') || keys.has('S')) { ddy =  1; dir = DIR_DOWN; }
+            else if (keys.has('ArrowLeft')  || keys.has('a') || keys.has('A')) { ddx = -1; dir = DIR_LEFT; }
+            else if (keys.has('ArrowRight') || keys.has('d') || keys.has('D')) { ddx =  1; dir = DIR_RIGHT; }
+          }
           p.dir = dir;
 
           if (ddx !== 0 || ddy !== 0) {
@@ -1457,14 +1741,15 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             const nx = p.x + ddx, ny = p.y + ddy;
             const tW = ms.mapInfo.w * 2, tH = ms.mapInfo.h * 2;
             if (nx < 0 || ny < 0 || nx >= tW || ny >= tH) {
-              // Walking south into the building wall — find the matching LAST_MAP exit
-              if (ddy === 1) {
-                const exitWarp = ms.mapInfo.warps.find(w => w.x === p.x && w.dest === 'LAST_MAP');
-                if (exitWarp) fn.handleWarp(exitWarp);
-                else fn.handleMapEdge(ddx, ddy);
-              } else {
-                fn.handleMapEdge(ddx, ddy);
-              }
+              // Walking off the map edge from a building's exit-door tile (any of the 4
+              // directions — gates/caves can have their real door on a side or top wall, not
+              // just south, see WARP_DIR_LEGEND.md). checkNewTile's normal warp lookup never
+              // runs here since no step completes (blocked before isWalking is ever set), so
+              // find the matching LAST_MAP exit at the player's CURRENT tile directly, gated by
+              // the same facingMatchesDir rule an ordinary in-bounds warp trigger already uses.
+              const exitWarp = ms.mapInfo.warps.find(w => w.x === p.x && w.y === p.y && w.dest === 'LAST_MAP');
+              if (exitWarp && facingMatchesDir(dir, exitWarp.dir)) fn.handleWarp(exitWarp);
+              else fn.handleMapEdge(ddx, ddy);
             } else {
               const ledgeJump = fn.isValidLedge(p.x, p.y, ddx, ddy);
               const ledgeBlocked = !ledgeJump && fn.isHalfStepBlocked(p.x, p.y, ddx, ddy);
@@ -1875,7 +2160,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
 
         {dialogue && (
           <div className="pkr-dialogue" onClick={!dialogue.awaitingYesNo ? advanceDialogue : undefined}>
-            <div className="pkr-dialogue-text">{dialogue.lines[dialogue.idx]}</div>
+            <div className="pkr-dialogue-text">{(dialogue.lines[dialogue.idx] ?? '').replace(/<PLAYER>/g, gameState?.playerName || 'RED')}</div>
             {!dialogue.awaitingYesNo && <span className="pkr-dialogue-tick">▼</span>}
             {dialogue.awaitingYesNo && (
               <div className="pkr-yesno-box">
@@ -1906,11 +2191,11 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
               <div className="pkr-menu-overlay" onClick={closeMenu}>
                 <div className="pkr-menu-box pkr-menu-wide" onClick={e => e.stopPropagation()}>
                   <div className="pkr-menu-header">
-                    <span>{switching ? 'MOVE TO WHERE?' : 'POKéMON'}</span>
+                    <span>{switching ? 'MOVE TO WHERE?' : 'POKÉMON'}</span>
                     <button className="pkr-menu-back" onClick={() => { if (!switching) { /* nothing to clear */ } setMenuPage(switching ? 'pokemon-options' : 'main'); }}>◀ BACK</button>
                   </div>
                   {party.length === 0
-                    ? <div className="pkr-menu-empty">No POKéMON</div>
+                    ? <div className="pkr-menu-empty">No POKÉMON</div>
                     : party.map((mon, i) => {
                       const pct = hpPct(mon);
                       return (
@@ -1942,7 +2227,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             return (
               <div className="pkr-menu-overlay" onClick={closeMenu}>
                 <div className="pkr-menu-box" onClick={e => e.stopPropagation()}>
-                  <div className="pkr-menu-header"><span>{mon ? mon.species.replace(/_/g,' ') : 'POKéMON'}</span><button className="pkr-menu-back" onClick={() => setMenuPage('pokemon')}>◀ BACK</button></div>
+                  <div className="pkr-menu-header"><span>{mon ? mon.species.replace(/_/g,' ') : 'POKÉMON'}</span><button className="pkr-menu-back" onClick={() => setMenuPage('pokemon')}>◀ BACK</button></div>
                   {options.map((opt, i) => (
                     <div key={opt} className={`pkr-menu-item${menuCursor === i ? ' pkr-menu-selected' : ''}`}
                       onClick={() => { if (i === 0) setMenuPage('pokemon-stats'); else if (i === 1) setMenuPage('pokemon-switch-target'); else { pendingPartyIdxRef.current = null; setMenuPage('pokemon'); } }}>
@@ -2007,9 +2292,9 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             return (
               <div className="pkr-menu-overlay" onClick={closeMenu}>
                 <div className="pkr-menu-box pkr-menu-wide" onClick={e => e.stopPropagation()}>
-                  <div className="pkr-menu-header"><span>USE ON WHICH POKéMON?</span><button className="pkr-menu-back" onClick={() => setMenuPage('items')}>◀ BACK</button></div>
+                  <div className="pkr-menu-header"><span>USE ON WHICH POKÉMON?</span><button className="pkr-menu-back" onClick={() => setMenuPage('items')}>◀ BACK</button></div>
                   {party.length === 0
-                    ? <div className="pkr-menu-empty">No POKéMON</div>
+                    ? <div className="pkr-menu-empty">No POKÉMON</div>
                     : party.map((mon, i) => {
                       const pct = hpPct(mon);
                       return (
@@ -2068,7 +2353,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
                     <button className="pkr-menu-back" onClick={() => { setMenuPage('hm06-move'); setMenuCursor(0); menuPageRef.current = 'hm06-move'; menuCursorRef.current = 0; }}>◀ BACK</button>
                   </div>
                   {party.length === 0
-                    ? <div className="pkr-menu-empty">No POKéMON</div>
+                    ? <div className="pkr-menu-empty">No POKÉMON</div>
                     : party.map((mon, i) => {
                       const pct = hpPct(mon);
                       return (
@@ -2173,17 +2458,83 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             );
           }
 
+          if (menuPage === 'pokedex') {
+            menuItemCountRef.current = DEX_ENTRIES.length;
+            const seen = gs.dex?.seen ?? [];
+            const caught = gs.dex?.caught ?? [];
+            return (
+              <div className="pkr-menu-overlay" onClick={closeMenu}>
+                <div className="pkr-menu-box pkr-menu-wide" onClick={e => e.stopPropagation()}>
+                  <div className="pkr-menu-header">
+                    <span>POKÉDEX ({caught.length}/{DEX_ENTRIES.length})</span>
+                    <button className="pkr-menu-back" onClick={() => setMenuPage('main')}>◀ BACK</button>
+                  </div>
+                  <div className="pkr-dex-list">
+                    {DEX_ENTRIES.map((entry, i) => {
+                      const isSeen = seen.includes(entry.species);
+                      const isCaught = caught.includes(entry.species);
+                      return (
+                        <button key={entry.num}
+                          className={`pkr-dex-entry${menuCursor === i ? ' pkr-menu-selected' : ''}`}
+                          ref={el => { if (menuCursor === i && el) el.scrollIntoView({ block: 'nearest' }); }}
+                          onClick={() => {
+                            if (!isSeen) return;
+                            pendingDexIdxRef.current = i;
+                            setMenuPage('pokedex-detail'); menuPageRef.current = 'pokedex-detail';
+                            setMenuCursor(i); menuCursorRef.current = i;
+                          }}>
+                          {menuCursor === i && <span className="pkr-menu-cursor">►</span>}
+                          <span className="pkr-dex-num">No.{String(entry.num).padStart(3, '0')}</span>
+                          <span className="pkr-dex-name">{isSeen ? entry.species.replace(/_/g, ' ') : '----------'}</span>
+                          {isCaught && <span className="pkr-dex-caught">●</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (menuPage === 'pokedex-detail') {
+            menuItemCountRef.current = 0;
+            const entry = DEX_ENTRIES[pendingDexIdxRef.current];
+            const caught = gs.dex?.caught ?? [];
+            const isCaught = entry && caught.includes(entry.species);
+            return (
+              <div className="pkr-menu-overlay" onClick={closeMenu}>
+                <div className="pkr-menu-box pkr-menu-wide" onClick={e => e.stopPropagation()}>
+                  <div className="pkr-menu-header">
+                    <span>No.{String(entry?.num ?? 0).padStart(3, '0')} {entry?.species.replace(/_/g, ' ')}</span>
+                    <button className="pkr-menu-back" onClick={() => setMenuPage('pokedex')}>◀ BACK</button>
+                  </div>
+                  {entry && (
+                    <>
+                      <div className="pkr-dex-kind">{entry.data.kind} POKÉMON{isCaught ? ' — CAUGHT' : ''}</div>
+                      <div className="pkr-menu-stats-grid">
+                        <span>HEIGHT</span><span>{entry.data.heightFt}'{String(entry.data.heightIn).padStart(2, '0')}"</span>
+                        <span>WEIGHT</span><span>{entry.data.weightLbs} LBS</span>
+                      </div>
+                      <div className="pkr-dex-text">{entry.data.text}</div>
+                    </>
+                  )}
+                </div>
+              </div>
+            );
+          }
+
           // Main menu
-          menuItemCountRef.current = isExtra ? 5 : 6;
+          menuItemCountRef.current = isExtra ? 6 : 7;
           const mc = menuCursor;
           let mainIdx = 0; // tracks current button index for cursor comparison
           const mbi = () => mainIdx++; // returns current index then increments
           return (
             <div className="pkr-menu-overlay" onClick={closeMenu}>
               <div className="pkr-menu-box" onClick={e => e.stopPropagation()}>
-                <button className="pkr-menu-btn" onClick={() => setMenuPage('pokemon')}>{mc === mbi() && '► '}POKéMON</button>
+                <button className="pkr-menu-btn" onClick={() => setMenuPage('pokemon')}>{mc === mbi() && '► '}POKÉMON</button>
                 <button className="pkr-menu-btn" onClick={() => setMenuPage('items')}>{mc === mbi() && '► '}ITEMS</button>
                 <button className="pkr-menu-btn" onClick={() => setMenuPage('trainer')}>{mc === mbi() && '► '}TRAINER</button>
+                <button className="pkr-menu-btn" onClick={() => setMenuPage('pokedex')}>{mc === mbi() && '► '}POKÉDEX</button>
                 {!isExtra && <button className="pkr-menu-btn" onClick={() => { if (onSave) onSave(); closeMenu(); }}>{mc === mbi() && '► '}SAVE</button>}
                 <button className="pkr-menu-btn pkr-menu-home" onClick={onReturnHome}>{mc === mbi() && '► '}MAIN MENU</button>
                 <button className="pkr-menu-btn pkr-menu-exit" onClick={closeMenu}>{mc === mbi() && '► '}EXIT  [X]</button>

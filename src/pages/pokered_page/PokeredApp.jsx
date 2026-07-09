@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { saveGame, healParty, createPlayerPokemon, ITEM_EFFECTS, tryEvolveWithStone } from './pokeredGameState';
 import { TRAINER_META } from './trainerMeta';
+import { TRAINER_PARTIES } from './trainerParties';
 import PokeredStartScreen from './PokeredStartScreen';
 import PokeredOverworld from './PokeredOverworld';
 import PokeredBattle from './PokeredBattle';
@@ -44,11 +45,28 @@ export default function PokeredApp() {
     setScreen('overworld');
   }
 
+  // Pokédex "seen" — real OG marks this the moment an enemy Pokémon's sprite loads in
+  // battle (SetSeenAndCaughtMon-equivalent), for both wild and trainer battles. Scoped to
+  // the enemy's FIRST active mon only (not every subsequent trainer send-out this port
+  // doesn't have a clean per-switch hook for yet) — a reasonable scope cut, not silent.
+  function markSeen(species) {
+    if (!species) return;
+    setGameState(prev => {
+      if (!prev) return prev;
+      const seen = prev.dex?.seen ?? [];
+      if (seen.includes(species)) return prev;
+      const next = { ...prev, dex: { ...prev.dex, seen: [...seen, species] } };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
   function handleEncounter(encounter, mapId, x, y) {
     // commented out during testing.
     // const firstUsable = gameState?.party?.find(mon => mon.hp > 0);
     // if (!firstUsable) return;
     battleReturnPos.current = playerPosRef.current ?? { mapId, x, y };
+    markSeen(encounter?.species);
     setWildEncounter(encounter);
     setScreen('battle');
   }
@@ -58,6 +76,8 @@ export default function PokeredApp() {
    // const firstUsable = gameState?.party?.find(mon => mon.hp > 0);
    // if (!firstUsable) return;
     battleReturnPos.current = playerPosRef.current ?? { mapId, x, y };
+    const party = TRAINER_PARTIES[trainerEncounterData.trainerKey]?.[trainerEncounterData.partyIdx ?? 0];
+    markSeen(party?.[0]?.species);
     setTrainerEncounter(trainerEncounterData);
     setScreen('battle');
   }
@@ -81,9 +101,12 @@ export default function PokeredApp() {
 
       let party = updatedParty ? [...updatedParty] : [...prev.party];
       let pcMons = prev.pcMons ?? [];
+      let dex = prev.dex ?? {};
       if (caught) {
         if (party.length < 6) party = [...party, caught];
         else pcMons = [...pcMons, caught]; // party full → straight to the PC box (Gen 1)
+        const caughtList = dex.caught ?? [];
+        if (!caughtList.includes(caught.species)) dex = { ...dex, caught: [...caughtList, caught.species] };
       }
 
       let items = prev.items ? [...prev.items] : [];
@@ -115,14 +138,14 @@ export default function PokeredApp() {
         money = Math.floor(money / 2);
         party = healParty(party);
         const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 4, y: 9 };
-        const newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, mapId: dest.mapId, x: dest.x, y: dest.y };
+        const newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, dex, mapId: dest.mapId, x: dest.x, y: dest.y };
         if (!prev.isExtra) saveGame(newState);
         return newState;
       }
 
       // Restore exact position from before the battle — battleReturnPos was set from playerPosRef
       const pos = battleReturnPos.current ?? playerPosRef.current ?? { mapId: prev.mapId, x: prev.x, y: prev.y };
-      const newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, mapId: pos.mapId, x: pos.x, y: pos.y };
+      const newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, dex, mapId: pos.mapId, x: pos.x, y: pos.y };
 
       if ((result === 'victory' || result === 'caught') && !prev.isExtra) {
         saveGame(newState);
@@ -132,6 +155,42 @@ export default function PokeredApp() {
     });
 
     setScreen('overworld');
+  }
+
+  // Out-of-battle poison damage (OG engine/events/poison.asm ApplyOutOfBattlePoisonDamage):
+  // called by the overworld every 4th completed step. Every poisoned party member loses
+  // exactly 1 HP (not a fraction) — real OG applies this to the WHOLE party at once, not
+  // just the lead. A mon reaching 0 HP faints; if that leaves the whole party fainted, it's
+  // a real whiteout (same halve-money/heal/respawn treatment as a battle loss). Returns
+  // { whiteout, dest } synchronously (same result-out-of-setGameState pattern as
+  // handleUseItem's 'escape_rope' case) so the overworld — already mounted, not remounting
+  // like after a battle — knows to trigger its own warp transition to `dest`.
+  function handlePoisonTick() {
+    let result = { whiteout: false, dest: null };
+    setGameState(prev => {
+      if (!prev) return prev;
+      let anyFainted = false;
+      const party = prev.party.map(mon => {
+        if (mon.status !== 'PSN' || mon.hp <= 0) return mon;
+        const hp = Math.max(0, mon.hp - 1);
+        if (hp === 0) anyFainted = true;
+        return { ...mon, hp };
+      });
+      if (party.every((m, i) => m === prev.party[i])) return prev; // nothing poisoned, no-op
+      if (anyFainted && !party.some(m => m.hp > 0)) {
+        const money = Math.floor((prev.money ?? 0) / 2);
+        const healed = healParty(party);
+        const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 4, y: 9 };
+        result = { whiteout: true, dest };
+        const next = { ...prev, party: healed, money, mapId: dest.mapId, x: dest.x, y: dest.y };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+      const next = { ...prev, party };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+    return result;
   }
 
   function handleMetOldMan() {
@@ -185,6 +244,71 @@ export default function PokeredApp() {
         ? items.map(it => it.name === itemName ? { ...it, count: it.count + count } : it)
         : [...items, { name: itemName, count }];
       const newState = { ...prev, items: newItems, pickedUpItems: [...pickedUpItems, itemId] };
+      if (!prev.isExtra) saveGame(newState);
+      return newState;
+    });
+  }
+
+  // Generic single-item cash purchase — currently just the Celadon Mart Roof vending
+  // machines, but kept general (not vending-specific) in case a future single-NPC purchase
+  // needs the same shape. Silently no-ops if unaffordable, matching handleShopBuy's existing
+  // behavior (no separate "not enough money" dialogue branch built for either).
+  function handleBuyItem(itemName, price) {
+    setGameState(prev => {
+      if (!prev || (prev.money ?? 0) < price) return prev;
+      const items = prev.items ?? [];
+      const existing = items.find(i => i.name === itemName);
+      const newItems = existing
+        ? items.map(i => i.name === itemName ? { ...i, count: i.count + 1 } : i)
+        : [...items, { name: itemName, count: 1 }];
+      const next = { ...prev, items: newItems, money: prev.money - price };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Saffron gate guards (engine/events/saffron_guards.asm RemoveGuardDrink): giving ANY ONE
+  // of the 4 guards (Route 5/6/7/8 Gate) a drink sets a single SHARED flag ("I'll share this
+  // with the other guards!") that satisfies all 4 — not 4 separate flags. Removes exactly one
+  // unit of the given drink, matching OG's real bag-removal.
+  function handleGiveGuardDrink(drinkName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const items = (prev.items ?? [])
+        .map(it => it.name === drinkName ? { ...it, count: it.count - 1 } : it)
+        .filter(it => it.count > 0);
+      const next = { ...prev, items, gaveSaffronGuardsDrink: true };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Oak's Parcel delivery (scripts/OaksLab.asm .got_parcel branch): removes OAKS_PARCEL from
+  // the bag and records the delivery so the Viridian Mart clerk's one-time quest-giving text
+  // doesn't fire again and Oak's dialogue falls through to its next real branch.
+  function handleDeliverParcel() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const items = (prev.items ?? []).filter(it => it.name !== 'OAKS_PARCEL');
+      const pickedUpItems = prev.pickedUpItems ?? [];
+      const next = {
+        ...prev, items,
+        pickedUpItems: pickedUpItems.includes('OAKS_PARCEL_DELIVERED') ? pickedUpItems : [...pickedUpItems, 'OAKS_PARCEL_DELIVERED'],
+      };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Marks a giftId as taken WITHOUT granting an item — for cases where a real OG event
+  // revokes access to something without giving the player anything (e.g. the Mt Moon B2F
+  // Super Nerd taking whichever fossil the player didn't pick).
+  function handleMarkGiftTaken(itemId) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const pickedUpItems = prev.pickedUpItems ?? [];
+      if (pickedUpItems.includes(itemId)) return prev;
+      const newState = { ...prev, pickedUpItems: [...pickedUpItems, itemId] };
       if (!prev.isExtra) saveGame(newState);
       return newState;
     });
@@ -408,7 +532,7 @@ export default function PokeredApp() {
   }
 
   // Real OG move-reorder (SwapMovesInMenu, engine/battle/core.asm) — same mechanic as the
-  // battle move-selection menu, also reachable from the overworld POKéMON stats screen.
+  // battle move-selection menu, also reachable from the overworld POKÉMON stats screen.
   function handleSwapMoves(partyIdx, moveIdxA, moveIdxB) {
     setGameState(prev => {
       if (!prev) return prev;
@@ -578,7 +702,7 @@ export default function PokeredApp() {
       <div style={{ display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',minHeight:'100vh',background:'#0a0a1a',fontFamily:'monospace' }}>
         <div style={{ background:'#0d0d1a',border:'2px solid #5a5aaa',padding:'28px 36px',maxWidth:'440px',width:'100%' }}>
           <div style={{ color:'#ffd700',fontSize:'13px',letterSpacing:'3px',textAlign:'center',marginBottom:'6px' }}>PROFESSOR OAK</div>
-          <div style={{ color:'#888',fontSize:'9px',letterSpacing:'2px',textAlign:'center',marginBottom:'18px',textTransform:'uppercase' }}>Choose your first POKéMON</div>
+          <div style={{ color:'#888',fontSize:'9px',letterSpacing:'2px',textAlign:'center',marginBottom:'18px',textTransform:'uppercase' }}>Choose your first POKÉMON</div>
           {starters.map(s => {
             const base = pokemonData?.pokemon[s];
             return (
@@ -605,6 +729,7 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
         isExtra={gameState.isExtra}
         playerItems={gameState.items}
         onUseItem={handleUseItem}
+        badges={gameState.badges}
       />
     );
   }
@@ -621,6 +746,11 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onTrainerBattle={handleTrainerBattle}
             onReturnHome={handleReturnHome}
             onHealParty={handleHealParty}
+            onPoisonTick={handlePoisonTick}
+            onMarkGiftTaken={handleMarkGiftTaken}
+            onDeliverParcel={handleDeliverParcel}
+            onBuyItem={handleBuyItem}
+            onGiveGuardDrink={handleGiveGuardDrink}
             onMetOldMan={handleMetOldMan}
             onRequestStarter={handleRequestStarter}
             onOpenPC={handleOpenPC}

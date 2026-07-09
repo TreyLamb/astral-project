@@ -1,5 +1,6 @@
 // Game state management for Pokemon Red web recreation.
 // All data (levels, learnsets, stats) sourced directly from pret/pokered.
+import FISHING from './extracted_og_data/fishing.json';
 // Coordinate unit is 1 metatile (16px), matching OG's own wXCoord/wYCoord 1:1 (see pokered
 // CLAUDE.md + the noble-orbiting-hollerith coordinate-refactor plan). No even/odd restriction
 // anymore — every integer coordinate is a real, standable position.
@@ -286,7 +287,7 @@ export function applyXP(pokemon, xpGain, pokemonData) {
     const base = pokemonData.pokemon[mon.species];
     if (!base) break;
     // HP gains proportionally on level up (Gen 1: HP increases by stat_at_new_level - stat_at_old_level)
-    const oldMaxHp = mon.maxHp;
+    const oldMaxHp = mon.maxHp, oldAtk = mon.atk, oldDef = mon.def, oldSpd = mon.spd, oldSpc = mon.spc;
     mon.maxHp = calcHP(base.hp, mon.level, iv);
     mon.hp = Math.min(mon.hp + (mon.maxHp - oldMaxHp), mon.maxHp);
     mon.atk = calcStat(base.atk, mon.level, iv);
@@ -294,6 +295,11 @@ export function applyXP(pokemon, xpGain, pokemonData) {
     mon.spd = calcStat(base.spd, mon.level, iv);
     mon.spc = calcStat(base.spc, mon.level, iv);
     messages.push(`${fmt(mon.species)} grew to level ${mon.level}!`);
+    // Real OG (engine/pokemon/level_up.asm PrintStatsBox) shows a dedicated multi-frame
+    // stats screen with per-stat before/after; collapsed here to 2 compact log lines
+    // (same simplification precedent this port already uses for other multi-screen OG flows).
+    messages.push(`HP ${oldMaxHp}→${mon.maxHp}  ATK ${oldAtk}→${mon.atk}`);
+    messages.push(`DEF ${oldDef}→${mon.def}  SPD ${oldSpd}→${mon.spd}  SPC ${oldSpc}→${mon.spc}`);
 
     // New moves learned at this level (from pokered learnset)
     const learnset = learnsetFor(pokemonData, mon.species);
@@ -395,7 +401,28 @@ export const ITEM_EFFECTS = {
   LEAF_STONE:    { category: 'stone' },
   // Key item — never consumed, opens the full TM/HM teach-move menu in overworld.
   HM06:          { category: 'hm06' },
+  // Key items — never consumed. tier picks which extracted_og_data/fishing.json table
+  // tryFish() reads (1=oldRod fixed catch, 2=goodRod pool, 3=superRod per-map pool).
+  OLD_ROD:       { category: 'rod', tier: 1 },
+  GOOD_ROD:      { category: 'rod', tier: 2 },
+  SUPER_ROD:     { category: 'rod', tier: 3 },
 };
+
+// engine/items/item_effects.asm ReadSuperRodData / the Old/Good Rod handlers: cast a rod,
+// get either a bite (species+level) or nothing. This port simplifies OG's real per-rod bite
+// probability (which also varies by area) to "always bites" — matches this project's existing
+// precedent for collapsing untracked OG randomness to the common/simple case (e.g. NPC yes/no
+// flavor branches) rather than adding new state to model it exactly.
+export function tryFish(tier, mapId) {
+  if (tier === 1) return { ...FISHING.oldRod };
+  if (tier === 2) {
+    const pool = FISHING.goodRod;
+    return { ...pool[Math.floor(Math.random() * pool.length)] };
+  }
+  const pool = FISHING.superRod[mapId];
+  if (!pool || !pool.length) return null; // no fish on this map, matches OG's e=2 case
+  return { ...pool[Math.floor(Math.random() * pool.length)] };
+}
 
 const STATUS_CURES = {
   ANTIDOTE: 'PSN', BURN_HEAL: 'BRN', ICE_HEAL: 'FRZ',
@@ -543,9 +570,10 @@ export function healParty(party) {
   }));
 }
 
-export function createNewGame(_pokemonData) {
+export function createNewGame(_pokemonData, playerName) {
   return {
     isExtra: false,
+    playerName: playerName || 'RED',
     mapId: 'REDS_HOUSE_2F',
     x: 4,
     y: 4,
@@ -586,4 +614,32 @@ export function loadGame() {
 
 export function hasSave() {
   try { return !!localStorage.getItem(SAVE_KEY); } catch { return false; }
+}
+
+// Chrome's "Clear browsing data" wipes localStorage along with cache, taking the save
+// with it — these let the player back up/restore a save as a real file on disk, which
+// survives that (unlike localStorage/IndexedDB, both in the same site-data bucket).
+export function exportSaveFile() {
+  const raw = localStorage.getItem(SAVE_KEY);
+  if (!raw) return false;
+  const blob = new Blob([raw], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `pokered-save-${date}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  return true;
+}
+
+export function importSaveFile(text) {
+  const state = JSON.parse(text); // throws on malformed JSON — caller shows the error
+  if (!state || typeof state !== 'object' || !state.mapId || !Array.isArray(state.party)) {
+    throw new Error('Not a valid pokered save file');
+  }
+  localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+  return state;
 }

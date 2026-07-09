@@ -8,6 +8,7 @@
 }
 
 .pkrb-screen {
+  position: relative;
   width: 880px;
   height: 760px;
   background: #8bac0f;
@@ -46,6 +47,37 @@
   justify-content: center;
   padding-bottom: 6px;
   background: #9bbc0f;
+}
+
+.pkrb-trainer-portrait-wrap {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 52px;
+  height: 52px;
+  background: #0d0d1a;
+  border: 2px solid #5a5aaa;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 5;
+}
+
+/* Crop window = exactly one 16x16 source frame (top-left of the sheet: DOWN-facing,
+   standing), then scaled up 3x for visibility via transform, not width/height (which
+   would stretch/reveal neighboring frames instead of cropping). */
+.pkrb-trainer-portrait-crop {
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+  transform: scale(3);
+}
+
+.pkrb-trainer-portrait {
+  display: block;
+  image-rendering: pixelated;
 }
 
 /* Player sprite — middle-left */

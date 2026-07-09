@@ -837,7 +837,7 @@
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 5,
-          "dir": 1
+          "dir": -1
         },
         {
           "x": 7,
@@ -1760,7 +1760,7 @@
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 10,
-          "dir": 1
+          "dir": -1
         },
         {
           "x": 2,
@@ -2670,7 +2670,7 @@
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 8,
-          "dir": 1
+          "dir": -1
         }
       ],
       "npcs": [
@@ -4129,7 +4129,7 @@
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 9,
-          "dir": 1
+          "dir": -1
         },
         {
           "x": 2,
@@ -5607,7 +5607,7 @@
           "y": 3,
           "dest": "LAST_MAP",
           "warpIdx": 3,
-          "dir": 1
+          "dir": 2
         }
       ],
       "npcs": [],
@@ -8340,7 +8340,7 @@
           "y": 11,
           "dest": "LAST_MAP",
           "warpIdx": 4,
-          "dir": 1
+          "dir": -2
         }
       ],
       "npcs": [
@@ -9054,14 +9054,14 @@
           "y": 3,
           "dest": "LAST_MAP",
           "warpIdx": 2,
-          "dir": 1
+          "dir": -1
         },
         {
           "x": 15,
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 2,
-          "dir": 1
+          "dir": -1
         },
         {
           "x": 15,
@@ -10002,28 +10002,28 @@
           "y": 4,
           "dest": "LAST_MAP",
           "warpIdx": 1,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 0,
           "y": 5,
           "dest": "LAST_MAP",
           "warpIdx": 2,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 7,
           "y": 4,
           "dest": "LAST_MAP",
           "warpIdx": 3,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 7,
           "y": 5,
           "dest": "LAST_MAP",
           "warpIdx": 4,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 6,
@@ -10359,14 +10359,14 @@
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 1,
-          "dir": 1
+          "dir": -1
         },
         {
           "x": 5,
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 2,
-          "dir": 1
+          "dir": -1
         },
         {
           "x": 4,
@@ -11159,28 +11159,28 @@
           "y": 4,
           "dest": "LAST_MAP",
           "warpIdx": 1,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 0,
           "y": 5,
           "dest": "LAST_MAP",
           "warpIdx": 2,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 7,
           "y": 4,
           "dest": "LAST_MAP",
           "warpIdx": 3,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 7,
           "y": 5,
           "dest": "LAST_MAP",
           "warpIdx": 4,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 6,
@@ -11508,56 +11508,56 @@
           "y": 8,
           "dest": "LAST_MAP",
           "warpIdx": 1,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 0,
           "y": 9,
           "dest": "LAST_MAP",
           "warpIdx": 2,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 7,
           "y": 8,
           "dest": "LAST_MAP",
           "warpIdx": 3,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 7,
           "y": 9,
           "dest": "LAST_MAP",
           "warpIdx": 3,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 0,
           "y": 2,
           "dest": "LAST_MAP",
           "warpIdx": 5,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 0,
           "y": 3,
           "dest": "LAST_MAP",
           "warpIdx": 6,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 7,
           "y": 2,
           "dest": "LAST_MAP",
           "warpIdx": 7,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 7,
           "y": 3,
           "dest": "LAST_MAP",
           "warpIdx": 8,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 6,
@@ -11985,28 +11985,28 @@
           "y": 4,
           "dest": "LAST_MAP",
           "warpIdx": 1,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 0,
           "y": 5,
           "dest": "LAST_MAP",
           "warpIdx": 2,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 7,
           "y": 4,
           "dest": "LAST_MAP",
           "warpIdx": 3,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 7,
           "y": 5,
           "dest": "LAST_MAP",
           "warpIdx": 4,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 6,
@@ -12954,14 +12954,14 @@
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 1,
-          "dir": 1
+          "dir": -1
         },
         {
           "x": 5,
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 2,
-          "dir": 1
+          "dir": -1
         }
       ],
       "npcs": [
@@ -13555,14 +13555,14 @@
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 4,
-          "dir": 1
+          "dir": -1
         },
         {
           "x": 5,
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 4,
-          "dir": 1
+          "dir": -1
         },
         {
           "x": 4,
@@ -14143,14 +14143,14 @@
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 2,
-          "dir": 1
+          "dir": -1
         },
         {
           "x": 4,
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 1,
-          "dir": 1
+          "dir": -1
         }
       ],
       "npcs": [
@@ -14393,14 +14393,14 @@
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 2,
-          "dir": 1
+          "dir": -1
         },
         {
           "x": 4,
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 2,
-          "dir": 1
+          "dir": -1
         }
       ],
       "npcs": [
@@ -14571,28 +14571,28 @@
           "y": 3,
           "dest": "LAST_MAP",
           "warpIdx": 4,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 0,
           "y": 4,
           "dest": "LAST_MAP",
           "warpIdx": 4,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 5,
           "y": 3,
           "dest": "LAST_MAP",
           "warpIdx": 1,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 5,
           "y": 4,
           "dest": "LAST_MAP",
           "warpIdx": 2,
-          "dir": 1
+          "dir": 2
         }
       ],
       "npcs": [
@@ -14854,28 +14854,28 @@
           "y": 3,
           "dest": "LAST_MAP",
           "warpIdx": 1,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 0,
           "y": 4,
           "dest": "LAST_MAP",
           "warpIdx": 2,
-          "dir": 1
+          "dir": -2
         },
         {
           "x": 5,
           "y": 3,
           "dest": "LAST_MAP",
           "warpIdx": 3,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 5,
           "y": 4,
           "dest": "LAST_MAP",
           "warpIdx": 4,
-          "dir": 1
+          "dir": 2
         }
       ],
       "npcs": [
@@ -20614,7 +20614,7 @@
           "y": 0,
           "dest": "LAST_MAP",
           "warpIdx": 6,
-          "dir": 1
+          "dir": -1
         },
         {
           "x": 14,
@@ -21119,14 +21119,14 @@
           "y": 7,
           "dest": "LAST_MAP",
           "warpIdx": 4,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 29,
           "y": 8,
           "dest": "LAST_MAP",
           "warpIdx": 4,
-          "dir": 1
+          "dir": 2
         },
         {
           "x": 23,

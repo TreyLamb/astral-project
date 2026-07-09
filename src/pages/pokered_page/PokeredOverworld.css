@@ -394,6 +394,56 @@
 .pkr-teach-id   { color: #5a5aaa; font-size: 9px; min-width: 28px; flex-shrink: 0; }
 .pkr-teach-move { color: #c0c0e0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
+.pkr-dex-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 2px;
+}
+
+.pkr-dex-entry {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 5px 4px;
+  cursor: pointer;
+  text-align: left;
+  font-family: monospace;
+  font-size: 10px;
+  color: #b0b0d0;
+  text-transform: uppercase;
+  width: 100%;
+  border-bottom: 1px solid #111127;
+}
+.pkr-dex-entry:hover { background: #1a1a3e; }
+.pkr-dex-entry.pkr-menu-selected { background: #1a1a3e; }
+
+.pkr-dex-num { color: #5a5aaa; flex-shrink: 0; }
+.pkr-dex-name { color: #c0c0e0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pkr-dex-caught { color: #ffd700; }
+
+.pkr-dex-kind {
+  color: #888;
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.pkr-dex-text {
+  color: #c0c0e0;
+  font-family: monospace;
+  font-size: 10px;
+  line-height: 1.6;
+  white-space: pre-line;
+  margin-top: 4px;
+}
+
 /* "New move to learn" label on the slot-replace page */
 .pkr-teach-new-move {
   font-family: monospace;

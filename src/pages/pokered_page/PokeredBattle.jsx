@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createWildPokemon, applyXP, finalizeEvolution, tryCatch, xpForLevel, baseExpFor, applyMedicineItem, ITEM_EFFECTS } from './pokeredGameState';
 import { TRAINER_PARTIES } from './trainerParties';
 import { TRAINER_META } from './trainerMeta';
-import { initBattleMon, stripVolatile, performRound, isLocked } from './battleEngine';
+import { initBattleMon, stripVolatile, performRound, isLocked, withBadges } from './battleEngine';
 import './PokeredBattle.css';
 
 function fmt(species) {
@@ -14,6 +14,13 @@ const SPRITE_FILENAME_OVERRIDES = { NIDORAN_M: 'nidoranm', NIDORAN_F: 'nidoranf'
 function spriteUrl(species) {
   const file = SPRITE_FILENAME_OVERRIDES[species] ?? species.toLowerCase();
   return `/pokered/sprites/pokemon/${file}.png`;
+}
+// Overworld NPC sprites (public/pokered/sprites/*.png, same files PokeredOverworld.jsx uses
+// for walking NPCs) reused as a battle-intro trainer portrait — this port has no dedicated
+// battle-portrait art, but showing who you're fighting before their Pokémon appears is closer
+// to real OG than showing nothing at all.
+function trainerSpriteUrl(sprite) {
+  return `/pokered/sprites/${sprite}.png`;
 }
 
 // Wild Pokemon base exp now sourced from the real Gen 1 table in pokeredGameState.js (baseExpFor)
@@ -37,7 +44,7 @@ function HpBar({ current, max }) {
   );
 }
 
-export default function PokeredBattle({ playerParty, wildEncounter, trainerEncounter, pokemonData, onBattleEnd, isExtra, playerItems, onUseItem }) {
+export default function PokeredBattle({ playerParty, wildEncounter, trainerEncounter, pokemonData, onBattleEnd, isExtra, playerItems, onUseItem, badges }) {
   // Full-party battle: the active mon lives in `player` state; the whole party
   // (including the active slot) lives in partyRef, synced at the end of every turn
   // and on switches, and returned to the app as updatedParty at battle end.
@@ -56,7 +63,11 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
   // added to on every switch (doSwitch), voluntary or forced.
   const foughtCurrentEnemyRef = useRef(new Set([firstIdx]));
   const initPlayer = initialPartyRef.current[firstIdx];
-  const [player, setPlayer] = useState(() => initBattleMon(initPlayer));
+  // ApplyBadgeStatBoosts (engine/battle/core.asm): every player mon that's the active battle
+  // mon gets a ×1.125 boost on the stat tied to each "even bit" badge held (Boulder→atk,
+  // Thunder→def, Soul→spd, Volcano→spc), capped at 999 — applied transiently in effStat()
+  // (battleEngine.js), never baked into the stored stat (see withBadges' comment for why).
+  const [player, setPlayer] = useState(() => withBadges(initBattleMon(initPlayer), badges));
   // Set when the active mon faints but a conscious bench mon exists — routes the
   // post-log phase to the forced-switch menu instead of the action menu.
   const forceSwitchRef = useRef(false);
@@ -151,7 +162,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
       // Viridian City Old Man's catching tutorial (real OG: BATTLE_TYPE_OLD_MAN) — he's
       // demonstrating, so the player's own party never comes out.
       if (wildEncounter.oldManDemo) {
-        pushLog([`Wild ${fmt(wildEncounter.species)} appeared!`, "OLD MAN: Watch me\nthrow a POKé BALL!"], 'log');
+        pushLog([`Wild ${fmt(wildEncounter.species)} appeared!`, "OLD MAN: Watch me\nthrow a POKÉ BALL!"], 'log');
       } else {
         pushLog([`A wild ${fmt(wildEncounter.species)} appeared!`, `Go, ${fmt(initPlayer.species)}!`], 'log');
       }
@@ -381,7 +392,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
   function runOldManDemo() {
     const species = enemyRef.current?.species ?? enemy?.species;
     if (!species) return; // enemy not set up yet — ignore this keypress rather than crash
-    pushLog(["OLD MAN threw a\nPOKé BALL!", `Gotcha! ${fmt(species)}\nwas caught!`], 'log', 'caught');
+    pushLog(["OLD MAN threw a\nPOKÉ BALL!", `Gotcha! ${fmt(species)}\nwas caught!`], 'log', 'caught');
   }
 
   function advance() {
@@ -427,7 +438,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
     partyRef.current[activeIdxRef.current] = { ...stripVolatile(faintedPlayer), hp: 0 };
     const hasBackup = partyRef.current.some((m, i) => i !== activeIdxRef.current && m.hp > 0);
     if (hasBackup) { forceSwitchRef.current = true; return null; }
-    msgs.push('You are out of useable POKéMON!', 'You blacked out!');
+    msgs.push('You are out of useable POKÉMON!', 'You blacked out!');
     return 'defeat';
   }
 
@@ -447,6 +458,13 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
       msgs.push(`${fmt(player.species)} threw a Poké Ball!`);
       if (tryCatch(E, pokemonData)) {
         msgs.push(`Gotcha! ${fmt(E.species)} was caught!`);
+        // Party full → OG sends the catch straight to the box instead of the party
+        // (engine/items/item_effects.asm .sendToBox) and shows a transfer message;
+        // this port has one PC (Bill's), so always use his name rather than tracking
+        // EVENT_MET_BILL just for this flavor text.
+        if (partyRef.current.length >= 6) {
+          msgs.push(`${fmt(E.species)} was\ntransferred to\nBILL's PC!`);
+        }
         caughtMonRef.current = stripVolatile(E);
         updatedPlayerRef.current = P;
         pushLog(msgs, 'log', 'caught');
@@ -458,7 +476,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
       action = { type: 'move', moveName: playerMove?.name };
     }
 
-    const round = performRound(P, E, action, pokemonData, { isTrainerBattle: isTrainer });
+    const round = performRound(P, E, action, pokemonData, { isTrainerBattle: isTrainer, trainerClass: trainerEncounter?.trainerKey });
     msgs.push(...round.msgs);
     if (round.payDay) moneyWonRef.current += round.payDay;
 
@@ -565,7 +583,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
       // Enemy attacks after failed run — full engine round with the player passing
       const P = liveCopy(player);
       const E = liveCopy(enemy);
-      const round = performRound(P, E, { type: 'pass' }, pokemonData, { isTrainerBattle: isTrainer });
+      const round = performRound(P, E, { type: 'pass' }, pokemonData, { isTrainerBattle: isTrainer, trainerClass: trainerEncounter?.trainerKey });
       msgs.push(...round.msgs);
       setPlayer(P); setEnemy(E);
       updatedPlayerRef.current = P;
@@ -661,7 +679,9 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
     partyRef.current[cur] = stripVolatile(player);
     activeIdxRef.current = idx;
     foughtCurrentEnemyRef.current.add(idx);
-    const incoming = liveCopy(target);
+    // withBadges again here: `target` may never have been active before (no badges metadata
+    // yet) — always (re)attach on activation rather than assuming it carried over.
+    const incoming = withBadges(liveCopy(target), badges);
     const msgs = [];
     let newResult = null;
 
@@ -670,7 +690,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
       // The incoming mon eats a free enemy attack (Gen 1) — run a full engine round
       // with the player passing so every enemy move effect resolves correctly.
       const E = liveCopy(enemy);
-      const round = performRound(incoming, E, { type: 'pass' }, pokemonData, { isTrainerBattle: isTrainer });
+      const round = performRound(incoming, E, { type: 'pass' }, pokemonData, { isTrainerBattle: isTrainer, trainerClass: trainerEncounter?.trainerKey });
       msgs.push(...round.msgs);
       setEnemy(E);
       if (incoming.hp <= 0) { msgs.push(`${fmt(incoming.species)} fainted!`); newResult = handleActiveFaint(incoming, msgs); }
@@ -725,6 +745,23 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
           <img src={spriteUrl(enemy.species)} alt={enemy.species} className="pkrb-sprite"
             onError={e => { e.target.style.display='none'; }} />
         </div>
+
+        {/* Trainer portrait — shown only for the opening "X wants to battle!" log line,
+            before their Pokémon is announced (real OG shows the trainer first, then swaps
+            to their Pokémon on send-out; here the Pokémon sprite/HUD are already mounted
+            above, so this is an additive overlay rather than a true phase swap). */}
+        {isTrainer && phase === 'log' && logIdx === 0 && trainerEncounter?.sprite && (
+          <div className="pkrb-trainer-portrait-wrap">
+            {/* NPC sprite sheets stack multiple facing/walk frames vertically (16x16px each,
+                DOWN-facing standing frame always at the top-left) — crop to that one frame,
+                same source rectangle PokeredOverworld.jsx's canvas draw uses for DOWN/frame 0,
+                then scale the crop up for visibility. */}
+            <div className="pkrb-trainer-portrait-crop">
+              <img src={trainerSpriteUrl(trainerEncounter.sprite)} alt="" className="pkrb-trainer-portrait"
+                onError={e => { e.target.parentElement.style.display='none'; }} />
+            </div>
+          </div>
+        )}
 
         {/* Player sprite (middle-left) */}
         <div className="pkrb-player-sprite-wrap">
@@ -832,7 +869,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
             <div className="pkrb-party-modal">
               <div className="pkrb-party-title">
                 {phase === 'bag-target' ? `USE ${fmtMove(pendingItemRef.current ?? '')} ON:` :
-                 phase === 'switch-faint' ? 'CHOOSE NEXT POKéMON' : 'SWITCH POKéMON'}
+                 phase === 'switch-faint' ? 'CHOOSE NEXT POKÉMON' : 'SWITCH POKÉMON'}
               </div>
               <div className="pkrb-party-list">
                 {partyRef.current.map((m, i) => {
