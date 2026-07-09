@@ -100,6 +100,13 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
   // Pokémon has its own moveset, so switching to a different mon should show its own move
   // cursor default (slot 0), not whichever slot the PREVIOUS active mon last used.
   const lastMoveIdxByMonRef     = useRef({});
+  // User-requested (2026-07-09): the top-level FIGHT/PKMn/ITEM/RUN cursor should stay on
+  // whichever quadrant was last selected when backing out of its submenu, not reset to
+  // FIGHT every time. `cursor` state is shared/reused across every phase (moves/pkmn/bag
+  // all repurpose it), so it can't carry this by itself — this ref remembers the actual
+  // top-menu selection separately, written whenever the player picks a quadrant, read by
+  // every "back to action" transition instead of hardcoding 0.
+  const lastActionCursorRef     = useRef(0);
   const ballsLeft               = playerItems?.find(i => i.name === 'POKE_BALL')?.count ?? (isExtra ? 99 : 0);
 
   // Bag contents: Poké Balls (when catchable) followed by usable medicine items.
@@ -224,10 +231,10 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
         if (key === 'z' || key === 'Z' || key === 'Enter') {
           e.preventDefault();
           const c = cursorRef.current;
-          if (c === 0) { setPhase('moves'); setCursor(lastMoveIdxByMonRef.current[activeIdxRef.current] ?? 0); setSwapMoveIdx(null); }
-          else if (c === 1 && benchAvailable()) { setPhase('pkmn'); setCursor(0); }
-          else if (c === 2 && getBagEntries().length > 0) { setPhase('bag'); setCursor(0); }
-          else if (c === 3 && !isTrainer) document.dispatchEvent(new CustomEvent('pkr-run'));
+          if (c === 0) { lastActionCursorRef.current = 0; setPhase('moves'); setCursor(lastMoveIdxByMonRef.current[activeIdxRef.current] ?? 0); setSwapMoveIdx(null); }
+          else if (c === 1 && benchAvailable()) { lastActionCursorRef.current = 1; setPhase('pkmn'); setCursor(0); }
+          else if (c === 2 && getBagEntries().length > 0) { lastActionCursorRef.current = 2; setPhase('bag'); setCursor(0); }
+          else if (c === 3 && !isTrainer) { lastActionCursorRef.current = 3; document.dispatchEvent(new CustomEvent('pkr-run')); }
         }
         return;
       }
@@ -247,7 +254,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
         if ((key === 'x' || key === 'CapsLock' || key === 'Escape') && ph !== 'switch-faint') {
           e.preventDefault();
           setPhase(ph === 'bag-target' ? 'bag' : 'action');
-          setCursor(0);
+          setCursor(ph === 'bag-target' ? 0 : lastActionCursorRef.current);
         }
         if (key === 'z' || key === 'Z' || key === 'Enter') {
           e.preventDefault();
@@ -261,7 +268,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
         const n = getBagEntries().length;
         if (key === 'ArrowUp'   || key === 'w' || key === 'W') { e.preventDefault(); setCursor(c => n > 0 ? (c - 1 + n) % n : 0); }
         if (key === 'ArrowDown' || key === 's' || key === 'S') { e.preventDefault(); setCursor(c => n > 0 ? (c + 1) % n : 0); }
-        if (key === 'x' || key === 'CapsLock' || key === 'Escape') { e.preventDefault(); setPhase('action'); setCursor(0); }
+        if (key === 'x' || key === 'CapsLock' || key === 'Escape') { e.preventDefault(); setPhase('action'); setCursor(lastActionCursorRef.current); }
         if (key === 'z' || key === 'Z' || key === 'Enter') {
           e.preventDefault();
           document.dispatchEvent(new CustomEvent('pkr-bag-select', { detail: cursorRef.current }));
@@ -276,7 +283,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
         if (key === 'ArrowDown'  || key === 's' || key === 'S') { e.preventDefault(); setCursor(c => c + 2 < numMoves ? c + 2 : c); }
         if (key === 'ArrowLeft'  || key === 'a' || key === 'A') { e.preventDefault(); setCursor(c => c % 2 === 1 ? c - 1 : c); }
         if (key === 'ArrowRight' || key === 'd' || key === 'D') { e.preventDefault(); setCursor(c => c % 2 === 0 && c + 1 < numMoves ? c + 1 : c); }
-        if (key === 'x' || key === 'CapsLock' || key === 'Escape') { e.preventDefault(); setPhase('action'); setCursor(0); setSwapMoveIdx(null); }
+        if (key === 'x' || key === 'CapsLock' || key === 'Escape') { e.preventDefault(); setPhase('action'); setCursor(lastActionCursorRef.current); setSwapMoveIdx(null); }
         // Real OG move-reorder: SELECT (mapped to Shift here — keyboards have no literal
         // Select button) picks up a slot, then picks it up again on a different slot to swap.
         // The A button (Z) always just uses the highlighted move — matches OG, where those are
@@ -380,7 +387,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
     } else if (forceSwitchRef.current) {
       setPhase('switch-faint'); setCursor(0);
     } else {
-      setPhase('action'); setCursor(0);
+      setPhase('action'); setCursor(lastActionCursorRef.current);
     }
   }
 
@@ -800,15 +807,15 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
               <div className="pkrb-action-msg">What will<br/>{fmt(player.species)} do?</div>
               <div className="pkrb-action-grid">
                 <button className={`pkrb-action-btn${cursor===0?' pkrb-cursor':''}`}
-                  onClick={() => { setPhase('moves'); setCursor(lastMoveIdxByMonRef.current[activeIdxRef.current] ?? 0); setSwapMoveIdx(null); }}>FIGHT</button>
+                  onClick={() => { lastActionCursorRef.current = 0; setPhase('moves'); setCursor(lastMoveIdxByMonRef.current[activeIdxRef.current] ?? 0); setSwapMoveIdx(null); }}>FIGHT</button>
                 <button className={`pkrb-action-btn${cursor===1?' pkrb-cursor':''}`}
-                  onClick={() => { setPhase('pkmn'); setCursor(0); }} disabled={!benchAvailable()}>PKMn</button>
+                  onClick={() => { lastActionCursorRef.current = 1; setPhase('pkmn'); setCursor(0); }} disabled={!benchAvailable()}>PKMn</button>
                 <button className={`pkrb-action-btn${cursor===2?' pkrb-cursor':''}`}
-                  onClick={() => { setPhase('bag'); setCursor(0); }} disabled={getBagEntries().length === 0}>
+                  onClick={() => { lastActionCursorRef.current = 2; setPhase('bag'); setCursor(0); }} disabled={getBagEntries().length === 0}>
                   ITEM
                 </button>
                 <button className={`pkrb-action-btn${cursor===3?' pkrb-cursor':''}`}
-                  onClick={() => { handleRun(); }} disabled={isTrainer}>RUN</button>
+                  onClick={() => { lastActionCursorRef.current = 3; handleRun(); }} disabled={isTrainer}>RUN</button>
               </div>
             </div>
           ) : phase === 'moves' ? (
@@ -839,7 +846,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
                   const md = pokemonData.moves[m.name];
                   return <><span className="pkrb-move-type">{md?.type ?? '—'}</span><span className="pkrb-move-pp">PP {m.pp}/{m.ppMax}</span></>;
                 })()}
-                <button className="pkrb-back-btn" onClick={() => { setPhase('action'); setCursor(0); }}>BACK</button>
+                <button className="pkrb-back-btn" onClick={() => { setPhase('action'); setCursor(lastActionCursorRef.current); }}>BACK</button>
               </div>
             </div>
           ) : phase === 'bag' ? (
@@ -854,7 +861,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
                   </button>
                 ))}
               </div>
-              <button className="pkrb-back-btn" onClick={() => { setPhase('action'); setCursor(0); }}>BACK</button>
+              <button className="pkrb-back-btn" onClick={() => { setPhase('action'); setCursor(lastActionCursorRef.current); }}>BACK</button>
             </div>
           ) : null}
         </div>
@@ -886,7 +893,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
                 })}
               </div>
               {phase !== 'switch-faint' && (
-                <button className="pkrb-back-btn" onClick={() => { setPhase(phase === 'bag-target' ? 'bag' : 'action'); setCursor(0); }}>BACK</button>
+                <button className="pkrb-back-btn" onClick={() => { setPhase(phase === 'bag-target' ? 'bag' : 'action'); setCursor(phase === 'bag-target' ? 0 : lastActionCursorRef.current); }}>BACK</button>
               )}
             </div>
           </div>

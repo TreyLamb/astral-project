@@ -1163,6 +1163,17 @@ function notifyPosition() {
     // obtainable) is applied immediately at pickup instead: taking one marks the other's giftId
     // taken too (via onMarkGiftTaken, which records it in pickedUpItems without granting an
     // item), rather than waiting for a proximity trigger that doesn't exist here.
+    //
+    // Re-verified live 2026-07-09 after a user report that "mt moon trainer by the two
+    // fossils wasn't fixed": the Super Nerd NPC (trainerClass: SuperNerd, sight:4, standing
+    // at (12,8)) IS wired and DOES battle correctly through this port's existing generic
+    // sight-range/talk-to-battle system (npcText()'s TRAINER_DIALOGUE.SuperNerd lookup) —
+    // confirmed via Playwright: walking into his sight line triggered "SUPER NERD WANTS TO
+    // BATTLE!" then sent out a real GRIMER. His battle and the fossil pickup below are
+    // independent systems in real OG (you can grab a fossil without ever fighting him) —
+    // re-audited the fossil index math against game_data.json's actual NPC order (fossils
+    // are 1-indexed positions 6/7, matching the check below) and found no mismatch. Could
+    // not reproduce a bug in either system from a fresh save.
     if (here === 'MT_MOON_B2F:6' || here === 'MT_MOON_B2F:7') {
       const fossilName = here === 'MT_MOON_B2F:6' ? 'DOME_FOSSIL' : 'HELIX_FOSSIL';
       const giftId = npcTrainerId(ms.mapId, npc);

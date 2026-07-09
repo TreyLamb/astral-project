@@ -23,6 +23,12 @@ export default function PokeredApp() {
   // Which clerk (0 or 1) opened the shop — only matters for the two-clerk marts
   // (CELADON_MART_2F/5F); transient UI state, not part of the saved game.
   const [shopClerkIndex, setShopClerkIndex] = useState(0);
+  // PC screen tab/cursor — transient UI state, not part of the saved game. Keyboard nav
+  // (site-wide requirement: every interactive feature needs click+keyboard parity) is added
+  // fresh alongside the Pokémon-storage tab rather than left mouse-only like the rest of
+  // this screen was.
+  const [pcTab, setPcTab] = useState('ITEM');
+  const [pcCursor, setPcCursor] = useState(0);
   // Stores the player's real position at the moment an encounter triggered,
   // so the overworld remounts at the correct location after battle.
   const battleReturnPos = useRef(null);
@@ -486,6 +492,85 @@ export default function PokeredApp() {
     });
   }
 
+  // Real OG (engine/events/pokemart.asm-equivalent PC logic): can't withdraw into a full
+  // (6-mon) party, can't deposit your last remaining party member.
+  function handlePCWithdrawMon(pcIdx) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const pcMons = prev.pcMons ?? [];
+      const mon = pcMons[pcIdx];
+      if (!mon || (prev.party?.length ?? 0) >= 6) return prev;
+      const next = { ...prev, party: [...prev.party, mon], pcMons: pcMons.filter((_, i) => i !== pcIdx) };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  function handlePCDepositMon(partyIdx) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const party = prev.party ?? [];
+      if (party.length <= 1 || !party[partyIdx]) return prev;
+      const mon = party[partyIdx];
+      const next = { ...prev, party: party.filter((_, i) => i !== partyIdx), pcMons: [...(prev.pcMons ?? []), mon] };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Single source of truth for the PC screen's row list, shared by keyboard nav and
+  // rendering so the highlighted row and the Z-key action always agree on what's what.
+  function getPcRows() {
+    if (!gameState) return [];
+    if (pcTab === 'ITEM') {
+      const box = (gameState.pcBox ?? []).map(item => ({ kind: 'box-item', name: item.name, count: item.count }));
+      const bag = (gameState.items ?? []).map(item => ({ kind: 'bag-item', name: item.name, count: item.count }));
+      return [...box, ...bag];
+    }
+    const box = (gameState.pcMons ?? []).map((mon, i) => ({ kind: 'box-mon', idx: i, mon }));
+    const party = (gameState.party ?? []).map((mon, i) => ({ kind: 'party-mon', idx: i, mon }));
+    return [...box, ...party];
+  }
+
+  function activatePcRow(row) {
+    if (!row) return;
+    if (row.kind === 'box-item') handlePCWithdraw(row.name);
+    else if (row.kind === 'bag-item') handlePCDeposit(row.name);
+    else if (row.kind === 'box-mon') handlePCWithdrawMon(row.idx);
+    else if (row.kind === 'party-mon') handlePCDepositMon(row.idx);
+  }
+
+  useEffect(() => {
+    if (screen !== 'pc') return;
+    function onKey(e) {
+      const rows = getPcRows();
+      if (e.key === 'Escape' || e.key === 'x' || e.key === 'X') { e.preventDefault(); handlePCClose(); return; }
+      if (e.key === 'Tab' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'a' || e.key === 'A' || e.key === 'd' || e.key === 'D') {
+        e.preventDefault();
+        setPcTab(t => t === 'ITEM' ? 'POKEMON' : 'ITEM');
+        setPcCursor(0);
+        return;
+      }
+      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+        e.preventDefault();
+        setPcCursor(c => rows.length > 0 ? (c - 1 + rows.length) % rows.length : 0);
+        return;
+      }
+      if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
+        e.preventDefault();
+        setPcCursor(c => rows.length > 0 ? (c + 1) % rows.length : 0);
+        return;
+      }
+      if (e.key === 'z' || e.key === 'Z' || e.key === 'Enter') {
+        e.preventDefault();
+        activatePcRow(rows[pcCursor]);
+        return;
+      }
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [screen, gameState, pcTab, pcCursor]);
+
   function handleOpenShop(mapId, x, y, clerkIndex) {
     const pos = playerPosRef.current ?? { mapId, x, y };
     setGameState(prev => prev ? { ...prev, ...pos } : prev);
@@ -629,38 +714,91 @@ export default function PokeredApp() {
   if (screen === 'pc' && gameState) {
     const pcBox = gameState.pcBox ?? [];
     const bagItems = gameState.items ?? [];
+    const pcMons = gameState.pcMons ?? [];
+    const party = gameState.party ?? [];
+    const rows = getPcRows();
     const s = { background:'#0a0a1a', fontFamily:'monospace', color:'#c0c0e0', fontSize:'11px', letterSpacing:'1px', textTransform:'uppercase' };
+    const rowStyle = (active) => ({ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'5px 6px', margin:'0 -6px', borderBottom:'1px solid #1a1a2e', background: active ? '#20204a' : 'transparent' });
+    const tabStyle = (active) => ({ flex:1, textAlign:'center', padding:'6px', cursor:'pointer', fontSize:'10px', letterSpacing:'2px', background: active ? '#1a1a2e' : 'transparent', color: active ? '#ffd700' : '#666', border:'1px solid #3a3a5a', borderBottom: active ? '1px solid #1a1a2e' : '1px solid #3a3a5a' });
+    let rowIdx = 0;
     return (
       <div style={{ display:'flex', alignItems:'center', justifyContent:'center', minHeight:'100vh', ...s }}>
-        <div style={{ background:'#0d0d1a', border:'2px solid #5a5aaa', padding:'24px 32px', minWidth:'340px' }}>
+        <div style={{ background:'#0d0d1a', border:'2px solid #5a5aaa', padding:'24px 32px', minWidth:'340px', maxHeight:'80vh', overflowY:'auto' }}>
           <div style={{ color:'#ffd700', fontSize:'13px', letterSpacing:'3px', textAlign:'center', marginBottom:'16px' }}>YOUR PC</div>
 
-          <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', marginBottom:'8px' }}>━ ITEM STORAGE ━</div>
-          {pcBox.length === 0
-            ? <div style={{ color:'#555', padding:'6px 0', marginBottom:'8px' }}>EMPTY</div>
-            : pcBox.map((item, i) => (
-              <div key={i} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'5px 0', borderBottom:'1px solid #1a1a2e' }}>
-                <span>{item.name.replace(/_/g,' ')} <span style={{ color:'#888' }}>×{item.count}</span></span>
-                <button onClick={() => handlePCWithdraw(item.name)} style={{ background:'#1a1a2e', border:'1px solid #5050a0', color:'#c0c0e0', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor:'pointer', letterSpacing:'1px' }}>TAKE</button>
-              </div>
-            ))
-          }
+          <div style={{ display:'flex', marginBottom:'14px' }}>
+            <div style={tabStyle(pcTab === 'ITEM')} onClick={() => { setPcTab('ITEM'); setPcCursor(0); }}>ITEM STORAGE</div>
+            <div style={tabStyle(pcTab === 'POKEMON')} onClick={() => { setPcTab('POKEMON'); setPcCursor(0); }}>POKéMON</div>
+          </div>
 
-          {bagItems.length > 0 && (
+          {pcTab === 'ITEM' ? (
             <>
-              <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', margin:'14px 0 8px' }}>━ DEPOSIT FROM BAG ━</div>
-              {bagItems.map((item, i) => (
-                <div key={i} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'5px 0', borderBottom:'1px solid #1a1a2e' }}>
-                  <span>{item.name.replace(/_/g,' ')} <span style={{ color:'#888' }}>×{item.count}</span></span>
-                  <button onClick={() => handlePCDeposit(item.name)} style={{ background:'#1a1a2e', border:'1px solid #4a4a6a', color:'#9090b0', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor:'pointer', letterSpacing:'1px' }}>STORE</button>
-                </div>
-              ))}
+              <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', marginBottom:'8px' }}>━ ITEM STORAGE ━</div>
+              {pcBox.length === 0
+                ? <div style={{ color:'#555', padding:'6px 0', marginBottom:'8px' }}>EMPTY</div>
+                : pcBox.map((item, i) => {
+                  const active = rowIdx++ === pcCursor;
+                  return (
+                    <div key={i} style={rowStyle(active)}>
+                      <span>{item.name.replace(/_/g,' ')} <span style={{ color:'#888' }}>×{item.count}</span></span>
+                      <button onClick={() => handlePCWithdraw(item.name)} style={{ background:'#1a1a2e', border:'1px solid #5050a0', color:'#c0c0e0', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor:'pointer', letterSpacing:'1px' }}>TAKE</button>
+                    </div>
+                  );
+                })
+              }
+
+              {bagItems.length > 0 && (
+                <>
+                  <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', margin:'14px 0 8px' }}>━ DEPOSIT FROM BAG ━</div>
+                  {bagItems.map((item, i) => {
+                    const active = rowIdx++ === pcCursor;
+                    return (
+                      <div key={i} style={rowStyle(active)}>
+                        <span>{item.name.replace(/_/g,' ')} <span style={{ color:'#888' }}>×{item.count}</span></span>
+                        <button onClick={() => handlePCDeposit(item.name)} style={{ background:'#1a1a2e', border:'1px solid #4a4a6a', color:'#9090b0', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor:'pointer', letterSpacing:'1px' }}>STORE</button>
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', marginBottom:'8px' }}>━ STORED POKéMON ━</div>
+              {pcMons.length === 0
+                ? <div style={{ color:'#555', padding:'6px 0', marginBottom:'8px' }}>EMPTY</div>
+                : pcMons.map((mon, i) => {
+                  const active = rowIdx++ === pcCursor;
+                  const full = party.length >= 6;
+                  return (
+                    <div key={i} style={rowStyle(active)}>
+                      <span>{mon.species.replace(/_/g,' ')} <span style={{ color:'#888' }}>LV{mon.level}</span></span>
+                      <button onClick={() => handlePCWithdrawMon(i)} disabled={full}
+                        style={{ background: full ? '#151520' : '#1a1a2e', border:`1px solid ${full ? '#333' : '#5050a0'}`, color: full ? '#555' : '#c0c0e0', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor: full ? 'default' : 'pointer', letterSpacing:'1px' }}>WITHDRAW</button>
+                    </div>
+                  );
+                })
+              }
+
+              <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', margin:'14px 0 8px' }}>━ YOUR PARTY ━</div>
+              {party.map((mon, i) => {
+                const active = rowIdx++ === pcCursor;
+                const last = party.length <= 1;
+                return (
+                  <div key={i} style={rowStyle(active)}>
+                    <span>{mon.species.replace(/_/g,' ')} <span style={{ color:'#888' }}>LV{mon.level}</span></span>
+                    <button onClick={() => handlePCDepositMon(i)} disabled={last}
+                      style={{ background: last ? '#151520' : '#1a1a2e', border:`1px solid ${last ? '#333' : '#4a4a6a'}`, color: last ? '#555' : '#9090b0', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor: last ? 'default' : 'pointer', letterSpacing:'1px' }}>DEPOSIT</button>
+                  </div>
+                );
+              })}
             </>
           )}
 
           <button onClick={handlePCClose} style={{ display:'block', width:'100%', marginTop:'20px', background:'transparent', border:'1px solid #3a3a5a', color:'#5a5a7a', fontFamily:'monospace', fontSize:'10px', padding:'7px', cursor:'pointer', letterSpacing:'2px', textTransform:'uppercase' }}>
             LOG OFF
           </button>
+          <div style={{ textAlign:'center', color:'#3a3a5a', fontSize:'8px', marginTop:'8px', letterSpacing:'1px' }}>Tab = switch · ↑↓ = select · Z = use · X = log off</div>
         </div>
       </div>
     );

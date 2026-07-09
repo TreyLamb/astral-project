@@ -232,12 +232,8 @@
 .pkr-menu-btn:hover { background: #2a2a4e; border-color: #7070aa; color: #fff; }
 
 .pkr-menu-home {
-  border-color: #aa3333;
-  color: #ff8888;
   margin-top: 4px;
 }
-
-.pkr-menu-home:hover { background: #2e1a1a; border-color: #cc5555; color: #ffaaaa; }
 
 .pkr-menu-exit { color: #555; border-color: #333; margin-top: 4px; }
 .pkr-menu-exit:hover { background: #1a1a1a; border-color: #666; color: #aaa; }
