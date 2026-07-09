@@ -1151,30 +1151,69 @@ function notifyPosition() {
       return;
     }
 
-    // Mt Moon B2F fossil choice (MtMoonB2FDomeFossilText/HelixFossilText). CORRECTED
-    // 2026-07-09: a prior session's comment here claimed real OG doesn't make the two
-    // mutually exclusive — false, traced directly from scripts/MtMoonB2F.asm this session.
-    // Real OG DOES enforce exactly one: after either EVENT_GOT_DOME_FOSSIL/EVENT_GOT_HELIX_FOSSIL
-    // is set, walking near the OTHER fossil's tile makes the "Super Nerd" NPC walk over, say
-    // "Then this is mine!", and HideObject the other fossil for good
-    // (MtMoonB2FSuperNerdTakesOtherFossilScript). This port has no per-tile proximity-trigger
-    // NPC-movement system to replicate that exact animation, so — same simplification style as
-    // this session's other single-NPC-gift collapses — the end result (at most one fossil ever
-    // obtainable) is applied immediately at pickup instead: taking one marks the other's giftId
-    // taken too (via onMarkGiftTaken, which records it in pickedUpItems without granting an
-    // item), rather than waiting for a proximity trigger that doesn't exist here.
-    //
-    // Re-verified live 2026-07-09 after a user report that "mt moon trainer by the two
-    // fossils wasn't fixed": the Super Nerd NPC (trainerClass: SuperNerd, sight:4, standing
-    // at (12,8)) IS wired and DOES battle correctly through this port's existing generic
-    // sight-range/talk-to-battle system (npcText()'s TRAINER_DIALOGUE.SuperNerd lookup) —
-    // confirmed via Playwright: walking into his sight line triggered "SUPER NERD WANTS TO
-    // BATTLE!" then sent out a real GRIMER. His battle and the fossil pickup below are
-    // independent systems in real OG (you can grab a fossil without ever fighting him) —
-    // re-audited the fossil index math against game_data.json's actual NPC order (fossils
-    // are 1-indexed positions 6/7, matching the check below) and found no mismatch. Could
-    // not reproduce a bug in either system from a fresh save.
+    // Mt Moon B2F Super Nerd (scripts/MtMoonB2F.asm MtMoonB2FSuperNerdText +
+    // MtMoonB2FDefaultScript's proximity check at raw (13,8)). CORRECTED 2026-07-09, full
+    // re-trace after a user report that "mt moon trainer by the two fossils wasn't fixed":
+    // the FIRST pass (same day, earlier) only checked "does a battle trigger" and "is fossil
+    // exclusivity applied AFTER pickup" — both true, but missed the actual bug: real OG
+    // makes the Super Nerd battle MANDATORY before either fossil is obtainable at all
+    // (`MtMoonB2FSuperNerdText`: talking to him while `EVENT_BEAT_MT_MOON_EXIT_SUPER_NERD`
+    // is unset ALWAYS shows "Hey, stop! I found these fossils! They're both mine!" and starts
+    // a battle via EngageMapTrainer, regardless of fossil state; OG also has an ambient
+    // proximity trigger at (13,8) that fires the same thing without even pressing Z). This
+    // port's fossil-pickup code had ZERO gate on beating him — you could walk straight past
+    // and take a fossil for free. Fixed below: this npc's dialogue is now fully special-cased
+    // (generic TRAINER_DIALOGUE.SuperNerd text was also wrong — real OG's text differs by
+    // beaten/fossil-taken state, transcribed from text/MtMoonB2F.asm), and fossil pickup is
+    // gated on `beatenTrainers`. No per-tile proximity auto-battle (this port has no such
+    // system anywhere), so the gate is enforced at both the direct-talk AND fossil-pickup
+    // interaction points instead — same "collapse to equivalent effect" pattern already used
+    // for other complex OG cutscenes (Bill's House, etc). Real OG's post-victory "OK! I'll
+    // share!" line and the scripted walk-over-and-steal-the-other-fossil animation aren't
+    // replicated (this port has no per-trainer post-battle text hook at all, a pre-existing
+    // gap affecting every trainer, not just this one) — the STEAL EFFECT still happens
+    // (taking one fossil marks the other's giftId taken too), just without the walk animation.
+    if (here === 'MT_MOON_B2F:1') {
+      const nerdId = npcTrainerId(ms.mapId, npc);
+      const beaten = (gameState?.beatenTrainers ?? []).includes(nerdId);
+      if (!beaten) {
+        setDialogue({
+          lines: ["Hey, stop!", "I found these\nfossils! They're\nboth mine!"],
+          idx: 0, action: 'BATTLE', trainerKey: 'SuperNerd', partyIdx: npc.partyIdx ?? 1, trainerId: nerdId, sprite: npc.sprite,
+        });
+        return;
+      }
+      const domeTaken = (gameState?.pickedUpItems ?? []).includes(npcTrainerId(ms.mapId, { x: 12, y: 6 }));
+      const helixTaken = (gameState?.pickedUpItems ?? []).includes(npcTrainerId(ms.mapId, { x: 13, y: 6 }));
+      setDialogue({
+        lines: (domeTaken || helixTaken)
+          ? ["Far away, on\nCINNABAR ISLAND,\nthere's a\nPOKéMON LAB.", "They do research\non regenerating\nfossils."]
+          : ["We'll each take\none!", "No being greedy!"],
+        idx: 0, action: null,
+      });
+      return;
+    }
+
+    // Mt Moon B2F fossil choice (MtMoonB2FDomeFossilText/HelixFossilText). Gated on having
+    // beaten the Super Nerd above (see that block's comment) — matches real OG, where the
+    // fossils are never reachable before he's dealt with. Mutual exclusion after that:
+    // OG's real mechanism is the Super Nerd NPC walking over and claiming whichever fossil
+    // wasn't taken (MtMoonB2FSuperNerdTakesOtherFossilScript) — this port has no per-tile
+    // proximity-trigger NPC-movement system to replicate that exact walk animation, so the
+    // end result (at most one fossil ever obtainable) is applied immediately at pickup
+    // instead: taking one marks the other's giftId taken too (via onMarkGiftTaken, which
+    // records it in pickedUpItems without granting an item).
     if (here === 'MT_MOON_B2F:6' || here === 'MT_MOON_B2F:7') {
+      const superNerd = ms.mapInfo.npcs.find(n => n.sprite === 'super_nerd');
+      const nerdBeaten = superNerd && (gameState?.beatenTrainers ?? []).includes(npcTrainerId(ms.mapId, superNerd));
+      if (!nerdBeaten) {
+        setDialogue({
+          lines: ["Hey, stop!", "I found these\nfossils! They're\nboth mine!"],
+          idx: 0, action: 'BATTLE', trainerKey: 'SuperNerd', partyIdx: superNerd?.partyIdx ?? 1,
+          trainerId: npcTrainerId(ms.mapId, superNerd), sprite: superNerd?.sprite,
+        });
+        return;
+      }
       const fossilName = here === 'MT_MOON_B2F:6' ? 'DOME_FOSSIL' : 'HELIX_FOSSIL';
       const giftId = npcTrainerId(ms.mapId, npc);
       const otherNpc = ms.mapInfo.npcs.find(n => n.sprite === 'fossil' && n !== npc);
