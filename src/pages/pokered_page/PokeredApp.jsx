@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { saveGame, healParty, createPlayerPokemon, ITEM_EFFECTS, tryEvolveWithStone, applyXP, xpForLevel, finalizeEvolution } from './pokeredGameState';
+import { saveGame, healParty, createPlayerPokemon, ITEM_EFFECTS, tryEvolveWithStone, applyXP, xpForLevel, finalizeEvolution, saveExtraAsNewSlot, newSlotId, DARK_MAPS, FLY_DESTINATIONS } from './pokeredGameState';
 import { TRAINER_META } from './trainerMeta';
 import { TRAINER_PARTIES } from './trainerParties';
 import PokeredStartScreen from './PokeredStartScreen';
@@ -100,6 +100,10 @@ export default function PokeredApp() {
     const badgeIndex = trainerKey === 'Giovanni'
       ? (trainerEncounter?.partyIdx === 2 ? 7 : undefined)
       : TRAINER_META[trainerKey]?.badgeIndex;
+    // Silph Co. 11F is Giovanni's partyIdx-1 instance (see the comment above) — beating him
+    // here unlocks Route 22's 2nd rival encounter (PokeredOverworld.jsx's `isRivalBeaten`
+    // gating for Rival2 there reads this exact flag).
+    const wonSilphCoGiovanni = wasTrainerVictory && trainerKey === 'Giovanni' && trainerEncounter?.partyIdx === 1;
     setWildEncounter(null);
     setTrainerEncounter(null);
 
@@ -154,7 +158,8 @@ export default function PokeredApp() {
 
       // Restore exact position from before the battle — battleReturnPos was set from playerPosRef
       const pos = battleReturnPos.current ?? playerPosRef.current ?? { mapId: prev.mapId, x: prev.x, y: prev.y };
-      const newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, dex, mapId: pos.mapId, x: pos.x, y: pos.y };
+      const beatenSilphCoGiovanni = prev.beatenSilphCoGiovanni || wonSilphCoGiovanni;
+      const newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, dex, beatenSilphCoGiovanni, mapId: pos.mapId, x: pos.x, y: pos.y };
 
       if ((result === 'victory' || result === 'caught') && !prev.isExtra) {
         saveGame(newState);
@@ -449,19 +454,92 @@ export default function PokeredApp() {
     setScreen('starter');
   }
 
+  // Bug found + fixed 2026-07-09 (while verifying Strength): gameState.x/y is only ever
+  // updated by handleMapChange (on a real map transition) — ordinary walking within a map
+  // only updates playerPosRef (see its own comment: "the always-current player position").
+  // Every OTHER auto-save call site in this file just spreads {...prev} without touching
+  // x/y, so they've always saved a slightly-stale "position as of last map entry," not
+  // "where you're actually standing" — mostly harmless (you respawn at a valid tile, just
+  // not exactly where you left off). Left those alone (pervasive, low-impact, out of scope
+  // tonight) but fixed it here for the two explicit "save right now" actions, where a player
+  // reasonably expects their exact current spot to be captured.
   function handleSave() {
     setGameState(prev => {
       if (!prev || prev.isExtra) return prev;
-      saveGame(prev);
-      return prev;
+      const pos = playerPosRef.current;
+      const next = pos && pos.mapId === prev.mapId ? { ...prev, x: pos.x, y: pos.y } : prev;
+      saveGame(next);
+      return next;
+    });
+  }
+
+  // User-requested (2026-07-09): snapshot a running 'extra'/debug state into a real,
+  // continuable save slot. Flips isExtra to false on the live gameState — every existing
+  // `if (!prev.isExtra) saveGame(next)` call site elsewhere in this file then autosaves into
+  // the new slot for the rest of the session, same as an ordinary game.
+  function handleSaveExtraAsNew() {
+    const id = newSlotId(); // minted once here, not inside the updater — see saveExtraAsNewSlot's comment
+    setGameState(prev => {
+      if (!prev || !prev.isExtra) return prev;
+      const pos = playerPosRef.current;
+      const withPos = pos && pos.mapId === prev.mapId ? { ...prev, x: pos.x, y: pos.y } : prev;
+      return saveExtraAsNewSlot(withPos, id);
     });
   }
 
   function handleMapChange(mapId, x, y, isPokeCenter) {
     setGameState(prev => {
       if (!prev) return prev;
-      const next = { ...prev, mapId, x, y };
+      // STRENGTH deactivates on any real map change (OG ResetUsingStrengthOutOfBattleBit,
+      // called from EnterMap) — this handler only ever fires on a genuine map transition, never
+      // on battle return (handleBattleEnd restores position directly), so this naturally matches
+      // OG's "survives a battle mid-floor, resets on leaving the floor" rule for free.
+      // FLASH is similar but scoped to DARK_MAPS: real OG resets it specifically on entering
+      // ROCK_TUNNEL_1F from outside, and never touches it on the internal 1F<->B1F stairs — so
+      // it carries over between those two floors but resets the moment you leave the group.
+      const next = { ...prev, mapId, x, y, strengthActive: false, flashActive: DARK_MAPS.has(mapId) ? prev.flashActive : false };
       if (isPokeCenter) next.lastPokeCenter = { mapId, x, y };
+      // FLY destinations (engine/overworld/toggleable_objects.asm MarkTownVisitedAndLoadToggleableObjects):
+      // real OG marks any of the 11 town/city maps visited the moment you enter it, gating the
+      // Town Map fly picker to only towns you've actually been to.
+      if (FLY_DESTINATIONS.some(d => d.mapId === mapId) && !(prev.visitedTowns ?? []).includes(mapId)) {
+        next.visitedTowns = [...(prev.visitedTowns ?? []), mapId];
+      }
+      return next;
+    });
+  }
+
+  // STRENGTH (engine/overworld/field_move_messages.asm PrintStrengthText): one-way activation,
+  // no toggle-off like Surf. Boulder-push logic itself lives in PokeredOverworld.jsx.
+  function handleActivateStrength() {
+    setGameState(prev => {
+      if (!prev || prev.strengthActive) return prev;
+      const next = { ...prev, strengthActive: true };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // FLASH (engine/menus/start_sub_menus.asm .flash): also a one-way activation, only ever
+  // meaningful on DARK_MAPS — see handleMapChange for the reset rule. The actual darkness
+  // rendering lives in PokeredOverworld.jsx.
+  function handleActivateFlash() {
+    setGameState(prev => {
+      if (!prev || prev.flashActive) return prev;
+      const next = { ...prev, flashActive: true };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Persists a boulder's pushed position (engine/overworld/push_boulder.asm), keyed by its
+  // stable original-position id — see PokeredOverworld.jsx's boulderPosRef/npcTrainerId.
+  function handlePushBoulder(mapId, boulderId, x, y) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const forMap = prev.boulderPositions?.[mapId] ?? {};
+      const next = { ...prev, boulderPositions: { ...prev.boulderPositions, [mapId]: { ...forMap, [boulderId]: { x, y } } } };
+      if (!prev.isExtra) saveGame(next);
       return next;
     });
   }
@@ -945,12 +1023,16 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onGiveGuardDrink={handleGiveGuardDrink}
             onCutTree={handleCutTree}
             onSetSurfing={handleSetSurfing}
+            onActivateStrength={handleActivateStrength}
+            onPushBoulder={handlePushBoulder}
+            onActivateFlash={handleActivateFlash}
             onMetOldMan={handleMetOldMan}
             onRequestStarter={handleRequestStarter}
             onOpenPC={handleOpenPC}
             onOpenShop={handleOpenShop}
             onMapChange={handleMapChange}
             onSave={handleSave}
+            onSaveExtraAsNew={handleSaveExtraAsNew}
             onPositionUpdate={handlePositionUpdate}
             onPickUpItem={handlePickUpItem}
             onUseItem={handleUseItem}

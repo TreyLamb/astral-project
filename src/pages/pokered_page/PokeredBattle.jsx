@@ -251,7 +251,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
         const n = partyRef.current.length;
         if (key === 'ArrowUp'   || key === 'w' || key === 'W') { e.preventDefault(); setCursor(c => n > 0 ? (c - 1 + n) % n : 0); }
         if (key === 'ArrowDown' || key === 's' || key === 'S') { e.preventDefault(); setCursor(c => n > 0 ? (c + 1) % n : 0); }
-        if ((key === 'x' || key === 'CapsLock' || key === 'Escape') && ph !== 'switch-faint') {
+        if ((key === 'x' || key === 'X' || key === 'CapsLock' || key === 'Escape') && ph !== 'switch-faint') {
           e.preventDefault();
           setPhase(ph === 'bag-target' ? 'bag' : 'action');
           setCursor(ph === 'bag-target' ? 0 : lastActionCursorRef.current);
@@ -268,7 +268,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
         const n = getBagEntries().length;
         if (key === 'ArrowUp'   || key === 'w' || key === 'W') { e.preventDefault(); setCursor(c => n > 0 ? (c - 1 + n) % n : 0); }
         if (key === 'ArrowDown' || key === 's' || key === 'S') { e.preventDefault(); setCursor(c => n > 0 ? (c + 1) % n : 0); }
-        if (key === 'x' || key === 'CapsLock' || key === 'Escape') { e.preventDefault(); setPhase('action'); setCursor(lastActionCursorRef.current); }
+        if (key === 'x' || key === 'X' || key === 'CapsLock' || key === 'Escape') { e.preventDefault(); setPhase('action'); setCursor(lastActionCursorRef.current); }
         if (key === 'z' || key === 'Z' || key === 'Enter') {
           e.preventDefault();
           document.dispatchEvent(new CustomEvent('pkr-bag-select', { detail: cursorRef.current }));
@@ -283,7 +283,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
         if (key === 'ArrowDown'  || key === 's' || key === 'S') { e.preventDefault(); setCursor(c => c + 2 < numMoves ? c + 2 : c); }
         if (key === 'ArrowLeft'  || key === 'a' || key === 'A') { e.preventDefault(); setCursor(c => c % 2 === 1 ? c - 1 : c); }
         if (key === 'ArrowRight' || key === 'd' || key === 'D') { e.preventDefault(); setCursor(c => c % 2 === 0 && c + 1 < numMoves ? c + 1 : c); }
-        if (key === 'x' || key === 'CapsLock' || key === 'Escape') { e.preventDefault(); setPhase('action'); setCursor(lastActionCursorRef.current); setSwapMoveIdx(null); }
+        if (key === 'x' || key === 'X' || key === 'CapsLock' || key === 'Escape') { e.preventDefault(); setPhase('action'); setCursor(lastActionCursorRef.current); setSwapMoveIdx(null); }
         // Real OG move-reorder: SELECT (mapped to Shift here — keyboards have no literal
         // Select button) picks up a slot, then picks it up again on a different slot to swap.
         // The A button (Z) always just uses the highlighted move — matches OG, where those are
@@ -387,7 +387,15 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
     } else if (forceSwitchRef.current) {
       setPhase('switch-faint'); setCursor(0);
     } else {
-      setPhase('action'); setCursor(lastActionCursorRef.current);
+      // User-requested (2026-07-10): the action-menu cursor persists across turns (FIGHT/
+      // ITEM/RUN all stay wherever you last picked from) EXCEPT PKMn — switching/viewing the
+      // party is the one quadrant that isn't "what I'll probably want to do again next turn"
+      // the way repeatedly attacking, healing, or fleeing is, so the next turn always starts
+      // back on FIGHT after a PKMn-selected turn rather than staying on PKMn. Only applies
+      // here (the actual next-turn transition) — backing out of the party/bag/move list
+      // WITHIN the same turn (the other 5 call sites reading lastActionCursorRef) still
+      // correctly returns to PKMn/whichever quadrant you're mid-cancelling out of.
+      setPhase('action'); setCursor(lastActionCursorRef.current === 1 ? 0 : lastActionCursorRef.current);
     }
   }
 

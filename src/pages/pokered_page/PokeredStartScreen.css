@@ -205,6 +205,78 @@
   border-color: #9090cc;
 }
 
+.pkrs-save-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 320px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.pkrs-save-row {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.pkrs-save-row-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  background: #1a1a2e;
+  border: 1px solid #4a4a6a;
+  color: #d0d0f0;
+  font-family: 'Courier New', monospace;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.pkrs-save-row-main:hover {
+  background: #2a2a4e;
+  border-color: #9090cc;
+  color: #fff;
+}
+
+.pkrs-save-row-name {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffd700;
+}
+
+.pkrs-save-row-meta {
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #8a8ab0;
+}
+
+.pkrs-save-row-icon {
+  background: transparent;
+  border: 1px solid #4a4a6a;
+  color: #6a6a9a;
+  font-size: 14px;
+  width: 32px;
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s, color 0.1s;
+}
+
+.pkrs-save-row-icon:hover {
+  background: #2a2a4e;
+  border-color: #7070aa;
+  color: #a0a0cc;
+}
+
+.pkrs-save-row-delete:hover {
+  border-color: #cc5555;
+  color: #ff8080;
+}
+
 .pkrs-save-io-msg {
   color: #7ac87a;
   font-size: 9px;

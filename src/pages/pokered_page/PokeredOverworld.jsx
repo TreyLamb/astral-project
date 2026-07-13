@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { TRAINER_META } from './trainerMeta';
 import { TRAINER_PARTIES } from './trainerParties';
-import { ITEM_EFFECTS, TM_HM_MOVES, tryFish } from './pokeredGameState';
+import { ITEM_EFFECTS, TM_HM_MOVES, tryFish, DARK_MAPS, FLY_DESTINATIONS } from './pokeredGameState';
 import ITEM_LOCATIONS from './extracted_og_data/item_locations.json';
 import HIDDEN_ITEMS from './extracted_og_data/hidden_items.json';
 import NPC_DIALOGUE from './extracted_og_data/npc_dialogue.json';
@@ -117,7 +117,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onMapChange, onSave, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onSetSurfing, onMetOldMan, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -186,6 +186,32 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   // OG wStepCounter equivalent — counts completed steps mod 4 for out-of-battle poison
   // damage (see onPoisonTick call site in the game loop).
   const stepCounterRef = useRef(0);
+  // Guards the mount-time game-data-fetch-then-loadMap effect against React 18 StrictMode's
+  // dev-only double-invocation — see that effect's own comment for the full incident.
+  const initialLoadStartedRef = useRef(false);
+  // STRENGTH/boulder pushing (engine/overworld/push_boulder.asm TryPushingBoulder). Unlike
+  // Surf, Strength doesn't toggle — real OG only ever resets BIT_STRENGTH_ACTIVE on a genuine
+  // map change (ResetUsingStrengthOutOfBattleBit, called from EnterMap — but NOT from the
+  // after-battle map-reentry path, so it survives a wild battle mid-floor). gameState.strengthActive
+  // models this: set true by handleUseFieldMove('STRENGTH'), reset false by onMapChange in
+  // PokeredApp.jsx (which only fires on a real map transition, never on battle return) — so
+  // reading it via a synced ref here naturally matches OG's persistence rule for free.
+  const strengthActiveRef = useRef(gameState?.strengthActive ?? false);
+  useEffect(() => { strengthActiveRef.current = gameState?.strengthActive ?? false; }, [gameState?.strengthActive]);
+  // FLASH (engine/menus/start_sub_menus.asm .flash): same one-way-until-map-change shape as
+  // Strength above — see DARK_MAPS/handleMapChange in PokeredApp.jsx for the reset rule.
+  const flashActiveRef = useRef(gameState?.flashActive ?? false);
+  useEffect(() => { flashActiveRef.current = gameState?.flashActive ?? false; }, [gameState?.flashActive]);
+  // Live (possibly-pushed) boulder positions, keyed by npcTrainerId(mapId, npc) using the
+  // boulder's ORIGINAL x/y as a stable identity regardless of where it's since been pushed.
+  // Hydrated from gameState.boulderPositions[mapId] on every loadMap (persisted, unlike
+  // npcLivePosRef's patrol state which is ephemeral and always starts fresh).
+  const boulderPosRef = useRef(new Map());
+  // Tracks a boulder push attempt in progress: real OG requires bumping into a boulder TWICE
+  // in a row (same boulder, holding the same direction) before it actually slides — the first
+  // bump just sets a "tried" flag (BIT_TRIED_PUSH_BOULDER) and does nothing visible. Cleared
+  // whenever the player isn't bumping a still-pushable boulder (matches OG's ResetBoulderPushFlags).
+  const boulderPushAttemptRef = useRef({ id: null, dir: null });
 
   // React state — only for UI overlays
   const [mapLabel, setMapLabel]       = useState('');
@@ -268,6 +294,17 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
       if (swapped !== undefined) blocks[idx] = swapped;
     }
   }
+  // Persisted per-map boulder positions (gameState.boulderPositions[mapId] = { [boulderId]:
+  // {x,y} }) — re-hydrated into boulderPosRef on every loadMap, same pattern as applyCutTrees.
+  function hydrateBoulderPositions(mapId) {
+    const saved = gameState?.boulderPositions?.[mapId];
+    const map = new Map();
+    if (saved) for (const [bid, pos] of Object.entries(saved)) map.set(bid, pos);
+    boulderPosRef.current = map;
+  }
+  function boulderPos(mapId, npc) {
+    return boulderPosRef.current.get(npcTrainerId(mapId, npc)) ?? { x: npc.x, y: npc.y };
+  }
   // Attempts to use CUT against whatever the player is currently facing — mirrors real OG's
   // actual trigger (select CUT from a Pokémon's move list; it applies based on current
   // facing, no separate "walk up and press Z on the tree" interaction exists in OG at all).
@@ -324,9 +361,28 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
 
   // HM field moves usable from the overworld POKÉMON stats page (real OG: select the move
   // from a Pokémon's move list, it applies immediately based on current facing — see tryCut's
-  // comment). Dispatches by move name; only CUT is wired so far, more field moves (SURF,
-  // STRENGTH, ...) extend this same switch as they're built.
-  const FIELD_MOVES = new Set(['CUT', 'SURF']);
+  // comment). Dispatches by move name; more field moves (FLASH, FLY, DIG...) extend this same
+  // switch as they're built.
+  const FIELD_MOVES = new Set(['CUT', 'SURF', 'STRENGTH', 'FLASH', 'FLY', 'DIG', 'TELEPORT']);
+
+  // User-requested (2026-07-10): X must act as a back button in EVERY menu, matching OG's B
+  // button — always one level up, never a jump straight to main. This table is the single
+  // source of truth for "one level up" from each non-main page; it MUST mirror that page's
+  // own visible "◀ BACK" button target exactly (search this file for `pkr-menu-back` to find
+  // them) — keyboard and mouse read from the same map here so they can't drift apart again.
+  // Any page NOT listed defaults to 'main', which is correct for every page one level below
+  // main itself (pokemon/items/trainer/pokedex/fly-select) — only add an entry here for a
+  // page that's nested two-or-more levels deep.
+  const MENU_BACK_MAP = {
+    'pokemon-options': 'pokemon',
+    'pokemon-stats': 'pokemon-options',
+    'pokemon-switch-target': 'pokemon-options',
+    'item-target': 'items',
+    'hm06-move': 'items',
+    'hm06-target': 'hm06-move',
+    'hm06-slot': 'hm06-target',
+    'pokedex-detail': 'pokedex',
+  };
   function handleUseFieldMove(moveName) {
     if (moveName === 'CUT') {
       const result = tryCut();
@@ -349,6 +405,73 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
         surfingRef.current = result.surfing;
         if (onSetSurfing) onSetSurfing(result.surfing);
         forcedSurfStepRef.current = true; // OG .makePlayerMoveForward — both start and stop
+        showMenuRef.current = false; setShowMenu(false);
+        menuPageRef.current = 'main'; setMenuPage('main'); menuCursorRef.current = 0; setMenuCursor(0);
+      }
+    } else if (moveName === 'STRENGTH') {
+      // engine/overworld/field_move_messages.asm PrintStrengthText — real OG: a one-way
+      // activation (no "hop off" toggle like Surf), sets BIT_STRENGTH_ACTIVE and shows a
+      // 2-line message. Reset happens elsewhere (onMapChange in PokeredApp.jsx), not here.
+      if (!gameState?.strengthActive && onActivateStrength) onActivateStrength();
+      strengthActiveRef.current = true; // same immediate-ref pattern as surfingRef above
+      setHealMsg("Used STRENGTH!\nYou can now push boulders!");
+      setTimeout(() => setHealMsg(''), 2500);
+      showMenuRef.current = false; setShowMenu(false);
+      menuPageRef.current = 'main'; setMenuPage('main'); menuCursorRef.current = 0; setMenuCursor(0);
+    } else if (moveName === 'FLASH') {
+      // engine/menus/start_sub_menus.asm .flash — real OG shows the same "FLASH lights the
+      // area up!" message everywhere, not just on dark maps (it only visually MATTERS on
+      // DARK_MAPS, checked at render time, not gated here).
+      if (!gameState?.flashActive && onActivateFlash) onActivateFlash();
+      flashActiveRef.current = true; // same immediate-ref pattern as strengthActiveRef above
+      setHealMsg('FLASH lights\nthe area up!');
+      setTimeout(() => setHealMsg(''), 2000);
+      showMenuRef.current = false; setShowMenu(false);
+      menuPageRef.current = 'main'; setMenuPage('main'); menuCursorRef.current = 0; setMenuCursor(0);
+    } else if (moveName === 'FLY') {
+      // engine/menus/start_sub_menus.asm .fly + CheckIfInOutsideMap: real OG only allows Fly
+      // from an OVERWORLD or PLATEAU tileset map (towns/routes) — not indoors, not caves.
+      // 'forest' is deliberately excluded even though it's also an outdoor-feeling area: OG's
+      // check is tileset-exact (OVERWORLD/PLATEAU only), and Viridian Forest uses a distinct
+      // tileset ID in real OG, so it fails the same check there too.
+      const ms = mapStateRef.current;
+      if (!ms || !['overworld', 'plateau'].includes(ms.mapInfo.tileset)) {
+        setHealMsg("Can't fly here!");
+        setTimeout(() => setHealMsg(''), 2000);
+        return;
+      }
+      setMenuPage('fly-select'); menuPageRef.current = 'fly-select';
+      setMenuCursor(0); menuCursorRef.current = 0;
+    } else if (moveName === 'DIG') {
+      // engine/menus/start_sub_menus.asm .dig — real OG's Dig field move literally sets
+      // wCurItem to ESCAPE_ROPE and calls the SAME UseItem routine as using a real Escape
+      // Rope from the bag (same message, same warp-to-last-Pokémon-Center behavior, no
+      // location gate). Reuses onUseItem('ESCAPE_ROPE') rather than reimplementing the warp —
+      // safe even with zero real Escape Ropes in the bag, since consumeItem() is a no-op for
+      // an item the player doesn't have.
+      const res = onUseItem?.('ESCAPE_ROPE');
+      if (res?.used) {
+        setHealMsg(res.message); setTimeout(() => setHealMsg(''), 2000);
+        if (res.warpTo) { pendingMapRef.current = res.warpTo; transitionRef.current = 1; }
+        showMenuRef.current = false; setShowMenu(false);
+        menuPageRef.current = 'main'; setMenuPage('main'); menuCursorRef.current = 0; setMenuCursor(0);
+      }
+    } else if (moveName === 'TELEPORT') {
+      // engine/menus/start_sub_menus.asm .teleport — same underlying warp-to-last-Pokémon-
+      // Center as Dig/Escape Rope, but (unlike Dig) gated to CheckIfInOutsideMap, the exact
+      // same OVERWORLD/PLATEAU-only restriction as Fly — real OG's Teleport is an outdoor
+      // quick-travel shortcut, not a dungeon-escape tool (that's what Dig/Escape Rope are for).
+      const ms = mapStateRef.current;
+      if (!ms || !['overworld', 'plateau'].includes(ms.mapInfo.tileset)) {
+        setHealMsg("Can't use\nTELEPORT now!");
+        setTimeout(() => setHealMsg(''), 2000);
+        return;
+      }
+      const res = onUseItem?.('ESCAPE_ROPE');
+      if (res?.used) {
+        setHealMsg('Warped to the\nlast POKéMON\nCENTER!');
+        setTimeout(() => setHealMsg(''), 2000);
+        if (res.warpTo) { pendingMapRef.current = res.warpTo; transitionRef.current = 1; }
         showMenuRef.current = false; setShowMenu(false);
         menuPageRef.current = 'main'; setMenuPage('main'); menuCursorRef.current = 0; setMenuCursor(0);
       }
@@ -624,6 +747,188 @@ const OUTDOOR = ['overworld', 'plateau'];
       trainerEngageRef.current = null;
       npcBattlePosRef.current = new Map();
       npcLivePosRef.current = new Map();
+      hydrateBoulderPositions(mapId);
+      boulderPushAttemptRef.current = { id: null, dir: null };
+
+      // Route 22 Rival1 exit walk (real OG Route22Rival1AfterBattleScript/Route22MoveRival1) —
+      // plays once, the first time this map (re)loads after he's been beaten (covers both the
+      // immediate post-battle remount AND any later re-visit that somehow missed it, but never
+      // replays once seen). User-flagged 2026-07-10. Collapsed to one exit path for both real
+      // OG start-tile variants (RIGHT,RIGHT,DOWN×5) — the end state (gone for good, already
+      // handled by the existing beatenTrainers render-exclusion below) is identical either way,
+      // only the cosmetic route differs.
+      if (mapId === 'ROUTE_22') {
+        const rival = mapInfo.npcs.find(n => n.trainerClass === 'Rival1' && n.partyIdx === 1);
+        if (rival) {
+          const exitFlagId = `${npcTrainerId(mapId, rival)}:exited`;
+          const beaten = isRivalBeaten(mapId, rival, gsRef.current?.beatenTrainers);
+          const alreadyExited = (gsRef.current?.pickedUpItems ?? []).includes(exitFlagId);
+          if (beaten && !alreadyExited) {
+            if (onMarkGiftTaken) onMarkGiftTaken(exitFlagId);
+            startScriptedMove(mapId, rival, ['RIGHT', 'RIGHT', 'DOWN', 'DOWN', 'DOWN', 'DOWN', 'DOWN'], null);
+          }
+        }
+        // Rival2 (post-Silph-Co 2nd encounter) gets its own exit walk once beaten — real OG's
+        // Route22Rival2ExitMovementData is much shorter (LEFT / LEFT×3) since he's approaching
+        // from the opposite side; same one-shot-guard pattern as Rival1's.
+        const rival2 = mapInfo.npcs.find(n => n.trainerClass === 'Rival2' && n.partyIdx === 3);
+        if (rival2) {
+          const exit2FlagId = `${npcTrainerId(mapId, rival2)}:Rival2:exited`;
+          const beaten2 = isRivalBeaten(mapId, rival2, gsRef.current?.beatenTrainers);
+          const alreadyExited2 = (gsRef.current?.pickedUpItems ?? []).includes(exit2FlagId);
+          if (beaten2 && !alreadyExited2) {
+            if (onMarkGiftTaken) onMarkGiftTaken(exit2FlagId);
+            startScriptedMove(mapId, rival2, ['LEFT', 'LEFT', 'LEFT'], null);
+          }
+        }
+      }
+
+      // Cerulean City rival exit walk (real OG CeruleanCityRivalDefeatedScript: RIGHT,DOWN×6
+      // from the "right side" approach or LEFT,DOWN×6 from the "left side" one, then
+      // CeruleanCityRivalCleanupScript HideObjects him for good — see the ambient-trigger
+      // comment above for the full approach-side trace). Same one-shot-guard pattern as Route
+      // 22's rivals. Collapsed to one exit path (RIGHT,DOWN×6) regardless of which side he was
+      // actually fought from: `npcBattlePosRef` (the only place that side is recorded) is
+      // unconditionally reset a few lines above, before this block ever runs, so which side
+      // isn't recoverable here without inventing new persisted state for a purely cosmetic
+      // difference — same tradeoff Route 22's own exit walk already made for the same reason.
+      if (mapId === 'CERULEAN_CITY') {
+        const ceruleanRival = mapInfo.npcs.find(n => n.trainerClass === 'Rival1' && n.partyIdx === 2);
+        if (ceruleanRival) {
+          const exitFlagId = `${npcTrainerId(mapId, ceruleanRival)}:exited`;
+          const beaten = isRivalBeaten(mapId, ceruleanRival, gsRef.current?.beatenTrainers);
+          const alreadyExited = (gsRef.current?.pickedUpItems ?? []).includes(exitFlagId);
+          if (beaten && !alreadyExited) {
+            if (onMarkGiftTaken) onMarkGiftTaken(exitFlagId);
+            startScriptedMove(mapId, ceruleanRival, ['RIGHT', 'DOWN', 'DOWN', 'DOWN', 'DOWN', 'DOWN', 'DOWN'], null);
+          }
+        }
+      }
+
+      // SS Anne 2F rival exit walk (real OG SSAnne2FRivalAfterBattleScript: DOWN×4 if the
+      // player was standing east at (37,8), or RIGHT,DOWN — a short sidestep around the
+      // player — if standing directly south at (36,8)). Same one-shot-guard pattern, and the
+      // same "which side" ambiguity/collapse as Cerulean above (npcBattlePosRef is reset before
+      // this block runs) — collapsed to the DOWN×4 path.
+      if (mapId === 'SS_ANNE_2F') {
+        const ssRival = mapInfo.npcs.find(n => n.trainerClass === 'Rival2' && n.partyIdx === 0);
+        if (ssRival) {
+          const exitFlagId = `${npcTrainerId(mapId, ssRival)}:exited`;
+          const beaten = isRivalBeaten(mapId, ssRival, gsRef.current?.beatenTrainers);
+          const alreadyExited = (gsRef.current?.pickedUpItems ?? []).includes(exitFlagId);
+          if (beaten && !alreadyExited) {
+            if (onMarkGiftTaken) onMarkGiftTaken(exitFlagId);
+            startScriptedMove(mapId, ssRival, ['DOWN', 'DOWN', 'DOWN', 'DOWN'], null);
+          }
+        }
+      }
+
+      // Pokémon Tower 2F rival exit walk (real OG PokemonTower2FRivalRightThenDownMovement /
+      // …DownThenRightMovement, picked by which coord triggered the encounter). Same one-shot
+      // guard + "which side" collapse as the others above — this uses the RightThenDown path
+      // (RIGHT,DOWN,DOWN,RIGHT,DOWN,DOWN,RIGHT,RIGHT).
+      if (mapId === 'POKEMON_TOWER_2F') {
+        const towerRival = mapInfo.npcs.find(n => n.trainerClass === 'Rival2' && n.partyIdx === 1);
+        if (towerRival) {
+          const exitFlagId = `${npcTrainerId(mapId, towerRival)}:exited`;
+          const beaten = isRivalBeaten(mapId, towerRival, gsRef.current?.beatenTrainers);
+          const alreadyExited = (gsRef.current?.pickedUpItems ?? []).includes(exitFlagId);
+          if (beaten && !alreadyExited) {
+            if (onMarkGiftTaken) onMarkGiftTaken(exitFlagId);
+            startScriptedMove(mapId, towerRival, ['RIGHT', 'DOWN', 'DOWN', 'RIGHT', 'DOWN', 'DOWN', 'RIGHT', 'RIGHT'], null);
+          }
+        }
+      }
+
+      // Pokémon Tower 7F's 3 Rocket grunts (real OG PokemonTower7FHideNPCScript) each get a
+      // one-shot exit walk once beaten, then vanish for good — see the render-skip toggle
+      // above. Real OG picks each grunt's exact walk from a per-tile lookup table
+      // (`PokemonTower7FNPCCoordMovementTable`) keyed to this floor's specific winding
+      // corridor layout; none of its listed coordinates match these 3 grunts' actual spawns
+      // in game_data.json ((9,11)/(12,9)/(9,7)), so rather than guess at a mismatched table,
+      // all 3 collapse to the same simple DOWN×3 exit (consistent with this session's other
+      // "which exact path" simplifications elsewhere) — the important, real behavior being
+      // ported is that they leave and stay gone, not the literal pixel route. Only the FIRST
+      // newly-beaten-but-not-yet-exited grunt is animated per `loadMap` call, matching every
+      // other exit-walk trigger in this file — `trainerEngageRef` holds a single engagement,
+      // so a loop calling `startScriptedMove` more than once here would just have each call
+      // silently clobber the previous one. In ordinary play this never matters (beating a
+      // trainer always returns through a fresh `loadMap`, so at most one grunt is ever newly
+      // beaten at a time); it only matters for an old save that already has 2+ beaten with no
+      // exit flag recorded, in which case the others quietly vanish next reload instead of
+      // animating — acceptable for a one-time legacy-save cosmetic gap.
+      if (mapId === 'POKEMON_TOWER_7F') {
+        const rocket = mapInfo.npcs.find(n => n.trainerClass === 'Rocket' &&
+          (gsRef.current?.beatenTrainers ?? []).includes(npcTrainerId(mapId, n)) &&
+          !(gsRef.current?.pickedUpItems ?? []).includes(`${npcTrainerId(mapId, n)}:exited`));
+        if (rocket) {
+          if (onMarkGiftTaken) onMarkGiftTaken(`${npcTrainerId(mapId, rocket)}:exited`);
+          startScriptedMove(mapId, rocket, ['DOWN', 'DOWN', 'DOWN'], null);
+        }
+      }
+
+      // Silph Co. 7F rival exit walk (real OG SilphCo7FRivalAfterBattleScript, collapsed to
+      // the `RivalWalkAroundPlayerMovement` path: LEFT,UP,UP,RIGHT,RIGHT,RIGHT,DOWN) — same
+      // one-shot-guard + "which side" collapse as every other rival exit above.
+      if (mapId === 'SILPH_CO_7F') {
+        const silphRival = mapInfo.npcs.find(n => n.trainerClass === 'Rival2' && n.partyIdx === 2);
+        if (silphRival) {
+          const exitFlagId = `${npcTrainerId(mapId, silphRival)}:exited`;
+          const beaten = isRivalBeaten(mapId, silphRival, gsRef.current?.beatenTrainers);
+          const alreadyExited = (gsRef.current?.pickedUpItems ?? []).includes(exitFlagId);
+          if (beaten && !alreadyExited) {
+            if (onMarkGiftTaken) onMarkGiftTaken(exitFlagId);
+            startScriptedMove(mapId, silphRival, ['LEFT', 'UP', 'UP', 'RIGHT', 'RIGHT', 'RIGHT', 'DOWN'], null);
+          }
+        }
+      }
+
+      // Game Corner's poster-guard Rocket exit walk (real OG GameCornerRocketBattleScript —
+      // `movement: STAND` means he never moves before battling, so his position at battle-end
+      // is always his static spawn (9,5), which never matches either of the 2 special-cased
+      // "direct" positions (wYCoord==6 / wXCoord==8) — the `WalkAroundPlayer` path always
+      // fires in practice, no collapse/ambiguity needed here unlike the rivals above).
+      if (mapId === 'GAME_CORNER') {
+        const gcRocket = mapInfo.npcs.find(n => n.trainerClass === 'Rocket' && n.x === 9 && n.y === 5);
+        if (gcRocket) {
+          const exitFlagId = `${npcTrainerId(mapId, gcRocket)}:exited`;
+          const beaten = (gsRef.current?.beatenTrainers ?? []).includes(npcTrainerId(mapId, gcRocket));
+          const alreadyExited = (gsRef.current?.pickedUpItems ?? []).includes(exitFlagId);
+          if (beaten && !alreadyExited) {
+            if (onMarkGiftTaken) onMarkGiftTaken(exitFlagId);
+            startScriptedMove(mapId, gcRocket, ['DOWN', 'RIGHT', 'RIGHT', 'UP', 'RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], null);
+          }
+        }
+      }
+
+      // Champion's Room finale (real OG ChampionsRoomOakArrivesScript onward) — once Rival3
+      // is beaten, Oak walks in (UP×5 from his spawn near the LANCES_ROOM entrance) and
+      // congratulates the player. Simplified from real OG's full multi-phase state machine,
+      // which ALSO simulates the PLAYER's own movement via StartSimulatingJoypadStates — a
+      // primitive this port has no equivalent for — condensed into one scripted NPC walk-in
+      // plus one multi-page dialogue (CHAMPIONS_ROOM:2 in SCRIPTED_NPC_TEXT) covering the same
+      // narrative beats (congratulations, the rival's loss, "come with me"). Real OG then
+      // walks Oak back out and simulates the player following him to HALL_OF_FAME; this port
+      // leaves Oak standing after the dialogue and lets the player walk to the existing
+      // HALL_OF_FAME warp themselves rather than building new player-movement-simulation
+      // machinery for a single one-time cutscene. Same one-shot-guard pattern as every other
+      // trigger in this file.
+      if (mapId === 'CHAMPIONS_ROOM') {
+        const oak = mapInfo.npcs.find(n => n.sprite === 'oak');
+        const rival3 = mapInfo.npcs.find(n => n.trainerClass === 'Rival3');
+        const rival3Beaten = rival3 && isRivalBeaten(mapId, rival3, gsRef.current?.beatenTrainers);
+        if (oak && rival3Beaten) {
+          const arrivedFlagId = `${npcTrainerId(mapId, oak)}:arrived`;
+          const alreadyArrived = (gsRef.current?.pickedUpItems ?? []).includes(arrivedFlagId);
+          if (!alreadyArrived) {
+            if (onMarkGiftTaken) onMarkGiftTaken(arrivedFlagId);
+            startScriptedMove(mapId, oak, ['UP', 'UP', 'UP', 'UP', 'UP'], (eng) => {
+              npcBattlePosRef.current.set(eng.id, { x: eng.liveX, y: eng.liveY, facing: eng.facing });
+              startDialogue(eng.npc);
+            });
+          }
+        }
+      }
 
       // Position player at warp destination exactly — coordinates from game_data are always even
     if (entryX !== null && entryY !== null) {
@@ -749,16 +1054,160 @@ const OUTDOOR = ['overworld', 'plateau'];
     // Route 22 Rival ambush (real OG: Route22DefaultScript checks player coords against
     // (29,4)/(29,5), NOT an NPC-facing/LOS check like every other trainer — he doesn't stand
     // there waiting to be talked to, he walks up and battles the moment you cross this exact
-    // spot). This port's generic trainer system is talk-to-battle, which is why this felt
-    // "not really wired" despite the battle itself working — reusing startDialogue's existing,
-    // already-correct battle/party/dialogue resolution, just triggering it from footstep
-    // position instead of a Z-press. Scoped to the first (pre-Silph-Co) encounter only — the
-    // second Route 22 rival battle shares the same map tile with no story-gated visibility in
-    // this port (see the Rival-wiring log entry), so it isn't reachable yet regardless.
+    // spot). Real OG's Route22MoveRivalRightScript then plays a real scripted walk before the
+    // battle (traced directly: RIGHT×4 from the first coord, RIGHT×3 from the second — the
+    // second coord's sequence skips the shared table's first byte — ending facing RIGHT,
+    // except the second coord additionally overrides to face UP right after), and
+    // Route22Rival1AfterBattleScript plays a real exit walk afterward (RIGHT,RIGHT,DOWN×4 /
+    // RIGHT,RIGHT,RIGHT,RIGHT,UP,DOWN,RIGHT,RIGHT,RIGHT,RIGHT depending which coord — collapsed
+    // here to the shorter, more common index-0 case since both ultimately just walk him off
+    // toward the edge before HideObject removes him for good; a coordIndex-1 encounter still
+    // gets a real exit walk, just via the same movement rather than tracking which of the two
+    // real OG tables it originally used, since the visible end state — gone — is identical
+    // either way). User-flagged 2026-07-10 ("Gary/Blue... is supposed to move, only partially
+    // wired") — this was previously an instant dialogue trigger with zero walk animation.
     if (ms.mapId === 'ROUTE_22' && ((p.x === 29 && p.y === 4) || (p.x === 29 && p.y === 5))) {
       const rival = ms.mapInfo.npcs.find(n => n.trainerClass === 'Rival1' && n.partyIdx === 1);
-      if (rival && !(gameState?.beatenTrainers ?? []).includes(npcTrainerId(ms.mapId, rival))) {
-        startDialogue(rival);
+      const rival1Done = rival && isRivalBeaten(ms.mapId, rival, gameState?.beatenTrainers);
+      // Route 22's SECOND rival battle (real OG Route22SecondRivalBattleScript) reuses the
+      // identical ambient coordinate trigger and approach movement as Rival1 — only reachable
+      // once Rival1 is done AND Giovanni's Silph Co fight has unlocked him (see the render-skip
+      // toggle above for the same gate).
+      const rival2 = ms.mapInfo.npcs.find(n => n.trainerClass === 'Rival2' && n.partyIdx === 3);
+      const rival2Unlocked = rival1Done && !!gameState?.beatenSilphCoGiovanni;
+      const active = !rival1Done ? rival : (rival2Unlocked && rival2 && !isRivalBeaten(ms.mapId, rival2, gameState?.beatenTrainers) ? rival2 : null);
+      if (active) {
+        const fromSecondCoord = p.y === 5;
+        const steps = fromSecondCoord ? ['RIGHT', 'RIGHT', 'RIGHT'] : ['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'];
+        startScriptedMove(ms.mapId, active, steps, (eng) => {
+          eng.facing = fromSecondCoord ? 'UP' : 'RIGHT';
+          npcBattlePosRef.current.set(eng.id, { x: eng.liveX, y: eng.liveY, facing: eng.facing });
+          startDialogue(eng.npc);
+        });
+        return;
+      }
+    }
+
+    // Cerulean City rival battle (2nd Rival1 encounter, Nugget Bridge — real OG
+    // scripts/CeruleanCity.asm CeruleanCityDefaultScript). Same ambient-coordinate-trigger
+    // pattern as Route 22 above, NOT a talk-to-him trigger — traced directly: player standing
+    // on (20,6) or (21,6) (CeruleanCityCoords2, real OG's raw dbmapcoord values map to this
+    // engine's (x,y) 1:1, same convention already confirmed for Route 22's own trigger coords)
+    // fires the encounter once EVENT_BEAT_CERULEAN_RIVAL isn't set. Real OG has 2 distinct
+    // approach paths converging at row 6 (checked via wXCoord==20, "the right side of the
+    // bridge"): from (20,6) the rival walks DOWN×3 from his natural spawn (20,2); from (21,6)
+    // his sprite is first snapped (not walked) from x=20 to x=25 — a second corridor on this
+    // map's east side — before the same DOWN×3. Ported the teleport via `npcBattlePosRef`
+    // (already the mechanism `startScriptedMove` reads for its starting position) rather than
+    // mutating the npc object itself, since mutating x/y would silently change the id every
+    // other system (beatenTrainers, the render-skip toggle below, the exit-walk trigger)
+    // computes for him — that's the exact "duplicate identity" bug class just fixed for Route
+    // 22's Rival1/Rival2 collision, not something to reintroduce here.
+    if (ms.mapId === 'CERULEAN_CITY' && ((p.x === 20 && p.y === 6) || (p.x === 21 && p.y === 6))) {
+      const rival = ms.mapInfo.npcs.find(n => n.trainerClass === 'Rival1' && n.partyIdx === 2);
+      if (rival && !isRivalBeaten(ms.mapId, rival, gameState?.beatenTrainers)) {
+        const onRightSide = p.x === 20;
+        if (!onRightSide) {
+          npcBattlePosRef.current.set(npcTrainerId(ms.mapId, rival), { x: 25, y: rival.y, facing: rival.facing });
+        }
+        startScriptedMove(ms.mapId, rival, ['DOWN', 'DOWN', 'DOWN'], (eng) => {
+          npcBattlePosRef.current.set(eng.id, { x: eng.liveX, y: eng.liveY, facing: eng.facing });
+          startDialogue(eng.npc);
+        });
+        return;
+      }
+    }
+
+    // SS Anne 2F rival battle (3rd encounter, Rival2 tier — real OG scripts/SSAnne2F.asm
+    // SSAnne2FDefaultScript). Same ambient-coordinate pattern as Cerulean/Route 22: player
+    // standing on (36,8) or (37,8) fires it (dbmapcoord values, no scaling — same convention
+    // confirmed twice already above). Real OG's approach-movement branch checks
+    // `hSavedCoordIndex == 2`, but `.PlayerCoordinatesArray` only ever registers 2 entries (so
+    // a match index of 0 or 1) — that branch is dead code, confirmed by direct trace, so the
+    // real, always-taken path is a plain DOWN×3 from the rival's spawn (36,4), landing at
+    // (36,7) directly north of both trigger tiles. Facing afterward depends on which tile:
+    // player at (37,8) (east) → rival faces RIGHT (real OG's SSAnne2FSetFacingDirectionScript,
+    // called both before AND after the battle); player at (36,8) (directly south) → rival
+    // faces DOWN. `trainerParties.js`'s `Rival2[0..2]` (the "SS Anne 2F" rows) were already
+    // built in an earlier session — this only needed the movement/trigger/toggle wiring, the
+    // party data and the generic BATTLE dispatch's `partyIdx*3+variantOffset` expansion both
+    // already existed.
+    if (ms.mapId === 'SS_ANNE_2F' && ((p.x === 36 && p.y === 8) || (p.x === 37 && p.y === 8))) {
+      const ssRival = ms.mapInfo.npcs.find(n => n.trainerClass === 'Rival2' && n.partyIdx === 0);
+      if (ssRival && !isRivalBeaten(ms.mapId, ssRival, gameState?.beatenTrainers)) {
+        const facingEast = p.x === 37;
+        startScriptedMove(ms.mapId, ssRival, ['DOWN', 'DOWN', 'DOWN'], (eng) => {
+          eng.facing = facingEast ? 'RIGHT' : 'DOWN';
+          npcBattlePosRef.current.set(eng.id, { x: eng.liveX, y: eng.liveY, facing: eng.facing });
+          startDialogue(eng.npc);
+        });
+        return;
+      }
+    }
+
+    // Pokémon Tower 2F rival battle (mid-game Rival2 encounter — real OG
+    // scripts/PokemonTower2F.asm PokemonTower2FDefaultScript). Same ambient-coordinate
+    // trigger as the others, but — unique among every rival encounter wired this session —
+    // real OG has NO approach walk here at all (`movement: STAND` in game_data.json, no
+    // MoveSprite call happens before DisplayTextID/battle; only the POST-battle exit has
+    // one) — the rival stands at his spawn (14,5) and the trigger just faces both sprites
+    // toward each other before battling immediately. Trigger coords (15,5)/(14,6)
+    // (dbmapcoord, no scaling). Real OG's facing branches (keyed by which of the 2 coords)
+    // didn't resolve to simple "face the rival" adjacency when traced against his actual
+    // (14,5) spawn — rather than guess at a possibly-misread asm branch, this uses
+    // straightforward adjacency-based facing instead (deliberate simplification, not a
+    // literal port): player at (14,6), directly south of the rival, → rival faces DOWN;
+    // player at (15,5), directly east, → rival faces RIGHT.
+    if (ms.mapId === 'POKEMON_TOWER_2F' && ((p.x === 15 && p.y === 5) || (p.x === 14 && p.y === 6))) {
+      const towerRival = ms.mapInfo.npcs.find(n => n.trainerClass === 'Rival2' && n.partyIdx === 1);
+      if (towerRival && !isRivalBeaten(ms.mapId, towerRival, gameState?.beatenTrainers)) {
+        const facing = p.y === 6 ? 'DOWN' : 'RIGHT';
+        npcBattlePosRef.current.set(npcTrainerId(ms.mapId, towerRival), { x: towerRival.x, y: towerRival.y, facing });
+        startDialogue(towerRival);
+        return;
+      }
+    }
+
+    // Silph Co. 7F rival battle (4th encounter, Rival2 tier — real OG scripts/SilphCo7F.asm
+    // SilphCo7FDefaultScript). Same ambient pattern as the others: trigger at (3,2)/(3,3),
+    // approach UP×4 from spawn (3,7) (real OG's 2-coord overlapping-movement-table idiom,
+    // same as SS Anne's, collapses cleanly to a uniform UP×4 either way). `trainerParties.js`'s
+    // `Rival2[6..8]` (labeled "Silph Co. 7F") already existed.
+    if (ms.mapId === 'SILPH_CO_7F' && ((p.x === 3 && p.y === 2) || (p.x === 3 && p.y === 3))) {
+      const silphRival = ms.mapInfo.npcs.find(n => n.trainerClass === 'Rival2' && n.partyIdx === 2);
+      if (silphRival && !isRivalBeaten(ms.mapId, silphRival, gameState?.beatenTrainers)) {
+        startScriptedMove(ms.mapId, silphRival, ['UP', 'UP', 'UP', 'UP'], (eng) => {
+          npcBattlePosRef.current.set(eng.id, { x: eng.liveX, y: eng.liveY, facing: eng.facing });
+          startDialogue(eng.npc);
+        });
+        return;
+      }
+    }
+
+    // Silph Co. 11F Giovanni confrontation (real OG scripts/SilphCo11F.asm
+    // SilphCo11FDefaultScript) — the fight that unlocks Route 22's 2nd rival encounter
+    // (gameState.beatenSilphCoGiovanni, set in PokeredApp.jsx's handleBattleEnd on victory
+    // here specifically — see the Giovanni-by-partyIdx comment there; this is partyIdx 1 of
+    // 3 shared Giovanni encounters). Ambient trigger at (6,13)/(7,12), approach DOWN×3 from
+    // spawn (6,9) landing at (6,12). Real OG's exact facing branches, traced against that
+    // landing spot, didn't resolve to sensible adjacency either (same inconclusive-branch
+    // issue as Pokémon Tower's rival) — used adjacency-based facing instead: player east at
+    // (7,12) → Giovanni faces RIGHT; player south at (6,13) → Giovanni faces DOWN. Unlike
+    // every rival, real OG never HideObjects Giovanni after this fight — once beaten, his own
+    // ambient trigger just permanently no-ops (CheckEvent EVENT_BEAT_SILPH_CO_GIOVANNI; ret nz
+    // at the top of the script) and he's left inertly standing there, so this port's existing
+    // generic "beaten trainer" fallback (already shared by every ordinary trainer in the game)
+    // is the correct behavior here with zero extra render-skip code needed.
+    if (ms.mapId === 'SILPH_CO_11F' && ((p.x === 6 && p.y === 13) || (p.x === 7 && p.y === 12))) {
+      const giovanni = ms.mapInfo.npcs.find(n => n.trainerClass === 'Giovanni' && n.partyIdx === 1);
+      const beaten = giovanni && (gameState?.beatenTrainers ?? []).includes(npcTrainerId(ms.mapId, giovanni));
+      if (giovanni && !beaten) {
+        const facingEast = p.y === 12;
+        startScriptedMove(ms.mapId, giovanni, ['DOWN', 'DOWN', 'DOWN'], (eng) => {
+          eng.facing = facingEast ? 'RIGHT' : 'DOWN';
+          npcBattlePosRef.current.set(eng.id, { x: eng.liveX, y: eng.liveY, facing: eng.facing });
+          startDialogue(eng.npc);
+        });
         return;
       }
     }
@@ -883,13 +1332,127 @@ function notifyPosition() {
         (facing === 'LEFT'  && dy === 0 && dx < 0  && -dx <= maxDist);
 
       if (inSight) {
-        trainerEngageRef.current = { phase: 'walking', npc, id, liveX: npcX, liveY: npcY, facing, walkProg: 0 };
+        trainerEngageRef.current = { mode: 'chase', phase: 'walking', npc, id, liveX: npcX, liveY: npcY, facing, walkProg: 0 };
         return;
       }
     }
   }
 
-  helpersRef.current = { getTileId, isWalkable, isValidLedge, isHalfStepBlocked, npcCanStep, handleMapEdge, handleWarp, checkNewTile, notifyPosition, checkLOS, startDialogue };
+  // Plays a fixed, pre-authored movement sequence against one NPC — the OG MovementData /
+  // `db NPC_MOVEMENT_*` pattern used throughout story scripts (a rival walking up before a
+  // scripted ambush battle, Bill walking to his machine, Oak entering the lab, etc.), as
+  // opposed to checkLOS's dynamic "chase toward wherever the player currently is." Reuses
+  // trainerEngageRef's existing render/collision/input-freeze plumbing (every consumer of it
+  // already just reads id/liveX/liveY/facing, so nothing else needed to change for this to
+  // "just work" visually and collision-wise) — only the game loop's `mode === 'scripted'`
+  // branch and this trigger function are new. `steps` is an array of 'UP'/'DOWN'/'LEFT'/
+  // 'RIGHT' strings transcribed directly from the OG movement-data table; `onDone(eng)` runs
+  // once the sequence finishes (start dialogue/battle, chain to another sequence, apply a
+  // final facing override, hide/show a toggleable object, etc. — whatever that specific
+  // script does next). Starts from the NPC's current live position if it's already engaged/
+  // mid-battle-position (so chained sequences continue from where the last one left off,
+  // matching OG's own per-sprite position tracking) rather than always its map-authored spawn.
+  function startScriptedMove(mapId, npc, steps, onDone) {
+    const id = npcTrainerId(mapId, npc);
+    const eng = trainerEngageRef.current;
+    const bp = npcBattlePosRef.current.get(id);
+    const npcX = eng?.id === id ? eng.liveX : bp?.x ?? npc.x;
+    const npcY = eng?.id === id ? eng.liveY : bp?.y ?? npc.y;
+    const facing = eng?.id === id ? eng.facing : bp?.facing ?? npc.facing ?? 'DOWN';
+    trainerEngageRef.current = { mode: 'scripted', phase: 'walking', npc, id, liveX: npcX, liveY: npcY, facing, walkProg: 0, steps, stepIdx: 0, onDone };
+  }
+
+  // Oak's Lab intro — "Oak enters the lab" (scripts/OaksLab.asm OaksLabOakEntersLabScript,
+  // OakEntryMovement: UP×3). User-requested 2026-07-10: wire this for real, but leave it
+  // DISABLED/uncalled for now so the start of the game stays as simple as possible for
+  // testing — this port's starter selection currently works via a standalone menu screen
+  // (onRequestStarter/action:'STARTER' in startDialogue), not the full OG walk-in-and-choose-
+  // from-the-table cutscene, so there's no natural trigger point yet without inventing a
+  // brand-new "has Oak appeared" gameState flag that nothing else reads. `game_data.json`'s
+  // OAKS_LAB npc list already has both real OG Oak sprites — index 4 (`OAKS_LAB:5`, at his
+  // desk, already wired in startDialogue) and index 7 (`OAKS_LAB:8`, at (5,10) facing UP near
+  // the door, real OG's "OAK2"/entering sprite, currently just an inert always-visible
+  // duplicate) — this targets that second one. To actually enable: call
+  // `playOakEntersLabIntro()` from `loadMap` when `mapId === 'OAKS_LAB'` and whatever gates
+  // "hasn't seen Oak yet" (and hide the OAKS_LAB:8 npc entirely until then, mirroring OG's
+  // TOGGLE_OAKS_LAB_OAK_2 — the same render-skip-toggle pattern already used for Bill's House).
+  //
+  // KNOWN SHOW/HIDE GAP, INTENTIONALLY NOT FIXED YET (user-flagged 2026-07-10, explicitly
+  // told to leave Oak alone for now and just document it): Oak currently renders in 3 places
+  // SIMULTANEOUSLY, always — PALLET_TOWN npc index 0 (the "blocks you from leaving town
+  // without a Pokémon" sprite, real OG: PalletTownOakWalksToPlayerScript, gated on
+  // EVENT_FOLLOWED_OAK_INTO_LAB and dynamic pathfinding, not a fixed step list — flagged
+  // ambiguous by the research pass, not wired here), OAKS_LAB:5 (his desk, already has real
+  // dialogue), and OAKS_LAB:8 (the door-entry sprite this function targets). Real OG only ever
+  // shows ONE of these three at a time, toggled by story flags this port doesn't track (no
+  // EVENT_OAK_APPEARED_IN_PALLET / EVENT_FOLLOWED_OAK_INTO_LAB equivalents exist in gameState
+  // yet). This is the SAME "duplicate always-visible NPC" bug class Bill's House had (fixed
+  // this session — see the BILLS_HOUSE render-skip toggle below for the pattern to copy) —
+  // don't fix Oak's 3 instances now, only once the full intro cutscene actually gets built and
+  // there's a real flag to gate the toggle on. Applying the Bill's-House-style render-skip
+  // toggle to Oak's 3 sprites is the very first thing to do when that work starts.
+  function playOakEntersLabIntro() {
+    const ms = mapStateRef.current;
+    const oak2 = ms?.mapInfo.npcs?.[7];
+    if (!ms || !oak2 || oak2.sprite !== 'oak') return;
+    startScriptedMove(ms.mapId, oak2, ['UP', 'UP', 'UP'], null);
+  }
+  void playOakEntersLabIntro; // referenced so it isn't flagged unused while disabled — see comment above for how to wire it live
+
+  // Single source of truth for "is this npc currently hidden" — real-bug fix, 2026-07-10:
+  // the render-skip toggles added earlier this session (rivals/rockets vanishing after being
+  // beaten, Champion's Room Oak appearing after Rival3, Bill's House's before/after swap) were
+  // ONLY ever applied inside the NPC draw loop. User report: after beating Route 22's Rival1,
+  // his sprite correctly stopped rendering, but the tile he stood on still blocked movement
+  // AND could still be talked to (pressing Z on the empty-looking tile showed his "out of
+  // POKéMON" line) — the collision check (`npcBlocking`) and the Z-press interaction lookup
+  // both iterate `ms.mapInfo.npcs` independently of the render loop and neither one knew
+  // about any of these toggles. Consolidating all of them into this one function, called from
+  // all three sites (render, collision, interaction), so a future toggle only ever needs to be
+  // added once — this exact "fixed it in one place, forgot the other two" bug is what
+  // happened here and is the entire reason this function exists instead of three copies.
+  function isNpcHidden(mapId, npc, npcs) {
+    const nid = npcTrainerId(mapId, npc);
+    if (trainerEngageRef.current?.id === nid) return false; // mid scripted/chase walk — always show
+    if ((npc.sprite === 'poke_ball' || npc.sprite === 'fossil' || npc.sprite === 'old_amber') &&
+        pickedUpRef.current.has(nid)) return true;
+    const beatenTrainers = gsRef.current?.beatenTrainers;
+    const pickedUpItems = gsRef.current?.pickedUpItems ?? [];
+    if (mapId === 'ROUTE_22' && npc.trainerClass === 'Rival1' && npc.partyIdx === 1 &&
+        isRivalBeaten(mapId, npc, beatenTrainers)) return true;
+    if (mapId === 'ROUTE_22' && npc.trainerClass === 'Rival2' && npc.partyIdx === 3) {
+      const unlocked = !!(gsRef.current?.beatenSilphCoGiovanni);
+      if (!unlocked || isRivalBeaten(mapId, npc, beatenTrainers)) return true;
+    }
+    if (mapId === 'CERULEAN_CITY' && npc.trainerClass === 'Rival1' && npc.partyIdx === 2 &&
+        isRivalBeaten(mapId, npc, beatenTrainers)) return true;
+    if (mapId === 'SS_ANNE_2F' && npc.trainerClass === 'Rival2' && npc.partyIdx === 0 &&
+        isRivalBeaten(mapId, npc, beatenTrainers)) return true;
+    if (mapId === 'POKEMON_TOWER_2F' && npc.trainerClass === 'Rival2' && npc.partyIdx === 1 &&
+        isRivalBeaten(mapId, npc, beatenTrainers)) return true;
+    if (mapId === 'POKEMON_TOWER_7F' && npc.trainerClass === 'Rocket' &&
+        (beatenTrainers ?? []).includes(nid)) return true;
+    if (mapId === 'SILPH_CO_7F' && npc.trainerClass === 'Rival2' && npc.partyIdx === 2 &&
+        isRivalBeaten(mapId, npc, beatenTrainers)) return true;
+    if (mapId === 'GAME_CORNER' && npc.trainerClass === 'Rocket' &&
+        (beatenTrainers ?? []).includes(nid)) return true;
+    // Silph Co. 11F Giovanni is deliberately never hidden — real OG leaves him standing after
+    // being beaten (see the ambient-trigger comment in checkNewTile).
+    if (mapId === 'CHAMPIONS_ROOM' && npc.sprite === 'oak') {
+      const rival3 = npcs.find(n => n.trainerClass === 'Rival3');
+      const rival3Beaten = rival3 && isRivalBeaten(mapId, rival3, beatenTrainers);
+      if (!rival3Beaten) return true; // hidden UNTIL beaten — opposite direction from every rival above
+    }
+    if (mapId === 'BILLS_HOUSE') {
+      const idx = npcs.indexOf(npc);
+      const transformed = pickedUpItems.includes('BILLS_HOUSE:1:transformed');
+      if (idx === 0 && transformed) return true;   // "before" monster sprite, hidden after
+      if (idx === 2 && !transformed) return true;  // "after" human sprite, hidden before
+    }
+    return false;
+  }
+
+  helpersRef.current = { getTileId, isWalkable, isValidLedge, isHalfStepBlocked, npcCanStep, handleMapEdge, handleWarp, checkNewTile, notifyPosition, checkLOS, startDialogue, startScriptedMove, isNpcHidden };
 
   // ── Static object text (signed tiles, furniture, etc.) ───────────────────
   const OBJECT_TEXT = {
@@ -1058,10 +1621,6 @@ function notifyPosition() {
     // every visit AFTER the one-time catching-tutorial demo (see the VIRIDIAN_CITY:7 branch in
     // startDialogue, gated on gameState.metOldMan, which triggers the demo the first time).
     'VIRIDIAN_CITY:7': ["Ahh, I've had my\ncoffee now and I\nfeel great!", "Sure you can go\nthrough!", "I see you're using\na POKÉDEX.", "I'll show you how\nto catch POKÉMON."],
-    // Pewter City super nerd (PewterCitySuperNerd1Text) — OG asks whether you've seen the
-    // museum first; PEWTER_MUSEUM isn't a wired map in this port, so this always takes the
-    // "you haven't been" branch.
-    'PEWTER_CITY:3': ["Did you check out\nthe MUSEUM?", "Really?\nYou absolutely\nhave to go!"],
     // Pewter City super nerd #2 (PewterCitySuperNerd2Text) — skips OG's yes/no gate straight
     // to the informative answer.
     'PEWTER_CITY:4': ["Psssst!\nDo you know what\nI'm doing?", "I'm spraying REPEL\nto keep POKÉMON\nout of my garden!"],
@@ -1079,6 +1638,19 @@ function notifyPosition() {
     // Anne has since departed (a late-game one-way story event this port doesn't track);
     // always takes the "still moored" branch, correct for the vast majority of a playthrough.
     'VERMILION_CITY:2': ["Did you see S.S.\nANNE moored in\nthe harbor?"],
+    // Champion's Room Oak (ChampionsRoomOakCongratulatesPlayerText/…DisappointedWithRival/
+    // …ComeWithMe) — real OG plays these as 3 separate dialogue screens interleaved with a
+    // rival-facing beat and an exit walk; condensed into one multi-page dialogue covering the
+    // same narrative beats (see the loadMap CHAMPIONS_ROOM comment for the full simplification
+    // rationale — this port has no player-movement-simulation primitive to port the "follow
+    // Oak to the Hall of Fame" walk faithfully).
+    'CHAMPIONS_ROOM:2': [
+      "OAK: So, you won!\nCongratulations!\nYou're the new\nPOKéMON LEAGUE\nchampion!",
+      "You've grown up so\nmuch since you\nfirst left home!",
+      "BLUE! Do you\nunderstand why\nyou lost?",
+      "You have forgotten\nto treat your\nPOKéMON with\ntrust and love!",
+      "<PLAYER>! Come\nwith me to the\nHALL OF FAME!",
+    ],
   };
 
   // Looks up dialogue for an NPC — trainers use trainerClass; civilians first try the real,
@@ -1102,6 +1674,22 @@ function notifyPosition() {
   // visits, used as the key for "have I beaten this trainer" tracking.
   function npcTrainerId(mapId, npc) {
     return `${mapId}:${npc.x}:${npc.y}`;
+  }
+
+  // Rival encounters that reuse the same map tile for multiple story-progress variants (e.g.
+  // Route 22's Rival1 pre-Silph-Co and Rival2 post-Silph-Co both sit at (25,5) in real OG —
+  // confirmed via game_data.json) can't be told apart by npcTrainerId alone, since it's purely
+  // position-based. Rivals fold trainerClass into a distinct id for NEW victories; "beaten"
+  // checks BOTH this disambiguated id and the old shared-position one, so a save that already
+  // recorded a rival victory under the old shared id (from before this fix) still counts as
+  // beaten and doesn't force a re-fight. Only applied to trainerClass starting with "Rival" —
+  // every other trainer in the game never shares a tile, so their ids are untouched.
+  function rivalBattleId(mapId, npc) {
+    return `${npcTrainerId(mapId, npc)}:${npc.trainerClass}`;
+  }
+  function isRivalBeaten(mapId, npc, beatenTrainers) {
+    const list = beatenTrainers ?? [];
+    return list.includes(rivalBattleId(mapId, npc)) || list.includes(npcTrainerId(mapId, npc));
   }
 
   function startDialogue(npc) {
@@ -1259,18 +1847,38 @@ function notifyPosition() {
         if (otherGiftId && onMarkGiftTaken) onMarkGiftTaken(otherGiftId);
         if (otherGiftId) pickedUpRef.current.add(otherGiftId);
         setDialogue({ lines: [`You got a ${fossilName.replace(/_/g, ' ')}!`], idx: 0, action: null });
+        // User-flagged 2026-07-10 ("find all scripted NPC movement and wire it") — real OG's
+        // MtMoonB2FMoveSuperNerdScript has the Super Nerd scoot exactly 1 tile toward whichever
+        // fossil spot the player is standing at (RIGHT from the dome side, UP from the helix
+        // side) the instant you take one, before he "claims" the other — previously a pure
+        // data-state change with no visible movement at all.
+        if (superNerd) {
+          startScriptedMove(ms.mapId, superNerd, [here === 'MT_MOON_B2F:6' ? 'RIGHT' : 'UP'], null);
+        }
       }
       return;
     }
 
     // Bill's House — real OG has a multi-step cutscene (talk to Bill-as-Pokemon, run a Cell
     // Separator program on his PC, wait for him to walk out human) before the SS Ticket
-    // becomes available; this port has no PC-minigame/NPC-transformation system, so both
-    // steps collapse to flavor text (BillsHouseBillPokemonText) + an always-available direct
-    // gift (BillsHouseBillSSTicketText) — the SS Ticket is a real story-gating item (needed to
-    // board the SS Anne), so it can't be left as a silent "..." like a pure-flavor NPC.
+    // becomes available; the SS Ticket itself (a real story-gating item needed to board the
+    // SS Anne) stays an always-available direct gift from the separate NPC who hands it out
+    // in real OG too (object index 2, see below) rather than building a whole new PC-minigame
+    // system just to gate it. The VISUAL transformation is wired though (user-flagged
+    // 2026-07-10, "Bill... is supposed to move"): talking to Bill-as-monster now plays his
+    // real walk-into-the-machine movement (`BillsHousePokemonWalkToMachineScript`, UP×3) once,
+    // after which the map's "after" sprite (object index 2, SPRITE_SUPER_NERD at the same
+    // tile — data/maps/objects/BillsHouse.asm places both there, OG shows exactly one at a
+    // time) becomes visible in his place — see the BILLS_HOUSE-specific render-skip toggle
+    // above. Simplified from real OG: the intermediate "enters machine, waits for the player
+    // to run the Cell Separator from his PC" step is skipped (no PC-minigame exists here), so
+    // the reveal happens directly after the walk-in rather than after a separate PC action.
     if (here === 'BILLS_HOUSE:1') {
-      setDialogue({ lines: ["Hiya! I'm a\nPOKÉMON......No\nI'm not! Call me\nBILL!", "When I'm in the\nTELEPORTER, go to\nmy PC and run the\nCell Separation\nSystem!"], idx: 0, action: null });
+      const transformed = (gameState?.pickedUpItems ?? []).includes('BILLS_HOUSE:1:transformed');
+      setDialogue({
+        lines: ["Hiya! I'm a\nPOKÉMON......No\nI'm not! Call me\nBILL!", "When I'm in the\nTELEPORTER, go to\nmy PC and run the\nCell Separation\nSystem!"],
+        idx: 0, action: transformed ? null : 'BILL_TRANSFORM',
+      });
       return;
     }
     if (here === 'BILLS_HOUSE:2') {
@@ -1283,6 +1891,30 @@ function notifyPosition() {
         if (onPickUpItem) onPickUpItem(giftId, 'S_S_TICKET');
         setDialogue({ lines: ["BILL: Yeehah!\nThanks, bud! I\nowe you one!", "<PLAYER> received\nan S.S.TICKET!"], idx: 0, action: null });
       }
+      return;
+    }
+    // Bill's House object index 3 — the "after transformation" sprite occupying Bill's
+    // original spot (data/maps/objects/BillsHouse.asm's TEXT_BILLSHOUSE_BILL_CHECK_OUT_MY_RARE_POKEMON),
+    // hidden until BILLS_HOUSE:1's transform sequence completes (see the render-skip toggle).
+    if (here === 'BILLS_HOUSE:3') {
+      setDialogue({ lines: ["Check out my\nrare POKÉMON\ncollection some\ntime!"], idx: 0, action: null });
+      return;
+    }
+
+    // Pewter City escort NPCs (user-flagged 2026-07-10, part of the same "wire scripted NPC
+    // movement" pass as Route 22/Bill's House/Mt Moon above) — real OG walks each of these two
+    // off toward the place they're describing, repeatable every time (no event gate; matches
+    // the museum guy's existing established simplification of always taking the "haven't
+    // been" branch rather than adding a real yes/no here too). Distinct from
+    // PewterCityCheckPlayerLeavingEastScript's coordinate-triggered youngster (same sprite
+    // class, different NPC/interaction) — confirmed via direct OG source read that ambient
+    // blocker has ZERO movement of its own, so it's correctly left as pure text.
+    if (here === 'PEWTER_CITY:3') {
+      setDialogue({ lines: ["Did you check out\nthe MUSEUM?", "Really?\nYou absolutely\nhave to go!"], idx: 0, action: 'PEWTER_MUSEUM_ESCORT', npc });
+      return;
+    }
+    if (here === 'PEWTER_CITY:5') {
+      setDialogue({ lines: ["The PEWTER GYM\nis this way!", "Follow me!"], idx: 0, action: 'PEWTER_GYM_ESCORT', npc });
       return;
     }
 
@@ -1425,8 +2057,11 @@ function notifyPosition() {
     const { lines, action } = npcText(npc, ms?.mapId, npcIndex);
 
     if (action === 'BATTLE' && npc.trainerClass && ms) {
-      const id = npcTrainerId(ms.mapId, npc);
-      const beaten = (gameState?.beatenTrainers ?? []).includes(id);
+      // Rivals disambiguate by trainerClass (see rivalBattleId's comment — Route 22 has 2
+      // rival encounters sharing one tile); every other trainer keeps the plain position id.
+      const isRival = npc.trainerClass?.startsWith('Rival');
+      const id = isRival ? rivalBattleId(ms.mapId, npc) : npcTrainerId(ms.mapId, npc);
+      const beaten = isRival ? isRivalBeaten(ms.mapId, npc, gameState?.beatenTrainers) : (gameState?.beatenTrainers ?? []).includes(id);
       if (beaten) {
         const meta = TRAINER_META[npc.trainerClass];
         const name = meta?.name ?? npc.trainerClass.toUpperCase();
@@ -1436,7 +2071,6 @@ function notifyPosition() {
       // Rival encounters store the encounter *instance* (0,1,2...) in npc.partyIdx — the
       // actual TRAINER_PARTIES row also depends on the player's starter (see
       // RIVAL_VARIANT_OFFSET above), so expand it to instance*3 + variant here.
-      const isRival = npc.trainerClass?.startsWith('Rival');
       const variantOffset = isRival ? (RIVAL_VARIANT_OFFSET[gameState?.starterSpecies] ?? 0) : 0;
       const partyIdx = isRival ? (npc.partyIdx ?? 0) * 3 + variantOffset : (npc.partyIdx ?? 0);
       setDialogue({ lines, idx: 0, action: 'BATTLE', trainerKey: npc.trainerClass, partyIdx, trainerId: id, sprite: npc.sprite });
@@ -1516,6 +2150,25 @@ function notifyPosition() {
         }
         if (prev.action === 'BUY_VENDING' && onBuyItem && prev.buyItem && prev.buyPrice) {
           onBuyItem(prev.buyItem, prev.buyPrice);
+        }
+        if (prev.action === 'BILL_TRANSFORM') {
+          const ms = mapStateRef.current;
+          const monster = ms?.mapInfo.npcs[0]; // BILLS_HOUSE npc index 0 — the "before" sprite
+          if (ms && monster && !pickedUpRef.current.has('BILLS_HOUSE:1:transformed')) {
+            startScriptedMove(ms.mapId, monster, ['UP', 'UP', 'UP'], () => {
+              pickedUpRef.current.add('BILLS_HOUSE:1:transformed');
+              if (onMarkGiftTaken) onMarkGiftTaken('BILLS_HOUSE:1:transformed');
+            });
+          }
+        }
+        // Pewter City escort NPCs (PewterCitySuperNerd1ShowsPlayerMuseumScript /
+        // PewterCityYoungsterShowsPlayerGymScript) — real OG, repeatable every time (no event
+        // gate), walks the NPC off toward the place he's describing right after his line.
+        if (prev.action === 'PEWTER_MUSEUM_ESCORT' && prev.npc) {
+          startScriptedMove('PEWTER_CITY', prev.npc, ['DOWN', 'DOWN', 'DOWN', 'DOWN'], null);
+        }
+        if (prev.action === 'PEWTER_GYM_ESCORT' && prev.npc) {
+          startScriptedMove('PEWTER_CITY', prev.npc, ['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], null);
         }
         return null;
       }
@@ -1700,6 +2353,11 @@ function notifyPosition() {
               pendingDexIdxRef.current = idx;
               goPage('pokedex-detail');
             }
+          } else if (pg === 'fly-select') {
+            const visited = gsRef.current?.visitedTowns ?? [];
+            const destList = FLY_DESTINATIONS.filter(d => visited.includes(d.mapId));
+            const dest = destList[menuCursorRef.current];
+            if (dest) { closeMenu(); loadMap(dest.mapId, dest.x, dest.y); }
           } else if (pg === 'hm06-move') {
             const entry = TM_HM_MOVES[menuCursorRef.current];
             if (entry) { pendingTeachMoveRef.current = entry.move; goPage('hm06-target'); }
@@ -1740,14 +2398,9 @@ function notifyPosition() {
           if (pg !== 'main') {
             pendingStoneRef.current = null;
             pendingTeachMoveRef.current = null; pendingTeachTargetRef.current = null;
-            // Step back within the HM06 flow, or the POKÉMON select/switch flow;
-            // X from anywhere else goes straight to main.
-            const back = pg === 'hm06-target'          ? 'hm06-move'
-                       : pg === 'hm06-slot'             ? 'hm06-target'
-                       : pg === 'pokemon-options'       ? 'pokemon'
-                       : pg === 'pokemon-stats'         ? 'pokemon-options'
-                       : pg === 'pokemon-switch-target' ? 'pokemon-options'
-                       : 'main';
+            // X ≡ B in OG: always backs up exactly ONE level, never straight to main, matching
+            // each page's own visible "◀ BACK" button 1:1 — see MENU_BACK_MAP's own comment.
+            const back = MENU_BACK_MAP[pg] ?? 'main';
             if (pg !== 'pokemon-options' && pg !== 'pokemon-stats' && pg !== 'pokemon-switch-target') {
               pendingPartyIdxRef.current = null;
             }
@@ -1789,7 +2442,15 @@ function notifyPosition() {
         const overCounter = counterTiles?.includes(facedTileRaw);
         const targetX = overCounter ? p.x + fdx * 2 : fx;
         const targetY = overCounter ? p.y + fdy * 2 : fy;
+        // Real bug fixed 2026-07-10 (user-reported): a beaten/hidden rival's tile stayed
+        // talkable — pressing Z on the now-invisible sprite still returned him from this
+        // `.find()` (plain position matching doesn't care about visibility) and showed his
+        // "out of POKéMON" line. `isNpcHidden` is the same single source of truth the render
+        // loop and collision check both use now; this also subsumes what used to be a
+        // Bill's-House-only index check here (the "before"/"after" sprites share a tile, so a
+        // plain position match can't tell them apart without it).
         const npc = ms.mapInfo.npcs.find(n => {
+          if (isNpcHidden(ms.mapId, n, ms.mapInfo.npcs)) return false;
           const nid = npcTrainerId(ms.mapId, n);
           const eng = trainerEngageRef.current;
           if (eng?.id === nid) return eng.liveX === targetX && eng.liveY === targetY;
@@ -1855,7 +2516,7 @@ function notifyPosition() {
         return;
       }
 
-      if (e.key === 'x' || e.key === 'Tab' || e.key === 'Escape') {
+      if (e.key === 'x' || e.key === 'X' || e.key === 'Tab' || e.key === 'Escape') {
         if (dialogueRef.current) { advanceDialogue(); return; }
       }
       // User-requested (2026-07-09): only Tab opens the START menu now — X/Escape no
@@ -1881,6 +2542,17 @@ function notifyPosition() {
 
   // ── Load game_data.json then Pallet Town ──────────────────────────────────
   useEffect(() => {
+    // React 18 StrictMode double-invokes effects in dev (mount → cleanup → mount again) to
+    // surface exactly this class of bug: this effect has no cleanup function, so under
+    // StrictMode the fetch+loadMap chain below ran twice on a single real mount — harmless
+    // for most of what loadMap resets (idempotent), but it silently ate any scripted-movement
+    // sequence the FIRST call's loadMap kicked off (e.g. Route 22's post-battle exit walk):
+    // the second call's unconditional `trainerEngageRef.current = null` reset fired a moment
+    // later and wiped the in-progress animation before a single frame of it ever played,
+    // confirmed live via Playwright (the walk-away sequence silently never moved the sprite).
+    // initialLoadStartedRef makes the effect body a no-op on the redundant re-invocation.
+    if (initialLoadStartedRef.current) return;
+    initialLoadStartedRef.current = true;
     fetch('/pokered/game_data.json')
       .then(r => r.json())
       .then(async gd => {
@@ -2023,14 +2695,63 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
               // tile), make the matching change in npcCanStep, or NPCs and the player will be
               // able to walk onto the same tile again (fixed 2026-06-30, OG ref:
               // engine/overworld/sprite_collisions.asm DetectCollisionBetweenSprites).
+              // STRENGTH/boulder pushing (engine/overworld/push_boulder.asm TryPushingBoulder):
+              // find a boulder whose CURRENT (possibly already-pushed) position is the tile the
+              // player is stepping into. Real OG requires bumping the SAME boulder twice before
+              // it slides (see boulderPushAttemptRef's comment) — the first bump just records
+              // the attempt; the second, if the tile beyond is clear, actually moves it. This
+              // must run before npcBlocking below so a successful push can let the player step
+              // into the boulder's vacated tile in the same frame the boulder moves forward.
+              let boulderPush = null;
+              if (strengthActiveRef.current && !ledgeJump) {
+                const boulderNpc = ms.mapInfo.npcs.find(n => n.sprite === 'boulder' && (() => {
+                  const bp = boulderPos(ms.mapId, n);
+                  return bp.x === nx && bp.y === ny;
+                })());
+                if (boulderNpc) {
+                  const bid = npcTrainerId(ms.mapId, boulderNpc);
+                  const beyondX = nx + ddx, beyondY = ny + ddy;
+                  const beyondInBounds = beyondX >= 0 && beyondY >= 0 && beyondX < tW && beyondY < tH;
+                  const beyondOccupied = beyondInBounds && ms.mapInfo.npcs.some(n2 => {
+                    if (n2 === boulderNpc) return false;
+                    if (n2.sprite === 'boulder') { const bp2 = boulderPos(ms.mapId, n2); return bp2.x === beyondX && bp2.y === beyondY; }
+                    const live2 = npcLivePosRef.current.get(npcTrainerId(ms.mapId, n2));
+                    const cx2 = live2?.x ?? n2.x, cy2 = live2?.y ?? n2.y;
+                    return cx2 === beyondX && cy2 === beyondY;
+                  });
+                  const beyondClear = beyondInBounds && !beyondOccupied && fn.isWalkable(beyondX, beyondY);
+                  if (beyondClear) {
+                    const attempt = boulderPushAttemptRef.current;
+                    if (attempt.id === bid && attempt.dir === dir) {
+                      boulderPush = { bid, x: beyondX, y: beyondY };
+                      boulderPosRef.current.set(bid, { x: beyondX, y: beyondY });
+                      if (onPushBoulder) onPushBoulder(ms.mapId, bid, beyondX, beyondY);
+                      boulderPushAttemptRef.current = { id: null, dir: null };
+                    } else {
+                      boulderPushAttemptRef.current = { id: bid, dir };
+                    }
+                  } else {
+                    boulderPushAttemptRef.current = { id: null, dir: null };
+                  }
+                } else {
+                  boulderPushAttemptRef.current = { id: null, dir: null };
+                }
+              }
               const npcBlocking = ms.mapInfo.npcs.some(n => {
                 if (n.sprite === 'poke_ball') return false;
-                // Same bug class as the render-skip fix above: a fossil is a solid obstacle
-                // in real OG only until HideObject removes it on pickup — after that the
-                // tile is ordinary walkable floor. Without this, a taken fossil's tile
-                // stayed permanently blocked even once its sprite was (now correctly) hidden.
-                if (n.sprite === 'fossil' && pickedUpRef.current.has(npcTrainerId(ms.mapId, n))) return false;
+                // Real bug fixed 2026-07-10 (user-reported): a beaten/hidden rival's tile kept
+                // physically blocking the player even after his sprite correctly stopped
+                // rendering — this `.some()` never knew about any of the render-skip toggles.
+                // isNpcHidden is the single source of truth all 3 npc-presence call sites use
+                // now (render, this collision check, and the Z-press interaction lookup); it
+                // also subsumes the fossil-pickup check this line used to do by itself.
+                if (isNpcHidden(ms.mapId, n, ms.mapInfo.npcs)) return false;
                 const nid = npcTrainerId(ms.mapId, n);
+                if (n.sprite === 'boulder') {
+                  if (boulderPush && boulderPush.bid === nid) return false; // being pushed forward this step
+                  const bp = boulderPos(ms.mapId, n);
+                  return bp.x === nx && bp.y === ny;
+                }
                 const live = npcLivePosRef.current.get(nid);
                 const curX = live?.x ?? n.x, curY = live?.y ?? n.y;
                 if (curX === nx && curY === ny) return true;
@@ -2089,6 +2810,23 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
         eng.walkProg = Math.min(1, eng.walkProg + WALK_SPD * speedMultRef.current * dt);
         if (eng.walkProg >= 1) {
           eng.walkProg = 0;
+          if (eng.mode === 'scripted') {
+            // Fixed, pre-authored movement (OG MovementData / db NPC_MOVEMENT_* — story
+            // cutscenes, NOT the dynamic chase-the-player mode below). Real OG's MoveSprite
+            // never collision-checks a scripted path — the map is authored around it always
+            // being clear — so this steps unconditionally, no npcCanStep gate.
+            const DIR_DELTA = { UP: [0, -1], DOWN: [0, 1], LEFT: [-1, 0], RIGHT: [1, 0] };
+            const dir = eng.steps[eng.stepIdx];
+            const [ddx, ddy] = DIR_DELTA[dir] || [0, 0];
+            eng.liveX += ddx; eng.liveY += ddy;
+            eng.facing = dir;
+            eng.stepIdx += 1;
+            if (eng.stepIdx >= eng.steps.length) {
+              const onDone = eng.onDone;
+              trainerEngageRef.current = null;
+              if (onDone) onDone(eng);
+            }
+          } else {
           const dx = p.x - eng.liveX, dy = p.y - eng.liveY;
           if (Math.abs(dx) + Math.abs(dy) <= 1) {
             // Trainer adjacent to player — battle time
@@ -2129,6 +2867,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             } else {
               eng.stall = 0;
             }
+          }
           }
         }
       }
@@ -2281,24 +3020,16 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
         // NPC sprites (drawn before player so player renders on top)
         for (const npc of ms.mapInfo.npcs) {
           const nid = npcTrainerId(ms.mapId, npc);
-          // "poke_ball" was the only sprite ever excluded here — confirmed 2026-07-09 as a
-          // real bug (user-reported): fossil (and by the same class, old_amber, once that's
-          // ever wired as pickable) are OG ground-item sprites too, HideObject'd on pickup
-          // just like poke_ball, but were never added to this skip condition — so a taken
-          // fossil stayed visually on the map forever even though pickedUpRef correctly
-          // tracked it as gone.
-          if ((npc.sprite === 'poke_ball' || npc.sprite === 'fossil' || npc.sprite === 'old_amber') && pickedUpRef.current.has(nid)) continue;
-          // Route 22 Rival1 vanishes for good after the ambush battle (real OG: HideObject in
-          // Route22Rival1ExitScript) — unlike ordinary trainers, which stay and can be
-          // re-talked-to. Scoped narrowly to this one instance; other rival battles elsewhere
-          // in the game aren't wired to vanish yet.
-          if (ms.mapId === 'ROUTE_22' && npc.trainerClass === 'Rival1' && npc.partyIdx === 1 &&
-              (gsRef.current?.beatenTrainers ?? []).includes(nid)) continue;
+          // See isNpcHidden's own comment (defined near startDialogue) for why this single
+          // call replaced what used to be ~10 separate inline checks here — collision and
+          // Z-press interaction need the exact same logic and previously had none of it.
+          if (isNpcHidden(ms.mapId, npc, ms.mapInfo.npcs)) continue;
 
-          // Determine live draw position: engaging trainer > battle pos > patrol pos > static
+          // Determine live draw position: engaging trainer > battle pos > pushed boulder > patrol pos > static
           const eng2 = trainerEngageRef.current;
           let drawX = npc.x, drawY = npc.y, drawFacing = npc.facing || 'DOWN';
           let npcWalkStep = 0;
+          if (npc.sprite === 'boulder') { const bp = boulderPos(ms.mapId, npc); drawX = bp.x; drawY = bp.y; }
           const live = npcLivePosRef.current.get(nid);
           if (live) {
             // Interpolate position during walk animation
@@ -2366,6 +3097,25 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
           // Fallback: red rectangle
           ctx.fillStyle = '#CC0000';
           ctx.fillRect(sx + 3, sy + 2, 10, 14);
+        }
+
+        // FLASH-dark map overlay (engine/menus/start_sub_menus.asm .flash,
+        // home/overworld.asm's wMapPalOffset dark-palette switch on entering ROCK_TUNNEL_1F).
+        // Real OG renders a dark map as a near-solid-black screen with no visible tiles at all
+        // until FLASH is used — ported here as a radius-limited "torch" reveal around the
+        // player instead of a literal palette swap, since a byte-exact all-black screen with
+        // zero visual feedback would be far less playable in a web port with no built-up
+        // muscle-memory navigation. Drawn as the LAST canvas operation (on top of tiles/NPCs/
+        // player, under the fade transition below) so it only ever affects visibility, never
+        // collision/gameplay — and since it's a canvas draw, not a DOM overlay, the separate
+        // DOM-based menu/dialogue boxes stay fully readable regardless of darkness.
+        if (DARK_MAPS.has(ms.mapId) && !flashActiveRef.current) {
+          const cx = sx + 8, cy = sy + 8;
+          const grad = ctx.createRadialGradient(cx, cy, 24, cx, cy, 52);
+          grad.addColorStop(0, 'rgba(0,0,0,0)');
+          grad.addColorStop(1, 'rgba(0,0,0,1)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, GB_W, GB_H);
         }
       }
 
@@ -2454,6 +3204,65 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
           const badges = gs.badges || [];
           const money = gs.money ?? 0;
           const closeMenu = () => { showMenuRef.current = false; setShowMenu(false); setMenuPage('main'); };
+          // Click-parity fix (2026-07-10, user-flagged input-parity gap found while auditing
+          // X-back behavior): the ITEMS list previously had NO onClick at all — items were
+          // only ever selectable via the Z-key handler (same `pg === 'items'` branch this
+          // mirrors), so clicking a bag item silently did nothing. Deliberately does NOT add
+          // handling for any category the Z-handler doesn't already cover either (e.g.
+          // 'medicine' items are unhandled from the overworld bag in both places — a real,
+          // separate pre-existing gap, not something to silently paper over here).
+          const activateItem = (item) => {
+            if (!item) return;
+            const effect = ITEM_EFFECTS[item.name];
+            if (effect?.category === 'repel') {
+              const res = onUseItem?.(item.name);
+              if (res?.used) { setHealMsg(res.message); setTimeout(() => setHealMsg(''), 2000); }
+              closeMenu();
+            } else if (effect?.category === 'escape_rope') {
+              const res = onUseItem?.(item.name);
+              if (res?.used) {
+                setHealMsg(res.message); setTimeout(() => setHealMsg(''), 2000);
+                if (res.warpTo) { pendingMapRef.current = res.warpTo; transitionRef.current = 1; }
+              }
+              closeMenu();
+            } else if (effect?.category === 'bicycle') {
+              const ms = mapStateRef.current;
+              const OUTDOOR_TS = ['overworld', 'forest', 'plateau'];
+              if (ms && OUTDOOR_TS.includes(ms.mapInfo.tileset)) {
+                const res = onUseItem?.(item.name);
+                if (res?.used) { setHealMsg(res.message); setTimeout(() => setHealMsg(''), 2000); }
+              } else {
+                setHealMsg("Can't ride the BICYCLE here.");
+                setTimeout(() => setHealMsg(''), 2000);
+              }
+              closeMenu();
+            } else if (effect?.category === 'stone' || effect?.category === 'rare_candy') {
+              pendingStoneRef.current = item.name;
+              setMenuPage('item-target');
+            } else if (effect?.category === 'hm06') {
+              pendingTeachMoveRef.current = null; pendingTeachTargetRef.current = null;
+              setMenuPage('hm06-move');
+            } else if (effect?.category === 'rod') {
+              const p = playerRef.current;
+              const ms = mapStateRef.current;
+              const faceDelta = [[0,1],[0,-1],[-1,0],[1,0]];
+              const [fdx, fdy] = faceDelta[p.dir] || [0,1];
+              const fx = p.x + fdx, fy = p.y + fdy;
+              if (!ms || !isFacingWater(fx, fy)) {
+                setHealMsg("Can't fish here.");
+                setTimeout(() => setHealMsg(''), 2000);
+              } else {
+                const bite = tryFish(effect.tier, ms.mapId);
+                if (!bite) {
+                  setHealMsg('Not even a nibble!');
+                  setTimeout(() => setHealMsg(''), 2000);
+                } else if (onEncounter) {
+                  onEncounter(bite, ms.mapId, p.x, p.y);
+                }
+              }
+              closeMenu();
+            }
+          };
           const fmtHp = mon => `${Math.max(0,mon.hp)}/${mon.maxHp}`;
           const hpPct = mon => mon.maxHp > 0 ? Math.max(0, mon.hp) / mon.maxHp : 0;
           const hpColor = pct => pct > 0.5 ? '#58c858' : pct > 0.2 ? '#f8b800' : '#f84848';
@@ -2620,6 +3429,41 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             );
           }
 
+          if (menuPage === 'fly-select') {
+            const visited = gs?.visitedTowns ?? [];
+            const destList = FLY_DESTINATIONS.filter(d => visited.includes(d.mapId));
+            menuItemCountRef.current = destList.length;
+            const goFly = (dest) => {
+              showMenuRef.current = false; setShowMenu(false);
+              menuPageRef.current = 'main'; setMenuPage('main'); menuCursorRef.current = 0; setMenuCursor(0);
+              loadMap(dest.mapId, dest.x, dest.y);
+            };
+            return (
+              <div className="pkr-menu-overlay" onClick={closeMenu}>
+                <div className="pkr-menu-box pkr-menu-teach" onClick={e => e.stopPropagation()}>
+                  <div className="pkr-menu-header">
+                    <span>FLY TO WHERE?</span>
+                    <button className="pkr-menu-back" onClick={() => setMenuPage('main')}>◀ BACK</button>
+                  </div>
+                  {destList.length === 0
+                    ? <div className="pkr-menu-empty">Haven't visited anywhere yet</div>
+                    : (
+                      <div className="pkr-teach-grid">
+                        {destList.map((dest, i) => (
+                          <button key={dest.mapId}
+                            className={`pkr-teach-entry${menuCursor === i ? ' pkr-menu-selected' : ''}`}
+                            onClick={() => goFly(dest)}>
+                            {menuCursor === i && <span className="pkr-menu-cursor">►</span>}
+                            <span className="pkr-teach-move">{dest.label}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                </div>
+              </div>
+            );
+          }
+
           if (menuPage === 'hm06-target') {
             menuItemCountRef.current = party.length;
             const teachMove = pendingTeachMoveRef.current ?? '???';
@@ -2712,7 +3556,8 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
                   {items.length === 0
                     ? <div className="pkr-menu-empty">Nothing in bag</div>
                     : items.map((it, i) => (
-                      <div key={i} className={`pkr-menu-item${menuCursor === i ? ' pkr-menu-selected' : ''}`}>
+                      <div key={i} className={`pkr-menu-item${menuCursor === i ? ' pkr-menu-selected' : ''}`}
+                        onClick={() => { menuCursorRef.current = i; setMenuCursor(i); activateItem(it); }}>
                         {menuCursor === i && <span className="pkr-menu-cursor">► </span>}
                         {it.name.replace(/_/g,' ')} <span className="pkr-menu-item-count">×{it.count}</span>
                       </div>
@@ -2730,7 +3575,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
                   <div className="pkr-menu-header"><span>TRAINER</span><button className="pkr-menu-back" onClick={() => setMenuPage('main')}>◀ BACK</button></div>
                   <div className="pkr-menu-trainer-row"><span>BADGES</span><span>{badges.length}/8</span></div>
                   <div className="pkr-menu-trainer-row"><span>MONEY</span><span>₽{money}</span></div>
-                  {isExtra && <div className="pkr-menu-extra-badge">EXTRA MODE — no save</div>}
+                  {isExtra && <div className="pkr-menu-extra-badge">EXTRA MODE — use SAVE AS NEW GAME to keep this run</div>}
                 </div>
               </div>
             );
@@ -2802,7 +3647,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
           }
 
           // Main menu
-          menuItemCountRef.current = isExtra ? 6 : 7;
+          menuItemCountRef.current = 7;
           const mc = menuCursor;
           let mainIdx = 0; // tracks current button index for cursor comparison
           const mbi = () => mainIdx++; // returns current index then increments
@@ -2813,7 +3658,9 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
                 <button className="pkr-menu-btn" onClick={() => setMenuPage('items')}>{mc === mbi() && '► '}ITEMS</button>
                 <button className="pkr-menu-btn" onClick={() => setMenuPage('trainer')}>{mc === mbi() && '► '}TRAINER</button>
                 <button className="pkr-menu-btn" onClick={() => setMenuPage('pokedex')}>{mc === mbi() && '► '}POKÉDEX</button>
-                {!isExtra && <button className="pkr-menu-btn" onClick={() => { if (onSave) onSave(); closeMenu(); }}>{mc === mbi() && '► '}SAVE</button>}
+                {isExtra
+                  ? <button className="pkr-menu-btn" onClick={() => { if (onSaveExtraAsNew) onSaveExtraAsNew(); closeMenu(); }}>{mc === mbi() && '► '}SAVE AS NEW GAME</button>
+                  : <button className="pkr-menu-btn" onClick={() => { if (onSave) onSave(); closeMenu(); }}>{mc === mbi() && '► '}SAVE</button>}
                 <button className="pkr-menu-btn pkr-menu-home" onClick={onReturnHome}>{mc === mbi() && '► '}MAIN MENU</button>
                 <button className="pkr-menu-btn pkr-menu-exit" onClick={closeMenu}>{mc === mbi() && '► '}EXIT  [X]</button>
               </div>

@@ -8,7 +8,42 @@ import FISHING from './extracted_og_data/fishing.json';
 // Bumped from v1: old saves stored x/y in the previous raw-tile-doubled scale (half the intended
 // distance under the new unit) — versioning avoids silently misreading them instead of just
 // starting fresh.
-export const SAVE_KEY = 'pkr_save_v2';
+const LEGACY_SAVE_KEY = 'pkr_save_v2';
+// Multi-slot save format (2026-07-09, user-requested): the CONTINUE screen shows every
+// existing save, and an 'extra'/debug run can be snapshotted into a brand-new slot instead
+// of being locked to "no save". Each slot is { id, savedAt, state } — `state.saveSlotId`
+// (set once at slot creation, then carried through every spread in PokeredApp.jsx) tells
+// saveGame() which slot to write into, so none of PokeredApp.jsx's existing
+// `if (!prev.isExtra) saveGame(next)` call sites needed to change.
+export const SAVE_SLOTS_KEY = 'pkr_saves_v1';
+
+export function newSlotId() {
+  return `slot_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function readSlots() {
+  try {
+    const raw = localStorage.getItem(SAVE_SLOTS_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch {}
+  // One-time migration: fold the old single-slot save into the new format so nobody's
+  // existing save silently disappears when this feature lands.
+  try {
+    const legacy = localStorage.getItem(LEGACY_SAVE_KEY);
+    if (legacy) {
+      const state = JSON.parse(legacy);
+      const id = newSlotId();
+      const slots = [{ id, savedAt: Date.now(), state: { ...state, saveSlotId: id } }];
+      localStorage.setItem(SAVE_SLOTS_KEY, JSON.stringify(slots));
+      return slots;
+    }
+  } catch {}
+  return [];
+}
+
+function writeSlots(slots) {
+  try { localStorage.setItem(SAVE_SLOTS_KEY, JSON.stringify(slots)); } catch {}
+}
 
 // pokemon_data.json's `pokemon` dict and `learnsets` dict disagree on a handful of
 // species keys (the pokemon dict keeps the underscore from constants.asm, the
@@ -132,7 +167,13 @@ export function createPlayerPokemon(species, level, pokemonData) {
       const m = pokemonData.moves[name] || { pp: 20 };
       return { name, pp: m.pp, ppMax: m.pp };
     }),
-    exp: 0,
+    // Seeded to the cumulative XP threshold for this level, not 0 — a mon created directly
+    // at level N (starter, gift, extra-mode party) already "has" that much XP. Leaving this
+    // at 0 meant applyXP's level-up check (exp >= xpForLevel(level+1)) needed the ENTIRE
+    // cumulative curve from scratch before the next level-up would fire — barely noticeable
+    // for a level-5 starter, but made extra-mode's level-70+ mons look like they never gained
+    // XP at all from ordinary battle wins (bug reported 2026-07-08).
+    exp: xpForLevel(level),
     evolvesAt: evo?.level ?? null,
     evolvesInto: evo?.into ?? null,
   };
@@ -190,6 +231,34 @@ const GYM_STARTS = [
   { mapId: 'CINNABAR_ISLAND', x: 4, y: 6 },
   { mapId: 'VIRIDIAN_CITY',   x: 5, y: 15 },
 ];
+
+// User-requested (2026-07-10): "for badge1, set all trainers before pewter city to have been
+// battled already... do this for each Extra so that if i test i can go back and not have to
+// fight battles to walk through places." Cumulative per-badge-tier trainer id lists,
+// generated once from game_data.json's actual npc placements (every real trainerClass-having
+// NPC on every map a player would have already passed through by that badge count, in
+// standard Gen 1 progression order: Route 1/2/Forest → Pewter → Route 3/Mt Moon/Route 4 →
+// Cerulean → Route 5/6/SS Anne → Vermilion → Route 9/10/Rock Tunnel/Route 11/Pokémon
+// Tower/Route 7/8 → Celadon → Route 12-15/18 → Fuchsia → Silph Co → Saffron → Route 19-21/
+// Mansion → Cinnabar → Viridian Gym/Rocket Hideout/Route 16/17 → Giovanni → Route 23/Victory
+// Road). Deliberately does NOT include Rival2/Rival3 (SS Anne, Pokémon Tower, Silph Co 7F,
+// Route 22's 2nd visit, Champion's Room) — those are late-game rival encounters a tester
+// exploring a later tier should still be able to fight fresh, not find silently pre-skipped;
+// only the "in the way of ordinary walking" trainers and the 3 early Rival1-tier encounters
+// (Oak's Lab/Route 22 1st/Cerulean) get prefilled. Regenerate by re-running the extraction if
+// map/trainer data ever changes materially — see the plan file for the script.
+const BADGE_PREBEATEN_TRAINERS = {
+  0: ["VIRIDIAN_FOREST:30:33","VIRIDIAN_FOREST:30:19","VIRIDIAN_FOREST:2:18","ROUTE_22:25:5:Rival1"],
+  1: ["VIRIDIAN_FOREST:30:33","VIRIDIAN_FOREST:30:19","VIRIDIAN_FOREST:2:18","ROUTE_22:25:5:Rival1","ROUTE_3:10:6","ROUTE_3:14:4","ROUTE_3:16:9","ROUTE_3:19:5","ROUTE_3:23:4","ROUTE_3:22:9","ROUTE_3:24:6","ROUTE_3:33:10","MT_MOON_1F:5:6","MT_MOON_1F:12:16","MT_MOON_1F:30:4","MT_MOON_1F:24:31","MT_MOON_1F:16:23","MT_MOON_1F:7:22","MT_MOON_1F:30:27","MT_MOON_B2F:12:8","MT_MOON_B2F:11:16","MT_MOON_B2F:15:22","MT_MOON_B2F:29:11","MT_MOON_B2F:29:17","ROUTE_4:63:3","CERULEAN_CITY:20:2:Rival1","CERULEAN_CITY:30:8","ROUTE_24:11:15","ROUTE_24:5:20","ROUTE_24:11:19","ROUTE_24:10:22","ROUTE_24:11:25","ROUTE_24:10:28","ROUTE_24:11:31","ROUTE_25:14:2","ROUTE_25:18:5","ROUTE_25:24:4","ROUTE_25:18:8","ROUTE_25:32:3","ROUTE_25:37:4","ROUTE_25:8:4","ROUTE_25:23:9","ROUTE_25:13:7"],
+  2: ["VIRIDIAN_FOREST:30:33","VIRIDIAN_FOREST:30:19","VIRIDIAN_FOREST:2:18","ROUTE_22:25:5:Rival1","ROUTE_3:10:6","ROUTE_3:14:4","ROUTE_3:16:9","ROUTE_3:19:5","ROUTE_3:23:4","ROUTE_3:22:9","ROUTE_3:24:6","ROUTE_3:33:10","MT_MOON_1F:5:6","MT_MOON_1F:12:16","MT_MOON_1F:30:4","MT_MOON_1F:24:31","MT_MOON_1F:16:23","MT_MOON_1F:7:22","MT_MOON_1F:30:27","MT_MOON_B2F:12:8","MT_MOON_B2F:11:16","MT_MOON_B2F:15:22","MT_MOON_B2F:29:11","MT_MOON_B2F:29:17","ROUTE_4:63:3","CERULEAN_CITY:20:2:Rival1","CERULEAN_CITY:30:8","ROUTE_24:11:15","ROUTE_24:5:20","ROUTE_24:11:19","ROUTE_24:10:22","ROUTE_24:11:25","ROUTE_24:10:28","ROUTE_24:11:31","ROUTE_25:14:2","ROUTE_25:18:5","ROUTE_25:24:4","ROUTE_25:18:8","ROUTE_25:32:3","ROUTE_25:37:4","ROUTE_25:8:4","ROUTE_25:23:9","ROUTE_25:13:7","ROUTE_6:10:21","ROUTE_6:11:21","ROUTE_6:0:15","ROUTE_6:11:31","ROUTE_6:11:30","ROUTE_6:19:26","SS_ANNE_BOW:4:4","SS_ANNE_BOW:10:8","SS_ANNE_1F_ROOMS:2:3","SS_ANNE_1F_ROOMS:11:4","SS_ANNE_1F_ROOMS:11:14","SS_ANNE_1F_ROOMS:13:11","SS_ANNE_2F_ROOMS:10:2","SS_ANNE_2F_ROOMS:13:4","SS_ANNE_2F_ROOMS:0:14","SS_ANNE_2F_ROOMS:2:11","SS_ANNE_B1F_ROOMS:0:13","SS_ANNE_B1F_ROOMS:2:11","SS_ANNE_B1F_ROOMS:12:3","SS_ANNE_B1F_ROOMS:22:2","SS_ANNE_B1F_ROOMS:0:2","SS_ANNE_B1F_ROOMS:0:4"],
+  3: ["VIRIDIAN_FOREST:30:33","VIRIDIAN_FOREST:30:19","VIRIDIAN_FOREST:2:18","ROUTE_22:25:5:Rival1","ROUTE_3:10:6","ROUTE_3:14:4","ROUTE_3:16:9","ROUTE_3:19:5","ROUTE_3:23:4","ROUTE_3:22:9","ROUTE_3:24:6","ROUTE_3:33:10","MT_MOON_1F:5:6","MT_MOON_1F:12:16","MT_MOON_1F:30:4","MT_MOON_1F:24:31","MT_MOON_1F:16:23","MT_MOON_1F:7:22","MT_MOON_1F:30:27","MT_MOON_B2F:12:8","MT_MOON_B2F:11:16","MT_MOON_B2F:15:22","MT_MOON_B2F:29:11","MT_MOON_B2F:29:17","ROUTE_4:63:3","CERULEAN_CITY:20:2:Rival1","CERULEAN_CITY:30:8","ROUTE_24:11:15","ROUTE_24:5:20","ROUTE_24:11:19","ROUTE_24:10:22","ROUTE_24:11:25","ROUTE_24:10:28","ROUTE_24:11:31","ROUTE_25:14:2","ROUTE_25:18:5","ROUTE_25:24:4","ROUTE_25:18:8","ROUTE_25:32:3","ROUTE_25:37:4","ROUTE_25:8:4","ROUTE_25:23:9","ROUTE_25:13:7","ROUTE_6:10:21","ROUTE_6:11:21","ROUTE_6:0:15","ROUTE_6:11:31","ROUTE_6:11:30","ROUTE_6:19:26","SS_ANNE_BOW:4:4","SS_ANNE_BOW:10:8","SS_ANNE_1F_ROOMS:2:3","SS_ANNE_1F_ROOMS:11:4","SS_ANNE_1F_ROOMS:11:14","SS_ANNE_1F_ROOMS:13:11","SS_ANNE_2F_ROOMS:10:2","SS_ANNE_2F_ROOMS:13:4","SS_ANNE_2F_ROOMS:0:14","SS_ANNE_2F_ROOMS:2:11","SS_ANNE_B1F_ROOMS:0:13","SS_ANNE_B1F_ROOMS:2:11","SS_ANNE_B1F_ROOMS:12:3","SS_ANNE_B1F_ROOMS:22:2","SS_ANNE_B1F_ROOMS:0:2","SS_ANNE_B1F_ROOMS:0:4","ROUTE_9:13:10","ROUTE_9:24:7","ROUTE_9:31:7","ROUTE_9:48:8","ROUTE_9:16:15","ROUTE_9:43:3","ROUTE_9:22:2","ROUTE_9:45:15","ROUTE_9:40:8","ROUTE_10:10:44","ROUTE_10:3:57","ROUTE_10:14:64","ROUTE_10:7:25","ROUTE_10:3:61","ROUTE_10:7:54","ROCK_TUNNEL_1F:7:5","ROCK_TUNNEL_1F:5:16","ROCK_TUNNEL_1F:17:15","ROCK_TUNNEL_1F:23:8","ROCK_TUNNEL_1F:37:21","ROCK_TUNNEL_1F:22:24","ROCK_TUNNEL_1F:32:24","ROCK_TUNNEL_B1F:11:13","ROCK_TUNNEL_B1F:6:10","ROCK_TUNNEL_B1F:3:5","ROCK_TUNNEL_B1F:20:21","ROCK_TUNNEL_B1F:30:10","ROCK_TUNNEL_B1F:14:28","ROCK_TUNNEL_B1F:33:5","ROCK_TUNNEL_B1F:26:30","ROUTE_8:8:5","ROUTE_8:13:9","ROUTE_8:42:6","ROUTE_8:26:3","ROUTE_8:26:4","ROUTE_8:26:5","ROUTE_8:26:6","ROUTE_8:46:13","ROUTE_8:51:12","POKEMON_TOWER_3F:12:3","POKEMON_TOWER_3F:9:8","POKEMON_TOWER_3F:10:13","POKEMON_TOWER_4F:5:10","POKEMON_TOWER_4F:15:7","POKEMON_TOWER_4F:14:12","POKEMON_TOWER_5F:17:7","POKEMON_TOWER_5F:14:3","POKEMON_TOWER_5F:6:10","POKEMON_TOWER_5F:9:16","POKEMON_TOWER_6F:12:10","POKEMON_TOWER_6F:9:5","POKEMON_TOWER_6F:16:5","POKEMON_TOWER_7F:9:11","POKEMON_TOWER_7F:12:9","POKEMON_TOWER_7F:9:7","ROUTE_11:10:14","ROUTE_11:26:9","ROUTE_11:13:5","ROUTE_11:36:11","ROUTE_11:22:4","ROUTE_11:45:7","ROUTE_11:33:3","ROUTE_11:43:5","ROUTE_11:45:16","ROUTE_11:22:12"],
+  4: ["VIRIDIAN_FOREST:30:33","VIRIDIAN_FOREST:30:19","VIRIDIAN_FOREST:2:18","ROUTE_22:25:5:Rival1","ROUTE_3:10:6","ROUTE_3:14:4","ROUTE_3:16:9","ROUTE_3:19:5","ROUTE_3:23:4","ROUTE_3:22:9","ROUTE_3:24:6","ROUTE_3:33:10","MT_MOON_1F:5:6","MT_MOON_1F:12:16","MT_MOON_1F:30:4","MT_MOON_1F:24:31","MT_MOON_1F:16:23","MT_MOON_1F:7:22","MT_MOON_1F:30:27","MT_MOON_B2F:12:8","MT_MOON_B2F:11:16","MT_MOON_B2F:15:22","MT_MOON_B2F:29:11","MT_MOON_B2F:29:17","ROUTE_4:63:3","CERULEAN_CITY:20:2:Rival1","CERULEAN_CITY:30:8","ROUTE_24:11:15","ROUTE_24:5:20","ROUTE_24:11:19","ROUTE_24:10:22","ROUTE_24:11:25","ROUTE_24:10:28","ROUTE_24:11:31","ROUTE_25:14:2","ROUTE_25:18:5","ROUTE_25:24:4","ROUTE_25:18:8","ROUTE_25:32:3","ROUTE_25:37:4","ROUTE_25:8:4","ROUTE_25:23:9","ROUTE_25:13:7","ROUTE_6:10:21","ROUTE_6:11:21","ROUTE_6:0:15","ROUTE_6:11:31","ROUTE_6:11:30","ROUTE_6:19:26","SS_ANNE_BOW:4:4","SS_ANNE_BOW:10:8","SS_ANNE_1F_ROOMS:2:3","SS_ANNE_1F_ROOMS:11:4","SS_ANNE_1F_ROOMS:11:14","SS_ANNE_1F_ROOMS:13:11","SS_ANNE_2F_ROOMS:10:2","SS_ANNE_2F_ROOMS:13:4","SS_ANNE_2F_ROOMS:0:14","SS_ANNE_2F_ROOMS:2:11","SS_ANNE_B1F_ROOMS:0:13","SS_ANNE_B1F_ROOMS:2:11","SS_ANNE_B1F_ROOMS:12:3","SS_ANNE_B1F_ROOMS:22:2","SS_ANNE_B1F_ROOMS:0:2","SS_ANNE_B1F_ROOMS:0:4","ROUTE_9:13:10","ROUTE_9:24:7","ROUTE_9:31:7","ROUTE_9:48:8","ROUTE_9:16:15","ROUTE_9:43:3","ROUTE_9:22:2","ROUTE_9:45:15","ROUTE_9:40:8","ROUTE_10:10:44","ROUTE_10:3:57","ROUTE_10:14:64","ROUTE_10:7:25","ROUTE_10:3:61","ROUTE_10:7:54","ROCK_TUNNEL_1F:7:5","ROCK_TUNNEL_1F:5:16","ROCK_TUNNEL_1F:17:15","ROCK_TUNNEL_1F:23:8","ROCK_TUNNEL_1F:37:21","ROCK_TUNNEL_1F:22:24","ROCK_TUNNEL_1F:32:24","ROCK_TUNNEL_B1F:11:13","ROCK_TUNNEL_B1F:6:10","ROCK_TUNNEL_B1F:3:5","ROCK_TUNNEL_B1F:20:21","ROCK_TUNNEL_B1F:30:10","ROCK_TUNNEL_B1F:14:28","ROCK_TUNNEL_B1F:33:5","ROCK_TUNNEL_B1F:26:30","ROUTE_8:8:5","ROUTE_8:13:9","ROUTE_8:42:6","ROUTE_8:26:3","ROUTE_8:26:4","ROUTE_8:26:5","ROUTE_8:26:6","ROUTE_8:46:13","ROUTE_8:51:12","POKEMON_TOWER_3F:12:3","POKEMON_TOWER_3F:9:8","POKEMON_TOWER_3F:10:13","POKEMON_TOWER_4F:5:10","POKEMON_TOWER_4F:15:7","POKEMON_TOWER_4F:14:12","POKEMON_TOWER_5F:17:7","POKEMON_TOWER_5F:14:3","POKEMON_TOWER_5F:6:10","POKEMON_TOWER_5F:9:16","POKEMON_TOWER_6F:12:10","POKEMON_TOWER_6F:9:5","POKEMON_TOWER_6F:16:5","POKEMON_TOWER_7F:9:11","POKEMON_TOWER_7F:12:9","POKEMON_TOWER_7F:9:7","ROUTE_11:10:14","ROUTE_11:26:9","ROUTE_11:13:5","ROUTE_11:36:11","ROUTE_11:22:4","ROUTE_11:45:7","ROUTE_11:33:3","ROUTE_11:43:5","ROUTE_11:45:16","ROUTE_11:22:12","ROUTE_12:14:31","ROUTE_12:5:39","ROUTE_12:11:92","ROUTE_12:14:76","ROUTE_12:12:40","ROUTE_12:9:52","ROUTE_12:6:87","ROUTE_13:49:10","ROUTE_13:48:10","ROUTE_13:27:9","ROUTE_13:23:10","ROUTE_13:50:5","ROUTE_13:12:4","ROUTE_13:33:6","ROUTE_13:32:6","ROUTE_13:10:7","ROUTE_13:7:13","ROUTE_14:4:4","ROUTE_14:15:6","ROUTE_14:12:11","ROUTE_14:14:15","ROUTE_14:15:31","ROUTE_14:6:49","ROUTE_14:5:39","ROUTE_14:4:30","ROUTE_14:15:30","ROUTE_14:4:31","ROUTE_15:41:11","ROUTE_15:53:10","ROUTE_15:31:13","ROUTE_15:35:13","ROUTE_15:53:11","ROUTE_15:41:10","ROUTE_15:48:10","ROUTE_15:46:10","ROUTE_15:37:5","ROUTE_15:18:13","ROUTE_18:36:11","ROUTE_18:40:15","ROUTE_18:42:13"],
+  5: ["VIRIDIAN_FOREST:30:33","VIRIDIAN_FOREST:30:19","VIRIDIAN_FOREST:2:18","ROUTE_22:25:5:Rival1","ROUTE_3:10:6","ROUTE_3:14:4","ROUTE_3:16:9","ROUTE_3:19:5","ROUTE_3:23:4","ROUTE_3:22:9","ROUTE_3:24:6","ROUTE_3:33:10","MT_MOON_1F:5:6","MT_MOON_1F:12:16","MT_MOON_1F:30:4","MT_MOON_1F:24:31","MT_MOON_1F:16:23","MT_MOON_1F:7:22","MT_MOON_1F:30:27","MT_MOON_B2F:12:8","MT_MOON_B2F:11:16","MT_MOON_B2F:15:22","MT_MOON_B2F:29:11","MT_MOON_B2F:29:17","ROUTE_4:63:3","CERULEAN_CITY:20:2:Rival1","CERULEAN_CITY:30:8","ROUTE_24:11:15","ROUTE_24:5:20","ROUTE_24:11:19","ROUTE_24:10:22","ROUTE_24:11:25","ROUTE_24:10:28","ROUTE_24:11:31","ROUTE_25:14:2","ROUTE_25:18:5","ROUTE_25:24:4","ROUTE_25:18:8","ROUTE_25:32:3","ROUTE_25:37:4","ROUTE_25:8:4","ROUTE_25:23:9","ROUTE_25:13:7","ROUTE_6:10:21","ROUTE_6:11:21","ROUTE_6:0:15","ROUTE_6:11:31","ROUTE_6:11:30","ROUTE_6:19:26","SS_ANNE_BOW:4:4","SS_ANNE_BOW:10:8","SS_ANNE_1F_ROOMS:2:3","SS_ANNE_1F_ROOMS:11:4","SS_ANNE_1F_ROOMS:11:14","SS_ANNE_1F_ROOMS:13:11","SS_ANNE_2F_ROOMS:10:2","SS_ANNE_2F_ROOMS:13:4","SS_ANNE_2F_ROOMS:0:14","SS_ANNE_2F_ROOMS:2:11","SS_ANNE_B1F_ROOMS:0:13","SS_ANNE_B1F_ROOMS:2:11","SS_ANNE_B1F_ROOMS:12:3","SS_ANNE_B1F_ROOMS:22:2","SS_ANNE_B1F_ROOMS:0:2","SS_ANNE_B1F_ROOMS:0:4","ROUTE_9:13:10","ROUTE_9:24:7","ROUTE_9:31:7","ROUTE_9:48:8","ROUTE_9:16:15","ROUTE_9:43:3","ROUTE_9:22:2","ROUTE_9:45:15","ROUTE_9:40:8","ROUTE_10:10:44","ROUTE_10:3:57","ROUTE_10:14:64","ROUTE_10:7:25","ROUTE_10:3:61","ROUTE_10:7:54","ROCK_TUNNEL_1F:7:5","ROCK_TUNNEL_1F:5:16","ROCK_TUNNEL_1F:17:15","ROCK_TUNNEL_1F:23:8","ROCK_TUNNEL_1F:37:21","ROCK_TUNNEL_1F:22:24","ROCK_TUNNEL_1F:32:24","ROCK_TUNNEL_B1F:11:13","ROCK_TUNNEL_B1F:6:10","ROCK_TUNNEL_B1F:3:5","ROCK_TUNNEL_B1F:20:21","ROCK_TUNNEL_B1F:30:10","ROCK_TUNNEL_B1F:14:28","ROCK_TUNNEL_B1F:33:5","ROCK_TUNNEL_B1F:26:30","ROUTE_8:8:5","ROUTE_8:13:9","ROUTE_8:42:6","ROUTE_8:26:3","ROUTE_8:26:4","ROUTE_8:26:5","ROUTE_8:26:6","ROUTE_8:46:13","ROUTE_8:51:12","POKEMON_TOWER_3F:12:3","POKEMON_TOWER_3F:9:8","POKEMON_TOWER_3F:10:13","POKEMON_TOWER_4F:5:10","POKEMON_TOWER_4F:15:7","POKEMON_TOWER_4F:14:12","POKEMON_TOWER_5F:17:7","POKEMON_TOWER_5F:14:3","POKEMON_TOWER_5F:6:10","POKEMON_TOWER_5F:9:16","POKEMON_TOWER_6F:12:10","POKEMON_TOWER_6F:9:5","POKEMON_TOWER_6F:16:5","POKEMON_TOWER_7F:9:11","POKEMON_TOWER_7F:12:9","POKEMON_TOWER_7F:9:7","ROUTE_11:10:14","ROUTE_11:26:9","ROUTE_11:13:5","ROUTE_11:36:11","ROUTE_11:22:4","ROUTE_11:45:7","ROUTE_11:33:3","ROUTE_11:43:5","ROUTE_11:45:16","ROUTE_11:22:12","ROUTE_12:14:31","ROUTE_12:5:39","ROUTE_12:11:92","ROUTE_12:14:76","ROUTE_12:12:40","ROUTE_12:9:52","ROUTE_12:6:87","ROUTE_13:49:10","ROUTE_13:48:10","ROUTE_13:27:9","ROUTE_13:23:10","ROUTE_13:50:5","ROUTE_13:12:4","ROUTE_13:33:6","ROUTE_13:32:6","ROUTE_13:10:7","ROUTE_13:7:13","ROUTE_14:4:4","ROUTE_14:15:6","ROUTE_14:12:11","ROUTE_14:14:15","ROUTE_14:15:31","ROUTE_14:6:49","ROUTE_14:5:39","ROUTE_14:4:30","ROUTE_14:15:30","ROUTE_14:4:31","ROUTE_15:41:11","ROUTE_15:53:10","ROUTE_15:31:13","ROUTE_15:35:13","ROUTE_15:53:11","ROUTE_15:41:10","ROUTE_15:48:10","ROUTE_15:46:10","ROUTE_15:37:5","ROUTE_15:18:13","ROUTE_18:36:11","ROUTE_18:40:15","ROUTE_18:42:13","SILPH_CO_2F:5:12","SILPH_CO_2F:24:13","SILPH_CO_2F:16:11","SILPH_CO_2F:24:7","SILPH_CO_3F:20:7","SILPH_CO_3F:7:9","SILPH_CO_4F:9:14","SILPH_CO_4F:14:6","SILPH_CO_4F:26:10","SILPH_CO_5F:8:16","SILPH_CO_5F:8:3","SILPH_CO_5F:18:10","SILPH_CO_5F:28:4","SILPH_CO_6F:17:3","SILPH_CO_6F:7:8","SILPH_CO_6F:14:15","SILPH_CO_7F:13:1","SILPH_CO_7F:2:13","SILPH_CO_7F:20:2","SILPH_CO_7F:19:14","SILPH_CO_8F:19:2","SILPH_CO_8F:10:2","SILPH_CO_8F:12:15","SILPH_CO_9F:2:4","SILPH_CO_9F:21:13","SILPH_CO_9F:13:16","SILPH_CO_10F:1:9","SILPH_CO_10F:10:2","SILPH_CO_11F:6:9","SILPH_CO_11F:3:16","SILPH_CO_11F:15:9"],
+  6: ["VIRIDIAN_FOREST:30:33","VIRIDIAN_FOREST:30:19","VIRIDIAN_FOREST:2:18","ROUTE_22:25:5:Rival1","ROUTE_3:10:6","ROUTE_3:14:4","ROUTE_3:16:9","ROUTE_3:19:5","ROUTE_3:23:4","ROUTE_3:22:9","ROUTE_3:24:6","ROUTE_3:33:10","MT_MOON_1F:5:6","MT_MOON_1F:12:16","MT_MOON_1F:30:4","MT_MOON_1F:24:31","MT_MOON_1F:16:23","MT_MOON_1F:7:22","MT_MOON_1F:30:27","MT_MOON_B2F:12:8","MT_MOON_B2F:11:16","MT_MOON_B2F:15:22","MT_MOON_B2F:29:11","MT_MOON_B2F:29:17","ROUTE_4:63:3","CERULEAN_CITY:20:2:Rival1","CERULEAN_CITY:30:8","ROUTE_24:11:15","ROUTE_24:5:20","ROUTE_24:11:19","ROUTE_24:10:22","ROUTE_24:11:25","ROUTE_24:10:28","ROUTE_24:11:31","ROUTE_25:14:2","ROUTE_25:18:5","ROUTE_25:24:4","ROUTE_25:18:8","ROUTE_25:32:3","ROUTE_25:37:4","ROUTE_25:8:4","ROUTE_25:23:9","ROUTE_25:13:7","ROUTE_6:10:21","ROUTE_6:11:21","ROUTE_6:0:15","ROUTE_6:11:31","ROUTE_6:11:30","ROUTE_6:19:26","SS_ANNE_BOW:4:4","SS_ANNE_BOW:10:8","SS_ANNE_1F_ROOMS:2:3","SS_ANNE_1F_ROOMS:11:4","SS_ANNE_1F_ROOMS:11:14","SS_ANNE_1F_ROOMS:13:11","SS_ANNE_2F_ROOMS:10:2","SS_ANNE_2F_ROOMS:13:4","SS_ANNE_2F_ROOMS:0:14","SS_ANNE_2F_ROOMS:2:11","SS_ANNE_B1F_ROOMS:0:13","SS_ANNE_B1F_ROOMS:2:11","SS_ANNE_B1F_ROOMS:12:3","SS_ANNE_B1F_ROOMS:22:2","SS_ANNE_B1F_ROOMS:0:2","SS_ANNE_B1F_ROOMS:0:4","ROUTE_9:13:10","ROUTE_9:24:7","ROUTE_9:31:7","ROUTE_9:48:8","ROUTE_9:16:15","ROUTE_9:43:3","ROUTE_9:22:2","ROUTE_9:45:15","ROUTE_9:40:8","ROUTE_10:10:44","ROUTE_10:3:57","ROUTE_10:14:64","ROUTE_10:7:25","ROUTE_10:3:61","ROUTE_10:7:54","ROCK_TUNNEL_1F:7:5","ROCK_TUNNEL_1F:5:16","ROCK_TUNNEL_1F:17:15","ROCK_TUNNEL_1F:23:8","ROCK_TUNNEL_1F:37:21","ROCK_TUNNEL_1F:22:24","ROCK_TUNNEL_1F:32:24","ROCK_TUNNEL_B1F:11:13","ROCK_TUNNEL_B1F:6:10","ROCK_TUNNEL_B1F:3:5","ROCK_TUNNEL_B1F:20:21","ROCK_TUNNEL_B1F:30:10","ROCK_TUNNEL_B1F:14:28","ROCK_TUNNEL_B1F:33:5","ROCK_TUNNEL_B1F:26:30","ROUTE_8:8:5","ROUTE_8:13:9","ROUTE_8:42:6","ROUTE_8:26:3","ROUTE_8:26:4","ROUTE_8:26:5","ROUTE_8:26:6","ROUTE_8:46:13","ROUTE_8:51:12","POKEMON_TOWER_3F:12:3","POKEMON_TOWER_3F:9:8","POKEMON_TOWER_3F:10:13","POKEMON_TOWER_4F:5:10","POKEMON_TOWER_4F:15:7","POKEMON_TOWER_4F:14:12","POKEMON_TOWER_5F:17:7","POKEMON_TOWER_5F:14:3","POKEMON_TOWER_5F:6:10","POKEMON_TOWER_5F:9:16","POKEMON_TOWER_6F:12:10","POKEMON_TOWER_6F:9:5","POKEMON_TOWER_6F:16:5","POKEMON_TOWER_7F:9:11","POKEMON_TOWER_7F:12:9","POKEMON_TOWER_7F:9:7","ROUTE_11:10:14","ROUTE_11:26:9","ROUTE_11:13:5","ROUTE_11:36:11","ROUTE_11:22:4","ROUTE_11:45:7","ROUTE_11:33:3","ROUTE_11:43:5","ROUTE_11:45:16","ROUTE_11:22:12","ROUTE_12:14:31","ROUTE_12:5:39","ROUTE_12:11:92","ROUTE_12:14:76","ROUTE_12:12:40","ROUTE_12:9:52","ROUTE_12:6:87","ROUTE_13:49:10","ROUTE_13:48:10","ROUTE_13:27:9","ROUTE_13:23:10","ROUTE_13:50:5","ROUTE_13:12:4","ROUTE_13:33:6","ROUTE_13:32:6","ROUTE_13:10:7","ROUTE_13:7:13","ROUTE_14:4:4","ROUTE_14:15:6","ROUTE_14:12:11","ROUTE_14:14:15","ROUTE_14:15:31","ROUTE_14:6:49","ROUTE_14:5:39","ROUTE_14:4:30","ROUTE_14:15:30","ROUTE_14:4:31","ROUTE_15:41:11","ROUTE_15:53:10","ROUTE_15:31:13","ROUTE_15:35:13","ROUTE_15:53:11","ROUTE_15:41:10","ROUTE_15:48:10","ROUTE_15:46:10","ROUTE_15:37:5","ROUTE_15:18:13","ROUTE_18:36:11","ROUTE_18:40:15","ROUTE_18:42:13","SILPH_CO_2F:5:12","SILPH_CO_2F:24:13","SILPH_CO_2F:16:11","SILPH_CO_2F:24:7","SILPH_CO_3F:20:7","SILPH_CO_3F:7:9","SILPH_CO_4F:9:14","SILPH_CO_4F:14:6","SILPH_CO_4F:26:10","SILPH_CO_5F:8:16","SILPH_CO_5F:8:3","SILPH_CO_5F:18:10","SILPH_CO_5F:28:4","SILPH_CO_6F:17:3","SILPH_CO_6F:7:8","SILPH_CO_6F:14:15","SILPH_CO_7F:13:1","SILPH_CO_7F:2:13","SILPH_CO_7F:20:2","SILPH_CO_7F:19:14","SILPH_CO_8F:19:2","SILPH_CO_8F:10:2","SILPH_CO_8F:12:15","SILPH_CO_9F:2:4","SILPH_CO_9F:21:13","SILPH_CO_9F:13:16","SILPH_CO_10F:1:9","SILPH_CO_10F:10:2","SILPH_CO_11F:6:9","SILPH_CO_11F:3:16","SILPH_CO_11F:15:9","ROUTE_20:87:8","ROUTE_20:68:11","ROUTE_20:45:10","ROUTE_20:55:14","ROUTE_20:38:13","ROUTE_20:87:13","ROUTE_20:34:9","ROUTE_20:25:7","ROUTE_20:24:12","ROUTE_20:15:8","ROUTE_19:8:7","ROUTE_19:13:7","ROUTE_19:13:25","ROUTE_19:4:27","ROUTE_19:16:31","ROUTE_19:9:11","ROUTE_19:8:43","ROUTE_19:11:43","ROUTE_19:9:42","ROUTE_19:10:44","ROUTE_21:4:24","ROUTE_21:6:25","ROUTE_21:10:31","ROUTE_21:12:30","ROUTE_21:16:63","ROUTE_21:5:71","ROUTE_21:15:71","ROUTE_21:14:56","ROUTE_21:17:57","POKEMON_MANSION_1F:17:17","POKEMON_MANSION_2F:3:17","POKEMON_MANSION_3F:5:11","POKEMON_MANSION_3F:20:11","POKEMON_MANSION_B1F:16:23","POKEMON_MANSION_B1F:27:11"],
+  7: ["VIRIDIAN_FOREST:30:33","VIRIDIAN_FOREST:30:19","VIRIDIAN_FOREST:2:18","ROUTE_22:25:5:Rival1","ROUTE_3:10:6","ROUTE_3:14:4","ROUTE_3:16:9","ROUTE_3:19:5","ROUTE_3:23:4","ROUTE_3:22:9","ROUTE_3:24:6","ROUTE_3:33:10","MT_MOON_1F:5:6","MT_MOON_1F:12:16","MT_MOON_1F:30:4","MT_MOON_1F:24:31","MT_MOON_1F:16:23","MT_MOON_1F:7:22","MT_MOON_1F:30:27","MT_MOON_B2F:12:8","MT_MOON_B2F:11:16","MT_MOON_B2F:15:22","MT_MOON_B2F:29:11","MT_MOON_B2F:29:17","ROUTE_4:63:3","CERULEAN_CITY:20:2:Rival1","CERULEAN_CITY:30:8","ROUTE_24:11:15","ROUTE_24:5:20","ROUTE_24:11:19","ROUTE_24:10:22","ROUTE_24:11:25","ROUTE_24:10:28","ROUTE_24:11:31","ROUTE_25:14:2","ROUTE_25:18:5","ROUTE_25:24:4","ROUTE_25:18:8","ROUTE_25:32:3","ROUTE_25:37:4","ROUTE_25:8:4","ROUTE_25:23:9","ROUTE_25:13:7","ROUTE_6:10:21","ROUTE_6:11:21","ROUTE_6:0:15","ROUTE_6:11:31","ROUTE_6:11:30","ROUTE_6:19:26","SS_ANNE_BOW:4:4","SS_ANNE_BOW:10:8","SS_ANNE_1F_ROOMS:2:3","SS_ANNE_1F_ROOMS:11:4","SS_ANNE_1F_ROOMS:11:14","SS_ANNE_1F_ROOMS:13:11","SS_ANNE_2F_ROOMS:10:2","SS_ANNE_2F_ROOMS:13:4","SS_ANNE_2F_ROOMS:0:14","SS_ANNE_2F_ROOMS:2:11","SS_ANNE_B1F_ROOMS:0:13","SS_ANNE_B1F_ROOMS:2:11","SS_ANNE_B1F_ROOMS:12:3","SS_ANNE_B1F_ROOMS:22:2","SS_ANNE_B1F_ROOMS:0:2","SS_ANNE_B1F_ROOMS:0:4","ROUTE_9:13:10","ROUTE_9:24:7","ROUTE_9:31:7","ROUTE_9:48:8","ROUTE_9:16:15","ROUTE_9:43:3","ROUTE_9:22:2","ROUTE_9:45:15","ROUTE_9:40:8","ROUTE_10:10:44","ROUTE_10:3:57","ROUTE_10:14:64","ROUTE_10:7:25","ROUTE_10:3:61","ROUTE_10:7:54","ROCK_TUNNEL_1F:7:5","ROCK_TUNNEL_1F:5:16","ROCK_TUNNEL_1F:17:15","ROCK_TUNNEL_1F:23:8","ROCK_TUNNEL_1F:37:21","ROCK_TUNNEL_1F:22:24","ROCK_TUNNEL_1F:32:24","ROCK_TUNNEL_B1F:11:13","ROCK_TUNNEL_B1F:6:10","ROCK_TUNNEL_B1F:3:5","ROCK_TUNNEL_B1F:20:21","ROCK_TUNNEL_B1F:30:10","ROCK_TUNNEL_B1F:14:28","ROCK_TUNNEL_B1F:33:5","ROCK_TUNNEL_B1F:26:30","ROUTE_8:8:5","ROUTE_8:13:9","ROUTE_8:42:6","ROUTE_8:26:3","ROUTE_8:26:4","ROUTE_8:26:5","ROUTE_8:26:6","ROUTE_8:46:13","ROUTE_8:51:12","POKEMON_TOWER_3F:12:3","POKEMON_TOWER_3F:9:8","POKEMON_TOWER_3F:10:13","POKEMON_TOWER_4F:5:10","POKEMON_TOWER_4F:15:7","POKEMON_TOWER_4F:14:12","POKEMON_TOWER_5F:17:7","POKEMON_TOWER_5F:14:3","POKEMON_TOWER_5F:6:10","POKEMON_TOWER_5F:9:16","POKEMON_TOWER_6F:12:10","POKEMON_TOWER_6F:9:5","POKEMON_TOWER_6F:16:5","POKEMON_TOWER_7F:9:11","POKEMON_TOWER_7F:12:9","POKEMON_TOWER_7F:9:7","ROUTE_11:10:14","ROUTE_11:26:9","ROUTE_11:13:5","ROUTE_11:36:11","ROUTE_11:22:4","ROUTE_11:45:7","ROUTE_11:33:3","ROUTE_11:43:5","ROUTE_11:45:16","ROUTE_11:22:12","ROUTE_12:14:31","ROUTE_12:5:39","ROUTE_12:11:92","ROUTE_12:14:76","ROUTE_12:12:40","ROUTE_12:9:52","ROUTE_12:6:87","ROUTE_13:49:10","ROUTE_13:48:10","ROUTE_13:27:9","ROUTE_13:23:10","ROUTE_13:50:5","ROUTE_13:12:4","ROUTE_13:33:6","ROUTE_13:32:6","ROUTE_13:10:7","ROUTE_13:7:13","ROUTE_14:4:4","ROUTE_14:15:6","ROUTE_14:12:11","ROUTE_14:14:15","ROUTE_14:15:31","ROUTE_14:6:49","ROUTE_14:5:39","ROUTE_14:4:30","ROUTE_14:15:30","ROUTE_14:4:31","ROUTE_15:41:11","ROUTE_15:53:10","ROUTE_15:31:13","ROUTE_15:35:13","ROUTE_15:53:11","ROUTE_15:41:10","ROUTE_15:48:10","ROUTE_15:46:10","ROUTE_15:37:5","ROUTE_15:18:13","ROUTE_18:36:11","ROUTE_18:40:15","ROUTE_18:42:13","SILPH_CO_2F:5:12","SILPH_CO_2F:24:13","SILPH_CO_2F:16:11","SILPH_CO_2F:24:7","SILPH_CO_3F:20:7","SILPH_CO_3F:7:9","SILPH_CO_4F:9:14","SILPH_CO_4F:14:6","SILPH_CO_4F:26:10","SILPH_CO_5F:8:16","SILPH_CO_5F:8:3","SILPH_CO_5F:18:10","SILPH_CO_5F:28:4","SILPH_CO_6F:17:3","SILPH_CO_6F:7:8","SILPH_CO_6F:14:15","SILPH_CO_7F:13:1","SILPH_CO_7F:2:13","SILPH_CO_7F:20:2","SILPH_CO_7F:19:14","SILPH_CO_8F:19:2","SILPH_CO_8F:10:2","SILPH_CO_8F:12:15","SILPH_CO_9F:2:4","SILPH_CO_9F:21:13","SILPH_CO_9F:13:16","SILPH_CO_10F:1:9","SILPH_CO_10F:10:2","SILPH_CO_11F:6:9","SILPH_CO_11F:3:16","SILPH_CO_11F:15:9","ROUTE_20:87:8","ROUTE_20:68:11","ROUTE_20:45:10","ROUTE_20:55:14","ROUTE_20:38:13","ROUTE_20:87:13","ROUTE_20:34:9","ROUTE_20:25:7","ROUTE_20:24:12","ROUTE_20:15:8","ROUTE_19:8:7","ROUTE_19:13:7","ROUTE_19:13:25","ROUTE_19:4:27","ROUTE_19:16:31","ROUTE_19:9:11","ROUTE_19:8:43","ROUTE_19:11:43","ROUTE_19:9:42","ROUTE_19:10:44","ROUTE_21:4:24","ROUTE_21:6:25","ROUTE_21:10:31","ROUTE_21:12:30","ROUTE_21:16:63","ROUTE_21:5:71","ROUTE_21:15:71","ROUTE_21:14:56","ROUTE_21:17:57","POKEMON_MANSION_1F:17:17","POKEMON_MANSION_2F:3:17","POKEMON_MANSION_3F:5:11","POKEMON_MANSION_3F:20:11","POKEMON_MANSION_B1F:16:23","POKEMON_MANSION_B1F:27:11","VIRIDIAN_GYM:2:1","VIRIDIAN_GYM:12:7","VIRIDIAN_GYM:11:11","VIRIDIAN_GYM:10:7","VIRIDIAN_GYM:3:7","VIRIDIAN_GYM:13:5","VIRIDIAN_GYM:10:1","VIRIDIAN_GYM:2:16","VIRIDIAN_GYM:6:5","ROCKET_HIDEOUT_B1F:26:8","ROCKET_HIDEOUT_B1F:12:6","ROCKET_HIDEOUT_B1F:18:17","ROCKET_HIDEOUT_B1F:15:25","ROCKET_HIDEOUT_B1F:28:18","ROCKET_HIDEOUT_B2F:20:12","ROCKET_HIDEOUT_B3F:10:22","ROCKET_HIDEOUT_B3F:26:12","ROCKET_HIDEOUT_B4F:25:3","ROCKET_HIDEOUT_B4F:23:12","ROCKET_HIDEOUT_B4F:26:12","ROCKET_HIDEOUT_B4F:11:2","ROUTE_16:17:12","ROUTE_16:14:13","ROUTE_16:11:12","ROUTE_16:9:11","ROUTE_16:6:10","ROUTE_16:3:12","ROUTE_17:12:19","ROUTE_17:11:16","ROUTE_17:4:18","ROUTE_17:7:32","ROUTE_17:14:34","ROUTE_17:17:58","ROUTE_17:2:68","ROUTE_17:14:98","ROUTE_17:5:98","ROUTE_17:10:118"],
+};
+BADGE_PREBEATEN_TRAINERS.victory_road = [...BADGE_PREBEATEN_TRAINERS[7], "ROUTE_23:7:5","ROUTE_23:3:2","VICTORY_ROAD_1F:7:5","VICTORY_ROAD_1F:3:2","VICTORY_ROAD_2F:12:9","VICTORY_ROAD_2F:21:13","VICTORY_ROAD_2F:19:8","VICTORY_ROAD_2F:4:2","VICTORY_ROAD_2F:26:3","VICTORY_ROAD_3F:28:5","VICTORY_ROAD_3F:7:13","VICTORY_ROAD_3F:6:14","VICTORY_ROAD_3F:13:3"];
+BADGE_PREBEATEN_TRAINERS.elite_four = BADGE_PREBEATEN_TRAINERS.victory_road;
 
 export function getExtraStateList() {
   return [
@@ -250,8 +319,16 @@ export function createExtraState(stateKey, pokemonData) {
     badges: Array.from({ length: numBadges }, (_, i) => i),
     money: 5000,
     items: extraItems,
-    beatenTrainers: [],
+    // User-requested (2026-07-10): prefill every trainer a real playthrough would already
+    // have beaten by this badge tier, so testing a later Extra doesn't force re-fighting
+    // early-route trainers just to walk through. See BADGE_PREBEATEN_TRAINERS above.
+    beatenTrainers: BADGE_PREBEATEN_TRAINERS[stateKey] ?? [],
     pickedUpItems: [],
+    // A player this far into a real playthrough would realistically have visited most/all
+    // major towns already — seed FLY as fully unlocked rather than leaving it permanently
+    // unusable in extra mode (handleMapChange, which normally marks a town visited, never
+    // fires for extra mode's direct drop-in start).
+    visitedTowns: FLY_DESTINATIONS.map(d => d.mapId),
   };
 }
 
@@ -502,6 +579,34 @@ export const STONE_EVOLUTIONS = [
   { species: 'WEEPINBELL', stone: 'LEAF_STONE',    into: 'VICTREEBEL' },
 ];
 
+// FLASH-dark maps (home/overworld.asm WarpFound1/2: entering ROCK_TUNNEL_1F from an outdoor
+// map sets wMapPalOffset to the dark palette; leaving to LAST_MAP resets it — internal
+// 1F<->B1F stairs never touch it, so a lit state carries over between the two floors). Only
+// these two maps in the whole game are ever dark in real OG.
+export const DARK_MAPS = new Set(['ROCK_TUNNEL_1F', 'ROCK_TUNNEL_B1F']);
+
+// FLY destinations (data/maps/special_warps.asm FlyWarpDataPtr), filtered to the 11
+// player-selectable NUM_CITY_MAPS towns (Constants/map_constants.asm: map indices 0-10,
+// "towns/cities" before FIRST_ROUTE_MAP) — the same table's ROUTE_4/ROUTE_10 entries are used
+// by an unrelated internal fly-warp consumer, never shown on the real Town Map fly picker.
+// Coordinates are the macro's literal x,y args (`fly_warp TOWN, x, y`), same raw per-map
+// convention as every other warp_event/object_event/bg_event this port already extracts
+// 1:1 — cross-checked directly: PALLET_TOWN's (5,6) here exactly matches this file's
+// independently-arrived-at whiteout/poison-death respawn fallback for Pallet Town.
+export const FLY_DESTINATIONS = [
+  { mapId: 'PALLET_TOWN',     label: 'PALLET TOWN',     x: 5,  y: 6  },
+  { mapId: 'VIRIDIAN_CITY',   label: 'VIRIDIAN CITY',   x: 23, y: 26 },
+  { mapId: 'PEWTER_CITY',     label: 'PEWTER CITY',     x: 13, y: 26 },
+  { mapId: 'CERULEAN_CITY',   label: 'CERULEAN CITY',   x: 19, y: 18 },
+  { mapId: 'LAVENDER_TOWN',   label: 'LAVENDER TOWN',   x: 3,  y: 6  },
+  { mapId: 'VERMILION_CITY',  label: 'VERMILION CITY',  x: 11, y: 4  },
+  { mapId: 'CELADON_CITY',    label: 'CELADON CITY',    x: 41, y: 10 },
+  { mapId: 'FUCHSIA_CITY',    label: 'FUCHSIA CITY',    x: 19, y: 28 },
+  { mapId: 'CINNABAR_ISLAND', label: 'CINNABAR ISLAND', x: 11, y: 12 },
+  { mapId: 'INDIGO_PLATEAU',  label: 'INDIGO PLATEAU',  x: 9,  y: 6  },
+  { mapId: 'SAFFRON_CITY',    label: 'SAFFRON CITY',    x: 9,  y: 30 },
+];
+
 // Full Gen 1 TM/HM → move mapping (item_constants.asm add_tm/add_hm, in item-ID order).
 // HM06 uses this list so the player can teach any move in the game from the overworld.
 export const TM_HM_MOVES = [
@@ -579,6 +684,7 @@ export function healParty(party) {
 export function createNewGame(_pokemonData, playerName) {
   return {
     isExtra: false,
+    saveSlotId: newSlotId(),
     playerName: playerName || 'RED',
     mapId: 'REDS_HOUSE_2F',
     x: 4,
@@ -595,45 +701,104 @@ export function createNewGame(_pokemonData, playerName) {
   };
 }
 
+// User-requested (2026-07-10): the save file itself, not just the CONTINUE screen's UI,
+// should record when it was saved in 24-hour/military time — human-readable directly in the
+// raw slot data (localStorage or an exported .json), not just derivable from the `savedAt`
+// epoch at display time. Includes the date only when saved on a different day than "now" at
+// format time — for a slot's own `savedAtMilitary` (always formatted right at save time) this
+// is always just HH:MM, but the same formatter is reused for arbitrary/older timestamps too.
+export function formatMilitaryTime(ts) {
+  const d = new Date(ts);
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mm = String(d.getMinutes()).padStart(2, '0');
+  const isToday = d.toDateString() === new Date().toDateString();
+  if (isToday) return `${hh}:${mm}`;
+  const yyyy = d.getFullYear();
+  const mo = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${yyyy}-${mo}-${dd} ${hh}:${mm}`;
+}
+
 export function saveGame(state) {
-  if (state.isExtra) return;
-  try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch {}
+  if (state.isExtra || !state.saveSlotId) return;
+  const slots = readSlots();
+  const idx = slots.findIndex(s => s.id === state.saveSlotId);
+  const now = Date.now();
+  const slot = { id: state.saveSlotId, savedAt: now, savedAtMilitary: formatMilitaryTime(now), state };
+  if (idx >= 0) slots[idx] = slot; else slots.push(slot);
+  writeSlots(slots);
 }
 
-export function loadGame() {
-  try {
-    const raw = localStorage.getItem(SAVE_KEY);
-    if (!raw) return null;
-    let state = JSON.parse(raw);
-    // User-requested one-time bonus (2026-07-05): existing saves get 10 Poké Balls added on
-    // their next load. Not OG-authentic, not a bug fix — do not remove or re-apply later.
-    if (!state.gotBallBonus2026_07_05) {
-      const items = state.items?.some(it => it.name === 'POKE_BALL')
-        ? state.items.map(it => it.name === 'POKE_BALL' ? { ...it, count: it.count + 10 } : it)
-        : [...(state.items ?? []), { name: 'POKE_BALL', count: 10 }];
-      state = { ...state, items, gotBallBonus2026_07_05: true };
-      saveGame(state);
-    }
-    return state;
-  } catch { return null; }
+export function loadGame(slotId) {
+  const slot = readSlots().find(s => s.id === slotId);
+  if (!slot) return null;
+  let state = slot.state;
+  // User-requested one-time bonus (2026-07-05): existing saves get 10 Poké Balls added on
+  // their next load. Not OG-authentic, not a bug fix — do not remove or re-apply later.
+  if (!state.gotBallBonus2026_07_05) {
+    const items = state.items?.some(it => it.name === 'POKE_BALL')
+      ? state.items.map(it => it.name === 'POKE_BALL' ? { ...it, count: it.count + 10 } : it)
+      : [...(state.items ?? []), { name: 'POKE_BALL', count: 10 }];
+    state = { ...state, items, gotBallBonus2026_07_05: true };
+    saveGame(state);
+  }
+  return state;
 }
 
-export function hasSave() {
-  try { return !!localStorage.getItem(SAVE_KEY); } catch { return false; }
+// Summary metadata for every save slot — used by the CONTINUE screen's picker. Deliberately
+// returns lightweight rows (not full state) since the picker only needs to render a list.
+export function listSaves() {
+  return readSlots()
+    .slice()
+    .sort((a, b) => b.savedAt - a.savedAt)
+    .map(({ id, savedAt, state }) => ({
+      id, savedAt,
+      playerName: state.playerName || state.name || 'RED',
+      mapId: state.mapId,
+      badgeCount: (state.badges ?? []).length,
+      lead: state.party?.[0] ? { species: state.party[0].species, level: state.party[0].level } : null,
+    }));
 }
 
-// Chrome's "Clear browsing data" wipes localStorage along with cache, taking the save
-// with it — these let the player back up/restore a save as a real file on disk, which
-// survives that (unlike localStorage/IndexedDB, both in the same site-data bucket).
-export function exportSaveFile() {
-  const raw = localStorage.getItem(SAVE_KEY);
-  if (!raw) return false;
-  const blob = new Blob([raw], { type: 'application/json' });
+export function hasSaves() {
+  return readSlots().length > 0;
+}
+
+export function deleteSave(slotId) {
+  writeSlots(readSlots().filter(s => s.id !== slotId));
+}
+
+// Converts a running extra/debug state into a real, continuable save slot (user-requested
+// 2026-07-09: "allow me to make save states based on a state I am running from an extra
+// run"). Once snapshotted, isExtra flips to false — every existing
+// `if (!prev.isExtra) saveGame(next)` call site in PokeredApp.jsx then autosaves into this
+// new slot for the rest of the session, same as an ordinary game, with no separate code path.
+//
+// `id` is a required param, not minted internally: this is called from inside a
+// `setGameState(prev => ...)` updater (PokeredApp.jsx's handleSaveExtraAsNew), and React 18
+// StrictMode double-invokes updater functions in dev — minting a fresh id on each invocation
+// produced two distinct new slots from a single click (confirmed live via Playwright). The
+// caller generates the id once, outside the updater, so a double-invoke just re-saves the
+// same slot twice (harmless — identical to every other `saveGame` call site in this file).
+export function saveExtraAsNewSlot(state, id) {
+  const next = { ...state, isExtra: false, saveSlotId: id, playerName: state.playerName || state.name || 'RED' };
+  saveGame(next);
+  return next;
+}
+
+// Chrome's "Clear browsing data" wipes localStorage along with cache, taking saves with it —
+// these let the player back up/restore a save as a real file on disk, which survives that
+// (unlike localStorage/IndexedDB, both in the same site-data bucket).
+export function exportSaveFile(slotId) {
+  const slot = readSlots().find(s => s.id === slotId);
+  if (!slot) return false;
+  const blob = new Blob([JSON.stringify(slot.state)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   const date = new Date().toISOString().slice(0, 10);
+  const name = (slot.state.playerName || 'RED').toLowerCase();
   a.href = url;
-  a.download = `pokered-save-${date}.json`;
+  a.download = `pokered-save-${name}-${date}.json`;
   document.body.appendChild(a);
   a.click();
   a.remove();
@@ -641,11 +806,16 @@ export function exportSaveFile() {
   return true;
 }
 
+// Imports a save file as a brand-new slot (never overwrites an existing one) — matches the
+// multi-slot model, and means importing the same file twice just yields two identical slots
+// rather than silently clobbering whatever was there before.
 export function importSaveFile(text) {
   const state = JSON.parse(text); // throws on malformed JSON — caller shows the error
   if (!state || typeof state !== 'object' || !state.mapId || !Array.isArray(state.party)) {
     throw new Error('Not a valid pokered save file');
   }
-  localStorage.setItem(SAVE_KEY, JSON.stringify(state));
-  return state;
+  const id = newSlotId();
+  const next = { ...state, isExtra: false, saveSlotId: id };
+  saveGame(next);
+  return next;
 }
