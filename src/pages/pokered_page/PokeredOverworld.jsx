@@ -93,12 +93,6 @@ const PEWTER_YOUNGSTER_PATH = [
   { dir: 'right', steps: 2 },
 ];
 
-// Convert direction names to DIR constants for forced movement
-function dirToDir(dir) {
-  const dirMap = { up: DIR_UP, down: DIR_DOWN, left: DIR_LEFT, right: DIR_RIGHT };
-  return dirMap[dir];
-}
-
 // ============================================================================
 // WARP_DIR CONVENTION — game_data.json warp entries use a numeric `dir` field:
 //   WARP_DIR_NORTH (-1) — only triggers walking north (used for outdoor warps:
@@ -176,7 +170,11 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   const npcImgsRef    = useRef({});    // sprite name → Image
   const rafRef        = useRef();
   const lastTsRef     = useRef();
-  const forcedMovementQueueRef = useRef([]); // forced input sequence for cutscenes like Pewter youngster
+  // Chase-and-follow escort: while set to a scripted NPC's trainerEngageRef id, the player steps
+  // toward that NPC's live position every completed step instead of reading real input — closes
+  // the gap from whichever of several possible trigger tiles started the cutscene, then trails
+  // it in lockstep once adjacent (see Pewter youngster's PEWTER_YOUNGSTER_CUTSCENE action).
+  const escortLeaderIdRef = useRef(null);
   const encounterRef  = useRef(null);
   const transitionRef = useRef(0);     // 0=none, 1=fading out, 2=fading in
   const pendingMapRef = useRef(null);
@@ -1358,7 +1356,8 @@ const OUTDOOR = ['overworld', 'plateau'];
     // escort: the youngster walks the player to the gym via RLEList_PewterGymPlayer, executed
     // in reverse order per direct trace of auto_movement.asm (DOWN 2, LEFT 15, UP 5, LEFT 11,
     // DOWN 5, RIGHT 2) — see PEWTER_YOUNGSTER_PATH and the PEWTER_YOUNGSTER_CUTSCENE dialogue
-    // action in advanceDialogue, which queues forcedMovementQueueRef once this dialogue closes.
+    // action in advanceDialogue, which sets escortLeaderIdRef once this dialogue closes so the
+    // player chase-follows the youngster's own scripted movement instead of replaying fixed steps.
     if (ms.mapId === 'PEWTER_CITY' && !(gameState?.badges ?? []).includes(0)) {
       const leavingEastCoords = [[35, 17], [36, 17], [37, 18], [37, 19]];
       if (leavingEastCoords.some(([cx, cy]) => p.x === cx && p.y === cy)) {
@@ -2368,25 +2367,30 @@ function notifyPosition() {
         if (prev.action === 'PEWTER_YOUNGSTER_CUTSCENE' && prev.npc) {
           // Real OG: the youngster's OWN sprite walks this whole path (auto_movement.asm
           // PewterMovementScript_WalkToGym) — the player never presses a real key, input is
-          // just discarded (wJoyIgnore) and the player is dragged along behind. Phase 1: the
-          // youngster alone steps DOWN 2 (spawn (35,16) -> meets player at (35,18)) — player
-          // does not move yet. Phase 2 (onDone below): youngster AND player move together
-          // along the main path (LEFT x15, UP x5, LEFT x11, DOWN x5, RIGHT x2 — auto_movement.asm
-          // RLEList_PewterGymGuy/Player, executed in this segment order per direct trace), so
-          // the player visually trails the youngster the whole way to the gym.
-          startScriptedMove('PEWTER_CITY', prev.npc, ['DOWN', 'DOWN'], (eng) => {
-            const mainSteps = [];
-            for (const segment of PEWTER_YOUNGSTER_PATH) {
-              for (let i = 0; i < segment.steps; i++) mainSteps.push(segment.dir.toUpperCase());
-            }
-            startScriptedMove('PEWTER_CITY', eng.npc, mainSteps, (eng2) => {
-              setDialogue({ lines: ["Go on and take on\nBROCK at the GYM!"], idx: 0, action: null });
-              // MovementData_PewterGymGuyExit (scripts/PewterCity.asm): youngster walks off RIGHT x5
-              // after his line, same "walk away, don't need an explicit hide" pattern already used
-              // by PEWTER_GYM_ESCORT/PEWTER_MUSEUM_ESCORT above.
-              startScriptedMove('PEWTER_CITY', eng2.npc, ['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], null);
-            });
-            forcedMovementQueueRef.current = mainSteps.map(dirToDir);
+          // just discarded (wJoyIgnore) and the player is dragged along behind, regardless of
+          // which of the 4 possible trigger tiles started this. Implemented as a chase-and-
+          // follow puppet (escortLeaderIdRef) rather than replaying a fixed direction list on
+          // the player: the player closes the gap to the youngster's live position first (from
+          // whichever trigger tile they were on), then trails 1 tile behind for the rest of the
+          // walk — a fixed replay only worked from one specific starting tile and desynced from
+          // any other. Youngster's own path: DOWN 2 (spawn (35,16) -> (35,18)) then the main
+          // escort route (LEFT x15, UP x5, LEFT x11, DOWN x5, RIGHT x2 — auto_movement.asm
+          // RLEList_PewterGymGuy, this segment order per direct trace), run as one continuous
+          // scripted move so the follow logic never has a gap to fall behind in.
+          const npcId = npcTrainerId('PEWTER_CITY', prev.npc);
+          escortLeaderIdRef.current = npcId;
+          const fullPath = ['DOWN', 'DOWN'];
+          for (const segment of PEWTER_YOUNGSTER_PATH) {
+            for (let i = 0; i < segment.steps; i++) fullPath.push(segment.dir.toUpperCase());
+          }
+          startScriptedMove('PEWTER_CITY', prev.npc, fullPath, (eng) => {
+            escortLeaderIdRef.current = null;
+            setDialogue({ lines: ["Go on and take on\nBROCK at the GYM!"], idx: 0, action: null });
+            // MovementData_PewterGymGuyExit (scripts/PewterCity.asm): youngster walks off RIGHT x5
+            // after his line, same "walk away, don't need an explicit hide" pattern already used
+            // by PEWTER_GYM_ESCORT/PEWTER_MUSEUM_ESCORT above — escortLeaderIdRef is already
+            // cleared so the player does NOT follow this final exit walk.
+            startScriptedMove('PEWTER_CITY', eng.npc, ['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], null);
           });
         }
         return null;
@@ -2886,12 +2890,12 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
           }
         }
         // Key check runs immediately after step completion too — eliminates the one-frame standing flicker
-        // Allow forced-movement to execute even during dialogue/a scripted NPC escort (e.g. Pewter
-        // youngster walking the player to the gym in lockstep with his own scripted movement) —
-        // forcedMovementQueueRef is only ever populated by a deliberate cutscene puppeting the
-        // player, so bypassing the normal input-freeze gates here is intentional, not a leak.
-        const hasForcedMovement = forcedMovementQueueRef.current.length > 0;
-        if (!p.isWalking && transitionRef.current === 0 && !showMenuRef.current && (!dialogueRef.current || hasForcedMovement) && (!trainerEngageRef.current || hasForcedMovement)) {
+        // Allow the escort-follow puppet to run even during dialogue/a scripted NPC's own
+        // trainerEngageRef state (e.g. Pewter youngster leading the player to the gym) —
+        // escortLeaderIdRef is only ever set by a deliberate cutscene puppeting the player, so
+        // bypassing the normal input-freeze gates here is intentional, not a leak.
+        const isEscorting = escortLeaderIdRef.current && trainerEngageRef.current?.id === escortLeaderIdRef.current && trainerEngageRef.current.mode === 'scripted';
+        if (!p.isWalking && transitionRef.current === 0 && !showMenuRef.current && (!dialogueRef.current || isEscorting) && (!trainerEngageRef.current || isEscorting)) {
           let ddx = 0, ddy = 0, dir = p.dir;
           // OG PlayerStepOutFromDoor: a pending forced step takes priority over real input,
           // matching OG's wJoyIgnore during the simulated joypad state (see loadMap above).
@@ -2903,19 +2907,24 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             const faceDelta = [[0, 1], [0, -1], [-1, 0], [1, 0]];
             [ddx, ddy] = faceDelta[p.dir] || [0, 1];
             dir = p.dir;
-          } else {
-            // Check for forced-movement queue first (used for cutscenes like Pewter youngster)
-            if (forcedMovementQueueRef.current.length > 0) {
-              dir = forcedMovementQueueRef.current.shift();
-              const faceDelta = [[0, 1], [0, -1], [-1, 0], [1, 0]];
-              [ddx, ddy] = faceDelta[dir] || [0, 1];
-            } else {
-              const keys = keysRef.current;
-              if      (keys.has('ArrowUp')    || keys.has('w') || keys.has('W')) { ddy = -1; dir = DIR_UP; }
-              else if (keys.has('ArrowDown')  || keys.has('s') || keys.has('S')) { ddy =  1; dir = DIR_DOWN; }
-              else if (keys.has('ArrowLeft')  || keys.has('a') || keys.has('A')) { ddx = -1; dir = DIR_LEFT; }
-              else if (keys.has('ArrowRight') || keys.has('d') || keys.has('D')) { ddx =  1; dir = DIR_RIGHT; }
+          } else if (isEscorting) {
+            // Chase-and-follow: step toward the leader NPC's current live position, preferring
+            // whichever axis has the larger remaining distance (same tie-break as the existing
+            // NPC chase-toward-player logic below) — closes the gap from whichever of the 4
+            // possible trigger tiles started the cutscene, then trails 1 tile behind once close.
+            // Stops at distance 1 (never steps onto the leader's own occupied tile).
+            const eng = trainerEngageRef.current;
+            const ldx = eng.liveX - p.x, ldy = eng.liveY - p.y;
+            if (Math.abs(ldx) + Math.abs(ldy) > 1) {
+              if (Math.abs(ldy) >= Math.abs(ldx)) { ddy = Math.sign(ldy); dir = ddy > 0 ? DIR_DOWN : DIR_UP; }
+              else { ddx = Math.sign(ldx); dir = ddx > 0 ? DIR_RIGHT : DIR_LEFT; }
             }
+          } else {
+            const keys = keysRef.current;
+            if      (keys.has('ArrowUp')    || keys.has('w') || keys.has('W')) { ddy = -1; dir = DIR_UP; }
+            else if (keys.has('ArrowDown')  || keys.has('s') || keys.has('S')) { ddy =  1; dir = DIR_DOWN; }
+            else if (keys.has('ArrowLeft')  || keys.has('a') || keys.has('A')) { ddx = -1; dir = DIR_LEFT; }
+            else if (keys.has('ArrowRight') || keys.has('d') || keys.has('D')) { ddx =  1; dir = DIR_RIGHT; }
           }
           p.dir = dir;
 
