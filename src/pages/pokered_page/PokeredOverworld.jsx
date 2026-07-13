@@ -1358,7 +1358,7 @@ const OUTDOOR = ['overworld', 'plateau'];
     // DOWN 5, RIGHT 2) — see PEWTER_YOUNGSTER_PATH and the PEWTER_YOUNGSTER_CUTSCENE dialogue
     // action in advanceDialogue, which sets escortLeaderIdRef once this dialogue closes so the
     // player chase-follows the youngster's own scripted movement instead of replaying fixed steps.
-    if (ms.mapId === 'PEWTER_CITY' && !(gameState?.badges ?? []).includes(0)) {
+    if (ms.mapId === 'PEWTER_CITY' && !(gameState?.badges ?? []).includes(0) && !escortLeaderIdRef.current) {
       const leavingEastCoords = [[35, 17], [36, 17], [37, 18], [37, 19]];
       if (leavingEastCoords.some(([cx, cy]) => p.x === cx && p.y === cy)) {
         const youngsterNpc = ms.mapInfo.npcs.find(n => n.sprite === 'youngster' && n.x === 35 && n.y === 16);
