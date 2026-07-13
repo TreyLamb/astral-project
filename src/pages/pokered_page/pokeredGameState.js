@@ -801,14 +801,53 @@ export function formatMilitaryTime(ts) {
   return `${yyyy}-${mo}-${dd} ${hh}:${mm}`;
 }
 
+// User-requested (2026-07-13, after autosave overwrote a good save with a bug-corrupted
+// position and left no way back): this port autosaves on nearly every action (~35 call
+// sites in PokeredApp.jsx), so a single bad state can become permanent in one step. Rather
+// than risk a rushed audit of all 35 sites, keep exactly ONE rolling backup per slot — the
+// state as it was immediately BEFORE the current save overwrites it — so any single bad
+// autosave is always one UNDO away. Does not protect against 2 bad saves in a row.
+const BACKUP_KEY = 'pkr_saves_backup_v1';
+function readBackups() {
+  try { return JSON.parse(localStorage.getItem(BACKUP_KEY)) || {}; } catch { return {}; }
+}
+function writeBackups(backups) {
+  try { localStorage.setItem(BACKUP_KEY, JSON.stringify(backups)); } catch {}
+}
+
 export function saveGame(state) {
   if (state.isExtra || !state.saveSlotId) return;
   const slots = readSlots();
   const idx = slots.findIndex(s => s.id === state.saveSlotId);
+  if (idx >= 0) {
+    const backups = readBackups();
+    backups[state.saveSlotId] = slots[idx];
+    writeBackups(backups);
+  }
   const now = Date.now();
   const slot = { id: state.saveSlotId, savedAt: now, savedAtMilitary: formatMilitaryTime(now), state };
   if (idx >= 0) slots[idx] = slot; else slots.push(slot);
   writeSlots(slots);
+}
+
+export function hasBackup(slotId) {
+  return !!readBackups()[slotId];
+}
+
+// Swaps a slot's current state with its backup (so UNDO is itself undoable by pressing
+// it again), rather than discarding either one.
+export function restorePreviousSave(slotId) {
+  const backups = readBackups();
+  const backup = backups[slotId];
+  if (!backup) return false;
+  const slots = readSlots();
+  const idx = slots.findIndex(s => s.id === slotId);
+  if (idx < 0) return false;
+  backups[slotId] = slots[idx];
+  slots[idx] = backup;
+  writeBackups(backups);
+  writeSlots(slots);
+  return true;
 }
 
 export function loadGame(slotId, pokemonData) {

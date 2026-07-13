@@ -1529,6 +1529,14 @@ function notifyPosition() {
     }
     if (mapId === 'CERULEAN_CITY' && npc.trainerClass === 'Rival1' && npc.partyIdx === 2 &&
         isRivalBeaten(mapId, npc, beatenTrainers)) return true;
+    // TEMPORARY (2026-07-13, user-requested emergency unblock): both Trashed House-door
+    // guards hidden unconditionally. The real OG mechanic here (a guard swap gated on the
+    // Bill's House SS-Ticket sequence) was never wired — one of these guards was permanently
+    // blocking the Trashed House door with no way to pass. Full real fix (proper flag-gated
+    // guard swap) still TODO; this is a stopgap so the door isn't blocked at all in the
+    // meantime. Remove this block once the real guard-swap logic lands.
+    if (mapId === 'CERULEAN_CITY' && npc.sprite === 'guard' &&
+        ((npc.x === 28 && npc.y === 12) || (npc.x === 27 && npc.y === 12))) return true;
     if (mapId === 'SS_ANNE_2F' && npc.trainerClass === 'Rival2' && npc.partyIdx === 0 &&
         isRivalBeaten(mapId, npc, beatenTrainers)) return true;
     if (mapId === 'POKEMON_TOWER_2F' && npc.trainerClass === 'Rival2' && npc.partyIdx === 1 &&

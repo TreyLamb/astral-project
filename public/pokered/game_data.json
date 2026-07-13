@@ -2374,6 +2374,16 @@
           "facing": "DOWN",
           "movement": "STAND",
           "sight": 0
+        },
+        {
+          "x": 28,
+          "y": 12,
+          "sprite": "poke_ball",
+          "trainerClass": null,
+          "partyIdx": null,
+          "facing": "DOWN",
+          "movement": "STAND",
+          "sight": 0
         }
       ],
       "wild": null,

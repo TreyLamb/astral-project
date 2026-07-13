@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import {
   createNewGame, loadGame, createExtraState, getExtraStateList,
   hasSaves, listSaves, deleteSave, exportSaveFile, importSaveFile, formatMilitaryTime,
+  hasBackup, restorePreviousSave,
 } from './pokeredGameState';
 import './PokeredStartScreen.css';
 
@@ -53,6 +54,12 @@ export default function PokeredStartScreen({ pokemonData, onStart }) {
     const next = listSaves();
     setSaves(next);
     setSaveExists(next.length > 0);
+  }
+
+  // Swaps this slot's save with the state it had just before its last autosave — see
+  // saveGame's comment in pokeredGameState.js. Pressing it again swaps back.
+  function handleUndoSlot(slotId) {
+    if (restorePreviousSave(slotId)) setSaves(listSaves());
   }
 
   function handleExtraSelect(key) {
@@ -142,6 +149,15 @@ export default function PokeredStartScreen({ pokemonData, onStart }) {
                       {' · '}{s.badgeCount}/8 badges{' · '}{timeAgo(s.savedAt)}{' · '}{formatMilitaryTime(s.savedAt)}
                     </span>
                   </button>
+                  {hasBackup(s.id) && (
+                    <button
+                      className="pkrs-save-row-icon"
+                      title="Undo this slot's last autosave (swaps back to the state right before it)"
+                      onClick={() => handleUndoSlot(s.id)}
+                    >
+                      ↩
+                    </button>
+                  )}
                   <button
                     className="pkrs-save-row-icon"
                     title="Download this save as a file"
