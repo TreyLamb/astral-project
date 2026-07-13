@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk '/\"ROUTE_9\"/{start=NR} start && start+200>NR && /^    \"ROUTE_10\"/{print NR\": reached next map\"; exit}' /c/Users/clown/projects/astral-project/public/pokered/game_data.json)"
+    ]
+  }
+}

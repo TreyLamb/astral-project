@@ -6,6 +6,7 @@ import { TRAINER_PARTIES } from './trainerParties';
 import PokeredStartScreen from './PokeredStartScreen';
 import PokeredOverworld from './PokeredOverworld';
 import PokeredBattle from './PokeredBattle';
+import GameCornerSlots from './GameCornerSlots';
 import MARTS from './extracted_og_data/marts.json';
 import PRICES from './extracted_og_data/prices.json';
 
@@ -796,6 +797,25 @@ export default function PokeredApp() {
     });
   }
 
+  function handleOpenSlots(mapId, x, y) {
+    const pos = playerPosRef.current ?? { mapId, x, y };
+    setGameState(prev => prev ? { ...prev, ...pos } : prev);
+    setScreen('slots');
+  }
+
+  function handleSlotClose() {
+    setScreen('overworld');
+  }
+
+  function handleSlotsCoinsChange(newCoins) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = { ...prev, coins: newCoins };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
   function handleChooseStarter(species) {
     // User-requested (2026-07-05): starters begin at level 6, not OG's real level 5.
     // Do not change this back to 5 — intentional, not a bug.
@@ -1082,6 +1102,16 @@ export default function PokeredApp() {
     );
   }
 
+  if (screen === 'slots' && gameState) {
+    return (
+      <GameCornerSlots
+        playerCoins={gameState.coins ?? 0}
+        onClose={handleSlotClose}
+        onCoinsChange={handleSlotsCoinsChange}
+      />
+    );
+  }
+
 if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.party?.[0]) {
   return (
       <PokeredBattle
@@ -1124,6 +1154,7 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onRequestStarter={handleRequestStarter}
             onOpenPC={handleOpenPC}
             onOpenShop={handleOpenShop}
+            onOpenSlots={handleOpenSlots}
             onMapChange={handleMapChange}
             onSave={handleSave}
             onSaveExtraAsNew={handleSaveExtraAsNew}

@@ -325,6 +325,7 @@ export function createExtraState(stateKey, pokemonData) {
     party: [pokemon, ...extraParty],
     badges: Array.from({ length: numBadges }, (_, i) => i),
     money: 5000,
+    coins: 50,
     items: extraItems,
     // User-requested (2026-07-10): prefill every trainer a real playthrough would already
     // have beaten by this badge tier, so testing a later Extra doesn't force re-fighting
@@ -336,6 +337,7 @@ export function createExtraState(stateKey, pokemonData) {
     // unusable in extra mode (handleMapChange, which normally marks a town visited, never
     // fires for extra mode's direct drop-in start).
     visitedTowns: FLY_DESTINATIONS.map(d => d.mapId),
+    events: [],
   };
 }
 
@@ -774,12 +776,14 @@ export function createNewGame(_pokemonData, playerName) {
     party: [],
     badges: [],
     money: 500,
+    coins: 0,
     // User-requested (2026-07-05): every new save starts with 5 Poké Balls, not OG-authentic
     // (real Red gives you zero until Oak/a mart later) — do not "fix" this back to empty.
     items: [{ name: 'POKE_BALL', count: 5 }],
     pcBox: [{ name: 'POTION', count: 1 }],
     beatenTrainers: [],
     pickedUpItems: [],
+    events: [], // Set of EVENT_* flag names (serialized as array for JSON compat)
   };
 }
 
@@ -954,4 +958,21 @@ export function importSaveFile(text) {
   const next = { ...state, isExtra: false, saveSlotId: id };
   saveGame(next);
   return next;
+}
+
+// Event flag helpers — match OG's event_constants.asm naming convention (EVENT_*).
+// Events are stored as an array in gameState for JSON serialization.
+export function hasEvent(state, eventName) {
+  return (state.events || []).includes(eventName);
+}
+
+export function setEvent(state, eventName) {
+  if (!state.events) return { ...state, events: [eventName] };
+  if (state.events.includes(eventName)) return state;
+  return { ...state, events: [...state.events, eventName] };
+}
+
+export function clearEvent(state, eventName) {
+  if (!state.events) return state;
+  return { ...state, events: state.events.filter(e => e !== eventName) };
 }

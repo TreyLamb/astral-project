@@ -9763,6 +9763,18 @@
           "y": 41,
           "text": "POWER PLANT"
         }
+      ],
+      "hiddenEvents": [
+        {
+          "x": 9,
+          "y": 17,
+          "item": "SUPER_POTION"
+        },
+        {
+          "x": 16,
+          "y": 53,
+          "item": "MAX_ETHER"
+        }
       ]
     },
     "ROUTE_11": {
@@ -15098,6 +15110,13 @@
           "x": 25,
           "y": 7,
           "text": "ROUTE 9 CERULEAN CITY- ROCK TUNNEL"
+        }
+      ],
+      "hiddenEvents": [
+        {
+          "x": 14,
+          "y": 7,
+          "item": "ETHER"
         }
       ]
     },
@@ -20610,6 +20629,13 @@
           "y": 15,
           "text": "VERMILION HARBOR"
         }
+      ],
+      "hiddenEvents": [
+        {
+          "x": 14,
+          "y": 11,
+          "item": "MAX_ETHER"
+        }
       ]
     },
     "VERMILION_DOCK": {
@@ -20665,7 +20691,7 @@
           "y": 1,
           "sprite": "rocker",
           "trainerClass": "LtSurge",
-          "partyIdx": 0,
+          "partyIdx": 1,
           "facing": "DOWN",
           "movement": "STAND",
           "sight": 0
@@ -20675,7 +20701,7 @@
           "y": 6,
           "sprite": "gentleman",
           "trainerClass": "Gentleman",
-          "partyIdx": 2,
+          "partyIdx": 3,
           "facing": "LEFT",
           "movement": "STAND",
           "sight": 4
@@ -20685,7 +20711,7 @@
           "y": 8,
           "sprite": "super_nerd",
           "trainerClass": "Rocker",
-          "partyIdx": 0,
+          "partyIdx": 1,
           "facing": "LEFT",
           "movement": "STAND",
           "sight": 4
@@ -20695,7 +20721,7 @@
           "y": 10,
           "sprite": "sailor",
           "trainerClass": "Sailor",
-          "partyIdx": 7,
+          "partyIdx": 8,
           "facing": "RIGHT",
           "movement": "STAND",
           "sight": 4

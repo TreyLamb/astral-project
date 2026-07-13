@@ -118,7 +118,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -1741,6 +1741,7 @@ function notifyPosition() {
     granny:   { lines: ["OLD WOMAN: Take good care of your POKÉMON."] },
     gym_guide:{ lines: ["GYM GUIDE: This is a POKÉMON GYM. Defeat the LEADER to earn a BADGE!"] },
     clerk:    { lines: ["CLERK: Welcome!", "May I help you?"], action: 'SHOP' },
+    gambler:  { lines: ["GAMBLER: Welcome to the GAME CORNER!", "Try your luck!"], action: 'SLOTS' },
     // Real OG script is script_cable_club_receptionist (engine/link/cable_club_npc.asm) —
     // the Trade Center/Colosseum link feature, which requires an actual second connected
     // player over Game Link Cable. There's no networking in this single-player port, so
@@ -2285,6 +2286,11 @@ function notifyPosition() {
           const ms = mapStateRef.current;
           const p  = playerRef.current;
           setTimeout(() => onOpenShop(ms?.mapId, p?.x, p?.y, prev.clerkIndex ?? 0), 50);
+        }
+        if (prev.action === 'SLOTS' && onOpenSlots) {
+          const ms = mapStateRef.current;
+          const p  = playerRef.current;
+          setTimeout(() => onOpenSlots(ms?.mapId, p?.x, p?.y), 50);
         }
         if (prev.action === 'BATTLE' && onTrainerBattle) {
           const ms = mapStateRef.current;
