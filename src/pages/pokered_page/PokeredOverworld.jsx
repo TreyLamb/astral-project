@@ -82,14 +82,31 @@ const DIR_UP    = 1;
 const DIR_LEFT  = 2;
 const DIR_RIGHT = 3;
 
-// Pewter City youngster coordinates that trigger the gate check (PewterCityPlayerLeavingEastCoords from scripts/PewterCity.asm)
-// These are the exact coordinates from the OG where the youngster blocks eastward exit without Boulder Badge
-const PEWTER_YOUNGSTER_BLOCK_COORDS = [
-  [35, 17],
-  [36, 17],
+// Pewter City youngster trigger coordinates (x=37, y=16-19)
+// Player at these coordinates without Boulder Badge triggers the youngster cutscene
+const PEWTER_YOUNGSTER_TRIGGER_COORDS = [
+  [37, 16],
+  [37, 17],
   [37, 18],
   [37, 19],
 ];
+
+// Youngster's forced-movement path from auto_movement.asm RLEList_PewterGymPlayer (reversed execution order)
+// DOWN 2, LEFT 15, UP 5, LEFT 11, DOWN 5, RIGHT 2
+const PEWTER_YOUNGSTER_PATH = [
+  { dir: 'down', steps: 2 },
+  { dir: 'left', steps: 15 },
+  { dir: 'up', steps: 5 },
+  { dir: 'left', steps: 11 },
+  { dir: 'down', steps: 5 },
+  { dir: 'right', steps: 2 },
+];
+
+// Convert direction names to DIR constants for forced movement
+function dirToDir(dir) {
+  const dirMap = { up: DIR_UP, down: DIR_DOWN, left: DIR_LEFT, right: DIR_RIGHT };
+  return dirMap[dir];
+}
 
 // ============================================================================
 // WARP_DIR CONVENTION — game_data.json warp entries use a numeric `dir` field:
@@ -168,6 +185,7 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   const npcImgsRef    = useRef({});    // sprite name → Image
   const rafRef        = useRef();
   const lastTsRef     = useRef();
+  const forcedMovementQueueRef = useRef([]); // forced input sequence for cutscenes like Pewter youngster
   const encounterRef  = useRef(null);
   const transitionRef = useRef(0);     // 0=none, 1=fading out, 2=fading in
   const pendingMapRef = useRef(null);
@@ -2860,11 +2878,18 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             [ddx, ddy] = faceDelta[p.dir] || [0, 1];
             dir = p.dir;
           } else {
-            const keys = keysRef.current;
-            if      (keys.has('ArrowUp')    || keys.has('w') || keys.has('W')) { ddy = -1; dir = DIR_UP; }
-            else if (keys.has('ArrowDown')  || keys.has('s') || keys.has('S')) { ddy =  1; dir = DIR_DOWN; }
-            else if (keys.has('ArrowLeft')  || keys.has('a') || keys.has('A')) { ddx = -1; dir = DIR_LEFT; }
-            else if (keys.has('ArrowRight') || keys.has('d') || keys.has('D')) { ddx =  1; dir = DIR_RIGHT; }
+            // Check for forced-movement queue first (used for cutscenes like Pewter youngster)
+            if (forcedMovementQueueRef.current.length > 0) {
+              dir = forcedMovementQueueRef.current.shift();
+              const faceDelta = [[0, 1], [0, -1], [-1, 0], [1, 0]];
+              [ddx, ddy] = faceDelta[dir] || [0, 1];
+            } else {
+              const keys = keysRef.current;
+              if      (keys.has('ArrowUp')    || keys.has('w') || keys.has('W')) { ddy = -1; dir = DIR_UP; }
+              else if (keys.has('ArrowDown')  || keys.has('s') || keys.has('S')) { ddy =  1; dir = DIR_DOWN; }
+              else if (keys.has('ArrowLeft')  || keys.has('a') || keys.has('A')) { ddx = -1; dir = DIR_LEFT; }
+              else if (keys.has('ArrowRight') || keys.has('d') || keys.has('D')) { ddx =  1; dir = DIR_RIGHT; }
+            }
           }
           p.dir = dir;
 
@@ -2882,14 +2907,28 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
               const exitWarp = ms.mapInfo.warps.find(w => w.x === p.x && w.y === p.y && w.dest === 'LAST_MAP');
               if (exitWarp && facingMatchesDir(dir, exitWarp.dir)) fn.handleWarp(exitWarp);
               else {
-                // Pewter City youngster gate (PewterCityCheckPlayerLeavingEastScript from scripts/PewterCity.asm)
-                // Check if player is at youngster-blocked coordinates and hasn't beaten Brock
+                // Pewter City youngster cutscene (PewterCityCheckPlayerLeavingEastScript from scripts/PewterCity.asm)
+                // Triggers when player tries to exit east at coordinates (37, 16-19) without Boulder Badge
                 if (ms.mapId === 'PEWTER_CITY' && !(gameState?.badges ?? []).includes(0)) {
-                  const onBlockCoord = PEWTER_YOUNGSTER_BLOCK_COORDS.some(([bx, by]) => p.x === bx && p.y === by);
-                  if (onBlockCoord) {
-                    // Player is at a position where youngster blocks — prevent movement
-                    setDialogue({ lines: ["You're a trainer\nright? BROCK's\nlooking for new\nchallengers!\nFollow me!"], idx: 0, action: null });
-                    return; // Block the movement
+                  const onTriggerCoord = PEWTER_YOUNGSTER_TRIGGER_COORDS.some(([tx, ty]) => p.x === tx && p.y === ty);
+                  if (onTriggerCoord) {
+                    // Start the youngster cutscene: forced-movement sequence
+                    // Queue the player's forced-movement path
+                    forcedMovementQueueRef.current = [];
+                    for (const segment of PEWTER_YOUNGSTER_PATH) {
+                      const dirVal = dirToDir(segment.dir);
+                      for (let i = 0; i < segment.steps; i++) {
+                        forcedMovementQueueRef.current.push(dirVal);
+                      }
+                    }
+
+                    // Show initial dialogue and start the sequence
+                    setDialogue({
+                      lines: ["You're a trainer\nright? BROCK's\nlooking for new\nchallengers!\nFollow me!"],
+                      idx: 0,
+                      action: null
+                    });
+                    return; // Block the movement, start forced sequence
                   }
                 }
                 fn.handleMapEdge(ddx, ddy);
