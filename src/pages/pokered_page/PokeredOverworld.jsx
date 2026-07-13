@@ -2875,7 +2875,9 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
           }
         }
         // Key check runs immediately after step completion too — eliminates the one-frame standing flicker
-        if (!p.isWalking && transitionRef.current === 0 && !showMenuRef.current && !dialogueRef.current && !trainerEngageRef.current) {
+        // Allow forced-movement to execute even during dialogue (for cutscenes like Pewter youngster)
+        const hasForcedMovement = forcedMovementQueueRef.current.length > 0;
+        if (!p.isWalking && transitionRef.current === 0 && !showMenuRef.current && (!dialogueRef.current || hasForcedMovement) && !trainerEngageRef.current) {
           let ddx = 0, ddy = 0, dir = p.dir;
           // OG PlayerStepOutFromDoor: a pending forced step takes priority over real input,
           // matching OG's wJoyIgnore during the simulated joypad state (see loadMap above).
