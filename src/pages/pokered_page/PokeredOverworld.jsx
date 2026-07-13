@@ -2368,6 +2368,16 @@ function notifyPosition() {
         if (prev.action === 'PEWTER_GYM_ESCORT' && prev.npc) {
           startScriptedMove('PEWTER_CITY', prev.npc, ['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], null);
         }
+        if (prev.action === 'PEWTER_YOUNGSTER_CUTSCENE') {
+          // Queue the forced-movement sequence for the player
+          forcedMovementQueueRef.current = [];
+          for (const segment of PEWTER_YOUNGSTER_PATH) {
+            const dirVal = dirToDir(segment.dir);
+            for (let i = 0; i < segment.steps; i++) {
+              forcedMovementQueueRef.current.push(dirVal);
+            }
+          }
+        }
         return null;
       }
       return { ...prev, idx: next };
@@ -2912,23 +2922,13 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
                 if (ms.mapId === 'PEWTER_CITY' && !(gameState?.badges ?? []).includes(0)) {
                   const onTriggerCoord = PEWTER_YOUNGSTER_TRIGGER_COORDS.some(([tx, ty]) => p.x === tx && p.y === ty);
                   if (onTriggerCoord) {
-                    // Start the youngster cutscene: forced-movement sequence
-                    // Queue the player's forced-movement path
-                    forcedMovementQueueRef.current = [];
-                    for (const segment of PEWTER_YOUNGSTER_PATH) {
-                      const dirVal = dirToDir(segment.dir);
-                      for (let i = 0; i < segment.steps; i++) {
-                        forcedMovementQueueRef.current.push(dirVal);
-                      }
-                    }
-
-                    // Show initial dialogue and start the sequence
+                    // Show initial dialogue with action to trigger forced-movement cutscene
                     setDialogue({
                       lines: ["You're a trainer\nright? BROCK's\nlooking for new\nchallengers!\nFollow me!"],
                       idx: 0,
-                      action: null
+                      action: 'PEWTER_YOUNGSTER_CUTSCENE'
                     });
-                    return; // Block the movement, start forced sequence
+                    return; // Block the movement, dialogue action will queue forced sequence
                   }
                 }
                 fn.handleMapEdge(ddx, ddy);
