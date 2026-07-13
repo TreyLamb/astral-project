@@ -1362,10 +1362,12 @@ const OUTDOOR = ['overworld', 'plateau'];
     if (ms.mapId === 'PEWTER_CITY' && !(gameState?.badges ?? []).includes(0)) {
       const leavingEastCoords = [[35, 17], [36, 17], [37, 18], [37, 19]];
       if (leavingEastCoords.some(([cx, cy]) => p.x === cx && p.y === cy)) {
+        const youngsterNpc = ms.mapInfo.npcs.find(n => n.sprite === 'youngster' && n.x === 35 && n.y === 16);
         setDialogue({
           lines: ["You're a trainer\nright? BROCK's\nlooking for new\nchallengers!\nFollow me!"],
           idx: 0,
           action: 'PEWTER_YOUNGSTER_CUTSCENE',
+          npc: youngsterNpc,
         });
         return;
       }
@@ -2363,15 +2365,29 @@ function notifyPosition() {
         if (prev.action === 'PEWTER_GYM_ESCORT' && prev.npc) {
           startScriptedMove('PEWTER_CITY', prev.npc, ['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], null);
         }
-        if (prev.action === 'PEWTER_YOUNGSTER_CUTSCENE') {
-          // Queue the forced-movement sequence for the player
-          forcedMovementQueueRef.current = [];
-          for (const segment of PEWTER_YOUNGSTER_PATH) {
-            const dirVal = dirToDir(segment.dir);
-            for (let i = 0; i < segment.steps; i++) {
-              forcedMovementQueueRef.current.push(dirVal);
+        if (prev.action === 'PEWTER_YOUNGSTER_CUTSCENE' && prev.npc) {
+          // Real OG: the youngster's OWN sprite walks this whole path (auto_movement.asm
+          // PewterMovementScript_WalkToGym) — the player never presses a real key, input is
+          // just discarded (wJoyIgnore) and the player is dragged along behind. Phase 1: the
+          // youngster alone steps DOWN 2 (spawn (35,16) -> meets player at (35,18)) — player
+          // does not move yet. Phase 2 (onDone below): youngster AND player move together
+          // along the main path (LEFT x15, UP x5, LEFT x11, DOWN x5, RIGHT x2 — auto_movement.asm
+          // RLEList_PewterGymGuy/Player, executed in this segment order per direct trace), so
+          // the player visually trails the youngster the whole way to the gym.
+          startScriptedMove('PEWTER_CITY', prev.npc, ['DOWN', 'DOWN'], (eng) => {
+            const mainSteps = [];
+            for (const segment of PEWTER_YOUNGSTER_PATH) {
+              for (let i = 0; i < segment.steps; i++) mainSteps.push(segment.dir.toUpperCase());
             }
-          }
+            startScriptedMove('PEWTER_CITY', eng.npc, mainSteps, (eng2) => {
+              setDialogue({ lines: ["Go on and take on\nBROCK at the GYM!"], idx: 0, action: null });
+              // MovementData_PewterGymGuyExit (scripts/PewterCity.asm): youngster walks off RIGHT x5
+              // after his line, same "walk away, don't need an explicit hide" pattern already used
+              // by PEWTER_GYM_ESCORT/PEWTER_MUSEUM_ESCORT above.
+              startScriptedMove('PEWTER_CITY', eng2.npc, ['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], null);
+            });
+            forcedMovementQueueRef.current = mainSteps.map(dirToDir);
+          });
         }
         return null;
       }
@@ -2870,9 +2886,12 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
           }
         }
         // Key check runs immediately after step completion too — eliminates the one-frame standing flicker
-        // Allow forced-movement to execute even during dialogue (for cutscenes like Pewter youngster)
+        // Allow forced-movement to execute even during dialogue/a scripted NPC escort (e.g. Pewter
+        // youngster walking the player to the gym in lockstep with his own scripted movement) —
+        // forcedMovementQueueRef is only ever populated by a deliberate cutscene puppeting the
+        // player, so bypassing the normal input-freeze gates here is intentional, not a leak.
         const hasForcedMovement = forcedMovementQueueRef.current.length > 0;
-        if (!p.isWalking && transitionRef.current === 0 && !showMenuRef.current && (!dialogueRef.current || hasForcedMovement) && !trainerEngageRef.current) {
+        if (!p.isWalking && transitionRef.current === 0 && !showMenuRef.current && (!dialogueRef.current || hasForcedMovement) && (!trainerEngageRef.current || hasForcedMovement)) {
           let ddx = 0, ddy = 0, dir = p.dir;
           // OG PlayerStepOutFromDoor: a pending forced step takes priority over real input,
           // matching OG's wJoyIgnore during the simulated joypad state (see loadMap above).
