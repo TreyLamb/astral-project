@@ -6,6 +6,22 @@ import TRAINER_TEXT from './extracted_og_data/trainer_text.json';
 import { initBattleMon, stripVolatile, performRound, isLocked, withBadges } from './battleEngine';
 import './PokeredBattle.css';
 
+// Real Gen 1 gym-leader rewards (data/text/text_2.asm etc.) — badge name + the one TM each
+// leader actually hands over, matching TRAINER_META's badgeIndex order (0=Boulder..7=Earth).
+// This port collapses all TMs to the single HM06 "teach any move" key item (see the Viridian
+// City fisherman comment in PokeredOverworld.jsx) rather than modeling 50 separate TM items,
+// so the announcement names the real TM/move but the actual grant is still just HM06.
+const GYM_BADGE_INFO = {
+  Brock:    { badge: 'BOULDERBADGE', tm: 'TM34', move: 'BIDE' },
+  Misty:    { badge: 'CASCADEBADGE', tm: 'TM11', move: 'BUBBLEBEAM' },
+  LtSurge:  { badge: 'THUNDERBADGE', tm: 'TM24', move: 'THUNDERBOLT' },
+  Erika:    { badge: 'RAINBOWBADGE', tm: 'TM21', move: 'MEGA DRAIN' },
+  Koga:     { badge: 'SOULBADGE',    tm: 'TM06', move: 'TOXIC' },
+  Sabrina:  { badge: 'MARSHBADGE',   tm: 'TM46', move: 'PSYWAVE' },
+  Blaine:   { badge: 'VOLCANOBADGE', tm: 'TM38', move: 'FIRE BLAST' },
+  Giovanni: { badge: 'EARTHBADGE',   tm: 'TM27', move: 'FISSURE' },
+};
+
 function fmt(species) {
   return species.replace(/_/g, ' ').replace(/\b(\w)/g, c => c.toUpperCase());
 }
@@ -579,6 +595,24 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
         if (prize > 0) {
           msgs.push(`You got ₽${prize} for winning!`);
           moneyWonRef.current += prize;
+        }
+        // Gym-leader badge/TM announcement — this port previously granted the badge and HM06
+        // key item entirely silently in PokeredApp.jsx's handleBattleEnd (state updated, zero
+        // player-facing message), which is why every gym leader appeared to say nothing after
+        // being beaten. Only announce on the FIRST win (a beaten-trainer rematch re-triggers
+        // this same victory branch, but badges/items were already granted the first time and
+        // handleBattleEnd's `!items.some(...)`/`!badges.includes(...)` guards no-op silently).
+        // Giovanni special-case mirrors handleBattleEnd's own: his trainerClass is reused for
+        // 2 earlier non-badge Team Rocket fights, only partyIdx 2 is the real Viridian Gym battle.
+        const badgeIdx = trainerEncounter.trainerKey === 'Giovanni'
+          ? (trainerEncounter.partyIdx === 2 ? 7 : undefined)
+          : TRAINER_META[trainerEncounter.trainerKey]?.badgeIndex;
+        const gymInfo = GYM_BADGE_INFO[trainerEncounter.trainerKey];
+        if (gymInfo && badgeIdx !== undefined && !(badges ?? []).includes(badgeIdx)) {
+          const trainerName = TRAINER_META[trainerEncounter.trainerKey]?.name ?? trainerEncounter.trainerKey.toUpperCase();
+          msgs.push(`${trainerName}: All right! I admit defeat!`);
+          msgs.push(`<PLAYER> received the ${gymInfo.badge}!`);
+          msgs.push(`${trainerName} gave you ${gymInfo.tm}!`, `TM${gymInfo.tm.slice(2)} contains ${fmtMove(gymInfo.move)}!`);
         }
       }
       // Explosion can take the user down with the target — the win still stands.
