@@ -413,6 +413,21 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   // these 5 worked with zero badges. Badge indices match ram_constants.asm's BIT_*BADGE order
   // (0=Boulder/Flash, 1=Cascade/Cut, 2=Thunder/Fly, 3=Rainbow/Strength, 4=Soul/Surf).
   const FIELD_MOVE_BADGE = { CUT: 1, FLY: 2, SURF: 4, STRENGTH: 3, FLASH: 0 };
+
+  // Real OG's Trainer Info screen (engine/menus/start_sub_menus.asm TrainerInfo) shows all 8
+  // badges as a grid of gym-leader-face icons, lit if owned — this port has no leader-face
+  // sprite sheet, so the same information (which badges, and which leader/city each is from)
+  // is shown as a labeled list instead. Index order matches TRAINER_META's badgeIndex (0-7).
+  const BADGE_INFO = [
+    { name: 'BOULDERBADGE', leader: 'BROCK',    city: 'PEWTER CITY' },
+    { name: 'CASCADEBADGE', leader: 'MISTY',    city: 'CERULEAN CITY' },
+    { name: 'THUNDERBADGE', leader: 'LT.SURGE', city: 'VERMILION CITY' },
+    { name: 'RAINBOWBADGE', leader: 'ERIKA',    city: 'CELADON CITY' },
+    { name: 'SOULBADGE',    leader: 'KOGA',     city: 'FUCHSIA CITY' },
+    { name: 'MARSHBADGE',   leader: 'SABRINA',  city: 'SAFFRON CITY' },
+    { name: 'VOLCANOBADGE', leader: 'BLAINE',   city: 'CINNABAR ISLAND' },
+    { name: 'EARTHBADGE',   leader: 'GIOVANNI', city: 'VIRIDIAN CITY' },
+  ];
   function hasFieldMoveBadge(moveName) {
     const badgeIdx = FIELD_MOVE_BADGE[moveName];
     if (badgeIdx === undefined) return true; // DIG/TELEPORT: no badge required, matches OG
@@ -3748,6 +3763,18 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
                   <div className="pkr-menu-header"><span>TRAINER</span><button className="pkr-menu-back" onClick={() => setMenuPage('main')}>◀ BACK</button></div>
                   <div className="pkr-menu-trainer-row"><span>BADGES</span><span>{badges.length}/8</span></div>
                   <div className="pkr-menu-trainer-row"><span>MONEY</span><span>₽{money}</span></div>
+                  <div className="pkr-badge-list">
+                    {BADGE_INFO.map((b, i) => {
+                      const owned = badges.includes(i);
+                      return (
+                        <div key={b.name} className={`pkr-badge-row${owned ? ' pkr-badge-owned' : ''}`}>
+                          <span className="pkr-badge-icon">{owned ? '●' : '○'}</span>
+                          <span className="pkr-badge-name">{b.name}</span>
+                          <span className="pkr-badge-from">{owned ? `${b.leader} · ${b.city}` : '???'}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
                   {isExtra && <div className="pkr-menu-extra-badge">EXTRA MODE — use SAVE AS NEW GAME to keep this run</div>}
                 </div>
               </div>

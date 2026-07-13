@@ -372,6 +372,24 @@
 /* HM06 teach-move menu — wider box to fit 2-column move list */
 .pkr-menu-teach { min-width: 340px; max-width: 400px; }
 
+.pkr-badge-list { padding: 4px 0; }
+.pkr-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #555;
+  padding: 3px 0;
+}
+.pkr-badge-row.pkr-badge-owned { color: #c0c0e0; }
+.pkr-badge-icon { color: #444; width: 10px; }
+.pkr-badge-owned .pkr-badge-icon { color: #ffd700; }
+.pkr-badge-name { width: 110px; flex-shrink: 0; }
+.pkr-badge-from { color: #888; font-size: 9px; }
+.pkr-badge-owned .pkr-badge-from { color: #7ec8e3; }
+
 .pkr-teach-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
