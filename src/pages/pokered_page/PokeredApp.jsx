@@ -23,6 +23,12 @@ export default function PokeredApp() {
   // Which clerk (0 or 1) opened the shop — only matters for the two-clerk marts
   // (CELADON_MART_2F/5F); transient UI state, not part of the saved game.
   const [shopClerkIndex, setShopClerkIndex] = useState(0);
+  // Real OG (engine/events/pokemart.asm DisplayPokemartDialogue_) shows a BUY/SELL/QUIT
+  // choice first, then dispatches into mutually-exclusive buy/sell screens — previously this
+  // port showed both the FOR SALE and SELL FROM BAG lists on one screen simultaneously, with
+  // no choice step at all. Transient UI state, not part of the saved game.
+  const [shopMode, setShopMode] = useState('choice'); // 'choice' | 'buy' | 'sell'
+  const [shopCursor, setShopCursor] = useState(0);
   // PC screen tab/cursor — transient UI state, not part of the saved game. Keyboard nav
   // (site-wide requirement: every interactive feature needs click+keyboard parity) is added
   // fresh alongside the Pokémon-storage tab rather than left mouse-only like the rest of
@@ -85,7 +91,9 @@ export default function PokeredApp() {
     battleReturnPos.current = playerPosRef.current ?? { mapId, x, y };
     const party = TRAINER_PARTIES[trainerEncounterData.trainerKey]?.[trainerEncounterData.partyIdx ?? 0];
     markSeen(party?.[0]?.species);
-    setTrainerEncounter(trainerEncounterData);
+    // mapId carried alongside so PokeredBattle can look up this trainer's real post-victory
+    // quote (extracted_og_data/trainer_text.json, keyed by mapId + npcIndex).
+    setTrainerEncounter({ ...trainerEncounterData, mapId });
     setScreen('battle');
   }
 
@@ -196,7 +204,10 @@ export default function PokeredApp() {
         const healed = healParty(party);
         // User-requested (2026-07-10): fall back to right outside Red's House door, not an
         // arbitrary Pallet Town tile, when the player has never visited a real Pokécenter yet.
-        const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 5, y: 6 };
+        // isDirectWarp: true — this is a direct warp-in, not a walked-through door, so
+        // PokeredOverworld's loadMap must not treat it as "you came from here" or it corrupts
+        // the destination Pokécenter's own LAST_MAP exit-door pairing (see Teleport's identical fix).
+        const dest = { ...(prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 5, y: 6 }), isDirectWarp: true };
         result = { whiteout: true, dest };
         const next = { ...prev, party: healed, money, mapId: dest.mapId, x: dest.x, y: dest.y };
         if (!prev.isExtra) saveGame(next);
@@ -399,7 +410,9 @@ export default function PokeredApp() {
       if (effect.category === 'escape_rope') {
         // User-requested (2026-07-10): fall back to right outside Red's House door, not an
         // arbitrary Pallet Town tile, when the player has never visited a real Pokécenter yet.
-        const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 5, y: 6 };
+        // isDirectWarp: true — also the shared path Dig/Teleport funnel through via
+        // onUseItem('ESCAPE_ROPE'); see the whiteout branch above for why this flag matters.
+        const dest = { ...(prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 5, y: 6 }), isDirectWarp: true };
         result = { used: true, warpTo: dest, message: 'You used the Escape Rope!' };
         const next = { ...prev, items: consumeItem(items, itemName) };
         if (!prev.isExtra) saveGame(next);
@@ -676,12 +689,71 @@ export default function PokeredApp() {
     const pos = playerPosRef.current ?? { mapId, x, y };
     setGameState(prev => prev ? { ...prev, ...pos } : prev);
     setShopClerkIndex(clerkIndex ?? 0);
+    setShopMode('choice');
+    setShopCursor(0);
     setScreen('shop');
   }
 
   function handleShopClose() {
     setScreen('overworld');
   }
+
+  // X (=B) support for the mart, matching every other menu in the game (site-wide
+  // requirement: every interactive feature needs click+keyboard parity — this screen was
+  // previously mouse-only). X/Escape backs out one level (buy/sell -> choice, choice -> leave
+  // shop), mirroring the pkr-menu-back convention used elsewhere.
+  useEffect(() => {
+    if (screen !== 'shop' || !gameState) return;
+    const rawList = MARTS[gameState.mapId] ?? [];
+    const buyList = Array.isArray(rawList[0]) ? (rawList[shopClerkIndex] ?? rawList[0] ?? []) : rawList;
+    const bagItems = gameState.items ?? [];
+    function rowCount() {
+      if (shopMode === 'choice') return 3; // BUY / SELL / QUIT
+      if (shopMode === 'buy') return Math.max(1, buyList.length);
+      return Math.max(1, bagItems.length); // sell
+    }
+    // Selling the last-indexed bag row (or, in principle, a shrinking buy list) can leave
+    // shopCursor pointing past the new end — nothing else re-clamps it, so the highlight
+    // silently vanishes and Z/Enter goes inert until an arrow key self-corrects it via the
+    // wraparound modulo below. Re-clamp here too, on every list-affecting re-render.
+    const maxIdx = (shopMode === 'buy' ? buyList.length : shopMode === 'sell' ? bagItems.length : 3) - 1;
+    if (maxIdx >= 0 && shopCursor > maxIdx) setShopCursor(maxIdx);
+    function onKey(e) {
+      if (e.key === 'Escape' || e.key === 'x' || e.key === 'X') {
+        e.preventDefault();
+        if (shopMode === 'choice') handleShopClose();
+        else { setShopMode('choice'); setShopCursor(0); }
+        return;
+      }
+      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+        e.preventDefault();
+        const n = rowCount();
+        setShopCursor(c => (c - 1 + n) % n);
+        return;
+      }
+      if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
+        e.preventDefault();
+        const n = rowCount();
+        setShopCursor(c => (c + 1) % n);
+        return;
+      }
+      if (e.key === 'z' || e.key === 'Z' || e.key === 'Enter') {
+        e.preventDefault();
+        if (shopMode === 'choice') {
+          if (shopCursor === 0) { setShopMode('buy'); setShopCursor(0); }
+          else if (shopCursor === 1) { setShopMode('sell'); setShopCursor(0); }
+          else handleShopClose();
+        } else if (shopMode === 'buy' && buyList[shopCursor]) {
+          handleShopBuy(buyList[shopCursor]);
+        } else if (shopMode === 'sell' && bagItems[shopCursor]) {
+          handleShopSell(bagItems[shopCursor].name);
+        }
+        return;
+      }
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [screen, gameState, shopMode, shopCursor, shopClerkIndex]);
 
   // OG's real mart engine (engine/events/pokemart.asm) buys/sells one unit at a time
   // through a quantity prompt; this UI does the same via repeated taps rather than a
@@ -912,6 +984,7 @@ export default function PokeredApp() {
     const buyList = Array.isArray(rawList[0]) ? (rawList[shopClerkIndex] ?? rawList[0] ?? []) : rawList;
     const bagItems = gameState.items ?? [];
     const money = gameState.money ?? 0;
+    const rowStyle = (selected) => ({ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'5px 6px', borderBottom:'1px solid #1a1a2e', background: selected ? '#1a1a3a' : 'transparent', cursor:'pointer' });
     return (
       <div style={{ display:'flex', alignItems:'center', justifyContent:'center', minHeight:'100vh', background:'#0a0a1a', fontFamily:'monospace', color:'#c0c0e0', fontSize:'11px', letterSpacing:'1px', textTransform:'uppercase' }}>
         <div style={{ background:'#0d0d1a', border:'2px solid #5a5aaa', padding:'24px 32px', minWidth:'360px', maxHeight:'80vh', overflowY:'auto' }}>
@@ -920,47 +993,68 @@ export default function PokeredApp() {
             <span style={{ color:'#888', fontSize:'10px' }}>₽{money}</span>
           </div>
 
-          <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', marginBottom:'8px' }}>━ FOR SALE ━</div>
-          {buyList.length === 0
-            ? <div style={{ color:'#555', padding:'6px 0', marginBottom:'8px' }}>NOTHING FOR SALE</div>
-            : buyList.map((itemName, i) => {
-              const price = PRICES[itemName];
-              const canAfford = price != null && money >= price;
-              return (
-                <div key={i} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'5px 0', borderBottom:'1px solid #1a1a2e' }}>
-                  <span>{itemName.replace(/_/g,' ')} <span style={{ color:'#888' }}>{price != null ? `₽${price}` : '???'}</span></span>
-                  <button
-                    onClick={() => handleShopBuy(itemName)}
-                    disabled={!canAfford}
-                    style={{ background: canAfford ? '#1a1a2e' : '#151520', border: `1px solid ${canAfford ? '#5050a0' : '#333'}`, color: canAfford ? '#c0c0e0' : '#555', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor: canAfford ? 'pointer' : 'default', letterSpacing:'1px' }}
-                  >BUY</button>
+          {shopMode === 'choice' && (
+            <>
+              {['BUY', 'SELL', 'QUIT'].map((label, i) => (
+                <div key={label} style={rowStyle(shopCursor === i)}
+                  onClick={() => { if (i === 0) { setShopMode('buy'); setShopCursor(0); } else if (i === 1) { setShopMode('sell'); setShopCursor(0); } else handleShopClose(); }}>
+                  {shopCursor === i && <span style={{ marginRight:6 }}>►</span>}{label}
                 </div>
-              );
-            })
-          }
+              ))}
+            </>
+          )}
 
-          <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', margin:'14px 0 8px' }}>━ SELL FROM BAG ━</div>
-          {bagItems.length === 0
-            ? <div style={{ color:'#555', padding:'6px 0' }}>BAG IS EMPTY</div>
-            : bagItems.map((item, i) => {
-              const price = PRICES[item.name];
-              const sellable = !!price; // 0/undefined price = key item, HM, badge, etc. — not sellable
-              return (
-                <div key={i} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'5px 0', borderBottom:'1px solid #1a1a2e' }}>
-                  <span>{item.name.replace(/_/g,' ')} <span style={{ color:'#888' }}>×{item.count}{sellable ? ` (₽${Math.floor(price/2)})` : ''}</span></span>
-                  <button
-                    onClick={() => handleShopSell(item.name)}
-                    disabled={!sellable}
-                    style={{ background: sellable ? '#1a1a2e' : '#151520', border: `1px solid ${sellable ? '#4a4a6a' : '#333'}`, color: sellable ? '#9090b0' : '#555', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor: sellable ? 'pointer' : 'default', letterSpacing:'1px' }}
-                  >SELL</button>
-                </div>
-              );
-            })
-          }
+          {shopMode === 'buy' && (
+            <>
+              <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', marginBottom:'8px' }}>━ FOR SALE ━</div>
+              {buyList.length === 0
+                ? <div style={{ color:'#555', padding:'6px 0', marginBottom:'8px' }}>NOTHING FOR SALE</div>
+                : buyList.map((itemName, i) => {
+                  const price = PRICES[itemName];
+                  const canAfford = price != null && money >= price;
+                  return (
+                    <div key={i} style={rowStyle(shopCursor === i)} onClick={() => canAfford && handleShopBuy(itemName)}>
+                      <span>{shopCursor === i && <span style={{ marginRight:6 }}>►</span>}{itemName.replace(/_/g,' ')} <span style={{ color:'#888' }}>{price != null ? `₽${price}` : '???'}</span></span>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleShopBuy(itemName); }}
+                        disabled={!canAfford}
+                        style={{ background: canAfford ? '#1a1a2e' : '#151520', border: `1px solid ${canAfford ? '#5050a0' : '#333'}`, color: canAfford ? '#c0c0e0' : '#555', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor: canAfford ? 'pointer' : 'default', letterSpacing:'1px' }}
+                      >BUY</button>
+                    </div>
+                  );
+                })
+              }
+              <button onClick={() => { setShopMode('choice'); setShopCursor(0); }} style={{ display:'block', width:'100%', marginTop:'20px', background:'transparent', border:'1px solid #3a3a5a', color:'#5a5a7a', fontFamily:'monospace', fontSize:'10px', padding:'7px', cursor:'pointer', letterSpacing:'2px', textTransform:'uppercase' }}>
+                ◀ BACK
+              </button>
+            </>
+          )}
 
-          <button onClick={handleShopClose} style={{ display:'block', width:'100%', marginTop:'20px', background:'transparent', border:'1px solid #3a3a5a', color:'#5a5a7a', fontFamily:'monospace', fontSize:'10px', padding:'7px', cursor:'pointer', letterSpacing:'2px', textTransform:'uppercase' }}>
-            LEAVE SHOP
-          </button>
+          {shopMode === 'sell' && (
+            <>
+              <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', marginBottom:'8px' }}>━ SELL FROM BAG ━</div>
+              {bagItems.length === 0
+                ? <div style={{ color:'#555', padding:'6px 0' }}>BAG IS EMPTY</div>
+                : bagItems.map((item, i) => {
+                  const price = PRICES[item.name];
+                  const sellable = !!price; // 0/undefined price = key item, HM, badge, etc. — not sellable
+                  return (
+                    <div key={i} style={rowStyle(shopCursor === i)} onClick={() => sellable && handleShopSell(item.name)}>
+                      <span>{shopCursor === i && <span style={{ marginRight:6 }}>►</span>}{item.name.replace(/_/g,' ')} <span style={{ color:'#888' }}>×{item.count}{sellable ? ` (₽${Math.floor(price/2)})` : ''}</span></span>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleShopSell(item.name); }}
+                        disabled={!sellable}
+                        style={{ background: sellable ? '#1a1a2e' : '#151520', border: `1px solid ${sellable ? '#4a4a6a' : '#333'}`, color: sellable ? '#9090b0' : '#555', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor: sellable ? 'pointer' : 'default', letterSpacing:'1px' }}
+                      >SELL</button>
+                    </div>
+                  );
+                })
+              }
+              <button onClick={() => { setShopMode('choice'); setShopCursor(0); }} style={{ display:'block', width:'100%', marginTop:'20px', background:'transparent', border:'1px solid #3a3a5a', color:'#5a5a7a', fontFamily:'monospace', fontSize:'10px', padding:'7px', cursor:'pointer', letterSpacing:'2px', textTransform:'uppercase' }}>
+                ◀ BACK
+              </button>
+            </>
+          )}
         </div>
       </div>
     );

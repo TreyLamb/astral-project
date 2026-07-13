@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createWildPokemon, applyXP, finalizeEvolution, tryCatch, xpForLevel, baseExpFor, applyMedicineItem, ITEM_EFFECTS } from './pokeredGameState';
 import { TRAINER_PARTIES } from './trainerParties';
 import { TRAINER_META } from './trainerMeta';
+import TRAINER_TEXT from './extracted_og_data/trainer_text.json';
 import { initBattleMon, stripVolatile, performRound, isLocked, withBadges } from './battleEngine';
 import './PokeredBattle.css';
 
@@ -369,10 +370,12 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
       return;
     }
     const target = cur.partyIdx === activeIdxRef.current ? (updatedPlayerRef.current ?? player) : partyRef.current[cur.partyIdx];
-    const evolved = finalizeEvolution(target, pokemonData);
+    const { mon: evolved, learnedMoveMessage } = finalizeEvolution(target, pokemonData);
     partyRef.current[cur.partyIdx] = evolved;
     if (cur.partyIdx === activeIdxRef.current) { updatedPlayerRef.current = evolved; setPlayer(evolved); }
-    pushLog([`${fmt(cur.from)} evolved into ${fmt(cur.to)}!`], 'log');
+    const lines = [`${fmt(cur.from)} evolved into ${fmt(cur.to)}!`];
+    if (learnedMoveMessage) lines.push(learnedMoveMessage);
+    pushLog(lines, 'log');
   }
 
   // The single decision point for "what happens after the player dismisses the current log
@@ -559,6 +562,14 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
 
       newResult = 'victory';
       if (isTrainer && trainerEncounter) {
+        // Real per-trainer defeat quote (extracted_og_data/trainer_text.json), shown right
+        // after the trainer's last mon faints and before the money message — matches real
+        // OG's EndBattle text order. Only named/story trainers have an entry; ordinary
+        // Youngsters etc. silently skip this (no generic fallback line — OG has none either).
+        const real = trainerEncounter.mapId && trainerEncounter.npcIndex
+          ? TRAINER_TEXT[trainerEncounter.mapId]?.find(e => e.objectIndex === trainerEncounter.npcIndex)
+          : null;
+        if (real?.win) msgs.push(...real.win);
         // pret/pokered: "money received after battle = base money × level of last enemy mon".
         // TRAINER_META's baseMoney values (1500, 9900, etc.) are the table's raw digits scaled
         // ×100 from the real base (confirmed against documented real values — e.g. Gym Leaders'

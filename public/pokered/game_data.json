@@ -152,7 +152,7 @@
         {
           "x": 6,
           "y": 5,
-          "sprite": "monster",
+          "sprite": "super_nerd",
           "trainerClass": null,
           "partyIdx": null,
           "facing": "DOWN",

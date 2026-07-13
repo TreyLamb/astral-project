@@ -103,11 +103,18 @@ export function calcStat(base, level, iv = 9) {
 }
 
 // Generic evolution lookup — works for any of the 3 starters or any other species
-// with a level-based evolution (stone/trade evolutions aren't in evos_moves data).
+// with a level-based evolution (stone evolutions aren't in evos_moves data — see
+// STONE_EVOLUTIONS). Trade-evolution stage-2 species (KADABRA/MACHOKE/GRAVELER/HAUNTER) have
+// an empty `evos` array here too — falls back to TRADE_EVOLUTIONS' level-window mechanic,
+// reporting the window's EARLIEST eligible level (+13) as `level` so the normal
+// `mon.level >= mon.evolvesAt` gate opens there; the actual per-level chance is rolled
+// separately by rollTradeEvolution, not by this simple threshold.
 export function nextEvolution(species, pokemonData) {
   const ls = learnsetFor(pokemonData, species);
   const evo = ls?.evos?.[0];
-  return evo ? { level: evo.level, into: evo.into } : null;
+  if (evo) return { level: evo.level, into: evo.into };
+  const trade = tradeEvolutionFor(species, pokemonData);
+  return trade ? { level: trade.baseLevel + 13, into: trade.into } : null;
 }
 
 // Which species in this Pokemon's evolution line at a given level (handles any
@@ -406,7 +413,8 @@ export function applyXP(pokemon, xpGain, pokemonData) {
   // cancelling means the mutation code never runs at all, the mon simply stays as it was. The
   // caller shows that cancelable screen and only calls finalizeEvolution() below if it completes.
   let pendingEvolution = null;
-  if (mon.evolvesAt && mon.level >= mon.evolvesAt && mon.evolvesInto && pokemonData.pokemon[mon.evolvesInto]) {
+  if (mon.evolvesAt && mon.level >= mon.evolvesAt && mon.evolvesInto && pokemonData.pokemon[mon.evolvesInto]
+      && rollTradeEvolution(mon, pokemonData)) {
     pendingEvolution = { from: mon.species, to: mon.evolvesInto };
     messages.push(`What? ${fmt(mon.species)} is evolving!`);
   }
@@ -418,14 +426,15 @@ export function applyXP(pokemon, xpGain, pokemonData) {
 // evolution screen completes without being stopped. Mirrors the mutation real OG's EvolveMon
 // performs after its animation finishes (species/type/stats recalculated at the mon's current
 // level; evolvesAt/evolvesInto advanced to the next stage, if any).
+// Returns { mon, learnedMoveMessage } — callers must destructure (was a bare mon before).
 export function finalizeEvolution(mon, pokemonData) {
   const iv = 15;
   const toName = mon.evolvesInto;
   const newBase = pokemonData.pokemon[toName];
-  if (!newBase) return mon;
+  if (!newBase) return { mon, learnedMoveMessage: null };
   const nextEvo = nextEvolution(toName, pokemonData);
   const newMaxHp = calcHP(newBase.hp, mon.level, iv);
-  return {
+  let evolved = {
     ...mon,
     species: toName,
     type1: newBase.type1, type2: newBase.type2,
@@ -438,6 +447,27 @@ export function finalizeEvolution(mon, pokemonData) {
     evolvesAt: nextEvo?.level ?? null,
     evolvesInto: nextEvo?.into ?? null,
   };
+  // engine/pokemon/evos_moves.asm LearnMoveFromLevelUp: real OG, immediately after the species
+  // swap, checks the NEW species' learnset for exactly ONE entry whose level byte EXACTLY
+  // equals the mon's (unchanged) current level — not "any entry <= level," a single exact
+  // match, structurally identical to the ordinary per-level-up check just above in applyXP.
+  // Real, intentional Gen 1 design: Kadabra's first learnset entry (Confusion, level 16)
+  // exactly coincides with Abra's real evolution level, so a freshly-evolved Kadabra always
+  // knows Confusion immediately — this was previously never checked at all.
+  let learnedMoveMessage = null;
+  const learnset = learnsetFor(pokemonData, toName);
+  const dueMove = learnset?.moves?.find(e => e.level === mon.level);
+  if (dueMove && !evolved.moves.some(m => m.name === dueMove.move)) {
+    const md = pokemonData.moves[dueMove.move] || { pp: 20 };
+    learnedMoveMessage = `${fmt(toName)} learned ${dueMove.move.replace(/_/g, ' ')}!`;
+    evolved = {
+      ...evolved,
+      moves: evolved.moves.length < 4
+        ? [...evolved.moves, { name: dueMove.move, pp: md.pp, ppMax: md.pp }]
+        : [...evolved.moves.slice(1), { name: dueMove.move, pp: md.pp, ppMax: md.pp }],
+    };
+  }
+  return { mon: evolved, learnedMoveMessage };
 }
 
 // Gen 1 catch formula (from pokered engine/items/catch.asm)
@@ -579,6 +609,46 @@ export const STONE_EVOLUTIONS = [
   { species: 'WEEPINBELL', stone: 'LEAF_STONE',    into: 'VICTREEBEL' },
 ];
 
+// Trade evolutions — user-requested homebrew mechanic replacing the real-OG "requires a
+// trade" requirement (this port has no trading feature) with a level-based window, since
+// KADABRA/MACHOKE/GRAVELER/HAUNTER otherwise have empty `evos` arrays in pokemon_data.json
+// and would never evolve at all. NOT ported from OG — a deliberate design choice, so the
+// exact chances below are a judgment call, not something to re-derive from source.
+// Window: the precursor's REAL, unmodified evolution level +13 through +18 (never hardcoded —
+// always computed from nextEvolution(precursor) so this stays correct if that level ever
+// changes). Every level-up from +13 through +17 rolls a genuine random chance to evolve,
+// escalating non-linearly (small early, ramping up faster later — deliberately not a flat/
+// round step like +20%/level, per user request); +18 forces evolution unconditionally so the
+// math can never fail to resolve and leave a mon permanently stuck unevolved.
+const TRADE_EVOLUTIONS = [
+  { species: 'ABRA',    stage2: 'KADABRA',  into: 'ALAKAZAM' },
+  { species: 'MACHOP',  stage2: 'MACHOKE',  into: 'MACHAMP' },
+  { species: 'GEODUDE', stage2: 'GRAVELER', into: 'GOLEM' },
+  { species: 'GASTLY',  stage2: 'HAUNTER',  into: 'GENGAR' },
+];
+const TRADE_EVOLUTION_CHANCE_BY_OFFSET = { 13: 0.08, 14: 0.18, 15: 0.32, 16: 0.55, 17: 0.85 };
+const TRADE_EVOLUTION_FORCE_OFFSET = 18;
+function tradeEvolutionFor(species, pokemonData) {
+  const entry = TRADE_EVOLUTIONS.find(t => t.stage2 === species);
+  if (!entry) return null;
+  const precursorEvo = nextEvolution(entry.species, pokemonData); // real level-evo entry
+  if (!precursorEvo) return null;
+  return { baseLevel: precursorEvo.level, into: entry.into };
+}
+// Rolls whether a trade-evolution-eligible mon actually evolves at its current level — real
+// random luck every level-up in the window, not a fixed per-mon threshold (user's explicit
+// requirement: "I still want there to be luck for it"). Only meaningful once
+// mon.level >= mon.evolvesAt (the +13 eligibility gate, set by nextEvolution below); callers
+// must check that first.
+function rollTradeEvolution(mon, pokemonData) {
+  const trade = tradeEvolutionFor(mon.species, pokemonData);
+  if (!trade) return true; // not a trade-evolution species — ordinary deterministic evolution
+  const offset = mon.level - trade.baseLevel;
+  if (offset >= TRADE_EVOLUTION_FORCE_OFFSET) return true;
+  const chance = TRADE_EVOLUTION_CHANCE_BY_OFFSET[offset] ?? 0;
+  return Math.random() < chance;
+}
+
 // FLASH-dark maps (home/overworld.asm WarpFound1/2: entering ROCK_TUNNEL_1F from an outdoor
 // map sets wMapPalOffset to the dark palette; leaving to LAST_MAP resets it — internal
 // 1F<->B1F stairs never touch it, so a lit state carries over between the two floors). Only
@@ -665,7 +735,19 @@ export function tryEvolveWithStone(mon, itemName, pokemonData) {
     evolvesAt: nextEvo?.level ?? null,
     evolvesInto: nextEvo?.into ?? null,
   };
-  return { mon: evolved, evolved: true, message: `${fmt(mon.species)} evolved into ${fmt(entry.into)}!` };
+  // Same LearnMoveFromLevelUp check as finalizeEvolution (level-up evolution) — real OG runs
+  // this after EVERY evolution type (level, trade, AND stone/item), not just level-based ones.
+  let message = `${fmt(mon.species)} evolved into ${fmt(entry.into)}!`;
+  const learnset = learnsetFor(pokemonData, entry.into);
+  const dueMove = learnset?.moves?.find(e => e.level === mon.level);
+  if (dueMove && !evolved.moves.some(m => m.name === dueMove.move)) {
+    const md = pokemonData.moves[dueMove.move] || { pp: 20 };
+    evolved.moves = evolved.moves.length < 4
+      ? [...evolved.moves, { name: dueMove.move, pp: md.pp, ppMax: md.pp }]
+      : [...evolved.moves.slice(1), { name: dueMove.move, pp: md.pp, ppMax: md.pp }];
+    message += `\n${fmt(entry.into)} learned ${dueMove.move.replace(/_/g, ' ')}!`;
+  }
+  return { mon: evolved, evolved: true, message };
 }
 
 // Restore all party Pokemon to full HP/PP and clear status conditions (Gen 1: Pokemon
@@ -729,7 +811,7 @@ export function saveGame(state) {
   writeSlots(slots);
 }
 
-export function loadGame(slotId) {
+export function loadGame(slotId, pokemonData) {
   const slot = readSlots().find(s => s.id === slotId);
   if (!slot) return null;
   let state = slot.state;
@@ -740,6 +822,21 @@ export function loadGame(slotId) {
       ? state.items.map(it => it.name === 'POKE_BALL' ? { ...it, count: it.count + 10 } : it)
       : [...(state.items ?? []), { name: 'POKE_BALL', count: 10 }];
     state = { ...state, items, gotBallBonus2026_07_05: true };
+    saveGame(state);
+  }
+  // One-time migration: saves from before the trade-evolution mechanic existed have
+  // `evolvesAt: null`/`evolvesInto: null` baked into any KADABRA/MACHOKE/GRAVELER/HAUNTER
+  // party member (nextEvolution used to return null for these species) — nothing else ever
+  // recomputes those fields, so without this they'd be permanently stuck unable to evolve,
+  // forever, even after the fix shipped. Freshly created/caught ones are unaffected (already
+  // correct at creation time); this only backfills existing saved party members.
+  if (pokemonData && !state.gotTradeEvoMigration2026_07_13 && Array.isArray(state.party)) {
+    const party = state.party.map(mon => {
+      if (mon.evolvesAt || !TRADE_EVOLUTIONS.some(t => t.stage2 === mon.species)) return mon;
+      const evo = nextEvolution(mon.species, pokemonData);
+      return evo ? { ...mon, evolvesAt: evo.level, evolvesInto: evo.into } : mon;
+    });
+    state = { ...state, party, gotTradeEvoMigration2026_07_13: true };
     saveGame(state);
   }
   return state;

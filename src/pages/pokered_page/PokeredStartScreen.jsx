@@ -43,7 +43,7 @@ export default function PokeredStartScreen({ pokemonData, onStart }) {
   }
 
   function handlePlaySlot(slotId) {
-    const state = loadGame(slotId);
+    const state = loadGame(slotId, pokemonData);
     if (state) onStart(state);
   }
 

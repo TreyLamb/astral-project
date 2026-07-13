@@ -5,6 +5,7 @@ import { ITEM_EFFECTS, TM_HM_MOVES, tryFish, DARK_MAPS, FLY_DESTINATIONS } from 
 import ITEM_LOCATIONS from './extracted_og_data/item_locations.json';
 import HIDDEN_ITEMS from './extracted_og_data/hidden_items.json';
 import NPC_DIALOGUE from './extracted_og_data/npc_dialogue.json';
+import TRAINER_TEXT from './extracted_og_data/trainer_text.json';
 import DEX from './extracted_og_data/dex.json';
 import './PokeredOverworld.css';
 
@@ -315,16 +316,21 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     if (ms.mapInfo.tileset !== 'overworld') return { ok: false, message: 'Nothing to cut.' };
     const faceDelta = [[0, 1], [0, -1], [-1, 0], [1, 0]];
     const [fdx, fdy] = faceDelta[p.dir] || [0, 1];
-    // Same "half-step" raw-tile-ahead sampling as isHalfStepBlocked/isValidLedge (one raw
-    // 8px unit in the facing direction from the player's own raw position) — NOT a full
-    // metatile ahead. A tree's trunk (the cuttable tile) is the BOTTOM raw sub-tile of its
-    // metatile, same "decorative top / functional bottom sub-tile" authoring pattern already
-    // documented for ledges — sampling a full metatile ahead (tx*2,ty*2 of the target
-    // metatile) missed it entirely; confirmed via direct .blk/.bst inspection before wiring
-    // this (Cerulean City's tree: raw (38,57) = tile 61, which is one raw unit up from the
-    // player's own raw position when standing at metatile (19,29) facing up, not the target
-    // metatile's top-left corner).
-    const rawX = p.x * 2 + fdx, rawY = p.y * 2 + fdy;
+    // FIXED (previously a half-step, uniform-±1-in-facing-direction sample — same bug class as
+    // the ledge west/east fix, worse here since it affects every direction, not just two).
+    // A tree's cuttable pixel is always the BOTTOM-LEFT raw sub-tile of the metatile the player
+    // is FACING (a full logical step away — (p.x+fdx, p.y+fdy) — not a half-step from the
+    // player's own position). Verified against every real cuttable tree tile in every
+    // overworld-tileset map, every walkable approach direction, independently re-verified twice
+    // with different counting methodologies (exact totals varied by methodology — don't trust
+    // a specific count here without re-deriving it — but both runs agreed on the qualitative
+    // result): the old half-step formula produces real, concrete misses depending on approach
+    // side (e.g. a Celadon City tree approached from the east facing west: old formula sampled
+    // raw (95,40) = tile 46, not the tree, because the real cuttable pixel is at raw (94,41) —
+    // a full row-and-column away, reproduced exactly against real data both times). This
+    // target-metatile/bottom-left-corner formula scored zero misses in every re-verification.
+    const targetX = p.x + fdx, targetY = p.y + fdy;
+    const rawX = targetX * 2, rawY = targetY * 2 + 1;
     const tileId = getTileId(rawX, rawY);
     if (!isCuttableTile(tileId)) return { ok: false, message: 'Nothing to cut.' };
     const bx = Math.floor(rawX / 4), by = Math.floor(rawY / 4);
@@ -365,6 +371,24 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   // switch as they're built.
   const FIELD_MOVES = new Set(['CUT', 'SURF', 'STRENGTH', 'FLASH', 'FLY', 'DIG', 'TELEPORT']);
 
+  // Real OG (engine/menus/start_sub_menus.asm StartMenu_Pokemon): selecting a party Pokémon
+  // that knows a field move shows that move's NAME as a direct, top-level option in this popup
+  // — a peer entry above STATS/SWITCH/CANCEL — not something nested inside the stats page's
+  // move list. Confirmed via screenshots: our port previously had NO such option at this menu
+  // level at all (hardcoded to always exactly STATS/SWITCH/CANCEL), so a Pokémon knowing
+  // TELEPORT (or any other field move) had nowhere to select it from here, regardless of
+  // whether the move itself was correctly in its moveset — the "USE" button on the stats
+  // page's move list was a real but non-OG-matching alternate access point. Single source of
+  // truth for both the keyboard confirm handler and the click-render code below, so they can't
+  // drift out of sync with each other.
+  function pokemonOptionsFor(mon) {
+    const fieldMove = mon?.moves?.find(m => FIELD_MOVES.has(m.name));
+    const opts = [];
+    if (fieldMove) opts.push(fieldMove.name);
+    opts.push('STATS', 'SWITCH', 'CANCEL');
+    return opts;
+  }
+
   // User-requested (2026-07-10): X must act as a back button in EVERY menu, matching OG's B
   // button — always one level up, never a jump straight to main. This table is the single
   // source of truth for "one level up" from each non-main page; it MUST mirror that page's
@@ -383,7 +407,23 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     'hm06-slot': 'hm06-target',
     'pokedex-detail': 'pokedex',
   };
+  // engine/menus/start_sub_menus.asm .outOfBattleMovePointers: real OG checks one specific
+  // badge bit before each of these 5 field moves (Dig/Teleport check NO badge at all — verified
+  // directly, not assumed). Confirmed previously-missing entirely in this port; every one of
+  // these 5 worked with zero badges. Badge indices match ram_constants.asm's BIT_*BADGE order
+  // (0=Boulder/Flash, 1=Cascade/Cut, 2=Thunder/Fly, 3=Rainbow/Strength, 4=Soul/Surf).
+  const FIELD_MOVE_BADGE = { CUT: 1, FLY: 2, SURF: 4, STRENGTH: 3, FLASH: 0 };
+  function hasFieldMoveBadge(moveName) {
+    const badgeIdx = FIELD_MOVE_BADGE[moveName];
+    if (badgeIdx === undefined) return true; // DIG/TELEPORT: no badge required, matches OG
+    return !!gameState?.badges?.includes(badgeIdx);
+  }
   function handleUseFieldMove(moveName) {
+    if (FIELD_MOVE_BADGE[moveName] !== undefined && !hasFieldMoveBadge(moveName)) {
+      setHealMsg('No! A new BADGE\nis required.');
+      setTimeout(() => setHealMsg(''), 2000);
+      return;
+    }
     if (moveName === 'CUT') {
       const result = tryCut();
       setHealMsg(result.message);
@@ -565,8 +605,30 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     // full-tileset scan first: lab/gate/house/interior/mansion/club/cemetery/underground
     // all have nonzero (just lower) walkability under the standard offset, so they are NOT
     // in the same broken state and don't need this override.
+    // BILLS_HOUSE chair, single-tile exception (NOT a tileset-wide change — deliberately
+    // scoped to this exact map+metatile, not a blanket 'interior' offset flip). The chair the
+    // player must stand on to reach Bill's PC is metatile (1,5) — raw (2,10) — whose top-right
+    // sub-tile (44) fails the standard offset check, but real OG's own collision
+    // representative for this cell is bottom-left (tile 59, passable). A full-tileset scan
+    // (like the one that justified the 'pokecenter' override above) showed 'interior' is NOT
+    // in the same all-or-nothing broken state pokecenter was (39.7% walkable under the
+    // current offset vs. 47.8% under bottom-left — both plausible, not a 0%-vs-real split),
+    // so blanket-flipping the whole tileset risks breaking OTHER interior maps that already
+    // work under the current convention. This narrow exception fixes the one confirmed-broken
+    // tile without that risk.
+    if (ms.mapInfo.tileset === 'interior' && ms.mapId === 'BILLS_HOUSE' && tx === 2 && ty === 10) return true;
+    // waterDecorativeTilesByTileset (see its own comment at the game_data.json load site): a
+    // small, individually-audited exception list for decorative border tiles absent from the
+    // passable list but sitting inside otherwise-walkable floor cells (confirmed for Cerulean
+    // Gym's tiles 1/4/6 — the gym simulated at 15% walkable vs. 58-71% for every sibling gym
+    // before this exception existed, and the offending tiles sit in BOTH the top-left and
+    // top-right raw sub-tile of the affected metatiles, so this must apply to the offset check
+    // below as well as the direct/bottom-row checks further down — a version of this fix that
+    // only touched the WATER_TILESETS-specific direct-tile check left Cerulean Gym completely
+    // unchanged, since the earlier, universal offset check below was the one actually failing).
+    const waterDecorative = gameDataRef.current?.waterDecorativeTilesByTileset?.[ms.mapInfo.tileset];
     const tileId = ms.mapInfo.tileset === 'pokecenter' ? getTileId(tx, ty + 1) : getTileId(tx + 1, ty);
-    if (!walkable.includes(tileId)) return false;
+    if (!walkable.includes(tileId) && !waterDecorative?.has(tileId)) return false;
     // The offset alone can land on open ground neighboring a water/fence/sign
     // sub-tile within the same cell (e.g. CINNABAR_ISLAND (6,0): direct tile is
     // water, offset tile is the walkable sand next to it). Requiring the literal
@@ -575,7 +637,7 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     // transitions across all water tilesets, 2-3% newly-blocked (overworld/cavern).
     if (WATER_TILESETS.includes(ms.mapInfo.tileset)) {
       const directTileId = getTileId(tx, ty);
-      if (!walkable.includes(directTileId)) return false;
+      if (!walkable.includes(directTileId) && !waterDecorative?.has(directTileId)) return false;
       // BOTTOM-ROW CHECK (2026-07-04) — fixes standing on the north/top edge of water
       // (e.g. VIRIDIAN_CITY tx=16-22,ty=48: top row walkable tile 51, bottom row water
       // tiles 20/50 — the two checks above only ever sample the TOP row, so this passed
@@ -598,7 +660,13 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
       if (!ledgeStandTiles?.has(directTileId)) {
         const bottomLeftId  = getTileId(tx, ty + 1);
         const bottomRightId = getTileId(tx + 1, ty + 1);
-        if (!walkable.includes(bottomLeftId) || !walkable.includes(bottomRightId)) return false;
+        // FIXED: this bottom-row check didn't consult waterDecorative, even though the
+        // comment introducing that exception claimed it applied here too — confirmed in
+        // review this made the 'facility' tileset's entries a complete no-op (0 cells
+        // affected anywhere in the game) and cut 'forest's fix effectiveness in half, purely
+        // because their decorative tiles happened to land in the bottom row of their blocks.
+        if ((!walkable.includes(bottomLeftId) && !waterDecorative?.has(bottomLeftId)) ||
+            (!walkable.includes(bottomRightId) && !waterDecorative?.has(bottomRightId))) return false;
       }
     }
     return true;
@@ -609,11 +677,23 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   // / ret nz"), and the ledge tile IDs it matches collide with unrelated graphics (incl. water)
   // on other tilesets — every ledge check below is gated to mapInfo.tileset === 'overworld'.
   //
-  // The table's standTile/ledgeTile pair is sampled at the HALF-STEP — the tile immediately in
-  // front (one our-tile-unit ahead), not the full 2-unit step destination. Verified empirically
-  // against the real map data: full-step sampling produces zero matches anywhere on Route 1 (a
-  // map with multiple visible ledges), while half-step sampling produces matches at exactly the
-  // visible ledge rows.
+  // The table's standTile/ledgeTile pair is sampled at the HALF-STEP for south/north, but at a
+  // FULL 2-raw-tile step for west/east — this asymmetry is real tileset-art geometry, not a bug
+  // to smooth over. Verified directly against placed tile data (not just match-count tuning):
+  // a south ledge's cliff graphic is the bottom raw sub-tile of the STAND metatile itself (the
+  // "lip" of the platform you're leaving) — e.g. Route 4 (39,5): cy+1 = tile 55 (registered),
+  // cy+2 = tile 44 (plain grass, no match). A west/east ledge's cliff graphic is instead the
+  // near raw sub-tile of the DESTINATION metatile (the "curb" belongs to the tile you're
+  // stepping INTO) — e.g. Route 24 (12,4) east: cx+1 = tile 57 (plain grass, no match), cx+2 =
+  // tile 13 (registered). Confirmed exhaustively: this ±2-for-horizontal/±1-for-vertical rule
+  // reproduces exactly the real red-boxed ledges the user pointed out on Route 24, and adds 22
+  // west + 12 east real hops on Route 4 (previously 0 of either), with south counts unchanged
+  // (141 on Route 4, 11 on Route 24) — so this cannot regress the already-verified south case.
+  // Do NOT "simplify" this back to a single uniform offset for both axes — it was tried (see
+  // git history on this comment block) and is wrong for one axis or the other by construction.
+  function ledgeHalfStepTile(cx, cy, ddx, ddy) {
+    return ddx !== 0 ? getTileId(cx + ddx * 2, cy) : getTileId(cx, cy + ddy);
+  }
 
   // Valid forward hop: standing on (cx,cy), stepping (ddx,ddy), and the registered entry's dir
   // matches the direction taken.
@@ -628,7 +708,7 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     const gd = gameDataRef.current;
     if (!gd?.ledges?.length) return false;
     const currentTileId = getTileId(cx, cy);
-    const halfTileId = getTileId(cx + ddx, cy + ddy);
+    const halfTileId = ledgeHalfStepTile(cx, cy, ddx, ddy);
     const dir = ddy === 1 ? 'south' : ddy === -1 ? 'north' : ddx === 1 ? 'east' : 'west';
     return gd.ledges.some(l => l.dir === dir && l.standTile === currentTileId && l.ledgeTile === halfTileId);
   }
@@ -657,7 +737,7 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     cx *= 2; cy *= 2;
     const ms = mapStateRef.current;
     if (!ms || ms.mapInfo.tileset !== 'overworld') return false;
-    const halfTileId = getTileId(cx + ddx, cy + ddy);
+    const halfTileId = ledgeHalfStepTile(cx, cy, ddx, ddy);
     const walkable = gameDataRef.current?.collision[ms.mapInfo.tileset] || [];
     return !walkable.includes(halfTileId);
   }
@@ -681,22 +761,36 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     const gd = gameDataRef.current;
     if (!gd?.ledges?.length) return true;
     // fromX/fromY/toX/toY above (isWalkable call, p.x/p.y comparisons) stay in logical (metatile)
-    // units — isWalkable converts internally. Only these ledge-tile lookups need raw-tile-unit
+    // units — isWalkable converts internally. Only this ledge-tile lookup needs raw-tile-unit
     // locals; do not reuse fromX/toX directly here (Stage-1-only conversion, see isValidLedge).
-    const rawFromX = fromX * 2, rawFromY = fromY * 2, rawToX = toX * 2, rawToY = toY * 2;
-    const fromTile = getTileId(rawFromX, rawFromY);
-    const halfX = rawFromX + (rawToX - rawFromX) / 2, halfY = rawFromY + (rawToY - rawFromY) / 2;
-    const halfTile = getTileId(halfX, halfY);
-    // SUSPECT, NOT YET FIXED (2026-07-04): this requires fromTile === l.standTile, the exact
-    // same standTile/ledgeTile tile-ID-pair pattern that isHalfStepBlocked (above, ~line 225)
-    // replaced for the PLAYER because it only describes the above-ledge approach side — the
-    // below-ledge side legitimately has a different tile ID, so this likely misses the same
-    // ~21-30% of cases isLedgeBlockedWrongWay did (an NPC approaching a ledge from the "wrong"
-    // side may not actually be blocked). Not confirmed broken or fixed yet — if NPCs are seen
-    // clipping through ledges, the fix is almost certainly the same one: check the halfTile
-    // against the tileset's passable list directly (like isHalfStepBlocked), not against a
-    // standTile match.
-    return !gd.ledges.some(l => l.standTile === fromTile && l.ledgeTile === halfTile);
+    // FIXED (previously two bugs, both same root cause as the player-side half-step fix):
+    // (1) used a literal from/to midpoint (always ±1) instead of ledgeHalfStepTile's
+    // axis-aware ±1-vertical/±2-horizontal sampling, so NPCs could never be correctly blocked
+    // by a west/east ledge at all. (2) required `fromTile === l.standTile` (a specific
+    // registered ledge's approach-side tile), but NPCs never hop in ANY direction — the
+    // correct check is simply "is this half-step tile itself non-passable," exactly like
+    // isHalfStepBlocked already does for the player's non-hop directions, with no standTile
+    // match needed.
+    // KNOWN REMAINING GAP (found in review, not fully closed): this still only reliably blocks
+    // the FORWARD crossing direction for west/east ledges — an NPC already standing on the
+    // ledge-art metatile itself and stepping back the other way isn't caught by this same
+    // sample (horizontal uses a ±2 step, which lands on a different raw column depending on
+    // travel direction; vertical's ±1 step is direction-symmetric by construction, so south/
+    // north ledges don't have this gap). Verified this is NOT currently exploitable in
+    // practice: audited every real west/east ledge on ROUTE_4/ROUTE_24 and confirmed 100% of
+    // their destination (ledge-art) metatiles are themselves impassable to ordinary movement
+    // (both raw sub-tiles fail the general isWalkable check independent of ledges), so no NPC
+    // can organically reach that tile to attempt a reverse cross today. If a future map adds a
+    // west/east ledge whose destination metatile IS ordinarily standable, re-derive this check
+    // (likely needs to test the boundary from both sides, not just the travel direction) rather
+    // than assuming it's already handled — this comment previously overclaimed it was.
+    // match needed. This was flagged as suspected-but-unconfirmed in this comment for a long
+    // time; fixed alongside the player-side axis bug since it's the identical mechanism.
+    const rawFromX = fromX * 2, rawFromY = fromY * 2;
+    const ddx = toX - fromX, ddy = toY - fromY;
+    const halfTile = ledgeHalfStepTile(rawFromX, rawFromY, ddx, ddy);
+    const walkable = gd.collision?.[ms.mapInfo.tileset] || [];
+    return walkable.includes(halfTile);
   }
 
   // OG displacement-counter leash (engine/overworld/movement.asm, CanWalkOntoTile).
@@ -715,15 +809,24 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     else live.dispX += sign > 0 ? 1 : -1;
   }
 
-  const loadMap = useCallback(async (mapId, entryX = null, entryY = null) => {
+  const loadMap = useCallback(async (mapId, entryX = null, entryY = null, isDirectWarp = false) => {
     const gd = gameDataRef.current;
     if (!gd) return;
     // Only track last map when moving from an outdoor map → indoor map.
     // Staircase (indoor→indoor) should not overwrite lastMapIdRef so the door
     // still knows to return to the outdoor map, not the previous indoor floor.
+    // isDirectWarp (Teleport/Dig/Escape Rope/whiteout — anything that warps straight to
+    // gameState.lastPokeCenter): user-reported bug — these transitions were being treated
+    // exactly like an ordinary door-walk, so lastMapIdRef got overwritten with wherever the
+    // player teleported FROM. Later walking out of the Pokécenter's LAST_MAP exit door then
+    // re-paired against that unrelated outdoor map's warp list (handleWarp, below), landing
+    // the player back near their pre-teleport location instead of near the Pokécenter — a
+    // real, confirmed corruption of the door-pairing mechanism, not the destination itself.
+    // Skip the lastMapIdRef update entirely for these; the Pokécenter's real paired outdoor
+    // map should never be disturbed by an unrelated teleport-in.
     const cur = mapStateRef.current;
 const OUTDOOR = ['overworld', 'plateau'];
-    if (cur && OUTDOOR.includes(cur.mapInfo.tileset)) {
+    if (!isDirectWarp && cur && OUTDOOR.includes(cur.mapInfo.tileset)) {
       lastMapIdRef.current = cur.mapId;
     }
     const mapInfo = gd.maps[mapId];
@@ -1448,6 +1551,12 @@ function notifyPosition() {
       const transformed = pickedUpItems.includes('BILLS_HOUSE:1:transformed');
       if (idx === 0 && transformed) return true;   // "before" monster sprite, hidden after
       if (idx === 2 && !transformed) return true;  // "after" human sprite, hidden before
+      // FIXED: the SS-Ticket NPC (array index 1, dialogue key BILLS_HOUSE:2) was never gated
+      // at all — real OG's default toggle state for this object is OFF (hidden) until the
+      // transform sequence completes (data/maps/toggleable_objects.asm: BILLSHOUSE_BILL1 =
+      // OFF), so the ticket was previously obtainable immediately without ever interacting
+      // with Bill. Hidden until transformed, matching every other pre/post pairing here.
+      if (idx === 1 && !transformed) return true;
     }
     return false;
   }
@@ -1518,6 +1627,11 @@ function notifyPosition() {
     INDIGO_PLATEAU_LOBBY: [{ x: 15, y: 7 }],
     CINNABAR_LAB_FOSSIL_ROOM: [{ x: 0, y: 4 }, { x: 2, y: 4 }],
     SILPH_CO_11F: [{ x: 10, y: 12 }],
+    // FIXED: BILLS_HOUSE was never extracted from hidden_events.asm into this table at all —
+    // Bill's PC could never be opened, chair or no chair. Real OG: hidden_event 1, 4,
+    // BillsHousePC (data/events/hidden_events.asm) — bg_event/hidden_event macro coordinates
+    // need no ×2 conversion (already native metatile units, see pokered CLAUDE.md).
+    BILLS_HOUSE: [{ x: 1, y: 4 }],
   };
 
   function isPCTile(mapId, tx, ty) {
@@ -1571,6 +1685,14 @@ function notifyPosition() {
     Agatha:      ["AGATHA: A piddling trainer like you dares challenge me?"],
     Lance:       ["LANCE: I am LANCE, the strongest trainer here!"],
   };
+
+  // Real per-instance OG trainer quotes (extracted_og_data/trainer_text.json, 341 trainers
+  // across 71 maps) — objectIndex uses the same 1-indexed object_event order as npcIndex
+  // (see npcText's comment). Only named/story trainers are covered; ordinary Youngsters etc.
+  // fall back to TRAINER_DIALOGUE's generic per-class line, same as before this existed.
+  function trainerTextFor(mapId, npcIndex) {
+    return mapId && npcIndex ? TRAINER_TEXT[mapId]?.find(e => e.objectIndex === npcIndex) : null;
+  }
 
   // Rival's starter is always whichever one counters the player's own (OG OaksLab.asm:
   // CHARMANDER->rival gets SQUIRTLE, SQUIRTLE->rival gets BULBASAUR, BULBASAUR->rival gets
@@ -1661,8 +1783,11 @@ function notifyPosition() {
   // deliberately skipped here and fall through to NPC_TEXT, which already special-cases
   // those sprites (oak/nurse/clerk/link_receptionist) with the correct action.
   function npcText(npc, mapId, npcIndex) {
-    const lines = npc.trainerClass && TRAINER_DIALOGUE[npc.trainerClass];
-    if (lines) return { lines, action: 'BATTLE' };
+    if (npc.trainerClass) {
+      const real = trainerTextFor(mapId, npcIndex);
+      const lines = real?.before ?? TRAINER_DIALOGUE[npc.trainerClass];
+      if (lines) return { lines, action: 'BATTLE' };
+    }
     const scripted = SCRIPTED_NPC_TEXT[`${mapId}:${npcIndex}`];
     if (scripted) return { lines: scripted };
     const mapEntry = mapId && npcIndex ? NPC_DIALOGUE[mapId]?.[npcIndex] : null;
@@ -2063,9 +2188,11 @@ function notifyPosition() {
       const id = isRival ? rivalBattleId(ms.mapId, npc) : npcTrainerId(ms.mapId, npc);
       const beaten = isRival ? isRivalBeaten(ms.mapId, npc, gameState?.beatenTrainers) : (gameState?.beatenTrainers ?? []).includes(id);
       if (beaten) {
+        const real = trainerTextFor(ms.mapId, npcIndex);
         const meta = TRAINER_META[npc.trainerClass];
         const name = meta?.name ?? npc.trainerClass.toUpperCase();
-        setDialogue({ lines: [`${name}: ...`, `${name} is out of POKÉMON to battle with!`], idx: 0, action: null });
+        const lines = real?.after ?? [`${name}: ...`, `${name} is out of POKÉMON to battle with!`];
+        setDialogue({ lines, idx: 0, action: null });
         return;
       }
       // Rival encounters store the encounter *instance* (0,1,2...) in npc.partyIdx — the
@@ -2073,7 +2200,7 @@ function notifyPosition() {
       // RIVAL_VARIANT_OFFSET above), so expand it to instance*3 + variant here.
       const variantOffset = isRival ? (RIVAL_VARIANT_OFFSET[gameState?.starterSpecies] ?? 0) : 0;
       const partyIdx = isRival ? (npc.partyIdx ?? 0) * 3 + variantOffset : (npc.partyIdx ?? 0);
-      setDialogue({ lines, idx: 0, action: 'BATTLE', trainerKey: npc.trainerClass, partyIdx, trainerId: id, sprite: npc.sprite });
+      setDialogue({ lines, idx: 0, action: 'BATTLE', trainerKey: npc.trainerClass, partyIdx, trainerId: id, sprite: npc.sprite, npcIndex });
       return;
     }
 
@@ -2140,7 +2267,7 @@ function notifyPosition() {
           const ms = mapStateRef.current;
           const p  = playerRef.current;
           setTimeout(() => onTrainerBattle(
-            { trainerKey: prev.trainerKey, partyIdx: prev.partyIdx ?? 0, trainerId: prev.trainerId, sprite: prev.sprite },
+            { trainerKey: prev.trainerKey, partyIdx: prev.partyIdx ?? 0, trainerId: prev.trainerId, sprite: prev.sprite, npcIndex: prev.npcIndex },
             ms?.mapId, p?.x, p?.y
           ), 50);
         }
@@ -2263,10 +2390,12 @@ function notifyPosition() {
               goPage('pokemon-options');
             }
           } else if (pg === 'pokemon-options') {
-            const c = menuCursorRef.current;
-            if (c === 0) goPage('pokemon-stats');
-            else if (c === 1) goPage('pokemon-switch-target');
-            else { pendingPartyIdxRef.current = null; goPage('pokemon'); }
+            const mon = (gsRef.current?.party ?? [])[pendingPartyIdxRef.current];
+            const opt = pokemonOptionsFor(mon)[menuCursorRef.current];
+            if (opt === 'STATS') goPage('pokemon-stats');
+            else if (opt === 'SWITCH') goPage('pokemon-switch-target');
+            else if (opt === 'CANCEL') { pendingPartyIdxRef.current = null; goPage('pokemon'); }
+            else if (opt) handleUseFieldMove(opt);
           } else if (pg === 'pokemon-switch-target') {
             const party = gsRef.current?.party ?? [];
             const from = pendingPartyIdxRef.current;
@@ -2436,7 +2565,14 @@ function notifyPosition() {
         // real representative is bottom-left (tx,ty+1), confirmed via the isWalkable() fix
         // above; every other tileset uses the standard offset (tx+1,ty).
         const counterTiles = COUNTER_TILES_BY_TILESET[ms.mapInfo.tileset];
-        const facedTileRaw = ms.mapInfo.tileset === 'pokecenter'
+        // 'club' (Bike Shop's tileset) needs the same bottom-left-quadrant sampling as
+        // 'pokecenter' — confirmed by direct block decode: BikeShop's real counter tile (23,
+        // registered in COUNTER_TILES_BY_TILESET.club) sits in the bottom-left quadrant of its
+        // metatile (TL=54, TR=16, BL=23, BR=24), not the top-right the generic branch samples,
+        // so overCounter was always false there and the clerk (2 tiles behind the counter) was
+        // never reachable. Every other tileset still uses the standard top-right offset.
+        const BOTTOM_LEFT_COUNTER_TILESETS = ['pokecenter', 'club'];
+        const facedTileRaw = BOTTOM_LEFT_COUNTER_TILESETS.includes(ms.mapInfo.tileset)
           ? getTileId(fx * 2, fy * 2 + 1)
           : getTileId(fx * 2 + 1, fy * 2);
         const overCounter = counterTiles?.includes(facedTileRaw);
@@ -2563,6 +2699,26 @@ function notifyPosition() {
         // ledge-adjacent cells from isWalkable()'s bottom-row water-edge check — see the
         // big comment there before changing this.
         gd.ledgeStandTilesByTileset = { overworld: new Set(gd.ledges.map(l => l.standTile)) };
+        // Decorative border/trim tile IDs, per WATER_TILESETS tileset, that are absent from
+        // the tileset's passable list but sit as a minority decoration inside blocks that are
+        // otherwise almost entirely walkable — same "false-positive obstacle" bug class as the
+        // tile-3/tile-80 fixes, now confirmed for 'gym' (Cerulean Gym: tiles 1/4/6 bordering dry
+        // floor, walkable-% simulated at 15% vs. 58-71% for every sibling gym before this fix —
+        // individually, visually audited, not just heuristic). 'forest'/'cavern'/'facility'
+        // entries came from a stricter automated sweep (a tile ID must be a minority element —
+        // block is 14-15/16 passable — AND never once appear as a real, blocking obstacle
+        // anywhere else in the same tileset) rather than a full per-tile visual audit like gym —
+        // flagged in the checklist as lighter-touch, worth a spot-check if a similar report
+        // comes in for those tilesets. Used by isWalkable()'s WATER_TILESETS direct-tile check
+        // below — do not add a tile here without first confirming (same method as gym) it's
+        // never used as a genuine water/obstacle edge, per this function's own EXTREMELY
+        // FRAGILE warning.
+        gd.waterDecorativeTilesByTileset = {
+          gym: new Set([1, 4, 6]),
+          forest: new Set([83]),
+          cavern: new Set([47]),
+          facility: new Set([65, 81]),
+        };
         const playerOc = await loadSpriteTransparent('/pokered/sprites/red.png');
         playerImgRef.current = playerOc;
         const startMap = initialMapId || 'PALLET_TOWN';
@@ -2596,9 +2752,9 @@ function notifyPosition() {
       if (transitionRef.current === 1) {
         fadeAlpha = Math.min(1, fadeAlpha + FADE_SPEED * dt);
         if (fadeAlpha >= 1 && pendingMapRef.current) {
-          const { mapId, x, y } = pendingMapRef.current;
+          const { mapId, x, y, isDirectWarp } = pendingMapRef.current;
           pendingMapRef.current = null;
-          loadMap(mapId, x, y);
+          loadMap(mapId, x, y, !!isDirectWarp);
           // transitionRef stays 1 until loadMap sets it to 2 — blocks movement during async load
         }
       } else if (transitionRef.current === 2) {
@@ -2875,7 +3031,11 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
       // ── NPC patrol movement ──
       // Gen 1 model: each step takes WALK_SPD duration, then a random 0–127 frame delay before next step.
       // Collision is checked before committing any move; blocked NPCs just wait and retry.
-      if (ms) {
+      // Gated the same way player input is (line ~2641 above): OG's engine is a single blocking
+      // loop, so ANY open dialogue/menu/trainer-engage freezes every sprite on screen, not just
+      // the player. Without this guard, patrol NPCs kept walking their random routes while you
+      // were mid-conversation with one of them (or with anyone else on the same map).
+      if (ms && !dialogueRef.current && !showMenuRef.current && !trainerEngageRef.current) {
         const tW = ms.mapInfo.w * 2, tH = ms.mapInfo.h * 2;
         for (const npc of ms.mapInfo.npcs) {
           if (npc.movement === 'STAND' || npc.sprite === 'poke_ball') continue;
@@ -3305,7 +3465,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
 
           if (menuPage === 'pokemon-options') {
             const mon = party[pendingPartyIdxRef.current];
-            const options = ['STATS', 'SWITCH', 'CANCEL'];
+            const options = pokemonOptionsFor(mon);
             menuItemCountRef.current = options.length;
             return (
               <div className="pkr-menu-overlay" onClick={closeMenu}>
@@ -3313,8 +3473,13 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
                   <div className="pkr-menu-header"><span>{mon ? mon.species.replace(/_/g,' ') : 'POKÉMON'}</span><button className="pkr-menu-back" onClick={() => setMenuPage('pokemon')}>◀ BACK</button></div>
                   {options.map((opt, i) => (
                     <div key={opt} className={`pkr-menu-item${menuCursor === i ? ' pkr-menu-selected' : ''}`}
-                      onClick={() => { if (i === 0) setMenuPage('pokemon-stats'); else if (i === 1) setMenuPage('pokemon-switch-target'); else { pendingPartyIdxRef.current = null; setMenuPage('pokemon'); } }}>
-                      {menuCursor === i && <span className="pkr-menu-cursor">► </span>}{opt}
+                      onClick={() => {
+                        if (opt === 'STATS') setMenuPage('pokemon-stats');
+                        else if (opt === 'SWITCH') setMenuPage('pokemon-switch-target');
+                        else if (opt === 'CANCEL') { pendingPartyIdxRef.current = null; setMenuPage('pokemon'); }
+                        else handleUseFieldMove(opt);
+                      }}>
+                      {menuCursor === i && <span className="pkr-menu-cursor">► </span>}{opt.replace(/_/g, ' ')}
                     </div>
                   ))}
                 </div>
