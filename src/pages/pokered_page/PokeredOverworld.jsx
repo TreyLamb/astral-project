@@ -82,15 +82,6 @@ const DIR_UP    = 1;
 const DIR_LEFT  = 2;
 const DIR_RIGHT = 3;
 
-// Pewter City youngster trigger coordinates (x=37, y=16-19)
-// Player at these coordinates without Boulder Badge triggers the youngster cutscene
-const PEWTER_YOUNGSTER_TRIGGER_COORDS = [
-  [37, 16],
-  [37, 17],
-  [37, 18],
-  [37, 19],
-];
-
 // Youngster's forced-movement path from auto_movement.asm RLEList_PewterGymPlayer (reversed execution order)
 // DOWN 2, LEFT 15, UP 5, LEFT 11, DOWN 5, RIGHT 2
 const PEWTER_YOUNGSTER_PATH = [
@@ -1196,7 +1187,7 @@ const OUTDOOR = ['overworld', 'plateau'];
       }
     }
 
-    // Route 22 Rival ambush (real OG: Route22DefaultScript checks player coords against
+// Route 22 Rival ambush (real OG: Route22DefaultScript checks player coords against
     // (29,4)/(29,5), NOT an NPC-facing/LOS check like every other trainer — he doesn't stand
     // there waiting to be talked to, he walks up and battles the moment you cross this exact
     // spot). Real OG's Route22MoveRivalRightScript then plays a real scripted walk before the
@@ -1357,21 +1348,25 @@ const OUTDOOR = ['overworld', 'plateau'];
       }
     }
 
-    // Pewter City "leaving east toward Route 3" blocker (scripts/PewterCity.asm
-    // PewterCityCheckPlayerLeavingEastScript) — same ambient proximity-trigger pattern as
-    // the Route 22 rival ambush above. Real OG: before EVENT_BEAT_BROCK, standing on any of
-    // 4 specific tiles right at the east edge shows the youngster's "go challenge the gym
-    // first" line and discards the buffered movement (wJoyIgnore) — this port has no input-
-    // discard concept mid-step, so the equivalent effect is just showing the blocking text;
-    // the player is free to keep pressing east and will simply re-trigger this every time
-    // they land back on one of these 4 tiles, which functionally prevents ever reaching the
-    // map-edge transition tile beyond them. Coordinates are OG's raw dbmapcoord values
-    // taken unconverted — wXCoord/wYCoord already match this port's metatile-unit p.x/p.y
-    // 1:1 post-refactor, confirmed via the dbmapcoord macro's own storage order.
+    // Pewter City youngster escort cutscene (scripts/PewterCity.asm
+    // PewterCityCheckPlayerLeavingEastScript + PewterCityYoungsterShowsPlayerGymScript +
+    // engine/overworld/auto_movement.asm PewterMovementScript_WalkToGym) — same ambient
+    // proximity-trigger pattern as the Route 22 rival ambush above. Real OG: before
+    // EVENT_BEAT_BROCK, standing on any of these 4 tiles (OG's raw dbmapcoord values, taken
+    // unconverted — wXCoord/wYCoord already match this port's metatile-unit p.x/p.y 1:1
+    // post-refactor) discards buffered input (wJoyIgnore) and starts a real forced-movement
+    // escort: the youngster walks the player to the gym via RLEList_PewterGymPlayer, executed
+    // in reverse order per direct trace of auto_movement.asm (DOWN 2, LEFT 15, UP 5, LEFT 11,
+    // DOWN 5, RIGHT 2) — see PEWTER_YOUNGSTER_PATH and the PEWTER_YOUNGSTER_CUTSCENE dialogue
+    // action in advanceDialogue, which queues forcedMovementQueueRef once this dialogue closes.
     if (ms.mapId === 'PEWTER_CITY' && !(gameState?.badges ?? []).includes(0)) {
       const leavingEastCoords = [[35, 17], [36, 17], [37, 18], [37, 19]];
       if (leavingEastCoords.some(([cx, cy]) => p.x === cx && p.y === cy)) {
-        setDialogue({ lines: ["You're a trainer\nright? BROCK's\nlooking for new\nchallengers!\nFollow me!"], idx: 0, action: null });
+        setDialogue({
+          lines: ["You're a trainer\nright? BROCK's\nlooking for new\nchallengers!\nFollow me!"],
+          idx: 0,
+          action: 'PEWTER_YOUNGSTER_CUTSCENE',
+        });
         return;
       }
     }
@@ -2918,23 +2913,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
               // the same facingMatchesDir rule an ordinary in-bounds warp trigger already uses.
               const exitWarp = ms.mapInfo.warps.find(w => w.x === p.x && w.y === p.y && w.dest === 'LAST_MAP');
               if (exitWarp && facingMatchesDir(dir, exitWarp.dir)) fn.handleWarp(exitWarp);
-              else {
-                // Pewter City youngster cutscene (PewterCityCheckPlayerLeavingEastScript from scripts/PewterCity.asm)
-                // Triggers when player tries to exit east at coordinates (37, 16-19) without Boulder Badge
-                if (ms.mapId === 'PEWTER_CITY' && !(gameState?.badges ?? []).includes(0)) {
-                  const onTriggerCoord = PEWTER_YOUNGSTER_TRIGGER_COORDS.some(([tx, ty]) => p.x === tx && p.y === ty);
-                  if (onTriggerCoord) {
-                    // Show initial dialogue with action to trigger forced-movement cutscene
-                    setDialogue({
-                      lines: ["You're a trainer\nright? BROCK's\nlooking for new\nchallengers!\nFollow me!"],
-                      idx: 0,
-                      action: 'PEWTER_YOUNGSTER_CUTSCENE'
-                    });
-                    return; // Block the movement, dialogue action will queue forced sequence
-                  }
-                }
-                fn.handleMapEdge(ddx, ddy);
-              }
+              else fn.handleMapEdge(ddx, ddy);
             } else {
               const ledgeJump = fn.isValidLedge(p.x, p.y, ddx, ddy);
               // Surf exception: isHalfStepBlocked (EXTREMELY FRAGILE, see its own comment — never
