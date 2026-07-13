@@ -21,7 +21,9 @@ As this is a port of pokered based on the code in pokered_OG 99.9% of our change
 Unless it is a UNIQUE user-request, the OG code will always have an answer, if you can't find it you aren't looking in all the folders at a deep enough level.
 
 When fixing a bug or implementing something that isn't 1 to 1 with the OG data - comment THOROUGHLY so all other agents now and in the future understand the reasoning and can iterate on it or change it as needed in the future.
-
+ 
+ Don't take the easy route or do a shortcut. implement things the way you are supposed to. if it doesn't match the OG code as closely as realistic, you did it wrong.
+ 
 **This has been the single biggest source of wasted time on this project. Concretely, that means:**
 
 - **Multi-file split data** — A single game location's behavior routinely spans multiple files: object-events (positions/types), script (branching logic), text (strings), blockset/tileset (visuals), and our own JSON. Checking only one and concluding "fully covered" or "missing" is unreliable. Confirmed precedent: Red's House 1F's TV has different text depending on which side you approach from (`scripts/RedsHouse1F.asm`: facing UP shows the movie text, anything else shows "Oops, wrong side.") — that branching lives in the script file, not the bg_event or text file alone.

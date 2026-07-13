@@ -1,7 +1,26 @@
 {
   "permissions": {
     "allow": [
-      "Bash(awk '/\"ROUTE_9\"/{start=NR} start && start+200>NR && /^    \"ROUTE_10\"/{print NR\": reached next map\"; exit}' /c/Users/clown/projects/astral-project/public/pokered/game_data.json)"
+      "Bash(awk '/\"ROUTE_9\"/{start=NR} start && start+200>NR && /^    \"ROUTE_10\"/{print NR\": reached next map\"; exit}' /c/Users/clown/projects/astral-project/public/pokered/game_data.json)",
+      "PowerShell(head -40)",
+      "Bash(cat)",
+      "Bash(chmod +x \"/c/Users/clown/AppData/Local/Temp/claude/c--Users-clown-projects-astral-project-src-pages-pokered-page/10942159-67b8-4d53-9b3d-abf917c7a6bb/scratchpad/inventory.sh\")",
+      "Bash(bash \"/c/Users/clown/AppData/Local/Temp/claude/c--Users-clown-projects-astral-project-src-pages-pokered-page/10942159-67b8-4d53-9b3d-abf917c7a6bb/scratchpad/inventory.sh\")",
+      "Bash(python3 \"C:\\\\Users\\\\clown\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-clown-projects-astral-project-src-pages-pokered-page\\\\10942159-67b8-4d53-9b3d-abf917c7a6bb\\\\scratchpad\\\\extract_dialogue.py\")",
+      "PowerShell(head -15)",
+      "Bash(cat > *)",
+      "Bash(grep -n \"\\\\\\\\.\\\\\\\\.\\\\\\\\.\" \"c:/Users/clown/projects/astral-project/src/pages/pokered_page/PokeredOverworld.jsx\")",
+      "Bash(grep -v \"// \")",
+      "Bash(cd /c)",
+      "Bash(python3 -c ' *)",
+      "Bash(chmod +x /tmp/update_trainer_text.sh)",
+      "Bash(/tmp/update_trainer_text.sh)",
+      "Bash(npm --version)",
+      "Skill(run)",
+      "Skill(run:*)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\clown\\AppData\\Local\\Temp\\claude\\c--Users-clown-projects-astral-project-src-pages-pokered-page\\10942159-67b8-4d53-9b3d-abf917c7a6bb\\scratchpad"
     ]
   }
 }

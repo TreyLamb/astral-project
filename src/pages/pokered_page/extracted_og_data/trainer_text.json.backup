@@ -56,10 +56,7 @@
         "You are remarkably\nstrong.",
         "I must confer you\nthe RAINBOWBADGE."
       ],
-      "after": [
-        "You are cataloging\n#MON? I must\nsay I'm impressed.",
-        "I would never\ncollect #MON\nif they were\nunattractive."
-      ]
+      "after": []
     },
     {
       "objectIndex": 2,
@@ -205,10 +202,7 @@
         "All right!",
         "You can have the\nCASCADEBADGE to\nshow you beat me!"
       ],
-      "after": [
-        "TM11 teaches\nBUBBLEBEAM!",
-        "Use it on an\naquatic #MON!"
-      ]
+      "after": []
     },
     {
       "objectIndex": 2,
@@ -254,10 +248,7 @@
         "I have\nburnt out!",
         "You have earned\nthe VOLCANOBADGE!"
       ],
-      "after": [
-        "FIRE BLAST is the\nultimate fire\ntechnique!",
-        "Don't waste it on\nwater #MON!"
-      ]
+      "after": []
     },
     {
       "objectIndex": 2,
@@ -443,10 +434,7 @@
         "Humph!\nYou have proven\nyour worth!",
         "Here! Take the\nSOULBADGE!"
       ],
-      "after": [
-        "When afflicted by\nTOXIC, #MON\nsuffer more and\nmore as battle\nprogresses!",
-        "It will surely\nterritorize foes!"
-      ]
+      "after": []
     },
     {
       "objectIndex": 2,
@@ -761,11 +749,7 @@
         "Its bearer's\nPOKéMON become\nmore powerful!",
         "The technique\nFLASH can now be\nused any time!"
       ],
-      "after": [
-        "There are all\nkinds of trainers\nin the world!",
-        "You appear to be\nvery gifted as a\n#MON trainer!",
-        "Go to the GYM in\nCERULEAN and test\nyour abilities!"
-      ]
+      "after": []
     },
     {
       "objectIndex": 2,
@@ -1370,9 +1354,7 @@
       "win": [
         "No!"
       ],
-      "after": [
-        "Oh no! I dropped\nthe LIFT KEY!"
-      ]
+      "after": []
     }
   ],
   "ROCK_TUNNEL_1F": [
@@ -3572,9 +3554,7 @@
         "I admit I didn't\nwork hard enough\nto win!",
         "You earned the\nMARSHBADGE!"
       ],
-      "after": [
-        "Everyone has\npsychic power!\nPeople just don't\nrealize it!"
-      ]
+      "after": []
     },
     {
       "objectIndex": 2,
@@ -4341,11 +4321,7 @@
         "You're the real\ndeal, kid!",
         "Fine then, take\nthe THUNDERBADGE!"
       ],
-      "after": [
-        "A little word of\nadvice, kid!",
-        "Electricity is\nsure powerful!",
-        "But, it's useless\nagainst ground-\ntype #MON!"
-      ]
+      "after": []
     },
     {
       "objectIndex": 2,
@@ -4607,11 +4583,7 @@
       "win": [
         "Ha!\nThat was a truly\nintense fight!\nYou have won!\nAs proof, here is\nthe EARTHBADGE!"
       ],
-      "after": [
-        "Having lost, I\ncannot face my\nunderlings!\nTEAM ROCKET is\nfinished forever!",
-        "I will dedicate my\nlife to the study\nof #MON!",
-        "Let us meet again\nsome day!\nFarewell!"
-      ]
+      "after": []
     },
     {
       "objectIndex": 2,

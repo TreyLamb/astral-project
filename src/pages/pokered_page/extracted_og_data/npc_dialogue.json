@@ -17,18 +17,26 @@
       ]
     },
     "3": {
-      "scripted": true,
-      "label": "BikeShopYoungsterText"
+      "text": [
+        "These BIKEs are\ncool, but they're\nway expensive!"
+      ]
     }
   },
   "BILLS_HOUSE": {
     "1": {
-      "scripted": true,
-      "label": "BillsHouseBillPokemonText"
+      "text": [
+        "Hiya! I'm a\n#MON...\n...No I'm not!",
+        "Call me BILL!\nI'm a true blue\n#MANIAC! Hey!\nWhat's with that\nskeptical look?",
+        "I'm not joshing\nyou, I screwed up\nan experiment and\ngot combined with\na #MON!",
+        "So, how about it?\nHelp me out here!"
+      ]
     },
     "2": {
-      "scripted": true,
-      "label": "BillsHouseBillSSTicketText"
+      "text": [
+        "BILL: Yeehah!\nThanks, bud! I\nowe you one!",
+        "So, did you come\nto see my #MON\ncollection?\nYou didn't?\nThat's a bummer.",
+        "I've got to thank\nyou... Oh here,\nmaybe this'll do."
+      ]
     },
     "3": {
       "text": [
@@ -101,8 +109,11 @@
       ]
     },
     "5": {
-      "scripted": true,
-      "label": "CeladonCityGramps3Text"
+      "text": [
+        "Hello, there!",
+        "I've seen you,\nbut I never had a\nchance to talk!",
+        "Here's a gift for\ndropping by!"
+      ]
     },
     "6": {
       "text": [
@@ -150,14 +161,24 @@
       ]
     },
     "5": {
-      "scripted": true,
-      "label": "CeladonDinerGymGuideText"
+      "text": [
+        "Go ahead! Laugh!",
+        "I'm flat out\nbusted!",
+        "No more slots for\nme! I'm going\nstraight!",
+        "Here! I won't be\nneeding this any-\nmore!"
+      ]
     }
   },
   "CELADON_GYM": {
     "1": {
-      "scripted": true,
-      "label": "CeladonGymErikaText"
+      "text": [
+        "Hello. Lovely\nweather isn't it?\nIt's so pleasant.",
+        "...Oh dear...\nI must have dozed\noff. Welcome.",
+        "My name is ERIKA.\nI am the LEADER\nof CELADON GYM.",
+        "I teach the art of\nflower arranging.\nMy #MON are of\nthe grass-type.",
+        "Oh, I'm sorry, I\nhad no idea that\nyou wished to\nchallenge me.",
+        "Very well, but I\nshall not lose."
+      ]
     },
     "2": {
       "scripted": true,
@@ -249,8 +270,12 @@
       ]
     },
     "4": {
-      "scripted": true,
-      "label": "CeladonMansion3FGameDesignerText"
+      "text": [
+        "Is that right?",
+        "I'm the game\ndesigner!",
+        "Filling up your\n#DEX is tough,\nbut don't quit!",
+        "When you finish,\ncome tell me!"
+      ]
     }
   },
   "CELADON_MANSION_ROOF_HOUSE": {
@@ -296,8 +321,10 @@
   },
   "CELADON_MART_3F": {
     "1": {
-      "scripted": true,
-      "label": "CeladonMart3FClerkText"
+      "text": [
+        "Oh, hi! I finally\nfinished #MON!",
+        "Not done yet?\nThis might be\nuseful!"
+      ]
     },
     "2": {
       "text": [
@@ -373,8 +400,9 @@
       ]
     },
     "2": {
-      "scripted": true,
-      "label": "CeladonMartRoofLittleGirlText"
+      "text": [
+        "I'm thirsty!\nI want something\nto drink!"
+      ]
     }
   },
   "CELADON_POKECENTER": {
@@ -450,12 +478,18 @@
   },
   "CERULEAN_CITY": {
     "1": {
-      "scripted": true,
-      "label": "CeruleanCityRivalText"
+      "text": [
+        "<RIVAL>: Yo!\n<PLAYER>!",
+        "You're still\nstruggling along\nback here?",
+        "I'm doing great!\nI caught a bunch\nof strong and\nsmart #MON!",
+        "Here, let me see\nwhat you caught,\n<PLAYER>!"
+      ]
     },
     "2": {
-      "scripted": true,
-      "label": "CeruleanCityRocketText"
+      "text": [
+        "Hey! Stay out!\nIt's not your\nyard! Huh? Me?",
+        "I'm an innocent\nbystander! Don't\nyou believe me?"
+      ]
     },
     "3": {
       "text": [
@@ -481,12 +515,14 @@
       ]
     },
     "7": {
-      "scripted": true,
-      "label": "CeruleanCityCooltrainerF1Text"
+      "text": [
+        "OK! SLOWBRO!\nUse SONICBOOM!\nCome on, SLOWBRO\npay attention!"
+      ]
     },
     "8": {
-      "scripted": true,
-      "label": "CeruleanCitySlowbroText"
+      "text": [
+        "SLOWBRO took a\nsnooze..."
+      ]
     },
     "9": {
       "text": [
@@ -510,8 +546,12 @@
   },
   "CERULEAN_GYM": {
     "1": {
-      "scripted": true,
-      "label": "CeruleanGymMistyText"
+      "text": [
+        "Hi, you're a new\nface!",
+        "Trainers who want\nto turn pro have\nto have a policy\nabout #MON!",
+        "What is your\napproach when you\ncatch #MON?",
+        "My policy is an\nall-out offensive\nwith water-type\n#MON!"
+      ]
     },
     "2": {
       "scripted": true,
@@ -522,8 +562,13 @@
       "label": "CeruleanGymSwimmerText"
     },
     "4": {
-      "scripted": true,
-      "label": "CeruleanGymGymGuideText"
+      "text": [
+        "Yo! Champ in\nmaking!",
+        "Here's my advice!",
+        "The LEADER, MISTY,\nis a pro who uses\nwater #MON!",
+        "You can drain all\ntheir water with\nplant #MON!",
+        "Or, zap them with\nelectricity!"
+      ]
     }
   },
   "CERULEAN_MART": {
@@ -582,8 +627,12 @@
   },
   "CERULEAN_TRASHED_HOUSE": {
     "1": {
-      "scripted": true,
-      "label": "CeruleanTrashedHouseFishingGuruText"
+      "text": [
+        "Those miserable\nROCKETs!",
+        "Look what they\ndid here!",
+        "They stole a TM\nfor teaching\n#MON how to\nDIG holes!",
+        "That cost me a\nbundle, it did!"
+      ]
     },
     "2": {
       "text": [
@@ -593,8 +642,18 @@
   },
   "CHAMPIONS_ROOM": {
     "1": {
-      "scripted": true,
-      "label": "ChampionsRoomRivalText"
+      "text": [
+        "<RIVAL>: Hey!",
+        "I was looking\nforward to seeing\nyou, <PLAYER>!",
+        "My rival should\nbe strong to keep\nme sharp!",
+        "While working on\n#DEX, I looked\nall over for\npowerful #MON!",
+        "Not only that, I\nassembled teams\nthat would beat\nany #MON type!",
+        "And now!",
+        "I'm the #MON\nLEAGUE champion!",
+        "<PLAYER>! Do you\nknow what that\nmeans?",
+        "I'll tell you!",
+        "I am the most\npowerful trainer\nin the world!"
+      ]
     },
     "2": {
       "text": [
@@ -604,8 +663,12 @@
   },
   "CINNABAR_GYM": {
     "1": {
-      "scripted": true,
-      "label": "CinnabarGymBlaineText"
+      "text": [
+        "Hah!",
+        "I am BLAINE! I\nam the LEADER of\nCINNABAR GYM!",
+        "My fiery #MON\nwill incinerate\nall challengers!",
+        "Hah! You better\nhave BURN HEAL!"
+      ]
     },
     "2": {
       "scripted": true,
@@ -636,8 +699,12 @@
       "label": "CinnabarGymSuperNerd7"
     },
     "9": {
-      "scripted": true,
-      "label": "CinnabarGymGymGuideText"
+      "text": [
+        "Yo! Champ in\nmaking!",
+        "The hot-headed\nBLAINE is a fire\n#MON pro!",
+        "Douse his spirits\nwith water!",
+        "You better take\nsome BURN HEALs!"
+      ]
     }
   },
   "CINNABAR_ISLAND": {
@@ -662,8 +729,12 @@
   },
   "CINNABAR_LAB_FOSSIL_ROOM": {
     "1": {
-      "scripted": true,
-      "label": "CinnabarLabFossilRoomScientist1Text"
+      "text": [
+        "Hiya!",
+        "I am important\ndoctor!",
+        "I study here rare\n#MON fossils!",
+        "You! Have you a\nfossil for me?"
+      ]
     },
     "2": {
       "scripted": true,
@@ -672,8 +743,10 @@
   },
   "CINNABAR_LAB_METRONOME_ROOM": {
     "1": {
-      "scripted": true,
-      "label": "CinnabarLabMetronomeRoomScientist1Text"
+      "text": [
+        "Tch-tch-tch!\nI made a cool TM!",
+        "It can cause all\nkinds of fun!"
+      ]
     },
     "2": {
       "text": [
@@ -763,8 +836,13 @@
   },
   "COPYCATS_HOUSE_2F": {
     "1": {
-      "scripted": true,
-      "label": "CopycatsHouse2FCopycatText"
+      "text": [
+        "<PLAYER>: Hi! Do\nyou like #MON?",
+        "<PLAYER>: Uh no, I\njust asked you.",
+        "<PLAYER>: Huh?\nYou're strange!",
+        "COPYCAT: Hmm?\nQuit mimicking?",
+        "But, that's my\nfavorite hobby!"
+      ]
     },
     "2": {
       "text": [
@@ -812,8 +890,12 @@
   },
   "FIGHTING_DOJO": {
     "1": {
-      "scripted": true,
-      "label": "FightingDojoKarateMasterText"
+      "text": [
+        "Grunt!",
+        "I am the KARATE\nMASTER! I am the\nLEADER here!",
+        "You wish to\nchallenge us?\nExpect no mercy!",
+        "Fwaaa!"
+      ]
     },
     "2": {
       "scripted": true,
@@ -832,12 +914,14 @@
       "label": "FightingDojoBlackbelt4Text"
     },
     "6": {
-      "scripted": true,
-      "label": "FightingDojoHitmonleePokeBallText"
+      "text": [
+        "You want the\nhard kicking\nHITMONLEE?"
+      ]
     },
     "7": {
-      "scripted": true,
-      "label": "FightingDojoHitmonchanPokeBallText"
+      "text": [
+        "You want the\npiston punching\nHITMONCHAN?"
+      ]
     }
   },
   "FUCHSIA_BILLS_GRANDPAS_HOUSE": {
@@ -916,14 +1000,21 @@
   },
   "FUCHSIA_GOOD_ROD_HOUSE": {
     "1": {
-      "scripted": true,
-      "label": "FuchsiaGoodRodHouseFishingGuruText"
+      "text": [
+        "I'm the FISHING\nGURU's older\nbrother!",
+        "I simply Looove\nfishing!",
+        "Do you like to\nfish?"
+      ]
     }
   },
   "FUCHSIA_GYM": {
     "1": {
-      "scripted": true,
-      "label": "FuchsiaGymKogaText"
+      "text": [
+        "KOGA: Fwahahaha!",
+        "A mere child like\nyou dares to\nchallenge me?",
+        "Very well, I\nshall show you\ntrue terror as a\nninja master!",
+        "You shall feel\nthe despair of\npoison and sleep\ntechniques!"
+      ]
     },
     "2": {
       "scripted": true,
@@ -950,8 +1041,12 @@
       "label": "FuchsiaGymRocker6Text"
     },
     "8": {
-      "scripted": true,
-      "label": "FuchsiaGymGymGuideText"
+      "text": [
+        "Yo! Champ in\nmaking!",
+        "FUCHSIA GYM is\nriddled with\ninvisible walls!",
+        "KOGA might appear\nclose, but he's\nblocked off!",
+        "You have to find\ngaps in the walls\nto reach him!"
+      ]
     }
   },
   "FUCHSIA_MART": {
@@ -1036,8 +1131,9 @@
       ]
     },
     "5": {
-      "scripted": true,
-      "label": "GameCornerFishingGuruText"
+      "text": [
+        "Kid, do you want\nto play?"
+      ]
     },
     "6": {
       "text": [
@@ -1054,16 +1150,19 @@
       ]
     },
     "9": {
-      "scripted": true,
-      "label": "GameCornerClerk2Text"
+      "text": [
+        "What's up? Want\nsome coins?"
+      ]
     },
     "10": {
-      "scripted": true,
-      "label": "GameCornerGentlemanText"
+      "text": [
+        "Hey, what? You're\nthrowing me off!\nHere are some\ncoins, shoo!"
+      ]
     },
     "11": {
-      "scripted": true,
-      "label": "GameCornerRocketText"
+      "text": [
+        "I'm guarding this\nposter!\nGo away, or else!"
+      ]
     }
   },
   "GAME_CORNER_PRIZE_ROOM": {
@@ -1131,8 +1230,11 @@
       ]
     },
     "2": {
-      "scripted": true,
-      "label": "LavenderCuboneHouseBrunetteGirlText"
+      "text": [
+        "I hate those\nhorrible ROCKETs!",
+        "That poor CUBONE's\nmother...",
+        "It was killed\ntrying to escape\nfrom TEAM ROCKET!"
+      ]
     }
   },
   "LAVENDER_MART": {
@@ -1148,8 +1250,9 @@
       ]
     },
     "3": {
-      "scripted": true,
-      "label": "LavenderMartCooltrainerMText"
+      "text": [
+        "You know REVIVE?\nIt revives any\nfainted #MON!"
+      ]
     }
   },
   "LAVENDER_POKECENTER": {
@@ -1174,8 +1277,9 @@
   },
   "LAVENDER_TOWN": {
     "1": {
-      "scripted": true,
-      "label": "LavenderTownLittleGirlText"
+      "text": [
+        "Do you believe in\nGHOSTs?"
+      ]
     },
     "2": {
       "text": [
@@ -1198,12 +1302,16 @@
   },
   "MR_FUJIS_HOUSE": {
     "1": {
-      "scripted": true,
-      "label": "MrFujisHouseSuperNerdText"
+      "text": [
+        "That's odd, MR.FUJI\nisn't here.\nWhere'd he go?"
+      ]
     },
     "2": {
-      "scripted": true,
-      "label": "MrFujisHouseLittleGirlText"
+      "text": [
+        "This is really\nMR.FUJI's house.",
+        "He's really kind!",
+        "He looks after\nabandoned and\norphaned #MON!"
+      ]
     },
     "3": {
       "text": [
@@ -1216,8 +1324,11 @@
       ]
     },
     "5": {
-      "scripted": true,
-      "label": "MrFujisHouseMrFujiText"
+      "text": [
+        "MR.FUJI: <PLAYER>.",
+        "Your #DEX quest\nmay fail without\nlove for your\n#MON.",
+        "I think this may\nhelp your quest."
+      ]
     },
     "6": {
       "text": [
@@ -1229,8 +1340,10 @@
   },
   "MR_PSYCHICS_HOUSE": {
     "1": {
-      "scripted": true,
-      "label": "MrPsychicsHouseMrPsychicText"
+      "text": [
+        "...Wait! Don't\nsay a word!",
+        "You wanted this!"
+      ]
     }
   },
   "MT_MOON_1F": {
@@ -1309,12 +1422,14 @@
       "label": "MtMoonB2FRocket4Text"
     },
     "6": {
-      "scripted": true,
-      "label": "MtMoonB2FDomeFossilText"
+      "text": [
+        "You want the\nDOME FOSSIL?"
+      ]
     },
     "7": {
-      "scripted": true,
-      "label": "MtMoonB2FHelixFossilText"
+      "text": [
+        "You want the\nHELIX FOSSIL?"
+      ]
     },
     "8": {
       "scripted": true,
@@ -1365,8 +1480,13 @@
       ]
     },
     "3": {
-      "scripted": true,
-      "label": "Museum1FScientist2Text"
+      "text": [
+        "Ssh! I think that\nthis chunk of\nAMBER contains\n#MON DNA!",
+        "It would be great\nif #MON could\nbe resurrected\nfrom it!",
+        "But, my colleagues\njust ignore me!",
+        "So I have a favor\nto ask!",
+        "Take this to a\n#MON LAB and\nget it examined!"
+      ]
     },
     "4": {
       "text": [
@@ -1412,14 +1532,17 @@
   },
   "NAME_RATERS_HOUSE": {
     "1": {
-      "scripted": true,
-      "label": "NameRatersHouseNameRaterText"
+      "text": [
+        "Hello, hello!\nI am the official\nNAME RATER!",
+        "Want me to rate\nthe nicknames of\nyour #MON?"
+      ]
     }
   },
   "OAKS_LAB": {
     "1": {
-      "scripted": true,
-      "label": "OaksLabRivalText"
+      "text": [
+        "<RIVAL>: Yo\n<PLAYER>! Gramps\nisn't around!"
+      ]
     },
     "2": {
       "scripted": true,
@@ -1471,8 +1594,9 @@
   },
   "PALLET_TOWN": {
     "1": {
-      "scripted": true,
-      "label": "PalletTownOakText"
+      "text": [
+        "OAK: Hey! Wait!\nDon't go out!@"
+      ]
     },
     "2": {
       "text": [
@@ -1501,12 +1625,14 @@
       ]
     },
     "3": {
-      "scripted": true,
-      "label": "PewterCitySuperNerd1Text"
+      "text": [
+        "Did you check out\nthe MUSEUM?"
+      ]
     },
     "4": {
-      "scripted": true,
-      "label": "PewterCitySuperNerd2Text"
+      "text": [
+        "Psssst!\nDo you know what\nI'm doing?"
+      ]
     },
     "5": {
       "text": [
@@ -1516,8 +1642,12 @@
   },
   "PEWTER_GYM": {
     "1": {
-      "scripted": true,
-      "label": "PewterGymBrockText"
+      "text": [
+        "I'm BROCK!\nI'm PEWTER's GYM\nLEADER!",
+        "I believe in rock\nhard defense and\ndetermination!",
+        "That's why my\n#MON are all\nthe rock-type!",
+        "Do you still want\nto challenge me?\nFine then! Show\nme your best!"
+      ]
     },
     "2": {
       "scripted": true,
@@ -1602,12 +1732,15 @@
   },
   "POKEMON_FAN_CLUB": {
     "1": {
-      "scripted": true,
-      "label": "PokemonFanClubPikachuFanText"
+      "text": [
+        "Won't you admire\nmy PIKACHU's\nadorable tail?"
+      ]
     },
     "2": {
-      "scripted": true,
-      "label": "PokemonFanClubSeelFanText"
+      "text": [
+        "I just love my\nSEEL!",
+        "It squeals when I\nhug it!"
+      ]
     },
     "3": {
       "text": [
@@ -1620,8 +1753,13 @@
       ]
     },
     "5": {
-      "scripted": true,
-      "label": "PokemonFanClubChairmanText"
+      "text": [
+        "I chair the\n#MON Fan Club!",
+        "I have collected\nover 100 #MON!",
+        "I'm very fussy\nwhen it comes to\n#MON!",
+        "So...",
+        "Did you come\nvisit to hear\nabout my #MON?"
+      ]
     },
     "6": {
       "text": [
@@ -1754,8 +1892,10 @@
   },
   "POKEMON_TOWER_2F": {
     "1": {
-      "scripted": true,
-      "label": "PokemonTower2FRivalText"
+      "text": [
+        "<RIVAL>: Hey,\n<PLAYER>! What\nbrings you here?\nYour #MON\ndon't look dead!",
+        "I can at least\nmake them faint!\nLet's go, pal!"
+      ]
     },
     "2": {
       "text": [
@@ -1942,8 +2082,10 @@
   },
   "REDS_HOUSE_1F": {
     "1": {
-      "scripted": true,
-      "label": "RedsHouse1FMomText"
+      "text": [
+        "MOM: Right.\nAll boys leave\nhome some day.\nIt said so on TV.",
+        "PROF.OAK, next\ndoor, is looking\nfor you."
+      ]
     }
   },
   "ROCKET_HIDEOUT_B1F": {
@@ -2018,8 +2160,9 @@
   },
   "ROCKET_HIDEOUT_B4F": {
     "1": {
-      "scripted": true,
-      "label": "RocketHideoutB4FGiovanniText"
+      "text": [
+        "So! I must say, I\nam impressed you\ngot here!"
+      ]
     },
     "2": {
       "scripted": true,
@@ -2140,8 +2283,11 @@
   },
   "ROUTE_1": {
     "1": {
-      "scripted": true,
-      "label": "Route1Youngster1Text"
+      "text": [
+        "Hi! I work at a\n#MON MART.",
+        "It's a convenient\nshop, so please\nvisit us in\nVIRIDIAN CITY.",
+        "I know, I'll give\nyou a sample!\nHere you go!"
+      ]
     },
     "2": {
       "text": [
@@ -2234,8 +2380,11 @@
       "label": "Route11Gate2FYoungsterText"
     },
     "2": {
-      "scripted": true,
-      "label": "Route11Gate2FOaksAideText"
+      "text": [
+        "There are items on\nthe ground that\ncan't be seen.",
+        "ITEMFINDER will\ndetect an item\nclose to you.",
+        "It can't pinpoint\nit, so you have\nto look yourself!"
+      ]
     }
   },
   "ROUTE_12": {
@@ -2290,14 +2439,19 @@
   },
   "ROUTE_12_GATE_2F": {
     "1": {
-      "scripted": true,
-      "label": "Route12Gate2FBrunetteGirlText"
+      "text": [
+        "My #MON's\nashes are stored\nin #MON TOWER.",
+        "You can have this\nTM. I don't need\nit any more..."
+      ]
     }
   },
   "ROUTE_12_SUPER_ROD_HOUSE": {
     "1": {
-      "scripted": true,
-      "label": "Route12SuperRodHouseFishingGuruText"
+      "text": [
+        "I'm the FISHING\nGURU's brother!",
+        "I simply Looove\nfishing!",
+        "Do you like to\nfish?"
+      ]
     }
   },
   "ROUTE_13": {
@@ -2440,8 +2594,11 @@
   },
   "ROUTE_15_GATE_2F": {
     "1": {
-      "scripted": true,
-      "label": "Route15Gate2FOaksAideText"
+      "text": [
+        "EXP.ALL gives\nEXP points to all\nthe #MON with\nyou, even if they\ndon't fight.",
+        "It does, however,\nreduce the amount\nof EXP for each\n#MON.",
+        "If you don't need\nit, you should \nstore it via PC."
+      ]
     }
   },
   "ROUTE_16": {
@@ -2477,8 +2634,10 @@
   },
   "ROUTE_16_FLY_HOUSE": {
     "1": {
-      "scripted": true,
-      "label": "Route16FlyHouseBrunetteGirlText"
+      "text": [
+        "Oh, you found my\nsecret retreat!",
+        "Please don't tell\nanyone I'm here.\nI'll make it up\nto you with this!"
+      ]
     },
     "2": {
       "text": [
@@ -2488,8 +2647,9 @@
   },
   "ROUTE_16_GATE_1F": {
     "1": {
-      "scripted": true,
-      "label": "Route16Gate1FGuardText"
+      "text": [
+        "No pedestrians\nare allowed on\nCYCLING ROAD!"
+      ]
     },
     "2": {
       "text": [
@@ -2567,8 +2727,9 @@
   },
   "ROUTE_18_GATE_1F": {
     "1": {
-      "scripted": true,
-      "label": "Route18Gate1FGuardText"
+      "text": [
+        "You need a BICYCLE\nfor CYCLING ROAD!"
+      ]
     }
   },
   "ROUTE_18_GATE_2F": {
@@ -2757,8 +2918,9 @@
   },
   "ROUTE_24": {
     "1": {
-      "scripted": true,
-      "label": "Route24CooltrainerM1Text"
+      "text": [
+        "Congratulations!\nYou beat our 5\ncontest trainers!@"
+      ]
     },
     "2": {
       "scripted": true,
@@ -2833,8 +2995,9 @@
   },
   "ROUTE_2_GATE": {
     "1": {
-      "scripted": true,
-      "label": "Route2GateOaksAideText"
+      "text": [
+        "The HM FLASH\nlights even the\ndarkest dungeons."
+      ]
     },
     "2": {
       "text": [
@@ -3099,8 +3262,9 @@
       ]
     },
     "2": {
-      "scripted": true,
-      "label": "SafariZoneGateSafariZoneWorker2Text"
+      "text": [
+        "Hi! Is it your\nfirst time here?"
+      ]
     }
   },
   "SAFARI_ZONE_NORTH": {
@@ -3134,8 +3298,12 @@
   },
   "SAFARI_ZONE_SECRET_HOUSE": {
     "1": {
-      "scripted": true,
-      "label": "SafariZoneSecretHouseFishingGuruText"
+      "text": [
+        "Ah! Finally!",
+        "You're the first\nperson to reach\nthe SECRET HOUSE!",
+        "I was getting\nworried that no\none would win our\ncampaign prize.",
+        "Congratulations!\nYou have won!"
+      ]
     }
   },
   "SAFARI_ZONE_WEST": {
@@ -3255,8 +3423,12 @@
   },
   "SAFFRON_GYM": {
     "1": {
-      "scripted": true,
-      "label": "SaffronGymSabrinaText"
+      "text": [
+        "I had a vision of\nyour arrival!",
+        "I have had psychic\npowers since I\nwas a child.",
+        "I first learned\nto bend spoons\nwith my mind.",
+        "I dislike fight-\ning, but if you\nwish, I will show\nyou my powers!"
+      ]
     },
     "2": {
       "scripted": true,
@@ -3287,8 +3459,12 @@
       "label": "SaffronGymYoungster4Text"
     },
     "9": {
-      "scripted": true,
-      "label": "SaffronGymGymGuideText"
+      "text": [
+        "Yo! Champ in\nmaking!",
+        "SABRINA's #MON\nuse psychic power\ninstead of force!",
+        "Fighting #MON\nare weak against\npsychic #MON!",
+        "They get creamed\nbefore they can\neven aim a punch!"
+      ]
     }
   },
   "SAFFRON_MART": {
@@ -3445,8 +3621,9 @@
       "label": "SilphCo10FScientistText"
     },
     "3": {
-      "scripted": true,
-      "label": "SilphCo10FSilphWorkerFText"
+      "text": [
+        "Waaaaa!\nI'm scared!"
+      ]
     },
     "4": {
       "scripted": true,
@@ -3463,8 +3640,13 @@
   },
   "SILPH_CO_11F": {
     "1": {
-      "scripted": true,
-      "label": "SilphCo11FSilphPresidentText"
+      "text": [
+        "PRESIDENT: Thank\nyou for saving\nSILPH!",
+        "I will never\nforget you saved\nus in our moment\nof peril!",
+        "I have to thank\nyou in some way!",
+        "Because I am rich,\nI can give you\nanything!",
+        "Here, maybe this\nwill do!"
+      ]
     },
     "2": {
       "text": [
@@ -3499,8 +3681,9 @@
   },
   "SILPH_CO_2F": {
     "1": {
-      "scripted": true,
-      "label": "SilphCo2FSilphWorkerFText"
+      "text": [
+        "<PLAYER> got\n@\n!@"
+      ]
     },
     "2": {
       "scripted": true,
@@ -3521,8 +3704,9 @@
   },
   "SILPH_CO_3F": {
     "1": {
-      "scripted": true,
-      "label": "SilphCo3FSilphWorkerMText"
+      "text": [
+        "I work for SILPH.\nWhat should I do?"
+      ]
     },
     "2": {
       "scripted": true,
@@ -3539,8 +3723,9 @@
   },
   "SILPH_CO_4F": {
     "1": {
-      "scripted": true,
-      "label": "SilphCo4FSilphWorkerMText"
+      "text": [
+        "Sssh! Can't you\nsee I'm hiding?"
+      ]
     },
     "2": {
       "scripted": true,
@@ -3569,8 +3754,9 @@
   },
   "SILPH_CO_5F": {
     "1": {
-      "scripted": true,
-      "label": "SilphCo5FSilphWorkerMText"
+      "text": [
+        "TEAM ROCKET is\nin an uproar over\nsome intruder.\nThat's you right?"
+      ]
     },
     "2": {
       "scripted": true,
@@ -3621,24 +3807,29 @@
   },
   "SILPH_CO_6F": {
     "1": {
-      "scripted": true,
-      "label": "SilphCo6FSilphWorkerM1Text"
+      "text": [
+        "The ROCKETs came\nand took over the\nbuilding!"
+      ]
     },
     "2": {
-      "scripted": true,
-      "label": "SilphCo6FSilphWorkerM2Text"
+      "text": [
+        "Oh dear, oh dear.\nHelp me please!"
+      ]
     },
     "3": {
-      "scripted": true,
-      "label": "SilphCo6FSilphWorkerF1Text"
+      "text": [
+        "Look at him! He's\nsuch a coward!"
+      ]
     },
     "4": {
-      "scripted": true,
-      "label": "SilphCo6FSilphWorkerF2Text"
+      "text": [
+        "TEAM ROCKET is\ntrying to conquer\nthe world with\n#MON!"
+      ]
     },
     "5": {
-      "scripted": true,
-      "label": "SilphCo6FSilphWorkerM3Text"
+      "text": [
+        "They must have\ntargeted SILPH\nfor our #MON\nproducts."
+      ]
     },
     "6": {
       "scripted": true,
@@ -3663,20 +3854,25 @@
   },
   "SILPH_CO_7F": {
     "1": {
-      "scripted": true,
-      "label": "SilphCo7FSilphWorkerM1Text"
+      "text": [
+        "Oh! Hi! You're\nnot a ROCKET! You\ncame to save us?\nWhy, thank you!",
+        "I want you to\nhave this #MON\nfor saving us."
+      ]
     },
     "2": {
-      "scripted": true,
-      "label": "SilphCo7FSilphWorkerM2Text"
+      "text": [
+        "TEAM ROCKET was\nafter the MASTER\nBALL which will\ncatch any #MON!"
+      ]
     },
     "3": {
-      "scripted": true,
-      "label": "SilphCo7FSilphWorkerM3Text"
+      "text": [
+        "It would be bad\nif TEAM ROCKET\ntook over SILPH\nor our #MON!"
+      ]
     },
     "4": {
-      "scripted": true,
-      "label": "SilphCo7FSilphWorkerM4Text"
+      "text": [
+        "You! It's really\ndangerous here!\nYou came to save\nme? You can't!"
+      ]
     },
     "5": {
       "scripted": true,
@@ -3710,8 +3906,9 @@
   },
   "SILPH_CO_8F": {
     "1": {
-      "scripted": true,
-      "label": "SilphCo8FSilphWorkerMText"
+      "text": [
+        "I wonder if SILPH\nis finished..."
+      ]
     },
     "2": {
       "scripted": true,
@@ -3820,8 +4017,15 @@
       ]
     },
     "2": {
-      "scripted": true,
-      "label": "SSAnne2FRivalText"
+      "text": [
+        "<RIVAL>: Bonjour!\n<PLAYER>!",
+        "Imagine seeing\nyou here!",
+        "<PLAYER>, were you\nreally invited?",
+        "So how's your\n#DEX coming?",
+        "I already caught\n40 kinds, pal!",
+        "Different kinds\nare everywhere!",
+        "Crawl around in\ngrassy areas!"
+      ]
     }
   },
   "SS_ANNE_2F_ROOMS": {
@@ -4011,8 +4215,10 @@
       ]
     },
     "7": {
-      "scripted": true,
-      "label": "SSAnneKitchenCook7Text"
+      "text": [
+        "Er-hem! Indeed I\nam le CHEF!",
+        "Le main course is"
+      ]
     }
   },
   "TRADE_CENTER": {
@@ -4071,12 +4277,14 @@
       ]
     },
     "2": {
-      "scripted": true,
-      "label": "VermilionCityGambler1Text"
+      "text": [
+        "Did you see S.S.\nANNE moored in\nthe harbor?"
+      ]
     },
     "3": {
-      "scripted": true,
-      "label": "VermilionCitySailor1Text"
+      "text": [
+        "Welcome to S.S.\nANNE!"
+      ]
     },
     "4": {
       "text": [
@@ -4098,8 +4306,13 @@
   },
   "VERMILION_GYM": {
     "1": {
-      "scripted": true,
-      "label": "VermilionGymLTSurgeText"
+      "text": [
+        "Hey, kid! What do\nyou think you're\ndoing here?",
+        "You won't live\nlong in combat!\nThat's for sure!",
+        "I tell you kid,\nelectric #MON\nsaved me during\nthe war!",
+        "They zapped my\nenemies into\nparalysis!",
+        "The same as I'll\ndo to you!"
+      ]
     },
     "2": {
       "scripted": true,
@@ -4114,8 +4327,14 @@
       "label": "VermilionGymSailorText"
     },
     "5": {
-      "scripted": true,
-      "label": "VermilionGymGymGuideText"
+      "text": [
+        "Yo! Champ in\nmaking!",
+        "LT.SURGE has a\nnickname. People\nrefer to him as\nthe Lightning\nAmerican!",
+        "He's an expert on\nelectric #MON!",
+        "Birds and water\n#MON are at\nrisk! Beware of\nparalysis too!",
+        "LT.SURGE is very\ncautious!",
+        "You'll have to\nbreak a code to\nget to him!"
+      ]
     }
   },
   "VERMILION_MART": {
@@ -4138,8 +4357,11 @@
   },
   "VERMILION_OLD_ROD_HOUSE": {
     "1": {
-      "scripted": true,
-      "label": "VermilionOldRodHouseFishingGuruText"
+      "text": [
+        "I'm the FISHING\nGURU!",
+        "I simply Looove\nfishing!",
+        "Do you like to\nfish?"
+      ]
     }
   },
   "VERMILION_PIDGEY_HOUSE": {
@@ -4332,16 +4554,20 @@
       ]
     },
     "2": {
-      "scripted": true,
-      "label": "ViridianCityGambler1Text"
+      "text": [
+        "This #MON GYM\nis always closed.",
+        "I wonder who the\nLEADER is?"
+      ]
     },
     "3": {
-      "scripted": true,
-      "label": "ViridianCityYoungster2Text"
+      "text": [
+        "You want to know\nabout the 2 kinds\nof caterpillar\n#MON?"
+      ]
     },
     "4": {
-      "scripted": true,
-      "label": "ViridianCityGirlText"
+      "text": [
+        "Oh Grandpa! Don't\nbe so mean!\nHe hasn't had his\ncoffee yet."
+      ]
     },
     "5": {
       "text": [
@@ -4350,12 +4576,16 @@
       ]
     },
     "6": {
-      "scripted": true,
-      "label": "ViridianCityFisherText"
+      "text": [
+        "<PLAYER> received\nTM42!@"
+      ]
     },
     "7": {
-      "scripted": true,
-      "label": "ViridianCityOldManText"
+      "text": [
+        "Ahh, I've had my\ncoffee now and I\nfeel great!",
+        "Sure you can go\nthrough!",
+        "Are you in a\nhurry?"
+      ]
     }
   },
   "VIRIDIAN_FOREST": {
@@ -4424,8 +4654,12 @@
   },
   "VIRIDIAN_GYM": {
     "1": {
-      "scripted": true,
-      "label": "ViridianGymGiovanniText"
+      "text": [
+        "Fwahahaha! This is\nmy hideout!",
+        "I planned to\nresurrect TEAM\nROCKET here!",
+        "But, you have\ncaught me again!\nSo be it! This\ntime, I'm not\nholding back!",
+        "Once more, you\nshall face\nGIOVANNI, the\ngreatest trainer!"
+      ]
     },
     "2": {
       "scripted": true,
@@ -4544,8 +4778,10 @@
   },
   "WARDENS_HOUSE": {
     "1": {
-      "scripted": true,
-      "label": "WardensHouseWardenText"
+      "text": [
+        "WARDEN: Hif fuff\nhefifoo!",
+        "Ha lof ha feef ee\nhafahi ho. Heff\nhee fwee!"
+      ]
     },
     "2": {
       "scripted": true,
