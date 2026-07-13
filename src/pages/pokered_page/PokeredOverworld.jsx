@@ -82,6 +82,17 @@ const DIR_UP    = 1;
 const DIR_LEFT  = 2;
 const DIR_RIGHT = 3;
 
+// Pewter City gym guy (youngster) forced-movement sequences from pewter_guys.asm
+// Maps OG coordinates to movement sequences that move player backward when trying to exit east
+// Each entry: { x, y, sequence } where sequence is array of DIR_* values to execute automatically
+const PEWTER_GYM_GUY_COORDS = [
+  { x: 16, y: 34, sequence: [DIR_LEFT, DIR_DOWN, DIR_DOWN, DIR_RIGHT] },
+  { x: 17, y: 35, sequence: [DIR_LEFT, DIR_DOWN, DIR_RIGHT, DIR_LEFT] },
+  { x: 18, y: 37, sequence: [DIR_LEFT, DIR_LEFT, DIR_LEFT] },
+  { x: 19, y: 37, sequence: [DIR_LEFT, DIR_LEFT, DIR_UP, DIR_LEFT] },
+  { x: 17, y: 36, sequence: [DIR_LEFT, DIR_DOWN, DIR_LEFT] },
+];
+
 // ============================================================================
 // WARP_DIR CONVENTION — game_data.json warp entries use a numeric `dir` field:
 //   WARP_DIR_NORTH (-1) — only triggers walking north (used for outdoor warps:
@@ -159,6 +170,7 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   const npcImgsRef    = useRef({});    // sprite name → Image
   const rafRef        = useRef();
   const lastTsRef     = useRef();
+  const forcedMovementQueueRef = useRef([]); // holds DIR_* values queued for automatic execution
   const encounterRef  = useRef(null);
   const transitionRef = useRef(0);     // 0=none, 1=fading out, 2=fading in
   const pendingMapRef = useRef(null);
@@ -1379,6 +1391,21 @@ const OUTDOOR = ['overworld', 'plateau'];
       if (warp.dest === 'VIRIDIAN_GYM' && (gameState?.badges?.length ?? 0) < 7) {
         setDialogue({ lines: ["The GYM's doors\nare locked..."], idx: 0, action: null });
         return;
+      }
+      // SS Anne hard gate — requires S.S.TICKET to board (VermilionCitySailor1Script)
+      if (warp.dest === 'SS_ANNE_BOW') {
+        const hasTicket = (gameState?.items ?? []).some(it => it.name === 'S_S_TICKET');
+        if (!hasTicket) {
+          setDialogue({ lines: ["Welcome to S.S.\nANNE!", "Excuse me, do you\nhave a ticket?", "<PLAYER> doesn't\nhave the needed\nS.S.TICKET.", "Sorry!"], idx: 0, action: null });
+          return;
+        }
+      }
+      // Saffron City hard gates (all 4 routes: 5/6/7/8) — requires giving drink to any guard first
+      if (['SAFFRON_CITY', 'ROUTE_5_GATE', 'ROUTE_6_GATE', 'ROUTE_7_GATE', 'ROUTE_8_GATE'].includes(warp.dest)) {
+        if (!gameState?.gaveSaffronGuardsDrink) {
+          setDialogue({ lines: ["I'm on guard duty.\nGee, I'm thirsty,\nthough!", "Oh wait there,\nthe road's closed."], idx: 0, action: null });
+          return;
+        }
       }
       handleWarp(warp); return;
     }
@@ -2836,11 +2863,18 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             [ddx, ddy] = faceDelta[p.dir] || [0, 1];
             dir = p.dir;
           } else {
-            const keys = keysRef.current;
-            if      (keys.has('ArrowUp')    || keys.has('w') || keys.has('W')) { ddy = -1; dir = DIR_UP; }
-            else if (keys.has('ArrowDown')  || keys.has('s') || keys.has('S')) { ddy =  1; dir = DIR_DOWN; }
-            else if (keys.has('ArrowLeft')  || keys.has('a') || keys.has('A')) { ddx = -1; dir = DIR_LEFT; }
-            else if (keys.has('ArrowRight') || keys.has('d') || keys.has('D')) { ddx =  1; dir = DIR_RIGHT; }
+            // Check for forced-movement queue first (used for hardgates like Pewter youngster)
+            if (forcedMovementQueueRef.current.length > 0) {
+              dir = forcedMovementQueueRef.current.shift();
+              const faceDelta = [[0, 1], [0, -1], [-1, 0], [1, 0]];
+              [ddx, ddy] = faceDelta[dir] || [0, 1];
+            } else {
+              const keys = keysRef.current;
+              if      (keys.has('ArrowUp')    || keys.has('w') || keys.has('W')) { ddy = -1; dir = DIR_UP; }
+              else if (keys.has('ArrowDown')  || keys.has('s') || keys.has('S')) { ddy =  1; dir = DIR_DOWN; }
+              else if (keys.has('ArrowLeft')  || keys.has('a') || keys.has('A')) { ddx = -1; dir = DIR_LEFT; }
+              else if (keys.has('ArrowRight') || keys.has('d') || keys.has('D')) { ddx =  1; dir = DIR_RIGHT; }
+            }
           }
           p.dir = dir;
 
@@ -2857,7 +2891,16 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
               // the same facingMatchesDir rule an ordinary in-bounds warp trigger already uses.
               const exitWarp = ms.mapInfo.warps.find(w => w.x === p.x && w.y === p.y && w.dest === 'LAST_MAP');
               if (exitWarp && facingMatchesDir(dir, exitWarp.dir)) fn.handleWarp(exitWarp);
-              else fn.handleMapEdge(ddx, ddy);
+              else {
+                // Pewter City youngster hard gate — forces player backward when trying to leave east without Boulder Badge
+                if (ms.mapId === 'PEWTER_CITY' && dir === 3 && !(gameState?.badges ?? []).includes(0)) {
+                  // Queue forced-movement sequence: force player backward (west) with accompanying dialogue
+                  forcedMovementQueueRef.current = [DIR_LEFT, DIR_LEFT];
+                  setDialogue({ lines: ["You're a trainer\nright? BROCK's\nlooking for new\nchallengers!\nFollow me!"], idx: 0, action: null });
+                } else {
+                  fn.handleMapEdge(ddx, ddy);
+                }
+              }
             } else {
               const ledgeJump = fn.isValidLedge(p.x, p.y, ddx, ddy);
               // Surf exception: isHalfStepBlocked (EXTREMELY FRAGILE, see its own comment — never
