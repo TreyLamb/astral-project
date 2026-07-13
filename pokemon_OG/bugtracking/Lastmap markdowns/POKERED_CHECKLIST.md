@@ -11,6 +11,136 @@ Last verified: 2026-06-30
 
 ---
 
+## 🚨 URGENT — 2026-07-13 live-bug session, read before touching ledges/Cerulean/battle-flow
+
+A large autonomous bugfix batch (Phases 1-10 of `C:\Users\clown\.claude\plans\playful-munching-raccoon.md`)
+shipped this session, followed by a live-testing round that surfaced real regressions and gaps.
+User explicitly asked to stop active fixing and document everything outstanding instead — next
+session should start here, not re-derive from the plan file alone (some of the plan's "done"
+claims below are now disputed or need re-verification).
+
+### 1. Ledge hop regression — user reports ledges were "100% fine" before this session's west/east fix, now worse than before. NOT YET ROOT-CAUSED.
+User's exact words: "the ledges were 100% fine before your implementation to fix those one ledges.
+so whatever you did was a band-aid that broke more than it fixed." This directly contradicts my
+own live verification this session (see below) — **treat the user's report as the ground truth
+and keep digging, do not re-assert "it's fine" again without a NEW, broader live test.**
+- What I verified and found consistent (do not re-litigate unless new evidence contradicts it):
+  live Playwright test, crafted save at ROUTE_24 (12,4) facing east, pressed the direction key
+  once, debug overlay read (12,4)→(14,4) before/after. Cross-checked against real `.blk`/`.bst`
+  raw tile data: metatile (13,4) — the tile directly ahead — is the 1-tile-wide ledge-wall
+  graphic (raw tile 13), not standable ground; metatile (14,4) is ordinary open grass. Traced
+  `engine/overworld/ledges.asm HandleLedges`: a ledge hop simulates exactly 2 forced steps in
+  the facing direction, unconditionally, for every direction (no south-vs-east branch in the
+  real assembly). By this evidence the 2-tile displacement is correct and matches OG.
+- What was NOT tested and needs to happen next session: (a) SOUTH ledges specifically — the ones
+  the user says were "100% fine" before — re-verify Route 4/Route 1 south hops still work
+  exactly as they did pre-session (the CLAUDE.md architecture-facts section documents a prior
+  live-verified Route 4 (79,13)→(79,15) south hop; re-run that exact case). (b) `isHalfStepBlocked`'s
+  "wrong-way crossing" check (`PokeredOverworld.jsx` ~line 735) — this session's `ledgeHalfStepTile`
+  refactor touches the same function south hops use for wrong-way blocking; a false-positive
+  block here would look exactly like "ledges got worse" to a player. (c) `npcCanStep`'s ledge
+  logic (~line 751) — also refactored this session, not live-tested at all. (d) The severe
+  git-stash data-loss incident earlier this session (recovered via `git apply --reject` +
+  manual reconciliation of one conflicting hunk in `isWalkable()`) is a real candidate root
+  cause for a broader regression that static code review wouldn't catch — worth specifically
+  re-diffing the ledge/isWalkable code against the pre-session baseline (`git show 295c950:...`)
+  line by line rather than trusting the recovery was clean.
+- **Do not ship another "fixed" claim on this without a live test covering south AND west/east
+  AND NPC-side ledge behavior together** — this exact pattern (claim fixed from code review
+  alone, get corrected by the user) has now happened twice on this feature in one session.
+
+### 2. NPCs can see through walls / engage in battle through walls — NEW report, not investigated at all.
+User: "npc's should not be able to see through walls/engage battle through walls." No file/line
+investigation done yet this session. Likely area: trainer sight-line/engagement trigger logic
+(`trainerEngageRef`, search `PokeredOverworld.jsx` for `sight`/engagement trigger) probably checks
+straight-line distance/facing without a wall-collision raycast between the NPC and the player.
+Needs: find the sight-check code, confirm it has no tile-passability check along the line of
+sight, then add one (walk the line from NPC to player, checking `isWalkable`/collision at each
+tile, abort engagement if blocked) — same category of fix as any other collision-shaped bug in
+this codebase, needs the same "audit before landing" discipline given `isWalkable()`'s fragile
+history.
+
+### 3. Cerulean City Trashed House guards — TEMPORARY hack shipped, real mechanism now identified but NOT wired.
+Two `sprite:"guard"` NPCs at CERULEAN_CITY (27,12) and (28,12) were permanently blocking the
+Trashed House door (27,11) with zero gating logic — confirmed a real, pre-existing gap, not a
+regression. **Temporary fix shipped** (`PokeredOverworld.jsx` `isNpcHidden`, search "TEMPORARY
+(2026-07-13"): both guards hidden unconditionally. User confirmed this temporary fix works live.
+**Real OG mechanism, traced this session, NOT yet wired**: `scripts/CeruleanCity.asm` —
+`EVENT_BEAT_CERULEAN_ROCKET_THIEF` gates a forced ambush battle (a Rocket Thief NPC) triggered by
+stepping on `CeruleanCityCoords1` = map-relative (30,7)/(30,9) (see `CeruleanCityDefaultScript`,
+lines 38-63). This is a SEPARATE mechanism from the 2 door-guards — not yet confirmed whether
+beating this Rocket is what's actually supposed to clear the guards, or if the guards are gated
+by something else entirely (Bill's House SS-Ticket sequence was my original, now-unconfirmed
+guess — do not assume it's correct, re-derive from `CeruleanCity.asm` and `hidden_events.asm`
+fully before wiring anything real). **Next session must**: (a) read the rest of
+`CeruleanCity.asm` + whatever text/hidden-event file defines the 2 guards' own dialogue/gating
+condition (search for their sprite/position in `data/maps/objects/CeruleanCity.asm` and any
+`CheckEvent`/`SetEvent` near them) to find the REAL gate, not guess; (b) wire the Rocket Thief
+forced-battle trigger at (30,7)/(30,9) for real (currently completely unimplemented — no
+`trainerClass`/ambush-trigger exists for it in `game_data.json` or `PokeredOverworld.jsx`); (c)
+remove the temporary `isNpcHidden` hack once the real gating is confirmed live; (d) remove the
+temporary HM06 ground-item hack (see #4) once the real gym-leader TM grant path is confirmed to
+actually work end-to-end.
+
+### 4. Temporary HM06 ground item at Cerulean doorway (28,12) — user reports picking up the WRONG item, not confirmed why.
+Added as a stopgap so the player could still get Bubblebeam despite the (at-the-time) broken
+silent gym-leader-TM-grant bug (see #5 below, since fixed). User reports the picked-up item
+was NOT "TM for bubblebeam." **Investigated, could not find a code-level bug**: `game_data.json`
+CERULEAN_CITY npcs has a `poke_ball` sprite at (28,12); `extracted_og_data/item_locations.json`
+(the LOCAL copy under `src/pages/pokered_page/`, not the repo-root one) has a matching entry at
+raw (56,24) = (28,12)×2 with `"item":"HM06"` — both verified present and valid JSON after the
+fact, lookup math (`itemNpc.x*2 === locEntry.x`) checks out. Given this session already hit 2
+confirmed cases of the user testing against a not-yet-deployed Vercel build and seeing stale
+behavior, **the leading theory is a deploy-timing false alarm, NOT a code bug** — but this is
+UNCONFIRMED, not verified. Next session: have the user re-test after confirming the deployed
+commit hash matches HEAD (or just re-check in an incognito/hard-refreshed tab), and only
+investigate further as a real bug if it still reproduces after that.
+
+### 5. Gym leaders silently granted badge/TM with zero message — FIXED, believed resolved, not yet live-confirmed by the user.
+Root cause: `PokeredApp.jsx handleBattleEnd` always granted the badge + HM06 key item correctly,
+but no code path anywhere ever pushed a player-facing message about it. Fixed in
+`PokeredBattle.jsx`'s victory branch (search `GYM_BADGE_INFO`) — announces real badge name + TM
+number + move name on first victory only. Lint-clean, not yet independently live-verified by
+the user post-fix (the ledge/guard/item reports came in before this could be tested).
+
+### 6. Save-corruption risk from aggressive autosave — PARTIAL mitigation shipped, NOT the full fix.
+User's live save got overwritten by an autosave capturing a bug-affected state, with no way
+back (no download backup existed). Shipped a rolling 1-deep backup + UNDO button per save slot
+(`pokeredGameState.js` `saveGame`/`restorePreviousSave`, `PokeredStartScreen.jsx` UI) — this
+protects against ONE bad autosave in a row, going forward only (cannot recover state from
+before this session, since the mechanism didn't exist yet). **The actual root-cause fix (Phase
+12 of the plan: strip autosave from ~35 of ~35 call sites in `PokeredApp.jsx`, keep it only for
+genuinely deliberate actions) was explicitly NOT attempted this session** — user asked for
+"the autosave issue" to be fixed before pushing the emergency hotfix, and the backup/undo net
+was the fast, low-risk answer under time pressure, not the full redesign. Still needed.
+
+### 7. Page load times reported ~5x slower than before — NEW report, cause unknown, user is monitoring.
+No investigation done yet. User isn't sure if it's an infra/connection issue or a real
+regression. Possible angles for next session: check bundle size delta across this session's
+commits (new imports: `trainer_text.json` now imported into 2 more files —
+`PokeredOverworld.jsx` and `PokeredBattle.jsx` — check its file size and whether it's being
+duplicated in the bundle rather than shared; the badge-list/gym-dialogue additions are small and
+unlikely culprits on their own); check Vercel's actual deploy/build logs for the recent pushes;
+rule out client-side/network causes before assuming a code regression.
+
+### Also still open from the original 12-phase plan (unchanged since last report, not reattempted this session)
+- **Phase 10 remainder**: trainer-position-persistence fix (walk-up trainers snap back to spawn
+  after battle since `PokeredOverworld` fully remounts on the battle↔overworld screen switch) —
+  flagged risk: fixing this by avoiding the remount could silently reintroduce the `lastMapIdRef`
+  corruption bug, which currently relies on that remount happening for the battle-defeat
+  whiteout case specifically. Needs care, not a quick patch.
+- **Phase 11**: Nugget Bridge Rocket recruiter reward (grant BEFORE battle, via dialogue, not
+  post-battle — real OG script order), swimming-trainer chase-freeze bug (NPCs have no water
+  exception in `npcCanStep`/`isWalkable`, so a water-spawned trainer's chase-to-battle walk
+  stalls in place).
+- **Phase 12 remainder**: see #6 above.
+- **Phase 6**: warp-direction sweep (556 of 799 warps still at placeholder `dir:0`) — blocked
+  earlier this session by the environment's safety classifier on a bulk `game_data.json`
+  rewrite; only investigated/categorized, never applied. Needs a smaller, manual/surgical batch
+  approach instead of a scripted bulk rewrite if reattempted.
+
+---
+
 ## ⚡ NEXT SESSION — START HERE
 
 **Correction (2026-07-09):** everything below this heading was written 2026-06-30 and is now
