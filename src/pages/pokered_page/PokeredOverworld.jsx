@@ -3322,7 +3322,27 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             drawFacing = live.facing;
             if (live.isWalking) npcWalkStep = (live.walkProg >= 0.5 ? 1 : 0);
           }
-          if (eng2?.id === nid) { drawX = eng2.liveX; drawY = eng2.liveY; drawFacing = eng2.facing; }
+          if (eng2?.id === nid) {
+            // Scripted-move NPCs (Pewter youngster, Route 22 rival approach, etc.) previously
+            // snapped instantly tile-to-tile here — eng2.liveX/Y only ever hold the START of
+            // the CURRENT step (the update loop only advances them on step completion), so
+            // rendering them directly with no interpolation produced a visible teleport/jump
+            // every step instead of a smooth walk. Interpolate the same way the player and
+            // patrol NPCs already do: derive this step's direction from steps[stepIdx] (stable
+            // for the step's whole duration) and blend by walkProg (0→1). Also fixes facing
+            // lagging one step behind during scripted mode, and enables the walk-cycle leg
+            // animation frame (npcWalkStep), neither of which the old direct-assignment did.
+            if (eng2.mode === 'scripted' && eng2.stepIdx < eng2.steps.length) {
+              const DIR_DELTA = { UP: [0, -1], DOWN: [0, 1], LEFT: [-1, 0], RIGHT: [1, 0] };
+              const [sdx, sdy] = DIR_DELTA[eng2.steps[eng2.stepIdx]] || [0, 0];
+              drawX = eng2.liveX + sdx * eng2.walkProg;
+              drawY = eng2.liveY + sdy * eng2.walkProg;
+              drawFacing = eng2.steps[eng2.stepIdx];
+              npcWalkStep = eng2.walkProg >= 0.5 ? 1 : 0;
+            } else {
+              drawX = eng2.liveX; drawY = eng2.liveY; drawFacing = eng2.facing;
+            }
+          }
           else { const bp = npcBattlePosRef.current.get(nid); if (bp) { drawX = bp.x; drawY = bp.y; drawFacing = bp.facing; } }
 
           const nsx = Math.round(drawX * UNIT_PX - camX);
