@@ -1,0 +1,496 @@
+.aq-player {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.25rem;
+  padding: 1.5rem 1rem 3rem;
+  background: #14121f;
+  color: #f4f2fb;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.aq-player-room {
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.aq-player-tabs {
+  display: flex;
+  gap: 0.5rem;
+  background: #1e1a2e;
+  border-radius: 0.75rem;
+  padding: 0.3rem;
+}
+
+.aq-player-tab {
+  flex: 1;
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: transparent;
+  color: #b8b2d1;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 40px;
+}
+
+.aq-player-tab-active {
+  background: #7c5cff;
+  color: #fff;
+}
+
+.aq-score-wentout {
+  color: #ffd166;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+.aq-player-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.aq-player-dash-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.aq-player-dash-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.aq-player-dash-list > li {
+  background: #1e1a2e;
+  border-radius: 0.6rem;
+  padding: 0.75rem 1rem;
+}
+
+.aq-player-dash-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.aq-player-dash-winner {
+  border: 2px solid #ffd166;
+}
+
+.aq-player-dash-recap-card {
+  background: #1e1a2e;
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.aq-player-dash-recap-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.aq-player-dash-recap-score {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #6ee89a;
+  margin-bottom: 0.5rem;
+}
+
+.aq-player-dash-recap-none {
+  color: #6a6486;
+  font-size: 0.95rem;
+}
+
+.aq-player-dash-recap-breakdown {
+  list-style: none;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  font-size: 0.85rem;
+  color: #b8b2d1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.aq-player-dash-recap-total {
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-top: 1px solid #3a3454;
+  padding-top: 0.5rem;
+}
+
+.aq-player-locked {
+  background: #3a1f1f;
+  border: 1px solid #7a3b3b;
+  color: #ffb8b8;
+  padding: 0.85rem 1rem;
+  border-radius: 0.6rem;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.aq-player-error {
+  background: #3a1f1f;
+  border: 1px solid #7a3b3b;
+  color: #ffb8b8;
+  padding: 0.75rem 1rem;
+  border-radius: 0.6rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.aq-player-confirmed {
+  background: #1f3a26;
+  border: 1px solid #3b7a4d;
+  color: #b8ffc8;
+  padding: 0.75rem 1rem;
+  border-radius: 0.6rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.aq-player-score-preview {
+  background: #1e1a2e;
+  border: 2px solid #3a3454;
+  border-radius: 0.85rem;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.aq-score-total {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.aq-score-caption {
+  color: #b8b2d1;
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+.aq-player-books {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.aq-book {
+  background: #1e1a2e;
+  border: 1px solid #3a3454;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+
+.aq-book-label {
+  font-size: 0.85rem;
+  color: #b8b2d1;
+  margin-bottom: 0.5rem;
+}
+
+/* Mixed-collection books can grow past 5 slots (physical rule: only Mixed
+   Collections can keep taking cards after completing) up to MAX_BOOK_SIZE —
+   fixed-size slots + horizontal scroll instead of squeezing to fit, so a
+   20-card mixed book stays usable instead of shrinking to illegible tiles. */
+.aq-book-slots {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding-bottom: 0.3rem;
+}
+
+.aq-slot {
+  flex: 0 0 48px;
+  width: 48px;
+  aspect-ratio: 1;
+  min-height: 48px;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.aq-slot-empty {
+  background: #14121f;
+  border: 2px dashed #3a3454;
+  color: #6a6486;
+}
+
+.aq-slot-filled {
+  border: 2px solid rgba(244, 242, 251, 0.35);
+  color: #fff;
+}
+
+.aq-slot-plus {
+  font-size: 1.1rem;
+}
+
+.aq-slot-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+}
+
+.aq-slot-number {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.aq-slot-type {
+  font-size: 0.7rem;
+  opacity: 0.85;
+}
+
+.aq-add-book {
+  width: 100%;
+  background: transparent;
+  color: #f4f2fb;
+  border: 2px solid #7c5cff;
+  padding: 0.85rem;
+  font-size: 1rem;
+}
+
+.aq-player-section {
+  background: #1e1a2e;
+  border: 1px solid #3a3454;
+  border-radius: 0.75rem;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.aq-section-title {
+  font-size: 0.85rem;
+  color: #b8b2d1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.aq-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.aq-stepper-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.aq-stepper-label {
+  font-size: 0.95rem;
+}
+
+.aq-stepper-hint {
+  font-size: 0.75rem;
+  color: #8a84a8;
+}
+
+.aq-stepper-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.aq-stepper-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #7c5cff;
+  background: transparent;
+  color: #f4f2fb;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.aq-stepper-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.aq-stepper-value {
+  min-width: 1.75rem;
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.aq-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1e1a2e;
+  border: 2px solid #3a3454;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  color: #f4f2fb;
+  font-size: 1rem;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.aq-toggle-hint {
+  color: #8a84a8;
+  font-size: 0.85rem;
+}
+
+.aq-toggle-on {
+  border-color: #7c5cff;
+  background: rgba(124, 92, 255, 0.18);
+}
+
+.aq-toggle-on .aq-toggle-hint {
+  color: #cbb8ff;
+}
+
+.aq-submit {
+  width: 100%;
+  background: #7c5cff;
+  color: #fff;
+  font-size: 1.15rem;
+}
+
+.aq-submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.aq-picker-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 8, 18, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 20;
+}
+
+.aq-picker {
+  background: #201c33;
+  border: 1px solid #3a3454;
+  border-radius: 0.85rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.aq-picker-section-label {
+  font-size: 0.75rem;
+  color: #8a84a8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+
+.aq-picker-row {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.aq-picker-swatch {
+  flex: 1;
+  aspect-ratio: 1;
+  min-height: 40px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.aq-picker-type {
+  flex: 1;
+  min-height: 40px;
+  border-radius: 0.5rem;
+  border: 2px solid #3a3454;
+  background: #14121f;
+  color: #f4f2fb;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.aq-picker-number {
+  flex: 1;
+  aspect-ratio: 1;
+  min-height: 40px;
+  border-radius: 0.5rem;
+  border: 2px solid #3a3454;
+  background: #14121f;
+  color: #f4f2fb;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.aq-picker-selected {
+  border-color: #f4f2fb;
+  box-shadow: 0 0 0 2px #7c5cff;
+}
+
+.aq-picker-wild {
+  border-color: #7c5cff;
+  color: #cbb8ff;
+  font-weight: 700;
+}
+
+.aq-picker-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.aq-picker-actions .aq-btn {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  min-height: 40px;
+}
+
+.aq-picker-clear {
+  background: transparent;
+  color: #ffb8b8;
+  border: 2px solid #7a3b3b;
+}
+
+.aq-picker-cancel {
+  background: transparent;
+  color: #f4f2fb;
+  border: 2px solid #3a3454;
+}
+
+.aq-picker-confirm {
+  background: #7c5cff;
+  color: #fff;
+}

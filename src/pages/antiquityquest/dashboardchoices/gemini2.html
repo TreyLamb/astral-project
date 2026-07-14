@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antiquity Quest - Grand Table</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            background-color: #111;
+            overflow: hidden;
+        }
+
+        .game-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* --- THE GRAND TABLE --- */
+        .game-table {
+            flex: 1;
+            background: radial-gradient(circle, #144d18 0%, #0a2f0d 70%, #031404 100%);
+            border: 14px solid #2d1a10; /* Wood rim */
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.9);
+            padding: 15px;
+            
+            /* Responsive Grid for 4 Players (Can scale to 6 or 8) */
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 15px;
+            position: relative;
+        }
+
+        /* Center Draw/Discard Courtyard */
+        .center-courtyard {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px dashed #d4af37;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(0,0,0,0.6);
+        }
+
+        /* --- PLAYER STATION MATS --- */
+        .player-station {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        /* Highlight the active local player */
+        .player-station.local-player {
+            background: rgba(212, 175, 55, 0.05);
+            border: 2px solid #d4af37;
+            box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 4px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- THE CARD POOL GRID --- */
+        /* This area holds the 20-30 cards in play by breaking them into categorized rows/melds */
+        .board-cards-pool {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-content: flex-start;
+            overflow-y: auto; /* Fallback if a player goes wild stacking cards */
+        }
+
+        /* A "Meld" or group of cards stacked on top of each other, showing only top slivers */
+        .card-stack {
+            display: flex;
+            flex-direction: column; /* Stacks vertically downward */
+            width: 65px; 
+            position: relative;
+        }
+
+        /* --- CONDENSED MINI CARD --- */
+        .mini-card {
+            width: 65px;
+            height: 90px;
+            background: #fffdf0;
+            border: 2px solid #c5a059;
+            border-radius: 4px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 4px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: #271202;
+        }
+
+        /* Collapse cards within a stack tightly so 5-10 cards take up minimal vertical space */
+        .card-stack .mini-card {
+            margin-bottom: -72px; /* Pulls the next card up tightly, leaving just a header visible */
+            transition: transform 0.1s ease;
+        }
+
+        /* Hovering over a stacked card expands it visually so players can read it */
+        .card-stack .mini-card:hover {
+            transform: translateY(-10px);
+            margin-bottom: 0px; 
+            z-index: 99;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .mini-card-back {
+            background: linear-gradient(135deg, #0f2b26 0%, #194d44 100%);
+            border: 2px solid #d4af37;
+        }
+
+        .mini-art {
+            text-align: center;
+            font-size: 1rem;
+            margin: 2px 0;
+        }
+
+        /* --- SIDEBAR --- */
+        .game-sidebar {
+            width: 280px;
+            background-color: #1e1e1e;
+            border-left: 3px solid #d4af37;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+        
+        .leaderboard {
+            background: #111;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+        .leaderboard-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            padding: 4px 0;
+            border-bottom: 1px solid #222;
+        }
+        .leaderboard-row.active { color: #d4af37; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+
+    <!-- THE GREEN FELT TABLE (4-Player Layout Mockup) -->
+    <div class="game-table">
+        
+        <!-- Center Card Piles -->
+        <div class="center-courtyard">
+            <div class="mini-card mini-card-back"></div>
+            <div class="mini-card" style="background:#fff;"><div style="color:red">V</div><div class="mini-art">🏺</div></div>
+        </div>
+
+        <!-- PLAYER 1 (Top Left) -->
+        <div class="player-station">
+            <div class="player-header"><span>Alexander_The_Great</span> <span>Score: 420</span></div>
+            <div class="board-cards-pool">
+                <!-- Stack 1 (e.g., 4 matching items/melds stacked) -->
+                <div class="card-stack">
+                    <div class="mini-card"><div>I</div><div class="mini-art">📜</div></div>
+                    <div class="mini-card"><div>I</div><div class="mini-art">📜</div></div>
+                    <div class="mini-card"><div>I</div><div class="mini-art">📜</div></div>
+                </div>
+                <!-- Stack 2 -->
+                <div class="card-stack">
+                    <div class="mini-card"><div>V</div><div class="mini-art">⚔️</div></div>
+                    <div class="mini-card"><div>V</div><div class="mini-art">⚔️</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLAYER 2 (Top Right) -->
+        <div class="player-station">
+            <div class="player-header"><span>Cleopatra_VII</span> <span>Score: 610</span></div>
+            <div class="board-cards-pool">
+                <div class="card-stack"><div class="mini-card"><div>X</div><div class="mini-art">💎</div></div></div>
+            </div>
+        </div>
+
+        <!-- PLAYER 3 (Bottom Left - Local User) -->
+        <div class="player-station local-player">
+            <div class="player-header" style="color: #d4af37;"><span>YOU (Archaeologist)</span> <span>Score: 1,050</span></div>
+            <div class="board-cards-pool">
+                <!-- Demonstrating how 12 cards easily fit in a tiny space via 4 categorized stacks -->
+                <div class="card-stack">
+                    <div class="mini-card"><div>III</div><div class="mini-art">🏺</div></div>
+                    <div class="mini-card"><div>III</div><div class="mini-art">🏺</div></div>
+                    <div class="mini-card"><div>III</div><div class="mini-art">🏺</div></div>
+                    <div class="mini-card"><div>III</div><div class="mini-art">🏺</div></div>
+                </div>
+                <div class="card-stack">
+                    <div class="mini-card"><div>VII</div><div class="mini-art">📜</div></div>
+                    <div class="mini-card"><div>VII</div><div class="mini-art">📜</div></div>
+                    <div class="mini-card"><div>VII</div><div class="mini-art">📜</div></div>
+                </div>
+                <div class="card-stack">
+                    <div class="mini-card"><div>IX</div><div class="mini-art">⚔️</div></div>
+                    <div class="mini-card"><div>IX</div><div class="mini-art">⚔️</div></div>
+                </div>
+                <div class="card-stack">
+                    <div class="mini-card"><div>IV</div><div class="mini-art">👑</div></div>
+                    <div class="mini-card"><div>IV</div><div class="mini-art">👑</div></div>
+                    <div class="mini-card"><div>IV</div><div class="mini-art">👑</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLAYER 4 (Bottom Right) -->
+        <div class="player-station">
+            <div class="player-header"><span>Ramesses_II</span> <span>Score: 310</span></div>
+            <div class="board-cards-pool">
+                <div class="card-stack">
+                    <div class="mini-card"><div>II</div><div class="mini-art">🛡️</div></div>
+                    <div class="mini-card"><div>II</div><div class="mini-art">🛡️</div></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SIDEBAR FOR LEADERBOARD -->
+    <div class="game-sidebar">
+        <h3 style="color: #d4af37; text-align: center; margin-bottom: 15px;">ANTIQUITY QUEST</h3>
+        <div class="leaderboard">
+            <div class="leaderboard-row active"><span>1. YOU</span> <span>1,050 pts</span></div>
+            <div class="leaderboard-row"><span>2. Cleopatra_VII</span> <span>610 pts</span></div>
+            <div class="leaderboard-row"><span>3. Alexander_The_Great</span> <span>420 pts</span></div>
+            <div class="leaderboard-row"><span>4. Ramesses_II</span> <span>310 pts</span></div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antiquity Quest - Unified Table</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            background-color: #050508;
+            overflow: hidden;
+        }
+
+        /* HIGH-POPPING, HIGHLY SATURATED BLENDED GRADIENT TABLE */
+        .game-table {
+            width: 100vw;
+            height: 100vh;
+            border: 16px solid #15151c; /* Dark slate outer rim */
+            box-shadow: inset 0 0 80px rgba(0,0,0,1);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            /* Vibrant colors bleeding from boundaries over a dark floor */
+            background: 
+                /* Bottom Player: Amber/Gold */
+                radial-gradient(circle at 50% 105%, rgba(255, 193, 7, 0.35) 0%, rgba(255, 193, 7, 0) 60%),
+                /* Top Player: Hot Pink */
+                radial-gradient(circle at 50% -5%, rgba(244, 63, 94, 0.35) 0%, rgba(244, 63, 94, 0) 60%),
+                /* Left Player: Electric Blue */
+                radial-gradient(circle at -5% 50%, rgba(6, 182, 212, 0.35) 0%, rgba(6, 182, 212, 0) 50%),
+                /* Right Player: Neon Mint */
+                radial-gradient(circle at 105% 50%, rgba(16, 185, 129, 0.35) 0%, rgba(16, 185, 129, 0) 50%),
+                #0b0c10;
+        }
+
+        /* --- TOP LEFT LEADERBOARD (2x4 Table) --- */
+        .leaderboard-panel {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            background: rgba(15, 15, 25, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 20;
+        }
+
+        .leaderboard-table {
+            border-collapse: collapse;
+            color: #fff;
+            font-size: 0.8rem;
+            text-align: left;
+        }
+
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 4px 10px;
+        }
+
+        .leaderboard-table th {
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            font-size: 0.7rem;
+        }
+
+        .leaderboard-table tr.row-you { color: #ffca28; font-weight: bold; }
+        .leaderboard-table tr.row-top { color: #f43f5e; }
+        .leaderboard-table tr.row-left { color: #06b6d4; }
+        .leaderboard-table tr.row-right { color: #10b981; }
+
+        /* --- SHARED CENTER DECK --- */
+        .center-deck {
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+            background: rgba(15, 15, 25, 0.7);
+            padding: 20px;
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* --- ORGANIC PLAYER AREAS --- */
+        .player-area {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .player-info {
+            font-weight: 900;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,1));
+        }
+
+        /* --- HIGH-DENSITY CARD POOL --- */
+        .cards-pool {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+        }
+
+        .card-stack {
+            display: flex;
+            flex-direction: column;
+            width: 58px;
+        }
+
+        .mini-card {
+            width: 58px;
+            height: 82px;
+            background: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            padding: 5px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: #000;
+            border: 2px solid transparent;
+        }
+
+        /* Cascading stacking trick */
+        .card-stack .mini-card {
+            margin-bottom: -64px;
+            transition: transform 0.15s ease-in-out, box-shadow 0.15s;
+        }
+
+        .card-stack .mini-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            margin-bottom: 0px;
+            z-index: 99;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+        }
+
+        .card-back {
+            background: #1f2937;
+            border: 2px solid #4b5563;
+        }
+
+        /* --- FRONT-FACING ORIENTATION & HIGHLIGHTS --- */
+        
+        /* BOTTOM (Amber/Gold) */
+        .player-bottom {
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .player-bottom .player-info { color: #ffca28; text-shadow: 0 0 8px rgba(255,202,40,0.4); }
+        .player-bottom .mini-card { border-color: rgba(255, 202, 40, 0.6); }
+
+        /* TOP (Hot Pink) */
+        .player-top {
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .player-top .player-info { color: #f43f5e; text-shadow: 0 0 8px rgba(244,63,94,0.4); }
+        .player-top .mini-card { border-color: rgba(244, 63, 94, 0.6); }
+
+        /* LEFT (Electric Blue) - Stays left, reads normally */
+        .player-left {
+            left: 45px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .player-left .player-info { color: #06b6d4; text-shadow: 0 0 8px rgba(6,182,212,0.4); }
+        .player-left .mini-card { border-color: rgba(6, 182, 212, 0.6); }
+
+        /* RIGHT (Neon Mint) - Stays right, reads normally */
+        .player-right {
+            right: 45px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .player-right .player-info { color: #10b981; text-shadow: 0 0 8px rgba(16,185,129,0.4); }
+        .player-right .mini-card { border-color: rgba(16, 185, 129, 0.6); }
+
+    </style>
+</head>
+<body>
+
+<div class="game-table">
+    
+    <!-- 2x4 LEADERBOARD PANEL (Top Left) -->
+    <div class="leaderboard-panel">
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="row-you">
+                    <td>★ YOU</td>
+                    <td>1,150</td>
+                </tr>
+                <tr class="row-right">
+                    <td>Ramesses</td>
+                    <td>720</td>
+                </tr>
+                <tr class="row-top">
+                    <td>Cleopatra</td>
+                    <td>650</td>
+                </tr>
+                <tr class="row-left">
+                    <td>Alexander</td>
+                    <td>410</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Shared Center Piles -->
+    <div class="center-deck">
+        <div class="mini-card card-back"></div>
+        <div class="mini-card" style="background: #fff; border-color: #333;"><div>IV</div><div style="text-align:center; margin-top:15px;">🏺</div></div>
+    </div>
+
+    <!-- PLAYER: TOP (Hot Pink Territory) -->
+    <div class="player-area player-top">
+        <div class="player-info">Cleopatra</div>
+        <div class="cards-pool">
+            <div class="card-stack">
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>II</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>V</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAYER: LEFT (Electric Cyan Territory) -->
+    <div class="player-area player-left">
+        <div class="player-info">Alexander</div>
+        <div class="cards-pool">
+            <div class="card-stack">
+                <div class="mini-card"><div>X</div></div>
+                <div class="mini-card"><div>IV</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAYER: RIGHT (Neon Mint Territory) -->
+    <div class="player-area player-right">
+        <div class="player-info">Ramesses</div>
+        <div class="cards-pool">
+            <div class="card-stack">
+                <div class="mini-card"><div>III</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAYER: BOTTOM / YOU (Amber Gold Territory) -->
+    <div class="player-area player-bottom">
+        <div class="player-info">★ YOU</div>
+        <div class="cards-pool">
+            <div class="card-stack">
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>III</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>VII</div></div>
+                <div class="mini-card"><div>VII</div></div>
+                <div class="mini-card"><div>VIII</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>IX</div></div>
+                <div class="mini-card"><div>IX</div></div>
+                <div class="mini-card"><div>X</div></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

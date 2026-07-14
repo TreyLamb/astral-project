@@ -23,6 +23,7 @@ import SignalLostApp from './pages/signal-lost/SignalLostApp';
 import PokeredApp from './pages/pokered_page/PokeredApp';
 import TkbApp from './pages/theknowledgebase/TkbApp';
 import PgoTracker from './pages/pgotracker/PgoTracker';
+import AntiquityQuestApp from './pages/antiquityquest/AntiquityQuestApp';
 import './App.css';
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
             <Route path="/pokered/*"    element={<PokeredApp />} />
             <Route path="/tkb/*"       element={<TkbApp />} />
             <Route path="/pgo-tracker" element={<PgoTracker />} />
+            <Route path="/antiquityquest/*" element={<AntiquityQuestApp />} />
           </Routes>
         </div>
       </AuthProvider>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antiquity Quest - The Grand Oval Table</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            background-color: #0c0c0c;
+            overflow: hidden;
+        }
+
+        /* ONE UNIFIED CONTINUOUS TABLE */
+        .game-table {
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, #165319 0%, #0c330f 60%, #041405 100%);
+            border: 20px solid #231209; /* Deep mahogany table rim */
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.9);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- SHARED CENTER COURTYARD --- */
+        .center-deck {
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 15px;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(0,0,0,0.4);
+        }
+
+        /* --- UNIFIED PLAYER AREAS (NO BORDERS) --- */
+        .player-area {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .player-info {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- THE CARD POOL (Cascading Stacks) --- */
+        .cards-pool {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .card-stack {
+            display: flex;
+            flex-direction: column;
+            width: 55px;
+        }
+
+        .mini-card {
+            width: 55px;
+            height: 75px;
+            background: #fffdf0;
+            border: 2px solid #bda57b;
+            border-radius: 4px;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+            padding: 3px;
+            font-size: 0.6rem;
+            font-weight: bold;
+            color: #1a0c02;
+        }
+
+        /* Tight stacking to fit 20-30 cards seamlessly */
+        .card-stack .mini-card {
+            margin-bottom: -60px;
+            transition: transform 0.15s ease;
+        }
+
+        .card-stack .mini-card:hover {
+            transform: translateY(-12px);
+            margin-bottom: 0px;
+            z-index: 99;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #0d231f 0%, #163f37 100%);
+            border: 2px solid #d4af37;
+        }
+
+        /* --- SOFT COLOR TERRITORIAL GLOWS (Faint & Distinct) --- */
+        
+        /* 1. YOU - Bottom (Soft Gold/Yellow Aura) */
+        .player-bottom {
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.15));
+        }
+        .player-bottom .player-info { color: #ffe082; }
+
+        /* 2. OPPONENT 1 - Top (Soft Pink/Red Aura) */
+        .player-top {
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            filter: drop-shadow(0 0 15px rgba(244, 143, 177, 0.15));
+        }
+        .player-top .player-info { color: #f48fb1; }
+
+        /* 3. OPPONENT 2 - Left (Soft Light Blue Aura) */
+        .player-left {
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%) rotate(90deg); /* Angled to face the table center */
+            filter: drop-shadow(0 0 15px rgba(129, 212, 250, 0.15));
+        }
+        .player-left .player-info { color: #81d4fa; }
+
+        /* 4. OPPONENT 3 - Right (Soft Mint Green Aura) */
+        .player-right {
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg); /* Angled to face the table center */
+            filter: drop-shadow(0 0 15px rgba(165, 214, 167, 0.15));
+        }
+        .player-right .player-info { color: #a5d6a7; }
+
+    </style>
+</head>
+<body>
+
+<div class="game-table">
+    
+    <!-- Shared Center Piles -->
+    <div class="center-deck">
+        <div class="mini-card card-back"></div>
+        <div class="mini-card" style="background: #fff;"><div>IV</div><div style="text-align:center; margin-top:10px;">🏺</div></div>
+    </div>
+
+    <!-- PLAYER 1: TOP (Soft Pink) -->
+    <div class="player-area player-top">
+        <div class="player-info">Cleopatra (650)</div>
+        <div class="cards-pool">
+            <div class="card-stack">
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>II</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>V</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAYER 2: LEFT (Soft Light Blue) -->
+    <div class="player-area player-left">
+        <div class="player-info">Alexander (410)</div>
+        <div class="cards-pool">
+            <div class="card-stack">
+                <div class="mini-card"><div>X</div></div>
+                <div class="mini-card"><div>IV</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAYER 3: RIGHT (Soft Mint Green) -->
+    <div class="player-area player-right">
+        <div class="player-info">Ramesses (720)</div>
+        <div class="cards-pool">
+            <div class="card-stack">
+                <div class="mini-card"><div>III</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAYER 4: BOTTOM / YOU (Soft Gold) -->
+    <div class="player-area player-bottom">
+        <div class="player-info">★ YOU (1,150)</div>
+        <div class="cards-pool">
+            <!-- Showcasing tight grouping of 9 cards across 3 stacks -->
+            <div class="card-stack">
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>III</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>VII</div></div>
+                <div class="mini-card"><div>VII</div></div>
+                <div class="mini-card"><div>VIII</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>IX</div></div>
+                <div class="mini-card"><div>IX</div></div>
+                <div class="mini-card"><div>X</div></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

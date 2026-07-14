@@ -194,3 +194,8 @@ just my notes on defects.
 4. Page load times reported ~5x slower — cause unknown, not investigated.
 5. Route 11.5 ↔ Route 12 warps (walking into the roof of gates) — 2 warps affected.
 6. `#`/Poké character rendering issue.
+1
+2. gate guards not guarding
+3. shit ton of maps still using last map
+4. npcs still no dialogue
+5. player needs to follow pewter youngster 1 step closer.

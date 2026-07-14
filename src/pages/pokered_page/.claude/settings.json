@@ -19,7 +19,9 @@
       "Skill(run)",
       "Skill(run:*)",
       "Bash(node -e ' *)",
-      "Bash(identify youngster.png)"
+      "Bash(identify youngster.png)",
+      "Bash(node \"C:\\\\Users\\\\clown\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-clown-projects-astral-project-src-pages-pokered-page\\\\10942159-67b8-4d53-9b3d-abf917c7a6bb\\\\scratchpad\\\\pewter_youngster_test.mjs\")",
+      "Bash(awk -F: '$1 > 2860 && $1 < 3105')"
     ],
     "additionalDirectories": [
       "C:\\Users\\clown\\AppData\\Local\\Temp\\claude\\c--Users-clown-projects-astral-project-src-pages-pokered-page\\10942159-67b8-4d53-9b3d-abf917c7a6bb\\scratchpad"

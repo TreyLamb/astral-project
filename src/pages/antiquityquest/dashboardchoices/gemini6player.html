@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antiquity Quest Dashboard - 6 Players</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            background-color: #050508;
+            overflow: hidden;
+        }
+
+        .game-table {
+            width: 100vw;
+            height: 100vh;
+            border: 16px solid #13131a;
+            box-shadow: inset 0 0 100px rgba(0,0,0,1);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            /* 6-Zone Blended Neon Ambient Lighting */
+            background: 
+                /* Bottom Row Glows */
+                radial-gradient(circle at 35% 105%, rgba(255, 193, 7, 0.25) 0%, rgba(255, 193, 7, 0) 50%),
+                radial-gradient(circle at 65% 105%, rgba(255, 152, 0, 0.25) 0%, rgba(255, 152, 0, 0) 50%),
+                /* Top Row Glows */
+                radial-gradient(circle at 35% -5%, rgba(244, 63, 94, 0.25) 0%, rgba(244, 63, 94, 0) 50%),
+                radial-gradient(circle at 65% -5%, rgba(236, 72, 153, 0.25) 0%, rgba(236, 72, 153, 0) 50%),
+                /* Side Glows */
+                radial-gradient(circle at -5% 50%, rgba(6, 182, 212, 0.25) 0%, rgba(6, 182, 212, 0) 45%),
+                radial-gradient(circle at 105% 50%, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0) 45%),
+                #090a0f;
+        }
+
+        /* --- TOP LEFT LEADERBOARD (2x6 Table) --- */
+        .leaderboard-panel {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            background: rgba(12, 12, 20, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 6px;
+            padding: 10px 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            z-index: 20;
+        }
+
+        .leaderboard-table {
+            border-collapse: collapse;
+            color: #fff;
+            font-size: 0.75rem;
+            text-align: left;
+        }
+
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 3px 8px;
+        }
+
+        .leaderboard-table th {
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #777;
+            font-size: 0.65rem;
+        }
+
+        /* Color alignments matching their board spots */
+        .row-p1 { color: #ffca28; font-weight: bold; }
+        .row-p2 { color: #ff9800; }
+        .row-p3 { color: #10b981; }
+        .row-p4 { color: #ec4899; }
+        .row-p5 { color: #f43f5e; }
+        .row-p6 { color: #06b6d4; }
+
+        /* --- PLAYER HOUSES --- */
+        .player-area {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .player-info {
+            font-weight: 800;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+        }
+
+        .cards-pool {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .card-stack {
+            display: flex;
+            flex-direction: column;
+            width: 52px;
+        }
+
+        .mini-card {
+            width: 52px;
+            height: 74px;
+            background: #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+            padding: 4px;
+            font-size: 0.6rem;
+            font-weight: bold;
+            color: #000;
+            border: 2px solid transparent;
+        }
+
+        .card-stack .mini-card {
+            margin-bottom: -58px;
+            transition: transform 0.15s ease, margin-bottom 0.15s;
+        }
+
+        .card-stack .mini-card:hover {
+            transform: translateY(-12px) scale(1.05);
+            margin-bottom: 0px;
+            z-index: 99;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.7);
+        }
+
+        /* --- POSITIONING THE 6-PLAYER ORBIT --- */
+        
+        /* BOTTOM LAYER (P1, P2) */
+        .p1-bottom-left { bottom: 30px; left: 33%; transform: translateX(-50%); }
+        .p1-bottom-left .player-info { color: #ffca28; }
+        .p1-bottom-left .mini-card { border-color: rgba(255, 202, 40, 0.5); }
+
+        .p2-bottom-right { bottom: 30px; left: 67%; transform: translateX(-50%); }
+        .p2-bottom-right .player-info { color: #ff9800; }
+        .p2-bottom-right .mini-card { border-color: rgba(255, 152, 0, 0.5); }
+
+        /* RIGHT FLANK (P3) */
+        .p3-right { right: 40px; top: 50%; transform: translateY(-50%); }
+        .p3-right .player-info { color: #10b981; }
+        .p3-right .mini-card { border-color: rgba(16, 185, 129, 0.5); }
+
+        /* TOP LAYER (P4, P5) */
+        .p4-top-right { top: 30px; left: 67%; transform: translateX(-50%); }
+        .p4-top-right .player-info { color: #ec4899; }
+        .p4-top-right .mini-card { border-color: rgba(236, 72, 153, 0.5); }
+
+        .p5-top-left { top: 30px; left: 33%; transform: translateX(-50%); }
+        .p5-top-left .player-info { color: #f43f5e; }
+        .p5-top-left .mini-card { border-color: rgba(244, 63, 94, 0.5); }
+
+        /* LEFT FLANK (P6) */
+        .p6-left { left: 40px; top: 55%; transform: translateY(-50%); } /* Shifted slightly down to clear room for the scoreboard */
+        .p6-left .player-info { color: #06b6d4; }
+        .p6-left .mini-card { border-color: rgba(6, 182, 212, 0.5); }
+
+    </style>
+</head>
+<body>
+
+<div class="game-table">
+    
+    <!-- 2x6 LEADERBOARD PANEL -->
+    <div class="leaderboard-panel">
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="row-p1"><td>★ YOU</td><td>1,420</td></tr>
+                <tr class="row-p3"><td>Ramesses</td><td>1,110</td></tr>
+                <tr class="row-p2"><td>Thutmose</td><td>950</td></tr>
+                <tr class="row-p5"><td>Cleopatra</td><td>880</td></tr>
+                <tr class="row-p4"><td>Nefertiti</td><td>620</td></tr>
+                <tr class="row-p6"><td>Alexander</td><td>500</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- P1: YOU -->
+    <div class="player-area p1-bottom-left">
+        <div class="player-info">★ YOU</div>
+        <div class="cards-pool">
+            <div class="card-stack"><div class="mini-card">III</div><div class="mini-card">III</div></div>
+            <div class="card-stack"><div class="mini-card">X</div></div>
+        </div>
+    </div>
+
+    <!-- P2: BOT RIGHT -->
+    <div class="player-area p2-bottom-right">
+        <div class="player-info">Thutmose</div>
+        <div class="cards-pool">
+            <div class="card-stack"><div class="mini-card">V</div><div class="mini-card">VI</div></div>
+        </div>
+    </div>
+
+    <!-- P3: FAR RIGHT -->
+    <div class="player-area p3-right">
+        <div class="player-info">Ramesses</div>
+        <div class="cards-pool">
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">II</div></div>
+        </div>
+    </div>
+
+    <!-- P4: TOP RIGHT -->
+    <div class="player-area p4-top-right">
+        <div class="player-info">Nefertiti</div>
+        <div class="cards-pool">
+            <div class="card-stack"><div class="mini-card">VIII</div></div>
+        </div>
+    </div>
+
+    <!-- P5: TOP LEFT -->
+    <div class="player-area p5-top-left">
+        <div class="player-info">Cleopatra</div>
+        <div class="cards-pool">
+            <div class="card-stack"><div class="mini-card">IV</div><div class="mini-card">IV</div></div>
+        </div>
+    </div>
+
+    <!-- P6: FAR LEFT -->
+    <div class="player-area p6-left">
+        <div class="player-info">Alexander</div>
+        <div class="cards-pool">
+            <div class="card-stack"><div class="mini-card">VII</div></div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antiquity Quest - Game Board</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            background-color: #1a1a1a;
+            overflow: hidden;
+        }
+
+        /* Main Layout Dashboard */
+        .game-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* --- THE TABLE (Left Side) --- */
+        .game-table {
+            flex: 1;
+            background: radial-gradient(circle, #1b5e20 0%, #0d3c12 80%, #052408 100%);
+            border: 16px solid #3e2723; /* Wooden Table Border */
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* --- SIDEBAR (Right Side) --- */
+        .game-sidebar {
+            width: 320px;
+            background-color: #252525;
+            border-left: 4px solid #d4af37; /* Gold trim */
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+        }
+
+        /* Player Zones */
+        .zone {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 140px;
+            width: 100%;
+        }
+
+        /* --- THE CARDS --- */
+        .card-hand {
+            display: flex;
+            gap: -15px; /* Creates a slight overlap */
+            justify-content: center;
+        }
+
+        /* Hover effect to make cards pop when selecting */
+        .card-hand .card:hover {
+            transform: translateY(-20px) rotate(0deg) scale(1.05);
+            z-index: 100;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        .card {
+            width: 100px;
+            height: 150px;
+            background: #fffdf0; /* Antique parchment color */
+            border: 4px solid #c5a059; /* Bronze/Gold frame */
+            border-radius: 8px;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 8px;
+            user-select: none;
+        }
+
+        /* Card Back (For Opponent / Deck) */
+        .card.card-back {
+            background: linear-gradient(135deg, #0f2b26 0%, #194d44 100%);
+            border: 4px solid #d4af37;
+            /* Simple CSS design for the "Antiquity Quest" compass/artifact look */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-back::after {
+            content: "🧭";
+            font-size: 2rem;
+            opacity: 0.7;
+        }
+
+        /* Card Details */
+        .card-value {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #3e2723;
+        }
+        .card-art {
+            flex: 1;
+            background-color: #e6dfca;
+            margin: 4px 0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border: 1px solid #bda57b;
+        }
+        .card-title {
+            font-size: 0.75rem;
+            text-align: center;
+            font-weight: bold;
+            color: #271202;
+            text-transform: uppercase;
+        }
+
+        /* --- MIDDLE FIELD AREA --- */
+        .field-area {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            border: 2px dashed rgba(255,255,255,0.15);
+            margin: 20px 40px;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .deck-pile {
+            position: absolute;
+            left: 30px;
+            display: flex;
+        }
+
+        .battle-slots {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Sidebar components */
+        .score-board {
+            background: #151515;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #444;
+        }
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        .score-row.player { color: #81c784; }
+        .score-row.opponent { color: #e57373; }
+
+        .game-logs {
+            flex: 1;
+            background: #111;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #aaa;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+
+    <!-- 1. THE GREEN FELT TABLE -->
+    <div class="game-table">
+        
+        <!-- Opponent Hand Zone (Cards facing down, slightly rotated/fanned if you want) -->
+        <div class="zone opponent-zone">
+            <div class="card-hand">
+                <div class="card card-back"></div>
+                <div class="card card-back"></div>
+                <div class="card card-back"></div>
+                <div class="card card-back"></div>
+                <div class="card card-back"></div>
+            </div>
+        </div>
+
+        <!-- The Play Mat Field -->
+        <div class="field-area">
+            <!-- Draw Pile -->
+            <div class="deck-pile">
+                <div class="card card-back" style="transform: translate(4px, 4px);"></div>
+                <div class="card card-back" style="position: absolute; transform: translate(2px, 2px);"></div>
+                <div class="card card-back" style="position: absolute;"></div>
+            </div>
+
+            <!-- Active Cards Placed on Table -->
+            <div class="battle-slots">
+                <div class="card">
+                    <div class="card-value">VII</div>
+                    <div class="card-art">🏺</div>
+                    <div class="card-title">Ancient Urn</div>
+                </div>
+                <div class="card">
+                    <div class="card-value">X</div>
+                    <div class="card-art">⚔️</div>
+                    <div class="card-title">Hoplite Sword</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Player Hand Zone -->
+        <div class="zone player-zone">
+            <div class="card-hand">
+                <!-- Card 1 -->
+                <div class="card">
+                    <div class="card-value">III</div>
+                    <div class="card-art">📜</div>
+                    <div class="card-title">Lost Scroll</div>
+                </div>
+                <!-- Card 2 -->
+                <div class="card">
+                    <div class="card-value">V</div>
+                    <div class="card-art">💎</div>
+                    <div class="card-title">Scarabeus</div>
+                </div>
+                <!-- Card 3 -->
+                <div class="card">
+                    <div class="card-value">IX</div>
+                    <div class="card-art">🛡️</div>
+                    <div class="card-title">Gilded Aegis</div>
+                </div>
+                <!-- Card 4 -->
+                <div class="card">
+                    <div class="card-value">IV</div>
+                    <div class="card-art">👑</div>
+                    <div class="card-title">Relic Crown</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 2. THE STATS & SCORE DASHBOARD SIDEBAR -->
+    <div class="game-sidebar">
+        <h2 style="color: #d4af37; text-align: center; margin-bottom: 20px; font-variant: small-caps;">Antiquity Quest</h2>
+        
+        <div class="score-board">
+            <div class="score-row opponent">
+                <span>Opponent Score:</span>
+                <strong>1,450</strong>
+            </div>
+            <div class="score-row player">
+                <span>Your Score:</span>
+                <strong>1,820</strong>
+            </div>
+        </div>
+
+        <h4 style="margin-bottom: 8px; font-size: 0.9rem; text-transform: uppercase; color: #888;">Match History</h4>
+        <div class="game-logs">
+            <div>&gt; Opponent drew a card.</div>
+            <div>&gt; You played [Gilded Aegis].</div>
+            <div>&gt; +300 points awarded.</div>
+            <div>&gt; Your turn...</div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

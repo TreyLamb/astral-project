@@ -336,6 +336,51 @@
           ]
         }
       ]
+    },
+    {
+      "category": "AI/ML & Knowledge Tools",
+      "items": [
+        {
+          "tool": "Jupyter Notebook",
+          "comfort": 0,
+          "notes": "Never touched it. Standard for interactive Python/data work — cell-based execution, inline output.",
+          "study_path": [
+            "Install via pip install notebook or use JupyterLab — launch with jupyter notebook",
+            "Learn the cell model: run cells out of order, keep state between cells",
+            "Try one real notebook: load a CSV with pandas, plot something with matplotlib"
+          ]
+        },
+        {
+          "tool": "Obsidian",
+          "comfort": 0,
+          "notes": "Never touched it. Local-first markdown note-taking with backlinks/graph view.",
+          "study_path": [
+            "Install and point it at a folder — notes are just plain .md files, nothing proprietary",
+            "Learn [[wikilink]] syntax for linking notes together",
+            "Try the graph view once you have 10+ linked notes"
+          ]
+        },
+        {
+          "tool": "LLM training",
+          "comfort": 0,
+          "notes": "Never touched it. Covers fine-tuning/training workflows, not just using a hosted model.",
+          "study_path": [
+            "Understand the distinction: pretraining vs fine-tuning vs prompting — know which one you mean before diving in",
+            "Try a small fine-tune on a hosted platform first (e.g. via HuggingFace) before anything local/from-scratch",
+            "Learn the vocabulary: tokens, embeddings, loss, epochs, LoRA/PEFT for lightweight fine-tuning"
+          ]
+        },
+        {
+          "tool": "HuggingFace",
+          "comfort": 0,
+          "notes": "Never touched it. Hub for pretrained models/datasets, plus the transformers/datasets libraries.",
+          "study_path": [
+            "Browse huggingface.co/models — get a feel for what's available before writing code",
+            "pip install transformers — load a small pretrained model with pipeline() for a quick win",
+            "Learn the Hub vs the libraries distinction: Hub = hosted models/datasets, transformers = the Python library that loads them"
+          ]
+        }
+      ]
     }
   ]
 }

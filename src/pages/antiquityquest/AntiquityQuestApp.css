@@ -1,0 +1,158 @@
+.aq-wrapper {
+  min-height: 100vh;
+  background: #14121f;
+  color: #f4f2fb;
+}
+
+.aq-landing {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.aq-landing-card {
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+.aq-landing-title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.aq-landing-subtitle {
+  color: #b8b2d1;
+  margin-bottom: 2.5rem;
+}
+
+.aq-landing-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.aq-btn {
+  padding: 1.25rem 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.aq-btn-host {
+  background: #7c5cff;
+  color: #fff;
+}
+
+.aq-btn-join {
+  background: transparent;
+  color: #f4f2fb;
+  border: 2px solid #7c5cff;
+}
+
+.aq-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.aq-landing-host-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.aq-landing-host-label {
+  color: #b8b2d1;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.aq-landing-host-rounds {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.aq-landing-host-rounds .aq-btn-host {
+  flex: 1;
+  padding: 1rem;
+  font-size: 1.05rem;
+}
+
+.aq-landing-error {
+  color: #ff8080;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.aq-join {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.aq-join-card {
+  max-width: 380px;
+  width: 100%;
+}
+
+.aq-join-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.aq-join-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.aq-join-label {
+  color: #b8b2d1;
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+}
+
+.aq-join-input {
+  padding: 1rem;
+  font-size: 1.25rem;
+  border-radius: 0.5rem;
+  border: 2px solid #3a3454;
+  background: #1e1a2e;
+  color: #f4f2fb;
+  min-height: 44px;
+}
+
+.aq-join-input-code {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  text-align: center;
+}
+
+.aq-join-form .aq-btn {
+  margin-top: 1.5rem;
+}
+
+.aq-join-error {
+  color: #ff8080;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.aq-join-identity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.aq-join-identity-btn {
+  width: 100%;
+}
