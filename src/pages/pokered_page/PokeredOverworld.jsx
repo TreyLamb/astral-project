@@ -179,12 +179,6 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   // the gap from whichever of several possible trigger tiles started the cutscene, then trails
   // it in lockstep once adjacent (see Pewter youngster's PEWTER_YOUNGSTER_CUTSCENE action).
   const escortLeaderIdRef = useRef(null);
-  // Pewter youngster (PewterCityHideYoungsterScript, TOGGLE_GYM_GUY): real OG hides his sprite
-  // entirely once the exit walk finishes, not just walks him off — set true once the exit walk
-  // completes, checked in isNpcHidden. Session-local (reset on every map (re)load below, next
-  // to trainerEngageRef/npcBattlePosRef's own resets), matching OG's PewterCityResetYoungsterScript
-  // re-showing him on the next visit — this is NOT a save-persisted one-time flag.
-  const pewterYoungsterGoneRef = useRef(false);
   const encounterRef  = useRef(null);
   const transitionRef = useRef(0);     // 0=none, 1=fading out, 2=fading in
   const pendingMapRef = useRef(null);
@@ -891,7 +885,6 @@ const OUTDOOR = ['overworld', 'plateau'];
       trainerEngageRef.current = null;
       npcBattlePosRef.current = new Map();
       npcLivePosRef.current = new Map();
-      pewterYoungsterGoneRef.current = false;
       hydrateBoulderPositions(mapId);
       boulderPushAttemptRef.current = { id: null, dir: null };
 
@@ -1581,7 +1574,6 @@ function notifyPosition() {
   function isNpcHidden(mapId, npc, npcs) {
     const nid = npcTrainerId(mapId, npc);
     if (trainerEngageRef.current?.id === nid) return false; // mid scripted/chase walk — always show
-    if (mapId === 'PEWTER_CITY' && npc.sprite === 'youngster' && pewterYoungsterGoneRef.current) return true;
     if ((npc.sprite === 'poke_ball' || npc.sprite === 'fossil' || npc.sprite === 'old_amber') &&
         pickedUpRef.current.has(nid)) return true;
     const beatenTrainers = gsRef.current?.beatenTrainers;
@@ -2424,11 +2416,29 @@ function notifyPosition() {
           // mid-step.
           const npcId = npcTrainerId('PEWTER_CITY', prev.npc);
           if (!(trainerEngageRef.current?.id === npcId && trainerEngageRef.current?.mode === 'scripted')) {
-            // PewterCityHideYoungsterScript: real OG hides his sprite entirely once this walk
-            // finishes (TOGGLE_GYM_GUY), not just walks him off — isNpcHidden reads this flag.
-            startScriptedMove('PEWTER_CITY', prev.npc, ['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], () => {
-              pewterYoungsterGoneRef.current = true;
+            // PewterCityHideYoungsterScript -> PewterCityResetYoungsterScript: real OG hides
+            // him only for the instant needed to reposition his sprite back to spawn (masking
+            // the teleport), then immediately shows him again AND resumes the DEFAULT script —
+            // re-arming PewterCityCheckPlayerLeavingEastScript right away, NOT leaving him gone
+            // for the rest of the map visit. A permanent hide (this port's first attempt) left
+            // his spawn tile permanently walkable, opening a real bypass: without his body
+            // physically occupying (35,16), a player can route around the 4 trigger tiles
+            // entirely and reach the map edge without ever touching one. Clearing the
+            // npcBattlePosRef override puts him back at his static spawn (npc.x/npc.y) —
+            // isNpcHidden's mid-walk exemption already keeps him visible during the walk itself,
+            // so no separate hide step is needed for a web port (no teleport-pop risk here).
+            startScriptedMove('PEWTER_CITY', prev.npc, ['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], (eng2) => {
+              npcBattlePosRef.current.delete(eng2.id);
             });
+            // Clear the "facing player" rest position the arrival dialogue set (see
+            // PEWTER_YOUNGSTER_CUTSCENE's onDone above) the INSTANT the exit walk starts, not
+            // just once it finishes. startScriptedMove already read this entry synchronously
+            // above to seed the walk's starting position/facing, so it's safe to drop now — any
+            // further render for this npc goes through the live trainerEngageRef (eng2) path.
+            // Leaving it in place until the walk's own completion meant a stale, frozen
+            // "facing the player" ghost was still a valid fallback render target for the whole
+            // walk's duration, not just the dialogue window it was meant for.
+            npcBattlePosRef.current.delete(npcId);
           }
         }
         return null;
