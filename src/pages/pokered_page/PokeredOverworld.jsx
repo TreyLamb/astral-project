@@ -2379,30 +2379,45 @@ function notifyPosition() {
           // behind for the rest of the walk — a fixed replay only worked from one specific
           // starting tile and desynced from any other.
           const npcId = npcTrainerId('PEWTER_CITY', prev.npc);
-          escortLeaderIdRef.current = npcId;
-          const fullPath = [];
-          for (const segment of PEWTER_YOUNGSTER_PATH) {
-            for (let i = 0; i < segment.steps; i++) fullPath.push(segment.dir.toUpperCase());
+          // Guard against React 18 StrictMode's dev-mode double-invocation of this functional
+          // setState updater (confirmed via stack trace: two calls ~24ms apart, both bottoming
+          // out in useState's reducer) — without this, the second invocation would call
+          // startScriptedMove again mid-animation, resetting stepIdx/walkProg and corrupting
+          // the escort. If this exact escort is already running, treat the repeat call as a
+          // no-op instead of restarting it.
+          if (!(trainerEngageRef.current?.id === npcId && trainerEngageRef.current?.mode === 'scripted')) {
+            escortLeaderIdRef.current = npcId;
+            const fullPath = [];
+            for (const segment of PEWTER_YOUNGSTER_PATH) {
+              for (let i = 0; i < segment.steps; i++) fullPath.push(segment.dir.toUpperCase());
+            }
+            startScriptedMove('PEWTER_CITY', prev.npc, fullPath, (eng) => {
+              escortLeaderIdRef.current = null;
+              // Face the youngster toward wherever the player ended up trailing, and persist that
+              // resting position/facing via npcBattlePosRef (same mechanism startScriptedMove
+              // itself reads for its own starting position) so he doesn't snap back to his spawn
+              // facing between this scripted move and the exit-walk one below — same pattern
+              // already used by the Route 22/Cerulean rival encounters above.
+              const p = playerRef.current;
+              const pdx = p.x - eng.liveX, pdy = p.y - eng.liveY;
+              eng.facing = Math.abs(pdx) >= Math.abs(pdy) ? (pdx > 0 ? 'RIGHT' : 'LEFT') : (pdy > 0 ? 'DOWN' : 'UP');
+              npcBattlePosRef.current.set(eng.id, { x: eng.liveX, y: eng.liveY, facing: eng.facing });
+              // Exit walk (MovementData_PewterGymGuyExit, scripts/PewterCity.asm: RIGHT x5) only
+              // starts once this dialogue is dismissed, not immediately alongside it — matching
+              // the PEWTER_GYM_ESCORT/PEWTER_MUSEUM_ESCORT "walk away after the line" pattern.
+              setDialogue({ lines: ["Go on and take on\nBROCK at the GYM!"], idx: 0, action: 'PEWTER_YOUNGSTER_LEAVE', npc: eng.npc });
+            });
           }
-          startScriptedMove('PEWTER_CITY', prev.npc, fullPath, (eng) => {
-            escortLeaderIdRef.current = null;
-            // Face the youngster toward wherever the player ended up trailing, and persist that
-            // resting position/facing via npcBattlePosRef (same mechanism startScriptedMove
-            // itself reads for its own starting position) so he doesn't snap back to his spawn
-            // facing between this scripted move and the exit-walk one below — same pattern
-            // already used by the Route 22/Cerulean rival encounters above.
-            const p = playerRef.current;
-            const pdx = p.x - eng.liveX, pdy = p.y - eng.liveY;
-            eng.facing = Math.abs(pdx) >= Math.abs(pdy) ? (pdx > 0 ? 'RIGHT' : 'LEFT') : (pdy > 0 ? 'DOWN' : 'UP');
-            npcBattlePosRef.current.set(eng.id, { x: eng.liveX, y: eng.liveY, facing: eng.facing });
-            // Exit walk (MovementData_PewterGymGuyExit, scripts/PewterCity.asm: RIGHT x5) only
-            // starts once this dialogue is dismissed, not immediately alongside it — matching
-            // the PEWTER_GYM_ESCORT/PEWTER_MUSEUM_ESCORT "walk away after the line" pattern.
-            setDialogue({ lines: ["Go on and take on\nBROCK at the GYM!"], idx: 0, action: 'PEWTER_YOUNGSTER_LEAVE', npc: eng.npc });
-          });
         }
         if (prev.action === 'PEWTER_YOUNGSTER_LEAVE' && prev.npc) {
-          startScriptedMove('PEWTER_CITY', prev.npc, ['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], null);
+          // Same StrictMode double-invoke guard as above — without it, this fires twice ~24ms
+          // apart (confirmed via stack trace, both calls bottoming out in useState's reducer),
+          // and the second startScriptedMove call resets the exit walk's stepIdx/walkProg
+          // mid-step.
+          const npcId = npcTrainerId('PEWTER_CITY', prev.npc);
+          if (!(trainerEngageRef.current?.id === npcId && trainerEngageRef.current?.mode === 'scripted')) {
+            startScriptedMove('PEWTER_CITY', prev.npc, ['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], null);
+          }
         }
         return null;
       }
