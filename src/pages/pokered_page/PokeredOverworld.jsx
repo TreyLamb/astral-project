@@ -82,10 +82,11 @@ const DIR_UP    = 1;
 const DIR_LEFT  = 2;
 const DIR_RIGHT = 3;
 
-// Youngster's forced-movement path from auto_movement.asm RLEList_PewterGymPlayer (reversed execution order)
-// DOWN 2, LEFT 15, UP 5, LEFT 11, DOWN 5, RIGHT 2
+// Youngster's main gym-bound path from auto_movement.asm RLEList_PewterGymGuy, executed in
+// this reversed segment order per direct trace — does NOT include the initial DOWN 2 approach
+// (spawn (35,16) -> meeting point (35,18)), which is prepended separately where this is used.
+// LEFT 15, UP 5, LEFT 11, DOWN 5, RIGHT 2
 const PEWTER_YOUNGSTER_PATH = [
-  { dir: 'down', steps: 2 },
   { dir: 'left', steps: 15 },
   { dir: 'up', steps: 5 },
   { dir: 'left', steps: 11 },
