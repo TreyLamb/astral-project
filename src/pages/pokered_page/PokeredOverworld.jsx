@@ -82,16 +82,19 @@ const DIR_UP    = 1;
 const DIR_LEFT  = 2;
 const DIR_RIGHT = 3;
 
-// Youngster's main gym-bound path from auto_movement.asm RLEList_PewterGymGuy, executed in
-// this reversed segment order per direct trace — does NOT include the initial DOWN 2 approach
-// (spawn (35,16) -> meeting point (35,18)), which is prepended separately where this is used.
-// LEFT 15, UP 5, LEFT 11, DOWN 5, RIGHT 2
+// Youngster's complete gym-bound path — auto_movement.asm RLEList_PewterGymGuy, taken directly
+// (this is the youngster's OWN movement table, already in its natural order; NOT derived by
+// reversing RLEList_PewterGymPlayer, the separate table used for the player's simulated
+// joypad input in real OG, which has different per-segment counts and would be the wrong
+// source to trace this from). Starts from spawn (35,16).
+// DOWN 2, LEFT 15, UP 5, LEFT 11, DOWN 5, RIGHT 3
 const PEWTER_YOUNGSTER_PATH = [
+  { dir: 'down', steps: 2 },
   { dir: 'left', steps: 15 },
   { dir: 'up', steps: 5 },
   { dir: 'left', steps: 11 },
   { dir: 'down', steps: 5 },
-  { dir: 'right', steps: 2 },
+  { dir: 'right', steps: 3 },
 ];
 
 // ============================================================================
@@ -2367,20 +2370,17 @@ function notifyPosition() {
         }
         if (prev.action === 'PEWTER_YOUNGSTER_CUTSCENE' && prev.npc) {
           // Real OG: the youngster's OWN sprite walks this whole path (auto_movement.asm
-          // PewterMovementScript_WalkToGym) — the player never presses a real key, input is
-          // just discarded (wJoyIgnore) and the player is dragged along behind, regardless of
-          // which of the 4 possible trigger tiles started this. Implemented as a chase-and-
-          // follow puppet (escortLeaderIdRef) rather than replaying a fixed direction list on
-          // the player: the player closes the gap to the youngster's live position first (from
-          // whichever trigger tile they were on), then trails 1 tile behind for the rest of the
-          // walk — a fixed replay only worked from one specific starting tile and desynced from
-          // any other. Youngster's own path: DOWN 2 (spawn (35,16) -> (35,18)) then the main
-          // escort route (LEFT x15, UP x5, LEFT x11, DOWN x5, RIGHT x2 — auto_movement.asm
-          // RLEList_PewterGymGuy, this segment order per direct trace), run as one continuous
-          // scripted move so the follow logic never has a gap to fall behind in.
+          // PewterMovementScript_WalkToGym, RLEList_PewterGymGuy) — the player never presses a
+          // real key, input is just discarded (wJoyIgnore) and the player is dragged along
+          // behind, regardless of which of the 4 possible trigger tiles started this.
+          // Implemented as a chase-and-follow puppet (escortLeaderIdRef) rather than replaying a
+          // fixed direction list on the player: the player closes the gap to the youngster's
+          // live position first (from whichever trigger tile they were on), then trails 1 tile
+          // behind for the rest of the walk — a fixed replay only worked from one specific
+          // starting tile and desynced from any other.
           const npcId = npcTrainerId('PEWTER_CITY', prev.npc);
           escortLeaderIdRef.current = npcId;
-          const fullPath = ['DOWN', 'DOWN'];
+          const fullPath = [];
           for (const segment of PEWTER_YOUNGSTER_PATH) {
             for (let i = 0; i < segment.steps; i++) fullPath.push(segment.dir.toUpperCase());
           }
