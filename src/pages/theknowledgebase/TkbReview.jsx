@@ -24,6 +24,10 @@ export default function TkbReview() {
 
   const profile = getProfile(searchParams.get('profile'));
   const quickFacts = profile.paceClass === 'slow';
+  // User-requested (2026-07-13): Focused Review is a single-subject grind mode — Re-queue and
+  // Unsure (the "come back to this later" grades) don't fit that flow, so they're removed
+  // entirely for this profile: no button, no keyboard key, no swipe gesture, no legend line.
+  const hideUnsureRequeue = profile.id === 'focused_review';
 
   const rngRef = useRef(null);
   const sessionStartedAtRef = useRef(null);
@@ -133,6 +137,9 @@ export default function TkbReview() {
 
   function handleGrade(grade) {
     if (!currentQuestion) return;
+    // Guards keyboard (1/2/3), swipe, AND click from a single place — Focused Review only
+    // ever grades 'correct', so wrong/unsure are a no-op regardless of how they're triggered.
+    if (hideUnsureRequeue && grade !== 'correct') return;
     const canGrade = quickFacts || phase === 'revealed';
     if (!canGrade) return;
 
@@ -381,13 +388,35 @@ export default function TkbReview() {
 
   return (
     <div className={`tkb-review${quickFacts ? ' tkb-review-quickfacts' : ''}`}>
-      <aside className="tkb-legend">
-        <div><strong>Reveal</strong> — show the answer</div>
-        <div><strong>Re-queue</strong> — wrong; shows again later this session, plus a multi-day recall boost</div>
-        <div><strong>Unsure</strong> — shows again later this session (no recall boost)</div>
-        <div><strong>Lock-in</strong> — force the multi-day recall boost even though you got it right</div>
-        <div><strong>Remove</strong> — bad/wrong question; never asked again (restorable in Settings)</div>
-        <div><strong>End Session</strong> — stop early and see your summary</div>
+      {/* User-requested (2026-07-13): End Session stands alone, away from the other actions,
+          so it can't be misclicked in the middle of a normal grading rhythm. */}
+      <div className="tkb-review-topbar">
+        <button className="tkb-btn tkb-btn-secondary tkb-btn-sm" onClick={handleEndSession}>End Session</button>
+      </div>
+
+      <div className="tkb-review-body">
+      {/* User-requested (2026-07-13): every action except Next (below) lives here now, as
+          real clickable buttons instead of the old static text legend — the legend and the
+          actual button row had drifted out of sync (missing Correct/Back/Flag) since TKB's
+          first commit; buttons that speak for themselves can't go stale like that again.
+          Smaller (.tkb-btn-sm) and stacked in a narrow column so this fits next to the card
+          on mobile instead of forcing a horizontal row that wraps below it. */}
+      <aside className="tkb-side-actions">
+        <button className="tkb-btn tkb-btn-secondary tkb-btn-sm" onClick={handleBack} disabled={idx <= 0}>
+          ← Back
+        </button>
+        {!revealed && (
+          <button className="tkb-btn tkb-btn-primary tkb-btn-sm" onClick={handleReveal}>Reveal</button>
+        )}
+        {revealed && !hideUnsureRequeue && (
+          <button className="tkb-btn tkb-btn-secondary tkb-btn-sm" onClick={() => handleGrade('wrong')}>Re-queue</button>
+        )}
+        {revealed && !hideUnsureRequeue && (
+          <button className="tkb-btn tkb-btn-secondary tkb-btn-sm" onClick={() => handleGrade('unsure')}>Unsure</button>
+        )}
+        <button className="tkb-btn tkb-btn-secondary tkb-btn-sm" onClick={handleFlag}>Flag</button>
+        <button className="tkb-btn tkb-btn-secondary tkb-btn-sm" onClick={handleLockIn}>Lock-in</button>
+        <button className="tkb-btn tkb-btn-danger tkb-btn-sm" onClick={handleRemove}>Remove</button>
       </aside>
 
       <div className="tkb-review-main">
@@ -464,27 +493,15 @@ export default function TkbReview() {
         </div>
       </div>
 
-      {/* Click/tap controls — every keyboard action needs a click equivalent
-          site-wide, and mobile also gets swipe (wired on the card above). */}
-      <div className="tkb-touch-controls">
-        <button className="tkb-btn tkb-btn-secondary" onClick={handleBack} disabled={idx <= 0}>
-          ← Back
+      {/* User-requested (2026-07-13): the only action left below the card — renamed from
+          "Correct" to "Next" (same handleGrade('correct') underneath; Focused Review has
+          nowhere else to grade a question now that Re-queue/Unsure are gone, so "Next" reads
+          right for both that mode and the ordinary one). */}
+      {revealed && (
+        <button className="tkb-btn tkb-btn-primary tkb-next-btn" onClick={() => handleGrade('correct')}>
+          Next
         </button>
-        {!revealed && (
-          <button className="tkb-btn tkb-btn-primary" onClick={handleReveal}>Reveal</button>
-        )}
-        {revealed && (
-          <>
-            <button className="tkb-btn tkb-btn-primary" onClick={() => handleGrade('correct')}>Correct</button>
-            <button className="tkb-btn tkb-btn-secondary" onClick={() => handleGrade('wrong')}>Re-queue</button>
-            <button className="tkb-btn tkb-btn-secondary" onClick={() => handleGrade('unsure')}>Unsure</button>
-          </>
-        )}
-        <button className="tkb-btn tkb-btn-secondary" onClick={handleFlag}>Flag</button>
-        <button className="tkb-btn tkb-btn-secondary" onClick={handleLockIn}>Lock-in</button>
-        <button className="tkb-btn tkb-btn-danger" onClick={handleRemove}>Remove</button>
-        <button className="tkb-btn tkb-btn-secondary" onClick={handleEndSession}>End Session</button>
-      </div>
+      )}
 
       <div className="tkb-key-hints">
         {idx > 0 && <span><span className="tkb-key">Backspace</span> Back</span>}
@@ -494,9 +511,9 @@ export default function TkbReview() {
         )}
         {revealed && (
           <>
-            <span><span className="tkb-key">1</span>/<span className="tkb-key">J</span> / swipe → Correct</span>
-            <span><span className="tkb-key">2</span>/<span className="tkb-key">K</span> / swipe ← Re-queue</span>
-            <span><span className="tkb-key">3</span>/<span className="tkb-key">L</span> / swipe ↑ Unsure</span>
+            <span><span className="tkb-key">1</span>/<span className="tkb-key">J</span> / swipe → Next</span>
+            {!hideUnsureRequeue && <span><span className="tkb-key">2</span>/<span className="tkb-key">K</span> / swipe ← Re-queue</span>}
+            {!hideUnsureRequeue && <span><span className="tkb-key">3</span>/<span className="tkb-key">L</span> / swipe ↑ Unsure</span>}
             <span><span className="tkb-key">F</span> / swipe ↓ Flag</span>
             <span><span className="tkb-key">A</span> Lock-in</span>
             <span><span className="tkb-key">Delete</span> Remove question</span>
@@ -507,11 +524,12 @@ export default function TkbReview() {
 
       <aside className="tkb-legend tkb-legend-right">
         <div><strong>Tap card</strong> — reveal the answer</div>
-        <div><strong>Swipe →</strong> — Correct</div>
-        <div><strong>Swipe ←</strong> — Re-queue (wrong)</div>
-        <div><strong>Swipe ↑</strong> — Unsure</div>
+        <div><strong>Swipe →</strong> — Next</div>
+        {!hideUnsureRequeue && <div><strong>Swipe ←</strong> — Re-queue (wrong)</div>}
+        {!hideUnsureRequeue && <div><strong>Swipe ↑</strong> — Unsure</div>}
         <div><strong>Swipe ↓</strong> — Flag</div>
       </aside>
+      </div>
     </div>
   );
 }

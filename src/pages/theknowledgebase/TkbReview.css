@@ -2,12 +2,40 @@
 
 .tkb-wrapper .tkb-review {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1rem 3rem;
+}
+
+/* End Session lives alone up here (2026-07-13) so it can't be misclicked among the
+   grading/utility buttons below — it's the one action that ends the session outright. */
+.tkb-wrapper .tkb-review-topbar {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 900px;
+}
+
+.tkb-wrapper .tkb-review-body {
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: center;
-  gap: 1.5rem;
-  padding: 1rem 1rem 3rem;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+/* Every action except Next (Back/Reveal/Re-queue/Unsure/Flag/Lock-in/Remove) — a narrow
+   stacked column instead of the old horizontal button row, so it sits beside the card
+   instead of wrapping below it on small screens (see the mobile breakpoint further down). */
+.tkb-wrapper .tkb-side-actions {
+  width: 110px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
 .tkb-wrapper .tkb-legend {
@@ -30,8 +58,8 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  flex: 1 1 500px;
-  min-width: 280px;
+  flex: 1 1 400px;
+  min-width: 240px;
 }
 
 .tkb-wrapper .tkb-question-dials {
@@ -111,6 +139,7 @@
 .tkb-wrapper .tkb-card-meta {
   margin-top: 1rem;
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   font-size: 0.75rem;
   color: var(--tkb-ink-soft);
@@ -164,13 +193,52 @@
   }
 }
 
-.tkb-wrapper .tkb-touch-controls {
-  display: flex;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-  justify-content: center;
+/* Smaller variant used for the side-action column and End Session — 2026-07-13, keeps that
+   whole column narrow enough to fit beside the card on mobile instead of needing to wrap. */
+.tkb-wrapper .tkb-btn-sm {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+/* The one button left below the card (renamed from "Correct") — full width, sized like a
+   primary flashcard action rather than a small utility button. */
+.tkb-wrapper .tkb-next-btn {
   width: 100%;
   max-width: 560px;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .tkb-wrapper .tkb-review-body {
+    gap: 0.6rem;
+  }
+
+  .tkb-wrapper .tkb-side-actions {
+    width: 92px;
+    gap: 0.3rem;
+  }
+
+  .tkb-wrapper .tkb-btn-sm {
+    padding: 0.35rem 0.3rem;
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+
+  .tkb-wrapper .tkb-review-main {
+    min-width: 0;
+    flex: 1 1 200px;
+  }
+
+  .tkb-wrapper .tkb-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .tkb-wrapper .tkb-card-question {
+    font-size: 1.1rem;
+  }
 }
 
 .tkb-wrapper .tkb-key-hints {
