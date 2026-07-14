@@ -2386,13 +2386,23 @@ function notifyPosition() {
           }
           startScriptedMove('PEWTER_CITY', prev.npc, fullPath, (eng) => {
             escortLeaderIdRef.current = null;
-            setDialogue({ lines: ["Go on and take on\nBROCK at the GYM!"], idx: 0, action: null });
-            // MovementData_PewterGymGuyExit (scripts/PewterCity.asm): youngster walks off RIGHT x5
-            // after his line, same "walk away, don't need an explicit hide" pattern already used
-            // by PEWTER_GYM_ESCORT/PEWTER_MUSEUM_ESCORT above — escortLeaderIdRef is already
-            // cleared so the player does NOT follow this final exit walk.
-            startScriptedMove('PEWTER_CITY', eng.npc, ['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], null);
+            // Face the youngster toward wherever the player ended up trailing, and persist that
+            // resting position/facing via npcBattlePosRef (same mechanism startScriptedMove
+            // itself reads for its own starting position) so he doesn't snap back to his spawn
+            // facing between this scripted move and the exit-walk one below — same pattern
+            // already used by the Route 22/Cerulean rival encounters above.
+            const p = playerRef.current;
+            const pdx = p.x - eng.liveX, pdy = p.y - eng.liveY;
+            eng.facing = Math.abs(pdx) >= Math.abs(pdy) ? (pdx > 0 ? 'RIGHT' : 'LEFT') : (pdy > 0 ? 'DOWN' : 'UP');
+            npcBattlePosRef.current.set(eng.id, { x: eng.liveX, y: eng.liveY, facing: eng.facing });
+            // Exit walk (MovementData_PewterGymGuyExit, scripts/PewterCity.asm: RIGHT x5) only
+            // starts once this dialogue is dismissed, not immediately alongside it — matching
+            // the PEWTER_GYM_ESCORT/PEWTER_MUSEUM_ESCORT "walk away after the line" pattern.
+            setDialogue({ lines: ["Go on and take on\nBROCK at the GYM!"], idx: 0, action: 'PEWTER_YOUNGSTER_LEAVE', npc: eng.npc });
           });
+        }
+        if (prev.action === 'PEWTER_YOUNGSTER_LEAVE' && prev.npc) {
+          startScriptedMove('PEWTER_CITY', prev.npc, ['RIGHT', 'RIGHT', 'RIGHT', 'RIGHT', 'RIGHT'], null);
         }
         return null;
       }
