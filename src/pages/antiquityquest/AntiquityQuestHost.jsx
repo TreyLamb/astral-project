@@ -23,6 +23,16 @@ function byScoreDescending(a, b) {
   return (b.totalScore || 0) - (a.totalScore || 0);
 }
 
+// Shared by SetupScreen and PlayingScreen — a late joiner (the app allows
+// joining any time before game_over, not just during setup) needs the same
+// seat-picker the host used before Start Game, not a separate mechanism.
+function applySeatChange(roomCode, currentAssignments, seatIndex, playerId) {
+  const next = { ...currentAssignments };
+  if (playerId == null) delete next[seatIndex];
+  else next[seatIndex] = playerId;
+  AqFirestore.setSeatAssignments(roomCode, next);
+}
+
 export default function AntiquityQuestHost() {
   const { roomCode } = useParams();
   const [session, setSession] = useState(null);
@@ -108,10 +118,7 @@ function SetupScreen({ roomCode, players, session }) {
   const startBlocked = players.length === 0 || (isSeatBased && unassignedCount > 0);
 
   function handleSeatChange(seatIndex, playerId) {
-    const next = { ...(session.seatAssignments || {}) };
-    if (playerId == null) delete next[seatIndex];
-    else next[seatIndex] = playerId;
-    AqFirestore.setSeatAssignments(roomCode, next);
+    applySeatChange(roomCode, seatAssignments, seatIndex, playerId);
   }
 
   return (
@@ -193,6 +200,20 @@ function SetupScreen({ roomCode, players, session }) {
 function PlayingScreen({ roomCode, session, players }) {
   const submittedCount = players.filter((p) => p.rounds?.[session.round]).length;
   const allSubmitted = players.length > 0 && submittedCount === players.length;
+  const theme = session.dashboardTheme || 'tavern';
+  const isSeatBased = theme !== 'classic';
+  const seatAssignments = session.seatAssignments || {};
+  const seatedIds = new Set(Object.values(seatAssignments));
+  // Joining is allowed any time before game_over, not just during setup — a
+  // player who joins mid-game has no seat yet and (in seat-based themes)
+  // would otherwise be permanently invisible on the dashboard with no way
+  // to place them, since the live table only draws occupied seats.
+  const unseatedPlayers = players.filter((p) => !seatedIds.has(p.id));
+
+  function handleSeatChange(seatIndex, playerId) {
+    applySeatChange(roomCode, seatAssignments, seatIndex, playerId);
+  }
+
   // Re-render on a tick so chat bubbles expire live even with no new write.
   const [, setTick] = useState(0);
   useEffect(() => {
@@ -207,6 +228,22 @@ function PlayingScreen({ roomCode, session, players }) {
         Round {session.round} of {session.totalRounds}
       </div>
       <div className="aq-host-status aq-host-wentout-hint">Click a player to mark them Went Out this round</div>
+
+      {isSeatBased && unseatedPlayers.length > 0 && (
+        <div className="aq-host-settings">
+          <div className="aq-host-settings-label">
+            New player{unseatedPlayers.length === 1 ? '' : 's'} joined — place them in an open seat
+          </div>
+          <AqGemini8v2Theme
+            mode="assign"
+            skin={theme}
+            seatCount={session.seatCount || 8}
+            players={players}
+            seatAssignments={seatAssignments}
+            onSeatChange={handleSeatChange}
+          />
+        </div>
+      )}
 
       {session.dashboardTheme !== 'classic' ? (
         <AqGemini8v2Theme
