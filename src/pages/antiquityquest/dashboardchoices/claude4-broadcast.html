@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antiquity Quest - Dashboard Concept: Esports Broadcast</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+            background: #0a0e27;
+            color: #e0e0e0;
+            padding: 30px 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .designs-container {
+            display: flex;
+            gap: 60px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .design {
+            position: relative;
+            width: 700px;
+            height: 750px;
+            background: radial-gradient(circle at center, #1a1f3a 0%, #0a0e27 100%);
+            border: 2px solid #2a3050;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .design h2 {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 100;
+            color: #aaa;
+        }
+
+        /* ===== SCOREBOARD ===== */
+        .scoreboard {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(15, 15, 35, 0.98);
+            border: 2px solid #2f6fd6;
+            padding: 10px 14px;
+            border-radius: 2px;
+            z-index: 200;
+            margin-top: 35px;
+        }
+
+        .scoreboard-table {
+            border-collapse: collapse;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .scoreboard-table th,
+        .scoreboard-table td {
+            padding: 3px 10px 3px 0;
+            text-align: left;
+            border-bottom: 1px solid rgba(47, 111, 214, 0.3);
+        }
+
+        .scoreboard-table th:last-child,
+        .scoreboard-table td:last-child {
+            text-align: right;
+            padding-right: 0;
+        }
+
+        .scoreboard-table th {
+            color: #6d7ba8;
+            font-size: 9px;
+            letter-spacing: 1px;
+        }
+
+        .scoreboard-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .scoreboard-table td:first-child {
+            color: #d0d0d0;
+            font-size: 9px;
+        }
+
+        .scoreboard-table td:last-child {
+            color: #2f6fd6;
+            font-weight: 800;
+            font-size: 10px;
+        }
+
+        .row-p1 td:first-child { color: #e0b400; }
+        .row-p2 td:first-child { color: #2f6fd6; }
+        .row-p3 td:first-child { color: #2f9e44; }
+        .row-p4 td:first-child { color: #d6392f; }
+        .row-p5 td:first-child { color: #ec4899; }
+        .row-p6 td:first-child { color: #8b5cf6; }
+        .row-p7 td:first-child { color: #b87333; }
+        .row-p8 td:first-child { color: #c7cad1; }
+
+        /* ===== PLAYER ZONES ===== */
+        .player-zone {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .player-name {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid;
+            z-index: 50;
+            white-space: nowrap;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        /* ===== CARD CASCADE (pool of stacks) ===== */
+        .cards-pool {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 6px;
+        }
+
+        .card-stack {
+            display: flex;
+            flex-direction: column;
+            width: 56px;
+        }
+
+        .card {
+            width: 56px;
+            height: 86px;
+            border: 2px solid;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            font-weight: 700;
+            font-size: 11px;
+            background: rgba(255, 255, 255, 0.08);
+            clip-path: polygon(5% 0, 95% 0, 100% 85%, 100% 100%, 0 100%, 0 85%);
+        }
+
+        .card-number {
+            font-size: 18px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .card-suit {
+            font-size: 8px;
+            text-transform: uppercase;
+            opacity: 0.75;
+            letter-spacing: 0.3px;
+        }
+
+        .card-stack .card {
+            margin-bottom: -68px;
+            transition: transform 0.15s ease, margin-bottom 0.15s;
+        }
+
+        .card-stack .card:hover {
+            transform: translateY(-12px) scale(1.05);
+            margin-bottom: 0;
+            z-index: 99;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+        }
+
+        /* ===== DESIGN A: 4 PLAYERS ===== */
+
+        /* Top player (North) */
+        .design-a .player-zone.top {
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Bottom player (South) - top-anchored to avoid clipping the
+           cascade's last card, which visually overflows below the
+           flex container's collapsed flow height */
+        .design-a .player-zone.bottom {
+            top: 577px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Left player (West) */
+        .design-a .player-zone.left {
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Right player (East) */
+        .design-a .player-zone.right {
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* ===== DESIGN B: 8 PLAYERS ===== */
+
+        .design-b .player-zone {
+            width: 80px;
+        }
+
+        .design-b .player-zone.n {
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .design-b .player-zone.ne {
+            top: 80px;
+            right: 80px;
+        }
+
+        .design-b .player-zone.e {
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .design-b .player-zone.se {
+            top: 520px;
+            right: 80px;
+        }
+
+        .design-b .player-zone.s {
+            top: 550px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .design-b .player-zone.sw {
+            top: 520px;
+            left: 80px;
+        }
+
+        .design-b .player-zone.w {
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .design-b .player-zone.nw {
+            top: 80px;
+            left: 80px;
+        }
+
+        /* ===== COLOR SCHEME ===== */
+
+        .player-zone.p1 .player-name,
+        .player-zone.p1 .card {
+            border-color: #e0b400;
+            color: #e0b400;
+        }
+        .player-zone.p1 {
+            filter: drop-shadow(0 0 18px rgba(224, 180, 0, 0.35));
+        }
+
+        .player-zone.p2 .player-name,
+        .player-zone.p2 .card {
+            border-color: #2f6fd6;
+            color: #2f6fd6;
+        }
+        .player-zone.p2 {
+            filter: drop-shadow(0 0 18px rgba(47, 111, 214, 0.35));
+        }
+
+        .player-zone.p3 .player-name,
+        .player-zone.p3 .card {
+            border-color: #2f9e44;
+            color: #2f9e44;
+        }
+        .player-zone.p3 {
+            filter: drop-shadow(0 0 18px rgba(47, 158, 68, 0.35));
+        }
+
+        .player-zone.p4 .player-name,
+        .player-zone.p4 .card {
+            border-color: #d6392f;
+            color: #d6392f;
+        }
+        .player-zone.p4 {
+            filter: drop-shadow(0 0 18px rgba(214, 57, 47, 0.35));
+        }
+
+        .player-zone.p5 .player-name,
+        .player-zone.p5 .card {
+            border-color: #ec4899;
+            color: #ec4899;
+        }
+        .player-zone.p5 {
+            filter: drop-shadow(0 0 18px rgba(236, 72, 153, 0.35));
+        }
+
+        .player-zone.p6 .player-name,
+        .player-zone.p6 .card {
+            border-color: #8b5cf6;
+            color: #8b5cf6;
+        }
+        .player-zone.p6 {
+            filter: drop-shadow(0 0 18px rgba(139, 92, 246, 0.35));
+        }
+
+        .player-zone.p7 .player-name,
+        .player-zone.p7 .card {
+            border-color: #b87333;
+            color: #b87333;
+        }
+        .player-zone.p7 {
+            filter: drop-shadow(0 0 18px rgba(184, 115, 51, 0.35));
+        }
+
+        .player-zone.p8 .player-name,
+        .player-zone.p8 .card {
+            border-color: #c7cad1;
+            color: #c7cad1;
+        }
+        .player-zone.p8 {
+            filter: drop-shadow(0 0 18px rgba(199, 202, 209, 0.35));
+        }
+    </style>
+</head>
+<body>
+    <h1 class="page-title">Antiquity Quest — Dashboard Concept: Esports Broadcast</h1>
+
+    <div class="designs-container">
+        <!-- DESIGN A: 4 PLAYERS -->
+        <div class="design design-a">
+            <h2>Design A: 4 Players</h2>
+
+            <div class="scoreboard">
+                <table class="scoreboard-table">
+                    <thead>
+                        <tr><th>Player</th><th>Score</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row-p1"><td>NOVA</td><td>3240</td></tr>
+                        <tr class="row-p2"><td>RAZE</td><td>2960</td></tr>
+                        <tr class="row-p3"><td>TYNE</td><td>2815</td></tr>
+                        <tr class="row-p4"><td>KESS</td><td>2745</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- TOP player (North) -->
+            <div class="player-zone top p1">
+                <div class="player-name">NOVA</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card"><div class="card-number">3</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">2</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">5</div><div class="card-suit">ANTIQUITY</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT player (East) -->
+            <div class="player-zone right p2">
+                <div class="player-name">RAZE</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card"><div class="card-number">4</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">1</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">3</div><div class="card-suit">ANTIQUITY</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM player (South) -->
+            <div class="player-zone bottom p3">
+                <div class="player-name">TYNE</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card"><div class="card-number">2</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">4</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">1</div><div class="card-suit">ANTIQUITY</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LEFT player (West) -->
+            <div class="player-zone left p4">
+                <div class="player-name">KESS</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card"><div class="card-number">5</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">3</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">2</div><div class="card-suit">ANTIQUITY</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DESIGN B: 8 PLAYERS -->
+        <div class="design design-b">
+            <h2>Design B: 8 Players</h2>
+
+            <div class="scoreboard">
+                <table class="scoreboard-table">
+                    <thead>
+                        <tr><th>Player</th><th>Score</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row-p1"><td>NOVA</td><td>3240</td></tr>
+                        <tr class="row-p2"><td>RAZE</td><td>2960</td></tr>
+                        <tr class="row-p3"><td>TYNE</td><td>2815</td></tr>
+                        <tr class="row-p4"><td>KESS</td><td>2745</td></tr>
+                        <tr class="row-p5"><td>VASK</td><td>2630</td></tr>
+                        <tr class="row-p6"><td>SOLN</td><td>2510</td></tr>
+                        <tr class="row-p7"><td>BRIN</td><td>2340</td></tr>
+                        <tr class="row-p8"><td>ZEPH</td><td>2185</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="player-zone n p1">
+                <div class="player-name">NOVA</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card"><div class="card-number">3</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">2</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">5</div><div class="card-suit">ANTIQUITY</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="player-zone ne p2">
+                <div class="player-name">RAZE</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card"><div class="card-number">4</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">1</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">3</div><div class="card-suit">ANTIQUITY</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="player-zone e p3">
+                <div class="player-name">TYNE</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card"><div class="card-number">2</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">4</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">1</div><div class="card-suit">ANTIQUITY</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="player-zone se p4">
+                <div class="player-name">KESS</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card"><div class="card-number">5</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">3</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">2</div><div class="card-suit">ANTIQUITY</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="player-zone s p5">
+                <div class="player-name">VASK</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card"><div class="card-number">1</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">4</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">2</div><div class="card-suit">ANTIQUITY</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="player-zone sw p6">
+                <div class="player-name">SOLN</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card"><div class="card-number">3</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">5</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">1</div><div class="card-suit">ANTIQUITY</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="player-zone w p7">
+                <div class="player-name">BRIN</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card"><div class="card-number">2</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">4</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">3</div><div class="card-suit">ANTIQUITY</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="player-zone nw p8">
+                <div class="player-name">ZEPH</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card"><div class="card-number">5</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">1</div><div class="card-suit">ANTIQUITY</div></div>
+                        <div class="card"><div class="card-number">4</div><div class="card-suit">ANTIQUITY</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antiquity Quest — Dashboard Concept: Fantasy Tavern</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Garamond', serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #0f1428 50%, #0a0e27 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 60px;
+            color: #d4af37;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .designs-container {
+            display: flex;
+            gap: 80px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .design {
+            position: relative;
+            width: 620px;
+            height: 620px;
+            background: radial-gradient(circle at center, rgba(30, 25, 60, 0.9) 0%, rgba(10, 14, 39, 1) 100%);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), inset 0 0 60px rgba(212, 175, 55, 0.1);
+        }
+
+        /* Center table texture */
+        .design::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(101, 67, 33, 0.15) 0px,
+                rgba(101, 67, 33, 0.15) 2px,
+                transparent 2px,
+                transparent 4px
+            ),
+            repeating-linear-gradient(
+                0deg,
+                rgba(101, 67, 33, 0.15) 0px,
+                rgba(101, 67, 33, 0.15) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .design-label {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            font-weight: bold;
+            color: #d4af37;
+            z-index: 100;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            background: rgba(10, 14, 39, 0.8);
+            padding: 6px 14px;
+            border-radius: 4px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .scoreboard {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            z-index: 200;
+            background: rgba(10, 14, 39, 0.95);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 4px;
+            overflow: hidden;
+            font-size: 11px;
+        }
+
+        .scoreboard-header {
+            display: grid;
+            grid-template-columns: 75px 55px;
+            background: rgba(212, 175, 55, 0.2);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .scoreboard-header > div {
+            padding: 6px 8px;
+            font-weight: bold;
+            color: #d4af37;
+            text-align: center;
+        }
+
+        .scoreboard-row {
+            display: grid;
+            grid-template-columns: 75px 55px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .scoreboard-row > div:first-child {
+            padding: 5px 8px;
+            color: #c0c0c0;
+            font-size: 10px;
+        }
+
+        .scoreboard-row > div:last-child {
+            padding: 5px 8px;
+            text-align: right;
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        /* Player zones */
+        .player-zone {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .player-name {
+            font-size: 13px;
+            font-weight: bold;
+            color: #d4af37;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+            white-space: nowrap;
+        }
+
+        .cards-pool {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .card-stack {
+            display: flex;
+            flex-direction: column;
+            width: 85px;
+        }
+
+        .card {
+            position: relative;
+            width: 85px;
+            height: 125px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 52px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%);
+        }
+
+        .card-stack .card {
+            margin-bottom: -105px;
+            box-shadow:
+                inset 0 0 2px rgba(255, 255, 255, 0.6),
+                inset 0 2px 4px rgba(255, 255, 255, 0.2),
+                0 10px 20px rgba(0, 0, 0, 0.7),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: transform 0.15s ease, margin-bottom 0.15s;
+        }
+
+        .card-stack .card:hover {
+            transform: translateY(-14px) scale(1.05);
+            margin-bottom: 0px;
+            z-index: 99;
+            box-shadow:
+                inset 0 0 2px rgba(255, 255, 255, 0.6),
+                inset 0 2px 4px rgba(255, 255, 255, 0.2),
+                0 14px 26px rgba(0, 0, 0, 0.85),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+            top: 0;
+            left: 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+        }
+
+        .card-corner {
+            position: absolute;
+            font-size: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: normal;
+        }
+
+        .card-corner-tl {
+            top: 3px;
+            left: 3px;
+        }
+
+        .card-corner-br {
+            bottom: 3px;
+            right: 3px;
+        }
+
+        /* Design A - 4 players */
+        .design-a .player-zone-n {
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .design-a .player-zone-s {
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .design-a .player-zone-e {
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .design-a .player-zone-w {
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Design B - 8 players */
+        .design-b .player-zone-n {
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .design-b .player-zone-ne {
+            top: 20px;
+            left: 66%;
+            transform: translateX(-50%);
+        }
+
+        .design-b .player-zone-e {
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+        }
+
+        .design-b .player-zone-se {
+            bottom: 20px;
+            left: 66%;
+            transform: translateX(-50%);
+        }
+
+        .design-b .player-zone-s {
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .design-b .player-zone-sw {
+            bottom: 20px;
+            left: 34%;
+            transform: translateX(-50%);
+        }
+
+        .design-b .player-zone-w {
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+        }
+
+        .design-b .player-zone-nw {
+            top: 20px;
+            left: 34%;
+            transform: translateX(-50%);
+        }
+
+        /* Glow effects per player - saturated neon colors */
+        .glow-amber {
+            filter: drop-shadow(0 0 80px rgba(224, 180, 0, 0.35)) drop-shadow(0 0 40px rgba(224, 180, 0, 0.15));
+        }
+
+        .glow-emerald {
+            filter: drop-shadow(0 0 80px rgba(47, 158, 68, 0.35)) drop-shadow(0 0 40px rgba(47, 158, 68, 0.15));
+        }
+
+        .glow-sapphire {
+            filter: drop-shadow(0 0 80px rgba(47, 111, 214, 0.35)) drop-shadow(0 0 40px rgba(47, 111, 214, 0.15));
+        }
+
+        .glow-ruby {
+            filter: drop-shadow(0 0 80px rgba(214, 57, 47, 0.35)) drop-shadow(0 0 40px rgba(214, 57, 47, 0.15));
+        }
+
+        .glow-amethyst {
+            filter: drop-shadow(0 0 80px rgba(139, 92, 246, 0.35)) drop-shadow(0 0 40px rgba(139, 92, 246, 0.15));
+        }
+
+        .glow-copper {
+            filter: drop-shadow(0 0 80px rgba(184, 115, 51, 0.35)) drop-shadow(0 0 40px rgba(184, 115, 51, 0.15));
+        }
+
+        .glow-rose {
+            filter: drop-shadow(0 0 80px rgba(236, 72, 153, 0.35)) drop-shadow(0 0 40px rgba(236, 72, 153, 0.15));
+        }
+
+        .glow-silver {
+            filter: drop-shadow(0 0 80px rgba(199, 202, 209, 0.35)) drop-shadow(0 0 40px rgba(199, 202, 209, 0.15));
+        }
+
+        /* Card background colors - using exact hex values from brief */
+        .card-antiquity-yellow {
+            background: linear-gradient(135deg, #e0b400 0%, #d4a500 50%, #b89000 100%);
+        }
+
+        .card-antiquity-blue {
+            background: linear-gradient(135deg, #2f6fd6 0%, #2960c0 50%, #1f4080 100%);
+        }
+
+        .card-antiquity-green {
+            background: linear-gradient(135deg, #2f9e44 0%, #2a8e3a 50%, #1a5e2a 100%);
+        }
+
+        .card-antiquity-red {
+            background: linear-gradient(135deg, #d6392f 0%, #c02f25 50%, #901f15 100%);
+        }
+
+        .card-antiquity-purple {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #5b21b6 100%);
+        }
+
+        .card-treasure-copper {
+            background: linear-gradient(135deg, #b87333 0%, #a86a2b 50%, #7a4a1f 100%);
+        }
+
+        .card-treasure-pink {
+            background: linear-gradient(135deg, #ec4899 0%, #db3b8a 50%, #be185d 100%);
+        }
+
+        .card-treasure-blue {
+            background: linear-gradient(135deg, #2f6fd6 0%, #2960c0 50%, #1f4080 100%);
+        }
+
+        .card-treasure-red {
+            background: linear-gradient(135deg, #d6392f 0%, #c02f25 50%, #901f15 100%);
+        }
+
+        .card-treasure-silver {
+            background: linear-gradient(135deg, #c7cad1 0%, #b5b9c4 50%, #8a8f9e 100%);
+            color: #1a1a2e;
+        }
+
+        .card-treasure-silver .card-corner {
+            color: rgba(26, 26, 46, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-title">Antiquity Quest — Dashboard Concept: Fantasy Tavern</div>
+
+    <div class="designs-container">
+        <!-- Design A: 4 Players -->
+        <div class="design design-a">
+            <div class="design-label">Design A: 4 Players</div>
+
+            <div class="scoreboard">
+                <div class="scoreboard-header">
+                    <div>Player</div>
+                    <div>Score</div>
+                </div>
+                <div class="scoreboard-row">
+                    <div>Aldric</div>
+                    <div>2340</div>
+                </div>
+                <div class="scoreboard-row">
+                    <div>Mira</div>
+                    <div>1985</div>
+                </div>
+                <div class="scoreboard-row">
+                    <div>Kael</div>
+                    <div>2105</div>
+                </div>
+                <div class="scoreboard-row">
+                    <div>Soren</div>
+                    <div>1870</div>
+                </div>
+            </div>
+
+            <!-- North -->
+            <div class="player-zone player-zone-n glow-amber">
+                <div class="player-name">Aldric</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card card-antiquity-yellow">
+                            <span>1</span>
+                            <div class="card-corner card-corner-tl">◆</div>
+                            <div class="card-corner card-corner-br">◆</div>
+                        </div>
+                        <div class="card card-antiquity-red">
+                            <span>3</span>
+                            <div class="card-corner card-corner-tl">◆</div>
+                            <div class="card-corner card-corner-br">◆</div>
+                        </div>
+                        <div class="card card-treasure-copper">
+                            <span>✦</span>
+                            <div class="card-corner card-corner-tl">✦</div>
+                            <div class="card-corner card-corner-br">✦</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- East -->
+            <div class="player-zone player-zone-e glow-sapphire">
+                <div class="player-name">Mira</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card card-antiquity-blue">
+                            <span>2</span>
+                            <div class="card-corner card-corner-tl">◆</div>
+                            <div class="card-corner card-corner-br">◆</div>
+                        </div>
+                        <div class="card card-treasure-pink">
+                            <span>✦</span>
+                            <div class="card-corner card-corner-tl">✦</div>
+                            <div class="card-corner card-corner-br">✦</div>
+                        </div>
+                        <div class="card card-antiquity-purple">
+                            <span>4</span>
+                            <div class="card-corner card-corner-tl">◆</div>
+                            <div class="card-corner card-corner-br">◆</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- South -->
+            <div class="player-zone player-zone-s glow-emerald">
+                <div class="player-name">Kael</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card card-antiquity-green">
+                            <span>5</span>
+                            <div class="card-corner card-corner-tl">◆</div>
+                            <div class="card-corner card-corner-br">◆</div>
+                        </div>
+                        <div class="card card-treasure-silver">
+                            <span>✦</span>
+                            <div class="card-corner card-corner-tl">✦</div>
+                            <div class="card-corner card-corner-br">✦</div>
+                        </div>
+                        <div class="card card-antiquity-blue">
+                            <span>2</span>
+                            <div class="card-corner card-corner-tl">◆</div>
+                            <div class="card-corner card-corner-br">◆</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- West -->
+            <div class="player-zone player-zone-w glow-ruby">
+                <div class="player-name">Soren</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card card-antiquity-red">
+                            <span>3</span>
+                            <div class="card-corner card-corner-tl">◆</div>
+                            <div class="card-corner card-corner-br">◆</div>
+                        </div>
+                        <div class="card card-treasure-blue">
+                            <span>✦</span>
+                            <div class="card-corner card-corner-tl">✦</div>
+                            <div class="card-corner card-corner-br">✦</div>
+                        </div>
+                        <div class="card card-antiquity-yellow">
+                            <span>1</span>
+                            <div class="card-corner card-corner-tl">◆</div>
+                            <div class="card-corner card-corner-br">◆</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design B: 8 Players -->
+        <div class="design design-b">
+            <div class="design-label">Design B: 8 Players</div>
+
+            <div class="scoreboard">
+                <div class="scoreboard-header">
+                    <div>Player</div>
+                    <div>Score</div>
+                </div>
+                <div class="scoreboard-row">
+                    <div>Aldric</div>
+                    <div>2340</div>
+                </div>
+                <div class="scoreboard-row">
+                    <div>Mira</div>
+                    <div>1985</div>
+                </div>
+                <div class="scoreboard-row">
+                    <div>Kael</div>
+                    <div>2105</div>
+                </div>
+                <div class="scoreboard-row">
+                    <div>Soren</div>
+                    <div>1870</div>
+                </div>
+                <div class="scoreboard-row">
+                    <div>Lyra</div>
+                    <div>2020</div>
+                </div>
+                <div class="scoreboard-row">
+                    <div>Theron</div>
+                    <div>1945</div>
+                </div>
+                <div class="scoreboard-row">
+                    <div>Elara</div>
+                    <div>2180</div>
+                </div>
+                <div class="scoreboard-row">
+                    <div>Gareth</div>
+                    <div>1825</div>
+                </div>
+            </div>
+
+            <!-- N -->
+            <div class="player-zone player-zone-n glow-amber">
+                <div class="player-name">Aldric</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card card-antiquity-yellow">1</div>
+                        <div class="card card-antiquity-red">3</div>
+                        <div class="card card-treasure-copper">✦</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NE -->
+            <div class="player-zone player-zone-ne glow-sapphire">
+                <div class="player-name">Mira</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card card-antiquity-blue">2</div>
+                        <div class="card card-treasure-pink">✦</div>
+                        <div class="card card-antiquity-purple">4</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- E -->
+            <div class="player-zone player-zone-e glow-emerald">
+                <div class="player-name">Kael</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card card-antiquity-green">5</div>
+                        <div class="card card-treasure-silver">✦</div>
+                        <div class="card card-antiquity-blue">2</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SE -->
+            <div class="player-zone player-zone-se glow-ruby">
+                <div class="player-name">Soren</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card card-antiquity-red">3</div>
+                        <div class="card card-treasure-blue">✦</div>
+                        <div class="card card-antiquity-yellow">1</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- S -->
+            <div class="player-zone player-zone-s glow-amethyst">
+                <div class="player-name">Lyra</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card card-antiquity-purple">4</div>
+                        <div class="card card-treasure-pink">✦</div>
+                        <div class="card card-antiquity-green">5</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SW -->
+            <div class="player-zone player-zone-sw glow-copper">
+                <div class="player-name">Theron</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card card-treasure-copper">✦</div>
+                        <div class="card card-antiquity-red">3</div>
+                        <div class="card card-antiquity-blue">2</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- W -->
+            <div class="player-zone player-zone-w glow-rose">
+                <div class="player-name">Elara</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card card-treasure-pink">✦</div>
+                        <div class="card card-antiquity-yellow">1</div>
+                        <div class="card card-antiquity-purple">4</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NW -->
+            <div class="player-zone player-zone-nw glow-silver">
+                <div class="player-name">Gareth</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card card-treasure-silver">✦</div>
+                        <div class="card card-antiquity-green">5</div>
+                        <div class="card card-antiquity-red">3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antiquity Quest — Cyberpunk Vaporwave Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, #ff006e, #00f5ff, #ff006e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+        }
+
+        .designs-container {
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1900px;
+            margin: 0 auto;
+        }
+
+        .design {
+            position: relative;
+            width: 850px;
+            height: 870px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #0f0f1a 50%, #0a0a0a 100%);
+            border: 2px solid rgba(255, 0, 110, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow:
+                0 0 60px rgba(255, 0, 110, 0.15),
+                0 0 100px rgba(0, 245, 255, 0.1),
+                inset 0 0 60px rgba(0, 245, 255, 0.05);
+        }
+
+        /* Synthwave grid in center - convergence perspective */
+        .design::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 420px;
+            height: 420px;
+            transform: translate(-50%, -50%);
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 245, 255, 0.08) 0px,
+                    rgba(0, 245, 255, 0.08) 1px,
+                    transparent 1px,
+                    transparent 30px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(255, 0, 110, 0.06) 0px,
+                    rgba(255, 0, 110, 0.06) 1px,
+                    transparent 1px,
+                    transparent 30px
+                );
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            box-shadow: inset 0 0 80px rgba(0, 245, 255, 0.1);
+        }
+
+        /* Scanline overlay - CRT effect */
+        .design::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.12),
+                rgba(0, 0, 0, 0.12) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .player-zone {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .player-name {
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            padding: 10px 16px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid currentColor;
+            border-radius: 6px;
+            text-align: center;
+            min-width: 130px;
+            text-transform: uppercase;
+            box-shadow:
+                0 0 20px rgba(0, 0, 0, 0.9),
+                inset 0 0 10px rgba(255, 255, 255, 0.05);
+            z-index: 5;
+        }
+
+        /* ===== CARD CASCADE (pool of stacks) ===== */
+        .cards-pool {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 16px;
+            z-index: 3;
+        }
+
+        .card-stack {
+            display: flex;
+            flex-direction: column;
+            width: 110px;
+        }
+
+        .card {
+            width: 110px;
+            height: 155px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 48px;
+            border: 3px solid;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(20, 10, 30, 0.95) 100%);
+            box-shadow:
+                0 0 30px rgba(0, 0, 0, 0.9),
+                inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .card-stack .card {
+            margin-bottom: -139px;
+            transition: transform 0.15s ease, margin-bottom 0.15s, filter 0.15s;
+        }
+
+        .card-stack .card:hover {
+            transform: translateY(-16px) scale(1.05);
+            margin-bottom: 0;
+            z-index: 99;
+            filter: brightness(1.2);
+        }
+
+        /* Card color palette - Antiquity suits */
+        .card.antiquity-yellow {
+            color: #e0b400;
+            border-color: #e0b400;
+            box-shadow:
+                0 0 30px rgba(0, 0, 0, 0.9),
+                0 0 20px rgba(224, 180, 0, 0.3),
+                -3px 0 8px rgba(0, 245, 255, 0.2),
+                3px 0 8px rgba(255, 0, 110, 0.2),
+                inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .card.antiquity-blue {
+            color: #2f6fd6;
+            border-color: #2f6fd6;
+            box-shadow:
+                0 0 30px rgba(0, 0, 0, 0.9),
+                0 0 20px rgba(47, 111, 214, 0.3),
+                -3px 0 8px rgba(255, 0, 110, 0.2),
+                3px 0 8px rgba(0, 245, 255, 0.2),
+                inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .card.antiquity-green {
+            color: #2f9e44;
+            border-color: #2f9e44;
+            box-shadow:
+                0 0 30px rgba(0, 0, 0, 0.9),
+                0 0 20px rgba(47, 158, 68, 0.3),
+                -3px 0 8px rgba(0, 245, 255, 0.2),
+                3px 0 8px rgba(255, 0, 110, 0.2),
+                inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .card.antiquity-red {
+            color: #d6392f;
+            border-color: #d6392f;
+            box-shadow:
+                0 0 30px rgba(0, 0, 0, 0.9),
+                0 0 20px rgba(214, 57, 47, 0.3),
+                -3px 0 8px rgba(0, 245, 255, 0.2),
+                3px 0 8px rgba(255, 0, 110, 0.2),
+                inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .card.antiquity-purple {
+            color: #8b5cf6;
+            border-color: #8b5cf6;
+            box-shadow:
+                0 0 30px rgba(0, 0, 0, 0.9),
+                0 0 20px rgba(139, 92, 246, 0.3),
+                -3px 0 8px rgba(0, 245, 255, 0.2),
+                3px 0 8px rgba(255, 0, 110, 0.2),
+                inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* Treasure suits */
+        .card.treasure-copper {
+            color: #b87333;
+            border-color: #b87333;
+            box-shadow:
+                0 0 30px rgba(0, 0, 0, 0.9),
+                0 0 20px rgba(184, 115, 51, 0.3),
+                -3px 0 8px rgba(0, 245, 255, 0.2),
+                3px 0 8px rgba(255, 0, 110, 0.2),
+                inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .card.treasure-pink {
+            color: #ec4899;
+            border-color: #ec4899;
+            box-shadow:
+                0 0 30px rgba(0, 0, 0, 0.9),
+                0 0 20px rgba(236, 72, 153, 0.4),
+                -3px 0 8px rgba(0, 245, 255, 0.2),
+                3px 0 8px rgba(255, 0, 110, 0.3),
+                inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .card.treasure-silver {
+            color: #c7cad1;
+            border-color: #c7cad1;
+            box-shadow:
+                0 0 30px rgba(0, 0, 0, 0.9),
+                0 0 15px rgba(199, 202, 209, 0.2),
+                -3px 0 8px rgba(255, 0, 110, 0.2),
+                3px 0 8px rgba(0, 245, 255, 0.2),
+                inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* Player zone glow colors */
+        .player-zone.p1 { color: #ff006e; }
+        .player-zone.p1 .card-stack { filter: drop-shadow(0 0 40px rgba(255, 0, 110, 0.25)); }
+
+        .player-zone.p2 { color: #00f5ff; }
+        .player-zone.p2 .card-stack { filter: drop-shadow(0 0 40px rgba(0, 245, 255, 0.25)); }
+
+        .player-zone.p3 { color: #ff006e; }
+        .player-zone.p3 .card-stack { filter: drop-shadow(0 0 40px rgba(255, 0, 110, 0.25)); }
+
+        .player-zone.p4 { color: #00f5ff; }
+        .player-zone.p4 .card-stack { filter: drop-shadow(0 0 40px rgba(0, 245, 255, 0.25)); }
+
+        .player-zone.p5 { color: #ffaa00; }
+        .player-zone.p5 .card-stack { filter: drop-shadow(0 0 40px rgba(255, 170, 0, 0.25)); }
+
+        .player-zone.p6 { color: #00ff88; }
+        .player-zone.p6 .card-stack { filter: drop-shadow(0 0 40px rgba(0, 255, 136, 0.25)); }
+
+        .player-zone.p7 { color: #ff006e; }
+        .player-zone.p7 .card-stack { filter: drop-shadow(0 0 40px rgba(255, 0, 110, 0.25)); }
+
+        .player-zone.p8 { color: #00f5ff; }
+        .player-zone.p8 .card-stack { filter: drop-shadow(0 0 40px rgba(0, 245, 255, 0.25)); }
+
+        /* Scoreboard */
+        .scoreboard {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(15, 10, 30, 0.9) 100%);
+            border: 2px solid rgba(255, 0, 110, 0.5);
+            border-radius: 8px;
+            padding: 14px;
+            z-index: 11;
+            font-size: 11px;
+            min-width: 160px;
+            box-shadow:
+                0 0 30px rgba(255, 0, 110, 0.2),
+                inset 0 0 15px rgba(0, 245, 255, 0.05);
+        }
+
+        .scoreboard-title {
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: #00f5ff;
+            font-size: 10px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+        }
+
+        .scoreboard-table {
+            border-collapse: collapse;
+            width: 100%;
+            font-family: 'Courier New', monospace;
+        }
+
+        .scoreboard-table th,
+        .scoreboard-table td {
+            padding: 4px 0;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 0, 110, 0.15);
+        }
+
+        .scoreboard-table th:last-child,
+        .scoreboard-table td:last-child {
+            text-align: right;
+        }
+
+        .scoreboard-table th {
+            color: #00f5ff;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .scoreboard-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .scoreboard-table td:first-child {
+            font-weight: bold;
+            color: #e0e0e0;
+            text-transform: uppercase;
+            font-size: 10px;
+        }
+
+        .scoreboard-table td:last-child {
+            color: #00f5ff;
+            font-weight: bold;
+            font-size: 10px;
+        }
+
+        .row-p1 td:first-child { color: #ff006e; }
+        .row-p2 td:first-child { color: #00f5ff; }
+        .row-p3 td:first-child { color: #ff006e; }
+        .row-p4 td:first-child { color: #00f5ff; }
+        .row-p5 td:first-child { color: #ffaa00; }
+        .row-p6 td:first-child { color: #00ff88; }
+        .row-p7 td:first-child { color: #ff006e; }
+        .row-p8 td:first-child { color: #00f5ff; }
+
+        /* DESIGN A - 4 PLAYERS AT CARDINAL POINTS */
+        #design-a .player-zone.top {
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Bottom: top-anchored (not bottom-anchored) so the cascade's
+           last card - which visually overflows below the flex
+           container's collapsed flow height - never crosses the
+           .design box's overflow:hidden boundary */
+        #design-a .player-zone.bottom {
+            top: 577px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #design-a .player-zone.left {
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #design-a .player-zone.right {
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* DESIGN B - 8 PLAYERS AROUND CIRCLE */
+        #design-b .player-zone.n {
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #design-b .player-zone.ne {
+            top: 100px;
+            right: 60px;
+        }
+
+        #design-b .player-zone.e {
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #design-b .player-zone.se {
+            top: 543px;
+            right: 60px;
+        }
+
+        #design-b .player-zone.s {
+            top: 603px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #design-b .player-zone.sw {
+            top: 543px;
+            left: 60px;
+        }
+
+        #design-b .player-zone.w {
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #design-b .player-zone.nw {
+            top: 100px;
+            left: 60px;
+        }
+
+        .design-label {
+            position: absolute;
+            bottom: 16px;
+            left: 20px;
+            font-size: 11px;
+            color: rgba(255, 0, 110, 0.5);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 6;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Antiquity Quest — Dashboard Concept: Cyberpunk Vaporwave</h1>
+
+    <div class="designs-container">
+
+        <!-- DESIGN A: 4 PLAYERS -->
+        <div class="design" id="design-a">
+            <div class="scoreboard">
+                <div class="scoreboard-title">SCORES</div>
+                <table class="scoreboard-table">
+                    <thead>
+                        <tr><th>Player</th><th>Score</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row-p1"><td>Nyx</td><td>2840</td></tr>
+                        <tr class="row-p2"><td>Castor</td><td>2650</td></tr>
+                        <tr class="row-p3"><td>Lyra</td><td>2195</td></tr>
+                        <tr class="row-p4"><td>Raven</td><td>1870</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Top: Nyx -->
+            <div class="player-zone top p1">
+                <div class="player-name">Nyx</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card antiquity-purple">5</div>
+                        <div class="card antiquity-yellow">3</div>
+                        <div class="card treasure-silver">✦</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom: Castor -->
+            <div class="player-zone bottom p2">
+                <div class="player-name">Castor</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card antiquity-blue">4</div>
+                        <div class="card antiquity-red">2</div>
+                        <div class="card treasure-copper">✦</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Left: Lyra -->
+            <div class="player-zone left p3">
+                <div class="player-name">Lyra</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card antiquity-green">1</div>
+                        <div class="card antiquity-yellow">4</div>
+                        <div class="card treasure-pink">✦</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Raven -->
+            <div class="player-zone right p4">
+                <div class="player-name">Raven</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card antiquity-purple">2</div>
+                        <div class="card antiquity-blue">5</div>
+                        <div class="card treasure-silver">✦</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="design-label">Design A: 4 Players</div>
+        </div>
+
+        <!-- DESIGN B: 8 PLAYERS -->
+        <div class="design" id="design-b">
+            <div class="scoreboard">
+                <div class="scoreboard-title">SCORES</div>
+                <table class="scoreboard-table">
+                    <thead>
+                        <tr><th>Player</th><th>Score</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row-p1"><td>Nyx</td><td>3120</td></tr>
+                        <tr class="row-p2"><td>Castor</td><td>2945</td></tr>
+                        <tr class="row-p3"><td>Lyra</td><td>2710</td></tr>
+                        <tr class="row-p4"><td>Raven</td><td>2590</td></tr>
+                        <tr class="row-p5"><td>Sirius</td><td>2340</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- North: Nyx -->
+            <div class="player-zone n p1">
+                <div class="player-name">Nyx</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card antiquity-purple">5</div>
+                        <div class="card antiquity-yellow">3</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Northeast: Castor -->
+            <div class="player-zone ne p2">
+                <div class="player-name">Castor</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card treasure-silver">✦</div>
+                        <div class="card antiquity-red">2</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- East: Lyra -->
+            <div class="player-zone e p3">
+                <div class="player-name">Lyra</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card antiquity-blue">4</div>
+                        <div class="card treasure-copper">✦</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Southeast: Raven -->
+            <div class="player-zone se p4">
+                <div class="player-name">Raven</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card antiquity-green">1</div>
+                        <div class="card treasure-pink">✦</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- South: Sirius -->
+            <div class="player-zone s p5">
+                <div class="player-name">Sirius</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card antiquity-yellow">4</div>
+                        <div class="card antiquity-blue">2</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Southwest: Vega -->
+            <div class="player-zone sw p6">
+                <div class="player-name">Vega</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card antiquity-red">5</div>
+                        <div class="card treasure-silver">✦</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- West: Altair -->
+            <div class="player-zone w p7">
+                <div class="player-name">Altair</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card antiquity-green">3</div>
+                        <div class="card treasure-copper">✦</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Northwest: Polaris -->
+            <div class="player-zone nw p8">
+                <div class="player-name">Polaris</div>
+                <div class="cards-pool">
+                    <div class="card-stack">
+                        <div class="card antiquity-purple">1</div>
+                        <div class="card antiquity-yellow">2</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="design-label">Design B: 8 Players</div>
+        </div>
+
+    </div>
+</body>
+</html>

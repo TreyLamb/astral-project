@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antiquity Quest - Museum Dashboard Concept</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Garamond', 'Crimson Text', Georgia, serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1410 50%, #0a0a0a 100%);
+            color: #e8e4d0;
+            padding: 2.5rem 1.5rem;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+            letter-spacing: 3px;
+            color: #d4af37;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            font-weight: 400;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-bottom: 3rem;
+            color: #a89968;
+            letter-spacing: 1px;
+            font-style: italic;
+        }
+
+        .design-section {
+            margin-bottom: 5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .design-title {
+            text-align: center;
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            color: #c9a962;
+            letter-spacing: 2px;
+            font-weight: 400;
+        }
+
+        .design-container {
+            position: relative;
+            width: 100%;
+            max-width: 1500px;
+            aspect-ratio: 1 / 1;
+            background: radial-gradient(circle at center, #16120f 0%, #0c0a08 50%, #000000 100%);
+            border-radius: 50%;
+            /* no overflow:hidden here — a hard circular clip was cutting the corner
+               scoreboard in half and truncating card cascades; the round table look
+               still comes entirely from the background + border-radius above */
+            box-shadow:
+                0 0 80px rgba(0, 0, 0, 0.9),
+                inset 0 0 100px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Central empty space indicator */
+        .design-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 28%;
+            height: 28%;
+            border-radius: 50%;
+            border: 1px solid rgba(212, 175, 55, 0.08);
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Scoreboard */
+        .scoreboard {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            z-index: 100;
+            background: rgba(15, 12, 10, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1.5px solid rgba(212, 175, 55, 0.25);
+            border-radius: 6px;
+            padding: 1rem;
+            min-width: 220px;
+            box-shadow:
+                0 0 25px rgba(212, 175, 55, 0.12),
+                inset 0 0 15px rgba(212, 175, 55, 0.05);
+        }
+
+        /* Design A only seats players at N/E/S/W, so the top-left corner
+           is free for the scoreboard. Design B also seats a player in
+           that exact corner (northwest), so its scoreboard moves into
+           the open center of the table instead -- the one spot no
+           player zone ever reaches into. */
+        .design-b .scoreboard {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .scoreboard-table {
+            width: 100%;
+            font-size: 0.8rem;
+            border-collapse: collapse;
+            letter-spacing: 0.5px;
+        }
+
+        .scoreboard-table th {
+            text-align: left;
+            font-weight: 600;
+            padding: 0.5rem 0.6rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .scoreboard-table td {
+            padding: 0.45rem 0.6rem;
+            color: #c9a962;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.08);
+        }
+
+        .scoreboard-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Player zones */
+        .player-zone {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .player-zone.north {
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .player-zone.northeast {
+            top: 70px;
+            right: 70px;
+        }
+
+        .player-zone.east {
+            top: 50%;
+            right: 40px;
+            transform: translateY(-50%);
+        }
+
+        .player-zone.southeast {
+            bottom: 70px;
+            right: 70px;
+        }
+
+        .player-zone.south {
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .player-zone.southwest {
+            bottom: 70px;
+            left: 70px;
+        }
+
+        .player-zone.west {
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
+        }
+
+        .player-zone.northwest {
+            top: 70px;
+            left: 70px;
+        }
+
+        .player-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #d4af37;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Each player's own pool can hold several stacks (melds) side by
+           side, and each stack fans 5-10 cards downward -- that overlap
+           is normal card-game stacking. What matters is the POOL stays
+           narrow enough that it never reaches into a neighboring
+           player's reserved footprint (see the per-position max-widths
+           below, matched to the offsets that anchor each zone). */
+        .cards-pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .player-zone.north .cards-pool,
+        .player-zone.south .cards-pool {
+            max-width: 300px;
+        }
+
+        .player-zone.east .cards-pool,
+        .player-zone.west .cards-pool {
+            max-width: 220px;
+        }
+
+        .player-zone.northeast .cards-pool,
+        .player-zone.southeast .cards-pool,
+        .player-zone.southwest .cards-pool,
+        .player-zone.northwest .cards-pool {
+            max-width: 190px;
+        }
+
+        .card-count {
+            font-size: 0.65rem;
+            color: #a89968;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: -8px;
+            margin-bottom: 8px;
+            opacity: 0.85;
+        }
+
+        .card-stack {
+            display: flex;
+            flex-direction: column;
+            width: 60px;
+        }
+
+        .card {
+            width: 60px;
+            height: 88px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #f5f0e8 0%, #e6dcc8 50%, #d9cdb8 100%);
+            border: 2px solid;
+            box-shadow:
+                0 8px 16px rgba(0, 0, 0, 0.7),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .card-stack .card {
+            margin-bottom: -68px;
+            transition: transform 0.15s ease, margin-bottom 0.15s;
+        }
+
+        .card-stack .card:hover {
+            transform: translateY(-16px) scale(1.08);
+            margin-bottom: 0px;
+            z-index: 99;
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.75);
+        }
+
+        /* Brass corner ornaments */
+        .card::before,
+        .card::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+            border-radius: 1px;
+            box-shadow:
+                inset 0 1px 2px rgba(255, 255, 255, 0.4),
+                inset -1px -1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .card::before {
+            top: 4px;
+            left: 4px;
+        }
+
+        .card::after {
+            bottom: 4px;
+            right: 4px;
+        }
+
+        .card-value {
+            position: relative;
+            z-index: 2;
+            line-height: 1;
+        }
+
+        /* Card suit colors - Antiquity */
+        .card.antiquity-yellow {
+            border-color: #e0b400;
+            color: #d4a017;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .card.antiquity-blue {
+            border-color: #2f6fd6;
+            color: #2959b0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .card.antiquity-green {
+            border-color: #2f9e44;
+            color: #267a34;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .card.antiquity-red {
+            border-color: #d6392f;
+            color: #b02f28;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .card.antiquity-purple {
+            border-color: #8b5cf6;
+            color: #6d28d9;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Card suit colors - Treasure */
+        .card.treasure-copper {
+            border-color: #b87333;
+            color: #8b5a2b;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .card.treasure-pink {
+            border-color: #ec4899;
+            color: #be185d;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .card.treasure-blue {
+            border-color: #2f6fd6;
+            color: #2959b0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .card.treasure-red {
+            border-color: #d6392f;
+            color: #b02f28;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .card.treasure-silver {
+            border-color: #c7cad1;
+            color: #a0a3aa;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Glow effects per player zone */
+        .player-zone::before {
+            content: '';
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: -1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* 4-player glow colors (warm jewel tones with amber/brass accent) */
+        .design-a .player-zone.north::before {
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.8), transparent);
+        }
+
+        .design-a .player-zone.east::before {
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.8), transparent);
+        }
+
+        .design-a .player-zone.south::before {
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.8), transparent);
+        }
+
+        .design-a .player-zone.west::before {
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.8), transparent);
+        }
+
+        /* 8-player glow colors (jewel-toned neon + amber accents) */
+        .design-b .player-zone.north::before {
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.8), transparent);
+        }
+
+        .design-b .player-zone.northeast::before {
+            background: radial-gradient(circle, rgba(217, 119, 6, 0.8), transparent);
+        }
+
+        .design-b .player-zone.east::before {
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.8), transparent);
+        }
+
+        .design-b .player-zone.southeast::before {
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.8), transparent);
+        }
+
+        .design-b .player-zone.south::before {
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.8), transparent);
+        }
+
+        .design-b .player-zone.southwest::before {
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.8), transparent);
+        }
+
+        .design-b .player-zone.west::before {
+            background: radial-gradient(circle, rgba(217, 119, 6, 0.8), transparent);
+        }
+
+        .design-b .player-zone.northwest::before {
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.8), transparent);
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>Antiquity Quest</h1>
+<div class="subtitle">Dashboard Concept: Museum / Archive</div>
+
+<!-- Design A: 4 Players -->
+<div class="design-section">
+    <div class="design-title">Design A – Four Players</div>
+    <div class="design-container design-a">
+        <div class="scoreboard">
+            <table class="scoreboard-table">
+                <thead>
+                    <tr><th>Player</th><th>Score</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Archer</td><td>2,147</td></tr>
+                    <tr><td>Curator</td><td>1,895</td></tr>
+                    <tr><td>Sage</td><td>2,283</td></tr>
+                    <tr><td>Merchant</td><td>1,764</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- North -->
+                <div class="player-zone north">
+            <div class="player-name">Archer</div>
+            <div class="card-count">27 Cards Played</div>
+            <div class="cards-pool">
+                <div class="card-stack"><div class="card antiquity-yellow"><span class="card-value">1</span></div><div class="card antiquity-yellow"><span class="card-value">2</span></div><div class="card antiquity-yellow"><span class="card-value">3</span></div><div class="card antiquity-yellow"><span class="card-value">4</span></div><div class="card antiquity-yellow"><span class="card-value">5</span></div><div class="card antiquity-yellow"><span class="card-value">1</span></div><div class="card antiquity-yellow"><span class="card-value">2</span></div><div class="card antiquity-yellow"><span class="card-value">3</span></div><div class="card antiquity-yellow"><span class="card-value">4</span></div><div class="card antiquity-yellow"><span class="card-value">5</span></div></div>
+                <div class="card-stack"><div class="card antiquity-blue"><span class="card-value">2</span></div><div class="card antiquity-blue"><span class="card-value">3</span></div><div class="card antiquity-blue"><span class="card-value">4</span></div><div class="card antiquity-blue"><span class="card-value">5</span></div><div class="card antiquity-blue"><span class="card-value">2</span></div><div class="card antiquity-blue"><span class="card-value">3</span></div><div class="card antiquity-blue"><span class="card-value">4</span></div></div>
+                <div class="card-stack"><div class="card treasure-copper"><span class="card-value">T</span></div><div class="card treasure-copper"><span class="card-value">T</span></div><div class="card treasure-copper"><span class="card-value">T</span></div><div class="card treasure-copper"><span class="card-value">T</span></div><div class="card treasure-copper"><span class="card-value">T</span></div></div>
+                <div class="card-stack"><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div></div>
+            </div>
+        </div>
+
+        <!-- East -->
+                <div class="player-zone east">
+            <div class="player-name">Curator</div>
+            <div class="card-count">25 Cards Played</div>
+            <div class="cards-pool">
+                <div class="card-stack"><div class="card antiquity-blue"><span class="card-value">1</span></div><div class="card antiquity-blue"><span class="card-value">2</span></div><div class="card antiquity-blue"><span class="card-value">3</span></div><div class="card antiquity-blue"><span class="card-value">4</span></div><div class="card antiquity-blue"><span class="card-value">5</span></div><div class="card antiquity-blue"><span class="card-value">1</span></div><div class="card antiquity-blue"><span class="card-value">2</span></div><div class="card antiquity-blue"><span class="card-value">3</span></div></div>
+                <div class="card-stack"><div class="card antiquity-green"><span class="card-value">2</span></div><div class="card antiquity-green"><span class="card-value">3</span></div><div class="card antiquity-green"><span class="card-value">4</span></div><div class="card antiquity-green"><span class="card-value">5</span></div><div class="card antiquity-green"><span class="card-value">2</span></div><div class="card antiquity-green"><span class="card-value">3</span></div></div>
+                <div class="card-stack"><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div></div>
+                <div class="card-stack"><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div></div>
+            </div>
+        </div>
+
+        <!-- South -->
+                <div class="player-zone south">
+            <div class="player-name">Sage</div>
+            <div class="card-count">25 Cards Played</div>
+            <div class="cards-pool">
+                <div class="card-stack"><div class="card antiquity-green"><span class="card-value">1</span></div><div class="card antiquity-green"><span class="card-value">2</span></div><div class="card antiquity-green"><span class="card-value">3</span></div><div class="card antiquity-green"><span class="card-value">4</span></div><div class="card antiquity-green"><span class="card-value">5</span></div><div class="card antiquity-green"><span class="card-value">1</span></div><div class="card antiquity-green"><span class="card-value">2</span></div><div class="card antiquity-green"><span class="card-value">3</span></div><div class="card antiquity-green"><span class="card-value">4</span></div></div>
+                <div class="card-stack"><div class="card antiquity-red"><span class="card-value">2</span></div><div class="card antiquity-red"><span class="card-value">3</span></div><div class="card antiquity-red"><span class="card-value">4</span></div><div class="card antiquity-red"><span class="card-value">5</span></div><div class="card antiquity-red"><span class="card-value">2</span></div></div>
+                <div class="card-stack"><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div></div>
+                <div class="card-stack"><div class="card treasure-red"><span class="card-value">T</span></div><div class="card treasure-red"><span class="card-value">T</span></div><div class="card treasure-red"><span class="card-value">T</span></div><div class="card treasure-red"><span class="card-value">T</span></div><div class="card treasure-red"><span class="card-value">T</span></div></div>
+            </div>
+        </div>
+
+        <!-- West -->
+                <div class="player-zone west">
+            <div class="player-name">Merchant</div>
+            <div class="card-count">24 Cards Played</div>
+            <div class="cards-pool">
+                <div class="card-stack"><div class="card antiquity-red"><span class="card-value">1</span></div><div class="card antiquity-red"><span class="card-value">2</span></div><div class="card antiquity-red"><span class="card-value">3</span></div><div class="card antiquity-red"><span class="card-value">4</span></div><div class="card antiquity-red"><span class="card-value">5</span></div><div class="card antiquity-red"><span class="card-value">1</span></div><div class="card antiquity-red"><span class="card-value">2</span></div><div class="card antiquity-red"><span class="card-value">3</span></div><div class="card antiquity-red"><span class="card-value">4</span></div><div class="card antiquity-red"><span class="card-value">5</span></div></div>
+                <div class="card-stack"><div class="card antiquity-purple"><span class="card-value">2</span></div><div class="card antiquity-purple"><span class="card-value">3</span></div><div class="card antiquity-purple"><span class="card-value">4</span></div><div class="card antiquity-purple"><span class="card-value">5</span></div></div>
+                <div class="card-stack"><div class="card treasure-red"><span class="card-value">T</span></div><div class="card treasure-red"><span class="card-value">T</span></div><div class="card treasure-red"><span class="card-value">T</span></div><div class="card treasure-red"><span class="card-value">T</span></div><div class="card treasure-red"><span class="card-value">T</span></div></div>
+                <div class="card-stack"><div class="card treasure-silver"><span class="card-value">T</span></div><div class="card treasure-silver"><span class="card-value">T</span></div><div class="card treasure-silver"><span class="card-value">T</span></div><div class="card treasure-silver"><span class="card-value">T</span></div><div class="card treasure-silver"><span class="card-value">T</span></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Design B: 8 Players -->
+<div class="design-section">
+    <div class="design-title">Design B – Eight Players</div>
+    <div class="design-container design-b">
+        <div class="scoreboard">
+            <table class="scoreboard-table">
+                <thead>
+                    <tr><th>Player</th><th>Score</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Archer</td><td>2,147</td></tr>
+                    <tr><td>Curator</td><td>1,895</td></tr>
+                    <tr><td>Sage</td><td>2,283</td></tr>
+                    <tr><td>Knight</td><td>1,642</td></tr>
+                    <tr><td>Merchant</td><td>1,764</td></tr>
+                    <tr><td>Explorer</td><td>2,051</td></tr>
+                    <tr><td>Mystic</td><td>1,928</td></tr>
+                    <tr><td>Keeper</td><td>2,315</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- North -->
+                <div class="player-zone north">
+            <div class="player-name">Archer</div>
+            <div class="card-count">17 Cards Played</div>
+            <div class="cards-pool">
+                <div class="card-stack"><div class="card antiquity-yellow"><span class="card-value">1</span></div><div class="card antiquity-yellow"><span class="card-value">2</span></div><div class="card antiquity-yellow"><span class="card-value">3</span></div><div class="card antiquity-yellow"><span class="card-value">4</span></div><div class="card antiquity-yellow"><span class="card-value">5</span></div><div class="card antiquity-yellow"><span class="card-value">1</span></div><div class="card antiquity-yellow"><span class="card-value">2</span></div></div>
+                <div class="card-stack"><div class="card antiquity-blue"><span class="card-value">2</span></div><div class="card antiquity-blue"><span class="card-value">3</span></div><div class="card antiquity-blue"><span class="card-value">4</span></div><div class="card antiquity-blue"><span class="card-value">5</span></div><div class="card antiquity-blue"><span class="card-value">2</span></div></div>
+                <div class="card-stack"><div class="card treasure-copper"><span class="card-value">T</span></div><div class="card treasure-copper"><span class="card-value">T</span></div><div class="card treasure-copper"><span class="card-value">T</span></div><div class="card treasure-copper"><span class="card-value">T</span></div><div class="card treasure-copper"><span class="card-value">T</span></div></div>
+            </div>
+        </div>
+
+        <!-- Northeast -->
+                <div class="player-zone northeast">
+            <div class="player-name">Knight</div>
+            <div class="card-count">16 Cards Played</div>
+            <div class="cards-pool">
+                <div class="card-stack"><div class="card antiquity-blue"><span class="card-value">1</span></div><div class="card antiquity-blue"><span class="card-value">2</span></div><div class="card antiquity-blue"><span class="card-value">3</span></div><div class="card antiquity-blue"><span class="card-value">4</span></div><div class="card antiquity-blue"><span class="card-value">5</span></div></div>
+                <div class="card-stack"><div class="card antiquity-green"><span class="card-value">2</span></div><div class="card antiquity-green"><span class="card-value">3</span></div><div class="card antiquity-green"><span class="card-value">4</span></div><div class="card antiquity-green"><span class="card-value">5</span></div><div class="card antiquity-green"><span class="card-value">2</span></div></div>
+                <div class="card-stack"><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div></div>
+            </div>
+        </div>
+
+        <!-- East -->
+                <div class="player-zone east">
+            <div class="player-name">Curator</div>
+            <div class="card-count">16 Cards Played</div>
+            <div class="cards-pool">
+                <div class="card-stack"><div class="card antiquity-green"><span class="card-value">1</span></div><div class="card antiquity-green"><span class="card-value">2</span></div><div class="card antiquity-green"><span class="card-value">3</span></div><div class="card antiquity-green"><span class="card-value">4</span></div><div class="card antiquity-green"><span class="card-value">5</span></div><div class="card antiquity-green"><span class="card-value">1</span></div><div class="card antiquity-green"><span class="card-value">2</span></div></div>
+                <div class="card-stack"><div class="card antiquity-red"><span class="card-value">2</span></div><div class="card antiquity-red"><span class="card-value">3</span></div><div class="card antiquity-red"><span class="card-value">4</span></div><div class="card antiquity-red"><span class="card-value">5</span></div></div>
+                <div class="card-stack"><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div></div>
+            </div>
+        </div>
+
+        <!-- Southeast -->
+                <div class="player-zone southeast">
+            <div class="player-name">Explorer</div>
+            <div class="card-count">16 Cards Played</div>
+            <div class="cards-pool">
+                <div class="card-stack"><div class="card antiquity-red"><span class="card-value">1</span></div><div class="card antiquity-red"><span class="card-value">2</span></div><div class="card antiquity-red"><span class="card-value">3</span></div><div class="card antiquity-red"><span class="card-value">4</span></div><div class="card antiquity-red"><span class="card-value">5</span></div></div>
+                <div class="card-stack"><div class="card antiquity-purple"><span class="card-value">2</span></div><div class="card antiquity-purple"><span class="card-value">3</span></div><div class="card antiquity-purple"><span class="card-value">4</span></div><div class="card antiquity-purple"><span class="card-value">5</span></div><div class="card antiquity-purple"><span class="card-value">2</span></div></div>
+                <div class="card-stack"><div class="card treasure-red"><span class="card-value">T</span></div><div class="card treasure-red"><span class="card-value">T</span></div><div class="card treasure-red"><span class="card-value">T</span></div><div class="card treasure-red"><span class="card-value">T</span></div><div class="card treasure-red"><span class="card-value">T</span></div><div class="card treasure-red"><span class="card-value">T</span></div></div>
+            </div>
+        </div>
+
+        <!-- South -->
+                <div class="player-zone south">
+            <div class="player-name">Sage</div>
+            <div class="card-count">16 Cards Played</div>
+            <div class="cards-pool">
+                <div class="card-stack"><div class="card antiquity-purple"><span class="card-value">1</span></div><div class="card antiquity-purple"><span class="card-value">2</span></div><div class="card antiquity-purple"><span class="card-value">3</span></div><div class="card antiquity-purple"><span class="card-value">4</span></div><div class="card antiquity-purple"><span class="card-value">5</span></div><div class="card antiquity-purple"><span class="card-value">1</span></div><div class="card antiquity-purple"><span class="card-value">2</span></div></div>
+                <div class="card-stack"><div class="card antiquity-yellow"><span class="card-value">2</span></div><div class="card antiquity-yellow"><span class="card-value">3</span></div><div class="card antiquity-yellow"><span class="card-value">4</span></div><div class="card antiquity-yellow"><span class="card-value">5</span></div></div>
+                <div class="card-stack"><div class="card treasure-silver"><span class="card-value">T</span></div><div class="card treasure-silver"><span class="card-value">T</span></div><div class="card treasure-silver"><span class="card-value">T</span></div><div class="card treasure-silver"><span class="card-value">T</span></div><div class="card treasure-silver"><span class="card-value">T</span></div></div>
+            </div>
+        </div>
+
+        <!-- Southwest -->
+                <div class="player-zone southwest">
+            <div class="player-name">Mystic</div>
+            <div class="card-count">16 Cards Played</div>
+            <div class="cards-pool">
+                <div class="card-stack"><div class="card antiquity-yellow"><span class="card-value">1</span></div><div class="card antiquity-yellow"><span class="card-value">2</span></div><div class="card antiquity-yellow"><span class="card-value">3</span></div><div class="card antiquity-yellow"><span class="card-value">4</span></div><div class="card antiquity-yellow"><span class="card-value">5</span></div></div>
+                <div class="card-stack"><div class="card antiquity-blue"><span class="card-value">2</span></div><div class="card antiquity-blue"><span class="card-value">3</span></div><div class="card antiquity-blue"><span class="card-value">4</span></div><div class="card antiquity-blue"><span class="card-value">5</span></div><div class="card antiquity-blue"><span class="card-value">2</span></div></div>
+                <div class="card-stack"><div class="card treasure-copper"><span class="card-value">T</span></div><div class="card treasure-copper"><span class="card-value">T</span></div><div class="card treasure-copper"><span class="card-value">T</span></div><div class="card treasure-copper"><span class="card-value">T</span></div><div class="card treasure-copper"><span class="card-value">T</span></div><div class="card treasure-copper"><span class="card-value">T</span></div></div>
+            </div>
+        </div>
+
+        <!-- West -->
+                <div class="player-zone west">
+            <div class="player-name">Merchant</div>
+            <div class="card-count">16 Cards Played</div>
+            <div class="cards-pool">
+                <div class="card-stack"><div class="card antiquity-blue"><span class="card-value">1</span></div><div class="card antiquity-blue"><span class="card-value">2</span></div><div class="card antiquity-blue"><span class="card-value">3</span></div><div class="card antiquity-blue"><span class="card-value">4</span></div><div class="card antiquity-blue"><span class="card-value">5</span></div><div class="card antiquity-blue"><span class="card-value">1</span></div><div class="card antiquity-blue"><span class="card-value">2</span></div></div>
+                <div class="card-stack"><div class="card antiquity-green"><span class="card-value">2</span></div><div class="card antiquity-green"><span class="card-value">3</span></div><div class="card antiquity-green"><span class="card-value">4</span></div><div class="card antiquity-green"><span class="card-value">5</span></div></div>
+                <div class="card-stack"><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div><div class="card treasure-pink"><span class="card-value">T</span></div></div>
+            </div>
+        </div>
+
+        <!-- Northwest -->
+                <div class="player-zone northwest">
+            <div class="player-name">Keeper</div>
+            <div class="card-count">16 Cards Played</div>
+            <div class="cards-pool">
+                <div class="card-stack"><div class="card antiquity-green"><span class="card-value">1</span></div><div class="card antiquity-green"><span class="card-value">2</span></div><div class="card antiquity-green"><span class="card-value">3</span></div><div class="card antiquity-green"><span class="card-value">4</span></div><div class="card antiquity-green"><span class="card-value">5</span></div></div>
+                <div class="card-stack"><div class="card antiquity-red"><span class="card-value">2</span></div><div class="card antiquity-red"><span class="card-value">3</span></div><div class="card antiquity-red"><span class="card-value">4</span></div><div class="card antiquity-red"><span class="card-value">5</span></div><div class="card antiquity-red"><span class="card-value">2</span></div></div>
+                <div class="card-stack"><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div><div class="card treasure-blue"><span class="card-value">T</span></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

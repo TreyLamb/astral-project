@@ -2,6 +2,7 @@ import {
   collection, doc, getDoc, setDoc, updateDoc, deleteDoc, onSnapshot,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { DEFAULT_THEME } from './themes';
 
 // Excludes 0/O and 1/I/L — a real UX bug otherwise: someone reading a code
 // off a TV across the room, thumb-typing it on a phone.
@@ -39,7 +40,7 @@ function rejoinRequestRef(roomCode, requestId) {
 }
 
 export const AqFirestore = {
-  async createSession(totalRounds) {
+  async createSession(totalRounds, seatCount = 8) {
     let roomCode = null;
     for (let attempt = 0; attempt < 5; attempt += 1) {
       const candidate = generateRoomCode();
@@ -57,6 +58,9 @@ export const AqFirestore = {
       round: 0,
       totalRounds,
       wentOutPlayerId: null,
+      dashboardTheme: DEFAULT_THEME,
+      seatAssignments: {},
+      seatCount,
       createdAt: new Date().toISOString(),
     };
     await setDoc(sessionRef(roomCode), session);
@@ -74,8 +78,37 @@ export const AqFirestore = {
       joinedAt: new Date().toISOString(),
       rounds: {},
       totalScore: 0,
+      // Live, pre-submit state other viewers can see on a dashboard — distinct
+      // from `rounds`, which only updates on Submit.
+      live: {
+        handCache: 'hand',
+        books: [],
+        chatMessage: null,
+      },
     });
     return { playerId, roomCode };
+  },
+
+  // Debounced by the caller (see AntiquityQuestPlayer's live-sync effect) —
+  // not every single card placement needs its own round trip. Firestore
+  // rejects arrays-of-arrays directly, and `books` is exactly that shape
+  // (array of 5-slot arrays), so each book gets wrapped in an object —
+  // AqLiveBooksPreview unwraps it back on the read side.
+  async syncLiveBooks(roomCode, playerId, books) {
+    const wrapped = books.map((cards) => ({ cards }));
+    await updateDoc(playerRef(roomCode, playerId), { 'live.books': wrapped });
+  },
+
+  async setHandCache(roomCode, playerId, handCache) {
+    await updateDoc(playerRef(roomCode, playerId), { 'live.handCache': handCache });
+  },
+
+  // Viewers decide for themselves when a message is "too old to show" from
+  // sentAt — no cleanup write needed, matches this app's existing no-TTL stance.
+  async sendChatMessage(roomCode, playerId, text) {
+    await updateDoc(playerRef(roomCode, playerId), {
+      'live.chatMessage': { text, sentAt: new Date().toISOString() },
+    });
   },
 
   async submitRound(roomCode, playerId, round, inputs, roundScore) {
@@ -94,8 +127,19 @@ export const AqFirestore = {
     await updateDoc(playerRef(roomCode, playerId), { rounds, totalScore });
   },
 
+  // No auto-seating — the host places every player during setup (see
+  // SetupScreen's unassigned-count guard, which disables Start Game until
+  // that's done for a seat-based theme). This just flips the game live.
   async startGame(roomCode) {
     await updateDoc(sessionRef(roomCode), { status: 'playing', round: 1, wentOutPlayerId: null });
+  },
+
+  async setDashboardTheme(roomCode, theme) {
+    await updateDoc(sessionRef(roomCode), { dashboardTheme: theme });
+  },
+
+  async setSeatAssignments(roomCode, seatAssignments) {
+    await updateDoc(sessionRef(roomCode), { seatAssignments });
   },
 
   async closeRound(roomCode) {

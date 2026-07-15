@@ -5,10 +5,25 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AqFirestore } from './aqFirestore';
 import {
   AQ_NUMBERS, AQ_TYPES, AQ_COLOR_HEX, WILD, emptyBook, deriveRoundInputs, colorsForType,
-  maybeGrowBook, resolveWildBook, sortAntiquityBook,
+  maybeGrowBook, resolveWildBook, sortAntiquityBook, classifyBookLive, isMessageFresh,
 } from './aqCards';
 import { calculateRoundScore, AQ_POINTS } from './aqScoring';
+import AqLiveBooksPreview from './AqLiveBooksPreview';
+import AqGemini8v2Theme from './themes/AqGemini8v2Theme';
 import './AntiquityQuestPlayer.css';
+
+const CHAT_PRESETS = [
+  'Well played!',
+  "You're going down!",
+  'Nice one!',
+  "I'm just getting started...",
+  'Uh oh...',
+  'GG!',
+];
+
+const BOOK_TAG_LABEL = {
+  standard: 'Standard', mixed: 'Mixed', dirty: 'Dirty', perfectAntiquity: 'Perfect!', perfectTreasure: 'Perfect!',
+};
 
 function swatchStyle(name) {
   return { backgroundColor: AQ_COLOR_HEX[name] || '#888' };
@@ -109,9 +124,19 @@ function byScoreDescending(a, b) {
 
 // Read-only mirror of the host's TV dashboard, reachable from the player's own
 // phone via the entry/dashboard tabs — no host controls (Start/Remove/Close/
-// Accept/Deny) live here, just the same live status the TV shows.
-function PlayerDashboardView({ roomCode, session, players }) {
+// Accept/Deny) live here, just the same live status the TV shows. Also owns
+// the taunt/chat trigger (only for the viewer's own row — you can't send a
+// message "as" someone else) and a 1s tick so chat bubbles expire live even
+// without a new Firestore write arriving.
+function PlayerDashboardView({
+  roomCode, session, players, playerId, chatOpen, onToggleChat, onSendChat,
+}) {
   const sorted = [...players].sort(byScoreDescending);
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => t + 1), 1000);
+    return () => clearInterval(id);
+  }, []);
 
   if (session.status === 'setup') {
     return (
@@ -125,6 +150,21 @@ function PlayerDashboardView({ roomCode, session, players }) {
   }
 
   if (session.status === 'playing') {
+    if (session.dashboardTheme !== 'classic') {
+      return (
+        <div className="aq-player-dashboard">
+          <div className="aq-player-dash-heading">Round {session.round} of {session.totalRounds}</div>
+          <AqGemini8v2Theme
+            mode="live"
+            skin={session.dashboardTheme || 'tavern'}
+            seatCount={session.seatCount || 8}
+            players={players}
+            seatAssignments={session.seatAssignments || {}}
+            wentOutPlayerId={session.wentOutPlayerId}
+          />
+        </div>
+      );
+    }
     return (
       <div className="aq-player-dashboard">
         <div className="aq-player-dash-heading">Round {session.round} of {session.totalRounds}</div>
@@ -132,13 +172,36 @@ function PlayerDashboardView({ roomCode, session, players }) {
           {sorted.map((p) => {
             const hasSubmitted = Boolean(p.rounds?.[session.round]);
             const wentOut = session.wentOutPlayerId === p.id;
+            const isMe = p.id === playerId;
+            const fresh = isMessageFresh(p.live?.chatMessage);
             return (
-              <li key={p.id} className="aq-player-dash-row">
-                <span>{p.name}{wentOut ? ' ★' : ''}</span>
-                <span>{p.totalScore || 0}</span>
-                <span className={hasSubmitted ? 'aq-status-badge aq-status-submitted' : 'aq-status-badge aq-status-waiting'}>
-                  {hasSubmitted ? 'Submitted' : 'Waiting'}
-                </span>
+              <li key={p.id} className="aq-player-dash-row aq-player-dash-row-tall">
+                <div className="aq-player-dash-row-top">
+                  <span>
+                    {p.name}{wentOut ? ' ★' : ''}
+                    {p.live?.handCache === 'cache' && <span className="aq-dash-handcache">Cache</span>}
+                  </span>
+                  <span>{p.totalScore || 0}</span>
+                  <span className={hasSubmitted ? 'aq-status-badge aq-status-submitted' : 'aq-status-badge aq-status-waiting'}>
+                    {hasSubmitted ? 'Active' : 'Not Started'}
+                  </span>
+                  {isMe && (
+                    <button type="button" className="aq-chat-icon-btn" onClick={onToggleChat} title="Say something">
+                      💬
+                    </button>
+                  )}
+                </div>
+                {fresh && <div className="aq-chat-bubble">{p.live.chatMessage.text}</div>}
+                {isMe && chatOpen && (
+                  <div className="aq-chat-picker">
+                    {CHAT_PRESETS.map((line) => (
+                      <button key={line} type="button" className="aq-chat-preset" onClick={() => onSendChat(line)}>
+                        {line}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                <AqLiveBooksPreview books={p.live?.books} />
               </li>
             );
           })}
@@ -167,7 +230,7 @@ function PlayerDashboardView({ roomCode, session, players }) {
                   </ul>
                 </>
               ) : (
-                <div className="aq-player-dash-recap-score aq-player-dash-recap-none">Did not submit</div>
+                <div className="aq-player-dash-recap-score aq-player-dash-recap-none">No cards played</div>
               )}
               <div className="aq-player-dash-recap-total">Total: {p.totalScore || 0}</div>
             </div>
@@ -265,16 +328,61 @@ export default function AntiquityQuestPlayer() {
   const [session, setSession] = useState(null);
   const [players, setPlayers] = useState([]);
   const [view, setView] = useState('entry');
+  const [scoreCollapsed, setScoreCollapsed] = useState(false);
+  const [heldCollapsed, setHeldCollapsed] = useState(false);
   const [books, setBooks] = useState(() => Array.from({ length: 5 }, emptyBook));
   const [held, setHeld] = useState({ antiquities: 0, treasures: 0, remingtons: 0 });
   const [picker, setPicker] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState(null);
-  const [lastSubmittedRound, setLastSubmittedRound] = useState(null);
+  const [chatOpen, setChatOpen] = useState(false);
   const sortTimersRef = useRef({});
+  const autoSyncTimerRef = useRef(null);
+  const lastResetRoundRef = useRef(null);
 
   useEffect(() => AqFirestore.subscribeSession(roomCode, setSession), [roomCode]);
   useEffect(() => AqFirestore.subscribePlayers(roomCode, setPlayers), [roomCode]);
+
+  // My own player doc, as seen by everyone else — source of truth for
+  // hand/cache and chat rather than separate local state, so a reload always
+  // reflects whatever was last actually written.
+  const myPlayer = players.find((p) => p.id === playerId) ?? null;
+  const handCache = myPlayer?.live?.handCache ?? 'hand';
+
+  const currentRound = session?.round ?? null;
+
+  // A new round starting must clear last round's cards — otherwise the very
+  // first auto-sync tick of round 2 would silently write round 1's leftover
+  // layout as round 2's score with zero user action.
+  useEffect(() => {
+    if (currentRound == null || lastResetRoundRef.current === currentRound) return;
+    lastResetRoundRef.current = currentRound;
+    setBooks(Array.from({ length: 5 }, emptyBook));
+    setHeld({ antiquities: 0, treasures: 0, remingtons: 0 });
+  }, [currentRound]);
+
+  // Went Out is host-controlled now (one slot on the session, not a per-player
+  // self-report toggle) — a player's own screen just reflects whatever the
+  // host has currently marked, live.
+  const wentOut = session?.wentOutPlayerId === playerId;
+  const derivedInputs = useMemo(
+    () => deriveRoundInputs(books, held, wentOut),
+    [books, held, wentOut],
+  );
+  const scoreResult = useMemo(() => calculateRoundScore(derivedInputs), [derivedInputs]);
+
+  // No Submit button — any change to books/held/wentOut auto-writes after a
+  // short idle debounce, both the live dashboard preview and the actual
+  // round score. If the round has moved on since this state was built for it,
+  // submitRound throws — swallowed silently, there's no user action to
+  // report an error against, it's just a stale write that no longer applies.
+  useEffect(() => {
+    if (!playerId || !currentRound) return undefined;
+    clearTimeout(autoSyncTimerRef.current);
+    autoSyncTimerRef.current = setTimeout(() => {
+      AqFirestore.syncLiveBooks(roomCode, playerId, books);
+      AqFirestore.submitRound(roomCode, playerId, currentRound, derivedInputs, scoreResult.total).catch(() => {});
+    }, 800);
+    return () => clearTimeout(autoSyncTimerRef.current);
+  }, [books, held, derivedInputs, scoreResult, roomCode, playerId, currentRound]);
 
   // Auto-sorts a book into 1-5 chronological order (e.g. moves a wild card once
   // it resolves to a new number) only after 5s of no further edits to that
@@ -290,31 +398,42 @@ export default function AntiquityQuestPlayer() {
     }, 5000);
   }
 
-  // Went Out is host-controlled now (one slot on the session, not a per-player
-  // self-report toggle) — a player's own screen just reflects whatever the
-  // host has currently marked, live.
-  const wentOut = session?.wentOutPlayerId === playerId;
-  const derivedInputs = useMemo(
-    () => deriveRoundInputs(books, held, wentOut),
-    [books, held, wentOut],
-  );
-  const scoreResult = useMemo(() => calculateRoundScore(derivedInputs), [derivedInputs]);
+  // Colors shouldn't normally mix within an Antiquity book — a book already
+  // carrying, say, blue antiquities should default a newly-opened empty slot
+  // to blue too, so continuing the same suit is the path of least resistance
+  // and picking a different color is always a deliberate tap, not an accident
+  // of the picker resetting to the palette's first swatch. Treasures are the
+  // opposite: a Perfect Treasure Collection needs 5 DISTINCT colors, so
+  // copying a sibling's color here would make the default actively steer
+  // toward an accidental duplicate — instead default to the first palette
+  // color not already used elsewhere in the book.
+  function bookColorFor(bookIndex, slotIndex, type) {
+    const siblings = books[bookIndex].filter((c, i) => i !== slotIndex && c && c.type === type);
+    if (siblings.length === 0) return undefined;
+    if (type === 'treasure') {
+      const used = new Set(siblings.map((c) => c.color));
+      return colorsForType('treasure').find((c) => !used.has(c));
+    }
+    return siblings[0].color;
+  }
 
-  // Card entry is always a local draft — nothing reaches the shared dashboard
-  // until Submit is pressed, so editing is never blocked by round/session status
-  // (players can freely plan/experiment). Only submitting a round that's no
-  // longer open is guarded, and that's enforced server-side (see the catch in
-  // handleSubmit below), not by disabling inputs here.
-  const currentRound = session?.round ?? null;
-  const isSubmittedForRound = lastSubmittedRound === currentRound;
+  // A brand-new empty slot has no type of its own to inherit — without this,
+  // it always defaulted to 'antiquity' regardless of what the book actually
+  // holds, so a Treasure book's next slot would open as Antiquity/Yellow
+  // (no antiquity siblings to color-match against) instead of continuing
+  // the book's real type.
+  function bookTypeFor(bookIndex, slotIndex) {
+    const sibling = books[bookIndex].find((c, i) => i !== slotIndex && c);
+    return sibling?.type;
+  }
 
   function openPicker(bookIndex, slotIndex) {
     const existing = books[bookIndex][slotIndex];
-    const type = existing?.type ?? AQ_TYPES[0];
+    const type = existing?.type ?? bookTypeFor(bookIndex, slotIndex) ?? AQ_TYPES[0];
     setPicker({
       bookIndex,
       slotIndex,
-      color: existing?.color ?? colorsForType(type)[0],
+      color: existing?.color ?? bookColorFor(bookIndex, slotIndex, type) ?? colorsForType(type)[0],
       type,
       number: existing?.number ?? AQ_NUMBERS[0],
       hasExisting: !!existing,
@@ -324,11 +443,11 @@ export default function AntiquityQuestPlayer() {
   // Antiquity/Treasure colors overlap on Blue/Red but aren't identical sets —
   // switching type must drop a color that no longer exists for the new type.
   function changePickerType(type) {
-    setPicker((p) => ({
-      ...p,
-      type,
-      color: colorsForType(type).includes(p.color) ? p.color : colorsForType(type)[0],
-    }));
+    setPicker((p) => {
+      if (colorsForType(type).includes(p.color)) return { ...p, type };
+      const match = bookColorFor(p.bookIndex, p.slotIndex, type);
+      return { ...p, type, color: match ?? colorsForType(type)[0] };
+    });
   }
 
   function confirmPicker() {
@@ -360,29 +479,51 @@ export default function AntiquityQuestPlayer() {
     setBooks((prev) => [...prev, emptyBook()]);
   }
 
-  async function handleSubmit() {
-    if (!currentRound || !playerId) return;
-    setSubmitting(true);
-    setSubmitError(null);
-    try {
-      await AqFirestore.submitRound(roomCode, playerId, currentRound, derivedInputs, scoreResult.total);
-      setLastSubmittedRound(currentRound);
-    } catch (err) {
-      setSubmitError(
-        err.message === 'Round already closed'
-          ? 'This round was already closed by the host.'
-          : 'Could not submit your score. Please try again.',
-      );
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
   return (
     <div className="aq-player">
-      <div className="aq-player-room">
+      <div className="aq-player-room-corner">
         Room {roomCode}
         {currentRound ? ` · Round ${currentRound}` : ''}
+      </div>
+
+      <div className="aq-player-header-row">
+        <div className={`aq-player-score-preview ${scoreCollapsed ? 'aq-score-collapsed' : ''}`}>
+          <button
+            type="button"
+            className="aq-score-tab"
+            onClick={() => setScoreCollapsed((c) => !c)}
+          >
+            {scoreCollapsed
+              ? `${scoreResult.total >= 0 ? '+' : ''}${scoreResult.total} — show score`
+              : 'Hide score ▲'}
+          </button>
+          {!scoreCollapsed && (
+            <>
+              <div className="aq-score-total">{scoreResult.total >= 0 ? '+' : ''}{scoreResult.total}</div>
+              <div className="aq-score-caption">Round score</div>
+              {wentOut && <div className="aq-score-wentout">★ Went Out (+{AQ_POINTS.wentOut})</div>}
+            </>
+          )}
+        </div>
+
+        {playerId && (
+          <div className="aq-handcache-toggle">
+            <button
+              type="button"
+              className={`aq-handcache-btn ${handCache === 'hand' ? 'aq-handcache-active' : ''}`}
+              onClick={() => AqFirestore.setHandCache(roomCode, playerId, 'hand')}
+            >
+              In Hand
+            </button>
+            <button
+              type="button"
+              className={`aq-handcache-btn ${handCache === 'cache' ? 'aq-handcache-active' : ''}`}
+              onClick={() => AqFirestore.setHandCache(roomCode, playerId, 'cache')}
+            >
+              In Cache
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="aq-player-tabs">
@@ -403,7 +544,20 @@ export default function AntiquityQuestPlayer() {
       </div>
 
       {view === 'dashboard' ? (
-        session && <PlayerDashboardView roomCode={roomCode} session={session} players={players} />
+        session && (
+          <PlayerDashboardView
+            roomCode={roomCode}
+            session={session}
+            players={players}
+            playerId={playerId}
+            chatOpen={chatOpen}
+            onToggleChat={() => setChatOpen((o) => !o)}
+            onSendChat={(text) => {
+              AqFirestore.sendChatMessage(roomCode, playerId, text);
+              setChatOpen(false);
+            }}
+          />
+        )
       ) : (
       <>
       {!playerId && (
@@ -412,19 +566,19 @@ export default function AntiquityQuestPlayer() {
         </div>
       )}
 
-      <div className="aq-player-score-preview">
-        <div className="aq-score-total">{scoreResult.total >= 0 ? '+' : ''}{scoreResult.total}</div>
-        <div className="aq-score-caption">Round score</div>
-        {wentOut && <div className="aq-score-wentout">★ Host marked you as Went Out (+{AQ_POINTS.wentOut})</div>}
-      </div>
-
       <div className="aq-player-books">
         {books.map((book, bi) => {
           const resolved = resolveWildBook(book);
+          const liveTag = classifyBookLive(book);
           return (
             <div className="aq-book" key={bi}>
-              <div className="aq-book-label">Book {bi + 1}</div>
-              <div className="aq-book-slots">
+              <div className="aq-book-header">
+                <div className="aq-book-label">Book {bi + 1}</div>
+                {liveTag && (
+                  <div className={`aq-book-tag aq-book-tag-${liveTag}`}>{BOOK_TAG_LABEL[liveTag]}</div>
+                )}
+              </div>
+                <div className="aq-book-slots">
                 {book.map((card, si) => (
                   <button
                     type="button"
@@ -447,7 +601,7 @@ export default function AntiquityQuestPlayer() {
                     )}
                   </button>
                 ))}
-              </div>
+                </div>
             </div>
           );
         })}
@@ -456,43 +610,37 @@ export default function AntiquityQuestPlayer() {
         </button>
       </div>
 
-      <div className="aq-player-section">
-        <div className="aq-section-title">Held / unplayed</div>
-        <Stepper
-          label="Antiquities held"
-          hint={`−${AQ_POINTS.antiquity} each`}
-          value={held.antiquities}
-          onChange={(v) => setHeld((h) => ({ ...h, antiquities: v }))}
-        />
-        <Stepper
-          label="Treasures held"
-          hint={`−${AQ_POINTS.treasure} each`}
-          value={held.treasures}
-          onChange={(v) => setHeld((h) => ({ ...h, treasures: v }))}
-        />
-        <Stepper
-          label="Remingtons held"
-          hint={`−${AQ_POINTS.remington} each`}
-          value={held.remingtons}
-          onChange={(v) => setHeld((h) => ({ ...h, remingtons: v }))}
-        />
+      <div className={`aq-player-section ${heldCollapsed ? 'aq-section-collapsed' : ''}`}>
+        <button
+          type="button"
+          className="aq-score-tab"
+          onClick={() => setHeldCollapsed((c) => !c)}
+        >
+          {heldCollapsed ? 'Held / unplayed — show ▼' : 'Held / unplayed — hide ▲'}
+        </button>
+        {!heldCollapsed && (
+          <>
+            <Stepper
+              label="Antiquities held"
+              hint={`−${AQ_POINTS.antiquity} each`}
+              value={held.antiquities}
+              onChange={(v) => setHeld((h) => ({ ...h, antiquities: v }))}
+            />
+            <Stepper
+              label="Treasures held"
+              hint={`−${AQ_POINTS.treasure} each`}
+              value={held.treasures}
+              onChange={(v) => setHeld((h) => ({ ...h, treasures: v }))}
+            />
+            <Stepper
+              label="Remingtons held"
+              hint={`−${AQ_POINTS.remington} each`}
+              value={held.remingtons}
+              onChange={(v) => setHeld((h) => ({ ...h, remingtons: v }))}
+            />
+          </>
+        )}
       </div>
-
-      {submitError && <div className="aq-player-error">{submitError}</div>}
-      {isSubmittedForRound && !submitError && (
-        <div className="aq-player-confirmed">
-          Submitted! You can keep editing and resubmit anytime before the round closes.
-        </div>
-      )}
-
-      <button
-        type="button"
-        className="aq-btn aq-submit"
-        onClick={handleSubmit}
-        disabled={submitting || !currentRound || !playerId}
-      >
-        {submitting ? 'Submitting…' : isSubmittedForRound ? 'Resubmit' : 'Submit'}
-      </button>
 
       {picker && (
         <CardPicker

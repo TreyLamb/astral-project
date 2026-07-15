@@ -31,16 +31,42 @@
             align-items: center;
         }
 
-        /* --- SHARED CENTER COURTYARD --- */
-        .center-deck {
-            display: flex;
-            gap: 15px;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.25);
-            padding: 15px;
-            border-radius: 50%;
-            box-shadow: 0 0 30px rgba(0,0,0,0.4);
+        /* --- TOP LEFT LEADERBOARD --- */
+        .leaderboard-panel {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            background: rgba(8, 22, 9, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 6px;
+            padding: 10px 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            z-index: 20;
         }
+
+        .leaderboard-table {
+            border-collapse: collapse;
+            color: #fdf6e3;
+            font-size: 0.75rem;
+            text-align: left;
+        }
+
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 3px 8px;
+        }
+
+        .leaderboard-table th {
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #a3906a;
+            font-size: 0.65rem;
+        }
+
+        .row-you { color: #ffe082; font-weight: bold; }
+        .row-cleo { color: #f48fb1; }
+        .row-alex { color: #81d4fa; }
+        .row-ram { color: #a5d6a7; }
 
         /* --- UNIFIED PLAYER AREAS (NO BORDERS) --- */
         .player-area {
@@ -48,18 +74,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px;
+            padding: 10px;
             transition: all 0.3s ease;
         }
 
         .player-info {
-            font-weight: bold;
-            font-size: 0.9rem;
+            font-weight: 800;
+            font-size: 0.85rem;
             color: #fff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.9);
             margin-bottom: 8px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         /* --- THE CARD POOL (Cascading Stacks) --- */
@@ -91,11 +117,11 @@
         /* Tight stacking to fit 20-30 cards seamlessly */
         .card-stack .mini-card {
             margin-bottom: -60px;
-            transition: transform 0.15s ease;
+            transition: transform 0.15s ease, margin-bottom 0.15s;
         }
 
         .card-stack .mini-card:hover {
-            transform: translateY(-12px);
+            transform: translateY(-12px) scale(1.05);
             margin-bottom: 0px;
             z-index: 99;
             box-shadow: 0 8px 16px rgba(0,0,0,0.6);
@@ -107,7 +133,7 @@
         }
 
         /* --- SOFT COLOR TERRITORIAL GLOWS (Faint & Distinct) --- */
-        
+
         /* 1. YOU - Bottom (Soft Gold/Yellow Aura) */
         .player-bottom {
             bottom: 20px;
@@ -130,7 +156,7 @@
         .player-left {
             left: 40px;
             top: 50%;
-            transform: translateY(-50%) rotate(90deg); /* Angled to face the table center */
+            transform: translateY(-50%);
             filter: drop-shadow(0 0 15px rgba(129, 212, 250, 0.15));
         }
         .player-left .player-info { color: #81d4fa; }
@@ -139,7 +165,7 @@
         .player-right {
             right: 40px;
             top: 50%;
-            transform: translateY(-50%) rotate(-90deg); /* Angled to face the table center */
+            transform: translateY(-50%);
             filter: drop-shadow(0 0 15px rgba(165, 214, 167, 0.15));
         }
         .player-right .player-info { color: #a5d6a7; }
@@ -149,66 +175,161 @@
 <body>
 
 <div class="game-table">
-    
-    <!-- Shared Center Piles -->
-    <div class="center-deck">
-        <div class="mini-card card-back"></div>
-        <div class="mini-card" style="background: #fff;"><div>IV</div><div style="text-align:center; margin-top:10px;">🏺</div></div>
+
+    <!-- Leaderboard -->
+    <div class="leaderboard-panel">
+        <table class="leaderboard-table">
+            <thead>
+                <tr><th>Player</th><th>Score</th></tr>
+            </thead>
+            <tbody>
+                <tr class="row-you"><td>★ YOU</td><td>1,150</td></tr>
+                <tr class="row-ram"><td>Ramesses</td><td>720</td></tr>
+                <tr class="row-cleo"><td>Cleopatra</td><td>650</td></tr>
+                <tr class="row-alex"><td>Alexander</td><td>410</td></tr>
+            </tbody>
+        </table>
     </div>
 
-    <!-- PLAYER 1: TOP (Soft Pink) -->
+    <!-- PLAYER 1: TOP (Soft Pink) — cards-pool holds 5 stacks (up to 5 cards
+         each) to demonstrate the 20-30 card per-player capacity. -->
     <div class="player-area player-top">
-        <div class="player-info">Cleopatra (650)</div>
+        <div class="player-info">Cleopatra</div>
         <div class="cards-pool">
             <div class="card-stack">
                 <div class="mini-card"><div>I</div></div>
                 <div class="mini-card"><div>II</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>IV</div></div>
+                <div class="mini-card"><div>V</div></div>
             </div>
             <div class="card-stack">
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>II</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>IV</div></div>
                 <div class="mini-card"><div>V</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>VI</div></div>
+                <div class="mini-card"><div>VII</div></div>
+                <div class="mini-card"><div>VIII</div></div>
+                <div class="mini-card"><div>IX</div></div>
+                <div class="mini-card"><div>X</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>V</div></div>
+                <div class="mini-card"><div>VII</div></div>
+                <div class="mini-card"><div>IX</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>II</div></div>
+                <div class="mini-card"><div>IV</div></div>
+                <div class="mini-card"><div>VI</div></div>
+                <div class="mini-card"><div>VIII</div></div>
+                <div class="mini-card"><div>X</div></div>
             </div>
         </div>
     </div>
 
-    <!-- PLAYER 2: LEFT (Soft Light Blue) -->
+    <!-- PLAYER 2: LEFT (Soft Light Blue) — 3 stacks, moderate depth -->
     <div class="player-area player-left">
-        <div class="player-info">Alexander (410)</div>
+        <div class="player-info">Alexander</div>
         <div class="cards-pool">
             <div class="card-stack">
-                <div class="mini-card"><div>X</div></div>
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>II</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>IV</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>V</div></div>
+                <div class="mini-card"><div>VI</div></div>
+                <div class="mini-card"><div>VII</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>VIII</div></div>
+                <div class="mini-card"><div>IX</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAYER 3: RIGHT (Soft Mint Green) — 4 stacks, varying depth -->
+    <div class="player-area player-right">
+        <div class="player-info">Ramesses</div>
+        <div class="cards-pool">
+            <div class="card-stack">
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>II</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>IV</div></div>
+                <div class="mini-card"><div>V</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>VI</div></div>
+                <div class="mini-card"><div>VII</div></div>
+                <div class="mini-card"><div>VIII</div></div>
+                <div class="mini-card"><div>IX</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>V</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>II</div></div>
                 <div class="mini-card"><div>IV</div></div>
             </div>
         </div>
     </div>
 
-    <!-- PLAYER 3: RIGHT (Soft Mint Green) -->
-    <div class="player-area player-right">
-        <div class="player-info">Ramesses (720)</div>
-        <div class="cards-pool">
-            <div class="card-stack">
-                <div class="mini-card"><div>III</div></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PLAYER 4: BOTTOM / YOU (Soft Gold) -->
+    <!-- PLAYER 4: BOTTOM / YOU (Soft Gold) — cards-pool holds 6 stacks
+         (up to 5 cards each) to demonstrate the 20-30 card per-player capacity. -->
     <div class="player-area player-bottom">
-        <div class="player-info">★ YOU (1,150)</div>
+        <div class="player-info">★ YOU</div>
         <div class="cards-pool">
-            <!-- Showcasing tight grouping of 9 cards across 3 stacks -->
             <div class="card-stack">
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>II</div></div>
                 <div class="mini-card"><div>III</div></div>
-                <div class="mini-card"><div>III</div></div>
-                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>IV</div></div>
+                <div class="mini-card"><div>V</div></div>
             </div>
             <div class="card-stack">
-                <div class="mini-card"><div>VII</div></div>
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>II</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>IV</div></div>
+                <div class="mini-card"><div>V</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>VI</div></div>
                 <div class="mini-card"><div>VII</div></div>
                 <div class="mini-card"><div>VIII</div></div>
+                <div class="mini-card"><div>IX</div></div>
+                <div class="mini-card"><div>X</div></div>
             </div>
             <div class="card-stack">
+                <div class="mini-card"><div>VI</div></div>
+                <div class="mini-card"><div>VII</div></div>
+                <div class="mini-card"><div>VIII</div></div>
                 <div class="mini-card"><div>IX</div></div>
+                <div class="mini-card"><div>X</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>V</div></div>
+                <div class="mini-card"><div>VII</div></div>
                 <div class="mini-card"><div>IX</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>II</div></div>
+                <div class="mini-card"><div>IV</div></div>
+                <div class="mini-card"><div>VI</div></div>
+                <div class="mini-card"><div>VIII</div></div>
                 <div class="mini-card"><div>X</div></div>
             </div>
         </div>

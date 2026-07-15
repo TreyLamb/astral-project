@@ -6,16 +6,19 @@ import AntiquityQuestHost from './AntiquityQuestHost';
 import AntiquityQuestPlayer from './AntiquityQuestPlayer';
 import './AntiquityQuestApp.css';
 
+const SEAT_COUNT_OPTIONS = [4, 5, 6, 7, 8];
+
 function AntiquityQuestLanding() {
   const navigate = useNavigate();
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState(null);
+  const [seatCount, setSeatCount] = useState(8);
 
   async function handleHost(totalRounds) {
     setCreating(true);
     setError(null);
     try {
-      const session = await AqFirestore.createSession(totalRounds);
+      const session = await AqFirestore.createSession(totalRounds, seatCount);
       navigate(`/antiquityquest/host/${session.roomCode}`);
     } catch (err) {
       setError(err.message || 'Could not create a game, please try again.');
@@ -31,6 +34,23 @@ function AntiquityQuestLanding() {
         <div className="aq-landing-actions">
           <div className="aq-landing-host-group">
             <span className="aq-landing-host-label">Host a Game</span>
+
+            <span className="aq-landing-host-sublabel">How many players?</span>
+            <div className="aq-landing-seat-count">
+              {SEAT_COUNT_OPTIONS.map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  className={`aq-btn aq-btn-seatcount ${seatCount === n ? 'aq-btn-seatcount-active' : ''}`}
+                  onClick={() => setSeatCount(n)}
+                  disabled={creating}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+
+            <span className="aq-landing-host-sublabel">Rounds</span>
             <div className="aq-landing-host-rounds">
               <button
                 className="aq-btn aq-btn-host"

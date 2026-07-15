@@ -79,18 +79,6 @@
         .leaderboard-table tr.row-left { color: #06b6d4; }
         .leaderboard-table tr.row-right { color: #10b981; }
 
-        /* --- SHARED CENTER DECK --- */
-        .center-deck {
-            display: flex;
-            gap: 15px;
-            z-index: 10;
-            background: rgba(15, 15, 25, 0.7);
-            padding: 20px;
-            border-radius: 50%;
-            box-shadow: 0 0 40px rgba(0,0,0,0.8);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
         /* --- ORGANIC PLAYER AREAS --- */
         .player-area {
             position: absolute;
@@ -138,7 +126,7 @@
         /* Cascading stacking trick */
         .card-stack .mini-card {
             margin-bottom: -64px;
-            transition: transform 0.15s ease-in-out, box-shadow 0.15s;
+            transition: transform 0.15s ease-in-out, margin-bottom 0.15s;
         }
 
         .card-stack .mini-card:hover {
@@ -146,11 +134,6 @@
             margin-bottom: 0px;
             z-index: 99;
             box-shadow: 0 10px 20px rgba(0,0,0,0.8);
-        }
-
-        .card-back {
-            background: #1f2937;
-            border: 2px solid #4b5563;
         }
 
         /* --- FRONT-FACING ORIENTATION & HIGHLIGHTS --- */
@@ -227,22 +210,43 @@
         </table>
     </div>
     
-    <!-- Shared Center Piles -->
-    <div class="center-deck">
-        <div class="mini-card card-back"></div>
-        <div class="mini-card" style="background: #fff; border-color: #333;"><div>IV</div><div style="text-align:center; margin-top:15px;">🏺</div></div>
-    </div>
-
-    <!-- PLAYER: TOP (Hot Pink Territory) -->
+    <!-- PLAYER: TOP (Hot Pink Territory) — cards-pool holds multiple stacks
+         (one per "book"/meld) so a player can show 20-30 cards total without
+         any single stack overflowing its zone. -->
     <div class="player-area player-top">
         <div class="player-info">Cleopatra</div>
         <div class="cards-pool">
             <div class="card-stack">
                 <div class="mini-card"><div>I</div></div>
                 <div class="mini-card"><div>II</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>IV</div></div>
+                <div class="mini-card"><div>V</div></div>
             </div>
             <div class="card-stack">
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>II</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>IV</div></div>
                 <div class="mini-card"><div>V</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>VI</div></div>
+                <div class="mini-card"><div>VII</div></div>
+                <div class="mini-card"><div>VIII</div></div>
+                <div class="mini-card"><div>IX</div></div>
+                <div class="mini-card"><div>X</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>V</div></div>
+                <div class="mini-card"><div>VII</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>II</div></div>
+                <div class="mini-card"><div>IV</div></div>
+                <div class="mini-card"><div>VI</div></div>
             </div>
         </div>
     </div>
@@ -254,6 +258,32 @@
             <div class="card-stack">
                 <div class="mini-card"><div>X</div></div>
                 <div class="mini-card"><div>IV</div></div>
+                <div class="mini-card"><div>VII</div></div>
+                <div class="mini-card"><div>IX</div></div>
+                <div class="mini-card"><div>II</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>II</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>IV</div></div>
+                <div class="mini-card"><div>V</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>VI</div></div>
+                <div class="mini-card"><div>VII</div></div>
+                <div class="mini-card"><div>VIII</div></div>
+                <div class="mini-card"><div>IX</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>V</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>II</div></div>
+                <div class="mini-card"><div>IV</div></div>
+                <div class="mini-card"><div>VI</div></div>
             </div>
         </div>
     </div>
@@ -264,6 +294,12 @@
         <div class="cards-pool">
             <div class="card-stack">
                 <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>IV</div></div>
+                <div class="mini-card"><div>V</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>VIII</div></div>
+                <div class="mini-card"><div>IX</div></div>
             </div>
         </div>
     </div>
@@ -273,9 +309,31 @@
         <div class="player-info">★ YOU</div>
         <div class="cards-pool">
             <div class="card-stack">
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>II</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>IV</div></div>
+                <div class="mini-card"><div>V</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>VI</div></div>
+                <div class="mini-card"><div>VII</div></div>
+                <div class="mini-card"><div>VIII</div></div>
+                <div class="mini-card"><div>IX</div></div>
+                <div class="mini-card"><div>X</div></div>
+            </div>
+            <div class="card-stack">
                 <div class="mini-card"><div>III</div></div>
                 <div class="mini-card"><div>III</div></div>
                 <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>III</div></div>
+                <div class="mini-card"><div>III</div></div>
+            </div>
+            <div class="card-stack">
+                <div class="mini-card"><div>IX</div></div>
+                <div class="mini-card"><div>IX</div></div>
+                <div class="mini-card"><div>X</div></div>
+                <div class="mini-card"><div>X</div></div>
             </div>
             <div class="card-stack">
                 <div class="mini-card"><div>VII</div></div>
@@ -283,9 +341,8 @@
                 <div class="mini-card"><div>VIII</div></div>
             </div>
             <div class="card-stack">
-                <div class="mini-card"><div>IX</div></div>
-                <div class="mini-card"><div>IX</div></div>
-                <div class="mini-card"><div>X</div></div>
+                <div class="mini-card"><div>I</div></div>
+                <div class="mini-card"><div>II</div></div>
             </div>
         </div>
     </div>

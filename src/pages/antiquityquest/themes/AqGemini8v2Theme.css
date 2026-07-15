@@ -1,0 +1,333 @@
+/* Ported from dashboardchoices/gemini8v2.html — same round-table ambient
+   lighting, resized to a responsive container (the mockup used a fixed
+   100vw/100vh body) so it fits both the host's TV dashboard and the
+   player's phone-sized Dashboard tab. Seat positions and per-seat scale are
+   computed in JS (AqGemini8v2Theme.jsx) for however many players are
+   actually seated, not hardcoded here. */
+
+.aq-g8-table {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  aspect-ratio: 16 / 10;
+  min-height: 260px;
+  margin: 0 auto;
+  border: 10px solid #111116;
+  border-radius: 14px;
+  box-shadow: inset 0 0 90px rgba(0, 0, 0, 1);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 25% 80%, rgba(255, 193, 7, 0.2) 0%, rgba(255, 193, 7, 0) 45%),
+    radial-gradient(circle at 50% 80%, rgba(255, 152, 0, 0.2) 0%, rgba(255, 152, 0, 0) 45%),
+    radial-gradient(circle at 75% 80%, rgba(205, 220, 57, 0.2) 0%, rgba(205, 220, 57, 0) 45%),
+    radial-gradient(circle at 25% -5%, rgba(244, 63, 94, 0.2) 0%, rgba(244, 63, 94, 0) 45%),
+    radial-gradient(circle at 50% -5%, rgba(156, 39, 176, 0.2) 0%, rgba(156, 39, 176, 0) 45%),
+    radial-gradient(circle at 75% -5%, rgba(236, 72, 153, 0.2) 0%, rgba(236, 72, 153, 0) 45%),
+    radial-gradient(circle at -5% 50%, rgba(6, 182, 212, 0.2) 0%, rgba(6, 182, 212, 0) 40%),
+    radial-gradient(circle at 105% 50%, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0) 40%),
+    #07080b;
+}
+
+.aq-g8-unassigned-banner {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  background: rgba(61, 48, 22, 0.9);
+  border: 1px solid #ffd166;
+  color: #ffd166;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+/* --- LEADERBOARD (~15% bigger than the original mockup's proportions) --- */
+.aq-g8-leaderboard {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(10, 10, 15, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 7px;
+  padding: 7px 12px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
+  z-index: 20;
+  max-width: 40%;
+}
+
+.aq-g8-leaderboard-table {
+  border-collapse: collapse;
+  color: #fff;
+  font-size: 0.75rem;
+  text-align: left;
+}
+
+.aq-g8-leaderboard-table th,
+.aq-g8-leaderboard-table td {
+  padding: 2px 7px;
+}
+
+.aq-g8-leaderboard-table th {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #666;
+  font-size: 0.62rem;
+}
+
+.aq-g8-lb-wentout td {
+  color: #ffd166;
+  font-weight: 700;
+}
+
+/* --- SEATS — position/scale set inline per-seat in JS --- */
+.aq-g8-player-area {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px;
+  max-width: 130px;
+}
+
+.aq-g8-player-info {
+  font-weight: 800;
+  font-size: 0.75rem;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+}
+
+.aq-g8-clickable {
+  cursor: pointer;
+}
+
+.aq-g8-wentout {
+  text-decoration: underline;
+}
+
+.aq-g8-cache-badge {
+  margin-left: 6px;
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: #ffd166;
+  background: rgba(61, 48, 22, 0.9);
+  border-radius: 4px;
+  padding: 1px 5px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.aq-g8-chat-bubble {
+  background: rgba(20, 18, 31, 0.95);
+  border: 1px solid #7c5cff;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 0.6rem;
+  color: #f4f2fb;
+  margin-bottom: 4px;
+  max-width: 140px;
+  text-align: center;
+}
+
+/* --- CARDS --- */
+.aq-g8-cards-pool {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3px;
+  max-width: 220px;
+}
+
+.aq-g8-card-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 38px;
+  position: relative;
+}
+
+.aq-g8-book-tag {
+  font-size: 0.45rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  color: #b8b2d1;
+  margin-bottom: 2px;
+}
+
+.aq-g8-book-tag-mixed { color: #ffd166; }
+.aq-g8-book-tag-dirty { color: #ff6b6b; }
+.aq-g8-book-tag-perfectAntiquity,
+.aq-g8-book-tag-perfectTreasure { color: #ffd700; }
+
+/* A closed book's own small marker — sits above its (reduced) card preview,
+   never a card-sized element itself, so it can't cover neighboring stacks. */
+.aq-g8-closed-label {
+  font-size: 0.45rem;
+  font-weight: 800;
+  text-align: center;
+  color: #6ee89a;
+  letter-spacing: 0.06em;
+  margin-bottom: 2px;
+}
+
+.aq-g8-mini-card {
+  width: 38px;
+  height: 54px;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  flex-shrink: 0;
+}
+
+.aq-g8-card-stack .aq-g8-mini-card {
+  margin-bottom: -42px;
+  transition: transform 0.12s ease, margin-bottom 0.12s;
+}
+
+.aq-g8-card-stack .aq-g8-mini-card:last-child {
+  margin-bottom: 0;
+}
+
+.aq-g8-card-stack:hover .aq-g8-mini-card {
+  margin-bottom: 2px;
+}
+
+.aq-g8-card-stack .aq-g8-mini-card:hover {
+  transform: translateY(-8px) scale(1.08);
+  z-index: 99;
+}
+
+/* --- SETUP SEAT PICKER --- */
+.aq-g8-seat-wrap {
+  position: relative;
+}
+
+.aq-g8-seat-btn {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  background: rgba(20, 18, 31, 0.85);
+  color: #b8b2d1;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.aq-g8-seat-filled {
+  border: 1px solid #7c5cff;
+  color: #f4f2fb;
+  background: rgba(124, 92, 255, 0.2);
+}
+
+.aq-g8-seat-picker {
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  background: #1f1c30;
+  border: 1px solid #7c5cff;
+  border-radius: 8px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 120px;
+}
+
+.aq-g8-seat-picker-option {
+  font-size: 0.75rem;
+  padding: 6px 8px;
+  border-radius: 5px;
+  border: none;
+  background: #2a2640;
+  color: #f4f2fb;
+  cursor: pointer;
+  text-align: left;
+}
+
+.aq-g8-seat-picker-option:hover {
+  background: #7c5cff;
+}
+
+.aq-g8-seat-picker-empty {
+  font-size: 0.7rem;
+  color: #6a6486;
+  padding: 4px 8px;
+}
+
+/* --- TAVERN SKIN (default) — same engine as the sci-fi skin above, just a
+   gold/wood fantasy-tavern visual layer ported from claude3-tavern.html --- */
+.aq-g8-skin-tavern {
+  font-family: 'Georgia', 'Garamond', serif;
+  background:
+    radial-gradient(circle at center, rgba(101, 67, 33, 0.3) 0%, rgba(101, 67, 33, 0) 60%),
+    linear-gradient(135deg, #0a0e27 0%, #0f1428 100%);
+}
+
+.aq-g8-skin-tavern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(101, 67, 33, 0.15) 0px,
+    rgba(101, 67, 33, 0.15) 2px,
+    transparent 2px,
+    transparent 12px
+  );
+  pointer-events: none;
+}
+
+.aq-g8-skin-tavern .aq-g8-leaderboard {
+  background: rgba(15, 12, 8, 0.92);
+  border: 1px solid #d4af37;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7), 0 0 12px rgba(212, 175, 55, 0.15);
+}
+
+.aq-g8-skin-tavern .aq-g8-leaderboard-table {
+  color: #f0e6c8;
+}
+
+.aq-g8-skin-tavern .aq-g8-leaderboard-table th {
+  color: #a08a4a;
+  border-bottom-color: rgba(212, 175, 55, 0.3);
+}
+
+.aq-g8-skin-tavern .aq-g8-lb-wentout td {
+  color: #ffd166;
+}
+
+.aq-g8-skin-tavern .aq-g8-player-info {
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95), 0 0 8px currentColor;
+}
+
+.aq-g8-skin-tavern .aq-g8-mini-card {
+  border: 1.5px solid rgba(212, 175, 55, 0.5);
+}
+
+.aq-g8-skin-tavern .aq-g8-closed-label {
+  color: #d4af37;
+}
+
+.aq-g8-skin-tavern .aq-g8-seat-filled {
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.15);
+}
+
+.aq-g8-skin-tavern .aq-g8-seat-picker-option:hover {
+  background: #6b5217;
+}

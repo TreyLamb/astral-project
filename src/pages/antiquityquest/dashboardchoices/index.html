@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Antiquity Quest — Dashboard Concepts</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0a0a0d;
+    color: #eee;
+    padding: 2.5rem;
+  }
+  h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+  p.sub { color: #888; margin-bottom: 2rem; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  a.card {
+    display: block;
+    background: #16161c;
+    border: 1px solid #2a2a33;
+    border-radius: 10px;
+    padding: 1.25rem;
+    color: #eee;
+    text-decoration: none;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  a.card:hover {
+    border-color: #7c5cff;
+    transform: translateY(-2px);
+  }
+  a.card .name { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.3rem; }
+  a.card .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #7c5cff;
+    background: rgba(124, 92, 255, 0.15);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    margin-top: 0.4rem;
+  }
+  .tag.ref { color: #ffd166; background: rgba(255, 209, 102, 0.15); }
+</style>
+</head>
+<body>
+  <h1>Antiquity Quest — Dashboard Concepts</h1>
+  <p class="sub">Click any card to open that mockup in a new tab.</p>
+  <div class="grid">
+    <a class="card" href="gemini6v2.html" target="_blank"><div class="name">gemini6v2</div><span class="tag ref">Reference — 6p</span></a>
+    <a class="card" href="gemini8v2.html" target="_blank"><div class="name">gemini8v2</div><span class="tag ref">Reference — 8p</span></a>
+    <a class="card" href="claude1-museum.html" target="_blank"><div class="name">claude1-museum</div><span class="tag">Museum / Archive</span></a>
+    <a class="card" href="claude2-hologram.html" target="_blank"><div class="name">claude2-hologram</div><span class="tag">Holographic Sci-Fi</span></a>
+    <a class="card" href="claude3-tavern.html" target="_blank"><div class="name">claude3-tavern</div><span class="tag">Fantasy Tavern</span></a>
+    <a class="card" href="claude4-broadcast.html" target="_blank"><div class="name">claude4-broadcast</div><span class="tag">Esports Broadcast</span></a>
+    <a class="card" href="claude5-vaporwave.html" target="_blank"><div class="name">claude5-vaporwave</div><span class="tag">Cyberpunk Vaporwave</span></a>
+    <a class="card" href="gemini.html" target="_blank"><div class="name">gemini</div></a>
+    <a class="card" href="gemini2.html" target="_blank"><div class="name">gemini2</div></a>
+    <a class="card" href="gemini3.html" target="_blank"><div class="name">gemini3</div></a>
+    <a class="card" href="gemini4.html" target="_blank"><div class="name">gemini4</div></a>
+    <a class="card" href="gemini5.html" target="_blank"><div class="name">gemini5</div></a>
+    <a class="card" href="gemini6player.html" target="_blank"><div class="name">gemini6player</div></a>
+    <a class="card" href="gemini8player.html" target="_blank"><div class="name">gemini8player</div></a>
+  </div>
+</body>
+</html>

@@ -28,11 +28,11 @@
             justify-content: center;
             align-items: center;
 
-            /* 6-Zone Blended Neon Ambient Lighting */
-            background: 
+            /* 6-Zone Blended Neon Ambient Lighting (pulled toward center) */
+            background:
                 /* Bottom Row Glows */
-                radial-gradient(circle at 35% 105%, rgba(255, 193, 7, 0.25) 0%, rgba(255, 193, 7, 0) 50%),
-                radial-gradient(circle at 65% 105%, rgba(255, 152, 0, 0.25) 0%, rgba(255, 152, 0, 0) 50%),
+                radial-gradient(circle at 35% 85%, rgba(255, 193, 7, 0.25) 0%, rgba(255, 193, 7, 0) 50%),
+                radial-gradient(circle at 65% 85%, rgba(255, 152, 0, 0.25) 0%, rgba(255, 152, 0, 0) 50%),
                 /* Top Row Glows */
                 radial-gradient(circle at 35% -5%, rgba(244, 63, 94, 0.25) 0%, rgba(244, 63, 94, 0) 50%),
                 radial-gradient(circle at 65% -5%, rgba(236, 72, 153, 0.25) 0%, rgba(236, 72, 153, 0) 50%),
@@ -137,35 +137,34 @@
             box-shadow: 0 8px 16px rgba(0,0,0,0.7);
         }
 
-        /* --- POSITIONING THE 6-PLAYER ORBIT --- */
-        
-        /* BOTTOM LAYER (P1, P2) */
-        .p1-bottom-left { bottom: 30px; left: 33%; transform: translateX(-50%); }
+        /* --- REDISTRIBUTED POSITIONING MAP --- */
+
+        /* BOTTOM LAYER (Pushed UP from bottom, now sitting at 55% screen position) */
+        .p1-bottom-left { top: 55%; left: 35%; transform: translateX(-50%); }
         .p1-bottom-left .player-info { color: #ffca28; }
         .p1-bottom-left .mini-card { border-color: rgba(255, 202, 40, 0.5); }
 
-        .p2-bottom-right { bottom: 30px; left: 67%; transform: translateX(-50%); }
+        .p2-bottom-right { top: 55%; left: 65%; transform: translateX(-50%); }
         .p2-bottom-right .player-info { color: #ff9800; }
         .p2-bottom-right .mini-card { border-color: rgba(255, 152, 0, 0.5); }
 
-        /* RIGHT FLANK (P3) */
-        .p3-right { right: 40px; top: 50%; transform: translateY(-50%); }
+        /* SIDE FLANKS (Centered perfectly horizontally to box in the core) */
+        .p3-right { right: 50px; top: 40%; transform: translateY(-50%); }
         .p3-right .player-info { color: #10b981; }
         .p3-right .mini-card { border-color: rgba(16, 185, 129, 0.5); }
 
-        /* TOP LAYER (P4, P5) */
-        .p4-top-right { top: 30px; left: 67%; transform: translateX(-50%); }
-        .p4-top-right .player-info { color: #ec4899; }
-        .p4-top-right .mini-card { border-color: rgba(236, 72, 153, 0.5); }
+        .p6-left { left: 50px; top: 40%; transform: translateY(-50%); }
+        .p6-left .player-info { color: #06b6d4; }
+        .p6-left .mini-card { border-color: rgba(6, 182, 212, 0.5); }
 
-        .p5-top-left { top: 30px; left: 33%; transform: translateX(-50%); }
+        /* TOP LAYER (Stays up high to stack downward cleanly into center gap) */
+        .p5-top-left { top: 30px; left: 35%; transform: translateX(-50%); }
         .p5-top-left .player-info { color: #f43f5e; }
         .p5-top-left .mini-card { border-color: rgba(244, 63, 94, 0.5); }
 
-        /* LEFT FLANK (P6) */
-        .p6-left { left: 40px; top: 55%; transform: translateY(-50%); } /* Shifted slightly down to clear room for the scoreboard */
-        .p6-left .player-info { color: #06b6d4; }
-        .p6-left .mini-card { border-color: rgba(6, 182, 212, 0.5); }
+        .p4-top-right { top: 30px; left: 65%; transform: translateX(-50%); }
+        .p4-top-right .player-info { color: #ec4899; }
+        .p4-top-right .mini-card { border-color: rgba(236, 72, 153, 0.5); }
 
     </style>
 </head>
@@ -193,12 +192,16 @@
         </table>
     </div>
 
-    <!-- P1: YOU -->
+    <!-- P1: YOU — cards-pool holds multiple stacks (one per "book"/meld) so a
+         player can show 20-30 cards total without any single stack overflowing. -->
     <div class="player-area p1-bottom-left">
         <div class="player-info">★ YOU</div>
         <div class="cards-pool">
-            <div class="card-stack"><div class="mini-card">III</div><div class="mini-card">III</div></div>
-            <div class="card-stack"><div class="mini-card">X</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">II</div><div class="mini-card">III</div><div class="mini-card">IV</div><div class="mini-card">V</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">II</div><div class="mini-card">III</div><div class="mini-card">IV</div><div class="mini-card">V</div></div>
+            <div class="card-stack"><div class="mini-card">VI</div><div class="mini-card">VII</div><div class="mini-card">VIII</div><div class="mini-card">IX</div><div class="mini-card">X</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">III</div><div class="mini-card">V</div></div>
+            <div class="card-stack"><div class="mini-card">X</div><div class="mini-card">XI</div></div>
         </div>
     </div>
 
@@ -206,7 +209,9 @@
     <div class="player-area p2-bottom-right">
         <div class="player-info">Thutmose</div>
         <div class="cards-pool">
-            <div class="card-stack"><div class="mini-card">V</div><div class="mini-card">VI</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">II</div><div class="mini-card">III</div><div class="mini-card">IV</div><div class="mini-card">V</div></div>
+            <div class="card-stack"><div class="mini-card">V</div><div class="mini-card">VI</div><div class="mini-card">VII</div></div>
+            <div class="card-stack"><div class="mini-card">II</div><div class="mini-card">III</div></div>
         </div>
     </div>
 
@@ -214,7 +219,9 @@
     <div class="player-area p3-right">
         <div class="player-info">Ramesses</div>
         <div class="cards-pool">
-            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">II</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">II</div><div class="mini-card">III</div></div>
+            <div class="card-stack"><div class="mini-card">IV</div><div class="mini-card">V</div><div class="mini-card">VI</div></div>
+            <div class="card-stack"><div class="mini-card">VII</div><div class="mini-card">VIII</div></div>
         </div>
     </div>
 
@@ -222,7 +229,12 @@
     <div class="player-area p4-top-right">
         <div class="player-info">Nefertiti</div>
         <div class="cards-pool">
-            <div class="card-stack"><div class="mini-card">VIII</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">II</div><div class="mini-card">III</div><div class="mini-card">IV</div><div class="mini-card">V</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">II</div><div class="mini-card">III</div><div class="mini-card">IV</div><div class="mini-card">V</div></div>
+            <div class="card-stack"><div class="mini-card">VI</div><div class="mini-card">VII</div><div class="mini-card">VIII</div><div class="mini-card">IX</div><div class="mini-card">X</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">III</div><div class="mini-card">V</div><div class="mini-card">VII</div><div class="mini-card">IX</div></div>
+            <div class="card-stack"><div class="mini-card">II</div><div class="mini-card">IV</div><div class="mini-card">VI</div><div class="mini-card">VIII</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">II</div><div class="mini-card">III</div></div>
         </div>
     </div>
 
@@ -230,7 +242,12 @@
     <div class="player-area p5-top-left">
         <div class="player-info">Cleopatra</div>
         <div class="cards-pool">
-            <div class="card-stack"><div class="mini-card">IV</div><div class="mini-card">IV</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">II</div><div class="mini-card">III</div><div class="mini-card">IV</div><div class="mini-card">V</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">II</div><div class="mini-card">III</div><div class="mini-card">IV</div><div class="mini-card">V</div></div>
+            <div class="card-stack"><div class="mini-card">VI</div><div class="mini-card">VII</div><div class="mini-card">VIII</div><div class="mini-card">IX</div><div class="mini-card">X</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">III</div><div class="mini-card">V</div><div class="mini-card">VII</div></div>
+            <div class="card-stack"><div class="mini-card">II</div><div class="mini-card">IV</div><div class="mini-card">VI</div><div class="mini-card">VIII</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">II</div><div class="mini-card">III</div></div>
         </div>
     </div>
 
@@ -238,7 +255,8 @@
     <div class="player-area p6-left">
         <div class="player-info">Alexander</div>
         <div class="cards-pool">
-            <div class="card-stack"><div class="mini-card">VII</div></div>
+            <div class="card-stack"><div class="mini-card">VII</div><div class="mini-card">VIII</div><div class="mini-card">IX</div></div>
+            <div class="card-stack"><div class="mini-card">I</div><div class="mini-card">II</div></div>
         </div>
     </div>
 

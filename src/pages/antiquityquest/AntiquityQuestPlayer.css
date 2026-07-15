@@ -1,20 +1,43 @@
 .aq-player {
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 1.25rem;
-  padding: 1.5rem 1rem 3rem;
+  padding: 1.75rem 1rem 3rem;
   background: #14121f;
   color: #f4f2fb;
   max-width: 480px;
   margin: 0 auto;
 }
 
-.aq-player-room {
-  font-size: 1.25rem;
-  font-weight: 600;
-  text-align: center;
+/* Once you're actively playing, the room code is pure afterthought info —
+   shrunk to a barely-there corner label instead of a prominent header line. */
+.aq-player-room-corner {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 0.65rem;
+  color: #6a6486;
+  opacity: 0.75;
+}
+
+.aq-player-header-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.aq-player-header-row .aq-player-score-preview {
+  flex: 1 1 50%;
+  min-width: 0;
+}
+
+.aq-player-header-row .aq-handcache-toggle {
+  flex: 1 1 50%;
+  min-width: 0;
+  align-self: flex-start;
 }
 
 .aq-player-tabs {
@@ -50,6 +73,164 @@
   margin-top: 0.5rem;
 }
 
+.aq-handcache-toggle {
+  display: flex;
+  gap: 0.4rem;
+  background: #1e1a2e;
+  border-radius: 0.6rem;
+  padding: 0.24rem;
+}
+
+.aq-handcache-btn {
+  flex: 1;
+  padding: 0.4rem;
+  border-radius: 0.4rem;
+  border: none;
+  background: transparent;
+  color: #b8b2d1;
+  font-size: 0.68rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 29px;
+}
+
+.aq-handcache-active {
+  background: #3a3454;
+  color: #fff;
+}
+
+.aq-dash-handcache {
+  display: inline-block;
+  margin-left: 0.4rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #ffd166;
+  background: rgba(255, 209, 102, 0.15);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  vertical-align: middle;
+}
+
+.aq-book-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.aq-book-header .aq-book-label {
+  margin-bottom: 0;
+}
+
+.aq-book-tag {
+  flex-shrink: 0;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+}
+
+.aq-book-tag-standard {
+  background: rgba(124, 92, 255, 0.18);
+  color: #cbb8ff;
+}
+
+.aq-book-tag-mixed {
+  background: rgba(255, 209, 102, 0.15);
+  color: #ffd166;
+}
+
+.aq-book-tag-dirty {
+  background: rgba(255, 128, 128, 0.15);
+  color: #ff8080;
+}
+
+.aq-book-tag-perfectAntiquity,
+.aq-book-tag-perfectTreasure {
+  background: rgba(224, 180, 0, 0.2);
+  color: #ffd700;
+}
+
+.aq-live-books {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.aq-live-book {
+  min-width: 0;
+}
+
+.aq-live-book-closed {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #6ee89a;
+  background: rgba(110, 232, 154, 0.12);
+  border: 1px solid #3b7a4d;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.6rem;
+}
+
+.aq-live-book-slots {
+  display: flex;
+  gap: 0.15rem;
+}
+
+.aq-live-mini-card {
+  width: 22px;
+  height: 30px;
+  border-radius: 0.25rem;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.aq-chat-icon-btn {
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 0.25rem;
+}
+
+.aq-chat-bubble {
+  background: #2a2440;
+  border: 1px solid #7c5cff;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+}
+
+.aq-chat-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 0.4rem;
+}
+
+.aq-chat-preset {
+  text-align: left;
+  background: #14121f;
+  border: 1px solid #3a3454;
+  border-radius: 0.5rem;
+  color: #f4f2fb;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
 .aq-player-dashboard {
   display: flex;
   flex-direction: column;
@@ -82,6 +263,17 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
+}
+
+.aq-player-dash-row-tall {
+  display: block;
+}
+
+.aq-player-dash-row-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .aq-player-dash-winner {
@@ -163,21 +355,53 @@
 .aq-player-score-preview {
   background: #1e1a2e;
   border: 2px solid #3a3454;
-  border-radius: 0.85rem;
-  padding: 1.25rem;
+  border-radius: 0.65rem;
+  padding: 0.4rem 0.6rem 0.6rem;
   text-align: center;
 }
 
+.aq-player-score-preview.aq-score-collapsed {
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+}
+
+.aq-score-tab {
+  width: 100%;
+  border: none;
+  background: #2a2440;
+  color: #cbb8ff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.6rem 1rem;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  min-height: 40px;
+}
+
+.aq-player-score-preview .aq-score-tab {
+  font-size: 0.68rem;
+  padding: 0.4rem 0.5rem;
+  min-height: 29px;
+  border-radius: 0.4rem;
+}
+
+.aq-score-collapsed .aq-score-tab {
+  background: #1e1a2e;
+  border: 2px solid #3a3454;
+}
+
 .aq-score-total {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   font-weight: 700;
   line-height: 1;
+  margin-top: 0.3rem;
 }
 
 .aq-score-caption {
   color: #b8b2d1;
-  font-size: 0.85rem;
-  margin-top: 0.35rem;
+  font-size: 0.65rem;
+  margin-top: 0.2rem;
 }
 
 .aq-player-books {
@@ -200,22 +424,25 @@
 }
 
 /* Mixed-collection books can grow past 5 slots (physical rule: only Mixed
-   Collections can keep taking cards after completing) up to MAX_BOOK_SIZE —
-   fixed-size slots + horizontal scroll instead of squeezing to fit, so a
-   20-card mixed book stays usable instead of shrinking to illegible tiles. */
+   Collections can keep taking cards after completing) up to MAX_BOOK_SIZE.
+   Wraps to a 2nd row of 5 instead of scrolling right away — max-height caps
+   at exactly 2 rows, so overflow-y's scrollbar naturally never appears until
+   a 3rd row's worth of cards (11+) actually exists. */
 .aq-book-slots {
   display: flex;
-  gap: 0.4rem;
-  overflow-x: auto;
-  padding-bottom: 0.3rem;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  max-height: 92px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .aq-slot {
-  flex: 0 0 48px;
-  width: 48px;
+  flex: 0 0 42px;
+  width: 42px;
   aspect-ratio: 1;
-  min-height: 48px;
-  border-radius: 0.5rem;
+  min-height: 42px;
+  border-radius: 0.45rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -272,6 +499,18 @@
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+}
+
+.aq-player-section.aq-section-collapsed {
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+  gap: 0;
+}
+
+.aq-section-collapsed .aq-score-tab {
+  background: #1e1a2e;
+  border: 2px solid #3a3454;
 }
 
 .aq-section-title {
@@ -460,8 +699,6 @@
 }
 
 .aq-picker-wild {
-  border-color: #7c5cff;
-  color: #cbb8ff;
   font-weight: 700;
 }
 

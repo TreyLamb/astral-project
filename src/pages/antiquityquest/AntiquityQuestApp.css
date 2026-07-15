@@ -72,6 +72,33 @@
   text-align: left;
 }
 
+.aq-landing-host-sublabel {
+  color: #8a84a8;
+  font-size: 0.8rem;
+  text-align: left;
+  margin-top: 0.5rem;
+}
+
+.aq-landing-seat-count {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.aq-btn-seatcount {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 1.05rem;
+  background: #1e1a2e;
+  color: #b8b2d1;
+  border: 2px solid #3a3454;
+}
+
+.aq-btn-seatcount-active {
+  background: #7c5cff;
+  color: #fff;
+  border-color: #7c5cff;
+}
+
 .aq-landing-host-rounds {
   display: flex;
   gap: 0.75rem;

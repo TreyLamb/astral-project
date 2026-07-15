@@ -11,6 +11,14 @@ export const AQ_TYPES = ['antiquity', 'treasure'];
 // so a wild always reflects whatever's currently missing, live.
 export const WILD = 'wild';
 
+// A chat bubble only renders for this long after sentAt — no cleanup write
+// needed, every viewer (host + other players) just checks the clock locally.
+const CHAT_DISPLAY_MS = 8000;
+export function isMessageFresh(chatMessage) {
+  if (!chatMessage) return false;
+  return Date.now() - new Date(chatMessage.sentAt).getTime() < CHAT_DISPLAY_MS;
+}
+
 export function colorsForType(type) {
   return type === 'treasure' ? AQ_TREASURE_COLORS : AQ_ANTIQUITY_COLORS;
 }
@@ -38,14 +46,22 @@ export function emptyBook() {
 
 export const MAX_BOOK_SIZE = 20;
 
-// Call after any slot fill. Only a book that's full AND currently classifies
-// as Mixed gets a 20th... er, one more open slot appended (up to MAX_BOOK_SIZE) —
+// Call after any slot fill/clear. Only a book that's full AND currently
+// classifies as Mixed gets one more open slot appended (up to MAX_BOOK_SIZE) —
 // Perfect/Standard books lock at exactly 5 per the physical rules, so they
-// never grow. Never shrinks on its own (clearing a slot doesn't remove the row).
+// never grow. Strips trailing empty slots back to the 5-slot floor first, so a
+// book that stops being full+mixed (e.g. a card swap reverts it to a plain
+// single-suit set) loses the extra room it had grown — safe against clearing a
+// middle slot too, since growth only ever happens while fully filled, so at
+// most one trailing null can exist at a time.
 export function maybeGrowBook(book) {
-  if (book.length >= MAX_BOOK_SIZE) return book;
-  if (!book.every(Boolean)) return book;
-  return classifyBook(book) === 'mixed' ? [...book, null] : book;
+  let trimmed = book;
+  while (trimmed.length > 5 && trimmed[trimmed.length - 1] === null) {
+    trimmed = trimmed.slice(0, -1);
+  }
+  if (trimmed.length >= MAX_BOOK_SIZE) return trimmed;
+  if (!trimmed.every(Boolean)) return trimmed;
+  return classifyBook(trimmed) === 'mixed' ? [...trimmed, null] : trimmed;
 }
 
 // Assigns each wild antiquity card in the book the lowest number still missing
@@ -103,6 +119,36 @@ export function classifyBook(book) {
   // Mixed types: only a valid Mixed Collection if every antiquity in it shares one suit.
   const antiquityColors = new Set(filled.filter((c) => c.type === 'antiquity').map((c) => c.color));
   return antiquityColors.size <= 1 ? 'mixed' : null;
+}
+
+// A provisional, always-on label for a book — unlike classifyBook (which
+// only ever judges completed 5-card books, for scoring), this also covers
+// books still being built: 'perfectTreasure' | 'perfectAntiquity' | 'standard'
+// | 'mixed' | 'dirty' | null (empty book). Once a book is actually complete,
+// this defers straight to classifyBook so a genuine Perfect reports as such
+// instead of being stuck on the incomplete-book trend guess below — "dirty"
+// means the book can never score any bonus no matter what's added later
+// (e.g. two different Antiquity suits mixed together); "standard" while
+// incomplete just means still on track and could still become Perfect.
+export function classifyBookLive(book) {
+  const filled = book.filter(Boolean);
+  if (filled.length === 0) return null;
+
+  const resolved = classifyBook(book);
+  if (resolved) return resolved;
+
+  const allAntiquity = filled.every((c) => c.type === 'antiquity');
+  const allTreasure = filled.every((c) => c.type === 'treasure');
+
+  if (allTreasure) return 'standard';
+
+  if (allAntiquity) {
+    const sameColor = filled.every((c) => c.color === filled[0].color);
+    return sameColor ? 'standard' : 'dirty';
+  }
+
+  const antiquityColors = new Set(filled.filter((c) => c.type === 'antiquity').map((c) => c.color));
+  return antiquityColors.size <= 1 ? 'mixed' : 'dirty';
 }
 
 // Reorders a book's filled slots by resolved number ascending (1-5 chronological),
