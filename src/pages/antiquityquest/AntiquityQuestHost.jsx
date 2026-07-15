@@ -17,6 +17,7 @@ const INPUT_LABELS = [
   ['heldAntiquities', 'Held Antiquities (unplayed)'],
   ['heldTreasures', 'Held Treasures (unplayed)'],
   ['heldRemingtons', 'Held Remingtons (unplayed)'],
+  ['heldTess', 'Held Tess Wynter (unplayed)'],
 ];
 
 function byScoreDescending(a, b) {

@@ -174,6 +174,10 @@ export function sortAntiquityBook(book) {
 // ever completes — collection bonuses stack on top, they don't replace this.
 // Nigel Remington has no positive scoring path (see aqScoring.js) — only its
 // held-penalty count is tracked here, there's no "Remingtons played" input.
+// Tess Wynter is a pure action card at the table (0 points played, per
+// antiquityquest.md), but a held/unplayed one still costs -100 at round end
+// — same shape as Remington's held penalty, confirmed directly since the
+// doc's formula omits it.
 export function deriveRoundInputs(books, held, wentOut) {
   const inputs = {
     perfectTreasures: 0,
@@ -186,6 +190,7 @@ export function deriveRoundInputs(books, held, wentOut) {
     heldAntiquities: held?.antiquities || 0,
     heldTreasures: held?.treasures || 0,
     heldRemingtons: held?.remingtons || 0,
+    heldTess: held?.tess || 0,
   };
 
   books.forEach((book) => {

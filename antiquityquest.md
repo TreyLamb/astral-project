@@ -106,3 +106,7 @@ interface RoundInputs {
 
 
 Calculation Formula$$\text{Score} = (PT \times 1500) + (PA \times 1000) + (SC \times 500) + (MC \times 250) + (A \times 25) + (T \times 50) + (R \times 100) + O - (HA \times 25) - (HT \times 50) - (HR \times 100)$$Where:$PT, PA, SC, MC$ = Collection counts$A, T, R$ = Played card counts$O$ = Going out bonus ($500$ or $0$)$HA, HT, HR$ = Hand/Cache penalty counts
+
+
+CLAUDE DO NOT WASTE TOKENS VIEWING THE PDF:
+https://cdn.shopify.com/s/files/1/0565/3230/4053/files/aq_rulebook_optimized.pdf?v=1652992513

@@ -116,6 +116,7 @@ const RECAP_LABELS = [
   ['heldAntiquities', 'Held Antiquities (unplayed)'],
   ['heldTreasures', 'Held Treasures (unplayed)'],
   ['heldRemingtons', 'Held Remingtons (unplayed)'],
+  ['heldTess', 'Held Tess Wynter (unplayed)'],
 ];
 
 function byScoreDescending(a, b) {
@@ -331,7 +332,9 @@ export default function AntiquityQuestPlayer() {
   const [scoreCollapsed, setScoreCollapsed] = useState(false);
   const [heldCollapsed, setHeldCollapsed] = useState(false);
   const [books, setBooks] = useState(() => Array.from({ length: 5 }, emptyBook));
-  const [held, setHeld] = useState({ antiquities: 0, treasures: 0, remingtons: 0 });
+  const [held, setHeld] = useState({
+    antiquities: 0, treasures: 0, remingtons: 0, tess: 0,
+  });
   const [picker, setPicker] = useState(null);
   const [chatOpen, setChatOpen] = useState(false);
   const sortTimersRef = useRef({});
@@ -356,7 +359,9 @@ export default function AntiquityQuestPlayer() {
     if (currentRound == null || lastResetRoundRef.current === currentRound) return;
     lastResetRoundRef.current = currentRound;
     setBooks(Array.from({ length: 5 }, emptyBook));
-    setHeld({ antiquities: 0, treasures: 0, remingtons: 0 });
+    setHeld({
+      antiquities: 0, treasures: 0, remingtons: 0, tess: 0,
+    });
   }, [currentRound]);
 
   // Went Out is host-controlled now (one slot on the session, not a per-player
@@ -637,6 +642,12 @@ export default function AntiquityQuestPlayer() {
               hint={`−${AQ_POINTS.remington} each`}
               value={held.remingtons}
               onChange={(v) => setHeld((h) => ({ ...h, remingtons: v }))}
+            />
+            <Stepper
+              label="Tess Wynter held"
+              hint={`−${AQ_POINTS.tess} each`}
+              value={held.tess}
+              onChange={(v) => setHeld((h) => ({ ...h, tess: v }))}
             />
           </>
         )}
