@@ -1,0 +1,78 @@
+I have these pokemon go filters that help me filter my pokebox index in POKEMON GO with simple 
+"  filter -- > delete all. " combinations.
+
+The filters are still fairly general even though some of them have MANY pokemon names listed in them. my pokebox has become too full to even use them because i'm starting to have to manually review too much.
+
+The Goal:
+
+Make enough filters that cover 99%-100% use cases to be able to automatically filter--> delete all unwanted pokemon, without ever having to MANUALLY review.
+
+Many of my filters are based around saving pokemon to trade: Generally you can only trade 100 pokemon a day. So having more than like 200 saved, non unique, pokemon at a time is just a waste of space, because i'll never get rid of them (on average I never do my 100 trades per day so the remaining just cause clutter and annoyance. I need to set boundaries/limits to how many mons i want to save to trade that are speficially from recent catches or non unique sources. Legendaries, costume pokemon, shinies, etc: are all unique source examples.)
+
+If i had a label for 'mons to trade' it would likely replace my TTE label and a couple of other labels. I could keep it to around 200 pokemon at all times. I would have to manually delete things from that list to keep it at 200 though - or when it's at 200 i can change what my mass-filter-trash label is to include the pokemon that would go into 'mons to trade' and sift them out so it doesnt go over 200.
+Ie: pikachu goes into 'mons to trade'. Mons to trade is at 200. 
+i use a different filter that filters out pikachus below a cp threshold and only keep high cp pikachus. I will have to manually unlabel some 'mons to trade' pickachus and replace them with better ones, but still slightly better?
+
+the main trash filter has a lot of pokemon filtered out of trash because of cheap-evolution costs after trade, or because i want candy from trading. I need to be more scrupulous with what pokemon are filtered out because that list has become too long.
+
+I have 3 generic CP tiers of filters, like -1000 cp, -1800 cp, -2350 cp, or 'something' like that. for the reason i gave above, some are worth trading.
+
+One thing i want to do is statistically determine a pokemon's level by it's CP.
+In order to filter you HAVE to use CP, but what i truly care about is the pokemons LEVEL.
+Ie: a 1500 CP tauros means nothing to me if it's only lvl 10. i should wait to catch a lvl 25 tauros which may be much higher CP. (example only).
+
+- what i began with another ai agent was attempting to sort poke mon based on their tier
+ Ie: bulbasaur - tier 1, ivysaur tier 2, venusaur tier 3, Because a bulba,ivy,venu all at lvl 10 have major different CP's, so if i filter out a 700 cp bulbasaur, it could be a 3500 cp venusaur (fake math)
+- so when i set filters i need to make sure my CP limits address the pokemon at each tier not just the tier 1's or tier 3's.
+- 
+I have a few random scraps from that session saved to tiersForNow.md as a place holder doc. The information is mostly useless right now but i saved it anyways.
+
+i need help figuring out a good filter method to meet my goal. as well as the above - figuring out a full list of what CP each pokemon is at a specific lvl so we can make filters for CP ranges.
+
+
+
+My existing filters:
+
+bliss,snor — 50 Pokémon : Not necessary
+
+TTE all — 83 Pokémon : Convenient
+
+TTE 0-3* — 72 Pokémon : Convenient
+
+Cheapevolves — 29 Pokémon : Convenient
+
+Trade4evo — 147 Pokémon : Similar to TTE ALL
+
+-2750cp TRSH — 120 Pokémon : Convenient - Generally requires manual filtering after filtering to this level. I don't *think* there's any other way to handle these because they are HIGH CP so worth keeping or trading to another account.
+
+TTE 3*4* — 20 Pokémon : Another similar TTE, not really necessary
+
+<1000trash — 26 Pokémon : One of my most used filters, still not perfect, but this one would probably be the FIRST of any filter-delete i ever do, with other filters following.
+
+I currently have 540 favorites.
+Pokebox size of 3100.
+I believe if my box ever gets down to around 1500-1800 then I will feel like my filters have done their job. But i think that's a long ways off.
+A lot of pokemon i want to keep are not favorited.
+
+Related files unmentioned so far:
+Existingfilters.md 
+My filters with the filter written out so there's context
+
+pokemon_go_search_filters.md for reference
+
+
+
+I am manually going through my poke box right now. 
+
+I'm going to list the steps i'm taking to do a 'deeper' clean.
+
+in no particular order:
+sorting shadows: i'm using the Pureevolve for shadows/pures ive identified that i want to save to evolve. I need some other labels to identify other reasons why i would keep shadows. I'm not currently holding any for my lvl 73 quest to purify. 
+at the moment i'm just using 'shadow' filter and going 1 by 1.
+
+Notes for later from sorting:
+I have a 100 shadow meganium and bunnelyby. Need to decide if i ever care about meganium, i dont care about bunnelby. should trash it. Need to see if either has any other use before doing so.
+
+one major thing i need to do is go through things when i have time to check pokebattler. One of my major freeze points is i don't remember which pokemon are worth keeping because there's so many now and i don't know the most recent 50% of them.
+- i need to see if pokebattler or another site has a list of things one mon is good at countering , without having to look legendary by legendary, &or scrape multiple legendaries at a time and check results. Else; create my own site for this.
+
