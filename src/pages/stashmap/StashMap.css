@@ -1,0 +1,1133 @@
+/* StashMap — Blueprint / home-organizer theme */
+
+.stash-app {
+  --stash-bg: linear-gradient(135deg, #12161f 0%, #171c28 50%, #12161f 100%);
+  --stash-panel-bg: rgba(255, 255, 255, 0.05);
+  --stash-panel-border: rgba(255, 255, 255, 0.1);
+  --stash-text: #eef1f7;
+  --stash-text-dim: rgba(238, 241, 247, 0.72);
+  --stash-text-dimmer: rgba(238, 241, 247, 0.5);
+  --stash-amber: #e3a857;
+  --stash-amber-soft: rgba(227, 168, 87, 0.18);
+  --stash-teal: #4fb0a5;
+  --stash-teal-soft: rgba(79, 176, 165, 0.18);
+  --stash-red: #d9636c;
+  --stash-radius: 12px;
+  --stash-radius-lg: 18px;
+  --stash-blur: 12px;
+  --stash-blur-sm: 8px;
+  --stash-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+  --stash-shadow-lg: 0 10px 36px rgba(0, 0, 0, 0.35);
+  --stash-inset: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  min-height: 100vh;
+  background: var(--stash-bg);
+  color: var(--stash-text);
+  padding: 2rem 1rem 3rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.stash-loading,
+.stash-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--stash-text-dim);
+  font-size: 1rem;
+}
+
+.stash-empty-small {
+  padding: 1rem;
+  font-size: 0.85rem;
+}
+
+/* Header */
+.stash-header {
+  text-align: center;
+  margin: 0 auto 2.5rem;
+  padding: 2rem 1.5rem;
+  max-width: 1100px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(var(--stash-blur));
+  border-radius: var(--stash-radius-lg);
+  border: 1px solid var(--stash-panel-border);
+  box-shadow: var(--stash-shadow-lg), var(--stash-inset);
+}
+
+.stash-title {
+  font-size: 2.75rem;
+  font-weight: 300;
+  letter-spacing: 3px;
+  margin-bottom: 0.4rem;
+  background: linear-gradient(90deg, var(--stash-amber), var(--stash-teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stash-subtitle {
+  font-size: 0.95rem;
+  color: var(--stash-text-dim);
+  letter-spacing: 0.5px;
+  margin-bottom: 1.5rem;
+}
+
+.stash-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.stash-tab {
+  padding: 0.7rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--stash-text-dimmer);
+  font-size: 0.9rem;
+  letter-spacing: 0.4px;
+  border-radius: 8px;
+  border: 1px solid var(--stash-panel-border);
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.stash-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--stash-teal);
+}
+
+.stash-tab-active {
+  background: var(--stash-teal-soft);
+  color: var(--stash-teal);
+  border-color: rgba(79, 176, 165, 0.4);
+  box-shadow: 0 0 14px rgba(79, 176, 165, 0.15);
+}
+
+.stash-main {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Panels */
+.stash-panel {
+  padding: 1.5rem;
+  background: var(--stash-panel-bg);
+  backdrop-filter: blur(var(--stash-blur));
+  border-radius: var(--stash-radius);
+  border: 1px solid var(--stash-panel-border);
+  box-shadow: var(--stash-shadow), var(--stash-inset);
+  position: relative;
+}
+
+.stash-panel-accent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: var(--stash-radius) var(--stash-radius) 0 0;
+  background: linear-gradient(90deg, var(--stash-amber), var(--stash-teal));
+  opacity: 0.6;
+}
+
+.stash-section-label {
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--stash-teal);
+  margin-bottom: 1rem;
+}
+
+.stash-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 1.25rem 0;
+}
+
+/* Buttons */
+.stash-btn {
+  padding: 0.65rem 1.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--stash-text-dim);
+  cursor: pointer;
+  font-size: 0.88rem;
+  border-radius: 8px;
+  border: 1px solid var(--stash-panel-border);
+  transition: all 0.25s ease;
+  font-family: inherit;
+}
+
+.stash-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--stash-text);
+}
+
+.stash-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.stash-btn-primary {
+  background: var(--stash-teal-soft);
+  color: var(--stash-teal);
+  border-color: rgba(79, 176, 165, 0.4);
+}
+
+.stash-btn-primary:hover:not(:disabled) {
+  background: rgba(79, 176, 165, 0.28);
+  box-shadow: 0 0 16px rgba(79, 176, 165, 0.2);
+}
+
+.stash-btn-danger {
+  background: rgba(217, 99, 108, 0.1);
+  color: var(--stash-red);
+  border-color: rgba(217, 99, 108, 0.3);
+}
+
+.stash-btn-danger:hover:not(:disabled) {
+  background: rgba(217, 99, 108, 0.2);
+}
+
+.stash-icon-btn {
+  background: none;
+  border: none;
+  color: var(--stash-text-dim);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+}
+
+.stash-icon-btn:hover {
+  color: var(--stash-text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Inputs */
+.stash-input,
+.stash-select,
+.stash-textarea {
+  padding: 0.65rem 0.9rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--stash-text);
+  border: 1px solid var(--stash-panel-border);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-family: inherit;
+  transition: all 0.25s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.stash-textarea {
+  resize: vertical;
+}
+
+.stash-input:focus,
+.stash-select:focus,
+.stash-textarea:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(79, 176, 165, 0.5);
+  box-shadow: 0 0 10px rgba(79, 176, 165, 0.15);
+}
+
+.stash-input::placeholder {
+  color: var(--stash-text-dimmer);
+}
+
+.stash-badge {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  background: var(--stash-amber-soft);
+  border: 1px solid rgba(227, 168, 87, 0.35);
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: var(--stash-amber);
+  white-space: nowrap;
+}
+
+.stash-link {
+  background: none;
+  border: none;
+  color: var(--stash-teal);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.stash-link:hover {
+  text-decoration: underline;
+}
+
+/* Toast */
+.stash-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.9rem 1.4rem;
+  background: rgba(20, 24, 32, 0.92);
+  backdrop-filter: blur(var(--stash-blur));
+  border: 1px solid var(--stash-panel-border);
+  border-radius: 8px;
+  color: var(--stash-text);
+  box-shadow: var(--stash-shadow);
+  z-index: 1000;
+  animation: stash-toast-in 0.3s ease;
+}
+
+.stash-toast.error {
+  border-color: rgba(217, 99, 108, 0.4);
+  color: var(--stash-red);
+}
+
+@keyframes stash-toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ---------- Inventory view ---------- */
+.stash-inventory-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.stash-inventory-count {
+  color: var(--stash-text-dimmer);
+  font-size: 0.85rem;
+}
+
+/* ~4/5 the size of .stash-tab (padding 0.7rem 1.25rem, font 0.9rem). */
+.stash-groupby-toggle {
+  padding: 0.56rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--stash-text-dimmer);
+  font-size: 0.72rem;
+  letter-spacing: 0.3px;
+  border-radius: 8px;
+  border: 1px solid var(--stash-panel-border);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.25s ease;
+}
+
+.stash-groupby-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--stash-text);
+}
+
+.stash-groupby-toggle-active {
+  background: var(--stash-teal-soft);
+  color: var(--stash-teal);
+  border-color: rgba(79, 176, 165, 0.4);
+}
+
+.stash-color-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.stash-toolbar {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.stash-search {
+  flex: 1;
+  min-width: 200px;
+}
+
+.stash-toolbar .stash-select {
+  width: auto;
+  min-width: 150px;
+}
+
+.stash-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.stash-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  color: var(--stash-text-dim);
+  flex: 1;
+  min-width: 120px;
+}
+
+.stash-field > span {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.7rem;
+}
+
+.stash-field-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.stash-field-narrow {
+  max-width: 140px;
+  flex: 0 0 auto;
+}
+
+.stash-form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.stash-item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.stash-item-row {
+  padding: 1rem 1.25rem;
+  background: var(--stash-panel-bg);
+  border: 1px solid var(--stash-panel-border);
+  border-radius: var(--stash-radius);
+  backdrop-filter: blur(var(--stash-blur-sm));
+}
+
+.stash-item-main {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.35rem;
+}
+
+.stash-item-name {
+  font-weight: 600;
+  font-size: 1.02rem;
+  color: var(--stash-text);
+}
+
+.stash-item-qty {
+  color: var(--stash-text-dim);
+  font-size: 0.85rem;
+}
+
+.stash-item-location {
+  display: inline-block;
+  margin: 0.2rem 0 0.4rem;
+}
+
+.stash-item-unplaced {
+  color: var(--stash-text-dimmer);
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
+.stash-item-desc {
+  color: var(--stash-text-dim);
+  font-size: 0.85rem;
+  margin: 0.3rem 0;
+}
+
+.stash-item-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+/* Compact table (flat view) */
+.stash-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--stash-radius);
+  border: 1px solid var(--stash-panel-border);
+}
+
+.stash-inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--stash-panel-bg);
+  backdrop-filter: blur(var(--stash-blur-sm));
+  font-size: 0.88rem;
+}
+
+.stash-inv-table th {
+  text-align: left;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--stash-text-dimmer);
+  border-bottom: 1px solid var(--stash-panel-border);
+  white-space: nowrap;
+}
+
+.stash-inv-th-dot {
+  width: 1.5rem;
+}
+
+.stash-inv-table td {
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  vertical-align: middle;
+}
+
+.stash-inv-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.stash-inv-row:last-child td {
+  border-bottom: none;
+}
+
+.stash-inv-name {
+  font-weight: 600;
+  color: var(--stash-text);
+}
+
+.stash-inv-qty {
+  color: var(--stash-text-dim);
+  white-space: nowrap;
+}
+
+.stash-inv-actions-cell {
+  white-space: nowrap;
+}
+
+/* Grouped-by-room view */
+.stash-grouped-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.stash-room-group {
+  background: var(--stash-panel-bg);
+  border: 1px solid var(--stash-panel-border);
+  border-radius: var(--stash-radius);
+  backdrop-filter: blur(var(--stash-blur-sm));
+  overflow: hidden;
+}
+
+.stash-room-group-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.85rem 1.1rem;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.stash-room-group-summary::-webkit-details-marker {
+  display: none;
+}
+
+.stash-room-group-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+}
+
+.stash-room-group-name {
+  font-weight: 600;
+  color: var(--stash-text);
+  flex: 1;
+}
+
+.stash-room-group-count {
+  font-size: 0.78rem;
+  color: var(--stash-text-dimmer);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.15rem 0.55rem;
+  border-radius: 10px;
+}
+
+.stash-room-group-items {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--stash-panel-border);
+}
+
+.stash-grouped-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.stash-grouped-row:last-child {
+  border-bottom: none;
+}
+
+.stash-grouped-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.stash-grouped-row .stash-item-name {
+  flex: 1;
+  min-width: 90px;
+}
+
+.stash-sub-location {
+  color: var(--stash-teal);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+/* Breadcrumb hover "thought-box" popover */
+.stash-breadcrumb-popover {
+  position: fixed;
+  z-index: 1200;
+  width: 220px;
+  padding: 0.6rem;
+  background: rgba(18, 22, 31, 0.97);
+  backdrop-filter: blur(var(--stash-blur));
+  border: 1px solid var(--stash-panel-border);
+  border-radius: var(--stash-radius);
+  box-shadow: var(--stash-shadow-lg);
+  pointer-events: none;
+  animation: stash-popover-in 0.15s ease;
+}
+
+@keyframes stash-popover-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stash-mini-floorplan {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.stash-mini-bg {
+  fill: rgba(255, 255, 255, 0.02);
+}
+
+.stash-mini-room-rect {
+  fill-opacity: 0.14;
+  stroke-opacity: 0.3;
+  stroke-width: 2;
+}
+
+.stash-mini-room-rect-focused {
+  fill: none;
+  stroke-width: 5;
+}
+
+.stash-mini-zone-rect {
+  fill: rgba(79, 176, 165, 0.22);
+  stroke: var(--stash-teal);
+  stroke-width: 2;
+}
+
+.stash-mini-cell-highlight {
+  fill: rgba(227, 168, 87, 0.55);
+  stroke: var(--stash-amber);
+  stroke-width: 3;
+}
+
+.stash-breadcrumb-popover-caption {
+  margin-top: 0.45rem;
+  font-size: 0.75rem;
+  color: var(--stash-text-dim);
+  text-align: center;
+}
+
+/* ---------- Map view ---------- */
+.stash-map-controls {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.stash-map-layout {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.stash-floorplan-wrap {
+  flex: 1 1 460px;
+  min-width: 260px;
+}
+
+.stash-floorplan-svg,
+.stash-layout-preview-svg {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--stash-radius);
+  border: 1px solid var(--stash-panel-border);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.stash-floorplan-bg {
+  fill: rgba(255, 255, 255, 0.015);
+}
+
+.stash-room-rect {
+  fill-opacity: 0.22;
+  stroke-width: 3;
+  cursor: pointer;
+  transition: fill-opacity 0.25s ease, stroke-width 0.25s ease;
+}
+
+.stash-room-rect:hover {
+  fill-opacity: 0.32;
+}
+
+.stash-room-rect-focused {
+  fill-opacity: 0.4;
+  stroke-width: 5;
+}
+
+.stash-room-label {
+  font-size: 22px;
+  font-weight: 600;
+  fill: var(--stash-text);
+  pointer-events: none;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.stash-zone-rect {
+  fill: rgba(255, 255, 255, 0.05);
+  stroke: rgba(255, 255, 255, 0.35);
+  stroke-width: 1.5;
+  cursor: pointer;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.stash-zone-rect:hover {
+  fill: rgba(255, 255, 255, 0.13);
+  stroke: var(--stash-teal);
+}
+
+.stash-zone-rect-focused {
+  fill: rgba(79, 176, 165, 0.18);
+  stroke: var(--stash-teal);
+  stroke-width: 2.5;
+}
+
+.stash-room-rect-selected,
+.stash-zone-rect-selected {
+  stroke: var(--stash-amber) !important;
+  stroke-width: 3.5 !important;
+  stroke-dasharray: 8 4;
+}
+
+.stash-zone-label {
+  font-size: 13px;
+  fill: var(--stash-text-dim);
+  pointer-events: none;
+}
+
+.stash-zone-badge,
+.stash-cell-badge {
+  font-size: 12px;
+  font-weight: 700;
+  fill: var(--stash-amber);
+  pointer-events: none;
+}
+
+.stash-cell-badge {
+  font-size: 11px;
+}
+
+.stash-cell-rect {
+  fill: rgba(255, 255, 255, 0.02);
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 1;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+.stash-cell-rect:hover {
+  fill: rgba(255, 255, 255, 0.12);
+}
+
+.stash-cell-rect-focused {
+  fill: rgba(79, 176, 165, 0.22);
+  stroke: var(--stash-teal);
+  stroke-width: 1.5;
+}
+
+.stash-cell-rect-zone-hovered {
+  stroke: rgba(79, 176, 165, 0.6);
+  stroke-width: 1.5;
+}
+
+.stash-cell-rect-cell-hovered {
+  fill: rgba(227, 168, 87, 0.18);
+  stroke: var(--stash-amber);
+  stroke-width: 2;
+}
+
+.stash-cell-hover-label rect {
+  fill: rgba(18, 22, 31, 0.95);
+  stroke: var(--stash-amber);
+  stroke-width: 1;
+}
+
+.stash-cell-hover-label text {
+  fill: var(--stash-amber);
+  font-size: 10px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+/* Selection handles + snap guides, shared by MapView and LayoutView */
+.stash-selection-outline {
+  fill: none;
+  stroke: var(--stash-amber);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  pointer-events: none;
+}
+
+.stash-handle {
+  fill: var(--stash-teal);
+  stroke: #12161f;
+  stroke-width: 2;
+  cursor: nwse-resize;
+  touch-action: none;
+}
+
+.stash-handle-ne,
+.stash-handle-sw {
+  cursor: nesw-resize;
+}
+
+.stash-handle:hover {
+  fill: var(--stash-amber);
+}
+
+.stash-snap-guide {
+  stroke: var(--stash-amber);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+  pointer-events: none;
+}
+
+.stash-room-rect,
+.stash-zone-rect {
+  touch-action: none;
+}
+
+.stash-cell-highlight {
+  fill: rgba(227, 168, 87, 0.4) !important;
+  stroke: var(--stash-amber) !important;
+  stroke-width: 3px !important;
+  pointer-events: none;
+  animation: stash-pulse 1.6s ease-in-out infinite;
+}
+
+.stash-zone-highlight-overlay,
+.stash-room-highlight-overlay {
+  fill: none;
+  border-radius: 4px;
+}
+
+@keyframes stash-pulse {
+  0%, 100% { fill-opacity: 0.35; stroke-opacity: 1; }
+  50% { fill-opacity: 0.7; stroke-opacity: 0.45; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stash-cell-highlight,
+  .stash-toast {
+    animation: none;
+  }
+}
+
+.stash-map-side-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 1 1 280px;
+  min-width: 260px;
+  max-width: 380px;
+}
+
+.stash-side-panel {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: none;
+}
+
+.stash-properties-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.stash-usage-note {
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--stash-amber);
+  font-size: 0.72rem;
+}
+
+.stash-focused-item {
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--stash-panel-border);
+}
+
+.stash-focused-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.stash-focused-item-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--stash-amber);
+  margin: 0.3rem 0 0.5rem;
+}
+
+.stash-focused-item-meta {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.stash-focused-item-location {
+  font-size: 0.85rem;
+  color: var(--stash-text-dim);
+  margin-top: 0.5rem;
+}
+
+.stash-side-item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.stash-side-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--stash-panel-border);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: var(--stash-text-dim);
+}
+
+.stash-side-item-active {
+  border-color: var(--stash-amber);
+  box-shadow: 0 0 12px rgba(227, 168, 87, 0.2);
+}
+
+.stash-side-item-name {
+  flex: 1;
+  color: var(--stash-text);
+  font-weight: 500;
+}
+
+/* ---------- Layout view ---------- */
+.stash-layout-preview {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.stash-layout-preview-svg {
+  max-width: 640px;
+  margin: 0 auto;
+  touch-action: none;
+}
+
+.stash-grid-pattern-path {
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-width: 1;
+}
+
+.stash-preview-room-rect {
+  fill-opacity: 0.28;
+  stroke-width: 2;
+  cursor: grab;
+}
+
+.stash-preview-zone-rect {
+  fill: rgba(255, 255, 255, 0.08);
+  stroke: rgba(255, 255, 255, 0.3);
+  stroke-width: 1;
+  cursor: grab;
+}
+
+.stash-preview-room-rect-selected,
+.stash-preview-zone-rect-selected {
+  stroke: var(--stash-amber) !important;
+  stroke-width: 3 !important;
+  stroke-dasharray: 8 4;
+}
+
+.stash-layout-toolbar {
+  margin-bottom: 1.25rem;
+}
+
+.stash-room-editor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.stash-room-editor-header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.9rem;
+}
+
+.stash-room-name-input {
+  flex: 1;
+  font-size: 1.02rem;
+  font-weight: 600;
+}
+
+.stash-coord-fields {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.85rem;
+}
+
+.stash-field-tiny {
+  max-width: 80px;
+  min-width: 64px;
+}
+
+.stash-color-swatches {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.stash-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  padding: 0;
+}
+
+.stash-swatch-active {
+  border-color: var(--stash-text);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+}
+
+.stash-zone-editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.stash-zone-editor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stash-zone-editor {
+  padding: 0.9rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--stash-panel-border);
+  border-radius: 8px;
+}
+
+.stash-checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--stash-text-dim);
+  margin: 0.6rem 0;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+  .stash-app {
+    padding: 1rem 0.75rem 2rem;
+  }
+
+  .stash-header {
+    padding: 1.5rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stash-title {
+    font-size: 2rem;
+    letter-spacing: 1.5px;
+  }
+
+  .stash-tabs {
+    gap: 0.6rem;
+  }
+
+  .stash-tab {
+    padding: 0.55rem 0.9rem;
+    font-size: 0.82rem;
+  }
+
+  .stash-panel {
+    padding: 1rem;
+  }
+
+  .stash-map-layout {
+    flex-direction: column;
+  }
+
+  .stash-side-panel,
+  .stash-map-side-col {
+    max-width: 100%;
+  }
+
+  .stash-field-row {
+    gap: 0.6rem;
+  }
+
+  .stash-toolbar .stash-select {
+    width: 100%;
+  }
+
+  .stash-breadcrumb-popover {
+    width: min(220px, calc(100vw - 32px));
+  }
+
+  .stash-inv-table {
+    font-size: 0.8rem;
+  }
+}

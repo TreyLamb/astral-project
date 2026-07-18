@@ -1,0 +1,1047 @@
+{
+  "_meta": {
+    "updated": "2026-07-17",
+    "note": "Standard Pokemon GO medal set with tier thresholds. Cross-referenced against Bulbapedia's Medal (GO) article and List of medals (GO) table (two independently-maintained pages that agreed on every threshold except Backpacker's Bronze tier), plus a targeted Dexerto article for the Ace Trainer Platinum threshold (which neither Bulbapedia page listed). Type-medal set and thresholds additionally cross-checked against Dexerto's general medals rundown.",
+    "sources": [
+      "https://bulbapedia.bulbagarden.net/wiki/Medal_(GO)",
+      "https://bulbapedia.bulbagarden.net/wiki/List_of_medals_(GO)",
+      "https://www.dexerto.com/pokemon/all-pokemon-go-medals-platinum-catch-bonus-explained-2802448/",
+      "https://www.dexerto.com/pokemon/pokemon-go-player-reveals-fastest-way-to-get-platinum-ace-trainer-medal-2512178/",
+      "https://yetimoose.io/poke/medals/ (referenced per task brief; page is a client-rendered planner tool and did not expose raw threshold data to fetch)"
+    ],
+    "onyxTier": {
+      "status": "unconfirmed",
+      "explanation": "The task brief asked to include an Onyx tier where it applies. Every source checked (both Bulbapedia medal pages, Dexerto's medal rundown, Pokemon GO Hub, and general web search covering the July-2026-current level-cap-80 update) describes medals as having exactly four tiers -- Bronze/Silver/Gold/Platinum -- with no Onyx tier documented anywhere, including in coverage of the Oct 2025 level 50->80 cap increase (which raised the *number* of Platinum medals required, not tier count). No medal below includes an 'onyx' key as a result -- adding one with a guessed number would violate the 'never fabricate' rule. The tiers object shape supports an optional onyx field (see medaldexEngine.js) so real data can be dropped in later with zero code changes if Niantic does add one."
+    }
+  },
+  "medals": [
+    {
+      "id": "type_normal",
+      "name": "Schoolkid",
+      "category": "Type",
+      "type": "normal",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild normal-type Pokemon. Tracks total normal-type catches."
+    },
+    {
+      "id": "type_fighting",
+      "name": "Black Belt",
+      "category": "Type",
+      "type": "fighting",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild fighting-type Pokemon. Tracks total fighting-type catches."
+    },
+    {
+      "id": "type_flying",
+      "name": "Bird Keeper",
+      "category": "Type",
+      "type": "flying",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild flying-type Pokemon. Tracks total flying-type catches."
+    },
+    {
+      "id": "type_poison",
+      "name": "Punk Girl",
+      "category": "Type",
+      "type": "poison",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild poison-type Pokemon. Tracks total poison-type catches."
+    },
+    {
+      "id": "type_ground",
+      "name": "Ruin Maniac",
+      "category": "Type",
+      "type": "ground",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild ground-type Pokemon. Tracks total ground-type catches."
+    },
+    {
+      "id": "type_rock",
+      "name": "Hiker",
+      "category": "Type",
+      "type": "rock",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild rock-type Pokemon. Tracks total rock-type catches."
+    },
+    {
+      "id": "type_bug",
+      "name": "Bug Catcher",
+      "category": "Type",
+      "type": "bug",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild bug-type Pokemon. Tracks total bug-type catches."
+    },
+    {
+      "id": "type_ghost",
+      "name": "Hex Maniac",
+      "category": "Type",
+      "type": "ghost",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild ghost-type Pokemon. Tracks total ghost-type catches."
+    },
+    {
+      "id": "type_steel",
+      "name": "Rail Staff",
+      "category": "Type",
+      "type": "steel",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild steel-type Pokemon. Tracks total steel-type catches."
+    },
+    {
+      "id": "type_fire",
+      "name": "Kindler",
+      "category": "Type",
+      "type": "fire",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild fire-type Pokemon. Tracks total fire-type catches."
+    },
+    {
+      "id": "type_water",
+      "name": "Swimmer",
+      "category": "Type",
+      "type": "water",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild water-type Pokemon. Tracks total water-type catches."
+    },
+    {
+      "id": "type_grass",
+      "name": "Gardener",
+      "category": "Type",
+      "type": "grass",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild grass-type Pokemon. Tracks total grass-type catches."
+    },
+    {
+      "id": "type_electric",
+      "name": "Rocker",
+      "category": "Type",
+      "type": "electric",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild electric-type Pokemon. Tracks total electric-type catches."
+    },
+    {
+      "id": "type_psychic",
+      "name": "Psychic",
+      "category": "Type",
+      "type": "psychic",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild psychic-type Pokemon. Tracks total psychic-type catches."
+    },
+    {
+      "id": "type_ice",
+      "name": "Skier",
+      "category": "Type",
+      "type": "ice",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild ice-type Pokemon. Tracks total ice-type catches."
+    },
+    {
+      "id": "type_dragon",
+      "name": "Dragon Tamer",
+      "category": "Type",
+      "type": "dragon",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild dragon-type Pokemon. Tracks total dragon-type catches."
+    },
+    {
+      "id": "type_dark",
+      "name": "Delinquent",
+      "category": "Type",
+      "type": "dark",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild dark-type Pokemon. Tracks total dark-type catches."
+    },
+    {
+      "id": "type_fairy",
+      "name": "Fairy Tale Girl",
+      "category": "Type",
+      "type": "fairy",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 2500
+      },
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch bonus medal -- Bronze +1/Silver +2/Gold +3/Platinum +4 catch bonus vs wild fairy-type Pokemon. Tracks total fairy-type catches."
+    },
+    {
+      "id": "kanto",
+      "name": "Kanto",
+      "tiers": {
+        "bronze": 5,
+        "silver": 50,
+        "gold": 100,
+        "platinum": 151
+      },
+      "category": "Regional Dex",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Register Pokemon first discovered in the Kanto region."
+    },
+    {
+      "id": "johto",
+      "name": "Johto",
+      "tiers": {
+        "bronze": 5,
+        "silver": 30,
+        "gold": 70,
+        "platinum": 100
+      },
+      "category": "Regional Dex",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Register Pokemon first discovered in the Johto region."
+    },
+    {
+      "id": "hoenn",
+      "name": "Hoenn",
+      "tiers": {
+        "bronze": 5,
+        "silver": 40,
+        "gold": 90,
+        "platinum": 135
+      },
+      "category": "Regional Dex",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Register Pokemon first discovered in the Hoenn region."
+    },
+    {
+      "id": "sinnoh",
+      "name": "Sinnoh",
+      "tiers": {
+        "bronze": 5,
+        "silver": 30,
+        "gold": 80,
+        "platinum": 107
+      },
+      "category": "Regional Dex",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Register Pokemon first discovered in the Sinnoh region."
+    },
+    {
+      "id": "unova",
+      "name": "Unova",
+      "tiers": {
+        "bronze": 5,
+        "silver": 50,
+        "gold": 100,
+        "platinum": 156
+      },
+      "category": "Regional Dex",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Register Pokemon first discovered in the Unova region."
+    },
+    {
+      "id": "kalos",
+      "name": "Kalos",
+      "tiers": {
+        "bronze": 5,
+        "silver": 25,
+        "gold": 50,
+        "platinum": 72
+      },
+      "category": "Regional Dex",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Register Pokemon first discovered in the Kalos region."
+    },
+    {
+      "id": "alola",
+      "name": "Alola",
+      "tiers": {
+        "bronze": 5,
+        "silver": 25,
+        "gold": 50,
+        "platinum": 86
+      },
+      "category": "Regional Dex",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Register Pokemon first discovered in the Alola region."
+    },
+    {
+      "id": "galar",
+      "name": "Galar",
+      "tiers": {
+        "bronze": 5,
+        "silver": 25,
+        "gold": 50,
+        "platinum": 89
+      },
+      "category": "Regional Dex",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Register Pokemon first discovered in the Galar region."
+    },
+    {
+      "id": "hisui",
+      "name": "Hisui",
+      "tiers": {
+        "bronze": 1,
+        "silver": 3,
+        "gold": 5,
+        "platinum": 7
+      },
+      "category": "Regional Dex",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Register Pokemon first discovered in the Hisui region."
+    },
+    {
+      "id": "paldea",
+      "name": "Paldea",
+      "tiers": {
+        "bronze": 5,
+        "silver": 30,
+        "gold": 80,
+        "platinum": 103
+      },
+      "category": "Regional Dex",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Register Pokemon first discovered in the Paldea region."
+    },
+    {
+      "id": "collector",
+      "name": "Collector",
+      "tiers": {
+        "bronze": 30,
+        "silver": 500,
+        "gold": 2000,
+        "platinum": 50000
+      },
+      "category": "Collection",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Total Pokemon caught (all species/forms)."
+    },
+    {
+      "id": "fisher",
+      "name": "Fisher",
+      "tiers": {
+        "bronze": 3,
+        "silver": 50,
+        "gold": 300,
+        "platinum": 1000
+      },
+      "category": "Collection",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch big Magikarp."
+    },
+    {
+      "id": "youngster",
+      "name": "Youngster",
+      "tiers": {
+        "bronze": 3,
+        "silver": 50,
+        "gold": 300,
+        "platinum": 1000
+      },
+      "category": "Collection",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch tiny Rattata."
+    },
+    {
+      "id": "pikachu_fan",
+      "name": "Pikachu Fan",
+      "tiers": {
+        "bronze": 3,
+        "silver": 50,
+        "gold": 300,
+        "platinum": 1000
+      },
+      "category": "Collection",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch Pikachu."
+    },
+    {
+      "id": "unown",
+      "name": "Unown",
+      "tiers": {
+        "bronze": 3,
+        "silver": 10,
+        "gold": 26,
+        "platinum": 28
+      },
+      "category": "Collection",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch unique Unown forms. Platinum (28) is every letter form plus ! and ?."
+    },
+    {
+      "id": "tiny_pokemon_collector",
+      "name": "Tiny Pokemon Collector",
+      "tiers": {
+        "bronze": 5,
+        "silver": 25,
+        "gold": 100,
+        "platinum": 500
+      },
+      "category": "Collection",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch XXS-size Pokemon."
+    },
+    {
+      "id": "jumbo_pokemon_collector",
+      "name": "Jumbo Pokemon Collector",
+      "tiers": {
+        "bronze": 5,
+        "silver": 25,
+        "gold": 100,
+        "platinum": 500
+      },
+      "category": "Collection",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Catch XXL-size Pokemon."
+    },
+    {
+      "id": "vivillon_collector",
+      "name": "Vivillon Collector",
+      "tiers": {
+        "bronze": 1,
+        "silver": 5,
+        "gold": 10,
+        "platinum": 18
+      },
+      "category": "Collection",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Collect Vivillon pattern forms from around the world."
+    },
+    {
+      "id": "battle_girl",
+      "name": "Battle Girl",
+      "tiers": {
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 4000
+      },
+      "category": "Battle",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Gym battles won."
+    },
+    {
+      "id": "champion",
+      "name": "Champion",
+      "tiers": {
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 2000
+      },
+      "category": "Battle",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Raids won. Raid frequency is gated by pass economy (1 free Raid Pass/day baseline from spinning a Gym Photo Disc; Premium/Remote passes purchasable without a hard daily cap) rather than a fixed daily number, so no dailyCap is set."
+    },
+    {
+      "id": "battle_legend",
+      "name": "Battle Legend",
+      "tiers": {
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 2000
+      },
+      "category": "Battle",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Legendary raids won. Same raid-pass-economy gating as Champion -- no fixed dailyCap."
+    },
+    {
+      "id": "rising_star",
+      "name": "Rising Star",
+      "tiers": {
+        "bronze": 2,
+        "silver": 10,
+        "gold": 50,
+        "platinum": 150
+      },
+      "category": "Battle",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Different species defeated in raids."
+    },
+    {
+      "id": "rising_star_duo",
+      "name": "Rising Star Duo",
+      "tiers": {
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 2000
+      },
+      "category": "Battle",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Raids won with a friend."
+    },
+    {
+      "id": "ace_trainer",
+      "name": "Ace Trainer",
+      "tiers": {
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 2000
+      },
+      "category": "Battle",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Trainer Battles fought. Likely overlaps with the GO Battle League daily battle cap but Niantic's exact scope for this medal (GBL-only vs. all trainer battles) isn't confirmed, so dailyCap is left null rather than guessed."
+    },
+    {
+      "id": "great_league_veteran",
+      "name": "Great League Veteran",
+      "tiers": {
+        "bronze": 5,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 1000
+      },
+      "dailyCap": 50,
+      "category": "Battle",
+      "confirmed": true,
+      "note": "Great League Trainer Battles won. GO Battle League battle cap: 10 sets x 5 battles/day (raised from 5 sets in the 2026 'Forever Forward' update). Actual wins will be lower than 50/day depending on win rate."
+    },
+    {
+      "id": "ultra_league_veteran",
+      "name": "Ultra League Veteran",
+      "tiers": {
+        "bronze": 5,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 1000
+      },
+      "dailyCap": 50,
+      "category": "Battle",
+      "confirmed": true,
+      "note": "Ultra League Trainer Battles won. Same GO Battle League 50-battle/day cap as Great League Veteran."
+    },
+    {
+      "id": "master_league_veteran",
+      "name": "Master League Veteran",
+      "tiers": {
+        "bronze": 5,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 1000
+      },
+      "dailyCap": 50,
+      "category": "Battle",
+      "confirmed": true,
+      "note": "Master League Trainer Battles won. Same GO Battle League 50-battle/day cap as Great League Veteran."
+    },
+    {
+      "id": "showcase_star",
+      "name": "Showcase Star",
+      "tiers": {
+        "bronze": 1,
+        "silver": 10,
+        "gold": 50,
+        "platinum": 100
+      },
+      "category": "Battle",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "PokeStop Showcases won."
+    },
+    {
+      "id": "hero",
+      "name": "Hero",
+      "tiers": {
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 2000
+      },
+      "category": "Team GO Rocket",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Team GO Rocket members defeated."
+    },
+    {
+      "id": "ultra_hero",
+      "name": "Ultra Hero",
+      "tiers": {
+        "bronze": 1,
+        "silver": 5,
+        "gold": 20,
+        "platinum": 50
+      },
+      "category": "Team GO Rocket",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Giovanni defeated."
+    },
+    {
+      "id": "purifier",
+      "name": "Purifier",
+      "tiers": {
+        "bronze": 5,
+        "silver": 50,
+        "gold": 500,
+        "platinum": 1000
+      },
+      "category": "Team GO Rocket",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Shadow Pokemon purified."
+    },
+    {
+      "id": "idol",
+      "name": "Idol",
+      "tiers": {
+        "bronze": 1,
+        "silver": 2,
+        "gold": 3,
+        "platinum": 20
+      },
+      "category": "Social",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Best Friends reached."
+    },
+    {
+      "id": "gentleman",
+      "name": "Gentleman",
+      "tiers": {
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 2500
+      },
+      "dailyCap": 100,
+      "category": "Social",
+      "confirmed": true,
+      "note": "Pokemon traded. Standard-trade daily cap is 100 trades/account/day (Special Trades -- legendary/shiny/lucky/purified/undexed -- are capped separately at 1/day, occasionally 2 during events, and don't count toward this limit)."
+    },
+    {
+      "id": "pilot",
+      "name": "Pilot",
+      "tiers": {
+        "bronze": 1000,
+        "silver": 100000,
+        "gold": 1000000,
+        "platinum": 10000000
+      },
+      "category": "Social",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Cumulative km distance across all trades. Indirectly bounded by the 100 trades/day cap and how far apart you and your trade partners are -- there's no fixed per-day km figure, so dailyCap is left null."
+    },
+    {
+      "id": "friend_finder",
+      "name": "Friend Finder",
+      "tiers": {
+        "bronze": 1,
+        "silver": 10,
+        "gold": 20,
+        "platinum": 50
+      },
+      "category": "Social",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Trainers referred."
+    },
+    {
+      "id": "community_member",
+      "name": "Community Member",
+      "tiers": {
+        "bronze": 1,
+        "silver": 20,
+        "gold": 50,
+        "platinum": 100
+      },
+      "category": "Social",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Check in with Community Ambassadors during Campfire-hosted events. Event-gated, not a daily mechanic -- most days offer zero opportunities toward this medal."
+    },
+    {
+      "id": "life_of_the_party",
+      "name": "Life of the Party",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 100,
+        "platinum": 200
+      },
+      "category": "Social",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Party Play challenges completed."
+    },
+    {
+      "id": "best_buddy",
+      "name": "Best Buddy",
+      "tiers": {
+        "bronze": 1,
+        "silver": 10,
+        "gold": 100,
+        "platinum": 200
+      },
+      "category": "Social",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Best Buddies achieved."
+    },
+    {
+      "id": "jogger",
+      "name": "Jogger",
+      "tiers": {
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 10000
+      },
+      "unit": "km",
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Distance walked."
+    },
+    {
+      "id": "scientist",
+      "name": "Scientist",
+      "tiers": {
+        "bronze": 3,
+        "silver": 20,
+        "gold": 200,
+        "platinum": 2000
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Pokemon evolved."
+    },
+    {
+      "id": "breeder",
+      "name": "Breeder",
+      "tiers": {
+        "bronze": 10,
+        "silver": 100,
+        "gold": 500,
+        "platinum": 2500
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Eggs hatched."
+    },
+    {
+      "id": "backpacker",
+      "name": "Backpacker",
+      "tiers": {
+        "bronze": 10,
+        "silver": 1000,
+        "gold": 2000,
+        "platinum": 50000
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": false,
+      "note": "Total PokeStops visited (spins). NOTE: one secondary source listed the Bronze threshold as 100 instead of 10 -- flagged unconfirmed pending a third source."
+    },
+    {
+      "id": "sightseer",
+      "name": "Sightseer",
+      "tiers": {
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 2000
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Unique PokeStops visited."
+    },
+    {
+      "id": "berry_master",
+      "name": "Berry Master",
+      "tiers": {
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 15000
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Berries fed at Gyms."
+    },
+    {
+      "id": "gym_leader",
+      "name": "Gym Leader",
+      "tiers": {
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 15000
+      },
+      "unit": "hours",
+      "dailyCap": 24,
+      "category": "Activity",
+      "confirmed": true,
+      "note": "Cumulative hours defending Gyms. Derived from calendar math (24h/day) assuming a Gym is held continuously without being knocked off -- not a Niantic-published number, just the physical ceiling."
+    },
+    {
+      "id": "pokemon_ranger",
+      "name": "Pokemon Ranger",
+      "tiers": {
+        "bronze": 10,
+        "silver": 100,
+        "gold": 1000,
+        "platinum": 2500
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Field Research tasks completed."
+    },
+    {
+      "id": "cameraman",
+      "name": "Cameraman",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 400
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Surprise encounters in GO Snapshot."
+    },
+    {
+      "id": "wayfarer",
+      "name": "Wayfarer",
+      "tiers": {
+        "bronze": 50,
+        "silver": 500,
+        "gold": 1000,
+        "platinum": 1500
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Wayfarer Agreements earned."
+    },
+    {
+      "id": "triathlete",
+      "name": "Triathlete",
+      "tiers": {
+        "bronze": 1,
+        "silver": 10,
+        "gold": 50,
+        "platinum": 100
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "7-day catch-streak or spin-streak achieved this many times. Periodic (weekly), not daily -- a streak completion lands at most once every 7 days per streak type, so the dailyCap/minDays model doesn't apply cleanly. Left null."
+    },
+    {
+      "id": "expert_navigator",
+      "name": "Expert Navigator",
+      "tiers": {
+        "bronze": 10,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 600
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Routes completed. Niantic has stated there's no daily limit on Route completions themselves (only on certain Route rewards, like Zygarde Cells), so dailyCap is left null rather than invented."
+    },
+    {
+      "id": "raid_expert",
+      "name": "Raid Expert",
+      "tiers": {
+        "bronze": 1,
+        "silver": 50,
+        "gold": 200,
+        "platinum": 500
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Raid Battle Trainer Achievements screen viewed."
+    },
+    {
+      "id": "successor",
+      "name": "Successor",
+      "tiers": {
+        "bronze": 1,
+        "silver": 50,
+        "gold": 500,
+        "platinum": 1000
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Mega Evolutions performed (any species)."
+    },
+    {
+      "id": "mega_evolution_guru",
+      "name": "Mega Evolution Guru",
+      "tiers": {
+        "bronze": 1,
+        "silver": 24,
+        "gold": 36,
+        "platinum": 46
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Different species Mega Evolved."
+    },
+    {
+      "id": "picnicker",
+      "name": "Picnicker",
+      "tiers": {
+        "bronze": 5,
+        "silver": 25,
+        "gold": 500,
+        "platinum": 2500
+      },
+      "category": "Activity",
+      "dailyCap": null,
+      "confirmed": true,
+      "note": "Helped another Trainer catch Pokemon via your Lure Module."
+    }
+  ]
+}

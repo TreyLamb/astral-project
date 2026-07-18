@@ -4,6 +4,15 @@ This file is for Claude. Read it before touching anything.
 
 ---
 
+## ⚠️ OPEN ITEM — missing local env vars
+As of 2026-07-17, Trey's local `.env`/`.env.local` is missing two vars that code references (both degrade gracefully, not breaking):
+- `VITE_FIREBASE_APPCHECK_SITE_KEY` — used in `src/firebase.js`; without it, Firebase App Check just doesn't initialize.
+- `VITE_PHOTOS_API_HOST` — used in `src/pages/GooglePhotos.jsx`; without it, API calls fall back to relative paths (Google Photos page likely broken).
+
+**Delete this section once Trey confirms both are added to his local env files.**
+
+---
+
 ## What this project is
 A React single-page app about astral projection, deployed on Vercel. The owner (Trey) also uses it as a personal hub — it hosts unrelated personal tools (MyMDB, RS Market, QA Tracker, etc.) alongside the main astral content. The site is live.
 
@@ -38,14 +47,15 @@ Known nested CLAUDE.md files:
 
 ---
 
-## Adding a new React page — ALL 4 steps required
+## Adding a new React page — ALL 5 steps required
 
 1. `src/pages/YourPage.jsx` + `src/pages/YourPage.css`
 2. Import in `src/App.jsx`
 3. `<Route path="/your-path" element={<YourPage />} />` in App.jsx Routes block
 4. `<Link to="/your-path">` in `src/components/Navbar.jsx` dropdown
+5. **Add a Home-page card** — a tile in the `TILES` array in `src/pages/Home.jsx` (`{ to, name, desc, icon, bg, accent, rgb }`; add `ext: true` for a `public/` link). EVERY page and public feature gets a Home card. This is the step that gets forgotten the most — a feature is not "done" until its card exists.
 
-If the owner says "don't update the nav, I'll do it myself" — skip step 4 only.
+If the owner says "don't update the nav, I'll do it myself" — skip step 4 only (still do step 5).
 
 ---
 
@@ -170,9 +180,20 @@ The two games are ~99% identical. Keeping the engines/content on their own branc
 
 When creating or discussing a game, read `gamedesign.md` (same directory as this file) before doing anything else. It is the source of truth for all game work and should be iterated on as games evolve — changes to the workflow apply to all future games.
 
+## Feature design & scope fidelity — required reading
+
+When creating, extending, or "dropping a task" to build any **non-game feature/product**, read `featuredesign.md` (same directory) before doing anything else — it is the binding contract for feature work, the counterpart to `gamedesign.md`. Core rules:
+- **Default = full build.** Unless the request is explicitly labeled *demo / sample / part-work / skeleton*, build the whole thing — across multiple sessions if needed. Never self-downgrade to a demo.
+- **Completeness beats interpretation-correctness** — 120%-then-trim over a polished 20%.
+- **Checklist first, then double it.** Derive a numbered MUST/SHOULD/COULD checklist, then re-read and expand it (recover downgraded / assumed-away items). On autonomous runs, post the checklist AND start building simultaneously — don't wait (plan mode is the path when the user wants to review first).
+- **Never silently drop scope.** Flag anything you can't fully meet; still attempt a best guess.
+- **Mark every agent-initiated omission / deferral / downgrade with ✂️** so the user can scan or Ctrl-F for it.
+- **Report coverage, not a demo** — a matrix of every requirement Done/Partial/Missing/Cut; correctness verification (build/tests/runtime) is a separate section and never a substitute.
+
 ## subagent spawning
 when using subagents use haiku more often for simple-er tasks.
 Make sure that if i ask you to spin up subagents that we have planned it thoroughly enough using a higher level agent so that haiku can't mess up any of the complicated logic/reasoning.
+When you delegate feature work, pass the full requirement checklist verbatim to each sub-agent, give each explicit per-requirement ownership, and audit every line against their actual output before reporting — scope is most often lost at the hand-off (see `featuredesign.md`).
 
 ## use haiku more often for simple file reads. use sonnet for responding logicially. 
 Haiku to parse the data, something smarter to understand it

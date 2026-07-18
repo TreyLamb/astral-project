@@ -50,8 +50,9 @@
 
 .hm-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 26px 16px;
+  justify-items: center;
 }
 
 /* ── Tile ── */
@@ -59,55 +60,57 @@
 .hm-tile {
   display: flex;
   flex-direction: column;
-  aspect-ratio: 1 / 1;
+  align-items: center;
+  text-align: center;
+  gap: 11px;
+  width: 100%;
+  max-width: 168px;
   text-decoration: none;
   color: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 14px;
-  overflow: hidden;
-  background: rgba(12, 18, 32, 0.75);
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
-  position: relative;
 }
 
-.hm-tile:hover {
+/* ── Circular badge (the card itself) ── */
+.hm-badge {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hm-tile:hover .hm-badge {
   transform: translateY(-5px);
   border-color: var(--accent);
   box-shadow:
-    0 16px 48px rgba(0, 0, 0, 0.45),
+    0 14px 40px rgba(0, 0, 0, 0.45),
     0 0 0 1px var(--accent),
-    0 0 60px rgba(var(--rgb), 0.12);
+    0 0 46px rgba(var(--rgb), 0.18);
 }
 
 /* shine sweep on hover */
-.hm-tile::before {
+.hm-badge::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 55%);
   opacity: 0;
   transition: opacity 0.2s;
   pointer-events: none;
   z-index: 2;
 }
 
-.hm-tile:hover::before {
+.hm-tile:hover .hm-badge::before {
   opacity: 1;
 }
 
-/* ── Preview area ── */
-
-.hm-preview {
-  background: var(--bg);
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
+/* ── Icon / glow live inside the badge ── */
 
 .hm-icon {
   font-size: 2.2rem;
@@ -138,11 +141,10 @@
 /* ── Tile footer ── */
 
 .hm-foot {
-  padding: 11px 14px 13px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  align-items: center;
+  gap: 2px;
 }
 
 .hm-name {
@@ -180,6 +182,10 @@
    Responsive
    ══════════════════════════════════════ */
 
-@media (max-width: 680px) {
+@media (max-width: 860px) {
+  .hm-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 560px) {
   .hm-grid { grid-template-columns: repeat(2, 1fr); }
 }

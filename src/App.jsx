@@ -26,6 +26,8 @@ import PythonGameApp from './pages/python-game/PythonGameApp';
 import PgoTracker from './pages/pgotracker/PgoTracker';
 import PogoAccsApp from './pages/pogoaccs/PogoAccsApp';
 import AntiquityQuestApp from './pages/antiquityquest/AntiquityQuestApp';
+import StashMapApp from './pages/stashmap/StashMapApp';
+import MedalDexApp from './pages/medaldex/MedalDexApp';
 import './App.css';
 
 function App() {
@@ -52,6 +54,8 @@ function App() {
             <Route path="/pgo-tracker" element={<PgoTracker />} />
             <Route path="/pogo-accs/*" element={<PogoAccsApp />} />
             <Route path="/antiquityquest/*" element={<AntiquityQuestApp />} />
+            <Route path="/stashmap/*" element={<StashMapApp />} />
+            <Route path="/medaldex/*" element={<MedalDexApp />} />
           </Routes>
         </div>
       </AuthProvider>
