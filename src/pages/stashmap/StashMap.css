@@ -291,6 +291,52 @@
 }
 
 /* ---------- Inventory view ---------- */
+.stash-inventory-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.stash-inventory-count {
+  color: var(--stash-text-dimmer);
+  font-size: 0.85rem;
+}
+
+/* ~4/5 the size of .stash-tab (padding 0.7rem 1.25rem, font 0.9rem). */
+.stash-groupby-toggle {
+  padding: 0.56rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--stash-text-dimmer);
+  font-size: 0.72rem;
+  letter-spacing: 0.3px;
+  border-radius: 8px;
+  border: 1px solid var(--stash-panel-border);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.25s ease;
+}
+
+.stash-groupby-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--stash-text);
+}
+
+.stash-groupby-toggle-active {
+  background: var(--stash-teal-soft);
+  color: var(--stash-teal);
+  border-color: rgba(79, 176, 165, 0.4);
+}
+
+.stash-color-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 .stash-toolbar {
   display: flex;
   gap: 0.75rem;
@@ -404,6 +450,210 @@
   margin-top: 0.6rem;
 }
 
+/* Compact table (flat view) */
+.stash-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--stash-radius);
+  border: 1px solid var(--stash-panel-border);
+}
+
+.stash-inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--stash-panel-bg);
+  backdrop-filter: blur(var(--stash-blur-sm));
+  font-size: 0.88rem;
+}
+
+.stash-inv-table th {
+  text-align: left;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--stash-text-dimmer);
+  border-bottom: 1px solid var(--stash-panel-border);
+  white-space: nowrap;
+}
+
+.stash-inv-th-dot {
+  width: 1.5rem;
+}
+
+.stash-inv-table td {
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  vertical-align: middle;
+}
+
+.stash-inv-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.stash-inv-row:last-child td {
+  border-bottom: none;
+}
+
+.stash-inv-name {
+  font-weight: 600;
+  color: var(--stash-text);
+}
+
+.stash-inv-qty {
+  color: var(--stash-text-dim);
+  white-space: nowrap;
+}
+
+.stash-inv-actions-cell {
+  white-space: nowrap;
+}
+
+/* Grouped-by-room view */
+.stash-grouped-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.stash-room-group {
+  background: var(--stash-panel-bg);
+  border: 1px solid var(--stash-panel-border);
+  border-radius: var(--stash-radius);
+  backdrop-filter: blur(var(--stash-blur-sm));
+  overflow: hidden;
+}
+
+.stash-room-group-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.85rem 1.1rem;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.stash-room-group-summary::-webkit-details-marker {
+  display: none;
+}
+
+.stash-room-group-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+}
+
+.stash-room-group-name {
+  font-weight: 600;
+  color: var(--stash-text);
+  flex: 1;
+}
+
+.stash-room-group-count {
+  font-size: 0.78rem;
+  color: var(--stash-text-dimmer);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.15rem 0.55rem;
+  border-radius: 10px;
+}
+
+.stash-room-group-items {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--stash-panel-border);
+}
+
+.stash-grouped-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.stash-grouped-row:last-child {
+  border-bottom: none;
+}
+
+.stash-grouped-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.stash-grouped-row .stash-item-name {
+  flex: 1;
+  min-width: 90px;
+}
+
+.stash-sub-location {
+  color: var(--stash-teal);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+/* Breadcrumb hover "thought-box" popover */
+.stash-breadcrumb-popover {
+  position: fixed;
+  z-index: 1200;
+  width: 220px;
+  padding: 0.6rem;
+  background: rgba(18, 22, 31, 0.97);
+  backdrop-filter: blur(var(--stash-blur));
+  border: 1px solid var(--stash-panel-border);
+  border-radius: var(--stash-radius);
+  box-shadow: var(--stash-shadow-lg);
+  pointer-events: none;
+  animation: stash-popover-in 0.15s ease;
+}
+
+@keyframes stash-popover-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stash-mini-floorplan {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.stash-mini-bg {
+  fill: rgba(255, 255, 255, 0.02);
+}
+
+.stash-mini-room-rect {
+  fill-opacity: 0.14;
+  stroke-opacity: 0.3;
+  stroke-width: 2;
+}
+
+.stash-mini-room-rect-focused {
+  fill: none;
+  stroke-width: 5;
+}
+
+.stash-mini-zone-rect {
+  fill: rgba(79, 176, 165, 0.22);
+  stroke: var(--stash-teal);
+  stroke-width: 2;
+}
+
+.stash-mini-cell-highlight {
+  fill: rgba(227, 168, 87, 0.55);
+  stroke: var(--stash-amber);
+  stroke-width: 3;
+}
+
+.stash-breadcrumb-popover-caption {
+  margin-top: 0.45rem;
+  font-size: 0.75rem;
+  color: var(--stash-text-dim);
+  text-align: center;
+}
+
 /* ---------- Map view ---------- */
 .stash-map-controls {
   display: flex;
@@ -482,6 +732,13 @@
   stroke-width: 2.5;
 }
 
+.stash-room-rect-selected,
+.stash-zone-rect-selected {
+  stroke: var(--stash-amber) !important;
+  stroke-width: 3.5 !important;
+  stroke-dasharray: 8 4;
+}
+
 .stash-zone-label {
   font-size: 13px;
   fill: var(--stash-text-dim);
@@ -518,6 +775,68 @@
   stroke-width: 1.5;
 }
 
+.stash-cell-rect-zone-hovered {
+  stroke: rgba(79, 176, 165, 0.6);
+  stroke-width: 1.5;
+}
+
+.stash-cell-rect-cell-hovered {
+  fill: rgba(227, 168, 87, 0.18);
+  stroke: var(--stash-amber);
+  stroke-width: 2;
+}
+
+.stash-cell-hover-label rect {
+  fill: rgba(18, 22, 31, 0.95);
+  stroke: var(--stash-amber);
+  stroke-width: 1;
+}
+
+.stash-cell-hover-label text {
+  fill: var(--stash-amber);
+  font-size: 10px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+/* Selection handles + snap guides, shared by MapView and LayoutView */
+.stash-selection-outline {
+  fill: none;
+  stroke: var(--stash-amber);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  pointer-events: none;
+}
+
+.stash-handle {
+  fill: var(--stash-teal);
+  stroke: #12161f;
+  stroke-width: 2;
+  cursor: nwse-resize;
+  touch-action: none;
+}
+
+.stash-handle-ne,
+.stash-handle-sw {
+  cursor: nesw-resize;
+}
+
+.stash-handle:hover {
+  fill: var(--stash-amber);
+}
+
+.stash-snap-guide {
+  stroke: var(--stash-amber);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+  pointer-events: none;
+}
+
+.stash-room-rect,
+.stash-zone-rect {
+  touch-action: none;
+}
+
 .stash-cell-highlight {
   fill: rgba(227, 168, 87, 0.4) !important;
   stroke: var(--stash-amber) !important;
@@ -544,10 +863,32 @@
   }
 }
 
-.stash-side-panel {
+.stash-map-side-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
   flex: 1 1 280px;
   min-width: 260px;
   max-width: 380px;
+}
+
+.stash-side-panel {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: none;
+}
+
+.stash-properties-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.stash-usage-note {
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--stash-amber);
+  font-size: 0.72rem;
 }
 
 .stash-focused-item {
@@ -620,19 +961,34 @@
 }
 
 .stash-layout-preview-svg {
-  max-width: 420px;
+  max-width: 640px;
   margin: 0 auto;
+  touch-action: none;
+}
+
+.stash-grid-pattern-path {
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-width: 1;
 }
 
 .stash-preview-room-rect {
   fill-opacity: 0.28;
   stroke-width: 2;
+  cursor: grab;
 }
 
 .stash-preview-zone-rect {
   fill: rgba(255, 255, 255, 0.08);
   stroke: rgba(255, 255, 255, 0.3);
   stroke-width: 1;
+  cursor: grab;
+}
+
+.stash-preview-room-rect-selected,
+.stash-preview-zone-rect-selected {
+  stroke: var(--stash-amber) !important;
+  stroke-width: 3 !important;
+  stroke-dasharray: 8 4;
 }
 
 .stash-layout-toolbar {
@@ -754,7 +1110,8 @@
     flex-direction: column;
   }
 
-  .stash-side-panel {
+  .stash-side-panel,
+  .stash-map-side-col {
     max-width: 100%;
   }
 
@@ -764,5 +1121,13 @@
 
   .stash-toolbar .stash-select {
     width: 100%;
+  }
+
+  .stash-breadcrumb-popover {
+    width: min(220px, calc(100vw - 32px));
+  }
+
+  .stash-inv-table {
+    font-size: 0.8rem;
   }
 }

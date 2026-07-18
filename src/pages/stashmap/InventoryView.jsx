@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useStashMap } from './stashmapContext';
-import { buildBreadcrumb } from './stashmapConfig';
+import { buildSubLabel, categoryColor } from './stashmapConfig';
+import LocationHover from './LocationHover';
 
 function ItemForm({ item, rooms, zones, categories, onSave, onCancel }) {
   const isNew = !item.id;
@@ -137,12 +138,27 @@ function ItemForm({ item, rooms, zones, categories, onSave, onCancel }) {
   );
 }
 
+function groupItemsByRoom(items, rooms) {
+  const byRoom = new Map();
+  items.forEach((item) => {
+    const key = item.roomId || 'unplaced';
+    if (!byRoom.has(key)) byRoom.set(key, []);
+    byRoom.get(key).push(item);
+  });
+  const ordered = rooms
+    .filter((r) => byRoom.has(r.id))
+    .map((r) => ({ room: r, items: byRoom.get(r.id) }));
+  if (byRoom.has('unplaced')) ordered.push({ room: null, items: byRoom.get('unplaced') });
+  return ordered;
+}
+
 export default function InventoryView() {
   const { rooms, zones, items, settings, actions } = useStashMap();
   const [search, setSearch] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [filterRoom, setFilterRoom] = useState('');
   const [formItem, setFormItem] = useState(null);
+  const [viewMode, setViewMode] = useState(settings.viewMode || 'flat');
 
   const filtered = items.filter((item) => {
     const q = search.trim().toLowerCase();
@@ -169,8 +185,32 @@ export default function InventoryView() {
     }
   };
 
+  const toggleViewMode = () => {
+    const next = viewMode === 'flat' ? 'grouped' : 'flat';
+    setViewMode(next);
+    actions.updateSettings({ viewMode: next });
+  };
+
+  const rowActions = (item) => (
+    <div className="stash-item-actions">
+      <button className="stash-icon-btn" aria-label={`Edit ${item.name}`} onClick={() => setFormItem(item)}>✎</button>
+      <button className="stash-icon-btn" aria-label={`Delete ${item.name}`} onClick={() => handleDelete(item)}>🗑</button>
+    </div>
+  );
+
   return (
     <div className="stash-inventory">
+      <div className="stash-inventory-header-row">
+        <span className="stash-inventory-count">{filtered.length} item{filtered.length === 1 ? '' : 's'}</span>
+        <button
+          type="button"
+          className={`stash-groupby-toggle${viewMode === 'grouped' ? ' stash-groupby-toggle-active' : ''}`}
+          onClick={toggleViewMode}
+        >
+          {viewMode === 'grouped' ? '☰ Grouped' : '▤ Group by Room'}
+        </button>
+      </div>
+
       <div className="stash-panel stash-panel-accent stash-toolbar">
         <input
           className="stash-input stash-search"
@@ -205,39 +245,72 @@ export default function InventoryView() {
         <div className="stash-panel stash-empty">
           {items.length === 0 ? 'No items yet — add your first one above.' : 'No items match your search/filters.'}
         </div>
+      ) : viewMode === 'flat' ? (
+        <div className="stash-table-wrap">
+          <table className="stash-inv-table">
+            <thead>
+              <tr>
+                <th aria-hidden="true" className="stash-inv-th-dot" />
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th aria-hidden="true">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((item) => (
+                <tr key={item.id} className="stash-inv-row">
+                  <td>
+                    <span className="stash-color-dot" style={{ background: categoryColor(item.category) }} />
+                  </td>
+                  <td className="stash-inv-name">{item.name}</td>
+                  <td className="stash-inv-qty">×{item.quantity}</td>
+                  <td><span className="stash-badge">{item.category}</span></td>
+                  <td>
+                    <LocationHover
+                      item={item} rooms={rooms} zones={zones} items={items}
+                      onFocus={actions.focusItemOnMap}
+                    />
+                  </td>
+                  <td className="stash-inv-actions-cell">{rowActions(item)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : (
-        <div className="stash-item-list">
-          {filtered.map((item) => {
-            const breadcrumb = buildBreadcrumb(item, rooms, zones);
-            return (
-              <div key={item.id} className="stash-item-row">
-                <div className="stash-item-main">
-                  <span className="stash-item-name">{item.name}</span>
-                  <span className="stash-badge">{item.category}</span>
-                  <span className="stash-item-qty">×{item.quantity}</span>
-                </div>
-
-                {item.roomId ? (
-                  <button
-                    type="button"
-                    className="stash-link stash-item-location"
-                    onClick={() => actions.focusItemOnMap(item.id)}
-                  >
-                    📍 {breadcrumb}
-                  </button>
-                ) : (
-                  <span className="stash-item-location stash-item-unplaced">Unplaced</span>
-                )}
-
-                {item.description && <p className="stash-item-desc">{item.description}</p>}
-
-                <div className="stash-item-actions">
-                  <button className="stash-btn" onClick={() => setFormItem(item)}>Edit</button>
-                  <button className="stash-btn stash-btn-danger" onClick={() => handleDelete(item)}>Delete</button>
-                </div>
+        <div className="stash-grouped-list">
+          {groupItemsByRoom(filtered, rooms).map(({ room, items: roomItems }) => (
+            <details key={room ? room.id : 'unplaced'} className="stash-room-group" open>
+              <summary className="stash-room-group-summary">
+                <span
+                  className="stash-room-group-dot"
+                  style={{ background: room ? room.color : 'transparent' }}
+                />
+                <span className="stash-room-group-name">{room ? room.name : 'Unplaced'}</span>
+                <span className="stash-room-group-count">{roomItems.length}</span>
+              </summary>
+              <div className="stash-room-group-items">
+                {roomItems.map((item) => (
+                  <div key={item.id} className="stash-grouped-row">
+                    <span className="stash-color-dot" style={{ background: categoryColor(item.category) }} />
+                    <span className="stash-item-name">{item.name}</span>
+                    {item.roomId ? (
+                      <LocationHover
+                        item={item} rooms={rooms} zones={zones} items={items}
+                        onFocus={actions.focusItemOnMap}
+                        variant="sub"
+                        label={buildSubLabel(item, zones) || '—'}
+                      />
+                    ) : <span className="stash-sub-location stash-item-unplaced">—</span>}
+                    <span className="stash-item-qty">×{item.quantity}</span>
+                    {rowActions(item)}
+                  </div>
+                ))}
               </div>
-            );
-          })}
+            </details>
+          ))}
         </div>
       )}
     </div>

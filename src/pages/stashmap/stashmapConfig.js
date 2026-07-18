@@ -14,6 +14,19 @@ export const DEFAULT_CATEGORIES = [
 
 export const ROOM_COLORS = ['#e3a857', '#4fb0a5', '#7c93e8', '#c86b85', '#8fbf6a'];
 
+// Category color-dots are hashed rather than index-assigned so they stay
+// stable even if `settings.categories` is reordered or extended later.
+export const CATEGORY_COLORS = [
+  '#e3a857', '#4fb0a5', '#7c93e8', '#c86b85', '#8fbf6a', '#d9636c', '#c9a5e8', '#e8c56b',
+];
+
+export function categoryColor(category) {
+  const str = category || '';
+  let hash = 0;
+  for (let i = 0; i < str.length; i += 1) hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
+  return CATEGORY_COLORS[hash % CATEGORY_COLORS.length];
+}
+
 export function uid() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 }
@@ -60,7 +73,30 @@ export function withZoneDefaults(zone) {
     w: zone.w ?? 100,
     h: zone.h ?? 100,
     grid: zone.grid ?? null,
+    // Nullable: null/undefined means "no limit tracked". Backfilled here so
+    // pre-existing stored zones (and the seed data) never show "undefined".
+    capacity: zone.capacity ?? null,
   };
+}
+
+// Pixel/unit rect for a single grid cell within a zone, in the same
+// absolute 0-1000 coordinate space as everything else. Shared by MapView's
+// interactive grid rendering and the Inventory mini floor-plan preview so
+// both draw the exact same cell geometry.
+export function computeCellRect(zone, row, col) {
+  const cw = zone.w / zone.grid.cols;
+  const ch = zone.h / zone.grid.rows;
+  return { x: zone.x + col * cw, y: zone.y + row * ch, w: cw, h: ch };
+}
+
+// "NW Wall Shelves · R1·C1" — the zone+cell tail of the breadcrumb, used by
+// the Inventory grouped-by-room view where the room is already implied by
+// the section header.
+export function buildSubLabel(item, zones) {
+  const zone = zones.find((z) => z.id === item.zoneId);
+  if (!zone) return '';
+  if (zone.grid && item.cell) return `${zone.name} · R${item.cell.row + 1}·C${item.cell.col + 1}`;
+  return zone.name;
 }
 
 // Breadcrumb like "Garage › NW Wall Shelves › R3·C2" — omits trailing
@@ -114,18 +150,18 @@ export function seedData() {
   const officeFilingCabinetId = uid();
 
   const zones = [
-    { id: garageShelvesId, roomId: garageId, name: 'NW Wall Shelves', x: 20, y: 20, w: 180, h: 180, grid: { rows: 3, cols: 3 } },
-    { id: garageWorkbenchId, roomId: garageId, name: 'Workbench', x: 220, y: 20, w: 160, h: 100, grid: null },
-    { id: garageToolChestId, roomId: garageId, name: 'Tool Chest', x: 220, y: 140, w: 160, h: 100, grid: null },
-    { id: kitchenPantryId, roomId: kitchenId, name: 'Pantry', x: 420, y: 20, w: 260, h: 150, grid: { rows: 2, cols: 3 } },
-    { id: kitchenUnderSinkId, roomId: kitchenId, name: 'Under Sink', x: 420, y: 190, w: 260, h: 100, grid: null },
-    { id: livingEntertainmentId, roomId: livingId, name: 'Entertainment Center', x: 720, y: 20, w: 260, h: 120, grid: null },
-    { id: livingOttomanId, roomId: livingId, name: 'Storage Ottoman', x: 720, y: 160, w: 260, h: 100, grid: null },
-    { id: bedroomClosetId, roomId: bedroomId, name: 'Closet', x: 20, y: 420, w: 200, h: 300, grid: null },
-    { id: bedroomDresserId, roomId: bedroomId, name: 'Dresser', x: 250, y: 420, w: 200, h: 150, grid: null },
-    { id: officeClosetBinsId, roomId: officeId, name: 'Closet Bins', x: 520, y: 420, w: 300, h: 150, grid: { rows: 2, cols: 4 } },
-    { id: officeDeskDrawersId, roomId: officeId, name: 'Desk Drawers', x: 520, y: 600, w: 200, h: 100, grid: null },
-    { id: officeFilingCabinetId, roomId: officeId, name: 'Filing Cabinet', x: 750, y: 600, w: 150, h: 150, grid: null },
+    { id: garageShelvesId, roomId: garageId, name: 'NW Wall Shelves', x: 20, y: 20, w: 180, h: 180, grid: { rows: 3, cols: 3 }, capacity: 9 },
+    { id: garageWorkbenchId, roomId: garageId, name: 'Workbench', x: 220, y: 20, w: 160, h: 100, grid: null, capacity: null },
+    { id: garageToolChestId, roomId: garageId, name: 'Tool Chest', x: 220, y: 140, w: 160, h: 100, grid: null, capacity: null },
+    { id: kitchenPantryId, roomId: kitchenId, name: 'Pantry', x: 420, y: 20, w: 260, h: 150, grid: { rows: 2, cols: 3 }, capacity: 6 },
+    { id: kitchenUnderSinkId, roomId: kitchenId, name: 'Under Sink', x: 420, y: 190, w: 260, h: 100, grid: null, capacity: null },
+    { id: livingEntertainmentId, roomId: livingId, name: 'Entertainment Center', x: 720, y: 20, w: 260, h: 120, grid: null, capacity: null },
+    { id: livingOttomanId, roomId: livingId, name: 'Storage Ottoman', x: 720, y: 160, w: 260, h: 100, grid: null, capacity: null },
+    { id: bedroomClosetId, roomId: bedroomId, name: 'Closet', x: 20, y: 420, w: 200, h: 300, grid: null, capacity: null },
+    { id: bedroomDresserId, roomId: bedroomId, name: 'Dresser', x: 250, y: 420, w: 200, h: 150, grid: null, capacity: null },
+    { id: officeClosetBinsId, roomId: officeId, name: 'Closet Bins', x: 520, y: 420, w: 300, h: 150, grid: { rows: 2, cols: 4 }, capacity: 8 },
+    { id: officeDeskDrawersId, roomId: officeId, name: 'Desk Drawers', x: 520, y: 600, w: 200, h: 100, grid: null, capacity: null },
+    { id: officeFilingCabinetId, roomId: officeId, name: 'Filing Cabinet', x: 750, y: 600, w: 150, h: 150, grid: null, capacity: null },
   ];
 
   const now = Date.now();

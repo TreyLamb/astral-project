@@ -11,7 +11,9 @@ const TILES = [
   { to: '/google-photos',          name: 'Google Photos',    desc: 'photo library organizer',        icon: '🖼️', bg: '#100820', accent: '#a78bfa', rgb: '167,139,250' },
   { to: '/pgo-tracker',            name: 'PGO Tracker',      desc: 'multi-account pokémon go tracker', icon: '🎒', bg: '#1a0510', accent: '#ee6b6b', rgb: '238,107,107' },
   { to: '/pogo-accs',              name: 'POGO Accs',        desc: 'raid counters & mega tracker',   icon: '💠', bg: '#070d1c', accent: '#67e8f9', rgb: '103,232,249'  },
+  { to: '/medaldex',               name: 'MedalDex',         desc: 'pokédex & medal tracker',        icon: '🏅', bg: '#12100a', accent: '#f0b23a', rgb: '240,178,58'   },
   { to: '/antiquityquest',         name: 'Antiquity Quest',  desc: 'card game score dashboard',      icon: '🏺', bg: '#171004', accent: '#f59e0b', rgb: '245,158,11'   },
+  { to: '/stashmap',               name: 'StashMap',         desc: 'home inventory & floor map',     icon: '📦', bg: '#0b1311', accent: '#4fb0a5', rgb: '79,176,165'   },
   { to: '/pokered',                name: 'Pokémon Red',      desc: 'gen 1 overworld recreation',     icon: '🔴', bg: '#1a0505', accent: '#ef4444', rgb: '239,68,68'   },
   { to: '/gitmon',                 name: 'Gitmon Blue',      desc: 'pokémon meets git cli',          icon: '💾', bg: '#040d1a', accent: '#7ec8e3', rgb: '126,200,227' },
   { to: '/bashmon',                name: 'Bashmon Red',      desc: 'pokémon meets bash cli',         icon: '🐚', bg: '#1a0404', accent: '#ff6b35', rgb: '255,107,53'   },
@@ -30,7 +32,7 @@ function Tile({ to, name, desc, icon, bg, accent, rgb, span, ext }) {
   const cls   = `hm-tile${span ? ' hm-tile-wide' : ''}`;
   const inner = (
     <>
-      <div className="hm-preview">
+      <div className="hm-badge">
         <span className="hm-icon">{icon}</span>
         <div className="hm-glow" />
       </div>

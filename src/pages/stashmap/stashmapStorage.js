@@ -52,7 +52,7 @@ function storeItems(items) {
 }
 
 function defaultSettings() {
-  return { categories: DEFAULT_CATEGORIES };
+  return { categories: DEFAULT_CATEGORIES, viewMode: 'flat' };
 }
 
 function loadSettings() {
