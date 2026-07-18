@@ -1,0 +1,233 @@
+{
+  "_meta": {
+    "updated": "2026-07-17",
+    "note": "Complete released mega + primal list",
+    "sources": [
+      "https://pogoapi.net/ (Niantic GAME_MASTER mirror)",
+      "https://raw.githubusercontent.com/pvpoke/pvpoke/master/src/data/gamemaster.json",
+      "https://www.theclick.gg/pokemon-go-mega-evolutions/"
+    ]
+  },
+  "megas": [
+    {
+      "id": "mega_venusaur",
+      "base": "venusaur"
+    },
+    {
+      "id": "mega_charizard_x",
+      "base": "charizard"
+    },
+    {
+      "id": "mega_charizard_y",
+      "base": "charizard"
+    },
+    {
+      "id": "mega_blastoise",
+      "base": "blastoise"
+    },
+    {
+      "id": "mega_beedrill",
+      "base": "beedrill"
+    },
+    {
+      "id": "mega_pidgeot",
+      "base": "pidgeot"
+    },
+    {
+      "id": "mega_alakazam",
+      "base": "alakazam"
+    },
+    {
+      "id": "mega_victreebel",
+      "base": "victreebel"
+    },
+    {
+      "id": "mega_slowbro",
+      "base": "slowbro"
+    },
+    {
+      "id": "mega_gengar",
+      "base": "gengar"
+    },
+    {
+      "id": "mega_kangaskhan",
+      "base": "kangaskhan"
+    },
+    {
+      "id": "mega_pinsir",
+      "base": "pinsir"
+    },
+    {
+      "id": "mega_gyarados",
+      "base": "gyarados"
+    },
+    {
+      "id": "mega_aerodactyl",
+      "base": "aerodactyl"
+    },
+    {
+      "id": "mega_dragonite",
+      "base": "dragonite"
+    },
+    {
+      "id": "mega_mewtwo_x",
+      "base": "mewtwo"
+    },
+    {
+      "id": "mega_mewtwo_y",
+      "base": "mewtwo"
+    },
+    {
+      "id": "mega_ampharos",
+      "base": "ampharos"
+    },
+    {
+      "id": "mega_steelix",
+      "base": "steelix"
+    },
+    {
+      "id": "mega_scizor",
+      "base": "scizor"
+    },
+    {
+      "id": "mega_heracross",
+      "base": "heracross"
+    },
+    {
+      "id": "mega_skarmory",
+      "base": "skarmory"
+    },
+    {
+      "id": "mega_houndoom",
+      "base": "houndoom"
+    },
+    {
+      "id": "mega_tyranitar",
+      "base": "tyranitar"
+    },
+    {
+      "id": "mega_sceptile",
+      "base": "sceptile"
+    },
+    {
+      "id": "mega_blaziken",
+      "base": "blaziken"
+    },
+    {
+      "id": "mega_swampert",
+      "base": "swampert"
+    },
+    {
+      "id": "mega_gardevoir",
+      "base": "gardevoir"
+    },
+    {
+      "id": "mega_sableye",
+      "base": "sableye"
+    },
+    {
+      "id": "mega_mawile",
+      "base": "mawile"
+    },
+    {
+      "id": "mega_aggron",
+      "base": "aggron"
+    },
+    {
+      "id": "mega_medicham",
+      "base": "medicham"
+    },
+    {
+      "id": "mega_manectric",
+      "base": "manectric"
+    },
+    {
+      "id": "mega_sharpedo",
+      "base": "sharpedo"
+    },
+    {
+      "id": "mega_camerupt",
+      "base": "camerupt"
+    },
+    {
+      "id": "mega_altaria",
+      "base": "altaria"
+    },
+    {
+      "id": "mega_banette",
+      "base": "banette"
+    },
+    {
+      "id": "mega_absol",
+      "base": "absol"
+    },
+    {
+      "id": "mega_glalie",
+      "base": "glalie"
+    },
+    {
+      "id": "mega_salamence",
+      "base": "salamence"
+    },
+    {
+      "id": "mega_metagross",
+      "base": "metagross"
+    },
+    {
+      "id": "mega_latias",
+      "base": "latias"
+    },
+    {
+      "id": "mega_latios",
+      "base": "latios"
+    },
+    {
+      "id": "primal_kyogre",
+      "base": "kyogre"
+    },
+    {
+      "id": "primal_groudon",
+      "base": "groudon"
+    },
+    {
+      "id": "mega_rayquaza",
+      "base": "rayquaza"
+    },
+    {
+      "id": "mega_lopunny",
+      "base": "lopunny"
+    },
+    {
+      "id": "mega_garchomp",
+      "base": "garchomp"
+    },
+    {
+      "id": "mega_lucario",
+      "base": "lucario"
+    },
+    {
+      "id": "mega_abomasnow",
+      "base": "abomasnow"
+    },
+    {
+      "id": "mega_gallade",
+      "base": "gallade"
+    },
+    {
+      "id": "mega_audino",
+      "base": "audino"
+    },
+    {
+      "id": "mega_malamar",
+      "base": "malamar"
+    },
+    {
+      "id": "mega_diancie",
+      "base": "diancie"
+    },
+    {
+      "id": "mega_falinks",
+      "base": "falinks"
+    }
+  ]
+}

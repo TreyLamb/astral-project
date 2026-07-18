@@ -1,0 +1,165 @@
+{
+  "_meta": {
+    "updated": "2026-07-17",
+    "note": "GO type effectiveness; non-1.0 entries only",
+    "sources": [
+      "https://pogoapi.net/ (Niantic GAME_MASTER mirror)"
+    ]
+  },
+  "bug": {
+    "dark": 1.6,
+    "fairy": 0.625,
+    "fighting": 0.625,
+    "fire": 0.625,
+    "flying": 0.625,
+    "ghost": 0.625,
+    "grass": 1.6,
+    "poison": 0.625,
+    "psychic": 1.6,
+    "steel": 0.625
+  },
+  "dark": {
+    "dark": 0.625,
+    "fairy": 0.625,
+    "fighting": 0.625,
+    "ghost": 1.6,
+    "psychic": 1.6
+  },
+  "dragon": {
+    "dragon": 1.6,
+    "fairy": 0.390625,
+    "steel": 0.625
+  },
+  "electric": {
+    "dragon": 0.625,
+    "electric": 0.625,
+    "flying": 1.6,
+    "grass": 0.625,
+    "ground": 0.390625,
+    "water": 1.6
+  },
+  "fairy": {
+    "dark": 1.6,
+    "dragon": 1.6,
+    "fighting": 1.6,
+    "fire": 0.625,
+    "poison": 0.625,
+    "steel": 0.625
+  },
+  "fighting": {
+    "bug": 0.625,
+    "dark": 1.6,
+    "fairy": 0.625,
+    "flying": 0.625,
+    "ghost": 0.390625,
+    "ice": 1.6,
+    "normal": 1.6,
+    "poison": 0.625,
+    "psychic": 0.625,
+    "rock": 1.6,
+    "steel": 1.6
+  },
+  "fire": {
+    "bug": 1.6,
+    "dragon": 0.625,
+    "fire": 0.625,
+    "grass": 1.6,
+    "ice": 1.6,
+    "rock": 0.625,
+    "steel": 1.6,
+    "water": 0.625
+  },
+  "flying": {
+    "bug": 1.6,
+    "electric": 0.625,
+    "fighting": 1.6,
+    "grass": 1.6,
+    "rock": 0.625,
+    "steel": 0.625
+  },
+  "ghost": {
+    "dark": 0.625,
+    "ghost": 1.6,
+    "normal": 0.390625,
+    "psychic": 1.6
+  },
+  "grass": {
+    "bug": 0.625,
+    "dragon": 0.625,
+    "fire": 0.625,
+    "flying": 0.625,
+    "grass": 0.625,
+    "ground": 1.6,
+    "poison": 0.625,
+    "rock": 1.6,
+    "steel": 0.625,
+    "water": 1.6
+  },
+  "ground": {
+    "bug": 0.625,
+    "electric": 1.6,
+    "fire": 1.6,
+    "flying": 0.390625,
+    "grass": 0.625,
+    "poison": 1.6,
+    "rock": 1.6,
+    "steel": 1.6
+  },
+  "ice": {
+    "dragon": 1.6,
+    "fire": 0.625,
+    "flying": 1.6,
+    "grass": 1.6,
+    "ground": 1.6,
+    "ice": 0.625,
+    "steel": 0.625,
+    "water": 0.625
+  },
+  "normal": {
+    "ghost": 0.390625,
+    "rock": 0.625,
+    "steel": 0.625
+  },
+  "poison": {
+    "fairy": 1.6,
+    "ghost": 0.625,
+    "grass": 1.6,
+    "ground": 0.625,
+    "poison": 0.625,
+    "rock": 0.625,
+    "steel": 0.390625
+  },
+  "psychic": {
+    "dark": 0.390625,
+    "fighting": 1.6,
+    "poison": 1.6,
+    "psychic": 0.625,
+    "steel": 0.625
+  },
+  "rock": {
+    "bug": 1.6,
+    "fighting": 0.625,
+    "fire": 1.6,
+    "flying": 1.6,
+    "ground": 0.625,
+    "ice": 1.6,
+    "steel": 0.625
+  },
+  "steel": {
+    "electric": 0.625,
+    "fairy": 1.6,
+    "fire": 0.625,
+    "ice": 1.6,
+    "rock": 1.6,
+    "steel": 0.625,
+    "water": 0.625
+  },
+  "water": {
+    "dragon": 0.625,
+    "fire": 1.6,
+    "grass": 0.625,
+    "ground": 1.6,
+    "rock": 1.6,
+    "water": 0.625
+  }
+}

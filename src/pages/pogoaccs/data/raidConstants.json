@@ -1,0 +1,20 @@
+{
+  "_meta": {
+    "updated": "2026-07-17",
+    "note": "Curated raid-boss combat constants. A boss's effective stats: Attack = (baseAtk + 15) * cpm, Defense = (baseDef + 15) * cpm, HP = the fixed tier value (NOT derived from base stamina). Timer is the in-battle time limit. Shadow multipliers apply to a shadow ATTACKER's own stats, not to shadow raid bosses.",
+    "sources": [
+      "https://bulbapedia.bulbagarden.net/wiki/Raid_Battle_(GO)",
+      "https://pokemongohub.net/post/wiki/raid-bosses-work/",
+      "https://articles.pokebattler.com/2019/07/25/cracking-the-case-cp-formula-for-team-rocket-shadow-pokemon/"
+    ]
+  },
+  "tiers": {
+    "1": { "hp": 600, "cpm": 0.5974, "timerSec": 180 },
+    "3": { "hp": 3600, "cpm": 0.73, "timerSec": 180 },
+    "5": { "hp": 15000, "cpm": 0.79, "timerSec": 300 },
+    "mega": { "hp": 9000, "cpm": 0.79, "timerSec": 300 },
+    "elite": { "hp": 20000, "cpm": 0.79, "timerSec": 300 },
+    "primal": { "hp": 22500, "cpm": 0.79, "timerSec": 300 }
+  },
+  "shadow": { "atkMult": 1.2, "defMult": 0.8333333 }
+}

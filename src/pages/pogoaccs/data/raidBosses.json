@@ -1,0 +1,388 @@
+{
+  "_meta": {
+    "updated": "2026-07-17",
+    "note": "Current raid rotation",
+    "sources": [
+      "https://raw.githubusercontent.com/bigfoott/ScrapedDuck/data/raids.json (LeekDuck scrape)"
+    ]
+  },
+  "bosses": [
+    {
+      "id": "formal_pikachu_with_red_accents",
+      "speciesId": "pikachu",
+      "tier": "1",
+      "fastMoves": [
+        "thunder_shock",
+        "quick_attack",
+        "present"
+      ],
+      "chargedMoves": [
+        "discharge",
+        "thunderbolt",
+        "wild_charge",
+        "surf",
+        "thunder"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "formal_pikachu_with_yellow_accents",
+      "speciesId": "pikachu",
+      "tier": "1",
+      "fastMoves": [
+        "thunder_shock",
+        "quick_attack",
+        "present"
+      ],
+      "chargedMoves": [
+        "discharge",
+        "thunderbolt",
+        "wild_charge",
+        "surf",
+        "thunder"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "formal_pikachu_with_blue_accents",
+      "speciesId": "pikachu",
+      "tier": "1",
+      "fastMoves": [
+        "thunder_shock",
+        "quick_attack",
+        "present"
+      ],
+      "chargedMoves": [
+        "discharge",
+        "thunderbolt",
+        "wild_charge",
+        "surf",
+        "thunder"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "pikachu_wearing_a_safari_hat",
+      "speciesId": "pikachu",
+      "tier": "1",
+      "fastMoves": [
+        "thunder_shock",
+        "quick_attack",
+        "present"
+      ],
+      "chargedMoves": [
+        "discharge",
+        "thunderbolt",
+        "wild_charge",
+        "surf",
+        "thunder"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "pikachu_wearing_a_varsity_jacket",
+      "speciesId": "pikachu",
+      "tier": "1",
+      "fastMoves": [
+        "thunder_shock",
+        "quick_attack",
+        "present"
+      ],
+      "chargedMoves": [
+        "discharge",
+        "thunderbolt",
+        "wild_charge",
+        "surf",
+        "thunder"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "amethyst_crown_pikachu",
+      "speciesId": "pikachu",
+      "tier": "1",
+      "fastMoves": [
+        "thunder_shock",
+        "quick_attack",
+        "present"
+      ],
+      "chargedMoves": [
+        "discharge",
+        "thunderbolt",
+        "wild_charge",
+        "surf",
+        "thunder"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "world_championships_2022_pikachu",
+      "speciesId": "pikachu",
+      "tier": "1",
+      "fastMoves": [
+        "thunder_shock",
+        "quick_attack",
+        "present"
+      ],
+      "chargedMoves": [
+        "discharge",
+        "thunderbolt",
+        "wild_charge",
+        "surf",
+        "thunder"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "world_championships_2023_pikachu",
+      "speciesId": "pikachu",
+      "tier": "1",
+      "fastMoves": [
+        "thunder_shock",
+        "quick_attack",
+        "present"
+      ],
+      "chargedMoves": [
+        "discharge",
+        "thunderbolt",
+        "wild_charge",
+        "surf",
+        "thunder"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "world_championships_2024_pikachu",
+      "speciesId": "pikachu",
+      "tier": "1",
+      "fastMoves": [
+        "thunder_shock",
+        "quick_attack",
+        "present"
+      ],
+      "chargedMoves": [
+        "discharge",
+        "thunderbolt",
+        "wild_charge",
+        "surf",
+        "thunder"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "alolan_raichu",
+      "speciesId": "alolan_raichu",
+      "tier": "3",
+      "fastMoves": [
+        "volt_switch",
+        "spark",
+        "thunder_shock"
+      ],
+      "chargedMoves": [
+        "psychic",
+        "thunder_punch",
+        "wild_charge",
+        "grass_knot",
+        "trailblaze",
+        "surf",
+        "psyshock"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "hisuian_typhlosion",
+      "speciesId": "hisuian_typhlosion",
+      "tier": "3",
+      "fastMoves": [
+        "hex",
+        "ember"
+      ],
+      "chargedMoves": [
+        "fire_punch",
+        "wild_charge",
+        "shadow_ball",
+        "overheat",
+        "night_shade"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "duraludon",
+      "speciesId": "duraludon",
+      "tier": "3",
+      "fastMoves": [
+        "dragon_tail",
+        "metal_claw"
+      ],
+      "chargedMoves": [
+        "flash_cannon",
+        "dragon_claw",
+        "hyper_beam"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "kyogre",
+      "speciesId": "kyogre",
+      "tier": "5",
+      "fastMoves": [
+        "waterfall"
+      ],
+      "chargedMoves": [
+        "hydro_pump",
+        "blizzard",
+        "thunder",
+        "surf",
+        "origin_pulse"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "mega_sceptile",
+      "speciesId": "mega_sceptile",
+      "tier": "mega",
+      "fastMoves": [
+        "fury_cutter",
+        "bullet_seed"
+      ],
+      "chargedMoves": [
+        "leaf_blade",
+        "aerial_ace",
+        "earthquake",
+        "dragon_claw",
+        "breaking_swipe"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "shadow_phanpy",
+      "speciesId": "phanpy",
+      "tier": "1",
+      "fastMoves": [
+        "tackle",
+        "rock_smash"
+      ],
+      "chargedMoves": [
+        "bulldoze",
+        "rock_slide",
+        "body_slam",
+        "trailblaze"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "shadow_ralts",
+      "speciesId": "ralts",
+      "tier": "1",
+      "fastMoves": [
+        "confusion",
+        "charge_beam"
+      ],
+      "chargedMoves": [
+        "psyshock",
+        "disarming_voice",
+        "shadow_sneak"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "shadow_darumaka",
+      "speciesId": "darumaka",
+      "tier": "1",
+      "fastMoves": [
+        "tackle",
+        "fire_fang"
+      ],
+      "chargedMoves": [
+        "fire_punch",
+        "flame_charge"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "shadow_mankey",
+      "speciesId": "mankey",
+      "tier": "1",
+      "fastMoves": [
+        "karate_chop",
+        "scratch"
+      ],
+      "chargedMoves": [
+        "cross_chop",
+        "low_sweep",
+        "brick_break"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "shadow_scyther",
+      "speciesId": "scyther",
+      "tier": "3",
+      "fastMoves": [
+        "fury_cutter",
+        "air_slash",
+        "steel_wing"
+      ],
+      "chargedMoves": [
+        "night_slash",
+        "x_scissor",
+        "aerial_ace",
+        "trailblaze",
+        "bug_buzz"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "shadow_hitmonchan",
+      "speciesId": "hitmonchan",
+      "tier": "3",
+      "fastMoves": [
+        "bullet_punch",
+        "counter",
+        "rock_smash"
+      ],
+      "chargedMoves": [
+        "fire_punch",
+        "ice_punch",
+        "thunder_punch",
+        "close_combat",
+        "power_up_punch",
+        "brick_break"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "shadow_graveler",
+      "speciesId": "graveler",
+      "tier": "3",
+      "fastMoves": [
+        "rock_throw",
+        "mud_slap",
+        "mud_shot"
+      ],
+      "chargedMoves": [
+        "dig",
+        "stone_edge",
+        "rock_blast",
+        "rock_slide"
+      ],
+      "endsAt": null
+    },
+    {
+      "id": "shadow_palkia",
+      "speciesId": "palkia",
+      "tier": "5",
+      "fastMoves": [
+        "dragon_breath",
+        "dragon_tail"
+      ],
+      "chargedMoves": [
+        "draco_meteor",
+        "fire_blast",
+        "hydro_pump",
+        "aqua_tail"
+      ],
+      "endsAt": null
+    }
+  ]
+}

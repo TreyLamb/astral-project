@@ -85,12 +85,14 @@ function Navbar() {
               <li><Link to="/mymdb">MyMDB</Link></li>
               <li><Link to="/tkb">TheKnowledgeBase</Link></li>
               <li><Link to="/pgo-tracker">PGO Tracker</Link></li>
+              <li><Link to="/pogo-accs">POGO Accs</Link></li>
               <li><Link to="/antiquityquest">Antiquity Quest</Link></li>
               <li><Link to="/rs-market">RS Market</Link></li>
               <li><Link to="/gitmon">🔵 Gitmon Blue</Link></li>
               <li><Link to="/bashmon">🔴 Bashmon Red</Link></li>
               <li><Link to="/signal-lost">📡 Signal Lost</Link></li>
               <li><Link to="/pokered">🎮 Pokemon Red</Link></li>
+              <li><Link to="/python-game">🐍 Code Trials</Link></li>
               <li><a href="/rustioclone/index.html">Rustio Clone</a></li>
               <li><a href="/rustpunkio/index.html">RustPunkio</a></li>
             </ul>

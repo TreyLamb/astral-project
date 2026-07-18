@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POGO Accs — Mockup 1: Classic Tron</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(90deg, #000 0%, #0a0a0a 50%, #000 100%);
+            background-attachment: fixed;
+            color: #00ffff;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        /* Grid background overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(0deg, transparent 24%, rgba(0, 255, 255, 0.06) 25%, rgba(0, 255, 255, 0.06) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, 0.06) 75%, rgba(0, 255, 255, 0.06) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(0, 255, 255, 0.06) 25%, rgba(0, 255, 255, 0.06) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, 0.06) 75%, rgba(0, 255, 255, 0.06) 76%, transparent 77%, transparent);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+            padding-bottom: 20px;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #00ffff;
+            text-shadow: 0 0 12px #00ffff, 0 0 24px rgba(0, 255, 255, 0.5);
+            margin-bottom: 6px;
+        }
+
+        .header .subtitle {
+            font-size: 12px;
+            color: #ff8800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            text-shadow: 0 0 10px rgba(255, 136, 0, 0.5);
+        }
+
+        .tab-bar {
+            display: flex;
+            gap: 25px;
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
+            padding-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #00ffff;
+            opacity: 0.5;
+            cursor: pointer;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            opacity: 1;
+            border-bottom-color: #ff8800;
+            text-shadow: 0 0 10px #ff8800;
+            color: #ff8800;
+        }
+
+        /* Account cards */
+        .accounts-section {
+            margin-bottom: 40px;
+        }
+
+        .accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .account-card {
+            background: rgba(0, 20, 40, 0.65);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            border-radius: 0;
+            padding: 24px;
+            position: relative;
+            box-shadow: 0 0 18px rgba(0, 255, 255, 0.25), inset 0 0 18px rgba(0, 255, 255, 0.06);
+            overflow: hidden;
+        }
+
+        /* Corner notches */
+        .account-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid #ff8800;
+            border-left: 2px solid #ff8800;
+            box-shadow: 0 0 8px rgba(255, 136, 0, 0.5);
+        }
+
+        .account-card::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 12px;
+            height: 12px;
+            border-bottom: 2px solid #ff8800;
+            border-right: 2px solid #ff8800;
+            box-shadow: 0 0 8px rgba(255, 136, 0, 0.5);
+        }
+
+        .account-name {
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #00ffff;
+            margin-bottom: 14px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+        }
+
+        .account-stats {
+            font-size: 12px;
+            line-height: 2;
+            color: #00ffff;
+        }
+
+        .stat-label {
+            color: rgba(0, 255, 255, 0.55);
+        }
+
+        /* Section titles */
+        .section-title {
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #00ffff;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        /* Mega matrix */
+        .mega-section {
+            margin-bottom: 45px;
+        }
+
+        .mega-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(0, 20, 40, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.15);
+        }
+
+        .mega-table th,
+        .mega-table td {
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            padding: 14px 12px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .mega-table th {
+            background: rgba(0, 40, 80, 0.7);
+            color: #ff8800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(255, 136, 0, 0.5);
+        }
+
+        .mega-table td {
+            color: #00ffff;
+        }
+
+        .mega-table tr:nth-child(even) {
+            background: rgba(0, 30, 60, 0.3);
+        }
+
+        .mega-empty {
+            color: rgba(0, 255, 255, 0.3);
+        }
+
+        /* Raid boss card */
+        .raid-section {
+            margin-bottom: 45px;
+        }
+
+        .raid-card {
+            background: rgba(0, 20, 40, 0.65);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            padding: 28px;
+            box-shadow: 0 0 18px rgba(0, 255, 255, 0.25), inset 0 0 18px rgba(0, 255, 255, 0.06);
+            position: relative;
+        }
+
+        .raid-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #ff8800;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 12px rgba(255, 136, 0, 0.7);
+        }
+
+        .raid-meta {
+            font-size: 12px;
+            color: #00ffff;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .type-badge {
+            display: inline-block;
+            background: rgba(255, 136, 0, 0.15);
+            border: 1px solid #ff8800;
+            padding: 4px 10px;
+            border-radius: 1px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #ff8800;
+            box-shadow: 0 0 6px rgba(255, 136, 0, 0.3);
+        }
+
+        .best-types {
+            font-size: 12px;
+            margin-bottom: 22px;
+            color: rgba(0, 255, 255, 0.85);
+        }
+
+        .best-types strong {
+            color: #ff8800;
+            text-shadow: 0 0 8px rgba(255, 136, 0, 0.5);
+        }
+
+        .counters-list {
+            margin-bottom: 28px;
+        }
+
+        .counters-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #00ffff;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .counter-row {
+            font-size: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .counter-row:last-child {
+            border-bottom: none;
+        }
+
+        .counter-name {
+            font-weight: bold;
+            color: #ff8800;
+            min-width: 120px;
+        }
+
+        .counter-moves {
+            color: rgba(0, 255, 255, 0.7);
+            font-size: 11px;
+            text-align: right;
+        }
+
+        /* Rating dial */
+        .rating-section {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .rating-dial {
+            width: 130px;
+            height: 130px;
+            border: 2px solid #00ffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 0 24px rgba(0, 255, 255, 0.5), inset 0 0 24px rgba(0, 255, 255, 0.12);
+            animation: dialGlow 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes dialGlow {
+            0%, 100% {
+                box-shadow: 0 0 24px rgba(0, 255, 255, 0.5), inset 0 0 24px rgba(0, 255, 255, 0.12);
+            }
+            50% {
+                box-shadow: 0 0 38px rgba(0, 255, 255, 0.8), inset 0 0 38px rgba(0, 255, 255, 0.2);
+            }
+        }
+
+        .rating-value {
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff8800;
+            text-shadow: 0 0 12px rgba(255, 136, 0, 0.8);
+            line-height: 1.4;
+        }
+
+        .rating-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .rating-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #00ffff;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+        }
+
+        .rating-subtitle {
+            font-size: 12px;
+            color: rgba(0, 255, 255, 0.7);
+        }
+
+        /* Pokébox table */
+        .pokebox-section {
+            margin-bottom: 20px;
+        }
+
+        .pokebox-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(0, 20, 40, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.15);
+        }
+
+        .pokebox-table th,
+        .pokebox-table td {
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            padding: 14px 12px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .pokebox-table th {
+            background: rgba(0, 40, 80, 0.7);
+            color: #ff8800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(255, 136, 0, 0.5);
+        }
+
+        .pokebox-table td {
+            color: #00ffff;
+        }
+
+        .pokebox-table tr:nth-child(even) {
+            background: rgba(0, 30, 60, 0.3);
+        }
+
+        .pokemon-name {
+            font-weight: bold;
+            color: #ff8800;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+                letter-spacing: 2px;
+            }
+
+            .accounts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rating-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .mega-table,
+            .pokebox-table {
+                font-size: 11px;
+            }
+
+            .mega-table th,
+            .mega-table td,
+            .pokebox-table th,
+            .pokebox-table td {
+                padding: 11px 9px;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>POGO ACCS</h1>
+            <div class="subtitle">Multi-Account Raid & Mega Tracker</div>
+            <div class="tab-bar">
+                <div class="tab">Overview</div>
+                <div class="tab">Megas</div>
+                <div class="tab active">Raids</div>
+                <div class="tab">Groups</div>
+                <div class="tab">Import</div>
+            </div>
+        </div>
+
+        <!-- Account Cards -->
+        <div class="accounts-section">
+            <div class="accounts-grid">
+                <div class="account-card">
+                    <div class="account-name">TreyMain</div>
+                    <div class="account-stats">
+                        <div><span class="stat-label">Level:</span> 44</div>
+                        <div><span class="stat-label">Box:</span> 128</div>
+                        <div><span class="stat-label">Megas:</span> 9/34</div>
+                    </div>
+                </div>
+                <div class="account-card">
+                    <div class="account-name">TreyAlt</div>
+                    <div class="account-stats">
+                        <div><span class="stat-label">Level:</span> 38</div>
+                        <div><span class="stat-label">Box:</span> 54</div>
+                        <div><span class="stat-label">Megas:</span> 4/34</div>
+                    </div>
+                </div>
+                <div class="account-card">
+                    <div class="account-name">KidAcct</div>
+                    <div class="account-stats">
+                        <div><span class="stat-label">Level:</span> 31</div>
+                        <div><span class="stat-label">Box:</span> 22</div>
+                        <div><span class="stat-label">Megas:</span> 1/34</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mega Matrix -->
+        <div class="mega-section">
+            <div class="section-title">Mega Evolution Matrix</div>
+            <table class="mega-table">
+                <thead>
+                    <tr>
+                        <th>Pokémon</th>
+                        <th>TreyMain</th>
+                        <th>TreyAlt</th>
+                        <th>KidAcct</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mega Charizard Y</td>
+                        <td>×2 · ML3</td>
+                        <td class="mega-empty">—</td>
+                        <td class="mega-empty">—</td>
+                    </tr>
+                    <tr>
+                        <td>Mega Gengar</td>
+                        <td>×3 · ML2</td>
+                        <td>×1 · ML1</td>
+                        <td class="mega-empty">—</td>
+                    </tr>
+                    <tr>
+                        <td>Mega Tyranitar</td>
+                        <td>×1 · ML2</td>
+                        <td class="mega-empty">—</td>
+                        <td class="mega-empty">—</td>
+                    </tr>
+                    <tr>
+                        <td>Mega Rayquaza</td>
+                        <td>×2 · ML4</td>
+                        <td>×1 · ML2</td>
+                        <td class="mega-empty">—</td>
+                    </tr>
+                    <tr>
+                        <td>Primal Groudon</td>
+                        <td>×1 · ML1</td>
+                        <td>×2 · ML1</td>
+                        <td>×1 · ML1</td>
+                    </tr>
+                    <tr>
+                        <td>Primal Kyogre</td>
+                        <td class="mega-empty">—</td>
+                        <td class="mega-empty">—</td>
+                        <td class="mega-empty">—</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Raid Boss Card -->
+        <div class="raid-section">
+            <div class="section-title">Active Raid: Tier 5</div>
+            <div class="raid-card">
+                <div class="raid-title">Dialga (Origin Forme)</div>
+                <div class="raid-meta">
+                    <span>⭐ Tier 5</span>
+                    <span class="type-badge">Steel</span>
+                    <span class="type-badge">Dragon</span>
+                </div>
+                <div class="best-types">
+                    <strong>Best types:</strong> Fighting · Ground
+                </div>
+
+                <div class="counters-list">
+                    <div class="counters-title">Top Counters</div>
+                    <div class="counter-row">
+                        <span class="counter-name">Mega Rayquaza</span>
+                        <span class="counter-moves">Dragon Tail / Outrage</span>
+                    </div>
+                    <div class="counter-row">
+                        <span class="counter-name">Shadow Machamp</span>
+                        <span class="counter-moves">Counter / Dynamic Punch</span>
+                    </div>
+                    <div class="counter-row">
+                        <span class="counter-name">Terrakion</span>
+                        <span class="counter-moves">Double Kick / Sacred Sword</span>
+                    </div>
+                    <div class="counter-row">
+                        <span class="counter-name">Primal Groudon</span>
+                        <span class="counter-moves">Mud Shot / Precipice Blades</span>
+                    </div>
+                    <div class="counter-row">
+                        <span class="counter-name">Excadrill</span>
+                        <span class="counter-moves">Mud-Slap / Drill Run</span>
+                    </div>
+                </div>
+
+                <div class="rating-section">
+                    <div class="rating-dial">
+                        <div class="rating-value">
+                            6,850<br/>10,000
+                        </div>
+                    </div>
+                    <div class="rating-info">
+                        <div class="rating-label">Solo Estimate</div>
+                        <div class="rating-subtitle">TreyMain</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pokébox Table -->
+        <div class="pokebox-section">
+            <div class="section-title">Pokébox Contents</div>
+            <table class="pokebox-table">
+                <thead>
+                    <tr>
+                        <th>Pokémon</th>
+                        <th>Qty</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="pokemon-name">Machamp</td>
+                        <td>×6</td>
+                        <td>~Lv 20</td>
+                    </tr>
+                    <tr>
+                        <td class="pokemon-name">Rayquaza</td>
+                        <td>×1</td>
+                        <td>13/15/15 Best Buddy Mega Lv 2</td>
+                    </tr>
+                    <tr>
+                        <td class="pokemon-name">Shadow Mewtwo</td>
+                        <td>×1</td>
+                        <td>CP 4178</td>
+                    </tr>
+                    <tr>
+                        <td class="pokemon-name">Excadrill</td>
+                        <td>×3</td>
+                        <td>Lv 35</td>
+                    </tr>
+                    <tr>
+                        <td class="pokemon-name">Gengar</td>
+                        <td>×2</td>
+                        <td>Can Mega</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

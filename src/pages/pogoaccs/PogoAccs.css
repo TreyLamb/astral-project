@@ -1,0 +1,759 @@
+/* POGO Accs — Holographic Pokédex Glass theme */
+
+.pgoa-app {
+  --pgoa-bg: linear-gradient(135deg, #0a1428 0%, #0f1b2e 50%, #0a1428 100%);
+  --pgoa-panel-bg: rgba(255, 255, 255, 0.06);
+  --pgoa-panel-border: rgba(255, 255, 255, 0.1);
+  --pgoa-text: #e0e6ff;
+  --pgoa-text-dim: rgba(224, 230, 255, 0.7);
+  --pgoa-text-dimmer: rgba(224, 230, 255, 0.6);
+  --pgoa-cyan: #00ffff;
+  --pgoa-violet: #8800ff;
+  --pgoa-pink: #ff00ff;
+  --pgoa-irid: linear-gradient(90deg, #00ffff, #8800ff, #ff00ff, #00ffff);
+  --pgoa-irid-top: linear-gradient(90deg, #00ffff, #8800ff, #ff00ff);
+  --pgoa-irid-reverse: linear-gradient(90deg, #ff00ff, #8800ff, #00ffff);
+  --pgoa-radius: 12px;
+  --pgoa-radius-lg: 16px;
+  --pgoa-blur: 12px;
+  --pgoa-blur-sm: 8px;
+  --pgoa-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --pgoa-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --pgoa-inset: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --pgoa-gauge-pct: 0%;
+
+  min-height: 100vh;
+  background: var(--pgoa-bg);
+  color: var(--pgoa-text);
+  padding: 2rem 1rem;
+  position: relative;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Floating orbs background */
+.pgoa-orbs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.pgoa-orb {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(60px);
+}
+
+.pgoa-orb:nth-child(1) {
+  top: 10%;
+  left: 5%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, rgba(0, 255, 255, 0) 70%);
+  animation: pgoa-drift-1 8s ease-in-out infinite;
+}
+
+.pgoa-orb:nth-child(2) {
+  bottom: 10%;
+  right: 5%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(136, 0, 255, 0.08) 0%, rgba(136, 0, 255, 0) 70%);
+  animation: pgoa-drift-2 10s ease-in-out infinite;
+}
+
+.pgoa-orb:nth-child(3) {
+  top: 50%;
+  right: 10%;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(255, 0, 255, 0.06) 0%, rgba(255, 0, 255, 0) 70%);
+  animation: pgoa-drift-3 12s ease-in-out infinite;
+}
+
+@keyframes pgoa-drift-1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(30px, -30px); }
+}
+
+@keyframes pgoa-drift-2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-40px, 40px); }
+}
+
+@keyframes pgoa-drift-3 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-20px, -20px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pgoa-orb {
+    animation: none;
+  }
+}
+
+/* Header and title */
+.pgoa-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(var(--pgoa-blur));
+  border-radius: var(--pgoa-radius-lg);
+  border: 1px solid var(--pgoa-panel-border);
+  box-shadow: var(--pgoa-shadow-lg), var(--pgoa-inset);
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.pgoa-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--pgoa-irid-top);
+  opacity: 0.6;
+}
+
+.pgoa-title {
+  font-size: 3rem;
+  font-weight: 300;
+  letter-spacing: 4px;
+  background: var(--pgoa-irid);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.pgoa-subtitle {
+  font-size: 0.95rem;
+  color: var(--pgoa-text-dim);
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+}
+
+/* Tabs */
+.pgoa-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.pgoa-tab {
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--pgoa-text-dimmer);
+  cursor: pointer;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  border: 1px solid var(--pgoa-panel-border);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(var(--pgoa-blur-sm));
+  font-family: inherit;
+  text-decoration: none;
+}
+
+.pgoa-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--pgoa-cyan);
+}
+
+.pgoa-tab-active {
+  background: rgba(0, 255, 255, 0.15);
+  color: var(--pgoa-cyan);
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  box-shadow: 0 0 16px rgba(0, 255, 255, 0.2);
+}
+
+/* Divider */
+.pgoa-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.4), transparent);
+  margin: 2rem 0;
+}
+
+/* Section label */
+.pgoa-section-label {
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  color: rgba(0, 255, 255, 0.7);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+/* Panel base */
+.pgoa-panel {
+  padding: 1.5rem;
+  background: var(--pgoa-panel-bg);
+  backdrop-filter: blur(var(--pgoa-blur));
+  border-radius: var(--pgoa-radius);
+  border: 1px solid var(--pgoa-panel-border);
+  box-shadow: var(--pgoa-shadow), var(--pgoa-inset);
+  position: relative;
+  overflow: hidden;
+}
+
+.pgoa-panel-accent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--pgoa-irid-top);
+  opacity: 0.5;
+}
+
+/* Cards grid */
+.pgoa-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.pgoa-account-card {
+  padding: 1.5rem;
+  background: var(--pgoa-panel-bg);
+  backdrop-filter: blur(var(--pgoa-blur));
+  border-radius: var(--pgoa-radius);
+  border: 1px solid var(--pgoa-panel-border);
+  box-shadow: var(--pgoa-shadow), var(--pgoa-inset);
+  position: relative;
+  overflow: hidden;
+}
+
+.pgoa-account-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--pgoa-irid-top);
+  opacity: 0.5;
+}
+
+.pgoa-account-name,
+.pgoa-card-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  color: var(--pgoa-text);
+}
+
+.pgoa-card-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.pgoa-account-stats {
+  font-size: 0.9rem;
+  color: var(--pgoa-text-dim);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Stat rows */
+.pgoa-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pgoa-stat-label {
+  color: var(--pgoa-text-dim);
+  font-weight: 400;
+}
+
+.pgoa-stat-value {
+  color: var(--pgoa-text);
+  font-weight: 500;
+}
+
+/* Table */
+.pgoa-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--pgoa-radius);
+}
+
+.pgoa-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(var(--pgoa-blur-sm));
+  border: 1px solid var(--pgoa-panel-border);
+  box-shadow: var(--pgoa-shadow);
+}
+
+.pgoa-table thead {
+  background: rgba(0, 255, 255, 0.08);
+}
+
+.pgoa-table th {
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+  color: rgba(0, 255, 255, 0.8);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.pgoa-table td {
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+  color: var(--pgoa-text-dim);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.pgoa-table tbody .pgoa-row:hover {
+  background: rgba(0, 255, 255, 0.05);
+}
+
+.pgoa-cell-highlight {
+  color: var(--pgoa-cyan);
+  font-weight: 500;
+}
+
+/* Badge */
+.pgoa-badge {
+  display: inline-block;
+  padding: 0.35rem 0.8rem;
+  background: rgba(0, 255, 255, 0.15);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: var(--pgoa-cyan);
+}
+
+/* Buttons */
+.pgoa-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--pgoa-text-dim);
+  cursor: pointer;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--pgoa-panel-border);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(var(--pgoa-blur-sm));
+  font-family: inherit;
+  letter-spacing: 0.5px;
+}
+
+.pgoa-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--pgoa-text);
+}
+
+.pgoa-btn-primary {
+  background: rgba(0, 255, 255, 0.15);
+  color: var(--pgoa-cyan);
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  box-shadow: 0 0 16px rgba(0, 255, 255, 0.1);
+}
+
+.pgoa-btn-primary:hover {
+  background: rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+/* Inputs */
+.pgoa-input,
+.pgoa-select {
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--pgoa-text);
+  border: 1px solid var(--pgoa-panel-border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  backdrop-filter: blur(var(--pgoa-blur-sm));
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.pgoa-input:focus,
+.pgoa-select:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(0, 255, 255, 0.5);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.15);
+}
+
+.pgoa-input::placeholder {
+  color: var(--pgoa-text-dimmer);
+}
+
+/* Gauge (conic gradient ring) */
+.pgoa-gauge {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--pgoa-cyan) 0deg,
+    var(--pgoa-cyan) calc(360deg * var(--pgoa-gauge-pct, 0%)),
+    rgba(255, 255, 255, 0.1) calc(360deg * var(--pgoa-gauge-pct, 0%)),
+    rgba(255, 255, 255, 0.1) 360deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  position: relative;
+}
+
+.pgoa-gauge-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--pgoa-cyan);
+  letter-spacing: 1px;
+  z-index: 1;
+}
+
+/* Meter (horizontal bar) */
+.pgoa-meter {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pgoa-meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--pgoa-cyan), var(--pgoa-violet));
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* Toast */
+.pgoa-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(var(--pgoa-blur));
+  border: 1px solid var(--pgoa-panel-border);
+  border-radius: 8px;
+  color: var(--pgoa-text);
+  box-shadow: var(--pgoa-shadow);
+  z-index: 1000;
+  animation: pgoa-toast-in 0.3s ease;
+}
+
+@keyframes pgoa-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pgoa-toast {
+    animation: none;
+  }
+}
+
+/* Loading & empty states */
+.pgoa-loading,
+.pgoa-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--pgoa-text-dim);
+  font-size: 1rem;
+}
+
+.pgoa-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+/* Link */
+.pgoa-link {
+  color: var(--pgoa-cyan);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.pgoa-link:hover {
+  border-bottom-color: var(--pgoa-cyan);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+}
+
+/* Quick-add (Pokébox) */
+.pgoa-parse-error {
+  color: var(--pgoa-pink);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.pgoa-confirm-flash {
+  color: var(--pgoa-cyan);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .pgoa-app {
+    padding: 1rem 0.75rem;
+  }
+
+  .pgoa-title {
+    font-size: 2rem;
+    letter-spacing: 2px;
+  }
+
+  .pgoa-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .pgoa-tabs {
+    gap: 0.75rem;
+  }
+
+  .pgoa-tab {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .pgoa-header {
+    margin-bottom: 2rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .pgoa-section-label {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .pgoa-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .pgoa-panel {
+    padding: 1rem;
+  }
+
+  .pgoa-account-card {
+    padding: 1rem;
+  }
+
+  .pgoa-table th,
+  .pgoa-table td {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .pgoa-badge {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .pgoa-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .pgoa-gauge {
+    width: 80px;
+    height: 80px;
+  }
+
+  .pgoa-gauge-label {
+    font-size: 0.75rem;
+  }
+}
+
+/* Mega Matrix */
+.pgoa-mega-td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.pgoa-mega-cell {
+  width: 100%;
+  min-width: 6rem;
+  padding: 0.6rem 0.9rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--pgoa-text-dimmer);
+  border: 1px solid var(--pgoa-panel-border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+}
+
+.pgoa-mega-cell:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--pgoa-text);
+  border-color: rgba(0, 255, 255, 0.3);
+}
+
+.pgoa-mega-cell-filled {
+  background: rgba(136, 0, 255, 0.12);
+  border: 1px solid rgba(136, 0, 255, 0.3);
+  border-left: 3px solid var(--pgoa-violet);
+  color: var(--pgoa-cyan);
+  font-weight: 500;
+}
+
+.pgoa-mega-cell-filled:hover {
+  background: rgba(136, 0, 255, 0.2);
+  box-shadow: 0 0 16px rgba(136, 0, 255, 0.15);
+}
+
+.pgoa-mega-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.85rem;
+  min-width: 9rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: var(--pgoa-radius);
+  box-shadow: var(--pgoa-shadow), 0 0 16px rgba(0, 255, 255, 0.1);
+}
+
+.pgoa-mega-editor label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  color: var(--pgoa-text-dim);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.pgoa-mega-editor .pgoa-input {
+  width: 100%;
+}
+
+.pgoa-mega-editor-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 0.2rem;
+}
+
+/* Groups */
+.pgoa-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.pgoa-group-header .pgoa-input {
+  flex: 1;
+  min-width: 8rem;
+}
+
+.pgoa-group-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pgoa-member-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.pgoa-member-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--pgoa-text-dim);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.pgoa-import-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.pgoa-import-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--pgoa-panel-border);
+  border-radius: 8px;
+  color: var(--pgoa-text-dim);
+}
+
+/* Bulk import drop zone */
+.pgoa-dropzone {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px dashed var(--pgoa-panel-border);
+  border-radius: var(--pgoa-radius);
+  color: var(--pgoa-text-dim);
+  transition: all 0.3s ease;
+}
+
+.pgoa-dropzone-active {
+  border-color: rgba(0, 255, 255, 0.5);
+  background: rgba(0, 255, 255, 0.05);
+  box-shadow: 0 0 16px rgba(0, 255, 255, 0.1);
+}
+
+.pgoa-dropzone p {
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.pgoa-dropzone input[type='file'] {
+  color: var(--pgoa-text-dim);
+  font-size: 0.85rem;
+}
+
+.pgoa-row-line {
+  color: var(--pgoa-text-dimmer);
+  font-size: 0.8rem;
+  max-width: 18rem;
+}

@@ -1,0 +1,114 @@
+{
+  "_meta": {
+    "updated": "2026-07-17",
+    "note": "Selftest fixtures: top counters per boss from Pokebattler OVERALL (estimator) ranking. Regenerate when rotation changes.",
+    "sources": [
+      "https://www.pokebattler.com/",
+      "https://fight.pokebattler.com/ (API)"
+    ]
+  },
+  "anchors": [
+    {
+      "bossId": "kyogre",
+      "speciesId": "kyogre",
+      "source": "pokebattler",
+      "url": "https://www.pokebattler.com/raids/KYOGRE",
+      "note": "Ranked by Pokebattler estimator (best-friend attackers to win), level 40, no weather, RAID_LEVEL_5. Fetched 2026-07-17.",
+      "topCounters": [
+        {
+          "speciesId": "mega_mewtwo_y",
+          "fastMove": "psycho_cut",
+          "chargedMove": "thunderbolt"
+        },
+        {
+          "speciesId": "mega_mewtwo_x",
+          "fastMove": "psycho_cut",
+          "chargedMove": "thunderbolt"
+        },
+        {
+          "speciesId": "zekrom",
+          "fastMove": "charge_beam",
+          "chargedMove": "fusion_bolt"
+        },
+        {
+          "speciesId": "mega_venusaur",
+          "fastMove": "vine_whip",
+          "chargedMove": "frenzy_plant"
+        },
+        {
+          "speciesId": "kartana",
+          "fastMove": "razor_leaf",
+          "chargedMove": "leaf_blade"
+        }
+      ]
+    },
+    {
+      "bossId": "mega_sceptile",
+      "speciesId": "mega_sceptile",
+      "source": "pokebattler",
+      "url": "https://www.pokebattler.com/raids/SCEPTILE_MEGA",
+      "note": "Ranked by Pokebattler estimator (best-friend attackers to win), level 40, no weather, RAID_LEVEL_MEGA. Fetched 2026-07-17.",
+      "topCounters": [
+        {
+          "speciesId": "kyurem_white",
+          "fastMove": "ice_fang",
+          "chargedMove": "ice_burn"
+        },
+        {
+          "speciesId": "kyurem_black",
+          "fastMove": "dragon_tail",
+          "chargedMove": "freeze_shock"
+        },
+        {
+          "speciesId": "mega_rayquaza",
+          "fastMove": "dragon_tail",
+          "chargedMove": "dragon_ascent"
+        },
+        {
+          "speciesId": "mega_mewtwo_y",
+          "fastMove": "psycho_cut",
+          "chargedMove": "ice_beam"
+        },
+        {
+          "speciesId": "eternatus",
+          "fastMove": "poison_jab",
+          "chargedMove": "dynamax_cannon"
+        }
+      ]
+    },
+    {
+      "bossId": "shadow_palkia",
+      "speciesId": "palkia",
+      "source": "pokebattler",
+      "url": "https://www.pokebattler.com/raids/PALKIA",
+      "note": "Ranked by Pokebattler estimator (best-friend attackers to win), level 40, no weather, RAID_LEVEL_5. Fetched 2026-07-17.",
+      "topCounters": [
+        {
+          "speciesId": "eternatus",
+          "fastMove": "dragon_tail",
+          "chargedMove": "dynamax_cannon"
+        },
+        {
+          "speciesId": "mega_rayquaza",
+          "fastMove": "dragon_tail",
+          "chargedMove": "breaking_swipe"
+        },
+        {
+          "speciesId": "mega_garchomp",
+          "fastMove": "dragon_tail",
+          "chargedMove": "breaking_swipe"
+        },
+        {
+          "speciesId": "dialga_origin",
+          "fastMove": "dragon_breath",
+          "chargedMove": "roar_of_time"
+        },
+        {
+          "speciesId": "mega_gardevoir",
+          "fastMove": "charm",
+          "chargedMove": "dazzling_gleam"
+        }
+      ]
+    }
+  ]
+}

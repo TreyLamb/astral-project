@@ -22,7 +22,9 @@ import BashmonApp from './pages/bashmon/BashmonApp';
 import SignalLostApp from './pages/signal-lost/SignalLostApp';
 import PokeredApp from './pages/pokered_page/PokeredApp';
 import TkbApp from './pages/theknowledgebase/TkbApp';
+import PythonGameApp from './pages/python-game/PythonGameApp';
 import PgoTracker from './pages/pgotracker/PgoTracker';
+import PogoAccsApp from './pages/pogoaccs/PogoAccsApp';
 import AntiquityQuestApp from './pages/antiquityquest/AntiquityQuestApp';
 import './App.css';
 
@@ -46,7 +48,9 @@ function App() {
             <Route path="/signal-lost/*" element={<SignalLostApp />} />
             <Route path="/pokered/*"    element={<PokeredApp />} />
             <Route path="/tkb/*"       element={<TkbApp />} />
+            <Route path="/python-game/*" element={<PythonGameApp />} />
             <Route path="/pgo-tracker" element={<PgoTracker />} />
+            <Route path="/pogo-accs/*" element={<PogoAccsApp />} />
             <Route path="/antiquityquest/*" element={<AntiquityQuestApp />} />
           </Routes>
         </div>
