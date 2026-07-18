@@ -86,7 +86,9 @@ function Navbar() {
               <li><Link to="/tkb">TheKnowledgeBase</Link></li>
               <li><Link to="/pgo-tracker">PGO Tracker</Link></li>
               <li><Link to="/pogo-accs">POGO Accs</Link></li>
+              <li><Link to="/medaldex">MedalDex</Link></li>
               <li><Link to="/antiquityquest">Antiquity Quest</Link></li>
+              <li><Link to="/stashmap">StashMap</Link></li>
               <li><Link to="/rs-market">RS Market</Link></li>
               <li><Link to="/gitmon">🔵 Gitmon Blue</Link></li>
               <li><Link to="/bashmon">🔴 Bashmon Red</Link></li>
