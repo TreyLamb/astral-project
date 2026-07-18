@@ -2,9 +2,11 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMedalDex } from './medaldexContext';
 import {
-  overallCompletion, breakdownByGeneration, breakdownByType, whatsLeft, unknownFeasibilityList, DEX_LIST,
+  overallCompletion, breakdownByGeneration, breakdownByType, breakdownByForm, whatsLeft,
+  unknownFeasibilityList, DEX_LIST, FORM_LIST,
 } from './medaldexEngine';
 import { CATEGORIES, typeColor } from './medaldexConfig';
+import Sprite from './Sprite';
 
 function pct1(n) {
   return Math.round(n * 10) / 10;
@@ -46,6 +48,7 @@ export default function Summary() {
   const overall = useMemo(() => overallCompletion(dexProgress), [dexProgress]);
   const byGen = useMemo(() => breakdownByGeneration(dexProgress, breakdownCategory), [dexProgress, breakdownCategory]);
   const byType = useMemo(() => breakdownByType(dexProgress, breakdownCategory), [dexProgress, breakdownCategory]);
+  const byForm = useMemo(() => breakdownByForm(dexProgress, breakdownCategory), [dexProgress, breakdownCategory]);
 
   const huntLists = useMemo(() => (
     CATEGORIES.map((cat) => ({
@@ -142,6 +145,27 @@ export default function Summary() {
             colorVar={typeColor(t.type)}
           />
         ))}
+
+        <div className="mdx-breakdown-subhead">
+          By form ({FORM_LIST.length} regional/alternate forms tracked)
+        </div>
+        {byForm.filter((f) => f.formCount > 0).map((f) => (
+          <CompactBar
+            key={f.key}
+            label={`${f.label} (${f.formCount})`}
+            have={f.have}
+            feasibleTotal={f.feasibleTotal}
+            unknownTotal={f.unknownTotal}
+            pct={f.pct}
+          />
+        ))}
+        <p className="mdx-form-breakdown-note">
+          Forms are tracked as their own rows from each species' detail page (Regional / alternate forms
+          section) -- best-effort from species.json's form roster (Alolan/Galarian/Hisuian/Paldean-prefixed
+          ids plus suffix-based formes like Rotom's appliances, Origin/Therian formes, etc.); species.json
+          does not yet carry every regional variant Niantic has released, so this breakdown is only as
+          complete as that roster.
+        </p>
       </div>
 
       <div className="mdx-panel mdx-panel-accent">
@@ -157,7 +181,8 @@ export default function Summary() {
               {missing.length > 0 ? (
                 <div className="mdx-hunt-list">
                   {missing.map((s) => (
-                    <Link key={s.id} to={`/medaldex/species/${s.id}`} className="mdx-badge mdx-hunt-pick">
+                    <Link key={s.id} to={`/medaldex/species/${s.id}`} className="mdx-badge mdx-hunt-pick mdx-hunt-pick-sprite">
+                      <Sprite dex={s.dex} name={s.name} className="mdx-hunt-sprite" size="1.6rem" />
                       #{s.dex} {s.name}
                     </Link>
                   ))}

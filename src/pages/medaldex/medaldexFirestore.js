@@ -88,4 +88,28 @@ export const MedalDexFirestore = {
     await setDoc(settingsDocRef(uidStr), merged);
     return merged;
   },
+
+  // Mirrors medaldexStorage.js's importAccountData -- exactly one setDoc per
+  // data kind (species/medals) regardless of how many entries are being
+  // imported, so a full-progress import costs 1-2 Firestore writes instead
+  // of hundreds (see the free-tier quota note in MedalDexApp.jsx's
+  // handleSyncError).
+  async importAccountData(uidStr, accountId, { species, medals } = {}) {
+    const out = {};
+    if (species) {
+      const snap = await getDoc(dexDocRef(uidStr, accountId));
+      const current = withAccountDexDefaults(snap.exists() ? snap.data() : undefined, accountId);
+      const next = { ...current, species: { ...current.species, ...species } };
+      await setDoc(dexDocRef(uidStr, accountId), next);
+      out.species = next.species;
+    }
+    if (medals) {
+      const snap = await getDoc(medalsDocRef(uidStr, accountId));
+      const current = withMedalsDefaults(snap.exists() ? snap.data() : undefined, accountId);
+      const next = { ...current, medals: { ...current.medals, ...medals } };
+      await setDoc(medalsDocRef(uidStr, accountId), next);
+      out.medals = next.medals;
+    }
+    return out;
+  },
 };

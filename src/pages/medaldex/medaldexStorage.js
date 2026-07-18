@@ -90,4 +90,29 @@ export const MedalDexStorage = {
     storeSettings(settings);
     return settings;
   },
+
+  // Bulk import for progress export/import (COULD #32) -- one localStorage
+  // write per data kind instead of one setSpeciesCategory/setMedalValue call
+  // per flag/medal, which matters here since a full export can carry
+  // hundreds of species entries. Merges into existing data (imported values
+  // win per-key) rather than replacing the whole account doc, so importing
+  // a partial export never wipes out untouched species/medals.
+  importAccountData(accountId, { species, medals } = {}) {
+    const out = {};
+    if (species) {
+      const dex = loadDex();
+      const doc = withAccountDexDefaults(dex[accountId], accountId);
+      dex[accountId] = { ...doc, species: { ...doc.species, ...species } };
+      storeDex(dex);
+      out.species = dex[accountId].species;
+    }
+    if (medals) {
+      const medalsStore = loadMedals();
+      const doc = withMedalsDefaults(medalsStore[accountId], accountId);
+      medalsStore[accountId] = { ...doc, medals: { ...doc.medals, ...medals } };
+      storeMedals(medalsStore);
+      out.medals = medalsStore[accountId].medals;
+    }
+    return out;
+  },
 };

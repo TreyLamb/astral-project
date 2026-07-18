@@ -30,3 +30,6 @@ server/.tokens.json
 *.sw?
 .vercel
 .env*
+
+# MedalDex speciesFacts generator cache (regenerable via buildSpeciesFacts.mjs)
+src/pages/medaldex/data/pokeapiCache.json

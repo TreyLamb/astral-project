@@ -73,6 +73,26 @@ export function typeColor(type) {
 
 export const ALL_TYPES = Object.keys(TYPE_COLORS);
 
+// Official Artwork sprite URL -- PokeAPI's community-maintained sprite mirror,
+// keyed by NATIONAL DEX NUMBER (not per-form). Regional/alternate forms share
+// their base species' artwork since PokeAPI's official-artwork set does not
+// ship separate art per Pokemon GO form id. `loading="lazy"` and the 404
+// fallback are handled by the <Sprite> component, not here.
+export function officialArtworkUrl(dex) {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${dex}.png`;
+}
+
+// Form-group labels for the Summary "by form" breakdown -- one bucket per
+// regional-variant family, plus a catch-all for suffix-based alternate forms
+// (Therian/Origin/Rotom appliances/etc.) that aren't a regional prefix.
+export const FORM_GROUP_LABELS = {
+  alolan: 'Alolan',
+  galarian: 'Galarian',
+  hisuian: 'Hisuian',
+  paldean: 'Paldean',
+  other: 'Other forms',
+};
+
 // Backfills a dex-progress account doc to the full shape -- stored values
 // always win, this only fills in what's genuinely missing.
 export function withAccountDexDefaults(doc, accountId) {

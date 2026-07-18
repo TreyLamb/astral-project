@@ -142,7 +142,47 @@
 .mdx-header-account {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-bottom: 1.25rem;
+}
+
+/* Top-level Pokedex <-> Medals switch (requirement #1) -- deliberately
+   bolder/larger than the sub-nav tabs beneath it so the two features read
+   as the primary choice, with each feature's own views as a secondary
+   choice underneath. */
+.mdx-feature-switch {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.mdx-feature-btn {
+  padding: 0.8rem 2rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--mdx-text-dim);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.75px;
+  border-radius: 10px;
+  border: 1px solid var(--mdx-panel-border);
+  transition: all 0.25s ease;
+  backdrop-filter: blur(var(--mdx-blur-sm));
+  text-decoration: none;
+}
+
+.mdx-feature-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--mdx-text);
+}
+
+.mdx-feature-btn-active {
+  background: var(--mdx-irid);
+  color: #14150f;
+  border-color: transparent;
+  box-shadow: 0 0 20px rgba(255, 193, 69, 0.3);
 }
 
 .mdx-tabs {
@@ -422,11 +462,18 @@
 
 .mdx-dex-card-head {
   display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.6rem;
   flex-wrap: wrap;
   text-decoration: none;
   color: inherit;
+}
+
+.mdx-dex-card-head-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
 }
 
 .mdx-dex-num {
@@ -439,6 +486,7 @@
   font-size: 1.02rem;
   font-weight: 500;
   color: var(--mdx-text);
+  overflow-wrap: anywhere;
 }
 
 .mdx-dex-card-head:hover .mdx-dex-name { color: var(--mdx-gold); }
@@ -447,7 +495,31 @@
   margin-left: auto;
   font-size: 0.72rem;
   color: var(--mdx-text-dimmer);
+  white-space: nowrap;
 }
+
+/* Official Artwork sprite (requirement #2) -- shared by dex cards, species
+   header, hunt chips, and the Forms grid. Fixed dimensions come from the
+   `size` prop as an inline style; this just handles fit + the 404 fallback
+   look, which needs to read as "no art available" not "broken image icon". */
+.mdx-sprite {
+  flex-shrink: 0;
+  width: 3.25rem;
+  height: 3.25rem;
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+}
+
+.mdx-sprite-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--mdx-panel-border);
+  color: var(--mdx-text-dimmer);
+}
+
+.mdx-sprite-fallback-mark { font-size: 1.1rem; }
 
 .mdx-dex-types { display: flex; gap: 0.4rem; flex-wrap: wrap; }
 
@@ -519,12 +591,90 @@
 
 .mdx-species-title-row {
   display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 1rem;
 }
 
-.mdx-species-num { font-size: 1rem; }
+.mdx-species-sprite { width: 5rem; height: 5rem; }
+
+.mdx-species-num { font-size: 1rem; display: block; }
 .mdx-species-name { font-size: 1.6rem; font-weight: 500; margin: 0; }
+
+/* Fun to know / FAQ (requirement #7) */
+.mdx-species-facts { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.mdx-fun-fact {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--mdx-text);
+  margin: 0;
+}
+
+.mdx-faq-list { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.mdx-faq-item {
+  padding: 0.6rem 0.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--mdx-panel-border);
+  border-radius: 8px;
+}
+
+.mdx-faq-q {
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--mdx-emerald);
+}
+
+.mdx-faq-a {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--mdx-text-dim);
+  line-height: 1.5;
+}
+
+.mdx-shiny-odds-note {
+  margin: 0.75rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.78rem;
+  color: var(--mdx-text-dimmer);
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* Trackable regional/alternate form rows (requirement #4) */
+.mdx-form-list-hint {
+  font-size: 0.8rem;
+  color: var(--mdx-text-dimmer);
+  margin: -0.5rem 0 0.9rem;
+  line-height: 1.5;
+}
+
+.mdx-form-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.mdx-form-row {
+  padding: 0.75rem 0.9rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--mdx-panel-border);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.mdx-form-row-head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.mdx-form-row-sprite { width: 2.5rem; height: 2.5rem; }
+.mdx-form-row-name { font-size: 0.85rem; }
 
 .mdx-species-meta {
   display: flex;
@@ -721,10 +871,32 @@
   color: var(--mdx-gold);
 }
 
+.mdx-hunt-pick-sprite {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding-left: 0.4rem;
+}
+
+.mdx-hunt-sprite {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 4px;
+  background: transparent;
+}
+
 .mdx-hunt-unknown {
   font-size: 0.76rem;
   color: var(--mdx-text-dimmer);
   margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.mdx-form-breakdown-note {
+  font-size: 0.76rem;
+  color: var(--mdx-text-dimmer);
+  margin: 0.75rem 0 0;
+  line-height: 1.5;
   font-style: italic;
 }
 
@@ -825,6 +997,46 @@
 .mdx-medal-next strong { color: var(--mdx-gold); }
 .mdx-medal-days { color: var(--mdx-text-dimmer); }
 
+/* Delta-to-every-higher-tier + min-days-per-tier (requirement #6) */
+.mdx-medal-deltas {
+  margin-top: 0.7rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.mdx-medal-deltas-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--mdx-text-dimmer);
+  margin-bottom: 0.15rem;
+}
+
+.mdx-medal-delta-row {
+  display: grid;
+  grid-template-columns: 6rem 1fr auto;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  border-left: 2px solid var(--mdx-panel-border);
+  font-size: 0.78rem;
+}
+
+.mdx-medal-delta-row.mdx-medal-tier-bronze { border-left-color: #cd7f32; }
+.mdx-medal-delta-row.mdx-medal-tier-silver { border-left-color: #c7c9d1; }
+.mdx-medal-delta-row.mdx-medal-tier-gold { border-left-color: var(--mdx-gold); }
+.mdx-medal-delta-row.mdx-medal-tier-platinum { border-left-color: var(--mdx-emerald); }
+.mdx-medal-delta-row.mdx-medal-tier-onyx { border-left-color: var(--mdx-crimson); }
+
+.mdx-medal-delta-tier { color: var(--mdx-text-dim); font-weight: 500; }
+.mdx-medal-delta-max-tag { color: var(--mdx-gold); font-weight: 400; }
+.mdx-medal-delta-value { color: var(--mdx-text-dimmer); }
+.mdx-medal-delta-days { color: var(--mdx-text-dimmer); white-space: nowrap; text-align: right; }
+
 .mdx-medal-note {
   margin-top: 0.5rem;
   font-size: 0.74rem;
@@ -832,11 +1044,184 @@
   line-height: 1.5;
 }
 
+.mdx-medal-crosslink {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 0.76rem;
+  color: var(--mdx-emerald);
+  text-decoration: none;
+}
+
+.mdx-medal-crosslink:hover { color: var(--mdx-gold); }
+
+.mdx-bulk-shortcut { font-size: 0.82rem; white-space: nowrap; }
+
+/* Export / import progress (COULD #32) */
+.mdx-backup {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.mdx-backup-btn {
+  padding: 0.5rem 0.9rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--mdx-text-dim);
+  border: 1px solid var(--mdx-panel-border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mdx-backup-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--mdx-gold);
+  border-color: rgba(255, 193, 69, 0.35);
+}
+
+.mdx-backup-file-input {
+  display: none;
+}
+
+.mdx-backup-msg {
+  font-size: 0.76rem;
+  color: var(--mdx-emerald);
+  max-width: 20rem;
+}
+
+/* Forms dimension view (requirement #4) */
+.mdx-forms-intro {
+  font-size: 0.82rem;
+  color: var(--mdx-text-dim);
+  line-height: 1.55;
+  margin: 0 0 1rem;
+}
+
+.mdx-form-base-link {
+  font-size: 0.76rem;
+  color: var(--mdx-emerald);
+  text-decoration: none;
+  margin-top: -0.3rem;
+}
+
+.mdx-form-base-link:hover { color: var(--mdx-gold); }
+
+/* Medal bulk upload (requirement #5) */
+.mdx-bulk-hint {
+  font-size: 0.82rem;
+  color: var(--mdx-text-dim);
+  line-height: 1.55;
+  margin: 0 0 1rem;
+}
+
+.mdx-bulk-textarea {
+  width: 100%;
+  resize: vertical;
+  display: block;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.mdx-bulk-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.mdx-bulk-parse-btn, .mdx-bulk-apply-btn {
+  padding: 0.6rem 1.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.mdx-bulk-parse-btn:disabled, .mdx-bulk-apply-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.mdx-bulk-confirm {
+  color: var(--mdx-emerald);
+  font-size: 0.88rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.mdx-bulk-summary {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.mdx-bulk-summary-matched { color: var(--mdx-emerald); border-color: rgba(34, 224, 168, 0.4); }
+.mdx-bulk-summary-unmatched { color: var(--mdx-crimson); border-color: rgba(255, 93, 115, 0.35); background: rgba(255, 93, 115, 0.1); }
+.mdx-bulk-summary-fuzzy { color: var(--mdx-gold); border-color: rgba(255, 193, 69, 0.4); background: rgba(255, 193, 69, 0.1); }
+
+.mdx-bulk-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.mdx-bulk-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.mdx-bulk-table th {
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  color: var(--mdx-text-dimmer);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--mdx-panel-border);
+  white-space: nowrap;
+}
+
+.mdx-bulk-row td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+}
+
+.mdx-bulk-row-line {
+  color: var(--mdx-text-dim);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.mdx-bulk-value-input { width: 6rem; }
+
+.mdx-bulk-current-hint {
+  font-size: 0.7rem;
+  color: var(--mdx-text-dimmer);
+  white-space: nowrap;
+}
+
+.mdx-bulk-matchtype-exact { color: var(--mdx-emerald); }
+.mdx-bulk-matchtype-partial { color: var(--mdx-gold); }
+.mdx-bulk-matchtype-fuzzy { color: var(--mdx-crimson); }
+
+.mdx-bulk-unmatched-label { margin-top: 1.25rem; }
+
+.mdx-bulk-unmatched-item strong {
+  color: var(--mdx-text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+}
+
 /* Responsive */
 @media (max-width: 700px) {
   .mdx-app { padding: 1rem 0.75rem; }
   .mdx-title { font-size: 2rem; letter-spacing: 1.5px; }
   .mdx-header { padding: 1.5rem 1rem; margin-bottom: 1.5rem; }
+  .mdx-feature-switch { gap: 0.5rem; }
+  .mdx-feature-btn { padding: 0.6rem 1.2rem; font-size: 0.92rem; }
   .mdx-tabs { gap: 0.6rem; }
   .mdx-tab { padding: 0.55rem 0.9rem; font-size: 0.82rem; }
   .mdx-panel { padding: 1rem; }
@@ -845,4 +1230,8 @@
   .mdx-compact-bar-row { grid-template-columns: 5rem 1fr auto; }
   .mdx-hero-row { gap: 1.25rem; }
   .mdx-medal-row-head { flex-wrap: wrap; }
+  .mdx-medal-delta-row { grid-template-columns: 5rem 1fr; }
+  .mdx-medal-delta-days { text-align: left; grid-column: 2; }
+  .mdx-species-title-row { gap: 0.75rem; }
+  .mdx-species-sprite { width: 3.5rem; height: 3.5rem; }
 }

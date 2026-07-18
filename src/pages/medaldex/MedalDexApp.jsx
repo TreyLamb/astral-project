@@ -7,17 +7,37 @@ import { MedalDexStorage } from './medaldexStorage';
 import { MedalDexFirestore } from './medaldexFirestore';
 import { MedalDexContext } from './medaldexContext';
 import MedalAccountSwitcher from './MedalAccountSwitcher';
+import ProgressBackup from './ProgressBackup';
 import DexView from './DexView';
+import FormsView from './FormsView';
 import SpeciesDetail from './SpeciesDetail';
 import Summary from './Summary';
 import Medals from './Medals';
+import BulkUpdate from './BulkUpdate';
 import './MedalDex.css';
 
-const TABS = [
-  { to: '/medaldex', label: 'Dex', match: (p) => p === '/medaldex' || p.startsWith('/medaldex/species') },
-  { to: '/medaldex/summary', label: 'Summary', match: (p) => p.startsWith('/medaldex/summary') },
-  { to: '/medaldex/medals', label: 'Medals', match: (p) => p.startsWith('/medaldex/medals') },
+// Requirement #1: two independent features, one page, behind a top-level
+// switch. Each feature owns its own sub-nav below the switch -- Pokedex
+// gets Dex/Forms/Summary, Medals gets Medals/Bulk Update. `match` decides
+// which top-level button (and, for FEATURE_SUBTABS, which sub-tab) is
+// highlighted for the current path; species detail counts as part of the
+// Pokedex feature's "Dex" sub-tab since it's reached FROM the dex grid.
+const FEATURES = [
+  { key: 'dex', label: 'Pokédex', to: '/medaldex', match: (p) => !p.startsWith('/medaldex/medals') },
+  { key: 'medals', label: 'Medals', to: '/medaldex/medals', match: (p) => p.startsWith('/medaldex/medals') },
 ];
+
+const FEATURE_SUBTABS = {
+  dex: [
+    { to: '/medaldex', label: 'Dex', match: (p) => p === '/medaldex' || p.startsWith('/medaldex/species') },
+    { to: '/medaldex/forms', label: 'Forms', match: (p) => p.startsWith('/medaldex/forms') },
+    { to: '/medaldex/summary', label: 'Summary', match: (p) => p.startsWith('/medaldex/summary') },
+  ],
+  medals: [
+    { to: '/medaldex/medals', label: 'Medals', match: (p) => p === '/medaldex/medals' },
+    { to: '/medaldex/medals/bulk', label: 'Bulk Update', match: (p) => p.startsWith('/medaldex/medals/bulk') },
+  ],
+};
 
 export default function MedalDexApp() {
   const location = useLocation();
@@ -127,6 +147,25 @@ export default function MedalDexApp() {
     return medalMap;
   }, [signedIn, user, handleSyncError]);
 
+  // COULD #32 (export/import progress). Batches into a single storage/
+  // Firestore write per data kind -- see importAccountData in
+  // medaldexStorage.js / medaldexFirestore.js -- instead of one write per
+  // species flag or medal value, which matters for a full-account import.
+  const importProgress = useCallback(async (accountId, data) => {
+    if (signedIn) {
+      try {
+        const result = await MedalDexFirestore.importAccountData(user.uid, accountId, data);
+        if (result.species) setDex((prev) => ({ ...prev, [accountId]: { accountId, species: result.species } }));
+        if (result.medals) setMedals((prev) => ({ ...prev, [accountId]: { accountId, medals: result.medals } }));
+        return result;
+      } catch (err) { handleSyncError(err); return null; }
+    }
+    const result = MedalDexStorage.importAccountData(accountId, data);
+    if (result.species) setDex((prev) => ({ ...prev, [accountId]: { accountId, species: result.species } }));
+    if (result.medals) setMedals((prev) => ({ ...prev, [accountId]: { accountId, medals: result.medals } }));
+    return result;
+  }, [signedIn, user, handleSyncError]);
+
   const updateSettings = useCallback(async (updates) => {
     if (signedIn) {
       try {
@@ -149,6 +188,8 @@ export default function MedalDexApp() {
     : accounts[0]?.id ?? null;
 
   const setActiveAccountId = (accountId) => updateSettings({ activeAccountId: accountId });
+  const activeFeature = FEATURES.find((f) => f.match(location.pathname)) || FEATURES[0];
+  const subTabs = FEATURE_SUBTABS[activeFeature.key] || [];
 
   const contextValue = {
     accounts,
@@ -165,6 +206,7 @@ export default function MedalDexApp() {
       setMedalValue,
       updateSettings,
       setActiveAccountId,
+      importProgress,
     },
   };
 
@@ -189,12 +231,28 @@ export default function MedalDexApp() {
                 activeAccountId={activeAccountId}
                 onSelect={setActiveAccountId}
               />
+              <ProgressBackup />
             </div>
           )}
 
-          {/* div, not nav — Navbar.css styles the bare nav element globally */}
+          {/* div, not nav — Navbar.css styles the bare nav element globally.
+              Requirement #1: top-level Pokedex <-> Medals switch. These are
+              two independent features presented side by side, not blended --
+              each gets its own sub-nav row underneath (FEATURE_SUBTABS). */}
+          <div className="mdx-feature-switch">
+            {FEATURES.map((feature) => (
+              <Link
+                key={feature.key}
+                to={feature.to}
+                className={`mdx-feature-btn${feature.match(location.pathname) ? ' mdx-feature-btn-active' : ''}`}
+              >
+                {feature.label}
+              </Link>
+            ))}
+          </div>
+
           <div className="mdx-tabs">
-            {TABS.map((tab) => (
+            {subTabs.map((tab) => (
               <Link
                 key={tab.to}
                 to={tab.to}
@@ -213,9 +271,11 @@ export default function MedalDexApp() {
         ) : (
           <Routes>
             <Route index element={<DexView />} />
+            <Route path="forms" element={<FormsView />} />
             <Route path="species/:speciesId" element={<SpeciesDetail />} />
             <Route path="summary" element={<Summary />} />
             <Route path="medals" element={<Medals />} />
+            <Route path="medals/bulk" element={<BulkUpdate />} />
             <Route path="*" element={<Navigate to="/medaldex" replace />} />
           </Routes>
         )}
