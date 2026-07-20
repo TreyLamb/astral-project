@@ -1949,6 +1949,41 @@ function notifyPosition() {
       return;
     }
 
+    // Route 2 Gate Oak's Aide (scripts/Route2Gate.asm Route2GateOaksAideText) — gives HM05 FLASH
+    // once the player has caught >= 10 kinds of POKéMON (real OG threshold, hOaksAideRequirement=10).
+    // This port models every TM/HM as the single "HM06" teach-any-move key item (see the Viridian
+    // fisherman block above + pokeredGameState.js TM_HM_MOVES, which includes HM05->FLASH), so the
+    // reward is granted as HM06 — same convention used for every other specific-TM/HM gift here.
+    // Caught count = gameState.dex.caught (the Pokédex owned list). Text transcribed from
+    // data/text/text_1.asm (_OaksAide*Text) + text/Route2Gate.asm (Flash explanation). Note: like
+    // the fisherman block, "already has HM06 from elsewhere" short-circuits to the Flash blurb —
+    // fine here since such a player can already teach/use FLASH regardless of this aide.
+    if (here === 'ROUTE_2_GATE:1') {
+      const giftId = npcTrainerId(ms.mapId, npc);
+      const owned = (gameState?.dex?.caught ?? []).length;
+      const alreadyDone = pickedUpRef.current.has(giftId) || (gameState?.items ?? []).some(it => it.name === 'HM06');
+      if (alreadyDone) {
+        setDialogue({ lines: ["The HM FLASH\nlights even the\ndarkest dungeons."], idx: 0, action: null });
+      } else if (owned < 10) {
+        setDialogue({ lines: [
+          "Hi! Remember me?\nI'm PROF.OAK's\nAIDE!",
+          "If you caught 10\nkinds of POKÉMON,\nI'm supposed to\ngive you an HM.",
+          `Let's see...\nUh-oh! You have\ncaught only ${owned}\nkinds of POKÉMON!`,
+          "When you get 10\nkinds, come back\nfor the HM.",
+        ], idx: 0, action: null });
+      } else {
+        pickedUpRef.current.add(giftId);
+        if (onPickUpItem) onPickUpItem(giftId, 'HM06');
+        setDialogue({ lines: [
+          "Hi! Remember me?\nI'm PROF.OAK's\nAIDE!",
+          `Great! You have\ncaught ${owned}\nkinds of POKÉMON!\nCongratulations!`,
+          "Here you go!\n<PLAYER> got\nHM05 FLASH!",
+          "The HM FLASH\nlights even the\ndarkest dungeons.",
+        ], idx: 0, action: null });
+      }
+      return;
+    }
+
     // Mt Moon B2F Super Nerd (scripts/MtMoonB2F.asm MtMoonB2FSuperNerdText +
     // MtMoonB2FDefaultScript's proximity check at raw (13,8)). CORRECTED 2026-07-09, full
     // re-trace after a user report that "mt moon trainer by the two fossils wasn't fixed":

@@ -1,6 +1,7 @@
 // Game state management for Pokemon Red web recreation.
 // All data (levels, learnsets, stats) sourced directly from pret/pokered.
 import FISHING from './extracted_og_data/fishing.json';
+import EVENT_FLAG_LIST from './extracted_og_data/event_flags.json';
 // Coordinate unit is 1 metatile (16px), matching OG's own wXCoord/wYCoord 1:1 (see pokered
 // CLAUDE.md + the noble-orbiting-hollerith coordinate-refactor plan). No even/odd restriction
 // anymore — every integer coordinate is a real, standable position.
@@ -960,19 +961,44 @@ export function importSaveFile(text) {
   return next;
 }
 
+// ── Event flags ───────────────────────────────────────────────────────────
+// Canonical vocabulary of every story/progress flag, mirrored 1:1 from OG's
+// Constants/event_constants.asm (507 names in faithful source order — includes
+// OG's own 4 unnamed padding slots EVENT_1B8/1BF/2A7/67F, kept so the registry
+// is an exact mirror). This is the master flag list the whole port gates story
+// beats on; wiring code should only ever pass a name that appears here.
+// Source data: extracted_og_data/event_flags.json.
+export const EVENT_FLAGS = new Set(EVENT_FLAG_LIST);
+export function isKnownEvent(eventName) {
+  return EVENT_FLAGS.has(eventName);
+}
+// Dev-only guard: passing an EVENT_* name that isn't in the OG registry is
+// almost always a typo, which would silently create a flag hasEvent() can never
+// match again — the exact dead-flag bug class that's invisible at runtime.
+// Warns in dev, compiled out of production, and never throws (a bad flag name
+// must never crash the game).
+function assertKnownEvent(eventName) {
+  if (import.meta.env?.DEV && !EVENT_FLAGS.has(eventName)) {
+    console.warn(`[pokered] unknown event flag "${eventName}" — not in event_constants.asm registry (typo?)`);
+  }
+}
+
 // Event flag helpers — match OG's event_constants.asm naming convention (EVENT_*).
 // Events are stored as an array in gameState for JSON serialization.
 export function hasEvent(state, eventName) {
+  assertKnownEvent(eventName);
   return (state.events || []).includes(eventName);
 }
 
 export function setEvent(state, eventName) {
+  assertKnownEvent(eventName);
   if (!state.events) return { ...state, events: [eventName] };
   if (state.events.includes(eventName)) return state;
   return { ...state, events: [...state.events, eventName] };
 }
 
 export function clearEvent(state, eventName) {
+  assertKnownEvent(eventName);
   if (!state.events) return state;
   return { ...state, events: state.events.filter(e => e !== eventName) };
 }

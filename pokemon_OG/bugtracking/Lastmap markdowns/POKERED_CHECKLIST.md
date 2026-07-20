@@ -61,14 +61,15 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
 - [x] PP depletion — both sides
 - [x] Struggle — forced at 0 PP, includes recoil
 - [x] Critical hit — Gen 1 speed-based formula
-  - ⚠️ Focus Energy and high-crit moves (Slash, Razor Leaf, etc.) not wired
+  - [x] Focus Energy (÷4 Gen-1 bug) and high-crit moves (Slash, Razor Leaf, etc.) — wired in `critChance` (battleEngine.js). Corrected 2026-07-20: prior "not wired" was stale.
+  - ⚠️ Uses live Speed stat, not base species Speed — see BATTLE_MECHANICS_CHANGE_PROPOSALS.md (Proposal 1, refinement not a bug)
 - [x] Miss mechanic — accuracy roll per move
 - [x] Status conditions — Sleep, Poison, Burn, Paralyze, Freeze
 - [x] Confusion — self-damage chance each turn
-  - ⚠️ Approximation (~1/8 max HP typeless), not exact Gen 1 40-power calc
+  - [x] Exact Gen-1 40-power typeless self-hit (battleEngine.js ~L252). Corrected 2026-07-20: prior "~1/8 approximation" note was stale.
 - [x] End-of-turn chip damage — Poison and Burn
-- [ ] Flinch — effect data exists in `moveEffects.js` but not consumed in turn resolution;
-      flinched Pokémon still moves
+- [x] Flinch — wired: set at FLINCH_SIDE_EFFECT1/2, consumed in `blockedFromActing`, cleared
+      end-of-round (battleEngine.js). Corrected 2026-07-20: prior "not consumed" was stale.
 - [x] Run formula — Gen 1 escape calc for wild battles
 - [x] Trainer party queue — sends next Pokémon on faint
 - [x] RUN/ITEM disabled in trainer battles
@@ -85,7 +86,9 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
   - ⚠️ Trade evolutions not implemented
 - [x] Stone evolutions
 - [x] Per-species base XP yield
-  - ⚠️ XP growth curve is Medium-Slow for all species — Gen 1 has 4 distinct growth rates
+  - ⚠️ XP growth curve is Medium-Slow for all species — Gen 1 has 4 distinct growth rates.
+    Data extracted (`extracted_og_data/growth_rates.json`, 151/151); wiring is a proposal
+    pending approval — see BATTLE_MECHANICS_CHANGE_PROPOSALS.md (Proposal 2, visible balance change)
 - [x] Status badges in battle UI and party menu
 
 ---
@@ -173,7 +176,7 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
 | `scripts/*.asm`+`text/*.asm`     | Per-map NPC & trainer dialogue                | 🔄 Non-scripted entries wired game-wide; `scripted: true` entries (~610) being filled in incrementally — done through Cerulean City |
 | `data/pokemon/dex_entries.asm`   | Pokédex flavor text                           | ✅ Converted & wired |
 | `data/moves/moves.asm`           | Move effect constants (165 moves)             | ✅ Converted & wired |
-| `constants/event_constants.asm`  | Named story event flags                       | ❌ Not converted |
+| `constants/event_constants.asm`  | Named story event flags                       | 🔄 Registry converted (507 flags → `extracted_og_data/event_flags.json`) + typo-safe `hasEvent/setEvent/clearEvent` API in `pokeredGameState.js`; NOT yet wired to consumers (story gating still uses ad-hoc booleans) |
 | `data/battle_anims/`             | Battle animation data                         | ❌ Not converted |
 | `audio/`                         | Music and SFX                                 | ❌ Not converted |
 
@@ -199,3 +202,10 @@ just my notes on defects.
 3. shit ton of maps still using last map
 4. npcs still no dialogue
 5. player needs to follow pewter youngster 1 step closer.
+
+## Phase 0 audit findings (2026-07-20)
+- **Warp integrity** (all 799 scanned): `warpIdx` 100% valid (0 out-of-range). 4 dangling-dest warps:
+  - `ROUTE_7 (5,13)` + `UNDERGROUND_PATH_WEST_EAST (2,5)` → **`UNDERGROUND_PATH_ROUTE_7` = real missing map** (Route 7 underground-path entrance building). Convert in Phase 5 (Celadon/Route 7). Currently: those warps silently do nothing.
+  - `SILPH_CO_ELEVATOR (1,3)+(2,3)` → `UNUSED_MAP_ED`: **OG-faithful** placeholder (OG sets real dest at runtime via elevator floor-select menu). Blocked on unimplemented elevator logic → Phase 7 (Silph Co).
+- **Warp `dir`**: 556 still `dir:0` (ANY) — deliberate conservative choice per WARP_DIR_LEGEND.md, NOT a blanket-fix target. Refine per-door during each region's FULLY_WIRE pass.
+- **Event flags**: registry now exists (507 → `extracted_og_data/event_flags.json`), `hasEvent/setEvent/clearEvent` typo-guarded; still has ZERO `.jsx` consumers — wiring happens in region phases.
