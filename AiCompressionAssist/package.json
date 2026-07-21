@@ -1,0 +1,12 @@
+{
+  "name": "ai-compression-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local, free Claude Code PostToolUse hook that strips terminal/log noise from tool output before the agent reads it, with a rolling raw-history backup. Zero dependencies, nothing leaves the machine.",
+  "scripts": {
+    "test": "node selftest.js",
+    "hook": "node hook.js",
+    "report": "node report.js"
+  }
+}

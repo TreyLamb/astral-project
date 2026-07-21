@@ -8,18 +8,5 @@
       "Bash(git add *)",
       "Bash(git commit -m '*)"
     ]
-  },
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Bash|PowerShell",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PROJECT_DIR}/AiCompressionAssist/hook.js\""
-          }
-        ]
-      }
-    ]
   }
 }
