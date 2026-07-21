@@ -62,7 +62,24 @@
 .ft-spacer { flex: 1; }
 
 /* ---- calendar shell (flex chain so Day view can stretch to fill the viewport) ---- */
+/* .ft-cal-outer is the actual .ft-main flex child now — a row so the "Meal day
+   view" side panel (when open) sits beside the calendar rather than replacing
+   Day view. With no panel, a single flex:1 child behaves exactly as before. */
+.ft-cal-outer { flex: 1; display: flex; flex-direction: row; gap: 14px; min-height: 0; }
 .ft-cal { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+/* meal-schedule side panel (target day = whichever day you last clicked) */
+.ft-meal-panel-side {
+  flex: none; width: 380px; display: flex; flex-direction: column; min-height: 0;
+  background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 12px;
+  padding: 14px; overflow-y: auto;
+}
+.ft-meal-panel-side-head { flex: none; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--ft-border); }
+
+@media (max-width: 900px) {
+  .ft-cal-outer { flex-direction: column; }
+  .ft-meal-panel-side { width: 100%; max-height: 50vh; }
+}
 
 /* ---- calendar bar ---- */
 .ft-cal-bar { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
@@ -120,6 +137,15 @@
 .ft-chip-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ft-chip-selected { outline: 2px solid #60a5fa; outline-offset: 1px; }
 .ft-chip-group-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; margin-left: auto; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4); }
+
+/* Chips actually get bigger/more detailed as you zoom into a narrower time
+   range — Month stays compact (many cells, little room), Week and Day step up
+   font-size/padding/gap to use the extra cell height that was previously just
+   empty space around identically-sized chips. */
+.ft-cell-week .ft-chip { font-size: 0.86rem; padding: 5px 9px; gap: 6px; border-radius: 8px; }
+.ft-cell-week .ft-chip-icon { font-size: 1.05rem; }
+.ft-cell-day .ft-chip { font-size: 0.95rem; padding: 7px 11px; gap: 8px; border-radius: 9px; }
+.ft-cell-day .ft-chip-icon { font-size: 1.2rem; }
 
 /* ---- calendar multi-select: marquee drag + bulk selection bar ---- */
 .ft-cal-body { position: relative; user-select: none; flex: 1; display: flex; flex-direction: column; min-height: 0; }
@@ -244,9 +270,12 @@
   .ft-main { padding: 12px; }
   .ft-cell-month { min-height: 72px; }
   .ft-cell-num { font-size: 0.75rem; }
-  .ft-chip-text { display: none; } /* month view gets tight on phones — icon dots only, full detail on tap */
+  /* Month is cramped on phones — icon only, full detail on tap. Week/Day keep
+     their text (and their larger .ft-cell-week/.ft-cell-day chip sizing above)
+     so "zooming in" still means something on mobile, not just on desktop. */
+  .ft-cell-month .ft-chip-text { display: none; }
   .ft-week { grid-template-columns: 1fr; }
-  .ft-cell-week { min-height: 0; }
+  .ft-cell-week { min-height: 140px; }
   .ft-two { grid-template-columns: 1fr; }
   .ft-cal-title { font-size: 1.1rem; }
 }
@@ -292,6 +321,7 @@
 .ft-preset-btn { background: var(--ft-bg); border: 1px solid var(--ft-border); border-radius: 16px; padding: 5px 11px; color: var(--ft-muted); font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: inherit; }
 .ft-preset-btn:hover { border-color: var(--ft-accent); color: var(--ft-accent); }
 .ft-vdot-big { font-size: 1.05rem; margin: 12px 0 2px; color: var(--ft-muted); }
+.ft-goal-incomplete-hint { color: #f59e0b !important; }
 .ft-vdot-big strong { color: var(--ft-accent); font-size: 1.6rem; }
 
 /* output tiles */

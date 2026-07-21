@@ -179,6 +179,15 @@ export default function CalendarView() {
   const mealDayView = !!settings.calendarPrefs?.mealDayView;
   const toggleCalendarPref = (key) => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, [key]: !settings.calendarPrefs?.[key] } });
 
+  // "Meal day view" pops a meal-schedule panel beside the calendar for
+  // whichever day you last clicked — works in Month/Week/Day alike, no need
+  // to switch modes. It stands down only when Day view is already showing
+  // that exact same day (the meals-left/events-right split there already
+  // covers it — no point showing the same day twice).
+  const [lastClickedDate, setLastClickedDate] = useState(() => todayISO());
+  const dayViewShowingTarget = view === 'day' && isoDate(cursor) === lastClickedDate;
+  const showMealPanel = mealDayView && !dayViewShowingTarget;
+
   // meal selection is a lighter-weight sibling of the workout multi-select below
   // — single-toggle only (✂️ no ordered shift-range or marquee box-select for meals).
   const [mealSelected, setMealSelected] = useState(() => new Set());
@@ -187,7 +196,7 @@ export default function CalendarView() {
     if (next.has(mid)) next.delete(mid); else next.add(mid);
     return next;
   });
-  const onAddMeal = (iso) => openMealQuickAdd(iso);
+  const onAddMeal = (iso) => { setLastClickedDate(iso); openMealQuickAdd(iso); };
   const onEditMeal = (id) => { setMealSelected(new Set()); navigate(`meal/${id}`); };
   const mealsByDate = useMemo(() => {
     const map = {};
@@ -293,7 +302,7 @@ export default function CalendarView() {
   }, [workouts]);
 
   const onEdit = (id) => { clearSelection(); navigate(`entry/${id}`); };
-  const onAdd = (iso) => openQuickAdd(iso);
+  const onAdd = (iso) => { setLastClickedDate(iso); openQuickAdd(iso); };
   const onDropWorkout = (id, iso) => moveWorkout(id, iso);
 
   const step = (dir) => {
@@ -322,7 +331,16 @@ export default function CalendarView() {
   });
 
   return (
-    <div className="ft-cal">
+    <div className="ft-cal-outer">
+      {showMealPanel && (
+        <div className="ft-meal-panel-side">
+          <div className="ft-meal-panel-side-head">
+            <span className="ft-field-label">Meals — {lastClickedDate}</span>
+          </div>
+          <MealDayView date={new Date(lastClickedDate + 'T00:00:00')} />
+        </div>
+      )}
+      <div className="ft-cal">
       <div className="ft-cal-bar">
         <div className="ft-cal-nav">
           <button type="button" className="ft-nav-btn" onClick={() => step(-1)} aria-label="Previous">‹</button>
@@ -344,9 +362,9 @@ export default function CalendarView() {
           type="button"
           className={`ft-toggle-btn${mealDayView ? ' active' : ''}`}
           onClick={() => toggleCalendarPref('mealDayView')}
-          title="Day view becomes a meal schedule instead of workouts"
+          title="Shows a meal-schedule panel for whichever day you last clicked, alongside the calendar in any view"
         >
-          🍽 Meal day view{view !== 'day' ? ' (switch to Day)' : ''}
+          🍽 Meal day view
         </button>
         <button
           type="button"
@@ -431,9 +449,7 @@ export default function CalendarView() {
 
         {view === 'day' && (
           <div className="ft-day">
-            {mealDayView
-              ? <MealDayView date={cursor} />
-              : <DayCell variant="day" {...cellProps(cursor, true)} />}
+            <DayCell variant="day" {...cellProps(cursor, true)} />
           </div>
         )}
       </div>
@@ -458,6 +474,7 @@ export default function CalendarView() {
       {goalEditor && (
         <GoalEditorModal goal={goalEditor === 'new' ? null : goalEditor} onClose={() => setGoalEditor(null)} />
       )}
+      </div>
     </div>
   );
 }

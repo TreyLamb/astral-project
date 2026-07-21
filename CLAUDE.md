@@ -201,6 +201,22 @@ When creating, extending, or "dropping a task" to build any **non-game feature/p
 - **Mark every agent-initiated omission / deferral / downgrade with ✂️** so the user can scan or Ctrl-F for it.
 - **Report coverage, not a demo** — a matrix of every requirement Done/Partial/Missing/Cut; correctness verification (build/tests/runtime) is a separate section and never a substitute.
 
+## "Go further" phrasing is a literal instruction, not filler
+
+When a request includes phrasing like **"go above and beyond," "get creative," "surprise me," "don't take shortcuts," "make it unique," or "think beyond what I've said"** — every one of these is a real, literal instruction. Never treat them as decoration to nod at while doing the minimum.
+
+Reason through what's actually being asked and deliver genuinely more than the literal words: research the topic like a domain professional would, add real adjacent functionality, make substantive creative choices. A token gesture does not satisfy this — this has been an explicit, repeated complaint (2026-07-21: "I keep asking you to try and think further ahead and you keep just giving me the literal bare minimum").
+
+Concrete pattern to watch for: when a new feature has multiple natural entry points (a new data type, a new panel, a toggle), wire it into every place a user would reasonably expect to reach it from — not just the one place the request happened to describe. Example of getting this wrong: building a "Goals" feature only reachable from a Dashboard tab, when the obvious adjacent need (adjust it and see the calendar update immediately, no tab-switching) should have been built in from the start.
+
+## UI feature contract
+
+Three shipped bugs (2026-07-21, FitnessTracker Goals/Meals) all trace back to the same class of mistake — codifying it here so it doesn't recur:
+- **Don't lock an open-ended value behind a fixed-preset `<select>`.** If a value could reasonably be anything (a distance, a quantity, a name), give free-text entry — presets can exist as optional quick-pick buttons alongside it, never as the only path in.
+- **A toggle must do the thing it claims, in every mode it claims to affect** — not silently no-op unless some other unrelated mode/tab is also active. If a feature only works from one specific sub-state, that's a bug, not a shippable v1.
+- **"More detail at this zoom level" must actually change size/detail**, not just container height. If Week/Day views exist as more-zoomed-in alternatives to Month, their content (icons, text, chips) needs to visibly scale up too, or the zoom levels are cosmetic and pointless.
+- **A feature must be genuinely usable with zero prior data**, not just usable once history has accumulated. Don't gate a primary action (e.g. "accept and save") behind an auto-estimated value that silently stays null for a new user — always give a manual override.
+
 ## subagent spawning
 when using subagents use haiku more often for simple-er tasks ONLY. user does not trust haiku's work unless the tasks are very cut-and-dry and/or sonnet or higher agent will be verifying work.
 
