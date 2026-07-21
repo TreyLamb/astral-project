@@ -1,0 +1,15 @@
+{
+  "name": "FitnessTracker",
+  "short_name": "Fitness",
+  "description": "Personal workout & training tracker",
+  "start_url": "/fitness-tracker",
+  "scope": "/fitness-tracker",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0e12",
+  "theme_color": "#0a0e12",
+  "icons": [
+    { "src": "/fitness-tracker/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/fitness-tracker/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

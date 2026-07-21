@@ -1,8 +1,9 @@
-// ADDING A NEW PAGE — do all 4 steps or it won't work:
+// ADDING A NEW PAGE — do all 5 steps or it's not "done" (see CLAUDE.md):
 // 1. Create src/pages/YourPage.jsx (and YourPage.css if needed)
 // 2. Import it below
 // 3. Add a <Route path="/your-path" element={<YourPage />} /> in the Routes block
 // 4. Add a <Link to="/your-path"> in src/components/Navbar.jsx
+// 5. Add a Home-page card — a tile in the TILES array in src/pages/Home.jsx (the most-forgotten step)
 //
 // EXCEPTION: standalone HTML tools (no React) go in public/ instead — see public/birds or public/chinese-idioms
 
@@ -28,6 +29,8 @@ import PogoAccsApp from './pages/pogoaccs/PogoAccsApp';
 import AntiquityQuestApp from './pages/antiquityquest/AntiquityQuestApp';
 import StashMapApp from './pages/stashmap/StashMapApp';
 import MedalDexApp from './pages/medaldex/MedalDexApp';
+import FitnessTrackerApp from './pages/fitnesstracker/FitnessTrackerApp';
+import TimerTool from './pages/TimerTool/TimerTool';
 import './App.css';
 
 function App() {
@@ -56,6 +59,8 @@ function App() {
             <Route path="/antiquityquest/*" element={<AntiquityQuestApp />} />
             <Route path="/stashmap/*" element={<StashMapApp />} />
             <Route path="/medaldex/*" element={<MedalDexApp />} />
+            <Route path="/fitness-tracker/*" element={<FitnessTrackerApp />} />
+            <Route path="/timer-tool" element={<TimerTool />} />
           </Routes>
         </div>
       </AuthProvider>
