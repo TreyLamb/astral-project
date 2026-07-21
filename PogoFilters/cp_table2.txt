@@ -1,0 +1,373 @@
+=== Tier 1 ===						=== Tier 2 ===						=== Tier 3 ===						=== No Evolution Line ===				
+name	L20	L25	L30	L35		name	L20	L25	L30	L35		name	L20	L25	L30	L35		name	L20	L25	L30	L35
+Bulbasaur	563	703	844	915		Ivysaur	879	1098	1318	1428		Venusaur	1437	1797	2156	2336		Raichu (Alola)	1198	1498	1798	1948
+Charmander	490	613	736	797		Charmeleon	853	1067	1280	1387		Charizard	1529	1912	2295	2486		Farfetch’d	628	785	942	1020
+Squirtle	472	590	708	767		Wartortle	764	955	1146	1241		Blastoise	1297	1622	1946	2108		Exeggutor (Alola)	1597	1997	2396	2596
+Caterpie	202	253	303	328		Metapod	207	259	311	337		Butterfree	948	1185	1422	1541		Kangaskhan	1363	1704	2045	2215
+Weedle	212	265	318	345		Kakuna	199	248	298	323		Beedrill	958	1198	1438	1557		Pinsir	1567	1959	2351	2547
+Pidgey	330	413	496	537		Pidgeotto	605	756	907	983		Pidgeot	1113	1391	1670	1809		Tauros	1382	1728	2074	2247
+						Pikachu	468	585	702	760		Raichu	1141	1427	1713	1855		Tauros (Paldea_aqua)	1501	1877	2252	2440
+						Nidorina	667	834	1000	1084		Nidoqueen	1309	1637	1964	2128		Lapras	1391	1739	2087	2261
+						Nidorino	712	890	1069	1158		Nidoking	1352	1691	2029	2198		Ditto	411	513	616	668
+						Clefairy	583	729	875	948		Clefable	1281	1602	1922	2082		Aerodactyl	1471	1839	2207	2391
+						Jigglypuff	345	431	518	561		Wigglytuff	995	1244	1493	1618		Typhlosion (Hisuian)	1586	1983	2380	2578
+						Golbat	1030	1287	1545	1673		Vileplume	1349	1686	2023	2192		Unown (A)	599	749	899	974
+						Gloom	869	1086	1303	1412		Poliwrath	1363	1704	2045	2216		Girafarig	1067	1334	1601	1735
+						Primeape	1199	1498	1798	1948		Alakazam	1618	2023	2428	2630		Qwilfish	1070	1337	1605	1739
+						Poliwhirl	726	908	1090	1181		Machamp	1621	2026	2431	2634		Shuckle	164	206	247	268
+						Kadabra	1070	1338	1605	1739		Victreebel	1277	1596	1916	2075		Heracross	1646	2058	2469	2675
+						Machoke	1058	1323	1588	1720		Golem	1563	1954	2345	2540		Corsola	704	880	1056	1144
+						Weepinbell	828	1036	1243	1346		Gengar	1520	1900	2280	2470		Delibird	551	689	827	895
+						Graveler	987	1233	1480	1604		Dragonite	2027	2534	3041	3295		Skarmory	1100	1376	1651	1789
+						Magneton	1306	1633	1960	2123		Meganium	1267	1584	1901	2059		Stantler	1131	1414	1697	1839
+						Haunter	1018	1272	1527	1654		Typhlosion	1529	1912	2295	2486		Smeargle	196	246	295	319
+						Rhydon	1689	2111	2534	2745		Feraligatr	1512	1891	2269	2458		Miltank	1236	1545	1854	2008
+						Chansey	617	771	926	1003		Crobat	1396	1746	2095	2270		Shedinja	144	180	216	234
+						Seadra	1093	1366	1640	1776		Ampharos	1509	1887	2265	2453		Sableye	757	947	1137	1231
+						Electabuzz	1225	1531	1838	1991		Bellossom	1196	1495	1794	1944		Mawile	844	1055	1266	1371
+Growlithe (Hisuian)	673	841	1010	1094		Magmar	1257	1572	1886	2043		Azumarill	815	1019	1223	1325		Plusle	921	1152	1382	1497
+Growlithe	631	789	946	1025		Dragonair	923	1153	1384	1500		Politoed	1288	1611	1933	2094		Minun	876	1095	1314	1424
+						Bayleef	745	932	1118	1212		Jumpluff	843	1053	1264	1370		Volbeat	918	1147	1377	1491
+						Quilava	853	1067	1280	1387		Kingdra	1394	1743	2091	2266		Illumise	918	1147	1377	1491
+						Croconaw	891	1114	1337	1449		Blissey	1444	1805	2166	2346		Torkoal	1093	1366	1640	1776
+						Togetic	883	1104	1325	1436		Tyranitar	2051	2564	3077	3334		Spinda (00)	619	774	929	1006
+						Flaaffy	781	977	1172	1270		Sceptile	1456	1821	2185	2367		Zangoose	1268	1586	1903	2062
+						Marill	210	262	315	341		Blaziken	1505	1881	2258	2446		Seviper	1098	1373	1648	1785
+						Skiploom	487	609	731	792		Swampert	1576	1970	2365	2562		Lunatone	1221	1527	1832	1985
+						Ursaring	1558	1948	2338	2533		Beautifly	912	1140	1368	1482		Solrock	1221	1527	1832	1985
+						Piloswine	1230	1538	1846	1999		Dustox	620	775	930	1007		Castform	842	1052	1263	1368
+						Porygon2	1432	1790	2148	2327		Ludicolo	1219	1524	1829	1982		Kecleon	1068	1335	1602	1736
+						Pupitar	915	1144	1373	1487		Shiftry	1222	1528	1834	1986		Tropius	1009	1261	1513	1639
+						Grovyle	863	1079	1295	1403		Gardevoir	1641	2052	2463	2668		Absol	1326	1658	1990	2156
+						Combusken	852	1066	1279	1386		Slaking	2378	2972	3567	3864		Relicanth	1331	1664	1997	2163
+						Marshtomp	920	1151	1381	1496		Exploud	1231	1539	1847	2001		Luvdisc	419	524	628	681
+						Linoone	858	1072	1287	1394		Aggron	1590	1988	2385	2584		Pachirisu	613	767	920	997
+						Silcoon	262	328	394	427		Flygon	1404	1756	2107	2282		Chatot	925	1156	1388	1503
+						Cascoon	262	328	394	427		Walrein	1439	1799	2159	2339		Spiritomb	1081	1352	1622	1758
+						Lombre	606	758	910	986		Salamence	2002	2502	3003	3253		Carnivine	1129	1411	1693	1835
+						Nuzleaf	620	775	931	1008		Metagross	2027	2534	3041	3294		Rotom (Fan)	1358	1698	2037	2207
+						Kirlia	483	604	725	785		Torterra	1555	1944	2333	2527		Rotom	1059	1324	1589	1721
+						Vigoroth	1025	1281	1537	1666		Infernape	1416	1770	2124	2301		Samurott (Hisuian)	1481	1851	2222	2407
+						Loudred	674	842	1011	1095		Empoleon	1536	1920	2305	2497		Audino	866	1083	1300	1408
+						Lairon	1073	1341	1609	1743		Staraptor	1493	1866	2239	2426		Throh	1348	1686	2023	2192
+						Roselia	970	1213	1456	1577		Luxray	1528	1910	2292	2483		Sawk	1473	1841	2209	2394
+						Vibrava	621	777	932	1010		Roserade	1573	1967	2360	2557		Lilligant (Hisuian)	1322	1653	1984	2149
+						Dusclops	817	1022	1227	1329		Garchomp	2121	2652	3182	3447		Basculin (Blue_striped)	1091	1364	1637	1773
+						Sealeo	886	1108	1329	1440		Magnezone	1703	2129	2555	2768		Darmanitan (Galarian_zen)	2080	2600	3120	3380
+						Shelgon	1060	1325	1590	1722		Rhyperior	1995	2494	2993	3242		Darmanitan (Zen)	1998	2497	2997	3247
+Scyther	1429	1786	2144	2322		Metang	891	1113	1336	1447		Electivire	1633	2041	2450	2654		Maractus	1191	1489	1787	1936
+Magikarp	118	147	177	192		Grotle	982	1228	1474	1597		Magmortar	1662	2078	2494	2702		Sigilyph	1343	1679	2015	2183
+Eevee	539	673	808	875		Monferno	810	1012	1215	1316		Togekiss	1774	2217	2661	2883		Emolga	843	1054	1264	1370
+						Prinplup	880	1100	1320	1430		Mamoswine	1769	2211	2654	2875		Alomomola	1129	1411	1693	1834
+						Staravia	661	826	991	1074		Porygon-Z	1735	2169	2602	2819		Cryogonal	1480	1850	2220	2405
+						Luxio	761	951	1142	1237		Gallade	1641	2052	2463	2668		Stunfisk	1129	1412	1695	1836
+Dratini	503	629	755	818		Gabite	973	1217	1460	1582		Dusknoir	1252	1566	1879	2035		Druddigon	1443	1804	2165	2346
+Chikorita	466	582	699	757		Servine	738	923	1108	1200		Serperior	1194	1492	1791	1940		Bouffalant	1480	1850	2220	2405
+Cyndaquil	490	613	736	797		Pignite	998	1248	1498	1623		Emboar	1577	1972	2366	2563		Braviary (Hisuian)	1486	1858	2230	2416
+Totodile	571	714	858	929		Dewott	900	1126	1351	1464		Samurott	1494	1868	2242	2429		Heatmor	1257	1571	1886	2043
+Sentret	298	372	447	484		Herdier	815	1019	1223	1325		Stoutland	1496	1870	2244	2431		Durant	1403	1754	2105	2280
+Hoothoot	327	409	491	532		Tranquill	739	923	1108	1201		Unfezant	1443	1804	2165	2346		Furfrou (Dandy)	1103	1379	1655	1793
+Ledyba	355	444	532	577		Boldore	1058	1323	1587	1720		Gigalith	1717	2146	2575	2790		Aegislash (Blade)	1292	1615	1938	2100
+Spinarak	402	503	604	654		Gurdurr	1134	1418	1702	1843		Conkeldurr	1775	2219	2663	2885		Hawlucha	1266	1583	1900	2058
+Chinchou	563	704	845	916		Palpitoad	711	889	1067	1156		Seismitoad	1350	1688	2026	2195		Dedenne	955	1194	1433	1553
+Pichu	222	278	334	361		Swadloon	700	875	1050	1137		Leavanny	1360	1700	2041	2211		Carbink	746	933	1119	1213
+Cleffa	325	407	488	529		Whirlipede	577	721	866	938		Scolipede	1286	1608	1930	2091		Klefki	1015	1269	1523	1649
+Igglybuff	247	309	371	402		Krokorok	724	905	1087	1177		Krookodile	1615	2019	2423	2625		Avalugg (Hisuian)	1843	2304	2765	2995
+Togepi	318	397	477	517		Gothorita	827	1034	1241	1344		Gothitelle	1272	1590	1908	2067		Decidueye (Hisuian)	1534	1918	2301	2493
+Natu	555	694	833	902		Duosion	1049	1311	1574	1705		Reuniclus	1549	1936	2324	2518		Oricorio (Baile)	1224	1530	1837	1990
+Mareep	495	619	743	804		Vanillish	820	1025	1230	1333		Vanilluxe	1493	1866	2239	2426		Wishiwashi (School)	1714	2143	2571	2785
+Hoppip	288	360	432	468		Klang	959	1199	1439	1559		Klinklang	1391	1738	2086	2260		Wishiwashi (Solo)	155	194	233	252
+Aipom	688	860	1033	1119		Eelektrik	887	1109	1331	1442		Eelektross	1443	1804	2165	2345		Comfey	1105	1381	1657	1795
+Sunkern	181	227	272	295		Lampent	883	1103	1324	1435		Chandelure	1736	2170	2604	2821		Oranguru	1288	1611	1933	2094
+Yanma	752	941	1129	1223		Fraxure	1168	1460	1753	1899		Haxorus	1915	2394	2873	3112		Passimian	1608	2010	2413	2614
+Wooper	309	386	463	502		Bisharp	1504	1880	2256	2444		Hydreigon	1935	2419	2903	3144		Pyukumuku	697	872	1046	1133
+Murkrow	801	1001	1202	1302		Zweilous	955	1193	1432	1551		Chesnaught	1566	1958	2349	2545		Minior (Blue)	1200	1500	1801	1951
+Misdreavus	1002	1253	1504	1629		Quilladin	890	1112	1335	1446		Delphox	1623	2029	2435	2638		Komala	1360	1701	2041	2211
+Pineco	559	699	839	909		Braixen	940	1175	1410	1528		Greninja	1400	1750	2100	2275		Turtonator	1164	1455	1746	1891
+Dunsparce	871	1089	1307	1416		Frogadier	844	1055	1266	1371		Talonflame	1154	1443	1732	1876		Togedemaru	1130	1412	1695	1836
+Gligar	964	1205	1447	1567		Fletchinder	753	942	1130	1224		Vivillon (Archipelago)	961	1201	1442	1562		Mimikyu (Busted)	1165	1457	1748	1894
+Snubbull	627	784	941	1019		Spewpa (Archipelago)	223	279	335	363		Florges (Blue)	1720	2150	2580	2795		Bruxish	1255	1568	1882	2039
+Qwilfish (Hisuian)	1117	1396	1675	1815		Floette (Blue)	788	985	1182	1281		Aegislash (Shield)	789	986	1183	1282		Drampa	1543	1928	2314	2507
+Sneasel	1070	1337	1605	1739		Doublade	1284	1606	1927	2087		Goodra	1870	2337	2805	3039		Dhelmise	1562	1953	2344	2539
+Teddiursa	676	846	1015	1099		Sliggoo	1063	1329	1594	1727		Decidueye	1467	1834	2201	2384		Cramorant	1120	1400	1681	1821
+Slugma	444	555	666	721		Dartrix	892	1115	1339	1450		Incineroar	1588	1986	2383	2582		Mr. Rime (Galarian)	1496	1870	2244	2431
+Swinub	362	452	543	588		Torracat	883	1104	1325	1435		Primarina	1701	2127	2552	2765		Falinks	1238	1547	1857	2012
+Corsola (Galarian)	768	960	1152	1248		Brionne	980	1225	1470	1592		Toucannon	1418	1773	2128	2305		Pincurchin	1005	1256	1507	1633
+Remoraid	452	566	679	735		Trumbeak	758	947	1137	1231		Vikavolt	1653	2067	2480	2687		Stonjourner	1711	2139	2567	2781
+Houndour	625	781	938	1016		Charjabug	878	1097	1317	1427		Tsareena	1571	1964	2357	2553		Eiscue (Ice)	1077	1347	1617	1751
+Phanpy	609	762	914	991		Steenee	370	463	556	602		Kommo-o	1761	2201	2641	2862		Eiscue (Noice)	1064	1330	1596	1729
+Tyrogue	231	289	347	376		Hakamo-o	872	1090	1308	1417		Rillaboom	1769	2211	2653	2874		Indeedee (Female)	1260	1575	1890	2048
+Smoochum	656	821	985	1067		Cosmoem	394	493	592	641		Cinderace	1600	2000	2400	2600		Indeedee (Male)	1284	1605	1927	2087
+Elekid	611	764	917	994		Thwackey	975	1219	1462	1584		Inteleon	1567	1959	2352	2547		Morpeko (Full_belly)	1009	1262	1515	1641
+Magby	674	843	1011	1096		Raboot	946	1182	1419	1537		Corviknight	1292	1615	1938	2100		Dracozolt	1383	1728	2074	2247
+Larvitar	522	653	783	849		Drizzile	983	1229	1475	1598		Orbeetle	1163	1454	1745	1891		Arctozolt	1352	1691	2029	2198
+Treecko	529	661	794	860		Corvisquire	696	870	1044	1131		Coalossal	1233	1542	1850	2004		Dracovish	1316	1645	1975	2139
+Torchic	550	688	826	895		Dottler	515	644	773	837		Hatterene	1495	1869	2243	2429		Arctovish	1287	1609	1931	2092
+Mudkip	569	712	854	925		Carkol	776	970	1164	1261		Grimmsnarl	1506	1883	2260	2448		Duraludon	1627	2034	2441	2644
+Poochyena	329	411	493	535		Hattrem	843	1054	1265	1371		Obstagoon (Galarian)	1400	1750	2100	2275		Wyrdeer	1442	1803	2164	2344
+Zigzagoon	239	299	359	389		Morgrem	738	923	1107	1200		Ursaluna	2061	2577	3092	3350		Kleavor	1670	2087	2505	2714
+Wurmple	276	345	414	448		Drakloak	851	1064	1277	1384		Meowscarada	1493	1866	2240	2426		Squawkabilly (Blue)	1025	1282	1538	1666
+Lotad	287	359	431	467		Floragato	868	1085	1302	1410		Skeledirge	1605	2007	2409	2609		Klawf	1263	1579	1895	2053
+Seedot	287	359	431	467		Crocalor	1007	1259	1511	1637		Quaquaval	1599	1999	2399	2599		Bombirdier	1309	1637	1964	2128
+Taillow	374	468	562	609		Quaxwell	920	1150	1380	1495		Pawmot	1388	1735	2082	2256		Palafin (Zero)	1001	1252	1503	1628
+Wingull	374	468	562	609		Pawmo	659	824	990	1072		Arboliva	1568	1961	2353	2549		Cyclizar	1235	1544	1853	2008
+Ralts	256	320	385	417		Dolliv	734	918	1101	1193		Garganacl	1431	1790	2148	2327		Orthworm	1205	1507	1809	1959
+Surskit	389	487	584	633		Naclstack	657	821	986	1068		Tinkaton	1179	1474	1769	1916		Flamigo	1456	1820	2184	2366
+Shroomish	397	497	597	646		Tinkatuff	665	831	998	1081		Annihilape	1738	2173	2608	2825		Veluza	1280	1600	1921	2081
+Slakoth	501	627	752	815		Arctibax	1091	1364	1637	1774		Kingambit	1929	2412	2895	3136		Dondozo	1586	1983	2380	2578
+Nincada	377	471	565	613		Dipplin	1246	1557	1869	2025		Hydrapple	1719	2150	2580	2795		Tatsugiri (Curly)	1450	1813	2176	2358
+Whismur	321	401	482	522								=== 2-Stage Final ===						Farigiraf	1506	1882	2259	2447
+Makuhita	399	499	599	649								name	L20	L25	L30	L35		Gimmighoul	555	694	833	902
+Azurill	162	203	243	264								Raticate (Alola)	881	1102	1322	1432		Archaludon	1999	2499	2999	3248
+Nosepass	494	617	741	802								Raticate	896	1120	1344	1456						
+Skitty	361	451	542	587								Fearow	1040	1300	1561	1691						
+Aron	666	833	1000	1083								Arbok	999	1249	1499	1624						
+Meditite	338	422	507	549								Sandslash (Alola)	1279	1599	1919	2079						
+Electrike	482	602	723	783								Sandslash	1247	1559	1871	2027						
+Gulpin	427	534	641	695								Ninetales (Alola)	1211	1514	1817	1969						
+Carvanha	500	625	750	813								Ninetales	1195	1494	1793	1943						
+Wailmer	744	931	1117	1210								Parasect	966	1208	1449	1570						
+Numel	530	663	796	862								Venomoth	1087	1359	1631	1767						
+Spoink	681	851	1021	1106								Dugtrio (Alola)	984	1230	1476	1599						
+Trapinch	646	807	969	1049								Dugtrio	806	1008	1210	1310						
+Cacnea	628	785	942	1020								Persian (Alola)	918	1147	1377	1492						
+Swablu	405	507	608	659								Persian	873	1092	1310	1419						
+Barboach	404	505	606	656								Golduck	1289	1611	1934	2095						
+Corphish	624	781	937	1015								Arcanine (Hisuian)	1670	2088	2505	2714						
+Baltoy	386	483	580	628								Arcanine	1606	2008	2410	2611						
+Lileep	656	821	985	1067								Tentacruel	1273	1592	1910	2069						
+Anorith	784	981	1177	1275								Rapidash	1294	1618	1941	2103						
+Feebas	118	147	177	192								Slowbro	1340	1676	2011	2179						
+Shuppet	508	635	762	826								Slowbro (Galarian)	1285	1607	1929	2089						
+Duskull	342	428	514	556								Dodrio	1239	1549	1858	2013						
+Wynaut	246	308	370	400								Dewgong	1033	1292	1551	1680						
+Snorunt	441	551	661	716								Muk	1457	1821	2186	2368						
+Spheal	479	599	719	779								Cloyster	1340	1675	2010	2178						
+Clamperl	646	808	970	1051								Hypno	1091	1364	1636	1773						
+Bagon	584	730	877	950								Kingler	1495	1868	2242	2429						
+Beldum	488	610	732	793								Electrode (Hisuian)	1124	1405	1686	1827						
+Turtwig	601	752	902	977								Electrode	1096	1371	1645	1782						
+Chimchar	478	597	717	776								Exeggutor	1597	1997	2396	2596						
+Piplup	541	676	811	879								Marowak	952	1191	1429	1548						
+Starly	350	437	525	569								Hitmonlee	1356	1695	2034	2204						
+Bidoof	351	439	526	570								Hitmonchan	1223	1529	1835	1988						
+Kricketot	183	229	275	298								Weezing	1202	1503	1804	1954						
+Shinx	433	541	649	704								Seaking	1131	1414	1697	1838						
+Budew	424	530	636	689								Starmie	1362	1702	2043	2213						
+Cranidos	935	1169	1403	1520								Mr. Mime	1165	1456	1748	1893						
+Shieldon	439	549	659	714								Jynx	1345	1681	2018	2186						
+Burmy (Plant)	228	286	343	372								Gyarados	1806	2258	2710	2935						
+Combee	233	291	349	379								Vaporeon	1652	2065	2479	2685						
+Buizel	527	659	791	857								Jolteon	1528	1911	2293	2484						
+Cherubi	474	593	711	771								Flareon	1605	2007	2408	2609						
+Shellos (East_sea)	572	715	859	930								Omastar	1473	1842	2210	2394						
+Drifloon	603	754	905	981								Kabutops	1432	1790	2148	2327						
+Buneary	640	800	960	1040								Snorlax	1712	2140	2568	2782						
+Glameow	465	581	698	756								Furret	909	1137	1365	1478						
+Chingling	504	630	756	819								Noctowl	1054	1318	1582	1714						
+Stunky	581	726	872	944								Ledian	686	857	1029	1115						
+Bronzor	282	353	424	459								Ariados	918	1147	1377	1492						
+Bonsly	663	829	995	1078								Lanturn	1086	1358	1630	1765						
+Mime Jr.	551	689	827	896								Xatu	1145	1431	1718	1861						
+Happiny	159	199	239	259								Sudowoodo	1123	1404	1686	1826						
+Gible	560	700	840	911								Sunflora	1119	1399	1679	1819						
+Munchlax	979	1224	1469	1591								Quagsire	1037	1297	1556	1686						
+Riolu	496	621	745	807								Espeon	1682	2103	2523	2734						
+Hippopotas	693	866	1040	1126								Umbreon	1113	1392	1671	1810						
+Skorupi	505	631	758	821								Slowking	1340	1676	2011	2179						
+Croagunk	474	593	712	771								Slowking (Galarian)	1435	1794	2153	2333						
+Finneon	485	607	728	789								Wobbuffet	501	626	752	814						
+Mantyke	633	791	950	1029								Forretress	1196	1496	1795	1945						
+Snover	586	733	879	953								Steelix	1266	1583	1900	2058						
+Snivy	420	525	630	683								Granbull	1343	1679	2014	2182						
+Tepig	544	680	816	884								Scizor	1590	1988	2386	2585						
+Oshawott	525	656	787	853								Magcargo	879	1099	1319	1429						
+Patrat	389	486	584	632								Octillery	1214	1518	1821	1973						
+Lillipup	455	569	683	740								Mantine	1100	1376	1651	1789						
+Purrloin	379	474	568	616								Houndoom	1389	1736	2083	2257						
+Pansage	477	597	716	776								Donphan	1598	1998	2398	2598						
+Pansear	477	597	716	776								Hitmontop	1127	1409	1691	1832						
+Panpour	477	597	716	776								Mightyena	1002	1252	1503	1628						
+Munna	577	722	866	938								Swellow	998	1247	1497	1622						
+Pidove	419	524	629	681								Pelipper	1112	1390	1668	1807						
+Blitzle	436	545	655	709								Masquerain	1190	1488	1786	1934						
+Roggenrola	611	764	916	993								Breloom	1384	1730	2076	2249						
+Woobat	508	636	763	826								Ninjask	1023	1279	1536	1663						
+Drilbur	701	876	1052	1139								Hariyama	1490	1863	2236	2422						
+Timburr	668	836	1003	1087								Delcatty	768	960	1152	1248						
+Tympole	414	518	621	673								Medicham	733	916	1099	1191						
+Sewaddle	488	611	733	794								Manectric	1227	1533	1840	1994						
+Venipede	345	431	517	561								Swalot	1029	1287	1544	1673						
+Cottonee	340	425	511	553								Sharpedo	1132	1415	1698	1840						
+Petilil	517	646	775	840								Wailord	1184	1481	1777	1925						
+Sandile	518	648	778	843								Camerupt	1147	1434	1721	1865						
+Darumaka	736	920	1105	1197								Grumpig	1245	1556	1867	2023						
+Dwebble	621	777	933	1010								Cacturne	1202	1503	1803	1954						
+Scraggy	701	877	1052	1140								Altaria	1044	1305	1566	1697						
+Yamask	491	613	736	798								Whiscash	1082	1353	1623	1759						
+Tirtouga	764	956	1147	1242								Crawdaunt	1300	1625	1950	2113						
+Archen	951	1189	1427	1546								Claydol	1025	1282	1538	1667						
+Trubbish	501	626	751	814								Cradily	1157	1446	1736	1881						
+Zorua (Hisuian)	607	759	911	987								Armaldo	1507	1884	2261	2450						
+Zorua	593	741	890	964								Milotic	1594	1993	2391	2591						
+Minccino	432	540	648	702								Banette	1203	1504	1806	1956						
+Gothita	474	593	712	771								Chimecho	1184	1481	1777	1925						
+Solosis	696	870	1044	1131								Glalie	1100	1375	1650	1788						
+Ducklett	423	529	635	688								Huntail	1228	1535	1842	1995						
+Vanillite	519	649	779	844								Gorebyss	1312	1640	1968	2132						
+Deerling (Autumn)	573	716	859	931								Bibarel	945	1181	1418	1536						
+Karrablast	597	747	896	971								Kricketune	852	1065	1278	1384						
+Foongus	488	611	733	794								Rampardos	1745	2181	2617	2835						
+Frillish	639	799	959	1039								Bastiodon	785	981	1178	1276						
+Joltik	513	641	770	834								Wormadam (Plant)	919	1149	1379	1494						
+Ferroseed	467	585	702	760								Wormadam (Trash)	821	1026	1231	1334						
+Klink	477	597	716	776								Mothim	939	1174	1409	1526						
+Tynamo	400	500	600	650								Vespiquen	1045	1306	1568	1699						
+Elgyem	707	884	1061	1150								Floatzel	1281	1602	1922	2082						
+Litwick	504	630	757	820								Cherrim (Overcast)	1069	1336	1603	1737						
+Axew	698	873	1048	1135								Gastrodon (East_sea)	1218	1523	1828	1980						
+Cubchoo	536	670	804	871								Ambipom	1270	1588	1906	2064						
+Shelmet	410	512	615	666								Drifblim	1244	1555	1866	2022						
+Mienfoo	709	887	1064	1153								Lopunny	1075	1344	1613	1747						
+Golett	601	752	902	978								Mismagius	1379	1724	2069	2241						
+Pawniard	734	918	1101	1193								Honchkrow	1425	1781	2138	2316						
+Rufflet	764	955	1146	1242								Purugly	1016	1271	1525	1652						
+Vullaby	646	807	969	1050								Skuntank	1237	1546	1856	2010						
+Deino	534	667	801	867								Bronzong	1173	1466	1759	1906						
+Larvesta	768	960	1152	1248								Lucario	1425	1782	2138	2317						
+Chespin	552	690	829	898								Hippowdon	1638	2048	2457	2662						
+Fennekin	516	645	774	839								Drapion	1290	1613	1936	2097						
+Froakie	496	621	745	807								Toxicroak	1308	1635	1962	2126						
+Bunnelby	263	329	395	428								Lumineon	941	1176	1411	1529						
+Fletchling	394	493	591	641								Abomasnow	1240	1550	1861	2016						
+Scatterbug (Archipelago)	231	289	347	376								Weavile	1592	1990	2389	2588						
+Litleo	730	912	1095	1186								Lickilicky	1297	1621	1946	2108						
+Flabebe (Blue)	535	669	803	870								Tangrowth	1607	2009	2411	2612						
+Skiddo	635	794	952	1032								Yanmega	1560	1950	2340	2535						
+Pancham	764	955	1146	1241								Leafeon	1559	1950	2340	2535						
+Espurr	640	800	960	1040								Glaceon	1659	2075	2490	2697						
+Honedge	711	889	1067	1156								Gliscor	1421	1777	2132	2310						
+Spritzee	635	794	953	1032								Probopass	1083	1354	1624	1760						
+Swirlix	596	746	895	970								Froslass	1064	1331	1597	1730						
+Inkay	461	577	693	750								Watchog	944	1180	1416	1534						
+Binacle	472	590	708	767								Liepard	956	1196	1435	1554						
+Skrelp	535	668	802	869								Simisage	1233	1541	1850	2004						
+Clauncher	548	685	822	891								Simisear	1233	1541	1850	2004						
+Helioptile	464	580	697	755								Simipour	1233	1541	1850	2004						
+Tyrunt	843	1054	1266	1371								Musharna	1438	1797	2157	2337						
+Amaura	695	869	1043	1130								Zebstrika	1275	1594	1913	2073						
+Goomy	488	610	732	793								Swoobat	887	1109	1331	1442						
+Phantump	567	709	851	922								Excadrill	1720	2150	2581	2796						
+Pumpkaboo (Average)	620	775	931	1008								Whimsicott	1050	1313	1576	1707						
+Pumpkaboo (Large)	632	790	948	1028								Lilligant	1343	1678	2014	2182						
+Pumpkaboo (Small)	609	762	915	991								Darmanitan (Galarian_standard)	1642	2052	2463	2668						
+Pumpkaboo (Super)	635	794	953	1033								Crustle	1339	1674	2009	2177						
+Bergmite	616	771	925	1002								Scrafty	1197	1496	1795	1945						
+Noibat	323	404	485	526								Cofagrigus	1191	1489	1787	1935						
+Rowlet	531	664	797	863								Carracosta	1383	1729	2075	2248						
+Litten	519	648	778	843								Archeops	1767	2210	2652	2873						
+Popplio	570	713	855	927								Garbodor	1231	1539	1847	2001						
+Pikipek	450	563	675	731								Cinccino	1174	1467	1761	1908						
+Yungoos	433	542	650	705								Swanna	1090	1363	1635	1771						
+Grubbin	492	615	738	800								Sawsbuck (Autumn)	1270	1587	1905	2064						
+Crabrawler	695	870	1044	1131								Escavalier	1529	1912	2294	2485						
+Cutiefly	441	551	662	717								Amoonguss	1117	1397	1676	1816						
+Rockruff	474	592	711	770								Jellicent	1227	1534	1841	1994						
+Mareanie	486	608	729	790								Galvantula	1153	1442	1731	1875						
+Mudbray	983	1229	1474	1597								Ferrothorn	1217	1522	1827	1979						
+Dewpider	348	435	522	565								Beheeyem	1454	1818	2182	2364						
+Fomantis	362	453	543	589								Beartic	1612	2016	2419	2621						
+Morelull	519	649	778	843								Accelgor	1281	1601	1922	2082						
+Salandit	565	706	847	918								Mienshao	1427	1784	2141	2319						
+Stufful	689	862	1034	1120								Golurk	1509	1887	2265	2453						
+Bounsweet	219	274	329	357								Braviary	1638	2047	2457	2662						
+Wimpod	237	297	356	386								Mandibuzz	1115	1394	1672	1812						
+Sandygast	626	783	940	1018								Diggersby	773	967	1161	1257						
+Type: Null	1406	1758	2110	2286								Pyroar	1462	1827	2193	2376						
+Jangmo-o	484	605	727	787								Gogoat	1477	1847	2217	2401						
+Cosmog	200	250	300	325								Pangoro	1535	1920	2304	2496						
+Poipole	846	1058	1270	1375								Meowstic	1110	1388	1666	1805						
+Meltan	537	672	806	873								Aromatisse	1228	1535	1843	1996						
+Grookey	546	683	820	888								Slurpuff	1151	1439	1727	1871						
+Scorbunny	552	690	828	897								Malamar	1239	1548	1858	2013						
+Sobble	552	690	828	897								Barbaracle	1412	1766	2119	2296						
+Skwovet	469	587	704	763								Dragalge	1252	1565	1878	2035						
+Rookidee	323	404	485	525								Clawitzer	1460	1825	2191	2373						
+Blipbug	162	203	244	264								Heliolisk	1370	1713	2056	2227						
+Nickit	349	436	523	567								Tyrantrum	1661	2077	2493	2700						
+Gossifleur	326	407	489	530								Aurorus	1481	1851	2221	2407						
+Wooloo	344	430	516	559								Sylveon	1629	2037	2444	2648						
+Chewtle	497	621	745	807								Trevenant	1348	1685	2023	2191						
+Yamper	386	483	580	628								Gourgeist (Average)	1256	1570	1884	2041						
+Rolycoly	295	368	442	479								Gourgeist (Large)	1328	1660	1992	2158						
+Applin	347	434	521	565								Gourgeist (Small)	1181	1476	1772	1919						
+Silicobra	544	680	816	884								Gourgeist (Super)	1389	1736	2084	2258						
+Arrokuda	448	560	672	729								Avalugg	1700	2125	2550	2763						
+Toxel	354	443	532	576								Noivern	1461	1826	2192	2374						
+Sizzlipede	527	659	790	856								Gumshoos	1141	1426	1712	1854						
+Clobbopus	574	718	862	934								Crabominable	1537	1922	2306	2498						
+Sinistea (Antique)	575	719	863	935								Ribombee	1151	1439	1727	1871						
+Hatenna	427	534	640	694								Lycanroc (Dusk)	1424	1781	2137	2315						
+Impidimp	397	497	596	646								Lycanroc (Midday)	1412	1765	2118	2294						
+Milcery	410	512	615	666								Lycanroc (Midnight)	1449	1812	2174	2355						
+Snom	251	314	376	408								Toxapex	867	1083	1300	1409						
+Cufant	702	878	1053	1141								Mudsdale	1616	2020	2424	2626						
+Dreepy	375	469	563	610								Araquanid	946	1183	1420	1538						
+Kubfu	877	1096	1315	1425								Lurantis	1260	1575	1891	2048						
+Sprigatito	509	636	764	827								Shiinotic	967	1209	1451	1572						
+Fuecoco	568	710	852	923								Salazzle	1302	1627	1953	2116						
+Quaxly	540	675	811	878								Bewear	1653	2066	2479	2686						
+Lechonk	357	447	536	581								Golisopod	1680	2100	2521	2731						
+Tarountula	273	342	410	444								Palossand	1285	1607	1928	2089						
+Nymble	284	355	426	462								Silvally	1564	1955	2346	2542						
+Pawmi	304	381	457	495								Naganadel	1684	2105	2526	2736						
+Tandemaus	442	553	664	719								Melmetal	1921	2401	2882	3122						
+Fidough	493	616	740	801								Greedent	1243	1554	1865	2020						
+Smoliv	423	529	635	687								Thievul	1117	1397	1676	1816						
+Nacli	482	603	724	784								Eldegoss	1039	1299	1559	1689						
+Charcadet	358	447	537	582								Dubwool	1147	1434	1721	1864						
+Tadbulb	452	565	678	735								Drednaw	1501	1877	2253	2440						
+Wattrel	407	509	611	662								Boltund	1137	1422	1706	1849						
+Maschiff	716	895	1074	1163								Flapple	1296	1620	1945	2107						
+Shroodle	462	577	693	751								Appletun	1288	1610	1933	2094						
+Bramblin	433	542	650	704								Sandaconda	1476	1845	2214	2398						
+Toedscool	522	653	783	849								Barraskewda	1397	1747	2096	2271						
+Capsakid	487	609	731	792								Toxtricity (Amped)	1370	1713	2055	2227						
+Rellor	402	503	604	654								Centiskorch	1585	1981	2377	2575						
+Flittle	341	427	512	555								Grapploct	1406	1758	2110	2285						
+Tinkatink	426	532	639	692								Polteageist (Antique)	1621	2027	2432	2635						
+Wiglett	273	341	410	444								Perrserker (Galarian)	1253	1567	1880	2037						
+Finizen	432	540	648	702								Cursola	1623	2029	2435	2638						
+Varoom	575	719	863	935								Sirfetch’d (Galarian)	1581	1976	2372	2569						
+Glimmet	866	1082	1299	1407								Runerigus (Galarian)	1191	1489	1787	1935						
+Greavard	509	637	764	828								Alcremie	1416	1770	2124	2301						
+Cetoddle	657	822	986	1069								Frosmoth	1440	1800	2160	2340						
+Frigibax	632	790	949	1028								Copperajah	1575	1969	2363	2560						
+Poltchageist (Artisan)	575	719	863	935								Urshifu (Rapid_strike)	1924	2405	2887	3127						
+												Sneasler	1711	2139	2567	2781						
+												Overqwil	1561	1951	2342	2537						
+												Oinkologne (Female)	1311	1639	1967	2131						
+												Oinkologne	1374	1718	2062	2234						
+												Spidops	872	1090	1308	1417						
+												Lokix	1215	1519	1823	1975						
+												Maushold (Family_of_four)	1034	1293	1552	1681						
+												Dachsbun	1095	1368	1642	1779						
+												Armarouge	1706	2133	2559	2773						
+												Ceruledge	1685	2106	2528	2738						
+												Bellibolt	1405	1756	2107	2283						
+												Kilowattrel	1283	1604	1925	2085						
+												Mabosstiff	1570	1963	2355	2552						
+												Grafaiai	1186	1483	1780	1928						
+												Brambleghast	1274	1593	1912	2071						
+												Toedscruel	1273	1592	1910	2069						
+												Scovillain	1214	1518	1822	1973						
+												Rabsca	1384	1730	2076	2249						
+												Espathra	1301	1627	1952	2115						
+												Wugtrio	982	1228	1474	1597						
+												Revavroom	1563	1954	2346	2541						
+												Glimmora	1740	2176	2611	2828						
+												Houndstone	1324	1655	1986	2152						
+												Cetitan	1646	2057	2469	2675						
+												Clodsire	1013	1266	1519	1646						
+												Dudunsparce (Three)	1446	1807	2169	2349						
+												Sinistcha (Masterpiece)	1567	1959	2351	2547						

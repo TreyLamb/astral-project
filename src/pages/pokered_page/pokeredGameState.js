@@ -522,6 +522,14 @@ export const ITEM_EFFECTS = {
   OLD_ROD:       { category: 'rod', tier: 1 },
   GOOD_ROD:      { category: 'rod', tier: 2 },
   SUPER_ROD:     { category: 'rod', tier: 3 },
+  // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+  // Key item — never consumed. Real OG (engine/items/item_effects.asm ItemUsePokeFlute):
+  // outside battle, wakes a sleeping Route 12/16 Snorlax if the player is standing directly
+  // adjacent to it (map + exact tile checked); has no effect anywhere else. All of that
+  // map/coordinate logic lives in PokeredOverworld.jsx's 'poke_flute' item-activation branch
+  // (mirrors the existing 'rod' category's pattern — no PokeredApp.jsx onUseItem plumbing
+  // needed since nothing is consumed/mutated on the inventory side).
+  POKE_FLUTE:    { category: 'poke_flute' },
 };
 
 // engine/items/item_effects.asm ReadSuperRodData / the Old/Good Rod handlers: cast a rod,

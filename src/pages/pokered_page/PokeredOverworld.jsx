@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { TRAINER_META } from './trainerMeta';
 import { TRAINER_PARTIES } from './trainerParties';
-import { ITEM_EFFECTS, TM_HM_MOVES, tryFish, DARK_MAPS, FLY_DESTINATIONS } from './pokeredGameState';
+import { ITEM_EFFECTS, TM_HM_MOVES, tryFish, DARK_MAPS, FLY_DESTINATIONS, hasEvent } from './pokeredGameState';
 import ITEM_LOCATIONS from './extracted_og_data/item_locations.json';
 import HIDDEN_ITEMS from './extracted_og_data/hidden_items.json';
 import NPC_DIALOGUE from './extracted_og_data/npc_dialogue.json';
@@ -133,7 +133,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -164,6 +164,25 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   const [moveSwapIdx, setMoveSwapIdx] = useState(null);
   const moveSwapIdxRef = useRef(null);
   useEffect(() => { moveSwapIdxRef.current = moveSwapIdx; }, [moveSwapIdx]);
+
+  // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+  // Real OG (engine/battle/core.asm IsGhostBattle): every wild encounter on any of these 7
+  // floors is disguised as an unidentified "GHOST" until the player owns the SILPH SCOPE.
+  const POKEMON_TOWER_MAPS = new Set([
+    'POKEMON_TOWER_1F', 'POKEMON_TOWER_2F', 'POKEMON_TOWER_3F', 'POKEMON_TOWER_4F',
+    'POKEMON_TOWER_5F', 'POKEMON_TOWER_6F', 'POKEMON_TOWER_7F',
+  ]);
+  function hasSilphScope() {
+    return (gsRef.current?.items ?? []).some(it => it.name === 'SILPH_SCOPE');
+  }
+  // Real OG (engine/items/item_effects.asm ItemUsePokeFlute + Route12SnorlaxFluteCoords /
+  // Route16SnorlaxFluteCoords): the flute only wakes Snorlax when the player's OWN standing
+  // tile is one of the 4 (Route 12) / 2 (Route 16) tiles directly cardinally adjacent to it —
+  // not "tile faced", any adjacent side works regardless of which way the player is facing.
+  const SNORLAX_ROUTES = {
+    ROUTE_12: { route: 12, beatFlag: 'EVENT_BEAT_ROUTE12_SNORLAX', coords: [[9, 62], [10, 61], [10, 63], [11, 62]] },
+    ROUTE_16: { route: 16, beatFlag: 'EVENT_BEAT_ROUTE16_SNORLAX', coords: [[27, 10], [25, 10]] },
+  };
 
   // Stable refs (never cause re-renders — game loop reads these directly)
   const keysRef       = useRef(new Set());
@@ -1394,6 +1413,25 @@ const OUTDOOR = ['overworld', 'plateau'];
       }
     }
 
+    // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+    // Ghost Marowak (scripts/PokemonTower6F.asm PokemonTower6FDefaultScript): stepping onto
+    // the exact trigger tile (dbmapcoord 10, 16 — x,y, no coordinate-scale conversion needed,
+    // see the nested CLAUDE.md's macro note) forces a scripted wild battle vs. the "restless
+    // soul" (RESTLESS_SOUL == MAROWAK, Constants/pokemon_constants.asm), gated on
+    // EVENT_BEAT_GHOST_MAROWAK exactly like the OG CheckEvent. Re-triggerable every time the
+    // tile is stepped on until actually won (fleeing/losing never sets the flag in OG either —
+    // see PokemonTower6FMarowakBattleScript's `.did_not_defeat` branch, which just bounces the
+    // player back without setting anything). Takes priority over the ordinary wild-table roll
+    // below (matches OG: this check runs before CheckFightingMapTrainers in the per-frame
+    // script) and shows the real OG "Be gone... Intruders..." flavor line
+    // (PokemonTower6FBeGoneText) before the fight starts, via the 'GHOST_MAROWAK_BATTLE'
+    // dialogue action (see advanceDialogue).
+    if (ms.mapId === 'POKEMON_TOWER_6F' && p.x === 10 && p.y === 16 &&
+        !hasEvent(gsRef.current, 'EVENT_BEAT_GHOST_MAROWAK')) {
+      setDialogue({ lines: ["Be gone...\nIntruders..."], idx: 0, action: 'GHOST_MAROWAK_BATTLE' });
+      return;
+    }
+
     // Warp — gated by WARP_DIR (see convention comment near the top of this file).
     // facingMatchesDir handles the "no dir field" / WARP_DIR_ANY (0) cases itself,
     // so we don't shortcut on falsy here (0 is falsy but is a real, meaningful value).
@@ -1444,8 +1482,24 @@ const OUTDOOR = ['overworld', 'plateau'];
       const leadLevel = gsRef.current?.party?.[0]?.level ?? 0;
       const repelled = repelStepsRef.current > 0 && (pick.level ?? 0) < leadLevel;
       if (!repelled) {
-        encounterRef.current = pick;
-        if (onEncounter) onEncounter(pick, ms.mapId, p.x, p.y);
+        // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+        // Real OG (engine/battle/core.asm IsGhostBattle / common_text.asm
+        // PrintBeginningBattleText): any wild encounter inside Pokémon Tower displays as an
+        // unidentified "GHOST" (name+sprite hidden, can't be caught, always fleeable) until the
+        // player owns the SILPH SCOPE — picked up as a Rocket Hideout B4F ground item (verified:
+        // extracted_og_data/item_locations.json has it at raw (50,4) == metatile (25,2), which
+        // exactly matches game_data.json's ROCKET_HIDEOUT_B4F poke_ball NPC #8, so this already
+        // flows through the existing generic ground-item pickup path above with zero changes
+        // needed there). Snapshotted once, here, at encounter-creation time — mirrors OG, where
+        // the flag can't change mid-battle since items can't be picked up during one.
+        // PokeredBattle.jsx reads ghostDisguise to swap the enemy's displayed name/sprite, mask
+        // its name out of the log text, and block catching — battleEngine.js's actual damage/
+        // move mechanics are completely untouched, still computed against the TRUE species.
+        const enriched = POKEMON_TOWER_MAPS.has(ms.mapId)
+          ? { ...pick, ghostDisguise: !hasSilphScope() }
+          : pick;
+        encounterRef.current = enriched;
+        if (onEncounter) onEncounter(enriched, ms.mapId, p.x, p.y);
         return;
       }
     }
@@ -1578,6 +1632,24 @@ function notifyPosition() {
         pickedUpRef.current.has(nid)) return true;
     const beatenTrainers = gsRef.current?.beatenTrainers;
     const pickedUpItems = gsRef.current?.pickedUpItems ?? [];
+    // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+    // Route 12/16 Snorlax despawns for good once beaten/caught (scripts/Route12.asm /
+    // Route16.asm SetEvent EVENT_BEAT_ROUTE12/16_SNORLAX) — this is what actually opens the
+    // path, since NPCs are solid obstacles like any other in this engine.
+    if (mapId === 'ROUTE_12' && npc.sprite === 'snorlax' &&
+        hasEvent(gsRef.current, 'EVENT_BEAT_ROUTE12_SNORLAX')) return true;
+    if (mapId === 'ROUTE_16' && npc.sprite === 'snorlax' &&
+        hasEvent(gsRef.current, 'EVENT_BEAT_ROUTE16_SNORLAX')) return true;
+    // Mr Fuji: real OG toggleable_objects.asm has POKEMONTOWER7F_MR_FUJI ON by default (he's
+    // always there to talk to — the 3 sight-triggered Rockets physically block the corridor,
+    // no extra gating needed) but MRFUJISHOUSE_MR_FUJI OFF by default (hidden until the rescue
+    // script ShowObjects him there). PokemonTower7FMrFujiText's script also HideObjects him on
+    // 7F the instant he's rescued (he leaves for his house) — mirrored by hiding him there once
+    // EVENT_RESCUED_MR_FUJI is set, the flip side of showing him at MR_FUJIS_HOUSE.
+    if (mapId === 'POKEMON_TOWER_7F' && npc.sprite === 'mr_fuji' &&
+        hasEvent(gsRef.current, 'EVENT_RESCUED_MR_FUJI')) return true;
+    if (mapId === 'MR_FUJIS_HOUSE' && npc.sprite === 'mr_fuji' &&
+        !hasEvent(gsRef.current, 'EVENT_RESCUED_MR_FUJI')) return true;
     if (mapId === 'ROUTE_22' && npc.trainerClass === 'Rival1' && npc.partyIdx === 1 &&
         isRivalBeaten(mapId, npc, beatenTrainers)) return true;
     if (mapId === 'ROUTE_22' && npc.trainerClass === 'Rival2' && npc.partyIdx === 3) {
@@ -1624,6 +1696,33 @@ function notifyPosition() {
       if (idx === 1 && !transformed) return true;
     }
     return false;
+  }
+
+  // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+  // Real OG (engine/items/item_effects.asm ItemUsePokeFlute, non-battle branch): wakes a
+  // sleeping Route 12/16 Snorlax when the player is standing on one of its adjacent trigger
+  // tiles (SNORLAX_ROUTES) and it hasn't been beaten yet; otherwise the generic "no effect"
+  // flavor line plays everywhere else in the game (PlayedFluteNoEffectText). No EVENT_FIGHT_
+  // ROUTE12/16_SNORLAX flag is persisted here — that flag's entire real purpose in OG is a
+  // same-frame signal for the per-frame map-script poller to pick up the very next tick
+  // (CheckEventReuseHL immediately followed by ResetEventReuseHL, both before the battle even
+  // starts); this port's menu action already synchronously triggers the encounter in one step,
+  // so there is no persisted state that flag could meaningfully gate here. Shared by both the
+  // keyboard 'items' page handler and the mouse activateItem handler below so they can't drift.
+  function activatePokeFlute() {
+    const p = playerRef.current;
+    const ms = mapStateRef.current;
+    const routeInfo = ms && SNORLAX_ROUTES[ms.mapId];
+    const alreadyBeaten = routeInfo && hasEvent(gsRef.current, routeInfo.beatFlag);
+    const inRange = routeInfo && !alreadyBeaten &&
+      routeInfo.coords.some(([cx, cy]) => p.x === cx && p.y === cy);
+    if (inRange) {
+      const enriched = { species: 'SNORLAX', level: 30, ghostDisguise: false, snorlaxRoute: routeInfo.route };
+      if (onEncounter) onEncounter(enriched, ms.mapId, p.x, p.y);
+    } else {
+      setHealMsg("Played the POKÉ FLUTE.");
+      setTimeout(() => setHealMsg(''), 2000);
+    }
   }
 
   helpersRef.current = { getTileId, isWalkable, isValidLedge, isHalfStepBlocked, npcCanStep, handleMapEdge, handleWarp, checkNewTile, notifyPosition, checkLOS, startDialogue, startScriptedMove, isNpcHidden };
@@ -1777,6 +1876,11 @@ function notifyPosition() {
     guard:    { lines: ["GUARD: No entry without a BADGE!"] },
     rocket:   { lines: ["ROCKET: You're in our way!"] },
     scientist:{ lines: ["SCIENTIST: Interesting specimen!"] },
+    // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+    // Real OG text/Route12.asm _Route12SnorlaxText / text/Route16.asm _Route16Text7 — both
+    // routes use the identical line. Only shown while asleep; isNpcHidden removes this NPC
+    // entirely once beaten, so there's no "after" variant to add here.
+    snorlax:  { lines: ["A sleeping\nPOKÉMON blocks\nthe way!"] },
     fisher:   { lines: ["FISHER: Nothing biting today..."] },
     hiker:    { lines: ["HIKER: These mountains are tough!"] },
     gramps:   { lines: ["OLD MAN: I used to be a great trainer."] },
@@ -1901,6 +2005,68 @@ function notifyPosition() {
       if (onMetOldMan) onMetOldMan();
       const p = playerRef.current;
       if (onEncounter) onEncounter({ species: 'WEEDLE', level: 5, oldManDemo: true }, ms.mapId, p.x, p.y);
+      return;
+    }
+
+    // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+    // Mr Fuji, Pokémon Tower 7F (scripts/PokemonTower7F.asm PokemonTower7FMrFujiText). Reuses
+    // the real, already-correctly-extracted rescue text from npc_dialogue.json (npcText below)
+    // rather than re-hardcoding it — only the STATEFUL part (SetEvent + warp) needs a special
+    // case here. isNpcHidden hides this NPC again the instant EVENT_RESCUED_MR_FUJI is set, so
+    // this can only ever fire once per save.
+    if (here === 'POKEMON_TOWER_7F:4') {
+      const info = npcText(npc, ms.mapId, npcIndex);
+      if (onSetEvent) onSetEvent('EVENT_RESCUED_MR_FUJI');
+      setDialogue({ lines: info.lines, idx: 0, action: 'RESCUE_FUJI' });
+      return;
+    }
+
+    // MR_FUJIS_HOUSE's Super Nerd (MrFujisHouseSuperNerdText) and Little Girl
+    // (MrFujisHouseLittleGirlText) both branch on CheckEvent EVENT_RESCUED_MR_FUJI — the
+    // generic npc_dialogue.json extraction only captured the "before" branch (first CheckEvent
+    // arm in the source), so these need an explicit override rather than falling through to
+    // npcText's static fallback.
+    if (here === 'MR_FUJIS_HOUSE:1') {
+      setDialogue({
+        lines: hasEvent(gameState, 'EVENT_RESCUED_MR_FUJI')
+          ? ["MR.FUJI had been\npraying alone for\nCUBONE's mother."]
+          : ["That's odd, MR.FUJI\nisn't here.\nWhere'd he go?"],
+        idx: 0, action: null,
+      });
+      return;
+    }
+    if (here === 'MR_FUJIS_HOUSE:2') {
+      setDialogue({
+        lines: hasEvent(gameState, 'EVENT_RESCUED_MR_FUJI')
+          ? ["It's so warm!\nPOKÉMON are so\nnice to hug!"]
+          : ["This is really\nMR.FUJI's house.", "He's really kind!", "He looks after\nabandoned and\norphaned POKÉMON!"],
+        idx: 0, action: null,
+      });
+      return;
+    }
+    // Mr Fuji at his own house (MrFujisHouseMrFujiText) — grants the POKÉ FLUTE key item once
+    // (EVENT_GOT_POKE_FLUTE), real OG reward text on repeat visits afterward. Follows the
+    // established one-time-gift template (giftId + pickedUpRef + onPickUpItem).
+    if (here === 'MR_FUJIS_HOUSE:5') {
+      if (hasEvent(gameState, 'EVENT_GOT_POKE_FLUTE')) {
+        setDialogue({ lines: ["MR.FUJI: Has my\nFLUTE helped you?"], idx: 0, action: null });
+      } else {
+        const giftId = npcTrainerId(ms.mapId, npc);
+        pickedUpRef.current.add(giftId);
+        if (onPickUpItem) onPickUpItem(giftId, 'POKE_FLUTE');
+        if (onSetEvent) onSetEvent('EVENT_GOT_POKE_FLUTE');
+        setDialogue({
+          lines: [
+            "MR.FUJI: <PLAYER>.",
+            "Your POKÉDEX quest\nmay fail without\nlove for your\nPOKÉMON.",
+            "I think this may\nhelp your quest.",
+            "<PLAYER> received\na POKÉ FLUTE!",
+            "Upon hearing the\nPOKÉ FLUTE,\nsleeping POKÉMON\nwill spring awake.",
+            "It works on all\nsleeping POKÉMON.",
+          ],
+          idx: 0, action: null,
+        });
+      }
       return;
     }
 
@@ -2377,6 +2543,32 @@ function notifyPosition() {
             ms?.mapId, p?.x, p?.y
           ), 50);
         }
+        // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+        // Mr Fuji rescue (scripts/PokemonTower7F.asm PokemonTower7FMrFujiText /
+        // PokemonTower7FWarpToMrFujiHouseScript): warp lands on MR_FUJIS_HOUSE's own warp #1
+        // (2,7) — the same tile a normal front-door walk-in would use (real OG's
+        // wDestinationWarpID=1) — facing UP, matching wSpritePlayerStateData1FacingDirection.
+        // isDirectWarp=true (loadMap's 4th arg): this is a scripted warp out of an indoor map,
+        // not a walked-through door, same convention as Teleport/Escape Rope elsewhere in this
+        // file.
+        if (prev.action === 'RESCUE_FUJI') {
+          setTimeout(() => { playerRef.current.dir = DIR_UP; loadMap('MR_FUJIS_HOUSE', 2, 7, true); }, 50);
+        }
+        // Ghost Marowak forced battle (scripts/PokemonTower6F.asm
+        // PokemonTower6FDefaultScript/MarowakBattleScript) — fires right after the "Be gone...
+        // Intruders..." flavor line dismisses. ghostDisguise mirrors the same Silph Scope check
+        // as every other Tower encounter (IsGhostBattle applies to RESTLESS_SOUL exactly like
+        // any other Tower wild mon — see common_text.asm's PrintBeginningBattleText .isMarowak
+        // branch, which is ALSO gated on scope ownership); `uncatchable` is a SEPARATE,
+        // unconditional block specific to this scripted fight (item_effects.asm ItemUseBall:
+        // "If fighting the ghost Marowak... can't be caught", checked regardless of scope) —
+        // it's a story battle, not a normal catchable wild mon, even once identified.
+        if (prev.action === 'GHOST_MAROWAK_BATTLE') {
+          const ms = mapStateRef.current;
+          const p = playerRef.current;
+          const enriched = { species: 'MAROWAK', level: 30, ghostDisguise: !hasSilphScope(), uncatchable: true, ghostMarowak: true };
+          setTimeout(() => { if (onEncounter) onEncounter(enriched, ms?.mapId, p?.x, p?.y); }, 50);
+        }
         if (prev.action === 'BUY_MAGIKARP' && onBuyMagikarp && prev.giftId) {
           pickedUpRef.current.add(prev.giftId);
           onBuyMagikarp(prev.giftId);
@@ -2641,6 +2833,10 @@ function notifyPosition() {
                   onEncounter(bite, ms.mapId, p.x, p.y);
                 }
               }
+              closeMenu();
+            } else if (effect?.category === 'poke_flute') {
+              // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+              activatePokeFlute();
               closeMenu();
             }
           } else if (pg === 'item-target') {
@@ -3636,6 +3832,10 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
                   onEncounter(bite, ms.mapId, p.x, p.y);
                 }
               }
+              closeMenu();
+            } else if (effect?.category === 'poke_flute') {
+              // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+              activatePokeFlute();
               closeMenu();
             }
           };

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { saveGame, healParty, createPlayerPokemon, ITEM_EFFECTS, tryEvolveWithStone, applyXP, xpForLevel, finalizeEvolution, saveExtraAsNewSlot, newSlotId, DARK_MAPS, FLY_DESTINATIONS } from './pokeredGameState';
+import { saveGame, healParty, createPlayerPokemon, ITEM_EFFECTS, tryEvolveWithStone, applyXP, xpForLevel, finalizeEvolution, saveExtraAsNewSlot, newSlotId, DARK_MAPS, FLY_DESTINATIONS, setEvent } from './pokeredGameState';
 import { TRAINER_META } from './trainerMeta';
 import { TRAINER_PARTIES } from './trainerParties';
 import PokeredStartScreen from './PokeredStartScreen';
@@ -80,7 +80,12 @@ export default function PokeredApp() {
     // const firstUsable = gameState?.party?.find(mon => mon.hp > 0);
     // if (!firstUsable) return;
     battleReturnPos.current = playerPosRef.current ?? { mapId, x, y };
-    markSeen(encounter?.species);
+    // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+    // Real OG only marks the Pokédex "seen" flag once LoadEnemyMonData actually runs
+    // (engine/battle/core.asm InitWildBattle) — for an unidentified Tower ghost, that call is
+    // skipped entirely (common_text.asm PrintBeginningBattleText .noSilphScope branch), so the
+    // real species must NOT register as "seen" until the player has the SILPH SCOPE.
+    if (!encounter?.ghostDisguise) markSeen(encounter?.species);
     setWildEncounter(encounter);
     setScreen('battle');
   }
@@ -168,7 +173,24 @@ export default function PokeredApp() {
       // Restore exact position from before the battle — battleReturnPos was set from playerPosRef
       const pos = battleReturnPos.current ?? playerPosRef.current ?? { mapId: prev.mapId, x: prev.x, y: prev.y };
       const beatenSilphCoGiovanni = prev.beatenSilphCoGiovanni || wonSilphCoGiovanni;
-      const newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, dex, beatenSilphCoGiovanni, mapId: pos.mapId, x: pos.x, y: pos.y };
+      let newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, dex, beatenSilphCoGiovanni, mapId: pos.mapId, x: pos.x, y: pos.y };
+
+      // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+      // Route 12/16 Snorlax (scripts/Route12.asm Route12SnorlaxPostBattleScript / Route16
+      // equivalent): both the "defeated" and "caught" branches converge on the same
+      // unconditional SetEvent in OG — running or losing sets neither, leaving Snorlax in
+      // place to be woken again later via the POKÉ FLUTE (PokeredOverworld.jsx's
+      // activatePokeFlute re-checks the beat flag every use). Ghost Marowak
+      // (scripts/PokemonTower6F.asm PokemonTower6FMarowakBattleScript) only sets its flag on an
+      // outright win — it can never be "caught" at all (blocked in PokeredBattle.jsx's
+      // resolveTurns via wildEncounter.uncatchable), so there's no caught-branch to mirror here.
+      if (result === 'victory' || result === 'caught') {
+        if (wildEncounter?.snorlaxRoute === 12) newState = setEvent(newState, 'EVENT_BEAT_ROUTE12_SNORLAX');
+        else if (wildEncounter?.snorlaxRoute === 16) newState = setEvent(newState, 'EVENT_BEAT_ROUTE16_SNORLAX');
+      }
+      if (result === 'victory' && wildEncounter?.ghostMarowak) {
+        newState = setEvent(newState, 'EVENT_BEAT_GHOST_MAROWAK');
+      }
 
       if ((result === 'victory' || result === 'caught') && !prev.isExtra) {
         saveGame(newState);
@@ -219,6 +241,21 @@ export default function PokeredApp() {
       return next;
     });
     return result;
+  }
+
+  // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+  // Generic setter for the formal EVENT_FLAGS/hasEvent/setEvent registry (pokeredGameState.js)
+  // — first real consumer of that foundation (previously wired but never called from anywhere).
+  // Wired through as a plain callback prop, same shape as every other PokeredOverworld handler
+  // here, rather than a bespoke one-off flag setter per story beat.
+  function handleSetEvent(eventName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = setEvent(prev, eventName);
+      if (next === prev) return prev; // already set — setEvent is idempotent
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
   }
 
   function handleMetOldMan() {
@@ -1151,6 +1188,7 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onPushBoulder={handlePushBoulder}
             onActivateFlash={handleActivateFlash}
             onMetOldMan={handleMetOldMan}
+            onSetEvent={handleSetEvent}
             onRequestStarter={handleRequestStarter}
             onOpenPC={handleOpenPC}
             onOpenShop={handleOpenShop}

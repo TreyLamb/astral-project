@@ -53,3 +53,28 @@ poison on switch. There's no badly-poisoned counter, so Toxic == regular poison 
   damage, reset on switch. Volatile-only (already stripped by `stripVolatile`).
 - **Impact:** Toxic becomes meaningfully stronger. Debatably "missing" vs "refinement" — parked
   here for you to decide.
+
+## Proposal 4 — Ghost-battle turns don't print OG's "scared"/"get out" flavor lines  (COSMETIC)
+Added 2026-07-20 while wiring the Pokémon Tower Silph Scope ghost reveal (R1) and Ghost Marowak
+(R2). Real OG's `PrintGhostText` (`engine/battle/core.asm`) replaces the normal per-turn
+"X used MOVE!" text with `"<mon> is too scared to move!"` (player's turn) / `"Get out, get
+out!"` (ghost's turn) for EVERY turn of an unidentified ghost battle — not just the enemy-name
+substitution this session already implemented (that part IS done: `PokeredBattle.jsx`'s
+`maskGhostMsgs`, `ghostDisguise`-gated name/sprite, uncatchable, always-flee).
+- **Why not applied:** `PrintGhostText`'s replacement is per-move-usage-line, which
+  `battleEngine.js`'s `performRound` generates internally (`${fmt(att.species)} used
+  ${fmtMove(name)}!` etc., ~30+ call sites). Doing this properly means either threading a
+  "suppress move name, print scared/get-out instead" flag through `performRound`, or blanket
+  string-replacing every "used X!" pattern post-hoc (fragile, would also eat non-move-usage
+  lines that happen to contain the word "used"). Both touch/risk battle-mechanics text
+  generation, which this project's rule is "do not modify — refine here, don't apply."
+- **Current behavior instead:** ghost battles show the REAL move names/effects in the log (just
+  with "GHOST" swapped in for the name), which is MORE informative than OG, not less — a
+  reasonable, harmless simplification, not a bug.
+- **Fix if approved:** add an optional `ghostFlavor: boolean` param to `performRound` — when
+  true, skip the normal "used MOVE!" push and push `"${name} is too scared to move!"` /
+  `"Get out, get out!"` instead (whoever's turn it is), everything else (damage, status, crit,
+  etc.) unchanged. `PokeredBattle.jsx` would pass `ghostFlavor: ghostDisguise` at both
+  `performRound` call sites in `resolveTurns`.
+- **Impact:** cosmetic only — no mechanical change, just less-informative combat log text
+  (matching OG's real "don't know what's attacking you" mystery). Low priority.

@@ -2,7 +2,7 @@
 HIGH TRASH MAIN
 Filter Query
 
-!3*&!4*&!cp2750-&!costume&!legendary&!shiny&!mythical&!shadow&!lucky&!ultra beasts&!dynamax&!gigantamax&!xxs&!xxl&!traded&!favorite&!kadabra&!machoke&!graveler&!haunter&!boldore&!gurdurr&!karrablast&!shelmet&!phantump&!pumpkaboo&!abra&!machop&!geodude&!cranidos&!bagon&!chansey&!gastly&!roggenrola&!timburr&!larvitar&!pidgey&!weedle&!caterpie&!wurmple&!evolve me&!tte&!tta&!powerup&!walk4candy&!trade4candy&!pvp&!unown&!evolveme&!rt&!smeargle&!rolycoly&!tyrunt&!snorlax&!blissey
+!3*&!4*&!cp2750-&!costume&!legendary&!shiny&!mythical&!shadow&!lucky&!ultra beasts&!dynamax&!gigantamax&!xxs&!xxl&!traded&!favorite&
 
 TTE ALL
 Filter Query
@@ -17,12 +17,12 @@ Filter Query
 
 TRASH LOW CP NOT OLD
 
-!3*&!4*&!cp1000-&!costume&!legendary&!shiny&!mythical&!shadow&!lucky&!ultra beasts&!dynamax&!gigantamax&!xxs&!xxl&!traded&!favorite&!kadabra&!machoke&!graveler&!haunter&!boldore&!gurdurr&!karrablast&!shelmet&!phantump&!pumpkaboo&!abra&!machop&!geodude&!cranidos&!bagon&!chansey&!gastly&!roggenrola&!timburr&!larvitar&!pidgey&!weedle&!caterpie&!wurmple&!evolve me&!tte&!tta&!powerup&!walk4candy&!trade4candy&!pvp&!unown&!evolveme&!rt&!smeargle&!rolycoly&!tyrunt&!snorlax&!blissey
+!3*&!4*&!cp1000-&!costume&!legendary&!shiny&!mythical&!shadow&!lucky&!ultra beasts&!dynamax&!gigantamax&!xxs&!xxl&!traded&!favorite&
 
 Low trash cp adding regionals 
 
 
-!3*&!4*&!cp1000-&!costume&!legendary&!shiny&!mythical&!shadow&!lucky&!ultra beasts&!dynamax&!gigantamax&!xxs&!xxl&!traded&!favorite&age-730&!abra&!aron&!axew&!bagon&!blissey&!boldore&!braixen&!bouffalant&!carnivine&!caterpie&!chansey&!cranidos&!dratini&!drillbur&!gastly&!geodude&!graveler&!gurdurr&!haunter&!hakamo-o&!illumise&!jangmo-o&!kadabra&!karrablast&!larvesta&!larvitar&!lunatone&!machop&!machoke&!pachirisu&!panpour&!phantump&!pidgey&!pumpkaboo&!roggenrola&!seviper&!shieldon&!shelmet&!smeargle&!snorlax&!solrock&!tauros&!throh&!timburr&!unown&!weedle&!wurmple&!evolve me&!tte&!tta&!powerup&!walk4candy&!trade4candy&!pvp
+!3*&!4*&!cp1000-&!costume&!legendary&!shiny&!mythical&!shadow&!lucky&!ultra beasts&!dynamax&!gigantamax&!xxs&!xxl&!traded&!favorite&age-730&!&!evolve me&!tte&!tta&!powerup&!walk4candy&!trade4candy&!pvp
 
 
 MEGAS

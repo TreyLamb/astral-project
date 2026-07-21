@@ -141,6 +141,17 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
   const trainerPartyRef         = useRef(null); // remaining party [ {level, species}, ... ]
   const trainerPartyIdxRef      = useRef(0);    // which mon in queue is active
 
+  // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+  // Set once, at encounter-creation time, by PokeredOverworld.jsx (either the general Tower
+  // wild-table roll or the scripted Ghost Marowak trigger) — mirrors real OG's IsGhostBattle
+  // (engine/battle/core.asm), which can't change mid-battle either since items can't be picked
+  // up during one. While true: the enemy's name/sprite render as "GHOST" (below), every
+  // battle-log line mentioning its real name is text-masked to "GHOST" too (maskGhostMsgs —
+  // battleEngine.js's actual mechanics are NOT touched, only the rendered string), it can't be
+  // caught (resolveTurns), and running away always succeeds (handleRun) — all straight from
+  // OG's real ghost-battle rules.
+  const ghostDisguise           = !!wildEncounter?.ghostDisguise;
+
   // Keyboard navigation — refs so the handler sees current values without re-registering
   const phaseRef   = useRef(phase);
   const resultRef  = useRef(result);
@@ -187,8 +198,20 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
       // demonstrating, so the player's own party never comes out.
       if (wildEncounter.oldManDemo) {
         pushLog([`Wild ${fmt(wildEncounter.species)} appeared!`, "OLD MAN: Watch me\nthrow a POKÉ BALL!"], 'log');
+      } else if (wildEncounter.snorlaxRoute) {
+        // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+        // Real OG text/Route12.asm _Route12SnorlaxWokeUpText / text/Route16.asm equivalent —
+        // identical wording both routes, played right after the POKÉ FLUTE wakes it.
+        pushLog(["SNORLAX woke up!", "It attacked in a\ngrumpy rage!", `Go, ${fmt(initPlayer.species)}!`], 'log');
       } else {
-        pushLog([`A wild ${fmt(wildEncounter.species)} appeared!`, `Go, ${fmt(initPlayer.species)}!`], 'log');
+        // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+        // Ghost disguise (see the ghostDisguise doc comment above): real OG's EnemyAppearedText
+        // reads from wEnemyMonNick, overwritten to the literal string "GHOST" for the whole
+        // fight (engine/battle/core.asm InitWildBattle) — substituted here at the one call site
+        // that builds this specific intro line rather than routed through maskGhostMsgs (which
+        // only exists to handle the MANY message shapes battleEngine.js's performRound itself
+        // generates turn-to-turn).
+        pushLog([`A wild ${ghostDisguise ? 'GHOST' : fmt(wildEncounter.species)} appeared!`, `Go, ${fmt(initPlayer.species)}!`], 'log');
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -465,6 +488,26 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
     };
   }
 
+  // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+  // While ghostDisguise holds, every log line battleEngine.js's performRound generates that
+  // names the enemy by its real species (e.g. "GASTLY used LICK!", "CUBONE fainted!") must
+  // instead read "GHOST" — real OG achieves this for free by overwriting wEnemyMonNick to the
+  // literal string "GHOST" for the whole fight (engine/battle/core.asm InitWildBattle), which
+  // every message routine already reads its enemy-name text from. There is no equivalent single
+  // field to override here (battleEngine.js message strings are built inline from `.species`,
+  // and BATTLE SYSTEM mechanics must not be touched — see this file's header comment), so this
+  // reproduces the same end result as a pure text substitution over the returned message array
+  // instead: battleEngine.js's actual computation (damage, status, move selection) still runs
+  // against the TRUE species the whole time, completely unmodified — only the rendered log
+  // string is intercepted afterward.
+  function maskGhostMsgs(list) {
+    if (!ghostDisguise) return list;
+    const real = fmt(enemyRef.current?.species ?? enemy?.species ?? '');
+    if (!real) return list;
+    const re = new RegExp(real.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+    return list.map(m => (typeof m === 'string' ? m.replace(re, 'GHOST') : m));
+  }
+
   // Active mon fainted: force a switch if a conscious bench mon exists, otherwise the
   // whole party is out → blackout (OG HandleBlackOut — message here, money/heal in App).
   // Returns the battle result (null = battle continues via forced switch).
@@ -490,7 +533,15 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
       action = { type: 'pass' };
     } else if (threw) {
       msgs.push(`${fmt(player.species)} threw a Poké Ball!`);
-      if (tryCatch(E, pokemonData)) {
+      // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+      // Real OG (engine/items/item_effects.asm ItemUseBall): an unidentified Tower ghost can't
+      // be caught at all (no capture roll — the ball just bounces off), and the ghost Marowak
+      // specifically is blocked UNCONDITIONALLY, even once identified via the Silph Scope —
+      // it's a scripted story battle, not a normal catchable wild mon.
+      if (ghostDisguise || wildEncounter?.uncatchable) {
+        msgs.push('Oh no! The Pokémon broke free!');
+        action = { type: 'pass' };
+      } else if (tryCatch(E, pokemonData)) {
         msgs.push(`Gotcha! ${fmt(E.species)} was caught!`);
         // Party full → OG sends the catch straight to the box instead of the party
         // (engine/items/item_effects.asm .sendToBox) and shows a transfer message;
@@ -501,11 +552,12 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
         }
         caughtMonRef.current = stripVolatile(E);
         updatedPlayerRef.current = P;
-        pushLog(msgs, 'log', 'caught');
+        pushLog(maskGhostMsgs(msgs), 'log', 'caught');
         return;
+      } else {
+        msgs.push('Oh no! The Pokémon broke free!');
+        action = { type: 'pass' };
       }
-      msgs.push('Oh no! The Pokémon broke free!');
-      action = { type: 'pass' };
     } else {
       action = { type: 'move', moveName: playerMove?.name };
     }
@@ -519,7 +571,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
       partyRef.current[activeIdxRef.current] = P;
       updatedPlayerRef.current = P;
       setPlayer(P); setEnemy(E);
-      pushLog(msgs, 'log', 'run');
+      pushLog(maskGhostMsgs(msgs), 'log', 'run');
       return;
     }
 
@@ -527,6 +579,21 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
 
     if (E.hp <= 0) {
       msgs.push(`${fmt(E.species)} fainted!`);
+      // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+      // Post-battle flavor text real OG only shows on an outright win, never on a catch
+      // (scripts/Route12.asm Route12SnorlaxPostBattleScript / Route16 equiv jump straight past
+      // it to SetEvent when wBattleResult==2; scripts/PokemonTower6F.asm
+      // PokemonTower6FMarowakDepartedText plays unconditionally on win since Marowak can never
+      // be caught at all). This is fixed narrative text, not a live enemy-name reference, so it
+      // is NOT run through maskGhostMsgs — real OG's own text says "GHOST" literally here too.
+      if (wildEncounter?.snorlaxRoute === 12) {
+        msgs.push("SNORLAX calmed\ndown! With a big\nyawn, it returned\nto the mountains!");
+      } else if (wildEncounter?.snorlaxRoute === 16) {
+        msgs.push("With a big yawn,\nSNORLAX returned\nto the mountains!");
+      } else if (wildEncounter?.ghostMarowak) {
+        msgs.push("The GHOST was the\nrestless soul of\nCUBONE's mother!");
+        msgs.push("The mother's soul\nwas calmed.\n\nIt departed to\nthe afterlife!");
+      }
       // XP split (engine/battle/experience.asm GainExperience + DivideExpDataByNumMonsGainingExp):
       // every party member sent out against THIS enemy mon (foughtCurrentEnemyRef, reset per
       // enemy mon, added to on every switch) shares the exp — not just whoever's active at the
@@ -569,7 +636,7 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
           updatedPlayerRef.current = finalPlayer;
           // New enemy mon — only the currently active mon has fought it so far.
           foughtCurrentEnemyRef.current = new Set([activeIdxRef.current]);
-          pushLog(msgs, 'log', null);
+          pushLog(maskGhostMsgs(msgs), 'log', null);
           setEnemy(nextMon);
           setPlayer(finalPlayer);
           return;
@@ -626,10 +693,19 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
     updatedPlayerRef.current = finalPlayer;
     setPlayer(finalPlayer);
     setEnemy(E);
-    pushLog(msgs, 'log', newResult);
+    pushLog(maskGhostMsgs(msgs), 'log', newResult);
   }
 
   function handleRun() {
+    // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+    // Real OG (engine/battle/core.asm TryRunningFromBattle: `call IsGhostBattle; jp z,
+    // .canEscape`) — an unidentified Tower ghost always lets the player flee, bypassing the
+    // speed-based escape formula entirely.
+    if (ghostDisguise) {
+      updatedPlayerRef.current = { ...player };
+      pushLog(['Got away safely!'], 'log', 'run');
+      return;
+    }
     const attempts = escapeAttemptsRef.current;
     // Gen 1 escape formula
     const F = Math.floor(player.spd * 32 / (Math.max(1, Math.floor(enemy.spd / 4)) + 1)) + 30 * attempts;
@@ -796,14 +872,23 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
 
         {/* Enemy info (top-left) */}
         <div className="pkrb-enemy-info">
-          <div className="pkrb-info-name">{fmt(enemy.species)}<span className="pkrb-lv">Lv{enemy.level}</span><StatusBadge status={enemy.status} /></div>
+          <div className="pkrb-info-name">{ghostDisguise ? 'GHOST' : fmt(enemy.species)}<span className="pkrb-lv">Lv{enemy.level}</span><StatusBadge status={enemy.status} /></div>
           <HpBar current={enemy.hp} max={enemy.maxHp} />
         </div>
 
-        {/* Enemy sprite (top-right) */}
+        {/* Enemy sprite (top-right) — ghostDisguise (Pokémon Tower, no SILPH SCOPE yet):
+            real OG substitutes a small hardcoded generic "GhostPic" sprite here (and the name
+            "GHOST") regardless of the true species underneath — see the ghostDisguise doc
+            comment above. This port has no dedicated placeholder art for it, so a CSS silhouette
+            (.pkrb-ghost-sprite, PokeredBattle.css) stands in rather than pointing <img> at a
+            nonexistent asset. */}
         <div className="pkrb-enemy-sprite-wrap">
-          <img src={spriteUrl(enemy.species)} alt={enemy.species} className="pkrb-sprite"
-            onError={e => { e.target.style.display='none'; }} />
+          {ghostDisguise ? (
+            <div className="pkrb-ghost-sprite" role="img" aria-label="GHOST" />
+          ) : (
+            <img src={spriteUrl(enemy.species)} alt={enemy.species} className="pkrb-sprite"
+              onError={e => { e.target.style.display='none'; }} />
+          )}
         </div>
 
         {/* Trainer portrait — shown only for the opening "X wants to battle!" log line,

@@ -76,3 +76,27 @@ I have a 100 shadow meganium and bunnelyby. Need to decide if i ever care about 
 one major thing i need to do is go through things when i have time to check pokebattler. One of my major freeze points is i don't remember which pokemon are worth keeping because there's so many now and i don't know the most recent 50% of them.
 - i need to see if pokebattler or another site has a list of things one mon is good at countering , without having to look legendary by legendary, &or scrape multiple legendaries at a time and check results. Else; create my own site for this.
 
+--
+Manual sorting:
+CP ties to mon-type ties to rarity.
+low cp accepted if higher tier
+High cp accepted at any tier range.
+mid cp accepted if mid-high tier.
+
+"Most / 9outof10" filters should have ALL labels in them. 
+Core rule: "If something is labeled, it's saved for a reason*
+Caveat to the core rule: when filtering mons within a label. (obviously)
+
+- Legendaries don't need to be in any filters - they can't even be mass transferred.
+- If i save a pokemon by name, it needs to have a corresponding label that it will belong to. The names are only for quick filtering. In downtime i should do filters the opposite way, search by names, and set labels, instead of for quick trashing.
+- 
+chansey blissey litten wimpod
+
+4* + Can evolve:
+pick useless 4* that can evolve for the 4*  dex
+Any other 4* should be useful or trashed.
+
+144 - 4* stars - not sure what to do with them right now.
+Some are raiders/gymers. not all.
+
+
