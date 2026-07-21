@@ -1,4 +1,9 @@
-# "Sweep For This Bug Class" Prompt Template
+---
+name: pokered-bug-sweep
+description: Run right after fixing a pokered bug to prove the same bug CLASS doesn't exist elsewhere. Classify the bug (data-tag / stale-convention / missing-wiring / logic-edge), write an exact mechanical signature, run an EXHAUSTIVE script/grep scan over the whole project (not spot-checks), triage every hit against OG source, apply the fix consistently, re-scan to prove zero remain, and document the precedent in CLAUDE.md. Use after any pokered fix where the bug is likely to recur elsewhere.
+---
+
+# Sweep For This Bug Class (pokered)
 
 Use this immediately after fixing a bug, when you want proof it doesn't exist
 anywhere else — not just a quick look around.

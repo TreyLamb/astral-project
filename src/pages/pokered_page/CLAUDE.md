@@ -4,6 +4,37 @@ Project: a JavaScript/React port of Pokémon Red, ported from the disassembled
 OG source in `PokeRed_OG/` (assembly reference, read-only — never edit this,
 only read from it for porting accuracy).
 
+---
+
+## ⚡ How this loads + companion skills (relocated 2026-07-21)
+This file now lives at `src/pages/pokered_page/CLAUDE.md` so it **auto-loads** whenever the
+working directory is the game folder. (It is deliberately NOT inside `.claude/` — a
+`.claude/CLAUDE.md` does not auto-load; only the cwd + its ancestors + `~/.claude/CLAUDE.md` do.)
+The root `astral-project/CLAUDE.md` also always loads and points here.
+
+Two reusable pokered workflows are now **skills** — auto-surfaced by their description, so they
+run without anyone pasting a prompt (formerly the manual `FULLY_WIRE_PROMPT.md` /
+`BUG_CLASS_SWEEP_PROMPT.md` / `promptfreeclaude.md`, now folded away):
+- **`pokered-fully-wire`** (`.claude/skills/pokered-fully-wire/`) — invoke to fully wire/audit a
+  map or small cluster (warps, NPCs, dialogue, bg/hidden events, items, marts, gyms, tile mechanics).
+- **`pokered-bug-sweep`** (`.claude/skills/pokered-bug-sweep/`) — invoke right after a fix to prove
+  the same bug class doesn't exist elsewhere.
+
+Companion docs (still in `pokemon_OG/bugtracking/Lastmap markdowns/`, i.e.
+`../../../pokemon_OG/bugtracking/Lastmap markdowns/` from here):
+- **`POKERED_CHECKLIST.md`** — implementation status; check before assuming done/not-done, and
+  sync after any status change (checklist-sync workflow near the bottom of this file).
+- **`BATTLE_MECHANICS_CHANGE_PROPOSALS.md`** — parked battle refinements to review with the owner
+  (owner is "100% comfortable with the battle system unless something is MISSING" — don't touch
+  working battle mechanics; add only what's genuinely missing; park refinements here).
+
+Bootstrap essentials (were in `promptfreeclaude.md`): the OG disassembly at
+`../../../pokemon_OG/PokeRed_OG/` is read-only source of truth — if something seems missing or
+ambiguous, the answer is almost always "look harder in PokeRed_OG," not "guess/build from scratch."
+`asvab_master_study_guide.md` (now at repo root) is unrelated to this project.
+
+---
+
 Main folders:
 - `pokered_page/` — current React source (components, game state, data tables)
 - `pokered_page/game_data.json` — converted map/warp/NPC/collision data

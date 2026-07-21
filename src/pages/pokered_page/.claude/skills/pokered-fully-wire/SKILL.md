@@ -1,6 +1,13 @@
-# "Fully Wire" Prompt Template
+---
+name: pokered-fully-wire
+description: Fully wire / audit every interactive system of a Pokémon Red port map or small map-cluster (3-5 maps) against the OG disassembly — warps, NPCs, dialogue, bg_events, hidden_events, ground + hidden items, marts, gym gating, and cut/surf/ledge tile mechanics. Runs a 7-phase inventory → per-category verify → shared-function safety → evidence-table → zero-placeholder → checklist-sync process. Use for "fully wire <map/region>" or any pokered map-completeness audit.
+---
 
-Copy everything below the line into a fresh prompt. Fill in the two blanks at the top.
+# Fully Wire a Map / Map-Cluster (pokered)
+
+**Scope** = the exact map IDs to wire, from the task (or the `{{SCOPE}}` placeholder below). Run
+per map or small cluster (3-5 max), never a whole region at once — that causes shallow coverage.
+Produce the Phase 1 inventory first, get it reviewed, then Phase 2-7.
 Use it **per map or small map-cluster**, not for an entire region in one shot — see
 "How to use this" at the bottom.
 
