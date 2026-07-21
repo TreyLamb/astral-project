@@ -1010,3 +1010,64 @@ export function clearEvent(state, eventName) {
   if (!state.events) return state;
   return { ...state, events: state.events.filter(e => e !== eventName) };
 }
+
+// ===== FOSSIL REVIVAL + IN-GAME TRADES WIRING =====
+
+// Cinnabar Lab fossil revival species/level — engine/events/cinnabar_lab.asm
+// GiveFossilToCinnabarLab: `cp DOME_FOSSIL -> KABUTO`, `cp HELIX_FOSSIL -> OMANYTE`, else
+// (OLD_AMBER) `-> AERODACTYL`. scripts/CinnabarLabFossilRoom.asm's done-reviving branch calls
+// `ld c, 30 / call GivePokemon` — all 3 fossils revive at level 30, no exceptions.
+export const FOSSIL_REVIVALS = {
+  DOME_FOSSIL: 'KABUTO',
+  HELIX_FOSSIL: 'OMANYTE',
+  OLD_AMBER: 'AERODACTYL',
+};
+export const FOSSIL_REVIVE_LEVEL = 30;
+
+// In-game trades — mirrors data/events/trades.asm's TradeMons table 1:1 (give species, receive
+// species, the real OG nickname the traded-in mon receives). TRADE_FOR_CHIKUCHIKU
+// (BUTTERFREE -> BEEDRILL) is real OG data but trades.asm itself comments it "unused" — grepped
+// every scripts/*.asm for `TRADE_FOR_` and confirmed no NPC anywhere in the game ever sets
+// wWhichTrade to it. Kept here for 1:1 table fidelity; never wired to any NPC in
+// PokeredOverworld.jsx, matching OG exactly (0 reachable uses, same as the original game).
+export const IN_GAME_TRADES = {
+  TERRY: { give: 'NIDORINO', receive: 'NIDORINA', nickname: 'TERRY' },
+  MARCEL: { give: 'ABRA', receive: 'MR_MIME', nickname: 'MARCEL' },
+  CHIKUCHIKU: { give: 'BUTTERFREE', receive: 'BEEDRILL', nickname: 'CHIKUCHIKU' }, // unused in OG — no NPC ever offers this trade
+  SAILOR: { give: 'PONYTA', receive: 'SEEL', nickname: 'SAILOR' },
+  DUX: { give: 'SPEAROW', receive: 'FARFETCHD', nickname: 'DUX' },
+  MARC: { give: 'SLOWBRO', receive: 'LICKITUNG', nickname: 'MARC' },
+  LOLA: { give: 'POLIWHIRL', receive: 'JYNX', nickname: 'LOLA' },
+  DORIS: { give: 'RAICHU', receive: 'ELECTRODE', nickname: 'DORIS' },
+  CRINKLES: { give: 'VENONAT', receive: 'TANGELA', nickname: 'CRINKLES' },
+  SPOT: { give: 'NIDORAN_M', receive: 'NIDORAN_F', nickname: 'SPOT' },
+};
+
+// Real OG (engine/events/in_game_trades.asm InGameTrade_DoTrade) opens the actual party menu,
+// lets the player pick ANY party slot, and only checks the species AFTER the fact (wrong pick
+// -> WRONG_MON text, no state change, mon stays in party). This port has no species-filtered
+// party-picker widget — ✂️ simplification explicitly permitted by the task brief when no clean
+// UI exists for it — so this auto-selects the FIRST party member whose species matches the
+// trade's requested species instead of opening a real menu. Returns null if no matching party
+// member exists (caller — PokeredOverworld.jsx's trade dialogue — shows the WRONG_MON-equivalent
+// text and makes no party change, same end result as OG's real menu-cancel/wrong-pick path).
+export function tryInGameTrade(party, tradeKey, pokemonData) {
+  const trade = IN_GAME_TRADES[tradeKey];
+  if (!trade) return null;
+  const idx = party.findIndex(m => m.species === trade.give);
+  if (idx < 0) return null;
+  // Real OG: received mon's level = the level of the mon just traded away (InGameTrade_DoTrade
+  // reads wPartyMon1Level + wWhichPokemon*PARTYMON_STRUCT_LENGTH into wCurEnemyLevel BEFORE the
+  // swap), not a fixed level.
+  const givenLevel = party[idx].level;
+  const received = createPlayerPokemon(trade.receive, givenLevel, pokemonData);
+  // Nickname/OT are real OG data (InGameTrade_CopyDataToReceivedMon copies wInGameTradeMonNick +
+  // "<TRAINER>" OT onto the received mon) but this port's party/stats UI has no nickname or OT
+  // display anywhere yet (checked: no other party mon object sets either field, no render path
+  // reads them) — stored anyway for whenever that UI exists; inert/cosmetic-only today.
+  received.nickname = trade.nickname;
+  received.otName = '<TRAINER>';
+  const newParty = [...party];
+  newParty[idx] = received;
+  return newParty;
+}

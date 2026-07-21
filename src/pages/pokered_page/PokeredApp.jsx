@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { saveGame, healParty, createPlayerPokemon, ITEM_EFFECTS, tryEvolveWithStone, applyXP, xpForLevel, finalizeEvolution, saveExtraAsNewSlot, newSlotId, DARK_MAPS, FLY_DESTINATIONS, setEvent } from './pokeredGameState';
+import { saveGame, healParty, createPlayerPokemon, ITEM_EFFECTS, tryEvolveWithStone, applyXP, xpForLevel, finalizeEvolution, saveExtraAsNewSlot, newSlotId, DARK_MAPS, FLY_DESTINATIONS, hasEvent, setEvent, clearEvent, FOSSIL_REVIVALS, FOSSIL_REVIVE_LEVEL, tryInGameTrade } from './pokeredGameState';
 import { TRAINER_META } from './trainerMeta';
 import { TRAINER_PARTIES } from './trainerParties';
 import PokeredStartScreen from './PokeredStartScreen';
@@ -411,6 +411,72 @@ export default function PokeredApp() {
       : items.filter(i => i.name !== itemName);
   }
 
+  // ===== FOSSIL REVIVAL + IN-GAME TRADES WIRING =====
+
+  // Cinnabar Lab fossil hand-over (engine/events/cinnabar_lab.asm GiveFossilToCinnabarLab) —
+  // removes the given fossil from the bag and records which species is being revived. Real OG
+  // stores this in wFossilMon, plain WRAM that survives the CinnabarLab<->CinnabarIsland map
+  // trip the "go for a walk" wait requires (see handleMapChange below); this port persists the
+  // same information as gameState.fossilGiven for the same reason (setGameState snapshots
+  // wouldn't otherwise survive that round trip). See PokeredOverworld.jsx's
+  // 'CINNABAR_LAB_FOSSIL_ROOM:1' block for the full state machine this feeds.
+  function handleGiveFossil(fossilItemName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const species = FOSSIL_REVIVALS[fossilItemName];
+      if (!species) return prev;
+      const items = consumeItem(prev.items ?? [], fossilItemName);
+      let next = { ...prev, items, fossilGiven: species };
+      next = setEvent(next, 'EVENT_GAVE_FOSSIL_TO_LAB');
+      next = setEvent(next, 'EVENT_LAB_STILL_REVIVING_FOSSIL');
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Cinnabar Lab fossil pickup (scripts/CinnabarLabFossilRoom.asm .done_reviving branch) —
+  // grants gameState.fossilGiven at FOSSIL_REVIVE_LEVEL (30), party-or-PC same as every other
+  // gift mon (see handleBuyMagikarp above). Sets EVENT_LAB_HANDING_OVER_FOSSIL_MON, the real OG
+  // flag (set unconditionally right before GivePokemon in OG too) — this handler ALSO re-checks
+  // that same flag as a one-time completion cap, which real OG itself never does (OG only
+  // re-checks EVENT_LAB_STILL_REVIVING_FOSSIL, which resets every CINNABAR_ISLAND reload — see
+  // handleMapChange — so byte-for-byte OG would hand out a fresh copy of the same fossil mon
+  // forever on repeat visits). The task brief explicitly calls for one-time-only, so this is an
+  // intentional, commented divergence from OG's real (never-re-checked) flag semantics — the
+  // flag itself and the moment it's set are still 100% faithful.
+  function handleCollectFossilMon() {
+    setGameState(prev => {
+      if (!prev || !prev.fossilGiven || hasEvent(prev, 'EVENT_LAB_HANDING_OVER_FOSSIL_MON')) return prev;
+      const mon = createPlayerPokemon(prev.fossilGiven, FOSSIL_REVIVE_LEVEL, pokemonData);
+      let party = prev.party, pcMons = prev.pcMons ?? [];
+      if (party.length < 6) party = [...party, mon];
+      else pcMons = [...pcMons, mon];
+      let next = { ...prev, party, pcMons };
+      next = setEvent(next, 'EVENT_LAB_HANDING_OVER_FOSSIL_MON');
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // In-game NPC trades (data/events/trades.asm + engine/events/in_game_trades.asm) — see
+  // tryInGameTrade's doc comment in pokeredGameState.js for the auto-select-first-match ✂️
+  // simplification. One-time per trade NPC via the standard giftId/pickedUpItems gate — OG's
+  // real gate (wCompletedInGameTradeFlags) is a separate bitfield from the EVENT_* registry, so
+  // pickedUpItems (this port's existing separate one-time-gift tracker) is the faithful
+  // counterpart, not hasEvent/setEvent.
+  function handleDoTrade(tradeKey, giftId) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const pickedUpItems = prev.pickedUpItems ?? [];
+      if (pickedUpItems.includes(giftId)) return prev;
+      const newParty = tryInGameTrade(prev.party, tradeKey, pokemonData);
+      if (!newParty) return prev;
+      const next = { ...prev, party: newParty, pickedUpItems: [...pickedUpItems, giftId] };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
   // Reads/writes only through the setGameState updater (never the outer gameState
   // closure) so this stays correct even when called via a stale prop reference from
   // PokeredOverworld/PokeredBattle (their keyboard handlers capture onUseItem once).
@@ -548,13 +614,23 @@ export default function PokeredApp() {
       // FLASH is similar but scoped to DARK_MAPS: real OG resets it specifically on entering
       // ROCK_TUNNEL_1F from outside, and never touches it on the internal 1F<->B1F stairs — so
       // it carries over between those two floors but resets the moment you leave the group.
-      const next = { ...prev, mapId, x, y, strengthActive: false, flashActive: DARK_MAPS.has(mapId) ? prev.flashActive : false };
+      let next = { ...prev, mapId, x, y, strengthActive: false, flashActive: DARK_MAPS.has(mapId) ? prev.flashActive : false };
       if (isPokeCenter) next.lastPokeCenter = { mapId, x, y };
       // FLY destinations (engine/overworld/toggleable_objects.asm MarkTownVisitedAndLoadToggleableObjects):
       // real OG marks any of the 11 town/city maps visited the moment you enter it, gating the
       // Town Map fly picker to only towns you've actually been to.
       if (FLY_DESTINATIONS.some(d => d.mapId === mapId) && !(prev.visitedTowns ?? []).includes(mapId)) {
         next.visitedTowns = [...(prev.visitedTowns ?? []), mapId];
+      }
+      // ===== FOSSIL REVIVAL + IN-GAME TRADES WIRING =====
+      // scripts/CinnabarIsland.asm CinnabarIsland_Script: `ResetEvent EVENT_LAB_STILL_REVIVING_FOSSIL`
+      // runs unconditionally every single time this map's script runs (i.e. every load) — this is
+      // the real OG mechanism behind the fossil scientist's "go for a walk" wait (see
+      // PokeredOverworld.jsx's CINNABAR_LAB_FOSSIL_ROOM:1 block). handleMapChange fires on every
+      // genuine map transition (per this function's own comment above), so mirroring the reset
+      // here on entry to CINNABAR_ISLAND specifically is the exact same trigger condition as OG.
+      if (mapId === 'CINNABAR_ISLAND') {
+        next = clearEvent(next, 'EVENT_LAB_STILL_REVIVING_FOSSIL');
       }
       return next;
     });
@@ -1203,6 +1279,9 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onSwitchParty={handleSwitchParty}
             onSwapMoves={handleSwapMoves}
             onBuyMagikarp={handleBuyMagikarp}
+            onGiveFossil={handleGiveFossil}
+            onCollectFossilMon={handleCollectFossilMon}
+            onDoTrade={handleDoTrade}
             gameState={gameState}
             isExtra={gameState.isExtra}
             speedMult={speedMult}

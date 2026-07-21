@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { TRAINER_META } from './trainerMeta';
 import { TRAINER_PARTIES } from './trainerParties';
-import { ITEM_EFFECTS, TM_HM_MOVES, tryFish, DARK_MAPS, FLY_DESTINATIONS, hasEvent } from './pokeredGameState';
+import { ITEM_EFFECTS, TM_HM_MOVES, tryFish, DARK_MAPS, FLY_DESTINATIONS, hasEvent, FOSSIL_REVIVALS, IN_GAME_TRADES } from './pokeredGameState';
 import ITEM_LOCATIONS from './extracted_og_data/item_locations.json';
 import HIDDEN_ITEMS from './extracted_og_data/hidden_items.json';
 import NPC_DIALOGUE from './extracted_og_data/npc_dialogue.json';
@@ -36,6 +36,110 @@ function buildVendingPrompt(i) {
     },
   };
 }
+
+// ===== FOSSIL REVIVAL + IN-GAME TRADES WIRING =====
+
+// Cosmetic word-formatter shared by the fossil and trade dialogue below (SPECIES_NAME ->
+// "SPECIES NAME", ITEM_NAME -> "ITEM NAME") — same transform already used ad hoc elsewhere in
+// this file (e.g. the Mt Moon fossil pickup's `fossilName.replace(/_/g, ' ')`), just named once.
+function speciesLabel(s) { return (s ?? '').replace(/_/g, ' '); }
+
+// Cinnabar Lab fossil-scientist offer chain (engine/events/cinnabar_lab.asm
+// GiveFossilToCinnabarLab) — real OG shows an actual scrollable, bag-filtered item menu here
+// (PrintFossilsInBag); this port has no such widget, so — matching the buildVendingPrompt
+// precedent directly above — this chains a Yes/No per candidate fossil in OG's own FossilsList
+// order (DOME_FOSSIL, HELIX_FOSSIL, OLD_AMBER). ✂️ simplification: in practice at most 2 fossils
+// are ever held at once (Mt Moon's Dome/Helix are already mutually exclusive elsewhere in this
+// port — see the MT_MOON_B2F:6/7 block below), so this covers every real reachable case.
+// Text transcribed from text/CinnabarLabFossilRoom.asm (_CinnabarLabFossilRoomScientist1*).
+function buildFossilOfferPrompt(fossilList, i) {
+  const item = fossilList[i];
+  const mon = FOSSIL_REVIVALS[item];
+  const itemLabel = speciesLabel(item);
+  const onNo = i < fossilList.length - 1
+    ? buildFossilOfferPrompt(fossilList, i + 1)
+    : { lines: ["Aiyah! You come\nagain!"] };
+  return {
+    lines: [
+      `Oh! That is\n${itemLabel}!`,
+      `It is fossil of\n${mon}, a\nPOKéMON that is\nalready extinct!`,
+      "My Resurrection\nMachine will make\nthat POKéMON live\nagain!",
+    ],
+    yesNo: {
+      onYes: {
+        lines: [
+          "So! You hurry and\ngive me that!",
+          `<PLAYER> handed\nover ${itemLabel}!`,
+          "I take a little\ntime!",
+          "You go for walk a\nlittle while!",
+        ],
+        action: 'GIVE_FOSSIL', fossilItem: item,
+      },
+      onNo,
+    },
+  };
+}
+
+// In-game trade NPCs (data/events/trades.asm + engine/events/in_game_trades.asm) — OG's 3
+// InGameTradeTextPointers dialog sets (TRADE_DIALOGSET_CASUAL=1/EVOLUTION=2/HAPPY=3 below,
+// matching TradeTextPointers1/2/3's real const order — Constants/script_constants.asm's
+// const_def starts at 0, so CASUAL=0->set1, EVOLUTION=1->set2, HAPPY=2->set3), text transcribed
+// from data/text/text_7.asm. `g`/`r` below stand in for OG's runtime wInGameTradeGiveMonName/
+// wInGameTradeReceiveMonName substitutions.
+const TRADE_DIALOG_TEXT = {
+  1: { // CASUAL (TradeTextPointers1)
+    wanna: (g, r) => [`I'm looking for\n${g}! Wanna`, `trade one for\n${r}? `],
+    no: () => ["Awww!\nOh well..."],
+    wrong: (g) => [`What? That's not\n${g}!`, "If you get one,\ncome back here!"],
+    thanks: () => ["Hey thanks!"],
+    after: (g, r) => [`Isn't my old\n${r}\ngreat?`],
+  },
+  2: { // EVOLUTION (TradeTextPointers2)
+    wanna: (g, r) => [`Hello there! Do\nyou want to trade`, `your ${g}\nfor ${r}?`],
+    no: () => ["Well, if you\ndon't want to..."],
+    wrong: (g) => [`Hmmm? This isn't\n${g}.`, "Think of me when\nyou get one."],
+    thanks: () => ["Thanks!"],
+    after: (g, r) => [`The ${g} you\ntraded to me`, "went and evolved!"],
+  },
+  3: { // HAPPY (TradeTextPointers3)
+    wanna: (g, r) => [`Hi! Do you have\n${g}?`, `Want to trade it\nfor ${r}?`],
+    no: () => ["That's too bad."],
+    wrong: (g) => [`...This is no\n${g}.`, "If you get one,\ntrade it with me!"],
+    thanks: () => ["Thanks pal!"],
+    after: (g, r) => [`How is my old\n${r}?`, `My ${g} is\ndoing great!`],
+  },
+};
+
+// Builds the full startDialogue() response for any of the 9 real in-game-trade NPCs (see the
+// map:npcIndex blocks near the fossil-revival dialogue below). `giftId` gates one-time
+// completion via the standard pickedUpItems mechanism (like every other one-time NPC gift in
+// this file) rather than the EVENT_* registry — OG's real gate is wCompletedInGameTradeFlags, a
+// SEPARATE bitfield from the 507-name EVENT_* table hasEvent/setEvent are reserved for, so
+// pickedUpItems is the more faithful separation, not a shortcut.
+function tradeNpcDialogue(tradeKey, dialogSet, giftId, gameState, pickedUpRef) {
+  const trade = IN_GAME_TRADES[tradeKey];
+  const set = TRADE_DIALOG_TEXT[dialogSet];
+  const g = speciesLabel(trade.give), r = speciesLabel(trade.receive);
+  if (pickedUpRef.current.has(giftId)) {
+    return { lines: set.after(g, r), idx: 0, action: null };
+  }
+  const hasMon = (gameState?.party ?? []).some(m => m.species === trade.give);
+  return {
+    lines: set.wanna(g, r), idx: 0, action: null, giftId, tradeKey,
+    yesNo: {
+      // Real OG always opens the party menu regardless of whether the player actually has the
+      // mon (WRONG_MON only fires after a bad pick) — since this port auto-selects instead of
+      // opening a real menu (see tryInGameTrade's ✂️ note in pokeredGameState.js), the
+      // has-the-mon check is done up front here so a "Yes" either always succeeds or always
+      // shows the real WRONG_MON text, matching the same two possible real OG outcomes.
+      onYes: hasMon
+        ? { lines: ["Okay, connect the\ncable like so!", `<PLAYER> traded\n${g} for\n${r}!`, ...set.thanks()], action: 'DO_TRADE', tradeKey }
+        : { lines: set.wrong(g) },
+      onNo: { lines: set.no() },
+    },
+  };
+}
+
 const DEX_ENTRIES = Object.keys(DEX).map((key, i) => ({
   species: DEX_KEY_ALIASES[key] ?? key,
   num: i + 1,
@@ -133,7 +237,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -2251,6 +2355,135 @@ function notifyPosition() {
       return;
     }
 
+    // ===== FOSSIL REVIVAL + IN-GAME TRADES WIRING =====
+
+    // Museum 1F scientist #2 (Museum1FScientist2Text, object index 3 — MUSEUM1F_SCIENTIST2) —
+    // one-time OLD_AMBER gift (real OG: EVENT_GOT_OLD_AMBER, `lb bc, OLD_AMBER, 1 / call
+    // GiveItem`). Feeds the Cinnabar Lab fossil-revival flow below (OLD_AMBER -> AERODACTYL).
+    // Text transcribed from text/Museum1F.asm. ✂️ Real OG gates the whole back half of the
+    // museum behind a ¥50 ticket purchase from Scientist #1 (object index 1,
+    // EVENT_BOUGHT_MUSEUM_TICKET) — not implemented; matches this port's pre-existing pattern
+    // of treating admission/boarding checks as informational-only rather than movement blocks
+    // (see the SS Anne ticket guard / Saffron gate guards elsewhere in this file).
+    if (here === 'MUSEUM_1F:3') {
+      const giftId = npcTrainerId(ms.mapId, npc);
+      const hasAmber = (gameState?.items ?? []).some(it => it.name === 'OLD_AMBER');
+      if (pickedUpRef.current.has(giftId) || hasAmber) {
+        setDialogue({ lines: ["Ssh! Get the OLD\nAMBER checked!"], idx: 0, action: null });
+      } else {
+        pickedUpRef.current.add(giftId);
+        if (onPickUpItem) onPickUpItem(giftId, 'OLD_AMBER');
+        setDialogue({
+          lines: [
+            "Ssh! I think that\nthis chunk of\nAMBER contains\nPOKéMON DNA!",
+            "It would be great\nif POKéMON could\nbe resurrected\nfrom it!",
+            "But, my colleagues\njust ignore me!",
+            "So I have a favor\nto ask!",
+            "Take this to a\nPOKéMON LAB and\nget it examined!",
+            "<PLAYER> received\nOLD AMBER!",
+          ],
+          idx: 0, action: null,
+        });
+      }
+      return;
+    }
+
+    // Cinnabar Lab fossil scientist (CINNABARLABFOSSILROOM_SCIENTIST1, object index 1) — full
+    // fossil-revival state machine (engine/events/cinnabar_lab.asm GiveFossilToCinnabarLab +
+    // scripts/CinnabarLabFossilRoom.asm CinnabarLabFossilRoomScientist1Text). Species/level from
+    // FOSSIL_REVIVALS/FOSSIL_REVIVE_LEVEL (pokeredGameState.js), cited directly from that ASM:
+    // DOME_FOSSIL->KABUTO, HELIX_FOSSIL->OMANYTE, OLD_AMBER->AERODACTYL, all level 30.
+    //
+    // Real OG's own EVENT_GAVE_FOSSIL_TO_LAB gate never resets once set, but
+    // EVENT_LAB_STILL_REVIVING_FOSSIL resets EVERY single time CINNABAR_ISLAND (the town map,
+    // one warp outside the lab) reloads (`CinnabarIsland_Script`'s unconditional `ResetEvent
+    // EVENT_LAB_STILL_REVIVING_FOSSIL` — see handleMapChange in PokeredApp.jsx, which mirrors
+    // this exactly on every map transition to CINNABAR_ISLAND). That's the real "go for a walk"
+    // wait: leaving the lab and coming back clears the flag.
+    //
+    // Byte-for-byte, OG never re-checks EVENT_LAB_HANDING_OVER_FOSSIL_MON after setting it, so a
+    // player who keeps leaving/re-entering Cinnabar Island could walk back in and collect a
+    // fresh copy of the same fossil mon forever — the task brief explicitly calls for one-time
+    // behavior, so this IS the one place that re-checks EVENT_LAB_HANDING_OVER_FOSSIL_MON, to
+    // cap it (see handleCollectFossilMon in PokeredApp.jsx for the matching comment). The flag
+    // itself, and the moment it's set, are still 100% faithful to OG — only the "never checked
+    // again" half of real OG's behavior is intentionally not replicated.
+    if (here === 'CINNABAR_LAB_FOSSIL_ROOM:1') {
+      const gs = gameState ?? {};
+      if (!hasEvent(gs, 'EVENT_GAVE_FOSSIL_TO_LAB')) {
+        // Real OG order (FossilsList / Lab4Script_GetFossilsInBag): DOME_FOSSIL, HELIX_FOSSIL,
+        // OLD_AMBER.
+        const bagFossils = ['DOME_FOSSIL', 'HELIX_FOSSIL', 'OLD_AMBER'].filter(f =>
+          (gs.items ?? []).some(it => it.name === f && it.count > 0));
+        const intro = ["Hiya!", "I am important\ndoctor!", "I study here rare\nPOKéMON fossils!", "You! Have you a\nfossil for me?"];
+        if (bagFossils.length === 0) {
+          setDialogue({ lines: [...intro, "No! Is too bad!"], idx: 0, action: null });
+        } else {
+          const offer = buildFossilOfferPrompt(bagFossils, 0);
+          setDialogue({ lines: [...intro, ...offer.lines], idx: 0, action: null, yesNo: offer.yesNo });
+        }
+        return;
+      }
+      if (hasEvent(gs, 'EVENT_LAB_HANDING_OVER_FOSSIL_MON')) {
+        const mon = gs.fossilGiven;
+        setDialogue({ lines: [mon ? `Ssh! Your ${speciesLabel(mon)}\nis doing well, yes?` : "Ssh! Science is\ngoing well, yes?"], idx: 0, action: null });
+        return;
+      }
+      if (hasEvent(gs, 'EVENT_LAB_STILL_REVIVING_FOSSIL')) {
+        setDialogue({ lines: ["I take a little\ntime!", "You go for walk a\nlittle while!"], idx: 0, action: null });
+        return;
+      }
+      // Ready: EVENT_GAVE_FOSSIL_TO_LAB set, EVENT_LAB_STILL_REVIVING_FOSSIL cleared (player has
+      // visited CINNABAR_ISLAND at least once since giving the fossil).
+      setDialogue({
+        lines: ["Where were you?", "Your fossil is\nback to life!", `It was ${speciesLabel(gs.fossilGiven)}\nlike I think!`],
+        idx: 0, action: 'COLLECT_FOSSIL_MON',
+      });
+      return;
+    }
+
+    // The 9 real in-game-trade NPCs (data/events/trades.asm TradeMons + the map/npcIndex each
+    // one lives on, traced via `TRADE_FOR_*` references across scripts/*.asm and confirmed
+    // against each map's own data/maps/objects/*.asm object_event order — verified 1:1 against
+    // this port's game_data.json npcs arrays for every map below). TRADE_FOR_CHIKUCHIKU has no
+    // NPC anywhere (see IN_GAME_TRADES's comment) so there are only 9, not 10.
+    if (here === 'CINNABAR_LAB_FOSSIL_ROOM:2') { // scripts/CinnabarLabFossilRoom.asm Scientist2Text
+      setDialogue(tradeNpcDialogue('SAILOR', 1, npcTrainerId(ms.mapId, npc), gameState, pickedUpRef));
+      return;
+    }
+    if (here === 'ROUTE_11_GATE_2F:1') { // scripts/Route11Gate2F.asm YoungsterText
+      setDialogue(tradeNpcDialogue('TERRY', 1, npcTrainerId(ms.mapId, npc), gameState, pickedUpRef));
+      return;
+    }
+    if (here === 'ROUTE_2_TRADE_HOUSE:2') { // scripts/Route2TradeHouse.asm GameboyKidText
+      setDialogue(tradeNpcDialogue('MARCEL', 1, npcTrainerId(ms.mapId, npc), gameState, pickedUpRef));
+      return;
+    }
+    if (here === 'VERMILION_TRADE_HOUSE:1') { // scripts/VermilionTradeHouse.asm LittleGirlText
+      setDialogue(tradeNpcDialogue('DUX', 3, npcTrainerId(ms.mapId, npc), gameState, pickedUpRef));
+      return;
+    }
+    if (here === 'ROUTE_18_GATE_2F:1') { // scripts/Route18Gate2F.asm YoungsterText
+      setDialogue(tradeNpcDialogue('MARC', 1, npcTrainerId(ms.mapId, npc), gameState, pickedUpRef));
+      return;
+    }
+    if (here === 'CERULEAN_TRADE_HOUSE:2') { // scripts/CeruleanTradeHouse.asm GamblerText
+      setDialogue(tradeNpcDialogue('LOLA', 2, npcTrainerId(ms.mapId, npc), gameState, pickedUpRef));
+      return;
+    }
+    if (here === 'CINNABAR_LAB_TRADE_ROOM:2') { // scripts/CinnabarLabTradeRoom.asm GrampsText
+      setDialogue(tradeNpcDialogue('DORIS', 2, npcTrainerId(ms.mapId, npc), gameState, pickedUpRef));
+      return;
+    }
+    if (here === 'CINNABAR_LAB_TRADE_ROOM:3') { // scripts/CinnabarLabTradeRoom.asm BeautyText
+      setDialogue(tradeNpcDialogue('CRINKLES', 3, npcTrainerId(ms.mapId, npc), gameState, pickedUpRef));
+      return;
+    }
+    if (here === 'UNDERGROUND_PATH_ROUTE_5:1') { // scripts/UndergroundPathRoute5.asm LittleGirlText
+      setDialogue(tradeNpcDialogue('SPOT', 3, npcTrainerId(ms.mapId, npc), gameState, pickedUpRef));
+      return;
+    }
+
     // Bill's House — real OG has a multi-step cutscene (talk to Bill-as-Pokemon, run a Cell
     // Separator program on his PC, wait for him to walk out human) before the SS Ticket
     // becomes available; the SS Ticket itself (a real story-gating item needed to board the
@@ -2576,6 +2809,17 @@ function notifyPosition() {
         if (prev.action === 'BUY_VENDING' && onBuyItem && prev.buyItem && prev.buyPrice) {
           onBuyItem(prev.buyItem, prev.buyPrice);
         }
+        // ===== FOSSIL REVIVAL + IN-GAME TRADES WIRING =====
+        if (prev.action === 'GIVE_FOSSIL' && onGiveFossil && prev.fossilItem) {
+          onGiveFossil(prev.fossilItem);
+        }
+        if (prev.action === 'COLLECT_FOSSIL_MON' && onCollectFossilMon) {
+          onCollectFossilMon();
+        }
+        if (prev.action === 'DO_TRADE' && onDoTrade && prev.giftId && prev.tradeKey) {
+          pickedUpRef.current.add(prev.giftId);
+          onDoTrade(prev.tradeKey, prev.giftId);
+        }
         if (prev.action === 'BILL_TRANSFORM') {
           const ms = mapStateRef.current;
           const monster = ms?.mapInfo.npcs[0]; // BILLS_HOUSE npc index 0 — the "before" sprite
@@ -2684,10 +2928,13 @@ function notifyPosition() {
       if (!choice?.lines?.length) return null;
       // Forward the chosen branch's own yesNo/buyItem/buyPrice (not just lines/action) so a
       // "No" answer can chain into a FOLLOW-UP yes/no prompt (e.g. the vending machine asking
-      // about each drink in turn) — advanceDialogue re-enters awaitingYesNo automatically once
-      // these lines finish, the same way the initial prompt did.
+      // about each drink in turn, or the fossil scientist asking about the next fossil in the
+      // bag) — advanceDialogue re-enters awaitingYesNo automatically once these lines finish,
+      // the same way the initial prompt did. fossilItem/tradeKey (FOSSIL REVIVAL + IN-GAME
+      // TRADES WIRING) follow the same choice-then-prev fallback pattern as buyItem/buyPrice.
       return { lines: choice.lines, idx: 0, action: choice.action ?? null, giftId: prev.giftId,
-        yesNo: choice.yesNo, buyItem: choice.buyItem ?? prev.buyItem, buyPrice: choice.buyPrice ?? prev.buyPrice };
+        yesNo: choice.yesNo, buyItem: choice.buyItem ?? prev.buyItem, buyPrice: choice.buyPrice ?? prev.buyPrice,
+        fossilItem: choice.fossilItem ?? prev.fossilItem, tradeKey: choice.tradeKey ?? prev.tradeKey };
     });
   }
 

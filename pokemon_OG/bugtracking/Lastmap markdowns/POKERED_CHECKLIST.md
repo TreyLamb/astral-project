@@ -125,12 +125,35 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
 - [ ] Rocket Hideout
 - [ ] Silph Co.
 - [ ] Safari Zone
-- [ ] Cinnabar Lab — fossil revival
+- [x] Cinnabar Lab — fossil revival. Give DOME_FOSSIL/HELIX_FOSSIL/OLD_AMBER to the fossil-room
+      scientist (CINNABAR_LAB_FOSSIL_ROOM:1) → KABUTO/OMANYTE/AERODACTYL at level 30
+      (`engine/events/cinnabar_lab.asm`, `scripts/CinnabarLabFossilRoom.asm`). Real "go for a
+      walk" wait faithfully reproduced via `EVENT_GAVE_FOSSIL_TO_LAB`/`EVENT_LAB_STILL_REVIVING_FOSSIL`
+      (clears on entering CINNABAR_ISLAND, mirroring `CinnabarIsland_Script`'s unconditional
+      `ResetEvent`) — first real consumer of the event-flag registry below. One-time cap via
+      `EVENT_LAB_HANDING_OVER_FOSSIL_MON` is an intentional divergence from OG's own
+      never-re-checked flag (see code comments in `PokeredApp.jsx`/`PokeredOverworld.jsx`).
+      Also newly wired as a prerequisite: Museum 1F's OLD_AMBER gift (`MUSEUM_1F:3`,
+      `Museum1FScientist2Text`) — was previously flat flavor text with no actual item grant.
+      [ ] Claude tested (code review + esbuild bundle check only — no dev server available in
+      this worktree; needs a real playthrough pass). [ ] You
 - [ ] Gym puzzles — Surge trash cans, Sabrina warps (Cinnabar has no real quiz in OG)
 - [ ] Legendaries + Mewtwo — one-time encounters
 - [ ] Champion + Hall of Fame
 - [ ] Day Care — Fuchsia City (user note, wtf is this? day care?)
-- [ ] In-game NPC trades
+- [x] In-game NPC trades — all 9 reachable OG trade NPCs wired (`data/events/trades.asm` +
+      `engine/events/in_game_trades.asm`): TERRY (ROUTE_11_GATE_2F:1), MARCEL
+      (ROUTE_2_TRADE_HOUSE:2), SAILOR (CINNABAR_LAB_FOSSIL_ROOM:2), DUX (VERMILION_TRADE_HOUSE:1),
+      MARC (ROUTE_18_GATE_2F:1), LOLA (CERULEAN_TRADE_HOUSE:2), DORIS + CRINKLES
+      (CINNABAR_LAB_TRADE_ROOM:2/3), SPOT (UNDERGROUND_PATH_ROUTE_5:1). 10th table entry
+      (TRADE_FOR_CHIKUCHIKU, BUTTERFREE→BEEDRILL) kept in `IN_GAME_TRADES` for 1:1 table fidelity
+      but is real-OG-unused (no NPC ever offers it, verified against every scripts/*.asm).
+      ✂️ Simplification: auto-selects the first party member matching the requested species
+      instead of a real species-filtered party-menu picker (no such widget exists in this port);
+      nickname/OT are stored on the received mon but not yet rendered by any UI. See
+      `tryInGameTrade` (`pokeredGameState.js`) and the trade dialogue blocks in
+      `PokeredOverworld.jsx` for details. [ ] Claude tested (code review + esbuild bundle check
+      only — no dev server available in this worktree; needs a real playthrough pass). [ ] You
 - [ ] Receive Pokémon from NPCs — Eevee, Lapras, etc.
 
 ---
@@ -176,7 +199,7 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
 | `scripts/*.asm`+`text/*.asm`     | Per-map NPC & trainer dialogue                | 🔄 Non-scripted entries wired game-wide; `scripted: true` entries (~610) being filled in incrementally — done through Cerulean City |
 | `data/pokemon/dex_entries.asm`   | Pokédex flavor text                           | ✅ Converted & wired |
 | `data/moves/moves.asm`           | Move effect constants (165 moves)             | ✅ Converted & wired |
-| `constants/event_constants.asm`  | Named story event flags                       | 🔄 Registry converted (507 flags → `extracted_og_data/event_flags.json`) + typo-safe `hasEvent/setEvent/clearEvent` API in `pokeredGameState.js`; NOT yet wired to consumers (story gating still uses ad-hoc booleans) |
+| `constants/event_constants.asm`  | Named story event flags                       | 🔄 Registry converted (507 flags → `extracted_og_data/event_flags.json`) + typo-safe `hasEvent/setEvent/clearEvent` API in `pokeredGameState.js`; first real consumer wired 2026-07-20 (Cinnabar Lab fossil revival: `EVENT_GAVE_FOSSIL_TO_LAB`/`EVENT_LAB_STILL_REVIVING_FOSSIL`/`EVENT_LAB_HANDING_OVER_FOSSIL_MON`) — most other story gating still uses ad-hoc booleans |
 | `data/battle_anims/`             | Battle animation data                         | ❌ Not converted |
 | `audio/`                         | Music and SFX                                 | ❌ Not converted |
 
