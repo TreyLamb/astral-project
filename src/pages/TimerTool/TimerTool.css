@@ -1,0 +1,845 @@
+/* Scoped styles for TimerTool page (prefix: tt-) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+/* ─── Root Container ─────────────────────────────────────── */
+.tt-dashboard-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+  color: #f3f4f6;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(59, 130, 246, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(99, 102, 241, 0.04) 0%, transparent 60%);
+}
+
+/* ─── Header ─────────────────────────────────────────────── */
+.tt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding-bottom: 1.75rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.tt-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tt-subtitle {
+  color: #64748b;
+  margin: 0.35rem 0 0 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+/* ─── Global Controls ────────────────────────────────────── */
+.tt-global-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* ─── Buttons ────────────────────────────────────────────── */
+.tt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.tt-btn:active {
+  transform: scale(0.97);
+}
+
+.tt-btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: #ffffff;
+  border-color: rgba(59,130,246,0.3);
+  box-shadow: 0 1px 3px rgba(59,130,246,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.tt-btn-primary:hover {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  box-shadow: 0 4px 12px rgba(59,130,246,0.35);
+}
+
+.tt-btn-secondary {
+  background: rgba(255,255,255,0.04);
+  color: #cbd5e1;
+  border-color: rgba(255,255,255,0.1);
+}
+
+.tt-btn-secondary:hover {
+  background: rgba(255,255,255,0.08);
+  color: #f1f5f9;
+  border-color: rgba(255,255,255,0.18);
+}
+
+.tt-btn-success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border-color: rgba(16,185,129,0.3);
+  box-shadow: 0 1px 3px rgba(16,185,129,0.2);
+}
+
+.tt-btn-success:hover {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+}
+
+.tt-btn-warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #0f172a;
+  border-color: rgba(245,158,11,0.3);
+  box-shadow: 0 1px 3px rgba(245,158,11,0.2);
+}
+
+.tt-btn-warning:hover {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  box-shadow: 0 4px 12px rgba(245,158,11,0.3);
+}
+
+.tt-btn-danger {
+  background: rgba(239,68,68,0.12);
+  color: #f87171;
+  border-color: rgba(239,68,68,0.25);
+}
+
+.tt-btn-danger:hover {
+  background: rgba(239,68,68,0.2);
+  border-color: rgba(239,68,68,0.4);
+  color: #fca5a5;
+}
+
+.tt-btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  border-radius: 0.375rem;
+}
+
+.tt-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Card Grid ──────────────────────────────────────────── */
+.tt-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+/* ─── Timer Card Base ────────────────────────────────────── */
+.tt-timer-card {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+
+.tt-timer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  pointer-events: none;
+}
+
+/* ─── Card State: Running ────────────────────────────────── */
+.tt-card-state-running {
+  border-color: rgba(59,130,246,0.35);
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.1), 0 8px 24px rgba(0,0,0,0.3);
+  animation: tt-pulse-blue 2.5s ease-in-out infinite;
+}
+
+@keyframes tt-pulse-blue {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(59,130,246,0.1), 0 8px 24px rgba(0,0,0,0.3); }
+  50%       { box-shadow: 0 0 0 1px rgba(59,130,246,0.2), 0 8px 32px rgba(59,130,246,0.12); }
+}
+
+/* ─── Card State: Milestone 1 ────────────────────────────── */
+.tt-card-state-one {
+  border-color: rgba(245,158,11,0.45);
+  background: linear-gradient(180deg, rgba(15,23,42,0.85) 0%, rgba(30,20,5,0.85) 100%);
+  animation: tt-pulse-amber 2s ease-in-out infinite;
+}
+
+@keyframes tt-pulse-amber {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(245,158,11,0.15), 0 8px 24px rgba(0,0,0,0.3); }
+  50%       { box-shadow: 0 0 0 1px rgba(245,158,11,0.3), 0 8px 32px rgba(245,158,11,0.12); }
+}
+
+.tt-card-state-one .tt-elapsed-time {
+  color: #fbbf24;
+}
+
+.tt-card-state-one .tt-milestone-tag:first-child {
+  background: rgba(245,158,11,0.2);
+  color: #fbbf24;
+  border-color: rgba(245,158,11,0.35);
+}
+
+.tt-card-state-one .tt-fill-phase1 {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+/* ─── Card State: Milestone 2 / Completed ────────────────── */
+.tt-card-state-two {
+  border-color: rgba(239,68,68,0.45);
+  background: linear-gradient(180deg, rgba(15,23,42,0.85) 0%, rgba(30,5,5,0.85) 100%);
+  animation: none;
+  box-shadow: 0 0 0 1px rgba(239,68,68,0.2), 0 8px 32px rgba(239,68,68,0.1);
+}
+
+.tt-card-state-two .tt-elapsed-time {
+  color: #f87171;
+}
+
+.tt-card-state-two .tt-milestone-tag {
+  background: rgba(239,68,68,0.15);
+  color: #fca5a5;
+  border-color: rgba(239,68,68,0.3);
+}
+
+.tt-card-state-two .tt-fill-phase1,
+.tt-card-state-two .tt-fill-phase2 {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+/* ─── Card Header ─────────────────────────────────────────── */
+.tt-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.tt-card-header h3 {
+  margin: 0;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.tt-card-delete-btn {
+  background: transparent;
+  border: none;
+  color: #334155;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+  line-height: 1;
+}
+
+.tt-card-delete-btn:hover {
+  color: #f87171;
+}
+
+/* ─── Digital Time Display ────────────────────────────────── */
+.tt-card-display {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin: 0.75rem 0 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  gap: 0.5rem;
+}
+
+.tt-elapsed-time {
+  font-size: 3.25rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  transition: color 0.4s ease;
+}
+
+.tt-total-limit {
+  color: #334155;
+  font-size: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 400;
+}
+
+/* ─── Milestone Tags ──────────────────────────────────────── */
+.tt-card-milestones {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.tt-milestone-tag {
+  background: rgba(255,255,255,0.04);
+  color: #475569;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: all 0.3s ease;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.02em;
+}
+
+.tt-milestone-tag.active {
+  background: rgba(255,255,255,0.08);
+  color: #94a3b8;
+  border-color: rgba(255,255,255,0.12);
+}
+
+/* ─── Dual Progress Bars ──────────────────────────────────── */
+.tt-progress-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.tt-progress-segment {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.tt-progress-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  color: #334155;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.tt-progress-track {
+  height: 5px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 9999px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.tt-progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tt-fill-phase1 {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+}
+
+.tt-fill-phase2 {
+  background: linear-gradient(90deg, #d97706, #f59e0b);
+}
+
+/* ─── Card Actions ────────────────────────────────────────── */
+.tt-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.tt-card-actions .tt-btn {
+  flex: 1;
+}
+
+/* ─── Settings Section ────────────────────────────────────── */
+.tt-settings-section {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  margin-top: 1rem;
+  backdrop-filter: blur(8px);
+}
+
+.tt-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.tt-section-header h2 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0;
+  color: #94a3b8;
+  letter-spacing: 0.02em;
+}
+
+.tt-header-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tt-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.tt-settings-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+}
+
+.tt-settings-card h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #cbd5e1;
+  letter-spacing: 0.01em;
+}
+
+.tt-settings-desc {
+  font-size: 0.8rem;
+  color: #475569;
+  margin: 0 0 1.25rem 0;
+  line-height: 1.5;
+}
+
+/* ─── Presets & Timers List ───────────────────────────────── */
+.tt-presets-list,
+.tt-timers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.tt-preset-item,
+.tt-timer-config-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.03);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  gap: 1rem;
+  transition: background 0.15s ease;
+}
+
+.tt-preset-item:hover,
+.tt-timer-config-item:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.tt-preset-info,
+.tt-timer-config-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.tt-preset-info strong,
+.tt-timer-config-info strong {
+  font-size: 0.85rem;
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.tt-preset-badge {
+  display: inline-block;
+  font-size: 0.6rem;
+  background: rgba(99,102,241,0.15);
+  color: #818cf8;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border: 1px solid rgba(99,102,241,0.2);
+  width: fit-content;
+}
+
+.tt-preset-details,
+.tt-timer-config-info span {
+  font-size: 0.75rem;
+  color: #475569;
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tt-timer-config-presets {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.7rem;
+  color: #334155;
+  margin-top: 0.15rem;
+  gap: 0.1rem;
+}
+
+.tt-preset-actions {
+  display: flex;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+/* ─── Alarm Toast Notifications ──────────────────────────── */
+.tt-alarm-toast-container {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  width: 100%;
+  max-width: 360px;
+  pointer-events: none;
+}
+
+.tt-alarm-toast {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.75rem;
+  padding: 1rem 1rem 1rem 0.875rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+  border-left: 3px solid #3b82f6;
+  animation: tt-slide-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: all;
+  backdrop-filter: blur(12px);
+}
+
+.tt-alarm-stage1 {
+  border-left-color: #f59e0b;
+}
+
+.tt-alarm-stage2 {
+  border-left-color: #ef4444;
+}
+
+.tt-alarm-toast-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.tt-alarm-toast-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.tt-alarm-toast strong {
+  display: block;
+  font-size: 0.875rem;
+  color: #f1f5f9;
+  margin-bottom: 0.15rem;
+  font-weight: 600;
+}
+
+.tt-alarm-toast p {
+  margin: 0;
+  font-size: 0.775rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.tt-alarm-toast-dismiss {
+  background: rgba(255,255,255,0.06);
+  color: #94a3b8;
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.375rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.tt-alarm-toast-dismiss:hover {
+  background: rgba(255,255,255,0.12);
+  color: #f1f5f9;
+}
+
+@keyframes tt-slide-in {
+  from {
+    transform: translateX(calc(100% + 1.5rem));
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ─── Modal Overlay ───────────────────────────────────────── */
+.tt-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 1rem;
+}
+
+.tt-modal-content {
+  background: #0f172a;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 460px;
+  padding: 1.5rem;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+  animation: tt-fade-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tt-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.tt-modal-header h3 {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: -0.01em;
+}
+
+.tt-modal-close {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #64748b;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+
+.tt-modal-close:hover {
+  color: #f1f5f9;
+  background: rgba(255,255,255,0.1);
+}
+
+/* ─── Form Controls ───────────────────────────────────────── */
+.tt-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.tt-form-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.01em;
+}
+
+.tt-form-group input[type="text"],
+.tt-form-group input[type="number"],
+.tt-form-group select {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #f1f5f9;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tt-form-group input:focus,
+.tt-form-group select:focus {
+  border-color: rgba(59,130,246,0.5);
+  background: rgba(59,130,246,0.04);
+}
+
+.tt-form-group select option {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+.tt-form-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.tt-form-row .tt-form-group {
+  flex: 1;
+}
+
+.tt-form-checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tt-form-checkbox label {
+  cursor: pointer;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.tt-form-checkbox input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #3b82f6;
+  cursor: pointer;
+}
+
+.tt-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+@keyframes tt-fade-up {
+  from {
+    transform: translateY(16px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────── */
+.tt-presets-list::-webkit-scrollbar,
+.tt-timers-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.tt-presets-list::-webkit-scrollbar-track,
+.tt-timers-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tt-presets-list::-webkit-scrollbar-thumb,
+.tt-timers-list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.08);
+  border-radius: 9999px;
+}
+
+.tt-presets-list::-webkit-scrollbar-thumb:hover,
+.tt-timers-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* ─── Responsive ──────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .tt-dashboard-container {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .tt-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tt-global-controls {
+    width: 100%;
+  }
+
+  .tt-global-controls .tt-btn {
+    flex: 1;
+  }
+
+  .tt-elapsed-time {
+    font-size: 2.5rem;
+  }
+
+  .tt-form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .tt-form-checkbox label {
+    margin-top: 0;
+  }
+
+  .tt-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
