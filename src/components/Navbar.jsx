@@ -26,39 +26,53 @@ function AuthControl() {
 }
 
 const GAME_ROUTES = ['/bashmon', '/gitmon', '/signal-lost', '/pokered', '/antiquityquest'];
+// Sub-apps that render their own internal top bar (with their own nav/tabs and
+// their own way back to Home) — the site nav would just double up and overlap
+// with these, so they get the same minimal treatment as game routes.
+const OWN_TOPBAR_ROUTES = ['/fitness-tracker'];
 
 function Navbar() {
   const location = useLocation();
   const isGame = GAME_ROUTES.some(r => location.pathname.startsWith(r));
+  const hasOwnTopbar = OWN_TOPBAR_ROUTES.some(r => location.pathname.startsWith(r));
+  const isMinimal = isGame || hasOwnTopbar;
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Close the mobile panel on navigation so it doesn't stay open after a tap.
-  useEffect(() => {
+  // Reset during render (React's recommended pattern for "reset state when a
+  // prop/route changes") rather than in an effect, which avoids an extra
+  // cascading render.
+  const [menuOpenForPath, setMenuOpenForPath] = useState(location.pathname);
+  if (menuOpenForPath !== location.pathname) {
+    setMenuOpenForPath(location.pathname);
     setMenuOpen(false);
-  }, [location.pathname]);
+  }
 
   useEffect(() => {
-    if (isGame) {
+    if (isMinimal) {
       document.documentElement.style.setProperty('--nav-h', '0px');
       document.body.style.paddingTop = '0';
     } else {
       document.documentElement.style.removeProperty('--nav-h');
       document.body.style.paddingTop = '';
     }
-  }, [isGame]);
+  }, [isMinimal]);
 
-  if (isGame) {
-    return (
+  if (isMinimal) {
+    // Game routes get just the floating "⚡" escape hatch. Own-topbar sub-apps
+    // (FitnessTracker etc.) render no fallback badge here — their own top bar
+    // carries an "Astral Project" home link instead (see e.g. FitnessTrackerApp.jsx).
+    return isGame ? (
       <nav className="nav-minimal">
         <Link to="/" className="nav-home-badge" title="Home">⚡</Link>
       </nav>
-    );
+    ) : null;
   }
 
   return (
-    <nav>
+    <nav className="site-nav">
       <div className="nav-container">
-        <div className="logo">Astral Journey!!</div>
+        <Link to="/" className="logo">Astral Journey!!</Link>
         <button
           className="nav-hamburger"
           onClick={() => setMenuOpen((o) => !o)}

@@ -1,4 +1,4 @@
-import { Routes, Route, NavLink, useLocation } from 'react-router-dom';
+import { Routes, Route, NavLink, Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { FitnessContext, useFitnessState } from './fitnessContext';
 import CalendarView from './CalendarView';
@@ -53,6 +53,10 @@ export default function FitnessTrackerApp() {
     <FitnessContext.Provider value={value}>
       <div className="ft-app">
         <header className="ft-topbar">
+          {/* The site nav is suppressed on this route (it has its own top bar
+              already — see Navbar.jsx OWN_TOPBAR_ROUTES) so this is the only
+              way back to the rest of the site from here. */}
+          <Link to="/" className="ft-site-home" title="Back to Astral Project home">Astral Project</Link>
           <div className="ft-brand"><span className="ft-brand-icon">💪</span> FitnessTracker</div>
           <nav className="ft-topnav">
             <NavLink end to="/fitness-tracker" className={tab}>Calendar</NavLink>

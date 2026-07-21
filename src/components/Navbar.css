@@ -1,4 +1,8 @@
-nav {
+/* Scoped to .site-nav — a bare `nav` tag selector here would leak onto ANY
+   <nav> element anywhere in the app (e.g. a sub-app's own internal tab bar),
+   forcing it to position:fixed/top:0 and stack on top of this real nav. That
+   exact bug caused FitnessTracker's own topnav to float over this one. */
+nav.site-nav {
   position: fixed;
   top: 0;
   left: 0;
@@ -11,7 +15,7 @@ nav {
   -webkit-backdrop-filter: blur(16px);
 }
 
-nav .nav-container {
+nav.site-nav .nav-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
@@ -21,16 +25,18 @@ nav .nav-container {
   height: 70px;
 }
 
-nav .logo {
+nav.site-nav .logo {
   font-size: 1.5em;
   font-weight: bold;
   background: linear-gradient(135deg, #60a5fa 0%, #818cf8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-decoration: none;
+  display: inline-block;
 }
 
-nav .nav-hamburger {
+nav.site-nav .nav-hamburger {
   display: none;
   flex: none;
   background: transparent;
@@ -43,24 +49,24 @@ nav .nav-hamburger {
   cursor: pointer;
 }
 
-nav .nav-auth {
+nav.site-nav .nav-auth {
   display: flex;
   align-items: center;
   gap: 8px;
   flex: none;
   margin-left: 20px;
 }
-nav .nav-auth-avatar {
+nav.site-nav .nav-auth-avatar {
   width: 24px;
   height: 24px;
   border-radius: 50%;
 }
-nav .nav-auth-name {
+nav.site-nav .nav-auth-name {
   font-size: 0.85em;
   color: rgba(255, 255, 255, 0.8);
   white-space: nowrap;
 }
-nav .nav-auth-btn {
+nav.site-nav .nav-auth-btn {
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.85);
@@ -71,16 +77,16 @@ nav .nav-auth-btn {
   cursor: pointer;
   white-space: nowrap;
 }
-nav .nav-auth-btn:hover {
+nav.site-nav .nav-auth-btn:hover {
   background: rgba(255, 255, 255, 0.12);
 }
-nav .nav-auth-btn-primary {
+nav.site-nav .nav-auth-btn-primary {
   background: linear-gradient(135deg, #60a5fa 0%, #818cf8 100%);
   border-color: transparent;
   color: #0b0d14;
 }
 
-nav ul {
+nav.site-nav ul {
   list-style: none;
   display: flex;
   gap: 30px;
@@ -88,7 +94,7 @@ nav ul {
   padding: 0;
 }
 
-nav ul li a {
+nav.site-nav ul li a {
   text-decoration: none;
   color: rgba(200, 215, 238, 0.7);
   font-weight: 500;
@@ -99,7 +105,7 @@ nav ul li a {
   display: block;
 }
 
-nav ul li a:hover {
+nav.site-nav ul li a:hover {
   background: rgba(255, 255, 255, 0.07);
   color: #e4edfb;
 }
@@ -155,7 +161,7 @@ nav ul li a:hover {
 .has-dropdown .dropdown li:first-child a { border-radius: 10px 10px 0 0; }
 .has-dropdown .dropdown li:last-child a  { border-radius: 0 0 10px 10px; }
 
-/* ── Minimal nav (game routes) ── */
+/* ── Minimal nav (game routes + sub-apps that carry their own top bar) ── */
 .nav-minimal {
   position: fixed;
   top: 0; left: 0;
@@ -194,7 +200,7 @@ nav ul li a:hover {
 }
 
 @media (max-width: 768px) {
-  nav .nav-container {
+  nav.site-nav .nav-container {
     flex-wrap: wrap;
     height: auto;
     min-height: 60px;
@@ -202,21 +208,21 @@ nav ul li a:hover {
     row-gap: 10px;
   }
 
-  nav .logo { order: 1; font-size: 1.15em; }
-  nav .nav-hamburger { display: block; order: 2; margin-left: auto; }
-  nav .nav-auth { order: 3; margin-left: 12px; }
+  nav.site-nav .logo { order: 1; font-size: 1.15em; }
+  nav.site-nav .nav-hamburger { display: block; order: 2; margin-left: auto; }
+  nav.site-nav .nav-auth { order: 3; margin-left: 12px; }
 
   /* Full-width collapsible panel — hidden until the hamburger opens it. */
-  nav ul {
+  nav.site-nav ul {
     order: 4;
     display: none;
     width: 100%;
     flex-direction: column;
     gap: 2px;
   }
-  nav ul.nav-open { display: flex; }
+  nav.site-nav ul.nav-open { display: flex; }
 
-  nav ul li a {
+  nav.site-nav ul li a {
     font-size: 1em;
     padding: 10px 14px;
   }
