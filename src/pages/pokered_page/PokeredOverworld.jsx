@@ -1762,14 +1762,28 @@ function notifyPosition() {
     }
     if (mapId === 'CERULEAN_CITY' && npc.trainerClass === 'Rival1' && npc.partyIdx === 2 &&
         isRivalBeaten(mapId, npc, beatenTrainers)) return true;
-    // TEMPORARY (2026-07-13, user-requested emergency unblock): both Trashed House-door
-    // guards hidden unconditionally. The real OG mechanic here (a guard swap gated on the
-    // Bill's House SS-Ticket sequence) was never wired — one of these guards was permanently
-    // blocking the Trashed House door with no way to pass. Full real fix (proper flag-gated
-    // guard swap) still TODO; this is a stopgap so the door isn't blocked at all in the
-    // meantime. Remove this block once the real guard-swap logic lands.
+    // Cerulean Trashed House door guards (28,12)+(27,12), kept hidden to keep the door passable.
+    // CORRECTED 2026-07-20 by re-tracing scripts/CeruleanCity.asm: the prior comment's premise —
+    // a "guard swap gated on the Bill's House SS-Ticket sequence" — is NOT real. OG's CeruleanCity
+    // map script only ever Hide/ShowObjects the RIVAL (TOGGLE_CERULEAN_RIVAL); the two guards are
+    // plain, always-present flavor NPCs (CeruleanCityGuardText, wired at CERULEAN_CITY:6/:11 below)
+    // with NO event gate anywhere. So this is a COLLISION/geometry issue, not a story gate: guard
+    // (27,12) sits directly south of the trashed-house door warp (27,11) — the door's only open
+    // approach — so showing it blocks entry. The correct fix is a map-reachability tweak verified
+    // in a live playthrough, NOT an invented flag gate. Until that live check, keep them hidden so
+    // the door stays passable. ✂️ door-geometry fix deferred to live testing.
     if (mapId === 'CERULEAN_CITY' && npc.sprite === 'guard' &&
         ((npc.x === 28 && npc.y === 12) || (npc.x === 27 && npc.y === 12))) return true;
+    // Cerulean Rocket Thief (30,8): OG (scripts/CeruleanCity.asm CeruleanCityRocketDefeatedScript,
+    // line 23-36) does SetEvent EVENT_BEAT_CERULEAN_ROCKET_THIEF + CeruleanHideRocket after defeat.
+    // Hide him once beaten, mirroring the GAME_CORNER / POKEMON_TOWER_7F Rocket pattern below.
+    // (Re-battle is already prevented by beatenTrainers; his flavor is CERULEAN_CITY:2 above. OG's
+    // proximity-forced engage isn't ported — this engine has no per-tile auto-battle anywhere; the
+    // talk-to-trigger trainer battle is the established equivalent.) ✂️ OG also hands back the
+    // stolen TM28/DIG on defeat — not granted here: this port has no individual TM items and grants
+    // its single HM06 teacher elsewhere, and there's no post-battle per-trainer item hook.
+    if (mapId === 'CERULEAN_CITY' && npc.trainerClass === 'Rocket' &&
+        (beatenTrainers ?? []).includes(nid)) return true;
     if (mapId === 'SS_ANNE_2F' && npc.trainerClass === 'Rival2' && npc.partyIdx === 0 &&
         isRivalBeaten(mapId, npc, beatenTrainers)) return true;
     if (mapId === 'POKEMON_TOWER_2F' && npc.trainerClass === 'Rival2' && npc.partyIdx === 1 &&
@@ -2023,6 +2037,11 @@ function notifyPosition() {
     // Cerulean City woman training her Slowbro (CeruleanCityCooltrainerF1Text) and the
     // Slowbro itself (CeruleanCitySlowbroText) — OG randomly picks 1 of 3 flavor lines each
     // visit; this always shows the first (most common) one rather than adding RNG state.
+    // Cerulean Trashed House police guards (CeruleanCityGuardText, text/CeruleanCity.asm) — real
+    // OG flavor. Currently hidden (see the door-geometry note in the hide logic), so these only
+    // show once the guards are restored after a live door-reachability fix.
+    'CERULEAN_CITY:6': ["The people here\nwere robbed.", "It's obvious that\nTEAM ROCKET is\nbehind this most\nheinous crime!", "Even our POLICE\nforce has trouble\nwith the ROCKETs!"],
+    'CERULEAN_CITY:11': ["The people here\nwere robbed.", "It's obvious that\nTEAM ROCKET is\nbehind this most\nheinous crime!", "Even our POLICE\nforce has trouble\nwith the ROCKETs!"],
     'CERULEAN_CITY:7': ["OK! SLOWBRO!\nUse SONICBOOM!\nCome on, SLOWBRO\npay attention!"],
     'CERULEAN_CITY:8': ["SLOWBRO took a\nsnooze..."],
     // Cerulean's trashed house, fishing guru (CeruleanTrashedHouseFishingGuruText) — real
@@ -2682,6 +2701,17 @@ function notifyPosition() {
     const { lines, action } = npcText(npc, ms?.mapId, npcIndex);
 
     if (action === 'BATTLE' && npc.trainerClass && ms) {
+      // Nugget Bridge recruiter (Route 24, ROUTE_24:1) — OG (scripts/Route24.asm L114-130) hands
+      // over the NUGGET + "join TEAM ROCKET?" pitch BEFORE the fight, so grant it here, before the
+      // battle engages at dialogue-end below. One-time; the recruiter can only be talked to once
+      // pre-defeat. ✂️ No "received NUGGET!" toast — grant is silent (bag gains a ¥5000-sell NUGGET).
+      if (ms.mapId === 'ROUTE_24' && npcIndex === 1 && npc.trainerClass === 'Rocket') {
+        const nuggetId = `${npcTrainerId(ms.mapId, npc)}:nugget`;
+        if (!pickedUpRef.current.has(nuggetId)) {
+          pickedUpRef.current.add(nuggetId);
+          if (onPickUpItem) onPickUpItem(nuggetId, 'NUGGET');
+        }
+      }
       // Rivals disambiguate by trainerClass (see rivalBattleId's comment — Route 22 has 2
       // rival encounters sharing one tile); every other trainer keeps the plain position id.
       const isRival = npc.trainerClass?.startsWith('Rival');
