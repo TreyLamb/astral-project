@@ -22,6 +22,10 @@ run without anyone pasting a prompt (formerly the manual `FULLY_WIRE_PROMPT.md` 
 
 Companion docs (still in `pokemon_OG/bugtracking/Lastmap markdowns/`, i.e.
 `../../../pokemon_OG/bugtracking/Lastmap markdowns/` from here):
+- **`SESSION_HANDOFF_2026-07-21.md`** — ⭐ START HERE if you're a new agent picking up the
+  100%-completion effort: what's done (with commits), what's left (prioritized), the reusable
+  wiring pattern, critical lessons (git/session-limit crash recovery, trace-OG-don't-assume), and
+  the exact next action. Keep it updated as you go.
 - **`POKERED_CHECKLIST.md`** — implementation status; check before assuming done/not-done, and
   sync after any status change (checklist-sync workflow near the bottom of this file).
 - **`BATTLE_MECHANICS_CHANGE_PROPOSALS.md`** — parked battle refinements to review with the owner
