@@ -382,6 +382,12 @@
 }
 .ft-toggle-btn.active { border-color: var(--ft-accent); color: var(--ft-accent); background: rgba(163, 230, 53, 0.1); }
 
+/* inline Goals panel on the calendar itself — same list styling as the
+   Dashboard Goals card, so create/edit/abandon works without a tab switch */
+.ft-goals-panel { background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 12px; padding: 14px; margin-bottom: 14px; }
+.ft-goals-panel .ft-goals-head { margin-bottom: 4px; }
+.ft-goals-panel .ft-goal-list { margin-top: 8px; }
+
 /* two-column day cell: meals left, workouts/events right */
 .ft-cell-cols { display: flex; gap: 6px; flex: 1; min-height: 0; }
 .ft-cell-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; overflow: hidden; }
@@ -445,6 +451,15 @@
 .ft-goal-abandoned { color: var(--ft-muted); }
 .ft-goal-actions { display: flex; gap: 6px; flex: none; }
 .ft-goal-actions .ft-btn-ghost { padding: 6px 12px; font-size: 0.78rem; }
+
+/* "part of goal" banner in EntryEditor */
+.ft-goal-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: rgba(163, 230, 53, 0.08); border: 1px solid rgba(163, 230, 53, 0.3); border-radius: 10px;
+  padding: 10px 12px; margin-bottom: 16px; font-size: 0.88rem;
+}
+.ft-goal-banner strong { color: var(--ft-accent); }
+.ft-goal-banner .ft-btn-ghost { padding: 6px 12px; font-size: 0.8rem; flex: none; }
 
 @media (max-width: 640px) {
   .ft-cell-cols { flex-direction: column; }

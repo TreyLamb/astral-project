@@ -16,6 +16,7 @@ import { per100, swolf } from './calc/swim';
 import { fmtPace } from './format';
 import LiftSets from './LiftSets';
 import { shiftPlanFrom, shiftGroup, addDaysISO } from './calc/planning';
+import GoalEditorModal from './GoalEditorModal';
 
 function round2(n) { return Math.round(n * 100) / 100; }
 
@@ -25,15 +26,17 @@ function round2(n) { return Math.round(n * 100) / 100; }
 export default function EntryEditor() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getWorkout, updateWorkout, removeWorkout, workouts, activityTypes, settings, loading } = useFitness();
+  const { getWorkout, updateWorkout, removeWorkout, workouts, activityTypes, settings, loading, goals } = useFitness();
   const unit = settings.units.distance;
   const poolUnit = settings.units.pool;
   const weightUnit = settings.units.weight;
   const profile = settings.profile || {};
   const w = getWorkout(id);
   const kindOf = (aid) => activityTypes.find((t) => t.id === aid)?.kind || 'generic';
+  const linkedGoal = w?.goalId ? goals.find((g) => g.id === w.goalId) : null;
 
   const [form, setForm] = useState(null);
+  const [showGoalEditor, setShowGoalEditor] = useState(false);
   const [seededKey, setSeededKey] = useState(null);
   const [hoverRpe, setHoverRpe] = useState(null);
   const [showMoveMore, setShowMoveMore] = useState(false);
@@ -175,6 +178,13 @@ export default function EntryEditor() {
         <button type="button" className="ft-btn-ghost" onClick={() => navigate('..')}>← Calendar</button>
         <h2>Edit workout</h2>
       </div>
+
+      {linkedGoal && (
+        <div className="ft-goal-banner">
+          <span>🎯 Part of goal: <strong>{linkedGoal.label || linkedGoal.kind}</strong>{w.metrics?.goalTarget ? ` — target ${w.metrics.goalTarget}` : ''}</span>
+          <button type="button" className="ft-btn-ghost" onClick={() => setShowGoalEditor(true)}>Edit goal</button>
+        </div>
+      )}
 
       <label className="ft-field-label">Activity</label>
       <div className="ft-type-row">
@@ -335,6 +345,10 @@ export default function EntryEditor() {
         <button type="button" className="ft-btn-ghost" onClick={() => navigate('..')}>Cancel</button>
         <button type="button" className="ft-btn-primary" onClick={save}>Save</button>
       </div>
+
+      {showGoalEditor && linkedGoal && (
+        <GoalEditorModal goal={linkedGoal} onClose={() => setShowGoalEditor(false)} />
+      )}
     </div>
   );
 }

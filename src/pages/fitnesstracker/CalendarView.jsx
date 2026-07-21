@@ -5,6 +5,7 @@ import { activityType, mealType, isoDate, todayISO, resolveGroups } from './fitn
 import { formatDistance, secToClock } from './units';
 import GroupPicker from './GroupPicker';
 import MealDayView from './MealDayView';
+import GoalEditorModal from './GoalEditorModal';
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -148,12 +149,27 @@ function rectsIntersect(a, b) {
 export default function CalendarView() {
   const {
     workouts, activityTypes, settings, updateSettings, moveWorkout, updateWorkout, openQuickAdd,
-    meals, mealTypes, goals, openMealQuickAdd,
+    meals, mealTypes, goals, openMealQuickAdd, updateGoal, removeWorkout,
   } = useFitness();
   const navigate = useNavigate();
   const units = settings.units;
   const groups = resolveGroups(settings);
   const goalsById = useMemo(() => new Map(goals.map((g) => [g.id, g])), [goals]);
+
+  // Goals live inline on the calendar too — not Dashboard-only — so changes
+  // (accept/edit/abandon) are visible immediately on the same screen instead
+  // of requiring a tab switch to see what changed.
+  const [goalsPanelOpen, setGoalsPanelOpen] = useState(false);
+  const [goalEditor, setGoalEditor] = useState(null); // null | 'new' | goal object
+  const activeGoals = useMemo(
+    () => [...goals].filter((g) => g.status !== 'abandoned').sort((a, b) => (a.targetDate || '9999').localeCompare(b.targetDate || '9999')),
+    [goals],
+  );
+  async function abandonGoal(g) {
+    await updateGoal(g.id, { status: 'abandoned' });
+    const stale = workouts.filter((w) => w.goalId === g.id && w.status === 'planned' && w.date >= todayISO());
+    for (const w of stale) await removeWorkout(w.id);
+  }
 
   const [view, setView] = useState('month');
   const [cursor, setCursor] = useState(() => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; });
@@ -340,7 +356,51 @@ export default function CalendarView() {
         >
           🍽 Show meals on calendar
         </button>
+        <button
+          type="button"
+          className={`ft-toggle-btn${goalsPanelOpen ? ' active' : ''}`}
+          onClick={() => setGoalsPanelOpen((o) => !o)}
+          title="Create or adjust goals right here, without leaving the calendar"
+        >
+          🎯 Goals{activeGoals.length > 0 ? ` (${activeGoals.length})` : ''}
+        </button>
       </div>
+
+      {goalsPanelOpen && (
+        <div className="ft-goals-panel">
+          <div className="ft-goals-head">
+            <span className="ft-field-label">Goals</span>
+            <button type="button" className="ft-btn-ghost ft-goal-new-btn" onClick={() => setGoalEditor('new')}>+ New goal</button>
+          </div>
+          {activeGoals.length === 0 ? (
+            <p className="ft-hint-sm">No goals yet — set one and its training plan will show up right here on the calendar, with 🎯 pins on each session.</p>
+          ) : (
+            <div className="ft-goal-list">
+              {activeGoals.map((g) => {
+                const t = activityType(activityTypes, g.activityType);
+                return (
+                  <div key={g.id} className="ft-goal-row">
+                    <span className="ft-goal-icon">{t.icon}</span>
+                    <div className="ft-goal-info">
+                      <span className="ft-goal-label">{t.name} — {g.label || g.kind}</span>
+                      <span className="ft-goal-meta">
+                        <span className={`ft-goal-badge ft-goal-${g.status}`}>{g.status}</span>
+                        {g.daysPerWeek}x/wk
+                        {g.forecastWeeks != null && ` · ~${g.forecastWeeks} wk${g.forecastWeeks === 1 ? '' : 's'}`}
+                        {g.targetDate && ` · by ${g.targetDate}`}
+                      </span>
+                    </div>
+                    <div className="ft-goal-actions">
+                      <button type="button" className="ft-btn-ghost" onClick={() => setGoalEditor(g)}>Edit</button>
+                      <button type="button" className="ft-btn-ghost" onClick={() => abandonGoal(g)}>Abandon</button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="ft-cal-body" ref={calBodyRef} onMouseDown={onGridMouseDown}>
         {view === 'month' && (() => {
@@ -394,6 +454,10 @@ export default function CalendarView() {
       )}
 
       <p className="ft-cal-hint">Click a day to schedule · drag a workout to reschedule · click to edit · Ctrl/Shift-click or drag a box to select multiple</p>
+
+      {goalEditor && (
+        <GoalEditorModal goal={goalEditor === 'new' ? null : goalEditor} onClose={() => setGoalEditor(null)} />
+      )}
     </div>
   );
 }
