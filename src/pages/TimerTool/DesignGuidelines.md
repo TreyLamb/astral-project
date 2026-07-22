@@ -28,5 +28,13 @@ Drive the grid generation using an array of configuration objects so I can easil
 
 Please write the complete, functional code for this UI using the frameworks currently established in this workspace.
 
-Source of truth / reference website 
-https://yetimoose.io/sot/cooking/
+
+the settings menu needs to go into its own tab or be settings per alarm, or both if there's any settings that should affecting EVERYTHING. should not share a page as-is.
+The font scheme for the timers makes most of the text hard to read.
+Idk wth m1:m2 mean. I want a gridview the way it is in the reference website. you ignored the css completely even though i gave the site as a ref. page. 
+I cant change timer names? i want you to re-think if this is really a fully fleshed timer tool or if you just threw 4 timers on a page and told me it was good. 
+This doesn't even match the ref page muchless its not even a fully workable tool right now.
+
+research what other timer tools have and how they behave and make ours better than theirs.
+
+can we make the timers 'pop out' into a smaller chrome webview so it feels like my timers arent even connected to chrome? make them borderless so they look like floating apps?

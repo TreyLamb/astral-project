@@ -30,7 +30,7 @@ import AntiquityQuestApp from './pages/antiquityquest/AntiquityQuestApp';
 import StashMapApp from './pages/stashmap/StashMapApp';
 import MedalDexApp from './pages/medaldex/MedalDexApp';
 import FitnessTrackerApp from './pages/fitnesstracker/FitnessTrackerApp';
-import TimerTool from './pages/TimerTool/TimerTool';
+import TimerToolApp from './pages/TimerTool/TimerToolApp';
 import './App.css';
 
 function App() {
@@ -60,7 +60,7 @@ function App() {
             <Route path="/stashmap/*" element={<StashMapApp />} />
             <Route path="/medaldex/*" element={<MedalDexApp />} />
             <Route path="/fitness-tracker/*" element={<FitnessTrackerApp />} />
-            <Route path="/timer-tool" element={<TimerTool />} />
+            <Route path="/timer-tool/*" element={<TimerToolApp />} />
           </Routes>
         </div>
       </AuthProvider>
