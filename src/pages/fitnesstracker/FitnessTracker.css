@@ -624,3 +624,9 @@
    as an entry affordance. Matches .ft-input's padding/size so the layout
    doesn't jump switching modes. */
 .ft-field-static { margin: 0; padding: 11px 0; font-size: 1rem; color: var(--ft-text); white-space: pre-wrap; }
+
+/* Macro goal fields: grams + % side by side, both always live */
+.ft-macro-row { display: flex; gap: 8px; }
+.ft-macro-sub { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; }
+.ft-macro-sub .ft-input { flex: 1; min-width: 0; }
+.ft-macro-unit { color: var(--ft-muted); font-size: 0.85rem; flex: none; }

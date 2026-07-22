@@ -6,10 +6,7 @@
 //   2. All measurements are stored CANONICAL: distance in meters, weight in
 //      kilograms, duration in seconds. units.js converts to the display preference.
 
-// macros: 'g' (grams) | 'pct' (% of daily calorie goal) — display/entry
-// preference only; nutritionTarget.proteinG/carbsG/fatG stay canonical grams
-// either way (see calc/nutrition.js's gramsToCalPct/calPctToGrams).
-export const DEFAULT_UNITS = { distance: 'mi', pool: 'yd', weight: 'lb', macros: 'g' }; // US-based default
+export const DEFAULT_UNITS = { distance: 'mi', pool: 'yd', weight: 'lb' }; // US-based default
 
 // `kind` selects which rich metric set a type gets in later phases (run/swim/lift
 // are built out in Phases 2–3); 'generic' is the extensible fallback. `color`
@@ -97,7 +94,16 @@ export function defaultSettings() {
     // (calendar drops like "POGO raichu day"); 'noWorkouts' hides everything
     // else. Cycled by the button in CalendarView's ft-cal-toggles row.
     calendarPrefs: { mealDayView: false, showMealsOnCalendar: false, chipFilter: 'all' },
-    nutritionTarget: { calories: null, proteinG: null, carbsG: null, fatG: null },
+    // proteinG/carbsG/fatG are canonical grams (as always); *Mode ('g' | 'pct')
+    // + *Pct record which of grams/% the user's last edit for that macro
+    // actually expressed, so Settings.jsx's calorie-goal-changed effect knows
+    // which one to hold fixed while recomputing the other. Both grams and %
+    // are always live editable fields, not a mode you switch between.
+    nutritionTarget: {
+      calories: null, proteinG: null, carbsG: null, fatG: null,
+      proteinMode: 'g', carbsMode: 'g', fatMode: 'g',
+      proteinPct: null, carbsPct: null, fatPct: null,
+    },
     groups: [],
     lastGroupId: null,
     detailedView: false,

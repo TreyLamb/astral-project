@@ -12,8 +12,21 @@ const UNIT_OPTIONS = {
   distance: [['mi', 'Miles'], ['km', 'Kilometers']],
   pool: [['yd', 'Yards'], ['m', 'Meters']],
   weight: [['lb', 'Pounds'], ['kg', 'Kilograms']],
-  macros: [['g', 'Grams'], ['pct', '% of calories']],
 };
+
+// Protein/carbs/fat goals are enterable as BOTH grams and % of the daily
+// calorie goal at once — not a mode toggle, both fields are always live.
+// proteinG/carbsG/fatG (grams) stay the canonical stored value either way;
+// *Mode + *Pct track which one the user's most recent edit was actually
+// expressing, so that if the calorie goal itself changes later, whichever
+// was "the real intent" (grams held fixed, or % held fixed) recomputes the
+// other — same "recompute unless the user's edit should win" shape as the
+// BMR auto-calc-vs-manual-override logic below.
+const MACRO_DEFS = [
+  { field: 'proteinG', modeField: 'proteinMode', pctField: 'proteinPct', kcalPerG: KCAL_PER_G_PROTEIN, label: 'Protein goal' },
+  { field: 'carbsG', modeField: 'carbsMode', pctField: 'carbsPct', kcalPerG: KCAL_PER_G_CARB, label: 'Carbs goal' },
+  { field: 'fatG', modeField: 'fatMode', pctField: 'fatPct', kcalPerG: KCAL_PER_G_FAT, label: 'Fat goal' },
+];
 
 function isEmpty(v) { return v === null || v === undefined || v === ''; }
 function round1(n) { return n == null ? null : Math.round(n * 10) / 10; }
@@ -142,39 +155,91 @@ export default function Settings() {
   };
   const useCalculatedBmr = () => updateSettings({ profile: { ...profile, bmrManual: false } });
 
-  // ---- Macro goals: grams (canonical, always what's persisted) or % of the
-  // daily calorie goal (settings.units.macros — a display/entry preference
-  // only, same pattern as distance/weight units). % needs a calorie goal to
-  // convert against; without one the field is disabled with an explanatory
-  // hint rather than silently doing wrong math.
-  const macroUnit = units.macros || 'g';
-  const macroLabel = macroUnit === 'pct' ? '% of calories' : 'g';
-  const macroPctBlocked = macroUnit === 'pct' && isEmpty(nutritionTarget.calories);
-  function macroInputValue(grams, kcalPerG) {
-    if (macroUnit === 'pct') {
-      const pct = gramsToCalPct(grams, kcalPerG, nutritionTarget.calories);
-      return pct != null ? String(round1(pct)) : '';
-    }
-    return grams != null ? String(round1(grams)) : '';
+  // ---- Macro goals: grams AND % of the daily calorie goal are both always
+  // live, side by side — typing in either immediately updates the other.
+  // Grams is what's actually stored (nutritionTarget.*G, canonical); the %
+  // field is always just that grams value expressed against the current
+  // calorie goal, EXCEPT that when the user's last edit for a macro was the
+  // % field, the effect below keeps recomputing grams to preserve that %
+  // if the calorie goal changes afterward (rather than leaving grams frozen
+  // and letting % silently drift, which is what "last edit wins" means when
+  // the two are in tension).
+  function macroGramsDisplay(grams) { return grams != null ? String(round1(grams)) : ''; }
+  function macroPctDisplay(grams, kcalPerG) {
+    const pct = gramsToCalPct(grams, kcalPerG, nutritionTarget.calories);
+    return pct != null ? String(round1(pct)) : '';
   }
-  function macroStaticText(grams, kcalPerG) {
-    if (grams == null) return '';
-    if (macroUnit === 'pct') {
-      const pct = gramsToCalPct(grams, kcalPerG, nutritionTarget.calories);
-      return pct != null ? `${round1(pct)}%` : `${round1(grams)} g`;
-    }
-    return `${round1(grams)} g`;
-  }
-  function setMacro(field, kcalPerG, val) {
+  function setMacroGrams(field, modeField, val) {
     const n = val === '' ? null : Number(val);
     if (n != null && Number.isNaN(n)) return;
-    if (macroUnit === 'pct') {
-      if (macroPctBlocked) return;
-      const grams = n == null ? null : calPctToGrams(n, kcalPerG, nutritionTarget.calories);
-      updateSettings({ nutritionTarget: { ...nutritionTarget, [field]: grams != null ? round1(grams) : null } });
-    } else {
-      updateSettings({ nutritionTarget: { ...nutritionTarget, [field]: n } });
+    updateSettings({ nutritionTarget: { ...nutritionTarget, [field]: n, [modeField]: 'g' } });
+  }
+  function setMacroPct(field, modeField, pctField, kcalPerG, val) {
+    if (isEmpty(nutritionTarget.calories)) return; // % is disabled in the UI in this case too
+    const n = val === '' ? null : Number(val);
+    if (n != null && Number.isNaN(n)) return;
+    const grams = n == null ? null : round1(calPctToGrams(n, kcalPerG, nutritionTarget.calories));
+    updateSettings({ nutritionTarget: { ...nutritionTarget, [field]: grams, [pctField]: n, [modeField]: 'pct' } });
+  }
+
+  // Whenever the calorie goal changes, re-derive grams for any macro whose
+  // last edit was the % field — guarded to only write when the recomputed
+  // value actually differs, same convergence pattern as the BMR effect above.
+  useEffect(() => {
+    if (isEmpty(nutritionTarget.calories)) return;
+    let patch = null;
+    for (const m of MACRO_DEFS) {
+      if (nutritionTarget[m.modeField] !== 'pct' || isEmpty(nutritionTarget[m.pctField])) continue;
+      const grams = round1(calPctToGrams(nutritionTarget[m.pctField], m.kcalPerG, nutritionTarget.calories));
+      if (grams !== nutritionTarget[m.field]) patch = { ...(patch || {}), [m.field]: grams };
     }
+    if (patch) updateSettings({ nutritionTarget: { ...nutritionTarget, ...patch } });
+  }, [nutritionTarget, updateSettings]);
+
+  // Builds one macro's whole field row (both inputs, or the combined static
+  // text) — pulled out since protein/carbs/fat are otherwise identical.
+  function macroRow({ field, modeField, pctField, kcalPerG, label }) {
+    const grams = nutritionTarget[field];
+    const show = detailed || !isEmpty(grams);
+    if (!show) return null;
+    const pctDisplay = macroPctDisplay(grams, kcalPerG);
+    const calBlocked = isEmpty(nutritionTarget.calories);
+    const staticText = grams != null ? `${round1(grams)} g${pctDisplay !== '' ? ` (${pctDisplay}%)` : ''}` : '';
+    return (
+      <div className="ft-field" key={field}>
+        <label className="ft-field-label">{label}</label>
+        {detailed ? (
+          <>
+            <div className="ft-macro-row">
+              <div className="ft-macro-sub">
+                <input
+                  className="ft-input"
+                  inputMode="decimal"
+                  value={macroGramsDisplay(grams)}
+                  onChange={(e) => setMacroGrams(field, modeField, e.target.value)}
+                  placeholder="optional"
+                />
+                <span className="ft-macro-unit">g</span>
+              </div>
+              <div className="ft-macro-sub">
+                <input
+                  className="ft-input"
+                  inputMode="decimal"
+                  value={pctDisplay}
+                  onChange={(e) => setMacroPct(field, modeField, pctField, kcalPerG, e.target.value)}
+                  placeholder="optional"
+                  disabled={calBlocked}
+                />
+                <span className="ft-macro-unit">%</span>
+              </div>
+            </div>
+            {calBlocked && <p className="ft-hint-sm">Set a daily calorie goal above to also enter as %</p>}
+          </>
+        ) : (
+          <p className="ft-field-static">{staticText}</p>
+        )}
+      </div>
+    );
   }
 
   // ---- "View detailed" gating — OFF hides genuinely empty data-entry input
@@ -195,9 +260,6 @@ export default function Settings() {
 
   const showBmr = detailed || !isEmpty(profile.bmr);
   const showCalGoal = detailed || !isEmpty(nutritionTarget.calories);
-  const showProtein = detailed || !isEmpty(nutritionTarget.proteinG);
-  const showCarbs = detailed || !isEmpty(nutritionTarget.carbsG);
-  const showFat = detailed || !isEmpty(nutritionTarget.fatG);
   const nutritionCardEmpty = !detailed && isEmpty(profile.bmr) && isEmpty(nutritionTarget.calories)
     && isEmpty(nutritionTarget.proteinG) && isEmpty(nutritionTarget.carbsG) && isEmpty(nutritionTarget.fatG);
 
@@ -360,51 +422,9 @@ export default function Settings() {
               <input className="ft-input" inputMode="numeric" value={nutritionTarget.calories ?? ''} onChange={(e) => setNutritionTarget('calories', e.target.value)} placeholder="e.g. 1400" />,
               nutritionTarget.calories != null ? `${nutritionTarget.calories} kcal` : '',
             ),
-            fieldRow(
-              detailed, showProtein, 'protein', `Protein goal (${macroLabel})`,
-              <>
-                <input
-                  className="ft-input"
-                  inputMode="decimal"
-                  value={macroInputValue(nutritionTarget.proteinG, KCAL_PER_G_PROTEIN)}
-                  onChange={(e) => setMacro('proteinG', KCAL_PER_G_PROTEIN, e.target.value)}
-                  placeholder={macroUnit === 'pct' ? 'e.g. 30' : 'optional'}
-                  disabled={macroPctBlocked}
-                />
-                {macroPctBlocked && <p className="ft-hint-sm">Set a daily calorie goal above to enter as %</p>}
-              </>,
-              macroStaticText(nutritionTarget.proteinG, KCAL_PER_G_PROTEIN),
-            ),
-            fieldRow(
-              detailed, showCarbs, 'carbs', `Carbs goal (${macroLabel})`,
-              <>
-                <input
-                  className="ft-input"
-                  inputMode="decimal"
-                  value={macroInputValue(nutritionTarget.carbsG, KCAL_PER_G_CARB)}
-                  onChange={(e) => setMacro('carbsG', KCAL_PER_G_CARB, e.target.value)}
-                  placeholder={macroUnit === 'pct' ? 'e.g. 40' : 'optional'}
-                  disabled={macroPctBlocked}
-                />
-                {macroPctBlocked && <p className="ft-hint-sm">Set a daily calorie goal above to enter as %</p>}
-              </>,
-              macroStaticText(nutritionTarget.carbsG, KCAL_PER_G_CARB),
-            ),
-            fieldRow(
-              detailed, showFat, 'fat', `Fat goal (${macroLabel})`,
-              <>
-                <input
-                  className="ft-input"
-                  inputMode="decimal"
-                  value={macroInputValue(nutritionTarget.fatG, KCAL_PER_G_FAT)}
-                  onChange={(e) => setMacro('fatG', KCAL_PER_G_FAT, e.target.value)}
-                  placeholder={macroUnit === 'pct' ? 'e.g. 30' : 'optional'}
-                  disabled={macroPctBlocked}
-                />
-                {macroPctBlocked && <p className="ft-hint-sm">Set a daily calorie goal above to enter as %</p>}
-              </>,
-              macroStaticText(nutritionTarget.fatG, KCAL_PER_G_FAT),
-            ),
+            macroRow(MACRO_DEFS[0]),
+            macroRow(MACRO_DEFS[1]),
+            macroRow(MACRO_DEFS[2]),
           ].filter(Boolean))
         )}
       </div>
