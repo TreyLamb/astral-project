@@ -1,13 +1,34 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFitness } from './fitnessContext';
 import { activityType, mealType, isoDate, todayISO, resolveGroups, goalDeadline } from './fitnessConfig';
 import { formatDistance, secToClock } from './units';
 import { formatCheckpointValue, interpolatedTarget, parseOverrideValue, overridePlaceholderFor } from './calc/checkpoints';
+import { addDaysISO } from './calc/planning';
+import { netCaloriesForDay, latestBodyWeightKg } from './calc/calories';
+import { KCAL_PER_LB_ADIPOSE } from './calc/bodyComposition';
 import GroupPicker from './GroupPicker';
 import MealDayView from './MealDayView';
 import GoalEditorModal from './GoalEditorModal';
 import ClearableInput from './ClearableInput';
+
+// Army Combat Fitness Test personal targets — static reference data, not
+// computed from anything. Mirrors src/pages/fitnesstracker/Guidelines_AFT
+// (90/100 score tiers only, per the owner's request); keep in sync by hand
+// if that file changes.
+const AFT_EVENTS = [
+  { id: 'mdl', abbr: 'MDL', name: '3-Rep Max Deadlift (Hex Bar)', unit: 'lb', tiers: { 90: 297, 100: 350 }, lowerIsBetter: false },
+  { id: 'hrp', abbr: 'HRP', name: 'Hand-Release Push-up (reps in 2 min)', unit: 'reps', tiers: { 90: 44, 100: 57 }, lowerIsBetter: false },
+  { id: 'sdc', abbr: 'SDC', name: 'Sprint-Drag-Carry (5x50m: sprint/drag/lateral/carry/sprint)', unit: 'time', tiers: { 90: '1:55', 100: '1:40' }, lowerIsBetter: true },
+  { id: 'plank', abbr: 'PLANK', name: 'Plank (time held)', unit: 'time', tiers: { 90: '2:48', 100: '3:20' }, lowerIsBetter: false },
+  { id: 'run2mi', abbr: '2MR', name: 'Two-Mile Run', unit: 'time', tiers: { 90: '16:14', 100: '14:05' }, lowerIsBetter: true },
+];
+function formatAftTier(ev, tier) {
+  const v = ev.tiers[tier];
+  if (ev.unit === 'lb') return `${v} lb`;
+  if (ev.unit === 'reps') return `${v} reps`;
+  return v; // time tiers are already mm:ss strings
+}
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -15,6 +36,23 @@ const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
 
 function addDays(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); x.setHours(0, 0, 0, 0); return x; }
 function startOfWeek(d) { return addDays(d, -new Date(d).getDay()); }
+// Signed day count (bISO - aISO), unlike calc/checkpoints.js's daysBetween
+// which clamps to non-negative — a drag/paste can move a date EARLIER.
+function signedDaysBetween(aISO, bISO) {
+  const a = new Date(aISO + 'T00:00:00').getTime();
+  const b = new Date(bISO + 'T00:00:00').getTime();
+  return Math.round((b - a) / 86400000);
+}
+
+// Fields worth carrying over when duplicating/pasting a workout onto a new
+// date — everything except identity/audit fields, which addWorkout/newWorkout
+// regenerate fresh.
+function cloneableFields(w) {
+  return {
+    time: w.time, activityType: w.activityType, status: w.status, durationSec: w.durationSec,
+    distanceM: w.distanceM, note: w.note, rpe: w.rpe, groupId: w.groupId, goalId: w.goalId, metrics: w.metrics,
+  };
+}
 
 // Worst realism band across a goal's checkpoints — shown as a small summary
 // badge on the goal row, informational only (never blocks Edit/Accept/Pause).
@@ -37,6 +75,30 @@ function worstRealismBand(g) {
 // row and could jump straight to the final goal value early on for a
 // short/coarse-cadence goal. The interpolated curve gives an actual
 // week-over-week progression between baseline and the end goal.
+// Total distance actually logged (completed workouts only — "tracked", not
+// planned) within [sunISO, satISO] inclusive, for the weekly summary column.
+function weekTrackedDistanceM(workouts, sunISO, satISO) {
+  let total = 0;
+  for (const w of workouts) {
+    if (w.status !== 'completed' || !w.distanceM) continue;
+    if (w.date >= sunISO && w.date <= satISO) total += w.distanceM;
+  }
+  return total;
+}
+
+// Sum of netCaloriesForDay across a week's 7 days — same missing-bmr/weight-
+// degrades-to-0 behavior as the per-day function, nothing new to guard here.
+function weekNetCalories(meals, workouts, sunISO, satISO, bmr, bodyWeightKg) {
+  let total = 0;
+  const start = new Date(sunISO + 'T00:00:00');
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(start);
+    d.setDate(d.getDate() + i);
+    total += netCaloriesForDay(meals, workouts, isoDate(d), bmr, bodyWeightKg);
+  }
+  return total;
+}
+
 function weekEndGoals(goals, activityTypes, saturdayISO) {
   const out = [];
   for (const g of goals) {
@@ -80,7 +142,7 @@ function chipLabel(w, units) {
   return '';
 }
 
-function WorkoutChip({ w, type, label, group, goal, units, checkpoint, selected, onEdit, onCtrlClick, onShiftClick }) {
+function WorkoutChip({ w, type, label, group, goal, units, checkpoint, selected, selectedIds, onEdit, onCtrlClick, onShiftClick, onAltClick }) {
   const completed = w.status === 'completed';
   // completed = filled with the type colour; planned = outline only.
   const style = completed
@@ -100,14 +162,28 @@ function WorkoutChip({ w, type, label, group, goal, units, checkpoint, selected,
       className={`ft-chip${completed ? ' ft-chip-done' : ' ft-chip-planned'}${selected ? ' ft-chip-selected' : ''}`}
       style={style}
       draggable
-      onDragStart={(e) => { e.dataTransfer.setData('text/plain', w.id); e.dataTransfer.effectAllowed = 'move'; }}
+      onDragStart={(e) => {
+        // Dragging a chip that's part of a multi-selection carries the WHOLE
+        // selection, not just the one grabbed — every selected chip moves (or
+        // duplicates) by the same day-offset, preserving their relative
+        // spacing, same principle as the existing group-cascade reschedule.
+        const ids = (selected && selectedIds.size > 1) ? [...selectedIds] : [w.id];
+        e.dataTransfer.setData('text/plain', JSON.stringify({ ids, fromDate: w.date }));
+        e.dataTransfer.effectAllowed = 'copyMove';
+      }}
       onClick={(e) => {
         e.stopPropagation();
+        // Alt/Option+click = instant delete, no confirm dialog (same
+        // no-friction principle as Shift-drag=duplicate and the Delete-key
+        // hotkey) — Tab was the first suggestion but holding Tab fights the
+        // browser's own focus-navigation behavior, so Alt (a modifier with no
+        // native meaning on a click) is used instead.
+        if (e.altKey) { onAltClick(w.id); return; }
         if (e.ctrlKey || e.metaKey) { onCtrlClick(w.id); return; }
         if (e.shiftKey) { onShiftClick(w.id); return; }
         onEdit(w.id);
       }}
-      title={`${type.name}${label ? ' · ' + label : ''} (${completed ? 'done' : 'planned'})${group ? ` · Group #${group.number}` : ''}${goal ? ` · 🎯 ${goal.label || goal.activityType} goal${goalTarget ? ' — ' + goalTarget : ''}` : ''}${realism?.band === 'implausible' ? ` · ⚠ ${realism.note}` : ''}`}
+      title={`${type.name}${label ? ' · ' + label : ''} (${completed ? 'done' : 'planned'})${group ? ` · Group #${group.number}` : ''}${goal ? ` · 🎯 ${goal.label || goal.activityType} goal${goalTarget ? ' — ' + goalTarget : ''}` : ''}${realism?.band === 'implausible' ? ` · ⚠ ${realism.note}` : ''} · Alt+click to delete`}
     >
       <span className="ft-chip-icon">{type.icon}</span>
       <span className="ft-chip-labels">
@@ -152,11 +228,15 @@ function MealChip({ m, type, selected, onEdit, onCtrlClick, onShiftClick }) {
 }
 
 function DayCell({
-  date, items, types, units, groups, goalsById, selected, isToday, inMonth, variant, onAdd, onEdit, onCtrlClick, onShiftClick, onDropWorkout,
+  date, items, types, units, groups, goalsById, selected, isToday, inMonth, variant, onAdd, onEdit, onCtrlClick, onShiftClick, onAltClick, onDropWorkout,
   showMeals, mealItems, mealTypes, mealSelected, onAddMeal, onEditMeal, onMealCtrlClick, onMealShiftClick,
+  allWorkouts, meals, bmr, calorieGoal, bodyWeightKg,
 }) {
   const iso = isoDate(date);
   const [over, setOver] = useState(false);
+  // netCaloriesForDay filters by date itself, so the FULL workouts array is
+  // passed through (allWorkouts), not `items` which is already this-day-only.
+  const net = calorieGoal != null ? netCaloriesForDay(meals, allWorkouts, iso, bmr, bodyWeightKg) : null;
 
   const eventsCol = (
     <div className="ft-cell-items">
@@ -185,7 +265,7 @@ function DayCell({
         return (
           <WorkoutChip
             key={w.id} w={w} type={t} label={chipLabel(w, units)} group={group} goal={goal} units={units} checkpoint={checkpoint}
-            selected={selected.has(w.id)} onEdit={onEdit} onCtrlClick={onCtrlClick} onShiftClick={onShiftClick}
+            selected={selected.has(w.id)} selectedIds={selected} onEdit={onEdit} onCtrlClick={onCtrlClick} onShiftClick={onShiftClick} onAltClick={onAltClick}
           />
         );
       })}
@@ -196,12 +276,21 @@ function DayCell({
     <div
       className={`ft-cell ft-cell-${variant}${inMonth ? '' : ' ft-cell-dim'}${isToday ? ' ft-cell-today' : ''}${over ? ' ft-cell-over' : ''}`}
       onClick={() => onAdd(iso)}
-      onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; if (!over) setOver(true); }}
+      onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = e.shiftKey ? 'copy' : 'move'; if (!over) setOver(true); }}
       onDragLeave={() => setOver(false)}
-      onDrop={(e) => { e.preventDefault(); setOver(false); const id = e.dataTransfer.getData('text/plain'); if (id) onDropWorkout(id, iso); }}
+      onDrop={(e) => {
+        e.preventDefault();
+        setOver(false);
+        const raw = e.dataTransfer.getData('text/plain');
+        if (!raw) return;
+        let payload;
+        try { payload = JSON.parse(raw); } catch { payload = { ids: [raw], fromDate: iso }; }
+        onDropWorkout(payload.ids, payload.fromDate, iso, e.shiftKey);
+      }}
     >
       <div className="ft-cell-head">
         <span className="ft-cell-num">{date.getDate()}</span>
+        {calorieGoal != null && <span className="ft-cell-cal">{net}/{calorieGoal}</span>}
         {variant !== 'month' && <span className="ft-cell-dow">{WEEKDAYS[date.getDay()]}</span>}
       </div>
       {showMeals ? (
@@ -237,13 +326,19 @@ function rectsIntersect(a, b) {
 
 export default function CalendarView() {
   const {
-    workouts, activityTypes, settings, updateSettings, moveWorkout, updateWorkout, openQuickAdd,
-    meals, mealTypes, goals, openMealQuickAdd, updateGoal, removeWorkout, logCheckpoint,
+    workouts, activityTypes, settings, updateSettings, updateWorkout, openQuickAdd,
+    meals, mealTypes, goals, openMealQuickAdd, updateGoal, removeWorkout, logCheckpoint, addWorkout,
+    bodyWeightLogs,
   } = useFitness();
   const navigate = useNavigate();
   const units = settings.units;
   const groups = resolveGroups(settings);
   const goalsById = useMemo(() => new Map(goals.map((g) => [g.id, g])), [goals]);
+  // Cheap pure computation, recomputed each render — same convention as the
+  // rest of this file (no useMemo for something this fast).
+  const latestWeightKg = latestBodyWeightKg(bodyWeightLogs);
+  const bmr = settings.profile?.bmr ?? null;
+  const calorieGoal = settings.nutritionTarget?.calories ?? null;
 
   // Goals live inline on the calendar too — not Dashboard-only — so changes
   // (accept/edit/abandon) are visible immediately on the same screen instead
@@ -288,6 +383,17 @@ export default function CalendarView() {
   const mealDayView = !!settings.calendarPrefs?.mealDayView;
   const toggleCalendarPref = (key) => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, [key]: !settings.calendarPrefs?.[key] } });
 
+  // Cycles which chips render on the grid: all -> hide events -> hide
+  // workouts -> all. Display-only — doesn't touch workouts/byDate's
+  // underlying data, so drag/drop, clipboard, and weekly totals are unaffected.
+  const CHIP_FILTER_CYCLE = ['all', 'noEvents', 'noWorkouts'];
+  const chipFilter = settings.calendarPrefs?.chipFilter || 'all';
+  const cycleChipFilter = () => {
+    const next = CHIP_FILTER_CYCLE[(CHIP_FILTER_CYCLE.indexOf(chipFilter) + 1) % CHIP_FILTER_CYCLE.length];
+    updateSettings({ calendarPrefs: { ...settings.calendarPrefs, chipFilter: next } });
+  };
+  const CHIP_FILTER_LABEL = { all: '🗂 All items', noEvents: '🗂 Hiding events', noWorkouts: '🗂 Hiding workouts' };
+
   // "Meal day view" pops a meal-schedule panel beside the calendar for
   // whichever day you last clicked — works in Month/Week/Day alike, no need
   // to switch modes. It stands down only when Day view is already showing
@@ -328,6 +434,50 @@ export default function CalendarView() {
   );
 
   const clearSelection = () => { setSelected(new Set()); setAnchorId(null); };
+
+  // ---- clipboard hotkeys: Ctrl/Cmd+C copy, +X cut, +V paste onto the
+  // last-clicked day, Delete/Backspace removes the selection. Cut behaves
+  // like copy until Paste actually happens — nothing is lost if you never
+  // paste it (same as Explorer/Finder, not an instant destructive delete).
+  const [clipboard, setClipboard] = useState(null); // null | { items: workout[], cut: boolean }
+
+  function copySelection(cut) {
+    if (!selected.size) return;
+    const items = workouts.filter((w) => selected.has(w.id));
+    if (items.length) setClipboard({ items, cut });
+  }
+
+  async function pasteClipboard() {
+    if (!clipboard?.items?.length) return;
+    const anchorDate = clipboard.items.reduce((min, w) => (w.date < min ? w.date : min), clipboard.items[0].date);
+    const delta = signedDaysBetween(anchorDate, lastClickedDate);
+    for (const w of clipboard.items) await addWorkout({ ...cloneableFields(w), date: addDaysISO(w.date, delta) });
+    if (clipboard.cut) {
+      for (const w of clipboard.items) await removeWorkout(w.id);
+      setClipboard(null);
+    }
+  }
+
+  async function deleteSelection() {
+    const ids = [...selected];
+    for (const id of ids) await removeWorkout(id);
+    clearSelection();
+  }
+
+  useEffect(() => {
+    const isTypingTarget = (el) => !!el && (['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName) || el.isContentEditable);
+    function onKeyDown(e) {
+      if (isTypingTarget(document.activeElement)) return;
+      const mod = e.ctrlKey || e.metaKey;
+      const key = e.key.toLowerCase();
+      if (mod && key === 'c') { e.preventDefault(); copySelection(false); }
+      else if (mod && key === 'x') { e.preventDefault(); copySelection(true); }
+      else if (mod && key === 'v') { e.preventDefault(); pasteClipboard(); }
+      else if ((e.key === 'Delete' || e.key === 'Backspace') && selected.size) { e.preventDefault(); deleteSelection(); }
+    }
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [selected, clipboard, lastClickedDate, workouts]);
 
   const onCtrlClick = (wid) => {
     setSelected((prev) => {
@@ -403,16 +553,39 @@ export default function CalendarView() {
 
   const byDate = useMemo(() => {
     const map = {};
-    for (const w of workouts) (map[w.date] ||= []).push(w);
+    for (const w of workouts) {
+      if (chipFilter !== 'all') {
+        const isEvent = activityType(activityTypes, w.activityType).kind === 'event';
+        if (chipFilter === 'noEvents' && isEvent) continue;
+        if (chipFilter === 'noWorkouts' && !isEvent) continue;
+      }
+      (map[w.date] ||= []).push(w);
+    }
     for (const k of Object.keys(map)) {
       map[k].sort((a, b) => (a.time || '99').localeCompare(b.time || '99'));
     }
     return map;
-  }, [workouts]);
+  }, [workouts, activityTypes, chipFilter]);
 
   const onEdit = (id) => { clearSelection(); navigate(`entry/${id}`); };
   const onAdd = (iso) => { setLastClickedDate(iso); openQuickAdd(iso); };
-  const onDropWorkout = (id, iso) => moveWorkout(id, iso);
+  const onAltClick = (id) => removeWorkout(id);
+  // Dragging one chip of a multi-selection moves/duplicates the WHOLE
+  // selection, each by the same day-offset (dropDate - the dragged chip's own
+  // date), preserving relative spacing — Shift held at drop = duplicate
+  // (copy), otherwise a plain move, matching the OS-standard drag gesture.
+  async function onDropWorkout(ids, fromDate, dropIso, duplicate) {
+    const delta = signedDaysBetween(fromDate, dropIso);
+    if (!delta && !duplicate) return;
+    for (const id of ids) {
+      const w = workouts.find((x) => x.id === id);
+      if (!w) continue;
+      const newDate = addDaysISO(w.date, delta);
+      if (duplicate) await addWorkout({ ...cloneableFields(w), date: newDate });
+      else await updateWorkout(id, { date: newDate });
+    }
+    clearSelection();
+  }
 
   const step = (dir) => {
     setCursor((c) => {
@@ -434,9 +607,10 @@ export default function CalendarView() {
     date, inMonth,
     isToday: isoDate(date) === todayISO(),
     items: byDate[isoDate(date)] || [],
-    types: activityTypes, units, groups, goalsById, selected, onAdd, onEdit, onCtrlClick, onShiftClick, onDropWorkout,
+    types: activityTypes, units, groups, goalsById, selected, onAdd, onEdit, onCtrlClick, onShiftClick, onAltClick, onDropWorkout,
     showMeals, mealItems: mealsByDate[isoDate(date)] || [], mealTypes, mealSelected,
     onAddMeal, onEditMeal, onMealCtrlClick: toggleMealSelected, onMealShiftClick: toggleMealSelected,
+    allWorkouts: workouts, meals, bmr, calorieGoal, bodyWeightKg: latestWeightKg,
   });
 
   return (
@@ -456,6 +630,23 @@ export default function CalendarView() {
           <button type="button" className="ft-nav-btn ft-today-btn" onClick={goToday}>Today</button>
           <button type="button" className="ft-nav-btn" onClick={() => step(1)} aria-label="Next">›</button>
           <h2 className="ft-cal-title">{title}</h2>
+        </div>
+        <div
+          className="ft-aft-strip"
+          style={{
+            display: 'grid', gridTemplateColumns: 'repeat(3, auto)', gridAutoFlow: 'row',
+            columnGap: 20, rowGap: 2, color: 'var(--ft-muted)', fontSize: '1.35rem', fontWeight: 500,
+            lineHeight: 1.25, alignContent: 'center', justifyContent: 'center',
+          }}
+        >
+          {AFT_EVENTS.map((ev) => (
+            <span key={ev.id} title={ev.name} style={{ whiteSpace: 'nowrap' }}>
+              {ev.abbr}{' '}
+              <span style={{ color: 'var(--ft-text)' }}>{formatAftTier(ev, 90)}</span>
+              <span style={{ opacity: 0.6 }}>/</span>
+              <span style={{ color: 'var(--ft-text)' }}>{formatAftTier(ev, 100)}</span>
+            </span>
+          ))}
         </div>
         <div className="ft-view-toggle">
           {['month', 'week', 'day'].map((v) => (
@@ -490,6 +681,14 @@ export default function CalendarView() {
           title="Create or adjust goals right here, without leaving the calendar"
         >
           🎯 Goals{activeGoals.length > 0 ? ` (${activeGoals.length})` : ''}
+        </button>
+        <button
+          type="button"
+          className={`ft-toggle-btn${chipFilter !== 'all' ? ' active' : ''}`}
+          onClick={cycleChipFilter}
+          title="Cycles which chips show on the grid: all items -> hide events -> hide workouts -> all items again. Display-only — doesn't touch your data."
+        >
+          {CHIP_FILTER_LABEL[chipFilter]}
         </button>
       </div>
 
@@ -534,6 +733,7 @@ export default function CalendarView() {
         </div>
       )}
 
+
       <div className="ft-cal-body" ref={calBodyRef} onMouseDown={onGridMouseDown}>
         {view === 'month' && (() => {
           const monthStart = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
@@ -546,10 +746,14 @@ export default function CalendarView() {
               <div className="ft-weekhead">
                 {WEEKDAYS.map((d) => <div key={d} className="ft-weekhead-cell">{d}</div>)}
                 <div className="ft-weekhead-cell ft-weekend-head">Goals</div>
+                <div className="ft-weekhead-cell ft-weekmiles-head">Miles</div>
               </div>
               {weekRows.map((week) => {
+                const sunISO = isoDate(week[0]);
                 const satISO = isoDate(week[6]);
                 const ends = weekEndGoals(activeGoals, activityTypes, satISO);
+                const milesText = formatDistance(weekTrackedDistanceM(workouts, sunISO, satISO), units.distance, 1);
+                const weekNet = weekNetCalories(meals, workouts, sunISO, satISO, bmr, latestWeightKg);
                 return (
                   <div key={satISO} className="ft-week-row">
                     <div className="ft-month-grid">
@@ -565,6 +769,16 @@ export default function CalendarView() {
                         />
                       ))}
                     </div>
+                    <div className="ft-weekmiles-col">
+                      <div className="ft-weekmiles-badge" title={`${milesText} tracked this week`}>
+                        <span className="ft-weekmiles-text">{milesText}</span>
+                      </div>
+                      {calorieGoal != null && (
+                        <div className="ft-weekmiles-badge ft-weeknet-badge" title="Net calories this week vs. a 1lb-equivalent (3500 kcal) reference">
+                          <span className="ft-weekmiles-text">{weekNet}/{KCAL_PER_LB_ADIPOSE}</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 );
               })}
@@ -575,8 +789,11 @@ export default function CalendarView() {
         {view === 'week' && (() => {
           const s = startOfWeek(cursor);
           const days = Array.from({ length: 7 }, (_, i) => addDays(s, i));
+          const sunISO = isoDate(days[0]);
           const satISO = isoDate(days[6]);
           const ends = weekEndGoals(activeGoals, activityTypes, satISO);
+          const milesText = formatDistance(weekTrackedDistanceM(workouts, sunISO, satISO), units.distance, 1);
+          const weekNet = weekNetCalories(meals, workouts, sunISO, satISO, bmr, latestWeightKg);
           return (
             <div className="ft-week-row ft-week-row-single">
               <div className="ft-week">
@@ -589,6 +806,16 @@ export default function CalendarView() {
                     onClick={() => openWeekOverride(goal, satISO, targetValue)}
                   />
                 ))}
+              </div>
+              <div className="ft-weekmiles-col">
+                <div className="ft-weekmiles-badge" title={`${milesText} tracked this week`}>
+                  <span className="ft-weekmiles-text">{milesText}</span>
+                </div>
+                {calorieGoal != null && (
+                  <div className="ft-weekmiles-badge ft-weeknet-badge" title="Net calories this week vs. a 1lb-equivalent (3500 kcal) reference">
+                    <span className="ft-weekmiles-text">{weekNet}/{KCAL_PER_LB_ADIPOSE}</span>
+                  </div>
+                )}
               </div>
             </div>
           );
@@ -616,7 +843,7 @@ export default function CalendarView() {
         </div>
       )}
 
-      <p className="ft-cal-hint">Click a day to schedule · drag a workout to reschedule · click to edit · Ctrl/Shift-click or drag a box to select multiple</p>
+      <p className="ft-cal-hint">Click a day to schedule · drag to reschedule (hold Shift while dragging to duplicate instead) · click to edit · Alt+click to delete instantly · Ctrl/Shift-click or drag a box to select multiple · Ctrl+C/X/V to copy/cut/paste onto the last-clicked day · Delete to remove selected</p>
 
       {goalEditor && (
         <GoalEditorModal goal={goalEditor === 'new' ? null : goalEditor} onClose={() => setGoalEditor(null)} />

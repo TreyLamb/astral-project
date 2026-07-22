@@ -48,7 +48,11 @@
 .ft-sync-cloud { color: #67e8f9; }
 .ft-log-btn { font-size: 0.95rem; }
 
-.ft-main { flex: 1; padding: 18px; max-width: 1080px; width: 100%; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; }
+/* max-width was a flat 1080px — capped the whole shell (calendar included) at
+   the same width on a 1920px monitor as on a 1100px laptop, which read as
+   "permanently compressed for mobile" per the owner's report. clamp() lets it
+   actually grow on wide screens while staying identical below 1080px. */
+.ft-main { flex: 1; padding: 18px; max-width: clamp(1080px, 90vw, 1600px); width: 100%; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; }
 
 /* ---- buttons ---- */
 .ft-btn-primary, .ft-btn-ghost, .ft-btn-danger {
@@ -66,17 +70,26 @@
    view" side panel (when open) sits beside the calendar rather than replacing
    Day view. With no panel, a single flex:1 child behaves exactly as before. */
 .ft-cal-outer { flex: 1; display: flex; flex-direction: row; gap: 14px; min-height: 0; }
-.ft-cal { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+/* min-width floor, not 0 — .ft-month-grid/.ft-week already opt into their own
+   min-width:0 to shrink, so without a floor here the side panel (plus the
+   week-row's fixed-width goals/miles columns) had no limit on how far they
+   could crush the day grid before the row ever stacked. */
+.ft-cal { flex: 1; min-width: 560px; display: flex; flex-direction: column; min-height: 0; }
 
-/* meal-schedule side panel (target day = whichever day you last clicked) */
+/* meal-schedule side panel (target day = whichever day you last clicked).
+   Fluid width, not a flat 380px — gives width back to the day grid as the
+   window narrows instead of holding its ground until the stack breakpoint. */
 .ft-meal-panel-side {
-  flex: none; width: 380px; display: flex; flex-direction: column; min-height: 0;
+  flex: none; width: clamp(260px, 30vw, 380px); display: flex; flex-direction: column; min-height: 0;
   background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 12px;
   padding: 14px; overflow-y: auto;
 }
 .ft-meal-panel-side-head { flex: none; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--ft-border); }
 
-@media (max-width: 900px) {
+/* raised from 900px — .ft-cal's 560px floor + the panel's own min width no
+   longer both fit comfortably at 900, so stacking now kicks in a bit sooner
+   rather than letting the day grid get squeezed right up to that edge. */
+@media (max-width: 1024px) {
   .ft-cal-outer { flex-direction: column; }
   .ft-meal-panel-side { width: 100%; max-height: 50vh; }
 }
@@ -121,6 +134,25 @@
 .ft-weekend-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; background: var(--ft-accent); box-shadow: 0 0 6px rgba(163, 230, 53, 0.7); margin-top: 1px; align-self: flex-start; }
 .ft-weekend-text { font-size: 0.64rem; font-weight: 700; color: var(--ft-accent); white-space: normal; line-height: 1.2; word-break: break-word; min-width: 0; }
 .ft-week-row-single .ft-weekend-text { font-size: 0.8rem; }
+
+/* Weekly tracked-distance summary column — one more column to the right of
+   the goals column, same row-per-week structure. Cyan rather than the goals'
+   lime so the two summary columns stay visually distinct from each other. */
+.ft-weekhead-cell.ft-weekmiles-head { flex: none; width: 72px; margin-left: 8px; font-size: 0.68rem; }
+.ft-weekmiles-col { flex: none; width: 72px; margin-left: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+.ft-week-row-single .ft-weekmiles-col { width: 110px; align-items: stretch; padding-top: 4px; gap: 8px; }
+.ft-weekmiles-badge {
+  display: flex; align-items: center; justify-content: center; width: 100%;
+  border: 1px solid rgba(103, 232, 249, 0.35); background: rgba(103, 232, 249, 0.1); border-radius: 7px;
+  padding: 3px 6px; box-sizing: border-box;
+}
+.ft-week-row-single .ft-weekmiles-badge { padding: 6px 9px; border-radius: 8px; }
+.ft-weekmiles-text { font-size: 0.64rem; font-weight: 700; color: #67e8f9; white-space: nowrap; }
+.ft-week-row-single .ft-weekmiles-text { font-size: 0.8rem; }
+/* Net-calories-this-week badge — same shape as the miles badge above it, but
+   its own colour so the two summary numbers stay visually distinct. */
+.ft-weeknet-badge { border-color: rgba(251, 146, 60, 0.35); background: rgba(251, 146, 60, 0.1); }
+.ft-weeknet-badge .ft-weekmiles-text { color: #fb923c; white-space: normal; text-align: center; line-height: 1.15; }
 /* Day view fills whatever vertical room the viewport has instead of stopping at
    a fixed height and leaving dead space below (was a flat 320px min-height with
    no flex chain to grow it) — .ft-main -> .ft-cal -> .ft-cal-body -> .ft-day all
@@ -134,16 +166,20 @@
 }
 .ft-cell:hover { border-color: rgba(163, 230, 53, 0.4); }
 .ft-cell-month { min-height: 92px; display: flex; flex-direction: column; }
-.ft-cell-week { min-height: 220px; display: flex; flex-direction: column; }
+.ft-cell-week { min-height: 220px; flex: 1; display: flex; flex-direction: column; }
+.ft-cell-week .ft-cell-items { flex: 1; }
 .ft-cell-day { min-height: 320px; flex: 1; display: flex; flex-direction: column; }
 .ft-cell-day .ft-cell-items { flex: 1; }
 .ft-cell-dim { opacity: 0.4; }
 .ft-cell-today { border-color: var(--ft-accent); }
 .ft-cell-today .ft-cell-num { background: var(--ft-accent); color: #0a0e12; border-radius: 50%; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; }
 .ft-cell-over { background: rgba(163, 230, 53, 0.1); border-color: var(--ft-accent); border-style: dashed; }
-.ft-cell-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.ft-cell-head { display: flex; align-items: center; justify-content: space-between; gap: 4px; margin-bottom: 4px; }
 .ft-cell-num { font-size: 0.82rem; color: var(--ft-muted); font-weight: 600; }
 .ft-cell-dow { font-size: 0.72rem; color: var(--ft-muted); }
+/* Net-calories-vs-goal badge — same header row as the date number, small and
+   muted so it reads as metadata, not another interactive chip. */
+.ft-cell-cal { font-size: 0.64rem; font-weight: 700; color: #fb923c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ft-cell-items { display: flex; flex-direction: column; gap: 3px; overflow: hidden; }
 
 /* ---- workout chip ---- */
@@ -181,6 +217,13 @@
 /* ---- calendar multi-select: marquee drag + bulk selection bar ---- */
 .ft-cal-body { position: relative; user-select: none; flex: 1; display: flex; flex-direction: column; min-height: 0; }
 .ft-cal-body > .ft-month, .ft-cal-body > .ft-week-row { flex: none; }
+/* Week view (the single-row .ft-week-row-single, not Month's per-week rows)
+   was stuck at .ft-cell-week's 220px min-height with dead space below on a
+   tall viewport — the same class of bug Day view had before it got this same
+   flex chain. Overrides the flex:none above for this one variant so the row
+   -> grid -> cell chain stretches to fill the remaining viewport height. */
+.ft-cal-body > .ft-week-row-single { flex: 1; min-height: 0; }
+.ft-week-row-single .ft-week { flex: 1; min-height: 0; grid-template-rows: 1fr; }
 .ft-marquee {
   position: fixed; z-index: 900; background: rgba(96, 165, 250, 0.15);
   border: 1.5px solid #60a5fa; border-radius: 4px; pointer-events: none;
@@ -301,6 +344,7 @@
   .ft-main { padding: 12px; }
   .ft-cell-month { min-height: 72px; }
   .ft-cell-num { font-size: 0.75rem; }
+  .ft-cell-cal { font-size: 0.58rem; }
   /* Month is cramped on phones — icon only, full detail on tap. Week/Day keep
      their text (and their larger .ft-cell-week/.ft-cell-day chip sizing above)
      so "zooming in" still means something on mobile, not just on desktop. */
@@ -555,3 +599,22 @@
 .ft-sched-warn { color: #f59e0b; font-weight: 700; }
 .ft-sched-list { margin: 6px 0 0; padding-left: 18px; font-size: 0.88rem; }
 .ft-sched-list li { margin: 3px 0; }
+
+/* ---- Profile card + view-detailed toggle ---- */
+
+/* "View detailed" toggle sits right under the Settings h2 — reuses
+   .ft-toggle-btn (same look as CalendarView's ft-cal-toggles buttons). */
+.ft-detail-toggle-row { margin: 0 0 16px; }
+
+/* a hint paragraph nested directly inside a single ft-field (e.g. the
+   Weight/Sex/BMR fields' inline explainer) sits tighter than the card-level
+   hint above a ft-two row, which uses .ft-hint-sm's default larger margin */
+.ft-field > .ft-hint-sm { margin: 4px 0 0; }
+
+/* Notes free-text field — reuses .ft-input's look, sized for a few lines */
+.ft-textarea { min-height: 74px; resize: vertical; line-height: 1.4; font-family: inherit; }
+
+/* BMR input + its "Use calculated" reset button, side by side */
+.ft-bmr-row { display: flex; gap: 8px; align-items: center; }
+.ft-bmr-row .ft-input { flex: 1; min-width: 0; }
+.ft-bmr-use-calc { padding: 6px 10px; font-size: 0.76rem; flex: none; white-space: nowrap; }

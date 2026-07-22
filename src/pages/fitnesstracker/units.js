@@ -100,3 +100,25 @@ export function elevToMeters(val, distanceUnit) {
 export function elevUnitLabel(distanceUnit) {
   return elevIsMetric(distanceUnit) ? 'm' : 'ft';
 }
+
+// ---- height ----
+// Stored canonical in cm; displayed in cm or inches derived from
+// settings.units.weight (kg = metric, lb = imperial) — same derived-not-a-
+// separate-preference pattern as elevation above. 1 international inch =
+// 2.54 cm exactly (1959 agreement).
+export const CM_PER_INCH = 2.54;
+const heightIsMetric = (weightUnit) => weightUnit === 'kg';
+
+export function cmToHeight(cm, weightUnit) {
+  if (cm == null) return null;
+  return heightIsMetric(weightUnit) ? cm : cm / CM_PER_INCH;
+}
+export function heightToCm(val, weightUnit) {
+  if (val == null || val === '') return null;
+  const n = Number(val);
+  if (Number.isNaN(n)) return null;
+  return heightIsMetric(weightUnit) ? n : n * CM_PER_INCH;
+}
+export function heightUnitLabel(weightUnit) {
+  return heightIsMetric(weightUnit) ? 'cm' : 'in';
+}

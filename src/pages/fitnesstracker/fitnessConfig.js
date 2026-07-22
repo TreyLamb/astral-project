@@ -65,22 +65,39 @@ export const RPE_LEGEND = {
 
 export function defaultSettings() {
   // profile.maxHr/restHr feed the Karvonen HR zones (real measured values, not
-  // 220-age). calendar holds the Phase-5 Google Calendar link state. groups are
-  // numbered+coloured workout groupings (see resolveGroups); lastGroupId is the
-  // sticky default a new QuickAdd entry starts with. calendarPrefs are the two
-  // meal-schedule calendar toggles (sticky across sessions). nutritionTarget is
-  // an optional daily calorie/macro target shown as a progress reference in the
-  // Meals tab — left null until the user sets one, never assumed.
+  // 220-age). profile.bmr is the user's measured/estimated Basal Metabolic Rate
+  // (kcal/day), used by calc/calories.js's netCaloriesForDay — left null until
+  // set, never assumed. profile.heightCm/age/sex feed calc/bmr.js's
+  // mifflinStJeorBmr() to auto-populate profile.bmr (see Settings.jsx); sex is
+  // ONLY the BMR-formula constant, not stored/used anywhere else.
+  // profile.bmrManual: true once the user has directly typed a BMR value —
+  // "locks" it so the auto-calc effect stops overwriting it. profile.notes is
+  // free-text (injuries/PRs/etc — deliberately not a preset dropdown per the
+  // project's open-ended-value UI rule). calendar holds the Phase-5 Google
+  // Calendar link state. groups are numbered+coloured workout groupings (see
+  // resolveGroups); lastGroupId is the sticky default a new QuickAdd entry
+  // starts with. calendarPrefs are the two meal-schedule calendar toggles
+  // (sticky across sessions). nutritionTarget is an optional daily
+  // calorie/macro target shown as a progress reference in the Meals tab and
+  // the calendar day-header badge — left null until the user sets one, never
+  // assumed. detailedView toggles whether Settings shows empty/unfilled
+  // input rows (off) or the full form (on) — default off, see Settings.jsx.
   return {
     units: { ...DEFAULT_UNITS },
     customTypes: [],
     mealCustomTypes: [],
-    profile: { maxHr: null, restHr: null },
+    profile: { maxHr: null, restHr: null, bmr: null, bmrManual: false, heightCm: null, age: null, sex: null, notes: '' },
     calendar: { connected: false, calendarId: null, lastSync: null },
-    calendarPrefs: { mealDayView: false, showMealsOnCalendar: false },
+    // chipFilter: 'all' | 'noEvents' | 'noWorkouts' — which calendar chips
+    // render (display-only; never affects underlying data, drag/drop, weekly
+    // totals, or Goals). 'noEvents' hides activityType kind:'event' items
+    // (calendar drops like "POGO raichu day"); 'noWorkouts' hides everything
+    // else. Cycled by the button in CalendarView's ft-cal-toggles row.
+    calendarPrefs: { mealDayView: false, showMealsOnCalendar: false, chipFilter: 'all' },
     nutritionTarget: { calories: null, proteinG: null, carbsG: null, fatG: null },
     groups: [],
     lastGroupId: null,
+    detailedView: false,
   };
 }
 
@@ -96,6 +113,7 @@ export function withSettingsDefaults(s) {
     nutritionTarget: { ...d.nutritionTarget, ...(s?.nutritionTarget || {}) },
     groups: Array.isArray(s?.groups) ? s.groups : [],
     lastGroupId: s?.lastGroupId ?? null,
+    detailedView: s?.detailedView ?? false,
   };
 }
 
