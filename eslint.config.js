@@ -26,4 +26,13 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  {
+    // Vercel serverless functions (api/*.js) run in Node, not the browser —
+    // process/console/etc. aren't undefined globals there. See CLAUDE.md's
+    // "Backend / serverless functions" section.
+    files: ['api/**/*.js'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 ])

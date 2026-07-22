@@ -6,6 +6,22 @@ export const KCAL_PER_G_PROTEIN = 4;
 export const KCAL_PER_G_CARB = 4;
 export const KCAL_PER_G_FAT = 9;
 
+// Converts a macro goal between canonical grams and % of a daily calorie
+// goal — settings.nutritionTarget.*G stays canonical grams either way (see
+// fitnessConfig.js's canonical-storage rule); units.macros only picks which
+// one Settings.jsx shows/accepts input as. Returns null rather than
+// fabricating a number when the calorie goal isn't set yet — % has no
+// meaning without it.
+export function gramsToCalPct(grams, kcalPerG, calorieGoal) {
+  if (grams == null || !calorieGoal) return null;
+  return (grams * kcalPerG / calorieGoal) * 100;
+}
+
+export function calPctToGrams(pct, kcalPerG, calorieGoal) {
+  if (pct == null || !calorieGoal) return null;
+  return (pct / 100 * calorieGoal) / kcalPerG;
+}
+
 function sumField(meals, field) {
   let has = false;
   const total = meals.reduce((a, m) => {

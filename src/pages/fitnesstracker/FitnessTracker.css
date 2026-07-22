@@ -618,3 +618,9 @@
 .ft-bmr-row { display: flex; gap: 8px; align-items: center; }
 .ft-bmr-row .ft-input { flex: 1; min-width: 0; }
 .ft-bmr-use-calc { padding: 6px 10px; font-size: 0.76rem; flex: none; white-space: nowrap; }
+
+/* "View detailed" OFF: a filled field renders this instead of .ft-input —
+   plain hard data, deliberately no border/background so nothing here reads
+   as an entry affordance. Matches .ft-input's padding/size so the layout
+   doesn't jump switching modes. */
+.ft-field-static { margin: 0; padding: 11px 0; font-size: 1rem; color: var(--ft-text); white-space: pre-wrap; }

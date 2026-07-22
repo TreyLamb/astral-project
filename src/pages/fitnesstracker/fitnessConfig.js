@@ -6,7 +6,10 @@
 //   2. All measurements are stored CANONICAL: distance in meters, weight in
 //      kilograms, duration in seconds. units.js converts to the display preference.
 
-export const DEFAULT_UNITS = { distance: 'mi', pool: 'yd', weight: 'lb' }; // US-based default
+// macros: 'g' (grams) | 'pct' (% of daily calorie goal) — display/entry
+// preference only; nutritionTarget.proteinG/carbsG/fatG stay canonical grams
+// either way (see calc/nutrition.js's gramsToCalPct/calPctToGrams).
+export const DEFAULT_UNITS = { distance: 'mi', pool: 'yd', weight: 'lb', macros: 'g' }; // US-based default
 
 // `kind` selects which rich metric set a type gets in later phases (run/swim/lift
 // are built out in Phases 2–3); 'generic' is the extensible fallback. `color`

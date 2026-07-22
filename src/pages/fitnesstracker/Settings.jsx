@@ -4,6 +4,7 @@ import { DEFAULT_ACTIVITY_TYPES, todayISO } from './fitnessConfig';
 import { hrZones } from './calc/hr';
 import { mifflinStJeorBmr } from './calc/bmr';
 import { latestBodyWeightKg } from './calc/calories';
+import { KCAL_PER_G_PROTEIN, KCAL_PER_G_CARB, KCAL_PER_G_FAT, gramsToCalPct, calPctToGrams } from './calc/nutrition';
 import { cmToHeight, heightToCm, heightUnitLabel, kgToWeight, weightToKg } from './units';
 import CalendarSync from './CalendarSync';
 
@@ -11,6 +12,7 @@ const UNIT_OPTIONS = {
   distance: [['mi', 'Miles'], ['km', 'Kilometers']],
   pool: [['yd', 'Yards'], ['m', 'Meters']],
   weight: [['lb', 'Pounds'], ['kg', 'Kilograms']],
+  macros: [['g', 'Grams'], ['pct', '% of calories']],
 };
 
 function isEmpty(v) { return v === null || v === undefined || v === ''; }
@@ -27,6 +29,23 @@ function pairRows(fields) {
     rows.push(pair.length === 2 ? <div className="ft-two" key={`row-${i}`}>{pair}</div> : pair[0]);
   }
   return rows;
+}
+
+// The core of "View detailed": in detailed mode a field is ALWAYS the live
+// editable control, filled or not. Out of detailed mode there is no entry
+// affordance at all — a filled field renders as plain static "hard data"
+// text (never the <input> itself), and an empty one renders nothing. `show`
+// still gates whether the field appears in the layout at all (hide-when-
+// empty-and-not-detailed), independent of which of the two it renders as.
+function fieldRow(detailed, show, key, label, input, staticText, hint) {
+  if (!show) return null;
+  return (
+    <div className="ft-field" key={key}>
+      <label className="ft-field-label">{label}</label>
+      {detailed ? input : <p className="ft-field-static">{staticText}</p>}
+      {hint || null}
+    </div>
+  );
 }
 
 export default function Settings() {
@@ -82,13 +101,18 @@ export default function Settings() {
   // last logged number on every keystroke that passes through empty. Only
   // resynced from the log on a units switch (lb<->kg); typing itself just
   // upserts today's log entry whenever it resolves to a real number.
-  const [weightDraft, setWeightDraft] = useState(
-    () => (currentWeightKg != null ? String(round1(kgToWeight(currentWeightKg, units.weight))) : ''),
-  );
-  useEffect(() => {
-    setWeightDraft(currentWeightKg != null ? String(round1(kgToWeight(currentWeightKg, units.weight))) : '');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [units.weight]);
+  function weightDisplayFor(unit) {
+    return currentWeightKg != null ? String(round1(kgToWeight(currentWeightKg, unit))) : '';
+  }
+  const [weightDraft, setWeightDraft] = useState(() => weightDisplayFor(units.weight));
+  // Resync the draft when the unit toggle itself changes (lb<->kg) — adjusting
+  // state during render (React's documented pattern for "reset state when a
+  // dependency changes") rather than a setState-in-useEffect round trip.
+  const [prevWeightUnit, setPrevWeightUnit] = useState(units.weight);
+  if (units.weight !== prevWeightUnit) {
+    setPrevWeightUnit(units.weight);
+    setWeightDraft(weightDisplayFor(units.weight));
+  }
   const setWeight = (val) => {
     setWeightDraft(val);
     const kg = weightToKg(val, units.weight);
@@ -118,9 +142,45 @@ export default function Settings() {
   };
   const useCalculatedBmr = () => updateSettings({ profile: { ...profile, bmrManual: false } });
 
+  // ---- Macro goals: grams (canonical, always what's persisted) or % of the
+  // daily calorie goal (settings.units.macros — a display/entry preference
+  // only, same pattern as distance/weight units). % needs a calorie goal to
+  // convert against; without one the field is disabled with an explanatory
+  // hint rather than silently doing wrong math.
+  const macroUnit = units.macros || 'g';
+  const macroLabel = macroUnit === 'pct' ? '% of calories' : 'g';
+  const macroPctBlocked = macroUnit === 'pct' && isEmpty(nutritionTarget.calories);
+  function macroInputValue(grams, kcalPerG) {
+    if (macroUnit === 'pct') {
+      const pct = gramsToCalPct(grams, kcalPerG, nutritionTarget.calories);
+      return pct != null ? String(round1(pct)) : '';
+    }
+    return grams != null ? String(round1(grams)) : '';
+  }
+  function macroStaticText(grams, kcalPerG) {
+    if (grams == null) return '';
+    if (macroUnit === 'pct') {
+      const pct = gramsToCalPct(grams, kcalPerG, nutritionTarget.calories);
+      return pct != null ? `${round1(pct)}%` : `${round1(grams)} g`;
+    }
+    return `${round1(grams)} g`;
+  }
+  function setMacro(field, kcalPerG, val) {
+    const n = val === '' ? null : Number(val);
+    if (n != null && Number.isNaN(n)) return;
+    if (macroUnit === 'pct') {
+      if (macroPctBlocked) return;
+      const grams = n == null ? null : calPctToGrams(n, kcalPerG, nutritionTarget.calories);
+      updateSettings({ nutritionTarget: { ...nutritionTarget, [field]: grams != null ? round1(grams) : null } });
+    } else {
+      updateSettings({ nutritionTarget: { ...nutritionTarget, [field]: n } });
+    }
+  }
+
   // ---- "View detailed" gating — OFF hides genuinely empty data-entry input
-  // rows so the page reads as populated hard data only; ON shows every row
-  // exactly as it renders today, populated or not.
+  // rows entirely, and renders filled ones as static text instead of a live
+  // input (fieldRow above); ON shows every row as its normal editable
+  // control, populated or not.
   const showMaxHr = detailed || !isEmpty(profile.maxHr);
   const showRestHr = detailed || !isEmpty(profile.restHr);
   const hrCardEmpty = !detailed && isEmpty(profile.maxHr) && isEmpty(profile.restHr);
@@ -150,7 +210,7 @@ export default function Settings() {
           type="button"
           className={`ft-toggle-btn${detailed ? ' active' : ''}`}
           onClick={() => updateSettings({ detailedView: !detailed })}
-          title="Show every field below, including ones you haven't filled in yet"
+          title="On: every field below is live and editable, filled or not. Off: only values you've actually entered show, as plain static text — no entry boxes anywhere."
         >
           👁 View detailed
         </button>
@@ -178,21 +238,20 @@ export default function Settings() {
         ) : (
           <>
             {pairRows([
-              showHeight && (
-                <div className="ft-field" key="height">
-                  <label className="ft-field-label">Height ({heightUnit})</label>
-                  <input
-                    className="ft-input"
-                    inputMode="decimal"
-                    value={profile.heightCm != null ? round1(cmToHeight(profile.heightCm, units.weight)) : ''}
-                    onChange={(e) => setHeight(e.target.value)}
-                    placeholder={heightUnit === 'cm' ? 'e.g. 178' : 'e.g. 70'}
-                  />
-                </div>
+              fieldRow(
+                detailed, showHeight, 'height', `Height (${heightUnit})`,
+                <input
+                  className="ft-input"
+                  inputMode="decimal"
+                  value={profile.heightCm != null ? round1(cmToHeight(profile.heightCm, units.weight)) : ''}
+                  onChange={(e) => setHeight(e.target.value)}
+                  placeholder={heightUnit === 'cm' ? 'e.g. 178' : 'e.g. 70'}
+                />,
+                profile.heightCm != null ? `${round1(cmToHeight(profile.heightCm, units.weight))} ${heightUnit}` : '',
               ),
-              showWeight && (
-                <div className="ft-field" key="weight">
-                  <label className="ft-field-label">Weight ({units.weight})</label>
+              fieldRow(
+                detailed, showWeight, 'weight', `Weight (${units.weight})`,
+                <>
                   <input
                     className="ft-input"
                     inputMode="decimal"
@@ -201,36 +260,34 @@ export default function Settings() {
                     placeholder={units.weight === 'kg' ? 'e.g. 70' : 'e.g. 154'}
                   />
                   <p className="ft-hint-sm">Updates today's weigh-in log</p>
-                </div>
+                </>,
+                currentWeightKg != null ? `${round1(kgToWeight(currentWeightKg, units.weight))} ${units.weight}` : '',
               ),
-              showAge && (
-                <div className="ft-field" key="age">
-                  <label className="ft-field-label">Age (years)</label>
-                  <input className="ft-input" inputMode="numeric" value={profile.age ?? ''} onChange={(e) => setProfile('age', e.target.value)} placeholder="e.g. 34" />
-                </div>
+              fieldRow(
+                detailed, showAge, 'age', 'Age (years)',
+                <input className="ft-input" inputMode="numeric" value={profile.age ?? ''} onChange={(e) => setProfile('age', e.target.value)} placeholder="e.g. 34" />,
+                profile.age != null ? `${profile.age} years` : '',
               ),
-              showSex && (
-                <div className="ft-field" key="sex">
-                  <label className="ft-field-label">Sex</label>
-                  <div className="ft-seg">
-                    <button type="button" className={`ft-seg-btn${profile.sex === 'male' ? ' active' : ''}`} onClick={() => setSex('male')}>Male</button>
-                    <button type="button" className={`ft-seg-btn${profile.sex === 'female' ? ' active' : ''}`} onClick={() => setSex('female')}>Female</button>
-                  </div>
-                  <p className="ft-hint-sm">Used only for the BMR formula below — Mifflin-St Jeor has no other variant</p>
-                </div>
+              fieldRow(
+                detailed, showSex, 'sex', 'Sex',
+                <div className="ft-seg">
+                  <button type="button" className={`ft-seg-btn${profile.sex === 'male' ? ' active' : ''}`} onClick={() => setSex('male')}>Male</button>
+                  <button type="button" className={`ft-seg-btn${profile.sex === 'female' ? ' active' : ''}`} onClick={() => setSex('female')}>Female</button>
+                </div>,
+                profile.sex === 'male' ? 'Male' : profile.sex === 'female' ? 'Female' : '',
+                <p className="ft-hint-sm">Used only for the BMR formula below — Mifflin-St Jeor has no other variant</p>,
               ),
             ].filter(Boolean))}
-            {showNotes && (
-              <div className="ft-field">
-                <label className="ft-field-label">Notes</label>
-                <textarea
-                  className="ft-input ft-textarea"
-                  value={profile.notes ?? ''}
-                  onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Injuries, PRs, anything else worth tracking here"
-                  rows={3}
-                />
-              </div>
+            {fieldRow(
+              detailed, showNotes, 'notes', 'Notes',
+              <textarea
+                className="ft-input ft-textarea"
+                value={profile.notes ?? ''}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Injuries, PRs, anything else worth tracking here"
+                rows={3}
+              />,
+              profile.notes || '',
             )}
           </>
         )}
@@ -243,17 +300,15 @@ export default function Settings() {
           <p className="ft-hint-sm">No data yet — turn on "View detailed" above to add it.</p>
         ) : (
           pairRows([
-            showMaxHr && (
-              <div className="ft-field" key="maxHr">
-                <label className="ft-field-label">Max HR (bpm)</label>
-                <input className="ft-input" inputMode="numeric" value={profile.maxHr ?? ''} onChange={(e) => setProfile('maxHr', e.target.value)} placeholder="e.g. 190" />
-              </div>
+            fieldRow(
+              detailed, showMaxHr, 'maxHr', 'Max HR (bpm)',
+              <input className="ft-input" inputMode="numeric" value={profile.maxHr ?? ''} onChange={(e) => setProfile('maxHr', e.target.value)} placeholder="e.g. 190" />,
+              profile.maxHr != null ? `${profile.maxHr} bpm` : '',
             ),
-            showRestHr && (
-              <div className="ft-field" key="restHr">
-                <label className="ft-field-label">Resting HR (bpm)</label>
-                <input className="ft-input" inputMode="numeric" value={profile.restHr ?? ''} onChange={(e) => setProfile('restHr', e.target.value)} placeholder="e.g. 50" />
-              </div>
+            fieldRow(
+              detailed, showRestHr, 'restHr', 'Resting HR (bpm)',
+              <input className="ft-input" inputMode="numeric" value={profile.restHr ?? ''} onChange={(e) => setProfile('restHr', e.target.value)} placeholder="e.g. 50" />,
+              profile.restHr != null ? `${profile.restHr} bpm` : '',
             ),
           ].filter(Boolean))
         )}
@@ -276,9 +331,9 @@ export default function Settings() {
           <p className="ft-hint-sm">No data yet — turn on "View detailed" above to add it.</p>
         ) : (
           pairRows([
-            showBmr && (
-              <div className="ft-field" key="bmr">
-                <label className="ft-field-label">BMR (kcal/day)</label>
+            fieldRow(
+              detailed, showBmr, 'bmr', 'BMR (kcal/day)',
+              <>
                 <div className="ft-bmr-row">
                   <input className="ft-input" inputMode="numeric" value={profile.bmr ?? ''} onChange={(e) => setBmr(e.target.value)} placeholder="e.g. 1700" />
                   {profile.bmrManual && computedBmr != null && (
@@ -297,31 +352,58 @@ export default function Settings() {
                     ? 'Manual override — using the value you entered, not the calculated one.'
                     : 'Auto-calculated from your profile (Mifflin-St Jeor) below — type here to override with a measured value.'}
                 </p>
-              </div>
+              </>,
+              profile.bmr != null ? `${profile.bmr} kcal/day` : '',
             ),
-            showCalGoal && (
-              <div className="ft-field" key="calGoal">
-                <label className="ft-field-label">Daily calorie goal</label>
-                <input className="ft-input" inputMode="numeric" value={nutritionTarget.calories ?? ''} onChange={(e) => setNutritionTarget('calories', e.target.value)} placeholder="e.g. 1400" />
-              </div>
+            fieldRow(
+              detailed, showCalGoal, 'calGoal', 'Daily calorie goal',
+              <input className="ft-input" inputMode="numeric" value={nutritionTarget.calories ?? ''} onChange={(e) => setNutritionTarget('calories', e.target.value)} placeholder="e.g. 1400" />,
+              nutritionTarget.calories != null ? `${nutritionTarget.calories} kcal` : '',
             ),
-            showProtein && (
-              <div className="ft-field" key="protein">
-                <label className="ft-field-label">Protein goal (g)</label>
-                <input className="ft-input" inputMode="numeric" value={nutritionTarget.proteinG ?? ''} onChange={(e) => setNutritionTarget('proteinG', e.target.value)} placeholder="optional" />
-              </div>
+            fieldRow(
+              detailed, showProtein, 'protein', `Protein goal (${macroLabel})`,
+              <>
+                <input
+                  className="ft-input"
+                  inputMode="decimal"
+                  value={macroInputValue(nutritionTarget.proteinG, KCAL_PER_G_PROTEIN)}
+                  onChange={(e) => setMacro('proteinG', KCAL_PER_G_PROTEIN, e.target.value)}
+                  placeholder={macroUnit === 'pct' ? 'e.g. 30' : 'optional'}
+                  disabled={macroPctBlocked}
+                />
+                {macroPctBlocked && <p className="ft-hint-sm">Set a daily calorie goal above to enter as %</p>}
+              </>,
+              macroStaticText(nutritionTarget.proteinG, KCAL_PER_G_PROTEIN),
             ),
-            showCarbs && (
-              <div className="ft-field" key="carbs">
-                <label className="ft-field-label">Carbs goal (g)</label>
-                <input className="ft-input" inputMode="numeric" value={nutritionTarget.carbsG ?? ''} onChange={(e) => setNutritionTarget('carbsG', e.target.value)} placeholder="optional" />
-              </div>
+            fieldRow(
+              detailed, showCarbs, 'carbs', `Carbs goal (${macroLabel})`,
+              <>
+                <input
+                  className="ft-input"
+                  inputMode="decimal"
+                  value={macroInputValue(nutritionTarget.carbsG, KCAL_PER_G_CARB)}
+                  onChange={(e) => setMacro('carbsG', KCAL_PER_G_CARB, e.target.value)}
+                  placeholder={macroUnit === 'pct' ? 'e.g. 40' : 'optional'}
+                  disabled={macroPctBlocked}
+                />
+                {macroPctBlocked && <p className="ft-hint-sm">Set a daily calorie goal above to enter as %</p>}
+              </>,
+              macroStaticText(nutritionTarget.carbsG, KCAL_PER_G_CARB),
             ),
-            showFat && (
-              <div className="ft-field" key="fat">
-                <label className="ft-field-label">Fat goal (g)</label>
-                <input className="ft-input" inputMode="numeric" value={nutritionTarget.fatG ?? ''} onChange={(e) => setNutritionTarget('fatG', e.target.value)} placeholder="optional" />
-              </div>
+            fieldRow(
+              detailed, showFat, 'fat', `Fat goal (${macroLabel})`,
+              <>
+                <input
+                  className="ft-input"
+                  inputMode="decimal"
+                  value={macroInputValue(nutritionTarget.fatG, KCAL_PER_G_FAT)}
+                  onChange={(e) => setMacro('fatG', KCAL_PER_G_FAT, e.target.value)}
+                  placeholder={macroUnit === 'pct' ? 'e.g. 30' : 'optional'}
+                  disabled={macroPctBlocked}
+                />
+                {macroPctBlocked && <p className="ft-hint-sm">Set a daily calorie goal above to enter as %</p>}
+              </>,
+              macroStaticText(nutritionTarget.fatG, KCAL_PER_G_FAT),
             ),
           ].filter(Boolean))
         )}
