@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "firebase": "^12.14.0",
+    "firebase-admin": "^14.2.0",
     "mammoth": "^1.12.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
