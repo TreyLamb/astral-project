@@ -3,6 +3,7 @@
 //   users/{uid}/fitness_workouts/{workoutId}   (one doc per workout)
 //   users/{uid}/fitness_meals/{mealId}         (one doc per meal)
 //   users/{uid}/fitness_goals/{goalId}         (one doc per goal)
+//   users/{uid}/fitness_bodyweight/{logId}     (one doc per weigh-in)
 //   users/{uid}/fitness_meta/settings          (single settings doc)
 // Same per-user collection pattern as medaldexFirestore.js / pogoaccsFirestore.js.
 import { collection, doc, getDocs, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
@@ -15,6 +16,8 @@ function mealsRef(uid) { return collection(db, 'users', uid, 'fitness_meals'); }
 function mealDocRef(uid, id) { return doc(db, 'users', uid, 'fitness_meals', id); }
 function goalsRef(uid) { return collection(db, 'users', uid, 'fitness_goals'); }
 function goalDocRef(uid, id) { return doc(db, 'users', uid, 'fitness_goals', id); }
+function bodyWeightRef(uid) { return collection(db, 'users', uid, 'fitness_bodyweight'); }
+function bodyWeightDocRef(uid, id) { return doc(db, 'users', uid, 'fitness_bodyweight', id); }
 function settingsDocRef(uid) { return doc(db, 'users', uid, 'fitness_meta', 'settings'); }
 
 export const FitnessFirestore = {
@@ -82,6 +85,28 @@ export const FitnessFirestore = {
 
   async removeGoal(uid, id) {
     await deleteDoc(goalDocRef(uid, id));
+  },
+
+  async getBodyWeightLogs(uid) {
+    const snap = await getDocs(bodyWeightRef(uid));
+    return snap.docs.map((d) => d.data());
+  },
+
+  async saveBodyWeightLog(uid, l) {
+    await setDoc(bodyWeightDocRef(uid, l.id), l);
+    return l;
+  },
+
+  async updateBodyWeightLog(uid, id, updates) {
+    const snap = await getDoc(bodyWeightDocRef(uid, id));
+    const current = snap.exists() ? snap.data() : { id };
+    const next = { ...current, ...updates, updatedAt: Date.now() };
+    await setDoc(bodyWeightDocRef(uid, id), next);
+    return next;
+  },
+
+  async removeBodyWeightLog(uid, id) {
+    await deleteDoc(bodyWeightDocRef(uid, id));
   },
 
   async getSettings(uid) {

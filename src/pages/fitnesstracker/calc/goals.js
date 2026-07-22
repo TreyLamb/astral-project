@@ -21,7 +21,6 @@ import { computePRs } from './pr';
 import { vdotFromRace } from './vdot';
 import { per100 } from './swim';
 import { oneRepMax } from './lift';
-import { addDaysISO } from './planning';
 
 // ---- baseline estimation (real formulas, real logged data) ----
 
@@ -141,29 +140,55 @@ export function forecastWeeks(kind, baselineValue, targetValue, daysPerWeek) {
 // ---- plan generation (pure — turns a forecast into concrete calendar dates) ----
 
 // N sessions/week spread evenly across the 7-day week (e.g. 3/week -> roughly
-// Sun/Tue/Thu-spaced), so training days aren't all bunched at the start.
+// Sun/Tue/Thu-spaced), so training days aren't all bunched at the start. Still
+// used by calc/checkpoints.js's buildTaskSessions for plain (non-checkpoint)
+// training days — the checkpoint trajectory itself is now built by
+// calc/checkpoints.js's buildCheckpoints/recomputeFrom (domain-specific curve
+// shapes, not the flat linear interpolation this file used to do via the now-
+// removed buildPlan()).
 export function weekdayOffsets(daysPerWeek) {
   const n = Math.max(1, Math.min(7, Math.round(Number(daysPerWeek) || 1)));
   return Array.from({ length: n }, (_, i) => Math.round((i * 7) / n));
 }
 
-// Builds one planned-workout target per session across the whole forecast
-// window. targetValue per week is LINEARLY interpolated from baseline to goal —
-// a simple, transparent progression (week 0 ~ baseline, final week ~ goal).
-// Real periodization (build/peak/taper blocks) is more nuanced than a straight
-// line; this gives a concrete, steadily-rising number to aim for each session
-// rather than nothing, and is easy to reason about/edit by hand afterward.
-export function buildPlan(startDateISO, weeks, daysPerWeek, baselineValue, targetValue) {
-  const offsets = weekdayOffsets(daysPerWeek);
-  const sessions = [];
-  for (let w = 0; w < weeks; w++) {
-    const frac = weeks > 1 ? w / (weeks - 1) : 1;
-    const weekTarget = (baselineValue != null && targetValue != null)
-      ? baselineValue + (targetValue - baselineValue) * frac
-      : null;
-    for (const off of offsets) {
-      sessions.push({ date: addDaysISO(startDateISO, w * 7 + off), weekIndex: w, targetValue: weekTarget });
+// ---- checkpoint "Logged actual" extraction ----
+// Reuses the exact same cited formulas the baseline estimators above already
+// call, against a SINGLE completed workout tied to a checkpoint, so a real
+// result and a baseline are always expressed in the same comparable unit.
+
+export function extractRunResult(workout) {
+  if (workout.activityType !== 'run' || !workout.distanceM || !workout.durationSec) return null;
+  return vdotFromRace(workout.distanceM, workout.durationSec);
+}
+
+export function extractSwimResult(workout) {
+  if (workout.activityType !== 'swim' || !workout.distanceM || !workout.durationSec) return null;
+  return per100(workout.distanceM, workout.durationSec, 'm');
+}
+
+export function extractLiftResult(workout, exerciseName) {
+  if (workout.activityType !== 'lift') return null;
+  const needle = (exerciseName || '').trim().toLowerCase();
+  if (!needle) return null;
+  let best = null;
+  for (const ex of workout.metrics?.exercises || []) {
+    if ((ex.name || '').trim().toLowerCase() !== needle) continue;
+    for (const s of ex.sets || []) {
+      const orm = oneRepMax(Number(s.weightKg), Number(s.reps)).avg;
+      if (orm != null && (!best || orm > best)) best = orm;
     }
   }
-  return sessions;
+  return best;
+}
+
+// Generic/weight goals resolve "actual" from other sources (a manual override
+// field, or a BodyWeightLog) rather than from a workout's own fields — null
+// here is correct, not a gap.
+export function extractCheckpointResult(kind, workout, exerciseName) {
+  switch (kind) {
+    case 'run': return extractRunResult(workout);
+    case 'swim': return extractSwimResult(workout);
+    case 'lift': return extractLiftResult(workout, exerciseName);
+    default: return null;
+  }
 }

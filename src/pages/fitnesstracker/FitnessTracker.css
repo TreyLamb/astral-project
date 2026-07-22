@@ -95,10 +95,32 @@
 .ft-view-btn.active { background: rgba(163, 230, 53, 0.16); color: var(--ft-accent); }
 
 /* ---- month grid ---- */
-.ft-weekhead { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 6px; }
-.ft-weekhead-cell { text-align: center; font-size: 0.78rem; color: var(--ft-muted); font-weight: 600; }
-.ft-month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-.ft-week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.ft-weekhead { display: flex; gap: 6px; margin-bottom: 6px; }
+.ft-weekhead-cell { flex: 1; text-align: center; font-size: 0.78rem; color: var(--ft-muted); font-weight: 600; }
+.ft-weekhead-cell.ft-weekend-head { flex: none; width: 92px; margin-left: 10px; font-size: 0.68rem; }
+.ft-month-grid { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.ft-week { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+
+/* End-of-week goal summary column, to the right of Saturday — the actual
+   end-of-week target VALUE is always visible text on the badge itself, never
+   only in a hover tooltip (and never truncated off — it wraps instead).
+   margin-left (on top of the row's own gap) keeps real separation from the
+   Saturday cell rather than reading as touching/overlapping it. */
+.ft-week-row { display: flex; gap: 6px; margin-bottom: 6px; align-items: stretch; }
+.ft-month .ft-week-row:last-child { margin-bottom: 0; }
+.ft-weekend-col { flex: none; width: 92px; margin-left: 10px; display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: 4px; }
+.ft-week-row-single .ft-weekend-col { width: 160px; justify-content: flex-start; padding-top: 4px; gap: 8px; }
+.ft-weekend-badge {
+  display: flex; align-items: center; gap: 5px; width: 100%;
+  border: 1px solid rgba(163, 230, 53, 0.35); border-radius: 7px;
+  padding: 3px 6px; box-sizing: border-box;
+  font-family: inherit; cursor: pointer; text-align: left;
+}
+.ft-weekend-badge:hover { filter: brightness(1.25); }
+.ft-week-row-single .ft-weekend-badge { padding: 6px 9px; border-radius: 8px; }
+.ft-weekend-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; background: var(--ft-accent); box-shadow: 0 0 6px rgba(163, 230, 53, 0.7); margin-top: 1px; align-self: flex-start; }
+.ft-weekend-text { font-size: 0.64rem; font-weight: 700; color: var(--ft-accent); white-space: normal; line-height: 1.2; word-break: break-word; min-width: 0; }
+.ft-week-row-single .ft-weekend-text { font-size: 0.8rem; }
 /* Day view fills whatever vertical room the viewport has instead of stopping at
    a fixed height and leaving dead space below (was a flat 320px min-height with
    no flex chain to grow it) — .ft-main -> .ft-cal -> .ft-cal-body -> .ft-day all
@@ -135,6 +157,13 @@
 .ft-chip-planned { border-style: dashed; }
 .ft-chip-icon { font-size: 0.85rem; line-height: 1; }
 .ft-chip-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ft-chip-labels { display: flex; flex-direction: column; overflow: hidden; min-width: 0; flex: 1; }
+/* The goal target (and, once logged, the real result next to it) now render
+   INLINE on the chip — previously the target only existed in the hover
+   tooltip, which is exactly the gap this fixes. */
+.ft-chip-target { font-size: 0.66rem; font-weight: 600; opacity: 0.85; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ft-chip-target small { opacity: 0.7; font-weight: 500; }
+.ft-chip-realism-flag { font-size: 0.68rem; flex: none; }
 .ft-chip-selected { outline: 2px solid #60a5fa; outline-offset: 1px; }
 .ft-chip-group-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; margin-left: auto; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4); }
 
@@ -144,12 +173,14 @@
    empty space around identically-sized chips. */
 .ft-cell-week .ft-chip { font-size: 0.86rem; padding: 5px 9px; gap: 6px; border-radius: 8px; }
 .ft-cell-week .ft-chip-icon { font-size: 1.05rem; }
+.ft-cell-week .ft-chip-target { font-size: 0.76rem; }
 .ft-cell-day .ft-chip { font-size: 0.95rem; padding: 7px 11px; gap: 8px; border-radius: 9px; }
 .ft-cell-day .ft-chip-icon { font-size: 1.2rem; }
+.ft-cell-day .ft-chip-target { font-size: 0.85rem; }
 
 /* ---- calendar multi-select: marquee drag + bulk selection bar ---- */
 .ft-cal-body { position: relative; user-select: none; flex: 1; display: flex; flex-direction: column; min-height: 0; }
-.ft-cal-body > .ft-month, .ft-cal-body > .ft-week { flex: none; }
+.ft-cal-body > .ft-month, .ft-cal-body > .ft-week-row { flex: none; }
 .ft-marquee {
   position: fixed; z-index: 900; background: rgba(96, 165, 250, 0.15);
   border: 1.5px solid #60a5fa; border-radius: 4px; pointer-events: none;
@@ -274,6 +305,7 @@
      their text (and their larger .ft-cell-week/.ft-cell-day chip sizing above)
      so "zooming in" still means something on mobile, not just on desktop. */
   .ft-cell-month .ft-chip-text { display: none; }
+  .ft-cell-month .ft-chip-target { display: none; }
   .ft-week { grid-template-columns: 1fr; }
   .ft-cell-week { min-height: 140px; }
   .ft-two { grid-template-columns: 1fr; }
@@ -479,8 +511,25 @@
 .ft-goal-forecast { color: #67e8f9; }
 .ft-goal-accepted { color: var(--ft-accent); background: rgba(163, 230, 53, 0.14); }
 .ft-goal-abandoned { color: var(--ft-muted); }
+.ft-goal-paused { color: #fbbf24; background: rgba(251, 191, 36, 0.14); }
+.ft-goal-closed_met { color: var(--ft-accent); background: rgba(163, 230, 53, 0.14); }
+.ft-goal-closed_not_met { color: var(--ft-muted); }
 .ft-goal-actions { display: flex; gap: 6px; flex: none; }
 .ft-goal-actions .ft-btn-ghost { padding: 6px 12px; font-size: 0.78rem; }
+
+/* Realism index — non-blocking, informational badge/flag (Guidelines_Forecast.md §7) */
+.ft-realism-badge { padding: 2px 9px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
+.ft-realism-conservative { color: var(--ft-accent); background: rgba(163, 230, 53, 0.14); }
+.ft-realism-plausible { color: #fbbf24; background: rgba(251, 191, 36, 0.14); }
+.ft-realism-implausible { color: #fb7185; background: rgba(251, 113, 133, 0.14); }
+.ft-insight-v.ft-realism-conservative, .ft-insight-v.ft-realism-plausible, .ft-insight-v.ft-realism-implausible { padding: 1px 8px; border-radius: 8px; }
+
+/* Checkpoint panel (EntryEditor) — target/realism for the workout's own checkpoint */
+.ft-checkpoint-panel {
+  background: var(--ft-bg); border: 1px solid var(--ft-border); border-radius: 12px;
+  padding: 12px; margin-bottom: 16px;
+}
+.ft-checkpoint-panel .ft-insights { margin-bottom: 10px; }
 
 /* "part of goal" banner in EntryEditor */
 .ft-goal-banner {

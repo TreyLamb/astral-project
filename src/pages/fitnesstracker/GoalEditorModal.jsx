@@ -1,39 +1,59 @@
 import { useState } from 'react';
 import { useFitness } from './fitnessContext';
-import { todayISO } from './fitnessConfig';
+import { todayISO, goalDeadline } from './fitnessConfig';
 import ClearableInput from './ClearableInput';
 import { PR_BUCKETS } from './calc/pr';
 import { vdotFromRace, equivalentRaceTime } from './calc/vdot';
-import { estimateRunBaseline, estimateSwimBaseline, estimateLiftBaseline, forecastWeeks, forecastGenericWeeks, buildPlan } from './calc/goals';
+import { estimateRunBaseline, estimateSwimBaseline, estimateLiftBaseline, forecastWeeks, forecastGenericWeeks } from './calc/goals';
+import { buildCheckpoints, recomputeFrom, mostRecentTouchIndex, buildTaskSessions, formatCheckpointValue } from './calc/checkpoints';
 import { addDaysISO } from './calc/planning';
 import { clockToSec, secToClock, weightToKg, kgToWeight, distanceToMeters, metersToDistance } from './units';
 
 const DAYS_OPTIONS = [2, 3, 4, 5, 6, 7];
+const CADENCE_OPTIONS = ['auto', 'daily', 'everyNDays', 'weekly', 'weekdays'];
+const WEEKDAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const REALISM_RANK = { conservative: 0, plausible: 1, implausible: 2 };
 
 function round2(n) { return n == null ? null : Math.round(n * 100) / 100; }
 
-// Forecast-then-accept goal editor. Creating: pick an activity, set a target,
-// see a live weeks-to-goal estimate, then either save it as a forecast (no
-// calendar impact yet) or accept it — which generates planned workouts tagged
-// with this goal across the forecast window (see calc/goals.js buildPlan).
-// Editing an accepted goal re-runs the same math and regenerates every FUTURE,
-// not-yet-completed planned session tied to it — past/completed sessions are
-// left untouched.
+function worstBand(checkpoints) {
+  let worst = null;
+  for (const cp of checkpoints) {
+    const band = cp.realism?.band;
+    if (!band) continue;
+    if (!worst || REALISM_RANK[band] > REALISM_RANK[worst]) worst = band;
+  }
+  return worst;
+}
+
+// Forecast-then-accept, checkpoint-tracked goal editor. Creating: pick an
+// activity, set a target + a real deadline, see a live checkpoint trajectory
+// preview (target curve + realism), then either save it as a forecast (no
+// calendar impact yet) or accept it — which generates checkpoint-dated planned
+// workouts + plain task-frequency training days, all tagged with this goal.
+// Editing an accepted goal recomputes forward from its most recently touched
+// checkpoint (Guidelines_Forecast.md §6) instead of deleting and regenerating
+// everything; a structural change (deadline/cadence) rebuilds the schedule
+// from that same touch point forward while preserving logged/overridden
+// history as historical waypoints.
 //
 // Every numeric input here is free entry — no distance/value is locked behind
 // a fixed preset dropdown, and "Current" is always user-editable (prefilled
-// from logged history when available) rather than silently requiring existing
-// logged data before a goal can be accepted.
+// from logged history/weigh-ins when available) rather than silently
+// requiring existing data before a goal can be accepted.
 export default function GoalEditorModal({ goal, onClose }) {
-  const { activityTypes, workouts, addWorkout, removeWorkout, addGoal, updateGoal, settings } = useFitness();
+  const {
+    activityTypes, workouts, bodyWeightLogs, addWorkout, removeWorkout, addGoal, updateGoal, settings,
+  } = useFitness();
   const editing = !!goal;
   const weightUnit = settings.units.weight;
   const distUnit = settings.units.distance;
+  const units = settings.units;
 
   const forecastable = activityTypes.filter((t) => t.kind !== 'event');
   const [activityTypeId, setActivityTypeId] = useState(goal?.activityType || forecastable[0]?.id || 'run');
   const selectedType = activityTypes.find((t) => t.id === activityTypeId) || forecastable[0];
-  const kind = ['run', 'swim', 'lift'].includes(selectedType?.kind) ? selectedType.kind : 'generic';
+  const kind = ['run', 'swim', 'lift', 'weight'].includes(selectedType?.kind) ? selectedType.kind : 'generic';
 
   // ---- run: free-text distance (PR_BUCKETS offered only as quick-pick buttons) ----
   const [runDistanceValue, setRunDistanceValue] = useState(() => {
@@ -62,13 +82,38 @@ export default function GoalEditorModal({ goal, onClose }) {
   const [liftCurrentWeight, setLiftCurrentWeight] = useState(() => (goal?.kind === 'lift' && goal.baselineValue ? String(round2(kgToWeight(goal.baselineValue, weightUnit))) : ''));
   const autoLiftBaseline = estimateLiftBaseline(workouts, exerciseName);
 
+  // ---- weight (body composition — new) ----
+  const [weightCurrentInput, setWeightCurrentInput] = useState(() => (goal?.kind === 'weight' && goal.baselineValue != null ? String(round2(kgToWeight(goal.baselineValue, weightUnit))) : ''));
+  const [weightTargetInput, setWeightTargetInput] = useState(() => (goal?.kind === 'weight' && goal.targetValue != null ? String(round2(kgToWeight(goal.targetValue, weightUnit))) : ''));
+  const [direction, setDirection] = useState(goal?.direction || 'loss');
+  const sortedWeightLogs = [...bodyWeightLogs].sort((a, b) => (b.date + (b.time || '')).localeCompare(a.date + (a.time || '')));
+  const autoWeightBaseline = sortedWeightLogs[0]?.weightKg ?? null;
+
   // ---- generic ----
   const [genericLabel, setGenericLabel] = useState(goal?.kind === 'generic' ? goal.label : '');
   const [genericCurrent, setGenericCurrent] = useState(goal?.kind === 'generic' && goal.baselineValue != null ? String(goal.baselineValue) : '');
   const [genericTarget, setGenericTarget] = useState(goal?.kind === 'generic' && goal.targetValue != null ? String(goal.targetValue) : '');
   const [higherIsBetter, setHigherIsBetter] = useState(true);
 
-  const [daysPerWeek, setDaysPerWeek] = useState(goal?.daysPerWeek || 3);
+  // ---- deadline (real input — Goal = target + deadline, not a computed output) ----
+  const [deadlineMode, setDeadlineMode] = useState(goalDeadline(goal) ? 'date' : 'weeks');
+  const [deadlineDateInput, setDeadlineDateInput] = useState(goalDeadline(goal) || '');
+  const [durationWeeksInput, setDurationWeeksInput] = useState(goal?.durationWeeks != null ? String(goal.durationWeeks) : '');
+  const resolvedDeadline = deadlineMode === 'date'
+    ? (deadlineDateInput || null)
+    : (durationWeeksInput !== '' ? addDaysISO(todayISO(), Math.round(Number(durationWeeksInput) * 7)) : null);
+
+  // ---- task frequency (how often you train) vs checkpoint cadence (how often
+  // the forecast re-benchmarks) — two independent settings (Guidelines_Forecast.md §1) ----
+  const [taskDaysPerWeek, setTaskDaysPerWeek] = useState(goal?.taskFrequency?.value ?? goal?.daysPerWeek ?? 3);
+  const [cadenceType, setCadenceType] = useState(goal?.cadence?.type || 'auto');
+  const [cadenceN, setCadenceN] = useState(goal?.cadence?.type === 'everyNDays' ? String(goal.cadence.n) : '3');
+  const [cadenceWeekdays, setCadenceWeekdays] = useState(goal?.cadence?.type === 'weekdays' ? (goal.cadence.days || []) : []);
+  const toggleCadenceWeekday = (i) => setCadenceWeekdays((prev) => (prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i].sort()));
+  const resolvedCadence = cadenceType === 'everyNDays' ? { type: 'everyNDays', n: Math.max(1, Math.round(Number(cadenceN) || 3)) }
+    : cadenceType === 'weekdays' ? { type: 'weekdays', days: cadenceWeekdays }
+    : { type: cadenceType };
+
   const [note, setNote] = useState(goal?.note || '');
   const [saving, setSaving] = useState(false);
 
@@ -93,58 +138,103 @@ export default function GoalEditorModal({ goal, onClose }) {
   } else if (kind === 'lift') {
     if (liftCurrentWeight !== '') { baselineValue = weightToKg(liftCurrentWeight, weightUnit); baselineIsManual = true; }
     else baselineValue = autoLiftBaseline;
+  } else if (kind === 'weight') {
+    if (weightCurrentInput !== '') { baselineValue = weightToKg(weightCurrentInput, weightUnit); baselineIsManual = true; }
+    else baselineValue = autoWeightBaseline;
   } else {
     baselineValue = genericCurrent === '' ? null : Number(genericCurrent);
     baselineIsManual = genericCurrent !== '';
   }
+  // Operational definition of "zero-data / provisional" for this app: the
+  // baseline came from a typed guess rather than an actual logged workout or
+  // weigh-in. The UI always lets you type a Current value (so a goal is never
+  // permanently blocked), but only a REAL log confirms it — see
+  // Guidelines_Forecast.md §4's "provisional until a real result lands."
+  const hasRealBaseline = !baselineIsManual;
 
   let targetValue;
   if (kind === 'run') { const s = clockToSec(runTargetClock); targetValue = (s && runDistanceM) ? vdotFromRace(runDistanceM, s) : null; }
   else if (kind === 'swim') targetValue = clockToSec(swimTargetClock);
   else if (kind === 'lift') targetValue = liftTargetWeight === '' ? null : weightToKg(liftTargetWeight, weightUnit);
+  else if (kind === 'weight') targetValue = weightTargetInput === '' ? null : weightToKg(weightTargetInput, weightUnit);
   else targetValue = genericTarget === '' ? null : Number(genericTarget);
 
-  const weeks = (baselineValue == null || targetValue == null) ? null
-    : (kind === 'generic' ? forecastGenericWeeks(baselineValue, targetValue, daysPerWeek, higherIsBetter) : forecastWeeks(kind, baselineValue, targetValue, daysPerWeek));
-
-  const targetDate = weeks ? addDaysISO(todayISO(), weeks * 7) : null;
+  // Kept as a SUGGESTION only (feeds the "use suggested date" quick-fill) —
+  // the actual deadline driving the checkpoint curve is the explicit input
+  // above, not this heuristic's computed output (that inversion — computed
+  // target date instead of a real deadline input — was the Phase-9 gap).
+  const suggestedWeeks = (baselineValue == null || targetValue == null) ? null
+    : (kind === 'generic' ? forecastGenericWeeks(baselineValue, targetValue, taskDaysPerWeek, higherIsBetter)
+      : kind === 'weight' ? forecastGenericWeeks(baselineValue, targetValue, taskDaysPerWeek, direction === 'gain')
+        : forecastWeeks(kind, baselineValue, targetValue, taskDaysPerWeek));
 
   let baselineDisplay = '—';
   if (baselineValue != null) {
     if (kind === 'run' && runDistanceM) baselineDisplay = `${secToClock(Math.round(equivalentRaceTime(baselineValue, runDistanceM)))} at ${runDistanceValue}${distUnit}`;
     else if (kind === 'swim') baselineDisplay = `${secToClock(Math.round(baselineValue))}/100m`;
     else if (kind === 'lift') baselineDisplay = `${round2(kgToWeight(baselineValue, weightUnit))} ${weightUnit}`;
+    else if (kind === 'weight') baselineDisplay = `${round2(kgToWeight(baselineValue, weightUnit))} ${weightUnit}`;
     else if (kind === 'generic') baselineDisplay = String(baselineValue);
   }
-  const baselineSourceNote = baselineValue != null ? (baselineIsManual ? 'entered' : 'from your logs') : null;
+  const baselineSourceNote = baselineValue != null ? (baselineIsManual ? 'entered' : (kind === 'weight' ? 'from your weigh-ins' : 'from your logs')) : null;
 
-  function formatSessionTarget(v) {
-    if (v == null) return '';
-    if (kind === 'run' && runDistanceM) return `${secToClock(Math.round(equivalentRaceTime(v, runDistanceM)))} at ${runDistanceValue}${distUnit} pace`;
-    if (kind === 'swim') return `${secToClock(Math.round(v))}/100m`;
-    if (kind === 'lift') return `${round2(kgToWeight(v, weightUnit))} ${weightUnit} ${exerciseName}`;
-    return `${round2(v)} ${genericLabel}`;
-  }
+  const canForecast = baselineValue != null && targetValue != null && !!resolvedDeadline;
+
+  const draftLabel = kind === 'run' ? `${runDistanceValue}${distUnit}` : kind === 'swim' ? 'Swim pace' : kind === 'lift' ? exerciseName : kind === 'weight' ? 'Body weight' : genericLabel;
+  const draftGoal = {
+    kind, label: draftLabel, targetValue, baselineValue, targetDistanceM: kind === 'run' ? runDistanceM : null,
+    direction: kind === 'weight' ? direction : null,
+    startDate: goal?.startDate || todayISO(), deadline: resolvedDeadline, cadence: resolvedCadence,
+  };
+  const previewCheckpoints = canForecast ? buildCheckpoints(draftGoal, { hasRealBaseline }) : [];
+  const worst = worstBand(previewCheckpoints);
+  // The first REAL progress point (skip index 0, which is just the start
+  // date == baseline) — "what number would I need to hit" for the user's own
+  // deadline, not an alternate suggested timeline.
+  const firstPreviewCheckpoint = previewCheckpoints.length > 1 ? previewCheckpoints[1] : previewCheckpoints[0] || null;
 
   function buildPayload(status) {
-    const label = kind === 'run' ? `${runDistanceValue}${distUnit}` : kind === 'swim' ? 'Swim pace' : kind === 'lift' ? exerciseName : genericLabel;
     return {
-      activityType: activityTypeId, kind, label,
+      activityType: activityTypeId, kind, label: draftLabel,
       targetDistanceM: kind === 'run' ? runDistanceM : null,
-      targetValue, baselineValue, daysPerWeek,
-      startDate: goal?.startDate || todayISO(), forecastWeeks: weeks, targetDate,
+      targetValue, baselineValue, baselineDate: todayISO(),
+      direction: kind === 'weight' ? direction : null,
+      deadline: resolvedDeadline, durationWeeks: deadlineMode === 'weeks' && durationWeeksInput !== '' ? Number(durationWeeksInput) : null,
+      taskFrequency: { type: 'daysPerWeek', value: taskDaysPerWeek }, daysPerWeek: taskDaysPerWeek,
+      cadence: resolvedCadence,
+      startDate: goal?.startDate || todayISO(),
+      forecastWeeks: suggestedWeeks, targetDate: resolvedDeadline,
       status, note,
     };
   }
-
-  const canForecast = baselineValue != null && targetValue != null && weeks != null;
 
   async function saveForecastOnly() {
     if (saving) return;
     setSaving(true);
     const payload = buildPayload('forecast');
-    if (editing) await updateGoal(goal.id, payload); else await addGoal(payload);
+    const checkpoints = resolvedDeadline ? buildCheckpoints(payload, { hasRealBaseline }) : (goal?.checkpoints ?? null);
+    if (editing) await updateGoal(goal.id, { ...payload, checkpoints }); else await addGoal({ ...payload, checkpoints });
     onClose();
+  }
+
+  // Reconciles calendar rows against a freshly computed checkpoint/task-day
+  // schedule — a real diff, not "delete everything future and regenerate."
+  // Targets are derived LIVE from goal.checkpoints wherever they're displayed
+  // (CalendarView/EntryEditor), so an existing row on a still-valid date needs
+  // no write at all here; only rows whose date fell OUT of the new schedule
+  // (and are still planned, not completed) get removed, and only genuinely
+  // new dates get a row added.
+  async function reconcileWorkouts(goalId, checkpointDates, taskDates) {
+    const allDates = new Set([...checkpointDates, ...taskDates]);
+    const existingRows = workouts.filter((w) => w.goalId === goalId);
+    const existingByDate = new Map(existingRows.map((w) => [w.date, w]));
+    const today = todayISO();
+    for (const w of existingRows) {
+      if (w.status === 'planned' && w.date >= today && !allDates.has(w.date)) await removeWorkout(w.id);
+    }
+    for (const date of allDates) {
+      if (!existingByDate.has(date)) await addWorkout({ date, activityType: activityTypeId, status: 'planned', goalId });
+    }
   }
 
   async function acceptAndSchedule() {
@@ -152,22 +242,43 @@ export default function GoalEditorModal({ goal, onClose }) {
     setSaving(true);
     const payload = buildPayload('accepted');
     let goalId = goal?.id;
-    if (editing) {
-      await updateGoal(goal.id, payload);
-      // regenerate: drop future, not-yet-completed sessions from the old plan
-      const stale = workouts.filter((w) => w.goalId === goal.id && w.status === 'planned' && w.date >= todayISO());
-      for (const w of stale) await removeWorkout(w.id);
+    const existing = editing ? goal.checkpoints : null;
+    const touchIdx = existing ? mostRecentTouchIndex(existing) : -1;
+    const structuralChange = editing && existing && (goalDeadline(goal) !== payload.deadline || JSON.stringify(goal.cadence) !== JSON.stringify(payload.cadence));
+
+    let checkpoints;
+    if (!existing || touchIdx === -1) {
+      // No history to preserve (new goal, or an old pre-checkpoint goal being
+      // upgraded on re-save) — a full build from the current baseline.
+      checkpoints = buildCheckpoints(payload, { hasRealBaseline });
+    } else if (!structuralChange) {
+      // Same schedule, retargeted values only — recompute forward from the
+      // most recently touched point, nothing before it moves (§6).
+      const anchorCp = existing[touchIdx];
+      const anchorValue = anchorCp.source === 'override' ? anchorCp.targetValue : anchorCp.actualValue;
+      checkpoints = recomputeFrom(payload.kind, existing, touchIdx, anchorValue, { targetValue: payload.targetValue, deadline: payload.deadline, direction: payload.direction });
     } else {
-      const saved = await addGoal(payload);
+      // Deadline or cadence itself changed mid-course: preserve touched
+      // history as historical waypoints, then rebuild the SCHEDULE (not just
+      // values) from that touch point forward to the new deadline/cadence —
+      // "editing the end goal recomputes the entire remaining curve" (§6),
+      // extended to cover a genuinely new date list, not only new targets at
+      // the old dates.
+      const anchorCp = existing[touchIdx];
+      const anchorValue = anchorCp.source === 'override' ? anchorCp.targetValue : anchorCp.actualValue;
+      const rebuilt = buildCheckpoints({ ...payload, startDate: anchorCp.date, baselineValue: anchorValue }, { hasRealBaseline: true });
+      checkpoints = [...existing.slice(0, touchIdx + 1), ...rebuilt.filter((c) => c.date > anchorCp.date)];
+    }
+
+    if (editing) {
+      await updateGoal(goal.id, { ...payload, checkpoints });
+    } else {
+      const saved = await addGoal({ ...payload, checkpoints });
       goalId = saved.id;
     }
-    const sessions = buildPlan(todayISO(), weeks, daysPerWeek, baselineValue, targetValue);
-    for (const s of sessions) {
-      await addWorkout({
-        date: s.date, activityType: activityTypeId, status: 'planned', goalId,
-        metrics: { goalTarget: formatSessionTarget(s.targetValue) },
-      });
-    }
+    const checkpointDates = checkpoints.map((c) => c.date);
+    const taskDates = buildTaskSessions(payload.startDate, payload.deadline, payload.taskFrequency, checkpointDates);
+    await reconcileWorkouts(goalId, checkpointDates, taskDates);
     onClose();
   }
 
@@ -178,6 +289,10 @@ export default function GoalEditorModal({ goal, onClose }) {
           <h3>{editing ? 'Edit goal' : 'New goal'}</h3>
           <button type="button" className="ft-x" onClick={onClose} aria-label="Close">✕</button>
         </div>
+
+        {editing && !goal.checkpoints && (
+          <p className="ft-hint-sm ft-goal-incomplete-hint">This goal predates checkpoint tracking — save or accept again below to upgrade it.</p>
+        )}
 
         <label className="ft-field-label">Activity</label>
         <div className="ft-type-row">
@@ -250,6 +365,26 @@ export default function GoalEditorModal({ goal, onClose }) {
           </>
         )}
 
+        {kind === 'weight' && (
+          <>
+            <div className="ft-two">
+              <div className="ft-field">
+                <label className="ft-field-label">Current weight ({weightUnit})</label>
+                <ClearableInput inputMode="decimal" value={weightCurrentInput} onChange={(e) => setWeightCurrentInput(e.target.value)} onClear={() => setWeightCurrentInput('')} placeholder={autoWeightBaseline ? 'from your weigh-ins' : 'e.g. 180'} />
+              </div>
+              <div className="ft-field">
+                <label className="ft-field-label">Target weight ({weightUnit})</label>
+                <ClearableInput inputMode="decimal" value={weightTargetInput} onChange={(e) => setWeightTargetInput(e.target.value)} onClear={() => setWeightTargetInput('')} placeholder="e.g. 165" />
+              </div>
+            </div>
+            <div className="ft-status-toggle">
+              <button type="button" className={direction === 'loss' ? 'active' : ''} onClick={() => setDirection('loss')}>↓ Lose weight</button>
+              <button type="button" className={direction === 'gain' ? 'active' : ''} onClick={() => setDirection('gain')}>↑ Gain weight</button>
+            </div>
+            <p className="ft-hint-sm">Rate-capped against ISSN diet research (0.5–0.75% bodyweight/wk loss) and lean-bulk research (0.25–0.5%/wk gain) — see Realism below. Never softened, only flagged if you push past it.</p>
+          </>
+        )}
+
         {kind === 'generic' && (
           <>
             <div className="ft-field">
@@ -273,36 +408,94 @@ export default function GoalEditorModal({ goal, onClose }) {
           </>
         )}
 
-        <label className="ft-field-label">Days per week</label>
-        <p className="ft-hint-sm">How many days a week you'll train toward this goal — more days shortens the forecast below, and sets how many sessions get added to your calendar once you accept.</p>
-        <div className="ft-move-days" style={{ marginBottom: 14 }}>
+        <label className="ft-field-label">Deadline</label>
+        <div className="ft-status-toggle">
+          <button type="button" className={deadlineMode === 'date' ? 'active' : ''} onClick={() => setDeadlineMode('date')}>Pick a date</button>
+          <button type="button" className={deadlineMode === 'weeks' ? 'active' : ''} onClick={() => setDeadlineMode('weeks')}>In N weeks</button>
+        </div>
+        {deadlineMode === 'date' ? (
+          <input className="ft-input" type="date" value={deadlineDateInput} onChange={(e) => setDeadlineDateInput(e.target.value)} />
+        ) : (
+          <ClearableInput inputMode="numeric" value={durationWeeksInput} onChange={(e) => setDurationWeeksInput(e.target.value)} onClear={() => setDurationWeeksInput('')} placeholder="e.g. 12" />
+        )}
+        {suggestedWeeks != null && !resolvedDeadline && (
+          <button type="button" className="ft-btn-ghost" style={{ marginTop: 6 }} onClick={() => { setDeadlineMode('date'); setDeadlineDateInput(addDaysISO(todayISO(), suggestedWeeks * 7)); }}>
+            Use suggested ~{suggestedWeeks} wk{suggestedWeeks === 1 ? '' : 's'} ({addDaysISO(todayISO(), suggestedWeeks * 7)})
+          </button>
+        )}
+
+        <label className="ft-field-label">Task frequency — how many days a week you'll train</label>
+        <div className="ft-move-days" style={{ marginBottom: 10 }}>
           {DAYS_OPTIONS.map((d) => (
-            <button key={d} type="button" className={`ft-btn-ghost${daysPerWeek === d ? ' active' : ''}`} onClick={() => setDaysPerWeek(d)}>{d}</button>
+            <button key={d} type="button" className={`ft-btn-ghost${taskDaysPerWeek === d ? ' active' : ''}`} onClick={() => setTaskDaysPerWeek(d)}>{d}</button>
           ))}
         </div>
 
+        <label className="ft-field-label">Checkpoint frequency — how often the forecast re-benchmarks</label>
+        <p className="ft-hint-sm">Separate from task frequency above — you can train more often than you're graded, or vice versa.</p>
+        <div className="ft-type-row">
+          {CADENCE_OPTIONS.map((ct) => (
+            <button key={ct} type="button" className={`ft-type-btn${cadenceType === ct ? ' active' : ''}`} onClick={() => setCadenceType(ct)}>
+              {ct === 'auto' ? 'Auto' : ct === 'everyNDays' ? 'Every N days' : ct[0].toUpperCase() + ct.slice(1)}
+            </button>
+          ))}
+        </div>
+        {cadenceType === 'everyNDays' && (
+          <div className="ft-field" style={{ maxWidth: 160 }}>
+            <label className="ft-field-label">N days</label>
+            <ClearableInput inputMode="numeric" value={cadenceN} onChange={(e) => setCadenceN(e.target.value)} onClear={() => setCadenceN('')} placeholder="e.g. 4" />
+          </div>
+        )}
+        {cadenceType === 'weekdays' && (
+          <div className="ft-move-days">
+            {WEEKDAY_LABELS.map((d, i) => (
+              <button key={d} type="button" className={`ft-btn-ghost${cadenceWeekdays.includes(i) ? ' active' : ''}`} onClick={() => toggleCadenceWeekday(i)}>{d}</button>
+            ))}
+          </div>
+        )}
+
         <div className="ft-insights">
+          {/* "Baseline" not "Current" — sharing the editable field's label read as a locked duplicate of it. */}
           <div className="ft-insight">
-            <span className="ft-insight-k">Current{baselineSourceNote ? ` (${baselineSourceNote})` : ''}</span>
+            <span className="ft-insight-k">Baseline{baselineSourceNote ? ` (${baselineSourceNote})` : ''}</span>
             <span className="ft-insight-v">{baselineDisplay}</span>
           </div>
-          <div className="ft-insight">
-            <span className="ft-insight-k">Forecast</span>
-            <span className="ft-insight-v">
-              {weeks == null ? '—' : weeks === 0 ? 'Already there' : `~${weeks} wk${weeks === 1 ? '' : 's'}`}
-            </span>
-          </div>
-          {targetDate && <div className="ft-insight"><span className="ft-insight-k">Target date</span><span className="ft-insight-v">{targetDate}</span></div>}
+          {/* "Suggested pace" is only a HELPER for picking a deadline before you've
+              set one — once you have, this row shows YOUR numbers for YOUR
+              deadline (the first checkpoint on your actual trajectory), never a
+              competing alternate pace that isn't the plan you asked for. */}
+          {!resolvedDeadline && (
+            <div className="ft-insight">
+              <span className="ft-insight-k">Suggested pace</span>
+              <span className="ft-insight-v">
+                {suggestedWeeks == null ? '—' : suggestedWeeks === 0 ? 'Already there' : `~${suggestedWeeks} wk${suggestedWeeks === 1 ? '' : 's'}`}
+              </span>
+            </div>
+          )}
+          {resolvedDeadline && <div className="ft-insight"><span className="ft-insight-k">Deadline</span><span className="ft-insight-v">{resolvedDeadline}</span></div>}
+          {firstPreviewCheckpoint && (
+            <div className="ft-insight">
+              <span className="ft-insight-k">First checkpoint ({firstPreviewCheckpoint.date})</span>
+              <span className="ft-insight-v">{formatCheckpointValue(draftGoal, firstPreviewCheckpoint.targetValue, units)}</span>
+            </div>
+          )}
+          {previewCheckpoints.length > 0 && (
+            <div className="ft-insight">
+              <span className="ft-insight-k">Realism</span>
+              <span className={`ft-insight-v ft-realism-${worst || 'conservative'}`}>{worst || 'conservative'}</span>
+            </div>
+          )}
         </div>
         {!canForecast && (
           <p className="ft-hint-sm ft-goal-incomplete-hint">
             {kind === 'run' && !runDistanceM && 'Enter a distance to continue. '}
-            {baselineValue == null && 'Enter a "Current" value above — '}
-            {targetValue == null && 'Enter a target value above — '}
-            {(baselineValue == null || targetValue == null) && "there's no logged history to estimate from yet, so this needs to be typed in."}
+            {baselineValue == null && 'Enter a "Current" value in the section above (scroll up) — '}
+            {targetValue == null && 'Enter a target value in the section above — '}
+            {!resolvedDeadline && 'Set a deadline above — '}
+            {(baselineValue == null || targetValue == null || !resolvedDeadline) && "the checkpoint trajectory can't be computed until these are filled in."}
           </p>
         )}
-        <p className="ft-hint-sm">Forecast is a planning estimate from a training-frequency heuristic, not a guarantee — revise it as real results come in.</p>
+        <p className="ft-hint-sm">Forecast is a planning estimate, not a guarantee — checkpoints are computed exactly and flagged when aggressive, never softened or refused. Revise it as real results come in.</p>
 
         <div className="ft-field">
           <label className="ft-field-label">Note</label>

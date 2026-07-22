@@ -1,11 +1,13 @@
 import { useState, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFitness } from './fitnessContext';
-import { activityType, mealType, isoDate, todayISO, resolveGroups } from './fitnessConfig';
+import { activityType, mealType, isoDate, todayISO, resolveGroups, goalDeadline } from './fitnessConfig';
 import { formatDistance, secToClock } from './units';
+import { formatCheckpointValue, interpolatedTarget, parseOverrideValue, overridePlaceholderFor } from './calc/checkpoints';
 import GroupPicker from './GroupPicker';
 import MealDayView from './MealDayView';
 import GoalEditorModal from './GoalEditorModal';
+import ClearableInput from './ClearableInput';
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -13,6 +15,61 @@ const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
 
 function addDays(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); x.setHours(0, 0, 0, 0); return x; }
 function startOfWeek(d) { return addDays(d, -new Date(d).getDay()); }
+
+// Worst realism band across a goal's checkpoints — shown as a small summary
+// badge on the goal row, informational only (never blocks Edit/Accept/Pause).
+const REALISM_RANK = { conservative: 0, plausible: 1, implausible: 2 };
+function worstRealismBand(g) {
+  if (!g.checkpoints?.length) return null;
+  let worst = null;
+  for (const cp of g.checkpoints) {
+    const band = cp.realism?.band;
+    if (!band) continue;
+    if (!worst || REALISM_RANK[band] > REALISM_RANK[worst]) worst = band;
+  }
+  return worst;
+}
+
+// For every forecasted goal, the ON-PACE target at that Saturday — the curve
+// evaluated at that date, not the nearest discrete checkpoint. Checkpoints
+// can be sparse (weekly/monthly cadence), so snapping to "the last checkpoint
+// on or before this week" would show the same value for several weeks in a
+// row and could jump straight to the final goal value early on for a
+// short/coarse-cadence goal. The interpolated curve gives an actual
+// week-over-week progression between baseline and the end goal.
+function weekEndGoals(goals, activityTypes, saturdayISO) {
+  const out = [];
+  for (const g of goals) {
+    if (!g.checkpoints?.length) continue;
+    const deadline = goalDeadline(g);
+    if (!deadline || saturdayISO < g.startDate || saturdayISO > deadline) continue;
+    const value = interpolatedTarget(g, saturdayISO);
+    if (value != null) out.push({ goal: g, type: activityType(activityTypes, g.activityType), targetValue: value });
+  }
+  return out;
+}
+
+// Plain green marker, not the activity's own pictogram — this is a goal
+// summary, not another workout chip, so it shouldn't look like one. Colored
+// to match that goal's own activity color (same color as its row in the
+// Goals panel) so multiple goals stay visually distinguishable at a glance.
+// The target text is always ON the badge, not hidden behind a hover tooltip.
+// Clicking it opens a quick override — every week's on-pace number is a real,
+// editable touch point, not just a read-only preview.
+function WeekEndBadge({ goal, type, targetValue, units, onClick }) {
+  const targetText = formatCheckpointValue(goal, targetValue, units);
+  return (
+    <button
+      type="button" className="ft-weekend-badge"
+      style={{ borderColor: type.color, background: type.color + '1f', color: type.color }}
+      onClick={onClick}
+      title={`${goal.label || goal.kind} — end of week (click to retarget)`}
+    >
+      <span className="ft-weekend-dot" style={{ background: type.color, boxShadow: `0 0 6px ${type.color}b3` }} aria-hidden="true" />
+      <span className="ft-weekend-text" style={{ color: type.color }}>{targetText}</span>
+    </button>
+  );
+}
 
 function chipLabel(w, units) {
   if (w.distanceM != null) {
@@ -23,12 +80,18 @@ function chipLabel(w, units) {
   return '';
 }
 
-function WorkoutChip({ w, type, label, group, goal, selected, onEdit, onCtrlClick, onShiftClick }) {
+function WorkoutChip({ w, type, label, group, goal, units, checkpoint, selected, onEdit, onCtrlClick, onShiftClick }) {
   const completed = w.status === 'completed';
   // completed = filled with the type colour; planned = outline only.
   const style = completed
     ? { background: type.color, borderColor: type.color, color: '#0a0e12' }
     : { background: 'transparent', borderColor: type.color, color: type.color };
+  // Target (and, once logged, actual) render INLINE on the chip now, not only
+  // in the hover tooltip — the tooltip below stays as a bonus, not the only
+  // source of this info (that was the gap: goal targets were hover-only).
+  const targetText = checkpoint ? formatCheckpointValue(goal, checkpoint.targetValue, units) : (w.metrics?.goalTarget || null);
+  const actualText = checkpoint?.actualValue != null ? formatCheckpointValue(goal, checkpoint.actualValue, units) : null;
+  const realism = checkpoint?.realism;
   const goalTarget = w.metrics?.goalTarget;
   return (
     <button
@@ -44,10 +107,18 @@ function WorkoutChip({ w, type, label, group, goal, selected, onEdit, onCtrlClic
         if (e.shiftKey) { onShiftClick(w.id); return; }
         onEdit(w.id);
       }}
-      title={`${type.name}${label ? ' · ' + label : ''} (${completed ? 'done' : 'planned'})${group ? ` · Group #${group.number}` : ''}${goal ? ` · 🎯 ${goal.label || goal.activityType} goal${goalTarget ? ' — ' + goalTarget : ''}` : ''}`}
+      title={`${type.name}${label ? ' · ' + label : ''} (${completed ? 'done' : 'planned'})${group ? ` · Group #${group.number}` : ''}${goal ? ` · 🎯 ${goal.label || goal.activityType} goal${goalTarget ? ' — ' + goalTarget : ''}` : ''}${realism?.band === 'implausible' ? ` · ⚠ ${realism.note}` : ''}`}
     >
       <span className="ft-chip-icon">{type.icon}</span>
-      {label && <span className="ft-chip-text">{label}</span>}
+      <span className="ft-chip-labels">
+        {label && <span className="ft-chip-text">{label}</span>}
+        {targetText && (
+          <span className="ft-chip-target">
+            {actualText ? <>{actualText}<small> / {targetText}</small></> : targetText}
+          </span>
+        )}
+      </span>
+      {realism?.band === 'implausible' && <span className="ft-chip-realism-flag" aria-hidden="true">⚠</span>}
       {group && <span className="ft-chip-group-dot" style={{ background: group.color }} />}
       {goal && <span className="ft-chip-goal-pin" aria-hidden="true">🎯</span>}
     </button>
@@ -93,9 +164,27 @@ function DayCell({
         const t = activityType(types, w.activityType);
         const group = w.groupId ? groups.find((g) => g.id === w.groupId) || null : null;
         const goal = w.goalId ? goalsById.get(w.goalId) || null : null;
+        // Checkpoint is derived live from goal.checkpoints (single source of
+        // truth for the recompute engine) rather than persisted onto the
+        // workout row — old goals (saved before checkpoints existed) have
+        // checkpoints===null, so this is null for them and the chip falls
+        // back to the old metrics.goalTarget string, unchanged.
+        //
+        // Days tied to the goal that AREN'T a real checkpoint (plain task-
+        // frequency training days between the sparser checkpoint cadence)
+        // still get an on-pace target via interpolation — realism:null so no
+        // warning flag renders on what isn't a graded checkpoint, only a
+        // friendly estimate. Without this every non-checkpoint day showed no
+        // number at all, which read as broken/empty.
+        const realCheckpoint = goal?.checkpoints?.find((c) => c.date === w.date) || null;
+        let checkpoint = realCheckpoint;
+        if (!checkpoint && goal?.checkpoints) {
+          const interp = interpolatedTarget(goal, w.date);
+          if (interp != null) checkpoint = { targetValue: interp, source: 'interpolated', realism: null, provisional: false, actualValue: null, status: 'pending' };
+        }
         return (
           <WorkoutChip
-            key={w.id} w={w} type={t} label={chipLabel(w, units)} group={group} goal={goal}
+            key={w.id} w={w} type={t} label={chipLabel(w, units)} group={group} goal={goal} units={units} checkpoint={checkpoint}
             selected={selected.has(w.id)} onEdit={onEdit} onCtrlClick={onCtrlClick} onShiftClick={onShiftClick}
           />
         );
@@ -149,7 +238,7 @@ function rectsIntersect(a, b) {
 export default function CalendarView() {
   const {
     workouts, activityTypes, settings, updateSettings, moveWorkout, updateWorkout, openQuickAdd,
-    meals, mealTypes, goals, openMealQuickAdd, updateGoal, removeWorkout,
+    meals, mealTypes, goals, openMealQuickAdd, updateGoal, removeWorkout, logCheckpoint,
   } = useFitness();
   const navigate = useNavigate();
   const units = settings.units;
@@ -162,13 +251,33 @@ export default function CalendarView() {
   const [goalsPanelOpen, setGoalsPanelOpen] = useState(false);
   const [goalEditor, setGoalEditor] = useState(null); // null | 'new' | goal object
   const activeGoals = useMemo(
-    () => [...goals].filter((g) => g.status !== 'abandoned').sort((a, b) => (a.targetDate || '9999').localeCompare(b.targetDate || '9999')),
+    () => [...goals]
+      .filter((g) => g.status !== 'abandoned' && !g.status?.startsWith('closed'))
+      .sort((a, b) => (goalDeadline(a) || '9999').localeCompare(goalDeadline(b) || '9999')),
     [goals],
   );
   async function abandonGoal(g) {
     await updateGoal(g.id, { status: 'abandoned' });
     const stale = workouts.filter((w) => w.goalId === g.id && w.status === 'planned' && w.date >= todayISO());
     for (const w of stale) await removeWorkout(w.id);
+  }
+
+  // Click any week-end badge -> retarget that week directly, right from the
+  // calendar, without hunting down which day happens to carry the real
+  // checkpoint. logCheckpoint inserts a checkpoint at this date if one
+  // doesn't already exist there (most week-end dates are an interpolated
+  // on-pace estimate, not a formal cadence checkpoint) and recomputes
+  // everything after it forward — nothing before it moves.
+  const [weekOverride, setWeekOverride] = useState(null); // null | { goal, date, targetValue }
+  const [weekOverrideInput, setWeekOverrideInput] = useState('');
+  const openWeekOverride = (goal, date, targetValue) => { setWeekOverride({ goal, date, targetValue }); setWeekOverrideInput(''); };
+  async function applyWeekOverride() {
+    if (!weekOverride) return;
+    const val = parseOverrideValue(weekOverride.goal, weekOverrideInput, units.weight);
+    if (val == null) return;
+    await logCheckpoint(weekOverride.goal.id, weekOverride.date, val, 'override');
+    setWeekOverride(null);
+    setWeekOverrideInput('');
   }
 
   const [view, setView] = useState('month');
@@ -396,20 +505,25 @@ export default function CalendarView() {
             <div className="ft-goal-list">
               {activeGoals.map((g) => {
                 const t = activityType(activityTypes, g.activityType);
+                const worst = worstRealismBand(g);
                 return (
-                  <div key={g.id} className="ft-goal-row">
+                  <div key={g.id} className="ft-goal-row" style={{ borderLeft: `4px solid ${t.color}` }}>
                     <span className="ft-goal-icon">{t.icon}</span>
                     <div className="ft-goal-info">
                       <span className="ft-goal-label">{t.name} — {g.label || g.kind}</span>
                       <span className="ft-goal-meta">
                         <span className={`ft-goal-badge ft-goal-${g.status}`}>{g.status}</span>
-                        {g.daysPerWeek}x/wk
+                        {worst && <span className={`ft-realism-badge ft-realism-${worst}`}>{worst}</span>}
+                        {g.taskFrequency?.value ?? g.daysPerWeek}x/wk
                         {g.forecastWeeks != null && ` · ~${g.forecastWeeks} wk${g.forecastWeeks === 1 ? '' : 's'}`}
-                        {g.targetDate && ` · by ${g.targetDate}`}
+                        {goalDeadline(g) && ` · by ${goalDeadline(g)}`}
                       </span>
                     </div>
                     <div className="ft-goal-actions">
                       <button type="button" className="ft-btn-ghost" onClick={() => setGoalEditor(g)}>Edit</button>
+                      {g.status === 'paused'
+                        ? <button type="button" className="ft-btn-ghost" onClick={() => updateGoal(g.id, { status: 'accepted', pausedAt: null })}>Resume</button>
+                        : <button type="button" className="ft-btn-ghost" onClick={() => updateGoal(g.id, { status: 'paused', pausedAt: Date.now() })}>Pause</button>}
                       <button type="button" className="ft-btn-ghost" onClick={() => abandonGoal(g)}>Abandon</button>
                     </div>
                   </div>
@@ -425,14 +539,35 @@ export default function CalendarView() {
           const monthStart = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
           const gridStart = startOfWeek(monthStart);
           const days = Array.from({ length: 42 }, (_, i) => addDays(gridStart, i));
+          const weekRows = [];
+          for (let i = 0; i < 42; i += 7) weekRows.push(days.slice(i, i + 7));
           return (
             <div className="ft-month">
-              <div className="ft-weekhead">{WEEKDAYS.map((d) => <div key={d} className="ft-weekhead-cell">{d}</div>)}</div>
-              <div className="ft-month-grid">
-                {days.map((d) => (
-                  <DayCell key={isoDate(d)} variant="month" {...cellProps(d, d.getMonth() === cursor.getMonth())} />
-                ))}
+              <div className="ft-weekhead">
+                {WEEKDAYS.map((d) => <div key={d} className="ft-weekhead-cell">{d}</div>)}
+                <div className="ft-weekhead-cell ft-weekend-head">Goals</div>
               </div>
+              {weekRows.map((week) => {
+                const satISO = isoDate(week[6]);
+                const ends = weekEndGoals(activeGoals, activityTypes, satISO);
+                return (
+                  <div key={satISO} className="ft-week-row">
+                    <div className="ft-month-grid">
+                      {week.map((d) => (
+                        <DayCell key={isoDate(d)} variant="month" {...cellProps(d, d.getMonth() === cursor.getMonth())} />
+                      ))}
+                    </div>
+                    <div className="ft-weekend-col">
+                      {ends.map(({ goal, type, targetValue }) => (
+                        <WeekEndBadge
+                          key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
+                          onClick={() => openWeekOverride(goal, satISO, targetValue)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           );
         })()}
@@ -440,9 +575,21 @@ export default function CalendarView() {
         {view === 'week' && (() => {
           const s = startOfWeek(cursor);
           const days = Array.from({ length: 7 }, (_, i) => addDays(s, i));
+          const satISO = isoDate(days[6]);
+          const ends = weekEndGoals(activeGoals, activityTypes, satISO);
           return (
-            <div className="ft-week">
-              {days.map((d) => <DayCell key={isoDate(d)} variant="week" {...cellProps(d, true)} />)}
+            <div className="ft-week-row ft-week-row-single">
+              <div className="ft-week">
+                {days.map((d) => <DayCell key={isoDate(d)} variant="week" {...cellProps(d, true)} />)}
+              </div>
+              <div className="ft-weekend-col">
+                {ends.map(({ goal, type, targetValue }) => (
+                  <WeekEndBadge
+                    key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
+                    onClick={() => openWeekOverride(goal, satISO, targetValue)}
+                  />
+                ))}
+              </div>
             </div>
           );
         })()}
@@ -473,6 +620,32 @@ export default function CalendarView() {
 
       {goalEditor && (
         <GoalEditorModal goal={goalEditor === 'new' ? null : goalEditor} onClose={() => setGoalEditor(null)} />
+      )}
+
+      {weekOverride && (
+        <div className="ft-modal-backdrop" onClick={() => setWeekOverride(null)}>
+          <div className="ft-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+            <div className="ft-modal-head">
+              <h3>Retarget week of {weekOverride.date}</h3>
+              <button type="button" className="ft-x" onClick={() => setWeekOverride(null)} aria-label="Close">✕</button>
+            </div>
+            <p className="ft-hint-sm">
+              {weekOverride.goal.label || weekOverride.goal.kind} — currently on pace for {formatCheckpointValue(weekOverride.goal, weekOverride.targetValue, units)}.
+              Retargeting recomputes everything after this date; nothing before it moves.
+            </p>
+            <div className="ft-field">
+              <label className="ft-field-label">New value</label>
+              <ClearableInput
+                value={weekOverrideInput} onChange={(e) => setWeekOverrideInput(e.target.value)} onClear={() => setWeekOverrideInput('')}
+                placeholder={overridePlaceholderFor(weekOverride.goal, units.weight)}
+              />
+            </div>
+            <div className="ft-modal-actions">
+              <button type="button" className="ft-btn-ghost" onClick={() => setWeekOverride(null)}>Cancel</button>
+              <button type="button" className="ft-btn-primary" disabled={weekOverrideInput === ''} onClick={applyWeekOverride}>Apply</button>
+            </div>
+          </div>
+        </div>
       )}
       </div>
     </div>

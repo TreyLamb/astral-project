@@ -20,6 +20,7 @@ export const DEFAULT_ACTIVITY_TYPES = [
   { id: 'yoga', name: 'Yoga', kind: 'generic', color: '#a78bfa', icon: '🧘' },
   { id: 'event', name: 'Event', kind: 'event', color: '#c084fc', icon: '📅' }, // non-workout calendar drops ("POGO raichu day")
   { id: 'other', name: 'Other', kind: 'generic', color: '#94a3b8', icon: '⭐' },
+  { id: 'weighin', name: 'Weigh-in', kind: 'weight', color: '#fb923c', icon: '⚖️' }, // body-composition goal checkpoints resolve against BodyWeightLog, not a completed workout
 ];
 
 // Meal types — same "data, not code" rule as activity types: built-ins below,
@@ -195,13 +196,34 @@ export function newMeal(partial = {}) {
   };
 }
 
-// A training Goal: forecast-then-accept. Everything numeric is canonical
-// (seconds for time targets, meters for distance, kg for weight) so it composes
-// with the existing calculators (vdot.js / swim.js / lift.js) without re-deriving
-// unit handling. See calc/goals.js for the forecast math and plan generation.
-//   kind: 'run' | 'swim' | 'lift' | 'generic' — selects the forecast formula.
-//   status: 'forecast' (previewed, not on the calendar yet) | 'accepted' (plan
-//     generated onto the calendar) | 'abandoned'.
+// A training Goal: forecast-then-accept, checkpoint-tracked. Everything numeric
+// is canonical (seconds for time targets, meters for distance, kg for weight)
+// so it composes with the existing calculators (vdot.js / swim.js / lift.js /
+// bodyComposition.js) without re-deriving unit handling. See calc/checkpoints.js
+// for cadence/curve/recompute math, calc/curves.js for per-domain curve shape.
+//   kind: 'run' | 'swim' | 'lift' | 'generic' | 'weight' — selects the curve +
+//     realism model (calc/curves.js / calc/realism.js).
+//   direction: 'loss' | 'gain' — required for kind:'weight' (energy-balance
+//     math is direction-sensitive; irrelevant for other kinds).
+//   deadline: real user input, 'YYYY-MM-DD' — Goal = target + deadline
+//     (Guidelines_Forecast.md §1). durationWeeks is an alternate input form
+//     ("deadline OR duration") resolved to `deadline` at save time by the editor.
+//   taskFrequency: how often you train (separate from checkpoint cadence below
+//     — Guidelines_Forecast.md §1's task-frequency-vs-checkpoint-frequency
+//     split). `daysPerWeek` is kept as a plain mirror for old-goal back-compat
+//     reads; new code should read taskFrequency.value instead.
+//   cadence: how often the forecast re-benchmarks — independent of
+//     taskFrequency. { type: 'auto' } lets calc/checkpoints.js suggest one
+//     based on goal duration; other types are user-picked.
+//   checkpoints: ordered array of { date, targetValue, source, realism,
+//     provisional, actualValue, loggedAt, status } — the recompute source of
+//     truth (calc/checkpoints.js). null on goals saved before this existed, or
+//     not yet generated — see withGoalDefaults()/goalDeadline() below, which
+//     let old goals keep rendering/editing exactly as they did without a
+//     migration script (this app has none).
+//   status: 'forecast' (previewed, not on calendar) | 'accepted' (checkpoints
+//     generated onto the calendar) | 'paused' (frozen, not deleted) |
+//     'closed_met' | 'closed_not_met' | 'abandoned'.
 export function newGoal(partial = {}) {
   const now = Date.now();
   return {
@@ -210,14 +232,68 @@ export function newGoal(partial = {}) {
     kind: partial.kind || 'generic',
     label: partial.label ?? '',           // e.g. "1 mile", "Bench press"
     targetDistanceM: partial.targetDistanceM ?? null,  // run/swim time-goals
-    targetValue: partial.targetValue ?? null,          // seconds (run/swim) or kg (lift) or raw number (generic)
-    baselineValue: partial.baselineValue ?? null,       // estimated current performance, same unit as targetValue
-    daysPerWeek: partial.daysPerWeek ?? 3,
+    targetValue: partial.targetValue ?? null,          // seconds (run/swim), kg (lift/weight), or raw number (generic)
+    baselineValue: partial.baselineValue ?? null,       // estimated/entered current performance, same unit as targetValue
+    baselineDate: partial.baselineDate ?? null,         // when the baseline was true — anchors the with-data solve-backward curve
+    direction: partial.direction ?? null,               // 'loss' | 'gain' — kind:'weight' only
+    deadline: partial.deadline ?? null,
+    durationWeeks: partial.durationWeeks ?? null,
+    taskFrequency: partial.taskFrequency ?? { type: 'daysPerWeek', value: partial.daysPerWeek ?? 3 },
+    daysPerWeek: partial.daysPerWeek ?? 3,               // kept for back-compat reads; see taskFrequency
+    cadence: partial.cadence ?? { type: 'auto' },
+    checkpoints: partial.checkpoints ?? null,
     startDate: partial.startDate || todayISO(),
     forecastWeeks: partial.forecastWeeks ?? null,
-    targetDate: partial.targetDate ?? null,
+    targetDate: partial.targetDate ?? null,             // becomes an alias of `deadline` going forward — see goalDeadline()
     status: partial.status || 'forecast',
+    pausedAt: partial.pausedAt ?? null,
+    closedAt: partial.closedAt ?? null,
     note: partial.note ?? '',
+    createdAt: partial.createdAt ?? now,
+    updatedAt: now,
+  };
+}
+
+// Single accessor for "when is this goal due" — new goals set `deadline`
+// directly; goals saved before this field existed only have the computed
+// `targetDate`. Everywhere that needs a goal's due date should call this
+// instead of reaching into either field directly.
+export function goalDeadline(g) {
+  return g?.deadline || g?.targetDate || null;
+}
+
+// Back-fills fields added after a goal may have already been saved, without
+// rewriting localStorage/Firestore (this app has no migration tooling — see
+// CLAUDE.md). Call once per goal on read (storage getGoals() and the
+// fitnessContext load effect both do this) so every consumer can rely on
+// these fields existing, even for a goal saved under the old Phase-9 shape.
+export function withGoalDefaults(g) {
+  return {
+    ...g,
+    taskFrequency: g.taskFrequency ?? { type: 'daysPerWeek', value: g.daysPerWeek ?? 3 },
+    cadence: g.cadence ?? { type: 'auto' },
+    checkpoints: g.checkpoints ?? null,
+    status: g.status || 'forecast',
+  };
+}
+
+// A single body-weight log ("weigh-in"). Canonical unit = kg, same rule as
+// every other measurement in this file. bodyFatPct is captured for trend
+// context only — it is not a forecast target (no per-person body-fat model
+// is cited/researched; the 'weight' goal kind forecasts bodyweight only).
+// goalId is optional — set when a weigh-in is logged close enough to a
+// 'weight'-kind goal's scheduled checkpoint to auto-satisfy it (see
+// fitnessContext.js's addBodyWeightLog).
+export function newBodyWeightLog(partial = {}) {
+  const now = Date.now();
+  return {
+    id: newId(),
+    date: partial.date || todayISO(),
+    time: partial.time ?? '',
+    weightKg: partial.weightKg ?? null,
+    bodyFatPct: partial.bodyFatPct ?? null,
+    note: partial.note ?? '',
+    goalId: partial.goalId ?? null,
     createdAt: partial.createdAt ?? now,
     updatedAt: now,
   };

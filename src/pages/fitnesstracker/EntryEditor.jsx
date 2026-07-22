@@ -13,6 +13,8 @@ import { vdotFromRace } from './calc/vdot';
 import { gradeAdjustedPace, gradeFrom } from './calc/gap';
 import { zoneForHr } from './calc/hr';
 import { per100, swolf } from './calc/swim';
+import { extractCheckpointResult } from './calc/goals';
+import { formatCheckpointValue, interpolatedTarget, parseOverrideValue, overridePlaceholderFor } from './calc/checkpoints';
 import { fmtPace } from './format';
 import LiftSets from './LiftSets';
 import { shiftPlanFrom, shiftGroup, addDaysISO } from './calc/planning';
@@ -26,17 +28,26 @@ function round2(n) { return Math.round(n * 100) / 100; }
 export default function EntryEditor() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getWorkout, updateWorkout, removeWorkout, workouts, activityTypes, settings, loading, goals } = useFitness();
+  const { getWorkout, updateWorkout, removeWorkout, workouts, activityTypes, settings, loading, goals, logCheckpoint } = useFitness();
   const unit = settings.units.distance;
   const poolUnit = settings.units.pool;
   const weightUnit = settings.units.weight;
+  const units = settings.units;
   const profile = settings.profile || {};
   const w = getWorkout(id);
   const kindOf = (aid) => activityTypes.find((t) => t.id === aid)?.kind || 'generic';
   const linkedGoal = w?.goalId ? goals.find((g) => g.id === w.goalId) : null;
+  // Derived live from goal.checkpoints (single source of truth) — null for
+  // old goals saved before checkpoints existed, or a date with no checkpoint.
+  const checkpoint = (w && linkedGoal?.checkpoints) ? linkedGoal.checkpoints.find((c) => c.date === w.date) || null : null;
+  // A plain task-frequency day (goal-tagged, but not a graded checkpoint)
+  // still gets an on-pace estimate shown in the banner — just not the full
+  // checkpoint panel (nothing to log/override on a day that isn't scheduled).
+  const onPaceOnly = (!checkpoint && w && linkedGoal?.checkpoints) ? interpolatedTarget(linkedGoal, w.date) : null;
 
   const [form, setForm] = useState(null);
   const [showGoalEditor, setShowGoalEditor] = useState(false);
+  const [overrideInput, setOverrideInput] = useState('');
   const [seededKey, setSeededKey] = useState(null);
   const [hoverRpe, setHoverRpe] = useState(null);
   const [showMoveMore, setShowMoveMore] = useState(false);
@@ -123,22 +134,47 @@ export default function EntryEditor() {
         .filter((ex) => ex.name.trim() || ex.sets.some((s) => s.reps || s.weight))
         .map((ex) => ({ name: ex.name.trim(), sets: ex.sets.filter((s) => s.reps || s.weight).map((s) => ({ reps: Number(s.reps) || 0, weightKg: weightToKg(s.weight, weightUnit) })) }));
     }
+    const savedDistanceM = isLift ? (w.distanceM ?? null) : distanceToMeters(form.distance, distUnit);
+    const savedDurationSec = clockToSec(form.duration);
     await updateWorkout(id, {
       date: form.date,
       time: form.time,
       activityType: form.activityType,
       status: form.status,
-      distanceM: isLift ? (w.distanceM ?? null) : distanceToMeters(form.distance, distUnit),
-      durationSec: clockToSec(form.duration),
+      distanceM: savedDistanceM,
+      durationSec: savedDurationSec,
       note: form.note,
       rpe: form.rpe,
       groupId: form.groupId,
       metrics,
     });
+    // Completing a checkpoint-tagged workout with real numbers IS "Logged
+    // actual" (Guidelines_Forecast.md §6) — no separate click needed, reusing
+    // the exact formulas the baseline estimators already call.
+    if (linkedGoal && checkpoint && form.status === 'completed') {
+      const extracted = extractCheckpointResult(
+        linkedGoal.kind,
+        { activityType: form.activityType, distanceM: savedDistanceM, durationSec: savedDurationSec, metrics },
+        linkedGoal.label,
+      );
+      if (extracted != null) await logCheckpoint(linkedGoal.id, w.date, extracted, 'logged');
+    }
     navigate('..');
   }
 
   async function del() { await removeWorkout(id); navigate('..'); }
+
+  // Manual override — retarget this checkpoint regardless of whether it's
+  // occurred yet, distinct from "Logged actual" above (§6).
+  async function applyOverride() {
+    if (!linkedGoal || !checkpoint) return;
+    const val = parseOverrideValue(linkedGoal, overrideInput, weightUnit);
+    if (val == null) return;
+    await logCheckpoint(linkedGoal.id, checkpoint.date, val, 'override');
+    setOverrideInput('');
+  }
+
+  const overridePlaceholder = linkedGoal ? overridePlaceholderFor(linkedGoal, weightUnit) : 'e.g. 50';
 
   // Deliberate reschedule, two ways — neither one silently touches anything you
   // didn't ask for:
@@ -181,8 +217,45 @@ export default function EntryEditor() {
 
       {linkedGoal && (
         <div className="ft-goal-banner">
-          <span>🎯 Part of goal: <strong>{linkedGoal.label || linkedGoal.kind}</strong>{w.metrics?.goalTarget ? ` — target ${w.metrics.goalTarget}` : ''}</span>
+          <span>
+            🎯 Part of goal: <strong>{linkedGoal.label || linkedGoal.kind}</strong>
+            {checkpoint && ` — target ${formatCheckpointValue(linkedGoal, checkpoint.targetValue, units)}`}
+            {!checkpoint && onPaceOnly != null && ` — on-pace target ${formatCheckpointValue(linkedGoal, onPaceOnly, units)}`}
+            {!checkpoint && onPaceOnly == null && w.metrics?.goalTarget && ` — target ${w.metrics.goalTarget}`}
+          </span>
           <button type="button" className="ft-btn-ghost" onClick={() => setShowGoalEditor(true)}>Edit goal</button>
+        </div>
+      )}
+
+      {linkedGoal && checkpoint && (
+        <div className="ft-checkpoint-panel">
+          <div className="ft-insights">
+            <div className="ft-insight">
+              <span className="ft-insight-k">Checkpoint target</span>
+              <span className="ft-insight-v">
+                {checkpoint.actualValue != null
+                  ? <>{formatCheckpointValue(linkedGoal, checkpoint.actualValue, units)}<small> / {formatCheckpointValue(linkedGoal, checkpoint.targetValue, units)}</small></>
+                  : formatCheckpointValue(linkedGoal, checkpoint.targetValue, units)}
+              </span>
+            </div>
+            {checkpoint.realism && (
+              <div className="ft-insight">
+                <span className="ft-insight-k">Realism</span>
+                <span className={`ft-insight-v ft-realism-${checkpoint.realism.band}`}>{checkpoint.realism.band}</span>
+              </div>
+            )}
+            {checkpoint.provisional && (
+              <div className="ft-insight"><span className="ft-insight-k">Basis</span><span className="ft-insight-v">Provisional — no real data yet</span></div>
+            )}
+          </div>
+          <div className="ft-field">
+            <label className="ft-field-label">Manual override — retarget this checkpoint</label>
+            <div className="ft-inline-two">
+              <ClearableInput value={overrideInput} onChange={(e) => setOverrideInput(e.target.value)} onClear={() => setOverrideInput('')} placeholder={overridePlaceholder} />
+              <button type="button" className="ft-btn-ghost" onClick={applyOverride} disabled={overrideInput === ''}>Apply</button>
+            </div>
+            <p className="ft-hint-sm">Retargets this point and recomputes everything after it — nothing before it moves. Completing this workout with real numbers below logs the actual result instead.</p>
+          </div>
         </div>
       )}
 

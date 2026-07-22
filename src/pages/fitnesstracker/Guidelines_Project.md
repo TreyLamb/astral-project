@@ -176,3 +176,6 @@ These options are proving to me that you are STILL not undestanding and that you
 i JUST said this: the toggle IS MEAL DAY VIEW . the function should pop up the meal menu to the left of the calendar regardless of view. the last day taht i clicked on should be the target day and the full day view of that day will pop up next to the calendar regardless of view.
 
 If i go to day view for that day then the existing day view is what's used ssince it's already half and hafl.
+
+
+Forecast tool 

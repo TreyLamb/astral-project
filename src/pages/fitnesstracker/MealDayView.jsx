@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { useFitness } from './fitnessContext';
 import { isoDate } from './fitnessConfig';
 import { dailyTotals, macroPercents } from './calc/nutrition';
+import { kgToWeight } from './units';
+
+function round1(n) { return n == null ? null : Math.round(n * 10) / 10; }
 
 // The "meal day view" toggle's destination: a day laid out by meal-type section
 // (Breakfast/Lunch/Dinner/Snack + any custom types) instead of the plain workout
 // day cell — daily nutrition totals up top, one add button per section.
 export default function MealDayView({ date }) {
-  const { meals, mealTypes, openMealQuickAdd, settings } = useFitness();
+  const { meals, mealTypes, openMealQuickAdd, settings, bodyWeightLogs, openWeighIn } = useFitness();
   const navigate = useNavigate();
   const iso = isoDate(date);
 
@@ -19,6 +22,14 @@ export default function MealDayView({ date }) {
   const totals = useMemo(() => dailyTotals(meals, iso), [meals, iso]);
   const pct = useMemo(() => macroPercents(totals), [totals]);
   const target = settings.nutritionTarget;
+  const weightUnit = settings.units.weight;
+
+  // Today's weigh-in if one exists for this exact day; otherwise the most
+  // recent PRIOR one, so the tile is still useful before a fresh log lands —
+  // never gated behind "log today first" (this app's zero-prior-data rule).
+  const sortedWeightLogs = [...bodyWeightLogs].sort((a, b) => (b.date + (b.time || '')).localeCompare(a.date + (a.time || '')));
+  const todayLog = sortedWeightLogs.find((l) => l.date === iso) || null;
+  const priorLog = todayLog ? null : (sortedWeightLogs.find((l) => l.date < iso) || null);
 
   return (
     <div className="ft-meal-day">
@@ -26,6 +37,19 @@ export default function MealDayView({ date }) {
         <div className="ft-insight">
           <span className="ft-insight-k">Calories</span>
           <span className="ft-insight-v">{totals.calories != null ? totals.calories : '—'}{target?.calories ? <small> / {target.calories}</small> : ''}</span>
+        </div>
+        <div className="ft-insight">
+          <span className="ft-insight-k">Weight</span>
+          {todayLog ? (
+            <span className="ft-insight-v">{round1(kgToWeight(todayLog.weightKg, weightUnit))} {weightUnit}</span>
+          ) : priorLog ? (
+            <span className="ft-insight-v">
+              <small>{priorLog.date}: </small>{round1(kgToWeight(priorLog.weightKg, weightUnit))} {weightUnit}
+              {' '}<button type="button" className="ft-btn-ghost ft-meal-add-btn" onClick={() => openWeighIn(iso)}>+ Log</button>
+            </span>
+          ) : (
+            <span className="ft-insight-v">—{' '}<button type="button" className="ft-btn-ghost ft-meal-add-btn" onClick={() => openWeighIn(iso)}>+ Log</button></span>
+          )}
         </div>
         <div className="ft-insight">
           <span className="ft-insight-k">Protein</span>

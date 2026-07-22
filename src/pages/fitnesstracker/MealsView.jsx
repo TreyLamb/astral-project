@@ -4,6 +4,7 @@ import { useFitness } from './fitnessContext';
 import { mealType, todayISO } from './fitnessConfig';
 import { dailyTotals, macroPercents, averageDaily } from './calc/nutrition';
 import MealQuickAddModal from './MealQuickAddModal';
+import BodyWeightPanel from './BodyWeightPanel';
 
 function addDaysISO(iso, days) {
   const d = new Date(iso + 'T00:00:00');
@@ -70,6 +71,8 @@ export default function MealsView() {
           )}
         </div>
       </div>
+
+      <BodyWeightPanel />
 
       <div className="ft-set-card">
         <h3>Next 7 days (planned)</h3>

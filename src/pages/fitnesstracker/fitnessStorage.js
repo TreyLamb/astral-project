@@ -7,6 +7,7 @@ const WORKOUTS_KEY = 'fitness_workouts_v1';
 const SETTINGS_KEY = 'fitness_settings_v1';
 const MEALS_KEY = 'fitness_meals_v1';
 const GOALS_KEY = 'fitness_goals_v1';
+const BODYWEIGHT_KEY = 'fitness_bodyweight_v1';
 
 function load(key, fallback) {
   try {
@@ -93,5 +94,26 @@ export const FitnessStorage = {
 
   removeGoal(id) {
     store(GOALS_KEY, this.getGoals().filter((g) => g.id !== id));
+  },
+
+  getBodyWeightLogs() {
+    const arr = load(BODYWEIGHT_KEY, []);
+    return Array.isArray(arr) ? arr : [];
+  },
+
+  saveBodyWeightLog(l) {
+    store(BODYWEIGHT_KEY, [l, ...this.getBodyWeightLogs()]);
+    return l;
+  },
+
+  updateBodyWeightLog(id, updates) {
+    const all = this.getBodyWeightLogs().map((l) =>
+      (l.id === id ? { ...l, ...updates, updatedAt: Date.now() } : l));
+    store(BODYWEIGHT_KEY, all);
+    return all.find((l) => l.id === id) ?? null;
+  },
+
+  removeBodyWeightLog(id) {
+    store(BODYWEIGHT_KEY, this.getBodyWeightLogs().filter((l) => l.id !== id));
   },
 };

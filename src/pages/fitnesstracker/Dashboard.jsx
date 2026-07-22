@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useFitness } from './fitnessContext';
-import { activityType, todayISO as todayISOCfg } from './fitnessConfig';
+import { activityType, todayISO as todayISOCfg, goalDeadline } from './fitnessConfig';
 import { computePRs, bestPace, longestRun } from './calc/pr';
 import { weeklyDistance, acwrRolling, acwrStatus, rollupByActivity } from './calc/load';
 import { paceSecPerMeter } from './calc/pace';
@@ -16,13 +16,34 @@ function isoAgo(days) { return new Date(Date.now() - days * DAY).toISOString().s
 function todayISO() { return new Date().toISOString().slice(0, 10); }
 function mdLabel(iso) { const [, m, d] = iso.split('-'); return `${+m}/${+d}`; }
 
+// Worst realism band across a goal's checkpoints — deliberately duplicated
+// from CalendarView.jsx's identical goal-row rendering rather than extracted
+// into a shared component (this project's convention: the two Goals panels
+// stay independently duplicated, see CLAUDE.md's no-unnecessary-abstraction rule).
+const REALISM_RANK = { conservative: 0, plausible: 1, implausible: 2 };
+function worstRealismBand(g) {
+  if (!g.checkpoints?.length) return null;
+  let worst = null;
+  for (const cp of g.checkpoints) {
+    const band = cp.realism?.band;
+    if (!band) continue;
+    if (!worst || REALISM_RANK[band] > REALISM_RANK[worst]) worst = band;
+  }
+  return worst;
+}
+
 export default function Dashboard() {
   const { workouts, activityTypes, settings, goals, updateGoal, removeWorkout } = useFitness();
   const unit = settings.units.distance;
   const paceUnit = paceUnitFor(unit);
   const [goalEditor, setGoalEditor] = useState(null); // null | 'new' | goal object
 
-  const activeGoals = useMemo(() => goals.filter((g) => g.status !== 'abandoned').sort((a, b) => (a.targetDate || '9999').localeCompare(b.targetDate || '9999')), [goals]);
+  const activeGoals = useMemo(
+    () => goals
+      .filter((g) => g.status !== 'abandoned' && !g.status?.startsWith('closed'))
+      .sort((a, b) => (goalDeadline(a) || '9999').localeCompare(goalDeadline(b) || '9999')),
+    [goals],
+  );
 
   async function abandonGoal(g) {
     await updateGoal(g.id, { status: 'abandoned' });
@@ -95,20 +116,25 @@ export default function Dashboard() {
           <div className="ft-goal-list">
             {activeGoals.map((g) => {
               const t = activityType(activityTypes, g.activityType);
+              const worst = worstRealismBand(g);
               return (
-                <div key={g.id} className="ft-goal-row">
+                <div key={g.id} className="ft-goal-row" style={{ borderLeft: `4px solid ${t.color}` }}>
                   <span className="ft-goal-icon">{t.icon}</span>
                   <div className="ft-goal-info">
                     <span className="ft-goal-label">{t.name} — {g.label || g.kind}</span>
                     <span className="ft-goal-meta">
                       <span className={`ft-goal-badge ft-goal-${g.status}`}>{g.status}</span>
-                      {g.daysPerWeek}x/wk
+                      {worst && <span className={`ft-realism-badge ft-realism-${worst}`}>{worst}</span>}
+                      {g.taskFrequency?.value ?? g.daysPerWeek}x/wk
                       {g.forecastWeeks != null && ` · ~${g.forecastWeeks} wk${g.forecastWeeks === 1 ? '' : 's'}`}
-                      {g.targetDate && ` · by ${g.targetDate}`}
+                      {goalDeadline(g) && ` · by ${goalDeadline(g)}`}
                     </span>
                   </div>
                   <div className="ft-goal-actions">
                     <button type="button" className="ft-btn-ghost" onClick={() => setGoalEditor(g)}>Edit</button>
+                    {g.status === 'paused'
+                      ? <button type="button" className="ft-btn-ghost" onClick={() => updateGoal(g.id, { status: 'accepted', pausedAt: null })}>Resume</button>
+                      : <button type="button" className="ft-btn-ghost" onClick={() => updateGoal(g.id, { status: 'paused', pausedAt: Date.now() })}>Pause</button>}
                     <button type="button" className="ft-btn-ghost" onClick={() => abandonGoal(g)}>Abandon</button>
                   </div>
                 </div>

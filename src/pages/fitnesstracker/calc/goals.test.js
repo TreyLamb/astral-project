@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   estimateRunBaseline, estimateSwimBaseline, estimateLiftBaseline,
   weeksForPercentGain, forecastRunWeeks, forecastSwimWeeks, forecastLiftWeeks, forecastGenericWeeks,
-  weekdayOffsets, buildPlan,
+  weekdayOffsets, extractRunResult, extractSwimResult, extractLiftResult,
 } from './goals';
 
 describe('estimateRunBaseline', () => {
@@ -93,20 +93,25 @@ describe('weekdayOffsets', () => {
   });
 });
 
-describe('buildPlan', () => {
-  it('generates daysPerWeek sessions per week for `weeks` weeks', () => {
-    const plan = buildPlan('2026-01-05', 3, 2, 40, 50);
-    expect(plan.length).toBe(6); // 3 weeks * 2/week
+describe('extractRunResult / extractSwimResult / extractLiftResult', () => {
+  it('extractRunResult returns the same VDOT estimateRunBaseline would from an equivalent workout', () => {
+    const w = { activityType: 'run', distanceM: 5000, durationSec: 1200 }; // 20:00 5K
+    expect(extractRunResult(w)).toBeCloseTo(49.8, 0);
   });
-  it('linearly interpolates targetValue from baseline to goal', () => {
-    const plan = buildPlan('2026-01-05', 3, 1, 40, 50);
-    expect(plan[0].targetValue).toBeCloseTo(40, 6);   // week 0 = baseline
-    expect(plan[2].targetValue).toBeCloseTo(50, 6);   // final week = goal
-    expect(plan[1].targetValue).toBeCloseTo(45, 6);   // midpoint
+  it('extractRunResult is null for a non-run or incomplete workout', () => {
+    expect(extractRunResult({ activityType: 'swim', distanceM: 5000, durationSec: 1200 })).toBeNull();
+    expect(extractRunResult({ activityType: 'run', distanceM: 5000, durationSec: null })).toBeNull();
   });
-  it('dates fall within the correct week', () => {
-    const plan = buildPlan('2026-01-05', 2, 1, null, null);
-    expect(plan[0].date).toBe('2026-01-05');
-    expect(plan[1].date).toBe('2026-01-12');
+  it('extractSwimResult returns pace/100m', () => {
+    const w = { activityType: 'swim', distanceM: 1000, durationSec: 900 };
+    expect(extractSwimResult(w)).toBeCloseTo(90, 6);
+  });
+  it('extractLiftResult finds the best 1RM for the named exercise, case-insensitively', () => {
+    const w = { activityType: 'lift', metrics: { exercises: [{ name: 'bench', sets: [{ reps: 1, weightKg: 100 }] }] } };
+    expect(extractLiftResult(w, 'Bench')).toBeCloseTo(100, 0);
+  });
+  it('extractLiftResult is null without a matching exercise name', () => {
+    const w = { activityType: 'lift', metrics: { exercises: [{ name: 'Squat', sets: [{ reps: 5, weightKg: 100 }] }] } };
+    expect(extractLiftResult(w, 'Bench')).toBeNull();
   });
 });
