@@ -136,6 +136,15 @@
   border-top: 1px dashed var(--tkb-border);
 }
 
+.tkb-wrapper .tkb-card-explanation {
+  margin-top: 0.75rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--tkb-ink-soft);
+  opacity: 0.85;
+  white-space: pre-line;
+}
+
 .tkb-wrapper .tkb-card-meta {
   margin-top: 1rem;
   display: flex;

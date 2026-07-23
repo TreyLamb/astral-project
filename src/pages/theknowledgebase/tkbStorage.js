@@ -10,6 +10,18 @@ import ASVAB_QUESTIONS from './asvabQuestions.json';
 export const SCHEMA_VERSION = 1;
 
 const ASVAB_MERGE_KEY = 'tkb_asvab_merged_v1';
+const CONTENT_SYNC_KEY = 'tkb_content_sync_v1';
+
+// Questions pulled out of the ASVAB deck (2026-07-22 chemistry-depth cleanup)
+// as too advanced for what the ASVAB actually tests (net ionic equations,
+// molarity/equilibrium calculations, electron configuration, etc). Listed
+// here so already-synced accounts (local or Firestore) get them removed too,
+// not just fresh seeds of asvabQuestions.json.
+export const REMOVED_QUESTION_IDS = [
+  'q-asvab-supp-0753', 'q-asvab-supp-0755', 'q-asvab-supp-0756', 'q-asvab-supp-0759',
+  'q-asvab-supp-0760', 'q-asvab-supp-0761', 'q-asvab-supp-0762', 'q-asvab-supp-0763',
+  'q-asvab-supp-0765', 'q-asvab-supp-0766', 'q-asvab-supp-0767',
+];
 
 const KEYS = {
   questions: 'tkb_questions_v1',
@@ -192,6 +204,32 @@ function seedIfEmpty() {
     storeRaw(KEYS.settings, migrated);
   }
   mergeAsvabIfMissing();
+  syncContentIfStale();
+}
+
+// One-time pass (guarded by its own flag, bump CONTENT_SYNC_KEY's version
+// suffix to re-run for everyone) that patches question/answer/explanation
+// text on ALREADY-STORED questions from the current source data, and drops
+// REMOVED_QUESTION_IDS. mergeAsvabIfMissing above only ever ADDS ids that are
+// missing — it never touches a question a user already has, so content
+// fixes/explanations shipped after initial import would otherwise never
+// reach an existing localStorage without this.
+function syncContentIfStale() {
+  if (localStorage.getItem(CONTENT_SYNC_KEY) !== null) return;
+
+  const sourceById = new Map();
+  for (const q of [...SEED_QUESTIONS, ...ASVAB_QUESTIONS]) sourceById.set(q.id, q);
+
+  const questions = loadRaw(KEYS.questions, [])
+    .filter(q => !REMOVED_QUESTION_IDS.includes(q.id))
+    .map(q => {
+      const src = sourceById.get(q.id);
+      if (!src) return q;
+      return { ...q, question: src.question, answer: src.answer, answerAlternates: src.answerAlternates, explanation: src.explanation };
+    });
+  storeRaw(KEYS.questions, questions);
+
+  localStorage.setItem(CONTENT_SYNC_KEY, '1');
 }
 
 // Merges the ASVAB practice deck in exactly once, independent of whether the

@@ -1310,7 +1310,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Paris has been France's capital since the Middle Ages and remains the country's largest city and primary political and cultural center."
   },
   {
     "id": "q-geo-002",
@@ -1336,7 +1337,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Himalayas are the world's highest mountain range stretching across Asia, with Mount Everest standing as its tallest peak at 8,849 meters."
   },
   {
     "id": "q-geo-003",
@@ -1361,7 +1363,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Tokyo became Japan's capital in 1868 and is now the country's largest metropolitan area and seat of government."
   },
   {
     "id": "q-geo-004",
@@ -1389,7 +1392,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The five oceans are the Pacific, Atlantic, Indian, Arctic, and Southern (Antarctic), classified by their distinct geographic boundaries and water masses."
   },
   {
     "id": "q-geo-005",
@@ -1415,7 +1419,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Sahara covers over 9 million square kilometers across North Africa, making it the largest hot desert on Earth."
   },
   {
     "id": "q-geo-006",
@@ -1440,7 +1445,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Bern serves as Switzerland's official capital and seat of federal government, despite Zurich being the country's largest city."
   },
   {
     "id": "q-geo-007",
@@ -1468,7 +1474,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Atlantic Ocean lies between the Western Hemisphere (North and South America) to the west and Europe and Africa to the east."
   },
   {
     "id": "q-geo-008",
@@ -1496,7 +1503,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Nile River flows through northeastern Africa for over 6,600 kilometers, making it the continent's longest river."
   },
   {
     "id": "q-geo-009",
@@ -1522,7 +1530,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Bolivia is one of two landlocked countries in South America, having lost its Pacific coastline in the War of the Pacific during the 19th century."
   },
   {
     "id": "q-geo-010",
@@ -1551,7 +1560,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Regions near the equator receive consistent high temperatures and abundant rainfall year-round, defining tropical wet and humid climate zones."
   },
   {
     "id": "q-geo-011",
@@ -1577,7 +1587,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Located in the western Pacific Ocean, the Mariana Trench reaches approximately 11,000 meters deep, the lowest point in Earth's oceans."
   },
   {
     "id": "q-geo-012",
@@ -1603,7 +1614,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Canada, the United States, and Mexico are the three countries of mainland North America that share direct land borders with one another, with Canada to the north, Mexico to the south, and the United States in between."
   },
   {
     "id": "q-geo-013",
@@ -1631,7 +1643,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Andes is the longest continental mountain range at over 7,000 kilometers, stretching through seven South American countries including Colombia, Peru, and Chile."
   },
   {
     "id": "q-geo-014",
@@ -1656,7 +1669,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Brasília replaced Rio de Janeiro as Brazil's capital in 1960, serving as a purpose-built modernist city and the seat of government."
   },
   {
     "id": "q-geo-015",
@@ -1682,7 +1696,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Arctic Ocean borders the northern regions of Europe and Asia, forming the primary oceanic connection between these continents to the north."
   },
   {
     "id": "q-geo-016",
@@ -1708,7 +1723,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Mediterranean climates feature hot, dry summers and cool, wet winters, found around the Mediterranean Sea and similar subtropical coastal latitudes."
   },
   {
     "id": "q-alg-001",
@@ -1736,7 +1752,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Subtract 5 from both sides: 2x = 13 - 5 = 8.\nDivide by 2: x = 8 ÷ 2 = 4."
   },
   {
     "id": "q-alg-002",
@@ -1762,7 +1779,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Equation is already in slope-intercept form y = mx + b, where m is the slope.\nHere m = 2, so the slope is 2."
   },
   {
     "id": "q-alg-003",
@@ -1788,7 +1806,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "FOIL: (x + 2)(x + 3) = x×x + x×3 + 2×x + 2×3.\n= x² + 3x + 2x + 6.\nCombine like terms: x² + 5x + 6."
   },
   {
     "id": "q-alg-004",
@@ -1816,7 +1835,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Recognize difference of squares: x² - 9 = x² - 3².\nDifference of squares rule: a² - b² = (a - b)(a + b).\nResult: (x - 3)(x + 3)."
   },
   {
     "id": "q-alg-005",
@@ -1842,7 +1862,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "2³ means 2 × 2 × 2.\n2 × 2 = 4, then 4 × 2 = 8."
   },
   {
     "id": "q-alg-006",
@@ -1870,7 +1891,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Elimination: add the two equations to cancel y: (x + y) + (x - y) = 5 + 1 → 2x = 6 → x = 3.\nSubstitute back into x + y = 5: 3 + y = 5 → y = 2."
   },
   {
     "id": "q-alg-007",
@@ -1896,7 +1918,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "√16 asks: what number squared gives 16?\n4² = 16, so √16 = 4."
   },
   {
     "id": "q-alg-008",
@@ -1922,7 +1945,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Zero exponent rule: any nonzero x raised to the 0 power equals 1.\nx⁰ = 1."
   },
   {
     "id": "q-alg-009",
@@ -1950,7 +1974,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Find two numbers multiplying to 2×3 = 6 and adding to 5: these are 2 and 3.\nSplit the middle term: 2x² + 2x + 3x + 3.\nGroup and factor: 2x(x + 1) + 3(x + 1) = (2x + 3)(x + 1)."
   },
   {
     "id": "q-alg-010",
@@ -1976,7 +2001,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Power rule: (xᵃ)ᵇ = xᵃˣᵇ.\n(x²)³ = x²ˣ³ = x⁶."
   },
   {
     "id": "q-alg-011",
@@ -2002,7 +2028,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The degree of a polynomial is its highest exponent on the variable.\nIn 3x⁴ + 2x² + 1, the highest exponent is 4."
   },
   {
     "id": "q-alg-012",
@@ -2030,7 +2057,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Move x terms to one side: 3x - 2x = 1 + 7.\nx = 8."
   },
   {
     "id": "q-alg-013",
@@ -2056,7 +2084,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "√49 asks: what number squared gives 49?\n7² = 49, so √49 = 7."
   },
   {
     "id": "q-alg-014",
@@ -2084,7 +2113,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Negative exponent rule: x⁻ⁿ = 1 ÷ xⁿ.\n2⁻³ = 1 ÷ 2³ = 1 ÷ 8 = 1/8 (= 0.125)."
   },
   {
     "id": "q-alg-015",
@@ -2112,7 +2142,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The y-intercept occurs where x = 0.\nSubstitute: y = 2(0) + 5 = 5.\nThe y-intercept is (0, 5)."
   },
   {
     "id": "q-alg-016",
@@ -2138,7 +2169,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Find the GCF of 6x² and 9x: GCF of coefficients 6 and 9 is 3, and both terms share a factor of x, so GCF = 3x.\nDivide each term: 6x² ÷ 3x = 2x, 9x ÷ 3x = 3.\nResult: 3x(2x + 3)."
   },
   {
     "id": "q-anat-001",
@@ -2164,7 +2196,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Adults have exactly 206 bones because many bones fuse together during development; babies are born with about 300 bones, some of which gradually fuse together as they grow into adulthood."
   },
   {
     "id": "q-anat-002",
@@ -2190,7 +2223,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The heart is a four-chambered pump with two upper chambers (atria) that receive blood and two lower chambers (ventricles) that pump blood out to the lungs and body."
   },
   {
     "id": "q-anat-003",
@@ -2218,7 +2252,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The motor cortex, located in the frontal lobe, sends signals down the spinal cord to muscles, enabling voluntary movements like walking, reaching, and writing."
   },
   {
     "id": "q-anat-004",
@@ -2246,7 +2281,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The lungs exchange oxygen from inhaled air into the blood while simultaneously removing carbon dioxide waste from the blood to be exhaled."
   },
   {
     "id": "q-anat-005",
@@ -2274,7 +2310,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The femur bears the body's full weight during standing and movement, making it both the longest and strongest bone in the human skeleton."
   },
   {
     "id": "q-anat-006",
@@ -2300,7 +2337,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Arteries are defined by their function: they carry blood away from the heart under high pressure to deliver oxygen-rich blood to tissues throughout the body."
   },
   {
     "id": "q-anat-007",
@@ -2326,7 +2364,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The pancreas secretes insulin in response to high blood glucose, allowing cells to take up glucose for energy and lowering blood sugar levels."
   },
   {
     "id": "q-anat-008",
@@ -2352,7 +2391,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Acetylcholine is released from motor neurons at the neuromuscular junction, binding to muscle cell receptors to trigger muscle contraction."
   },
   {
     "id": "q-anat-009",
@@ -2380,7 +2420,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The trachea is the rigid airway that conducts air from the larynx down to the bronchi, preventing collapse and enabling unobstructed breathing."
   },
   {
     "id": "q-anat-010",
@@ -2408,7 +2449,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The small intestine's specialized lining with villi and microvilli provides an enormous surface area for absorbing nutrients from digested food into the bloodstream."
   },
   {
     "id": "q-anat-011",
@@ -2434,7 +2476,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Tendons are dense fibrous connective tissue that directly attach muscle to bone, transferring the force of muscle contractions to move skeletal structures."
   },
   {
     "id": "q-anat-012",
@@ -2462,7 +2505,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "White blood cells (leukocytes) are part of the immune system and actively patrol the bloodstream and tissues, identifying and destroying pathogens and foreign invaders."
   },
   {
     "id": "q-anat-013",
@@ -2488,7 +2532,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The cerebellum, located at the base of the brain, continuously processes movement and sensory information to maintain balance, posture, and smooth coordinated motion."
   },
   {
     "id": "q-anat-014",
@@ -2517,7 +2562,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The liver is the body's primary metabolic organ, breaking down harmful substances into forms the body can eliminate while processing nutrients for storage and use."
   },
   {
     "id": "q-anat-015",
@@ -2545,7 +2591,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The vertebrae form a protective column around the spinal cord, safeguarding this vital bundle of nerves that carries signals between the brain and the rest of the body."
   },
   {
     "id": "q-anat-016",
@@ -2571,7 +2618,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The liver is larger than other internal organs like the stomach, kidneys, and heart combined, reflecting its crucial role in metabolism and detoxification."
   },
   {
     "id": "q-chem-001",
@@ -2597,7 +2645,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Sodium's chemical symbol Na comes from its Latin name natrium, following the convention that symbols derive from element names in their original languages."
   },
   {
     "id": "q-chem-002",
@@ -2623,7 +2672,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "An element's atomic number equals the number of protons in its nucleus, and carbon with 6 protons is the foundation of all organic chemistry."
   },
   {
     "id": "q-chem-003",
@@ -2649,7 +2699,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Water forms when hydrogen and oxygen atoms share electrons between them in a covalent bond, creating a stable H-O-H molecule."
   },
   {
     "id": "q-chem-004",
@@ -2675,7 +2726,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The pH scale defines 7 as neutral because at this point the concentration of hydrogen ions equals the concentration of hydroxide ions in solution."
   },
   {
     "id": "q-chem-005",
@@ -2704,7 +2756,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Both liquids and gases lack fixed shape because their particles move freely enough to conform to whatever container holds them, though gases are more mobile."
   },
   {
     "id": "q-chem-006",
@@ -2730,7 +2783,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Table salt (NaCl) forms when sodium (Na+) and chloride (Cl-) ions bond together through electrostatic attraction between oppositely charged ions."
   },
   {
     "id": "q-chem-007",
@@ -2758,7 +2812,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "An oxidation number represents how many electrons an atom has gained, lost, or shared in a chemical reaction, tracking electron transfer during redox processes."
   },
   {
     "id": "q-chem-008",
@@ -2786,7 +2841,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Helium is the second element on the periodic table with atomic number 2, and its full electron shells make it a stable noble gas."
   },
   {
     "id": "q-chem-009",
@@ -2812,7 +2868,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Solutions with pH below 7 are acidic because they contain more hydrogen ions (H+) than hydroxide ions (OH-), giving them a sour taste and corrosive properties."
   },
   {
     "id": "q-chem-010",
@@ -2838,7 +2895,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Glucose, the simple sugar that cells use for energy, has the molecular formula C6H12O6 representing six carbons, twelve hydrogens, and six oxygens bonded together."
   },
   {
     "id": "q-chem-011",
@@ -2864,7 +2922,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Electronegativity is a quantitative measure of how strongly an atom pulls electron density toward itself in a chemical bond."
   },
   {
     "id": "q-chem-012",
@@ -2890,7 +2949,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Sulfuric acid (H2SO4) is one of the strongest and most widely used industrial chemicals, containing two hydrogen atoms, one sulfur, and four oxygen atoms."
   },
   {
     "id": "q-chem-013",
@@ -2918,7 +2978,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Hydrogen is the lightest element with an atomic mass of 1, consisting of a single proton and electron, making it the first element on the periodic table."
   },
   {
     "id": "q-chem-014",
@@ -2947,7 +3008,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Combustion is a rapid oxidation reaction where a substance combines with oxygen, breaking chemical bonds and releasing the stored energy as heat and light."
   },
   {
     "id": "q-chem-015",
@@ -2973,7 +3035,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Oxygen's atomic number of 8 means it has 8 protons in its nucleus, and its position on the periodic table reflects its strong tendency to gain electrons."
   },
   {
     "id": "q-chem-016",
@@ -3001,7 +3064,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "A hydrogen bond is an intermolecular attraction that forms when hydrogen bonded to an electronegative atom (N, O, F) is attracted to another electronegative atom."
   },
   {
     "id": "q-hist-001",
@@ -3027,7 +3091,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Declaration of Independence was formally adopted on July 4, 1776, marking the thirteen colonies' official break from British rule."
   },
   {
     "id": "q-hist-002",
@@ -3055,7 +3120,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "George Washington was elected the first President and served from 1789 to 1797, establishing key precedents for the office."
   },
   {
     "id": "q-hist-003",
@@ -3083,7 +3149,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Civil War began with the Confederate attack on Fort Sumter in April 1861 and concluded with Lee's surrender at Appomattox in April 1865."
   },
   {
     "id": "q-hist-004",
@@ -3111,7 +3178,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Abraham Lincoln was elected President in 1860 and led the United States through the entire Civil War until his assassination in 1865."
   },
   {
     "id": "q-hist-005",
@@ -3137,7 +3205,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The United States formally entered World War II on December 8, 1941, the day after the Japanese attack on Pearl Harbor, which occurred on December 7."
   },
   {
     "id": "q-hist-006",
@@ -3163,7 +3232,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Written primarily by Thomas Jefferson, the Declaration of Independence articulated the colonists' grievances against Britain and their vision of natural rights."
   },
   {
     "id": "q-hist-007",
@@ -3192,7 +3262,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Union won through its superior industrial capacity, larger population, and effective military leadership, ultimately forcing Confederate surrender."
   },
   {
     "id": "q-hist-008",
@@ -3220,7 +3291,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Issued by Lincoln in 1863, this executive order declared enslaved people in Confederate states to be free, combining moral principle with wartime strategy."
   },
   {
     "id": "q-hist-009",
@@ -3248,7 +3320,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Great Depression began with the stock market crash in October 1929 and persisted through the 1930s, causing mass unemployment and economic collapse."
   },
   {
     "id": "q-hist-010",
@@ -3277,7 +3350,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "FDR won the presidency in 1932 and immediately implemented the New Deal, a comprehensive program of government intervention and public works to fight the Depression."
   },
   {
     "id": "q-hist-011",
@@ -3305,7 +3379,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The American Industrial Revolution was powered by the rise of factory systems and mechanized manufacturing, particularly in northeastern states during the 19th century."
   },
   {
     "id": "q-hist-012",
@@ -3331,7 +3406,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "World War I lasted from 1914 to 1918, with the United States joining the Allied forces in 1917 after initially maintaining neutrality."
   },
   {
     "id": "q-hist-013",
@@ -3360,7 +3436,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Founded in 1607 in Virginia, Jamestown was the first permanent English colonial settlement in North America, thirteen years before Plymouth."
   },
   {
     "id": "q-hist-014",
@@ -3389,7 +3466,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Robber barons like Rockefeller and Carnegie amassed fortunes through monopolistic practices, labor exploitation, and occasionally corrupt political influence during industrialization."
   },
   {
     "id": "q-hist-015",
@@ -3418,7 +3496,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "In October 1962, the US discovered Soviet nuclear missiles deployed in Cuba, creating a tense standoff resolved through diplomatic negotiation without military conflict."
   },
   {
     "id": "q-hist-016",
@@ -3444,7 +3523,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The War of 1812 was fought between the United States and Britain approximately three decades after American independence, driven by trade disputes and territorial tensions."
   },
   {
     "id": "q-chi-001",
@@ -3469,7 +3549,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "中 (zhōng) is pronounced with a high-level first tone, written zhōng in pinyin; it means center or middle."
   },
   {
     "id": "q-chi-002",
@@ -3496,7 +3577,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "爱 (ài) is the Chinese character for love, commonly used as both a noun and verb in HSK 1 vocabulary."
   },
   {
     "id": "q-chi-003",
@@ -3523,7 +3605,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The water radical appears in two forms: 水 (full form) and 氵 (three-drop form used within characters); 氵 is the standard radical notation."
   },
   {
     "id": "q-chi-004",
@@ -3551,7 +3634,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "你好 literally combines 你 (you) and 好 (good), making a greeting that translates to hello or hi in English."
   },
   {
     "id": "q-chi-005",
@@ -3576,7 +3660,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "燃 (burn) contains the fire radical 火 on the left, while 水 (water) contains the water radical and 火 as standalone means fire itself, not a combination."
   },
   {
     "id": "q-chi-006",
@@ -3603,7 +3688,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "谢谢 (thank you) is pronounced xièxiè, with both characters having the falling fourth tone; pinyin can write it as one word or with a space."
   },
   {
     "id": "q-chi-007",
@@ -3630,7 +3716,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "书 (book) has 4 strokes in simplified Chinese: a dot, a horizontal, a horizontal bend-hook, and a final horizontal - the same stroke pattern as 与 (yu) with an added dot on top, not a vertical-plus-three-horizontals shape."
   },
   {
     "id": "q-chi-008",
@@ -3658,7 +3745,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "成语 refers to a four-character fixed expression (chéngyǔ) with historical or cultural origins, often carrying metaphorical meaning, distinct from regular phrases."
   },
   {
     "id": "q-chi-009",
@@ -3683,7 +3771,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "日 (sun/day) is a rectangular component that appears as the core element in 明 (bright), while 日 by itself is just that component standalone."
   },
   {
     "id": "q-chi-010",
@@ -3710,7 +3799,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "HSK stands for Hanyu Shuiping Kaoshi (汉语水平考试), the official standardized proficiency test for non-native speakers of Chinese."
   },
   {
     "id": "q-chi-011",
@@ -3735,7 +3825,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "人 (person/human) is the radical itself; 水 contains the water radical 氵, and 心 (heart) contains the heart radical, not the person radical."
   },
   {
     "id": "q-chi-012",
@@ -3762,7 +3853,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "麻烦 (máfan) combines 麻 (hemp/numb) and 烦 (annoyed), semantic composition meaning trouble, inconvenience, or to bother someone."
   },
   {
     "id": "q-chi-013",
@@ -3787,7 +3879,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Modern Chinese uses 214 standard radicals as defined in the Kangxi Dictionary; this is the universally accepted count for all Chinese characters."
   },
   {
     "id": "q-chi-014",
@@ -3814,7 +3907,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "买办 (comprador/middleman) combines 买 (containing 貝 shell radical, relating to commerce/money) and 办 (containing 力 power/strength radical)."
   },
   {
     "id": "q-chi-015",
@@ -3841,7 +3935,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "HSK has six official proficiency levels numbered 1 through 6, with 1 being beginner and 6 being advanced mastery for non-native speakers."
   },
   {
     "id": "q-chi-016",
@@ -3866,7 +3961,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Seal script (篆书) uses curved, flowing strokes with tight spacing that bear little visual resemblance to modern simplified forms, reflecting ancient calligraphy rather than contemporary writing."
   },
   {
     "id": "q-geo2-001",
@@ -3891,7 +3987,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Quartz is a reference mineral on the Mohs hardness scale, defined as having a hardness of 7 on the 1-10 scale."
   },
   {
     "id": "q-geo2-002",
@@ -3916,7 +4013,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "All rocks on Earth are classified into three fundamental categories based on how they form: molten material cooling (igneous), sediment compacting and cementing (sedimentary), and existing rock transforming under heat/pressure (metamorphic)."
   },
   {
     "id": "q-geo2-003",
@@ -3943,7 +4041,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Plate tectonics is the unifying theory of modern geology explaining how Earth's crust is divided into mobile plates that interact through collisions, spreading, and sliding."
   },
   {
     "id": "q-geo2-004",
@@ -3968,7 +4067,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The mantle comprises the vast bulk of Earth's interior between the thin crust and the core, extending roughly 2,900 km deep and accounting for most of Earth's mass."
   },
   {
     "id": "q-geo2-005",
@@ -3995,7 +4095,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Basalt forms when lava extrudes onto Earth's surface and cools quickly, creating a fine-grained, dense igneous rock typical of oceanic crust."
   },
   {
     "id": "q-geo2-006",
@@ -4022,7 +4123,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "At convergent plate boundaries, plates move toward each other, causing them to collide, with results ranging from subduction to mountain building depending on plate density."
   },
   {
     "id": "q-geo2-007",
@@ -4050,7 +4152,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Mohorovičić discontinuity (Moho) is the sharp seismic boundary separating the crust from the denser mantle below, identified by changes in seismic wave velocities."
   },
   {
     "id": "q-geo2-008",
@@ -4075,7 +4178,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Diamond is the hardest naturally occurring substance (10 on Mohs scale), while feldspar is a much softer mineral (around 6 on the scale)."
   },
   {
     "id": "q-geo2-009",
@@ -4102,7 +4206,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Relative dating establishes the chronological sequence of rocks by comparing their ages to one another rather than assigning specific absolute ages in years."
   },
   {
     "id": "q-geo2-010",
@@ -4127,7 +4232,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Earth's geologic history is divided into four eons spanning 4.6 billion years: Hadean (earliest), Archean, Proterozoic, and Phanerozoic (most recent, containing visible life)."
   },
   {
     "id": "q-geo2-011",
@@ -4154,7 +4260,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Luster describes how a mineral's surface reflects light, ranging from metallic and glassy to dull or pearly, and is a key identifying property in mineralogy."
   },
   {
     "id": "q-geo2-012",
@@ -4181,7 +4288,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Metamorphism occurs when existing rock is subjected to intense heat and pressure, causing minerals to recrystallize and the rock to change without fully melting."
   },
   {
     "id": "q-geo2-013",
@@ -4208,12 +4316,13 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Subduction is the process where a denser oceanic plate descends beneath a lighter continental plate at a convergent boundary, recycling crust into the mantle."
   },
   {
     "id": "q-geo2-014",
     "question": "What is the Gutenberg discontinuity?",
-    "answer": "boundary between outer and inner core",
+    "answer": "boundary between the mantle and the outer core",
     "answerAlternates": [
       "core boundary"
     ],
@@ -4235,7 +4344,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Gutenberg discontinuity is the seismic boundary between the mantle and the liquid outer core (~2,891 km depth), discovered by Beno Gutenberg. The separate boundary between the outer and inner core is a different feature entirely."
   },
   {
     "id": "q-geo2-015",
@@ -4263,7 +4373,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Index fossils are organisms that lived for a relatively brief geological time span and spread widely, making them ideal markers for dating rock layers through biostratigraphy."
   },
   {
     "id": "q-geo2-016",
@@ -4290,7 +4401,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Radiometric dating calculates the absolute age of rocks by measuring the ratio of radioactive parent isotopes to their decay products, using known half-lives to determine elapsed time."
   },
   {
     "id": "q-astro-001",
@@ -4315,7 +4427,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Hydrogen and helium comprise roughly 99% of stellar mass and are the primary fuel sources for the thermonuclear fusion that powers stars."
   },
   {
     "id": "q-astro-002",
@@ -4342,7 +4455,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "In 2006, the International Astronomical Union formally defined eight planets based on orbital characteristics; Pluto was reclassified as a dwarf planet."
   },
   {
     "id": "q-astro-003",
@@ -4369,7 +4483,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The habitable zone is the orbital region around a star where temperatures allow liquid water to exist on a planet's surface, a necessary condition for known life."
   },
   {
     "id": "q-astro-004",
@@ -4396,7 +4511,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Milky Way is classified as a spiral galaxy with evidence of a central bar structure, characterized by a flat disk with spiral arms extending from the core."
   },
   {
     "id": "q-astro-005",
@@ -4423,7 +4539,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Escape velocity is the minimum speed an object must reach to break free from a celestial body's gravitational field, derived from equating kinetic energy to gravitational potential energy."
   },
   {
     "id": "q-astro-006",
@@ -4450,7 +4567,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Kepler's First Law, derived from astronomical observations, states that planetary orbits are ellipses with the sun at one of the two foci."
   },
   {
     "id": "q-astro-007",
@@ -4478,7 +4596,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Redshift is the Doppler shift of light toward longer wavelengths (red end of spectrum) that occurs when an object moves away from an observer."
   },
   {
     "id": "q-astro-008",
@@ -4506,7 +4625,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Hertzsprung-Russell diagram plots stars by their luminosity (brightness) against their surface temperature, revealing distinct stellar populations and evolution patterns."
   },
   {
     "id": "q-astro-009",
@@ -4533,7 +4653,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Supermassive black holes at galaxy centers have masses between millions and billions of solar masses and likely formed through accretion and mergers in galactic centers."
   },
   {
     "id": "q-astro-010",
@@ -4560,7 +4681,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Kuiper Belt is a region of icy bodies beyond Neptune's orbit, extending from about 30 to 55 AU and serving as the source of short-period comets."
   },
   {
     "id": "q-astro-011",
@@ -4587,7 +4709,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Solar flares are sudden, violent releases of magnetic energy from the sun's surface, triggered by instabilities in the solar magnetic field."
   },
   {
     "id": "q-astro-012",
@@ -4614,7 +4737,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Parallax distance measurement uses the apparent shift in a star's position as Earth orbits the sun; the magnitude of this shift is inversely proportional to the star's distance."
   },
   {
     "id": "q-astro-013",
@@ -4641,7 +4765,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "An exoplanet is any planet orbiting a star outside our solar system; thousands have been discovered since the first confirmation in 1992."
   },
   {
     "id": "q-astro-014",
@@ -4668,7 +4793,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Lagrange points are five positions where the gravitational pull of two orbiting bodies (like the sun and a planet) balances the centripetal force needed to keep a small object fixed relative to them. Only L4 and L5 are stable equilibria; L1, L2, and L3 are unstable and need periodic station-keeping."
   },
   {
     "id": "q-astro-015",
@@ -4695,7 +4821,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The Oort Cloud is a theoretical spherical shell of icy bodies surrounding the solar system at great distances, believed to be the source of long-period comets."
   },
   {
     "id": "q-astro-016",
@@ -4722,7 +4849,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Stellar fusion in stars combines hydrogen nuclei into helium through thermonuclear reactions at stellar cores, releasing enormous energy that powers the star's luminosity."
   },
   {
     "id": "q-cs-001",
@@ -4749,7 +4877,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "An array is the most basic linear data structure where elements are stored in contiguous memory locations, enabling constant-time O(1) random access via index."
   },
   {
     "id": "q-cs-002",
@@ -4776,7 +4905,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Big O notation describes the asymptotic complexity of algorithms, expressing how runtime or space requirements scale as input size increases, independent of constant factors."
   },
   {
     "id": "q-cs-003",
@@ -4801,7 +4931,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "These five algorithms represent the most commonly studied sorting methods, each with distinct tradeoffs: bubble sort (simple but slow), quick sort (fast average case), merge sort (guaranteed O(n log n)), heap sort (guaranteed O(n log n) with less space), and insertion sort (efficient for small or nearly-sorted data)."
   },
   {
     "id": "q-cs-004",
@@ -4829,7 +4960,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "A hash table uses a hash function to map keys to array indices, enabling fast average-case O(1) insert, delete, and lookup operations despite occasional collisions."
   },
   {
     "id": "q-cs-005",
@@ -4854,7 +4986,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "TCP (Transmission Control Protocol) is a connection-oriented protocol in the transport layer that ensures reliable, in-order delivery of data streams across the internet."
   },
   {
     "id": "q-cs-006",
@@ -4881,7 +5014,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Database normalization systematically organizes data through rules (1NF, 2NF, 3NF, etc.) to eliminate redundancy, ensure consistency, and reduce storage waste."
   },
   {
     "id": "q-cs-007",
@@ -4908,7 +5042,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Dynamic programming optimizes recursive algorithms by decomposing problems into overlapping subproblems and memoizing (caching) solutions to avoid redundant recomputation."
   },
   {
     "id": "q-cs-008",
@@ -4933,7 +5068,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "ACID properties (atomicity, consistency, isolation, durability) guarantee that database transactions are reliable units of work that either fully complete or fully roll back, maintaining data integrity."
   },
   {
     "id": "q-cs-009",
@@ -4960,7 +5096,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "A stack is a Last-In-First-Out (LIFO) abstract data type where elements are pushed and popped from a single end, used in recursive algorithms, function calls, and expression evaluation."
   },
   {
     "id": "q-cs-010",
@@ -4988,7 +5125,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Functional programming treats functions as first-class objects that can be passed as arguments and returned as values, emphasizes immutable data, and avoids side effects."
   },
   {
     "id": "q-cs-011",
@@ -5015,7 +5153,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "DNS (Domain Name System) is a distributed hierarchical database and protocol that translates human-readable domain names into IP addresses, enabling internet communication."
   },
   {
     "id": "q-cs-012",
@@ -5042,7 +5181,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "NP-complete problems are in a complexity class where a proposed solution can be verified in polynomial time, though finding one may require exponential time; they are believed (but unproven) to be harder than polynomial-time solvable problems."
   },
   {
     "id": "q-cs-013",
@@ -5069,7 +5209,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "A design pattern is a reusable architectural template (like Singleton, Observer, Factory) that provides a proven solution to common recurring problems in software design."
   },
   {
     "id": "q-cs-014",
@@ -5096,7 +5237,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Sharding (horizontal partitioning) divides a large dataset across multiple database servers based on a shard key, improving scalability and query performance."
   },
   {
     "id": "q-cs-015",
@@ -5123,7 +5265,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "A graph is a non-linear data structure consisting of vertices (nodes) connected by edges, used to represent networks, relationships, and interconnected data."
   },
   {
     "id": "q-cs-016",
@@ -5151,7 +5294,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Distributed consensus algorithms (like Raft or PBFT) enable a group of independent systems to agree on a value or decision despite potential network failures or Byzantine participants."
   },
   {
     "id": "q-music-001",
@@ -5178,7 +5322,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "An interval is the measurable distance between two pitches, expressed in semitones or specific interval names like major third or perfect fifth."
   },
   {
     "id": "q-music-002",
@@ -5205,7 +5350,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Western equal temperament divides the octave into 12 equal semitones; this is the standard tuning system for modern instruments."
   },
   {
     "id": "q-music-003",
@@ -5232,7 +5378,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "A triad consists of three notes stacked in thirds (root, third, fifth), forming the foundation of harmony in Western music theory."
   },
   {
     "id": "q-music-004",
@@ -5259,7 +5406,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Common time is 4/4 time signature, meaning four beats per measure with the quarter note receiving one beat; it is the most prevalent meter in popular and classical music."
   },
   {
     "id": "q-music-005",
@@ -5286,7 +5434,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "A major scale follows a specific pattern of whole and half steps: W-W-H-W-W-W-H, also called the Ionian mode."
   },
   {
     "id": "q-music-006",
@@ -5313,7 +5462,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "A pentatonic scale contains exactly five notes, commonly found in folk traditions across cultures and in jazz improvisation."
   },
   {
     "id": "q-music-007",
@@ -5341,7 +5491,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Voice leading is the art of moving each melodic line smoothly from one note to the next, minimizing large jumps and creating coherent independent parts."
   },
   {
     "id": "q-music-008",
@@ -5366,7 +5517,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The seven modes of the major scale each start on a different scale degree: Ionian, Dorian, Phrygian, Lydian, Mixolydian, Aeolian, and Locrian."
   },
   {
     "id": "q-music-009",
@@ -5393,7 +5545,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Chord inversion rearranges the notes so the root is not the lowest pitch; first inversion has the third as lowest note, second inversion has the fifth as lowest."
   },
   {
     "id": "q-music-010",
@@ -5420,7 +5573,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Syncopation shifts the musical emphasis away from the downbeat or strong beats to weak beats or the space between beats, creating rhythmic surprise."
   },
   {
     "id": "q-music-011",
@@ -5447,7 +5601,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Roman numeral analysis uses I, ii, iii, IV, etc. to label chords by their function within a key, showing relationships like dominant (V) resolving to tonic (I)."
   },
   {
     "id": "q-music-012",
@@ -5474,7 +5629,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "The circle of fifths arranges all 12 major and minor keys in a circle, showing which keys are closely related by sharps and flats, aiding modulation and transposition."
   },
   {
     "id": "q-music-013",
@@ -5501,7 +5657,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Sonata form is a large structural form with three main sections: exposition (presents themes), development (explores and varies themes), and recapitulation (returns to themes)."
   },
   {
     "id": "q-music-014",
@@ -5528,7 +5685,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Serialism, or twelve-tone technique, treats all 12 chromatic notes as equal, using each once before repeating any, preventing traditional tonal hierarchy."
   },
   {
     "id": "q-music-015",
@@ -5555,7 +5713,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Polyrhythm layers two or more rhythmic patterns simultaneously with different pulses or subdivisions, creating complex interlocking rhythmic texture."
   },
   {
     "id": "q-music-016",
@@ -5582,7 +5741,8 @@ export const SEED_QUESTIONS = [
       "timesWrong": 0,
       "lastShownAt": null,
       "correctDays": []
-    }
+    },
+    "explanation": "Modulation is a deliberate shift from one key to another key within a piece, often used to add harmonic interest and expand the tonal space."
   }
 ];
 

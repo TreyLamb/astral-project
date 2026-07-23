@@ -480,6 +480,9 @@ export default function TkbReview() {
         {revealed && (
           <div className="tkb-card-answer">
             {question.answer}
+            {question.explanation && (
+              <div className="tkb-card-explanation">{question.explanation}</div>
+            )}
             {question.answerAlternates.length > 0 && (
               <div><em>Also accepted: {question.answerAlternates.join(', ')}</em></div>
             )}

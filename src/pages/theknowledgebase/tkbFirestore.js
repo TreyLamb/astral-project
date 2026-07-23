@@ -11,7 +11,16 @@ import { db } from '../../firebase';
 import { SEED_SUBJECTS, SEED_QUESTIONS, SEED_WEIGHTS } from './tkbSeed';
 import { ASVAB_SUBJECT } from './asvabSubject';
 import ASVAB_QUESTIONS from './asvabQuestions.json';
-import { uid, todayStr, defaultSettings, MAX_SESSIONS, SCHEMA_VERSION } from './tkbStorage';
+import { uid, todayStr, defaultSettings, MAX_SESSIONS, SCHEMA_VERSION, REMOVED_QUESTION_IDS } from './tkbStorage';
+
+const CONTENT_SYNC_VERSION = 1;
+
+// Firestore write batches cap at 500 operations.
+function chunk(arr, size) {
+  const out = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
+}
 
 function questionsRef(uidStr) {
   return collection(db, 'users', uidStr, 'tkb_questions');
@@ -35,18 +44,65 @@ export const TkbFirestore = {
     const existing = await getDocs(questionsRef(uidStr));
     if (!existing.empty) return;
 
-    const batch = writeBatch(db);
-    [...SEED_SUBJECTS, ASVAB_SUBJECT].forEach((s) => {
-      batch.set(doc(db, 'users', uidStr, 'tkb_subjects', s.id), s);
-    });
-    [...SEED_QUESTIONS, ...ASVAB_QUESTIONS].forEach((q) => {
-      batch.set(doc(db, 'users', uidStr, 'tkb_questions', q.id), q);
-    });
-    await batch.commit();
+    // Chunked into multiple batches — a single writeBatch caps at 500 writes,
+    // and subjects + questions together (955+) blow past that in one shot.
+    const subjectWrites = [...SEED_SUBJECTS, ASVAB_SUBJECT].map((s) => ({
+      ref: doc(db, 'users', uidStr, 'tkb_subjects', s.id), data: s,
+    }));
+    const questionWrites = [...SEED_QUESTIONS, ...ASVAB_QUESTIONS].map((q) => ({
+      ref: doc(db, 'users', uidStr, 'tkb_questions', q.id), data: q,
+    }));
+    for (const group of chunk([...subjectWrites, ...questionWrites], 450)) {
+      const batch = writeBatch(db);
+      group.forEach(({ ref, data }) => batch.set(ref, data));
+      await batch.commit();
+    }
 
     const settings = defaultSettings();
     settings.autoScopedSubjectIds = [ASVAB_SUBJECT.id];
-    await setDoc(metaDocRef(uidStr), { ...defaultMeta(), settings });
+    await setDoc(metaDocRef(uidStr), { ...defaultMeta(), settings, contentSyncVersion: CONTENT_SYNC_VERSION });
+  },
+
+  // Companion to seedIfEmpty for accounts that already have questions:
+  // seedIfEmpty only ever runs for a totally-empty account, so a returning
+  // user's existing docs never pick up later content fixes (explanation
+  // text, corrected answers, removed questions) on their own. Guarded by
+  // contentSyncVersion in the meta doc so it runs at most once per version
+  // bump, not on every load.
+  async syncContentIfStale(uidStr) {
+    const metaSnap = await getDoc(metaDocRef(uidStr));
+    const meta = metaSnap.exists() ? metaSnap.data() : {};
+    if ((meta.contentSyncVersion ?? 0) >= CONTENT_SYNC_VERSION) return;
+
+    const sourceById = new Map();
+    for (const q of [...SEED_QUESTIONS, ...ASVAB_QUESTIONS]) sourceById.set(q.id, q);
+
+    const snap = await getDocs(questionsRef(uidStr));
+    const ops = [];
+    snap.docs.forEach((d) => {
+      if (REMOVED_QUESTION_IDS.includes(d.id)) {
+        ops.push({ type: 'delete', ref: d.ref });
+        return;
+      }
+      const src = sourceById.get(d.id);
+      if (!src) return;
+      ops.push({
+        type: 'update',
+        ref: d.ref,
+        data: { question: src.question, answer: src.answer, answerAlternates: src.answerAlternates, explanation: src.explanation },
+      });
+    });
+
+    for (const group of chunk(ops, 450)) {
+      const batch = writeBatch(db);
+      group.forEach((op) => {
+        if (op.type === 'delete') batch.delete(op.ref);
+        else batch.update(op.ref, op.data);
+      });
+      await batch.commit();
+    }
+
+    await setDoc(metaDocRef(uidStr), { contentSyncVersion: CONTENT_SYNC_VERSION }, { merge: true });
   },
 
   async getQuestions(uidStr) {

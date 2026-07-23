@@ -71,6 +71,7 @@ export default function TkbApp() {
       try {
         if (signedIn) {
           await TkbFirestore.seedIfEmpty(user.uid);
+          await TkbFirestore.syncContentIfStale(user.uid);
           const [q, s, meta] = await Promise.all([
             TkbFirestore.getQuestions(user.uid),
             TkbFirestore.getSubjects(user.uid),
