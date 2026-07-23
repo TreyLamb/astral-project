@@ -1,0 +1,4486 @@
+[
+  {
+    "id": "663039",
+    "name": "Atma's Reckoning",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "663039.png",
+    "tags": [
+      "Health",
+      "CriticalStrike",
+      "Lane"
+    ],
+    "categories": [
+      "Critical Strike",
+      "Health & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "663056",
+    "name": "Demon King's Crown",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "663056.png",
+    "tags": [
+      "Health",
+      "Armor",
+      "Damage",
+      "AttackSpeed",
+      "SpellDamage",
+      "MagicResist",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Armor",
+      "Attack Damage",
+      "Attack Speed",
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "663058",
+    "name": "Shield of Molten Stone",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "663058.png",
+    "tags": [
+      "Health",
+      "Armor"
+    ],
+    "categories": [
+      "Armor",
+      "Health & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "663059",
+    "name": "Cloak of Starry Night",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "663059.png",
+    "tags": [
+      "Health",
+      "SpellBlock"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "663060",
+    "name": "Sword of the Divine",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "663060.png",
+    "tags": [
+      "Damage",
+      "CriticalStrike",
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power",
+      "Attack Damage",
+      "Critical Strike"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "663146",
+    "name": "Hextech Gunblade",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "663146.png",
+    "tags": [
+      "Damage",
+      "LifeSteal",
+      "SpellDamage",
+      "Active",
+      "SpellVamp"
+    ],
+    "categories": [
+      "Ability Power",
+      "Attack Damage",
+      "Life Steal & Vamp"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "663172",
+    "name": "Zephyr",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "663172.png",
+    "tags": [
+      "AttackSpeed",
+      "CooldownReduction",
+      "OnHit",
+      "NonbootsMovement",
+      "Tenacity"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Speed",
+      "Movement",
+      "On-Hit Effects"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "663193",
+    "name": "Gargoyle Stoneplate",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "663193.png",
+    "tags": [
+      "SpellBlock",
+      "Armor",
+      "Active",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Magic Resistance"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "664011",
+    "name": "Sword of Blossoming Dawn",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "664011.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "CooldownReduction",
+      "OnHit",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Health & Regeneration",
+      "On-Hit Effects"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "664644",
+    "name": "Crown of the Shattered Queen",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "664644.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "Mana",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "667101",
+    "name": "Gambler's Blade",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "667101.png",
+    "tags": [
+      "Damage",
+      "NonbootsMovement",
+      "MagicPenetration",
+      "ArmorPenetration",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor Penetration",
+      "Attack Damage",
+      "Magic Penetration",
+      "Movement"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "667109",
+    "name": "Cruelty",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "667109.png",
+    "tags": [
+      "Armor",
+      "SpellDamage",
+      "MagicResist"
+    ],
+    "categories": [
+      "Ability Power",
+      "Armor",
+      "Magic Resistance"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "667112",
+    "name": "Flesheater",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "667112.png",
+    "tags": [
+      "Damage",
+      "SpellDamage",
+      "MagicPenetration",
+      "ArmorPenetration"
+    ],
+    "categories": [
+      "Ability Power",
+      "Armor Penetration",
+      "Attack Damage",
+      "Magic Penetration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1038",
+    "name": "B. F. Sword",
+    "plaintext": "Greatly increases Attack Damage",
+    "gold": 1300,
+    "icon": "1038.png",
+    "tags": [
+      "Damage"
+    ],
+    "categories": [
+      "Attack Damage"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1058",
+    "name": "Needlessly Large Rod",
+    "plaintext": "Greatly increases Ability Power",
+    "gold": 1200,
+    "icon": "1058.png",
+    "tags": [
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "2051",
+    "name": "Guardian's Horn",
+    "plaintext": "Good starting item for tanks",
+    "gold": 950,
+    "icon": "2051.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "Lane"
+    ],
+    "categories": [
+      "Health & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "3112",
+    "name": "Guardian's Orb",
+    "plaintext": "Good starting item for mages",
+    "gold": 950,
+    "icon": "3112.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "ManaRegen",
+      "Lane"
+    ],
+    "categories": [
+      "Ability Power",
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "3177",
+    "name": "Guardian's Blade",
+    "plaintext": "Good starting item for attackers",
+    "gold": 950,
+    "icon": "3177.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "Lane",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage",
+      "Health & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "3184",
+    "name": "Guardian's Hammer",
+    "plaintext": "Good starting item for attackers",
+    "gold": 950,
+    "icon": "3184.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "LifeSteal",
+      "Lane"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Health & Regeneration",
+      "Life Steal & Vamp"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "663064",
+    "name": "Veigar's Talisman of Ascension",
+    "plaintext": "",
+    "gold": 900,
+    "icon": "663064.png",
+    "tags": [],
+    "categories": [],
+    "group": "BASIC"
+  },
+  {
+    "id": "1037",
+    "name": "Pickaxe",
+    "plaintext": "Moderately increases Attack Damage",
+    "gold": 875,
+    "icon": "1037.png",
+    "tags": [
+      "Damage"
+    ],
+    "categories": [
+      "Attack Damage"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1026",
+    "name": "Blasting Wand",
+    "plaintext": "Moderately increases Ability Power",
+    "gold": 850,
+    "icon": "1026.png",
+    "tags": [
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1018",
+    "name": "Cloak of Agility",
+    "plaintext": "Increases critical strike chance",
+    "gold": 600,
+    "icon": "1018.png",
+    "tags": [
+      "CriticalStrike"
+    ],
+    "categories": [
+      "Critical Strike"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1054",
+    "name": "Doran's Shield",
+    "plaintext": "Good defensive starting item",
+    "gold": 450,
+    "icon": "1054.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "Lane"
+    ],
+    "categories": [
+      "Health & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1055",
+    "name": "Doran's Blade",
+    "plaintext": "Good starting item for attackers",
+    "gold": 450,
+    "icon": "1055.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "LifeSteal",
+      "SpellVamp",
+      "Lane"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Health & Regeneration",
+      "Life Steal & Vamp"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1083",
+    "name": "Cull",
+    "plaintext": "Provides damage and Life Steal on hit - Killing minions grant bonus Gold",
+    "gold": 450,
+    "icon": "1083.png",
+    "tags": [
+      "Damage",
+      "OnHit",
+      "Lane"
+    ],
+    "categories": [
+      "Attack Damage",
+      "On-Hit Effects"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1101",
+    "name": "Scorchclaw Pup",
+    "plaintext": "",
+    "gold": 450,
+    "icon": "1101.png",
+    "tags": [
+      "Jungle"
+    ],
+    "categories": [],
+    "group": "BASIC"
+  },
+  {
+    "id": "1102",
+    "name": "Gustwalker Hatchling",
+    "plaintext": "",
+    "gold": 450,
+    "icon": "1102.png",
+    "tags": [
+      "Jungle"
+    ],
+    "categories": [],
+    "group": "BASIC"
+  },
+  {
+    "id": "1103",
+    "name": "Mosstomper Seedling",
+    "plaintext": "",
+    "gold": 450,
+    "icon": "1103.png",
+    "tags": [
+      "Jungle"
+    ],
+    "categories": [],
+    "group": "BASIC"
+  },
+  {
+    "id": "1105",
+    "name": "Mosstomper Seedling",
+    "plaintext": "",
+    "gold": 450,
+    "icon": "1105.png",
+    "tags": [
+      "Jungle"
+    ],
+    "categories": [],
+    "group": "BASIC"
+  },
+  {
+    "id": "1106",
+    "name": "Gustwalker Hatchling",
+    "plaintext": "",
+    "gold": 450,
+    "icon": "1106.png",
+    "tags": [
+      "Jungle"
+    ],
+    "categories": [],
+    "group": "BASIC"
+  },
+  {
+    "id": "1107",
+    "name": "Scorchclaw Pup",
+    "plaintext": "",
+    "gold": 450,
+    "icon": "1107.png",
+    "tags": [
+      "Jungle"
+    ],
+    "categories": [],
+    "group": "BASIC"
+  },
+  {
+    "id": "1120",
+    "name": "Doran's Helm",
+    "plaintext": "",
+    "gold": 450,
+    "icon": "1120.png",
+    "tags": [
+      "Health",
+      "SpellBlock",
+      "Armor",
+      "Lane"
+    ],
+    "categories": [
+      "Armor",
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1028",
+    "name": "Ruby Crystal",
+    "plaintext": "Increases Health",
+    "gold": 400,
+    "icon": "1028.png",
+    "tags": [
+      "Health"
+    ],
+    "categories": [
+      "Health & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1033",
+    "name": "Null-Magic Mantle",
+    "plaintext": "Slightly increases Magic Resist",
+    "gold": 400,
+    "icon": "1033.png",
+    "tags": [
+      "SpellBlock"
+    ],
+    "categories": [
+      "Magic Resistance"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1052",
+    "name": "Amplifying Tome",
+    "plaintext": "Slightly increases Ability Power",
+    "gold": 400,
+    "icon": "1052.png",
+    "tags": [
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1056",
+    "name": "Doran's Ring",
+    "plaintext": "Good starting item for casters",
+    "gold": 400,
+    "icon": "1056.png",
+    "tags": [
+      "Health",
+      "Lane",
+      "ManaRegen",
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power",
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1086",
+    "name": "Doran's Bow",
+    "plaintext": "",
+    "gold": 400,
+    "icon": "1086.png",
+    "tags": [
+      "Damage",
+      "AttackSpeed",
+      "SpellVamp",
+      "Lane"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Attack Speed",
+      "Life Steal & Vamp"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "3070",
+    "name": "Tear of the Goddess",
+    "plaintext": "Increases maximum Mana as Mana is spent",
+    "gold": 400,
+    "icon": "3070.png",
+    "tags": [
+      "Mana",
+      "ManaRegen"
+    ],
+    "categories": [
+      "Mana & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "323070",
+    "name": "Tear of the Goddess",
+    "plaintext": "",
+    "gold": 400,
+    "icon": "323070.png",
+    "tags": [
+      "Mana",
+      "ManaRegen"
+    ],
+    "categories": [
+      "Mana & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "3865",
+    "name": "World Atlas",
+    "plaintext": "",
+    "gold": 400,
+    "icon": "3865.png",
+    "tags": [
+      "Health",
+      "ManaRegen",
+      "Vision",
+      "GoldPer",
+      "Lane"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1036",
+    "name": "Long Sword",
+    "plaintext": "Slightly increases Attack Damage",
+    "gold": 350,
+    "icon": "1036.png",
+    "tags": [
+      "Damage",
+      "Lane"
+    ],
+    "categories": [
+      "Attack Damage"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1082",
+    "name": "Dark Seal",
+    "plaintext": "Provides Ability Power and Mana.  Increases in power as you kill enemies.",
+    "gold": 350,
+    "icon": "1082.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "Lane"
+    ],
+    "categories": [
+      "Ability Power",
+      "Health & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1006",
+    "name": "Rejuvenation Bead",
+    "plaintext": "Slightly increases Health Regen",
+    "gold": 300,
+    "icon": "1006.png",
+    "tags": [
+      "HealthRegen"
+    ],
+    "categories": [
+      "Health & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1027",
+    "name": "Sapphire Crystal",
+    "plaintext": "Increases Mana",
+    "gold": 300,
+    "icon": "1027.png",
+    "tags": [
+      "Mana"
+    ],
+    "categories": [
+      "Mana & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1029",
+    "name": "Cloth Armor",
+    "plaintext": "Slightly increases Armor",
+    "gold": 300,
+    "icon": "1029.png",
+    "tags": [
+      "Armor"
+    ],
+    "categories": [
+      "Armor"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1042",
+    "name": "Dagger",
+    "plaintext": "Slightly increases Attack Speed",
+    "gold": 250,
+    "icon": "1042.png",
+    "tags": [
+      "AttackSpeed"
+    ],
+    "categories": [
+      "Attack Speed"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "2022",
+    "name": "Glowing Mote",
+    "plaintext": "",
+    "gold": 250,
+    "icon": "2022.png",
+    "tags": [
+      "CooldownReduction"
+    ],
+    "categories": [
+      "Ability Haste"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "1004",
+    "name": "Faerie Charm",
+    "plaintext": "Slightly increases Mana Regen",
+    "gold": 200,
+    "icon": "1004.png",
+    "tags": [
+      "ManaRegen"
+    ],
+    "categories": [
+      "Mana & Regeneration"
+    ],
+    "group": "BASIC"
+  },
+  {
+    "id": "3111",
+    "name": "Mercury's Treads",
+    "plaintext": "Increases Move Speed and reduces duration of disabling effects",
+    "gold": 1250,
+    "icon": "3111.png",
+    "tags": [
+      "Boots",
+      "SpellBlock",
+      "Tenacity"
+    ],
+    "categories": [
+      "Magic Resistance",
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "3173",
+    "name": "Chainlaced Crushers",
+    "plaintext": "Increases Move Speed and Cooldown Reduction",
+    "gold": 1250,
+    "icon": "3173.png",
+    "tags": [
+      "SpellBlock",
+      "Boots",
+      "Tenacity",
+      "MagicResist"
+    ],
+    "categories": [
+      "Magic Resistance",
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "3047",
+    "name": "Plated Steelcaps",
+    "plaintext": "Enhances Move Speed and reduces incoming basic attack damage",
+    "gold": 1200,
+    "icon": "3047.png",
+    "tags": [
+      "Armor",
+      "Boots"
+    ],
+    "categories": [
+      "Armor",
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "3174",
+    "name": "Armored Advance",
+    "plaintext": "Deal damage to empower your heals and shields",
+    "gold": 1200,
+    "icon": "3174.png",
+    "tags": [
+      "Armor",
+      "Boots"
+    ],
+    "categories": [
+      "Armor",
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "3006",
+    "name": "Berserker's Greaves",
+    "plaintext": "Enhances Move Speed and Attack Speed",
+    "gold": 1100,
+    "icon": "3006.png",
+    "tags": [
+      "AttackSpeed",
+      "Boots"
+    ],
+    "categories": [
+      "Attack Speed",
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "3020",
+    "name": "Sorcerer's Shoes",
+    "plaintext": "Enhances Move Speed and magic damage",
+    "gold": 1100,
+    "icon": "3020.png",
+    "tags": [
+      "Boots",
+      "MagicPenetration"
+    ],
+    "categories": [
+      "Magic Penetration",
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "3175",
+    "name": "Spellslinger's Shoes",
+    "plaintext": "",
+    "gold": 1100,
+    "icon": "3175.png",
+    "tags": [
+      "Boots",
+      "MagicPenetration"
+    ],
+    "categories": [
+      "Magic Penetration",
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "3008",
+    "name": "Gluttonous Greaves",
+    "plaintext": "Increases Attack Damage based on maximum Mana",
+    "gold": 1000,
+    "icon": "3008.png",
+    "tags": [
+      "LifeSteal",
+      "SpellVamp",
+      "Boots"
+    ],
+    "categories": [
+      "Life Steal & Vamp",
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "3009",
+    "name": "Boots of Swiftness",
+    "plaintext": "Enhances Move Speed and reduces the effect of slows",
+    "gold": 1000,
+    "icon": "3009.png",
+    "tags": [
+      "Boots"
+    ],
+    "categories": [
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "3168",
+    "name": "Immortal Path",
+    "plaintext": "",
+    "gold": 1000,
+    "icon": "3168.png",
+    "tags": [
+      "LifeSteal",
+      "SpellVamp",
+      "Boots"
+    ],
+    "categories": [
+      "Life Steal & Vamp",
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "3170",
+    "name": "Swiftmarch",
+    "plaintext": "Improves defense and reduces duration of disabling effects",
+    "gold": 1000,
+    "icon": "3170.png",
+    "tags": [
+      "Boots"
+    ],
+    "categories": [
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "3158",
+    "name": "Ionian Boots of Lucidity",
+    "plaintext": "Increases Move Speed and Cooldown Reduction",
+    "gold": 900,
+    "icon": "3158.png",
+    "tags": [
+      "Boots",
+      "CooldownReduction"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "3171",
+    "name": "Crimson Lucidity",
+    "plaintext": "",
+    "gold": 900,
+    "icon": "3171.png",
+    "tags": [
+      "CooldownReduction",
+      "Boots"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "1001",
+    "name": "Boots",
+    "plaintext": "Slightly increases Move Speed",
+    "gold": 300,
+    "icon": "1001.png",
+    "tags": [
+      "Boots"
+    ],
+    "categories": [
+      "Movement"
+    ],
+    "group": "BOOTS"
+  },
+  {
+    "id": "2138",
+    "name": "Elixir of Iron",
+    "plaintext": "Temporarily increases defenses. Leaves a trail for allies to follow.",
+    "gold": 500,
+    "icon": "2138.png",
+    "tags": [
+      "Health",
+      "Consumable",
+      "NonbootsMovement",
+      "Tenacity"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Movement"
+    ],
+    "group": "CONSUMABLE"
+  },
+  {
+    "id": "2139",
+    "name": "Elixir of Sorcery",
+    "plaintext": "Temporarily grants Ability Power and Bonus Damage to champions and turrets.",
+    "gold": 500,
+    "icon": "2139.png",
+    "tags": [
+      "Consumable",
+      "ManaRegen",
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "CONSUMABLE"
+  },
+  {
+    "id": "2140",
+    "name": "Elixir of Wrath",
+    "plaintext": "Temporarily grants Attack Damage and heals you when dealing physical damage to champions.",
+    "gold": 500,
+    "icon": "2140.png",
+    "tags": [
+      "Consumable",
+      "Damage",
+      "LifeSteal",
+      "SpellVamp"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Life Steal & Vamp"
+    ],
+    "group": "CONSUMABLE"
+  },
+  {
+    "id": "2141",
+    "name": "Cappa Juice",
+    "plaintext": "",
+    "gold": 300,
+    "icon": "2141.png",
+    "tags": [
+      "Damage",
+      "Consumable"
+    ],
+    "categories": [
+      "Attack Damage"
+    ],
+    "group": "CONSUMABLE"
+  },
+  {
+    "id": "2031",
+    "name": "Refillable Potion",
+    "plaintext": "Restores Health over time. Refills at shop.",
+    "gold": 150,
+    "icon": "2031.png",
+    "tags": [
+      "HealthRegen",
+      "Consumable",
+      "Active",
+      "Lane",
+      "Jungle"
+    ],
+    "categories": [
+      "Health & Regeneration"
+    ],
+    "group": "CONSUMABLE"
+  },
+  {
+    "id": "2055",
+    "name": "Control Ward",
+    "plaintext": "Used to disable wards and invisible traps in an area.",
+    "gold": 75,
+    "icon": "2055.png",
+    "tags": [
+      "Consumable",
+      "Lane",
+      "Stealth",
+      "Vision"
+    ],
+    "categories": [],
+    "group": "CONSUMABLE"
+  },
+  {
+    "id": "2003",
+    "name": "Health Potion",
+    "plaintext": "Consume to restore Health over time",
+    "gold": 50,
+    "icon": "2003.png",
+    "tags": [
+      "HealthRegen",
+      "Consumable",
+      "Lane",
+      "Jungle"
+    ],
+    "categories": [
+      "Health & Regeneration"
+    ],
+    "group": "CONSUMABLE"
+  },
+  {
+    "id": "3599",
+    "name": "Kalista's Black Spear",
+    "plaintext": "Kalista's spear that binds an Oathsworn Ally.",
+    "gold": 0,
+    "icon": "3599.png",
+    "tags": [
+      "Consumable"
+    ],
+    "categories": [],
+    "group": "CONSUMABLE"
+  },
+  {
+    "id": "3600",
+    "name": "Kalista's Black Spear",
+    "plaintext": "Kalista's spear that binds an Oathsworn Ally.",
+    "gold": 0,
+    "icon": "3600.png",
+    "tags": [
+      "Consumable"
+    ],
+    "categories": [],
+    "group": "CONSUMABLE"
+  },
+  {
+    "id": "2526",
+    "name": "Whispering Circlet",
+    "plaintext": "",
+    "gold": 2250,
+    "icon": "2526.png",
+    "tags": [
+      "Health",
+      "Mana",
+      "ManaRegen"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "322526",
+    "name": "Whispering Circlet",
+    "plaintext": "",
+    "gold": 2250,
+    "icon": "322526.png",
+    "tags": [
+      "Health",
+      "Mana",
+      "ManaRegen"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "2420",
+    "name": "Seeker's Armguard",
+    "plaintext": "Activate to become invincible but unable to take actions",
+    "gold": 1600,
+    "icon": "2420.png",
+    "tags": [
+      "Armor",
+      "SpellDamage",
+      "Active"
+    ],
+    "categories": [
+      "Ability Power",
+      "Armor"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "2421",
+    "name": "Shattered Armguard",
+    "plaintext": "Upgrades to stopwatch",
+    "gold": 1600,
+    "icon": "2421.png",
+    "tags": [],
+    "categories": [],
+    "group": "EPIC"
+  },
+  {
+    "id": "4632",
+    "name": "Verdant Barrier",
+    "plaintext": "",
+    "gold": 1600,
+    "icon": "4632.png",
+    "tags": [
+      "SpellBlock",
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power",
+      "Magic Resistance"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3035",
+    "name": "Last Whisper",
+    "plaintext": "Overcomes enemies with high Armor",
+    "gold": 1450,
+    "icon": "3035.png",
+    "tags": [
+      "ArmorPenetration",
+      "Damage"
+    ],
+    "categories": [
+      "Armor Penetration",
+      "Attack Damage"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "2020",
+    "name": "The Brutalizer",
+    "plaintext": "",
+    "gold": 1337,
+    "icon": "2020.png",
+    "tags": [
+      "Damage",
+      "CooldownReduction",
+      "ArmorPenetration"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor Penetration",
+      "Attack Damage"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3140",
+    "name": "Quicksilver Sash",
+    "plaintext": "Activate to remove all crowd control debuffs",
+    "gold": 1300,
+    "icon": "3140.png",
+    "tags": [
+      "Active",
+      "SpellBlock"
+    ],
+    "categories": [
+      "Magic Resistance"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3147",
+    "name": "Haunting Guise",
+    "plaintext": "Deals additional physical damage when ambushing enemies",
+    "gold": 1300,
+    "icon": "3147.png",
+    "tags": [
+      "Health",
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power",
+      "Health & Regeneration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3155",
+    "name": "Hexdrinker",
+    "plaintext": "Increases Attack Damage and Magic Resist",
+    "gold": 1300,
+    "icon": "3155.png",
+    "tags": [
+      "Damage",
+      "SpellBlock"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Magic Resistance"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3803",
+    "name": "Catalyst of Aeons",
+    "plaintext": "",
+    "gold": 1300,
+    "icon": "3803.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "Mana",
+      "ManaRegen"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "6670",
+    "name": "Noonquiver",
+    "plaintext": "",
+    "gold": 1300,
+    "icon": "6670.png",
+    "tags": [
+      "Damage",
+      "CriticalStrike"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Critical Strike"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3211",
+    "name": "Spectre's Cowl",
+    "plaintext": "Improves defense and grants regeneration upon being damaged",
+    "gold": 1250,
+    "icon": "3211.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "SpellBlock"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3051",
+    "name": "Hearthbound Axe",
+    "plaintext": "",
+    "gold": 1200,
+    "icon": "3051.png",
+    "tags": [
+      "Damage",
+      "AttackSpeed"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Attack Speed"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3077",
+    "name": "Tiamat",
+    "plaintext": "Melee attacks hit nearby enemies",
+    "gold": 1200,
+    "icon": "3077.png",
+    "tags": [
+      "Damage",
+      "OnHit"
+    ],
+    "categories": [
+      "Attack Damage",
+      "On-Hit Effects"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3086",
+    "name": "Zeal",
+    "plaintext": "Slight bonuses to Critical Strike Chance, Move Speed and Attack Speed",
+    "gold": 1200,
+    "icon": "3086.png",
+    "tags": [
+      "CriticalStrike",
+      "AttackSpeed",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Attack Speed",
+      "Critical Strike",
+      "Movement"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3802",
+    "name": "Lost Chapter",
+    "plaintext": "Restores Mana upon levelling up.",
+    "gold": 1200,
+    "icon": "3802.png",
+    "tags": [
+      "SpellDamage",
+      "Mana",
+      "ManaRegen",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "2021",
+    "name": "Tunneler",
+    "plaintext": "",
+    "gold": 1150,
+    "icon": "2021.png",
+    "tags": [
+      "Health",
+      "Damage"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Health & Regeneration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "2019",
+    "name": "Steel Sigil",
+    "plaintext": "",
+    "gold": 1100,
+    "icon": "2019.png",
+    "tags": [
+      "Armor",
+      "Damage"
+    ],
+    "categories": [
+      "Armor",
+      "Attack Damage"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3044",
+    "name": "Phage",
+    "plaintext": "Attacks and kills give a small burst of speed",
+    "gold": 1100,
+    "icon": "3044.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Health & Regeneration",
+      "Movement"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3145",
+    "name": "Hextech Alternator",
+    "plaintext": "Increases Ability Power. Deal bonus magic damage on attack periodically.",
+    "gold": 1100,
+    "icon": "3145.png",
+    "tags": [
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "4630",
+    "name": "Blighting Jewel",
+    "plaintext": "",
+    "gold": 1100,
+    "icon": "4630.png",
+    "tags": [
+      "MagicPenetration",
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power",
+      "Magic Penetration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3133",
+    "name": "Caulfield's Warhammer",
+    "plaintext": "Attack Damage and Cooldown Reduction",
+    "gold": 1050,
+    "icon": "3133.png",
+    "tags": [
+      "Damage",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3082",
+    "name": "Warden's Mail",
+    "plaintext": "",
+    "gold": 1000,
+    "icon": "3082.png",
+    "tags": [
+      "Armor"
+    ],
+    "categories": [
+      "Armor"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3134",
+    "name": "Serrated Dirk",
+    "plaintext": "Increases Attack Damage and Lethality",
+    "gold": 1000,
+    "icon": "3134.png",
+    "tags": [
+      "Damage",
+      "ArmorPenetration"
+    ],
+    "categories": [
+      "Armor Penetration",
+      "Attack Damage"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "1011",
+    "name": "Giant's Belt",
+    "plaintext": "Greatly increases Health",
+    "gold": 900,
+    "icon": "1011.png",
+    "tags": [
+      "Health"
+    ],
+    "categories": [
+      "Health & Regeneration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "1053",
+    "name": "Vampiric Scepter",
+    "plaintext": "Basic attacks restore Health",
+    "gold": 900,
+    "icon": "1053.png",
+    "tags": [
+      "Damage",
+      "LifeSteal"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Life Steal & Vamp"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "2508",
+    "name": "Fated Ashes",
+    "plaintext": "",
+    "gold": 900,
+    "icon": "2508.png",
+    "tags": [
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3024",
+    "name": "Glacial Buckler",
+    "plaintext": "Increases Armor and Cooldown Reduction",
+    "gold": 900,
+    "icon": "3024.png",
+    "tags": [
+      "Armor",
+      "Mana",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Mana & Regeneration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3057",
+    "name": "Sheen",
+    "plaintext": "Grants a bonus to next attack after spell cast",
+    "gold": 900,
+    "icon": "3057.png",
+    "tags": [
+      "OnHit",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "On-Hit Effects"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3113",
+    "name": "Aether Wisp",
+    "plaintext": "Increases Ability Power and Move Speed",
+    "gold": 900,
+    "icon": "3113.png",
+    "tags": [
+      "NonbootsMovement",
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power",
+      "Movement"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "4642",
+    "name": "Bandleglass Mirror",
+    "plaintext": "",
+    "gold": 900,
+    "icon": "4642.png",
+    "tags": [
+      "SpellDamage",
+      "ManaRegen",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "6660",
+    "name": "Bami's Cinder",
+    "plaintext": "",
+    "gold": 900,
+    "icon": "6660.png",
+    "tags": [
+      "Health",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Health & Regeneration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "1057",
+    "name": "Negatron Cloak",
+    "plaintext": "Moderately increases Magic Resist",
+    "gold": 850,
+    "icon": "1057.png",
+    "tags": [
+      "SpellBlock"
+    ],
+    "categories": [
+      "Magic Resistance"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3108",
+    "name": "Fiendish Codex",
+    "plaintext": "Increases Ability Power and Cooldown Reduction",
+    "gold": 850,
+    "icon": "3108.png",
+    "tags": [
+      "SpellDamage",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "1031",
+    "name": "Chain Vest",
+    "plaintext": "Greatly increases Armor",
+    "gold": 800,
+    "icon": "1031.png",
+    "tags": [
+      "Armor"
+    ],
+    "categories": [
+      "Armor"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3066",
+    "name": "Winged Moonplate",
+    "plaintext": "",
+    "gold": 800,
+    "icon": "3066.png",
+    "tags": [
+      "Health",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Movement"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3067",
+    "name": "Kindlegem",
+    "plaintext": "Increases Health and Cooldown Reduction",
+    "gold": 800,
+    "icon": "3067.png",
+    "tags": [
+      "Health",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Health & Regeneration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3076",
+    "name": "Bramble Vest",
+    "plaintext": "",
+    "gold": 800,
+    "icon": "3076.png",
+    "tags": [
+      "Armor"
+    ],
+    "categories": [
+      "Armor"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3123",
+    "name": "Executioner's Calling",
+    "plaintext": "Overcomes enemies with high health gain",
+    "gold": 800,
+    "icon": "3123.png",
+    "tags": [
+      "Damage"
+    ],
+    "categories": [
+      "Attack Damage"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3801",
+    "name": "Crystalline Bracer",
+    "plaintext": "Grants Health and Health Regen",
+    "gold": 800,
+    "icon": "3801.png",
+    "tags": [
+      "Health",
+      "HealthRegen"
+    ],
+    "categories": [
+      "Health & Regeneration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3916",
+    "name": "Oblivion Orb",
+    "plaintext": "Increases magic damage",
+    "gold": 800,
+    "icon": "3916.png",
+    "tags": [
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "6690",
+    "name": "Rectrix",
+    "plaintext": "",
+    "gold": 775,
+    "icon": "6690.png",
+    "tags": [
+      "Damage",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Movement"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "1043",
+    "name": "Recurve Bow",
+    "plaintext": "Greatly increases Attack Speed",
+    "gold": 700,
+    "icon": "1043.png",
+    "tags": [
+      "AttackSpeed",
+      "OnHit"
+    ],
+    "categories": [
+      "Attack Speed",
+      "On-Hit Effects"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3114",
+    "name": "Forbidden Idol",
+    "plaintext": "Increases Heal and Shield Power, Mana Regeneration, and Cooldown Reduction",
+    "gold": 600,
+    "icon": "3114.png",
+    "tags": [
+      "ManaRegen"
+    ],
+    "categories": [
+      "Mana & Regeneration"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3144",
+    "name": "Scout's Slingshot",
+    "plaintext": "Activate to deal magic damage and slow target champion",
+    "gold": 600,
+    "icon": "3144.png",
+    "tags": [
+      "AttackSpeed"
+    ],
+    "categories": [
+      "Attack Speed"
+    ],
+    "group": "EPIC"
+  },
+  {
+    "id": "3031",
+    "name": "Infinity Edge",
+    "plaintext": "Massively enhances critical strikes",
+    "gold": 3500,
+    "icon": "3031.png",
+    "tags": [
+      "CriticalStrike",
+      "Damage"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Critical Strike"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3089",
+    "name": "Rabadon's Deathcap",
+    "plaintext": "Massively increases Ability Power",
+    "gold": 3500,
+    "icon": "3089.png",
+    "tags": [
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3072",
+    "name": "Bloodthirster",
+    "plaintext": "Grants Attack Damage, Life Steal and Life Steal now overheals",
+    "gold": 3400,
+    "icon": "3072.png",
+    "tags": [
+      "Damage",
+      "LifeSteal"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Life Steal & Vamp"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3078",
+    "name": "Trinity Force",
+    "plaintext": "Tons of Damage",
+    "gold": 3333,
+    "icon": "3078.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "AttackSpeed",
+      "CooldownReduction",
+      "OnHit",
+      "NonbootsMovement",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage",
+      "Attack Speed",
+      "Health & Regeneration",
+      "Movement",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "2501",
+    "name": "Overlord's Bloodmail",
+    "plaintext": "",
+    "gold": 3300,
+    "icon": "2501.png",
+    "tags": [
+      "Health",
+      "Damage"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3036",
+    "name": "Lord Dominik's Regards",
+    "plaintext": "Overcomes enemies with high health and armor",
+    "gold": 3300,
+    "icon": "3036.png",
+    "tags": [
+      "Damage",
+      "CriticalStrike",
+      "ArmorPenetration"
+    ],
+    "categories": [
+      "Armor Penetration",
+      "Attack Damage",
+      "Critical Strike"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3074",
+    "name": "Ravenous Hydra",
+    "plaintext": "Melee attacks hit nearby enemies, dealing damage and restoring Health",
+    "gold": 3300,
+    "icon": "3074.png",
+    "tags": [
+      "Damage",
+      "LifeSteal",
+      "CooldownReduction",
+      "OnHit",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage",
+      "Life Steal & Vamp",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3748",
+    "name": "Titanic Hydra",
+    "plaintext": "Deals area of effect damage based on owner's health",
+    "gold": 3300,
+    "icon": "3748.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "Damage",
+      "OnHit"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Health & Regeneration",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6333",
+    "name": "Death's Dance",
+    "plaintext": "",
+    "gold": 3300,
+    "icon": "6333.png",
+    "tags": [
+      "Armor",
+      "Damage",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Attack Damage"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6631",
+    "name": "Stridebreaker",
+    "plaintext": "",
+    "gold": 3300,
+    "icon": "6631.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "AttackSpeed",
+      "Slow"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Attack Speed",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3157",
+    "name": "Zhonya's Hourglass",
+    "plaintext": "Activate to become invincible but unable to take actions",
+    "gold": 3250,
+    "icon": "3157.png",
+    "tags": [
+      "Armor",
+      "SpellDamage",
+      "Active"
+    ],
+    "categories": [
+      "Ability Power",
+      "Armor"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "2520",
+    "name": "Bastionbreaker",
+    "plaintext": "",
+    "gold": 3200,
+    "icon": "2520.png",
+    "tags": [
+      "Damage",
+      "ArmorPenetration",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor Penetration",
+      "Attack Damage"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3026",
+    "name": "Guardian Angel",
+    "plaintext": "Periodically revives champion upon death",
+    "gold": 3200,
+    "icon": "3026.png",
+    "tags": [
+      "Armor",
+      "Damage"
+    ],
+    "categories": [
+      "Armor",
+      "Attack Damage"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3053",
+    "name": "Sterak's Gage",
+    "plaintext": "Shields against large bursts of damage",
+    "gold": 3200,
+    "icon": "3053.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "Tenacity"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3097",
+    "name": "Stormrazor",
+    "plaintext": "Periodically kill enemy minions to heal and grant gold to a nearby ally",
+    "gold": 3200,
+    "icon": "3097.png",
+    "tags": [
+      "Damage",
+      "CriticalStrike",
+      "AttackSpeed",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Attack Speed",
+      "Critical Strike",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3139",
+    "name": "Mercurial Scimitar",
+    "plaintext": "Activate to remove all crowd control debuffs and grant massive Move Speed",
+    "gold": 3200,
+    "icon": "3139.png",
+    "tags": [
+      "SpellBlock",
+      "Damage",
+      "LifeSteal",
+      "Active",
+      "NonbootsMovement",
+      "Tenacity"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Life Steal & Vamp",
+      "Magic Resistance",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3153",
+    "name": "Blade of The Ruined King",
+    "plaintext": "Deals damage based on target's Health, can steal Move Speed",
+    "gold": 3200,
+    "icon": "3153.png",
+    "tags": [
+      "Damage",
+      "AttackSpeed",
+      "LifeSteal",
+      "Slow",
+      "OnHit"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Attack Speed",
+      "Life Steal & Vamp",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "4645",
+    "name": "Shadowflame",
+    "plaintext": "",
+    "gold": 3200,
+    "icon": "4645.png",
+    "tags": [
+      "SpellDamage",
+      "MagicPenetration"
+    ],
+    "categories": [
+      "Ability Power",
+      "Magic Penetration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6665",
+    "name": "Jak'Sho, The Protean",
+    "plaintext": "",
+    "gold": 3200,
+    "icon": "6665.png",
+    "tags": [
+      "Health",
+      "SpellBlock",
+      "Armor",
+      "MagicResist"
+    ],
+    "categories": [
+      "Armor",
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "2510",
+    "name": "Dusk and Dawn",
+    "plaintext": "",
+    "gold": 3100,
+    "icon": "2510.png",
+    "tags": [
+      "Health",
+      "AttackSpeed",
+      "SpellDamage",
+      "OnHit",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Attack Speed",
+      "Health & Regeneration",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "2517",
+    "name": "Endless Hunger",
+    "plaintext": "",
+    "gold": 3100,
+    "icon": "2517.png",
+    "tags": [
+      "Damage",
+      "LifeSteal",
+      "SpellVamp",
+      "Tenacity",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage",
+      "Life Steal & Vamp"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3032",
+    "name": "Yun Tal Wildarrows",
+    "plaintext": "",
+    "gold": 3100,
+    "icon": "3032.png",
+    "tags": [
+      "Damage",
+      "CriticalStrike",
+      "AttackSpeed"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Attack Speed",
+      "Critical Strike"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3083",
+    "name": "Warmog's Armor",
+    "plaintext": "Grants massive Health and Health Regen",
+    "gold": 3100,
+    "icon": "3083.png",
+    "tags": [
+      "Health",
+      "HealthRegen"
+    ],
+    "categories": [
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3156",
+    "name": "Maw of Malmortius",
+    "plaintext": "Grants bonus Attack Damage when Health is low",
+    "gold": 3100,
+    "icon": "3156.png",
+    "tags": [
+      "SpellBlock",
+      "Damage",
+      "LifeSteal",
+      "SpellVamp",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage",
+      "Life Steal & Vamp",
+      "Magic Resistance"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3161",
+    "name": "Spear of Shojin",
+    "plaintext": "Reduce damage taken from champions by a flat amount. Attack while near multiple enemy champions to increase this amount for a short time.",
+    "gold": 3100,
+    "icon": "3161.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "4633",
+    "name": "Riftmaker",
+    "plaintext": "",
+    "gold": 3100,
+    "icon": "4633.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "CooldownReduction",
+      "SpellVamp"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Health & Regeneration",
+      "Life Steal & Vamp"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6610",
+    "name": "Sundered Sky",
+    "plaintext": "",
+    "gold": 3100,
+    "icon": "6610.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3508",
+    "name": "Essence Reaver",
+    "plaintext": "",
+    "gold": 3050,
+    "icon": "3508.png",
+    "tags": [
+      "Damage",
+      "CriticalStrike",
+      "ManaRegen",
+      "CooldownReduction",
+      "OnHit",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage",
+      "Critical Strike",
+      "Mana & Regeneration",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3033",
+    "name": "Mortal Reminder",
+    "plaintext": "Overcomes enemies with high Health recovery and Armor",
+    "gold": 3000,
+    "icon": "3033.png",
+    "tags": [
+      "Damage",
+      "CriticalStrike",
+      "ArmorPenetration"
+    ],
+    "categories": [
+      "Armor Penetration",
+      "Attack Damage",
+      "Critical Strike"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3071",
+    "name": "Black Cleaver",
+    "plaintext": "Dealing physical damage to enemy champions reduces their Armor",
+    "gold": 3000,
+    "icon": "3071.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "CooldownReduction",
+      "OnHit",
+      "NonbootsMovement",
+      "ArmorPenetration",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor Penetration",
+      "Attack Damage",
+      "Health & Regeneration",
+      "Movement",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3073",
+    "name": "Experimental Hexplate",
+    "plaintext": "Increases maximum Mana as Mana is spent",
+    "gold": 3000,
+    "icon": "3073.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "AttackSpeed",
+      "CooldownReduction",
+      "NonbootsMovement",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage",
+      "Attack Speed",
+      "Health & Regeneration",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3084",
+    "name": "Heartsteel",
+    "plaintext": "Restores Health on kill or assist",
+    "gold": 3000,
+    "icon": "3084.png",
+    "tags": [
+      "Health",
+      "HealthRegen"
+    ],
+    "categories": [
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3087",
+    "name": "Statikk Shiv",
+    "plaintext": "Movement builds charges that release chain lightning on basic attack",
+    "gold": 3000,
+    "icon": "3087.png",
+    "tags": [
+      "Damage",
+      "AttackSpeed",
+      "SpellDamage",
+      "OnHit",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Ability Power",
+      "Attack Damage",
+      "Attack Speed",
+      "Movement",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3102",
+    "name": "Banshee's Veil",
+    "plaintext": "Periodically blocks enemy abilities",
+    "gold": 3000,
+    "icon": "3102.png",
+    "tags": [
+      "SpellBlock",
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power",
+      "Magic Resistance"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3124",
+    "name": "Guinsoo's Rageblade",
+    "plaintext": "",
+    "gold": 3000,
+    "icon": "3124.png",
+    "tags": [
+      "Damage",
+      "AttackSpeed",
+      "SpellDamage",
+      "OnHit"
+    ],
+    "categories": [
+      "Ability Power",
+      "Attack Damage",
+      "Attack Speed",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3135",
+    "name": "Void Staff",
+    "plaintext": "Increases magic damage",
+    "gold": 3000,
+    "icon": "3135.png",
+    "tags": [
+      "MagicPenetration",
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power",
+      "Magic Penetration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3137",
+    "name": "Cryptbloom",
+    "plaintext": "Activate to remove all debuffs and grant massive Move Speed",
+    "gold": 3000,
+    "icon": "3137.png",
+    "tags": [
+      "SpellDamage",
+      "MagicPenetration",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Magic Penetration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3146",
+    "name": "Hextech Gunblade",
+    "plaintext": "Increases Attack Damage and Ability Power, activate to slow a target",
+    "gold": 3000,
+    "icon": "3146.png",
+    "tags": [
+      "Damage",
+      "LifeSteal",
+      "SpellDamage",
+      "Active",
+      "SpellVamp"
+    ],
+    "categories": [
+      "Ability Power",
+      "Attack Damage",
+      "Life Steal & Vamp"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3181",
+    "name": "Hullbreaker",
+    "plaintext": "",
+    "gold": 3000,
+    "icon": "3181.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Health & Regeneration",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3302",
+    "name": "Terminus",
+    "plaintext": "Kill minions periodically to heal and grant gold to a nearby ally",
+    "gold": 3000,
+    "icon": "3302.png",
+    "tags": [
+      "Damage",
+      "AttackSpeed",
+      "OnHit",
+      "MagicPenetration",
+      "ArmorPenetration"
+    ],
+    "categories": [
+      "Armor Penetration",
+      "Attack Damage",
+      "Attack Speed",
+      "Magic Penetration",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3814",
+    "name": "Edge of Night",
+    "plaintext": "Periodically blocks enemy abilities",
+    "gold": 3000,
+    "icon": "3814.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "ArmorPenetration"
+    ],
+    "categories": [
+      "Armor Penetration",
+      "Attack Damage",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "4629",
+    "name": "Cosmic Drive",
+    "plaintext": "Massive amounts of Cooldown Reduction",
+    "gold": 3000,
+    "icon": "4629.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "NonbootsMovement",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Health & Regeneration",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6609",
+    "name": "Chempunk Chainsword",
+    "plaintext": "",
+    "gold": 3000,
+    "icon": "6609.png",
+    "tags": [
+      "Health",
+      "Damage",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6653",
+    "name": "Liandry's Torment",
+    "plaintext": "Charge up in combat to deal high damage over time, especially against durable enemies",
+    "gold": 3000,
+    "icon": "6653.png",
+    "tags": [
+      "Health",
+      "SpellDamage"
+    ],
+    "categories": [
+      "Ability Power",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6672",
+    "name": "Kraken Slayer",
+    "plaintext": "",
+    "gold": 3000,
+    "icon": "6672.png",
+    "tags": [
+      "Damage",
+      "AttackSpeed",
+      "OnHit",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Attack Speed",
+      "Movement",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6673",
+    "name": "Immortal Shieldbow",
+    "plaintext": "",
+    "gold": 3000,
+    "icon": "6673.png",
+    "tags": [
+      "Damage",
+      "CriticalStrike"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Critical Strike"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6676",
+    "name": "The Collector",
+    "plaintext": "",
+    "gold": 3000,
+    "icon": "6676.png",
+    "tags": [
+      "Damage",
+      "CriticalStrike",
+      "ArmorPenetration"
+    ],
+    "categories": [
+      "Armor Penetration",
+      "Attack Damage",
+      "Critical Strike"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "667666",
+    "name": "The Collector",
+    "plaintext": "",
+    "gold": 3000,
+    "icon": "667666.png",
+    "tags": [
+      "Damage",
+      "CriticalStrike",
+      "ArmorPenetration"
+    ],
+    "categories": [
+      "Armor Penetration",
+      "Attack Damage",
+      "Critical Strike"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6694",
+    "name": "Serylda's Grudge",
+    "plaintext": "",
+    "gold": 3000,
+    "icon": "6694.png",
+    "tags": [
+      "Damage",
+      "CooldownReduction",
+      "ArmorPenetration",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor Penetration",
+      "Attack Damage"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6699",
+    "name": "Voltaic Cyclosword",
+    "plaintext": "",
+    "gold": 3000,
+    "icon": "6699.png",
+    "tags": [
+      "Damage",
+      "Active",
+      "CooldownReduction",
+      "ArmorPenetration",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor Penetration",
+      "Attack Damage"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "2504",
+    "name": "Kaenic Rookern",
+    "plaintext": "",
+    "gold": 2900,
+    "icon": "2504.png",
+    "tags": [
+      "Health",
+      "SpellBlock",
+      "HealthRegen"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3003",
+    "name": "Archangel's Staff",
+    "plaintext": "Increases Ability Power based on maximum Mana",
+    "gold": 2900,
+    "icon": "3003.png",
+    "tags": [
+      "SpellDamage",
+      "Mana",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3004",
+    "name": "Manamune",
+    "plaintext": "Increases Attack Damage based on maximum Mana",
+    "gold": 2900,
+    "icon": "3004.png",
+    "tags": [
+      "Damage",
+      "Mana",
+      "CooldownReduction",
+      "OnHit",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage",
+      "Mana & Regeneration",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3100",
+    "name": "Lich Bane",
+    "plaintext": "Grants a bonus to next attack after spell cast",
+    "gold": 2900,
+    "icon": "3100.png",
+    "tags": [
+      "SpellDamage",
+      "OnHit",
+      "NonbootsMovement",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Movement",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3115",
+    "name": "Nashor's Tooth",
+    "plaintext": "Increases Attack Speed, Ability Power, and Cooldown Reduction",
+    "gold": 2900,
+    "icon": "3115.png",
+    "tags": [
+      "AttackSpeed",
+      "SpellDamage",
+      "OnHit",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Attack Speed",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "323003",
+    "name": "Archangel's Staff",
+    "plaintext": "",
+    "gold": 2900,
+    "icon": "323003.png",
+    "tags": [
+      "SpellDamage",
+      "Mana",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "323004",
+    "name": "Manamune",
+    "plaintext": "",
+    "gold": 2900,
+    "icon": "323004.png",
+    "tags": [
+      "Damage",
+      "Mana",
+      "CooldownReduction",
+      "OnHit",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage",
+      "Mana & Regeneration",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "323109",
+    "name": "Knight's Vow",
+    "plaintext": "",
+    "gold": 2900,
+    "icon": "323109.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "Armor",
+      "Aura",
+      "Active",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "326617",
+    "name": "Moonstone Renewer",
+    "plaintext": "",
+    "gold": 2900,
+    "icon": "326617.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "ManaRegen",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "326621",
+    "name": "Dawncore",
+    "plaintext": "",
+    "gold": 2900,
+    "icon": "326621.png",
+    "tags": [
+      "SpellDamage",
+      "ManaRegen"
+    ],
+    "categories": [
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3742",
+    "name": "Dead Man's Plate",
+    "plaintext": "Build momentum as you move around then smash into enemies.",
+    "gold": 2900,
+    "icon": "3742.png",
+    "tags": [
+      "Health",
+      "Armor",
+      "Slow",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Armor",
+      "Health & Regeneration",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6662",
+    "name": "Iceborn Gauntlet",
+    "plaintext": "High Magic Resist.Passively slow nearby enemies. When spells are cast near you, release a wave of energy that damages and slows.",
+    "gold": 2900,
+    "icon": "6662.png",
+    "tags": [
+      "Health",
+      "Armor",
+      "CooldownReduction",
+      "Slow",
+      "OnHit",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Health & Regeneration",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6692",
+    "name": "Eclipse",
+    "plaintext": "",
+    "gold": 2900,
+    "icon": "6692.png",
+    "tags": [
+      "Damage",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Damage"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "8010",
+    "name": "Bloodletter's Curse",
+    "plaintext": "",
+    "gold": 2900,
+    "icon": "8010.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "CooldownReduction",
+      "MagicPenetration"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Health & Regeneration",
+      "Magic Penetration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3165",
+    "name": "Morellonomicon",
+    "plaintext": "Increases magic damage",
+    "gold": 2850,
+    "icon": "3165.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "328020",
+    "name": "Abyssal Mask",
+    "plaintext": "",
+    "gold": 2850,
+    "icon": "328020.png",
+    "tags": [
+      "Health",
+      "SpellBlock",
+      "CooldownReduction",
+      "MagicResist",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6698",
+    "name": "Profane Hydra",
+    "plaintext": "",
+    "gold": 2850,
+    "icon": "6698.png",
+    "tags": [
+      "Damage",
+      "Active",
+      "CooldownReduction",
+      "ArmorPenetration",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor Penetration",
+      "Attack Damage"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "2502",
+    "name": "Unending Despair",
+    "plaintext": "",
+    "gold": 2800,
+    "icon": "2502.png",
+    "tags": [
+      "Health",
+      "Armor",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "2503",
+    "name": "Blackfire Torch",
+    "plaintext": "",
+    "gold": 2800,
+    "icon": "2503.png",
+    "tags": [
+      "SpellDamage",
+      "Mana",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "2522",
+    "name": "Actualizer",
+    "plaintext": "",
+    "gold": 2800,
+    "icon": "2522.png",
+    "tags": [
+      "SpellDamage",
+      "Mana",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "2523",
+    "name": "Hexoptics C44",
+    "plaintext": "",
+    "gold": 2800,
+    "icon": "2523.png",
+    "tags": [
+      "Damage",
+      "CriticalStrike"
+    ],
+    "categories": [
+      "Attack Damage",
+      "Critical Strike"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3091",
+    "name": "Wit's End",
+    "plaintext": "Resist magic damage and claw your way back to life.",
+    "gold": 2800,
+    "icon": "3091.png",
+    "tags": [
+      "SpellBlock",
+      "AttackSpeed",
+      "OnHit",
+      "Tenacity"
+    ],
+    "categories": [
+      "Attack Speed",
+      "Magic Resistance",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3142",
+    "name": "Youmuu's Ghostblade",
+    "plaintext": "Activate to greatly increase Move Speed",
+    "gold": 2800,
+    "icon": "3142.png",
+    "tags": [
+      "Damage",
+      "Active",
+      "NonbootsMovement",
+      "ArmorPenetration"
+    ],
+    "categories": [
+      "Armor Penetration",
+      "Attack Damage",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3179",
+    "name": "Umbral Glaive",
+    "plaintext": "Provides trap and ward detection periodically",
+    "gold": 2800,
+    "icon": "3179.png",
+    "tags": [
+      "Damage",
+      "Vision",
+      "CooldownReduction",
+      "ArmorPenetration",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor Penetration",
+      "Attack Damage"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "323107",
+    "name": "Redemption",
+    "plaintext": "",
+    "gold": 2800,
+    "icon": "323107.png",
+    "tags": [
+      "SpellDamage",
+      "ManaRegen",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "323222",
+    "name": "Mikael's Blessing",
+    "plaintext": "",
+    "gold": 2800,
+    "icon": "323222.png",
+    "tags": [
+      "Health",
+      "ManaRegen",
+      "Active",
+      "CooldownReduction",
+      "Tenacity",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "4401",
+    "name": "Force of Nature",
+    "plaintext": "Move Speed, Magic Resist, and max Health Regeneration",
+    "gold": 2800,
+    "icon": "4401.png",
+    "tags": [
+      "Health",
+      "SpellBlock",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Magic Resistance",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "4646",
+    "name": "Stormsurge",
+    "plaintext": "",
+    "gold": 2800,
+    "icon": "4646.png",
+    "tags": [
+      "SpellDamage",
+      "GoldPer",
+      "NonbootsMovement",
+      "MagicPenetration"
+    ],
+    "categories": [
+      "Ability Power",
+      "Magic Penetration",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6664",
+    "name": "Hollow Radiance",
+    "plaintext": "Immobilize enemies to gain a shield. Activate to run faster at opponents.",
+    "gold": 2800,
+    "icon": "6664.png",
+    "tags": [
+      "Health",
+      "SpellBlock",
+      "HealthRegen",
+      "Aura",
+      "MagicResist",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6697",
+    "name": "Hubris",
+    "plaintext": "",
+    "gold": 2800,
+    "icon": "6697.png",
+    "tags": [
+      "Damage",
+      "Active",
+      "CooldownReduction",
+      "ArmorPenetration",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor Penetration",
+      "Attack Damage"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6655",
+    "name": "Luden's Echo",
+    "plaintext": "High burst damage, good against fragile foes",
+    "gold": 2750,
+    "icon": "6655.png",
+    "tags": [
+      "SpellDamage",
+      "Mana",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6696",
+    "name": "Axiom Arc",
+    "plaintext": "",
+    "gold": 2750,
+    "icon": "6696.png",
+    "tags": [
+      "Damage",
+      "ArmorPenetration",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor Penetration",
+      "Attack Damage"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3065",
+    "name": "Spirit Visage",
+    "plaintext": "Increases Health and healing effects",
+    "gold": 2700,
+    "icon": "3065.png",
+    "tags": [
+      "Health",
+      "SpellBlock",
+      "HealthRegen",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3068",
+    "name": "Sunfire Aegis",
+    "plaintext": "High armor. Constantly deals damage to nearby enemies. Immobilize enemies to release a wave of damaging flame",
+    "gold": 2700,
+    "icon": "3068.png",
+    "tags": [
+      "Health",
+      "Armor",
+      "Aura",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3118",
+    "name": "Malignance",
+    "plaintext": "Partner with an ally to protect each other",
+    "gold": 2700,
+    "icon": "3118.png",
+    "tags": [
+      "SpellDamage",
+      "Mana",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3143",
+    "name": "Randuin's Omen",
+    "plaintext": "Greatly increases defenses, activate to slow nearby enemies",
+    "gold": 2700,
+    "icon": "3143.png",
+    "tags": [
+      "Health",
+      "Armor",
+      "Active",
+      "Slow"
+    ],
+    "categories": [
+      "Armor",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "323110",
+    "name": "Frozen Heart",
+    "plaintext": "",
+    "gold": 2700,
+    "icon": "323110.png",
+    "tags": [
+      "Armor",
+      "Mana",
+      "Aura",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "4628",
+    "name": "Horizon Focus",
+    "plaintext": "Immobilizing a champion causes lightning to strike them",
+    "gold": 2700,
+    "icon": "4628.png",
+    "tags": [
+      "SpellDamage",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "2512",
+    "name": "Fiendhunter Bolts",
+    "plaintext": "",
+    "gold": 2650,
+    "icon": "2512.png",
+    "tags": [
+      "CriticalStrike",
+      "AttackSpeed",
+      "NonbootsMovement",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Attack Speed",
+      "Critical Strike",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3046",
+    "name": "Phantom Dancer",
+    "plaintext": "Move faster while attacking enemies and gain a shield when on low health.",
+    "gold": 2650,
+    "icon": "3046.png",
+    "tags": [
+      "CriticalStrike",
+      "AttackSpeed",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Attack Speed",
+      "Critical Strike",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3085",
+    "name": "Runaan's Hurricane",
+    "plaintext": "Ranged attacks fire two bolts at nearby enemies",
+    "gold": 2650,
+    "icon": "3085.png",
+    "tags": [
+      "CriticalStrike",
+      "AttackSpeed",
+      "OnHit",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Attack Speed",
+      "Critical Strike",
+      "Movement",
+      "On-Hit Effects"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3094",
+    "name": "Rapid Firecannon",
+    "plaintext": "Movement builds charges that release a sieging fire attack on release",
+    "gold": 2650,
+    "icon": "3094.png",
+    "tags": [
+      "CriticalStrike",
+      "AttackSpeed",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Attack Speed",
+      "Critical Strike",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3152",
+    "name": "Hextech Rocketbelt",
+    "plaintext": "Activate to dash forward and unleash a fiery explosion",
+    "gold": 2650,
+    "icon": "3152.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "Active",
+      "CooldownReduction",
+      "NonbootsMovement",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Health & Regeneration",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "323075",
+    "name": "Thornmail",
+    "plaintext": "",
+    "gold": 2650,
+    "icon": "323075.png",
+    "tags": [
+      "Health",
+      "Armor"
+    ],
+    "categories": [
+      "Armor",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6675",
+    "name": "Navori Flickerblade",
+    "plaintext": "",
+    "gold": 2650,
+    "icon": "6675.png",
+    "tags": [
+      "CriticalStrike",
+      "AttackSpeed",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Attack Speed",
+      "Critical Strike",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "8020",
+    "name": "Abyssal Mask",
+    "plaintext": "",
+    "gold": 2650,
+    "icon": "8020.png",
+    "tags": [
+      "Health",
+      "SpellBlock",
+      "CooldownReduction",
+      "MagicResist",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "2525",
+    "name": "Protoplasm Harness",
+    "plaintext": "",
+    "gold": 2600,
+    "icon": "2525.png",
+    "tags": [
+      "Health",
+      "NonbootsMovement",
+      "Tenacity",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Health & Regeneration",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3116",
+    "name": "Rylai's Crystal Scepter",
+    "plaintext": "Abilities slow enemies",
+    "gold": 2600,
+    "icon": "3116.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "Slow"
+    ],
+    "categories": [
+      "Ability Power",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "322065",
+    "name": "Shurelya's Battlesong",
+    "plaintext": "",
+    "gold": 2600,
+    "icon": "322065.png",
+    "tags": [
+      "SpellDamage",
+      "ManaRegen",
+      "Active",
+      "CooldownReduction",
+      "NonbootsMovement",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "323190",
+    "name": "Locket of the Iron Solari",
+    "plaintext": "",
+    "gold": 2600,
+    "icon": "323190.png",
+    "tags": [
+      "Health",
+      "SpellBlock",
+      "Armor",
+      "Aura",
+      "Active",
+      "MagicResist",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "323504",
+    "name": "Ardent Censer",
+    "plaintext": "",
+    "gold": 2600,
+    "icon": "323504.png",
+    "tags": [
+      "AttackSpeed",
+      "SpellDamage",
+      "ManaRegen",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Ability Power",
+      "Attack Speed",
+      "Mana & Regeneration",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "326616",
+    "name": "Staff of Flowing Water",
+    "plaintext": "",
+    "gold": 2600,
+    "icon": "326616.png",
+    "tags": [
+      "SpellDamage",
+      "ManaRegen",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "326620",
+    "name": "Echoes of Helia",
+    "plaintext": "",
+    "gold": 2600,
+    "icon": "326620.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "ManaRegen",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "326657",
+    "name": "Rod of Ages",
+    "plaintext": "",
+    "gold": 2600,
+    "icon": "326657.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "SpellDamage",
+      "Mana",
+      "ManaRegen"
+    ],
+    "categories": [
+      "Ability Power",
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6657",
+    "name": "Rod of Ages",
+    "plaintext": "",
+    "gold": 2600,
+    "icon": "6657.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "SpellDamage",
+      "Mana",
+      "ManaRegen"
+    ],
+    "categories": [
+      "Ability Power",
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3110",
+    "name": "Frozen Heart",
+    "plaintext": "Massively increases Armor and slows enemy basic attacks",
+    "gold": 2500,
+    "icon": "3110.png",
+    "tags": [
+      "Armor",
+      "Mana",
+      "Aura",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6621",
+    "name": "Dawncore",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "6621.png",
+    "tags": [
+      "SpellDamage",
+      "ManaRegen"
+    ],
+    "categories": [
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6695",
+    "name": "Serpent's Fang",
+    "plaintext": "",
+    "gold": 2500,
+    "icon": "6695.png",
+    "tags": [
+      "Damage",
+      "ArmorPenetration"
+    ],
+    "categories": [
+      "Armor Penetration",
+      "Attack Damage"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3075",
+    "name": "Thornmail",
+    "plaintext": "",
+    "gold": 2450,
+    "icon": "3075.png",
+    "tags": [
+      "Health",
+      "Armor"
+    ],
+    "categories": [
+      "Armor",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3119",
+    "name": "Winter's Approach",
+    "plaintext": "",
+    "gold": 2400,
+    "icon": "3119.png",
+    "tags": [
+      "Health",
+      "Mana",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "323119",
+    "name": "Winter's Approach",
+    "plaintext": "",
+    "gold": 2400,
+    "icon": "323119.png",
+    "tags": [
+      "Health",
+      "Mana",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "324005",
+    "name": "Imperial Mandate",
+    "plaintext": "",
+    "gold": 2400,
+    "icon": "324005.png",
+    "tags": [
+      "SpellDamage",
+      "ManaRegen",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "4005",
+    "name": "Imperial Mandate",
+    "plaintext": "Defer damage until later.",
+    "gold": 2400,
+    "icon": "4005.png",
+    "tags": [
+      "SpellDamage",
+      "ManaRegen",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "2524",
+    "name": "Bandlepipes",
+    "plaintext": "",
+    "gold": 2300,
+    "icon": "2524.png",
+    "tags": [
+      "Health",
+      "SpellBlock",
+      "Armor",
+      "AttackSpeed",
+      "NonbootsMovement",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Attack Speed",
+      "Health & Regeneration",
+      "Magic Resistance",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3107",
+    "name": "Redemption",
+    "plaintext": "Activate to heal allies and damage enemies in an area",
+    "gold": 2300,
+    "icon": "3107.png",
+    "tags": [
+      "SpellDamage",
+      "ManaRegen",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3109",
+    "name": "Knight's Vow",
+    "plaintext": "Partner with an ally to protect each other",
+    "gold": 2300,
+    "icon": "3109.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "Armor",
+      "Aura",
+      "Active",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Health & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3222",
+    "name": "Mikael's Blessing",
+    "plaintext": "Activate to remove all disabling effects from an allied champion",
+    "gold": 2300,
+    "icon": "3222.png",
+    "tags": [
+      "Health",
+      "ManaRegen",
+      "Active",
+      "CooldownReduction",
+      "Tenacity",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "323050",
+    "name": "Zeke's Convergence",
+    "plaintext": "",
+    "gold": 2300,
+    "icon": "323050.png",
+    "tags": [
+      "Health",
+      "SpellBlock",
+      "Armor",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6616",
+    "name": "Staff of Flowing Water",
+    "plaintext": "Your heals and shields reduce crowd control and grant Move Speed",
+    "gold": 2250,
+    "icon": "6616.png",
+    "tags": [
+      "SpellDamage",
+      "ManaRegen",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "2065",
+    "name": "Shurelya's Battlesong",
+    "plaintext": "Activate to speed up nearby allies.",
+    "gold": 2200,
+    "icon": "2065.png",
+    "tags": [
+      "SpellDamage",
+      "ManaRegen",
+      "Active",
+      "CooldownReduction",
+      "NonbootsMovement",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Mana & Regeneration",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3050",
+    "name": "Zeke's Convergence",
+    "plaintext": "Grants you and your ally bonuses when you cast your ultimate.",
+    "gold": 2200,
+    "icon": "3050.png",
+    "tags": [
+      "Health",
+      "SpellBlock",
+      "Armor",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3190",
+    "name": "Locket of the Iron Solari",
+    "plaintext": "Activate to shield nearby allies from damage",
+    "gold": 2200,
+    "icon": "3190.png",
+    "tags": [
+      "Health",
+      "SpellBlock",
+      "Armor",
+      "Aura",
+      "Active",
+      "MagicResist",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Armor",
+      "Health & Regeneration",
+      "Magic Resistance"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3504",
+    "name": "Ardent Censer",
+    "plaintext": "Shield and heal effects on other units grant both of you Attack Speed and their attacks deal additional on-hit magic damage.",
+    "gold": 2200,
+    "icon": "3504.png",
+    "tags": [
+      "AttackSpeed",
+      "SpellDamage",
+      "ManaRegen",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Ability Power",
+      "Attack Speed",
+      "Mana & Regeneration",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6617",
+    "name": "Moonstone Renewer",
+    "plaintext": "Your heals and shields cool down faster and have greater effect on low health allies",
+    "gold": 2200,
+    "icon": "6617.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "ManaRegen",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "6620",
+    "name": "Echoes of Helia",
+    "plaintext": "Damage low-health enemies to trigger a cursed explosion, dealing damage and slowing nearby foes",
+    "gold": 2200,
+    "icon": "6620.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "ManaRegen",
+      "CooldownReduction",
+      "AbilityHaste"
+    ],
+    "categories": [
+      "Ability Haste",
+      "Ability Power",
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3041",
+    "name": "Mejai's Soulstealer",
+    "plaintext": "Grants Ability Power for kills and assists",
+    "gold": 1500,
+    "icon": "3041.png",
+    "tags": [
+      "Health",
+      "SpellDamage",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Ability Power",
+      "Health & Regeneration",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3172",
+    "name": "Gunmetal Greaves",
+    "plaintext": "Mobility and Tenacity",
+    "gold": 1100,
+    "icon": "3172.png",
+    "tags": [
+      "AttackSpeed",
+      "LifeSteal",
+      "NonbootsMovement"
+    ],
+    "categories": [
+      "Attack Speed",
+      "Life Steal & Vamp",
+      "Movement"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3869",
+    "name": "Celestial Opposition",
+    "plaintext": "",
+    "gold": 400,
+    "icon": "3869.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "ManaRegen",
+      "Vision",
+      "GoldPer",
+      "Lane"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3870",
+    "name": "Dream Maker",
+    "plaintext": "",
+    "gold": 400,
+    "icon": "3870.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "ManaRegen",
+      "Vision",
+      "GoldPer",
+      "Lane"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3871",
+    "name": "Zaz'Zak's Realmspike",
+    "plaintext": "",
+    "gold": 400,
+    "icon": "3871.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "ManaRegen",
+      "Vision",
+      "GoldPer",
+      "Lane"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3876",
+    "name": "Solstice Sleigh",
+    "plaintext": "",
+    "gold": 400,
+    "icon": "3876.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "ManaRegen",
+      "Vision",
+      "GoldPer",
+      "Lane"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3877",
+    "name": "Bloodsong",
+    "plaintext": "",
+    "gold": 400,
+    "icon": "3877.png",
+    "tags": [
+      "Health",
+      "HealthRegen",
+      "ManaRegen",
+      "Vision",
+      "GoldPer",
+      "Lane"
+    ],
+    "categories": [
+      "Health & Regeneration",
+      "Mana & Regeneration"
+    ],
+    "group": "LEGENDARY"
+  },
+  {
+    "id": "3330",
+    "name": "Scarecrow Effigy",
+    "plaintext": "Periodically place a Stealth Ward",
+    "gold": 0,
+    "icon": "3330.png",
+    "tags": [
+      "Active",
+      "Jungle",
+      "Lane",
+      "Trinket",
+      "Vision"
+    ],
+    "categories": [],
+    "group": "TRINKET"
+  },
+  {
+    "id": "3340",
+    "name": "Stealth Ward",
+    "plaintext": "Periodically place a Stealth Ward",
+    "gold": 0,
+    "icon": "3340.png",
+    "tags": [
+      "Active",
+      "Jungle",
+      "Lane",
+      "Trinket",
+      "Vision"
+    ],
+    "categories": [],
+    "group": "TRINKET"
+  },
+  {
+    "id": "3363",
+    "name": "Farsight Alteration",
+    "plaintext": "Grants increased range and reveals the targetted area",
+    "gold": 0,
+    "icon": "3363.png",
+    "tags": [
+      "Active",
+      "Trinket",
+      "Vision"
+    ],
+    "categories": [],
+    "group": "TRINKET"
+  },
+  {
+    "id": "3364",
+    "name": "Oracle Lens",
+    "plaintext": "Disables nearby invisible wards and traps for a duration",
+    "gold": 0,
+    "icon": "3364.png",
+    "tags": [
+      "Active",
+      "Trinket",
+      "Vision"
+    ],
+    "categories": [],
+    "group": "TRINKET"
+  }
+]

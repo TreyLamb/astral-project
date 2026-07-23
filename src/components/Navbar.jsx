@@ -29,7 +29,7 @@ const GAME_ROUTES = ['/bashmon', '/gitmon', '/signal-lost', '/pokered', '/antiqu
 // Sub-apps that render their own internal top bar (with their own nav/tabs and
 // their own way back to Home) — the site nav would just double up and overlap
 // with these, so they get the same minimal treatment as game routes.
-const OWN_TOPBAR_ROUTES = ['/fitness-tracker'];
+const OWN_TOPBAR_ROUTES = ['/fitness-tracker', '/league-build'];
 
 function Navbar() {
   const location = useLocation();
@@ -105,6 +105,7 @@ function Navbar() {
               <li><Link to="/stashmap">StashMap</Link></li>
               <li><Link to="/fitness-tracker">FitnessTracker</Link></li>
               <li><Link to="/timer-tool">Timer Tool</Link></li>
+              <li><Link to="/league-build">League Build</Link></li>
               <li><Link to="/rs-market">RS Market</Link></li>
               <li><Link to="/gitmon">🔵 Gitmon Blue</Link></li>
               <li><Link to="/bashmon">🔴 Bashmon Red</Link></li>

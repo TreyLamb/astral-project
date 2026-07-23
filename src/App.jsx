@@ -31,6 +31,7 @@ import StashMapApp from './pages/stashmap/StashMapApp';
 import MedalDexApp from './pages/medaldex/MedalDexApp';
 import FitnessTrackerApp from './pages/fitnesstracker/FitnessTrackerApp';
 import TimerToolApp from './pages/TimerTool/TimerToolApp';
+import LeagueBuildApp from './pages/league_build/LeagueBuildApp';
 import './App.css';
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
             <Route path="/medaldex/*" element={<MedalDexApp />} />
             <Route path="/fitness-tracker/*" element={<FitnessTrackerApp />} />
             <Route path="/timer-tool/*" element={<TimerToolApp />} />
+            <Route path="/league-build/*" element={<LeagueBuildApp />} />
           </Routes>
         </div>
       </AuthProvider>

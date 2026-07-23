@@ -1,0 +1,1000 @@
+/* ── League Build sub-app — lgb- prefix ── */
+/* Shared palette across entry + editor: near-black field, gold text, teal accent. */
+
+/* League Build is registered in Navbar.jsx's OWN_TOPBAR_ROUTES, so the
+   site nav renders nothing here and body's padding-top is reset to 0 —
+   this page supplies its own way back to the site (see .lgb-site-home). */
+.lgb-entry-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #0A0E14;
+  color: #C8AA6E;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.lgb-entry-page button {
+  font-family: inherit;
+}
+
+.lgb-entry-topbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 24px;
+  background-color: #0E1419;
+  border-bottom: 1px solid #1E2328;
+}
+
+.lgb-entry-brand {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #F0E6D2;
+}
+
+/* the site nav renders nothing on /league-build/* (OWN_TOPBAR_ROUTES in
+   Navbar.jsx) so this is the only way back to the rest of the site */
+.lgb-site-home {
+  font-size: 12px;
+  color: rgba(200, 170, 110, 0.6);
+  text-decoration: none;
+  border-right: 1px solid #1E2328;
+  padding-right: 14px;
+}
+
+.lgb-site-home:hover {
+  color: #0AC8B9;
+}
+
+.lgb-entry-phase {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 24px;
+  gap: 18px;
+}
+
+/* ── champion search + grid ── */
+.lgb-search {
+  padding: 10px 14px;
+  background-color: #1E2328;
+  border: 1px solid #0AC8B9;
+  border-radius: 4px;
+  color: #C8AA6E;
+  font-size: 14px;
+  width: 100%;
+  max-width: 420px;
+  align-self: center;
+}
+
+.lgb-search::placeholder {
+  color: #0AC8B966;
+}
+
+.lgb-champ-grid-wrap {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.lgb-champ-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 14px;
+  padding: 4px;
+}
+
+.lgb-champ-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px;
+  background-color: #0E1419;
+  border: 1px solid #1E2328;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #C8AA6E;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.lgb-champ-tile:hover {
+  border-color: #0AC8B9;
+  box-shadow: 0 0 10px rgba(12, 200, 185, 0.3);
+}
+
+.lgb-champ-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid #C8AA6E;
+  object-fit: cover;
+}
+
+.lgb-champ-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #F0E6D2;
+  text-align: center;
+}
+
+.lgb-empty-note {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: rgba(200, 170, 110, 0.5);
+  padding: 40px 0;
+}
+
+/* ── selected-champion strip ── */
+.lgb-champ-strip {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background-color: #0E1419;
+  border: 1px solid #1E2328;
+  border-radius: 6px;
+}
+
+.lgb-champ-strip-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid #C8AA6E;
+}
+
+.lgb-champ-strip-text {
+  flex: 1;
+}
+
+.lgb-champ-strip-name {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #F0E6D2;
+}
+
+.lgb-champ-strip-title {
+  font-size: 12px;
+  color: rgba(200, 170, 110, 0.6);
+}
+
+.lgb-change-champ-btn {
+  padding: 8px 14px;
+  background-color: #1E2328;
+  border: 1px solid #C8AA6E;
+  border-radius: 3px;
+  color: #C8AA6E;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lgb-change-champ-btn:hover {
+  background-color: #0AC8B9;
+  border-color: #0AC8B9;
+  color: #0E1419;
+}
+
+/* ── build picker ── */
+.lgb-build-grid-wrap {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.lgb-build-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+  padding: 4px;
+}
+
+.lgb-build-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  padding: 16px;
+  background-color: #0E1419;
+  border: 1px solid #1E2328;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #C8AA6E;
+  text-align: left;
+  min-height: 88px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.lgb-build-card:hover {
+  border-color: #0AC8B9;
+  box-shadow: 0 0 10px rgba(12, 200, 185, 0.25);
+}
+
+.lgb-build-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #F0E6D2;
+}
+
+.lgb-build-card-meta {
+  font-size: 11px;
+  color: rgba(200, 170, 110, 0.6);
+}
+
+.lgb-build-card-delete {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1E2328;
+  border: 1px solid #0AC8B9;
+  border-radius: 2px;
+  color: #0AC8B9;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lgb-build-card-delete:hover {
+  background-color: #B72323;
+  border-color: #B72323;
+  color: #F0E6D2;
+}
+
+.lgb-build-card-rename {
+  position: absolute;
+  top: 8px;
+  right: 34px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1E2328;
+  border: 1px solid #0AC8B9;
+  border-radius: 2px;
+  color: #0AC8B9;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lgb-build-card-rename:hover {
+  background-color: #0AC8B9;
+  color: #0E1419;
+}
+
+.lgb-build-card-name-input {
+  width: 100%;
+  font-size: 14px;
+  font-weight: 700;
+  color: #F0E6D2;
+  background-color: #1E2328;
+  border: 1px solid #0AC8B9;
+  border-radius: 2px;
+  padding: 2px 4px;
+}
+
+.lgb-build-card-name-input:focus {
+  outline: none;
+}
+
+.lgb-build-card-new {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-style: dashed;
+  border-color: rgba(200, 170, 110, 0.5);
+  gap: 8px;
+}
+
+.lgb-build-card-new:hover {
+  border-color: #C8AA6E;
+  box-shadow: 0 0 10px rgba(200, 170, 110, 0.25);
+}
+
+.lgb-build-card-new-plus {
+  font-size: 26px;
+  font-weight: 700;
+  color: #C8AA6E;
+  line-height: 1;
+}
+
+/* ── editor stub notice ── */
+.lgb-stub-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 14px;
+  padding: 0 40px;
+  max-width: 640px;
+}
+
+.lgb-stub-heading {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #F0E6D2;
+}
+
+.lgb-stub-note {
+  color: #C8AA6E;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lgb-champ-tile, .lgb-build-card, .lgb-change-champ-btn {
+    transition: none;
+  }
+}
+
+/* ── editor workspace — Filters | Items | Blocks, left to right,
+   zero page scroll (nav already hidden via OWN_TOPBAR_ROUTES) ── */
+.lgb-editor-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #0A0E14;
+  color: #C8AA6E;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.lgb-editor-page button,
+.lgb-editor-page input {
+  font-family: inherit;
+}
+
+.lgb-top-bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 20px;
+  background-color: #0E1419;
+  border-bottom: 1px solid #1E2328;
+}
+
+.lgb-champion-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #1E2328;
+  border: 1px solid #0AC8B9;
+  border-radius: 3px;
+  color: #F0E6D2;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.lgb-champion-selector:hover {
+  box-shadow: 0 0 8px rgba(12, 200, 185, 0.3);
+}
+
+.lgb-champion-selector-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.lgb-build-name-input {
+  font-size: 14px;
+  font-weight: 600;
+  color: #F0E6D2;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: 6px 8px;
+  min-width: 140px;
+  transition: all 0.2s;
+}
+
+.lgb-build-name-input:hover,
+.lgb-build-name-input:focus {
+  background-color: #1E2328;
+  border-color: #0AC8B9;
+  outline: none;
+}
+
+.lgb-top-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 8px;
+}
+
+.lgb-action-btn {
+  padding: 8px 14px;
+  background-color: #1E2328;
+  border: 1px solid #C8AA6E;
+  border-radius: 3px;
+  color: #C8AA6E;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.lgb-action-btn:hover {
+  background-color: #0AC8B9;
+  border-color: #0AC8B9;
+  color: #0E1419;
+}
+
+.lgb-load-build-wrap {
+  position: relative;
+}
+
+.lgb-load-build-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 6px;
+  background-color: #0E1419;
+  border: 1px solid #0AC8B9;
+  border-radius: 3px;
+  min-width: 160px;
+  padding: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 30;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
+}
+
+.lgb-load-build-wrap:hover .lgb-load-build-dropdown,
+.lgb-load-build-wrap:focus-within .lgb-load-build-dropdown {
+  display: flex;
+}
+
+.lgb-saved-build-option {
+  padding: 6px 10px;
+  font-size: 12px;
+  color: #C8AA6E;
+  border-radius: 2px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.lgb-saved-build-option:hover {
+  background-color: #1E2328;
+  color: #F0E6D2;
+}
+
+.lgb-saved-build-option-current {
+  color: #0AC8B9;
+  font-weight: 600;
+}
+
+.lgb-saved-build-empty {
+  padding: 6px 10px;
+  font-size: 12px;
+  color: rgba(200, 170, 110, 0.5);
+  white-space: nowrap;
+}
+
+.lgb-pop-out-btn {
+  margin-left: auto;
+  padding: 8px 14px;
+  background-color: #1E2328;
+  border: 1px solid #C8AA6E;
+  border-radius: 3px;
+  color: #C8AA6E;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lgb-pop-out-btn:hover {
+  background-color: #0AC8B9;
+  border-color: #0AC8B9;
+  color: #0E1419;
+}
+
+/* the 3 left-to-right columns */
+.lgb-workspace {
+  flex: 1;
+  display: flex;
+  gap: 1px;
+  min-height: 0;
+  background-color: #1E2328;
+}
+
+.lgb-panel {
+  overflow-y: auto;
+  min-height: 0;
+  padding: 18px;
+  background-color: #0A0E14;
+}
+
+.lgb-filters-panel {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lgb-items-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.lgb-blocks-panel {
+  width: 340px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lgb-panel-heading {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0AC8B9;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1E2328;
+}
+
+.lgb-sort-control {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  background-color: #0E1419;
+  border: 1px solid #1E2328;
+  border-radius: 3px;
+  color: #C8AA6E;
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.lgb-sort-control:hover {
+  border-color: #0AC8B9;
+}
+
+/* filter list — built-in stat filters AND user-created labels live in ONE
+   continuous list; labels get a color dot, nothing else marks them as
+   different — no separate "Custom Labels" heading/section. */
+.lgb-filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lgb-filter-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #C8AA6E;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.lgb-filter-item:hover {
+  color: #F0E6D2;
+}
+
+.lgb-filter-item input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  accent-color: #0AC8B9;
+}
+
+.lgb-label-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.lgb-item-category-heading {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0AC8B9;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1E2328;
+  margin-bottom: 12px;
+}
+
+.lgb-item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 12px;
+}
+
+.lgb-item-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 6px 4px;
+  border-radius: 6px;
+  border: 1px solid #0AC8B9;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lgb-item-tile:hover {
+  background-color: #1E2328;
+  box-shadow: 0 0 12px rgba(12, 200, 185, 0.4);
+  z-index: 25;
+}
+
+.lgb-item-tile-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.lgb-item-gold {
+  font-size: 9px;
+  color: #C8AA6E;
+}
+
+/* hover-an-item "Add Label" flyout — this is how labels get created and
+   attached; there is deliberately no separate label-management panel */
+.lgb-add-label-popover {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  background-color: #0E1419;
+  border: 1px solid #0AC8B9;
+  border-radius: 4px;
+  padding: 8px;
+  display: none;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 30;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.6);
+  text-align: left;
+  cursor: default;
+}
+
+.lgb-item-tile:hover .lgb-add-label-popover {
+  display: flex;
+}
+
+.lgb-add-label-title {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #0AC8B9;
+  font-weight: 700;
+}
+
+.lgb-add-label-empty {
+  font-size: 11px;
+  color: rgba(200, 170, 110, 0.5);
+  padding: 4px 6px;
+}
+
+.lgb-add-label-option {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: #F0E6D2;
+  padding: 4px 6px;
+  border-radius: 2px;
+}
+
+.lgb-add-label-option:hover {
+  background-color: #1E2328;
+}
+
+.lgb-add-label-check {
+  margin-left: auto;
+  color: #0AC8B9;
+}
+
+.lgb-add-label-divider {
+  border-top: 1px solid #1E2328;
+  margin: 4px 0;
+}
+
+.lgb-add-label-input {
+  background-color: #1E2328;
+  border: 1px solid #1E2328;
+  border-radius: 2px;
+  color: #0AC8B9;
+  font-size: 11px;
+  padding: 5px 6px;
+}
+
+.lgb-add-label-input:focus {
+  outline: none;
+  border-color: #0AC8B9;
+}
+
+.lgb-add-label-input::placeholder {
+  color: #0AC8B966;
+}
+
+/* blocks column — stacks vertically here and scrolls on its own;
+   each block keeps its items in a row */
+.lgb-build-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background-color: #0E1419;
+  border: 1px solid #1E2328;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.lgb-build-block:hover {
+  border-color: #0AC8B9;
+}
+
+.lgb-build-block-active {
+  border-color: #C8AA6E;
+  box-shadow: 0 0 0 1px #C8AA6E;
+}
+
+.lgb-block-notes {
+  padding: 7px 9px;
+  background-color: #1E2328;
+  border: 1px solid #0AC8B9;
+  border-radius: 3px;
+  font-size: 11px;
+  color: #C8AA6E;
+  min-height: 34px;
+  resize: vertical;
+  cursor: text;
+  width: 100%;
+}
+
+.lgb-block-notes:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(12, 200, 185, 0.2);
+}
+
+.lgb-block-notes::placeholder {
+  color: #0AC8B966;
+}
+
+.lgb-block-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.lgb-block-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #F0E6D2;
+  flex: 1;
+  min-width: 0;
+  padding: 3px 5px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: text;
+  transition: all 0.2s;
+}
+
+.lgb-block-title:hover,
+.lgb-block-title:focus {
+  border-color: #0AC8B9;
+  background-color: #1E2328;
+  outline: none;
+}
+
+.lgb-block-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.lgb-arrow-btn,
+.lgb-delete-btn {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1E2328;
+  border: 1px solid #0AC8B9;
+  border-radius: 2px;
+  color: #0AC8B9;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lgb-arrow-btn:hover,
+.lgb-delete-btn:hover {
+  background-color: #0AC8B9;
+  color: #0E1419;
+}
+
+.lgb-arrow-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.lgb-arrow-btn:disabled:hover {
+  background-color: #1E2328;
+  color: #0AC8B9;
+}
+
+.lgb-block-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lgb-block-item-tile {
+  width: 46px;
+  height: 46px;
+  border-radius: 4px;
+  border: 1px solid #0AC8B9;
+  cursor: pointer;
+  transition: all 0.2s;
+  overflow: hidden;
+}
+
+.lgb-block-item-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lgb-block-item-tile:hover {
+  box-shadow: 0 0 10px rgba(200, 35, 35, 0.5);
+}
+
+.lgb-add-block-btn {
+  padding: 12px;
+  background-color: transparent;
+  border: 1px dashed rgba(200, 170, 110, 0.5);
+  border-radius: 4px;
+  color: #C8AA6E;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lgb-add-block-btn:hover {
+  border-color: #C8AA6E;
+  box-shadow: 0 0 10px rgba(200, 170, 110, 0.25);
+}
+
+/* ── PIP window — pop-out, read-only, live-mirrored build view ──
+   Dark-only by design (explicitly rejected a light/dark skin for this
+   feature) — do not add a prefers-color-scheme variant here. */
+.lgb-pip-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #0A0E14;
+  color: #F0E6D2;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.lgb-pip-header {
+  flex-shrink: 0;
+  padding: 12px 20px;
+  background-color: #0E1419;
+  border-bottom: 1px solid #1E2328;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #F0E6D2;
+  cursor: grab;
+}
+
+.lgb-pip-waiting {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(200, 170, 110, 0.6);
+  font-size: 14px;
+}
+
+/* container-type: inline-size turns descendant cqw units into "% of this
+   row's own width" — that's what lets columns/tiles shrink as the popped-out
+   OS window is resized, with no JS/ResizeObserver involved. */
+.lgb-pip-columns {
+  container-type: inline-size;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: min(12px, 2cqw);
+  padding: min(14px, 2.5cqw);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.lgb-pip-column {
+  flex: 1 1 0;
+  min-width: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: min(8px, 1.5cqw);
+  background-color: #0E1419;
+  border: 1px solid #1E2328;
+  border-radius: 4px;
+  padding: min(8px, 1.5cqw);
+}
+
+.lgb-pip-note {
+  min-height: 1.6em;
+  padding: min(6px, 1.2cqw);
+  background-color: #1E2328;
+  border: 1px solid #1E2328;
+  border-radius: 3px;
+  color: rgba(200, 170, 110, 0.7);
+  font-size: min(11px, 2.6cqw);
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.lgb-pip-items {
+  display: flex;
+  flex-direction: column;
+  gap: min(4px, 1cqw);
+}
+
+.lgb-pip-item {
+  width: min(56px, 10cqw);
+  height: min(56px, 10cqw);
+  border: 1px solid #C8AA6E;
+  border-radius: 3px;
+  overflow: hidden;
+  background-color: #0A0E14;
+}
+
+.lgb-pip-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
