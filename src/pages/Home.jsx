@@ -17,6 +17,7 @@ const TILES = [
   { to: '/fitness-tracker',        name: 'FitnessTracker',   desc: 'workout & fitness log',          icon: '💪', bg: '#0c1204', accent: '#a3e635', rgb: '163,230,53'   },
   { to: '/timer-tool',             name: 'Timer Tool',       desc: 'multi-milestone running timers', icon: '⏱️', bg: '#0b0f19', accent: '#3b82f6', rgb: '59,130,246'   },
   { to: '/league-build',           name: 'League Build',     desc: 'item build planner + PIP window', icon: '🛡️', bg: '#0a0713', accent: '#ffcc33', rgb: '255,204,51'  },
+  { to: '/orbit',                  name: 'Orbit',             desc: 'personal organization system',   icon: '🪐', bg: '#0b0f17', accent: '#f5a97f', rgb: '245,169,127' },
   { to: '/pokered',                name: 'Pokémon Red',      desc: 'gen 1 overworld recreation',     icon: '🔴', bg: '#1a0505', accent: '#ef4444', rgb: '239,68,68'   },
   { to: '/gitmon',                 name: 'Gitmon Blue',      desc: 'pokémon meets git cli',          icon: '💾', bg: '#040d1a', accent: '#7ec8e3', rgb: '126,200,227' },
   { to: '/bashmon',                name: 'Bashmon Red',      desc: 'pokémon meets bash cli',         icon: '🐚', bg: '#1a0404', accent: '#ff6b35', rgb: '255,107,53'   },

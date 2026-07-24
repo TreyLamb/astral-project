@@ -1,0 +1,113 @@
+/* Orbit — all classes prefixed `orb-` (CLAUDE.md). Dark muted palette.
+   Phase 0: exploration mock gallery — these are the shared shell + primitive
+   classes every view mock in ./mocks/ reuses, so later agents should extend
+   these rather than inventing parallel ones. */
+
+.orb-app {
+  --orb-bg: #0e1116;
+  --orb-panel: #161b22;
+  --orb-panel-2: #1c232c;
+  --orb-border: rgba(255, 255, 255, 0.08);
+  --orb-text: #e6edf3;
+  --orb-muted: #8b949e;
+  /* general interactive accent — active tabs, primary buttons, focus rings.
+     NOT the overdue/urgent color (see --orb-warn below). */
+  --orb-accent: #7ec8e3;
+  /* the ONE reserved accent for overdue/urgent. Do not reuse this warm tone
+     for anything else (active states, brand, decoration) — it must stay a
+     reliable "pay attention" signal wherever it appears. */
+  --orb-warn: #f5a97f;
+
+  /* reference palette mirroring MOCK_AREAS in mockData.js — components should
+     still read area.color from mockData directly (so new areas just work),
+     these exist for quick CSS-only reference/consistency checks. */
+  --orb-area-work: #6e8fb0;
+  --orb-area-home: #7c9473;
+  --orb-area-health: #b0716e;
+  --orb-area-learning: #9077ab;
+  --orb-area-errands: #b09a5e;
+
+  min-height: calc(100vh - var(--nav-h, 60px));
+  background: var(--orb-bg);
+  color: var(--orb-text);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- topbar ---- */
+.orb-topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 18px;
+  background: var(--orb-panel);
+  border-bottom: 1px solid var(--orb-border);
+  flex-wrap: wrap;
+}
+.orb-site-home {
+  font-size: 1.5em; font-weight: bold; text-decoration: none;
+  background: linear-gradient(135deg, #60a5fa 0%, #818cf8 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  padding-right: 14px; border-right: 1px solid var(--orb-border);
+}
+.orb-brand { font-size: 1.15rem; font-weight: 700; color: var(--orb-accent); display: flex; align-items: center; gap: 8px; }
+.orb-brand-icon { font-size: 1.3rem; }
+.orb-mock-tag {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--orb-muted); background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--orb-border); border-radius: 20px; padding: 3px 10px;
+}
+.orb-topbar-right { margin-left: auto; }
+
+/* ---- view-switcher tab bar ---- */
+.orb-tabbar { display: flex; gap: 4px; flex-wrap: wrap; padding: 10px 18px; background: var(--orb-panel-2); border-bottom: 1px solid var(--orb-border); }
+.orb-tab {
+  background: transparent; border: 1px solid transparent; border-radius: 9px;
+  padding: 8px 16px; color: var(--orb-muted); font-weight: 600; font-size: 0.88rem;
+  cursor: pointer; font-family: inherit;
+}
+.orb-tab:hover { background: var(--orb-panel); color: var(--orb-text); }
+.orb-tab.active { background: rgba(126, 200, 227, 0.14); border-color: rgba(126, 200, 227, 0.35); color: var(--orb-accent); }
+
+.orb-main { flex: 1; padding: 18px; max-width: clamp(1080px, 90vw, 1600px); width: 100%; margin: 0 auto; box-sizing: border-box; }
+
+/* ---- reusable primitives ---- */
+.orb-card { background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 12px; padding: 14px; }
+.orb-row {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 10px;
+  padding: 9px 12px;
+}
+
+/* area color dot + label. Color comes from mockData's area.color via inline
+   style="--orb-chip-color: ..." on the element, not a CSS class per area. */
+.orb-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: 20px; padding: 3px 10px 3px 8px; font-size: 0.78rem; font-weight: 600;
+  color: var(--orb-text); background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--orb-border);
+}
+.orb-chip-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--orb-chip-color, var(--orb-muted)); }
+
+.orb-btn {
+  border: 1px solid var(--orb-border); border-radius: 9px; padding: 8px 16px;
+  font-weight: 700; font-size: 0.85rem; cursor: pointer; font-family: inherit;
+  background: var(--orb-panel-2); color: var(--orb-text);
+}
+.orb-btn:hover { border-color: var(--orb-accent); color: var(--orb-accent); }
+.orb-btn-primary { background: var(--orb-accent); border-color: var(--orb-accent); color: #0e1116; }
+.orb-btn-primary:hover { color: #0e1116; filter: brightness(1.08); }
+
+/* overdue/urgent flag — reuses the single reserved warm accent */
+.orb-flag-warn { color: var(--orb-warn); border-color: rgba(245, 169, 127, 0.4); background: rgba(245, 169, 127, 0.12); }
+
+.orb-mock-stub {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 300px; color: var(--orb-muted); font-size: 1rem;
+  border: 1px dashed var(--orb-border); border-radius: 12px;
+}
+
+@media (max-width: 640px) {
+  .orb-main { padding: 12px; }
+  .orb-tabbar { padding: 8px 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; }
+}

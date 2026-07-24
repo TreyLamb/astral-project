@@ -1,0 +1,151 @@
+/* MatrixMock — Eisenhower / Action-Priority matrices, both driven through the
+   same three granularity models. Everything here is orb-matrix-* so it can't
+   leak into the other mocks (see Orbit.css for the shared primitives this
+   extends: .orb-card, .orb-row, .orb-chip, .orb-btn, .orb-flag-warn). */
+
+.orb-matrix { display: flex; flex-direction: column; gap: 14px; }
+
+/* ---- head / mode toggle ---- */
+.orb-matrix-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.orb-matrix-title { margin: 0 0 4px; font-size: 1.25rem; color: var(--orb-text); }
+.orb-matrix-sub { margin: 0; font-size: 0.85rem; color: var(--orb-muted); }
+
+.orb-matrix-modes { display: flex; gap: 6px; flex-wrap: wrap; }
+.orb-matrix-mode-btn { padding: 8px 14px; }
+.orb-matrix-mode-btn.active { background: rgba(126, 200, 227, 0.14); border-color: var(--orb-accent); color: var(--orb-accent); }
+.orb-matrix-mode-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.orb-matrix-mode-btn:disabled:hover { border-color: var(--orb-border); color: var(--orb-muted); }
+
+.orb-matrix-legend {
+  margin: 0; font-size: 0.82rem; line-height: 1.5; color: var(--orb-muted);
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 10px;
+  padding: 10px 14px;
+}
+
+/* ---- body layout: plot/board + ranked side list ---- */
+.orb-matrix-body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; align-items: start; }
+
+/* ---- scatter plot (weighted / dueUrgency) ---- */
+.orb-matrix-plot {
+  position: relative; min-height: 480px;
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 14px;
+  overflow: hidden;
+}
+.orb-matrix-gridline { position: absolute; background: var(--orb-border); }
+.orb-matrix-gridline-v { top: 0; bottom: 0; left: 50%; width: 1px; }
+.orb-matrix-gridline-h { left: 0; right: 0; top: 50%; height: 1px; }
+
+.orb-matrix-qlabel {
+  position: absolute; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--orb-muted); opacity: 0.55; pointer-events: none;
+}
+.orb-matrix-qlabel-tl { top: 12px; left: 14px; }
+.orb-matrix-qlabel-tr { top: 12px; right: 14px; text-align: right; }
+.orb-matrix-qlabel-bl { bottom: 12px; left: 14px; }
+.orb-matrix-qlabel-br { bottom: 12px; right: 14px; text-align: right; }
+
+.orb-matrix-axislabel { position: absolute; font-size: 0.68rem; color: var(--orb-muted); opacity: 0.7; pointer-events: none; }
+.orb-matrix-axislabel-top { top: 6px; left: 50%; transform: translateX(-50%); }
+.orb-matrix-axislabel-bottom { bottom: 6px; left: 50%; transform: translateX(-50%); }
+.orb-matrix-axislabel-left { left: 6px; top: 50%; transform: translateY(-50%) rotate(-90deg); transform-origin: left center; }
+.orb-matrix-axislabel-right { right: 6px; top: 50%; transform: translateY(-50%) rotate(90deg); transform-origin: right center; }
+
+.orb-matrix-dot {
+  position: absolute; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  cursor: grab; touch-action: none; -webkit-user-select: none; user-select: none;
+  z-index: 1;
+}
+.orb-matrix-dot:active,
+.orb-matrix-dot-dragging { cursor: grabbing; z-index: 5; }
+.orb-matrix-dot-vonly { cursor: ns-resize; }
+.orb-matrix-dot-vonly:active { cursor: ns-resize; }
+.orb-matrix-dot-mark {
+  width: 14px; height: 14px; border-radius: 50%; flex: none;
+  background: var(--orb-chip-color, var(--orb-accent));
+  border: 2px solid var(--orb-bg);
+  box-shadow: 0 0 0 1px var(--orb-border);
+}
+.orb-matrix-dot-dragging .orb-matrix-dot-mark { transform: scale(1.25); box-shadow: 0 0 0 4px rgba(126, 200, 227, 0.25); }
+.orb-matrix-dot-warn .orb-matrix-dot-mark { box-shadow: 0 0 0 3px rgba(245, 169, 127, 0.55); }
+.orb-matrix-dot-label {
+  max-width: 130px; font-size: 0.72rem; font-weight: 600; color: var(--orb-text);
+  background: rgba(14, 17, 22, 0.75); border-radius: 6px; padding: 1px 6px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;
+  pointer-events: none;
+}
+.orb-matrix-dot-warn .orb-matrix-dot-label { color: var(--orb-warn); }
+.orb-matrix-dot-readout {
+  position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%);
+  font-size: 0.68rem; font-weight: 700; white-space: nowrap;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-accent); color: var(--orb-accent);
+  border-radius: 6px; padding: 2px 8px; pointer-events: none;
+}
+.orb-matrix-dot:focus-visible { outline: 2px solid var(--orb-accent); outline-offset: 4px; border-radius: 50%; }
+
+/* ---- quadrant board (bucket mode) ---- */
+.orb-matrix-board { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px; min-height: 480px; }
+.orb-matrix-panel {
+  display: flex; flex-direction: column; min-height: 0;
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 12px;
+  padding: 10px; transition: border-color 0.12s ease, background 0.12s ease;
+}
+.orb-matrix-panel-hover { border-color: var(--orb-accent); background: rgba(126, 200, 227, 0.08); }
+.orb-matrix-panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.orb-matrix-panel-title { font-size: 0.85rem; font-weight: 700; color: var(--orb-text); }
+.orb-matrix-panel-count {
+  font-size: 0.7rem; font-weight: 700; color: var(--orb-muted);
+  background: rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 1px 8px;
+}
+.orb-matrix-panel-list { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; min-height: 0; flex: 1; }
+.orb-matrix-panel-empty { margin: auto; font-size: 0.75rem; color: var(--orb-muted); opacity: 0.6; }
+
+.orb-matrix-chip {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 8px;
+  padding: 6px 9px; font-size: 0.8rem; color: var(--orb-text);
+  cursor: grab; touch-action: none; -webkit-user-select: none; user-select: none;
+}
+.orb-matrix-chip:active,
+.orb-matrix-chip-dragging { cursor: grabbing; opacity: 0.55; border-style: dashed; }
+.orb-matrix-chip-warn { border-color: rgba(245, 169, 127, 0.5); }
+.orb-matrix-chip-warn .orb-matrix-chip-title { color: var(--orb-warn); }
+.orb-matrix-chip-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.orb-matrix-chip:focus-visible { outline: 2px solid var(--orb-accent); outline-offset: 2px; }
+
+/* ---- ranked side list ---- */
+.orb-matrix-ranked {
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 14px;
+  padding: 14px; min-height: 480px; box-sizing: border-box;
+}
+.orb-matrix-ranked-title { margin: 0 0 4px; font-size: 0.95rem; color: var(--orb-text); }
+.orb-matrix-ranked-note { margin: 0 0 10px; font-size: 0.72rem; line-height: 1.4; color: var(--orb-muted); }
+.orb-matrix-ranked-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.orb-matrix-ranked-item {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 8px;
+  padding: 6px 8px; font-size: 0.78rem;
+}
+.orb-matrix-ranked-item-warn { border-color: rgba(245, 169, 127, 0.5); }
+.orb-matrix-rank-num { flex: none; width: 18px; text-align: right; font-weight: 700; color: var(--orb-muted); font-size: 0.72rem; }
+.orb-matrix-rank-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--orb-text); }
+.orb-matrix-ranked-item-warn .orb-matrix-rank-title { color: var(--orb-warn); }
+.orb-matrix-rank-score { flex: none; font-weight: 700; color: var(--orb-accent); font-variant-numeric: tabular-nums; }
+.orb-matrix-rank-badge {
+  flex: none; font-size: 0.66rem; font-weight: 700; color: var(--orb-muted);
+  background: rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 1px 8px;
+}
+.orb-matrix-rank-flag {
+  flex: none; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--orb-warn); border: 1px solid rgba(245, 169, 127, 0.4); background: rgba(245, 169, 127, 0.12);
+  border-radius: 20px; padding: 1px 7px;
+}
+
+@media (max-width: 900px) {
+  .orb-matrix-body { grid-template-columns: 1fr; }
+  .orb-matrix-plot, .orb-matrix-board, .orb-matrix-ranked { min-height: 360px; }
+}
+@media (max-width: 520px) {
+  .orb-matrix-board { grid-template-columns: 1fr; grid-template-rows: repeat(4, minmax(140px, auto)); }
+  .orb-matrix-dot-label { max-width: 90px; }
+}

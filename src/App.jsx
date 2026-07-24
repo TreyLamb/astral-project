@@ -32,6 +32,7 @@ import MedalDexApp from './pages/medaldex/MedalDexApp';
 import FitnessTrackerApp from './pages/fitnesstracker/FitnessTrackerApp';
 import TimerToolApp from './pages/TimerTool/TimerToolApp';
 import LeagueBuildApp from './pages/league_build/LeagueBuildApp';
+import OrbitApp from './pages/orbit/OrbitApp';
 import './App.css';
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
             <Route path="/fitness-tracker/*" element={<FitnessTrackerApp />} />
             <Route path="/timer-tool/*" element={<TimerToolApp />} />
             <Route path="/league-build/*" element={<LeagueBuildApp />} />
+            <Route path="/orbit/*" element={<OrbitApp />} />
           </Routes>
         </div>
       </AuthProvider>
