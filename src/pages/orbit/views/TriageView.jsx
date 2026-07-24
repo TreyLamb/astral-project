@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrbit } from '../orbitContext';
+import { auth } from '../../../firebase';
 import TaskRow from './TaskRow';
 import TaskTypeFilter from './TaskTypeFilter';
 import './TriageView.css';
@@ -48,10 +49,11 @@ function AxisStepper({ label, value, onChange }) {
 // mirror TkbReview's keyboard + tap + swipe parity pattern; All tasks is the
 // plain "dump everything and see it" list (T10).
 export default function TriageView() {
+  const orbit = useOrbit();
   const {
-    inbox, tasks, areas, projects, settings,
+    inbox, tasks, areas, projects, settings, mode,
     addTask, addProject, updateInboxItem, removeTask, removeProject,
-  } = useOrbit();
+  } = orbit;
   const navigate = useNavigate();
 
   const [viewMode, setViewMode] = useState('queue'); // 'queue' | 'all'
@@ -62,6 +64,8 @@ export default function TriageView() {
   const [triageLog, setTriageLog] = useState([]); // this-session-only undo stack
   const [typeFilter, setTypeFilter] = useState(null);
   const [statusFilter, setStatusFilter] = useState('all');
+  const [aiBusy, setAiBusy] = useState(false);
+  const [aiResult, setAiResult] = useState(null); // { kind: 'success' | 'info' | 'error', text } | null
 
   const touchStartRef = useRef(null);
 
@@ -148,6 +152,55 @@ export default function TriageView() {
     setTriageLog((log) => log.slice(0, -1));
   };
 
+  // AI cleanup (feature #5) — only meaningful signed in, since the endpoint
+  // touches the caller's cloud inbox docs directly (see api/orbit-ai-triage.js);
+  // the button itself is disabled+tooltipped for local/guest mode below.
+  // Non-destructive on the server (it preserves aiOriginal per item), so no
+  // revert UI here — ✂️ deferred, per the brief.
+  const handleAiTidy = async () => {
+    if (mode !== 'cloud' || aiBusy) return;
+    setAiBusy(true);
+    setAiResult(null);
+    try {
+      const token = await auth.currentUser.getIdToken();
+      const res = await fetch('/api/orbit-ai-triage', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + token },
+      });
+      if (!res.ok) {
+        let text = res.status === 401
+          ? 'Sign-in expired — refresh and try again.'
+          : `AI cleanup failed (server error ${res.status}).`;
+        try {
+          const body = await res.json();
+          if (body?.error) text = body.error;
+        } catch { /* body wasn't JSON — keep the generic message */ }
+        setAiResult({ kind: 'error', text });
+        return;
+      }
+      const data = await res.json();
+      if (data.note) {
+        setAiResult({ kind: 'info', text: data.note });
+      } else {
+        const errCount = Array.isArray(data.errors) ? data.errors.length : 0;
+        setAiResult({
+          kind: 'success',
+          text: `Tidied ${data.cleaned} item${data.cleaned === 1 ? '' : 's'}`
+            + (data.skipped ? ` (${data.skipped} skipped)` : '')
+            + (errCount ? ` — ${errCount} error${errCount === 1 ? '' : 's'}` : '') + '.',
+        });
+      }
+      if (data.cleaned > 0) {
+        if (typeof orbit.reload === 'function') await orbit.reload();
+        else window.location.reload();
+      }
+    } catch {
+      setAiResult({ kind: 'error', text: 'AI cleanup failed — check your connection and try again.' });
+    } finally {
+      setAiBusy(false);
+    }
+  };
+
   // Keyboard: t/p/r/d/u act on the queue item, Esc closes an open inline
   // form first and only leaves the queue (back to Today) once none is open —
   // same "innermost thing first" precedent as TkbReview's Escape handling.
@@ -225,6 +278,21 @@ export default function TriageView() {
         >
           All tasks
         </button>
+      </div>
+
+      <div className="orb-triage-ai-row">
+        <button
+          type="button"
+          className="orb-btn orb-triage-ai-btn"
+          onClick={handleAiTidy}
+          disabled={mode !== 'cloud' || aiBusy}
+          title={mode !== 'cloud' ? 'Sign in to use AI cleanup' : undefined}
+        >
+          {aiBusy ? 'Tidying…' : '✨ Tidy inbox with AI'}
+        </button>
+        {aiResult && (
+          <span className={`orb-triage-ai-result orb-triage-ai-result-${aiResult.kind}`}>{aiResult.text}</span>
+        )}
       </div>
 
       {viewMode === 'queue' && (current ? (

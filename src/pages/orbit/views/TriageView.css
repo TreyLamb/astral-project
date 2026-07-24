@@ -5,6 +5,15 @@
 
 .orb-triage-toggle { display: flex; gap: 6px; }
 
+/* ---- AI cleanup (feature #5) ---- */
+.orb-triage-ai-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.orb-triage-ai-btn { font-size: 0.82rem; }
+.orb-triage-ai-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.orb-triage-ai-btn:disabled:hover { border-color: var(--orb-border); color: var(--orb-text); }
+.orb-triage-ai-result { font-size: 0.8rem; color: var(--orb-muted); }
+.orb-triage-ai-result-success { color: var(--orb-accent); }
+.orb-triage-ai-result-error { color: var(--orb-warn); }
+
 /* ---- queue ---- */
 .orb-triage-card-wrap { display: flex; flex-direction: column; gap: 10px; max-width: 560px; width: 100%; margin: 0 auto; }
 

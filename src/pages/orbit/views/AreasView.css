@@ -83,6 +83,27 @@
 .orb-area-archived { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
 .orb-area-archived-h3 { margin: 0; font-size: 0.85rem; color: var(--orb-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
 
+/* ---- per-area trackers widget (A6) — compact chips, quick-actions only;
+   full create/edit/delete stays in TrackersView ---- */
+.orb-area-tracker-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.orb-area-tracker-chip { font-size: 0.78rem; }
+.orb-area-tracker-name { font-weight: 600; }
+
+.orb-area-tracker-step {
+  flex: none; width: 18px; height: 18px; padding: 0; display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, 0.06); border: 1px solid var(--orb-border); border-radius: 50%;
+  color: var(--orb-text); font-size: 0.68rem; line-height: 1; cursor: pointer; font-family: inherit;
+}
+.orb-area-tracker-step:hover:not(:disabled) { border-color: var(--orb-accent); color: var(--orb-accent); }
+.orb-area-tracker-step:disabled { opacity: 0.3; cursor: default; }
+.orb-area-tracker-value { min-width: 1.4em; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.orb-area-tracker-streak {
+  appearance: none; font-family: inherit; cursor: pointer; color: var(--orb-warn);
+}
+.orb-area-tracker-streak:hover:not(:disabled) { border-color: var(--orb-warn); }
+.orb-area-tracker-streak.done { opacity: 0.6; color: var(--orb-accent); border-color: rgba(126, 200, 227, 0.35); cursor: default; }
+
 @media (max-width: 640px) {
   .orb-area-counts { margin-left: 0; flex-basis: 100%; order: 5; }
   .orb-area-detail { padding-left: 12px; }

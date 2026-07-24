@@ -18,9 +18,15 @@ import { OrbitFirestore } from './orbitFirestore';
 import {
   newArea, newProject, withProjectDefaults, newTask, withTaskDefaults, newInboxItem,
   SEED_AREAS, withSettingsDefaults, todayISO,
+  newRecurrenceRule, newReferenceItem, withReferenceDefaults,
+  newTracker, newReviewLog, newDayPlan, withDayPlanDefaults,
 } from './orbitConfig';
 import { computePriorityScore } from './calc/priority';
 import { runHousekeepingPlan } from './calc/housekeeping';
+import { datesToGenerate } from './calc/recurrence';
+import { needsReset, applyReset } from './calc/trackers';
+import { buildReview, mondayOf } from './calc/review';
+import { carryoverCandidates as calcCarryoverCandidates } from './calc/carryover';
 
 export const OrbitContext = createContext(null);
 export function useOrbit() { return useContext(OrbitContext); }
@@ -42,6 +48,11 @@ function makeBackend(user) {
       getTasks: () => OrbitFirestore.getTasks(uid),
       getInbox: () => OrbitFirestore.getInbox(uid),
       getSettings: () => OrbitFirestore.getSettings(uid),
+      getRecurrenceRules: () => OrbitFirestore.getRecurrenceRules(uid),
+      getReferences: () => OrbitFirestore.getReferences(uid),
+      getTrackers: () => OrbitFirestore.getTrackers(uid),
+      getReviewLogs: () => OrbitFirestore.getReviewLogs(uid),
+      getDayPlans: () => OrbitFirestore.getDayPlans(uid),
     };
   }
   return {
@@ -52,6 +63,11 @@ function makeBackend(user) {
     getTasks: async () => OrbitStorage.getTasks(),
     getInbox: async () => OrbitStorage.getInbox(),
     getSettings: async () => OrbitStorage.getSettings(),
+    getRecurrenceRules: async () => OrbitStorage.getRecurrenceRules(),
+    getReferences: async () => OrbitStorage.getReferences(),
+    getTrackers: async () => OrbitStorage.getTrackers(),
+    getReviewLogs: async () => OrbitStorage.getReviewLogs(),
+    getDayPlans: async () => OrbitStorage.getDayPlans(),
   };
 }
 
@@ -62,11 +78,17 @@ function makeBackend(user) {
 function emptyDirty() {
   return {
     areas: new Map(), projects: new Map(), tasks: new Map(), inbox: new Map(),
+    recurrenceRules: new Map(), references: new Map(), trackers: new Map(),
+    reviewLogs: new Map(), dayPlans: new Map(),
     settingsDirty: false, settingsVersion: 0,
   };
 }
 function emptyDeletes() {
-  return { areas: new Set(), projects: new Set(), tasks: new Set(), inbox: new Set() };
+  return {
+    areas: new Set(), projects: new Set(), tasks: new Set(), inbox: new Set(),
+    recurrenceRules: new Set(), references: new Set(), trackers: new Set(),
+    reviewLogs: new Set(), dayPlans: new Set(),
+  };
 }
 
 export function useOrbitState() {
@@ -81,17 +103,28 @@ export function useOrbitState() {
   const [inbox, setInbox] = useState([]);
   const [settings, setSettings] = useState(() => withSettingsDefaults(null));
   const [loading, setLoading] = useState(true);
+  const [recurrenceRules, setRecurrenceRules] = useState([]);
+  const [references, setReferences] = useState([]);
+  const [trackers, setTrackers] = useState([]);
+  const [reviewLogs, setReviewLogs] = useState([]);
+  const [dayPlans, setDayPlans] = useState([]);
 
   // Write-coalescing bookkeeping. Refs, not state — mutated outside the
   // render cycle and never need to trigger a re-render themselves.
   const dirtyRef = useRef(emptyDirty());
   const deletesRef = useRef(emptyDeletes());
   const flushTimerRef = useRef(null);
-  const stateRef = useRef({ areas, projects, tasks, inbox, settings });
+  const stateRef = useRef({
+    areas, projects, tasks, inbox, settings,
+    recurrenceRules, references, trackers, reviewLogs, dayPlans,
+  });
   // Refs can't be written during render (React 19 rule) — sync it in an
   // effect that runs after every commit instead.
   useEffect(() => {
-    stateRef.current = { areas, projects, tasks, inbox, settings };
+    stateRef.current = {
+      areas, projects, tasks, inbox, settings,
+      recurrenceRules, references, trackers, reviewLogs, dayPlans,
+    };
   });
 
   const flush = useCallback(async () => {
@@ -102,9 +135,15 @@ export function useOrbitState() {
     if (backend.mode !== 'cloud') return;
     const dirty = dirtyRef.current;
     const deletes = deletesRef.current;
-    const hasWork = dirty.areas.size || dirty.projects.size || dirty.tasks.size || dirty.inbox.size
-      || dirty.settingsDirty
-      || deletes.areas.size || deletes.projects.size || deletes.tasks.size || deletes.inbox.size;
+    // All 9 write-coalesced collections — kept as one list so hasWork/
+    // snapshot/upsert-build/delete-payload/cleanup below can't drift apart
+    // from each other as collections get added.
+    const COLLECTIONS = [
+      'areas', 'projects', 'tasks', 'inbox',
+      'recurrenceRules', 'references', 'trackers', 'reviewLogs', 'dayPlans',
+    ];
+    const hasWork = COLLECTIONS.some((col) => dirty[col].size || deletes[col].size)
+      || dirty.settingsDirty;
     if (!hasWork) return;
 
     // Snapshot exactly what's about to be sent (ids + their version, and the
@@ -114,46 +153,40 @@ export function useOrbitState() {
     // what we snapshotted, and only if its version is unchanged. If it's
     // moved on (re-edited mid-flight, data we just sent is already stale),
     // it's left dirty for the next flush instead of being silently dropped.
-    const sentVersions = {
-      areas: new Map(dirty.areas), projects: new Map(dirty.projects),
-      tasks: new Map(dirty.tasks), inbox: new Map(dirty.inbox),
-    };
-    const sentDeletes = {
-      areas: new Set(deletes.areas), projects: new Set(deletes.projects),
-      tasks: new Set(deletes.tasks), inbox: new Set(deletes.inbox),
-    };
+    const sentVersions = {};
+    const sentDeletes = {};
+    COLLECTIONS.forEach((col) => {
+      sentVersions[col] = new Map(dirty[col]);
+      sentDeletes[col] = new Set(deletes[col]);
+    });
     const sentSettings = dirty.settingsDirty;
     const sentSettingsVersion = dirty.settingsVersion;
 
     const cur = stateRef.current;
-    const byId = (arr) => new Map(arr.map((x) => [x.id, x]));
-    const areasById = byId(cur.areas);
-    const projectsById = byId(cur.projects);
-    const tasksById = byId(cur.tasks);
-    const inboxById = byId(cur.inbox);
+    // Every collection is keyed by `.id` except dayPlans, keyed by `.date`
+    // (see orbitConfig.js's newDayPlan) — keyFn lets the rest of this stay generic.
+    const byId = (arr, keyFn = (x) => x.id) => new Map(arr.map((x) => [keyFn(x), x]));
+    const docsByIdByCol = {
+      areas: byId(cur.areas), projects: byId(cur.projects), tasks: byId(cur.tasks), inbox: byId(cur.inbox),
+      recurrenceRules: byId(cur.recurrenceRules), references: byId(cur.references), trackers: byId(cur.trackers),
+      reviewLogs: byId(cur.reviewLogs), dayPlans: byId(cur.dayPlans, (d) => d.date),
+    };
 
     // Skip anything also queued for delete — no point upserting a doc we're
     // about to remove in the same batch.
-    const buildUpserts = (col, docsById) => [...sentVersions[col].keys()]
-      .filter((id) => !sentDeletes[col].has(id) && docsById.has(id))
-      .map((id) => docsById.get(id));
-    const upserts = {
-      areas: buildUpserts('areas', areasById),
-      projects: buildUpserts('projects', projectsById),
-      tasks: buildUpserts('tasks', tasksById),
-      inbox: buildUpserts('inbox', inboxById),
-      settings: sentSettings ? cur.settings : undefined,
-    };
-    const deletesPayload = {
-      areas: [...sentDeletes.areas],
-      projects: [...sentDeletes.projects],
-      tasks: [...sentDeletes.tasks],
-      inbox: [...sentDeletes.inbox],
-    };
+    const buildUpserts = (col) => [...sentVersions[col].keys()]
+      .filter((id) => !sentDeletes[col].has(id) && docsByIdByCol[col].has(id))
+      .map((id) => docsByIdByCol[col].get(id));
+    const upserts = { settings: sentSettings ? cur.settings : undefined };
+    const deletesPayload = {};
+    COLLECTIONS.forEach((col) => {
+      upserts[col] = buildUpserts(col);
+      deletesPayload[col] = [...sentDeletes[col]];
+    });
 
     try {
       await OrbitFirestore.flush(backend.uid, { upserts, deletes: deletesPayload });
-      ['areas', 'projects', 'tasks', 'inbox'].forEach((col) => {
+      COLLECTIONS.forEach((col) => {
         sentVersions[col].forEach((version, id) => {
           if (dirtyRef.current[col].get(id) === version) dirtyRef.current[col].delete(id);
         });
@@ -217,14 +250,23 @@ export function useOrbitState() {
     dirtyRef.current = emptyDirty();
     deletesRef.current = emptyDeletes();
 
-    Promise.all([backend.getAreas(), backend.getProjects(), backend.getTasks(), backend.getInbox(), backend.getSettings()])
-      .then(async ([a, p, t, i, s]) => {
+    Promise.all([
+      backend.getAreas(), backend.getProjects(), backend.getTasks(), backend.getInbox(), backend.getSettings(),
+      backend.getRecurrenceRules(), backend.getReferences(), backend.getTrackers(),
+      backend.getReviewLogs(), backend.getDayPlans(),
+    ])
+      .then(async ([a, p, t, i, s, rr, refs, trk, rev, dp]) => {
         if (!alive) return;
         let nextAreas = Array.isArray(a) ? a : [];
         const nextProjects = (Array.isArray(p) ? p : []).map(withProjectDefaults);
         const nextTasks = (Array.isArray(t) ? t : []).map(withTaskDefaults);
         const nextInbox = Array.isArray(i) ? i : [];
         const nextSettings = withSettingsDefaults(s);
+        const nextRecurrenceRules = Array.isArray(rr) ? rr : [];
+        const nextReferences = (Array.isArray(refs) ? refs : []).map(withReferenceDefaults);
+        const nextTrackers = Array.isArray(trk) ? trk : [];
+        const nextReviewLogs = Array.isArray(rev) ? rev : [];
+        const nextDayPlans = (Array.isArray(dp) ? dp : []).map(withDayPlanDefaults);
 
         // First-run seed: no areas anywhere yet for this backend.
         if (nextAreas.length === 0) {
@@ -245,6 +287,11 @@ export function useOrbitState() {
           OrbitStorage.replaceAll('tasks', nextTasks);
           OrbitStorage.replaceAll('inbox', nextInbox);
           OrbitStorage.replaceAll('settings', nextSettings);
+          OrbitStorage.replaceAll('recurrenceRules', nextRecurrenceRules);
+          OrbitStorage.replaceAll('references', nextReferences);
+          OrbitStorage.replaceAll('trackers', nextTrackers);
+          OrbitStorage.replaceAll('reviewLogs', nextReviewLogs);
+          OrbitStorage.replaceAll('dayPlans', nextDayPlans);
         }
 
         setAreas(nextAreas);
@@ -252,6 +299,11 @@ export function useOrbitState() {
         setTasks(nextTasks);
         setInbox(nextInbox);
         setSettings(nextSettings);
+        setRecurrenceRules(nextRecurrenceRules);
+        setReferences(nextReferences);
+        setTrackers(nextTrackers);
+        setReviewLogs(nextReviewLogs);
+        setDayPlans(nextDayPlans);
         setLoading(false);
 
         // Housekeeping-on-open: once per calendar day, regardless of mode.
@@ -269,6 +321,70 @@ export function useOrbitState() {
             OrbitStorage.removeInboxItem(id);
             if (backend.mode === 'cloud') markDeleted('inbox', id);
           });
+
+          // Recurring generation — apply directly against the freshly-loaded
+          // arrays (not the addTask/updateRecurrenceRule action creators,
+          // which would read stale stateRef from before this effect ran).
+          let workingTasks = nextTasks;
+          const generatedRuleIds = new Set();
+          nextRecurrenceRules.filter((rule) => rule.active).forEach((rule) => {
+            const existingDates = new Set(
+              workingTasks.filter((task) => task.recurrenceId === rule.id).map((task) => task.scheduledDate),
+            );
+            const dates = datesToGenerate(rule, today, existingDates);
+            if (dates.length === 0) return;
+            const generated = dates.map((date) => newTask({
+              title: rule.title,
+              areaId: rule.areaId,
+              projectId: rule.projectId,
+              taskType: rule.taskType,
+              importance: rule.importance,
+              urgency: rule.urgency,
+              timeMin: rule.timeMin,
+              difficulty: rule.difficulty,
+              energy: rule.energy,
+              scheduledDate: date,
+              recurrenceId: rule.id,
+            }, nextSettings));
+            workingTasks = [...generated, ...workingTasks];
+            generated.forEach((task) => {
+              OrbitStorage.saveTask(task);
+              if (backend.mode === 'cloud') markDirty('tasks', task.id);
+            });
+            generatedRuleIds.add(rule.id);
+            OrbitStorage.updateRecurrenceRule(rule.id, { lastGeneratedDate: today });
+            if (backend.mode === 'cloud') markDirty('recurrenceRules', rule.id);
+          });
+          if (workingTasks !== nextTasks) {
+            setTasks(workingTasks);
+            setRecurrenceRules((prev) => prev.map((rule) =>
+              (generatedRuleIds.has(rule.id) ? { ...rule, lastGeneratedDate: today } : rule)));
+          }
+
+          // Tracker resets.
+          if (nextTrackers.some((tracker) => needsReset(tracker, today))) {
+            const resetTrackers = nextTrackers.map((tracker) => applyReset(tracker, today));
+            setTrackers(resetTrackers);
+            resetTrackers.forEach((tracker, idx) => {
+              if (tracker === nextTrackers[idx]) return;
+              OrbitStorage.updateTracker(tracker.id, {
+                currentValue: tracker.currentValue, lastResetAt: tracker.lastResetAt,
+              });
+              if (backend.mode === 'cloud') markDirty('trackers', tracker.id);
+            });
+          }
+
+          // Weekly review auto-gen — first open of a new week creates that
+          // week's log; re-opening later the same week is a no-op.
+          const weekOf = mondayOf(today);
+          if (!nextReviewLogs.some((log) => log.weekOf === weekOf)) {
+            const built = buildReview(workingTasks, nextProjects, today, nextSettings.staleDays);
+            const log = newReviewLog(built);
+            setReviewLogs((prev) => [log, ...prev]);
+            OrbitStorage.saveReviewLog(log);
+            if (backend.mode === 'cloud') markDirty('reviewLogs', log.id);
+          }
+
           OrbitStorage.setHousekeepingDate(today);
         }
       })
@@ -276,6 +392,60 @@ export function useOrbitState() {
 
     return () => { alive = false; };
   }, [backend, markDirty, markDeleted]);
+
+  // Manual refresh — re-fetches all 10 reads from the CURRENT backend and
+  // resyncs state + (cloud mode) the localStorage mirror, WITHOUT the
+  // initial-load effect's first-run area seeding or once-per-day
+  // housekeeping (this is a plain refresh, not a first load). User-triggered
+  // (e.g. the AI-cleanup button after api/orbit-ai-triage writes Firestore
+  // out-of-band), so no `alive` guard — just swallow a failed fetch so it
+  // never throws into the caller.
+  const reload = useCallback(async () => {
+    try {
+      const [a, p, t, i, s, rr, refs, trk, rev, dp] = await Promise.all([
+        backend.getAreas(), backend.getProjects(), backend.getTasks(), backend.getInbox(), backend.getSettings(),
+        backend.getRecurrenceRules(), backend.getReferences(), backend.getTrackers(),
+        backend.getReviewLogs(), backend.getDayPlans(),
+      ]);
+      const nextAreas = Array.isArray(a) ? a : [];
+      const nextProjects = (Array.isArray(p) ? p : []).map(withProjectDefaults);
+      const nextTasks = (Array.isArray(t) ? t : []).map(withTaskDefaults);
+      const nextInbox = Array.isArray(i) ? i : [];
+      const nextSettings = withSettingsDefaults(s);
+      const nextRecurrenceRules = Array.isArray(rr) ? rr : [];
+      const nextReferences = (Array.isArray(refs) ? refs : []).map(withReferenceDefaults);
+      const nextTrackers = Array.isArray(trk) ? trk : [];
+      const nextReviewLogs = Array.isArray(rev) ? rev : [];
+      const nextDayPlans = (Array.isArray(dp) ? dp : []).map(withDayPlanDefaults);
+
+      if (backend.mode === 'cloud') {
+        OrbitStorage.replaceAll('areas', nextAreas);
+        OrbitStorage.replaceAll('projects', nextProjects);
+        OrbitStorage.replaceAll('tasks', nextTasks);
+        OrbitStorage.replaceAll('inbox', nextInbox);
+        OrbitStorage.replaceAll('settings', nextSettings);
+        OrbitStorage.replaceAll('recurrenceRules', nextRecurrenceRules);
+        OrbitStorage.replaceAll('references', nextReferences);
+        OrbitStorage.replaceAll('trackers', nextTrackers);
+        OrbitStorage.replaceAll('reviewLogs', nextReviewLogs);
+        OrbitStorage.replaceAll('dayPlans', nextDayPlans);
+      }
+
+      setAreas(nextAreas);
+      setProjects(nextProjects);
+      setTasks(nextTasks);
+      setInbox(nextInbox);
+      setSettings(nextSettings);
+      setRecurrenceRules(nextRecurrenceRules);
+      setReferences(nextReferences);
+      setTrackers(nextTrackers);
+      setReviewLogs(nextReviewLogs);
+      setDayPlans(nextDayPlans);
+    } catch {
+      // Leave current state as-is — localStorage mirror / Firestore are
+      // unaffected by a failed read, so there's nothing to roll back.
+    }
+  }, [backend]);
 
   // ---- areas ----
   const addArea = useCallback(async (partial) => {
@@ -422,15 +592,157 @@ export function useOrbitState() {
     });
   }, [backend, markDirty, markSettingsDirty]);
 
+  // ---- recurrence rules ----
+  const addRecurrenceRule = useCallback(async (partial) => {
+    const r = newRecurrenceRule(partial);
+    setRecurrenceRules((prev) => [r, ...prev]);
+    OrbitStorage.saveRecurrenceRule(r);
+    if (backend.mode === 'cloud') markDirty('recurrenceRules', r.id);
+    return r;
+  }, [backend, markDirty]);
+
+  const updateRecurrenceRule = useCallback(async (id, updates) => {
+    setRecurrenceRules((prev) => prev.map((r) => (r.id === id ? { ...r, ...updates } : r)));
+    OrbitStorage.updateRecurrenceRule(id, updates);
+    if (backend.mode === 'cloud') markDirty('recurrenceRules', id);
+  }, [backend, markDirty]);
+
+  const removeRecurrenceRule = useCallback(async (id) => {
+    setRecurrenceRules((prev) => prev.filter((r) => r.id !== id));
+    OrbitStorage.removeRecurrenceRule(id);
+    if (backend.mode === 'cloud') markDeleted('recurrenceRules', id);
+  }, [backend, markDeleted]);
+
+  // ---- references ----
+  const addReference = useCallback(async (partial) => {
+    const r = newReferenceItem(partial);
+    setReferences((prev) => [r, ...prev]);
+    OrbitStorage.saveReference(r);
+    if (backend.mode === 'cloud') markDirty('references', r.id);
+    return r;
+  }, [backend, markDirty]);
+
+  const updateReference = useCallback(async (id, updates) => {
+    const now = Date.now();
+    setReferences((prev) => prev.map((r) => (r.id === id ? { ...r, ...updates, updatedAt: now } : r)));
+    OrbitStorage.updateReference(id, { ...updates, updatedAt: now });
+    if (backend.mode === 'cloud') markDirty('references', id);
+  }, [backend, markDirty]);
+
+  const removeReference = useCallback(async (id) => {
+    setReferences((prev) => prev.filter((r) => r.id !== id));
+    OrbitStorage.removeReference(id);
+    if (backend.mode === 'cloud') markDeleted('references', id);
+  }, [backend, markDeleted]);
+
+  // ---- trackers ----
+  const addTracker = useCallback(async (partial) => {
+    const t = newTracker(partial);
+    setTrackers((prev) => [t, ...prev]);
+    OrbitStorage.saveTracker(t);
+    if (backend.mode === 'cloud') markDirty('trackers', t.id);
+    return t;
+  }, [backend, markDirty]);
+
+  const updateTracker = useCallback(async (id, updates) => {
+    setTrackers((prev) => prev.map((t) => (t.id === id ? { ...t, ...updates } : t)));
+    OrbitStorage.updateTracker(id, updates);
+    if (backend.mode === 'cloud') markDirty('trackers', id);
+  }, [backend, markDirty]);
+
+  const removeTracker = useCallback(async (id) => {
+    setTrackers((prev) => prev.filter((t) => t.id !== id));
+    OrbitStorage.removeTracker(id);
+    if (backend.mode === 'cloud') markDeleted('trackers', id);
+  }, [backend, markDeleted]);
+
+  // ---- day plans ----
+  // Read-time getter (not a state value itself) — always returns a usable
+  // plan, defaulting one that hasn't been created yet rather than null, so
+  // the UI never has to null-check before reading capacity/note.
+  const getDayPlan = useCallback((dateISO) => {
+    const found = dayPlans.find((d) => d.date === dateISO);
+    return found || newDayPlan({ date: dateISO });
+  }, [dayPlans]);
+
+  const setDayPlan = useCallback(async (dateISO, patch) => {
+    const existing = stateRef.current.dayPlans.find((d) => d.date === dateISO);
+    if (existing) {
+      const updated = { ...existing, ...patch };
+      setDayPlans((prev) => prev.map((d) => (d.date === dateISO ? updated : d)));
+      OrbitStorage.updateDayPlan(dateISO, patch);
+    } else {
+      const created = newDayPlan({ date: dateISO, ...patch });
+      setDayPlans((prev) => [created, ...prev]);
+      OrbitStorage.saveDayPlan(created);
+    }
+    if (backend.mode === 'cloud') markDirty('dayPlans', dateISO);
+  }, [backend, markDirty]);
+
+  // ---- review logs ----
+  const addReviewLog = useCallback(async (partial) => {
+    const r = newReviewLog(partial);
+    setReviewLogs((prev) => [r, ...prev]);
+    OrbitStorage.saveReviewLog(r);
+    if (backend.mode === 'cloud') markDirty('reviewLogs', r.id);
+    return r;
+  }, [backend, markDirty]);
+
+  // Manual "run review now" — builds fresh off current state and replaces
+  // any existing log for the same weekOf (factories always mint a new id,
+  // so "replace" here means delete-old + add-new rather than an in-place id
+  // reuse; see orbitConfig.js's newReviewLog).
+  const generateReview = useCallback(async () => {
+    const built = buildReview(
+      stateRef.current.tasks, stateRef.current.projects, todayISO(), stateRef.current.settings.staleDays,
+    );
+    const log = newReviewLog(built);
+    const stale = stateRef.current.reviewLogs.filter((r) => r.weekOf === built.weekOf);
+    setReviewLogs((prev) => [log, ...prev.filter((r) => r.weekOf !== built.weekOf)]);
+    stale.forEach((r) => {
+      OrbitStorage.removeReviewLog(r.id);
+      if (backend.mode === 'cloud') markDeleted('reviewLogs', r.id);
+    });
+    OrbitStorage.saveReviewLog(log);
+    if (backend.mode === 'cloud') markDirty('reviewLogs', log.id);
+    return log;
+  }, [backend, markDirty, markDeleted]);
+
   const tasksById = useMemo(() => new Map(tasks.map((t) => [t.id, t])), [tasks]);
+  const today = todayISO();
+
+  // ---- carryover ----
+  // Derived, not stored — recomputed from tasks whenever they (or the day)
+  // change. Never auto-applied; rollTaskToToday is the opt-in per-task action
+  // the carryover-triage UI calls once the user confirms.
+  const carryoverCandidatesList = useMemo(() => calcCarryoverCandidates(tasks, today), [tasks, today]);
+
+  const rollTaskToToday = useCallback(async (id) => {
+    const candidate = carryoverCandidatesList.find((c) => c.taskId === id);
+    const patch = { scheduledDate: today };
+    if (candidate?.suggestedAction === 'raiseUrgency') {
+      const current = stateRef.current.tasks.find((t) => t.id === id);
+      patch.urgency = Math.min(5, (current?.urgency ?? 3) + 1);
+    }
+    return updateTask(id, patch);
+  }, [today, updateTask, carryoverCandidatesList]);
 
   return {
     areas, projects, tasks, inbox, settings, loading, mode: backend.mode,
-    tasksById, today: todayISO(),
+    tasksById, today,
     addArea, updateArea, archiveArea, reorderAreas,
     addProject, updateProject, removeProject,
     addTask, updateTask, removeTask,
     addInboxItem, updateInboxItem, removeInboxItem,
     updateSettings,
+    // ---- Phase 2 (new) ----
+    recurrenceRules, references, trackers, reviewLogs, dayPlans,
+    addRecurrenceRule, updateRecurrenceRule, removeRecurrenceRule,
+    addReference, updateReference, removeReference,
+    addTracker, updateTracker, removeTracker,
+    getDayPlan, setDayPlan,
+    addReviewLog, generateReview,
+    carryoverCandidates: carryoverCandidatesList, rollTaskToToday,
+    reload,
   };
 }

@@ -1,0 +1,98 @@
+/* PlannerView — capacity-aware auto-planner (NS-7 + NS-8). Extends Orbit.css
+   primitives (orb-card, orb-btn, orb-tab, orb-chip, orb-flag-warn); all new
+   classes here are `orb-plan-`/`orb-planner-` prefixed per CLAUDE.md. */
+
+.orb-planner { display: flex; flex-direction: column; gap: 14px; }
+
+.orb-planner-head { display: flex; flex-direction: column; gap: 4px; }
+.orb-planner-h2 { margin: 0; font-size: 1.15rem; }
+.orb-planner-sub { margin: 0; color: var(--orb-muted); font-size: 0.85rem; max-width: 68ch; }
+
+/* ---- controls bar ---- */
+.orb-planner-controls { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; }
+.orb-planner-control-group { display: flex; flex-direction: column; gap: 6px; }
+.orb-planner-control-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: var(--orb-muted); }
+
+.orb-planner-toggle { display: flex; gap: 4px; background: var(--orb-panel-2); border-radius: 9px; padding: 3px; }
+.orb-planner-toggle .orb-tab { padding: 6px 14px; font-size: 0.82rem; }
+
+.orb-planner-horizon { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.orb-planner-preset { cursor: pointer; background: transparent; }
+.orb-planner-preset.active { background: rgba(126, 200, 227, 0.14); border-color: rgba(126, 200, 227, 0.35); color: var(--orb-accent); }
+
+.orb-planner-actions { flex-direction: row; gap: 8px; margin-left: auto; align-items: center; }
+
+.orb-planner-applied {
+  display: flex; align-items: center; gap: 10px; justify-content: space-between;
+  background: rgba(126, 200, 227, 0.12); border: 1px solid rgba(126, 200, 227, 0.35);
+  border-radius: 10px; padding: 8px 12px; font-size: 0.85rem; color: var(--orb-accent);
+}
+
+.orb-planner-summary { color: var(--orb-muted); font-size: 0.82rem; }
+
+.orb-planner-note {
+  font-size: 0.82rem; color: var(--orb-warn); background: rgba(245, 169, 127, 0.1);
+  border: 1px solid rgba(245, 169, 127, 0.35); border-radius: 10px; padding: 8px 12px;
+}
+
+/* ---- day cards ---- */
+.orb-planner-days { display: flex; flex-direction: column; gap: 10px; }
+.orb-planner-day { display: flex; flex-direction: column; gap: 10px; }
+.orb-planner-day.today { border-color: rgba(126, 200, 227, 0.4); }
+
+.orb-planner-day-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.orb-planner-day-label { font-weight: 700; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; }
+.orb-planner-day-tag {
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
+  color: #0e1116; background: var(--orb-accent); border-radius: 20px; padding: 2px 8px;
+}
+.orb-planner-day-date { color: var(--orb-muted); font-size: 0.78rem; }
+.orb-planner-cap-toggle { margin-left: auto; font-size: 0.78rem; padding: 5px 10px; }
+.orb-planner-cap-toggle.customized { color: var(--orb-accent); border-color: rgba(126, 200, 227, 0.4); }
+
+.orb-planner-day-bars { display: flex; gap: 16px; flex-wrap: wrap; }
+
+.orb-plan-capbar { flex: 1 1 160px; min-width: 140px; display: flex; flex-direction: column; gap: 4px; }
+.orb-plan-capbar-label { display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--orb-muted); font-variant-numeric: tabular-nums; }
+.orb-plan-capbar-track { height: 7px; border-radius: 20px; background: var(--orb-panel-2); overflow: hidden; }
+.orb-plan-capbar-fill { height: 100%; border-radius: 20px; background: var(--orb-accent); transition: width 0.15s ease; }
+.orb-plan-capbar-fill.over { background: var(--orb-warn); }
+
+/* ---- capacity editor ---- */
+.orb-plan-cap-editor {
+  display: flex; flex-direction: column; gap: 10px; padding: 10px 12px;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 10px;
+}
+.orb-plan-cap-field { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.orb-plan-cap-field-label { flex: 0 0 100px; font-size: 0.8rem; color: var(--orb-muted); }
+.orb-plan-cap-field input[type="range"] { flex: 1 1 120px; min-width: 100px; accent-color: var(--orb-accent); }
+.orb-plan-cap-num {
+  width: 68px; font: inherit; font-size: 0.85rem; color: var(--orb-text);
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 7px; padding: 4px 6px;
+}
+.orb-plan-cap-unit { color: var(--orb-muted); font-size: 0.78rem; }
+.orb-plan-cap-reset { align-self: flex-start; font-size: 0.76rem; padding: 5px 10px; }
+
+/* ---- tasks within a day ---- */
+.orb-planner-day-tasks { display: flex; flex-direction: column; gap: 8px; }
+.orb-planner-day-empty { color: var(--orb-muted); font-size: 0.8rem; opacity: 0.7; padding: 4px 2px; }
+
+.orb-plan-task { display: flex; flex-direction: column; gap: 6px; }
+.orb-plan-move { display: flex; align-items: center; gap: 8px; font-size: 0.76rem; color: var(--orb-muted); padding-left: 4px; }
+.orb-plan-move select {
+  font: inherit; font-size: 0.78rem; color: var(--orb-text); background: var(--orb-panel-2);
+  border: 1px solid var(--orb-border); border-radius: 7px; padding: 4px 8px;
+}
+
+.orb-planner-unplaced { border-style: dashed; }
+
+.orb-planner-zero {
+  display: flex; align-items: center; justify-content: center; min-height: 140px;
+  color: var(--orb-muted); font-size: 0.9rem; border: 1px dashed var(--orb-border); border-radius: 12px;
+}
+
+@media (max-width: 640px) {
+  .orb-planner-controls { flex-direction: column; align-items: stretch; }
+  .orb-planner-actions { margin-left: 0; flex-wrap: wrap; }
+  .orb-plan-cap-field-label { flex-basis: 100%; }
+}

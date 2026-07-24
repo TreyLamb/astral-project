@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useOrbit } from '../orbitContext';
 import { DEFAULT_TASK_TYPES } from '../orbitConfig';
 import DependencyLinker from './DependencyLinker';
@@ -11,6 +12,17 @@ const RATING_FIELDS = [
   { key: 'difficulty', label: 'Difficulty' },
   { key: 'energy', label: 'Energy' },
 ];
+
+// Kept light on purpose (contract: "deeper editing lives in RecurringView")
+// — just enough to pick a cadence and confirm, not the full RecurrenceRule
+// form (see RecurringView.jsx's RuleForm for that).
+const RECUR_FREQ_OPTIONS = [
+  { value: 'daily', label: 'Daily' },
+  { value: 'weekly', label: 'Weekly' },
+  { value: 'monthly', label: 'Monthly' },
+  { value: 'interval', label: 'Every N days' },
+];
+const RECUR_WEEKDAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 function cap(s) {
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
@@ -33,6 +45,133 @@ function RatingButtons({ label, value, onChange }) {
             {n}
           </button>
         ))}
+      </div>
+    </div>
+  );
+}
+
+// "Make this task repeat" — seeds a brand-new RecurrenceRule from the
+// task's own fields (title/area/project/type/axes) plus a compact freq
+// picker, then links the two (recurrenceId on the task). anchorDate is
+// always today, not the task's own scheduledDate/dueDate: backdating it
+// would make datesToGenerate() immediately backfill every occurrence between
+// that date and today the next time the app opens, which is very much not
+// what "start repeating from here" should do.
+function RecurrenceAffordance({ task }) {
+  const { addRecurrenceRule, updateTask, today } = useOrbit();
+  const [open, setOpen] = useState(false);
+  const [freq, setFreq] = useState('daily');
+  const [intervalDays, setIntervalDays] = useState(1);
+  const [weekdays, setWeekdays] = useState([]);
+  const [dayOfMonth, setDayOfMonth] = useState(1);
+
+  if (task.recurrenceId) {
+    return (
+      <div className="orb-te-recur orb-te-recur-linked">
+        🔁 Repeats — manage in <Link to="/orbit/recurring" className="orb-te-recur-link">Recurring</Link>
+      </div>
+    );
+  }
+
+  const toggleWeekday = (idx) => {
+    setWeekdays((w) => (w.includes(idx) ? w.filter((d) => d !== idx) : [...w, idx].sort((a, b) => a - b)));
+  };
+
+  const submit = async () => {
+    const rule = await addRecurrenceRule({
+      title: task.title,
+      areaId: task.areaId,
+      projectId: task.projectId,
+      taskType: task.taskType,
+      importance: task.importance,
+      urgency: task.urgency,
+      timeMin: task.timeMin,
+      difficulty: task.difficulty,
+      energy: task.energy,
+      freq,
+      interval: intervalDays,
+      weekdays,
+      dayOfMonth,
+      anchorDate: today,
+      active: true,
+    });
+    await updateTask(task.id, { recurrenceId: rule.id });
+    setOpen(false);
+  };
+
+  if (!open) {
+    return (
+      <button type="button" className="orb-te-recur-btn" onClick={() => setOpen(true)}>
+        🔁 Make repeating…
+      </button>
+    );
+  }
+
+  const disabled = freq === 'weekly' && weekdays.length === 0;
+
+  return (
+    <div className="orb-te-recur orb-te-recur-open">
+      <div className="orb-te-recur-freqs" role="radiogroup" aria-label="Repeat frequency">
+        {RECUR_FREQ_OPTIONS.map((f) => (
+          <button
+            key={f.value}
+            type="button"
+            role="radio"
+            aria-checked={freq === f.value}
+            className={`orb-te-recur-freq-btn${freq === f.value ? ' active' : ''}`}
+            onClick={() => setFreq(f.value)}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      {freq === 'weekly' && (
+        <div className="orb-te-recur-weekdays" role="group" aria-label="Weekdays">
+          {RECUR_WEEKDAY_LABELS.map((label, idx) => (
+            <button
+              key={label}
+              type="button"
+              className={`orb-te-recur-weekday-btn${weekdays.includes(idx) ? ' active' : ''}`}
+              aria-pressed={weekdays.includes(idx)}
+              onClick={() => toggleWeekday(idx)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+      {freq === 'monthly' && (
+        <label className="orb-te-recur-inline-field">
+          <span>Day</span>
+          <input
+            type="number"
+            min="1"
+            max="31"
+            value={dayOfMonth}
+            onChange={(e) => setDayOfMonth(Math.min(31, Math.max(1, parseInt(e.target.value, 10) || 1)))}
+          />
+        </label>
+      )}
+      {freq === 'interval' && (
+        <label className="orb-te-recur-inline-field">
+          <span>Every</span>
+          <input
+            type="number"
+            min="1"
+            value={intervalDays}
+            onChange={(e) => setIntervalDays(Math.max(1, parseInt(e.target.value, 10) || 1))}
+          />
+          <span>day(s)</span>
+        </label>
+      )}
+
+      <div className="orb-te-recur-actions">
+        <button type="button" className="orb-btn" onClick={() => setOpen(false)}>Cancel</button>
+        <button type="button" className="orb-btn orb-btn-primary" disabled={disabled} onClick={submit}>Create rule</button>
+      </div>
+      <div className="orb-te-recur-hint">
+        Deeper editing (area/project/axes/pause) lives in <Link to="/orbit/recurring" className="orb-te-recur-link">Recurring</Link>.
       </div>
     </div>
   );
@@ -216,6 +355,8 @@ export default function TaskEditor({ task, depth = 0 }) {
           <RatingButtons key={key} label={label} value={task[key]} onChange={(n) => updateTask(task.id, { [key]: n })} />
         ))}
       </div>
+
+      <RecurrenceAffordance task={task} />
 
       <DependencyLinker task={task} />
       <SubtaskList task={task} depth={depth} />

@@ -1,0 +1,114 @@
+/* RecurringView — reuses Orbit.css primitives (--orb-*, .orb-row/.orb-chip/
+   .orb-tab/.orb-card/.orb-btn). Row+attached-panel-below layout mirrors
+   TaskRow.css/AreasView.css (expand chevron reveals an edit form or a
+   next-occurrences preview underneath the row, never a modal). */
+
+.orb-rv { display: flex; flex-direction: column; gap: 14px; }
+
+.orb-rv-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.orb-rv-h2 { margin: 0; font-size: 1.15rem; }
+.orb-rv-sub { margin: 4px 0 0; font-size: 0.82rem; color: var(--orb-muted); max-width: 640px; }
+
+.orb-rv-empty {
+  color: var(--orb-muted); font-size: 0.9rem; padding: 26px; text-align: center;
+  border: 1px dashed var(--orb-border); border-radius: 12px;
+}
+
+.orb-rv-create-card { display: flex; flex-direction: column; gap: 10px; }
+.orb-rv-card-title { font-weight: 700; font-size: 0.9rem; }
+
+.orb-rv-list { display: flex; flex-direction: column; gap: 8px; }
+.orb-rv-card { display: flex; flex-direction: column; }
+
+.orb-rv-row { padding: 8px 10px; flex-wrap: wrap; }
+.orb-rv-row-inactive { opacity: 0.6; }
+
+.orb-rv-expand {
+  flex: none; background: transparent; border: 1px solid transparent; border-radius: 8px;
+  width: 26px; height: 26px; color: var(--orb-muted); font-size: 0.8rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.orb-rv-expand:hover { background: var(--orb-panel-2); color: var(--orb-text); }
+.orb-rv-expand.active { color: var(--orb-accent); }
+
+.orb-rv-row-main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.orb-rv-row-title { font-weight: 700; font-size: 0.92rem; overflow-wrap: anywhere; }
+.orb-rv-row-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.orb-rv-freq-chip { font-weight: 700; }
+.orb-rv-paused-chip { color: var(--orb-muted); }
+
+.orb-rv-active-inline {
+  flex: none; display: flex; align-items: center; gap: 5px;
+  font-size: 0.78rem; color: var(--orb-muted); cursor: pointer;
+}
+.orb-rv-active-inline input { accent-color: var(--orb-accent); cursor: pointer; }
+
+.orb-rv-delete { flex: none; font-size: 0.75rem; padding: 6px 10px; }
+.orb-rv-confirm-delete { flex: none; display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--orb-warn); }
+.orb-rv-confirm-delete .orb-btn { padding: 5px 10px; font-size: 0.75rem; }
+.orb-rv-confirm-yes { border-color: rgba(245, 169, 127, 0.4); color: var(--orb-warn); }
+.orb-rv-confirm-yes:hover { background: rgba(245, 169, 127, 0.12); }
+
+.orb-rv-edit-wrap, .orb-rv-preview-wrap {
+  margin: 4px 0 8px 0; padding: 12px;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-top: none;
+  border-radius: 0 0 10px 10px;
+}
+.orb-rv-preview-wrap { padding: 8px 12px; }
+
+/* ---- shared form (create + edit) ---- */
+.orb-rv-form { display: flex; flex-direction: column; gap: 12px; }
+.orb-rv-form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+
+.orb-rv-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.orb-rv-field-wide { grid-column: 1 / -1; }
+.orb-rv-field-inline { flex-direction: row; align-items: center; gap: 8px; }
+.orb-rv-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--orb-muted); }
+.orb-rv-unit { font-size: 0.78rem; color: var(--orb-muted); }
+
+.orb-rv-input, .orb-rv-select {
+  font: inherit; font-size: 0.85rem; color: var(--orb-text);
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 7px;
+  padding: 6px 8px; box-sizing: border-box; width: 100%;
+}
+.orb-rv-input:focus, .orb-rv-select:focus { border-color: var(--orb-accent); outline: none; }
+.orb-rv-input-narrow { width: 64px; flex: none; }
+
+.orb-rv-axis { display: flex; flex-direction: column; gap: 4px; }
+.orb-rv-axis-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--orb-muted); }
+.orb-rv-axis-btns { display: flex; gap: 3px; }
+.orb-rv-axis-btn {
+  flex: 1; background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 6px;
+  color: var(--orb-muted); font-weight: 700; font-size: 0.78rem; padding: 5px 0; cursor: pointer; font-family: inherit;
+}
+.orb-rv-axis-btn:hover { border-color: var(--orb-accent); color: var(--orb-text); }
+.orb-rv-axis-btn.active { background: rgba(126, 200, 227, 0.16); border-color: var(--orb-accent); color: var(--orb-accent); }
+
+.orb-rv-freq-block { display: flex; flex-direction: column; gap: 8px; }
+.orb-rv-freq-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+
+.orb-rv-weekdays { display: flex; gap: 4px; flex-wrap: wrap; }
+.orb-rv-weekday-btn {
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 7px;
+  color: var(--orb-muted); font-weight: 700; font-size: 0.78rem; padding: 6px 10px; cursor: pointer; font-family: inherit;
+}
+.orb-rv-weekday-btn:hover { border-color: var(--orb-accent); color: var(--orb-text); }
+.orb-rv-weekday-btn.active { background: rgba(126, 200, 227, 0.16); border-color: var(--orb-accent); color: var(--orb-accent); }
+
+.orb-rv-active-toggle { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; cursor: pointer; }
+.orb-rv-active-toggle input { accent-color: var(--orb-accent); cursor: pointer; }
+
+.orb-rv-preview { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.8rem; color: var(--orb-muted); }
+.orb-rv-preview-label { font-weight: 700; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.04em; }
+.orb-rv-preview-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.orb-rv-preview-chip { font-size: 0.72rem; padding: 2px 8px; }
+.orb-rv-preview-note { font-style: italic; }
+
+.orb-rv-form-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+@media (max-width: 640px) {
+  .orb-rv-form-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  .orb-rv-row-main { flex-basis: 100%; order: 1; }
+  .orb-rv-active-inline { order: 2; }
+  .orb-rv-delete, .orb-rv-confirm-delete { order: 3; margin-left: auto; }
+}

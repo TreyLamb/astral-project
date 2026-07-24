@@ -6,12 +6,28 @@
 // (see ./auth.js) before it's ever reached.
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
+import { getAuth } from 'firebase-admin/auth';
 
-export function adminDb() {
+function ensureApp() {
   if (!getApps().length) {
     const key = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
     if (!key) throw new Error('FIREBASE_SERVICE_ACCOUNT_KEY is not set');
     initializeApp({ credential: cert(JSON.parse(key)) });
   }
+}
+
+export function adminDb() {
+  ensureApp();
   return getFirestore();
+}
+
+// Admin SDK Auth handle — used to verify a Firebase ID token sent from the
+// browser (Authorization: Bearer <idToken>) instead of a static secret, for
+// endpoints a signed-in client calls directly (see orbit-ai-triage.js). A
+// static secret would have to live in client-readable code, which defeats
+// the point — verifyIdToken() checks the token was actually issued by this
+// project's Firebase Auth and hasn't expired.
+export function adminAuth() {
+  ensureApp();
+  return getAuth();
 }

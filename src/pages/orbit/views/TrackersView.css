@@ -1,0 +1,66 @@
+/* TrackersView — minimal by design (spec §4.8): current value + quick
+   actions only, no charts/history. Reuses Orbit.css primitives (orb-row,
+   orb-card, orb-chip, orb-btn) and follows AreasView.css's inline-edit /
+   QuickAdd conventions. */
+
+.orb-trk { display: flex; flex-direction: column; gap: 16px; }
+
+.orb-trk-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.orb-trk-h2 { margin: 0; font-size: 1.15rem; }
+
+.orb-trk-empty { min-height: 160px; }
+
+.orb-trk-add-card { display: flex; }
+
+.orb-trk-form { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; width: 100%; }
+.orb-trk-form-input {
+  flex: 1 1 180px; font: inherit; font-size: 0.88rem; color: var(--orb-text); background: var(--orb-panel-2);
+  border: 1px solid var(--orb-accent); border-radius: 7px; padding: 7px 10px; box-sizing: border-box;
+}
+.orb-trk-form-select {
+  font: inherit; font-size: 0.82rem; color: var(--orb-text); background: var(--orb-panel-2);
+  border: 1px solid var(--orb-border); border-radius: 7px; padding: 6px 8px;
+}
+.orb-trk-form-actions { display: flex; gap: 6px; margin-left: auto; }
+
+.orb-trk-group { display: flex; flex-direction: column; gap: 8px; }
+.orb-trk-group-head { display: flex; align-items: center; gap: 8px; }
+.orb-trk-group-title { font-size: 0.78rem; font-weight: 700; color: var(--orb-muted); text-transform: uppercase; letter-spacing: 0.03em; }
+.orb-trk-archived-tag { font-size: 0.7rem; color: var(--orb-muted); font-style: italic; }
+
+.orb-trk-list { display: flex; flex-direction: column; gap: 8px; }
+
+.orb-trk-row { flex-wrap: wrap; }
+.orb-trk-row-editing {
+  background: var(--orb-panel); border: 1px solid var(--orb-accent); border-radius: 10px; padding: 10px 12px;
+}
+
+.orb-trk-main { display: flex; flex-direction: column; gap: 2px; min-width: 120px; flex: 1 1 140px; }
+.orb-trk-name { font-weight: 700; font-size: 0.92rem; }
+.orb-trk-reset { font-size: 0.72rem; color: var(--orb-muted); }
+
+.orb-trk-counter { display: flex; align-items: center; gap: 8px; flex: none; }
+.orb-trk-step {
+  width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--orb-border); background: var(--orb-panel-2);
+  color: var(--orb-text); font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  padding: 0; font-family: inherit;
+}
+.orb-trk-step:hover:not(:disabled) { border-color: var(--orb-accent); color: var(--orb-accent); }
+.orb-trk-step:disabled { opacity: 0.3; cursor: default; }
+.orb-trk-value { min-width: 2ch; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.orb-trk-streak { display: flex; align-items: center; gap: 10px; flex: none; flex-wrap: wrap; }
+.orb-trk-streak-value { font-weight: 700; font-size: 0.9rem; color: var(--orb-warn); white-space: nowrap; }
+.orb-trk-qualify.active {
+  background: rgba(126, 200, 227, 0.14); border-color: rgba(126, 200, 227, 0.35); color: var(--orb-accent); cursor: default;
+}
+
+.orb-trk-actions { display: flex; gap: 6px; flex: none; margin-left: auto; }
+.orb-trk-delete:hover { border-color: var(--orb-warn); color: var(--orb-warn); }
+
+@media (max-width: 640px) {
+  .orb-trk-row { gap: 8px; }
+  .orb-trk-main { flex-basis: 100%; }
+  .orb-trk-actions { margin-left: 0; }
+  .orb-trk-form-actions { margin-left: 0; flex-basis: 100%; }
+}

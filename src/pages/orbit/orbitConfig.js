@@ -184,3 +184,116 @@ export function withSettingsDefaults(raw) {
     capacityDefault: { ...d.capacityDefault, ...(raw?.capacityDefault || {}) },
   };
 }
+
+// --- RecurrenceRule ---------------------------------------------------------
+// freq: 'daily' | 'weekly' | 'monthly' | 'interval'. weekdays are ints 0-6
+// (Sun-Sat), read only for 'weekly'. dayOfMonth read only for 'monthly'
+// (clamped to the month's actual length — see calc/recurrence.js). interval
+// = every N days counting from anchorDate, read only for 'interval'. A
+// generated Task instance carries recurrenceId = this rule's id.
+
+export function newRecurrenceRule(partial = {}) {
+  return {
+    id: newId(),
+    title: partial.title ?? '',
+    areaId: partial.areaId ?? null,
+    projectId: partial.projectId ?? null,
+    taskType: partial.taskType ?? null,
+    importance: partial.importance ?? 3,
+    urgency: partial.urgency ?? 3,
+    timeMin: partial.timeMin ?? null,
+    difficulty: partial.difficulty ?? 3,
+    energy: partial.energy ?? 3,
+    freq: partial.freq || 'daily',
+    interval: partial.interval ?? 1,
+    weekdays: partial.weekdays ?? [],
+    dayOfMonth: partial.dayOfMonth ?? 1,
+    anchorDate: partial.anchorDate ?? todayISO(),
+    active: partial.active ?? true,
+    lastGeneratedDate: partial.lastGeneratedDate ?? null,
+    createdAt: partial.createdAt ?? Date.now(),
+  };
+}
+
+// --- ReferenceItem -----------------------------------------------------------
+// Freeform notes/links, not actionable (no status/dates) — the read-later
+// shelf next to Areas/Projects/Tasks.
+
+export function newReferenceItem(partial = {}) {
+  const now = Date.now();
+  return {
+    id: newId(),
+    areaId: partial.areaId ?? null,
+    title: partial.title ?? '',
+    bodyMarkdown: partial.bodyMarkdown ?? '',
+    url: partial.url ?? null,
+    createdAt: partial.createdAt ?? now,
+    updatedAt: partial.updatedAt ?? now,
+  };
+}
+
+export function withReferenceDefaults(r) {
+  return {
+    ...r,
+    areaId: r.areaId ?? null,
+    bodyMarkdown: r.bodyMarkdown ?? '',
+    url: r.url ?? null,
+    updatedAt: r.updatedAt ?? r.createdAt ?? Date.now(),
+  };
+}
+
+// --- Tracker -----------------------------------------------------------
+// type: 'counter' | 'streak'. resetInterval: 'daily' | 'weekly' | 'none' —
+// when a periodic reset zeroes currentValue (see calc/trackers.js).
+
+export function newTracker(partial = {}) {
+  return {
+    id: newId(),
+    areaId: partial.areaId ?? null,
+    name: partial.name ?? '',
+    type: partial.type || 'counter',
+    currentValue: partial.currentValue ?? 0,
+    resetInterval: partial.resetInterval || 'none',
+    lastResetAt: partial.lastResetAt ?? Date.now(),
+    lastQualifiedDate: partial.lastQualifiedDate ?? null,
+    createdAt: partial.createdAt ?? Date.now(),
+  };
+}
+
+// --- ReviewLog -----------------------------------------------------------
+// One snapshot per weekly review run (see calc/review.js's buildReview).
+// aiNarrative stays null until a later phase fills it in via an AI summary.
+
+export function newReviewLog(partial = {}) {
+  return {
+    id: newId(),
+    weekOf: partial.weekOf ?? todayISO(),
+    shippedTaskIds: partial.shippedTaskIds ?? [],
+    staleProjectIds: partial.staleProjectIds ?? [],
+    overdueTaskIds: partial.overdueTaskIds ?? [],
+    generatedAt: partial.generatedAt ?? Date.now(),
+    aiNarrative: partial.aiNarrative ?? null,
+  };
+}
+
+// --- DayPlan -----------------------------------------------------------
+// id === date ('YYYY-MM-DD') — one DayPlan per calendar day, created lazily.
+// Null capacity means "use settings.capacityDefault" (see calc/planner.js).
+
+export function newDayPlan(partial = {}) {
+  return {
+    date: partial.date ?? todayISO(),
+    capacityTimeMin: partial.capacityTimeMin ?? null,
+    capacityEnergy: partial.capacityEnergy ?? null,
+    note: partial.note ?? '',
+  };
+}
+
+export function withDayPlanDefaults(d) {
+  return {
+    ...d,
+    capacityTimeMin: d.capacityTimeMin ?? null,
+    capacityEnergy: d.capacityEnergy ?? null,
+    note: d.note ?? '',
+  };
+}

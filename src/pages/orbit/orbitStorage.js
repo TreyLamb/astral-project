@@ -5,6 +5,7 @@
 // fitnessStorage.js otherwise.
 import {
   withProjectDefaults, withTaskDefaults, withSettingsDefaults,
+  withReferenceDefaults, withDayPlanDefaults,
 } from './orbitConfig';
 
 const AREAS_KEY = 'orbit_areas_v1';
@@ -13,6 +14,11 @@ const TASKS_KEY = 'orbit_tasks_v1';
 const INBOX_KEY = 'orbit_inbox_v1';
 const SETTINGS_KEY = 'orbit_settings_v1';
 const HOUSEKEEPING_KEY = 'orbit_housekeeping_v1';
+const RECURRENCE_KEY = 'orbit_recurrence_v1';
+const REFERENCES_KEY = 'orbit_references_v1';
+const TRACKERS_KEY = 'orbit_trackers_v1';
+const REVIEWS_KEY = 'orbit_reviews_v1';
+const DAYPLANS_KEY = 'orbit_dayplans_v1';
 
 function load(key, fallback) {
   try {
@@ -134,6 +140,104 @@ export const OrbitStorage = {
     store(HOUSEKEEPING_KEY, iso);
   },
 
+  getRecurrenceRules() {
+    return loadArray(RECURRENCE_KEY);
+  },
+
+  saveRecurrenceRule(r) {
+    store(RECURRENCE_KEY, [r, ...loadArray(RECURRENCE_KEY)]);
+    return r;
+  },
+
+  updateRecurrenceRule(id, updates) {
+    const all = loadArray(RECURRENCE_KEY).map((r) => (r.id === id ? { ...r, ...updates } : r));
+    store(RECURRENCE_KEY, all);
+    return all.find((r) => r.id === id) ?? null;
+  },
+
+  removeRecurrenceRule(id) {
+    store(RECURRENCE_KEY, loadArray(RECURRENCE_KEY).filter((r) => r.id !== id));
+  },
+
+  getReferences() {
+    return loadArray(REFERENCES_KEY).map(withReferenceDefaults);
+  },
+
+  saveReference(r) {
+    store(REFERENCES_KEY, [r, ...loadArray(REFERENCES_KEY)]);
+    return r;
+  },
+
+  updateReference(id, updates) {
+    const all = loadArray(REFERENCES_KEY).map((r) =>
+      (r.id === id ? { ...r, ...updates, updatedAt: Date.now() } : r));
+    store(REFERENCES_KEY, all);
+    return all.find((r) => r.id === id) ?? null;
+  },
+
+  removeReference(id) {
+    store(REFERENCES_KEY, loadArray(REFERENCES_KEY).filter((r) => r.id !== id));
+  },
+
+  getTrackers() {
+    return loadArray(TRACKERS_KEY);
+  },
+
+  saveTracker(t) {
+    store(TRACKERS_KEY, [t, ...loadArray(TRACKERS_KEY)]);
+    return t;
+  },
+
+  updateTracker(id, updates) {
+    const all = loadArray(TRACKERS_KEY).map((t) => (t.id === id ? { ...t, ...updates } : t));
+    store(TRACKERS_KEY, all);
+    return all.find((t) => t.id === id) ?? null;
+  },
+
+  removeTracker(id) {
+    store(TRACKERS_KEY, loadArray(TRACKERS_KEY).filter((t) => t.id !== id));
+  },
+
+  getReviewLogs() {
+    return loadArray(REVIEWS_KEY);
+  },
+
+  saveReviewLog(r) {
+    store(REVIEWS_KEY, [r, ...loadArray(REVIEWS_KEY)]);
+    return r;
+  },
+
+  updateReviewLog(id, updates) {
+    const all = loadArray(REVIEWS_KEY).map((r) => (r.id === id ? { ...r, ...updates } : r));
+    store(REVIEWS_KEY, all);
+    return all.find((r) => r.id === id) ?? null;
+  },
+
+  removeReviewLog(id) {
+    store(REVIEWS_KEY, loadArray(REVIEWS_KEY).filter((r) => r.id !== id));
+  },
+
+  // DayPlans are keyed by `date` ('YYYY-MM-DD'), not `id` — see
+  // orbitConfig.js's newDayPlan. save/update/remove all key off `date`.
+  getDayPlans() {
+    return loadArray(DAYPLANS_KEY).map(withDayPlanDefaults);
+  },
+
+  saveDayPlan(d) {
+    store(DAYPLANS_KEY, [d, ...loadArray(DAYPLANS_KEY).filter((x) => x.date !== d.date)]);
+    return d;
+  },
+
+  updateDayPlan(date, updates) {
+    const all = loadArray(DAYPLANS_KEY).map((d) => (d.date === date ? { ...d, ...updates } : d));
+    store(DAYPLANS_KEY, all);
+    return all.find((d) => d.date === date) ?? null;
+  },
+
+  removeDayPlan(date) {
+    store(DAYPLANS_KEY, loadArray(DAYPLANS_KEY).filter((d) => d.date !== date));
+  },
+
   // Hydrates the local mirror from a cloud read (see orbitContext.js's
   // backend-swap load). `collection` picks the key + normalizer; for
   // 'settings' `arrayOrObj` is the settings object itself, not an array.
@@ -153,6 +257,21 @@ export const OrbitStorage = {
         break;
       case 'settings':
         store(SETTINGS_KEY, withSettingsDefaults(arrayOrObj));
+        break;
+      case 'recurrenceRules':
+        store(RECURRENCE_KEY, arrayOrObj);
+        break;
+      case 'references':
+        store(REFERENCES_KEY, arrayOrObj);
+        break;
+      case 'trackers':
+        store(TRACKERS_KEY, arrayOrObj);
+        break;
+      case 'reviewLogs':
+        store(REVIEWS_KEY, arrayOrObj);
+        break;
+      case 'dayPlans':
+        store(DAYPLANS_KEY, arrayOrObj);
         break;
       default:
         break;

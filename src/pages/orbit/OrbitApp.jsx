@@ -5,11 +5,33 @@ import TodayView from './views/TodayView';
 import TriageView from './views/TriageView';
 import CaptureScreen from './views/CaptureScreen';
 import CaptureBar from './views/CaptureBar';
+import SearchOverlay from './views/SearchOverlay';
 import AreasView from './views/AreasView';
 import ProjectView from './views/ProjectView';
 import SettingsView from './views/SettingsView';
 import MockGallery from './views/MockGallery';
+import ReferenceView from './views/ReferenceView';
+import ReviewView from './views/ReviewView';
+import TrackersView from './views/TrackersView';
+import PlannerView from './views/PlannerView';
+import RecurringView from './views/RecurringView';
+import HistoryView from './views/HistoryView';
+import CarryoverView from './views/CarryoverView';
 import './Orbit.css';
+
+// Nav entries shown in the secondary "more" disclosure group — Phase 2
+// screens that don't need top-billing next to Today/Inbox/Areas. Carryover
+// is deliberately included here (not just surfaced via the nudge banner)
+// so it's still reachable with zero carried-over tasks.
+const MORE_NAV_ITEMS = [
+  { to: '/orbit/reference', label: 'Reference Vault' },
+  { to: '/orbit/review', label: 'Weekly Review' },
+  { to: '/orbit/trackers', label: 'Trackers' },
+  { to: '/orbit/planner', label: 'Planner' },
+  { to: '/orbit/recurring', label: 'Recurring' },
+  { to: '/orbit/history', label: 'History' },
+  { to: '/orbit/carryover', label: 'Carryover' },
+];
 
 // Installable-to-home-screen (PWA) is scoped to this sub-app only — same
 // pattern as FitnessTrackerApp's useScopedManifest. The manifest file may not
@@ -35,6 +57,19 @@ export default function OrbitApp() {
   const location = useLocation();
   const [navOpen, setNavOpen] = useState(false);
   const [captureOpen, setCaptureOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  // "More" nav group starts expanded only if the current route is already
+  // inside it, so a direct link/refresh lands with its own active item
+  // visible instead of hidden behind a collapsed disclosure.
+  const [moreOpen, setMoreOpen] = useState(
+    () => MORE_NAV_ITEMS.some((item) => location.pathname.startsWith(item.to)),
+  );
+  // Carryover nudge dismissal is sessionStorage-backed (not plain state) so
+  // it survives a page refresh mid-session but comes back next time the tab
+  // is opened fresh — "dismissible-per-session", not "dismissed forever".
+  const [carryoverDismissed, setCarryoverDismissed] = useState(
+    () => sessionStorage.getItem('orbit-carryover-nudge-dismissed') === '1',
+  );
   useScopedManifest();
 
   // Close the mobile nav drawer on navigation. Reset-during-render (same
@@ -46,14 +81,19 @@ export default function OrbitApp() {
     setNavOpen(false);
   }
 
-  // Global capture shortcut — Ctrl/Cmd+K opens the quick-capture bar from
-  // anywhere in the sub-app, same as the "＋ Capture" button.
+  // Global shortcuts — Ctrl/Cmd+K opens quick-capture (same as the
+  // "＋ Capture" button), Ctrl/Cmd+/ opens search. Only 'k' and '/' are
+  // intercepted, so Ctrl/Cmd+C/V/X/Z inside any input keep working normally.
   useEffect(() => {
     const onKeyDown = (e) => {
       const mod = e.ctrlKey || e.metaKey;
-      if (mod && e.key.toLowerCase() === 'k') {
+      if (!mod) return;
+      if (e.key.toLowerCase() === 'k') {
         e.preventDefault();
         setCaptureOpen(true);
+      } else if (e.key === '/') {
+        e.preventDefault();
+        setSearchOpen(true);
       }
     };
     window.addEventListener('keydown', onKeyDown);
@@ -61,6 +101,12 @@ export default function OrbitApp() {
   }, []);
 
   const untriagedCount = orbit.inbox.filter((i) => !i.triaged).length;
+  const carryoverCount = orbit.carryoverCandidates.length;
+
+  const dismissCarryoverNudge = () => {
+    sessionStorage.setItem('orbit-carryover-nudge-dismissed', '1');
+    setCarryoverDismissed(true);
+  };
 
   return (
     <OrbitContext.Provider value={orbit}>
@@ -83,6 +129,14 @@ export default function OrbitApp() {
             <span className={`orb-sync orb-sync-${orbit.mode}`} title={orbit.mode === 'cloud' ? 'Syncing to your account' : 'Saved on this device'}>
               {orbit.mode === 'cloud' ? '☁ Synced' : '● Local'}
             </span>
+            <button
+              type="button"
+              className="orb-btn orb-search-btn"
+              onClick={() => setSearchOpen(true)}
+              title="Search (Ctrl/Cmd+/)"
+            >
+              🔎 Search
+            </button>
             <button type="button" className="orb-btn-primary orb-capture-btn" onClick={() => setCaptureOpen((o) => !o)}>
               ＋ Capture
             </button>
@@ -98,11 +152,50 @@ export default function OrbitApp() {
               {untriagedCount > 0 && <span className="orb-nav-badge">{untriagedCount}</span>}
             </NavLink>
             <NavLink to="/orbit/areas" className={navLinkClass}>Areas</NavLink>
+
+            <button
+              type="button"
+              className="orb-nav-more-toggle"
+              onClick={() => setMoreOpen((o) => !o)}
+              aria-expanded={moreOpen}
+            >
+              More
+              {carryoverCount > 0 && <span className="orb-nav-badge">{carryoverCount}</span>}
+              <span className="orb-nav-more-caret">{moreOpen ? '▾' : '▸'}</span>
+            </button>
+            {moreOpen && (
+              <div className="orb-nav-more-group">
+                {MORE_NAV_ITEMS.map((item) => (
+                  <NavLink key={item.to} to={item.to} className={navLinkClass}>
+                    {item.label}
+                    {item.to === '/orbit/carryover' && carryoverCount > 0 && (
+                      <span className="orb-nav-badge">{carryoverCount}</span>
+                    )}
+                  </NavLink>
+                ))}
+              </div>
+            )}
+
             <NavLink to="/orbit/settings" className={navLinkClass}>Settings</NavLink>
             <NavLink to="/orbit/mocks" className="orb-nav-link orb-nav-link-mocks">Mock gallery</NavLink>
           </nav>
 
           <main className="orb-main">
+            {!orbit.loading && carryoverCount > 0 && !carryoverDismissed && (
+              <div className="orb-carryover-nudge">
+                <span className="orb-carryover-nudge-text">{carryoverCount} carried over</span>
+                <Link to="/orbit/carryover" className="orb-carryover-nudge-link">Review</Link>
+                <button
+                  type="button"
+                  className="orb-carryover-nudge-dismiss"
+                  onClick={dismissCarryoverNudge}
+                  aria-label="Dismiss carryover nudge"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+
             {orbit.loading ? (
               <div className="orb-loading">Loading…</div>
             ) : (
@@ -112,6 +205,13 @@ export default function OrbitApp() {
                 <Route path="capture" element={<CaptureScreen />} />
                 <Route path="areas" element={<AreasView />} />
                 <Route path="project/:id" element={<ProjectView />} />
+                <Route path="reference" element={<ReferenceView />} />
+                <Route path="review" element={<ReviewView />} />
+                <Route path="trackers" element={<TrackersView />} />
+                <Route path="planner" element={<PlannerView />} />
+                <Route path="recurring" element={<RecurringView />} />
+                <Route path="history" element={<HistoryView />} />
+                <Route path="carryover" element={<CarryoverView />} />
                 <Route path="settings" element={<SettingsView />} />
                 <Route path="mocks" element={<MockGallery />} />
                 <Route path="*" element={<TodayView />} />
@@ -121,6 +221,7 @@ export default function OrbitApp() {
         </div>
 
         <CaptureBar open={captureOpen} onClose={() => setCaptureOpen(false)} />
+        <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
       </div>
     </OrbitContext.Provider>
   );

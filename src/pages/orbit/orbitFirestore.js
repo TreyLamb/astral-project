@@ -8,6 +8,11 @@
 //   users/{uid}/orbit_tasks/{id}
 //   users/{uid}/orbit_inbox/{id}
 //   users/{uid}/orbit_meta/settings   (single doc)
+//   users/{uid}/orbit_recurrence/{id}
+//   users/{uid}/orbit_references/{id}
+//   users/{uid}/orbit_trackers/{id}
+//   users/{uid}/orbit_reviews/{id}
+//   users/{uid}/orbit_dayplans/{id}   (id === the DayPlan's `date`)
 import {
   collection, doc, getDocs, getDoc, setDoc, deleteDoc, writeBatch,
 } from 'firebase/firestore';
@@ -31,6 +36,17 @@ function taskDocRef(uid, id) { return doc(db, 'users', uid, 'orbit_tasks', id); 
 function inboxRef(uid) { return collection(db, 'users', uid, 'orbit_inbox'); }
 function inboxDocRef(uid, id) { return doc(db, 'users', uid, 'orbit_inbox', id); }
 function settingsDocRef(uid) { return doc(db, 'users', uid, 'orbit_meta', 'settings'); }
+function recurrenceRef(uid) { return collection(db, 'users', uid, 'orbit_recurrence'); }
+function recurrenceDocRef(uid, id) { return doc(db, 'users', uid, 'orbit_recurrence', id); }
+function referencesRef(uid) { return collection(db, 'users', uid, 'orbit_references'); }
+function referenceDocRef(uid, id) { return doc(db, 'users', uid, 'orbit_references', id); }
+function trackersRef(uid) { return collection(db, 'users', uid, 'orbit_trackers'); }
+function trackerDocRef(uid, id) { return doc(db, 'users', uid, 'orbit_trackers', id); }
+function reviewsRef(uid) { return collection(db, 'users', uid, 'orbit_reviews'); }
+function reviewDocRef(uid, id) { return doc(db, 'users', uid, 'orbit_reviews', id); }
+function dayPlansRef(uid) { return collection(db, 'users', uid, 'orbit_dayplans'); }
+// id is the DayPlan's `date` string, not a `.id` field on the doc.
+function dayPlanDocRef(uid, date) { return doc(db, 'users', uid, 'orbit_dayplans', date); }
 
 export const OrbitFirestore = {
   async getAreas(uid) {
@@ -135,6 +151,119 @@ export const OrbitFirestore = {
     return next;
   },
 
+  // Raw docs — normalization via with*Defaults happens once, uniformly for
+  // both backends, in orbitContext.js's load effect (see comment above).
+  async getRecurrenceRules(uid) {
+    const snap = await getDocs(recurrenceRef(uid));
+    return snap.docs.map((d) => d.data());
+  },
+
+  async saveRecurrenceRule(uid, r) {
+    await setDoc(recurrenceDocRef(uid, r.id), r);
+    return r;
+  },
+
+  async updateRecurrenceRule(uid, id, updates) {
+    const snap = await getDoc(recurrenceDocRef(uid, id));
+    const current = snap.exists() ? snap.data() : { id };
+    const next = { ...current, ...updates };
+    await setDoc(recurrenceDocRef(uid, id), next);
+    return next;
+  },
+
+  async removeRecurrenceRule(uid, id) {
+    await deleteDoc(recurrenceDocRef(uid, id));
+  },
+
+  async getReferences(uid) {
+    const snap = await getDocs(referencesRef(uid));
+    return snap.docs.map((d) => d.data());
+  },
+
+  async saveReference(uid, r) {
+    await setDoc(referenceDocRef(uid, r.id), r);
+    return r;
+  },
+
+  async updateReference(uid, id, updates) {
+    const snap = await getDoc(referenceDocRef(uid, id));
+    const current = snap.exists() ? snap.data() : { id };
+    const next = { ...current, ...updates, updatedAt: Date.now() };
+    await setDoc(referenceDocRef(uid, id), next);
+    return next;
+  },
+
+  async removeReference(uid, id) {
+    await deleteDoc(referenceDocRef(uid, id));
+  },
+
+  async getTrackers(uid) {
+    const snap = await getDocs(trackersRef(uid));
+    return snap.docs.map((d) => d.data());
+  },
+
+  async saveTracker(uid, t) {
+    await setDoc(trackerDocRef(uid, t.id), t);
+    return t;
+  },
+
+  async updateTracker(uid, id, updates) {
+    const snap = await getDoc(trackerDocRef(uid, id));
+    const current = snap.exists() ? snap.data() : { id };
+    const next = { ...current, ...updates };
+    await setDoc(trackerDocRef(uid, id), next);
+    return next;
+  },
+
+  async removeTracker(uid, id) {
+    await deleteDoc(trackerDocRef(uid, id));
+  },
+
+  async getReviewLogs(uid) {
+    const snap = await getDocs(reviewsRef(uid));
+    return snap.docs.map((d) => d.data());
+  },
+
+  async saveReviewLog(uid, r) {
+    await setDoc(reviewDocRef(uid, r.id), r);
+    return r;
+  },
+
+  async updateReviewLog(uid, id, updates) {
+    const snap = await getDoc(reviewDocRef(uid, id));
+    const current = snap.exists() ? snap.data() : { id };
+    const next = { ...current, ...updates };
+    await setDoc(reviewDocRef(uid, id), next);
+    return next;
+  },
+
+  async removeReviewLog(uid, id) {
+    await deleteDoc(reviewDocRef(uid, id));
+  },
+
+  // DayPlans are keyed by `date`, not `.id` — see dayPlanDocRef above.
+  async getDayPlans(uid) {
+    const snap = await getDocs(dayPlansRef(uid));
+    return snap.docs.map((d) => d.data());
+  },
+
+  async saveDayPlan(uid, d) {
+    await setDoc(dayPlanDocRef(uid, d.date), d);
+    return d;
+  },
+
+  async updateDayPlan(uid, date, updates) {
+    const snap = await getDoc(dayPlanDocRef(uid, date));
+    const current = snap.exists() ? snap.data() : { date };
+    const next = { ...current, ...updates };
+    await setDoc(dayPlanDocRef(uid, date), next);
+    return next;
+  },
+
+  async removeDayPlan(uid, date) {
+    await deleteDoc(dayPlanDocRef(uid, date));
+  },
+
   // Write-coalescing batch commit — the whole reason Orbit doesn't write to
   // Firestore per-mutation. `upserts`/`deletes` group ops by collection so
   // callers (orbitContext's scheduleFlush) can build them straight from
@@ -146,7 +275,11 @@ export const OrbitFirestore = {
   async flush(uid, { upserts = {}, deletes = {} } = {}) {
     const refFns = {
       areas: areaDocRef, projects: projectDocRef, tasks: taskDocRef, inbox: inboxDocRef,
+      recurrenceRules: recurrenceDocRef, references: referenceDocRef, trackers: trackerDocRef,
+      reviewLogs: reviewDocRef, dayPlans: dayPlanDocRef,
     };
+    // Every collection's doc id is `d.id` except dayPlans, keyed by `d.date`.
+    const idOfDoc = (col, d) => (col === 'dayPlans' ? d.date : d.id);
 
     const ops = [];
     for (const [col, docs] of Object.entries(upserts)) {
@@ -154,7 +287,7 @@ export const OrbitFirestore = {
       if (!Array.isArray(docs) || docs.length === 0) continue;
       const refFn = refFns[col];
       if (!refFn) continue;
-      for (const d of docs) ops.push({ type: 'set', ref: refFn(uid, d.id), data: d });
+      for (const d of docs) ops.push({ type: 'set', ref: refFn(uid, idOfDoc(col, d)), data: d });
     }
     if (upserts.settings) {
       ops.push({ type: 'set', ref: settingsDocRef(uid), data: withSettingsDefaults(upserts.settings) });

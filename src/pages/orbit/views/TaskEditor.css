@@ -36,6 +36,48 @@
 .orb-te-rating-btn:hover { border-color: var(--orb-accent); color: var(--orb-text); }
 .orb-te-rating-btn.active { background: rgba(126, 200, 227, 0.16); border-color: var(--orb-accent); color: var(--orb-accent); }
 
+/* ---- recurrence affordance ("Make repeating…") ---- */
+.orb-te-recur-btn {
+  align-self: flex-start; background: transparent; border: 1px dashed var(--orb-border); border-radius: 7px;
+  color: var(--orb-muted); font-size: 0.78rem; font-weight: 600; padding: 5px 10px; cursor: pointer; font-family: inherit;
+}
+.orb-te-recur-btn:hover { border-color: var(--orb-accent); color: var(--orb-accent); }
+
+.orb-te-recur-linked {
+  font-size: 0.82rem; color: var(--orb-muted); padding-top: 4px; border-top: 1px dashed var(--orb-border);
+}
+.orb-te-recur-link { color: var(--orb-accent); text-decoration: none; font-weight: 600; }
+.orb-te-recur-link:hover { text-decoration: underline; }
+
+.orb-te-recur-open {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 10px; background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 9px;
+}
+.orb-te-recur-freqs { display: flex; gap: 4px; flex-wrap: wrap; }
+.orb-te-recur-freq-btn {
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 7px;
+  color: var(--orb-muted); font-weight: 700; font-size: 0.78rem; padding: 6px 10px; cursor: pointer; font-family: inherit;
+}
+.orb-te-recur-freq-btn:hover { border-color: var(--orb-accent); color: var(--orb-text); }
+.orb-te-recur-freq-btn.active { background: rgba(126, 200, 227, 0.16); border-color: var(--orb-accent); color: var(--orb-accent); }
+
+.orb-te-recur-weekdays { display: flex; gap: 4px; flex-wrap: wrap; }
+.orb-te-recur-weekday-btn {
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 7px;
+  color: var(--orb-muted); font-weight: 700; font-size: 0.76rem; padding: 5px 9px; cursor: pointer; font-family: inherit;
+}
+.orb-te-recur-weekday-btn:hover { border-color: var(--orb-accent); color: var(--orb-text); }
+.orb-te-recur-weekday-btn.active { background: rgba(126, 200, 227, 0.16); border-color: var(--orb-accent); color: var(--orb-accent); }
+
+.orb-te-recur-inline-field { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--orb-muted); }
+.orb-te-recur-inline-field input {
+  font: inherit; font-size: 0.82rem; color: var(--orb-text); background: var(--orb-panel-2);
+  border: 1px solid var(--orb-border); border-radius: 6px; padding: 4px 7px; width: 60px; box-sizing: border-box;
+}
+
+.orb-te-recur-actions { display: flex; gap: 8px; }
+.orb-te-recur-hint { font-size: 0.72rem; color: var(--orb-muted); }
+
 @media (max-width: 640px) {
   .orb-te-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
 }

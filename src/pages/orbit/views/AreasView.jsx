@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useOrbit } from '../orbitContext';
+import { qualifyToday, increment } from '../calc/trackers';
 import TaskRow from './TaskRow';
 import './AreasView.css';
 
@@ -91,7 +92,76 @@ function QuickAdd({ placeholder, onSubmit }) {
   );
 }
 
-function AreaDetail({ area, projects, tasks, addProject, addTask }) {
+// Compact per-Area glance widget (A6) — same quick-action math as
+// TrackersView's rows (calc/trackers.js's increment/qualifyToday), just
+// rendered as chips instead of full rows. No history/edit here by design —
+// that stays in TrackersView; this is a nudge, not a second manager.
+function AreaTrackersWidget({ area, trackers, today, addTracker, updateTracker }) {
+  const areaTrackers = trackers.filter((t) => t.areaId === area.id);
+
+  const apply = (tracker, updated) => updateTracker(tracker.id, {
+    currentValue: updated.currentValue,
+    lastQualifiedDate: updated.lastQualifiedDate,
+    lastResetAt: updated.lastResetAt,
+  });
+
+  return (
+    <div className="orb-area-detail-section">
+      <div className="orb-area-detail-head">
+        <span>Trackers</span>
+        <QuickAdd placeholder="+ tracker" onSubmit={(name) => addTracker({ areaId: area.id, name })} />
+      </div>
+      {areaTrackers.length === 0 ? (
+        <div className="orb-area-empty">No trackers yet</div>
+      ) : (
+        <div className="orb-area-tracker-list">
+          {areaTrackers.map((t) => {
+            if (t.type === 'streak') {
+              const qualified = t.lastQualifiedDate === today;
+              return (
+                <button
+                  key={t.id}
+                  type="button"
+                  className={`orb-chip orb-area-tracker-chip orb-area-tracker-streak${qualified ? ' done' : ''}`}
+                  disabled={qualified}
+                  onClick={() => apply(t, qualifyToday(t, today))}
+                  title={qualified ? `${t.name} — done today` : `Mark "${t.name}" done today`}
+                >
+                  🔥 {t.name || <em>untitled</em>} · {t.currentValue}
+                </button>
+              );
+            }
+            return (
+              <span key={t.id} className="orb-chip orb-area-tracker-chip">
+                <span className="orb-area-tracker-name">{t.name || <em>untitled</em>}</span>
+                <button
+                  type="button"
+                  className="orb-area-tracker-step"
+                  disabled={t.currentValue <= 0}
+                  onClick={() => apply(t, increment(t, -1))}
+                  aria-label={`Decrease ${t.name}`}
+                >
+                  −
+                </button>
+                <span className="orb-area-tracker-value">{t.currentValue}</span>
+                <button
+                  type="button"
+                  className="orb-area-tracker-step"
+                  onClick={() => apply(t, increment(t, 1))}
+                  aria-label={`Increase ${t.name}`}
+                >
+                  +
+                </button>
+              </span>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AreaDetail({ area, projects, tasks, trackers, today, addProject, addTask, addTracker, updateTracker }) {
   const areaProjects = projects.filter((p) => p.areaId === area.id);
   const directTasks = tasks.filter((t) => t.areaId === area.id && !t.projectId);
 
@@ -129,12 +199,17 @@ function AreaDetail({ area, projects, tasks, addProject, addTask }) {
           </div>
         )}
       </div>
+
+      <AreaTrackersWidget area={area} trackers={trackers} today={today} addTracker={addTracker} updateTracker={updateTracker} />
     </div>
   );
 }
 
 export default function AreasView() {
-  const { areas, projects, tasks, addArea, updateArea, archiveArea, reorderAreas, addProject, addTask } = useOrbit();
+  const {
+    areas, projects, tasks, trackers, today,
+    addArea, updateArea, archiveArea, reorderAreas, addProject, addTask, addTracker, updateTracker,
+  } = useOrbit();
   const [expandedIds, setExpandedIds] = useState(() => new Set());
   const [addingArea, setAddingArea] = useState(false);
   const [newAreaName, setNewAreaName] = useState('');
@@ -268,7 +343,17 @@ export default function AreasView() {
               </div>
 
               {expanded && (
-                <AreaDetail area={area} projects={projects} tasks={tasks} addProject={addProject} addTask={addTask} />
+                <AreaDetail
+                  area={area}
+                  projects={projects}
+                  tasks={tasks}
+                  trackers={trackers}
+                  today={today}
+                  addProject={addProject}
+                  addTask={addTask}
+                  addTracker={addTracker}
+                  updateTracker={updateTracker}
+                />
               )}
             </div>
           );

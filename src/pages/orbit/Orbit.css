@@ -61,6 +61,25 @@
 .orb-sync { font-size: 0.8rem; color: var(--orb-muted); white-space: nowrap; }
 .orb-sync-cloud { color: #67e8f9; }
 .orb-capture-btn { font-size: 0.85rem; white-space: nowrap; }
+.orb-search-btn { font-size: 0.85rem; white-space: nowrap; }
+
+/* ---- carryover nudge (banner at the top of orb-main) ---- */
+.orb-carryover-nudge {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  background: rgba(245, 169, 127, 0.12); border: 1px solid rgba(245, 169, 127, 0.4);
+  border-radius: 10px; padding: 8px 12px; margin-bottom: 14px; font-size: 0.85rem;
+}
+.orb-carryover-nudge-text { color: var(--orb-warn); font-weight: 700; }
+.orb-carryover-nudge-link {
+  color: var(--orb-text); text-decoration: underline; font-weight: 600; margin-left: auto;
+}
+.orb-carryover-nudge-link:hover { color: var(--orb-warn); }
+.orb-carryover-nudge-dismiss {
+  flex: none; display: flex; align-items: center; justify-content: center;
+  background: transparent; border: 1px solid var(--orb-border); border-radius: 8px;
+  width: 26px; height: 26px; color: var(--orb-muted); cursor: pointer; font-size: 0.8rem;
+}
+.orb-carryover-nudge-dismiss:hover { color: var(--orb-text); border-color: var(--orb-warn); }
 
 /* hamburger only shows itself (via media query below) once the left nav
    collapses to an off-canvas drawer on narrow viewports */
@@ -90,6 +109,18 @@
   border-radius: 20px; padding: 1px 7px; line-height: 1.4;
 }
 .orb-nav-scrim { display: none; }
+
+/* ---- nav "more" disclosure group (Phase 2 screens) ---- */
+.orb-nav-more-toggle {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px; border-radius: 9px; border: none;
+  background: transparent; color: var(--orb-muted); font-weight: 600; font-size: 0.88rem;
+  font-family: inherit; cursor: pointer; width: 100%; text-align: left;
+}
+.orb-nav-more-toggle:hover { background: var(--orb-panel-2); color: var(--orb-text); }
+.orb-nav-more-caret { margin-left: auto; font-size: 0.7rem; opacity: 0.7; }
+.orb-nav-more-group { display: flex; flex-direction: column; gap: 2px; padding-left: 10px; }
+.orb-nav-more-group .orb-nav-link { font-size: 0.84rem; padding: 7px 12px; }
 
 /* ---- view-switcher tab bar ---- */
 .orb-tabbar { display: flex; gap: 4px; flex-wrap: wrap; padding: 10px 18px; background: var(--orb-panel-2); border-bottom: 1px solid var(--orb-border); }

@@ -1,0 +1,78 @@
+.orb-ref { display: flex; flex-direction: column; gap: 14px; }
+
+.orb-ref-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.orb-ref-h2 { margin: 0; font-size: 1.15rem; }
+
+.orb-ref-create-card { display: flex; flex-direction: column; gap: 10px; }
+
+/* ---- shared form (create + edit) ---- */
+.orb-ref-form { display: flex; flex-direction: column; gap: 10px; }
+.orb-ref-form-row { display: flex; gap: 14px; flex-wrap: wrap; }
+.orb-ref-field { display: flex; flex-direction: column; gap: 4px; min-width: 160px; }
+.orb-ref-field-grow { flex: 1; }
+.orb-ref-field-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--orb-muted); }
+.orb-ref-input, .orb-ref-select, .orb-ref-textarea {
+  font: inherit; font-size: 0.88rem; color: var(--orb-text); background: var(--orb-panel);
+  border: 1px solid var(--orb-border); border-radius: 7px; padding: 7px 9px; box-sizing: border-box; width: 100%;
+}
+.orb-ref-input:focus, .orb-ref-select:focus, .orb-ref-textarea:focus { outline: none; border-color: var(--orb-accent); }
+.orb-ref-textarea { min-height: 110px; resize: vertical; }
+
+.orb-ref-preview { border: 1px solid var(--orb-border); border-radius: 8px; padding: 8px 10px; background: var(--orb-panel-2); }
+.orb-ref-preview-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--orb-muted); margin-bottom: 6px; }
+.orb-ref-preview-body { font-size: 0.85rem; line-height: 1.5; }
+.orb-ref-preview-body p { margin: 0 0 6px 0; }
+.orb-ref-preview-body p:last-child { margin-bottom: 0; }
+.orb-ref-preview-body ul { margin: 0 0 6px 0; padding-left: 20px; }
+.orb-ref-preview-body a { color: var(--orb-accent); }
+
+.orb-ref-form-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+/* ---- search + area filter ---- */
+.orb-ref-controls { display: flex; flex-direction: column; gap: 10px; }
+.orb-ref-search {
+  font: inherit; font-size: 0.9rem; color: var(--orb-text); background: var(--orb-panel);
+  border: 1px solid var(--orb-border); border-radius: 9px; padding: 9px 12px; box-sizing: border-box; width: 100%;
+}
+.orb-ref-search:focus { outline: none; border-color: var(--orb-accent); }
+.orb-ref-filter-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.orb-ref-filter-chip { cursor: pointer; border: 1px solid var(--orb-border); background: rgba(255, 255, 255, 0.05); font: inherit; }
+.orb-ref-filter-chip.active { border-color: var(--orb-accent); color: var(--orb-accent); background: rgba(126, 200, 227, 0.14); }
+
+/* ---- list + card ---- */
+.orb-ref-list { display: flex; flex-direction: column; gap: 8px; }
+.orb-ref-card { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; }
+
+.orb-ref-card-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; cursor: pointer; }
+.orb-ref-expand {
+  flex: none; background: transparent; border: 1px solid transparent; border-radius: 8px;
+  width: 24px; height: 24px; color: var(--orb-muted); font-size: 0.78rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.orb-ref-expand:hover { background: var(--orb-panel-2); color: var(--orb-text); }
+.orb-ref-expand.active { color: var(--orb-accent); }
+
+.orb-ref-title { font-weight: 700; font-size: 0.92rem; overflow-wrap: anywhere; }
+.orb-ref-unfiled-chip { color: var(--orb-muted); font-style: italic; }
+.orb-ref-url-badge { font-size: 0.78rem; opacity: 0.75; margin-left: auto; }
+
+.orb-ref-snippet { color: var(--orb-muted); font-size: 0.82rem; padding-left: 32px; overflow-wrap: anywhere; }
+
+.orb-ref-expanded { display: flex; flex-direction: column; gap: 8px; padding-left: 32px; }
+.orb-ref-link { color: var(--orb-accent); font-size: 0.82rem; word-break: break-all; align-self: flex-start; }
+.orb-ref-body { font-size: 0.88rem; line-height: 1.5; }
+.orb-ref-body p { margin: 0 0 6px 0; }
+.orb-ref-body p:last-child { margin-bottom: 0; }
+.orb-ref-body ul { margin: 0 0 6px 0; padding-left: 20px; }
+.orb-ref-body a { color: var(--orb-accent); }
+.orb-ref-body-empty { color: var(--orb-muted); font-size: 0.85rem; font-style: italic; }
+
+.orb-ref-card-actions { display: flex; gap: 8px; }
+.orb-ref-delete { font-size: 0.8rem; }
+
+@media (max-width: 640px) {
+  .orb-ref-form-row { gap: 10px; }
+  .orb-ref-field { min-width: 0; flex: 1 1 140px; }
+  .orb-ref-snippet, .orb-ref-expanded { padding-left: 0; }
+  .orb-ref-url-badge { margin-left: 0; }
+}

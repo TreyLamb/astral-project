@@ -1,0 +1,82 @@
+/* HistoryView — dated daily lists, past fully viewable (NS-4). Extends
+   Orbit.css primitives (orb-card, orb-btn); all new classes here are
+   `orb-history-` prefixed per CLAUDE.md. */
+
+.orb-history { display: flex; flex-direction: column; gap: 14px; }
+
+.orb-history-head { display: flex; flex-direction: column; gap: 4px; }
+.orb-history-h2 { margin: 0; font-size: 1.15rem; }
+.orb-history-sub { margin: 0; color: var(--orb-muted); font-size: 0.85rem; }
+
+/* ---- date navigator ---- */
+.orb-history-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.orb-history-step { flex: none; width: 36px; padding: 8px; text-align: center; }
+.orb-history-date-input {
+  font: inherit; font-size: 0.85rem; color: var(--orb-text); background: var(--orb-panel-2);
+  border: 1px solid var(--orb-border); border-radius: 9px; padding: 7px 10px;
+}
+.orb-history-today { font-size: 0.8rem; }
+
+/* ---- week strip ---- */
+.orb-history-strip { display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+.orb-history-strip-day {
+  flex: 1 1 0; min-width: 44px; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 10px;
+  padding: 8px 4px; color: var(--orb-muted); cursor: pointer; font-family: inherit;
+}
+.orb-history-strip-day:hover { border-color: var(--orb-accent); color: var(--orb-text); }
+.orb-history-strip-day.active { background: rgba(126, 200, 227, 0.14); border-color: var(--orb-accent); color: var(--orb-accent); }
+.orb-history-strip-day.today .orb-history-strip-wd { color: var(--orb-warn); }
+.orb-history-strip-wd { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
+.orb-history-strip-num { font-size: 0.95rem; font-weight: 700; }
+.orb-history-strip-count { display: flex; gap: 3px; height: 6px; }
+.orb-history-strip-dot { width: 6px; height: 6px; border-radius: 50%; }
+.orb-history-strip-dot.open { background: var(--orb-accent); }
+.orb-history-strip-dot.done { background: #7ec89a; }
+
+.orb-history-date-heading { font-weight: 700; font-size: 1rem; }
+
+/* ---- day plan panel: capacity readout + editable note ---- */
+.orb-history-dayplan { display: flex; flex-direction: column; gap: 10px; }
+.orb-history-cap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 0.85rem; }
+.orb-history-cap-label { font-weight: 700; color: var(--orb-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.orb-history-cap-value { font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; gap: 8px; }
+.orb-history-cap-tag {
+  font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--orb-muted); background: rgba(255, 255, 255, 0.06); border: 1px solid var(--orb-border);
+  border-radius: 20px; padding: 1px 8px;
+}
+
+.orb-history-note-view {
+  min-height: 20px; color: var(--orb-text); font-size: 0.85rem; cursor: text;
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.orb-history-note-view em { color: var(--orb-muted); font-style: italic; }
+.orb-history-note-input {
+  width: 100%; min-height: 60px; font: inherit; font-size: 0.85rem; color: var(--orb-text);
+  background: var(--orb-panel-2); border: 1px solid var(--orb-accent); border-radius: 8px;
+  padding: 8px 10px; box-sizing: border-box; resize: vertical;
+}
+
+/* ---- open/done lists ---- */
+.orb-history-empty {
+  display: flex; align-items: center; justify-content: center; min-height: 120px;
+  color: var(--orb-muted); font-size: 0.9rem; border: 1px dashed var(--orb-border); border-radius: 12px;
+}
+
+.orb-history-lists { display: flex; flex-direction: column; gap: 16px; }
+.orb-history-section { display: flex; flex-direction: column; gap: 8px; }
+.orb-history-section-head {
+  font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: var(--orb-muted);
+  display: flex; align-items: center; gap: 6px;
+}
+.orb-history-section-count {
+  background: rgba(255, 255, 255, 0.06); border: 1px solid var(--orb-border); border-radius: 20px;
+  padding: 0 7px; font-size: 0.7rem;
+}
+.orb-history-section-empty { color: var(--orb-muted); font-size: 0.8rem; opacity: 0.7; }
+.orb-history-section-list { display: flex; flex-direction: column; gap: 8px; }
+
+@media (max-width: 640px) {
+  .orb-history-strip-day { min-width: 38px; padding: 6px 2px; }
+}

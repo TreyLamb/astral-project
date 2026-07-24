@@ -1,0 +1,106 @@
+/* SearchOverlay — single-layer overlay (no scrim/backdrop, same call as
+   CaptureBar.css) rather than a stacked modal. Vars come from .orb-app in
+   Orbit.css. */
+
+.orb-search-wrap {
+  position: fixed;
+  top: 10vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 210; /* above CaptureBar's 200 — only one of the two is ever open at once */
+  width: min(560px, calc(100vw - 24px));
+}
+
+.orb-search-panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--orb-panel);
+  border: 1px solid var(--orb-accent);
+  border-radius: 14px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+  max-height: min(60vh, 520px);
+  overflow: hidden;
+}
+
+.orb-search-inputrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--orb-border);
+  flex: none;
+}
+
+.orb-search-icon { flex: none; font-size: 1rem; opacity: 0.85; }
+
+.orb-search-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--orb-text);
+  font: inherit;
+  font-size: 0.95rem;
+}
+.orb-search-input::placeholder { color: var(--orb-muted); }
+
+.orb-search-close {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--orb-border);
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  color: var(--orb-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.orb-search-close:hover { color: var(--orb-text); border-color: var(--orb-accent); }
+
+.orb-search-results {
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.orb-search-hint {
+  color: var(--orb-muted);
+  font-size: 0.85rem;
+  padding: 16px 12px;
+  text-align: center;
+}
+
+.orb-search-group { display: flex; flex-direction: column; gap: 2px; margin-bottom: 4px; }
+.orb-search-group-label {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--orb-muted); padding: 8px 10px 4px;
+}
+
+.orb-search-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font: inherit;
+  color: var(--orb-text);
+}
+.orb-search-row:hover { background: var(--orb-panel-2); }
+.orb-search-row.active { background: rgba(126, 200, 227, 0.14); color: var(--orb-accent); }
+
+.orb-search-row-title { flex: 1 1 auto; min-width: 0; font-weight: 600; font-size: 0.88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.orb-search-row-sub { flex: none; color: var(--orb-muted); font-size: 0.74rem; max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.orb-search-row.active .orb-search-row-sub { color: var(--orb-accent); opacity: 0.85; }
+
+@media (max-width: 640px) {
+  .orb-search-wrap { top: 6vh; width: calc(100vw - 16px); }
+  .orb-search-row-sub { max-width: 35%; }
+}

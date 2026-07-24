@@ -1,0 +1,44 @@
+/* CarryoverView — reuses Orbit.css primitives + TaskRow's own row styling
+   (via <TaskRow>). Each candidate is a TaskRow with a thin attached actions
+   strip underneath it, same "row + panel-below" shape as TaskRow.css's own
+   expand-to-edit panel — no modal, no separate confirm screen. */
+
+.orb-cv { display: flex; flex-direction: column; gap: 14px; }
+
+.orb-cv-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.orb-cv-h2 { margin: 0; font-size: 1.15rem; }
+.orb-cv-sub { margin: 4px 0 0; font-size: 0.82rem; color: var(--orb-muted); max-width: 620px; }
+
+.orb-cv-list { display: flex; flex-direction: column; gap: 8px; }
+.orb-cv-row { display: flex; flex-direction: column; }
+
+.orb-cv-actions-wrap {
+  margin: 4px 0 8px 0; padding: 10px 12px;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-top: none;
+  border-radius: 0 0 10px 10px;
+}
+
+.orb-cv-suggestion { flex: 1 1 auto; min-width: 200px; font-size: 0.8rem; color: var(--orb-muted); }
+.orb-cv-suggestion-raiseUrgency { color: var(--orb-warn); }
+
+.orb-cv-reschedule { display: flex; align-items: center; gap: 6px; }
+.orb-cv-reschedule input[type="date"] {
+  font: inherit; font-size: 0.82rem; color: var(--orb-text); background: var(--orb-panel);
+  border: 1px solid var(--orb-accent); border-radius: 7px; padding: 5px 8px; box-sizing: border-box;
+}
+
+.orb-cv-kill { border-color: rgba(245, 169, 127, 0.4); color: var(--orb-warn); }
+.orb-cv-kill:hover { background: rgba(245, 169, 127, 0.12); }
+
+.orb-cv-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  min-height: 240px; color: var(--orb-muted); font-size: 0.95rem;
+  border: 1px dashed var(--orb-border); border-radius: 12px; text-align: center; padding: 24px;
+}
+.orb-cv-empty-icon { font-size: 1.8rem; color: var(--orb-accent); }
+
+@media (max-width: 640px) {
+  .orb-cv-suggestion { flex-basis: 100%; }
+  .orb-cv-reschedule { flex-basis: 100%; }
+}
