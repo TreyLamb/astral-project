@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFitness } from './fitnessContext';
 import { activityType, mealType, isoDate, todayISO, resolveGroups, goalDeadline } from './fitnessConfig';
@@ -13,7 +13,7 @@ import GoalEditorModal from './GoalEditorModal';
 import ClearableInput from './ClearableInput';
 import { useAuth } from '../../AuthContext';
 import { firebaseReady } from '../../firebase';
-import { loadOrbitBridgeData, quickAddOrbitTask } from './orbitTasksBridge';
+import { loadOrbitBridgeData } from './orbitTasksBridge';
 
 // Army Combat Fitness Test personal targets — static reference data, not
 // computed from anything. Mirrors src/pages/fitnesstracker/Guidelines_AFT
@@ -162,7 +162,7 @@ function WorkoutChip({ w, type, label, group, goal, units, checkpoint, selected,
     <button
       type="button"
       data-id={w.id}
-      className={`ft-chip${completed ? ' ft-chip-done' : ' ft-chip-planned'}${selected ? ' ft-chip-selected' : ''}`}
+      className={`ft-chip${completed ? ' ft-chip-done' : ' ft-chip-planned'}${selected ? ' ft-chip-selected' : ''}${type.kind === 'event' ? ' ft-chip-event' : ''}`}
       style={style}
       draggable
       onDragStart={(e) => {
@@ -259,78 +259,19 @@ function OrbitTaskChip({ task, area, due, onOpen }) {
   );
 }
 
-// Per-day "+ to-do" quick-add — self-contained (own open/title/note state)
-// since it's keyed per calendar date same as the cell itself, so nothing
-// leaks between days. `onSubmit(iso, title)` resolves { kind: 'task'|'inbox' }
-// (see orbitTasksBridge.quickAddOrbitTask) — 'inbox' means there were no
-// Orbit areas to file it under, so the note stays up (user must dismiss)
-// instead of auto-closing, since that's a meaningfully different outcome
-// than "added, and it's right there on the calendar now".
-function OrbitQuickAdd({ iso, onSubmit }) {
-  const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [note, setNote] = useState(null);
-
-  if (!open) {
-    return (
-      <button
-        type="button"
-        className="ft-orbit-add-btn"
-        onClick={(e) => { e.stopPropagation(); setOpen(true); }}
-        title="Quick-add an Orbit to-do to this day"
-      >
-        📋 + to-do
-      </button>
-    );
-  }
-
-  if (note) {
-    return (
-      <div className="ft-orbit-quickadd-note" onClick={(e) => e.stopPropagation()}>
-        <span>{note}</span>
-        <button type="button" className="ft-orbit-quickadd-ok" onClick={() => { setNote(null); setOpen(false); }}>OK</button>
-      </div>
-    );
-  }
-
-  const submit = async () => {
-    const trimmed = title.trim();
-    if (!trimmed) return;
-    const res = await onSubmit(iso, trimmed);
-    setTitle('');
-    if (res?.kind === 'inbox') setNote('No Orbit areas yet — added to your Orbit Inbox instead.');
-    else setOpen(false);
-  };
-
-  return (
-    <form
-      className="ft-orbit-quickadd-form"
-      onClick={(e) => e.stopPropagation()}
-      onSubmit={(e) => { e.preventDefault(); submit(); }}
-    >
-      <span className="ft-orbit-quickadd-caption">Orbit to-do</span>
-      <input
-        className="ft-orbit-quickadd-input"
-        autoFocus
-        placeholder="New to-do…"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        onKeyDown={(e) => { if (e.key === 'Escape') { setOpen(false); setTitle(''); } }}
-      />
-      <button type="submit" className="ft-orbit-quickadd-submit" disabled={!title.trim()} aria-label="Add to-do">✓</button>
-      <button type="button" className="ft-orbit-quickadd-cancel" onClick={() => { setOpen(false); setTitle(''); }} aria-label="Cancel">✕</button>
-    </form>
-  );
-}
+// (The per-day "+ to-do" quick-add lived here; adding to-dos now happens in
+// the QuickAddModal's To-do mode, which writes straight to Orbit and fires an
+// 'orbit-tasks-changed' event so this calendar refreshes.)
 
 function DayCell({
   date, items, types, units, groups, goalsById, selected, isToday, inMonth, variant, onAdd, onEdit, onCtrlClick, onShiftClick, onAltClick, onDropWorkout,
   showMeals, mealItems, mealTypes, mealSelected, onAddMeal, onEditMeal, onMealCtrlClick, onMealShiftClick,
   allWorkouts, meals, bmr, calorieGoal, bodyWeightKg,
-  orbitScheduled, orbitDue, orbitAreaById, onOrbitOpen, onOrbitQuickAdd,
+  orbitScheduled, orbitDue, orbitAreaById, onOrbitOpen, orbitEnergyCap,
 }) {
   const iso = isoDate(date);
   const [over, setOver] = useState(false);
+  const orbitEnergy = orbitScheduled.reduce((s, t) => s + (t.energy || 0), 0);
   // netCaloriesForDay filters by date itself, so the FULL workouts array is
   // passed through (allWorkouts), not `items` which is already this-day-only.
   const net = calorieGoal != null ? netCaloriesForDay(meals, allWorkouts, iso, bmr, bodyWeightKg) : null;
@@ -359,9 +300,12 @@ function DayCell({
           const interp = interpolatedTarget(goal, w.date);
           if (interp != null) checkpoint = { targetValue: interp, source: 'interpolated', realism: null, provisional: false, actualValue: null, status: 'pending' };
         }
+        // Events carry a title (their name); workouts label by distance/duration.
+        // Fall back to note for old event rows saved before the title field existed.
+        const label = w.title?.trim() || chipLabel(w, units) || (t.kind === 'event' ? (w.note || '') : '');
         return (
           <WorkoutChip
-            key={w.id} w={w} type={t} label={chipLabel(w, units)} group={group} goal={goal} units={units} checkpoint={checkpoint}
+            key={w.id} w={w} type={t} label={label} group={group} goal={goal} units={units} checkpoint={checkpoint}
             selected={selected.has(w.id)} selectedIds={selected} onEdit={onEdit} onCtrlClick={onCtrlClick} onShiftClick={onShiftClick} onAltClick={onAltClick}
           />
         );
@@ -414,8 +358,8 @@ function DayCell({
       {/* Orbit to-dos — additive, deliberately its own strip below the fitness
           content (not mixed into eventsCol/mealItems) so it stays visually
           secondary and never competes with workout/meal chips for space. */}
-      <div className="ft-cell-orbit">
-        {(orbitScheduled.length > 0 || orbitDue.length > 0) && (
+      {(orbitScheduled.length > 0 || orbitDue.length > 0) && (
+        <div className="ft-cell-orbit">
           <div className="ft-orbit-chips">
             {orbitScheduled.map((t) => (
               <OrbitTaskChip key={t.id} task={t} area={orbitAreaById.get(t.areaId) || null} due={t.dueDate === iso} onOpen={onOrbitOpen} />
@@ -424,9 +368,18 @@ function DayCell({
               <OrbitTaskChip key={t.id} task={t} area={orbitAreaById.get(t.areaId) || null} due onOpen={onOrbitOpen} />
             ))}
           </div>
-        )}
-        <OrbitQuickAdd iso={iso} onSubmit={onOrbitQuickAdd} />
-      </div>
+        </div>
+      )}
+      {/* Day's Orbit energy load, pinned bottom-right — the "how heavy is this
+          day" signal from Orbit's per-task energy (1–5 each). */}
+      {orbitScheduled.length > 0 && (
+        <div
+          className={`ft-cell-energy${orbitEnergyCap != null && orbitEnergy > orbitEnergyCap ? ' over' : ''}`}
+          title={`Orbit energy load from ${orbitScheduled.length} scheduled to-do${orbitScheduled.length === 1 ? '' : 's'}${orbitEnergyCap != null ? ` — daily budget ${orbitEnergyCap}` : ''}`}
+        >
+          ⚡ {orbitEnergy}{orbitEnergyCap != null ? `/${orbitEnergyCap}` : ''}
+        </div>
+      )}
     </div>
   );
 }
@@ -463,17 +416,26 @@ export default function CalendarView() {
   const [orbitTasks, setOrbitTasks] = useState([]);
   const [orbitAreas, setOrbitAreas] = useState([]);
   const [orbitSettings, setOrbitSettings] = useState(null);
-  useEffect(() => {
-    let alive = true;
+  const reloadOrbit = useCallback(() => {
     loadOrbitBridgeData(user || null, firebaseReady).then((data) => {
-      if (!alive) return;
       setOrbitTasks(data.tasks);
       setOrbitAreas(data.areas);
       setOrbitSettings(data.settings);
     }).catch(() => { /* no Orbit chips this load; rest of the calendar is unaffected */ });
-    return () => { alive = false; };
   }, [user]);
+  useEffect(() => { reloadOrbit(); }, [reloadOrbit]);
+  // Adding to-dos now happens in the shell-mounted QuickAddModal, which can't
+  // reach this component's state — it dispatches this window event on save so
+  // the calendar re-reads Orbit and shows the new chips right away.
+  useEffect(() => {
+    const onChanged = () => reloadOrbit();
+    window.addEventListener('orbit-tasks-changed', onChanged);
+    return () => window.removeEventListener('orbit-tasks-changed', onChanged);
+  }, [reloadOrbit]);
   const orbitAreaById = useMemo(() => new Map(orbitAreas.map((a) => [a.id, a])), [orbitAreas]);
+  // Orbit's daily energy budget (Settings → Constants), used to annotate each
+  // day's energy badge with "load / budget".
+  const orbitEnergyCap = orbitSettings?.capacityDefault?.energy ?? null;
   // Killed tasks are dropped entirely (cancelled — no calendar value); done
   // tasks stay (rendered struck/dimmed by OrbitTaskChip) since "I did this
   // that day" is still meaningful history, unlike a killed task.
@@ -495,13 +457,6 @@ export default function CalendarView() {
     return map;
   }, [orbitLiveTasks]);
   const onOrbitOpen = (task) => navigate(task.projectId ? `/orbit/project/${task.projectId}` : '/orbit');
-  const onOrbitQuickAdd = async (iso, title) => {
-    const res = await quickAddOrbitTask(user || null, firebaseReady, {
-      title, scheduledDate: iso, areas: orbitAreas, settings: orbitSettings,
-    });
-    if (res.kind === 'task') setOrbitTasks((prev) => [res.item, ...prev]);
-    return res;
-  };
 
   // Goals live inline on the calendar too — not Dashboard-only — so changes
   // (accept/edit/abandon) are visible immediately on the same screen instead
@@ -545,6 +500,11 @@ export default function CalendarView() {
   const showMeals = !!settings.calendarPrefs?.showMealsOnCalendar;
   const mealDayView = !!settings.calendarPrefs?.mealDayView;
   const toggleCalendarPref = (key) => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, [key]: !settings.calendarPrefs?.[key] } });
+
+  // Week view shows a configurable window of N weeks (1–10), scrollable one week
+  // at a time via the ‹ › nav — Month stays strict to the actual month.
+  const weekCount = Math.min(10, Math.max(1, settings.calendarPrefs?.weekCount ?? 1));
+  const setWeekCount = (n) => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, weekCount: Math.min(10, Math.max(1, Number.isFinite(n) ? n : 1)) } });
 
   // Cycles which chips render on the grid: all -> hide events -> hide
   // workouts -> all. Display-only — doesn't touch workouts/byDate's
@@ -763,7 +723,11 @@ export default function CalendarView() {
 
   let title;
   if (view === 'month') title = `${MONTHS[cursor.getMonth()]} ${cursor.getFullYear()}`;
-  else if (view === 'week') { const s = startOfWeek(cursor); title = `Week of ${MONTHS[s.getMonth()].slice(0, 3)} ${s.getDate()}`; }
+  else if (view === 'week') {
+    const s = startOfWeek(cursor);
+    if (weekCount === 1) title = `Week of ${MONTHS[s.getMonth()].slice(0, 3)} ${s.getDate()}`;
+    else { const e = addDays(s, weekCount * 7 - 1); title = `${MONTHS[s.getMonth()].slice(0, 3)} ${s.getDate()} – ${MONTHS[e.getMonth()].slice(0, 3)} ${e.getDate()}`; }
+  }
   else title = `${WEEKDAYS[cursor.getDay()]}, ${MONTHS[cursor.getMonth()].slice(0, 3)} ${cursor.getDate()}`;
 
   const cellProps = (date, inMonth) => ({
@@ -775,8 +739,55 @@ export default function CalendarView() {
     onAddMeal, onEditMeal, onMealCtrlClick: toggleMealSelected, onMealShiftClick: toggleMealSelected,
     allWorkouts: workouts, meals, bmr, calorieGoal, bodyWeightKg: latestWeightKg,
     orbitScheduled: orbitScheduledByDate[isoDate(date)] || [], orbitDue: orbitDueByDate[isoDate(date)] || [],
-    orbitAreaById, onOrbitOpen, onOrbitQuickAdd,
+    orbitAreaById, onOrbitOpen, orbitEnergyCap,
   });
+
+  // Shared week-grid header + one week-row (7-day grid + goals/miles side
+  // columns) — used by both Month and the multi-week Week window so they stay
+  // pixel-identical. inMonthOf lets Month dim out-of-month days; the multi-week
+  // window passes null (it's a rolling window, not bound to one month).
+  const weekHead = (
+    <div className="ft-weekhead">
+      {WEEKDAYS.map((d) => <div key={d} className="ft-weekhead-cell">{d}</div>)}
+      <div className="ft-weekhead-cell ft-weekend-head">Goals</div>
+      <div className="ft-weekhead-cell ft-weekmiles-head">Miles</div>
+    </div>
+  );
+
+  const renderWeekRow = (week, inMonthOf) => {
+    const sunISO = isoDate(week[0]);
+    const satISO = isoDate(week[6]);
+    const ends = weekEndGoals(activeGoals, activityTypes, satISO);
+    const milesText = formatDistance(weekTrackedDistanceM(workouts, sunISO, satISO), units.distance, 1);
+    const weekNet = weekNetCalories(meals, workouts, sunISO, satISO, bmr, latestWeightKg);
+    return (
+      <div key={satISO} className="ft-week-row">
+        <div className="ft-month-grid">
+          {week.map((d) => (
+            <DayCell key={isoDate(d)} variant="month" {...cellProps(d, inMonthOf ? inMonthOf(d) : true)} />
+          ))}
+        </div>
+        <div className="ft-weekend-col">
+          {ends.map(({ goal, type, targetValue }) => (
+            <WeekEndBadge
+              key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
+              onClick={() => openWeekOverride(goal, satISO, targetValue)}
+            />
+          ))}
+        </div>
+        <div className="ft-weekmiles-col">
+          <div className="ft-weekmiles-badge" title={`${milesText} tracked this week`}>
+            <span className="ft-weekmiles-text">{milesText}</span>
+          </div>
+          {calorieGoal != null && (
+            <div className="ft-weekmiles-badge ft-weeknet-badge" title="Net calories this week vs. a 1lb-equivalent (3500 kcal) reference">
+              <span className="ft-weekmiles-text">{weekNet}/{KCAL_PER_LB_ADIPOSE}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="ft-cal-outer">
@@ -820,6 +831,15 @@ export default function CalendarView() {
             </button>
           ))}
         </div>
+        {view === 'week' && (
+          <label className="ft-weekcount" title="How many weeks to show at once (scroll a week at a time with ‹ ›)">
+            <span>weeks</span>
+            <input
+              type="number" min={1} max={10} value={weekCount}
+              onChange={(e) => setWeekCount(parseInt(e.target.value, 10))}
+            />
+          </label>
+        )}
       </div>
 
       <div className="ft-cal-toggles">
@@ -901,57 +921,39 @@ export default function CalendarView() {
 
       <div className="ft-cal-body" ref={calBodyRef} onMouseDown={onGridMouseDown}>
         {view === 'month' && (() => {
+          // Strict to the actual month: 4–6 rows as the month requires, never a
+          // hardcoded 6. weeks = ceil((leading blank days + days in month) / 7).
           const monthStart = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
           const gridStart = startOfWeek(monthStart);
-          const days = Array.from({ length: 42 }, (_, i) => addDays(gridStart, i));
+          const daysInMonth = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 0).getDate();
+          const weeks = Math.ceil((monthStart.getDay() + daysInMonth) / 7);
+          const days = Array.from({ length: weeks * 7 }, (_, i) => addDays(gridStart, i));
           const weekRows = [];
-          for (let i = 0; i < 42; i += 7) weekRows.push(days.slice(i, i + 7));
+          for (let i = 0; i < days.length; i += 7) weekRows.push(days.slice(i, i + 7));
           return (
             <div className="ft-month">
-              <div className="ft-weekhead">
-                {WEEKDAYS.map((d) => <div key={d} className="ft-weekhead-cell">{d}</div>)}
-                <div className="ft-weekhead-cell ft-weekend-head">Goals</div>
-                <div className="ft-weekhead-cell ft-weekmiles-head">Miles</div>
-              </div>
-              {weekRows.map((week) => {
-                const sunISO = isoDate(week[0]);
-                const satISO = isoDate(week[6]);
-                const ends = weekEndGoals(activeGoals, activityTypes, satISO);
-                const milesText = formatDistance(weekTrackedDistanceM(workouts, sunISO, satISO), units.distance, 1);
-                const weekNet = weekNetCalories(meals, workouts, sunISO, satISO, bmr, latestWeightKg);
-                return (
-                  <div key={satISO} className="ft-week-row">
-                    <div className="ft-month-grid">
-                      {week.map((d) => (
-                        <DayCell key={isoDate(d)} variant="month" {...cellProps(d, d.getMonth() === cursor.getMonth())} />
-                      ))}
-                    </div>
-                    <div className="ft-weekend-col">
-                      {ends.map(({ goal, type, targetValue }) => (
-                        <WeekEndBadge
-                          key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
-                          onClick={() => openWeekOverride(goal, satISO, targetValue)}
-                        />
-                      ))}
-                    </div>
-                    <div className="ft-weekmiles-col">
-                      <div className="ft-weekmiles-badge" title={`${milesText} tracked this week`}>
-                        <span className="ft-weekmiles-text">{milesText}</span>
-                      </div>
-                      {calorieGoal != null && (
-                        <div className="ft-weekmiles-badge ft-weeknet-badge" title="Net calories this week vs. a 1lb-equivalent (3500 kcal) reference">
-                          <span className="ft-weekmiles-text">{weekNet}/{KCAL_PER_LB_ADIPOSE}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+              {weekHead}
+              {weekRows.map((week) => renderWeekRow(week, (d) => d.getMonth() === cursor.getMonth()))}
             </div>
           );
         })()}
 
-        {view === 'week' && (() => {
+        {view === 'week' && weekCount > 1 && (() => {
+          // Multi-week window: N stacked week-rows from the current week forward,
+          // same rendering as Month (no month-dimming). ‹ › scrolls a week at a
+          // time, so prior weeks are reachable with the window size locked.
+          const start = startOfWeek(cursor);
+          const rows = Array.from({ length: weekCount }, (_, wk) =>
+            Array.from({ length: 7 }, (_, i) => addDays(start, wk * 7 + i)));
+          return (
+            <div className="ft-month ft-multiweek">
+              {weekHead}
+              {rows.map((week) => renderWeekRow(week, null))}
+            </div>
+          );
+        })()}
+
+        {view === 'week' && weekCount === 1 && (() => {
           const s = startOfWeek(cursor);
           const days = Array.from({ length: 7 }, (_, i) => addDays(s, i));
           const sunISO = isoDate(days[0]);

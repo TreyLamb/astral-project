@@ -179,3 +179,17 @@ If i go to day view for that day then the existing day view is what's used ssinc
 
 
 Forecast tool 
+
+Orbit/MFP sync
+The logic you described — essentially none of it exists
+Everything in your message is currently absent:
+
+What you described	Status today
+Batch shopping tasks together	❌ taskType exists (Errand, Chore…) as a field, but nothing groups or sequences by it
+"Shopping before a movie, but not perishables after painting" (adjacency/sequencing)	❌ No concept of task-to-task ordering, dependencies aside
+Travel time / location	❌ Not modeled at all
+Energy varies by time of day (painting midday vs evening)	❌ energy is a single flat 1–5 int, not a function of time slot
+Recuperation/buffer after a task	❌ No recovery tail; timeMin is the whole block
+"Energy increases the calendar block size"	❌ Important mismatch: energy does not affect the time block. It only counts against a separate daily energy budget. A task's block = scheduledTime + timeMin; energy never stretches it.
+Checkbox: "add to calendar immediately regardless of triage, on next sensible day"	❌ Doesn't exist — this is the new feature
+So the mental model in your head ("energy inflates the time block, tasks get intelligently clustered by errand-type and adjacency") is not what the code does. The code treats energy and time as two independent scalar budgets and does a flat priority-fill with zero affinity between tasks.

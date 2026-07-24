@@ -63,6 +63,7 @@ export default function EntryEditor() {
       date: w.date,
       time: w.time || '',
       activityType: w.activityType,
+      title: w.title || '',
       status: w.status,
       distance: w.distanceM != null ? String(round2(metersToDistance(w.distanceM, seedDistUnit))) : '',
       duration: w.durationSec != null ? secToClock(w.durationSec) : '',
@@ -97,6 +98,7 @@ export default function EntryEditor() {
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
   const kind = kindOf(form.activityType);
+  const isEvent = kind === 'event';
   const isLift = kind === 'lift';
   const isSwim = kind === 'swim';
   const showElev = kind === 'run' || kind === 'generic';
@@ -140,6 +142,7 @@ export default function EntryEditor() {
       date: form.date,
       time: form.time,
       activityType: form.activityType,
+      title: form.title,
       status: form.status,
       distanceM: savedDistanceM,
       durationSec: savedDurationSec,
@@ -271,6 +274,13 @@ export default function EntryEditor() {
         ))}
       </div>
 
+      {isEvent && (
+        <div className="ft-field">
+          <label className="ft-field-label">Event name</label>
+          <ClearableInput value={form.title} onChange={(e) => set('title', e.target.value)} onClear={() => set('title', '')} placeholder='e.g. "POGO Raichu day"' />
+        </div>
+      )}
+
       <div className="ft-status-toggle">
         <button type="button" className={form.status === 'completed' ? 'active' : ''} onClick={() => set('status', 'completed')}>✓ Completed</button>
         <button type="button" className={form.status === 'planned' ? 'active' : ''} onClick={() => set('status', 'planned')}>◇ Planned</button>
@@ -292,10 +302,12 @@ export default function EntryEditor() {
         </>
       ) : (
         <>
-          <div className="ft-two">
-            <div className="ft-field"><label className="ft-field-label">Distance ({distUnit})</label><ClearableInput inputMode="decimal" value={form.distance} onChange={(e) => set('distance', e.target.value)} onClear={() => set('distance', '')} placeholder="e.g. 5" /></div>
-            <div className="ft-field"><label className="ft-field-label">Duration</label><ClearableInput value={form.duration} onChange={(e) => set('duration', e.target.value)} onClear={() => set('duration', '')} placeholder="mm:ss or min" /></div>
-          </div>
+          {!isEvent && (
+            <div className="ft-two">
+              <div className="ft-field"><label className="ft-field-label">Distance ({distUnit})</label><ClearableInput inputMode="decimal" value={form.distance} onChange={(e) => set('distance', e.target.value)} onClear={() => set('distance', '')} placeholder="e.g. 5" /></div>
+              <div className="ft-field"><label className="ft-field-label">Duration</label><ClearableInput value={form.duration} onChange={(e) => set('duration', e.target.value)} onClear={() => set('duration', '')} placeholder="mm:ss or min" /></div>
+            </div>
+          )}
 
           {isSwim && (
             <div className="ft-two">

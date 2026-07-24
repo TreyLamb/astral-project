@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useOrbit } from '../orbitContext';
+import { firstOpenDayFor } from '../calc/planner';
 import './CaptureScreen.css';
 
 const DEFAULT_AXES = { importance: 3, urgency: 3, difficulty: 3, energy: 3 };
@@ -35,7 +36,7 @@ function AxisStepper({ label, value, onChange }) {
 // a raw inbox capture for later triage; setting one promotes it straight to
 // a real Task (skips the triage queue entirely) — see handleSubmit.
 export default function CaptureScreen() {
-  const { areas, projects, settings, addTask, addInboxItem } = useOrbit();
+  const { areas, projects, settings, tasks, today, getDayPlan, addTask, addInboxItem } = useOrbit();
 
   const [title, setTitle] = useState('');
   const [expanded, setExpanded] = useState(false);
@@ -46,6 +47,7 @@ export default function CaptureScreen() {
   const [timeMin, setTimeMin] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [scheduledDate, setScheduledDate] = useState('');
+  const [addToCalendar, setAddToCalendar] = useState(false);
   const [note, setNote] = useState(null);
   const [flash, setFlash] = useState(null);
 
@@ -69,16 +71,36 @@ export default function CaptureScreen() {
     setProjectId(''); // a project belongs to one area — a stale pick can't carry over
   };
 
+  const capacityFor = (date) => {
+    const plan = getDayPlan(date);
+    return {
+      timeMin: plan.capacityTimeMin ?? settings.capacityDefault.timeMin,
+      energy: plan.capacityEnergy ?? settings.capacityDefault.energy,
+    };
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const trimmed = title.trim();
     if (!trimmed) return; // title-only is the only requirement — never submit blank
 
+    // The calendar checkbox forces a real Task even with no Area — "put it on
+    // the calendar regardless of how it'd otherwise be triaged."
+    const wantsTask = !!areaId || addToCalendar;
     let noteMsg = null;
-    if (areaId) {
+
+    if (wantsTask) {
+      let sched = scheduledDate || null;
+      if (addToCalendar && !sched) {
+        const scheduledTasks = tasks.filter((t) => t.scheduledDate && t.status !== 'done' && t.status !== 'killed');
+        sched = firstOpenDayFor(
+          { timeMin: timeMin === '' ? null : Number(timeMin), energy: axes.energy },
+          scheduledTasks, today, 60, capacityFor,
+        );
+      }
       addTask({
         title: trimmed,
-        areaId,
+        areaId: areaId || null,
         projectId: projectId || null,
         importance: axes.importance,
         urgency: axes.urgency,
@@ -87,8 +109,11 @@ export default function CaptureScreen() {
         timeMin: timeMin === '' ? null : Number(timeMin),
         taskType: taskType || null,
         dueDate: dueDate || null,
-        scheduledDate: scheduledDate || null,
+        scheduledDate: sched,
       });
+      if (addToCalendar && sched) {
+        noteMsg = `📅 Scheduled for ${sched}${areaId ? '' : ' — no Area set, filed as an unsorted task'}.`;
+      }
     } else {
       // InboxItem has no axis fields this phase — say so instead of quietly
       // discarding whatever the user set below the title (spec C8: ✂️).
@@ -96,7 +121,7 @@ export default function CaptureScreen() {
         || axes.energy !== 3 || timeMin !== '' || !!taskType || !!dueDate || !!scheduledDate || !!projectId;
       addInboxItem({ rawText: trimmed });
       if (axesTouched) {
-        noteMsg = "No Area set, so this went to the Inbox as plain text — the detail fields above weren't saved. Set an Area to create a Task directly.";
+        noteMsg = "No Area set, so this went to the Inbox as plain text — the detail fields above weren't saved. Set an Area (or tick Add to calendar) to create a Task directly.";
       }
     }
 
@@ -139,6 +164,16 @@ export default function CaptureScreen() {
         />
 
         {note && <div className="orb-capscreen-note">{note}</div>}
+
+        <label className="orb-capscreen-calcheck">
+          <input type="checkbox" checked={addToCalendar} onChange={(e) => setAddToCalendar(e.target.checked)} />
+          <span>📅 Add to calendar — auto-pick the next open day</span>
+        </label>
+        {addToCalendar && (
+          <div className="orb-capscreen-calcheck-hint">
+            Drops onto the next day that still has free time/energy. Set a Scheduled date below to pick the day yourself.
+          </div>
+        )}
 
         <button
           type="button"
@@ -209,7 +244,7 @@ export default function CaptureScreen() {
         )}
 
         <button type="submit" className="orb-btn orb-btn-primary orb-capscreen-submit">
-          {areaId ? 'Add Task' : 'Add to Inbox'}
+          {(areaId || addToCalendar) ? 'Add Task' : 'Add to Inbox'}
         </button>
       </form>
     </div>

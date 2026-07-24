@@ -5,6 +5,13 @@ import { RPE_MIN, RPE_MAX, RPE_LEGEND } from './fitnessConfig';
 import { parseShorthand } from './calc/shorthand';
 import GroupPicker from './GroupPicker';
 import ClearableInput from './ClearableInput';
+import { useAuth } from '../../AuthContext';
+import { firebaseReady } from '../../firebase';
+import { loadOrbitBridgeData, quickAddOrbitTask } from './orbitTasksBridge';
+
+// Pseudo activity id for the "To-do" mode — not a real activityType (it creates
+// Orbit to-dos, not a workout), just a selectable button in the type row.
+const TODO_TYPE_ID = '__todo';
 
 function round2(n) { return Math.round(n * 100) / 100; }
 
@@ -35,7 +42,19 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
   const [saving, setSaving] = useState(false);
 
   const [shorthand, setShorthand] = useState('');
+  const [title, setTitle] = useState('');
+  const [todoDraft, setTodoDraft] = useState('');
+  const [todoList, setTodoList] = useState([]);
+  const [savingTodos, setSavingTodos] = useState(false);
+  const { user } = useAuth();
   const parsed = useMemo(() => parseShorthand(shorthand), [shorthand]);
+  // Events (kind:'event' — "POGO Raichu day") aren't distance/duration things,
+  // so the shorthand parser is meaningless for them. Repurpose that same top
+  // input as the event's name instead, and drop the workout-only fields below.
+  const isEvent = activityTypes.find((t) => t.id === type)?.kind === 'event';
+  // To-do mode drops one or more Orbit to-dos onto this day instead of a workout.
+  const isTodo = type === TODO_TYPE_ID;
+  const pendingTodoCount = todoList.length + (todoDraft.trim() ? 1 : 0);
 
   // recent distinct sessions -> one-tap templates (dedupe by type + rounded distance)
   const templates = useMemo(() => {
@@ -77,8 +96,9 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
       time,
       activityType: type,
       status,
-      distanceM: distanceToMeters(distance, unit),
-      durationSec: clockToSec(duration),
+      title: isEvent ? title.trim() : '',
+      distanceM: isEvent ? null : distanceToMeters(distance, unit),
+      durationSec: isEvent ? null : clockToSec(duration),
       note,
       rpe,
       groupId,
@@ -88,38 +108,87 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
     onClose();
   }
 
+  function addTodoDraft() {
+    const v = todoDraft.trim();
+    if (!v) return;
+    setTodoList((list) => [...list, v]);
+    setTodoDraft('');
+  }
+  function removeTodo(idx) {
+    setTodoList((list) => list.filter((_, i) => i !== idx));
+  }
+  async function sendTodos() {
+    if (savingTodos) return;
+    const items = [...todoList];
+    const draft = todoDraft.trim();
+    if (draft) items.push(draft);
+    if (items.length === 0) return;
+    setSavingTodos(true);
+    // Load Orbit's areas/settings once, then file each to-do onto this day via
+    // the same bridge the calendar reads from. The window event tells the
+    // calendar (which owns the Orbit chips) to re-read and show them.
+    const bridge = await loadOrbitBridgeData(user || null, firebaseReady);
+    for (const t of items) {
+      await quickAddOrbitTask(user || null, firebaseReady, { title: t, scheduledDate: when, areas: bridge.areas, settings: bridge.settings });
+    }
+    window.dispatchEvent(new CustomEvent('orbit-tasks-changed'));
+    setSavingTodos(false);
+    onClose();
+  }
+
   const typeName = (id) => activityTypes.find((t) => t.id === id)?.name || id;
+
+  let modalTitle;
+  if (isTodo) modalTitle = 'Add to-dos';
+  else if (isEvent) modalTitle = 'Add an event';
+  else modalTitle = mode === 'schedule' ? 'Add to your day' : 'Log a workout';
 
   return (
     <div className="ft-modal-backdrop" onClick={onClose}>
       <div className="ft-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
         <div className="ft-modal-head">
-          <h3>{mode === 'schedule' ? 'Schedule a workout' : 'Log a workout'}</h3>
+          <h3>{modalTitle}</h3>
           <button type="button" className="ft-x" onClick={onClose} aria-label="Close">✕</button>
         </div>
 
-        {/* shorthand fast path */}
-        <div className="ft-shorthand">
-          <input
-            className="ft-input"
-            value={shorthand}
-            onChange={(e) => setShorthand(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter') applyShorthand(); }}
-            placeholder='Quick paste — e.g. "5mi 38:20" or "swim 2000yd 40:00"'
-            aria-label="Shorthand entry"
-          />
-          <button type="button" className="ft-btn-ghost ft-shorthand-go" onClick={applyShorthand} disabled={!parsed} aria-label="Apply shorthand">→</button>
-        </div>
-        {parsed && (
-          <p className="ft-hint-sm ft-shorthand-preview">
-            Detected:
-            {parsed.activityType ? ` ${typeName(parsed.activityType)}` : ''}
-            {parsed.distanceM != null ? ` · ${round2(metersToDistance(parsed.distanceM, unit))} ${unit}` : ''}
-            {parsed.durationSec != null ? ` · ${secToClock(parsed.durationSec)}` : ''}
-          </p>
-        )}
+        {/* Event: this input is the event's name. Workout: shorthand fast path.
+            To-do: has its own multi-add list further down. */}
+        {!isTodo && (isEvent ? (
+          <div className="ft-shorthand">
+            <input
+              className="ft-input"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); save(); } }}
+              placeholder='Event name — e.g. "POGO Raichu day"'
+              aria-label="Event name"
+            />
+          </div>
+        ) : (
+          <>
+            <div className="ft-shorthand">
+              <input
+                className="ft-input"
+                value={shorthand}
+                onChange={(e) => setShorthand(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') applyShorthand(); }}
+                placeholder='Quick paste — e.g. "5mi 38:20" or "swim 2000yd 40:00"'
+                aria-label="Shorthand entry"
+              />
+              <button type="button" className="ft-btn-ghost ft-shorthand-go" onClick={applyShorthand} disabled={!parsed} aria-label="Apply shorthand">→</button>
+            </div>
+            {parsed && (
+              <p className="ft-hint-sm ft-shorthand-preview">
+                Detected:
+                {parsed.activityType ? ` ${typeName(parsed.activityType)}` : ''}
+                {parsed.distanceM != null ? ` · ${round2(metersToDistance(parsed.distanceM, unit))} ${unit}` : ''}
+                {parsed.durationSec != null ? ` · ${secToClock(parsed.durationSec)}` : ''}
+              </p>
+            )}
+          </>
+        ))}
 
-        {templates.length > 0 && (
+        {!isEvent && !isTodo && templates.length > 0 && (
           <div className="ft-templates">
             <span className="ft-field-label">Repeat recent</span>
             <div className="ft-template-row">
@@ -150,25 +219,66 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
               <span>{t.name}</span>
             </button>
           ))}
+          <button
+            type="button"
+            className={`ft-type-btn${isTodo ? ' active' : ''}`}
+            style={isTodo ? { borderColor: '#7ec8e3', background: '#7ec8e322' } : undefined}
+            onClick={() => setType(TODO_TYPE_ID)}
+          >
+            <span className="ft-type-icon">📋</span>
+            <span>To-do</span>
+          </button>
         </div>
 
-        <div className="ft-status-toggle">
-          <button type="button" className={status === 'planned' ? 'active' : ''} onClick={() => setStatus('planned')}>◇ Planned</button>
-          <button type="button" className={status === 'completed' ? 'active' : ''} onClick={() => setStatus('completed')}>✓ Completed</button>
-        </div>
-
-        <div className="ft-two">
-          <div className="ft-field">
-            <label className="ft-field-label">Distance ({unit})</label>
-            <ClearableInput inputMode="decimal" value={distance} onChange={(e) => setDistance(e.target.value)} onClear={() => setDistance('')} placeholder="e.g. 5" />
+        {!isTodo && (
+          <div className="ft-status-toggle">
+            <button type="button" className={status === 'planned' ? 'active' : ''} onClick={() => setStatus('planned')}>◇ Planned</button>
+            <button type="button" className={status === 'completed' ? 'active' : ''} onClick={() => setStatus('completed')}>✓ Completed</button>
           </div>
-          <div className="ft-field">
-            <label className="ft-field-label">Duration</label>
-            <ClearableInput value={duration} onChange={(e) => setDuration(e.target.value)} onClear={() => setDuration('')} placeholder="mm:ss or min" />
-          </div>
-        </div>
-        <p className="ft-hint-sm">Distance and duration are both optional — fill in what you know now.</p>
+        )}
 
+        {!isEvent && !isTodo && (
+          <>
+            <div className="ft-two">
+              <div className="ft-field">
+                <label className="ft-field-label">Distance ({unit})</label>
+                <ClearableInput inputMode="decimal" value={distance} onChange={(e) => setDistance(e.target.value)} onClear={() => setDistance('')} placeholder="e.g. 5" />
+              </div>
+              <div className="ft-field">
+                <label className="ft-field-label">Duration</label>
+                <ClearableInput value={duration} onChange={(e) => setDuration(e.target.value)} onClear={() => setDuration('')} placeholder="mm:ss or min" />
+              </div>
+            </div>
+            <p className="ft-hint-sm">Distance and duration are both optional — fill in what you know now.</p>
+          </>
+        )}
+
+        {isTodo && (
+          <div className="ft-todo-add">
+            <p className="ft-hint-sm">Type an item and press Enter to add it to the list — Send when you're done. They drop onto {when} as Orbit to-dos.</p>
+            <input
+              className="ft-input"
+              autoFocus
+              value={todoDraft}
+              onChange={(e) => setTodoDraft(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addTodoDraft(); } }}
+              placeholder="e.g. Buy milk"
+              aria-label="New to-do"
+            />
+            {todoList.length > 0 && (
+              <ul className="ft-todo-list">
+                {todoList.map((t, i) => (
+                  <li key={i} className="ft-todo-item">
+                    <span>{t}</span>
+                    <button type="button" className="ft-todo-remove" onClick={() => removeTodo(i)} aria-label={`Remove ${t}`}>✕</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+
+        {!isTodo && (
         <details className="ft-more">
           <summary>More (optional)</summary>
           <div className="ft-two">
@@ -204,10 +314,17 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
             <p className="ft-rpe-caption">{RPE_LEGEND[hoverRpe ?? rpe] || ''}</p>
           </div>
         </details>
+        )}
 
         <div className="ft-modal-actions">
           <button type="button" className="ft-btn-ghost" onClick={onClose}>Cancel</button>
-          <button type="button" className="ft-btn-primary" disabled={saving} onClick={save}>Save</button>
+          {isTodo ? (
+            <button type="button" className="ft-btn-primary" disabled={savingTodos || pendingTodoCount === 0} onClick={sendTodos}>
+              {savingTodos ? 'Sending…' : `Send ${pendingTodoCount} to-do${pendingTodoCount === 1 ? '' : 's'}`}
+            </button>
+          ) : (
+            <button type="button" className="ft-btn-primary" disabled={saving} onClick={save}>Save</button>
+          )}
         </div>
       </div>
     </div>

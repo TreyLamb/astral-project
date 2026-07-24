@@ -4,6 +4,15 @@
 .orb-triage { display: flex; flex-direction: column; gap: 14px; }
 
 .orb-triage-toggle { display: flex; gap: 6px; }
+.orb-triage-intro { font-size: 0.82rem; color: var(--orb-muted); line-height: 1.5; margin: 0; }
+.orb-triage-intro strong { color: var(--orb-text); font-weight: 700; }
+.orb-triage-calcheck {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+  padding: 10px 12px; border: 1px solid var(--orb-border); border-radius: 9px;
+  background: var(--orb-panel-2); color: var(--orb-text); font-size: 0.86rem; font-weight: 600;
+}
+.orb-triage-calcheck:hover { border-color: var(--orb-accent); }
+.orb-triage-calcheck input { width: 18px; height: 18px; flex: none; accent-color: var(--orb-accent); cursor: pointer; }
 
 /* ---- AI cleanup (feature #5) ---- */
 .orb-triage-ai-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }

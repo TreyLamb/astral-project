@@ -62,6 +62,9 @@
 .orb-sync-cloud { color: #67e8f9; }
 .orb-capture-btn { font-size: 0.85rem; white-space: nowrap; }
 .orb-search-btn { font-size: 0.85rem; white-space: nowrap; }
+/* Add Task is the primary create action (used more than quick Capture), so it
+   renders as a Link styled to match orb-btn-primary and needs the anchor resets. */
+.orb-addtask-btn { display: inline-flex; align-items: center; white-space: nowrap; text-decoration: none; font-size: 0.85rem; }
 
 /* ---- carryover nudge (banner at the top of orb-main) ---- */
 .orb-carryover-nudge {
@@ -104,6 +107,11 @@
 .orb-nav-link:hover { background: var(--orb-panel-2); color: var(--orb-text); }
 .orb-nav-link.active { background: rgba(126, 200, 227, 0.14); color: var(--orb-accent); }
 .orb-nav-link-mocks { margin-top: auto; font-size: 0.78rem; opacity: 0.75; }
+/* The primary create action, pinned at the top of the nav as a filled accent
+   pill so it reads as THE thing to do, not just another link. */
+.orb-nav-link-addtask { background: var(--orb-accent); color: #0e1116; margin-bottom: 4px; }
+.orb-nav-link-addtask:hover { background: var(--orb-accent); color: #0e1116; filter: brightness(1.08); }
+.orb-nav-link-addtask.active { background: var(--orb-accent); color: #0e1116; }
 .orb-nav-badge {
   font-size: 0.68rem; font-weight: 700; color: #0e1116; background: var(--orb-warn);
   border-radius: 20px; padding: 1px 7px; line-height: 1.4;

@@ -24,6 +24,32 @@ function taskCost(task) {
   };
 }
 
+// Single-task "next open day": the first day from startISO (inclusive) where
+// this one task still fits under that day's time AND energy budget, given
+// whatever is already scheduled there. Powers the quick-add "Add to calendar"
+// checkbox, so a task lands on the next day that actually has room rather than
+// blindly today. Falls back to startISO if nothing fits inside the horizon —
+// better to overfill today than to silently refuse to schedule it at all.
+export function firstOpenDayFor(taskLike, scheduledTasks, startISO, horizonDays, capacityFor) {
+  const cost = taskCost(taskLike);
+  const usedByDay = {};
+  for (const t of scheduledTasks) {
+    if (!t.scheduledDate) continue;
+    const c = taskCost(t);
+    const u = usedByDay[t.scheduledDate] || { time: 0, energy: 0 };
+    u.time += c.time;
+    u.energy += c.energy;
+    usedByDay[t.scheduledDate] = u;
+  }
+  for (let i = 0; i < horizonDays; i += 1) {
+    const date = addDaysISO(startISO, i);
+    const cap = capacityFor(date);
+    const used = usedByDay[date] || { time: 0, energy: 0 };
+    if (used.time + cost.time <= cap.timeMin && used.energy + cost.energy <= cap.energy) return date;
+  }
+  return startISO;
+}
+
 export function planTasksAcrossDays(orderedTasks, startISO, horizonDays, capacityFor) {
   const placements = [];
   const unplaced = [];

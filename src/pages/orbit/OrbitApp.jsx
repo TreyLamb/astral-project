@@ -191,15 +191,19 @@ export default function OrbitApp() {
             >
               🔎 Search
             </button>
-            <button type="button" className="orb-btn-primary orb-capture-btn" onClick={() => setCaptureOpen((o) => !o)}>
+            <button type="button" className="orb-btn orb-capture-btn" onClick={() => setCaptureOpen((o) => !o)} title="Quick brain-dump to your Inbox (Ctrl/Cmd+K)">
               ＋ Capture
             </button>
+            <Link to="/orbit/capture" className="orb-btn-primary orb-addtask-btn" title="Full add-task form — area, priority, schedule">
+              ＋ Add Task
+            </Link>
           </div>
         </header>
 
         <div className="orb-body">
           {navOpen && <div className="orb-nav-scrim" onClick={() => setNavOpen(false)} />}
           <nav className={`orb-nav${navOpen ? ' open' : ''}`}>
+            <NavLink to="/orbit/capture" className={({ isActive }) => `orb-nav-link orb-nav-link-addtask${isActive ? ' active' : ''}`}>＋ Add Task</NavLink>
             <NavLink end to="/orbit" className={navLinkClass}>Today</NavLink>
             <NavLink to="/orbit/inbox" className={navLinkClass}>
               Inbox

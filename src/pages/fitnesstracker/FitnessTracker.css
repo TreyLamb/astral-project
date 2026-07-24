@@ -106,6 +106,8 @@
 .ft-view-toggle { display: flex; background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 10px; overflow: hidden; }
 .ft-view-btn { background: transparent; color: var(--ft-muted); border: none; padding: 9px 16px; font-weight: 600; cursor: pointer; font-family: inherit; }
 .ft-view-btn.active { background: rgba(163, 230, 53, 0.16); color: var(--ft-accent); }
+.ft-weekcount { display: inline-flex; align-items: center; gap: 6px; color: var(--ft-muted); font-size: 0.8rem; font-weight: 600; }
+.ft-weekcount input { width: 46px; padding: 6px 8px; background: var(--ft-panel); color: var(--ft-text); border: 1px solid var(--ft-border); border-radius: 8px; font-family: inherit; font-weight: 600; text-align: center; }
 
 /* ---- month grid ---- */
 .ft-weekhead { display: flex; gap: 6px; margin-bottom: 6px; }
@@ -161,10 +163,21 @@
 
 /* ---- day cell ---- */
 .ft-cell {
+  position: relative;
   background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 10px;
   padding: 6px; cursor: pointer; overflow: hidden; transition: border-color 0.12s, background 0.12s;
 }
 .ft-cell:hover { border-color: rgba(163, 230, 53, 0.4); }
+/* Per-day Orbit energy load, pinned bottom-right. Cyan (Orbit's accent) so it
+   reads as "from Orbit", not a fitness metric; turns warn-orange over budget. */
+.ft-cell-energy {
+  position: absolute; right: 5px; bottom: 4px;
+  font-size: 0.6rem; font-weight: 800; line-height: 1;
+  color: #7ec8e3; background: rgba(126, 200, 227, 0.14);
+  border: 1px solid rgba(126, 200, 227, 0.3); border-radius: 20px;
+  padding: 2px 6px; pointer-events: none; letter-spacing: 0.02em;
+}
+.ft-cell-energy.over { color: #fb923c; background: rgba(251, 146, 60, 0.16); border-color: rgba(251, 146, 60, 0.4); }
 .ft-cell-month { min-height: 92px; display: flex; flex-direction: column; }
 .ft-cell-week { min-height: 220px; flex: 1; display: flex; flex-direction: column; }
 .ft-cell-week .ft-cell-items { flex: 1; }
@@ -224,6 +237,10 @@
    -> grid -> cell chain stretches to fill the remaining viewport height. */
 .ft-cal-body > .ft-week-row-single { flex: 1; min-height: 0; }
 .ft-week-row-single .ft-week { flex: 1; min-height: 0; grid-template-rows: 1fr; }
+/* Multi-week Week window: unlike Month (flex:none, content-height) this can run
+   past the viewport at higher week counts, so it owns the scroll instead of
+   clipping. Later than the .ft-month flex:none rule above, so it wins on it. */
+.ft-cal-body > .ft-multiweek { flex: 1; min-height: 0; overflow-y: auto; }
 .ft-marquee {
   position: fixed; z-index: 900; background: rgba(96, 165, 250, 0.15);
   border: 1.5px solid #60a5fa; border-radius: 4px; pointer-events: none;
@@ -350,6 +367,9 @@
      so "zooming in" still means something on mobile, not just on desktop. */
   .ft-cell-month .ft-chip-text { display: none; }
   .ft-cell-month .ft-chip-target { display: none; }
+  /* ...but an event's identity IS its name — a bare 📅 with the text hidden is
+     meaningless (unlike a 🏃 workout icon), so keep event names visible here. */
+  .ft-cell-month .ft-chip-event .ft-chip-text { display: block; }
   .ft-week { grid-template-columns: 1fr; }
   .ft-cell-week { min-height: 140px; }
   .ft-two { grid-template-columns: 1fr; }
@@ -362,6 +382,17 @@
 .ft-shorthand { display: flex; gap: 8px; margin-bottom: 6px; }
 .ft-shorthand .ft-input { flex: 1; }
 .ft-shorthand-go { flex: none; padding: 0 16px; font-size: 1.1rem; }
+
+/* To-do mode — Orbit-style multi-add list inside the add modal. */
+.ft-todo-add { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.ft-todo-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.ft-todo-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  background: var(--ft-bg); border: 1px solid var(--ft-border); border-radius: 8px; padding: 8px 12px;
+  font-size: 0.9rem; color: var(--ft-text);
+}
+.ft-todo-remove { background: none; border: none; color: var(--ft-muted); cursor: pointer; font-size: 0.9rem; padding: 2px 6px; }
+.ft-todo-remove:hover { color: var(--ft-text); }
 .ft-shorthand-preview { color: var(--ft-accent); margin: 0 0 10px; }
 .ft-templates { margin-bottom: 14px; }
 .ft-template-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }

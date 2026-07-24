@@ -16,6 +16,18 @@
 
 .orb-capscreen-form { display: flex; flex-direction: column; gap: 12px; }
 
+/* "Add to calendar" — kept visible above the collapsible details since it's a
+   primary intent, not an advanced option. Big tap target for one-handed use. */
+.orb-capscreen-calcheck {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 15px; cursor: pointer;
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 12px;
+  color: var(--orb-text); font-weight: 600; font-size: 0.92rem;
+}
+.orb-capscreen-calcheck:hover { border-color: var(--orb-accent); }
+.orb-capscreen-calcheck input { width: 20px; height: 20px; flex: none; accent-color: var(--orb-accent); cursor: pointer; }
+.orb-capscreen-calcheck-hint { color: var(--orb-muted); font-size: 0.78rem; padding: 0 4px; margin-top: -4px; }
+
 .orb-capscreen-title {
   width: 100%;
   box-sizing: border-box;

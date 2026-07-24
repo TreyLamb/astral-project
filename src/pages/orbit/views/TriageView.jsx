@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrbit } from '../orbitContext';
+import { firstOpenDayFor } from '../calc/planner';
 import { auth } from '../../../firebase';
 import TaskRow from './TaskRow';
 import TaskTypeFilter from './TaskTypeFilter';
@@ -9,7 +10,7 @@ import './TriageView.css';
 const SWIPE_MIN_DISTANCE = 40;
 const DEFAULT_TASK_DRAFT = {
   areaId: '', projectId: '', importance: 3, urgency: 3, difficulty: 3, energy: 3,
-  timeMin: '', taskType: '', dueDate: '', scheduledDate: '',
+  timeMin: '', taskType: '', dueDate: '', scheduledDate: '', addToCalendar: false,
 };
 
 function timeAgo(ms) {
@@ -51,10 +52,18 @@ function AxisStepper({ label, value, onChange }) {
 export default function TriageView() {
   const orbit = useOrbit();
   const {
-    inbox, tasks, areas, projects, settings, mode,
+    inbox, tasks, areas, projects, settings, mode, today, getDayPlan,
     addTask, addProject, updateInboxItem, removeTask, removeProject,
   } = orbit;
   const navigate = useNavigate();
+
+  const capacityFor = (date) => {
+    const plan = getDayPlan(date);
+    return {
+      timeMin: plan.capacityTimeMin ?? settings.capacityDefault.timeMin,
+      energy: plan.capacityEnergy ?? settings.capacityDefault.energy,
+    };
+  };
 
   const [viewMode, setViewMode] = useState('queue'); // 'queue' | 'all'
   const [formMode, setFormMode] = useState(null); // null | 'task' | 'project'
@@ -104,6 +113,14 @@ export default function TriageView() {
 
   const confirmTask = async () => {
     if (!current || !taskDraft.areaId) return;
+    let sched = taskDraft.scheduledDate || null;
+    if (taskDraft.addToCalendar && !sched) {
+      const scheduledTasks = tasks.filter((t) => t.scheduledDate && t.status !== 'done' && t.status !== 'killed');
+      sched = firstOpenDayFor(
+        { timeMin: taskDraft.timeMin === '' ? null : Number(taskDraft.timeMin), energy: taskDraft.energy },
+        scheduledTasks, today, 60, capacityFor,
+      );
+    }
     const task = await addTask({
       title: current.rawText,
       areaId: taskDraft.areaId,
@@ -115,7 +132,7 @@ export default function TriageView() {
       timeMin: taskDraft.timeMin === '' ? null : Number(taskDraft.timeMin),
       taskType: taskDraft.taskType || null,
       dueDate: taskDraft.dueDate || null,
-      scheduledDate: taskDraft.scheduledDate || null,
+      scheduledDate: sched,
     });
     await updateInboxItem(current.id, { triaged: true, outcome: 'task', resultId: task.id });
     pushLog({ itemId: current.id, outcome: 'task', resultId: task.id });
@@ -280,6 +297,14 @@ export default function TriageView() {
         </button>
       </div>
 
+      {viewMode === 'queue' && (
+        <p className="orb-triage-intro">
+          This sorts the quick notes you dropped via <strong>＋ Capture</strong> — decide what each one becomes:
+          {' '}<strong>Task</strong>, <strong>Project</strong>, <strong>Reference</strong>, or <strong>Discard</strong>.
+          Want a fully-detailed task right now? Use <strong>＋ Add Task</strong> instead.
+        </p>
+      )}
+
       <div className="orb-triage-ai-row">
         <button
           type="button"
@@ -391,6 +416,14 @@ export default function TriageView() {
                     value={taskDraft.scheduledDate}
                     onChange={(e) => setTaskDraft((d) => ({ ...d, scheduledDate: e.target.value }))}
                   />
+                </label>
+                <label className="orb-triage-calcheck">
+                  <input
+                    type="checkbox"
+                    checked={taskDraft.addToCalendar}
+                    onChange={(e) => setTaskDraft((d) => ({ ...d, addToCalendar: e.target.checked }))}
+                  />
+                  <span>📅 Add to calendar {taskDraft.scheduledDate ? '(on the scheduled date above)' : '— auto-pick the next open day'}</span>
                 </label>
                 <AxisStepper label="Importance" value={taskDraft.importance} onChange={(n) => setTaskDraft((d) => ({ ...d, importance: n }))} />
                 <AxisStepper label="Urgency" value={taskDraft.urgency} onChange={(n) => setTaskDraft((d) => ({ ...d, urgency: n }))} />

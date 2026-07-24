@@ -187,6 +187,7 @@ export function newWorkout(partial = {}) {
     date: partial.date || todayISO(), // 'YYYY-MM-DD' (the calendar's key)
     time: partial.time ?? '',         // 'HH:MM', optional
     activityType: partial.activityType || 'run',
+    title: partial.title ?? '',        // free-text name; primarily for kind:'event' calendar drops
     status: partial.status || 'completed',
     durationSec: partial.durationSec ?? null,
     distanceM: partial.distanceM ?? null,
