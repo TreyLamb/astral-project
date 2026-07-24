@@ -1,0 +1,2 @@
+.orb-views { display: flex; flex-direction: column; gap: 14px; }
+.orb-views-body { min-width: 0; }

@@ -17,6 +17,7 @@ import PlannerView from './views/PlannerView';
 import RecurringView from './views/RecurringView';
 import HistoryView from './views/HistoryView';
 import CarryoverView from './views/CarryoverView';
+import ViewsHub from './views/ViewsHub';
 import './Orbit.css';
 
 // Nav entries shown in the secondary "more" disclosure group — Phase 2
@@ -24,6 +25,7 @@ import './Orbit.css';
 // is deliberately included here (not just surfaced via the nudge banner)
 // so it's still reachable with zero carried-over tasks.
 const MORE_NAV_ITEMS = [
+  { to: '/orbit/views', label: 'Views' },
   { to: '/orbit/reference', label: 'Reference Vault' },
   { to: '/orbit/review', label: 'Weekly Review' },
   { to: '/orbit/trackers', label: 'Trackers' },
@@ -212,6 +214,7 @@ export default function OrbitApp() {
                 <Route path="recurring" element={<RecurringView />} />
                 <Route path="history" element={<HistoryView />} />
                 <Route path="carryover" element={<CarryoverView />} />
+                <Route path="views" element={<ViewsHub />} />
                 <Route path="settings" element={<SettingsView />} />
                 <Route path="mocks" element={<MockGallery />} />
                 <Route path="*" element={<TodayView />} />

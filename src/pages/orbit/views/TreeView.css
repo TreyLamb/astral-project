@@ -1,0 +1,34 @@
+/* TreeView — dependency + subtask tree on real tasks. Nodes are full
+   TaskRows (see TreeView.jsx), so this file only styles the wrapper/section
+   chrome around them — not a task row itself (that's TaskRow.css). */
+
+.orb-tree { display: flex; flex-direction: column; gap: 22px; }
+
+.orb-tree-legend { margin: 0; font-size: 0.85rem; color: var(--orb-muted); line-height: 1.7; }
+.orb-tree-tag {
+  display: inline-flex; align-items: center; font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.03em; padding: 1px 8px; border-radius: 20px; margin: 0 3px;
+}
+.orb-tree-tag-ready { color: var(--orb-accent); background: rgba(126, 200, 227, 0.14); }
+.orb-tree-tag-blocked { color: var(--orb-warn); background: rgba(245, 169, 127, 0.12); text-transform: none; letter-spacing: normal; }
+.orb-tree-tag-killed { color: var(--orb-muted); background: rgba(255, 255, 255, 0.06); }
+
+.orb-tree-group { display: flex; flex-direction: column; gap: 10px; }
+.orb-tree-group-title { margin: 0; font-size: 0.9rem; font-weight: 700; color: var(--orb-muted); }
+.orb-tree-group-summary { font-size: 0.76rem; color: var(--orb-muted); padding-left: 4px; }
+.orb-tree-group-children { padding-left: 18px; border-left: 2px solid var(--orb-border); margin-left: 10px; }
+
+.orb-tree-node { display: flex; flex-direction: column; gap: 4px; }
+.orb-tree-node-blocked { opacity: 0.75; }
+.orb-tree-node-ready { box-shadow: -2px 0 0 0 var(--orb-accent); border-radius: 2px; }
+
+.orb-tree-chain { display: flex; flex-direction: column; gap: 10px; }
+.orb-tree-chain-stage { display: flex; flex-direction: column; gap: 8px; }
+.orb-tree-chain-col { display: flex; flex-direction: column; gap: 8px; }
+.orb-tree-chain-arrow { color: var(--orb-muted); font-size: 0.74rem; font-weight: 700; text-align: center; letter-spacing: 0.03em; }
+
+.orb-tree-standalone-list { display: flex; flex-direction: column; gap: 8px; }
+
+@media (max-width: 640px) {
+  .orb-tree-group-children { padding-left: 10px; margin-left: 4px; }
+}

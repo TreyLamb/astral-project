@@ -11,6 +11,9 @@ import GroupPicker from './GroupPicker';
 import MealDayView from './MealDayView';
 import GoalEditorModal from './GoalEditorModal';
 import ClearableInput from './ClearableInput';
+import { useAuth } from '../../AuthContext';
+import { firebaseReady } from '../../firebase';
+import { loadOrbitBridgeData, quickAddOrbitTask } from './orbitTasksBridge';
 
 // Army Combat Fitness Test personal targets — static reference data, not
 // computed from anything. Mirrors src/pages/fitnesstracker/Guidelines_AFT
@@ -227,10 +230,104 @@ function MealChip({ m, type, selected, onEdit, onCtrlClick, onShiftClick }) {
   );
 }
 
+// Orbit to-do chip — deliberately NOT built on WorkoutChip/MealChip (no
+// drag, no target/actual, different icon family) so it reads as an obviously
+// different kind of thing on the grid, per the integration's "clearly
+// different from workouts/meals" requirement. `due` renders the lighter
+// "due today, scheduled elsewhere (or nowhere)" marker variant; killed tasks
+// are filtered out before this ever renders (see orbitScheduled/orbitDue
+// below), done tasks render struck+dimmed rather than being hidden — still
+// useful context ("I did that"), unlike killed ("no longer relevant").
+function OrbitTaskChip({ task, area, due, onOpen }) {
+  const done = task.status === 'done';
+  const color = area?.color || '#94a3b8';
+  const style = due
+    ? { background: 'transparent', borderColor: color, color }
+    : { background: color + '26', borderColor: color, color };
+  const title = task.title || '(untitled)';
+  return (
+    <button
+      type="button"
+      className={`ft-orbit-chip${done ? ' ft-orbit-chip-done' : ''}${due ? ' ft-orbit-chip-due' : ''}`}
+      style={style}
+      onClick={(e) => { e.stopPropagation(); onOpen(task); }}
+      title={`${title}${area ? ' · ' + area.name : ''}${due ? ' · due' : ''} — Orbit to-do, click to open in Orbit`}
+    >
+      <span className="ft-orbit-chip-icon" aria-hidden="true">{due ? '⏰' : '📋'}</span>
+      <span className="ft-orbit-chip-text">{title}</span>
+    </button>
+  );
+}
+
+// Per-day "+ to-do" quick-add — self-contained (own open/title/note state)
+// since it's keyed per calendar date same as the cell itself, so nothing
+// leaks between days. `onSubmit(iso, title)` resolves { kind: 'task'|'inbox' }
+// (see orbitTasksBridge.quickAddOrbitTask) — 'inbox' means there were no
+// Orbit areas to file it under, so the note stays up (user must dismiss)
+// instead of auto-closing, since that's a meaningfully different outcome
+// than "added, and it's right there on the calendar now".
+function OrbitQuickAdd({ iso, onSubmit }) {
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState('');
+  const [note, setNote] = useState(null);
+
+  if (!open) {
+    return (
+      <button
+        type="button"
+        className="ft-orbit-add-btn"
+        onClick={(e) => { e.stopPropagation(); setOpen(true); }}
+        title="Quick-add an Orbit to-do to this day"
+      >
+        📋 + to-do
+      </button>
+    );
+  }
+
+  if (note) {
+    return (
+      <div className="ft-orbit-quickadd-note" onClick={(e) => e.stopPropagation()}>
+        <span>{note}</span>
+        <button type="button" className="ft-orbit-quickadd-ok" onClick={() => { setNote(null); setOpen(false); }}>OK</button>
+      </div>
+    );
+  }
+
+  const submit = async () => {
+    const trimmed = title.trim();
+    if (!trimmed) return;
+    const res = await onSubmit(iso, trimmed);
+    setTitle('');
+    if (res?.kind === 'inbox') setNote('No Orbit areas yet — added to your Orbit Inbox instead.');
+    else setOpen(false);
+  };
+
+  return (
+    <form
+      className="ft-orbit-quickadd-form"
+      onClick={(e) => e.stopPropagation()}
+      onSubmit={(e) => { e.preventDefault(); submit(); }}
+    >
+      <span className="ft-orbit-quickadd-caption">Orbit to-do</span>
+      <input
+        className="ft-orbit-quickadd-input"
+        autoFocus
+        placeholder="New to-do…"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        onKeyDown={(e) => { if (e.key === 'Escape') { setOpen(false); setTitle(''); } }}
+      />
+      <button type="submit" className="ft-orbit-quickadd-submit" disabled={!title.trim()} aria-label="Add to-do">✓</button>
+      <button type="button" className="ft-orbit-quickadd-cancel" onClick={() => { setOpen(false); setTitle(''); }} aria-label="Cancel">✕</button>
+    </form>
+  );
+}
+
 function DayCell({
   date, items, types, units, groups, goalsById, selected, isToday, inMonth, variant, onAdd, onEdit, onCtrlClick, onShiftClick, onAltClick, onDropWorkout,
   showMeals, mealItems, mealTypes, mealSelected, onAddMeal, onEditMeal, onMealCtrlClick, onMealShiftClick,
   allWorkouts, meals, bmr, calorieGoal, bodyWeightKg,
+  orbitScheduled, orbitDue, orbitAreaById, onOrbitOpen, onOrbitQuickAdd,
 }) {
   const iso = isoDate(date);
   const [over, setOver] = useState(false);
@@ -314,6 +411,22 @@ function DayCell({
           </div>
         </div>
       ) : eventsCol}
+      {/* Orbit to-dos — additive, deliberately its own strip below the fitness
+          content (not mixed into eventsCol/mealItems) so it stays visually
+          secondary and never competes with workout/meal chips for space. */}
+      <div className="ft-cell-orbit">
+        {(orbitScheduled.length > 0 || orbitDue.length > 0) && (
+          <div className="ft-orbit-chips">
+            {orbitScheduled.map((t) => (
+              <OrbitTaskChip key={t.id} task={t} area={orbitAreaById.get(t.areaId) || null} due={t.dueDate === iso} onOpen={onOrbitOpen} />
+            ))}
+            {orbitDue.map((t) => (
+              <OrbitTaskChip key={t.id} task={t} area={orbitAreaById.get(t.areaId) || null} due onOpen={onOrbitOpen} />
+            ))}
+          </div>
+        )}
+        <OrbitQuickAdd iso={iso} onSubmit={onOrbitQuickAdd} />
+      </div>
     </div>
   );
 }
@@ -339,6 +452,56 @@ export default function CalendarView() {
   const latestWeightKg = latestBodyWeightKg(bodyWeightLogs);
   const bmr = settings.profile?.bmr ?? null;
   const calorieGoal = settings.nutritionTarget?.calories ?? null;
+
+  // ---- Orbit to-dos on the calendar ----
+  // Own bridge, own local state — NOT Orbit's React context (different
+  // provider tree; OrbitApp is never mounted here). `user` undefined while
+  // auth is still resolving is treated the same way fitnessContext/
+  // orbitContext treat it elsewhere: read as guest for now, reload once it
+  // resolves to a real value (the effect's [user] dependency covers that).
+  const { user } = useAuth();
+  const [orbitTasks, setOrbitTasks] = useState([]);
+  const [orbitAreas, setOrbitAreas] = useState([]);
+  const [orbitSettings, setOrbitSettings] = useState(null);
+  useEffect(() => {
+    let alive = true;
+    loadOrbitBridgeData(user || null, firebaseReady).then((data) => {
+      if (!alive) return;
+      setOrbitTasks(data.tasks);
+      setOrbitAreas(data.areas);
+      setOrbitSettings(data.settings);
+    }).catch(() => { /* no Orbit chips this load; rest of the calendar is unaffected */ });
+    return () => { alive = false; };
+  }, [user]);
+  const orbitAreaById = useMemo(() => new Map(orbitAreas.map((a) => [a.id, a])), [orbitAreas]);
+  // Killed tasks are dropped entirely (cancelled — no calendar value); done
+  // tasks stay (rendered struck/dimmed by OrbitTaskChip) since "I did this
+  // that day" is still meaningful history, unlike a killed task.
+  const orbitLiveTasks = useMemo(() => orbitTasks.filter((t) => t.status !== 'killed'), [orbitTasks]);
+  const orbitScheduledByDate = useMemo(() => {
+    const map = {};
+    for (const t of orbitLiveTasks) if (t.scheduledDate) (map[t.scheduledDate] ||= []).push(t);
+    return map;
+  }, [orbitLiveTasks]);
+  // Due-but-not-scheduled-that-day only — a task both due AND scheduled the
+  // same day already renders once via orbitScheduledByDate (with its own
+  // due-marker overlay via OrbitTaskChip's `due` prop), so this list must
+  // exclude that case or it'd render twice.
+  const orbitDueByDate = useMemo(() => {
+    const map = {};
+    for (const t of orbitLiveTasks) {
+      if (t.dueDate && t.dueDate !== t.scheduledDate) (map[t.dueDate] ||= []).push(t);
+    }
+    return map;
+  }, [orbitLiveTasks]);
+  const onOrbitOpen = (task) => navigate(task.projectId ? `/orbit/project/${task.projectId}` : '/orbit');
+  const onOrbitQuickAdd = async (iso, title) => {
+    const res = await quickAddOrbitTask(user || null, firebaseReady, {
+      title, scheduledDate: iso, areas: orbitAreas, settings: orbitSettings,
+    });
+    if (res.kind === 'task') setOrbitTasks((prev) => [res.item, ...prev]);
+    return res;
+  };
 
   // Goals live inline on the calendar too — not Dashboard-only — so changes
   // (accept/edit/abandon) are visible immediately on the same screen instead
@@ -611,6 +774,8 @@ export default function CalendarView() {
     showMeals, mealItems: mealsByDate[isoDate(date)] || [], mealTypes, mealSelected,
     onAddMeal, onEditMeal, onMealCtrlClick: toggleMealSelected, onMealShiftClick: toggleMealSelected,
     allWorkouts: workouts, meals, bmr, calorieGoal, bodyWeightKg: latestWeightKg,
+    orbitScheduled: orbitScheduledByDate[isoDate(date)] || [], orbitDue: orbitDueByDate[isoDate(date)] || [],
+    orbitAreaById, onOrbitOpen, onOrbitQuickAdd,
   });
 
   return (

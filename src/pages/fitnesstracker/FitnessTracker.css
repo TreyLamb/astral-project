@@ -629,4 +629,62 @@
 .ft-macro-row { display: flex; gap: 8px; }
 .ft-macro-sub { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; }
 .ft-macro-sub .ft-input { flex: 1; min-width: 0; }
+
+/* ---- Orbit to-dos on the calendar (additive integration) ---- */
+/* Own strip below the fitness content, visually secondary — border-top
+   separates it from workouts/meals without competing with them for space. */
+.ft-cell-orbit {
+  margin-top: 4px; padding-top: 4px; border-top: 1px dashed var(--ft-border);
+  display: flex; flex-direction: column; gap: 3px;
+}
+.ft-orbit-chips { display: flex; flex-direction: column; gap: 3px; }
+/* Deliberately its own shape (rounded pill, not .ft-chip's rect) so it never
+   reads as "another workout/meal chip" even at a glance — a real requirement
+   of this integration, not just a style preference. */
+.ft-orbit-chip {
+  display: flex; align-items: center; gap: 4px; border: 1.5px dashed; border-radius: 20px;
+  padding: 2px 7px; font-size: 0.68rem; font-weight: 600; cursor: pointer; font-family: inherit;
+  text-align: left; width: 100%; box-sizing: border-box;
+}
+.ft-orbit-chip-icon { font-size: 0.75rem; line-height: 1; flex: none; }
+.ft-orbit-chip-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ft-orbit-chip-done { text-decoration: line-through; opacity: 0.55; }
+.ft-orbit-chip-due { border-style: dotted; opacity: 0.85; }
+.ft-orbit-add-btn {
+  background: transparent; border: 1px dashed var(--ft-border); border-radius: 8px; color: var(--ft-muted);
+  font-size: 0.66rem; font-weight: 600; padding: 2px 6px; cursor: pointer; font-family: inherit;
+  align-self: flex-start;
+}
+.ft-orbit-add-btn:hover { border-color: var(--ft-accent); color: var(--ft-accent); }
+.ft-orbit-quickadd-form { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.ft-orbit-quickadd-caption { font-size: 0.6rem; color: var(--ft-muted); flex: none; width: 100%; }
+.ft-orbit-quickadd-input {
+  flex: 1; min-width: 70px; background: var(--ft-bg); color: var(--ft-text); border: 1px solid var(--ft-border);
+  border-radius: 6px; padding: 3px 6px; font-size: 0.72rem; font-family: inherit;
+}
+.ft-orbit-quickadd-submit, .ft-orbit-quickadd-cancel {
+  background: var(--ft-panel-2); border: none; border-radius: 6px; color: var(--ft-text);
+  font-size: 0.68rem; padding: 2px 6px; cursor: pointer; flex: none;
+}
+.ft-orbit-quickadd-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+.ft-orbit-quickadd-note {
+  display: flex; align-items: center; gap: 6px; font-size: 0.66rem; color: var(--ft-muted);
+  background: rgba(163, 230, 53, 0.08); border: 1px solid rgba(163, 230, 53, 0.25); border-radius: 8px; padding: 4px 6px;
+}
+.ft-orbit-quickadd-ok { background: var(--ft-accent); color: #0a0e12; border: none; border-radius: 5px; font-size: 0.64rem; font-weight: 700; padding: 2px 7px; cursor: pointer; flex: none; }
+
+/* Zoom levels: Week/Day step Orbit chips up in size same as workout chips do
+   (.ft-cell-week/.ft-cell-day .ft-chip above) — "more detail at this zoom
+   level" has to actually apply here too, not just to the fitness content. */
+.ft-cell-week .ft-orbit-chip, .ft-cell-day .ft-orbit-chip { font-size: 0.8rem; padding: 4px 10px; gap: 6px; }
+.ft-cell-week .ft-orbit-chip-icon, .ft-cell-day .ft-orbit-chip-icon { font-size: 0.9rem; }
+.ft-cell-day .ft-orbit-add-btn { font-size: 0.78rem; padding: 4px 9px; }
+
+@media (max-width: 640px) {
+  /* Month is cramped on phones — icon-only Orbit chips, same reasoning as
+     the existing workout-chip-text hide right above this block. */
+  .ft-cell-month .ft-orbit-chip-text { display: none; }
+  .ft-cell-month .ft-orbit-add-btn { font-size: 0; padding: 2px 5px; }
+  .ft-cell-month .ft-orbit-add-btn::before { content: '+'; font-size: 0.72rem; }
+}
 .ft-macro-unit { color: var(--ft-muted); font-size: 0.85rem; flex: none; }

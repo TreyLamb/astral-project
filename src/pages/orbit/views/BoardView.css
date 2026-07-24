@@ -1,0 +1,61 @@
+/* BoardView — real-data kanban. Adapted from KanbanMock.css, renamed
+   orb-kanban-* -> orb-board-* so it doesn't share (and can't accidentally be
+   affected by edits to) the mock's stylesheet. */
+
+.orb-board { display: flex; flex-direction: column; gap: 14px; }
+
+.orb-board-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.orb-board-group-toggle { display: flex; gap: 6px; flex-wrap: wrap; }
+.orb-board-group-btn { padding: 7px 14px; font-size: 0.8rem; }
+.orb-board-group-btn.active { background: rgba(126, 200, 227, 0.14); border-color: var(--orb-accent); color: var(--orb-accent); }
+.orb-board-count { color: var(--orb-muted); font-size: 0.82rem; }
+
+.orb-board-cols { display: flex; gap: 14px; align-items: flex-start; overflow-x: auto; padding-bottom: 6px; }
+
+.orb-board-col {
+  flex: 1 1 260px; min-width: 240px; max-width: 340px;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 12px;
+  display: flex; flex-direction: column; max-height: 74vh;
+  transition: border-color 0.12s, background 0.12s;
+}
+.orb-board-col.drag-over { border-color: var(--orb-accent); background: rgba(126, 200, 227, 0.06); }
+.orb-board-col.muted { opacity: 0.72; }
+
+.orb-board-col-head {
+  display: flex; align-items: center; gap: 7px; padding: 12px 14px;
+  border-bottom: 1px solid var(--orb-border); font-weight: 700; font-size: 0.9rem;
+}
+.orb-board-col-title { flex: 1; }
+.orb-board-col-count {
+  font-size: 0.72rem; font-weight: 700; color: var(--orb-muted);
+  background: rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 2px 8px;
+}
+
+.orb-board-col-body { display: flex; flex-direction: column; gap: 9px; padding: 12px; overflow-y: auto; }
+.orb-board-empty { color: var(--orb-muted); font-size: 0.8rem; text-align: center; padding: 18px 0; }
+
+.orb-board-card {
+  display: flex; flex-direction: column; gap: 8px; cursor: grab;
+  touch-action: none; user-select: none;
+  transition: box-shadow 0.12s, opacity 0.12s;
+}
+.orb-board-card:active { cursor: grabbing; }
+.orb-board-card.dragging {
+  cursor: grabbing; pointer-events: none; z-index: 20;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  border-color: var(--orb-accent);
+}
+.orb-board-card.killed { opacity: 0.55; }
+.orb-board-card.done { opacity: 0.65; }
+.orb-board-card.killed .orb-board-card-title,
+.orb-board-card.done .orb-board-card-title { text-decoration: line-through; }
+
+.orb-board-card-title { font-size: 0.88rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+.orb-board-card-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.orb-board-card-stats { display: flex; gap: 10px; font-size: 0.72rem; color: var(--orb-muted); font-weight: 600; }
+.orb-board-card-stats b { color: var(--orb-text); font-weight: 700; margin-left: 2px; }
+
+@media (max-width: 640px) {
+  .orb-board-col { min-width: 200px; max-height: none; }
+}

@@ -1,0 +1,107 @@
+/* MatrixView — real Eisenhower / Action-Priority scatter. Adapted from
+   MatrixMock.css, renamed orb-matrix-* -> orb-mtx-* to stay independent of
+   the mock's stylesheet (this view also drops the mock's quadrant-board /
+   disabled-mode-button styles, which no longer apply — see MatrixView.jsx). */
+
+.orb-mtx { display: flex; flex-direction: column; gap: 14px; }
+
+.orb-mtx-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.orb-mtx-title { margin: 0 0 4px; font-size: 1.25rem; color: var(--orb-text); }
+.orb-mtx-sub { margin: 0; font-size: 0.85rem; color: var(--orb-muted); }
+
+.orb-mtx-variants { display: flex; gap: 6px; }
+
+.orb-mtx-body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; align-items: start; }
+
+/* ---- scatter plot ---- */
+.orb-mtx-plot {
+  position: relative; min-height: 480px;
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 14px;
+  overflow: hidden;
+}
+.orb-mtx-plot-empty {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  color: var(--orb-muted); font-size: 0.9rem;
+}
+.orb-mtx-gridline { position: absolute; background: var(--orb-border); }
+.orb-mtx-gridline-v { top: 0; bottom: 0; left: 50%; width: 1px; }
+.orb-mtx-gridline-h { left: 0; right: 0; top: 50%; height: 1px; }
+
+.orb-mtx-qlabel {
+  position: absolute; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--orb-muted); opacity: 0.55; pointer-events: none;
+}
+.orb-mtx-qlabel-tl { top: 12px; left: 14px; }
+.orb-mtx-qlabel-tr { top: 12px; right: 14px; text-align: right; }
+.orb-mtx-qlabel-bl { bottom: 12px; left: 14px; }
+.orb-mtx-qlabel-br { bottom: 12px; right: 14px; text-align: right; }
+
+.orb-mtx-axislabel { position: absolute; font-size: 0.68rem; color: var(--orb-muted); opacity: 0.7; pointer-events: none; }
+.orb-mtx-axislabel-top { top: 6px; left: 50%; transform: translateX(-50%); }
+.orb-mtx-axislabel-bottom { bottom: 6px; left: 50%; transform: translateX(-50%); }
+.orb-mtx-axislabel-left { left: 6px; top: 50%; transform: translateY(-50%) rotate(-90deg); transform-origin: left center; }
+.orb-mtx-axislabel-right { right: 6px; top: 50%; transform: translateY(-50%) rotate(90deg); transform-origin: right center; }
+
+.orb-mtx-dot {
+  position: absolute; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  cursor: grab; touch-action: none; -webkit-user-select: none; user-select: none;
+  z-index: 1;
+}
+.orb-mtx-dot:active,
+.orb-mtx-dot-dragging { cursor: grabbing; z-index: 5; }
+.orb-mtx-dot-mark {
+  width: 14px; height: 14px; border-radius: 50%; flex: none;
+  background: var(--orb-chip-color, var(--orb-accent));
+  border: 2px solid var(--orb-bg);
+  box-shadow: 0 0 0 1px var(--orb-border);
+}
+.orb-mtx-dot-dragging .orb-mtx-dot-mark { transform: scale(1.25); box-shadow: 0 0 0 4px rgba(126, 200, 227, 0.25); }
+.orb-mtx-dot-warn .orb-mtx-dot-mark { box-shadow: 0 0 0 3px rgba(245, 169, 127, 0.55); }
+.orb-mtx-dot-label {
+  max-width: 130px; font-size: 0.72rem; font-weight: 600; color: var(--orb-text);
+  background: rgba(14, 17, 22, 0.75); border-radius: 6px; padding: 1px 6px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;
+  pointer-events: none;
+}
+.orb-mtx-dot-warn .orb-mtx-dot-label { color: var(--orb-warn); }
+.orb-mtx-dot-readout {
+  position: absolute; bottom: calc(100% + 4px); left: 50%; transform: translateX(-50%);
+  font-size: 0.68rem; font-weight: 700; white-space: nowrap;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-accent); color: var(--orb-accent);
+  border-radius: 6px; padding: 2px 8px; pointer-events: none;
+}
+.orb-mtx-dot:focus-visible { outline: 2px solid var(--orb-accent); outline-offset: 4px; border-radius: 50%; }
+
+/* ---- ranked side list ---- */
+.orb-mtx-ranked {
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 14px;
+  padding: 14px; min-height: 480px; box-sizing: border-box;
+}
+.orb-mtx-ranked-title { margin: 0 0 4px; font-size: 0.95rem; color: var(--orb-text); }
+.orb-mtx-ranked-note { margin: 0 0 10px; font-size: 0.72rem; line-height: 1.4; color: var(--orb-muted); }
+.orb-mtx-ranked-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.orb-mtx-ranked-item {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 8px;
+  padding: 6px 8px; font-size: 0.78rem;
+}
+.orb-mtx-ranked-item-warn { border-color: rgba(245, 169, 127, 0.5); }
+.orb-mtx-ranked-empty { color: var(--orb-muted); font-size: 0.8rem; text-align: center; padding: 12px 0; list-style: none; }
+.orb-mtx-rank-num { flex: none; width: 18px; text-align: right; font-weight: 700; color: var(--orb-muted); font-size: 0.72rem; }
+.orb-mtx-rank-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--orb-text); }
+.orb-mtx-ranked-item-warn .orb-mtx-rank-title { color: var(--orb-warn); }
+.orb-mtx-rank-score { flex: none; font-weight: 700; color: var(--orb-accent); font-variant-numeric: tabular-nums; }
+.orb-mtx-rank-flag {
+  flex: none; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--orb-warn); border: 1px solid rgba(245, 169, 127, 0.4); background: rgba(245, 169, 127, 0.12);
+  border-radius: 20px; padding: 1px 7px;
+}
+
+@media (max-width: 900px) {
+  .orb-mtx-body { grid-template-columns: 1fr; }
+  .orb-mtx-plot, .orb-mtx-ranked { min-height: 360px; }
+}
+@media (max-width: 520px) {
+  .orb-mtx-dot-label { max-width: 90px; }
+}
