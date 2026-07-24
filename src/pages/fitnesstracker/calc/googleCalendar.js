@@ -62,7 +62,7 @@ export async function ensureTrainingCalendar() {
   const list = await api('/users/me/calendarList');
   const existing = (list.items || []).find((c) => c.summary === TRAINING_CAL_NAME);
   if (existing) return existing.id;
-  const created = await api('/calendars', { method: 'POST', body: JSON.stringify({ summary: TRAINING_CAL_NAME, description: 'Workouts synced from FitnessTracker.' }) });
+  const created = await api('/calendars', { method: 'POST', body: JSON.stringify({ summary: TRAINING_CAL_NAME, description: 'Workouts synced from MyFitnessTracker.' }) });
   return created.id;
 }
 

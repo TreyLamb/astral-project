@@ -1,0 +1,22 @@
+/* Additive to TaskRow's existing Orbit.css rules — just the new
+   expand-to-edit chevron + the inline editor panel it reveals. */
+
+.orb-task-row-outer { display: flex; flex-direction: column; gap: 0; }
+
+.orb-task-expand {
+  flex: none; background: transparent; border: 1px solid transparent; border-radius: 8px;
+  width: 28px; height: 34px; color: var(--orb-muted); font-size: 0.85rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.orb-task-expand:hover { background: var(--orb-panel-2); color: var(--orb-text); }
+.orb-task-expand.active { color: var(--orb-accent); }
+
+.orb-task-editor-wrap {
+  margin: 4px 0 8px 0; padding: 12px;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-top: none;
+  border-radius: 0 0 10px 10px;
+}
+
+@media (max-width: 640px) {
+  .orb-task-expand { order: 3; }
+}

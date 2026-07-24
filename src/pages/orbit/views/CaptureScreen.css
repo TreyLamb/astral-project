@@ -1,0 +1,105 @@
+/* CaptureScreen — full-screen mobile add. The title input is the whole
+   point of the screen; everything else is opt-in below it. */
+
+.orb-capscreen {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.orb-capscreen-head { display: flex; align-items: center; justify-content: space-between; min-height: 24px; }
+.orb-capscreen-back { color: var(--orb-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+.orb-capscreen-back:hover { color: var(--orb-text); }
+.orb-capscreen-flash { color: var(--orb-accent); font-weight: 700; font-size: 0.85rem; }
+
+.orb-capscreen-form { display: flex; flex-direction: column; gap: 12px; }
+
+.orb-capscreen-title {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--orb-panel);
+  border: 1px solid var(--orb-border);
+  border-radius: 14px;
+  padding: 22px 18px;
+  color: var(--orb-text);
+  font: inherit;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.orb-capscreen-title:focus { outline: none; border-color: var(--orb-accent); }
+.orb-capscreen-title::placeholder { color: var(--orb-muted); font-weight: 500; }
+
+.orb-capscreen-note {
+  font-size: 0.82rem;
+  color: var(--orb-warn);
+  background: rgba(245, 169, 127, 0.1);
+  border: 1px solid rgba(245, 169, 127, 0.3);
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+.orb-capscreen-toggle {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px solid var(--orb-border);
+  border-radius: 9px;
+  color: var(--orb-muted);
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.orb-capscreen-toggle:hover { color: var(--orb-text); border-color: var(--orb-accent); }
+
+.orb-capscreen-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--orb-panel);
+  border: 1px solid var(--orb-border);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.orb-capscreen-hint { font-size: 0.8rem; color: var(--orb-muted); }
+
+.orb-capscreen-field { display: flex; flex-direction: column; gap: 4px; font-size: 0.82rem; color: var(--orb-muted); font-weight: 600; }
+.orb-capscreen-field select,
+.orb-capscreen-field input {
+  background: var(--orb-panel-2);
+  border: 1px solid var(--orb-border);
+  border-radius: 8px;
+  padding: 10px;
+  color: var(--orb-text);
+  font: inherit;
+  font-size: 0.9rem;
+}
+.orb-capscreen-field select:focus,
+.orb-capscreen-field input:focus { outline: none; border-color: var(--orb-accent); }
+.orb-capscreen-field select:disabled { opacity: 0.5; }
+
+.orb-axis-field { display: flex; flex-direction: column; gap: 6px; }
+.orb-axis-label { font-size: 0.82rem; color: var(--orb-muted); font-weight: 600; }
+.orb-axis-seg { display: flex; gap: 6px; }
+.orb-axis-btn {
+  flex: 1;
+  min-height: 40px;
+  background: var(--orb-panel-2);
+  border: 1px solid var(--orb-border);
+  border-radius: 8px;
+  color: var(--orb-text);
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+.orb-axis-btn.active { background: rgba(126, 200, 227, 0.18); border-color: var(--orb-accent); color: var(--orb-accent); }
+
+.orb-capscreen-submit { width: 100%; padding: 16px; font-size: 1rem; border-radius: 14px; }
+
+@media (min-width: 560px) {
+  .orb-capscreen-details { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; }
+  .orb-axis-field { grid-column: span 2; }
+}

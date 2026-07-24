@@ -14,7 +14,7 @@ const TILES = [
   { to: '/medaldex',               name: 'MedalDex',         desc: 'pokédex & medal tracker',        icon: '🏅', bg: '#12100a', accent: '#f0b23a', rgb: '240,178,58'   },
   { to: '/antiquityquest',         name: 'Antiquity Quest',  desc: 'card game score dashboard',      icon: '🏺', bg: '#171004', accent: '#f59e0b', rgb: '245,158,11'   },
   { to: '/stashmap',               name: 'StashMap',         desc: 'home inventory & floor map',     icon: '📦', bg: '#0b1311', accent: '#4fb0a5', rgb: '79,176,165'   },
-  { to: '/fitness-tracker',        name: 'FitnessTracker',   desc: 'workout & fitness log',          icon: '💪', bg: '#0c1204', accent: '#a3e635', rgb: '163,230,53'   },
+  { to: '/fitness-tracker',        name: 'MyFitnessTracker',   desc: 'workout & fitness log',          icon: '💪', bg: '#0c1204', accent: '#a3e635', rgb: '163,230,53'   },
   { to: '/timer-tool',             name: 'Timer Tool',       desc: 'multi-milestone running timers', icon: '⏱️', bg: '#0b0f19', accent: '#3b82f6', rgb: '59,130,246'   },
   { to: '/league-build',           name: 'League Build',     desc: 'item build planner + PIP window', icon: '🛡️', bg: '#0a0713', accent: '#ffcc33', rgb: '255,204,51'  },
   { to: '/orbit',                  name: 'Orbit',             desc: 'personal organization system',   icon: '🪐', bg: '#0b0f17', accent: '#f5a97f', rgb: '245,169,127' },

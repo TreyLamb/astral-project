@@ -60,7 +60,7 @@ export default function FitnessTrackerApp() {
               already — see Navbar.jsx OWN_TOPBAR_ROUTES) so this is the only
               way back to the rest of the site from here. */}
           <Link to="/" className="ft-site-home" title="Back to Astral Project home">Astral Project</Link>
-          <div className="ft-brand"><span className="ft-brand-icon">💪</span> FitnessTracker</div>
+          <div className="ft-brand"><span className="ft-brand-icon">💪</span> MyFitnessTracker</div>
           <nav className="ft-topnav">
             <NavLink end to="/fitness-tracker" className={tab}>Calendar</NavLink>
             <NavLink to="/fitness-tracker/meals" className={tab}>Meals</NavLink>

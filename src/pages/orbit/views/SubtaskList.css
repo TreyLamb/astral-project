@@ -1,0 +1,24 @@
+/* SubtaskList — each child renders as a full TaskRow, so the nesting is
+   recursive for free (TaskRow's own expand chevron -> TaskEditor ->
+   another SubtaskList). This file only styles the wrapper/summary/add-row. */
+
+.orb-sub { display: flex; flex-direction: column; gap: 6px; padding-top: 4px; border-top: 1px dashed var(--orb-border); }
+
+.orb-sub-head { display: flex; align-items: center; gap: 8px; }
+.orb-sub-title-label { font-size: 0.75rem; font-weight: 700; color: var(--orb-muted); text-transform: uppercase; letter-spacing: 0.03em; }
+.orb-sub-summary { font-size: 0.75rem; color: var(--orb-muted); }
+
+.orb-sub-list { display: flex; flex-direction: column; gap: 6px; }
+
+.orb-sub-add-btn {
+  align-self: flex-start; background: transparent; border: 1px dashed var(--orb-border); border-radius: 7px;
+  color: var(--orb-muted); font-size: 0.78rem; font-weight: 600; padding: 5px 10px; cursor: pointer; font-family: inherit;
+}
+.orb-sub-add-btn:hover { border-color: var(--orb-accent); color: var(--orb-accent); }
+
+.orb-sub-input {
+  font: inherit; font-size: 0.82rem; color: var(--orb-text); background: var(--orb-panel);
+  border: 1px solid var(--orb-accent); border-radius: 7px; padding: 6px 9px; box-sizing: border-box;
+}
+
+.orb-sub-maxdepth { font-size: 0.75rem; color: var(--orb-muted); font-style: italic; padding: 4px 0; }

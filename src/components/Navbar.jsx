@@ -103,7 +103,7 @@ function Navbar() {
               <li><Link to="/medaldex">MedalDex</Link></li>
               <li><Link to="/antiquityquest">Antiquity Quest</Link></li>
               <li><Link to="/stashmap">StashMap</Link></li>
-              <li><Link to="/fitness-tracker">FitnessTracker</Link></li>
+              <li><Link to="/fitness-tracker">MyFitnessTracker</Link></li>
               <li><Link to="/timer-tool">Timer Tool</Link></li>
               <li><Link to="/league-build">League Build</Link></li>
               <li><Link to="/orbit">Orbit</Link></li>

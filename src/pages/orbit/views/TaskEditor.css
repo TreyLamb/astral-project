@@ -1,0 +1,41 @@
+/* TaskEditor — the shared expand-in-place full editor. Reuses Orbit.css
+   vars/classes (--orb-*, .orb-card/.orb-chip/.orb-flag-warn) — no new
+   color system introduced here. */
+
+.orb-te { display: flex; flex-direction: column; gap: 12px; }
+
+.orb-te-title-row { display: flex; }
+.orb-te-title-input {
+  flex: 1; font: inherit; font-weight: 700; font-size: 1rem; color: var(--orb-text);
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 8px;
+  padding: 8px 10px; box-sizing: border-box;
+}
+.orb-te-title-input:focus { border-color: var(--orb-accent); outline: none; }
+
+.orb-te-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;
+}
+
+.orb-te-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.orb-te-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--orb-muted); }
+
+.orb-te-input, .orb-te-select {
+  font: inherit; font-size: 0.85rem; color: var(--orb-text);
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 7px;
+  padding: 6px 8px; box-sizing: border-box; width: 100%;
+}
+.orb-te-input:focus, .orb-te-select:focus { border-color: var(--orb-accent); outline: none; }
+
+.orb-te-rating { grid-column: span 1; }
+.orb-te-rating-btns { display: flex; gap: 3px; }
+.orb-te-rating-btn {
+  flex: 1; background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 6px;
+  color: var(--orb-muted); font-weight: 700; font-size: 0.78rem; padding: 5px 0; cursor: pointer;
+  font-family: inherit;
+}
+.orb-te-rating-btn:hover { border-color: var(--orb-accent); color: var(--orb-text); }
+.orb-te-rating-btn.active { background: rgba(126, 200, 227, 0.16); border-color: var(--orb-accent); color: var(--orb-accent); }
+
+@media (max-width: 640px) {
+  .orb-te-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+}

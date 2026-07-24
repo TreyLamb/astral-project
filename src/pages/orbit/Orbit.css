@@ -1,7 +1,7 @@
 /* Orbit — all classes prefixed `orb-` (CLAUDE.md). Dark muted palette.
-   Phase 0: exploration mock gallery — these are the shared shell + primitive
-   classes every view mock in ./mocks/ reuses, so later agents should extend
-   these rather than inventing parallel ones. */
+   Shell + primitives are shared by the real app (OrbitApp.jsx, views/*) AND
+   the Phase-0 exploration mocks (./mocks/, now reachable at /orbit/mocks via
+   MockGallery.jsx) — extend these rather than inventing parallel ones. */
 
 .orb-app {
   --orb-bg: #0e1116;
@@ -57,7 +57,39 @@
   color: var(--orb-muted); background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--orb-border); border-radius: 20px; padding: 3px 10px;
 }
-.orb-topbar-right { margin-left: auto; }
+.orb-topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.orb-sync { font-size: 0.8rem; color: var(--orb-muted); white-space: nowrap; }
+.orb-sync-cloud { color: #67e8f9; }
+.orb-capture-btn { font-size: 0.85rem; white-space: nowrap; }
+
+/* hamburger only shows itself (via media query below) once the left nav
+   collapses to an off-canvas drawer on narrow viewports */
+.orb-hamburger {
+  display: none; background: transparent; border: 1px solid var(--orb-border);
+  border-radius: 8px; width: 34px; height: 34px; color: var(--orb-text);
+  font-size: 1rem; cursor: pointer; flex: none;
+}
+
+/* ---- body: collapsible left nav + main content ---- */
+.orb-body { display: flex; flex: 1; min-height: 0; }
+
+.orb-nav {
+  flex: none; width: 190px; display: flex; flex-direction: column; gap: 2px;
+  padding: 14px 10px; background: var(--orb-panel); border-right: 1px solid var(--orb-border);
+}
+.orb-nav-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px; border-radius: 9px; text-decoration: none;
+  color: var(--orb-muted); font-weight: 600; font-size: 0.88rem;
+}
+.orb-nav-link:hover { background: var(--orb-panel-2); color: var(--orb-text); }
+.orb-nav-link.active { background: rgba(126, 200, 227, 0.14); color: var(--orb-accent); }
+.orb-nav-link-mocks { margin-top: auto; font-size: 0.78rem; opacity: 0.75; }
+.orb-nav-badge {
+  font-size: 0.68rem; font-weight: 700; color: #0e1116; background: var(--orb-warn);
+  border-radius: 20px; padding: 1px 7px; line-height: 1.4;
+}
+.orb-nav-scrim { display: none; }
 
 /* ---- view-switcher tab bar ---- */
 .orb-tabbar { display: flex; gap: 4px; flex-wrap: wrap; padding: 10px 18px; background: var(--orb-panel-2); border-bottom: 1px solid var(--orb-border); }
@@ -101,13 +133,92 @@
 /* overdue/urgent flag — reuses the single reserved warm accent */
 .orb-flag-warn { color: var(--orb-warn); border-color: rgba(245, 169, 127, 0.4); background: rgba(245, 169, 127, 0.12); }
 
-.orb-mock-stub {
+.orb-mock-stub, .orb-stub {
   display: flex; align-items: center; justify-content: center;
   min-height: 300px; color: var(--orb-muted); font-size: 1rem;
   border: 1px dashed var(--orb-border); border-radius: 12px;
 }
 
+.orb-loading { color: var(--orb-muted); font-size: 0.9rem; padding: 24px; text-align: center; }
+
+/* ---- Today view ---- */
+.orb-today { display: flex; flex-direction: column; gap: 14px; }
+.orb-today-list { display: flex; flex-direction: column; gap: 8px; }
+.orb-today-empty { min-height: 200px; display: flex; align-items: center; justify-content: center; }
+.orb-today-empty-prompt {
+  color: var(--orb-accent); font-weight: 600; font-size: 0.95rem; text-decoration: none;
+  padding: 10px 18px; border: 1px solid var(--orb-border); border-radius: 10px;
+}
+.orb-today-empty-prompt:hover { border-color: var(--orb-accent); }
+.orb-today-blocked-note { color: var(--orb-muted); font-size: 0.78rem; opacity: 0.7; padding: 2px 4px; }
+
+/* ---- TaskRow (shared: Today/Triage/Project/Areas) ---- */
+.orb-task-row { padding: 10px 12px; }
+.orb-task-row-done { opacity: 0.55; }
+.orb-task-row-done .orb-task-title { text-decoration: line-through; }
+.orb-task-checkbox { flex: none; width: 20px; height: 20px; margin: 0; cursor: pointer; accent-color: var(--orb-accent); }
+
+.orb-task-main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.orb-task-title { font-weight: 600; font-size: 0.92rem; overflow-wrap: anywhere; cursor: text; display: inline-flex; align-items: center; gap: 8px; }
+.orb-task-title-input {
+  font: inherit; font-weight: 600; font-size: 0.92rem; color: var(--orb-text);
+  background: var(--orb-panel-2); border: 1px solid var(--orb-accent); border-radius: 6px;
+  padding: 2px 6px; width: 100%; box-sizing: border-box;
+}
+.orb-task-badge { font-size: 0.6rem; }
+
+.orb-task-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.78rem; color: var(--orb-muted); }
+.orb-task-project { color: var(--orb-muted); }
+.orb-task-due { color: var(--orb-muted); }
+.orb-task-due.orb-flag-warn { font-weight: 700; border: none; background: none; padding: 0; }
+
+.orb-task-iude {
+  flex: none; display: flex; gap: 6px; font-size: 0.72rem; font-weight: 700;
+  color: var(--orb-muted); font-variant-numeric: tabular-nums;
+}
+.orb-task-iude span {
+  background: rgba(255, 255, 255, 0.05); border: 1px solid var(--orb-border);
+  border-radius: 6px; padding: 2px 6px;
+}
+
+.orb-task-pin {
+  flex: none; background: transparent; border: 1px solid transparent; border-radius: 8px;
+  width: 34px; height: 34px; font-size: 1rem; cursor: pointer; opacity: 0.45;
+  display: flex; align-items: center; justify-content: center;
+}
+.orb-task-pin:hover { opacity: 0.8; background: var(--orb-panel-2); }
+.orb-task-pin.active { opacity: 1; background: rgba(126, 200, 227, 0.14); border-color: rgba(126, 200, 227, 0.35); }
+
+/* ---- Mock gallery (/orbit/mocks) ---- */
+.orb-mocks { display: flex; flex-direction: column; gap: 14px; }
+.orb-mocks-head { display: flex; align-items: center; gap: 12px; }
+.orb-mocks-back { color: var(--orb-muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+.orb-mocks-back:hover { color: var(--orb-text); }
+
+/* ---- capture bar stub ---- */
+.orb-capture-bar-stub {
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 50;
+  display: flex; align-items: center; gap: 12px;
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 12px;
+  padding: 12px 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
 @media (max-width: 640px) {
   .orb-main { padding: 12px; }
   .orb-tabbar { padding: 8px 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; }
+  .orb-task-row { flex-wrap: wrap; row-gap: 8px; }
+  .orb-task-main { flex-basis: 100%; order: 1; }
+  .orb-task-checkbox { order: 0; }
+  .orb-task-iude { order: 2; }
+  .orb-task-pin { order: 3; margin-left: auto; }
+}
+
+@media (max-width: 860px) {
+  .orb-hamburger { display: flex; align-items: center; justify-content: center; }
+  .orb-nav {
+    position: fixed; top: 0; bottom: 0; left: 0; z-index: 60; width: 220px;
+    transform: translateX(-100%); transition: transform 0.18s ease; box-shadow: 2px 0 16px rgba(0, 0, 0, 0.4);
+  }
+  .orb-nav.open { transform: translateX(0); }
+  .orb-nav-scrim { display: block; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 55; }
 }

@@ -1,0 +1,67 @@
+/* CaptureBar — lightweight overlay bar pinned to the top of the viewport,
+   NOT a full modal (no scrim/backdrop — spec calls for a single-layer
+   overlay, not a stacked one). Vars come from .orb-app in Orbit.css. */
+
+.orb-capbar-wrap {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  width: min(560px, calc(100vw - 24px));
+}
+
+.orb-capbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--orb-panel);
+  border: 1px solid var(--orb-accent);
+  border-radius: 14px;
+  padding: 10px 12px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+}
+
+.orb-capbar-icon { flex: none; color: var(--orb-accent); font-size: 1.1rem; font-weight: 700; }
+
+.orb-capbar-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--orb-text);
+  font: inherit;
+  font-size: 0.95rem;
+}
+.orb-capbar-input::placeholder { color: var(--orb-muted); }
+
+.orb-capbar-count {
+  flex: none;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--orb-muted);
+  white-space: nowrap;
+}
+
+.orb-capbar-close {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--orb-border);
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  color: var(--orb-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.orb-capbar-close:hover { color: var(--orb-text); border-color: var(--orb-accent); }
+
+@media (max-width: 640px) {
+  .orb-capbar-wrap { top: 8px; width: calc(100vw - 16px); }
+  .orb-capbar { padding: 8px 10px; }
+  .orb-capbar-count { font-size: 0.65rem; }
+}

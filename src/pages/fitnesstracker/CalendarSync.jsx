@@ -43,7 +43,7 @@ export default function CalendarSync() {
     if (m.elevationGainM) lines.push(`Elev gain: ${m.elevationGainM} m`);
     if (w.rpe) lines.push(`RPE: ${w.rpe}/10`);
     if (w.note) lines.push(`Note: ${w.note}`);
-    lines.push('', '— synced from FitnessTracker');
+    lines.push('', '— synced from MyFitnessTracker');
     return lines.join('\n');
   }
 

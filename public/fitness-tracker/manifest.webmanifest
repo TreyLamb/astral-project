@@ -1,6 +1,6 @@
 {
-  "name": "FitnessTracker",
-  "short_name": "Fitness",
+  "name": "MyFitnessTracker",
+  "short_name": "MFT",
   "description": "Personal workout & training tracker",
   "start_url": "/fitness-tracker",
   "scope": "/fitness-tracker",

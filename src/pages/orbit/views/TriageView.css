@@ -1,0 +1,81 @@
+/* TriageView — queue card (one InboxItem at a time) + All-tasks list.
+   Reuses Orbit.css primitives (.orb-card, .orb-btn, .orb-chip, .orb-tab). */
+
+.orb-triage { display: flex; flex-direction: column; gap: 14px; }
+
+.orb-triage-toggle { display: flex; gap: 6px; }
+
+/* ---- queue ---- */
+.orb-triage-card-wrap { display: flex; flex-direction: column; gap: 10px; max-width: 560px; width: 100%; margin: 0 auto; }
+
+.orb-triage-card { display: flex; flex-direction: column; gap: 14px; touch-action: pan-y; }
+
+.orb-triage-meta { display: flex; justify-content: space-between; font-size: 0.76rem; color: var(--orb-muted); }
+
+.orb-triage-text { font-size: 1.15rem; font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+
+.orb-triage-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.orb-triage-actions .orb-btn { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; }
+
+.orb-triage-actions kbd,
+.orb-triage-undo kbd,
+.orb-triage-legend kbd {
+  font-size: 0.7rem; font-weight: 700; border: 1px solid currentColor; border-radius: 4px;
+  padding: 0 4px; opacity: 0.7;
+}
+
+.orb-triage-note { font-size: 0.74rem; color: var(--orb-muted); opacity: 0.8; }
+
+/* ---- inline task/project form ---- */
+.orb-triage-form { display: flex; flex-direction: column; gap: 10px; }
+.orb-triage-field { display: flex; flex-direction: column; gap: 4px; font-size: 0.82rem; color: var(--orb-muted); font-weight: 600; }
+.orb-triage-field select,
+.orb-triage-field input {
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 8px;
+  padding: 9px 10px; color: var(--orb-text); font: inherit; font-size: 0.9rem;
+}
+.orb-triage-field select:disabled { opacity: 0.5; }
+.orb-triage-form-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+.orb-axis-field { display: flex; flex-direction: column; gap: 6px; }
+.orb-axis-label { font-size: 0.82rem; color: var(--orb-muted); font-weight: 600; }
+.orb-axis-seg { display: flex; gap: 6px; }
+.orb-axis-btn {
+  flex: 1; min-height: 40px; background: var(--orb-panel-2); border: 1px solid var(--orb-border);
+  border-radius: 8px; color: var(--orb-text); font-weight: 700; cursor: pointer; font-family: inherit;
+}
+.orb-axis-btn.active { background: rgba(126, 200, 227, 0.18); border-color: var(--orb-accent); color: var(--orb-accent); }
+
+/* ---- footer: undo + legend ---- */
+.orb-triage-footer { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+.orb-triage-legend { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 0.74rem; color: var(--orb-muted); text-align: center; }
+
+/* ---- inbox zero ---- */
+.orb-triage-zero {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  min-height: 260px; color: var(--orb-muted); font-size: 1rem;
+}
+.orb-triage-zero-icon {
+  width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background: rgba(126, 200, 227, 0.14); color: var(--orb-accent); font-size: 1.6rem; font-weight: 700;
+}
+
+/* ---- all tasks ---- */
+.orb-triage-all { display: flex; flex-direction: column; gap: 12px; }
+
+.orb-type-filter { display: flex; flex-wrap: wrap; gap: 6px; }
+.orb-type-filter .orb-type-chip { cursor: pointer; font-family: inherit; border: 1px solid var(--orb-border); background: rgba(255, 255, 255, 0.05); }
+.orb-type-filter .orb-type-chip.active { background: rgba(126, 200, 227, 0.14); border-color: var(--orb-accent); color: var(--orb-accent); }
+
+.orb-triage-status-filter { display: flex; flex-wrap: wrap; gap: 6px; }
+.orb-triage-status-filter .orb-status-chip { cursor: pointer; font-family: inherit; border: 1px solid var(--orb-border); background: rgba(255, 255, 255, 0.05); }
+.orb-triage-status-filter .orb-status-chip.active { background: rgba(126, 200, 227, 0.14); border-color: var(--orb-accent); color: var(--orb-accent); }
+
+.orb-triage-list { display: flex; flex-direction: column; gap: 8px; }
+.orb-triage-empty { color: var(--orb-muted); font-size: 0.9rem; padding: 24px; text-align: center; }
+
+@media (min-width: 560px) {
+  .orb-triage-form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; }
+  .orb-axis-field { grid-column: span 2; }
+  .orb-triage-form-actions { grid-column: span 2; }
+}

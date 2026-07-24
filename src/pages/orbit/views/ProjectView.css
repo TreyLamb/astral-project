@@ -1,0 +1,56 @@
+.orb-pv { display: flex; flex-direction: column; gap: 14px; }
+.orb-pv-notfound { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; padding: 24px; }
+
+.orb-pv-header { display: flex; flex-direction: column; gap: 12px; }
+.orb-pv-header-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+.orb-pv-name { margin: 0; font-size: 1.3rem; cursor: text; }
+.orb-pv-name-input {
+  font: inherit; font-size: 1.3rem; font-weight: 700; color: var(--orb-text);
+  background: var(--orb-panel-2); border: 1px solid var(--orb-accent); border-radius: 8px; padding: 4px 8px;
+  width: 100%; box-sizing: border-box;
+}
+
+.orb-pv-done-btn:disabled { opacity: 0.6; cursor: default; }
+
+.orb-pv-header-fields { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; }
+.orb-pv-field { display: flex; flex-direction: column; gap: 4px; }
+.orb-pv-field-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--orb-muted); }
+.orb-pv-select, .orb-pv-input {
+  font: inherit; font-size: 0.85rem; color: var(--orb-text); background: var(--orb-panel);
+  border: 1px solid var(--orb-border); border-radius: 7px; padding: 6px 8px;
+}
+.orb-pv-area-chip { align-self: center; }
+
+.orb-pv-guard-msg { border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; }
+
+.orb-pv-section-title { font-weight: 700; font-size: 0.95rem; }
+
+.orb-pv-notes { display: flex; flex-direction: column; gap: 8px; }
+.orb-pv-notes-head { display: flex; align-items: center; justify-content: space-between; }
+.orb-pv-notes-rendered { font-size: 0.88rem; line-height: 1.5; cursor: text; }
+.orb-pv-notes-rendered p { margin: 0 0 6px 0; }
+.orb-pv-notes-rendered ul { margin: 0 0 6px 0; padding-left: 20px; }
+.orb-pv-notes-rendered a { color: var(--orb-accent); }
+.orb-pv-notes-empty { color: var(--orb-muted); font-size: 0.85rem; cursor: text; font-style: italic; }
+.orb-pv-notes-edit { display: flex; flex-direction: column; gap: 6px; }
+.orb-pv-notes-textarea {
+  font: inherit; font-size: 0.88rem; color: var(--orb-text); background: var(--orb-panel);
+  border: 1px solid var(--orb-accent); border-radius: 8px; padding: 8px; min-height: 120px; resize: vertical;
+  box-sizing: border-box;
+}
+.orb-pv-notes-hint { color: var(--orb-muted); font-size: 0.72rem; }
+
+.orb-pv-tasks { display: flex; flex-direction: column; gap: 10px; }
+.orb-pv-tasks-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.orb-pv-filters { display: flex; gap: 4px; flex-wrap: wrap; }
+.orb-pv-filter-btn { font-size: 0.75rem; padding: 5px 10px; }
+.orb-pv-filter-btn.active { background: rgba(126, 200, 227, 0.14); border-color: var(--orb-accent); color: var(--orb-accent); }
+
+.orb-pv-task-list { display: flex; flex-direction: column; gap: 8px; }
+
+.orb-pv-refs-stub { min-height: 80px; font-size: 0.85rem; }
+
+@media (max-width: 640px) {
+  .orb-pv-header-fields { gap: 10px; }
+}
