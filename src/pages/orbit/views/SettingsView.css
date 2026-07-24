@@ -1,0 +1,93 @@
+/* SettingsView — reuses Orbit.css primitives (--orb-*, .orb-card, .orb-btn,
+   .orb-chip, .orb-btn-primary). Each section is its own .orb-card, mirroring
+   TrackersView/RecurringView's card-per-group layout rather than one long
+   form. */
+
+.orb-set { display: flex; flex-direction: column; gap: 14px; max-width: 720px; }
+
+.orb-set-h2 { margin: 0; font-size: 1.15rem; }
+.orb-set-h3 { margin: 0 0 4px; font-size: 0.95rem; }
+.orb-set-sub { margin: 0 0 8px; font-size: 0.8rem; color: var(--orb-muted); }
+
+.orb-set-section { display: flex; flex-direction: column; gap: 4px; }
+
+.orb-set-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin-top: 4px; }
+
+.orb-set-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.orb-set-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--orb-muted); }
+.orb-set-field-row { display: flex; align-items: center; gap: 8px; }
+
+.orb-set-input, .orb-set-select {
+  font: inherit; font-size: 0.9rem; color: var(--orb-text);
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 7px;
+  padding: 7px 9px; box-sizing: border-box; width: 100%;
+}
+.orb-set-input:focus, .orb-set-select:focus { border-color: var(--orb-accent); outline: none; }
+.orb-set-suffix { flex: none; font-size: 0.78rem; color: var(--orb-muted); }
+.orb-set-hint { font-size: 0.72rem; color: var(--orb-muted); line-height: 1.35; }
+
+.orb-set-formula {
+  margin: 10px 0 0; font-size: 0.78rem; color: var(--orb-muted); font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 8px; padding: 8px 10px;
+}
+
+/* ---- chip-list editor (Task types / Lanes) ---- */
+.orb-set-chiplist { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.orb-set-chiplist-empty { color: var(--orb-muted); font-size: 0.82rem; font-style: italic; }
+
+.orb-set-chip { gap: 6px; padding-right: 6px; }
+.orb-set-chip-count {
+  font-size: 0.65rem; font-weight: 700; color: var(--orb-muted);
+  background: rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 1px 6px; line-height: 1.4;
+}
+.orb-set-chip-remove {
+  flex: none; background: transparent; border: none; color: var(--orb-muted);
+  font-size: 0.85rem; line-height: 1; cursor: pointer; padding: 0 2px; font-family: inherit;
+}
+.orb-set-chip-remove:hover { color: var(--orb-warn); }
+
+.orb-set-quickadd-btn {
+  background: transparent; border: 1px dashed var(--orb-border); border-radius: 20px;
+  color: var(--orb-muted); font-size: 0.78rem; font-weight: 600; padding: 5px 12px; cursor: pointer; font-family: inherit;
+}
+.orb-set-quickadd-btn:hover { border-color: var(--orb-accent); color: var(--orb-accent); }
+.orb-set-quickadd-input {
+  font: inherit; font-size: 0.82rem; color: var(--orb-text); background: var(--orb-panel);
+  border: 1px solid var(--orb-accent); border-radius: 20px; padding: 5px 12px; box-sizing: border-box;
+}
+
+.orb-set-areas-link { align-self: flex-start; text-decoration: none; }
+
+/* ---- export / import ---- */
+.orb-set-io-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.orb-set-io-note { font-size: 0.78rem; color: var(--orb-muted); }
+.orb-set-io-disabled-btn { opacity: 0.4; cursor: default; }
+
+.orb-set-file-input {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.orb-set-file-input:focus-visible + label { border-color: var(--orb-accent); color: var(--orb-accent); }
+
+.orb-set-import { display: flex; flex-direction: column; gap: 10px; }
+.orb-set-io-error {
+  font-size: 0.8rem; color: var(--orb-warn); background: rgba(245, 169, 127, 0.12);
+  border: 1px solid rgba(245, 169, 127, 0.4); border-radius: 8px; padding: 8px 10px;
+}
+.orb-set-io-result {
+  font-size: 0.82rem; color: var(--orb-text); background: rgba(126, 200, 227, 0.12);
+  border: 1px solid rgba(126, 200, 227, 0.35); border-radius: 8px; padding: 8px 10px;
+}
+
+.orb-set-import-confirm {
+  display: flex; flex-direction: column; gap: 10px;
+  background: rgba(245, 169, 127, 0.1); border: 1px solid rgba(245, 169, 127, 0.4);
+  border-radius: 10px; padding: 12px;
+}
+.orb-set-import-confirm-text { margin: 0; font-size: 0.85rem; line-height: 1.5; }
+.orb-set-import-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+@media (max-width: 640px) {
+  .orb-set-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  .orb-set-io-row { align-items: flex-start; flex-direction: column; gap: 6px; }
+}

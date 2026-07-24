@@ -464,6 +464,12 @@ export function useOrbitState() {
 
   const archiveArea = useCallback(async (id) => updateArea(id, { archived: true }), [updateArea]);
 
+  const removeArea = useCallback(async (id) => {
+    setAreas((prev) => prev.filter((a) => a.id !== id));
+    OrbitStorage.removeArea(id);
+    if (backend.mode === 'cloud') markDeleted('areas', id);
+  }, [backend, markDeleted]);
+
   const reorderAreas = useCallback(async (orderedIds) => {
     setAreas((prev) => {
       const byId = new Map(prev.map((a) => [a.id, a]));
@@ -708,6 +714,106 @@ export function useOrbitState() {
     return log;
   }, [backend, markDirty, markDeleted]);
 
+  // ---- export / import (Phase 3) ----
+  // Snapshot, not a live reference — read off stateRef.current the same way
+  // generateReview/rollTaskToToday do, so a caller who awaits a slow download
+  // dialog still gets the data as of the call, not whatever state drifts to
+  // meanwhile.
+  const exportData = useCallback(() => {
+    const cur = stateRef.current;
+    return {
+      schemaVersion: 1,
+      exportedAt: Date.now(),
+      areas: cur.areas,
+      projects: cur.projects,
+      tasks: cur.tasks,
+      inbox: cur.inbox,
+      settings: cur.settings,
+      recurrenceRules: cur.recurrenceRules,
+      references: cur.references,
+      trackers: cur.trackers,
+      reviewLogs: cur.reviewLogs,
+      dayPlans: cur.dayPlans,
+    };
+  }, []);
+
+  // Full-replace restore from a prior exportData() snapshot (or anything
+  // shaped like one). Defensive about the input's shape — a hand-edited or
+  // partially-corrupted file shouldn't crash the app, it should just import
+  // what it can (missing collections become empty, not a throw) — but a
+  // non-object `data` altogether is rejected rather than silently wiping
+  // everything the user already has.
+  const importData = useCallback(async (data) => {
+    if (!data || typeof data !== 'object' || Array.isArray(data)) {
+      return { ok: false, error: 'Invalid import: expected an export object' };
+    }
+
+    const nextAreas = Array.isArray(data.areas) ? data.areas : [];
+    const nextProjects = (Array.isArray(data.projects) ? data.projects : []).map(withProjectDefaults);
+    const nextTasks = (Array.isArray(data.tasks) ? data.tasks : []).map(withTaskDefaults);
+    const nextInbox = Array.isArray(data.inbox) ? data.inbox : [];
+    const nextSettings = withSettingsDefaults(data.settings);
+    const nextRecurrenceRules = Array.isArray(data.recurrenceRules) ? data.recurrenceRules : [];
+    const nextReferences = (Array.isArray(data.references) ? data.references : []).map(withReferenceDefaults);
+    const nextTrackers = Array.isArray(data.trackers) ? data.trackers : [];
+    const nextReviewLogs = Array.isArray(data.reviewLogs) ? data.reviewLogs : [];
+    const nextDayPlans = (Array.isArray(data.dayPlans) ? data.dayPlans : []).map(withDayPlanDefaults);
+
+    setAreas(nextAreas);
+    setProjects(nextProjects);
+    setTasks(nextTasks);
+    setInbox(nextInbox);
+    setSettings(nextSettings);
+    setRecurrenceRules(nextRecurrenceRules);
+    setReferences(nextReferences);
+    setTrackers(nextTrackers);
+    setReviewLogs(nextReviewLogs);
+    setDayPlans(nextDayPlans);
+
+    OrbitStorage.replaceAll('areas', nextAreas);
+    OrbitStorage.replaceAll('projects', nextProjects);
+    OrbitStorage.replaceAll('tasks', nextTasks);
+    OrbitStorage.replaceAll('inbox', nextInbox);
+    OrbitStorage.replaceAll('settings', nextSettings);
+    OrbitStorage.replaceAll('recurrenceRules', nextRecurrenceRules);
+    OrbitStorage.replaceAll('references', nextReferences);
+    OrbitStorage.replaceAll('trackers', nextTrackers);
+    OrbitStorage.replaceAll('reviewLogs', nextReviewLogs);
+    OrbitStorage.replaceAll('dayPlans', nextDayPlans);
+
+    // Cloud mode: the whole imported set has to actually reach Firestore, not
+    // just the local mirror — mark every doc dirty so the next coalesced
+    // flush() ships it all (already-chunked batches handle the volume; see
+    // OrbitFirestore.flush).
+    if (backend.mode === 'cloud') {
+      nextAreas.forEach((a) => markDirty('areas', a.id));
+      nextProjects.forEach((p) => markDirty('projects', p.id));
+      nextTasks.forEach((t) => markDirty('tasks', t.id));
+      nextInbox.forEach((i) => markDirty('inbox', i.id));
+      nextRecurrenceRules.forEach((r) => markDirty('recurrenceRules', r.id));
+      nextReferences.forEach((r) => markDirty('references', r.id));
+      nextTrackers.forEach((t) => markDirty('trackers', t.id));
+      nextReviewLogs.forEach((r) => markDirty('reviewLogs', r.id));
+      nextDayPlans.forEach((d) => markDirty('dayPlans', d.date));
+      markSettingsDirty();
+    }
+
+    return {
+      ok: true,
+      counts: {
+        areas: nextAreas.length,
+        projects: nextProjects.length,
+        tasks: nextTasks.length,
+        inbox: nextInbox.length,
+        recurrenceRules: nextRecurrenceRules.length,
+        references: nextReferences.length,
+        trackers: nextTrackers.length,
+        reviewLogs: nextReviewLogs.length,
+        dayPlans: nextDayPlans.length,
+      },
+    };
+  }, [backend, markDirty, markSettingsDirty]);
+
   const tasksById = useMemo(() => new Map(tasks.map((t) => [t.id, t])), [tasks]);
   const today = todayISO();
 
@@ -730,7 +836,7 @@ export function useOrbitState() {
   return {
     areas, projects, tasks, inbox, settings, loading, mode: backend.mode,
     tasksById, today,
-    addArea, updateArea, archiveArea, reorderAreas,
+    addArea, updateArea, archiveArea, removeArea, reorderAreas,
     addProject, updateProject, removeProject,
     addTask, updateTask, removeTask,
     addInboxItem, updateInboxItem, removeInboxItem,
@@ -744,5 +850,7 @@ export function useOrbitState() {
     addReviewLog, generateReview,
     carryoverCandidates: carryoverCandidatesList, rollTaskToToday,
     reload,
+    // ---- Phase 3 (new) ----
+    exportData, importData,
   };
 }

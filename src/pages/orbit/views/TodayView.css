@@ -1,0 +1,16 @@
+/* TodayView-only styling — additive to Orbit.css's shared .orb-today-* rules.
+   Just the roving-keyboard-focus highlight and its hint line (see
+   TodayView.jsx's keydown effect). */
+
+.orb-today-row-focused {
+  outline: 2px solid var(--orb-accent);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+.orb-today-hint {
+  color: var(--orb-muted);
+  font-size: 0.74rem;
+  opacity: 0.65;
+  padding: 0 4px;
+}

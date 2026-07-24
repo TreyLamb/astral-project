@@ -208,11 +208,22 @@ function AreaDetail({ area, projects, tasks, trackers, today, addProject, addTas
 export default function AreasView() {
   const {
     areas, projects, tasks, trackers, today,
-    addArea, updateArea, archiveArea, reorderAreas, addProject, addTask, addTracker, updateTracker,
+    addArea, updateArea, archiveArea, removeArea, reorderAreas, addProject, addTask, addTracker, updateTracker,
   } = useOrbit();
   const [expandedIds, setExpandedIds] = useState(() => new Set());
   const [addingArea, setAddingArea] = useState(false);
   const [newAreaName, setNewAreaName] = useState('');
+  // Only the eligible (empty-area) path ever reaches this — non-eligible
+  // areas archive in one click, unchanged (see spec in the button JSX below).
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+
+  // removeArea (real hard delete) is being landed in orbitContext.js
+  // concurrently — reference it defensively so this view degrades to the
+  // old archive-as-delete behavior if it isn't present yet.
+  const doDelete = (id) => {
+    if (removeArea) removeArea(id); else archiveArea(id);
+    setConfirmDeleteId(null);
+  };
 
   const activeAreas = areas.filter((a) => !a.archived).slice().sort((a, b) => a.sortOrder - b.sortOrder);
   const archivedAreas = areas.filter((a) => a.archived);
@@ -330,16 +341,33 @@ export default function AreasView() {
                   <button type="button" disabled={idx === 0} onClick={() => moveArea(area.id, -1)} aria-label={`Move ${area.name} up`}>↑</button>
                   <button type="button" disabled={idx === activeAreas.length - 1} onClick={() => moveArea(area.id, 1)} aria-label={`Move ${area.name} down`}>↓</button>
                 </div>
-                <button
-                  type="button"
-                  className={`orb-btn orb-area-remove${eligible ? ' orb-area-remove-eligible' : ''}`}
-                  onClick={() => archiveArea(area.id)}
-                  title={eligible
-                    ? 'This area has no active projects or tasks — safe to remove from view. (Hard delete isn’t wired up yet, so this archives it, which is equivalent for an empty area.)'
-                    : `Has ${projectCount} project(s)/${taskCount} task(s) still active — archive instead of deleting`}
-                >
-                  {eligible ? 'Delete' : 'Archive instead'}
-                </button>
+                {eligible ? (
+                  confirmDeleteId === area.id ? (
+                    <span className="orb-area-confirm-delete">
+                      <span>Delete for good?</span>
+                      <button type="button" className="orb-btn orb-area-confirm-yes" onClick={() => doDelete(area.id)}>Yes</button>
+                      <button type="button" className="orb-btn" onClick={() => setConfirmDeleteId(null)}>No</button>
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      className="orb-btn orb-area-remove orb-area-remove-eligible"
+                      onClick={() => setConfirmDeleteId(area.id)}
+                      title="This area has no active projects or tasks — permanently deletes it (can't be undone)."
+                    >
+                      Delete
+                    </button>
+                  )
+                ) : (
+                  <button
+                    type="button"
+                    className="orb-btn orb-area-remove"
+                    onClick={() => archiveArea(area.id)}
+                    title={`Has ${projectCount} project(s)/${taskCount} task(s) still active — archive instead of deleting`}
+                  >
+                    Archive instead
+                  </button>
+                )}
               </div>
 
               {expanded && (

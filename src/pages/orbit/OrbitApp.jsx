@@ -1,5 +1,5 @@
-import { Routes, Route, NavLink, Link, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Routes, Route, NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
 import { OrbitContext, useOrbitState } from './orbitContext';
 import TodayView from './views/TodayView';
 import TriageView from './views/TriageView';
@@ -54,9 +54,22 @@ function useScopedManifest() {
 
 const navLinkClass = ({ isActive }) => `orb-nav-link${isActive ? ' active' : ''}`;
 
+// g-then-key nav chord (OrbitApp's global keydown effect below) — vim-style
+// quick jump between the main views. Plain lookup so the effect body stays a
+// dumb dispatch instead of a growing if/else chain as more views land.
+const G_NAV_KEYS = {
+  t: '/orbit',
+  i: '/orbit/inbox',
+  a: '/orbit/areas',
+  r: '/orbit/reference',
+  w: '/orbit/review',
+  s: '/orbit/settings',
+};
+
 export default function OrbitApp() {
   const orbit = useOrbitState();
   const location = useLocation();
+  const navigate = useNavigate();
   const [navOpen, setNavOpen] = useState(false);
   const [captureOpen, setCaptureOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -83,24 +96,63 @@ export default function OrbitApp() {
     setNavOpen(false);
   }
 
+  // pendingG tracks "a bare 'g' was just pressed, waiting on its follow-up
+  // key" for the nav chord below. A ref, not state — a stray 'g' with no
+  // second key should time out silently, not cost a re-render.
+  const pendingGRef = useRef(false);
+  const gTimeoutRef = useRef(null);
+
   // Global shortcuts — Ctrl/Cmd+K opens quick-capture (same as the
   // "＋ Capture" button), Ctrl/Cmd+/ opens search. Only 'k' and '/' are
   // intercepted, so Ctrl/Cmd+C/V/X/Z inside any input keep working normally.
+  // Also a 'g'-then-key chord (g t/i/a/r/w/s) for quick nav between the main
+  // views — ignored while typing and while any modifier is held so it can't
+  // collide with the Ctrl/Cmd shortcuts above or browser/OS shortcuts.
   useEffect(() => {
     const onKeyDown = (e) => {
       const mod = e.ctrlKey || e.metaKey;
-      if (!mod) return;
-      if (e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        setCaptureOpen(true);
-      } else if (e.key === '/') {
-        e.preventDefault();
-        setSearchOpen(true);
+      if (mod) {
+        if (e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          setCaptureOpen(true);
+        } else if (e.key === '/') {
+          e.preventDefault();
+          setSearchOpen(true);
+        }
+        return;
+      }
+
+      const tag = e.target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target?.isContentEditable) return;
+
+      if (pendingGRef.current) {
+        pendingGRef.current = false;
+        if (gTimeoutRef.current) {
+          clearTimeout(gTimeoutRef.current);
+          gTimeoutRef.current = null;
+        }
+        const dest = G_NAV_KEYS[e.key.toLowerCase()];
+        if (dest) {
+          e.preventDefault();
+          navigate(dest);
+        }
+        return;
+      }
+
+      if (e.key.toLowerCase() === 'g') {
+        pendingGRef.current = true;
+        gTimeoutRef.current = setTimeout(() => {
+          pendingGRef.current = false;
+          gTimeoutRef.current = null;
+        }, 1000);
       }
     };
     window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, []);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      if (gTimeoutRef.current) clearTimeout(gTimeoutRef.current);
+    };
+  }, [navigate]);
 
   const untriagedCount = orbit.inbox.filter((i) => !i.triaged).length;
   const carryoverCount = orbit.carryoverCandidates.length;

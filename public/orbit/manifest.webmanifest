@@ -1,0 +1,22 @@
+{
+  "name": "Orbit",
+  "short_name": "Orbit",
+  "description": "Personal task/project planner — areas, projects, tasks, and priority scoring",
+  "start_url": "/orbit",
+  "scope": "/orbit",
+  "display": "standalone",
+  "background_color": "#0e1116",
+  "theme_color": "#0e1116",
+  "icons": [
+    { "src": "/orbit/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/orbit/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ],
+  "share_target": {
+    "action": "/orbit",
+    "method": "GET",
+    "params": {
+      "text": "text",
+      "title": "title"
+    }
+  }
+}

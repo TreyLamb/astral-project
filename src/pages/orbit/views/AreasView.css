@@ -49,6 +49,11 @@
 .orb-area-remove-eligible { border-color: rgba(245, 169, 127, 0.4); color: var(--orb-warn); }
 .orb-area-remove-eligible:hover { background: rgba(245, 169, 127, 0.12); }
 
+.orb-area-confirm-delete { flex: none; display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--orb-warn); }
+.orb-area-confirm-delete .orb-btn { padding: 5px 10px; font-size: 0.75rem; }
+.orb-area-confirm-yes { border-color: rgba(245, 169, 127, 0.4); color: var(--orb-warn); }
+.orb-area-confirm-yes:hover { background: rgba(245, 169, 127, 0.12); }
+
 .orb-area-detail {
   display: flex; flex-direction: column; gap: 12px;
   margin: 4px 0 6px 0; padding: 12px; padding-left: 34px;
