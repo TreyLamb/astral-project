@@ -8,6 +8,19 @@ to `Guidelines_Orbit.md`.
 
 **Read `featuredesign.md` and `Guidelines_Orbit.md` before building against this.**
 
+### Where it stands (as of 2026-07-24) — start here
+All the **design** is decided and captured below; **nothing is built yet.** A cold-start session should:
+1. Read **§0** (the problem) and **§1** (the one inviolable principle: *AI annotates, script schedules*).
+2. Skim **§2** (what already exists in code — build on it) and **§17** (the phased build order).
+3. **Next action = Phase 1 (§17):** the deterministic, **no-AI** timed solver + rich task model (§3),
+   gas-tank energy (§4), guardrails (§5), weather-avoid (§6), places DB + haversine travel (§7),
+   duration DB (§8) — all unit-tested, behind the staged-plan preview (§11). Everything fuzzy (AI
+   annotation, batching, Google traffic, feedback→rules) layers on in later phases.
+4. Check **§18** (open decisions) for what still needs a call before/while building each phase — and
+   confirm those with Trey rather than guessing.
+
+This doc is the source of truth; a companion project memory (`orbit-scheduler-design`) points back here.
+
 ---
 
 ## 0. The problem in one paragraph
