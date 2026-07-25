@@ -106,8 +106,11 @@ task; absence just means "unknown, use a default."
   refreshed on a daily fetch (§6). Never hit the API more than needed.
 - **Rulebook** (`orbitRules`): user-derived scheduling rules from feedback (§12), structured as
   `{id, subject, relation, object, action, createdFrom}`.
-- **Travel-log DB** (`orbitTravelLog`, optional/later): actual observed travel times by
-  `{origin, dest, weekday, hourBucket}` → learn personal traffic patterns (§7).
+- **Travel-log DB** (`orbitTravelLog`): **caches every Google Maps traffic result** (plus any
+  self-observed times), keyed by `{origin, dest, weekday, hourBucket}` → `{durationSec, samples[],
+  median}`. Serves two jobs at once: a **cache** (avoid repeat API calls, keeps Google usage near
+  zero so billing stays free) and a **drop-Google fallback** — if the API is ever removed or
+  over-quota, estimate from the historical median × a ~1.3–1.4 rush-hour multiplier (§7).
 
 ---
 
@@ -163,18 +166,21 @@ Trey's instinct is the right architecture: **build a local places DB, geocode on
 
 - **Geocode:** Nominatim (OpenStreetMap) turns a place *name* → lat/long. Free, rate-limited →
   **do it once per place and cache** in the places DB. Never re-geocode a known place.
-- **Travel time — three tiers, pick per accuracy need:**
-  1. **v1, zero-API:** haversine straight-line × ~1.3 road factor ÷ assumed speed. Enough for the
-     real question — "are these errands clustered or scattered?" — which is what batching needs.
-  2. **Rush-hour multiplier (zero-API):** ×~1.4 during 7–9am / 4–6pm buckets. Captures "busy hours
-     are slower" deterministically. Cheap and worth having early.
-  3. **Traffic-accurate (Google Maps Distance Matrix):** the **only** option that does real
-     predictive traffic (`duration_in_traffic`, `traffic_model`, `departure_time`). Requires a
-     billing account + key, but the free monthly credit covers personal use. **Trey is OK setting
-     this up.** OSRM / OpenRouteService (free) do routing but **no traffic**, so they don't solve
-     the busy-hours problem.
-- **Log-and-learn (later):** record actual travel times by `{origin, dest, weekday, hourBucket}`
-  (`orbitTravelLog`) to build a *personal* traffic model — Trey's "more setup" idea, viable long-term.
+- **Travel time — DECISION: Google Maps for real traffic, cache everything.**
+  - **Primary: Google Maps Distance Matrix** — the only option that does real predictive traffic
+    (`duration_in_traffic`, `traffic_model:'best_guess'`, `departure_time`). Needs a billing account
+    + key, but the free monthly credit ($200) covers personal use by a wide margin, and **Trey is
+    committed** ("if Google does traffic and I'll never get charged anyway, tie it in"). OSRM /
+    OpenRouteService (free) do routing but **no traffic**, so they don't solve the busy-hours problem.
+  - **Cache every result** into the travel-log DB (`orbitTravelLog`, §3.2), keyed by
+    `{origin, dest, weekday, hourBucket}`. Aggressive caching keeps Google calls (and cost) near zero
+    *and* accumulates the historical record in the same move.
+  - **Drop-Google fallback (Trey's explicit ask — "never be stranded without travel numbers"):** if
+    Google is ever removed/over-quota, estimate from the DB's historical median for that route+time;
+    where there's no data, fall back to haversine × ~1.3 road factor with a ~1.3–1.4 rush-hour
+    multiplier (7–9am / 4–6pm).
+  - **No-location / no-data batching** still uses local haversine proximity (zero-API) to cluster
+    errands before any timing matters.
 - **Important synergy:** midday is both high heat-cost and high traffic. Feed both signals into the
   cost function and the scheduler will avoid scheduling errands at noon *on its own* — no special case.
 - **Batching:** cluster same-category tasks by proximity (local math, no API). Zig-zag across town is
@@ -317,9 +323,9 @@ A first-class button, because life happens ("something came up, can't run errand
 | Task understanding | Groq / GitHub Models / Gemini via `aiProviders.js` | free tiers, keys set in Vercel |
 | Weather | **Open-Meteo** | free, **no key** |
 | Geocoding (name → lat/long) | **Nominatim (OSM)** | free, rate-limited, cache once |
-| Travel, rough / batching | local haversine × road-factor | none |
-| Travel, traffic-accurate | **Google Maps Distance Matrix** | needs billing + key; free credit covers personal use |
-| Travel, free routing (no traffic) | OSRM / OpenRouteService | free |
+| Travel, rough / batching / fallback | local haversine × road-factor (+ rush-hour multiplier) | none |
+| Travel + traffic (COMMITTED) | **Google Maps Distance Matrix** — cache every result to `orbitTravelLog` | billing + key; free credit covers personal use |
+| Travel, free routing (no traffic) | OSRM / OpenRouteService | free — not used (no traffic) |
 | Map display | **Leaflet + OSM tiles** | free, no key |
 
 ---
@@ -336,8 +342,9 @@ A first-class button, because life happens ("something came up, can't run errand
    the annotations + rulebook.
 4. **Feedback → rules loop** (§12) — now meaningful because there are real plans to correct.
 5. **Reschedule cascade** (§13) and **route map** (§14).
-6. **Traffic-accurate travel** (Google) and/or **log-and-learn** travel model, if v1 travel proves
-   too loose.
+6. **Google Maps traffic travel + travel-log caching** (committed). v1 can start on haversine
+   batching, but real timed placement uses Google's `duration_in_traffic`, caching every result to
+   `orbitTravelLog` — which simultaneously builds the drop-Google historical fallback.
 
 Each phase ships behind the staged-plan preview (nothing auto-commits) until Trey trusts it.
 
@@ -349,8 +356,9 @@ Each phase ships behind the staged-plan preview (nothing auto-commits) until Tre
   confirm scope for the first shippable slice.
 - **Guardrail config** (§5) — exact awake hours + per-category windows; add place open/close hours later.
 - **Fatigue-carry formula** (§4) — pick and tune the concrete function.
-- **Traffic approach** — start with rush-hour multiplier + log actuals; add Google when needed
-  (Trey OK with billing).
+- ~~Traffic approach~~ — **RESOLVED (2026-07-24):** Google Maps for traffic (Trey committed, free
+  tier), cache every result to `orbitTravelLog`, with a historical-median × rush-hour-multiplier
+  fallback if Google is ever dropped (§7). Haversine still used for batching / no-data.
 - **Break down the triage queue further?** — Trey floated finer triage tiers to reduce how many
   tasks ever reach "schedulable." Worth exploring as an input to volume control.
 - **Duration/complete capture** — need a lightweight way to log actual task time to feed §8.

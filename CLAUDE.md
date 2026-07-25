@@ -4,12 +4,12 @@ This file is for Claude. Read it before touching anything.
 
 ---
 
-## ⚠️ OPEN ITEM — missing local env vars
-As of 2026-07-17, Trey's local `.env`/`.env.local` is missing two vars that code references (both degrade gracefully, not breaking):
-- `VITE_FIREBASE_APPCHECK_SITE_KEY` — used in `src/firebase.js`; without it, Firebase App Check just doesn't initialize.
-- `VITE_PHOTOS_API_HOST` — used in `src/pages/GooglePhotos.jsx`; without it, API calls fall back to relative paths (Google Photos page likely broken).
+## ℹ️ Deferred env vars (Google Photos / App Check) — do NOT proactively raise
+As of 2026-07-24, Trey is **deferring these two local env vars indefinitely** and is **not interested in the Google Photos app anytime soon**. Both degrade gracefully (nothing crashes):
+- `VITE_PHOTOS_API_HOST` — used in `src/pages/GooglePhotos.jsx`; without it, API calls fall back to relative paths. **Trey believes the Photos page works fine — do NOT flag it as broken** (the old "likely broken" claim was never confirmed).
+- `VITE_FIREBASE_APPCHECK_SITE_KEY` — used in `src/firebase.js`; without it, Firebase App Check just doesn't initialize (optional hardening).
 
-**Delete this section once Trey confirms both are added to his local env files.**
+**Only revisit if Trey reports the Photos page is actually broken or asks to work on Google Photos again.** Don't nag him to add these. (Separately, he's also deferring the MyFitnessPal-import Vercel vars — `FIREBASE_SERVICE_ACCOUNT_KEY` / `MFP_IMPORT_SECRET` / `FITNESS_UID` — same rule: don't push on them.)
 
 ---
 
