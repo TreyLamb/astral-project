@@ -111,6 +111,11 @@ task; absence just means "unknown, use a default."
   samples[], median}`. **Backup ONLY — not read while Google is available** (§7): the scheduler uses
   fresh Google results and only drops to the archive's historical median if Google is lost/over-cap.
 
+> **Privacy note:** the places + travel-log DBs together are effectively a detailed personal
+> movement log (Trey joked "the government will track me so well"). They live **only in Trey's own
+> store** (localStorage / his Firestore under his uid), single-user, never shared or sent anywhere
+> except the Google call itself. Keep it that way — no export, no third-party sink.
+
 ---
 
 ## 4. Energy model — a gas tank with cross-day fatigue (NOT circadian)
@@ -176,13 +181,32 @@ Trey's instinct is the right architecture: **build a local places DB, geocode on
     each month; Google moved to per-API **free monthly call volumes** — on the order of ~10k free
     calls/month for the relevant APIs — around 2025. **Verify the current terms in the Cloud
     Console.**) It is generous but **NOT infinite**, and billing must be enabled, so guard it hard:
-    1. **In-code monthly call counter** — persist the count; expose a configurable monthly cap in
-       Settings; when the count nears the cap, **stop calling Google and fall back** (DB → haversine).
-       Trey's ask: "track calls statically so we can stop before the limit."
+    1. **In-code monthly usage counter** — count billable **elements** (origin×dest pairs), NOT HTTP
+       requests: Distance Matrix bills per element (batch up to 25×25 per request for fewer round-trips
+       at the same element cost). Persist it; expose a configurable monthly cap in Settings; **the
+       counter covers real AND seeding calls (below)**; when it nears the cap, **stop calling Google
+       and fall back** (DB → haversine). Trey's ask: "track calls statically so we can stop before the limit."
     2. **Google Cloud Console hard quota** — set a max requests/day quota so the API *physically*
        cannot exceed the free allowance, plus a $0/low budget alert. Belt-and-suspenders → guaranteed $0.
     - Single-user, per-plan volume won't come close regardless; the cap just makes "never charged" a
       guarantee rather than a hope.
+  - **Seed / pre-warm the DB (first ~2 months) — deliberately use the otherwise-wasted allowance.**
+    Trey's plan: real use won't touch even ~50% of the free monthly allowance, so spend the rest
+    up-front (target ~90%/month for the first ~2 months, **real + seeding combined**) to pre-fetch a
+    matrix of `{place-pair × time-bucket × weekday}` and build rich historical coverage for the
+    drop-Google fallback fast.
+    - **How:** Distance Matrix with a **future `departure_time`** + `traffic_model:'best_guess'`
+      samples predicted traffic for upcoming instances of each weekday/hour bucket (it can't query
+      *past* times). Over two months each bucket gets sampled several times → good averages.
+    - **Budget-aware & prioritized** (a full matrix explodes: ~N² pairs × buckets × days): cover
+      real/likely routes first, **only within guardrail hours** (skip 3am — pointless), **rush vs
+      non-rush buckets first**, then finer granularity. Tune place-count / bucket / day granularity to
+      land ~90% of whatever the cap is. Spread across days (a daily seed budget) to sample real
+      day-to-day variance and stay under the Console daily quota.
+    - **Seeding always yields to real calls and NEVER breaches the cap** (Trey's caveat: "don't
+      accidentally go over with fake calls too"): real calls take priority, seeding only fills the
+      headroom up to the ~90% target, and the hard cap + Console quota stop everything. Time-boxed —
+      after the window, seeding off; the DB is then maintained passively from real calls.
   - **Travel-log DB = passive archive, BACKUP ONLY (§3.2).** Log every live result (cheap, no
     downside) purely to build a fallback — **not read while Google works.** If Google is
     lost/over-cap, estimate from the DB's historical median for that route+time; with no data, fall
@@ -392,9 +416,10 @@ from the heavier Reschedule cascade.
 4. **Feedback → rules loop** (§12) — now meaningful because there are real plans to correct.
 5. **Day adjustments** — Reschedule cascade + the Add X / Remove X per-day nudges (§13) — and the
    **route map** (§14).
-6. **Google Maps traffic travel + travel-log caching** (committed). v1 can start on haversine
-   batching, but real timed placement uses Google's `duration_in_traffic`, caching every result to
-   `orbitTravelLog` — which simultaneously builds the drop-Google historical fallback.
+6. **Google Maps traffic travel + travel-log archive** (committed). Real timed placement uses Google's
+   `duration_in_traffic` **live each plan**; log to `orbitTravelLog` as backup. **Kick off the
+   ~2-month seed/pre-warm here** (§7) to build historical coverage while the free allowance would
+   otherwise go to waste — inside the shared element cap, seeding yielding to real calls.
 
 Each phase ships behind the staged-plan preview (nothing auto-commits) until Trey trusts it.
 
@@ -410,8 +435,11 @@ Each phase ships behind the staged-plan preview (nothing auto-commits) until Tre
   (Trey committed); the `orbitTravelLog` archive is **backup only**, not relied on while Google works;
   haversine for batching / no-data (§7).
 - **Google cost guard (build-time TODO)** — confirm the current free-tier structure in the Cloud
-  Console; set the **in-app monthly call cap** (stop + fall back before the limit) **and** a hard
+  Console; set the **in-app monthly element cap** (stop + fall back before the limit) **and** a hard
   Console requests/day quota + $0 budget alert so billing can never trigger (§7).
+- **Seed/pre-warm scope (§7)** — matrix granularity (place count × time buckets × weekday), the
+  monthly target % (~90%), and window length (~2 months); prioritize real routes + guardrail hours
+  first. Seeding must yield to real calls and stay under the hard element cap.
 - **Break down the triage queue further?** — Trey floated finer triage tiers to reduce how many
   tasks ever reach "schedulable." Worth exploring as an input to volume control.
 - **Duration/complete capture** — need a lightweight way to log actual task time to feed §8.
