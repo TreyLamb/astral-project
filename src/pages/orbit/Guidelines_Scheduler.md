@@ -106,11 +106,10 @@ task; absence just means "unknown, use a default."
   refreshed on a daily fetch (§6). Never hit the API more than needed.
 - **Rulebook** (`orbitRules`): user-derived scheduling rules from feedback (§12), structured as
   `{id, subject, relation, object, action, createdFrom}`.
-- **Travel-log DB** (`orbitTravelLog`): **caches every Google Maps traffic result** (plus any
-  self-observed times), keyed by `{origin, dest, weekday, hourBucket}` → `{durationSec, samples[],
-  median}`. Serves two jobs at once: a **cache** (avoid repeat API calls, keeps Google usage near
-  zero so billing stays free) and a **drop-Google fallback** — if the API is ever removed or
-  over-quota, estimate from the historical median × a ~1.3–1.4 rush-hour multiplier (§7).
+- **Travel-log DB** (`orbitTravelLog`): a **passive archive** of every live Google traffic result
+  (plus any self-observed times), keyed by `{origin, dest, weekday, hourBucket}` → `{durationSec,
+  samples[], median}`. **Backup ONLY — not read while Google is available** (§7): the scheduler uses
+  fresh Google results and only drops to the archive's historical median if Google is lost/over-cap.
 
 ---
 
@@ -166,19 +165,28 @@ Trey's instinct is the right architecture: **build a local places DB, geocode on
 
 - **Geocode:** Nominatim (OpenStreetMap) turns a place *name* → lat/long. Free, rate-limited →
   **do it once per place and cache** in the places DB. Never re-geocode a known place.
-- **Travel time — DECISION: Google Maps for real traffic, cache everything.**
-  - **Primary: Google Maps Distance Matrix** — the only option that does real predictive traffic
-    (`duration_in_traffic`, `traffic_model:'best_guess'`, `departure_time`). Needs a billing account
-    + key, but the free monthly credit ($200) covers personal use by a wide margin, and **Trey is
-    committed** ("if Google does traffic and I'll never get charged anyway, tie it in"). OSRM /
-    OpenRouteService (free) do routing but **no traffic**, so they don't solve the busy-hours problem.
-  - **Cache every result** into the travel-log DB (`orbitTravelLog`, §3.2), keyed by
-    `{origin, dest, weekday, hourBucket}`. Aggressive caching keeps Google calls (and cost) near zero
-    *and* accumulates the historical record in the same move.
-  - **Drop-Google fallback (Trey's explicit ask — "never be stranded without travel numbers"):** if
-    Google is ever removed/over-quota, estimate from the DB's historical median for that route+time;
-    where there's no data, fall back to haversine × ~1.3 road factor with a ~1.3–1.4 rush-hour
-    multiplier (7–9am / 4–6pm).
+- **Travel time — DECISION: live Google Maps traffic is primary; the DB is only a backup.**
+  - **Primary = live Google Maps Distance Matrix on each (re)plan.** The only option that does real
+    predictive traffic (`duration_in_traffic`, `traffic_model:'best_guess'`, `departure_time`). While
+    Google is available, **use fresh results — do NOT rely on the historical DB even if it's ~99%
+    accurate** (Trey: no reason to guess when a free live source exists). OSRM / OpenRouteService
+    (free) do routing but **no traffic**, so they don't solve the busy-hours problem.
+  - **Cost / free-tier reality (Trey asked — "$200/mo is not free"):** Google Maps Platform gives a
+    generous **free monthly allowance**. (Historically a **$200/month credit** = $200 of usage free
+    each month; Google moved to per-API **free monthly call volumes** — on the order of ~10k free
+    calls/month for the relevant APIs — around 2025. **Verify the current terms in the Cloud
+    Console.**) It is generous but **NOT infinite**, and billing must be enabled, so guard it hard:
+    1. **In-code monthly call counter** — persist the count; expose a configurable monthly cap in
+       Settings; when the count nears the cap, **stop calling Google and fall back** (DB → haversine).
+       Trey's ask: "track calls statically so we can stop before the limit."
+    2. **Google Cloud Console hard quota** — set a max requests/day quota so the API *physically*
+       cannot exceed the free allowance, plus a $0/low budget alert. Belt-and-suspenders → guaranteed $0.
+    - Single-user, per-plan volume won't come close regardless; the cap just makes "never charged" a
+      guarantee rather than a hope.
+  - **Travel-log DB = passive archive, BACKUP ONLY (§3.2).** Log every live result (cheap, no
+    downside) purely to build a fallback — **not read while Google works.** If Google is
+    lost/over-cap, estimate from the DB's historical median for that route+time; with no data, fall
+    back to haversine × ~1.3 road factor and a ~1.3–1.4 rush-hour multiplier (7–9am / 4–6pm).
   - **No-location / no-data batching** still uses local haversine proximity (zero-API) to cluster
     errands before any timing matters.
 - **Important synergy:** midday is both high heat-cost and high traffic. Feed both signals into the
@@ -365,7 +373,7 @@ from the heavier Reschedule cascade.
 | Weather | **Open-Meteo** | free, **no key** |
 | Geocoding (name → lat/long) | **Nominatim (OSM)** | free, rate-limited, cache once |
 | Travel, rough / batching / fallback | local haversine × road-factor (+ rush-hour multiplier) | none |
-| Travel + traffic (COMMITTED) | **Google Maps Distance Matrix** — cache every result to `orbitTravelLog` | billing + key; free credit covers personal use |
+| Travel + traffic (COMMITTED, primary, live) | **Google Maps Distance Matrix** (fresh each plan; log to `orbitTravelLog` as backup) | billing + key; free monthly allowance — hard-cap in-code + Console so it can never charge |
 | Travel, free routing (no traffic) | OSRM / OpenRouteService | free — not used (no traffic) |
 | Map display | **Leaflet + OSM tiles** | free, no key |
 
@@ -398,9 +406,12 @@ Each phase ships behind the staged-plan preview (nothing auto-commits) until Tre
   confirm scope for the first shippable slice.
 - **Guardrail config** (§5) — exact awake hours + per-category windows; add place open/close hours later.
 - **Fatigue-carry formula** (§4) — pick and tune the concrete function.
-- ~~Traffic approach~~ — **RESOLVED (2026-07-24):** Google Maps for traffic (Trey committed, free
-  tier), cache every result to `orbitTravelLog`, with a historical-median × rush-hour-multiplier
-  fallback if Google is ever dropped (§7). Haversine still used for batching / no-data.
+- ~~Traffic approach~~ — **RESOLVED (2026-07-24):** **live** Google Maps for traffic each plan
+  (Trey committed); the `orbitTravelLog` archive is **backup only**, not relied on while Google works;
+  haversine for batching / no-data (§7).
+- **Google cost guard (build-time TODO)** — confirm the current free-tier structure in the Cloud
+  Console; set the **in-app monthly call cap** (stop + fall back before the limit) **and** a hard
+  Console requests/day quota + $0 budget alert so billing can never trigger (§7).
 - **Break down the triage queue further?** — Trey floated finer triage tiers to reduce how many
   tasks ever reach "schedulable." Worth exploring as an input to volume control.
 - **Duration/complete capture** — need a lightweight way to log actual task time to feed §8.

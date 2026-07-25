@@ -4,12 +4,12 @@ This file is for Claude. Read it before touching anything.
 
 ---
 
-## ℹ️ Deferred env vars (Google Photos / App Check) — do NOT proactively raise
-As of 2026-07-24, Trey is **deferring these two local env vars indefinitely** and is **not interested in the Google Photos app anytime soon**. Both degrade gracefully (nothing crashes):
-- `VITE_PHOTOS_API_HOST` — used in `src/pages/GooglePhotos.jsx`; without it, API calls fall back to relative paths. **Trey believes the Photos page works fine — do NOT flag it as broken** (the old "likely broken" claim was never confirmed).
+## ℹ️ Deferred env vars (Google Photos / App Check) — flag to check later, do NOT proactively raise
+As of 2026-07-24, Trey has **shelved the Google Photos project (uninterested for now)** and is deferring these two local env vars indefinitely. Both degrade gracefully (nothing crashes):
+- `VITE_PHOTOS_API_HOST` — used in `src/pages/GooglePhotos.jsx`; without it, API calls fall back to relative paths. **It worked last time Trey tried it (weeks ago).** When he **next works on Google Photos**, check whether this needs setting — until then it's not a priority and is NOT to be flagged as broken.
 - `VITE_FIREBASE_APPCHECK_SITE_KEY` — used in `src/firebase.js`; without it, Firebase App Check just doesn't initialize (optional hardening).
 
-**Only revisit if Trey reports the Photos page is actually broken or asks to work on Google Photos again.** Don't nag him to add these. (Separately, he's also deferring the MyFitnessPal-import Vercel vars — `FIREBASE_SERVICE_ACCOUNT_KEY` / `MFP_IMPORT_SECRET` / `FITNESS_UID` — same rule: don't push on them.)
+**Only revisit when Trey next touches Google Photos, or if he reports it's actually broken.** Don't nag him. (He's also deferring the MyFitnessPal-import Vercel vars — `FIREBASE_SERVICE_ACCOUNT_KEY` / `MFP_IMPORT_SECRET` / `FITNESS_UID` — same rule.)
 
 ---
 
