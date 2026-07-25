@@ -185,6 +185,13 @@ Trey's instinct is the right architecture: **build a local places DB, geocode on
     time-of-day traffic model at all**; Google predicts any future time-of-day from historical + live
     data. Real limits (fine for planning): can't query the *past* (now/future only); far-future
     predictions are typical-conditions estimates that **sharpen on re-plan as the date nears**.
+  - **Far-future → normalize to the nearest `{weekday × hour}` occurrence (Trey's call).** Google's
+    prediction for a weekday+hour is ~the same whether it's this Tuesday or a Tuesday weeks out
+    (typical conditions), so for trips more than ~7 days out — and for DB reuse — pass `departure_time`
+    = the **next upcoming** instance of that `{weekday, hour}`, not the real far date. Better near-term
+    prediction quality, and estimates cache by `{weekday, hour}` (the DB key). **EXCEPTION: major
+    holidays** — traffic, store hours, and availability all differ from a normal weekday, so the
+    normalization is invalid on/near them; use the actual date and/or flag the estimate. See §19.
   - **Cost / free-tier reality (Trey asked — "$200/mo is not free"):** Google Maps Platform gives a
     generous **free monthly allowance**. (Historically a **$200/month credit** = $200 of usage free
     each month; Google moved to per-API **free monthly call volumes** — on the order of ~10k free
@@ -456,3 +463,39 @@ Each phase ships behind the staged-plan preview (nothing auto-commits) until Tre
 - **Duration/complete capture** — need a lightweight way to log actual task time to feed §8.
 - **Add/Remove X input mode** (§13.2/13.3) — support both an explicit count *and* fill-to-capacity
   ("top up ~45 min" / "until today fits")? Leaning yes; confirm the default when building.
+- **Holidays & notable days (§19)** — Trey's consideration (roll-out TBD): source, per-flag behavior,
+  and calendar display all open. Directly affects far-future travel normalization (§7).
+
+---
+
+## 19. Holidays & notable days (CONSIDERATION — roll-out TBD)
+
+Trey flagged this as *"something to think about, not sure how to roll it out fully"* — capture, don't
+build yet. Two linked ideas:
+
+### 19.1 Why the scheduler needs holidays
+The far-future weekday-normalization (§7) assumes a Tuesday behaves like any Tuesday — **false on/near
+major holidays.** Holidays change:
+- **Traffic** — Thanksgiving / Black Friday / the day-before-holiday evening spike; weekday
+  normalization is invalid, so use the actual date and/or a holiday modifier, or flag the estimate
+  low-confidence.
+- **Place hours** — stores closed/reduced; don't route an errand to a closed place.
+- **Trey's availability / energy** — a day off, or a busy family day; different guardrails/capacity.
+
+### 19.2 Holidays on the calendar as "things worth noting"
+Trey also wants major holidays **rendered on the calendar** as visible annotations — a lightweight
+"notable days" layer (like the fitness event chips) so both he and the scheduler see them. This is a
+subset of the broader "notable events / multi-calendar" idea he raised earlier.
+
+### 19.3 Sourcing (options, undecided)
+- **Nager.Date** (`date.nager.at`) — free public-holidays API, **no key**, per country/year (US
+  federal holidays). Cache annually.
+- **Static list** — simplest; hardcode the major US holidays, zero dependency.
+- **User-added notable days** — Trey adds his own (birthdays, "family in town", personal days) that
+  also flag scheduling. Ties into the notable-events concept.
+
+### 19.4 Open (roll-out TBD)
+- Which source — API vs static vs both + user-added?
+- What each flag *does* — block scheduling / reduce capacity / just annotate / adjust travel?
+  (Likely configurable per flag.)
+- The holiday **impact window** — day-of only, or day-before-evening + week-of for the big ones?
