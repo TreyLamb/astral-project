@@ -280,16 +280,57 @@ the work and the AI's guesses matter less.
 
 ---
 
-## 13. Reschedule (per day / per week / per task) — cascade-aware
+## 13. Day adjustments: Reschedule, Add X, Remove X
 
-A first-class button, because life happens ("something came up, can't run errands today"):
+Three first-class buttons for reacting to how a day actually unfolds. All re-run the §10 solver over
+a **bounded window** (today vs adjacent days) and use the staged-preview + accept flow (§11) —
+nothing auto-commits. Add X and Remove X are deliberate mirror images: pull the best-fitting work
+*in*, push the most-deferrable work *out* — and in both cases **the script chooses which tasks**, not
+the user.
+
+### 13.1 Reschedule (per task / day / week) — cascade-aware
+Because life happens ("something came up, can't run errands today"):
 - **Scope:** per task, per day (everything that day), per week.
 - **Behavior:** look at the cancelled item(s) **and everything on/after that date**, then decide by
-  priority: **push future items back** to make room, or **defer the cancelled low-priority items to
-  later** — whichever keeps high-priority/deadline work on track. Respect deadlines and dependencies
-  as hard limits during the cascade.
-- Same deterministic solver as §10, just re-run over the affected window with the cancelled items
-  removed/deferred. Preview + accept, same as a normal plan.
+  priority — **push future items back** to make room, or **defer the cancelled low-priority items to
+  later** — whichever keeps high-priority/deadline work on track. Deadlines and dependencies are hard
+  limits during the cascade. This is the "I'm scrapping this day/task" tool.
+
+### 13.2 Add X tasks (per day) — pull work IN when you have spare bandwidth
+Trigger: you finished early or have more energy than expected, and you don't want to go hunting for
+something to fill the time.
+- **Candidate pool:** unscheduled backlog **plus** tasks already scheduled for future days (nearest
+  first — usually tomorrow).
+- **Rank by** priority (`priorityScore`), then **filter by a "today-fit" test** — only propose a task
+  if today is genuinely a good day for it:
+  - fits **remaining** energy tank today (after what's already done/planned),
+  - fits the **remaining** time inside guardrail/awake windows (and daylight, for outdoor),
+  - **weather** OK today (rain/heat) for outdoor/weather-sensitive tasks,
+  - **travel-sane** — clusters near where today already sends you; doesn't force a lone cross-town trip,
+  - no blocking flag: unmet dependency, `idealWindow` mismatch, perishable-after-hot adjacency, an
+    explicit "not today."
+- **Prefer pulling from the nearest future day** (moving a task *earlier* is normally safe) — unless a
+  flag says today is bad, or the pull would break a future-day cluster/dependency.
+- **X input:** either an explicit count ("add 2") or fill-to-capacity ("top up ~45 more min / ~10 more
+  energy"). Propose the best-fit candidates **with reasons** ("next priority · fits your remaining
+  tank · weather ok today · near your 2pm errand"); accept/reject each (§11).
+
+### 13.3 Remove X tasks (per day) — shed overflow from the BOTTOM
+Trigger: "I can't get through everything today." **Not** a Reschedule — the day is not cancelled, you
+keep doing the rest; the script just trims the overflow, and **it** decides what goes (you're busy
+doing the remaining work, so you're not the one picking).
+- **Drop the lowest-priority items *for today* and re-place them on their next best day.** "For today"
+  = priority **adjusted by deferability**, so what leaves is what's safest to move, not blindly the
+  lowest global priority.
+- **Deferability score** (new, deterministic): how safe is it to bump a task off today =
+  f(no near deadline, not weather-locked-to-today, not part of a cluster you're still doing, no
+  dependents waiting, not `pinnedToday`). Remove-X bumps **highest-deferability × lowest-priority
+  first**. A task due today / pinned / weather-locked to today is protected — it leaves last or never.
+- **X input:** explicit count ("remove 3") or fit-to-capacity ("until today fits my remaining
+  time/tank"). Removed tasks re-place via §10. Preview + accept (§11).
+
+The two nudges keep the day's core intact and only touch the margins — the reason they're separate
+from the heavier Reschedule cascade.
 
 ---
 
@@ -341,7 +382,8 @@ A first-class button, because life happens ("something came up, can't run errand
 3. **Soft optimization.** Proximity batching, adjacency rules, context-switch minimization, using
    the annotations + rulebook.
 4. **Feedback → rules loop** (§12) — now meaningful because there are real plans to correct.
-5. **Reschedule cascade** (§13) and **route map** (§14).
+5. **Day adjustments** — Reschedule cascade + the Add X / Remove X per-day nudges (§13) — and the
+   **route map** (§14).
 6. **Google Maps traffic travel + travel-log caching** (committed). v1 can start on haversine
    batching, but real timed placement uses Google's `duration_in_traffic`, caching every result to
    `orbitTravelLog` — which simultaneously builds the drop-Google historical fallback.
@@ -362,3 +404,5 @@ Each phase ships behind the staged-plan preview (nothing auto-commits) until Tre
 - **Break down the triage queue further?** — Trey floated finer triage tiers to reduce how many
   tasks ever reach "schedulable." Worth exploring as an input to volume control.
 - **Duration/complete capture** — need a lightweight way to log actual task time to feed §8.
+- **Add/Remove X input mode** (§13.2/13.3) — support both an explicit count *and* fill-to-capacity
+  ("top up ~45 min" / "until today fits")? Leaning yes; confirm the default when building.
