@@ -176,6 +176,15 @@ Trey's instinct is the right architecture: **build a local places DB, geocode on
     Google is available, **use fresh results — do NOT rely on the historical DB even if it's ~99%
     accurate** (Trey: no reason to guess when a free live source exists). OSRM / OpenRouteService
     (free) do routing but **no traffic**, so they don't solve the busy-hours problem.
+  - **CRITICAL — `departure_time` = the TRIP's future time, NOT the call time.** The estimate follows
+    the `departure_time` you pass, independent of when the call is made. Batch-schedule at 8pm for a
+    trip next Tuesday 2pm → pass `departure_time = Tue 14:00` and Google returns its *predicted*
+    2pm-Tuesday traffic, not 8pm. **Always pass the trip's own scheduled datetime.** **Omitting
+    `departure_time` gives a static traffic-free number (~= the free APIs)** — so this one parameter is
+    the entire reason to use Google. It's Google's edge over OSRM/ORS/haversine, which have **no
+    time-of-day traffic model at all**; Google predicts any future time-of-day from historical + live
+    data. Real limits (fine for planning): can't query the *past* (now/future only); far-future
+    predictions are typical-conditions estimates that **sharpen on re-plan as the date nears**.
   - **Cost / free-tier reality (Trey asked — "$200/mo is not free"):** Google Maps Platform gives a
     generous **free monthly allowance**. (Historically a **$200/month credit** = $200 of usage free
     each month; Google moved to per-API **free monthly call volumes** — on the order of ~10k free
@@ -195,9 +204,11 @@ Trey's instinct is the right architecture: **build a local places DB, geocode on
     up-front (target ~90%/month for the first ~2 months, **real + seeding combined**) to pre-fetch a
     matrix of `{place-pair × time-bucket × weekday}` and build rich historical coverage for the
     drop-Google fallback fast.
-    - **How:** Distance Matrix with a **future `departure_time`** + `traffic_model:'best_guess'`
-      samples predicted traffic for upcoming instances of each weekday/hour bucket (it can't query
-      *past* times). Over two months each bucket gets sampled several times → good averages.
+    - **How:** vary **`departure_time`** across the next occurrence of each `{weekday × hour}` bucket —
+      you cover the *entire* matrix from one sitting regardless of what time you actually call, because
+      the estimate follows `departure_time` (see the CRITICAL note above), not the call time. The
+      ~2-month spread is for staying under the cap, refreshing values, and catching drift — **not**
+      because coverage requires calling at those times of day (it doesn't). Can't sample the *past*.
     - **Budget-aware & prioritized** (a full matrix explodes: ~N² pairs × buckets × days): cover
       real/likely routes first, **only within guardrail hours** (skip 3am — pointless), **rush vs
       non-rush buckets first**, then finer granularity. Tune place-count / bucket / day granularity to
