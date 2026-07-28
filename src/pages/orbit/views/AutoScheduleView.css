@@ -1,0 +1,130 @@
+/* AutoScheduleView — staged timed-plan preview. Reuses Orbit.css primitives
+   (.orb-card, .orb-btn, .orb-chip, .orb-tab) + variables (--orb-*). */
+
+.orb-auto { display: flex; flex-direction: column; gap: 14px; }
+
+.orb-auto-head { display: flex; flex-direction: column; gap: 4px; }
+.orb-auto-h2 { margin: 0; font-size: 1.3rem; display: flex; align-items: center; gap: 8px; }
+.orb-auto-beta {
+  font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;
+  color: var(--orb-accent); border: 1px solid var(--orb-accent); border-radius: 999px; padding: 1px 8px;
+}
+.orb-auto-sub { margin: 0; font-size: 0.84rem; color: var(--orb-muted); line-height: 1.5; }
+.orb-auto-sub strong { color: var(--orb-text); }
+
+.orb-auto-rainbanner {
+  background: rgba(126, 170, 227, 0.14); border: 1px solid rgba(126, 170, 227, 0.5);
+  color: var(--orb-text); border-radius: 9px; padding: 10px 12px; font-size: 0.84rem;
+}
+
+/* ---- controls ---- */
+.orb-auto-controls { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px; }
+.orb-auto-ctrl { display: flex; flex-direction: column; gap: 6px; }
+.orb-auto-ctrl-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--orb-muted); font-weight: 700; }
+.orb-auto-toggle { display: flex; gap: 6px; }
+.orb-auto-horizon { display: flex; align-items: center; gap: 6px; }
+.orb-auto-horizon .orb-chip { cursor: pointer; }
+.orb-auto-horizon .orb-chip.active { background: rgba(126, 200, 227, 0.16); border-color: var(--orb-accent); color: var(--orb-accent); }
+.orb-auto-num {
+  width: 62px; background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 8px;
+  padding: 7px 8px; color: var(--orb-text); font: inherit; font-size: 0.9rem;
+}
+.orb-auto-weather { flex-direction: row; align-items: center; gap: 8px; }
+.orb-auto-weather-msg { font-size: 0.76rem; color: var(--orb-muted); }
+.orb-auto-actions { flex-direction: row; align-items: center; gap: 8px; margin-left: auto; }
+
+.orb-auto-applied {
+  display: flex; align-items: center; gap: 10px; background: rgba(120, 200, 150, 0.14);
+  border: 1px solid rgba(120, 200, 150, 0.4); border-radius: 9px; padding: 10px 12px;
+  font-size: 0.86rem; color: var(--orb-text);
+}
+.orb-auto-summary { font-size: 0.8rem; color: var(--orb-muted); }
+
+/* ---- feedback → rules capture (§12) ---- */
+.orb-auto-feedback {
+  display: flex; flex-direction: column; gap: 10px;
+  background: rgba(176, 138, 110, 0.12); border: 1px solid rgba(176, 138, 110, 0.45);
+  border-radius: 10px; padding: 11px 13px;
+}
+.orb-auto-feedback-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.orb-auto-feedback-title { font-size: 0.86rem; color: var(--orb-text); }
+.orb-auto-feedback-opt { color: var(--orb-muted); font-size: 0.78rem; }
+.orb-auto-feedback-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.orb-auto-feedback-chip { cursor: pointer; }
+.orb-auto-feedback-chip:hover { border-color: var(--orb-accent); color: var(--orb-accent); }
+.orb-auto-feedback-expand { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 0.84rem; color: var(--orb-muted); }
+.orb-auto-feedback-status { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 0.84rem; color: var(--orb-text); }
+.orb-auto-feedback-rulebtn { cursor: pointer; }
+.orb-auto-feedback-rulebtn:hover { border-color: var(--orb-accent); color: var(--orb-accent); }
+.orb-auto-feedback-done { margin-left: auto; }
+
+.orb-auto-why {
+  background: transparent; border: none; color: var(--orb-accent); cursor: pointer;
+  font: inherit; font-size: 0.72rem; text-decoration: underline; padding: 0;
+}
+
+/* ---- day columns ---- */
+.orb-auto-days { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.orb-auto-day { display: flex; flex-direction: column; gap: 10px; }
+.orb-auto-day.today { border-color: var(--orb-accent); }
+.orb-auto-day-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.orb-auto-day-label { font-weight: 700; font-size: 0.95rem; }
+.orb-auto-day-date { font-size: 0.72rem; color: var(--orb-muted); }
+/* Day's "where I am" base — travel + weather reason from here that day. */
+.orb-auto-day-base {
+  font-size: 0.64rem; font-weight: 700; letter-spacing: 0.04em; color: var(--orb-muted);
+  border: 1px solid #67e8f9; border-radius: 999px; padding: 1px 8px; white-space: nowrap;
+}
+
+.orb-auto-day-stats { display: flex; flex-wrap: wrap; gap: 6px; }
+.orb-auto-stat {
+  font-size: 0.72rem; background: var(--orb-panel-2); border: 1px solid var(--orb-border);
+  border-radius: 999px; padding: 2px 9px; color: var(--orb-muted); white-space: nowrap;
+}
+.orb-auto-stat.over { color: var(--orb-warn); border-color: var(--orb-warn); }
+.orb-auto-stat.rain { color: #7eb0e3; border-color: rgba(126, 176, 227, 0.6); }
+
+.orb-auto-day-list { display: flex; flex-direction: column; gap: 8px; }
+.orb-auto-day-empty { font-size: 0.8rem; color: var(--orb-muted); opacity: 0.7; padding: 8px 2px; }
+
+/* ---- item row ---- */
+.orb-auto-item {
+  display: flex; gap: 8px; align-items: flex-start; padding: 8px;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 9px;
+}
+.orb-auto-item.skipped { opacity: 0.5; }
+.orb-auto-item-check input { width: 17px; height: 17px; accent-color: var(--orb-accent); cursor: pointer; margin-top: 2px; }
+.orb-auto-item-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.orb-auto-item-top { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.orb-auto-item-time { font-variant-numeric: tabular-nums; font-weight: 700; font-size: 0.82rem; color: var(--orb-accent); white-space: nowrap; }
+.orb-auto-item-title { font-size: 0.9rem; font-weight: 600; overflow-wrap: anywhere; }
+.orb-auto-item-tag {
+  font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;
+  color: var(--orb-muted); border: 1px solid var(--orb-border); border-radius: 4px; padding: 0 5px;
+}
+.orb-auto-item-reasons { display: flex; flex-wrap: wrap; gap: 4px; }
+.orb-auto-reason {
+  font-size: 0.68rem; color: var(--orb-muted); background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--orb-border); border-radius: 999px; padding: 1px 7px;
+}
+.orb-auto-item-actions { display: flex; align-items: center; gap: 4px; flex: none; }
+.orb-auto-move {
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 6px;
+  color: var(--orb-text); font: inherit; font-size: 0.72rem; padding: 3px 4px; max-width: 96px;
+}
+.orb-auto-iconbtn {
+  background: var(--orb-panel); border: 1px solid var(--orb-border); border-radius: 6px;
+  cursor: pointer; font-size: 0.82rem; line-height: 1; padding: 5px 7px; color: var(--orb-text);
+}
+.orb-auto-iconbtn:hover { border-color: var(--orb-accent); }
+.orb-auto-iconbtn.active { background: rgba(126, 200, 227, 0.18); border-color: var(--orb-accent); }
+
+/* ---- unplaced ---- */
+.orb-auto-unplaced { border-style: dashed; }
+.orb-auto-item-unplaced { align-items: center; }
+.orb-auto-zero { color: var(--orb-muted); font-size: 0.9rem; padding: 28px; text-align: center; }
+
+@media (max-width: 560px) {
+  .orb-auto-actions { margin-left: 0; }
+  .orb-auto-days { grid-template-columns: 1fr; }
+}

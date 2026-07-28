@@ -14,6 +14,7 @@ import ReferenceView from './views/ReferenceView';
 import ReviewView from './views/ReviewView';
 import TrackersView from './views/TrackersView';
 import PlannerView from './views/PlannerView';
+import AutoScheduleView from './views/AutoScheduleView';
 import RecurringView from './views/RecurringView';
 import HistoryView from './views/HistoryView';
 import CarryoverView from './views/CarryoverView';
@@ -210,6 +211,7 @@ export default function OrbitApp() {
               {untriagedCount > 0 && <span className="orb-nav-badge">{untriagedCount}</span>}
             </NavLink>
             <NavLink to="/orbit/areas" className={navLinkClass}>Areas</NavLink>
+            <NavLink to="/orbit/auto-schedule" className={({ isActive }) => `orb-nav-link orb-nav-link-auto${isActive ? ' active' : ''}`}>✨ Auto-Schedule</NavLink>
 
             <button
               type="button"
@@ -267,6 +269,7 @@ export default function OrbitApp() {
                 <Route path="review" element={<ReviewView />} />
                 <Route path="trackers" element={<TrackersView />} />
                 <Route path="planner" element={<PlannerView />} />
+                <Route path="auto-schedule" element={<AutoScheduleView />} />
                 <Route path="recurring" element={<RecurringView />} />
                 <Route path="history" element={<HistoryView />} />
                 <Route path="carryover" element={<CarryoverView />} />

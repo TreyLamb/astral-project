@@ -5,7 +5,7 @@
 // fitnessStorage.js otherwise.
 import {
   withProjectDefaults, withTaskDefaults, withSettingsDefaults,
-  withReferenceDefaults, withDayPlanDefaults,
+  withReferenceDefaults, withDayPlanDefaults, withPlaceDefaults,
 } from './orbitConfig';
 
 const AREAS_KEY = 'orbit_areas_v1';
@@ -19,6 +19,12 @@ const REFERENCES_KEY = 'orbit_references_v1';
 const TRACKERS_KEY = 'orbit_trackers_v1';
 const REVIEWS_KEY = 'orbit_reviews_v1';
 const DAYPLANS_KEY = 'orbit_dayplans_v1';
+// Scheduler DBs (§3.2) — localStorage-only for now (no Firestore sync yet).
+const PLACES_KEY = 'orbit_places_v1';
+const DURATIONS_KEY = 'orbit_durations_v1';
+const WEATHER_KEY = 'orbit_weather_v1';
+const RULES_KEY = 'orbit_rules_v1';
+const TRAVELLOG_KEY = 'orbit_travellog_v1';
 
 function load(key, fallback) {
   try {
@@ -236,6 +242,86 @@ export const OrbitStorage = {
 
   removeDayPlan(date) {
     store(DAYPLANS_KEY, loadArray(DAYPLANS_KEY).filter((d) => d.date !== date));
+  },
+
+  // ---- scheduler databases (Guidelines_Scheduler.md §3.2) -----------------
+  // localStorage-only for now — deliberately NOT wired into the Firestore
+  // write-coalescing machinery (orbitContext.js) or replaceAll() below; §3.2
+  // defers cloud sync to a later phase. Places/rules key by `id`; durations
+  // and travel-log upsert by their composite `key`; weather by date+location.
+  getPlaces() {
+    return loadArray(PLACES_KEY).map(withPlaceDefaults);
+  },
+
+  savePlace(p) {
+    store(PLACES_KEY, [p, ...loadArray(PLACES_KEY).filter((x) => x.id !== p.id)]);
+    return p;
+  },
+
+  updatePlace(id, updates) {
+    const all = loadArray(PLACES_KEY).map((p) => (p.id === id ? { ...p, ...updates } : p));
+    store(PLACES_KEY, all);
+    return all.find((p) => p.id === id) ?? null;
+  },
+
+  removePlace(id) {
+    store(PLACES_KEY, loadArray(PLACES_KEY).filter((p) => p.id !== id));
+  },
+
+  getDurations() {
+    return loadArray(DURATIONS_KEY);
+  },
+
+  // Idempotent by `key` — one row per normalized title/category (§8).
+  upsertDuration(entry) {
+    const all = loadArray(DURATIONS_KEY);
+    const idx = all.findIndex((d) => d.key === entry.key);
+    if (idx >= 0) all[idx] = entry; else all.unshift(entry);
+    store(DURATIONS_KEY, all);
+    return entry;
+  },
+
+  getWeather() {
+    return loadArray(WEATHER_KEY);
+  },
+
+  // One cached forecast per date+location — a re-fetch replaces the same day.
+  saveWeather(entry) {
+    const same = (w) => w.date === entry.date && (w.locationId ?? null) === (entry.locationId ?? null);
+    store(WEATHER_KEY, [entry, ...loadArray(WEATHER_KEY).filter((w) => !same(w))]);
+    return entry;
+  },
+
+  getRules() {
+    return loadArray(RULES_KEY);
+  },
+
+  saveRule(r) {
+    store(RULES_KEY, [r, ...loadArray(RULES_KEY)]);
+    return r;
+  },
+
+  updateRule(id, updates) {
+    const all = loadArray(RULES_KEY).map((r) => (r.id === id ? { ...r, ...updates } : r));
+    store(RULES_KEY, all);
+    return all.find((r) => r.id === id) ?? null;
+  },
+
+  removeRule(id) {
+    store(RULES_KEY, loadArray(RULES_KEY).filter((r) => r.id !== id));
+  },
+
+  getTravelLog() {
+    return loadArray(TRAVELLOG_KEY);
+  },
+
+  // Idempotent by `key` = {origin,dest,weekday,hourBucket} (§7).
+  upsertTravelLogEntry(entry) {
+    const all = loadArray(TRAVELLOG_KEY);
+    const idx = all.findIndex((e) => e.key === entry.key);
+    if (idx >= 0) all[idx] = entry; else all.unshift(entry);
+    store(TRAVELLOG_KEY, all);
+    return entry;
   },
 
   // Hydrates the local mirror from a cloud read (see orbitContext.js's

@@ -193,6 +193,46 @@
 /* Net-calories-vs-goal badge — same header row as the date number, small and
    muted so it reads as metadata, not another interactive chip. */
 .ft-cell-cal { font-size: 0.64rem; font-weight: 700; color: #fb923c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* "Where I am" day tag — between the date and the calories. Light-gray text
+   with a cyan outline only (the Miles/cyan family), transparent fill. */
+.ft-cell-where {
+  flex: none; max-width: 88px; font-size: 0.58rem; font-weight: 800; letter-spacing: 0.03em;
+  color: var(--ft-muted); background: transparent; border: 1px solid #67e8f9; border-radius: 20px;
+  padding: 1px 7px; line-height: 1.35; cursor: pointer; font-family: inherit;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ft-cell-where:hover { color: var(--ft-text); border-color: #a5f3fc; }
+.ft-cell-where-empty { color: var(--ft-muted); border-color: var(--ft-border); opacity: 0.55; }
+.ft-cell-where-empty:hover { opacity: 1; border-color: #67e8f9; color: var(--ft-text); }
+/* Where-editor modal: base chips + the disambiguated new-place inputs. */
+.ft-where-bases { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 14px; }
+.ft-where-base {
+  background: transparent; border: 1px solid #67e8f9; border-radius: 20px; color: var(--ft-text);
+  font-weight: 700; font-size: 0.82rem; padding: 5px 13px; cursor: pointer; font-family: inherit;
+}
+.ft-where-base:hover { border-color: #a5f3fc; }
+.ft-where-base.active { background: rgba(103, 232, 249, 0.16); }
+.ft-where-base-clear { border-color: var(--ft-border); color: var(--ft-muted); }
+.ft-where-new { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+.ft-where-new .ft-input { flex: 1; min-width: 150px; }
+.ft-where-tag { flex: none !important; width: 130px; text-transform: uppercase; }
+/* shared BaseSelect control (event WHERE + range panel) */
+.ft-baseselect { margin: 4px 0 2px; }
+.ft-where-base-new { border-style: dashed !important; color: var(--ft-muted); }
+.ft-event-where { margin-top: 4px; }
+/* "Where I'll be" multi-day range panel */
+.ft-whererange-form { display: flex; flex-direction: column; gap: 8px; }
+.ft-whererange-apply { align-self: flex-start; margin-top: 4px; }
+.ft-whererange-list { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--ft-border); }
+.ft-whererange-item {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--ft-bg); border: 1px solid var(--ft-border); border-radius: 8px; padding: 6px 10px;
+}
+.ft-whererange-tag {
+  flex: none; font-weight: 800; font-size: 0.72rem; letter-spacing: 0.03em; color: var(--ft-muted);
+  border: 1px solid #67e8f9; border-radius: 20px; padding: 1px 8px;
+}
+.ft-whererange-dates { flex: 1; font-size: 0.82rem; color: var(--ft-text); font-variant-numeric: tabular-nums; }
 .ft-cell-items { display: flex; flex-direction: column; gap: 3px; overflow: hidden; }
 
 /* ---- workout chip ---- */

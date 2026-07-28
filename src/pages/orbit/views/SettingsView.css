@@ -56,6 +56,37 @@
   border: 1px solid var(--orb-accent); border-radius: 20px; padding: 5px 12px; box-sizing: border-box;
 }
 
+.orb-set-h4 { margin: 14px 0 2px; font-size: 0.82rem; font-weight: 700; }
+
+/* ---- rulebook manager ---- */
+.orb-set-rules { display: flex; flex-direction: column; gap: 6px; margin: 4px 0 2px; }
+.orb-set-rule {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 8px; padding: 8px 10px;
+}
+.orb-set-rule.inactive { opacity: 0.5; }
+.orb-set-rule-toggle { flex: none; display: flex; align-items: center; cursor: pointer; }
+.orb-set-rule-text { flex: 1; font-size: 0.84rem; line-height: 1.35; }
+.orb-set-rule-add { align-self: flex-start; margin-top: 6px; font-size: 0.8rem; }
+
+/* ---- "where I am" bases ---- */
+.orb-set-bases { display: flex; flex-direction: column; gap: 8px; margin: 6px 0 12px; }
+.orb-set-base {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border); border-radius: 8px; padding: 7px 10px;
+}
+.orb-set-base-home { flex: none; background: transparent; border: none; color: #67e8f9; font-size: 1rem; cursor: pointer; padding: 0 2px; line-height: 1; }
+.orb-set-base-home.active { color: #fbbf24; }
+.orb-set-base-swatch { flex: none; width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 5px currentColor; }
+.orb-set-base-tag { font-weight: 800; letter-spacing: 0.03em; font-size: 0.85rem; min-width: 56px; }
+.orb-set-base-query { color: var(--orb-muted); font-size: 0.8rem; flex: 1; min-width: 120px; }
+.orb-set-base-geo { flex: none; font-size: 0.85rem; opacity: 0.45; }
+.orb-set-base-geo.ok { opacity: 1; }
+.orb-set-base-btn { flex: none; font-size: 0.72rem; padding: 4px 9px; }
+.orb-set-base-new { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.orb-set-base-new .orb-set-input { flex: 1; min-width: 150px; }
+.orb-set-base-tagin { flex: none !important; width: 140px; text-transform: uppercase; }
+
 .orb-set-areas-link { align-self: flex-start; text-decoration: none; }
 
 /* ---- export / import ---- */

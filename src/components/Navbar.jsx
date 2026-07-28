@@ -72,7 +72,7 @@ function Navbar() {
   return (
     <nav className="site-nav">
       <div className="nav-container">
-        <Link to="/" className="logo">Astral Journey!!</Link>
+        <Link to="/" className="logo">Astral Hub</Link>
         <button
           className="nav-hamburger"
           onClick={() => setMenuOpen((o) => !o)}

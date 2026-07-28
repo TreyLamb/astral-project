@@ -112,6 +112,10 @@
 .orb-nav-link-addtask { background: var(--orb-accent); color: #0e1116; margin-bottom: 4px; }
 .orb-nav-link-addtask:hover { background: var(--orb-accent); color: #0e1116; filter: brightness(1.08); }
 .orb-nav-link-addtask.active { background: var(--orb-accent); color: #0e1116; }
+/* Auto-Schedule — outlined accent so it stands out as the marquee feature
+   without competing with the filled Add-Task pill above it. */
+.orb-nav-link-auto { border: 1px solid var(--orb-accent); color: var(--orb-accent); margin-bottom: 4px; }
+.orb-nav-link-auto.active { background: rgba(126, 200, 227, 0.16); color: var(--orb-accent); }
 .orb-nav-badge {
   font-size: 0.68rem; font-weight: 700; color: #0e1116; background: var(--orb-warn);
   border-radius: 20px; padding: 1px 7px; line-height: 1.4;

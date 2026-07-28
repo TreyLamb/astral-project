@@ -8,16 +8,47 @@ to `Guidelines_Orbit.md`.
 
 **Read `featuredesign.md` and `Guidelines_Orbit.md` before building against this.**
 
-### Where it stands (as of 2026-07-24) — start here
-All the **design** is decided and captured below; **nothing is built yet.** A cold-start session should:
-1. Read **§0** (the problem) and **§1** (the one inviolable principle: *AI annotates, script schedules*).
-2. Skim **§2** (what already exists in code — build on it) and **§17** (the phased build order).
-3. **Next action = Phase 1 (§17):** the deterministic, **no-AI** timed solver + rich task model (§3),
-   gas-tank energy (§4), guardrails (§5), weather-avoid (§6), places DB + haversine travel (§7),
-   duration DB (§8) — all unit-tested, behind the staged-plan preview (§11). Everything fuzzy (AI
-   annotation, batching, Google traffic, feedback→rules) layers on in later phases.
-4. Check **§18** (open decisions) for what still needs a call before/while building each phase — and
-   confirm those with Trey rather than guessing.
+### Where it stands (as of 2026-07-27) — start here
+Doc §17 **Phases 1, 2, AND 3+4 are BUILT** (the trustworthy no-AI skeleton, the AI annotation layer,
+the soft-optimizer, and the feedback→rules loop). Everything is unit-tested (379 tests green) and
+behind the staged-plan preview — nothing auto-commits. **Doc §17 Phases 5–6 remain** (day-adjustments
++ route map, live Google traffic + travel-log seeding). Phase-handoff prompts for the remaining work
+live in `views/special_prompts/PHASE_7…9_*.md` (build-phase 7 = §17 P3+P4 = this batch; 8 = §17 P5;
+9 = §17 P6).
+
+**What shipped (built as 6 finer build-phases; doc-§17 mapping in parens):**
+1. Rich task model + 5 scheduler DBs + gas-tank/guardrail settings — `orbitConfig.js`, `orbitStorage.js`,
+   `orbitContext.js` (localStorage-only DBs; Firestore sync still deferred per §3.2). (§17-P1)
+2. `calc/energy.js` (gas-tank + cross-day fatigue + heat/duration) and `calc/travel.js` (haversine +
+   rush-hour + clustering) — pure, unit-tested. (§17-P1)
+3. `calc/scheduler.js` — the deterministic timed solver (`buildTimedPlan`): free/busy grid, guardrails,
+   tank + fatigue, weather-avoid, travel, recovery buffers, reason chips. Unit-tested. (§17-P1, §10)
+4. Weather — `calc/weather.js` (pure) + `orbitWeatherService.js` (Open-Meteo forecast + Nominatim
+   geocode, free/no-key), daily fetch/cache, rain re-check flags. (§17-P1, §6)
+5. `views/AutoScheduleView.jsx` — the staged-plan preview (batch cap, per-item apply/remove/pin/move,
+   reason chips, per-day dry-run stats: tank/travel/weather). Nav: `/orbit/auto-schedule`. Home-ZIP +
+   guardrail/fatigue knobs added to Settings. (§17-P1, §11)
+6. AI annotation — `api/orbit-annotate.js` + pure `api/_lib/annotate.js` (strict JSON schema,
+   validate/retry/safe-default), `annotateTasks()` client action + "✨ Annotate" button; location
+   inference→places DB via geocode. Signed-in only; degrades to defaults. (§17-P2, §1/§9/§15)
+7. Soft optimization + feedback→rules (§7, §12) — `buildTimedPlan` refactored from first-fit to
+   **best-scored** placement (proximity batching via cheapest-hop travel, `idealWindow` preference,
+   context-switch minimization, a small front-load bias) with a **hard perishable-not-after-outdoor
+   adjacency** filter and a **rulebook** the solver enforces (`ruleAllows`/`ruleFloorMin`, new `rules`
+   + `softWeights` inputs). New pure `calc/feedback.js` (`reasonToWrites`) maps rejection reason-chips
+   to durable writes (task tags / learned durations / policy rules). UI: reason-capture popover on
+   Remove/Move (`views/AutoScheduleFeedback.jsx`), a rules manager + optimization-weight editors in
+   Settings. All pure logic unit-tested. (§17-P3+P4)
+
+**Next action = doc §17 Phase 5** (Reschedule / Add-X / Remove-X + deferability score + route map) →
+then Phase 6 (Google traffic + seeding — needs the Google key + cost guard from §18/§7). See
+`views/special_prompts/PHASE_8_*.md` and `PHASE_9_*.md` for the self-contained build prompts.
+
+**Decisions baked in during the build (tunable):** energy tank reuses `capacityDefault.energy` (NOT a
+separate 100-scale); fatigue formula = linear ramp from `thresholdPct` to a `maxCarryPct` cap so a
+fully-drained day → ~half tank tomorrow; guardrail defaults seeded (editable in Settings). Still open
+per §18: exact guardrail hours (user sets), Google cost-guard specifics (Phase 6), duration-capture
+mechanism, Add/Remove-X input mode, holidays.
 
 This doc is the source of truth; a companion project memory (`orbit-scheduler-design`) points back here.
 
@@ -271,6 +302,17 @@ Trey's instinct is the right architecture: **build a local places DB, geocode on
   grocery). Always check the places DB first; only call the AI/geocoder for unknowns; cache results.
 - Inferred locations are **suggestions** — surfaced for confirmation, editable, and confirmable into
   the places DB.
+- **Per-day "where I am" base override (BUILT 2026-07-27).** The home zip is the *default* origin, but
+  on any given day Trey may be based somewhere else (Orem → Paris UT → Hawaii). `settings.bases` is a
+  small registry of those places (`tag` = short calendar label like `OREM`; `query` = disambiguated
+  geocode string `"Paris, Idaho"` — critical, since "Paris" alone hits France; geocoded once via
+  Nominatim; the base id doubles as its weather-cache locationId). `settings.dayLocations` maps
+  `{iso → baseId}`. On a tagged day the **whole stack reasons from that base**: `buildTimedPlan`'s new
+  `homePlaceFor(iso)` input makes it the travel origin + errand-batch seed, and weather-avoid reads that
+  base's forecast (per-day `weatherFor` keyed by base id). Everything falls back to the global home when
+  a day is untagged or its base isn't geocoded — byte-identical to before when `bases` is empty. Pure
+  resolvers live in `calc/baseLocation.js`. The tag is **set from the fitness calendar's WHERE chip**
+  (writes Orbit settings through `orbitTasksBridge`) or Orbit **Settings → "Where I am — bases"**.
 
 ---
 

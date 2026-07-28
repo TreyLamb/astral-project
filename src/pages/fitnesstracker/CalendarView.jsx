@@ -11,9 +11,10 @@ import GroupPicker from './GroupPicker';
 import MealDayView from './MealDayView';
 import GoalEditorModal from './GoalEditorModal';
 import ClearableInput from './ClearableInput';
+import BaseSelect from './BaseSelect';
 import { useAuth } from '../../AuthContext';
 import { firebaseReady } from '../../firebase';
-import { loadOrbitBridgeData } from './orbitTasksBridge';
+import { loadOrbitBridgeData, setOrbitDayLocation, addOrbitBase, setOrbitDayLocationsRange } from './orbitTasksBridge';
 
 // Army Combat Fitness Test personal targets — static reference data, not
 // computed from anything. Mirrors src/pages/fitnesstracker/Guidelines_AFT
@@ -31,6 +32,30 @@ function formatAftTier(ev, tier) {
   if (ev.unit === 'lb') return `${v} lb`;
   if (ev.unit === 'reps') return `${v} reps`;
   return v; // time tiers are already mm:ss strings
+}
+
+// The "where I am" base governing a day: an explicit day tag wins, else the
+// home base (mirrors orbit/calc/baseLocation.baseForDate — kept tiny + inline
+// so the calendar stays behind the Orbit bridge rather than importing its calc).
+function resolveBase(iso, bases, dayLocations) {
+  const id = dayLocations[iso];
+  if (id) { const b = bases.find((x) => x.id === id); if (b) return b; }
+  return bases.find((b) => b.isHome) || null;
+}
+
+// Collapse the {iso→baseId} map into consecutive-day ranges per base, sorted by
+// start — what the "Where I'll be" panel lists so trips are visible/clearable.
+function groupDayLocationRanges(dayLocations, bases) {
+  const byId = new Map(bases.map((b) => [b.id, b]));
+  const isos = Object.keys(dayLocations).filter((iso) => dayLocations[iso]).sort();
+  const out = [];
+  for (const iso of isos) {
+    const baseId = dayLocations[iso];
+    const prev = out[out.length - 1];
+    if (prev && prev.baseId === baseId && addDaysISO(prev.to, 1) === iso) prev.to = iso;
+    else out.push({ baseId, base: byId.get(baseId) || null, from: iso, to: iso });
+  }
+  return out;
 }
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -268,10 +293,12 @@ function DayCell({
   showMeals, mealItems, mealTypes, mealSelected, onAddMeal, onEditMeal, onMealCtrlClick, onMealShiftClick,
   allWorkouts, meals, bmr, calorieGoal, bodyWeightKg,
   orbitScheduled, orbitDue, orbitAreaById, onOrbitOpen, orbitEnergyCap,
+  bases, dayLocations, onOpenWhere,
 }) {
   const iso = isoDate(date);
   const [over, setOver] = useState(false);
   const orbitEnergy = orbitScheduled.reduce((s, t) => s + (t.energy || 0), 0);
+  const whereBase = resolveBase(iso, bases, dayLocations);
   // netCaloriesForDay filters by date itself, so the FULL workouts array is
   // passed through (allWorkouts), not `items` which is already this-day-only.
   const net = calorieGoal != null ? netCaloriesForDay(meals, allWorkouts, iso, bmr, bodyWeightKg) : null;
@@ -331,6 +358,15 @@ function DayCell({
     >
       <div className="ft-cell-head">
         <span className="ft-cell-num">{date.getDate()}</span>
+        <button
+          type="button"
+          className={`ft-cell-where${whereBase ? '' : ' ft-cell-where-empty'}`}
+          style={whereBase ? { borderColor: whereBase.color, boxShadow: `0 0 5px ${whereBase.color}55` } : undefined}
+          onClick={(e) => { e.stopPropagation(); onOpenWhere(iso); }}
+          title={whereBase ? `Where you are: ${whereBase.query || whereBase.tag} — click to change` : 'Tag where you are this day (feeds Orbit travel + weather)'}
+        >
+          {whereBase ? whereBase.tag : '＋'}
+        </button>
         {calorieGoal != null && <span className="ft-cell-cal">{net}/{calorieGoal}</span>}
         {variant !== 'month' && <span className="ft-cell-dow">{WEEKDAYS[date.getDay()]}</span>}
       </div>
@@ -370,16 +406,21 @@ function DayCell({
           </div>
         </div>
       )}
-      {/* Day's Orbit energy load, pinned bottom-right — the "how heavy is this
-          day" signal from Orbit's per-task energy (1–5 each). */}
-      {orbitScheduled.length > 0 && (
-        <div
-          className={`ft-cell-energy${orbitEnergyCap != null && orbitEnergy > orbitEnergyCap ? ' over' : ''}`}
-          title={`Orbit energy load from ${orbitScheduled.length} scheduled to-do${orbitScheduled.length === 1 ? '' : 's'}${orbitEnergyCap != null ? ` — daily budget ${orbitEnergyCap}` : ''}`}
-        >
-          ⚡ {orbitEnergy}{orbitEnergyCap != null ? `/${orbitEnergyCap}` : ''}
-        </div>
-      )}
+      {/* Day's scheduled Orbit energy, pinned bottom-right, on a 0–100 scale
+          (share of the day's energy budget). Shown on every month cell — 0/100
+          for an empty day — so the whole month reads as an energy heat-map at a
+          glance; on the roomier week/day cells it only appears once loaded. */}
+      {orbitEnergyCap != null && (variant === 'month' || orbitScheduled.length > 0) && (() => {
+        const pct = Math.round((orbitEnergy / orbitEnergyCap) * 100);
+        return (
+          <div
+            className={`ft-cell-energy${pct > 100 ? ' over' : ''}`}
+            title={`Orbit energy scheduled: ${orbitEnergy} of ${orbitEnergyCap} budget (${pct}%)`}
+          >
+            ⚡ {pct}/100
+          </div>
+        );
+      })()}
     </div>
   );
 }
@@ -436,6 +477,9 @@ export default function CalendarView() {
   // Orbit's daily energy budget (Settings → Constants), used to annotate each
   // day's energy badge with "load / budget".
   const orbitEnergyCap = orbitSettings?.capacityDefault?.energy ?? null;
+  // "Where I am" bases + per-day tags, read from Orbit's own settings.
+  const orbitBases = useMemo(() => orbitSettings?.bases || [], [orbitSettings]);
+  const orbitDayLocations = useMemo(() => orbitSettings?.dayLocations || {}, [orbitSettings]);
   // Killed tasks are dropped entirely (cancelled — no calendar value); done
   // tasks stay (rendered struck/dimmed by OrbitTaskChip) since "I did this
   // that day" is still meaningful history, unlike a killed task.
@@ -457,6 +501,52 @@ export default function CalendarView() {
     return map;
   }, [orbitLiveTasks]);
   const onOrbitOpen = (task) => navigate(task.projectId ? `/orbit/project/${task.projectId}` : '/orbit');
+
+  // "Where I am" editor — a calendar-level modal (the day cells are 92px and
+  // clip overflow, so an in-cell popover won't fit). Writes back to Orbit's
+  // settings via the bridge, then re-reads so the tag + Orbit logic update.
+  const [whereEditor, setWhereEditor] = useState(null); // null | iso
+  const [whereTag, setWhereTag] = useState('');
+  const [wherePlace, setWherePlace] = useState('');
+  const [whereBusy, setWhereBusy] = useState(false);
+  const openWhere = (iso) => { setWhereEditor(iso); setWhereTag(''); setWherePlace(''); };
+  const pickBase = async (baseId) => {
+    await setOrbitDayLocation(user || null, firebaseReady, whereEditor, baseId);
+    reloadOrbit();
+    setWhereEditor(null);
+  };
+  const addBaseForDay = async () => {
+    const t = whereTag.trim();
+    if (!t) return;
+    setWhereBusy(true);
+    try {
+      const created = await addOrbitBase(user || null, firebaseReady, { tag: t, query: wherePlace.trim() || t });
+      await setOrbitDayLocation(user || null, firebaseReady, whereEditor, created.id);
+    } finally {
+      setWhereBusy(false);
+    }
+    reloadOrbit();
+    setWhereEditor(null);
+  };
+
+  // "Where I'll be" — bulk-tag a whole date range with one location (#2: e.g.
+  // "Paris Aug 1–10"), plus a list of already-tagged trips you can clear.
+  const [whereRangeOpen, setWhereRangeOpen] = useState(false);
+  const [rangeFrom, setRangeFrom] = useState(() => todayISO());
+  const [rangeTo, setRangeTo] = useState(() => todayISO());
+  const [rangeBase, setRangeBase] = useState('home');
+  const [rangeBusy, setRangeBusy] = useState(false);
+  const dayRanges = useMemo(() => groupDayLocationRanges(orbitDayLocations, orbitBases), [orbitDayLocations, orbitBases]);
+  const applyRange = async () => {
+    setRangeBusy(true);
+    await setOrbitDayLocationsRange(user || null, firebaseReady, rangeFrom, rangeTo, rangeBase);
+    setRangeBusy(false);
+    reloadOrbit();
+  };
+  const clearRange = async (from, to) => {
+    await setOrbitDayLocationsRange(user || null, firebaseReady, from, to, null);
+    reloadOrbit();
+  };
 
   // Goals live inline on the calendar too — not Dashboard-only — so changes
   // (accept/edit/abandon) are visible immediately on the same screen instead
@@ -740,6 +830,7 @@ export default function CalendarView() {
     allWorkouts: workouts, meals, bmr, calorieGoal, bodyWeightKg: latestWeightKg,
     orbitScheduled: orbitScheduledByDate[isoDate(date)] || [], orbitDue: orbitDueByDate[isoDate(date)] || [],
     orbitAreaById, onOrbitOpen, orbitEnergyCap,
+    bases: orbitBases, dayLocations: orbitDayLocations, onOpenWhere: openWhere,
   });
 
   // Shared week-grid header + one week-row (7-day grid + goals/miles side
@@ -869,6 +960,14 @@ export default function CalendarView() {
         </button>
         <button
           type="button"
+          className={`ft-toggle-btn${whereRangeOpen ? ' active' : ''}`}
+          onClick={() => setWhereRangeOpen((o) => !o)}
+          title="Tag a whole stretch of days with where you'll be — Orbit routes travel + weather from there"
+        >
+          📍 Where I'll be{dayRanges.length > 0 ? ` (${dayRanges.length})` : ''}
+        </button>
+        <button
+          type="button"
           className={`ft-toggle-btn${chipFilter !== 'all' ? ' active' : ''}`}
           onClick={cycleChipFilter}
           title="Cycles which chips show on the grid: all items -> hide events -> hide workouts -> all items again. Display-only — doesn't touch your data."
@@ -876,6 +975,44 @@ export default function CalendarView() {
           {CHIP_FILTER_LABEL[chipFilter]}
         </button>
       </div>
+
+      {whereRangeOpen && (
+        <div className="ft-goals-panel ft-whererange-panel">
+          <div className="ft-goals-head">
+            <span className="ft-field-label">Where I'll be</span>
+          </div>
+          <p className="ft-hint-sm">Pick a stretch of days and where you'll be — Orbit routes travel + weather from there for the whole range.</p>
+          <div className="ft-whererange-form">
+            <div className="ft-two">
+              <div className="ft-field">
+                <label className="ft-field-label">From</label>
+                <input className="ft-input" type="date" value={rangeFrom} onChange={(e) => setRangeFrom(e.target.value)} />
+              </div>
+              <div className="ft-field">
+                <label className="ft-field-label">To</label>
+                <input className="ft-input" type="date" value={rangeTo} onChange={(e) => setRangeTo(e.target.value)} />
+              </div>
+            </div>
+            <label className="ft-field-label">Location</label>
+            <BaseSelect value={rangeBase} onChange={setRangeBase} allowClear={false} />
+            <button type="button" className="ft-btn-primary ft-whererange-apply" disabled={rangeBusy} onClick={applyRange}>
+              {rangeBusy ? 'Applying…' : 'Tag these days'}
+            </button>
+          </div>
+          {dayRanges.length > 0 && (
+            <div className="ft-whererange-list">
+              <span className="ft-field-label">Planned</span>
+              {dayRanges.map((r) => (
+                <div key={r.from} className="ft-whererange-item">
+                  <span className="ft-whererange-tag" style={r.base ? { borderColor: r.base.color, color: r.base.color } : undefined}>{r.base?.tag || '??'}</span>
+                  <span className="ft-whererange-dates">{r.from}{r.to !== r.from ? ` → ${r.to}` : ''}</span>
+                  <button type="button" className="ft-todo-remove" onClick={() => clearRange(r.from, r.to)} aria-label="Clear this range">✕</button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {goalsPanelOpen && (
         <div className="ft-goals-panel">
@@ -1014,6 +1151,58 @@ export default function CalendarView() {
 
       {goalEditor && (
         <GoalEditorModal goal={goalEditor === 'new' ? null : goalEditor} onClose={() => setGoalEditor(null)} />
+      )}
+
+      {whereEditor && (
+        <div className="ft-modal-backdrop" onClick={() => setWhereEditor(null)}>
+          <div className="ft-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+            <div className="ft-modal-head">
+              <h3>Where are you — {whereEditor}?</h3>
+              <button type="button" className="ft-x" onClick={() => setWhereEditor(null)} aria-label="Close">✕</button>
+            </div>
+            <p className="ft-hint-sm">
+              Tag where you're based this day. Orbit's travel, weather, and scheduling all reason from here —
+              the day you're in Hawaii it checks Hawaii, not home.
+            </p>
+            {orbitBases.length > 0 && (
+              <div className="ft-where-bases">
+                {orbitBases.map((b) => (
+                  <button
+                    key={b.id} type="button"
+                    className={`ft-where-base${orbitDayLocations[whereEditor] === b.id ? ' active' : ''}`}
+                    style={{ borderColor: b.color, background: orbitDayLocations[whereEditor] === b.id ? `${b.color}22` : undefined }}
+                    onClick={() => pickBase(b.id)} title={b.query || b.tag}
+                  >
+                    {b.tag}{b.isHome ? ' · home' : ''}
+                  </button>
+                ))}
+                {orbitDayLocations[whereEditor] && (
+                  <button type="button" className="ft-where-base ft-where-base-clear" onClick={() => pickBase(null)}>clear</button>
+                )}
+              </div>
+            )}
+            <div className="ft-field">
+              <label className="ft-field-label">New place</label>
+              <div className="ft-where-new">
+                <input
+                  className="ft-input ft-where-tag" placeholder="TAG (e.g. OREM)" maxLength={14}
+                  value={whereTag} onChange={(e) => setWhereTag(e.target.value)}
+                />
+                <input
+                  className="ft-input" placeholder="City, State — e.g. Paris, Idaho"
+                  value={wherePlace} onChange={(e) => setWherePlace(e.target.value)}
+                />
+              </div>
+              <p className="ft-hint-sm">The city/state disambiguates the map lookup — “Paris, Idaho”, not Paris, France.</p>
+            </div>
+            <div className="ft-modal-actions">
+              <button type="button" className="ft-btn-ghost" onClick={() => setWhereEditor(null)}>Cancel</button>
+              <button type="button" className="ft-btn-primary" disabled={!whereTag.trim() || whereBusy} onClick={addBaseForDay}>
+                {whereBusy ? 'Locating…' : 'Add & use'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {weekOverride && (

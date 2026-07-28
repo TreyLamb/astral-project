@@ -20,6 +20,7 @@ import {
   SEED_AREAS, withSettingsDefaults, todayISO,
   newRecurrenceRule, newReferenceItem, withReferenceDefaults,
   newTracker, newReviewLog, newDayPlan, withDayPlanDefaults,
+  newPlace, newRule, newBase, nextBaseColor,
 } from './orbitConfig';
 import { computePriorityScore } from './calc/priority';
 import { runHousekeepingPlan } from './calc/housekeeping';
@@ -27,6 +28,8 @@ import { datesToGenerate } from './calc/recurrence';
 import { needsReset, applyReset } from './calc/trackers';
 import { buildReview, mondayOf } from './calc/review';
 import { carryoverCandidates as calcCarryoverCandidates } from './calc/carryover';
+import { outdoorRescheduleFlags } from './calc/weather';
+import { geocodeZip, geocodePlaceName, fetchForecast } from './orbitWeatherService';
 
 export const OrbitContext = createContext(null);
 export function useOrbit() { return useContext(OrbitContext); }
@@ -108,6 +111,14 @@ export function useOrbitState() {
   const [trackers, setTrackers] = useState([]);
   const [reviewLogs, setReviewLogs] = useState([]);
   const [dayPlans, setDayPlans] = useState([]);
+  // Scheduler DBs (§3.2) — localStorage-only for now, so they live OUTSIDE the
+  // backend/dirty/flush machinery above and hydrate straight from localStorage
+  // at mount via a lazy initializer (no effect needed; they don't sync per backend).
+  const [places, setPlaces] = useState(() => OrbitStorage.getPlaces());
+  const [durations, setDurations] = useState(() => OrbitStorage.getDurations());
+  const [weather, setWeather] = useState(() => OrbitStorage.getWeather());
+  const [rules, setRules] = useState(() => OrbitStorage.getRules());
+  const [travelLog, setTravelLog] = useState(() => OrbitStorage.getTravelLog());
 
   // Write-coalescing bookkeeping. Refs, not state — mutated outside the
   // render cycle and never need to trigger a re-render themselves.
@@ -714,6 +725,249 @@ export function useOrbitState() {
     return log;
   }, [backend, markDirty, markDeleted]);
 
+  // ---- scheduler databases (§3.2) ----
+  // Local-only writes (no markDirty / Firestore flush yet) — mirror straight to
+  // localStorage and update state. Places + rules use id; durations + travelLog
+  // upsert by composite key; weather saves one row per date+location.
+  const addPlace = useCallback(async (partial) => {
+    const p = newPlace(partial);
+    setPlaces((prev) => [p, ...prev]);
+    OrbitStorage.savePlace(p);
+    return p;
+  }, []);
+
+  const updatePlace = useCallback(async (id, updates) => {
+    setPlaces((prev) => prev.map((p) => (p.id === id ? { ...p, ...updates } : p)));
+    OrbitStorage.updatePlace(id, updates);
+  }, []);
+
+  const removePlace = useCallback(async (id) => {
+    setPlaces((prev) => prev.filter((p) => p.id !== id));
+    OrbitStorage.removePlace(id);
+  }, []);
+
+  const upsertDuration = useCallback(async (entry) => {
+    setDurations((prev) => {
+      const idx = prev.findIndex((d) => d.key === entry.key);
+      if (idx >= 0) { const copy = [...prev]; copy[idx] = entry; return copy; }
+      return [entry, ...prev];
+    });
+    OrbitStorage.upsertDuration(entry);
+    return entry;
+  }, []);
+
+  const saveWeather = useCallback(async (entry) => {
+    setWeather((prev) => [
+      entry,
+      ...prev.filter((w) => !(w.date === entry.date && (w.locationId ?? null) === (entry.locationId ?? null))),
+    ]);
+    OrbitStorage.saveWeather(entry);
+    return entry;
+  }, []);
+
+  const addRule = useCallback(async (partial) => {
+    const r = newRule(partial);
+    setRules((prev) => [r, ...prev]);
+    OrbitStorage.saveRule(r);
+    return r;
+  }, []);
+
+  const updateRule = useCallback(async (id, updates) => {
+    setRules((prev) => prev.map((r) => (r.id === id ? { ...r, ...updates } : r)));
+    OrbitStorage.updateRule(id, updates);
+  }, []);
+
+  const removeRule = useCallback(async (id) => {
+    setRules((prev) => prev.filter((r) => r.id !== id));
+    OrbitStorage.removeRule(id);
+  }, []);
+
+  const upsertTravelLogEntry = useCallback(async (entry) => {
+    setTravelLog((prev) => {
+      const idx = prev.findIndex((e) => e.key === entry.key);
+      if (idx >= 0) { const copy = [...prev]; copy[idx] = entry; return copy; }
+      return [entry, ...prev];
+    });
+    OrbitStorage.upsertTravelLogEntry(entry);
+    return entry;
+  }, []);
+
+  // ---- weather (§6) ----
+  // Geocodes the home ZIP once (cached in settings), pulls the Open-Meteo
+  // forecast (free, no key), and refreshes the local weather cache. Degrades
+  // silently: no ZIP / network fail → the scheduler just runs without weather
+  // constraints. Returns a small status so the UI can show what happened.
+  const refreshWeather = useCallback(async () => {
+    const s = stateRef.current.settings;
+    if (!s.homeZip) return { ok: false, reason: 'no-home-zip' };
+
+    let { homeLat, homeLng } = s;
+    if (homeLat == null || homeLng == null) {
+      const geo = await geocodeZip(s.homeZip);
+      if (!geo) return { ok: false, reason: 'geocode-failed' };
+      homeLat = geo.lat;
+      homeLng = geo.lng;
+      const next = withSettingsDefaults({ ...stateRef.current.settings, homeLat, homeLng });
+      setSettings(next);
+      OrbitStorage.updateSettings({ homeLat, homeLng });
+      if (backend.mode === 'cloud') markSettingsDirty();
+    }
+
+    const entries = await fetchForecast(homeLat, homeLng, 'home');
+    if (entries.length === 0) return { ok: false, reason: 'forecast-failed' };
+
+    // Replace the home-location forecast wholesale with the fresh pull.
+    const fresh = entries;
+    setWeather((prev) => [
+      ...fresh,
+      ...prev.filter((w) => (w.locationId ?? null) !== 'home'),
+    ]);
+    fresh.forEach((e) => OrbitStorage.saveWeather(e));
+    return { ok: true, days: fresh.length };
+  }, [backend, markSettingsDirty]);
+
+  // ---- "where I am" bases (§9) ----
+  // Bases + dayLocations live in settings (so they sync with the rest of
+  // settings and are readable by the fitness calendar's Orbit bridge). All go
+  // through updateSettings, reusing its merge/persist/dirty machinery.
+  const addBase = useCallback(async (partial) => {
+    const existing = stateRef.current.settings.bases || [];
+    const b = newBase({ color: nextBaseColor(existing.length), ...partial });
+    // Geocode inline (best-effort) so the base is usable immediately — avoids a
+    // stateRef-vs-render race if the caller geocoded as a separate step.
+    const geo = await geocodePlaceName(b.query || b.tag);
+    if (geo) { b.lat = geo.lat; b.lng = geo.lng; b.geocodedAt = Date.now(); }
+    await updateSettings({ bases: [...(stateRef.current.settings.bases || []), b] });
+    return b;
+  }, [updateSettings]);
+
+  const updateBase = useCallback(async (id, updates) => {
+    const bases = (stateRef.current.settings.bases || []).map((b) => (b.id === id ? { ...b, ...updates } : b));
+    await updateSettings({ bases });
+  }, [updateSettings]);
+
+  const removeBase = useCallback(async (id) => {
+    const bases = (stateRef.current.settings.bases || []).filter((b) => b.id !== id);
+    // Strip any day still pointing at the deleted base so nothing dangles.
+    const dayLocations = { ...(stateRef.current.settings.dayLocations || {}) };
+    for (const k of Object.keys(dayLocations)) if (dayLocations[k] === id) delete dayLocations[k];
+    await updateSettings({ bases, dayLocations });
+  }, [updateSettings]);
+
+  const setDayLocation = useCallback(async (iso, baseId) => {
+    const dayLocations = { ...(stateRef.current.settings.dayLocations || {}) };
+    if (baseId) dayLocations[iso] = baseId; else delete dayLocations[iso];
+    await updateSettings({ dayLocations });
+  }, [updateSettings]);
+
+  // Geocode a base ONCE (Nominatim) via its disambiguated query, caching coords.
+  // Reads the base from storage (always current — updateSettings mirrors to
+  // localStorage synchronously) rather than stateRef, which only syncs after a
+  // commit and would go stale mid-handler (e.g. relocate's clear-then-geocode).
+  const ensureBaseGeocoded = useCallback(async (id) => {
+    const base = (OrbitStorage.getSettings().bases || []).find((b) => b.id === id);
+    if (!base) return null;
+    if (base.lat != null && base.lng != null) return base;
+    const geo = await geocodePlaceName(base.query || base.tag);
+    if (!geo) return null;
+    await updateBase(id, { lat: geo.lat, lng: geo.lng, geocodedAt: Date.now() });
+    return { ...base, lat: geo.lat, lng: geo.lng };
+  }, [updateBase]);
+
+  // Fetch + cache a base's own forecast under its id, so weather-avoid on days
+  // tagged to it reasons from that base's real location, not home's.
+  const refreshBaseWeather = useCallback(async (id) => {
+    const base = await ensureBaseGeocoded(id);
+    if (!base || base.lat == null || base.lng == null) return { ok: false, reason: 'no-coords' };
+    const entries = await fetchForecast(base.lat, base.lng, base.id);
+    if (entries.length === 0) return { ok: false, reason: 'forecast-failed' };
+    setWeather((prev) => [...entries, ...prev.filter((w) => (w.locationId ?? null) !== base.id)]);
+    entries.forEach((e) => OrbitStorage.saveWeather(e));
+    return { ok: true, days: entries.length };
+  }, [ensureBaseGeocoded]);
+
+  // Once per session (and once per new day, since a fetched forecast covers
+  // today): if a home ZIP is set and today isn't cached, pull the forecast.
+  const weatherCheckedRef = useRef(false);
+  useEffect(() => {
+    if (loading || weatherCheckedRef.current) return;
+    if (!stateRef.current.settings.homeZip) return; // no ZIP yet — retry once one is set
+    const todayStr = todayISO();
+    if (weather.some((w) => w.date === todayStr)) { weatherCheckedRef.current = true; return; }
+    weatherCheckedRef.current = true;
+    refreshWeather();
+  }, [loading, weather, refreshWeather]);
+
+  // Derived: scheduled outdoor tasks whose day has turned rainy (§6 re-check) —
+  // the UI surfaces these as reschedule prompts.
+  const weatherRainFlags = useMemo(
+    () => outdoorRescheduleFlags(tasks, weather, settings.scheduler.weatherAvoidPrecipPct),
+    [tasks, weather, settings.scheduler.weatherAvoidPrecipPct],
+  );
+
+  // ---- AI annotation (§1/§9/§15) ----
+  // Signed-in only (the endpoint verifies a Firebase ID token, same as the
+  // inbox tidy). For each un-annotated task: fetch a validated annotation,
+  // fill the still-unknown scheduler fields (user edits are never overwritten),
+  // stamp aiAnnotatedAt so it isn't re-annotated, and infer+geocode a location
+  // into the places DB when one is implied. Degrades to a no-op offline.
+  const annotateTasks = useCallback(async (taskIds, onProgress) => {
+    if (backend.mode !== 'cloud' || !user) return { ok: false, reason: 'not-signed-in' };
+    const ids = (taskIds || []).filter(Boolean);
+    if (ids.length === 0) return { ok: true, annotated: 0, total: 0 };
+
+    // Resolve a location name → placeId, reusing existing places and deduping
+    // within this batch so the same store isn't geocoded twice.
+    const placeByName = new Map(places.map((p) => [p.name.trim().toLowerCase(), p.id]));
+    const resolvePlace = async (name) => {
+      const key = name.trim().toLowerCase();
+      if (placeByName.has(key)) return placeByName.get(key);
+      const created = await addPlace({ name: name.trim(), source: 'inferred' });
+      placeByName.set(key, created.id);
+      const geo = await geocodePlaceName(name.trim());
+      if (geo) await updatePlace(created.id, { lat: geo.lat, lng: geo.lng, geocodedAt: Date.now() });
+      return created.id;
+    };
+
+    let done = 0;
+    let annotated = 0;
+    for (const id of ids) {
+      const task = stateRef.current.tasks.find((t) => t.id === id);
+      if (task) {
+        try {
+          const token = await user.getIdToken();
+          const res = await fetch('/api/orbit-annotate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ title: task.title }),
+          });
+          if (res.ok) {
+            const data = await res.json();
+            const a = data.annotation;
+            if (a) {
+              const patch = { aiAnnotatedAt: Date.now(), weatherSensitive: a.weatherSensitive, perishable: a.perishable };
+              if (task.category == null) patch.category = a.category;
+              if (task.intensity == null) patch.intensity = a.intensity;
+              if (task.indoorOutdoor == null) patch.indoorOutdoor = a.indoorOutdoor;
+              if (task.estWorkMin == null) patch.estWorkMin = a.estWorkMin;
+              if (task.estRecoveryMin == null) patch.estRecoveryMin = a.estRecoveryMin;
+              if (task.idealWindow == null) patch.idealWindow = a.idealWindow;
+              if (a.locationName && task.locationId == null) {
+                const placeId = await resolvePlace(a.locationName);
+                if (placeId) patch.locationId = placeId;
+              }
+              await updateTask(id, patch);
+              annotated += 1;
+            }
+          }
+        } catch { /* skip this task; the rest still annotate */ }
+      }
+      done += 1;
+      if (onProgress) onProgress(done, ids.length);
+    }
+    return { ok: true, annotated, total: ids.length };
+  }, [backend, user, places, addPlace, updatePlace, updateTask]);
+
   // ---- export / import (Phase 3) ----
   // Snapshot, not a live reference — read off stateRef.current the same way
   // generateReview/rollTaskToToday do, so a caller who awaits a slow download
@@ -852,5 +1106,18 @@ export function useOrbitState() {
     reload,
     // ---- Phase 3 (new) ----
     exportData, importData,
+    // ---- scheduler databases (§3.2, local-only for now) ----
+    places, durations, weather, rules, travelLog,
+    addPlace, updatePlace, removePlace,
+    upsertDuration, saveWeather,
+    addRule, updateRule, removeRule,
+    upsertTravelLogEntry,
+    // ---- weather (§6) ----
+    refreshWeather, weatherRainFlags,
+    // ---- "where I am" bases (§9) ----
+    bases: settings.bases, dayLocations: settings.dayLocations,
+    addBase, updateBase, removeBase, setDayLocation, ensureBaseGeocoded, refreshBaseWeather,
+    // ---- AI annotation (§1/§9/§15) ----
+    annotateTasks,
   };
 }

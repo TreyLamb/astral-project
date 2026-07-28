@@ -5,9 +5,10 @@ import { RPE_MIN, RPE_MAX, RPE_LEGEND } from './fitnessConfig';
 import { parseShorthand } from './calc/shorthand';
 import GroupPicker from './GroupPicker';
 import ClearableInput from './ClearableInput';
+import BaseSelect from './BaseSelect';
 import { useAuth } from '../../AuthContext';
 import { firebaseReady } from '../../firebase';
-import { loadOrbitBridgeData, quickAddOrbitTask } from './orbitTasksBridge';
+import { loadOrbitBridgeData, quickAddOrbitTask, setOrbitDayLocation } from './orbitTasksBridge';
 
 // Pseudo activity id for the "To-do" mode — not a real activityType (it creates
 // Orbit to-dos, not a workout), just a selectable button in the type row.
@@ -43,6 +44,9 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
 
   const [shorthand, setShorthand] = useState('');
   const [title, setTitle] = useState('');
+  // Event WHERE — defaults to the seeded OREM home base (id 'home'). Picking an
+  // away base tags this event's day so Orbit travel/weather use that location.
+  const [eventBaseId, setEventBaseId] = useState('home');
   const [todoDraft, setTodoDraft] = useState('');
   const [todoList, setTodoList] = useState([]);
   const [savingTodos, setSavingTodos] = useState(false);
@@ -105,6 +109,13 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
       metrics: url.trim() ? { url: url.trim() } : undefined,
     });
     if (groupId !== settings.lastGroupId) updateSettings({ lastGroupId: groupId });
+    if (isEvent) {
+      // 'home' (OREM) is the default — leave the day untagged (it already
+      // resolves to home). An away base gets written so the day's WHERE tag +
+      // Orbit's travel/weather follow the event's location.
+      await setOrbitDayLocation(user || null, firebaseReady, when, eventBaseId === 'home' ? null : eventBaseId);
+      window.dispatchEvent(new CustomEvent('orbit-tasks-changed'));
+    }
     onClose();
   }
 
@@ -187,6 +198,14 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
             )}
           </>
         ))}
+
+        {isEvent && (
+          <div className="ft-field ft-event-where">
+            <label className="ft-field-label">Where</label>
+            <BaseSelect value={eventBaseId} onChange={setEventBaseId} allowClear={false} />
+            <p className="ft-hint-sm">Where this event is — tags the day so Orbit’s travel &amp; weather use that spot.</p>
+          </div>
+        )}
 
         {!isEvent && !isTodo && templates.length > 0 && (
           <div className="ft-templates">
