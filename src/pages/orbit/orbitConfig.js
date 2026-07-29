@@ -43,6 +43,19 @@ export function newArea(partial = {}) {
 // rule enforced in two places must have one definition.
 export const AREA_HARD_CAP = 12;
 
+// Area is never something you have to choose. Anything created without one
+// falls back to Home, so "which Area?" is a non-issue unless you actively want
+// to change it. Matched by name (case-insensitive) rather than a stored id so
+// it survives a reseed/import; falls back to the first area, then null, so a
+// renamed or deleted Home can't break task creation.
+export const DEFAULT_AREA_NAME = 'Home';
+
+export function defaultAreaId(areas = []) {
+  const open = (areas || []).filter((a) => a && !a.archived);
+  const home = open.find((a) => a.name?.toLowerCase() === DEFAULT_AREA_NAME.toLowerCase());
+  return (home || open[0])?.id ?? null;
+}
+
 // Muted starter palette, ready to seed a first run.
 export const SEED_AREAS = [
   { name: 'Work', color: '#6e8fb0' },

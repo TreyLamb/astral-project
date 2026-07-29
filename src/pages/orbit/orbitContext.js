@@ -17,7 +17,7 @@ import { OrbitStorage } from './orbitStorage';
 import { OrbitFirestore } from './orbitFirestore';
 import {
   newArea, newProject, withProjectDefaults, newTask, withTaskDefaults, newInboxItem,
-  SEED_AREAS, withSettingsDefaults, todayISO,
+  SEED_AREAS, defaultAreaId, withSettingsDefaults, todayISO,
   newRecurrenceRule, newReferenceItem, withReferenceDefaults,
   newTracker, newReviewLog, newDayPlan, withDayPlanDefaults,
   newPlace, newRule, newBase, nextBaseColor,
@@ -344,9 +344,11 @@ export function useOrbitState() {
             );
             const dates = datesToGenerate(rule, today, existingDates);
             if (dates.length === 0) return;
+            // Bypasses addTask (see comment above), so it needs the same Area
+            // default applied here.
             const generated = dates.map((date) => newTask({
               title: rule.title,
-              areaId: rule.areaId,
+              areaId: rule.areaId || defaultAreaId(nextAreas),
               projectId: rule.projectId,
               taskType: rule.taskType,
               importance: rule.importance,
@@ -528,7 +530,12 @@ export function useOrbitState() {
   // priorityScore is always server-computed here — never trust a caller-
   // supplied value (see orbitConfig.js / calc/priority.js header comments).
   const addTask = useCallback(async (partial) => {
-    const t = newTask(partial, stateRef.current.settings); // newTask already computes priorityScore
+    // Single choke point for the Area default — every UI path lands here, so
+    // no caller has to remember it and none can produce an area-less task.
+    const t = newTask({
+      ...partial,
+      areaId: partial?.areaId || defaultAreaId(stateRef.current.areas),
+    }, stateRef.current.settings); // newTask already computes priorityScore
     setTasks((prev) => [t, ...prev]);
     OrbitStorage.saveTask(t);
     if (backend.mode === 'cloud') markDirty('tasks', t.id);

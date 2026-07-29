@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useOrbit } from '../orbitContext';
 import { firstOpenDayFor } from '../calc/planner';
 import { isUnscored } from '../calc/priority';
+import { defaultAreaId } from '../orbitConfig';
 import { auth } from '../../../firebase';
 import TaskRow from './TaskRow';
 import TaskTypeFilter from './TaskTypeFilter';
@@ -38,7 +39,7 @@ function timeAgo(ms) {
 export default function TriageView() {
   const orbit = useOrbit();
   const {
-    inbox, tasks, projects, settings, mode, today, getDayPlan,
+    inbox, tasks, areas, projects, settings, mode, today, getDayPlan,
     addTask, addProject, updateTask, updateInboxItem, removeTask, removeProject,
   } = orbit;
   const navigate = useNavigate();
@@ -390,9 +391,8 @@ export default function TriageView() {
                 <label className="orb-triage-field">
                   <span>Area</span>
                   <AreaSelect
-                    value={taskDraft.areaId}
+                    value={taskDraft.areaId || defaultAreaId(areas) || ''}
                     onChange={(areaId) => setTaskDraft((d) => ({ ...d, areaId, projectId: '' }))}
-                    includeNone
                   />
                 </label>
                 <label className="orb-triage-field">

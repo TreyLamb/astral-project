@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useOrbit } from '../orbitContext';
 import { firstOpenDayFor } from '../calc/planner';
+import { defaultAreaId } from '../orbitConfig';
 import AreaSelect from './AreaSelect';
 import AxisChips from './AxisChips';
 import './CaptureScreen.css';
@@ -26,7 +27,9 @@ export default function CaptureScreen() {
   // it's usually already correct and otherwise just eats vertical space on a
   // phone. The toggle label shows the live value so it can't silently drift.
   const [areaOpen, setAreaOpen] = useState(false);
-  const [areaId, setAreaId] = useState('');
+  // Preselected to Home so the collapsed row reads as a real value, matching
+  // what addTask would fill in anyway. Never blank.
+  const [areaId, setAreaId] = useState(() => defaultAreaId(areas) ?? '');
   const [projectId, setProjectId] = useState('');
   const [taskType, setTaskType] = useState('');
   const [axes, setAxes] = useState(DEFAULT_AXES);
@@ -228,7 +231,7 @@ export default function CaptureScreen() {
           {areaOpen && (
             <label className="orb-capscreen-field">
               <span>Area</span>
-              <AreaSelect value={areaId} onChange={handleAreaChange} includeNone />
+              <AreaSelect value={areaId} onChange={handleAreaChange} />
             </label>
           )}
         </div>
