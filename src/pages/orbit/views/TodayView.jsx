@@ -78,7 +78,7 @@ export default function TodayView() {
     return (
       <div className="orb-today orb-today-empty">
         {untriagedCount > 0 && (
-          <Link to="/orbit/inbox" className="orb-today-empty-prompt">
+          <Link to="/orbit/triage" className="orb-today-empty-prompt">
             {untriagedCount} item{untriagedCount === 1 ? '' : 's'} to triage →
           </Link>
         )}

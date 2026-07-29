@@ -32,7 +32,7 @@ function timeAgo(ms) {
 }
 
 // Triage queue + All-tasks toggle (§4.2 + #6). The queue serves one
-// InboxItem at a time (oldest first) with t/p/r/d single-key actions that
+// captured note at a time (oldest first) with t/p/r/d single-key actions that
 // mirror TkbReview's keyboard + tap + swipe parity pattern; All tasks is the
 // plain "dump everything and see it" list (T10).
 export default function TriageView() {
@@ -77,7 +77,7 @@ export default function TriageView() {
   // Triage is defined by ABSENCE OF A SCORE, not by a flag. A task created
   // with an Area but no axes is untriaged by definition, so it belongs in this
   // queue — otherwise it's stored honestly as unscored and then never
-  // resurfaces anywhere. Inbox items drain first: they still have to become
+  // resurfaces anywhere. Captured notes drain first: they still have to become
   // something, whereas these already exist and only need numbers.
   const unscoredTasks = useMemo(
     () => tasks
@@ -341,7 +341,7 @@ export default function TriageView() {
           disabled={mode !== 'cloud' || aiBusy}
           title={mode !== 'cloud' ? 'Sign in to use AI cleanup' : undefined}
         >
-          {aiBusy ? 'Tidying…' : '✨ Tidy inbox with AI'}
+          {aiBusy ? 'Tidying…' : '✨ Tidy queue with AI'}
         </button>
         {aiResult && (
           <span className={`orb-triage-ai-result orb-triage-ai-result-${aiResult.kind}`}>{aiResult.text}</span>
@@ -540,7 +540,7 @@ export default function TriageView() {
       ) : (
         <div className="orb-triage-zero">
           <div className="orb-triage-zero-icon">✓</div>
-          <div>Inbox zero — nothing to triage.</div>
+          <div>Queue clear — nothing to triage.</div>
         </div>
       ))}
 

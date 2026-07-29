@@ -8,7 +8,8 @@ import './SettingsView.css';
 // so whenever it IS read, the stored value is already the right shape.
 const VIEW_OPTIONS = [
   { value: 'today', label: 'Today' },
-  { value: 'inbox', label: 'Inbox' },
+  // value is a persisted settings key — only the label changes.
+  { value: 'inbox', label: 'Triage' },
   { value: 'areas', label: 'Areas' },
   { value: 'reference', label: 'Reference Vault' },
   { value: 'review', label: 'Weekly Review' },
@@ -149,7 +150,7 @@ function ExportSection({ orbit }) {
   return (
     <div className="orb-set-io-row">
       <button type="button" className="orb-btn orb-btn-primary" onClick={handleExport}>Export all data (JSON)</button>
-      <span className="orb-set-io-note">Downloads everything — areas, projects, tasks, inbox, settings, and more — as one JSON file.</span>
+      <span className="orb-set-io-note">Downloads everything — areas, projects, tasks, triage queue, settings, and more — as one JSON file.</span>
     </div>
   );
 }
@@ -227,7 +228,7 @@ function ImportSection({ orbit }) {
         <div className="orb-set-import-confirm">
           <p className="orb-set-import-confirm-text">
             Import <strong>{fileName}</strong>? This <strong>REPLACES ALL Orbit data</strong> — areas, projects,
-            tasks, inbox, settings, everything — with what's in this file. This can't be undone. Continue?
+            tasks, triage queue, settings, everything — with what's in this file. This can't be undone. Continue?
           </p>
           <div className="orb-set-import-actions">
             <button type="button" className="orb-btn" onClick={reset} disabled={importing}>Cancel</button>
@@ -537,12 +538,12 @@ export default function SettingsView() {
             onCommit={(n) => updateSettings({ staleDays: Math.max(1, Math.round(n)) })}
           />
           <NumberField
-            label="Discarded-inbox retention"
+            label="Discarded-item retention"
             value={settings.discardRetentionDays}
             min={0}
             step={1}
             suffix="days"
-            hint="Discarded inbox items are purged automatically after this long."
+            hint="Discarded items are purged automatically after this long."
             onCommit={(n) => updateSettings({ discardRetentionDays: Math.max(0, Math.round(n)) })}
           />
           <NumberField

@@ -1,4 +1,4 @@
-import { Routes, Route, NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, NavLink, Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { OrbitContext, useOrbitState } from './orbitContext';
 import useKeyboardInset from '../../hooks/useKeyboardInset';
@@ -23,7 +23,7 @@ import ViewsHub from './views/ViewsHub';
 import './Orbit.css';
 
 // Nav entries shown in the secondary "more" disclosure group — Phase 2
-// screens that don't need top-billing next to Today/Inbox/Areas. Carryover
+// screens that don't need top-billing next to Today/Triage/Areas. Carryover
 // is deliberately included here (not just surfaced via the nudge banner)
 // so it's still reachable with zero carried-over tasks.
 const MORE_NAV_ITEMS = [
@@ -61,7 +61,7 @@ const navLinkClass = ({ isActive }) => `orb-nav-link${isActive ? ' active' : ''}
 // dumb dispatch instead of a growing if/else chain as more views land.
 const G_NAV_KEYS = {
   t: '/orbit',
-  i: '/orbit/inbox',
+  i: '/orbit/triage',
   a: '/orbit/areas',
   r: '/orbit/reference',
   w: '/orbit/review',
@@ -194,7 +194,7 @@ export default function OrbitApp() {
             >
               🔎 Search
             </button>
-            <button type="button" className="orb-btn orb-capture-btn" onClick={() => setCaptureOpen((o) => !o)} title="Quick brain-dump to your Inbox (Ctrl/Cmd+K)">
+            <button type="button" className="orb-btn orb-capture-btn" onClick={() => setCaptureOpen((o) => !o)} title="Quick brain-dump to your triage queue (Ctrl/Cmd+K)">
               ＋ Capture
             </button>
             <Link to="/orbit/capture" className="orb-btn-primary orb-addtask-btn" title="Full add-task form — area, priority, schedule">
@@ -208,8 +208,8 @@ export default function OrbitApp() {
           <nav className={`orb-nav${navOpen ? ' open' : ''}`}>
             <NavLink to="/orbit/capture" className={({ isActive }) => `orb-nav-link orb-nav-link-addtask${isActive ? ' active' : ''}`}>＋ Add Task</NavLink>
             <NavLink end to="/orbit" className={navLinkClass}>Today</NavLink>
-            <NavLink to="/orbit/inbox" className={navLinkClass}>
-              Inbox
+            <NavLink to="/orbit/triage" className={navLinkClass}>
+              Triage
               {untriagedCount > 0 && <span className="orb-nav-badge">{untriagedCount}</span>}
             </NavLink>
             <NavLink to="/orbit/areas" className={navLinkClass}>Areas</NavLink>
@@ -263,7 +263,9 @@ export default function OrbitApp() {
             ) : (
               <Routes>
                 <Route index element={<TodayView />} />
-                <Route path="inbox" element={<TriageView />} />
+                <Route path="triage" element={<TriageView />} />
+                {/* old path — keeps existing links/bookmarks working */}
+                <Route path="inbox" element={<Navigate to="/orbit/triage" replace />} />
                 <Route path="capture" element={<CaptureScreen />} />
                 <Route path="areas" element={<AreasView />} />
                 <Route path="project/:id" element={<ProjectView />} />

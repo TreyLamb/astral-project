@@ -358,7 +358,7 @@ export default function PlannerView() {
       )}
 
       {ordered.length === 0 && (
-        <div className="orb-planner-zero">No open, unblocked, unscheduled tasks to plan — inbox and Today are clear.</div>
+        <div className="orb-planner-zero">No open, unblocked, unscheduled tasks to plan — triage queue and Today are clear.</div>
       )}
     </div>
   );

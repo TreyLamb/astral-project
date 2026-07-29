@@ -11,14 +11,13 @@ const NEW = '__new_area__';
 // Areas are a short, personal, open-ended list — but until now the ONLY way to
 // make one was the Areas screen, so filing a task under a new Area meant
 // abandoning whatever you were typing, navigating away, coming back, and
-// starting over. Anything that didn't match an existing Area silently fell
-// through to the Inbox instead. A fixed-preset <select> was the wrong control
-// for a value the user defines.
+// starting over. A fixed-preset <select> was the wrong control for a value the
+// user defines.
 export default function AreaSelect({
   value,
   onChange,
   includeNone = false,
-  noneLabel = '— none (inbox) —',
+  noneLabel = '— none —',
   disabled = false,
 }) {
   const { areas, addArea } = useOrbit();

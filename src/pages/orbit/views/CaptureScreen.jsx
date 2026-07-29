@@ -11,13 +11,15 @@ import './CaptureScreen.css';
 // are the triage. calc/priority.js substitutes a neutral value for ranking only.
 const DEFAULT_AXES = { importance: null, urgency: null, difficulty: null, energy: null };
 
-// Full-screen mobile add (§4.1 + C7/C8). Title-only is a complete, valid
-// submit — the collapsible section underneath is opt-in extra detail, never
-// required. Whether an Area is set decides the whole outcome: no Area stays
-// a raw inbox capture for later triage; setting one promotes it straight to
-// a real Task (skips the triage queue entirely) — see handleSubmit.
+// Full-screen mobile add (§4.1 + C7/C8). A title is the only requirement;
+// every other field is optional and nothing typed here is ever discarded.
+//
+// This ALWAYS creates a Task. Area used to decide whether you got a Task or a
+// raw capture, which meant the detail fields you filled in could be silently
+// thrown away — Area is now just another field. What decides whether it needs
+// triage is whether it's scored, nothing else.
 export default function CaptureScreen() {
-  const { areas, projects, settings, tasks, today, getDayPlan, addTask, addInboxItem } = useOrbit();
+  const { areas, projects, settings, tasks, today, getDayPlan, addTask } = useOrbit();
 
   const [title, setTitle] = useState('');
   // Area is the one field still behind a tap — it's sticky across submits, so
@@ -47,7 +49,9 @@ export default function CaptureScreen() {
 
   const openAreas = areas.filter((a) => !a.archived);
   const areaProjects = areaId ? projects.filter((p) => p.areaId === areaId && p.status !== 'archived') : [];
-  const areaLabel = openAreas.find((a) => a.id === areaId)?.name ?? 'none (inbox)';
+  const areaLabel = openAreas.find((a) => a.id === areaId)?.name ?? 'none';
+  const scoreComplete = axes.importance != null && axes.urgency != null
+    && axes.difficulty != null && axes.energy != null;
 
   const setAxis = (key, value) => setAxes((prev) => ({ ...prev, [key]: value }));
 
@@ -69,48 +73,36 @@ export default function CaptureScreen() {
     const trimmed = title.trim();
     if (!trimmed) return; // title-only is the only requirement — never submit blank
 
-    // The calendar checkbox forces a real Task even with no Area — "put it on
-    // the calendar regardless of how it'd otherwise be triaged."
-    const wantsTask = !!areaId || addToCalendar;
+    // A title is the whole requirement. Area does NOT decide what gets created
+    // any more — this always makes a Task, and an unscored Task is already in
+    // the triage queue by definition (calc/priority.js isUnscored). Area is
+    // just another optional field, and nothing typed here is ever discarded.
     let noteMsg = null;
 
-    if (wantsTask) {
-      let sched = scheduledDate || null;
-      if (addToCalendar && !sched) {
-        const scheduledTasks = tasks.filter((t) => t.scheduledDate && t.status !== 'done' && t.status !== 'killed');
-        sched = firstOpenDayFor(
-          // Day-fitting needs a number; an unscored task is assumed average
-          // rather than free. Local to this placement — nothing is persisted.
-          { timeMin: timeMin === '' ? null : Number(timeMin), energy: axes.energy ?? 3 },
-          scheduledTasks, today, 60, capacityFor,
-        );
-      }
-      addTask({
-        title: trimmed,
-        areaId: areaId || null,
-        projectId: projectId || null,
-        importance: axes.importance,
-        urgency: axes.urgency,
-        difficulty: axes.difficulty,
-        energy: axes.energy,
-        timeMin: timeMin === '' ? null : Number(timeMin),
-        taskType: taskType || null,
-        dueDate: dueDate || null,
-        scheduledDate: sched,
-      });
-      if (addToCalendar && sched) {
-        noteMsg = `📅 Scheduled for ${sched}${areaId ? '' : ' — no Area set, filed as an unsorted task'}.`;
-      }
-    } else {
-      // InboxItem has no axis fields this phase — say so instead of quietly
-      // discarding whatever the user set below the title (spec C8: ✂️).
-      const axesTouched = axes.importance != null || axes.urgency != null || axes.difficulty != null
-        || axes.energy != null || timeMin !== '' || !!taskType || !!dueDate || !!scheduledDate || !!projectId;
-      addInboxItem({ rawText: trimmed });
-      if (axesTouched) {
-        noteMsg = "No Area set, so this went to the Inbox as plain text — the detail fields above weren't saved. Set an Area (or tick Add to calendar) to create a Task directly.";
-      }
+    let sched = scheduledDate || null;
+    if (addToCalendar && !sched) {
+      const scheduledTasks = tasks.filter((t) => t.scheduledDate && t.status !== 'done' && t.status !== 'killed');
+      sched = firstOpenDayFor(
+        // Day-fitting needs a number; an unscored task is assumed average
+        // rather than free. Local to this placement — nothing is persisted.
+        { timeMin: timeMin === '' ? null : Number(timeMin), energy: axes.energy ?? 3 },
+        scheduledTasks, today, 60, capacityFor,
+      );
     }
+    addTask({
+      title: trimmed,
+      areaId: areaId || null,
+      projectId: projectId || null,
+      importance: axes.importance,
+      urgency: axes.urgency,
+      difficulty: axes.difficulty,
+      energy: axes.energy,
+      timeMin: timeMin === '' ? null : Number(timeMin),
+      taskType: taskType || null,
+      dueDate: dueDate || null,
+      scheduledDate: sched,
+    });
+    if (addToCalendar && sched) noteMsg = `📅 Scheduled for ${sched}.`;
 
     clearTimeout(noteTimerRef.current);
     setNote(noteMsg);
@@ -172,7 +164,9 @@ export default function CaptureScreen() {
             you open a disclosure first collapsed that distinction. */}
         <div className="orb-capscreen-details">
           <div className="orb-capscreen-hint">
-            {areaId ? 'Area set — this will be created as a Task.' : 'No Area — this will go to the Inbox for later triage.'}
+            {scoreComplete
+              ? 'Fully scored — goes straight to your lists.'
+              : 'Unscored, so it lands in the triage queue until you score it.'}
           </div>
 
           {/* Two-up grid: on a phone these as full-width stacked rows pushed
@@ -240,7 +234,7 @@ export default function CaptureScreen() {
         </div>
 
         <button type="submit" className="orb-btn orb-btn-primary orb-capscreen-submit">
-          {(areaId || addToCalendar) ? 'Add Task' : 'Add to Inbox'}
+          Add Task
         </button>
       </form>
     </div>
