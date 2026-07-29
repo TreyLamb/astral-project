@@ -64,7 +64,9 @@
 }
 
 /* ---- day columns ---- */
-.orb-auto-days { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+/* min(300px, 100%) not a bare 300px — on a 320px-wide phone the container is
+   narrower than the floor, and a bare floor overflows instead of collapsing. */
+.orb-auto-days { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 12px; }
 .orb-auto-day { display: flex; flex-direction: column; gap: 10px; }
 .orb-auto-day.today { border-color: var(--orb-accent); }
 .orb-auto-day-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }

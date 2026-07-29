@@ -13,6 +13,7 @@ import MealEditor from './MealEditor';
 import MealQuickAddModal from './MealQuickAddModal';
 import WeighInModal from './WeighInModal';
 import { todayISO } from './fitnessConfig';
+import useKeyboardInset from '../../hooks/useKeyboardInset';
 import './FitnessTracker.css';
 
 // Installable-to-home-screen (PWA) is scoped to this sub-app: the manifest <link>
@@ -39,6 +40,7 @@ export default function FitnessTrackerApp() {
   const [weighIn, setWeighIn] = useState(null);
   useLocation(); // keeps NavLink active-state in sync across nested navigations
   useScopedManifest();
+  useKeyboardInset();
 
   // No date passed = the topbar "+ Log" button = logging something already done
   // (defaults to completed). A date passed = a calendar-day click = scheduling a

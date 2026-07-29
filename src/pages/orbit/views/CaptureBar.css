@@ -60,8 +60,18 @@
 }
 .orb-capbar-close:hover { color: var(--orb-text); border-color: var(--orb-accent); }
 
+/* Phones: flip to a bottom sheet riding on top of the keyboard. Top-anchored
+   was the worst possible spot here — you tap the field, the keyboard eats the
+   bottom half of the screen, and the input you're typing into is stranded at
+   the far top. --kb-inset comes from useKeyboardInset (visualViewport); it's
+   0 with no keyboard up, so this just sits above the home indicator. */
 @media (max-width: 640px) {
-  .orb-capbar-wrap { top: 8px; width: calc(100vw - 16px); }
-  .orb-capbar { padding: 8px 10px; }
+  .orb-capbar-wrap {
+    top: auto;
+    bottom: calc(var(--kb-inset, 0px) + env(safe-area-inset-bottom, 0px) + 8px);
+    width: calc(100vw - 16px);
+    transition: bottom 0.15s ease-out;
+  }
+  .orb-capbar { padding: 10px; border-radius: 16px; }
   .orb-capbar-count { font-size: 0.65rem; }
 }

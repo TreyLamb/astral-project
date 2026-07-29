@@ -78,16 +78,34 @@
 
 .orb-capscreen-hint { font-size: 0.8rem; color: var(--orb-muted); }
 
-.orb-capscreen-field { display: flex; flex-direction: column; gap: 4px; font-size: 0.82rem; color: var(--orb-muted); font-weight: 600; }
+/* Collapsed Area row — shows the live value so the one hidden field can't
+   silently drift, and doubles as the tap target to reveal the select. */
+.orb-capscreen-areatoggle {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border);
+  border-radius: 8px; padding: 9px 12px; cursor: pointer;
+  color: var(--orb-muted); font: inherit; font-size: 0.82rem; font-weight: 600; text-align: left;
+}
+.orb-capscreen-areatoggle strong { margin-left: auto; color: var(--orb-text); font-size: 0.88rem; }
+.orb-capscreen-areatoggle:hover { border-color: var(--orb-accent); }
+
+/* Two-up so the six detail fields don't run the form off a phone screen. */
+.orb-capscreen-fieldgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
+
+/* min-width:0 is load-bearing — grid items default to min-width:auto, which
+   stops a native date input shrinking and blows out the row. */
+.orb-capscreen-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-size: 0.75rem; color: var(--orb-muted); font-weight: 600; }
 .orb-capscreen-field select,
 .orb-capscreen-field input {
+  width: 100%;
+  box-sizing: border-box;
   background: var(--orb-panel-2);
   border: 1px solid var(--orb-border);
   border-radius: 8px;
-  padding: 10px;
+  padding: 8px 9px;
   color: var(--orb-text);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 .orb-capscreen-field select:focus,
 .orb-capscreen-field input:focus { outline: none; border-color: var(--orb-accent); }
@@ -111,7 +129,30 @@
 
 .orb-capscreen-submit { width: 100%; padding: 16px; font-size: 1rem; border-radius: 14px; }
 
+/* Details stays a plain column at every width now — .orb-capscreen-fieldgrid
+   owns the columns, so the axis steppers no longer need a span override. */
 @media (min-width: 560px) {
-  .orb-capscreen-details { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; }
-  .orb-axis-field { grid-column: span 2; }
+  .orb-capscreen-fieldgrid { grid-template-columns: repeat(3, 1fr); gap: 10px 14px; }
+}
+
+@media (max-width: 640px) {
+  .orb-capscreen { gap: 10px; }
+  .orb-capscreen-form { gap: 10px; }
+
+  /* 1.4rem text in 22px of padding is a desktop hero input. On a phone with
+     the keyboard up (~40% of the screen) it alone pushed the details section
+     below the fold. Still comfortably the biggest thing on the screen. */
+  .orb-capscreen-title { font-size: 1.1rem; padding: 14px; border-radius: 12px; }
+  .orb-capscreen-calcheck { padding: 10px 12px; font-size: 0.85rem; }
+  .orb-capscreen-calcheck input { width: 18px; height: 18px; }
+  .orb-capscreen-details { padding: 12px; gap: 10px; }
+
+  /* Sticks above the keyboard instead of sitting below four axis steppers,
+     so back-to-back adds never need a scroll between them. Solid accent
+     background already, so it reads fine overlapping the content behind it. */
+  .orb-capscreen-submit {
+    position: sticky;
+    bottom: calc(var(--kb-inset, 0px) + env(safe-area-inset-bottom, 0px) + 8px);
+    padding: 13px;
+  }
 }

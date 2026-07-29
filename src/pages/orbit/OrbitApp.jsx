@@ -1,6 +1,7 @@
 import { Routes, Route, NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { OrbitContext, useOrbitState } from './orbitContext';
+import useKeyboardInset from '../../hooks/useKeyboardInset';
 import TodayView from './views/TodayView';
 import TriageView from './views/TriageView';
 import CaptureScreen from './views/CaptureScreen';
@@ -87,6 +88,7 @@ export default function OrbitApp() {
     () => sessionStorage.getItem('orbit-carryover-nudge-dismissed') === '1',
   );
   useScopedManifest();
+  useKeyboardInset();
 
   // Close the mobile nav drawer on navigation. Reset-during-render (same
   // pattern as Navbar.jsx's menuOpenForPath) instead of an effect, to avoid

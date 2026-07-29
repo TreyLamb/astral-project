@@ -43,7 +43,9 @@
 }
 .ft-tab:hover { background: var(--ft-panel-2); color: var(--ft-text); }
 .ft-tab.active { background: rgba(163, 230, 53, 0.14); color: var(--ft-accent); }
-.ft-topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+/* flex-wrap so this nested row can break instead of overflowing the screen
+   edge — .ft-topbar itself wraps, but that doesn't help its children. */
+.ft-topbar-right { margin-left: auto; display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 10px; }
 .ft-sync { font-size: 0.8rem; color: var(--ft-muted); white-space: nowrap; }
 .ft-sync-cloud { color: #67e8f9; }
 .ft-log-btn { font-size: 0.95rem; }
@@ -399,6 +401,24 @@
 /* ---- responsive ---- */
 @media (max-width: 640px) {
   .ft-main { padding: 12px; }
+
+  /* Release .ft-cal's 560px floor. That floor exists to stop the side panel
+     crushing the day grid — but .ft-cal-outer already stacked to a column at
+     1024px, so there IS no panel beside it down here. Left on, it forced ~190px
+     of horizontal overflow on every phone and the whole calendar scrolled
+     sideways. */
+  .ft-cal { min-width: 0; }
+
+  /* "Astral Project" at 1.5em plus "💪 MyFitnessTracker" at 1.15rem is most of
+     a phone's width before the tabs or + Log even get a turn. */
+  .ft-topbar { gap: 8px; padding: 8px 12px; }
+  .ft-site-home { font-size: 1rem; padding-right: 10px; }
+  .ft-brand { font-size: 0.95rem; }
+  .ft-brand-icon { font-size: 1.05rem; }
+  .ft-topbar-right { gap: 8px; }
+  .ft-sync { font-size: 0.7rem; }
+  .ft-log-btn { font-size: 0.82rem; padding: 8px 12px; }
+
   .ft-cell-month { min-height: 72px; }
   .ft-cell-num { font-size: 0.75rem; }
   .ft-cell-cal { font-size: 0.58rem; }
@@ -414,6 +434,12 @@
   .ft-cell-week { min-height: 140px; }
   .ft-two { grid-template-columns: 1fr; }
   .ft-cal-title { font-size: 1.1rem; }
+
+  /* Every modal here is a form. iOS doesn't shrink the layout viewport for the
+     keyboard, so the backdrop's own bottom padding was landing behind it and
+     the Save/Cancel row couldn't be scrolled to. --kb-inset (useKeyboardInset)
+     reserves exactly the keyboard's height; it's 0px when none is up. */
+  .ft-modal-backdrop { padding: 16px 12px calc(var(--kb-inset, 0px) + 24px); }
 }
 
 /* ================= Phase 2+ surfaces ================= */
@@ -462,7 +488,9 @@
 
 /* tools */
 .ft-tools > .ft-hint-sm, .ft-dash > .ft-hint-sm { margin-bottom: 4px; }
-.ft-tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-top: 14px; }
+/* min(300px, 100%) — a bare 300px floor overflows a 320px-wide phone rather
+   than collapsing to one column. */
+.ft-tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 16px; margin-top: 14px; }
 .ft-solver-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 10px; }
 .ft-preset-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
 .ft-preset-btn { background: var(--ft-bg); border: 1px solid var(--ft-border); border-radius: 16px; padding: 5px 11px; color: var(--ft-muted); font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: inherit; }

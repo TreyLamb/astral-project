@@ -39,7 +39,14 @@ export default function CaptureScreen() {
   const { areas, projects, settings, tasks, today, getDayPlan, addTask, addInboxItem } = useOrbit();
 
   const [title, setTitle] = useState('');
-  const [expanded, setExpanded] = useState(false);
+  // Details start OPEN (2026-07-28): they're the reason to be on this screen
+  // rather than the quick-capture bar, so making every add start with a tap on
+  // a disclosure was pure friction. The toggle stays for collapsing it back.
+  const [expanded, setExpanded] = useState(true);
+  // Area is the one field still behind a tap — it's sticky across submits, so
+  // it's usually already correct and otherwise just eats vertical space on a
+  // phone. The toggle label shows the live value so it can't silently drift.
+  const [areaOpen, setAreaOpen] = useState(false);
   const [areaId, setAreaId] = useState('');
   const [projectId, setProjectId] = useState('');
   const [taskType, setTaskType] = useState('');
@@ -63,6 +70,7 @@ export default function CaptureScreen() {
 
   const openAreas = areas.filter((a) => !a.archived);
   const areaProjects = areaId ? projects.filter((p) => p.areaId === areaId && p.status !== 'archived') : [];
+  const areaLabel = openAreas.find((a) => a.id === areaId)?.name ?? 'none (inbox)';
 
   const setAxis = (key, value) => setAxes((prev) => ({ ...prev, [key]: value }));
 
@@ -190,51 +198,68 @@ export default function CaptureScreen() {
               {areaId ? 'Area set — this will be created as a Task.' : 'No Area — this will go to the Inbox for later triage.'}
             </div>
 
-            <label className="orb-capscreen-field">
+            <button
+              type="button"
+              className="orb-capscreen-areatoggle"
+              onClick={() => setAreaOpen((v) => !v)}
+              aria-expanded={areaOpen}
+            >
               <span>Area</span>
-              <select value={areaId} onChange={handleAreaChange}>
-                <option value="">— none (inbox) —</option>
-                {openAreas.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
-              </select>
-            </label>
+              <strong>{areaLabel}</strong>
+              <span aria-hidden="true">{areaOpen ? '▴' : '▾'}</span>
+            </button>
 
-            <label className="orb-capscreen-field">
-              <span>Project</span>
-              <select value={projectId} onChange={(e) => setProjectId(e.target.value)} disabled={!areaId}>
-                <option value="">— none —</option>
-                {areaProjects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
-              </select>
-            </label>
+            {areaOpen && (
+              <label className="orb-capscreen-field">
+                <span>Area</span>
+                <select value={areaId} onChange={handleAreaChange} autoFocus>
+                  <option value="">— none (inbox) —</option>
+                  {openAreas.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
+                </select>
+              </label>
+            )}
 
-            <label className="orb-capscreen-field">
-              <span>Type</span>
-              <select value={taskType} onChange={(e) => setTaskType(e.target.value)}>
-                <option value="">— none —</option>
-                {settings.taskTypes.map((t) => <option key={t} value={t}>{t}</option>)}
-              </select>
-            </label>
+            {/* Two-up grid: on a phone these six as full-width stacked rows
+                pushed the axis steppers and the submit button off-screen. */}
+            <div className="orb-capscreen-fieldgrid">
+              <label className="orb-capscreen-field">
+                <span>Project</span>
+                <select value={projectId} onChange={(e) => setProjectId(e.target.value)} disabled={!areaId}>
+                  <option value="">— none —</option>
+                  {areaProjects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+                </select>
+              </label>
 
-            <label className="orb-capscreen-field">
-              <span>Time (min)</span>
-              <input
-                type="number"
-                min="0"
-                step="5"
-                value={timeMin}
-                onChange={(e) => setTimeMin(e.target.value)}
-                placeholder="any"
-              />
-            </label>
+              <label className="orb-capscreen-field">
+                <span>Type</span>
+                <select value={taskType} onChange={(e) => setTaskType(e.target.value)}>
+                  <option value="">— none —</option>
+                  {settings.taskTypes.map((t) => <option key={t} value={t}>{t}</option>)}
+                </select>
+              </label>
 
-            <label className="orb-capscreen-field">
-              <span>Due date</span>
-              <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
-            </label>
+              <label className="orb-capscreen-field">
+                <span>Time (min)</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="5"
+                  value={timeMin}
+                  onChange={(e) => setTimeMin(e.target.value)}
+                  placeholder="any"
+                />
+              </label>
 
-            <label className="orb-capscreen-field">
-              <span>Scheduled date</span>
-              <input type="date" value={scheduledDate} onChange={(e) => setScheduledDate(e.target.value)} />
-            </label>
+              <label className="orb-capscreen-field">
+                <span>Due date</span>
+                <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+              </label>
+
+              <label className="orb-capscreen-field">
+                <span>Scheduled</span>
+                <input type="date" value={scheduledDate} onChange={(e) => setScheduledDate(e.target.value)} />
+              </label>
+            </div>
 
             <AxisStepper label="Importance" value={axes.importance} onChange={(n) => setAxis('importance', n)} />
             <AxisStepper label="Urgency" value={axes.urgency} onChange={(n) => setAxis('urgency', n)} />
