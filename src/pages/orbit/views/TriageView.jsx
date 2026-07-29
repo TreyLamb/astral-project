@@ -5,11 +5,16 @@ import { firstOpenDayFor } from '../calc/planner';
 import { auth } from '../../../firebase';
 import TaskRow from './TaskRow';
 import TaskTypeFilter from './TaskTypeFilter';
+import AreaSelect from './AreaSelect';
+import AxisChips from './AxisChips';
 import './TriageView.css';
 
 const SWIPE_MIN_DISTANCE = 40;
+// Axes start null, same as CaptureScreen — pre-filling 3 lets you click
+// straight through triage and end up with four fabricated scores, which is
+// exactly what triage exists to prevent.
 const DEFAULT_TASK_DRAFT = {
-  areaId: '', projectId: '', importance: 3, urgency: 3, difficulty: 3, energy: 3,
+  areaId: '', projectId: '', importance: null, urgency: null, difficulty: null, energy: null,
   timeMin: '', taskType: '', dueDate: '', scheduledDate: '', addToCalendar: false,
 };
 
@@ -22,29 +27,6 @@ function timeAgo(ms) {
   return `${Math.floor(hr / 24)}d ago`;
 }
 
-// 1-5 segmented control — duplicated from CaptureScreen's (small,
-// single-purpose, and neither view is chartered to own a shared file for it).
-function AxisStepper({ label, value, onChange }) {
-  return (
-    <div className="orb-axis-field">
-      <span className="orb-axis-label">{label}</span>
-      <div className="orb-axis-seg" role="group" aria-label={label}>
-        {[1, 2, 3, 4, 5].map((n) => (
-          <button
-            key={n}
-            type="button"
-            className={`orb-axis-btn${value === n ? ' active' : ''}`}
-            onClick={() => onChange(n)}
-            aria-pressed={value === n}
-          >
-            {n}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // Triage queue + All-tasks toggle (§4.2 + #6). The queue serves one
 // InboxItem at a time (oldest first) with t/p/r/d single-key actions that
 // mirror TkbReview's keyboard + tap + swipe parity pattern; All tasks is the
@@ -52,7 +34,7 @@ function AxisStepper({ label, value, onChange }) {
 export default function TriageView() {
   const orbit = useOrbit();
   const {
-    inbox, tasks, areas, projects, settings, mode, today, getDayPlan,
+    inbox, tasks, projects, settings, mode, today, getDayPlan,
     addTask, addProject, updateInboxItem, removeTask, removeProject,
   } = orbit;
   const navigate = useNavigate();
@@ -83,7 +65,6 @@ export default function TriageView() {
     [inbox],
   );
   const current = untriaged[0] || null;
-  const openAreas = useMemo(() => areas.filter((a) => !a.archived), [areas]);
 
   const allFilteredTasks = useMemo(() => tasks.filter((t) => {
     if (statusFilter !== 'all' && t.status !== statusFilter) return false;
@@ -117,7 +98,9 @@ export default function TriageView() {
     if (taskDraft.addToCalendar && !sched) {
       const scheduledTasks = tasks.filter((t) => t.scheduledDate && t.status !== 'done' && t.status !== 'killed');
       sched = firstOpenDayFor(
-        { timeMin: taskDraft.timeMin === '' ? null : Number(taskDraft.timeMin), energy: taskDraft.energy },
+        // Day-fitting needs a number; an unscored task is assumed average
+        // rather than free. Local to this placement — nothing is persisted.
+        { timeMin: taskDraft.timeMin === '' ? null : Number(taskDraft.timeMin), energy: taskDraft.energy ?? 3 },
         scheduledTasks, today, 60, capacityFor,
       );
     }
@@ -359,13 +342,12 @@ export default function TriageView() {
               <div className="orb-triage-form">
                 <label className="orb-triage-field">
                   <span>Area *</span>
-                  <select
+                  <AreaSelect
                     value={taskDraft.areaId}
-                    onChange={(e) => setTaskDraft((d) => ({ ...d, areaId: e.target.value, projectId: '' }))}
-                  >
-                    <option value="">— choose —</option>
-                    {openAreas.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
-                  </select>
+                    onChange={(areaId) => setTaskDraft((d) => ({ ...d, areaId, projectId: '' }))}
+                    includeNone
+                    noneLabel="— choose —"
+                  />
                 </label>
                 <label className="orb-triage-field">
                   <span>Project</span>
@@ -425,10 +407,10 @@ export default function TriageView() {
                   />
                   <span>📅 Add to calendar {taskDraft.scheduledDate ? '(on the scheduled date above)' : '— auto-pick the next open day'}</span>
                 </label>
-                <AxisStepper label="Importance" value={taskDraft.importance} onChange={(n) => setTaskDraft((d) => ({ ...d, importance: n }))} />
-                <AxisStepper label="Urgency" value={taskDraft.urgency} onChange={(n) => setTaskDraft((d) => ({ ...d, urgency: n }))} />
-                <AxisStepper label="Difficulty" value={taskDraft.difficulty} onChange={(n) => setTaskDraft((d) => ({ ...d, difficulty: n }))} />
-                <AxisStepper label="Energy" value={taskDraft.energy} onChange={(n) => setTaskDraft((d) => ({ ...d, energy: n }))} />
+                <AxisChips
+                  axes={taskDraft}
+                  onChange={(key, n) => setTaskDraft((d) => ({ ...d, [key]: n }))}
+                />
                 <div className="orb-triage-form-actions">
                   <button type="button" className="orb-btn" onClick={closeForm}>Cancel</button>
                   <button type="button" className="orb-btn orb-btn-primary" disabled={!taskDraft.areaId} onClick={confirmTask}>
@@ -442,10 +424,12 @@ export default function TriageView() {
               <div className="orb-triage-form">
                 <label className="orb-triage-field">
                   <span>Area *</span>
-                  <select value={projectAreaId} onChange={(e) => setProjectAreaId(e.target.value)}>
-                    <option value="">— choose —</option>
-                    {openAreas.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
-                  </select>
+                  <AreaSelect
+                    value={projectAreaId}
+                    onChange={setProjectAreaId}
+                    includeNone
+                    noneLabel="— choose —"
+                  />
                 </label>
                 <label className="orb-triage-field">
                   <span>Name</span>
