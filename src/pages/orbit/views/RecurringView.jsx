@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useOrbit } from '../orbitContext';
 import { DEFAULT_TASK_TYPES } from '../orbitConfig';
 import { occurrencesBetween } from '../calc/recurrence';
+import AxisChips from './AxisChips';
 import './RecurringView.css';
 
 const FREQ_OPTIONS = [
@@ -45,7 +46,9 @@ function freqSummary(rule) {
 function blankDraft(today) {
   return {
     title: '', areaId: '', projectId: '', taskType: '',
-    importance: 3, urgency: 3, timeMin: '', difficulty: 3, energy: 3,
+    // null, not 3 — an unscored rule generates unscored tasks, which go to the
+    // triage queue rather than arriving with scores nobody picked.
+    importance: null, urgency: null, timeMin: '', difficulty: null, energy: null,
     freq: 'daily', interval: 1, weekdays: [], dayOfMonth: 1,
     anchorDate: today, active: true,
   };
@@ -79,28 +82,6 @@ function normalizeDraft(draft, today) {
     anchorDate: draft.anchorDate || today,
     active: draft.active,
   };
-}
-
-function RuleAxisStepper({ label, value, onChange }) {
-  return (
-    <div className="orb-rv-axis">
-      <span className="orb-rv-axis-label">{label}</span>
-      <div className="orb-rv-axis-btns" role="radiogroup" aria-label={label}>
-        {[1, 2, 3, 4, 5].map((n) => (
-          <button
-            key={n}
-            type="button"
-            role="radio"
-            aria-checked={value === n}
-            className={`orb-rv-axis-btn${value === n ? ' active' : ''}`}
-            onClick={() => onChange(n)}
-          >
-            {n}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
 }
 
 function WeekdayPicker({ value, onChange }) {
@@ -214,10 +195,7 @@ function RuleForm({ draft, setDraft, areas, projects, taskTypes, today, onCancel
           <input className="orb-rv-input" type="date" value={draft.anchorDate} onChange={(e) => field({ anchorDate: e.target.value })} />
         </label>
 
-        <RuleAxisStepper label="Importance" value={draft.importance} onChange={(n) => field({ importance: n })} />
-        <RuleAxisStepper label="Urgency" value={draft.urgency} onChange={(n) => field({ urgency: n })} />
-        <RuleAxisStepper label="Difficulty" value={draft.difficulty} onChange={(n) => field({ difficulty: n })} />
-        <RuleAxisStepper label="Energy" value={draft.energy} onChange={(n) => field({ energy: n })} />
+        <AxisChips axes={draft} onChange={(key, n) => field({ [key]: n })} />
       </div>
 
       <div className="orb-rv-freq-block">

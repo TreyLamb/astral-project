@@ -137,7 +137,9 @@ export default function TriageView() {
   const closeForm = () => { setFormMode(null); setTaskDraft(DEFAULT_TASK_DRAFT); };
 
   const confirmTask = async () => {
-    if (!current || !taskDraft.areaId) return;
+    // Area is NOT required — a title is the whole bar. Without scores this just
+    // stays in the queue as an unscored task instead of leaving the queue.
+    if (!current) return;
     let sched = taskDraft.scheduledDate || null;
     if (taskDraft.addToCalendar && !sched) {
       const scheduledTasks = tasks.filter((t) => t.scheduledDate && t.status !== 'done' && t.status !== 'killed');
@@ -386,12 +388,11 @@ export default function TriageView() {
             {formMode === 'task' && (
               <div className="orb-triage-form">
                 <label className="orb-triage-field">
-                  <span>Area *</span>
+                  <span>Area</span>
                   <AreaSelect
                     value={taskDraft.areaId}
                     onChange={(areaId) => setTaskDraft((d) => ({ ...d, areaId, projectId: '' }))}
                     includeNone
-                    noneLabel="— choose —"
                   />
                 </label>
                 <label className="orb-triage-field">
@@ -458,7 +459,7 @@ export default function TriageView() {
                 />
                 <div className="orb-triage-form-actions">
                   <button type="button" className="orb-btn" onClick={closeForm}>Cancel</button>
-                  <button type="button" className="orb-btn orb-btn-primary" disabled={!taskDraft.areaId} onClick={confirmTask}>
+                  <button type="button" className="orb-btn orb-btn-primary" onClick={confirmTask}>
                     Create Task
                   </button>
                 </div>

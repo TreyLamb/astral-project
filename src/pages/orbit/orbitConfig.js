@@ -363,11 +363,14 @@ export function newRecurrenceRule(partial = {}) {
     areaId: partial.areaId ?? null,
     projectId: partial.projectId ?? null,
     taskType: partial.taskType ?? null,
-    importance: partial.importance ?? 3,
-    urgency: partial.urgency ?? 3,
+    // null, same as newTask — a rule whose axes were never set generates
+    // unscored tasks, which land in the triage queue instead of arriving
+    // pre-scored with numbers nobody chose.
+    importance: partial.importance ?? null,
+    urgency: partial.urgency ?? null,
     timeMin: partial.timeMin ?? null,
-    difficulty: partial.difficulty ?? 3,
-    energy: partial.energy ?? 3,
+    difficulty: partial.difficulty ?? null,
+    energy: partial.energy ?? null,
     freq: partial.freq || 'daily',
     interval: partial.interval ?? 1,
     weekdays: partial.weekdays ?? [],
