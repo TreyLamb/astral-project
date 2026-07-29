@@ -97,11 +97,14 @@ export function newTask(partial = {}, settings) {
     projectId: partial.projectId ?? null,
     parentTaskId: partial.parentTaskId ?? null,
     status: partial.status || 'todo',
-    importance: partial.importance ?? 3,
-    urgency: partial.urgency ?? 3,
+    // null = unscored, deliberately NOT 3. A fabricated 3 makes a task that was
+    // never triaged look already-triaged; calc/priority.js substitutes a neutral
+    // value for ranking without ever writing it back.
+    importance: partial.importance ?? null,
+    urgency: partial.urgency ?? null,
     timeMin: partial.timeMin ?? null,
-    difficulty: partial.difficulty ?? 3,
-    energy: partial.energy ?? 3,
+    difficulty: partial.difficulty ?? null,
+    energy: partial.energy ?? null,
     priorityScore: 0,
     taskType: partial.taskType ?? null,
     dueDate: partial.dueDate ?? null,
@@ -143,8 +146,11 @@ export function withTaskDefaults(t) {
     ...t,
     parentTaskId: t.parentTaskId ?? null,
     timeMin: t.timeMin ?? null,
-    difficulty: t.difficulty ?? 3,
-    energy: t.energy ?? 3,
+    // ?? null, not ?? 3 — re-coercing on load would undo the unscored state
+    // that newTask deliberately stores. Tasks written before this change already
+    // hold real numbers, so only genuinely-absent fields read as unscored.
+    difficulty: t.difficulty ?? null,
+    energy: t.energy ?? null,
     priorityScore: t.priorityScore ?? computePriorityScore(t),
     taskType: t.taskType ?? null,
     pinnedToday: t.pinnedToday ?? false,

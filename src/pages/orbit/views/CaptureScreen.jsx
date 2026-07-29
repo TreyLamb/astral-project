@@ -6,18 +6,10 @@ import AreaSelect from './AreaSelect';
 import AxisChips from './AxisChips';
 import './CaptureScreen.css';
 
-// null = never chosen. Kept distinct from 3 so AxisChips can advance through
-// "still unset" axes, and so a deliberate 3 isn't confused with a default.
-// UNSCORED_DEFAULT is what an unset axis becomes on submit.
+// null = never chosen, and it SAVES as null. Writing a fallback 3 would make an
+// untriaged task look already-scored and quietly skip future triage — the axes
+// are the triage. calc/priority.js substitutes a neutral value for ranking only.
 const DEFAULT_AXES = { importance: null, urgency: null, difficulty: null, energy: null };
-const UNSCORED_DEFAULT = 3;
-
-const scored = (axes) => ({
-  importance: axes.importance ?? UNSCORED_DEFAULT,
-  urgency: axes.urgency ?? UNSCORED_DEFAULT,
-  difficulty: axes.difficulty ?? UNSCORED_DEFAULT,
-  energy: axes.energy ?? UNSCORED_DEFAULT,
-});
 
 // Full-screen mobile add (§4.1 + C7/C8). Title-only is a complete, valid
 // submit — the collapsible section underneath is opt-in extra detail, never
@@ -80,7 +72,6 @@ export default function CaptureScreen() {
     // The calendar checkbox forces a real Task even with no Area — "put it on
     // the calendar regardless of how it'd otherwise be triaged."
     const wantsTask = !!areaId || addToCalendar;
-    const axisValues = scored(axes);
     let noteMsg = null;
 
     if (wantsTask) {
@@ -88,7 +79,9 @@ export default function CaptureScreen() {
       if (addToCalendar && !sched) {
         const scheduledTasks = tasks.filter((t) => t.scheduledDate && t.status !== 'done' && t.status !== 'killed');
         sched = firstOpenDayFor(
-          { timeMin: timeMin === '' ? null : Number(timeMin), energy: axisValues.energy },
+          // Day-fitting needs a number; an unscored task is assumed average
+          // rather than free. Local to this placement — nothing is persisted.
+          { timeMin: timeMin === '' ? null : Number(timeMin), energy: axes.energy ?? 3 },
           scheduledTasks, today, 60, capacityFor,
         );
       }
@@ -96,7 +89,10 @@ export default function CaptureScreen() {
         title: trimmed,
         areaId: areaId || null,
         projectId: projectId || null,
-        ...axisValues,
+        importance: axes.importance,
+        urgency: axes.urgency,
+        difficulty: axes.difficulty,
+        energy: axes.energy,
         timeMin: timeMin === '' ? null : Number(timeMin),
         taskType: taskType || null,
         dueDate: dueDate || null,

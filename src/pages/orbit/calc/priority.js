@@ -7,15 +7,34 @@
 // call before settings has loaded).
 export const DEFAULT_WEIGHTS = { importanceWeight: 2, urgencyWeight: 2, costWeight: 1 };
 
+// An axis the user hasn't scored is null, NOT 3 (see AxisChips). Storing a
+// fabricated 3 would make an unscored task indistinguishable from a deliberately
+// mid-scored one, and it would sail through triage looking already-handled.
+//
+// For RANKING ONLY an unscored axis reads as the neutral midpoint, so a task
+// that hasn't been scored yet sorts sanely instead of falling to the bottom
+// (bare `null` coerces to 0 in JS arithmetic — silently wrong, not an error).
+// This value is never written back to the task.
+const NEUTRAL_AXIS = 3;
+const axis = (v) => (v == null ? NEUTRAL_AXIS : v);
+
+// "Still needs triage" — any axis left unscored.
+export function isUnscored(task) {
+  return task.importance == null || task.urgency == null
+    || task.difficulty == null || task.energy == null;
+}
+
 // timeMin is reserved for the Phase-2 capacity planner, NOT the base rank —
 // cost here is purely the 1-5 difficulty/energy "how much of me does this cost" pair.
 export function taskCost(task) {
-  return (task.difficulty + task.energy) / 2;
+  return (axis(task.difficulty) + axis(task.energy)) / 2;
 }
 
 export function computePriorityScore(task, settings) {
   const w = settings || DEFAULT_WEIGHTS;
-  return w.importanceWeight * task.importance + w.urgencyWeight * task.urgency - w.costWeight * taskCost(task);
+  return w.importanceWeight * axis(task.importance)
+    + w.urgencyWeight * axis(task.urgency)
+    - w.costWeight * taskCost(task);
 }
 
 export function isOverdue(task, todayStr) {

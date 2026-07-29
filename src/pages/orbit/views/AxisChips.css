@@ -4,12 +4,13 @@
 
 .orb-axc { display: flex; gap: 8px; }
 
-.orb-axc-slot { position: relative; flex: 1 1 0; min-width: 0; }
+/* Fixed-size, not stretch-to-fill — these are four small controls, and letting
+   them span the full row made them read as primary actions. */
+.orb-axc-slot { position: relative; flex: none; }
 
 .orb-axc-chip {
-  width: 100%;
+  width: 39px;
   aspect-ratio: 1 / 1;
-  max-height: 58px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,8 +27,8 @@
 .orb-axc-chip:hover { border-color: var(--orb-accent); }
 .orb-axc-chip.open { border-color: var(--orb-accent); background: rgba(126, 200, 227, 0.14); }
 
-.orb-axc-letter { font-size: 0.68rem; font-weight: 700; color: var(--orb-muted); line-height: 1; }
-.orb-axc-val { font-size: 1.05rem; font-weight: 800; color: var(--orb-accent); line-height: 1; }
+.orb-axc-letter { font-size: 0.58rem; font-weight: 700; color: var(--orb-muted); line-height: 1; }
+.orb-axc-val { font-size: 0.88rem; font-weight: 800; color: var(--orb-accent); line-height: 1; }
 
 /* Unset reads as clearly empty, so "which still need a value" is glanceable. */
 .orb-axc-chip.unset { border-style: dashed; }
