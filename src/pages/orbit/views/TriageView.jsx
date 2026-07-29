@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrbit } from '../orbitContext';
 import { firstOpenDayFor } from '../calc/planner';
+import { isUnscored } from '../calc/priority';
 import { auth } from '../../../firebase';
 import TaskRow from './TaskRow';
 import TaskTypeFilter from './TaskTypeFilter';
@@ -13,8 +14,11 @@ const SWIPE_MIN_DISTANCE = 40;
 // Axes start null, same as CaptureScreen — pre-filling 3 lets you click
 // straight through triage and end up with four fabricated scores, which is
 // exactly what triage exists to prevent.
+const AXIS_KEYS = ['importance', 'urgency', 'difficulty', 'energy'];
+const EMPTY_AXES = { importance: null, urgency: null, difficulty: null, energy: null };
+
 const DEFAULT_TASK_DRAFT = {
-  areaId: '', projectId: '', importance: null, urgency: null, difficulty: null, energy: null,
+  areaId: '', projectId: '', ...EMPTY_AXES,
   timeMin: '', taskType: '', dueDate: '', scheduledDate: '', addToCalendar: false,
 };
 
@@ -35,9 +39,13 @@ export default function TriageView() {
   const orbit = useOrbit();
   const {
     inbox, tasks, projects, settings, mode, today, getDayPlan,
-    addTask, addProject, updateInboxItem, removeTask, removeProject,
+    addTask, addProject, updateTask, updateInboxItem, removeTask, removeProject,
   } = orbit;
   const navigate = useNavigate();
+
+  // Session-local so a task you can't score right now doesn't wedge the head of
+  // the queue forever. Deliberately not persisted — next session it's back.
+  const [skipped, setSkipped] = useState(() => new Set());
 
   const capacityFor = (date) => {
     const plan = getDayPlan(date);
@@ -65,6 +73,42 @@ export default function TriageView() {
     [inbox],
   );
   const current = untriaged[0] || null;
+
+  // Triage is defined by ABSENCE OF A SCORE, not by a flag. A task created
+  // with an Area but no axes is untriaged by definition, so it belongs in this
+  // queue — otherwise it's stored honestly as unscored and then never
+  // resurfaces anywhere. Inbox items drain first: they still have to become
+  // something, whereas these already exist and only need numbers.
+  const unscoredTasks = useMemo(
+    () => tasks
+      .filter((t) => t.status !== 'done' && t.status !== 'killed'
+        && !skipped.has(t.id) && isUnscored(t))
+      .sort((a, b) => a.createdAt - b.createdAt),
+    [tasks, skipped],
+  );
+  const currentTask = current ? null : (unscoredTasks[0] || null);
+  const queueCount = untriaged.length + unscoredTasks.length;
+
+  // Seed the score draft from whatever the task already has, so a partially
+  // scored task doesn't lose the axes it does have.
+  const [scoreForId, setScoreForId] = useState(null);
+  const [scoreDraft, setScoreDraft] = useState(EMPTY_AXES);
+  if ((currentTask?.id ?? null) !== scoreForId) {
+    setScoreForId(currentTask?.id ?? null);
+    setScoreDraft(currentTask ? {
+      importance: currentTask.importance,
+      urgency: currentTask.urgency,
+      difficulty: currentTask.difficulty,
+      energy: currentTask.energy,
+    } : EMPTY_AXES);
+  }
+
+  const scoreComplete = AXIS_KEYS.every((k) => scoreDraft[k] != null);
+
+  const saveScores = async () => {
+    if (!currentTask || !scoreComplete) return;
+    await updateTask(currentTask.id, { ...scoreDraft });
+  };
 
   const allFilteredTasks = useMemo(() => tasks.filter((t) => {
     if (statusFilter !== 'all' && t.status !== statusFilter) return false;
@@ -267,7 +311,7 @@ export default function TriageView() {
           className={`orb-tab${viewMode === 'queue' ? ' active' : ''}`}
           onClick={() => setViewMode('queue')}
         >
-          Triage queue{untriaged.length > 0 ? ` (${untriaged.length})` : ''}
+          Triage queue{queueCount > 0 ? ` (${queueCount})` : ''}
         </button>
         <button
           type="button"
@@ -282,8 +326,9 @@ export default function TriageView() {
 
       {viewMode === 'queue' && (
         <p className="orb-triage-intro">
-          This sorts the quick notes you dropped via <strong>＋ Capture</strong> — decide what each one becomes:
-          {' '}<strong>Task</strong>, <strong>Project</strong>, <strong>Reference</strong>, or <strong>Discard</strong>.
+          Anything without a score lands here. First the quick notes you dropped via <strong>＋ Capture</strong>
+          {' '}— decide what each becomes: <strong>Task</strong>, <strong>Project</strong>, <strong>Reference</strong>,
+          {' '}or <strong>Discard</strong>. Then any task that exists but was never scored.
           Want a fully-detailed task right now? Use <strong>＋ Add Task</strong> instead.
         </p>
       )}
@@ -452,6 +497,43 @@ export default function TriageView() {
             <div className="orb-triage-legend">
               <span><kbd>Esc</kbd> {formMode ? 'cancel' : 'back to Today'}</span>
               <span>Swipe → Task · ← Discard · ↑ Project · ↓ Reference</span>
+            </div>
+          </div>
+        </div>
+      ) : currentTask ? (
+        <div className="orb-triage-card-wrap">
+          <div className="orb-card orb-triage-card">
+            <div className="orb-triage-meta">
+              <span>needs scoring</span>
+              {unscoredTasks.length > 1 && <span>{unscoredTasks.length - 1} more waiting</span>}
+            </div>
+            <div className="orb-triage-text">{currentTask.title}</div>
+
+            <div className="orb-triage-note">
+              Already a task — it just has no score yet. Set all four to finish triaging it.
+            </div>
+
+            <AxisChips
+              axes={scoreDraft}
+              onChange={(key, n) => setScoreDraft((d) => ({ ...d, [key]: n }))}
+            />
+
+            <div className="orb-triage-form-actions">
+              <button
+                type="button"
+                className="orb-btn"
+                onClick={() => setSkipped((s) => new Set(s).add(currentTask.id))}
+              >
+                Skip for now
+              </button>
+              <button
+                type="button"
+                className="orb-btn orb-btn-primary"
+                disabled={!scoreComplete}
+                onClick={saveScores}
+              >
+                Save scores
+              </button>
             </div>
           </div>
         </div>
