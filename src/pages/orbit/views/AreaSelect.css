@@ -1,0 +1,35 @@
+/* AreaSelect — inline "＋ New area…" creation. Inherits the surrounding form's
+   select styling (.orb-capscreen-field / .orb-te-field), so only the create
+   row needs rules of its own. */
+
+.orb-areasel-new { display: flex; align-items: center; gap: 6px; min-width: 0; }
+
+.orb-areasel-new input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: var(--orb-panel-2);
+  border: 1px solid var(--orb-accent);
+  border-radius: 8px;
+  padding: 8px 9px;
+  color: var(--orb-text);
+  font: inherit;
+  font-size: 0.85rem;
+}
+.orb-areasel-new input:focus { outline: none; }
+
+.orb-areasel-ok,
+.orb-areasel-x {
+  flex: none;
+  background: var(--orb-panel-2);
+  border: 1px solid var(--orb-border);
+  border-radius: 8px;
+  color: var(--orb-text);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+.orb-areasel-ok { background: var(--orb-accent); border-color: var(--orb-accent); color: #0e1116; }
+.orb-areasel-x { padding: 8px; color: var(--orb-muted); }
+.orb-areasel-x:hover { color: var(--orb-text); border-color: var(--orb-accent); }

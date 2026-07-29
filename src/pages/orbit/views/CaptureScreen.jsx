@@ -2,33 +2,22 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useOrbit } from '../orbitContext';
 import { firstOpenDayFor } from '../calc/planner';
+import AreaSelect from './AreaSelect';
+import AxisChips from './AxisChips';
 import './CaptureScreen.css';
 
-const DEFAULT_AXES = { importance: 3, urgency: 3, difficulty: 3, energy: 3 };
+// null = never chosen. Kept distinct from 3 so AxisChips can advance through
+// "still unset" axes, and so a deliberate 3 isn't confused with a default.
+// UNSCORED_DEFAULT is what an unset axis becomes on submit.
+const DEFAULT_AXES = { importance: null, urgency: null, difficulty: null, energy: null };
+const UNSCORED_DEFAULT = 3;
 
-// 1-5 segmented control — big tap targets, no typing required. Duplicated
-// (small, single-purpose) in TriageView's inline task form rather than
-// pulled into a shared file neither view is chartered to own.
-function AxisStepper({ label, value, onChange }) {
-  return (
-    <div className="orb-axis-field">
-      <span className="orb-axis-label">{label}</span>
-      <div className="orb-axis-seg" role="group" aria-label={label}>
-        {[1, 2, 3, 4, 5].map((n) => (
-          <button
-            key={n}
-            type="button"
-            className={`orb-axis-btn${value === n ? ' active' : ''}`}
-            onClick={() => onChange(n)}
-            aria-pressed={value === n}
-          >
-            {n}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
+const scored = (axes) => ({
+  importance: axes.importance ?? UNSCORED_DEFAULT,
+  urgency: axes.urgency ?? UNSCORED_DEFAULT,
+  difficulty: axes.difficulty ?? UNSCORED_DEFAULT,
+  energy: axes.energy ?? UNSCORED_DEFAULT,
+});
 
 // Full-screen mobile add (§4.1 + C7/C8). Title-only is a complete, valid
 // submit — the collapsible section underneath is opt-in extra detail, never
@@ -39,10 +28,6 @@ export default function CaptureScreen() {
   const { areas, projects, settings, tasks, today, getDayPlan, addTask, addInboxItem } = useOrbit();
 
   const [title, setTitle] = useState('');
-  // Details start OPEN (2026-07-28): they're the reason to be on this screen
-  // rather than the quick-capture bar, so making every add start with a tap on
-  // a disclosure was pure friction. The toggle stays for collapsing it back.
-  const [expanded, setExpanded] = useState(true);
   // Area is the one field still behind a tap — it's sticky across submits, so
   // it's usually already correct and otherwise just eats vertical space on a
   // phone. The toggle label shows the live value so it can't silently drift.
@@ -74,8 +59,8 @@ export default function CaptureScreen() {
 
   const setAxis = (key, value) => setAxes((prev) => ({ ...prev, [key]: value }));
 
-  const handleAreaChange = (e) => {
-    setAreaId(e.target.value);
+  const handleAreaChange = (nextAreaId) => {
+    setAreaId(nextAreaId);
     setProjectId(''); // a project belongs to one area — a stale pick can't carry over
   };
 
@@ -95,6 +80,7 @@ export default function CaptureScreen() {
     // The calendar checkbox forces a real Task even with no Area — "put it on
     // the calendar regardless of how it'd otherwise be triaged."
     const wantsTask = !!areaId || addToCalendar;
+    const axisValues = scored(axes);
     let noteMsg = null;
 
     if (wantsTask) {
@@ -102,7 +88,7 @@ export default function CaptureScreen() {
       if (addToCalendar && !sched) {
         const scheduledTasks = tasks.filter((t) => t.scheduledDate && t.status !== 'done' && t.status !== 'killed');
         sched = firstOpenDayFor(
-          { timeMin: timeMin === '' ? null : Number(timeMin), energy: axes.energy },
+          { timeMin: timeMin === '' ? null : Number(timeMin), energy: axisValues.energy },
           scheduledTasks, today, 60, capacityFor,
         );
       }
@@ -110,10 +96,7 @@ export default function CaptureScreen() {
         title: trimmed,
         areaId: areaId || null,
         projectId: projectId || null,
-        importance: axes.importance,
-        urgency: axes.urgency,
-        difficulty: axes.difficulty,
-        energy: axes.energy,
+        ...axisValues,
         timeMin: timeMin === '' ? null : Number(timeMin),
         taskType: taskType || null,
         dueDate: dueDate || null,
@@ -125,8 +108,8 @@ export default function CaptureScreen() {
     } else {
       // InboxItem has no axis fields this phase — say so instead of quietly
       // discarding whatever the user set below the title (spec C8: ✂️).
-      const axesTouched = axes.importance !== 3 || axes.urgency !== 3 || axes.difficulty !== 3
-        || axes.energy !== 3 || timeMin !== '' || !!taskType || !!dueDate || !!scheduledDate || !!projectId;
+      const axesTouched = axes.importance != null || axes.urgency != null || axes.difficulty != null
+        || axes.energy != null || timeMin !== '' || !!taskType || !!dueDate || !!scheduledDate || !!projectId;
       addInboxItem({ rawText: trimmed });
       if (axesTouched) {
         noteMsg = "No Area set, so this went to the Inbox as plain text — the detail fields above weren't saved. Set an Area (or tick Add to calendar) to create a Task directly.";
@@ -161,6 +144,11 @@ export default function CaptureScreen() {
       </div>
 
       <form className="orb-capscreen-form" onSubmit={handleSubmit}>
+        {/* Above the title on purpose: scoring is the part that's easy to skip,
+            and four stacked steppers at the bottom of the form were below the
+            fold on a phone the moment the keyboard opened. */}
+        <AxisChips axes={axes} onChange={setAxis} />
+
         <input
           ref={titleRef}
           type="text"
@@ -183,45 +171,17 @@ export default function CaptureScreen() {
           </div>
         )}
 
-        <button
-          type="button"
-          className="orb-capscreen-toggle"
-          onClick={() => setExpanded((v) => !v)}
-          aria-expanded={expanded}
-        >
-          {expanded ? '− Hide details' : '+ Add details'}
-        </button>
+        {/* No details toggle at all. Seeing every field WITHOUT a tap is the
+            whole difference between this screen and quick ＋ Capture — making
+            you open a disclosure first collapsed that distinction. */}
+        <div className="orb-capscreen-details">
+          <div className="orb-capscreen-hint">
+            {areaId ? 'Area set — this will be created as a Task.' : 'No Area — this will go to the Inbox for later triage.'}
+          </div>
 
-        {expanded && (
-          <div className="orb-capscreen-details">
-            <div className="orb-capscreen-hint">
-              {areaId ? 'Area set — this will be created as a Task.' : 'No Area — this will go to the Inbox for later triage.'}
-            </div>
-
-            <button
-              type="button"
-              className="orb-capscreen-areatoggle"
-              onClick={() => setAreaOpen((v) => !v)}
-              aria-expanded={areaOpen}
-            >
-              <span>Area</span>
-              <strong>{areaLabel}</strong>
-              <span aria-hidden="true">{areaOpen ? '▴' : '▾'}</span>
-            </button>
-
-            {areaOpen && (
-              <label className="orb-capscreen-field">
-                <span>Area</span>
-                <select value={areaId} onChange={handleAreaChange} autoFocus>
-                  <option value="">— none (inbox) —</option>
-                  {openAreas.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
-                </select>
-              </label>
-            )}
-
-            {/* Two-up grid: on a phone these six as full-width stacked rows
-                pushed the axis steppers and the submit button off-screen. */}
-            <div className="orb-capscreen-fieldgrid">
+          {/* Two-up grid: on a phone these as full-width stacked rows pushed
+              the submit button off-screen. */}
+          <div className="orb-capscreen-fieldgrid">
               <label className="orb-capscreen-field">
                 <span>Project</span>
                 <select value={projectId} onChange={(e) => setProjectId(e.target.value)} disabled={!areaId}>
@@ -259,14 +219,29 @@ export default function CaptureScreen() {
                 <span>Scheduled</span>
                 <input type="date" value={scheduledDate} onChange={(e) => setScheduledDate(e.target.value)} />
               </label>
-            </div>
-
-            <AxisStepper label="Importance" value={axes.importance} onChange={(n) => setAxis('importance', n)} />
-            <AxisStepper label="Urgency" value={axes.urgency} onChange={(n) => setAxis('urgency', n)} />
-            <AxisStepper label="Difficulty" value={axes.difficulty} onChange={(n) => setAxis('difficulty', n)} />
-            <AxisStepper label="Energy" value={axes.energy} onChange={(n) => setAxis('energy', n)} />
           </div>
-        )}
+
+          {/* Last, and the only thing still collapsed. It's sticky across
+              submits so it's usually already right; the row shows the live
+              value so it can't drift without being noticed. */}
+          <button
+            type="button"
+            className="orb-capscreen-areatoggle"
+            onClick={() => setAreaOpen((v) => !v)}
+            aria-expanded={areaOpen}
+          >
+            <span>Area</span>
+            <strong>{areaLabel}</strong>
+            <span aria-hidden="true">{areaOpen ? '▴' : '▾'}</span>
+          </button>
+
+          {areaOpen && (
+            <label className="orb-capscreen-field">
+              <span>Area</span>
+              <AreaSelect value={areaId} onChange={handleAreaChange} includeNone />
+            </label>
+          )}
+        </div>
 
         <button type="submit" className="orb-btn orb-btn-primary orb-capscreen-submit">
           {(areaId || addToCalendar) ? 'Add Task' : 'Add to Inbox'}

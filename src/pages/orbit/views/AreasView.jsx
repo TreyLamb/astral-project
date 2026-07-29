@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useOrbit } from '../orbitContext';
 import { qualifyToday, increment } from '../calc/trackers';
+import { AREA_HARD_CAP as HARD_CAP } from '../orbitConfig';
 import TaskRow from './TaskRow';
 import './AreasView.css';
 
 const SOFT_WARN_AT = 10;
-const HARD_CAP = 12;
 
 // zero non-archived projects AND zero non-killed/non-done tasks (spec §9) —
 // only then is a "real" removal safe to offer at all.

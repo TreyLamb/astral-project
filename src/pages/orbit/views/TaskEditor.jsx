@@ -4,6 +4,7 @@ import { useOrbit } from '../orbitContext';
 import { DEFAULT_TASK_TYPES } from '../orbitConfig';
 import DependencyLinker from './DependencyLinker';
 import SubtaskList from './SubtaskList';
+import AreaSelect from './AreaSelect';
 import './TaskEditor.css';
 
 const RATING_FIELDS = [
@@ -228,11 +229,6 @@ export default function TaskEditor({ task, depth = 0 }) {
     updateTask(task.id, { projectId, areaId: project ? project.areaId : task.areaId });
   };
 
-  const areaOptions = areas
-    .filter((a) => !a.archived || a.id === task.areaId)
-    .slice()
-    .sort((a, b) => a.sortOrder - b.sortOrder);
-
   const areaById = new Map(areas.map((a) => [a.id, a]));
   const projectOptions = projects
     .filter((p) => p.status !== 'archived' || p.id === task.projectId)
@@ -272,10 +268,12 @@ export default function TaskEditor({ task, depth = 0 }) {
 
         <label className="orb-te-field">
           <span className="orb-te-label">Area</span>
-          <select className="orb-te-select" value={task.areaId || ''} onChange={(e) => onAreaChange(e.target.value)}>
-            {!task.areaId && <option value="">— choose —</option>}
-            {areaOptions.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
-          </select>
+          <AreaSelect
+            value={task.areaId || ''}
+            onChange={onAreaChange}
+            includeNone={!task.areaId}
+            noneLabel="— choose —"
+          />
         </label>
 
         <label className="orb-te-field">

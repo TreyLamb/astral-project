@@ -1,0 +1,84 @@
+/* AxisChips — the four triage axes as one compact row of letter squares,
+   each opening a 1-5 column. Replaces four stacked full-width steppers that
+   ate ~270px of vertical space on a phone. */
+
+.orb-axc { display: flex; gap: 8px; }
+
+.orb-axc-slot { position: relative; flex: 1 1 0; min-width: 0; }
+
+.orb-axc-chip {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 58px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  background: var(--orb-panel-2);
+  border: 1px solid var(--orb-border);
+  border-radius: 10px;
+  color: var(--orb-text);
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+.orb-axc-chip:hover { border-color: var(--orb-accent); }
+.orb-axc-chip.open { border-color: var(--orb-accent); background: rgba(126, 200, 227, 0.14); }
+
+.orb-axc-letter { font-size: 0.68rem; font-weight: 700; color: var(--orb-muted); line-height: 1; }
+.orb-axc-val { font-size: 1.05rem; font-weight: 800; color: var(--orb-accent); line-height: 1; }
+
+/* Unset reads as clearly empty, so "which still need a value" is glanceable. */
+.orb-axc-chip.unset { border-style: dashed; }
+.orb-axc-chip.unset .orb-axc-val { color: var(--orb-muted); }
+
+/* ---- 1-5 popup ---- */
+.orb-axc-pop {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 7px;
+  background: var(--orb-panel);
+  border: 1px solid var(--orb-accent);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.orb-axc-pop-title {
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--orb-muted);
+  text-align: center;
+  white-space: nowrap;
+  padding: 0 2px 4px;
+  border-bottom: 1px solid var(--orb-border);
+  margin-bottom: 2px;
+}
+
+.orb-axc-num {
+  width: 42px;
+  min-height: 38px;
+  background: var(--orb-panel-2);
+  border: 1px solid var(--orb-border);
+  border-radius: 8px;
+  color: var(--orb-text);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+.orb-axc-num:hover { border-color: var(--orb-accent); color: var(--orb-accent); }
+.orb-axc-num.active { background: rgba(126, 200, 227, 0.18); border-color: var(--orb-accent); color: var(--orb-accent); }
+
+/* The first and last chips sit at the row edges, so a centred popup would
+   hang off the screen — pin those two to their own edge instead. */
+.orb-axc-slot:first-child .orb-axc-pop { left: 0; transform: none; }
+.orb-axc-slot:last-child .orb-axc-pop { left: auto; right: 0; transform: none; }

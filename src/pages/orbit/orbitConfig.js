@@ -38,6 +38,11 @@ export function newArea(partial = {}) {
   };
 }
 
+// Spec §3.1 hard cap. Lives here rather than in AreasView because Areas can
+// now also be created inline from the task forms (AreaSelect) — a business
+// rule enforced in two places must have one definition.
+export const AREA_HARD_CAP = 12;
+
 // Muted starter palette, ready to seed a first run.
 export const SEED_AREAS = [
   { name: 'Work', color: '#6e8fb0' },
