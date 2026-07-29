@@ -8,11 +8,14 @@ import './WelcomeGate.css';
 const DISMISS_KEY = 'astral_welcome_choice_v1';
 
 export default function WelcomeGate() {
-  const { user, firebaseReady, signIn } = useAuth();
+  const { user, authSettled, firebaseReady, signIn } = useAuth();
   const [dismissed, setDismissed] = useState(() => localStorage.getItem(DISMISS_KEY) === '1');
   const [signingIn, setSigningIn] = useState(false);
 
-  const visible = !dismissed && firebaseReady && user === null;
+  // authSettled, not just `user === null` — a bare null is also what you get
+  // mid-redirect and from AuthContext's 6s bail-out, and showing this modal on
+  // those made it flash up and vanish a moment later.
+  const visible = !dismissed && firebaseReady && user === null && authSettled;
 
   function dismiss() {
     localStorage.setItem(DISMISS_KEY, '1');

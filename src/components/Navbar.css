@@ -220,7 +220,20 @@ nav.site-nav ul li a:hover {
     flex-direction: column;
     gap: 2px;
   }
-  nav.site-nav ul.nav-open { display: flex; }
+
+  /* The nav is position:fixed, so the panel CANNOT grow past the viewport and
+     be reached by scrolling the page — anything below the fold is simply
+     unreachable. With ~25 dropdown entries that hid most of the list. Cap it to
+     the space under the logo row (10px pad + ~36px row + 10px gap ≈ 56px, +4px
+     slack) and let the panel scroll itself. */
+  nav.site-nav ul.nav-open {
+    display: flex;
+    max-height: calc(100vh - 70px);
+    max-height: calc(100dvh - 70px); /* dvh accounts for mobile URL-bar chrome */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
 
   nav.site-nav ul li a {
     font-size: 1em;

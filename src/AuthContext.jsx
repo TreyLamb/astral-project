@@ -18,14 +18,28 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   // undefined = still resolving on first load, null = signed out (guest), object = signed in
   const [user, setUser] = useState(undefined);
+  // Distinguishes a *trustworthy* signed-out from a `null` that's still settling
+  // (mid-redirect, or the 6s bail-out below). Anything that puts a sign-in
+  // prompt on screen should gate on this — see WelcomeGate.
+  const [authSettled, setAuthSettled] = useState(false);
 
   useEffect(() => {
-    if (!firebaseReady) { setUser(null); return; }
+    if (!firebaseReady) { setUser(null); setAuthSettled(true); return; }
+    let cancelled = false;
     // Surfaces errors from a completed redirect flow (e.g. account-exists-
     // with-different-credential) — onAuthStateChanged below still fires
     // normally either way once the SDK processes the redirect.
-    getRedirectResult(auth).catch((err) => console.error('Redirect sign-in error:', err));
-    const unsub = onAuthStateChanged(auth, (u) => setUser(u ?? null));
+    //
+    // It's also the gate for `authSettled` (2026-07-28): coming back from
+    // Google, onAuthStateChanged fires `null` FIRST and the real user only once
+    // the redirect result is processed. Treating that first null as "signed
+    // out" is what made the welcome modal flash up and vanish on mobile.
+    const redirectDone = getRedirectResult(auth)
+      .catch((err) => console.error('Redirect sign-in error:', err));
+    const unsub = onAuthStateChanged(auth, (u) => {
+      setUser(u ?? null);
+      redirectDone.then(() => { if (!cancelled) setAuthSettled(true); });
+    });
     // Defensive fallback (2026-07-10): onAuthStateChanged can silently never fire at all —
     // confirmed live when Firebase App Check hit its recaptcha rate limit
     // ("appCheck/initial-throttle", 24h cooldown) and Auth's calls, which go through App
@@ -38,7 +52,7 @@ export function AuthProvider({ children }) {
     // a real auth state arriving later still wins normally (only overrides while still
     // `undefined`, never overwrites an already-resolved value).
     const timeout = setTimeout(() => setUser((u) => (u === undefined ? null : u)), 6000);
-    return () => { unsub(); clearTimeout(timeout); };
+    return () => { cancelled = true; unsub(); clearTimeout(timeout); };
   }, []);
 
   // Always redirect now, never popup (2026-07-10). Popup used to be the desktop path
@@ -70,7 +84,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, firebaseReady, signIn, signOut: signOutUser }}>
+    <AuthContext.Provider value={{ user, authSettled, firebaseReady, signIn, signOut: signOutUser }}>
       {children}
     </AuthContext.Provider>
   );
