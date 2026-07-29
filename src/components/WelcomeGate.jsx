@@ -8,7 +8,9 @@ import './WelcomeGate.css';
 const DISMISS_KEY = 'astral_welcome_choice_v1';
 
 export default function WelcomeGate() {
-  const { user, authSettled, firebaseReady, signIn } = useAuth();
+  const { user, authSettled, signInFailed, firebaseReady, signIn } = useAuth();
+  const standalone = window.matchMedia?.('(display-mode: standalone)').matches
+    || window.navigator.standalone === true;
   const [dismissed, setDismissed] = useState(() => localStorage.getItem(DISMISS_KEY) === '1');
   const [signingIn, setSigningIn] = useState(false);
 
@@ -49,6 +51,17 @@ export default function WelcomeGate() {
           Sign in once to sync TheKnowledgeBase and PGO Tracker across your devices,
           or continue as a guest — everything still works, it just stays on this device.
         </p>
+        {/* Without this, a failed round trip just drops you back on the same
+            button with no explanation, so it reads as an infinite loop. */}
+        {signInFailed && (
+          <div className="wg-error">
+            <strong>Sign-in didn&apos;t complete.</strong>{' '}
+            {standalone
+              ? 'Home Screen apps get their own storage, and this browser is blocking the step that carries the session back. Open the site in Safari instead for now.'
+              : 'Your browser blocked the step that carries the session back from Google. In Safari: Settings → Safari → turn off "Prevent Cross-Site Tracking", then try again.'}{' '}
+            Guest mode works fine in the meantime — nothing is lost, it just stays on this device.
+          </div>
+        )}
         <div className="wg-actions">
           <button className="wg-btn wg-btn-primary" onClick={handleSignIn} disabled={signingIn}>
             {signingIn ? 'Signing in…' : 'Sign in with Google'}

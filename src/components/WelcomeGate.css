@@ -45,6 +45,19 @@
   color: rgba(255, 255, 255, 0.75);
 }
 
+.wg-error {
+  margin: -8px 0 20px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(245, 169, 127, 0.1);
+  border: 1px solid rgba(245, 169, 127, 0.35);
+  color: #f5a97f;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  text-align: left;
+}
+.wg-error strong { color: #ffc9a4; }
+
 .wg-actions {
   display: flex;
   flex-direction: column;

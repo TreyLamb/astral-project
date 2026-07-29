@@ -11,6 +11,13 @@ import { auth, googleProvider, firebaseReady } from './firebase';
 
 const AuthContext = createContext(null);
 
+// Set right before navigating to Google, cleared once a redirect actually
+// produces a user. If it's still set after auth has settled signed-out, the
+// round trip silently failed — which is the iOS/Safari failure mode where
+// nothing throws and you just land back on the sign-in button forever.
+// sessionStorage (not local) so it's per-tab and can't outlive the attempt.
+const PENDING_KEY = 'astral_signin_pending_v1';
+
 export function useAuth() {
   return useContext(AuthContext);
 }
@@ -22,6 +29,9 @@ export function AuthProvider({ children }) {
   // (mid-redirect, or the 6s bail-out below). Anything that puts a sign-in
   // prompt on screen should gate on this — see WelcomeGate.
   const [authSettled, setAuthSettled] = useState(false);
+  // "You tried to sign in and it silently didn't work" — surfaced in the UI so
+  // this stops looking like a mystery loop.
+  const [signInFailed, setSignInFailed] = useState(false);
 
   useEffect(() => {
     if (!firebaseReady) { setUser(null); setAuthSettled(true); return; }
@@ -35,10 +45,21 @@ export function AuthProvider({ children }) {
     // the redirect result is processed. Treating that first null as "signed
     // out" is what made the welcome modal flash up and vanish on mobile.
     const redirectDone = getRedirectResult(auth)
+      .then((res) => { if (res?.user) sessionStorage.removeItem(PENDING_KEY); })
       .catch((err) => console.error('Redirect sign-in error:', err));
     const unsub = onAuthStateChanged(auth, (u) => {
       setUser(u ?? null);
-      redirectDone.then(() => { if (!cancelled) setAuthSettled(true); });
+      if (u) sessionStorage.removeItem(PENDING_KEY);
+      redirectDone.then(() => {
+        if (cancelled) return;
+        setAuthSettled(true);
+        // Came back from Google still signed out, with an attempt outstanding.
+        // Consume the flag so a later manual retry starts from a clean slate.
+        if (!u && sessionStorage.getItem(PENDING_KEY)) {
+          sessionStorage.removeItem(PENDING_KEY);
+          setSignInFailed(true);
+        }
+      });
     });
     // Defensive fallback (2026-07-10): onAuthStateChanged can silently never fire at all —
     // confirmed live when Firebase App Check hit its recaptcha rate limit
@@ -69,11 +90,14 @@ export function AuthProvider({ children }) {
   const signIn = useCallback(async () => {
     if (!firebaseReady) return { ok: false, error: 'Firebase is not configured in this environment.' };
     try {
+      setSignInFailed(false);
+      sessionStorage.setItem(PENDING_KEY, '1');
       // Navigates away immediately — nothing after this line runs in this
       // page lifecycle. The page reloads signed-in once Google redirects back.
       await signInWithRedirect(auth, googleProvider);
       return { ok: true, redirecting: true };
     } catch (err) {
+      sessionStorage.removeItem(PENDING_KEY);
       return { ok: false, error: err?.message ?? 'Sign-in failed' };
     }
   }, []);
@@ -84,7 +108,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, authSettled, firebaseReady, signIn, signOut: signOutUser }}>
+    <AuthContext.Provider value={{ user, authSettled, signInFailed, firebaseReady, signIn, signOut: signOutUser }}>
       {children}
     </AuthContext.Provider>
   );
