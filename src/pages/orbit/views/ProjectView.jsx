@@ -89,7 +89,10 @@ function buildWikilinkResolver(references) {
   return (rawTitle) => byEscapedTitle.get(rawTitle.trim().toLowerCase());
 }
 
-const STATUS_OPTIONS = ['active', 'paused', 'done', 'archived'];
+// No status *type* any more — a project is either open or done, nothing else.
+// The field still exists on the record (old rows may hold 'paused'/'archived'
+// and filters elsewhere read `status !== 'archived'`), it's just no longer
+// something you classify.
 const TASK_FILTERS = ['all', 'todo', 'doing', 'done', 'killed'];
 
 function ProjectName({ project, onCommit }) {
@@ -201,13 +204,14 @@ export default function ProjectView() {
       <div className="orb-pv-header orb-card">
         <div className="orb-pv-header-top">
           <ProjectName project={project} onCommit={(name) => updateProject(project.id, { name })} />
+          {/* Toggles both ways — marking done by mistake shouldn't be a
+              one-way door now that there's no status picker to undo it with. */}
           <button
             type="button"
             className="orb-btn orb-btn-primary orb-pv-done-btn"
-            onClick={() => handleStatusChange('done')}
-            disabled={project.status === 'done'}
+            onClick={() => handleStatusChange(project.status === 'done' ? 'active' : 'done')}
           >
-            {project.status === 'done' ? '✓ Done' : 'Mark project done'}
+            {project.status === 'done' ? '✓ Done — reopen' : 'Mark project done'}
           </button>
         </div>
 
@@ -222,13 +226,6 @@ export default function ProjectView() {
               {areas.filter((a) => !a.archived || a.id === project.areaId).map((a) => (
                 <option key={a.id} value={a.id}>{a.name}</option>
               ))}
-            </select>
-          </label>
-
-          <label className="orb-pv-field">
-            <span className="orb-pv-field-label">Status</span>
-            <select className="orb-pv-select" value={project.status} onChange={(e) => handleStatusChange(e.target.value)}>
-              {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{s[0].toUpperCase() + s.slice(1)}</option>)}
             </select>
           </label>
 
