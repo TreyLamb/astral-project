@@ -3,6 +3,22 @@ import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
+// Google Sign-In (used site-wide — TKB, PGO Tracker, FitnessTracker Calendar
+// connect, etc. — not mymdb-specific) runs through ONE OAuth 2.0 Client ID
+// that Firebase auto-created under the astral-project-10a35 GCP project. In
+// Google Cloud Console > APIs & Services > Credentials it's named
+// "Firebase Web Auth — site-wide Google Sign-In" (renamed 2026-07-30 from
+// "mymdb auth", which undersold what it's actually used for). That's the
+// client whose Authorized JavaScript origins / Authorized redirect URIs need
+// to list this site's real domain (astral-project.vercel.app) for
+// signInWithRedirect to complete — if that's ever missing, sign-in fails
+// with no error until the domain is added there.
+//
+// If you need to re-find it without relying on the name: Firebase Console >
+// Authentication > Sign-in method > Google > Web SDK configuration > "Web
+// client ID" gives the exact client ID string, which you can match against
+// the ID column (not name) in the GCP Credentials list.
+
 const firebaseConfig = {
   apiKey:            import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain:        import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,

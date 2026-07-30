@@ -58,6 +58,35 @@
 }
 .wg-error strong { color: #ffc9a4; }
 
+.wg-diag {
+  margin: -8px 0 20px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  text-align: left;
+}
+.wg-diag summary {
+  cursor: pointer;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.6);
+  user-select: none;
+}
+.wg-diag-log {
+  margin: 8px 0 0;
+  max-height: 220px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.68rem;
+  line-height: 1.45;
+  color: #9fd3a0;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 .wg-actions {
   display: flex;
   flex-direction: column;

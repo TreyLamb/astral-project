@@ -8,7 +8,7 @@ import './WelcomeGate.css';
 const DISMISS_KEY = 'astral_welcome_choice_v1';
 
 export default function WelcomeGate() {
-  const { user, authSettled, signInFailed, firebaseReady, signIn } = useAuth();
+  const { user, authSettled, signInFailed, signInErrorDetail, diagLog, firebaseReady, signIn } = useAuth();
   const standalone = window.matchMedia?.('(display-mode: standalone)').matches
     || window.navigator.standalone === true;
   const [dismissed, setDismissed] = useState(() => localStorage.getItem(DISMISS_KEY) === '1');
@@ -60,7 +60,24 @@ export default function WelcomeGate() {
               ? 'Home Screen apps get their own storage, and this browser is blocking the step that carries the session back. Open the site in Safari instead for now.'
               : 'Your browser blocked the step that carries the session back from Google. In Safari: Settings → Safari → turn off "Prevent Cross-Site Tracking", then try again.'}{' '}
             Guest mode works fine in the meantime — nothing is lost, it just stays on this device.
+            {signInErrorDetail && (
+              <div style={{ marginTop: '0.5em', fontFamily: 'monospace', fontSize: '0.8em', opacity: 0.8 }}>
+                {signInErrorDetail}
+              </div>
+            )}
           </div>
+        )}
+        {/* Temporary full step-by-step trace (2026-07-30) for the Safari/iOS
+            redirect-loop bug — remove once that's confirmed fixed. Shown any
+            time there's a trace at all, not just on signInFailed, since
+            whether signInFailed itself fires correctly is part of what's
+            being diagnosed. sessionStorage-backed in AuthContext so this
+            survives the full-page navigation to Google and back. */}
+        {diagLog.length > 0 && (
+          <details className="wg-diag" open>
+            <summary>Diagnostic trace ({diagLog.length} steps) — tap to copy/screenshot</summary>
+            <pre className="wg-diag-log">{diagLog.join('\n')}</pre>
+          </details>
         )}
         <div className="wg-actions">
           <button className="wg-btn wg-btn-primary" onClick={handleSignIn} disabled={signingIn}>

@@ -3,8 +3,9 @@
 // access token, so the site-wide sign-in (src/AuthContext.jsx) is never touched.
 //
 // PREREQUISITES to exercise this live (config, not code):
-//   • the site's Google Cloud project must have the Calendar API enabled and the
-//     calendar scope added to the OAuth consent screen;
+//   • the site's Google Cloud project must have the Calendar API enabled (Trey
+//     confirmed this is already done — 2026-07-30) and the calendar scope added
+//     to the OAuth consent screen;
 //   • the user must grant the calendar permission on connect.
 // LIMITATION (browser OAuth): the access token lasts ~1h and there is no refresh
 // token client-side, so long sessions need an occasional reconnect. Both are
