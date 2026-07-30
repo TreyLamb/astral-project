@@ -212,7 +212,6 @@ export default function OrbitApp() {
               Triage
               {untriagedCount > 0 && <span className="orb-nav-badge">{untriagedCount}</span>}
             </NavLink>
-            <NavLink to="/orbit/areas" className={navLinkClass}>Areas</NavLink>
             <NavLink to="/orbit/auto-schedule" className={({ isActive }) => `orb-nav-link orb-nav-link-auto${isActive ? ' active' : ''}`}>✨ Auto-Schedule</NavLink>
 
             <button

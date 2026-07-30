@@ -179,6 +179,22 @@
 /* overdue/urgent flag — reuses the single reserved warm accent */
 .orb-flag-warn { color: var(--orb-warn); border-color: rgba(245, 169, 127, 0.4); background: rgba(245, 169, 127, 0.12); }
 
+/* ---- CollapsedField (shared: Area/Parent pickers across Capture/Triage/TaskEditor) ---- */
+.orb-collapsed-field-toggle {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+  background: var(--orb-panel-2); border: 1px solid var(--orb-border);
+  border-radius: 8px; padding: 9px 12px; cursor: pointer;
+  color: var(--orb-muted); font: inherit; font-size: 0.82rem; font-weight: 600; text-align: left;
+}
+.orb-collapsed-field-toggle strong { margin-left: auto; color: var(--orb-text); font-size: 0.88rem; }
+.orb-collapsed-field-toggle:hover { border-color: var(--orb-accent); }
+.orb-collapsed-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-size: 0.75rem; color: var(--orb-muted); font-weight: 600; }
+.orb-collapsed-field select {
+  width: 100%; box-sizing: border-box; background: var(--orb-panel-2); border: 1px solid var(--orb-border);
+  border-radius: 8px; padding: 8px 9px; color: var(--orb-text); font: inherit; font-size: 0.85rem;
+}
+.orb-collapsed-field select:focus { outline: none; border-color: var(--orb-accent); }
+
 .orb-mock-stub, .orb-stub {
   display: flex; align-items: center; justify-content: center;
   min-height: 300px; color: var(--orb-muted); font-size: 1rem;
@@ -211,7 +227,11 @@
   background: var(--orb-panel-2); border: 1px solid var(--orb-accent); border-radius: 6px;
   padding: 2px 6px; width: 100%; box-sizing: border-box;
 }
-.orb-task-badge { font-size: 0.6rem; }
+.orb-task-badge {
+  font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--orb-accent); background: rgba(126, 200, 227, 0.14);
+  border: 1px solid rgba(126, 200, 227, 0.35); border-radius: 20px; padding: 1px 8px;
+}
 
 .orb-task-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.78rem; color: var(--orb-muted); }
 .orb-task-project { color: var(--orb-muted); }

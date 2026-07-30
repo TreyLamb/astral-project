@@ -83,3 +83,63 @@
    hang off the screen — pin those two to their own edge instead. */
 .orb-axc-slot:first-child .orb-axc-pop { left: 0; transform: none; }
 .orb-axc-slot:last-child .orb-axc-pop { left: auto; right: 0; transform: none; }
+
+/* Thought / Project — plain on-off squares, same footprint as an axis chip.
+   Word runs diagonally bottom-left to top-right so a full word fits a 39px
+   box; off by default, glows (no popup) when tapped on. */
+.orb-axc-toggle {
+  width: 39px;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: hidden;
+  border-style: dashed;
+}
+.orb-axc-toggle-word {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-38deg);
+  transform-origin: center;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--orb-muted);
+  white-space: nowrap;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.orb-axc-toggle:hover { border-color: var(--orb-accent); }
+.orb-axc-toggle.on {
+  border-style: solid;
+  border-color: var(--orb-accent);
+  background: rgba(126, 200, 227, 0.22);
+  box-shadow: 0 0 10px rgba(126, 200, 227, 0.55);
+}
+.orb-axc-toggle.on .orb-axc-toggle-word { color: var(--orb-accent); }
+
+/* ---- cards variant (Triage only) — full-width always-open 1-5 rows, no
+   popup, since scoring IS the point of that screen. Toggles below reuse the
+   same small squares as the compact variant, unchanged. ---- */
+.orb-axc-cards { display: flex; flex-direction: column; gap: 12px; }
+.orb-axc-card { display: flex; flex-direction: column; gap: 6px; }
+.orb-axc-card-label {
+  font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--orb-muted);
+}
+.orb-axc-card-row { display: flex; gap: 8px; }
+.orb-axc-card-btn {
+  flex: 1;
+  min-height: 52px;
+  background: var(--orb-panel-2);
+  border: 1px solid var(--orb-border);
+  border-radius: 10px;
+  color: var(--orb-text);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.orb-axc-card-btn:hover { border-color: var(--orb-accent); color: var(--orb-accent); }
+.orb-axc-card-btn.active { background: rgba(126, 200, 227, 0.18); border-color: var(--orb-accent); color: var(--orb-accent); }
+
+.orb-axc-cards-toggles { display: flex; gap: 8px; }

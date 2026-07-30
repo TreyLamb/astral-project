@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useOrbit } from '../orbitContext';
-import { compareForToday } from '../calc/priority';
+import { compareForToday, hasOpenChildren } from '../calc/priority';
 import { isReady } from '../calc/readiness';
 import TaskRow from './TaskRow';
 import './TodayView.css';
@@ -17,7 +17,7 @@ export default function TodayView() {
   // ArrowDown/ArrowUp stay simple positional moves.
   const [focusedIndex, setFocusedIndex] = useState(0);
 
-  const dueTasks = tasks.filter((t) => isOpen(t) && belongsToday(t, today));
+  const dueTasks = tasks.filter((t) => isOpen(t) && belongsToday(t, today) && !hasOpenChildren(t, tasks));
   const candidates = dueTasks.filter((t) => isReady(t, tasksById));
   const blocked = dueTasks.filter((t) => !isReady(t, tasksById));
   const ranked = [...candidates].sort((a, b) => compareForToday(a, b, today));

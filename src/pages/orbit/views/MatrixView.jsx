@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { useOrbit } from '../orbitContext';
-import { isOverdue } from '../calc/priority';
+import { isOverdue, hasOpenChildren } from '../calc/priority';
 import './MatrixView.css';
 
 const AXIS_MIN = 1;
@@ -68,7 +68,10 @@ export default function MatrixView() {
 
   // A live prioritization matrix is for open work — done/killed would just
   // be dead weight cluttering every quadrant.
-  const activeTasks = useMemo(() => tasks.filter((t) => t.status === 'todo' || t.status === 'doing'), [tasks]);
+  const activeTasks = useMemo(
+    () => tasks.filter((t) => (t.status === 'todo' || t.status === 'doing') && !hasOpenChildren(t, tasks)),
+    [tasks],
+  );
   const hiddenCount = tasks.length - activeTasks.length;
 
   const ranked = useMemo(() => [...activeTasks].sort((a, b) => b.priorityScore - a.priorityScore), [activeTasks]);

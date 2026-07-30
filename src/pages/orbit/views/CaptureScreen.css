@@ -78,16 +78,8 @@
 
 .orb-capscreen-hint { font-size: 0.8rem; color: var(--orb-muted); }
 
-/* Collapsed Area row — shows the live value so the one hidden field can't
-   silently drift, and doubles as the tap target to reveal the select. */
-.orb-capscreen-areatoggle {
-  display: flex; align-items: center; gap: 8px; width: 100%;
-  background: var(--orb-panel-2); border: 1px solid var(--orb-border);
-  border-radius: 8px; padding: 9px 12px; cursor: pointer;
-  color: var(--orb-muted); font: inherit; font-size: 0.82rem; font-weight: 600; text-align: left;
-}
-.orb-capscreen-areatoggle strong { margin-left: auto; color: var(--orb-text); font-size: 0.88rem; }
-.orb-capscreen-areatoggle:hover { border-color: var(--orb-accent); }
+/* Collapsed Area/Parent rows now use the shared CollapsedField component
+   (see Orbit.css .orb-collapsed-field*) — no CaptureScreen-local styling. */
 
 /* Two-up so the six detail fields don't run the form off a phone screen. */
 .orb-capscreen-fieldgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
@@ -110,22 +102,6 @@
 .orb-capscreen-field select:focus,
 .orb-capscreen-field input:focus { outline: none; border-color: var(--orb-accent); }
 .orb-capscreen-field select:disabled { opacity: 0.5; }
-
-.orb-axis-field { display: flex; flex-direction: column; gap: 6px; }
-.orb-axis-label { font-size: 0.82rem; color: var(--orb-muted); font-weight: 600; }
-.orb-axis-seg { display: flex; gap: 6px; }
-.orb-axis-btn {
-  flex: 1;
-  min-height: 40px;
-  background: var(--orb-panel-2);
-  border: 1px solid var(--orb-border);
-  border-radius: 8px;
-  color: var(--orb-text);
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-}
-.orb-axis-btn.active { background: rgba(126, 200, 227, 0.18); border-color: var(--orb-accent); color: var(--orb-accent); }
 
 .orb-capscreen-submit { width: 100%; padding: 16px; font-size: 1rem; border-radius: 14px; }
 

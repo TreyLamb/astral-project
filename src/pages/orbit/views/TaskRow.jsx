@@ -11,7 +11,7 @@ import './TaskRow.css';
 // SubtaskList.jsx) — it indents nested rows and caps how deep the expand-to-
 // edit chevron will keep recursing.
 export default function TaskRow({ task, showProject = true, depth = 0 }) {
-  const { updateTask, areas, projects, today } = useOrbit();
+  const { updateTask, areas, projects, tasks, today } = useOrbit();
   const [editing, setEditing] = useState(false);
   const [draftTitle, setDraftTitle] = useState(task.title);
   const [expanded, setExpanded] = useState(false);
@@ -20,6 +20,10 @@ export default function TaskRow({ task, showProject = true, depth = 0 }) {
   const project = projects.find((p) => p.id === task.projectId);
   const overdue = isOverdue(task, today);
   const done = task.status === 'done';
+
+  // Scannable without expanding — mirrors SubtaskList's own done-count.
+  const children = task.isProject ? tasks.filter((t) => t.parentTaskId === task.id) : [];
+  const childrenDone = children.filter((t) => t.status === 'done').length;
 
   const toggleDone = () => {
     updateTask(task.id, done
@@ -71,7 +75,12 @@ export default function TaskRow({ task, showProject = true, depth = 0 }) {
           ) : (
             <span className="orb-task-title" onClick={startEdit}>
               {task.title || <em>untitled</em>}
-              {task.status === 'doing' && <span className="orb-pl-badge orb-task-badge">doing</span>}
+              {task.status === 'doing' && <span className="orb-task-badge">doing</span>}
+              {children.length > 0 && (
+                <span className="orb-task-badge" title="Children of this project">
+                  {childrenDone}/{children.length}
+                </span>
+              )}
             </span>
           )}
 

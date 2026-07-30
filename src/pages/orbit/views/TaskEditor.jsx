@@ -5,7 +5,26 @@ import { DEFAULT_TASK_TYPES } from '../orbitConfig';
 import DependencyLinker from './DependencyLinker';
 import SubtaskList from './SubtaskList';
 import AreaSelect from './AreaSelect';
+import CollapsedField from './CollapsedField';
 import './TaskEditor.css';
+
+// A task can't become its own parent, or the parent of one of its own
+// ancestors — walks the parentTaskId chain down from `taskId` and collects
+// every descendant id, so the Parent picker can exclude all of them.
+function descendantIds(taskId, tasks) {
+  const ids = new Set();
+  const stack = [taskId];
+  while (stack.length) {
+    const id = stack.pop();
+    tasks.forEach((t) => {
+      if (t.parentTaskId === id && !ids.has(t.id)) {
+        ids.add(t.id);
+        stack.push(t.id);
+      }
+    });
+  }
+  return ids;
+}
 
 const RATING_FIELDS = [
   { key: 'importance', label: 'Importance' },
@@ -182,11 +201,13 @@ function RecurrenceAffordance({ task }) {
 // Triage, Areas, and Project views all get full editing for free just by
 // dropping <TaskRow>'s expand chevron in (see TaskRow.jsx).
 export default function TaskEditor({ task, depth = 0 }) {
-  const { updateTask, areas, projects, settings } = useOrbit();
+  const { updateTask, areas, projects, tasks, settings } = useOrbit();
   const [draftTitle, setDraftTitle] = useState(task.title);
   const [titleDirty, setTitleDirty] = useState(false);
   const [draftTimeMin, setDraftTimeMin] = useState(task.timeMin ?? '');
   const [timeDirty, setTimeDirty] = useState(false);
+  const [areaOpen, setAreaOpen] = useState(false);
+  const [parentOpen, setParentOpen] = useState(false);
 
   const title = titleDirty ? draftTitle : task.title;
   const timeMinDisplay = timeDirty ? draftTimeMin : (task.timeMin ?? '');
@@ -229,11 +250,28 @@ export default function TaskEditor({ task, depth = 0 }) {
     updateTask(task.id, { projectId, areaId: project ? project.areaId : task.areaId });
   };
 
+  // Picking a Parent pulls the task's areaId along with it too, same reason
+  // as onProjectChange above — a child shouldn't silently point at a
+  // different Area than its own parent.
+  const onParentChange = (parentTaskId) => {
+    if (!parentTaskId) { updateTask(task.id, { parentTaskId: null }); return; }
+    const parent = tasks.find((t) => t.id === parentTaskId);
+    updateTask(task.id, { parentTaskId, areaId: parent ? parent.areaId : task.areaId });
+  };
+
   const areaById = new Map(areas.map((a) => [a.id, a]));
   const projectOptions = projects
     .filter((p) => p.status !== 'archived' || p.id === task.projectId)
     .slice()
     .sort((a, b) => a.name.localeCompare(b.name));
+
+  // Exclude self and own descendants — can't parent a task to itself or to
+  // something it's already an ancestor of (would create a cycle).
+  const excludedParentIds = descendantIds(task.id, tasks);
+  excludedParentIds.add(task.id);
+  const parentOptions = tasks.filter((t) => t.isProject && t.status !== 'done' && t.status !== 'killed'
+    && !excludedParentIds.has(t.id));
+  const parentTask = tasks.find((t) => t.id === task.parentTaskId);
 
   const taskTypes = (settings?.taskTypes && settings.taskTypes.length ? settings.taskTypes : DEFAULT_TASK_TYPES);
   const lanes = settings?.lanes || ['now', 'next', 'later'];
@@ -266,13 +304,47 @@ export default function TaskEditor({ task, depth = 0 }) {
           </select>
         </label>
 
-        <label className="orb-te-field">
-          <span className="orb-te-label">Area</span>
+        <CollapsedField
+          label="Area"
+          valueLabel={areaById.get(task.areaId)?.name ?? 'none'}
+          open={areaOpen}
+          onOpen={() => setAreaOpen(true)}
+        >
           <AreaSelect
             value={task.areaId || ''}
             onChange={onAreaChange}
             includeNone={!task.areaId}
             noneLabel="— choose —"
+          />
+        </CollapsedField>
+
+        <CollapsedField
+          label="Parent"
+          valueLabel={parentTask?.title ?? 'none'}
+          open={parentOpen}
+          onOpen={() => setParentOpen(true)}
+        >
+          <select value={task.parentTaskId || ''} onChange={(e) => onParentChange(e.target.value)}>
+            <option value="">— none —</option>
+            {parentOptions.map((t) => <option key={t.id} value={t.id}>{t.title}</option>)}
+          </select>
+        </CollapsedField>
+
+        <label className="orb-te-field orb-te-checkbox-field" title="Marks this task as itself a parent/container other tasks can pick as their Parent — distinct from the formal Project field below.">
+          <span className="orb-te-label">Is a project</span>
+          <input
+            type="checkbox"
+            checked={!!task.isProject}
+            onChange={(e) => updateTask(task.id, { isProject: e.target.checked })}
+          />
+        </label>
+
+        <label className="orb-te-field orb-te-checkbox-field">
+          <span className="orb-te-label">Thought</span>
+          <input
+            type="checkbox"
+            checked={!!task.isThought}
+            onChange={(e) => updateTask(task.id, { isThought: e.target.checked })}
           />
         </label>
 

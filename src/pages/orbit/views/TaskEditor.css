@@ -26,6 +26,9 @@
 }
 .orb-te-input:focus, .orb-te-select:focus { border-color: var(--orb-accent); outline: none; }
 
+.orb-te-checkbox-field { flex-direction: row; align-items: center; gap: 8px; }
+.orb-te-checkbox-field input { width: 18px; height: 18px; accent-color: var(--orb-accent); cursor: pointer; }
+
 .orb-te-rating { grid-column: span 1; }
 .orb-te-rating-btns { display: flex; gap: 3px; }
 .orb-te-rating-btn {

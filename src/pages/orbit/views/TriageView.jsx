@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrbit } from '../orbitContext';
 import { firstOpenDayFor } from '../calc/planner';
@@ -9,9 +9,9 @@ import TaskRow from './TaskRow';
 import TaskTypeFilter from './TaskTypeFilter';
 import AreaSelect from './AreaSelect';
 import AxisChips from './AxisChips';
+import CollapsedField from './CollapsedField';
 import './TriageView.css';
 
-const SWIPE_MIN_DISTANCE = 40;
 // Axes start null, same as CaptureScreen — pre-filling 3 lets you click
 // straight through triage and end up with four fabricated scores, which is
 // exactly what triage exists to prevent.
@@ -19,8 +19,8 @@ const AXIS_KEYS = ['importance', 'urgency', 'difficulty', 'energy'];
 const EMPTY_AXES = { importance: null, urgency: null, difficulty: null, energy: null };
 
 const DEFAULT_TASK_DRAFT = {
-  areaId: '', projectId: '', ...EMPTY_AXES,
-  timeMin: '', taskType: '', dueDate: '', scheduledDate: '', addToCalendar: false,
+  areaId: '', parentTaskId: '', isThought: false, isProject: false, ...EMPTY_AXES,
+  timeMin: '', dueDate: '', scheduledDate: '', addToCalendar: false,
 };
 
 function timeAgo(ms) {
@@ -32,20 +32,23 @@ function timeAgo(ms) {
   return `${Math.floor(hr / 24)}d ago`;
 }
 
-// Triage queue + All-tasks toggle (§4.2 + #6). The queue serves one
-// captured note at a time (oldest first) with t/p/r/d single-key actions that
-// mirror TkbReview's keyboard + tap + swipe parity pattern; All tasks is the
-// plain "dump everything and see it" list (T10).
+// Triage queue + All-tasks toggle (§4.2 + #6). The queue serves one captured
+// note at a time (oldest first), straight into the same score+label form —
+// no "what type of thing is this" gate first. Discard is a small side action,
+// not one of several equal-weight primary choices. All tasks is the plain
+// "dump everything and see it" list (T10).
 export default function TriageView() {
   const orbit = useOrbit();
   const {
-    inbox, tasks, areas, projects, settings, mode, today, getDayPlan,
-    addTask, addProject, updateTask, updateInboxItem, removeTask, removeProject,
+    inbox, tasks, areas, settings, mode, today, getDayPlan,
+    addTask, updateTask, updateInboxItem, removeTask,
   } = orbit;
   const navigate = useNavigate();
 
-  // Session-local so a task you can't score right now doesn't wedge the head of
-  // the queue forever. Deliberately not persisted — next session it's back.
+  // Session-local so an item you can't finish right now doesn't wedge the
+  // head of the queue forever. Deliberately not persisted — next session
+  // it's back. Shared between inbox items and unscored tasks — ids from
+  // newId() are unique across both, so one Set is safe.
   const [skipped, setSkipped] = useState(() => new Set());
 
   const capacityFor = (date) => {
@@ -57,21 +60,21 @@ export default function TriageView() {
   };
 
   const [viewMode, setViewMode] = useState('queue'); // 'queue' | 'all'
-  const [formMode, setFormMode] = useState(null); // null | 'task' | 'project'
   const [taskDraft, setTaskDraft] = useState(DEFAULT_TASK_DRAFT);
-  const [projectName, setProjectName] = useState('');
-  const [projectAreaId, setProjectAreaId] = useState('');
+  // Collapsed by default, same as CaptureScreen — re-collapses on every new
+  // queue item so they don't stay pinned open across items.
+  const [parentOpen, setParentOpen] = useState(false);
+  const [areaOpen, setAreaOpen] = useState(false);
   const [triageLog, setTriageLog] = useState([]); // this-session-only undo stack
   const [typeFilter, setTypeFilter] = useState(null);
   const [statusFilter, setStatusFilter] = useState('all');
+  const [scoreFilter, setScoreFilter] = useState('all'); // 'all' | 'scored' | 'unscored' — #6, so triaged items are actually listable
   const [aiBusy, setAiBusy] = useState(false);
   const [aiResult, setAiResult] = useState(null); // { kind: 'success' | 'info' | 'error', text } | null
 
-  const touchStartRef = useRef(null);
-
   const untriaged = useMemo(
-    () => inbox.filter((i) => !i.triaged).sort((a, b) => a.createdAt - b.createdAt),
-    [inbox],
+    () => inbox.filter((i) => !i.triaged && !skipped.has(i.id)).sort((a, b) => a.createdAt - b.createdAt),
+    [inbox, skipped],
   );
   const current = untriaged[0] || null;
 
@@ -93,7 +96,7 @@ export default function TriageView() {
   // Seed the score draft from whatever the task already has, so a partially
   // scored task doesn't lose the axes it does have.
   const [scoreForId, setScoreForId] = useState(null);
-  const [scoreDraft, setScoreDraft] = useState(EMPTY_AXES);
+  const [scoreDraft, setScoreDraft] = useState({ ...EMPTY_AXES, isThought: false, isProject: false });
   if ((currentTask?.id ?? null) !== scoreForId) {
     setScoreForId(currentTask?.id ?? null);
     setScoreDraft(currentTask ? {
@@ -101,7 +104,9 @@ export default function TriageView() {
       urgency: currentTask.urgency,
       difficulty: currentTask.difficulty,
       energy: currentTask.energy,
-    } : EMPTY_AXES);
+      isThought: currentTask.isThought,
+      isProject: currentTask.isProject,
+    } : { ...EMPTY_AXES, isThought: false, isProject: false });
   }
 
   const scoreComplete = AXIS_KEYS.every((k) => scoreDraft[k] != null);
@@ -113,29 +118,26 @@ export default function TriageView() {
 
   const allFilteredTasks = useMemo(() => tasks.filter((t) => {
     if (statusFilter !== 'all' && t.status !== statusFilter) return false;
+    if (scoreFilter === 'scored' && isUnscored(t)) return false;
+    if (scoreFilter === 'unscored' && !isUnscored(t)) return false;
     if (typeFilter === TaskTypeFilter.UNTYPED) return !t.taskType;
     if (typeFilter) return t.taskType === typeFilter;
     return true;
-  }), [tasks, statusFilter, typeFilter]);
+  }), [tasks, statusFilter, scoreFilter, typeFilter]);
 
-  // Whenever the queue advances to a new item, close out any inline form
-  // left open from the previous one and re-seed the project-name default.
-  // Compare-and-reset in render (same pattern as OrbitApp.jsx's nav drawer)
-  // instead of an effect, so this doesn't cost an extra render.
+  // Whenever the queue advances to a new item, reset the draft form left over
+  // from the previous one. Compare-and-reset in render (same pattern as
+  // OrbitApp.jsx's nav drawer) instead of an effect, so this doesn't cost an
+  // extra render.
   const [formResetForId, setFormResetForId] = useState(current?.id ?? null);
   if ((current?.id ?? null) !== formResetForId) {
     setFormResetForId(current?.id ?? null);
-    setFormMode(null);
     setTaskDraft(DEFAULT_TASK_DRAFT);
-    setProjectName(current ? current.rawText : '');
-    setProjectAreaId('');
+    setParentOpen(false);
+    setAreaOpen(false);
   }
 
   const pushLog = (entry) => setTriageLog((log) => [...log, entry]);
-
-  const openTaskForm = () => { if (current) setFormMode('task'); };
-  const openProjectForm = () => { if (current) setFormMode('project'); };
-  const closeForm = () => { setFormMode(null); setTaskDraft(DEFAULT_TASK_DRAFT); };
 
   const confirmTask = async () => {
     // Area is NOT required — a title is the whole bar. Without scores this just
@@ -154,34 +156,19 @@ export default function TriageView() {
     const task = await addTask({
       title: current.rawText,
       areaId: taskDraft.areaId,
-      projectId: taskDraft.projectId || null,
+      parentTaskId: taskDraft.parentTaskId || null,
+      isThought: taskDraft.isThought,
+      isProject: taskDraft.isProject,
       importance: taskDraft.importance,
       urgency: taskDraft.urgency,
       difficulty: taskDraft.difficulty,
       energy: taskDraft.energy,
       timeMin: taskDraft.timeMin === '' ? null : Number(taskDraft.timeMin),
-      taskType: taskDraft.taskType || null,
       dueDate: taskDraft.dueDate || null,
       scheduledDate: sched,
     });
     await updateInboxItem(current.id, { triaged: true, outcome: 'task', resultId: task.id });
     pushLog({ itemId: current.id, outcome: 'task', resultId: task.id });
-  };
-
-  const confirmProject = async () => {
-    if (!current || !projectAreaId) return;
-    const name = projectName.trim() || current.rawText;
-    const project = await addProject({ areaId: projectAreaId, name });
-    await updateInboxItem(current.id, { triaged: true, outcome: 'project', resultId: project.id });
-    pushLog({ itemId: current.id, outcome: 'project', resultId: project.id });
-  };
-
-  const handleReference = () => {
-    if (!current) return;
-    // No Reference Vault yet (lands Phase 2) — clear the item so the queue
-    // moves on; see the note rendered next to the button below.
-    updateInboxItem(current.id, { triaged: true, outcome: 'reference' });
-    pushLog({ itemId: current.id, outcome: 'reference', resultId: null });
   };
 
   const handleDiscard = () => {
@@ -194,7 +181,6 @@ export default function TriageView() {
     const last = triageLog[triageLog.length - 1];
     if (!last) return;
     if (last.outcome === 'task' && last.resultId) await removeTask(last.resultId);
-    if (last.outcome === 'project' && last.resultId) await removeProject(last.resultId);
     await updateInboxItem(last.itemId, { triaged: false, outcome: null, resultId: null, discardedAt: null });
     setTriageLog((log) => log.slice(0, -1));
   };
@@ -248,61 +234,26 @@ export default function TriageView() {
     }
   };
 
-  // Keyboard: t/p/r/d/u act on the queue item, Esc closes an open inline
-  // form first and only leaves the queue (back to Today) once none is open —
-  // same "innermost thing first" precedent as TkbReview's Escape handling.
+  // Keyboard: d discards the current item, u undoes the last action, Esc
+  // leaves the queue (back to Today). No t/p/r — there's no longer a
+  // separate "what type of thing is this" step to key through.
   useEffect(() => {
     function onKeyDown(e) {
       const tag = document.activeElement && document.activeElement.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
       if (viewMode !== 'queue') return;
 
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        if (formMode) closeForm(); else navigate('/orbit');
-        return;
-      }
-
-      if (!current || formMode) return;
+      if (e.key === 'Escape') { e.preventDefault(); navigate('/orbit'); return; }
+      if (!current) return;
 
       const k = e.key.toLowerCase();
-      if (k === 't') { e.preventDefault(); openTaskForm(); }
-      else if (k === 'p') { e.preventDefault(); openProjectForm(); }
-      else if (k === 'r') { e.preventDefault(); handleReference(); }
-      else if (k === 'd') { e.preventDefault(); handleDiscard(); }
+      if (k === 'd') { e.preventDefault(); handleDiscard(); }
       else if (k === 'u') { e.preventDefault(); handleUndo(); }
     }
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [viewMode, formMode, current, triageLog]);
-
-  // Touch/swipe: the mobile-native equivalent of t/p/r/d, not just smaller
-  // on-screen buttons — disabled while an inline form is open (its own
-  // inputs need normal touch behavior).
-  function handleTouchStart(e) {
-    const t = e.changedTouches[0];
-    touchStartRef.current = { x: t.clientX, y: t.clientY };
-  }
-  function handleTouchEnd(e) {
-    const start = touchStartRef.current;
-    touchStartRef.current = null;
-    if (!start || !current || formMode) return;
-    const t = e.changedTouches[0];
-    const dx = t.clientX - start.x;
-    const dy = t.clientY - start.y;
-    const absDx = Math.abs(dx);
-    const absDy = Math.abs(dy);
-    if (Math.max(absDx, absDy) < SWIPE_MIN_DISTANCE) return; // tap or jitter — buttons already cover the tap case
-
-    if (absDx > absDy) {
-      if (dx > 0) openTaskForm(); else handleDiscard();
-    } else if (dy < 0) {
-      openProjectForm();
-    } else {
-      handleReference();
-    }
-  }
+  }, [viewMode, current, triageLog]);
 
   return (
     <div className="orb-triage">
@@ -329,9 +280,9 @@ export default function TriageView() {
 
       {viewMode === 'queue' && (
         <p className="orb-triage-intro">
-          Anything without a score lands here. First the quick notes you dropped via <strong>＋ Capture</strong>
-          {' '}— decide what each becomes: <strong>Task</strong>, <strong>Project</strong>, <strong>Reference</strong>,
-          {' '}or <strong>Discard</strong>. Then any task that exists but was never scored.
+          Anything without a score lands here, one at a time. First the quick notes you dropped via{' '}
+          <strong>＋ Capture</strong>, then any task that exists but was never scored. Set the axes, add any labels
+          that apply, and it's done — <strong>Discard</strong> is down by Undo if you don't want it at all.
           Want a fully-detailed task right now? Use <strong>＋ Add Task</strong> instead.
         </p>
       )}
@@ -353,151 +304,112 @@ export default function TriageView() {
 
       {viewMode === 'queue' && (current ? (
         <div className="orb-triage-card-wrap">
-          <div
-            className="orb-card orb-triage-card"
-            onTouchStart={formMode ? undefined : handleTouchStart}
-            onTouchEnd={formMode ? undefined : handleTouchEnd}
-          >
+          <div className="orb-card orb-triage-card">
             <div className="orb-triage-meta">
               <span>{timeAgo(current.createdAt)}</span>
               {untriaged.length > 1 && <span>{untriaged.length - 1} more waiting</span>}
             </div>
             <div className="orb-triage-text">{current.rawText}</div>
 
-            {formMode === null && (
-              <>
-                <div className="orb-triage-actions">
-                  <button type="button" className="orb-btn orb-btn-primary" onClick={openTaskForm}>
-                    <kbd>T</kbd> Task
-                  </button>
-                  <button type="button" className="orb-btn" onClick={openProjectForm}>
-                    <kbd>P</kbd> Project
-                  </button>
-                  <button type="button" className="orb-btn" onClick={handleReference}>
-                    <kbd>R</kbd> Reference
-                  </button>
-                  <button type="button" className="orb-btn" onClick={handleDiscard}>
-                    <kbd>D</kbd> Discard
-                  </button>
-                </div>
-                <div className="orb-triage-note">
-                  Reference Vault isn't built yet (Phase 2) — Reference just clears this item for now.
-                </div>
-              </>
-            )}
-
-            {formMode === 'task' && (
-              <div className="orb-triage-form">
-                <label className="orb-triage-field">
-                  <span>Area</span>
-                  <AreaSelect
-                    value={taskDraft.areaId || defaultAreaId(areas) || ''}
-                    onChange={(areaId) => setTaskDraft((d) => ({ ...d, areaId, projectId: '' }))}
-                  />
-                </label>
-                <label className="orb-triage-field">
-                  <span>Project</span>
-                  <select
-                    value={taskDraft.projectId}
-                    onChange={(e) => setTaskDraft((d) => ({ ...d, projectId: e.target.value }))}
-                    disabled={!taskDraft.areaId}
-                  >
-                    <option value="">— none —</option>
-                    {projects
-                      .filter((p) => p.areaId === taskDraft.areaId && p.status !== 'archived')
-                      .map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
-                  </select>
-                </label>
-                <label className="orb-triage-field">
-                  <span>Type</span>
-                  <select
-                    value={taskDraft.taskType}
-                    onChange={(e) => setTaskDraft((d) => ({ ...d, taskType: e.target.value }))}
-                  >
-                    <option value="">— none —</option>
-                    {settings.taskTypes.map((t) => <option key={t} value={t}>{t}</option>)}
-                  </select>
-                </label>
-                <label className="orb-triage-field">
-                  <span>Time (min)</span>
-                  <input
-                    type="number"
-                    min="0"
-                    step="5"
-                    value={taskDraft.timeMin}
-                    onChange={(e) => setTaskDraft((d) => ({ ...d, timeMin: e.target.value }))}
-                    placeholder="any"
-                  />
-                </label>
-                <label className="orb-triage-field">
-                  <span>Due date</span>
-                  <input
-                    type="date"
-                    value={taskDraft.dueDate}
-                    onChange={(e) => setTaskDraft((d) => ({ ...d, dueDate: e.target.value }))}
-                  />
-                </label>
-                <label className="orb-triage-field">
-                  <span>Scheduled date</span>
-                  <input
-                    type="date"
-                    value={taskDraft.scheduledDate}
-                    onChange={(e) => setTaskDraft((d) => ({ ...d, scheduledDate: e.target.value }))}
-                  />
-                </label>
-                <label className="orb-triage-calcheck">
-                  <input
-                    type="checkbox"
-                    checked={taskDraft.addToCalendar}
-                    onChange={(e) => setTaskDraft((d) => ({ ...d, addToCalendar: e.target.checked }))}
-                  />
-                  <span>📅 Add to calendar {taskDraft.scheduledDate ? '(on the scheduled date above)' : '— auto-pick the next open day'}</span>
-                </label>
-                <AxisChips
-                  axes={taskDraft}
-                  onChange={(key, n) => setTaskDraft((d) => ({ ...d, [key]: n }))}
+            <div className="orb-triage-form">
+              <AxisChips
+                variant="cards"
+                axes={taskDraft}
+                onChange={(key, n) => setTaskDraft((d) => ({ ...d, [key]: n }))}
+                toggles={{
+                  isThought: taskDraft.isThought,
+                  isProject: taskDraft.isProject,
+                  onToggle: (key, v) => setTaskDraft((d) => ({ ...d, [key]: v })),
+                }}
+              />
+              <CollapsedField
+                label="Parent"
+                valueLabel={tasks.find((t) => t.id === taskDraft.parentTaskId)?.title ?? 'none'}
+                open={parentOpen}
+                onOpen={() => setParentOpen(true)}
+              >
+                <select
+                  value={taskDraft.parentTaskId}
+                  onChange={(e) => setTaskDraft((d) => ({ ...d, parentTaskId: e.target.value }))}
+                >
+                  <option value="">— none —</option>
+                  {tasks
+                    .filter((t) => t.isProject && t.status !== 'done' && t.status !== 'killed')
+                    .map((t) => <option key={t.id} value={t.id}>{t.title}</option>)}
+                </select>
+              </CollapsedField>
+              <CollapsedField
+                label="Area"
+                valueLabel={areas.find((a) => a.id === (taskDraft.areaId || defaultAreaId(areas)))?.name ?? 'none'}
+                open={areaOpen}
+                onOpen={() => setAreaOpen(true)}
+              >
+                <AreaSelect
+                  value={taskDraft.areaId || defaultAreaId(areas) || ''}
+                  onChange={(areaId) => setTaskDraft((d) => ({ ...d, areaId }))}
                 />
-                <div className="orb-triage-form-actions">
-                  <button type="button" className="orb-btn" onClick={closeForm}>Cancel</button>
-                  <button type="button" className="orb-btn orb-btn-primary" onClick={confirmTask}>
-                    Create Task
-                  </button>
-                </div>
+              </CollapsedField>
+              <label className="orb-triage-field">
+                <span>Time (min)</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="5"
+                  value={taskDraft.timeMin}
+                  onChange={(e) => setTaskDraft((d) => ({ ...d, timeMin: e.target.value }))}
+                  placeholder="any"
+                />
+              </label>
+              <label className="orb-triage-field">
+                <span>Due date</span>
+                <input
+                  type="date"
+                  value={taskDraft.dueDate}
+                  onChange={(e) => setTaskDraft((d) => ({ ...d, dueDate: e.target.value }))}
+                />
+              </label>
+              <label className="orb-triage-field">
+                <span>Scheduled date</span>
+                <input
+                  type="date"
+                  value={taskDraft.scheduledDate}
+                  onChange={(e) => setTaskDraft((d) => ({ ...d, scheduledDate: e.target.value }))}
+                />
+              </label>
+              <label className="orb-triage-calcheck">
+                <input
+                  type="checkbox"
+                  checked={taskDraft.addToCalendar}
+                  onChange={(e) => setTaskDraft((d) => ({ ...d, addToCalendar: e.target.checked }))}
+                />
+                <span>📅 Add to calendar {taskDraft.scheduledDate ? '(on the scheduled date above)' : '— auto-pick the next open day'}</span>
+              </label>
+              <div className="orb-triage-form-actions">
+                <button
+                  type="button"
+                  className="orb-btn"
+                  onClick={() => setSkipped((s) => new Set(s).add(current.id))}
+                >
+                  Skip for now
+                </button>
+                <button type="button" className="orb-btn orb-btn-primary" onClick={confirmTask}>
+                  Save &amp; Next
+                </button>
               </div>
-            )}
-
-            {formMode === 'project' && (
-              <div className="orb-triage-form">
-                <label className="orb-triage-field">
-                  <span>Area *</span>
-                  <AreaSelect
-                    value={projectAreaId}
-                    onChange={setProjectAreaId}
-                    includeNone
-                    noneLabel="— choose —"
-                  />
-                </label>
-                <label className="orb-triage-field">
-                  <span>Name</span>
-                  <input type="text" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
-                </label>
-                <div className="orb-triage-form-actions">
-                  <button type="button" className="orb-btn" onClick={closeForm}>Cancel</button>
-                  <button type="button" className="orb-btn orb-btn-primary" disabled={!projectAreaId} onClick={confirmProject}>
-                    Create Project
-                  </button>
-                </div>
-              </div>
-            )}
+            </div>
           </div>
 
           <div className="orb-triage-footer">
-            <button type="button" className="orb-btn orb-triage-undo" onClick={handleUndo} disabled={triageLog.length === 0}>
-              <kbd>U</kbd> Undo last
-            </button>
+            <div className="orb-triage-footer-row">
+              <button type="button" className="orb-btn orb-triage-undo" onClick={handleUndo} disabled={triageLog.length === 0}>
+                <kbd>U</kbd> Undo last
+              </button>
+              <button type="button" className="orb-triage-discard" onClick={handleDiscard}>
+                <kbd>D</kbd> Discard
+              </button>
+            </div>
             <div className="orb-triage-legend">
-              <span><kbd>Esc</kbd> {formMode ? 'cancel' : 'back to Today'}</span>
-              <span>Swipe → Task · ← Discard · ↑ Project · ↓ Reference</span>
+              <span><kbd>Esc</kbd> back to Today</span>
             </div>
           </div>
         </div>
@@ -515,8 +427,14 @@ export default function TriageView() {
             </div>
 
             <AxisChips
+              variant="cards"
               axes={scoreDraft}
               onChange={(key, n) => setScoreDraft((d) => ({ ...d, [key]: n }))}
+              toggles={{
+                isThought: scoreDraft.isThought,
+                isProject: scoreDraft.isProject,
+                onToggle: (key, v) => setScoreDraft((d) => ({ ...d, [key]: v })),
+              }}
             />
 
             <div className="orb-triage-form-actions">
@@ -557,6 +475,20 @@ export default function TriageView() {
                 onClick={() => setStatusFilter(s)}
               >
                 {s === 'all' ? 'All' : s[0].toUpperCase() + s.slice(1)}
+              </button>
+            ))}
+          </div>
+          {/* #6 — so triaged (scored) items are actually listable, not just
+              inferable from the absence of a triage-queue entry. */}
+          <div className="orb-triage-status-filter">
+            {[['all', 'All'], ['scored', 'Scored'], ['unscored', 'Unscored']].map(([v, label]) => (
+              <button
+                key={v}
+                type="button"
+                className={`orb-chip orb-status-chip${scoreFilter === v ? ' active' : ''}`}
+                onClick={() => setScoreFilter(v)}
+              >
+                {label}
               </button>
             ))}
           </div>

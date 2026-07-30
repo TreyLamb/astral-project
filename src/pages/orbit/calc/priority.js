@@ -37,6 +37,15 @@ export function computePriorityScore(task, settings) {
     - w.costWeight * taskCost(task);
 }
 
+// A project container isn't itself the actionable unit once it has
+// something open underneath it — its children are what Today/Board/Matrix
+// should surface instead. A project with no children yet, or whose children
+// are all done/killed, still shows normally.
+export function hasOpenChildren(task, tasks) {
+  if (!task.isProject) return false;
+  return tasks.some((t) => t.parentTaskId === task.id && t.status !== 'done' && t.status !== 'killed');
+}
+
 export function isOverdue(task, todayStr) {
   return task.dueDate != null && task.dueDate < todayStr && task.status !== 'done' && task.status !== 'killed';
 }

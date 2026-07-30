@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useOrbit } from '../orbitContext';
-import { compareForToday, isOverdue } from '../calc/priority';
+import { compareForToday, isOverdue, hasOpenChildren } from '../calc/priority';
 import './BoardView.css';
 
 const LANE_COLS = [
@@ -58,7 +58,8 @@ export default function BoardView() {
   // work — only the Status board (where they're a real destination column)
   // keeps them, muted.
   const boardTasks = useMemo(
-    () => (grouping === 'status' ? tasks : tasks.filter((t) => t.status !== 'done' && t.status !== 'killed')),
+    () => (grouping === 'status' ? tasks : tasks.filter((t) => t.status !== 'done' && t.status !== 'killed'
+      && !hasOpenChildren(t, tasks))),
     [tasks, grouping],
   );
   const activeCount = boardTasks.filter((t) => t.status !== 'done' && t.status !== 'killed').length;

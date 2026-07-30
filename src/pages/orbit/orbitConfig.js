@@ -56,14 +56,10 @@ export function defaultAreaId(areas = []) {
   return (home || open[0])?.id ?? null;
 }
 
-// Muted starter palette, ready to seed a first run.
-export const SEED_AREAS = [
-  { name: 'Work', color: '#6e8fb0' },
-  { name: 'Personal', color: '#b08a6e' },
-  { name: 'Home', color: '#7c9473' },
-  { name: 'Health', color: '#b0716e' },
-  { name: 'Learning', color: '#9077ab' },
-];
+// No starter Areas. These are the owner's own geographic areas, not a
+// canned set of life categories — a first run starts empty and the owner
+// adds their own via "+ Add area" (in AreasView or inline from AreaSelect).
+export const SEED_AREAS = [];
 
 // --- Project --------------------------------------------------------------
 // status: 'active' | 'paused' | 'done' | 'archived'
@@ -128,6 +124,14 @@ export function newTask(partial = {}, settings) {
     blockedBy: partial.blockedBy ?? [],
     lane: partial.lane ?? null,
     recurrenceId: partial.recurrenceId ?? null,
+    // A loose idea, not yet scored/actionable — surfaced as a diagonal "thought"
+    // toggle next to the axis chips. Purely descriptive; doesn't affect triage.
+    isThought: partial.isThought ?? false,
+    // Marks this task as itself a parent/container — other tasks can then set
+    // parentTaskId to this task's id (see parentTaskId above) to nest under it.
+    // Skeleton for a lightweight project hierarchy separate from the formal
+    // Project entity (newProject) — see Add Task screen's Parent picker.
+    isProject: partial.isProject ?? false,
     // --- scheduler annotation fields (Guidelines_Scheduler.md §3.1) ----------
     // All optional. Filled by AI annotation (later phase) + learning, editable
     // by the user. Absence = "unknown, fall back to a default" — none are
@@ -171,6 +175,8 @@ export function withTaskDefaults(t) {
     blockedBy: Array.isArray(t.blockedBy) ? t.blockedBy : [],
     lane: t.lane ?? null,
     recurrenceId: t.recurrenceId ?? null,
+    isThought: t.isThought ?? false,
+    isProject: t.isProject ?? false,
     // scheduler fields (§3.1) — backfilled on read so pre-scheduler rows load
     category: t.category ?? null,
     intensity: t.intensity ?? null,

@@ -43,7 +43,7 @@ export default function SubtaskList({ task, depth = 0 }) {
   return (
     <div className="orb-sub">
       <div className="orb-sub-head">
-        <span className="orb-sub-title-label">Subtasks</span>
+        <span className="orb-sub-title-label">{task.isProject ? 'Children of this project' : 'Subtasks'}</span>
         {children.length > 0 && (
           <span className="orb-sub-summary">
             {doneCount}/{children.length} done{killedCount > 0 ? ` · ${killedCount} killed` : ''}
@@ -64,7 +64,7 @@ export default function SubtaskList({ task, depth = 0 }) {
           className="orb-sub-input"
           autoFocus
           value={draft}
-          placeholder="Subtask title…"
+          placeholder={task.isProject ? 'Child task title…' : 'Subtask title…'}
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') submitAdd();
@@ -73,7 +73,9 @@ export default function SubtaskList({ task, depth = 0 }) {
           onBlur={() => { if (draft.trim()) submitAdd(); else setAdding(false); }}
         />
       ) : (
-        <button type="button" className="orb-sub-add-btn" onClick={() => setAdding(true)}>+ Add subtask</button>
+        <button type="button" className="orb-sub-add-btn" onClick={() => setAdding(true)}>
+          {task.isProject ? '+ Add child' : '+ Add subtask'}
+        </button>
       )}
     </div>
   );

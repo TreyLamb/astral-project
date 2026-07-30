@@ -5,6 +5,7 @@ import { firstOpenDayFor } from '../calc/planner';
 import { defaultAreaId } from '../orbitConfig';
 import AreaSelect from './AreaSelect';
 import AxisChips from './AxisChips';
+import CollapsedField from './CollapsedField';
 import './CaptureScreen.css';
 
 // null = never chosen, and it SAVES as null. Writing a fallback 3 would make an
@@ -20,7 +21,7 @@ const DEFAULT_AXES = { importance: null, urgency: null, difficulty: null, energy
 // thrown away — Area is now just another field. What decides whether it needs
 // triage is whether it's scored, nothing else.
 export default function CaptureScreen() {
-  const { areas, projects, settings, tasks, today, getDayPlan, addTask } = useOrbit();
+  const { areas, tasks, settings, today, getDayPlan, addTask } = useOrbit();
 
   const [title, setTitle] = useState('');
   // Area is the one field still behind a tap — it's sticky across submits, so
@@ -30,8 +31,13 @@ export default function CaptureScreen() {
   // Preselected to Home so the collapsed row reads as a real value, matching
   // what addTask would fill in anyway. Never blank.
   const [areaId, setAreaId] = useState(() => defaultAreaId(areas) ?? '');
-  const [projectId, setProjectId] = useState('');
-  const [taskType, setTaskType] = useState('');
+  // Parent — collapsed the same way as Area. Lists tasks flagged isProject
+  // (the Project toggle below), NOT the separate formal Project entity —
+  // this is the lightweight parent/child task hierarchy (parentTaskId).
+  const [parentOpen, setParentOpen] = useState(false);
+  const [parentTaskId, setParentTaskId] = useState('');
+  const [isThought, setIsThought] = useState(false);
+  const [isProject, setIsProject] = useState(false);
   const [axes, setAxes] = useState(DEFAULT_AXES);
   const [timeMin, setTimeMin] = useState('');
   const [dueDate, setDueDate] = useState('');
@@ -51,17 +57,21 @@ export default function CaptureScreen() {
   }, []);
 
   const openAreas = areas.filter((a) => !a.archived);
-  const areaProjects = areaId ? projects.filter((p) => p.areaId === areaId && p.status !== 'archived') : [];
+  // Parent candidates are tasks flagged isProject (the toggle below) — this
+  // task's own id is excluded so a task can't become its own parent.
+  const projectTasks = tasks.filter((t) => t.isProject && t.status !== 'done' && t.status !== 'killed');
   const areaLabel = openAreas.find((a) => a.id === areaId)?.name ?? 'none';
+  const parentLabel = projectTasks.find((t) => t.id === parentTaskId)?.title ?? 'none';
   const scoreComplete = axes.importance != null && axes.urgency != null
     && axes.difficulty != null && axes.energy != null;
 
   const setAxis = (key, value) => setAxes((prev) => ({ ...prev, [key]: value }));
-
-  const handleAreaChange = (nextAreaId) => {
-    setAreaId(nextAreaId);
-    setProjectId(''); // a project belongs to one area — a stale pick can't carry over
+  const handleToggle = (key, value) => {
+    if (key === 'isThought') setIsThought(value);
+    else if (key === 'isProject') setIsProject(value);
   };
+
+  const handleAreaChange = (nextAreaId) => setAreaId(nextAreaId);
 
   const capacityFor = (date) => {
     const plan = getDayPlan(date);
@@ -95,13 +105,14 @@ export default function CaptureScreen() {
     addTask({
       title: trimmed,
       areaId: areaId || null,
-      projectId: projectId || null,
+      parentTaskId: parentTaskId || null,
+      isThought,
+      isProject,
       importance: axes.importance,
       urgency: axes.urgency,
       difficulty: axes.difficulty,
       energy: axes.energy,
       timeMin: timeMin === '' ? null : Number(timeMin),
-      taskType: taskType || null,
       dueDate: dueDate || null,
       scheduledDate: sched,
     });
@@ -112,10 +123,14 @@ export default function CaptureScreen() {
     if (noteMsg) noteTimerRef.current = setTimeout(() => setNote(null), 6000);
 
     setTitle('');
-    // Area/Project/Type stay sticky so a batch of same-context captures
-    // doesn't need reselecting each time; per-item specifics (axes, time,
-    // dates) reset so they can't silently leak onto the next, unrelated one.
+    // Area stays sticky so a batch of same-context captures doesn't need
+    // reselecting each time; per-item specifics (axes, thought/project,
+    // parent, time, dates) reset so they can't silently leak onto the next,
+    // unrelated item.
     setAxes(DEFAULT_AXES);
+    setIsThought(false);
+    setIsProject(false);
+    setParentTaskId('');
     setTimeMin('');
     setDueDate('');
     setScheduledDate('');
@@ -138,7 +153,11 @@ export default function CaptureScreen() {
         {/* Above the title on purpose: scoring is the part that's easy to skip,
             and four stacked steppers at the bottom of the form were below the
             fold on a phone the moment the keyboard opened. */}
-        <AxisChips axes={axes} onChange={setAxis} />
+        <AxisChips
+          axes={axes}
+          onChange={setAxis}
+          toggles={{ isThought, isProject, onToggle: handleToggle }}
+        />
 
         <input
           ref={titleRef}
@@ -176,22 +195,6 @@ export default function CaptureScreen() {
               the submit button off-screen. */}
           <div className="orb-capscreen-fieldgrid">
               <label className="orb-capscreen-field">
-                <span>Project</span>
-                <select value={projectId} onChange={(e) => setProjectId(e.target.value)} disabled={!areaId}>
-                  <option value="">— none —</option>
-                  {areaProjects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
-                </select>
-              </label>
-
-              <label className="orb-capscreen-field">
-                <span>Type</span>
-                <select value={taskType} onChange={(e) => setTaskType(e.target.value)}>
-                  <option value="">— none —</option>
-                  {settings.taskTypes.map((t) => <option key={t} value={t}>{t}</option>)}
-                </select>
-              </label>
-
-              <label className="orb-capscreen-field">
                 <span>Time (min)</span>
                 <input
                   type="number"
@@ -214,26 +217,19 @@ export default function CaptureScreen() {
               </label>
           </div>
 
-          {/* Last, and the only thing still collapsed. It's sticky across
-              submits so it's usually already right; the row shows the live
-              value so it can't drift without being noticed. */}
-          <button
-            type="button"
-            className="orb-capscreen-areatoggle"
-            onClick={() => setAreaOpen((v) => !v)}
-            aria-expanded={areaOpen}
-          >
-            <span>Area</span>
-            <strong>{areaLabel}</strong>
-            <span aria-hidden="true">{areaOpen ? '▴' : '▾'}</span>
-          </button>
+          {/* Both collapsed by default — a tap reveals the real control in
+              place of the button, never both at once. Area is sticky across
+              submits so the row already shows the live value most of the time. */}
+          <CollapsedField label="Parent" valueLabel={parentLabel} open={parentOpen} onOpen={() => setParentOpen(true)}>
+            <select value={parentTaskId} onChange={(e) => setParentTaskId(e.target.value)}>
+              <option value="">— none —</option>
+              {projectTasks.map((t) => <option key={t.id} value={t.id}>{t.title}</option>)}
+            </select>
+          </CollapsedField>
 
-          {areaOpen && (
-            <label className="orb-capscreen-field">
-              <span>Area</span>
-              <AreaSelect value={areaId} onChange={handleAreaChange} />
-            </label>
-          )}
+          <CollapsedField label="Area" valueLabel={areaLabel} open={areaOpen} onOpen={() => setAreaOpen(true)}>
+            <AreaSelect value={areaId} onChange={handleAreaChange} />
+          </CollapsedField>
         </div>
 
         <button type="submit" className="orb-btn orb-btn-primary orb-capscreen-submit">
