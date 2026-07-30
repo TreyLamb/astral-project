@@ -1,0 +1,56 @@
+/* WorkoutDocsView — renders runningworkouts/*.md training plans via
+   react-markdown. Prefixed ft- (CLAUDE.md), reuses FitnessTracker's --ft-*
+   theme vars from FitnessTracker.css rather than introducing new colors. */
+
+.ft-docs { display: flex; flex-direction: column; gap: 14px; }
+
+.ft-docs-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.ft-docs-tab {
+  padding: 8px 16px; border-radius: 9px; border: 1px solid var(--ft-border);
+  background: var(--ft-panel-2); color: var(--ft-muted); font-weight: 600; font-size: 0.88rem;
+  cursor: pointer; font-family: inherit;
+}
+.ft-docs-tab:hover { color: var(--ft-text); border-color: var(--ft-accent); }
+.ft-docs-tab.active { background: rgba(163, 230, 53, 0.14); border-color: var(--ft-accent); color: var(--ft-accent); }
+
+.ft-docs-content {
+  background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 12px;
+  padding: 20px; color: var(--ft-text); line-height: 1.6; overflow-wrap: anywhere;
+  max-width: 900px; box-sizing: border-box;
+}
+
+.ft-docs-content h1 { font-size: 1.35rem; font-weight: 800; margin: 0 0 14px; color: var(--ft-text); }
+.ft-docs-content h2 {
+  font-size: 1.1rem; font-weight: 800; margin: 26px 0 10px; color: var(--ft-accent);
+  border-bottom: 1px solid var(--ft-border); padding-bottom: 6px;
+}
+.ft-docs-content h3 { font-size: 0.98rem; font-weight: 700; margin: 18px 0 8px; color: var(--ft-text); }
+.ft-docs-content p { margin: 0 0 12px; font-size: 0.92rem; color: var(--ft-text); }
+.ft-docs-content strong { color: var(--ft-accent); font-weight: 700; }
+.ft-docs-content em { color: var(--ft-muted); }
+.ft-docs-content ul, .ft-docs-content ol { margin: 0 0 12px; padding-left: 22px; font-size: 0.92rem; }
+.ft-docs-content li { margin-bottom: 4px; }
+.ft-docs-content hr { border: none; border-top: 1px solid var(--ft-border); margin: 20px 0; }
+.ft-docs-content a { color: var(--ft-accent); }
+.ft-docs-content code {
+  background: var(--ft-panel-2); border: 1px solid var(--ft-border); border-radius: 4px;
+  padding: 1px 5px; font-size: 0.85em;
+}
+
+/* Tables are dense (per-cycle pace/time charts) — nowrap cells + a horizontally
+   scrollable wrapper beats wrapping mid-number on a phone, same scroll-strip
+   pattern .ft-topnav already uses at mobile width. */
+.ft-docs-table-wrap {
+  overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 0 16px;
+  border: 1px solid var(--ft-border); border-radius: 8px;
+}
+.ft-docs-content table { border-collapse: collapse; width: 100%; font-size: 0.82rem; white-space: nowrap; }
+.ft-docs-content th, .ft-docs-content td { padding: 7px 10px; border-bottom: 1px solid var(--ft-border); text-align: left; }
+.ft-docs-content th { background: var(--ft-panel-2); color: var(--ft-accent); font-weight: 700; }
+.ft-docs-content tr:last-child td { border-bottom: none; }
+
+@media (max-width: 640px) {
+  .ft-docs-content { padding: 14px; }
+  .ft-docs-content h1 { font-size: 1.15rem; }
+  .ft-docs-content h2 { font-size: 1.02rem; }
+}

@@ -7,6 +7,7 @@ import Settings from './Settings';
 import RunTools from './RunTools';
 import Dashboard from './Dashboard';
 import ImportPage from './ImportPage';
+import WorkoutDocsView from './WorkoutDocsView';
 import QuickAddModal from './QuickAddModal';
 import MealsView from './MealsView';
 import MealEditor from './MealEditor';
@@ -67,6 +68,7 @@ export default function FitnessTrackerApp() {
             <NavLink end to="/fitness-tracker" className={tab}>Calendar</NavLink>
             <NavLink to="/fitness-tracker/meals" className={tab}>Meals</NavLink>
             <NavLink to="/fitness-tracker/tools" className={tab}>Tools</NavLink>
+            <NavLink to="/fitness-tracker/workouts" className={tab}>Workouts</NavLink>
             <NavLink to="/fitness-tracker/dashboard" className={tab}>Dashboard</NavLink>
             <NavLink to="/fitness-tracker/import" className={tab}>Import</NavLink>
             <NavLink to="/fitness-tracker/settings" className={tab}>Settings</NavLink>
@@ -86,6 +88,7 @@ export default function FitnessTrackerApp() {
             <Route path="meals" element={<MealsView />} />
             <Route path="meal/:id" element={<MealEditor />} />
             <Route path="tools" element={<RunTools />} />
+            <Route path="workouts" element={<WorkoutDocsView />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="import" element={<ImportPage />} />
             <Route path="settings" element={<Settings />} />
