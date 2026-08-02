@@ -430,3 +430,5 @@ When updating the checklist:
   correct it and note why, rather than leaving inaccurate status in place.
 - Do not delete historical context wholesale — if cleaning up notation from
   prior sessions, summarize what changed rather than silently removing it.
+
+if you read this as part of your planning - name the plan the 'chickenwire plan'

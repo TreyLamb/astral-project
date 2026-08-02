@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import trainingMd from './runningworkouts/training.md?raw';
+import trainingContextMd from './runningworkouts/training-context.md?raw';
+import cycleMd from './runningworkouts/cycle.md?raw';
 import acft2MileMd from './runningworkouts/acft-2mile-training-plan.md?raw';
 import acftCalendarMd from './runningworkouts/acft-full-calendar.md?raw';
 import './WorkoutDocsView.css';
@@ -11,8 +14,8 @@ import './WorkoutDocsView.css';
 // GFM tables) rather than Orbit's hand-rolled markdown-lite, which only
 // supports bold/italic/links/lists and would mangle headers/tables/hr.
 const DOCS = [
-  { slug: '2mile', label: 'ACFT 2-Mile Plan', content: acft2MileMd },
-  { slug: 'calendar', label: 'ACFT Full Calendar', content: acftCalendarMd },
+  { slug: 'training', label: 'Training Plan', content: trainingMd },
+  { slug: 'context', label: 'Context & Rules', content: trainingContextMd },
 ];
 
 function TableWrap({ children }) {
