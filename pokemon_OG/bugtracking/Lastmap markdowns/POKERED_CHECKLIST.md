@@ -144,8 +144,32 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
       spinner maze built from scratch, both elevators (Rocket Hideout + Celadon Mart) wired,
       Silph Scope pickup confirmed reachable end-to-end. [x] Claude tested (code review +
       `npm run build` clean + `audit_map.py`). [ ] You
-- [ ] Silph Co.
-- [ ] Safari Zone
+- [ ] Silph Co. (in progress — Batch 3 wiring pass underway 2026-08-02)
+- [~] Safari Zone — core mechanic wired 2026-08-02 (orchestrator direct work after 2 subagent
+      attempts hit the account usage limit mid-work and lost uncommitted progress): real ¥500
+      fee / 30 Safari Balls / 502 steps (verbatim from `scripts/SafariZoneGate.asm`), step+ball
+      depletion ejects the player back to the gate (`engine/events/hidden_events/safari_game.asm`),
+      wild encounters in the 4 zone areas get a dedicated BALL/BAIT/ROCK/RUN battle mode
+      (`PokeredBattle.jsx`, `isSafari` flag) instead of the normal FIGHT/PKMN/ITEM/RUN menu.
+      HM03 Surf (free, unconditional gift from the Secret House's Fishing Guru) and HM04 Strength
+      (Warden's Gold Teeth exchange) both wired and grant the shared HM06 key item. Fuchsia Gym
+      statues wired. ✂️ Simplified vs. OG: BAIT/ROCK are real functional turn-passing actions with
+      correct OG flavor text but do NOT move a bait/escape-factor counter that shifts catch-rate/
+      flee-chance turn-by-turn the way real OG's `PrintSafariZoneBattleText` does — BALL (the
+      option that matters for actually completing the zone) is fully faithful via the same
+      `tryCatch` primitive normal wild encounters use. ✂️ NOT done this pass: full per-map sign/
+      NPC dialogue script-trace for FUCHSIA_BILLS_GRANDPAS_HOUSE, FUCHSIA_GOOD_ROD_HOUSE,
+      FUCHSIA_MART, FUCHSIA_MEETING_ROOM, FUCHSIA_POKECENTER, ROUTE_16/17/18(+gates),
+      ROUTE_16_FLY_HOUSE, SAFARI_ZONE_CENTER_REST_HOUSE — only the Safari-specific subsystem and
+      the gym/Warden/Fishing-Guru gifts were directly wired; these remaining maps are still
+      `"unaudited"` in the manifest. **Correction to an earlier assumption this session:** the
+      Warden's real reward is HM04 Strength, NOT Surf — Surf is a separate, unconditional gift
+      from the Safari Zone Secret House's Fishing Guru. **"Move Deleter" does not exist in Gen 1**
+      (it's a Gen 2+ feature, Cianwood City) — an earlier roadmap note mentioning it for this
+      region was mistaken; nothing to build. **Also confirmed**: the 3 Safari rest houses'
+      `PrintBenchGuyText` hidden_event has no matching entry in the real `BenchGuyTextPointers`
+      dispatch table — in authentic OG this silently prints nothing, so leaving it unwired is
+      correct, not a gap.
 - [x] Cinnabar Lab — fossil revival. Give DOME_FOSSIL/HELIX_FOSSIL/OLD_AMBER to the fossil-room
       scientist (CINNABAR_LAB_FOSSIL_ROOM:1) → KABUTO/OMANYTE/AERODACTYL at level 30
       (`engine/events/cinnabar_lab.asm`, `scripts/CinnabarLabFossilRoom.asm`). Real "go for a

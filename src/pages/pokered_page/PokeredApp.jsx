@@ -505,6 +505,76 @@ export default function PokeredApp() {
     });
   }
 
+  // ===== R16_18-Fuchsia-Safari WIRING =====
+  // scripts/SafariZoneGate.asm's real entry grant: ¥500 fee, exactly 30 Safari Balls, exactly
+  // 502 steps (not 500 — verified against the literal HIGH(502)/LOW(502) load in OG source).
+  function handleSafariEnter() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      if ((prev.money ?? 0) < 500) return prev; // dialogue already gates this, but stay safe
+      const next = setEvent(
+        { ...prev, money: (prev.money ?? 0) - 500, safariBalls: 30, safariSteps: 502 },
+        'EVENT_IN_SAFARI_ZONE',
+      );
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+  // Real OG does not refund unused balls/steps/money on any exit path (early-leave or
+  // timeout/ball-out) — SAFARI ZONE balls were never a real bag item to begin with.
+  function handleSafariLeave() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = clearEvent({ ...prev, safariBalls: 0 }, 'EVENT_IN_SAFARI_ZONE');
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+  function handleSafariStep(stepsLeft) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = { ...prev, safariSteps: Math.max(0, stepsLeft) };
+      return next; // not saved every step — too hot a path; safariSteps is re-derived from gate re-entry anyway if a reload loses a few steps of precision
+    });
+  }
+  // Ball-out ejection is checked from the battle side (a Safari encounter is the only place
+  // safariBalls decrements) rather than the overworld step loop, mirroring OG's SafariZoneCheck
+  // reading wNumSafariBalls independently of wSafariSteps.
+  // Both HM gifts collapse to the shared HM06 "teach any move" key item per this port's
+  // TM/HM model — see the Viridian City fisherman comment elsewhere for the established
+  // convention. The Warden's gift additionally removes GOLD_TEETH from the bag (real OG:
+  // RemoveItemByID) and sets EVENT_GAVE_GOLD_TEETH, matching WardensHouse.asm exactly.
+  function handleGiveHmSurf() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      let items = prev.items ?? [];
+      if (!items.some(it => it.name === 'HM06')) items = [...items, { name: 'HM06', count: 1 }];
+      const next = setEvent({ ...prev, items }, 'EVENT_GOT_HM03');
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+  function handleGiveHmStrength() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      let items = (prev.items ?? []).filter(it => it.name !== 'GOLD_TEETH');
+      if (!items.some(it => it.name === 'HM06')) items = [...items, { name: 'HM06', count: 1 }];
+      let next = setEvent({ ...prev, items }, 'EVENT_GOT_HM04');
+      next = setEvent(next, 'EVENT_GAVE_GOLD_TEETH');
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+  function handleSafariBallUsed() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const safariBalls = Math.max(0, (prev.safariBalls ?? 0) - 1);
+      const next = { ...prev, safariBalls };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
   // Oak's Parcel delivery (scripts/OaksLab.asm .got_parcel branch): removes OAKS_PARCEL from
   // the bag and records the delivery so the Viridian Mart clerk's one-time quest-giving text
   // doesn't fire again and Oak's dialogue falls through to its next real branch.
@@ -1528,6 +1598,8 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
         playerItems={gameState.items}
         onUseItem={handleUseItem}
         badges={gameState.badges}
+        safariBalls={gameState.safariBalls}
+        onSafariBallUsed={handleSafariBallUsed}
       />
     );
   }
@@ -1584,6 +1656,11 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onGiveDrinkForTM={handleGiveDrinkForTM}
             onBuyPrize={handleBuyPrize}
             onGivePokemon={handleGivePokemon}
+            onSafariStep={handleSafariStep}
+            onSafariEnter={handleSafariEnter}
+            onSafariLeave={handleSafariLeave}
+            onGiveHmSurf={handleGiveHmSurf}
+            onGiveHmStrength={handleGiveHmStrength}
             gameState={gameState}
             isExtra={gameState.isExtra}
             speedMult={speedMult}

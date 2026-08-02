@@ -2031,12 +2031,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "partial",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-direct-batch3-fallback",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Gym statues wired (coords 3,15/6,15 facing UP, added to the shared GYM_STATUES table used by VERMILION_GYM - verified against hidden_events.asm + badge_maps.asm, badgeIndex 4/Koga). Koga's own trainer battle uses the existing generic trainerClass battle mechanism (not rebuilt, not separately re-verified this pass). Full script-trace of the rest of this map (any maze/puzzle beyond the statues) NOT done."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -6195,12 +6195,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-direct-batch3-fallback",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Core Safari Zone mechanic wired directly by orchestrator (subagents hit account usage limit mid-work, lost): wild encounters here tagged isSafari, consumed by PokeredBattle's BALL/BAIT/ROCK/RUN mode. Step-counter/ball-count ejection handled at the SAFARI_ZONE_GATE level, not per-area. Full per-map dialogue/sign/trainer script-trace NOT done - only the Safari-specific subsystem, not a full fully-wire pass."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -6261,12 +6261,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-direct-batch3-fallback",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Core Safari Zone mechanic wired directly by orchestrator (subagents hit account usage limit mid-work, lost): wild encounters here tagged isSafari, consumed by PokeredBattle's BALL/BAIT/ROCK/RUN mode. Step-counter/ball-count ejection handled at the SAFARI_ZONE_GATE level, not per-area. Full per-map dialogue/sign/trainer script-trace NOT done - only the Safari-specific subsystem, not a full fully-wire pass."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -6297,12 +6297,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-direct-batch3-fallback",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "IMPORTANT FINDING: hidden_events.asm registers a PrintBenchGuyText hidden_event at (0,4) for this map, BUT the real dispatch table (data/events/bench_guys.asm BenchGuyTextPointers, consumed by engine/events/hidden_events/bench_guys.asm) has NO entry for this map - it only covers real Pokecenters + Celadon Hotel. In authentic OG, interacting with this bench guy hits the table's -1 terminator and returns with NO text printed at all. This is NOT a gap to fix - leaving it unwired IS the OG-accurate behavior. Do not add bench-guy text here; it would be LESS accurate than doing nothing. (PC at 13,3 already correctly wired via PC_TILES.)"
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -6343,12 +6343,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-direct-batch3-fallback",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Entry (\u00a5500 fee, 30 Safari Balls, 502 steps, EVENT_IN_SAFARI_ZONE) and leave-early flow wired via SAFARI_ZONE_GATE:1 (worker1) and :2 (worker2) startDialogue special cases, traced against scripts/SafariZoneGate.asm exactly (fee/ball/step amounts verbatim from OG source). Real OG's auto-walk-up cutscene simplified to normal talk-to-NPC interaction - documented simplification."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -6379,12 +6379,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-direct-batch3-fallback",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Core Safari Zone mechanic wired directly by orchestrator (subagents hit account usage limit mid-work, lost): wild encounters here tagged isSafari, consumed by PokeredBattle's BALL/BAIT/ROCK/RUN mode. Step-counter/ball-count ejection handled at the SAFARI_ZONE_GATE level, not per-area. Full per-map dialogue/sign/trainer script-trace NOT done - only the Safari-specific subsystem, not a full fully-wire pass."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -6415,12 +6415,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-direct-batch3-fallback",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "IMPORTANT FINDING: hidden_events.asm registers a PrintBenchGuyText hidden_event at (0,4) for this map, BUT the real dispatch table (data/events/bench_guys.asm BenchGuyTextPointers, consumed by engine/events/hidden_events/bench_guys.asm) has NO entry for this map - it only covers real Pokecenters + Celadon Hotel. In authentic OG, interacting with this bench guy hits the table's -1 terminator and returns with NO text printed at all. This is NOT a gap to fix - leaving it unwired IS the OG-accurate behavior. Do not add bench-guy text here; it would be LESS accurate than doing nothing. (PC at 13,3 already correctly wired via PC_TILES.)"
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -6445,12 +6445,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-direct-batch3-fallback",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Fishing Guru's free HM03 Surf gift wired (scripts/SafariZoneSecretHouse.asm - unconditional, EVENT_GOT_HM03 gate only, no fee). Grants shared HM06 key item per this port's TM/HM convention."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -6486,12 +6486,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-direct-batch3-fallback",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Core Safari Zone mechanic wired directly by orchestrator (subagents hit account usage limit mid-work, lost): wild encounters here tagged isSafari, consumed by PokeredBattle's BALL/BAIT/ROCK/RUN mode. Step-counter/ball-count ejection handled at the SAFARI_ZONE_GATE level, not per-area. Full per-map dialogue/sign/trainer script-trace NOT done - only the Safari-specific subsystem, not a full fully-wire pass."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -6522,12 +6522,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-direct-batch3-fallback",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "IMPORTANT FINDING: hidden_events.asm registers a PrintBenchGuyText hidden_event at (0,4) for this map, BUT the real dispatch table (data/events/bench_guys.asm BenchGuyTextPointers, consumed by engine/events/hidden_events/bench_guys.asm) has NO entry for this map - it only covers real Pokecenters + Celadon Hotel. In authentic OG, interacting with this bench guy hits the table's -1 terminator and returns with NO text printed at all. This is NOT a gap to fix - leaving it unwired IS the OG-accurate behavior. Do not add bench-guy text here; it would be LESS accurate than doing nothing. (PC at 13,3 already correctly wired via PC_TILES.)"
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -8937,12 +8937,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-direct-batch3-fallback",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Warden's Gold Teeth -> HM04 Strength gift chain wired (scripts/WardensHouse.asm): requires GOLD_TEETH in bag (already reachable via the generic ground-item mechanism at SAFARI_ZONE_WEST 19,7 - confirmed present in item_locations.json), removes it, sets EVENT_GAVE_GOLD_TEETH + EVENT_GOT_HM04, grants shared HM06. CORRECTION: an earlier roadmap assumption in this session wrongly said Warden grants Surf - verified against real OG source, Warden grants STRENGTH (HM04); Surf (HM03) is the separate, unconditional Fishing Guru gift above. Do not conflate the two."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     }

@@ -366,6 +366,10 @@ const DEX_ENTRIES = Object.keys(DEX).map((key, i) => ({
 // rival name) rather than inventing new gameState just for 2 flavor statues.
 const GYM_STATUES = {
   VERMILION_GYM: { city: 'VERMILION CITY', leader: 'LT.SURGE', badgeIndex: 2, tiles: [{ x: 3, y: 14 }, { x: 6, y: 14 }] },
+  // ===== R16_18-Fuchsia-Safari WIRING ===== (data/events/hidden_events.asm hidden_events_for
+  // FUCHSIA_GYM, data/maps/badge_maps.asm: FUCHSIA_GYM -> BIT_SOULBADGE, badgeIndex 4 per
+  // trainerMeta.js's Koga entry)
+  FUCHSIA_GYM: { city: 'FUCHSIA CITY', leader: 'KOGA', badgeIndex: 4, tiles: [{ x: 3, y: 15 }, { x: 6, y: 15 }] },
 };
 function gymStatueLines(mapId, gameState) {
   const g = GYM_STATUES[mapId];
@@ -495,7 +499,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, onFindHiddenCoins, onBuyCoins, onGiveDrinkForTM, onBuyPrize, onGivePokemon, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, onFindHiddenCoins, onBuyCoins, onGiveDrinkForTM, onBuyPrize, onGivePokemon, onSafariStep, onSafariEnter, onSafariLeave, onGiveHmSurf, onGiveHmStrength, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -544,6 +548,11 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   function hasSilphScope() {
     return (gsRef.current?.items ?? []).some(it => it.name === 'SILPH_SCOPE');
   }
+  // ===== R16_18-Fuchsia-Safari WIRING =====
+  // The 4 real Safari Zone areas (NOT the gate/rest-houses, which have no wild table) — every
+  // wild encounter rolled on one of these uses the BALL/BAIT/ROCK/RUN Safari flow instead of a
+  // normal battle (Gen 1 has no player-side Pokémon in a Safari encounter at all).
+  const SAFARI_ZONE_MAPS = new Set(['SAFARI_ZONE_CENTER', 'SAFARI_ZONE_EAST', 'SAFARI_ZONE_NORTH', 'SAFARI_ZONE_WEST']);
   // Real OG (engine/items/item_effects.asm ItemUsePokeFlute + Route12SnorlaxFluteCoords /
   // Route16SnorlaxFluteCoords): the flute only wakes Snorlax when the player's OWN standing
   // tile is one of the 4 (Route 12) / 2 (Route 16) tiles directly cardinally adjacent to it —
@@ -1654,6 +1663,31 @@ const OUTDOOR = ['overworld', 'plateau'];
       }
     }
 
+    // ===== R16_18-Fuchsia-Safari WIRING: Safari Zone step counter =====
+    // engine/events/hidden_events/safari_game.asm SafariZoneCheckSteps — real OG decrements
+    // wSafariSteps every completed step while EVENT_IN_SAFARI_ZONE is set (granted 502 by
+    // scripts/SafariZoneGate.asm's entry script, ¥500 fee, 30 Safari Balls — see the
+    // SAFARI_ZONE_GATE:1 dialogue block for the entry flow), ejecting the player back to the
+    // gate the instant either the step counter OR the ball count (see PokeredApp.jsx
+    // handleBattleEnd) hits 0 — SafariZoneCheck's real OR condition. warpIdx 3 into
+    // SAFARI_ZONE_GATE is OG's own literal wDestinationWarpID=3 for this exact ejection.
+    if (hasEvent(gsRef.current, 'EVENT_IN_SAFARI_ZONE')) {
+      if ((gsRef.current?.safariBalls ?? 0) <= 0) {
+        setDialogue({ lines: ["You're out of\nSAFARI BALLs!"], idx: 0, action: null });
+        if (onSafariLeave) onSafariLeave();
+        handleWarp({ dest: 'SAFARI_ZONE_GATE', warpIdx: 3 });
+        return;
+      }
+      const stepsLeft = (gsRef.current?.safariSteps ?? 0) - 1;
+      if (onSafariStep) onSafariStep(stepsLeft);
+      if (stepsLeft <= 0) {
+        setDialogue({ lines: ["Time's up!", "Let's return your\nSAFARI BALLs."], idx: 0, action: null });
+        if (onSafariLeave) onSafariLeave();
+        handleWarp({ dest: 'SAFARI_ZONE_GATE', warpIdx: 3 });
+        return;
+      }
+    }
+
 // Route 22 Rival ambush (real OG: Route22DefaultScript checks player coords against
     // (29,4)/(29,5), NOT an NPC-facing/LOS check like every other trainer — he doesn't stand
     // there waiting to be talked to, he walks up and battles the moment you cross this exact
@@ -1989,6 +2023,8 @@ const OUTDOOR = ['overworld', 'plateau'];
         // move mechanics are completely untouched, still computed against the TRUE species.
         const enriched = POKEMON_TOWER_MAPS.has(ms.mapId)
           ? { ...pick, ghostDisguise: !hasSilphScope() }
+          : SAFARI_ZONE_MAPS.has(ms.mapId)
+          ? { ...pick, isSafari: true }
           : pick;
         encounterRef.current = enriched;
         if (onEncounter) onEncounter(enriched, ms.mapId, p.x, p.y);
@@ -3270,6 +3306,89 @@ function notifyPosition() {
       return;
     }
 
+    // ===== R16_18-Fuchsia-Safari WIRING: Safari Zone Gate entry =====
+    // scripts/SafariZoneGate.asm SafariZoneGateWouldYouLikeToJoinScript — real OG triggers this
+    // via an auto-walk-up-and-talk cutscene when approaching worker1; this port uses a normal
+    // talk-to-NPC interaction instead (same simplification level as every other "NPC walks up to
+    // you" scene this port doesn't have a walk-simulation primitive for) — functionally
+    // equivalent: same fee, same Yes/No, same grant. Already-in-progress (EVENT_IN_SAFARI_ZONE
+    // set) shows a different "good luck" line instead of re-charging.
+    if (here === 'SAFARI_ZONE_GATE:1') {
+      if (hasEvent(gsRef.current, 'EVENT_IN_SAFARI_ZONE')) {
+        setDialogue({ lines: ["Good luck!"], idx: 0, action: null });
+      } else {
+        setDialogue({
+          lines: ["For just ¥500,", "you can catch all\nthe POKéMON you\nwant in the park!", "Would you like to\njoin the SAFARI\nGAME?"],
+          idx: 0, action: null,
+          yesNo: {
+            onYes: (gameState?.money ?? 0) >= 500
+              ? { lines: ["That'll be ¥500\nplease!", "We only use a\nspecial POKé BALL\nhere. You get 30."], action: 'SAFARI_ENTER' }
+              : { lines: ["Oops! Not enough\nmoney!"] },
+            onNo: { lines: ["OK! Please come\nagain!"] },
+          },
+        });
+      }
+      return;
+    }
+    // scripts/SafariZoneGate.asm SafariZoneGateSafariZoneWorker1LeavingEarlyText — the OTHER
+    // worker (worker2 in this map's npc list), reused as the "leave early" exit prompt while a
+    // session is active (real OG's leave-early trigger is the same worker1 approached from the
+    // opposite/inner side; using the 2nd NPC here avoids needing a second facing-direction state
+    // machine on the same NPC for a rarely-used exit path — same fee/balls/steps outcome either
+    // way: session ends, balls are not refunded, matching OG's real "they're not a real bag
+    // item" model).
+    if (here === 'SAFARI_ZONE_GATE:2') {
+      if (hasEvent(gsRef.current, 'EVENT_IN_SAFARI_ZONE')) {
+        setDialogue({
+          lines: ["Would you like to\nleave the SAFARI\nGAME?"], idx: 0, action: null,
+          yesNo: {
+            onYes: { lines: ["OK! Let's return\nyour SAFARI BALLs."], action: 'SAFARI_LEAVE' },
+            onNo: { lines: ["Good luck!"] },
+          },
+        });
+      } else {
+        setDialogue({ lines: ["SAFARI ZONE has 4\nzones in it.", "Each zone has\ndifferent POKéMON!"], idx: 0, action: null });
+      }
+      return;
+    }
+
+    // Safari Zone Secret House's Fishing Guru (scripts/SafariZoneSecretHouse.asm) — a free,
+    // unconditional HM03 Surf gift, gated only on EVENT_GOT_HM03 (no fee, no item exchange,
+    // unlike the Warden below). This port models every TM/HM as the single HM06 "teach any
+    // move" key item (see the Viridian City fisherman note elsewhere) — grant that the same way.
+    if (here === 'SAFARI_ZONE_SECRET_HOUSE:1') {
+      if (hasEvent(gsRef.current, 'EVENT_GOT_HM03')) {
+        setDialogue({ lines: ["Isn't fishing\nrelaxing?"], idx: 0, action: null });
+      } else {
+        setDialogue({
+          lines: ["You have won the\nfishing contest!", "Take this as a\nprize!", "<PLAYER> received\nHM03!"],
+          idx: 0, action: 'GIVE_HM_SURF',
+        });
+      }
+      return;
+    }
+    // Warden (scripts/WardensHouse.asm) — requires GOLD_TEETH in the bag (a ground item found
+    // in SAFARI_ZONE_WEST, already wired via the generic ground-item mechanism), then gives
+    // HM04 Strength and removes the teeth. Real OG's 3-state branch (never found it yet /
+    // holding it / already turned in) collapses to 2 states here since RemoveItemByID +
+    // SetEvent EVENT_GAVE_GOLD_TEETH happen in the same turn as the HM grant in this port
+    // (no separate "thanks, but here's your HM anyway" follow-up turn needed).
+    if (here === 'WARDENS_HOUSE:1') {
+      const hasHM04 = hasEvent(gsRef.current, 'EVENT_GOT_HM04');
+      const hasTeeth = (gameState?.items ?? []).some(it => it.name === 'GOLD_TEETH');
+      if (hasHM04) {
+        setDialogue({ lines: ["The safari animals\nare precious to me."], idx: 0, action: null });
+      } else if (hasTeeth) {
+        setDialogue({
+          lines: ["My GOLD TEETH!", "Thank you so much\nfor finding them!", "Here, take this\nas thanks!", "<PLAYER> received\nHM04!"],
+          idx: 0, action: 'GIVE_HM_STRENGTH',
+        });
+      } else {
+        setDialogue({ lines: ["Oh, someone stole\nmy GOLD TEETH!", "I lost them\nsomewhere in the\nSAFARI ZONE..."], idx: 0, action: null });
+      }
+      return;
+    }
+
     // Cerulean Gym guide (CeruleanGymGymGuideText) — real OG branches on EVENT_BEAT_MISTY;
     // npc_dialogue.json's extraction only captured the "before" branch, same static-fallback
     // limitation as the Bike Shop youngster below.
@@ -3810,6 +3929,20 @@ function notifyPosition() {
         }
         if (prev.action === 'EXCHANGE_BIKE_VOUCHER' && onExchangeBikeVoucher) {
           onExchangeBikeVoucher();
+        }
+        // ===== R16_18-Fuchsia-Safari WIRING =====
+        if (prev.action === 'SAFARI_ENTER' && onSafariEnter) {
+          onSafariEnter();
+        }
+        if (prev.action === 'SAFARI_LEAVE' && onSafariLeave) {
+          onSafariLeave();
+          handleWarp({ dest: 'SAFARI_ZONE_GATE', warpIdx: 3 });
+        }
+        if (prev.action === 'GIVE_HM_SURF' && onGiveHmSurf) {
+          onGiveHmSurf();
+        }
+        if (prev.action === 'GIVE_HM_STRENGTH' && onGiveHmStrength) {
+          onGiveHmStrength();
         }
         // ===== R7-Celadon-RocketHideout-Erika CLUSTER WIRING =====
         // Celadon Mart / Rocket Hideout elevators (scripts/CeladonMartElevator.asm,

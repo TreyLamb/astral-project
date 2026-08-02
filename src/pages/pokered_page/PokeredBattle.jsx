@@ -61,7 +61,7 @@ function HpBar({ current, max }) {
   );
 }
 
-export default function PokeredBattle({ playerParty, wildEncounter, trainerEncounter, pokemonData, onBattleEnd, isExtra, playerItems, onUseItem, badges }) {
+export default function PokeredBattle({ playerParty, wildEncounter, trainerEncounter, pokemonData, onBattleEnd, isExtra, playerItems, onUseItem, badges, safariBalls, onSafariBallUsed }) {
   // Full-party battle: the active mon lives in `player` state; the whole party
   // (including the active slot) lives in partyRef, synced at the end of every turn
   // and on switches, and returned to the app as updatedParty at battle end.
@@ -741,6 +741,44 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
     }
   }
 
+  // ===== R16_18-Fuchsia-Safari WIRING =====
+  // Real Gen 1 Safari Zone encounters have NO player-side Pokémon involved at all — it's a pure
+  // BALL/BAIT/ROCK/RUN screen against the wild mon directly (engine/battle/safari_zone.asm
+  // PrintSafariZoneBattleText tracks a bait/escape-factor countdown that raises/lowers catch
+  // odds and flee risk turn-by-turn). This port keeps the existing battle screen chrome (shows
+  // the active party mon) rather than building a whole separate no-player-mon UI, and BALL/RUN
+  // use the same tryCatch/instant-flee primitives already proven correct for normal wild
+  // encounters. ✂️ Simplified vs. OG: BAIT/ROCK are wired as real, functional turn-passing
+  // actions (their real OG flavor text plays, a turn genuinely passes, no ball is spent) but do
+  // NOT move a bait/escape-factor counter that shifts catch-rate/flee-chance turn over turn —
+  // replicating that exact countdown without the ability to live-test the resulting difficulty
+  // curve risked shipping a subtly-wrong version of the one thing players use bait/rock FOR,
+  // whereas BALL (the option that matters for actually completing the zone) is fully faithful.
+  function handleSafariBall() {
+    if ((safariBalls ?? 0) <= 0) return;
+    if (onSafariBallUsed) onSafariBallUsed();
+    if (tryCatch(enemy, pokemonData)) {
+      caughtMonRef.current = stripVolatile(enemy);
+      updatedPlayerRef.current = { ...player };
+      pushLog([`You threw a\nSAFARI BALL!`, `Gotcha! ${fmt(enemy.species)} was\ncaught!`], 'log', 'caught');
+    } else {
+      updatedPlayerRef.current = { ...player };
+      pushLog([`You threw a\nSAFARI BALL!`, 'Oh no! The\nPOKéMON broke free!'], 'log', null);
+    }
+  }
+  function handleSafariBait() {
+    updatedPlayerRef.current = { ...player };
+    pushLog(['You threw some\nBAIT!', `The wild ${fmt(enemy.species)} is\neating!`], 'log', null);
+  }
+  function handleSafariRock() {
+    updatedPlayerRef.current = { ...player };
+    pushLog(['You threw a\nROCK!', `The wild ${fmt(enemy.species)}\ngot angry!`], 'log', null);
+  }
+  function handleSafariRun() {
+    updatedPlayerRef.current = { ...player };
+    pushLog(['You got away\nsafely!'], 'log', 'run');
+  }
+
   const allOutOfPP = player.moves.every(m => m.pp <= 0);
 
   function handleMove(idx) {
@@ -946,6 +984,20 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
               {/* Routes through advanceAfterLog (not handleEnd directly) — a queued evolution
                   still needs to run before the battle screen can actually close. */}
               {logDone && result !== null && <button className="pkrb-btn" onClick={advanceAfterLog}>CONTINUE ▶</button>}
+            </div>
+          ) : phase === 'action' && wildEncounter?.isSafari ? (
+            <div className="pkrb-action-layout">
+              <div className="pkrb-action-msg">SAFARI ZONE<br/>{safariBalls ?? 0} BALLS left</div>
+              <div className="pkrb-action-grid">
+                <button className={`pkrb-action-btn${cursor===0?' pkrb-cursor':''}`}
+                  onClick={() => { lastActionCursorRef.current = 0; handleSafariBall(); }} disabled={(safariBalls ?? 0) <= 0}>BALL</button>
+                <button className={`pkrb-action-btn${cursor===1?' pkrb-cursor':''}`}
+                  onClick={() => { lastActionCursorRef.current = 1; handleSafariBait(); }}>BAIT</button>
+                <button className={`pkrb-action-btn${cursor===2?' pkrb-cursor':''}`}
+                  onClick={() => { lastActionCursorRef.current = 2; handleSafariRock(); }}>ROCK</button>
+                <button className={`pkrb-action-btn${cursor===3?' pkrb-cursor':''}`}
+                  onClick={() => { lastActionCursorRef.current = 3; handleSafariRun(); }}>RUN</button>
+              </div>
             </div>
           ) : phase === 'action' ? (
             <div className="pkrb-action-layout">
