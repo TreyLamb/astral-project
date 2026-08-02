@@ -305,6 +305,105 @@ export default function PokeredApp() {
     });
   }
 
+  // ===== R7-Celadon-RocketHideout-Erika CLUSTER WIRING =====
+
+  // Game Corner hidden floor coins (data/events/hidden_events.asm HiddenCoins, argument
+  // COIN + <n>) — same one-time-reveal shape as handlePickUpItem above (gated by pickedUpRef in
+  // PokeredOverworld, not here — this just needs to apply the coin credit itself), except it
+  // adds straight to gameState.coins instead of a bag item.
+  function handleFindHiddenCoins(amount) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = { ...prev, coins: Math.min(9999, (prev.coins ?? 0) + amount) };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Game Corner clerk1 (scripts/GameCorner.asm GameCornerClerk1Text) — ¥1000 for 50 coins.
+  // Affordability/coin-case/room-for-more are all checked in PokeredOverworld before the Yes/No
+  // is ever offered (see the GAME_CORNER:2 special case), so this just applies the exchange.
+  function handleBuyCoins(cost, gained) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      if ((prev.money ?? 0) < cost) return prev;
+      const next = { ...prev, money: prev.money - cost, coins: Math.min(9999, (prev.coins ?? 0) + gained) };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Celadon Mart Roof little_girl (scripts/CeladonMartRoof.asm) — consumes the given drink from
+  // the bag and grants HM06 (this port's single "teach any TM/HM" key item — see the
+  // CELADON_MART_ROOF:2 special case in PokeredOverworld for which real TM each drink maps to).
+  // Each drink is tracked as its own independent one-time gift (matching OG's 3 separate
+  // EVENT_GOT_TM13/48/49 flags) via a distinct giftId per drink, even though the item granted is
+  // always the same HM06 — so giving a 2nd/3rd different drink after already having HM06 still
+  // consumes that drink and is still tracked, matching OG's real per-drink one-time gate, even
+  // though this port's HM06 model makes the actual reward a no-op once already obtained.
+  function handleGiveDrinkForTM(drinkName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const giftId = `CELADON_MART_ROOF:2:${drinkName}`;
+      const pickedUpItems = prev.pickedUpItems ?? [];
+      if (pickedUpItems.includes(giftId)) return prev;
+      const items = consumeItem(prev.items ?? [], drinkName);
+      const hasHM06 = items.some(it => it.name === 'HM06');
+      const newItems = hasHM06 ? items : [...items, { name: 'HM06', count: 1 }];
+      const next = { ...prev, items: newItems, pickedUpItems: [...pickedUpItems, giftId] };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Game Corner Prize Room (engine/events/prize_menu.asm CeladonPrizeMenu) — coins-for-Pokémon
+  // or coins-for-TM(item) exchange. Affordability is already filtered in PokeredOverworld's
+  // buildPrizePrompt (only offers prizes the player can currently pay for), so this just applies
+  // the purchase — party-or-PC for mons (same handleBuyMagikarp/handleCollectFossilMon pattern),
+  // or a plain bag add for the TM (this port's single-HM06 model doesn't apply here since these
+  // are genuinely optional EXTRA TMs, not tied to any specific in-game NPC gift slot — granting
+  // the literal TM_* item name is correct and harmless since nothing else in this port reads
+  // individual TM item names except HM06 itself).
+  function handleBuyPrize(kind, payload, level, cost) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      if ((prev.coins ?? 0) < cost) return prev;
+      let next;
+      if (kind === 'mon') {
+        const mon = createPlayerPokemon(payload, level, pokemonData);
+        let party = prev.party, pcMons = prev.pcMons ?? [];
+        if (party.length < 6) party = [...party, mon];
+        else pcMons = [...pcMons, mon];
+        next = { ...prev, party, pcMons, coins: prev.coins - cost };
+      } else {
+        const items = [...(prev.items ?? [])];
+        const existing = items.find(it => it.name === payload);
+        const newItems = existing
+          ? items.map(it => it.name === payload ? { ...it, count: it.count + 1 } : it)
+          : [...items, { name: payload, count: 1 }];
+        next = { ...prev, items: newItems, coins: prev.coins - cost };
+      }
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Generic free-gift Pokémon (currently only Celadon Mansion Roof House's EEVEE) — party-or-PC,
+  // same pattern as handleBuyMagikarp/handleCollectFossilMon above. The one-time gate itself
+  // lives in PokeredOverworld (pickedUpItems via onMarkGiftTaken), not here.
+  function handleGivePokemon(species, level) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const mon = createPlayerPokemon(species, level, pokemonData);
+      let party = prev.party, pcMons = prev.pcMons ?? [];
+      if (party.length < 6) party = [...party, mon];
+      else pcMons = [...pcMons, mon];
+      const next = { ...prev, party, pcMons };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
   function handleHealParty() {
     setGameState(prev => {
       if (!prev) return prev;
@@ -1480,6 +1579,11 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onDaycareDeposit={handleDaycareDeposit}
             onDaycarePay={handleDaycarePay}
             onDaycareStep={handleDaycareStep}
+            onFindHiddenCoins={handleFindHiddenCoins}
+            onBuyCoins={handleBuyCoins}
+            onGiveDrinkForTM={handleGiveDrinkForTM}
+            onBuyPrize={handleBuyPrize}
+            onGivePokemon={handleGivePokemon}
             gameState={gameState}
             isExtra={gameState.isExtra}
             speedMult={speedMult}

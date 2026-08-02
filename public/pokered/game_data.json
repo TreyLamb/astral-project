@@ -22506,6 +22506,102 @@
           "text": "#MON photos and fossils."
         }
       ]
+    },
+    "UNDERGROUND_PATH_ROUTE_7": {
+      "blk": "UndergroundPathRoute7",
+      "tileset": "gate",
+      "w": 4,
+      "h": 4,
+      "connections": {},
+      "warps": [
+        {
+          "x": 3,
+          "y": 7,
+          "dest": "LAST_MAP",
+          "warpIdx": 5,
+          "dir": 1
+        },
+        {
+          "x": 4,
+          "y": 7,
+          "dest": "LAST_MAP",
+          "warpIdx": 5,
+          "dir": 1
+        },
+        {
+          "x": 4,
+          "y": 4,
+          "dest": "UNDERGROUND_PATH_WEST_EAST",
+          "warpIdx": 1,
+          "dir": 0
+        }
+      ],
+      "npcs": [
+        {
+          "x": 2,
+          "y": 4,
+          "sprite": "middle_aged_man",
+          "trainerClass": null,
+          "partyIdx": null,
+          "facing": "DOWN",
+          "movement": "STAND",
+          "sight": 0
+        }
+      ],
+      "wild": null
+    },
+    "UNDERGROUND_PATH_ROUTE_7_COPY": {
+      "blk": "UndergroundPathRoute7",
+      "tileset": "gate",
+      "w": 4,
+      "h": 4,
+      "connections": {},
+      "warps": [
+        {
+          "x": 3,
+          "y": 7,
+          "dest": "LAST_MAP",
+          "warpIdx": 6,
+          "dir": 1
+        },
+        {
+          "x": 4,
+          "y": 7,
+          "dest": "LAST_MAP",
+          "warpIdx": 6,
+          "dir": 1
+        },
+        {
+          "x": 4,
+          "y": 4,
+          "dest": "UNDERGROUND_PATH_WEST_EAST",
+          "warpIdx": 1,
+          "dir": 0
+        }
+      ],
+      "npcs": [
+        {
+          "x": 3,
+          "y": 2,
+          "sprite": "girl",
+          "trainerClass": null,
+          "partyIdx": null,
+          "facing": "DOWN",
+          "movement": "STAND",
+          "sight": 0
+        },
+        {
+          "x": 2,
+          "y": 4,
+          "sprite": "middle_aged_man",
+          "trainerClass": null,
+          "partyIdx": null,
+          "facing": "DOWN",
+          "movement": "STAND",
+          "sight": 0
+        }
+      ],
+      "wild": null
     }
   },
   "collision": {

@@ -4717,5 +4717,21 @@
         "You can go onto\nPOKéMON LEAGUE\nonly by defeating\nour GYM LEADER!"
       ]
     }
+  ],
+  "GAME_CORNER": [
+    {
+      "objectIndex": 11,
+      "eventFlag": "EVENT_BEAT_GAME_CORNER_ROCKET",
+      "before": [
+        "I'm guarding this\nposter!",
+        "Go away, or else!"
+      ],
+      "win": [
+        "Dang!"
+      ],
+      "after": [
+        "Our hideout might\nbe discovered! I\nbetter tell BOSS!"
+      ]
+    }
   ]
 }

@@ -37,6 +37,186 @@ function buildVendingPrompt(i) {
   };
 }
 
+// ===== R7-Celadon-RocketHideout-Erika CLUSTER WIRING =====
+
+// Celadon Mart / Rocket Hideout elevators (scripts/CeladonMartElevator.asm,
+// scripts/RocketHideoutElevator.asm predef DisplayElevatorFloorMenu) — real OG shows an actual
+// scrollable floor-select cursor menu; this port has no such widget (same limitation as the
+// vending machine / fossil offer above), so this chains a Yes/No per floor in OG's own
+// CeladonMartElevatorFloors/RocketHideoutElevatorFloors order. warpIdx values are each
+// destination map's OWN warp_events index (1-indexed, matches game_data.json's warps array
+// exactly) — handleWarp resolves the actual landing (x,y) from there, same as any ordinary warp.
+const CELADON_MART_FLOORS = [
+  { label: '1F', dest: 'CELADON_MART_1F', warpIdx: 5 },
+  { label: '2F', dest: 'CELADON_MART_2F', warpIdx: 2 },
+  { label: '3F', dest: 'CELADON_MART_3F', warpIdx: 2 },
+  { label: '4F', dest: 'CELADON_MART_4F', warpIdx: 2 },
+  { label: '5F', dest: 'CELADON_MART_5F', warpIdx: 2 },
+];
+const ROCKET_HIDEOUT_FLOORS = [
+  { label: 'B1F', dest: 'ROCKET_HIDEOUT_B1F', warpIdx: 4 },
+  { label: 'B2F', dest: 'ROCKET_HIDEOUT_B2F', warpIdx: 4 },
+  { label: 'B4F', dest: 'ROCKET_HIDEOUT_B4F', warpIdx: 2 },
+];
+function buildFloorPrompt(floors, i) {
+  const f = floors[i];
+  const onNo = i < floors.length - 1 ? buildFloorPrompt(floors, i + 1) : { lines: ['Never mind.'] };
+  return {
+    lines: [`Go to ${f.label}?`],
+    yesNo: {
+      onYes: { lines: [`Going to ${f.label}...`], action: 'ELEVATOR_WARP', elevatorDest: f.dest, elevatorWarpIdx: f.warpIdx },
+      onNo,
+    },
+  };
+}
+
+// Celadon Mart Roof little_girl (scripts/CeladonMartRoof.asm CeladonMartRoofScript_GiveDrinkToGirl)
+// — real OG builds a live scrollable menu of whichever drinks are actually in the bag; same
+// vending-machine-precedent simplification, chained in OG's own fixed priority order (Fresh
+// Water -> Soda Pop -> Lemonade), but ONLY offering drinks actually held (`drinks` is pre-
+// filtered by the caller, matching AbleToPlaySlotsCheck-style callers elsewhere in this file).
+// Each drink is a real, independent one-time EVENT_GOT_TM13/48/49 in OG; this port's single-
+// HM06 "teach any move" key item already covers whichever specific move a given drink would
+// grant (see pokeredGameState.js TM_HM_MOVES: TM13->ICE_BEAM, TM48->ROCK_SLIDE,
+// TM49->TRI_ATTACK), so onGiveDrinkForTM only needs to know WHICH drink was handed over (to
+// remove the right bag item + track that specific one-time gift, exactly like every other HM06
+// source in this port already does via pickedUpRef/gameState.items).
+const MART_ROOF_DRINK_TMS = {
+  FRESH_WATER: 'ICE BEAM (TM13)',
+  SODA_POP: 'ROCK SLIDE (TM48)',
+  LEMONADE: 'TRI ATTACK (TM49)',
+};
+function buildGirlDrinkPrompt(drinks, i) {
+  const d = drinks[i];
+  const label = d.replace(/_/g, ' ');
+  const onNo = i < drinks.length - 1 ? buildGirlDrinkPrompt(drinks, i + 1) : { lines: ["I'm still thirsty..."] };
+  return {
+    lines: [`Give her the\n${label}?`],
+    yesNo: {
+      onYes: { lines: [`Thanks! Here, take\nthis for ${MART_ROOF_DRINK_TMS[d]}!`], action: 'GIVE_DRINK_TM', drinkItem: d },
+      onNo,
+    },
+  };
+}
+
+// Game Corner Prize Room (engine/events/prize_menu.asm CeladonPrizeMenu, data/events/prizes.asm
+// PrizeMenuMon1/2Entries+Cost, PrizeMenuTMsEntries+Cost — _RED variant, matching this project's
+// identity as a Pokémon Red port). Real OG shows a real scrollable 3-item + "NO THANKS" cursor
+// menu with live prices; same simplification as every other N-way OG menu in this file — chained
+// Yes/No in the vendor's own fixed left-to-right order, each offer gated on the player being
+// able to actually afford it right now (skips straight past anything they can't yet, rather than
+// offering-then-rejecting) since real OG's menu shows prices for all 3 up front regardless of
+// affordability but only allows a successful purchase for ones you can pay — net player-visible
+// result is identical (can't walk away with something you can't afford), just reached via fewer
+// prompts. Levels from data/events/prize_mon_levels.asm (_RED table).
+const PRIZE_VENDOR_1 = [ // vendor 1 (bg_event x=2,y=2): Pokémon
+  { species: 'ABRA', level: 9, cost: 180 },
+  { species: 'CLEFAIRY', level: 8, cost: 500 },
+  { species: 'NIDORINA', level: 17, cost: 1200 },
+];
+const PRIZE_VENDOR_2 = [ // vendor 2 (bg_event x=4,y=2): Pokémon
+  { species: 'DRATINI', level: 18, cost: 2800 },
+  { species: 'SCYTHER', level: 25, cost: 5500 },
+  { species: 'PORYGON', level: 26, cost: 9999 },
+];
+const PRIZE_VENDOR_3 = [ // vendor 3 (bg_event x=6,y=2): TMs
+  { item: 'TM_DRAGON_RAGE', label: 'TM02 DRAGON RAGE', cost: 3300 },
+  { item: 'TM_HYPER_BEAM', label: 'TM03 HYPER BEAM', cost: 5500 },
+  { item: 'TM_SUBSTITUTE', label: 'TM10 SUBSTITUTE', cost: 7700 },
+];
+function buildPrizePrompt(prizes, i, coins) {
+  const remaining = prizes.slice(i).filter(p => p.cost <= coins);
+  if (!remaining.length) return { lines: ['Sorry, need more\ncoins for these.'] };
+  return buildPrizePromptFrom(remaining, 0);
+}
+function buildPrizePromptFrom(list, i) {
+  const p = list[i];
+  const onNo = i < list.length - 1 ? buildPrizePromptFrom(list, i + 1) : { lines: ["OK, fine."] };
+  const label = p.species ? `${speciesLabel(p.species)} (Lv${p.level})` : p.label;
+  const isMon = !!p.species;
+  return {
+    lines: [`${label}\n${p.cost} coins. OK?`],
+    yesNo: {
+      onYes: isMon
+        ? { lines: [`Here you go!`], action: 'BUY_PRIZE_MON', prizeSpecies: p.species, prizeLevel: p.level, prizeCost: p.cost }
+        : { lines: [`Here you go!`], action: 'BUY_PRIZE_ITEM', prizeItem: p.item, prizeCost: p.cost },
+      onNo,
+    },
+  };
+}
+
+// ROCKET_HIDEOUT_B2F arrow-tile spinner maze (scripts/RocketHideoutB2f.asm
+// RocketHideout2ArrowTilePlayerMovement + RocketHideout2ArrowMovement1-36, decoded from OG's
+// DecodeArrowMovementRLE direction+count pairs). This was a genuinely MISSING mechanic — not a
+// wiring gap like everything else in this cluster, there was no spinner-tile engine support
+// anywhere in this port before this pass (confirmed: zero hits for "spinner"/"arrow tile" in
+// PokeredOverworld.jsx). Real OG's default map-script (RocketHideoutB2FDefaultScript) re-checks
+// the player's CURRENT tile against this table every frame and, on a match, disables real input
+// (wJoyIgnore) and feeds the decoded direction sequence through StartSimulatingJoypadStates —
+// the exact same collision-checked movement path ordinary key input goes through. This port's
+// spinnerQueueRef (declared above, drained by the main game loop) reproduces that precisely:
+// each queued direction is fed through the SAME isWalkable/ledge/npc-collision gauntlet as a
+// real keypress (see the game loop's spinnerQueueRef branch) — not a bypass. Coordinates are
+// dbmapcoord (x, y) pairs, already native/metatile units like every other event-coordinate table
+// in this port post-2026-07-04 (no ×2). wLuckySlotHiddenEventIndex-style RNG has no equivalent
+// here since this maze has none — it's pure fixed movement, no randomness in OG either.
+const ROCKET_HIDEOUT_B2F_ARROW_MOVES = {
+  1: [['LEFT', 2]],
+  2: [['RIGHT', 4]],
+  3: [['UP', 4], ['RIGHT', 4]],
+  4: [['UP', 4], ['RIGHT', 4], ['UP', 1]],
+  5: [['LEFT', 2], ['UP', 3]],
+  6: [['DOWN', 2], ['RIGHT', 4]],
+  7: [['UP', 2]],
+  8: [['UP', 4]],
+  9: [['LEFT', 6]],
+  10: [['UP', 1]],
+  11: [['LEFT', 6], ['UP', 4]],
+  12: [['DOWN', 2]],
+  13: [['LEFT', 8]],
+  14: [['LEFT', 8], ['UP', 1]],
+  15: [['LEFT', 8], ['UP', 6]],
+  16: [['UP', 2], ['RIGHT', 4]],
+  17: [['UP', 2], ['RIGHT', 4], ['UP', 2]],
+  18: [['DOWN', 2], ['RIGHT', 4], ['DOWN', 2]],
+  19: [['DOWN', 2], ['RIGHT', 4]],
+  20: [['LEFT', 10]],
+  21: [['LEFT', 10], ['UP', 2]],
+  22: [['LEFT', 10], ['UP', 4]],
+  23: [['UP', 2], ['RIGHT', 2]],
+  24: [['RIGHT', 1], ['DOWN', 2]],
+  25: [['RIGHT', 1]],
+  26: [['DOWN', 2], ['RIGHT', 2]],
+  27: [['DOWN', 2], ['LEFT', 2]],
+  28: [['UP', 2], ['RIGHT', 4], ['UP', 2], ['LEFT', 3]],
+  29: [['DOWN', 2], ['LEFT', 4]],
+  30: [['LEFT', 6], ['UP', 4], ['LEFT', 5]],
+  31: [['UP', 2]],
+  32: [['UP', 1]],
+  33: [['UP', 3]],
+  34: [['UP', 5]],
+  35: [['RIGHT', 1], ['DOWN', 2], ['LEFT', 4]],
+  36: [['LEFT', 10], ['UP', 2], ['LEFT', 5]],
+};
+const ROCKET_HIDEOUT_B2F_ARROW_TILES = [
+  [4, 9, 1], [4, 11, 2], [4, 15, 3], [4, 16, 4], [4, 19, 1], [4, 22, 5],
+  [5, 14, 6], [6, 22, 7], [6, 24, 8], [8, 9, 9], [8, 12, 10], [8, 15, 8],
+  [8, 19, 9], [8, 23, 11], [9, 14, 12], [9, 22, 12], [10, 9, 13], [10, 10, 14],
+  [10, 15, 15], [10, 17, 16], [10, 19, 17], [10, 25, 2], [11, 14, 18], [11, 16, 19],
+  [11, 18, 12], [12, 9, 20], [12, 11, 21], [12, 13, 22], [12, 17, 23], [13, 10, 24],
+  [13, 12, 25], [13, 16, 26], [13, 18, 27], [13, 19, 28], [13, 22, 29], [13, 23, 30],
+  [14, 17, 31], [15, 16, 12], [16, 14, 32], [16, 16, 33], [16, 18, 34], [17, 10, 35], [17, 11, 36],
+];
+function arrowMoveQueueAt(mapId, x, y) {
+  if (mapId !== 'ROCKET_HIDEOUT_B2F') return null;
+  const entry = ROCKET_HIDEOUT_B2F_ARROW_TILES.find(t => t[0] === x && t[1] === y);
+  if (!entry) return null;
+  const steps = ROCKET_HIDEOUT_B2F_ARROW_MOVES[entry[2]];
+  const queue = [];
+  for (const [dir, count] of steps) for (let i = 0; i < count; i++) queue.push(dir);
+  return queue;
+}
+
 // ===== FOSSIL REVIVAL + IN-GAME TRADES WIRING =====
 
 // Cosmetic word-formatter shared by the fossil and trade dialogue below (SPECIES_NAME ->
@@ -315,7 +495,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, onFindHiddenCoins, onBuyCoins, onGiveDrinkForTM, onBuyPrize, onGivePokemon, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -447,6 +627,11 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   // input — it's a simulated keypress, not a bypass, so surf state must already be updated
   // (see surfingRef.current set synchronously in handleUseFieldMove) before this runs.
   const forcedSurfStepRef = useRef(false);
+  // ROCKET_HIDEOUT_B2F arrow-tile spinner maze — queue of pending forced-step direction
+  // strings ('UP'/'DOWN'/'LEFT'/'RIGHT'), drained one per completed step by the game loop.
+  // Populated by arrowMoveQueueAt() when the player lands on a registered tile. See its own
+  // comment (module scope, near ROCKET_HIDEOUT_B2F_ARROW_TILES) for the full OG mechanism.
+  const spinnerQueueRef = useRef([]);
   // OG wStepCounter equivalent — counts completed steps mod 4 for out-of-battle poison
   // damage (see onPoisonTick call site in the game loop).
   const stepCounterRef = useRef(0);
@@ -2224,6 +2409,105 @@ function notifyPosition() {
   const MR_FUJIS_HOUSE_MAGAZINE_TILES = [{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 7, y: 1 }];
   const MAGAZINES_TEXT_LINES = ["POKÉMON magazines!", "POKÉMON notebooks!", "POKÉMON graphs!"];
 
+  // NOTE (merge, 2026-08-02): this cluster independently built its own bench-guy/gym-statue
+  // tables (BENCH_GUY_TILES/benchGuyTextAt, GYM_STATUE_TILES/gymStatueTextAt below) in parallel
+  // with the Batch 1 clusters' BENCH_GUY_TEXT/benchGuyText and GYM_STATUES/gymStatueLines above,
+  // plus a third hardcoded CERULEAN_GYM branch elsewhere in this file. None of the three overlap
+  // in map coverage (verified), so all three are kept side-by-side rather than force-merged —
+  // consolidating into one shared table/helper is a flagged cleanup item, not done here to avoid
+  // touching already-verified-working code from a different cluster during an unrelated merge.
+  // "Bench guy" hidden_events (engine/events/hidden_events/bench_guys.asm PrintBenchGuyText) —
+  // real OG dispatches this off a SEPARATE table (BenchGuyTextPointers) keyed by map + a
+  // REQUIRED facing direction, distinct from the hidden_events.asm trigger coordinate itself.
+  // Every entry in BenchGuyTextPointers requires SPRITE_FACING_LEFT specifically (this is also
+  // what hidden_events.asm registers for CELADON_POKECENTER (0,4) and CELADON_HOTEL (0,4), so
+  // there's no real OG divergence to resolve for either of our maps — unlike some other
+  // pokecenters in this table (e.g. VERMILION_POKECENTER registers SPRITE_FACING_UP for the
+  // trigger tile but the text table still demands LEFT for the actual print — a genuine OG bug,
+  // documented in bench_guys.asm's own comment, that reads corrupted ROM data when triggered
+  // from the "wrong" side. Not applicable to our 2 maps, so not reproduced here — a corrupted-
+  // memory-read bug has no sane JS equivalent anyway). Real OG's coordinate check itself
+  // (CheckIfCoordsInFrontOfPlayerMatch) only compares the tile the player is FACING against
+  // this (x,y) regardless of direction — same mechanism as PC_TILES above — so this table only
+  // needs the tile coordinate; the extra facing===LEFT gate below is enforced separately,
+  // matching PrintBenchGuyText's own internal (always-LEFT) check.
+  const BENCH_GUY_TILES = {
+    CELADON_POKECENTER: [{ x: 0, y: 4, text: "If I had a BIKE,\nI would go to\nCYCLING ROAD!" }],
+    CELADON_HOTEL: [{ x: 0, y: 4, text: "My sis brought me\non this vacation!" }],
+  };
+
+  function benchGuyTextAt(mapId, tx, ty, facingDir) {
+    if (facingDir !== DIR_LEFT) return null;
+    return (BENCH_GUY_TILES[mapId] ?? []).find(t => t.x === tx && t.y === ty)?.text ?? null;
+  }
+
+  // Gym statues (engine/events/hidden_events/gym_statues.asm GymStatues) — every gym in the
+  // game registers 2 of these (only CELADON_GYM is in this cluster's scope). Real OG only
+  // responds when the player faces UP (hard `ret nz` on any other direction — verified this
+  // is the same direction hidden_events.asm registers for every GymStatues entry game-wide, so
+  // there's no "wrong side" ambiguity to resolve, unlike the bench-guy table above). Text is
+  // GymStatueText1 (no badge yet — only the rival's name shown as "winning trainer") vs.
+  // GymStatueText2 (badge earned — both the rival's AND the player's name shown), selected by
+  // `wBeatGymFlags` (== gameState.badges here) against `MapBadgeFlags` (data/maps/badge_maps.asm:
+  // CELADON_GYM -> BIT_RAINBOWBADGE, badgeIndex 3 in this port's TRAINER_META.Erika). This port
+  // has no rival-naming screen (playerName defaults to 'RED' the same way), so the rival is
+  // always displayed as OG's own default name, "BLUE" — matching how <RIVAL> is never
+  // substituted anywhere else in this port either (this is the first place that needed it).
+  const GYM_STATUE_TILES = {
+    CELADON_GYM: { x: [3, 6], y: 15, badgeIndex: 3, cityName: 'CELADON', leaderName: 'ERIKA' },
+  };
+
+  function gymStatueTextAt(mapId, tx, ty, facingDir, badges) {
+    if (facingDir !== DIR_UP) return null;
+    const g = GYM_STATUE_TILES[mapId];
+    if (!g || ty !== g.y || !g.x.includes(tx)) return null;
+    const haveBadge = (badges ?? []).includes(g.badgeIndex);
+    const lines = [`${g.cityName} POKÉMON GYM\nLEADER: ${g.leaderName}`, 'WINNING TRAINERS:\nBLUE'];
+    if (haveBadge) lines[1] += '\nRED';
+    return lines;
+  }
+
+  // ===== GAME_CORNER: slot-machine seats + floor coins (data/events/hidden_events.asm
+  // hidden_events_for GAME_CORNER) =====
+  // 36 StartSlotMachine hidden_events: 33 real seats (ANY_FACING — CheckIfCoordsInFrontOfPlayerMatch
+  // ignores the registered direction anyway, see PC_TILES comment above, so no facing gate here)
+  // + 3 that are permanently non-playable flavor (engine/slots/game_corner_slots.asm StartSlotMachine
+  // checks wHiddenEventFunctionArgument for these BEFORE the real AbleToPlaySlotsCheck). Real seats
+  // open the existing GameCornerSlots.jsx UI (already built + wired via the onOpenSlots/action:'SLOTS'
+  // path below — see advanceDialogue) — this table only supplies the map-side trigger tile list and
+  // the AbleToPlaySlotsCheck (engine/slots/game_corner_slots2.asm) gating: needs COIN_CASE in the
+  // bag, then needs coins > 0, else the matching real OG text. wLuckySlotHiddenEventIndex (one
+  // random seat rerolled daily for slightly better odds) is intentionally NOT ported — that's
+  // internal to GameCornerSlots.jsx's own already-built RNG model, out of scope for this map-side
+  // wiring pass (see task brief: "your job is the map-side trigger, not rebuilding the slots engine").
+  const GAME_CORNER_SLOT_SEATS = [
+    { x: 18, y: 15 }, { x: 18, y: 14 }, { x: 18, y: 13 }, { x: 18, y: 12 }, { x: 18, y: 11 },
+    { x: 18, y: 10, special: 'SOMEONESKEYS' },
+    { x: 13, y: 10 }, { x: 13, y: 11 },
+    { x: 13, y: 12, special: 'OUTTOLUNCH' },
+    { x: 13, y: 13 }, { x: 13, y: 14 }, { x: 13, y: 15 },
+    { x: 12, y: 15 }, { x: 12, y: 14 }, { x: 12, y: 13 }, { x: 12, y: 12 }, { x: 12, y: 11 }, { x: 12, y: 10 },
+    { x: 7, y: 10 }, { x: 7, y: 11 }, { x: 7, y: 12 }, { x: 7, y: 13 }, { x: 7, y: 14 }, { x: 7, y: 15 },
+    { x: 6, y: 15 }, { x: 6, y: 14 }, { x: 6, y: 13 },
+    { x: 6, y: 12, special: 'OUTOFORDER' },
+    { x: 6, y: 11 }, { x: 6, y: 10 },
+    { x: 1, y: 10 }, { x: 1, y: 11 }, { x: 1, y: 12 }, { x: 1, y: 13 }, { x: 1, y: 14 }, { x: 1, y: 15 },
+  ];
+  const GAME_CORNER_SLOT_SPECIAL_TEXT = {
+    OUTOFORDER: 'OUT OF ORDER\nThis is broken.',
+    OUTTOLUNCH: 'OUT TO LUNCH\nThis is reserved.',
+    SOMEONESKEYS: "Someone's keys!\nThey'll be back.",
+  };
+  // 11 HiddenCoins hidden_events — itemfinder-style floor coins, same generic reveal mechanism
+  // as HIDDEN_ITEMS (walk up, face the tile, press Z; once per save) except they add to
+  // gameState.coins instead of the bag. `coins` value is each entry's `COIN + <n>` argument.
+  const GAME_CORNER_HIDDEN_COINS = [
+    { x: 0, y: 8, coins: 10 }, { x: 1, y: 16, coins: 10 }, { x: 3, y: 11, coins: 20 },
+    { x: 3, y: 14, coins: 10 }, { x: 4, y: 12, coins: 10 }, { x: 9, y: 12, coins: 20 },
+    { x: 9, y: 15, coins: 10 }, { x: 16, y: 14, coins: 10 }, { x: 10, y: 16, coins: 10 },
+    { x: 11, y: 7, coins: 40 }, { x: 15, y: 8, coins: 100 },
+  ];
+
   // ── Trainer battle dialogue (keyed by trainerClass from game_data.json NPC) ─
   const TRAINER_DIALOGUE = {
     Youngster:   ["YOUNGSTER: Hey! Wanna battle?"],
@@ -3221,6 +3505,160 @@ function notifyPosition() {
       return;
     }
 
+    // ===== R7-Celadon-RocketHideout-Erika CLUSTER WIRING =====
+
+    // Celadon City Gramps3 (scripts/CeladonCity.asm CeladonCityGramps3Text) — gives TM41
+    // (SOFTBOILED) once. npc_dialogue.json's real "5" text is only the pre-give line ("Here's a
+    // gift for dropping by!"); the actual GiveItem/branch logic needs this override, same HM06
+    // convention as every other specific-TM gift in this port (see CLAUDE.md's 2026-07-05 note).
+    if (here === 'CELADON_CITY:5') {
+      const giftId = npcTrainerId(ms.mapId, npc);
+      const alreadyHasTeacher = (gameState?.items ?? []).some(it => it.name === 'HM06');
+      if (pickedUpRef.current.has(giftId) || alreadyHasTeacher) {
+        setDialogue({ lines: ["SOFTBOILED lets a\n#MON heal itself\nwith its own HP."], idx: 0, action: null });
+      } else {
+        pickedUpRef.current.add(giftId);
+        if (onPickUpItem) onPickUpItem(giftId, 'HM06');
+        setDialogue({ lines: ["Hello, there!", "I've seen you,\nbut I never had a\nchance to talk!", "Here's a gift for\ndropping by!", "<PLAYER> received\nTM41!"], idx: 0, action: null });
+      }
+      return;
+    }
+
+    // Celadon Diner gym_guide (scripts/CeladonDiner.asm CeladonDinerGymGuideText) — gives the
+    // COIN CASE key item once (required to play the Game Corner slots or exchange coins for
+    // prizes — see GAME_CORNER's slot-seat/AbleToPlaySlotsCheck wiring above). Real per-map
+    // npc_dialogue.json text ("5") is the flattened give-text with no branch/grant logic, so
+    // this override adds the actual one-time COIN_CASE grant + the real repeat-visit line.
+    if (here === 'CELADON_DINER:5') {
+      const giftId = npcTrainerId(ms.mapId, npc);
+      const alreadyHasCase = (gameState?.items ?? []).some(it => it.name === 'COIN_CASE');
+      if (pickedUpRef.current.has(giftId) || alreadyHasCase) {
+        setDialogue({ lines: ["Go ahead! Laugh!", "I'm flat out\nbusted!", "No more slots for\nme! I'm going\nstraight!"], idx: 0, action: null });
+      } else {
+        pickedUpRef.current.add(giftId);
+        if (onPickUpItem) onPickUpItem(giftId, 'COIN_CASE');
+        setDialogue({ lines: ["Go ahead! Laugh!", "I'm flat out\nbusted!", "No more slots for\nme! I'm going\nstraight!", "Here! I won't be\nneeding this any-\nmore!", "<PLAYER> received\nthe COIN CASE!"], idx: 0, action: null });
+      }
+      return;
+    }
+
+    // Celadon Mart 3F "clerk" (scripts/CeladonMart3f.asm CeladonMart3FClerkText) — this is
+    // actually the TM18 (COUNTER) gift-giver, NOT a shop (verified: this map's clerk sprite has
+    // no shop dialogue in real OG at all — the npc_dialogue.json "1" entry for this index is a
+    // mis-extracted gameboy-kid-style flavor line, not real clerk text; same "sprite name lies,
+    // trace the real script" class of issue CLAUDE.md already documents for CELADON_MANSION_3F's
+    // identically-sprited clerk 2 tiles over, who is genuinely just a flavor NPC with no gift at
+    // all). No marts.json entry is needed for either — confirmed false-positive structural FAIL.
+    if (here === 'CELADON_MART_3F:1') {
+      const giftId = npcTrainerId(ms.mapId, npc);
+      const alreadyHasTeacher = (gameState?.items ?? []).some(it => it.name === 'HM06');
+      if (pickedUpRef.current.has(giftId) || alreadyHasTeacher) {
+        setDialogue({ lines: ["COUNTER retaliates\nany physical hit\nwith double damage."], idx: 0, action: null });
+      } else {
+        pickedUpRef.current.add(giftId);
+        if (onPickUpItem) onPickUpItem(giftId, 'HM06');
+        setDialogue({ lines: ["Here, this is for\nyou!", "<PLAYER> received\nTM18!"], idx: 0, action: null });
+      }
+      return;
+    }
+
+    // Celadon Mart Roof little_girl (scripts/CeladonMartRoof.asm) — give-a-drink-for-a-TM trade.
+    // See buildGirlDrinkPrompt's comment above for the affordable-drinks-only simplification.
+    if (here === 'CELADON_MART_ROOF:2') {
+      const items = gameState?.items ?? [];
+      const drinksHeld = ['FRESH_WATER', 'SODA_POP', 'LEMONADE'].filter(d => items.some(it => it.name === d && it.count > 0));
+      if (!drinksHeld.length) {
+        setDialogue({ lines: ["I'm thirsty!\nI want something\nto drink!"], idx: 0, action: null });
+      } else {
+        const prompt = buildGirlDrinkPrompt(drinksHeld, 0);
+        setDialogue({ lines: ["I'm thirsty!\nI want something\nto drink!", "Give her a drink?", "Give her which\ndrink?", ...prompt.lines], idx: 0, action: null, yesNo: prompt.yesNo });
+      }
+      return;
+    }
+
+    // Celadon Mansion Roof House Eevee gift (scripts/CeladonMansionRoofHouse.asm
+    // CeladonMansionRoofHouseEeveePokeballText) — free Lv25 EEVEE, poke_ball-sprite NPC that
+    // hides itself after being taken (TOGGLE_CELADON_MANSION_EEVEE_GIFT, real OG's HideObject
+    // call) — isNpcHidden's existing pickedUpItems check (used by every other poke_ball/fossil/
+    // old_amber gift NPC in this port) already covers this once giftId is recorded via
+    // onMarkGiftTaken in the GIVE_EEVEE action dispatch, so no extra hide-table entry is needed.
+    if (here === 'CELADON_MANSION_ROOF_HOUSE:2') {
+      const giftId = npcTrainerId(ms.mapId, npc);
+      if (!(gameState?.pickedUpItems ?? []).includes(giftId)) {
+        setDialogue({ lines: ["A wild EEVEE\nappeared to be\nsleeping in the\nPOKé BALL!", "<PLAYER> received\nan EEVEE!"], idx: 0, action: 'GIVE_EEVEE', giftId });
+        return;
+      }
+    }
+
+    // Game Corner clerk1 (scripts/GameCorner.asm GameCornerClerk1Text) — sells 50 coins for
+    // ¥1000, gated on COIN_CASE + room for 50 more (max 9999) + affordability, exactly matching
+    // OG's own gate order (checked here rather than after a Yes so the player is never shown a
+    // Yes/No they can't actually complete).
+    if (here === 'GAME_CORNER:2') {
+      const hasCoinCase = (gameState?.items ?? []).some(it => it.name === 'COIN_CASE');
+      const coins = gameState?.coins ?? 0;
+      if (!hasCoinCase) {
+        setDialogue({ lines: ["Welcome to ROCKET\nGAME CORNER!", "Do you need some\ngame coins?", "You don't have a\nCOIN CASE!"], idx: 0, action: null });
+      } else if (coins > 9990 - 50) {
+        setDialogue({ lines: ["Welcome to ROCKET\nGAME CORNER!", "Do you need some\ngame coins?", "Oops! Your COIN\nCASE is full."], idx: 0, action: null });
+      } else if ((gameState?.money ?? 0) < 1000) {
+        setDialogue({ lines: ["Welcome to ROCKET\nGAME CORNER!", "Do you need some\ngame coins?", "You can't afford\nthe coins!"], idx: 0, action: null });
+      } else {
+        setDialogue({
+          lines: ["Welcome to ROCKET\nGAME CORNER!", "Do you need some\ngame coins?"],
+          idx: 0, action: null,
+          yesNo: {
+            onYes: { lines: ["Thanks! Here are\nyour 50 coins!"], action: 'BUY_COINS', coinsCost: 1000, coinsGained: 50 },
+            onNo: { lines: ["No? Please come\nplay sometime!"] },
+          },
+        });
+      }
+      return;
+    }
+
+    // Game Corner fishing_guru / clerk2 / gentleman (scripts/GameCorner.asm
+    // GameCornerFishingGuruText / GameCornerClerk2Text / GameCornerGentlemanText) — each gives a
+    // small one-time FREE coin gift (10/20/20), gated on COIN_CASE + room in the case, tracked by
+    // its own real OG event flag equivalent (a dedicated pickedUpRef id per instance, same
+    // one-time-gift convention as every HM06 source elsewhere in this port). Not a purchase
+    // (unlike clerk1 above) — no money is spent, matching real OG exactly.
+    if (here === 'GAME_CORNER:5' || here === 'GAME_CORNER:9' || here === 'GAME_CORNER:10') {
+      const giftId = npcTrainerId(ms.mapId, npc);
+      const hasCoinCase = (gameState?.items ?? []).some(it => it.name === 'COIN_CASE');
+      const coins = gameState?.coins ?? 0;
+      const cfg = {
+        'GAME_CORNER:5':  { amount: 10, ask: ["Kid, do you want\nto play?"], got: ["<PLAYER> received\n10 coins!"], repeat: ["Wins seem to come\nand go."], full: ["You don't need my\ncoins!"] },
+        'GAME_CORNER:9':  { amount: 20, ask: ["What's up? Want\nsome coins?"], got: ["<PLAYER> received\n20 coins!"], repeat: ["Darn! I need more\ncoins for the\n#MON I want!"], full: ["You have lots of\ncoins!"] },
+        'GAME_CORNER:10': { amount: 20, ask: ["Hey, what? You're\nthrowing me off!\nHere are some\ncoins, shoo!"], got: ["<PLAYER> received\n20 coins!"], repeat: ["The trick is to\nwatch the reels\nclosely!"], full: ["You've got your\nown coins!"] },
+      }[here];
+      if (pickedUpRef.current.has(giftId)) {
+        setDialogue({ lines: cfg.repeat, idx: 0, action: null });
+      } else if (!hasCoinCase) {
+        setDialogue({ lines: [...cfg.ask, "You don't have a\nCOIN CASE!"], idx: 0, action: null });
+      } else if (coins > 9990 - cfg.amount) {
+        setDialogue({ lines: [...cfg.ask, ...cfg.full], idx: 0, action: null });
+      } else {
+        pickedUpRef.current.add(giftId);
+        if (onMarkGiftTaken) onMarkGiftTaken(giftId);
+        if (onFindHiddenCoins) onFindHiddenCoins(cfg.amount);
+        setDialogue({ lines: [...cfg.ask, ...cfg.got], idx: 0, action: null });
+      }
+      return;
+    }
+
+    // Game Corner gym_guide (scripts/GameCorner.asm GameCornerGymGuideText) — flavor line that
+    // branches on whether Erika's been beaten yet (badgeIndex 3 — see GYM_STATUE_TILES above).
+    if (here === 'GAME_CORNER:7') {
+      const beatErika = (gameState?.badges ?? []).includes(3);
+      setDialogue({
+        lines: beatErika
+          ? ["They offer rare\n#MON that can\nbe exchanged for\nyour coins.", "But, I just can't\nseem to win!"]
+          : ["Hey!", "You have better\nthings to do,\nchamp in making!", "CELADON GYM's\nLEADER is ERIKA!\nShe uses grass-\ntype #MON!", "She might appear\ndocile, but don't\nbe fooled!"],
+        idx: 0, action: null,
+      });
+      return;
+    }
+
     const { lines, action } = npcText(npc, ms?.mapId, npcIndex);
 
     if (action === 'BATTLE' && npc.trainerClass && ms) {
@@ -3372,6 +3810,49 @@ function notifyPosition() {
         }
         if (prev.action === 'EXCHANGE_BIKE_VOUCHER' && onExchangeBikeVoucher) {
           onExchangeBikeVoucher();
+        }
+        // ===== R7-Celadon-RocketHideout-Erika CLUSTER WIRING =====
+        // Celadon Mart / Rocket Hideout elevators (scripts/CeladonMartElevator.asm,
+        // scripts/RocketHideoutElevator.asm DisplayElevatorFloorMenu) — floor choice resolves to
+        // a (dest map, warpIdx) pair exactly like the destination's own object-file warp_events;
+        // reusing handleWarp directly (not a bespoke loadMap call) means it gets the exact same
+        // fade transition + warp-index-to-tile lookup every ordinary warp already goes through.
+        if (prev.action === 'ELEVATOR_WARP' && prev.elevatorDest && prev.elevatorWarpIdx) {
+          handleWarp({ dest: prev.elevatorDest, warpIdx: prev.elevatorWarpIdx });
+        }
+        // Game Corner clerk1 (GameCornerClerk1Text) — 1000 money -> 50 coins, only offered when
+        // affordable (see the CELADON_CITY... no, GAME_CORNER:2 special case in startDialogue,
+        // which already gates on COIN_CASE/room-for-50-more/affordability before ever reaching
+        // this yes/no — this action only needs to actually apply the exchange).
+        if (prev.action === 'BUY_COINS' && onBuyCoins && prev.coinsCost != null && prev.coinsGained != null) {
+          onBuyCoins(prev.coinsCost, prev.coinsGained);
+        }
+        // Celadon Mart Roof little_girl (CeladonMartRoofLittleGirlText) — consumes the chosen
+        // drink from the bag and grants the "teach any TM/HM" HM06 key item (this port's single-
+        // item TM/HM model — see CLAUDE.md's 2026-07-05 HM06 note), matching whichever of
+        // TM13/TM48/TM49 that specific drink would have given in real OG.
+        if (prev.action === 'GIVE_DRINK_TM' && onGiveDrinkForTM && prev.drinkItem) {
+          onGiveDrinkForTM(prev.drinkItem);
+        }
+        // Game Corner Prize Room (engine/events/prize_menu.asm CeladonPrizeMenu) — coins-for-
+        // Pokémon or coins-for-TM exchange, gated on affordability inside the yes/no chain
+        // itself (buildPrizePrompt below only offers prizes the player can currently afford).
+        if (prev.action === 'BUY_PRIZE_MON' && onBuyPrize && prev.prizeSpecies && prev.prizeCost != null) {
+          onBuyPrize('mon', prev.prizeSpecies, prev.prizeLevel ?? 5, prev.prizeCost);
+        }
+        if (prev.action === 'BUY_PRIZE_ITEM' && onBuyPrize && prev.prizeItem && prev.prizeCost != null) {
+          onBuyPrize('item', prev.prizeItem, null, prev.prizeCost);
+        }
+        // Celadon Mansion Roof House Eevee gift (CeladonMansionRoofHouseEeveePokeballText) —
+        // free Lv25 EEVEE, party-or-PC same as every other gift mon (handleBuyMagikarp/
+        // handleCollectFossilMon pattern) — see the CELADON_MANSION_ROOF_HOUSE:2 special case
+        // in startDialogue for the one-time gate (mirrors TOGGLE_CELADON_MANSION_EEVEE_GIFT,
+        // real OG's HideObject call, via isNpcHidden/pickedUpItems like every other one-time
+        // poke_ball-sprite gift in this port).
+        if (prev.action === 'GIVE_EEVEE' && onGivePokemon && prev.giftId) {
+          pickedUpRef.current.add(prev.giftId);
+          if (onMarkGiftTaken) onMarkGiftTaken(prev.giftId);
+          onGivePokemon('EEVEE', 25);
         }
         // ===== FOSSIL REVIVAL + IN-GAME TRADES WIRING =====
         if (prev.action === 'GIVE_FOSSIL' && onGiveFossil && prev.fossilItem) {
@@ -3525,7 +4006,16 @@ function notifyPosition() {
         // DAY CARE WIRING: depositIdx is set directly on the terminal choice that fires
         // 'DAYCARE_DEPOSIT' (see buildDaycareDepositPrompt) — no further chaining needs it, so
         // no prev-fallback is needed the way buyItem/tradeKey have, but harmless to include.
-        depositIdx: choice.depositIdx ?? prev.depositIdx };
+        depositIdx: choice.depositIdx ?? prev.depositIdx,
+        // R7-Celadon-RocketHideout-Erika cluster additions (elevators, mart-roof drink-for-TM
+        // trade, Game Corner coin purchase, prize room) — same choice-then-prev forwarding
+        // pattern as buyItem/buyPrice/fossilItem/tradeKey above.
+        elevatorDest: choice.elevatorDest ?? prev.elevatorDest, elevatorWarpIdx: choice.elevatorWarpIdx ?? prev.elevatorWarpIdx,
+        coinsCost: choice.coinsCost ?? prev.coinsCost, coinsGained: choice.coinsGained ?? prev.coinsGained,
+        drinkItem: choice.drinkItem ?? prev.drinkItem,
+        prizeKind: choice.prizeKind ?? prev.prizeKind, prizeSpecies: choice.prizeSpecies ?? prev.prizeSpecies,
+        prizeLevel: choice.prizeLevel ?? prev.prizeLevel, prizeItem: choice.prizeItem ?? prev.prizeItem,
+        prizeCost: choice.prizeCost ?? prev.prizeCost };
     });
   }
 
@@ -3841,6 +4331,51 @@ function notifyPosition() {
         if (benchLines) { setDialogue({ lines: benchLines, idx: 0, action: null }); return; }
         const flavorLines = hiddenFlavorText(ms.mapId, fx, fy);
         if (flavorLines) { setDialogue({ lines: flavorLines, idx: 0, action: null }); return; }
+        // Bench guy (CELADON_HOTEL / CELADON_POKECENTER) — see BENCH_GUY_TILES comment above.
+        const benchText = benchGuyTextAt(ms.mapId, fx, fy, p.dir);
+        if (benchText) { setDialogue({ lines: [benchText], idx: 0, action: null }); return; }
+        // Gym statues (CELADON_GYM) — see GYM_STATUE_TILES comment above.
+        const statueLines = gymStatueTextAt(ms.mapId, fx, fy, p.dir, gsRef.current?.badges);
+        if (statueLines) { setDialogue({ lines: statueLines, idx: 0, action: null }); return; }
+        // Game Corner slot-machine seats — see GAME_CORNER_SLOT_SEATS comment above.
+        if (ms.mapId === 'GAME_CORNER') {
+          const seat = GAME_CORNER_SLOT_SEATS.find(s => s.x === fx && s.y === fy);
+          if (seat) {
+            if (seat.special) {
+              setDialogue({ lines: [GAME_CORNER_SLOT_SPECIAL_TEXT[seat.special]], idx: 0, action: null });
+              return;
+            }
+            const hasCoinCase = (gsRef.current?.items ?? []).some(it => it.name === 'COIN_CASE');
+            if (!hasCoinCase) {
+              setDialogue({ lines: ['A COIN CASE is\nrequired!'], idx: 0, action: null });
+              return;
+            }
+            if ((gsRef.current?.coins ?? 0) <= 0) {
+              setDialogue({ lines: ["You don't have\nany coins!"], idx: 0, action: null });
+              return;
+            }
+            setDialogue({
+              lines: ['A slot machine!\nWant to play?'],
+              idx: 0, action: null,
+              yesNo: { onYes: { lines: ['...'], action: 'SLOTS' }, onNo: { lines: ['...'] } },
+            });
+            return;
+          }
+          // Hidden floor coins — same one-time-reveal mechanism as HIDDEN_ITEMS below, but
+          // credits gameState.coins instead of adding a bag item (see onFindHiddenCoins).
+          const coinSpot = GAME_CORNER_HIDDEN_COINS.find(c => c.x === fx && c.y === fy);
+          if (coinSpot) {
+            const coinId = `hiddencoin:${ms.mapId}:${fx}:${fy}`;
+            if (!pickedUpRef.current.has(coinId)) {
+              pickedUpRef.current.add(coinId);
+              setDialogue({ lines: [`You found ${coinSpot.coins} COINS!`], idx: 0, action: null });
+              if (onFindHiddenCoins) onFindHiddenCoins(coinSpot.coins);
+            } else {
+              setDialogue({ lines: ["There's nothing\nhere."], idx: 0, action: null });
+            }
+            return;
+          }
+        }
         // Celadon Mart Roof vending machines (engine/events/vending_machine.asm) — the only
         // real vending machines in the whole game (data/maps/objects/CeladonMartRoof.asm: 3
         // bg_events, all dispatching the same VendingMachineMenu). Real OG shows a single
@@ -3893,6 +4428,42 @@ function notifyPosition() {
           if (canIdx >= 0 && onGymTrashCan) {
             const outcome = onGymTrashCan(canIdx);
             setDialogue({ lines: GYM_TRASH_TEXT[outcome] ?? GYM_TRASH_TEXT.no_effect, idx: 0, action: null });
+            return;
+          }
+        }
+        // Celadon Mart elevator (bg_event "It's an elevator." tile at 3,0) — real floor-select
+        // menu, no gating (unlike the Rocket Hideout one below).
+        if (ms?.mapId === 'CELADON_MART_ELEVATOR' && fx === 3 && fy === 0) {
+          const prompt = buildFloorPrompt(CELADON_MART_FLOORS, 0);
+          setDialogue({ lines: prompt.lines, idx: 0, action: null, yesNo: prompt.yesNo });
+          return;
+        }
+        // Rocket Hideout elevator (bg_event "It appears to need a key." tile at 1,1) — real OG
+        // (scripts/RocketHideoutElevator.asm) gates the floor menu on LIFT_KEY in the bag; without
+        // it, falls through to the existing static bg_event text below (already the correct OG
+        // line for that case) instead of duplicating it here.
+        if (ms?.mapId === 'ROCKET_HIDEOUT_ELEVATOR' && fx === 1 && fy === 1) {
+          const hasKey = (gsRef.current?.items ?? []).some(it => it.name === 'LIFT_KEY');
+          if (hasKey) {
+            const prompt = buildFloorPrompt(ROCKET_HIDEOUT_FLOORS, 0);
+            setDialogue({ lines: prompt.lines, idx: 0, action: null, yesNo: prompt.yesNo });
+            return;
+          }
+          // no key: fall through to objectText's real "It appears to need a key." bg_event
+        }
+        // Game Corner Prize Room's 3 prize counters (bg_events at 2,2 / 4,2 / 6,2) — see
+        // PRIZE_VENDOR_1/2/3 + buildPrizePrompt comment above. Requires COIN_CASE, same as the
+        // slot machines (real OG: CeladonPrizeMenu's own `IsItemInBag COIN_CASE` check).
+        if (ms?.mapId === 'GAME_CORNER_PRIZE_ROOM') {
+          const vendor = fy === 2 && fx === 2 ? PRIZE_VENDOR_1 : fy === 2 && fx === 4 ? PRIZE_VENDOR_2 : fy === 2 && fx === 6 ? PRIZE_VENDOR_3 : null;
+          if (vendor) {
+            const hasCoinCase = (gsRef.current?.items ?? []).some(it => it.name === 'COIN_CASE');
+            if (!hasCoinCase) {
+              setDialogue({ lines: ['A COIN CASE is\nrequired!'], idx: 0, action: null });
+              return;
+            }
+            const prompt = buildPrizePrompt(vendor, 0, gsRef.current?.coins ?? 0);
+            setDialogue({ lines: prompt.lines, idx: 0, action: null, yesNo: prompt.yesNo });
             return;
           }
         }
@@ -4080,6 +4651,13 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             if (onDaycareStep) onDaycareStep();
             // Only check tile events if not already fading to a new map
             if (transitionRef.current === 0) fn.checkNewTile();
+            // ROCKET_HIDEOUT_B2F arrow-tile spinner maze — see arrowMoveQueueAt's comment above.
+            // Checked on the tile the player just LANDED on (matches OG's real per-frame
+            // wXCoord/wYCoord check), only when not already mid-sequence.
+            if (transitionRef.current === 0 && spinnerQueueRef.current.length === 0) {
+              const queue = arrowMoveQueueAt(ms.mapId, p.x, p.y);
+              if (queue) spinnerQueueRef.current = queue;
+            }
           }
         }
         // Key check runs immediately after step completion too — eliminates the one-frame standing flicker
@@ -4100,6 +4678,15 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             const faceDelta = [[0, 1], [0, -1], [-1, 0], [1, 0]];
             [ddx, ddy] = faceDelta[p.dir] || [0, 1];
             dir = p.dir;
+          } else if (spinnerQueueRef.current.length > 0) {
+            // ROCKET_HIDEOUT_B2F arrow tiles: real input is ignored (OG's wJoyIgnore during
+            // StartSimulatingJoypadStates) until the whole decoded sequence is drained — one
+            // queued direction per completed step, fed through the SAME collision-checked path
+            // below as ordinary input (see arrowMoveQueueAt's comment for why this is safe).
+            const dirStr = spinnerQueueRef.current.shift();
+            const SPIN_DELTA = { UP: [0, -1, DIR_UP], DOWN: [0, 1, DIR_DOWN], LEFT: [-1, 0, DIR_LEFT], RIGHT: [1, 0, DIR_RIGHT] };
+            const [sdx, sdy, sdir] = SPIN_DELTA[dirStr];
+            ddx = sdx; ddy = sdy; dir = sdir;
           } else if (isEscorting) {
             // Chase-and-follow: step toward the leader NPC's current live position, preferring
             // whichever axis has the larger remaining distance (same tie-break as the existing
