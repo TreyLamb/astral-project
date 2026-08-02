@@ -1656,12 +1656,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Structurally clean, flat OG text (Copycat's parents + Chansey) already generic. No gaps."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -1702,12 +1702,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Wired Copycat's real quest (scripts/CopycatsHouse2F.asm): trade a POKE_DOLL (purchasable Celadon Dept Store item, confirmed NOT a cross-cluster NPC-held quest item) for TM31/MIMIC, modeled as HM06 (onGiveDollForTM31 handler in PokeredApp.jsx). Also wired the PC bg_event's facing-direction branch (real text only facing UP, else 'Can't see!', same class as the documented Red's House 1F TV gap). Nugget hidden item already generically wired via HIDDEN_ITEMS lookup (audit_map.py's FAIL here is the documented stale x2-scaling false positive)."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -1889,12 +1889,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Wired the 4 PrintFightingDojoText/Text2/Text3 hidden_event signs (FIGHTING_DOJO_SIGNS table). Wired the Hitmonlee/Hitmonchan mutually-exclusive gift choice (poke_ball tiles (4,1)/(5,1), Yes/No + onGivePokemon level 30, gated on EVENT_GOT_HITMONLEE/HITMONCHAN, intercepted before the generic ground-item pickup). Blackbelt trainer battles + Karate Master already generic via trainerClass."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -2818,12 +2818,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Wired the TM29 (PSYCHIC) one-time gift as HM06, same convention as the Viridian fisherman/Route 2 Gate Oak's Aide precedent."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -6558,12 +6558,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Structurally clean: 8 warps, 10 bg signs, 15 NPCs (Rockets/civilians) all flat OG text already generic. gaveSaffronGuardsDrink 4-guard gate (built by a prior session) verified still resolves correctly for this map."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -6599,12 +6599,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Wired GymStatues hidden_event via the GYM_STATUES table (matches VERMILION_GYM/FUCHSIA_GYM pattern). Wired the Gym Guide's post-Sabrina-beaten text branch. Sabrina's teleport-tile puzzle confirmed to be 30 ordinary same-map warp_events (game_data.json warps array, no special 'teleport' mechanism needed -- handleWarp is fully generic for same-map warps). Sabrina's badge/TM46 grant confirmed generic via TRAINER_META.Sabrina.badgeIndex=5 in handleBattleEnd. Channeler/Youngster/Sabrina battles already generic via trainerClass."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -6629,12 +6629,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Structurally clean, clerk generic via NPC_TEXT[clerk]+marts.json, confirmed by audit_map.py mart_clerk_depth PASS."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -6659,12 +6659,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Structurally clean, all 4 NPCs flat OG text already generic."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -6689,12 +6689,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Wired the SaffronCityPokecenterBenchGuyText bench guy (0,4 facing LEFT) with its real EVENT_BEAT_SILPH_CO_GIOVANNI-branching text (the one bench guy in the game with live state branching, kept as its own inline check rather than forced into the flat BENCH_GUY_TEXT table). Nurse/PC/link receptionist already generic."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -6928,12 +6928,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Structurally clean. Card Key gate (1 door) wired via SILPH_CO_CARD_KEY_DOORS. Ground items (TM_EARTHQUAKE/RARE_CANDY/CARBOS) confirmed already generic via poke_ball+ITEM_LOCATIONS."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -6964,12 +6964,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Wired the Silph President's MASTER BALL one-time gift (onPickUpItem). Giovanni fight (partyIdx 1, already built by a prior session) confirmed resolves badge-less (Viridian Gym instance is partyIdx 2) and correctly sets beatenSilphCoGiovanni. Card Key gate (1 door, unique tile-block-ID branch in OG source, no gameplay difference) wired."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -6994,12 +6994,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Structurally clean, Link Receptionist already generic (Cable Club flavor)."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -7030,12 +7030,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Card Key gate (2 doors) wired. Trainers/scientists already generic via trainerClass."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -7071,12 +7071,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Card Key gate (2 doors) wired. Ground item (HYPER_POTION) confirmed already generic."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -7112,12 +7112,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Card Key gate (2 doors) wired. Ground items (FULL_HEAL/MAX_REVIVE/ESCAPE_ROPE) confirmed already generic."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -7163,12 +7163,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Card Key gate (3 doors) wired. CARD_KEY ground item itself confirmed already generic (poke_ball+ITEM_LOCATIONS, picked up like any other item). Elixer hidden item already generic (audit_map.py FAIL is the documented stale x2-scaling false positive)."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -7204,12 +7204,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Card Key gate (1 door) wired. Ground items confirmed already generic."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -7245,12 +7245,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Wired the Silph Worker M1 'lapras guy' one-time LAPRAS gift (Lv15, onGivePokemon+onMarkGiftTaken), with its real pre/post-Giovanni flavor-text branch on repeat visits. Card Key gate (3 doors) wired. Rival2 battle + PickUpItemText ground items already generic (built by a prior session / this session's generic mechanism respectively)."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -7281,12 +7281,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Card Key gate (1 door) wired. Trainers already generic."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -7327,12 +7327,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Wired the Nurse's real pre/post-Giovanni branch (heals only before EVENT_BEAT_SILPH_CO_GIOVANNI, thanks-only after) as its own special case so it never falls to the generic always-heal nurse fallback. Max Potion hidden item already generic (audit_map.py FAIL is the documented stale x2-scaling false positive)."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },
@@ -7363,12 +7363,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Saffron-SilphCo-Dojo",
+        "auditedBy": "saffron-silphco-dojo-cluster-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Wired the 11-floor elevator menu (SILPH_CO_ELEVATOR_FLOORS + buildFloorPrompt, reused verbatim from the Celadon Mart/Rocket Hideout precedent), warpIdx values transcribed exactly from scripts/SilphCoElevator.asm's own SilphCoElevatorWarpMaps table. No Card Key gating on the elevator car itself (matches OG)."
       },
       "cluster": "Saffron-SilphCo-Dojo"
     },

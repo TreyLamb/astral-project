@@ -144,7 +144,10 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
       spinner maze built from scratch, both elevators (Rocket Hideout + Celadon Mart) wired,
       Silph Scope pickup confirmed reachable end-to-end. [x] Claude tested (code review +
       `npm run build` clean + `audit_map.py`). [ ] You
-- [ ] Silph Co. (in progress — Batch 3 wiring pass underway 2026-08-02)
+- [x] Silph Co. — fully wired 2026-08-02 (Saffron-SilphCo-Dojo cluster pass, see cluster entry
+      below): 11 floors + elevator, Card Key door gating on all 10 gated doors across 9 floors,
+      Master Ball gift, Lapras gift, Giovanni fight (11F) + badge-less Rival2 unlock all verified.
+      [x] Claude tested (code review + `npm run build` clean + `audit_map.py`). [ ] You
 - [~] Safari Zone — core mechanic wired 2026-08-02 (orchestrator direct work after 2 subagent
       attempts hit the account usage limit mid-work and lost uncommitted progress): real ¥500
       fee / 30 Safari Balls / 502 steps (verbatim from `scripts/SafariZoneGate.asm`), step+ball
@@ -182,7 +185,10 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
       `Museum1FScientist2Text`) — was previously flat flavor text with no actual item grant.
       [ ] Claude tested (code review + esbuild bundle check only — no dev server available in
       this worktree; needs a real playthrough pass). [ ] You
-- [ ] Gym puzzles — Surge trash cans, Sabrina warps (Cinnabar has no real quiz in OG)
+- [x] Gym puzzles — Surge trash cans (Vermilion, prior pass). Sabrina's teleport-tile puzzle
+      (Saffron Gym, 2026-08-02): confirmed to be 30 ordinary same-map `warp_events` already
+      correctly present in `game_data.json` — `handleWarp` is fully generic for same-map warps,
+      no special "teleport" mechanism was ever needed. (Cinnabar has no real quiz in OG.)
 - [ ] Legendaries + Mewtwo — one-time encounters
 - [ ] Champion + Hall of Fame
 - [ ] Day Care — Fuchsia City (user note, wtf is this? day care?)
@@ -199,9 +205,10 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
       `tryInGameTrade` (`pokeredGameState.js`) and the trade dialogue blocks in
       `PokeredOverworld.jsx` for details. [ ] Claude tested (code review + esbuild bundle check
       only — no dev server available in this worktree; needs a real playthrough pass). [ ] You
-- [ ] Receive Pokémon from NPCs — Eevee, Lapras, etc. Eevee (CELADON_MANSION_ROOF_HOUSE) done
-      this session (new `onGivePokemon` handler, see R7-Celadon-RocketHideout-Erika cluster entry
-      below); Lapras (Silph Co employee) and any others still outstanding, out of this cluster.
+- [x] Receive Pokémon from NPCs — Eevee (CELADON_MANSION_ROOF_HOUSE, R7-Celadon cluster pass),
+      Lapras (SILPH_CO_7F Silph Worker M1, "lapras guy" — Saffron-SilphCo-Dojo cluster pass,
+      2026-08-02, Lv15, real pre/post-Giovanni flavor-text branch on repeat visits), Hitmonlee/
+      Hitmonchan (FIGHTING_DOJO, same pass, Lv30, mutually-exclusive Yes/No choice) all done.
 - [x] R9_10-RockTunnel-Lavender-PokemonTower cluster fully wired (22 maps: LAVENDER_CUBONE_HOUSE,
       LAVENDER_MART, LAVENDER_POKECENTER, LAVENDER_TOWN, MR_FUJIS_HOUSE, NAME_RATERS_HOUSE,
       POKEMON_TOWER_1F-7F, POWER_PLANT, ROCK_TUNNEL_1F/B1F/POKECENTER, ROUTE_8/8_GATE/9/10,
@@ -363,6 +370,67 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
   [x] Claude tested (`npm run build` clean + `audit_map.py` for all 30 maps — 126 PASS/16 WARN/15
   FAIL, every remaining FAIL either the documented hidden-item ×2-scaling false positive or one
   of the 3 mart_wiring false positives above). [ ] You
+- [x] Saffron-SilphCo-Dojo cluster fully wired (21 maps: COPYCATS_HOUSE_1F/2F, FIGHTING_DOJO,
+      MR_PSYCHICS_HOUSE, SAFFRON_CITY/GYM/MART/PIDGEY_HOUSE/POKECENTER, SILPH_CO_1F-11F,
+      SILPH_CO_ELEVATOR). Entirely unaudited before this session (2026-08-02). New fixes:
+  - **Sabrina's teleport-tile gym puzzle** — confirmed NOT a bespoke mechanism at all: OG
+    implements it as 30 ordinary same-map `warp_events` (`SaffronGym.asm`), already 100% present
+    in `game_data.json` (32 warps total, incl. 2 entrance/exit). `handleWarp` is fully generic for
+    same-map warps, so this needed zero new code — just verification.
+  - **Silph Co. Card Key door gating built from scratch** — a genuinely MISSING mechanic (zero
+    "locked door"/Card-Key support anywhere in `PokeredOverworld.jsx` before this session), not a
+    wiring gap. 10 doors across 9 floors (2F×2, 3F×2, 4F×2, 5F×3, 6F×1, 7F×3, 8F×1, 9F×4, 10F×1,
+    11F×1 — coordinates transcribed verbatim from each floor's own `scripts/SilphCoNF.asm`
+    `GateCoordinates` array), gated on this port's existing `hasEvent`/`onSetEvent` registry using
+    OG's own exact `EVENT_SILPH_CO_<floor>_UNLOCKED_DOOR<n>` flag names (no new gameState field
+    needed). New `SILPH_CO_CARD_KEY_DOORS` table + `silphCoDoorAt()`; `isWalkable()` override makes
+    each door deterministically locked/open regardless of the underlying tile's baked-in graphic
+    (confirmed via a raw `.blk`/`.bst` walkability dump that this port's tileset conversion shipped
+    an inconsistent mix of already-open and already-closed door tiles across floors — this override
+    makes the gating real everywhere, not accidentally-already-open on some floors). Z-press
+    handler shows the real `CardKeyFailText`/`CardKeySuccessText` ("Bingo! The CARD KEY opened the
+    door!"). CARD_KEY itself is a normal ground item on SILPH_CO_5F, already generic.
+  - **Silph Co. 11F President's MASTER BALL gift** and **Silph Co. 7F "lapras guy"'s LAPRAS gift**
+    (Lv15, real pre/post-`EVENT_BEAT_SILPH_CO_GIOVANNI` flavor-text branch on repeat visits, giveable
+    BEFORE Giovanni's even confronted — verified no such guard exists in OG's own script) both
+    newly wired. Giovanni's 11F fight (partyIdx 1) + `beatenSilphCoGiovanni`/badge-less Rival2 unlock
+    were already correctly built by a prior session — verified, not rebuilt.
+  - **Fighting Dojo**: wired the 4 `PrintFightingDojoText`/`Text2`/`Text3` hidden_event signs, and
+    the Hitmonlee/Hitmonchan mutually-exclusive gift choice (poke_ball tiles, real Yes/No, Lv30,
+    intercepted before the generic ground-item pickup the same way Power Plant's disguised wild
+    Pokémon are).
+  - **Copycat's House 2F**: wired Copycat's real quest — trading a POKé DOLL (confirmed a
+    purchasable Celadon Dept. Store item in real OG, NOT a quest item held by some other NPC, so no
+    cross-cluster dependency exists here despite the task brief flagging it as a possible one) for
+    TM31/MIMIC (modeled as HM06, new `onGiveDollForTM31` handler). Also wired the PC bg_event's
+    facing-direction text branch (real text only when facing UP, "Can't see!" otherwise — same
+    "text depends on approach direction" class as the documented Red's House 1F TV gap).
+  - **Mr Psychic's House**: wired the one-time TM29/PSYCHIC gift as HM06 (Viridian-fisherman
+    precedent).
+  - **Saffron Gym**: wired the `GymStatues` hidden_event (new `GYM_STATUES.SAFFRON_GYM` entry,
+    reusing the existing VERMILION_GYM/FUCHSIA_GYM table+function verbatim rather than inventing a
+    4th gym-statue implementation) and the Gym Guide's post-Sabrina-beaten text branch.
+  - **Saffron Pokécenter**: wired its `PrintBenchGuyText` bench guy (0,4, facing LEFT) — the one
+    bench guy in the whole game whose text genuinely branches on live state
+    (`EVENT_BEAT_SILPH_CO_GIOVANNI`), so kept as its own inline check rather than forced into the
+    flat `BENCH_GUY_TEXT`/`BENCH_GUY_TILES` tables (documented gap explicitly flagged by the
+    R9_10/R7 cluster sessions as "flagged for whichever batch owns Saffron").
+  - **Silph Co. elevator**: wired the 11-floor menu (new `SILPH_CO_ELEVATOR_FLOORS`, reusing
+    `buildFloorPrompt` verbatim from the Celadon Mart/Rocket Hideout precedent), warpIdx values
+    transcribed exactly from `scripts/SilphCoElevator.asm`'s own `SilphCoElevatorWarpMaps` table
+    (intentionally irregular — 3 for 1F, 2 for every floor 2F-10F, 1 for 11F — not "fixed" to look
+    uniform, since that's OG's real table).
+  - **Silph Co. 9F nurse**: wired her real pre/post-Giovanni branch (heals only before
+    `EVENT_BEAT_SILPH_CO_GIOVANNI`, thanks-only after) as its own special case so she never falls to
+    the generic always-heal `nurse` sprite fallback.
+  - All ground items (`item_locations.json`) and hidden items (`hidden_items.json`, incl. the 3
+    `audit_map.py` FAILs at COPYCATS_HOUSE_2F/SILPH_CO_5F/SILPH_CO_9F — the documented stale-×2-
+    scaling false positive) across all 21 maps confirmed already generic via the existing
+    poke_ball-walk-onto and facing-tile `HIDDEN_ITEMS` mechanisms — no changes needed. Every
+    ordinary trainer battle (Blackbelts, Channelers, Youngsters, Rockets, Scientists, Sabrina) and
+    every mart/PC/nurse NPC confirmed already generic via `trainerClass`/`NPC_TEXT` fallback.
+  [x] Claude tested (`npm run build` clean + `audit_map.py` for all 21 maps — 88 PASS/21 WARN/3
+  FAIL, all 3 remaining FAILs the documented hidden-item ×2-scaling false positive). [ ] You
 
 ---
 
@@ -440,6 +508,6 @@ just my notes on defects.
 ## Phase 0 audit findings (2026-07-20)
 - **Warp integrity** (all 799 scanned): `warpIdx` 100% valid (0 out-of-range). 4 dangling-dest warps:
   - `ROUTE_7 (5,13)` + `UNDERGROUND_PATH_WEST_EAST (2,5)` → **`UNDERGROUND_PATH_ROUTE_7` = real missing map**. **RESOLVED 2026-08-02 (R7-Celadon-RocketHideout-Erika session)**: converted from `pokemon_OG/PokeRed_OG/maps/UndergroundPathRoute7.blk` + `data/maps/objects/UndergroundPathRoute7.asm` + `scripts/UndergroundPathRoute7.asm`, added as a new top-level entry in `public/pokered/game_data.json` (tileset `gate`, mirrors `UNDERGROUND_PATH_ROUTE_5`'s structure), `.blk` copied to `public/pokered/maps/`. Both warps now resolve correctly (verified round-trip). Also converted its unused debug twin, `UNDERGROUND_PATH_ROUTE_7_COPY` (data/maps/objects/UndergroundPathRoute7Copy.asm) — confirmed genuinely unreachable/cut content in real OG (both NPCs are literally named "Unused..." in source, no live warp anywhere targets it), added for parity only.
-  - `SILPH_CO_ELEVATOR (1,3)+(2,3)` → `UNUSED_MAP_ED`: **OG-faithful** placeholder (OG sets real dest at runtime via elevator floor-select menu). Blocked on unimplemented elevator logic → Phase 7 (Silph Co).
+  - `SILPH_CO_ELEVATOR (1,3)+(2,3)` → `UNUSED_MAP_ED`: **OG-faithful** placeholder (OG's own warp_events for this pair genuinely never resolve — the elevator car's real destination is always set at runtime via the floor-select menu, never these two static warps). **RESOLVED 2026-08-02 (Saffron-SilphCo-Dojo session)**: the actual elevator mechanism (11-floor `SILPH_CO_ELEVATOR_FLOORS` menu, bg_event at (3,0)) is now implemented — these two specific warps remain intentionally dangling, matching OG exactly, not a remaining gap.
 - **Warp `dir`**: 556 still `dir:0` (ANY) — deliberate conservative choice per WARP_DIR_LEGEND.md, NOT a blanket-fix target. Refine per-door during each region's FULLY_WIRE pass.
 - **Event flags**: registry now exists (507 → `extracted_og_data/event_flags.json`), `hasEvent/setEvent/clearEvent` typo-guarded; still has ZERO `.jsx` consumers — wiring happens in region phases.

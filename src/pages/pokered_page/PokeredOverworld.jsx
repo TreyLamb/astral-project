@@ -70,6 +70,27 @@ function buildFloorPrompt(floors, i) {
   };
 }
 
+// ===== Saffron-SilphCo-Dojo WIRING: Silph Co. elevator =====
+// scripts/SilphCoElevator.asm SilphCoElevatorFloors + SilphCoElevatorWarpMaps — 11 floors,
+// warpIdx transcribed verbatim from OG's own table (each destination floor's OWN warp_events
+// index; NOT a simple "the elevator door" index — e.g. 1F's is 3 even though its own elevator
+// warp_event is declared 4th — this is OG's real, slightly irregular table, not a transcription
+// error, see the buildFloorPrompt call site's comment). Reuses buildFloorPrompt verbatim, same
+// as CELADON_MART_FLOORS/ROCKET_HIDEOUT_FLOORS above.
+const SILPH_CO_ELEVATOR_FLOORS = [
+  { label: '1F', dest: 'SILPH_CO_1F', warpIdx: 3 },
+  { label: '2F', dest: 'SILPH_CO_2F', warpIdx: 2 },
+  { label: '3F', dest: 'SILPH_CO_3F', warpIdx: 2 },
+  { label: '4F', dest: 'SILPH_CO_4F', warpIdx: 2 },
+  { label: '5F', dest: 'SILPH_CO_5F', warpIdx: 2 },
+  { label: '6F', dest: 'SILPH_CO_6F', warpIdx: 2 },
+  { label: '7F', dest: 'SILPH_CO_7F', warpIdx: 2 },
+  { label: '8F', dest: 'SILPH_CO_8F', warpIdx: 2 },
+  { label: '9F', dest: 'SILPH_CO_9F', warpIdx: 2 },
+  { label: '10F', dest: 'SILPH_CO_10F', warpIdx: 2 },
+  { label: '11F', dest: 'SILPH_CO_11F', warpIdx: 1 },
+];
+
 // Celadon Mart Roof little_girl (scripts/CeladonMartRoof.asm CeladonMartRoofScript_GiveDrinkToGirl)
 // — real OG builds a live scrollable menu of whichever drinks are actually in the bag; same
 // vending-machine-precedent simplification, chained in OG's own fixed priority order (Fresh
@@ -370,6 +391,11 @@ const GYM_STATUES = {
   // FUCHSIA_GYM, data/maps/badge_maps.asm: FUCHSIA_GYM -> BIT_SOULBADGE, badgeIndex 4 per
   // trainerMeta.js's Koga entry)
   FUCHSIA_GYM: { city: 'FUCHSIA CITY', leader: 'KOGA', badgeIndex: 4, tiles: [{ x: 3, y: 15 }, { x: 6, y: 15 }] },
+  // ===== Saffron-SilphCo-Dojo WIRING ===== (data/events/hidden_events.asm hidden_events_for
+  // SAFFRON_GYM: only ONE hidden_event registered here (9,15), unlike every other gym's pair —
+  // confirmed by direct read of hidden_events.asm, not an extraction gap. data/maps/badge_maps.asm:
+  // SAFFRON_GYM -> BIT_MARSHBADGE, badgeIndex 5 per trainerMeta.js's Sabrina entry.
+  SAFFRON_GYM: { city: 'SAFFRON CITY', leader: 'SABRINA', badgeIndex: 5, tiles: [{ x: 9, y: 15 }] },
 };
 function gymStatueLines(mapId, gameState) {
   const g = GYM_STATUES[mapId];
@@ -499,7 +525,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, onFindHiddenCoins, onBuyCoins, onGiveDrinkForTM, onBuyPrize, onGivePokemon, onSafariStep, onSafariEnter, onSafariLeave, onGiveHmSurf, onGiveHmStrength, onGiveHmFly, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onGiveDollForTM31, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, onFindHiddenCoins, onBuyCoins, onGiveDrinkForTM, onBuyPrize, onGivePokemon, onSafariStep, onSafariEnter, onSafariLeave, onGiveHmSurf, onGiveHmStrength, onGiveHmFly, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -1070,6 +1096,17 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     if (ms?.mapId === 'VERMILION_GYM' && (tx === 4 || tx === 5) && (ty === 4 || ty === 5)
         && !hasEvent(gsRef.current, 'EVENT_2ND_LOCK_OPENED')) {
       return false;
+    }
+    // Silph Co. Card Key doors (see SILPH_CO_CARD_KEY_DOORS above) — deterministic override
+    // regardless of the underlying tile's baked-in open/closed graphic (confirmed inconsistent
+    // across floors, see that table's comment): locked (blocked) until CARD_KEY has actually
+    // been used on this exact door (its own EVENT_SILPH_CO_<floor>_UNLOCKED_DOOR<n> flag, set
+    // by the Z-press handler below), then permanently open — matches OG's own ReplaceTileBlock
+    // + per-door EVENT persistence exactly, just represented as a JS override instead of a
+    // runtime VRAM tile patch.
+    if (ms) {
+      const door = silphCoDoorAt(ms.mapId, tx, ty);
+      if (door) return hasEvent(gsRef.current, door.event);
     }
     // Callers pass logical (metatile-unit) coordinates; everything below this line is
     // proven-correct RAW-TILE-unit logic (unchanged since before the coordinate refactor) — so
@@ -1891,6 +1928,45 @@ const OUTDOOR = ['overworld', 'plateau'];
       }
     }
 
+    // Fighting Dojo Hitmonlee/Hitmonchan gift poke_balls (4,1)/(5,1) — must be checked BEFORE
+    // the generic ground-item pickup below since they share the poke_ball sprite shape (the
+    // generic branch would otherwise silently vacuum this up as a fake item, since neither
+    // ball has a real item_locations.json entry). Real OG (scripts/FightingDojo.asm
+    // FightingDojoHitmonleePokeBallText/HitmonchanPokeBallText): CheckEitherEventSet
+    // EVENT_GOT_HITMONLEE/EVENT_GOT_HITMONCHAN — once either is taken, BOTH show
+    // "Better not get greedy..." forever (mutually exclusive choice); otherwise a Yes/No
+    // ("You want the hard kicking HITMONLEE?"/"...piston punching HITMONCHAN?"), and on Yes,
+    // GivePokemon (species/level 30 — DisplayPokedex's own species argument is still sitting in
+    // wCurPartySpecies by the time GivePokemon reads it right after, not a "gives whatever you
+    // last viewed" bug) + HideObject for the ball taken (real OG toggles TOGGLE_FIGHTING_DOJO_
+    // GIFT_1/2) — modeled here the same way every other one-time gift-mon hides afterward, via
+    // this port's own EVENT flag rather than a separate toggle table. Uses a real Yes/No (not a
+    // fire-and-forget like the Eevee gift) since real OG's own script has one — declining just
+    // leaves both balls interactable again on a later approach, matching OG exactly (no
+    // pickedUpRef short-circuit the way plain ground items get, since those never ask first).
+    const hitmonBall = ms.mapId === 'FIGHTING_DOJO'
+      ? FIGHTING_DOJO_HITMON_BALLS.find(b => b.x === p.x && b.y === p.y)
+      : null;
+    if (hitmonBall) {
+      const eitherTaken = hasEvent(gsRef.current, 'EVENT_GOT_HITMONLEE') || hasEvent(gsRef.current, 'EVENT_GOT_HITMONCHAN');
+      if (eitherTaken) {
+        setDialogue({ lines: ['Better not get\ngreedy...'], idx: 0, action: null });
+      } else {
+        setDialogue({
+          lines: [`You want the\n${hitmonBall.label}?`],
+          idx: 0, action: null,
+          yesNo: {
+            onYes: {
+              lines: [`<PLAYER> received\n${hitmonBall.species}!`],
+              action: 'GIVE_FIGHTING_DOJO_MON', giftSpecies: hitmonBall.species, giftEvent: hitmonBall.event,
+            },
+            onNo: { lines: ['...'] },
+          },
+        });
+      }
+      return;
+    }
+
     // Ground item (poke_ball sprite) — walking onto its tile picks it up, once per save file.
     const itemNpc = ms.mapInfo.npcs.find(n => n.sprite === 'poke_ball' && n.x === p.x && n.y === p.y);
     if (itemNpc) {
@@ -2501,6 +2577,99 @@ function notifyPosition() {
     const lines = [`${g.cityName} POKÉMON GYM\nLEADER: ${g.leaderName}`, 'WINNING TRAINERS:\nBLUE'];
     if (haveBadge) lines[1] += '\nRED';
     return lines;
+  }
+
+  // ===== Saffron-SilphCo-Dojo WIRING: Fighting Dojo sign flavor text =====
+  // data/events/hidden_events.asm hidden_events_for FIGHTING_DOJO: 2 "FIGHTING DOJO" signs
+  // (3,9)/(6,9) flanking the entrance + "Enemies on every side!" (4,0) / "What goes around
+  // comes around!" (5,0) near the Karate Master's room. All 4 registered SPRITE_FACING_UP —
+  // verified directly (engine/events/hidden_events/fighting_dojo.asm just prints one of 3 fixed
+  // strings per label, no branching logic at all), text transcribed from data/text/text_2.asm.
+  const FIGHTING_DOJO_SIGNS = [
+    { x: 3, y: 9, lines: ['FIGHTING DOJO'] },
+    { x: 6, y: 9, lines: ['FIGHTING DOJO'] },
+    { x: 4, y: 0, lines: ['Enemies on every\nside!'] },
+    { x: 5, y: 0, lines: ['What goes around\ncomes around!'] },
+  ];
+  function fightingDojoSignText(mapId, tx, ty, facingDir) {
+    if (mapId !== 'FIGHTING_DOJO' || facingDir !== DIR_UP) return null;
+    return FIGHTING_DOJO_SIGNS.find(s => s.x === tx && s.y === ty)?.lines ?? null;
+  }
+
+  // ===== Saffron-SilphCo-Dojo WIRING: Fighting Dojo Hitmonlee/Hitmonchan gift choice =====
+  // data/maps/objects/FightingDojo.asm: object_event 4,1/5,1, both SPRITE_POKE_BALL — real OG
+  // (scripts/FightingDojo.asm FightingDojoHitmonleePokeBallText/HitmonchanPokeBallText). See the
+  // checkNewTile() consumer for the full mutual-exclusion/Yes-No logic; this table only supplies
+  // position + species + prompt label + the EVENT flag each grants.
+  const FIGHTING_DOJO_HITMON_BALLS = [
+    { x: 4, y: 1, species: 'HITMONLEE', label: 'hard kicking\nHITMONLEE', event: 'EVENT_GOT_HITMONLEE' },
+    { x: 5, y: 1, species: 'HITMONCHAN', label: 'piston punching\nHITMONCHAN', event: 'EVENT_GOT_HITMONCHAN' },
+  ];
+
+  // ===== Saffron-SilphCo-Dojo WIRING: Silph Co. Card Key doors =====
+  // engine/events/card_key.asm PrintCardKeyText + engine/events/hidden_events/bookshelves.asm's
+  // fallback dispatch: pressing the Action button facing a locked-door tile ($18/$24 in ROM,
+  // one specific tile per floor per data/events/card_key_maps.asm's SilphCoMapList) either shows
+  // CardKeyFailText (no CARD_KEY in bag) or permanently replaces the tile block + sets that
+  // door's own EVENT_SILPH_CO_<floor>_UNLOCKED_DOOR<n> flag (CardKeySuccessText). Door
+  // coordinates below are each floor's own GateCoordinates/.GateCoordinates array (scripts/
+  // SilphCoNF.asm), which is the SAME coordinate list the map-load GateCallbackScript uses to
+  // decide which tile blocks to redraw as open — confirmed x,y order via macros/coords.asm's
+  // `dbmapcoord x, y` (emits db y,x internally, but the call-site ARGUMENT order is x,y, not
+  // swapped — same convention already established in this file's CLAUDE.md). Event names are
+  // OG's own exact flag names (verified present in extracted_og_data/event_flags.json), so
+  // gameState's existing hasEvent/onSetEvent registry is reused directly — no new gameState
+  // field needed. NOTE: computationally verified (via a raw .blk/.bst walkability dump) that
+  // these coordinates are NOT uniformly blocked by the underlying tile data as shipped in this
+  // port's game_data.json — some floors' door tiles decode as already-passable, others as
+  // already-blocked, since our tileset conversion baked in whatever static door-open/closed
+  // graphic OG's ROM happened to ship. isWalkable()'s override below makes this deterministic
+  // (locked unless the matching event is set) regardless of that underlying tile state, so the
+  // gating is real everywhere rather than accidentally-already-open on some floors.
+  const SILPH_CO_CARD_KEY_DOORS = {
+    SILPH_CO_2F: [
+      { x: 2, y: 2, event: 'EVENT_SILPH_CO_2_UNLOCKED_DOOR1' },
+      { x: 2, y: 5, event: 'EVENT_SILPH_CO_2_UNLOCKED_DOOR2' },
+    ],
+    SILPH_CO_3F: [
+      { x: 4, y: 4, event: 'EVENT_SILPH_CO_3_UNLOCKED_DOOR1' },
+      { x: 8, y: 4, event: 'EVENT_SILPH_CO_3_UNLOCKED_DOOR2' },
+    ],
+    SILPH_CO_4F: [
+      { x: 2, y: 6, event: 'EVENT_SILPH_CO_4_UNLOCKED_DOOR1' },
+      { x: 6, y: 4, event: 'EVENT_SILPH_CO_4_UNLOCKED_DOOR2' },
+    ],
+    SILPH_CO_5F: [
+      { x: 3, y: 2, event: 'EVENT_SILPH_CO_5_UNLOCKED_DOOR1' },
+      { x: 3, y: 6, event: 'EVENT_SILPH_CO_5_UNLOCKED_DOOR2' },
+      { x: 7, y: 5, event: 'EVENT_SILPH_CO_5_UNLOCKED_DOOR3' },
+    ],
+    SILPH_CO_6F: [
+      { x: 2, y: 6, event: 'EVENT_SILPH_CO_6_UNLOCKED_DOOR' },
+    ],
+    SILPH_CO_7F: [
+      { x: 5, y: 3, event: 'EVENT_SILPH_CO_7_UNLOCKED_DOOR1' },
+      { x: 10, y: 2, event: 'EVENT_SILPH_CO_7_UNLOCKED_DOOR2' },
+      { x: 10, y: 6, event: 'EVENT_SILPH_CO_7_UNLOCKED_DOOR3' },
+    ],
+    SILPH_CO_8F: [
+      { x: 3, y: 4, event: 'EVENT_SILPH_CO_8_UNLOCKED_DOOR' },
+    ],
+    SILPH_CO_9F: [
+      { x: 1, y: 4, event: 'EVENT_SILPH_CO_9_UNLOCKED_DOOR1' },
+      { x: 9, y: 2, event: 'EVENT_SILPH_CO_9_UNLOCKED_DOOR2' },
+      { x: 9, y: 5, event: 'EVENT_SILPH_CO_9_UNLOCKED_DOOR3' },
+      { x: 5, y: 6, event: 'EVENT_SILPH_CO_9_UNLOCKED_DOOR4' },
+    ],
+    SILPH_CO_10F: [
+      { x: 5, y: 4, event: 'EVENT_SILPH_CO_10_UNLOCKED_DOOR' },
+    ],
+    SILPH_CO_11F: [
+      { x: 3, y: 6, event: 'EVENT_SILPH_CO_11_UNLOCKED_DOOR' },
+    ],
+  };
+  function silphCoDoorAt(mapId, tx, ty) {
+    return (SILPH_CO_CARD_KEY_DOORS[mapId] ?? []).find(d => d.x === tx && d.y === ty) ?? null;
   }
 
   // ===== GAME_CORNER: slot-machine seats + floor coins (data/events/hidden_events.asm
@@ -3420,6 +3589,115 @@ function notifyPosition() {
       return;
     }
 
+    // ===== Saffron-SilphCo-Dojo WIRING =====
+    // Mr Psychic's House (scripts/MrPsychicsHouse.asm MrPsychicsHouseMrPsychicText) — gives
+    // TM29 (PSYCHIC) once. Same "this port models every TM/HM as the single HM06 teach-any-move
+    // key item" convention as the Viridian fisherman/Route 2 Gate Oak's Aide above — grants HM06
+    // instead of a standalone TM29 item, gated the same way (pickedUpRef OR already-has-HM06).
+    if (here === 'MR_PSYCHICS_HOUSE:1') {
+      const giftId = npcTrainerId(ms.mapId, npc);
+      const alreadyHasTeacher = (gameState?.items ?? []).some(it => it.name === 'HM06');
+      if (pickedUpRef.current.has(giftId) || alreadyHasTeacher) {
+        setDialogue({ lines: ["TM29 is PSYCHIC!", "It can lower the\ntarget's SPECIAL\nabilities."], idx: 0, action: null });
+      } else {
+        pickedUpRef.current.add(giftId);
+        if (onPickUpItem) onPickUpItem(giftId, 'HM06');
+        setDialogue({ lines: ["...Wait! Don't\nsay a word!", "You wanted this!", "<PLAYER> received\nTM29!"], idx: 0, action: null });
+      }
+      return;
+    }
+
+    // Copycat's House 2F — Copycat's real quest (scripts/CopycatsHouse2F.asm
+    // CopycatsHouse2FCopycatText): checks EVENT_GOT_TM31 first (repeat-visit "explanation"
+    // text), else checks whether the player is HOLDING a POKé DOLL (IsItemInBag — this is a
+    // purchasable Celadon Dept. Store item in real OG, NOT a quest item held by some other
+    // NPC — no cross-cluster dependency here despite this cluster's task brief flagging it as a
+    // possible one) and if so, trades it for TM31 (MIMIC), modeled as HM06 per this port's
+    // TM/HM convention; if she hasn't been given a doll yet, she just repeats her intro line
+    // (real OG: DoYouLikePokemonText, shown every time with no doll in the bag).
+    if (here === 'COPYCATS_HOUSE_2F:1') {
+      const alreadyHasTeacher = (gameState?.items ?? []).some(it => it.name === 'HM06');
+      if (alreadyHasTeacher) {
+        setDialogue({ lines: ["TM31 contains my\nfavorite, MIMIC!", "Use it on a good\nPOKéMON!"], idx: 0, action: null });
+      } else {
+        const hasDoll = (gameState?.items ?? []).some(it => it.name === 'POKE_DOLL');
+        if (hasDoll) {
+          setDialogue({
+            lines: ["Oh wow!\nA POKé DOLL!", "For me? Thank you!", "You can have\nthis, then!", "<PLAYER> received\nTM31!"],
+            idx: 0, action: 'GIVE_DOLL_FOR_TM31',
+          });
+        } else {
+          setDialogue({ lines: ["<PLAYER>: Hi! Do\nyou like POKéMON?", "<PLAYER>: Uh no, I\njust asked you.", "<PLAYER>: Huh?\nYou're strange!", "COPYCAT: Hmm?\nQuit mimicking?", "But, that's my\nfavorite hobby!"], idx: 0, action: null });
+        }
+      }
+      return;
+    }
+
+    // Saffron Gym guide (scripts/SaffronGym.asm SaffronGymGymGuideText) — real OG branches on
+    // EVENT_BEAT_SABRINA; npc_dialogue.json's extraction only captured the "before" branch, same
+    // static-fallback limitation as the Cerulean Gym guide/Bike Shop youngster above.
+    if (here === 'SAFFRON_GYM:9' && (gameState?.badges ?? []).includes(5)) {
+      setDialogue({ lines: ["Psychic power,\nhuh?", "If I had that,\nI'd make a bundle\nat the slots!"], idx: 0, action: null });
+      return;
+    }
+
+    // Silph Co. 11F President (scripts/SilphCo11F.asm SilphCo11FSilphPresidentText) — gives the
+    // MASTER BALL once, gated on EVENT_GOT_MASTER_BALL (this port's pickedUpRef/giftId
+    // equivalent). Repeat visits show the "can't buy that anywhere" description instead.
+    if (here === 'SILPH_CO_11F:1') {
+      const giftId = npcTrainerId(ms.mapId, npc);
+      if (pickedUpRef.current.has(giftId) || (gameState?.items ?? []).some(it => it.name === 'MASTER_BALL')) {
+        setDialogue({ lines: ["PRESIDENT: You\ncan't buy that\nanywhere!", "It's our secret\nprototype MASTER\nBALL!", "It will catch any\nPOKéMON without\nfail!", "You should be\nquiet about using\nit, though."], idx: 0, action: null });
+      } else {
+        pickedUpRef.current.add(giftId);
+        if (onPickUpItem) onPickUpItem(giftId, 'MASTER_BALL');
+        setDialogue({ lines: ["PRESIDENT: Thank\nyou for saving\nSILPH!", "I will never\nforget you saved\nus in our moment\nof peril!", "I have to thank\nyou in some way!", "Because I am rich,\nI can give you\nanything!", "Here, maybe this\nwill do!", "<PLAYER> got a\nMASTER BALL!"], idx: 0, action: null });
+      }
+      return;
+    }
+
+    // Silph Co. 7F "lapras guy" (scripts/SilphCo7F.asm SilphCo7FSilphWorkerM1Text — comment in
+    // OG source literally says "; lapras guy") — free Lv15 LAPRAS, gated on this port's own
+    // BIT_GOT_LAPRAS-equivalent flag (pickedUpRef/gameState.pickedUpItems, same as every other
+    // one-time gift here). Real OG gives this WHENEVER the flag is unset, with NO
+    // EVENT_BEAT_SILPH_CO_GIOVANNI guard at all (verified: the CheckEvent for Giovanni only
+    // gates the two AFTER-taking flavor branches) — so this is obtainable the moment the player
+    // reaches 7F, before Giovanni's even been confronted on 11F.
+    if (here === 'SILPH_CO_7F:1') {
+      const giftId = npcTrainerId(ms.mapId, npc);
+      if (pickedUpRef.current.has(giftId)) {
+        setDialogue({
+          lines: gsRef.current?.beatenSilphCoGiovanni
+            ? ["Saved at last!\nThank you!"]
+            : ["TEAM ROCKET's\nBOSS went to the\nboardroom! Is our\nPRESIDENT OK?"],
+          idx: 0, action: null,
+        });
+      } else {
+        pickedUpRef.current.add(giftId);
+        // onGivePokemon doesn't touch pickedUpItems itself (unlike onPickUpItem) — needs the
+        // explicit onMarkGiftTaken call too, same as the Eevee gift precedent above.
+        if (onMarkGiftTaken) onMarkGiftTaken(giftId);
+        if (onGivePokemon) onGivePokemon('LAPRAS', 15);
+        setDialogue({ lines: ["Oh! Hi! You're\nnot a ROCKET! You\ncame to save us?\nWhy, thank you!", "I want you to\nhave this POKéMON\nfor saving us.", "It's LAPRAS. It's\nvery intelligent.", "We kept it in our\nlab, but it will\nbe much better\noff with you!", "I think you will\nbe a good trainer\nfor LAPRAS!", "It's a good\nswimmer. It'll\ngive you a lift!"], idx: 0, action: null });
+      }
+      return;
+    }
+
+    // Silph Co. 9F nurse (scripts/SilphCo9F.asm SilphCo9FNurseText) — a genuinely different
+    // heal-NPC from the standard `nurse` sprite fallback (NPC_TEXT.nurse, action:'HEAL'): real
+    // OG only heals BEFORE Giovanni's beaten (a one-time narrative kindness during the siege);
+    // afterward she just thanks you, no more free heals. Checked here so this specific NPC never
+    // falls through to the generic always-heal nurse fallback.
+    if (here === 'SILPH_CO_9F:1') {
+      if (gsRef.current?.beatenSilphCoGiovanni) {
+        setDialogue({ lines: ["Thank you so\nmuch!"], idx: 0, action: null });
+      } else {
+        if (onHealParty) onHealParty();
+        setDialogue({ lines: ["You look tired!\nYou should take a\nquick nap!", "Don't give up!"], idx: 0, action: null });
+      }
+      return;
+    }
+
     // Pewter City escort NPCs (user-flagged 2026-07-10, part of the same "wire scripted NPC
     // movement" pass as Route 22/Bill's House/Mt Moon above) — real OG walks each of these two
     // off toward the place they're describing, repeatable every time (no event gate; matches
@@ -3944,6 +4222,12 @@ function notifyPosition() {
         if (prev.action === 'EXCHANGE_BIKE_VOUCHER' && onExchangeBikeVoucher) {
           onExchangeBikeVoucher();
         }
+        // ===== Saffron-SilphCo-Dojo WIRING =====
+        // Copycat's House 2F — trade a POKé DOLL for TM31 (modeled as HM06), same
+        // "dedicated remove+add handler" shape as onExchangeBikeVoucher above.
+        if (prev.action === 'GIVE_DOLL_FOR_TM31' && onGiveDollForTM31) {
+          onGiveDollForTM31();
+        }
         // ===== R16_18-Fuchsia-Safari WIRING =====
         if (prev.action === 'SAFARI_ENTER' && onSafariEnter) {
           onSafariEnter();
@@ -4003,6 +4287,15 @@ function notifyPosition() {
           pickedUpRef.current.add(prev.giftId);
           if (onMarkGiftTaken) onMarkGiftTaken(prev.giftId);
           onGivePokemon('EEVEE', 25);
+        }
+        // ===== Saffron-SilphCo-Dojo WIRING: Fighting Dojo Hitmonlee/Hitmonchan gift =====
+        // See the FIGHTING_DOJO_HITMON_BALLS checkNewTile() consumer — real OG level 30 for
+        // either, gated on its own EVENT_GOT_HITMONLEE/HITMONCHAN (mutual-exclusion check lives
+        // in checkNewTile, not here) rather than a pickedUpRef/giftId pair like most other gifts,
+        // since this port's existing hasEvent registry already covers "has this been taken".
+        if (prev.action === 'GIVE_FIGHTING_DOJO_MON' && onGivePokemon && prev.giftSpecies) {
+          onGivePokemon(prev.giftSpecies, 30);
+          if (onSetEvent && prev.giftEvent) onSetEvent(prev.giftEvent);
         }
         // ===== FOSSIL REVIVAL + IN-GAME TRADES WIRING =====
         if (prev.action === 'GIVE_FOSSIL' && onGiveFossil && prev.fossilItem) {
@@ -4165,7 +4458,10 @@ function notifyPosition() {
         drinkItem: choice.drinkItem ?? prev.drinkItem,
         prizeKind: choice.prizeKind ?? prev.prizeKind, prizeSpecies: choice.prizeSpecies ?? prev.prizeSpecies,
         prizeLevel: choice.prizeLevel ?? prev.prizeLevel, prizeItem: choice.prizeItem ?? prev.prizeItem,
-        prizeCost: choice.prizeCost ?? prev.prizeCost };
+        prizeCost: choice.prizeCost ?? prev.prizeCost,
+        // Saffron-SilphCo-Dojo WIRING: Fighting Dojo Hitmonlee/Hitmonchan gift — terminal
+        // choice only (declining just ends the dialogue), no prev-fallback needed.
+        giftSpecies: choice.giftSpecies ?? prev.giftSpecies, giftEvent: choice.giftEvent ?? prev.giftEvent };
     });
   }
 
@@ -4601,6 +4897,60 @@ function notifyPosition() {
           }
           // no key: fall through to objectText's real "It appears to need a key." bg_event
         }
+        // ===== Saffron-SilphCo-Dojo WIRING =====
+        // Silph Co. elevator (bg_event "It's an elevator." tile at 3,0, data/maps/objects/
+        // SilphCoElevator.asm) — no gating (matches Celadon Mart's elevator, not Rocket
+        // Hideout's Lift-Key-gated one). 11 floors, warpIdx values transcribed verbatim from
+        // scripts/SilphCoElevator.asm's own SilphCoElevatorWarpMaps table — do not "fix" these
+        // to look like a consistent pattern; OG's own table is exactly this irregular (3 for 1F,
+        // 2 for every other floor except 1, 1 for 11F) since it's really "which of the
+        // destination floor's own warp_events entries happens to sit at the elevator car",
+        // reusing buildFloorPrompt verbatim per the established Celadon/Rocket-Hideout pattern.
+        if (ms?.mapId === 'SILPH_CO_ELEVATOR' && fx === 3 && fy === 0) {
+          const prompt = buildFloorPrompt(SILPH_CO_ELEVATOR_FLOORS, 0);
+          setDialogue({ lines: prompt.lines, idx: 0, action: null, yesNo: prompt.yesNo });
+          return;
+        }
+        // Silph Co. Card Key doors — see SILPH_CO_CARD_KEY_DOORS/isWalkable() above for the
+        // full mechanism description. Z-press facing a locked door: with CARD_KEY, permanently
+        // unlocks (sets the door's own EVENT flag via onSetEvent, matching OG's persisted
+        // per-door state) and shows the real CardKeySuccessText; without it, CardKeyFailText.
+        // Once unlocked, this block is skipped entirely (hasEvent guard) and ordinary movement
+        // just works via isWalkable()'s override — matches OG, which shows nothing on a repeat
+        // Z-press once the tile block has actually been replaced.
+        if (ms) {
+          const door = silphCoDoorAt(ms.mapId, fx, fy);
+          if (door && !hasEvent(gsRef.current, door.event)) {
+            const hasCardKey = (gsRef.current?.items ?? []).some(it => it.name === 'CARD_KEY');
+            if (hasCardKey) {
+              if (onSetEvent) onSetEvent(door.event);
+              setDialogue({ lines: ['Bingo!', 'The CARD KEY\nopened the door!'], idx: 0, action: null });
+            } else {
+              setDialogue({ lines: ['Darn! It needs a\nCARD KEY!'], idx: 0, action: null });
+            }
+            return;
+          }
+        }
+        // Fighting Dojo signs (see FIGHTING_DOJO_SIGNS above) — 4 flat facing-UP flavor texts.
+        if (ms) {
+          const dojoSign = fightingDojoSignText(ms.mapId, fx, fy, p.dir);
+          if (dojoSign) { setDialogue({ lines: dojoSign, idx: 0, action: null }); return; }
+        }
+        // Saffron Pokécenter "bench guy" (engine/events/hidden_events/bench_guys.asm
+        // SaffronCityPokecenterBenchGuyText at (0,4), facing LEFT per PrintBenchGuyText's own
+        // internal check — same "trigger facing != print facing" non-issue as the other bench
+        // guys, see BENCH_GUY_TILES' comment) — the one bench guy in the whole game whose text
+        // actually branches on live game state (EVENT_BEAT_SILPH_CO_GIOVANNI ==
+        // gameState.beatenSilphCoGiovanni here), so it can't live in the flat BENCH_GUY_TEXT
+        // table above; kept as its own inline check instead, same precedent as the Cerulean Gym
+        // guide / Bike Shop youngster's state-dependent branches elsewhere in this file.
+        if (ms?.mapId === 'SAFFRON_POKECENTER' && fx === 0 && fy === 4 && p.dir === DIR_LEFT) {
+          const lines = gsRef.current?.beatenSilphCoGiovanni
+            ? ['TEAM ROCKET took\noff! We can go\nout safely again!\nThat\'s great!']
+            : ['It would be great\nif the ELITE FOUR\ncame and stomped\nTEAM ROCKET!'];
+          setDialogue({ lines, idx: 0, action: null });
+          return;
+        }
         // Game Corner Prize Room's 3 prize counters (bg_events at 2,2 / 4,2 / 6,2) — see
         // PRIZE_VENDOR_1/2/3 + buildPrizePrompt comment above. Requires COIN_CASE, same as the
         // slot machines (real OG: CeladonPrizeMenu's own `IsItemInBag COIN_CASE` check).
@@ -4642,6 +4992,19 @@ function notifyPosition() {
             MR_FUJIS_HOUSE_MAGAZINE_TILES.some(t => t.x === fx && t.y === fy) &&
             p.dir === DIR_DOWN) {
           setDialogue({ lines: MAGAZINES_TEXT_LINES, idx: 0, action: null });
+          return;
+        }
+        // Copycat's House 2F "PC" bg_event (0,1) — real OG (scripts/CopycatsHouse2F.asm
+        // CopycatsHouse2FPCText) branches on facing direction: only shows the real "My
+        // Secrets!" flavor text when facing UP, "Huh? Can't see!" from any other side. This is
+        // the same multi-file "text depends on approach direction" class as Red's House 1F's
+        // TV (see CLAUDE.md) — game_data.json's flat bgEvents entry (used by objectText() below)
+        // can't express that branch, so it's special-cased here, ahead of the generic fallback.
+        if (ms.mapId === 'COPYCATS_HOUSE_2F' && fx === 0 && fy === 1) {
+          const lines = p.dir === DIR_UP
+            ? ["...", "My Secrets!", "Skill: Mimicry!\nHobby: Collecting\ndolls!\nFavorite POKéMON:\nCLEFAIRY!"]
+            : ["Huh? Can't see!"];
+          setDialogue({ lines, idx: 0, action: null });
           return;
         }
         // Facing any other blocked tile — show object text

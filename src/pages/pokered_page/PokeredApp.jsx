@@ -505,6 +505,23 @@ export default function PokeredApp() {
     });
   }
 
+  // ===== Saffron-SilphCo-Dojo WIRING =====
+  // Copycat's House 2F (see PokeredOverworld.jsx's COPYCATS_HOUSE_2F:1 branch) — trades a
+  // POKé DOLL for TM31 (MIMIC), modeled as this port's single HM06 teach-any-move key item.
+  // Same dedicated remove+add shape as handleExchangeBikeVoucher above.
+  function handleGiveDollForTM31() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const items = (prev.items ?? [])
+        .map(it => (it.name === 'POKE_DOLL' ? { ...it, count: it.count - 1 } : it))
+        .filter(it => it.name !== 'POKE_DOLL' || it.count > 0)
+        .concat([{ name: 'HM06', count: 1 }]);
+      const next = { ...prev, items };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
   // ===== R16_18-Fuchsia-Safari WIRING =====
   // scripts/SafariZoneGate.asm's real entry grant: ¥500 fee, exactly 30 Safari Balls, exactly
   // 502 steps (not 500 — verified against the literal HIGH(502)/LOW(502) load in OG source).
@@ -1632,6 +1649,7 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onBuyItem={handleBuyItem}
             onGiveGuardDrink={handleGiveGuardDrink}
             onExchangeBikeVoucher={handleExchangeBikeVoucher}
+            onGiveDollForTM31={handleGiveDollForTM31}
             onCutTree={handleCutTree}
             onSetSurfing={handleSetSurfing}
             onActivateStrength={handleActivateStrength}
