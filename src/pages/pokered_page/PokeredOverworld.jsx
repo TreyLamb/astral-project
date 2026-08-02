@@ -499,7 +499,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, onFindHiddenCoins, onBuyCoins, onGiveDrinkForTM, onBuyPrize, onGivePokemon, onSafariStep, onSafariEnter, onSafariLeave, onGiveHmSurf, onGiveHmStrength, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, onFindHiddenCoins, onBuyCoins, onGiveDrinkForTM, onBuyPrize, onGivePokemon, onSafariStep, onSafariEnter, onSafariLeave, onGiveHmSurf, onGiveHmStrength, onGiveHmFly, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -3352,6 +3352,20 @@ function notifyPosition() {
       return;
     }
 
+    // Route 16 Fly House's brunette girl (scripts/Route16FlyHouse.asm) — a free, unconditional
+    // HM02 Fly gift, identical shape to the Safari Zone Secret House gift below (gated only on
+    // EVENT_GOT_HM02, no fee, no quest item).
+    if (here === 'ROUTE_16_FLY_HOUSE:1') {
+      if (hasEvent(gsRef.current, 'EVENT_GOT_HM02')) {
+        setDialogue({ lines: ["HM02 is FLY.\nIt will take you\nback to any town.", "Put it to good\nuse!"], idx: 0, action: null });
+      } else {
+        setDialogue({
+          lines: ["Oh, you found my\nsecret retreat!", "Please don't tell\nanyone I'm here.\nI'll make it up\nto you with this!", "<PLAYER> received\nHM02!"],
+          idx: 0, action: 'GIVE_HM_FLY',
+        });
+      }
+      return;
+    }
     // Safari Zone Secret House's Fishing Guru (scripts/SafariZoneSecretHouse.asm) — a free,
     // unconditional HM03 Surf gift, gated only on EVENT_GOT_HM03 (no fee, no item exchange,
     // unlike the Warden below). This port models every TM/HM as the single HM06 "teach any
@@ -3937,6 +3951,9 @@ function notifyPosition() {
         if (prev.action === 'SAFARI_LEAVE' && onSafariLeave) {
           onSafariLeave();
           handleWarp({ dest: 'SAFARI_ZONE_GATE', warpIdx: 3 });
+        }
+        if (prev.action === 'GIVE_HM_FLY' && onGiveHmFly) {
+          onGiveHmFly();
         }
         if (prev.action === 'GIVE_HM_SURF' && onGiveHmSurf) {
           onGiveHmSurf();

@@ -544,6 +544,16 @@ export default function PokeredApp() {
   // TM/HM model — see the Viridian City fisherman comment elsewhere for the established
   // convention. The Warden's gift additionally removes GOLD_TEETH from the bag (real OG:
   // RemoveItemByID) and sets EVENT_GAVE_GOLD_TEETH, matching WardensHouse.asm exactly.
+  function handleGiveHmFly() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      let items = prev.items ?? [];
+      if (!items.some(it => it.name === 'HM06')) items = [...items, { name: 'HM06', count: 1 }];
+      const next = setEvent({ ...prev, items }, 'EVENT_GOT_HM02');
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
   function handleGiveHmSurf() {
     setGameState(prev => {
       if (!prev) return prev;
@@ -1661,6 +1671,7 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onSafariLeave={handleSafariLeave}
             onGiveHmSurf={handleGiveHmSurf}
             onGiveHmStrength={handleGiveHmStrength}
+            onGiveHmFly={handleGiveHmFly}
             gameState={gameState}
             isExtra={gameState.isExtra}
             speedMult={speedMult}
