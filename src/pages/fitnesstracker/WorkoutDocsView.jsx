@@ -16,6 +16,9 @@ import './WorkoutDocsView.css';
 const DOCS = [
   { slug: 'training', label: 'Training Plan', content: trainingMd },
   { slug: 'context', label: 'Context & Rules', content: trainingContextMd },
+  { slug: 'cycle', label: 'Cycle Template (old)', content: cycleMd },
+  { slug: '2mile', label: 'ACFT 2-Mile Plan (old)', content: acft2MileMd },
+  { slug: 'calendar', label: 'ACFT Full Calendar (old)', content: acftCalendarMd },
 ];
 
 function TableWrap({ children }) {
