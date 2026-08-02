@@ -237,7 +237,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -294,6 +294,41 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     ROUTE_12: { route: 12, beatFlag: 'EVENT_BEAT_ROUTE12_SNORLAX', coords: [[9, 62], [10, 61], [10, 63], [11, 62]] },
     ROUTE_16: { route: 16, beatFlag: 'EVENT_BEAT_ROUTE16_SNORLAX', coords: [[27, 10], [25, 10]] },
   };
+
+  // ===== R9_10-RockTunnel-Lavender-PokemonTower WIRING (POWER_PLANT disguised wild Pokémon) =====
+  // data/maps/objects/PowerPlant.asm's object_events for these 9 sprites aren't plain NPCs —
+  // the trailing SPECIES/LEVEL args (object_event x, y, SPRITE_POKE_BALL/SPRITE_BIRD, STAY,
+  // dir, TEXT_ID, SPECIES, LEVEL) are OG's "disguised item ball" trainer-macro overload
+  // (macros/scripts/maps.asm object_event: the NARG>7 branch encodes TRAINER|textId + species +
+  // level instead of a flat text pointer). scripts/PowerPlant.asm dispatches each one through
+  // TalkToTrainer/StartTrainerBattle gated by a real, one-time EVENT_BEAT_POWER_PLANT_VOLTORB_N
+  // / EVENT_BEAT_ZAPDOS flag (all 9 already present in event_flags.json, mirrored 1:1 from OG's
+  // event_constants.asm — no new flags needed) — same plumbing OG uses for every "wild mon
+  // guarding a fake item" gimmick, not a human trainer. Modeled here as a genuine catchable wild
+  // encounter (onEncounter, not onTrainerBattle) rather than routed through this port's
+  // trainer-battle path, because real player-facing behavior IS catchable (you can throw balls
+  // at Zapdos/Voltorb/Electrode here) — this port's trainerEncounter path hard-blocks catching,
+  // so wildEncounter is the faithful choice even though OG's internal call graph happens to be
+  // trainer-shaped. Confirmed real bug this fixes: game_data.json's extractor collapsed these
+  // into plain sprite:'poke_ball'/'bird' NPCs with no species/level at all, so walking onto one
+  // fell through to the generic ground-item pickup (which defaults to a free POTION fallback
+  // when position isn't in item_locations.json) — Zapdos and all 8 Voltorb/Electrode encounters
+  // were silently unreachable and got "eaten" as a fake potion pickup, once per save forever.
+  // criesText is OG's real pre-battle flavor line (text/PowerPlant.asm), shown in PokeredBattle.jsx
+  // in place of the generic "A wild X appeared!" line — matches TalkToTrainer's before-battle
+  // text, which for every one of these headers is that same single cry line (see the `trainer`
+  // macro args in scripts/PowerPlant.asm — before/after/end text are all identical per header).
+  const POWER_PLANT_WILD_OBJECTS = [
+    { x: 9,  y: 20, species: 'VOLTORB',   level: 40, flag: 'EVENT_BEAT_POWER_PLANT_VOLTORB_0', criesText: 'Bzzzt!' },
+    { x: 32, y: 18, species: 'VOLTORB',   level: 40, flag: 'EVENT_BEAT_POWER_PLANT_VOLTORB_1', criesText: 'Bzzzt!' },
+    { x: 21, y: 25, species: 'VOLTORB',   level: 40, flag: 'EVENT_BEAT_POWER_PLANT_VOLTORB_2', criesText: 'Bzzzt!' },
+    { x: 25, y: 18, species: 'ELECTRODE', level: 43, flag: 'EVENT_BEAT_POWER_PLANT_VOLTORB_3', criesText: 'Bzzzt!' },
+    { x: 23, y: 34, species: 'VOLTORB',   level: 40, flag: 'EVENT_BEAT_POWER_PLANT_VOLTORB_4', criesText: 'Bzzzt!' },
+    { x: 26, y: 28, species: 'VOLTORB',   level: 40, flag: 'EVENT_BEAT_POWER_PLANT_VOLTORB_5', criesText: 'Bzzzt!' },
+    { x: 21, y: 14, species: 'ELECTRODE', level: 43, flag: 'EVENT_BEAT_POWER_PLANT_VOLTORB_6', criesText: 'Bzzzt!' },
+    { x: 37, y: 32, species: 'VOLTORB',   level: 40, flag: 'EVENT_BEAT_POWER_PLANT_VOLTORB_7', criesText: 'Bzzzt!' },
+    { x: 4,  y: 9,  species: 'ZAPDOS',    level: 50, flag: 'EVENT_BEAT_ZAPDOS',                 criesText: 'Gyaoo!' },
+  ];
 
   // Stable refs (never cause re-renders — game loop reads these directly)
   const keysRef       = useRef(new Set());
@@ -1506,6 +1541,22 @@ const OUTDOOR = ['overworld', 'plateau'];
       }
     }
 
+    // Power Plant disguised wild Pokémon (see POWER_PLANT_WILD_OBJECTS above) — must be checked
+    // BEFORE the generic ground-item pickup below, since 8 of these 9 share the same
+    // sprite:'poke_ball' shape the generic branch would otherwise silently vacuum up as a fake
+    // POTION pickup (Zapdos's sprite:'bird' would just fall through to nothing at all).
+    if (ms.mapId === 'POWER_PLANT') {
+      const wildObj = POWER_PLANT_WILD_OBJECTS.find(o => o.x === p.x && o.y === p.y);
+      if (wildObj) {
+        if (!hasEvent(gsRef.current, wildObj.flag)) {
+          if (onEncounter) {
+            onEncounter({ species: wildObj.species, level: wildObj.level, criesText: wildObj.criesText, powerPlantFlag: wildObj.flag }, ms.mapId, p.x, p.y);
+          }
+        }
+        return; // already-beaten slots are handled by isNpcHidden (sprite hidden, tile just walkable)
+      }
+    }
+
     // Ground item (poke_ball sprite) — walking onto its tile picks it up, once per save file.
     const itemNpc = ms.mapInfo.npcs.find(n => n.sprite === 'poke_ball' && n.x === p.x && n.y === p.y);
     if (itemNpc) {
@@ -1764,6 +1815,14 @@ function notifyPosition() {
         pickedUpRef.current.has(nid)) return true;
     const beatenTrainers = gsRef.current?.beatenTrainers;
     const pickedUpItems = gsRef.current?.pickedUpItems ?? [];
+    // ===== R9_10-RockTunnel-Lavender-PokemonTower WIRING =====
+    // Power Plant disguised wild Pokémon (see POWER_PLANT_WILD_OBJECTS) despawn for good once
+    // beaten/caught, same "NPCs are solid obstacles, hiding is what opens the tile" pattern as
+    // the Route 12/16 Snorlax below.
+    if (mapId === 'POWER_PLANT') {
+      const wildObj = POWER_PLANT_WILD_OBJECTS.find(o => o.x === npc.x && o.y === npc.y);
+      if (wildObj && hasEvent(gsRef.current, wildObj.flag)) return true;
+    }
     // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
     // Route 12/16 Snorlax despawns for good once beaten/caught (scripts/Route12.asm /
     // Route16.asm SetEvent EVENT_BEAT_ROUTE12/16_SNORLAX) — this is what actually opens the
@@ -1955,6 +2014,37 @@ function notifyPosition() {
   function isPCTile(mapId, tx, ty) {
     return (PC_TILES[mapId] ?? []).some(t => t.x === tx && t.y === ty);
   }
+
+  // Bench guy hidden_events (data/events/hidden_events.asm hidden_event ..., PrintBenchGuyText;
+  // dispatch logic in engine/events/hidden_events/bench_guys.asm; per-map text picked via
+  // data/events/bench_guys.asm's BenchGuyTextPointers table). A decorative "guy sitting on a
+  // bench" sprite present at nearly every Pokécenter, dispensing map-specific flavor text —
+  // but ONLY when the player is actually facing LEFT toward him (OG's real check tests
+  // wSpritePlayerStateData1FacingDirection == SPRITE_FACING_LEFT; every bench guy in
+  // BenchGuyTextPointers uses SPRITE_FACING_LEFT). Coordinates (0,4) are already native
+  // metatile units (hidden_event macro emits raw args with no ×2/+4 needed — see pokered
+  // CLAUDE.md). Scope note: only LAVENDER_POKECENTER and ROCK_TUNNEL_POKECENTER are owned by
+  // this map cluster — the other 10 Pokécenters (Viridian/Pewter/Cerulean/Vermilion/Celadon/
+  // Fuchsia/Cinnabar/Saffron/Mt Moon + Celadon Hotel) have the identical unwired OG mechanism;
+  // flagged as a project-wide gap for whichever cluster owns each of those maps, not fixed here.
+  const BENCH_GUY_TEXT = {
+    LAVENDER_POKECENTER: {
+      x: 0, y: 4,
+      lines: ["CUBONEs wear\nskulls, right?", "People will pay a\nlot for one!"],
+    },
+    ROCK_TUNNEL_POKECENTER: {
+      x: 0, y: 4,
+      lines: ["I heard that\nGHOSTs haunt\nLAVENDER TOWN!"],
+    },
+  };
+
+  // Magazines hidden_event (data/events/hidden_events.asm hidden_events_for MR_FUJIS_HOUSE ->
+  // PrintMagazinesText at (0,1)/(1,1)/(7,1), all SPRITE_FACING_DOWN; engine/events/
+  // hidden_events/magazines.asm just prints the one shared MagazinesText in full regardless of
+  // which of the 3 tiles triggered it — not map- or tile-specific text, so all 3 coordinates
+  // share this single entry). Facing DOWN only, matching OG's SPRITE_FACING_DOWN check.
+  const MR_FUJIS_HOUSE_MAGAZINE_TILES = [{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 7, y: 1 }];
+  const MAGAZINES_TEXT_LINES = ["POKÉMON magazines!", "POKÉMON notebooks!", "POKÉMON graphs!"];
 
   // ── Trainer battle dialogue (keyed by trainerClass from game_data.json NPC) ─
   const TRAINER_DIALOGUE = {
@@ -2199,6 +2289,84 @@ function notifyPosition() {
         lines: hasEvent(gameState, 'EVENT_RESCUED_MR_FUJI')
           ? ["It's so warm!\nPOKÉMON are so\nnice to hug!"]
           : ["This is really\nMR.FUJI's house.", "He's really kind!", "He looks after\nabandoned and\norphaned POKÉMON!"],
+        idx: 0, action: null,
+      });
+      return;
+    }
+    // ===== R9_10-RockTunnel-Lavender-PokemonTower WIRING =====
+    // Name Rater (NAME_RATERS_HOUSE, scripts/NameRatersHouse.asm) — see PokeredApp.jsx's
+    // handleRenameMon for the full scope-note comment (party LEAD only, no picker UI; the OT-
+    // mismatch check (NameRatersHouseCheckMonOTScript) is approximated by "does this mon already
+    // have a trade-assigned nickname" since that's the only source of a non-player OT in this
+    // single-player port — no link-cable trading exists to create any other case).
+    if (here === 'NAME_RATERS_HOUSE:1') {
+      const mon = gameState?.party?.[0];
+      const monName = (mon?.nickname || mon?.species || '').toUpperCase();
+      let rateBranch;
+      if (!mon) {
+        rateBranch = { lines: ["Fine! Come any\ntime you like!"] };
+      } else if (mon.nickname) {
+        // "Truly impeccable" branch — real OG's OT-mismatch case (a traded-in mon can't be
+        // improved on); approximated here by "already has a trade-assigned nickname" per the
+        // scope note above.
+        rateBranch = { lines: [`${monName}, is it?\nThat is a truly\nimpeccable name!`, `Take good care of\n${monName}!`] };
+      } else {
+        rateBranch = {
+          lines: [`${monName}, is it?\nThat is a decent\nnickname!`, "But, would you\nlike me to give\nit a nicer name?", "How about it?"],
+          yesNo: {
+            onYes: { lines: ["Fine! What should\nwe name it?"], action: 'NAME_RATER_RENAME' },
+            onNo: { lines: ["Fine! Come any\ntime you like!"] },
+          },
+        };
+      }
+      setDialogue({
+        lines: ["Hello, hello!\nI am the official\nNAME RATER!", "Want me to rate\nthe nicknames of\nyour POKÉMON?"],
+        idx: 0, action: null,
+        yesNo: { onYes: rateBranch, onNo: { lines: ["Fine! Come any\ntime you like!"] } },
+      });
+      return;
+    }
+    // LAVENDER_TOWN's Little Girl (scripts/LavenderTown.asm LavenderTownLittleGirlText) is a
+    // real interactive Yes/No choice ("Do you believe in GHOSTs?"), not flat text — the generic
+    // npc_dialogue.json extraction only captured the opening line (no branch), same
+    // "Interactive logic vs. flat text" gap class flagged in this project's CLAUDE.md. Wired
+    // here with the same yesNo dialogue shape used elsewhere (e.g. the vending machine /
+    // Magikarp salesman) — text 1:1 from text/LavenderTown.asm.
+    if (here === 'LAVENDER_TOWN:1') {
+      setDialogue({
+        lines: ["Do you believe in\nGHOSTs?"],
+        idx: 0, action: null,
+        yesNo: {
+          onYes: { lines: ["Really? So there\nare believers..."] },
+          onNo: { lines: ["Hahaha, I guess\nnot.", "That white hand\non your shoulder,\nit's not real."] },
+        },
+      });
+      return;
+    }
+    // LAVENDER_MART's Cooltrainer♂ (scripts/LavenderMart.asm LavenderMartCooltrainerMText)
+    // branches on CheckEvent EVENT_RESCUED_MR_FUJI — the generic npc_dialogue.json extraction
+    // only captured the "before" branch (ReviveText), so the "after" branch (NuggetText, real
+    // text/LavenderMart.asm _LavenderMartCooltrainerMNuggetText) needs this explicit override.
+    if (here === 'LAVENDER_MART:3') {
+      setDialogue({
+        lines: hasEvent(gameState, 'EVENT_RESCUED_MR_FUJI')
+          ? ["I found a NUGGET\nin the mountains.", "I thought it was\nuseless, but it\nsold for ¥5000!"]
+          : ["You know REVIVE?\nIt revives any\nfainted POKÉMON!"],
+        idx: 0, action: null,
+      });
+      return;
+    }
+    // LAVENDER_CUBONE_HOUSE's Brunette Girl (scripts/LavenderCuboneHouse.asm
+    // LavenderCuboneHouseBrunetteGirlText) branches on CheckEvent EVENT_RESCUED_MR_FUJI, same
+    // pattern as MR_FUJIS_HOUSE above — the generic npc_dialogue.json extraction only captured
+    // the "before" branch (PoorCubonesMotherText), so the "after" branch (GhostIsGoneText, real
+    // text/LavenderCuboneHouse.asm _LavenderCuboneHouseBrunetteGirlGhostIsGoneText) needs this
+    // explicit override.
+    if (here === 'LAVENDER_CUBONE_HOUSE:2') {
+      setDialogue({
+        lines: hasEvent(gameState, 'EVENT_RESCUED_MR_FUJI')
+          ? ["The GHOST of\nPOKÉMON TOWER is\ngone!", "Someone must have\nsoothed its\nrestless soul!"]
+          : ["I hate those\nhorrible ROCKETs!", "That poor CUBONE's\nmother...", "It was killed\ntrying to escape\nfrom TEAM ROCKET!"],
         idx: 0, action: null,
       });
       return;
@@ -2886,6 +3054,19 @@ function notifyPosition() {
           pickedUpRef.current.add(prev.giftId);
           onDoTrade(prev.tradeKey, prev.giftId);
         }
+        // ===== R9_10-RockTunnel-Lavender-PokemonTower WIRING =====
+        // Name Rater (see startDialogue's `here === 'NAME_RATERS_HOUSE:1'` and PokeredApp.jsx's
+        // handleRenameMon doc comment for the party-picker/text-input scope note). window.prompt
+        // is the free-text entry surface (matches CLAUDE.md's "open-ended value needs free
+        // entry, not a fixed preset" UI rule) — real OG's DisplayNameRaterScreen is a full
+        // custom on-screen keyboard, which this port has no equivalent UI for anywhere else
+        // either (same simplification level as the start-screen name entry's plain <input>).
+        if (prev.action === 'NAME_RATER_RENAME' && onRenameMon) {
+          setTimeout(() => {
+            const name = window.prompt('What should we name it? (max 10 characters)');
+            if (name && name.trim()) onRenameMon(0, name.trim());
+          }, 50);
+        }
         if (prev.action === 'BILL_TRANSFORM') {
           const ms = mapStateRef.current;
           const monster = ms?.mapInfo.npcs[0]; // BILLS_HOUSE npc index 0 — the "before" sprite
@@ -3284,6 +3465,20 @@ function notifyPosition() {
           const curX = live?.x ?? n.x, curY = live?.y ?? n.y;
           return curX === targetX && curY === targetY;
         });
+        // Zapdos (see POWER_PLANT_WILD_OBJECTS above) — unlike the 8 poke_ball-sprite disguised
+        // encounters (walkable, walk-onto-triggered, handled in the movement/checkNewTile path),
+        // the bird sprite is NOT in npcBlocking's poke_ball exclusion, so it's a normal solid
+        // obstacle — matching real OG, where you approach and interact with it face-to-face
+        // rather than walking through it. Must be checked before the generic `npc && startDialogue`
+        // fallback below, since with no trainerClass set this NPC would otherwise just fall
+        // through to the generic scripted-text placeholder.
+        if (npc && ms.mapId === 'POWER_PLANT' && npc.sprite === 'bird') {
+          const wildObj = POWER_PLANT_WILD_OBJECTS.find(o => o.x === npc.x && o.y === npc.y);
+          if (wildObj && !hasEvent(gsRef.current, wildObj.flag) && onEncounter) {
+            onEncounter({ species: wildObj.species, level: wildObj.level, criesText: wildObj.criesText, powerPlantFlag: wildObj.flag }, ms.mapId, p.x, p.y);
+          }
+          return;
+        }
         if (npc) { startDialogue(npc); return; }
         // Facing a warp — check direction rule before entering
         const facedWarp = ms.mapInfo.warps.find(w => w.x === fx && w.y === fy);
@@ -3325,6 +3520,23 @@ function notifyPosition() {
           } else {
             setDialogue({ lines: ["There's nothing\nhere."], idx: 0, action: null });
           }
+          return;
+        }
+        // Bench guy (see BENCH_GUY_TEXT above) — only fires when actually facing LEFT toward
+        // him, matching OG's real wSpritePlayerStateData1FacingDirection == SPRITE_FACING_LEFT
+        // check in PrintBenchGuyText (engine/events/hidden_events/bench_guys.asm).
+        const benchGuy = BENCH_GUY_TEXT[ms.mapId];
+        if (benchGuy && fx === benchGuy.x && fy === benchGuy.y && p.dir === DIR_LEFT) {
+          setDialogue({ lines: benchGuy.lines, idx: 0, action: null });
+          return;
+        }
+        // Magazines (see MR_FUJIS_HOUSE_MAGAZINE_TILES above) — only fires facing DOWN,
+        // matching OG's SPRITE_FACING_DOWN check; identical text regardless of which of the
+        // 3 registered tiles triggered it (PrintMagazinesText prints the whole shared block).
+        if (ms.mapId === 'MR_FUJIS_HOUSE' &&
+            MR_FUJIS_HOUSE_MAGAZINE_TILES.some(t => t.x === fx && t.y === fy) &&
+            p.dir === DIR_DOWN) {
+          setDialogue({ lines: MAGAZINES_TEXT_LINES, idx: 0, action: null });
           return;
         }
         // Facing any other blocked tile — show object text

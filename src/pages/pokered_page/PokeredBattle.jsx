@@ -203,6 +203,13 @@ export default function PokeredBattle({ playerParty, wildEncounter, trainerEncou
         // Real OG text/Route12.asm _Route12SnorlaxWokeUpText / text/Route16.asm equivalent —
         // identical wording both routes, played right after the POKÉ FLUTE wakes it.
         pushLog(["SNORLAX woke up!", "It attacked in a\ngrumpy rage!", `Go, ${fmt(initPlayer.species)}!`], 'log');
+      } else if (wildEncounter.criesText) {
+        // ===== R9_10-RockTunnel-Lavender-PokemonTower WIRING =====
+        // Power Plant disguised item-ball encounters (Voltorb/Electrode/Zapdos,
+        // PokeredOverworld.jsx POWER_PLANT_WILD_OBJECTS) — real OG's TalkToTrainer before-battle
+        // text for every one of these headers IS the mon's cry-flavor line ("Bzzzt!"/"Gyaoo!",
+        // text/PowerPlant.asm), shown instead of the generic "A wild X appeared!" line.
+        pushLog([wildEncounter.criesText, `Go, ${fmt(initPlayer.species)}!`], 'log');
       } else {
         // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
         // Ghost disguise (see the ghostDisguise doc comment above): real OG's EnemyAppearedText

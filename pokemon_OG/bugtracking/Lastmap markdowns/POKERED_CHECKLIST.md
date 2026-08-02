@@ -119,9 +119,18 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
 - [ ] Nugget Bridge Rocket recruiter reward — currently granted post-battle; OG grants it
       before the battle via dialogue
 - [ ] SS Anne — SS Ticket gate, leaves after Cut
-- [ ] Snorlax — Poké Flute wake
-- [ ] Silph Scope / Ghost Pokémon unlock
-- [ ] Rescue Mr. Fuji / get Poké Flute
+- [x] Snorlax — Poké Flute wake (Route 12/16 roadblocks, `SNORLAX_ROUTES`/`activatePokeFlute`
+      in `PokeredOverworld.jsx`). [x] Claude tested (code review). [ ] You
+- [x] Silph Scope / Ghost Pokémon unlock — Pokémon Tower ghost-reveal gating (`ghostDisguise`),
+      verified against `PokeRed_OG` line-by-line this session (Pokémon Tower 1F-7F +
+      Mr Fuji's House cluster). Also fixed this session: Tower 5F's "Purified Zone" (2x2 safe
+      room at (10,8)/(11,8)/(10,9)/(11,9), heals party + suppresses wild encounters) was
+      entirely missing — now implemented (`purifiedZoneRef` in `PokeredOverworld.jsx`).
+      [x] Claude tested (code review + esbuild bundle check). [ ] You
+- [x] Rescue Mr. Fuji / get Poké Flute — Ghost Marowak defeat flag, Fuji rescue sequence,
+      one-time Poké Flute grant all verified this session. Remaining low-priority gap: 3
+      unwired `PrintMagazinesText` hidden_events at MR_FUJIS_HOUSE (flavor-only reading
+      material) — now wired (see R9_10 cluster entry below). [x] Claude tested. [ ] You
 - [ ] Rocket Hideout
 - [ ] Silph Co.
 - [ ] Safari Zone
@@ -155,6 +164,45 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
       `PokeredOverworld.jsx` for details. [ ] Claude tested (code review + esbuild bundle check
       only — no dev server available in this worktree; needs a real playthrough pass). [ ] You
 - [ ] Receive Pokémon from NPCs — Eevee, Lapras, etc.
+- [x] R9_10-RockTunnel-Lavender-PokemonTower cluster fully wired (22 maps: LAVENDER_CUBONE_HOUSE,
+      LAVENDER_MART, LAVENDER_POKECENTER, LAVENDER_TOWN, MR_FUJIS_HOUSE, NAME_RATERS_HOUSE,
+      POKEMON_TOWER_1F-7F, POWER_PLANT, ROCK_TUNNEL_1F/B1F/POKECENTER, ROUTE_8/8_GATE/9/10,
+      UNDERGROUND_PATH_ROUTE_8). New fixes this pass:
+  - **Power Plant disguised wild Pokémon** (`POWER_PLANT_WILD_OBJECTS`, `PokeredOverworld.jsx`):
+    the 8 Voltorb/Electrode "fake item ball" encounters + the Zapdos legendary encounter were
+    completely unreachable — `game_data.json`'s extractor collapsed OG's `object_event ... SPECIES,
+    LEVEL` disguised-trainer macro overload into plain flavor NPCs, so walking onto a Voltorb's
+    tile silently handed the player a free fallback POTION instead. Now a real, catchable wild
+    encounter (species/level from OG source, gated by the already-registered
+    `EVENT_BEAT_POWER_PLANT_VOLTORB_0..7`/`EVENT_BEAT_ZAPDOS` flags — no new flags needed).
+    Zapdos triggers via facing+interact (solid sprite); the 8 balls via walk-onto (matches OG's
+    walkable item-ball convention). Flag only sets on victory/catch, never on flee/loss.
+  - **Bench guy flavor text** (`BENCH_GUY_TEXT`): LAVENDER_POKECENTER + ROCK_TUNNEL_POKECENTER's
+    `PrintBenchGuyText` hidden_event (facing-LEFT-gated) — same OG mechanism exists unwired at
+    the other 10 Pokécenters, out of this cluster's scope.
+  - **Mr Fuji's House magazines** (`MR_FUJIS_HOUSE_MAGAZINE_TILES`): 3 `PrintMagazinesText`
+    hidden_events, facing-DOWN-gated, all share one flavor text.
+  - **Missing story-flag dialogue branches** (found via manual script trace, not caught by the
+    structural auditor since these NPCs' `npc_dialogue.json` entries were non-`scripted` static
+    text): LAVENDER_CUBONE_HOUSE's Brunette Girl (EVENT_RESCUED_MR_FUJI before/after) and
+    LAVENDER_MART's Cooltrainer♂ (same flag) were frozen on their "before" line forever.
+  - **Interactive Yes/No never wired**: LAVENDER_TOWN's Little Girl ("Do you believe in
+    GHOSTs?") had only its opening line captured, no branch at all.
+  - **Name Rater** (`NAME_RATERS_HOUSE`) — built from scratch (`handleRenameMon` in
+    `PokeredApp.jsx`, `onRenameMon` prop, `NAME_RATER_RENAME` dialogue action in
+    `PokeredOverworld.jsx`): real Yes/No → OT-eligibility check → free-text rename via
+    `window.prompt`. ✂️ Simplification: renames the party LEAD only (no party-picker UI exists
+    outside the main pause-menu system); "traded, can't rename" is approximated by "already has
+    a trade-assigned nickname" (no other source of OT mismatch exists in this single-player
+    port). Pre-existing, unrelated gap noted while wiring this: `.nickname` is stored on party
+    mons but not rendered anywhere in the party/battle UI (true for trade nicknames too, not
+    introduced by this fix).
+  - Route 8 Gate's guard, Route 8/9/10's ~30 standard trainer battles, and Rock Tunnel 1F/B1F's
+    15 trainer battles were all confirmed already correctly wired (structural + script trace).
+  [x] Claude tested (code review + `npm run build` clean + `audit_map.py` for all 22 maps — 99
+  PASS/21 WARN/13 FAIL, every FAIL a documented false positive: pre-existing hidden-item ×2
+  scaling convention + the auditor's regex not recognizing the `.includes(here)`/sprite-keyed
+  override shapes used for the Zapdos and Route 8 Gate fixes). [ ] You
 
 ---
 

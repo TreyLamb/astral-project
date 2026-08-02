@@ -199,6 +199,14 @@ export default function PokeredApp() {
       if (result === 'victory' && wildEncounter?.ghostMarowak) {
         newState = setEvent(newState, 'EVENT_BEAT_GHOST_MAROWAK');
       }
+      // ===== R9_10-RockTunnel-Lavender-PokemonTower WIRING =====
+      // Power Plant disguised wild Pokémon (Voltorb/Electrode/Zapdos) — same "only a real win
+      // or catch sets the one-time flag, fleeing/losing leaves it re-encounterable" semantics as
+      // the Snorlax branch above (scripts/PowerPlant.asm's trainer headers only FLAG_SET on
+      // EndTrainerBattle, which only runs after an actual battle conclusion, not a run-away).
+      if ((result === 'victory' || result === 'caught') && wildEncounter?.powerPlantFlag) {
+        newState = setEvent(newState, wildEncounter.powerPlantFlag);
+      }
 
       if ((result === 'victory' || result === 'caught') && !prev.isExtra) {
         saveGame(newState);
@@ -999,6 +1007,30 @@ export default function PokeredApp() {
     });
   }
 
+  // ===== R9_10-RockTunnel-Lavender-PokemonTower WIRING =====
+  // Name Rater (LAVENDER_TOWN's NAME_RATERS_HOUSE, scripts/NameRatersHouse.asm) — real OG lets
+  // the player pick any party member via DisplayPartyMenu, then free-type a new name via
+  // DisplayNameRaterScreen. This port has no standalone party-picker/text-input overlay outside
+  // the main pause-menu system (that system is deeply coupled to menuPage/menuCursor state and
+  // wiring the Name Rater into it would be a disproportionate amount of new UI plumbing for one
+  // flavor NPC) — deliberately narrowed (✂️) to the party LEAD (party[0]) only, skipping the
+  // picker step, while keeping the actual rename itself fully real and functional (free-text via
+  // window.prompt, not a fixed preset list — matches the "open-ended value needs free entry"
+  // rule in CLAUDE.md's UI feature contract). See PokeredOverworld.jsx's `here === 'NAME_RATERS_HOUSE:1'`
+  // for the call site.
+  function handleRenameMon(partyIdx, newName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const mon = prev.party[partyIdx];
+      if (!mon || !newName) return prev;
+      const party = [...prev.party];
+      party[partyIdx] = { ...mon, nickname: newName.toUpperCase().slice(0, 10) };
+      const next = { ...prev, party };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
   function handleReturnHome() {
     setGameState(null);
     setWildEncounter(null);
@@ -1286,6 +1318,7 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onTeachMove={handleTeachMove}
             onSwitchParty={handleSwitchParty}
             onSwapMoves={handleSwapMoves}
+            onRenameMon={handleRenameMon}
             onBuyMagikarp={handleBuyMagikarp}
             onGiveFossil={handleGiveFossil}
             onCollectFossilMon={handleCollectFossilMon}
