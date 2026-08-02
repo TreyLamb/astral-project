@@ -237,7 +237,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -2015,18 +2015,37 @@ function notifyPosition() {
     return (PC_TILES[mapId] ?? []).some(t => t.x === tx && t.y === ty);
   }
 
-  // Bench guy hidden_events (data/events/hidden_events.asm hidden_event ..., PrintBenchGuyText;
-  // dispatch logic in engine/events/hidden_events/bench_guys.asm; per-map text picked via
-  // data/events/bench_guys.asm's BenchGuyTextPointers table). A decorative "guy sitting on a
-  // bench" sprite present at nearly every Pokécenter, dispensing map-specific flavor text —
-  // but ONLY when the player is actually facing LEFT toward him (OG's real check tests
-  // wSpritePlayerStateData1FacingDirection == SPRITE_FACING_LEFT; every bench guy in
-  // BenchGuyTextPointers uses SPRITE_FACING_LEFT). Coordinates (0,4) are already native
-  // metatile units (hidden_event macro emits raw args with no ×2/+4 needed — see pokered
-  // CLAUDE.md). Scope note: only LAVENDER_POKECENTER and ROCK_TUNNEL_POKECENTER are owned by
-  // this map cluster — the other 10 Pokécenters (Viridian/Pewter/Cerulean/Vermilion/Celadon/
-  // Fuchsia/Cinnabar/Saffron/Mt Moon + Celadon Hotel) have the identical unwired OG mechanism;
-  // flagged as a project-wide gap for whichever cluster owns each of those maps, not fixed here.
+  // Bike Shop "new bicycle" display tiles (engine/events/hidden_events/new_bike.asm
+  // PrintNewBikeText, data/events/hidden_events.asm hidden_events_for BIKE_SHOP) — 6 tiles of
+  // flat ANY_FACING flavor text. Deliberately kept OUT of game_data.json's bgEvents array (which
+  // mirrors OG's SEPARATE def_bg_events table) so the map's real bg_events count (0, correctly)
+  // isn't corrupted for future audits — same "three separate event tables" distinction the
+  // project CLAUDE.md calls out repeatedly. A dedicated small table + ANY_FACING (no direction
+  // check, unlike BENCH_GUY_TEXT/GymStatues below) mirrors the OG hidden_event's own ANY_FACING arg.
+  const HIDDEN_FLAVOR_TEXT = {
+    BIKE_SHOP: [
+      { x: 1, y: 0 }, { x: 2, y: 1 }, { x: 1, y: 2 },
+      { x: 3, y: 2 }, { x: 0, y: 4 }, { x: 1, y: 5 },
+    ].map(t => ({ ...t, lines: ['A shiny new BICYCLE!'] })),
+  };
+  function hiddenFlavorText(mapId, tx, ty) {
+    const list = HIDDEN_FLAVOR_TEXT[mapId];
+    const e = list?.find(t => t.x === tx && t.y === ty);
+    return e ? e.lines : null;
+  }
+
+  // Pokécenter "bench guy" (engine/events/hidden_events/bench_guys.asm PrintBenchGuyText) — a
+  // SEPARATE hidden_event from the PC above, at (0,4) in every Pokécenter, requiring the player
+  // face LEFT (there's a documented OG bug here: an omitted `inc hl` misaligns the lookup table
+  // read from any OTHER facing direction, corrupting subsequent reads — NOT ported, since it's
+  // a ROM-quirk crash bug, not real game behavior). Text is genuinely per-map (data/text/text_2.asm:
+  // _CeruleanPokecenterGuyText / _MtMoonPokecenterBenchGuyText etc. are each distinct), not one
+  // shared string — confirmed by reading engine/events/hidden_events/bench_guys.asm's dispatch
+  // table directly. Populated here for the 4 Pokécenters covered by the two Batch 1 clusters
+  // (LAVENDER_POKECENTER/ROCK_TUNNEL_POKECENTER + CERULEAN_POKECENTER/MT_MOON_POKECENTER); the
+  // same hidden_event exists at every OTHER Pokécenter in the game (Viridian/Pewter/Vermilion/
+  // Celadon/Fuchsia/Cinnabar/Saffron + Celadon Hotel) and is equally unwired there — flagged for
+  // whichever batch owns those maps.
   const BENCH_GUY_TEXT = {
     LAVENDER_POKECENTER: {
       x: 0, y: 4,
@@ -2036,7 +2055,14 @@ function notifyPosition() {
       x: 0, y: 4,
       lines: ["I heard that\nGHOSTs haunt\nLAVENDER TOWN!"],
     },
+    CERULEAN_POKECENTER: { x: 0, y: 4, lines: ["BILL has lots of\nPOKéMON!", "He collects rare\nones too!"] },
+    MT_MOON_POKECENTER: { x: 0, y: 4, lines: ["If you have too\nmany POKéMON, you\nshould store them\nvia PC!"] },
   };
+  function benchGuyText(mapId, tx, ty, facingDir) {
+    const e = BENCH_GUY_TEXT[mapId];
+    if (e && e.x === tx && e.y === ty && facingDir === DIR_LEFT) return e.lines;
+    return null;
+  }
 
   // Magazines hidden_event (data/events/hidden_events.asm hidden_events_for MR_FUJIS_HOUSE ->
   // PrintMagazinesText at (0,1)/(1,1)/(7,1), all SPRITE_FACING_DOWN; engine/events/
@@ -2192,6 +2218,33 @@ function notifyPosition() {
       "You have forgotten\nto treat your\nPOKéMON with\ntrust and love!",
       "<PLAYER>! Come\nwith me to the\nHALL OF FAME!",
     ],
+    // Cerulean Badge House info man (scripts/CeruleanBadgeHouse.asm) — real OG shows an 8-item
+    // SPECIALLISTMENU letting the player pick which badge to hear about, in any order, any
+    // number of times, no gating on which badges are actually owned. This port has no N-way
+    // list-menu dialogue primitive (only a binary Yes/No), so — same simplification class as
+    // the Celadon Mart Roof vending machines (chained yes/no instead of a real cursor menu) —
+    // this walks through all 8 real descriptions in fixed list order (text/CeruleanBadgeHouse.asm)
+    // as a single continuous dialogue rather than a per-badge choice. Every real line is present;
+    // only the free-order picking is collapsed, since order has zero gameplay effect here.
+    'CERULEAN_BADGE_HOUSE:1': [
+      "POKéMON BADGEs\nare owned only by\nskilled trainers.", "I see you have\nat least one.", "Those BADGEs have\namazing secrets!",
+      "Now then...", "Which of the 8\nBADGEs should I\ndescribe?",
+      "The ATTACK of all\nPOKéMON increases\na little bit.", "It also lets you\nuse FLASH any\ntime you desire.",
+      "POKéMON up to L30\nwill obey you.", "Any higher, they\nbecome unruly!", "It also lets you\nuse CUT outside\nof battle.",
+      "The SPEED of all\nPOKéMON increases\na little bit.", "It also lets you\nuse FLY outside\nof battle.",
+      "POKéMON up to L50\nwill obey you.", "Any higher, they\nbecome unruly!", "It also lets you\nuse STRENGTH out-\nside of battle.",
+      "The DEFENSE of all\nPOKéMON increases\na little bit.", "It also lets you\nuse SURF outside\nof battle.",
+      "POKéMON up to L70\nwill obey you.", "Any higher, they\nbecome unruly!",
+      "Your POKéMON's\nSPECIAL abilities\nincrease a bit.",
+      "All POKéMON will\nobey you!",
+      "Come visit me any\ntime you wish.",
+    ],
+    // Mt Moon Pokécenter clipboard sprite (MtMoonPokecenterClipboardText, text/MtMoonPokecenter.asm)
+    // — CONFIRMED EMPTY in OG source: `text_start` immediately followed by `done`,
+    // no text line at all (a decorative Cable Club sprite with no real content). Explicitly
+    // documented here (rather than left to fall through to the generic '...' placeholder) so a
+    // future pass doesn't mistake this for an un-extracted gap — this IS the real OG behavior.
+    'MT_MOON_POKECENTER:5': ['...'],
   };
 
   // Looks up dialogue for an NPC — trainers use trainerClass; civilians first try the real,
@@ -2749,6 +2802,55 @@ function notifyPosition() {
       return;
     }
 
+    // Bike Shop clerk (scripts/BikeShop.asm BikeShopClerkText) — real 3-way branch: already has
+    // the BICYCLE -> flavor text; has BIKE_VOUCHER (not yet redeemed) in the bag -> free
+    // exchange (GiveItem BICYCLE + RemoveItemByID BIKE_VOUCHER, SetEvent EVENT_GOT_BICYCLE);
+    // neither -> welcome text + a genuine "It's a cool BIKE! Do you want it?" Yes/No, where
+    // BOTH answers fall through to "Come back again some time!" (OG's real price is a
+    // deliberately-unaffordable ¥1000000 — HandleMenuInput's BICYCLE-selected branch always
+    // hits BikeShopCantAffordText, there is no real way to buy it outright; the voucher is the
+    // only legitimate path). Item possession IS the state here, same convention as
+    // S_S_TICKET/OAKS_PARCEL elsewhere — no separate "gotBicycle" flag needed.
+    if (here === 'BIKE_SHOP:1') {
+      const hasBike = (gameState?.items ?? []).some(it => it.name === 'BICYCLE');
+      const hasVoucher = (gameState?.items ?? []).some(it => it.name === 'BIKE_VOUCHER');
+      if (hasBike) {
+        setDialogue({ lines: ["How do you like\nyour new BICYCLE?", "You can take it\non CYCLING ROAD\nand in caves!"], idx: 0, action: null });
+      } else if (hasVoucher) {
+        setDialogue({
+          lines: ["Oh, that's...", "A BIKE VOUCHER!", "OK! Here you go!", "<PLAYER> exchanged\nthe BIKE VOUCHER\nfor a BICYCLE."],
+          idx: 0, action: 'EXCHANGE_BIKE_VOUCHER',
+        });
+      } else {
+        setDialogue({
+          lines: ["Hi! Welcome to\nour BIKE SHOP.", "Have we got just\nthe BIKE for you!", "It's a cool BIKE!\nDo you want it?"],
+          idx: 0, action: null,
+          yesNo: {
+            onYes: { lines: ["Sorry! You can't\nafford it!", "Come back again\nsome time!"] },
+            onNo: { lines: ["Come back again\nsome time!"] },
+          },
+        });
+      }
+      return;
+    }
+
+    // Cerulean Gym guide (CeruleanGymGymGuideText) — real OG branches on EVENT_BEAT_MISTY;
+    // npc_dialogue.json's extraction only captured the "before" branch, same static-fallback
+    // limitation as the Bike Shop youngster below.
+    if (here === 'CERULEAN_GYM:4' && (gameState?.beatenTrainers ?? []).includes(npcTrainerId(ms.mapId, ms.mapInfo.npcs.find(n => n.trainerClass === 'Misty')))) {
+      setDialogue({ lines: ["You beat MISTY!\nWhat'd I tell ya?", "You and me kid,\nwe make a pretty\ndarn good team!"], idx: 0, action: null });
+      return;
+    }
+
+    // Bike Shop youngster (BikeShopYoungsterText) — real OG branches on EVENT_GOT_BICYCLE;
+    // npc_dialogue.json's extraction only captured the "don't have it yet" branch (matches
+    // npcText's static-fallback limitation noted throughout this file), so add the "already
+    // have it" branch here.
+    if (here === 'BIKE_SHOP:3' && (gameState?.items ?? []).some(it => it.name === 'BICYCLE')) {
+      setDialogue({ lines: ["Wow. Your BIKE is\nreally cool!"], idx: 0, action: null });
+      return;
+    }
+
     // Pewter City escort NPCs (user-flagged 2026-07-10, part of the same "wire scripted NPC
     // movement" pass as Route 22/Bill's House/Mt Moon above) — real OG walks each of these two
     // off toward the place they're describing, repeatable every time (no event gate; matches
@@ -3042,6 +3144,9 @@ function notifyPosition() {
         }
         if (prev.action === 'BUY_VENDING' && onBuyItem && prev.buyItem && prev.buyPrice) {
           onBuyItem(prev.buyItem, prev.buyPrice);
+        }
+        if (prev.action === 'EXCHANGE_BIKE_VOUCHER' && onExchangeBikeVoucher) {
+          onExchangeBikeVoucher();
         }
         // ===== FOSSIL REVIVAL + IN-GAME TRADES WIRING =====
         if (prev.action === 'GIVE_FOSSIL' && onGiveFossil && prev.fossilItem) {
@@ -3491,6 +3596,12 @@ function notifyPosition() {
         }
         // Facing a PC tile — open PC screen (pass current pos so overworld remounts there)
         if (isPCTile(ms.mapId, fx, fy) && onOpenPC) { onOpenPC(ms.mapId, p.x, p.y); return; }
+        // Pokécenter bench guy (see BENCH_GUY_TEXT/benchGuyText above) — separate hidden_event
+        // from the PC, requires facing LEFT specifically.
+        const benchLines = benchGuyText(ms.mapId, fx, fy, p.dir);
+        if (benchLines) { setDialogue({ lines: benchLines, idx: 0, action: null }); return; }
+        const flavorLines = hiddenFlavorText(ms.mapId, fx, fy);
+        if (flavorLines) { setDialogue({ lines: flavorLines, idx: 0, action: null }); return; }
         // Celadon Mart Roof vending machines (engine/events/vending_machine.asm) — the only
         // real vending machines in the whole game (data/maps/objects/CeladonMartRoof.asm: 3
         // bg_events, all dispatching the same VendingMachineMenu). Real OG shows a single
@@ -3502,6 +3613,23 @@ function notifyPosition() {
         if (ms?.mapId === 'CELADON_MART_ROOF' && VENDING_TILES.some(t => t.x === fx && t.y === fy)) {
           const prompt = buildVendingPrompt(0);
           setDialogue({ lines: prompt.lines, idx: 0, action: null, yesNo: prompt.yesNo });
+          return;
+        }
+        // Cerulean Gym statues (engine/events/hidden_events/gym_statues.asm GymStatues) — real OG
+        // ONLY responds when the player is facing UP (hidden_event's SPRITE_FACING_UP arg,
+        // unlike Bike Shop's ANY_FACING above), which the generic bgEvents/objectText path
+        // below doesn't check — hence this dedicated branch rather than a plain bgEvent entry.
+        // Text is a template (data/text/text_2.asm _GymStatueText1/2): city + gym leader name +
+        // "WINNING TRAINERS: <RIVAL>", plus "<PLAYER>" appended once the player holds the
+        // matching badge. This port has no rival-nickname tracking (see the Champion's Room
+        // text elsewhere), so uses the canonical "BLUE" like every other rival reference.
+        if (ms?.mapId === 'CERULEAN_GYM' && p.dir === DIR_UP &&
+            (fx === 3 || fx === 6) && fy === 11) {
+          const hasBadge = (gameState?.badges ?? []).includes(1); // Misty = badgeIndex 1 (CASCADE)
+          const lines = hasBadge
+            ? ["CERULEAN POKéMON\nGYM\nLEADER: MISTY", "WINNING TRAINERS:\nBLUE\n<PLAYER>"]
+            : ["CERULEAN POKéMON\nGYM\nLEADER: MISTY", "WINNING TRAINERS:\nBLUE"];
+          setDialogue({ lines, idx: 0, action: null });
           return;
         }
         // Hidden items (Itemfinder-findable ground items, data/events/hidden_item_coords.asm).
@@ -3520,14 +3648,6 @@ function notifyPosition() {
           } else {
             setDialogue({ lines: ["There's nothing\nhere."], idx: 0, action: null });
           }
-          return;
-        }
-        // Bench guy (see BENCH_GUY_TEXT above) — only fires when actually facing LEFT toward
-        // him, matching OG's real wSpritePlayerStateData1FacingDirection == SPRITE_FACING_LEFT
-        // check in PrintBenchGuyText (engine/events/hidden_events/bench_guys.asm).
-        const benchGuy = BENCH_GUY_TEXT[ms.mapId];
-        if (benchGuy && fx === benchGuy.x && fy === benchGuy.y && p.dir === DIR_LEFT) {
-          setDialogue({ lines: benchGuy.lines, idx: 0, action: null });
           return;
         }
         // Magazines (see MR_FUJIS_HOUSE_MAGAZINE_TILES above) — only fires facing DOWN,

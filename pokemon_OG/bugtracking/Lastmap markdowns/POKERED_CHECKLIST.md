@@ -113,11 +113,19 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
 
 - [x] Saffron City guards — drink-for-passage, shared flag across all 4 gates
 - [x] Fossil choice + Super Nerd battle gate (mutually exclusive, gated on beating him)
-- [ ] Cerulean Rocket Thief forced ambush battle — not implemented at all
-- [ ] Cerulean Trashed House door guards — currently hidden via a temporary unconditional
-      hack; real gating condition not identified/wired
-- [ ] Nugget Bridge Rocket recruiter reward — currently granted post-battle; OG grants it
-      before the battle via dialogue
+- [x] Cerulean Rocket Thief battle — talk-to-trigger (not OG's forced ambient-tile ambush,
+      this engine has no per-tile forced-encounter system anywhere; documented simplification,
+      not missing) + TM28/Dig reward (grants HM06) + one-time defeat gate all verified correct
+      (Route3-MtMoon-Cerulean-R24_25-Bill cluster pass). [x] Claude tested (code review). [ ] You
+- [x] Cerulean Trashed House door guards — real fix landed (prior pass): both guards are
+      permanently hidden due to a map-geometry/door-reachability issue (guard (27,12) sits
+      directly south of the trashed-house door warp (27,11), its only approach), not a story
+      flag — see `isNpcHidden` comment in `PokeredOverworld.jsx`. ✂️ live-playtest verification
+      of the geometry claim still deferred. [x] Claude tested (code review). [ ] You
+- [x] Nugget Bridge Rocket recruiter reward — verified: grants the NUGGET BEFORE the battle via
+      dialogue (`ROUTE_24:1` special case in `startDialogue`), matching OG. Stale checklist
+      entry corrected (Route3-MtMoon-Cerulean-R24_25-Bill cluster pass). [x] Claude tested
+      (code review). [ ] You
 - [ ] SS Anne — SS Ticket gate, leaves after Cut
 - [x] Snorlax — Poké Flute wake (Route 12/16 roadblocks, `SNORLAX_ROUTES`/`activatePokeFlute`
       in `PokeredOverworld.jsx`). [x] Claude tested (code review). [ ] You
@@ -203,6 +211,47 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
   PASS/21 WARN/13 FAIL, every FAIL a documented false positive: pre-existing hidden-item ×2
   scaling convention + the auditor's regex not recognizing the `.includes(here)`/sprite-keyed
   override shapes used for the Zapdos and Route 8 Gate fixes). [ ] You
+- [x] Route3-MtMoon-Cerulean-R24_25-Bill cluster fully wired (17 maps: BIKE_SHOP, BILLS_HOUSE,
+      CERULEAN_BADGE_HOUSE, CERULEAN_CITY, CERULEAN_GYM, CERULEAN_MART, CERULEAN_POKECENTER,
+      CERULEAN_TRADE_HOUSE, CERULEAN_TRASHED_HOUSE, MT_MOON_1F, MT_MOON_B1F, MT_MOON_B2F,
+      MT_MOON_POKECENTER, ROUTE_24, ROUTE_25, ROUTE_3, ROUTE_4). New fixes this pass:
+  - **CERULEAN_CITY fabricated NPC removed**: `game_data.json` had 12 npcs vs OG's real 11 — a
+    spurious `poke_ball` entry at (28,12), sitting on the exact same tile as the real Guard1
+    NPC, backed by an equally-spurious `item_locations.json` HM06 entry with no OG object_event
+    anywhere. This directly explains **Bug Tracker item #3 below** ("HM06 ground item at
+    Cerulean doorway (28,12) — picked up wrong item once") — root cause found, not a stale-build
+    fluke. Both entries removed.
+  - **Bike Shop** (`BikeShop.asm` real voucher-exchange logic, previously entirely unwired):
+    added the real 3-branch `BikeShopClerkText` (already-have-bike / have-voucher-exchange /
+    welcome+unaffordable-Yes-No), a new `handleExchangeBikeVoucher`/`EXCHANGE_BIKE_VOUCHER`
+    action (`PokeredApp.jsx`), the 6 `PrintNewBikeText` hidden_events (new `HIDDEN_FLAVOR_TEXT`
+    table, kept separate from `bgEvents` to not corrupt the bg_events-vs-hidden_events count),
+    and the youngster's missing "already has bike" text branch.
+  - **Cerulean Gym statues** (`GymStatues` hidden_event ×2, facing-UP-gated): added, badge-
+    conditional WINNING TRAINERS text. Gym guide's missing "after beating Misty" branch added.
+  - **Cerulean Badge House**: the 8-badge info-man menu only had its intro line wired; added all
+    8 real badge descriptions as one continuous sequence (this port has no N-way list-menu
+    primitive — same simplification class as the vending-machine Yes/No chain, order has zero
+    gameplay effect).
+  - **Bench guy flavor text** (`BENCH_GUY_TEXT`, same mechanism as the R9_10 cluster above):
+    CERULEAN_POKECENTER + MT_MOON_POKECENTER's `PrintBenchGuyText` wired — confirmed genuinely
+    per-map text (Bill's rare Pokémon collection vs. a PC-storage reminder), not shared.
+  - **Mt Moon Pokécenter clipboard NPC**: confirmed genuinely empty text in OG source
+    (`text/MtMoonPokecenter.asm`), documented explicitly rather than left as an ambiguous `...`
+    fallback.
+  - Fossil choice/Super Nerd gate (MT_MOON_B2F), Nugget Bridge (ROUTE_24), Bill's House
+    transform/SS-Ticket sequence, and all trainer/item/warp/bg_event data on the remaining maps
+    (BILLS_HOUSE, CERULEAN_MART, CERULEAN_TRADE_HOUSE, CERULEAN_TRASHED_HOUSE, MT_MOON_1F,
+    MT_MOON_B1F, ROUTE_25, ROUTE_3, ROUTE_4) were all confirmed already correctly wired by prior
+    passes (structural + script trace, no changes needed).
+  - Known deferred gap: MT_MOON_B2F's post-Super-Nerd "no wild battles in the fossil chamber"
+    zone (`wStatusFlags4`/`BIT_NO_BATTLES` in OG) is cosmetic QoL, not implemented. ROUTE_25's
+    vestigial Bill's-teleporter-Pokémon/`TOGGLE_NUGGET_BRIDGE_GUY` toggle sequence is fully
+    superseded by this port's simplified BILLS_HOUSE-interior-only transform cutscene, not
+    replicated (doesn't affect the actual Nugget Bridge, which is on ROUTE_24 and unaffected).
+  [x] Claude tested (code review + `npm run build` clean + `audit_map.py` for all 17 maps — 77
+  PASS/18 WARN/12 FAIL, every remaining FAIL the documented hidden-item ×2 scaling false
+  positive). [ ] You
 
 ---
 
@@ -236,7 +285,7 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
 | `pokered/maps/*.blk`             | Raw map tile layouts                          | ✅ Converted & wired |
 | `data/maps/objects/*.asm`        | bg_events (signs/TVs/furniture text)         | ✅ Converted & wired (70 maps) |
 | `data/maps/objects/*.asm`        | NPC movement type, facing, dialogue refs     | 📦 .blk files exist; movement/facing/dialogue not extracted |
-| `data/events/hidden_events.asm`  | PC/TV/cable-club hidden interactions         | 🔄 All real PC locations wired; hidden items wired; still missing: Bill's house TV-equivalent, Oak's Lab hidden events, vending/elevators/prize corners, gym trash/statue handlers |
+| `data/events/hidden_events.asm`  | PC/TV/cable-club hidden interactions         | 🔄 All real PC locations wired; hidden items wired; bench-guy text wired for Viridian/Pewter/Cerulean/Lavender/Mt Moon/Rock Tunnel Pokécenters (still missing at Vermilion/Celadon/Fuchsia/Cinnabar/Saffron); Cerulean Gym statues wired; still missing: Oak's Lab hidden events, vending/elevators/prize corners, other gyms' trash/statue handlers |
 | `data/items/marts.asm`           | Shop inventory                                | ✅ Converted & wired |
 | `data/items/prices.asm`          | Item buy/sell prices                          | ✅ Converted & wired |
 | `data/wild/grass_water.asm`      | Wild encounter tables                         | ✅ Converted & wired (57 maps) |
@@ -263,8 +312,11 @@ just my notes on defects.
    ledge logic (`npcCanStep`) not yet re-verified against the pre-regression baseline.
 2. NPCs can see/engage in battle through walls — LOS check likely has no wall-collision
    raycast between NPC and player.
-3. HM06 ground item at Cerulean doorway (28,12) — picked up wrong item once; root cause not
-   confirmed (leading theory: stale deployed build, not a code bug). Re-test before digging further.
+3. ~~HM06 ground item at Cerulean doorway (28,12)~~ — ROOT-CAUSED AND FIXED
+   (Route3-MtMoon-Cerulean-R24_25-Bill cluster pass): NOT a stale-build fluke as suspected — a
+   genuinely fabricated `poke_ball` npc entry (`game_data.json`) plus a matching spurious
+   `item_locations.json` HM06 entry, neither backed by any real OG `object_event`, sitting on
+   the exact same tile as the real Guard1 NPC. Both removed.
 4. Page load times reported ~5x slower — cause unknown, not investigated.
 5. Route 11.5 ↔ Route 12 warps (walking into the roof of gates) — 2 warps affected.
 6. `#`/Poké character rendering issue.

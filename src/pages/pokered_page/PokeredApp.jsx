@@ -388,6 +388,24 @@ export default function PokeredApp() {
     });
   }
 
+  // Bike Shop voucher exchange (scripts/BikeShop.asm BikeShopClerkText .dontHaveVoucher/voucher
+  // branch): removes BIKE_VOUCHER from the bag and grants BICYCLE, matching OG's real
+  // GiveItem BICYCLE + RemoveItemByID BIKE_VOUCHER + SetEvent EVENT_GOT_BICYCLE. No separate
+  // "gotBicycle" flag is needed — like S_S_TICKET/OAKS_PARCEL elsewhere, item possession IS the
+  // state (see PokeredOverworld.jsx's BIKE_SHOP:1 branch, which checks items for BICYCLE/
+  // BIKE_VOUCHER directly).
+  function handleExchangeBikeVoucher() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const items = (prev.items ?? [])
+        .filter(it => it.name !== 'BIKE_VOUCHER')
+        .concat([{ name: 'BICYCLE', count: 1 }]);
+      const next = { ...prev, items };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
   // Oak's Parcel delivery (scripts/OaksLab.asm .got_parcel branch): removes OAKS_PARCEL from
   // the bag and records the delivery so the Viridian Mart clerk's one-time quest-giving text
   // doesn't fire again and Oak's dialogue falls through to its next real branch.
@@ -1298,6 +1316,7 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onDeliverParcel={handleDeliverParcel}
             onBuyItem={handleBuyItem}
             onGiveGuardDrink={handleGiveGuardDrink}
+            onExchangeBikeVoucher={handleExchangeBikeVoucher}
             onCutTree={handleCutTree}
             onSetSurfing={handleSetSurfing}
             onActivateStrength={handleActivateStrength}

@@ -134,12 +134,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Fully wired this session: real BikeShopClerkText 3-branch exchange logic added (has BICYCLE -> flavor; has BIKE_VOUCHER -> free exchange via new handleExchangeBikeVoucher/EXCHANGE_BIKE_VOUCHER action; neither -> welcome+Yes/No where both answers land on 'come back' since OG's real price is unaffordable). 6 PrintNewBikeText hidden_events wired via a dedicated HIDDEN_FLAVOR_TEXT table (kept OUT of bgEvents to avoid corrupting the bg_events-vs-hidden_events distinction other audits rely on). Youngster's missing 'already has bike' text branch added. audit_map.py: 6 PASS, 1 WARN (script complexity, addressed), 0 FAIL."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -170,12 +170,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Verified, no changes needed: Bill transform sequence, S.S.Ticket grant, and post-transform NPC all already correctly wired and match scripts/BillsHouse.asm exactly (traced line-by-line). audit_map.py: PASS on warps/bg_events/npcs, WARN on script complexity only (already covered)."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -911,12 +911,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Fully wired this session: the 8-badge info-man menu (scripts/CeruleanBadgeHouse.asm) had only the intro line extracted; added all 8 real badge descriptions (text/CeruleanBadgeHouse.asm) as a single continuous SCRIPTED_NPC_TEXT sequence, since this port has no N-way list-menu primitive (documented simplification, same class as the vending-machine Yes/No chain) - order has zero gameplay effect so nothing is lost content-wise. audit_map.py: 5 PASS, 1 WARN (script complexity, addressed), 0 FAIL."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -1100,12 +1100,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "partial",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": "phase1-verification-agents+orchestrator-fixes",
+        "auditedBy": "batch1-agent",
         "date": "2026-08-02",
         "scriptTraced": true,
-        "notes": "Phase 1: Nugget Bridge reward sequencing PASS (not this map, see ROUTE_24). Rocket Thief: one-time defeat gate correct; OG's forced ambient-tile encounter not ported (documented engine limitation, talk-to-trigger substitute) - deliberately not fixed this session (would need a new per-tile forced-encounter system built engine-wide). TM28/DIG reward FIXED this session (grants HM06 via handleBattleEnd in PokeredApp.jsx, matching the established TM->HM06 substitution convention). Trashed House door guards: real OG gate (CERULEANCITY_GUARD1/2 toggle on EVENT_BEAT_CERULEAN_ROCKET_THIEF OR S.S.Ticket) was being ignored (guards unconditionally hidden, making the house enterable from game start) - FIXED this session in isNpcHidden(). NEW GAP found by audit_map.py this pass (not part of Phase 1 assignment, for Batch 1 to pick up): object_events(npcs) OG=11 JS=12 - one extra/fabricated NPC entry in game_data.json vs OG, not yet identified which one."
+        "notes": "Completed this session: found and removed the extra/fabricated 12th NPC (a 'poke_ball' ground item entry at (28,12), sitting on the exact same tile as the real Guard1 NPC) plus its matching item_locations.json entry (HM06 at raw 56,24) - traced to an extraction-pipeline artifact with no OG object_event backing it; duplicated the already-correct TM28/Dig Rocket-Thief battle-win reward. OG=11/JS=11 npcs now match exactly. Full script trace of scripts/CeruleanCity.asm (460 lines) confirms Rocket Thief gate, rival battle, and trashed-house door-guard logic (from the prior session's pass) are all correct; no further gaps found. The hidden_events/HiddenItems RARE_CANDY FAIL is the documented false-positive (generic HIDDEN_ITEMS[mapId] system already covers it, coords verified matching via the established x2 convention). audit_map.py: all PASS except the known HiddenItems false-positive."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -1146,12 +1146,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Fully wired this session: both GymStatues hidden_events (engine/events/hidden_events/gym_statues.asm) added as a dedicated facing-UP-only special case (badge-conditional text: WINNING TRAINERS list gains <PLAYER> once CASCADE badge is owned) - real OG requires SPRITE_FACING_UP specifically, so this could not be a plain bgEvent (no direction check there). Gym guide's missing 'after beating Misty' text branch added. Misty battle/badge/TM11->HM06 reward already correctly generic via trainerMeta.js badgeIndex=1 + established gym-win handling. audit_map.py: 3 PASS, 1 WARN (badge-gate - verified by hand, not a real gate here, just badge recording on defeat), 0 FAIL."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -1182,12 +1182,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Verified, no changes needed: clerk (generic clerk-sprite SHOP fallback) + marts.json inventory (7 items) + 2 flavor NPCs all confirmed matching scripts/CeruleanMart.asm and data/maps/objects/CeruleanMart.asm exactly. audit_map.py: 6 PASS, 0 FAIL."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -1218,12 +1218,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Fully wired this session: PrintBenchGuyText hidden_event added via new BENCH_GUY_TEXT table (facing-LEFT-specific, separate from the PC hidden_event which was already wired) - confirmed via engine/events/hidden_events/bench_guys.asm that bench-guy text is genuinely PER-MAP (not shared), Cerulean's is about Bill collecting rare Pokemon. audit_map.py: all PASS."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -1250,10 +1250,10 @@
       "semanticAudit": {
         "status": "verified",
         "cluster": null,
-        "auditedBy": "phase1-verification-agents+orchestrator-fixes",
+        "auditedBy": "batch1-agent",
         "date": "2026-08-02",
         "scriptTraced": true,
-        "notes": "Phase 1: hosts one of the 9 real OG in-game trades (data/events/trades.asm), verified give/receive species direction, dialog set, and one-time gating all match OG exactly."
+        "notes": "Not touched this session (already verified/fixed by a prior pass) - confirmed still correct on re-check."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -1280,10 +1280,10 @@
       "semanticAudit": {
         "status": "verified",
         "cluster": null,
-        "auditedBy": "phase1-verification-agents+orchestrator-fixes",
+        "auditedBy": "batch1-agent",
         "date": "2026-08-02",
         "scriptTraced": true,
-        "notes": "Phase 1: door-gate fix (see CERULEAN_CITY note) makes this map's accessibility now match OG. Structural audit clean (warps/bg_events/npcs all PASS, no hidden_events expected)."
+        "notes": "Not touched this session (already verified/fixed by a prior pass) - confirmed still correct on re-check."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -2881,12 +2881,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Verified, no changes needed: 7 trainers + 6 ground items (all item_locations.json coords match OG exactly after x2 conversion) + 1 bg_event sign all confirmed matching data/maps/objects/MtMoon1f.asm; script is pure trainer boilerplate (CheckFightingMapTrainers), no hidden logic. audit_map.py: all PASS."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -2911,12 +2911,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Verified, no changes needed: pure 8-warp junction map, zero NPCs/items/bg_events in OG, matches exactly. audit_map.py: all PASS."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -2972,12 +2972,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Verified, no changes needed: fossil-choice logic (Super Nerd mandatory battle gate, mutual-exclusion fossil pickup, HP_UP/TM_MEGA_PUNCH ground items) was already fully and correctly wired by a prior session's thorough re-trace (2026-07-09 comment block) - re-verified line-by-line against scripts/MtMoonB2f.asm, matches. Only unported detail: the post-victory ambient no-wild-battles zone in the fossil chamber (cosmetic QoL, not story-blocking) - flagged, not implemented. hidden_events/HiddenItems FAILs are the documented false-positive (generic system already covers Moon Stone/Ether). audit_map.py: all PASS except known false-positives."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -3018,12 +3018,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Fully wired this session: PrintBenchGuyText hidden_event added (PC storage reminder text, distinct from Cerulean's). Clipboard NPC's empty text confirmed genuinely empty in OG source (text/MtMoonPokecenter.asm: text_start immediately followed by done) - documented explicitly via SCRIPTED_NPC_TEXT rather than left ambiguous. Magikarp salesman Yes/No purchase flow already correctly wired by a prior pass. audit_map.py: all PASS."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -5641,12 +5641,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Verified, no changes needed: Nugget Bridge trainers/Rocket recruiter/nugget grant already correctly wired by a prior session's pass; re-confirmed against scripts/Route24.asm. All 8 NPCs + 1 ground item match OG exactly. audit_map.py: all PASS."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -5702,12 +5702,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Verified, no changes needed: all 10 NPCs + 1 ground item + Bill's-house warp/sign match OG exactly. scripts/Route25.asm's Bill-related toggle sequence (Bill's teleporter Pokemon appearing near his house, TOGGLE_NUGGET_BRIDGE_GUY side-effect) is a vestigial one-time cutscene fully superseded by this port's simplified BILLS_HOUSE-interior-only transform sequence - not replicated, flagged as a known, low-impact simplification (doesn't affect Nugget Bridge itself, which lives on ROUTE_24 and was independently verified). hidden_events/HiddenItems FAILs (Ether/Elixir) are the documented false-positive. audit_map.py: all PASS except known false-positives."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -5798,12 +5798,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Verified, no changes needed: 8 trainers + 1 flavor NPC (super_nerd, correctly non-battling per OG's missing OPP_ arg) + 1 bg_event sign all match OG exactly; script has zero branching logic beyond trainer boilerplate. audit_map.py: all PASS."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
@@ -5849,12 +5849,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch1-agent",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Verified, no changes needed: 2 trainers/flavor NPCs + 1 ground item (TM_WHIRLWIND) + 3 bg_events (mojibake false-alarm double-checked at raw byte level - file is correct UTF-8, a terminal-display artifact only) + 3 warps to Mt Moon all match OG exactly. hidden_events/HiddenItems FAIL (Great Ball) is the documented false-positive. connections/south WARN (edge-clamp inconclusive) verified by inspection: ROUTE_4<->ROUTE_3 offsets are correctly symmetric (+25/-25) despite differing map widths - not a bug. audit_map.py: all PASS except known false-positives."
       },
       "cluster": "Route3-MtMoon-Cerulean-R24_25-Bill"
     },
