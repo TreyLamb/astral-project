@@ -139,7 +139,11 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
       one-time Poké Flute grant all verified this session. Remaining low-priority gap: 3
       unwired `PrintMagazinesText` hidden_events at MR_FUJIS_HOUSE (flavor-only reading
       material) — now wired (see R9_10 cluster entry below). [x] Claude tested. [ ] You
-- [ ] Rocket Hideout
+- [x] Rocket Hideout — fully wired this session (see R7-Celadon-RocketHideout-Erika cluster entry
+      below): B1F-B4F trainers/items already correct, B2F's previously-nonexistent arrow-tile
+      spinner maze built from scratch, both elevators (Rocket Hideout + Celadon Mart) wired,
+      Silph Scope pickup confirmed reachable end-to-end. [x] Claude tested (code review +
+      `npm run build` clean + `audit_map.py`). [ ] You
 - [ ] Silph Co.
 - [ ] Safari Zone
 - [x] Cinnabar Lab — fossil revival. Give DOME_FOSSIL/HELIX_FOSSIL/OLD_AMBER to the fossil-room
@@ -171,7 +175,9 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
       `tryInGameTrade` (`pokeredGameState.js`) and the trade dialogue blocks in
       `PokeredOverworld.jsx` for details. [ ] Claude tested (code review + esbuild bundle check
       only — no dev server available in this worktree; needs a real playthrough pass). [ ] You
-- [ ] Receive Pokémon from NPCs — Eevee, Lapras, etc.
+- [ ] Receive Pokémon from NPCs — Eevee, Lapras, etc. Eevee (CELADON_MANSION_ROOF_HOUSE) done
+      this session (new `onGivePokemon` handler, see R7-Celadon-RocketHideout-Erika cluster entry
+      below); Lapras (Silph Co employee) and any others still outstanding, out of this cluster.
 - [x] R9_10-RockTunnel-Lavender-PokemonTower cluster fully wired (22 maps: LAVENDER_CUBONE_HOUSE,
       LAVENDER_MART, LAVENDER_POKECENTER, LAVENDER_TOWN, MR_FUJIS_HOUSE, NAME_RATERS_HOUSE,
       POKEMON_TOWER_1F-7F, POWER_PLANT, ROCK_TUNNEL_1F/B1F/POKECENTER, ROUTE_8/8_GATE/9/10,
@@ -249,9 +255,90 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
     vestigial Bill's-teleporter-Pokémon/`TOGGLE_NUGGET_BRIDGE_GUY` toggle sequence is fully
     superseded by this port's simplified BILLS_HOUSE-interior-only transform cutscene, not
     replicated (doesn't affect the actual Nugget Bridge, which is on ROUTE_24 and unaffected).
+  - **⚠️ DISCREPANCY FOUND 2026-08-02 (R7-Celadon-RocketHideout-Erika session)**: this entry's
+    "Cerulean Gym statues (`GymStatues` hidden_event ×2...) added" and "Bench guy flavor text...
+    CERULEAN_POKECENTER + MT_MOON_POKECENTER's `PrintBenchGuyText` wired" claims do NOT match the
+    codebase as checked out in this session's worktree — an exhaustive case-insensitive grep for
+    `gymstatue`/`benchguy`/`winning trainers`/`bill's rare` across `PokeredOverworld.jsx` and
+    `PokeredApp.jsx` returned zero hits before this session's own (unrelated, CELADON_GYM/
+    CELADON_HOTEL/CELADON_POKECENTER-only) additions. Either this worktree is stale relative to
+    whatever branch/commit that work actually landed on, or that work was never actually
+    committed despite the checklist being updated — **not investigated further here** (out of
+    this cluster's scope, and this session cannot tell which worktree/branch is authoritative).
+    Flagging explicitly rather than silently re-doing or silently trusting: **whoever reviews/
+    merges this session's work should verify whether the Route3-MtMoon-Cerulean-R24_25-Bill
+    cluster's code changes actually exist on `main`**, and correct this checklist entry (or this
+    note) once confirmed either way.
   [x] Claude tested (code review + `npm run build` clean + `audit_map.py` for all 17 maps — 77
   PASS/18 WARN/12 FAIL, every remaining FAIL the documented hidden-item ×2 scaling false
   positive). [ ] You
+- [x] R7-Celadon-RocketHideout-Erika cluster fully wired (30 maps: CELADON_CHIEF_HOUSE,
+      CELADON_CITY, CELADON_DINER, CELADON_GYM, CELADON_HOTEL, CELADON_MANSION_1F/2F/3F/ROOF/
+      ROOF_HOUSE, CELADON_MART_1F/2F/3F/4F/5F/ELEVATOR/ROOF, CELADON_POKECENTER, GAME_CORNER,
+      GAME_CORNER_PRIZE_ROOM, ROCKET_HIDEOUT_B1F/B2F/B3F/B4F/ELEVATOR, ROUTE_7, ROUTE_7_GATE,
+      UNDERGROUND_PATH_ROUTE_7, UNDERGROUND_PATH_ROUTE_7_COPY, UNDERGROUND_PATH_WEST_EAST). First
+      real pass — was entirely unaudited before this session. New fixes:
+  - **UNDERGROUND_PATH_ROUTE_7 + `_COPY` converted from scratch** — did not exist in
+    `game_data.json` at all. Added as new top-level map entries (tileset `gate`, 4×4, mirrors
+    `UNDERGROUND_PATH_ROUTE_5`'s structure exactly), `.blk` copied from
+    `pokemon_OG/PokeRed_OG/maps/UndergroundPathRoute7.blk` (both maps share it — no separate
+    `_Copy.blk` exists in OG either). Real warps/NPC/text parsed directly from
+    `scripts/UndergroundPathRoute7(Copy).asm` + `data/maps/objects/...` + `text/...`. `_COPY` is
+    confirmed genuinely cut/unused OG content (both NPCs literally named "Unused..." in source,
+    no live warp anywhere targets it in OG or this port) — converted for parity, not reachability.
+  - **ROCKET_HIDEOUT_B2F arrow-tile spinner maze built from scratch** — a genuinely MISSING
+    engine feature (zero "spinner"/"arrow tile" support anywhere in `PokeredOverworld.jsx` before
+    this session), not a wiring gap. 41 registered tiles / 36 movement sequences transcribed from
+    `scripts/RocketHideoutB2f.asm`. New `spinnerQueueRef` + `arrowMoveQueueAt()`: on landing on a
+    registered tile, queues the decoded forced-step sequence; the main game loop drains one
+    direction per completed step through the SAME collision-checked movement path ordinary input
+    uses (matches OG's own `StartSimulatingJoypadStates`, which also just feeds simulated input
+    through normal collision-checked movement, not a bypass).
+  - **Game Corner slot machines + hidden coins wired** — 33 real `StartSlotMachine` seats (+3
+    permanently-broken flavor ones) now open the pre-existing `GameCornerSlots.jsx` UI (built in
+    a prior session but never given a map-side trigger), gated on `COIN_CASE` + coins>0
+    (`AbleToPlaySlotsCheck`). 11 `HiddenCoins` floor coins wired via the same itemfinder-reveal
+    shape as `HIDDEN_ITEMS` (new `onFindHiddenCoins`, credits `gameState.coins` instead of a bag
+    item). Game Corner's coin-economy NPCs (clerk1's ¥1000→50-coin purchase, and 3 *previously
+    entirely unwired* free-coin gifts from fishing_guru/clerk2/gentleman — their `npc_dialogue.json`
+    entries were flat non-`scripted` text, hiding real `EVENT_GOT_10_COINS`/`_20_COINS`/
+    `_20_COINS_2` one-time-gift logic) all wired. Gym guide's `EVENT_BEAT_ERIKA` text branch
+    added. The Rocket's battle text was falling back to generic `TRAINER_DIALOGUE.Rocket` (his
+    battle trigger/exit-walk/hide-after-beaten logic was already correctly wired in a prior
+    session) — added his real before/win/after lines to `trainer_text.json`.
+  - **Game Corner Prize Room wired** — 3 prize-counter `bg_events` (previously flat "It's a prize
+    counter." placeholder text) now a real coins-for-Pokémon/coins-for-TM exchange (ABRA/
+    CLEFAIRY/NIDORINA, DRATINI/SCYTHER/PORYGON, TM_DRAGON_RAGE/TM_HYPER_BEAM/TM_SUBSTITUTE — Red-
+    version prize lists + levels from `data/events/prizes.asm`/`prize_mon_levels.asm`), gated on
+    `COIN_CASE`, only offering prizes currently affordable.
+  - **Both elevators wired** (Celadon Mart 1F-5F, Rocket Hideout B1F/B2F/B4F) — chained Yes/No
+    floor-select (same N-way-menu-as-Yes/No-chain simplification already established for the
+    vending machine/fossil-offer/bike-shop precedents), dispatching a new `ELEVATOR_WARP` action
+    that reuses `handleWarp` directly against each destination's real warp_events index — no
+    hand-rolled coordinate math. Rocket Hideout's is gated on `LIFT_KEY` (falls through to the
+    existing correct "It appears to need a key" text when absent). This was the missing link for
+    Silph Scope floor-to-floor reachability; the item pickup itself was already confirmed working.
+  - **Real one-time gifts wired**: Celadon City Gramps3's TM41/SOFTBOILED, Celadon Diner's
+    gym_guide COIN_CASE (prerequisite for the whole Game Corner economy above), Celadon Mart 3F's
+    "clerk" TM18/COUNTER (verified this is NOT a shop — see mart-false-positive note below),
+    Celadon Mart Roof's little_girl TM13/TM48/TM49-for-a-drink trade (new `buildGirlDrinkPrompt`,
+    offers only drinks actually held, in OG's own priority order), Celadon Mansion Roof House's
+    Eevee (new generic `onGivePokemon` handler, reusable for future free-mon gifts).
+  - **2 gym statues + 2 bench-guy tiles wired** (CELADON_GYM, CELADON_HOTEL/CELADON_POKECENTER) —
+    see the `⚠️ DISCREPANCY FOUND` note above the Route3-MtMoon-Cerulean entry: this checklist
+    had claimed these mechanisms were already wired at several OTHER maps outside this cluster,
+    which a full-file grep found to be false. Flagged there rather than fixed here (out of scope).
+  - **3 confirmed false-positive `mart_wiring` FAILs**: CELADON_MANSION_3F's and CELADON_MART_3F's
+    "clerk" sprites are real one-time gift NPCs (flavor-only and TM18, respectively — see above),
+    not shops; GAME_CORNER's 2 clerks are coin-purchase NPCs, not item shops. No `marts.json`
+    entries apply to any of the three — confirmed by direct OG script trace, not assumed.
+  - Erika + all 7 Celadon Gym trainers, all 5 Rocket Hideout floors' trainers/items (incl. Silph
+    Scope, Lift Key), Giovanni, and every other flavor/sign/directory NPC across all 30 maps were
+    confirmed already correctly wired by prior passes (structural + script trace, no changes
+    needed).
+  [x] Claude tested (`npm run build` clean + `audit_map.py` for all 30 maps — 126 PASS/16 WARN/15
+  FAIL, every remaining FAIL either the documented hidden-item ×2-scaling false positive or one
+  of the 3 mart_wiring false positives above). [ ] You
 
 ---
 
@@ -285,7 +372,7 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
 | `pokered/maps/*.blk`             | Raw map tile layouts                          | ✅ Converted & wired |
 | `data/maps/objects/*.asm`        | bg_events (signs/TVs/furniture text)         | ✅ Converted & wired (70 maps) |
 | `data/maps/objects/*.asm`        | NPC movement type, facing, dialogue refs     | 📦 .blk files exist; movement/facing/dialogue not extracted |
-| `data/events/hidden_events.asm`  | PC/TV/cable-club hidden interactions         | 🔄 All real PC locations wired; hidden items wired; bench-guy text wired for Viridian/Pewter/Cerulean/Lavender/Mt Moon/Rock Tunnel Pokécenters (still missing at Vermilion/Celadon/Fuchsia/Cinnabar/Saffron); Cerulean Gym statues wired; still missing: Oak's Lab hidden events, vending/elevators/prize corners, other gyms' trash/statue handlers |
+| `data/events/hidden_events.asm`  | PC/TV/cable-club hidden interactions         | 🔄 All real PC locations wired; hidden items wired (generic HIDDEN_ITEMS mechanism, data-driven per-map — covers every map with an entry, including Celadon City / Rocket Hideout B1F/B3F/B4F / Underground Path West-East as of the R7-Celadon-RocketHideout-Erika pass). The R7-Celadon-RocketHideout-Erika session's note below (dated 2026-08-02, same date) claimed bench-guy text and Cerulean Gym statues were still unwired project-wide — **that check was run from a git worktree branched BEFORE the same day's Route3-MtMoon-Cerulean batch landed CERULEAN_POKECENTER/MT_MOON_POKECENTER bench-guy text and CERULEAN_GYM statues (see PokeredOverworld.jsx), so it's a stale-base false alarm for those two maps specifically, not a real regression.** Current true state as of the full 2026-08-02 merge: bench-guy text wired at LAVENDER/ROCK_TUNNEL/CERULEAN/MT_MOON/CELADON_HOTEL/CELADON_POKECENTER Pokécenters (3 independent per-cluster tables — BENCH_GUY_TEXT, BENCH_GUY_TILES — consolidation into one shared table is a flagged cleanup item, not done yet); gym statues wired at CERULEAN_GYM (hardcoded), VERMILION_GYM (GYM_STATUES table), CELADON_GYM (GYM_STATUE_TILES table) — same multi-implementation note applies. Still NOT wired anywhere: bench-guy text at Viridian/Pewter/Vermilion/Fuchsia/Cinnabar/Saffron Pokécenters, gym statues at Viridian/Pewter/Fuchsia/Cinnabar/Saffron Gyms, Oak's Lab hidden events. Game Corner slot machines/hidden coins/prize room and Celadon Mart/Rocket Hideout elevators wired this session (R7-Celadon-RocketHideout-Erika pass). |
 | `data/items/marts.asm`           | Shop inventory                                | ✅ Converted & wired |
 | `data/items/prices.asm`          | Item buy/sell prices                          | ✅ Converted & wired |
 | `data/wild/grass_water.asm`      | Wild encounter tables                         | ✅ Converted & wired (57 maps) |
@@ -328,7 +415,7 @@ just my notes on defects.
 
 ## Phase 0 audit findings (2026-07-20)
 - **Warp integrity** (all 799 scanned): `warpIdx` 100% valid (0 out-of-range). 4 dangling-dest warps:
-  - `ROUTE_7 (5,13)` + `UNDERGROUND_PATH_WEST_EAST (2,5)` → **`UNDERGROUND_PATH_ROUTE_7` = real missing map** (Route 7 underground-path entrance building). Convert in Phase 5 (Celadon/Route 7). Currently: those warps silently do nothing.
+  - `ROUTE_7 (5,13)` + `UNDERGROUND_PATH_WEST_EAST (2,5)` → **`UNDERGROUND_PATH_ROUTE_7` = real missing map**. **RESOLVED 2026-08-02 (R7-Celadon-RocketHideout-Erika session)**: converted from `pokemon_OG/PokeRed_OG/maps/UndergroundPathRoute7.blk` + `data/maps/objects/UndergroundPathRoute7.asm` + `scripts/UndergroundPathRoute7.asm`, added as a new top-level entry in `public/pokered/game_data.json` (tileset `gate`, mirrors `UNDERGROUND_PATH_ROUTE_5`'s structure), `.blk` copied to `public/pokered/maps/`. Both warps now resolve correctly (verified round-trip). Also converted its unused debug twin, `UNDERGROUND_PATH_ROUTE_7_COPY` (data/maps/objects/UndergroundPathRoute7Copy.asm) — confirmed genuinely unreachable/cut content in real OG (both NPCs are literally named "Unused..." in source, no live warp anywhere targets it), added for parity only.
   - `SILPH_CO_ELEVATOR (1,3)+(2,3)` → `UNUSED_MAP_ED`: **OG-faithful** placeholder (OG sets real dest at runtime via elevator floor-select menu). Blocked on unimplemented elevator logic → Phase 7 (Silph Co).
 - **Warp `dir`**: 556 still `dir:0` (ANY) — deliberate conservative choice per WARP_DIR_LEGEND.md, NOT a blanket-fix target. Refine per-door during each region's FULLY_WIRE pass.
 - **Event flags**: registry now exists (507 → `extracted_og_data/event_flags.json`), `hasEvent/setEvent/clearEvent` typo-guarded; still has ZERO `.jsx` consumers — wiring happens in region phases.

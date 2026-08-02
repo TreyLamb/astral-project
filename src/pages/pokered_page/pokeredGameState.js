@@ -425,6 +425,36 @@ export function applyXP(pokemon, xpGain, pokemonData) {
   return { pokemon: mon, messages, pendingEvolution };
 }
 
+// ===== DAY CARE WIRING =====
+// Day Care (scripts/Daycare.asm): the boarded Pokémon gains exactly 1 Exp Point per step the
+// player takes — ANYWHERE on the overworld, not just inside the Day Care map itself (real OG
+// increments wDayCareMonExp on every completed step regardless of current map; see
+// PokeredOverworld.jsx's step-completion handler for the call site). Reuses applyXP directly so
+// Day Care levelling is byte-for-byte consistent with ordinary battle levelling (same
+// Medium-Slow-curve-for-every-species approximation this port already documents on xpForLevel,
+// same per-level stat/move-learn logic). Real OG Day Care mons CAN evolve while boarded with no
+// on-screen animation (nobody's present to watch/cancel one) — finalized immediately here,
+// mirroring the exact same simplification handleUseItem's rare_candy branch already established
+// for the same "no cancelable-animation context" reason. Stops adding once level 100 (applyXP's
+// own level<100 loop guard already prevents overflow past that point; this just avoids paying
+// the no-op cost of calling it every single step once maxed).
+export function growDaycareMon(mon, pokemonData) {
+  if (!mon || mon.level >= 100) return mon;
+  const { pokemon: leveled, pendingEvolution } = applyXP(mon, 1, pokemonData);
+  if (!pendingEvolution) return leveled;
+  const { mon: evolved } = finalizeEvolution(leveled, pokemonData);
+  return evolved;
+}
+
+// Cost to withdraw a Day Care mon (scripts/Daycare.asm's calcPriceLoop: `ld a,
+// [wDayCareNumLevelsGrown] / inc a / ld b, a` — the loop always runs levelsGrown+1 times at
+// ¥100/iteration, a well-known real OG quirk that overcharges by exactly one level's worth even
+// when 0 levels were gained — ported faithfully, not "fixed", since CLAUDE.md's porting rule is
+// to match OG's actual behavior, bugs included, not what seems more sensible).
+export function daycareCost(levelsGrown) {
+  return (Math.max(0, levelsGrown) + 1) * 100;
+}
+
 // Applies a pending evolution (see applyXP's pendingEvolution) — call ONLY once the cancelable
 // evolution screen completes without being stopped. Mirrors the mutation real OG's EvolveMon
 // performs after its animation finishes (species/type/stats recalculated at the mon's current
@@ -720,6 +750,13 @@ export const TM_HM_MOVES = [
   { id: 'HM03', move: 'SURF'         }, { id: 'HM04', move: 'STRENGTH'     },
   { id: 'HM05', move: 'FLASH'        },
 ];
+
+// The 5 HM move names (derived from TM_HM_MOVES rather than re-listed by hand, so this can
+// never drift out of sync with it). Used by the Day Care (scripts/Daycare.asm
+// DaycareGentlemanText: `callfar KnowsHMMove` / CantAcceptMonWithHMText) to refuse depositing a
+// Pokémon that knows a field HM move — matches real OG's rule that HM moves can't be forgotten
+// via ordinary means, so the Day Care (which can teach a deposited mon nothing) won't accept one.
+export const HM_MOVE_NAMES = TM_HM_MOVES.filter(m => m.id.startsWith('HM')).map(m => m.move);
 
 // Apply an evolution stone to a single party Pokemon. Pure function — mirrors the
 // species-swap shape applyXP already uses for level-up evolution (keep level, swap

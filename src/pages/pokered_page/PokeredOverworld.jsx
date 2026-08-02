@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { TRAINER_META } from './trainerMeta';
 import { TRAINER_PARTIES } from './trainerParties';
-import { ITEM_EFFECTS, TM_HM_MOVES, tryFish, DARK_MAPS, FLY_DESTINATIONS, hasEvent, FOSSIL_REVIVALS, IN_GAME_TRADES } from './pokeredGameState';
+import { ITEM_EFFECTS, TM_HM_MOVES, HM_MOVE_NAMES, tryFish, DARK_MAPS, FLY_DESTINATIONS, hasEvent, FOSSIL_REVIVALS, IN_GAME_TRADES, daycareCost } from './pokeredGameState';
 import ITEM_LOCATIONS from './extracted_og_data/item_locations.json';
 import HIDDEN_ITEMS from './extracted_og_data/hidden_items.json';
 import NPC_DIALOGUE from './extracted_og_data/npc_dialogue.json';
@@ -80,6 +80,32 @@ function buildFossilOfferPrompt(fossilList, i) {
   };
 }
 
+// ===== DAY CARE WIRING =====
+// scripts/Daycare.asm DaycareGentlemanText's party-menu step (DisplayPartyMenu) — this port has
+// no generic party-grid-picker widget for mid-dialogue NPC interactions (only the START-menu's
+// own item-target/hm06-target pickers, a different UI system entirely), so — same precedent as
+// buildFossilOfferPrompt/buildVendingPrompt above — this chains a Yes/No per party member
+// instead of a flattened auto-pick. The HM-carrying check (scripts/Daycare.asm `callfar
+// KnowsHMMove` / CantAcceptMonWithHMText) is evaluated per-candidate right here, at prompt-build
+// time, rather than deferred to the eventual action fire — nothing else can change the party
+// mid-dialogue in this single-player port, so precomputing which branch fires is exactly
+// equivalent to checking it live and keeps advanceDialogue's action dispatch a simple
+// fire-and-forget like every other one here.
+function buildDaycareDepositPrompt(party, i) {
+  if (i >= party.length) return { lines: ["Hmm, never mind\nthen."] };
+  const mon = party[i];
+  const species = mon.species.replace(/_/g, ' ');
+  const onNo = buildDaycareDepositPrompt(party, i + 1);
+  const knowsHM = mon.moves.some(m => HM_MOVE_NAMES.includes(m.name));
+  const onYes = knowsHM
+    ? { lines: [`${species} knows an\nHM move! I can't\naccept it right\nnow.`] }
+    : { lines: [`OK, I'll take good\ncare of your\n${species}!`], action: 'DAYCARE_DEPOSIT', depositIdx: i };
+  return {
+    lines: [`Would you like to\nleave your\n${species} here?`],
+    yesNo: { onYes, onNo },
+  };
+}
+
 // In-game trade NPCs (data/events/trades.asm + engine/events/in_game_trades.asm) — OG's 3
 // InGameTradeTextPointers dialog sets (TRADE_DIALOGSET_CASUAL=1/EVOLUTION=2/HAPPY=3 below,
 // matching TradeTextPointers1/2/3's real const order — Constants/script_constants.asm's
@@ -145,6 +171,58 @@ const DEX_ENTRIES = Object.keys(DEX).map((key, i) => ({
   num: i + 1,
   data: DEX[key],
 }));
+
+// ===== VERMILION GYM WIRING (Lt. Surge's trash-can puzzle) =====
+// engine/events/hidden_events/gym_statues.asm GymStatues — shared across every gym (only
+// VERMILION_GYM is in this cluster's scope; other gyms' statues are a separate, not-yet-wired
+// map elsewhere). Coordinates are hidden_events.asm's raw (x, y) call-site order verified
+// directly against this file's own already-working PC_TILES.REDS_HOUSE_2F entry
+// (OpenRedsPC's real hidden_event 0, 1 == {x:0,y:1} there, no swap) — NOT the "(y, x)" wording
+// in CLAUDE.md's general note, which describes the macro's internal db-emit order, not the
+// call-site argument order actually used everywhere in this codebase's own data. Real OG only
+// fires GymStatues when the player is facing UP (`cp SPRITE_FACING_UP / ret nz`) — checked at
+// the Z-press dispatch site, not here. <RIVAL>'s name isn't tracked anywhere in this port (no
+// customizable-rival-name system exists), so it's hardcoded to "BLUE" (Gen 1's default/iconic
+// rival name) rather than inventing new gameState just for 2 flavor statues.
+const GYM_STATUES = {
+  VERMILION_GYM: { city: 'VERMILION CITY', leader: 'LT.SURGE', badgeIndex: 2, tiles: [{ x: 3, y: 14 }, { x: 6, y: 14 }] },
+};
+function gymStatueLines(mapId, gameState) {
+  const g = GYM_STATUES[mapId];
+  if (!g) return null;
+  const hasBadge = (gameState?.badges ?? []).includes(g.badgeIndex);
+  return [
+    `${g.city}\nPOKÉMON GYM\nLEADER: ${g.leader}`,
+    hasBadge ? "WINNING TRAINERS:\nBLUE\n<PLAYER>" : "WINNING TRAINERS:\nBLUE",
+  ];
+}
+
+// engine/events/hidden_events/vermilion_gym_trash.asm — the real trash-can switch puzzle. 15
+// cans in a 5-col(x=1,3,5,7,9) x 3-row(y=7,9,11) grid (data/events/hidden_events.asm
+// hidden_events_for VERMILION_GYM); index = colIdx*3 + rowIdx matching GymTrashCans' declared
+// order exactly (index 0 at (1,7), 1 at (1,9), 2 at (1,11), 3 at (3,7), ... 14 at (9,11)).
+// PrintTrashText (6,1) is a SEPARATE, always-empty decorative can near Lt.Surge — flavor only,
+// no puzzle logic, wired via OBJECT_TEXT instead (see below).
+const GYM_TRASH_CANS = [
+  { x: 1, y: 7 }, { x: 1, y: 9 }, { x: 1, y: 11 },
+  { x: 3, y: 7 }, { x: 3, y: 9 }, { x: 3, y: 11 },
+  { x: 5, y: 7 }, { x: 5, y: 9 }, { x: 5, y: 11 },
+  { x: 7, y: 7 }, { x: 7, y: 9 }, { x: 7, y: 11 },
+  { x: 9, y: 7 }, { x: 9, y: 9 }, { x: 9, y: 11 },
+];
+function gymTrashCanIndexAt(mapId, x, y) {
+  if (mapId !== 'VERMILION_GYM') return -1;
+  return GYM_TRASH_CANS.findIndex(c => c.x === x && c.y === y);
+}
+// Text transcribed from data/text/text_2.asm (_VermilionGymTrashText/SuccessText1/SuccessText3/
+// FailText) — outcome strings match handleGymTrashCan's return value in PokeredApp.jsx exactly.
+const GYM_TRASH_TEXT = {
+  no_effect:      ["Nope, there's\nonly trash here."],
+  already_solved: ["Nope, there's\nonly trash here."],
+  first_opened:   ["Hey! There's a\nswitch under the\ntrash!\nTurn it on!", "The 1st electric\nlock opened!"],
+  second_opened:  ["The 2nd electric\nlock opened!", "The motorized door\nopened!"],
+  reset_fail:     ["Nope! There's\nonly trash here.\nHey! The electric\nlocks were reset!"],
+};
 
 // Game Boy native resolution — CSS handles 3x scaling
 const TILE = 8;       // pixels per RAW tile — used only for block/tileset addressing and rendering.
@@ -237,7 +315,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -780,11 +858,29 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   // switch fully to the direct/no-offset tile) were already tried and rejected long ago —
   // they broke lab/gate/pokecenter badly.
   function isWalkable(tx, ty) {
+    const ms = mapStateRef.current;
+    // VERMILION_GYM trash-can puzzle door (engine/events/hidden_events/vermilion_gym_trash.asm
+    // VermilionGymSetDoorTile): real OG dynamically patches a "double door" tile to "clear
+    // floor" only once EVENT_2ND_LOCK_OPENED is set — a runtime VRAM tile overwrite this port's
+    // static block-based game_data.json can't represent directly (VermilionGym.blk's own baked
+    // block at this position is already plain floor, block ID 5 — decoded directly from the
+    // .blk/.bst data — so without this override the "door" would be silently open from turn
+    // one, and the whole puzzle would gate nothing). Narrow, additive, single-map override
+    // (not a general isWalkable change) — the only structural chokepoint in the whole room:
+    // metatile x∈{4,5}, y∈{4,5} (block row 2 / col 2 of VermilionGym.blk) is the sole 2-wide
+    // corridor connecting the puzzle floor to Lt.Surge's platform; every other path in the room
+    // is either open floor or a permanent wall post, confirmed via a full raw-tile walkability
+    // dump of the map before landing this. Blocks in both directions until solved; once
+    // EVENT_2ND_LOCK_OPENED is set, this override no longer applies and the tile's already-open
+    // floor data takes over, matching OG's real "door opened!" outcome with zero extra state.
+    if (ms?.mapId === 'VERMILION_GYM' && (tx === 4 || tx === 5) && (ty === 4 || ty === 5)
+        && !hasEvent(gsRef.current, 'EVENT_2ND_LOCK_OPENED')) {
+      return false;
+    }
     // Callers pass logical (metatile-unit) coordinates; everything below this line is
     // proven-correct RAW-TILE-unit logic (unchanged since before the coordinate refactor) — so
     // convert once here, at the boundary, rather than touching any of the logic beneath it.
     tx *= 2; ty *= 2;
-    const ms = mapStateRef.current;
     if (!ms) return false;
     const bx = Math.floor(tx / 4), by = Math.floor(ty / 4);
     if (bx < 0 || by < 0 || bx >= ms.mapInfo.w || by >= ms.mapInfo.h) return false;
@@ -1052,6 +1148,25 @@ const OUTDOOR = ['overworld', 'plateau'];
       npcLivePosRef.current = new Map();
       hydrateBoulderPositions(mapId);
       boulderPushAttemptRef.current = { id: null, dir: null };
+
+      // ===== SS ANNE DEPARTURE (scripts/VermilionDock.asm) =====
+      // Real OG: after getting HM01/Cut from the Captain (EVENT_GOT_HM01, see the
+      // SS_ANNE_CAPTAINS_ROOM:1 dialogue block) and walking back out through the dock, an
+      // elaborate one-time cutscene plays (smokestack animation, ship visibly sails away, horn
+      // sound) before setting EVENT_SS_ANNE_LEFT — which then gates the sailor's dialogue and
+      // blocks re-entry (VermilionCity.asm). This port has no screen-scroll/sprite-animation
+      // primitive to reproduce that cutscene (same simplification class as every other elaborate
+      // one-shot animated sequence already in this file) — the functional end-state (ship gone,
+      // EVENT_SS_ANNE_LEFT set) is applied directly the moment the player next loads
+      // VERMILION_DOCK already holding HM01, no smoke puffs. Not conditioned on "coming from the
+      // ship" specifically: VERMILION_DOCK only connects to VERMILION_CITY and SS_ANNE_1F, and
+      // the ONLY way to hold EVENT_GOT_HM01 at all is to have already been inside the ship's
+      // Captain's Room, so the first load with that flag set is always the disembark — safe and
+      // idempotent (hasEvent guards against re-firing on later dock visits).
+      if (mapId === 'VERMILION_DOCK' && onSetEvent &&
+          hasEvent(gsRef.current, 'EVENT_GOT_HM01') && !hasEvent(gsRef.current, 'EVENT_SS_ANNE_LEFT')) {
+        onSetEvent('EVENT_SS_ANNE_LEFT');
+      }
 
       // Route 22 Rival1 exit walk (real OG Route22Rival1AfterBattleScript/Route22MoveRival1) —
       // plays once, the first time this map (re)loads after he's been beaten (covers both the
@@ -1625,8 +1740,17 @@ const OUTDOOR = ['overworld', 'plateau'];
         setDialogue({ lines: ["The GYM's doors\nare locked..."], idx: 0, action: null });
         return;
       }
-      // SS Anne hard gate — requires S.S.TICKET to board (VermilionCitySailor1Script)
-      if (warp.dest === 'SS_ANNE_BOW') {
+      // SS Anne hard gate — requires S.S.TICKET to board (VermilionCitySailor1Script /
+      // VermilionCityDefaultScript's auto-triggered (18,30) check). REAL OG gates this at the
+      // actual boarding point — VERMILION_DOCK's warp onto the ship (dest SS_ANNE_1F) — traced
+      // directly against scripts/VermilionCity.asm: the sailor NPC guarding the dock corridor
+      // and the coordinate-triggered "not facing him" auto-check both fire BEFORE ever reaching
+      // the ship, checked via GetQuantityOfItemInBag(S_S_TICKET). scripts/SSAnneBow.asm (traced
+      // in full) has ZERO ticket-related logic — SS_ANNE_BOW was the gate location a prior
+      // session picked, which doesn't correspond to anything in the real OG script; keeping that
+      // check too (harmless, never reachable without already having passed this one first) while
+      // adding the entrance itself so the block actually matches where OG places it.
+      if (warp.dest === 'SS_ANNE_1F' || warp.dest === 'SS_ANNE_BOW') {
         const hasTicket = (gameState?.items ?? []).some(it => it.name === 'S_S_TICKET');
         if (!hasTicket) {
           setDialogue({ lines: ["Welcome to S.S.\nANNE!", "Excuse me, do you\nhave a ticket?", "<PLAYER> doesn't\nhave the needed\nS.S.TICKET.", "Sorry!"], idx: 0, action: null });
@@ -1951,6 +2075,34 @@ function notifyPosition() {
       { x: 3, y: 5, text: "There's a SNES hooked up to the TV!" },
       // Wall / right side
       { x: 7, y: 1, text: "A bookshelf full of POKÉMON guides." },
+    ],
+    // Pokecenter "bench guy" (engine/events/hidden_events/bench_guys.asm PrintBenchGuyText) —
+    // shared function across every Pokecenter in the game, always at raw (0,4); only
+    // VERMILION_POKECENTER is in this cluster's scope. Real OG requires the player to be
+    // FACING UP to trigger this (SPRITE_FACING_UP in hidden_events.asm) — same simplification
+    // as GymStatues below (not separately re-checked here; any approach that reaches this
+    // blocked tile triggers it, matching how every other OBJECT_TEXT entry in this file already
+    // ignores facing direction). Text transcribed from data/text/text_2.asm
+    // _VermilionPokecenterGuyText.
+    VERMILION_POKECENTER: [
+      { x: 0, y: 4, text: "It is true that a higher level POKÉMON will be more powerful... But, all POKÉMON will have weak points against specific types. So, there is no universally strong POKÉMON." },
+    ],
+    // SS Anne Kitchen's 2 decorative trash cans (data/events/hidden_events.asm
+    // hidden_events_for SS_ANNE_KITCHEN: PrintTrashText at (13,5) and (13,7) — flavor only, not
+    // part of the Vermilion Gym puzzle mechanism (that's a separate function, same name,
+    // different map). The kitchen's 3rd hidden_event (HiddenItems GREAT_BALL at (13,9)) already
+    // flows through the generic HIDDEN_ITEMS mechanism with zero changes needed — see the
+    // Z-press dispatch chain's hiddenEntry lookup.
+    SS_ANNE_KITCHEN: [
+      { x: 13, y: 5, text: "Nope, there's only trash here." },
+      { x: 13, y: 7, text: "Nope, there's only trash here." },
+    ],
+    // VERMILION_GYM's decorative (non-puzzle) trash can — data/events/hidden_events.asm
+    // PrintTrashText at (6,1), distinct from the 15 real GymTrashScript switches (see
+    // GYM_TRASH_CANS/handleGymTrashCan above/below). Text: data/text/text_2.asm
+    // _VermilionGymTrashText.
+    VERMILION_GYM: [
+      { x: 6, y: 1, text: "Nope, there's only trash here." },
     ],
   };
 
@@ -2879,21 +3031,86 @@ function notifyPosition() {
         setDialogue({ lines: ["CAPTAIN: Whew!", "Now that I'm not\nsick any more, I\nguess it's time."], idx: 0, action: null });
       } else {
         if (onPickUpItem) onPickUpItem(npcTrainerId(ms.mapId, npc), 'HM06');
+        // EVENT_GOT_HM01 (scripts/SSAnneCaptainsRoom.asm SetEvent EVENT_GOT_HM01) — real OG uses
+        // this same flag to gate the dock's ship-departure sequence (scripts/VermilionDock.asm
+        // `CheckEventReuseHL EVENT_GOT_HM01 / ret z`, see loadMap's VERMILION_DOCK block for the
+        // simplified functional equivalent of that cutscene). Previously never set anywhere in
+        // this port, so the ship could never "leave" — found while tracing VermilionDock.asm for
+        // this cluster.
+        if (onSetEvent) onSetEvent('EVENT_GOT_HM01');
         setDialogue({ lines: ["CAPTAIN: Ooargh...\nI feel hideous...\nUrrp! Seasick...", "CAPTAIN: Whew!\nThank you! I\nfeel much better!", "You want to see\nmy CUT technique?", "<PLAYER> got\nHM01!"], idx: 0, action: null });
       }
       return;
     }
 
-    // Vermilion's Old Rod fishing guru — first fishing rod, real one-time gift.
+    // ===== DAY CARE WIRING =====
+    // scripts/Daycare.asm DaycareGentlemanText — Gen 1's Day Care has NO breeding (that's
+    // Gen 2+); it just levels up ONE deposited Pokémon over real steps taken (growDaycareMon is
+    // called from every completed overworld step below, regardless of current map — real OG
+    // increments wDayCareMonExp unconditionally on every step too) for a per-level fee charged
+    // on withdrawal. Real OG shows the growth-status text (grew N levels / hasn't grown at all)
+    // and offers withdrawal EVERY visit while a mon is boarded, not just once — replicated here
+    // exactly the same way (there's no "already checked this session" gate).
+    if (here === 'DAYCARE:1') {
+      const dayCare = gameState?.dayCare;
+      const party = gameState?.party ?? [];
+      if (dayCare) {
+        const species = dayCare.mon.species.replace(/_/g, ' ');
+        const levelsGrown = dayCare.mon.level - dayCare.boxLevel;
+        const growthLine = levelsGrown > 0
+          ? `Your ${species} is\ngetting stronger!\nIt grew ${levelsGrown}\nlevel${levelsGrown > 1 ? 's' : ''}!`
+          : `Your ${species}\nhasn't grown at\nall in the time\nI've had it.`;
+        if (party.length >= 6) {
+          setDialogue({ lines: [growthLine, "Oh, but your party\nis full right now.\nI'll keep looking\nafter it for you."], idx: 0, action: null });
+          return;
+        }
+        const cost = daycareCost(levelsGrown);
+        const canAfford = (gameState?.money ?? 0) >= cost;
+        setDialogue({
+          lines: [growthLine, `That will be\n¥${cost}, then.\nShall I return\nyour ${species}?`],
+          idx: 0, action: null,
+          yesNo: {
+            onYes: canAfford
+              ? { lines: [`<PLAYER> paid\n¥${cost}.`, `Here's your\n${species} back!`], action: 'DAYCARE_WITHDRAW_YES' }
+              : { lines: ["You don't have\nenough money for\nthat, I'm afraid."] },
+            onNo: { lines: ["OK, I'll continue\nraising it, then."] },
+          },
+        });
+        return;
+      }
+      setDialogue({
+        lines: ["I raise POKéMON\nfor trainers.", "Would you like me\nto raise a\nPOKéMON for you?"],
+        idx: 0, action: null,
+        yesNo: {
+          onYes: party.length <= 1
+            ? { lines: ["That's your only\nPOKéMON! I can't\ntake your only\none!"] }
+            : buildDaycareDepositPrompt(party, 0),
+          onNo: { lines: ["OK, come back if\nyou change your\nmind."] },
+        },
+      });
+      return;
+    }
+
+    // Vermilion's Old Rod fishing guru (scripts/VermilionOldRodHouse.asm) — real OG asks a
+    // genuine Yes/No ("Do you like to fish?") before giving the rod, with a real "refused"
+    // branch text if you say no (VermilionOldRodHouseFishingGuruThatsSoDisappointingText) — this
+    // was previously a talk-equals-yes auto-grant, the SAME simplification class the user
+    // already explicitly rejected once this session for the Mt Moon Magikarp salesman (see that
+    // block's own comment) — fixed the same way here: a real yesNo prompt via chooseYesNo.
     if (here === 'VERMILION_OLD_ROD_HOUSE:1') {
       const giftId = npcTrainerId(ms.mapId, npc);
       const hasRod = (gameState?.items ?? []).some(it => it.name === 'OLD_ROD');
       if (pickedUpRef.current.has(giftId) || hasRod) {
-        setDialogue({ lines: ["Fishing makes for\na relaxing day."], idx: 0, action: null });
+        setDialogue({ lines: ["Hello there,\n<PLAYER>!", "How are the fish\nbiting?"], idx: 0, action: null });
       } else {
-        pickedUpRef.current.add(giftId);
-        if (onPickUpItem) onPickUpItem(giftId, 'OLD_ROD');
-        setDialogue({ lines: ["Do you like\nfishing?", "Here, take this\nOLD ROD."], idx: 0, action: null });
+        setDialogue({
+          lines: ["I'm the FISHING\nGURU!", "I simply Looove\nfishing!", "Do you like to\nfish?"],
+          idx: 0, action: null, giftId,
+          yesNo: {
+            onYes: { lines: ["Grand! I like\nyour style!", "Take this and\nfish, young one!", "<PLAYER> received\nan OLD ROD!"], action: 'GIVE_OLD_ROD' },
+            onNo: { lines: ["Oh... That's so\ndisappointing..."] },
+          },
+        });
       }
       return;
     }
@@ -3142,6 +3359,14 @@ function notifyPosition() {
           pickedUpRef.current.add(prev.giftId);
           onBuyMagikarp(prev.giftId);
         }
+        // Vermilion Old Rod fishing guru's real Yes/No gift (see the VERMILION_OLD_ROD_HOUSE:1
+        // dialogue block) — a plain one-time item grant, same giftId/pickedUpRef gating as every
+        // other single-NPC gift in this file, just deferred behind a real yes/no instead of
+        // fired immediately at dialogue-build time.
+        if (prev.action === 'GIVE_OLD_ROD' && onPickUpItem && prev.giftId) {
+          pickedUpRef.current.add(prev.giftId);
+          onPickUpItem(prev.giftId, 'OLD_ROD');
+        }
         if (prev.action === 'BUY_VENDING' && onBuyItem && prev.buyItem && prev.buyPrice) {
           onBuyItem(prev.buyItem, prev.buyPrice);
         }
@@ -3171,6 +3396,16 @@ function notifyPosition() {
             const name = window.prompt('What should we name it? (max 10 characters)');
             if (name && name.trim()) onRenameMon(0, name.trim());
           }, 50);
+        }
+        // ===== DAY CARE WIRING ===== (see the DAYCARE:1 startDialogue block for the full flow —
+        // HM-check/affordability are precomputed there when the prompt is built, since nothing
+        // else can change party/money mid-dialogue in this single-player port, so by the time
+        // either of these fires the outcome is already guaranteed).
+        if (prev.action === 'DAYCARE_DEPOSIT' && onDaycareDeposit && prev.depositIdx != null) {
+          onDaycareDeposit(prev.depositIdx);
+        }
+        if (prev.action === 'DAYCARE_WITHDRAW_YES' && onDaycarePay) {
+          onDaycarePay(true);
         }
         if (prev.action === 'BILL_TRANSFORM') {
           const ms = mapStateRef.current;
@@ -3286,7 +3521,11 @@ function notifyPosition() {
       // TRADES WIRING) follow the same choice-then-prev fallback pattern as buyItem/buyPrice.
       return { lines: choice.lines, idx: 0, action: choice.action ?? null, giftId: prev.giftId,
         yesNo: choice.yesNo, buyItem: choice.buyItem ?? prev.buyItem, buyPrice: choice.buyPrice ?? prev.buyPrice,
-        fossilItem: choice.fossilItem ?? prev.fossilItem, tradeKey: choice.tradeKey ?? prev.tradeKey };
+        fossilItem: choice.fossilItem ?? prev.fossilItem, tradeKey: choice.tradeKey ?? prev.tradeKey,
+        // DAY CARE WIRING: depositIdx is set directly on the terminal choice that fires
+        // 'DAYCARE_DEPOSIT' (see buildDaycareDepositPrompt) — no further chaining needs it, so
+        // no prev-fallback is needed the way buyItem/tradeKey have, but harmless to include.
+        depositIdx: choice.depositIdx ?? prev.depositIdx };
     });
   }
 
@@ -3623,6 +3862,10 @@ function notifyPosition() {
         // "WINNING TRAINERS: <RIVAL>", plus "<PLAYER>" appended once the player holds the
         // matching badge. This port has no rival-nickname tracking (see the Champion's Room
         // text elsewhere), so uses the canonical "BLUE" like every other rival reference.
+        // NOTE: kept as its own hardcoded branch (not yet folded into the generic GYM_STATUES
+        // table below) — see GYM_STATUES/GYM_STATUE_TILES for the two OTHER gyms' independently
+        // built equivalents; consolidating all gym-statue handling into one shared table is a
+        // flagged cleanup item, not done in this merge to avoid touching verified-working code.
         if (ms?.mapId === 'CERULEAN_GYM' && p.dir === DIR_UP &&
             (fx === 3 || fx === 6) && fy === 11) {
           const hasBadge = (gameState?.badges ?? []).includes(1); // Misty = badgeIndex 1 (CASCADE)
@@ -3631,6 +3874,27 @@ function notifyPosition() {
             : ["CERULEAN POKéMON\nGYM\nLEADER: MISTY", "WINNING TRAINERS:\nBLUE"];
           setDialogue({ lines, idx: 0, action: null });
           return;
+        }
+        // ===== VERMILION GYM WIRING =====
+        // GymStatues (engine/events/hidden_events/gym_statues.asm) — real OG only fires when the
+        // player is facing UP (`cp SPRITE_FACING_UP / ret nz`); every other approach direction
+        // falls through to ordinary object text (there is none registered for these tiles, so
+        // nothing shows, matching OG's silent `ret`).
+        if (ms && GYM_STATUES[ms.mapId]?.tiles.some(t => t.x === fx && t.y === fy) && p.dir === DIR_UP) {
+          const lines = gymStatueLines(ms.mapId, gsRef.current);
+          if (lines) { setDialogue({ lines, idx: 0, action: null }); return; }
+        }
+        // GymTrashScript (engine/events/hidden_events/vermilion_gym_trash.asm) — the real
+        // trash-can switch puzzle. No facing restriction in OG (the hidden_event's 4th argument
+        // is the can INDEX here, not a SPRITE_FACING_* constant, unlike GymStatues/PrintTrashText
+        // above/below) — any direction that reaches the can triggers it.
+        if (ms) {
+          const canIdx = gymTrashCanIndexAt(ms.mapId, fx, fy);
+          if (canIdx >= 0 && onGymTrashCan) {
+            const outcome = onGymTrashCan(canIdx);
+            setDialogue({ lines: GYM_TRASH_TEXT[outcome] ?? GYM_TRASH_TEXT.no_effect, idx: 0, action: null });
+            return;
+          }
         }
         // Hidden items (Itemfinder-findable ground items, data/events/hidden_item_coords.asm).
         // OG's CheckForHiddenEvent (home/hidden_events.asm) checks this against the tile the
@@ -3809,6 +4073,11 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
               const res = onPoisonTick();
               if (res?.whiteout && res.dest) { pendingMapRef.current = res.dest; transitionRef.current = 1; }
             }
+            // ===== DAY CARE WIRING ===== — real OG increments wDayCareMonExp on every single
+            // completed step, unconditionally, regardless of current map or the 4-step poison
+            // cadence above (see scripts/Daycare.asm's growth-on-withdraw read of this counter,
+            // ported as growDaycareMon/handleDaycareStep — a no-op whenever no mon is boarded).
+            if (onDaycareStep) onDaycareStep();
             // Only check tile events if not already fading to a new map
             if (transitionRef.current === 0) fn.checkNewTile();
           }

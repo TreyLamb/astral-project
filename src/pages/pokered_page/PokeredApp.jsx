@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { saveGame, healParty, createPlayerPokemon, ITEM_EFFECTS, tryEvolveWithStone, applyXP, xpForLevel, finalizeEvolution, saveExtraAsNewSlot, newSlotId, DARK_MAPS, FLY_DESTINATIONS, hasEvent, setEvent, clearEvent, FOSSIL_REVIVALS, FOSSIL_REVIVE_LEVEL, tryInGameTrade } from './pokeredGameState';
+import { saveGame, healParty, createPlayerPokemon, ITEM_EFFECTS, tryEvolveWithStone, applyXP, xpForLevel, finalizeEvolution, saveExtraAsNewSlot, newSlotId, DARK_MAPS, FLY_DESTINATIONS, hasEvent, setEvent, clearEvent, FOSSIL_REVIVALS, FOSSIL_REVIVE_LEVEL, tryInGameTrade, HM_MOVE_NAMES, growDaycareMon, daycareCost } from './pokeredGameState';
 import { TRAINER_META } from './trainerMeta';
 import { TRAINER_PARTIES } from './trainerParties';
 import PokeredStartScreen from './PokeredStartScreen';
@@ -666,7 +666,141 @@ export default function PokeredApp() {
       if (mapId === 'CINNABAR_ISLAND') {
         next = clearEvent(next, 'EVENT_LAB_STILL_REVIVING_FOSSIL');
       }
+      // Vermilion Gym trash-can puzzle (scripts/VermilionCity.asm .setFirstLockTrashCanIndex,
+      // gated on VermilionCity_Script's BIT_CUR_MAP_LOADED_1 — real OG re-rolls which trash can
+      // holds the 1st lock EVERY time VERMILION_CITY (re)loads, but only while the 1st lock
+      // hasn't been found yet; once EVENT_1ST_LOCK_OPENED is set, OG never touches
+      // wFirstLockTrashCanIndex again from this trigger (only the "wrong 2nd guess" reset inside
+      // the puzzle itself re-rolls it after that point — see PokeredOverworld.jsx's
+      // handleGymTrashCan-equivalent). `and $e` masks to an EVEN index (0,2,4,6,8,10,12,14) —
+      // preserved exactly, not just "any 0-14".
+      if (mapId === 'VERMILION_CITY' && !hasEvent(next, 'EVENT_1ST_LOCK_OPENED')) {
+        next = { ...next, gymTrashFirstLockIdx: Math.floor(Math.random() * 8) * 2 };
+      }
       return next;
+    });
+  }
+
+  // ===== VERMILION GYM TRASH-CAN PUZZLE =====
+  // engine/events/hidden_events/vermilion_gym_trash.asm GymTrashScript, ported 1:1 including the
+  // real EVENT_1ST_LOCK_OPENED/EVENT_2ND_LOCK_OPENED state machine and the GymTrashCans
+  // candidate table. NOT replicated: the ROM's own documented bug where an unmasked-zero Random
+  // result reads garbage memory and lets trash can 0 hold the 2nd lock regardless of the 1st —
+  // that's undefined/corrupted-memory behavior on real hardware, not a clean alternate outcome,
+  // so this picks uniformly from the intended candidate list instead (the behavior the mask
+  // table was clearly designed to produce). Returns which branch fired so
+  // PokeredOverworld.jsx can show the exact matching OG text for that outcome.
+  const GYM_TRASH_CANDIDATES = [
+    [1, 3], [0, 2, 4], [1, 5], [0, 4, 6], [1, 3, 5, 7],
+    [2, 4, 8], [3, 7, 9], [4, 6, 8, 10], [5, 7, 11], [6, 10, 12],
+    [7, 9, 11, 13], [8, 10, 14], [9, 13], [10, 12, 14], [11, 13],
+  ];
+  function handleGymTrashCan(canIndex) {
+    let outcome = 'no_effect';
+    setGameState(prev => {
+      if (!prev) return prev;
+      if (hasEvent(prev, 'EVENT_2ND_LOCK_OPENED')) { outcome = 'already_solved'; return prev; }
+      let next = prev;
+      if (!hasEvent(prev, 'EVENT_1ST_LOCK_OPENED')) {
+        const firstIdx = prev.gymTrashFirstLockIdx ?? 0;
+        if (canIndex !== firstIdx) { outcome = 'no_effect'; return prev; } // wrong can: flavor text only, no state change (real OG)
+        next = setEvent(next, 'EVENT_1ST_LOCK_OPENED');
+        const candidates = GYM_TRASH_CANDIDATES[firstIdx] ?? [];
+        const secondIdx = candidates[Math.floor(Math.random() * candidates.length)] ?? null;
+        next = { ...next, gymTrashSecondLockIdx: secondIdx };
+        outcome = 'first_opened';
+      } else {
+        const secondIdx = prev.gymTrashSecondLockIdx;
+        if (canIndex === secondIdx) {
+          next = setEvent(next, 'EVENT_2ND_LOCK_OPENED');
+          outcome = 'second_opened';
+        } else {
+          // Wrong 2nd guess resets BOTH locks and re-rolls the 1st (real OG: `ResetEvent
+          // EVENT_1ST_LOCK_OPENED` + `call Random / and $e`).
+          next = clearEvent(next, 'EVENT_1ST_LOCK_OPENED');
+          next = { ...next, gymTrashFirstLockIdx: Math.floor(Math.random() * 8) * 2, gymTrashSecondLockIdx: null };
+          outcome = 'reset_fail';
+        }
+      }
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+    return outcome;
+  }
+
+  // ===== DAY CARE WIRING =====
+  // scripts/Daycare.asm — Gen 1's Day Care has NO breeding (that's Gen 2+); it just levels up
+  // ONE deposited Pokémon over real steps taken (see growDaycareMon's step-hook call site in
+  // PokeredOverworld.jsx) for a per-level fee, charged on withdrawal. `boxLevel` is this port's
+  // name for OG's wDayCareMonBoxLevel — the level snapshot the current growth/cost is measured
+  // against; only advances when the player actually withdraws (paying or "no room"), matching
+  // OG's real leaveMonInDayCare behavior of rewinding it back to its pre-visit value on decline
+  // (see PokeredOverworld.jsx's DAYCARE:1 dialogue block for the full conversation flow this
+  // feeds). This port has no generic party-grid-picker widget for deposit's "which mon" choice —
+  // ✂️ simplification: chains a Yes/No per party member instead (same precedent as
+  // buildFossilOfferPrompt above), not a flattened auto-pick.
+  function handleDaycareDeposit(partyIdx) {
+    let result = { ok: false, reason: 'no_effect' };
+    setGameState(prev => {
+      if (!prev || prev.dayCare) return prev;
+      const mon = prev.party?.[partyIdx];
+      if (!mon) return prev;
+      if (prev.party.length <= 1) { result = { ok: false, reason: 'only_mon' }; return prev; }
+      if (mon.moves.some(m => HM_MOVE_NAMES.includes(m.name))) { result = { ok: false, reason: 'knows_hm' }; return prev; }
+      const party = prev.party.filter((_, i) => i !== partyIdx);
+      const next = { ...prev, party, dayCare: { mon, boxLevel: mon.level } };
+      result = { ok: true, reason: 'deposited', species: mon.species };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+    return result;
+  }
+
+  // PokeredOverworld reads gameState.dayCare + gameState.party.length directly to decide which
+  // branch/text to show (levelsGrown/cost/no-room are all pure reads, no mutation needed to
+  // compute them) and only calls this once the player actually answers the pay Yes/No — real OG
+  // (YesNoChoice before HasEnoughMoney) resolves the same way. `accept=false` covers both "said
+  // no" and the caller not even asking (no-room case) — either way the mon stays boarded and
+  // boxLevel is left untouched (see the class comment above for why that's correct, not a bug).
+  function handleDaycarePay(accept) {
+    let result = { ok: false, reason: 'no_effect' };
+    setGameState(prev => {
+      if (!prev?.dayCare) return prev;
+      const { mon, boxLevel } = prev.dayCare;
+      const levelsGrown = mon.level - boxLevel;
+      const cost = daycareCost(levelsGrown);
+      if (!accept) {
+        // Decline: mon stays boarded, boxLevel unchanged (real OG rewinds it to the pre-visit
+        // value, which is exactly "unchanged" here — see class comment above).
+        result = { ok: false, reason: 'declined' };
+        return prev;
+      }
+      if ((prev.money ?? 0) < cost) {
+        result = { ok: false, reason: 'not_enough_money' };
+        return prev;
+      }
+      const party = [...prev.party, mon];
+      const next = { ...prev, party, money: prev.money - cost, dayCare: null };
+      result = { ok: true, reason: 'withdrawn', species: mon.species };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+    return result;
+  }
+
+  // Step-based growth hook — see PokeredOverworld.jsx's per-completed-step handler. Fire-and-
+  // forget (no return value needed); real OG increments wDayCareMonExp on every single overworld
+  // step regardless of current map, so this is called unconditionally on every step, not just
+  // while standing on the DAYCARE map.
+  function handleDaycareStep() {
+    setGameState(prev => {
+      if (!prev?.dayCare?.mon) return prev;
+      const grown = growDaycareMon(prev.dayCare.mon, pokemonData);
+      if (grown === prev.dayCare.mon) return prev;
+      // Not autosaved every step (would thrash localStorage) — dayCare progress is saved
+      // whenever any other autosaving action fires, same tradeoff as ordinary walking-around
+      // position tracking elsewhere in this file.
+      return { ...prev, dayCare: { ...prev.dayCare, mon: grown } };
     });
   }
 
@@ -1342,6 +1476,10 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onGiveFossil={handleGiveFossil}
             onCollectFossilMon={handleCollectFossilMon}
             onDoTrade={handleDoTrade}
+            onGymTrashCan={handleGymTrashCan}
+            onDaycareDeposit={handleDaycareDeposit}
+            onDaycarePay={handleDaycarePay}
+            onDaycareStep={handleDaycareStep}
             gameState={gameState}
             isExtra={gameState.isExtra}
             speedMult={speedMult}
