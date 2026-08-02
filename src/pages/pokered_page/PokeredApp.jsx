@@ -155,6 +155,14 @@ export default function PokeredApp() {
         if (!items.some(it => it.name === 'HM06')) items = [...items, { name: 'HM06', count: 1 }];
       }
 
+      // Cerulean City's Rocket Thief (Phase 1 verification pass, 2026-08-02): OG's
+      // CeruleanCityRocketDefeatedScript hands back the stolen TM28 (Dig) on defeat — this port
+      // doesn't model individual TM items, so grant the shared HM06 move-teacher key item once
+      // instead, same substitution convention as the gym-leader TM rewards above.
+      if (wasTrainerVictory && trainerKey === 'Rocket' && trainerEncounter?.mapId === 'CERULEAN_CITY') {
+        if (!items.some(it => it.name === 'HM06')) items = [...items, { name: 'HM06', count: 1 }];
+      }
+
       let money = wasTrainerVictory ? (prev.money ?? 0) + (moneyWon ?? 0) : (prev.money ?? 0);
 
       // Whiteout (OG ResetStatusAndHalveMoneyOnBlackout + HandleBlackOut): all party

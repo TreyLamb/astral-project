@@ -253,6 +253,13 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   useEffect(() => { bikingRef.current = !!gameState?.isBiking; }, [gameState?.isBiking]);
   const surfingRef = useRef(!!gameState?.isSurfing);
   useEffect(() => { surfingRef.current = !!gameState?.isSurfing; }, [gameState?.isSurfing]);
+  // Pokemon Tower 5F's "Purified Zone" (scripts/PokemonTower5F.asm PokemonTower5FDefaultScript):
+  // tracks whether the player is CURRENTLY standing in the 4-tile safe room so wild encounters
+  // stay suppressed for the whole stay (OG's wStatusFlags4 BIT_NO_BATTLES) and the heal+message
+  // only fires once per entry (OG's CheckAndSetEvent EVENT_IN_PURIFIED_ZONE / ResetEvent on exit)
+  // — not a persistent save-file flag, purely transient per-visit state, reset the instant the
+  // player steps off any of the 4 trigger tiles.
+  const purifiedZoneRef = useRef(false);
   // Holds the stone item name while the player picks a target party member.
   const pendingStoneRef = useRef(null);
   // Holds state across the 3-step HM06 teach flow: move → party target → slot.
@@ -1536,6 +1543,24 @@ const OUTDOOR = ['overworld', 'plateau'];
       return;
     }
 
+    // Pokemon Tower 5F Purified Zone (scripts/PokemonTower5F.asm PokemonTower5FDefaultScript,
+    // PokemonTower5FPurifiedZoneCoords): a 2x2 safe room at (10,8)/(11,8)/(10,9)/(11,9). Real OG:
+    // on the tile-check that FIRST finds the player inside this coord array (CheckAndSetEvent
+    // returns z the first time), it fully heals the party and shows "Entered purified, protected
+    // zone! / <PLAYER>'s #MON are fully healed!" — every wild-encounter roll is also suppressed
+    // for the whole stay (BIT_NO_BATTLES), both reset the instant the player leaves the 4 tiles
+    // (see the wild-encounter roll below for the suppression half of this).
+    const inPurifiedZone = ms.mapId === 'POKEMON_TOWER_5F' &&
+      (p.x === 10 || p.x === 11) && (p.y === 8 || p.y === 9);
+    if (!inPurifiedZone) {
+      purifiedZoneRef.current = false;
+    } else if (!purifiedZoneRef.current) {
+      purifiedZoneRef.current = true;
+      if (onHealParty) onHealParty();
+      setDialogue({ lines: ["Entered purified,\nprotected zone!", "<PLAYER>'s POKéMON\nare fully healed!"], idx: 0, action: null });
+      return;
+    }
+
     // Warp — gated by WARP_DIR (see convention comment near the top of this file).
     // facingMatchesDir handles the "no dir field" / WARP_DIR_ANY (0) cases itself,
     // so we don't shortcut on falsy here (0 is falsy but is a real, meaningful value).
@@ -1578,7 +1603,10 @@ const OUTDOOR = ['overworld', 'plateau'];
     const isSurfingHere = surfingRef.current && tileId === 20;
     const wildTable = isSurfingHere ? ms.mapInfo.wildWater : ms.mapInfo.wild;
     const onEncounterTile = isSurfingHere ? true : (!grassTileList ? true : grassTileList.includes(tileId));
-    if (wildTable && onEncounterTile && Math.random() * 256 < wildTable.rate) {
+    // Pokemon Tower 5F Purified Zone suppresses ALL wild encounters while the player is standing
+    // in it (OG's BIT_NO_BATTLES, set/cleared alongside purifiedZoneRef above).
+    const battlesSuppressed = ms.mapId === 'POKEMON_TOWER_5F' && purifiedZoneRef.current;
+    if (!battlesSuppressed && wildTable && onEncounterTile && Math.random() * 256 < wildTable.rate) {
       const pool = wildTable.pokemon;
       const pick = pool[Math.floor(Math.random() * pool.length)];
       // Repel suppresses only encounters with a wild mon weaker than the lead party
@@ -1762,26 +1790,34 @@ function notifyPosition() {
     }
     if (mapId === 'CERULEAN_CITY' && npc.trainerClass === 'Rival1' && npc.partyIdx === 2 &&
         isRivalBeaten(mapId, npc, beatenTrainers)) return true;
-    // Cerulean Trashed House door guards (28,12)+(27,12), kept hidden to keep the door passable.
-    // CORRECTED 2026-07-20 by re-tracing scripts/CeruleanCity.asm: the prior comment's premise —
-    // a "guard swap gated on the Bill's House SS-Ticket sequence" — is NOT real. OG's CeruleanCity
-    // map script only ever Hide/ShowObjects the RIVAL (TOGGLE_CERULEAN_RIVAL); the two guards are
-    // plain, always-present flavor NPCs (CeruleanCityGuardText, wired at CERULEAN_CITY:6/:11 below)
-    // with NO event gate anywhere. So this is a COLLISION/geometry issue, not a story gate: guard
-    // (27,12) sits directly south of the trashed-house door warp (27,11) — the door's only open
-    // approach — so showing it blocks entry. The correct fix is a map-reachability tweak verified
-    // in a live playthrough, NOT an invented flag gate. Until that live check, keep them hidden so
-    // the door stays passable. ✂️ door-geometry fix deferred to live testing.
-    if (mapId === 'CERULEAN_CITY' && npc.sprite === 'guard' &&
-        ((npc.x === 28 && npc.y === 12) || (npc.x === 27 && npc.y === 12))) return true;
+    // Cerulean Trashed House door guards (28,12)=GUARD_1, (27,12)=GUARD_2.
+    // RE-CORRECTED 2026-08-02 (Phase 1 verification pass): the 2026-07-20 comment's "no event
+    // gate anywhere, this is pure geometry" premise was itself wrong — re-tracing OG found the
+    // real gate. data/maps/toggleable_objects.asm: CERULEANCITY_GUARD1 = OFF, CERULEANCITY_GUARD2
+    // = ON by default. Both CeruleanHideRocket (scripts/CeruleanCity_2.asm, fired by
+    // CeruleanCityRocketDefeatedScript after beating the Rocket Thief) AND
+    // BillsHouseBillSSTicketText (scripts/BillsHouse.asm, fired when Bill hands over the
+    // S.S.TICKET) independently do ShowObject(GUARD_1) + HideObject(GUARD_2) — whichever happens
+    // first unlocks the door. GUARD_2 (27,12) sits directly south of the trashed-house door warp
+    // (27,11), its only approach tile, so its default-ON state is a genuine, intentional OG
+    // blocker until one of those two events fires — not an accident to hide unconditionally.
+    if (mapId === 'CERULEAN_CITY' && npc.sprite === 'guard' && (npc.x === 28 || npc.x === 27) && npc.y === 12) {
+      const rocketNpc = npcs.find(n => n.trainerClass === 'Rocket');
+      const rocketBeaten = rocketNpc && (beatenTrainers ?? []).includes(npcTrainerId(mapId, rocketNpc));
+      const hasSsTicket = (gsRef.current?.items ?? []).some(it => it.name === 'S_S_TICKET');
+      const unlocked = rocketBeaten || hasSsTicket;
+      if (npc.x === 27) return unlocked;   // GUARD_2: default shown (blocks door), hidden once unlocked
+      return !unlocked;                     // GUARD_1: default hidden, shown once unlocked
+    }
     // Cerulean Rocket Thief (30,8): OG (scripts/CeruleanCity.asm CeruleanCityRocketDefeatedScript,
     // line 23-36) does SetEvent EVENT_BEAT_CERULEAN_ROCKET_THIEF + CeruleanHideRocket after defeat.
     // Hide him once beaten, mirroring the GAME_CORNER / POKEMON_TOWER_7F Rocket pattern below.
     // (Re-battle is already prevented by beatenTrainers; his flavor is CERULEAN_CITY:2 above. OG's
     // proximity-forced engage isn't ported — this engine has no per-tile auto-battle anywhere; the
-    // talk-to-trigger trainer battle is the established equivalent.) ✂️ OG also hands back the
-    // stolen TM28/DIG on defeat — not granted here: this port has no individual TM items and grants
-    // its single HM06 teacher elsewhere, and there's no post-battle per-trainer item hook.
+    // talk-to-trigger trainer battle is the established equivalent.) ✂️ deliberately kept as a
+    // documented limitation, not fixed this pass — a real per-tile forced-encounter system would
+    // need to be built engine-wide, out of scope for this fix. The TM28/DIG reward IS now granted
+    // on defeat (see handleBattleEnd), closing the other half of this gap.
     if (mapId === 'CERULEAN_CITY' && npc.trainerClass === 'Rocket' &&
         (beatenTrainers ?? []).includes(nid)) return true;
     if (mapId === 'SS_ANNE_2F' && npc.trainerClass === 'Rival2' && npc.partyIdx === 0 &&
