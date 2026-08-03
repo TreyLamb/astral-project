@@ -42,24 +42,12 @@ All commits are on `main`, in order:
   data-complete; Silph Co.'s 10 Card Key doors across 9 floors built from scratch; Fighting Dojo
   Hitmonlee/Hitmonchan gift wired) — this retry succeeded as a single agent (not 2 parallel)
 
-**Batch 4 is currently IN PROGRESS, uncommitted, in a live background agent + worktree:**
-- Cluster: "R12_15-R19_21-Seafoam-Cinnabar" (29 maps — Cinnabar Gym/Island, Pokemon Mansion
-  1F-B1F, Route 12-21, Seafoam Islands 1F-B4F)
-- Worktree: `c:\Projects\astral-project\.claude\worktrees\agent-a9ee53b20b9235ba7` on branch
-  `worktree-agent-a9ee53b20b9235ba7`, based on `main` commit `7b286db`
-- Scope given: Cinnabar Gym's quiz-gate puzzle (Blaine), Pokemon Mansion's cross-floor
-  generator/switch puzzle, Seafoam Islands' Articuno legendary encounter + Strength puzzle,
-  gym statues (reuse the existing `GYM_STATUES` table), various smaller items
-- **When resuming: check `git worktree list` first.** If that worktree still exists and has
-  uncommitted changes, review its diff (`git -C <worktree-path> status` /`diff`) the same way
-  every other batch this session was merged — generate a patch relative to its base commit,
-  `git apply --3way` it against current `main` (resolve any prop-list/table-consolidation
-  conflicts the same way earlier batches did — concatenate non-overlapping additions, don't
-  silently drop either side), run `npm run build` + `audit_map.py` for its 29 maps, then commit.
-  If the worktree is gone (agent also hit a usage-limit cutoff), the work needs to be redone —
-  either re-dispatch a single subagent for this same cluster, or do it directly (see the Batch 3
-  Safari Zone precedent in `PokeredOverworld.jsx`/`PokeredApp.jsx`/`PokeredBattle.jsx` for the
-  pattern of building a real subsystem when subagents keep failing).
+**Batch 4 — DONE, commit `fbb6fbb`.** The background agent hit the account usage limit mid-work
+(same as the 2 Batch 3 attempts), but this time its worktree survived with uncommitted progress
+intact — salvaged and merged after independent spot-verification (the Cinnabar Gym quiz-answer
+table required tracing `CinnabarGymQuiz_AskQuestion`'s actual comparison logic, not just the raw
+TRUE/FALSE constant names, to confirm it was correct). All 4 region-wiring batches (1-4) are now
+complete. **Phase 2 is fully done.**
 
 ### Phase 3 — NOT STARTED
 Per the plan: endgame (Zapdos/Articuno/Moltres/Mewtwo static encounters — note Zapdos itself was
