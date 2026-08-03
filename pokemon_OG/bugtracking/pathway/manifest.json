@@ -204,12 +204,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep FOUND AND FIXED a real gap: 3 unwired PrintBookcaseText hidden_events (facing-UP flavor text, engine/events/hidden_events/blues_room.asm) - now wired. Rest of map (Daisy's dialogue, Town Map gift) was already correctly wired from before this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -1626,12 +1626,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -1833,12 +1833,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -1919,12 +1919,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: script-checked for CheckEvent/branching logic beyond flat data (none found beyond what's already generically wired), audit_map.py clean (0 real FAILs, only the documented \u00d72 hidden-item false positive class where applicable)."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -1955,12 +1955,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep FOUND AND FIXED a real gap: the fossil sign at (7,7) (FuchsiaCityFossilSignText, scripts/FuchsiaCity.asm) branches on EVENT_GOT_DOME_FOSSIL/EVENT_GOT_HELIX_FOSSIL to show whichever fossil mon the player DOESN'T have - the generic bgEvents extraction had only captured the Omanyte branch as flat static text, which was WRONG for players who chose Helix Fossil (would see Omanyte info instead of Kabuto) or hadn't chosen either yet. Added a dynamic override ahead of the static objectText() fallback. This is exactly the class of silent gap the manifest system exists to catch - found via a full-game audit sweep of a map nobody had re-verified since before this session."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -1985,12 +1985,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: script-checked for CheckEvent/branching logic beyond flat data (none found beyond what's already generically wired), audit_map.py clean (0 real FAILs, only the documented \u00d72 hidden-item false positive class where applicable)."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -2061,12 +2061,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: script-checked for CheckEvent/branching logic beyond flat data (none found beyond what's already generically wired), audit_map.py clean (0 real FAILs, only the documented \u00d72 hidden-item false positive class where applicable)."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -2091,12 +2091,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: script-checked for CheckEvent/branching logic beyond flat data (none found beyond what's already generically wired), audit_map.py clean (0 real FAILs, only the documented \u00d72 hidden-item false positive class where applicable)."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -2121,12 +2121,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: script-checked for CheckEvent/branching logic beyond flat data (none found beyond what's already generically wired), audit_map.py clean (0 real FAILs, only the documented \u00d72 hidden-item false positive class where applicable)."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -3067,12 +3067,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -3139,12 +3139,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -3175,12 +3175,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -3211,12 +3211,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -3252,12 +3252,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -3288,12 +3288,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -3318,12 +3318,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -3364,12 +3364,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep FOUND AND FIXED a real gap: the Jigglypuff easter-egg NPC (scripts/PewterPokecenter.asm) had zero dialogue wired - now shows the real text via a per-instance here-branch (NOT a generic NPC_TEXT['fairy'] entry, since that sprite is reused for 6 unrelated NPCs elsewhere). The song+spin-animation flourish is explicitly deferred to the project's not-yet-started audio phase, documented not silently dropped."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -3394,12 +3394,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -3430,12 +3430,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -4021,12 +4021,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -4051,12 +4051,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -4419,12 +4419,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -4967,12 +4967,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: script-checked, 221 lines but 0 CheckEvent calls (trainer battle headers/text account for the length, no hidden branching found). audit_map.py clean."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -4997,12 +4997,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: script-checked for CheckEvent/branching logic beyond flat data (none found beyond what's already generically wired), audit_map.py clean (0 real FAILs, only the documented \u00d72 hidden-item false positive class where applicable)."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -5033,12 +5033,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: script-checked for CheckEvent/branching logic beyond flat data (none found beyond what's already generically wired), audit_map.py clean (0 real FAILs, only the documented \u00d72 hidden-item false positive class where applicable)."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -5063,12 +5063,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: script-checked for CheckEvent/branching logic beyond flat data (none found beyond what's already generically wired), audit_map.py clean (0 real FAILs, only the documented \u00d72 hidden-item false positive class where applicable)."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -5149,12 +5149,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: script-checked for CheckEvent/branching logic beyond flat data (none found beyond what's already generically wired), audit_map.py clean (0 real FAILs, only the documented \u00d72 hidden-item false positive class where applicable)."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -5185,12 +5185,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: script-checked for CheckEvent/branching logic beyond flat data (none found beyond what's already generically wired), audit_map.py clean (0 real FAILs, only the documented \u00d72 hidden-item false positive class where applicable)."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -5221,12 +5221,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: script-checked for CheckEvent/branching logic beyond flat data (none found beyond what's already generically wired), audit_map.py clean (0 real FAILs, only the documented \u00d72 hidden-item false positive class where applicable)."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -5323,12 +5323,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -5710,12 +5710,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -6225,12 +6225,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: script-checked for CheckEvent/branching logic beyond flat data (none found beyond what's already generically wired), audit_map.py clean (0 real FAILs, only the documented \u00d72 hidden-item false positive class where applicable)."
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -7780,12 +7780,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -8591,12 +8591,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -8647,12 +8647,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -8677,12 +8677,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -8707,12 +8707,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -8753,12 +8753,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -8794,12 +8794,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -8824,12 +8824,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -8860,12 +8860,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },
@@ -8896,12 +8896,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "orchestrator-phase3c-final-sweep",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Phase 3c final sweep: NOT a fresh full script-trace by this session's agents - this cluster was verified in the ORIGINAL pre-session project timeline (see SESSION_HANDOFF_2026-07-21.md: 'Pallet->Pewter: audited, matches OG'). This session's full-game audit_map.py --all sweep provided fresh mechanical confirmation (0 unexplained FAILs across this cluster after fixing the 2 real gaps below), which is real signal but not equivalent to a full per-map OG script re-trace. If this cluster is ever suspected of drift, treat this note as a flag to re-verify properly, not as equivalent-strength evidence to a cluster that got a full Batch pass this session."
       },
       "cluster": "Pallet-Route1-Viridian"
     },

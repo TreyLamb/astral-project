@@ -5627,6 +5627,23 @@ function notifyPosition() {
           setDialogue({ lines, idx: 0, action: null });
           return;
         }
+        // Fuchsia City fossil sign (7,7) — scripts/FuchsiaCity.asm FuchsiaCityFossilSignText
+        // branches on which fossil the player has (shows info for whichever one they DON'T
+        // have — the "wanted" one), or "..." if neither yet. The generic bgEvents extraction
+        // only captured one static branch (Omanyte) as flat text — wrong for players who chose
+        // Helix Fossil (should see Kabuto) or haven't chosen either yet — so this needs a
+        // dedicated dynamic override ahead of the static objectText() fallback below.
+        if (ms.mapId === 'FUCHSIA_CITY' && fx === 7 && fy === 7) {
+          const hasDome = hasEvent(gsRef.current, 'EVENT_GOT_DOME_FOSSIL');
+          const hasHelix = hasEvent(gsRef.current, 'EVENT_GOT_HELIX_FOSSIL');
+          const lines = hasDome
+            ? ["Name: OMANYTE", "A POKéMON that\nwas resurrected\nfrom a fossil."]
+            : hasHelix
+            ? ["Name: KABUTO", "A POKéMON that\nwas resurrected\nfrom a fossil."]
+            : ["..."];
+          setDialogue({ lines, idx: 0, action: null });
+          return;
+        }
         // Facing any other blocked tile — show object text
         const gd = gameDataRef.current;
         const walkSet = gd?.collision[ms.mapInfo.tileset] || [];
