@@ -25,7 +25,9 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
 - [x] Save / Load — multi-slot, export/import to file
 - [x] Debug overlays — warp highlight, position display
 - [x] Signs / background events — 70 maps with bg_events wired
-  - ⚠️ Elevators and prize vendors still placeholder text (no real logic)
+  - ✅ Elevators and prize vendors now have real logic (2026-08-02, this note was stale) —
+    `CELADON_MART_FLOORS`/`ROCKET_HIDEOUT_FLOORS`/`SILPH_CO_ELEVATOR_FLOORS` all feed a shared
+    `buildFloorPrompt()`; `PRIZE_VENDOR_1/2/3` feed `buildPrizePrompt()` with real coin-cost gating
   - ⚠️ Reds House 1F TV missing the "wrong side" text variant for other approach directions
 - [x] Vending machines — Celadon Mart Roof, real prices/purchase flow
 - [x] Kick-out door — step-out-from-door mechanic on indoor warps
@@ -124,8 +126,10 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
     point exists in OG data for it
 - [x] Pokédex screen — 151 entries, seen/caught tracking
 - [x] Level-up stat display (before→after stat delta in battle log)
-- [ ] Full keyboard-parity audit — PC screen and Shop screen confirmed mouse-only; other
-      screens not yet individually audited
+- [x] PC screen and Shop screen keyboard nav (2026-08-02, this note was stale) — `PokeredApp.jsx`
+      has real keydown handlers for both (`getPcRows()`/`activatePcRow`; shop BUY/SELL/QUIT nav +
+      Z-to-purchase), built alongside other work this session
+  - Other screens not yet individually audited for full keyboard parity
 
 ---
 

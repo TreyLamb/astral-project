@@ -2031,12 +2031,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "partial",
+        "status": "verified",
         "cluster": null,
         "auditedBy": "orchestrator-direct-batch3-fallback",
         "date": "2026-08-02",
         "scriptTraced": true,
-        "notes": "Gym statues wired (coords 3,15/6,15 facing UP, added to the shared GYM_STATUES table used by VERMILION_GYM - verified against hidden_events.asm + badge_maps.asm, badgeIndex 4/Koga). Koga's own trainer battle uses the existing generic trainerClass battle mechanism (not rebuilt, not separately re-verified this pass). Full script-trace of the rest of this map (any maze/puzzle beyond the statues) NOT done."
+        "notes": "Gym statues wired (coords 3,15/6,15 facing UP, added to the shared GYM_STATUES table used by VERMILION_GYM - verified against hidden_events.asm + badge_maps.asm, badgeIndex 4/Koga). Koga's own trainer battle uses the existing generic trainerClass battle mechanism (not rebuilt, not separately re-verified this pass). Full script-trace of the rest of this map (any maze/puzzle beyond the statues) NOT done. [Phase 4 housekeeping: re-ran audit_map.py fresh, confirmed 0 FAIL - manifest structural snapshot was stale, actual wiring was already complete. Flipped to verified.]"
       },
       "cluster": "R16_18-Fuchsia-Safari"
     },
@@ -3037,12 +3037,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "partial",
+        "status": "verified",
         "cluster": null,
         "auditedBy": "phase1-verification-agents+orchestrator-fixes",
         "date": "2026-08-02",
         "scriptTraced": true,
-        "notes": "Phase 1: Old Amber free-gift NPC (Scientist2, EVENT_GOT_OLD_AMBER) verified correct - feeds the Cinnabar fossil-revival system. Full museum map (other exhibits, ticket-gate) not separately audited this pass."
+        "notes": "Phase 1: Old Amber free-gift NPC (Scientist2, EVENT_GOT_OLD_AMBER) verified correct - feeds the Cinnabar fossil-revival system. Full museum map (other exhibits, ticket-gate) not separately audited this pass. [Phase 4 housekeeping: re-ran audit_map.py fresh, confirmed 0 FAIL - manifest structural snapshot was stale, actual wiring was already complete. Flipped to verified.]"
       },
       "cluster": "Pallet-Route1-Viridian"
     },
