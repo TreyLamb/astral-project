@@ -40,10 +40,13 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
       so their own patrol AI naturally supersedes it on the next move tick, matching OG. ✂️ Not
       reproduced: OG's one-off `BIT_NO_NPC_FACE_PLAYER` special case (S.S. Anne captain's back
       gag) — single easter-egg interaction, not worth a new gameState flag.
-- [ ] Exclamation mark bubble on trainer LOS trigger — traced OG's mechanism (`home/trainers.asm`
-      `CheckFightingMapTrainers`, `predef EmotionBubble`/`EXCLAMATION_BUBBLE`) — purely cosmetic,
-      no gameplay/state effect. ✂️ Deferred: no exclamation-bubble sprite asset exists anywhere in
-      `public/pokered/sprites/`; would need new art sourced/created first, not just logic.
+- [x] Exclamation mark bubble on trainer LOS trigger (2026-08-02, Phase 4) — found the real,
+      authentic Game Boy sprite already sitting read-only in the OG disassembly itself
+      (`pokemon_OG/PokeRed_OG/gfx/emotes/shock.png`, confirmed via `EmotionBubble`/
+      `EXCLAMATION_BUBBLE`/`ShockEmote` tracing — no need to source external art). Copied to
+      `public/pokered/sprites/exclamation_bubble.png`, shown for ~1s above the trainer's head the
+      instant `checkLOS()` triggers a chase, matching OG's real ~60-frame delay before the
+      walk-up begins.
 - [x] Scripted NPC movement / cutscenes — Gary/Blue (Route 21/22), Mt Moon Super Nerd,
       Bill's House transformation, Pewter museum/gym guides, Game Corner Rocket exit walk
   - Not wired: Oak's Lab intro walk-in (built but intentionally disabled — starter select

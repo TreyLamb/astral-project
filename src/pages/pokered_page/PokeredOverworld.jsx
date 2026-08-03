@@ -634,6 +634,13 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   const playerRef     = useRef({ x: initialX ?? 4, y: initialY ?? 9, dir: DIR_DOWN, walkProg: 0, isWalking: false, dx: 0, dy: 0, ledgeJump: false, stepPhase: 0 });
   const playerImgRef  = useRef(null);
   const npcImgsRef    = useRef({});    // sprite name → Image
+  // Exclamation-mark bubble on trainer LOS trigger (home/trainers.asm CheckFightingMapTrainers:
+  // `predef EmotionBubble` with EXCLAMATION_BUBBLE, shown for ~60 frames / 1s right as the
+  // trainer notices the player, before the walk-up starts). Real sprite: OG's own
+  // gfx/emotes/shock.png (EXCLAMATION_BUBBLE == index 0 == ShockEmote in
+  // engine/overworld/emotion_bubbles.asm), copied byte-for-byte into this port's sprites folder.
+  const bubbleImgRef  = useRef(null);
+  const exclaimBubbleRef = useRef({ npcId: null, until: 0 }); // set by checkLOS, read at draw time
   const rafRef        = useRef();
   const lastTsRef     = useRef();
   // Chase-and-follow escort: while set to a scripted NPC's trainerEngageRef id, the player steps
@@ -2287,6 +2294,10 @@ function notifyPosition() {
 
       if (inSight) {
         trainerEngageRef.current = { mode: 'chase', phase: 'walking', npc, id, liveX: npcX, liveY: npcY, facing, walkProg: 0 };
+        // Exclamation bubble (home/trainers.asm CheckFightingMapTrainers predef EmotionBubble) —
+        // real OG shows it for ~1s (60 frames) the instant the trainer notices the player, before
+        // TrainerWalkUpToPlayer starts moving them. See bubbleImgRef/exclaimBubbleRef declaration.
+        exclaimBubbleRef.current = { npcId: id, until: performance.now() + 1000 };
         return;
       }
     }
@@ -5736,6 +5747,7 @@ function notifyPosition() {
         };
         const playerOc = await loadSpriteTransparent('/pokered/sprites/red.png');
         playerImgRef.current = playerOc;
+        loadSpriteTransparent('/pokered/sprites/exclamation_bubble.png').then(oc => { bubbleImgRef.current = oc; });
         const startMap = initialMapId || 'PALLET_TOWN';
         const sx = initialX ?? 4, sy = initialY ?? 9;
         // Fall back to Pallet Town if the requested map doesn't exist in game_data.json
@@ -6302,6 +6314,11 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
           } else {
             ctx.fillStyle = '#8866aa';
             ctx.fillRect(nsx + 3, nsy + 2, 10, 14);
+          }
+
+          // Exclamation bubble (see exclaimBubbleRef/bubbleImgRef declaration + checkLOS trigger).
+          if (exclaimBubbleRef.current.npcId === nid && performance.now() < exclaimBubbleRef.current.until && bubbleImgRef.current) {
+            ctx.drawImage(bubbleImgRef.current, nsx, nsy - 16, 16, 16);
           }
         }
 
