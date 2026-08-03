@@ -30,8 +30,18 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
 - [x] Vending machines — Celadon Mart Roof, real prices/purchase flow
 - [x] Kick-out door — step-out-from-door mechanic on indoor warps
 - [x] Trainer sprite portrait shown before battle
-- [ ] NPC turns to face player when talked to
-- [ ] Exclamation mark bubble on trainer LOS trigger
+- [x] NPC turns to face player when talked to (2026-08-02) — traced OG's real mechanism
+      (`home/overworld.asm` `IsSpriteInFrontOfPlayer`'s `set BIT_FACE_PLAYER`, consumed in
+      `engine/overworld/movement.asm`: new facing is the exact mirror of the player's own facing
+      direction). STAND-type NPCs use a new `npcFaceOverrideRef` map (they have no existing live
+      state to write into); WALK-type NPCs write directly into the existing `npcLivePosRef` entry
+      so their own patrol AI naturally supersedes it on the next move tick, matching OG. ✂️ Not
+      reproduced: OG's one-off `BIT_NO_NPC_FACE_PLAYER` special case (S.S. Anne captain's back
+      gag) — single easter-egg interaction, not worth a new gameState flag.
+- [ ] Exclamation mark bubble on trainer LOS trigger — traced OG's mechanism (`home/trainers.asm`
+      `CheckFightingMapTrainers`, `predef EmotionBubble`/`EXCLAMATION_BUBBLE`) — purely cosmetic,
+      no gameplay/state effect. ✂️ Deferred: no exclamation-bubble sprite asset exists anywhere in
+      `public/pokered/sprites/`; would need new art sourced/created first, not just logic.
 - [x] Scripted NPC movement / cutscenes — Gary/Blue (Route 21/22), Mt Moon Super Nerd,
       Bill's House transformation, Pewter museum/gym guides, Game Corner Rocket exit walk
   - Not wired: Oak's Lab intro walk-in (built but intentionally disabled — starter select

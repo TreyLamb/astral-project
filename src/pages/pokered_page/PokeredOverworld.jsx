@@ -654,6 +654,18 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   const trainerEngageRef  = useRef(null);      // { phase, npc, id, liveX, liveY, facing, walkProg }
   const npcBattlePosRef   = useRef(new Map()); // npcId → { x, y, facing } post-battle walk-up pos
   const npcLivePosRef     = useRef(new Map()); // npcId → { x, y, facing, startX, startY, walkProg, walkDir }
+  // "NPC turns to face the player when talked to" (home/overworld.asm IsSpriteInFrontOfPlayer:
+  // `set BIT_FACE_PLAYER, [hl]`, consumed in engine/overworld/movement.asm — the new facing is
+  // the exact opposite of wPlayerDirection, i.e. a mirror: player facing UP -> NPC faces DOWN,
+  // etc.). Only needed for STAND-type NPCs — WALK-type NPCs already have a live npcLivePosRef
+  // entry that render already reads with higher priority than npc.facing, so for those we write
+  // live.facing directly instead (see startDialogue) and this map is left untouched; either way
+  // the override naturally stays until superseded (STAND: never, matching OG since it has no
+  // movement AI to ever re-turn it; WALK: next patrol tick, matching OG's own BIT_FACE_PLAYER
+  // being silently dropped once movement resumes). ✂️ Not reproduced: OG's one-off
+  // BIT_NO_NPC_FACE_PLAYER special case (S.S. Anne captain's back gag) — single easter-egg
+  // interaction, not worth a new gameState flag for.
+  const npcFaceOverrideRef = useRef(new Map()); // npcId → facing, STAND-type NPCs only
   // Set by loadMap when a warp lands the player on a registered door tile (OG
   // PlayerStepOutFromDoor) — consumed once by the game loop to force one simulated
   // downward step, then cleared. See isDoorTile()/DOOR_TILE_IDS_BY_TILESET above.
@@ -3162,6 +3174,35 @@ function notifyPosition() {
     // order npc_dialogue.json was keyed by (see npcText's comment).
     const npcIndex = ms ? ms.mapInfo.npcs.indexOf(npc) + 1 : 0;
     const here = ms ? `${ms.mapId}:${npcIndex}` : null;
+
+    // NPC turns to face the player when talked to (home/overworld.asm IsSpriteInFrontOfPlayer
+    // `set BIT_FACE_PLAYER`, engine/overworld/movement.asm — new facing is the exact mirror of
+    // the player's own facing: player UP -> NPC DOWN, etc.). Runs for every sprite interaction,
+    // same as OG's real dispatch (it's not gated on which special-case text branch fires below).
+    // Skipped for trainers/boulders/poke_ball items (nothing to visually turn/no sprite there).
+    if (npc.trainerClass == null && npc.sprite !== 'boulder' && npc.sprite !== 'poke_ball') {
+      const MIRROR_FACING = { [DIR_UP]: 'DOWN', [DIR_DOWN]: 'UP', [DIR_LEFT]: 'RIGHT', [DIR_RIGHT]: 'LEFT' };
+      const newFacing = MIRROR_FACING[playerRef.current.dir];
+      const nidForFacing = ms ? npcTrainerId(ms.mapId, npc) : null;
+      if (nidForFacing && newFacing) {
+        if (npc.movement === 'STAND') {
+          npcFaceOverrideRef.current.set(nidForFacing, newFacing);
+        } else {
+          if (!npcLivePosRef.current.has(nidForFacing)) {
+            const initDir = (newFacing === 'UP' || newFacing === 'LEFT') ? -1 : 1;
+            npcLivePosRef.current.set(nidForFacing, {
+              x: npc.x, y: npc.y, startX: npc.x, startY: npc.y,
+              facing: newFacing,
+              isWalking: false, walkDx: 0, walkDy: 0, walkProg: 0,
+              delay: Math.random() * 128, walkDir: initDir,
+              dispX: 8, dispY: 8,
+            });
+          } else {
+            npcLivePosRef.current.get(nidForFacing).facing = newFacing;
+          }
+        }
+      }
+    }
 
     // Viridian City "Old Man" catching tutorial (real OG: BATTLE_TYPE_OLD_MAN forced Weedle
     // demo, triggered the first time you interact with him). Reuses the normal wild-encounter
@@ -5896,7 +5937,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
 
           // Determine live draw position: engaging trainer > battle pos > pushed boulder > patrol pos > static
           const eng2 = trainerEngageRef.current;
-          let drawX = npc.x, drawY = npc.y, drawFacing = npc.facing || 'DOWN';
+          let drawX = npc.x, drawY = npc.y, drawFacing = npcFaceOverrideRef.current.get(nid) ?? npc.facing ?? 'DOWN';
           let npcWalkStep = 0;
           if (npc.sprite === 'boulder') { const bp = boulderPos(ms.mapId, npc); drawX = bp.x; drawY = bp.y; }
           const live = npcLivePosRef.current.get(nid);
