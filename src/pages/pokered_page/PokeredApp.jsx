@@ -207,6 +207,16 @@ export default function PokeredApp() {
       if ((result === 'victory' || result === 'caught') && wildEncounter?.powerPlantFlag) {
         newState = setEvent(newState, wildEncounter.powerPlantFlag);
       }
+      // ===== Endgame-VictoryRoad-Legendaries-HoF WIRING =====
+      // Champion win (scripts/ChampionsRoom.asm ChampionsRoomRivalDefeatedScript: SetEvent
+      // EVENT_BEAT_CHAMPION_RIVAL, unconditional on victory). Real OG later resets this exact
+      // flag on every Hall of Fame visit (INDIGO_PLATEAU_EVENTS_START..END range, see
+      // handleCompleteHallOfFame below) to make the Elite Four rematchable — it is NOT what gates
+      // Mewtwo (see MEWTWO_WILD_OBJECT's comment in PokeredOverworld.jsx), just tracked here for
+      // 1:1 fidelity with the real flag's own lifecycle in case anything else ever needs it.
+      if (wasTrainerVictory && trainerKey === 'Rival3') {
+        newState = setEvent(newState, 'EVENT_BEAT_CHAMPION_RIVAL');
+      }
 
       if ((result === 'victory' || result === 'caught') && !prev.isExtra) {
         saveGame(newState);
@@ -284,6 +294,49 @@ export default function PokeredApp() {
     setGameState(prev => {
       if (!prev) return prev;
       const next = hasEvent(prev, eventName) ? clearEvent(prev, eventName) : setEvent(prev, eventName);
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // ===== Endgame-VictoryRoad-Legendaries-HoF WIRING =====
+  // Hall of Fame arrival (see PokeredOverworld.jsx's loadMap HALL_OF_FAME block, action
+  // 'HALL_OF_FAME_COMPLETE'). Two effects, both one-time per real playthrough (the dialogue
+  // that triggers this is itself one-shot-guarded, so this only ever runs once per HoF visit):
+  //
+  // 1. Elite Four rematchability — real OG's HallOfFameResetEventsAndSaveScript calls
+  //    `ResetEventRange INDIGO_PLATEAU_EVENTS_START, INDIGO_PLATEAU_EVENTS_END` (constants/
+  //    event_constants.asm), which spans EVENT_BEAT_LORELEIS_ROOM_TRAINER_0 through
+  //    EVENT_BEAT_CHAMPION_RIVAL inclusive — clearing every Elite Four "beaten"/entry-lock flag
+  //    so the whole gauntlet (including the Champion) can be fought again on a later visit. This
+  //    port's actual beaten-trainer gate is `gameState.beatenTrainers` (see
+  //    ELITE_FOUR_EXIT_GATES in PokeredOverworld.jsx), not these OG event names directly, so the
+  //    equivalent reset removes those 5 trainers' npcTrainerId entries from beatenTrainers
+  //    (Lorelei/Bruno/Agatha/Lance/Rival3-at-Champion's-Room) in addition to clearing the OG
+  //    event names this port DOES track (the 3 AUTOWALKED_INTO flags + LANCES_ROOM_LOCK_DOOR,
+  //    which gate ELITE_FOUR_NO_RETREAT — must also reset so a rematch re-locks correctly) and
+  //    EVENT_BEAT_CHAMPION_RIVAL itself (tracked for fidelity, see handleBattleEnd).
+  // 2. Permanently unlocking Mewtwo — see MEWTWO_UNLOCK_FLAG_ID's comment in
+  //    PokeredOverworld.jsx for why this is a separate, never-reset pickedUpItems marker instead
+  //    of reusing EVENT_BEAT_CHAMPION_RIVAL (which step 1 just made rematchable/resettable).
+  function handleCompleteHallOfFame() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const eventsToReset = [
+        'EVENT_AUTOWALKED_INTO_LORELEIS_ROOM', 'EVENT_AUTOWALKED_INTO_BRUNOS_ROOM',
+        'EVENT_AUTOWALKED_INTO_AGATHAS_ROOM', 'EVENT_LANCES_ROOM_LOCK_DOOR',
+        'EVENT_BEAT_LANCE', 'EVENT_BEAT_CHAMPION_RIVAL',
+      ];
+      let next = prev;
+      for (const ev of eventsToReset) next = clearEvent(next, ev);
+      const eliteFourTrainerIds = ['LORELEIS_ROOM:5:2', 'BRUNOS_ROOM:5:2', 'AGATHAS_ROOM:5:2', 'LANCES_ROOM:6:1'];
+      const beatenTrainers = (next.beatenTrainers ?? []).filter(id =>
+        !eliteFourTrainerIds.includes(id) && !id.startsWith('CHAMPIONS_ROOM:4:2'));
+      const mewtwoFlagId = 'HALL_OF_FAME:cerulean_cave_guard_removed';
+      const pickedUpItems = (next.pickedUpItems ?? []).includes(mewtwoFlagId)
+        ? next.pickedUpItems
+        : [...(next.pickedUpItems ?? []), mewtwoFlagId];
+      next = { ...next, beatenTrainers, pickedUpItems };
       if (!prev.isExtra) saveGame(next);
       return next;
     });
@@ -1710,6 +1763,7 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onSafariLeave={handleSafariLeave}
             onGiveHmSurf={handleGiveHmSurf}
             onGiveHmStrength={handleGiveHmStrength}
+            onCompleteHallOfFame={handleCompleteHallOfFame}
             onGiveHmFly={handleGiveHmFly}
             gameState={gameState}
             isExtra={gameState.isExtra}

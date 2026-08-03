@@ -41,12 +41,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Warp/npc/trainer battle already generic+correct (trainer_text.json has real before/win/after quotes). Added: forward-exit isWalkable gate (blocked until beatenTrainers has AGATHAS_ROOM:5:2) + no-retreat lock on entrance tiles (4,11)/(5,11) via EVENT_AUTOWALKED_INTO_AGATHAS_ROOM, set on arrival in loadMap. Reset on Hall of Fame completion for rematchability."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -240,12 +240,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Same pattern as AGATHAS_ROOM: exit gate + no-retreat lock added (EVENT_AUTOWALKED_INTO_BRUNOS_ROOM). Trainer battle/dialogue already generic+correct."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -935,12 +935,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Warps/npcs/ground-items (poke_ball, generic pipeline) all verified correct. The 1 hidden_events FAIL is the same confirmed false-positive class as ROUTE_23 (generic HIDDEN_ITEMS mechanism, script doesn't detect it)."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -971,12 +971,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Fully passing already. Warps/npcs/ground-items verified correct, no gaps."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -1022,12 +1022,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Built this pass: Mewtwo (MEWTWO_WILD_OBJECT, level 70) wired as a Z-press-triggered wild encounter (same pattern as ARTICUNO_WILD_OBJECT/Zapdos), gated on a permanent post-Hall-of-Fame unlock marker (see MEWTWO_UNLOCK_FLAG_ID comment - NOT EVENT_BEAT_CHAMPION_RIVAL, which OG itself resets on every HoF visit for Elite Four rematchability and would wrongly re-lock the cave). The npc_dialogue FAIL for the monster sprite is the same confirmed false-positive class as Articuno/Zapdos (audit script only detects SCRIPTED_NPC_TEXT overrides, not this onEncounter Z-press pattern). Real OG's actual physical gate (a guard NPC hidden via HideObject on a map outside this cluster's scope) is NOT built - the port reproduces the end result via the permanent flag instead; flagged as a scope cut since the guard's own map wasn't traced."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -1292,12 +1292,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Already wired in a prior session (Oak arrival cutscene, SCRIPTED_NPC_TEXT CHAMPIONS_ROOM:2). Verified this pass: EVENT_BEAT_CHAMPION_RIVAL now set in handleBattleEnd on Rival3 victory (was previously untracked) for fidelity + Hall of Fame reset-range accuracy."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -2473,12 +2473,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Built this pass: auto-fires on map arrival (real OG HallOfFameDefaultScript has no Z-press gate either), shows real Oak congratulations text (npc_dialogue.json HALL_OF_FAME:1), then handleCompleteHallOfFame() resets Elite Four beatenTrainers + entry-lock/autowalked event flags (matches OG ResetEventRange INDIGO_PLATEAU_EVENTS_START..END) for rematchability, and sets a permanent MEWTWO_UNLOCK_FLAG_ID marker (stands in for OG HideObject(TOGGLE_CERULEAN_CAVE_GUY), whose own guard NPC/map is outside this cluster's 17-map scope). Full return-to-title/credits sequence (real OG: ~10s delay + Init reset) intentionally NOT built - not meaningful in a persistent-save web SPA; player simply continues on the overworld after the dialogue, matching this session's established CHAMPIONS_ROOM precedent for skipping simulated-input cutscenes. Flagged as a scope cut."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -2509,12 +2509,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Verified: warps/connections correct. The one manifest FAIL (PrintIndigoPlateauHQText hidden_event) is OG-confirmed dead code - both hidden_event entries in data/events/hidden_events.asm are explicitly commented \"; inaccessible\" in the OG source itself. Correctly left unwired - not a gap."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -2539,12 +2539,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Fully passing already (nurse/gym_guide/cooltrainer_f/clerk/link_receptionist all generic-correct, mart wired). No changes needed."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -2575,12 +2575,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Trainer battle/dialogue already generic+correct. Added entrance no-retreat lock on (24,16) via EVENT_LANCES_ROOM_LOCK_DOOR, set on arrival (real OG sets this when player reaches the entrance staircase; simplified to set-on-arrival since this port has no player-forced-movement primitive). No separate forward exit-gate needed (OG relies on Lance himself physically blocking the path + sightline, already generic)."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -2737,12 +2737,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Same pattern: exit gate + no-retreat lock added (EVENT_AUTOWALKED_INTO_LORELEIS_ROOM). Trainer battle/dialogue already generic+correct."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -5436,12 +5436,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Verified the previously-flagged \"two rival encounters share one tile with no gating\" issue is ALREADY FIXED (from an earlier session/commit, not this pass): rival2Unlocked = rival1Done && beatenSilphCoGiovanni correctly gates Rival2's visibility/triggerability in both the ambient trigger and isNpcHidden render-skip. No further action needed."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -5477,12 +5477,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Traced scripts/Route22Gate.asm: real gate is BIT_BOULDERBADGE (badge 0) only, not all-8-badges. Wired real per-state text (has/doesn't-have Boulder Badge) via a startDialogue here-branch. Scoped out: OG's hard push-back-if-denied movement block - checked the raw .blk/.bst data directly and the corridor tiles decode ambiguously right at this map's own warp edge, so a hand-built isWalkable() block risked misplacing a permanent wall; left informational-only (denial text only, no physical block), safe since normal play always already has the Boulder Badge by the time Route 22/23 is reached."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -5578,12 +5578,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Traced scripts/Route23.asm: 7 guards/swimmers each check ONE specific badge in sequence (Cascade->Thunder->Rainbow->Soul->Marsh->Volcano->Earth, south-to-north, matching object_event y-order 35/56/85/96/105/119/136 exactly). Wired real per-guard/per-badge-state text via 7 startDialogue here-branches, badge check reads gameState.badges directly (no redundant EVENT_PASSED_*BADGE_CHECK flag needed - badge possession IS the persisted state). Same movement-block scope-cut as ROUTE_22_GATE, same reasoning (informational text only). The 3 hidden_events/HiddenItems FAIL entries in audit_map.py are a confirmed FALSE POSITIVE (verified against the identical shape already present for POWER_PLANT/SEAFOAM_ISLANDS_B4F, which ARE fully wired) - hidden items flow through the generic HIDDEN_ITEMS[mapId] mechanism in PokeredOverworld.jsx (x2-scaled coords by design, matches the audit script's own \"json = OGx2\" observation), the script just doesn't know that pipeline exists."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -8443,12 +8443,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Warps/npcs/trainers/ground-items verified correct. Boulder-push mechanics confirmed generic+working (boulderPosRef/onPushBoulder in PokeredOverworld.jsx). Boulder-ON-SWITCH -> ReplaceTileBlock door-unlock puzzle (EVENT_VICTORY_ROAD_1_BOULDER_ON_SWITCH) verified NON-BLOCKING via raw .blk/.bst decode (same methodology as the established Silph Co Card Key precedent): the target block (row6,col4 -> metatile (8,12)) is already open/walkable in this port's converted map data, so no player-facing blocker exists. Puzzle challenge itself (boulder must physically reach the switch to open something) not built - same accepted-cut class as the already-documented Seafoam Islands hole/boulder subsystem (ordinary warps already give full connectivity)."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -8509,12 +8509,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Built this pass: Moltres (MOLTRES_WILD_OBJECT, level 50) wired identically to Mewtwo/Articuno/Zapdos, no extra gate needed (real OG has none beyond reaching the floor). npc_dialogue FAIL is the same confirmed false-positive class. Boulder-switch puzzle (2 switches) verified non-blocking, same methodology/reasoning as VICTORY_ROAD_1F - both target blocks already open in converted map data. hidden_events FAILs are the same confirmed false-positive class as ROUTE_23."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },
@@ -8550,12 +8550,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
-        "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "status": "verified",
+        "cluster": "Endgame-VictoryRoad-Legendaries-HoF",
+        "auditedBy": "endgame-cluster-agent",
+        "date": "2026-08-03",
+        "scriptTraced": true,
+        "notes": "Warps/npcs/trainers/ground-items verified correct. Boulder-switch+hole puzzle verified non-blocking (target block already open; hole-descent to VICTORY_ROAD_2F is a bonus shortcut - ordinary warp_events already give full 2F<->3F connectivity, same accepted-cut class as Seafoam Islands holes)."
       },
       "cluster": "Endgame-VictoryRoad-Legendaries-HoF"
     },

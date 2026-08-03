@@ -529,7 +529,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onGiveDollForTM31, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onToggleEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, onFindHiddenCoins, onBuyCoins, onGiveDrinkForTM, onBuyPrize, onGivePokemon, onSafariStep, onSafariEnter, onSafariLeave, onGiveHmSurf, onGiveHmStrength, onGiveHmFly, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onGiveDollForTM31, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onToggleEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, onFindHiddenCoins, onBuyCoins, onGiveDrinkForTM, onBuyPrize, onGivePokemon, onSafariStep, onSafariEnter, onSafariLeave, onGiveHmSurf, onGiveHmStrength, onGiveHmFly, onCompleteHallOfFame, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -1124,6 +1124,13 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
       const door = silphCoDoorAt(ms.mapId, tx, ty);
       if (door) return hasEvent(gsRef.current, door.event);
     }
+    // Elite Four forward-progress gates + no-retreat locks (see ELITE_FOUR_EXIT_GATES/
+    // ELITE_FOUR_NO_RETREAT above) — same deterministic isWalkable-override shape as the Silph
+    // Co Card Key doors just above.
+    if (ms) {
+      if (eliteFourExitBlockedAt(ms.mapId, tx, ty)) return false;
+      if (eliteFourNoRetreatBlockedAt(ms.mapId, tx, ty)) return false;
+    }
     // Cinnabar Gym trivia-quiz gates (see CINNABAR_GYM_QUIZ_STATIONS above) — same deterministic
     // both-directions override as the Silph Co Card Key doors: locked until that specific gate's
     // quiz question has been answered correctly, then permanently open.
@@ -1614,6 +1621,57 @@ const OUTDOOR = ['overworld', 'plateau'];
               npcBattlePosRef.current.set(eng.id, { x: eng.liveX, y: eng.liveY, facing: eng.facing });
               startDialogue(eng.npc);
             });
+          }
+        }
+      }
+
+      // Elite Four "no retreat" lock — see ELITE_FOUR_NO_RETREAT/isWalkable() above for the full
+      // mechanism. Sets each room's one-time entry flag the instant the player warps in (this
+      // port has no player-forced-movement primitive to replicate OG's literal 6-step auto-walk
+      // cutscene — see the CHAMPIONS_ROOM Oak-arrival comment for the same tradeoff elsewhere in
+      // this file), which is enough: the entrance tile itself becomes permanently unwalkable from
+      // this point on, and the player's very next real step is necessarily away from it (it's the
+      // map's only floor tile adjacent to the entrance warp), so the "can't step back onto here"
+      // result matches OG exactly without needing simulated input.
+      if (ELITE_FOUR_NO_RETREAT[mapId] && !hasEvent(gsRef.current, ELITE_FOUR_NO_RETREAT[mapId].event) && onSetEvent) {
+        onSetEvent(ELITE_FOUR_NO_RETREAT[mapId].event);
+      }
+
+      // Hall of Fame arrival (real OG HallOfFameDefaultScript/…OakCongratulationsScript): fires
+      // automatically on map load, no Z-press needed, matching OG (which auto-triggers a 5-step
+      // walk-in + Oak's real congratulations text the moment the script starts running). This
+      // port's HALL_OF_FAME npc data has Oak already standing in place (see game_data.json), so
+      // the walk-in itself is skipped (same player-forced-movement tradeoff as CHAMPIONS_ROOM)
+      // and the real text (npc_dialogue.json HALL_OF_FAME:1, TEXT_HALLOFFAME_OAK) is shown
+      // directly. action: 'HALL_OF_FAME_COMPLETE' (consumed in advanceDialogue) both (a) resets
+      // the Elite Four's beaten/entry-lock state so they're rematchable — matching OG's real
+      // ResetEventRange INDIGO_PLATEAU_EVENTS_START..END, which explicitly includes
+      // EVENT_BEAT_CHAMPION_RIVAL too — and (b) sets MEWTWO_UNLOCK_FLAG_ID, a separate PERMANENT
+      // marker standing in for OG's HideObject(TOGGLE_CERULEAN_CAVE_GUY) call in this same script
+      // (see MEWTWO_WILD_OBJECT's comment for why a permanent marker, not an event flag that
+      // later gets reset, is required here). One-shot guarded the same way CHAMPIONS_ROOM's Oak
+      // arrival is (pickedUpItems flag), so this can't repeat or re-fire on later HALL_OF_FAME
+      // revisits (e.g. after an Elite Four rematch).
+      if (mapId === 'HALL_OF_FAME') {
+        const oak = mapInfo.npcs.find(n => n.sprite === 'oak');
+        if (oak) {
+          const arrivedFlagId = `${npcTrainerId(mapId, oak)}:arrived`;
+          const alreadyArrived = (gsRef.current?.pickedUpItems ?? []).includes(arrivedFlagId);
+          if (!alreadyArrived) {
+            if (onMarkGiftTaken) onMarkGiftTaken(arrivedFlagId);
+            setTimeout(() => {
+              setDialogue({
+                lines: [
+                  "OAK: Er-hem!\nCongratulations\n<PLAYER>!",
+                  "This floor is the\nPOKéMON HALL OF\nFAME!",
+                  "POKéMON LEAGUE\nchampions are\nhonored for their\nexploits here!",
+                  "Their POKéMON are\nalso recorded in\nthe HALL OF FAME!",
+                  "<PLAYER>! You have\nendeavored hard\nto become the new\nLEAGUE champion!",
+                  "Congratulations,\n<PLAYER>, you and\nyour POKéMON are\nHALL OF FAMERs!",
+                ],
+                idx: 0, action: 'HALL_OF_FAME_COMPLETE',
+              });
+            }, 100);
           }
         }
       }
@@ -2317,6 +2375,13 @@ function notifyPosition() {
     // pattern as Zapdos above.
     if (mapId === 'SEAFOAM_ISLANDS_B4F' && npc.x === ARTICUNO_WILD_OBJECT.x && npc.y === ARTICUNO_WILD_OBJECT.y &&
         hasEvent(gsRef.current, ARTICUNO_WILD_OBJECT.flag)) return true;
+    // ===== Endgame-VictoryRoad-Legendaries-HoF WIRING =====
+    // Moltres/Mewtwo (see MOLTRES_WILD_OBJECT/MEWTWO_WILD_OBJECT above) despawn for good once
+    // beaten/caught, same one-shot-legendary pattern as Zapdos/Articuno above.
+    if (mapId === 'VICTORY_ROAD_2F' && npc.x === MOLTRES_WILD_OBJECT.x && npc.y === MOLTRES_WILD_OBJECT.y &&
+        hasEvent(gsRef.current, MOLTRES_WILD_OBJECT.flag)) return true;
+    if (mapId === 'CERULEAN_CAVE_B1F' && npc.x === MEWTWO_WILD_OBJECT.x && npc.y === MEWTWO_WILD_OBJECT.y &&
+        hasEvent(gsRef.current, MEWTWO_WILD_OBJECT.flag)) return true;
     // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
     // Route 12/16 Snorlax despawns for good once beaten/caught (scripts/Route12.asm /
     // Route16.asm SetEvent EVENT_BEAT_ROUTE12/16_SNORLAX) — this is what actually opens the
@@ -2745,6 +2810,62 @@ function notifyPosition() {
     return (SILPH_CO_CARD_KEY_DOORS[mapId] ?? []).find(d => d.x === tx && d.y === ty) ?? null;
   }
 
+  // ===== Endgame-VictoryRoad-Legendaries-HoF WIRING: Elite Four forward-progress gates =====
+  // scripts/LoreleisRoom.asm/BrunosRoom.asm/AgathasRoom.asm each call a `<Name>ShowOrHideExitBlock`
+  // on map load: ReplaceTileBlock swaps the forward exit (the warp tiles leading to the NEXT
+  // room) between an open-floor block ($5) and a wall block ($24)/($3b), keyed on
+  // CheckEvent EVENT_BEAT_<Name>sRoomTrainer0 — i.e. you physically cannot reach the next E4
+  // member's door until you've beaten the current one. This matters even though the trainer's
+  // own sightline would normally force the fight anyway: real Gen 1 trainer battles can't be
+  // fled/run from, but CAN be escaped via Teleport/Dig mid-corridor before engaging, so without
+  // this gate a player could walk straight past an un-fought Elite Four member using either move.
+  // Modeled as an isWalkable() override (same shape as SILPH_CO_CARD_KEY_DOORS above) keyed off
+  // this engine's own `beatenTrainers` registry (already the canonical "is this trainer beaten"
+  // signal used everywhere else) rather than a parallel OG event-flag mirror — one fewer piece of
+  // state to keep in sync, and it "resets" for free when handleCompleteHallOfFame later clears
+  // these same beatenTrainers entries for Elite Four rematchability (see that handler).
+  const ELITE_FOUR_EXIT_GATES = {
+    LORELEIS_ROOM: { tiles: [{ x: 4, y: 0 }, { x: 5, y: 0 }], trainerId: 'LORELEIS_ROOM:5:2' },
+    BRUNOS_ROOM:   { tiles: [{ x: 4, y: 0 }, { x: 5, y: 0 }], trainerId: 'BRUNOS_ROOM:5:2' },
+    AGATHAS_ROOM:  { tiles: [{ x: 4, y: 0 }, { x: 5, y: 0 }], trainerId: 'AGATHAS_ROOM:5:2' },
+  };
+  function eliteFourExitBlockedAt(mapId, tx, ty) {
+    const g = ELITE_FOUR_EXIT_GATES[mapId];
+    if (!g || !g.tiles.some(t => t.x === tx && t.y === ty)) return false;
+    return !(gsRef.current?.beatenTrainers ?? []).includes(g.trainerId);
+  }
+
+  // ===== Endgame-VictoryRoad-Legendaries-HoF WIRING: Elite Four "no retreat" lock =====
+  // scripts/LoreleisRoom.asm/BrunosRoom.asm/AgathasRoom.asm's `<Name>ScriptWalkIntoRoom` +
+  // `.stopPlayerFromLeaving`: the very first time you step onto the entrance warp tile, OG
+  // simulates 6 auto-walk steps forward and sets a one-time EVENT_AUTOWALKED_INTO_<Name>sRoom
+  // flag; on every subsequent approach to that same tile (or the row just above it), OG prints
+  // "Don't run away!" and shoves you back forward instead of letting the warp fire — i.e. once
+  // you're in, you cannot retreat to Indigo Plateau Lobby to heal/shop until you've beaten that
+  // room's Elite Four member and stepped through to the next room. LANCES_ROOM does the
+  // equivalent with a dedicated EVENT_LANCES_ROOM_LOCK_DOOR flag on its own entrance tile
+  // (24,16) instead (LanceShowOrHideEntranceBlocks) — same net effect, different flag name.
+  // This port has no player-forced-movement primitive (see the CHAMPIONS_ROOM Oak-arrival
+  // comment), so rather than simulate the 6-step walk-in, the flag is set immediately on warp
+  // arrival (loadMap, see the LORELEIS_ROOM/BRUNOS_ROOM/AGATHAS_ROOM/LANCES_ROOM block below) and
+  // isWalkable() permanently blocks the entrance tile the instant it's set — the player's first
+  // real move (which must be forward, away from this tile, since it's the map's only floor
+  // adjacent to the entrance) naturally achieves the same "you can't step back onto here again"
+  // result without needing simulated input. This is a REAL, not cosmetic, mechanic worth
+  // preserving: without it a player could Teleport/Dig away from a losing position mid-Elite-Four
+  // and freely walk back out to heal, which OG explicitly prevents.
+  const ELITE_FOUR_NO_RETREAT = {
+    LORELEIS_ROOM: { tiles: [{ x: 4, y: 11 }, { x: 5, y: 11 }], event: 'EVENT_AUTOWALKED_INTO_LORELEIS_ROOM' },
+    BRUNOS_ROOM:   { tiles: [{ x: 4, y: 11 }, { x: 5, y: 11 }], event: 'EVENT_AUTOWALKED_INTO_BRUNOS_ROOM' },
+    AGATHAS_ROOM:  { tiles: [{ x: 4, y: 11 }, { x: 5, y: 11 }], event: 'EVENT_AUTOWALKED_INTO_AGATHAS_ROOM' },
+    LANCES_ROOM:   { tiles: [{ x: 24, y: 16 }], event: 'EVENT_LANCES_ROOM_LOCK_DOOR' },
+  };
+  function eliteFourNoRetreatBlockedAt(mapId, tx, ty) {
+    const g = ELITE_FOUR_NO_RETREAT[mapId];
+    if (!g || !g.tiles.some(t => t.x === tx && t.y === ty)) return false;
+    return hasEvent(gsRef.current, g.event);
+  }
+
   // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING: Cinnabar Gym trivia-quiz gate puzzle =====
   // engine/events/hidden_events/cinnabar_gym_quiz.asm PrintCinnabarQuiz/CinnabarGymQuiz +
   // UpdateCinnabarGymGateTileBlocks_ (data/events/hidden_events.asm hidden_events_for CINNABAR_GYM,
@@ -2898,6 +3019,45 @@ function notifyPosition() {
   // _SeafoamIslandsB4FArticunoBattleText (identical placeholder cry text to Zapdos's own entry —
   // OG reuses the same generic "before battle" line shape for both legendary birds).
   const ARTICUNO_WILD_OBJECT = { x: 6, y: 1, species: 'ARTICUNO', level: 50, flag: 'EVENT_BEAT_ARTICUNO', criesText: 'Gyaoo!' };
+
+  // ===== Endgame-VictoryRoad-Legendaries-HoF WIRING: Victory Road 2F Moltres =====
+  // data/maps/objects/VictoryRoad2F.asm: object_event 11, 5, SPRITE_BIRD, STAY, UP,
+  // TEXT_VICTORYROAD2F_MOLTRES, MOLTRES, 50 — identical "trainer-macro-overloaded disguised wild
+  // Pokémon" shape as Zapdos/Articuno above (scripts/VictoryRoad2F.asm's MoltresTrainerHeader:
+  // `trainer EVENT_BEAT_MOLTRES, 0, ...` with no other precondition in the room's own script —
+  // real OG doesn't gate reaching this floor behind anything beyond ordinary Victory Road
+  // traversal). criesText transcribed from _VictoryRoad2FMoltresBattleText's trailing `PlayCry
+  // MOLTRES` (same generic pre-battle cry shape as the other 2 legendary birds).
+  const MOLTRES_WILD_OBJECT = { x: 11, y: 5, species: 'MOLTRES', level: 50, flag: 'EVENT_BEAT_MOLTRES', criesText: 'Gyaoo!' };
+
+  // ===== Endgame-VictoryRoad-Legendaries-HoF WIRING: Cerulean Cave B1F Mewtwo =====
+  // data/maps/objects/CeruleanCaveB1F.asm: object_event 27, 13, SPRITE_MONSTER, STAY, DOWN,
+  // TEXT_CERULEANCAVEB1F_MEWTWO, MEWTWO, 70 — same disguised-wild-Pokémon shape (SPRITE_MONSTER
+  // is this engine's equivalent solid-NPC treatment to SPRITE_BIRD; not in the poke_ball
+  // collision-exclusion list, so approached face-to-face via Z-press). criesText transcribed from
+  // MewtwoBattleText's `PlayCry MEWTWO` tail.
+  // GATE: traced scripts/CeruleanCaveB1F.asm directly — Mewtwo's own trainer header
+  // (`trainer EVENT_BEAT_MEWTWO, 0, ...`) has NO precondition check at all (confirmed: no
+  // CheckEvent/Pokédex-completion gate anywhere in that file — the "need the full Pokédex"
+  // rumor is a remake-only mechanic, not Gen 1). Real OG's ACTUAL gate is entirely physical, not
+  // scripted here: `scripts/HallOfFame.asm` (`HallOfFameOakCongratulationsScript`) calls
+  // `predef HideObject TOGGLE_CERULEAN_CAVE_GUY` once, permanently, right after Oak's Hall of
+  // Fame congratulations text — that hides a guard NPC blocking Cerulean Cave's entrance
+  // (map/coords not traced — outside this cluster's 17-map scope, and not found under any of
+  // data/maps/objects/CeruleanCity.asm or Route24/25 in a quick check) so the cave is physically
+  // unreachable before becoming Champion. Since that guard's own map is out of scope for this
+  // pass, this port reproduces the END RESULT (Mewtwo unreachable until Champion) as a direct,
+  // permanent one-shot flag set at the exact same trigger point (Hall of Fame's Oak dialogue
+  // closing, see loadMap's HALL_OF_FAME handling / handleCompleteHallOfFame) rather than an
+  // EVENT_BEAT_CHAMPION_RIVAL check — that flag is itself RESET on every Hall of Fame visit (see
+  // INDIGO_PLATEAU_EVENTS_START..END in constants/event_constants.asm, confirmed to include
+  // EVENT_BEAT_CHAMPION_RIVAL) to make the Elite Four rematchable, so gating Mewtwo on it would
+  // wrongly re-lock Cerulean Cave after the player's first rematch. MEWTWO_UNLOCK_FLAG_ID is
+  // therefore tracked in gameState.pickedUpItems (a permanent, never-reset registry already used
+  // for one-shot story markers elsewhere in this file, e.g. CHAMPIONS_ROOM's Oak arrival), not
+  // the OG event-flag registry.
+  const MEWTWO_WILD_OBJECT = { x: 27, y: 13, species: 'MEWTWO', level: 70, flag: 'EVENT_BEAT_MEWTWO', criesText: 'Gyaoo!' };
+  const MEWTWO_UNLOCK_FLAG_ID = 'HALL_OF_FAME:cerulean_cave_guard_removed';
 
   // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING: Seafoam Islands hole coordinates =====
   // Seafoam<N>HolesCoords tables, one per floor with a floor below it (B4F is the bottom floor,
@@ -3252,6 +3412,62 @@ function notifyPosition() {
         idx: 0, action: null,
       });
       return;
+    }
+    // ===== Endgame-VictoryRoad-Legendaries-HoF WIRING: Route 22 Gate guard =====
+    // scripts/Route22Gate.asm Route22GateGuardText: real gate is `bit BIT_BOULDERBADGE` (badge
+    // index 0, Brock's — confirmed by tracing the actual bit test, not assumed from the name;
+    // this is a soft "have you actually started the game" checkpoint on the path toward Route
+    // 23/Indigo Plateau, not an all-8-badges gate — that's Route 23's own 7-guard gauntlet
+    // below). Text-only: real OG also shoves the player back south with a simulated PAD_DOWN
+    // press when denied (Route22GateMovePlayerDownScript) — this port has no player-forced-
+    // movement primitive (see the CHAMPIONS_ROOM Oak-arrival comment for the same tradeoff
+    // elsewhere), and a from-scratch isWalkable() block risks mis-placing a permanent wall this
+    // close to this map's own warp tiles (checked directly against the raw .blk/.bst data before
+    // deciding this — the corridor tiles decode ambiguously right at the warp edge, unlike the
+    // clean Elite Four exit-gate case above), so denial is informational only (✂️ — flagged, not
+    // silently dropped): a player without the Boulder Badge who chooses to walk past can still do
+    // so, which normal-order play never needs to anyway.
+    if (here === 'ROUTE_22_GATE:1') {
+      const hasBoulder = (gameState?.badges ?? []).includes(0);
+      setDialogue({
+        lines: hasBoulder
+          ? ["I'm on guard duty.\nGee, I'm thirsty,\nthough!", "Oh, you have the\nBOULDERBADGE!\nGo right ahead!"]
+          : ["I'm on guard duty.\nGee, I'm thirsty,\nthough!", "I can't let you\npass without a\nBADGE!"],
+        idx: 0, action: null,
+      });
+      return;
+    }
+    // ===== Endgame-VictoryRoad-Legendaries-HoF WIRING: Route 23 badge gauntlet =====
+    // scripts/Route23.asm: 7 guard/swimmer NPCs (y=35/56/85/96/105/119/136, matching
+    // game_data.json exactly), each checking one specific badge via BadgeTextPointers — order
+    // confirmed both by the guard-to-badge distance-from-CASCADEBADGE_CHECK arithmetic AND by
+    // well-documented real-game structure: south-to-north, each guard asks for the next gym
+    // badge in gym order (Cascade→Thunder→Rainbow→Soul→Marsh→Volcano→Earth; Boulder was already
+    // checked once at Route22Gate above, so it isn't repeated here). Same text-only tradeoff as
+    // Route22Gate's guard above (no player-forced-movement primitive, and this route is normally
+    // only reached once with all 8 badges anyway so a hard block's risk/reward is poor) — real OG
+    // additionally pushes the player back and remembers a passed guard via its own
+    // EVENT_PASSED_<X>BADGE_CHECK flag; this port re-derives "already passed" from
+    // gameState.badges directly every time instead of persisting a redundant parallel flag,
+    // since badge possession IS the real, already-persisted source of truth.
+    {
+      const ROUTE_23_GUARDS = {
+        'ROUTE_23:1': { badge: 1, name: 'CASCADEBADGE' }, 'ROUTE_23:2': { badge: 2, name: 'THUNDERBADGE' },
+        'ROUTE_23:3': { badge: 3, name: 'RAINBOWBADGE' }, 'ROUTE_23:4': { badge: 4, name: 'SOULBADGE' },
+        'ROUTE_23:5': { badge: 5, name: 'MARSHBADGE' },   'ROUTE_23:6': { badge: 6, name: 'VOLCANOBADGE' },
+        'ROUTE_23:7': { badge: 7, name: 'EARTHBADGE' },
+      };
+      const guard = ROUTE_23_GUARDS[here];
+      if (guard) {
+        const hasBadge = (gameState?.badges ?? []).includes(guard.badge);
+        setDialogue({
+          lines: hasBadge
+            ? [`Oh, that's the\n${guard.name}!`, "Go right ahead!"]
+            : ["You don't have\nthe right BADGE\nyet!"],
+          idx: 0, action: null,
+        });
+        return;
+      }
     }
     // ===== R9_10-RockTunnel-Lavender-PokemonTower WIRING =====
     // Name Rater (NAME_RATERS_HOUSE, scripts/NameRatersHouse.asm) — see PokeredApp.jsx's
@@ -4511,6 +4727,12 @@ function notifyPosition() {
         if (prev.action === 'GIVE_HM_STRENGTH' && onGiveHmStrength) {
           onGiveHmStrength();
         }
+        // Hall of Fame arrival (see loadMap's HALL_OF_FAME block above) — resets the Elite Four
+        // for rematchability and permanently unlocks Mewtwo, once, right after Oak's real
+        // congratulations text closes.
+        if (prev.action === 'HALL_OF_FAME_COMPLETE' && onCompleteHallOfFame) {
+          onCompleteHallOfFame();
+        }
         // ===== R7-Celadon-RocketHideout-Erika CLUSTER WIRING =====
         // Celadon Mart / Rocket Hideout elevators (scripts/CeladonMartElevator.asm,
         // scripts/RocketHideoutElevator.asm DisplayElevatorFloorMenu) — floor choice resolves to
@@ -5046,6 +5268,29 @@ function notifyPosition() {
             npc.x === ARTICUNO_WILD_OBJECT.x && npc.y === ARTICUNO_WILD_OBJECT.y) {
           if (!hasEvent(gsRef.current, ARTICUNO_WILD_OBJECT.flag) && onEncounter) {
             onEncounter({ species: ARTICUNO_WILD_OBJECT.species, level: ARTICUNO_WILD_OBJECT.level, criesText: ARTICUNO_WILD_OBJECT.criesText, powerPlantFlag: ARTICUNO_WILD_OBJECT.flag }, ms.mapId, p.x, p.y);
+          }
+          return;
+        }
+        // Moltres (see MOLTRES_WILD_OBJECT above) — same solid-sprite-bird Z-press pattern.
+        if (npc && ms.mapId === 'VICTORY_ROAD_2F' && npc.sprite === 'bird' &&
+            npc.x === MOLTRES_WILD_OBJECT.x && npc.y === MOLTRES_WILD_OBJECT.y) {
+          if (!hasEvent(gsRef.current, MOLTRES_WILD_OBJECT.flag) && onEncounter) {
+            onEncounter({ species: MOLTRES_WILD_OBJECT.species, level: MOLTRES_WILD_OBJECT.level, criesText: MOLTRES_WILD_OBJECT.criesText, powerPlantFlag: MOLTRES_WILD_OBJECT.flag }, ms.mapId, p.x, p.y);
+          }
+          return;
+        }
+        // Mewtwo (see MEWTWO_WILD_OBJECT/MEWTWO_UNLOCK_FLAG_ID above) — same solid-sprite
+        // Z-press pattern, gated on the permanent post-Hall-of-Fame unlock marker instead of an
+        // OG event flag (see that comment for why).
+        if (npc && ms.mapId === 'CERULEAN_CAVE_B1F' && npc.sprite === 'monster' &&
+            npc.x === MEWTWO_WILD_OBJECT.x && npc.y === MEWTWO_WILD_OBJECT.y) {
+          const unlocked = (gsRef.current?.pickedUpItems ?? []).includes(MEWTWO_UNLOCK_FLAG_ID);
+          if (!unlocked) {
+            setDialogue({ lines: ["A strange aura\nemanates from\nbeyond..."], idx: 0, action: null });
+            return;
+          }
+          if (!hasEvent(gsRef.current, MEWTWO_WILD_OBJECT.flag) && onEncounter) {
+            onEncounter({ species: MEWTWO_WILD_OBJECT.species, level: MEWTWO_WILD_OBJECT.level, criesText: MEWTWO_WILD_OBJECT.criesText, powerPlantFlag: MEWTWO_WILD_OBJECT.flag }, ms.mapId, p.x, p.y);
           }
           return;
         }

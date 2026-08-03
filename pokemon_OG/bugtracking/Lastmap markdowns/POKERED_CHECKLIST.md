@@ -222,8 +222,36 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
       (Saffron Gym, 2026-08-02): confirmed to be 30 ordinary same-map `warp_events` already
       correctly present in `game_data.json` — `handleWarp` is fully generic for same-map warps,
       no special "teleport" mechanism was ever needed. (Cinnabar has no real quiz in OG.)
-- [ ] Legendaries + Mewtwo — one-time encounters
-- [ ] Champion + Hall of Fame
+- [x] Legendaries + Mewtwo (Endgame-VictoryRoad-Legendaries-HoF cluster, 2026-08-03) — Moltres
+      (`VICTORY_ROAD_2F`, level 50) and Mewtwo (`CERULEAN_CAVE_B1F`, level 70) wired as
+      Z-press-triggered disguised-wild-Pokémon encounters, same established pattern as
+      Zapdos/Articuno (`MOLTRES_WILD_OBJECT`/`MEWTWO_WILD_OBJECT` in `PokeredOverworld.jsx`).
+      Mewtwo's real OG gate (a guard NPC on a different map, hidden via `HideObject` once you
+      become Champion) is outside this cluster's 17-map scope, so it's reproduced via a
+      permanent one-shot flag (`MEWTWO_UNLOCK_FLAG_ID`) set at Hall of Fame completion instead —
+      deliberately NOT `EVENT_BEAT_CHAMPION_RIVAL`, since OG resets that flag on every HoF visit
+      for Elite Four rematchability (would incorrectly re-lock the cave). [x] Claude tested
+      (code review + `npm run build` + `audit_map.py`; the 2 remaining `npc_dialogue` FAILs for
+      these are a confirmed audit-script false positive — it doesn't detect the onEncounter
+      Z-press pattern, same as the already-accepted Zapdos/Articuno FAILs). [ ] You
+- [x] Champion + Hall of Fame (Endgame-VictoryRoad-Legendaries-HoF cluster, 2026-08-03) — Elite
+      Four gauntlet (Lorelei→Bruno→Agatha→Lance→Champion) built: forward-progress gates block
+      each room's exit until that member is beaten (`ELITE_FOUR_EXIT_GATES`), and a "no retreat"
+      lock (`ELITE_FOUR_NO_RETREAT`) matches OG's real "Don't run away!" push-back — verified via
+      `scripts/LoreleisRoom.asm`/`BrunosRoom.asm`/`AgathasRoom.asm`/`LancesRoom.asm` that this is
+      real, not cosmetic (prevents skipping a member via Teleport/Dig mid-corridor). No
+      Pokécenter/healing-machine exists inside any Elite Four room in real OG (verified directly
+      — only `INDIGO_PLATEAU_LOBBY`'s nurse, before the gauntlet starts); this port doesn't add
+      one either, matching OG. Hall of Fame arrival auto-fires Oak's real congratulations text,
+      resets the Elite Four's beaten/lock state for rematchability (matches OG's
+      `ResetEventRange INDIGO_PLATEAU_EVENTS_START..END`), and permanently unlocks Mewtwo (see
+      above). Champion win now also sets `EVENT_BEAT_CHAMPION_RIVAL` (`PokeredApp.jsx
+      handleBattleEnd`) for fidelity. ✂️ Simplification: the full credits/return-to-title
+      sequence (real OG: ~10s delay + engine reset) is not built — not meaningful in a
+      persistent-save web SPA; the player simply continues playing after Oak's dialogue, same
+      tradeoff already established for `CHAMPIONS_ROOM`'s Oak-arrival cutscene (no
+      player-forced-movement primitive in this port). [x] Claude tested (code review + `npm run
+      build` + `audit_map.py`). [ ] You
 - [ ] Day Care — Fuchsia City (user note, wtf is this? day care?)
 - [x] In-game NPC trades — all 9 reachable OG trade NPCs wired (`data/events/trades.asm` +
       `engine/events/in_game_trades.asm`): TERRY (ROUTE_11_GATE_2F:1), MARCEL
