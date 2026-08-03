@@ -2659,6 +2659,14 @@ function notifyPosition() {
   const MR_FUJIS_HOUSE_MAGAZINE_TILES = [{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 7, y: 1 }];
   const MAGAZINES_TEXT_LINES = ["POKÉMON magazines!", "POKÉMON notebooks!", "POKÉMON graphs!"];
 
+  // Bookcase hidden_event (data/events/hidden_events.asm hidden_events_for BLUES_HOUSE ->
+  // PrintBookcaseText at (0,1)/(1,1)/(7,1), all SPRITE_FACING_UP; engine/events/hidden_events/
+  // blues_room.asm prints the one shared BookcaseText regardless of which tile triggered it —
+  // same one-text-for-N-coords shape as the Magazines table above, just facing UP instead of
+  // DOWN (verified from the real hidden_event args, not assumed from the pattern match).
+  const BLUES_HOUSE_BOOKCASE_TILES = [{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 7, y: 1 }];
+  const BOOKCASE_TEXT_LINES = ["Crammed full of\nPOKéMON books!"];
+
   // NOTE (merge, 2026-08-02): this cluster independently built its own bench-guy/gym-statue
   // tables (BENCH_GUY_TILES/benchGuyTextAt, GYM_STATUE_TILES/gymStatueTextAt below) in parallel
   // with the Batch 1 clusters' BENCH_GUY_TEXT/benchGuyText and GYM_STATUES/gymStatueLines above,
@@ -4051,6 +4059,21 @@ function notifyPosition() {
       } else {
         setDialogue({ lines: ["Oh, someone stole\nmy GOLD TEETH!", "I lost them\nsomewhere in the\nSAFARI ZONE..."], idx: 0, action: null });
       }
+      return;
+    }
+
+    // Pewter Pokecenter's Jigglypuff easter egg (scripts/PewterPokecenter.asm
+    // PewterPokecenterJigglypuffText) — real OG stops all music, plays the Jigglypuff song, and
+    // spins the sprite through all 4 facing directions for its duration, resuming default music
+    // after. This port has no audio system at all yet (converting music/SFX is its own deferred
+    // phase, sequenced deliberately last project-wide — see the checklist's "Lower Priority"
+    // section), so only the dialogue text itself is wired here; the song+spin flourish is a
+    // real, but explicitly out-of-scope-for-now, omission. 'fairy' is a generic sprite reused
+    // for 6 other unrelated NPCs elsewhere in the game (Celadon Mansion, Copycat's House x2,
+    // Fuchsia City, Pokemon Fan Club, SS Anne) — this must stay a per-instance `here` special
+    // case, not a generic NPC_TEXT['fairy'] entry, or it would wrongly overwrite all of them.
+    if (here === 'PEWTER_POKECENTER:3') {
+      setDialogue({ lines: ["JIGGLYPUFF: Puu\npupuu!"], idx: 0, action: null });
       return;
     }
 
@@ -5581,6 +5604,14 @@ function notifyPosition() {
             MR_FUJIS_HOUSE_MAGAZINE_TILES.some(t => t.x === fx && t.y === fy) &&
             p.dir === DIR_DOWN) {
           setDialogue({ lines: MAGAZINES_TEXT_LINES, idx: 0, action: null });
+          return;
+        }
+        // Bookcase (see BLUES_HOUSE_BOOKCASE_TILES above) — only fires facing UP, matching OG's
+        // SPRITE_FACING_UP check.
+        if (ms.mapId === 'BLUES_HOUSE' &&
+            BLUES_HOUSE_BOOKCASE_TILES.some(t => t.x === fx && t.y === fy) &&
+            p.dir === DIR_UP) {
+          setDialogue({ lines: BOOKCASE_TEXT_LINES, idx: 0, action: null });
           return;
         }
         // Copycat's House 2F "PC" bg_event (0,1) — real OG (scripts/CopycatsHouse2F.asm
