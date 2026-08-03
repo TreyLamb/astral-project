@@ -46,7 +46,17 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
 - [x] Trainer line of sight — `checkLOS()`, direction + distance
 - [ ] Trainer walk-up animation — exists but bugged, left unfinished
 - [ ] Trainer position persistence after battle — trainer snaps back to spawn instead of
-      staying put until the map reloads
+      staying put until the map reloads. **Root cause found 2026-08-02**: `PokeredApp.jsx`
+      renders `<PokeredBattle>` in place of (not alongside) `<PokeredOverworld>` while
+      `screen === 'battle'` — so `PokeredOverworld` fully UNMOUNTS during every battle and
+      REMOUNTS on return, which re-runs its map-load effect (`PokeredOverworld.jsx` ~L1404-1406:
+      `trainerEngageRef.current = null; npcBattlePosRef.current = new Map(); npcLivePosRef.current
+      = new Map();`) and wipes the walked-up position before the player ever sees it stick. Real
+      fix needs the walked-up position threaded through `gameState` (which survives the screen
+      swap) instead of a purely local ref, OR keeping `PokeredOverworld` mounted (hidden) during
+      battle instead of unmounting it — not attempted this pass, deliberately deferred: it's a
+      moderate-risk change to the map-load effect while other work was still landing in the same
+      file, and it's cosmetic (wrong-but-valid position) rather than a functional blocker.
 - [ ] Swimming-trainer chase — no water-movement exception, chase-to-battle walk stalls
 
 ---
@@ -502,8 +512,15 @@ just my notes on defects.
 
 1. Ledge hopping — reported worse after the west/east ledge fix; south ledges and NPC-side
    ledge logic (`npcCanStep`) not yet re-verified against the pre-regression baseline.
-2. NPCs can see/engage in battle through walls — LOS check likely has no wall-collision
-   raycast between NPC and player.
+2. ~~NPCs can see/engage in battle through walls~~ — INVESTIGATED 2026-08-02, NOT A BUG. Traced
+   OG's real trainer-sight algorithm end to end (`home/trainers.asm` `CheckFightingMapTrainers`/
+   `TrainerEngage`, `engine/overworld/trainer_sight.asm` `CheckSpriteCanSeePlayer`/
+   `CheckPlayerIsInFrontOfSprite`) — it is PURELY screen-position/distance/facing-direction
+   based; there is no wall-obstruction raycast anywhere in real OG's own implementation either.
+   This port's `checkLOS()` already replicates the same core check (same row/col, within
+   `npc.sight` tiles, facing toward player). Building a wall-raycast would be a DEVIATION from
+   OG, not a fix — do not add one. If a specific map still feels wrong, the actual cause is more
+   likely a missing collision-blocking tile in that map's data, not a missing raycast.
 3. ~~HM06 ground item at Cerulean doorway (28,12)~~ — ROOT-CAUSED AND FIXED
    (Route3-MtMoon-Cerulean-R24_25-Bill cluster pass): NOT a stale-build fluke as suspected — a
    genuinely fabricated `poke_ball` npc entry (`game_data.json`) plus a matching spurious
