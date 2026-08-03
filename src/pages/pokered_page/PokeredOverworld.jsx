@@ -1321,8 +1321,18 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
   // (engine/overworld/sprite_collisions.asm), which treats the player as just another
   // sprite slot when checking NPC movement — without it, an NPC and the player can step
   // onto the same tile in the same frame since only the player's side was checked before.
-  function npcCanStep(fromX, fromY, toX, toY) {
-    if (!isWalkable(toX, toY)) return false;
+  // Phase 4 fix (2026-08-02): Swimmer-class trainers (sprite 'swimmer', always movement:'STAND'
+  // in game_data.json — they only ever move via the chase-to-battle walk-up, never patrol) live
+  // in water and need the same water-tile exception the player gets while surfing
+  // (isSurfableTile, see the player movement code's surfBypass). Unlike the player, an NPC has
+  // no "surf toggle" to check — a Swimmer sprite can ALWAYS step onto a surfable tile, since
+  // that's just where they live. Previously `isWalkable` alone gated this, so a Swimmer chasing
+  // the player across water stalled instantly (their very first step off dry land already
+  // failed). `npcSprite` is optional and only ever matters for this one sprite — every other
+  // caller (patrol movement for non-Swimmer NPCs, which per game_data.json never patrol on
+  // water) sees identical behavior to before.
+  function npcCanStep(fromX, fromY, toX, toY, npcSprite) {
+    if (!isWalkable(toX, toY) && !(npcSprite === 'swimmer' && isSurfableTile(toX, toY))) return false;
     const p = playerRef.current;
     if (p.x === toX && p.y === toY) return false;
     if (p.isWalking) {
@@ -6038,14 +6048,14 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             const stepAxis = (vertical) => {
               if (vertical) {
                 const ny = eng.liveY + Math.sign(dy);
-                if (fn.npcCanStep(eng.liveX, eng.liveY, eng.liveX, ny)) {
+                if (fn.npcCanStep(eng.liveX, eng.liveY, eng.liveX, ny, eng.npc?.sprite)) {
                   eng.liveY = ny;
                   eng.facing = dy > 0 ? 'DOWN' : 'UP';
                   return true;
                 }
               } else {
                 const nx = eng.liveX + Math.sign(dx);
-                if (fn.npcCanStep(eng.liveX, eng.liveY, nx, eng.liveY)) {
+                if (fn.npcCanStep(eng.liveX, eng.liveY, nx, eng.liveY, eng.npc?.sprite)) {
                   eng.liveX = nx;
                   eng.facing = dx > 0 ? 'RIGHT' : 'LEFT';
                   return true;
@@ -6122,7 +6132,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             if (npc.movement === 'WALK_UD') {
               const nextY = live.y + live.walkDir;
               const passDisp = dispWouldPass(live, 'y', live.walkDir);
-              if (passDisp && nextY >= 0 && nextY < tH && fn.npcCanStep(live.x, live.y, live.x, nextY)) {
+              if (passDisp && nextY >= 0 && nextY < tH && fn.npcCanStep(live.x, live.y, live.x, nextY, npc.sprite)) {
                 dy = live.walkDir;
                 newFacing = live.walkDir > 0 ? 'DOWN' : 'UP';
                 canMove = true;
@@ -6134,7 +6144,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
             } else if (npc.movement === 'WALK_LR') {
               const nextX = live.x + live.walkDir;
               const passDisp = dispWouldPass(live, 'x', live.walkDir);
-              if (passDisp && nextX >= 0 && nextX < tW && fn.npcCanStep(live.x, live.y, nextX, live.y)) {
+              if (passDisp && nextX >= 0 && nextX < tW && fn.npcCanStep(live.x, live.y, nextX, live.y, npc.sprite)) {
                 dx = live.walkDir;
                 newFacing = live.walkDir > 0 ? 'RIGHT' : 'LEFT';
                 canMove = true;
@@ -6150,7 +6160,7 @@ p.walkProg = Math.min(1, p.walkProg + WALK_SPD * speedMultRef.current * (bikingR
                 const nx2 = live.x + ddx, ny2 = live.y + ddy;
                 return nx2 >= 0 && ny2 >= 0 && nx2 < tW && ny2 < tH
                   && dispWouldPass(live, axis, sign)
-                  && fn.npcCanStep(live.x, live.y, nx2, ny2);
+                  && fn.npcCanStep(live.x, live.y, nx2, ny2, npc.sprite);
               });
               if (candidates.length > 0) {
                 const [ddx, ddy, face, axis, sign] = candidates[Math.floor(Math.random() * candidates.length)];
