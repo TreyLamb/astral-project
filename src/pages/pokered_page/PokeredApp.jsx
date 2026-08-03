@@ -274,6 +274,21 @@ export default function PokeredApp() {
     });
   }
 
+  // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING =====
+  // Toggle counterpart to handleSetEvent — the Pokémon Mansion secret switches
+  // (scripts/PokemonMansion1F/2F/3F/B1F.asm) use CheckAndSetEvent/ResetEventReuseHL, a real
+  // flip-flop, not a one-way set like every other event flag consumer so far. First real use of
+  // pokeredGameState.js's clearEvent for a player-driven toggle (previously clearEvent was only
+  // ever called from handleMapChange's own map-entry resets).
+  function handleToggleEvent(eventName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = hasEvent(prev, eventName) ? clearEvent(prev, eventName) : setEvent(prev, eventName);
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
   function handleMetOldMan() {
     setGameState(prev => {
       if (!prev || prev.metOldMan) return prev;
@@ -859,8 +874,13 @@ export default function PokeredApp() {
       // PokeredOverworld.jsx's CINNABAR_LAB_FOSSIL_ROOM:1 block). handleMapChange fires on every
       // genuine map transition (per this function's own comment above), so mirroring the reset
       // here on entry to CINNABAR_ISLAND specifically is the exact same trigger condition as OG.
+      // R12_15-R19_21-Seafoam-Cinnabar WIRING: CinnabarIsland_Script's
+      // `ResetEvent EVENT_MANSION_SWITCH_ON` sits right next to the fossil reset above in real
+      // OG (same unconditional per-load trigger) — see POKEMON_MANSION_SWITCH_TRIGGERS in
+      // PokeredOverworld.jsx for the full switch-puzzle mechanism this feeds.
       if (mapId === 'CINNABAR_ISLAND') {
         next = clearEvent(next, 'EVENT_LAB_STILL_REVIVING_FOSSIL');
+        next = clearEvent(next, 'EVENT_MANSION_SWITCH_ON');
       }
       // Vermilion Gym trash-can puzzle (scripts/VermilionCity.asm .setFirstLockTrashCanIndex,
       // gated on VermilionCity_Script's BIT_CUR_MAP_LOADED_1 — real OG re-rolls which trash can
@@ -1657,6 +1677,7 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onActivateFlash={handleActivateFlash}
             onMetOldMan={handleMetOldMan}
             onSetEvent={handleSetEvent}
+            onToggleEvent={handleToggleEvent}
             onRequestStarter={handleRequestStarter}
             onOpenPC={handleOpenPC}
             onOpenShop={handleOpenShop}

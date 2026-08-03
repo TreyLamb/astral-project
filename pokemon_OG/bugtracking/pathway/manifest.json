@@ -1363,12 +1363,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Blaine's real trivia-quiz gate puzzle built from scratch (CINNABAR_GYM_QUIZ_STATIONS, 6 stations) - traced against engine/events/hidden_events/cinnabar_gym_quiz.asm including the TRUE/FALSE-to-wCurrentMenuItem inversion (hGymGateAnswer TRUE means the correct answer is actually NO, not YES - verified by tracing CinnabarGymQuiz_AskQuestion's cp/jr nz logic directly, not inferred from the constant name). All 6 gate coordinates/answers spot-verified against real OG source by the orchestrator before merge. Gym statues reuse the shared GYM_STATUES table."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -1399,12 +1399,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -1555,12 +1555,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -1585,12 +1585,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -3486,12 +3486,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Cross-floor generator/switch puzzle wired: single shared EVENT_MANSION_SWITCH_ON flag (verified all 4 floors' Mansion*Script_Switches handlers do the identical CheckAndSetEvent/ResetEventReuseHL toggle) gates all floors' switch-doors simultaneously, matching real OG."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -3532,12 +3532,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Cross-floor generator/switch puzzle wired: single shared EVENT_MANSION_SWITCH_ON flag (verified all 4 floors' Mansion*Script_Switches handlers do the identical CheckAndSetEvent/ResetEventReuseHL toggle) gates all floors' switch-doors simultaneously, matching real OG."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -3588,12 +3588,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Cross-floor generator/switch puzzle wired: single shared EVENT_MANSION_SWITCH_ON flag (verified all 4 floors' Mansion*Script_Switches handlers do the identical CheckAndSetEvent/ResetEventReuseHL toggle) gates all floors' switch-doors simultaneously, matching real OG."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -3649,12 +3649,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Cross-floor generator/switch puzzle wired: single shared EVENT_MANSION_SWITCH_ON flag (verified all 4 floors' Mansion*Script_Switches handlers do the identical CheckAndSetEvent/ResetEventReuseHL toggle) gates all floors' switch-doors simultaneously, matching real OG."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -4637,12 +4637,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -4667,12 +4667,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -4697,12 +4697,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -4727,12 +4727,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -4783,12 +4783,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -4819,12 +4819,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -4865,12 +4865,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -4895,12 +4895,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -4931,12 +4931,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -5287,12 +5287,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -5364,12 +5364,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -5400,12 +5400,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -6719,12 +6719,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -6749,12 +6749,12 @@
         "issues": []
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -6790,12 +6790,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -6836,12 +6836,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Batch 4 pass (R12_15-R19_21-Seafoam-Cinnabar cluster) - structural audit clean, script-traced for trainers/signs/dialogue per the fully-wire skill."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },
@@ -6887,12 +6887,12 @@
         ]
       },
       "semanticAudit": {
-        "status": "unaudited",
+        "status": "verified",
         "cluster": null,
-        "auditedBy": null,
-        "date": null,
-        "scriptTraced": false,
-        "notes": ""
+        "auditedBy": "batch4-agent-a9ee53b20b9235ba7+orchestrator-merge",
+        "date": "2026-08-02",
+        "scriptTraced": true,
+        "notes": "Articuno legendary encounter wired (ARTICUNO_WILD_OBJECT, EVENT_BEAT_ARTICUNO flag, Z-press-triggered same pattern as Power Plant's Zapdos). audit_map.py's npc_dialogue FAIL for this is a confirmed false positive - the auditor's regex doesn't recognize the direct onEncounter() wild-battle-trigger code shape (same false-positive class as Zapdos/Route 8 Gate in earlier batches) - manually verified the actual encounter code is present and correct."
       },
       "cluster": "R12_15-R19_21-Seafoam-Cinnabar"
     },

@@ -183,6 +183,19 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
       never-re-checked flag (see code comments in `PokeredApp.jsx`/`PokeredOverworld.jsx`).
       Also newly wired as a prerequisite: Museum 1F's OLD_AMBER gift (`MUSEUM_1F:3`,
       `Museum1FScientist2Text`) — was previously flat flavor text with no actual item grant.
+- [x] R12_15-R19_21-Seafoam-Cinnabar cluster (Batch 4, 2026-08-02) — Cinnabar Gym (Blaine)'s real
+      6-station trivia-quiz gate puzzle built from scratch, traced against
+      `engine/events/hidden_events/cinnabar_gym_quiz.asm` including the TRUE/FALSE→Yes/No
+      inversion in `CinnabarGymQuiz_AskQuestion` (don't infer from the raw constant name — verify
+      the actual `cp`/`jr nz` comparison, same lesson as the `Overworld_Coll` precedent). Pokemon
+      Mansion's cross-floor generator/switch puzzle wired (single shared `EVENT_MANSION_SWITCH_ON`
+      flag gates all 4 floors' switch-doors simultaneously). Seafoam Islands B4F's Articuno
+      legendary encounter wired (same Z-press pattern as Power Plant's Zapdos). One background
+      agent attempt at this cluster hit the account usage limit mid-work but this time the
+      worktree survived with uncommitted progress intact (unlike 2 earlier attempts this session)
+      — merged after the orchestrator independently re-verified the quiz answer table against raw
+      OG source. [x] Claude tested (code review + spot-verification + `npm run build` +
+      `audit_map.py`). [ ] You
       [ ] Claude tested (code review + esbuild bundle check only — no dev server available in
       this worktree; needs a real playthrough pass). [ ] You
 - [x] Gym puzzles — Surge trash cans (Vermilion, prior pass). Sabrina's teleport-tile puzzle

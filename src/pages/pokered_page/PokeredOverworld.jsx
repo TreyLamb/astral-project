@@ -396,6 +396,10 @@ const GYM_STATUES = {
   // confirmed by direct read of hidden_events.asm, not an extraction gap. data/maps/badge_maps.asm:
   // SAFFRON_GYM -> BIT_MARSHBADGE, badgeIndex 5 per trainerMeta.js's Sabrina entry.
   SAFFRON_GYM: { city: 'SAFFRON CITY', leader: 'SABRINA', badgeIndex: 5, tiles: [{ x: 9, y: 15 }] },
+  // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING ===== (data/events/hidden_events.asm
+  // hidden_events_for CINNABAR_GYM: GymStatues (17,13), SPRITE_FACING_UP. data/maps/badge_maps.asm:
+  // CINNABAR_GYM -> BIT_VOLCANOBADGE, badgeIndex 6 per trainerMeta.js's Blaine entry.
+  CINNABAR_GYM: { city: 'CINNABAR ISLAND', leader: 'BLAINE', badgeIndex: 6, tiles: [{ x: 17, y: 13 }] },
 };
 function gymStatueLines(mapId, gameState) {
   const g = GYM_STATUES[mapId];
@@ -525,7 +529,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onGiveDollForTM31, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, onFindHiddenCoins, onBuyCoins, onGiveDrinkForTM, onBuyPrize, onGivePokemon, onSafariStep, onSafariEnter, onSafariLeave, onGiveHmSurf, onGiveHmStrength, onGiveHmFly, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onGiveDollForTM31, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onToggleEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, onFindHiddenCoins, onBuyCoins, onGiveDrinkForTM, onBuyPrize, onGivePokemon, onSafariStep, onSafariEnter, onSafariLeave, onGiveHmSurf, onGiveHmStrength, onGiveHmFly, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -1107,6 +1111,29 @@ export default function PokeredOverworld({ initialMapId, initialX, initialY, onE
     if (ms) {
       const door = silphCoDoorAt(ms.mapId, tx, ty);
       if (door) return hasEvent(gsRef.current, door.event);
+    }
+    // Cinnabar Gym trivia-quiz gates (see CINNABAR_GYM_QUIZ_STATIONS above) — same deterministic
+    // both-directions override as the Silph Co Card Key doors: locked until that specific gate's
+    // quiz question has been answered correctly, then permanently open.
+    if (ms?.mapId === 'CINNABAR_GYM') {
+      const gate = cinnabarGymGateBlockedAt(tx, ty);
+      if (gate) return hasEvent(gsRef.current, gate.gateEvent);
+    }
+    // Pokémon Mansion cross-floor switch gates (see POKEMON_MANSION_GATE_BLOCKS above) — the
+    // single shared EVENT_MANSION_SWITCH_ON flag decides every floor's gate state at once.
+    {
+      const blockedWhen = mansionGateBlockedWhen(ms?.mapId, tx, ty);
+      if (blockedWhen) {
+        const on = hasEvent(gsRef.current, 'EVENT_MANSION_SWITCH_ON');
+        return blockedWhen === 'ON' ? !on : on;
+      }
+    }
+    // Cinnabar Island's Secret-Key-gated gym door (see CINNABAR_ISLAND_GYM_DOOR above) —
+    // permanently open once SECRET_KEY has ever been picked up (matches OG's `IsItemInBag`
+    // check, which doesn't consume the key — same "key stays in bag, door stays open" model as
+    // every other key item in this game).
+    if (ms?.mapId === 'CINNABAR_ISLAND' && tx === CINNABAR_ISLAND_GYM_DOOR.x && ty === CINNABAR_ISLAND_GYM_DOOR.y) {
+      return (gsRef.current?.items ?? []).some(it => it.name === 'SECRET_KEY');
     }
     // Callers pass logical (metatile-unit) coordinates; everything below this line is
     // proven-correct RAW-TILE-unit logic (unchanged since before the coordinate refactor) — so
@@ -2062,6 +2089,35 @@ const OUTDOOR = ['overworld', 'plateau'];
       handleWarp(warp); return;
     }
 
+    // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING: Seafoam Islands "hole" floor-descent =====
+    // scripts/SeafoamIslands1F/B1F/B2F/B3F.asm: each floor's own Seafoam<N>HolesCoords list is
+    // checked EVERY script tick against the player's live position (`.noBoulderWasPushed` ->
+    // `IsPlayerOnDungeonWarp`), independent of the ordinary warp_events table — these are the
+    // round "pit" tiles you fall through to descend a floor, separate from (and in addition to)
+    // the regular staircase-style warp_events already in game_data.json (which alone already
+    // give 100% connectivity 1F->B1F->B2F->B3F->B4F, confirmed by tracing every floor's
+    // def_warp_events — so this is a genuine shortcut/hazard, not the only way down).
+    // NOT ported here: pushing a boulder INTO a hole relocates it to a specific position on the
+    // floor below (TOGGLE_SEAFOAM_ISLANDS_*F_BOULDER_* show/hide pairs) and, once both of a
+    // floor's holes have swallowed a boulder, triggers a forced "strong current" auto-walk
+    // sequence on the floor below (SeafoamIslandsB3F/B4F's simulated-joypad-state RLE playback,
+    // `StartSimulatingJoypadStates`/`DecodeRLEList`) — that requires a whole new forced-movement
+    // primitive this engine doesn't have anywhere else, plus threading per-floor boulder
+    // hide/show state across 4 separate map loads. Scoped out of this pass (✂️ — flagged, not
+    // silently dropped): it's a genuine, non-trivial new subsystem (more than "wire a map"), and
+    // since the ordinary warps already make the whole dungeon (including reaching Articuno)
+    // 100% completable without it, it's a bonus puzzle refinement rather than a blocking gap.
+    // Falling through a hole here just changes map at the SAME (x,y) (matches OG: no separate
+    // destination coordinate is ever given, only a destination MAP).
+    {
+      const holeDest = SEAFOAM_HOLES[ms.mapId];
+      const hole = holeDest?.coords.find(c => c.x === p.x && c.y === p.y);
+      if (hole) {
+        pendingMapRef.current = { mapId: holeDest.dest, x: p.x, y: p.y };
+        transitionRef.current = 1;
+        return;
+      }
+    }
 
     const grassTileList = gameDataRef.current?.grassTiles[ms.mapInfo.tileset];
     // getTileId needs raw-tile units; p.x/p.y are logical (metatile) units — convert at this
@@ -2244,6 +2300,11 @@ function notifyPosition() {
       const wildObj = POWER_PLANT_WILD_OBJECTS.find(o => o.x === npc.x && o.y === npc.y);
       if (wildObj && hasEvent(gsRef.current, wildObj.flag)) return true;
     }
+    // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING =====
+    // Articuno (see ARTICUNO_WILD_OBJECT above) despawns for good once beaten/caught, same
+    // pattern as Zapdos above.
+    if (mapId === 'SEAFOAM_ISLANDS_B4F' && npc.x === ARTICUNO_WILD_OBJECT.x && npc.y === ARTICUNO_WILD_OBJECT.y &&
+        hasEvent(gsRef.current, ARTICUNO_WILD_OBJECT.flag)) return true;
     // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
     // Route 12/16 Snorlax despawns for good once beaten/caught (scripts/Route12.asm /
     // Route16.asm SetEvent EVENT_BEAT_ROUTE12/16_SNORLAX) — this is what actually opens the
@@ -2671,6 +2732,170 @@ function notifyPosition() {
   function silphCoDoorAt(mapId, tx, ty) {
     return (SILPH_CO_CARD_KEY_DOORS[mapId] ?? []).find(d => d.x === tx && d.y === ty) ?? null;
   }
+
+  // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING: Cinnabar Gym trivia-quiz gate puzzle =====
+  // engine/events/hidden_events/cinnabar_gym_quiz.asm PrintCinnabarQuiz/CinnabarGymQuiz +
+  // UpdateCinnabarGymGateTileBlocks_ (data/events/hidden_events.asm hidden_events_for CINNABAR_GYM,
+  // 6 PrintCinnabarQuiz entries). Each of the 6 "quiz machine" tiles asks a real trivia question
+  // (facing UP only, matching OG's `cp SPRITE_FACING_UP / ret nz`); answering correctly permanently
+  // opens ONE specific gate elsewhere in the gym (real OG: EVENT_CINNABAR_GYM_GATE1_UNLOCKED..
+  // GATE6_UNLOCKED, already present verbatim in extracted_og_data/event_flags.json — reused via
+  // this port's existing hasEvent/onSetEvent registry, no new gameState field needed). Wrong
+  // answer just shows the "Sorry! Bad call!" text — real OG additionally force-starts a battle
+  // with that gate's specific SUPER_NERD/BURGLAR if they haven't been beaten yet
+  // (wOpponentAfterWrongAnswer / AdjustEventBit EVENT_BEAT_CINNABAR_GYM_TRAINER_0,2 in
+  // CinnabarGymQuiz_AskQuestion) — NOT replicated here: that trainer is independently reachable
+  // as a normal sight/talk NPC via game_data.json's object_events regardless of quiz outcome in
+  // this port (no sight-line gating tied to the gate state), so skipping the punitive forced
+  // battle doesn't leave any trainer permanently unreachable — a deliberate, narrow simplification
+  // (flagged here, not silently dropped) rather than building a whole "forced battle from a text
+  // branch" path for one room.
+  //
+  // Correct answers transcribed from CinnabarGymQuiz_AskQuestion's `hGymGateAnswer` argument:
+  // hidden_event's 2nd macro arg is (FALSE<<4)|idx or (TRUE<<4)|idx; YesNoChoice sets
+  // wCurrentMenuItem=0 for YES, 1 for NO; the compare is `cp c` where c=hGymGateAnswer — so
+  // FALSE(0) means the correct choice is YES (item 0), TRUE(1) means correct is NO (item 1).
+  // Verified this reading against the actual trivia content (e.g. "There are 9 certified BADGEs?"
+  // keys to TRUE→NO, which is factually correct — 8 badges, not 9 — confirming the FALSE=YES/
+  // TRUE=NO mapping rather than the naively-swapped opposite).
+  //
+  // Gate tile positions: CinnabarGymGateCoords stores (x, y, blockId) but UpdateCinnabarGymGateTileBlocks_
+  // loads them as b=y (row), c=x (col) into ReplaceTileBlock — a BLOCK coordinate (4x4-raw-tile /
+  // 2x2-metatile unit, same convention already established for the Vermilion Gym trash-can door
+  // override above). Converted to this port's metatile-unit coordinate via block*2..block*2+1 on
+  // each axis (verified in-bounds against CINNABAR_GYM's own w=10,h=9 blocks -> 20x18 metatiles).
+  // Following the Vermilion Gym / Silph Co Card Key precedent: the override blocks the WHOLE 2x2
+  // metatile span deterministically (both locked AND unlocked states explicitly decided by this
+  // override, not left to the underlying baked block's own open/closed graphic) rather than trying
+  // to isolate the single true chokepoint sub-tile within the block, since that would need a raw
+  // .blk/.bst decode this pass doesn't have time to verify pixel-by-pixel.
+  const CINNABAR_GYM_QUIZ_STATIONS = [
+    { idx: 1, x: 15, y: 7,  correct: 'YES', gateEvent: 'EVENT_CINNABAR_GYM_GATE1_UNLOCKED', gate: { x0: 18, y0: 6,  x1: 19, y1: 7 },
+      question: "CATERPIE evolves\ninto BUTTERFREE?" },
+    { idx: 2, x: 10, y: 1,  correct: 'NO',  gateEvent: 'EVENT_CINNABAR_GYM_GATE2_UNLOCKED', gate: { x0: 12, y0: 6,  x1: 13, y1: 7 },
+      question: "There are 9\ncertified POKéMON\nLEAGUE BADGEs?" },
+    { idx: 3, x: 9,  y: 7,  correct: 'NO',  gateEvent: 'EVENT_CINNABAR_GYM_GATE3_UNLOCKED', gate: { x0: 12, y0: 12, x1: 13, y1: 13 },
+      question: "POLIWAG evolves 3\ntimes?" },
+    { idx: 4, x: 9,  y: 13, correct: 'NO',  gateEvent: 'EVENT_CINNABAR_GYM_GATE4_UNLOCKED', gate: { x0: 6,  y0: 16, x1: 7,  y1: 17 },
+      question: "Are thunder moves\neffective against\nground element-\ntype POKéMON?" },
+    { idx: 5, x: 1,  y: 13, correct: 'YES', gateEvent: 'EVENT_CINNABAR_GYM_GATE5_UNLOCKED', gate: { x0: 4,  y0: 12, x1: 5,  y1: 13 },
+      question: "POKéMON of the\nsame kind and\nlevel are not\nidentical?" },
+    { idx: 6, x: 1,  y: 7,  correct: 'NO',  gateEvent: 'EVENT_CINNABAR_GYM_GATE6_UNLOCKED', gate: { x0: 4,  y0: 6,  x1: 5,  y1: 7 },
+      question: "TM28 contains\nTOMBSTONER?" },
+  ];
+  function cinnabarGymQuizAt(mapId, tx, ty) {
+    if (mapId !== 'CINNABAR_GYM') return null;
+    return CINNABAR_GYM_QUIZ_STATIONS.find(q => q.x === tx && q.y === ty) ?? null;
+  }
+  function cinnabarGymGateBlockedAt(tx, ty) {
+    const q = CINNABAR_GYM_QUIZ_STATIONS.find(s => tx >= s.gate.x0 && tx <= s.gate.x1 && ty >= s.gate.y0 && ty <= s.gate.y1);
+    if (!q) return null;
+    return q; // caller checks hasEvent(q.gateEvent)
+  }
+
+  // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING: Pokémon Mansion cross-floor switch puzzle =====
+  // scripts/PokemonMansion1F.asm/2F/3F/B1F.asm: all FOUR floors' switches toggle the exact SAME
+  // single event flag, EVENT_MANSION_SWITCH_ON (verified directly — every floor's
+  // Mansion*Script_Switches handler does the identical CheckAndSetEvent/ResetEventReuseHL toggle
+  // on this one flag; there is no per-floor flag). This is a real, well-known Gen-1 quirk (every
+  // mansion switch is wired to the same RAM bit) — pressing ANY of the 5 switches (1F, 2F, 3F,
+  // B1F has TWO) toggles ALL floors' gates simultaneously. Each floor's Mansion*CheckReplaceSwitchDoorBlocks
+  // swaps specific hallway blocks between an open-floor tile ($e) and a gate/wall tile ($2d/$54/
+  // $5f) depending on the flag — transcribed 1:1 below as (metatile 2x2 span, which switch-state
+  // makes it BLOCKED). Also: scripts/CinnabarIsland.asm's CinnabarIsland_Script runs
+  // `ResetEvent EVENT_MANSION_SWITCH_ON` unconditionally on every load — i.e. the switch state
+  // does NOT persist once you leave the mansion back onto Cinnabar Island; mirrored in
+  // PokeredApp.jsx's handleMapChange CINNABAR_ISLAND block (same trigger OG uses, right next to
+  // the existing EVENT_LAB_STILL_REVIVING_FOSSIL reset that was already there for the same reason).
+  // Same "block the whole 2x2 metatile span" approximation as the Cinnabar Gym quiz gates above —
+  // this puzzle is non-gating in real OG (there's always another route around; Bulbapedia
+  // documents this as functionally a curiosity, not a required puzzle), so a pixel-perfect single-
+  // subtile door isn't worth the .blk/.bst reverse-engineering time this pass doesn't have.
+  const POKEMON_MANSION_SWITCH_TRIGGERS = {
+    POKEMON_MANSION_1F:  [{ x: 2,  y: 5 }],
+    POKEMON_MANSION_2F:  [{ x: 2,  y: 11 }],
+    POKEMON_MANSION_3F:  [{ x: 10, y: 5 }],
+    POKEMON_MANSION_B1F: [{ x: 20, y: 3 }, { x: 18, y: 25 }],
+  };
+  const POKEMON_MANSION_GATE_BLOCKS = {
+    POKEMON_MANSION_1F: [
+      { x0: 24, y0: 12, x1: 25, y1: 13, blockedWhen: 'ON' },
+      { x0: 16, y0: 6,  x1: 17, y1: 7,  blockedWhen: 'OFF' },
+      { x0: 20, y0: 16, x1: 21, y1: 17, blockedWhen: 'OFF' },
+      { x0: 26, y0: 26, x1: 27, y1: 27, blockedWhen: 'OFF' },
+    ],
+    POKEMON_MANSION_2F: [
+      { x0: 8,  y0: 4,  x1: 9,  y1: 5,  blockedWhen: 'ON' },
+      { x0: 18, y0: 8,  x1: 19, y1: 9,  blockedWhen: 'OFF' },
+      { x0: 6,  y0: 22, x1: 7,  y1: 23, blockedWhen: 'OFF' },
+    ],
+    POKEMON_MANSION_3F: [
+      { x0: 14, y0: 4,  x1: 15, y1: 5,  blockedWhen: 'ON' },
+      { x0: 14, y0: 10, x1: 15, y1: 11, blockedWhen: 'OFF' },
+    ],
+    POKEMON_MANSION_B1F: [
+      { x0: 26, y0: 16, x1: 27, y1: 17, blockedWhen: 'ON' },
+      { x0: 12, y0: 22, x1: 13, y1: 23, blockedWhen: 'ON' },
+      { x0: 8,  y0: 6,  x1: 9,  y1: 7,  blockedWhen: 'OFF' },
+      { x0: 16, y0: 16, x1: 17, y1: 17, blockedWhen: 'OFF' },
+    ],
+  };
+  function mansionSwitchTriggerAt(mapId, tx, ty) {
+    return (POKEMON_MANSION_SWITCH_TRIGGERS[mapId] ?? []).some(t => t.x === tx && t.y === ty);
+  }
+  function mansionGateBlockedWhen(mapId, tx, ty) {
+    const block = (POKEMON_MANSION_GATE_BLOCKS[mapId] ?? []).find(b => tx >= b.x0 && tx <= b.x1 && ty >= b.y0 && ty <= b.y1);
+    return block ? block.blockedWhen : null;
+  }
+
+  // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING: Cinnabar Island's Secret-Key-gated gym door =====
+  // scripts/CinnabarIsland.asm CinnabarIslandDefaultScript: checks the player's OWN position
+  // (wYCoord==4, wXCoord==18 — one tile below the real warp_event 18,3 -> CINNABAR_GYM) every
+  // frame; without SECRET_KEY in the bag, shows "The door is\nlocked tightly." and force-simulates
+  // one step backward (PAD_DOWN) so the player can never actually reach the warp tile. This port
+  // has no per-frame "auto-trigger on standing here" hook (position-triggered scripts are handled
+  // via isWalkable()/Z-press only), so it's adapted as: (a) the warp tile itself is blocked via
+  // isWalkable() until SECRET_KEY is owned (functionally identical outcome — can't pass through
+  // without the key), plus (b) a Z-press-facing-UP check one tile below it shows the real locked-
+  // door text, giving the same player-facing feedback as OG's auto-message even though the trigger
+  // mechanism differs (Z-press vs. auto-bump) — same adaptation class as the Silph Co Card Key
+  // doors' isWalkable() override just above. SECRET_KEY itself is a real ground item on
+  // POKEMON_MANSION_B1F (PickUpItemText, TEXT_POKEMONMANSIONB1F_SECRET_KEY) already covered by the
+  // generic item_locations.json ground-item pipeline — no changes needed there.
+  const CINNABAR_ISLAND_GYM_DOOR = { x: 18, y: 3 };
+  const CINNABAR_ISLAND_GYM_DOOR_APPROACH = { x: 18, y: 4 };
+
+  // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING: Route 15 Gate 2F binoculars =====
+  // engine/events/hidden_events/route_15_binoculars.asm Route15GateLeftBinoculars (1,2), facing
+  // UP only — pure flavor (real OG also shows Articuno's front sprite + cry via
+  // DisplayMonFrontSpriteInBox/PlayCry; skipped here since this port has no generic "preview a
+  // species' sprite outside of battle/Pokédex" popup to reuse, and building one just for this one
+  // Easter egg isn't worth it — the text alone (data/text/text_2.asm
+  // _Route15UpstairsBinocularsText) still delivers the actual content/foreshadowing).
+  const ROUTE_15_GATE_2F_BINOCULARS = { x: 1, y: 2 };
+  const ROUTE_15_GATE_2F_BINOCULARS_TEXT = ["Looked into the\nbinoculars...", "A large, shining\nbird is flying\ntoward the sea."];
+
+  // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING: Seafoam Islands B4F Articuno =====
+  // data/maps/objects/SeafoamIslandsB4F.asm: object_event 6, 1, SPRITE_BIRD, STAY, DOWN,
+  // TEXT_SEAFOAMISLANDSB4F_ARTICUNO, ARTICUNO, 50 — the same "trainer-macro-overloaded disguised
+  // wild Pokémon" object_event shape as POWER_PLANT_WILD_OBJECTS' Zapdos entry (species+level
+  // trailing args instead of a flat text pointer). Unlike the Power Plant poke_ball decoys, this
+  // is a SPRITE_BIRD (matching Zapdos too) — a normal SOLID npc in this engine (not in the
+  // poke_ball collision-exclusion list), so it's approached and interacted with face-to-face via
+  // Z-press, not walked onto. criesText "Gyaoo!" transcribed from text/SeafoamIslandsB4F.asm
+  // _SeafoamIslandsB4FArticunoBattleText (identical placeholder cry text to Zapdos's own entry —
+  // OG reuses the same generic "before battle" line shape for both legendary birds).
+  const ARTICUNO_WILD_OBJECT = { x: 6, y: 1, species: 'ARTICUNO', level: 50, flag: 'EVENT_BEAT_ARTICUNO', criesText: 'Gyaoo!' };
+
+  // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING: Seafoam Islands hole coordinates =====
+  // Seafoam<N>HolesCoords tables, one per floor with a floor below it (B4F is the bottom floor,
+  // no holes). See the checkNewTile() consumer above for the full mechanism + scoped-out parts.
+  const SEAFOAM_HOLES = {
+    SEAFOAM_ISLANDS_1F:  { dest: 'SEAFOAM_ISLANDS_B1F', coords: [{ x: 17, y: 6 }, { x: 24, y: 6 }] },
+    SEAFOAM_ISLANDS_B1F: { dest: 'SEAFOAM_ISLANDS_B2F', coords: [{ x: 18, y: 6 }, { x: 23, y: 6 }] },
+    SEAFOAM_ISLANDS_B2F: { dest: 'SEAFOAM_ISLANDS_B3F', coords: [{ x: 19, y: 6 }, { x: 22, y: 6 }] },
+    SEAFOAM_ISLANDS_B3F: { dest: 'SEAFOAM_ISLANDS_B4F', coords: [{ x: 3,  y: 16 }, { x: 6, y: 16 }] },
+  };
 
   // ===== GAME_CORNER: slot-machine seats + floor coins (data/events/hidden_events.asm
   // hidden_events_for GAME_CORNER) =====
@@ -4297,6 +4522,18 @@ function notifyPosition() {
           onGivePokemon(prev.giftSpecies, 30);
           if (onSetEvent && prev.giftEvent) onSetEvent(prev.giftEvent);
         }
+        // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING =====
+        // Cinnabar Gym quiz correct-answer gate unlock (see CINNABAR_GYM_QUIZ_STATIONS above) —
+        // idempotent via onSetEvent, matches OG showing the same "correct!" text even on repeat
+        // visits to an already-unlocked gate.
+        if (prev.action === 'CINNABAR_QUIZ_CORRECT' && onSetEvent && prev.gateEvent) {
+          onSetEvent(prev.gateEvent);
+        }
+        // Pokémon Mansion secret switch toggle (see POKEMON_MANSION_SWITCH_TRIGGERS above) — a
+        // real toggle (not idempotent set), matching OG's CheckAndSetEvent/ResetEventReuseHL.
+        if (prev.action === 'MANSION_TOGGLE_SWITCH' && onToggleEvent) {
+          onToggleEvent('EVENT_MANSION_SWITCH_ON');
+        }
         // ===== FOSSIL REVIVAL + IN-GAME TRADES WIRING =====
         if (prev.action === 'GIVE_FOSSIL' && onGiveFossil && prev.fossilItem) {
           onGiveFossil(prev.fossilItem);
@@ -4759,6 +4996,18 @@ function notifyPosition() {
           }
           return;
         }
+        // Articuno (see ARTICUNO_WILD_OBJECT above) — same solid-sprite-bird, Z-press-triggered
+        // legendary encounter shape as Zapdos above, reusing the exact same onEncounter/
+        // powerPlantFlag plumbing (that field name is generic-purpose despite the Power-Plant-
+        // specific name — PokeredApp.jsx's handleEncounter just sets whatever flag is passed on
+        // victory/capture, regardless of map).
+        if (npc && ms.mapId === 'SEAFOAM_ISLANDS_B4F' && npc.sprite === 'bird' &&
+            npc.x === ARTICUNO_WILD_OBJECT.x && npc.y === ARTICUNO_WILD_OBJECT.y) {
+          if (!hasEvent(gsRef.current, ARTICUNO_WILD_OBJECT.flag) && onEncounter) {
+            onEncounter({ species: ARTICUNO_WILD_OBJECT.species, level: ARTICUNO_WILD_OBJECT.level, criesText: ARTICUNO_WILD_OBJECT.criesText, powerPlantFlag: ARTICUNO_WILD_OBJECT.flag }, ms.mapId, p.x, p.y);
+          }
+          return;
+        }
         if (npc) { startDialogue(npc); return; }
         // Facing a warp — check direction rule before entering
         const facedWarp = ms.mapInfo.warps.find(w => w.x === fx && w.y === fy);
@@ -4930,6 +5179,60 @@ function notifyPosition() {
             }
             return;
           }
+        }
+        // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING =====
+        // Cinnabar Gym trivia-quiz machines — see CINNABAR_GYM_QUIZ_STATIONS/isWalkable() above.
+        // Facing UP only (matches OG's PrintCinnabarQuiz check). Shows the intro line + the
+        // question, then a Yes/No; correct answer permanently opens that gate (onSetEvent) and
+        // shows the real "You're absolutely correct!" text, wrong answer shows "Sorry! Bad call!".
+        {
+          const quiz = cinnabarGymQuizAt(ms?.mapId, fx, fy);
+          if (quiz && p.dir === DIR_UP) {
+            const correctBranch = {
+              lines: ["You're absolutely\ncorrect!", "Go on through!"],
+              action: 'CINNABAR_QUIZ_CORRECT', gateEvent: quiz.gateEvent,
+            };
+            const incorrectBranch = { lines: ['Sorry! Bad call!'] };
+            setDialogue({
+              lines: ['POKéMON Quiz!\n\nGet it right and\nthe door opens to\nthe next room!', quiz.question],
+              idx: 0, action: null,
+              yesNo: quiz.correct === 'YES'
+                ? { onYes: correctBranch, onNo: incorrectBranch }
+                : { onYes: incorrectBranch, onNo: correctBranch },
+            });
+            return;
+          }
+        }
+        // Pokémon Mansion secret switches (see POKEMON_MANSION_SWITCH_TRIGGERS/isWalkable()
+        // above) — facing UP only. Toggles the single shared EVENT_MANSION_SWITCH_ON flag on
+        // Yes (matches OG's CheckAndSetEvent/ResetEventReuseHL toggle, not a one-way set).
+        if (ms && mansionSwitchTriggerAt(ms.mapId, fx, fy) && p.dir === DIR_UP) {
+          setDialogue({
+            lines: ['A secret switch!\n\nPress it?'],
+            idx: 0, action: null,
+            yesNo: {
+              onYes: { lines: ["Who wouldn't?"], action: 'MANSION_TOGGLE_SWITCH' },
+              onNo: { lines: ['Not quite yet!'] },
+            },
+          });
+          return;
+        }
+        // Cinnabar Island's Secret-Key-gated gym door (see CINNABAR_ISLAND_GYM_DOOR/isWalkable()
+        // above) — Z-press facing UP one tile below the warp shows the real locked-door text
+        // when SECRET_KEY isn't owned yet (see that table's comment for why this is a Z-press
+        // adaptation of OG's auto-bump trigger). Once SECRET_KEY is owned, isWalkable() already
+        // lets the player straight through to the warp, so this never fires again.
+        if (ms?.mapId === 'CINNABAR_ISLAND' && fx === CINNABAR_ISLAND_GYM_DOOR_APPROACH.x &&
+            fy === CINNABAR_ISLAND_GYM_DOOR_APPROACH.y && p.dir === DIR_UP &&
+            !(gsRef.current?.items ?? []).some(it => it.name === 'SECRET_KEY')) {
+          setDialogue({ lines: ['The door is\nlocked tightly.'], idx: 0, action: null });
+          return;
+        }
+        // Route 15 Gate 2F binoculars (see ROUTE_15_GATE_2F_BINOCULARS above) — facing UP only.
+        if (ms?.mapId === 'ROUTE_15_GATE_2F' && fx === ROUTE_15_GATE_2F_BINOCULARS.x &&
+            fy === ROUTE_15_GATE_2F_BINOCULARS.y && p.dir === DIR_UP) {
+          setDialogue({ lines: ROUTE_15_GATE_2F_BINOCULARS_TEXT, idx: 0, action: null });
+          return;
         }
         // Fighting Dojo signs (see FIGHTING_DOJO_SIGNS above) — 4 flat facing-UP flavor texts.
         if (ms) {
