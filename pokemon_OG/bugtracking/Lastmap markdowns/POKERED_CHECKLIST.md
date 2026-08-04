@@ -585,7 +585,23 @@ just my notes on defects.
    genuinely fabricated `poke_ball` npc entry (`game_data.json`) plus a matching spurious
    `item_locations.json` HM06 entry, neither backed by any real OG `object_event`, sitting on
    the exact same tile as the real Guard1 NPC. Both removed.
-4. Page load times reported ~5x slower — cause unknown, not investigated.
+4. Page load times reported ~5x slower. **Investigated 2026-08-03, confirmed real, root cause
+   is whole-site, not pokered-specific.** `npm run build` has warned every single build this
+   session about one ~5MB (1.3MB gzipped) JS chunk — confirmed why: root `src/App.jsx` statically
+   `import`s every single page/sub-app (Home, every game, MyMDB, RS Market, `planning-tool`
+   including its `xlsx` engine, fitness tracker, etc.) with zero `React.lazy()`/route-level code
+   splitting anywhere, so literally every visitor to ANY page downloads and parses the entire
+   site's JS before first paint — this is the real, whole-site cause of the slowdown, not
+   something introduced by or fixable inside `pokered_page/`. Pokered does contribute to that one
+   shared bundle too (`extracted_og_data/npc_dialogue.json` 100K + `trainer_text.json` 108K +
+   `dex.json` 36K + 8 smaller JSON files + `trainerParties.js` 44K = 377K raw, all loaded via
+   static `import` in `PokeredApp.jsx`/`PokeredBattle.jsx`/`PokeredOverworld.jsx` instead of
+   `fetch()` the way `game_data.json`/`pokemon_data.json` already correctly are), but that's a
+   fraction of the ~5MB total — converting just pokered's own imports to runtime fetches would
+   not fix the reported symptom on its own. **Deliberately not fixed this pass**: the real fix
+   (route-level `React.lazy()` splitting in root `App.jsx`) touches every sub-app's routing
+   sitewide, outside `pokered_page`'s own ownership/CLAUDE.md and outside this session's scope —
+   flagged for the owner to decide on scope/priority rather than silently launched into.
 5. Route 11.5 ↔ Route 12 warps (walking into the roof of gates) — 2 warps affected.
    **Investigated 2026-08-03, no data bug found — flagging for a more specific repro rather than
    guessing further.** Cross-referenced every `warp_event` in `Route11.asm`/`Route11Gate1F.asm`/
