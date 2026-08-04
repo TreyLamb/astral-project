@@ -59,20 +59,34 @@ bug-tracking section at the bottom for that kind of thing, and keep it to one li
 - [x] Trainer battle trigger — press A facing trainer → dialogue → battle
 - [x] Stable party assignment — deterministic per-NPC party variant
 - [x] Trainer line of sight — `checkLOS()`, direction + distance
-- [ ] Trainer walk-up animation — exists but bugged, left unfinished
-- [ ] Trainer position persistence after battle — trainer snaps back to spawn instead of
-      staying put until the map reloads. **Root cause found 2026-08-02**: `PokeredApp.jsx`
-      renders `<PokeredBattle>` in place of (not alongside) `<PokeredOverworld>` while
-      `screen === 'battle'` — so `PokeredOverworld` fully UNMOUNTS during every battle and
-      REMOUNTS on return, which re-runs its map-load effect (`PokeredOverworld.jsx` ~L1404-1406:
-      `trainerEngageRef.current = null; npcBattlePosRef.current = new Map(); npcLivePosRef.current
-      = new Map();`) and wipes the walked-up position before the player ever sees it stick. Real
-      fix needs the walked-up position threaded through `gameState` (which survives the screen
-      swap) instead of a purely local ref, OR keeping `PokeredOverworld` mounted (hidden) during
-      battle instead of unmounting it — not attempted this pass, deliberately deferred: it's a
-      moderate-risk change to the map-load effect while other work was still landing in the same
-      file, and it's cosmetic (wrong-but-valid position) rather than a functional blocker.
-- [ ] Swimming-trainer chase — no water-movement exception, chase-to-battle walk stalls
+- [x] Trainer walk-up animation — chase-to-adjacent-tile walk confirmed working live
+      (2026-08-03, Cerulean Gym Swimmer)
+- [x] Trainer position persistence after battle (2026-08-03, Phase 4 item 3) [ ] Claude
+      [ ] You — trainer now stays at the tile it walked up to instead of snapping back to
+      spawn. `gameState.pendingTrainerPos` threads the walked-up `{mapId,npcId,x,y,facing}`
+      across the unmount/remount every battle causes (`PokeredApp.jsx` renders
+      `<PokeredBattle>` in place of `<PokeredOverworld>` while `screen === 'battle'`).
+      **First attempt (same day) was itself buggy and caught only via live Playwright
+      testing, not by build/lint**: clearing `pendingTrainerPos` in the SAME `setGameState`
+      call in `handleBattleEnd` that also flips `screen` back to `'overworld'` meant React
+      18's auto-batching committed both in one update — the freshly-mounted
+      `PokeredOverworld` read `gameState` with `pendingTrainerPos` already `null`, so the
+      restore silently never applied and the trainer reappeared near its original spawn tile.
+      Fixed by NOT clearing it in `handleBattleEnd`'s victory branch at all; instead
+      `PokeredOverworld`'s map-load effect calls a new `onConsumePendingTrainerPos` prop
+      (→ `PokeredApp.jsx`'s `handleConsumePendingTrainerPos`) to clear it one render later,
+      only after actually applying it to `npcBattlePosRef`. Also switched the read from the
+      bare `gameState` prop to `gsRef.current` inside `loadMap` (a `useCallback` with an empty
+      deps array closes over `gameState` once and would otherwise go stale for any later
+      `loadMap` call in the same mounted lifetime). Verified live: walked a Swimmer trainer
+      into chase range at Cerulean Gym (temporarily swapped its party to a 1-mon Lv1 Magikarp
+      via `trainerParties.js` for a fast win, reverted immediately after via `git checkout`,
+      never committed), won, and confirmed the trainer sprite stayed adjacent to the player
+      instead of snapping back across the room to its spawn tile.
+- [x] Swimming-trainer chase (2026-08-03, Phase 4 item 1) — `npcCanStep()` now allows a
+      Swimmer-class trainer to step onto surfable water tiles unconditionally (they live in
+      water and have no player-style surf toggle); verified live, chase no longer stalls at
+      the water's edge.
 
 ---
 

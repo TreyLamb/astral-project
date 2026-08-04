@@ -529,7 +529,7 @@ function facingMatchesDir(playerDir, warpDir) {
   return DIR_TO_WARP_DIR[playerDir] === warpDir;
 }
 
-export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onGiveDollForTM31, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onToggleEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, onFindHiddenCoins, onBuyCoins, onGiveDrinkForTM, onBuyPrize, onGivePokemon, onSafariStep, onSafariEnter, onSafariLeave, onGiveHmSurf, onGiveHmStrength, onGiveHmFly, onCompleteHallOfFame, gameState, isExtra }) {
+export default function PokeredOverworld({ initialMapId, initialX, initialY, onEncounter, onTrainerBattle,speedMult, setSpeedMult, showWarps, setShowWarps, onReturnHome, onHealParty, onPoisonTick, onMarkGiftTaken, onDeliverParcel, onRequestStarter, onOpenPC, onOpenShop, onOpenSlots, onMapChange, onSave, onSaveExtraAsNew, onPositionUpdate, onConsumePendingTrainerPos, onPickUpItem, onUseItem, onTeachMove, onSwitchParty, onSwapMoves, onRenameMon, onBuyMagikarp, onBuyItem, onGiveGuardDrink, onExchangeBikeVoucher, onGiveDollForTM31, onCutTree, onSetSurfing, onActivateStrength, onPushBoulder, onActivateFlash, onMetOldMan, onSetEvent, onToggleEvent, onGiveFossil, onCollectFossilMon, onDoTrade, onGymTrashCan, onDaycareDeposit, onDaycarePay, onDaycareStep, onFindHiddenCoins, onBuyCoins, onGiveDrinkForTM, onBuyPrize, onGivePokemon, onSafariStep, onSafariEnter, onSafariLeave, onGiveHmSurf, onGiveHmStrength, onGiveHmFly, onCompleteHallOfFame, gameState, isExtra }) {
   const canvasRef = useRef();
   const pickedUpRef = useRef(new Set(gameState?.pickedUpItems ?? []));
   useEffect(() => { pickedUpRef.current = new Set(gameState?.pickedUpItems ?? []); }, [gameState?.pickedUpItems]);
@@ -1442,6 +1442,31 @@ const OUTDOOR = ['overworld', 'plateau'];
       npcLivePosRef.current = new Map();
       hydrateBoulderPositions(mapId);
       boulderPushAttemptRef.current = { id: null, dir: null };
+      // Phase 4 fix (2026-08-02, corrected 2026-08-03): restore a trainer's walked-up position
+      // across the unmount/remount every battle causes (PokeredApp.jsx renders <PokeredBattle> in
+      // place of this whole component while screen==='battle') — without this, the map-load reset
+      // just above always wins and the trainer visibly snaps back to its original spawn tile the
+      // instant the player returns from battle. gameState.pendingTrainerPos is set once by
+      // PokeredApp's handleTrainerBattle (mirroring what npcBattlePosRef already held pre-battle).
+      // Reads gsRef.current (not the bare `gameState` prop/closure) because loadMap is a
+      // useCallback with an EMPTY deps array — a direct `gameState` reference would freeze to
+      // whatever it was on this component instance's first render and never see updates for any
+      // later loadMap call in the same mounted lifetime (e.g. walking through more maps after this
+      // battle). gsRef is initialized with `useRef(gameState)`, so it's already correct on this
+      // very first call too, unlike the prop closure. Consumed via onConsumePendingTrainerPos
+      // (clears it in PokeredApp one render later) rather than clearing it inline here — the
+      // original attempt cleared pendingTrainerPos in the SAME setGameState call in handleBattleEnd
+      // that also flips screen back to 'overworld'; since React 18 batches both into one commit,
+      // this component's fresh mount read gameState with pendingTrainerPos already null, and the
+      // restore silently never applied (confirmed live via Playwright: the trainer reappeared near
+      // its original spawn tile instead of the walked-up position). Clearing it only after this
+      // effect has actually consumed it avoids that race, while still never leaking into a later,
+      // unrelated map load.
+      if (gsRef.current?.pendingTrainerPos?.mapId === mapId) {
+        const { npcId, x: bx, y: by, facing: bFacing } = gsRef.current.pendingTrainerPos;
+        npcBattlePosRef.current.set(npcId, { x: bx, y: by, facing: bFacing });
+        if (onConsumePendingTrainerPos) onConsumePendingTrainerPos();
+      }
 
       // ===== SS ANNE DEPARTURE (scripts/VermilionDock.asm) =====
       // Real OG: after getting HM01/Cut from the Captain (EVENT_GOT_HM01, see the
@@ -4699,8 +4724,15 @@ function notifyPosition() {
         if (prev.action === 'BATTLE' && onTrainerBattle) {
           const ms = mapStateRef.current;
           const p  = playerRef.current;
+          // Phase 4 fix (2026-08-02): carry the trainer's walked-up position/facing (already
+          // correctly recorded in npcBattlePosRef by the chase logic above, or absent for a
+          // stationary talk-triggered trainer) along with the battle trigger, so PokeredApp can
+          // persist it through gameState — npcBattlePosRef itself gets wiped by this file's own
+          // map-load effect on the unmount/remount every battle causes, which is the actual
+          // cause of "trainer snaps back to spawn after battle."
+          const walkedUpPos = npcBattlePosRef.current.get(prev.trainerId) ?? null;
           setTimeout(() => onTrainerBattle(
-            { trainerKey: prev.trainerKey, partyIdx: prev.partyIdx ?? 0, trainerId: prev.trainerId, sprite: prev.sprite, npcIndex: prev.npcIndex },
+            { trainerKey: prev.trainerKey, partyIdx: prev.partyIdx ?? 0, trainerId: prev.trainerId, sprite: prev.sprite, npcIndex: prev.npcIndex, pos: walkedUpPos },
             ms?.mapId, p?.x, p?.y
           ), 50);
         }

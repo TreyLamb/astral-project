@@ -47,6 +47,14 @@ export default function PokeredApp() {
     playerPosRef.current = { mapId, x, y };
   }
 
+  // Called by PokeredOverworld's map-load effect right after it has consumed
+  // gameState.pendingTrainerPos (applied it to npcBattlePosRef) — clears the field one render
+  // later than the battle-end restore itself, so the remount that needs to READ it isn't also
+  // the commit that WIPES it (see the comment on handleBattleEnd's victory branch below).
+  function handleConsumePendingTrainerPos() {
+    setGameState(prev => (prev && prev.pendingTrainerPos) ? { ...prev, pendingTrainerPos: null } : prev);
+  }
+
   useEffect(() => {
     fetch('/pokered/pokemon_data.json')
       .then(r => r.json())
@@ -100,6 +108,13 @@ export default function PokeredApp() {
     // mapId carried alongside so PokeredBattle can look up this trainer's real post-victory
     // quote (extracted_og_data/trainer_text.json, keyed by mapId + npcIndex).
     setTrainerEncounter({ ...trainerEncounterData, mapId });
+    // Phase 4 fix (2026-08-02): persist the trainer's walked-up position through gameState so
+    // PokeredOverworld's map-load effect can restore it after this exact screen swap unmounts
+    // and remounts that whole component (see PokeredOverworld.jsx's map-load effect comment) -
+    // cleared in handleBattleEnd below so it can never leak into a later, unrelated map load.
+    if (trainerEncounterData.pos) {
+      setGameState(prev => prev ? { ...prev, pendingTrainerPos: { mapId, npcId: trainerEncounterData.trainerId, ...trainerEncounterData.pos } } : prev);
+    }
     setScreen('battle');
   }
 
@@ -173,7 +188,7 @@ export default function PokeredApp() {
         // User-requested (2026-07-10): fall back to right outside Red's House door, not an
         // arbitrary Pallet Town tile, when the player has never visited a real Pokécenter yet.
         const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 5, y: 6 };
-        const newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, dex, mapId: dest.mapId, x: dest.x, y: dest.y };
+        const newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, dex, mapId: dest.mapId, x: dest.x, y: dest.y, pendingTrainerPos: null };
         if (!prev.isExtra) saveGame(newState);
         return newState;
       }
@@ -181,6 +196,14 @@ export default function PokeredApp() {
       // Restore exact position from before the battle — battleReturnPos was set from playerPosRef
       const pos = battleReturnPos.current ?? playerPosRef.current ?? { mapId: prev.mapId, x: prev.x, y: prev.y };
       const beatenSilphCoGiovanni = prev.beatenSilphCoGiovanni || wonSilphCoGiovanni;
+      // Phase 4 fix follow-up (2026-08-03): do NOT clear pendingTrainerPos here. setScreen
+      // ('overworld') right below is batched into this SAME commit (React 18 auto-batching), so
+      // PokeredOverworld's fresh mount would read gameState with pendingTrainerPos already wiped
+      // before its map-load effect ever gets a chance to consume it — confirmed live via
+      // Playwright: the trainer reappeared near its ORIGINAL spawn tile, not the walked-up
+      // position, because the "restore" and "clear" happened in the same state transition. It's
+      // cleared one render later instead, via onConsumePendingTrainerPos, only after
+      // PokeredOverworld's map-load effect has actually applied it to npcBattlePosRef.
       let newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, dex, beatenSilphCoGiovanni, mapId: pos.mapId, x: pos.x, y: pos.y };
 
       // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
@@ -1739,6 +1762,7 @@ if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.par
             onSave={handleSave}
             onSaveExtraAsNew={handleSaveExtraAsNew}
             onPositionUpdate={handlePositionUpdate}
+            onConsumePendingTrainerPos={handleConsumePendingTrainerPos}
             onPickUpItem={handlePickUpItem}
             onUseItem={handleUseItem}
             onTeachMove={handleTeachMove}
