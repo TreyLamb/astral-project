@@ -25,16 +25,16 @@
   "BILLS_HOUSE": {
     "1": {
       "text": [
-        "Hiya! I'm a\n#MON...\n...No I'm not!",
+        "Hiya! I'm a\nPOKéMON...\n...No I'm not!",
         "Call me BILL!\nI'm a true blue\n#MANIAC! Hey!\nWhat's with that\nskeptical look?",
-        "I'm not joshing\nyou, I screwed up\nan experiment and\ngot combined with\na #MON!",
+        "I'm not joshing\nyou, I screwed up\nan experiment and\ngot combined with\na POKéMON!",
         "So, how about it?\nHelp me out here!"
       ]
     },
     "2": {
       "text": [
         "BILL: Yeehah!\nThanks, bud! I\nowe you one!",
-        "So, did you come\nto see my #MON\ncollection?\nYou didn't?\nThat's a bummer.",
+        "So, did you come\nto see my POKéMON\ncollection?\nYou didn't?\nThat's a bummer.",
         "I've got to thank\nyou... Oh here,\nmaybe this'll do."
       ]
     },
@@ -175,7 +175,7 @@
         "Hello. Lovely\nweather isn't it?\nIt's so pleasant.",
         "...Oh dear...\nI must have dozed\noff. Welcome.",
         "My name is ERIKA.\nI am the LEADER\nof CELADON GYM.",
-        "I teach the art of\nflower arranging.\nMy #MON are of\nthe grass-type.",
+        "I teach the art of\nflower arranging.\nMy POKéMON are of\nthe grass-type.",
         "Oh, I'm sorry, I\nhad no idea that\nyou wished to\nchallenge me.",
         "Very well, but I\nshall not lose."
       ]
@@ -273,7 +273,7 @@
       "text": [
         "Is that right?",
         "I'm the game\ndesigner!",
-        "Filling up your\n#DEX is tough,\nbut don't quit!",
+        "Filling up your\nPOKéDEX is tough,\nbut don't quit!",
         "When you finish,\ncome tell me!"
       ]
     }
@@ -322,7 +322,7 @@
   "CELADON_MART_3F": {
     "1": {
       "text": [
-        "Oh, hi! I finally\nfinished #MON!",
+        "Oh, hi! I finally\nfinished POKéMON!",
         "Not done yet?\nThis might be\nuseful!"
       ]
     },
@@ -481,7 +481,7 @@
       "text": [
         "<RIVAL>: Yo!\n<PLAYER>!",
         "You're still\nstruggling along\nback here?",
-        "I'm doing great!\nI caught a bunch\nof strong and\nsmart #MON!",
+        "I'm doing great!\nI caught a bunch\nof strong and\nsmart POKéMON!",
         "Here, let me see\nwhat you caught,\n<PLAYER>!"
       ]
     },
@@ -548,9 +548,9 @@
     "1": {
       "text": [
         "Hi, you're a new\nface!",
-        "Trainers who want\nto turn pro have\nto have a policy\nabout #MON!",
-        "What is your\napproach when you\ncatch #MON?",
-        "My policy is an\nall-out offensive\nwith water-type\n#MON!"
+        "Trainers who want\nto turn pro have\nto have a policy\nabout POKéMON!",
+        "What is your\napproach when you\ncatch POKéMON?",
+        "My policy is an\nall-out offensive\nwith water-type\nPOKéMON!"
       ]
     },
     "2": {
@@ -565,8 +565,8 @@
       "text": [
         "Yo! Champ in\nmaking!",
         "Here's my advice!",
-        "The LEADER, MISTY,\nis a pro who uses\nwater #MON!",
-        "You can drain all\ntheir water with\nplant #MON!",
+        "The LEADER, MISTY,\nis a pro who uses\nwater POKéMON!",
+        "You can drain all\ntheir water with\nplant POKéMON!",
         "Or, zap them with\nelectricity!"
       ]
     }
@@ -630,7 +630,7 @@
       "text": [
         "Those miserable\nROCKETs!",
         "Look what they\ndid here!",
-        "They stole a TM\nfor teaching\n#MON how to\nDIG holes!",
+        "They stole a TM\nfor teaching\nPOKéMON how to\nDIG holes!",
         "That cost me a\nbundle, it did!"
       ]
     },
@@ -646,10 +646,10 @@
         "<RIVAL>: Hey!",
         "I was looking\nforward to seeing\nyou, <PLAYER>!",
         "My rival should\nbe strong to keep\nme sharp!",
-        "While working on\n#DEX, I looked\nall over for\npowerful #MON!",
-        "Not only that, I\nassembled teams\nthat would beat\nany #MON type!",
+        "While working on\nPOKéDEX, I looked\nall over for\npowerful POKéMON!",
+        "Not only that, I\nassembled teams\nthat would beat\nany POKéMON type!",
         "And now!",
-        "I'm the #MON\nLEAGUE champion!",
+        "I'm the POKéMON\nLEAGUE champion!",
         "<PLAYER>! Do you\nknow what that\nmeans?",
         "I'll tell you!",
         "I am the most\npowerful trainer\nin the world!"
@@ -666,7 +666,7 @@
       "text": [
         "Hah!",
         "I am BLAINE! I\nam the LEADER of\nCINNABAR GYM!",
-        "My fiery #MON\nwill incinerate\nall challengers!",
+        "My fiery POKéMON\nwill incinerate\nall challengers!",
         "Hah! You better\nhave BURN HEAL!"
       ]
     },
@@ -701,7 +701,7 @@
     "9": {
       "text": [
         "Yo! Champ in\nmaking!",
-        "The hot-headed\nBLAINE is a fire\n#MON pro!",
+        "The hot-headed\nBLAINE is a fire\nPOKéMON pro!",
         "Douse his spirits\nwith water!",
         "You better take\nsome BURN HEALs!"
       ]
@@ -732,7 +732,7 @@
       "text": [
         "Hiya!",
         "I am important\ndoctor!",
-        "I study here rare\n#MON fossils!",
+        "I study here rare\nPOKéMON fossils!",
         "You! Have you a\nfossil for me?"
       ]
     },
@@ -837,7 +837,7 @@
   "COPYCATS_HOUSE_2F": {
     "1": {
       "text": [
-        "<PLAYER>: Hi! Do\nyou like #MON?",
+        "<PLAYER>: Hi! Do\nyou like POKéMON?",
         "<PLAYER>: Uh no, I\njust asked you.",
         "<PLAYER>: Huh?\nYou're strange!",
         "COPYCAT: Hmm?\nQuit mimicking?",
@@ -1251,7 +1251,7 @@
     },
     "3": {
       "text": [
-        "You know REVIVE?\nIt revives any\nfainted #MON!"
+        "You know REVIVE?\nIt revives any\nfainted POKéMON!"
       ]
     }
   },
@@ -1310,7 +1310,7 @@
       "text": [
         "This is really\nMR.FUJI's house.",
         "He's really kind!",
-        "He looks after\nabandoned and\norphaned #MON!"
+        "He looks after\nabandoned and\norphaned POKéMON!"
       ]
     },
     "3": {
@@ -1326,7 +1326,7 @@
     "5": {
       "text": [
         "MR.FUJI: <PLAYER>.",
-        "Your #DEX quest\nmay fail without\nlove for your\n#MON.",
+        "Your POKéDEX quest\nmay fail without\nlove for your\nPOKéMON.",
         "I think this may\nhelp your quest."
       ]
     },
@@ -1481,11 +1481,11 @@
     },
     "3": {
       "text": [
-        "Ssh! I think that\nthis chunk of\nAMBER contains\n#MON DNA!",
-        "It would be great\nif #MON could\nbe resurrected\nfrom it!",
+        "Ssh! I think that\nthis chunk of\nAMBER contains\nPOKéMON DNA!",
+        "It would be great\nif POKéMON could\nbe resurrected\nfrom it!",
         "But, my colleagues\njust ignore me!",
         "So I have a favor\nto ask!",
-        "Take this to a\n#MON LAB and\nget it examined!"
+        "Take this to a\nPOKéMON LAB and\nget it examined!"
       ]
     },
     "4": {
@@ -1534,7 +1534,7 @@
     "1": {
       "text": [
         "Hello, hello!\nI am the official\nNAME RATER!",
-        "Want me to rate\nthe nicknames of\nyour #MON?"
+        "Want me to rate\nthe nicknames of\nyour POKéMON?"
       ]
     }
   },
@@ -1645,7 +1645,7 @@
       "text": [
         "I'm BROCK!\nI'm PEWTER's GYM\nLEADER!",
         "I believe in rock\nhard defense and\ndetermination!",
-        "That's why my\n#MON are all\nthe rock-type!",
+        "That's why my\nPOKéMON are all\nthe rock-type!",
         "Do you still want\nto challenge me?\nFine then! Show\nme your best!"
       ]
     },
@@ -1754,11 +1754,11 @@
     },
     "5": {
       "text": [
-        "I chair the\n#MON Fan Club!",
-        "I have collected\nover 100 #MON!",
-        "I'm very fussy\nwhen it comes to\n#MON!",
+        "I chair the\nPOKéMON Fan Club!",
+        "I have collected\nover 100 POKéMON!",
+        "I'm very fussy\nwhen it comes to\nPOKéMON!",
         "So...",
-        "Did you come\nvisit to hear\nabout my #MON?"
+        "Did you come\nvisit to hear\nabout my POKéMON?"
       ]
     },
     "6": {
@@ -1893,7 +1893,7 @@
   "POKEMON_TOWER_2F": {
     "1": {
       "text": [
-        "<RIVAL>: Hey,\n<PLAYER>! What\nbrings you here?\nYour #MON\ndon't look dead!",
+        "<RIVAL>: Hey,\n<PLAYER>! What\nbrings you here?\nYour POKéMON\ndon't look dead!",
         "I can at least\nmake them faint!\nLet's go, pal!"
       ]
     },
@@ -2284,7 +2284,7 @@
   "ROUTE_1": {
     "1": {
       "text": [
-        "Hi! I work at a\n#MON MART.",
+        "Hi! I work at a\nPOKéMON MART.",
         "It's a convenient\nshop, so please\nvisit us in\nVIRIDIAN CITY.",
         "I know, I'll give\nyou a sample!\nHere you go!"
       ]
@@ -2440,7 +2440,7 @@
   "ROUTE_12_GATE_2F": {
     "1": {
       "text": [
-        "My #MON's\nashes are stored\nin #MON TOWER.",
+        "My POKéMON's\nashes are stored\nin POKéMON TOWER.",
         "You can have this\nTM. I don't need\nit any more..."
       ]
     }
@@ -2595,8 +2595,8 @@
   "ROUTE_15_GATE_2F": {
     "1": {
       "text": [
-        "EXP.ALL gives\nEXP points to all\nthe #MON with\nyou, even if they\ndon't fight.",
-        "It does, however,\nreduce the amount\nof EXP for each\n#MON.",
+        "EXP.ALL gives\nEXP points to all\nthe POKéMON with\nyou, even if they\ndon't fight.",
+        "It does, however,\nreduce the amount\nof EXP for each\nPOKéMON.",
         "If you don't need\nit, you should \nstore it via PC."
       ]
     }
@@ -3461,8 +3461,8 @@
     "9": {
       "text": [
         "Yo! Champ in\nmaking!",
-        "SABRINA's #MON\nuse psychic power\ninstead of force!",
-        "Fighting #MON\nare weak against\npsychic #MON!",
+        "SABRINA's POKéMON\nuse psychic power\ninstead of force!",
+        "Fighting POKéMON\nare weak against\npsychic POKéMON!",
         "They get creamed\nbefore they can\neven aim a punch!"
       ]
     }
@@ -3823,12 +3823,12 @@
     },
     "4": {
       "text": [
-        "TEAM ROCKET is\ntrying to conquer\nthe world with\n#MON!"
+        "TEAM ROCKET is\ntrying to conquer\nthe world with\nPOKéMON!"
       ]
     },
     "5": {
       "text": [
-        "They must have\ntargeted SILPH\nfor our #MON\nproducts."
+        "They must have\ntargeted SILPH\nfor our POKéMON\nproducts."
       ]
     },
     "6": {
@@ -3856,17 +3856,17 @@
     "1": {
       "text": [
         "Oh! Hi! You're\nnot a ROCKET! You\ncame to save us?\nWhy, thank you!",
-        "I want you to\nhave this #MON\nfor saving us."
+        "I want you to\nhave this POKéMON\nfor saving us."
       ]
     },
     "2": {
       "text": [
-        "TEAM ROCKET was\nafter the MASTER\nBALL which will\ncatch any #MON!"
+        "TEAM ROCKET was\nafter the MASTER\nBALL which will\ncatch any POKéMON!"
       ]
     },
     "3": {
       "text": [
-        "It would be bad\nif TEAM ROCKET\ntook over SILPH\nor our #MON!"
+        "It would be bad\nif TEAM ROCKET\ntook over SILPH\nor our POKéMON!"
       ]
     },
     "4": {
@@ -4021,7 +4021,7 @@
         "<RIVAL>: Bonjour!\n<PLAYER>!",
         "Imagine seeing\nyou here!",
         "<PLAYER>, were you\nreally invited?",
-        "So how's your\n#DEX coming?",
+        "So how's your\nPOKéDEX coming?",
         "I already caught\n40 kinds, pal!",
         "Different kinds\nare everywhere!",
         "Crawl around in\ngrassy areas!"
@@ -4309,7 +4309,7 @@
       "text": [
         "Hey, kid! What do\nyou think you're\ndoing here?",
         "You won't live\nlong in combat!\nThat's for sure!",
-        "I tell you kid,\nelectric #MON\nsaved me during\nthe war!",
+        "I tell you kid,\nelectric POKéMON\nsaved me during\nthe war!",
         "They zapped my\nenemies into\nparalysis!",
         "The same as I'll\ndo to you!"
       ]
@@ -4330,8 +4330,8 @@
       "text": [
         "Yo! Champ in\nmaking!",
         "LT.SURGE has a\nnickname. People\nrefer to him as\nthe Lightning\nAmerican!",
-        "He's an expert on\nelectric #MON!",
-        "Birds and water\n#MON are at\nrisk! Beware of\nparalysis too!",
+        "He's an expert on\nelectric POKéMON!",
+        "Birds and water\nPOKéMON are at\nrisk! Beware of\nparalysis too!",
         "LT.SURGE is very\ncautious!",
         "You'll have to\nbreak a code to\nget to him!"
       ]
@@ -4555,13 +4555,13 @@
     },
     "2": {
       "text": [
-        "This #MON GYM\nis always closed.",
+        "This POKéMON GYM\nis always closed.",
         "I wonder who the\nLEADER is?"
       ]
     },
     "3": {
       "text": [
-        "You want to know\nabout the 2 kinds\nof caterpillar\n#MON?"
+        "You want to know\nabout the 2 kinds\nof caterpillar\nPOKéMON?"
       ]
     },
     "4": {

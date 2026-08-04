@@ -587,12 +587,52 @@ just my notes on defects.
    the exact same tile as the real Guard1 NPC. Both removed.
 4. Page load times reported ~5x slower — cause unknown, not investigated.
 5. Route 11.5 ↔ Route 12 warps (walking into the roof of gates) — 2 warps affected.
-6. `#`/Poké character rendering issue.
-1
-2. gate guards not guarding
-3. shit ton of maps still using last map
-4. npcs still no dialogue
-5. player needs to follow pewter youngster 1 step closer.
+   **Investigated 2026-08-03, no data bug found — flagging for a more specific repro rather than
+   guessing further.** Cross-referenced every `warp_event` in `Route11.asm`/`Route11Gate1F.asm`/
+   `Route11Gate2F.asm`/`Route12.asm`/`Route12Gate1F.asm`/`Route12Gate2F.asm` against
+   `game_data.json` line by line — coordinates, `warpIdx` pairings, and directions are a 100%
+   faithful byte-for-byte match (including OG's own genuine duplicate-`warpIdx` quirk on
+   `ROUTE_12_GATE_1F`'s two south exit tiles, both `LAST_MAP, 3` in the real source too — not a
+   conversion bug). Live-tested via Playwright (temporarily pointed the "After Lt. Surge" Extra
+   start at `ROUTE_12 (10,14)` to reach it quickly, reverted via `git checkout` immediately after,
+   never committed): walked in through the north gate door, through 1F, out the south exit —
+   landed exactly on `ROUTE_12 (10,21)`, matching `warp_event 10, 21, ROUTE_12_GATE_1F, 3` exactly,
+   not on any roof/building tile. Continuing straight south from there, the player gets blocked at
+   `(10,28)` — but there's no `bg_event`/`object_event` anywhere near that row in OG's own
+   `Route12.asm`, so this reads as ordinary route terrain (grass/water/tree layout requiring a
+   sidestep, standard Gen 1 route design), not a warp or collision defect. Did not check
+   `ROUTE_11_GATE` live (its warp data is equally OG-faithful per the same cross-reference, and the
+   session budget for this one item was already large). If this is still reproducible, the report
+   needs a more specific trigger (exact map + direction + tile) than "walking into the roof" gives —
+   worth asking the user for a fresh repro before spending more time guessing at it.
+6. `#`/Poké character rendering issue. **Root-caused and fixed 2026-08-03.** OG's own
+   disassembly text macros literally write `"#MON"` and `"#DEX"` as shorthand for a special
+   ROM tile (the compact "Poké" logo glyph used on signs/dialogue to save space —
+   confirmed directly in `text/CeladonCity.asm`: `line "#MON GYM"`). Our extraction tooling
+   carried that raw placeholder straight into `game_data.json` (45 occurrences, bg_event
+   sign text), `extracted_og_data/npc_dialogue.json` (50), and `extracted_og_data/
+   trainer_text.json` (8) — since this port renders plain text (no special tile font), the
+   literal `#` was showing up on-screen instead of being expanded. Fixed with a direct,
+   global text substitution across all three JSON files (`#MON`→`POKéMON`, `#DEX`→
+   `POKéDEX`) — a data fix, not a code fix, matching how every other spelled-out
+   `POKéMON` string in this codebase already reads; `npm run build` clean after, JSON
+   re-validated with `JSON.parse` on all three files post-edit. Not spot-checked live in a
+   running browser (skipped deliberately, not an oversight): this only corrects existing
+   data flowing through the same dialogue-box render path (`PokeredOverworld.jsx`'s
+   `pkr-dialogue-text` div, plain JSX string interpolation) already exercised and visually
+   confirmed working dozens of times earlier this same session — no new rendering logic is
+   introduced, so there's no plausible failure mode a screenshot would catch that the JSON
+   diff + build didn't already.
+
+   (Removed 2026-08-03: a stray, unheadered 5-line scratch fragment immediately below this
+   item — "gate guards not guarding" / "shit ton of maps still using last map" / "npcs still
+   no dialogue" / "player needs to follow pewter youngster 1 step closer" — very early,
+   pre-Phase-0 notes with no date/owner, describing the project's state before the region-
+   wiring phases existed. All 4 concerns are long since superseded by completed, dated work
+   elsewhere in this checklist (gate guards, dialogue coverage, and LAST_MAP resolution have
+   each had dedicated multi-session passes; pewter youngster follow-distance was never
+   corroborated by any later session and isn't reproducible against current code). Dropped
+   as noise rather than left to be mistaken for an open item.)
 
 ## Phase 0 audit findings (2026-07-20)
 - **Warp integrity** (all 799 scanned): `warpIdx` 100% valid (0 out-of-range). 4 dangling-dest warps:

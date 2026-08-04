@@ -57,8 +57,8 @@
         "I must confer you\nthe RAINBOWBADGE."
       ],
       "after": [
-        "You are cataloging\n#MON? I must\nsay I'm impressed.",
-        "I would never\ncollect #MON\nif they were\nunattractive."
+        "You are cataloging\nPOKéMON? I must\nsay I'm impressed.",
+        "I would never\ncollect POKéMON\nif they were\nunattractive."
       ]
     },
     {
@@ -207,7 +207,7 @@
       ],
       "after": [
         "TM11 teaches\nBUBBLEBEAM!",
-        "Use it on an\naquatic #MON!"
+        "Use it on an\naquatic POKéMON!"
       ]
     },
     {
@@ -256,7 +256,7 @@
       ],
       "after": [
         "FIRE BLAST is the\nultimate fire\ntechnique!",
-        "Don't waste it on\nwater #MON!"
+        "Don't waste it on\nwater POKéMON!"
       ]
     },
     {
@@ -444,7 +444,7 @@
         "Here! Take the\nSOULBADGE!"
       ],
       "after": [
-        "When afflicted by\nTOXIC, #MON\nsuffer more and\nmore as battle\nprogresses!",
+        "When afflicted by\nTOXIC, POKéMON\nsuffer more and\nmore as battle\nprogresses!",
         "It will surely\nterritorize foes!"
       ]
     },
@@ -763,7 +763,7 @@
       ],
       "after": [
         "There are all\nkinds of trainers\nin the world!",
-        "You appear to be\nvery gifted as a\n#MON trainer!",
+        "You appear to be\nvery gifted as a\nPOKéMON trainer!",
         "Go to the GYM in\nCERULEAN and test\nyour abilities!"
       ]
     },
@@ -4344,7 +4344,7 @@
       "after": [
         "A little word of\nadvice, kid!",
         "Electricity is\nsure powerful!",
-        "But, it's useless\nagainst ground-\ntype #MON!"
+        "But, it's useless\nagainst ground-\ntype POKéMON!"
       ]
     },
     {
@@ -4609,7 +4609,7 @@
       ],
       "after": [
         "Having lost, I\ncannot face my\nunderlings!\nTEAM ROCKET is\nfinished forever!",
-        "I will dedicate my\nlife to the study\nof #MON!",
+        "I will dedicate my\nlife to the study\nof POKéMON!",
         "Let us meet again\nsome day!\nFarewell!"
       ]
     },
