@@ -113,3 +113,63 @@ Thief's TM28/Dig reward was never granted.
    to either already match real OG behavior exactly, or require tracing the actual comparison
    logic (not just a constant's name) to get right. Always trace the real consuming function
    before "fixing" something.
+
+---
+
+## Phase 4 update (2026-08-03) — remaining polish, SESSION COMPLETE
+
+Followed up on this file's own "still genuinely open" list above. Plan:
+`C:\Users\Trey\.claude\plans\this-project-is-a-eager-axolotl.md`'s "Phase 4" section. All 7
+items resolved (fixed, or thoroughly investigated with findings documented) and committed to
+`main` — see `POKERED_CHECKLIST.md`'s "Trainer Battles" section and its 2026-08-03-dated bug
+tracker entries for the full technical writeups. Summary:
+
+1. **Swimming-trainer chase stall** — fixed. `npcCanStep()` now lets a Swimmer-class trainer
+   step onto surfable water unconditionally (they live in water, no player-style surf toggle).
+2. **Exclamation-mark bubble on trainer LOS trigger** — fixed. The real OG sprite
+   (`gfx/emotes/shock.png`) already existed read-only in the disassembly; copied to
+   `public/pokered/sprites/exclamation_bubble.png`, no external art needed.
+3. **Trainer position persistence after battle** — fixed, and **live-verified twice**, because
+   the first attempt was itself buggy. Root cause: `PokeredOverworld` unmounts/remounts on the
+   battle screen swap, wiping the trainer's walked-up position. First fix attempt cleared
+   `gameState.pendingTrainerPos` in the same `setGameState` call that also flipped `screen` back
+   to `'overworld'` — React 18 batches both into one commit, so the fresh mount read
+   `pendingTrainerPos` already `null` and the restore silently never applied. **This was only
+   caught by actually driving a real battle to completion in a live browser (Playwright) and
+   watching the trainer snap back to spawn anyway** — a clean build and a static code read both
+   looked fine. Real fix: defer the clear to a new `onConsumePendingTrainerPos` callback that
+   `PokeredOverworld`'s map-load effect calls only after it's actually consumed the value, plus
+   read via `gsRef.current` instead of the bare `gameState` prop (the `loadMap` `useCallback` has
+   an empty deps array and would otherwise go stale on any later map load). Verified live a
+   second time post-fix: trainer correctly stayed adjacent to the player.
+4. **Route 11.5↔12 gate warps ("walking into the roof")** — investigated, no bug found. Every
+   warp in both gates matches OG's own `.asm` source byte-for-byte, including a genuine
+   duplicate-`warpIdx` quirk on `ROUTE_12_GATE_1F` that's in OG too (not a conversion bug).
+   Live-tested the south exit: lands exactly on OG's specified `ROUTE_12 (10,21)`. Documented as
+   needing a more specific repro if it's still reproducible — not guessed at further.
+5. **`#`/Poké character rendering glitch** — fixed. OG's own disassembly text macros literally
+   write `"#MON"`/`"#DEX"` as shorthand for a special ROM tile; extraction carried that raw
+   placeholder into 3 JSON files (`game_data.json`, `npc_dialogue.json`, `trainer_text.json`, 103
+   occurrences total). Fixed with a direct global text substitution (`#MON`→`POKéMON`,
+   `#DEX`→`POKéDEX`) — a data fix, not a code fix.
+6. **Page load times ~5x slower** — confirmed real, root-caused, **deliberately not fixed**: root
+   `src/App.jsx` statically imports every sub-app on the whole site with zero
+   `React.lazy()`/route-level code splitting, so every visitor downloads the entire ~5MB
+   (1.3MB gzipped) JS bundle regardless of which page they land on. This is a whole-site
+   architectural issue outside `pokered_page`'s own ownership — pokered's own data files
+   contribute only 377K of the ~5MB, so even a pokered-local fix wouldn't resolve the actual
+   symptom. Flagged for the owner to decide on scope/priority for a separate, dedicated pass.
+7. **Trade evolutions** (still simulated via a level-window probability, no real trading) — no
+   action taken, per the plan's own recommendation; not a work item.
+
+Verification: `npm run build` clean after every change; `audit_map.py --all` re-run at the end,
+**still 934 PASS / 173 WARN / 82 FAIL — the same baseline as Phase 3**, confirming nothing this
+phase touched map data or regressed anything (only overworld/battle logic, 3 JSON text files, and
+checklist bookkeeping changed). All temporary Playwright test scripts and a temporary test-only
+`trainerParties.js`/`pokeredGameState.js` edit (used to reach/defeat a trainer quickly for live
+verification) were reverted via `git checkout` before committing — never landed on `main`.
+
+**Explicitly tabled, not touched this session** (per the plan and the owner's own instruction):
+all 4 battle-mechanics proposals (crit-speed source, XP growth curves, Toxic escalation, ghost
+battle flavor text) — owner wants a clearer write-up first; and Phase 10 (audio/music/battle
+animations) — sequenced last project-wide, not started.
