@@ -17,17 +17,19 @@ Fixes from the previous version of this file: the duplicate "Lift A" bug (Day 2 
 | D3 | Tue 8/4 | **Lift B** (legs) |
 | D4 | Wed 8/5 | Easy run |
 | D5 | Thu 8/6 | Easy run |
-| D6 | Fri 8/7 | **Speed Day 1** — strides + relaxed ~2:00 400s, full recovery |
+| D6 | Fri 8/7 | **Speed Day 1** — strides + relaxed ~2:00 400s, full recovery + light ab (~5 min, see cycle.md) |
 | D7 | Sat 8/8 | Easy recovery run |
 | D8 | Sun 8/9 | **Lift C** (back) + easy run |
 | D9 | Mon 8/10 | Long run |
 | D10 | Tue 8/11 | Easy run |
-| D11 | Wed 8/12 | **Speed Day 2** — strides + relaxed ~2:00 400s, full recovery |
+| D11 | Wed 8/12 | **Speed Day 2** — strides + relaxed ~2:00 400s, full recovery + light ab (~5 min, see cycle.md) |
 | D12 | Thu 8/13 | Full true rest |
 
 **Known deviation:** Back day (D8) sits only 2 days from Speed 1 (D6), not the standard 3 — accepted for this cycle only to avoid stretching the soft-start even longer. Every other spacing rule holds (Leg↔Back 5 days, Leg↔either speed ≥3, long run has a clear buffer before Speed 2).
 
 Paces this cycle: easy ~10:45–11:15/mi by feel, HR controlled. No formal threshold. Speed days are light — strides and relaxed 400s around 2:00, not max effort.
+
+**Ab/core:** Cycle 1 is soft-start throughout, so it gets the *light* ab add-on on both speed days only — no robust 20-min circuit and no sled/carry hybrid yet. Both new elements (`cycle.md` rules 12–13) start Cycle 2, once the standard template is running at full intensity. See `training-context.md` for the full reasoning.
 
 ---
 
@@ -37,21 +39,23 @@ Standard `cycle.md` template, first full application of it.
 
 | Cycle Day | Date | Session |
 |---|---|---|
-| D1 | Fri 8/14 | **Speed Day 1** |
-| D2 | Sat 8/15 | Easy run + **Lift A** (chest/arms) |
+| D1 | Fri 8/14 | **Speed Day 1 — Sled/Carry Hybrid** (sled drag + lateral sprint + KB farmers carry + 3x50m classic sprints — see cycle.md) |
+| D2 | Sat 8/15 | Easy run + **Lift A** (chest/arms) + **Ab Circuit A** (~20 min) |
 | D3 | Sun 8/16 | Easy run |
 | D4 | Mon 8/17 | **Lift B** (legs) — no run |
-| D5 | Tue 8/18 | Easy run |
+| D5 | Tue 8/18 | Easy run + **Ab Circuit B** (~20 min) |
 | D6 | Wed 8/19 | Easy run |
 | D7 | Thu 8/20 | **Lift C** (back) + easy run |
 | D8 | Fri 8/21 | Easy run |
-| D9 | Sat 8/22 | Easy run |
-| D10 | Sun 8/23 | **Speed Day 2** |
-| D11 | Mon 8/24 | Easy run + **Lift A** (chest/arms) |
-| D12 | Tue 8/25 | Long run |
-| D13 | Wed 8/26 | Full true rest |
+| D9 | Sat 8/22 | Easy run + **Ab Circuit C** (~20 min) |
+| D10 | Sun 8/23 | **Speed Day 2** (classic) + light ab (~5 min) |
+| D11 | Mon 8/24 | Easy run |
+| D12 | Tue 8/25 | Long run + **Ab Circuit A** (~20 min, post-run) |
+| D13 | Wed 8/26 | Full true rest — no ab work, no exceptions |
 
-Paces: easy ~10:45–11:15/mi. Speed days still strides + relaxed 400s (~2:00, full recovery) — still Phase 1, no formal threshold yet. Long run distance: modest step up from Cycle 1, stay conservative given the soft start (roughly 3–3.5 mi range, adjust by feel).
+Paces: easy ~10:45–11:15/mi. Speed Day 2 still strides + relaxed 400s (~2:00, full recovery) — still Phase 1, no formal threshold yet. Speed Day 1 becomes the sled/carry hybrid starting this cycle (see `cycle.md` rule 12 for the full prescription and why Day 1 was chosen over Day 10). Ab/Core Circuit (rule 13) also starts this cycle, rotating A→B→C→A on Days 2/5/9/12. Long run distance: modest step up from Cycle 1, stay conservative given the soft start (roughly 3–3.5 mi range, adjust by feel).
+
+**Correction (2026-08-04):** D11 previously carried a second Lift A (chest/arms) session. Trey ruled: one lift session per muscle group per cycle only — one chest, one legs, one back — the A/B/C letters are labels, not a count. D11 is now plain easy run. See `cycle.md` rule 1 and `training-context.md` for the full reasoning.
 
 Cycle 3 Day 1 lands **Thu 8/27**.
 

@@ -50,6 +50,10 @@ The original chart assumed a 20:00 start. Rescaled proportionally to the same ch
 ### Phase 1 — Rebuild Durability (Cycles 1–5, ~Weeks 1–8)
 Run consistently without digging a fatigue hole. Build long run from 2mi toward 4.5mi. No formal threshold or hill work yet — strides only.
 
+**Speed Day 1 / Sled/Carry Hybrid (added 2026-08-04, starts Cycle 2):** Speed Day 1 each cycle is now a sled-drag/lateral-sprint/kettlebell-farmers-carry block that finishes with 2–4 classic 50m sprints — full prescription, load/rep progression, and the reasoning for picking Day 1 over Day 10 live in `cycle.md`. This doesn't conflict with "strides only" — the closing sprints are short (50m) top-end/neuromuscular work, not a threshold session, same category as strides. Cycle 1 keeps the original light classic format on both speed days (soreness soft-start — see `training-context.md`).
+
+**Ab/Core Circuit (added 2026-08-04, starts Cycle 2):** 4 rotating ~20-min circuits per cycle on Days 2/5/9/12, plus a short light add-on on Speed Day 2 only. Full exercise content in `cycle.md`.
+
 ### Phase 2 — Aerobic Strength & Threshold (Cycles 6–10, ~Weeks 9–16)
 Make "comfortably hard" pace feel normal. Formal threshold sessions begin. Hills reintroduced *very* gradually here at the earliest, given ankle history — never sustained hill running, only short controlled hill sprints once base is solid.
 
@@ -94,7 +98,7 @@ Genuinely useful, not mandatory for a flat 2-mile test. Given ankle history, no 
 
 ## Guardrails
 
-- **Ankle:** any sharp pain (not normal muscle fatigue) is a stop sign for that session.
+- **Ankle:** any sharp pain (not normal muscle fatigue) is a stop sign for that session. This applies to the Speed Day 1 sled/carry hybrid too — the lateral sprint element loads the ankle differently than straight-line running, which is exactly why its effort is capped at controlled-fast (~80–85%) rather than max in the base prescription (see `cycle.md`).
 - **Deload/checkpoint week shows no improvement or feels worse than last checkpoint:** extend Phase 1 or 2 rather than force the calendar.
 - **Two hard days should never sit back-to-back** — `cycle.md` already spaces them; protect that spacing over anything else if life reshuffles the week.
 - Not medical or physical-therapy guidance — anything that flares up meaningfully is worth a professional look.

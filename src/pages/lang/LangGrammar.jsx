@@ -10,13 +10,13 @@ export default function LangGrammar() {
 
   return (
     <div>
-      <button className="lang-back-btn" onClick={() => navigate(`/lang/${langId}`)}>← {lang.name}</button>
+      <button className="lang-back-btn" onClick={() => navigate(`/vocab-vault/${langId}`)}>← {lang.name}</button>
 
       <nav className="lang-subnav">
-        <button className="lang-subnav-btn" onClick={() => navigate(`/lang/${langId}`)}>Vocabulary</button>
-        <button className="lang-subnav-btn" onClick={() => navigate(`/lang/${langId}/slang`)}>Slang</button>
+        <button className="lang-subnav-btn" onClick={() => navigate(`/vocab-vault/${langId}`)}>Vocabulary</button>
+        <button className="lang-subnav-btn" onClick={() => navigate(`/vocab-vault/${langId}/slang`)}>Slang</button>
         <button className="lang-subnav-btn active">Grammar</button>
-        <button className="lang-subnav-btn" onClick={() => navigate(`/lang/${langId}/quiz`)}>⚡ Quiz</button>
+        <button className="lang-subnav-btn" onClick={() => navigate(`/vocab-vault/${langId}/quiz`)}>⚡ Quiz</button>
       </nav>
 
       <h2 className="lang-vocab-title">{lang.flag} Grammar</h2>

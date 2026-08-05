@@ -93,7 +93,11 @@ export function defaultSettings() {
     // totals, or Goals). 'noEvents' hides activityType kind:'event' items
     // (calendar drops like "POGO raichu day"); 'noWorkouts' hides everything
     // else. Cycled by the button in CalendarView's ft-cal-toggles row.
-    calendarPrefs: { mealDayView: false, showMealsOnCalendar: false, chipFilter: 'all' },
+    // showWeekSideCols: null | boolean — null means "no manual override yet",
+    // so CalendarView falls back to a viewport-based default (on for desktop,
+    // off for mobile where the Goals/Miles columns crush the day grid).
+    // true/false means the user explicitly toggled it, which wins on any device.
+    calendarPrefs: { mealDayView: false, showMealsOnCalendar: false, chipFilter: 'all', showWeekSideCols: null },
     // proteinG/carbsG/fatG are canonical grams (as always); *Mode ('g' | 'pct')
     // + *Pct record which of grams/% the user's last edit for that macro
     // actually expressed, so Settings.jsx's calorie-goal-changed effect knows

@@ -18,6 +18,7 @@ const TILES = [
   { to: '/timer-tool',             name: 'Timer Tool',       desc: 'multi-milestone running timers', icon: '⏱️', bg: '#0b0f19', accent: '#3b82f6', rgb: '59,130,246'   },
   { to: '/league-build',           name: 'League Build',     desc: 'item build planner + PIP window', icon: '🛡️', bg: '#0a0713', accent: '#ffcc33', rgb: '255,204,51'  },
   { to: '/orbit',                  name: 'Orbit',             desc: 'personal organization system',   icon: '🪐', bg: '#0b0f17', accent: '#f5a97f', rgb: '245,169,127' },
+  { to: '/planning-tool',          name: 'Planning Sheet',    desc: 'upload .xlsx, edit as a clean live grid', icon: '📐', bg: '#0a0e12', accent: '#f5a97f', rgb: '245,169,127' },
   { to: '/pokered',                name: 'Pokémon Red',      desc: 'gen 1 overworld recreation',     icon: '🔴', bg: '#1a0505', accent: '#ef4444', rgb: '239,68,68'   },
   { to: '/gitmon',                 name: 'Gitmon Blue',      desc: 'pokémon meets git cli',          icon: '💾', bg: '#040d1a', accent: '#7ec8e3', rgb: '126,200,227' },
   { to: '/bashmon',                name: 'Bashmon Red',      desc: 'pokémon meets bash cli',         icon: '🐚', bg: '#1a0404', accent: '#ff6b35', rgb: '255,107,53'   },
@@ -28,6 +29,7 @@ const TILES = [
   { to: '/rustioclone/index.html', name: 'Rustio Clone',    desc: 'multiplayer survival clone',     icon: '🌿', bg: '#071008', accent: '#86efac', rgb: '134,239,172', ext: true },
   { to: '/daily-idiom',            name: 'Daily Chéngyǔ',   desc: 'new chinese idiom every day',    icon: '📖', bg: '#160404', accent: '#f87171', rgb: '248,113,113'  },
   { to: '/lexicon',                name: 'The Lexicon',      desc: 'vocabulary study tool',          icon: '🔤', bg: '#090d14', accent: '#94a3b8', rgb: '148,163,184'  },
+  { to: '/vocab-vault',            name: 'Vocab Vault',      desc: 'multi-language vocab & quiz review', icon: '🗃️', bg: '#140a1f', accent: '#c084fc', rgb: '192,132,252' },
   { to: '/daily-idiom-widget',     name: 'Chéngyǔ Widget',  desc: 'embeddable idiom display',       icon: '🪟', bg: '#141004', accent: '#fbbf24', rgb: '251,191,36'   },
 ];
 

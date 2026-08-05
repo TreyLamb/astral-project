@@ -13,8 +13,8 @@ export default function LangApp() {
   return (
     <div className="lang-wrapper">
       <div className="lang-topbar">
-        <button className="lang-topbar-brand" onClick={() => navigate('/lang')}>
-          🌐 Language Lab
+        <button className="lang-topbar-brand" onClick={() => navigate('/vocab-vault')}>
+          🗃️ Vocab Vault
         </button>
       </div>
       <div className="lang-main">

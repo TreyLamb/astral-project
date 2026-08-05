@@ -431,6 +431,23 @@ function rectsIntersect(a, b) {
   return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
 }
 
+// Same 640px mobile breakpoint FitnessTracker.css already switches on
+// elsewhere. matchMedia (not a one-time window.innerWidth read) so rotating a
+// tablet or resizing a desktop window updates the default live.
+const MOBILE_BREAKPOINT_QUERY = '(max-width: 640px)';
+function useIsMobileViewport() {
+  const [isMobile, setIsMobile] = useState(() => (
+    typeof window !== 'undefined' ? window.matchMedia(MOBILE_BREAKPOINT_QUERY).matches : false
+  ));
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE_BREAKPOINT_QUERY);
+    const onChange = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+  return isMobile;
+}
+
 export default function CalendarView() {
   const {
     workouts, activityTypes, settings, updateSettings, updateWorkout, openQuickAdd,
@@ -590,6 +607,15 @@ export default function CalendarView() {
   const showMeals = !!settings.calendarPrefs?.showMealsOnCalendar;
   const mealDayView = !!settings.calendarPrefs?.mealDayView;
   const toggleCalendarPref = (key) => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, [key]: !settings.calendarPrefs?.[key] } });
+
+  // Goals/Miles side columns default ON for desktop, OFF for mobile (they
+  // crush the day grid to slivers at phone widths) — but a manual toggle in
+  // either direction wins over the device default, and that override sticks
+  // (calendarPrefs.showWeekSideCols stays null until the user actually flips it).
+  const isMobileViewport = useIsMobileViewport();
+  const sideColsOverride = settings.calendarPrefs?.showWeekSideCols;
+  const showWeekSideCols = sideColsOverride != null ? sideColsOverride : !isMobileViewport;
+  const toggleWeekSideCols = () => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, showWeekSideCols: !showWeekSideCols } });
 
   // Week view shows a configurable window of N weeks (1–10), scrollable one week
   // at a time via the ‹ › nav — Month stays strict to the actual month.
@@ -840,15 +866,19 @@ export default function CalendarView() {
   const weekHead = (
     <div className="ft-weekhead">
       {WEEKDAYS.map((d) => <div key={d} className="ft-weekhead-cell">{d}</div>)}
-      <div className="ft-weekhead-cell ft-weekend-head">Goals</div>
-      <div className="ft-weekhead-cell ft-weekmiles-head">Miles</div>
+      {showWeekSideCols && (
+        <>
+          <div className="ft-weekhead-cell ft-weekend-head">Goals</div>
+          <div className="ft-weekhead-cell ft-weekmiles-head">Miles</div>
+        </>
+      )}
     </div>
   );
 
   const renderWeekRow = (week, inMonthOf) => {
     const sunISO = isoDate(week[0]);
     const satISO = isoDate(week[6]);
-    const ends = weekEndGoals(activeGoals, activityTypes, satISO);
+    const ends = showWeekSideCols ? weekEndGoals(activeGoals, activityTypes, satISO) : [];
     const milesText = formatDistance(weekTrackedDistanceM(workouts, sunISO, satISO), units.distance, 1);
     const weekNet = weekNetCalories(meals, workouts, sunISO, satISO, bmr, latestWeightKg);
     return (
@@ -858,24 +888,28 @@ export default function CalendarView() {
             <DayCell key={isoDate(d)} variant="month" {...cellProps(d, inMonthOf ? inMonthOf(d) : true)} />
           ))}
         </div>
-        <div className="ft-weekend-col">
-          {ends.map(({ goal, type, targetValue }) => (
-            <WeekEndBadge
-              key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
-              onClick={() => openWeekOverride(goal, satISO, targetValue)}
-            />
-          ))}
-        </div>
-        <div className="ft-weekmiles-col">
-          <div className="ft-weekmiles-badge" title={`${milesText} tracked this week`}>
-            <span className="ft-weekmiles-text">{milesText}</span>
-          </div>
-          {calorieGoal != null && (
-            <div className="ft-weekmiles-badge ft-weeknet-badge" title="Net calories this week vs. a 1lb-equivalent (3500 kcal) reference">
-              <span className="ft-weekmiles-text">{weekNet}/{KCAL_PER_LB_ADIPOSE}</span>
+        {showWeekSideCols && (
+          <>
+            <div className="ft-weekend-col">
+              {ends.map(({ goal, type, targetValue }) => (
+                <WeekEndBadge
+                  key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
+                  onClick={() => openWeekOverride(goal, satISO, targetValue)}
+                />
+              ))}
             </div>
-          )}
-        </div>
+            <div className="ft-weekmiles-col">
+              <div className="ft-weekmiles-badge" title={`${milesText} tracked this week`}>
+                <span className="ft-weekmiles-text">{milesText}</span>
+              </div>
+              {calorieGoal != null && (
+                <div className="ft-weekmiles-badge ft-weeknet-badge" title="Net calories this week vs. a 1lb-equivalent (3500 kcal) reference">
+                  <span className="ft-weekmiles-text">{weekNet}/{KCAL_PER_LB_ADIPOSE}</span>
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </div>
     );
   };
@@ -973,6 +1007,14 @@ export default function CalendarView() {
           title="Cycles which chips show on the grid: all items -> hide events -> hide workouts -> all items again. Display-only — doesn't touch your data."
         >
           {CHIP_FILTER_LABEL[chipFilter]}
+        </button>
+        <button
+          type="button"
+          className={`ft-toggle-btn${showWeekSideCols ? ' active' : ''}`}
+          onClick={toggleWeekSideCols}
+          title="Show/hide the weekly Goals + Miles summary columns beside the calendar grid — defaults on for desktop, off for mobile, but this overrides that"
+        >
+          📊 Goals/Miles cols
         </button>
       </div>
 
@@ -1095,7 +1137,7 @@ export default function CalendarView() {
           const days = Array.from({ length: 7 }, (_, i) => addDays(s, i));
           const sunISO = isoDate(days[0]);
           const satISO = isoDate(days[6]);
-          const ends = weekEndGoals(activeGoals, activityTypes, satISO);
+          const ends = showWeekSideCols ? weekEndGoals(activeGoals, activityTypes, satISO) : [];
           const milesText = formatDistance(weekTrackedDistanceM(workouts, sunISO, satISO), units.distance, 1);
           const weekNet = weekNetCalories(meals, workouts, sunISO, satISO, bmr, latestWeightKg);
           return (
@@ -1103,24 +1145,28 @@ export default function CalendarView() {
               <div className="ft-week">
                 {days.map((d) => <DayCell key={isoDate(d)} variant="week" {...cellProps(d, true)} />)}
               </div>
-              <div className="ft-weekend-col">
-                {ends.map(({ goal, type, targetValue }) => (
-                  <WeekEndBadge
-                    key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
-                    onClick={() => openWeekOverride(goal, satISO, targetValue)}
-                  />
-                ))}
-              </div>
-              <div className="ft-weekmiles-col">
-                <div className="ft-weekmiles-badge" title={`${milesText} tracked this week`}>
-                  <span className="ft-weekmiles-text">{milesText}</span>
-                </div>
-                {calorieGoal != null && (
-                  <div className="ft-weekmiles-badge ft-weeknet-badge" title="Net calories this week vs. a 1lb-equivalent (3500 kcal) reference">
-                    <span className="ft-weekmiles-text">{weekNet}/{KCAL_PER_LB_ADIPOSE}</span>
+              {showWeekSideCols && (
+                <>
+                  <div className="ft-weekend-col">
+                    {ends.map(({ goal, type, targetValue }) => (
+                      <WeekEndBadge
+                        key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
+                        onClick={() => openWeekOverride(goal, satISO, targetValue)}
+                      />
+                    ))}
                   </div>
-                )}
-              </div>
+                  <div className="ft-weekmiles-col">
+                    <div className="ft-weekmiles-badge" title={`${milesText} tracked this week`}>
+                      <span className="ft-weekmiles-text">{milesText}</span>
+                    </div>
+                    {calorieGoal != null && (
+                      <div className="ft-weekmiles-badge ft-weeknet-badge" title="Net calories this week vs. a 1lb-equivalent (3500 kcal) reference">
+                        <span className="ft-weekmiles-text">{weekNet}/{KCAL_PER_LB_ADIPOSE}</span>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           );
         })()}

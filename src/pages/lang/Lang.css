@@ -625,3 +625,181 @@
   justify-content: center;
   flex-wrap: wrap;
 }
+
+/* ── Quick review CTA (LangHub) ──────────────────────────────────────────────── */
+
+.lang-quick-review-btn {
+  display: block;
+  width: 100%;
+  background: #ede9fe;
+  color: #6c5ce7;
+  border: 2px solid #6c5ce7;
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background 0.15s;
+}
+
+.lang-quick-review-btn:hover { background: #ddd6fe; }
+
+/* ── New category row (LangHub) ──────────────────────────────────────────────── */
+
+.lang-new-category-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.lang-new-category-input {
+  flex: 1;
+  padding: 11px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.lang-new-category-input:focus { border-color: #6c5ce7; }
+
+/* ── Vocab title row + add/bulk buttons (LangVocab) ─────────────────────────── */
+
+.lang-vocab-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.lang-vocab-title-row .lang-vocab-title { margin: 0; }
+
+.lang-vocab-title-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.lang-add-word-btn {
+  background: #6c5ce7;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.lang-add-word-btn:hover { background: #5a4bd1; }
+.lang-add-word-btn.ghost { background: #fff; color: #6c5ce7; border: 2px solid #6c5ce7; padding: 7px 14px; }
+.lang-add-word-btn.ghost:hover { background: #ede9fe; }
+
+/* ── Vocab add/edit form ─────────────────────────────────────────────────────── */
+
+.lang-vocab-form {
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 24px;
+}
+
+.lang-vocab-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.lang-vocab-form label,
+.lang-vocab-form-full {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 14px;
+}
+
+.lang-vocab-form input {
+  padding: 10px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: #1a1a2e;
+  outline: none;
+}
+
+.lang-vocab-form input:focus { border-color: #6c5ce7; }
+
+.lang-vocab-form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* ── Bulk import ──────────────────────────────────────────────────────────────── */
+
+.lang-bulk-import {
+  background: #fff;
+  border: 2px dashed #6c5ce7;
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 24px;
+}
+
+.lang-bulk-hint { font-size: 0.82rem; color: #888; margin: 0 0 10px; }
+.lang-bulk-hint code { background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 0.78rem; }
+
+.lang-bulk-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  resize: vertical;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+.lang-bulk-textarea:focus { border-color: #6c5ce7; }
+.lang-bulk-preview { font-size: 0.85rem; color: #6c5ce7; font-weight: 600; margin: 0 0 12px; }
+
+/* ── Custom-word row styling (LangVocab table) ───────────────────────────────── */
+
+.lang-row-custom td { background: #fbfaff; }
+
+.lang-custom-badge {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6c5ce7;
+  background: #ede9fe;
+  padding: 2px 6px;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+.lang-word-actions { white-space: nowrap; width: 60px; }
+
+.lang-row-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  opacity: 0.5;
+  padding: 4px 6px;
+  transition: opacity 0.12s;
+}
+
+.lang-row-action-btn:hover { opacity: 1; }
