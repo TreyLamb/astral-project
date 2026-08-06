@@ -464,7 +464,52 @@ export default function Settings() {
         </p>
       </div>
 
+      <ResetFutureToPlanned />
+
       <CalendarSync />
+    </div>
+  );
+}
+
+// #8 — the "Repeat recent" template chip used to copy a past workout's
+// completed status onto the new entry, so a lot of scheduled sessions ended up
+// marked done before they happened. New entries default to Planned now, but
+// that doesn't retroactively fix what's already saved.
+//
+// Deliberately touches TODAY AND LATER ONLY, and says exactly how many rows it
+// will change before you press it. A past workout marked completed is almost
+// certainly correct — rewriting history would be the more destructive default.
+function ResetFutureToPlanned() {
+  const { workouts, updateWorkout } = useFitness();
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState(null);
+
+  const today = todayISO();
+  const affected = workouts.filter((w) => w.date >= today && w.status === 'completed');
+
+  async function run() {
+    setBusy(true);
+    for (const w of affected) await updateWorkout(w.id, { status: 'planned' });
+    setDone(affected.length);
+    setBusy(false);
+  }
+
+  return (
+    <div className="ft-set-card">
+      <h3>Fix wrongly-completed sessions</h3>
+      <p className="ft-hint-sm">
+        Sets every workout dated <strong>today or later</strong> back to Planned. Anything already in
+        the past is left alone — a completed past session is almost certainly right.
+      </p>
+      {done != null ? (
+        <p className="ft-hint-sm">Reset {done} session{done === 1 ? '' : 's'} to Planned.</p>
+      ) : (
+        <button type="button" className="ft-btn-ghost" disabled={busy || affected.length === 0} onClick={run}>
+          {affected.length === 0
+            ? 'Nothing to fix'
+            : `Reset ${affected.length} future session${affected.length === 1 ? '' : 's'} to Planned`}
+        </button>
+      )}
     </div>
   );
 }

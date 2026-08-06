@@ -79,10 +79,15 @@ Added 2026-07-22 for the first one (MyFitnessPal-via-Apple-Health import). The s
 1. `src/pages/YourPage.jsx` + `src/pages/YourPage.css`
 2. Import in `src/App.jsx`
 3. `<Route path="/your-path" element={<YourPage />} />` in App.jsx Routes block
-4. `<Link to="/your-path">` in `src/components/Navbar.jsx` dropdown
-5. **Add a Home-page card** — a tile in the `TILES` array in `src/pages/Home.jsx` (`{ to, name, desc, icon, bg, accent, rgb }`; add `ext: true` for a `public/` link). EVERY page and public feature gets a Home card. This is the step that gets forgotten the most — a feature is not "done" until its card exists.
+4. ~~`<Link>` in Navbar.jsx~~ — no longer needed, the dropdown is generated (see step 5)
+5. **Add it to `src/siteLinks.js`** — one entry in `SITE_LINKS`
+   (`{ to, name, desc, icon, bg, accent, rgb }`; add `ext: true` for a `public/`
+   link). This single entry produces BOTH the navbar dropdown item and the Home
+   card, so steps 4 and 5 are now one step. A feature is not "done" until it is
+   in `SITE_LINKS`.
 
-If the owner says "don't update the nav, I'll do it myself" — skip step 4 only (still do step 5).
+Steps 4 and 5 have collapsed into step 5 — the navbar no longer has hand-written
+`<Link>`s to edit.
 
 ---
 
@@ -117,26 +122,57 @@ When a feature needs its own internal pages/routes:
 
 ## Current routes
 
+Tools whose NAME is an abbreviation use that abbreviation as the URL, in
+UPPERCASE. Those routes are declared `caseSensitive` so `/mft` does NOT silently
+match `/MFT` — it falls through to `RouteFallback`, which redirects to the
+canonical casing. Legacy paths redirect the same way. Both live in
+`src/routeAliases.js`.
+
 | Path | Component | Notes |
 |---|---|---|
-| `/` | Home.jsx | Main astral content |
-| `/techniques` | Techniques.jsx | |
-| `/experiences` | Experiences.jsx | |
-| `/resources` | Resources.jsx | |
-| `/about` | About.jsx | |
+| `/` | Home.jsx | Tile grid, user-configurable (see below) |
 | `/daily-idiom` | DailyIdiom.jsx | Pulls from public/chinese-idioms data |
 | `/daily-idiom-widget` | DailyIdiomWidget.jsx | |
 | `/lexicon` | Lexicon.jsx | Word study tool |
-| `/qa-tracker` | QATracker.jsx | Self-rating tool for QA skills |
-| `/rs-market` | RSMarket.jsx | RuneScape GE price tracker |
-| `/mymdb/*` | mymdb/MymdbApp.jsx | Movie/book library, has sub-routes |
+| `/google-photos` | GooglePhotos.jsx | |
+| `/mymdb/*` | mymdb/MymdbApp.jsx | Movie/book library |
+| `/MFT/*` | fitnesstracker/FitnessTrackerApp.jsx | was `/fitness-tracker` |
+| `/VV/*` | lang/LangApp.jsx | Vocab Vault — was `/vocab-vault`, `/lang` |
+| `/TKB/*` | theknowledgebase/TkbApp.jsx | was `/tkb` |
+| `/QA` | QATracker.jsx | was `/qa-tracker` |
+| `/RS` | RSMarket.jsx | was `/rs-market` |
+| `/POGO` | pgotracker/PgoTracker.jsx | **POGO Tracker** — was `/pgo-tracker` |
+| `/POGO-ACCS/*` | pogoaccs/PogoAccsApp.jsx | was `/pogo-accs` |
+| `/medaldex/*` | medaldex/MedalDexApp.jsx | |
+| `/stashmap/*` | stashmap/StashMapApp.jsx | |
+| `/antiquityquest/*` | antiquityquest/AntiquityQuestApp.jsx | |
+| `/timer-tool/*` | TimerTool/TimerToolApp.jsx | |
+| `/league-build/*` | leagueBuild/LeagueBuildApp.jsx | |
+| `/orbit/*` | orbit/OrbitApp.jsx | |
+| `/planning-tool` | planningTool/PlanningToolApp.jsx | |
+| `/pokered/*`, `/gitmon/*`, `/bashmon/*`, `/signal-lost/*`, `/python-game/*` | games | |
+| `*` | RouteFallback.jsx | Alias redirect, else a real 404 |
+
+**`RouteFallback` is not optional.** `vercel.json` rewrites every path to
+`index.html`, so before it existed an unrouted URL rendered a blank white page
+with no error anywhere. `/planning-tool` shipped in exactly that state — page
+files committed, `<Route>` not — and the only symptom was nothing at all.
 
 ---
 
-## Current navbar structure
-- Top-level: Techniques, Experiences, Resources, About
-- Home dropdown: everything else (Daily Chéngyǔ, Widget, Lexicon, BIRDS!!, QA Tracker, MyMDB, RS Market)
-- New tools go in the Home dropdown unless told otherwise
+## Navbar + Home cards — ONE shared registry
+
+Both read from **`src/siteLinks.js`** (`SITE_LINKS`). Do not hand-maintain two
+lists again; they drifted before.
+
+- **Navbar dropdown renders ALL of `SITE_LINKS`, always.** This is the guarantee
+  that a tool stays reachable even when its Home card is hidden.
+- **Home renders a user-chosen subset, in a user-chosen order.** `⚙ Customize`
+  on the Home page toggles cards on/off and drags them into order.
+  `src/homeLayout.js` persists it: localStorage always (works signed-out),
+  mirrored to `users/{uid}/prefs/homeLayout` when signed in.
+- A tool added to `SITE_LINKS` but missing from a saved layout is **appended
+  visible** — new things show up rather than silently never appearing.
 
 ---
 

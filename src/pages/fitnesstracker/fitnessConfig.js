@@ -97,7 +97,7 @@ export function defaultSettings() {
     // so CalendarView falls back to a viewport-based default (on for desktop,
     // off for mobile where the Goals/Miles columns crush the day grid).
     // true/false means the user explicitly toggled it, which wins on any device.
-    calendarPrefs: { mealDayView: false, showMealsOnCalendar: false, chipFilter: 'all', showWeekSideCols: null },
+    calendarPrefs: { mealDayView: false, showMealsOnCalendar: false, chipFilter: 'all', showWeekSideCols: null, view: 'week', weekCount: 2 },
     // proteinG/carbsG/fatG are canonical grams (as always); *Mode ('g' | 'pct')
     // + *Pct record which of grams/% the user's last edit for that macro
     // actually expressed, so Settings.jsx's calorie-goal-changed effect knows

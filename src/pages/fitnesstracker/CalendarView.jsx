@@ -5,6 +5,7 @@ import { activityType, mealType, isoDate, todayISO, resolveGroups, goalDeadline 
 import { formatDistance, secToClock } from './units';
 import { formatCheckpointValue, interpolatedTarget, parseOverrideValue, overridePlaceholderFor } from './calc/checkpoints';
 import { addDaysISO } from './calc/planning';
+import { parseDistanceTotalM } from './calc/shorthand';
 import { netCaloriesForDay, latestBodyWeightKg } from './calc/calories';
 import { KCAL_PER_LB_ADIPOSE } from './calc/bodyComposition';
 import GroupPicker from './GroupPicker';
@@ -108,10 +109,20 @@ function worstRealismBand(g) {
 function weekTrackedDistanceM(workouts, sunISO, satISO) {
   let total = 0;
   for (const w of workouts) {
-    if (w.status !== 'completed' || !w.distanceM) continue;
-    if (w.date >= sunISO && w.date <= satISO) total += w.distanceM;
+    if (w.status !== 'completed') continue;
+    if (w.date >= sunISO && w.date <= satISO) total += workoutDistanceM(w);
   }
   return total;
+}
+
+// A workout's distance, falling back to whatever distance is written into its
+// own title/note when no explicit distanceM was entered. Events were saved with
+// distanceM: null unconditionally, and doc-derived sessions ("Easy 1.5 mi @
+// 11:10/mi") never had the field filled in — so the Miles column summed to 0.0
+// no matter how many runs got marked done. See parseDistanceTotalM.
+export function workoutDistanceM(w) {
+  if (w.distanceM != null) return w.distanceM;
+  return parseDistanceTotalM(w.title || '') || parseDistanceTotalM(w.note || '');
 }
 
 // Sum of netCaloriesForDay across a week's 7 days — same missing-bmr/weight-
@@ -172,10 +183,12 @@ function chipLabel(w, units) {
 
 function WorkoutChip({ w, type, label, group, goal, units, checkpoint, selected, selectedIds, onEdit, onCtrlClick, onShiftClick, onAltClick }) {
   const completed = w.status === 'completed';
-  // completed = filled with the type colour; planned = outline only.
-  const style = completed
-    ? { background: type.color, borderColor: type.color, color: '#0a0e12' }
-    : { background: 'transparent', borderColor: type.color, color: type.color };
+  // Type is carried by TEXT COLOUR alone — no icon, no border, no fill. Running
+  // stays orange, swimming blue, etc. (the colours come from the activity type,
+  // unchanged), but a day cell now reads as a short list of coloured lines
+  // rather than a stack of boxed badges. Planned vs done is weight + opacity:
+  // done is solid and bold, planned is dimmed.
+  const style = { color: type.color };
   // Target (and, once logged, actual) render INLINE on the chip now, not only
   // in the hover tooltip — the tooltip below stays as a bonus, not the only
   // source of this info (that was the gap: goal targets were hover-only).
@@ -213,7 +226,6 @@ function WorkoutChip({ w, type, label, group, goal, units, checkpoint, selected,
       }}
       title={`${type.name}${label ? ' · ' + label : ''} (${completed ? 'done' : 'planned'})${group ? ` · Group #${group.number}` : ''}${goal ? ` · 🎯 ${goal.label || goal.activityType} goal${goalTarget ? ' — ' + goalTarget : ''}` : ''}${realism?.band === 'implausible' ? ` · ⚠ ${realism.note}` : ''} · Alt+click to delete`}
     >
-      <span className="ft-chip-icon">{type.icon}</span>
       <span className="ft-chip-labels">
         {label && <span className="ft-chip-text">{label}</span>}
         {targetText && (
@@ -222,18 +234,18 @@ function WorkoutChip({ w, type, label, group, goal, units, checkpoint, selected,
           </span>
         )}
       </span>
+      {/* The 🎯 goal pin is gone — the target VALUE already renders above, which
+          is the useful half. ⚠ stays: it only appears on an implausible
+          checkpoint, so it's an exception marker, not decoration. */}
       {realism?.band === 'implausible' && <span className="ft-chip-realism-flag" aria-hidden="true">⚠</span>}
       {group && <span className="ft-chip-group-dot" style={{ background: group.color }} />}
-      {goal && <span className="ft-chip-goal-pin" aria-hidden="true">🎯</span>}
     </button>
   );
 }
 
 function MealChip({ m, type, selected, onEdit, onCtrlClick, onShiftClick }) {
   const logged = m.status === 'logged';
-  const style = logged
-    ? { background: type.color, borderColor: type.color, color: '#0a0e12' }
-    : { background: 'transparent', borderColor: type.color, color: type.color };
+  const style = { color: type.color };
   const label = m.name || type.name;
   return (
     <button
@@ -249,7 +261,6 @@ function MealChip({ m, type, selected, onEdit, onCtrlClick, onShiftClick }) {
       }}
       title={`${type.name}${m.name ? ' · ' + m.name : ''}${m.calories != null ? ` · ${m.calories} kcal` : ''} (${logged ? 'logged' : 'planned'})`}
     >
-      <span className="ft-chip-icon">{type.icon}</span>
       <span className="ft-chip-text">{label}</span>
     </button>
   );
@@ -266,9 +277,7 @@ function MealChip({ m, type, selected, onEdit, onCtrlClick, onShiftClick }) {
 function OrbitTaskChip({ task, area, due, onOpen }) {
   const done = task.status === 'done';
   const color = area?.color || '#94a3b8';
-  const style = due
-    ? { background: 'transparent', borderColor: color, color }
-    : { background: color + '26', borderColor: color, color };
+  const style = { color };
   const title = task.title || '(untitled)';
   return (
     <button
@@ -278,7 +287,6 @@ function OrbitTaskChip({ task, area, due, onOpen }) {
       onClick={(e) => { e.stopPropagation(); onOpen(task); }}
       title={`${title}${area ? ' · ' + area.name : ''}${due ? ' · due' : ''} — Orbit to-do, click to open in Orbit`}
     >
-      <span className="ft-orbit-chip-icon" aria-hidden="true">{due ? '⏰' : '📋'}</span>
       <span className="ft-orbit-chip-text">{title}</span>
     </button>
   );
@@ -406,10 +414,13 @@ function DayCell({
           </div>
         </div>
       )}
-      {/* Day's scheduled Orbit energy, pinned bottom-right, on a 0–100 scale
-          (share of the day's energy budget). Shown on every month cell — 0/100
-          for an empty day — so the whole month reads as an energy heat-map at a
-          glance; on the roomier week/day cells it only appears once loaded. */}
+      {/* Day's scheduled Orbit energy on a 0–100 scale (share of the day's
+          budget). Shown on every month cell — 0/100 for an empty day — so the
+          month reads as an energy heat-map at a glance.
+          It used to be position:absolute and sat ON TOP of the chips whenever a
+          day had more than a couple of entries. It's a normal flow child now,
+          pushed to the bottom by margin-top:auto, and the chip list above it
+          scrolls (on hover) instead of growing underneath it. */}
       {orbitEnergyCap != null && (variant === 'month' || orbitScheduled.length > 0) && (() => {
         const pct = Math.round((orbitEnergy / orbitEnergyCap) * 100);
         return (
@@ -600,7 +611,12 @@ export default function CalendarView() {
     setWeekOverrideInput('');
   }
 
-  const [view, setView] = useState('month');
+  // View + week-count are sticky prefs, not local state — the calendar should
+  // come back the way you left it. Default is a 2-week window (not Month):
+  // two weeks is the horizon that actually fits a training cycle on screen
+  // without shrinking each day to a sliver.
+  const view = settings.calendarPrefs?.view || 'week';
+  const setView = (v) => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, view: v } });
   const [cursor, setCursor] = useState(() => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; });
 
   // two sticky calendar toggles (persisted so they survive reload/navigation)
@@ -619,7 +635,7 @@ export default function CalendarView() {
 
   // Week view shows a configurable window of N weeks (1–10), scrollable one week
   // at a time via the ‹ › nav — Month stays strict to the actual month.
-  const weekCount = Math.min(10, Math.max(1, settings.calendarPrefs?.weekCount ?? 1));
+  const weekCount = Math.min(10, Math.max(1, settings.calendarPrefs?.weekCount ?? 2));
   const setWeekCount = (n) => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, weekCount: Math.min(10, Math.max(1, Number.isFinite(n) ? n : 1)) } });
 
   // Cycles which chips render on the grid: all -> hide events -> hide
@@ -924,7 +940,7 @@ export default function CalendarView() {
           <MealDayView date={new Date(lastClickedDate + 'T00:00:00')} />
         </div>
       )}
-      <div className="ft-cal">
+      <div className="ft-cal" data-view={view}>
       <div className="ft-cal-bar">
         <div className="ft-cal-nav">
           <button type="button" className="ft-nav-btn" onClick={() => step(-1)} aria-label="Previous">‹</button>
@@ -932,20 +948,13 @@ export default function CalendarView() {
           <button type="button" className="ft-nav-btn" onClick={() => step(1)} aria-label="Next">›</button>
           <h2 className="ft-cal-title">{title}</h2>
         </div>
-        <div
-          className="ft-aft-strip"
-          style={{
-            display: 'grid', gridTemplateColumns: 'repeat(3, auto)', gridAutoFlow: 'row',
-            columnGap: 20, rowGap: 2, color: 'var(--ft-muted)', fontSize: '1.35rem', fontWeight: 500,
-            lineHeight: 1.25, alignContent: 'center', justifyContent: 'center',
-          }}
-        >
+        <div className="ft-aft-strip">
           {AFT_EVENTS.map((ev) => (
-            <span key={ev.id} title={ev.name} style={{ whiteSpace: 'nowrap' }}>
+            <span key={ev.id} className="ft-aft-item" title={ev.name}>
               {ev.abbr}{' '}
-              <span style={{ color: 'var(--ft-text)' }}>{formatAftTier(ev, 90)}</span>
-              <span style={{ opacity: 0.6 }}>/</span>
-              <span style={{ color: 'var(--ft-text)' }}>{formatAftTier(ev, 100)}</span>
+              <b>{formatAftTier(ev, 90)}</b>
+              <i>/</i>
+              <b>{formatAftTier(ev, 100)}</b>
             </span>
           ))}
         </div>

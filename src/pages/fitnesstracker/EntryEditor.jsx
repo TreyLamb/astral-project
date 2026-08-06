@@ -4,6 +4,7 @@ import { useFitness } from './fitnessContext';
 import { RPE_MIN, RPE_MAX, RPE_LEGEND, groupById } from './fitnessConfig';
 import GroupPicker from './GroupPicker';
 import ClearableInput from './ClearableInput';
+import StatusToggle from './StatusToggle';
 import {
   distanceToMeters, metersToDistance, clockToSec, secToClock,
   metersToElev, elevToMeters, elevUnitLabel, weightToKg, kgToWeight,
@@ -281,10 +282,7 @@ export default function EntryEditor() {
         </div>
       )}
 
-      <div className="ft-status-toggle">
-        <button type="button" className={form.status === 'completed' ? 'active' : ''} onClick={() => set('status', 'completed')}>✓ Completed</button>
-        <button type="button" className={form.status === 'planned' ? 'active' : ''} onClick={() => set('status', 'planned')}>◇ Planned</button>
-      </div>
+      <StatusToggle value={form.status} onChange={(v) => set('status', v)} />
 
       <div className="ft-two">
         <div className="ft-field"><label className="ft-field-label">Date</label><input className="ft-input" type="date" value={form.date} onChange={(e) => set('date', e.target.value)} /></div>

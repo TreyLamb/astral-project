@@ -67,13 +67,17 @@ function App() {
             {/* Abbreviated tools use their abbreviation as the URL. Old paths
                 and any casing still resolve — see routeAliases.js + the
                 RouteFallback catch-all below. */}
-            <Route path="/MFT/*" element={<FitnessTrackerApp />} />
-            <Route path="/VV/*" element={<VocabVaultApp />} />
-            <Route path="/TKB/*" element={<TkbApp />} />
-            <Route path="/QA" element={<QATracker />} />
-            <Route path="/RS" element={<RSMarket />} />
-            <Route path="/POGO" element={<PgoTracker />} />
-            <Route path="/POGO-ACCS/*" element={<PogoAccsApp />} />
+            {/* caseSensitive so /mft does NOT quietly match here — React Router
+                matches case-insensitively by default, which would leave the
+                address bar showing whatever casing was typed. Falling through
+                to RouteFallback instead redirects to the canonical /MFT. */}
+            <Route path="/MFT/*" caseSensitive element={<FitnessTrackerApp />} />
+            <Route path="/VV/*" caseSensitive element={<VocabVaultApp />} />
+            <Route path="/TKB/*" caseSensitive element={<TkbApp />} />
+            <Route path="/QA" caseSensitive element={<QATracker />} />
+            <Route path="/RS" caseSensitive element={<RSMarket />} />
+            <Route path="/POGO" caseSensitive element={<PgoTracker />} />
+            <Route path="/POGO-ACCS/*" caseSensitive element={<PogoAccsApp />} />
 
             <Route path="*" element={<RouteFallback />} />
           </Routes>
