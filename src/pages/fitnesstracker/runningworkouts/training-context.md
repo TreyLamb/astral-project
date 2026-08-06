@@ -78,6 +78,19 @@ Excluded: any day before a lift (D1, D3, D6, D10) and the day after Lift C/back 
 Circuit content: 3 rotating ~20-min variants (A = foundation/anti-extension, B = anti-rotation, C = progression/loaded) so it doesn't go stale across repeats — rotates A→B→C→A... cycle to cycle. Full exercise lists, sets/reps/rest, and the light add-on definition live in `cycle.md`.
 **Cycle 1:** soft-start reasoning extends here too — no robust circuit this cycle, light add-on only on both speed days (D6, D11), matching the same logic used for deferring the hybrid.
 
+## Decision — Why the cycle is 13 days (2026-08-04, Trey, direct)
+
+**13 days is a RECOVERY choice, not a derived minimum.** Trey, verbatim:
+> *"Current cycle lengths at 13 days are mostly so that i have extra recovery days between all workouts. In the future these cycles will drop when i don't feel i need as much recovery. that's the reasoning for 13 right now."*
+
+The causal order matters and had been recorded backwards. It runs:
+**how much recovery Trey currently needs → the 3-day gaps in rules 2/3/4 → the 13-day floor.**
+Not the other way around. The spacing rules are how a recovery preference got written down; they are not independent constraints that happen to yield 13.
+
+**Why this needed correcting:** `cycle.md` asserted 13 days was *"provably the shortest cycle that satisfies rules 1–8."* That statement is arithmetically true but reads as though the length is immutable and rule-derived — which would invite a future session to compress the cycle the moment any constraint loosened. That is precisely what Trey does not want. The claim has been reframed in `cycle.md` (rule 9 + the cycle-length proof section) as a **floor, not a target**.
+
+**Standing instruction — do not compress the cycle.** Slack appearing elsewhere is not a reason to shorten it. The single-Lift-A correction (below) freed up lift-placement room; that room is deliberately left unspent. The cycle shortens only after **Trey** relaxes the spacing gaps, and only then is the floor re-derived. Expect ~10–11 days eventually, when he says so — not before.
+
 ## Bugs fixed from the old calendar (for record-keeping, don't need to re-fix)
 - Old calendar showed **Lift A twice** (Day 2 and Day 7) instead of Lift A (chest/arms) + Lift B (legs). Corrected.
 - Old calendar had lost/dropped speed days somewhere in a prior edit. Restored — both speed days present every cycle.

@@ -14,13 +14,13 @@ export default function LangSlang() {
 
   return (
     <div>
-      <button className="lang-back-btn" onClick={() => navigate(`/vocab-vault/${langId}`)}>← {lang.name}</button>
+      <button className="lang-back-btn" onClick={() => navigate(`/VV/${langId}`)}>← {lang.name}</button>
 
       <nav className="lang-subnav">
-        <button className="lang-subnav-btn" onClick={() => navigate(`/vocab-vault/${langId}`)}>Vocabulary</button>
+        <button className="lang-subnav-btn" onClick={() => navigate(`/VV/${langId}`)}>Vocabulary</button>
         <button className="lang-subnav-btn active">Slang</button>
-        <button className="lang-subnav-btn" onClick={() => navigate(`/vocab-vault/${langId}/grammar`)}>Grammar</button>
-        <button className="lang-subnav-btn" onClick={() => navigate(`/vocab-vault/${langId}/quiz`)}>⚡ Quiz</button>
+        <button className="lang-subnav-btn" onClick={() => navigate(`/VV/${langId}/grammar`)}>Grammar</button>
+        <button className="lang-subnav-btn" onClick={() => navigate(`/VV/${langId}/quiz`)}>⚡ Quiz</button>
       </nav>
 
       <h2 className="lang-vocab-title">{lang.flag} Slang & Colloquial</h2>

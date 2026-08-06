@@ -97,7 +97,7 @@ export default function ImportView() {
   if (accounts.length === 0) {
     return (
       <div className="pgoa-panel pgoa-empty">
-        No accounts yet — create them in <Link className="pgoa-link" to="/pgo-tracker">PGO Tracker</Link>.
+        No accounts yet — create them in <Link className="pgoa-link" to="/POGO">POGO Tracker</Link>.
       </div>
     );
   }

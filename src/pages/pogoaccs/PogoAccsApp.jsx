@@ -16,11 +16,11 @@ import ImportView from './ImportView';
 import './PogoAccs.css';
 
 const TABS = [
-  { to: '/pogo-accs', label: 'Overview', match: (p) => p === '/pogo-accs' || p.startsWith('/pogo-accs/box') },
-  { to: '/pogo-accs/megas', label: 'Megas', match: (p) => p.startsWith('/pogo-accs/megas') },
-  { to: '/pogo-accs/raids', label: 'Raids', match: (p) => p.startsWith('/pogo-accs/raids') },
-  { to: '/pogo-accs/groups', label: 'Groups', match: (p) => p.startsWith('/pogo-accs/groups') },
-  { to: '/pogo-accs/import', label: 'Import', match: (p) => p.startsWith('/pogo-accs/import') },
+  { to: '/POGO-ACCS', label: 'Overview', match: (p) => p === '/POGO-ACCS' || p.startsWith('/POGO-ACCS/box') },
+  { to: '/POGO-ACCS/megas', label: 'Megas', match: (p) => p.startsWith('/POGO-ACCS/megas') },
+  { to: '/POGO-ACCS/raids', label: 'Raids', match: (p) => p.startsWith('/POGO-ACCS/raids') },
+  { to: '/POGO-ACCS/groups', label: 'Groups', match: (p) => p.startsWith('/POGO-ACCS/groups') },
+  { to: '/POGO-ACCS/import', label: 'Import', match: (p) => p.startsWith('/POGO-ACCS/import') },
 ];
 
 export default function PogoAccsApp() {
@@ -254,7 +254,7 @@ export default function PogoAccsApp() {
           <Route path="raids/:bossId" element={<RaidBossDetail />} />
           <Route path="groups" element={<GroupsView />} />
           <Route path="import" element={<ImportView />} />
-          <Route path="*" element={<Navigate to="/pogo-accs" replace />} />
+          <Route path="*" element={<Navigate to="/POGO-ACCS" replace />} />
         </Routes>
 
         {toast && <div className={`pgoa-toast${toast.type ? ' ' + toast.type : ''}`}>{toast.message}</div>}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import languages from '../../data/lang/languages.json';
-import { VocabStorage } from './langStorage';
+import { useLang } from './langContext';
 
 const allVocabFiles = import.meta.glob('/src/data/lang/*/vocab/*.json', { eager: true });
 
@@ -12,6 +12,7 @@ function slugify(name) {
 export default function LangHub() {
   const { langId } = useParams();
   const navigate   = useNavigate();
+  const { categoriesForLang } = useLang();
   const lang = languages.find(l => l.id === langId);
   const [newCategory, setNewCategory] = useState('');
 
@@ -21,18 +22,18 @@ export default function LangHub() {
     .filter(p => p.includes(`/lang/${langId}/vocab/`))
     .map(p => p.split('/').pop().replace('.json', ''));
 
-  const customCategories = VocabStorage.categoriesForLang(langId);
+  const customCategories = categoriesForLang(langId);
   const categories = [...new Set([...staticCategories, ...customCategories])].sort();
 
   function goToNewCategory() {
     const slug = slugify(newCategory);
     if (!slug) return;
-    navigate(`/vocab-vault/${langId}/vocab/${slug}`);
+    navigate(`/VV/${langId}/vocab/${slug}`);
   }
 
   return (
     <div>
-      <button className="lang-back-btn" onClick={() => navigate('/vocab-vault')}>← All Languages</button>
+      <button className="lang-back-btn" onClick={() => navigate('/VV')}>← All Languages</button>
 
       <div className="lang-hub-header">
         <span className="lang-hub-flag">{lang.flag}</span>
@@ -44,14 +45,14 @@ export default function LangHub() {
 
       <nav className="lang-subnav">
         <button className="lang-subnav-btn active">Vocabulary</button>
-        <button className="lang-subnav-btn" onClick={() => navigate(`/vocab-vault/${langId}/slang`)}>Slang</button>
-        <button className="lang-subnav-btn" onClick={() => navigate(`/vocab-vault/${langId}/grammar`)}>Grammar</button>
-        <button className="lang-subnav-btn" onClick={() => navigate(`/vocab-vault/${langId}/quiz`)}>⚡ Quiz</button>
+        <button className="lang-subnav-btn" onClick={() => navigate(`/VV/${langId}/slang`)}>Slang</button>
+        <button className="lang-subnav-btn" onClick={() => navigate(`/VV/${langId}/grammar`)}>Grammar</button>
+        <button className="lang-subnav-btn" onClick={() => navigate(`/VV/${langId}/quiz`)}>⚡ Quiz</button>
       </nav>
 
       <button
         className="lang-quick-review-btn"
-        onClick={() => navigate(`/vocab-vault/${langId}/quiz?quick=1`)}
+        onClick={() => navigate(`/VV/${langId}/quiz?quick=1`)}
       >
         ⚡ Quick Review — 10 questions
       </button>
@@ -61,7 +62,7 @@ export default function LangHub() {
           <button
             key={cat}
             className="lang-category-card"
-            onClick={() => navigate(`/vocab-vault/${langId}/vocab/${cat}`)}
+            onClick={() => navigate(`/VV/${langId}/vocab/${cat}`)}
           >
             {cat.charAt(0).toUpperCase() + cat.slice(1).replace(/[-_]/g, ' ')}
           </button>

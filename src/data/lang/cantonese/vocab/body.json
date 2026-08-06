@@ -1,0 +1,14 @@
+[
+  { "word": "頭",   "romanization": "tau4",      "english": "head",           "pos": "noun", "notes": "" },
+  { "word": "眼",   "romanization": "ngaan5",    "english": "eyes",           "pos": "noun", "notes": "colloquial; formal 眼睛" },
+  { "word": "鼻",   "romanization": "bei6",      "english": "nose",           "pos": "noun", "notes": "" },
+  { "word": "嘴",   "romanization": "zeoi2",     "english": "mouth",          "pos": "noun", "notes": "" },
+  { "word": "耳仔", "romanization": "ji5 zai2",  "english": "ears",           "pos": "noun", "notes": "colloquial Cantonese" },
+  { "word": "手",   "romanization": "sau2",      "english": "hand",           "pos": "noun", "notes": "" },
+  { "word": "腳",   "romanization": "goek3",     "english": "foot",           "pos": "noun", "notes": "" },
+  { "word": "腿",   "romanization": "teoi2",     "english": "leg",            "pos": "noun", "notes": "" },
+  { "word": "肚",   "romanization": "tou5",      "english": "belly / stomach","pos": "noun", "notes": "" },
+  { "word": "心",   "romanization": "sam1",      "english": "heart",          "pos": "noun", "notes": "" },
+  { "word": "頭髮", "romanization": "tau4 faat3","english": "hair",           "pos": "noun", "notes": "" },
+  { "word": "牙齒", "romanization": "nga4 ci2",  "english": "teeth",          "pos": "noun", "notes": "" }
+]

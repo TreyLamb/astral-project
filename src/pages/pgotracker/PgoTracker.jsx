@@ -35,7 +35,7 @@ export default function PgoTracker() {
     } else {
       showToast(`Cloud sync error: ${err?.message ?? 'unknown'}`, 'error');
     }
-    console.error('PGO Tracker Firestore error:', err);
+    console.error('POGO Tracker Firestore error:', err);
   }, [showToast]);
 
   useEffect(() => () => clearTimeout(timerRef.current), []);
@@ -66,7 +66,7 @@ export default function PgoTracker() {
           try {
             setParties(await PgoFirestore.getParties(user.uid));
           } catch (err) {
-            console.error('PGO Tracker: failed to load parties (non-fatal)', err);
+            console.error('POGO Tracker: failed to load parties (non-fatal)', err);
           }
         } else {
           PgoStorage.seed();
@@ -82,7 +82,7 @@ export default function PgoTracker() {
           try {
             setParties(PgoStorage.getParties());
           } catch (err) {
-            console.error('PGO Tracker: failed to load parties (non-fatal)', err);
+            console.error('POGO Tracker: failed to load parties (non-fatal)', err);
           }
         }
       } catch (err) {
@@ -305,7 +305,7 @@ export default function PgoTracker() {
         <header className="pgo-header">
           <div className="pgo-title-row">
             <div className="pgo-title-ball" />
-            <h1>PGO Tracker</h1>
+            <h1>POGO Tracker</h1>
             <span className="pgo-sync-status" title={signedIn ? 'Synced to your account' : 'Only saved on this device — sign in (top nav) to sync'}>
               {signedIn ? '☁' : '📴'}
             </span>

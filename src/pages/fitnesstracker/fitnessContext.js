@@ -171,7 +171,7 @@ export function useFitnessState() {
   // "Logged actual" (action='logged' — becomes the new real baseline for
   // everything downstream) vs "Manual override" (action='override' — retarget
   // this point regardless of whether it's occurred) — the two distinct
-  // actions Guidelines_Forecast.md §6 calls for. Centralized here (rather than
+  // actions guidelinesForecast.md §6 calls for. Centralized here (rather than
   // duplicated across EntryEditor/GoalEditorModal/the weigh-in flow) so the
   // recompute-from-here-forward invariant has one call site to get right.
   //

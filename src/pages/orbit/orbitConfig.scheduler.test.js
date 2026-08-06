@@ -1,4 +1,4 @@
-// Phase-1 scheduler foundation (Guidelines_Scheduler.md §3): new task fields,
+// Phase-1 scheduler foundation (guidelinesScheduler.md §3): new task fields,
 // scheduler settings normalization, and the five new DB factories. Pure data
 // model — no placement logic here (that arrives with calc/energy, calc/travel,
 // calc/scheduler in later phases).

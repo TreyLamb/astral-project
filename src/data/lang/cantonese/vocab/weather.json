@@ -1,0 +1,12 @@
+[
+  { "word": "天氣", "romanization": "tin1 hei3", "english": "weather",      "pos": "noun", "notes": "" },
+  { "word": "好天", "romanization": "hou2 tin1", "english": "sunny day",    "pos": "noun", "notes": "colloquial, lit. 'good weather'" },
+  { "word": "陰天", "romanization": "jam1 tin1", "english": "cloudy day",   "pos": "noun", "notes": "" },
+  { "word": "落雨", "romanization": "lok6 jyu5", "english": "to rain",      "pos": "verb", "notes": "Cantonese uses 落 not Mandarin 下" },
+  { "word": "落雪", "romanization": "lok6 syut3","english": "to snow",      "pos": "verb", "notes": "" },
+  { "word": "打風", "romanization": "daa2 fung1","english": "to be windy / stormy","pos": "verb", "notes": "also used for typhoons" },
+  { "word": "熱",   "romanization": "jit6",      "english": "hot",          "pos": "adjective", "notes": "" },
+  { "word": "凍",   "romanization": "dung3",     "english": "cold",        "pos": "adjective", "notes": "Cantonese uses 凍 rather than 冷 colloquially" },
+  { "word": "涼",   "romanization": "loeng4",    "english": "cool (pleasant)", "pos": "adjective", "notes": "" },
+  { "word": "暖",   "romanization": "nyun5",     "english": "warm",        "pos": "adjective", "notes": "" }
+]

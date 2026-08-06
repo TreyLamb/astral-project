@@ -341,7 +341,7 @@ export default function TkbReview() {
     return (
       <div className="tkb-review">
         <p>No questions available for this profile yet.</p>
-        <button className="tkb-btn tkb-btn-primary" onClick={() => navigate('/tkb')}>Back to Home</button>
+        <button className="tkb-btn tkb-btn-primary" onClick={() => navigate('/TKB')}>Back to Home</button>
       </div>
     );
   }
@@ -369,7 +369,7 @@ export default function TkbReview() {
               <span className="tkb-session-stat-label">Retries</span>
             </div>
           </div>
-          <button className="tkb-btn tkb-btn-primary" onClick={() => navigate('/tkb')}>Back to Home</button>
+          <button className="tkb-btn tkb-btn-primary" onClick={() => navigate('/TKB')}>Back to Home</button>
         </div>
       </div>
     );

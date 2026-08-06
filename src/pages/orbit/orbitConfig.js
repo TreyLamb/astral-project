@@ -132,7 +132,7 @@ export function newTask(partial = {}, settings) {
     // Skeleton for a lightweight project hierarchy separate from the formal
     // Project entity (newProject) — see Add Task screen's Parent picker.
     isProject: partial.isProject ?? false,
-    // --- scheduler annotation fields (Guidelines_Scheduler.md §3.1) ----------
+    // --- scheduler annotation fields (guidelinesScheduler.md §3.1) ----------
     // All optional. Filled by AI annotation (later phase) + learning, editable
     // by the user. Absence = "unknown, fall back to a default" — none are
     // required to save a task, so old stored rows just read null/false/[] via
@@ -270,7 +270,7 @@ export function defaultSettings() {
     lanes: ['now', 'next', 'later'],
     taskTypes: [...DEFAULT_TASK_TYPES],
     capacityDefault: { timeMin: 480, energy: 15 },
-    // --- scheduler config (Guidelines_Scheduler.md §4/§5/§6) ------------------
+    // --- scheduler config (guidelinesScheduler.md §4/§5/§6) ------------------
     // homeZip powers weather + location inference (§9). The gas-tank energy
     // model (§4) reuses capacityDefault.energy as the day's tank capacity C —
     // it is NOT a separate 100-point scale (the doc's "e.g. 100" was
@@ -484,7 +484,7 @@ export function withDayPlanDefaults(d) {
   };
 }
 
-// === Scheduler databases (Guidelines_Scheduler.md §3.2) =====================
+// === Scheduler databases (guidelinesScheduler.md §3.2) =====================
 // localStorage-only for now; §3.2 defers Firestore sync to a later phase, so
 // none of these are wired into orbitContext's dirty/flush machinery yet.
 // Privacy: places + travelLog together form a personal movement log — keep

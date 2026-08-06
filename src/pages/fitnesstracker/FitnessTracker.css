@@ -660,7 +660,7 @@
 .ft-goal-actions { display: flex; gap: 6px; flex: none; }
 .ft-goal-actions .ft-btn-ghost { padding: 6px 12px; font-size: 0.78rem; }
 
-/* Realism index — non-blocking, informational badge/flag (Guidelines_Forecast.md §7) */
+/* Realism index — non-blocking, informational badge/flag (guidelinesForecast.md §7) */
 .ft-realism-badge { padding: 2px 9px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
 .ft-realism-conservative { color: var(--ft-accent); background: rgba(163, 230, 53, 0.14); }
 .ft-realism-plausible { color: #fbbf24; background: rgba(251, 191, 36, 0.14); }

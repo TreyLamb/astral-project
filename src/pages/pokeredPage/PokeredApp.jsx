@@ -1,0 +1,1805 @@
+import { useState, useEffect, useRef } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { saveGame, healParty, createPlayerPokemon, ITEM_EFFECTS, tryEvolveWithStone, applyXP, xpForLevel, finalizeEvolution, saveExtraAsNewSlot, newSlotId, DARK_MAPS, FLY_DESTINATIONS, hasEvent, setEvent, clearEvent, FOSSIL_REVIVALS, FOSSIL_REVIVE_LEVEL, tryInGameTrade, HM_MOVE_NAMES, growDaycareMon, daycareCost } from './pokeredGameState';
+import { TRAINER_META } from './trainerMeta';
+import { TRAINER_PARTIES } from './trainerParties';
+import PokeredStartScreen from './PokeredStartScreen';
+import PokeredOverworld from './PokeredOverworld';
+import PokeredBattle from './PokeredBattle';
+import GameCornerSlots from './GameCornerSlots';
+import MARTS from './extractedOgData/marts.json';
+import PRICES from './extractedOgData/prices.json';
+
+export default function PokeredApp() {
+  const [screen, setScreen]           = useState('loading');
+  const [pokemonData, setPokemonData] = useState(null);
+  const [gameState, setGameState]     = useState(null);
+  // User-requested (2x default, 2.5x option added to the cycle).
+  const [speedMult, setSpeedMult] = useState(2);
+  // Lifted (not local to PokeredOverworld) so it survives that component unmounting on
+  // every overworld<->battle screen switch — see PokeredOverworld.jsx's showWarps comment.
+  const [showWarps, setShowWarps] = useState(false);
+  const [wildEncounter, setWildEncounter] = useState(null);
+  const [trainerEncounter, setTrainerEncounter] = useState(null); // { trainerKey, partyIdx, party, name, baseMoney }
+  // Which clerk (0 or 1) opened the shop — only matters for the two-clerk marts
+  // (CELADON_MART_2F/5F); transient UI state, not part of the saved game.
+  const [shopClerkIndex, setShopClerkIndex] = useState(0);
+  // Real OG (engine/events/pokemart.asm DisplayPokemartDialogue_) shows a BUY/SELL/QUIT
+  // choice first, then dispatches into mutually-exclusive buy/sell screens — previously this
+  // port showed both the FOR SALE and SELL FROM BAG lists on one screen simultaneously, with
+  // no choice step at all. Transient UI state, not part of the saved game.
+  const [shopMode, setShopMode] = useState('choice'); // 'choice' | 'buy' | 'sell'
+  const [shopCursor, setShopCursor] = useState(0);
+  // PC screen tab/cursor — transient UI state, not part of the saved game. Keyboard nav
+  // (site-wide requirement: every interactive feature needs click+keyboard parity) is added
+  // fresh alongside the Pokémon-storage tab rather than left mouse-only like the rest of
+  // this screen was.
+  const [pcTab, setPcTab] = useState('ITEM');
+  const [pcCursor, setPcCursor] = useState(0);
+  // Stores the player's real position at the moment an encounter triggered,
+  // so the overworld remounts at the correct location after battle.
+  const battleReturnPos = useRef(null);
+  // Always-current player position — updated on every tile step by PokeredOverworld.
+  // All screen-change handlers read from this so they never use a stale map-entry position.
+  const playerPosRef = useRef(null);
+
+  function handlePositionUpdate(mapId, x, y) {
+    playerPosRef.current = { mapId, x, y };
+  }
+
+  // Called by PokeredOverworld's map-load effect right after it has consumed
+  // gameState.pendingTrainerPos (applied it to npcBattlePosRef) — clears the field one render
+  // later than the battle-end restore itself, so the remount that needs to READ it isn't also
+  // the commit that WIPES it (see the comment on handleBattleEnd's victory branch below).
+  function handleConsumePendingTrainerPos() {
+    setGameState(prev => (prev && prev.pendingTrainerPos) ? { ...prev, pendingTrainerPos: null } : prev);
+  }
+
+  useEffect(() => {
+    fetch('/pokered/pokemonData.json')
+      .then(r => r.json())
+      .then(data => { setPokemonData(data); setScreen('start'); })
+      .catch(() => setScreen('error'));
+  }, []);
+
+  function handleStart(state) {
+    setGameState(state);
+    setScreen('overworld');
+  }
+
+  // Pokédex "seen" — real OG marks this the moment an enemy Pokémon's sprite loads in
+  // battle (SetSeenAndCaughtMon-equivalent), for both wild and trainer battles. Scoped to
+  // the enemy's FIRST active mon only (not every subsequent trainer send-out this port
+  // doesn't have a clean per-switch hook for yet) — a reasonable scope cut, not silent.
+  function markSeen(species) {
+    if (!species) return;
+    setGameState(prev => {
+      if (!prev) return prev;
+      const seen = prev.dex?.seen ?? [];
+      if (seen.includes(species)) return prev;
+      const next = { ...prev, dex: { ...prev.dex, seen: [...seen, species] } };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  function handleEncounter(encounter, mapId, x, y) {
+    // commented out during testing.
+    // const firstUsable = gameState?.party?.find(mon => mon.hp > 0);
+    // if (!firstUsable) return;
+    battleReturnPos.current = playerPosRef.current ?? { mapId, x, y };
+    // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+    // Real OG only marks the Pokédex "seen" flag once LoadEnemyMonData actually runs
+    // (engine/battle/core.asm InitWildBattle) — for an unidentified Tower ghost, that call is
+    // skipped entirely (common_text.asm PrintBeginningBattleText .noSilphScope branch), so the
+    // real species must NOT register as "seen" until the player has the SILPH SCOPE.
+    if (!encounter?.ghostDisguise) markSeen(encounter?.species);
+    setWildEncounter(encounter);
+    setScreen('battle');
+  }
+
+  function handleTrainerBattle(trainerEncounterData, mapId, x, y) {
+    //commented out during testing.
+   // const firstUsable = gameState?.party?.find(mon => mon.hp > 0);
+   // if (!firstUsable) return;
+    battleReturnPos.current = playerPosRef.current ?? { mapId, x, y };
+    const party = TRAINER_PARTIES[trainerEncounterData.trainerKey]?.[trainerEncounterData.partyIdx ?? 0];
+    markSeen(party?.[0]?.species);
+    // mapId carried alongside so PokeredBattle can look up this trainer's real post-victory
+    // quote (extractedOgData/trainerText.json, keyed by mapId + npcIndex).
+    setTrainerEncounter({ ...trainerEncounterData, mapId });
+    // Phase 4 fix (2026-08-02): persist the trainer's walked-up position through gameState so
+    // PokeredOverworld's map-load effect can restore it after this exact screen swap unmounts
+    // and remounts that whole component (see PokeredOverworld.jsx's map-load effect comment) -
+    // cleared in handleBattleEnd below so it can never leak into a later, unrelated map load.
+    if (trainerEncounterData.pos) {
+      setGameState(prev => prev ? { ...prev, pendingTrainerPos: { mapId, npcId: trainerEncounterData.trainerId, ...trainerEncounterData.pos } } : prev);
+    }
+    setScreen('battle');
+  }
+
+  function handleBattleEnd({ result, updatedParty, caught, moneyWon }) {
+    const wasTrainerVictory = result === 'victory' && !!trainerEncounter;
+    const beatenId = trainerEncounter?.trainerId;
+    // Gym leaders grant a badge on their one real gym battle. Giovanni's trainerClass is
+    // reused for two earlier non-badge Team Rocket boss fights (Rocket Hideout B4F, Silph Co.
+    // 11F) — partyIdx 2 is specifically his Viridian Gym instance (see trainerParties.js
+    // GiovanniData ordering), so he's checked by partyIdx instead of TRAINER_META.badgeIndex.
+    const trainerKey = trainerEncounter?.trainerKey;
+    const badgeIndex = trainerKey === 'Giovanni'
+      ? (trainerEncounter?.partyIdx === 2 ? 7 : undefined)
+      : TRAINER_META[trainerKey]?.badgeIndex;
+    // Silph Co. 11F is Giovanni's partyIdx-1 instance (see the comment above) — beating him
+    // here unlocks Route 22's 2nd rival encounter (PokeredOverworld.jsx's `isRivalBeaten`
+    // gating for Rival2 there reads this exact flag).
+    const wonSilphCoGiovanni = wasTrainerVictory && trainerKey === 'Giovanni' && trainerEncounter?.partyIdx === 1;
+    setWildEncounter(null);
+    setTrainerEncounter(null);
+
+    setGameState(prev => {
+      if (!prev) return prev;
+
+      let party = updatedParty ? [...updatedParty] : [...prev.party];
+      let pcMons = prev.pcMons ?? [];
+      let dex = prev.dex ?? {};
+      if (caught) {
+        if (party.length < 6) party = [...party, caught];
+        else pcMons = [...pcMons, caught]; // party full → straight to the PC box (Gen 1)
+        const caughtList = dex.caught ?? [];
+        if (!caughtList.includes(caught.species)) dex = { ...dex, caught: [...caughtList, caught.species] };
+      }
+
+      let items = prev.items ? [...prev.items] : [];
+      if (result === 'caught') {
+        items = items.map(it =>
+          it.name === 'POKE_BALL' ? { ...it, count: Math.max(0, it.count - 1) } : it
+        );
+      }
+
+      let beatenTrainers = prev.beatenTrainers ?? [];
+      if (wasTrainerVictory && beatenId && !beatenTrainers.includes(beatenId)) {
+        beatenTrainers = [...beatenTrainers, beatenId];
+      }
+
+      let badges = prev.badges ?? [];
+      if (wasTrainerVictory && badgeIndex !== undefined && !badges.includes(badgeIndex)) {
+        badges = [...badges, badgeIndex].sort((a, b) => a - b);
+        // Every gym leader's real reward is a unique TM this port doesn't model as a separate
+        // item (see the Viridian City fisherman comment in PokeredOverworld.jsx) — grant the
+        // shared move-teacher key item instead, once.
+        if (!items.some(it => it.name === 'HM06')) items = [...items, { name: 'HM06', count: 1 }];
+      }
+
+      // Cerulean City's Rocket Thief (Phase 1 verification pass, 2026-08-02): OG's
+      // CeruleanCityRocketDefeatedScript hands back the stolen TM28 (Dig) on defeat — this port
+      // doesn't model individual TM items, so grant the shared HM06 move-teacher key item once
+      // instead, same substitution convention as the gym-leader TM rewards above.
+      if (wasTrainerVictory && trainerKey === 'Rocket' && trainerEncounter?.mapId === 'CERULEAN_CITY') {
+        if (!items.some(it => it.name === 'HM06')) items = [...items, { name: 'HM06', count: 1 }];
+      }
+
+      let money = wasTrainerVictory ? (prev.money ?? 0) + (moneyWon ?? 0) : (prev.money ?? 0);
+
+      // Whiteout (OG ResetStatusAndHalveMoneyOnBlackout + HandleBlackOut): all party
+      // fainted → halve money, fully heal party, respawn at the last Pokémon Center.
+      if (result === 'defeat') {
+        money = Math.floor(money / 2);
+        party = healParty(party);
+        // User-requested (2026-07-10): fall back to right outside Red's House door, not an
+        // arbitrary Pallet Town tile, when the player has never visited a real Pokécenter yet.
+        const dest = prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 5, y: 6 };
+        const newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, dex, mapId: dest.mapId, x: dest.x, y: dest.y, pendingTrainerPos: null };
+        if (!prev.isExtra) saveGame(newState);
+        return newState;
+      }
+
+      // Restore exact position from before the battle — battleReturnPos was set from playerPosRef
+      const pos = battleReturnPos.current ?? playerPosRef.current ?? { mapId: prev.mapId, x: prev.x, y: prev.y };
+      const beatenSilphCoGiovanni = prev.beatenSilphCoGiovanni || wonSilphCoGiovanni;
+      // Phase 4 fix follow-up (2026-08-03): do NOT clear pendingTrainerPos here. setScreen
+      // ('overworld') right below is batched into this SAME commit (React 18 auto-batching), so
+      // PokeredOverworld's fresh mount would read gameState with pendingTrainerPos already wiped
+      // before its map-load effect ever gets a chance to consume it — confirmed live via
+      // Playwright: the trainer reappeared near its ORIGINAL spawn tile, not the walked-up
+      // position, because the "restore" and "clear" happened in the same state transition. It's
+      // cleared one render later instead, via onConsumePendingTrainerPos, only after
+      // PokeredOverworld's map-load effect has actually applied it to npcBattlePosRef.
+      let newState = { ...prev, party, pcMons, items, beatenTrainers, badges, money, dex, beatenSilphCoGiovanni, mapId: pos.mapId, x: pos.x, y: pos.y };
+
+      // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+      // Route 12/16 Snorlax (scripts/Route12.asm Route12SnorlaxPostBattleScript / Route16
+      // equivalent): both the "defeated" and "caught" branches converge on the same
+      // unconditional SetEvent in OG — running or losing sets neither, leaving Snorlax in
+      // place to be woken again later via the POKÉ FLUTE (PokeredOverworld.jsx's
+      // activatePokeFlute re-checks the beat flag every use). Ghost Marowak
+      // (scripts/PokemonTower6F.asm PokemonTower6FMarowakBattleScript) only sets its flag on an
+      // outright win — it can never be "caught" at all (blocked in PokeredBattle.jsx's
+      // resolveTurns via wildEncounter.uncatchable), so there's no caught-branch to mirror here.
+      if (result === 'victory' || result === 'caught') {
+        if (wildEncounter?.snorlaxRoute === 12) newState = setEvent(newState, 'EVENT_BEAT_ROUTE12_SNORLAX');
+        else if (wildEncounter?.snorlaxRoute === 16) newState = setEvent(newState, 'EVENT_BEAT_ROUTE16_SNORLAX');
+      }
+      if (result === 'victory' && wildEncounter?.ghostMarowak) {
+        newState = setEvent(newState, 'EVENT_BEAT_GHOST_MAROWAK');
+      }
+      // ===== R9_10-RockTunnel-Lavender-PokemonTower WIRING =====
+      // Power Plant disguised wild Pokémon (Voltorb/Electrode/Zapdos) — same "only a real win
+      // or catch sets the one-time flag, fleeing/losing leaves it re-encounterable" semantics as
+      // the Snorlax branch above (scripts/PowerPlant.asm's trainer headers only FLAG_SET on
+      // EndTrainerBattle, which only runs after an actual battle conclusion, not a run-away).
+      if ((result === 'victory' || result === 'caught') && wildEncounter?.powerPlantFlag) {
+        newState = setEvent(newState, wildEncounter.powerPlantFlag);
+      }
+      // ===== Endgame-VictoryRoad-Legendaries-HoF WIRING =====
+      // Champion win (scripts/ChampionsRoom.asm ChampionsRoomRivalDefeatedScript: SetEvent
+      // EVENT_BEAT_CHAMPION_RIVAL, unconditional on victory). Real OG later resets this exact
+      // flag on every Hall of Fame visit (INDIGO_PLATEAU_EVENTS_START..END range, see
+      // handleCompleteHallOfFame below) to make the Elite Four rematchable — it is NOT what gates
+      // Mewtwo (see MEWTWO_WILD_OBJECT's comment in PokeredOverworld.jsx), just tracked here for
+      // 1:1 fidelity with the real flag's own lifecycle in case anything else ever needs it.
+      if (wasTrainerVictory && trainerKey === 'Rival3') {
+        newState = setEvent(newState, 'EVENT_BEAT_CHAMPION_RIVAL');
+      }
+
+      if ((result === 'victory' || result === 'caught') && !prev.isExtra) {
+        saveGame(newState);
+      }
+
+      return newState;
+    });
+
+    setScreen('overworld');
+  }
+
+  // Out-of-battle poison damage (OG engine/events/poison.asm ApplyOutOfBattlePoisonDamage):
+  // called by the overworld every 4th completed step. Every poisoned party member loses
+  // exactly 1 HP (not a fraction) — real OG applies this to the WHOLE party at once, not
+  // just the lead. A mon reaching 0 HP faints; if that leaves the whole party fainted, it's
+  // a real whiteout (same halve-money/heal/respawn treatment as a battle loss). Returns
+  // { whiteout, dest } synchronously (same result-out-of-setGameState pattern as
+  // handleUseItem's 'escape_rope' case) so the overworld — already mounted, not remounting
+  // like after a battle — knows to trigger its own warp transition to `dest`.
+  function handlePoisonTick() {
+    let result = { whiteout: false, dest: null };
+    setGameState(prev => {
+      if (!prev) return prev;
+      let anyFainted = false;
+      const party = prev.party.map(mon => {
+        if (mon.status !== 'PSN' || mon.hp <= 0) return mon;
+        const hp = Math.max(0, mon.hp - 1);
+        if (hp === 0) anyFainted = true;
+        return { ...mon, hp };
+      });
+      if (party.every((m, i) => m === prev.party[i])) return prev; // nothing poisoned, no-op
+      if (anyFainted && !party.some(m => m.hp > 0)) {
+        const money = Math.floor((prev.money ?? 0) / 2);
+        const healed = healParty(party);
+        // User-requested (2026-07-10): fall back to right outside Red's House door, not an
+        // arbitrary Pallet Town tile, when the player has never visited a real Pokécenter yet.
+        // isDirectWarp: true — this is a direct warp-in, not a walked-through door, so
+        // PokeredOverworld's loadMap must not treat it as "you came from here" or it corrupts
+        // the destination Pokécenter's own LAST_MAP exit-door pairing (see Teleport's identical fix).
+        const dest = { ...(prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 5, y: 6 }), isDirectWarp: true };
+        result = { whiteout: true, dest };
+        const next = { ...prev, party: healed, money, mapId: dest.mapId, x: dest.x, y: dest.y };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+      const next = { ...prev, party };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+    return result;
+  }
+
+  // ===== LAVENDER / POKEMON TOWER / SNORLAX WIRING =====
+  // Generic setter for the formal EVENT_FLAGS/hasEvent/setEvent registry (pokeredGameState.js)
+  // — first real consumer of that foundation (previously wired but never called from anywhere).
+  // Wired through as a plain callback prop, same shape as every other PokeredOverworld handler
+  // here, rather than a bespoke one-off flag setter per story beat.
+  function handleSetEvent(eventName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = setEvent(prev, eventName);
+      if (next === prev) return prev; // already set — setEvent is idempotent
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // ===== R12_15-R19_21-Seafoam-Cinnabar WIRING =====
+  // Toggle counterpart to handleSetEvent — the Pokémon Mansion secret switches
+  // (scripts/PokemonMansion1F/2F/3F/B1F.asm) use CheckAndSetEvent/ResetEventReuseHL, a real
+  // flip-flop, not a one-way set like every other event flag consumer so far. First real use of
+  // pokeredGameState.js's clearEvent for a player-driven toggle (previously clearEvent was only
+  // ever called from handleMapChange's own map-entry resets).
+  function handleToggleEvent(eventName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = hasEvent(prev, eventName) ? clearEvent(prev, eventName) : setEvent(prev, eventName);
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // ===== Endgame-VictoryRoad-Legendaries-HoF WIRING =====
+  // Hall of Fame arrival (see PokeredOverworld.jsx's loadMap HALL_OF_FAME block, action
+  // 'HALL_OF_FAME_COMPLETE'). Two effects, both one-time per real playthrough (the dialogue
+  // that triggers this is itself one-shot-guarded, so this only ever runs once per HoF visit):
+  //
+  // 1. Elite Four rematchability — real OG's HallOfFameResetEventsAndSaveScript calls
+  //    `ResetEventRange INDIGO_PLATEAU_EVENTS_START, INDIGO_PLATEAU_EVENTS_END` (constants/
+  //    event_constants.asm), which spans EVENT_BEAT_LORELEIS_ROOM_TRAINER_0 through
+  //    EVENT_BEAT_CHAMPION_RIVAL inclusive — clearing every Elite Four "beaten"/entry-lock flag
+  //    so the whole gauntlet (including the Champion) can be fought again on a later visit. This
+  //    port's actual beaten-trainer gate is `gameState.beatenTrainers` (see
+  //    ELITE_FOUR_EXIT_GATES in PokeredOverworld.jsx), not these OG event names directly, so the
+  //    equivalent reset removes those 5 trainers' npcTrainerId entries from beatenTrainers
+  //    (Lorelei/Bruno/Agatha/Lance/Rival3-at-Champion's-Room) in addition to clearing the OG
+  //    event names this port DOES track (the 3 AUTOWALKED_INTO flags + LANCES_ROOM_LOCK_DOOR,
+  //    which gate ELITE_FOUR_NO_RETREAT — must also reset so a rematch re-locks correctly) and
+  //    EVENT_BEAT_CHAMPION_RIVAL itself (tracked for fidelity, see handleBattleEnd).
+  // 2. Permanently unlocking Mewtwo — see MEWTWO_UNLOCK_FLAG_ID's comment in
+  //    PokeredOverworld.jsx for why this is a separate, never-reset pickedUpItems marker instead
+  //    of reusing EVENT_BEAT_CHAMPION_RIVAL (which step 1 just made rematchable/resettable).
+  function handleCompleteHallOfFame() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const eventsToReset = [
+        'EVENT_AUTOWALKED_INTO_LORELEIS_ROOM', 'EVENT_AUTOWALKED_INTO_BRUNOS_ROOM',
+        'EVENT_AUTOWALKED_INTO_AGATHAS_ROOM', 'EVENT_LANCES_ROOM_LOCK_DOOR',
+        'EVENT_BEAT_LANCE', 'EVENT_BEAT_CHAMPION_RIVAL',
+      ];
+      let next = prev;
+      for (const ev of eventsToReset) next = clearEvent(next, ev);
+      const eliteFourTrainerIds = ['LORELEIS_ROOM:5:2', 'BRUNOS_ROOM:5:2', 'AGATHAS_ROOM:5:2', 'LANCES_ROOM:6:1'];
+      const beatenTrainers = (next.beatenTrainers ?? []).filter(id =>
+        !eliteFourTrainerIds.includes(id) && !id.startsWith('CHAMPIONS_ROOM:4:2'));
+      const mewtwoFlagId = 'HALL_OF_FAME:cerulean_cave_guard_removed';
+      const pickedUpItems = (next.pickedUpItems ?? []).includes(mewtwoFlagId)
+        ? next.pickedUpItems
+        : [...(next.pickedUpItems ?? []), mewtwoFlagId];
+      next = { ...next, beatenTrainers, pickedUpItems };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  function handleMetOldMan() {
+    setGameState(prev => {
+      if (!prev || prev.metOldMan) return prev;
+      const next = { ...prev, metOldMan: true };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Mt Moon Pokecenter's Magikarp salesman (real OG: ¥500 for a level-5 Magikarp, GivePokemon —
+  // goes to the party if there's room, otherwise straight to the PC box, same as a starter).
+  // Real OG asks a real Yes/No first; this port has no generic mid-dialogue yes/no widget, so
+  // — like every other single-NPC gift this session (Old Rod, SS Ticket, fossils) — the
+  // affordability/already-bought checks happen in PokeredOverworld before this is ever called,
+  // matching the fire-and-forget handlePickUpItem convention rather than reading a result back
+  // out of the setGameState updater.
+  function handleBuyMagikarp(giftId) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const pickedUpItems = prev.pickedUpItems ?? [];
+      if (pickedUpItems.includes(giftId) || (prev.money ?? 0) < 500) return prev;
+      const magikarp = createPlayerPokemon('MAGIKARP', 5, pokemonData);
+      let party = prev.party, pcMons = prev.pcMons ?? [];
+      if (party.length < 6) party = [...party, magikarp];
+      else pcMons = [...pcMons, magikarp];
+      const next = { ...prev, party, pcMons, money: prev.money - 500, pickedUpItems: [...pickedUpItems, giftId] };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // ===== R7-Celadon-RocketHideout-Erika CLUSTER WIRING =====
+
+  // Game Corner hidden floor coins (data/events/hidden_events.asm HiddenCoins, argument
+  // COIN + <n>) — same one-time-reveal shape as handlePickUpItem above (gated by pickedUpRef in
+  // PokeredOverworld, not here — this just needs to apply the coin credit itself), except it
+  // adds straight to gameState.coins instead of a bag item.
+  function handleFindHiddenCoins(amount) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = { ...prev, coins: Math.min(9999, (prev.coins ?? 0) + amount) };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Game Corner clerk1 (scripts/GameCorner.asm GameCornerClerk1Text) — ¥1000 for 50 coins.
+  // Affordability/coin-case/room-for-more are all checked in PokeredOverworld before the Yes/No
+  // is ever offered (see the GAME_CORNER:2 special case), so this just applies the exchange.
+  function handleBuyCoins(cost, gained) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      if ((prev.money ?? 0) < cost) return prev;
+      const next = { ...prev, money: prev.money - cost, coins: Math.min(9999, (prev.coins ?? 0) + gained) };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Celadon Mart Roof little_girl (scripts/CeladonMartRoof.asm) — consumes the given drink from
+  // the bag and grants HM06 (this port's single "teach any TM/HM" key item — see the
+  // CELADON_MART_ROOF:2 special case in PokeredOverworld for which real TM each drink maps to).
+  // Each drink is tracked as its own independent one-time gift (matching OG's 3 separate
+  // EVENT_GOT_TM13/48/49 flags) via a distinct giftId per drink, even though the item granted is
+  // always the same HM06 — so giving a 2nd/3rd different drink after already having HM06 still
+  // consumes that drink and is still tracked, matching OG's real per-drink one-time gate, even
+  // though this port's HM06 model makes the actual reward a no-op once already obtained.
+  function handleGiveDrinkForTM(drinkName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const giftId = `CELADON_MART_ROOF:2:${drinkName}`;
+      const pickedUpItems = prev.pickedUpItems ?? [];
+      if (pickedUpItems.includes(giftId)) return prev;
+      const items = consumeItem(prev.items ?? [], drinkName);
+      const hasHM06 = items.some(it => it.name === 'HM06');
+      const newItems = hasHM06 ? items : [...items, { name: 'HM06', count: 1 }];
+      const next = { ...prev, items: newItems, pickedUpItems: [...pickedUpItems, giftId] };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Game Corner Prize Room (engine/events/prize_menu.asm CeladonPrizeMenu) — coins-for-Pokémon
+  // or coins-for-TM(item) exchange. Affordability is already filtered in PokeredOverworld's
+  // buildPrizePrompt (only offers prizes the player can currently pay for), so this just applies
+  // the purchase — party-or-PC for mons (same handleBuyMagikarp/handleCollectFossilMon pattern),
+  // or a plain bag add for the TM (this port's single-HM06 model doesn't apply here since these
+  // are genuinely optional EXTRA TMs, not tied to any specific in-game NPC gift slot — granting
+  // the literal TM_* item name is correct and harmless since nothing else in this port reads
+  // individual TM item names except HM06 itself).
+  function handleBuyPrize(kind, payload, level, cost) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      if ((prev.coins ?? 0) < cost) return prev;
+      let next;
+      if (kind === 'mon') {
+        const mon = createPlayerPokemon(payload, level, pokemonData);
+        let party = prev.party, pcMons = prev.pcMons ?? [];
+        if (party.length < 6) party = [...party, mon];
+        else pcMons = [...pcMons, mon];
+        next = { ...prev, party, pcMons, coins: prev.coins - cost };
+      } else {
+        const items = [...(prev.items ?? [])];
+        const existing = items.find(it => it.name === payload);
+        const newItems = existing
+          ? items.map(it => it.name === payload ? { ...it, count: it.count + 1 } : it)
+          : [...items, { name: payload, count: 1 }];
+        next = { ...prev, items: newItems, coins: prev.coins - cost };
+      }
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Generic free-gift Pokémon (currently only Celadon Mansion Roof House's EEVEE) — party-or-PC,
+  // same pattern as handleBuyMagikarp/handleCollectFossilMon above. The one-time gate itself
+  // lives in PokeredOverworld (pickedUpItems via onMarkGiftTaken), not here.
+  function handleGivePokemon(species, level) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const mon = createPlayerPokemon(species, level, pokemonData);
+      let party = prev.party, pcMons = prev.pcMons ?? [];
+      if (party.length < 6) party = [...party, mon];
+      else pcMons = [...pcMons, mon];
+      const next = { ...prev, party, pcMons };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  function handleHealParty() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const healed = { ...prev, party: healParty(prev.party) };
+      if (!prev.isExtra) saveGame(healed);
+      return healed;
+    });
+  }
+
+  function handlePickUpItem(itemId, itemName, count = 1) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const pickedUpItems = prev.pickedUpItems ?? [];
+      if (pickedUpItems.includes(itemId)) return prev; // already collected this save
+      const items = [...(prev.items ?? [])];
+      const existing = items.find(it => it.name === itemName);
+      const newItems = existing
+        ? items.map(it => it.name === itemName ? { ...it, count: it.count + count } : it)
+        : [...items, { name: itemName, count }];
+      const newState = { ...prev, items: newItems, pickedUpItems: [...pickedUpItems, itemId] };
+      if (!prev.isExtra) saveGame(newState);
+      return newState;
+    });
+  }
+
+  // HM field move: CUT (engine/overworld/cut.asm). Persists which tree blocks have been
+  // cut, per map, as a flat block-array index (see applyCutTrees/tryCut in
+  // PokeredOverworld.jsx) — re-applied to a map's block data every time it's loaded so a cut
+  // tree stays cut.
+  function handleCutTree(mapId, blockIndex) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const forMap = prev.cutTrees?.[mapId] ?? [];
+      if (forMap.includes(blockIndex)) return prev;
+      const next = { ...prev, cutTrees: { ...prev.cutTrees, [mapId]: [...forMap, blockIndex] } };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  function handleSetSurfing(surfing) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = { ...prev, isSurfing: surfing };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Generic single-item cash purchase — currently just the Celadon Mart Roof vending
+  // machines, but kept general (not vending-specific) in case a future single-NPC purchase
+  // needs the same shape. Silently no-ops if unaffordable, matching handleShopBuy's existing
+  // behavior (no separate "not enough money" dialogue branch built for either).
+  function handleBuyItem(itemName, price) {
+    setGameState(prev => {
+      if (!prev || (prev.money ?? 0) < price) return prev;
+      const items = prev.items ?? [];
+      const existing = items.find(i => i.name === itemName);
+      const newItems = existing
+        ? items.map(i => i.name === itemName ? { ...i, count: i.count + 1 } : i)
+        : [...items, { name: itemName, count: 1 }];
+      const next = { ...prev, items: newItems, money: prev.money - price };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Saffron gate guards (engine/events/saffron_guards.asm RemoveGuardDrink): giving ANY ONE
+  // of the 4 guards (Route 5/6/7/8 Gate) a drink sets a single SHARED flag ("I'll share this
+  // with the other guards!") that satisfies all 4 — not 4 separate flags. Removes exactly one
+  // unit of the given drink, matching OG's real bag-removal.
+  function handleGiveGuardDrink(drinkName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const items = (prev.items ?? [])
+        .map(it => it.name === drinkName ? { ...it, count: it.count - 1 } : it)
+        .filter(it => it.count > 0);
+      const next = { ...prev, items, gaveSaffronGuardsDrink: true };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Bike Shop voucher exchange (scripts/BikeShop.asm BikeShopClerkText .dontHaveVoucher/voucher
+  // branch): removes BIKE_VOUCHER from the bag and grants BICYCLE, matching OG's real
+  // GiveItem BICYCLE + RemoveItemByID BIKE_VOUCHER + SetEvent EVENT_GOT_BICYCLE. No separate
+  // "gotBicycle" flag is needed — like S_S_TICKET/OAKS_PARCEL elsewhere, item possession IS the
+  // state (see PokeredOverworld.jsx's BIKE_SHOP:1 branch, which checks items for BICYCLE/
+  // BIKE_VOUCHER directly).
+  function handleExchangeBikeVoucher() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const items = (prev.items ?? [])
+        .filter(it => it.name !== 'BIKE_VOUCHER')
+        .concat([{ name: 'BICYCLE', count: 1 }]);
+      const next = { ...prev, items };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // ===== Saffron-SilphCo-Dojo WIRING =====
+  // Copycat's House 2F (see PokeredOverworld.jsx's COPYCATS_HOUSE_2F:1 branch) — trades a
+  // POKé DOLL for TM31 (MIMIC), modeled as this port's single HM06 teach-any-move key item.
+  // Same dedicated remove+add shape as handleExchangeBikeVoucher above.
+  function handleGiveDollForTM31() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const items = (prev.items ?? [])
+        .map(it => (it.name === 'POKE_DOLL' ? { ...it, count: it.count - 1 } : it))
+        .filter(it => it.name !== 'POKE_DOLL' || it.count > 0)
+        .concat([{ name: 'HM06', count: 1 }]);
+      const next = { ...prev, items };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // ===== R16_18-Fuchsia-Safari WIRING =====
+  // scripts/SafariZoneGate.asm's real entry grant: ¥500 fee, exactly 30 Safari Balls, exactly
+  // 502 steps (not 500 — verified against the literal HIGH(502)/LOW(502) load in OG source).
+  function handleSafariEnter() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      if ((prev.money ?? 0) < 500) return prev; // dialogue already gates this, but stay safe
+      const next = setEvent(
+        { ...prev, money: (prev.money ?? 0) - 500, safariBalls: 30, safariSteps: 502 },
+        'EVENT_IN_SAFARI_ZONE',
+      );
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+  // Real OG does not refund unused balls/steps/money on any exit path (early-leave or
+  // timeout/ball-out) — SAFARI ZONE balls were never a real bag item to begin with.
+  function handleSafariLeave() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = clearEvent({ ...prev, safariBalls: 0 }, 'EVENT_IN_SAFARI_ZONE');
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+  function handleSafariStep(stepsLeft) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = { ...prev, safariSteps: Math.max(0, stepsLeft) };
+      return next; // not saved every step — too hot a path; safariSteps is re-derived from gate re-entry anyway if a reload loses a few steps of precision
+    });
+  }
+  // Ball-out ejection is checked from the battle side (a Safari encounter is the only place
+  // safariBalls decrements) rather than the overworld step loop, mirroring OG's SafariZoneCheck
+  // reading wNumSafariBalls independently of wSafariSteps.
+  // Both HM gifts collapse to the shared HM06 "teach any move" key item per this port's
+  // TM/HM model — see the Viridian City fisherman comment elsewhere for the established
+  // convention. The Warden's gift additionally removes GOLD_TEETH from the bag (real OG:
+  // RemoveItemByID) and sets EVENT_GAVE_GOLD_TEETH, matching WardensHouse.asm exactly.
+  function handleGiveHmFly() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      let items = prev.items ?? [];
+      if (!items.some(it => it.name === 'HM06')) items = [...items, { name: 'HM06', count: 1 }];
+      const next = setEvent({ ...prev, items }, 'EVENT_GOT_HM02');
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+  function handleGiveHmSurf() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      let items = prev.items ?? [];
+      if (!items.some(it => it.name === 'HM06')) items = [...items, { name: 'HM06', count: 1 }];
+      const next = setEvent({ ...prev, items }, 'EVENT_GOT_HM03');
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+  function handleGiveHmStrength() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      let items = (prev.items ?? []).filter(it => it.name !== 'GOLD_TEETH');
+      if (!items.some(it => it.name === 'HM06')) items = [...items, { name: 'HM06', count: 1 }];
+      let next = setEvent({ ...prev, items }, 'EVENT_GOT_HM04');
+      next = setEvent(next, 'EVENT_GAVE_GOLD_TEETH');
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+  function handleSafariBallUsed() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const safariBalls = Math.max(0, (prev.safariBalls ?? 0) - 1);
+      const next = { ...prev, safariBalls };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Oak's Parcel delivery (scripts/OaksLab.asm .got_parcel branch): removes OAKS_PARCEL from
+  // the bag and records the delivery so the Viridian Mart clerk's one-time quest-giving text
+  // doesn't fire again and Oak's dialogue falls through to its next real branch.
+  function handleDeliverParcel() {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const items = (prev.items ?? []).filter(it => it.name !== 'OAKS_PARCEL');
+      const pickedUpItems = prev.pickedUpItems ?? [];
+      const next = {
+        ...prev, items,
+        pickedUpItems: pickedUpItems.includes('OAKS_PARCEL_DELIVERED') ? pickedUpItems : [...pickedUpItems, 'OAKS_PARCEL_DELIVERED'],
+      };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Marks a giftId as taken WITHOUT granting an item — for cases where a real OG event
+  // revokes access to something without giving the player anything (e.g. the Mt Moon B2F
+  // Super Nerd taking whichever fossil the player didn't pick).
+  function handleMarkGiftTaken(itemId) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const pickedUpItems = prev.pickedUpItems ?? [];
+      if (pickedUpItems.includes(itemId)) return prev;
+      const newState = { ...prev, pickedUpItems: [...pickedUpItems, itemId] };
+      if (!prev.isExtra) saveGame(newState);
+      return newState;
+    });
+  }
+
+  function consumeItem(items, itemName) {
+    const entry = items.find(i => i.name === itemName);
+    if (!entry) return items;
+    return entry.count > 1
+      ? items.map(i => i.name === itemName ? { ...i, count: i.count - 1 } : i)
+      : items.filter(i => i.name !== itemName);
+  }
+
+  // ===== FOSSIL REVIVAL + IN-GAME TRADES WIRING =====
+
+  // Cinnabar Lab fossil hand-over (engine/events/cinnabar_lab.asm GiveFossilToCinnabarLab) —
+  // removes the given fossil from the bag and records which species is being revived. Real OG
+  // stores this in wFossilMon, plain WRAM that survives the CinnabarLab<->CinnabarIsland map
+  // trip the "go for a walk" wait requires (see handleMapChange below); this port persists the
+  // same information as gameState.fossilGiven for the same reason (setGameState snapshots
+  // wouldn't otherwise survive that round trip). See PokeredOverworld.jsx's
+  // 'CINNABAR_LAB_FOSSIL_ROOM:1' block for the full state machine this feeds.
+  function handleGiveFossil(fossilItemName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const species = FOSSIL_REVIVALS[fossilItemName];
+      if (!species) return prev;
+      const items = consumeItem(prev.items ?? [], fossilItemName);
+      let next = { ...prev, items, fossilGiven: species };
+      next = setEvent(next, 'EVENT_GAVE_FOSSIL_TO_LAB');
+      next = setEvent(next, 'EVENT_LAB_STILL_REVIVING_FOSSIL');
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Cinnabar Lab fossil pickup (scripts/CinnabarLabFossilRoom.asm .done_reviving branch) —
+  // grants gameState.fossilGiven at FOSSIL_REVIVE_LEVEL (30), party-or-PC same as every other
+  // gift mon (see handleBuyMagikarp above). Sets EVENT_LAB_HANDING_OVER_FOSSIL_MON, the real OG
+  // flag (set unconditionally right before GivePokemon in OG too) — this handler ALSO re-checks
+  // that same flag as a one-time completion cap, which real OG itself never does (OG only
+  // re-checks EVENT_LAB_STILL_REVIVING_FOSSIL, which resets every CINNABAR_ISLAND reload — see
+  // handleMapChange — so byte-for-byte OG would hand out a fresh copy of the same fossil mon
+  // forever on repeat visits). The task brief explicitly calls for one-time-only, so this is an
+  // intentional, commented divergence from OG's real (never-re-checked) flag semantics — the
+  // flag itself and the moment it's set are still 100% faithful.
+  function handleCollectFossilMon() {
+    setGameState(prev => {
+      if (!prev || !prev.fossilGiven || hasEvent(prev, 'EVENT_LAB_HANDING_OVER_FOSSIL_MON')) return prev;
+      const mon = createPlayerPokemon(prev.fossilGiven, FOSSIL_REVIVE_LEVEL, pokemonData);
+      let party = prev.party, pcMons = prev.pcMons ?? [];
+      if (party.length < 6) party = [...party, mon];
+      else pcMons = [...pcMons, mon];
+      let next = { ...prev, party, pcMons };
+      next = setEvent(next, 'EVENT_LAB_HANDING_OVER_FOSSIL_MON');
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // In-game NPC trades (data/events/trades.asm + engine/events/in_game_trades.asm) — see
+  // tryInGameTrade's doc comment in pokeredGameState.js for the auto-select-first-match ✂️
+  // simplification. One-time per trade NPC via the standard giftId/pickedUpItems gate — OG's
+  // real gate (wCompletedInGameTradeFlags) is a separate bitfield from the EVENT_* registry, so
+  // pickedUpItems (this port's existing separate one-time-gift tracker) is the faithful
+  // counterpart, not hasEvent/setEvent.
+  function handleDoTrade(tradeKey, giftId) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const pickedUpItems = prev.pickedUpItems ?? [];
+      if (pickedUpItems.includes(giftId)) return prev;
+      const newParty = tryInGameTrade(prev.party, tradeKey, pokemonData);
+      if (!newParty) return prev;
+      const next = { ...prev, party: newParty, pickedUpItems: [...pickedUpItems, giftId] };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Reads/writes only through the setGameState updater (never the outer gameState
+  // closure) so this stays correct even when called via a stale prop reference from
+  // PokeredOverworld/PokeredBattle (their keyboard handlers capture onUseItem once).
+  function handleUseItem(itemName, targetIdx) {
+    const effect = ITEM_EFFECTS[itemName];
+    let result = { used: false, message: "It won't have any effect." };
+    if (!effect) return result;
+
+    setGameState(prev => {
+      if (!prev) return prev;
+      const items = prev.items ?? [];
+
+      if (effect.category === 'medicine') {
+        result = { used: true };
+        const next = { ...prev, items: consumeItem(items, itemName) };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+
+      if (effect.category === 'repel') {
+        result = { used: true, message: `You used the ${itemName.replace(/_/g, ' ')}!` };
+        const next = { ...prev, items: consumeItem(items, itemName), repelSteps: effect.steps };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+
+      if (effect.category === 'bicycle') {
+        const biking = !prev.isBiking;
+        result = { used: true, biking, message: biking ? 'You got on the Bicycle.' : 'You got off the Bicycle.' };
+        const next = { ...prev, isBiking: biking };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+
+      if (effect.category === 'escape_rope') {
+        // User-requested (2026-07-10): fall back to right outside Red's House door, not an
+        // arbitrary Pallet Town tile, when the player has never visited a real Pokécenter yet.
+        // isDirectWarp: true — also the shared path Dig/Teleport funnel through via
+        // onUseItem('ESCAPE_ROPE'); see the whiteout branch above for why this flag matters.
+        const dest = { ...(prev.lastPokeCenter ?? { mapId: 'PALLET_TOWN', x: 5, y: 6 }), isDirectWarp: true };
+        result = { used: true, warpTo: dest, message: 'You used the Escape Rope!' };
+        const next = { ...prev, items: consumeItem(items, itemName) };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+
+      if (effect.category === 'stone') {
+        const mon = prev.party?.[targetIdx];
+        if (!mon) return prev;
+        const { mon: newMon, evolved, message } = tryEvolveWithStone(mon, itemName, pokemonData);
+        result = { used: evolved, message };
+        if (!evolved) return prev;
+        const party = [...prev.party];
+        party[targetIdx] = newMon;
+        const next = { ...prev, party, items: consumeItem(items, itemName) };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+
+      if (effect.category === 'rare_candy') {
+        const mon = prev.party?.[targetIdx];
+        if (!mon || mon.level >= 100) {
+          result = { used: false, message: "It won't have any effect." };
+          return prev;
+        }
+        // Real OG doesn't grant a flat XP amount — it sets EXP to exactly the minimum for
+        // the next level (engine/items/item_effects.asm .useRareCandy), so reuse applyXP
+        // with a computed gain rather than an arbitrary one; this also gets move-learning
+        // and the evolution check for free, same as any other level-up.
+        const xpGain = Math.max(0, xpForLevel(mon.level + 1) - (mon.exp || 0));
+        const { pokemon: leveled, pendingEvolution } = applyXP(mon, xpGain, pokemonData);
+        // Overworld item use has no cancelable evolution-animation screen (same
+        // simplification the stone branch above already makes) — finalize immediately.
+        const finalMon = pendingEvolution ? finalizeEvolution(leveled, pokemonData) : leveled;
+        result = { used: true, message: `${mon.species.replace(/_/g, ' ')} grew to level ${leveled.level}!` };
+        const party = [...prev.party];
+        party[targetIdx] = finalMon;
+        const next = { ...prev, party, items: consumeItem(items, itemName) };
+        if (!prev.isExtra) saveGame(next);
+        return next;
+      }
+
+      return prev;
+    });
+
+    return result;
+  }
+
+  function handleRequestStarter(mapId, x, y) {
+    const pos = playerPosRef.current ?? (mapId != null ? { mapId, x, y } : null);
+    if (pos) setGameState(prev => prev ? { ...prev, ...pos } : prev);
+    setScreen('starter');
+  }
+
+  // Bug found + fixed 2026-07-09 (while verifying Strength): gameState.x/y is only ever
+  // updated by handleMapChange (on a real map transition) — ordinary walking within a map
+  // only updates playerPosRef (see its own comment: "the always-current player position").
+  // Every OTHER auto-save call site in this file just spreads {...prev} without touching
+  // x/y, so they've always saved a slightly-stale "position as of last map entry," not
+  // "where you're actually standing" — mostly harmless (you respawn at a valid tile, just
+  // not exactly where you left off). Left those alone (pervasive, low-impact, out of scope
+  // tonight) but fixed it here for the two explicit "save right now" actions, where a player
+  // reasonably expects their exact current spot to be captured.
+  function handleSave() {
+    setGameState(prev => {
+      if (!prev || prev.isExtra) return prev;
+      const pos = playerPosRef.current;
+      const next = pos && pos.mapId === prev.mapId ? { ...prev, x: pos.x, y: pos.y } : prev;
+      saveGame(next);
+      return next;
+    });
+  }
+
+  // User-requested (2026-07-09): snapshot a running 'extra'/debug state into a real,
+  // continuable save slot. Flips isExtra to false on the live gameState — every existing
+  // `if (!prev.isExtra) saveGame(next)` call site elsewhere in this file then autosaves into
+  // the new slot for the rest of the session, same as an ordinary game.
+  function handleSaveExtraAsNew() {
+    const id = newSlotId(); // minted once here, not inside the updater — see saveExtraAsNewSlot's comment
+    setGameState(prev => {
+      if (!prev || !prev.isExtra) return prev;
+      const pos = playerPosRef.current;
+      const withPos = pos && pos.mapId === prev.mapId ? { ...prev, x: pos.x, y: pos.y } : prev;
+      return saveExtraAsNewSlot(withPos, id);
+    });
+  }
+
+  function handleMapChange(mapId, x, y, isPokeCenter) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      // STRENGTH deactivates on any real map change (OG ResetUsingStrengthOutOfBattleBit,
+      // called from EnterMap) — this handler only ever fires on a genuine map transition, never
+      // on battle return (handleBattleEnd restores position directly), so this naturally matches
+      // OG's "survives a battle mid-floor, resets on leaving the floor" rule for free.
+      // FLASH is similar but scoped to DARK_MAPS: real OG resets it specifically on entering
+      // ROCK_TUNNEL_1F from outside, and never touches it on the internal 1F<->B1F stairs — so
+      // it carries over between those two floors but resets the moment you leave the group.
+      let next = { ...prev, mapId, x, y, strengthActive: false, flashActive: DARK_MAPS.has(mapId) ? prev.flashActive : false };
+      if (isPokeCenter) next.lastPokeCenter = { mapId, x, y };
+      // FLY destinations (engine/overworld/toggleable_objects.asm MarkTownVisitedAndLoadToggleableObjects):
+      // real OG marks any of the 11 town/city maps visited the moment you enter it, gating the
+      // Town Map fly picker to only towns you've actually been to.
+      if (FLY_DESTINATIONS.some(d => d.mapId === mapId) && !(prev.visitedTowns ?? []).includes(mapId)) {
+        next.visitedTowns = [...(prev.visitedTowns ?? []), mapId];
+      }
+      // ===== FOSSIL REVIVAL + IN-GAME TRADES WIRING =====
+      // scripts/CinnabarIsland.asm CinnabarIsland_Script: `ResetEvent EVENT_LAB_STILL_REVIVING_FOSSIL`
+      // runs unconditionally every single time this map's script runs (i.e. every load) — this is
+      // the real OG mechanism behind the fossil scientist's "go for a walk" wait (see
+      // PokeredOverworld.jsx's CINNABAR_LAB_FOSSIL_ROOM:1 block). handleMapChange fires on every
+      // genuine map transition (per this function's own comment above), so mirroring the reset
+      // here on entry to CINNABAR_ISLAND specifically is the exact same trigger condition as OG.
+      // R12_15-R19_21-Seafoam-Cinnabar WIRING: CinnabarIsland_Script's
+      // `ResetEvent EVENT_MANSION_SWITCH_ON` sits right next to the fossil reset above in real
+      // OG (same unconditional per-load trigger) — see POKEMON_MANSION_SWITCH_TRIGGERS in
+      // PokeredOverworld.jsx for the full switch-puzzle mechanism this feeds.
+      if (mapId === 'CINNABAR_ISLAND') {
+        next = clearEvent(next, 'EVENT_LAB_STILL_REVIVING_FOSSIL');
+        next = clearEvent(next, 'EVENT_MANSION_SWITCH_ON');
+      }
+      // Vermilion Gym trash-can puzzle (scripts/VermilionCity.asm .setFirstLockTrashCanIndex,
+      // gated on VermilionCity_Script's BIT_CUR_MAP_LOADED_1 — real OG re-rolls which trash can
+      // holds the 1st lock EVERY time VERMILION_CITY (re)loads, but only while the 1st lock
+      // hasn't been found yet; once EVENT_1ST_LOCK_OPENED is set, OG never touches
+      // wFirstLockTrashCanIndex again from this trigger (only the "wrong 2nd guess" reset inside
+      // the puzzle itself re-rolls it after that point — see PokeredOverworld.jsx's
+      // handleGymTrashCan-equivalent). `and $e` masks to an EVEN index (0,2,4,6,8,10,12,14) —
+      // preserved exactly, not just "any 0-14".
+      if (mapId === 'VERMILION_CITY' && !hasEvent(next, 'EVENT_1ST_LOCK_OPENED')) {
+        next = { ...next, gymTrashFirstLockIdx: Math.floor(Math.random() * 8) * 2 };
+      }
+      return next;
+    });
+  }
+
+  // ===== VERMILION GYM TRASH-CAN PUZZLE =====
+  // engine/events/hidden_events/vermilion_gym_trash.asm GymTrashScript, ported 1:1 including the
+  // real EVENT_1ST_LOCK_OPENED/EVENT_2ND_LOCK_OPENED state machine and the GymTrashCans
+  // candidate table. NOT replicated: the ROM's own documented bug where an unmasked-zero Random
+  // result reads garbage memory and lets trash can 0 hold the 2nd lock regardless of the 1st —
+  // that's undefined/corrupted-memory behavior on real hardware, not a clean alternate outcome,
+  // so this picks uniformly from the intended candidate list instead (the behavior the mask
+  // table was clearly designed to produce). Returns which branch fired so
+  // PokeredOverworld.jsx can show the exact matching OG text for that outcome.
+  const GYM_TRASH_CANDIDATES = [
+    [1, 3], [0, 2, 4], [1, 5], [0, 4, 6], [1, 3, 5, 7],
+    [2, 4, 8], [3, 7, 9], [4, 6, 8, 10], [5, 7, 11], [6, 10, 12],
+    [7, 9, 11, 13], [8, 10, 14], [9, 13], [10, 12, 14], [11, 13],
+  ];
+  function handleGymTrashCan(canIndex) {
+    let outcome = 'no_effect';
+    setGameState(prev => {
+      if (!prev) return prev;
+      if (hasEvent(prev, 'EVENT_2ND_LOCK_OPENED')) { outcome = 'already_solved'; return prev; }
+      let next = prev;
+      if (!hasEvent(prev, 'EVENT_1ST_LOCK_OPENED')) {
+        const firstIdx = prev.gymTrashFirstLockIdx ?? 0;
+        if (canIndex !== firstIdx) { outcome = 'no_effect'; return prev; } // wrong can: flavor text only, no state change (real OG)
+        next = setEvent(next, 'EVENT_1ST_LOCK_OPENED');
+        const candidates = GYM_TRASH_CANDIDATES[firstIdx] ?? [];
+        const secondIdx = candidates[Math.floor(Math.random() * candidates.length)] ?? null;
+        next = { ...next, gymTrashSecondLockIdx: secondIdx };
+        outcome = 'first_opened';
+      } else {
+        const secondIdx = prev.gymTrashSecondLockIdx;
+        if (canIndex === secondIdx) {
+          next = setEvent(next, 'EVENT_2ND_LOCK_OPENED');
+          outcome = 'second_opened';
+        } else {
+          // Wrong 2nd guess resets BOTH locks and re-rolls the 1st (real OG: `ResetEvent
+          // EVENT_1ST_LOCK_OPENED` + `call Random / and $e`).
+          next = clearEvent(next, 'EVENT_1ST_LOCK_OPENED');
+          next = { ...next, gymTrashFirstLockIdx: Math.floor(Math.random() * 8) * 2, gymTrashSecondLockIdx: null };
+          outcome = 'reset_fail';
+        }
+      }
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+    return outcome;
+  }
+
+  // ===== DAY CARE WIRING =====
+  // scripts/Daycare.asm — Gen 1's Day Care has NO breeding (that's Gen 2+); it just levels up
+  // ONE deposited Pokémon over real steps taken (see growDaycareMon's step-hook call site in
+  // PokeredOverworld.jsx) for a per-level fee, charged on withdrawal. `boxLevel` is this port's
+  // name for OG's wDayCareMonBoxLevel — the level snapshot the current growth/cost is measured
+  // against; only advances when the player actually withdraws (paying or "no room"), matching
+  // OG's real leaveMonInDayCare behavior of rewinding it back to its pre-visit value on decline
+  // (see PokeredOverworld.jsx's DAYCARE:1 dialogue block for the full conversation flow this
+  // feeds). This port has no generic party-grid-picker widget for deposit's "which mon" choice —
+  // ✂️ simplification: chains a Yes/No per party member instead (same precedent as
+  // buildFossilOfferPrompt above), not a flattened auto-pick.
+  function handleDaycareDeposit(partyIdx) {
+    let result = { ok: false, reason: 'no_effect' };
+    setGameState(prev => {
+      if (!prev || prev.dayCare) return prev;
+      const mon = prev.party?.[partyIdx];
+      if (!mon) return prev;
+      if (prev.party.length <= 1) { result = { ok: false, reason: 'only_mon' }; return prev; }
+      if (mon.moves.some(m => HM_MOVE_NAMES.includes(m.name))) { result = { ok: false, reason: 'knows_hm' }; return prev; }
+      const party = prev.party.filter((_, i) => i !== partyIdx);
+      const next = { ...prev, party, dayCare: { mon, boxLevel: mon.level } };
+      result = { ok: true, reason: 'deposited', species: mon.species };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+    return result;
+  }
+
+  // PokeredOverworld reads gameState.dayCare + gameState.party.length directly to decide which
+  // branch/text to show (levelsGrown/cost/no-room are all pure reads, no mutation needed to
+  // compute them) and only calls this once the player actually answers the pay Yes/No — real OG
+  // (YesNoChoice before HasEnoughMoney) resolves the same way. `accept=false` covers both "said
+  // no" and the caller not even asking (no-room case) — either way the mon stays boarded and
+  // boxLevel is left untouched (see the class comment above for why that's correct, not a bug).
+  function handleDaycarePay(accept) {
+    let result = { ok: false, reason: 'no_effect' };
+    setGameState(prev => {
+      if (!prev?.dayCare) return prev;
+      const { mon, boxLevel } = prev.dayCare;
+      const levelsGrown = mon.level - boxLevel;
+      const cost = daycareCost(levelsGrown);
+      if (!accept) {
+        // Decline: mon stays boarded, boxLevel unchanged (real OG rewinds it to the pre-visit
+        // value, which is exactly "unchanged" here — see class comment above).
+        result = { ok: false, reason: 'declined' };
+        return prev;
+      }
+      if ((prev.money ?? 0) < cost) {
+        result = { ok: false, reason: 'not_enough_money' };
+        return prev;
+      }
+      const party = [...prev.party, mon];
+      const next = { ...prev, party, money: prev.money - cost, dayCare: null };
+      result = { ok: true, reason: 'withdrawn', species: mon.species };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+    return result;
+  }
+
+  // Step-based growth hook — see PokeredOverworld.jsx's per-completed-step handler. Fire-and-
+  // forget (no return value needed); real OG increments wDayCareMonExp on every single overworld
+  // step regardless of current map, so this is called unconditionally on every step, not just
+  // while standing on the DAYCARE map.
+  function handleDaycareStep() {
+    setGameState(prev => {
+      if (!prev?.dayCare?.mon) return prev;
+      const grown = growDaycareMon(prev.dayCare.mon, pokemonData);
+      if (grown === prev.dayCare.mon) return prev;
+      // Not autosaved every step (would thrash localStorage) — dayCare progress is saved
+      // whenever any other autosaving action fires, same tradeoff as ordinary walking-around
+      // position tracking elsewhere in this file.
+      return { ...prev, dayCare: { ...prev.dayCare, mon: grown } };
+    });
+  }
+
+  // STRENGTH (engine/overworld/field_move_messages.asm PrintStrengthText): one-way activation,
+  // no toggle-off like Surf. Boulder-push logic itself lives in PokeredOverworld.jsx.
+  function handleActivateStrength() {
+    setGameState(prev => {
+      if (!prev || prev.strengthActive) return prev;
+      const next = { ...prev, strengthActive: true };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // FLASH (engine/menus/start_sub_menus.asm .flash): also a one-way activation, only ever
+  // meaningful on DARK_MAPS — see handleMapChange for the reset rule. The actual darkness
+  // rendering lives in PokeredOverworld.jsx.
+  function handleActivateFlash() {
+    setGameState(prev => {
+      if (!prev || prev.flashActive) return prev;
+      const next = { ...prev, flashActive: true };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Persists a boulder's pushed position (engine/overworld/push_boulder.asm), keyed by its
+  // stable original-position id — see PokeredOverworld.jsx's boulderPosRef/npcTrainerId.
+  function handlePushBoulder(mapId, boulderId, x, y) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const forMap = prev.boulderPositions?.[mapId] ?? {};
+      const next = { ...prev, boulderPositions: { ...prev.boulderPositions, [mapId]: { ...forMap, [boulderId]: { x, y } } } };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  function handleOpenPC(mapId, x, y) {
+    const pos = playerPosRef.current ?? { mapId, x, y };
+    setGameState(prev => prev ? { ...prev, ...pos } : prev);
+    setScreen('pc');
+  }
+
+  function handlePCClose() {
+    setScreen('overworld');
+  }
+
+  function handlePCWithdraw(itemName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const pcBox = (prev.pcBox ?? []);
+      const entry = pcBox.find(i => i.name === itemName);
+      if (!entry) return prev;
+      const newPcBox = entry.count > 1
+        ? pcBox.map(i => i.name === itemName ? { ...i, count: i.count - 1 } : i)
+        : pcBox.filter(i => i.name !== itemName);
+      const existing = (prev.items ?? []).find(i => i.name === itemName);
+      const newItems = existing
+        ? prev.items.map(i => i.name === itemName ? { ...i, count: i.count + 1 } : i)
+        : [...(prev.items ?? []), { name: itemName, count: 1 }];
+      const next = { ...prev, pcBox: newPcBox, items: newItems };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  function handlePCDeposit(itemName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const items = prev.items ?? [];
+      const entry = items.find(i => i.name === itemName);
+      if (!entry) return prev;
+      const newItems = entry.count > 1
+        ? items.map(i => i.name === itemName ? { ...i, count: i.count - 1 } : i)
+        : items.filter(i => i.name !== itemName);
+      const pcBox = prev.pcBox ?? [];
+      const existing = pcBox.find(i => i.name === itemName);
+      const newPcBox = existing
+        ? pcBox.map(i => i.name === itemName ? { ...i, count: i.count + 1 } : i)
+        : [...pcBox, { name: itemName, count: 1 }];
+      const next = { ...prev, items: newItems, pcBox: newPcBox };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Real OG (engine/events/pokemart.asm-equivalent PC logic): can't withdraw into a full
+  // (6-mon) party, can't deposit your last remaining party member.
+  function handlePCWithdrawMon(pcIdx) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const pcMons = prev.pcMons ?? [];
+      const mon = pcMons[pcIdx];
+      if (!mon || (prev.party?.length ?? 0) >= 6) return prev;
+      const next = { ...prev, party: [...prev.party, mon], pcMons: pcMons.filter((_, i) => i !== pcIdx) };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  function handlePCDepositMon(partyIdx) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const party = prev.party ?? [];
+      if (party.length <= 1 || !party[partyIdx]) return prev;
+      const mon = party[partyIdx];
+      const next = { ...prev, party: party.filter((_, i) => i !== partyIdx), pcMons: [...(prev.pcMons ?? []), mon] };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Single source of truth for the PC screen's row list, shared by keyboard nav and
+  // rendering so the highlighted row and the Z-key action always agree on what's what.
+  function getPcRows() {
+    if (!gameState) return [];
+    if (pcTab === 'ITEM') {
+      const box = (gameState.pcBox ?? []).map(item => ({ kind: 'box-item', name: item.name, count: item.count }));
+      const bag = (gameState.items ?? []).map(item => ({ kind: 'bag-item', name: item.name, count: item.count }));
+      return [...box, ...bag];
+    }
+    const box = (gameState.pcMons ?? []).map((mon, i) => ({ kind: 'box-mon', idx: i, mon }));
+    const party = (gameState.party ?? []).map((mon, i) => ({ kind: 'party-mon', idx: i, mon }));
+    return [...box, ...party];
+  }
+
+  function activatePcRow(row) {
+    if (!row) return;
+    if (row.kind === 'box-item') handlePCWithdraw(row.name);
+    else if (row.kind === 'bag-item') handlePCDeposit(row.name);
+    else if (row.kind === 'box-mon') handlePCWithdrawMon(row.idx);
+    else if (row.kind === 'party-mon') handlePCDepositMon(row.idx);
+  }
+
+  useEffect(() => {
+    if (screen !== 'pc') return;
+    function onKey(e) {
+      const rows = getPcRows();
+      if (e.key === 'Escape' || e.key === 'x' || e.key === 'X') { e.preventDefault(); handlePCClose(); return; }
+      if (e.key === 'Tab' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'a' || e.key === 'A' || e.key === 'd' || e.key === 'D') {
+        e.preventDefault();
+        setPcTab(t => t === 'ITEM' ? 'POKEMON' : 'ITEM');
+        setPcCursor(0);
+        return;
+      }
+      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+        e.preventDefault();
+        setPcCursor(c => rows.length > 0 ? (c - 1 + rows.length) % rows.length : 0);
+        return;
+      }
+      if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
+        e.preventDefault();
+        setPcCursor(c => rows.length > 0 ? (c + 1) % rows.length : 0);
+        return;
+      }
+      if (e.key === 'z' || e.key === 'Z' || e.key === 'Enter') {
+        e.preventDefault();
+        activatePcRow(rows[pcCursor]);
+        return;
+      }
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [screen, gameState, pcTab, pcCursor]);
+
+  function handleOpenShop(mapId, x, y, clerkIndex) {
+    const pos = playerPosRef.current ?? { mapId, x, y };
+    setGameState(prev => prev ? { ...prev, ...pos } : prev);
+    setShopClerkIndex(clerkIndex ?? 0);
+    setShopMode('choice');
+    setShopCursor(0);
+    setScreen('shop');
+  }
+
+  function handleShopClose() {
+    setScreen('overworld');
+  }
+
+  // X (=B) support for the mart, matching every other menu in the game (site-wide
+  // requirement: every interactive feature needs click+keyboard parity — this screen was
+  // previously mouse-only). X/Escape backs out one level (buy/sell -> choice, choice -> leave
+  // shop), mirroring the pkr-menu-back convention used elsewhere.
+  useEffect(() => {
+    if (screen !== 'shop' || !gameState) return;
+    const rawList = MARTS[gameState.mapId] ?? [];
+    const buyList = Array.isArray(rawList[0]) ? (rawList[shopClerkIndex] ?? rawList[0] ?? []) : rawList;
+    const bagItems = gameState.items ?? [];
+    function rowCount() {
+      if (shopMode === 'choice') return 3; // BUY / SELL / QUIT
+      if (shopMode === 'buy') return Math.max(1, buyList.length);
+      return Math.max(1, bagItems.length); // sell
+    }
+    // Selling the last-indexed bag row (or, in principle, a shrinking buy list) can leave
+    // shopCursor pointing past the new end — nothing else re-clamps it, so the highlight
+    // silently vanishes and Z/Enter goes inert until an arrow key self-corrects it via the
+    // wraparound modulo below. Re-clamp here too, on every list-affecting re-render.
+    const maxIdx = (shopMode === 'buy' ? buyList.length : shopMode === 'sell' ? bagItems.length : 3) - 1;
+    if (maxIdx >= 0 && shopCursor > maxIdx) setShopCursor(maxIdx);
+    function onKey(e) {
+      if (e.key === 'Escape' || e.key === 'x' || e.key === 'X') {
+        e.preventDefault();
+        if (shopMode === 'choice') handleShopClose();
+        else { setShopMode('choice'); setShopCursor(0); }
+        return;
+      }
+      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+        e.preventDefault();
+        const n = rowCount();
+        setShopCursor(c => (c - 1 + n) % n);
+        return;
+      }
+      if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
+        e.preventDefault();
+        const n = rowCount();
+        setShopCursor(c => (c + 1) % n);
+        return;
+      }
+      if (e.key === 'z' || e.key === 'Z' || e.key === 'Enter') {
+        e.preventDefault();
+        if (shopMode === 'choice') {
+          if (shopCursor === 0) { setShopMode('buy'); setShopCursor(0); }
+          else if (shopCursor === 1) { setShopMode('sell'); setShopCursor(0); }
+          else handleShopClose();
+        } else if (shopMode === 'buy' && buyList[shopCursor]) {
+          handleShopBuy(buyList[shopCursor]);
+        } else if (shopMode === 'sell' && bagItems[shopCursor]) {
+          handleShopSell(bagItems[shopCursor].name);
+        }
+        return;
+      }
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [screen, gameState, shopMode, shopCursor, shopClerkIndex]);
+
+  // OG's real mart engine (engine/events/pokemart.asm) buys/sells one unit at a time
+  // through a quantity prompt; this UI does the same via repeated taps rather than a
+  // separate quantity screen, matching the PC withdraw/deposit UI's one-tap pattern.
+  function handleShopBuy(itemName) {
+    const price = PRICES[itemName];
+    setGameState(prev => {
+      if (!prev || !price || (prev.money ?? 0) < price) return prev;
+      const items = prev.items ?? [];
+      const existing = items.find(i => i.name === itemName);
+      const newItems = existing
+        ? items.map(i => i.name === itemName ? { ...i, count: i.count + 1 } : i)
+        : [...items, { name: itemName, count: 1 }];
+      const next = { ...prev, items: newItems, money: prev.money - price };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Sell price is always half of buy price, computed at runtime — OG doesn't store a
+  // separate sell price either (home/item_price.asm halves it on the fly). Items with no
+  // price or a listed price of 0 (key items, badges, HMs, rods, etc.) aren't sellable —
+  // matches OG's real IsKeyItem/IsItemHM checks closely enough without needing a
+  // separate key-item table.
+  function handleShopSell(itemName) {
+    const price = PRICES[itemName];
+    if (!price) return;
+    const sellPrice = Math.floor(price / 2);
+    setGameState(prev => {
+      if (!prev) return prev;
+      const items = prev.items ?? [];
+      const entry = items.find(i => i.name === itemName);
+      if (!entry) return prev;
+      const newItems = entry.count > 1
+        ? items.map(i => i.name === itemName ? { ...i, count: i.count - 1 } : i)
+        : items.filter(i => i.name !== itemName);
+      const next = { ...prev, items: newItems, money: (prev.money ?? 0) + sellPrice };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  function handleOpenSlots(mapId, x, y) {
+    const pos = playerPosRef.current ?? { mapId, x, y };
+    setGameState(prev => prev ? { ...prev, ...pos } : prev);
+    setScreen('slots');
+  }
+
+  function handleSlotClose() {
+    setScreen('overworld');
+  }
+
+  function handleSlotsCoinsChange(newCoins) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const next = { ...prev, coins: newCoins };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  function handleChooseStarter(species) {
+    // User-requested (2026-07-05): starters begin at level 6, not OG's real level 5.
+    // Do not change this back to 5 — intentional, not a bug.
+    const pokemon = createPlayerPokemon(species, 6, pokemonData);
+    setGameState(prev => {
+      const newState = { ...prev, party: [pokemon], starterSpecies: species };
+      if (!prev.isExtra) saveGame(newState);
+      return newState;
+    });
+    setScreen('overworld');
+  }
+
+  function handleSwitchParty(idxA, idxB) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      if (idxA === idxB || !prev.party[idxA] || !prev.party[idxB]) return prev;
+      const party = [...prev.party];
+      [party[idxA], party[idxB]] = [party[idxB], party[idxA]];
+      const next = { ...prev, party };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // Real OG move-reorder (SwapMovesInMenu, engine/battle/core.asm) — same mechanic as the
+  // battle move-selection menu, also reachable from the overworld POKÉMON stats screen.
+  function handleSwapMoves(partyIdx, moveIdxA, moveIdxB) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const mon = prev.party[partyIdx];
+      if (!mon || moveIdxA === moveIdxB || !mon.moves[moveIdxA] || !mon.moves[moveIdxB]) return prev;
+      const moves = [...mon.moves];
+      [moves[moveIdxA], moves[moveIdxB]] = [moves[moveIdxB], moves[moveIdxA]];
+      const party = [...prev.party];
+      party[partyIdx] = { ...mon, moves };
+      const next = { ...prev, party };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  function handleTeachMove(partyIdx, moveName, slotIdx) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const party = [...prev.party];
+      const mon = party[partyIdx];
+      if (!mon) return prev;
+      const moves = [...mon.moves];
+      const moveData = pokemonData?.moves[moveName];
+      const newMove = { name: moveName, pp: moveData?.pp ?? 20, ppMax: moveData?.pp ?? 20 };
+      if (slotIdx < 0 || moves.length < 4) {
+        moves.push(newMove);
+      } else {
+        moves[slotIdx] = newMove;
+      }
+      party[partyIdx] = { ...mon, moves };
+      const next = { ...prev, party };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  // ===== R9_10-RockTunnel-Lavender-PokemonTower WIRING =====
+  // Name Rater (LAVENDER_TOWN's NAME_RATERS_HOUSE, scripts/NameRatersHouse.asm) — real OG lets
+  // the player pick any party member via DisplayPartyMenu, then free-type a new name via
+  // DisplayNameRaterScreen. This port has no standalone party-picker/text-input overlay outside
+  // the main pause-menu system (that system is deeply coupled to menuPage/menuCursor state and
+  // wiring the Name Rater into it would be a disproportionate amount of new UI plumbing for one
+  // flavor NPC) — deliberately narrowed (✂️) to the party LEAD (party[0]) only, skipping the
+  // picker step, while keeping the actual rename itself fully real and functional (free-text via
+  // window.prompt, not a fixed preset list — matches the "open-ended value needs free entry"
+  // rule in CLAUDE.md's UI feature contract). See PokeredOverworld.jsx's `here === 'NAME_RATERS_HOUSE:1'`
+  // for the call site.
+  function handleRenameMon(partyIdx, newName) {
+    setGameState(prev => {
+      if (!prev) return prev;
+      const mon = prev.party[partyIdx];
+      if (!mon || !newName) return prev;
+      const party = [...prev.party];
+      party[partyIdx] = { ...mon, nickname: newName.toUpperCase().slice(0, 10) };
+      const next = { ...prev, party };
+      if (!prev.isExtra) saveGame(next);
+      return next;
+    });
+  }
+
+  function handleReturnHome() {
+    setGameState(null);
+    setWildEncounter(null);
+    setScreen('start');
+  }
+
+  if (screen === 'loading') {
+    return (
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'center', minHeight:'100vh', background:'#0a0a1a', color:'#444', fontFamily:'monospace', fontSize:'12px', letterSpacing:'2px' }}>
+        LOADING...
+      </div>
+    );
+  }
+
+  if (screen === 'error') {
+    return (
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'center', minHeight:'100vh', background:'#0a0a1a', color:'#f66', fontFamily:'monospace', fontSize:'12px' }}>
+        Failed to load pokemonData.json — run: node tools/extract-pokered.cjs
+      </div>
+    );
+  }
+
+  if (screen === 'start') {
+    return <PokeredStartScreen pokemonData={pokemonData} onStart={handleStart} />;
+  }
+
+  if (screen === 'pc' && gameState) {
+    const pcBox = gameState.pcBox ?? [];
+    const bagItems = gameState.items ?? [];
+    const pcMons = gameState.pcMons ?? [];
+    const party = gameState.party ?? [];
+    const rows = getPcRows();
+    const s = { background:'#0a0a1a', fontFamily:'monospace', color:'#c0c0e0', fontSize:'11px', letterSpacing:'1px', textTransform:'uppercase' };
+    const rowStyle = (active) => ({ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'5px 6px', margin:'0 -6px', borderBottom:'1px solid #1a1a2e', background: active ? '#20204a' : 'transparent' });
+    const tabStyle = (active) => ({ flex:1, textAlign:'center', padding:'6px', cursor:'pointer', fontSize:'10px', letterSpacing:'2px', background: active ? '#1a1a2e' : 'transparent', color: active ? '#ffd700' : '#666', border:'1px solid #3a3a5a', borderBottom: active ? '1px solid #1a1a2e' : '1px solid #3a3a5a' });
+    let rowIdx = 0;
+    return (
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'center', minHeight:'100vh', ...s }}>
+        <div style={{ background:'#0d0d1a', border:'2px solid #5a5aaa', padding:'24px 32px', minWidth:'340px', maxHeight:'80vh', overflowY:'auto' }}>
+          <div style={{ color:'#ffd700', fontSize:'13px', letterSpacing:'3px', textAlign:'center', marginBottom:'16px' }}>YOUR PC</div>
+
+          <div style={{ display:'flex', marginBottom:'14px' }}>
+            <div style={tabStyle(pcTab === 'ITEM')} onClick={() => { setPcTab('ITEM'); setPcCursor(0); }}>ITEM STORAGE</div>
+            <div style={tabStyle(pcTab === 'POKEMON')} onClick={() => { setPcTab('POKEMON'); setPcCursor(0); }}>POKéMON</div>
+          </div>
+
+          {pcTab === 'ITEM' ? (
+            <>
+              <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', marginBottom:'8px' }}>━ ITEM STORAGE ━</div>
+              {pcBox.length === 0
+                ? <div style={{ color:'#555', padding:'6px 0', marginBottom:'8px' }}>EMPTY</div>
+                : pcBox.map((item, i) => {
+                  const active = rowIdx++ === pcCursor;
+                  return (
+                    <div key={i} style={rowStyle(active)}>
+                      <span>{item.name.replace(/_/g,' ')} <span style={{ color:'#888' }}>×{item.count}</span></span>
+                      <button onClick={() => handlePCWithdraw(item.name)} style={{ background:'#1a1a2e', border:'1px solid #5050a0', color:'#c0c0e0', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor:'pointer', letterSpacing:'1px' }}>TAKE</button>
+                    </div>
+                  );
+                })
+              }
+
+              {bagItems.length > 0 && (
+                <>
+                  <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', margin:'14px 0 8px' }}>━ DEPOSIT FROM BAG ━</div>
+                  {bagItems.map((item, i) => {
+                    const active = rowIdx++ === pcCursor;
+                    return (
+                      <div key={i} style={rowStyle(active)}>
+                        <span>{item.name.replace(/_/g,' ')} <span style={{ color:'#888' }}>×{item.count}</span></span>
+                        <button onClick={() => handlePCDeposit(item.name)} style={{ background:'#1a1a2e', border:'1px solid #4a4a6a', color:'#9090b0', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor:'pointer', letterSpacing:'1px' }}>STORE</button>
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', marginBottom:'8px' }}>━ STORED POKéMON ━</div>
+              {pcMons.length === 0
+                ? <div style={{ color:'#555', padding:'6px 0', marginBottom:'8px' }}>EMPTY</div>
+                : pcMons.map((mon, i) => {
+                  const active = rowIdx++ === pcCursor;
+                  const full = party.length >= 6;
+                  return (
+                    <div key={i} style={rowStyle(active)}>
+                      <span>{mon.species.replace(/_/g,' ')} <span style={{ color:'#888' }}>LV{mon.level}</span></span>
+                      <button onClick={() => handlePCWithdrawMon(i)} disabled={full}
+                        style={{ background: full ? '#151520' : '#1a1a2e', border:`1px solid ${full ? '#333' : '#5050a0'}`, color: full ? '#555' : '#c0c0e0', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor: full ? 'default' : 'pointer', letterSpacing:'1px' }}>WITHDRAW</button>
+                    </div>
+                  );
+                })
+              }
+
+              <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', margin:'14px 0 8px' }}>━ YOUR PARTY ━</div>
+              {party.map((mon, i) => {
+                const active = rowIdx++ === pcCursor;
+                const last = party.length <= 1;
+                return (
+                  <div key={i} style={rowStyle(active)}>
+                    <span>{mon.species.replace(/_/g,' ')} <span style={{ color:'#888' }}>LV{mon.level}</span></span>
+                    <button onClick={() => handlePCDepositMon(i)} disabled={last}
+                      style={{ background: last ? '#151520' : '#1a1a2e', border:`1px solid ${last ? '#333' : '#4a4a6a'}`, color: last ? '#555' : '#9090b0', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor: last ? 'default' : 'pointer', letterSpacing:'1px' }}>DEPOSIT</button>
+                  </div>
+                );
+              })}
+            </>
+          )}
+
+          <button onClick={handlePCClose} style={{ display:'block', width:'100%', marginTop:'20px', background:'transparent', border:'1px solid #3a3a5a', color:'#5a5a7a', fontFamily:'monospace', fontSize:'10px', padding:'7px', cursor:'pointer', letterSpacing:'2px', textTransform:'uppercase' }}>
+            LOG OFF
+          </button>
+          <div style={{ textAlign:'center', color:'#3a3a5a', fontSize:'8px', marginTop:'8px', letterSpacing:'1px' }}>Tab = switch · ↑↓ = select · Z = use · X = log off</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === 'shop' && gameState) {
+    const rawList = MARTS[gameState.mapId] ?? [];
+    // CELADON_MART_2F/5F have two clerks with separate inventories, stored as
+    // [clerk1Items, clerk2Items] — everything else is a flat item-name array.
+    const buyList = Array.isArray(rawList[0]) ? (rawList[shopClerkIndex] ?? rawList[0] ?? []) : rawList;
+    const bagItems = gameState.items ?? [];
+    const money = gameState.money ?? 0;
+    const rowStyle = (selected) => ({ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'5px 6px', borderBottom:'1px solid #1a1a2e', background: selected ? '#1a1a3a' : 'transparent', cursor:'pointer' });
+    return (
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'center', minHeight:'100vh', background:'#0a0a1a', fontFamily:'monospace', color:'#c0c0e0', fontSize:'11px', letterSpacing:'1px', textTransform:'uppercase' }}>
+        <div style={{ background:'#0d0d1a', border:'2px solid #5a5aaa', padding:'24px 32px', minWidth:'360px', maxHeight:'80vh', overflowY:'auto' }}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:'16px' }}>
+            <span style={{ color:'#ffd700', fontSize:'13px', letterSpacing:'3px' }}>MART</span>
+            <span style={{ color:'#888', fontSize:'10px' }}>₽{money}</span>
+          </div>
+
+          {shopMode === 'choice' && (
+            <>
+              {['BUY', 'SELL', 'QUIT'].map((label, i) => (
+                <div key={label} style={rowStyle(shopCursor === i)}
+                  onClick={() => { if (i === 0) { setShopMode('buy'); setShopCursor(0); } else if (i === 1) { setShopMode('sell'); setShopCursor(0); } else handleShopClose(); }}>
+                  {shopCursor === i && <span style={{ marginRight:6 }}>►</span>}{label}
+                </div>
+              ))}
+            </>
+          )}
+
+          {shopMode === 'buy' && (
+            <>
+              <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', marginBottom:'8px' }}>━ FOR SALE ━</div>
+              {buyList.length === 0
+                ? <div style={{ color:'#555', padding:'6px 0', marginBottom:'8px' }}>NOTHING FOR SALE</div>
+                : buyList.map((itemName, i) => {
+                  const price = PRICES[itemName];
+                  const canAfford = price != null && money >= price;
+                  return (
+                    <div key={i} style={rowStyle(shopCursor === i)} onClick={() => canAfford && handleShopBuy(itemName)}>
+                      <span>{shopCursor === i && <span style={{ marginRight:6 }}>►</span>}{itemName.replace(/_/g,' ')} <span style={{ color:'#888' }}>{price != null ? `₽${price}` : '???'}</span></span>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleShopBuy(itemName); }}
+                        disabled={!canAfford}
+                        style={{ background: canAfford ? '#1a1a2e' : '#151520', border: `1px solid ${canAfford ? '#5050a0' : '#333'}`, color: canAfford ? '#c0c0e0' : '#555', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor: canAfford ? 'pointer' : 'default', letterSpacing:'1px' }}
+                      >BUY</button>
+                    </div>
+                  );
+                })
+              }
+              <button onClick={() => { setShopMode('choice'); setShopCursor(0); }} style={{ display:'block', width:'100%', marginTop:'20px', background:'transparent', border:'1px solid #3a3a5a', color:'#5a5a7a', fontFamily:'monospace', fontSize:'10px', padding:'7px', cursor:'pointer', letterSpacing:'2px', textTransform:'uppercase' }}>
+                ◀ BACK
+              </button>
+            </>
+          )}
+
+          {shopMode === 'sell' && (
+            <>
+              <div style={{ color:'#888', fontSize:'9px', letterSpacing:'2px', marginBottom:'8px' }}>━ SELL FROM BAG ━</div>
+              {bagItems.length === 0
+                ? <div style={{ color:'#555', padding:'6px 0' }}>BAG IS EMPTY</div>
+                : bagItems.map((item, i) => {
+                  const price = PRICES[item.name];
+                  const sellable = !!price; // 0/undefined price = key item, HM, badge, etc. — not sellable
+                  return (
+                    <div key={i} style={rowStyle(shopCursor === i)} onClick={() => sellable && handleShopSell(item.name)}>
+                      <span>{shopCursor === i && <span style={{ marginRight:6 }}>►</span>}{item.name.replace(/_/g,' ')} <span style={{ color:'#888' }}>×{item.count}{sellable ? ` (₽${Math.floor(price/2)})` : ''}</span></span>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleShopSell(item.name); }}
+                        disabled={!sellable}
+                        style={{ background: sellable ? '#1a1a2e' : '#151520', border: `1px solid ${sellable ? '#4a4a6a' : '#333'}`, color: sellable ? '#9090b0' : '#555', fontFamily:'monospace', fontSize:'9px', padding:'3px 10px', cursor: sellable ? 'pointer' : 'default', letterSpacing:'1px' }}
+                      >SELL</button>
+                    </div>
+                  );
+                })
+              }
+              <button onClick={() => { setShopMode('choice'); setShopCursor(0); }} style={{ display:'block', width:'100%', marginTop:'20px', background:'transparent', border:'1px solid #3a3a5a', color:'#5a5a7a', fontFamily:'monospace', fontSize:'10px', padding:'7px', cursor:'pointer', letterSpacing:'2px', textTransform:'uppercase' }}>
+                ◀ BACK
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === 'starter') {
+    const starters = ['BULBASAUR','CHARMANDER','SQUIRTLE'];
+    return (
+      <div style={{ display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',minHeight:'100vh',background:'#0a0a1a',fontFamily:'monospace' }}>
+        <div style={{ background:'#0d0d1a',border:'2px solid #5a5aaa',padding:'28px 36px',maxWidth:'440px',width:'100%' }}>
+          <div style={{ color:'#ffd700',fontSize:'13px',letterSpacing:'3px',textAlign:'center',marginBottom:'6px' }}>PROFESSOR OAK</div>
+          <div style={{ color:'#888',fontSize:'9px',letterSpacing:'2px',textAlign:'center',marginBottom:'18px',textTransform:'uppercase' }}>Choose your first POKÉMON</div>
+          {starters.map(s => {
+            const base = pokemonData?.pokemon[s];
+            return (
+              <button key={s} onClick={() => handleChooseStarter(s)} style={{ display:'block',width:'100%',marginBottom:'10px',background:'#1a1a2e',border:'1px solid #4a4a6a',color:'#c0c0e0',fontFamily:'monospace',fontSize:'12px',letterSpacing:'1px',padding:'10px 14px',cursor:'pointer',textAlign:'left',textTransform:'uppercase' }}>
+                <span style={{ color:'#ffd700' }}>{s.replace(/_/g,' ')}</span>
+                {base && <span style={{ color:'#666',fontSize:'10px',marginLeft:'12px' }}>{base.type1} · HP {base.hp} ATK {base.atk}</span>}
+              </button>
+            );
+          })}
+          <button onClick={() => setScreen('overworld')} style={{ background:'transparent',border:'1px solid #3a3a5a',color:'#5a5a7a',fontFamily:'monospace',fontSize:'10px',padding:'6px 12px',cursor:'pointer',marginTop:'4px',textTransform:'uppercase' }}>◀ Not yet</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === 'slots' && gameState) {
+    return (
+      <GameCornerSlots
+        playerCoins={gameState.coins ?? 0}
+        onClose={handleSlotClose}
+        onCoinsChange={handleSlotsCoinsChange}
+      />
+    );
+  }
+
+if (screen === 'battle' && (wildEncounter || trainerEncounter) && gameState?.party?.[0]) {
+  return (
+      <PokeredBattle
+        playerParty={gameState.party}
+        wildEncounter={wildEncounter}
+        trainerEncounter={trainerEncounter}
+        pokemonData={pokemonData}
+        onBattleEnd={handleBattleEnd}
+        isExtra={gameState.isExtra}
+        playerItems={gameState.items}
+        onUseItem={handleUseItem}
+        badges={gameState.badges}
+        safariBalls={gameState.safariBalls}
+        onSafariBallUsed={handleSafariBallUsed}
+      />
+    );
+  }
+
+  if (screen === 'overworld' && gameState) {
+    return (
+      <Routes>
+        <Route path="/*" element={
+          <PokeredOverworld
+            initialMapId={gameState.mapId}
+            initialX={gameState.x}
+            initialY={gameState.y}
+            onEncounter={handleEncounter}
+            onTrainerBattle={handleTrainerBattle}
+            onReturnHome={handleReturnHome}
+            onHealParty={handleHealParty}
+            onPoisonTick={handlePoisonTick}
+            onMarkGiftTaken={handleMarkGiftTaken}
+            onDeliverParcel={handleDeliverParcel}
+            onBuyItem={handleBuyItem}
+            onGiveGuardDrink={handleGiveGuardDrink}
+            onExchangeBikeVoucher={handleExchangeBikeVoucher}
+            onGiveDollForTM31={handleGiveDollForTM31}
+            onCutTree={handleCutTree}
+            onSetSurfing={handleSetSurfing}
+            onActivateStrength={handleActivateStrength}
+            onPushBoulder={handlePushBoulder}
+            onActivateFlash={handleActivateFlash}
+            onMetOldMan={handleMetOldMan}
+            onSetEvent={handleSetEvent}
+            onToggleEvent={handleToggleEvent}
+            onRequestStarter={handleRequestStarter}
+            onOpenPC={handleOpenPC}
+            onOpenShop={handleOpenShop}
+            onOpenSlots={handleOpenSlots}
+            onMapChange={handleMapChange}
+            onSave={handleSave}
+            onSaveExtraAsNew={handleSaveExtraAsNew}
+            onPositionUpdate={handlePositionUpdate}
+            onConsumePendingTrainerPos={handleConsumePendingTrainerPos}
+            onPickUpItem={handlePickUpItem}
+            onUseItem={handleUseItem}
+            onTeachMove={handleTeachMove}
+            onSwitchParty={handleSwitchParty}
+            onSwapMoves={handleSwapMoves}
+            onRenameMon={handleRenameMon}
+            onBuyMagikarp={handleBuyMagikarp}
+            onGiveFossil={handleGiveFossil}
+            onCollectFossilMon={handleCollectFossilMon}
+            onDoTrade={handleDoTrade}
+            onGymTrashCan={handleGymTrashCan}
+            onDaycareDeposit={handleDaycareDeposit}
+            onDaycarePay={handleDaycarePay}
+            onDaycareStep={handleDaycareStep}
+            onFindHiddenCoins={handleFindHiddenCoins}
+            onBuyCoins={handleBuyCoins}
+            onGiveDrinkForTM={handleGiveDrinkForTM}
+            onBuyPrize={handleBuyPrize}
+            onGivePokemon={handleGivePokemon}
+            onSafariStep={handleSafariStep}
+            onSafariEnter={handleSafariEnter}
+            onSafariLeave={handleSafariLeave}
+            onGiveHmSurf={handleGiveHmSurf}
+            onGiveHmStrength={handleGiveHmStrength}
+            onCompleteHallOfFame={handleCompleteHallOfFame}
+            onGiveHmFly={handleGiveHmFly}
+            gameState={gameState}
+            isExtra={gameState.isExtra}
+            speedMult={speedMult}
+            setSpeedMult={setSpeedMult}
+            showWarps={showWarps}
+            setShowWarps={setShowWarps}
+          />
+        } />
+      </Routes>
+    );
+  }
+
+  return null;
+}

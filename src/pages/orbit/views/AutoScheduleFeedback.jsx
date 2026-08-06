@@ -6,7 +6,7 @@ import {
   REASON_CODES, reasonToWrites, inferWindowFromMin,
 } from '../calc/feedback';
 
-// Feedback→rules capture (Guidelines_Scheduler.md §12, Phase 7 Milestone B).
+// Feedback→rules capture (guidelinesScheduler.md §12, Phase 7 Milestone B).
 // Shown when a suggested placement is rejected (or a moved item's "why?" is
 // clicked). The removal/move ALREADY happened — this turns the one-off
 // correction into a durable write (task tag, learned duration, or policy rule)

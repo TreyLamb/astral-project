@@ -1,0 +1,18 @@
+[
+  { "word": "사랑해요",             "romanization": "saranghaeyo",             "english": "I love you",                     "pos": "phrase", "notes": "" },
+  { "word": "천천히 하세요",       "romanization": "cheoncheonhi haseyo",     "english": "take your time",                 "pos": "phrase", "notes": "" },
+  { "word": "화이팅",               "romanization": "hwaiting",                "english": "go for it / fighting!",          "pos": "phrase", "notes": "loanword-derived cheer, extremely common" },
+  { "word": "축하해요",             "romanization": "chukhahaeyo",             "english": "congratulations",                "pos": "phrase", "notes": "" },
+  { "word": "생일 축하해요",       "romanization": "saengil chukhahaeyo",     "english": "happy birthday",                 "pos": "phrase", "notes": "" },
+  { "word": "새해 복 많이 받으세요","romanization": "saehae bok mani badeuseyo","english": "happy new year",                "pos": "phrase", "notes": "standard Korean New Year greeting" },
+  { "word": "행운을 빌어요",       "romanization": "haenguneul bireoyo",      "english": "wish you good luck",             "pos": "phrase", "notes": "" },
+  { "word": "당연하죠",             "romanization": "dangyeonhajyo",           "english": "of course",                      "pos": "phrase", "notes": "" },
+  { "word": "거의 다 됐어요",       "romanization": "geoui da dwaesseoyo",     "english": "almost done / close enough",     "pos": "phrase", "notes": "" },
+  { "word": "어떡해",               "romanization": "eotteokhae",              "english": "what should I do / oh no",       "pos": "phrase", "notes": "very common interjection expressing worry" },
+  { "word": "무슨 뜻이에요",       "romanization": "museun tteusieyo",        "english": "what does it mean",              "pos": "phrase", "notes": "" },
+  { "word": "이해가 안 돼요",      "romanization": "ihaega an dwaeyo",        "english": "I don't understand",             "pos": "phrase", "notes": "" },
+  { "word": "잘 모르겠어요",       "romanization": "jal moreugesseoyo",       "english": "I don't know",                   "pos": "phrase", "notes": "" },
+  { "word": "이름이 뭐예요",       "romanization": "ireumi mwoyeyo",          "english": "what's your name",               "pos": "phrase", "notes": "" },
+  { "word": "아무거나",             "romanization": "amugeona",                "english": "whatever / anything is fine",    "pos": "phrase", "notes": "" },
+  { "word": "수고하셨어요",         "romanization": "sugohasyeosseoyo",        "english": "thanks for your hard work",      "pos": "phrase", "notes": "very common at end of work/tasks" }
+]

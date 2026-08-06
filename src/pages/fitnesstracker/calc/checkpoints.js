@@ -1,6 +1,6 @@
 // Checkpoint orchestration: cadence resolution, rest-day shifting, curve
 // assembly, realism scoring, and the recompute-from-here-forward engine
-// (Guidelines_Forecast.md §5/§6). Parallel in role to calc/planning.js (which
+// (guidelinesForecast.md §5/§6). Parallel in role to calc/planning.js (which
 // handles ordinary drag/cascade rescheduling) — this file is specifically
 // about a GOAL's checkpoint trajectory.
 import { addDaysISO } from './planning';
@@ -41,7 +41,7 @@ export function interpolatedTarget(goal, dateISO) {
 }
 
 // Multi-month/year goals default to a coarser cadence rather than daily
-// checkpoint fatigue (Guidelines_Forecast.md §5) — still user-adjustable via
+// checkpoint fatigue (guidelinesForecast.md §5) — still user-adjustable via
 // goal.cadence, this is only the 'auto' suggestion.
 export function suggestCadence(durationDays) {
   if (durationDays <= 21) return { type: 'everyNDays', n: 3 };
@@ -117,7 +117,7 @@ function scoreRealism(kind, rate, direction) {
 }
 
 // Assembles a goal's full checkpoint set: zero-data path marks the whole
-// curve `provisional` (Guidelines_Forecast.md §4) until a real result lands;
+// curve `provisional` (guidelinesForecast.md §4) until a real result lands;
 // with-data path is identical math, just `provisional:false` — the curve
 // shape/realism scoring doesn't change based on that flag, only its display
 // treatment does (handled by the UI, not here).

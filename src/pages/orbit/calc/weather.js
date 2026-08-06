@@ -1,4 +1,4 @@
-// Orbit weather helpers (Guidelines_Scheduler.md §6) — pure shaping + lookup +
+// Orbit weather helpers (guidelinesScheduler.md §6) — pure shaping + lookup +
 // the "did a scheduled outdoor task's day turn rainy" re-check. The actual
 // Open-Meteo / Nominatim network calls live in orbitWeatherService.js; this
 // stays pure so it's unit-testable. Rain is a HARD constraint for outdoor /

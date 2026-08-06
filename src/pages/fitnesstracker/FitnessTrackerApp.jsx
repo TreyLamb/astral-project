@@ -65,13 +65,13 @@ export default function FitnessTrackerApp() {
           <Link to="/" className="ft-site-home" title="Back to Astral Project home">Astral Project</Link>
           <div className="ft-brand"><span className="ft-brand-icon">💪</span> MyFitnessTracker</div>
           <nav className="ft-topnav">
-            <NavLink end to="/fitness-tracker" className={tab}>Calendar</NavLink>
-            <NavLink to="/fitness-tracker/meals" className={tab}>Meals</NavLink>
-            <NavLink to="/fitness-tracker/tools" className={tab}>Tools</NavLink>
-            <NavLink to="/fitness-tracker/workouts" className={tab}>Workouts</NavLink>
-            <NavLink to="/fitness-tracker/dashboard" className={tab}>Dashboard</NavLink>
-            <NavLink to="/fitness-tracker/import" className={tab}>Import</NavLink>
-            <NavLink to="/fitness-tracker/settings" className={tab}>Settings</NavLink>
+            <NavLink end to="/MFT" className={tab}>Calendar</NavLink>
+            <NavLink to="/MFT/meals" className={tab}>Meals</NavLink>
+            <NavLink to="/MFT/tools" className={tab}>Tools</NavLink>
+            <NavLink to="/MFT/workouts" className={tab}>Workouts</NavLink>
+            <NavLink to="/MFT/dashboard" className={tab}>Dashboard</NavLink>
+            <NavLink to="/MFT/import" className={tab}>Import</NavLink>
+            <NavLink to="/MFT/settings" className={tab}>Settings</NavLink>
           </nav>
           <div className="ft-topbar-right">
             <span className={`ft-sync ft-sync-${value.mode}`} title={value.mode === 'cloud' ? 'Syncing to your account' : 'Saved on this device'}>

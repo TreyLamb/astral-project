@@ -1,4 +1,4 @@
-// Orbit deterministic timed solver (Guidelines_Scheduler.md §10) — the "brain".
+// Orbit deterministic timed solver (guidelinesScheduler.md §10) — the "brain".
 // Places priority-ordered candidate tasks onto ACTUAL times of day across a
 // horizon, honoring HARD constraints (guardrail windows, fixed events, the
 // energy tank + cross-day fatigue, weather-avoid, travel feasibility, learned

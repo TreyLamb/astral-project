@@ -1,0 +1,14 @@
+[
+  { "word": "狗",   "romanization": "gǒu",    "english": "dog",     "pos": "noun", "notes": "" },
+  { "word": "猫",   "romanization": "māo",    "english": "cat",     "pos": "noun", "notes": "" },
+  { "word": "鸟",   "romanization": "niǎo",   "english": "bird",    "pos": "noun", "notes": "" },
+  { "word": "鱼",   "romanization": "yú",     "english": "fish",    "pos": "noun", "notes": "" },
+  { "word": "马",   "romanization": "mǎ",     "english": "horse",   "pos": "noun", "notes": "" },
+  { "word": "牛",   "romanization": "niú",    "english": "cow",     "pos": "noun", "notes": "" },
+  { "word": "羊",   "romanization": "yáng",   "english": "sheep/goat","pos": "noun", "notes": "" },
+  { "word": "猪",   "romanization": "zhū",    "english": "pig",     "pos": "noun", "notes": "" },
+  { "word": "老虎", "romanization": "lǎohǔ",  "english": "tiger",   "pos": "noun", "notes": "" },
+  { "word": "狮子", "romanization": "shīzi",  "english": "lion",    "pos": "noun", "notes": "" },
+  { "word": "大象", "romanization": "dàxiàng","english": "elephant","pos": "noun", "notes": "" },
+  { "word": "熊猫", "romanization": "xióngmāo","english": "panda",  "pos": "noun", "notes": "" }
+]

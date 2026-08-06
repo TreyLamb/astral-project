@@ -1,11 +1,11 @@
-// Realism index (Guidelines_Forecast.md §7): a computed, NON-BLOCKING flag
+// Realism index (guidelinesForecast.md §7): a computed, NON-BLOCKING flag
 // scored against each domain's plausible-range bounds from the research
 // library. Never a cap, never a refusal — purely informational, and doubles
 // as a light injury/health-risk signal in rate-sensitive domains, since the
 // same literature that defines "realistic" documents risk from too-fast a rate.
 import { LOSS_RATE_PCT_PER_WEEK, GAIN_RATE_PCT_PER_WEEK } from './bodyComposition';
 
-// Cardio/swim bound: Guidelines_Forecast.md §3 cites beginner runners gaining
+// Cardio/swim bound: guidelinesForecast.md §3 cites beginner runners gaining
 // only ~5-15% pace across a WHOLE FIRST YEAR (~52 weeks), front-loaded into
 // weeks 8-12. Flattened to a per-week bound for scoring any single checkpoint:
 // 15%/52wk =~ 0.0029/wk (aggressive ceiling), half that as the conservative
@@ -42,7 +42,7 @@ export function realismScore(kind, requiredWeeklyPct, direction) {
 
 // Lift's cited rate (Starting-Strength weekly-add) is an ABSOLUTE kg/week
 // figure, not a %/week one — forcing it into the same proportional shape as
-// cardio/weight is exactly the mistake Guidelines_Forecast.md §2 warns
+// cardio/weight is exactly the mistake guidelinesForecast.md §2 warns
 // against, so it gets its own function/unit.
 // ✂️ Simplification: the cited bound differs by body region (~5lb/wk upper
 // body vs ~10lb/wk lower body); there's no exercise->body-region classifier on

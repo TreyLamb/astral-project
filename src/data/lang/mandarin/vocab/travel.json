@@ -1,0 +1,22 @@
+[
+  { "word": "飞机",     "romanization": "fēijī",         "english": "airplane",      "pos": "noun", "notes": "" },
+  { "word": "火车",     "romanization": "huǒchē",        "english": "train",         "pos": "noun", "notes": "" },
+  { "word": "汽车",     "romanization": "qìchē",         "english": "car",           "pos": "noun", "notes": "" },
+  { "word": "出租车",   "romanization": "chūzūchē",      "english": "taxi",          "pos": "noun", "notes": "" },
+  { "word": "地铁",     "romanization": "dìtiě",         "english": "subway",        "pos": "noun", "notes": "" },
+  { "word": "公共汽车", "romanization": "gōnggòngqìchē", "english": "bus",           "pos": "noun", "notes": "" },
+  { "word": "机场",     "romanization": "jīchǎng",       "english": "airport",       "pos": "noun", "notes": "" },
+  { "word": "车站",     "romanization": "chēzhàn",       "english": "station",       "pos": "noun", "notes": "" },
+  { "word": "酒店",     "romanization": "jiǔdiàn",       "english": "hotel",         "pos": "noun", "notes": "" },
+  { "word": "护照",     "romanization": "hùzhào",        "english": "passport",      "pos": "noun", "notes": "" },
+  { "word": "签证",     "romanization": "qiānzhèng",     "english": "visa",          "pos": "noun", "notes": "" },
+  { "word": "行李",     "romanization": "xíngli",        "english": "luggage",       "pos": "noun", "notes": "" },
+  { "word": "票",       "romanization": "piào",          "english": "ticket",        "pos": "noun", "notes": "" },
+  { "word": "地图",     "romanization": "dìtú",          "english": "map",           "pos": "noun", "notes": "" },
+  { "word": "左边",     "romanization": "zuǒbian",       "english": "left side",     "pos": "noun", "notes": "" },
+  { "word": "右边",     "romanization": "yòubian",       "english": "right side",    "pos": "noun", "notes": "" },
+  { "word": "直走",     "romanization": "zhízǒu",        "english": "go straight",   "pos": "verb", "notes": "" },
+  { "word": "在哪里",   "romanization": "zài nǎlǐ",      "english": "where is it",   "pos": "phrase", "notes": "" },
+  { "word": "多少钱",   "romanization": "duōshǎo qián",  "english": "how much money","pos": "phrase", "notes": "" },
+  { "word": "一路平安", "romanization": "yílù píng'ān",  "english": "safe travels",  "pos": "phrase", "notes": "" }
+]

@@ -1,0 +1,13 @@
+[
+  { "word": "빨간색", "romanization": "ppalgansaek","english": "red",    "pos": "noun", "notes": "" },
+  { "word": "주황색", "romanization": "juhwangsaek","english": "orange", "pos": "noun", "notes": "" },
+  { "word": "노란색", "romanization": "noransaek",  "english": "yellow", "pos": "noun", "notes": "" },
+  { "word": "초록색", "romanization": "choroksaek", "english": "green",  "pos": "noun", "notes": "" },
+  { "word": "파란색", "romanization": "paransaek",  "english": "blue",   "pos": "noun", "notes": "" },
+  { "word": "보라색", "romanization": "borasaek",   "english": "purple", "pos": "noun", "notes": "" },
+  { "word": "검은색", "romanization": "geomeunsaek","english": "black",  "pos": "noun", "notes": "" },
+  { "word": "하얀색", "romanization": "hayansaek",  "english": "white",  "pos": "noun", "notes": "" },
+  { "word": "회색",   "romanization": "hoesaek",    "english": "gray",   "pos": "noun", "notes": "" },
+  { "word": "분홍색", "romanization": "bunhongsaek","english": "pink",   "pos": "noun", "notes": "" },
+  { "word": "갈색",   "romanization": "galsaek",    "english": "brown",  "pos": "noun", "notes": "" }
+]

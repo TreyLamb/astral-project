@@ -1,0 +1,14 @@
+[
+  { "word": "개",     "romanization": "gae",     "english": "dog",       "pos": "noun", "notes": "" },
+  { "word": "고양이", "romanization": "goyangi", "english": "cat",       "pos": "noun", "notes": "" },
+  { "word": "새",     "romanization": "sae",     "english": "bird",      "pos": "noun", "notes": "" },
+  { "word": "물고기", "romanization": "mulgogi", "english": "fish",      "pos": "noun", "notes": "" },
+  { "word": "말",     "romanization": "mal",     "english": "horse",     "pos": "noun", "notes": "" },
+  { "word": "소",     "romanization": "so",      "english": "cow",       "pos": "noun", "notes": "" },
+  { "word": "양",     "romanization": "yang",    "english": "sheep",     "pos": "noun", "notes": "" },
+  { "word": "돼지",   "romanization": "dwaeji",  "english": "pig",       "pos": "noun", "notes": "" },
+  { "word": "호랑이", "romanization": "horangi", "english": "tiger",     "pos": "noun", "notes": "" },
+  { "word": "사자",   "romanization": "saja",    "english": "lion",      "pos": "noun", "notes": "" },
+  { "word": "코끼리", "romanization": "kokkiri", "english": "elephant",  "pos": "noun", "notes": "" },
+  { "word": "판다",   "romanization": "panda",   "english": "panda",     "pos": "noun", "notes": "" }
+]

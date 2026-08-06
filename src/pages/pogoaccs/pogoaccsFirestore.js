@@ -2,7 +2,7 @@
 // AuthContext). Mirrors pogoaccsStorage.js's API shape 1:1, just persisted
 // under users/{uid}/pogoaccs_boxes/{accountId}, users/{uid}/pogoaccs_megas/{accountId},
 // users/{uid}/pogoaccs_groups/{groupId} and users/{uid}/pogoaccs_meta/settings.
-// Accounts themselves live in PGO Tracker's own collections (pgoFirestore.js)
+// Accounts themselves live in POGO Tracker's own collections (pgoFirestore.js)
 // — this module never reads or writes them.
 import { collection, doc, getDocs, getDoc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';

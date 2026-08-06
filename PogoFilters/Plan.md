@@ -42,7 +42,7 @@ plus an occasional bigger **at-home purge** where a little more manual judgment 
 
 ## Bands — mechanism CONFIRMED working
 
-Test result: the 236-species/913-character dex-number list (`band1_test_string.txt`, the
+Test result: the 236-species/913-character dex-number list (`band1TestString.txt`, the
 lowest-CP-ceiling group) was pasted into the app and **worked fine**. Long dex-number lists are
 not blocked — full banding is buildable. This also resolves the earlier open question about a
 hard character limit: at least up to ~236 species / ~913 characters, there isn't one that
@@ -64,7 +64,7 @@ mass-trash tiers.
 
 ## Current focus: manual sort first, filters second
 
-You're doing a full manual pass through the box now — using `cp_table.csv`/`.txt` as reference
+You're doing a full manual pass through the box now — using `cp_table.csv`/`cpTable.txt` as reference
 and tracking your own steps/decisions as you go — before we build more filters. This is the
 right order: real patterns you actually hit (which species keep getting mis-sorted, which
 thresholds feel wrong, which categories come up over and over) are better raw material for
@@ -158,25 +158,25 @@ the real evolution graph; flagged in case you'd rather sort by practical catch e
 instead — not changed without your say-so.
 
 **Files (in this project folder):**
-- `cp_table_generator.py` — the script; reads the JSON source files, writes the outputs below,
+- `cpTableGenerator.py` — the script; reads the JSON source files, writes the outputs below,
   never touches the game.
-- `pokemon_stats.json`, `cp_multiplier.json`, `pokemon_evolutions.json` — raw source data from
+- `pokemonStats.json`, `cpMultiplier.json`, `pokemonEvolutions.json` — raw source data from
   pogoapi.net.
 - `cp_table.csv` — **1098 rows**, columns: `name, L10, L15, L20, L25, L30, L35`, grouped into
   the 5 tier sections above (dex number dropped from output entirely — only used internally to
   sort within each section).
-- `cp_table.txt` — same data, fixed-width space-padded columns capped at 20 chars for the name
+- `cpTable.txt` — same data, fixed-width space-padded columns capped at 20 chars for the name
   column (a handful of long form labels, e.g. Zygarde forms, wrap onto an indented line instead
   of stretching every row) — for reading directly in an editor without a spreadsheet app.
 - `ShadowPurifiedTracker.csv` — see "Shadow/Purified tracking" above.
-- `band1_test_string.txt` — the 236-species/913-char dex-number list used for the (now passed)
+- `band1TestString.txt` — the 236-species/913-char dex-number list used for the (now passed)
   band character-limit test.
 
 ---
 
 ## Open items / next phases
 
-- **In progress (you):** manual sort through the box using `cp_table.csv`/`.txt`, tracking
+- **In progress (you):** manual sort through the box using `cp_table.csv`/`cpTable.txt`, tracking
   steps/decisions as you go. Everything below waits on findings from this pass.
 - **Still needs re-saving in-app:** the three `!cp` filters, corrected in `Existingfilters.md`
   but not yet updated as live saved searches.

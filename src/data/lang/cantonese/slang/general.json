@@ -1,1 +1,10 @@
-[]
+[
+  { "word": "正",   "romanization": "zeng3",     "english": "awesome / great",                    "pos": "adjective", "notes": "" },
+  { "word": "好正", "romanization": "hou2 zeng3","english": "really awesome",                     "pos": "adjective", "notes": "" },
+  { "word": "犀利", "romanization": "sai1 lei6", "english": "impressive / skilled",               "pos": "adjective", "notes": "" },
+  { "word": "得意", "romanization": "dak1 ji3",  "english": "cute",                               "pos": "adjective", "notes": "" },
+  { "word": "八卦", "romanization": "baat3 gwaa3","english": "nosy / gossipy",                    "pos": "adjective", "notes": "" },
+  { "word": "串",   "romanization": "cyun3",     "english": "cocky / arrogant",                   "pos": "adjective", "notes": "" },
+  { "word": "搞掂", "romanization": "gaau2 dim6","english": "get it done / all sorted",           "pos": "phrase", "notes": "extremely common Cantonese slang" },
+  { "word": "屈機", "romanization": "wat1 gei1", "english": "overpowered / unbeatable",           "pos": "adjective", "notes": "originally gaming slang, now general use" }
+]

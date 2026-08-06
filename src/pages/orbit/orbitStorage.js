@@ -244,7 +244,7 @@ export const OrbitStorage = {
     store(DAYPLANS_KEY, loadArray(DAYPLANS_KEY).filter((d) => d.date !== date));
   },
 
-  // ---- scheduler databases (Guidelines_Scheduler.md §3.2) -----------------
+  // ---- scheduler databases (guidelinesScheduler.md §3.2) -----------------
   // localStorage-only for now — deliberately NOT wired into the Firestore
   // write-coalescing machinery (orbitContext.js) or replaceAll() below; §3.2
   // defers cloud sync to a later phase. Places/rules key by `id`; durations

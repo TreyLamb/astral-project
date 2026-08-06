@@ -1,5 +1,5 @@
 // Read-only account switcher -- MedalDex never creates/renames/deletes
-// accounts (those are owned by PGO Tracker, see medaldexConfig.js's header
+// accounts (those are owned by POGO Tracker, see medaldexConfig.js's header
 // comment and MedalDexApp.jsx's load effect), so unlike pgotracker's
 // AccountSwitcher.jsx this is just a select-one dropdown, no add/rename UI.
 import { useEffect, useRef, useState } from 'react';

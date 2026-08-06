@@ -1,4 +1,4 @@
-// Orbit gas-tank energy model (Guidelines_Scheduler.md §4/§8) — pure calc, no
+// Orbit gas-tank energy model (guidelinesScheduler.md §4/§8) — pure calc, no
 // storage/React. Energy is a tank that drains 1:1 as tasks are done; a hard
 // day reduces tomorrow's starting capacity (cross-day fatigue). Task drain can
 // rise with midday heat (heatMultiplier) — that's the TASK costing more, not

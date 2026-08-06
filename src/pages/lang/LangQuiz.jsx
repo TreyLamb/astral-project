@@ -1,7 +1,8 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import languages from '../../data/lang/languages.json';
-import { VocabStorage, StatsStorage, statKey } from './langStorage';
+import { statKey } from './langStorage';
+import { useLang } from './langContext';
 
 const allVocabFiles = import.meta.glob('/src/data/lang/*/vocab/*.json', { eager: true });
 
@@ -18,7 +19,10 @@ function categoryFromPath(path) {
   return path.split('/').pop().replace('.json', '');
 }
 
-function buildPool(langIds) {
+// getByLang comes from langContext.js — it's the (local or cloud, whichever
+// is active) source of user-added words, so quiz pools always match what
+// LangVocab shows, signed in or not.
+function buildPool(langIds, getByLang) {
   const pool = [];
   for (const [path, mod] of Object.entries(allVocabFiles)) {
     const segs = path.split('/');
@@ -32,7 +36,7 @@ function buildPool(langIds) {
   }
   for (const langId of langIds) {
     const lang = languages.find(l => l.id === langId);
-    for (const w of VocabStorage.getByLang(langId)) {
+    for (const w of getByLang(langId)) {
       pool.push({ ...w, lang, custom: true });
     }
   }
@@ -44,9 +48,9 @@ function buildPool(langIds) {
 // more, unseen, or overdue for review) sorts earlier / is more likely to be
 // picked when the deck is capped — this is what makes review sessions
 // "spaced-repetition-style" rather than plain shuffles.
-function weightedDeck(pool, limit) {
+function weightedDeck(pool, limit, weightFor) {
   const weighted = pool.map(w => {
-    const weight = StatsStorage.weightFor(statKey(w.langId, w.word, w.english));
+    const weight = weightFor(statKey(w.langId, w.word, w.english));
     return { w, key: Math.random() ** (1 / weight) };
   });
   weighted.sort((a, b) => b.key - a.key);
@@ -70,7 +74,7 @@ const SESSION_LENGTHS = [
   { id: 'full',     label: 'Full Deck',    desc: 'everything in the pool', limit: null },
 ];
 
-function QuizSetup({ initialLangId, onStart }) {
+function QuizSetup({ initialLangId, getByLang, onStart }) {
   const [selectedLangs, setSelectedLangs] = useState(initialLangId ? [initialLangId] : []);
   const [mode,          setMode]          = useState('flashcard');
   const [fastMode,      setFastMode]      = useState(false);
@@ -83,7 +87,7 @@ function QuizSetup({ initialLangId, onStart }) {
     );
   }
 
-  const poolSize = buildPool(selectedLangs).length;
+  const poolSize = buildPool(selectedLangs, getByLang).length;
 
   return (
     <div className="lang-quiz-setup">
@@ -195,7 +199,7 @@ function QuizSetup({ initialLangId, onStart }) {
 
 // ── Active quiz ───────────────────────────────────────────────────────────────
 
-function QuizActive({ deck, mode, fastMode, direction, onDone }) {
+function QuizActive({ deck, mode, fastMode, direction, recordStat, onDone }) {
   const [index,       setIndex]       = useState(0);
   const [revealed,    setReveal]      = useState(false);
   const [choice,      setChoice]      = useState(null);
@@ -227,7 +231,7 @@ function QuizActive({ deck, mode, fastMode, direction, onDone }) {
 
   function advance(result) {
     if (result === 'correct' || result === 'incorrect') {
-      StatsStorage.record(statKey(card.langId, card.word, card.english), result);
+      recordStat(statKey(card.langId, card.word, card.english), result);
     }
     const updated = { ...results, [result]: results[result] + 1 };
     setResults(updated);
@@ -424,6 +428,7 @@ export default function LangQuiz() {
   const { langId } = useParams();
   const navigate   = useNavigate();
   const [searchParams] = useSearchParams();
+  const { getByLang, weightFor, recordStat } = useLang();
   const [phase,   setPhase]   = useState('setup');
   const [config,  setConfig]  = useState(null);
   const [deck,    setDeck]    = useState([]);
@@ -435,10 +440,10 @@ export default function LangQuiz() {
     : 'Languages';
 
   function handleStart(cfg) {
-    const pool = buildPool(cfg.langs);
+    const pool = buildPool(cfg.langs, getByLang);
     if (pool.length === 0) return;
     const limit = SESSION_LENGTHS.find(s => s.id === cfg.sessionLength)?.limit ?? null;
-    setDeck(weightedDeck(pool, limit));
+    setDeck(weightedDeck(pool, limit, weightFor));
     setConfig(cfg);
     setResults(null);
     setPhase('quiz');
@@ -460,12 +465,12 @@ export default function LangQuiz() {
 
   return (
     <div>
-      <button className="lang-back-btn" onClick={() => navigate(langId ? `/vocab-vault/${langId}` : '/vocab-vault')}>
+      <button className="lang-back-btn" onClick={() => navigate(langId ? `/VV/${langId}` : '/VV')}>
         ← {backLabel}
       </button>
 
       {phase === 'setup' && (
-        <QuizSetup initialLangId={langId} onStart={handleStart} />
+        <QuizSetup initialLangId={langId} getByLang={getByLang} onStart={handleStart} />
       )}
       {phase === 'quiz' && config && (
         <QuizActive
@@ -473,6 +478,7 @@ export default function LangQuiz() {
           mode={config.mode}
           fastMode={config.fastMode}
           direction={config.direction}
+          recordStat={recordStat}
           onDone={handleDone}
         />
       )}

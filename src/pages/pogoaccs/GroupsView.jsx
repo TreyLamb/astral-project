@@ -35,7 +35,7 @@ export default function GroupsView() {
   if (accounts.length === 0) {
     return (
       <div className="pgoa-panel pgoa-empty">
-        No accounts yet — create them in <Link className="pgoa-link" to="/pgo-tracker">PGO Tracker</Link>.
+        No accounts yet — create them in <Link className="pgoa-link" to="/POGO">POGO Tracker</Link>.
       </div>
     );
   }
@@ -141,11 +141,11 @@ export default function GroupsView() {
 
       <div className="pgoa-divider" />
 
-      <div className="pgoa-section-label">Import from PGO Tracker</div>
+      <div className="pgoa-section-label">Import from POGO Tracker</div>
       {partiesLoading ? (
         <div className="pgoa-empty">Loading…</div>
       ) : parties.length === 0 ? (
-        <div className="pgoa-empty">No PGO Tracker parties yet.</div>
+        <div className="pgoa-empty">No POGO Tracker parties yet.</div>
       ) : (
         <div className="pgoa-import-list">
           {parties.map((party) => (

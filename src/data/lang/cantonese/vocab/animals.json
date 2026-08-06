@@ -1,0 +1,14 @@
+[
+  { "word": "狗",   "romanization": "gau2",       "english": "dog",        "pos": "noun", "notes": "" },
+  { "word": "貓",   "romanization": "maau1",      "english": "cat",        "pos": "noun", "notes": "" },
+  { "word": "雀",   "romanization": "zoek3",      "english": "bird",       "pos": "noun", "notes": "colloquial Cantonese, also 雀仔" },
+  { "word": "魚",   "romanization": "jyu4",       "english": "fish",       "pos": "noun", "notes": "" },
+  { "word": "馬",   "romanization": "maa5",       "english": "horse",      "pos": "noun", "notes": "" },
+  { "word": "牛",   "romanization": "ngau4",      "english": "cow",        "pos": "noun", "notes": "" },
+  { "word": "羊",   "romanization": "joeng4",     "english": "sheep / goat","pos": "noun", "notes": "" },
+  { "word": "豬",   "romanization": "zyu1",       "english": "pig",        "pos": "noun", "notes": "" },
+  { "word": "老虎", "romanization": "lou5 fu2",   "english": "tiger",      "pos": "noun", "notes": "" },
+  { "word": "獅子", "romanization": "si1 zi2",    "english": "lion",       "pos": "noun", "notes": "" },
+  { "word": "大象", "romanization": "daai6 zoeng6","english": "elephant",  "pos": "noun", "notes": "" },
+  { "word": "熊貓", "romanization": "hung4 maau1","english": "panda",      "pos": "noun", "notes": "" }
+]

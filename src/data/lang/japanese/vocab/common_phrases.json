@@ -1,0 +1,16 @@
+[
+  { "word": "お願いします",             "romanization": "onegaishimasu",              "english": "please (requesting something)", "pos": "phrase", "notes": "" },
+  { "word": "大丈夫です",               "romanization": "daijoubu desu",              "english": "it's okay / I'm fine",          "pos": "phrase", "notes": "" },
+  { "word": "頑張って",                 "romanization": "ganbatte",                   "english": "go for it / good luck",         "pos": "phrase", "notes": "" },
+  { "word": "おめでとうございます",     "romanization": "omedetou gozaimasu",         "english": "congratulations",               "pos": "phrase", "notes": "" },
+  { "word": "誕生日おめでとう",         "romanization": "tanjoubi omedetou",          "english": "happy birthday",                "pos": "phrase", "notes": "" },
+  { "word": "明けましておめでとうございます", "romanization": "akemashite omedetou gozaimasu", "english": "happy new year",     "pos": "phrase", "notes": "" },
+  { "word": "気をつけて",               "romanization": "ki wo tsukete",              "english": "take care / be careful",        "pos": "phrase", "notes": "" },
+  { "word": "また今度",                 "romanization": "mata kondo",                 "english": "some other time",               "pos": "phrase", "notes": "" },
+  { "word": "分かりません",             "romanization": "wakarimasen",                "english": "I don't understand",            "pos": "phrase", "notes": "" },
+  { "word": "どういう意味ですか",       "romanization": "dou iu imi desu ka",         "english": "what does that mean?",          "pos": "phrase", "notes": "" },
+  { "word": "お名前は何ですか",         "romanization": "onamae wa nan desu ka",      "english": "what is your name?",            "pos": "phrase", "notes": "" },
+  { "word": "いくらですか",             "romanization": "ikura desu ka",              "english": "how much is it?",               "pos": "phrase", "notes": "" },
+  { "word": "どこですか",               "romanization": "doko desu ka",               "english": "where is it?",                  "pos": "phrase", "notes": "" },
+  { "word": "頑張ります",               "romanization": "ganbarimasu",                "english": "I'll do my best",               "pos": "phrase", "notes": "" }
+]

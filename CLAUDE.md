@@ -29,10 +29,10 @@ A React single-page app about astral projection, deployed on Vercel. The owner (
 ---
 
 ## Other CLAUDE.md files exist in this repo — check for them
-This root file only auto-loads when your working directory is at or above repo root. Subfolders (e.g. `pokemon_OG/bugtracking/Lastmap markdowns/CLAUDE.md`) can have their own CLAUDE.md with folder-specific rules that will NOT auto-load otherwise. Before assuming you know all the project rules, check whether the folder(s) you're working in — or their parents — have their own CLAUDE.md, and read it. If you find one not listed here, note its path in this section so it's easier to spot next time.
+This root file only auto-loads when your working directory is at or above repo root. Subfolders (e.g. `pokemonOg/bugtracking/lastmapMarkdowns/CLAUDE.md`) can have their own CLAUDE.md with folder-specific rules that will NOT auto-load otherwise. Before assuming you know all the project rules, check whether the folder(s) you're working in — or their parents — have their own CLAUDE.md, and read it. If you find one not listed here, note its path in this section so it's easier to spot next time.
 
 Known nested CLAUDE.md files:
-- `src/pages/pokered_page/CLAUDE.md` — pokered (Pokemon Red port) project rules, architecture facts, checklist-sync workflow. Auto-loads when the cwd is the game folder. (Moved here 2026-07-21 from `pokemon_OG/bugtracking/Lastmap markdowns/`.) It also registers two pokered skills — `pokered-fully-wire` and `pokered-bug-sweep` — in `src/pages/pokered_page/.claude/skills/`.
+- `src/pages/pokeredPage/CLAUDE.md` — pokered (Pokemon Red port) project rules, architecture facts, checklist-sync workflow. Auto-loads when the cwd is the game folder. (Moved here 2026-07-21 from `pokemonOg/bugtracking/lastmapMarkdowns/`.) It also registers two pokered skills — `pokered-fully-wire` and `pokered-bug-sweep` — in `src/pages/pokeredPage/.claude/skills/`.
 
 ---
 
@@ -146,8 +146,8 @@ When a feature needs its own internal pages/routes:
 |---|---|
 | `src/App.jsx` | All routes live here. Entry point for understanding the whole app. |
 | `src/components/Navbar.jsx` | All nav links. Link vs a distinction matters here. |
-| `src/data/qa_skills_tracker.json` | Data for QA Tracker. Skills are `item.tool` inside `cat.items[]`. |
-| `src/data/tools_to_add.txt` | Scratch pad for skills to add to QA tracker later. Not used by app. |
+| `src/data/qaSkillsTracker.json` | Data for QA Tracker. Skills are `item.tool` inside `cat.items[]`. |
+| `src/data/toolsToAdd.txt` | Scratch pad for skills to add to QA tracker later. Not used by app. |
 | `src/pages/mymdb/mymdbStorage.js` | Reference for localStorage data layer pattern |
 | `public/lexicon/words.json` | Word list for Lexicon page |
 | `vercel.json` | SPA rewrite rule — don't remove or all deep links break on Vercel |

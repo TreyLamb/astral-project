@@ -152,7 +152,7 @@ export default function EntryEditor() {
       metrics,
     });
     // Completing a checkpoint-tagged workout with real numbers IS "Logged
-    // actual" (Guidelines_Forecast.md §6) — no separate click needed, reusing
+    // actual" (guidelinesForecast.md §6) — no separate click needed, reusing
     // the exact formulas the baseline estimators already call.
     if (linkedGoal && checkpoint && form.status === 'completed') {
       const extracted = extractCheckpointResult(

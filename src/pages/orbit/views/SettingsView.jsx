@@ -249,7 +249,7 @@ function ImportSection({ orbit }) {
   );
 }
 
-// Auto-Scheduler config (Guidelines_Scheduler.md §4/§5/§6). Nested `scheduler`
+// Auto-Scheduler config (guidelinesScheduler.md §4/§5/§6). Nested `scheduler`
 // patches pass a FULL object, not a partial — updateSettings merges the patch
 // against DEFAULTS (not current), so a partial would drop the user's other
 // scheduler tweaks; spreading current `s`/`s.guardrails`/`s.fatigue` preserves them.
@@ -347,7 +347,7 @@ function SchedulerSection({ settings, updateSettings }) {
   );
 }
 
-// Rulebook manager (Guidelines_Scheduler.md §12). The feedback→rules loop
+// Rulebook manager (guidelinesScheduler.md §12). The feedback→rules loop
 // crystallizes corrections into policy rules the deterministic placer enforces;
 // this is where you SEE and UNDO what it learned (B5), plus one-click install of
 // the canonical "perishables never right after outdoor" policy.

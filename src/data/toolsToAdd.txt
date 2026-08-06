@@ -1,0 +1,19 @@
+# Tools to add to qaSkillsTracker.json later
+# Format reminder: { "tool": "Name", "notes": "description", "comfort": 0, "learningPath": [] }
+
+# --- Uncategorized ---
+
+glob
+grep
+Healenium
+testim
+mabl
+honeybadger
+jetbrain
+applitools
+opensearch
+elastic
+splunk
+
+
+# Add a label for WHAT the tool genre/type is.

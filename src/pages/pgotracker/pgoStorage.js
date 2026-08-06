@@ -1,4 +1,4 @@
-// PGO Tracker localStorage data layer. Mirrors mymdbStorage.js's API shape
+// POGO Tracker localStorage data layer. Mirrors mymdbStorage.js's API shape
 // (see src/pages/mymdb/mymdbStorage.js) so this can swap to Firestore later
 // without rewriting call sites.
 import { emptyStats, emptyInventory } from './pgoConfig';

@@ -1,6 +1,6 @@
-# WARP_DIR legend (game_data.json `warps[].dir` field)
+# WARP_DIR legend (gameData.json `warps[].dir` field)
 
-Each warp entry in `game_data.json` has a numeric `dir` field controlling which
+Each warp entry in `gameData.json` has a numeric `dir` field controlling which
 direction the player must be walking for the warp to actually trigger.
 
 | value | meaning | typical use |
@@ -55,7 +55,7 @@ doesn't always hold.
   direction you walk to enter a building depends on which side of it the door is on
   relative to the connecting map, and that varies map to map.
 
-Pattern to use for the next gate: open the gate's own map in `game_data.json`, find the
+Pattern to use for the next gate: open the gate's own map in `gameData.json`, find the
 y-extremes (lowest y = the gate's far side from however the building's "front" sits,
 highest y = the building's near side — but always read both warps' `dest` to confirm
 which way is "out" rather than assuming top/bottom), then check the matching warp on
@@ -114,7 +114,7 @@ behavior already true of south doors, e.g. Red's House's exit).
 
 ## How to find what's been set vs. what still needs review
 
-Search `game_data.json` for `"dir": 1` or `"dir": -1` to find every warp that's been
+Search `gameData.json` for `"dir": 1` or `"dir": -1` to find every warp that's been
 manually confirmed so far (241 south, 2 north as of the Viridian gate example above —
 these counts will keep growing as more get reviewed, so treat them as a snapshot, not
 a target). Everything still at `"dir": 0` is any-direction, unreviewed/intentionally

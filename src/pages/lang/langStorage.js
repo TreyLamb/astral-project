@@ -72,10 +72,31 @@ export function statKey(langId, word, english) {
   return `${langId}::${word}::${english}`;
 }
 
+// Weight used for spaced-repetition-style sampling: words missed more often
+// score higher, words answered correctly a lot score lower, words never seen
+// get a moderate boost so they surface for practice too, and words not
+// reviewed in a while drift back up. Exported standalone (not just via
+// StatsStorage.weightFor) so langContext.js can apply the same formula to a
+// Firestore-backed stats map when signed in, without duplicating the math.
+export function statWeight(s) {
+  const entry = s || { correct: 0, incorrect: 0, lastSeen: 0 };
+  const seen = entry.correct + entry.incorrect;
+  if (seen === 0) return 2.2;
+  const daysSince = entry.lastSeen ? (Date.now() - entry.lastSeen) / 86_400_000 : 30;
+  const recency = Math.min(1 + Math.sqrt(daysSince), 4);
+  return Math.max(0.3, (1 + entry.incorrect * 2) / (1 + entry.correct * 0.3)) * recency;
+}
+
 export const StatsStorage = {
   get(key) {
     const stats = loadStats();
     return stats[key] || { correct: 0, incorrect: 0, lastSeen: 0 };
+  },
+
+  // Full stats map ({ [statKey]: entry }) — used by langContext.js to seed a
+  // signed-in user's first cloud sync (see its migration comment).
+  getAll() {
+    return loadStats();
   },
 
   record(key, result) {
@@ -88,16 +109,7 @@ export const StatsStorage = {
     storeStats(stats);
   },
 
-  // Weight used for spaced-repetition-style sampling: words missed more
-  // often score higher, words answered correctly a lot score lower, words
-  // never seen get a moderate boost so they surface for practice too, and
-  // words not reviewed in a while drift back up.
   weightFor(key) {
-    const s = this.get(key);
-    const seen = s.correct + s.incorrect;
-    if (seen === 0) return 2.2;
-    const daysSince = s.lastSeen ? (Date.now() - s.lastSeen) / 86_400_000 : 30;
-    const recency = Math.min(1 + Math.sqrt(daysSince), 4);
-    return Math.max(0.3, (1 + s.incorrect * 2) / (1 + s.correct * 0.3)) * recency;
+    return statWeight(this.get(key));
   },
 };

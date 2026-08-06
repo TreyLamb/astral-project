@@ -238,10 +238,10 @@ export function newMeal(partial = {}) {
 //   direction: 'loss' | 'gain' — required for kind:'weight' (energy-balance
 //     math is direction-sensitive; irrelevant for other kinds).
 //   deadline: real user input, 'YYYY-MM-DD' — Goal = target + deadline
-//     (Guidelines_Forecast.md §1). durationWeeks is an alternate input form
+//     (guidelinesForecast.md §1). durationWeeks is an alternate input form
 //     ("deadline OR duration") resolved to `deadline` at save time by the editor.
 //   taskFrequency: how often you train (separate from checkpoint cadence below
-//     — Guidelines_Forecast.md §1's task-frequency-vs-checkpoint-frequency
+//     — guidelinesForecast.md §1's task-frequency-vs-checkpoint-frequency
 //     split). `daysPerWeek` is kept as a plain mirror for old-goal back-compat
 //     reads; new code should read taskFrequency.value instead.
 //   cadence: how often the forecast re-benchmarks — independent of

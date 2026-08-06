@@ -37,3 +37,4 @@ src/pages/medaldex/data/pokeapiCache.json
 # Claude Code agent worktrees — ephemeral scratch checkouts (full repo copies
 # incl. dist/ build output), never meant to be committed
 .claude/worktrees/
+__pycache__/

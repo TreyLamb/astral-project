@@ -1,4 +1,4 @@
-// Orbit weather + geocoding network layer (Guidelines_Scheduler.md §6/§7/§9).
+// Orbit weather + geocoding network layer (guidelinesScheduler.md §6/§7/§9).
 // Free, NO API KEY: Open-Meteo (forecast) and Nominatim/OpenStreetMap
 // (geocoding). Both send permissive CORS headers so these run straight from the
 // browser. Kept OUT of calc/weather.js so the shaping/lookup logic stays pure

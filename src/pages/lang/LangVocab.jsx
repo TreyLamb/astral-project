@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import languages from '../../data/lang/languages.json';
-import { VocabStorage } from './langStorage';
+import { useLang } from './langContext';
 
 const allVocabFiles = import.meta.glob('/src/data/lang/*/vocab/*.json', { eager: true });
 const POS_OPTIONS = ['noun', 'verb', 'adjective', 'adverb', 'phrase', 'pronoun', 'number', 'particle'];
@@ -96,7 +96,7 @@ function VocabForm({ form, setForm, editing, onSubmit, onCancel, showRomanizatio
   );
 }
 
-function BulkImport({ langId, category, onImported, onCancel }) {
+function BulkImport({ langId, category, addVocabBulk, onImported, onCancel }) {
   const [text, setText] = useState('');
   const [preview, setPreview] = useState(null);
 
@@ -116,7 +116,7 @@ function BulkImport({ langId, category, onImported, onCancel }) {
   function handleImport() {
     const entries = preview ?? parse();
     if (entries.length === 0) return;
-    VocabStorage.addBulk(entries.map(e => ({ ...e, langId, category, pos: '', exampleSentence: '' })));
+    addVocabBulk(entries.map(e => ({ ...e, langId, category, pos: '', exampleSentence: '' })));
     onImported();
   }
 
@@ -152,23 +152,20 @@ function BulkImport({ langId, category, onImported, onCancel }) {
 export default function LangVocab() {
   const { langId, category } = useParams();
   const navigate = useNavigate();
+  const { getByLangCategory, addVocab, addVocabBulk, updateVocab, removeVocab } = useLang();
   const lang = languages.find(l => l.id === langId);
 
-  const [customWords, setCustomWords] = useState(() => VocabStorage.getByLangCategory(langId, category));
   const [mode, setMode] = useState(null); // null | 'add' | 'edit' | 'bulk'
   const [form, setForm] = useState(EMPTY_FORM);
   const [editingId, setEditingId] = useState(null);
 
   if (!lang) return <div className="lang-error">Language not found.</div>;
 
+  const customWords = getByLangCategory(langId, category);
   const staticWords = (allVocabFiles[`/src/data/lang/${langId}/vocab/${category}.json`]?.default ?? [])
     .map(w => ({ ...w, custom: false }));
   const words = [...staticWords, ...customWords];
   const categoryLabel = category.charAt(0).toUpperCase() + category.slice(1).replace(/[-_]/g, ' ');
-
-  function refresh() {
-    setCustomWords(VocabStorage.getByLangCategory(langId, category));
-  }
 
   function openAdd() {
     setForm(EMPTY_FORM);
@@ -189,31 +186,29 @@ export default function LangVocab() {
     e.preventDefault();
     if (!form.word.trim() || !form.english.trim()) return;
     if (editingId) {
-      VocabStorage.update(editingId, form);
+      updateVocab(editingId, form);
     } else {
-      VocabStorage.add({ ...form, langId, category });
+      addVocab({ ...form, langId, category });
     }
-    refresh();
     setMode(null);
   }
 
   function deleteWord(id) {
     if (!window.confirm('Delete this word?')) return;
-    VocabStorage.remove(id);
-    refresh();
+    removeVocab(id);
   }
 
   return (
     <div>
-      <button className="lang-back-btn" onClick={() => navigate(`/vocab-vault/${langId}`)}>
+      <button className="lang-back-btn" onClick={() => navigate(`/VV/${langId}`)}>
         ← {lang.name}
       </button>
 
       <nav className="lang-subnav">
         <button className="lang-subnav-btn active">Vocabulary</button>
-        <button className="lang-subnav-btn" onClick={() => navigate(`/vocab-vault/${langId}/slang`)}>Slang</button>
-        <button className="lang-subnav-btn" onClick={() => navigate(`/vocab-vault/${langId}/grammar`)}>Grammar</button>
-        <button className="lang-subnav-btn" onClick={() => navigate(`/vocab-vault/${langId}/quiz`)}>⚡ Quiz</button>
+        <button className="lang-subnav-btn" onClick={() => navigate(`/VV/${langId}/slang`)}>Slang</button>
+        <button className="lang-subnav-btn" onClick={() => navigate(`/VV/${langId}/grammar`)}>Grammar</button>
+        <button className="lang-subnav-btn" onClick={() => navigate(`/VV/${langId}/quiz`)}>⚡ Quiz</button>
       </nav>
 
       <div className="lang-vocab-title-row">
@@ -239,7 +234,8 @@ export default function LangVocab() {
         <BulkImport
           langId={langId}
           category={category}
-          onImported={() => { refresh(); setMode(null); }}
+          addVocabBulk={addVocabBulk}
+          onImported={() => setMode(null)}
           onCancel={() => setMode(null)}
         />
       )}
@@ -296,7 +292,7 @@ export default function LangVocab() {
       {words.length > 0 && (
         <button
           className="lang-quiz-cta-btn"
-          onClick={() => navigate(`/vocab-vault/${langId}/quiz`)}
+          onClick={() => navigate(`/VV/${langId}/quiz`)}
         >
           ⚡ Quiz yourself on {categoryLabel}
         </button>

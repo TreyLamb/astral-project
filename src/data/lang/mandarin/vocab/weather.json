@@ -1,0 +1,12 @@
+[
+  { "word": "天气", "romanization": "tiānqì",   "english": "weather",       "pos": "noun", "notes": "" },
+  { "word": "晴天", "romanization": "qíngtiān", "english": "sunny day",     "pos": "noun", "notes": "" },
+  { "word": "阴天", "romanization": "yīntiān",  "english": "cloudy day",    "pos": "noun", "notes": "" },
+  { "word": "下雨", "romanization": "xiàyǔ",    "english": "to rain",       "pos": "verb", "notes": "" },
+  { "word": "下雪", "romanization": "xiàxuě",   "english": "to snow",       "pos": "verb", "notes": "" },
+  { "word": "刮风", "romanization": "guāfēng",  "english": "to be windy",   "pos": "verb", "notes": "" },
+  { "word": "热",   "romanization": "rè",       "english": "hot",           "pos": "adjective", "notes": "" },
+  { "word": "冷",   "romanization": "lěng",     "english": "cold",          "pos": "adjective", "notes": "" },
+  { "word": "凉快", "romanization": "liángkuai","english": "cool (pleasant)","pos": "adjective", "notes": "" },
+  { "word": "温暖", "romanization": "wēnnuǎn",  "english": "warm",          "pos": "adjective", "notes": "" }
+]

@@ -1,0 +1,14 @@
+[
+  { "word": "头",   "romanization": "tóu",   "english": "head",   "pos": "noun", "notes": "" },
+  { "word": "眼睛", "romanization": "yǎnjing","english": "eyes",   "pos": "noun", "notes": "" },
+  { "word": "鼻子", "romanization": "bízi",  "english": "nose",   "pos": "noun", "notes": "" },
+  { "word": "嘴",   "romanization": "zuǐ",   "english": "mouth",  "pos": "noun", "notes": "" },
+  { "word": "耳朵", "romanization": "ěrduo", "english": "ears",   "pos": "noun", "notes": "" },
+  { "word": "手",   "romanization": "shǒu",  "english": "hand",   "pos": "noun", "notes": "" },
+  { "word": "脚",   "romanization": "jiǎo",  "english": "foot",   "pos": "noun", "notes": "" },
+  { "word": "腿",   "romanization": "tuǐ",   "english": "leg",    "pos": "noun", "notes": "" },
+  { "word": "肚子", "romanization": "dùzi",  "english": "belly/stomach", "pos": "noun", "notes": "" },
+  { "word": "心",   "romanization": "xīn",   "english": "heart",  "pos": "noun", "notes": "" },
+  { "word": "头发", "romanization": "tóufa", "english": "hair",   "pos": "noun", "notes": "" },
+  { "word": "牙齿", "romanization": "yáchǐ", "english": "teeth",  "pos": "noun", "notes": "" }
+]

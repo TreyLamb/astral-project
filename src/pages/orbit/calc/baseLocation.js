@@ -1,4 +1,4 @@
-// Pure "where I am" base-location resolution (Guidelines_Scheduler.md §7/§9).
+// Pure "where I am" base-location resolution (guidelinesScheduler.md §7/§9).
 // The fitness calendar tags each day with a base (Orem, Paris UT, Hawaii, …);
 // this module turns those tags into the concrete origin/coords/weather-
 // locationId that the scheduler and weather layer consume. No network, no

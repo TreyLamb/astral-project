@@ -1,0 +1,22 @@
+[
+  { "word": "一",   "romanization": "ichi",    "english": "one",              "pos": "number", "notes": "" },
+  { "word": "二",   "romanization": "ni",      "english": "two",              "pos": "number", "notes": "" },
+  { "word": "三",   "romanization": "san",     "english": "three",            "pos": "number", "notes": "" },
+  { "word": "四",   "romanization": "yon",     "english": "four",             "pos": "number", "notes": "also read 'shi', but 'yon' is preferred to avoid homophone with 死 (death)" },
+  { "word": "五",   "romanization": "go",      "english": "five",             "pos": "number", "notes": "" },
+  { "word": "六",   "romanization": "roku",    "english": "six",              "pos": "number", "notes": "" },
+  { "word": "七",   "romanization": "nana",    "english": "seven",            "pos": "number", "notes": "also read 'shichi'" },
+  { "word": "八",   "romanization": "hachi",   "english": "eight",            "pos": "number", "notes": "" },
+  { "word": "九",   "romanization": "kyuu",    "english": "nine",             "pos": "number", "notes": "also read 'ku'" },
+  { "word": "十",   "romanization": "juu",     "english": "ten",              "pos": "number", "notes": "" },
+  { "word": "十一", "romanization": "juuichi", "english": "eleven",           "pos": "number", "notes": "" },
+  { "word": "二十", "romanization": "nijuu",   "english": "twenty",           "pos": "number", "notes": "" },
+  { "word": "三十", "romanization": "sanjuu",  "english": "thirty",           "pos": "number", "notes": "" },
+  { "word": "百",   "romanization": "hyaku",   "english": "hundred",          "pos": "number", "notes": "" },
+  { "word": "千",   "romanization": "sen",     "english": "thousand",         "pos": "number", "notes": "" },
+  { "word": "一万", "romanization": "ichiman", "english": "ten thousand",     "pos": "number", "notes": "" },
+  { "word": "一つ", "romanization": "hitotsu", "english": "one (thing)",      "pos": "number", "notes": "native Japanese counter for generic objects" },
+  { "word": "二つ", "romanization": "futatsu", "english": "two (things)",     "pos": "number", "notes": "native Japanese counter" },
+  { "word": "三つ", "romanization": "mittsu",  "english": "three (things)",   "pos": "number", "notes": "native Japanese counter" },
+  { "word": "半分", "romanization": "hanbun",  "english": "half",             "pos": "number", "notes": "" }
+]
