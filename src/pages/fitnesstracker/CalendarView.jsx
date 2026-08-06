@@ -226,7 +226,7 @@ function WorkoutChip({ w, type, label, group, goal, units, checkpoint, selected,
         if (e.shiftKey) { onShiftClick(w.id); return; }
         onEdit(w.id);
       }}
-      title={`${type.name}${label ? ' · ' + label : ''} (${completed ? 'done' : 'planned'})${group ? ` · Group #${group.number}` : ''}${goal ? ` · 🎯 ${goal.label || goal.activityType} goal${goalTarget ? ' — ' + goalTarget : ''}` : ''}${realism?.band === 'implausible' ? ` · ⚠ ${realism.note}` : ''} · Alt+click to delete`}
+      title={`${type.name}${label ? ' · ' + label : ''} (${completed ? 'done' : 'planned'})${group ? ` · Group #${group.number}` : ''}${goal ? ` · ${goal.label || goal.activityType} goal${goalTarget ? ' — ' + goalTarget : ''}` : ''}${realism?.band === 'implausible' ? ` · ${realism.note}` : ''} · Alt+click to delete`}
     >
       <span className="ft-chip-labels">
         {label && <span className="ft-chip-text">{label}</span>}
@@ -236,10 +236,9 @@ function WorkoutChip({ w, type, label, group, goal, units, checkpoint, selected,
           </span>
         )}
       </span>
-      {/* The 🎯 goal pin is gone — the target VALUE already renders above, which
-          is the useful half. ⚠ stays: it only appears on an implausible
-          checkpoint, so it's an exception marker, not decoration. */}
-      {realism?.band === 'implausible' && <span className="ft-chip-realism-flag" aria-hidden="true">⚠</span>}
+      {/* No pictograms at all now — the goal pin AND the implausible-checkpoint
+          warning are both gone from the chip. The warning still reaches you via
+          the chip's title text and the Goals panel's realism badge. */}
       {group && <span className="ft-chip-group-dot" style={{ background: group.color }} />}
     </button>
   );
@@ -420,7 +419,7 @@ function DayCell({
           onClick={(e) => { e.stopPropagation(); onOpenWhere(iso); }}
           title={whereBase ? `Where you are: ${whereBase.query || whereBase.tag} — click to change` : 'Tag where you are this day (feeds Orbit travel + weather)'}
         >
-          {whereBase ? whereBase.tag : '＋'}
+          {whereBase ? whereBase.tag : '+'}
         </button>
         {calorieGoal != null && <span className="ft-cell-cal">{net}/{calorieGoal}</span>}
         {variant !== 'month' && <span className="ft-cell-dow">{WEEKDAYS[date.getDay()]}</span>}
@@ -477,7 +476,7 @@ function DayCell({
             className={`ft-cell-energy${pct > 100 ? ' over' : ''}`}
             title={`Orbit energy scheduled: ${orbitEnergy} of ${orbitEnergyCap} budget (${pct}%)`}
           >
-            ⚡ {pct}/100
+            {pct}/100
           </div>
         );
       })()}
@@ -866,7 +865,7 @@ export default function CalendarView() {
     const next = CHIP_FILTER_CYCLE[(CHIP_FILTER_CYCLE.indexOf(chipFilter) + 1) % CHIP_FILTER_CYCLE.length];
     updateSettings({ calendarPrefs: { ...settings.calendarPrefs, chipFilter: next } });
   };
-  const CHIP_FILTER_LABEL = { all: '🗂 All items', noEvents: '🗂 Hiding events', noWorkouts: '🗂 Hiding workouts' };
+  const CHIP_FILTER_LABEL = { all: 'All items', noEvents: 'Hiding events', noWorkouts: 'Hiding workouts' };
 
   // "Meal day view" pops a meal-schedule panel beside the calendar for
   // whichever day you last clicked — works in Month/Week/Day alike, no need
@@ -1215,7 +1214,7 @@ export default function CalendarView() {
           onClick={() => toggleCalendarPref('mealDayView')}
           title="Shows a meal-schedule panel for whichever day you last clicked, alongside the calendar in any view"
         >
-          🍽 Meal day view
+          Meal day view
         </button>
         <button
           type="button"
@@ -1223,7 +1222,7 @@ export default function CalendarView() {
           onClick={() => toggleCalendarPref('showMealsOnCalendar')}
           title="Show meals alongside workouts on every calendar day"
         >
-          🍽 Show meals on calendar
+          Show meals on calendar
         </button>
         <button
           type="button"
@@ -1231,7 +1230,7 @@ export default function CalendarView() {
           onClick={() => setGoalsPanelOpen((o) => !o)}
           title="Create or adjust goals right here, without leaving the calendar"
         >
-          🎯 Goals{activeGoals.length > 0 ? ` (${activeGoals.length})` : ''}
+          Goals{activeGoals.length > 0 ? ` (${activeGoals.length})` : ''}
         </button>
         <button
           type="button"
@@ -1239,7 +1238,7 @@ export default function CalendarView() {
           onClick={() => setWhereRangeOpen((o) => !o)}
           title="Tag a whole stretch of days with where you'll be — Orbit routes travel + weather from there"
         >
-          📍 Where I'll be{dayRanges.length > 0 ? ` (${dayRanges.length})` : ''}
+          Where I'll be{dayRanges.length > 0 ? ` (${dayRanges.length})` : ''}
         </button>
         <button
           type="button"
@@ -1255,7 +1254,7 @@ export default function CalendarView() {
           onClick={toggleWeekSideCols}
           title="Show/hide the weekly Goals + Miles summary columns beside the calendar grid — defaults on for desktop, off for mobile, but this overrides that"
         >
-          📊 Goals/Miles cols
+          Goals/Miles cols
         </button>
       </div>
 
@@ -1304,7 +1303,7 @@ export default function CalendarView() {
             <button type="button" className="ft-btn-ghost ft-goal-new-btn" onClick={() => setGoalEditor('new')}>+ New goal</button>
           </div>
           {activeGoals.length === 0 ? (
-            <p className="ft-hint-sm">No goals yet — set one and its training plan will show up right here on the calendar, with 🎯 pins on each session.</p>
+            <p className="ft-hint-sm">No goals yet — set one and its training plan will show up right here on the calendar, and each session tagged to it.</p>
           ) : (
             <div className="ft-goal-list">
               {activeGoals.map((g) => {
@@ -1312,7 +1311,6 @@ export default function CalendarView() {
                 const worst = worstRealismBand(g);
                 return (
                   <div key={g.id} className="ft-goal-row" style={{ borderLeft: `4px solid ${t.color}` }}>
-                    <span className="ft-goal-icon">{t.icon}</span>
                     <div className="ft-goal-info">
                       <span className="ft-goal-label">{t.name} — {g.label || g.kind}</span>
                       <span className="ft-goal-meta">

@@ -35,7 +35,6 @@ export default function MealsView() {
     .slice(0, 20), [meals]);
 
   const typeName = (id) => mealType(mealTypes, id).name;
-  const typeIcon = (id) => mealType(mealTypes, id).icon;
 
   async function quickDelete(id, e) {
     e.stopPropagation();
@@ -81,7 +80,7 @@ export default function MealsView() {
             {upcoming.map((m) => (
               <li key={m.id}>
                 <button type="button" className="ft-meal-list-row" onClick={() => navigate(`../meal/${m.id}`)}>
-                  {m.date} · {typeIcon(m.mealType)} {typeName(m.mealType)}{m.name ? ` — ${m.name}` : ''}{m.calories != null ? ` · ${m.calories} kcal` : ''}
+                  {m.date} · {typeName(m.mealType)}{m.name ? ` — ${m.name}` : ''}{m.calories != null ? ` · ${m.calories} kcal` : ''}
                 </button>
               </li>
             ))}
@@ -98,7 +97,7 @@ export default function MealsView() {
               {recent.map((m) => (
                 <tr key={m.id} className="ft-meal-table-row" onClick={() => navigate(`../meal/${m.id}`)}>
                   <td>{m.date}</td>
-                  <td>{typeIcon(m.mealType)} {typeName(m.mealType)}</td>
+                  <td>{typeName(m.mealType)}</td>
                   <td>{m.name || '—'}</td>
                   <td className="ft-num">{m.calories ?? '—'}</td>
                   <td><button type="button" className="ft-btn-ghost ft-meal-del-btn" onClick={(e) => quickDelete(m.id, e)}>Delete</button></td>

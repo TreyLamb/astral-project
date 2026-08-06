@@ -48,7 +48,7 @@ export default function BaseSelect({ value, onChange, allowClear = true }) {
           </button>
         ))}
         <button type="button" className={`ft-where-base ft-where-base-new${adding ? ' active' : ''}`} onClick={() => setAdding((a) => !a)}>
-          ＋ other
+          + other
         </button>
         {allowClear && value && (
           <button type="button" className="ft-where-base ft-where-base-clear" onClick={() => onChange(null)}>clear</button>

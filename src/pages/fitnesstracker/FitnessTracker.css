@@ -35,7 +35,6 @@
   padding-right: 14px; border-right: 1px solid var(--ft-border);
 }
 .ft-brand { font-size: 1.15rem; font-weight: 700; color: var(--ft-accent); display: flex; align-items: center; gap: 8px; }
-.ft-brand-icon { font-size: 1.3rem; }
 .ft-topnav { display: flex; gap: 4px; }
 .ft-tab {
   padding: 8px 16px; border-radius: 9px; text-decoration: none;
@@ -354,7 +353,6 @@
 /* em, so the secondary number tracks the measured size instead of fighting it */
 .ft-chip-target { font-size: 0.82em; font-weight: 600; opacity: 0.8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: none; }
 .ft-chip-target small { opacity: 0.75; font-weight: 500; }
-.ft-chip-realism-flag { font-size: 0.8em; flex: none; }
 .ft-chip-selected { outline: 1px solid #60a5fa; outline-offset: 0; background: rgba(96, 165, 250, 0.14); }
 .ft-chip-group-dot { width: 5px; height: 5px; border-radius: 50%; flex: none; margin-left: auto; align-self: center; }
 
@@ -450,7 +448,6 @@
   color: var(--ft-text); font-weight: 600; font-size: 0.88rem; cursor: pointer; font-family: inherit;
 }
 .ft-type-btn.active { border-color: var(--ft-accent); }
-.ft-type-icon { font-size: 1.05rem; }
 
 .ft-status-toggle { display: flex; gap: 8px; margin-bottom: 14px; }
 .ft-status-toggle button {
@@ -501,7 +498,6 @@
 .ft-type-chip-x { background: transparent; border: none; color: var(--ft-muted); cursor: pointer; font-size: 0.8rem; padding: 0 0 0 2px; }
 .ft-add-type { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .ft-add-type .ft-input { flex: 1; min-width: 160px; }
-.ft-add-icon { width: 52px; flex: none; text-align: center; }
 .ft-color { width: 44px; height: 44px; border: 1px solid var(--ft-border); border-radius: 9px; background: var(--ft-bg); cursor: pointer; }
 
 /* ---- responsive ---- */
@@ -518,13 +514,12 @@
      sideways. */
   .ft-cal { min-width: 0; }
 
-  /* "Astral Project" at 1.5em plus "💪 MyFitnessTracker" at 1.15rem is most of
+  /* "Astral Project" at 1.5em plus "MyFitnessTracker" at 1.15rem is most of
      a phone's width before the tabs or + Log even get a turn. */
   .ft-topbar { gap: 8px; padding: 8px 12px; }
   .ft-site-home { font-size: 1rem; padding-right: 10px; }
   .ft-brand { font-size: 0.95rem; }
-  .ft-brand-icon { font-size: 1.05rem; }
-  .ft-topbar-right { gap: 8px; }
+    .ft-topbar-right { gap: 8px; }
   .ft-sync { font-size: 0.7rem; }
   .ft-log-btn { font-size: 0.82rem; padding: 8px 12px; }
 
@@ -752,7 +747,6 @@
 .ft-goal-new-btn { padding: 6px 14px; font-size: 0.82rem; }
 .ft-goal-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
 .ft-goal-row { display: flex; align-items: center; gap: 12px; background: var(--ft-bg); border: 1px solid var(--ft-border); border-radius: 11px; padding: 10px 12px; flex-wrap: wrap; }
-.ft-goal-icon { font-size: 1.3rem; flex: none; }
 .ft-goal-info { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 160px; }
 .ft-goal-label { font-weight: 700; }
 .ft-goal-meta { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--ft-muted); flex-wrap: wrap; }
@@ -852,7 +846,6 @@
   padding: 1px 3px; font-family: inherit; font-size: 0.7rem; line-height: 1.3;
   font-weight: 500; opacity: 0.8; text-align: left; cursor: pointer; box-sizing: border-box;
 }
-.ft-orbit-chip-icon { font-size: 0.75rem; line-height: 1; flex: none; }
 .ft-orbit-chip-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ft-orbit-chip-done { text-decoration: line-through; opacity: 0.55; }
 .ft-orbit-chip-due { border-style: dotted; opacity: 0.85; }
@@ -884,7 +877,6 @@
    level" has to actually apply here too, not just to the fitness content. */
 .ft-cell-week .ft-orbit-chip { font-size: 0.8rem; padding: 2px 4px; }
 .ft-cell-day .ft-orbit-chip { font-size: 0.92rem; padding: 3px 5px; }
-.ft-cell-week .ft-orbit-chip-icon, .ft-cell-day .ft-orbit-chip-icon { font-size: 0.9rem; }
 .ft-cell-day .ft-orbit-add-btn { font-size: 0.78rem; padding: 4px 9px; }
 
 @media (max-width: 640px) {

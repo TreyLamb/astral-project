@@ -11,37 +11,41 @@ export const DEFAULT_UNITS = { distance: 'mi', pool: 'yd', weight: 'lb' }; // US
 // `kind` selects which rich metric set a type gets in later phases (run/swim/lift
 // are built out in Phases 2–3); 'generic' is the extensible fallback. `color`
 // drives the calendar colour-coding.
+// No icons. Activity identity is carried by NAME + COLOUR everywhere in this
+// sub-app — a pictogram beside every label was noise, not information, and it
+// made dense views (calendar cells, the Workouts docs tables) harder to read
+// rather than easier.
 export const DEFAULT_ACTIVITY_TYPES = [
-  { id: 'run',  name: 'Run',  kind: 'run',     color: '#f97316', icon: '🏃' },
-  { id: 'swim', name: 'Swim', kind: 'swim',    color: '#38bdf8', icon: '🏊' },
-  { id: 'lift', name: 'Lift', kind: 'lift',    color: '#a3e635', icon: '🏋️' },
-  { id: 'bike', name: 'Bike', kind: 'generic', color: '#f43f5e', icon: '🚴' },
-  { id: 'walk', name: 'Walk', kind: 'generic', color: '#22c55e', icon: '🚶' },
-  { id: 'yoga', name: 'Yoga', kind: 'generic', color: '#a78bfa', icon: '🧘' },
-  { id: 'event', name: 'Event', kind: 'event', color: '#c084fc', icon: '📅' }, // non-workout calendar drops ("POGO raichu day")
-  { id: 'other', name: 'Other', kind: 'generic', color: '#94a3b8', icon: '⭐' },
-  { id: 'weighin', name: 'Weigh-in', kind: 'weight', color: '#fb923c', icon: '⚖️' }, // body-composition goal checkpoints resolve against BodyWeightLog, not a completed workout
+  { id: 'run',  name: 'Run',  kind: 'run',     color: '#f97316' },
+  { id: 'swim', name: 'Swim', kind: 'swim',    color: '#38bdf8' },
+  { id: 'lift', name: 'Lift', kind: 'lift',    color: '#a3e635' },
+  { id: 'bike', name: 'Bike', kind: 'generic', color: '#f43f5e' },
+  { id: 'walk', name: 'Walk', kind: 'generic', color: '#22c55e' },
+  { id: 'yoga', name: 'Yoga', kind: 'generic', color: '#a78bfa' },
+  { id: 'event', name: 'Event', kind: 'event', color: '#c084fc' }, // non-workout calendar drops ("POGO raichu day")
+  { id: 'other', name: 'Other', kind: 'generic', color: '#94a3b8' },
+  { id: 'weighin', name: 'Weigh-in', kind: 'weight', color: '#fb923c' }, // body-composition goal checkpoints resolve against BodyWeightLog, not a completed workout
 ];
 
 // Meal types — same "data, not code" rule as activity types: built-ins below,
 // user-added custom types live in settings.mealCustomTypes.
 export const DEFAULT_MEAL_TYPES = [
-  { id: 'breakfast', name: 'Breakfast', color: '#fbbf24', icon: '🍳' },
-  { id: 'lunch',     name: 'Lunch',     color: '#34d399', icon: '🥪' },
-  { id: 'dinner',    name: 'Dinner',    color: '#60a5fa', icon: '🍽️' },
-  { id: 'snack',     name: 'Snack',     color: '#f472b6', icon: '🍎' },
+  { id: 'breakfast', name: 'Breakfast', color: '#fbbf24' },
+  { id: 'lunch',     name: 'Lunch',     color: '#34d399' },
+  { id: 'dinner',    name: 'Dinner',    color: '#60a5fa' },
+  { id: 'snack',     name: 'Snack',     color: '#f472b6' },
 ];
 
 export function resolveMealTypes(settings) {
   const map = new Map();
   for (const t of DEFAULT_MEAL_TYPES) map.set(t.id, t);
-  for (const t of (settings?.mealCustomTypes || [])) map.set(t.id, { icon: '•', ...t });
+  for (const t of (settings?.mealCustomTypes || [])) map.set(t.id, { ...t });
   return [...map.values()];
 }
 
 export function mealType(types, id) {
   return types.find((t) => t.id === id)
-    || { id, name: id, color: '#94a3b8', icon: '•' };
+    || { id, name: id, color: '#94a3b8' };
 }
 
 export const RPE_MIN = 1;
@@ -156,13 +160,13 @@ export function groupById(settings, id) {
 export function resolveActivityTypes(settings) {
   const map = new Map();
   for (const t of DEFAULT_ACTIVITY_TYPES) map.set(t.id, t);
-  for (const t of (settings?.customTypes || [])) map.set(t.id, { kind: 'generic', icon: '•', ...t });
+  for (const t of (settings?.customTypes || [])) map.set(t.id, { kind: 'generic', ...t });
   return [...map.values()];
 }
 
 export function activityType(types, id) {
   return types.find((t) => t.id === id)
-    || { id, name: id, kind: 'generic', color: '#94a3b8', icon: '•' };
+    || { id, name: id, kind: 'generic', color: '#94a3b8' };
 }
 
 let idCounter = 0;

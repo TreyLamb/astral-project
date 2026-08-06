@@ -70,7 +70,7 @@ export default function FitnessTrackerApp() {
               already — see Navbar.jsx OWN_TOPBAR_ROUTES) so this is the only
               way back to the rest of the site from here. */}
           <Link to="/" className="ft-site-home" title="Back to Astral Project home">Astral Project</Link>
-          <div className="ft-brand"><span className="ft-brand-icon">💪</span> MyFitnessTracker</div>
+          <div className="ft-brand">MyFitnessTracker</div>
           <nav className="ft-topnav">
             <NavLink end to="/MFT" className={tab}>Calendar</NavLink>
             <NavLink to="/MFT/meals" className={tab}>Meals</NavLink>
@@ -82,7 +82,7 @@ export default function FitnessTrackerApp() {
           </nav>
           <div className="ft-topbar-right">
             <span className={`ft-sync ft-sync-${value.mode}`} title={value.mode === 'cloud' ? 'Syncing to your account' : 'Saved on this device'}>
-              {value.mode === 'cloud' ? '☁ Synced' : '● Local'}
+              {value.mode === 'cloud' ? 'Synced' : 'Local'}
             </span>
             <button type="button" className="ft-btn-primary ft-log-btn" onClick={() => value.openQuickAdd()}>+ Log</button>
           </div>

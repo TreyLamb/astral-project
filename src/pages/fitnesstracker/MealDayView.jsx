@@ -77,7 +77,7 @@ export default function MealDayView({ date }) {
           return (
             <div key={t.id} className="ft-meal-section">
               <div className="ft-meal-section-head">
-                <span className="ft-meal-section-title" style={{ color: t.color }}>{t.icon} {t.name}</span>
+                <span className="ft-meal-section-title" style={{ color: t.color }}>{t.name}</span>
                 <button type="button" className="ft-btn-ghost ft-meal-add-btn" onClick={() => openMealQuickAdd(iso, t.id)}>+ Add</button>
               </div>
               <div className="ft-meal-section-items">

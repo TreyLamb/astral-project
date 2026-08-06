@@ -6,6 +6,7 @@ import trainingContextMd from './runningworkouts/training-context.md?raw';
 import cycleMd from './runningworkouts/cycle.md?raw';
 import acft2MileMd from './runningworkouts/acft-2mile-training-plan.md?raw';
 import acftCalendarMd from './runningworkouts/acft-full-calendar.md?raw';
+import officerRanksMd from './runningworkouts/usMilitaryOfficerRanks.md?raw';
 import './WorkoutDocsView.css';
 
 // `?raw` is a Vite-native import (no config needed) — pulls the file's text in
@@ -27,6 +28,9 @@ const DOCS = [
   { slug: 'cycle', label: 'Cycle Template (old)', content: cycleMd, splitSessions: true },
   { slug: '2mile', label: 'ACFT 2-Mile Plan (old)', content: acft2MileMd },
   { slug: 'calendar', label: 'ACFT Full Calendar (old)', content: acftCalendarMd },
+  // Reference material rather than a training plan — no session column, so no
+  // splitSessions. compact:true sizes the table to its own text (see the CSS).
+  { slug: 'ranks', label: 'Officer Ranks', content: officerRanksMd, compact: true },
 ];
 
 function TableWrap({ children }) {
@@ -95,20 +99,19 @@ function splitAllOnSentinel(children) {
 }
 
 // lift / ab-core / run(-or-rest) covers every session kind the source data
-// currently produces — a per-chip icon makes the mix obvious at a glance
-// without needing a full icon taxonomy.
+// currently produces. The kind drives the chip's COLOUR only — there used to be
+// a pictogram per chip (a runner beside "Full rest", a weightlifter beside
+// "Lift A"), which was decoration on top of text that already said it.
 function sessionKind(text) {
   if (/lift/i.test(text)) return 'lift';
   if (/ab circuit|ab\/core|\bab\b/i.test(text)) return 'core';
   return 'run';
 }
-const SESSION_ICON = { lift: '🏋️', core: '🔥', run: '🏃' };
 
 function SessionChip({ children }) {
   const kind = sessionKind(flattenText(children));
   return (
     <div className={`ft-docs-session-chip ft-docs-session-${kind}`}>
-      <span className="ft-docs-session-icon" aria-hidden="true">{SESSION_ICON[kind]}</span>
       <span className="ft-docs-session-label">{children}</span>
     </div>
   );
@@ -138,7 +141,7 @@ export default function WorkoutDocsView() {
   const content = active.splitSessions ? markDoubleSessionDays(active.content) : active.content;
 
   return (
-    <div className="ft-docs">
+    <div className={`ft-docs${active.compact ? ' ft-docs-compact' : ''}`}>
       <nav className="ft-docs-tabs" role="tablist" aria-label="Workout plan documents">
         {DOCS.map((d) => (
           <button

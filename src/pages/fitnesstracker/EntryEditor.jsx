@@ -254,7 +254,7 @@ export default function EntryEditor({ id: idProp, onClose }) {
       {linkedGoal && (
         <div className="ft-goal-banner">
           <span>
-            🎯 Part of goal: <strong>{linkedGoal.label || linkedGoal.kind}</strong>
+            Part of goal: <strong>{linkedGoal.label || linkedGoal.kind}</strong>
             {checkpoint && ` — target ${formatCheckpointValue(linkedGoal, checkpoint.targetValue, units)}`}
             {!checkpoint && onPaceOnly != null && ` — on-pace target ${formatCheckpointValue(linkedGoal, onPaceOnly, units)}`}
             {!checkpoint && onPaceOnly == null && w.metrics?.goalTarget && ` — target ${w.metrics.goalTarget}`}
@@ -302,7 +302,7 @@ export default function EntryEditor({ id: idProp, onClose }) {
             className={`ft-type-btn${form.activityType === t.id ? ' active' : ''}`}
             style={form.activityType === t.id ? { borderColor: t.color, background: t.color + '22' } : undefined}
             onClick={() => set('activityType', t.id)}>
-            <span className="ft-type-icon">{t.icon}</span><span>{t.name}</span>
+            <span>{t.name}</span>
           </button>
         ))}
       </div>

@@ -114,7 +114,6 @@ export default function MealQuickAddModal({ date, mealType: initialType, mode = 
               style={mealType === t.id ? { borderColor: t.color, background: t.color + '22' } : undefined}
               onClick={() => setMealType(t.id)}
             >
-              <span className="ft-type-icon">{t.icon}</span>
               <span>{t.name}</span>
             </button>
           ))}
@@ -122,7 +121,7 @@ export default function MealQuickAddModal({ date, mealType: initialType, mode = 
 
         <div className="ft-status-toggle">
           <button type="button" className={status === 'planned' ? 'active' : ''} onClick={() => setStatus('planned')}>◇ Planned</button>
-          <button type="button" className={status === 'logged' ? 'active' : ''} onClick={() => setStatus('logged')}>✓ Logged</button>
+          <button type="button" className={status === 'logged' ? 'active' : ''} onClick={() => setStatus('logged')}>Logged</button>
         </div>
 
         <div className="ft-field">

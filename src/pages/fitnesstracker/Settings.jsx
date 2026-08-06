@@ -82,16 +82,14 @@ export default function Settings() {
 
   const [name, setName] = useState('');
   const [color, setColor] = useState('#f472b6');
-  const [icon, setIcon] = useState('•');
 
   function addType() {
     const trimmed = name.trim();
     if (!trimmed) return;
     const id = trimmed.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `type-${Date.now()}`;
-    const next = [...customTypes.filter((t) => t.id !== id), { id, name: trimmed, color, icon: icon || '•', kind: 'generic' }];
+    const next = [...customTypes.filter((t) => t.id !== id), { id, name: trimmed, color, kind: 'generic' }];
     updateSettings({ customTypes: next });
     setName('');
-    setIcon('•');
   }
 
   function removeType(id) {
@@ -274,7 +272,7 @@ export default function Settings() {
           onClick={() => updateSettings({ detailedView: !detailed })}
           title="On: every field below is live and editable, filled or not. Off: only values you've actually entered show, as plain static text — no entry boxes anywhere."
         >
-          👁 View detailed
+          View detailed
         </button>
       </div>
 
@@ -405,7 +403,7 @@ export default function Settings() {
                       onClick={useCalculatedBmr}
                       title="Reset to the value calculated from your Profile card above"
                     >
-                      ↺ Use calculated
+                      Use calculated
                     </button>
                   )}
                 </div>
@@ -435,19 +433,18 @@ export default function Settings() {
         <div className="ft-type-chips">
           {DEFAULT_ACTIVITY_TYPES.map((t) => (
             <span key={t.id} className="ft-type-chip" style={{ borderColor: t.color }}>
-              <span>{t.icon}</span> {t.name} <span className="ft-type-chip-tag">built-in</span>
+              {t.name} <span className="ft-type-chip-tag">built-in</span>
             </span>
           ))}
           {customTypes.map((t) => (
             <span key={t.id} className="ft-type-chip" style={{ borderColor: t.color }}>
-              <span>{t.icon}</span> {t.name}
+              {t.name}
               <button type="button" className="ft-type-chip-x" onClick={() => removeType(t.id)} aria-label={`Remove ${t.name}`}>✕</button>
             </span>
           ))}
         </div>
         {detailed && (
           <div className="ft-add-type">
-            <input className="ft-input ft-add-icon" value={icon} onChange={(e) => setIcon(e.target.value)} maxLength={2} aria-label="Icon" />
             <input className="ft-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="New type name (e.g. Rowing)" onKeyDown={(e) => e.key === 'Enter' && addType()} />
             <input className="ft-color" type="color" value={color} onChange={(e) => setColor(e.target.value)} aria-label="Colour" />
             <button type="button" className="ft-btn-primary" onClick={addType} disabled={!name.trim()}>Add</button>

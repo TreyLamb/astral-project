@@ -73,9 +73,19 @@
 }
 .ft-docs-session-group { display: flex; flex-direction: column; gap: 4px; }
 .ft-docs-session-chip { display: flex; align-items: baseline; gap: 5px; white-space: normal; }
-.ft-docs-session-icon { font-size: 0.85em; flex: none; }
 .ft-docs-session-label { line-height: 1.25; }
 .ft-docs-session-lift .ft-docs-session-label strong { color: var(--ft-accent); }
 .ft-docs-session-run .ft-docs-session-label strong { color: #67e8f9; }
 .ft-docs-session-core .ft-docs-session-label strong { color: #fb923c; }
 .ft-docs-session-divider { height: 1px; background: var(--ft-border); margin: 1px 0 4px; }
+
+/* Reference docs (Officer Ranks) are a table and nothing else. width:100% would
+   stretch four short columns across the whole panel with a lake of empty space
+   in every cell; auto sizes each column to its own longest value, and the cells
+   are already nowrap so nothing wraps mid-title. The wrapper stops being a
+   full-width box for the same reason. */
+.ft-docs-compact .ft-docs-content { max-width: max-content; }
+.ft-docs-compact .ft-docs-table-wrap { display: inline-block; max-width: 100%; }
+.ft-docs-compact .ft-docs-content table { width: auto; }
+.ft-docs-compact .ft-docs-content th,
+.ft-docs-compact .ft-docs-content td { padding: 6px 14px; }

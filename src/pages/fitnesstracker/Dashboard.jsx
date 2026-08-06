@@ -119,7 +119,6 @@ export default function Dashboard() {
               const worst = worstRealismBand(g);
               return (
                 <div key={g.id} className="ft-goal-row" style={{ borderLeft: `4px solid ${t.color}` }}>
-                  <span className="ft-goal-icon">{t.icon}</span>
                   <div className="ft-goal-info">
                     <span className="ft-goal-label">{t.name} — {g.label || g.kind}</span>
                     <span className="ft-goal-meta">
@@ -187,7 +186,7 @@ export default function Dashboard() {
               const t = activityType(activityTypes, r.activityType);
               return (
                 <tr key={r.activityType}>
-                  <td>{t.icon} {t.name}</td>
+                  <td>{t.name}</td>
                   <td className="ft-num">{r.count}</td>
                   <td className="ft-num">{r.distanceM ? fmtDist(r.distanceM, unit) : '—'}</td>
                   <td className="ft-num">{r.durationSec ? fmtDur(r.durationSec) : '—'}</td>
@@ -206,7 +205,7 @@ export default function Dashboard() {
             <div className="ft-sched-conflicts">
               {conflicts.map((c) => (
                 <div key={c.date} className="ft-sched-conflict">
-                  <span className="ft-sched-warn">⚠ {c.date}</span>
+                  <span className="ft-sched-warn">{c.date}</span>
                   <span>{c.items.map((i) => activityType(activityTypes, i.activityType).name).join(' + ')} on one day — move or skip one (open it to cascade).</span>
                 </div>
               ))}
@@ -220,7 +219,7 @@ export default function Dashboard() {
                 <ul className="ft-sched-list">
                   {upcoming.map((w) => {
                     const t = activityType(activityTypes, w.activityType);
-                    return <li key={w.id}>{w.date} · {t.icon} {t.name}{w.distanceM ? ` · ${fmtDist(w.distanceM, unit)}` : ''}</li>;
+                    return <li key={w.id}>{w.date} · {t.name}{w.distanceM ? ` · ${fmtDist(w.distanceM, unit)}` : ''}</li>;
                   })}
                 </ul>
               )}

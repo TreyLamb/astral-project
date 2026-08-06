@@ -307,7 +307,7 @@ export default function GoalEditorModal({ goal, onClose }) {
               style={activityTypeId === t.id ? { borderColor: t.color, background: t.color + '22' } : undefined}
               onClick={() => setActivityTypeId(t.id)}
             >
-              <span className="ft-type-icon">{t.icon}</span><span>{t.name}</span>
+              <span>{t.name}</span>
             </button>
           ))}
         </div>

@@ -104,13 +104,13 @@ export default function MealEditor({ id: idProp, onClose }) {
             style={form.mealType === t.id ? { borderColor: t.color, background: t.color + '22' } : undefined}
             onClick={() => set('mealType', t.id)}
           >
-            <span className="ft-type-icon">{t.icon}</span><span>{t.name}</span>
+            <span>{t.name}</span>
           </button>
         ))}
       </div>
 
       <div className="ft-status-toggle">
-        <button type="button" className={form.status === 'logged' ? 'active' : ''} onClick={() => set('status', 'logged')}>✓ Logged</button>
+        <button type="button" className={form.status === 'logged' ? 'active' : ''} onClick={() => set('status', 'logged')}>Logged</button>
         <button type="button" className={form.status === 'planned' ? 'active' : ''} onClick={() => set('status', 'planned')}>◇ Planned</button>
       </div>
 

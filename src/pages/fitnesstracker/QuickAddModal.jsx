@@ -262,7 +262,7 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
         {!isTodo && (
           <div className="ft-watch-import">
             <button type="button" className="ft-watch-btn" onClick={() => gpsRef.current?.click()}>
-              ⌚ Import from watch (.gpx / .tcx)
+              Import from watch (.gpx / .tcx)
             </button>
             <input
               ref={gpsRef} type="file" accept=".gpx,.tcx" hidden
@@ -281,7 +281,6 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
                 const t = activityTypes.find((x) => x.id === w.activityType);
                 return (
                   <button key={w.id} type="button" className="ft-template-chip" onClick={() => applyTemplate(w)} style={t ? { borderColor: t.color } : undefined}>
-                    <span>{t?.icon || '•'}</span>
                     <span>{w.distanceM != null ? `${round2(metersToDistance(w.distanceM, unit))}${unit}` : secToClock(w.durationSec)}</span>
                   </button>
                 );
@@ -300,7 +299,6 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
               style={type === t.id ? { borderColor: t.color, background: t.color + '22' } : undefined}
               onClick={() => setType(t.id)}
             >
-              <span className="ft-type-icon">{t.icon}</span>
               <span>{t.name}</span>
             </button>
           ))}
@@ -310,7 +308,6 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
             style={isTodo ? { borderColor: '#7ec8e3', background: '#7ec8e322' } : undefined}
             onClick={() => setType(TODO_TYPE_ID)}
           >
-            <span className="ft-type-icon">📋</span>
             <span>To-do</span>
           </button>
         </div>
