@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useFitness } from './fitnessContext';
 import { RPE_MIN, RPE_MAX, RPE_LEGEND, groupById } from './fitnessConfig';
 import GroupPicker from './GroupPicker';
 import ClearableInput from './ClearableInput';
 import StatusToggle from './StatusToggle';
+import useModalKeys from './useModalKeys';
 import {
   distanceToMeters, metersToDistance, clockToSec, secToClock,
   metersToElev, elevToMeters, elevUnitLabel, weightToKg, kgToWeight,
@@ -26,9 +27,25 @@ function round2(n) { return Math.round(n * 100) / 100; }
 // Full edit view (route: entry/:id). Branches by activity kind: lift gets a
 // set/1RM editor, swim gets pool/SWOLF/CSS metrics, run/generic gets elevation +
 // HR + the pace/GAP/VDOT/zone insights — all computed live as you type.
-export default function EntryEditor() {
-  const { id } = useParams();
+export default function EntryEditor({ id: idProp, onClose }) {
+  // Two mounting modes. The calendar opens this as a MODAL (id + onClose
+  // props); /MFT/entry/:id still works as a route for deep links and the
+  // browser back button. `close()` is whichever exit applies.
+  const params = useParams();
+  const id = idProp ?? params.id;
   const navigate = useNavigate();
+  const close = onClose || (() => navigate('..'));
+
+  // Esc/Enter must be wired before the early returns below (rules of hooks),
+  // yet `save` isn't defined until after them — so the handlers are read from a
+  // ref at keypress time. useCallback keeps the listener from re-registering
+  // on every render.
+  const actionsRef = useRef({});
+  actionsRef.current.close = close;
+  useModalKeys({
+    onClose: useCallback(() => actionsRef.current.close?.(), []),
+    onSubmit: useCallback(() => actionsRef.current.save?.(), []),
+  });
   const { getWorkout, updateWorkout, removeWorkout, workouts, activityTypes, settings, loading, goals, logCheckpoint } = useFitness();
   const unit = settings.units.distance;
   const poolUnit = settings.units.pool;
@@ -89,7 +106,7 @@ export default function EntryEditor() {
         {loading ? <p className="ft-empty">Loading…</p> : (
           <>
             <p className="ft-empty">Workout not found.</p>
-            <button type="button" className="ft-btn-ghost" onClick={() => navigate('..')}>← Back to calendar</button>
+            <button type="button" className="ft-btn-ghost" onClick={close}>← Back to calendar</button>
           </>
         )}
       </div>
@@ -105,6 +122,10 @@ export default function EntryEditor() {
   const showElev = kind === 'run' || kind === 'generic';
   const showHr = showElev;
   const distUnit = isSwim ? poolUnit : unit;
+  // Lifts log volume via the set editor instead. EVERYTHING else — including
+  // events — gets distance + duration: a "Speed 1" event IS a run with mileage,
+  // and with no field to put it in there was no way to make Miles add up.
+  const showsDistanceField = !isLift;
 
   // ---- live insights ----
   const distM = distanceToMeters(form.distance, distUnit);
@@ -137,8 +158,13 @@ export default function EntryEditor() {
         .filter((ex) => ex.name.trim() || ex.sets.some((s) => s.reps || s.weight))
         .map((ex) => ({ name: ex.name.trim(), sets: ex.sets.filter((s) => s.reps || s.weight).map((s) => ({ reps: Number(s.reps) || 0, weightKg: weightToKg(s.weight, weightUnit) })) }));
     }
-    const savedDistanceM = isLift ? (w.distanceM ?? null) : distanceToMeters(form.distance, distUnit);
-    const savedDurationSec = clockToSec(form.duration);
+    // Only overwrite distance from the form when the form actually SHOWED a
+    // distance box. Lifts never render one; events didn't either until now.
+    // Reading an untouched '' back as null is what silently wiped the distance
+    // off every event you opened and saved — which is exactly why the weekly
+    // Miles column sat at 0.0 no matter how many runs got marked Done.
+    const savedDistanceM = showsDistanceField ? distanceToMeters(form.distance, distUnit) : (w.distanceM ?? null);
+    const savedDurationSec = showsDistanceField ? clockToSec(form.duration) : (w.durationSec ?? null);
     await updateWorkout(id, {
       date: form.date,
       time: form.time,
@@ -163,10 +189,12 @@ export default function EntryEditor() {
       );
       if (extracted != null) await logCheckpoint(linkedGoal.id, w.date, extracted, 'logged');
     }
-    navigate('..');
+    close();
   }
 
-  async function del() { await removeWorkout(id); navigate('..'); }
+  actionsRef.current.save = save;
+
+  async function del() { await removeWorkout(id); close(); }
 
   // Manual override — retarget this checkpoint regardless of whether it's
   // occurred yet, distinct from "Logged actual" above (§6).
@@ -215,8 +243,12 @@ export default function EntryEditor() {
   return (
     <div className="ft-editor">
       <div className="ft-editor-head">
-        <button type="button" className="ft-btn-ghost" onClick={() => navigate('..')}>← Calendar</button>
         <h2>Edit workout</h2>
+        {/* As a dialog this is a close box; as a route it's a way back. Same
+            handler, honest label either way. */}
+        <button type="button" className={onClose ? 'ft-x' : 'ft-btn-ghost'} onClick={close} aria-label="Close">
+          {onClose ? '✕' : '← Calendar'}
+        </button>
       </div>
 
       {linkedGoal && (
@@ -300,12 +332,11 @@ export default function EntryEditor() {
         </>
       ) : (
         <>
-          {!isEvent && (
-            <div className="ft-two">
-              <div className="ft-field"><label className="ft-field-label">Distance ({distUnit})</label><ClearableInput inputMode="decimal" value={form.distance} onChange={(e) => set('distance', e.target.value)} onClear={() => set('distance', '')} placeholder="e.g. 5" /></div>
-              <div className="ft-field"><label className="ft-field-label">Duration</label><ClearableInput value={form.duration} onChange={(e) => set('duration', e.target.value)} onClear={() => set('duration', '')} placeholder="mm:ss or min" /></div>
-            </div>
-          )}
+          <div className="ft-two">
+            <div className="ft-field"><label className="ft-field-label">Distance ({distUnit})</label><ClearableInput inputMode="decimal" value={form.distance} onChange={(e) => set('distance', e.target.value)} onClear={() => set('distance', '')} placeholder="e.g. 5" /></div>
+            <div className="ft-field"><label className="ft-field-label">Duration</label><ClearableInput value={form.duration} onChange={(e) => set('duration', e.target.value)} onClear={() => set('duration', '')} placeholder="mm:ss or min" /></div>
+          </div>
+          {isEvent && <p className="ft-hint-sm">Optional on an event — but a run logged as an event only counts toward your weekly Miles if its distance is here.</p>}
 
           {isSwim && (
             <div className="ft-two">
@@ -425,7 +456,7 @@ export default function EntryEditor() {
       <div className="ft-editor-actions">
         <button type="button" className="ft-btn-danger" onClick={del}>Delete</button>
         <div className="ft-spacer" />
-        <button type="button" className="ft-btn-ghost" onClick={() => navigate('..')}>Cancel</button>
+        <button type="button" className="ft-btn-ghost" onClick={close}>Cancel</button>
         <button type="button" className="ft-btn-primary" onClick={save}>Save</button>
       </div>
 

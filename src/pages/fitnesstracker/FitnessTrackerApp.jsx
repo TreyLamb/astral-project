@@ -39,6 +39,11 @@ export default function FitnessTrackerApp() {
   const [quickAdd, setQuickAdd] = useState(null); // { date } | null — shell owns it so it's openable from anywhere
   const [mealQuickAdd, setMealQuickAdd] = useState(null);
   const [weighIn, setWeighIn] = useState(null);
+  // Clicking a chip on the calendar opens the editor HERE, over the grid,
+  // instead of navigating to /MFT/entry/:id and losing your place. The route
+  // still exists for deep links.
+  const [entryEdit, setEntryEdit] = useState(null); // { id } | null
+  const [mealEdit, setMealEdit] = useState(null);   // { id } | null
   useLocation(); // keeps NavLink active-state in sync across nested navigations
   useScopedManifest();
   useKeyboardInset();
@@ -51,6 +56,8 @@ export default function FitnessTrackerApp() {
     openQuickAdd: (date) => setQuickAdd({ date: date || todayISO(), mode: date ? 'schedule' : 'log' }),
     openMealQuickAdd: (date, mealType) => setMealQuickAdd({ date: date || todayISO(), mealType: mealType || null, mode: date ? 'schedule' : 'log' }),
     openWeighIn: (date) => setWeighIn({ date: date || todayISO() }),
+    openEntryEditor: (id) => setEntryEdit({ id }),
+    openMealEditor: (id) => setMealEdit({ id }),
   };
 
   const tab = ({ isActive }) => `ft-tab${isActive ? ' active' : ''}`;
@@ -99,6 +106,20 @@ export default function FitnessTrackerApp() {
         {quickAdd && <QuickAddModal date={quickAdd.date} mode={quickAdd.mode} onClose={() => setQuickAdd(null)} />}
         {mealQuickAdd && <MealQuickAddModal date={mealQuickAdd.date} mealType={mealQuickAdd.mealType} mode={mealQuickAdd.mode} onClose={() => setMealQuickAdd(null)} />}
         {weighIn && <WeighInModal date={weighIn.date} onClose={() => setWeighIn(null)} />}
+        {entryEdit && (
+          <div className="ft-modal-backdrop" onClick={() => setEntryEdit(null)}>
+            <div className="ft-modal ft-modal-wide" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+              <EntryEditor id={entryEdit.id} onClose={() => setEntryEdit(null)} />
+            </div>
+          </div>
+        )}
+        {mealEdit && (
+          <div className="ft-modal-backdrop" onClick={() => setMealEdit(null)}>
+            <div className="ft-modal ft-modal-wide" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+              <MealEditor id={mealEdit.id} onClose={() => setMealEdit(null)} />
+            </div>
+          </div>
+        )}
       </div>
     </FitnessContext.Provider>
   );

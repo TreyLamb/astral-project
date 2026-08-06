@@ -8,6 +8,7 @@ import GroupPicker from './GroupPicker';
 import ClearableInput from './ClearableInput';
 import BaseSelect from './BaseSelect';
 import StatusToggle from './StatusToggle';
+import useModalKeys from './useModalKeys';
 import { useAuth } from '../../AuthContext';
 import { firebaseReady } from '../../firebase';
 import { loadOrbitBridgeData, quickAddOrbitTask, setOrbitDayLocation } from './orbitTasksBridge';
@@ -189,6 +190,14 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
     setSavingTodos(false);
     onClose();
   }
+
+  // Enter submits whichever mode is showing; Esc closes. Disabled while a save
+  // is already in flight so a double-tap can't create two entries.
+  useModalKeys({
+    onClose,
+    onSubmit: isTodo ? sendTodos : save,
+    canSubmit: isTodo ? (!savingTodos && pendingTodoCount > 0) : !saving,
+  });
 
   const typeName = (id) => activityTypes.find((t) => t.id === id)?.name || id;
 

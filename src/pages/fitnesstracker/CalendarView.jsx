@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import { useState, useMemo, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFitness } from './fitnessContext';
 import { activityType, mealType, isoDate, todayISO, resolveGroups, goalDeadline } from './fitnessConfig';
@@ -13,6 +13,8 @@ import MealDayView from './MealDayView';
 import GoalEditorModal from './GoalEditorModal';
 import ClearableInput from './ClearableInput';
 import BaseSelect from './BaseSelect';
+import useModalKeys from './useModalKeys';
+import { isTypingTarget } from './useModalKeys';
 import { useAuth } from '../../AuthContext';
 import { firebaseReady } from '../../firebase';
 import { loadOrbitBridgeData, setOrbitDayLocation, addOrbitBase, setOrbitDayLocationsRange } from './orbitTasksBridge';
@@ -296,12 +298,51 @@ function OrbitTaskChip({ task, area, due, onOpen }) {
 // the QuickAddModal's To-do mode, which writes straight to Orbit and fires an
 // 'orbit-tasks-changed' event so this calendar refreshes.)
 
+// Chip text size is MEASURED, not fixed. A day holding one session renders it
+// at the largest size the view allows; as sessions pile up the text steps down
+// toward that view's minimum, and only once it hits the floor does the list
+// start to scroll. Each view gets its own band — a Day cell has ~20x the room a
+// Month cell does, so sharing one size would waste all of it.
+//
+// px (not rem) because the whole point is fitting a measured pixel height.
+const CHIP_SIZE_RANGE = { month: [10, 16], week: [12, 22], day: [15, 30] };
+const CHIP_LINE_HEIGHT = 1.32;
+const CHIP_V_PADDING = 3;   // .ft-chip padding, top + bottom
+const CHIP_GAP = 2;         // .ft-cell-items row-gap
+
+function useAutoChipSize(variant, count) {
+  const ref = useRef(null);
+  const [min, max] = CHIP_SIZE_RANGE[variant] || CHIP_SIZE_RANGE.month;
+  const [size, setSize] = useState(max);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => {
+      if (!count) { setSize(max); return; }
+      // clientHeight is safe to read here: .ft-cell-items is flex:1 inside a
+      // cell of externally-determined height with min-height:0 and overflow
+      // hidden, so its box does NOT grow with its content. No feedback loop.
+      const avail = el.clientHeight;
+      if (!avail) return;
+      const perItem = avail / count - CHIP_GAP - CHIP_V_PADDING;
+      setSize(Math.max(min, Math.min(max, Math.floor(perItem / CHIP_LINE_HEIGHT))));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [variant, count, min, max]);
+
+  return [ref, size];
+}
+
 function DayCell({
   date, items, types, units, groups, goalsById, selected, isToday, inMonth, variant, onAdd, onEdit, onCtrlClick, onShiftClick, onAltClick, onDropWorkout,
   showMeals, mealItems, mealTypes, mealSelected, onAddMeal, onEditMeal, onMealCtrlClick, onMealShiftClick,
   allWorkouts, meals, bmr, calorieGoal, bodyWeightKg,
   orbitScheduled, orbitDue, orbitAreaById, onOrbitOpen, orbitEnergyCap,
-  bases, dayLocations, onOpenWhere,
+  bases, dayLocations, onOpenWhere, sizeVariant,
 }) {
   const iso = isoDate(date);
   const [over, setOver] = useState(false);
@@ -311,8 +352,14 @@ function DayCell({
   // passed through (allWorkouts), not `items` which is already this-day-only.
   const net = calorieGoal != null ? netCaloriesForDay(meals, allWorkouts, iso, bmr, bodyWeightKg) : null;
 
+  // Meals share the cell when that toggle is on, so each column only gets a
+  // fraction of the height — size against the count that column actually holds.
+  const [itemsRef, chipSize] = useAutoChipSize(sizeVariant || variant, items.length);
+  // The meals column is a sibling of the same height, so it gets the same
+  // treatment rather than sitting at a fixed size next to auto-sized workouts.
+  const [mealsRef, mealChipSize] = useAutoChipSize(sizeVariant || variant, mealItems.length);
   const eventsCol = (
-    <div className="ft-cell-items">
+    <div className="ft-cell-items" ref={itemsRef} style={{ '--ft-chip-size': `${chipSize}px` }}>
       {items.map((w) => {
         const t = activityType(types, w.activityType);
         const group = w.groupId ? groups.find((g) => g.id === w.groupId) || null : null;
@@ -382,6 +429,8 @@ function DayCell({
         <div className="ft-cell-cols">
           <div
             className="ft-cell-col ft-cell-col-meals"
+            ref={mealsRef}
+            style={{ '--ft-chip-size': `${mealChipSize}px` }}
             onClick={(e) => { e.stopPropagation(); onAddMeal(iso); }}
           >
             {mealItems.map((m) => {
@@ -436,6 +485,165 @@ function DayCell({
   );
 }
 
+// Day view puts the grid in a centre column and fills the space either side
+// with the detail there is finally room for. These two panels are also the
+// designated place to hang more per-day detail later — the layout reserves the
+// room rather than letting Day view stretch one cell across a 1500px screen.
+function DayRails({
+  side, iso, items, types, units, meals, workouts, bmr, calorieGoal, bodyWeightKg,
+  orbitScheduled, orbitDue, orbitAreaById, orbitEnergyCap, onOrbitOpen,
+  whereBase, onOpenWhere, weekGoals, weekMilesText, weekRangeLabel, sunISO, satISO,
+}) {
+  if (side === 'left') {
+    const done = items.filter((w) => w.status === 'completed');
+    const planned = items.filter((w) => w.status !== 'completed');
+    const distDone = done.reduce((a, w) => a + workoutDistanceM(w), 0);
+    const distPlanned = planned.reduce((a, w) => a + workoutDistanceM(w), 0);
+    const secs = done.reduce((a, w) => a + (w.durationSec || 0), 0);
+    const net = calorieGoal != null ? netCaloriesForDay(meals, workouts, iso, bmr, bodyWeightKg) : null;
+    const energy = orbitScheduled.reduce((a, t) => a + (t.energy || 0), 0);
+    const byType = new Map();
+    for (const w of items) {
+      const t = activityType(types, w.activityType);
+      const cur = byType.get(t.name) || { type: t, n: 0, m: 0 };
+      cur.n += 1; cur.m += workoutDistanceM(w);
+      byType.set(t.name, cur);
+    }
+    return (
+      <aside className="ft-day-rail">
+        <h4 className="ft-day-rail-title">This day</h4>
+        <div className="ft-day-stats">
+          <div className="ft-day-stat"><span className="ft-day-stat-k">Sessions</span><span className="ft-day-stat-v">{done.length}<small> / {items.length}</small></span></div>
+          <div className="ft-day-stat"><span className="ft-day-stat-k">Distance done</span><span className="ft-day-stat-v">{formatDistance(distDone, units.distance, 2)}</span></div>
+          <div className="ft-day-stat"><span className="ft-day-stat-k">Still planned</span><span className="ft-day-stat-v">{formatDistance(distPlanned, units.distance, 2)}</span></div>
+          <div className="ft-day-stat"><span className="ft-day-stat-k">Time logged</span><span className="ft-day-stat-v">{secs ? secToClock(secs) : '—'}</span></div>
+          {net != null && <div className="ft-day-stat"><span className="ft-day-stat-k">Net calories</span><span className="ft-day-stat-v">{net}<small> / {calorieGoal}</small></span></div>}
+          {orbitEnergyCap != null && <div className="ft-day-stat"><span className="ft-day-stat-k">Orbit energy</span><span className="ft-day-stat-v">{energy}<small> / {orbitEnergyCap}</small></span></div>}
+        </div>
+        <h4 className="ft-day-rail-title">Week to date</h4>
+        <div className="ft-day-stats">
+          {(() => {
+            const wk = workouts.filter((x) => x.date >= sunISO && x.date <= satISO);
+            const wkDone = wk.filter((x) => x.status === 'completed');
+            return (
+              <>
+                <div className="ft-day-stat"><span className="ft-day-stat-k">Sessions</span><span className="ft-day-stat-v">{wkDone.length}<small> / {wk.length}</small></span></div>
+                <div className="ft-day-stat"><span className="ft-day-stat-k">Tracked</span><span className="ft-day-stat-v">{formatDistance(wkDone.reduce((a, x) => a + workoutDistanceM(x), 0), units.distance, 2)}</span></div>
+                <div className="ft-day-stat"><span className="ft-day-stat-k">Scheduled</span><span className="ft-day-stat-v">{formatDistance(wk.reduce((a, x) => a + workoutDistanceM(x), 0), units.distance, 2)}</span></div>
+              </>
+            );
+          })()}
+        </div>
+
+        <h4 className="ft-day-rail-title">Last 7 days</h4>
+        <div className="ft-day-stats">
+          {Array.from({ length: 7 }, (_, i) => addDaysISO(iso, i - 6)).map((d) => {
+            const day = workouts.filter((x) => x.date === d && x.status === 'completed');
+            const m = day.reduce((a, x) => a + workoutDistanceM(x), 0);
+            return (
+              <div key={d} className={`ft-day-stat${d === iso ? ' ft-day-stat-now' : ''}`}>
+                <span className="ft-day-stat-k">{d.slice(5)}</span>
+                <span className="ft-day-stat-v">{m ? formatDistance(m, units.distance, 2) : (day.length ? `${day.length} session${day.length === 1 ? '' : 's'}` : '—')}</span>
+              </div>
+            );
+          })}
+        </div>
+
+        {byType.size > 0 && (
+          <>
+            <h4 className="ft-day-rail-title">By activity</h4>
+            <div className="ft-day-stats">
+              {[...byType.values()].map(({ type, n, m }) => (
+                <div key={type.name} className="ft-day-stat">
+                  <span className="ft-day-stat-k" style={{ color: type.color }}>{type.name}</span>
+                  <span className="ft-day-stat-v">{n}{m ? ` · ${formatDistance(m, units.distance, 2)}` : ''}</span>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </aside>
+    );
+  }
+
+  return (
+    <aside className="ft-day-rail">
+      <h4 className="ft-day-rail-title">Week of {weekRangeLabel}</h4>
+      <div className="ft-day-stats">
+        <div className="ft-day-stat"><span className="ft-day-stat-k">Tracked</span><span className="ft-day-stat-v">{weekMilesText}</span></div>
+      </div>
+      {weekGoals.length > 0 && (
+        <>
+          <h4 className="ft-day-rail-title">On-pace targets</h4>
+          <div className="ft-day-stats">
+            {weekGoals.map(({ goal, type, targetValue }) => (
+              <div key={goal.id} className="ft-day-stat">
+                <span className="ft-day-stat-k" style={{ color: type.color }}>{goal.label || goal.kind}</span>
+                <span className="ft-day-stat-v">{formatCheckpointValue(goal, targetValue, units)}</span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+      {(() => {
+        const dayMeals = meals.filter((m) => m.date === iso);
+        if (!dayMeals.length) return null;
+        const kcal = dayMeals.reduce((a, m) => a + (m.calories || 0), 0);
+        return (
+          <>
+            <h4 className="ft-day-rail-title">Meals</h4>
+            <div className="ft-day-stats">
+              <div className="ft-day-stat"><span className="ft-day-stat-k">Logged</span><span className="ft-day-stat-v">{dayMeals.filter((m) => m.status === 'logged').length}<small> / {dayMeals.length}</small></span></div>
+              {kcal > 0 && <div className="ft-day-stat"><span className="ft-day-stat-k">Calories</span><span className="ft-day-stat-v">{kcal}</span></div>}
+            </div>
+          </>
+        );
+      })()}
+
+      {(() => {
+        const next = workouts
+          .filter((x) => x.date > iso && x.status !== 'completed')
+          .sort((a, b) => a.date.localeCompare(b.date))
+          .slice(0, 5);
+        if (!next.length) return null;
+        return (
+          <>
+            <h4 className="ft-day-rail-title">Coming up</h4>
+            <div className="ft-day-stats">
+              {next.map((x) => {
+                const t = activityType(types, x.activityType);
+                return (
+                  <div key={x.id} className="ft-day-stat">
+                    <span className="ft-day-stat-k" style={{ color: t.color }}>{x.title?.trim() || t.name}</span>
+                    <span className="ft-day-stat-v">{x.date.slice(5)}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        );
+      })()}
+
+      <h4 className="ft-day-rail-title">Where you are</h4>
+      <button type="button" className="ft-day-where" onClick={() => onOpenWhere(iso)}>
+        {whereBase ? (whereBase.query || whereBase.tag) : 'Not tagged — set a location'}
+      </button>
+      {(orbitScheduled.length > 0 || orbitDue.length > 0) && (
+        <>
+          <h4 className="ft-day-rail-title">To-dos</h4>
+          <div className="ft-day-todos">
+            {[...orbitScheduled, ...orbitDue].map((t) => (
+              <button key={t.id} type="button" className="ft-day-todo" onClick={() => onOrbitOpen(t)}>
+                <span style={{ color: orbitAreaById.get(t.areaId)?.color || '#94a3b8' }}>{t.title || '(untitled)'}</span>
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </aside>
+  );
+}
+
 // Rectangle overlap test in viewport (clientX/clientY) coordinates — used by
 // both the marquee drag box and each chip's own getBoundingClientRect().
 function rectsIntersect(a, b) {
@@ -463,7 +671,7 @@ export default function CalendarView() {
   const {
     workouts, activityTypes, settings, updateSettings, updateWorkout, openQuickAdd,
     meals, mealTypes, goals, openMealQuickAdd, updateGoal, removeWorkout, logCheckpoint, addWorkout,
-    bodyWeightLogs,
+    bodyWeightLogs, openEntryEditor, openMealEditor,
   } = useFitness();
   const navigate = useNavigate();
   const units = settings.units;
@@ -533,17 +741,23 @@ export default function CalendarView() {
   // "Where I am" editor — a calendar-level modal (the day cells are 92px and
   // clip overflow, so an in-cell popover won't fit). Writes back to Orbit's
   // settings via the bridge, then re-reads so the tag + Orbit logic update.
+  const keyActionsRef = useRef({});
   const [whereEditor, setWhereEditor] = useState(null); // null | iso
   const [whereTag, setWhereTag] = useState('');
   const [wherePlace, setWherePlace] = useState('');
   const [whereBusy, setWhereBusy] = useState(false);
   const openWhere = (iso) => { setWhereEditor(iso); setWhereTag(''); setWherePlace(''); };
+  useModalKeys({
+    onClose: useCallback(() => setWhereEditor(null), []),
+    onSubmit: useCallback(() => { keyActionsRef.current.addBaseForDay?.(); }, []),
+    canSubmit: !!whereEditor && !!whereTag.trim() && !whereBusy,
+  });
   const pickBase = async (baseId) => {
     await setOrbitDayLocation(user || null, firebaseReady, whereEditor, baseId);
     reloadOrbit();
     setWhereEditor(null);
   };
-  const addBaseForDay = async () => {
+  const addBaseForDay = keyActionsRef.current.addBaseForDay = async () => {
     const t = whereTag.trim();
     if (!t) return;
     setWhereBusy(true);
@@ -602,6 +816,12 @@ export default function CalendarView() {
   const [weekOverride, setWeekOverride] = useState(null); // null | { goal, date, targetValue }
   const [weekOverrideInput, setWeekOverrideInput] = useState('');
   const openWeekOverride = (goal, date, targetValue) => { setWeekOverride({ goal, date, targetValue }); setWeekOverrideInput(''); };
+  useModalKeys({
+    onClose: useCallback(() => setWeekOverride(null), []),
+    onSubmit: useCallback(() => { keyActionsRef.current.applyWeekOverride?.(); }, []),
+    canSubmit: !!weekOverride && weekOverrideInput !== '',
+  });
+  keyActionsRef.current.applyWeekOverride = applyWeekOverride;
   async function applyWeekOverride() {
     if (!weekOverride) return;
     const val = parseOverrideValue(weekOverride.goal, weekOverrideInput, units.weight);
@@ -611,12 +831,11 @@ export default function CalendarView() {
     setWeekOverrideInput('');
   }
 
-  // View + week-count are sticky prefs, not local state — the calendar should
-  // come back the way you left it. Default is a 2-week window (not Month):
-  // two weeks is the horizon that actually fits a training cycle on screen
-  // without shrinking each day to a sliver.
-  const view = settings.calendarPrefs?.view || 'week';
-  const setView = (v) => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, view: v } });
+  // Week EVERY time the page opens — deliberately local state, not a persisted
+  // pref. Switching to Month/Day is a look, not a new home view, and having the
+  // calendar reopen on whatever you last poked at was disorienting.
+  // (weekCount stays sticky below: that one you set on purpose.)
+  const [view, setView] = useState('week');
   const [cursor, setCursor] = useState(() => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; });
 
   // two sticky calendar toggles (persisted so they survive reload/navigation)
@@ -667,7 +886,7 @@ export default function CalendarView() {
     return next;
   });
   const onAddMeal = (iso) => { setLastClickedDate(iso); openMealQuickAdd(iso); };
-  const onEditMeal = (id) => { setMealSelected(new Set()); navigate(`meal/${id}`); };
+  const onEditMeal = (id) => { setMealSelected(new Set()); openMealEditor(id); };
   const mealsByDate = useMemo(() => {
     const map = {};
     for (const m of meals) (map[m.date] ||= []).push(m);
@@ -720,15 +939,23 @@ export default function CalendarView() {
   }
 
   useEffect(() => {
-    const isTypingTarget = (el) => !!el && (['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName) || el.isContentEditable);
     function onKeyDown(e) {
       if (isTypingTarget(document.activeElement)) return;
+      // A dialog is open — it owns the keyboard. Without this the grid's
+      // copy/paste/delete keys still fired behind the modal.
+      if (document.querySelector('.ft-modal-backdrop')) return;
       const mod = e.ctrlKey || e.metaKey;
+      // Shift/Alt combos are NOT ours. Ctrl+Shift+C is the browser's
+      // inspect-element shortcut and this handler was calling preventDefault on
+      // it (the check was only `mod && key === 'c'`), so devtools' element
+      // picker silently stopped opening anywhere on this page. Same class of
+      // problem for Ctrl+Shift+V (paste-as-plain-text) and Ctrl+Alt+*.
+      if (e.shiftKey || e.altKey) return;
       const key = e.key.toLowerCase();
       if (mod && key === 'c') { e.preventDefault(); copySelection(false); }
       else if (mod && key === 'x') { e.preventDefault(); copySelection(true); }
       else if (mod && key === 'v') { e.preventDefault(); pasteClipboard(); }
-      else if ((e.key === 'Delete' || e.key === 'Backspace') && selected.size) { e.preventDefault(); deleteSelection(); }
+      else if (!mod && (e.key === 'Delete' || e.key === 'Backspace') && selected.size) { e.preventDefault(); deleteSelection(); }
     }
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
@@ -822,7 +1049,9 @@ export default function CalendarView() {
     return map;
   }, [workouts, activityTypes, chipFilter]);
 
-  const onEdit = (id) => { clearSelection(); navigate(`entry/${id}`); };
+  // Opens the editor over the calendar instead of navigating away to
+  // /MFT/entry/:id, which lost your scroll position and the view you were in.
+  const onEdit = (id) => { clearSelection(); openEntryEditor(id); };
   const onAdd = (iso) => { setLastClickedDate(iso); openQuickAdd(iso); };
   const onAltClick = (id) => removeWorkout(id);
   // Dragging one chip of a multi-selection moves/duplicates the WHOLE
@@ -864,6 +1093,9 @@ export default function CalendarView() {
 
   const cellProps = (date, inMonth) => ({
     date, inMonth,
+    // Layout variant and size band are deliberately separate: the multi-week
+    // window uses month-style cells for layout, but they have week-sized room.
+    sizeVariant: view === 'day' ? 'day' : (view === 'week' ? 'week' : 'month'),
     isToday: isoDate(date) === todayISO(),
     items: byDate[isoDate(date)] || [],
     types: activityTypes, units, groups, goalsById, selected, onAdd, onEdit, onCtrlClick, onShiftClick, onAltClick, onDropWorkout,
@@ -1180,11 +1412,31 @@ export default function CalendarView() {
           );
         })()}
 
-        {view === 'day' && (
-          <div className="ft-day">
-            <DayCell variant="day" {...cellProps(cursor, true)} />
-          </div>
-        )}
+        {view === 'day' && (() => {
+          const iso = isoDate(cursor);
+          const sun = startOfWeek(cursor);
+          const sat = addDays(sun, 6);
+          const railProps = {
+            iso, items: byDate[iso] || [], types: activityTypes, units,
+            meals, workouts, bmr, calorieGoal, bodyWeightKg: latestWeightKg,
+            orbitScheduled: orbitScheduledByDate[iso] || [], orbitDue: orbitDueByDate[iso] || [],
+            orbitAreaById, orbitEnergyCap, onOrbitOpen,
+            whereBase: resolveBase(iso, orbitBases, orbitDayLocations), onOpenWhere: openWhere,
+            weekGoals: weekEndGoals(activeGoals, activityTypes, isoDate(sat)),
+            weekMilesText: formatDistance(weekTrackedDistanceM(workouts, isoDate(sun), isoDate(sat)), units.distance, 1),
+            weekRangeLabel: `${MONTHS[sun.getMonth()].slice(0, 3)} ${sun.getDate()} – ${MONTHS[sat.getMonth()].slice(0, 3)} ${sat.getDate()}`,
+            sunISO: isoDate(sun), satISO: isoDate(sat),
+          };
+          return (
+            <div className="ft-day">
+              <DayRails side="left" {...railProps} />
+              <div className="ft-day-main">
+                <DayCell variant="day" {...cellProps(cursor, true)} />
+              </div>
+              <DayRails side="right" {...railProps} />
+            </div>
+          );
+        })()}
       </div>
 
       {marqueeRect && (

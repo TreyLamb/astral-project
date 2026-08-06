@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useFitness } from './fitnessContext';
 import ClearableInput from './ClearableInput';
+import useModalKeys from './useModalKeys';
 import { estimateNutritionForMeal } from './nutritionApi';
 
 // Fast meal entry — mirrors QuickAddModal's shape. mode: 'log' (default status
@@ -80,6 +81,8 @@ export default function MealQuickAddModal({ date, mealType: initialType, mode = 
   }
 
   const typeName = (id) => mealTypes.find((t) => t.id === id)?.name || id;
+
+  useModalKeys({ onClose, onSubmit: save, canSubmit: !saving });
 
   return (
     <div className="ft-modal-backdrop" onClick={onClose}>

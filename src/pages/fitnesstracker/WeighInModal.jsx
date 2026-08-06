@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useFitness } from './fitnessContext';
 import ClearableInput from './ClearableInput';
+import useModalKeys from './useModalKeys';
 import { weightToKg } from './units';
 
 // Fast weigh-in entry — mirrors MealQuickAddModal's shape (fast-entry pattern
@@ -32,6 +33,8 @@ export default function WeighInModal({ date, onClose }) {
     });
     onClose();
   }
+
+  useModalKeys({ onClose, onSubmit: save, canSubmit: !saving && canSave });
 
   return (
     <div className="ft-modal-backdrop" onClick={onClose}>

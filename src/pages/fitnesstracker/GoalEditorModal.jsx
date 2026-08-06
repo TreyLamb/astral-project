@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useFitness } from './fitnessContext';
 import { todayISO, goalDeadline } from './fitnessConfig';
 import ClearableInput from './ClearableInput';
+import useModalKeys from './useModalKeys';
 import { PR_BUCKETS } from './calc/pr';
 import { vdotFromRace, equivalentRaceTime } from './calc/vdot';
 import { estimateRunBaseline, estimateSwimBaseline, estimateLiftBaseline, forecastWeeks, forecastGenericWeeks } from './calc/goals';
@@ -281,6 +282,10 @@ export default function GoalEditorModal({ goal, onClose }) {
     await reconcileWorkouts(goalId, checkpointDates, taskDates);
     onClose();
   }
+
+  // Enter maps to the primary action (Accept & add to calendar), matching the
+  // highlighted button — not to "Save as forecast".
+  useModalKeys({ onClose, onSubmit: acceptAndSchedule, canSubmit: !saving && canForecast });
 
   return (
     <div className="ft-modal-backdrop" onClick={onClose}>
