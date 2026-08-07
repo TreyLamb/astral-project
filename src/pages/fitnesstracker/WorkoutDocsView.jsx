@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import trainingMd from './runningworkouts/training.md?raw';
+import trainingPushupsMd from './runningworkouts-derived/training-with-pushups.md?raw';
 import trainingContextMd from './runningworkouts/training-context.md?raw';
 import cycleMd from './runningworkouts/cycle.md?raw';
 import acft2MileMd from './runningworkouts/acft-2mile-training-plan.md?raw';
@@ -25,6 +26,10 @@ import './WorkoutDocsView.css';
 // are deliberately left alone.
 const DOCS = [
   { slug: 'training', label: 'Training Plan', content: trainingMd, splitSessions: true },
+  // Derived mirror of training.md with the daily pushup schedule bolted on.
+  // Sits in runningworkouts-derived/ (a sibling folder) so the generator can
+  // rewrite it without touching the authoritative running docs.
+  { slug: 'pushups', label: 'Training + Pushups', content: trainingPushupsMd, splitSessions: true },
   { slug: 'context', label: 'Context & Rules', content: trainingContextMd },
   { slug: 'cycle', label: 'Cycle Template (old)', content: cycleMd, splitSessions: true },
   // Long-range projection of both cycle lengths. Its Session-ish columns are

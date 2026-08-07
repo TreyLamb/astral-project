@@ -14,11 +14,11 @@
 > Full detail (per-set clock times, a 6-set/2-hour alternative, weekly
 > roll-ups, running/cumulative totals, and the exact rulings this table is
 > built on) lives in the companion workbook:
-> `src/pages/planning-tool/samples/pushup-plan.xlsx` (also served at
+> `src/pages/planningTool/samples/pushup-plan.xlsx` (also served at
 > `/planning-tool-samples/pushup-plan.xlsx`, and loadable with one click from
 > `/planning-tool`'s "📥 Load push-up plan sample" button, then "📊 Dashboard
 > view" for the KPI/chart summary). Re-generate both this file and the
-> workbook from `src/pages/planning-tool/samples/generate-pushup-plan.mjs` if
+> workbook from `src/pages/planningTool/samples/generate-pushup-plan.mjs` if
 > `training.md`'s dated tables ever change.
 
 **Goal:** 14:00 (7:00/mi) · stretch 13:40 (6:50/mi) · Test: **12/31/26**
