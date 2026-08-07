@@ -63,6 +63,7 @@ Cycle 3 Day 1 lands **Thu 8/27**.
 
 ## What's next
 
+- **Long-range view:** `cycleProjection.md` now projects every cycle out to end-2027 in both a 13-day and an 11-day variant, with dates, phases, checkpoints and interpolated pace targets. This file stays the record of what was *actually* built and run, one cycle at a time; that one is the forecast. **Note its headline finding:** at 13 days only 11 cycles fit before the Dec 31 test, so Checkpoint Test 4 never happens.
 - **Checkpoint Test 1** lands roughly in Cycle 3 (deload cycle), which starts ~Aug 27 — exact placement and the real target pace will be confirmed when Cycle 3 is built.
 - Cycles 3+ get added here the same way, one at a time, using whatever `cycle.md` says at that point (length may compress from 13 days once recovery capacity allows) and whatever the latest checkpoint-test result says for pace.
 - If a cycle's mileage or a session gets missed, resume at the current day — don't try to make up missed volume.

@@ -41,6 +41,8 @@ The original chart assumed a 20:00 start. Rescaled proportionally to the same ch
 | Pace/800m | ~4:30 | 4:15 | 4:03 | 3:50 | 3:38 | 3:30 (3:25) |
 | Pace/400m | ~2:15 | 2:08 | 2:01 | 1:55 | 1:49 | 1:45 (1:42) |
 
+The checkpoint **weeks** above are what the cycles have to land on. `cycleProjection.md` maps them to real dates for both cycle lengths — at 11 days they land on weeks 4/9/14/18 (near-exact); at 13 days on 4/10/15 with the fourth never occurring.
+
 **This chart is a recalculated estimate, not yet confirmed** — it hasn't been tested against a real Checkpoint 1 result yet. Treat it as the current working target, and replace every number after it with the real result once Checkpoint 1 happens (same rule as always: recalculate off actual results, don't run intervals off a static baseline once you've moved past it).
 
 ---
@@ -65,6 +67,8 @@ Train the actual demands of the test. Threshold replaced by race-pace and faster
 ## Progressive overload
 
 Deload every 3rd cycle, doubling as a checkpoint test week (test when relatively fresh, not exhausted). Cycle numbers below are approximate now that cycle length has moved from 11 to 13 days — exact dates live in `acft-full-calendar.md` and get filled in as each cycle actually happens, rather than pre-projected all the way to Cycle 14.
+
+> **⚠️ 2026-08-06 — this 14-cycle table does not fit the Dec 31 test date at the current 13-day cycle length.** It was built when the cycle was 11 days (see the sentence directly above). At 13 days only **11 cycles** fit between Aug 27 and Dec 31, so Checkpoint Test 4 and most of Phase 3 fall off the end; at 11 days, 13 cycles fit and all four checkpoints happen. Full arithmetic and both dated projections: `cycleProjection.md`. Treat the rows below as the *intended shape*, not a schedule.
 
 | Cycle | Phase | Notes |
 |---|---|---|

@@ -6,6 +6,7 @@ import trainingContextMd from './runningworkouts/training-context.md?raw';
 import cycleMd from './runningworkouts/cycle.md?raw';
 import acft2MileMd from './runningworkouts/acft-2mile-training-plan.md?raw';
 import acftCalendarMd from './runningworkouts/acft-full-calendar.md?raw';
+import cycleProjectionMd from './runningworkouts/cycleProjection.md?raw';
 import officerRanksMd from './runningworkouts/usMilitaryOfficerRanks.md?raw';
 import './WorkoutDocsView.css';
 
@@ -26,6 +27,10 @@ const DOCS = [
   { slug: 'training', label: 'Training Plan', content: trainingMd, splitSessions: true },
   { slug: 'context', label: 'Context & Rules', content: trainingContextMd },
   { slug: 'cycle', label: 'Cycle Template (old)', content: cycleMd, splitSessions: true },
+  // Long-range projection of both cycle lengths. Its Session-ish columns are
+  // prose, not the " + "-joined session lists markDoubleSessionDays parses,
+  // so no splitSessions here.
+  { slug: 'projection', label: 'Projection to 2027', content: cycleProjectionMd },
   { slug: '2mile', label: 'ACFT 2-Mile Plan (old)', content: acft2MileMd },
   { slug: 'calendar', label: 'ACFT Full Calendar (old)', content: acftCalendarMd },
   // Reference material rather than a training plan — no session column, so no
