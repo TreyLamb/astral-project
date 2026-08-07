@@ -55,7 +55,16 @@ export default function LayoutView() {
   // fallback for precise coordinates.
 
   const getRoomRect = (room) => (draft && draft.type === 'room' && draft.id === room.id ? draft : room);
-  const getZoneRect = (zone) => (draft && draft.type === 'zone' && draft.id === zone.id ? draft : zone);
+  // Same rule as MapView: a room being moved carries its zones with it, so the
+  // preview matches the save (see moveRoomWithZones in stashmapStorage).
+  const getZoneRect = (zone) => {
+    if (draft && draft.type === 'zone' && draft.id === zone.id) return draft;
+    if (draft && draft.type === 'room' && draft.mode === 'move' && draft.id === zone.roomId) {
+      const room = rooms.find((r) => r.id === zone.roomId);
+      if (room) return { ...zone, x: zone.x + (draft.x - room.x), y: zone.y + (draft.y - room.y) };
+    }
+    return zone;
+  };
 
   const beginDrag = (e, type, obj, mode, corner) => {
     e.stopPropagation();
@@ -67,7 +76,7 @@ export default function LayoutView() {
       moved: false,
     };
     setSelected({ type, id: obj.id });
-    setDraft({ type, id: obj.id, ...dragRef.current.startRect });
+    setDraft({ type, id: obj.id, mode, ...dragRef.current.startRect });
     e.currentTarget.setPointerCapture?.(e.pointerId);
   };
 
@@ -93,7 +102,7 @@ export default function LayoutView() {
         w: Math.max(minSize, snapToGrid(raw.w)), h: Math.max(minSize, snapToGrid(raw.h)),
       }, minSize);
     }
-    setDraft({ type: drag.type, id: drag.id, ...rect });
+    setDraft({ type: drag.type, id: drag.id, mode: drag.mode, ...rect });
   };
 
   const handlePointerUp = () => {
@@ -104,7 +113,8 @@ export default function LayoutView() {
     setDraft((current) => {
       if (current) {
         if (drag.type === 'room') {
-          actions.updateRoom(drag.id, { x: current.x, y: current.y, w: current.w, h: current.h });
+          if (drag.mode === 'move') actions.moveRoom(drag.id, current.x, current.y);
+          else actions.updateRoom(drag.id, { x: current.x, y: current.y, w: current.w, h: current.h });
         } else {
           actions.updateZone(drag.id, { x: current.x, y: current.y, w: current.w, h: current.h });
         }
@@ -221,7 +231,14 @@ export default function LayoutView() {
                         className="stash-input"
                         type="number"
                         value={room[field]}
-                        onChange={(e) => actions.updateRoom(room.id, { [field]: Number(e.target.value) || 0 })}
+                        onChange={(e) => {
+                          const value = Number(e.target.value) || 0;
+                          // x/y go through moveRoom so typing a coordinate
+                          // relocates the zones too, same as dragging does.
+                          if (field === 'x') actions.moveRoom(room.id, value, room.y);
+                          else if (field === 'y') actions.moveRoom(room.id, room.x, value);
+                          else actions.updateRoom(room.id, { [field]: value });
+                        }}
                       />
                     </label>
                   ))}

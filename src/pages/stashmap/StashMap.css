@@ -1077,6 +1077,903 @@
   margin: 0.6rem 0;
 }
 
+/* ---------- Wide map layout ----------
+   The map route drops the readable-measure column the rest of the app uses.
+   A square floor plan squeezed into 1100px wastes the whole window; here the
+   plan gets everything the header and the stash column don't. */
+.stash-app-wide {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.stash-main-wide {
+  max-width: none;
+  margin: 0;
+}
+
+.stash-app-wide .stash-header {
+  margin-bottom: 1.25rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.stash-app-wide .stash-title {
+  font-size: 2rem;
+  margin-bottom: 0.15rem;
+}
+
+.stash-main-wide .stash-map-layout {
+  gap: 1rem;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+.stash-main-wide .stash-floorplan-wrap {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Height-driven rather than width-driven: the plan is square, so sizing it
+   off the viewport height is what stops it running metres down the page on a
+   wide monitor. */
+.stash-main-wide .stash-floorplan-svg {
+  height: clamp(420px, calc(100vh - 250px), 1200px);
+}
+
+.stash-main-wide .stash-map-side-col {
+  flex: 0 0 20%;
+  min-width: 250px;
+  max-width: 20%;
+  max-height: clamp(420px, calc(100vh - 250px), 1200px);
+  overflow-y: auto;
+}
+
+.stash-main-wide .stash-map-side-col-collapsed {
+  flex: 0 0 24px;
+  min-width: 24px;
+  max-width: 24px;
+  overflow: visible;
+}
+
+.stash-map-side-col {
+  position: relative;
+}
+
+.stash-stash-tab {
+  position: absolute;
+  top: 0;
+  left: -20px;
+  width: 20px;
+  min-height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  writing-mode: vertical-rl;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--stash-panel-border);
+  border-right: none;
+  border-radius: var(--stash-radius) 0 0 var(--stash-radius);
+  color: var(--stash-text-dim);
+  font-size: 0.68rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  z-index: 3;
+}
+
+.stash-stash-tab:hover {
+  background: var(--stash-teal-soft);
+  color: var(--stash-teal);
+}
+
+.stash-map-side-col-collapsed .stash-stash-tab {
+  left: 0;
+  min-height: 150px;
+  border-right: 1px solid var(--stash-panel-border);
+  border-radius: var(--stash-radius);
+}
+
+/* ---------- Map: mode switch + hints ---------- */
+.stash-mode-switch {
+  display: inline-flex;
+  padding: 3px;
+  gap: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--stash-panel-border);
+  border-radius: var(--stash-radius);
+}
+
+.stash-mode-btn {
+  padding: 0.45rem 0.85rem;
+  border: none;
+  background: transparent;
+  color: var(--stash-text-dim);
+  border-radius: calc(var(--stash-radius) - 4px);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.stash-mode-btn:hover {
+  color: var(--stash-text);
+}
+
+.stash-mode-btn-active {
+  background: var(--stash-teal-soft);
+  color: var(--stash-teal);
+  box-shadow: var(--stash-inset);
+}
+
+.stash-mode-hint {
+  flex: 1 1 100%;
+  font-size: 0.75rem;
+  color: var(--stash-text-dimmer);
+}
+
+.stash-floorplan-svg-edit {
+  cursor: grab;
+}
+
+.stash-zoom-group {
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--stash-panel-border);
+  border-radius: var(--stash-radius);
+}
+
+.stash-zoom-btn {
+  min-width: 32px;
+  padding: 0.35rem 0.5rem;
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--stash-radius) - 4px);
+  color: var(--stash-text-dim);
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.stash-zoom-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--stash-text);
+}
+
+.stash-zoom-btn-wide {
+  font-size: 0.78rem;
+  padding: 0.35rem 0.6rem;
+}
+
+/* ---------- Map: dashboard hover card ---------- */
+.stash-map-hovercard {
+  position: fixed;
+  z-index: 60;
+  width: 260px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 0.75rem 0.85rem;
+  background: rgba(20, 25, 35, 0.97);
+  backdrop-filter: blur(var(--stash-blur));
+  border: 1px solid var(--stash-panel-border);
+  border-radius: var(--stash-radius);
+  box-shadow: var(--stash-shadow-lg);
+  pointer-events: none;
+}
+
+.stash-map-hovercard-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--stash-text);
+}
+
+.stash-map-hovercard-sub {
+  font-size: 0.72rem;
+  color: var(--stash-text-dimmer);
+  margin-bottom: 0.5rem;
+}
+
+.stash-map-hovercard-empty {
+  font-size: 0.8rem;
+  color: var(--stash-text-dimmer);
+  font-style: italic;
+}
+
+.stash-map-hovercard-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.stash-map-hovercard-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+}
+
+.stash-map-hovercard-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stash-map-hovercard-dupe {
+  color: var(--stash-red);
+}
+
+.stash-map-hovercard-more {
+  font-size: 0.72rem;
+  color: var(--stash-text-dimmer);
+  padding-top: 0.2rem;
+}
+
+.stash-cell-item-label,
+.stash-zone-item-label {
+  font-size: 9px;
+  fill: rgba(238, 241, 247, 0.75);
+  pointer-events: none;
+}
+
+/* ---------- Map: drop targets + re-parenting ---------- */
+.stash-room-rect-reparent {
+  fill-opacity: 0.42;
+  stroke-width: 5;
+  stroke-dasharray: 10 6;
+}
+
+.stash-room-rect-droptarget,
+.stash-zone-rect-droptarget,
+.stash-cell-rect-droptarget {
+  stroke: var(--stash-teal);
+  stroke-width: 3;
+  fill: var(--stash-teal-soft);
+}
+
+.stash-side-panel-drop {
+  outline: 2px dashed var(--stash-teal);
+  outline-offset: 3px;
+}
+
+.stash-side-item-draggable {
+  cursor: grab;
+}
+
+.stash-side-item-grip {
+  color: var(--stash-text-dimmer);
+  font-size: 0.85rem;
+}
+
+.stash-side-panel-dnd-hint {
+  margin-top: 0.75rem;
+  font-size: 0.72rem;
+  color: var(--stash-text-dimmer);
+  line-height: 1.5;
+}
+
+/* ---------- Map: stash panel is the headline ---------- */
+.stash-side-panel-primary {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.stash-side-panel-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid var(--stash-panel-border);
+}
+
+.stash-side-panel-title {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--stash-text);
+}
+
+.stash-side-panel-sub {
+  font-size: 0.72rem;
+  color: var(--stash-text-dimmer);
+}
+
+/* Properties dock — collapsed by default so reading the space, not
+   restyling it, is what this view opens on. */
+.stash-props-dock {
+  border: 1px solid var(--stash-panel-border);
+  border-radius: var(--stash-radius);
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.stash-props-dock-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.7rem 0.9rem;
+  background: transparent;
+  border: none;
+  color: var(--stash-text-dim);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.stash-props-dock-toggle:hover {
+  color: var(--stash-text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.stash-props-dock-toggle-open {
+  border-bottom: 1px solid var(--stash-panel-border);
+}
+
+.stash-props-dock-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stash-props-dock-body {
+  padding: 0.9rem;
+}
+
+/* ---------- Duplicates: header badge ---------- */
+.stash-dupe-bell {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--stash-panel-border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.stash-header {
+  position: relative;
+}
+
+.stash-dupe-bell:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.stash-dupe-bell-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.stash-dupe-bell-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--stash-red);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  box-shadow: 0 0 0 2px rgba(18, 22, 31, 0.9);
+}
+
+.stash-dupe-bell-alert {
+  border-color: rgba(217, 99, 108, 0.5);
+  animation: stash-bell-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes stash-bell-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(217, 99, 108, 0); }
+  50% { box-shadow: 0 0 0 6px rgba(217, 99, 108, 0.12); }
+}
+
+/* ---------- Duplicates: inline flags ---------- */
+.stash-dupe-text-duplicate {
+  color: #f0a3a9;
+}
+
+.stash-dupe-text-sameLocation {
+  color: var(--stash-amber);
+}
+
+.stash-inv-row-duplicate td {
+  background: rgba(217, 99, 108, 0.06);
+}
+
+.stash-inv-row-sameLocation td {
+  background: rgba(227, 168, 87, 0.05);
+}
+
+.stash-dupe-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.4rem;
+  background: rgba(217, 99, 108, 0.16);
+  border: 1px solid rgba(217, 99, 108, 0.4);
+  border-radius: 999px;
+  color: #f0a3a9;
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.5;
+  cursor: pointer;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.stash-dupe-flag:hover {
+  background: rgba(217, 99, 108, 0.28);
+}
+
+.stash-dupe-flag-same {
+  background: rgba(227, 168, 87, 0.14);
+  border-color: rgba(227, 168, 87, 0.4);
+  color: var(--stash-amber);
+}
+
+.stash-dupe-flag-same:hover {
+  background: rgba(227, 168, 87, 0.26);
+}
+
+.stash-dupe-flag-kind {
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.stash-dupe-filter {
+  padding: 0.35rem 0.75rem;
+  background: rgba(217, 99, 108, 0.12);
+  border: 1px solid rgba(217, 99, 108, 0.35);
+  border-radius: 999px;
+  color: #f0a3a9;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.stash-dupe-filter-active {
+  background: rgba(217, 99, 108, 0.3);
+  color: #fff;
+}
+
+/* ---------- Duplicates: per-item menu ---------- */
+.stash-dupe-menu {
+  position: fixed;
+  z-index: 70;
+  width: 300px;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: rgba(20, 25, 35, 0.98);
+  backdrop-filter: blur(var(--stash-blur));
+  border: 1px solid var(--stash-panel-border);
+  border-radius: var(--stash-radius);
+  box-shadow: var(--stash-shadow-lg);
+}
+
+.stash-dupe-menu-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--stash-panel-border);
+}
+
+.stash-dupe-menu-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.stash-dupe-menu-sub {
+  font-size: 0.72rem;
+  color: var(--stash-text-dimmer);
+}
+
+.stash-dupe-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.stash-dupe-menu-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  padding: 0.4rem 0.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--stash-text);
+  width: 100%;
+}
+
+.stash-dupe-menu-copy:hover {
+  border-color: rgba(79, 176, 165, 0.4);
+  background: var(--stash-teal-soft);
+}
+
+.stash-dupe-menu-copy-name {
+  font-size: 0.82rem;
+}
+
+.stash-dupe-menu-copy-loc {
+  font-size: 0.7rem;
+  color: var(--stash-text-dimmer);
+}
+
+.stash-dupe-menu-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.stash-dupe-menu-btn {
+  padding: 0.45rem 0.6rem;
+  background: rgba(79, 176, 165, 0.12);
+  border: 1px solid rgba(79, 176, 165, 0.3);
+  border-radius: 8px;
+  color: var(--stash-teal);
+  font-size: 0.78rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.stash-dupe-menu-btn:hover {
+  background: rgba(79, 176, 165, 0.24);
+}
+
+.stash-dupe-menu-btn-quiet {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--stash-panel-border);
+  color: var(--stash-text-dim);
+}
+
+.stash-dupe-menu-btn-quiet:hover {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.stash-dupe-menu-foot {
+  font-size: 0.68rem;
+  color: var(--stash-text-dimmer);
+  padding-top: 0.3rem;
+  border-top: 1px solid var(--stash-panel-border);
+}
+
+.stash-dupe-pattern-add {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.6rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+}
+
+.stash-dupe-pattern-lead {
+  font-size: 0.72rem;
+  color: var(--stash-text-dimmer);
+}
+
+.stash-dupe-pattern-row {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.stash-dupe-pattern-row .stash-input {
+  flex: 1 1 120px;
+  min-width: 0;
+}
+
+/* ---------- Duplicates: drawer ---------- */
+.stash-dupe-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(8, 11, 17, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.stash-dupe-drawer {
+  width: min(560px, 100vw);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #141922;
+  border-left: 1px solid var(--stash-panel-border);
+  box-shadow: var(--stash-shadow-lg);
+  animation: stash-drawer-in 0.2s ease;
+}
+
+@keyframes stash-drawer-in {
+  from { transform: translateX(24px); opacity: 0.4; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.stash-dupe-drawer-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.25rem 0.9rem;
+  border-bottom: 1px solid var(--stash-panel-border);
+}
+
+.stash-dupe-drawer-title {
+  font-size: 1.35rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.stash-dupe-drawer-sub {
+  margin: 0.25rem 0 0;
+  font-size: 0.78rem;
+  color: var(--stash-text-dim);
+}
+
+.stash-dupe-tabs {
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.75rem 1.25rem 0;
+  flex-wrap: wrap;
+}
+
+.stash-dupe-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.7rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--stash-text-dimmer);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.stash-dupe-tab:hover {
+  color: var(--stash-text);
+}
+
+.stash-dupe-tab-active {
+  background: var(--stash-teal-soft);
+  border-color: rgba(79, 176, 165, 0.4);
+  color: var(--stash-teal);
+}
+
+.stash-dupe-tab-count {
+  min-width: 18px;
+  padding: 0 5px;
+  background: var(--stash-red);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.stash-dupe-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.stash-dupe-group {
+  padding: 0.9rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--stash-panel-border);
+  border-radius: var(--stash-radius);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.stash-dupe-group-highlight {
+  border-color: rgba(217, 99, 108, 0.6);
+  box-shadow: 0 0 18px rgba(217, 99, 108, 0.18);
+}
+
+.stash-dupe-group-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.stash-dupe-group-name {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.stash-dupe-kind {
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stash-dupe-kind-exact {
+  background: rgba(217, 99, 108, 0.18);
+  color: #f0a3a9;
+}
+
+.stash-dupe-kind-similar {
+  background: rgba(227, 168, 87, 0.18);
+  color: var(--stash-amber);
+}
+
+.stash-dupe-group-meta {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: var(--stash-text-dimmer);
+}
+
+.stash-dupe-group-reason {
+  font-size: 0.74rem;
+  color: var(--stash-text-dimmer);
+  font-style: italic;
+}
+
+.stash-dupe-group-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.stash-dupe-copy {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  font-size: 0.82rem;
+  flex-wrap: wrap;
+}
+
+.stash-dupe-copy-muted {
+  opacity: 0.5;
+}
+
+.stash-dupe-copy-name {
+  flex: 1 1 120px;
+  min-width: 0;
+}
+
+.stash-dupe-copy-loc {
+  font-size: 0.72rem;
+}
+
+.stash-dupe-copy-action {
+  padding: 0.15rem 0.5rem;
+  background: transparent;
+  border: 1px solid var(--stash-panel-border);
+  border-radius: 999px;
+  color: var(--stash-text-dim);
+  font-size: 0.68rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.stash-dupe-copy-action:hover {
+  border-color: rgba(79, 176, 165, 0.5);
+  color: var(--stash-teal);
+}
+
+.stash-dupe-group-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ---------- Duplicates: rules tab ---------- */
+.stash-dupe-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stash-dupe-rule-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.stash-dupe-rule-hint {
+  margin: 0;
+  font-size: 0.74rem;
+  color: var(--stash-text-dimmer);
+  line-height: 1.5;
+}
+
+.stash-dupe-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.4rem;
+}
+
+.stash-dupe-cat {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.55rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--stash-panel-border);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.stash-dupe-cat-on {
+  border-color: rgba(79, 176, 165, 0.5);
+  background: var(--stash-teal-soft);
+  color: var(--stash-teal);
+}
+
+.stash-dupe-rule-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.stash-dupe-rule-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+.stash-dupe-rule-foot {
+  font-size: 0.74rem;
+  color: var(--stash-text-dimmer);
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--stash-panel-border);
+}
+
+.stash-dupe-close {
+  font-size: 1.4rem;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 700px) {
   .stash-app {
@@ -1129,5 +2026,47 @@
 
   .stash-inv-table {
     font-size: 0.8rem;
+  }
+
+  /* Stacked on phones — a 20% rail and a fold-away corner tab are both
+     desktop affordances, so the stash just sits under the plan instead. */
+  .stash-main-wide .stash-map-layout {
+    flex-wrap: wrap;
+  }
+
+  .stash-main-wide .stash-map-side-col,
+  .stash-main-wide .stash-map-side-col-collapsed {
+    flex: 1 1 100%;
+    max-width: 100%;
+    min-width: 0;
+    max-height: none;
+  }
+
+  /* Still reachable — a hidden tab plus a collapsed panel would strand the
+     stash with no way back. It just becomes a full-width bar instead. */
+  .stash-stash-tab {
+    position: static;
+    width: 100%;
+    min-height: 0;
+    writing-mode: horizontal-tb;
+    border-right: 1px solid var(--stash-panel-border);
+    border-radius: var(--stash-radius);
+    padding: 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .stash-main-wide .stash-floorplan-svg {
+    height: auto;
+  }
+
+  .stash-dupe-drawer {
+    width: 100vw;
+  }
+
+  .stash-dupe-bell {
+    top: 0.6rem;
+    right: 0.6rem;
+    width: 36px;
+    height: 36px;
   }
 }

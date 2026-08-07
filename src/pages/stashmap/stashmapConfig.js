@@ -180,6 +180,13 @@ export function seedData() {
     { name: 'Passports', category: 'Documents', quantity: 2, description: 'Keep with birth certificates', roomId: officeId, zoneId: officeFilingCabinetId, cell: null },
     { name: 'Rubber Bands & Twist Ties', category: 'Misc', quantity: 1, description: '', roomId: officeId, zoneId: officeClosetBinsId, cell: { row: 0, col: 0 } },
     { name: 'Extra Charging Cables', category: 'Electronics', quantity: 5, description: 'USB-C, Lightning, Micro-USB', roomId: officeId, zoneId: officeClosetBinsId, cell: { row: 1, col: 3 } },
+    // Deliberate duplicates so the flags, the header badge and the "not an
+    // error" rules all have something to act on from the very first run.
+    { name: 'Cologne', category: 'Misc', quantity: 1, description: 'Everyday bottle', roomId: bedroomId, zoneId: bedroomDresserId, cell: null },
+    { name: 'Cologne (travel)', category: 'Misc', quantity: 1, description: 'Kept in the go-bag', roomId: officeId, zoneId: officeDeskDrawersId, cell: null },
+    { name: 'Cologne', category: 'Misc', quantity: 1, description: 'Backup, still boxed', roomId: livingId, zoneId: livingOttomanId, cell: null },
+    { name: 'AA Batteries', category: 'Electronics', quantity: 8, description: '', roomId: garageId, zoneId: garageToolChestId, cell: null },
+    { name: 'AA Battery pack', category: 'Electronics', quantity: 4, description: '', roomId: kitchenId, zoneId: kitchenUnderSinkId, cell: null },
   ].map((item) => withItemDefaults({ ...item, createdAt: now, updatedAt: now }));
 
   return { rooms, zones, items };
