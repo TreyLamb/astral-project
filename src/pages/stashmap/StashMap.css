@@ -1082,6 +1082,12 @@
    A square floor plan squeezed into 1100px wastes the whole window; here the
    plan gets everything the header and the stash column don't. */
 .stash-app-wide {
+  /* Everything above the plan: the 80px body offset for the fixed navbar,
+     this element's own padding, the trimmed header, and the map toolbar.
+     The plan's height cap is derived from it so the whole map sits in one
+     screen without the page scrolling. */
+  --stash-map-chrome: 400px;
+
   padding-left: 0.75rem;
   padding-right: 0.75rem;
 }
@@ -1092,13 +1098,20 @@
 }
 
 .stash-app-wide .stash-header {
-  margin-bottom: 1.25rem;
-  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  padding: 0.9rem 1.5rem;
+  max-width: none;
 }
 
 .stash-app-wide .stash-title {
-  font-size: 2rem;
-  margin-bottom: 0.15rem;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  margin-bottom: 0;
+}
+
+/* The tagline is pure decoration and costs the plan ~30px of height. */
+.stash-app-wide .stash-subtitle {
+  display: none;
 }
 
 .stash-main-wide .stash-map-layout {
@@ -1112,18 +1125,32 @@
   min-width: 0;
 }
 
-/* Height-driven rather than width-driven: the plan is square, so sizing it
-   off the viewport height is what stops it running metres down the page on a
-   wide monitor. */
+/* The element carries the rooms' own aspect ratio (set inline in MapView), so
+   it grows to whichever of width/height runs out first and the plan fills it
+   with no dead canvas. width:auto is what lets aspect-ratio drive the width
+   off the height cap — the base rule's width:100% would override it. */
+.stash-main-wide .stash-floorplan-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .stash-main-wide .stash-floorplan-svg {
-  height: clamp(420px, calc(100vh - 250px), 1200px);
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(100vh - var(--stash-map-chrome));
+  /* Deliberately low: with aspect-ratio driving width from height, too high a
+     floor makes the computed width overflow the column on a narrow desktop
+     window. The max-height above is what actually sizes it. */
+  min-height: 300px;
 }
 
 .stash-main-wide .stash-map-side-col {
   flex: 0 0 20%;
   min-width: 250px;
   max-width: 20%;
-  max-height: clamp(420px, calc(100vh - 250px), 1200px);
+  max-height: calc(100vh - var(--stash-map-chrome));
   overflow-y: auto;
 }
 
@@ -2056,7 +2083,9 @@
   }
 
   .stash-main-wide .stash-floorplan-svg {
-    height: auto;
+    width: 100%;
+    max-height: none;
+    min-height: 0;
   }
 
   .stash-dupe-drawer {

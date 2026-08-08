@@ -1,6 +1,8 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useStashMap } from './stashmapContext';
-import { buildBreadcrumb, computeCellRect, categoryColor, ROOM_COLORS } from './stashmapConfig';
+import {
+  buildBreadcrumb, computeCellRect, categoryColor, zoneAbs, zoneRel, roomsBounds, ROOM_COLORS,
+} from './stashmapConfig';
 import DupeFlag from './DupeFlag';
 import {
   screenToSvgPoint, snapToGrid, snapEdge, resizeCorner, clampPosition, clampRect, clamp,
@@ -14,10 +16,22 @@ const ITEM_DND_TYPE = 'application/x-stashmap-item';
 // screen; 3000 pulls back far enough to see the house with room to spare.
 const MIN_VIEW = 60;
 const MAX_VIEW = 3000;
-const HOUSE_RECT = { x: 0, y: 0, w: CANVAS_MAX, h: CANVAS_MAX };
+// Breathing room around the framed content, in canvas units. Proportional so
+// it reads the same whether the house spans 200 units or 900, with a floor so
+// a tiny plan still doesn't touch the border.
+function framePad(rect) {
+  return Math.max(12, Math.min(rect.w, rect.h) * 0.03);
+}
+
+function padRect(rect, pad) {
+  return { x: rect.x - pad, y: rect.y - pad, w: rect.w + pad * 2, h: rect.h + pad * 2 };
+}
 
 // Grows a rect to the viewport's aspect ratio so the viewBox never
 // letterboxes — which is what keeps wheel-zoom anchored under the cursor.
+// Only needed when framing something whose shape differs from the element's
+// (a single room or zone); the whole-house frame matches by construction,
+// because the element is sized to the rooms' own aspect ratio.
 function fitRect(rect, pad, aspect) {
   const x = rect.x - pad;
   const y = rect.y - pad;
@@ -33,10 +47,10 @@ function fitRect(rect, pad, aspect) {
 function PropertiesPanel({ selType, obj, itemCount, actions, onDeselect, onDelete, onDuplicate }) {
   const isZone = selType === 'zone';
 
+  // Plain field writes on both types now: a room's x/y is not part of a
+  // zone's stored position, so moving a room can't strand anything.
   const updateField = (field, value) => {
     if (isZone) actions.updateZone(obj.id, { [field]: value });
-    else if (field === 'x') actions.moveRoom(obj.id, value, obj.y);
-    else if (field === 'y') actions.moveRoom(obj.id, obj.x, value);
     else actions.updateRoom(obj.id, { [field]: value });
   };
 
@@ -127,7 +141,8 @@ function PropertiesPanel({ selType, obj, itemCount, actions, onDeselect, onDelet
       <div className="stash-coord-fields">
         {['x', 'y', 'w', 'h'].map((field) => (
           <label key={field} className="stash-field stash-field-tiny">
-            <span>{field.toUpperCase()}</span>
+            {/* A zone's X/Y is an offset from its room's corner. */}
+            <span>{isZone && (field === 'x' || field === 'y') ? `${field.toUpperCase()} in room` : field.toUpperCase()}</span>
             <input
               className="stash-input"
               type="number"
@@ -206,36 +221,43 @@ export default function MapView() {
   // The camera. Held as explicit viewBox state rather than derived from the
   // focused room, so wheel-zoom and pan are first-class and clicking a room
   // just moves the camera instead of being the only way to move it.
-  const [view, setView] = useState(HOUSE_RECT);
-  const aspectRef = useRef(1);
-  const panRef = useRef(null);
-  // Once the user has moved the camera themselves, a window resize must not
-  // yank it back to the whole house.
-  const viewTouchedRef = useRef(false);
+  // The box the rooms actually occupy. The plan is framed to THIS, not to the
+  // fixed 1000x1000 canvas — the canvas is a working space, not a scale, and
+  // framing the canvas is what previously drew the house small and centred
+  // inside a sea of empty grid.
+  const bounds = useMemo(() => roomsBounds(rooms), [rooms]);
 
-  // The observer is the only place the initial fit happens: measuring the
-  // element is an external-system subscription, which is exactly the shape an
-  // effect is meant to have (a bare setState in an effect body is not).
+  const [view, setView] = useState(() => {
+    const b = roomsBounds(rooms);
+    return padRect(b, framePad(b));
+  });
+  const aspectRef = useRef(bounds.w / bounds.h);
+  const panRef = useRef(null);
+
+  // Measured purely to keep wheel-zoom and room framing aspect-correct. It no
+  // longer sets the view: the element carries the content's aspect ratio, so
+  // the initial frame is exact without measuring anything.
   useEffect(() => {
     const el = svgRef.current;
     if (!el || typeof ResizeObserver === 'undefined') return undefined;
     const ro = new ResizeObserver(([entry]) => {
       const { width, height } = entry.contentRect;
-      if (!width || !height) return;
-      aspectRef.current = width / height;
-      if (!viewTouchedRef.current) setView(fitRect(HOUSE_RECT, 10, width / height));
+      if (width > 0 && height > 0) aspectRef.current = width / height;
     });
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
 
-  const fitView = useCallback((rect, pad = 30) => {
-    viewTouchedRef.current = true;
-    return fitRect(rect, pad, aspectRef.current);
-  }, []);
+  const fitView = useCallback((rect, pad) => (
+    fitRect(rect, pad ?? framePad(rect), aspectRef.current)
+  ), []);
+
+  const frameWholeHouse = useCallback(() => {
+    const b = roomsBounds(rooms);
+    setView(padRect(b, framePad(b)));
+  }, [rooms]);
 
   const zoomBy = useCallback((factor, anchor) => {
-    viewTouchedRef.current = true;
     setView((v) => {
       const w = clamp(v.w * factor, MIN_VIEW, MAX_VIEW);
       const k = w / v.w;
@@ -285,7 +307,7 @@ export default function MapView() {
     setFocusedCell(item.cell || null);
     const zone = zones.find((z) => z.id === item.zoneId);
     const room = rooms.find((r) => r.id === item.roomId);
-    if (zone) setView(fitView(zone, 20));
+    if (zone && room) setView(fitView(zoneAbs(zone, room), 20));
     else if (room) setView(fitView(room));
   }, [selectedItemId, focusToken]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -310,9 +332,13 @@ export default function MapView() {
       const list = selected.type === 'room' ? rooms : zones;
       const obj = list.find((o) => o.id === selected.id);
       if (!obj) return;
-      const next = clampPosition(obj.x + dx, obj.y + dy, obj.w, obj.h);
-      if (selected.type === 'room') actions.moveRoom(obj.id, next.x, next.y);
-      else actions.updateZone(obj.id, next);
+      if (selected.type === 'room') {
+        actions.updateRoom(obj.id, clampPosition(obj.x + dx, obj.y + dy, obj.w, obj.h));
+      } else {
+        // A zone's x/y is an offset inside its room, so the canvas clamp
+        // doesn't apply — the room is what bounds it.
+        actions.updateZone(obj.id, { x: obj.x + dx, y: obj.y + dy });
+      }
     }
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
@@ -335,7 +361,7 @@ export default function MapView() {
     setFocusedRoomId(zone.roomId);
     setFocusedZoneId(zone.id);
     setFocusedCell(null);
-    setView(fitView(zone, 20));
+    setView(fitView(getZoneRect(zone), 20));
   };
 
   const handleCellClick = (zone, row, col) => {
@@ -351,8 +377,8 @@ export default function MapView() {
     setFocusedRoomId(null);
     setFocusedZoneId(null);
     setFocusedCell(null);
-    setView(fitView(HOUSE_RECT, 10));
-  }, [fitView]);
+    frameWholeHouse();
+  }, [frameWholeHouse]);
 
   const handleBackToRoom = () => {
     setFocusedZoneId(null);
@@ -414,26 +440,38 @@ export default function MapView() {
   const getRoomRect = useCallback((room) => (
     draft && draft.type === 'room' && draft.id === room.id ? draft : room
   ), [draft]);
-  // Zones ride along with their room while it's being dragged, so the preview
-  // matches what actually gets saved (see moveRoomWithZones). Resize is
-  // excluded — stretching a room shouldn't teleport its shelves.
+  // Absolute rect for a zone, resolved against wherever its room is CURRENTLY
+  // drawn — including a live drag draft. That single indirection is what makes
+  // shelves track a moving or resizing room with no per-call-site bookkeeping.
+  // A zone's own draft is already absolute, because the drag math runs in
+  // absolute space; it's converted back to an offset on drop.
   const getZoneRect = useCallback((zone) => {
-    if (draft && draft.type === 'zone' && draft.id === zone.id) return draft;
-    if (draft && draft.type === 'room' && draft.mode === 'move' && draft.id === zone.roomId) {
-      const room = rooms.find((r) => r.id === zone.roomId);
-      if (room) return { ...zone, x: zone.x + (draft.x - room.x), y: zone.y + (draft.y - room.y) };
+    if (draft && draft.type === 'zone' && draft.id === zone.id) {
+      return { ...zone, x: draft.x, y: draft.y, w: draft.w, h: draft.h };
     }
-    return zone;
+    const room = rooms.find((r) => r.id === zone.roomId);
+    const roomRect = room
+      ? (draft && draft.type === 'room' && draft.id === room.id ? draft : room)
+      : null;
+    return zoneAbs(zone, roomRect);
   }, [draft, rooms]);
 
+  // All in absolute coords — snapping happens during the drag, which runs in
+  // absolute space regardless of how the zone is stored.
   function siblingEdges(type, obj) {
-    const siblings = type === 'room'
-      ? rooms.filter((r) => r.id !== obj.id)
-      : zones.filter((z) => z.roomId === obj.roomId && z.id !== obj.id);
     const xs = [0, CANVAS_MAX];
     const ys = [0, CANVAS_MAX];
-    siblings.forEach((o) => { xs.push(o.x, o.x + o.w); ys.push(o.y, o.y + o.h); });
-    if (type === 'zone') {
+    if (type === 'room') {
+      rooms.filter((r) => r.id !== obj.id).forEach((o) => {
+        xs.push(o.x, o.x + o.w);
+        ys.push(o.y, o.y + o.h);
+      });
+    } else {
+      zones.filter((z) => z.roomId === obj.roomId && z.id !== obj.id).forEach((z) => {
+        const a = getZoneRect(z);
+        xs.push(a.x, a.x + a.w);
+        ys.push(a.y, a.y + a.h);
+      });
       const room = rooms.find((r) => r.id === obj.roomId);
       if (room) { xs.push(room.x, room.x + room.w); ys.push(room.y, room.y + room.h); }
     }
@@ -455,10 +493,13 @@ export default function MapView() {
     if (!isEdit) return;
     e.stopPropagation();
     const start = screenToSvgPoint(svgRef.current, e.clientX, e.clientY);
+    // Zones drag in absolute space, so seed the drag from the resolved rect
+    // rather than the stored offset.
+    const r = type === 'zone' ? getZoneRect(obj) : obj;
     dragRef.current = {
       type, id: obj.id, mode: mode_, corner,
       startPointer: start,
-      startRect: { x: obj.x, y: obj.y, w: obj.w, h: obj.h },
+      startRect: { x: r.x, y: r.y, w: r.w, h: r.h },
       moved: false,
     };
     setSelected({ type, id: obj.id });
@@ -470,7 +511,6 @@ export default function MapView() {
   // counts as a pan once it passes the threshold — a click that never moved
   // still means "back out to the whole house".
   const beginPan = (e) => {
-    viewTouchedRef.current = true;
     panRef.current = {
       startClient: { x: e.clientX, y: e.clientY },
       startView: view,
@@ -592,29 +632,35 @@ export default function MapView() {
       return;
     }
 
-    setDraft((current) => {
-      if (current) {
-        if (drag.type === 'room') {
-          if (drag.mode === 'move') actions.moveRoom(drag.id, current.x, current.y);
-          else actions.updateRoom(drag.id, { x: current.x, y: current.y, w: current.w, h: current.h });
+    // Read `draft` from the render closure rather than a setDraft updater —
+    // updaters must be pure, and StrictMode runs them twice, which would fire
+    // every action (and every toast) a second time.
+    const current = draft;
+    if (current) {
+      if (drag.type === 'room') {
+        // No zone bookkeeping here by design: zone offsets are stored
+        // relative to the room, so both move and resize carry them along.
+        actions.updateRoom(drag.id, { x: current.x, y: current.y, w: current.w, h: current.h });
+      } else {
+        const zone = zones.find((z) => z.id === drag.id);
+        // Dropped inside a different room: re-parent the bin and drag every
+        // item in it along, so the inventory breadcrumb, the room grouping
+        // and the map all agree without a second edit.
+        const targetRoomId = landingRoomId || zone?.roomId;
+        const targetRoom = rooms.find((r) => r.id === targetRoomId) || null;
+        const rel = zoneRel(current, targetRoom);
+        if (landingRoomId) {
+          actions.moveZoneToRoom(drag.id, landingRoomId, rel.x, rel.y);
+          const moved = zone ? items.filter((i) => i.zoneId === zone.id).length : 0;
+          actions.showToast(
+            `Moved "${zone?.name}" to ${targetRoom?.name}${moved ? ` — ${moved} item${moved === 1 ? '' : 's'} followed` : ''}`,
+          );
         } else {
-          actions.updateZone(drag.id, { x: current.x, y: current.y, w: current.w, h: current.h });
-          // Dropped inside a different room: re-parent the bin and drag every
-          // item in it along, so the inventory breadcrumb, the room grouping
-          // and the map all agree without a second edit.
-          if (landingRoomId) {
-            const zone = zones.find((z) => z.id === drag.id);
-            actions.moveZoneToRoom(drag.id, landingRoomId);
-            const room = rooms.find((r) => r.id === landingRoomId);
-            const moved = zone ? items.filter((i) => i.zoneId === zone.id).length : 0;
-            actions.showToast(
-              `Moved "${zone?.name}" to ${room?.name}${moved ? ` — ${moved} item${moved === 1 ? '' : 's'} followed` : ''}`,
-            );
-          }
+          actions.updateZone(drag.id, { x: rel.x, y: rel.y, w: current.w, h: current.h });
         }
       }
-      return null;
-    });
+    }
+    setDraft(null);
   };
 
   // ---- item drag & drop between spaces (edit mode) ----
@@ -658,7 +704,11 @@ export default function MapView() {
   };
 
   const handleDuplicateSelected = (type, obj) => {
-    const nextPos = clampPosition(obj.x + 20, obj.y + 20, obj.w, obj.h);
+    // A zone's x/y is an offset inside its room, so nudging it needs no canvas
+    // clamp — the copy just lands 20 units further into the same room.
+    const nextPos = type === 'room'
+      ? clampPosition(obj.x + 20, obj.y + 20, obj.w, obj.h)
+      : { x: obj.x + 20, y: obj.y + 20 };
     const copy = { ...obj, id: undefined, name: `${obj.name} copy`, x: nextPos.x, y: nextPos.y };
     if (type === 'room') actions.addRoom(copy);
     else actions.addZone(copy);
@@ -667,8 +717,12 @@ export default function MapView() {
   const selectedObj = selected
     ? (selected.type === 'room' ? rooms.find((r) => r.id === selected.id) : zones.find((z) => z.id === selected.id))
     : null;
+  // Resolved, not raw: a zone's stored x/y is a room offset, so the outline
+  // and resize handles would otherwise be drawn near the canvas origin.
   const selectedRect = selectedObj
-    ? (draft && draft.id === selectedObj.id ? draft : selectedObj)
+    ? (draft && draft.id === selectedObj.id
+      ? draft
+      : (selected.type === 'zone' ? getZoneRect(selectedObj) : selectedObj))
     : null;
 
   let sidePanelTitle = 'Whole House';
@@ -733,7 +787,11 @@ export default function MapView() {
           <button
             type="button"
             className="stash-zoom-btn stash-zoom-btn-wide"
-            onClick={() => setView(fitView(focusedZone || focusedRoom || HOUSE_RECT, focusedZone ? 20 : 30))}
+            onClick={() => {
+              if (focusedZone) setView(fitView(getZoneRect(focusedZone)));
+              else if (focusedRoom) setView(fitView(focusedRoom));
+              else frameWholeHouse();
+            }}
             aria-label="Fit to view"
           >
             ⤢ Fit
@@ -765,19 +823,25 @@ export default function MapView() {
         )}
 
         <span className="stash-mode-hint">
-          Scroll to zoom · drag the background to pan · click empty space to back out
+          Scroll to zoom · drag empty space to pan · click it to back out
           {isEdit
-            ? ' · drag shapes to move, corners to resize, a zone into another room to re-home it'
-            : ' · hover a room, zone or cell to see what’s inside'}
+            ? ' · drag a zone into another room to re-home it'
+            : ' · hover anything to see what’s inside'}
         </span>
       </div>
 
       <div className="stash-map-layout">
         <div className="stash-floorplan-wrap">
+          {/* aspectRatio is shaped from the rooms themselves, so the
+              whole-house frame fills the element instead of floating in dead
+              canvas — that empty canvas was the "huge side padding". The CSS
+              caps the element by available width and height; this sets the
+              ratio it grows along. */}
           <svg
             ref={svgRef}
             viewBox={viewBox}
             className={`stash-floorplan-svg stash-keep-focus${isEdit ? ' stash-floorplan-svg-edit' : ''}`}
+            style={{ aspectRatio: `${bounds.w} / ${bounds.h}` }}
             preserveAspectRatio="xMidYMid meet"
             onPointerMove={handleSvgPointerMove}
             onPointerUp={handleSvgPointerUp}
@@ -861,6 +925,10 @@ export default function MapView() {
                               && dropTarget.row === row && dropTarget.col === col;
 
                             return (
+                              // Cells sit on top of their zone, so they take
+                              // the zone's own drag handler — without it a
+                              // gridded bin could never be dragged at all,
+                              // because the cells swallowed every pointerdown.
                               <g key={`${row}-${col}`}>
                                 <rect
                                   x={cellRect.x} y={cellRect.y} width={cellRect.w} height={cellRect.h}
@@ -870,9 +938,6 @@ export default function MapView() {
                                     + (isCellHighlighted ? ' stash-cell-highlight' : '')
                                     + (isCellDropTarget ? ' stash-cell-rect-droptarget' : '')
                                   }
-                                  // Cells sit on top of their zone, so without
-                                  // this a gridded bin could never be dragged
-                                  // — the cells swallowed every pointerdown.
                                   onPointerDown={isEdit ? (e) => beginDrag(e, 'zone', zone, 'move', null) : undefined}
                                   onClick={isEdit ? undefined : () => handleCellClick(zone, row, col)}
                                   onMouseEnter={isEdit ? undefined : (e) => openHover(e, cellHover(zone, row, col))}

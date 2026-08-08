@@ -122,16 +122,8 @@ export default function StashMapApp() {
     showToast('Item removed');
   }, [showToast]);
 
-  const moveRoom = useCallback((id, x, y) => {
-    const updated = StashmapStorage.moveRoomWithZones(id, x, y);
-    if (!updated) return null;
-    setRooms((prev) => prev.map((r) => (r.id === id ? updated : r)));
-    setZones(StashmapStorage.getZones());
-    return updated;
-  }, []);
-
-  const moveZoneToRoom = useCallback((zoneId, roomId) => {
-    const updated = StashmapStorage.moveZoneToRoom(zoneId, roomId);
+  const moveZoneToRoom = useCallback((zoneId, roomId, x, y) => {
+    const updated = StashmapStorage.moveZoneToRoom(zoneId, roomId, x, y);
     if (!updated) return null;
     setZones((prev) => prev.map((z) => (z.id === zoneId ? updated : z)));
     setItems((prev) => prev.map((i) => (i.zoneId === zoneId ? { ...i, roomId } : i)));
@@ -225,7 +217,6 @@ export default function StashMapApp() {
       addItem,
       updateItem,
       removeItem,
-      moveRoom,
       moveZoneToRoom,
       updateSettings,
       focusItemOnMap,

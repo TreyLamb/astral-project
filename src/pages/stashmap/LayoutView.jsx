@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useStashMap } from './stashmapContext';
-import { ROOM_COLORS } from './stashmapConfig';
+import { ROOM_COLORS, zoneAbs, zoneRel } from './stashmapConfig';
 import {
   screenToSvgPoint, snapToGrid, resizeCorner, clampPosition, clampRect,
   DRAG_THRESHOLD, MIN_ROOM_SIZE, MIN_ZONE_SIZE,
@@ -29,8 +29,9 @@ export default function LayoutView() {
   };
 
   const handleAddZone = (room) => {
+    // x/y are an offset inside the room, so this is 10 units in from its corner.
     actions.addZone({
-      roomId: room.id, name: 'New Zone', x: room.x + 10, y: room.y + 10, w: 100, h: 100, grid: null,
+      roomId: room.id, name: 'New Zone', x: 10, y: 10, w: 100, h: 100, grid: null,
     });
   };
 
@@ -55,24 +56,26 @@ export default function LayoutView() {
   // fallback for precise coordinates.
 
   const getRoomRect = (room) => (draft && draft.type === 'room' && draft.id === room.id ? draft : room);
-  // Same rule as MapView: a room being moved carries its zones with it, so the
-  // preview matches the save (see moveRoomWithZones in stashmapStorage).
+  // Same rule as MapView: zone x/y is an offset inside its room, resolved
+  // against wherever that room is currently drawn (draft included), so zones
+  // track a room being moved or resized with no extra bookkeeping.
   const getZoneRect = (zone) => {
-    if (draft && draft.type === 'zone' && draft.id === zone.id) return draft;
-    if (draft && draft.type === 'room' && draft.mode === 'move' && draft.id === zone.roomId) {
-      const room = rooms.find((r) => r.id === zone.roomId);
-      if (room) return { ...zone, x: zone.x + (draft.x - room.x), y: zone.y + (draft.y - room.y) };
+    if (draft && draft.type === 'zone' && draft.id === zone.id) {
+      return { ...zone, x: draft.x, y: draft.y, w: draft.w, h: draft.h };
     }
-    return zone;
+    const room = rooms.find((r) => r.id === zone.roomId);
+    return zoneAbs(zone, room ? getRoomRect(room) : null);
   };
 
   const beginDrag = (e, type, obj, mode, corner) => {
     e.stopPropagation();
     const start = screenToSvgPoint(svgRef.current, e.clientX, e.clientY);
+    // Zones drag in absolute space; seed from the resolved rect, not the offset.
+    const r = type === 'zone' ? getZoneRect(obj) : obj;
     dragRef.current = {
       type, id: obj.id, mode, corner,
       startPointer: start,
-      startRect: { x: obj.x, y: obj.y, w: obj.w, h: obj.h },
+      startRect: { x: r.x, y: r.y, w: r.w, h: r.h },
       moved: false,
     };
     setSelected({ type, id: obj.id });
@@ -110,23 +113,30 @@ export default function LayoutView() {
     if (!drag) return;
     dragRef.current = null;
     if (!drag.moved) { setDraft(null); return; }
-    setDraft((current) => {
-      if (current) {
-        if (drag.type === 'room') {
-          if (drag.mode === 'move') actions.moveRoom(drag.id, current.x, current.y);
-          else actions.updateRoom(drag.id, { x: current.x, y: current.y, w: current.w, h: current.h });
-        } else {
-          actions.updateZone(drag.id, { x: current.x, y: current.y, w: current.w, h: current.h });
-        }
+    // From the render closure, not a setDraft updater: updaters must be pure,
+    // and StrictMode runs them twice.
+    const current = draft;
+    if (current) {
+      if (drag.type === 'room') {
+        actions.updateRoom(drag.id, { x: current.x, y: current.y, w: current.w, h: current.h });
+      } else {
+        const zone = zones.find((z) => z.id === drag.id);
+        const room = rooms.find((r) => r.id === zone?.roomId) || null;
+        const rel = zoneRel(current, room);
+        actions.updateZone(drag.id, { x: rel.x, y: rel.y, w: current.w, h: current.h });
       }
-      return null;
-    });
+    }
+    setDraft(null);
   };
 
   const selectedObj = selected
     ? (selected.type === 'room' ? rooms.find((r) => r.id === selected.id) : zones.find((z) => z.id === selected.id))
     : null;
-  const selectedRect = selectedObj ? (draft && draft.id === selectedObj.id ? draft : selectedObj) : null;
+  const selectedRect = selectedObj
+    ? (draft && draft.id === selectedObj.id
+      ? draft
+      : (selected.type === 'zone' ? getZoneRect(selectedObj) : selectedObj))
+    : null;
 
   return (
     <div className="stash-layout-view">
@@ -231,14 +241,7 @@ export default function LayoutView() {
                         className="stash-input"
                         type="number"
                         value={room[field]}
-                        onChange={(e) => {
-                          const value = Number(e.target.value) || 0;
-                          // x/y go through moveRoom so typing a coordinate
-                          // relocates the zones too, same as dragging does.
-                          if (field === 'x') actions.moveRoom(room.id, value, room.y);
-                          else if (field === 'y') actions.moveRoom(room.id, room.x, value);
-                          else actions.updateRoom(room.id, { [field]: value });
-                        }}
+                        onChange={(e) => actions.updateRoom(room.id, { [field]: Number(e.target.value) || 0 })}
                       />
                     </label>
                   ))}
@@ -284,7 +287,10 @@ export default function LayoutView() {
                         <div className="stash-coord-fields">
                           {['x', 'y', 'w', 'h'].map((field) => (
                             <label key={field} className="stash-field stash-field-tiny">
-                              <span>{field.toUpperCase()}</span>
+                              {/* X/Y are measured from the room's corner, not
+                                  the canvas — say so rather than showing a
+                                  number that looks wrong next to the room's. */}
+                              <span>{field === 'x' || field === 'y' ? `${field.toUpperCase()} in room` : field.toUpperCase()}</span>
                               <input
                                 className="stash-input"
                                 type="number"
