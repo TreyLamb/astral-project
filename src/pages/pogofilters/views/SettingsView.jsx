@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
 import { DEFAULT_CP_PRESETS } from '../pogofiltersConfig';
+import ApplyPreview from './ApplyPreview';
 
 // Settings owns the deliberate decisions: the CP preset set, per-tier star
 // defaults, and the Update button that would push species assignments into the
@@ -28,6 +29,7 @@ function UpdateButton({ onClick }) {
 export default function SettingsView() {
   const { settings, updateSettings, filters, labels, species, showToast, reseed } = usePogoFilters();
   const [presetDraft, setPresetDraft] = useState((settings?.cpPresets || DEFAULT_CP_PRESETS).join(', '));
+  const [previewing, setPreviewing] = useState(false);
 
   const presets = settings?.cpPresets || DEFAULT_CP_PRESETS;
   const assigned = Object.values(species).filter((s) => s.tier !== null || s.customCp !== null).length;
@@ -56,10 +58,22 @@ export default function SettingsView() {
     <div className="pgf-page">
       <div className="pgf-chipbar">
         <UpdateButton onClick={onUpdateClick} />
+        <button className="pgf-btn" onClick={() => setPreviewing(true)}>
+          Preview what it would write
+        </button>
         <span className="pgf-muted">
           {assigned} species assigned · {untracked} marked never-save
         </span>
       </div>
+
+      {previewing && (
+        <ApplyPreview
+          filters={filters}
+          species={species}
+          settings={settings}
+          onClose={() => setPreviewing(false)}
+        />
+      )}
 
       <div className="pgf-panel" style={{ padding: 16, marginBottom: 12 }}>
         <div className="pgf-h">CP tiers</div>

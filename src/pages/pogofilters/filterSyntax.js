@@ -9,7 +9,7 @@
 // The raw query string is always the source of truth and is never rewritten
 // except by an explicit, previewed, undoable user action.
 
-import { GAME_KEYWORDS, GAME_TYPES, NUMERIC_OPERATORS } from './pogofiltersConfig';
+import { GAME_KEYWORDS, GAME_TYPES, NUMERIC_OPERATORS } from './pogofiltersConfig.js';
 
 // ---------------------------------------------------------------------------
 // Tokenizer
