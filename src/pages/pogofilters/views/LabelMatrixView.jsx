@@ -22,31 +22,36 @@ const SORTS = [
 
 const THRESHOLDS = [0.5, 0.6, 0.75, 0.9];
 
-const GLYPH = { negated: '!', present: '+', absent: '' };
-
-function cellStyle(state, color, flagged) {
+function cellStyle(cell, color) {
   const base = {
     width: '100%', height: 22, padding: 0, borderRadius: 5, cursor: 'pointer',
     display: 'grid', placeItems: 'center',
     font: '800 10px/1 "Consolas", ui-monospace, monospace',
   };
-  if (state === 'negated') {
-    return { ...base, color: '#120c1f', background: color, border: `1px solid ${color}` };
+  const edge = cell.exact ? null : '2px solid var(--pgf-warn)';
+  if (cell.state === 'negated') {
+    return { ...base, color: '#120c1f', background: color, border: edge || `1px solid ${color}` };
   }
-  if (state === 'present') {
+  if (cell.state === 'present') {
     return {
       ...base,
       color,
       background: `color-mix(in srgb, ${color} 18%, transparent)`,
-      border: `2px solid ${color}`,
+      border: edge || `2px solid ${color}`,
     };
   }
   return {
     ...base,
     color: 'var(--pgf-warn)',
-    background: flagged ? 'rgba(255, 176, 58, 0.12)' : 'rgba(0, 0, 0, 0.3)',
-    border: flagged ? '1px dashed var(--pgf-warn)' : '1px solid var(--pgf-line)',
+    background: cell.flagged ? 'rgba(255, 176, 58, 0.12)' : 'rgba(0, 0, 0, 0.3)',
+    border: cell.flagged ? '1px dashed var(--pgf-warn)' : '1px solid var(--pgf-line)',
   };
+}
+
+function glyph(cell) {
+  if (cell.state === 'absent') return cell.flagged ? '?' : '';
+  if (!cell.exact) return '≠';
+  return cell.state === 'negated' ? '!' : '+';
 }
 
 export default function LabelMatrixView() {
@@ -60,24 +65,32 @@ export default function LabelMatrixView() {
   const rows = useMemo(() => {
     const maps = filters.map((f) => {
       const m = new Map();
-      for (const t of terms(f.query)) m.set(norm(t.text), t.negated);
+      for (const t of terms(f.query)) m.set(norm(t.text), t);
       return m;
     });
     return labels.map((l) => {
       const n = norm(l.name);
-      const states = maps.map((m) => (!m.has(n) ? 'absent' : m.get(n) ? 'negated' : 'present'));
+      // exact matters because in-game matching is case- and space-sensitive:
+      // "!evolve me" is detected here as EvolveMe but is a different search.
+      const cells = maps.map((m) => {
+        const t = m.get(n);
+        return t
+          ? { state: t.negated ? 'negated' : 'present', exact: t.text === l.name, raw: t.raw.trim() }
+          : { state: 'absent', exact: true };
+      });
       return {
         label: l,
-        states,
-        count: states.filter((s) => s !== 'absent').length,
-        missing: filters.filter((f, i) => states[i] === 'absent'),
+        cells,
+        count: cells.filter((c) => c.state !== 'absent').length,
+        inexact: cells.filter((c) => c.state !== 'absent' && !c.exact).length,
+        missing: filters.filter((f, i) => cells[i].state === 'absent'),
       };
     });
   }, [filters, labels]);
 
   // The payoff. A label carried by nearly every filter but absent from three of
   // them is far more likely a copy-paste miss than a decision, so those holes
-  // get named rather than left to be noticed.
+  // get named rather than left to be found.
   const gapRows = useMemo(() => rows
     .filter((r) => r.count > 0 && r.missing.length > 0 && r.count / filters.length >= threshold)
     .sort((a, b) => a.missing.length - b.missing.length || b.count - a.count),
@@ -86,22 +99,25 @@ export default function LabelMatrixView() {
   const gapIds = useMemo(() => new Set(gapRows.map((r) => r.label.id)), [gapRows]);
   const unused = useMemo(() => findUnusedLabels(filters, labels), [filters, labels]);
   const unusedIds = useMemo(() => new Set(unused.map((l) => l.id)), [unused]);
+  const misspelt = useMemo(() => rows.filter((r) => r.inexact > 0), [rows]);
 
   const cols = useMemo(() => filters.map((f, i) => ({
     filter: f,
-    count: rows.filter((r) => r.states[i] !== 'absent').length,
-    gaps: gapRows.filter((r) => r.states[i] === 'absent').length,
+    count: rows.filter((r) => r.cells[i].state !== 'absent').length,
+    gaps: gapRows.filter((r) => r.cells[i].state === 'absent').length,
   })), [filters, rows, gapRows]);
 
   const totals = useMemo(() => ({
-    negated: rows.reduce((n, r) => n + r.states.filter((s) => s === 'negated').length, 0),
-    present: rows.reduce((n, r) => n + r.states.filter((s) => s === 'present').length, 0),
+    negated: rows.reduce((n, r) => n + r.cells.filter((c) => c.state === 'negated').length, 0),
+    present: rows.reduce((n, r) => n + r.cells.filter((c) => c.state === 'present').length, 0),
+    inexact: rows.reduce((n, r) => n + r.inexact, 0),
   }), [rows]);
 
   const visible = useMemo(() => {
     let list = rows;
     if (only === 'gaps') list = rows.filter((r) => gapIds.has(r.label.id));
     if (only === 'unused') list = rows.filter((r) => unusedIds.has(r.label.id));
+    if (only === 'spelling') list = rows.filter((r) => r.inexact > 0);
     if (sort === 'usage') list = [...list].sort((a, b) => b.count - a.count || a.label.name.localeCompare(b.label.name));
     if (sort === 'name') list = [...list].sort((a, b) => a.label.name.localeCompare(b.label.name));
     return list;
@@ -109,9 +125,9 @@ export default function LabelMatrixView() {
 
   // Same add/remove as FiltersView's toggleLabel: absent becomes "!Label",
   // anything present is removed with its joining operator and nothing else.
-  // Returns null when it changed nothing, which happens when the query spells
-  // the label differently from the label itself — detection normalises caps and
-  // spaces, removal by name cannot.
+  // Returns null when nothing changed, which happens when the query spells the
+  // label differently — detection normalises caps and spaces, removal by name
+  // cannot.
   const write = useCallback((filter, label) => {
     const present = terms(filter.query).find((t) => norm(t.text) === norm(label.name));
     let next;
@@ -133,15 +149,14 @@ export default function LabelMatrixView() {
     });
   }, [saveFilter]);
 
-  const clickCell = useCallback((filter, label, state) => {
+  const clickCell = useCallback((filter, label, cell) => {
     if (write(filter, label)) {
-      showToast(state === 'absent'
+      showToast(cell.state === 'absent'
         ? `Added !${label.name} to "${filter.name}"`
         : `Removed ${label.name} from "${filter.name}"`);
       return;
     }
-    const written = terms(filter.query).find((t) => norm(t.text) === norm(label.name));
-    showToast(`"${filter.name}" writes this as "${written?.raw.trim()}", not "${label.name}" — caps and spaces both matter in game. Fix the spelling on the Filters tab and this cell will toggle.`, 'error');
+    showToast(`"${filter.name}" writes this as "${cell.raw}", not "${label.name}". Caps and spaces both matter in game, so fix the spelling on the Filters tab and this cell will toggle.`, 'error');
   }, [write, showToast]);
 
   const fillGaps = useCallback(async (label, missing) => {
@@ -172,7 +187,7 @@ export default function LabelMatrixView() {
         </button>
         <button
           className={`pgf-chip warn${only === 'gaps' ? ' on' : ''}`}
-          title="Labels most filters carry but a few do not"
+          title="Labels most of your filters carry but a few do not"
           onClick={() => setOnly('gaps')}
         >
           Likely gaps <span className="pgf-chip-n">{gapRows.length}</span>
@@ -183,6 +198,13 @@ export default function LabelMatrixView() {
           onClick={() => setOnly('unused')}
         >
           Referenced by nothing <span className="pgf-chip-n">{unused.length}</span>
+        </button>
+        <button
+          className={`pgf-chip warn${only === 'spelling' ? ' on' : ''}`}
+          title={`${totals.inexact} cells write the label with different caps or spacing than the label itself, so the game matches nothing`}
+          onClick={() => setOnly('spelling')}
+        >
+          Spelled differently <span className="pgf-chip-n">{misspelt.length}</span>
         </button>
 
         <select className="pgf-select" value={sort} onChange={(e) => setSort(e.target.value)}>
@@ -214,8 +236,8 @@ export default function LabelMatrixView() {
           </div>
           <p className="pgf-sub" style={{ marginBottom: 10 }}>
             A label carried by {Math.round(threshold * 100)}% or more of your filters but absent from the rest is
-            usually a copy-paste miss, not a decision. Click a filter below to add
-            <code> !Label</code> to it, or add it to every one at once.
+            usually a copy-paste miss rather than a decision. Click a filter below to add
+            <code> !Label</code> to just that one, or add it to every one at once.
           </p>
           {shownGaps.map((r) => (
             <div key={r.label.id} className="pgf-fcard-row" style={{ marginTop: 6 }}>
@@ -228,7 +250,7 @@ export default function LabelMatrixView() {
                   key={f.id}
                   className="pgf-chip warn on"
                   title={`Add !${r.label.name} to "${f.name}"`}
-                  onClick={() => clickCell(f, r.label, 'absent')}
+                  onClick={() => clickCell(f, r.label, { state: 'absent' })}
                 >
                   + {f.name}
                 </button>
@@ -257,22 +279,18 @@ export default function LabelMatrixView() {
       <div className="pgf-chipbar">
         <span className="pgf-muted">Click any cell to add or remove that label in that filter.</span>
         <span className="pgf-spacer" />
-        <span className="pgf-muted" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ ...cellStyle('negated', '#c874ff', false), width: 22, cursor: 'default' }}>!</span>
-          excluded
-        </span>
-        <span className="pgf-muted" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ ...cellStyle('present', '#c874ff', false), width: 22, cursor: 'default' }}>+</span>
-          required
-        </span>
-        <span className="pgf-muted" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ ...cellStyle('absent', '#c874ff', false), width: 22, cursor: 'default' }} />
-          absent
-        </span>
-        <span className="pgf-muted" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ ...cellStyle('absent', '#c874ff', true), width: 22, cursor: 'default' }}>?</span>
-          gap
-        </span>
+        {[
+          { cell: { state: 'negated', exact: true }, text: 'excluded' },
+          { cell: { state: 'present', exact: true }, text: 'required' },
+          { cell: { state: 'absent', exact: true }, text: 'absent' },
+          { cell: { state: 'absent', exact: true, flagged: true }, text: 'gap' },
+          { cell: { state: 'negated', exact: false }, text: 'spelled differently' },
+        ].map((k) => (
+          <span key={k.text} className="pgf-muted" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ ...cellStyle(k.cell, '#c874ff'), width: 22, cursor: 'default' }}>{glyph(k.cell)}</span>
+            {k.text}
+          </span>
+        ))}
       </div>
 
       <div className="pgf-panel" style={{ overflow: 'auto', maxHeight: '72vh' }}>
@@ -293,7 +311,7 @@ export default function LabelMatrixView() {
               {cols.map((c) => (
                 <th
                   key={c.filter.id}
-                  title={`${c.filter.name} — carries ${c.count} of ${labels.length} labels${c.gaps ? `, missing ${c.gaps} that most filters have` : ''}`}
+                  title={`${c.filter.name} — carries ${c.count} of ${labels.length} labels${c.gaps ? `, missing ${c.gaps} that most of your filters have` : ''}`}
                   style={{
                     position: 'sticky', top: 0, zIndex: 20, background: HEAD_BG,
                     width: COL_W, minWidth: COL_W, maxWidth: COL_W, overflow: 'hidden',
@@ -339,14 +357,17 @@ export default function LabelMatrixView() {
                     <span style={{ display: 'flex', alignItems: 'center', gap: 6, overflow: 'hidden' }}>
                       <span
                         className="pgf-lab"
-                        style={{ '--lc': r.label.color, cursor: 'default', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                        style={{
+                          '--lc': r.label.color, cursor: 'default', display: 'inline-block',
+                          minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis',
+                        }}
                         title={r.label.notes || r.label.name}
                       >
                         {r.label.name}
                       </span>
                       <span
                         className={isUnused ? 'pgf-lint-badge pgf-lint-error' : isGap ? 'pgf-lint-badge pgf-lint-warning' : 'pgf-chip-n'}
-                        style={{ marginLeft: 'auto' }}
+                        style={{ marginLeft: 'auto', flexShrink: 0 }}
                         title={isUnused
                           ? 'No filter references this label'
                           : isGap
@@ -357,20 +378,22 @@ export default function LabelMatrixView() {
                       </span>
                     </span>
                   </td>
-                  {r.states.map((state, ci) => {
+                  {r.cells.map((c, ci) => {
                     const f = filters[ci];
-                    const flagged = isGap && state === 'absent';
+                    const cell = { ...c, flagged: isGap && c.state === 'absent' };
                     return (
                       <td key={f.id} style={{ padding: '1px 2px', textAlign: 'center' }}>
                         <button
-                          style={cellStyle(state, r.label.color, flagged)}
-                          aria-label={`${r.label.name} in ${f.name}: ${state}`}
-                          title={state === 'absent'
-                            ? `${f.name} does not mention ${r.label.name}${flagged ? ' — most of your filters do' : ''}. Click to add !${r.label.name}.`
-                            : `${f.name} has ${state === 'negated' ? '!' : ''}${r.label.name}. Click to remove it.`}
-                          onClick={() => clickCell(f, r.label, state)}
+                          style={cellStyle(cell, r.label.color)}
+                          aria-label={`${r.label.name} in ${f.name}: ${cell.state}`}
+                          title={cell.state === 'absent'
+                            ? `${f.name} does not mention ${r.label.name}${cell.flagged ? ', and most of your filters do' : ''}. Click to add !${r.label.name}.`
+                            : cell.exact
+                              ? `${f.name} has ${cell.raw}. Click to remove it.`
+                              : `${f.name} writes it as ${cell.raw}, not ${r.label.name} — different caps or spacing, so in game this matches nothing.`}
+                          onClick={() => clickCell(f, r.label, cell)}
                         >
-                          {flagged ? '?' : GLYPH[state]}
+                          {glyph(cell)}
                         </button>
                       </td>
                     );
@@ -389,9 +412,9 @@ export default function LabelMatrixView() {
       )}
 
       <p className="pgf-sub" style={{ marginTop: 14 }}>
-        Detection ignores caps and spaces so <code>!Evolve me</code> is still seen as
-        <code> EvolveMe</code>, but anything written back uses the label name exactly as stored —
-        in-game matching is case-sensitive, and the two are genuinely different searches.
+        Detection ignores caps and spaces, so <code>!evolve me</code> is still recognised as
+        <code> EvolveMe</code> and marked <b>≠</b>. Anything written back uses the label name exactly
+        as stored — in-game matching is case-sensitive, and the two are genuinely different searches.
       </p>
     </div>
   );

@@ -193,9 +193,10 @@ export default function QueueView() {
                 </span>
               </div>
               <p className="pgf-sub" style={{ margin: '8px 0 6px' }}>{q.sub}</p>
-              <p className="pgf-muted" style={{ margin: '0 0 4px', lineHeight: 1.5 }}>
-                {q.members.slice(0, 3).map((m) => m.name).join(', ') || '— empty'}
-                {q.members.length > 3 ? '…' : ''}
+              <p className="pgf-muted" style={{ margin: '0 0 4px', lineHeight: 1.5, color: q.members.length ? undefined : 'var(--pgf-ok)' }}>
+                {q.members.length
+                  ? `${q.members.slice(0, 3).map((m) => m.name).join(', ')}${q.members.length > 3 ? '…' : ''}`
+                  : q.id === 'done' ? 'Nothing decided yet.' : '✓ Cleared — nothing left here.'}
               </p>
               <div className="pgf-fcard-row">
                 <button
@@ -268,7 +269,9 @@ export default function QueueView() {
           {backBtn}
           <span className="pgf-h" style={{ margin: 0, color: queue.color }}>{queue.name}</span>
           <span className="pgf-spacer" />
-          <span className="pgf-muted">{queue.members.length} left in this queue</span>
+          <span className="pgf-muted">
+            {queue.members.length} {queue.id === 'done' ? 'assigned' : 'left'} in this queue
+          </span>
         </div>
 
         <div style={{ maxWidth: 560, margin: '0 auto' }}>
@@ -394,7 +397,7 @@ export default function QueueView() {
       <div className="pgf-chipbar">
         {backBtn}
         <span className="pgf-h" style={{ margin: 0, color: queue.color }}>
-          {queue.name} — {queue.members.length} left
+          {queue.name} — {listRows.length} rows · {queue.members.length} {queue.id === 'done' ? 'assigned' : 'still queued'}
         </span>
         <span className="pgf-spacer" />
         <button className="pgf-btn" disabled={!queue.members.length} onClick={() => open(queue, 'rapid')}>

@@ -524,9 +524,16 @@
   .pgf-btn { height: 38px; padding: 0 14px; font-size: 13px; }
   .pgf-btn-sm { height: 34px; padding: 0 12px; font-size: 12.5px; }
   .pgf-lab { padding: 6px 11px; font-size: 12px; }
-  .pgf-tierbtn { height: 32px; min-width: 56px; font-size: 12.5px; }
-  .pgf-customcp { height: 32px; width: 74px; font-size: 12.5px; }
+  /* 38px minimum: these are the primary controls in both the matrix and the
+     assign wizard, and 32px is below a reliable thumb target. */
+  .pgf-tierbtn { height: 38px; min-width: 58px; font-size: 13px; }
+  .pgf-customcp { height: 38px; width: 78px; font-size: 16px; }
+  .pgf-matrix input[type="checkbox"] { width: 22px; height: 22px; }
   .pgf-fcard-row .pgf-btn { flex: 1 1 auto; justify-content: center; }
+
+  /* iOS Safari zooms the viewport when a focused input's font is under 16px,
+     which then leaves the page scrolled sideways. */
+  .pgf-input, .pgf-select, .pgf-textarea { font-size: 16px; }
 
   .pgf-query, .pgf-textarea { font-size: 12px; }
   .pgf-textarea { min-height: 120px; }

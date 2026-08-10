@@ -56,6 +56,15 @@ check('remove a term that is not there changes nothing',
   removeTerm('!3*&!costume', 'Bulbasaur'), '!3*&!costume');
 check('remove nidoran does NOT remove nidorina',
   removeTerm('!3*&!Nidorina&!costume', 'Nidoranm'), '!3*&!Nidorina&!costume');
+// Regression guard: four of Trey's real filters spell the EvolveMe label as
+// "!evolve me". An earlier regex-based removal in FiltersView built its pattern
+// from the label's canonical name and so silently did nothing on these.
+check('removes a differently-cased, differently-spaced spelling',
+  removeTerm('!3*&!evolve me&!costume', 'EvolveMe'), '!3*&!costume');
+check('removes a spaced spelling given the canonical name',
+  removeTerm('063,064&!traded&!Evolve me&!Pvp', 'EvolveMe'), '063,064&!traded&!Pvp');
+check('removes regardless of the ! prefix on the argument',
+  removeTerm('!3*&!Bulbasaur', '!Bulbasaur'), '!3*');
 
 console.log('\n--- structural validation (safety rule 8) ---');
 check('clean query validates', validateQuery('!3*&!4*&!cp1000-'), null);

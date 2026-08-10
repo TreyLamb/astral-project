@@ -1,0 +1,1204 @@
+{
+  "_meta": {
+    "updated": "2026-08-10",
+    "note": "Species classification behind the Pokemon GO in-game search keywords 'legendary', 'mythical' and 'ultra beast'/'ultra beasts', plus the region-locked ('regional') roster. Keyed by the species ids used in ../../pogoaccs/data/species.json; every entry carries its Pokedex number. legendary/mythical/ultraBeast are transcribed from Niantic's own pokemonClass field in the GAME_MASTER (POKEMON_CLASS_LEGENDARY / _MYTHIC / _ULTRA_BEAST) - the field the in-game search keyword reads - restricted to forms released in Pokemon GO. 'regional' is NOT a game search keyword; it is the region-locked roster, curated from pokemongo.fandom + Serebii. Categories overlap on purpose: Uxie/Mesprit/Azelf are legendary AND regional, and seven Ultra Beasts are also regional. Mega and Primal forms are listed under their base species' category (pokemongo.fandom lists Mega Latias, Primal Kyogre, Mega Diancie etc. in those same tables). Entries with partial:true are region-locked in only SOME of their released forms - read the entry note before treating them as regional. Entries with released:false are correctly-classified forms that sources say are not obtainable yet. See SOURCES.md for the full cross-check log.",
+    "sources": [
+      "https://raw.githubusercontent.com/PokeMiners/game_masters/master/latest/latest.json",
+      "https://pogoapi.net/api/v1/pokemon_rarity.json",
+      "https://raw.githubusercontent.com/pvpoke/pvpoke/master/src/data/gamemaster.json",
+      "https://pokemongo.fandom.com/wiki/Legendary_Pok%C3%A9mon",
+      "https://pokemongo.fandom.com/wiki/Mythical_Pok%C3%A9mon",
+      "https://pokemongo.fandom.com/wiki/Ultra_Beast",
+      "https://pokemongo.fandom.com/wiki/Region-exclusive_Pok%C3%A9mon",
+      "https://serebii.net/pokemongo/exclusives.shtml"
+    ],
+    "unmatched": [
+      {
+        "id": "zeraora",
+        "dex": 807,
+        "name": "Zeraora",
+        "reason": "Released in Pokemon GO (GO Fest 2026 Tokyo 2026-05-29, global 2026-07-11/12) and POKEMON_CLASS_MYTHIC in the GAME_MASTER, but missing from species.json - pogoapi's released_pokemon list (species.json's source) lags. Add it to species.json and this id resolves."
+      },
+      {
+        "id": "squawkabilly",
+        "dex": 931,
+        "name": "Squawkabilly",
+        "reason": "Released in Pokemon GO 2026-06-23 (Flying Taxi event) and region-locked in 2 of its 4 released plumages, but missing from species.json - pogoapi's released_pokemon list lags. Add it to species.json and this id resolves."
+      }
+    ],
+    "uncertain": [
+      {
+        "ids": [
+          "furfrou"
+        ],
+        "dex": [
+          676
+        ],
+        "category": "regional",
+        "verdict": "excluded",
+        "reason": "Serebii's region-exclusive table lists six Furfrou trims by region (Star/Diamond/Debutante/La Reine/Kabuki/Pharaoh), but pokemongo.fandom's Region-exclusive page omits Furfrou entirely and PvPoke does not tag it regional. The species spawns worldwide - only the trim you can APPLY is region-gated (Dandy/Matron/Natural are global) - and species.json has a single 'furfrou' id with no trim forms, so marking it regional would be wrong for every globally-caught Furfrou."
+      },
+      {
+        "ids": [
+          "type_null",
+          "silvally"
+        ],
+        "dex": [
+          772,
+          773
+        ],
+        "category": "legendary",
+        "verdict": "excluded",
+        "reason": "Unreleased. The GAME_MASTER (POKEMON_CLASS_LEGENDARY, including all 18 Silvally type-forms) and pogoapi both classify them Legendary, but neither appears on the pokemongo.fandom Legendary availability table, PvPoke marks both released:false, and both are absent from species.json. If Niantic releases them they are legendary - add them then."
+      },
+      {
+        "ids": [
+          "necrozma",
+          "necrozma_dusk_mane",
+          "necrozma_dawn_wings",
+          "necrozma_ultra"
+        ],
+        "dex": [
+          800
+        ],
+        "category": "ultraBeast",
+        "verdict": "filed under legendary instead",
+        "reason": "SOURCE DISAGREEMENT. PvPoke tags every Necrozma form 'ultrabeast'. Niantic's GAME_MASTER says POKEMON_CLASS_LEGENDARY and pogoapi lists Necrozma under Legendary and not under Ultra beast. Because the in-game search keyword reads pokemonClass, Necrozma is filed under legendary here and deliberately NOT under ultraBeast. If an in-game check shows Necrozma answering the 'ultra beast' search, move it."
+      },
+      {
+        "ids": [
+          "buzzwole",
+          "pheromosa",
+          "xurkitree"
+        ],
+        "dex": [
+          794,
+          795,
+          796
+        ],
+        "category": "regional",
+        "verdict": "included",
+        "reason": "SOURCE DISAGREEMENT. pokemongo.fandom lists all seven region-locked Ultra Beasts on both its Region-exclusive page and its Ultra Beast page. Serebii's exclusives table lists only Celesteela, Kartana, Stakataka and Blacephalon - it omits these three. PvPoke tags them 'ultrabeast' but not 'regional' (its regional tag is demonstrably incomplete: it also omits Throh, Sawk, Mime Jr., Oricorio and Shellos). Included on the two-page fandom evidence. Note that Ultra Beast raid availability has repeatedly gone worldwide for event days."
+      },
+      {
+        "ids": [
+          "flabebe",
+          "floette",
+          "florges",
+          "squawkabilly"
+        ],
+        "dex": [
+          669,
+          670,
+          671,
+          931
+        ],
+        "category": "regional",
+        "verdict": "included with partial:true",
+        "reason": "Each has released forms that spawn worldwide (White/Orange flower; Yellow/White plumage) alongside region-locked ones, and species.json carries a single id per species with no form split, so the id cannot tell them apart. Treat as 'may be regional', not 'is regional'."
+      },
+      {
+        "ids": [
+          "cosmog",
+          "cosmoem"
+        ],
+        "dex": [
+          789,
+          790
+        ],
+        "category": "legendary",
+        "verdict": "included",
+        "reason": "PvPoke marks both released:false, conflicting with the pokemongo.fandom availability table (both listed released), pogoapi, and species.json (both present). Resolved 3-to-1 in favour of released; PvPoke's flag tracks PvP eligibility and Cosmog/Cosmoem cannot battle."
+      },
+      {
+        "ids": [
+          "necrozma_ultra",
+          "eternatus_eternamax",
+          "meloetta_pirouette"
+        ],
+        "category": "legendary/mythical",
+        "verdict": "included with released:false",
+        "reason": "All three are in species.json and unambiguously classified by the GAME_MASTER, but pokemongo.fandom and PvPoke both indicate they are not obtainable in game yet. Harmless to keep (nobody can own one); drop them if you want a strictly-obtainable list."
+      },
+      {
+        "ids": [
+          "heatmor",
+          "durant",
+          "lunatone",
+          "solrock",
+          "zangoose",
+          "seviper"
+        ],
+        "category": "regional",
+        "verdict": "included, region strings low-confidence",
+        "reason": "Membership is certain; the region STRINGS are the soft part. These pairs have swapped hemispheres in the past (Heatmor/Durant swapped unannounced on 2020-11-30). Current wording follows pokemongo.fandom and is corroborated by Serebii, but re-check the strings if you ever branch on them."
+      },
+      {
+        "ids": [
+          "galarian_farfetch_d",
+          "galarian_mr_mime",
+          "galarian_corsola"
+        ],
+        "category": "regional",
+        "verdict": "deliberately excluded",
+        "reason": "Only the Kanto forms of Farfetch'd, Mr. Mime and Corsola are region-locked; their Galarian forms are globally available. The same applies to Alolan forms of any regional species."
+      },
+      {
+        "ids": [
+          "glastrier",
+          "spectrier",
+          "calyrex",
+          "wo_chien",
+          "chien_pao",
+          "ting_lu",
+          "chi_yu",
+          "koraidon",
+          "miraidon",
+          "walking_wake",
+          "iron_leaves",
+          "okidogi",
+          "munkidori",
+          "fezandipiti",
+          "ogerpon",
+          "gouging_fire",
+          "raging_bolt",
+          "iron_boulder",
+          "iron_crown",
+          "terapagos"
+        ],
+        "category": "legendary",
+        "verdict": "excluded",
+        "reason": "All carry POKEMON_CLASS_LEGENDARY in the GAME_MASTER but none is released in Pokemon GO: absent from the pokemongo.fandom Legendary availability table (each is rendered with ci=None, the wiki's unreleased marker), PvPoke marks each released:false, and none is in species.json. Add them as they ship."
+      },
+      {
+        "ids": [
+          "phione",
+          "manaphy",
+          "arceus",
+          "magearna",
+          "pecharunt"
+        ],
+        "dex": [
+          489,
+          490,
+          493,
+          801,
+          1025
+        ],
+        "category": "mythical",
+        "verdict": "excluded",
+        "reason": "All carry POKEMON_CLASS_MYTHIC in the GAME_MASTER but none is released: pokemongo.fandom explicitly labels Phione, Manaphy and Arceus 'Unreleased' and renders Magearna and Pecharunt with ci=None, PvPoke marks each released:false, and none is in species.json."
+      }
+    ]
+  },
+  "legendary": [
+    {
+      "id": "articuno",
+      "dex": 144,
+      "name": "Articuno"
+    },
+    {
+      "id": "galarian_articuno",
+      "dex": 144,
+      "name": "Galarian Articuno"
+    },
+    {
+      "id": "zapdos",
+      "dex": 145,
+      "name": "Zapdos"
+    },
+    {
+      "id": "galarian_zapdos",
+      "dex": 145,
+      "name": "Galarian Zapdos"
+    },
+    {
+      "id": "moltres",
+      "dex": 146,
+      "name": "Moltres"
+    },
+    {
+      "id": "galarian_moltres",
+      "dex": 146,
+      "name": "Galarian Moltres"
+    },
+    {
+      "id": "mewtwo",
+      "dex": 150,
+      "name": "Mewtwo"
+    },
+    {
+      "id": "mewtwo_a",
+      "dex": 150,
+      "name": "Mewtwo (A)"
+    },
+    {
+      "id": "mega_mewtwo_x",
+      "dex": 150,
+      "name": "Mega Mewtwo X"
+    },
+    {
+      "id": "mega_mewtwo_y",
+      "dex": 150,
+      "name": "Mega Mewtwo Y"
+    },
+    {
+      "id": "raikou",
+      "dex": 243,
+      "name": "Raikou"
+    },
+    {
+      "id": "entei",
+      "dex": 244,
+      "name": "Entei"
+    },
+    {
+      "id": "suicune",
+      "dex": 245,
+      "name": "Suicune"
+    },
+    {
+      "id": "lugia",
+      "dex": 249,
+      "name": "Lugia"
+    },
+    {
+      "id": "ho_oh",
+      "dex": 250,
+      "name": "Ho-Oh"
+    },
+    {
+      "id": "regirock",
+      "dex": 377,
+      "name": "Regirock"
+    },
+    {
+      "id": "regice",
+      "dex": 378,
+      "name": "Regice"
+    },
+    {
+      "id": "registeel",
+      "dex": 379,
+      "name": "Registeel"
+    },
+    {
+      "id": "latias",
+      "dex": 380,
+      "name": "Latias"
+    },
+    {
+      "id": "mega_latias",
+      "dex": 380,
+      "name": "Mega Latias"
+    },
+    {
+      "id": "latios",
+      "dex": 381,
+      "name": "Latios"
+    },
+    {
+      "id": "mega_latios",
+      "dex": 381,
+      "name": "Mega Latios"
+    },
+    {
+      "id": "kyogre",
+      "dex": 382,
+      "name": "Kyogre"
+    },
+    {
+      "id": "primal_kyogre",
+      "dex": 382,
+      "name": "Primal Kyogre"
+    },
+    {
+      "id": "groudon",
+      "dex": 383,
+      "name": "Groudon"
+    },
+    {
+      "id": "primal_groudon",
+      "dex": 383,
+      "name": "Primal Groudon"
+    },
+    {
+      "id": "rayquaza",
+      "dex": 384,
+      "name": "Rayquaza"
+    },
+    {
+      "id": "mega_rayquaza",
+      "dex": 384,
+      "name": "Mega Rayquaza"
+    },
+    {
+      "id": "uxie",
+      "dex": 480,
+      "name": "Uxie"
+    },
+    {
+      "id": "mesprit",
+      "dex": 481,
+      "name": "Mesprit"
+    },
+    {
+      "id": "azelf",
+      "dex": 482,
+      "name": "Azelf"
+    },
+    {
+      "id": "dialga",
+      "dex": 483,
+      "name": "Dialga"
+    },
+    {
+      "id": "dialga_origin",
+      "dex": 483,
+      "name": "Dialga (Origin)"
+    },
+    {
+      "id": "palkia",
+      "dex": 484,
+      "name": "Palkia"
+    },
+    {
+      "id": "palkia_origin",
+      "dex": 484,
+      "name": "Palkia (Origin)"
+    },
+    {
+      "id": "heatran",
+      "dex": 485,
+      "name": "Heatran"
+    },
+    {
+      "id": "regigigas",
+      "dex": 486,
+      "name": "Regigigas"
+    },
+    {
+      "id": "giratina",
+      "dex": 487,
+      "name": "Giratina"
+    },
+    {
+      "id": "giratina_origin",
+      "dex": 487,
+      "name": "Giratina (Origin)"
+    },
+    {
+      "id": "cresselia",
+      "dex": 488,
+      "name": "Cresselia"
+    },
+    {
+      "id": "cobalion",
+      "dex": 638,
+      "name": "Cobalion"
+    },
+    {
+      "id": "terrakion",
+      "dex": 639,
+      "name": "Terrakion"
+    },
+    {
+      "id": "virizion",
+      "dex": 640,
+      "name": "Virizion"
+    },
+    {
+      "id": "tornadus",
+      "dex": 641,
+      "name": "Tornadus"
+    },
+    {
+      "id": "tornadus_therian",
+      "dex": 641,
+      "name": "Tornadus (Therian)"
+    },
+    {
+      "id": "thundurus",
+      "dex": 642,
+      "name": "Thundurus"
+    },
+    {
+      "id": "thundurus_therian",
+      "dex": 642,
+      "name": "Thundurus (Therian)"
+    },
+    {
+      "id": "reshiram",
+      "dex": 643,
+      "name": "Reshiram"
+    },
+    {
+      "id": "zekrom",
+      "dex": 644,
+      "name": "Zekrom"
+    },
+    {
+      "id": "landorus",
+      "dex": 645,
+      "name": "Landorus"
+    },
+    {
+      "id": "landorus_therian",
+      "dex": 645,
+      "name": "Landorus (Therian)"
+    },
+    {
+      "id": "kyurem",
+      "dex": 646,
+      "name": "Kyurem"
+    },
+    {
+      "id": "kyurem_black",
+      "dex": 646,
+      "name": "Kyurem (Black)"
+    },
+    {
+      "id": "kyurem_white",
+      "dex": 646,
+      "name": "Kyurem (White)"
+    },
+    {
+      "id": "xerneas",
+      "dex": 716,
+      "name": "Xerneas"
+    },
+    {
+      "id": "yveltal",
+      "dex": 717,
+      "name": "Yveltal"
+    },
+    {
+      "id": "zygarde",
+      "dex": 718,
+      "name": "Zygarde"
+    },
+    {
+      "id": "zygarde_ten_percent",
+      "dex": 718,
+      "name": "Zygarde (Ten percent)"
+    },
+    {
+      "id": "zygarde_fifty_percent",
+      "dex": 718,
+      "name": "Zygarde (Fifty percent)"
+    },
+    {
+      "id": "zygarde_complete_ten_percent",
+      "dex": 718,
+      "name": "Zygarde (Complete ten percent)"
+    },
+    {
+      "id": "zygarde_complete_fifty_percent",
+      "dex": 718,
+      "name": "Zygarde (Complete fifty percent)"
+    },
+    {
+      "id": "tapu_koko",
+      "dex": 785,
+      "name": "Tapu Koko"
+    },
+    {
+      "id": "tapu_lele",
+      "dex": 786,
+      "name": "Tapu Lele"
+    },
+    {
+      "id": "tapu_bulu",
+      "dex": 787,
+      "name": "Tapu Bulu"
+    },
+    {
+      "id": "tapu_fini",
+      "dex": 788,
+      "name": "Tapu Fini"
+    },
+    {
+      "id": "cosmog",
+      "dex": 789,
+      "name": "Cosmog"
+    },
+    {
+      "id": "cosmoem",
+      "dex": 790,
+      "name": "Cosmoem"
+    },
+    {
+      "id": "solgaleo",
+      "dex": 791,
+      "name": "Solgaleo"
+    },
+    {
+      "id": "lunala",
+      "dex": 792,
+      "name": "Lunala"
+    },
+    {
+      "id": "necrozma",
+      "dex": 800,
+      "name": "Necrozma"
+    },
+    {
+      "id": "necrozma_dusk_mane",
+      "dex": 800,
+      "name": "Necrozma (Dusk mane)"
+    },
+    {
+      "id": "necrozma_dawn_wings",
+      "dex": 800,
+      "name": "Necrozma (Dawn wings)"
+    },
+    {
+      "id": "necrozma_ultra",
+      "dex": 800,
+      "name": "Necrozma (Ultra)",
+      "released": false,
+      "note": "Ultra Necrozma is absent from the pokemongo.fandom Legendary availability table and PvPoke marks it released:false. Kept because it is unambiguously POKEMON_CLASS_LEGENDARY if it ships."
+    },
+    {
+      "id": "zacian",
+      "dex": 888,
+      "name": "Zacian"
+    },
+    {
+      "id": "zacian_hero",
+      "dex": 888,
+      "name": "Zacian (Hero)"
+    },
+    {
+      "id": "zamazenta",
+      "dex": 889,
+      "name": "Zamazenta"
+    },
+    {
+      "id": "zamazenta_hero",
+      "dex": 889,
+      "name": "Zamazenta (Hero)"
+    },
+    {
+      "id": "eternatus",
+      "dex": 890,
+      "name": "Eternatus"
+    },
+    {
+      "id": "eternatus_eternamax",
+      "dex": 890,
+      "name": "Eternatus (Eternamax)",
+      "released": false,
+      "note": "Eternamax Eternatus is absent from the pokemongo.fandom Legendary availability table and PvPoke marks it released:false. Kept because it is unambiguously POKEMON_CLASS_LEGENDARY if it ships."
+    },
+    {
+      "id": "kubfu",
+      "dex": 891,
+      "name": "Kubfu"
+    },
+    {
+      "id": "urshifu",
+      "dex": 892,
+      "name": "Urshifu"
+    },
+    {
+      "id": "urshifu_single_strike",
+      "dex": 892,
+      "name": "Urshifu (Single strike)"
+    },
+    {
+      "id": "regieleki",
+      "dex": 894,
+      "name": "Regieleki"
+    },
+    {
+      "id": "regidrago",
+      "dex": 895,
+      "name": "Regidrago"
+    },
+    {
+      "id": "enamorus",
+      "dex": 905,
+      "name": "Enamorus"
+    },
+    {
+      "id": "enamorus_therian",
+      "dex": 905,
+      "name": "Enamorus (Therian)"
+    }
+  ],
+  "mythical": [
+    {
+      "id": "mew",
+      "dex": 151,
+      "name": "Mew"
+    },
+    {
+      "id": "celebi",
+      "dex": 251,
+      "name": "Celebi"
+    },
+    {
+      "id": "jirachi",
+      "dex": 385,
+      "name": "Jirachi"
+    },
+    {
+      "id": "deoxys",
+      "dex": 386,
+      "name": "Deoxys"
+    },
+    {
+      "id": "deoxys_attack",
+      "dex": 386,
+      "name": "Deoxys (Attack)"
+    },
+    {
+      "id": "deoxys_defense",
+      "dex": 386,
+      "name": "Deoxys (Defense)"
+    },
+    {
+      "id": "deoxys_speed",
+      "dex": 386,
+      "name": "Deoxys (Speed)"
+    },
+    {
+      "id": "darkrai",
+      "dex": 491,
+      "name": "Darkrai"
+    },
+    {
+      "id": "shaymin",
+      "dex": 492,
+      "name": "Shaymin"
+    },
+    {
+      "id": "shaymin_sky",
+      "dex": 492,
+      "name": "Shaymin (Sky)"
+    },
+    {
+      "id": "victini",
+      "dex": 494,
+      "name": "Victini"
+    },
+    {
+      "id": "keldeo",
+      "dex": 647,
+      "name": "Keldeo"
+    },
+    {
+      "id": "meloetta",
+      "dex": 648,
+      "name": "Meloetta"
+    },
+    {
+      "id": "meloetta_pirouette",
+      "dex": 648,
+      "name": "Meloetta (Pirouette)",
+      "released": false,
+      "note": "pokemongo.fandom lists Pirouette Meloetta as \"Unreleased\" and PvPoke marks it released:false. Kept because it is unambiguously POKEMON_CLASS_MYTHIC if it ships."
+    },
+    {
+      "id": "genesect",
+      "dex": 649,
+      "name": "Genesect"
+    },
+    {
+      "id": "diancie",
+      "dex": 719,
+      "name": "Diancie"
+    },
+    {
+      "id": "mega_diancie",
+      "dex": 719,
+      "name": "Mega Diancie"
+    },
+    {
+      "id": "hoopa",
+      "dex": 720,
+      "name": "Hoopa"
+    },
+    {
+      "id": "hoopa_unbound",
+      "dex": 720,
+      "name": "Hoopa (Unbound)"
+    },
+    {
+      "id": "volcanion",
+      "dex": 721,
+      "name": "Volcanion"
+    },
+    {
+      "id": "marshadow",
+      "dex": 802,
+      "name": "Marshadow"
+    },
+    {
+      "id": "zeraora",
+      "dex": 807,
+      "name": "Zeraora"
+    },
+    {
+      "id": "meltan",
+      "dex": 808,
+      "name": "Meltan"
+    },
+    {
+      "id": "melmetal",
+      "dex": 809,
+      "name": "Melmetal"
+    },
+    {
+      "id": "zarude",
+      "dex": 893,
+      "name": "Zarude"
+    }
+  ],
+  "ultraBeast": [
+    {
+      "id": "nihilego",
+      "dex": 793,
+      "name": "Nihilego"
+    },
+    {
+      "id": "buzzwole",
+      "dex": 794,
+      "name": "Buzzwole"
+    },
+    {
+      "id": "pheromosa",
+      "dex": 795,
+      "name": "Pheromosa"
+    },
+    {
+      "id": "xurkitree",
+      "dex": 796,
+      "name": "Xurkitree"
+    },
+    {
+      "id": "celesteela",
+      "dex": 797,
+      "name": "Celesteela"
+    },
+    {
+      "id": "kartana",
+      "dex": 798,
+      "name": "Kartana"
+    },
+    {
+      "id": "guzzlord",
+      "dex": 799,
+      "name": "Guzzlord"
+    },
+    {
+      "id": "poipole",
+      "dex": 803,
+      "name": "Poipole"
+    },
+    {
+      "id": "naganadel",
+      "dex": 804,
+      "name": "Naganadel"
+    },
+    {
+      "id": "stakataka",
+      "dex": 805,
+      "name": "Stakataka"
+    },
+    {
+      "id": "blacephalon",
+      "dex": 806,
+      "name": "Blacephalon"
+    }
+  ],
+  "regional": [
+    {
+      "id": "farfetch_d",
+      "dex": 83,
+      "name": "Farfetch’d",
+      "regions": "Eastern Asia"
+    },
+    {
+      "id": "kangaskhan",
+      "dex": 115,
+      "name": "Kangaskhan",
+      "regions": "Australia"
+    },
+    {
+      "id": "mega_kangaskhan",
+      "dex": 115,
+      "name": "Mega Kangaskhan",
+      "regions": "Australia"
+    },
+    {
+      "id": "mr_mime",
+      "dex": 122,
+      "name": "Mr. Mime",
+      "regions": "Europe"
+    },
+    {
+      "id": "tauros",
+      "dex": 128,
+      "name": "Tauros",
+      "regions": "North America"
+    },
+    {
+      "id": "paldea_combat_tauros",
+      "dex": 128,
+      "name": "Tauros (Paldea combat)",
+      "regions": "Iberian Peninsula"
+    },
+    {
+      "id": "paldea_blaze_tauros",
+      "dex": 128,
+      "name": "Tauros (Paldea blaze)",
+      "regions": "Eastern Hemisphere"
+    },
+    {
+      "id": "paldea_aqua_tauros",
+      "dex": 128,
+      "name": "Tauros (Paldea aqua)",
+      "regions": "Western Hemisphere"
+    },
+    {
+      "id": "heracross",
+      "dex": 214,
+      "name": "Heracross",
+      "regions": "Mexico, Central America, South America"
+    },
+    {
+      "id": "mega_heracross",
+      "dex": 214,
+      "name": "Mega Heracross",
+      "regions": "Mexico, Central America, South America"
+    },
+    {
+      "id": "corsola",
+      "dex": 222,
+      "name": "Corsola",
+      "regions": "Tropics (between the Tropic of Cancer and the Tropic of Capricorn)"
+    },
+    {
+      "id": "volbeat",
+      "dex": 313,
+      "name": "Volbeat",
+      "regions": "Europe, Asia, Australia"
+    },
+    {
+      "id": "illumise",
+      "dex": 314,
+      "name": "Illumise",
+      "regions": "Americas, Africa"
+    },
+    {
+      "id": "torkoal",
+      "dex": 324,
+      "name": "Torkoal",
+      "regions": "South Asia"
+    },
+    {
+      "id": "zangoose",
+      "dex": 335,
+      "name": "Zangoose",
+      "regions": "Europe, Asia, Australia"
+    },
+    {
+      "id": "seviper",
+      "dex": 336,
+      "name": "Seviper",
+      "regions": "Americas, Africa"
+    },
+    {
+      "id": "lunatone",
+      "dex": 337,
+      "name": "Lunatone",
+      "regions": "Western Hemisphere"
+    },
+    {
+      "id": "solrock",
+      "dex": 338,
+      "name": "Solrock",
+      "regions": "Eastern Hemisphere"
+    },
+    {
+      "id": "tropius",
+      "dex": 357,
+      "name": "Tropius",
+      "regions": "Africa, the Levant, Malta, southern Spain"
+    },
+    {
+      "id": "relicanth",
+      "dex": 369,
+      "name": "Relicanth",
+      "regions": "New Zealand and nearby islands (UTC+13)"
+    },
+    {
+      "id": "pachirisu",
+      "dex": 417,
+      "name": "Pachirisu",
+      "regions": "Northern Arctic countries (northern Canada, Russia, Alaska)"
+    },
+    {
+      "id": "shellos",
+      "dex": 422,
+      "name": "Shellos",
+      "regions": "Western Hemisphere (West Sea) / Eastern Hemisphere (East Sea)"
+    },
+    {
+      "id": "gastrodon",
+      "dex": 423,
+      "name": "Gastrodon",
+      "regions": "Western Hemisphere (West Sea) / Eastern Hemisphere (East Sea)"
+    },
+    {
+      "id": "mime_jr",
+      "dex": 439,
+      "name": "Mime Jr.",
+      "regions": "Europe (from Eggs)"
+    },
+    {
+      "id": "chatot",
+      "dex": 441,
+      "name": "Chatot",
+      "regions": "Southern Hemisphere"
+    },
+    {
+      "id": "carnivine",
+      "dex": 455,
+      "name": "Carnivine",
+      "regions": "South-eastern United States"
+    },
+    {
+      "id": "uxie",
+      "dex": 480,
+      "name": "Uxie",
+      "regions": "Asia-Pacific"
+    },
+    {
+      "id": "mesprit",
+      "dex": 481,
+      "name": "Mesprit",
+      "regions": "Europe, Middle East, Africa, India"
+    },
+    {
+      "id": "azelf",
+      "dex": 482,
+      "name": "Azelf",
+      "regions": "Americas, Greenland"
+    },
+    {
+      "id": "pansage",
+      "dex": 511,
+      "name": "Pansage",
+      "regions": "Asia-Pacific"
+    },
+    {
+      "id": "simisage",
+      "dex": 512,
+      "name": "Simisage",
+      "regions": "Asia-Pacific"
+    },
+    {
+      "id": "pansear",
+      "dex": 513,
+      "name": "Pansear",
+      "regions": "Europe, Middle East, Africa, India"
+    },
+    {
+      "id": "simisear",
+      "dex": 514,
+      "name": "Simisear",
+      "regions": "Europe, Middle East, Africa, India"
+    },
+    {
+      "id": "panpour",
+      "dex": 515,
+      "name": "Panpour",
+      "regions": "Americas, Greenland"
+    },
+    {
+      "id": "simipour",
+      "dex": 516,
+      "name": "Simipour",
+      "regions": "Americas, Greenland"
+    },
+    {
+      "id": "throh",
+      "dex": 538,
+      "name": "Throh",
+      "regions": "Americas, Africa"
+    },
+    {
+      "id": "sawk",
+      "dex": 539,
+      "name": "Sawk",
+      "regions": "Europe, Asia, Australia"
+    },
+    {
+      "id": "basculin",
+      "dex": 550,
+      "name": "Basculin",
+      "regions": "Eastern Hemisphere (Red-Striped) / Western Hemisphere (Blue-Striped)"
+    },
+    {
+      "id": "maractus",
+      "dex": 556,
+      "name": "Maractus",
+      "regions": "Southern United States, Mexico, Central America, the Caribbean, South America"
+    },
+    {
+      "id": "sigilyph",
+      "dex": 561,
+      "name": "Sigilyph",
+      "regions": "Egypt, Greece"
+    },
+    {
+      "id": "bouffalant",
+      "dex": 626,
+      "name": "Bouffalant",
+      "regions": "New York and surrounding areas"
+    },
+    {
+      "id": "heatmor",
+      "dex": 631,
+      "name": "Heatmor",
+      "regions": "Europe, Asia, Australia"
+    },
+    {
+      "id": "durant",
+      "dex": 632,
+      "name": "Durant",
+      "regions": "Americas, Africa"
+    },
+    {
+      "id": "hawlucha",
+      "dex": 701,
+      "name": "Hawlucha",
+      "regions": "Mexico"
+    },
+    {
+      "id": "klefki",
+      "dex": 707,
+      "name": "Klefki",
+      "regions": "France"
+    },
+    {
+      "id": "oricorio",
+      "dex": 741,
+      "name": "Oricorio",
+      "regions": "Europe, Middle East, Africa, India"
+    },
+    {
+      "id": "oricorio_pompom",
+      "dex": 741,
+      "name": "Oricorio (Pompom)",
+      "regions": "Americas, Greenland"
+    },
+    {
+      "id": "oricorio_pau",
+      "dex": 741,
+      "name": "Oricorio (Pau)",
+      "regions": "African, Asian, Pacific and Caribbean islands"
+    },
+    {
+      "id": "oricorio_sensu",
+      "dex": 741,
+      "name": "Oricorio (Sensu)",
+      "regions": "Asia-Pacific"
+    },
+    {
+      "id": "comfey",
+      "dex": 764,
+      "name": "Comfey",
+      "regions": "Hawaii"
+    },
+    {
+      "id": "buzzwole",
+      "dex": 794,
+      "name": "Buzzwole",
+      "regions": "Americas, Greenland"
+    },
+    {
+      "id": "pheromosa",
+      "dex": 795,
+      "name": "Pheromosa",
+      "regions": "Europe, Middle East, Africa, India"
+    },
+    {
+      "id": "xurkitree",
+      "dex": 796,
+      "name": "Xurkitree",
+      "regions": "Asia-Pacific"
+    },
+    {
+      "id": "celesteela",
+      "dex": 797,
+      "name": "Celesteela",
+      "regions": "Southern Hemisphere"
+    },
+    {
+      "id": "kartana",
+      "dex": 798,
+      "name": "Kartana",
+      "regions": "Northern Hemisphere"
+    },
+    {
+      "id": "stakataka",
+      "dex": 805,
+      "name": "Stakataka",
+      "regions": "Eastern Hemisphere"
+    },
+    {
+      "id": "blacephalon",
+      "dex": 806,
+      "name": "Blacephalon",
+      "regions": "Western Hemisphere"
+    },
+    {
+      "id": "stonjourner",
+      "dex": 874,
+      "name": "Stonjourner",
+      "regions": "United Kingdom"
+    },
+    {
+      "id": "tatsugiri",
+      "dex": 978,
+      "name": "Tatsugiri",
+      "regions": "Europe/Middle East/Africa (Curly) / Americas (Droopy) / Asia-Pacific (Stretchy)"
+    },
+    {
+      "id": "flabebe",
+      "dex": 669,
+      "name": "Flabebe",
+      "regions": "Europe/Middle East/Africa (Red) / Americas (Yellow) / Asia-Pacific (Blue)",
+      "partial": true,
+      "note": "White Flower and Orange Flower Flabebe spawn worldwide; only Red/Yellow/Blue are region-locked."
+    },
+    {
+      "id": "floette",
+      "dex": 670,
+      "name": "Floette",
+      "regions": "Europe/Middle East/Africa (Red) / Americas (Yellow) / Asia-Pacific (Blue)",
+      "partial": true,
+      "note": "White Flower and Orange Flower Floette spawn worldwide; only Red/Yellow/Blue are region-locked."
+    },
+    {
+      "id": "florges",
+      "dex": 671,
+      "name": "Florges",
+      "regions": "Europe/Middle East/Africa (Red) / Americas (Yellow) / Asia-Pacific (Blue)",
+      "partial": true,
+      "note": "White Flower and Orange Flower Florges spawn worldwide; only Red/Yellow/Blue are region-locked."
+    },
+    {
+      "id": "squawkabilly",
+      "dex": 931,
+      "name": "Squawkabilly",
+      "regions": "Eastern Hemisphere (Green Plumage) / Western Hemisphere (Blue Plumage)",
+      "partial": true,
+      "note": "Yellow Plumage and White Plumage Squawkabilly spawn worldwide; only Green/Blue are region-locked."
+    }
+  ]
+}
