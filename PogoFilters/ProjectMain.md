@@ -1,3 +1,24 @@
+Updated instructions-website creation:
+I want to pickup working on the PogoFilters project but i want to be able to see it visually a little better.
+
+make a new page in astral project for this - it's already in astral project as code but there's no nav to it.
+
+Make the css some polemonesque CSS.  I want to see a list of my existing pokemon filters. My existing pokemon labels.
+On-hover i want the filters to show the string that the filter is. I don't if i CLICK, then i want the strong to 'open' up below the filter. I want to be able to edit it and it saves to firebase. I want a button on the side that when toggled on let's me make a change (add "!fire" to one filter, and it will automatically add it to hte end of the string for the others). 
+I want another section that is basically a CTRL+F tool. I want to find "!fire" and i want it to show me in an organized way the Name of the Filter and a segement of the querie surrounding the search key i typed. like 15 characters before and after the search key.
+I want a small notes section for both labels and filters, that minimizes and expands easily, a corner tab.
+I want a way to add new labels and filters.
+
+I want a visual way to see which labels exist in which filter. within the queries I want the labels to show as different colors. use a different color for every label.
+
+I want a tool that let's me 'select a filter' and then let's me click the 'labels' that i want added to it, and have it add the label.
+
+I want this for every one of the filters, to be able to add and takeaway lables just by clicking them. and it should work when i have the 'affect all' checkbox checked on.
+
+Think through reasonably and logically if there's any other organization tools for this type of webpage that i may need.
+
+This tool is only ever going to be seen by my eyes even though we're attaching it to firebase so i can use it on multiple machines.
+
 I have these pokemon go filters that help me filter my pokebox index in POKEMON GO with simple 
 "  filter -- > delete all. " combinations.
 
@@ -8,6 +29,7 @@ The Goal:
 Make enough filters that cover 99%-100% use cases to be able to automatically filter--> delete all unwanted pokemon, without ever having to MANUALLY review.
 
 Many of my filters are based around saving pokemon to trade: Generally you can only trade 100 pokemon a day. So having more than like 200 saved, non unique, pokemon at a time is just a waste of space, because i'll never get rid of them (on average I never do my 100 trades per day so the remaining just cause clutter and annoyance. I need to set boundaries/limits to how many mons i want to save to trade that are speficially from recent catches or non unique sources. Legendaries, costume pokemon, shinies, etc: are all unique source examples.)
+-- 8/9 i've gotten better at managing this restriction
 
 If i had a label for 'mons to trade' it would likely replace my TTE label and a couple of other labels. I could keep it to around 200 pokemon at all times. I would have to manually delete things from that list to keep it at 200 though - or when it's at 200 i can change what my mass-filter-trash label is to include the pokemon that would go into 'mons to trade' and sift them out so it doesnt go over 200.
 Ie: pikachu goes into 'mons to trade'. Mons to trade is at 200. 
@@ -30,18 +52,41 @@ I have a few random scraps from that session saved to tiersForNow.md as a place 
 i need help figuring out a good filter method to meet my goal. as well as the above - figuring out a full list of what CP each pokemon is at a specific lvl so we can make filters for CP ranges.
 
 
+Existing labels:
+Remote-Trade: overlaps with many other labels. specifically to show pokemon i'm willing to trade. many of these are only saved for this purpose. I try to keep it minimal but it is literally for pokemon i don't want that someone else may.
+
+TTA: Trade to alt. Something i dont care about that myy be good for an alt. Usually high level (high cp) .
+
+Trash : a filter to put legendaries into for when pokemon has events that let me transfer them for more candy. I have to manually add pokemon to it. no filter will work for this because its sensitive.
+
+Powerup: overlaps many things. no way to filter to add pokemon to it.
+
+MegaEv:
+
+Walk4candy:
+
+Evolveme
+
+Gym
+
+Xxl
+
+Lure or buddyEV
+
+Potentialmega
+
+Frust
+
+Pureevolve
+
+and a few others. None really else to help add to filters to help filter my boxes. so most of these are unrelated to the task at hand.
+
 
 My existing filters:
 
-bliss,snor — 50 Pokémon : Not necessary
-
-TTE all — 83 Pokémon : Convenient
-
-TTE 0-3* — 72 Pokémon : Convenient
 
 Cheapevolves — 29 Pokémon : Convenient
 
-Trade4evo — 147 Pokémon : Similar to TTE ALL
 
 -2750cp TRSH — 120 Pokémon : Convenient - Generally requires manual filtering after filtering to this level. I don't *think* there's any other way to handle these because they are HIGH CP so worth keeping or trading to another account.
 

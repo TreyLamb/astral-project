@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design D — Queue Workflow</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "Segoe UI", Roboto, sans-serif; }
+
+  .pgf-app {
+    --pgf-bg:        #0e1414;
+    --pgf-surface:   #161f1e;
+    --pgf-panel:     #1b2625;
+    --pgf-row-a:     #16201f;
+    --pgf-row-b:     #1a2524;
+    --pgf-text:      #e6f2ef;
+    --pgf-text-dim:  #8ba39e;
+    --pgf-text-faint:#5e7370;
+    --pgf-line:      #253433;
+    --pgf-line-str:  #354a48;
+
+    --pgf-ref-bg:    rgba(255,255,255,.05);
+    --pgf-ref-edge:  #354a48;
+
+    --pgf-accent:    #34e0a1;
+    --pgf-accent-soft: rgba(52,224,161,.15);
+    --pgf-warn:      #ffb03a;
+    --pgf-hot:       #ff6b6b;
+
+    min-height:100vh; background:var(--pgf-bg); color:var(--pgf-text); font-size:13px;
+  }
+  .pgf-note { padding:14px 20px; background:var(--pgf-surface); border-bottom:1px solid var(--pgf-line);
+    font-size:13px; color:var(--pgf-text-dim); }
+  .pgf-note b { color:var(--pgf-accent); }
+
+  .pgf-pad { padding:22px; max-width:1180px; margin:0 auto; }
+  h2 { font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--pgf-text-faint);
+    margin:0 0 12px; font-weight:700; }
+
+  .pgf-overall { background:var(--pgf-panel); border:1px solid var(--pgf-line); border-radius:10px;
+    padding:16px 18px; margin-bottom:22px; }
+  .pgf-bar { height:12px; background:#0d1615; border-radius:6px; overflow:hidden; margin:10px 0 6px; }
+  .pgf-bar i { display:block; height:100%; background:linear-gradient(90deg,#34e0a1,#7af0c6); }
+  .pgf-overall-t { display:flex; justify-content:space-between; align-items:baseline; }
+  .pgf-overall-t b { font-size:20px; } .pgf-overall-t span { color:var(--pgf-text-faint); font-size:12px; }
+
+  .pgf-queues { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; }
+  .pgf-q { background:var(--pgf-panel); border:1px solid var(--pgf-line); border-left:4px solid var(--qc,var(--pgf-accent));
+    border-radius:10px; padding:16px; cursor:pointer; transition:.14s; }
+  .pgf-q:hover { transform:translateY(-2px); border-color:var(--qc); box-shadow:0 6px 20px rgba(0,0,0,.4); }
+  .pgf-q-h { display:flex; justify-content:space-between; align-items:baseline; }
+  .pgf-q-name { font-size:14px; font-weight:700; }
+  .pgf-q-n { font-size:26px; font-weight:800; color:var(--qc,var(--pgf-accent)); font-variant-numeric:tabular-nums; }
+  .pgf-q-sub { color:var(--pgf-text-faint); font-size:11.5px; margin:8px 0 12px; line-height:1.5; }
+  .pgf-q-btns { display:flex; gap:8px; }
+  .pgf-q-btn { flex:1; height:30px; border-radius:6px; font:700 11.5px/1 inherit; cursor:pointer;
+    background:#0d1615; color:var(--pgf-text-dim); border:1px solid var(--pgf-line-str); }
+  .pgf-q-btn.p { background:var(--qc); color:#0b1512; border-color:var(--qc); }
+
+  /* ---- table view ---- */
+  .pgf-back { color:var(--pgf-accent); cursor:pointer; font-size:12px; margin-bottom:10px; display:inline-block; }
+  .pgf-scroll { max-height:60vh; overflow:auto; border:1px solid var(--pgf-line); border-radius:8px; }
+  table { border-collapse:separate; border-spacing:0; width:100%; }
+  thead th { position:sticky; top:0; z-index:4; background:#0b1211; color:var(--pgf-text-faint);
+    font-size:10px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; text-align:left;
+    padding:8px; border-bottom:2px solid var(--pgf-line-str); white-space:nowrap; }
+  tbody tr:nth-child(odd) td { background:var(--pgf-row-a); }
+  tbody tr:nth-child(even) td { background:var(--pgf-row-b); }
+  tbody td { padding:6px 8px; border-bottom:1px solid var(--pgf-line); white-space:nowrap; height:34px; }
+  .sec-ref { background:var(--pgf-ref-bg)!important; border-left:2px solid var(--pgf-ref-edge); }
+  .sec-ref-end { border-right:2px solid var(--pgf-ref-edge); }
+  tbody tr:nth-child(odd) td.sec-ref { background:#1a2726!important; }
+  tbody tr:nth-child(even) td.sec-ref { background:#1e2c2a!important; }
+  .cp { text-align:right; font-variant-numeric:tabular-nums; color:var(--pgf-text-dim); width:52px; }
+  .cp.hi { color:var(--pgf-text); }
+  .sprite { width:24px; height:24px; vertical-align:middle; margin-right:7px; }
+  .tierbtn { min-width:50px; height:24px; margin-right:4px; font:700 11px/1 inherit;
+    background:#0d1615; color:var(--pgf-text-faint); border:1px solid var(--pgf-line-str);
+    border-radius:4px; cursor:pointer; font-variant-numeric:tabular-nums; }
+  .tierbtn:hover { color:var(--pgf-accent); border-color:var(--pgf-accent); }
+  .tierbtn.on { background:var(--pgf-accent); color:#0b1512; border-color:var(--pgf-accent);
+    box-shadow:0 0 10px rgba(52,224,161,.45); }
+  .custom { width:64px; height:24px; padding:0 6px; font:700 11px/1 inherit; background:#0d1615;
+    color:var(--pgf-text); border:1px solid var(--pgf-line-str); border-radius:4px; }
+  .needs .custom { border-color:var(--pgf-warn); color:var(--pgf-warn); }
+
+  /* ---- quick decide ---- */
+  .pgf-quick { max-width:560px; margin:0 auto; text-align:center; background:var(--pgf-panel);
+    border:1px solid var(--pgf-line); border-radius:14px; padding:28px; }
+  .pgf-quick img { width:170px; height:170px; object-fit:contain; }
+  .pgf-quick h3 { font-size:26px; margin:6px 0 2px; }
+  .pgf-quick .dex { color:var(--pgf-text-faint); font-size:12px; }
+  .pgf-qref { display:flex; justify-content:center; gap:26px; margin:20px 0;
+    background:var(--pgf-ref-bg); border-top:2px solid var(--pgf-ref-edge);
+    border-bottom:2px solid var(--pgf-ref-edge); padding:12px 0; }
+  .pgf-qref div span { display:block; font-size:10px; letter-spacing:.1em; color:var(--pgf-text-faint); }
+  .pgf-qref div b { font-size:22px; font-variant-numeric:tabular-nums; }
+  .pgf-qtiers { display:flex; gap:8px; justify-content:center; margin-bottom:16px; }
+  .pgf-qtier { flex:1; height:52px; font:800 15px/1 inherit; background:#0d1615; color:var(--pgf-text-dim);
+    border:2px solid var(--pgf-line-str); border-radius:9px; cursor:pointer; font-variant-numeric:tabular-nums; }
+  .pgf-qtier:hover { border-color:var(--pgf-accent); color:var(--pgf-accent); }
+  .pgf-qtier.on { background:var(--pgf-accent); color:#0b1512; border-color:var(--pgf-accent); }
+  .pgf-qtier small { display:block; font-size:9px; opacity:.6; margin-top:3px; font-weight:600; }
+  .pgf-qnav { display:flex; gap:10px; }
+  .pgf-qnav button { flex:1; height:38px; border-radius:7px; font:700 12px/1 inherit; cursor:pointer;
+    background:#0d1615; color:var(--pgf-text); border:1px solid var(--pgf-line-str); }
+  .pgf-tip { color:var(--pgf-text-faint); font-size:11px; margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="pgf-app">
+  <div class="pgf-note">
+    <b>Design D — Queue-driven workflow.</b>
+    900 undifferentiated rows is psychologically defeating and never gets finished. Same data,
+    restructured as small <em>finishable</em> queues with live counters that tick down. Pick a
+    queue, grind it to zero. “Quick decide” shows one species at a time for rapid-fire assignment.
+    <em>Click a queue card below.</em>
+  </div>
+
+  <div class="pgf-pad" id="root"></div>
+</div>
+
+<script src="_sample-data.js"></script>
+<script>
+  const rows = bulked(6);
+  const root = document.getElementById('root');
+  let view = { name: 'queues' };
+  let qi = 0;
+
+  const QUEUES = [
+    { id:'nc',  name:'Needs custom CP',        color:'#ff6b6b',
+      sub:'Even at L35 these sit below the lowest preset — every tier button is meaningless for them. Fastest queue to clear.',
+      f: s => needsCustom(s) && s.tier === null },
+    { id:'hi',  name:'Unassigned · high ceiling', color:'#ffb03a',
+      sub:'L25 CP above 1600. Highest-leverage decisions — one Tyranitar call is worth twenty Caterpies.',
+      f: s => s.tier === null && !needsCustom(s) && s.l25 >= 1600 },
+    { id:'un',  name:'Unassigned · the rest',   color:'#34e0a1',
+      sub:'The long tail. Lower impact per decision, so speed-run it once the high-ceiling queue is done.',
+      f: s => s.tier === null && !needsCustom(s) && s.l25 < 1600 },
+    { id:'as',  name:'Assigned',                color:'#4aa8ff',
+      sub:'Already decided. Review and adjust.',
+      f: s => s.tier !== null },
+  ];
+
+  const starHtml = n => n == null ? '☆☆☆☆'
+    : '★'.repeat(n) + '☆'.repeat(4 - n);
+
+  function renderQueues() {
+    const done = rows.filter(s => s.tier !== null).length;
+    const pct = (done / rows.length * 100).toFixed(1);
+    root.innerHTML = `
+      <div class="pgf-overall">
+        <div class="pgf-overall-t"><b>${done} / ${rows.length} assigned</b><span>${pct}% complete</span></div>
+        <div class="pgf-bar"><i style="width:${pct}%"></i></div>
+        <span style="color:var(--pgf-text-faint);font-size:11px">Every assignment moves a species out of a queue and into “Assigned”.</span>
+      </div>
+      <h2>Work queues</h2>
+      <div class="pgf-queues">
+        ${QUEUES.map((q, i) => {
+          const n = rows.filter(q.f).length;
+          const ex = rows.filter(q.f).slice(0, 3).map(s => s.name).join(', ');
+          return `<div class="pgf-q" style="--qc:${q.color}" data-q="${i}">
+            <div class="pgf-q-h"><span class="pgf-q-name">${q.name}</span><span class="pgf-q-n">${n}</span></div>
+            <div class="pgf-q-sub">${q.sub}<br><em style="color:var(--pgf-text-dim)">${ex || '—'}${n>3?'…':''}</em></div>
+            <div class="pgf-q-btns">
+              <button class="pgf-q-btn p" data-q="${i}" data-mode="table">Open table</button>
+              <button class="pgf-q-btn" data-q="${i}" data-mode="quick">Quick decide</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+
+  function renderTable(q) {
+    const data = rows.filter(q.f);
+    root.innerHTML = `
+      <span class="pgf-back" data-back>← All queues</span>
+      <h2 style="color:${q.color}">${q.name} — ${data.length} species</h2>
+      <div class="pgf-scroll"><table>
+        <thead><tr>
+          <th style="width:44px">Dex</th><th style="width:190px">Species</th>
+          <th class="sec-ref" style="text-align:right">L15</th>
+          <th class="sec-ref" style="text-align:right">L25</th>
+          <th class="sec-ref sec-ref-end" style="text-align:right">L35</th>
+          <th>CP tier — click to set</th><th style="width:76px">Stars</th>
+        </tr></thead>
+        <tbody>${data.map((s, i) => {
+          const nc = needsCustom(s);
+          return `<tr class="${nc?'needs':''}">
+            <td style="color:var(--pgf-text-faint)">${String(s.dex).padStart(3,'0')}</td>
+            <td><img class="sprite" loading="lazy" src="${spriteUrl(s.dex)}" alt="">${s.name}</td>
+            <td class="cp sec-ref">${s.l15}</td>
+            <td class="cp sec-ref hi">${s.l25}</td>
+            <td class="cp sec-ref sec-ref-end">${s.l35}</td>
+            <td>${nc ? '' : TIERS.map(t =>
+              `<button class="tierbtn${s.tier===t?' on':''}" data-dex="${s.dex}" data-rep="${s._rep}" data-t="${t}">${t}</button>`).join('')}
+              <input class="custom" placeholder="custom" value="${s.custom||''}"></td>
+            <td style="color:var(--pgf-accent)">${starHtml(s.stars)}</td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table></div>`;
+  }
+
+  function renderQuick(q) {
+    const data = rows.filter(q.f);
+    if (!data.length) { renderQueues(); return; }
+    qi = Math.min(qi, data.length - 1);
+    const s = data[qi];
+    const nc = needsCustom(s);
+    const pct = ((qi) / data.length * 100).toFixed(0);
+    root.innerHTML = `
+      <span class="pgf-back" data-back>← All queues</span>
+      <h2 style="color:${q.color}">Quick decide · ${q.name}</h2>
+      <div class="pgf-bar" style="max-width:560px;margin:0 auto 18px"><i style="width:${pct}%;background:${q.color}"></i></div>
+      <div class="pgf-quick">
+        <img loading="lazy" src="${spriteUrl(s.dex)}" alt="">
+        <div class="dex">#${String(s.dex).padStart(3,'0')} · ${s.types.join(' / ')}</div>
+        <h3>${s.name}</h3>
+        <div class="pgf-qref">
+          <div><span>L15</span><b>${s.l15}</b></div>
+          <div><span>L25</span><b>${s.l25}</b></div>
+          <div><span>L35</span><b>${s.l35}</b></div>
+        </div>
+        ${nc ? `<div style="color:var(--pgf-warn);font-weight:700;margin-bottom:14px">
+                  Max CP ${s.l35} — below every preset. Needs a custom value.</div>
+                <input class="custom" style="width:140px;height:44px;font-size:16px;text-align:center"
+                       placeholder="custom CP" value="${s.custom||''}">`
+              : `<div class="pgf-qtiers">${TIERS.map((t,n)=>
+                  `<button class="pgf-qtier${s.tier===t?' on':''}" data-t="${t}">${t}<small>key ${n+1}</small></button>`).join('')}</div>`}
+        <div class="pgf-qnav">
+          <button data-nav="-1">← Back</button>
+          <button data-nav="skip">Skip</button>
+          <button data-nav="1">Next →</button>
+        </div>
+        <div class="pgf-tip">${qi+1} of ${data.length} · arrow keys navigate · number keys 1–5 set a tier</div>
+      </div>`;
+  }
+
+  function render() {
+    if (view.name === 'queues') renderQueues();
+    else if (view.name === 'table') renderTable(QUEUES[view.q]);
+    else renderQuick(QUEUES[view.q]);
+  }
+
+  root.addEventListener('click', e => {
+    if (e.target.closest('[data-back]')) { view = { name:'queues' }; qi = 0; return render(); }
+
+    const qb = e.target.closest('.pgf-q-btn');
+    if (qb) { view = { name: qb.dataset.mode, q: +qb.dataset.q }; qi = 0; return render(); }
+    const card = e.target.closest('.pgf-q');
+    if (card && !qb) { view = { name:'table', q:+card.dataset.q }; return render(); }
+
+    const tb = e.target.closest('.tierbtn');
+    if (tb) {
+      const s = rows.find(r => r.dex === +tb.dataset.dex && r._rep === +tb.dataset.rep);
+      s.tier = s.tier === +tb.dataset.t ? null : +tb.dataset.t;
+      return render();
+    }
+    const qt = e.target.closest('.pgf-qtier');
+    if (qt) {
+      const data = rows.filter(QUEUES[view.q].f);
+      data[qi].tier = +qt.dataset.t;
+      return render();
+    }
+    const nav = e.target.closest('[data-nav]');
+    if (nav) {
+      const d = nav.dataset.nav;
+      if (d === '1' || d === 'skip') qi++;
+      else if (d === '-1') qi = Math.max(0, qi - 1);
+      return render();
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (view.name !== 'quick' || e.target.tagName === 'INPUT') return;
+    const data = rows.filter(QUEUES[view.q].f);
+    if (e.key >= '1' && e.key <= '5' && data[qi]) { data[qi].tier = TIERS[+e.key - 1]; }
+    else if (e.key === 'ArrowRight') qi++;
+    else if (e.key === 'ArrowLeft') qi = Math.max(0, qi - 1);
+    else return;
+    e.preventDefault(); render();
+  });
+
+  render();
+</script>
+</body>
+</html>

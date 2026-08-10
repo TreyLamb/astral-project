@@ -12,6 +12,7 @@ const TILES = [
   { to: '/pgo-tracker',            name: 'PGO Tracker',      desc: 'multi-account pokémon go tracker', icon: '🎒', bg: '#1a0510', accent: '#ee6b6b', rgb: '238,107,107' },
   { to: '/pogo-accs',              name: 'POGO Accs',        desc: 'raid counters & mega tracker',   icon: '💠', bg: '#070d1c', accent: '#67e8f9', rgb: '103,232,249'  },
   { to: '/medaldex',               name: 'MedalDex',         desc: 'pokédex & medal tracker',        icon: '🏅', bg: '#12100a', accent: '#f0b23a', rgb: '240,178,58'   },
+  { to: '/pogo-filters',           name: 'PogoFilters',      desc: 'pokémon go search filter manager', icon: '⌗', bg: '#100b1c', accent: '#c874ff', rgb: '200,116,255'  },
   { to: '/antiquityquest',         name: 'Antiquity Quest',  desc: 'card game score dashboard',      icon: '🏺', bg: '#171004', accent: '#f59e0b', rgb: '245,158,11'   },
   { to: '/stashmap',               name: 'StashMap',         desc: 'home inventory & floor map',     icon: '📦', bg: '#0b1311', accent: '#4fb0a5', rgb: '79,176,165'   },
   { to: '/fitness-tracker',        name: 'MyFitnessTracker',   desc: 'workout & fitness log',          icon: '💪', bg: '#0c1204', accent: '#a3e635', rgb: '163,230,53'   },

@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design E — Pokédex Console</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+         background: #07060d; }
+
+  .pgf-app {
+    /* "Cardinal Glass" — crimson shell, amethyst screen, amber readout.
+       Deliberately distinct from MedalDex (gold/emerald) and POGO Accs (cyan/violet/pink). */
+    --pgf-shell:       #7d1220;
+    --pgf-shell-hi:    #b8253a;
+    --pgf-void:        #0b0814;
+    --pgf-screen:      #120c22;
+    --pgf-panel-bg:    rgba(255,255,255,.055);
+    --pgf-panel-brd:   rgba(198,120,255,.22);
+    --pgf-amber-brd:   rgba(255,196,92,.18);
+
+    --pgf-text:        #ece0ff;
+    --pgf-text-dim:    #a396c4;
+    --pgf-text-faint:  #6e6390;
+
+    --pgf-ref-bg:      rgba(140,110,200,.10);
+    --pgf-ref-edge:    rgba(255,196,92,.28);
+
+    --pgf-lit:         #c874ff;
+    --pgf-lit-glow:    rgba(200,116,255,.55);
+    --pgf-amber:       #ffc45c;
+    --pgf-warn:        #ff6b7d;
+
+    --pgf-radius:      10px;
+    color: var(--pgf-text); font-size: 13px;
+  }
+
+  .pgf-note { padding:14px 20px; color:var(--pgf-text-dim); font-size:13px;
+    background:#100a1c; border-bottom:1px solid rgba(255,255,255,.07); }
+  .pgf-note b { color: var(--pgf-lit); }
+
+  /* device shell */
+  .pgf-device {
+    margin: 18px; border-radius: 18px; padding: 14px;
+    background: linear-gradient(150deg, var(--pgf-shell-hi) 0%, var(--pgf-shell) 45%, #4d0a14 100%);
+    box-shadow: inset 0 2px 0 rgba(255,255,255,.18), 0 16px 44px rgba(0,0,0,.75);
+  }
+  .pgf-bezel {
+    display:flex; align-items:center; gap:10px; padding: 0 6px 12px;
+    font-size: 11px; letter-spacing:.18em; text-transform:uppercase; font-weight:800;
+    color: #ffd9de; text-shadow: 0 1px 2px rgba(0,0,0,.6);
+  }
+  .pgf-led { width:11px; height:11px; border-radius:50%; background:var(--pgf-amber);
+    box-shadow: 0 0 10px var(--pgf-amber), inset 0 -2px 3px rgba(0,0,0,.4); }
+  .pgf-led.b { background:#5ce1ff; box-shadow:0 0 9px #5ce1ff; }
+  .pgf-led.c { background:#7dff9e; box-shadow:0 0 9px #7dff9e; }
+
+  /* screen */
+  .pgf-screen-wrap {
+    position: relative; border-radius: var(--pgf-radius); overflow: hidden;
+    background: var(--pgf-screen);
+    border: 1px solid var(--pgf-panel-brd);
+    box-shadow: inset 0 0 40px rgba(0,0,0,.85), inset 0 0 0 1px rgba(255,255,255,.05);
+  }
+  /* one scanline overlay for the whole screen, not per row — costs nothing on scroll */
+  .pgf-screen-wrap::after {
+    content:''; position:absolute; inset:0; pointer-events:none; z-index:9;
+    background: repeating-linear-gradient(0deg,
+      rgba(255,196,92,.055) 0px, rgba(255,196,92,.055) 1px,
+      transparent 1px, transparent 3px);
+  }
+  .pgf-screen-wrap::before {
+    content:''; position:absolute; inset:0; pointer-events:none; z-index:8;
+    background: radial-gradient(ellipse at 50% 40%, transparent 55%, rgba(0,0,0,.55) 100%);
+  }
+
+  .pgf-scroll { height: 66vh; overflow: auto; }
+  table { border-collapse: separate; border-spacing: 0; width: 100%; }
+
+  thead th {
+    position: sticky; top: 0; z-index: 6;
+    background: rgba(14,9,26,.97);
+    backdrop-filter: blur(8px);           /* one element only — see notes */
+    color: var(--pgf-amber);
+    font-size: 9.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+    text-align: left; padding: 9px 8px; white-space: nowrap;
+    border-bottom: 2px solid var(--pgf-amber-brd);
+  }
+  thead tr.band th { font-size:9px; padding:5px 8px; text-align:center; color:var(--pgf-text-faint);
+    border-bottom:1px solid rgba(255,255,255,.07); }
+  thead tr.cols th { top: 25px; }
+
+  .sec-ref { background: var(--pgf-ref-bg) !important;
+             border-left: 2px solid var(--pgf-ref-edge); }
+  .sec-ref-end { border-right: 2px solid var(--pgf-ref-edge); }
+
+  tbody td { padding:7px 8px; border-bottom:1px solid rgba(255,255,255,.045);
+    white-space:nowrap; height:36px; }
+  tbody tr:nth-child(even) td { background: rgba(255,255,255,.022); }
+  tbody tr:hover td { background: rgba(200,116,255,.09); }
+
+  .dex { color: var(--pgf-text-faint); font-variant-numeric: tabular-nums; font-size: 11px; }
+  .name { font-weight: 700; letter-spacing:.2px; }
+  .sprite { width:26px; height:26px; object-fit:contain; vertical-align:middle; margin-right:8px;
+    filter: drop-shadow(0 0 5px rgba(200,116,255,.35)); }
+  .cp { text-align:right; font-variant-numeric:tabular-nums; color:var(--pgf-text-dim);
+    font-family:"Consolas",monospace; font-size:12.5px; width:56px; }
+  .cp.hi { color: var(--pgf-amber); }
+
+  /* illuminated console buttons */
+  .tierbtn {
+    position:relative; min-width:54px; height:26px; margin-right:5px; padding:0 8px;
+    font:800 11.5px/1 "Consolas",monospace; letter-spacing:.04em;
+    color: var(--pgf-text-dim);
+    background: linear-gradient(180deg, rgba(90,55,150,.5), rgba(48,28,86,.6));
+    border: 1.5px solid rgba(198,120,255,.28); border-radius: 5px; cursor: pointer;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 2px rgba(0,0,0,.5);
+    transition: all .16s;
+  }
+  .tierbtn:hover { color: var(--pgf-text); border-color: var(--pgf-lit);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 0 10px rgba(200,116,255,.3); }
+  .tierbtn.on {
+    color: #17091f; font-weight: 900;
+    background: linear-gradient(180deg, #e0a5ff, var(--pgf-lit));
+    border-color: #f0d0ff;
+    box-shadow: 0 0 16px var(--pgf-lit-glow), 0 0 30px rgba(200,116,255,.3),
+                inset 0 1px 0 rgba(255,255,255,.6);
+  }
+  .custom { width:70px; height:26px; padding:0 7px; font:800 11.5px/1 "Consolas",monospace;
+    background: rgba(20,12,36,.85); color: var(--pgf-text);
+    border:1.5px solid rgba(198,120,255,.28); border-radius:5px; }
+  tr.needs .custom { border-color: var(--pgf-warn); color: var(--pgf-warn);
+    box-shadow: 0 0 9px rgba(255,107,125,.25); }
+  .needs-tag { font-size:9.5px; font-weight:800; letter-spacing:.1em; color:var(--pgf-warn);
+    border:1px dashed var(--pgf-warn); border-radius:4px; padding:4px 7px; margin-right:6px; }
+
+  .stars { color: var(--pgf-amber); letter-spacing:2px; font-size:13px;
+    text-shadow: 0 0 7px rgba(255,196,92,.45); cursor:pointer; }
+  .stars .off { color:#3d3159; text-shadow:none; }
+  .lab { display:inline-block; padding:2px 7px; border-radius:9px; font-size:10px;
+    background:rgba(198,120,255,.14); border:1px solid rgba(198,120,255,.28);
+    color:#d3b8f5; margin-right:3px; }
+  .chk { accent-color: var(--pgf-lit); width:15px; height:15px; vertical-align:middle; }
+
+  .pgf-status { display:flex; gap:16px; padding:10px 14px; font-size:11px;
+    color: var(--pgf-text-faint); background: rgba(10,6,20,.7);
+    border-top:1px solid rgba(255,255,255,.06); font-family:"Consolas",monospace; }
+  .pgf-status b { color: var(--pgf-amber); }
+</style>
+</head>
+<body>
+<div class="pgf-app">
+  <div class="pgf-note">
+    <b>Design E — Pokédex console (“Cardinal Glass”).</b>
+    Same glass-panel construction language as MedalDex and POGO Accs so it reads as a sibling, but
+    a crimson/amethyst/amber palette of its own rather than a reskin. Tier buttons are physical
+    illuminated console keys that light when engaged. Scanlines are a single overlay on the screen,
+    not per row, and the only <code>backdrop-filter</code> is on the frozen header — so 900 rows
+    still scroll at 60fps.
+  </div>
+
+  <div class="pgf-device">
+    <div class="pgf-bezel">
+      <span class="pgf-led"></span><span class="pgf-led b"></span><span class="pgf-led c"></span>
+      &nbsp;Pokédex Cardinal · Species CP Matrix
+      <span style="margin-left:auto;opacity:.75" id="hdr"></span>
+    </div>
+
+    <div class="pgf-screen-wrap">
+      <div class="pgf-scroll">
+        <table>
+          <thead>
+            <tr class="band">
+              <th colspan="3"></th>
+              <th colspan="3" class="sec-ref sec-ref-end">◆ Reference — read only ◆</th>
+              <th colspan="1" style="color:var(--pgf-lit)">◆ Selection — engage a tier ◆</th>
+              <th colspan="2"></th>
+            </tr>
+            <tr class="cols">
+              <th style="width:36px"></th>
+              <th style="width:46px">Dex</th>
+              <th style="width:200px">Species</th>
+              <th class="sec-ref" style="text-align:right">L15</th>
+              <th class="sec-ref" style="text-align:right">L25</th>
+              <th class="sec-ref sec-ref-end" style="text-align:right">L35</th>
+              <th>CP Tier</th>
+              <th style="width:80px">Stars</th>
+              <th style="width:150px">Labels</th>
+            </tr>
+          </thead>
+          <tbody id="body"></tbody>
+        </table>
+      </div>
+      <div class="pgf-status" id="status"></div>
+    </div>
+  </div>
+</div>
+
+<script src="_sample-data.js"></script>
+<script>
+  const rows = bulked(8);
+  const body = document.getElementById('body');
+
+  const starHtml = n => n == null ? '<span class="off">☆☆☆☆</span>'
+    : '★'.repeat(n) + '<span class="off">' + '☆'.repeat(4 - n) + '</span>';
+
+  function render() {
+    body.innerHTML = rows.map((s, i) => {
+      const nc = needsCustom(s);
+      return `<tr class="${nc ? 'needs' : ''}">
+        <td><input type="checkbox" class="chk" ${s.tier !== null || nc ? 'checked' : ''}></td>
+        <td class="dex">${String(s.dex).padStart(3,'0')}</td>
+        <td class="name"><img class="sprite" loading="lazy" src="${spriteUrl(s.dex)}" alt="">${s.name}</td>
+        <td class="cp sec-ref">${s.l15}</td>
+        <td class="cp sec-ref hi">${s.l25}</td>
+        <td class="cp sec-ref sec-ref-end">${s.l35}</td>
+        <td>${nc ? '<span class="needs-tag">NEEDS CUSTOM</span>'
+                 : TIERS.map(t => `<button class="tierbtn${s.tier===t?' on':''}" data-i="${i}" data-t="${t}">${t}</button>`).join('')}
+            <input class="custom" placeholder="custom" value="${s.custom||''}"></td>
+        <td class="stars">${starHtml(s.stars)}</td>
+        <td>${s.labels.map(l => `<span class="lab">${l}</span>`).join('')}</td>
+      </tr>`;
+    }).join('');
+
+    const done = rows.filter(s => s.tier !== null).length;
+    document.getElementById('status').innerHTML =
+      `ASSIGNED <b>${done}</b> / ${rows.length} &nbsp;·&nbsp; UNASSIGNED <b>${rows.filter(s=>s.tier===null&&!needsCustom(s)).length}</b>` +
+      ` &nbsp;·&nbsp; NEEDS CUSTOM <b>${rows.filter(needsCustom).length}</b> &nbsp;·&nbsp; TIERS <b>${TIERS.join(' / ')}</b>`;
+    document.getElementById('hdr').textContent = `${rows.length} entries loaded`;
+  }
+
+  body.addEventListener('click', e => {
+    const b = e.target.closest('.tierbtn'); if (!b) return;
+    const i = +b.dataset.i, t = +b.dataset.t;
+    rows[i].tier = rows[i].tier === t ? null : t;
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>

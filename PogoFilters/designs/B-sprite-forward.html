@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design B — Sprite-Forward</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "Segoe UI", Roboto, sans-serif; }
+
+  .pgf-app {
+    --pgf-bg:          #12101b;
+    --pgf-surface:     #1b1828;
+    --pgf-card:        #201d30;
+    --pgf-card-hover:  #282440;
+    --pgf-text:        #ece8f7;
+    --pgf-text-dim:    #9990b5;
+    --pgf-text-faint:  #6b6488;
+    --pgf-line:        #2e2a43;
+
+    --pgf-ref-bg:      rgba(255,255,255,.045);
+    --pgf-ref-edge:    #3a3556;
+
+    --pgf-accent:      #45e0c0;
+    --pgf-accent-soft: rgba(69,224,192,.15);
+    --pgf-warn:        #ff8f6b;
+
+    --pgf-row-h:       88px;
+
+    min-height: 100vh; background: var(--pgf-bg); color: var(--pgf-text); font-size: 14px;
+  }
+
+  .pgf-note { padding: 14px 20px; background: var(--pgf-surface); border-bottom: 1px solid var(--pgf-line);
+    font-size: 13px; color: var(--pgf-text-dim); }
+  .pgf-note b { color: var(--pgf-accent); }
+
+  .pgf-head {
+    position: sticky; top: 0; z-index: 5; display: flex; align-items: center;
+    background: #0e0c16; border-bottom: 2px solid var(--pgf-line);
+    font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--pgf-text-faint); padding: 0 20px; height: 42px;
+  }
+  .pgf-scroll { height: calc(100vh - 62px); overflow-y: auto; }
+
+  .col-mon   { flex: 0 0 250px; }
+  .col-on    { flex: 0 0 54px;  text-align: center; }
+  .col-ref   { flex: 0 0 210px; }
+  .col-sel   { flex: 1 1 auto;  min-width: 380px; }
+  .col-star  { flex: 0 0 96px; }
+  .col-lab   { flex: 0 0 160px; }
+
+  .pgf-head .col-ref { background: var(--pgf-ref-bg); border-left: 2px solid var(--pgf-ref-edge);
+    border-right: 2px solid var(--pgf-ref-edge); height: 100%; display: flex; align-items: center;
+    padding-left: 12px; }
+  .pgf-head .col-sel { color: var(--pgf-accent); padding-left: 14px; }
+
+  .pgf-row {
+    display: flex; align-items: center; height: var(--pgf-row-h);
+    padding: 0 20px; border-bottom: 1px solid var(--pgf-line);
+    border-left: 4px solid var(--type, transparent);
+    background: var(--pgf-card); transition: background .12s;
+  }
+  .pgf-row:hover { background: var(--pgf-card-hover); }
+
+  .pgf-mon { display: flex; align-items: center; gap: 12px; }
+  .pgf-sprite {
+    width: 68px; height: 68px; object-fit: contain; flex-shrink: 0;
+    background: radial-gradient(circle at 50% 45%, rgba(255,255,255,.09), transparent 68%);
+    border-radius: 10px;
+  }
+  .pgf-mon-name { font-size: 16px; font-weight: 700; letter-spacing: .2px; }
+  .pgf-mon-dex  { font-size: 11px; color: var(--pgf-text-faint); font-variant-numeric: tabular-nums; }
+  .pgf-types { display: flex; gap: 4px; margin-top: 4px; }
+  .pgf-type { font-size: 9px; text-transform: uppercase; letter-spacing: .07em; font-weight: 700;
+    padding: 2px 6px; border-radius: 8px; color: #10101a; }
+
+  /* reference block reads as an inset panel, clearly not clickable */
+  .pgf-refblock {
+    background: var(--pgf-ref-bg); border-left: 2px solid var(--pgf-ref-edge);
+    border-right: 2px solid var(--pgf-ref-edge);
+    height: 100%; display: flex; align-items: center; gap: 16px; padding: 0 12px;
+  }
+  .pgf-refcell { text-align: right; }
+  .pgf-reflabel { display: block; font-size: 9px; letter-spacing: .1em; color: var(--pgf-text-faint); }
+  .pgf-refval { font-size: 15px; font-variant-numeric: tabular-nums; color: var(--pgf-text-dim); }
+  .pgf-refval.hi { color: var(--pgf-text); font-weight: 700; }
+
+  .pgf-sel { display: flex; align-items: center; gap: 7px; padding-left: 14px; flex-wrap: wrap; }
+  .pgf-tierbtn {
+    min-width: 58px; height: 34px; padding: 0 10px;
+    font: 700 13px/1 inherit; font-variant-numeric: tabular-nums;
+    color: var(--pgf-text-dim); background: #171430;
+    border: 1.5px solid #322d4e; border-radius: 7px; cursor: pointer; transition: all .14s;
+  }
+  .pgf-tierbtn:hover { color: var(--pgf-accent); border-color: var(--pgf-accent); transform: translateY(-1px); }
+  .pgf-tierbtn.on {
+    color: #0d1a17; background: var(--pgf-accent); border-color: var(--pgf-accent);
+    box-shadow: 0 0 14px rgba(69,224,192,.5);
+  }
+  .pgf-custom { width: 74px; height: 34px; padding: 0 8px; font: 700 13px/1 inherit;
+    background:#171430; color: var(--pgf-text); border: 1.5px solid #322d4e; border-radius: 7px; }
+  .needs .pgf-custom { border-color: var(--pgf-warn); color: var(--pgf-warn); }
+  .pgf-needs-tag { font-size: 10px; font-weight: 800; color: var(--pgf-warn);
+    border: 1px dashed var(--pgf-warn); border-radius: 6px; padding: 5px 8px; }
+
+  .pgf-stars { font-size: 15px; color: var(--pgf-accent); letter-spacing: 2px; cursor: pointer; }
+  .pgf-stars .off { color: #3a3556; }
+  .pgf-lab { display:inline-block; padding:2px 8px; border-radius:10px; font-size:10px;
+    background:#2c2748; color:#b3a8dc; margin:0 3px 3px 0; }
+  .pgf-check { accent-color: var(--pgf-accent); width: 17px; height: 17px; }
+</style>
+</head>
+<body>
+<div class="pgf-app">
+  <div class="pgf-note">
+    <b>Design B — Sprite-forward recognition.</b>
+    88px rows, 68px official artwork, a type-coloured stripe down the left edge of every row.
+    ~9 rows visible instead of ~35 — you trade raw density for recognising the creature instantly,
+    which matters when you don't know 900 Pokémon by name. Reference numbers sit in an inset panel
+    so they never read as clickable.
+  </div>
+
+  <div class="pgf-head">
+    <div class="col-mon">Species</div>
+    <div class="col-on">Track</div>
+    <div class="col-ref">Reference — read only</div>
+    <div class="col-sel">Selection — CP tier</div>
+    <div class="col-star">Stars</div>
+    <div class="col-lab">Labels</div>
+  </div>
+
+  <div class="pgf-scroll" id="scroll"></div>
+</div>
+
+<script src="_sample-data.js"></script>
+<script>
+  const rows = bulked(8);
+  const scroll = document.getElementById('scroll');
+
+  function starHtml(n) {
+    if (n === null || n === undefined) return '<span class="off">☆☆☆☆</span>';
+    let h = ''; for (let i = 1; i <= 4; i++) h += i <= n ? '★' : '<span class="off">☆</span>';
+    return h;
+  }
+
+  function render() {
+    scroll.innerHTML = rows.map((s, i) => {
+      const nc = needsCustom(s);
+      const tiers = TIERS.map(t =>
+        `<button class="pgf-tierbtn${s.tier === t ? ' on' : ''}" data-i="${i}" data-t="${t}">${t}</button>`).join('');
+      return `<div class="pgf-row ${nc ? 'needs' : ''}" style="--type:${TYPE_COLORS[s.types[0]]}">
+        <div class="col-mon pgf-mon">
+          <img class="pgf-sprite" loading="lazy" src="${spriteUrl(s.dex)}" alt=""
+               onerror="this.style.visibility='hidden'">
+          <div>
+            <div class="pgf-mon-dex">#${String(s.dex).padStart(3,'0')}</div>
+            <div class="pgf-mon-name">${s.name}</div>
+            <div class="pgf-types">${s.types.map(t =>
+              `<span class="pgf-type" style="background:${TYPE_COLORS[t]}">${t}</span>`).join('')}</div>
+          </div>
+        </div>
+        <div class="col-on"><input type="checkbox" class="pgf-check" ${s.tier !== null || nc ? 'checked' : ''}></div>
+        <div class="col-ref pgf-refblock">
+          <div class="pgf-refcell"><span class="pgf-reflabel">L15</span><span class="pgf-refval">${s.l15}</span></div>
+          <div class="pgf-refcell"><span class="pgf-reflabel">L25</span><span class="pgf-refval hi">${s.l25}</span></div>
+          <div class="pgf-refcell"><span class="pgf-reflabel">L35</span><span class="pgf-refval">${s.l35}</span></div>
+        </div>
+        <div class="col-sel pgf-sel">
+          ${nc ? '<span class="pgf-needs-tag">NEEDS CUSTOM CP</span>' : tiers}
+          <input class="pgf-custom" placeholder="custom" value="${s.custom || ''}">
+        </div>
+        <div class="col-star pgf-stars">${starHtml(s.stars)}</div>
+        <div class="col-lab">${s.labels.map(l => `<span class="pgf-lab">${l}</span>`).join('')}</div>
+      </div>`;
+    }).join('');
+  }
+
+  scroll.addEventListener('click', e => {
+    const b = e.target.closest('.pgf-tierbtn');
+    if (!b) return;
+    const i = +b.dataset.i, t = +b.dataset.t;
+    rows[i].tier = rows[i].tier === t ? null : t;
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>

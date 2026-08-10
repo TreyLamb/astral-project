@@ -29,7 +29,7 @@ const GAME_ROUTES = ['/bashmon', '/gitmon', '/signal-lost', '/pokered', '/antiqu
 // Sub-apps that render their own internal top bar (with their own nav/tabs and
 // their own way back to Home) — the site nav would just double up and overlap
 // with these, so they get the same minimal treatment as game routes.
-const OWN_TOPBAR_ROUTES = ['/fitness-tracker', '/league-build', '/orbit'];
+const OWN_TOPBAR_ROUTES = ['/fitness-tracker', '/league-build', '/orbit', '/pogo-filters'];
 
 function Navbar() {
   const location = useLocation();
@@ -100,6 +100,7 @@ function Navbar() {
               <li><Link to="/tkb">TheKnowledgeBase</Link></li>
               <li><Link to="/pgo-tracker">PGO Tracker</Link></li>
               <li><Link to="/pogo-accs">POGO Accs</Link></li>
+              <li><Link to="/pogo-filters">PogoFilters</Link></li>
               <li><Link to="/medaldex">MedalDex</Link></li>
               <li><Link to="/antiquityquest">Antiquity Quest</Link></li>
               <li><Link to="/stashmap">StashMap</Link></li>

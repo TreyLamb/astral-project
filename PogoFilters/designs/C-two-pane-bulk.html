@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design C — Two-Pane Bulk Editor</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "Segoe UI", Roboto, sans-serif; }
+
+  .pgf-app {
+    --pgf-bg:        #0f1216;
+    --pgf-surface:   #171b21;
+    --pgf-panel:     #1c2129;
+    --pgf-row-hover: #232a34;
+    --pgf-sel-row:   #17324a;
+    --pgf-text:      #e8eef5;
+    --pgf-text-dim:  #8b98a8;
+    --pgf-text-faint:#5d6875;
+    --pgf-line:      #262d37;
+    --pgf-line-str:  #384252;
+
+    --pgf-ref-bg:    rgba(255,255,255,.05);
+    --pgf-ref-edge:  #33404f;
+
+    --pgf-accent:    #4aa8ff;
+    --pgf-accent-soft: rgba(74,168,255,.16);
+    --pgf-mixed:     #ffb454;
+    --pgf-warn:      #ff7a5c;
+
+    min-height:100vh; background:var(--pgf-bg); color:var(--pgf-text); font-size:13px;
+  }
+  .pgf-note { padding:14px 18px; background:var(--pgf-surface); border-bottom:1px solid var(--pgf-line);
+    font-size:13px; color:var(--pgf-text-dim); }
+  .pgf-note b { color: var(--pgf-accent); }
+
+  .pgf-wrap { display:flex; height: calc(100vh - 58px); }
+  .pgf-left { flex:1 1 auto; display:flex; flex-direction:column; min-width:0;
+    border-right:1px solid var(--pgf-line-str); }
+  .pgf-right{ flex:0 0 400px; background:var(--pgf-surface); overflow-y:auto; padding:16px; }
+
+  .pgf-filters { padding:10px 14px; background:var(--pgf-surface); border-bottom:1px solid var(--pgf-line);
+    display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .pgf-filters input, .pgf-filters select {
+    background:#10141a; color:var(--pgf-text); border:1px solid var(--pgf-line-str);
+    border-radius:5px; padding:5px 9px; font:inherit; font-size:12px; }
+  .pgf-mini { padding:4px 10px; font-size:11px; border-radius:5px; cursor:pointer;
+    background:#10141a; border:1px solid var(--pgf-line-str); color:var(--pgf-text-dim); }
+  .pgf-mini:hover { border-color:var(--pgf-accent); color:var(--pgf-accent); }
+
+  .pgf-listhead, .pgf-listrow { display:flex; align-items:center; padding:0 14px; gap:10px; }
+  .pgf-listhead {
+    position:sticky; top:0; z-index:4; height:34px; background:#0b0e12;
+    border-bottom:2px solid var(--pgf-line-str);
+    font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--pgf-text-faint); }
+  .pgf-listbody { flex:1 1 auto; overflow-y:auto; }
+  .pgf-listrow { height:34px; border-bottom:1px solid var(--pgf-line); cursor:pointer; user-select:none; }
+  .pgf-listrow:hover { background:var(--pgf-row-hover); }
+  .pgf-listrow.sel { background:var(--pgf-sel-row); box-shadow: inset 3px 0 0 var(--pgf-accent); }
+
+  .c-chk { flex:0 0 20px; } .c-dex { flex:0 0 40px; color:var(--pgf-text-faint); font-variant-numeric:tabular-nums; }
+  .c-spr { flex:0 0 26px; } .c-name{ flex:1 1 auto; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .c-ref { flex:0 0 168px; display:flex; gap:10px; justify-content:flex-end;
+           background:var(--pgf-ref-bg); border-left:2px solid var(--pgf-ref-edge);
+           border-right:2px solid var(--pgf-ref-edge); height:100%; align-items:center; padding:0 10px; }
+  .c-ref span { width:44px; text-align:right; font-variant-numeric:tabular-nums; color:var(--pgf-text-dim); font-size:12px; }
+  .c-ref span.hi { color:var(--pgf-text); }
+  .c-stat{ flex:0 0 92px; text-align:right; font-variant-numeric:tabular-nums; font-weight:700; font-size:12px; }
+  .c-stat.on { color:var(--pgf-accent); } .c-stat.off { color:var(--pgf-text-faint); font-weight:400; }
+  .c-stat.nc { color:var(--pgf-warn); }
+  .pgf-sprite { width:24px; height:24px; object-fit:contain; }
+
+  .pgf-selbar { height:38px; display:flex; align-items:center; gap:10px; padding:0 14px;
+    background:var(--pgf-surface); border-top:1px solid var(--pgf-line); font-size:12px; }
+  .pgf-selcount { color:var(--pgf-accent); font-weight:700; }
+
+  /* right pane */
+  .pgf-editing { font-size:15px; font-weight:700; padding-bottom:12px; border-bottom:1px solid var(--pgf-line-str); }
+  .pgf-editing span { color:var(--pgf-accent); }
+  .pgf-card { background:var(--pgf-panel); border:1px solid var(--pgf-line); border-radius:8px;
+    padding:14px; margin-top:14px; }
+  .pgf-card-t { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--pgf-text-faint); margin-bottom:10px; }
+  .pgf-card.ref { background: var(--pgf-ref-bg); border-left:3px solid var(--pgf-ref-edge); }
+  .pgf-refline { display:flex; justify-content:space-between; font-size:12px; padding:3px 0;
+    color:var(--pgf-text-dim); }
+  .pgf-refline b { color:var(--pgf-text); font-weight:600; }
+  .pgf-refline i { font-style:normal; font-variant-numeric:tabular-nums; letter-spacing:6px; }
+
+  .pgf-tiergrid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .pgf-tierbtn { height:38px; font:700 13px/1 inherit; font-variant-numeric:tabular-nums;
+    background:#10141a; color:var(--pgf-text-dim); border:1.5px solid var(--pgf-line-str);
+    border-radius:6px; cursor:pointer; transition:all .13s; }
+  .pgf-tierbtn:hover { border-color:var(--pgf-accent); color:var(--pgf-accent); }
+  .pgf-tierbtn.on { background:var(--pgf-accent); color:#08121c; border-color:var(--pgf-accent);
+    box-shadow:0 0 12px rgba(74,168,255,.45); }
+  .pgf-custom { width:100%; height:38px; margin-top:8px; padding:0 10px; font:700 13px/1 inherit;
+    background:#10141a; color:var(--pgf-text); border:1.5px solid var(--pgf-line-str); border-radius:6px; }
+
+  .pgf-mixedbar { margin-top:10px; padding:8px 10px; border-radius:5px; font-size:11px;
+    background:rgba(255,180,84,.1); border:1px solid rgba(255,180,84,.35); color:var(--pgf-mixed); }
+
+  .pgf-starrow { display:flex; gap:6px; }
+  .pgf-starbtn { flex:1; height:34px; background:#10141a; border:1.5px solid var(--pgf-line-str);
+    border-radius:6px; cursor:pointer; color:var(--pgf-text-dim); font-size:12px; }
+  .pgf-starbtn.on { border-color:var(--pgf-accent); color:var(--pgf-accent); }
+
+  .pgf-labrow { display:flex; align-items:center; gap:8px; padding:5px 6px; border-radius:5px; cursor:pointer; }
+  .pgf-labrow:hover { background:#10141a; }
+  .pgf-actions { display:flex; gap:10px; margin-top:16px; }
+  .pgf-btn { flex:1; height:38px; border-radius:6px; font:700 13px/1 inherit; cursor:pointer; border:1px solid var(--pgf-line-str); }
+  .pgf-btn.p { background:var(--pgf-accent); color:#08121c; border-color:var(--pgf-accent); }
+  .pgf-btn.s { background:#10141a; color:var(--pgf-text); }
+  .pgf-empty { color:var(--pgf-text-faint); text-align:center; margin-top:80px; font-size:13px; }
+</style>
+</head>
+<body>
+<div class="pgf-app">
+  <div class="pgf-note">
+    <b>Design C — Two-pane bulk editor.</b>
+    Most species get the same answer, so assigning them one at a time is the wrong interaction.
+    Filter the left list, <b>shift-click a range</b> or hit “Select all matching”, and the right pane
+    edits the whole selection at once — showing <span style="color:var(--pgf-mixed)">Mixed</span>
+    wherever the selection disagrees. A single species is just a selection of one.
+    <em>Try: click Bulbasaur, then shift-click Machamp.</em>
+  </div>
+
+  <div class="pgf-wrap">
+    <div class="pgf-left">
+      <div class="pgf-filters">
+        <input id="q" placeholder="🔍 name or dex…" style="width:150px">
+        <select id="ftype"><option value="">All types</option></select>
+        <select id="fstat">
+          <option value="">All</option><option value="un">Unassigned</option>
+          <option value="as">Assigned</option><option value="nc">Needs custom</option>
+        </select>
+        <span style="color:var(--pgf-text-faint);font-size:11px">L25 CP</span>
+        <input id="cpmin" type="number" placeholder="min" style="width:70px">
+        <input id="cpmax" type="number" placeholder="max" style="width:70px">
+        <button class="pgf-mini" id="selall">Select all matching</button>
+        <button class="pgf-mini" id="clear">Clear</button>
+      </div>
+
+      <div class="pgf-listhead">
+        <div class="c-chk"></div><div class="c-dex">Dex</div><div class="c-spr"></div>
+        <div class="c-name">Species</div>
+        <div class="c-ref" style="justify-content:space-between">
+          <span>L15</span><span>L25</span><span>L35</span></div>
+        <div class="c-stat">Tier</div>
+      </div>
+
+      <div class="pgf-listbody" id="list"></div>
+
+      <div class="pgf-selbar">
+        <span class="pgf-selcount" id="selcount">0</span>
+        <span style="color:var(--pgf-text-faint)">selected of <span id="shown">0</span> shown</span>
+      </div>
+    </div>
+
+    <div class="pgf-right" id="right"></div>
+  </div>
+</div>
+
+<script src="_sample-data.js"></script>
+<script>
+  const rows = SAMPLE.map(s => ({ ...s }));
+  const list = document.getElementById('right');
+  let selected = new Set();
+  let anchor = null;
+
+  const $ = id => document.getElementById(id);
+  [...new Set(SAMPLE.flatMap(s => s.types))].sort().forEach(t => {
+    const o = document.createElement('option'); o.value = o.textContent = t; $('ftype').appendChild(o);
+  });
+
+  function visible() {
+    const q = $('q').value.trim().toLowerCase();
+    const ty = $('ftype').value, st = $('fstat').value;
+    const mn = +$('cpmin').value || 0, mx = +$('cpmax').value || Infinity;
+    return rows.filter(s => {
+      if (q && !(s.name.toLowerCase().includes(q) || String(s.dex).padStart(3,'0').includes(q))) return false;
+      if (ty && !s.types.includes(ty)) return false;
+      if (st === 'un' && (s.tier !== null || needsCustom(s))) return false;
+      if (st === 'as' && s.tier === null) return false;
+      if (st === 'nc' && !needsCustom(s)) return false;
+      if (s.l25 < mn || s.l25 > mx) return false;
+      return true;
+    });
+  }
+
+  function renderList() {
+    const vis = visible();
+    $('shown').textContent = vis.length;
+    $('selcount').textContent = selected.size;
+    $('list').innerHTML = vis.map(s => {
+      const nc = needsCustom(s);
+      const cls = s.tier !== null ? 'on' : (nc ? 'nc' : 'off');
+      const txt = s.tier !== null ? s.tier : (nc ? 'custom' : '—');
+      return `<div class="pgf-listrow${selected.has(s.dex) ? ' sel' : ''}" data-dex="${s.dex}">
+        <div class="c-chk"><input type="checkbox" ${selected.has(s.dex) ? 'checked' : ''} tabindex="-1"></div>
+        <div class="c-dex">${String(s.dex).padStart(3,'0')}</div>
+        <div class="c-spr"><img class="pgf-sprite" loading="lazy" src="${spriteUrl(s.dex)}" alt=""></div>
+        <div class="c-name">${s.name}</div>
+        <div class="c-ref"><span>${s.l15}</span><span class="hi">${s.l25}</span><span>${s.l35}</span></div>
+        <div class="c-stat ${cls}">${txt}</div>
+      </div>`;
+    }).join('');
+  }
+
+  function renderRight() {
+    const sel = rows.filter(s => selected.has(s.dex));
+    if (!sel.length) { list.innerHTML = '<div class="pgf-empty">Select species on the left<br>to edit them together</div>'; return; }
+
+    const tiers = [...new Set(sel.map(s => s.tier))];
+    const oneTier = tiers.length === 1 ? tiers[0] : null;
+    const stars = [...new Set(sel.map(s => s.stars))];
+    const oneStar = stars.length === 1 ? stars[0] : null;
+
+    const tierCounts = {};
+    sel.forEach(s => { const k = s.tier === null ? 'unset' : s.tier; tierCounts[k] = (tierCounts[k]||0)+1; });
+    const mixTxt = Object.entries(tierCounts).map(([k,v]) => `${v} @ ${k}`).join(', ');
+
+    list.innerHTML = `
+      <div class="pgf-editing">EDITING <span>${sel.length}</span> species</div>
+
+      <div class="pgf-card ref">
+        <div class="pgf-card-t">Reference — read only &nbsp;·&nbsp; L15 / L25 / L35</div>
+        ${sel.slice(0,6).map(s => `<div class="pgf-refline"><b>${s.name}</b>
+          <i>${String(s.l15).padStart(4)} ${String(s.l25).padStart(4)} ${String(s.l35).padStart(4)}</i></div>`).join('')}
+        ${sel.length > 6 ? `<div class="pgf-refline" style="color:var(--pgf-text-faint)">…and ${sel.length-6} more</div>` : ''}
+      </div>
+
+      <div class="pgf-card">
+        <div class="pgf-card-t">Selection — CP tier</div>
+        <div class="pgf-tiergrid">
+          ${TIERS.map(t => `<button class="pgf-tierbtn${oneTier===t?' on':''}" data-t="${t}">${t}</button>`).join('')}
+        </div>
+        <input class="pgf-custom" placeholder="custom CP…">
+        ${oneTier === null ? `<div class="pgf-mixedbar">⊘ Mixed across selection — ${mixTxt}. Clicking a tier sets all ${sel.length}.</div>` : ''}
+      </div>
+
+      <div class="pgf-card">
+        <div class="pgf-card-t">Minimum stars to keep</div>
+        <div class="pgf-starrow">
+          ${[0,1,2,3,4].map(n => `<button class="pgf-starbtn${oneStar===n?' on':''}">${n}★</button>`).join('')}
+        </div>
+        ${oneStar === null ? '<div class="pgf-mixedbar">⊘ Mixed star minimums across selection.</div>' : ''}
+      </div>
+
+      <div class="pgf-card">
+        <div class="pgf-card-t">Labels</div>
+        ${['EvolveMe','PVP','GymDef','TTE','MegaEv','Trade4Candy'].map(l => {
+          const n = sel.filter(s => s.labels.includes(l)).length;
+          const state = n === 0 ? '' : (n === sel.length ? 'checked' : 'indeterminate');
+          return `<label class="pgf-labrow"><input type="checkbox" ${state==='checked'?'checked':''}
+            ${state==='indeterminate'?'data-ind="1"':''}> ${l}
+            ${state==='indeterminate'?`<span style="color:var(--pgf-mixed);font-size:10px">${n}/${sel.length}</span>`:''}</label>`;
+        }).join('')}
+      </div>
+
+      <div class="pgf-actions">
+        <button class="pgf-btn s">Cancel</button>
+        <button class="pgf-btn p">Apply to ${sel.length}</button>
+      </div>`;
+
+    list.querySelectorAll('[data-ind]').forEach(el => el.indeterminate = true);
+    list.querySelectorAll('.pgf-tierbtn').forEach(b => b.onclick = () => {
+      const t = +b.dataset.t;
+      rows.forEach(s => { if (selected.has(s.dex)) s.tier = t; });
+      renderList(); renderRight();
+    });
+  }
+
+  $('list').addEventListener('click', e => {
+    const row = e.target.closest('.pgf-listrow'); if (!row) return;
+    const dex = +row.dataset.dex;
+    const vis = visible().map(s => s.dex);
+    if (e.shiftKey && anchor !== null) {
+      const a = vis.indexOf(anchor), b = vis.indexOf(dex);
+      if (a > -1 && b > -1) for (let i = Math.min(a,b); i <= Math.max(a,b); i++) selected.add(vis[i]);
+    } else if (e.ctrlKey || e.metaKey) {
+      selected.has(dex) ? selected.delete(dex) : selected.add(dex); anchor = dex;
+    } else {
+      selected = new Set([dex]); anchor = dex;
+    }
+    renderList(); renderRight();
+  });
+
+  $('selall').onclick = () => { visible().forEach(s => selected.add(s.dex)); renderList(); renderRight(); };
+  $('clear').onclick  = () => { selected.clear(); renderList(); renderRight(); };
+  ['q','ftype','fstat','cpmin','cpmax'].forEach(id => $(id).addEventListener('input', renderList));
+
+  renderList(); renderRight();
+</script>
+</body>
+</html>
