@@ -115,6 +115,10 @@ export default function QueueView() {
     if (mode !== 'rapid' || !cur) return;
     function onKey(e) {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      // Holding an arrow to fast-forward is wanted; holding "3" and assigning
+      // tier 3 to forty species is not.
+      if (e.repeat && e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
       const n = Number(e.key);
       if (n >= 1 && n <= presets.length && !cur.needsCustom) {
         patch(cur.dex, { tier: presets[n - 1], customCp: null });
@@ -380,12 +384,17 @@ export default function QueueView() {
   }
 
   // -------------------------------------------------------------------- list
+  // Frozen the same way the rapid run is: an assignment drops a species out of
+  // the live queue, and rows vanishing from under the pointer mid-grind is how
+  // the wrong species gets assigned.
+  const listRows = run.map((d) => byDex.get(d));
+
   return (
     <div className="pgf-page">
       <div className="pgf-chipbar">
         {backBtn}
         <span className="pgf-h" style={{ margin: 0, color: queue.color }}>
-          {queue.name} — {queue.members.length} species
+          {queue.name} — {queue.members.length} left
         </span>
         <span className="pgf-spacer" />
         <button className="pgf-btn" disabled={!queue.members.length} onClick={() => open(queue, 'rapid')}>
@@ -398,7 +407,7 @@ export default function QueueView() {
           <div style={{ fontSize: 40, lineHeight: 1, color: 'var(--pgf-ok)' }}>✓</div>
           <h3 style={{ margin: '10px 0 4px', fontSize: 18 }}>{queue.name} is clear.</h3>
           <p className="pgf-sub">Nothing left in this queue. Pick another one and keep going.</p>
-          <button className="pgf-btn pgf-btn-primary" style={{ minHeight: 38 }} onClick={() => setMode('hub')}>← All queues</button>
+          <button className="pgf-btn pgf-btn-primary" onClick={() => setMode('hub')}>← All queues</button>
         </div>
       ) : (
         <div className="pgf-matrix-scroll" style={{ height: 'auto', maxHeight: '62svh', border: '1px solid var(--pgf-line)', borderRadius: 'var(--pgf-radius)' }}>
@@ -428,7 +437,7 @@ export default function QueueView() {
               </tr>
             </thead>
             <tbody>
-              {queue.members.map((s) => (
+              {listRows.map((s) => (
                 <tr key={s.dex} className={s.needsCustom ? 'pgf-needs' : ''}>
                   <td>
                     <input

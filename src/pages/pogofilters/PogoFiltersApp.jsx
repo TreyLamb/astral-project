@@ -2,7 +2,9 @@ import { Routes, Route, NavLink, Link, useLocation } from 'react-router-dom';
 import { PogoFiltersContext, usePogoFiltersState } from './pogofiltersContext';
 import FiltersView from './views/FiltersView';
 import MatrixView from './views/MatrixView';
+import QueueView from './views/QueueView';
 import LabelsView from './views/LabelsView';
+import LabelMatrixView from './views/LabelMatrixView';
 import FindView from './views/FindView';
 import CompareView from './views/CompareView';
 import SettingsView from './views/SettingsView';
@@ -12,7 +14,10 @@ import './PogoFilters.css';
 const TABS = [
   { to: '/pogo-filters', end: true, label: 'Filters' },
   { to: '/pogo-filters/matrix', label: 'Species matrix' },
+  // One-time tool: get every species assigned once, then stop using it.
+  { to: '/pogo-filters/queue', label: 'Assign ⚡' },
   { to: '/pogo-filters/labels', label: 'Labels' },
+  { to: '/pogo-filters/label-matrix', label: 'Label grid' },
   { to: '/pogo-filters/find', label: 'Find' },
   { to: '/pogo-filters/compare', label: 'Compare' },
   { to: '/pogo-filters/log', label: 'Sort log' },
@@ -61,7 +66,9 @@ export default function PogoFiltersApp() {
           <Routes>
             <Route index element={<FiltersView />} />
             <Route path="matrix" element={<MatrixView />} />
+            <Route path="queue" element={<QueueView />} />
             <Route path="labels" element={<LabelsView />} />
+            <Route path="label-matrix" element={<LabelMatrixView />} />
             <Route path="find" element={<FindView />} />
             <Route path="compare" element={<CompareView />} />
             <Route path="log" element={<SortLogView />} />

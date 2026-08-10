@@ -109,6 +109,9 @@ export default function LabelMatrixView() {
 
   // Same add/remove as FiltersView's toggleLabel: absent becomes "!Label",
   // anything present is removed with its joining operator and nothing else.
+  // Returns null when it changed nothing, which happens when the query spells
+  // the label differently from the label itself — detection normalises caps and
+  // spaces, removal by name cannot.
   const write = useCallback((filter, label) => {
     const present = terms(filter.query).find((t) => norm(t.text) === norm(label.name));
     let next;
@@ -121,6 +124,7 @@ export default function LabelMatrixView() {
         .replace(new RegExp(`^!?\\s*${esc}\\s*&`, 'i'), '')
         .replace(new RegExp(`^!?\\s*${esc}$`, 'i'), '');
     }
+    if (next === filter.query) return null;
     return saveFilter({
       ...filter,
       query: next,
@@ -130,10 +134,14 @@ export default function LabelMatrixView() {
   }, [saveFilter]);
 
   const clickCell = useCallback((filter, label, state) => {
-    write(filter, label);
-    showToast(state === 'absent'
-      ? `Added !${label.name} to "${filter.name}"`
-      : `Removed ${label.name} from "${filter.name}"`);
+    if (write(filter, label)) {
+      showToast(state === 'absent'
+        ? `Added !${label.name} to "${filter.name}"`
+        : `Removed ${label.name} from "${filter.name}"`);
+      return;
+    }
+    const written = terms(filter.query).find((t) => norm(t.text) === norm(label.name));
+    showToast(`"${filter.name}" writes this as "${written?.raw.trim()}", not "${label.name}" — caps and spaces both matter in game. Fix the spelling on the Filters tab and this cell will toggle.`, 'error');
   }, [write, showToast]);
 
   const fillGaps = useCallback(async (label, missing) => {

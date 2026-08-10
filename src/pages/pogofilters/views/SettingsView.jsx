@@ -45,6 +45,32 @@ export default function SettingsView() {
   const onUpdateClick = () =>
     showToast('Update is intentionally not wired up yet — nothing was written to your filters.');
 
+  // Regenerates Existingfilters.md's shape — heading line, then the query — so
+  // the markdown that has been the source of truth since 2026-07-18 can be
+  // refreshed from the app rather than hand-maintained alongside it.
+  const exportMarkdown = () => {
+    const lines = ['# Existing filters', '', `_Exported from PogoFilters on ${new Date().toISOString().slice(0, 10)}._`, ''];
+    const groups = [...new Set(filters.map((f) => f.group || ''))];
+    for (const g of groups) {
+      if (g) lines.push(`## ${g}`, '');
+      for (const f of filters.filter((x) => (x.group || '') === g)) {
+        lines.push(`${f.name}:`);
+        lines.push(f.query);
+        if (f.notes) lines.push(`> ${f.notes.replace(/\n/g, '\n> ')}`);
+        lines.push('');
+      }
+    }
+    lines.push('', '# Labels', '');
+    for (const l of labels) lines.push(`${l.name}${l.notes ? `: ${l.notes}` : ''}`);
+
+    const blob = new Blob([lines.join('\n')], { type: 'text/markdown' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'Existingfilters.md';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
   const exportJson = () => {
     const blob = new Blob([JSON.stringify({ filters, labels, species, settings }, null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
@@ -154,6 +180,7 @@ export default function SettingsView() {
       <div className="pgf-panel" style={{ padding: 16, marginBottom: 12 }}>
         <div className="pgf-h">Data</div>
         <div className="pgf-fcard-row">
+          <button className="pgf-btn" onClick={exportMarkdown}>Export filters as markdown</button>
           <button className="pgf-btn" onClick={exportJson}>Export everything as JSON</button>
           <button
             className="pgf-btn pgf-btn-danger"
