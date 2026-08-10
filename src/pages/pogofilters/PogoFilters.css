@@ -329,6 +329,18 @@
   border: 1px dashed var(--pgf-warn); border-radius: 4px; padding: 3px 6px; margin-right: 6px;
 }
 
+/* legendary / mythical / ultra-beast / regional badges — the flags species.json
+   doesn't carry, and the ones the !legendary and !mythical filter terms act on */
+.pgf-cat {
+  display: inline-block; margin-left: 5px; padding: 1px 5px; border-radius: 4px;
+  font-size: 9px; font-weight: 800; letter-spacing: 0.05em; vertical-align: middle;
+  border: 1px solid currentColor; opacity: 0.85;
+}
+.pgf-cat[data-cat="legendary"]  { color: var(--pgf-amber); }
+.pgf-cat[data-cat="mythical"]   { color: var(--pgf-lit); }
+.pgf-cat[data-cat="ultraBeast"] { color: #7fd4ff; }
+.pgf-cat[data-cat="regional"]   { color: var(--pgf-ok); }
+
 .pgf-stars { color: var(--pgf-amber); letter-spacing: 1.5px; cursor: pointer; font-size: 12px; user-select: none; }
 .pgf-stars .off { color: #3d3159; }
 .pgf-stars.inherit { opacity: 0.45; }

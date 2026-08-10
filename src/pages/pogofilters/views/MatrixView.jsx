@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
 import { SPECIES_ROWS, ALL_TYPES, officialArtworkUrl } from '../speciesTable';
 import { needsCustomCp, REFERENCE_LEVELS, withSpeciesDefaults } from '../pogofiltersConfig';
+import { categoriesFor, CATEGORY_SHORT, CATEGORY_LABEL } from '../classification';
 import SpeciesPanel from './SpeciesPanel';
 
 // The species CP matrix. Design A's dense table with Design C's top bar and
@@ -43,7 +44,11 @@ export default function MatrixView() {
   const rows = useMemo(() => SPECIES_ROWS.map((s) => {
     const saved = species[s.dex] || species[String(s.dex)];
     const a = withSpeciesDefaults({ ...saved, dex: s.dex, speciesId: s.id, name: s.name });
-    return { ...s, ...a, needsCustom: needsCustomCp(s.maxCp, presets) };
+    return {
+      ...s, ...a,
+      needsCustom: needsCustomCp(s.maxCp, presets),
+      categories: categoriesFor(s.dex),
+    };
   }), [species, presets]);
 
   const visible = useMemo(() => {
@@ -247,6 +252,20 @@ export default function MatrixView() {
                         onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }}
                       />
                       {s.name}
+                      {s.categories.map((c) => (
+                        <span
+                          key={c}
+                          className="pgf-cat"
+                          data-cat={c}
+                          title={
+                            c === 'legendary' || c === 'mythical'
+                              ? `${CATEGORY_LABEL[c]} — can't be mass-transferred, so a CP tier here is mostly decoration`
+                              : CATEGORY_LABEL[c]
+                          }
+                        >
+                          {CATEGORY_SHORT[c]}
+                        </span>
+                      ))}
                     </td>
                     {REFERENCE_LEVELS.map((l, i) => (
                       <td
