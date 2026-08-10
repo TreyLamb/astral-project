@@ -60,27 +60,51 @@ export function detectCpTier(query) {
 }
 
 // ---------------------------------------------------------------------------
-// Game search keywords
+// Game search vocabulary
 // ---------------------------------------------------------------------------
-// Built-in Pokemon GO search terms. A token matching one of these means the
-// GAME's meaning, never a label of the same name — which is exactly why a
-// label must never be named after one (see PogoFilters/FilterRules.md).
-export const GAME_KEYWORDS = new Set([
-  'shiny', 'legendary', 'mythical', 'ultra beast', 'ultra beasts',
-  'shadow', 'purified', 'lucky', 'mega', 'costume', 'baby', 'evolve',
-  'favorite', 'item', 'traded', 'defender', 'hatched', 'raid', 'research',
-  'remote', 'dynamax', 'gigantamax', 'xxs', 'xxl', 'male', 'female',
-]);
+// Sourced and cross-checked in data/searchTerms.json — see its _meta for which
+// sources agree and what is still unverified.
+//
+// This used to be a hardcoded Set derived from pokemon_go_search_filters.md,
+// whose own header admits it came from a chatbot and needs verification. That
+// list was missing mega0-3, buddy0-5, evolvenew, tradeevolve, fusion, xs/xl,
+// every region name and the whole tag syntax — so the linter confidently
+// flagged real, working terms like mega1 as unknown. Don't reintroduce a
+// hand-typed list here; add to the JSON.
+// Import attribute is required by Node (applyEngine.selftest.mjs loads this
+// chain) and accepted by Vite — without it `node --run` on the selftest throws
+// ERR_IMPORT_ATTRIBUTE_MISSING.
+import searchTerms from './data/searchTerms.json' with { type: 'json' };
 
-export const GAME_TYPES = new Set([
-  'normal', 'fire', 'water', 'electric', 'grass', 'ice', 'fighting', 'poison',
-  'ground', 'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark',
-  'steel', 'fairy',
-]);
+export const SEARCH_TERMS = searchTerms;
 
-// Prefix operators that take a numeric argument and MUST NOT contain a space
-// (`!cp 2750-` is broken; `!cp2750-` works — confirmed in-game).
-export const NUMERIC_OPERATORS = ['cp', 'hp', 'age', 'year', 'distance', 'attack', 'defense', 'stamina'];
+export const GAME_KEYWORDS = new Set(searchTerms.keywords.map((k) => k.term));
+
+// term -> its record, so the linter can report confidence and notes rather than
+// treating every term as equally certain.
+export const KEYWORD_INFO = new Map(searchTerms.keywords.map((k) => [k.term, k]));
+
+export const GAME_TYPES = new Set(searchTerms.types);
+
+// Parameterised terms (mega1, cp1500-, 15attack, @1grass, #tag …). Compiled
+// once; each carries its provenance so a warning can say how sure we are.
+export const TERM_PATTERNS = searchTerms.patterns.map((p) => ({
+  ...p,
+  re: new RegExp(p.regex, 'i'),
+}));
+
+export function matchPattern(text) {
+  return TERM_PATTERNS.find((p) => p.re.test(String(text ?? '').trim())) || null;
+}
+
+// Operators that take a numeric argument and MUST NOT contain a space
+// (`!cp 2750-` is broken; `!cp2750-` works — confirmed in game).
+// Note: attack/defense/hp are NUMBER-FIRST (`15attack`), so they are not in
+// this prefix list — the spacing rule below only applies to true prefixes.
+export const NUMERIC_OPERATORS = ['cp', 'hp', 'age', 'year', 'distance'];
+
+// Suffix form for IV stats. There is no `stamina` term — stamina IV is `hp`.
+export const IV_SUFFIXES = ['attack', 'defense', 'hp'];
 
 // ---------------------------------------------------------------------------
 // Label colours

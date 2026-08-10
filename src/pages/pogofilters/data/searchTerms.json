@@ -1,0 +1,238 @@
+{
+  "_meta": {
+    "updated": "2026-08-10",
+    "note": "Pokemon GO search-bar vocabulary. This file is what the linter validates against. It REPLACES the guesswork in pogofiltersConfig.js's old hardcoded GAME_KEYWORDS set, which came from PogoFilters/pokemon_go_search_filters.md - a document whose own header says 'File offered from Gemini.ai / May need verification for 2026 filters'. That unverified list is why the linter wrongly flagged mega1/mega2/mega3 as unknown.",
+    "confidence": {
+      "confirmed": "documented by two or more independent sources that agree",
+      "single-source": "only one source documents it - probably real, treat a lint warning here as soft",
+      "disputed": "sources disagree on spelling or existence - the linter must NOT flag these as errors",
+      "in-use": "no source documents it, but it appears in Trey's live filters and has been working. Accepted, never flagged - real usage outranks a third-party cheat sheet."
+    },
+    "sources": [
+      "https://pogocleanup.com/guides/search-strings-cheat-sheet.html",
+      "https://pokexperience.com/guides/pokemon-go-search-filter-strings/",
+      "https://gosilph.com/search-strings",
+      "https://www.dexerto.com/pokemon/pokemon-go-search-terms-strings-1312690/",
+      "https://pogosearch.com/search-by-mega-level/"
+    ],
+    "couldNotFetch": [
+      "https://niantic.helpshift.com/hc/en/6-pokemon-go/faq/1486-searching-filtering-your-pokemon-inventory/ (403 to scripted fetch - the official page is the only real authority and could not be read)",
+      "https://pokemongohub.net/post/guide/pokemon-go-search-bar-cheat-sheet/ (403)",
+      "https://pokemongo.fandom.com/wiki/Pokemon_search (402)"
+    ],
+    "verificationRule": "Nothing here outranks an in-game test. When a term is confirmed or disproved in game, record it in PogoFilters/FilterRules.md with a date and change its confidence here."
+  },
+
+  "operators": {
+    "and": { "chars": ["&"], "confidence": "confirmed" },
+    "or": {
+      "chars": [","],
+      "alsoClaimed": [";", ":", "|"],
+      "confidence": "disputed",
+      "note": "Comma is confirmed by every source. Semicolon and colon are claimed by pogocleanup and pokexperience; pipe only by Dexerto and is likely wrong. Only ',' should be relied on."
+    },
+    "not": { "chars": ["!"], "confidence": "confirmed" },
+    "family": {
+      "chars": ["+"],
+      "meaning": "prefix a species name to include its whole evolution line, e.g. +bulbasaur",
+      "confidence": "confirmed"
+    },
+    "tag": {
+      "chars": ["#"],
+      "meaning": "search a custom tag, e.g. #battle. Bare '#' matches any tagged Pokemon; '!#' matches untagged.",
+      "confidence": "confirmed",
+      "important": "This is the documented syntax for TAGS. Trey's own 'Megas unlabled' filter uses !#Mega, so the prefix form is in real use. Whether a BARE tag name (e.g. !Pvp) also matches a tag, or only matches species names, is NOT documented by any source and needs an in-game test - it affects almost every filter in Existingfilters.md."
+    },
+    "nickname": {
+      "chars": ["\""],
+      "meaning": "quoted string matches a custom nickname",
+      "confidence": "single-source"
+    }
+  },
+
+  "keywords": [
+    { "term": "shiny",             "category": "status",     "confidence": "confirmed" },
+    { "term": "lucky",             "category": "status",     "confidence": "confirmed" },
+    { "term": "shadow",            "category": "status",     "confidence": "confirmed" },
+    { "term": "purified",          "category": "status",     "confidence": "confirmed" },
+    { "term": "legendary",         "category": "rarity",     "confidence": "confirmed" },
+    { "term": "mythical",          "category": "rarity",     "confidence": "confirmed" },
+    { "term": "ultrabeast",        "category": "rarity",     "confidence": "confirmed",
+      "note": "Documented as ONE word by every source." },
+    { "term": "ultra beast",       "category": "rarity",     "confidence": "in-use",
+      "note": "Not in any cheat sheet, but Trey's live filters use the spaced form and have been in service a long time. Real usage outranks a third-party doc's spelling, so this is accepted rather than flagged. Confirm in game and record the answer in FilterRules.md." },
+    { "term": "ultra beasts",      "category": "rarity",     "confidence": "in-use",
+      "note": "Plural spaced form, used throughout Existingfilters.md. See the note on 'ultra beast'." },
+    { "term": "costume",           "category": "status",     "confidence": "confirmed" },
+    { "term": "traded",            "category": "origin",     "confidence": "confirmed" },
+    { "term": "hatched",           "category": "origin",     "confidence": "confirmed" },
+    { "term": "defender",          "category": "status",     "confidence": "confirmed" },
+    { "term": "favorite",          "category": "status",     "confidence": "confirmed" },
+    { "term": "male",              "category": "gender",     "confidence": "confirmed" },
+    { "term": "female",            "category": "gender",     "confidence": "confirmed" },
+    { "term": "genderless",        "category": "gender",     "confidence": "disputed",
+      "note": "pokexperience says 'genderless', pogocleanup says 'genderunknown'. Neither is confirmed." },
+    { "term": "genderunknown",     "category": "gender",     "confidence": "disputed" },
+
+    { "term": "evolve",            "category": "evolution",  "confidence": "confirmed", "meaning": "enough candy to evolve" },
+    { "term": "evolvenew",         "category": "evolution",  "confidence": "confirmed", "meaning": "evolving registers a new dex entry" },
+    { "term": "tradeevolve",       "category": "evolution",  "confidence": "confirmed", "meaning": "evolution cost reduced by trading" },
+    { "term": "item",              "category": "evolution",  "confidence": "confirmed", "meaning": "needs a special item to evolve" },
+    { "term": "evolvequest",       "category": "evolution",  "confidence": "single-source" },
+
+    { "term": "megaevolve",        "category": "mega",       "confidence": "confirmed", "meaning": "can Mega Evolve" },
+    { "term": "mega",              "category": "mega",       "confidence": "confirmed", "meaning": "can Mega Evolve (short form)" },
+    { "term": "dynamax",           "category": "max",        "confidence": "confirmed" },
+    { "term": "gigantamax",        "category": "max",        "confidence": "confirmed" },
+    { "term": "fusion",            "category": "max",        "confidence": "confirmed" },
+    { "term": "hypertraining",     "category": "status",     "confidence": "single-source" },
+
+    { "term": "xxs",               "category": "size",       "confidence": "confirmed" },
+    { "term": "xs",                "category": "size",       "confidence": "confirmed" },
+    { "term": "xl",                "category": "size",       "confidence": "confirmed" },
+    { "term": "xxl",               "category": "size",       "confidence": "confirmed",
+      "note": "Any casing of xxl captures ONLY XXL, never XXS - confirmed in game, see FilterRules.md rule 3." },
+
+    { "term": "background",        "category": "cosmetic",   "confidence": "single-source" },
+    { "term": "locationbackground","category": "cosmetic",   "confidence": "single-source" },
+
+    { "term": "eggsonly",          "category": "origin",     "confidence": "single-source" },
+    { "term": "raid",              "category": "origin",     "confidence": "single-source" },
+    { "term": "gbl",               "category": "origin",     "confidence": "single-source" },
+    { "term": "weather",           "category": "status",     "confidence": "single-source" },
+
+    { "term": "kanto",  "category": "region", "confidence": "confirmed" },
+    { "term": "johto",  "category": "region", "confidence": "confirmed" },
+    { "term": "hoenn",  "category": "region", "confidence": "confirmed" },
+    { "term": "sinnoh", "category": "region", "confidence": "confirmed" },
+    { "term": "unova",  "category": "region", "confidence": "confirmed" },
+    { "term": "kalos",  "category": "region", "confidence": "confirmed" },
+    { "term": "alola",  "category": "region", "confidence": "confirmed" },
+    { "term": "galar",  "category": "region", "confidence": "confirmed" },
+    { "term": "hisui",  "category": "region", "confidence": "confirmed" },
+    { "term": "paldea", "category": "region", "confidence": "confirmed" }
+  ],
+
+  "types": [
+    "normal", "fire", "water", "electric", "grass", "ice", "fighting", "poison",
+    "ground", "flying", "psychic", "bug", "rock", "ghost", "dragon", "dark",
+    "steel", "fairy"
+  ],
+
+  "patterns": [
+    {
+      "id": "stars",
+      "regex": "^[0-4]\\*$",
+      "category": "appraisal",
+      "examples": ["0*", "3*", "4*"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "megaLevel",
+      "regex": "^mega[0-3](-[0-3])?$",
+      "category": "mega",
+      "meaning": "mega0 = can mega but never has; mega1 = Base Level; mega2 = High Level; mega3 = Max Level. Range form mega1-3 also works.",
+      "examples": ["mega0", "mega1", "mega2", "mega3", "mega1-3"],
+      "confidence": "confirmed",
+      "note": "THESE ARE REAL. The old hardcoded keyword list did not contain them, which is why the linter wrongly flagged them."
+    },
+    {
+      "id": "buddyLevel",
+      "regex": "^buddy[0-5](-[0-5])?$",
+      "category": "buddy",
+      "examples": ["buddy0", "buddy3", "buddy0-5"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "cpRange",
+      "regex": "^cp\\d*-?\\d*$",
+      "category": "numeric",
+      "meaning": "cp1500 exact; cp1500- is 1500 and above; cp-1500 is 1500 and below; cp10-100 is a range.",
+      "examples": ["cp1500", "cp1500-", "cp-1500", "cp10-100"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "hpRange",
+      "regex": "^hp\\d*-?\\d*$",
+      "category": "numeric",
+      "examples": ["hp100", "hp1-", "hp0"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "ageRange",
+      "regex": "^age\\d*-?\\d*$",
+      "category": "numeric",
+      "examples": ["age0", "age-730", "age1828-"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "yearRange",
+      "regex": "^year\\d{4}(-\\d{4})?$",
+      "category": "numeric",
+      "examples": ["year2022", "year2020-2015"],
+      "confidence": "confirmed",
+      "note": "Trey deliberately uses the reversed form year2020-2015 for mass-deletion filters. Do not 'fix' it - see FilterRules.md rule 6."
+    },
+    {
+      "id": "distanceRange",
+      "regex": "^distance\\d*-?\\d*$",
+      "category": "numeric",
+      "examples": ["distance1000", "distance1000-"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "ivStat",
+      "regex": "^\\d{1,2}(-\\d{1,2})?(attack|defense|hp)$",
+      "category": "iv",
+      "meaning": "Individual IV values are NUMBER FIRST, e.g. 15attack. There is no 'stamina' term - the stamina IV is searched as hp.",
+      "examples": ["15attack", "0defense", "12-15hp"],
+      "confidence": "confirmed",
+      "note": "The old config listed attack/defense/stamina as PREFIX operators (attack15). Both sources document the opposite order, and no source mentions 'stamina' at all."
+    },
+    {
+      "id": "dexNumber",
+      "regex": "^#?\\d{1,4}$",
+      "category": "dex",
+      "examples": ["063", "#150", "1"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "dexRange",
+      "regex": "^\\d{1,4}-\\d{0,4}$|^-\\d{1,4}$",
+      "category": "dex",
+      "examples": ["1-151", "1-", "-151"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "move",
+      "regex": "^@[123]?[a-z0-9 _'-]+$",
+      "category": "move",
+      "meaning": "@move any slot; @1 fast; @2 charged; @3 second charged. @special = legacy/exclusive, @weather = weather boosted.",
+      "examples": ["@bite", "@1grass", "@2psychic", "@3move", "@special", "@weather", "@frustration", "@return"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "tag",
+      "regex": "^#[a-z0-9 _-]+$",
+      "category": "tag",
+      "examples": ["#battle", "#Mega"],
+      "confidence": "confirmed",
+      "note": "Overlaps dexNumber - a token like #150 is ambiguous between a dex number and a tag literally named 150. The linter treats a digits-only #token as a dex number."
+    },
+    {
+      "id": "family",
+      "regex": "^\\+[a-z0-9 .'-]+$",
+      "category": "family",
+      "examples": ["+bulbasaur", "+eevee"],
+      "confidence": "confirmed"
+    }
+  ],
+
+  "knownUnknowns": [
+    "Whether a BARE tag name (Pvp) matches a tag, or whether the # prefix is required. Affects nearly every filter in Existingfilters.md.",
+    "Whether 'ultra beasts' (spaced, plural) works as well as the documented 'ultrabeast'.",
+    "Whether ';' and ':' really work as OR alongside ','.",
+    "genderless vs genderunknown.",
+    "Whether there is any upper bound on filter length - nothing was hit at 913 characters."
+  ]
+}

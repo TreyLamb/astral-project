@@ -9,7 +9,9 @@
 // The raw query string is always the source of truth and is never rewritten
 // except by an explicit, previewed, undoable user action.
 
-import { GAME_KEYWORDS, GAME_TYPES, NUMERIC_OPERATORS } from './pogofiltersConfig.js';
+import {
+  GAME_KEYWORDS, GAME_TYPES, NUMERIC_OPERATORS, KEYWORD_INFO, matchPattern,
+} from './pogofiltersConfig.js';
 
 // ---------------------------------------------------------------------------
 // Tokenizer
@@ -88,29 +90,57 @@ export function buildVocabulary(labels = [], speciesJson = null) {
 export const TOKEN_KINDS = {
   STAR: 'star', NUMERIC: 'num', DEX: 'dex', KEYWORD: 'kw',
   TYPE: 'type', LABEL: 'label', SPECIES: 'species', MOVE: 'move',
+  TAG: 'tag', FAMILY: 'family',
   UNKNOWN: 'unknown', BLANK: 'blank',
 };
 
-const STAR_RE = /^[0-4]\*$/;
-const DEX_RE = /^#?\d{1,4}$/;
-const NUMERIC_RE = new RegExp(`^(${NUMERIC_OPERATORS.join('|')})\\s*-?\\d*\\s*-?\\d*$`, 'i');
+// Which pattern ids map to which token kind for rendering.
+const PATTERN_KIND = {
+  stars: TOKEN_KINDS.STAR,
+  megaLevel: TOKEN_KINDS.KEYWORD,
+  buddyLevel: TOKEN_KINDS.KEYWORD,
+  cpRange: TOKEN_KINDS.NUMERIC,
+  hpRange: TOKEN_KINDS.NUMERIC,
+  ageRange: TOKEN_KINDS.NUMERIC,
+  yearRange: TOKEN_KINDS.NUMERIC,
+  distanceRange: TOKEN_KINDS.NUMERIC,
+  ivStat: TOKEN_KINDS.NUMERIC,
+  dexNumber: TOKEN_KINDS.DEX,
+  dexRange: TOKEN_KINDS.DEX,
+  move: TOKEN_KINDS.MOVE,
+  tag: TOKEN_KINDS.TAG,
+  family: TOKEN_KINDS.FAMILY,
+};
 
 export function classifyTerm(text, vocab) {
   const t = String(text ?? '').trim();
   if (!t) return { kind: TOKEN_KINDS.BLANK };
 
   const n = norm(t);
-  if (STAR_RE.test(t)) return { kind: TOKEN_KINDS.STAR };
-  if (t.startsWith('@')) return { kind: TOKEN_KINDS.MOVE };
-  if (NUMERIC_RE.test(t)) return { kind: TOKEN_KINDS.NUMERIC };
-  if (DEX_RE.test(t)) {
-    const dex = Number(t.replace('#', ''));
-    return { kind: TOKEN_KINDS.DEX, dex, species: vocab?.speciesByDex.get(dex) || null };
+  const lower = t.toLowerCase();
+
+  // Literal keywords first — they're exact and carry sourcing metadata.
+  if (GAME_KEYWORDS.has(lower)) {
+    return { kind: TOKEN_KINDS.KEYWORD, info: KEYWORD_INFO.get(lower) };
   }
-  // A label named after a game keyword is ambiguous — the game always wins, so
-  // classify as keyword and let the linter raise the collision.
-  if (GAME_KEYWORDS.has(t.toLowerCase())) return { kind: TOKEN_KINDS.KEYWORD };
-  if (GAME_TYPES.has(t.toLowerCase())) return { kind: TOKEN_KINDS.TYPE };
+  if (GAME_TYPES.has(lower)) return { kind: TOKEN_KINDS.TYPE };
+
+  // Then the parameterised forms (mega1, cp1500-, 15attack, @1grass, #tag …).
+  // These come from data/searchTerms.json, so adding a newly-discovered term is
+  // a data edit, not a code edit.
+  const pat = matchPattern(t);
+  if (pat) {
+    const kind = PATTERN_KIND[pat.id] || TOKEN_KINDS.KEYWORD;
+    if (kind === TOKEN_KINDS.DEX && pat.id === 'dexNumber') {
+      const dex = Number(t.replace('#', ''));
+      return { kind, pattern: pat, dex, species: vocab?.speciesByDex.get(dex) || null };
+    }
+    if (kind === TOKEN_KINDS.TAG) {
+      const tagName = t.slice(1);
+      return { kind, pattern: pat, tagName, label: vocab?.labelByNorm.get(norm(tagName)) || null };
+    }
+    return { kind, pattern: pat };
+  }
 
   const label = vocab?.labelByNorm.get(n);
   if (label) return { kind: TOKEN_KINDS.LABEL, label, exact: label.name === t };

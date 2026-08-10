@@ -64,6 +64,50 @@ that reversed convention on purpose. Do not "fix" it.
 
 ---
 
+### 7. The vocabulary lives in `searchTerms.json`, not in code
+
+`src/pages/pogofilters/data/searchTerms.json` is the machine-readable term list the linter
+validates against. It carries a `confidence` on every entry (`confirmed` = two or more independent
+sources agree, `single-source`, `disputed`, `in-use`) plus the URLs it came from.
+
+**Add newly-discovered terms there, never as a hardcoded list in code.** The original hardcoded set
+was derived from `pokemon_go_search_filters.md`, whose own header admits it came from a chatbot and
+was never verified — it was missing `mega0`–`mega3`, `buddy0`–`buddy5`, `evolvenew`, `tradeevolve`,
+`fusion`, `xs`/`xl`, every region name and the entire tag syntax, so the linter confidently flagged
+real working terms as unknown.
+
+**`in-use` beats a cheat sheet.** `ultra beasts` appears in no published list, but it is in live
+filters that have been working for a long time. Real usage outranks third-party documentation, so
+it is accepted rather than flagged.
+
+### 8. Things the 2026-08-10 research settled
+
+- **Mega levels are real:** `mega0` (can mega, never has), `mega1` (Base), `mega2` (High),
+  `mega3` (Max), and the range form `mega1-3`. Also `megaevolve`.
+- **Tags are searched with `#`** — `#battle`, `!#Mega`, bare `#` for any tagged, `!#` for untagged.
+- **IV stats are number-first**: `15attack`, `0defense`, `12-15hp`. **There is no `stamina` term** —
+  stamina IV is searched as `hp`. The old config had these backwards, as prefix operators.
+- **Four size terms**, not two: `xxs`, `xs`, `xl`, `xxl`.
+- **Regions are searchable**: kanto, johto, hoenn, sinnoh, unova, kalos, alola, galar, hisui, paldea.
+- **Buddy levels**: `buddy0`–`buddy5`.
+- More evolution terms than known: `evolvenew`, `tradeevolve`, `item`, `evolvequest`.
+- **`+name`** searches a whole evolution family.
+
+### 9. The open question that matters most
+
+**Does a bare tag name match a tag, or does it need the `#` prefix?**
+
+No source documents this either way. It matters enormously: nearly every filter in
+`Existingfilters.md` refers to labels by bare name (`!Pvp`, `!Evolveme`, `!TTA`), while the
+`Megas unlabled` filter uses the prefixed form `!#Mega`. If the prefix is required, those bare
+terms have been matching nothing — though filters that have been in service this long would
+probably have shown it.
+
+Most likely a bare word matches species names *and* tag names, with `#` forcing tag-only. **Not
+confirmed. Test in game before acting on it.**
+
+---
+
 ## Operators
 
 | Form | Meaning |

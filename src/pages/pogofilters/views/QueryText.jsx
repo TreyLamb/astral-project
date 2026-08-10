@@ -11,6 +11,8 @@ const KIND_CLASS = {
   [TOKEN_KINDS.TYPE]: 'pgf-tok-kw',
   [TOKEN_KINDS.SPECIES]: 'pgf-tok-species',
   [TOKEN_KINDS.MOVE]: 'pgf-tok-kw',
+  [TOKEN_KINDS.TAG]: 'pgf-tok-label',
+  [TOKEN_KINDS.FAMILY]: 'pgf-tok-species',
   [TOKEN_KINDS.UNKNOWN]: 'pgf-tok-unknown',
 };
 
