@@ -1,0 +1,18 @@
+[
+  { "word": "飛行機",     "romanization": "hikouki",   "english": "airplane",  "pos": "noun", "notes": "" },
+  { "word": "電車",       "romanization": "densha",    "english": "train",     "pos": "noun", "notes": "" },
+  { "word": "車",         "romanization": "kuruma",    "english": "car",       "pos": "noun", "notes": "" },
+  { "word": "タクシー",   "romanization": "takushii",  "english": "taxi",      "pos": "noun", "notes": "" },
+  { "word": "地下鉄",     "romanization": "chikatetsu","english": "subway",    "pos": "noun", "notes": "" },
+  { "word": "バス",       "romanization": "basu",      "english": "bus",       "pos": "noun", "notes": "" },
+  { "word": "空港",       "romanization": "kuukou",    "english": "airport",   "pos": "noun", "notes": "" },
+  { "word": "駅",         "romanization": "eki",       "english": "station",   "pos": "noun", "notes": "" },
+  { "word": "ホテル",     "romanization": "hoteru",    "english": "hotel",     "pos": "noun", "notes": "" },
+  { "word": "パスポート", "romanization": "pasupooto", "english": "passport",  "pos": "noun", "notes": "" },
+  { "word": "荷物",       "romanization": "nimotsu",   "english": "luggage",   "pos": "noun", "notes": "" },
+  { "word": "切符",       "romanization": "kippu",     "english": "ticket",    "pos": "noun", "notes": "" },
+  { "word": "地図",       "romanization": "chizu",     "english": "map",       "pos": "noun", "notes": "" },
+  { "word": "左",         "romanization": "hidari",    "english": "left",      "pos": "noun", "notes": "" },
+  { "word": "右",         "romanization": "migi",      "english": "right",     "pos": "noun", "notes": "" },
+  { "word": "まっすぐ",   "romanization": "massugu",   "english": "straight ahead", "pos": "adverb", "notes": "" }
+]

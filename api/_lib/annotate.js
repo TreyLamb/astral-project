@@ -1,6 +1,6 @@
 // Pure logic for turning a task title into a validated scheduling annotation.
 // NO imports of firebase/askAI/network here on purpose — this module is the
-// "bounded structured extraction" piece described in Guidelines_Scheduler.md
+// "bounded structured extraction" piece described in guidelinesScheduler.md
 // §1 and §15 ("AI annotates, script schedules"): it must be fully unit-
 // testable in isolation from the network/auth plumbing that calls it.
 //

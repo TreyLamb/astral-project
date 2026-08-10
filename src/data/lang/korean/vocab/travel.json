@@ -1,0 +1,22 @@
+[
+  { "word": "비행기",   "romanization": "bihaenggi",             "english": "airplane",    "pos": "noun", "notes": "" },
+  { "word": "기차",     "romanization": "gicha",                 "english": "train",       "pos": "noun", "notes": "" },
+  { "word": "자동차",   "romanization": "jadongcha",             "english": "car",         "pos": "noun", "notes": "" },
+  { "word": "택시",     "romanization": "taeksi",                "english": "taxi",        "pos": "noun", "notes": "" },
+  { "word": "지하철",   "romanization": "jihacheol",             "english": "subway",      "pos": "noun", "notes": "" },
+  { "word": "버스",     "romanization": "beoseu",                "english": "bus",         "pos": "noun", "notes": "" },
+  { "word": "공항",     "romanization": "gonghang",              "english": "airport",     "pos": "noun", "notes": "" },
+  { "word": "역",       "romanization": "yeok",                  "english": "station",     "pos": "noun", "notes": "" },
+  { "word": "호텔",     "romanization": "hotel",                 "english": "hotel",       "pos": "noun", "notes": "" },
+  { "word": "여권",     "romanization": "yeogwon",               "english": "passport",    "pos": "noun", "notes": "" },
+  { "word": "비자",     "romanization": "bija",                  "english": "visa",        "pos": "noun", "notes": "" },
+  { "word": "짐",       "romanization": "jim",                   "english": "luggage",     "pos": "noun", "notes": "" },
+  { "word": "표",       "romanization": "pyo",                   "english": "ticket",      "pos": "noun", "notes": "" },
+  { "word": "지도",     "romanization": "jido",                  "english": "map",         "pos": "noun", "notes": "" },
+  { "word": "왼쪽",     "romanization": "oenjjok",               "english": "left side",   "pos": "noun", "notes": "" },
+  { "word": "오른쪽",   "romanization": "oreunjjok",             "english": "right side",  "pos": "noun", "notes": "" },
+  { "word": "직진하다", "romanization": "jikjinhada",            "english": "go straight", "pos": "verb", "notes": "dictionary form" },
+  { "word": "어디예요",  "romanization": "eodiyeyo",              "english": "where is it", "pos": "phrase", "notes": "" },
+  { "word": "얼마예요",  "romanization": "eolmayeyo",             "english": "how much is it","pos": "phrase", "notes": "" },
+  { "word": "잘 다녀오세요", "romanization": "jal danyeooseyo",  "english": "safe travels / have a good trip", "pos": "phrase", "notes": "" }
+]

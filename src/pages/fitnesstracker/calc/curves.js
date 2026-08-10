@@ -1,4 +1,4 @@
-// Per-domain forecast curve shapes (Guidelines_Forecast.md §4: "curve shape
+// Per-domain forecast curve shapes (guidelinesForecast.md §4: "curve shape
 // should not default to a straight line"). Each fn takes a fraction-of-elapsed-
 // time array (0..1, computed from real checkpoint DATES by calc/checkpoints.js
 // — not week-index, since cadence can be irregular/rest-shifted) and returns
@@ -28,7 +28,7 @@ export function strengthCurve(baselineValue, targetValue, fracs, plateauFrac = 0
 // (the metabolic-adaptation nonlinearity Wishnofsky's rule misses only matters
 // at long horizons — see calc/bodyComposition.js). Never capped/softened here —
 // computed exactly even if it implies an unsafe rate; calc/realism.js flags
-// that, it never changes this curve's output (Guidelines_Forecast.md §7/§11.5).
+// that, it never changes this curve's output (guidelinesForecast.md §7/§11.5).
 export function bodyCompCurve(baselineValue, targetValue, fracs) {
   return fracs.map((f) => baselineValue + (targetValue - baselineValue) * clamp01(f));
 }

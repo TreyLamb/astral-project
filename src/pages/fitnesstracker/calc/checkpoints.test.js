@@ -66,7 +66,7 @@ describe('mostRecentTouchIndex', () => {
 });
 
 // The core invariant the whole checkpoint-editing feature hinges on
-// (Guidelines_Forecast.md §6): everything after a touch point recomputes
+// (guidelinesForecast.md §6): everything after a touch point recomputes
 // forward to the fixed end goal; everything at/before it never moves; a
 // worse-than-projected result makes the remaining curve steeper, never softer.
 describe('recomputeFrom — recompute-forward invariant', () => {

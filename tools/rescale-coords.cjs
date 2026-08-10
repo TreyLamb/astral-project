@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Stage 2 of the coordinate-system refactor (see pokered CLAUDE.md + the
-// noble-orbiting-hollerith plan): migrates public/pokered/game_data.json from the old
+// noble-orbiting-hollerith plan): migrates public/pokered/gameData.json from the old
 // raw-tile-doubled coordinate scale to the new metatile-unit scale (1 unit = 16px,
 // matching OG's own wXCoord/wYCoord 1:1).
 //
@@ -14,14 +14,14 @@
 // trainerClass and warp dir fields) and would regress those hand-added fields.
 //
 // Usage: node tools/rescale-coords.cjs
-// Writes public/pokered/game_data.json.rescaled.json (does NOT overwrite the original —
+// Writes public/pokered/gameData.json.rescaled.json (does NOT overwrite the original —
 // diff and swap manually after verifying).
 
 const fs = require('fs');
 const path = require('path');
 
-const SRC = path.join(__dirname, '..', 'public', 'pokered', 'game_data.json');
-const OUT = path.join(__dirname, '..', 'public', 'pokered', 'game_data.json.rescaled.json');
+const SRC = path.join(__dirname, '..', 'public', 'pokered', 'gameData.json');
+const OUT = path.join(__dirname, '..', 'public', 'pokered', 'gameData.json.rescaled.json');
 
 const gd = JSON.parse(fs.readFileSync(SRC, 'utf8'));
 

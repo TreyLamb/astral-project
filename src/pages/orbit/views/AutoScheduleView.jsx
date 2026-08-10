@@ -28,7 +28,7 @@ const WEATHER_ERR = {
   'forecast-failed': 'Weather service unavailable right now.',
 };
 
-// The timed auto-scheduler's staged preview (Guidelines_Scheduler.md §10/§11).
+// The timed auto-scheduler's staged preview (guidelinesScheduler.md §10/§11).
 // Runs the deterministic solver over ready/unblocked/unscheduled tasks and lays
 // them at real times of day. NOTHING is written until "Apply" — every row can
 // be unchecked (skip), removed (re-solve without it), pinned, or moved first.

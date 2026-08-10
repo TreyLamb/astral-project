@@ -1,4 +1,4 @@
-// PGO Tracker Firestore data layer — used only when signed in (see
+// POGO Tracker Firestore data layer — used only when signed in (see
 // AuthContext). Mirrors pgoStorage.js's API shape 1:1, just persisted under
 // users/{uid}/pgo_accounts/{accountId} (one doc per account, dashboard +
 // inventory embedded) and users/{uid}/pgo_meta/settings (one small doc).

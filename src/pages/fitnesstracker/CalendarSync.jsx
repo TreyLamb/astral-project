@@ -51,7 +51,7 @@ export default function CalendarSync() {
     const t = activityType(activityTypes, w.activityType);
     const label = w.distanceM ? ` ${fmtDist(w.distanceM, unit)}` : '';
     return {
-      summary: `${t.icon} ${t.name}${label}`,
+      summary: `${t.name}${label}`,
       description: description(w),
       ...eventTimes(w),
       extendedProperties: { private: { ftWorkoutId: w.id, ftUpdated: String(w.updatedAt || 0) } },
@@ -143,7 +143,7 @@ export default function CalendarSync() {
       ) : (
         <>
           <div className="ft-cal-status">
-            <span className="ft-sync ft-sync-cloud">☁ Connected{cal.email ? ` · ${cal.email}` : ''}</span>
+            <span className="ft-sync ft-sync-cloud">Connected{cal.email ? ` · ${cal.email}` : ''}</span>
             {cal.lastSync && <span className="ft-hint-sm">last sync {new Date(cal.lastSync).toLocaleString()}</span>}
           </div>
           <div className="ft-import-actions">

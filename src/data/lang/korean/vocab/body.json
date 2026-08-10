@@ -1,0 +1,14 @@
+[
+  { "word": "머리",     "romanization": "meori",      "english": "head",           "pos": "noun", "notes": "" },
+  { "word": "눈",       "romanization": "nun",        "english": "eyes",           "pos": "noun", "notes": "" },
+  { "word": "코",       "romanization": "ko",         "english": "nose",           "pos": "noun", "notes": "" },
+  { "word": "입",       "romanization": "ip",         "english": "mouth",          "pos": "noun", "notes": "" },
+  { "word": "귀",       "romanization": "gwi",        "english": "ears",           "pos": "noun", "notes": "" },
+  { "word": "손",       "romanization": "son",        "english": "hand",           "pos": "noun", "notes": "" },
+  { "word": "발",       "romanization": "bal",        "english": "foot",           "pos": "noun", "notes": "" },
+  { "word": "다리",     "romanization": "dari",       "english": "leg",            "pos": "noun", "notes": "" },
+  { "word": "배",       "romanization": "bae",        "english": "belly / stomach","pos": "noun", "notes": "" },
+  { "word": "심장",     "romanization": "simjang",    "english": "heart",          "pos": "noun", "notes": "" },
+  { "word": "머리카락", "romanization": "meorikarak", "english": "hair",           "pos": "noun", "notes": "" },
+  { "word": "이빨",     "romanization": "ippal",      "english": "teeth",          "pos": "noun", "notes": "colloquial; formal 치아 (chia)" }
+]

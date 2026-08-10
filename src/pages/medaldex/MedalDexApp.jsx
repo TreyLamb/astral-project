@@ -77,7 +77,7 @@ export default function MedalDexApp() {
       setLoading(true);
       try {
         if (signedIn) {
-          // Accounts themselves come from PGO Tracker's own dual-mode load
+          // Accounts themselves come from POGO Tracker's own dual-mode load
           // path (see CLAUDE.md sub-app pattern + POGO Accs precedent) --
           // MedalDex never creates/renames/deletes accounts, only reads them.
           await PgoFirestore.seedIfEmpty(user.uid);
@@ -266,7 +266,7 @@ export default function MedalDexApp() {
 
         {accounts.length === 0 ? (
           <div className="mdx-panel mdx-empty">
-            No accounts yet — create one in <Link className="mdx-link" to="/pgo-tracker">PGO Tracker</Link>.
+            No accounts yet — create one in <Link className="mdx-link" to="/POGO">POGO Tracker</Link>.
           </div>
         ) : (
           <Routes>

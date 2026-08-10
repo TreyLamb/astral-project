@@ -42,6 +42,28 @@ export function parseShorthand(input) {
   return out;
 }
 
+// Sum EVERY distance token in a free-text session description, honouring rep
+// multipliers: "WU 1mi + 4x400m + CD 0.5mi" -> 1609 + 1600 + 805 = 4014m.
+//
+// Why this exists: sessions copied off the training docs are named things like
+// "Easy 1.5 mi @ 11:10/mi" and carry no explicit distanceM, so the weekly Miles
+// column summed them as zero and sat at 0.0 forever. The number is right there
+// in the text — this reads it.
+//
+// Pace strings can't false-positive: "@ 11:10/mi" has a "/" between the digits
+// and the unit, and \s* won't cross it.
+const REP_DIST_RE = /(?:(\d+)\s*[x×]\s*)?(\d+(?:\.\d+)?)\s*(mi|mile|miles|km|k|m|yd|yard|yards)\b/gi;
+
+export function parseDistanceTotalM(input) {
+  if (!input || typeof input !== 'string') return 0;
+  let total = 0;
+  for (const m of input.matchAll(REP_DIST_RE)) {
+    const reps = m[1] ? parseInt(m[1], 10) : 1;
+    total += reps * toMeters(parseFloat(m[2]), m[3]);
+  }
+  return total;
+}
+
 function toMeters(value, unit) {
   const u = unit.toLowerCase();
   if (u === 'mi' || u === 'mile' || u === 'miles') return value * M_PER_MILE;

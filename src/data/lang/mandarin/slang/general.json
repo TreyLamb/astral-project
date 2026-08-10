@@ -1,1 +1,12 @@
-[]
+[
+  { "word": "加油",     "romanization": "jiāyóu",     "english": "go for it! / you can do it!", "pos": "phrase", "notes": "used to cheer someone on" },
+  { "word": "牛",       "romanization": "niú",        "english": "awesome / badass",            "pos": "adjective", "notes": "informal, lit. 'cow' — impressive/skilled" },
+  { "word": "搞笑",     "romanization": "gǎoxiào",    "english": "funny / hilarious",           "pos": "adjective", "notes": "" },
+  { "word": "厉害",     "romanization": "lìhai",      "english": "amazing / impressive",        "pos": "adjective", "notes": "" },
+  { "word": "不错",     "romanization": "búcuò",      "english": "pretty good / not bad",       "pos": "adjective", "notes": "" },
+  { "word": "无聊",     "romanization": "wúliáo",     "english": "boring",                      "pos": "adjective", "notes": "" },
+  { "word": "吐槽",     "romanization": "tǔcáo",      "english": "to poke fun at / roast",      "pos": "verb", "notes": "internet slang" },
+  { "word": "奇葩",     "romanization": "qípā",       "english": "weirdo / oddball",            "pos": "noun", "notes": "informal, mildly judgmental" },
+  { "word": "坑",       "romanization": "kēng",       "english": "to scam / rip off",           "pos": "verb", "notes": "informal, lit. 'pit'" },
+  { "word": "真的假的", "romanization": "zhēnde jiǎde","english": "really? / no way",            "pos": "phrase", "notes": "expresses disbelief" }
+]

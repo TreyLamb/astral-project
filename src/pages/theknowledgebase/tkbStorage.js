@@ -483,7 +483,7 @@ export const TkbStorage = {
 
   /**
    * Accepts either:
-   *  - a notes-to-questions-prompt.md array: [{question, answer, answer_alternates,
+   *  - a notesToQuestionsPrompt.md array: [{question, answer, answer_alternates,
    *    subject, subtopic, difficulty, pipeline, style_tags, source_note}, ...]
    *  - a full exportAll() restore blob (detected via a top-level schemaVersion key)
    * Returns {added, skipped, errors} for import arrays, or {restored:true} for a restore.

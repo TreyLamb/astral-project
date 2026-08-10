@@ -1,0 +1,23 @@
+[
+  { "word": "父",       "romanization": "chichi",   "english": "father (own family, humble)",   "pos": "noun", "notes": "" },
+  { "word": "母",       "romanization": "haha",     "english": "mother (own family, humble)",   "pos": "noun", "notes": "" },
+  { "word": "お父さん", "romanization": "otousan",  "english": "father (someone else's / address form)", "pos": "noun", "notes": "" },
+  { "word": "お母さん", "romanization": "okaasan",  "english": "mother (someone else's / address form)", "pos": "noun", "notes": "" },
+  { "word": "兄",       "romanization": "ani",      "english": "older brother (own, humble)",   "pos": "noun", "notes": "" },
+  { "word": "姉",       "romanization": "ane",      "english": "older sister (own, humble)",    "pos": "noun", "notes": "" },
+  { "word": "弟",       "romanization": "otouto",   "english": "younger brother",               "pos": "noun", "notes": "" },
+  { "word": "妹",       "romanization": "imouto",   "english": "younger sister",                "pos": "noun", "notes": "" },
+  { "word": "祖父",     "romanization": "sofu",     "english": "grandfather",                   "pos": "noun", "notes": "" },
+  { "word": "祖母",     "romanization": "sobo",     "english": "grandmother",                   "pos": "noun", "notes": "" },
+  { "word": "息子",     "romanization": "musuko",   "english": "son",                           "pos": "noun", "notes": "" },
+  { "word": "娘",       "romanization": "musume",   "english": "daughter",                      "pos": "noun", "notes": "" },
+  { "word": "夫",       "romanization": "otto",     "english": "husband",                       "pos": "noun", "notes": "" },
+  { "word": "妻",       "romanization": "tsuma",    "english": "wife",                          "pos": "noun", "notes": "" },
+  { "word": "子供",     "romanization": "kodomo",   "english": "child",                         "pos": "noun", "notes": "" },
+  { "word": "家族",     "romanization": "kazoku",   "english": "family",                        "pos": "noun", "notes": "" },
+  { "word": "友達",     "romanization": "tomodachi","english": "friend",                        "pos": "noun", "notes": "" },
+  { "word": "彼氏",     "romanization": "kareshi",  "english": "boyfriend",                     "pos": "noun", "notes": "" },
+  { "word": "彼女",     "romanization": "kanojo",   "english": "girlfriend / she",              "pos": "noun", "notes": "" },
+  { "word": "先生",     "romanization": "sensei",   "english": "teacher",                       "pos": "noun", "notes": "" },
+  { "word": "学生",     "romanization": "gakusei",  "english": "student",                       "pos": "noun", "notes": "" }
+]

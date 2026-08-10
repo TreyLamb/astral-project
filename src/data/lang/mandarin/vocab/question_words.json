@@ -1,0 +1,12 @@
+[
+  { "word": "什么",     "romanization": "shénme",       "english": "what",           "pos": "pronoun", "notes": "" },
+  { "word": "谁",       "romanization": "shéi",         "english": "who",            "pos": "pronoun", "notes": "" },
+  { "word": "哪里",     "romanization": "nǎlǐ",         "english": "where",          "pos": "pronoun", "notes": "" },
+  { "word": "哪个",     "romanization": "nǎge",         "english": "which (one)",    "pos": "pronoun", "notes": "" },
+  { "word": "为什么",   "romanization": "wèishénme",    "english": "why",            "pos": "adverb", "notes": "" },
+  { "word": "怎么",     "romanization": "zěnme",        "english": "how",            "pos": "adverb", "notes": "" },
+  { "word": "几",       "romanization": "jǐ",           "english": "how many (small)","pos": "pronoun", "notes": "" },
+  { "word": "多少",     "romanization": "duōshǎo",      "english": "how many/much",  "pos": "pronoun", "notes": "" },
+  { "word": "什么时候", "romanization": "shénme shíhou","english": "when",           "pos": "pronoun", "notes": "" },
+  { "word": "怎么样",   "romanization": "zěnmeyàng",    "english": "how is it / how about", "pos": "phrase", "notes": "" }
+]

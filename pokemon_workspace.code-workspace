@@ -1,10 +1,10 @@
 {
 	"folders": [
 		{
-			"path": "src/pages/pokered_page"
+			"path": "src/pages/pokeredPage"
 		},
 		{
-			"path": "pokemon_OG"
+			"path": "pokemonOg"
 		},
 		{
 			"path": "public/pokered"

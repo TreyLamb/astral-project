@@ -35,7 +35,6 @@
   padding-right: 14px; border-right: 1px solid var(--ft-border);
 }
 .ft-brand { font-size: 1.15rem; font-weight: 700; color: var(--ft-accent); display: flex; align-items: center; gap: 8px; }
-.ft-brand-icon { font-size: 1.3rem; }
 .ft-topnav { display: flex; gap: 4px; }
 .ft-tab {
   padding: 8px 16px; border-radius: 9px; text-decoration: none;
@@ -54,7 +53,10 @@
    the same width on a 1920px monitor as on a 1100px laptop, which read as
    "permanently compressed for mobile" per the owner's report. clamp() lets it
    actually grow on wide screens while staying identical below 1080px. */
-.ft-main { flex: 1; padding: 18px; max-width: clamp(1080px, 90vw, 1600px); width: 100%; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; }
+/* Was max-width 1600 + 18px padding, which threw away a wide band of screen on
+   either side of the calendar. The grid is the whole point of this page, so it
+   gets the width back. */
+.ft-main { flex: 1; padding: 10px 12px; max-width: 100%; width: 100%; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; }
 
 /* ---- buttons ---- */
 .ft-btn-primary, .ft-btn-ghost, .ft-btn-danger {
@@ -97,36 +99,57 @@
 }
 
 /* ---- calendar bar ---- */
-.ft-cal-bar { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+.ft-cal-bar { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+
+/* #5 -- the AFT tier strip. Was 1.35rem of inline-styled text and ate the header
+   row. Base is ~30% smaller; Month shrinks it further still (Month has the least
+   room per day, so the calendar wins there), Week/Day keep a little more. */
+.ft-aft-strip {
+  display: grid; grid-template-columns: repeat(3, auto); grid-auto-flow: row;
+  column-gap: 14px; row-gap: 1px; color: var(--ft-muted); font-weight: 500;
+  line-height: 1.2; align-content: center; justify-content: center;
+  font-size: 0.95rem;
+}
+.ft-aft-item { white-space: nowrap; }
+.ft-aft-item b { color: var(--ft-text); font-weight: 600; }
+.ft-aft-item i { opacity: 0.6; font-style: normal; }
+[data-view="month"] .ft-aft-strip { font-size: 0.78rem; column-gap: 11px; }
+[data-view="month"] .ft-cal-title { font-size: 1.05rem; }
+[data-view="month"] .ft-nav-btn { min-width: 32px; height: 32px; font-size: 1rem; }
+[data-view="month"] .ft-view-btn { padding: 6px 12px; font-size: 0.85rem; }
+[data-view="month"] .ft-toggle-btn { font-size: 0.7rem; padding: 4px 9px; }
 .ft-cal-nav { display: flex; align-items: center; gap: 8px; }
 .ft-nav-btn {
   background: var(--ft-panel); color: var(--ft-text); border: 1px solid var(--ft-border);
-  border-radius: 9px; min-width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; font-family: inherit;
+  border-radius: 9px; min-width: 34px; height: 34px; font-size: 1.05rem; cursor: pointer; font-family: inherit;
 }
 .ft-today-btn { font-size: 0.85rem; padding: 0 14px; }
-.ft-cal-title { font-size: 1.35rem; margin: 0 0 0 6px; }
+.ft-cal-title { font-size: 1.15rem; margin: 0 0 0 6px; }
 .ft-view-toggle { display: flex; background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 10px; overflow: hidden; }
-.ft-view-btn { background: transparent; color: var(--ft-muted); border: none; padding: 9px 16px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.ft-view-btn { background: transparent; color: var(--ft-muted); border: none; padding: 7px 13px; font-size: 0.88rem; font-weight: 600; cursor: pointer; font-family: inherit; }
 .ft-view-btn.active { background: rgba(163, 230, 53, 0.16); color: var(--ft-accent); }
 .ft-weekcount { display: inline-flex; align-items: center; gap: 6px; color: var(--ft-muted); font-size: 0.8rem; font-weight: 600; }
 .ft-weekcount input { width: 46px; padding: 6px 8px; background: var(--ft-panel); color: var(--ft-text); border: 1px solid var(--ft-border); border-radius: 8px; font-family: inherit; font-weight: 600; text-align: center; }
 
 /* ---- month grid ---- */
-.ft-weekhead { display: flex; gap: 6px; margin-bottom: 6px; }
+.ft-weekhead { flex: none; display: flex; gap: 4px; margin-bottom: 4px; }
 .ft-weekhead-cell { flex: 1; text-align: center; font-size: 0.78rem; color: var(--ft-muted); font-weight: 600; }
-.ft-weekhead-cell.ft-weekend-head { flex: none; width: 92px; margin-left: 10px; font-size: 0.68rem; }
-.ft-month-grid { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-.ft-week { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.ft-weekhead-cell.ft-weekend-head { flex: none; width: 72px; margin-left: 4px; font-size: 0.62rem; }
+.ft-month-grid { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.ft-week { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
 
 /* End-of-week goal summary column, to the right of Saturday — the actual
    end-of-week target VALUE is always visible text on the badge itself, never
    only in a hover tooltip (and never truncated off — it wraps instead).
    margin-left (on top of the row's own gap) keeps real separation from the
    Saturday cell rather than reading as touching/overlapping it. */
-.ft-week-row { display: flex; gap: 6px; margin-bottom: 6px; align-items: stretch; }
+.ft-week-row { display: flex; gap: 4px; margin-bottom: 4px; align-items: stretch; }
 .ft-month .ft-week-row:last-child { margin-bottom: 0; }
-.ft-weekend-col { flex: none; width: 92px; margin-left: 10px; display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: 4px; }
-.ft-week-row-single .ft-weekend-col { width: 160px; justify-content: flex-start; padding-top: 4px; gap: 8px; }
+/* #6 -- narrower and pulled in against the grid (was 92px plus a 10px margin on
+   top of the row gap). Same for Miles below. Every px here goes back to the
+   seven day columns, which were the cramped part. */
+.ft-weekend-col { flex: none; width: 72px; margin-left: 4px; display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: 3px; }
+.ft-week-row-single .ft-weekend-col { width: 118px; justify-content: flex-start; padding-top: 4px; gap: 6px; }
 .ft-weekend-badge {
   display: flex; align-items: center; gap: 5px; width: 100%;
   border: 1px solid rgba(163, 230, 53, 0.35); border-radius: 7px;
@@ -143,8 +166,8 @@
    the goals column, same row-per-week structure. Cyan rather than the goals'
    lime so the two summary columns stay visually distinct from each other. */
 .ft-weekhead-cell.ft-weekmiles-head { flex: none; width: 72px; margin-left: 8px; font-size: 0.68rem; }
-.ft-weekmiles-col { flex: none; width: 72px; margin-left: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
-.ft-week-row-single .ft-weekmiles-col { width: 110px; align-items: stretch; padding-top: 4px; gap: 8px; }
+.ft-weekmiles-col { flex: none; width: 56px; margin-left: 3px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+.ft-week-row-single .ft-weekmiles-col { width: 82px; align-items: stretch; padding-top: 4px; gap: 6px; }
 .ft-weekmiles-badge {
   display: flex; align-items: center; justify-content: center; width: 100%;
   border: 1px solid rgba(103, 232, 249, 0.35); background: rgba(103, 232, 249, 0.1); border-radius: 7px;
@@ -161,35 +184,88 @@
    a fixed height and leaving dead space below (was a flat 320px min-height with
    no flex chain to grow it) — .ft-main -> .ft-cal -> .ft-cal-body -> .ft-day all
    flex so the single day cell stretches to the bottom of the window. */
-.ft-day { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+/* #9 -- Day view was a single cell stretched across the whole window, which
+   left an enormous dead field around a handful of lines of text. It's now a
+   centre column at ~35% with a detail rail either side. The rails carry real
+   per-day numbers today and are the reserved home for more of them later. */
+.ft-day {
+  flex: 1; min-height: 0;
+  display: grid; grid-template-columns: 1fr minmax(320px, 35%) 1fr; gap: 14px;
+  align-items: stretch;
+}
+.ft-day-main { display: flex; flex-direction: column; min-height: 0; }
+
+.ft-day-rail {
+  display: flex; flex-direction: column; gap: 4px; min-height: 0;
+  overflow-y: auto;
+  background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 10px;
+  padding: 12px 14px;
+}
+.ft-day-rail-title {
+  margin: 10px 0 4px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--ft-muted);
+}
+.ft-day-rail-title:first-child { margin-top: 0; }
+.ft-day-stats { display: flex; flex-direction: column; }
+.ft-day-stat {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  padding: 5px 0; border-bottom: 1px solid var(--ft-border); font-size: 0.85rem;
+}
+.ft-day-stat:last-child { border-bottom: none; }
+.ft-day-stat-k { color: var(--ft-muted); }
+.ft-day-stat-v { font-weight: 700; color: var(--ft-text); white-space: nowrap; }
+.ft-day-stat-v small { font-weight: 500; color: var(--ft-muted); }
+.ft-day-where {
+  text-align: left; background: var(--ft-panel-2); border: 1px solid var(--ft-border);
+  border-radius: 8px; padding: 8px 10px; color: var(--ft-text); font-family: inherit;
+  font-size: 0.82rem; cursor: pointer;
+}
+.ft-day-where:hover { border-color: #67e8f9; }
+.ft-day-todos { display: flex; flex-direction: column; gap: 4px; }
+.ft-day-todo {
+  text-align: left; background: none; border: none; padding: 4px 2px;
+  font-family: inherit; font-size: 0.84rem; cursor: pointer;
+}
+.ft-day-todo:hover { background: rgba(255, 255, 255, 0.06); border-radius: 4px; }
+
+/* Rails stack under the grid before they get too narrow to read. order:-1 keeps
+   the DAY itself first once stacked — otherwise the summary rail pushes the
+   thing you actually came to look at below the fold. */
+@media (max-width: 1100px) {
+  .ft-day { grid-template-columns: 1fr; grid-auto-rows: min-content; overflow-y: auto; }
+  .ft-day-main { order: -1; min-height: 320px; }
+  .ft-day-rail { overflow-y: visible; }
+}
 
 /* ---- day cell ---- */
 .ft-cell {
   position: relative;
-  background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 10px;
-  padding: 6px; cursor: pointer; overflow: hidden; transition: border-color 0.12s, background 0.12s;
+  background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 8px;
+  padding: 4px 5px; cursor: pointer; overflow: hidden; transition: border-color 0.12s, background 0.12s;
 }
 .ft-cell:hover { border-color: rgba(163, 230, 53, 0.4); }
 /* Per-day Orbit energy load, pinned bottom-right. Cyan (Orbit's accent) so it
    reads as "from Orbit", not a fitness metric; turns warn-orange over budget. */
+/* #4 -- in normal flow (margin-top:auto pins it to the bottom of the column)
+   rather than position:absolute. Absolute meant a busy day drew its chips
+   straight through it. Border/pill removed too, per the de-cluttering pass. */
 .ft-cell-energy {
-  position: absolute; right: 5px; bottom: 4px;
-  font-size: 0.6rem; font-weight: 800; line-height: 1;
-  color: #7ec8e3; background: rgba(126, 200, 227, 0.14);
-  border: 1px solid rgba(126, 200, 227, 0.3); border-radius: 20px;
-  padding: 2px 6px; pointer-events: none; letter-spacing: 0.02em;
+  flex: none; margin-top: auto; align-self: flex-end;
+  font-size: 0.58rem; font-weight: 800; line-height: 1;
+  color: #7ec8e3;
+  padding: 3px 2px 0; pointer-events: none; letter-spacing: 0.02em;
 }
-.ft-cell-energy.over { color: #fb923c; background: rgba(251, 146, 60, 0.16); border-color: rgba(251, 146, 60, 0.4); }
-.ft-cell-month { min-height: 92px; display: flex; flex-direction: column; }
-.ft-cell-week { min-height: 220px; flex: 1; display: flex; flex-direction: column; }
+.ft-cell-energy.over { color: #fb923c; }
+.ft-cell-month { min-height: 84px; display: flex; flex-direction: column; }
+.ft-cell-week { min-height: 150px; flex: 1; display: flex; flex-direction: column; }
 .ft-cell-week .ft-cell-items { flex: 1; }
-.ft-cell-day { min-height: 320px; flex: 1; display: flex; flex-direction: column; }
+.ft-cell-day { min-height: 0; flex: 1; display: flex; flex-direction: column; }
 .ft-cell-day .ft-cell-items { flex: 1; }
 .ft-cell-dim { opacity: 0.4; }
 .ft-cell-today { border-color: var(--ft-accent); }
 .ft-cell-today .ft-cell-num { background: var(--ft-accent); color: #0a0e12; border-radius: 50%; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; }
 .ft-cell-over { background: rgba(163, 230, 53, 0.1); border-color: var(--ft-accent); border-style: dashed; }
-.ft-cell-head { display: flex; align-items: center; justify-content: space-between; gap: 4px; margin-bottom: 4px; }
+.ft-cell-head { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 3px; margin-bottom: 2px; }
 .ft-cell-num { font-size: 0.82rem; color: var(--ft-muted); font-weight: 600; }
 .ft-cell-dow { font-size: 0.72rem; color: var(--ft-muted); }
 /* Net-calories-vs-goal badge — same header row as the date number, small and
@@ -235,43 +311,61 @@
   border: 1px solid #67e8f9; border-radius: 20px; padding: 1px 8px;
 }
 .ft-whererange-dates { flex: 1; font-size: 0.82rem; color: var(--ft-text); font-variant-numeric: tabular-nums; }
-.ft-cell-items { display: flex; flex-direction: column; gap: 3px; overflow: hidden; }
+/* #4 -- the chip list owns the leftover height and clips. Hovering the day
+   turns that clip into a scroll, so an overloaded day stays fully readable
+   without the cell growing or its chips running under the energy badge. */
+.ft-cell-items {
+  display: flex; flex-direction: column; gap: 1px;
+  flex: 1; min-height: 0; overflow: hidden;
+  scrollbar-width: none;
+}
+.ft-cell:hover .ft-cell-items { overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(163,230,53,0.4) transparent; }
+.ft-cell-items::-webkit-scrollbar { width: 5px; }
+.ft-cell-items::-webkit-scrollbar-thumb { background: rgba(163, 230, 53, 0.35); border-radius: 3px; }
+.ft-cell-items::-webkit-scrollbar-track { background: transparent; }
 
 /* ---- workout chip ---- */
+/* #3 -- chips are bare coloured text lines: no icon, no border, no fill. The
+   activity colour IS the text colour (run orange, swim blue, unchanged).
+   #4/#5 -- the SIZE is measured per day cell and handed down as
+   --ft-chip-size (see useAutoChipSize): biggest the view allows when a day
+   holds one or two things, stepping down to that view's floor as they pile up,
+   and only then does the list scroll. Removing the boxes without growing the
+   text is what made this hard to read the first time round. */
 .ft-chip {
-  position: relative;
-  display: flex; align-items: center; gap: 4px; border: 1.5px solid; border-radius: 7px;
-  padding: 3px 6px; font-size: 0.74rem; font-weight: 700; cursor: grab; font-family: inherit;
-  text-align: left; width: 100%; box-sizing: border-box;
+  display: flex; align-items: baseline; gap: 6px; width: 100%;
+  background: none; border: none; border-radius: 3px;
+  padding: 1px 3px; margin: 0;
+  font-family: inherit;
+  font-size: var(--ft-chip-size, 13px);
+  line-height: 1.32;
+  letter-spacing: 0.005em;
+  text-align: left; cursor: grab; box-sizing: border-box;
 }
+.ft-chip:hover { background: rgba(255, 255, 255, 0.09); }
 .ft-chip:active { cursor: grabbing; }
-.ft-chip-planned { border-style: dashed; }
-.ft-chip-icon { font-size: 0.85rem; line-height: 1; }
+/* Done reads at full strength; planned is lighter but NOT faint -- 0.62 was
+   unreadable against the panel once the filled background went away. */
+.ft-chip-done { font-weight: 700; }
+.ft-chip-planned { font-weight: 500; opacity: 0.82; }
 .ft-chip-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ft-chip-labels { display: flex; flex-direction: column; overflow: hidden; min-width: 0; flex: 1; }
-/* The goal target (and, once logged, the real result next to it) now render
-   INLINE on the chip — previously the target only existed in the hover
-   tooltip, which is exactly the gap this fixes. */
-.ft-chip-target { font-size: 0.66rem; font-weight: 600; opacity: 0.85; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ft-chip-target small { opacity: 0.7; font-weight: 500; }
-.ft-chip-realism-flag { font-size: 0.68rem; flex: none; }
-.ft-chip-selected { outline: 2px solid #60a5fa; outline-offset: 1px; }
-.ft-chip-group-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; margin-left: auto; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4); }
-
-/* Chips actually get bigger/more detailed as you zoom into a narrower time
-   range — Month stays compact (many cells, little room), Week and Day step up
-   font-size/padding/gap to use the extra cell height that was previously just
-   empty space around identically-sized chips. */
-.ft-cell-week .ft-chip { font-size: 0.86rem; padding: 5px 9px; gap: 6px; border-radius: 8px; }
-.ft-cell-week .ft-chip-icon { font-size: 1.05rem; }
-.ft-cell-week .ft-chip-target { font-size: 0.76rem; }
-.ft-cell-day .ft-chip { font-size: 0.95rem; padding: 7px 11px; gap: 8px; border-radius: 9px; }
-.ft-cell-day .ft-chip-icon { font-size: 1.2rem; }
-.ft-cell-day .ft-chip-target { font-size: 0.85rem; }
+.ft-chip-labels { display: flex; flex-direction: row; align-items: baseline; gap: 6px; overflow: hidden; min-width: 0; flex: 1; }
+/* em, so the secondary number tracks the measured size instead of fighting it */
+.ft-chip-target { font-size: 0.82em; font-weight: 600; opacity: 0.8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: none; }
+.ft-chip-target small { opacity: 0.75; font-weight: 500; }
+.ft-chip-selected { outline: 1px solid #60a5fa; outline-offset: 0; background: rgba(96, 165, 250, 0.14); }
+.ft-chip-group-dot { width: 5px; height: 5px; border-radius: 50%; flex: none; margin-left: auto; align-self: center; }
 
 /* ---- calendar multi-select: marquee drag + bulk selection bar ---- */
 .ft-cal-body { position: relative; user-select: none; flex: 1; display: flex; flex-direction: column; min-height: 0; }
-.ft-cal-body > .ft-month, .ft-cal-body > .ft-week-row { flex: none; }
+/* #2 -- the grid claims all the leftover height and the week rows split it
+   evenly, so N weeks always fills the viewport instead of stopping at a fixed
+   per-cell min-height and leaving a dead band underneath. The min-height floor
+   on the cells (below) means a large week count overflows into a scroll rather
+   than squashing every day into an unreadable strip. */
+.ft-cal-body > .ft-month { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.ft-cal-body > .ft-month > .ft-week-row { flex: 1; min-height: 0; }
+.ft-cal-body > .ft-week-row { flex: none; }
 /* Week view (the single-row .ft-week-row-single, not Month's per-week rows)
    was stuck at .ft-cell-week's 220px min-height with dead space below on a
    tall viewport — the same class of bug Day view had before it got this same
@@ -282,7 +376,7 @@
 /* Multi-week Week window: unlike Month (flex:none, content-height) this can run
    past the viewport at higher week counts, so it owns the scroll instead of
    clipping. Later than the .ft-month flex:none rule above, so it wins on it. */
-.ft-cal-body > .ft-multiweek { flex: 1; min-height: 0; overflow-y: auto; }
+.ft-cal-body > .ft-multiweek { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; }
 .ft-marquee {
   position: fixed; z-index: 900; background: rgba(96, 165, 250, 0.15);
   border: 1.5px solid #60a5fa; border-radius: 4px; pointer-events: none;
@@ -354,7 +448,6 @@
   color: var(--ft-text); font-weight: 600; font-size: 0.88rem; cursor: pointer; font-family: inherit;
 }
 .ft-type-btn.active { border-color: var(--ft-accent); }
-.ft-type-icon { font-size: 1.05rem; }
 
 .ft-status-toggle { display: flex; gap: 8px; margin-bottom: 14px; }
 .ft-status-toggle button {
@@ -362,6 +455,16 @@
   padding: 10px; color: var(--ft-muted); font-weight: 700; cursor: pointer; font-family: inherit;
 }
 .ft-status-toggle button.active { border-color: var(--ft-accent); color: var(--ft-accent); background: rgba(163, 230, 53, 0.1); }
+/* Once Done is on, the word is gone and only the check remains — it pops in
+   so the state change registers without needing to read a label. */
+.ft-status-done.active { background: rgba(163, 230, 53, 0.18); }
+.ft-status-check { display: inline-block; font-size: 1.25rem; line-height: 1; animation: ft-check-pop 260ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes ft-check-pop {
+  0%   { transform: scale(0.2); opacity: 0; }
+  60%  { transform: scale(1.28); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .ft-status-check { animation: none; } }
 
 .ft-rpe { display: flex; flex-wrap: wrap; gap: 5px; }
 .ft-rpe-btn {
@@ -373,7 +476,7 @@
 
 /* ---- editor ---- */
 .ft-editor { max-width: 560px; margin: 0 auto; }
-.ft-editor-head { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.ft-editor-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
 .ft-editor-head h2 { margin: 0; font-size: 1.3rem; }
 .ft-editor-actions { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
 .ft-empty { color: var(--ft-muted); text-align: center; padding: 40px 0; }
@@ -395,12 +498,14 @@
 .ft-type-chip-x { background: transparent; border: none; color: var(--ft-muted); cursor: pointer; font-size: 0.8rem; padding: 0 0 0 2px; }
 .ft-add-type { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .ft-add-type .ft-input { flex: 1; min-width: 160px; }
-.ft-add-icon { width: 52px; flex: none; text-align: center; }
 .ft-color { width: 44px; height: 44px; border: 1px solid var(--ft-border); border-radius: 9px; background: var(--ft-bg); cursor: pointer; }
 
 /* ---- responsive ---- */
 @media (max-width: 640px) {
-  .ft-main { padding: 12px; }
+  /* "on mobile ... no padding should exist" -- the grid runs edge to edge. */
+  .ft-main { padding: 0; }
+  .ft-cal-bar { padding: 6px 6px 0; }
+  .ft-cal-toggles { padding: 0 6px; }
 
   /* Release .ft-cal's 560px floor. That floor exists to stop the side panel
      crushing the day grid — but .ft-cal-outer already stacked to a column at
@@ -409,27 +514,23 @@
      sideways. */
   .ft-cal { min-width: 0; }
 
-  /* "Astral Project" at 1.5em plus "💪 MyFitnessTracker" at 1.15rem is most of
+  /* "Astral Project" at 1.5em plus "MyFitnessTracker" at 1.15rem is most of
      a phone's width before the tabs or + Log even get a turn. */
   .ft-topbar { gap: 8px; padding: 8px 12px; }
   .ft-site-home { font-size: 1rem; padding-right: 10px; }
   .ft-brand { font-size: 0.95rem; }
-  .ft-brand-icon { font-size: 1.05rem; }
-  .ft-topbar-right { gap: 8px; }
+    .ft-topbar-right { gap: 8px; }
   .ft-sync { font-size: 0.7rem; }
   .ft-log-btn { font-size: 0.82rem; padding: 8px 12px; }
 
   .ft-cell-month { min-height: 72px; }
   .ft-cell-num { font-size: 0.75rem; }
   .ft-cell-cal { font-size: 0.58rem; }
-  /* Month is cramped on phones — icon only, full detail on tap. Week/Day keep
-     their text (and their larger .ft-cell-week/.ft-cell-day chip sizing above)
-     so "zooming in" still means something on mobile, not just on desktop. */
-  .ft-cell-month .ft-chip-text { display: none; }
+  /* The old rule here hid .ft-chip-text on mobile Month and left only the
+     icon. There are no icons any more -- hiding the text would leave a blank
+     row. Text stays; it shrinks and ellipsises instead. */
+  .ft-cell-month .ft-chip { font-size: 0.65rem; padding: 0 2px; }
   .ft-cell-month .ft-chip-target { display: none; }
-  /* ...but an event's identity IS its name — a bare 📅 with the text hidden is
-     meaningless (unlike a 🏃 workout icon), so keep event names visible here. */
-  .ft-cell-month .ft-chip-event .ft-chip-text { display: block; }
   .ft-week { grid-template-columns: 1fr; }
   .ft-cell-week { min-height: 140px; }
   .ft-two { grid-template-columns: 1fr; }
@@ -646,7 +747,6 @@
 .ft-goal-new-btn { padding: 6px 14px; font-size: 0.82rem; }
 .ft-goal-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
 .ft-goal-row { display: flex; align-items: center; gap: 12px; background: var(--ft-bg); border: 1px solid var(--ft-border); border-radius: 11px; padding: 10px 12px; flex-wrap: wrap; }
-.ft-goal-icon { font-size: 1.3rem; flex: none; }
 .ft-goal-info { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 160px; }
 .ft-goal-label { font-weight: 700; }
 .ft-goal-meta { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--ft-muted); flex-wrap: wrap; }
@@ -660,7 +760,7 @@
 .ft-goal-actions { display: flex; gap: 6px; flex: none; }
 .ft-goal-actions .ft-btn-ghost { padding: 6px 12px; font-size: 0.78rem; }
 
-/* Realism index — non-blocking, informational badge/flag (Guidelines_Forecast.md §7) */
+/* Realism index — non-blocking, informational badge/flag (guidelinesForecast.md §7) */
 .ft-realism-badge { padding: 2px 9px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
 .ft-realism-conservative { color: var(--ft-accent); background: rgba(163, 230, 53, 0.14); }
 .ft-realism-plausible { color: #fbbf24; background: rgba(251, 191, 36, 0.14); }
@@ -741,11 +841,11 @@
    reads as "another workout/meal chip" even at a glance — a real requirement
    of this integration, not just a style preference. */
 .ft-orbit-chip {
-  display: flex; align-items: center; gap: 4px; border: 1.5px dashed; border-radius: 20px;
-  padding: 2px 7px; font-size: 0.68rem; font-weight: 600; cursor: pointer; font-family: inherit;
-  text-align: left; width: 100%; box-sizing: border-box;
+  display: flex; align-items: baseline; width: 100%;
+  background: none; border: none; border-radius: 3px;
+  padding: 1px 3px; font-family: inherit; font-size: 0.7rem; line-height: 1.3;
+  font-weight: 500; opacity: 0.8; text-align: left; cursor: pointer; box-sizing: border-box;
 }
-.ft-orbit-chip-icon { font-size: 0.75rem; line-height: 1; flex: none; }
 .ft-orbit-chip-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ft-orbit-chip-done { text-decoration: line-through; opacity: 0.55; }
 .ft-orbit-chip-due { border-style: dotted; opacity: 0.85; }
@@ -775,8 +875,8 @@
 /* Zoom levels: Week/Day step Orbit chips up in size same as workout chips do
    (.ft-cell-week/.ft-cell-day .ft-chip above) — "more detail at this zoom
    level" has to actually apply here too, not just to the fitness content. */
-.ft-cell-week .ft-orbit-chip, .ft-cell-day .ft-orbit-chip { font-size: 0.8rem; padding: 4px 10px; gap: 6px; }
-.ft-cell-week .ft-orbit-chip-icon, .ft-cell-day .ft-orbit-chip-icon { font-size: 0.9rem; }
+.ft-cell-week .ft-orbit-chip { font-size: 0.8rem; padding: 2px 4px; }
+.ft-cell-day .ft-orbit-chip { font-size: 0.92rem; padding: 3px 5px; }
 .ft-cell-day .ft-orbit-add-btn { font-size: 0.78rem; padding: 4px 9px; }
 
 @media (max-width: 640px) {
@@ -787,3 +887,95 @@
   .ft-cell-month .ft-orbit-add-btn::before { content: '+'; font-size: 0.72rem; }
 }
 .ft-macro-unit { color: var(--ft-muted); font-size: 0.85rem; flex: none; }
+
+/* #7 — watch import, inline in the Log-a-workout modal (the full drag-and-drop
+   version still lives on the Import tab; this is the one-tap path). */
+.ft-watch-import { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.ft-watch-btn {
+  background: var(--ft-panel-2); color: var(--ft-text); border: 1px dashed var(--ft-border);
+  border-radius: 9px; padding: 8px 12px; font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+}
+.ft-watch-btn:hover { border-color: var(--ft-accent); color: var(--ft-accent); }
+.ft-watch-ok { font-size: 0.74rem; color: var(--ft-accent); }
+.ft-watch-err { font-size: 0.74rem; color: #fb7185; }
+
+/* Overflow fixes exposed once .ft-main's mobile padding went to 0 — with the
+   grid running edge to edge there is no longer any slack to absorb a child
+   that measures slightly wider than the viewport. Verified at 390px: page
+   scrollWidth === clientWidth. */
+@media (max-width: 640px) {
+  /* The AFT strip is a 3-column grid of nowrap spans; at phone widths that
+     total ran ~6px past the viewport. Two columns, and it may not exceed its
+     parent. */
+  .ft-aft-strip { max-width: 100%; min-width: 0; grid-template-columns: repeat(2, auto); column-gap: 10px; font-size: 0.72rem; }
+  [data-view="month"] .ft-aft-strip { font-size: 0.68rem; }
+  /* The tab row can't wrap (it's a single flex line), so it scrolls instead of
+     pushing the document wide. */
+  .ft-topnav { overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+  .ft-topnav::-webkit-scrollbar { display: none; }
+  /* 88px is wider than a day cell at this width. */
+  .ft-cell-where { max-width: 100%; }
+}
+
+/* A single overloaded day used to drag its entire week row taller (grid rows
+   are content-sized by default, and every ancestor happily grew with it), which
+   undid the equal-height split above. Now the row owns the height, the grid
+   tracks fill it, and the cell clips + scrolls internally instead. The floor
+   moves from the cell to the row so a light week still can't collapse. */
+.ft-cal-body > .ft-month > .ft-week-row { min-height: 84px; }
+.ft-cal-body > .ft-month > .ft-week-row > .ft-month-grid { min-height: 0; grid-auto-rows: minmax(0, 1fr); }
+.ft-cal-body > .ft-month .ft-cell-month { min-height: 0; }
+
+/* The calendar screen is pinned to exactly one viewport, with all scrolling
+   happening INSIDE the grid. .ft-app only had min-height, so nothing bounded
+   it from above: one overloaded day grew .ft-app -> .ft-main -> .ft-cal-body
+   and pushed the whole page taller instead of scrolling in place, which is the
+   dead-space problem in reverse. min-height:0 on .ft-main alone can't fix that
+   — the ancestor needs a real ceiling.
+   Scoped with :has() to the calendar: Meals/Dashboard/Settings are meant to
+   grow and scroll with the page as before. dvh so mobile browser chrome
+   doesn't clip the bottom row. */
+.ft-app:has(.ft-cal-outer) { height: calc(100vh - var(--nav-h, 0px)); overflow: hidden; }
+@supports (height: 100dvh) {
+  .ft-app:has(.ft-cal-outer) { height: calc(100dvh - var(--nav-h, 0px)); }
+}
+.ft-main:has(> .ft-cal-outer) { min-height: 0; }
+
+/* Further space reclaimed on phones, beyond the padding removal — at 390px the
+   chrome was taking ~45% of the screen before a single day cell appeared. */
+@media (max-width: 640px) {
+  /* The "where I am" tag rendered its full text (OREM) inside a ~50px cell and
+     left almost nothing for the event name. It collapses to a dot here — same
+     tap target, same colour coding, none of the width. */
+  .ft-cell-month .ft-cell-where {
+    width: 10px; height: 10px; min-width: 10px; padding: 0; font-size: 0;
+    border-radius: 50%; overflow: hidden; flex: none;
+  }
+  .ft-cell-month .ft-cell-where:not(.ft-cell-where-empty) { background: currentColor; }
+
+  /* Six toggle buttons wrapped onto three lines. One scrollable line instead. */
+  .ft-cal-toggles { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .ft-cal-toggles::-webkit-scrollbar { display: none; }
+  .ft-cal-toggles .ft-toggle-btn { flex: none; white-space: nowrap; }
+
+  /* Four lines of Ctrl/Shift/Alt-click keyboard shortcuts on a touch device. */
+  .ft-cal-hint { display: none; }
+}
+
+/* Roomier hit areas as the view zooms in. The TEXT size is deliberately NOT set
+   here -- it comes from --ft-chip-size, which already scales per view. */
+.ft-cell-week .ft-chip { padding: 2px 5px; }
+.ft-cell-day .ft-chip { padding: 4px 7px; gap: 9px; }
+
+
+/* The entry editor opens as a dialog over the calendar now (clicking a chip no
+   longer navigates away), and it carries far more fields than a quick-add --
+   hence the wider, scrollable shell. */
+/* Capped to the viewport and scrolled internally. The backdrop scrolls too, but
+   the editor is tall enough that Save/Delete would start below the fold — and
+   an editor you open with one click shouldn't need a scroll to find its
+   buttons. */
+.ft-modal-wide { max-width: 720px; width: 100%; max-height: calc(100vh - 80px); overflow-y: auto; }
+.ft-modal-wide .ft-editor { padding: 0; }
+.ft-day-stat-now .ft-day-stat-k { color: var(--ft-accent); font-weight: 700; }

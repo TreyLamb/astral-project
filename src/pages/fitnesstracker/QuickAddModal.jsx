@@ -1,11 +1,14 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { useFitness } from './fitnessContext';
 import { distanceToMeters, metersToDistance, clockToSec, secToClock } from './units';
 import { RPE_MIN, RPE_MAX, RPE_LEGEND } from './fitnessConfig';
 import { parseShorthand } from './calc/shorthand';
+import { parseByFilename } from './calc/importParsers';
 import GroupPicker from './GroupPicker';
 import ClearableInput from './ClearableInput';
 import BaseSelect from './BaseSelect';
+import StatusToggle from './StatusToggle';
+import useModalKeys from './useModalKeys';
 import { useAuth } from '../../AuthContext';
 import { firebaseReady } from '../../firebase';
 import { loadOrbitBridgeData, quickAddOrbitTask, setOrbitDayLocation } from './orbitTasksBridge';
@@ -29,7 +32,10 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
   const unit = settings.units.distance;
 
   const [type, setType] = useState(activityTypes[0]?.id || 'run');
-  const [status, setStatus] = useState(mode === 'schedule' ? 'planned' : 'completed');
+  // #8: every new entry starts Planned, in BOTH modes. Marking it Done is one
+  // tap (see StatusToggle) — silently pre-completing things was filling the
+  // calendar with sessions that read as finished before they happened.
+  const [status, setStatus] = useState('planned');
   const [distance, setDistance] = useState('');
   const [duration, setDuration] = useState('');
   const [note, setNote] = useState('');
@@ -41,6 +47,14 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
   const [time, setTime] = useState('');
   const [when, setWhen] = useState(date);
   const [saving, setSaving] = useState(false);
+  // #7 -- a watch export can fill this form in directly. Same parser the Import
+  // tab uses; the point is that you don't have to leave "Log a workout" to use
+  // it. importedMetrics carries the rich data (splits/HR/elevation) that has no
+  // field on this form but is worth keeping on the saved workout.
+  const gpsRef = useRef(null);
+  const [importedMetrics, setImportedMetrics] = useState(null);
+  const [importName, setImportName] = useState(null);
+  const [importErr, setImportErr] = useState(null);
 
   const [shorthand, setShorthand] = useState('');
   const [title, setTitle] = useState('');
@@ -75,6 +89,33 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
     return out;
   }, [workouts]);
 
+  async function handleGpsFile(file) {
+    setImportErr(null);
+    try {
+      const parsedFile = parseByFilename(file.name, await file.text());
+      const sum = parsedFile.summary;
+      if (!sum) throw new Error('No track points found in that file.');
+      setType('run');
+      // A watch file is evidence the session happened, so this is the one path
+      // that legitimately arrives already Done (see #8 -- everything else
+      // starts Planned). Still one tap to change.
+      setStatus('completed');
+      if (sum.distanceM) setDistance(String(round2(metersToDistance(sum.distanceM, unit))));
+      if (sum.durationSec) setDuration(secToClock(sum.durationSec));
+      const firstTime = parsedFile.points.find((pt) => pt.time)?.time;
+      if (firstTime) setWhen(new Date(firstTime).toISOString().slice(0, 10));
+      setImportedMetrics({
+        elevationGainM: sum.elevationGainM, elevationLossM: sum.elevationLossM,
+        avgHr: sum.avgHr, avgCad: sum.avgCad, splits: sum.splits, source: file.name,
+      });
+      setImportName(file.name);
+    } catch (e) {
+      setImportedMetrics(null);
+      setImportName(null);
+      setImportErr(e.message);
+    }
+  }
+
   function applyShorthand() {
     if (!parsed) return;
     if (parsed.activityType && activityTypes.some((t) => t.id === parsed.activityType)) setType(parsed.activityType);
@@ -85,7 +126,10 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
 
   function applyTemplate(w) {
     setType(w.activityType);
-    setStatus('completed');
+    // Deliberately does NOT copy w.status. A template is a shape (type +
+    // distance + duration), not a claim that this new session is already done —
+    // copying 'completed' off a past workout is what silently marked so many
+    // scheduled entries complete.
     setDistance(w.distanceM != null ? String(round2(metersToDistance(w.distanceM, unit))) : '');
     setDuration(w.durationSec != null ? secToClock(w.durationSec) : '');
     setRpe(w.rpe ?? null);
@@ -101,12 +145,12 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
       activityType: type,
       status,
       title: isEvent ? title.trim() : '',
-      distanceM: isEvent ? null : distanceToMeters(distance, unit),
-      durationSec: isEvent ? null : clockToSec(duration),
+      distanceM: distanceToMeters(distance, unit),
+      durationSec: clockToSec(duration),
       note,
       rpe,
       groupId,
-      metrics: url.trim() ? { url: url.trim() } : undefined,
+      metrics: (url.trim() || importedMetrics) ? { ...(importedMetrics || {}), ...(url.trim() ? { url: url.trim() } : {}) } : undefined,
     });
     if (groupId !== settings.lastGroupId) updateSettings({ lastGroupId: groupId });
     if (isEvent) {
@@ -146,6 +190,14 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
     setSavingTodos(false);
     onClose();
   }
+
+  // Enter submits whichever mode is showing; Esc closes. Disabled while a save
+  // is already in flight so a double-tap can't create two entries.
+  useModalKeys({
+    onClose,
+    onSubmit: isTodo ? sendTodos : save,
+    canSubmit: isTodo ? (!savingTodos && pendingTodoCount > 0) : !saving,
+  });
 
   const typeName = (id) => activityTypes.find((t) => t.id === id)?.name || id;
 
@@ -207,6 +259,20 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
           </div>
         )}
 
+        {!isTodo && (
+          <div className="ft-watch-import">
+            <button type="button" className="ft-watch-btn" onClick={() => gpsRef.current?.click()}>
+              Import from watch (.gpx / .tcx)
+            </button>
+            <input
+              ref={gpsRef} type="file" accept=".gpx,.tcx" hidden
+              onChange={(e) => e.target.files[0] && handleGpsFile(e.target.files[0])}
+            />
+            {importName && <span className="ft-watch-ok">Filled from {importName}</span>}
+            {importErr && <span className="ft-watch-err">{importErr}</span>}
+          </div>
+        )}
+
         {!isEvent && !isTodo && templates.length > 0 && (
           <div className="ft-templates">
             <span className="ft-field-label">Repeat recent</span>
@@ -215,7 +281,6 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
                 const t = activityTypes.find((x) => x.id === w.activityType);
                 return (
                   <button key={w.id} type="button" className="ft-template-chip" onClick={() => applyTemplate(w)} style={t ? { borderColor: t.color } : undefined}>
-                    <span>{t?.icon || '•'}</span>
                     <span>{w.distanceM != null ? `${round2(metersToDistance(w.distanceM, unit))}${unit}` : secToClock(w.durationSec)}</span>
                   </button>
                 );
@@ -234,7 +299,6 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
               style={type === t.id ? { borderColor: t.color, background: t.color + '22' } : undefined}
               onClick={() => setType(t.id)}
             >
-              <span className="ft-type-icon">{t.icon}</span>
               <span>{t.name}</span>
             </button>
           ))}
@@ -244,19 +308,13 @@ export default function QuickAddModal({ date, mode = 'log', onClose }) {
             style={isTodo ? { borderColor: '#7ec8e3', background: '#7ec8e322' } : undefined}
             onClick={() => setType(TODO_TYPE_ID)}
           >
-            <span className="ft-type-icon">📋</span>
             <span>To-do</span>
           </button>
         </div>
 
-        {!isTodo && (
-          <div className="ft-status-toggle">
-            <button type="button" className={status === 'planned' ? 'active' : ''} onClick={() => setStatus('planned')}>◇ Planned</button>
-            <button type="button" className={status === 'completed' ? 'active' : ''} onClick={() => setStatus('completed')}>✓ Completed</button>
-          </div>
-        )}
+        {!isTodo && <StatusToggle value={status} onChange={setStatus} />}
 
-        {!isEvent && !isTodo && (
+        {!isTodo && (
           <>
             <div className="ft-two">
               <div className="ft-field">

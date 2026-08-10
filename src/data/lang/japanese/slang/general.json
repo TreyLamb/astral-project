@@ -1,1 +1,7 @@
-[]
+[
+  { "word": "やばい",   "romanization": "yabai",   "english": "crazy / amazing / terrible (context-dependent)", "pos": "adjective", "notes": "very common intensifier, meaning flips positive or negative by tone/context" },
+  { "word": "マジで",   "romanization": "maji de", "english": "seriously / for real",     "pos": "adverb", "notes": "" },
+  { "word": "すごい",   "romanization": "sugoi",   "english": "amazing / incredible",     "pos": "adjective", "notes": "" },
+  { "word": "超",       "romanization": "chou",    "english": "super- (intensifier)",     "pos": "adverb", "notes": "prefix, e.g. 超かわいい = super cute" },
+  { "word": "ウケる",   "romanization": "ukeru",   "english": "that's hilarious",          "pos": "phrase", "notes": "lit. 'to receive [laughs]', casual slang" }
+]

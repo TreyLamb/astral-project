@@ -1,4 +1,4 @@
-// Called from the browser (Orbit's auto-scheduler, per Guidelines_Scheduler.md
+// Called from the browser (Orbit's auto-scheduler, per guidelinesScheduler.md
 // §1/§15/§17-phase-2) to turn a task title into typed scheduling metadata:
 // {category, intensity, indoorOutdoor, weatherSensitive, perishable,
 // estWorkMin, estRecoveryMin, idealWindow, locationName}. This is the ONLY

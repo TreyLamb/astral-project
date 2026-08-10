@@ -7,7 +7,7 @@ export default function OverviewPage() {
   if (accounts.length === 0) {
     return (
       <div className="pgoa-panel pgoa-empty">
-        No accounts yet — create them in <Link className="pgoa-link" to="/pgo-tracker">PGO Tracker</Link>.
+        No accounts yet — create them in <Link className="pgoa-link" to="/POGO">POGO Tracker</Link>.
       </div>
     );
   }
@@ -31,9 +31,9 @@ export default function OverviewPage() {
               <span className="pgoa-stat-value">{megaCount}</span>
             </div>
             <div className="pgoa-card-links">
-              <Link className="pgoa-link" to={`/pogo-accs/box/${account.id}`}>Open Box</Link>
-              <Link className="pgoa-link" to="/pogo-accs/megas">Megas</Link>
-              <Link className="pgoa-link" to="/pogo-accs/raids">Raids</Link>
+              <Link className="pgoa-link" to={`/POGO-ACCS/box/${account.id}`}>Open Box</Link>
+              <Link className="pgoa-link" to="/POGO-ACCS/megas">Megas</Link>
+              <Link className="pgoa-link" to="/POGO-ACCS/raids">Raids</Link>
             </div>
           </div>
         );

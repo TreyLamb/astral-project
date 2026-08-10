@@ -75,7 +75,7 @@ export default function BoxView() {
   if (!account) {
     return (
       <div className="pgoa-panel pgoa-empty">
-        Unknown account. <Link className="pgoa-link" to="/pogo-accs">Back to Overview</Link>
+        Unknown account. <Link className="pgoa-link" to="/POGO-ACCS">Back to Overview</Link>
       </div>
     );
   }
@@ -115,7 +115,7 @@ export default function BoxView() {
   return (
     <div className="pgoa-panel pgoa-panel-accent">
       <div className="pgoa-section-label">{account.name} — Pokébox</div>
-      <Link className="pgoa-link" to="/pogo-accs">← Overview</Link>
+      <Link className="pgoa-link" to="/POGO-ACCS">← Overview</Link>
 
       <div className="pgoa-quickadd" style={{ margin: '1.25rem 0' }}>
         <input

@@ -311,10 +311,10 @@ export default function TkbApp() {
   };
 
   const tabs = [
-    { path: '/tkb', label: 'Home', match: (p) => p === '/tkb' },
-    { path: '/tkb/review', label: 'Review', match: (p) => p.startsWith('/tkb/review') },
-    { path: '/tkb/subjects', label: 'Subjects', match: (p) => p.startsWith('/tkb/subjects') },
-    { path: '/tkb/settings', label: 'Settings', match: (p) => p.startsWith('/tkb/settings') },
+    { path: '/TKB', label: 'Home', match: (p) => p === '/TKB' },
+    { path: '/TKB/review', label: 'Review', match: (p) => p.startsWith('/TKB/review') },
+    { path: '/TKB/subjects', label: 'Subjects', match: (p) => p.startsWith('/TKB/subjects') },
+    { path: '/TKB/settings', label: 'Settings', match: (p) => p.startsWith('/TKB/settings') },
   ];
 
   return (
@@ -322,7 +322,7 @@ export default function TkbApp() {
       <TkbDataContext.Provider value={contextValue}>
         <div className="tkb-wrapper">
           <div className="tkb-topbar">
-            <div className="tkb-brand" onClick={() => navigate('/tkb')} style={{ cursor: 'pointer' }}>
+            <div className="tkb-brand" onClick={() => navigate('/TKB')} style={{ cursor: 'pointer' }}>
               TheKnowledgeBase
             </div>
             {tabs.map(t => (

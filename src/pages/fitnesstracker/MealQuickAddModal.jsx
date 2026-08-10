@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useFitness } from './fitnessContext';
 import ClearableInput from './ClearableInput';
+import useModalKeys from './useModalKeys';
 import { estimateNutritionForMeal } from './nutritionApi';
 
 // Fast meal entry — mirrors QuickAddModal's shape. mode: 'log' (default status
@@ -81,6 +82,8 @@ export default function MealQuickAddModal({ date, mealType: initialType, mode = 
 
   const typeName = (id) => mealTypes.find((t) => t.id === id)?.name || id;
 
+  useModalKeys({ onClose, onSubmit: save, canSubmit: !saving });
+
   return (
     <div className="ft-modal-backdrop" onClick={onClose}>
       <div className="ft-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
@@ -111,7 +114,6 @@ export default function MealQuickAddModal({ date, mealType: initialType, mode = 
               style={mealType === t.id ? { borderColor: t.color, background: t.color + '22' } : undefined}
               onClick={() => setMealType(t.id)}
             >
-              <span className="ft-type-icon">{t.icon}</span>
               <span>{t.name}</span>
             </button>
           ))}
@@ -119,7 +121,7 @@ export default function MealQuickAddModal({ date, mealType: initialType, mode = 
 
         <div className="ft-status-toggle">
           <button type="button" className={status === 'planned' ? 'active' : ''} onClick={() => setStatus('planned')}>◇ Planned</button>
-          <button type="button" className={status === 'logged' ? 'active' : ''} onClick={() => setStatus('logged')}>✓ Logged</button>
+          <button type="button" className={status === 'logged' ? 'active' : ''} onClick={() => setStatus('logged')}>Logged</button>
         </div>
 
         <div className="ft-field">

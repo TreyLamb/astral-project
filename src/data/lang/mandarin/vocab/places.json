@@ -1,0 +1,14 @@
+[
+  { "word": "家",     "romanization": "jiā",         "english": "home",       "pos": "noun", "notes": "" },
+  { "word": "学校",   "romanization": "xuéxiào",     "english": "school",     "pos": "noun", "notes": "" },
+  { "word": "公司",   "romanization": "gōngsī",      "english": "company",    "pos": "noun", "notes": "" },
+  { "word": "医院",   "romanization": "yīyuàn",      "english": "hospital",   "pos": "noun", "notes": "" },
+  { "word": "银行",   "romanization": "yínháng",     "english": "bank",       "pos": "noun", "notes": "" },
+  { "word": "商店",   "romanization": "shāngdiàn",   "english": "store/shop", "pos": "noun", "notes": "" },
+  { "word": "餐厅",   "romanization": "cāntīng",     "english": "restaurant", "pos": "noun", "notes": "" },
+  { "word": "公园",   "romanization": "gōngyuán",    "english": "park",       "pos": "noun", "notes": "" },
+  { "word": "图书馆", "romanization": "túshūguǎn",   "english": "library",    "pos": "noun", "notes": "" },
+  { "word": "电影院", "romanization": "diànyǐngyuàn","english": "cinema",     "pos": "noun", "notes": "" },
+  { "word": "超市",   "romanization": "chāoshì",     "english": "supermarket","pos": "noun", "notes": "" },
+  { "word": "洗手间", "romanization": "xǐshǒujiān",  "english": "restroom/bathroom", "pos": "noun", "notes": "" }
+]

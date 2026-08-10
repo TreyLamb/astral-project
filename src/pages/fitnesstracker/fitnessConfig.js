@@ -11,37 +11,41 @@ export const DEFAULT_UNITS = { distance: 'mi', pool: 'yd', weight: 'lb' }; // US
 // `kind` selects which rich metric set a type gets in later phases (run/swim/lift
 // are built out in Phases 2–3); 'generic' is the extensible fallback. `color`
 // drives the calendar colour-coding.
+// No icons. Activity identity is carried by NAME + COLOUR everywhere in this
+// sub-app — a pictogram beside every label was noise, not information, and it
+// made dense views (calendar cells, the Workouts docs tables) harder to read
+// rather than easier.
 export const DEFAULT_ACTIVITY_TYPES = [
-  { id: 'run',  name: 'Run',  kind: 'run',     color: '#f97316', icon: '🏃' },
-  { id: 'swim', name: 'Swim', kind: 'swim',    color: '#38bdf8', icon: '🏊' },
-  { id: 'lift', name: 'Lift', kind: 'lift',    color: '#a3e635', icon: '🏋️' },
-  { id: 'bike', name: 'Bike', kind: 'generic', color: '#f43f5e', icon: '🚴' },
-  { id: 'walk', name: 'Walk', kind: 'generic', color: '#22c55e', icon: '🚶' },
-  { id: 'yoga', name: 'Yoga', kind: 'generic', color: '#a78bfa', icon: '🧘' },
-  { id: 'event', name: 'Event', kind: 'event', color: '#c084fc', icon: '📅' }, // non-workout calendar drops ("POGO raichu day")
-  { id: 'other', name: 'Other', kind: 'generic', color: '#94a3b8', icon: '⭐' },
-  { id: 'weighin', name: 'Weigh-in', kind: 'weight', color: '#fb923c', icon: '⚖️' }, // body-composition goal checkpoints resolve against BodyWeightLog, not a completed workout
+  { id: 'run',  name: 'Run',  kind: 'run',     color: '#f97316' },
+  { id: 'swim', name: 'Swim', kind: 'swim',    color: '#38bdf8' },
+  { id: 'lift', name: 'Lift', kind: 'lift',    color: '#a3e635' },
+  { id: 'bike', name: 'Bike', kind: 'generic', color: '#f43f5e' },
+  { id: 'walk', name: 'Walk', kind: 'generic', color: '#22c55e' },
+  { id: 'yoga', name: 'Yoga', kind: 'generic', color: '#a78bfa' },
+  { id: 'event', name: 'Event', kind: 'event', color: '#c084fc' }, // non-workout calendar drops ("POGO raichu day")
+  { id: 'other', name: 'Other', kind: 'generic', color: '#94a3b8' },
+  { id: 'weighin', name: 'Weigh-in', kind: 'weight', color: '#fb923c' }, // body-composition goal checkpoints resolve against BodyWeightLog, not a completed workout
 ];
 
 // Meal types — same "data, not code" rule as activity types: built-ins below,
 // user-added custom types live in settings.mealCustomTypes.
 export const DEFAULT_MEAL_TYPES = [
-  { id: 'breakfast', name: 'Breakfast', color: '#fbbf24', icon: '🍳' },
-  { id: 'lunch',     name: 'Lunch',     color: '#34d399', icon: '🥪' },
-  { id: 'dinner',    name: 'Dinner',    color: '#60a5fa', icon: '🍽️' },
-  { id: 'snack',     name: 'Snack',     color: '#f472b6', icon: '🍎' },
+  { id: 'breakfast', name: 'Breakfast', color: '#fbbf24' },
+  { id: 'lunch',     name: 'Lunch',     color: '#34d399' },
+  { id: 'dinner',    name: 'Dinner',    color: '#60a5fa' },
+  { id: 'snack',     name: 'Snack',     color: '#f472b6' },
 ];
 
 export function resolveMealTypes(settings) {
   const map = new Map();
   for (const t of DEFAULT_MEAL_TYPES) map.set(t.id, t);
-  for (const t of (settings?.mealCustomTypes || [])) map.set(t.id, { icon: '•', ...t });
+  for (const t of (settings?.mealCustomTypes || [])) map.set(t.id, { ...t });
   return [...map.values()];
 }
 
 export function mealType(types, id) {
   return types.find((t) => t.id === id)
-    || { id, name: id, color: '#94a3b8', icon: '•' };
+    || { id, name: id, color: '#94a3b8' };
 }
 
 export const RPE_MIN = 1;
@@ -93,7 +97,11 @@ export function defaultSettings() {
     // totals, or Goals). 'noEvents' hides activityType kind:'event' items
     // (calendar drops like "POGO raichu day"); 'noWorkouts' hides everything
     // else. Cycled by the button in CalendarView's ft-cal-toggles row.
-    calendarPrefs: { mealDayView: false, showMealsOnCalendar: false, chipFilter: 'all' },
+    // showWeekSideCols: null | boolean — null means "no manual override yet",
+    // so CalendarView falls back to a viewport-based default (on for desktop,
+    // off for mobile where the Goals/Miles columns crush the day grid).
+    // true/false means the user explicitly toggled it, which wins on any device.
+    calendarPrefs: { mealDayView: false, showMealsOnCalendar: false, chipFilter: 'all', showWeekSideCols: null, view: 'week', weekCount: 2 },
     // proteinG/carbsG/fatG are canonical grams (as always); *Mode ('g' | 'pct')
     // + *Pct record which of grams/% the user's last edit for that macro
     // actually expressed, so Settings.jsx's calorie-goal-changed effect knows
@@ -152,13 +160,13 @@ export function groupById(settings, id) {
 export function resolveActivityTypes(settings) {
   const map = new Map();
   for (const t of DEFAULT_ACTIVITY_TYPES) map.set(t.id, t);
-  for (const t of (settings?.customTypes || [])) map.set(t.id, { kind: 'generic', icon: '•', ...t });
+  for (const t of (settings?.customTypes || [])) map.set(t.id, { kind: 'generic', ...t });
   return [...map.values()];
 }
 
 export function activityType(types, id) {
   return types.find((t) => t.id === id)
-    || { id, name: id, kind: 'generic', color: '#94a3b8', icon: '•' };
+    || { id, name: id, kind: 'generic', color: '#94a3b8' };
 }
 
 let idCounter = 0;
@@ -234,10 +242,10 @@ export function newMeal(partial = {}) {
 //   direction: 'loss' | 'gain' — required for kind:'weight' (energy-balance
 //     math is direction-sensitive; irrelevant for other kinds).
 //   deadline: real user input, 'YYYY-MM-DD' — Goal = target + deadline
-//     (Guidelines_Forecast.md §1). durationWeeks is an alternate input form
+//     (guidelinesForecast.md §1). durationWeeks is an alternate input form
 //     ("deadline OR duration") resolved to `deadline` at save time by the editor.
 //   taskFrequency: how often you train (separate from checkpoint cadence below
-//     — Guidelines_Forecast.md §1's task-frequency-vs-checkpoint-frequency
+//     — guidelinesForecast.md §1's task-frequency-vs-checkpoint-frequency
 //     split). `daysPerWeek` is kept as a plain mirror for old-goal back-compat
 //     reads; new code should read taskFrequency.value instead.
 //   cadence: how often the forecast re-benchmarks — independent of

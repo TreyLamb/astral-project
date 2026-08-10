@@ -3,7 +3,7 @@ import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
-// Google Sign-In (used site-wide — TKB, PGO Tracker, FitnessTracker Calendar
+// Google Sign-In (used site-wide — TKB, POGO Tracker, FitnessTracker Calendar
 // connect, etc. — not mymdb-specific) runs through ONE OAuth 2.0 Client ID
 // that Firebase auto-created under the astral-project-10a35 GCP project. In
 // Google Cloud Console > APIs & Services > Credentials it's named

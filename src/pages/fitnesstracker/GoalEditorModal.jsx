@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useFitness } from './fitnessContext';
 import { todayISO, goalDeadline } from './fitnessConfig';
 import ClearableInput from './ClearableInput';
+import useModalKeys from './useModalKeys';
 import { PR_BUCKETS } from './calc/pr';
 import { vdotFromRace, equivalentRaceTime } from './calc/vdot';
 import { estimateRunBaseline, estimateSwimBaseline, estimateLiftBaseline, forecastWeeks, forecastGenericWeeks } from './calc/goals';
@@ -32,7 +33,7 @@ function worstBand(checkpoints) {
 // calendar impact yet) or accept it — which generates checkpoint-dated planned
 // workouts + plain task-frequency training days, all tagged with this goal.
 // Editing an accepted goal recomputes forward from its most recently touched
-// checkpoint (Guidelines_Forecast.md §6) instead of deleting and regenerating
+// checkpoint (guidelinesForecast.md §6) instead of deleting and regenerating
 // everything; a structural change (deadline/cadence) rebuilds the schedule
 // from that same touch point forward while preserving logged/overridden
 // history as historical waypoints.
@@ -104,7 +105,7 @@ export default function GoalEditorModal({ goal, onClose }) {
     : (durationWeeksInput !== '' ? addDaysISO(todayISO(), Math.round(Number(durationWeeksInput) * 7)) : null);
 
   // ---- task frequency (how often you train) vs checkpoint cadence (how often
-  // the forecast re-benchmarks) — two independent settings (Guidelines_Forecast.md §1) ----
+  // the forecast re-benchmarks) — two independent settings (guidelinesForecast.md §1) ----
   const [taskDaysPerWeek, setTaskDaysPerWeek] = useState(goal?.taskFrequency?.value ?? goal?.daysPerWeek ?? 3);
   const [cadenceType, setCadenceType] = useState(goal?.cadence?.type || 'auto');
   const [cadenceN, setCadenceN] = useState(goal?.cadence?.type === 'everyNDays' ? String(goal.cadence.n) : '3');
@@ -149,7 +150,7 @@ export default function GoalEditorModal({ goal, onClose }) {
   // baseline came from a typed guess rather than an actual logged workout or
   // weigh-in. The UI always lets you type a Current value (so a goal is never
   // permanently blocked), but only a REAL log confirms it — see
-  // Guidelines_Forecast.md §4's "provisional until a real result lands."
+  // guidelinesForecast.md §4's "provisional until a real result lands."
   const hasRealBaseline = !baselineIsManual;
 
   let targetValue;
@@ -282,6 +283,10 @@ export default function GoalEditorModal({ goal, onClose }) {
     onClose();
   }
 
+  // Enter maps to the primary action (Accept & add to calendar), matching the
+  // highlighted button — not to "Save as forecast".
+  useModalKeys({ onClose, onSubmit: acceptAndSchedule, canSubmit: !saving && canForecast });
+
   return (
     <div className="ft-modal-backdrop" onClick={onClose}>
       <div className="ft-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
@@ -302,7 +307,7 @@ export default function GoalEditorModal({ goal, onClose }) {
               style={activityTypeId === t.id ? { borderColor: t.color, background: t.color + '22' } : undefined}
               onClick={() => setActivityTypeId(t.id)}
             >
-              <span className="ft-type-icon">{t.icon}</span><span>{t.name}</span>
+              <span>{t.name}</span>
             </button>
           ))}
         </div>

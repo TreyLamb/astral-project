@@ -39,6 +39,11 @@ export default function FitnessTrackerApp() {
   const [quickAdd, setQuickAdd] = useState(null); // { date } | null — shell owns it so it's openable from anywhere
   const [mealQuickAdd, setMealQuickAdd] = useState(null);
   const [weighIn, setWeighIn] = useState(null);
+  // Clicking a chip on the calendar opens the editor HERE, over the grid,
+  // instead of navigating to /MFT/entry/:id and losing your place. The route
+  // still exists for deep links.
+  const [entryEdit, setEntryEdit] = useState(null); // { id } | null
+  const [mealEdit, setMealEdit] = useState(null);   // { id } | null
   useLocation(); // keeps NavLink active-state in sync across nested navigations
   useScopedManifest();
   useKeyboardInset();
@@ -51,6 +56,8 @@ export default function FitnessTrackerApp() {
     openQuickAdd: (date) => setQuickAdd({ date: date || todayISO(), mode: date ? 'schedule' : 'log' }),
     openMealQuickAdd: (date, mealType) => setMealQuickAdd({ date: date || todayISO(), mealType: mealType || null, mode: date ? 'schedule' : 'log' }),
     openWeighIn: (date) => setWeighIn({ date: date || todayISO() }),
+    openEntryEditor: (id) => setEntryEdit({ id }),
+    openMealEditor: (id) => setMealEdit({ id }),
   };
 
   const tab = ({ isActive }) => `ft-tab${isActive ? ' active' : ''}`;
@@ -63,19 +70,19 @@ export default function FitnessTrackerApp() {
               already — see Navbar.jsx OWN_TOPBAR_ROUTES) so this is the only
               way back to the rest of the site from here. */}
           <Link to="/" className="ft-site-home" title="Back to Astral Project home">Astral Project</Link>
-          <div className="ft-brand"><span className="ft-brand-icon">💪</span> MyFitnessTracker</div>
+          <div className="ft-brand">MyFitnessTracker</div>
           <nav className="ft-topnav">
-            <NavLink end to="/fitness-tracker" className={tab}>Calendar</NavLink>
-            <NavLink to="/fitness-tracker/meals" className={tab}>Meals</NavLink>
-            <NavLink to="/fitness-tracker/tools" className={tab}>Tools</NavLink>
-            <NavLink to="/fitness-tracker/workouts" className={tab}>Workouts</NavLink>
-            <NavLink to="/fitness-tracker/dashboard" className={tab}>Dashboard</NavLink>
-            <NavLink to="/fitness-tracker/import" className={tab}>Import</NavLink>
-            <NavLink to="/fitness-tracker/settings" className={tab}>Settings</NavLink>
+            <NavLink end to="/MFT" className={tab}>Calendar</NavLink>
+            <NavLink to="/MFT/meals" className={tab}>Meals</NavLink>
+            <NavLink to="/MFT/tools" className={tab}>Tools</NavLink>
+            <NavLink to="/MFT/workouts" className={tab}>Workouts</NavLink>
+            <NavLink to="/MFT/dashboard" className={tab}>Dashboard</NavLink>
+            <NavLink to="/MFT/import" className={tab}>Import</NavLink>
+            <NavLink to="/MFT/settings" className={tab}>Settings</NavLink>
           </nav>
           <div className="ft-topbar-right">
             <span className={`ft-sync ft-sync-${value.mode}`} title={value.mode === 'cloud' ? 'Syncing to your account' : 'Saved on this device'}>
-              {value.mode === 'cloud' ? '☁ Synced' : '● Local'}
+              {value.mode === 'cloud' ? 'Synced' : 'Local'}
             </span>
             <button type="button" className="ft-btn-primary ft-log-btn" onClick={() => value.openQuickAdd()}>+ Log</button>
           </div>
@@ -99,6 +106,20 @@ export default function FitnessTrackerApp() {
         {quickAdd && <QuickAddModal date={quickAdd.date} mode={quickAdd.mode} onClose={() => setQuickAdd(null)} />}
         {mealQuickAdd && <MealQuickAddModal date={mealQuickAdd.date} mealType={mealQuickAdd.mealType} mode={mealQuickAdd.mode} onClose={() => setMealQuickAdd(null)} />}
         {weighIn && <WeighInModal date={weighIn.date} onClose={() => setWeighIn(null)} />}
+        {entryEdit && (
+          <div className="ft-modal-backdrop" onClick={() => setEntryEdit(null)}>
+            <div className="ft-modal ft-modal-wide" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+              <EntryEditor id={entryEdit.id} onClose={() => setEntryEdit(null)} />
+            </div>
+          </div>
+        )}
+        {mealEdit && (
+          <div className="ft-modal-backdrop" onClick={() => setMealEdit(null)}>
+            <div className="ft-modal ft-modal-wide" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+              <MealEditor id={mealEdit.id} onClose={() => setMealEdit(null)} />
+            </div>
+          </div>
+        )}
       </div>
     </FitnessContext.Provider>
   );

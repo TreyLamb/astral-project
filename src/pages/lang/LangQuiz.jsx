@@ -1,6 +1,8 @@
-import { useState, useMemo, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useMemo, useRef, useEffect } from 'react';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import languages from '../../data/lang/languages.json';
+import { statKey } from './langStorage';
+import { useLang } from './langContext';
 
 const allVocabFiles = import.meta.glob('/src/data/lang/*/vocab/*.json', { eager: true });
 
@@ -13,18 +15,47 @@ function shuffle(arr) {
   return a;
 }
 
-function buildPool(langIds) {
+function categoryFromPath(path) {
+  return path.split('/').pop().replace('.json', '');
+}
+
+// getByLang comes from langContext.js — it's the (local or cloud, whichever
+// is active) source of user-added words, so quiz pools always match what
+// LangVocab shows, signed in or not.
+function buildPool(langIds, getByLang) {
   const pool = [];
   for (const [path, mod] of Object.entries(allVocabFiles)) {
     const segs = path.split('/');
     const langId = segs[segs.indexOf('lang') + 1];
     if (!langIds.includes(langId)) continue;
     const lang = languages.find(l => l.id === langId);
+    const category = categoryFromPath(path);
     for (const w of mod.default) {
-      pool.push({ ...w, langId, lang });
+      pool.push({ ...w, langId, lang, category, custom: false });
+    }
+  }
+  for (const langId of langIds) {
+    const lang = languages.find(l => l.id === langId);
+    for (const w of getByLang(langId)) {
+      pool.push({ ...w, lang, custom: true });
     }
   }
   return pool;
+}
+
+// Efraimidis–Spirakis weighted random sampling without replacement: each item
+// gets key = rand^(1/weight), sorted descending. Higher weight (words missed
+// more, unseen, or overdue for review) sorts earlier / is more likely to be
+// picked when the deck is capped — this is what makes review sessions
+// "spaced-repetition-style" rather than plain shuffles.
+function weightedDeck(pool, limit, weightFor) {
+  const weighted = pool.map(w => {
+    const weight = weightFor(statKey(w.langId, w.word, w.english));
+    return { w, key: Math.random() ** (1 / weight) };
+  });
+  weighted.sort((a, b) => b.key - a.key);
+  const picked = limit ? weighted.slice(0, limit) : weighted;
+  return picked.map(i => i.w);
 }
 
 function speakWord(word, langCode) {
@@ -37,11 +68,18 @@ function speakWord(word, langCode) {
 
 // ── Setup screen ──────────────────────────────────────────────────────────────
 
-function QuizSetup({ initialLangId, onStart }) {
+const SESSION_LENGTHS = [
+  { id: 'quick',    label: 'Quick Review', desc: '10 questions', limit: 10 },
+  { id: 'standard', label: 'Standard',     desc: '20 questions', limit: 20 },
+  { id: 'full',     label: 'Full Deck',    desc: 'everything in the pool', limit: null },
+];
+
+function QuizSetup({ initialLangId, getByLang, onStart }) {
   const [selectedLangs, setSelectedLangs] = useState(initialLangId ? [initialLangId] : []);
   const [mode,          setMode]          = useState('flashcard');
   const [fastMode,      setFastMode]      = useState(false);
   const [direction,     setDirection]     = useState('target-to-english');
+  const [sessionLength, setSessionLength] = useState('standard');
 
   function toggleLang(id) {
     setSelectedLangs(prev =>
@@ -49,7 +87,7 @@ function QuizSetup({ initialLangId, onStart }) {
     );
   }
 
-  const poolSize = buildPool(selectedLangs).length;
+  const poolSize = buildPool(selectedLangs, getByLang).length;
 
   return (
     <div className="lang-quiz-setup">
@@ -71,6 +109,25 @@ function QuizSetup({ initialLangId, onStart }) {
         {selectedLangs.length > 0 && (
           <p className="lang-quiz-pool-hint">{poolSize} word{poolSize !== 1 ? 's' : ''} in deck</p>
         )}
+      </div>
+
+      <div className="lang-quiz-section">
+        <div className="lang-quiz-section-label">Session length</div>
+        <div className="lang-quiz-dir-grid">
+          {SESSION_LENGTHS.map(s => (
+            <button
+              key={s.id}
+              className={`lang-quiz-dir-btn${sessionLength === s.id ? ' selected' : ''}`}
+              onClick={() => setSessionLength(s.id)}
+              title={s.desc}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+        <p className="lang-quiz-pool-hint">
+          {sessionLength === 'full' ? 'Every word, weakest/unseen words first.' : `${SESSION_LENGTHS.find(s => s.id === sessionLength).desc}, prioritizing words you've missed or haven't seen.`}
+        </p>
       </div>
 
       <div className="lang-quiz-section">
@@ -132,7 +189,7 @@ function QuizSetup({ initialLangId, onStart }) {
       <button
         className="lang-quiz-start-btn"
         disabled={selectedLangs.length === 0 || poolSize === 0}
-        onClick={() => onStart({ langs: selectedLangs, mode, fastMode, direction })}
+        onClick={() => onStart({ langs: selectedLangs, mode, fastMode, direction, sessionLength })}
       >
         Start Quiz →
       </button>
@@ -142,7 +199,7 @@ function QuizSetup({ initialLangId, onStart }) {
 
 // ── Active quiz ───────────────────────────────────────────────────────────────
 
-function QuizActive({ deck, mode, fastMode, direction, onDone }) {
+function QuizActive({ deck, mode, fastMode, direction, recordStat, onDone }) {
   const [index,       setIndex]       = useState(0);
   const [revealed,    setReveal]      = useState(false);
   const [choice,      setChoice]      = useState(null);
@@ -173,6 +230,9 @@ function QuizActive({ deck, mode, fastMode, direction, onDone }) {
   }, [index]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function advance(result) {
+    if (result === 'correct' || result === 'incorrect') {
+      recordStat(statKey(card.langId, card.word, card.english), result);
+    }
     const updated = { ...results, [result]: results[result] + 1 };
     setResults(updated);
     if (index + 1 >= deck.length) {
@@ -294,7 +354,7 @@ function QuizActive({ deck, mode, fastMode, direction, onDone }) {
               onChange={e => { if (!typedResult) setTyped(e.target.value); }}
               onKeyDown={e => {
                 if (e.key === 'Enter') {
-                  if (typedResult) advance(typedResult);
+                  if (typedResult) advance(typedResult === 'wrong' ? 'incorrect' : 'correct');
                   else checkTyped();
                 }
               }}
@@ -317,7 +377,7 @@ function QuizActive({ deck, mode, fastMode, direction, onDone }) {
                     {answerRom && <span className="lang-quiz-answer-rom"> ({answerRom})</span>}
                   </div>
                 )}
-                <button className="lang-quiz-btn lang-quiz-btn-next" onClick={() => advance(typedResult)}>
+                <button className="lang-quiz-btn lang-quiz-btn-next" onClick={() => advance(typedResult === 'wrong' ? 'incorrect' : 'correct')}>
                   Next →
                 </button>
               </div>
@@ -367,23 +427,36 @@ function QuizResults({ results, deckLen, onRestart, onSetup }) {
 export default function LangQuiz() {
   const { langId } = useParams();
   const navigate   = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { getByLang, weightFor, recordStat } = useLang();
   const [phase,   setPhase]   = useState('setup');
   const [config,  setConfig]  = useState(null);
   const [deck,    setDeck]    = useState([]);
   const [results, setResults] = useState(null);
+  const autoStarted = useRef(false);
 
   const backLabel = langId
     ? (languages.find(l => l.id === langId)?.name ?? 'Languages')
     : 'Languages';
 
   function handleStart(cfg) {
-    const pool = buildPool(cfg.langs);
+    const pool = buildPool(cfg.langs, getByLang);
     if (pool.length === 0) return;
-    setDeck(shuffle(pool));
+    const limit = SESSION_LENGTHS.find(s => s.id === cfg.sessionLength)?.limit ?? null;
+    setDeck(weightedDeck(pool, limit, weightFor));
     setConfig(cfg);
     setResults(null);
     setPhase('quiz');
   }
+
+  useEffect(() => {
+    if (autoStarted.current) return;
+    if (searchParams.get('quick') === '1' && langId) {
+      autoStarted.current = true;
+      handleStart({ langs: [langId], mode: 'flashcard', fastMode: false, direction: 'target-to-english', sessionLength: 'quick' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function handleDone(r) {
     setResults(r);
@@ -392,12 +465,12 @@ export default function LangQuiz() {
 
   return (
     <div>
-      <button className="lang-back-btn" onClick={() => navigate(langId ? `/lang/${langId}` : '/lang')}>
+      <button className="lang-back-btn" onClick={() => navigate(langId ? `/VV/${langId}` : '/VV')}>
         ← {backLabel}
       </button>
 
       {phase === 'setup' && (
-        <QuizSetup initialLangId={langId} onStart={handleStart} />
+        <QuizSetup initialLangId={langId} getByLang={getByLang} onStart={handleStart} />
       )}
       {phase === 'quiz' && config && (
         <QuizActive
@@ -405,6 +478,7 @@ export default function LangQuiz() {
           mode={config.mode}
           fastMode={config.fastMode}
           direction={config.direction}
+          recordStat={recordStat}
           onDone={handleDone}
         />
       )}

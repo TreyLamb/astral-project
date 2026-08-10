@@ -1,0 +1,23 @@
+[
+  { "word": "大きい",   "romanization": "ookii",     "english": "big",        "pos": "adjective", "notes": "" },
+  { "word": "小さい",   "romanization": "chiisai",   "english": "small",      "pos": "adjective", "notes": "" },
+  { "word": "多い",     "romanization": "ooi",       "english": "many",       "pos": "adjective", "notes": "" },
+  { "word": "少ない",   "romanization": "sukunai",   "english": "few",        "pos": "adjective", "notes": "" },
+  { "word": "いい",     "romanization": "ii",        "english": "good",       "pos": "adjective", "notes": "irregular adjective, written 良い in kanji" },
+  { "word": "悪い",     "romanization": "warui",     "english": "bad",        "pos": "adjective", "notes": "" },
+  { "word": "新しい",   "romanization": "atarashii", "english": "new",        "pos": "adjective", "notes": "" },
+  { "word": "古い",     "romanization": "furui",     "english": "old",        "pos": "adjective", "notes": "" },
+  { "word": "高い",     "romanization": "takai",     "english": "tall/expensive", "pos": "adjective", "notes": "" },
+  { "word": "低い",     "romanization": "hikui",     "english": "low/short",  "pos": "adjective", "notes": "" },
+  { "word": "安い",     "romanization": "yasui",     "english": "cheap",      "pos": "adjective", "notes": "" },
+  { "word": "可愛い",   "romanization": "kawaii",    "english": "cute",       "pos": "adjective", "notes": "" },
+  { "word": "綺麗",     "romanization": "kirei",     "english": "pretty/clean", "pos": "adjective", "notes": "na-adjective" },
+  { "word": "忙しい",   "romanization": "isogashii", "english": "busy",       "pos": "adjective", "notes": "" },
+  { "word": "疲れた",   "romanization": "tsukareta", "english": "tired",      "pos": "adjective", "notes": "" },
+  { "word": "寒い",     "romanization": "samui",     "english": "cold",       "pos": "adjective", "notes": "" },
+  { "word": "暑い",     "romanization": "atsui",     "english": "hot",        "pos": "adjective", "notes": "" },
+  { "word": "難しい",   "romanization": "muzukashii","english": "difficult",  "pos": "adjective", "notes": "" },
+  { "word": "簡単",     "romanization": "kantan",    "english": "easy",       "pos": "adjective", "notes": "na-adjective" },
+  { "word": "大切",     "romanization": "taisetsu",  "english": "important",  "pos": "adjective", "notes": "na-adjective" },
+  { "word": "賢い",     "romanization": "kashikoi",  "english": "smart/clever", "pos": "adjective", "notes": "" }
+]

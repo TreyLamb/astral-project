@@ -1,4 +1,4 @@
-// Orbit feedback→rules loop (Guidelines_Scheduler.md §12) — pure calc, no
+// Orbit feedback→rules loop (guidelinesScheduler.md §12) — pure calc, no
 // storage/React. When you reject or move an auto-scheduled placement, you tell
 // the planner WHY with a reason chip; each reason crystallizes the one-off
 // correction into something DURABLE the deterministic placer honors next time:

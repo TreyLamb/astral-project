@@ -48,7 +48,7 @@ export default function WelcomeGate() {
       <div className="wg-card" onClick={(e) => e.stopPropagation()}>
         <h2>Welcome to Astral Journey</h2>
         <p>
-          Sign in once to sync TheKnowledgeBase and PGO Tracker across your devices,
+          Sign in once to sync TheKnowledgeBase and POGO Tracker across your devices,
           or continue as a guest — everything still works, it just stays on this device.
         </p>
         {/* Without this, a failed round trip just drops you back on the same

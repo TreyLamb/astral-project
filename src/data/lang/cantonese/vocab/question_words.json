@@ -1,0 +1,11 @@
+[
+  { "word": "乜嘢", "romanization": "mat1 je5",   "english": "what",                  "pos": "pronoun", "notes": "Cantonese-specific (Mandarin: 什麼)" },
+  { "word": "邊個", "romanization": "bin1 go3",   "english": "who",                   "pos": "pronoun", "notes": "" },
+  { "word": "邊度", "romanization": "bin1 dou6",  "english": "where",                 "pos": "pronoun", "notes": "" },
+  { "word": "邊樣", "romanization": "bin1 joeng6","english": "which (one)",           "pos": "pronoun", "notes": "" },
+  { "word": "點解", "romanization": "dim2 gaai2", "english": "why",                   "pos": "adverb",  "notes": "" },
+  { "word": "點樣", "romanization": "dim2 joeng2","english": "how",                   "pos": "adverb",  "notes": "" },
+  { "word": "幾多", "romanization": "gei2 do1",   "english": "how many / how much",   "pos": "pronoun", "notes": "" },
+  { "word": "幾時", "romanization": "gei2 si4",   "english": "when",                  "pos": "pronoun", "notes": "" },
+  { "word": "點呀", "romanization": "dim2 aa3",   "english": "how is it / how about", "pos": "phrase",  "notes": "" }
+]

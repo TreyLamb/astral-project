@@ -1,0 +1,13 @@
+[
+  { "word": "紅色",   "romanization": "hung4 sik1", "english": "red",    "pos": "noun", "notes": "" },
+  { "word": "橙色",   "romanization": "caang2 sik1","english": "orange", "pos": "noun", "notes": "" },
+  { "word": "黃色",   "romanization": "wong4 sik1", "english": "yellow", "pos": "noun", "notes": "" },
+  { "word": "綠色",   "romanization": "luk6 sik1",  "english": "green",  "pos": "noun", "notes": "" },
+  { "word": "藍色",   "romanization": "laam4 sik1", "english": "blue",   "pos": "noun", "notes": "" },
+  { "word": "紫色",   "romanization": "zi2 sik1",   "english": "purple", "pos": "noun", "notes": "" },
+  { "word": "黑色",   "romanization": "hak1 sik1",  "english": "black",  "pos": "noun", "notes": "" },
+  { "word": "白色",   "romanization": "baak6 sik1", "english": "white",  "pos": "noun", "notes": "" },
+  { "word": "灰色",   "romanization": "fui1 sik1",  "english": "gray",   "pos": "noun", "notes": "" },
+  { "word": "粉紅色", "romanization": "fan2 hung4 sik1","english": "pink","pos": "noun", "notes": "" },
+  { "word": "啡色",   "romanization": "fe1 sik1",   "english": "brown",  "pos": "noun", "notes": "colloquial, lit. 'coffee colour'" }
+]

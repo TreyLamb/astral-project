@@ -1,0 +1,22 @@
+[
+  { "word": "我爱你",       "romanization": "wǒ ài nǐ",          "english": "I love you",              "pos": "phrase", "notes": "" },
+  { "word": "没问题",       "romanization": "méi wèntí",         "english": "no problem",              "pos": "phrase", "notes": "" },
+  { "word": "等一下",       "romanization": "děng yíxià",        "english": "wait a moment",           "pos": "phrase", "notes": "" },
+  { "word": "慢慢来",       "romanization": "mànmàn lái",        "english": "take your time",          "pos": "phrase", "notes": "" },
+  { "word": "加油",         "romanization": "jiāyóu",            "english": "go for it / keep it up",  "pos": "phrase", "notes": "" },
+  { "word": "恭喜",         "romanization": "gōngxǐ",            "english": "congratulations",         "pos": "phrase", "notes": "" },
+  { "word": "生日快乐",     "romanization": "shēngrì kuàilè",    "english": "happy birthday",          "pos": "phrase", "notes": "" },
+  { "word": "新年快乐",     "romanization": "xīnnián kuàilè",    "english": "happy new year",          "pos": "phrase", "notes": "" },
+  { "word": "祝你好运",     "romanization": "zhù nǐ hǎoyùn",     "english": "wish you good luck",      "pos": "phrase", "notes": "" },
+  { "word": "当然",         "romanization": "dāngrán",           "english": "of course",               "pos": "adverb", "notes": "" },
+  { "word": "差不多",       "romanization": "chàbuduō",          "english": "almost / close enough",   "pos": "phrase", "notes": "" },
+  { "word": "没事",         "romanization": "méishì",            "english": "it's nothing / no worries","pos": "phrase", "notes": "" },
+  { "word": "怎么办",       "romanization": "zěnme bàn",         "english": "what should we do",       "pos": "phrase", "notes": "" },
+  { "word": "什么意思",     "romanization": "shénme yìsi",       "english": "what does it mean",       "pos": "phrase", "notes": "" },
+  { "word": "我不懂",       "romanization": "wǒ bù dǒng",        "english": "I don't understand",      "pos": "phrase", "notes": "" },
+  { "word": "我不知道",     "romanization": "wǒ bù zhīdào",      "english": "I don't know",             "pos": "phrase", "notes": "" },
+  { "word": "你叫什么名字", "romanization": "nǐ jiào shénme míngzi", "english": "what's your name",    "pos": "phrase", "notes": "" },
+  { "word": "随便",         "romanization": "suíbiàn",           "english": "whatever / however you like","pos": "phrase", "notes": "" },
+  { "word": "辛苦了",       "romanization": "xīnkǔ le",          "english": "thanks for your hard work","pos": "phrase", "notes": "" },
+  { "word": "恭喜发财",     "romanization": "gōngxǐ fācái",      "english": "wishing you prosperity",  "pos": "phrase", "notes": "traditional Chinese New Year greeting" }
+]

@@ -1,15 +1,26 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useFitness } from './fitnessContext';
 import ClearableInput from './ClearableInput';
+import useModalKeys from './useModalKeys';
 import { macroPercents } from './calc/nutrition';
 import { estimateNutritionForMeal } from './nutritionApi';
 
 // Full meal edit view (route: meal/:id) — mirrors EntryEditor's shape/actions
 // (load-by-id, seed-once form state, save/delete) at meal-appropriate scope.
-export default function MealEditor() {
-  const { id } = useParams();
+export default function MealEditor({ id: idProp, onClose }) {
+  const params = useParams();
+  const id = idProp ?? params.id;
   const navigate = useNavigate();
+  // Modal when opened from the calendar, route when deep-linked — same as
+  // EntryEditor. See its comment for why the handlers go through a ref.
+  const close = onClose || (() => close());
+  const actionsRef = useRef({});
+  actionsRef.current.close = close;
+  useModalKeys({
+    onClose: useCallback(() => actionsRef.current.close?.(), []),
+    onSubmit: useCallback(() => actionsRef.current.save?.(), []),
+  });
   const { getMeal, updateMeal, removeMeal, mealTypes, loading } = useFitness();
   const m = getMeal(id);
 
@@ -35,7 +46,7 @@ export default function MealEditor() {
         {loading ? <p className="ft-empty">Loading…</p> : (
           <>
             <p className="ft-empty">Meal not found.</p>
-            <button type="button" className="ft-btn-ghost" onClick={() => navigate('..')}>← Back to calendar</button>
+            <button type="button" className="ft-btn-ghost" onClick={() => close()}>← Back to calendar</button>
           </>
         )}
       </div>
@@ -69,16 +80,20 @@ export default function MealEditor() {
       name: form.name, note: form.note,
       calories: num(form.calories), proteinG: num(form.proteinG), carbsG: num(form.carbsG), fatG: num(form.fatG),
     });
-    navigate('..');
+    close();
   }
 
-  async function del() { await removeMeal(id); navigate('..'); }
+  actionsRef.current.save = save;
+
+  async function del() { await removeMeal(id); close(); }
 
   return (
     <div className="ft-editor">
       <div className="ft-editor-head">
-        <button type="button" className="ft-btn-ghost" onClick={() => navigate('..')}>← Calendar</button>
         <h2>Edit meal</h2>
+        <button type="button" className={onClose ? 'ft-x' : 'ft-btn-ghost'} onClick={close} aria-label="Close">
+          {onClose ? '✕' : '← Calendar'}
+        </button>
       </div>
 
       <label className="ft-field-label">Meal</label>
@@ -89,13 +104,13 @@ export default function MealEditor() {
             style={form.mealType === t.id ? { borderColor: t.color, background: t.color + '22' } : undefined}
             onClick={() => set('mealType', t.id)}
           >
-            <span className="ft-type-icon">{t.icon}</span><span>{t.name}</span>
+            <span>{t.name}</span>
           </button>
         ))}
       </div>
 
       <div className="ft-status-toggle">
-        <button type="button" className={form.status === 'logged' ? 'active' : ''} onClick={() => set('status', 'logged')}>✓ Logged</button>
+        <button type="button" className={form.status === 'logged' ? 'active' : ''} onClick={() => set('status', 'logged')}>Logged</button>
         <button type="button" className={form.status === 'planned' ? 'active' : ''} onClick={() => set('status', 'planned')}>◇ Planned</button>
       </div>
 
@@ -151,7 +166,7 @@ export default function MealEditor() {
       <div className="ft-editor-actions">
         <button type="button" className="ft-btn-danger" onClick={del}>Delete</button>
         <div className="ft-spacer" />
-        <button type="button" className="ft-btn-ghost" onClick={() => navigate('..')}>Cancel</button>
+        <button type="button" className="ft-btn-ghost" onClick={() => close()}>Cancel</button>
         <button type="button" className="ft-btn-primary" onClick={save}>Save</button>
       </div>
     </div>

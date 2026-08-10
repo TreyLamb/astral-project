@@ -1,0 +1,21 @@
+[
+  { "word": "我愛你",   "romanization": "ngo5 oi3 nei5",            "english": "I love you",                       "pos": "phrase", "notes": "" },
+  { "word": "等一等",   "romanization": "dang2 jat1 dang2",         "english": "wait a moment",                    "pos": "phrase", "notes": "" },
+  { "word": "慢慢嚟",   "romanization": "maan6 maan2 lai4",         "english": "take your time",                   "pos": "phrase", "notes": "" },
+  { "word": "加油",     "romanization": "gaa1 jau4",                "english": "go for it / keep it up",           "pos": "phrase", "notes": "" },
+  { "word": "恭喜",     "romanization": "gung1 hei2",               "english": "congratulations",                  "pos": "phrase", "notes": "" },
+  { "word": "生日快樂", "romanization": "saang1 jat6 faai3 lok6",   "english": "happy birthday",                   "pos": "phrase", "notes": "" },
+  { "word": "新年快樂", "romanization": "san1 nin4 faai3 lok6",     "english": "happy new year",                   "pos": "phrase", "notes": "" },
+  { "word": "祝你好運", "romanization": "zuk1 nei5 hou2 wan6",      "english": "wish you good luck",               "pos": "phrase", "notes": "" },
+  { "word": "梗係",     "romanization": "gang2 hai6",               "english": "of course",                        "pos": "adverb", "notes": "Cantonese-specific, very common (Mandarin: 當然)" },
+  { "word": "差唔多",   "romanization": "caa1 m4 do1",              "english": "almost / close enough",            "pos": "phrase", "notes": "" },
+  { "word": "唔緊要",   "romanization": "m4 gan2 jiu3",             "english": "it's nothing / no worries",        "pos": "phrase", "notes": "Cantonese-specific, very common" },
+  { "word": "點算",     "romanization": "dim2 syun3",               "english": "what should we do",                "pos": "phrase", "notes": "Cantonese-specific" },
+  { "word": "乜意思",   "romanization": "mat1 ji3 si1",             "english": "what does it mean",                "pos": "phrase", "notes": "" },
+  { "word": "我唔明",   "romanization": "ngo5 m4 ming4",            "english": "I don't understand",               "pos": "phrase", "notes": "" },
+  { "word": "我唔知",   "romanization": "ngo5 m4 zi1",              "english": "I don't know",                     "pos": "phrase", "notes": "" },
+  { "word": "你叫咩名", "romanization": "nei5 giu3 me1 meng2",      "english": "what's your name",                 "pos": "phrase", "notes": "" },
+  { "word": "隨便",     "romanization": "ceoi4 bin6",               "english": "whatever / however you like",      "pos": "phrase", "notes": "" },
+  { "word": "辛苦晒",   "romanization": "san1 fu2 saai3",           "english": "thanks for your hard work",        "pos": "phrase", "notes": "Cantonese-specific, 晒 as intensifier" },
+  { "word": "恭喜發財", "romanization": "gung1 hei2 faat3 coi4",    "english": "wishing you prosperity",           "pos": "phrase", "notes": "traditional Lunar New Year greeting" }
+]

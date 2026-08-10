@@ -1,5 +1,5 @@
 // Single global Firebase Auth session for the whole site. Any feature that
-// wants cross-device sync (TKB, PGO Tracker, ...) reads `user` from here
+// wants cross-device sync (TKB, POGO Tracker, ...) reads `user` from here
 // instead of running its own onAuthStateChanged listener — sign in once
 // anywhere on the site and every feature sees it, since they all share the
 // one `auth` instance from src/firebase.js.
@@ -124,7 +124,7 @@ export function AuthProvider({ children }) {
     // ("appCheck/initial-throttle", 24h cooldown) and Auth's calls, which go through App
     // Check's verification pipeline (see firebase.js's init-order comment), just hung with
     // zero console errors or rejections. Since `user` starts at `undefined` ("still
-    // resolving") and every Firebase-gated feature site-wide (PGO Tracker, MyMDB, TKB, the
+    // resolving") and every Firebase-gated feature site-wide (POGO Tracker, MyMDB, TKB, the
     // Navbar sign-in button) waits on that, a silent hang here means the WHOLE SITE looks
     // stuck loading, forever, with nothing to debug. If the listener hasn't resolved within
     // 6s, assume signed-out so the site degrades to device-only mode instead of hanging —

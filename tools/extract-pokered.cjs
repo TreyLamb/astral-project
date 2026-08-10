@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Extracts Pokemon Red map data from pret/pokered assembly source.
 // Run once: node tools/extract-pokered.js
-// Outputs: public/pokered/ with all assets + game_data.json
+// Outputs: public/pokered/ with all assets + gameData.json
 
 const fs = require('fs');
 const path = require('path');
@@ -273,7 +273,7 @@ for (const dir of ['gfx/player', 'gfx/sprites'])
       path.join(POKERED, dir, f), path.join(OUT, 'sprites', f));
 
 fs.writeFileSync(
-  path.join(OUT, 'game_data.json'),
+  path.join(OUT, 'gameData.json'),
   JSON.stringify({ maps, collision, grassTiles: GRASS_TILES, ledges }, null, 2)
 );
 
@@ -285,7 +285,7 @@ for (const f of fs.readdirSync(spriteSrc))
   if (f.endsWith('.png')) fs.copyFileSync(path.join(spriteSrc, f), path.join(spriteDst, f));
 
 fs.writeFileSync(
-  path.join(OUT, 'pokemon_data.json'),
+  path.join(OUT, 'pokemonData.json'),
   JSON.stringify({ pokemon: pokeStats, moves: moveData, typeChart, learnsets }, null, 2)
 );
 

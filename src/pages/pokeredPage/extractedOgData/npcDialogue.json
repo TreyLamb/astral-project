@@ -1,0 +1,4796 @@
+{
+  "AGATHAS_ROOM": {
+    "1": {
+      "scripted": true,
+      "label": "AgathasRoomAgathaText"
+    }
+  },
+  "BIKE_SHOP": {
+    "1": {
+      "scripted": true,
+      "label": "BikeShopClerkText"
+    },
+    "2": {
+      "text": [
+        "A plain city BIKE\nis good enough\nfor me!",
+        "You can't put a\nshopping basket\non an MTB!"
+      ]
+    },
+    "3": {
+      "text": [
+        "These BIKEs are\ncool, but they're\nway expensive!"
+      ]
+    }
+  },
+  "BILLS_HOUSE": {
+    "1": {
+      "text": [
+        "Hiya! I'm a\nPOKéMON...\n...No I'm not!",
+        "Call me BILL!\nI'm a true blue\n#MANIAC! Hey!\nWhat's with that\nskeptical look?",
+        "I'm not joshing\nyou, I screwed up\nan experiment and\ngot combined with\na POKéMON!",
+        "So, how about it?\nHelp me out here!"
+      ]
+    },
+    "2": {
+      "text": [
+        "BILL: Yeehah!\nThanks, bud! I\nowe you one!",
+        "So, did you come\nto see my POKéMON\ncollection?\nYou didn't?\nThat's a bummer.",
+        "I've got to thank\nyou... Oh here,\nmaybe this'll do."
+      ]
+    },
+    "3": {
+      "text": [
+        "BILL: Look, bud,\njust check out\nsome of my rare\nPOKéMON on my PC!"
+      ]
+    }
+  },
+  "BLUES_HOUSE": {
+    "1": {
+      "scripted": true,
+      "label": "BluesHouseDaisySittingText"
+    },
+    "2": {
+      "text": [
+        "POKéMON are living\nthings! If they\nget tired, give\nthem a rest!"
+      ]
+    },
+    "3": {
+      "text": [
+        "It's a big map!\nThis is useful!"
+      ]
+    }
+  },
+  "BRUNOS_ROOM": {
+    "1": {
+      "scripted": true,
+      "label": "BrunosRoomBrunoText"
+    }
+  },
+  "CELADON_CHIEF_HOUSE": {
+    "1": {
+      "text": [
+        "Hehehe! The slots\njust reel in the\ndough, big time!"
+      ]
+    },
+    "2": {
+      "text": [
+        "CHIEF!",
+        "We just shipped\n2000 POKéMON as\nslot prizes!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Don't touch the\nposter at the\nGAME CORNER!",
+        "There's no secret\nswitch behind it!"
+      ]
+    }
+  },
+  "CELADON_CITY": {
+    "1": {
+      "text": [
+        "I got my KOFFING\nin CINNABAR!",
+        "It's nice, but it\nbreathes poison\nwhen it's angry!"
+      ]
+    },
+    "2": {
+      "text": [
+        "Heheh! This GYM\nis great! It's\nfull of women!"
+      ]
+    },
+    "3": {
+      "text": [
+        "The GAME CORNER\nis bad for our\ncity's image!"
+      ]
+    },
+    "4": {
+      "text": [
+        "Moan! I blew it\nall at the slots!",
+        "I knew I should\nhave cashed in my\ncoins for prizes!"
+      ]
+    },
+    "5": {
+      "text": [
+        "Hello, there!",
+        "I've seen you,\nbut I never had a\nchance to talk!",
+        "Here's a gift for\ndropping by!"
+      ]
+    },
+    "6": {
+      "text": [
+        "This is my trusted\npal, POLIWRATH!",
+        "It evolved from\nPOLIWHIRL when I\nused WATER STONE!"
+      ]
+    },
+    "7": {
+      "text": [
+        "POLIWRATH: Ribi\nribit!"
+      ]
+    },
+    "8": {
+      "text": [
+        "What are you\nstaring at?"
+      ]
+    },
+    "9": {
+      "text": [
+        "Keep out of TEAM\nROCKET's way!"
+      ]
+    }
+  },
+  "CELADON_DINER": {
+    "1": {
+      "text": [
+        "Hi!",
+        "We're taking a\nbreak now."
+      ]
+    },
+    "2": {
+      "text": [
+        "My POKéMON are\nweak, so I often\nhave to go to the\nDRUG STORE."
+      ]
+    },
+    "3": {
+      "text": [
+        "Psst! There's a\nbasement under\nthe GAME CORNER."
+      ]
+    },
+    "4": {
+      "text": [
+        "Munch...",
+        "The man at that\ntable lost it all\nat the slots."
+      ]
+    },
+    "5": {
+      "text": [
+        "Go ahead! Laugh!",
+        "I'm flat out\nbusted!",
+        "No more slots for\nme! I'm going\nstraight!",
+        "Here! I won't be\nneeding this any-\nmore!"
+      ]
+    }
+  },
+  "CELADON_GYM": {
+    "1": {
+      "text": [
+        "Hello. Lovely\nweather isn't it?\nIt's so pleasant.",
+        "...Oh dear...\nI must have dozed\noff. Welcome.",
+        "My name is ERIKA.\nI am the LEADER\nof CELADON GYM.",
+        "I teach the art of\nflower arranging.\nMy POKéMON are of\nthe grass-type.",
+        "Oh, I'm sorry, I\nhad no idea that\nyou wished to\nchallenge me.",
+        "Very well, but I\nshall not lose."
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "CeladonGymCooltrainerF1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "CeladonGymBeauty1Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "CeladonGymCooltrainerF2Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "CeladonGymBeauty2Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "CeladonGymCooltrainerF3Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "CeladonGymBeauty3Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "CeladonGymCooltrainerF4Text"
+    }
+  },
+  "CELADON_HOTEL": {
+    "1": {
+      "text": [
+        "POKéMON? No, this\nis a hotel for\npeople.",
+        "We're full up."
+      ]
+    },
+    "2": {
+      "text": [
+        "I'm on vacation\nwith my brother\nand boy friend.",
+        "CELADON is such a\npretty city!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Why did she bring\nher brother?"
+      ]
+    }
+  },
+  "CELADON_MANSION_1F": {
+    "1": {
+      "text": [
+        "MEOWTH: Meow!"
+      ]
+    },
+    "2": {
+      "text": [
+        "My dear POKéMON\nkeep me company.",
+        "MEOWTH even brings\nmoney home!"
+      ]
+    },
+    "3": {
+      "text": [
+        "CLEFAIRY: Pi\npippippi!"
+      ]
+    },
+    "4": {
+      "text": [
+        "NIDORAN: Kya\nkyaoo!"
+      ]
+    }
+  },
+  "CELADON_MANSION_3F": {
+    "1": {
+      "text": [
+        "Me? I'm the\nprogrammer!"
+      ]
+    },
+    "2": {
+      "text": [
+        "I'm the graphic\nartist!\nI drew you!"
+      ]
+    },
+    "3": {
+      "text": [
+        "I wrote the story!\nIsn't ERIKA cute?",
+        "I like MISTY a\nlot too!",
+        "Oh, and SABRINA,\nI like her!"
+      ]
+    },
+    "4": {
+      "text": [
+        "Is that right?",
+        "I'm the game\ndesigner!",
+        "Filling up your\nPOKéDEX is tough,\nbut don't quit!",
+        "When you finish,\ncome tell me!"
+      ]
+    }
+  },
+  "CELADON_MANSION_ROOF_HOUSE": {
+    "1": {
+      "text": [
+        "I know everything\nabout the world\nof POKéMON in\nyour GAME BOY!",
+        "Get together with\nyour friends and\ntrade POKéMON!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "CeladonMansionRoofHouseEeveePokeballText"
+    }
+  },
+  "CELADON_MART_1F": {
+    "1": {
+      "text": [
+        "Hello! Welcome to\nCELADON DEPT.\nSTORE.",
+        "The board on the\nright describes\nthe store layout."
+      ]
+    }
+  },
+  "CELADON_MART_2F": {
+    "1": {
+      "scripted": true,
+      "label": "CeladonMart2FClerk1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "CeladonMart2FClerk2Text"
+    },
+    "3": {
+      "text": [
+        "SUPER REPEL keeps\nweak POKéMON at\nbay...",
+        "Hmm, it's a more\npowerful REPEL!"
+      ]
+    },
+    "4": {
+      "text": [
+        "For long outings,\nyou should buy\nREVIVE."
+      ]
+    }
+  },
+  "CELADON_MART_3F": {
+    "1": {
+      "text": [
+        "Oh, hi! I finally\nfinished POKéMON!",
+        "Not done yet?\nThis might be\nuseful!"
+      ]
+    },
+    "2": {
+      "text": [
+        "Captured POKéMON\nare registered\nwith an ID No.\nand OT, the name\nof the Original\nTrainer that\ncaught it!"
+      ]
+    },
+    "3": {
+      "text": [
+        "All right!",
+        "My buddy's going\nto trade me his\nKANGASKHAN for my\nGRAVELER!"
+      ]
+    },
+    "4": {
+      "text": [
+        "Come on GRAVELER!",
+        "I love GRAVELER!\nI collect them!",
+        "Huh?",
+        "GRAVELER turned\ninto a different\nPOKéMON!"
+      ]
+    },
+    "5": {
+      "text": [
+        "You can identify\nPOKéMON you got\nin trades by\ntheir ID Numbers!"
+      ]
+    }
+  },
+  "CELADON_MART_4F": {
+    "1": {
+      "scripted": true,
+      "label": "CeladonMart4FClerkText"
+    },
+    "2": {
+      "text": [
+        "I'm getting a\nPOKé DOLL for my\ngirl friend!"
+      ]
+    },
+    "3": {
+      "text": [
+        "I heard something\nuseful.",
+        "You can run from\nwild POKéMON by\ndistracting them\nwith a POKé DOLL!"
+      ]
+    }
+  },
+  "CELADON_MART_5F": {
+    "1": {
+      "text": [
+        "POKéMON ability\nenhancers can be\nbought only here.",
+        "Use CALCIUM to\nincrease SPECIAL\nabilities.",
+        "Use CARBOS to\nincrease SPEED."
+      ]
+    },
+    "2": {
+      "text": [
+        "I'm here for\nPOKéMON ability\nenhancers.",
+        "PROTEIN increases\nATTACK power.",
+        "IRON increases\nDEFENSE!"
+      ]
+    },
+    "3": {
+      "scripted": true,
+      "label": "CeladonMart5FClerk1Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "CeladonMart5FClerk2Text"
+    }
+  },
+  "CELADON_MART_ROOF": {
+    "1": {
+      "text": [
+        "My sister is a\ntrainer, believe\nit or not.",
+        "But, she's so\nimmature, she\ndrives me nuts!"
+      ]
+    },
+    "2": {
+      "text": [
+        "I'm thirsty!\nI want something\nto drink!"
+      ]
+    }
+  },
+  "CELADON_POKECENTER": {
+    "1": {
+      "scripted": true,
+      "label": "CeladonPokecenterNurseText"
+    },
+    "2": {
+      "text": [
+        "POKé FLUTE awakens\nPOKéMON with a\nsound that only\nthey can hear!"
+      ]
+    },
+    "3": {
+      "text": [
+        "I rode uphill on\nCYCLING ROAD from\nFUCHSIA!"
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "CeladonPokecenterLinkReceptionistText"
+    }
+  },
+  "CERULEAN_BADGE_HOUSE": {
+    "1": {
+      "text": [
+        "POKéMON BADGEs\nare owned only by\nskilled trainers.",
+        "I see you have\nat least one.",
+        "Those BADGEs have\namazing secrets!"
+      ]
+    }
+  },
+  "CERULEAN_CAVE_1F": {
+    "1": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "CERULEAN_CAVE_2F": {
+    "1": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "CERULEAN_CAVE_B1F": {
+    "1": {
+      "scripted": true,
+      "label": "CeruleanCaveB1FMewtwoText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "CERULEAN_CITY": {
+    "1": {
+      "text": [
+        "<RIVAL>: Yo!\n<PLAYER>!",
+        "You're still\nstruggling along\nback here?",
+        "I'm doing great!\nI caught a bunch\nof strong and\nsmart POKéMON!",
+        "Here, let me see\nwhat you caught,\n<PLAYER>!"
+      ]
+    },
+    "2": {
+      "text": [
+        "Hey! Stay out!\nIt's not your\nyard! Huh? Me?",
+        "I'm an innocent\nbystander! Don't\nyou believe me?"
+      ]
+    },
+    "3": {
+      "text": [
+        "You're a trainer\ntoo? Collecting,\nfighting, it's a\ntough life."
+      ]
+    },
+    "4": {
+      "text": [
+        "That bush in\nfront of the shop\nis in the way.",
+        "There might be a\nway around."
+      ]
+    },
+    "5": {
+      "text": [
+        "You're making an\nencyclopedia on\nPOKéMON? That\nsounds amusing."
+      ]
+    },
+    "6": {
+      "text": [
+        "The people here\nwere robbed.",
+        "It's obvious that\nTEAM ROCKET is\nbehind this most\nheinous crime!",
+        "Even our POLICE\nforce has trouble\nwith the ROCKETs!"
+      ]
+    },
+    "7": {
+      "text": [
+        "OK! SLOWBRO!\nUse SONICBOOM!\nCome on, SLOWBRO\npay attention!"
+      ]
+    },
+    "8": {
+      "text": [
+        "SLOWBRO took a\nsnooze..."
+      ]
+    },
+    "9": {
+      "text": [
+        "I want a bright\nred BICYCLE!",
+        "I'll keep it at\nhome, so it won't\nget dirty!"
+      ]
+    },
+    "10": {
+      "text": [
+        "This is CERULEAN\nCAVE! Horribly\nstrong POKéMON\nlive in there!",
+        "The POKéMON LEAGUE\nchampion is the\nonly person who\nis allowed in!"
+      ]
+    },
+    "11": {
+      "text": [
+        "The people here\nwere robbed.",
+        "It's obvious that\nTEAM ROCKET is\nbehind this most\nheinous crime!",
+        "Even our POLICE\nforce has trouble\nwith the ROCKETs!"
+      ]
+    }
+  },
+  "CERULEAN_GYM": {
+    "1": {
+      "text": [
+        "Hi, you're a new\nface!",
+        "Trainers who want\nto turn pro have\nto have a policy\nabout POKéMON!",
+        "What is your\napproach when you\ncatch POKéMON?",
+        "My policy is an\nall-out offensive\nwith water-type\nPOKéMON!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "CeruleanGymCooltrainerFText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "CeruleanGymSwimmerText"
+    },
+    "4": {
+      "text": [
+        "Yo! Champ in\nmaking!",
+        "Here's my advice!",
+        "The LEADER, MISTY,\nis a pro who uses\nwater POKéMON!",
+        "You can drain all\ntheir water with\nplant POKéMON!",
+        "Or, zap them with\nelectricity!"
+      ]
+    }
+  },
+  "CERULEAN_MART": {
+    "1": {
+      "scripted": true,
+      "label": "CeruleanMartClerkText"
+    },
+    "2": {
+      "text": [
+        "Use REPEL to keep\nbugs and weak\nPOKéMON away.",
+        "Put your strongest\nPOKéMON at the\ntop of the list\nfor best results!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Have you seen any\nRARE CANDY?",
+        "It's supposed to\nmake POKéMON go\nup one level!"
+      ]
+    }
+  },
+  "CERULEAN_POKECENTER": {
+    "1": {
+      "scripted": true,
+      "label": "CeruleanPokecenterNurseText"
+    },
+    "2": {
+      "text": [
+        "That BILL!",
+        "I heard that\nhe'll do whatever\nit takes to get\nrare POKéMON!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Have you heard\nabout BILL?",
+        "Everyone calls\nhim a POKéMANIAC!",
+        "I think people\nare just jealous\nof BILL, though.",
+        "Who wouldn't want\nto boast about\ntheir POKéMON?"
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "CeruleanPokecenterLinkReceptionistText"
+    }
+  },
+  "CERULEAN_TRADE_HOUSE": {
+    "1": {
+      "text": [
+        "My husband likes\ntrading POKéMON.",
+        "If you are a\ncollector, would\nyou please trade\nwith him?"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "CeruleanTradeHouseGamblerText"
+    }
+  },
+  "CERULEAN_TRASHED_HOUSE": {
+    "1": {
+      "text": [
+        "Those miserable\nROCKETs!",
+        "Look what they\ndid here!",
+        "They stole a TM\nfor teaching\nPOKéMON how to\nDIG holes!",
+        "That cost me a\nbundle, it did!"
+      ]
+    },
+    "2": {
+      "text": [
+        "TEAM ROCKET must\nbe trying to DIG\ntheir way into no\ngood!"
+      ]
+    }
+  },
+  "CHAMPIONS_ROOM": {
+    "1": {
+      "text": [
+        "<RIVAL>: Hey!",
+        "I was looking\nforward to seeing\nyou, <PLAYER>!",
+        "My rival should\nbe strong to keep\nme sharp!",
+        "While working on\nPOKéDEX, I looked\nall over for\npowerful POKéMON!",
+        "Not only that, I\nassembled teams\nthat would beat\nany POKéMON type!",
+        "And now!",
+        "I'm the POKéMON\nLEAGUE champion!",
+        "<PLAYER>! Do you\nknow what that\nmeans?",
+        "I'll tell you!",
+        "I am the most\npowerful trainer\nin the world!"
+      ]
+    },
+    "2": {
+      "text": [
+        "OAK: <PLAYER>!"
+      ]
+    }
+  },
+  "CINNABAR_GYM": {
+    "1": {
+      "text": [
+        "Hah!",
+        "I am BLAINE! I\nam the LEADER of\nCINNABAR GYM!",
+        "My fiery POKéMON\nwill incinerate\nall challengers!",
+        "Hah! You better\nhave BURN HEAL!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "CinnabarGymSuperNerd1"
+    },
+    "3": {
+      "scripted": true,
+      "label": "CinnabarGymSuperNerd2"
+    },
+    "4": {
+      "scripted": true,
+      "label": "CinnabarGymSuperNerd3"
+    },
+    "5": {
+      "scripted": true,
+      "label": "CinnabarGymSuperNerd4"
+    },
+    "6": {
+      "scripted": true,
+      "label": "CinnabarGymSuperNerd5"
+    },
+    "7": {
+      "scripted": true,
+      "label": "CinnabarGymSuperNerd6"
+    },
+    "8": {
+      "scripted": true,
+      "label": "CinnabarGymSuperNerd7"
+    },
+    "9": {
+      "text": [
+        "Yo! Champ in\nmaking!",
+        "The hot-headed\nBLAINE is a fire\nPOKéMON pro!",
+        "Douse his spirits\nwith water!",
+        "You better take\nsome BURN HEALs!"
+      ]
+    }
+  },
+  "CINNABAR_ISLAND": {
+    "1": {
+      "text": [
+        "CINNABAR GYM's\nBLAINE is an odd\nman who has lived\nhere for decades."
+      ]
+    },
+    "2": {
+      "text": [
+        "Scientists conduct\nexperiments in\nthe burned out\nbuilding."
+      ]
+    }
+  },
+  "CINNABAR_LAB": {
+    "1": {
+      "text": [
+        "We study POKéMON\nextensively here.",
+        "People often bring\nus rare POKéMON\nfor examination."
+      ]
+    }
+  },
+  "CINNABAR_LAB_FOSSIL_ROOM": {
+    "1": {
+      "text": [
+        "Hiya!",
+        "I am important\ndoctor!",
+        "I study here rare\nPOKéMON fossils!",
+        "You! Have you a\nfossil for me?"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "CinnabarLabFossilRoomScientist2Text"
+    }
+  },
+  "CINNABAR_LAB_METRONOME_ROOM": {
+    "1": {
+      "text": [
+        "Tch-tch-tch!\nI made a cool TM!",
+        "It can cause all\nkinds of fun!"
+      ]
+    },
+    "2": {
+      "text": [
+        "EEVEE can evolve\ninto 1 of 3 kinds\nof POKéMON."
+      ]
+    }
+  },
+  "CINNABAR_LAB_TRADE_ROOM": {
+    "1": {
+      "text": [
+        "I found this very\nstrange fossil in\nMT.MOON!",
+        "I think it's a\nrare, prehistoric\nPOKéMON!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "CinnabarLabTradeRoomGrampsText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "CinnabarLabTradeRoomBeautyText"
+    }
+  },
+  "CINNABAR_MART": {
+    "1": {
+      "scripted": true,
+      "label": "CinnabarMartClerkText"
+    },
+    "2": {
+      "text": [
+        "Don't they have X\nATTACK? It's good\nfor battles!"
+      ]
+    },
+    "3": {
+      "text": [
+        "It never hurts to\nhave extra items!"
+      ]
+    }
+  },
+  "CINNABAR_POKECENTER": {
+    "1": {
+      "scripted": true,
+      "label": "CinnabarPokecenterNurseText"
+    },
+    "2": {
+      "text": [
+        "You can cancel\nevolution.",
+        "When a POKéMON is\nevolving, you can\nstop it and leave\nit the way it is."
+      ]
+    },
+    "3": {
+      "text": [
+        "Do you have any\nfriends?",
+        "POKéMON you get\nin trades grow\nvery quickly.",
+        "I think it's\nworth a try!"
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "CinnabarPokecenterLinkReceptionistText"
+    }
+  },
+  "COLOSSEUM": {
+    "1": {
+      "text": [
+        "!"
+      ]
+    }
+  },
+  "COPYCATS_HOUSE_1F": {
+    "1": {
+      "text": [
+        "My daughter is so\nself-centered.\nShe only has a\nfew friends."
+      ]
+    },
+    "2": {
+      "text": [
+        "My daughter likes\nto mimic people.",
+        "Her mimicry has\nearned her the\nnickname COPYCAT\naround here!"
+      ]
+    },
+    "3": {
+      "text": [
+        "CHANSEY: Chaan!\nSii!"
+      ]
+    }
+  },
+  "COPYCATS_HOUSE_2F": {
+    "1": {
+      "text": [
+        "<PLAYER>: Hi! Do\nyou like POKéMON?",
+        "<PLAYER>: Uh no, I\njust asked you.",
+        "<PLAYER>: Huh?\nYou're strange!",
+        "COPYCAT: Hmm?\nQuit mimicking?",
+        "But, that's my\nfavorite hobby!"
+      ]
+    },
+    "2": {
+      "text": [
+        "DODUO: Giiih!",
+        "MIRROR MIRROR ON\nTHE WALL, WHO IS\nTHE FAIREST ONE\nOF ALL?"
+      ]
+    },
+    "3": {
+      "text": [
+        "This is a rare\nPOKéMON! Huh?\nIt's only a doll!"
+      ]
+    },
+    "4": {
+      "text": [
+        "This is a rare\nPOKéMON! Huh?\nIt's only a doll!"
+      ]
+    },
+    "5": {
+      "text": [
+        "This is a rare\nPOKéMON! Huh?\nIt's only a doll!"
+      ]
+    }
+  },
+  "DAYCARE": {
+    "1": {
+      "scripted": true,
+      "label": "DaycareGentlemanText"
+    }
+  },
+  "DIGLETTS_CAVE_ROUTE_11": {
+    "1": {
+      "text": [
+        "What a surprise!\nDIGLETTs dug this\nlong tunnel!",
+        "It goes right to\nVIRIDIAN CITY!"
+      ]
+    }
+  },
+  "DIGLETTS_CAVE_ROUTE_2": {
+    "1": {
+      "text": [
+        "I went to ROCK\nTUNNEL, but it's\ndark and scary.",
+        "If a POKéMON's\nFLASH could light\nit up..."
+      ]
+    }
+  },
+  "FIGHTING_DOJO": {
+    "1": {
+      "text": [
+        "Grunt!",
+        "I am the KARATE\nMASTER! I am the\nLEADER here!",
+        "You wish to\nchallenge us?\nExpect no mercy!",
+        "Fwaaa!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "FightingDojoBlackbelt1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "FightingDojoBlackbelt2Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "FightingDojoBlackbelt3Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "FightingDojoBlackbelt4Text"
+    },
+    "6": {
+      "text": [
+        "You want the\nhard kicking\nHITMONLEE?"
+      ]
+    },
+    "7": {
+      "text": [
+        "You want the\npiston punching\nHITMONCHAN?"
+      ]
+    }
+  },
+  "FUCHSIA_BILLS_GRANDPAS_HOUSE": {
+    "1": {
+      "text": [
+        "SAFARI ZONE's\nWARDEN is old,\nbut still active!",
+        "All his teeth are\nfalse, though."
+      ]
+    },
+    "2": {
+      "text": [
+        "Hmm? You've met\nBILL?",
+        "He's my grandson!",
+        "He always liked\ncollecting things\neven as a child!"
+      ]
+    },
+    "3": {
+      "text": [
+        "BILL files his\nown POKéMON data\non his PC!",
+        "Did he show you?"
+      ]
+    }
+  },
+  "FUCHSIA_CITY": {
+    "1": {
+      "text": [
+        "Did you try the\nSAFARI GAME? Some\nPOKéMON can only\nbe caught there."
+      ]
+    },
+    "2": {
+      "text": [
+        "SAFARI ZONE has a\nzoo in front of\nthe entrance.",
+        "Out back is the\nSAFARI GAME for\ncatching POKéMON."
+      ]
+    },
+    "3": {
+      "text": [
+        "ERIK: Where's\nSARA? I said I'd\nmeet her here."
+      ]
+    },
+    "4": {
+      "text": [
+        "That item ball in\nthere is really a\nPOKéMON."
+      ]
+    },
+    "5": {
+      "text": [
+        "!"
+      ]
+    },
+    "6": {
+      "text": [
+        "!"
+      ]
+    },
+    "7": {
+      "text": [
+        "!"
+      ]
+    },
+    "8": {
+      "text": [
+        "!"
+      ]
+    },
+    "9": {
+      "text": [
+        "!"
+      ]
+    },
+    "10": {
+      "text": [
+        "!"
+      ]
+    }
+  },
+  "FUCHSIA_GOOD_ROD_HOUSE": {
+    "1": {
+      "text": [
+        "I'm the FISHING\nGURU's older\nbrother!",
+        "I simply Looove\nfishing!",
+        "Do you like to\nfish?"
+      ]
+    }
+  },
+  "FUCHSIA_GYM": {
+    "1": {
+      "text": [
+        "KOGA: Fwahahaha!",
+        "A mere child like\nyou dares to\nchallenge me?",
+        "Very well, I\nshall show you\ntrue terror as a\nninja master!",
+        "You shall feel\nthe despair of\npoison and sleep\ntechniques!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "FuchsiaGymRocker1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "FuchsiaGymRocker2Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "FuchsiaGymRocker3Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "FuchsiaGymRocker4Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "FuchsiaGymRocker5Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "FuchsiaGymRocker6Text"
+    },
+    "8": {
+      "text": [
+        "Yo! Champ in\nmaking!",
+        "FUCHSIA GYM is\nriddled with\ninvisible walls!",
+        "KOGA might appear\nclose, but he's\nblocked off!",
+        "You have to find\ngaps in the walls\nto reach him!"
+      ]
+    }
+  },
+  "FUCHSIA_MART": {
+    "1": {
+      "scripted": true,
+      "label": "FuchsiaMartClerkText"
+    },
+    "2": {
+      "text": [
+        "Do you have a\nSAFARI ZONE flag?",
+        "What about cards\nor calendars?"
+      ]
+    },
+    "3": {
+      "text": [
+        "Did you try X\nSPEED? It speeds\nup a POKéMON in\nbattle!"
+      ]
+    }
+  },
+  "FUCHSIA_MEETING_ROOM": {
+    "1": {
+      "text": [
+        "We nicknamed the\nWARDEN SLOWPOKE.",
+        "He and SLOWPOKE\nboth look vacant!"
+      ]
+    },
+    "2": {
+      "text": [
+        "SLOWPOKE is very\nknowledgeable\nabout POKéMON!",
+        "He even has some\nfossils of rare,\nextinct POKéMON!"
+      ]
+    },
+    "3": {
+      "text": [
+        "SLOWPOKE came in,\nbut I couldn't\nunderstand him.",
+        "I think he's got\na speech problem!"
+      ]
+    }
+  },
+  "FUCHSIA_POKECENTER": {
+    "1": {
+      "scripted": true,
+      "label": "FuchsiaPokecenterNurseText"
+    },
+    "2": {
+      "text": [
+        "You can't win\nwith just one\nstrong POKéMON.",
+        "It's tough, but\nyou have to raise\nthem evenly."
+      ]
+    },
+    "3": {
+      "text": [
+        "There's a narrow\ntrail west of\nVIRIDIAN CITY.",
+        "It goes to POKéMON\nLEAGUE HQ.\nThe HQ governs\nall trainers."
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "FuchsiaPokecenterLinkReceptionistText"
+    }
+  },
+  "GAME_CORNER": {
+    "1": {
+      "text": [
+        "Welcome!",
+        "You can exchange\nyour coins for\nfabulous prizes\nnext door."
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "GameCornerClerk1Text"
+    },
+    "3": {
+      "text": [
+        "Keep this quiet.",
+        "It's rumored that\nthis place is run\nby TEAM ROCKET."
+      ]
+    },
+    "4": {
+      "text": [
+        "I think these\nmachines have\ndifferent odds."
+      ]
+    },
+    "5": {
+      "text": [
+        "Kid, do you want\nto play?"
+      ]
+    },
+    "6": {
+      "text": [
+        "I'm having a\nwonderful time!"
+      ]
+    },
+    "7": {
+      "scripted": true,
+      "label": "GameCornerGymGuideText"
+    },
+    "8": {
+      "text": [
+        "Games are scary!\nIt's so easy to\nget hooked!"
+      ]
+    },
+    "9": {
+      "text": [
+        "What's up? Want\nsome coins?"
+      ]
+    },
+    "10": {
+      "text": [
+        "Hey, what? You're\nthrowing me off!\nHere are some\ncoins, shoo!"
+      ]
+    },
+    "11": {
+      "text": [
+        "I'm guarding this\nposter!\nGo away, or else!"
+      ]
+    }
+  },
+  "GAME_CORNER_PRIZE_ROOM": {
+    "1": {
+      "text": [
+        "I sure do fancy\nthat PORYGON!",
+        "But, it's hard to\nwin at slots!"
+      ]
+    },
+    "2": {
+      "text": [
+        "I had a major\nhaul today!"
+      ]
+    }
+  },
+  "HALL_OF_FAME": {
+    "1": {
+      "text": [
+        "OAK: Er-hem!\nCongratulations\n<PLAYER>!",
+        "This floor is the\nPOKéMON HALL OF\nFAME!",
+        "POKéMON LEAGUE\nchampions are\nhonored for their\nexploits here!",
+        "Their POKéMON are\nalso recorded in\nthe HALL OF FAME!",
+        "<PLAYER>! You have\nendeavored hard\nto become the new\nLEAGUE champion!",
+        "Congratulations,\n<PLAYER>, you and\nyour POKéMON are\nHALL OF FAMERs!"
+      ]
+    }
+  },
+  "INDIGO_PLATEAU_LOBBY": {
+    "1": {
+      "scripted": true,
+      "label": "IndigoPlateauLobbyNurseText"
+    },
+    "2": {
+      "text": [
+        "Yo! Champ in\nmaking!",
+        "At POKéMON LEAGUE,\nyou have to face\nthe ELITE FOUR in\nsuccession.",
+        "If you lose, you\nhave to start all\nover again! This\nis it! Go for it!"
+      ]
+    },
+    "3": {
+      "text": [
+        "From here on, you\nface the ELITE\nFOUR one by one!",
+        "If you win, a\ndoor opens to the\nnext trainer!\nGood luck!"
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "IndigoPlateauLobbyClerkText"
+    },
+    "5": {
+      "scripted": true,
+      "label": "IndigoPlateauLobbyLinkReceptionistText"
+    }
+  },
+  "LANCES_ROOM": {
+    "1": {
+      "scripted": true,
+      "label": "LancesRoomLanceText"
+    }
+  },
+  "LAVENDER_CUBONE_HOUSE": {
+    "1": {
+      "text": [
+        "CUBONE: Kyarugoo!"
+      ]
+    },
+    "2": {
+      "text": [
+        "I hate those\nhorrible ROCKETs!",
+        "That poor CUBONE's\nmother...",
+        "It was killed\ntrying to escape\nfrom TEAM ROCKET!"
+      ]
+    }
+  },
+  "LAVENDER_MART": {
+    "1": {
+      "scripted": true,
+      "label": "LavenderMartClerkText"
+    },
+    "2": {
+      "text": [
+        "I'm searching for\nitems that raise\nthe abilities of\nPOKéMON during a\nsingle battle.",
+        "X ATTACK, X\nDEFEND, X SPEED\nand X SPECIAL are\nwhat I'm after.",
+        "Do you know where\nI can get them?"
+      ]
+    },
+    "3": {
+      "text": [
+        "You know REVIVE?\nIt revives any\nfainted POKéMON!"
+      ]
+    }
+  },
+  "LAVENDER_POKECENTER": {
+    "1": {
+      "scripted": true,
+      "label": "LavenderPokecenterNurseText"
+    },
+    "2": {
+      "text": [
+        "TEAM ROCKET will\ndo anything for\nthe sake of gold!"
+      ]
+    },
+    "3": {
+      "text": [
+        "I saw CUBONE's\nmother die trying\nto escape from\nTEAM ROCKET!"
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "LavenderPokecenterLinkReceptionistText"
+    }
+  },
+  "LAVENDER_TOWN": {
+    "1": {
+      "text": [
+        "Do you believe in\nGHOSTs?"
+      ]
+    },
+    "2": {
+      "text": [
+        "This town is known\nas the grave site\nof POKéMON.",
+        "Memorial services\nare held in\nPOKéMON TOWER."
+      ]
+    },
+    "3": {
+      "text": [
+        "GHOSTs appeared\nin POKéMON TOWER.",
+        "I think they're\nthe spirits of\nPOKéMON that the\nROCKETs killed."
+      ]
+    }
+  },
+  "LORELEIS_ROOM": {
+    "1": {
+      "scripted": true,
+      "label": "LoreleisRoomLoreleiText"
+    }
+  },
+  "MR_FUJIS_HOUSE": {
+    "1": {
+      "text": [
+        "That's odd, MR.FUJI\nisn't here.\nWhere'd he go?"
+      ]
+    },
+    "2": {
+      "text": [
+        "This is really\nMR.FUJI's house.",
+        "He's really kind!",
+        "He looks after\nabandoned and\norphaned POKéMON!"
+      ]
+    },
+    "3": {
+      "text": [
+        "PSYDUCK: Gwappa!"
+      ]
+    },
+    "4": {
+      "text": [
+        "NIDORINO: Gaoo!"
+      ]
+    },
+    "5": {
+      "text": [
+        "MR.FUJI: <PLAYER>.",
+        "Your POKéDEX quest\nmay fail without\nlove for your\nPOKéMON.",
+        "I think this may\nhelp your quest."
+      ]
+    },
+    "6": {
+      "text": [
+        "POKéMON Monthly\nGrand Prize\nDrawing!",
+        "The application\nform is...",
+        "Gone! It's been\nclipped out!"
+      ]
+    }
+  },
+  "MR_PSYCHICS_HOUSE": {
+    "1": {
+      "text": [
+        "...Wait! Don't\nsay a word!",
+        "You wanted this!"
+      ]
+    }
+  },
+  "MT_MOON_1F": {
+    "1": {
+      "scripted": true,
+      "label": "MtMoon1FHikerText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "MtMoon1FYoungster1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "MtMoon1FCooltrainerF1Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "MtMoon1FSuperNerdText"
+    },
+    "5": {
+      "scripted": true,
+      "label": "MtMoon1FCooltrainerF2Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "MtMoon1FYoungster2Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "MtMoon1FYoungster3Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "9": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "10": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "11": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "12": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "13": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "MT_MOON_B2F": {
+    "1": {
+      "scripted": true,
+      "label": "MtMoonB2FSuperNerdText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "MtMoonB2FRocket1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "MtMoonB2FRocket2Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "MtMoonB2FRocket3Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "MtMoonB2FRocket4Text"
+    },
+    "6": {
+      "text": [
+        "You want the\nDOME FOSSIL?"
+      ]
+    },
+    "7": {
+      "text": [
+        "You want the\nHELIX FOSSIL?"
+      ]
+    },
+    "8": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "9": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "MT_MOON_POKECENTER": {
+    "1": {
+      "scripted": true,
+      "label": "MtMoonPokecenterNurseText"
+    },
+    "2": {
+      "text": [
+        "I've 6 POKé BALLs\nset in my belt.",
+        "At most, you can\ncarry 6 POKéMON."
+      ]
+    },
+    "3": {
+      "text": [
+        "TEAM ROCKET\nattacks CERULEAN\ncitizens...",
+        "TEAM ROCKET is\nalways in the\nnews!"
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "MtMoonPokecenterMagikarpSalesmanText"
+    },
+    "5": {
+      "text": []
+    },
+    "6": {
+      "scripted": true,
+      "label": "MtMoonPokecenterLinkReceptionistText"
+    }
+  },
+  "MUSEUM_1F": {
+    "1": {
+      "scripted": true,
+      "label": "Museum1FScientist1Text"
+    },
+    "2": {
+      "text": [
+        "That is one\nmagnificent\nfossil!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Ssh! I think that\nthis chunk of\nAMBER contains\nPOKéMON DNA!",
+        "It would be great\nif POKéMON could\nbe resurrected\nfrom it!",
+        "But, my colleagues\njust ignore me!",
+        "So I have a favor\nto ask!",
+        "Take this to a\nPOKéMON LAB and\nget it examined!"
+      ]
+    },
+    "4": {
+      "text": [
+        "We are proud of 2\nfossils of very\nrare, prehistoric\nPOKéMON!"
+      ]
+    },
+    "5": {
+      "text": [
+        "The AMBER is\nclear and gold!"
+      ]
+    }
+  },
+  "MUSEUM_2F": {
+    "1": {
+      "text": [
+        "MOON STONE?",
+        "What's so special\nabout it?"
+      ]
+    },
+    "2": {
+      "text": [
+        "July 20, 1969!",
+        "The 1st lunar\nlanding!",
+        "I bought a color\nTV to watch it!"
+      ]
+    },
+    "3": {
+      "text": [
+        "We have a space\nexhibit now."
+      ]
+    },
+    "4": {
+      "text": [
+        "I want a PIKACHU!\nIt's so cute!",
+        "I asked my Daddy\nto catch me one!"
+      ]
+    },
+    "5": {
+      "text": [
+        "Yeah, a PIKACHU\nsoon, I promise!"
+      ]
+    }
+  },
+  "NAME_RATERS_HOUSE": {
+    "1": {
+      "text": [
+        "Hello, hello!\nI am the official\nNAME RATER!",
+        "Want me to rate\nthe nicknames of\nyour POKéMON?"
+      ]
+    }
+  },
+  "OAKS_LAB": {
+    "1": {
+      "text": [
+        "<RIVAL>: Yo\n<PLAYER>! Gramps\nisn't around!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "OaksLabCharmanderPokeBallText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "OaksLabSquirtlePokeBallText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "OaksLabBulbasaurPokeBallText"
+    },
+    "5": {
+      "scripted": true,
+      "label": "OaksLabOak1Text"
+    },
+    "6": {
+      "text": [
+        "It's encyclopedia-\nlike, but the\npages are blank!"
+      ]
+    },
+    "7": {
+      "text": [
+        "It's encyclopedia-\nlike, but the\npages are blank!"
+      ]
+    },
+    "8": {
+      "text": [
+        "?"
+      ]
+    },
+    "9": {
+      "text": [
+        "PROF.OAK is the\nauthority on\nPOKéMON!",
+        "Many POKéMON\ntrainers hold him\nin high regard!"
+      ]
+    },
+    "10": {
+      "text": [
+        "I study POKéMON as\nPROF.OAK's AIDE."
+      ]
+    },
+    "11": {
+      "text": [
+        "I study POKéMON as\nPROF.OAK's AIDE."
+      ]
+    }
+  },
+  "PALLET_TOWN": {
+    "1": {
+      "text": [
+        "OAK: Hey! Wait!\nDon't go out!@"
+      ]
+    },
+    "2": {
+      "text": [
+        "I'm raising\nPOKéMON too!",
+        "When they get\nstrong, they can\nprotect me!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Technology is\nincredible!",
+        "You can now store\nand recall items\nand POKéMON as\ndata via PC!"
+      ]
+    }
+  },
+  "PEWTER_CITY": {
+    "1": {
+      "text": [
+        "It's rumored that\nCLEFAIRYs came\nfrom the moon!",
+        "They appeared \nafter MOON STONE\nfell on MT.MOON."
+      ]
+    },
+    "2": {
+      "text": [
+        "There aren't many\nserious POKéMON\ntrainers here!",
+        "They're all like\nBUG CATCHERs,\nbut PEWTER GYM's\nBROCK is totally\ninto it!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Did you check out\nthe MUSEUM?"
+      ]
+    },
+    "4": {
+      "text": [
+        "Psssst!\nDo you know what\nI'm doing?"
+      ]
+    },
+    "5": {
+      "text": [
+        "You're a trainer\nright? BROCK's\nlooking for new\nchallengers!\nFollow me!"
+      ]
+    }
+  },
+  "PEWTER_GYM": {
+    "1": {
+      "text": [
+        "I'm BROCK!\nI'm PEWTER's GYM\nLEADER!",
+        "I believe in rock\nhard defense and\ndetermination!",
+        "That's why my\nPOKéMON are all\nthe rock-type!",
+        "Do you still want\nto challenge me?\nFine then! Show\nme your best!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "PewterGymCooltrainerMText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PewterGymGuideText"
+    }
+  },
+  "PEWTER_MART": {
+    "1": {
+      "scripted": true,
+      "label": "PewterMartClerkText"
+    },
+    "2": {
+      "text": [
+        "A shady, old man\ngot me to buy\nthis really weird\nfish POKéMON!",
+        "It's totally weak\nand it cost ¥500!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Good things can\nhappen if you\nraise POKéMON\ndiligently, even\nthe weak ones!"
+      ]
+    }
+  },
+  "PEWTER_NIDORAN_HOUSE": {
+    "1": {
+      "text": [
+        "NIDORAN: Bowbow!"
+      ]
+    },
+    "2": {
+      "text": [
+        "NIDORAN sit!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Our POKéMON's an\noutsider, so it's\nhard to handle.",
+        "An outsider is a\nPOKéMON that you\nget in a trade.",
+        "It grows fast, but\nit may ignore an\nunskilled trainer\nin battle!",
+        "If only we had\nsome BADGEs..."
+      ]
+    }
+  },
+  "PEWTER_POKECENTER": {
+    "1": {
+      "scripted": true,
+      "label": "PewterPokecenterNurseText"
+    },
+    "2": {
+      "text": [
+        "What!?",
+        "TEAM ROCKET is\nat MT.MOON? Huh?\nI'm on the phone!",
+        "Scram!"
+      ]
+    },
+    "3": {
+      "scripted": true,
+      "label": "PewterPokecenterJigglypuffText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PewterPokecenterLinkReceptionistText"
+    }
+  },
+  "PEWTER_SPEECH_HOUSE": {
+    "1": {
+      "text": [
+        "POKéMON learn new\ntechniques as\nthey grow!",
+        "But, some moves\nmust be taught by\nthe trainer!"
+      ]
+    },
+    "2": {
+      "text": [
+        "POKéMON become\neasier to catch\nwhen they are\nhurt or asleep!",
+        "But, it's not a\nsure thing!"
+      ]
+    }
+  },
+  "POKEMON_FAN_CLUB": {
+    "1": {
+      "text": [
+        "Won't you admire\nmy PIKACHU's\nadorable tail?"
+      ]
+    },
+    "2": {
+      "text": [
+        "I just love my\nSEEL!",
+        "It squeals when I\nhug it!"
+      ]
+    },
+    "3": {
+      "text": [
+        "PIKACHU: Chu!\nPikachu!"
+      ]
+    },
+    "4": {
+      "text": [
+        "SEEL: Kyuoo!"
+      ]
+    },
+    "5": {
+      "text": [
+        "I chair the\nPOKéMON Fan Club!",
+        "I have collected\nover 100 POKéMON!",
+        "I'm very fussy\nwhen it comes to\nPOKéMON!",
+        "So...",
+        "Did you come\nvisit to hear\nabout my POKéMON?"
+      ]
+    },
+    "6": {
+      "text": [
+        "Our Chairman is\nvery vocal about\nPOKéMON."
+      ]
+    }
+  },
+  "POKEMON_MANSION_1F": {
+    "1": {
+      "scripted": true,
+      "label": "PokemonMansion1FScientistText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "POKEMON_MANSION_2F": {
+    "1": {
+      "scripted": true,
+      "label": "PokemonMansion2FSuperNerdText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "3": {
+      "text": [
+        "Diary: July 5\nGuyana,\nSouth America",
+        "A new POKéMON was\ndiscovered deep\nin the jungle."
+      ]
+    },
+    "4": {
+      "text": [
+        "Diary: July 10\nWe christened the\nnewly discovered\nPOKéMON, MEW."
+      ]
+    }
+  },
+  "POKEMON_MANSION_3F": {
+    "1": {
+      "scripted": true,
+      "label": "PokemonMansion3FSuperNerdText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PokemonMansion3FScientistText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "5": {
+      "text": [
+        "Diary: Feb. 6\nMEW gave birth.",
+        "We named the\nnewborn MEWTWO."
+      ]
+    }
+  },
+  "POKEMON_MANSION_B1F": {
+    "1": {
+      "scripted": true,
+      "label": "PokemonMansionB1FBurglarText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PokemonMansionB1FScientistText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "5": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "6": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "7": {
+      "text": [
+        "Diary; Sept. 1\nMEWTWO is far too\npowerful.",
+        "We have failed to\ncurb its vicious\ntendencies..."
+      ]
+    },
+    "8": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "POKEMON_TOWER_1F": {
+    "1": {
+      "text": [
+        "POKéMON TOWER was\nerected in the\nmemory of POKéMON\nthat had died."
+      ]
+    },
+    "2": {
+      "text": [
+        "Did you come to\npay respects?\nBless you!"
+      ]
+    },
+    "3": {
+      "text": [
+        "I came to pray\nfor my CLEFAIRY.",
+        "Sniff! I can't\nstop crying..."
+      ]
+    },
+    "4": {
+      "text": [
+        "My GROWLITHE...\nWhy did you die?"
+      ]
+    },
+    "5": {
+      "text": [
+        "I am a CHANNELER!\nThere are spirits\nup to mischief!"
+      ]
+    }
+  },
+  "POKEMON_TOWER_2F": {
+    "1": {
+      "text": [
+        "<RIVAL>: Hey,\n<PLAYER>! What\nbrings you here?\nYour POKéMON\ndon't look dead!",
+        "I can at least\nmake them faint!\nLet's go, pal!"
+      ]
+    },
+    "2": {
+      "text": [
+        "Even we could not\nidentify the\nwayward GHOSTs!",
+        "A SILPH SCOPE\nmight be able to\nunmask them."
+      ]
+    }
+  },
+  "POKEMON_TOWER_3F": {
+    "1": {
+      "scripted": true,
+      "label": "PokemonTower3FChanneler1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PokemonTower3FChanneler2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PokemonTower3FChanneler3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "POKEMON_TOWER_4F": {
+    "1": {
+      "scripted": true,
+      "label": "PokemonTower4FChanneler1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PokemonTower4FChanneler2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PokemonTower4FChanneler3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "5": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "6": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "POKEMON_TOWER_5F": {
+    "1": {
+      "text": [
+        "Come, child! I\nsealed this space\nwith white magic!",
+        "You can rest here!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "PokemonTower5FChanneler2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PokemonTower5FChanneler3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PokemonTower5FChanneler4Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "PokemonTower5FChanneler5Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "POKEMON_TOWER_6F": {
+    "1": {
+      "scripted": true,
+      "label": "PokemonTower6FChanneler1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PokemonTower6FChanneler2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PokemonTower6FChanneler3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "5": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "POKEMON_TOWER_7F": {
+    "1": {
+      "scripted": true,
+      "label": "PokemonTower7FRocket1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PokemonTower7FRocket2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PokemonTower7FRocket3Text"
+    },
+    "4": {
+      "text": [
+        "MR.FUJI: Heh? You\ncame to save me?",
+        "Thank you. But, I\ncame here of my\nown free will.",
+        "I came to calm\nthe soul of\nCUBONE's mother.",
+        "I think MAROWAK's\nspirit has gone\nto the afterlife.",
+        "I must thank you\nfor your kind\nconcern!",
+        "Follow me to my\nhome, POKéMON\nHOUSE at the foot\nof this tower."
+      ]
+    }
+  },
+  "POWER_PLANT": {
+    "1": {
+      "scripted": true,
+      "label": "PowerPlantVoltorb1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PowerPlantVoltorb2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PowerPlantVoltorb3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PowerPlantElectrode1Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "PowerPlantVoltorb4Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "PowerPlantVoltorb5Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "PowerPlantElectrode2Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "PowerPlantVoltorb6Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "PowerPlantZapdosText"
+    },
+    "10": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "11": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "12": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "13": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "14": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "REDS_HOUSE_1F": {
+    "1": {
+      "text": [
+        "MOM: Right.\nAll boys leave\nhome some day.\nIt said so on TV.",
+        "PROF.OAK, next\ndoor, is looking\nfor you."
+      ]
+    }
+  },
+  "ROCKET_HIDEOUT_B1F": {
+    "1": {
+      "scripted": true,
+      "label": "RocketHideoutB1FRocket1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "RocketHideoutB1FRocket2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "RocketHideoutB1FRocket3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "RocketHideoutB1FRocket4Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "RocketHideoutB1FRocket5Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "7": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "ROCKET_HIDEOUT_B2F": {
+    "1": {
+      "scripted": true,
+      "label": "RocketHideoutB2FRocketText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "5": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "ROCKET_HIDEOUT_B3F": {
+    "1": {
+      "scripted": true,
+      "label": "RocketHideoutB3FRocket1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "RocketHideoutB3FRocket2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "ROCKET_HIDEOUT_B4F": {
+    "1": {
+      "text": [
+        "So! I must say, I\nam impressed you\ngot here!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "RocketHideoutB4FRocket1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "RocketHideoutB4FRocket2Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "RocketHideoutB4FRocket3Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "6": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "7": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "8": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "9": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "ROCK_TUNNEL_1F": {
+    "1": {
+      "scripted": true,
+      "label": "RockTunnel1FHiker1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "RockTunnel1FHiker2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "RockTunnel1FHiker3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "RockTunnel1FSuperNerdText"
+    },
+    "5": {
+      "scripted": true,
+      "label": "RockTunnel1FCooltrainerF1Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "RockTunnel1FCooltrainerF2Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "RockTunnel1FCooltrainerF3Text"
+    }
+  },
+  "ROCK_TUNNEL_B1F": {
+    "1": {
+      "scripted": true,
+      "label": "RockTunnelB1FCooltrainerF1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "RockTunnelB1FHiker1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "RockTunnelB1FSuperNerd1Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "RockTunnelB1FSuperNerd2Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "RockTunnelB1FHiker2Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "RockTunnelB1FCooltrainerF2Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "RockTunnelB1FHiker3Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "RockTunnelB1FSuperNerd3Text"
+    }
+  },
+  "ROCK_TUNNEL_POKECENTER": {
+    "1": {
+      "scripted": true,
+      "label": "RockTunnelPokecenterNurseText"
+    },
+    "2": {
+      "text": [
+        "The element types\nof POKéMON make\nthem stronger\nthan some types\nand weaker than\nothers!"
+      ]
+    },
+    "3": {
+      "text": [
+        "I sold a useless\nNUGGET for ¥5000!"
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "RockTunnelPokecenterLinkReceptionistText"
+    }
+  },
+  "ROUTE_1": {
+    "1": {
+      "text": [
+        "Hi! I work at a\nPOKéMON MART.",
+        "It's a convenient\nshop, so please\nvisit us in\nVIRIDIAN CITY.",
+        "I know, I'll give\nyou a sample!\nHere you go!"
+      ]
+    },
+    "2": {
+      "text": [
+        "See those ledges\nalong the road?",
+        "It's a bit scary,\nbut you can jump\nfrom them.",
+        "You can get back\nto PALLET TOWN\nquicker that way."
+      ]
+    }
+  },
+  "ROUTE_10": {
+    "1": {
+      "scripted": true,
+      "label": "Route10SuperNerd1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route10Hiker1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route10SuperNerd2Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route10CooltrainerF1Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route10Hiker2Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route10CooltrainerF2Text"
+    }
+  },
+  "ROUTE_11": {
+    "1": {
+      "scripted": true,
+      "label": "Route11Gambler1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route11Gambler2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route11Youngster1Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route11SuperNerd1Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route11Youngster2Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route11Gambler3Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route11Gambler4Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "Route11Youngster3Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "Route11SuperNerd2Text"
+    },
+    "10": {
+      "scripted": true,
+      "label": "Route11Youngster4Text"
+    }
+  },
+  "ROUTE_11_GATE_1F": {
+    "1": {
+      "text": [
+        "When you catch\nlots of POKéMON,\nisn't it hard to\nthink up names?",
+        "In LAVENDER TOWN,\nthere's a man who\nrates POKéMON\nnicknames.",
+        "He'll help you\nrename them too!"
+      ]
+    }
+  },
+  "ROUTE_11_GATE_2F": {
+    "1": {
+      "scripted": true,
+      "label": "Route11Gate2FYoungsterText"
+    },
+    "2": {
+      "text": [
+        "There are items on\nthe ground that\ncan't be seen.",
+        "ITEMFINDER will\ndetect an item\nclose to you.",
+        "It can't pinpoint\nit, so you have\nto look yourself!"
+      ]
+    }
+  },
+  "ROUTE_12": {
+    "1": {
+      "text": [
+        "A sleeping POKéMON\nblocks the way!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route12Fisher1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route12Fisher2Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route12CooltrainerMText"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route12SuperNerdText"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route12Fisher3Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route12Fisher4Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "Route12Fisher5Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "10": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "ROUTE_12_GATE_1F": {
+    "1": {
+      "text": [
+        "There's a lookout\nspot upstairs."
+      ]
+    }
+  },
+  "ROUTE_12_GATE_2F": {
+    "1": {
+      "text": [
+        "My POKéMON's\nashes are stored\nin POKéMON TOWER.",
+        "You can have this\nTM. I don't need\nit any more..."
+      ]
+    }
+  },
+  "ROUTE_12_SUPER_ROD_HOUSE": {
+    "1": {
+      "text": [
+        "I'm the FISHING\nGURU's brother!",
+        "I simply Looove\nfishing!",
+        "Do you like to\nfish?"
+      ]
+    }
+  },
+  "ROUTE_13": {
+    "1": {
+      "scripted": true,
+      "label": "Route13CooltrainerM1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route13CooltrainerF1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route13CooltrainerF2Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route13CooltrainerF3Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route13CooltrainerF4Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route13CooltrainerM2Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route13Beauty1Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "Route13Beauty2Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "Route13BikerText"
+    },
+    "10": {
+      "scripted": true,
+      "label": "Route13CooltrainerM3Text"
+    }
+  },
+  "ROUTE_14": {
+    "1": {
+      "scripted": true,
+      "label": "Route14CooltrainerM1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route14CooltrainerM2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route14CooltrainerM3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route14CooltrainerM4Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route14CooltrainerM5Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route14CooltrainerM6Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route14Biker1Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "Route14Biker2Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "Route14Biker3Text"
+    },
+    "10": {
+      "scripted": true,
+      "label": "Route14Biker4Text"
+    }
+  },
+  "ROUTE_15": {
+    "1": {
+      "scripted": true,
+      "label": "Route15CooltrainerF1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route15CooltrainerF2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route15CooltrainerM1Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route15CooltrainerM2Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route15Beauty1Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route15Beauty2Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route15Biker1Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "Route15Biker2Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "Route15CooltrainerF3Text"
+    },
+    "10": {
+      "scripted": true,
+      "label": "Route15CooltrainerF4Text"
+    },
+    "11": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "ROUTE_15_GATE_1F": {
+    "1": {
+      "text": [
+        "Are you working\non a POKéDEX?",
+        "PROF.OAK's AIDE\ncame by here."
+      ]
+    }
+  },
+  "ROUTE_15_GATE_2F": {
+    "1": {
+      "text": [
+        "EXP.ALL gives\nEXP points to all\nthe POKéMON with\nyou, even if they\ndon't fight.",
+        "It does, however,\nreduce the amount\nof EXP for each\nPOKéMON.",
+        "If you don't need\nit, you should \nstore it via PC."
+      ]
+    }
+  },
+  "ROUTE_16": {
+    "1": {
+      "scripted": true,
+      "label": "Route16Biker1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route16Biker2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route16Biker3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route16Biker4Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route16Biker5Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route16Biker6Text"
+    },
+    "7": {
+      "text": [
+        "A sleeping POKéMON\nblocks the way!"
+      ]
+    }
+  },
+  "ROUTE_16_FLY_HOUSE": {
+    "1": {
+      "text": [
+        "Oh, you found my\nsecret retreat!",
+        "Please don't tell\nanyone I'm here.\nI'll make it up\nto you with this!"
+      ]
+    },
+    "2": {
+      "text": [
+        "FEAROW: Kyueen!"
+      ]
+    }
+  },
+  "ROUTE_16_GATE_1F": {
+    "1": {
+      "text": [
+        "No pedestrians\nare allowed on\nCYCLING ROAD!"
+      ]
+    },
+    "2": {
+      "text": [
+        "How'd you get in?\nGood effort!"
+      ]
+    }
+  },
+  "ROUTE_16_GATE_2F": {
+    "1": {
+      "text": [
+        "I'm going for a\nride with my girl\nfriend!"
+      ]
+    },
+    "2": {
+      "text": [
+        "We're going\nriding together!"
+      ]
+    }
+  },
+  "ROUTE_17": {
+    "1": {
+      "scripted": true,
+      "label": "Route17Biker1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route17Biker2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route17Biker3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route17Biker4Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route17Biker5Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route17Biker6Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route17Biker7Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "Route17Biker8Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "Route17Biker9Text"
+    },
+    "10": {
+      "scripted": true,
+      "label": "Route17Biker10Text"
+    }
+  },
+  "ROUTE_18": {
+    "1": {
+      "scripted": true,
+      "label": "Route18CooltrainerM1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route18CooltrainerM2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route18CooltrainerM3Text"
+    }
+  },
+  "ROUTE_18_GATE_1F": {
+    "1": {
+      "text": [
+        "You need a BICYCLE\nfor CYCLING ROAD!"
+      ]
+    }
+  },
+  "ROUTE_18_GATE_2F": {
+    "1": {
+      "scripted": true,
+      "label": "Route18Gate2FYoungsterText"
+    }
+  },
+  "ROUTE_19": {
+    "1": {
+      "scripted": true,
+      "label": "Route19CooltrainerM1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route19CooltrainerM2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route19Swimmer1Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route19Swimmer2Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route19Swimmer3Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route19Swimmer4Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route19Swimmer5Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "Route19Swimmer6Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "Route19Swimmer7Text"
+    },
+    "10": {
+      "scripted": true,
+      "label": "Route19Swimmer8Text"
+    }
+  },
+  "ROUTE_2": {
+    "1": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "ROUTE_20": {
+    "1": {
+      "scripted": true,
+      "label": "Route20Swimmer1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route20Swimmer2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route20Swimmer3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route20Swimmer4Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route20Swimmer5Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route20Swimmer6Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route20CooltrainerMText"
+    },
+    "8": {
+      "scripted": true,
+      "label": "Route20Swimmer7Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "Route20Swimmer8Text"
+    },
+    "10": {
+      "scripted": true,
+      "label": "Route20Swimmer9Text"
+    }
+  },
+  "ROUTE_21": {
+    "1": {
+      "scripted": true,
+      "label": "Route21Fisher1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route21Fisher2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route21Swimmer1Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route21Swimmer2Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route21Swimmer3Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route21Swimmer4Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route21Swimmer5Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "Route21Fisher3Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "Route21Fisher4Text"
+    }
+  },
+  "ROUTE_22": {
+    "1": {
+      "scripted": true,
+      "label": "Route22Rival1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route22Rival2Text"
+    }
+  },
+  "ROUTE_22_GATE": {
+    "1": {
+      "scripted": true,
+      "label": "Route22GateGuardText"
+    }
+  },
+  "ROUTE_23": {
+    "1": {
+      "scripted": true,
+      "label": "Route23Guard1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route23Guard2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route23Swimmer1Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route23Swimmer2Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route23Guard3Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route23Guard4Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route23Guard5Text"
+    }
+  },
+  "ROUTE_24": {
+    "1": {
+      "text": [
+        "Congratulations!\nYou beat our 5\ncontest trainers!@"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route24CooltrainerM2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route24CooltrainerM3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route24CooltrainerF1Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route24Youngster1Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route24CooltrainerF2Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route24Youngster2Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "ROUTE_25": {
+    "1": {
+      "scripted": true,
+      "label": "Route25Youngster1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route25Youngster2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route25CooltrainerMText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route25CooltrainerF1Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route25Youngster3Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route25CooltrainerF2Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route25Hiker1Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "Route25Hiker2Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "Route25Hiker3Text"
+    },
+    "10": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "ROUTE_2_GATE": {
+    "1": {
+      "text": [
+        "The HM FLASH\nlights even the\ndarkest dungeons."
+      ]
+    },
+    "2": {
+      "text": [
+        "Once a POKéMON\nlearns FLASH, you\ncan get through\nROCK TUNNEL."
+      ]
+    }
+  },
+  "ROUTE_2_TRADE_HOUSE": {
+    "1": {
+      "text": [
+        "A fainted POKéMON\ncan't fight. But, \nit can still use \nmoves like CUT!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route2TradeHouseGameboyKidText"
+    }
+  },
+  "ROUTE_3": {
+    "1": {
+      "text": [
+        "Whew... I better\ntake a rest...\nGroan...",
+        "That tunnel from\nCERULEAN takes a\nlot out of you!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route3Youngster1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route3Youngster2Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route3CooltrainerF1Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route3Youngster3Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route3CooltrainerF2Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route3Youngster4Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "Route3Youngster5Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "Route3CooltrainerF3Text"
+    }
+  },
+  "ROUTE_4": {
+    "1": {
+      "text": [
+        "Ouch! I tripped\nover a rocky\nPOKéMON, GEODUDE!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route4CooltrainerF2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "ROUTE_5_GATE": {
+    "1": {
+      "scripted": true,
+      "label": "SaffronGateGuardText"
+    }
+  },
+  "ROUTE_6": {
+    "1": {
+      "scripted": true,
+      "label": "Route6CooltrainerM1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route6CooltrainerF1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route6Youngster1Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route6CooltrainerM2Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route6CooltrainerF2Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route6Youngster2Text"
+    }
+  },
+  "ROUTE_6_GATE": {
+    "1": {
+      "scripted": true,
+      "label": "SaffronGateGuardText"
+    }
+  },
+  "ROUTE_7_GATE": {
+    "1": {
+      "scripted": true,
+      "label": "SaffronGateGuardText"
+    }
+  },
+  "ROUTE_8": {
+    "1": {
+      "scripted": true,
+      "label": "Route8SuperNerd1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route8Gambler1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route8SuperNerd2Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route8CooltrainerF1Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route8SuperNerd3Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route8CooltrainerF2Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route8CooltrainerF3Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "Route8Gambler2Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "Route8CooltrainerF4Text"
+    }
+  },
+  "ROUTE_8_GATE": {
+    "1": {
+      "scripted": true,
+      "label": "SaffronGateGuardText"
+    }
+  },
+  "ROUTE_9": {
+    "1": {
+      "scripted": true,
+      "label": "Route9CooltrainerF1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "Route9CooltrainerM1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "Route9CooltrainerM2Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "Route9CooltrainerF2Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "Route9Hiker1Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "Route9Hiker2Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "Route9Youngster1Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "Route9Hiker3Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "Route9Youngster2Text"
+    },
+    "10": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "SAFARI_ZONE_CENTER": {
+    "1": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "SAFARI_ZONE_CENTER_REST_HOUSE": {
+    "1": {
+      "text": [
+        "SARA: Where did\nmy boy friend,\nERIK, go?"
+      ]
+    },
+    "2": {
+      "text": [
+        "I'm catching\nPOKéMON to take\nhome as gifts!"
+      ]
+    }
+  },
+  "SAFARI_ZONE_EAST": {
+    "1": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "SAFARI_ZONE_EAST_REST_HOUSE": {
+    "1": {
+      "text": [
+        "How many did you\ncatch? I'm bushed\nfrom the work!"
+      ]
+    },
+    "2": {
+      "text": [
+        "I caught a\nCHANSEY!",
+        "That makes this\nall worthwhile!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Whew! I'm tired\nfrom all the fun!"
+      ]
+    }
+  },
+  "SAFARI_ZONE_GATE": {
+    "1": {
+      "text": [
+        "Welcome to the\nSAFARI ZONE!"
+      ]
+    },
+    "2": {
+      "text": [
+        "Hi! Is it your\nfirst time here?"
+      ]
+    }
+  },
+  "SAFARI_ZONE_NORTH": {
+    "1": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "SAFARI_ZONE_NORTH_REST_HOUSE": {
+    "1": {
+      "text": [
+        "You can keep any\nitem you find on\nthe ground here.",
+        "But, you'll run\nout of time if\nyou try for all\nof them at once!"
+      ]
+    },
+    "2": {
+      "text": [
+        "Go to the deepest\npart of the\nSAFARI ZONE. You\nwill win a prize!"
+      ]
+    },
+    "3": {
+      "text": [
+        "My EEVEE evolved\ninto FLAREON!",
+        "But, a friend's\nEEVEE turned into\na VAPOREON!\nI wonder why?"
+      ]
+    }
+  },
+  "SAFARI_ZONE_SECRET_HOUSE": {
+    "1": {
+      "text": [
+        "Ah! Finally!",
+        "You're the first\nperson to reach\nthe SECRET HOUSE!",
+        "I was getting\nworried that no\none would win our\ncampaign prize.",
+        "Congratulations!\nYou have won!"
+      ]
+    }
+  },
+  "SAFARI_ZONE_WEST": {
+    "1": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "SAFARI_ZONE_WEST_REST_HOUSE": {
+    "1": {
+      "text": [
+        "Tossing ROCKs at\nPOKéMON might\nmake them run,\nbut they'll be\neasier to catch."
+      ]
+    },
+    "2": {
+      "text": [
+        "Using BAIT will\nmake POKéMON\neasier to catch."
+      ]
+    },
+    "3": {
+      "text": [
+        "I hiked a lot, but\nI didn't see any\nPOKéMON I wanted."
+      ]
+    }
+  },
+  "SAFFRON_CITY": {
+    "1": {
+      "text": [
+        "What do you want?\nGet lost!"
+      ]
+    },
+    "2": {
+      "text": [
+        "BOSS said he'll\ntake this town!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Get out of the\nway!"
+      ]
+    },
+    "4": {
+      "text": [
+        "SAFFRON belongs\nto TEAM ROCKET!"
+      ]
+    },
+    "5": {
+      "text": [
+        "Being evil makes\nme feel so alive!"
+      ]
+    },
+    "6": {
+      "text": [
+        "Ow! Watch where\nyou're walking!"
+      ]
+    },
+    "7": {
+      "text": [
+        "With SILPH under\ncontrol, we can\nexploit POKéMON\naround the world!"
+      ]
+    },
+    "8": {
+      "text": [
+        "You beat TEAM\nROCKET all alone?\nThat's amazing!"
+      ]
+    },
+    "9": {
+      "text": [
+        "Yeah! TEAM ROCKET\nis gone!\nIt's safe to go\nout again!"
+      ]
+    },
+    "10": {
+      "text": [
+        "People should be\nflocking back to\nSAFFRON now."
+      ]
+    },
+    "11": {
+      "text": [
+        "I flew here on my\nPIDGEOT when I\nread about SILPH.",
+        "It's already over?\nI missed the\nmedia action."
+      ]
+    },
+    "12": {
+      "text": [
+        "PIDGEOT: Bi bibii!"
+      ]
+    },
+    "13": {
+      "text": [
+        "I saw ROCKET\nBOSS escaping\nSILPH's building."
+      ]
+    },
+    "14": {
+      "text": [
+        "I'm a security\nguard.",
+        "Suspicious kids I\ndon't allow in!"
+      ]
+    },
+    "15": {
+      "text": [
+        "...\nSnore...",
+        "Hah! He's taking\na snooze!"
+      ]
+    }
+  },
+  "SAFFRON_GYM": {
+    "1": {
+      "text": [
+        "I had a vision of\nyour arrival!",
+        "I have had psychic\npowers since I\nwas a child.",
+        "I first learned\nto bend spoons\nwith my mind.",
+        "I dislike fight-\ning, but if you\nwish, I will show\nyou my powers!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "SaffronGymChanneler1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "SaffronGymYoungster1Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "SaffronGymChanneler2Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "SaffronGymYoungster2Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "SaffronGymChanneler3Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "SaffronGymYoungster3Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "SaffronGymYoungster4Text"
+    },
+    "9": {
+      "text": [
+        "Yo! Champ in\nmaking!",
+        "SABRINA's POKéMON\nuse psychic power\ninstead of force!",
+        "Fighting POKéMON\nare weak against\npsychic POKéMON!",
+        "They get creamed\nbefore they can\neven aim a punch!"
+      ]
+    }
+  },
+  "SAFFRON_MART": {
+    "1": {
+      "scripted": true,
+      "label": "SaffronMartClerkText"
+    },
+    "2": {
+      "text": [
+        "MAX REPEL lasts\nlonger than SUPER\nREPEL for keeping\nweaker POKéMON\naway!"
+      ]
+    },
+    "3": {
+      "text": [
+        "REVIVE is costly,\nbut it revives\nfainted POKéMON!"
+      ]
+    }
+  },
+  "SAFFRON_PIDGEY_HOUSE": {
+    "1": {
+      "text": [
+        "Thank you for\nwriting. I hope\nto see you soon!",
+        "Hey! Don't look\nat my letter!"
+      ]
+    },
+    "2": {
+      "text": [
+        "PIDGEY: Kurukkoo!"
+      ]
+    },
+    "3": {
+      "text": [
+        "The COPYCAT is\ncute! I'm getting\nher a POKé DOLL!"
+      ]
+    },
+    "4": {
+      "text": [
+        "I was given a PP\nUP as a gift.",
+        "It's used for\nincreasing the PP\nof techniques!"
+      ]
+    }
+  },
+  "SAFFRON_POKECENTER": {
+    "1": {
+      "scripted": true,
+      "label": "SaffronPokecenterNurseText"
+    },
+    "2": {
+      "text": [
+        "POKéMON growth\nrates differ from\nspecie to specie."
+      ]
+    },
+    "3": {
+      "text": [
+        "SILPH CO. is very\nfamous. That's\nwhy it attracted\nTEAM ROCKET!"
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "SaffronPokecenterLinkReceptionistText"
+    }
+  },
+  "SEAFOAM_ISLANDS_1F": {
+    "1": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "2": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    }
+  },
+  "SEAFOAM_ISLANDS_B1F": {
+    "1": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "2": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    }
+  },
+  "SEAFOAM_ISLANDS_B2F": {
+    "1": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "2": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    }
+  },
+  "SEAFOAM_ISLANDS_B3F": {
+    "1": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "2": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "3": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "4": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "5": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "6": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    }
+  },
+  "SEAFOAM_ISLANDS_B4F": {
+    "1": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "2": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "3": {
+      "scripted": true,
+      "label": "SeafoamIslandsB4FArticunoText"
+    }
+  },
+  "SILPH_CO_10F": {
+    "1": {
+      "scripted": true,
+      "label": "SilphCo10FRocketText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "SilphCo10FScientistText"
+    },
+    "3": {
+      "text": [
+        "Waaaaa!\nI'm scared!"
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "5": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "6": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "SILPH_CO_11F": {
+    "1": {
+      "text": [
+        "PRESIDENT: Thank\nyou for saving\nSILPH!",
+        "I will never\nforget you saved\nus in our moment\nof peril!",
+        "I have to thank\nyou in some way!",
+        "Because I am rich,\nI can give you\nanything!",
+        "Here, maybe this\nwill do!"
+      ]
+    },
+    "2": {
+      "text": [
+        "SECRETARY: Thank\nyou for rescuing\nall of us!",
+        "We admire your\ncourage."
+      ]
+    },
+    "3": {
+      "text": [
+        "Ah <PLAYER>!\nSo we meet again!",
+        "The PRESIDENT and\nI are discussing\na vital business\nproposition.",
+        "Keep your nose\nout of grown-up\nmatters...",
+        "Or, experience a\nworld of pain!"
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "SilphCo11FRocket1Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "SilphCo11FRocket2Text"
+    }
+  },
+  "SILPH_CO_1F": {
+    "1": {
+      "text": [
+        "Welcome!",
+        "The PRESIDENT is\nin the boardroom\non 11F!"
+      ]
+    }
+  },
+  "SILPH_CO_2F": {
+    "1": {
+      "text": [
+        "<PLAYER> got\n@\n!@"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "SilphCo2FScientist1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "SilphCo2FScientist2Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "SilphCo2FRocket1Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "SilphCo2FRocket2Text"
+    }
+  },
+  "SILPH_CO_3F": {
+    "1": {
+      "text": [
+        "I work for SILPH.\nWhat should I do?"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "SilphCo3FRocketText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "SilphCo3FScientistText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "SILPH_CO_4F": {
+    "1": {
+      "text": [
+        "Sssh! Can't you\nsee I'm hiding?"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "SilphCo4FRocket1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "SilphCo4FScientistText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "SilphCo4FRocket2Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "6": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "7": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "SILPH_CO_5F": {
+    "1": {
+      "text": [
+        "TEAM ROCKET is\nin an uproar over\nsome intruder.\nThat's you right?"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "SilphCo5FRocket1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "SilphCo5FScientistText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "SilphCo5FRockerText"
+    },
+    "5": {
+      "scripted": true,
+      "label": "SilphCo5FRocket2Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "7": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "8": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "9": {
+      "text": [
+        "It's a POKéMON\nREPORT!",
+        "POKéMON LAB\ncreated PORYGON,\nthe first virtual\nreality POKéMON."
+      ]
+    },
+    "10": {
+      "text": [
+        "It's a POKéMON\nREPORT!",
+        "Over 160 POKéMON\ntechniques have\nbeen confirmed."
+      ]
+    },
+    "11": {
+      "text": [
+        "It's a POKéMON\nREPORT!",
+        "4 POKéMON evolve\nonly when traded\nby link-cable."
+      ]
+    }
+  },
+  "SILPH_CO_6F": {
+    "1": {
+      "text": [
+        "The ROCKETs came\nand took over the\nbuilding!"
+      ]
+    },
+    "2": {
+      "text": [
+        "Oh dear, oh dear.\nHelp me please!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Look at him! He's\nsuch a coward!"
+      ]
+    },
+    "4": {
+      "text": [
+        "TEAM ROCKET is\ntrying to conquer\nthe world with\nPOKéMON!"
+      ]
+    },
+    "5": {
+      "text": [
+        "They must have\ntargeted SILPH\nfor our POKéMON\nproducts."
+      ]
+    },
+    "6": {
+      "scripted": true,
+      "label": "SilphCo6FRocket1Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "SilphCo6FScientistText"
+    },
+    "8": {
+      "scripted": true,
+      "label": "SilphCo6FRocket2Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "10": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "SILPH_CO_7F": {
+    "1": {
+      "text": [
+        "Oh! Hi! You're\nnot a ROCKET! You\ncame to save us?\nWhy, thank you!",
+        "I want you to\nhave this POKéMON\nfor saving us."
+      ]
+    },
+    "2": {
+      "text": [
+        "TEAM ROCKET was\nafter the MASTER\nBALL which will\ncatch any POKéMON!"
+      ]
+    },
+    "3": {
+      "text": [
+        "It would be bad\nif TEAM ROCKET\ntook over SILPH\nor our POKéMON!"
+      ]
+    },
+    "4": {
+      "text": [
+        "You! It's really\ndangerous here!\nYou came to save\nme? You can't!"
+      ]
+    },
+    "5": {
+      "scripted": true,
+      "label": "SilphCo7FRocket1Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "SilphCo7FScientistText"
+    },
+    "7": {
+      "scripted": true,
+      "label": "SilphCo7FRocket2Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "SilphCo7FRocket3Text"
+    },
+    "9": {
+      "text": [
+        "<RIVAL>: What\nkept you <PLAYER>?"
+      ]
+    },
+    "10": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "11": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "SILPH_CO_8F": {
+    "1": {
+      "text": [
+        "I wonder if SILPH\nis finished..."
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "SilphCo8FRocket1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "SilphCo8FScientistText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "SilphCo8FRocket2Text"
+    }
+  },
+  "SILPH_CO_9F": {
+    "1": {
+      "scripted": true,
+      "label": "SilphCo9FNurseText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "SilphCo9FRocket1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "SilphCo9FScientistText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "SilphCo9FRocket2Text"
+    }
+  },
+  "SS_ANNE_1F": {
+    "1": {
+      "text": [
+        "Bonjour!\nI am le waiter on\nthis ship!",
+        "I will be happy\nto serve you any-\nthing you please!",
+        "Ah! Le strong\nsilent type!"
+      ]
+    },
+    "2": {
+      "text": [
+        "The passengers\nare restless!",
+        "You might be\nchallenged by the\nmore bored ones!"
+      ]
+    }
+  },
+  "SS_ANNE_1F_ROOMS": {
+    "1": {
+      "scripted": true,
+      "label": "SSAnne1FRoomsGentleman1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "SSAnne1FRoomsGentleman2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "SSAnne1FRoomsYoungsterText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "SSAnne1FRoomsCooltrainerFText"
+    },
+    "5": {
+      "text": [
+        "Waiter, I would\nlike a cherry pie\nplease!"
+      ]
+    },
+    "6": {
+      "text": [
+        "A cruise is so\nelegant yet cozy!"
+      ]
+    },
+    "7": {
+      "text": [
+        "I always travel\nwith WIGGLYTUFF!"
+      ]
+    },
+    "8": {
+      "text": [
+        "WIGGLYTUFF: Puup\npupuu!"
+      ]
+    },
+    "9": {
+      "text": [
+        "We are cruising\naround the world."
+      ]
+    },
+    "10": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "11": {
+      "text": [
+        "Ssh! I'm a GLOBAL\nPOLICE agent!",
+        "I'm on the trail\nof TEAM ROCKET!"
+      ]
+    }
+  },
+  "SS_ANNE_2F": {
+    "1": {
+      "text": [
+        "This ship, she is\na luxury liner\nfor trainers!",
+        "At every port, we\nhold parties with\ninvited trainers!"
+      ]
+    },
+    "2": {
+      "text": [
+        "<RIVAL>: Bonjour!\n<PLAYER>!",
+        "Imagine seeing\nyou here!",
+        "<PLAYER>, were you\nreally invited?",
+        "So how's your\nPOKéDEX coming?",
+        "I already caught\n40 kinds, pal!",
+        "Different kinds\nare everywhere!",
+        "Crawl around in\ngrassy areas!"
+      ]
+    }
+  },
+  "SS_ANNE_2F_ROOMS": {
+    "1": {
+      "scripted": true,
+      "label": "SSAnne2FRoomsGentleman1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "SSAnne2FRoomsFisherText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "SSAnne2FRoomsGentleman2Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "SSAnne2FRoomsCooltrainerFText"
+    },
+    "5": {
+      "text": [
+        "In all my travels\nI've never seen\nany POKéMON sleep\nlike this one!",
+        "It was something\nlike this!"
+      ]
+    },
+    "6": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "7": {
+      "text": [
+        "Ah yes, I have\nseen some POKéMON\nferry people\nacross the water!"
+      ]
+    },
+    "8": {
+      "text": [
+        "POKéMON can CUT\ndown small bushes."
+      ]
+    },
+    "9": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "10": {
+      "text": [
+        "Have you gone to\nthe SAFARI ZONE\nin FUCHSIA CITY?",
+        "It had many rare\nkinds of POKéMON!!"
+      ]
+    },
+    "11": {
+      "text": [
+        "Me and my Daddy\nthink the SAFARI\nZONE is awesome!"
+      ]
+    },
+    "12": {
+      "text": [
+        "The CAPTAIN looked\nreally sick and\npale!"
+      ]
+    },
+    "13": {
+      "text": [
+        "I hear many people\nget seasick!"
+      ]
+    }
+  },
+  "SS_ANNE_3F": {
+    "1": {
+      "text": [
+        "Our CAPTAIN is a\nsword master!",
+        "He even teaches\nCUT to POKéMON!"
+      ]
+    }
+  },
+  "SS_ANNE_B1F_ROOMS": {
+    "1": {
+      "scripted": true,
+      "label": "SSAnneB1FRoomsSailor1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "SSAnneB1FRoomsSailor2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "SSAnneB1FRoomsSailor3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "SSAnneB1FRoomsSailor4Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "SSAnneB1FRoomsSailor5Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "SSAnneB1FRoomsFisherText"
+    },
+    "7": {
+      "text": [
+        "My buddy, MACHOKE,\nis super strong!",
+        "He has enough\nSTRENGTH to move\nbig rocks!"
+      ]
+    },
+    "8": {
+      "text": [
+        "MACHOKE: Gwoh!\nGoggoh!"
+      ]
+    },
+    "9": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "10": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "11": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "SS_ANNE_BOW": {
+    "1": {
+      "text": [
+        "The party's over.\nThe ship will be\ndeparting soon."
+      ]
+    },
+    "2": {
+      "text": [
+        "Scrubbing decks\nis hard work!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Urf. I feel ill.",
+        "I stepped out to\nget some air."
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "SSAnneBowSailor2Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "SSAnneBowSailor3Text"
+    }
+  },
+  "SS_ANNE_CAPTAINS_ROOM": {
+    "1": {
+      "scripted": true,
+      "label": "SSAnneCaptainsRoomCaptainText"
+    }
+  },
+  "SS_ANNE_KITCHEN": {
+    "1": {
+      "text": [
+        "You, mon petit!\nWe're busy here!\nOut of the way!"
+      ]
+    },
+    "2": {
+      "text": [
+        "I saw an odd ball\nin the trash."
+      ]
+    },
+    "3": {
+      "text": [
+        "I'm so busy I'm\ngetting dizzy!"
+      ]
+    },
+    "4": {
+      "text": [
+        "Hum-de-hum-de-\nho...",
+        "I peel spuds\nevery day!\nHum-hum..."
+      ]
+    },
+    "5": {
+      "text": [
+        "Did you hear about\nSNORLAX?",
+        "All it does is\neat and sleep!"
+      ]
+    },
+    "6": {
+      "text": [
+        "Snivel...Sniff...",
+        "I only get to\npeel onions...\nSnivel..."
+      ]
+    },
+    "7": {
+      "text": [
+        "Er-hem! Indeed I\nam le CHEF!",
+        "Le main course is"
+      ]
+    }
+  },
+  "TRADE_CENTER": {
+    "1": {
+      "text": [
+        "!"
+      ]
+    }
+  },
+  "UNDERGROUND_PATH_ROUTE_5": {
+    "1": {
+      "scripted": true,
+      "label": "UndergroundPathRoute5LittleGirlText"
+    }
+  },
+  "UNDERGROUND_PATH_ROUTE_6": {
+    "1": {
+      "text": [
+        "People often lose\nthings in that\nUNDERGROUND PATH."
+      ]
+    }
+  },
+  "UNDERGROUND_PATH_ROUTE_7": {
+    "1": {
+      "text": [
+        "I heard a sleepy\nPOKéMON appeared\nnear CELADON CITY."
+      ]
+    }
+  },
+  "UNDERGROUND_PATH_ROUTE_7_COPY": {
+    "1": {
+      "text": [
+        "I want to shop at\nthe dept. store\nin CELADON but...",
+        "There are so many\nrough looking\npeople there."
+      ]
+    },
+    "2": {
+      "text": [
+        "You're here to\nshop in CELADON?",
+        "Just step outside\nand head west!"
+      ]
+    }
+  },
+  "UNDERGROUND_PATH_ROUTE_8": {
+    "1": {
+      "text": [
+        "The dept. store\nin CELADON has a\ngreat selection!"
+      ]
+    }
+  },
+  "VERMILION_CITY": {
+    "1": {
+      "text": [
+        "We're careful\nabout pollution!",
+        "We've heard GRIMER\nmultiplies in\ntoxic sludge!"
+      ]
+    },
+    "2": {
+      "text": [
+        "Did you see S.S.\nANNE moored in\nthe harbor?"
+      ]
+    },
+    "3": {
+      "text": [
+        "Welcome to S.S.\nANNE!"
+      ]
+    },
+    "4": {
+      "text": [
+        "I'm putting up a\nbuilding on this\nplot of land.",
+        "My POKéMON is\ntamping the land."
+      ]
+    },
+    "5": {
+      "text": [
+        "MACHOP: Guoh!\nGogogoh!"
+      ]
+    },
+    "6": {
+      "text": [
+        "S.S.ANNE is a\nfamous luxury\ncruise ship.",
+        "We visit VERMILION\nonce a year."
+      ]
+    }
+  },
+  "VERMILION_GYM": {
+    "1": {
+      "text": [
+        "Hey, kid! What do\nyou think you're\ndoing here?",
+        "You won't live\nlong in combat!\nThat's for sure!",
+        "I tell you kid,\nelectric POKéMON\nsaved me during\nthe war!",
+        "They zapped my\nenemies into\nparalysis!",
+        "The same as I'll\ndo to you!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "VermilionGymGentlemanText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "VermilionGymSuperNerdText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "VermilionGymSailorText"
+    },
+    "5": {
+      "text": [
+        "Yo! Champ in\nmaking!",
+        "LT.SURGE has a\nnickname. People\nrefer to him as\nthe Lightning\nAmerican!",
+        "He's an expert on\nelectric POKéMON!",
+        "Birds and water\nPOKéMON are at\nrisk! Beware of\nparalysis too!",
+        "LT.SURGE is very\ncautious!",
+        "You'll have to\nbreak a code to\nget to him!"
+      ]
+    }
+  },
+  "VERMILION_MART": {
+    "1": {
+      "scripted": true,
+      "label": "VermilionMartClerkText"
+    },
+    "2": {
+      "text": [
+        "There are evil\npeople who will\nuse POKéMON for\ncriminal acts.",
+        "TEAM ROCKET\ntraffics in rare\nPOKéMON.",
+        "They also abandon\nPOKéMON that they\nconsider not to\nbe popular or\nuseful."
+      ]
+    },
+    "3": {
+      "text": [
+        "I think POKéMON\ncan be good or\nevil. It depends\non the trainer."
+      ]
+    }
+  },
+  "VERMILION_OLD_ROD_HOUSE": {
+    "1": {
+      "text": [
+        "I'm the FISHING\nGURU!",
+        "I simply Looove\nfishing!",
+        "Do you like to\nfish?"
+      ]
+    }
+  },
+  "VERMILION_PIDGEY_HOUSE": {
+    "1": {
+      "text": [
+        "I'm getting my\nPIDGEY to fly a\nletter to SAFFRON\nin the north!"
+      ]
+    },
+    "2": {
+      "text": [
+        "PIDGEY: Kurukkoo!"
+      ]
+    },
+    "3": {
+      "text": [
+        "Dear PIPPI, I hope\nto see you soon.",
+        "I heard SAFFRON\nhas problems with\nTEAM ROCKET.",
+        "VERMILION appears\nto be safe."
+      ]
+    }
+  },
+  "VERMILION_POKECENTER": {
+    "1": {
+      "scripted": true,
+      "label": "VermilionPokecenterNurseText"
+    },
+    "2": {
+      "text": [
+        "Even if they are\nthe same level,\nPOKéMON can have\nvery different\nabilities.",
+        "A POKéMON raised\nby a trainer is\nstronger than one\nin the wild."
+      ]
+    },
+    "3": {
+      "text": [
+        "My POKéMON was\npoisoned! It\nfainted while we\nwere walking!"
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "VermilionPokecenterLinkReceptionistText"
+    }
+  },
+  "VERMILION_TRADE_HOUSE": {
+    "1": {
+      "scripted": true,
+      "label": "VermilionTradeHouseLittleGirlText"
+    }
+  },
+  "VICTORY_ROAD_1F": {
+    "1": {
+      "scripted": true,
+      "label": "VictoryRoad1FCooltrainerFText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "VictoryRoad1FCooltrainerMText"
+    },
+    "3": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "5": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "6": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "7": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    }
+  },
+  "VICTORY_ROAD_2F": {
+    "1": {
+      "scripted": true,
+      "label": "VictoryRoad2FHikerText"
+    },
+    "2": {
+      "scripted": true,
+      "label": "VictoryRoad2FSuperNerd1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "VictoryRoad2FCooltrainerMText"
+    },
+    "4": {
+      "scripted": true,
+      "label": "VictoryRoad2FSuperNerd2Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "VictoryRoad2FSuperNerd3Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "VictoryRoad2FMoltresText"
+    },
+    "7": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "8": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "9": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "10": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "11": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "12": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "13": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    }
+  },
+  "VICTORY_ROAD_3F": {
+    "1": {
+      "scripted": true,
+      "label": "VictoryRoad3FCooltrainerM1Text"
+    },
+    "2": {
+      "scripted": true,
+      "label": "VictoryRoad3FCooltrainerF1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "VictoryRoad3FCooltrainerM2Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "VictoryRoad3FCooltrainerF2Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "6": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "7": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "8": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "9": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    },
+    "10": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    }
+  },
+  "VIRIDIAN_CITY": {
+    "1": {
+      "text": [
+        "Those POKé BALLs\nat your waist!\nYou have POKéMON!",
+        "It's great that\nyou can carry and\nuse POKéMON any\ntime, anywhere!"
+      ]
+    },
+    "2": {
+      "text": [
+        "This POKéMON GYM\nis always closed.",
+        "I wonder who the\nLEADER is?"
+      ]
+    },
+    "3": {
+      "text": [
+        "You want to know\nabout the 2 kinds\nof caterpillar\nPOKéMON?"
+      ]
+    },
+    "4": {
+      "text": [
+        "Oh Grandpa! Don't\nbe so mean!\nHe hasn't had his\ncoffee yet."
+      ]
+    },
+    "5": {
+      "text": [
+        "You can't go\nthrough here!",
+        "This is private\nproperty!"
+      ]
+    },
+    "6": {
+      "text": [
+        "<PLAYER> received\nTM42!@"
+      ]
+    },
+    "7": {
+      "text": [
+        "Ahh, I've had my\ncoffee now and I\nfeel great!",
+        "Sure you can go\nthrough!",
+        "Are you in a\nhurry?"
+      ]
+    }
+  },
+  "VIRIDIAN_FOREST": {
+    "1": {
+      "text": [
+        "I came here with\nsome friends!",
+        "They're out for\nPOKéMON fights!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "ViridianForestYoungster2Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "ViridianForestYoungster3Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "ViridianForestYoungster4Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "6": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "7": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "8": {
+      "text": [
+        "I ran out of POKé\nBALLs to catch\nPOKéMON with!",
+        "You should carry\nextras!"
+      ]
+    }
+  },
+  "VIRIDIAN_FOREST_NORTH_GATE": {
+    "1": {
+      "text": [
+        "Many POKéMON live\nonly in forests \nand caves.",
+        "You need to look\neverywhere to get\ndifferent kinds!"
+      ]
+    },
+    "2": {
+      "text": [
+        "Have you noticed\nthe bushes on the\nroadside?",
+        "They can be cut\ndown by a special\nPOKéMON move."
+      ]
+    }
+  },
+  "VIRIDIAN_FOREST_SOUTH_GATE": {
+    "1": {
+      "text": [
+        "Are you going to\nVIRIDIAN FOREST?\nBe careful, it's\na natural maze!"
+      ]
+    },
+    "2": {
+      "text": [
+        "RATTATA may be\nsmall, but its\nbite is wicked!\nDid you get one?"
+      ]
+    }
+  },
+  "VIRIDIAN_GYM": {
+    "1": {
+      "text": [
+        "Fwahahaha! This is\nmy hideout!",
+        "I planned to\nresurrect TEAM\nROCKET here!",
+        "But, you have\ncaught me again!\nSo be it! This\ntime, I'm not\nholding back!",
+        "Once more, you\nshall face\nGIOVANNI, the\ngreatest trainer!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "ViridianGymCooltrainerM1Text"
+    },
+    "3": {
+      "scripted": true,
+      "label": "ViridianGymHiker1Text"
+    },
+    "4": {
+      "scripted": true,
+      "label": "ViridianGymRocker1Text"
+    },
+    "5": {
+      "scripted": true,
+      "label": "ViridianGymHiker2Text"
+    },
+    "6": {
+      "scripted": true,
+      "label": "ViridianGymCooltrainerM2Text"
+    },
+    "7": {
+      "scripted": true,
+      "label": "ViridianGymHiker3Text"
+    },
+    "8": {
+      "scripted": true,
+      "label": "ViridianGymRocker2Text"
+    },
+    "9": {
+      "scripted": true,
+      "label": "ViridianGymCooltrainerM3Text"
+    },
+    "10": {
+      "scripted": true,
+      "label": "ViridianGymGymGuideText"
+    },
+    "11": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    }
+  },
+  "VIRIDIAN_MART": {
+    "1": {
+      "scripted": true,
+      "label": "ViridianMartClerkText"
+    },
+    "2": {
+      "text": [
+        "This shop sells\nmany ANTIDOTEs."
+      ]
+    },
+    "3": {
+      "text": [
+        "No! POTIONs are\nall sold out."
+      ]
+    }
+  },
+  "VIRIDIAN_NICKNAME_HOUSE": {
+    "1": {
+      "text": [
+        "Coming up with\nnicknames is fun,\nbut hard.",
+        "Simple names are\nthe easiest to\nremember."
+      ]
+    },
+    "2": {
+      "text": [
+        "My Daddy loves\nPOKéMON too."
+      ]
+    },
+    "3": {
+      "text": [
+        "SPEARY: Tetweet!"
+      ]
+    },
+    "4": {
+      "text": [
+        "SPEAROW\nName: SPEARY"
+      ]
+    }
+  },
+  "VIRIDIAN_POKECENTER": {
+    "1": {
+      "scripted": true,
+      "label": "ViridianPokecenterNurseText"
+    },
+    "2": {
+      "text": [
+        "You can use that\nPC in the corner.",
+        "The receptionist\ntold me. So kind!"
+      ]
+    },
+    "3": {
+      "text": [
+        "There's a POKéMON\nCENTER in every\ntown ahead.",
+        "They don't charge\nany money either!"
+      ]
+    },
+    "4": {
+      "scripted": true,
+      "label": "ViridianPokecenterLinkReceptionistText"
+    }
+  },
+  "VIRIDIAN_SCHOOL_HOUSE": {
+    "1": {
+      "text": [
+        "Whew! I'm trying\nto memorize all\nmy notes."
+      ]
+    },
+    "2": {
+      "text": [
+        "Okay!",
+        "Be sure to read\nthe blackboard\ncarefully!"
+      ]
+    }
+  },
+  "WARDENS_HOUSE": {
+    "1": {
+      "text": [
+        "WARDEN: Hif fuff\nhefifoo!",
+        "Ha lof ha feef ee\nhafahi ho. Heff\nhee fwee!"
+      ]
+    },
+    "2": {
+      "scripted": true,
+      "label": "PickUpItemText"
+    },
+    "3": {
+      "text": [
+        "This requires\nSTRENGTH to move!"
+      ]
+    }
+  }
+}

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useStashMap } from './stashmapContext';
 import { buildSubLabel, categoryColor } from './stashmapConfig';
 import LocationHover from './LocationHover';
+import DupeFlag from './DupeFlag';
 
 function ItemForm({ item, rooms, zones, categories, onSave, onCancel }) {
   const isNew = !item.id;
@@ -153,10 +154,11 @@ function groupItemsByRoom(items, rooms) {
 }
 
 export default function InventoryView() {
-  const { rooms, zones, items, settings, actions } = useStashMap();
+  const { rooms, zones, items, settings, duplicates, actions } = useStashMap();
   const [search, setSearch] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [filterRoom, setFilterRoom] = useState('');
+  const [dupesOnly, setDupesOnly] = useState(false);
   const [formItem, setFormItem] = useState(null);
   const [viewMode, setViewMode] = useState(settings.viewMode || 'flat');
 
@@ -167,7 +169,8 @@ export default function InventoryView() {
       || item.description.toLowerCase().includes(q);
     const matchesCategory = !filterCategory || item.category === filterCategory;
     const matchesRoom = !filterRoom || item.roomId === filterRoom;
-    return matchesSearch && matchesCategory && matchesRoom;
+    const matchesDupe = !dupesOnly || duplicates.flags.get(item.id)?.status === 'duplicate';
+    return matchesSearch && matchesCategory && matchesRoom && matchesDupe;
   });
 
   const handleSave = (data) => {
@@ -202,6 +205,15 @@ export default function InventoryView() {
     <div className="stash-inventory">
       <div className="stash-inventory-header-row">
         <span className="stash-inventory-count">{filtered.length} item{filtered.length === 1 ? '' : 's'}</span>
+        {duplicates.badgeCount > 0 && (
+          <button
+            type="button"
+            className={`stash-dupe-filter${dupesOnly ? ' stash-dupe-filter-active' : ''}`}
+            onClick={() => setDupesOnly((v) => !v)}
+          >
+            ⚑ {dupesOnly ? 'Showing duplicates' : `${duplicates.duplicateItemCount} flagged`}
+          </button>
+        )}
         <button
           type="button"
           className={`stash-groupby-toggle${viewMode === 'grouped' ? ' stash-groupby-toggle-active' : ''}`}
@@ -243,7 +255,11 @@ export default function InventoryView() {
 
       {filtered.length === 0 ? (
         <div className="stash-panel stash-empty">
-          {items.length === 0 ? 'No items yet — add your first one above.' : 'No items match your search/filters.'}
+          {items.length === 0
+            ? 'No items yet — add your first one above.'
+            : dupesOnly
+              ? 'No duplicates match your other filters.'
+              : 'No items match your search/filters.'}
         </div>
       ) : viewMode === 'flat' ? (
         <div className="stash-table-wrap">
@@ -259,12 +275,17 @@ export default function InventoryView() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((item) => (
-                <tr key={item.id} className="stash-inv-row">
+              {filtered.map((item) => {
+                const flag = duplicates.flags.get(item.id);
+                return (
+                <tr key={item.id} className={`stash-inv-row${flag ? ` stash-inv-row-${flag.status}` : ''}`}>
                   <td>
                     <span className="stash-color-dot" style={{ background: categoryColor(item.category) }} />
                   </td>
-                  <td className="stash-inv-name">{item.name}</td>
+                  <td className={`stash-inv-name${flag ? ` stash-dupe-text stash-dupe-text-${flag.status}` : ''}`}>
+                    {item.name}
+                    <DupeFlag item={item} />
+                  </td>
                   <td className="stash-inv-qty">×{item.quantity}</td>
                   <td><span className="stash-badge">{item.category}</span></td>
                   <td>
@@ -275,7 +296,8 @@ export default function InventoryView() {
                   </td>
                   <td className="stash-inv-actions-cell">{rowActions(item)}</td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -292,10 +314,15 @@ export default function InventoryView() {
                 <span className="stash-room-group-count">{roomItems.length}</span>
               </summary>
               <div className="stash-room-group-items">
-                {roomItems.map((item) => (
-                  <div key={item.id} className="stash-grouped-row">
+                {roomItems.map((item) => {
+                  const flag = duplicates.flags.get(item.id);
+                  return (
+                  <div key={item.id} className={`stash-grouped-row${flag ? ` stash-inv-row-${flag.status}` : ''}`}>
                     <span className="stash-color-dot" style={{ background: categoryColor(item.category) }} />
-                    <span className="stash-item-name">{item.name}</span>
+                    <span className={`stash-item-name${flag ? ` stash-dupe-text stash-dupe-text-${flag.status}` : ''}`}>
+                      {item.name}
+                    </span>
+                    <DupeFlag item={item} compact />
                     {item.roomId ? (
                       <LocationHover
                         item={item} rooms={rooms} zones={zones} items={items}
@@ -307,7 +334,8 @@ export default function InventoryView() {
                     <span className="stash-item-qty">×{item.quantity}</span>
                     {rowActions(item)}
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </details>
           ))}

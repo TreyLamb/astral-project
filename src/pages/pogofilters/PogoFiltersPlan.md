@@ -169,7 +169,7 @@ from the numbers — Trey picks it.
 | 88 | [MUST] Seed from the real markdown | Done | 24 filters, 18 labels, 1 group (79 megas), all verbatim |
 | 89 | [MUST] Export filters back to markdown | Done | |
 | 90 | [MUST] JSON export | Done | ✂️ **Import is not built** — export only, so this is a backup you cannot yet restore from |
-| 91 | [MUST] All five registration steps | Done | Route, import, navbar link, `OWN_TOPBAR_ROUTES`, **Home tile** |
+| 91 | [MUST] All registration steps | Done | `main` collapsed the old 5 steps while this was being built: `src/siteLinks.js` is now a single registry feeding **both** the navbar dropdown and the Home card, so there is no hand-written `<Link>` or `TILES` entry any more. Registered as: `App.jsx` import + `<Route path="/pogo-filters/*">`, one `SITE_LINKS` entry, and `/pogo-filters` in `OWN_TOPBAR_ROUTES` |
 | 92 | [MUST] Pokémon-esque themed CSS, `pgf-` prefixed, tokens on `.pgf-app` | Done | "Cardinal Glass" — sibling to MedalDex and POGO Accs, own palette |
 | 93 | [MUST] `FilterRules.md` as the syntax source of truth | Done | At `PogoFilters/FilterRules.md` |
 | 94 | [MUST] legendary / mythical / ultra-beast / regional classification data | Done | `data/classification.json` — 86 legendary, 25 mythical, 11 ultra beasts, 63 regional, cross-checked with provenance in `data/SOURCES.md`. 2 ids absent from species.json (`zeraora`, `squawkabilly`) and 11 uncertainties are flagged in `_meta` rather than faked. Read by the matrix as LGD/MYT/UB/REG badges. Costume excluded per request |

@@ -1,5 +1,5 @@
 // Body-composition forecast math — the research basis for the 'weight' goal
-// kind. Research Entry recorded in Guidelines_Forecast.md §3 (append 4).
+// kind. Research Entry recorded in guidelinesForecast.md §3 (append 4).
 //
 // Wishnofsky (1958): 1 lb adipose tissue ~= 3500 kcal (454g x ~87% lipid x
 // 9 kcal/g = ~3555, rounded). This is a SHORT-HORIZON, rough kcal<->weight
@@ -12,7 +12,7 @@
 // J Int Soc Sports Nutr, reaffirmed 2022): recommends a maximum ~500 kcal/day
 // deficit for lean/athletic populations, targeting 0.5-0.75% of bodyweight
 // lost per week during a cut. This is the authoritative RATE CAP for
-// weight-LOSS goals (the "conservative default rate" Guidelines_Forecast.md
+// weight-LOSS goals (the "conservative default rate" guidelinesForecast.md
 // §2/§3 asks for).
 //
 // Natural-bodybuilding lean-bulk research (Helms et al.): recommends a slower
@@ -34,7 +34,7 @@ export function rateCapPctPerWeek(direction) {
 }
 
 // Average weekly %-bodyweight rate implied by baseline -> target over `weeks`.
-// Deliberately NOT compounded (Guidelines_Forecast.md §4 asks for "roughly
+// Deliberately NOT compounded (guidelinesForecast.md §4 asks for "roughly
 // linear," matching bodyCompCurve's own linear-in-absolute-weight shape) —
 // a compounding %-of-current-weight-each-week model would be more precise but
 // is a documented simplification here, consistent with the curve it feeds.

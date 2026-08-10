@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import trackerData from '../data/qa_skills_tracker.json';
+import trackerData from '../data/qaSkillsTracker.json';
 import './QATracker.css';
 
 const LS_KEY = 'qa-tracker-comfort-levels';

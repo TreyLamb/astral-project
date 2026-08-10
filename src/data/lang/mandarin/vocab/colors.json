@@ -1,0 +1,13 @@
+[
+  { "word": "红色", "romanization": "hóngsè", "english": "red",    "pos": "noun", "notes": "" },
+  { "word": "橙色", "romanization": "chéngsè","english": "orange", "pos": "noun", "notes": "" },
+  { "word": "黄色", "romanization": "huángsè","english": "yellow", "pos": "noun", "notes": "" },
+  { "word": "绿色", "romanization": "lǜsè",   "english": "green",  "pos": "noun", "notes": "" },
+  { "word": "蓝色", "romanization": "lánsè",  "english": "blue",   "pos": "noun", "notes": "" },
+  { "word": "紫色", "romanization": "zǐsè",   "english": "purple", "pos": "noun", "notes": "" },
+  { "word": "黑色", "romanization": "hēisè",  "english": "black",  "pos": "noun", "notes": "" },
+  { "word": "白色", "romanization": "báisè",  "english": "white",  "pos": "noun", "notes": "" },
+  { "word": "灰色", "romanization": "huīsè",  "english": "gray",   "pos": "noun", "notes": "" },
+  { "word": "粉色", "romanization": "fěnsè",  "english": "pink",   "pos": "noun", "notes": "" },
+  { "word": "棕色", "romanization": "zōngsè", "english": "brown",  "pos": "noun", "notes": "" }
+]

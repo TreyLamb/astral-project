@@ -13,7 +13,7 @@ export default function LangHome() {
           <button
             key={lang.id}
             className="lang-language-card"
-            onClick={() => navigate(`/lang/${lang.id}`)}
+            onClick={() => navigate(`/VV/${lang.id}`)}
           >
             <div className="lang-language-flag">{lang.flag}</div>
             <div className="lang-language-name">{lang.name}</div>

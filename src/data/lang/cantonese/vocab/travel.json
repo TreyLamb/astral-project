@@ -1,0 +1,22 @@
+[
+  { "word": "飛機",     "romanization": "fei1 gei1",           "english": "airplane",    "pos": "noun", "notes": "" },
+  { "word": "火車",     "romanization": "fo2 ce1",             "english": "train",       "pos": "noun", "notes": "" },
+  { "word": "車",       "romanization": "ce1",                 "english": "car",         "pos": "noun", "notes": "" },
+  { "word": "的士",     "romanization": "dik1 si2",            "english": "taxi",        "pos": "noun", "notes": "loanword from English 'taxi'" },
+  { "word": "地鐵",     "romanization": "dei6 tit3",           "english": "subway",      "pos": "noun", "notes": "" },
+  { "word": "巴士",     "romanization": "baa1 si2",            "english": "bus",         "pos": "noun", "notes": "loanword from English 'bus'" },
+  { "word": "機場",     "romanization": "gei1 coeng4",         "english": "airport",     "pos": "noun", "notes": "" },
+  { "word": "車站",     "romanization": "ce1 zaam6",           "english": "station",     "pos": "noun", "notes": "" },
+  { "word": "酒店",     "romanization": "zau2 dim3",           "english": "hotel",       "pos": "noun", "notes": "" },
+  { "word": "護照",     "romanization": "wu6 ziu3",            "english": "passport",    "pos": "noun", "notes": "" },
+  { "word": "簽證",     "romanization": "cim1 zing3",          "english": "visa",        "pos": "noun", "notes": "" },
+  { "word": "行李",     "romanization": "hang4 lei5",          "english": "luggage",     "pos": "noun", "notes": "" },
+  { "word": "飛",       "romanization": "fei1",                "english": "ticket",      "pos": "noun", "notes": "informal Cantonese, e.g. for a show or movie" },
+  { "word": "地圖",     "romanization": "dei6 tou4",           "english": "map",         "pos": "noun", "notes": "" },
+  { "word": "左邊",     "romanization": "zo2 bin1",            "english": "left side",   "pos": "noun", "notes": "" },
+  { "word": "右邊",     "romanization": "jau6 bin1",           "english": "right side",  "pos": "noun", "notes": "" },
+  { "word": "直行",     "romanization": "zik6 hang4",          "english": "go straight", "pos": "verb", "notes": "" },
+  { "word": "喺邊度",   "romanization": "hai2 bin1 dou6",      "english": "where is it",         "pos": "phrase", "notes": "" },
+  { "word": "幾多錢",   "romanization": "gei2 do1 cin2",       "english": "how much money",      "pos": "phrase", "notes": "Cantonese-specific (Mandarin: 多少錢)" },
+  { "word": "一路順風", "romanization": "jat1 lou6 seun6 fung1","english": "safe travels",       "pos": "phrase", "notes": "" }
+]

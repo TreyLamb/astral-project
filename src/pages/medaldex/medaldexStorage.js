@@ -1,6 +1,6 @@
 // MedalDex localStorage data layer. Mirrors pogoaccsStorage.js's API shape
 // (see src/pages/pogoaccs/pogoaccsStorage.js). Accounts themselves are NOT
-// owned here -- they're read from PGO Tracker's storage/Firestore modules
+// owned here -- they're read from POGO Tracker's storage/Firestore modules
 // (pgoStorage.js / pgoFirestore.js); this module only owns MedalDex's own
 // dex-progress/medal-value/settings data.
 import { emptySpeciesFlags, withAccountDexDefaults, withMedalsDefaults } from './medaldexConfig';

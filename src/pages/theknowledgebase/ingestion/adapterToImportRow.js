@@ -1,6 +1,6 @@
 // Converts a RawAdapterQuestion (see tkbAdapters.js) into the snake_case
 // shape TkbStorage.importQuestions expects (matches
-// notes-to-questions-prompt.md format). Pure, no network.
+// notesToQuestionsPrompt.md format). Pure, no network.
 
 /**
  * @param {import('../tkbAdapters').RawAdapterQuestion} raw

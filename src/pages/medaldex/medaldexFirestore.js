@@ -3,7 +3,7 @@
 // under users/{uid}/medaldex_dex/{accountId}, users/{uid}/medaldex_medals/{accountId}
 // and users/{uid}/medaldex_meta/settings -- same collection-per-account-doc
 // pattern as pogoaccsFirestore.js (see src/pages/pogoaccs/pogoaccsFirestore.js).
-// Accounts themselves live in PGO Tracker's own collections (pgoFirestore.js)
+// Accounts themselves live in POGO Tracker's own collections (pgoFirestore.js)
 // -- this module never reads or writes them.
 import { collection, doc, getDocs, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';

@@ -1,1 +1,10 @@
-[]
+[
+  { "word": "대박", "romanization": "daebak",  "english": "awesome / no way / jackpot", "pos": "phrase", "notes": "hugely common interjection expressing amazement" },
+  { "word": "헐",   "romanization": "heol",    "english": "OMG / what?!",               "pos": "phrase", "notes": "internet slang expressing shock" },
+  { "word": "꿀잼", "romanization": "kkuljaem","english": "super fun / hilarious",      "pos": "adjective", "notes": "lit. 'honey fun'" },
+  { "word": "노잼", "romanization": "nojaem",  "english": "boring / not funny",         "pos": "adjective", "notes": "opposite of 꿀잼" },
+  { "word": "짱",   "romanization": "jjang",   "english": "the best / awesome",         "pos": "adjective", "notes": "" },
+  { "word": "치맥", "romanization": "chimaek", "english": "fried chicken and beer",     "pos": "noun", "notes": "portmanteau of 치킨 + 맥주, iconic Korean pairing" },
+  { "word": "멘붕", "romanization": "menbung", "english": "mental breakdown / freaking out","pos": "noun", "notes": "portmanteau of 멘탈 + 붕괴" },
+  { "word": "훈남", "romanization": "hunnam",  "english": "a warm, charming, good-looking guy","pos": "noun", "notes": "" }
+]

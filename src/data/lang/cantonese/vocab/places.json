@@ -1,0 +1,14 @@
+[
+  { "word": "屋企",   "romanization": "uk1 kei2",         "english": "home",             "pos": "noun", "notes": "" },
+  { "word": "學校",   "romanization": "hok6 haau6",       "english": "school",           "pos": "noun", "notes": "" },
+  { "word": "公司",   "romanization": "gung1 si1",        "english": "company",          "pos": "noun", "notes": "" },
+  { "word": "醫院",   "romanization": "ji1 jyun2",        "english": "hospital",         "pos": "noun", "notes": "" },
+  { "word": "銀行",   "romanization": "ngan4 hong4",      "english": "bank",             "pos": "noun", "notes": "" },
+  { "word": "舖頭",   "romanization": "pou3 tau2",        "english": "store / shop",     "pos": "noun", "notes": "colloquial Cantonese" },
+  { "word": "餐廳",   "romanization": "caan1 teng1",      "english": "restaurant",       "pos": "noun", "notes": "" },
+  { "word": "公園",   "romanization": "gung1 jyun4",      "english": "park",             "pos": "noun", "notes": "" },
+  { "word": "圖書館", "romanization": "tou4 syu1 gun2",   "english": "library",          "pos": "noun", "notes": "" },
+  { "word": "戲院",   "romanization": "hei3 jyun2",       "english": "cinema",           "pos": "noun", "notes": "Cantonese-specific term (Mandarin: 電影院)" },
+  { "word": "超市",   "romanization": "ciu1 si5",         "english": "supermarket",      "pos": "noun", "notes": "" },
+  { "word": "洗手間", "romanization": "sai2 sau2 gaan1",  "english": "restroom / bathroom","pos": "noun", "notes": "" }
+]

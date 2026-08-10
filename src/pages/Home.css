@@ -189,3 +189,70 @@
 @media (max-width: 560px) {
   .hm-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ══════════════════════════════════════
+   Customize mode — pick which cards show, drag to reorder
+   ══════════════════════════════════════ */
+
+.hm-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  min-height: 30px;
+}
+
+.hm-edit-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(200, 214, 235, 0.75);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  padding: 6px 13px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.hm-edit-btn:hover { background: rgba(255, 255, 255, 0.09); color: #e2e8f0; }
+.hm-edit-btn.active { border-color: rgba(163, 230, 53, 0.5); color: #a3e635; }
+
+.hm-bar-hint {
+  font-size: 0.68rem;
+  color: rgba(180, 196, 220, 0.45);
+  flex: 1;
+  min-width: 200px;
+}
+
+.hm-empty {
+  margin-top: 40px;
+  font-size: 0.85rem;
+  color: rgba(180, 196, 220, 0.5);
+}
+
+/* Tiles become drag handles rather than links while editing. */
+.hm-tile-editing { cursor: grab; position: relative; }
+.hm-tile-editing:active { cursor: grabbing; }
+.hm-tile-hidden { opacity: 0.28; }
+.hm-tile-hidden:hover { opacity: 0.5; }
+
+.hm-tile-toggle {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(10, 14, 18, 0.85);
+  color: rgba(220, 232, 245, 0.8);
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 3;
+}
+.hm-tile-toggle:hover { border-color: #f87171; color: #f87171; }
+.hm-tile-hidden .hm-tile-toggle:hover { border-color: #a3e635; color: #a3e635; }

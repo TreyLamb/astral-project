@@ -1,6 +1,6 @@
 // POGO Accs localStorage data layer. Mirrors pgoStorage.js's API shape (see
 // src/pages/pgotracker/pgoStorage.js). Accounts themselves are NOT owned
-// here — they're read from the existing PGO Tracker storage/Firestore
+// here — they're read from the existing POGO Tracker storage/Firestore
 // modules (pgoStorage.js / pgoFirestore.js); this module only owns the
 // pokébox/mega/group/settings data that's specific to this sub-app.
 import { uid, withEntryDefaults, emptyBox, withMegasDefaults } from './pogoaccsConfig';

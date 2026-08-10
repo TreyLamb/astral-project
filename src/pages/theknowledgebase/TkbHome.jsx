@@ -15,7 +15,7 @@ export default function TkbHome() {
           <button
             key={p.id}
             className="tkb-btn tkb-btn-primary"
-            onClick={() => navigate(`/tkb/review?profile=${p.id}`)}
+            onClick={() => navigate(`/TKB/review?profile=${p.id}`)}
           >
             {p.name}
           </button>

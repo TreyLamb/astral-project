@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
+import { SITE_LINKS } from '../siteLinks';
 import './Navbar.css';
 
 function AuthControl() {
@@ -29,7 +30,7 @@ const GAME_ROUTES = ['/bashmon', '/gitmon', '/signal-lost', '/pokered', '/antiqu
 // Sub-apps that render their own internal top bar (with their own nav/tabs and
 // their own way back to Home) — the site nav would just double up and overlap
 // with these, so they get the same minimal treatment as game routes.
-const OWN_TOPBAR_ROUTES = ['/fitness-tracker', '/league-build', '/orbit', '/pogo-filters'];
+const OWN_TOPBAR_ROUTES = ['/MFT', '/league-build', '/orbit', '/pogo-filters'];
 
 function Navbar() {
   const location = useLocation();
@@ -88,34 +89,19 @@ function Navbar() {
                 itself is already a deliberate tap to open, adding a second
                 toggle just to see these was easy to miss and hid every item
                 below. Desktop keeps the hover-flyout via CSS. */}
+            {/* Driven off SITE_LINKS so this can never drift from the Home
+                cards again — and, critically, so a tool hidden from Home stays
+                reachable here. Every destination on the site is in this list. */}
             <ul className="dropdown">
               <li><Link to="/">Home</Link></li>
-              <li><Link to="/daily-idiom">Daily Chéngyǔ</Link></li>
-              <li><Link to="/daily-idiom-widget">Chéngyǔ Widget</Link></li>
-              <li><Link to="/lexicon">The Lexicon</Link></li>
-              <li><a href="/birds/index.html">BIRDS!!</a></li> {/* plain <a> not <Link> — static file in public/, Link would break it */}
-              <li><Link to="/qa-tracker">QA Tracker</Link></li>
-              <li><Link to="/google-photos">Google Photos</Link></li>
-              <li><Link to="/mymdb">MyMDB</Link></li>
-              <li><Link to="/tkb">TheKnowledgeBase</Link></li>
-              <li><Link to="/pgo-tracker">PGO Tracker</Link></li>
-              <li><Link to="/pogo-accs">POGO Accs</Link></li>
-              <li><Link to="/pogo-filters">PogoFilters</Link></li>
-              <li><Link to="/medaldex">MedalDex</Link></li>
-              <li><Link to="/antiquityquest">Antiquity Quest</Link></li>
-              <li><Link to="/stashmap">StashMap</Link></li>
-              <li><Link to="/fitness-tracker">MyFitnessTracker</Link></li>
-              <li><Link to="/timer-tool">Timer Tool</Link></li>
-              <li><Link to="/league-build">League Build</Link></li>
-              <li><Link to="/orbit">Orbit</Link></li>
-              <li><Link to="/rs-market">RS Market</Link></li>
-              <li><Link to="/gitmon">🔵 Gitmon Blue</Link></li>
-              <li><Link to="/bashmon">🔴 Bashmon Red</Link></li>
-              <li><Link to="/signal-lost">📡 Signal Lost</Link></li>
-              <li><Link to="/pokered">🎮 Pokemon Red</Link></li>
-              <li><Link to="/python-game">🐍 Code Trials</Link></li>
-              <li><a href="/rustioclone/index.html">Rustio Clone</a></li>
-              <li><a href="/rustpunkio/index.html">RustPunkio</a></li>
+              {SITE_LINKS.map((l) => (
+                <li key={l.to}>
+                  {/* public/ tools need a plain <a> — <Link> would swallow it */}
+                  {l.ext
+                    ? <a href={l.to}>{l.icon} {l.name}</a>
+                    : <Link to={l.to}>{l.icon} {l.name}</Link>}
+                </li>
+              ))}
             </ul>
           </li>
         </ul>

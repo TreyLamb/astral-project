@@ -1,0 +1,13 @@
+[
+  { "word": "赤",       "romanization": "aka",     "english": "red",    "pos": "noun", "notes": "" },
+  { "word": "オレンジ", "romanization": "orenji",  "english": "orange", "pos": "noun", "notes": "" },
+  { "word": "黄色",     "romanization": "kiiro",   "english": "yellow", "pos": "noun", "notes": "" },
+  { "word": "緑",       "romanization": "midori",  "english": "green",  "pos": "noun", "notes": "" },
+  { "word": "青",       "romanization": "ao",      "english": "blue",   "pos": "noun", "notes": "" },
+  { "word": "紫",       "romanization": "murasaki","english": "purple", "pos": "noun", "notes": "" },
+  { "word": "黒",       "romanization": "kuro",    "english": "black",  "pos": "noun", "notes": "" },
+  { "word": "白",       "romanization": "shiro",   "english": "white",  "pos": "noun", "notes": "" },
+  { "word": "灰色",     "romanization": "haiiro",  "english": "gray",   "pos": "noun", "notes": "" },
+  { "word": "ピンク",   "romanization": "pinku",   "english": "pink",   "pos": "noun", "notes": "" },
+  { "word": "茶色",     "romanization": "chairo",  "english": "brown",  "pos": "noun", "notes": "" }
+]
