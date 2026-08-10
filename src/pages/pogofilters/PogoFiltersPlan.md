@@ -172,7 +172,7 @@ from the numbers — Trey picks it.
 | 91 | [MUST] All five registration steps | Done | Route, import, navbar link, `OWN_TOPBAR_ROUTES`, **Home tile** |
 | 92 | [MUST] Pokémon-esque themed CSS, `pgf-` prefixed, tokens on `.pgf-app` | Done | "Cardinal Glass" — sibling to MedalDex and POGO Accs, own palette |
 | 93 | [MUST] `FilterRules.md` as the syntax source of truth | Done | At `PogoFilters/FilterRules.md` |
-| 94 | [MUST] legendary / mythical / ultra-beast / regional classification data | **Pending** | Being sourced via web search into `data/classification.json` with provenance. Costume excluded per request |
+| 94 | [MUST] legendary / mythical / ultra-beast / regional classification data | Done | `data/classification.json` — 86 legendary, 25 mythical, 11 ultra beasts, 63 regional, cross-checked with provenance in `data/SOURCES.md`. 2 ids absent from species.json (`zeraora`, `squawkabilly`) and 11 uncertainties are flagged in `_meta` rather than faked. Read by the matrix as LGD/MYT/UB/REG badges. Costume excluded per request |
 | 95 | [MUST] This coverage doc | Done | |
 
 ---
