@@ -2,21 +2,33 @@ import { useState, useMemo, useCallback } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
 import { newFilter, detectCpTier, detectStarBand, STAR_BANDS } from '../pogofiltersConfig';
 import { buildVocabulary, lintFilter, terms, SEVERITY_RANK } from '../filterSyntax';
+import { addTerm, removeTerm } from '../applyEngine';
 import speciesJson from '../../pogoaccs/data/species.json';
 import QueryText from './QueryText';
 import LintList from './LintList';
+import BulkTermModal from './BulkTermModal';
+import NotesTab from './NotesTab';
 
 const norm = (s) => String(s ?? '').toLowerCase().replace(/\s+/g, '');
 
 export default function FiltersView() {
   const {
     filters, labels, saveFilter, removeFilter, showToast, mode, reseed,
+    commitFilters, undo, hasUndo,
   } = usePogoFilters();
 
   const [openId, setOpenId] = useState(null);
   const [draft, setDraft] = useState(null);
   const [search, setSearch] = useState('');
   const [only, setOnly] = useState('all'); // all | managed | problems
+
+  // "Affect all": a label click or a term edit propagates to every filter
+  // instead of just the open one. Always routed through a preview diff — this
+  // toggle is the difference between editing one string and editing twenty.
+  const [affectAll, setAffectAll] = useState(false);
+  const [bulkScope, setBulkScope] = useState('all'); // all | managed
+  const [pendingBulk, setPendingBulk] = useState(null);
+  const [bulkTerm, setBulkTerm] = useState('');
 
   const vocab = useMemo(() => buildVocabulary(labels, speciesJson), [labels]);
 
@@ -62,20 +74,24 @@ export default function FiltersView() {
   const toggleLabel = useCallback((label) => {
     if (!draft) return;
     const present = terms(draft.query).find((t) => norm(t.text) === norm(label.name));
-    let next;
-    if (!present) {
-      next = draft.query.trim() ? `${draft.query.trim()}&!${label.name}` : `!${label.name}`;
-    } else {
-      // Remove the whole term including its joining operator, without touching
-      // anything else in the string.
-      const esc = label.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      next = draft.query
-        .replace(new RegExp(`&\\s*!?\\s*${esc}(?=[&,)]|$)`, 'i'), '')
-        .replace(new RegExp(`^!?\\s*${esc}\\s*&`, 'i'), '')
-        .replace(new RegExp(`^!?\\s*${esc}$`, 'i'), '');
+
+    // With "affect all" on, the click means the whole set, not this one filter.
+    if (affectAll) {
+      setPendingBulk({
+        term: present ? label.name : `!${label.name}`,
+        action: present ? 'remove' : 'add',
+        scope: bulkScope,
+      });
+      return;
     }
+
+    // Same primitives the apply engine uses — token-boundary based, so removing
+    // "Mega" can never chew into "MegaEv", and adding can never emit a stray &.
+    const next = present
+      ? removeTerm(draft.query, label.name)
+      : addTerm(draft.query, `!${label.name}`);
     setDraft({ ...draft, query: next });
-  }, [draft]);
+  }, [draft, affectAll, bulkScope]);
 
   const addFilter = useCallback(async () => {
     const f = newFilter({ name: 'New filter', query: '' });
@@ -122,11 +138,77 @@ export default function FiltersView() {
         />
 
         <span className="pgf-spacer" />
+        {hasUndo && <button className="pgf-btn pgf-btn-sm" onClick={undo}>Undo bulk change</button>}
         <button className="pgf-btn pgf-btn-primary" onClick={addFilter}>+ New filter</button>
         {filters.length === 0 && (
           <button className="pgf-btn" onClick={reseed}>Load from markdown</button>
         )}
       </div>
+
+      <div className="pgf-chipbar">
+        <label className="pgf-switch" title="Label clicks and the term box below apply to every filter, not just the open one">
+          <input type="checkbox" checked={affectAll} onChange={(e) => setAffectAll(e.target.checked)} />
+          <span className="pgf-switch-track" />
+          Affect all
+        </label>
+
+        <select
+          className="pgf-select"
+          value={bulkScope}
+          onChange={(e) => setBulkScope(e.target.value)}
+          disabled={!affectAll}
+        >
+          <option value="all">every filter ({filters.length})</option>
+          <option value="managed">managed only ({filters.filter((f) => f.managed).length})</option>
+        </select>
+
+        <input
+          className="pgf-input"
+          style={{ width: 180 }}
+          placeholder='term, e.g. !fire'
+          value={bulkTerm}
+          onChange={(e) => setBulkTerm(e.target.value)}
+          disabled={!affectAll}
+        />
+        <button
+          className="pgf-btn pgf-btn-sm"
+          disabled={!affectAll || !bulkTerm.trim()}
+          onClick={() => setPendingBulk({ term: bulkTerm.trim(), action: 'add', scope: bulkScope })}
+        >
+          Add to all
+        </button>
+        <button
+          className="pgf-btn pgf-btn-sm"
+          disabled={!affectAll || !bulkTerm.trim()}
+          onClick={() => setPendingBulk({ term: bulkTerm.trim(), action: 'remove', scope: bulkScope })}
+        >
+          Remove from all
+        </button>
+
+        {affectAll && (
+          <span className="pgf-muted">
+            Label clicks below now hit {bulkScope === 'managed' ? 'managed filters' : 'every filter'} — you&apos;ll see a diff first.
+          </span>
+        )}
+      </div>
+
+      {pendingBulk && (
+        <BulkTermModal
+          pending={pendingBulk}
+          filters={filters}
+          onCancel={() => setPendingBulk(null)}
+          onConfirm={async (nextFilters, description) => {
+            await commitFilters(nextFilters, description);
+            setPendingBulk(null);
+            setBulkTerm('');
+            showToast(`${description} — undo is available`);
+            if (openId) {
+              const updated = nextFilters.find((f) => f.id === openId);
+              if (updated) setDraft({ ...updated });
+            }
+          }}
+        />
+      )}
 
       {filters.length === 0 ? (
         <div className="pgf-panel" style={{ padding: 28, textAlign: 'center' }}>
@@ -263,6 +345,8 @@ export default function FiltersView() {
       <p className="pgf-muted" style={{ marginTop: 16 }}>
         {visible.length} of {filters.length} shown · {mode === 'cloud' ? 'synced to your account' : 'saved on this device'}
       </p>
+
+      <NotesTab section="filters" title="Filter notes" />
     </div>
   );
 }

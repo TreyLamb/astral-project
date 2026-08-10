@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
 import { newLabel, GAME_KEYWORDS, LABEL_PALETTE } from '../pogofiltersConfig';
 import { terms, findUnusedLabels } from '../filterSyntax';
+import NotesTab from './NotesTab';
 
 const norm = (s) => String(s ?? '').toLowerCase().replace(/\s+/g, '');
 
@@ -143,6 +144,8 @@ export default function LabelsView() {
         so the label becomes unreachable by that name. Renaming <code>XxL</code> to
         <code> xxlandxxs</code> is the reference example. Saving a colliding name is blocked.
       </p>
+
+      <NotesTab section="labels" title="Label notes" />
     </div>
   );
 }
