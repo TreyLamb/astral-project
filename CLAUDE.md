@@ -33,6 +33,7 @@ This root file only auto-loads when your working directory is at or above repo r
 
 Known nested CLAUDE.md files:
 - `src/pages/pokeredPage/CLAUDE.md` — pokered (Pokemon Red port) project rules, architecture facts, checklist-sync workflow. Auto-loads when the cwd is the game folder. (Moved here 2026-07-21 from `pokemonOg/bugtracking/lastmapMarkdowns/`.) It also registers two pokered skills — `pokered-fully-wire` and `pokered-bug-sweep` — in `src/pages/pokeredPage/.claude/skills/`.
+- `src/pages/pogofilters/CLAUDE.md` — PogoFilters (Pokémon GO search-filter manager) rules. Read it before touching `src/pages/pogofilters/` **or** the `PogoFilters/` docs folder at repo root, since the two are one project. Covers the non-obvious constraints (filter length is never a concern; the tool never guesses a CP tier), which doc is authoritative for what, the Node-vs-Vite JSON import trap that makes the build pass while the safety tests silently fail to load, and the open questions only an in-game test can settle.
 
 ---
 
