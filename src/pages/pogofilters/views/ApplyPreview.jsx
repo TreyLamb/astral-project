@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
-import { planApply } from '../applyEngine';
+import { planApply, applyPlan } from '../applyEngine';
 import { SPECIES_ROWS } from '../speciesTable';
 
-// The dry run. Every automated edit is inspected here before anything is
-// written — and in this build nothing is written at all, because the Update
-// button is deliberately inert. This is the whole safety story made visible.
+// The dry run, and the only path to a write. Every automated edit is inspected
+// here first; Apply commits exactly the queries shown in the diff and nothing
+// else. The commit snapshots the previous filters, so Undo is always available
+// afterwards. This is the whole safety story made visible.
 
 function TokenDiff({ before, after }) {
   const beforeSet = new Set(before.split('&'));
@@ -31,7 +32,7 @@ function TokenDiff({ before, after }) {
   );
 }
 
-export default function ApplyPreview({ filters, species, settings, onClose }) {
+export default function ApplyPreview({ filters, species, settings, onApply, onClose }) {
   const plan = useMemo(
     () => planApply({ filters, species, speciesRows: SPECIES_ROWS, settings }),
     [filters, species, settings],
@@ -40,13 +41,23 @@ export default function ApplyPreview({ filters, species, settings, onClose }) {
   const { summary, changes, conflicts } = plan;
   const managedCount = filters.filter((f) => f.managed).length;
 
+  // applyPlan is the tested merge — it drops any change that failed post-write
+  // validation, so a rolled-back query is shown in the diff but never written.
+  // Rebuilding that logic here would put it outside the self-test.
+  const writable = changes.filter((c) => !c.invalid && c.after !== c.before);
+  const commit = () => onApply(
+    applyPlan(filters, plan),
+    `applied the species matrix to ${writable.length} filter${writable.length === 1 ? '' : 's'}`,
+  );
+
   return (
     <div className="pgf-modal-back" onClick={onClose}>
       <div className="pgf-modal" onClick={(e) => e.stopPropagation()}>
         <h3 className="pgf-modal-title">What the engine would write</h3>
         <p className="pgf-sub">
           A dry run over the {managedCount} filter{managedCount === 1 ? '' : 's'} you&apos;ve marked
-          managed. <b>Nothing is written</b> — the Update button is intentionally not wired up yet.
+          managed. Nothing is written until you press Apply, and the previous queries are
+          snapshotted first so <b>Undo</b> always puts them back.
         </p>
 
         <div className="pgf-chipbar">
@@ -131,10 +142,15 @@ export default function ApplyPreview({ filters, species, settings, onClose }) {
           <button className="pgf-btn" onClick={onClose}>Close</button>
           <button
             className="pgf-btn pgf-btn-primary"
-            disabled
-            title="Deliberately not wired up in this build"
+            disabled={writable.length === 0}
+            title={writable.length
+              ? 'Writes exactly the queries shown above, and nothing else'
+              : 'Nothing to write'}
+            onClick={commit}
           >
-            Apply (not wired up)
+            {writable.length
+              ? `Apply to ${writable.length} filter${writable.length === 1 ? '' : 's'}`
+              : 'Nothing to apply'}
           </button>
         </div>
       </div>

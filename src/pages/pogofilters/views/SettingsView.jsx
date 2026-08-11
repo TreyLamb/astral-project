@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
 import { DEFAULT_CP_PRESETS, isAssigned, SPECIES_STAR_CHOICES } from '../pogofiltersConfig';
 import ApplyPreview from './ApplyPreview';
 
 // Settings owns the deliberate decisions: the CP preset set, per-tier star
-// defaults, and the Update button that would push species assignments into the
+// defaults, and the Update button that pushes species assignments into the
 // filters.
 //
-// Per Trey's explicit instruction the Update button is WIRED TO NOTHING in this
-// build. It renders, it's positioned top and bottom, it's styled, and it is
-// inert. The apply engine is built and testable through its dry-run preview;
-// only the commit is disconnected until he says otherwise.
+// Update is LIVE. It was inert through the first build; rewriting the filters
+// from the matrix is the entire point of the tool, so it now opens the dry run
+// and commits from there. Nothing is written without the diff being shown
+// first, every commit snapshots the previous state, and Undo restores it.
 
 // Declared outside the component: a component created during render would
 // remount and lose state on every parent render.
@@ -19,7 +19,7 @@ function UpdateButton({ onClick }) {
     <button
       className="pgf-btn pgf-btn-primary"
       onClick={onClick}
-      title="Not wired up yet, by request"
+      title="Shows the diff first — nothing is written until you confirm"
     >
       Update filters from these settings
     </button>
@@ -27,13 +27,28 @@ function UpdateButton({ onClick }) {
 }
 
 export default function SettingsView() {
-  const { settings, updateSettings, filters, labels, species, showToast, reseed } = usePogoFilters();
+  const {
+    settings, updateSettings, filters, labels, species, showToast, reseed,
+    commitFilters, undo, hasUndo,
+  } = usePogoFilters();
   const [presetDraft, setPresetDraft] = useState((settings?.cpPresets || DEFAULT_CP_PRESETS).join(', '));
   const [previewing, setPreviewing] = useState(false);
 
   const presets = settings?.cpPresets || DEFAULT_CP_PRESETS;
   const assigned = Object.values(species).filter(isAssigned).length;
   const untracked = Object.values(species).filter((s) => s.tracked === false).length;
+
+  // The CP tiers your filters actually use, read off their queries. A preset
+  // that isn't one of these can't produce a distinct result — two presets
+  // falling between the same pair of filter tiers write byte-identical output —
+  // so this is the set the tier buttons should be.
+  const filterTiers = useMemo(
+    () => [...new Set(filters.map((f) => f.cpTier).filter((n) => n != null))].sort((a, b) => a - b),
+    [filters],
+  );
+  const presetsMatchFilters = filterTiers.length > 0
+    && filterTiers.length === presets.length
+    && filterTiers.every((t, i) => t === presets[i]);
 
   const savePresets = () => {
     const parsed = presetDraft.split(',').map((s) => Number(s.trim())).filter((n) => Number.isFinite(n) && n > 0);
@@ -42,8 +57,27 @@ export default function SettingsView() {
     showToast('CP tiers updated');
   };
 
-  const onUpdateClick = () =>
-    showToast('Update is intentionally not wired up yet — nothing was written to your filters.');
+  const useFilterTiers = () => {
+    updateSettings({ cpPresets: filterTiers });
+    setPresetDraft(filterTiers.join(', '));
+    showToast(`CP tiers set to ${filterTiers.join(' / ')} — one button per filter tier`);
+  };
+
+  // Opt every CP-tier filter into being maintained by the matrix. Filters with
+  // no CP term (TTE, Luckies, Megas…) are left alone: a species rule has
+  // nothing to say about them.
+  const manageAllTiers = () => {
+    const targets = filters.filter((f) => f.cpTier != null && !f.managed);
+    if (!targets.length) { showToast('Every CP-tier filter is already managed'); return; }
+    const ids = new Set(targets.map((f) => f.id));
+    commitFilters(
+      filters.map((f) => (ids.has(f.id) ? { ...f, managed: true, updatedAt: Date.now() } : f)),
+      `managed ${targets.length} CP-tier filters`,
+    );
+    showToast(`${targets.length} filters are now maintained by the matrix — Undo restores this`);
+  };
+
+  const onUpdateClick = () => setPreviewing(true);
 
   // Regenerates Existingfilters.md's shape — heading line, then the query — so
   // the markdown that has been the source of truth since 2026-07-18 can be
@@ -84,11 +118,15 @@ export default function SettingsView() {
     <div className="pgf-page">
       <div className="pgf-chipbar">
         <UpdateButton onClick={onUpdateClick} />
-        <button className="pgf-btn" onClick={() => setPreviewing(true)}>
-          Preview what it would write
+        <button className="pgf-btn" onClick={manageAllTiers}>
+          Manage all CP-tier filters ({filters.filter((f) => f.cpTier != null && !f.managed).length} off)
+        </button>
+        <button className="pgf-btn" disabled={!hasUndo} onClick={undo}>
+          Undo last write
         </button>
         <span className="pgf-muted">
           {assigned} species assigned · {untracked} marked never-save
+          · {filters.filter((f) => f.managed).length} of {filters.length} filters managed
         </span>
       </div>
 
@@ -97,6 +135,11 @@ export default function SettingsView() {
           filters={filters}
           species={species}
           settings={settings}
+          onApply={async (nextList, description) => {
+            const saved = await commitFilters(nextList, description);
+            if (saved) showToast(`${description} — Undo is available`);
+            setPreviewing(false);
+          }}
           onClose={() => setPreviewing(false)}
         />
       )}
@@ -109,6 +152,22 @@ export default function SettingsView() {
           tier&apos;s filter and every tier above it, and leaves lower tiers alone.
           Free numeric entry is always available per species regardless of what is set here.
         </p>
+
+        {filterTiers.length > 0 && !presetsMatchFilters && (
+          <div className="pgf-lint-row pgf-lint-warn" style={{ marginBottom: 10 }}>
+            <span className="pgf-lint-badge">tiers don&apos;t match your filters</span>
+            <span>
+              Your filters use <b>{filterTiers.join(' / ')}</b>, these buttons are{' '}
+              <b>{presets.join(' / ')}</b>. Two presets that fall between the same pair of filter
+              tiers write byte-identical output, and a tier above your highest filter writes nothing
+              at all — so some of these buttons cannot produce a distinct result.
+              <button className="pgf-btn pgf-btn-sm" style={{ marginLeft: 10 }} onClick={useFilterTiers}>
+                Use {filterTiers.join(' / ')}
+              </button>
+            </span>
+          </div>
+        )}
+
         <div className="pgf-fcard-row">
           <input
             className="pgf-input" style={{ flex: '1 1 260px' }}
