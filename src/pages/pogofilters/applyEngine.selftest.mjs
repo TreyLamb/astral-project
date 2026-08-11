@@ -8,8 +8,8 @@ import {
   planApply, applyPlan, addTerm, removeTerm, findSpeciesTerm,
   validateQuery, shouldProtect, effectiveStars, planStarNormalisation,
 } from './applyEngine.js';
-import { isAssigned } from './pogofiltersConfig.js';
-import { isManualByDefault } from './classification.js';
+import { isAssigned, withSpeciesDefaults } from './pogofiltersConfig.js';
+import { isExcludedByDefault } from './classification.js';
 
 let pass = 0, fail = 0;
 function check(name, actual, expected) {
@@ -128,22 +128,31 @@ check('per-star with no rules set is not assigned',
   isAssigned({ ruleMode: 'perStar', starRules: { 0: null, 1: null, 2: null, 3: null, 4: null } }), false);
 check('flat mode is unaffected by starRules', isAssigned({ ruleMode: 'flat', tier: 800 }), true);
 
-console.log('\n--- legendaries and mythicals are manual-only ---');
-// Trey: they HAVE to be handled by hand. Distinct from never-save — these stay
-// kept and visible in the matrix, the engine just never writes a rule for them
-// in either direction, so they sit unset on purpose.
+console.log('\n--- legendaries and mythicals are excluded ---');
+// Trey is never going to rate these, so they are hidden from the matrix and the
+// assign queue entirely. Distinct from never-save — they aren't deleted, they
+// just aren't part of this tool. The engine must write nothing for them in
+// either direction, including for a rule saved before the exclusion existed.
 const MEWTWO_DEX = 150; // legendary per classification.json
-check('a legendary is manual by default', isManualByDefault(MEWTWO_DEX), true);
-check('an ordinary species is not', isManualByDefault(1), false);
+check('a legendary is excluded by default', isExcludedByDefault(MEWTWO_DEX), true);
+check('an ordinary species is not', isExcludedByDefault(1), false);
 check('engine writes nothing for a legendary, even when fully assigned',
   shouldProtect({ cpTier: 2300, starBand: 'low' },
     { dex: MEWTWO_DEX, tracked: true, tier: 800, customCp: null, starThreshold: 0 }, settings), false);
-check('an explicit override can opt a legendary back in',
+check('nor for a legendary carrying per-star rules',
+  shouldProtect({ cpTier: 2300, starBand: 'high' },
+    { dex: MEWTWO_DEX, tracked: true, ruleMode: 'perStar', starRules: { 0: 800, 1: 800, 2: 800, 3: 800, 4: 800 } },
+    settings), false);
+check('an explicit override brings a legendary back in',
   shouldProtect({ cpTier: 2300, starBand: 'low' },
-    { dex: MEWTWO_DEX, tracked: true, tier: 800, customCp: null, starThreshold: 0, manualOnly: false }, settings), true);
-check('an ordinary species can be forced manual',
+    { dex: MEWTWO_DEX, tracked: true, tier: 800, customCp: null, starThreshold: 0, excluded: false }, settings), true);
+check('an ordinary species can be excluded by hand',
   shouldProtect({ cpTier: 2300, starBand: 'low' },
-    { dex: 1, tracked: true, tier: 800, customCp: null, starThreshold: 0, manualOnly: true }, settings), false);
+    { dex: 1, tracked: true, tier: 800, customCp: null, starThreshold: 0, excluded: true }, settings), false);
+// The old field name, in case anything was saved under it before the rename.
+check('the legacy manualOnly flag still excludes',
+  shouldProtect({ cpTier: 2300, starBand: 'low' },
+    withSpeciesDefaults({ dex: 1, tracked: true, tier: 800, starThreshold: 0, manualOnly: true }), settings), false);
 
 console.log('\n--- every managed filter carries !legendary and !mythical ---');
 const guarded = { ...settings, requiredTerms: ['!legendary', '!mythical'] };

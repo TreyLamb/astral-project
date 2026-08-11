@@ -174,6 +174,8 @@ from the numbers — Trey picks it.
 | 93 | [MUST] `FilterRules.md` as the syntax source of truth | Done | At `PogoFilters/FilterRules.md` |
 | 94 | [MUST] legendary / mythical / ultra-beast / regional classification data | Done | `data/classification.json` — 86 legendary, 25 mythical, 11 ultra beasts, 63 regional, cross-checked with provenance in `data/SOURCES.md`. 2 ids absent from species.json (`zeraora`, `squawkabilly`) and 11 uncertainties are flagged in `_meta` rather than faked. Read by the matrix as LGD/MYT/UB/REG badges. Costume excluded per request |
 | 95 | [MUST] This coverage doc | Done | |
+| 96 | [MUST] Legendaries and mythicals are never rated | Done | 72 of the 936 rows. **Hidden from the species matrix and from every assign queue**, and out of every count and denominator — a queue that can never empty is a broken queue. A "Show legendary/mythical" toggle on the matrix bar reveals them; they render muted with no tier controls at all, only an *Include in matrix* button, because offering a tier the engine would then ignore is worse than showing nothing. `species.excluded` overrides the classification default in either direction. Protection comes from `!legendary` / `!mythical` on every managed filter (row 97), never from naming them individually |
+| 97 | [MUST] Every managed filter carries `!legendary` and `!mythical` | Done | `DEFAULT_REQUIRED_TERMS`, added before any species work, linted by rule 10 |
 
 ---
 

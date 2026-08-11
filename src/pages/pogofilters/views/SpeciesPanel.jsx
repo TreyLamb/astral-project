@@ -29,6 +29,11 @@ export default function SpeciesPanel({ rows, presets, labels, onPatch }) {
   const tier = mixed(rows, (r) => r.tier);
   const stars = mixed(rows, (r) => r.starThreshold);
   const allNeedCustom = rows.every((r) => r.needsCustom);
+  // Excluded species (legendaries and mythicals) take no rule, so the rule
+  // controls are hidden rather than shown-and-ignored. Labels and notes stay —
+  // that is the "maybe I'll think of a label for them one day" case.
+  const excludedCount = rows.filter((r) => r.excluded).length;
+  const allExcluded = excludedCount === rows.length;
 
   const tierSummary = () => {
     const counts = {};
@@ -70,7 +75,24 @@ export default function SpeciesPanel({ rows, presets, labels, onPatch }) {
         {rows.length > 8 && <div className="pgf-muted">…and {rows.length - 8} more</div>}
       </div>
 
-      <div className="pgf-side-card" hidden={perStar}>
+      {excludedCount > 0 && (
+        <div className="pgf-side-card">
+          <div className="pgf-h">Excluded from this tool</div>
+          <p className="pgf-sub" style={{ margin: '0 0 10px' }}>
+            {allExcluded
+              ? `${one ? one.name : `All ${rows.length}`} ${one ? 'is' : 'are'} legendary or mythical.`
+              : `${excludedCount} of ${rows.length} selected are legendary or mythical.`}{' '}
+            They are never rated here and the engine never names them in a query — every managed
+            filter carries <code>!legendary</code> and <code>!mythical</code> instead, which covers
+            all of them at once.
+          </p>
+          <button className="pgf-btn" onClick={() => onPatch({ excluded: false })}>
+            Include {allExcluded && one ? one.name : 'them'} in the matrix
+          </button>
+        </div>
+      )}
+
+      <div className="pgf-side-card" hidden={perStar || allExcluded}>
         <div className="pgf-h">Selection — CP tier</div>
         {allNeedCustom ? (
           <p className="pgf-sub" style={{ margin: '0 0 8px' }}>
@@ -112,7 +134,7 @@ export default function SpeciesPanel({ rows, presets, labels, onPatch }) {
         </p>
       </div>
 
-      <div className="pgf-side-card">
+      <div className="pgf-side-card" hidden={allExcluded}>
         <div className="pgf-h" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           Rule
           <label className="pgf-switch" style={{ marginLeft: 'auto', textTransform: 'none', letterSpacing: 0 }}>
@@ -175,7 +197,7 @@ export default function SpeciesPanel({ rows, presets, labels, onPatch }) {
         )}
       </div>
 
-      <div className="pgf-side-card" hidden={perStar}>
+      <div className="pgf-side-card" hidden={perStar || allExcluded}>
         <div className="pgf-h">Minimum stars to keep</div>
         <div className="pgf-side-tiers">
           {[0, 1, 2, 3, 4].map((n) => (

@@ -298,15 +298,15 @@ function lintStarForm(query) {
   return [];
 }
 
-// Rule 10. Legendaries and mythicals are handled by hand and must never be
-// reachable by a mass filter. Any filter that could delete something needs
-// !legendary and !mythical.
+// Rule 10. Legendaries and mythicals are excluded from the matrix, so no
+// per-species rule will ever protect one. These two terms are the only thing
+// keeping a mass filter from reaching them, which makes them non-negotiable.
 function lintRequiredTerms(query, requiredTerms) {
   const present = new Set(terms(query).filter((t) => t.negated).map((t) => norm(t.text)));
   return (requiredTerms || DEFAULT_REQUIRED_TERMS)
     .filter((req) => !present.has(norm(req.replace(/^!/, ''))))
     .map((req) => issue('warning', 'missing-required',
-      `Missing ${req}. Legendaries and mythicals are handled by hand — a mass filter without this could reach one.`,
+      `Missing ${req}. Legendaries and mythicals are never rated in the matrix, so this term is the only thing keeping this filter off them.`,
       { fix: { find: query.trim(), replace: query.trim() ? `${query.trim()}&${req}` : req } }));
 }
 

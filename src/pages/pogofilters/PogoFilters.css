@@ -588,10 +588,10 @@
   .pgf-notes, .pgf-tierbtn, .pgf-tab, .pgf-copybtn { transition: none; }
 }
 
-/* Manual-only species (legendaries and mythicals). Deliberately NOT the same
-   look as "never save" — these are kept, just never touched by the engine. */
-.pgf-manual-tag {
-  font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em;
-  color: var(--pgf-lit); border: 1px dashed var(--pgf-lit);
-  border-radius: 4px; padding: 3px 7px; white-space: nowrap;
-}
+/* Excluded species (legendaries and mythicals) are hidden from the matrix
+   entirely. This only ever renders behind the "show legendary/mythical" toggle,
+   so it reads as visibly not-part-of-the-list rather than as a row to work on. */
+.pgf-matrix tr.pgf-excluded { opacity: 0.5; }
+.pgf-matrix tr.pgf-excluded .pgf-mx-name,
+.pgf-matrix tr.pgf-excluded .pgf-mx-cp { font-style: italic; }
+.pgf-matrix tr.pgf-excluded:hover { opacity: 0.8; }

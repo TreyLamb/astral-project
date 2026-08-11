@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, useEffect } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
 import { SPECIES_ROWS, officialArtworkUrl } from '../speciesTable';
 import { needsCustomCp, REFERENCE_LEVELS, withSpeciesDefaults } from '../pogofiltersConfig';
+import { isExcluded } from '../classification';
 
 // The one-time assignment wizard, per DECISION.md's "Queue workflow" section.
 // Deliberately NOT part of the matrix: its only job is to get every species
@@ -74,16 +75,21 @@ export default function QueueView() {
       needsCustom: needsCustomCp(s.maxCp, presets),
       assigned: a.tier !== null || a.customCp !== null,
       starThreshold: a.starThreshold,
+      excluded: isExcluded(a, s.dex),
     };
   }), [species, presets]);
 
   const byDex = useMemo(() => new Map(rows.map((r) => [r.dex, r])), [rows]);
 
-  // An unchecked species is one Trey never wants saved, so it is out of every
-  // queue and out of the denominator.
-  const kept = useMemo(() => rows.filter((r) => r.tracked), [rows]);
+  // Two kinds of species never reach a queue, and both are out of the
+  // denominator as well — a queue that can never empty is a broken queue.
+  //   excluded  — legendaries and mythicals. Never rated, so never queued.
+  //   unchecked — species Trey never wants saved at all.
+  const live = useMemo(() => rows.filter((r) => !r.excluded), [rows]);
+  const kept = useMemo(() => live.filter((r) => r.tracked), [live]);
   const doneCount = kept.filter((r) => r.assigned).length;
-  const neverSaveCount = rows.length - kept.length;
+  const neverSaveCount = live.length - kept.length;
+  const excludedCount = rows.length - live.length;
   const pct = kept.length ? (doneCount / kept.length) * 100 : 0;
 
   const queues = useMemo(() => QUEUES.map((q) => ({
@@ -167,6 +173,7 @@ export default function QueueView() {
             <span className="pgf-muted">
               {pct.toFixed(1)}% done · {kept.length - doneCount} to go
               {neverSaveCount ? ` · ${neverSaveCount} marked never-save` : ''}
+              {excludedCount ? ` · ${excludedCount} legendary/mythical excluded` : ''}
             </span>
           </div>
           <div style={{ height: 12, margin: '10px 0 8px', borderRadius: 6, overflow: 'hidden', background: 'rgba(0,0,0,0.45)', border: '1px solid var(--pgf-line)' }}>

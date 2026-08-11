@@ -194,9 +194,12 @@ export function withSpeciesDefaults(s = {}) {
     //             from 1000 CP up while a 1★ of the same species has to reach
     //             2000. A better specimen earns a lower bar.
     ruleMode: s.ruleMode === 'perStar' ? 'perStar' : 'flat',
-    // null = inherit the classification default (legendary/mythical are manual).
-    // true/false = an explicit override for this species.
-    manualOnly: typeof s.manualOnly === 'boolean' ? s.manualOnly : null,
+    // null = inherit the classification default (legendary/mythical are
+    // excluded — hidden from the matrix and the queue, never named in a rule).
+    // true/false = an explicit override for this species. `manualOnly` is the
+    // old name for the same flag; read it so anything saved under it survives.
+    excluded: typeof s.excluded === 'boolean' ? s.excluded
+      : typeof s.manualOnly === 'boolean' ? s.manualOnly : null,
     // Keyed by star rating 0-4. null = that rating is never kept for this
     // species, which is different from 0 (kept at any CP).
     starRules: withStarRules(s.starRules),
@@ -228,9 +231,9 @@ export function withGroupDefaults(g = {}) {
   };
 }
 
-// Terms every managed filter must carry. Legendaries and mythicals are handled
-// by hand, so no mass filter should ever be able to reach one — this is the
-// belt to the species-level braces.
+// Terms every managed filter must carry. Legendaries and mythicals are excluded
+// from the matrix and never rated, so these two terms — not any per-species
+// rule — are what keeps a mass filter from reaching one.
 export const DEFAULT_REQUIRED_TERMS = ['!legendary', '!mythical'];
 
 export function withSettingsDefaults(s = {}) {

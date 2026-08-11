@@ -19,7 +19,7 @@
 
 import { terms } from './filterSyntax.js';
 import { STAR_BANDS, DEFAULT_REQUIRED_TERMS } from './pogofiltersConfig.js';
-import { isManualOnly } from './classification.js';
+import { isExcluded } from './classification.js';
 
 const norm = (s) => String(s ?? '').toLowerCase().replace(/\s+/g, '');
 
@@ -93,11 +93,13 @@ export function shouldProtect(filter, species, settings) {
   // anywhere — this is checked first so nothing below can override it.
   if (species?.tracked === false) return false;
 
-  // Manual-only (legendaries and mythicals by default): the engine writes
-  // nothing for these in either direction. They stay at null in the matrix on
-  // purpose. Blanket protection comes from the required terms on the filter
-  // itself, not from naming every legendary in every query.
-  if (isManualOnly(species, species?.dex)) return false;
+  // Excluded (legendaries and mythicals by default): the engine writes nothing
+  // for these in either direction. They are hidden from the matrix and the
+  // queue, so they can't carry a rule anyway — this is the backstop for a stale
+  // one saved before the species was excluded. Blanket protection comes from
+  // the required terms on the filter itself, not from naming every legendary in
+  // every query.
+  if (isExcluded(species, species?.dex)) return false;
 
   if (filter?.cpTier == null) return false; // filter isn't a CP tier filter
 

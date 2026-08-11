@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
 import { SPECIES_ROWS, ALL_TYPES, officialArtworkUrl } from '../speciesTable';
 import { needsCustomCp, REFERENCE_LEVELS, withSpeciesDefaults, isAssigned } from '../pogofiltersConfig';
-import { categoriesFor, CATEGORY_SHORT, CATEGORY_LABEL, isManualOnly } from '../classification';
+import { categoriesFor, CATEGORY_SHORT, CATEGORY_LABEL, isExcluded } from '../classification';
 import SpeciesPanel from './SpeciesPanel';
 
 // The species CP matrix. Design A's dense table with Design C's top bar and
@@ -18,7 +18,6 @@ const STATUS = [
   { id: 'unassigned', label: 'Unassigned' },
   { id: 'assigned', label: 'Assigned' },
   { id: 'needscustom', label: 'Needs custom' },
-  { id: 'manual', label: 'Manual only' },
 ];
 
 export default function MatrixView() {
@@ -33,6 +32,9 @@ export default function MatrixView() {
   const [cpMin, setCpMin] = useState('');
   const [cpMax, setCpMax] = useState('');
   const [showUnchecked, setShowUnchecked] = useState(false);
+  // Legendaries and mythicals are out of this tool entirely. The toggle exists
+  // so nothing is silently missing, not because it's meant to be used.
+  const [showExcluded, setShowExcluded] = useState(false);
 
   const [selected, setSelected] = useState(() => new Set());
   const [cursor, setCursor] = useState(null);
@@ -49,7 +51,7 @@ export default function MatrixView() {
       ...s, ...a,
       needsCustom: needsCustomCp(s.maxCp, presets),
       categories: categoriesFor(s.dex),
-      manual: isManualOnly(a, s.dex),
+      excluded: isExcluded(a, s.dex),
     };
   }), [species, presets]);
 
@@ -58,31 +60,37 @@ export default function MatrixView() {
     const mn = cpMin === '' ? -Infinity : Number(cpMin);
     const mx = cpMax === '' ? Infinity : Number(cpMax);
     return rows.filter((s) => {
+      // Legendaries and mythicals are never rated, so they are not in this list
+      // at all. Every managed filter already carries !legendary and !mythical.
+      if (s.excluded && !showExcluded) return false;
       // An unchecked species is one Trey never wants saved. It leaves the list
       // entirely unless he asks to see them.
       if (!s.tracked && !showUnchecked) return false;
       if (needle && !(s.name.toLowerCase().includes(needle)
         || String(s.dex).padStart(3, '0').includes(needle))) return false;
       if (type && !s.types.includes(type)) return false;
-      if (status === 'unassigned' && (isAssigned(s) || s.manual)) return false;
+      if (status === 'unassigned' && isAssigned(s)) return false;
       if (status === 'assigned' && !isAssigned(s)) return false;
       if (status === 'needscustom' && !s.needsCustom) return false;
-      if (status === 'manual' && !s.manual) return false;
       const l25 = s.cp[25];
       if (l25 < mn || l25 > mx) return false;
       return true;
     });
-  }, [rows, q, type, status, cpMin, cpMax, showUnchecked]);
+  }, [rows, q, type, status, cpMin, cpMax, showUnchecked, showExcluded]);
 
   const visibleDex = useMemo(() => visible.map((s) => s.dex), [visible]);
 
-  const counts = useMemo(() => ({
-    tracked: rows.filter((s) => s.tracked).length,
-    unchecked: rows.filter((s) => !s.tracked).length,
-    assigned: rows.filter((s) => s.tracked && isAssigned(s)).length,
-    manual: rows.filter((s) => s.tracked && s.manual).length,
-    needsCustom: rows.filter((s) => s.tracked && s.needsCustom).length,
-  }), [rows]);
+  // Excluded species are out of every count too — they are not work to be done,
+  // so they must not sit in a denominator making the job look unfinished.
+  const counts = useMemo(() => {
+    const live = rows.filter((s) => !s.excluded);
+    return {
+      unchecked: live.filter((s) => !s.tracked).length,
+      excluded: rows.length - live.length,
+      assigned: live.filter((s) => s.tracked && isAssigned(s)).length,
+      needsCustom: live.filter((s) => s.tracked && s.needsCustom).length,
+    };
+  }, [rows]);
 
   const selectRow = useCallback((dex, e) => {
     const i = visibleDex.indexOf(dex);
@@ -194,6 +202,15 @@ export default function MatrixView() {
             Show unchecked ({counts.unchecked})
           </label>
 
+          <label
+            className="pgf-switch"
+            title="Legendaries and mythicals are never rated here — every managed filter carries !legendary and !mythical instead. Hidden by default."
+          >
+            <input type="checkbox" checked={showExcluded} onChange={(e) => setShowExcluded(e.target.checked)} />
+            <span className="pgf-switch-track" />
+            Show legendary/mythical ({counts.excluded})
+          </label>
+
           <span className="pgf-spacer" />
           <span className="pgf-muted">
             {visible.length} shown · {counts.assigned} assigned · {counts.needsCustom} need custom
@@ -237,7 +254,7 @@ export default function MatrixView() {
                   <tr
                     key={s.dex}
                     data-dex={s.dex}
-                    className={`${s.needsCustom ? 'pgf-needs ' : ''}${isCursor ? 'pgf-cursor ' : ''}${isPicked ? 'pgf-picked' : ''}`}
+                    className={`${s.excluded ? 'pgf-excluded ' : ''}${s.needsCustom ? 'pgf-needs ' : ''}${isCursor ? 'pgf-cursor ' : ''}${isPicked ? 'pgf-picked' : ''}`}
                     onClick={(e) => selectRow(s.dex, e)}
                   >
                     <td onClick={(e) => e.stopPropagation()}>
@@ -263,7 +280,7 @@ export default function MatrixView() {
                           data-cat={c}
                           title={
                             c === 'legendary' || c === 'mythical'
-                              ? `${CATEGORY_LABEL[c]} — can't be mass-transferred, so a CP tier here is mostly decoration`
+                              ? `${CATEGORY_LABEL[c]} — excluded from this tool. Covered by the !legendary / !mythical terms on every managed filter instead.`
                               : CATEGORY_LABEL[c]
                           }
                         >
@@ -280,29 +297,42 @@ export default function MatrixView() {
                       </td>
                     ))}
                     <td className="pgf-sec-sel" onClick={(e) => e.stopPropagation()}>
-                      {s.manual
-                        ? <span className="pgf-manual-tag" title="Legendary or Mythical — handled by hand. The engine never writes a rule for these in either direction, so they stay unset on purpose.">MANUAL ONLY</span>
-                        : s.needsCustom
-                        ? <span className="pgf-needs-tag" title={`Max ${s.maxCp} CP at L${REFERENCE_LEVELS.at(-1)} — below every preset`}>NEEDS CUSTOM</span>
-                        : presets.map((t) => (
-                          <button
-                            key={t}
-                            className={`pgf-tierbtn${s.tier === t ? ' on' : ''}${s.maxCp < t ? ' unreachable' : ''}`}
-                            title={s.maxCp < t ? `Unreachable — ${s.name} maxes at ${s.maxCp}` : `Keep at ${t} CP and above`}
-                            onClick={() => setTier(s.dex, t)}
-                          >
-                            {t}
-                          </button>
-                        ))}
-                      <input
-                        className="pgf-customcp"
-                        placeholder="custom"
-                        defaultValue={s.customCp ?? ''}
-                        onBlur={(e) => {
-                          const v = e.target.value.trim();
-                          patch([s.dex], { customCp: v === '' ? null : Number(v), tier: v === '' ? s.tier : null });
-                        }}
-                      />
+                      {/* An excluded species gets no controls at all — offering a
+                          tier the engine would then ignore is worse than nothing.
+                          The one button here undoes the exclusion. */}
+                      {s.excluded ? (
+                        <button
+                          className="pgf-btn pgf-btn-sm"
+                          title={`${s.name} is out of this tool. Every managed filter already carries !legendary and !mythical. Click to bring it in as an ordinary species.`}
+                          onClick={() => patch([s.dex], { excluded: false })}
+                        >
+                          Include in matrix
+                        </button>
+                      ) : (
+                        <>
+                          {s.needsCustom
+                            ? <span className="pgf-needs-tag" title={`Max ${s.maxCp} CP at L${REFERENCE_LEVELS.at(-1)} — below every preset`}>NEEDS CUSTOM</span>
+                            : presets.map((t) => (
+                              <button
+                                key={t}
+                                className={`pgf-tierbtn${s.tier === t ? ' on' : ''}${s.maxCp < t ? ' unreachable' : ''}`}
+                                title={s.maxCp < t ? `Unreachable — ${s.name} maxes at ${s.maxCp}` : `Keep at ${t} CP and above`}
+                                onClick={() => setTier(s.dex, t)}
+                              >
+                                {t}
+                              </button>
+                            ))}
+                          <input
+                            className="pgf-customcp"
+                            placeholder="custom"
+                            defaultValue={s.customCp ?? ''}
+                            onBlur={(e) => {
+                              const v = e.target.value.trim();
+                              patch([s.dex], { customCp: v === '' ? null : Number(v), tier: v === '' ? s.tier : null });
+                            }}
+                          />
+                        </>
+                      )}
                     </td>
                     <td className={`pgf-stars${s.starThreshold === null ? ' inherit' : ''}`}>
                       {[1, 2, 3, 4].map((n) => (

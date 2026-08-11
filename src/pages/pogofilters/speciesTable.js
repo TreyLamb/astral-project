@@ -11,10 +11,13 @@
 // CP math is imported, not reimplemented — computeCp is the same function POGO
 // Accs rates raid lineups with.
 
-import speciesJson from '../pogoaccs/data/species.json';
-import cpMultipliers from '../pogoaccs/data/cpMultipliers.json';
-import { computeCp } from '../pogoaccs/engine/stats';
-import { REFERENCE_LEVELS } from './pogofiltersConfig';
+// Import attributes and explicit .js extensions so this loads under Node too,
+// not just Vite — anything in this folder is liable to end up in a .mjs check
+// script sooner or later, and Node is strict about both.
+import speciesJson from '../pogoaccs/data/species.json' with { type: 'json' };
+import cpMultipliers from '../pogoaccs/data/cpMultipliers.json' with { type: 'json' };
+import { computeCp } from '../pogoaccs/engine/stats.js';
+import { REFERENCE_LEVELS } from './pogofiltersConfig.js';
 
 const SPECIES = speciesJson.species;
 

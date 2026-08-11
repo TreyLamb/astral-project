@@ -27,6 +27,11 @@ The centrepiece is the **species CP matrix**: one row per species (~936), CP at 
    decide. He has rejected an agent's reading of his own filters before.
 6. **Real usage outranks documentation.** `ultra beasts` is in no published cheat sheet but works in
    his live filters. That's what the `in-use` confidence level in `searchTerms.json` is for.
+7. **Legendaries and mythicals are excluded, not "handled specially".** 72 species. They are hidden
+   from the matrix and from every assign queue, and out of every count — Trey is never going to rate
+   them, so a visible row is noise and a queue entry is a queue that can't empty. What keeps them
+   safe is `!legendary` / `!mythical` on every managed filter, never a per-species rule. Do not
+   reintroduce a badge, a status filter, or a "review these" prompt for them.
 
 ## Where truth lives
 
