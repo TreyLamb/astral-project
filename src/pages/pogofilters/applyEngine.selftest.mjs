@@ -128,6 +128,23 @@ check('per-star with no rules set is not assigned',
   isAssigned({ ruleMode: 'perStar', starRules: { 0: null, 1: null, 2: null, 3: null, 4: null } }), false);
 check('flat mode is unaffected by starRules', isAssigned({ ruleMode: 'flat', tier: 800 }), true);
 
+console.log('\n--- a star minimum can never cancel a CP tier ---');
+// Every main filter is band `low` (!3*&!4*). A minimum of 3 or 4 would reach no
+// filter at all, so the rule would read as assigned in the matrix and write
+// nothing. withSpeciesDefaults clamps to 0-2 so that state is unreachable.
+const MAIN = { cpTier: 1900, starBand: 'low' };
+const tyra = (st) => withSpeciesDefaults({ dex: 248, tracked: true, tier: 1900, starThreshold: st });
+for (const st of [0, 1, 2]) {
+  check(`${st}* still protects on the 0-2* band`, shouldProtect(MAIN, tyra(st), settings), true);
+}
+check('a stored 3* is clamped to 2', tyra(3).starThreshold, 2);
+check('a stored 4* is clamped to 2', tyra(4).starThreshold, 2);
+check('and so still protects', shouldProtect(MAIN, tyra(4), settings), true);
+check('unset still protects', shouldProtect(MAIN, tyra(null), settings), true);
+check('a negative is clamped to 0', tyra(-1).starThreshold, 0);
+check('unassigned is still skipped — clamping must not invent a rule',
+  shouldProtect(MAIN, withSpeciesDefaults({ dex: 248, tracked: true, starThreshold: 2 }), settings), false);
+
 console.log('\n--- legendaries and mythicals are excluded ---');
 // Trey is never going to rate these, so they are hidden from the matrix and the
 // assign queue entirely. Distinct from never-save — they aren't deleted, they

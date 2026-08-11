@@ -164,6 +164,20 @@ export function withLabelDefaults(l = {}, index = null) {
 
 export const STAR_RATINGS = [0, 1, 2, 3, 4];
 
+// The choices offered for a species' MINIMUM stars to keep — 0-2 only, never
+// 3 or 4.
+//
+// Every main trash filter starts `!3*&!4*`, so 3★ and 4★ specimens are already
+// spared by construction and never enter a trash filter at all. A species
+// minimum of 3★ therefore asks for protection that is only needed in filters
+// that don't exist, and the engine correctly writes nothing — which reads in
+// the matrix as an assigned rule that silently does nothing. That is a control
+// offering a choice the filters cannot express, so the choice is gone.
+//
+// Trey's framing: choosing a star means "I'm okay with keeping this one BELOW
+// 3★". 3★ is the baseline, not an option.
+export const SPECIES_STAR_CHOICES = [0, 1, 2];
+
 // Normalises the per-star CP map. Every rating gets an explicit key so the UI
 // never has to distinguish "absent" from "deliberately null".
 export function withStarRules(raw) {
@@ -187,7 +201,13 @@ export function withSpeciesDefaults(s = {}) {
     tracked: s.tracked !== false,
     tier: s.tier ?? null,          // one of settings.cpPresets, or null
     customCp: s.customCp ?? null,  // free entry, always available
-    starThreshold: s.starThreshold ?? null, // null = inherit the tier default
+    // null = inherit the tier default. Clamped to 0-2 so a value stored before
+    // SPECIES_STAR_CHOICES existed can never silently cancel a CP tier — a 3★
+    // or 4★ minimum reaches no trash filter at all, and a rule that looks
+    // assigned but writes nothing is worse than no rule.
+    starThreshold: typeof s.starThreshold === 'number'
+      ? Math.min(Math.max(s.starThreshold, 0), Math.max(...SPECIES_STAR_CHOICES))
+      : null,
 
     // 'flat'    — one CP threshold + one minimum star rating (the default).
     // 'perStar' — a different CP threshold per star rating, so a 4★ can be kept

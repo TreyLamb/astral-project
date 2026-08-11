@@ -1,5 +1,5 @@
 import { officialArtworkUrl } from '../speciesTable';
-import { REFERENCE_LEVELS, STAR_RATINGS } from '../pogofiltersConfig';
+import { REFERENCE_LEVELS, STAR_RATINGS, SPECIES_STAR_CHOICES } from '../pogofiltersConfig';
 
 // Design C's side panel. Edits apply to the ENTIRE current selection, so it is
 // both the single-species editor and the bulk editor — a single species is just
@@ -152,14 +152,17 @@ export default function SpeciesPanel({ rows, presets, labels, onPatch }) {
           <>
             <p className="pgf-sub" style={{ margin: '0 0 10px' }}>
               A different CP bar per star rating — a better specimen earns a lower one.
-              Blank means that rating is never kept.
+              Blank means that rating is never kept. 3★ and 4★ aren&apos;t listed: no trash filter
+              can reach them, so a bar there would never be read.
             </p>
-            {STAR_RATINGS.slice().reverse().map((n) => {
+            {SPECIES_STAR_CHOICES.slice().reverse().map((n) => {
               const val = mixed(rows, (r) => r.starRules?.[n]);
               return (
                 <div key={n} className="pgf-starrule">
                   <span className="pgf-stars">
-                    {[1, 2, 3, 4].map((i) => <span key={i} className={n >= i ? '' : 'off'}>★</span>)}
+                    {SPECIES_STAR_CHOICES.filter((i) => i > 0).map((i) => (
+                      <span key={i} className={n >= i ? '' : 'off'}>★</span>
+                    ))}
                   </span>
                   <span className="pgf-muted" style={{ width: 28 }}>{n}★</span>
                   <span className="pgf-muted">keep from</span>
@@ -199,8 +202,19 @@ export default function SpeciesPanel({ rows, presets, labels, onPatch }) {
 
       <div className="pgf-side-card" hidden={perStar || allExcluded}>
         <div className="pgf-h">Minimum stars to keep</div>
+        <p className="pgf-sub" style={{ margin: '0 0 8px' }}>
+          Every trash filter already starts <code>!3*&amp;!4*</code>, so 3★ and 4★ are safe without
+          being asked for. This only decides how far <i>below</i> 3★ the CP bar still keeps one.
+        </p>
         <div className="pgf-side-tiers">
-          {[0, 1, 2, 3, 4].map((n) => (
+          <button
+            className={`pgf-tierbtn pgf-tierbtn-lg${stars === null ? ' on' : ''}`}
+            title="Use the default for this species' CP tier"
+            onClick={() => onPatch({ starThreshold: null })}
+          >
+            any ★
+          </button>
+          {SPECIES_STAR_CHOICES.map((n) => (
             <button
               key={n}
               className={`pgf-tierbtn pgf-tierbtn-lg${stars === n ? ' on' : ''}`}
@@ -209,13 +223,6 @@ export default function SpeciesPanel({ rows, presets, labels, onPatch }) {
               {n}★
             </button>
           ))}
-          <button
-            className={`pgf-tierbtn pgf-tierbtn-lg${stars === null ? ' on' : ''}`}
-            title="Use the default for this species' CP tier"
-            onClick={() => onPatch({ starThreshold: null })}
-          >
-            inherit
-          </button>
         </div>
         {stars === undefined && <div className="pgf-side-mixed">⊘ Mixed star minimums across the selection.</div>}
       </div>

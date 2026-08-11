@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
-import { DEFAULT_CP_PRESETS, isAssigned } from '../pogofiltersConfig';
+import { DEFAULT_CP_PRESETS, isAssigned, SPECIES_STAR_CHOICES } from '../pogofiltersConfig';
 import ApplyPreview from './ApplyPreview';
 
 // Settings owns the deliberate decisions: the CP preset set, per-tier star
@@ -134,6 +134,8 @@ export default function SettingsView() {
         <p className="pgf-sub">
           Most species should inherit rather than be decided one at a time. A species only needs
           its own star setting where you actually care — everything else follows its tier.
+          Only 0–2 are offered: every trash filter starts <code>!3*&amp;!4*</code>, so 3★ and 4★ are
+          already spared and a higher minimum would ask for protection no filter can give.
         </p>
         <table className="pgf-table">
           <thead>
@@ -144,7 +146,7 @@ export default function SettingsView() {
               <tr key={t}>
                 <td><span className="pgf-tierbtn on" style={{ cursor: 'default' }}>{t}</span></td>
                 <td>
-                  {[0, 1, 2, 3, 4].map((n) => (
+                  {SPECIES_STAR_CHOICES.map((n) => (
                     <button
                       key={n}
                       className={`pgf-tierbtn${(settings?.tierStarDefaults?.[t] ?? 0) === n ? ' on' : ''}`}

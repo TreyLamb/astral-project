@@ -1,7 +1,9 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
 import { SPECIES_ROWS, officialArtworkUrl } from '../speciesTable';
-import { needsCustomCp, REFERENCE_LEVELS, withSpeciesDefaults } from '../pogofiltersConfig';
+import {
+  needsCustomCp, REFERENCE_LEVELS, withSpeciesDefaults, SPECIES_STAR_CHOICES,
+} from '../pogofiltersConfig';
 import { isExcluded } from '../classification';
 
 // The one-time assignment wizard, per DECISION.md's "Queue workflow" section.
@@ -49,8 +51,10 @@ const QUEUES = [
   },
 ];
 
-// Stars on q-w-e-r-t (0★..4★) so they don't collide with the 1-5 tier keys.
-const STAR_KEYS = ['q', 'w', 'e', 'r', 't'];
+// Stars on q-w-e (0★..2★) so they don't collide with the 1-5 tier keys. Only
+// 0-2 exist: every trash filter starts !3*&!4*, so 3★ and 4★ are already spared
+// and a minimum above 2 would ask for protection no filter can give.
+const STAR_KEYS = ['q', 'w', 'e'];
 
 export default function QueueView() {
   const { species, settings, saveSpecies, showToast } = usePogoFilters();
@@ -335,9 +339,19 @@ export default function QueueView() {
                 a minimum star rating applies whether the CP bar came from a
                 preset or a typed value. The tier key is what advances, so the
                 natural order is stars first, then tier. */}
-            <div className="pgf-h" style={{ margin: '14px 0 6px' }}>Minimum stars to keep</div>
+            <div className="pgf-h" style={{ margin: '14px 0 6px' }}>
+              Minimum stars to keep — 3★ and 4★ are already safe
+            </div>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
-              {[0, 1, 2, 3, 4].map((n) => (
+              <button
+                className={`pgf-tierbtn pgf-tierbtn-lg${cur.starThreshold === null ? ' on' : ''}`}
+                style={{ flex: '1 1 56px', height: 44 }}
+                title="Kept at its CP bar whatever the rating"
+                onClick={(ev) => { ev.currentTarget.blur(); patch(cur.dex, { starThreshold: null }); }}
+              >
+                any ★
+              </button>
+              {SPECIES_STAR_CHOICES.map((n) => (
                 <button
                   key={n}
                   className={`pgf-tierbtn pgf-tierbtn-lg${cur.starThreshold === n ? ' on' : ''}`}
@@ -414,7 +428,8 @@ export default function QueueView() {
             <p className="pgf-muted" style={{ marginTop: 12, lineHeight: 1.7 }}>
               <b style={{ color: 'var(--pgf-text-dim)' }}>{pos + 1} of {run.length}</b> in this run
               <br />
-              1–{presets.length} set a tier · 0 clears it · ← → move · S skip · X never save · Esc back
+              1–{presets.length} set a tier · 0 clears it · {STAR_KEYS.join('/')} set stars
+              · ← → move · S skip · X never save · Esc back
             </p>
           </div>
         </div>

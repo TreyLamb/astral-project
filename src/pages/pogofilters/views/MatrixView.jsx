@@ -1,7 +1,9 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
 import { SPECIES_ROWS, ALL_TYPES, officialArtworkUrl } from '../speciesTable';
-import { needsCustomCp, REFERENCE_LEVELS, withSpeciesDefaults, isAssigned } from '../pogofiltersConfig';
+import {
+  needsCustomCp, REFERENCE_LEVELS, withSpeciesDefaults, isAssigned, SPECIES_STAR_CHOICES,
+} from '../pogofiltersConfig';
 import { categoriesFor, CATEGORY_SHORT, CATEGORY_LABEL, isExcluded } from '../classification';
 import SpeciesPanel from './SpeciesPanel';
 
@@ -334,8 +336,13 @@ export default function MatrixView() {
                         </>
                       )}
                     </td>
-                    <td className={`pgf-stars${s.starThreshold === null ? ' inherit' : ''}`}>
-                      {[1, 2, 3, 4].map((n) => (
+                    <td
+                      className={`pgf-stars${s.starThreshold === null ? ' inherit' : ''}`}
+                      title={s.starThreshold === null
+                        ? 'Any star — kept at its CP bar whatever the rating'
+                        : `Only kept at its CP bar from ${s.starThreshold}★ up`}
+                    >
+                      {SPECIES_STAR_CHOICES.filter((n) => n > 0).map((n) => (
                         <span key={n} className={(s.starThreshold ?? 0) >= n ? '' : 'off'}>★</span>
                       ))}
                     </td>
