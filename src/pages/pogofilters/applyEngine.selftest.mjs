@@ -7,6 +7,7 @@
 import {
   planApply, applyPlan, addTerm, removeTerm, findSpeciesTerm,
   validateQuery, shouldProtect, effectiveStars, planStarNormalisation,
+  indexSpeciesMentions, planAdoption, applyAdoption,
 } from './applyEngine.js';
 import { isAssigned, withSpeciesDefaults } from './pogofiltersConfig.js';
 import { isExcludedByDefault } from './classification.js';
@@ -127,6 +128,45 @@ check('a species is "assigned" on per-star rules alone', isAssigned(perStar), tr
 check('per-star with no rules set is not assigned',
   isAssigned({ ruleMode: 'perStar', starRules: { 0: null, 1: null, 2: null, 3: null, 4: null } }), false);
 check('flat mode is unaffected by starRules', isAssigned({ ruleMode: 'flat', tier: 800 }), true);
+
+console.log('\n--- species mentions cross reference ---');
+const XROWS = [NIDORAN, NIDORINA, MEW, MEWTWO, BULBA, TYRA];
+const xfilters = [
+  { id: 'x1', name: 'easy evolves', query: '!traded&bulbasaur&nidorina', managed: false, cpTier: null },
+  { id: 'x2', name: 'trash 1900', query: '!3*&!4*&!cp1900-&!tyranitar', managed: true, cpTier: 1900 },
+  { id: 'x3', name: 'by dex', query: '001,248&!traded', managed: false, cpTier: null },
+];
+const mentions = indexSpeciesMentions(xfilters, XROWS);
+check('bulbasaur is found by name and by dex',
+  mentions.get(1).map((m) => m.name), ['easy evolves', 'by dex']);
+check('polarity is recorded, not flattened',
+  mentions.get(1).map((m) => m.negated), [false, false]);
+check('a negated mention is still a mention',
+  mentions.get(248).map((m) => `${m.name}:${m.negated}`), ['trash 1900:true', 'by dex:false']);
+check('nidorina does NOT pull in nidoran', mentions.get(32), undefined);
+check('a species nobody mentions is absent', mentions.get(151), undefined);
+
+console.log('\n--- adoption: matrix takes over hand-typed names ---');
+const adoptable = [
+  { id: 'a1', name: 'managed', query: '!3*&!4*&!cp1900-&!tyranitar&!bulbasaur', managed: true, cpTier: 1900, starBand: 'low', managedTokens: [] },
+  { id: 'a2', name: 'not managed', query: '!cp1900-&!mew', managed: false, cpTier: 1900, starBand: 'low', managedTokens: [] },
+];
+const aplan = planAdoption(adoptable, XROWS);
+check('only managed filters are offered', aplan.map((r) => r.filter.id), ['a1']);
+check('both hand-typed species are found', aplan[0].adopt.map((a) => a.name), ['Tyranitar', 'Bulbasaur']);
+const adopted = applyAdoption(adoptable, aplan);
+check('adoption never edits the query', adopted[0].query, adoptable[0].query);
+check('provenance now covers them', adopted[0].managedTokens, ['tyranitar', 'bulbasaur']);
+check('an unmanaged filter is untouched', adopted[1].managedTokens, []);
+check('adopting twice adds nothing', planAdoption(adopted, XROWS).length, 0);
+// The whole point: before adoption the engine refuses to remove; after, it can.
+const unassigned = { 248: { dex: 248, tracked: true, tier: null, customCp: null, starThreshold: null } };
+const before = planApply({ filters: adoptable, species: unassigned, speciesRows: XROWS, settings });
+check('before adoption the hand-typed name survives',
+  /!tyranitar/.test(before.changes.find((c) => c.filter.id === 'a1')?.after ?? adoptable[0].query), true);
+const after = planApply({ filters: adopted, species: unassigned, speciesRows: XROWS, settings });
+check('after adoption the matrix removes it',
+  /!tyranitar/.test(after.changes.find((c) => c.filter.id === 'a1').after), false);
 
 console.log('\n--- a star minimum can never cancel a CP tier ---');
 // Every main filter is band `low` (!3*&!4*). A minimum of 3 or 4 would reach no

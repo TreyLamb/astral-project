@@ -588,6 +588,24 @@
   .pgf-notes, .pgf-tierbtn, .pgf-tab, .pgf-copybtn { transition: none; }
 }
 
+/* "In filters" — which filters already name a species. A CP-tier filter naming
+   it is the matrix's own output, so it recedes; a filter with no CP tier is a
+   specific one the matrix never touches, which is the interesting case. */
+.pgf-mentions { line-height: 1.9; }
+.pgf-ment {
+  display: inline-block; font-size: 10.5px; font-weight: 700;
+  padding: 2px 6px; margin: 0 4px 2px 0; border-radius: 4px;
+  max-width: 108px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  vertical-align: bottom;
+  color: var(--pgf-amber); border: 1px solid var(--pgf-amber);
+  background: color-mix(in srgb, var(--pgf-amber) 12%, transparent);
+}
+.pgf-ment.derived {
+  color: var(--pgf-text-dim); border-color: var(--pgf-line);
+  background: transparent; font-weight: 600; opacity: 0.75;
+}
+.pgf-ment i { font-style: normal; margin-left: 4px; }
+
 /* Excluded species (legendaries and mythicals) are hidden from the matrix
    entirely. This only ever renders behind the "show legendary/mythical" toggle,
    so it reads as visibly not-part-of-the-list rather than as a row to work on. */

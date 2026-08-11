@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
 import { DEFAULT_CP_PRESETS, isAssigned, SPECIES_STAR_CHOICES } from '../pogofiltersConfig';
+import { planAdoption, applyAdoption } from '../applyEngine';
+import { SPECIES_ROWS } from '../speciesTable';
 import ApplyPreview from './ApplyPreview';
 
 // Settings owns the deliberate decisions: the CP preset set, per-tier star
@@ -79,6 +81,23 @@ export default function SettingsView() {
 
   const onUpdateClick = () => setPreviewing(true);
 
+  // Provenance: the engine may only remove species names it added itself, so a
+  // name typed before this tool existed is invisible to the matrix — it gets
+  // reported as "typed by hand, left alone" for ever. Adoption hands those over
+  // in one explicit act, so the matrix becomes genuinely authoritative.
+  const adoption = useMemo(() => planAdoption(filters, SPECIES_ROWS), [filters]);
+  const adoptCount = adoption.reduce((n, r) => n + r.adopt.length, 0);
+
+  const runAdoption = async () => {
+    const saved = await commitFilters(
+      applyAdoption(filters, adoption),
+      `matrix took over ${adoptCount} species names in ${adoption.length} filters`,
+    );
+    if (saved) {
+      showToast(`${adoptCount} species names are now the matrix's to maintain — no query text changed`);
+    }
+  };
+
   // Regenerates Existingfilters.md's shape — heading line, then the query — so
   // the markdown that has been the source of truth since 2026-07-18 can be
   // refreshed from the app rather than hand-maintained alongside it.
@@ -143,6 +162,37 @@ export default function SettingsView() {
           onClose={() => setPreviewing(false)}
         />
       )}
+
+      <div className="pgf-panel" style={{ padding: 16, marginBottom: 12 }}>
+        <div className="pgf-h">Who owns the species names in your filters</div>
+        <p className="pgf-sub">
+          The engine only ever removes species names it added itself, so nothing it didn&apos;t write
+          can be deleted by accident. The cost is that a name you typed before this tool existed is
+          invisible to the matrix — it stays in the query for ever, and the matrix is not really in
+          charge. Adopting hands those names over. <b>No query text changes</b>; only the record of
+          who owns them, so the effect shows up in the next Apply, which you preview as usual.
+        </p>
+        {adoptCount === 0 ? (
+          <p className="pgf-muted" style={{ margin: 0 }}>
+            {filters.some((f) => f.managed)
+              ? '✓ The matrix already owns every species name in your managed filters.'
+              : 'Nothing to adopt yet — no filter is managed.'}
+          </p>
+        ) : (
+          <>
+            <div className="pgf-fcard-row" style={{ marginBottom: 8 }}>
+              <button className="pgf-btn pgf-btn-primary" onClick={runAdoption}>
+                Hand {adoptCount} species names to the matrix
+              </button>
+              <span className="pgf-muted">across {adoption.length} managed filters · undoable</span>
+            </div>
+            <p className="pgf-muted" style={{ margin: 0, lineHeight: 1.6 }}>
+              {[...new Set(adoption.flatMap((r) => r.adopt.map((a) => a.name)))].slice(0, 12).join(', ')}
+              {adoptCount > 12 ? ' …' : ''}
+            </p>
+          </>
+        )}
+      </div>
 
       <div className="pgf-panel" style={{ padding: 16, marginBottom: 12 }}>
         <div className="pgf-h">CP tiers</div>

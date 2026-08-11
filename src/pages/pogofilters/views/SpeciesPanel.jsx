@@ -11,7 +11,7 @@ function mixed(rows, get) {
   return vals.length === 1 ? vals[0] : undefined; // undefined = mixed
 }
 
-export default function SpeciesPanel({ rows, presets, labels, onPatch }) {
+export default function SpeciesPanel({ rows, presets, labels, mentions = [], onPatch }) {
   if (!rows.length) {
     return (
       <aside className="pgf-side">
@@ -226,6 +226,32 @@ export default function SpeciesPanel({ rows, presets, labels, onPatch }) {
         </div>
         {stars === undefined && <div className="pgf-side-mixed">⊘ Mixed star minimums across the selection.</div>}
       </div>
+
+      {one && (
+        <div className="pgf-side-card">
+          <div className="pgf-h">Already named in {mentions.length} filter{mentions.length === 1 ? '' : 's'}</div>
+          {mentions.length === 0 ? (
+            <p className="pgf-sub" style={{ margin: 0 }}>
+              No filter mentions {one.name} yet.
+            </p>
+          ) : (
+            <>
+              <div className="pgf-side-labels">
+                {mentions.map((m) => (
+                  <span key={m.id} className={`pgf-ment${m.cpTier != null ? ' derived' : ''}`}>
+                    {m.negated ? '!' : ''}{m.name}
+                    {m.cpTier != null && <i className="pgf-muted"> cp{m.cpTier}</i>}
+                  </span>
+                ))}
+              </div>
+              <p className="pgf-muted" style={{ marginTop: 8, lineHeight: 1.6 }}>
+                Dimmed ones are CP-tier trash filters the matrix maintains. Bright ones are specific
+                filters — the matrix never adds to or removes from them.
+              </p>
+            </>
+          )}
+        </div>
+      )}
 
       <div className="pgf-side-card">
         <div className="pgf-h">Labels</div>

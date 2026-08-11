@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback, useEffect } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
 import { SPECIES_ROWS, officialArtworkUrl } from '../speciesTable';
 import {
-  needsCustomCp, REFERENCE_LEVELS, withSpeciesDefaults, SPECIES_STAR_CHOICES,
+  needsCustomCp, REFERENCE_LEVELS, withSpeciesDefaults, SPECIES_STAR_CHOICES, isAssigned,
 } from '../pogofiltersConfig';
 import { isExcluded } from '../classification';
 
@@ -57,7 +57,7 @@ const QUEUES = [
 const STAR_KEYS = ['q', 'w', 'e'];
 
 export default function QueueView() {
-  const { species, settings, saveSpecies, showToast } = usePogoFilters();
+  const { species, settings, filters, saveSpecies, updateSettings, showToast } = usePogoFilters();
   // Memoised so the `|| []` fallback doesn't hand a fresh array to the row memo
   // on every render and rebuild all ~936 rows for nothing.
   const presets = useMemo(() => settings?.cpPresets || [], [settings]);
@@ -77,7 +77,10 @@ export default function QueueView() {
       ...s,
       ...a,
       needsCustom: needsCustomCp(s.maxCp, presets),
-      assigned: a.tier !== null || a.customCp !== null,
+      // isAssigned, not a hand-rolled tier check — otherwise a species decided
+      // entirely through per-star rules reads as unassigned and never leaves
+      // the queue.
+      assigned: isAssigned(a),
       starThreshold: a.starThreshold,
       excluded: isExcluded(a, s.dex),
     };
@@ -100,6 +103,18 @@ export default function QueueView() {
     ...q,
     members: kept.filter((s) => q.match(s)).sort((a, b) => b.cp[25] - a.cp[25]),
   })), [kept]);
+
+  // The tier buttons come from settings.cpPresets. If those don't match the CP
+  // tiers the filters actually use, two buttons can write byte-identical output
+  // and a button above the highest filter writes nothing — so a whole grind
+  // through 800+ species would encode decisions that can't be expressed. Worth
+  // interrupting for, once, before any of that work happens.
+  const filterTiers = useMemo(
+    () => [...new Set((filters || []).map((f) => f.cpTier).filter((n) => n != null))].sort((a, b) => a - b),
+    [filters],
+  );
+  const tiersMismatch = filterTiers.length > 0
+    && (filterTiers.length !== presets.length || filterTiers.some((t, i) => t !== presets[i]));
 
   const queue = queues.find((q) => q.id === queueId) || null;
   const cur = mode === 'rapid' && pos < run.length ? byDex.get(run[pos]) : null;
@@ -171,6 +186,30 @@ export default function QueueView() {
   if (mode === 'hub' || !queue) {
     return (
       <div className="pgf-page">
+        {tiersMismatch && (
+          <div className="pgf-panel" style={{ padding: 16, marginBottom: 18, borderColor: 'var(--pgf-warn)' }}>
+            <div className="pgf-h" style={{ color: 'var(--pgf-warn)' }}>
+              Fix your CP tiers before grinding this
+            </div>
+            <p className="pgf-sub" style={{ margin: '0 0 10px' }}>
+              The tier buttons below are <b>{presets.join(' / ')}</b>, but your filters sit at{' '}
+              <b>{filterTiers.join(' / ')}</b>. Two buttons falling between the same pair of filter
+              tiers write byte-identical output, and a button above your highest filter writes
+              nothing at all — so some of the decisions you&apos;re about to make couldn&apos;t be
+              expressed. One click now saves redoing hundreds of them.
+            </p>
+            <button
+              className="pgf-btn pgf-btn-primary"
+              onClick={() => {
+                updateSettings({ cpPresets: filterTiers });
+                showToast(`CP tiers set to ${filterTiers.join(' / ')} — one button per filter tier`);
+              }}
+            >
+              Use {filterTiers.join(' / ')}
+            </button>
+          </div>
+        )}
+
         <div className="pgf-panel" style={{ padding: 16, marginBottom: 18 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
             <b style={{ fontSize: 20 }}>{doneCount} / {kept.length} assigned</b>

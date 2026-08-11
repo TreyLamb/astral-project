@@ -5,6 +5,7 @@ import {
   needsCustomCp, REFERENCE_LEVELS, withSpeciesDefaults, isAssigned, SPECIES_STAR_CHOICES,
 } from '../pogofiltersConfig';
 import { categoriesFor, CATEGORY_SHORT, CATEGORY_LABEL, isExcluded } from '../classification';
+import { indexSpeciesMentions } from '../applyEngine';
 import SpeciesPanel from './SpeciesPanel';
 
 // The species CP matrix. Design A's dense table with Design C's top bar and
@@ -23,7 +24,12 @@ const STATUS = [
 ];
 
 export default function MatrixView() {
-  const { species, saveSpeciesBulk, settings, labels, showToast } = usePogoFilters();
+  const { species, saveSpeciesBulk, settings, labels, filters, showToast } = usePogoFilters();
+  // "What already knows about this Pokémon?" — every filter that names it, not
+  // just the ones the matrix maintains. An `easy evolves` filter listing pidgey
+  // is precisely what's worth seeing on the pidgey row even though the matrix
+  // will never touch that filter.
+  const mentions = useMemo(() => indexSpeciesMentions(filters, SPECIES_ROWS), [filters]);
   // Memoised so the `|| []` fallback doesn't hand a fresh array to the row
   // memo on every render and rebuild all ~936 rows for nothing.
   const presets = useMemo(() => settings?.cpPresets || [], [settings]);
@@ -228,7 +234,7 @@ export default function MatrixView() {
                   Reference — read only
                 </th>
                 <th className="pgf-sec-sel">Selection</th>
-                <th colSpan={2} />
+                <th colSpan={3} />
               </tr>
               <tr className="pgf-cols">
                 <th style={{ width: 32 }} title="Do you ever want this species saved?">Keep</th>
@@ -245,7 +251,10 @@ export default function MatrixView() {
                 ))}
                 <th className="pgf-sec-sel">CP tier</th>
                 <th style={{ width: 84 }}>Stars</th>
-                <th style={{ width: 250 }}>Labels</th>
+                <th style={{ width: 200 }}>Labels</th>
+                <th style={{ width: 230 }} title="Filters that already name this species. Bright ones are specific filters the matrix never touches.">
+                  In filters
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -356,6 +365,27 @@ export default function MatrixView() {
                         );
                       })}
                     </td>
+                    <td className="pgf-mentions">
+                      {/* A CP-tier filter naming this species is the matrix's own
+                          output, so it's dimmed. A filter with no CP tier is a
+                          specific one — the interesting case, kept bright. */}
+                      {(mentions.get(s.dex) || []).slice(0, 4).map((m) => (
+                        <span
+                          key={m.id}
+                          className={`pgf-ment${m.cpTier != null ? ' derived' : ''}`}
+                          title={`${m.name}${m.cpTier != null
+                            ? ` — cp${m.cpTier} trash filter, maintained from this matrix`
+                            : ' — a specific filter; the matrix never changes it'}\nappears as ${m.negated ? `!${s.name}` : s.name}`}
+                        >
+                          {m.negated ? '!' : ''}{m.name}
+                        </span>
+                      ))}
+                      {(mentions.get(s.dex) || []).length > 4 && (
+                        <span className="pgf-ment derived">
+                          +{(mentions.get(s.dex) || []).length - 4}
+                        </span>
+                      )}
+                    </td>
                   </tr>
                 );
               })}
@@ -374,6 +404,7 @@ export default function MatrixView() {
         rows={selectedRows}
         presets={presets}
         labels={labels}
+        mentions={selectedRows.length === 1 ? (mentions.get(selectedRows[0].dex) || []) : []}
         onPatch={(updates) => patch(selectedRows.map((r) => r.dex), updates)}
       />
     </div>

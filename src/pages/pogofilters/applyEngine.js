@@ -151,6 +151,102 @@ export function findSpeciesTerm(query, row) {
   return null;
 }
 
+// Every token form that resolves to a species: name, internal id, and the dex
+// number in bare, zero-padded and #-prefixed shapes. Built once per call.
+function speciesTokenIndex(speciesRows) {
+  const byToken = new Map();
+  for (const row of speciesRows) {
+    const forms = [
+      row.name, row.id,
+      String(row.dex), String(row.dex).padStart(3, '0'),
+      `#${row.dex}`, `#${String(row.dex).padStart(3, '0')}`,
+    ];
+    for (const form of forms) {
+      const n = norm(form);
+      if (n) byToken.set(n, row.dex);
+    }
+  }
+  return byToken;
+}
+
+// ---------------------------------------------------------------------------
+// Cross reference: which filters already mention each species
+// ---------------------------------------------------------------------------
+// Read-only, and deliberately covers EVERY filter, not just the managed ones.
+// The point is the question "what already knows about this Pokémon?" — an
+// `easy evolves` filter listing pidgey is exactly the thing worth seeing on the
+// pidgey row, even though the matrix will never touch that filter.
+//
+// Returns Map<dex, [{ id, name, negated, cpTier, managed }]>.
+export function indexSpeciesMentions(filters, speciesRows) {
+  const byToken = speciesTokenIndex(speciesRows);
+  const out = new Map();
+  for (const f of filters || []) {
+    const seen = new Set();
+    for (const t of terms(f.query)) {
+      const dex = byToken.get(norm(t.text));
+      if (dex == null || seen.has(dex)) continue; // one entry per filter per species
+      seen.add(dex);
+      if (!out.has(dex)) out.set(dex, []);
+      out.get(dex).push({
+        id: f.id,
+        name: f.name,
+        negated: t.negated,
+        cpTier: f.cpTier ?? null,
+        managed: !!f.managed,
+      });
+    }
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------
+// Adoption: hand the matrix authority over species names already in a filter
+// ---------------------------------------------------------------------------
+// Safety rule 5 says the engine may only remove tokens it added itself, tracked
+// per filter in `managedTokens`. That protects hand-typed work, but it also
+// means a species name typed before this tool existed can never be removed by
+// the matrix — the engine will keep reporting "typed by hand, left alone" for
+// ever, and the matrix is not actually authoritative.
+//
+// Adoption is the one-time, explicit, previewable act of saying "these names
+// are the matrix's to maintain now". It changes no query text at all — only
+// provenance — so the risk lives entirely in the NEXT apply, which is itself
+// previewed and undoable.
+export function planAdoption(filters, speciesRows, { managedOnly = true } = {}) {
+  const byToken = speciesTokenIndex(speciesRows);
+  const byDex = new Map(speciesRows.map((r) => [r.dex, r]));
+  return (filters || [])
+    .filter((f) => (managedOnly ? f.managed : true))
+    .map((f) => {
+      const already = new Set((f.managedTokens || []).map(norm));
+      const adopt = [];
+      const seen = new Set();
+      for (const t of terms(f.query)) {
+        const dex = byToken.get(norm(t.text));
+        if (dex == null || seen.has(dex)) continue;
+        seen.add(dex);
+        const row = byDex.get(dex);
+        if (!row || already.has(norm(row.name))) continue;
+        adopt.push({ dex, name: row.name, raw: t.raw.trim() });
+      }
+      return { filter: f, adopt };
+    })
+    .filter((r) => r.adopt.length > 0);
+}
+
+export function applyAdoption(filters, plan) {
+  const byId = new Map(plan.map((r) => [r.filter.id, r]));
+  return filters.map((f) => {
+    const r = byId.get(f.id);
+    if (!r) return f;
+    const next = new Set((f.managedTokens || []).map(norm));
+    for (const a of r.adopt) next.add(norm(a.name));
+    // Query text is untouched on purpose — adoption is provenance only.
+    return { ...f, managedTokens: [...next], updatedAt: Date.now() };
+  });
+}
+
 // ---------------------------------------------------------------------------
 // SAFETY RULE 10: joins are never malformed
 // ---------------------------------------------------------------------------
