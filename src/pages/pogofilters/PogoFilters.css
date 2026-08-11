@@ -49,7 +49,12 @@
   --pgf-inset:       inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
   --pgf-topbar-h:    54px;
-  --pgf-row-h:       30px;
+  /* The matrix read as too zoomed-out at 30px/13px — lots of dead width after
+     the tier buttons and everything small enough to squint at. Browser zoom
+     made it worse because it scales the chrome too. Scaled up here instead so
+     the density stays deliberate: taller rows, bigger type and sprites, and
+     the tier column no longer allowed to sprawl. */
+  --pgf-row-h:       38px;
 
   min-height: 100vh;
   background:
@@ -248,7 +253,7 @@
 
 .pgf-lab {
   display: inline-flex; align-items: center; gap: 4px;
-  padding: 2px 8px; border-radius: 10px; font-size: 10.5px; font-weight: 700; cursor: pointer;
+  padding: 3px 9px; border-radius: 10px; font-size: 11.5px; font-weight: 700; cursor: pointer;
   color: var(--lc, var(--pgf-text-dim));
   background: color-mix(in srgb, var(--lc, #888) 14%, transparent);
   border: 1px solid color-mix(in srgb, var(--lc, #888) 38%, transparent);
@@ -265,11 +270,11 @@
   position: sticky; z-index: 6; background: rgba(13, 9, 24, 0.98);
   backdrop-filter: blur(8px);
   color: var(--pgf-text-faint); text-align: left; white-space: nowrap;
-  font-size: 9.5px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 7px 8px;
+  font-size: 10.5px; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase;
+  padding: 9px 10px;
 }
 .pgf-matrix thead tr.pgf-band th { top: 0; text-align: center; border-bottom: 1px solid var(--pgf-line); }
-.pgf-matrix thead tr.pgf-cols th { top: 25px; border-bottom: 2px solid var(--pgf-line-str); }
+.pgf-matrix thead tr.pgf-cols th { top: 29px; border-bottom: 2px solid var(--pgf-line-str); }
 .pgf-matrix thead tr.pgf-band th.pgf-sec-sel { color: var(--pgf-lit); }
 
 /* the two sections, carried on header AND body cells */
@@ -281,7 +286,7 @@
 .pgf-sec-sel { border-left: 2px solid var(--pgf-line-str); }
 
 .pgf-matrix tbody tr { height: var(--pgf-row-h); }
-.pgf-matrix tbody td { padding: 0 8px; border-bottom: 1px solid var(--pgf-line); white-space: nowrap; }
+.pgf-matrix tbody td { padding: 0 10px; font-size: 13.5px; border-bottom: 1px solid var(--pgf-line); white-space: nowrap; }
 .pgf-matrix tbody tr:nth-child(odd)  td { background: var(--pgf-row-a); }
 .pgf-matrix tbody tr:nth-child(even) td { background: var(--pgf-row-b); }
 .pgf-matrix tbody tr:nth-child(odd)  td.pgf-sec-ref { background: #1b1433 !important; }
@@ -290,20 +295,24 @@
 .pgf-matrix tbody tr.pgf-cursor td { box-shadow: inset 0 0 0 9999px rgba(200, 116, 255, 0.07); }
 .pgf-matrix tbody tr.pgf-picked td { box-shadow: inset 0 0 0 9999px rgba(200, 116, 255, 0.15); }
 
-.pgf-mx-dex { color: var(--pgf-text-faint); font-variant-numeric: tabular-nums; font-size: 11px; }
-.pgf-mx-name { font-weight: 600; }
-/* 24px, ~10% up from Design A's 22px per DECISION.md */
-.pgf-mx-sprite { width: 24px; height: 24px; object-fit: contain; vertical-align: middle; margin-right: 7px; }
+.pgf-mx-dex { color: var(--pgf-text-faint); font-variant-numeric: tabular-nums; font-size: 12.5px; }
+.pgf-mx-name { font-weight: 600; font-size: 14.5px; }
+.pgf-mx-sprite { width: 32px; height: 32px; object-fit: contain; vertical-align: middle; margin-right: 9px; }
 .pgf-mx-cp {
-  text-align: right; width: 54px; font-variant-numeric: tabular-nums;
-  font-family: "Consolas", ui-monospace, monospace; font-size: 12px; color: var(--pgf-text-dim);
+  text-align: right; width: 62px; font-variant-numeric: tabular-nums;
+  font-family: "Consolas", ui-monospace, monospace; font-size: 14.5px; color: var(--pgf-text-dim);
 }
-.pgf-mx-cp.hi { color: var(--pgf-amber); }
+.pgf-mx-cp.hi { color: var(--pgf-amber); font-weight: 700; }
+
+/* The tier column was the source of the dead space: it stretched to fill the
+   row, leaving a wide gap after the last button. Sized to its content instead
+   so the width goes to Labels, which actually needs it. */
+.pgf-matrix .pgf-sec-sel { width: 1%; white-space: nowrap; }
 
 /* illuminated tier buttons — the active control */
 .pgf-tierbtn {
-  min-width: 48px; height: 21px; margin-right: 4px; padding: 0 7px;
-  font: 800 11px/1 "Consolas", ui-monospace, monospace; font-variant-numeric: tabular-nums;
+  min-width: 56px; height: 27px; margin-right: 5px; padding: 0 9px;
+  font: 800 13px/1 "Consolas", ui-monospace, monospace; font-variant-numeric: tabular-nums;
   color: var(--pgf-text-dim); cursor: pointer; border-radius: 4px;
   background: linear-gradient(180deg, rgba(90, 55, 150, 0.45), rgba(48, 28, 86, 0.55));
   border: 1px solid rgba(198, 120, 255, 0.28);
@@ -318,14 +327,14 @@
 .pgf-tierbtn.unreachable { opacity: 0.32; }
 
 .pgf-customcp {
-  width: 62px; height: 21px; padding: 0 6px; border-radius: 4px;
-  font: 800 11px/1 "Consolas", ui-monospace, monospace;
+  width: 72px; height: 27px; padding: 0 8px; border-radius: 4px;
+  font: 800 13px/1 "Consolas", ui-monospace, monospace;
   background: rgba(0, 0, 0, 0.4); color: var(--pgf-text);
   border: 1px solid rgba(198, 120, 255, 0.28);
 }
 .pgf-needs .pgf-customcp { border-color: var(--pgf-warn); color: var(--pgf-warn); }
 .pgf-needs-tag {
-  font-size: 9.5px; font-weight: 800; letter-spacing: 0.07em; color: var(--pgf-warn);
+  font-size: 11px; font-weight: 800; letter-spacing: 0.07em; color: var(--pgf-warn);
   border: 1px dashed var(--pgf-warn); border-radius: 4px; padding: 3px 6px; margin-right: 6px;
 }
 
@@ -341,9 +350,18 @@
 .pgf-cat[data-cat="ultraBeast"] { color: #7fd4ff; }
 .pgf-cat[data-cat="regional"]   { color: var(--pgf-ok); }
 
-.pgf-stars { color: var(--pgf-amber); letter-spacing: 1.5px; cursor: pointer; font-size: 12px; user-select: none; }
+.pgf-stars { color: var(--pgf-amber); letter-spacing: 1.5px; cursor: pointer; font-size: 15px; user-select: none; }
 .pgf-stars .off { color: #3d3159; }
 .pgf-stars.inherit { opacity: 0.45; }
+
+/* per-star CP rules in the side panel: one row per star rating */
+.pgf-starrule {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 12px;
+}
+.pgf-starrule-cp {
+  width: 84px; margin-left: auto; text-align: right;
+  font-family: "Consolas", ui-monospace, monospace; font-weight: 700;
+}
 
 /* ------------------------------------------------- matrix layout + side panel */
 .pgf-matrix-layout {

@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
 import { SPECIES_ROWS, ALL_TYPES, officialArtworkUrl } from '../speciesTable';
-import { needsCustomCp, REFERENCE_LEVELS, withSpeciesDefaults } from '../pogofiltersConfig';
+import { needsCustomCp, REFERENCE_LEVELS, withSpeciesDefaults, isAssigned } from '../pogofiltersConfig';
 import { categoriesFor, CATEGORY_SHORT, CATEGORY_LABEL } from '../classification';
 import SpeciesPanel from './SpeciesPanel';
 
@@ -62,8 +62,8 @@ export default function MatrixView() {
       if (needle && !(s.name.toLowerCase().includes(needle)
         || String(s.dex).padStart(3, '0').includes(needle))) return false;
       if (type && !s.types.includes(type)) return false;
-      if (status === 'unassigned' && (s.tier !== null || s.customCp !== null)) return false;
-      if (status === 'assigned' && s.tier === null && s.customCp === null) return false;
+      if (status === 'unassigned' && isAssigned(s)) return false;
+      if (status === 'assigned' && !isAssigned(s)) return false;
       if (status === 'needscustom' && !s.needsCustom) return false;
       const l25 = s.cp[25];
       if (l25 < mn || l25 > mx) return false;
@@ -76,7 +76,7 @@ export default function MatrixView() {
   const counts = useMemo(() => ({
     tracked: rows.filter((s) => s.tracked).length,
     unchecked: rows.filter((s) => !s.tracked).length,
-    assigned: rows.filter((s) => s.tracked && (s.tier !== null || s.customCp !== null)).length,
+    assigned: rows.filter((s) => s.tracked && isAssigned(s)).length,
     needsCustom: rows.filter((s) => s.tracked && s.needsCustom).length,
   }), [rows]);
 
@@ -204,8 +204,8 @@ export default function MatrixView() {
                 <th colSpan={REFERENCE_LEVELS.length} className="pgf-sec-ref pgf-sec-ref-end">
                   Reference — read only
                 </th>
-                <th colSpan={2} />
                 <th className="pgf-sec-sel">Selection</th>
+                <th colSpan={2} />
               </tr>
               <tr className="pgf-cols">
                 <th style={{ width: 32 }} title="Do you ever want this species saved?">Keep</th>
@@ -220,9 +220,9 @@ export default function MatrixView() {
                     L{l}
                   </th>
                 ))}
-                <th style={{ width: 76 }}>Stars</th>
-                <th style={{ width: 240 }}>Labels</th>
                 <th className="pgf-sec-sel">CP tier</th>
+                <th style={{ width: 84 }}>Stars</th>
+                <th style={{ width: 250 }}>Labels</th>
               </tr>
             </thead>
             <tbody>
@@ -275,21 +275,6 @@ export default function MatrixView() {
                         {s.cp[l]}
                       </td>
                     ))}
-                    <td className={`pgf-stars${s.starThreshold === null ? ' inherit' : ''}`}>
-                      {[1, 2, 3, 4].map((n) => (
-                        <span key={n} className={(s.starThreshold ?? 0) >= n ? '' : 'off'}>★</span>
-                      ))}
-                    </td>
-                    <td>
-                      {s.labels.map((name) => {
-                        const l = labels.find((x) => x.name === name);
-                        return (
-                          <span key={name} className="pgf-lab" style={{ '--lc': l?.color || '#888' }}>
-                            {name}
-                          </span>
-                        );
-                      })}
-                    </td>
                     <td className="pgf-sec-sel" onClick={(e) => e.stopPropagation()}>
                       {s.needsCustom
                         ? <span className="pgf-needs-tag" title={`Max ${s.maxCp} CP at L${REFERENCE_LEVELS.at(-1)} — below every preset`}>NEEDS CUSTOM</span>
@@ -312,6 +297,21 @@ export default function MatrixView() {
                           patch([s.dex], { customCp: v === '' ? null : Number(v), tier: v === '' ? s.tier : null });
                         }}
                       />
+                    </td>
+                    <td className={`pgf-stars${s.starThreshold === null ? ' inherit' : ''}`}>
+                      {[1, 2, 3, 4].map((n) => (
+                        <span key={n} className={(s.starThreshold ?? 0) >= n ? '' : 'off'}>★</span>
+                      ))}
+                    </td>
+                    <td>
+                      {s.labels.map((name) => {
+                        const l = labels.find((x) => x.name === name);
+                        return (
+                          <span key={name} className="pgf-lab" style={{ '--lc': l?.color || '#888' }}>
+                            {name}
+                          </span>
+                        );
+                      })}
                     </td>
                   </tr>
                 );

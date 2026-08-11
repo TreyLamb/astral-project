@@ -8,6 +8,7 @@ import {
   planApply, applyPlan, addTerm, removeTerm, findSpeciesTerm,
   validateQuery, shouldProtect, effectiveStars, planStarNormalisation,
 } from './applyEngine.js';
+import { isAssigned } from './pogofiltersConfig.js';
 
 let pass = 0, fail = 0;
 function check(name, actual, expected) {
@@ -96,6 +97,33 @@ check('null star threshold inherits the tier default',
   effectiveStars({ tier: 800, starThreshold: null }, { tierStarDefaults: { 800: 2 } }), 2);
 check('no default anywhere falls back to 0',
   effectiveStars({ tier: 800, starThreshold: null }, { tierStarDefaults: {} }), 0);
+
+console.log('\n--- per-star rules (Trey\'s example: 4★ from 1000, 1★ from 2000) ---');
+// "bulbasaur can have 4* any cp 1000 and above, but at 1* the cp has to be
+// 2000 and above". A better specimen earns a lower CP bar.
+const perStar = {
+  dex: 1, tracked: true, ruleMode: 'perStar',
+  starRules: { 0: null, 1: 2000, 2: 2000, 3: 1500, 4: 1000 },
+};
+const lowBand = { cpTier: null, starBand: 'low' };   // 0-2★
+const highBand = { cpTier: null, starBand: 'high' }; // 3-4★
+const at = (band, cp) => shouldProtect({ ...band, cpTier: cp }, perStar, settings);
+
+check('3-4★ band @cp1300 protects (4★ rule 1000 < 1300)', at(highBand, 1300), true);
+check('0-2★ band @cp1300 does NOT (1★ rule 2000 > 1300)', at(lowBand, 1300), false);
+check('0-2★ band @cp2300 protects (1★ rule 2000 < 2300)', at(lowBand, 2300), true);
+check('3-4★ band @cp800 does NOT (4★ rule 1000 > 800)', at(highBand, 800), false);
+check('0★ has no rule, so a 0★-only band never protects',
+  shouldProtect({ cpTier: 3000, starBand: 'any' }, { ...perStar, starRules: { 0: null, 1: null, 2: null, 3: null, 4: null } }, settings),
+  false);
+check('per-star still respects never-save',
+  shouldProtect({ cpTier: 2300, starBand: 'high' }, { ...perStar, tracked: false }, settings), false);
+check('per-star ignores tier/customCp entirely',
+  shouldProtect({ cpTier: 1300, starBand: 'high' }, { ...perStar, tier: 9999, customCp: 9999 }, settings), true);
+check('a species is "assigned" on per-star rules alone', isAssigned(perStar), true);
+check('per-star with no rules set is not assigned',
+  isAssigned({ ruleMode: 'perStar', starRules: { 0: null, 1: null, 2: null, 3: null, 4: null } }), false);
+check('flat mode is unaffected by starRules', isAssigned({ ruleMode: 'flat', tier: 800 }), true);
 
 console.log('\n--- planApply end to end ---');
 const speciesRows = [BULBA, NIDORINA, NIDORAN, MEWTWO, TYRA];

@@ -1,5 +1,5 @@
 import { officialArtworkUrl } from '../speciesTable';
-import { REFERENCE_LEVELS } from '../pogofiltersConfig';
+import { REFERENCE_LEVELS, STAR_RATINGS } from '../pogofiltersConfig';
 
 // Design C's side panel. Edits apply to the ENTIRE current selection, so it is
 // both the single-species editor and the bulk editor — a single species is just
@@ -25,6 +25,7 @@ export default function SpeciesPanel({ rows, presets, labels, onPatch }) {
   }
 
   const one = rows.length === 1 ? rows[0] : null;
+  const perStar = rows.every((r) => r.ruleMode === 'perStar');
   const tier = mixed(rows, (r) => r.tier);
   const stars = mixed(rows, (r) => r.starThreshold);
   const allNeedCustom = rows.every((r) => r.needsCustom);
@@ -69,7 +70,7 @@ export default function SpeciesPanel({ rows, presets, labels, onPatch }) {
         {rows.length > 8 && <div className="pgf-muted">…and {rows.length - 8} more</div>}
       </div>
 
-      <div className="pgf-side-card">
+      <div className="pgf-side-card" hidden={perStar}>
         <div className="pgf-h">Selection — CP tier</div>
         {allNeedCustom ? (
           <p className="pgf-sub" style={{ margin: '0 0 8px' }}>
@@ -112,6 +113,69 @@ export default function SpeciesPanel({ rows, presets, labels, onPatch }) {
       </div>
 
       <div className="pgf-side-card">
+        <div className="pgf-h" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          Rule
+          <label className="pgf-switch" style={{ marginLeft: 'auto', textTransform: 'none', letterSpacing: 0 }}>
+            <input
+              type="checkbox"
+              checked={perStar}
+              onChange={(e) => onPatch({ ruleMode: e.target.checked ? 'perStar' : 'flat' })}
+            />
+            <span className="pgf-switch-track" />
+            Per-star CP
+          </label>
+        </div>
+
+        {perStar ? (
+          <>
+            <p className="pgf-sub" style={{ margin: '0 0 10px' }}>
+              A different CP bar per star rating — a better specimen earns a lower one.
+              Blank means that rating is never kept.
+            </p>
+            {STAR_RATINGS.slice().reverse().map((n) => {
+              const val = mixed(rows, (r) => r.starRules?.[n]);
+              return (
+                <div key={n} className="pgf-starrule">
+                  <span className="pgf-stars">
+                    {[1, 2, 3, 4].map((i) => <span key={i} className={n >= i ? '' : 'off'}>★</span>)}
+                  </span>
+                  <span className="pgf-muted" style={{ width: 28 }}>{n}★</span>
+                  <span className="pgf-muted">keep from</span>
+                  <input
+                    className="pgf-input pgf-starrule-cp"
+                    type="number"
+                    placeholder={val === undefined ? 'mixed' : 'never'}
+                    defaultValue={val ?? ''}
+                    key={`${rows.map((r) => r.dex).join(',')}-${n}`}
+                    onBlur={(e) => {
+                      const v = e.target.value.trim();
+                      onPatch({
+                        starRules: {
+                          ...(one?.starRules || {}),
+                          [n]: v === '' ? null : Number(v),
+                        },
+                      });
+                    }}
+                  />
+                  <span className="pgf-muted">CP up</span>
+                </div>
+              );
+            })}
+            {one && (
+              <p className="pgf-muted" style={{ marginTop: 8, lineHeight: 1.6 }}>
+                A trash filter is told to spare {one.name} when its star band contains any rating
+                whose bar sits below that filter&apos;s CP tier.
+              </p>
+            )}
+          </>
+        ) : (
+          <p className="pgf-sub" style={{ margin: 0 }}>
+            One CP tier plus one minimum star rating, set below.
+          </p>
+        )}
+      </div>
+
+      <div className="pgf-side-card" hidden={perStar}>
         <div className="pgf-h">Minimum stars to keep</div>
         <div className="pgf-side-tiers">
           {[0, 1, 2, 3, 4].map((n) => (

@@ -162,6 +162,19 @@ export function withLabelDefaults(l = {}, index = null) {
   };
 }
 
+export const STAR_RATINGS = [0, 1, 2, 3, 4];
+
+// Normalises the per-star CP map. Every rating gets an explicit key so the UI
+// never has to distinguish "absent" from "deliberately null".
+export function withStarRules(raw) {
+  const out = {};
+  for (const s of STAR_RATINGS) {
+    const v = raw?.[s];
+    out[s] = typeof v === 'number' && Number.isFinite(v) ? v : null;
+  }
+  return out;
+}
+
 export function withSpeciesDefaults(s = {}) {
   return {
     dex: s.dex ?? null,
@@ -175,10 +188,30 @@ export function withSpeciesDefaults(s = {}) {
     tier: s.tier ?? null,          // one of settings.cpPresets, or null
     customCp: s.customCp ?? null,  // free entry, always available
     starThreshold: s.starThreshold ?? null, // null = inherit the tier default
+
+    // 'flat'    — one CP threshold + one minimum star rating (the default).
+    // 'perStar' — a different CP threshold per star rating, so a 4★ can be kept
+    //             from 1000 CP up while a 1★ of the same species has to reach
+    //             2000. A better specimen earns a lower bar.
+    ruleMode: s.ruleMode === 'perStar' ? 'perStar' : 'flat',
+    // Keyed by star rating 0-4. null = that rating is never kept for this
+    // species, which is different from 0 (kept at any CP).
+    starRules: withStarRules(s.starRules),
     labels: Array.isArray(s.labels) ? s.labels : [],
     notes: s.notes || '',
     updatedAt: s.updatedAt || Date.now(),
   };
+}
+
+// A species counts as decided when it has a flat threshold OR at least one
+// per-star rule. Used for the "assigned / unassigned" counts and filter chips —
+// without this, a species configured entirely through per-star rules would read
+// as unassigned forever.
+export function isAssigned(s) {
+  if (s?.ruleMode === 'perStar') {
+    return STAR_RATINGS.some((n) => typeof s.starRules?.[n] === 'number');
+  }
+  return s?.tier != null || s?.customCp != null;
 }
 
 export function withGroupDefaults(g = {}) {

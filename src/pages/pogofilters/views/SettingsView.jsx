@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
-import { DEFAULT_CP_PRESETS } from '../pogofiltersConfig';
+import { DEFAULT_CP_PRESETS, isAssigned } from '../pogofiltersConfig';
 import ApplyPreview from './ApplyPreview';
 
 // Settings owns the deliberate decisions: the CP preset set, per-tier star
@@ -32,7 +32,7 @@ export default function SettingsView() {
   const [previewing, setPreviewing] = useState(false);
 
   const presets = settings?.cpPresets || DEFAULT_CP_PRESETS;
-  const assigned = Object.values(species).filter((s) => s.tier !== null || s.customCp !== null).length;
+  const assigned = Object.values(species).filter(isAssigned).length;
   const untracked = Object.values(species).filter((s) => s.tracked === false).length;
 
   const savePresets = () => {

@@ -68,14 +68,40 @@ export function starBandEndangers(bandId, starThreshold, mode = 'atOrAbove') {
     : covers.some((s) => s >= starThreshold);
 }
 
+// Per-star mode: the species keeps a specimen rated `s` when its CP is at or
+// above starRules[s]. A filter deletes specimens whose rating is in its band and
+// whose CP is below its tier. So the filter endangers a keeper exactly when some
+// rating in the band has a threshold BELOW the filter's tier — the specimens
+// sitting in that gap are ones the species says to keep and the filter would
+// delete.
+//
+// Worked example. Bulbasaur: 4★ from 1000, 1★ from 2000.
+//   a cp1300 filter over the 0-2★ band  -> 1★ rule is 2000, not below 1300 -> safe
+//   a cp1300 filter over the 3-4★ band  -> 4★ rule is 1000, below 1300     -> PROTECT
+//   a cp2300 filter over the 0-2★ band  -> 1★ rule is 2000, below 2300     -> PROTECT
+export function perStarEndangers(bandId, starRules) {
+  const covers = STAR_BANDS[bandId]?.covers ?? STAR_BANDS.any.covers;
+  return (cpTier) => covers.some((s) => {
+    const rule = starRules?.[s];
+    return typeof rule === 'number' && rule < cpTier;
+  });
+}
+
 export function shouldProtect(filter, species, settings) {
   // An untracked species is one Trey never wants saved. It is never protected,
   // anywhere — this is checked first so nothing below can override it.
   if (species?.tracked === false) return false;
+  if (filter?.cpTier == null) return false; // filter isn't a CP tier filter
+
+  if (species?.ruleMode === 'perStar') {
+    // No rating configured means nothing is kept, so nothing needs protecting.
+    const any = STAR_BANDS.any.covers.some((s) => typeof species.starRules?.[s] === 'number');
+    if (!any) return false;
+    return perStarEndangers(filter.starBand, species.starRules)(filter.cpTier);
+  }
 
   const threshold = effectiveThreshold(species);
   if (threshold == null) return false;      // unassigned — the engine skips it
-  if (filter?.cpTier == null) return false; // filter isn't a CP tier filter
 
   // The tier rule: this tier and every tier above it.
   if (filter.cpTier < threshold) return false;
