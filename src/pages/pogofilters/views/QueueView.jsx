@@ -48,6 +48,9 @@ const QUEUES = [
   },
 ];
 
+// Stars on q-w-e-r-t (0★..4★) so they don't collide with the 1-5 tier keys.
+const STAR_KEYS = ['q', 'w', 'e', 'r', 't'];
+
 export default function QueueView() {
   const { species, settings, saveSpecies, showToast } = usePogoFilters();
   // Memoised so the `|| []` fallback doesn't hand a fresh array to the row memo
@@ -70,6 +73,7 @@ export default function QueueView() {
       ...a,
       needsCustom: needsCustomCp(s.maxCp, presets),
       assigned: a.tier !== null || a.customCp !== null,
+      starThreshold: a.starThreshold,
     };
   }), [species, presets]);
 
@@ -125,6 +129,10 @@ export default function QueueView() {
         step(1);
       } else if (e.key === '0') {
         patch(cur.dex, { tier: null, customCp: null });
+      } else if (STAR_KEYS.includes(e.key.toLowerCase())) {
+        // Stars sit on q-w-e-r-t so they don't fight the 1-5 tier keys. Set
+        // stars first; the tier key is the one that commits and advances.
+        patch(cur.dex, { starThreshold: STAR_KEYS.indexOf(e.key.toLowerCase()) });
       } else if (e.key === 'ArrowRight' || e.key === 's' || e.key === 'S') {
         step(1);
       } else if (e.key === 'ArrowLeft') {
@@ -316,6 +324,27 @@ export default function QueueView() {
               </div>
             )}
 
+            {/* Stars sit above the CP row and outside the needs-custom branch:
+                a minimum star rating applies whether the CP bar came from a
+                preset or a typed value. The tier key is what advances, so the
+                natural order is stars first, then tier. */}
+            <div className="pgf-h" style={{ margin: '14px 0 6px' }}>Minimum stars to keep</div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
+              {[0, 1, 2, 3, 4].map((n) => (
+                <button
+                  key={n}
+                  className={`pgf-tierbtn pgf-tierbtn-lg${cur.starThreshold === n ? ' on' : ''}`}
+                  style={{ flex: '1 1 56px', height: 44 }}
+                  onClick={(ev) => { ev.currentTarget.blur(); patch(cur.dex, { starThreshold: n }); }}
+                >
+                  {n}★
+                  <small style={{ display: 'block', fontSize: 9, opacity: 0.6, marginTop: 3 }}>
+                    key {STAR_KEYS[n]}
+                  </small>
+                </button>
+              ))}
+            </div>
+
             {cur.needsCustom ? (
               <div className="pgf-side-mixed" style={{ textAlign: 'left' }}>
                 <span className="pgf-needs-tag">NEEDS CUSTOM</span>
@@ -413,7 +442,7 @@ export default function QueueView() {
           <button className="pgf-btn pgf-btn-primary" onClick={() => setMode('hub')}>← All queues</button>
         </div>
       ) : (
-        <div className="pgf-matrix-scroll" style={{ height: 'auto', maxHeight: '62svh', border: '1px solid var(--pgf-line)', borderRadius: 'var(--pgf-radius)' }}>
+        <div className="pgf-matrix-scroll" style={{ height: 'auto', maxHeight: 'calc(62svh / var(--pgf-zoom))', border: '1px solid var(--pgf-line)', borderRadius: 'var(--pgf-radius)' }}>
           <table className="pgf-matrix">
             <thead>
               <tr className="pgf-band">

@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { usePogoFilters } from '../pogofiltersContext';
 import { SPECIES_ROWS, ALL_TYPES, officialArtworkUrl } from '../speciesTable';
 import { needsCustomCp, REFERENCE_LEVELS, withSpeciesDefaults, isAssigned } from '../pogofiltersConfig';
-import { categoriesFor, CATEGORY_SHORT, CATEGORY_LABEL } from '../classification';
+import { categoriesFor, CATEGORY_SHORT, CATEGORY_LABEL, isManualOnly } from '../classification';
 import SpeciesPanel from './SpeciesPanel';
 
 // The species CP matrix. Design A's dense table with Design C's top bar and
@@ -18,6 +18,7 @@ const STATUS = [
   { id: 'unassigned', label: 'Unassigned' },
   { id: 'assigned', label: 'Assigned' },
   { id: 'needscustom', label: 'Needs custom' },
+  { id: 'manual', label: 'Manual only' },
 ];
 
 export default function MatrixView() {
@@ -48,6 +49,7 @@ export default function MatrixView() {
       ...s, ...a,
       needsCustom: needsCustomCp(s.maxCp, presets),
       categories: categoriesFor(s.dex),
+      manual: isManualOnly(a, s.dex),
     };
   }), [species, presets]);
 
@@ -62,9 +64,10 @@ export default function MatrixView() {
       if (needle && !(s.name.toLowerCase().includes(needle)
         || String(s.dex).padStart(3, '0').includes(needle))) return false;
       if (type && !s.types.includes(type)) return false;
-      if (status === 'unassigned' && isAssigned(s)) return false;
+      if (status === 'unassigned' && (isAssigned(s) || s.manual)) return false;
       if (status === 'assigned' && !isAssigned(s)) return false;
       if (status === 'needscustom' && !s.needsCustom) return false;
+      if (status === 'manual' && !s.manual) return false;
       const l25 = s.cp[25];
       if (l25 < mn || l25 > mx) return false;
       return true;
@@ -77,6 +80,7 @@ export default function MatrixView() {
     tracked: rows.filter((s) => s.tracked).length,
     unchecked: rows.filter((s) => !s.tracked).length,
     assigned: rows.filter((s) => s.tracked && isAssigned(s)).length,
+    manual: rows.filter((s) => s.tracked && s.manual).length,
     needsCustom: rows.filter((s) => s.tracked && s.needsCustom).length,
   }), [rows]);
 
@@ -276,7 +280,9 @@ export default function MatrixView() {
                       </td>
                     ))}
                     <td className="pgf-sec-sel" onClick={(e) => e.stopPropagation()}>
-                      {s.needsCustom
+                      {s.manual
+                        ? <span className="pgf-manual-tag" title="Legendary or Mythical — handled by hand. The engine never writes a rule for these in either direction, so they stay unset on purpose.">MANUAL ONLY</span>
+                        : s.needsCustom
                         ? <span className="pgf-needs-tag" title={`Max ${s.maxCp} CP at L${REFERENCE_LEVELS.at(-1)} — below every preset`}>NEEDS CUSTOM</span>
                         : presets.map((t) => (
                           <button

@@ -49,14 +49,23 @@
   --pgf-inset:       inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
   --pgf-topbar-h:    54px;
-  /* The matrix read as too zoomed-out at 30px/13px — lots of dead width after
-     the tier buttons and everything small enough to squint at. Browser zoom
-     made it worse because it scales the chrome too. Scaled up here instead so
-     the density stays deliberate: taller rows, bigger type and sprites, and
-     the tier column no longer allowed to sprawl. */
-  --pgf-row-h:       38px;
+  /* Matrix rows: 30 -> 38 -> 42px. The 42 is the extra ~10% on top of the
+     global boost below, which the matrix needed beyond every other page. */
+  --pgf-row-h:       42px;
 
-  min-height: 100vh;
+  /* Every page read as too zoomed-out. Rather than hand-multiplying ~200
+     hardcoded px values, scale the whole sub-app once at the root.
+     `zoom` (not `transform: scale`) because zoom reflows — transform would
+     scale a rendered layer and leave the layout at the old size, blurring text
+     and breaking hit targets.
+     Scoped to .pgf-app, so nothing outside this sub-app is affected. */
+  --pgf-zoom: 1.25;
+  zoom: var(--pgf-zoom);
+
+  /* Viewport units do NOT get scaled back by zoom — 100vh inside a 1.25x
+     zoomed element paints 1.25 viewports tall and the page grows a scrollbar.
+     Anything sized to the viewport has to divide the zoom back out. */
+  min-height: calc(100vh / var(--pgf-zoom));
   background:
     radial-gradient(1100px 700px at 15% -10%, rgba(184, 37, 58, 0.16), transparent 60%),
     radial-gradient(900px 600px at 95% 5%, rgba(200, 116, 255, 0.13), transparent 60%),
@@ -263,7 +272,7 @@
 .pgf-lab.neg { text-decoration: line-through; opacity: 0.9; }
 
 /* ------------------------------------------------------------ species matrix */
-.pgf-matrix-scroll { overflow: auto; height: calc(100vh - var(--pgf-topbar-h) - 96px); }
+.pgf-matrix-scroll { overflow: auto; height: calc((100vh / var(--pgf-zoom)) - var(--pgf-topbar-h) - 96px); }
 .pgf-matrix { border-collapse: separate; border-spacing: 0; width: 100%; }
 
 .pgf-matrix thead th {
@@ -286,7 +295,7 @@
 .pgf-sec-sel { border-left: 2px solid var(--pgf-line-str); }
 
 .pgf-matrix tbody tr { height: var(--pgf-row-h); }
-.pgf-matrix tbody td { padding: 0 10px; font-size: 13.5px; border-bottom: 1px solid var(--pgf-line); white-space: nowrap; }
+.pgf-matrix tbody td { padding: 0 11px; font-size: 15px; border-bottom: 1px solid var(--pgf-line); white-space: nowrap; }
 .pgf-matrix tbody tr:nth-child(odd)  td { background: var(--pgf-row-a); }
 .pgf-matrix tbody tr:nth-child(even) td { background: var(--pgf-row-b); }
 .pgf-matrix tbody tr:nth-child(odd)  td.pgf-sec-ref { background: #1b1433 !important; }
@@ -295,12 +304,12 @@
 .pgf-matrix tbody tr.pgf-cursor td { box-shadow: inset 0 0 0 9999px rgba(200, 116, 255, 0.07); }
 .pgf-matrix tbody tr.pgf-picked td { box-shadow: inset 0 0 0 9999px rgba(200, 116, 255, 0.15); }
 
-.pgf-mx-dex { color: var(--pgf-text-faint); font-variant-numeric: tabular-nums; font-size: 12.5px; }
-.pgf-mx-name { font-weight: 600; font-size: 14.5px; }
-.pgf-mx-sprite { width: 32px; height: 32px; object-fit: contain; vertical-align: middle; margin-right: 9px; }
+.pgf-mx-dex { color: var(--pgf-text-faint); font-variant-numeric: tabular-nums; font-size: 13.5px; }
+.pgf-mx-name { font-weight: 600; font-size: 16px; }
+.pgf-mx-sprite { width: 36px; height: 36px; object-fit: contain; vertical-align: middle; margin-right: 9px; }
 .pgf-mx-cp {
   text-align: right; width: 62px; font-variant-numeric: tabular-nums;
-  font-family: "Consolas", ui-monospace, monospace; font-size: 14.5px; color: var(--pgf-text-dim);
+  font-family: "Consolas", ui-monospace, monospace; font-size: 16px; color: var(--pgf-text-dim);
 }
 .pgf-mx-cp.hi { color: var(--pgf-amber); font-weight: 700; }
 
@@ -366,7 +375,7 @@
 /* ------------------------------------------------- matrix layout + side panel */
 .pgf-matrix-layout {
   display: flex; align-items: stretch;
-  height: calc(100vh - var(--pgf-topbar-h));
+  height: calc((100vh / var(--pgf-zoom)) - var(--pgf-topbar-h));
 }
 .pgf-matrix-main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
 
@@ -466,7 +475,7 @@
   backdrop-filter: blur(3px); display: grid; place-items: center; padding: 24px;
 }
 .pgf-modal {
-  width: min(900px, 100%); max-height: 86vh; overflow: auto;
+  width: min(900px, 100%); max-height: calc(86vh / var(--pgf-zoom)); overflow: auto;
   background: var(--pgf-surface); border: 1px solid var(--pgf-line-str);
   border-radius: 14px; box-shadow: var(--pgf-shadow); padding: 20px;
 }
@@ -519,10 +528,10 @@
   /* matrix stacks: the side panel becomes a bottom sheet */
   .pgf-matrix-layout { flex-direction: column; height: auto; }
   .pgf-side {
-    flex: 1 1 auto; width: 100%; max-height: 60svh;
+    flex: 1 1 auto; width: 100%; max-height: calc(60svh / var(--pgf-zoom));
     border-left: 0; border-top: 1px solid var(--pgf-line-str);
   }
-  .pgf-matrix-scroll { height: 58svh; }
+  .pgf-matrix-scroll { height: calc(58svh / var(--pgf-zoom)); }
   .pgf-matrix-bar > .pgf-input,
   .pgf-matrix-bar > .pgf-select { flex: 1 1 44%; min-width: 0; }
 }
@@ -567,7 +576,7 @@
 
   .pgf-query, .pgf-textarea { font-size: 12px; }
   .pgf-textarea { min-height: 120px; }
-  .pgf-modal { padding: 14px; border-radius: 12px; max-height: 90svh; }
+  .pgf-modal { padding: 14px; border-radius: 12px; max-height: calc(90svh / var(--pgf-zoom)); }
   .pgf-modal-actions { flex-direction: column-reverse; }
   .pgf-modal-actions .pgf-btn { width: 100%; justify-content: center; }
   .pgf-toast { left: 10px; right: 10px; bottom: 10px; transform: none; max-width: none; }
@@ -577,4 +586,12 @@
 /* Respect users who don't want motion, and don't animate on touch at all. */
 @media (prefers-reduced-motion: reduce) {
   .pgf-notes, .pgf-tierbtn, .pgf-tab, .pgf-copybtn { transition: none; }
+}
+
+/* Manual-only species (legendaries and mythicals). Deliberately NOT the same
+   look as "never save" — these are kept, just never touched by the engine. */
+.pgf-manual-tag {
+  font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em;
+  color: var(--pgf-lit); border: 1px dashed var(--pgf-lit);
+  border-radius: 4px; padding: 3px 7px; white-space: nowrap;
 }

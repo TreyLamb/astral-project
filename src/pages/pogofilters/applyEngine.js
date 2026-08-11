@@ -18,7 +18,8 @@
 // tier and above".
 
 import { terms } from './filterSyntax.js';
-import { STAR_BANDS } from './pogofiltersConfig.js';
+import { STAR_BANDS, DEFAULT_REQUIRED_TERMS } from './pogofiltersConfig.js';
+import { isManualOnly } from './classification.js';
 
 const norm = (s) => String(s ?? '').toLowerCase().replace(/\s+/g, '');
 
@@ -91,6 +92,13 @@ export function shouldProtect(filter, species, settings) {
   // An untracked species is one Trey never wants saved. It is never protected,
   // anywhere — this is checked first so nothing below can override it.
   if (species?.tracked === false) return false;
+
+  // Manual-only (legendaries and mythicals by default): the engine writes
+  // nothing for these in either direction. They stay at null in the matrix on
+  // purpose. Blanket protection comes from the required terms on the filter
+  // itself, not from naming every legendary in every query.
+  if (isManualOnly(species, species?.dex)) return false;
+
   if (filter?.cpTier == null) return false; // filter isn't a CP tier filter
 
   if (species?.ruleMode === 'perStar') {
@@ -224,6 +232,25 @@ export function planApply({ filters, species, speciesRows, settings }) {
     const removed = [];
     const skipped = [];
     const blocked = [];
+
+    // Required terms first, before any species work. Legendaries and mythicals
+    // are handled by hand, so every managed filter carries !legendary and
+    // !mythical whether or not a species rule would ever have added them.
+    for (const req of (settings?.requiredTerms || DEFAULT_REQUIRED_TERMS)) {
+      const bare = req.replace(/^!/, '');
+      const present = terms(query).find((t) => norm(t.text) === norm(bare));
+      if (present) {
+        if (!present.negated && req.startsWith('!')) {
+          blocked.push({
+            name: bare,
+            reason: `"${present.text}" is in this filter as an inclusion, so the required "${req}" was not added — a mass filter that includes ${bare} could reach one.`,
+          });
+        }
+        continue;
+      }
+      query = addTerm(query, req);
+      added.push({ name: bare, token: req, required: true });
+    }
     // SAFETY RULE 5: provenance. Only tokens the engine added may be removed.
     const managedTokens = new Set(filter.managedTokens || []);
 

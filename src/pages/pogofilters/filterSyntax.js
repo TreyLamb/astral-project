@@ -11,6 +11,7 @@
 
 import {
   GAME_KEYWORDS, GAME_TYPES, NUMERIC_OPERATORS, KEYWORD_INFO, matchPattern,
+  DEFAULT_REQUIRED_TERMS,
 } from './pogofiltersConfig.js';
 
 // ---------------------------------------------------------------------------
@@ -297,7 +298,19 @@ function lintStarForm(query) {
   return [];
 }
 
-export function lintFilter(filter, vocab) {
+// Rule 10. Legendaries and mythicals are handled by hand and must never be
+// reachable by a mass filter. Any filter that could delete something needs
+// !legendary and !mythical.
+function lintRequiredTerms(query, requiredTerms) {
+  const present = new Set(terms(query).filter((t) => t.negated).map((t) => norm(t.text)));
+  return (requiredTerms || DEFAULT_REQUIRED_TERMS)
+    .filter((req) => !present.has(norm(req.replace(/^!/, ''))))
+    .map((req) => issue('warning', 'missing-required',
+      `Missing ${req}. Legendaries and mythicals are handled by hand — a mass filter without this could reach one.`,
+      { fix: { find: query.trim(), replace: query.trim() ? `${query.trim()}&${req}` : req } }));
+}
+
+export function lintFilter(filter, vocab, settings) {
   const query = filter?.query ?? '';
   const analyzed = analyze(query, vocab);
 
@@ -310,6 +323,7 @@ export function lintFilter(filter, vocab) {
 
   return [
     ...lintStructure(query),
+    ...lintRequiredTerms(query, settings?.requiredTerms),
     ...lintOperatorSpacing(query),
     ...lintContradictions(analyzed),
     ...lintCpRange(query),

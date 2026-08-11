@@ -9,6 +9,7 @@ import {
   validateQuery, shouldProtect, effectiveStars, planStarNormalisation,
 } from './applyEngine.js';
 import { isAssigned } from './pogofiltersConfig.js';
+import { isManualByDefault } from './classification.js';
 
 let pass = 0, fail = 0;
 function check(name, actual, expected) {
@@ -75,7 +76,9 @@ check('leading & rejected', validateQuery('&!3*'), 'starts with an operator');
 check('unbalanced parens rejected', validateQuery('(063,064&3*'), 'unbalanced parentheses');
 
 console.log('\n--- tier propagation: this tier and every tier above ---');
-const settings = { tierStarDefaults: {}, starRuleMode: 'atOrAbove' };
+// requiredTerms off here so these assertions test species logic alone — the
+// !legendary/!mythical guards get their own section below.
+const settings = { tierStarDefaults: {}, starRuleMode: 'atOrAbove', requiredTerms: [] };
 const bulbaAt1300 = { dex: 1, tracked: true, tier: 1300, customCp: null, starThreshold: 0 };
 for (const [tier, expected] of [[800, false], [1300, true], [1600, true], [1900, true], [2300, true]]) {
   check(`cp${tier} filter protects bulbasaur@1300 = ${expected}`,
@@ -124,6 +127,36 @@ check('a species is "assigned" on per-star rules alone', isAssigned(perStar), tr
 check('per-star with no rules set is not assigned',
   isAssigned({ ruleMode: 'perStar', starRules: { 0: null, 1: null, 2: null, 3: null, 4: null } }), false);
 check('flat mode is unaffected by starRules', isAssigned({ ruleMode: 'flat', tier: 800 }), true);
+
+console.log('\n--- legendaries and mythicals are manual-only ---');
+// Trey: they HAVE to be handled by hand. Distinct from never-save — these stay
+// kept and visible in the matrix, the engine just never writes a rule for them
+// in either direction, so they sit unset on purpose.
+const MEWTWO_DEX = 150; // legendary per classification.json
+check('a legendary is manual by default', isManualByDefault(MEWTWO_DEX), true);
+check('an ordinary species is not', isManualByDefault(1), false);
+check('engine writes nothing for a legendary, even when fully assigned',
+  shouldProtect({ cpTier: 2300, starBand: 'low' },
+    { dex: MEWTWO_DEX, tracked: true, tier: 800, customCp: null, starThreshold: 0 }, settings), false);
+check('an explicit override can opt a legendary back in',
+  shouldProtect({ cpTier: 2300, starBand: 'low' },
+    { dex: MEWTWO_DEX, tracked: true, tier: 800, customCp: null, starThreshold: 0, manualOnly: false }, settings), true);
+check('an ordinary species can be forced manual',
+  shouldProtect({ cpTier: 2300, starBand: 'low' },
+    { dex: 1, tracked: true, tier: 800, customCp: null, starThreshold: 0, manualOnly: true }, settings), false);
+
+console.log('\n--- every managed filter carries !legendary and !mythical ---');
+const guarded = { ...settings, requiredTerms: ['!legendary', '!mythical'] };
+const bare = [{ id: 'r1', name: 'no guards', query: '!3*&!4*&!cp1300-', managed: true, cpTier: 1300, starBand: 'low', managedTokens: [] }];
+check('both required terms are added',
+  planApply({ filters: bare, species: {}, speciesRows: [], settings: guarded }).changes[0]?.after,
+  '!3*&!4*&!cp1300-&!legendary&!mythical');
+const already = [{ id: 'r2', name: 'has them', query: '!3*&!legendary&!mythical&!cp1300-', managed: true, cpTier: 1300, starBand: 'low', managedTokens: [] }];
+check('not duplicated when already present',
+  planApply({ filters: already, species: {}, speciesRows: [], settings: guarded }).changes.length, 0);
+const unguarded = [{ id: 'r3', name: 'unmanaged', query: '!3*&!cp1300-', managed: false, cpTier: 1300, starBand: 'low', managedTokens: [] }];
+check('an unmanaged filter is still never touched',
+  planApply({ filters: unguarded, species: {}, speciesRows: [], settings: guarded }).changes.length, 0);
 
 console.log('\n--- planApply end to end ---');
 const speciesRows = [BULBA, NIDORINA, NIDORAN, MEWTWO, TYRA];
