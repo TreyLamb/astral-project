@@ -31,12 +31,17 @@ const GAME_ROUTES = ['/bashmon', '/gitmon', '/signal-lost', '/pokered', '/antiqu
 // their own way back to Home) — the site nav would just double up and overlap
 // with these, so they get the same minimal treatment as game routes.
 const OWN_TOPBAR_ROUTES = ['/MFT', '/league-build', '/orbit', '/pogo-filters'];
+// Pages whose whole point is a full-viewport working surface. A full-width bar
+// across the top is the most expensive space on these, and they each carry
+// their own corner link home. See webdesign.md §3.
+const FULLSCREEN_ROUTES = ['/EFTsh/map'];
 
 function Navbar() {
   const location = useLocation();
   const isGame = GAME_ROUTES.some(r => location.pathname.startsWith(r));
   const hasOwnTopbar = OWN_TOPBAR_ROUTES.some(r => location.pathname.startsWith(r));
-  const isMinimal = isGame || hasOwnTopbar;
+  const isFullscreen = FULLSCREEN_ROUTES.some(r => location.pathname.startsWith(r));
+  const isMinimal = isGame || hasOwnTopbar || isFullscreen;
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Close the mobile panel on navigation so it doesn't stay open after a tap.

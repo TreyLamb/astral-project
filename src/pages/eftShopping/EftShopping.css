@@ -1,0 +1,1278 @@
+/* EFT Shopping — Tarkov-styled theme.
+ *
+ * Every class is `eft-` prefixed (CLAUDE.md sub-app rule).
+ *
+ * The look is pulled from the game's own UI language rather than from a
+ * generic "military" preset:
+ *   - Near-black warm olive ground, never neutral grey and never pure black.
+ *   - Bone/tan type on it. The game almost never uses white.
+ *   - Square corners. Tarkov's UI has essentially no border radius.
+ *   - Hairline 1px borders doing all the separation work; no drop shadows,
+ *     no gradients except a faint top-light on raised panels.
+ *   - Condensed technical type, uppercase with wide tracking on labels.
+ *   - Diagonal hatching on headers and on disabled/unavailable states — the
+ *     game uses it constantly for "this slot is blocked".
+ *   - Item cells carry the item's own BSG background colour, which is how you
+ *     actually recognise loot at a glance in the stash.
+ */
+
+.eft-app {
+  --eft-bg: #0d0d0b;
+  --eft-bg-2: #131310;
+  --eft-panel: #1a1a15;
+  --eft-panel-2: #21211a;
+  --eft-raised: #2a2921;
+  --eft-line: #2e2d24;
+  --eft-line-bright: #423f31;
+
+  --eft-text: #c9c6b5;
+  --eft-text-dim: #8d8a79;
+  --eft-text-faint: #5f5d52;
+
+  --eft-tan: #9a8866;
+  --eft-tan-bright: #cdbb96;
+  --eft-gold: #e0c07a;
+  --eft-green: #7a9a5c;
+  --eft-red: #b4544a;
+  --eft-blue: #6d8ba3;
+  --eft-orange: #c08b4a;
+
+  --eft-mono: 'Consolas', 'SF Mono', 'Menlo', monospace;
+  --eft-cond: 'Bahnschrift', 'DIN Alternate', 'Roboto Condensed', 'Segoe UI', system-ui, sans-serif;
+
+  min-height: 100vh;
+  background:
+    /* faint vignette so the grid never reads as a flat web page */
+    radial-gradient(120% 80% at 50% 0%, #17170f 0%, var(--eft-bg) 70%);
+  color: var(--eft-text);
+  font-family: var(--eft-cond);
+  font-size: 14px;
+  letter-spacing: 0.01em;
+}
+
+.eft-app *,
+.eft-app *::before,
+.eft-app *::after { box-sizing: border-box; }
+
+.eft-app button,
+.eft-app input,
+.eft-app select,
+.eft-app textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* Hatch fill used for headers, blocked states and empty slots. */
+.eft-hatch {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(154, 136, 102, 0.06) 0 1px,
+    transparent 1px 6px
+  );
+}
+
+/* ---------- Shell ---------- */
+
+.eft-shell { max-width: 1500px; margin: 0 auto; padding: 0 18px 64px; }
+
+.eft-topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px 0 12px;
+  border-bottom: 1px solid var(--eft-line);
+}
+
+.eft-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-right: auto;
+}
+
+.eft-brand h1 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--eft-tan-bright);
+}
+
+.eft-brand span {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--eft-text-faint);
+}
+
+/* ---------- Mode switch ---------- */
+
+.eft-modeswitch { display: flex; border: 1px solid var(--eft-line-bright); }
+
+.eft-modeswitch button {
+  padding: 5px 14px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 11px;
+  color: var(--eft-text-dim);
+}
+
+.eft-modeswitch button + button { border-left: 1px solid var(--eft-line-bright); }
+.eft-modeswitch button:hover { color: var(--eft-tan-bright); background: rgba(154, 136, 102, 0.08); }
+
+.eft-modeswitch button[aria-pressed='true'] {
+  background: var(--eft-tan);
+  color: #14140f;
+  font-weight: 600;
+}
+
+/* ---------- Data status ---------- */
+
+.eft-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--eft-text-faint);
+}
+
+.eft-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--eft-green);
+  flex: none;
+}
+
+.eft-status-dot.eft-is-stale { background: var(--eft-orange); }
+.eft-status-dot.eft-is-offline { background: var(--eft-red); }
+
+.eft-banner {
+  margin: 12px 0 0;
+  padding: 9px 14px;
+  border: 1px solid var(--eft-line-bright);
+  border-left: 3px solid var(--eft-orange);
+  background: rgba(192, 139, 74, 0.07);
+  font-size: 12.5px;
+  color: var(--eft-text-dim);
+}
+
+.eft-banner.eft-is-error { border-left-color: var(--eft-red); background: rgba(180, 84, 74, 0.07); }
+
+/* ---------- Tabs ---------- */
+
+.eft-tabs {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  margin: 14px 0 18px;
+  border-bottom: 1px solid var(--eft-line);
+}
+
+.eft-tab {
+  padding: 8px 15px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  color: var(--eft-text-dim);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-size: 11.5px;
+  cursor: pointer;
+  position: relative;
+  top: 1px;
+}
+
+.eft-tab:hover { color: var(--eft-tan-bright); background: rgba(154, 136, 102, 0.06); }
+
+.eft-tab.eft-is-active {
+  color: var(--eft-gold);
+  background: var(--eft-panel);
+  border-color: var(--eft-line-bright);
+  border-bottom: 1px solid var(--eft-panel);
+}
+
+/* ---------- Panels ---------- */
+
+.eft-panel {
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line);
+  margin-bottom: 16px;
+}
+
+.eft-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--eft-line);
+  background: var(--eft-panel-2);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(154, 136, 102, 0.05) 0 1px,
+    transparent 1px 6px
+  );
+}
+
+.eft-panel-head h2,
+.eft-panel-head h3 {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--eft-tan-bright);
+}
+
+.eft-panel-body { padding: 14px; }
+.eft-panel-body.eft-flush { padding: 0; }
+
+.eft-spacer { margin-left: auto; }
+
+/* ---------- Buttons ---------- */
+
+.eft-btn {
+  padding: 6px 13px;
+  background: var(--eft-raised);
+  border: 1px solid var(--eft-line-bright);
+  color: var(--eft-text);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.eft-btn:hover:not(:disabled) {
+  background: #35342a;
+  border-color: var(--eft-tan);
+  color: var(--eft-tan-bright);
+}
+
+.eft-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.eft-btn.eft-is-primary {
+  background: var(--eft-tan);
+  border-color: var(--eft-tan-bright);
+  color: #14140f;
+  font-weight: 600;
+}
+
+.eft-btn.eft-is-primary:hover:not(:disabled) { background: var(--eft-tan-bright); color: #14140f; }
+
+.eft-btn.eft-is-danger:hover:not(:disabled) { border-color: var(--eft-red); color: #d98077; }
+
+.eft-btn.eft-is-on {
+  background: rgba(224, 192, 122, 0.14);
+  border-color: var(--eft-gold);
+  color: var(--eft-gold);
+}
+
+.eft-btn-sm { padding: 3px 8px; font-size: 10px; letter-spacing: 0.1em; }
+
+.eft-iconbtn {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: var(--eft-raised);
+  border: 1px solid var(--eft-line-bright);
+  color: var(--eft-text-dim);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.eft-iconbtn:hover:not(:disabled) { color: var(--eft-gold); border-color: var(--eft-tan); }
+.eft-iconbtn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ---------- Inputs ---------- */
+
+.eft-input,
+.eft-select,
+.eft-textarea {
+  padding: 5px 9px;
+  background: #0f0f0c;
+  border: 1px solid var(--eft-line-bright);
+  color: var(--eft-text);
+  outline: none;
+}
+
+.eft-input:focus,
+.eft-select:focus,
+.eft-textarea:focus { border-color: var(--eft-tan); }
+
+.eft-input::placeholder { color: var(--eft-text-faint); }
+.eft-textarea { width: 100%; resize: vertical; min-height: 64px; line-height: 1.5; }
+.eft-num { width: 64px; text-align: right; font-family: var(--eft-mono); }
+.eft-num-sm { width: 46px; text-align: right; font-family: var(--eft-mono); padding: 2px 5px; }
+
+.eft-field { display: flex; flex-direction: column; gap: 4px; }
+
+.eft-field label,
+.eft-label {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--eft-text-faint);
+}
+
+.eft-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.eft-checkline {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--eft-text-dim);
+}
+
+.eft-checkline:hover { color: var(--eft-text); }
+.eft-checkline input { accent-color: var(--eft-tan); }
+
+/* ---------- Segmented control ---------- */
+
+.eft-seg { display: inline-flex; border: 1px solid var(--eft-line-bright); }
+
+.eft-seg button {
+  padding: 5px 12px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: var(--eft-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-size: 10.5px;
+}
+
+.eft-seg button + button { border-left: 1px solid var(--eft-line-bright); }
+.eft-seg button:hover { color: var(--eft-tan-bright); background: rgba(154, 136, 102, 0.08); }
+
+.eft-seg button[aria-pressed='true'] {
+  background: rgba(224, 192, 122, 0.15);
+  color: var(--eft-gold);
+  font-weight: 600;
+}
+
+/* ---------- Stat strip ---------- */
+
+.eft-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 1px;
+  background: var(--eft-line);
+  border: 1px solid var(--eft-line);
+  margin-bottom: 16px;
+}
+
+.eft-stat { background: var(--eft-panel); padding: 11px 14px; }
+
+.eft-stat-label {
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--eft-text-faint);
+  margin-bottom: 4px;
+}
+
+.eft-stat-value {
+  font-size: 19px;
+  font-family: var(--eft-mono);
+  color: var(--eft-tan-bright);
+  line-height: 1.1;
+}
+
+.eft-stat-value.eft-is-gold { color: var(--eft-gold); }
+.eft-stat-value.eft-is-green { color: var(--eft-green); }
+.eft-stat-value.eft-is-red { color: var(--eft-red); }
+.eft-stat-sub { font-size: 10.5px; color: var(--eft-text-faint); margin-top: 3px; }
+
+/* ---------- Progress ---------- */
+
+.eft-bar { height: 3px; background: #0f0f0c; border: 1px solid var(--eft-line); overflow: hidden; }
+.eft-bar-fill { height: 100%; background: var(--eft-tan); transition: width 0.25s; }
+.eft-bar-fill.eft-is-full { background: var(--eft-green); }
+
+/* ---------- Station grid ---------- */
+
+.eft-station-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+}
+
+.eft-station {
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line);
+  border-top: 2px solid var(--eft-line-bright);
+  padding: 11px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  position: relative;
+}
+
+.eft-station.eft-is-complete { border-top-color: var(--eft-green); }
+.eft-station.eft-is-ready { border-top-color: var(--eft-gold); }
+
+.eft-station.eft-is-off {
+  opacity: 0.45;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(154, 136, 102, 0.05) 0 1px,
+    transparent 1px 6px
+  );
+}
+
+.eft-station.eft-is-solo { border-color: var(--eft-gold); }
+
+.eft-station-top { display: flex; align-items: flex-start; gap: 9px; }
+
+.eft-station-img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  flex: none;
+  background: #0f0f0c;
+  border: 1px solid var(--eft-line);
+}
+
+.eft-station-name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--eft-tan-bright);
+  line-height: 1.25;
+  flex: 1;
+}
+
+.eft-station-tools { display: flex; gap: 3px; flex: none; }
+
+.eft-levelpick { display: flex; flex-wrap: wrap; gap: 3px; }
+
+.eft-levelpick button {
+  min-width: 26px;
+  padding: 3px 0;
+  background: #0f0f0c;
+  border: 1px solid var(--eft-line-bright);
+  color: var(--eft-text-faint);
+  cursor: pointer;
+  font-family: var(--eft-mono);
+  font-size: 11px;
+}
+
+.eft-levelpick button:hover { color: var(--eft-tan-bright); border-color: var(--eft-tan); }
+
+.eft-levelpick button.eft-is-current {
+  background: var(--eft-tan);
+  border-color: var(--eft-tan-bright);
+  color: #14140f;
+  font-weight: 700;
+}
+
+/* Levels at or below the target but not yet built. */
+.eft-levelpick button.eft-is-planned { color: var(--eft-gold); border-color: rgba(224, 192, 122, 0.4); }
+.eft-levelpick button.eft-is-beyond { opacity: 0.35; }
+
+.eft-station-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 10.5px;
+  color: var(--eft-text-faint);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.eft-blockchips { display: flex; flex-wrap: wrap; gap: 4px; }
+
+/* ---------- Chips ---------- */
+
+.eft-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  border: 1px solid var(--eft-line-bright);
+  background: #0f0f0c;
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--eft-text-dim);
+  white-space: nowrap;
+}
+
+.eft-chip.eft-is-met { border-color: rgba(122, 154, 92, 0.5); color: var(--eft-green); }
+.eft-chip.eft-is-unmet { border-color: rgba(180, 84, 74, 0.5); color: #cd7a72; }
+.eft-chip.eft-is-fir { border-color: rgba(224, 192, 122, 0.5); color: var(--eft-gold); }
+.eft-chip.eft-is-info { border-color: rgba(109, 139, 163, 0.45); color: var(--eft-blue); }
+
+/* ---------- Tables ---------- */
+
+.eft-tablewrap { overflow-x: auto; }
+
+.eft-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+.eft-table th {
+  text-align: left;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--eft-line-bright);
+  background: var(--eft-panel-2);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--eft-text-faint);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.eft-table td { padding: 5px 10px; border-bottom: 1px solid var(--eft-line); vertical-align: middle; }
+.eft-table tbody tr:hover td { background: rgba(154, 136, 102, 0.05); }
+.eft-table tbody tr.eft-is-done td { opacity: 0.45; }
+.eft-table .eft-num-cell { text-align: right; font-family: var(--eft-mono); white-space: nowrap; }
+
+.eft-group-row td {
+  background: var(--eft-panel-2);
+  font-size: 10.5px;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--eft-tan);
+  font-weight: 600;
+}
+
+/* ---------- Item cells ---------- */
+
+.eft-item { display: flex; align-items: center; gap: 9px; min-width: 200px; }
+
+.eft-item-icon {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  object-fit: contain;
+  border: 1px solid var(--eft-line-bright);
+  background: #24211d;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.eft-item-name { line-height: 1.25; }
+.eft-item-sub { font-size: 10.5px; color: var(--eft-text-faint); }
+
+/* BSG item background colours — how loot is colour-coded in the stash grid. */
+.eft-bg-default { background: #24211d; }
+.eft-bg-black { background: #1a1917; }
+.eft-bg-grey { background: #26262a; }
+.eft-bg-blue { background: #1c2b34; }
+.eft-bg-violet { background: #2a2135; }
+.eft-bg-green { background: #1e2a1c; }
+.eft-bg-yellow { background: #35311c; }
+.eft-bg-orange { background: #35281a; }
+.eft-bg-red { background: #341f1e; }
+.eft-bg-tracerYellow { background: #3a3620; }
+.eft-bg-tracerGreen { background: #1f3020; }
+.eft-bg-tracerRed { background: #37201f; }
+
+/* ---------- Counter ---------- */
+
+.eft-counter { display: inline-flex; align-items: center; gap: 3px; }
+
+.eft-counter input {
+  width: 52px;
+  text-align: center;
+  padding: 2px 4px;
+  background: #0f0f0c;
+  border: 1px solid var(--eft-line-bright);
+  color: var(--eft-text);
+  font-family: var(--eft-mono);
+  outline: none;
+}
+
+.eft-counter input:focus { border-color: var(--eft-tan); }
+
+/* ---------- Lists ---------- */
+
+.eft-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.eft-card {
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line);
+  padding: 11px 12px;
+}
+
+.eft-card h4 {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--eft-tan-bright);
+}
+
+.eft-linelist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+
+.eft-linelist li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 0;
+  font-size: 12.5px;
+  border-bottom: 1px dashed rgba(46, 45, 36, 0.9);
+}
+
+.eft-linelist li:last-child { border-bottom: 0; }
+.eft-linelist input[type='checkbox'] { accent-color: var(--eft-tan); flex: none; }
+.eft-linelist .eft-line-text { flex: 1; }
+.eft-linelist li.eft-is-checked .eft-line-text { color: var(--eft-text-faint); text-decoration: line-through; }
+
+.eft-note { font-size: 12px; color: var(--eft-text-dim); line-height: 1.55; }
+.eft-note-star { color: var(--eft-tan); }
+
+.eft-empty {
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--eft-text-faint);
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+}
+
+.eft-added-flag {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--eft-blue);
+  border: 1px solid rgba(109, 139, 163, 0.4);
+  padding: 0 4px;
+}
+
+/* ---------- Ammo ---------- */
+
+.eft-ammo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 10px;
+}
+
+.eft-ammo-tier { display: grid; grid-template-columns: 74px 1fr; gap: 5px 9px; align-items: baseline; }
+
+.eft-tier-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.eft-tier-best { color: var(--eft-green); }
+.eft-tier-garbage { color: var(--eft-red); }
+.eft-tier-else { color: var(--eft-text-faint); }
+.eft-tier-value { font-size: 12.5px; }
+
+.eft-pen {
+  display: inline-block;
+  min-width: 24px;
+  text-align: center;
+  font-family: var(--eft-mono);
+  font-size: 11px;
+  padding: 0 4px;
+  border: 1px solid var(--eft-line-bright);
+}
+
+/* Penetration bands mirror the game's armour classes. */
+.eft-pen-6 { color: #d98077; border-color: rgba(180, 84, 74, 0.6); }
+.eft-pen-5 { color: var(--eft-orange); border-color: rgba(192, 139, 74, 0.55); }
+.eft-pen-4 { color: var(--eft-gold); border-color: rgba(224, 192, 122, 0.5); }
+.eft-pen-3 { color: var(--eft-green); border-color: rgba(122, 154, 92, 0.5); }
+.eft-pen-2 { color: var(--eft-text-dim); }
+
+/* ---------- Verdicts ---------- */
+
+.eft-verdict {
+  padding: 12px 16px;
+  border: 1px solid var(--eft-line-bright);
+  border-left-width: 4px;
+  font-size: 17px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.eft-verdict.eft-tone-ok { border-left-color: var(--eft-green); color: var(--eft-green); }
+.eft-verdict.eft-tone-warn { border-left-color: var(--eft-orange); color: var(--eft-orange); }
+.eft-verdict.eft-tone-danger { border-left-color: var(--eft-red); color: #d98077; }
+
+.eft-buy { color: var(--eft-green); font-weight: 600; }
+.eft-skip { color: var(--eft-red); font-weight: 600; }
+
+/* ---------- Toast ---------- */
+
+.eft-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  z-index: 60;
+  padding: 9px 20px;
+  background: var(--eft-panel-2);
+  border: 1px solid var(--eft-tan);
+  color: var(--eft-tan-bright);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---------- Modal ---------- */
+
+.eft-modal-back {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(6, 6, 4, 0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.eft-modal {
+  width: min(760px, 100%);
+  max-height: 86vh;
+  overflow: auto;
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line-bright);
+}
+
+/* ---------- Scrollbars ---------- */
+
+.eft-app ::-webkit-scrollbar { width: 10px; height: 10px; }
+.eft-app ::-webkit-scrollbar-track { background: #0f0f0c; }
+.eft-app ::-webkit-scrollbar-thumb { background: #33322a; border: 2px solid #0f0f0c; }
+.eft-app ::-webkit-scrollbar-thumb:hover { background: var(--eft-tan); }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 720px) {
+  .eft-shell { padding: 0 10px 48px; }
+  .eft-brand h1 { font-size: 17px; }
+  .eft-station-grid { grid-template-columns: 1fr; }
+  .eft-table { font-size: 12px; }
+  .eft-table th, .eft-table td { padding: 5px 7px; }
+  .eft-item { min-width: 150px; }
+  .eft-tab { padding: 7px 10px; font-size: 10.5px; }
+}
+
+/* ---------- Print ---------- */
+
+@media print {
+  .eft-app {
+    background: #fff;
+    color: #000;
+    --eft-text: #000;
+    --eft-text-dim: #333;
+    --eft-text-faint: #666;
+  }
+
+  .eft-topbar,
+  .eft-tabs,
+  .eft-controls,
+  .eft-station-tools,
+  .eft-toast,
+  .eft-banner { display: none !important; }
+
+  .eft-panel { border-color: #999; break-inside: avoid; }
+  .eft-panel-head { background: #eee; background-image: none; }
+  .eft-table td, .eft-table th { border-color: #ccc; }
+  .eft-table th { background: #eee; color: #000; }
+  .eft-item-icon { border-color: #ccc; }
+}
+
+/* ---------- Map tab ---------- */
+
+.eft-map-gate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 55vh;
+  padding: 20px;
+}
+
+.eft-map-gate-box {
+  width: min(320px, 100%);
+  padding: 22px;
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line-bright);
+  border-top: 2px solid var(--eft-tan);
+  text-align: center;
+}
+
+.eft-map-picker { display: flex; flex-wrap: wrap; gap: 4px; }
+
+.eft-map-layout {
+  display: grid;
+  grid-template-columns: 1fr 290px;
+  gap: 12px;
+  align-items: start;
+}
+
+.eft-map-stage {
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line);
+  min-height: 620px;
+  position: relative;
+}
+
+.eft-map-canvas {
+  width: 100%;
+  height: 72vh;
+  min-height: 620px;
+  background: #0a0a08;
+}
+
+.eft-map-side { display: flex; flex-direction: column; gap: 12px; }
+.eft-map-filters { max-height: 52vh; overflow-y: auto; }
+
+.eft-map-group { border-top: 1px solid var(--eft-line); margin-top: 8px; padding-top: 6px; }
+
+.eft-map-group-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 12px 5px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--eft-tan);
+}
+
+.eft-map-group-head span:first-child { flex: 1; }
+.eft-map-cat { display: flex; width: 100%; padding: 2px 12px; gap: 7px; align-items: center; }
+.eft-map-cat .eft-line-text { flex: 1; }
+
+/* The source's own icon font, so a filter row shows the same glyph the source
+   shows next to the same category name. */
+@font-face {
+  font-family: 'eft-mapicons';
+  src: url('./map/data/assets/icons.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.eft-cat-icon {
+  font-family: 'eft-mapicons';
+  font-size: 13px;
+  line-height: 1;
+  width: 15px;
+  text-align: center;
+  color: var(--eft-tan);
+  flex: none;
+}
+
+.eft-map-host { position: relative; }
+
+/* The sprite canvas paints markers but must not swallow map events — Leaflet's
+   own handlers do the hit-testing, via the layer's rectangle list. */
+.eft-app .eft-sprite-layer { pointer-events: none; }
+
+.eft-map-tip {
+  display: none;
+  position: absolute;
+  z-index: 700;
+  transform: translate(14px, -50%);
+  max-width: 240px;
+  padding: 5px 8px;
+  background: var(--eft-panel-2);
+  border: 1px solid var(--eft-line-bright);
+  color: var(--eft-text);
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.eft-map-tip strong { display: block; color: var(--eft-gold); }
+.eft-map-tip span { display: block; margin-top: 2px; }
+.eft-map-tip em { display: block; margin-top: 3px; color: var(--eft-text-dim); font-size: 11px; }
+
+.eft-app .eft-map-label {
+  white-space: nowrap;
+  padding: 1px 5px;
+  background: rgba(13, 13, 11, 0.82);
+  border: 1px solid var(--eft-line-bright);
+  color: var(--eft-text);
+  font-size: 11px;
+  width: auto !important;
+  height: auto !important;
+}
+
+/* ---------- Zones & routes ---------- */
+
+.eft-map-hint {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 700;
+  max-width: 60%;
+  padding: 7px 10px;
+  background: rgba(13, 13, 11, 0.9);
+  border: 1px solid var(--eft-gold);
+  color: var(--eft-text);
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.eft-map-hint kbd {
+  display: inline-block;
+  padding: 0 4px;
+  margin: 0 1px;
+  border: 1px solid var(--eft-line-bright);
+  background: var(--eft-raised);
+  color: var(--eft-gold);
+  font-family: var(--eft-mono, monospace);
+  font-size: 11px;
+}
+
+.eft-map-hint b { color: var(--eft-gold); }
+
+.eft-row-card {
+  border: 1px solid var(--eft-line);
+  border-left: 3px solid var(--eft-tan);
+  padding: 7px 9px;
+  margin-bottom: 6px;
+  background: var(--eft-panel-2);
+}
+
+.eft-row-card.eft-is-on { border-left-color: var(--eft-gold); }
+
+.eft-row-card-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.eft-row-card-head .eft-line-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eft-swatch {
+  width: 11px;
+  height: 11px;
+  border: 1px solid var(--eft-line-bright);
+  flex: none;
+}
+
+.eft-manifest { max-height: 40vh; overflow-y: auto; }
+
+.eft-manifest-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 0;
+  border-bottom: 1px solid var(--eft-line);
+  font-size: 12px;
+}
+
+.eft-manifest-row .eft-line-text { flex: 1; }
+.eft-manifest-row .eft-note { flex: none; }
+
+/* Leaflet's own chrome, dragged into the Tarkov palette. */
+.eft-app .leaflet-container { background: #0a0a08; font-family: var(--eft-cond); }
+.eft-app .leaflet-bar a {
+  background: var(--eft-raised);
+  color: var(--eft-text);
+  border-bottom-color: var(--eft-line-bright);
+}
+.eft-app .leaflet-bar a:hover { background: #35342a; color: var(--eft-gold); }
+
+.eft-app .leaflet-tooltip {
+  background: var(--eft-panel-2);
+  border: 1px solid var(--eft-line-bright);
+  color: var(--eft-text);
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 12px;
+}
+
+.eft-app .leaflet-tooltip-top::before { border-top-color: var(--eft-line-bright); }
+.eft-app .leaflet-tooltip-right::before { border-right-color: var(--eft-line-bright); }
+
+@media (max-width: 900px) {
+  .eft-map-layout { grid-template-columns: 1fr; }
+  .eft-map-canvas { height: 58vh; min-height: 420px; }
+  .eft-map-stage { min-height: 420px; }
+  .eft-map-filters { max-height: 40vh; }
+}
+
+.eft-input-sm { padding: 2px 6px; font-size: 11px; }
+
+/* ---------- Full-viewport map layout ----------
+   webdesign.md §1: the working surface gets the window; chrome floats over it
+   instead of taking a slice out of it. */
+
+.eft-app.eft-is-full {
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+  background: #0a0a08;
+}
+
+.eft-shell.eft-is-full {
+  max-width: none;
+  width: 100%;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The whole of the site + sub-app chrome on this page, in one 34px strip. */
+.eft-mapbar {
+  flex: none;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+  background: var(--eft-panel);
+  border-bottom: 1px solid var(--eft-line-bright);
+  position: relative;
+  z-index: 1200;
+}
+
+.eft-hublink {
+  color: var(--eft-tan);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.eft-hublink:hover { color: var(--eft-gold); }
+
+.eft-mapbar-title {
+  margin-left: auto;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--eft-text-faint);
+}
+
+/* Tab row drops over the map rather than pushing it down. */
+.eft-tabs.eft-is-float {
+  position: absolute;
+  top: 34px;
+  left: 0;
+  right: 0;
+  z-index: 1150;
+  margin: 0;
+  padding: 4px 8px;
+  background: var(--eft-panel);
+  border-bottom: 1px solid var(--eft-line-bright);
+}
+
+.eft-map-full {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.eft-app.eft-is-full .eft-map-stage {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  min-height: 0;
+}
+
+.eft-app.eft-is-full .eft-map-canvas,
+.eft-app.eft-is-full .eft-map-host {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+/* --- floating chrome over the canvas --- */
+
+.eft-map-toolbar {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 4px;
+  background: rgba(13, 13, 11, 0.85);
+  border: 1px solid var(--eft-line-bright);
+}
+
+.eft-map-menu {
+  position: absolute;
+  top: 46px;
+  left: 8px;
+  z-index: 1000;
+  width: min(520px, calc(100vw - 32px));
+  max-height: calc(100% - 60px);
+  overflow-y: auto;
+  padding: 10px;
+  background: rgba(13, 13, 11, 0.96);
+  border: 1px solid var(--eft-line-bright);
+}
+
+.eft-map-menu-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.eft-map-menu-head .eft-label { flex: 1; }
+
+.eft-map-rail {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  bottom: 8px;
+  z-index: 1000;
+  width: 310px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 2px;
+}
+
+.eft-map-rail .eft-panel {
+  margin-bottom: 0;
+  background: rgba(13, 13, 11, 0.94);
+  border-color: var(--eft-line-bright);
+}
+
+.eft-map-stats {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  z-index: 1000;
+  display: flex;
+  gap: 1px;
+  background: var(--eft-line);
+  border: 1px solid var(--eft-line-bright);
+  max-width: calc(100% - 340px);
+  overflow-x: auto;
+}
+
+.eft-map-stats .eft-stat { background: rgba(13, 13, 11, 0.94); padding: 6px 10px; }
+.eft-map-stats .eft-stat-value { font-size: 15px; }
+
+.eft-map-callout {
+  position: absolute;
+  top: 46px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: min(560px, calc(100vw - 32px));
+  padding: 9px 14px;
+  background: rgba(13, 13, 11, 0.95);
+  border: 1px solid var(--eft-orange);
+  font-size: 12.5px;
+  color: var(--eft-text-dim);
+}
+
+/* Leaflet's zoom control moved to bottom-left; keep it clear of the stats. */
+.eft-app .leaflet-bottom.leaflet-left { margin-bottom: 4px; }
+
+/* --- collapsible panels --- */
+
+.eft-panel-toggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.eft-panel-toggle .eft-caret { color: var(--eft-tan); font-size: 10px; }
+.eft-panel-toggle:hover h2 { color: var(--eft-gold); }
+.eft-panel.eft-is-closed .eft-panel-head { border-bottom: 0; }
+
+@media (max-width: 900px) {
+  .eft-map-rail { width: auto; left: 8px; top: auto; height: 45%; }
+  .eft-map-stats { max-width: calc(100% - 16px); }
+}
+
+/* ---------- Preset rows + filter context menu ---------- */
+
+.eft-preset-row { display: flex; gap: 4px; margin-bottom: 5px; }
+
+.eft-ctxmenu {
+  position: fixed;
+  z-index: 2000;
+  min-width: 190px;
+  max-width: 260px;
+  padding: 5px 0;
+  background: var(--eft-panel-2);
+  border: 1px solid var(--eft-gold);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+}
+
+.eft-ctxmenu-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px 6px;
+  border-bottom: 1px solid var(--eft-line);
+  color: var(--eft-tan-bright);
+  font-size: 12px;
+}
+
+.eft-ctxmenu-label {
+  padding: 6px 10px 3px;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--eft-text-faint);
+}
+
+.eft-ctxmenu-item {
+  display: block;
+  width: 100%;
+  padding: 5px 10px;
+  background: none;
+  border: 0;
+  text-align: left;
+  color: var(--eft-text);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.eft-ctxmenu-item:hover:not(:disabled) { background: var(--eft-raised); color: var(--eft-gold); }
+.eft-ctxmenu-item:disabled { opacity: 0.45; cursor: not-allowed; }
+.eft-ctxmenu-item.eft-is-new { border-top: 1px solid var(--eft-line); margin-top: 4px; color: var(--eft-tan); }

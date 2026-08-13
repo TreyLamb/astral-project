@@ -36,6 +36,7 @@ import LeagueBuildApp from './pages/leagueBuild/LeagueBuildApp';
 import OrbitApp from './pages/orbit/OrbitApp';
 import PlanningToolApp from './pages/planningTool/PlanningToolApp';
 import VocabVaultApp from './pages/lang/LangApp';
+import EftShoppingApp from './pages/eftShopping/EftShoppingApp';
 import RouteFallback from './pages/RouteFallback';
 import './App.css';
 
@@ -80,6 +81,7 @@ function App() {
             <Route path="/RS" caseSensitive element={<RSMarket />} />
             <Route path="/POGO" caseSensitive element={<PgoTracker />} />
             <Route path="/POGO-ACCS/*" caseSensitive element={<PogoAccsApp />} />
+            <Route path="/EFTsh/*" caseSensitive element={<EftShoppingApp />} />
 
             <Route path="*" element={<RouteFallback />} />
           </Routes>

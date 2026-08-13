@@ -9,6 +9,7 @@ export default defineConfig({
     include: [
       'src/pages/fitnesstracker/**/*.test.js',
       'src/pages/orbit/**/*.test.js',
+      'src/pages/eftShopping/**/*.test.js',
       'api/_lib/**/*.test.js',
     ],
     environment: 'node',

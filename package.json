@@ -9,13 +9,17 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "eft:snapshot": "node scripts/fetchEftHideout.mjs",
+    "eft:markers": "node scripts/fetchEftMapMarkers.mjs",
+    "eft:mapconfig": "node scripts/buildEftMapConfig.mjs"
   },
   "dependencies": {
     "firebase": "^12.14.0",
     "firebase-admin": "^14.2.0",
     "hyperformula": "^3.3.0",
     "jszip": "^3.10.1",
+    "leaflet": "^1.9.4",
     "mammoth": "^1.12.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
