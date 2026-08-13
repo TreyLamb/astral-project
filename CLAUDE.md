@@ -23,6 +23,36 @@ If the `AiCompressionAssist/` PostToolUse hook is enabled in `.claude/settings.j
 
 ---
 
+## ⚠️ Deferred: the EFT map's Vector basemap is broken — do NOT spend time on it
+As of 2026-08-13, `/EFTsh/map` has two basemaps. **Tiles (mapgenie's own raster
+pyramid) is correct and is the default.** The **Vector** option (tarkov.dev's open
+SVG maps + the two-landmark calibration solver) renders badly and Trey has
+explicitly deprioritised it: *"The vector maps are super messed up. put it on a
+note to fix later. idc about it right now."*
+
+Do not fix, tune, or refactor it unasked. The picker labels it as broken and the
+map menu shows a warning when it's selected. Its only long-term value is Terminal
+(which mapgenie lacks) and multi-floor maps. Revisit only when Trey asks.
+
+---
+
+## 🎨 webdesign.md is required reading before any layout work
+`webdesign.md` (same directory) is the binding contract for page layout, the
+counterpart to `gamedesign.md` and `featuredesign.md`. Written 2026-08-13 after
+the **third** time the same complaint came up. Core rules:
+- **No huge side padding.** Tool/app pages use the full window. `max-width` on a
+  centred column is only for long-form prose, never for a dashboard, table, map
+  or tracker.
+- **Canvas pages take ~99% of the viewport**; chrome floats over the surface and
+  collapses, it does not take a slice out of it.
+- **A sub-app with its own chrome hides the global navbar** and carries a small
+  corner link home (`Navbar.jsx` → `OWN_TOPBAR_ROUTES` / `FULLSCREEN_ROUTES`).
+- ⏳ **Open item in that file:** Trey wants the corner-nav treatment rolled out to
+  most other sub-apps. Agreed in principle, deliberately not bundled into the EFT
+  work, needs its own task.
+
+---
+
 ## What this project is
 A React single-page app about astral projection, deployed on Vercel. The owner (Trey) also uses it as a personal hub — it hosts unrelated personal tools (MyMDB, RS Market, QA Tracker, etc.) alongside the main astral content. The site is live.
 
@@ -144,6 +174,7 @@ canonical casing. Legacy paths redirect the same way. Both live in
 | `/RS` | RSMarket.jsx | was `/rs-market` |
 | `/POGO` | pgotracker/PgoTracker.jsx | **POGO Tracker** — was `/pgo-tracker` |
 | `/POGO-ACCS/*` | pogoaccs/PogoAccsApp.jsx | was `/pogo-accs` |
+| `/EFTsh/*` | eftShopping/EftShoppingApp.jsx | **EFT Shopping** — Tarkov hideout shopping list + raid companion. Live tarkov.dev GraphQL with a committed offline snapshot (`npm run eft:snapshot` regenerates it; falls back to SPT game files if tarkov.dev is down). |
 | `/medaldex/*` | medaldex/MedalDexApp.jsx | |
 | `/stashmap/*` | stashmap/StashMapApp.jsx | |
 | `/antiquityquest/*` | antiquityquest/AntiquityQuestApp.jsx | |
@@ -240,6 +271,36 @@ The two games are ~99% identical. Keeping the engines/content on their own branc
 
 ---
 
+## External data sources — never declare one "unavailable" from a sample of one
+
+**Trigger: any time an external API/site/feed you planned to use is down, rate-limited, paywalled, or missing a field you need.**
+
+Added 2026-08-09 after a real failure: tarkov.dev's API was down for a whole
+session. Alternatives were researched for *structural* data (SPT game files were
+found and used) but **zero searches were run for backup price sources**. The
+result — "flea prices are unavailable" — was reported to Trey as an external
+fact. It was not. It was an unresearched gap, and he already knew of a source.
+
+Before you write, say, or build around "X is unavailable / there's no source for this":
+
+1. **Search for alternatives, explicitly.** At minimum a web search for
+   competitors/mirrors plus a direct probe of each candidate endpoint. Don't
+   reason from memory about what exists.
+2. **Check whether "alternatives" are actually independent.** Several Tarkov
+   price sites just re-publish tarkov.dev — they share its outage and are not a
+   backup. Verify the upstream before counting a source.
+3. **Report the search, not just the conclusion.** Give the list of what was
+   checked and what each returned. "I checked A, B, C; A needs a paid key, B is
+   encrypted, C mirrors the dead one" is useful. "It's unavailable" is not.
+4. **Escalate paid/keyed options as a question, never silently discard them.**
+   A source that needs an API key or a subscription is a decision for Trey, not
+   a dead end for you to quietly rule out.
+5. **Frame it as your gap until proven otherwise.** Say "I couldn't find another
+   source — do you know one?" rather than "no source exists." The second is a
+   claim about the world you usually haven't earned.
+
+This applies to data sources, libraries, assets, and docs alike.
+
 ## Game design — required reading
 
 When creating or discussing a game, read `gamedesign.md` (same directory as this file) before doing anything else. It is the source of truth for all game work and should be iterated on as games evolve — changes to the workflow apply to all future games.
@@ -250,7 +311,7 @@ When creating, extending, or "dropping a task" to build any **non-game feature/p
 - **Default = full build.** Unless the request is explicitly labeled *demo / sample / part-work / skeleton*, build the whole thing — across multiple sessions if needed. Never self-downgrade to a demo.
 - **Completeness beats interpretation-correctness** — 120%-then-trim over a polished 20%.
 - **Checklist first, then double it.** Derive a numbered MUST/SHOULD/COULD checklist, then re-read and expand it (recover downgraded / assumed-away items). On autonomous runs, post the checklist AND start building simultaneously — don't wait (plan mode is the path when the user wants to review first).
-- **Never silently drop scope.** Flag anything you can't fully meet; still attempt a best guess.
+- **Never silently drop scope.** Still attempt a best guess — and report anything you can't fully meet as a **live blocker with its explanation**: what's blocked, why, what you actually tried (listed), and what would unblock it. "Say so plainly" is not enough; a bare "X is unavailable" reads as a settled fact and gets filed as resolved. Frame it as your gap ("I couldn't find one — do you know?"), and never quietly rule out an option just because it costs money or needs a key. See `featuredesign.md` → "Pushback, don't drop".
 - **Mark every agent-initiated omission / deferral / downgrade with ✂️** so the user can scan or Ctrl-F for it.
 - **Report coverage, not a demo** — a matrix of every requirement Done/Partial/Missing/Cut; correctness verification (build/tests/runtime) is a separate section and never a substitute.
 

@@ -49,7 +49,12 @@ On an autonomous / drop-and-leave run:
 ### 4. Build every line
 - Attempt 100% of MUST and SHOULD; attempt COULD where feasible.
 - Unsure how to build a line? Build your best-guess version and flag it — **do not skip it.**
-- **Pushback, don't drop.** If something genuinely can't be fully met (missing data, real ambiguity, actual over-scope), say so plainly and still ship a best attempt or a clearly-marked stub. Pushback is welcome; silent omission is the failure.
+- **Pushback, don't drop.** If something genuinely can't be fully met (missing data, real ambiguity, actual over-scope), still ship a best attempt or a clearly-marked stub — and **surface it as a live blocker, with the explanation attached.** Pushback is welcome; silent omission is the failure.
+  - **"Say so plainly" is not enough, and has already failed once.** A bare line like *"prices are unavailable"* reads as a settled fact about the world, so the user files it as done-and-explained and moves on. It cost a whole session in Aug 2026 on exactly that wording.
+  - A blocker is only reported when all four are present: **(1) what is blocked**, **(2) why — the specific cause**, **(3) what you actually tried, listed** (sources probed, approaches attempted, what each returned), and **(4) what would unblock it** — a key, a paid tier, a decision, a piece of knowledge the user might have.
+  - **Frame it as your gap, not the world's.** "I couldn't find another source — do you know one?" invites the answer. "There is no other source" closes the door on a claim you usually haven't earned. The user is frequently the domain expert and often *has* the answer, but only if it's phrased as still-open.
+  - **Never silently rule out an option because it costs money, needs an account, or needs a key.** That's the user's call, not yours. Put it in front of them.
+  - Restate unresolved blockers in the final report under their own heading. A blocker mentioned once mid-build and never again has been dropped, not reported.
 - **Discoverability is part of Done.** A feature isn't finished until it's reachable from EVERY entry point the app uses to surface features (nav/menu, home index / launcher / dashboard). If the repo documents the exact entry points (e.g. CLAUDE.md's "Adding a new page" steps), hit ALL of them — the home/index card is the one most often forgotten.
 
 ### 5. Delegation fidelity — when using sub-agents
