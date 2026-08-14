@@ -21,6 +21,7 @@ import HistoryView from './views/HistoryView';
 import CarryoverView from './views/CarryoverView';
 import ViewsHub from './views/ViewsHub';
 import './Orbit.css';
+import HubLink from '../../components/HubLink';
 
 // Nav entries shown in the secondary "more" disclosure group — Phase 2
 // screens that don't need top-billing next to Today/Triage/Areas. Carryover
@@ -180,7 +181,7 @@ export default function OrbitApp() {
           </button>
           {/* The site nav is suppressed on this route (own topbar — see
               Navbar.jsx OWN_TOPBAR_ROUTES), so this is the only way back. */}
-          <Link to="/" className="orb-site-home" title="Back to Astral Project home">Astral Project</Link>
+          <HubLink className="orb-site-home" />
           <div className="orb-brand"><span className="orb-brand-icon">🪐</span> Orbit</div>
           <div className="orb-topbar-right">
             <span className={`orb-sync orb-sync-${orbit.mode}`} title={orbit.mode === 'cloud' ? 'Syncing to your account' : 'Saved on this device'}>

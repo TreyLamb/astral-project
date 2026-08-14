@@ -49,32 +49,56 @@ On any page whose point is a large working surface:
 
 ---
 
-## 3. Site nav should not compete with a sub-app's own nav
+## 3. One top bar per tool
 
-When a sub-app renders its own top bar or tab row, the global Astral Hub navbar
-is redundant and steals a whole band of vertical space at the very top of the
-page — the most valuable band there is.
+**This is the standing pattern. Every tool follows it. Rolled out site-wide
+2026-08-14 — do not reintroduce the two-bar layout on anything new.**
 
-- A sub-app with its own chrome **hides the global navbar** and carries its own
-  way home.
-- That "way home" is a **small corner affordance at the level of the sub-app's
-  own tab row**, not a full-width bar of its own.
-- `src/components/Navbar.jsx` already has `OWN_TOPBAR_ROUTES` and
-  `FULLSCREEN_ROUTES` for exactly this. Add the route there rather than
-  inventing a new mechanism.
+A tool that renders its own top bar must not ALSO show the global Astral Hub
+navbar. Two stacked bars waste the most valuable band on the page and make the
+tool look like it is embedded in something else.
 
-### ⏳ Open item — apply this across the rest of the site
+The rule, in four parts:
 
-**Status: agreed in principle 2026-08-13, not yet done. Revisit with Trey.**
+1. **The tool's own bar is the only bar.** The global site nav is suppressed.
+2. **The Astral Hub link is the first thing in that bar, far-left**, where the
+   site logo would have been. Clicking it goes to `/`, exactly as the site logo
+   does.
+3. **It is styled by the tool, not by the hub.** `HubLink` renders with the
+   near-styleless `.hub-link` class, which inherits font and colour from the bar
+   it sits in. A tool that wants more control adds its own prefixed rule.
+4. **The home page and bar-less pages keep the global navbar.** It is their only
+   bar, and it already carries the logo far-left.
 
-Trey asked for the corner-nav treatment on **most of the other tools**, not just
-EFT. Currently only games, `/MFT`, `/league-build`, `/orbit`, and `/EFTsh/map`
-skip the global navbar. The remaining sub-apps (`/mymdb`, `/VV`, `/TKB`, `/QA`,
-`/RS`, `/POGO`, `/POGO-ACCS`, `/medaldex`, `/stashmap`, `/antiquityquest`,
-`/timer-tool`, `/planning-tool`) still render the full-width site navbar above
-their own chrome.
+### How to apply it
 
-Doing this properly means each of those needs its own in-app home affordance
-first, or the user gets stranded with no way back. That is a per-app change and
-was deliberately **not** bundled into the EFT map work. Pick it up as its own
-task.
+```jsx
+import HubLink from '../../components/HubLink';   // '../components/...' from src/pages/
+
+<div className="yourtool-topbar">
+  <HubLink className="yourtool-site-home" />      {/* FIRST child, always */}
+  ...the rest of your bar...
+</div>
+```
+
+Then add the route prefix to `OWN_TOPBAR_ROUTES` in
+`src/components/Navbar.jsx`.
+
+**Both steps or neither.** Suppressing the nav without adding the link strands
+the user in a tool with no way out.
+
+### Two layout cases
+
+- **Flex-row bars** — the common case. `HubLink` goes in flow as the first
+  child and needs no extra CSS.
+- **Centred hero headers** (`text-align: center`, no flex row — stashmap,
+  medaldex, POGO-ACCS) — a link in flow would push the title off-centre, so pass
+  `className="hub-link-pinned"` and give the header `position: relative`. The
+  link is then absolutely positioned top-left.
+
+### Gated and loading screens count
+
+If a tool returns early for a signed-out or loading state, **that branch needs
+the link too**. MyMDB's sign-in screen was exactly this trap: it returns before
+its top bar renders, so suppressing the site nav made it a dead end. Any early
+`return` in a tool's render is a place a user can land.

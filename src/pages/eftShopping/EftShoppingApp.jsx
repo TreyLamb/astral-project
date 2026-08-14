@@ -22,6 +22,7 @@ import SettingsView from './views/SettingsView';
 import MapView from './views/MapView';
 
 import './EftShopping.css';
+import HubLink from '../../components/HubLink';
 
 const ROOT = '/EFTsh';
 
@@ -190,6 +191,7 @@ export default function EftShoppingApp() {
             </div>
           ) : (
           <header className="eft-topbar">
+            <HubLink className="eft-site-home" />
             <div className="eft-brand">
               <h1>EFT Shopping</h1>
               <span>hideout &amp; raid companion</span>

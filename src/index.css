@@ -18,3 +18,48 @@ body {
 #root {
   min-height: 100vh;
 }
+
+/* ---------- Astral Hub link inside a tool's own top bar ----------
+   Rendered by src/components/HubLink.jsx. Every sub-app with its own top bar
+   hides the global site nav, so this is the way home from inside a tool.
+
+   Deliberately near-styleless: it inherits font and colour from whatever bar it
+   sits in, so it adopts the TOOL's look instead of importing the hub's. Tools
+   that want more control add their own prefixed rule (e.g. .ft-site-home).
+   See webdesign.md "One top bar per tool". */
+
+.hub-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  color: inherit;
+  font: inherit;
+  font-size: 0.82em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  opacity: 0.7;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+
+.hub-link:hover,
+.hub-link:focus-visible { opacity: 1; }
+
+.hub-link-mark { font-size: 1.05em; line-height: 1; }
+
+/* Centred hero-style headers (text-align: center, no flex row) can't take the
+   link in flow without pushing the title off-centre, so it is pinned to the
+   top-left of the header instead. The header gets position: relative. */
+.hub-link-pinned {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  z-index: 5;
+}
+
+@media (max-width: 640px) {
+  .hub-link { font-size: 0.75em; }
+  .hub-link-pinned { top: 10px; left: 10px; }
+}

@@ -11,6 +11,7 @@ import MapView from './MapView';
 import LayoutView from './LayoutView';
 import DuplicatesPanel from './DuplicatesPanel';
 import './StashMap.css';
+import HubLink from '../../components/HubLink';
 
 const TABS = [
   { to: '/stashmap', label: 'Inventory', match: (p) => p === '/stashmap' },
@@ -235,6 +236,7 @@ export default function StashMapApp() {
           Layout stay in the readable measure. */}
       <div className={`stash-app${isMapRoute ? ' stash-app-wide' : ''}`}>
         <header className="stash-header">
+          <HubLink className="hub-link-pinned" />
           {/* Anchored to the header rather than to any one view so the count is
               in the same place on Inventory, Map and Layout alike. */}
           <button

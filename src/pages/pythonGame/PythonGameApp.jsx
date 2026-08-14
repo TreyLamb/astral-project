@@ -5,6 +5,7 @@ import tiersData from './content/tiers.json';
 import PythonGameHome from './PythonGameHome';
 import PythonGameTutorial from './PythonGameTutorial';
 import './PythonGame.css';
+import HubLink from '../../components/HubLink';
 
 const PythonGameContext = createContext(null);
 
@@ -21,6 +22,7 @@ function TopBar({ player }) {
 
   return (
     <div className="pg-topbar">
+      <HubLink className="pg-site-home" />
       <span className="pg-breadcrumb">Code Trials</span>
       <span className="pg-level-badge">Level {player.level}</span>
       <div className="pg-xp-wrap">

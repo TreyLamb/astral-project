@@ -7,6 +7,7 @@ import LangSlang   from './LangSlang';
 import LangGrammar from './LangGrammar';
 import LangQuiz    from './LangQuiz';
 import './Lang.css';
+import HubLink from '../../components/HubLink';
 
 export default function LangApp() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export default function LangApp() {
     <LangContext.Provider value={lang}>
       <div className="lang-wrapper">
         <div className="lang-topbar">
+          <HubLink className="lang-site-home" />
           <button className="lang-topbar-brand" onClick={() => navigate('/VV')}>
             🗃️ Vocab Vault
           </button>

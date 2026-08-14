@@ -4,6 +4,7 @@ import Dashboard from './Dashboard';
 import SettingsPresets from './SettingsPresets';
 import AlarmToastLayer from './AlarmToastLayer';
 import './TimerTool.css';
+import HubLink from '../../components/HubLink';
 
 export default function TimerToolApp() {
   const state = useTimerToolState();
@@ -15,6 +16,7 @@ export default function TimerToolApp() {
         <AlarmToastLayer />
 
         <header className="tt-header">
+          <HubLink className="tt-site-home" />
           <div className="tt-header-left">
             <h1>Multi-Timer Dashboard</h1>
             <p className="tt-subtitle">Whitelabeled multi-milestone running timer tracker.</p>

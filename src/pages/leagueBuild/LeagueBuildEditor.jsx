@@ -5,6 +5,7 @@ import items from '../../data/leagueBuild/items.json';
 import ddragonMeta from '../../data/leagueBuild/ddragonMeta.json';
 import filterCategories from '../../data/leagueBuild/filterCategories.json';
 import { Storage, uid } from './leagueBuildStorage';
+import HubLink from '../../components/HubLink';
 
 const ITEMS_BY_ID = Object.fromEntries(items.map(i => [i.id, i]));
 const GROUP_ORDER = ['LEGENDARY', 'EPIC', 'BASIC', 'BOOTS', 'CONSUMABLE', 'TRINKET'];
@@ -60,7 +61,7 @@ function NotFound({ navigate }) {
   return (
     <div className="lgb-entry-page">
       <div className="lgb-entry-topbar">
-        <Link to="/" className="lgb-site-home" title="Back to Astral Project home">Astral Project</Link>
+        <HubLink className="lgb-site-home" />
         <span className="lgb-entry-brand">League Build</span>
       </div>
       <div className="lgb-stub-wrap">
@@ -234,7 +235,7 @@ function LeagueBuildEditor({ championId, buildId }) {
   return (
     <div className="lgb-editor-page">
       <div className="lgb-top-bar">
-        <Link to="/" className="lgb-site-home" title="Back to Astral Project home">Astral Project</Link>
+        <HubLink className="lgb-site-home" />
         <div className="lgb-champion-selector" onClick={() => navigate('/league-build')} title="Change champion">
           <img className="lgb-champion-selector-icon" src={`${ddragonMeta.champIconBase}${champion.icon}`} alt="" />
           {champion.name} ▾

@@ -15,6 +15,7 @@ import Summary from './Summary';
 import Medals from './Medals';
 import BulkUpdate from './BulkUpdate';
 import './MedalDex.css';
+import HubLink from '../../components/HubLink';
 
 // Requirement #1: two independent features, one page, behind a top-level
 // switch. Each feature owns its own sub-nav below the switch -- Pokedex
@@ -221,6 +222,7 @@ export default function MedalDexApp() {
         </div>
 
         <header className="mdx-header">
+          <HubLink className="hub-link-pinned" />
           <h1 className="mdx-title">MedalDex</h1>
           <p className="mdx-subtitle">Pokédex &amp; Medal tracker</p>
 

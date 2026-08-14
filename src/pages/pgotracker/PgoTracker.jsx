@@ -11,6 +11,7 @@ import InventoryView from './InventoryView';
 import BulkView from './BulkView';
 import PartiesView from './PartiesView';
 import './PgoTracker.css';
+import HubLink from '../../components/HubLink';
 
 export default function PgoTracker() {
   const { user } = useAuth();
@@ -304,6 +305,7 @@ export default function PgoTracker() {
       <div className="pgo-app">
         <header className="pgo-header">
           <div className="pgo-title-row">
+            <HubLink className="pgo-site-home" />
             <div className="pgo-title-ball" />
             <h1>POGO Tracker</h1>
             <span className="pgo-sync-status" title={signedIn ? 'Synced to your account' : 'Only saved on this device — sign in (top nav) to sync'}>

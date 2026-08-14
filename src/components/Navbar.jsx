@@ -27,21 +27,28 @@ function AuthControl() {
 }
 
 const GAME_ROUTES = ['/bashmon', '/gitmon', '/signal-lost', '/pokered', '/antiquityquest'];
-// Sub-apps that render their own internal top bar (with their own nav/tabs and
-// their own way back to Home) — the site nav would just double up and overlap
-// with these, so they get the same minimal treatment as game routes.
-const OWN_TOPBAR_ROUTES = ['/MFT', '/league-build', '/orbit', '/pogo-filters'];
-// Pages whose whole point is a full-viewport working surface. A full-width bar
-// across the top is the most expensive space on these, and they each carry
-// their own corner link home. See webdesign.md §3.
-const FULLSCREEN_ROUTES = ['/EFTsh/map'];
+
+// Every tool that renders its OWN top bar. The site nav is suppressed on these
+// so the page has exactly one bar, in the tool's own styling — see
+// webdesign.md "One top bar per tool".
+//
+// Each of these carries <HubLink /> as the first thing in its own bar, which is
+// the only way back to the hub from inside the tool. Adding a route here
+// WITHOUT adding that link strands the user, so the two go together.
+const OWN_TOPBAR_ROUTES = [
+  '/EFTsh', '/MFT', '/POGO', '/RS', '/TKB', '/VV',
+  '/google-photos', '/league-build', '/lexicon', '/medaldex', '/mymdb',
+  '/orbit', '/planning-tool', '/pogo-filters', '/python-game', '/stashmap',
+  '/timer-tool',
+];
+// '/POGO' also covers '/POGO-ACCS' by prefix, which is what we want — both
+// render their own bar.
 
 function Navbar() {
   const location = useLocation();
   const isGame = GAME_ROUTES.some(r => location.pathname.startsWith(r));
   const hasOwnTopbar = OWN_TOPBAR_ROUTES.some(r => location.pathname.startsWith(r));
-  const isFullscreen = FULLSCREEN_ROUTES.some(r => location.pathname.startsWith(r));
-  const isMinimal = isGame || hasOwnTopbar || isFullscreen;
+  const isMinimal = isGame || hasOwnTopbar;
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Close the mobile panel on navigation so it doesn't stay open after a tap.
@@ -65,9 +72,9 @@ function Navbar() {
   }, [isMinimal]);
 
   if (isMinimal) {
-    // Game routes get just the floating "⚡" escape hatch. Own-topbar sub-apps
-    // (FitnessTracker etc.) render no fallback badge here — their own top bar
-    // carries an "Astral Project" home link instead (see e.g. FitnessTrackerApp.jsx).
+    // Games are full-bleed with no bar of their own, so they get the floating
+    // "⚡" escape hatch. Own-topbar tools render no badge here — their own bar
+    // carries <HubLink /> as its first child instead.
     return isGame ? (
       <nav className="nav-minimal">
         <Link to="/" className="nav-home-badge" title="Home">⚡</Link>

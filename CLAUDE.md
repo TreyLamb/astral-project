@@ -45,11 +45,10 @@ the **third** time the same complaint came up. Core rules:
   or tracker.
 - **Canvas pages take ~99% of the viewport**; chrome floats over the surface and
   collapses, it does not take a slice out of it.
-- **A sub-app with its own chrome hides the global navbar** and carries a small
-  corner link home (`Navbar.jsx` → `OWN_TOPBAR_ROUTES` / `FULLSCREEN_ROUTES`).
-- ⏳ **Open item in that file:** Trey wants the corner-nav treatment rolled out to
-  most other sub-apps. Agreed in principle, deliberately not bundled into the EFT
-  work, needs its own task.
+- **One top bar per tool.** A tool with its own bar hides the global navbar and
+  carries `<HubLink />` as that bar's first child (far-left, styled by the tool).
+  Rolled out site-wide 2026-08-14 — see step 6 of the new-page checklist below.
+  `Navbar.jsx` → `OWN_TOPBAR_ROUTES` is the single list controlling this.
 
 ---
 
@@ -119,6 +118,16 @@ Added 2026-07-22 for the first one (MyFitnessPal-via-Apple-Health import). The s
 
 Steps 4 and 5 have collapsed into step 5 — the navbar no longer has hand-written
 `<Link>`s to edit.
+
+6. **If the page/sub-app renders its OWN top bar, it must be the ONLY bar.**
+   Put `<HubLink />` (`src/components/HubLink.jsx`) as the **first child** of
+   that bar so the Astral Hub link sits far-left where the site logo would be,
+   then add the route prefix to `OWN_TOPBAR_ROUTES` in
+   `src/components/Navbar.jsx` so the global navbar is suppressed.
+   **Both, or neither** — hiding the nav without the link strands the user with
+   no way back. Centred hero headers use `<HubLink className="hub-link-pinned" />`
+   plus `position: relative` on the header. Early returns for signed-out or
+   loading states need the link too. Full pattern: `webdesign.md` §3.
 
 ---
 

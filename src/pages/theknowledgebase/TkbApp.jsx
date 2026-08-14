@@ -8,6 +8,7 @@ import TkbReview from './TkbReview';
 import TkbBubbles from './TkbBubbles';
 import TkbSettings from './TkbSettings';
 import './Tkb.css';
+import HubLink from '../../components/HubLink';
 
 export const TkbDataContext = createContext(null);
 export function useTkbData() {
@@ -322,6 +323,7 @@ export default function TkbApp() {
       <TkbDataContext.Provider value={contextValue}>
         <div className="tkb-wrapper">
           <div className="tkb-topbar">
+            <HubLink className="tkb-site-home" />
             <div className="tkb-brand" onClick={() => navigate('/TKB')} style={{ cursor: 'pointer' }}>
               TheKnowledgeBase
             </div>

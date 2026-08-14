@@ -13,6 +13,7 @@ import MymdbWatchlist       from './MymdbWatchlist';
 import MymdbWatchlistDetail from './MymdbWatchlistDetail';
 import MymdbWatchlistForm   from './MymdbWatchlistForm';
 import './MyMDB.css';
+import HubLink from '../../components/HubLink';
 
 // --- Toast context ---
 export const ToastContext = createContext(null);
@@ -202,9 +203,15 @@ export default function MymdbApp() {
     setWatchlist(prev => prev.filter(w => w.id !== id));
   }, [user]);
 
+  // Both of these return before the main top bar renders, and the site nav is
+  // suppressed on this route — so without their own HubLink the sign-in screen
+  // would be a dead end with no way back to the hub.
   if (user === undefined) {
     return (
       <div className="mdb-wrapper">
+        <div className="mdb-topbar">
+          <HubLink className="mdb-site-home" />
+        </div>
         <div className="mdb-loading-screen">Loading…</div>
       </div>
     );
@@ -213,6 +220,9 @@ export default function MymdbApp() {
   if (user === null) {
     return (
       <div className="mdb-wrapper">
+        <div className="mdb-topbar">
+          <HubLink className="mdb-site-home" />
+        </div>
         <LoginScreen onLogin={handleLogin} />
         <MdbToast toast={toast} />
       </div>
@@ -241,6 +251,7 @@ export default function MymdbApp() {
           <MymdbWatchlistContext.Provider value={{ watchlist, watchlistLoading, getWatchlistItem, addWatchlistItem, updateWatchlistItem, removeWatchlistItem }}>
             <div className={`mdb-wrapper${wrapperMode}`}>
               <div className="mdb-topbar">
+                <HubLink className="mdb-site-home" />
                 <div className="mdb-brand" onClick={() => navigate('/mymdb')} style={{ cursor: 'pointer' }}>
                   <span className="mdb-brand-icon">▶</span>
                   MyMDB

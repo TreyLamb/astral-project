@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import './Lexicon.css';
+import HubLink from '../components/HubLink';
 
 const VISIBLE = 5;
 const INITIAL_LOAD = 50;
@@ -180,6 +181,7 @@ export default function Lexicon() {
   return (
     <div className="lex-page">
       <header className="lex-header">
+        <HubLink className="lex-site-home" />
         <h1 className="lex-title">The Lexicon</h1>
         <div className="lex-header-right">
           <span className="lex-counter">{sortedCount} / {totalWords}</span>

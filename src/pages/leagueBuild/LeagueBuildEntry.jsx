@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import champions from '../../data/leagueBuild/champions.json';
 import ddragonMeta from '../../data/leagueBuild/ddragonMeta.json';
 import { Storage } from './leagueBuildStorage';
+import HubLink from '../../components/HubLink';
 
 function ChampionPicker({ onSelect }) {
   const [search, setSearch] = useState('');
@@ -166,7 +167,7 @@ export default function LeagueBuildEntry() {
   return (
     <div className="lgb-entry-page">
       <div className="lgb-entry-topbar">
-        <Link to="/" className="lgb-site-home" title="Back to Astral Project home">Astral Project</Link>
+        <HubLink className="lgb-site-home" />
         <span className="lgb-entry-brand">League Build</span>
       </div>
 

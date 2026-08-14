@@ -114,3 +114,19 @@
 .rs-delete-btn:hover {
   background-color: #c0392b;
 }
+
+/* The page title doubles as this tool's top bar, so it carries the Astral Hub
+   link far-left (the site nav is suppressed here). See webdesign.md. */
+.rs-container header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* This page sets no text colour of its own, so it inherits a dark one onto a
+   dark background — a pre-existing contrast problem here, unrelated to the
+   nav work. The link states its colour explicitly rather than inheriting an
+   unreadable one. */
+.rs-container header .hub-link { color: #b9cbff; opacity: 0.85; }
+.rs-container header .hub-link:hover { color: #e6edff; opacity: 1; }

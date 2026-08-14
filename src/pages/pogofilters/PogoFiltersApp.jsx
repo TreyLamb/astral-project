@@ -10,6 +10,7 @@ import CompareView from './views/CompareView';
 import SettingsView from './views/SettingsView';
 import SortLogView from './views/SortLogView';
 import './PogoFilters.css';
+import HubLink from '../../components/HubLink';
 
 const TABS = [
   { to: '/pogo-filters', end: true, label: 'Filters' },
@@ -33,7 +34,7 @@ export default function PogoFiltersApp() {
       <div className="pgf-app">
         {/* div, not nav — Navbar.css styles the bare nav element globally */}
         <div className="pgf-topbar">
-          <Link to="/" className="pgf-site-home" title="Astral Project">◀ Astral</Link>
+          <HubLink className="pgf-site-home" />
           <span className="pgf-brand">
             <span className="pgf-brand-mark" aria-hidden="true">⌗</span>
             PogoFilters

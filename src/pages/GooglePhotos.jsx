@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import './GooglePhotos.css';
+import HubLink from '../components/HubLink';
 
 const API_ORIGIN = import.meta.env.VITE_PHOTOS_API_HOST || '';
 const API_PREFIX = API_ORIGIN || '';
@@ -172,6 +173,7 @@ function GooglePhotos() {
   return (
     <div className="gp-container" onMouseUp={onMouseUp}>
       <header className="gp-topbar">
+        <HubLink className="gp-site-home" />
         <div>
           <h1>Google Photos Sorter</h1>
           <p>Browse your library, filter by date, and move selected photos into albums.</p>

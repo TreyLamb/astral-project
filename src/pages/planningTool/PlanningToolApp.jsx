@@ -19,6 +19,7 @@ import { computeFillValues } from './xlsxFill';
 import { PlanningToolFirestore } from './planningToolFirestore';
 import PlanningToolDashboard from './PlanningToolDashboard';
 import './PlanningTool.css';
+import HubLink from '../../components/HubLink';
 
 const SAMPLE_PUSHUP_PLAN_URL = '/planning-tool-samples/pushup-plan.xlsx';
 const SAMPLE_PUSHUP_PLAN_NAME = 'pushup-plan.xlsx';
@@ -1342,7 +1343,7 @@ export default function PlanningToolApp() {
   return (
     <div className="pt-container">
       <div className="pt-header">
-        <Link to="/" className="pt-btn" style={{ textDecoration: 'none' }}>← Home</Link>
+        <HubLink className="pt-site-home" />
         <h1>Planning Sheet — Web Prototype</h1>
         <button className="pt-btn" onClick={() => fileInputRef.current?.click()}>
           {doc ? 'Upload a different .xlsx' : 'Upload .xlsx'}

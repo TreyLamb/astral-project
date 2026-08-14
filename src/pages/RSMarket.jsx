@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import './RSMarket.css';
+import HubLink from '../components/HubLink';
 
 const FAKE_ITEMS = [
   { id: 2327, name: 'Meat pie',    current: '1,192', today: '- 14', d30: '-18.0%', d90: '-13.0%', d180: '+27.0%' },
@@ -95,6 +96,7 @@ export default function RSMarket() {
   return (
     <div className="rs-container">
       <header>
+        <HubLink className="rs-site-home" />
         <h1>RS3 Market Watch</h1>
       </header>
 

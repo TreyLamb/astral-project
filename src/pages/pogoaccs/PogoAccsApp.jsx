@@ -14,6 +14,7 @@ import RaidBossDetail from './RaidBossDetail';
 import GroupsView from './GroupsView';
 import ImportView from './ImportView';
 import './PogoAccs.css';
+import HubLink from '../../components/HubLink';
 
 const TABS = [
   { to: '/POGO-ACCS', label: 'Overview', match: (p) => p === '/POGO-ACCS' || p.startsWith('/POGO-ACCS/box') },
@@ -230,6 +231,7 @@ export default function PogoAccsApp() {
         </div>
 
         <header className="pgoa-header">
+          <HubLink className="hub-link-pinned" />
           <h1 className="pgoa-title">POGO ACCS</h1>
           <p className="pgoa-subtitle">multi-account raid & mega tracker</p>
           {/* div, not nav — Navbar.css styles the bare nav element globally */}

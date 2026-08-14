@@ -16,6 +16,7 @@ import WeighInModal from './WeighInModal';
 import { todayISO } from './fitnessConfig';
 import useKeyboardInset from '../../hooks/useKeyboardInset';
 import './FitnessTracker.css';
+import HubLink from '../../components/HubLink';
 
 // Installable-to-home-screen (PWA) is scoped to this sub-app: the manifest <link>
 // is injected only while FitnessTracker is mounted and removed on unmount, so the
@@ -69,7 +70,7 @@ export default function FitnessTrackerApp() {
           {/* The site nav is suppressed on this route (it has its own top bar
               already — see Navbar.jsx OWN_TOPBAR_ROUTES) so this is the only
               way back to the rest of the site from here. */}
-          <Link to="/" className="ft-site-home" title="Back to Astral Project home">Astral Project</Link>
+          <HubLink className="ft-site-home" />
           <div className="ft-brand">MyFitnessTracker</div>
           <nav className="ft-topnav">
             <NavLink end to="/MFT" className={tab}>Calendar</NavLink>
