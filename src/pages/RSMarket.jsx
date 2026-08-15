@@ -1,3 +1,14 @@
+// RS Market Watch — OLD PROJECT, PARKED.
+//
+// Not actively maintained. Do not update, restyle, refactor or "fix" anything
+// in here unless Trey specifically asks for it. Known rough edges (low-contrast
+// headings, the FAKE_ITEMS placeholder table) are deliberate leftovers, not
+// bugs to go and tidy up.
+//
+// Site-wide changes that must stay consistent everywhere (the shared top-bar /
+// HubLink pattern, routing, build config) still apply here — those are the
+// exception, not an invitation to touch the rest.
+
 import { useState, useEffect, useCallback } from 'react';
 import './RSMarket.css';
 import HubLink from '../components/HubLink';
