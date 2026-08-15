@@ -1,14 +1,42 @@
 import { useState } from 'react';
 import { useEft } from '../eftContext';
-import { Panel, Bar, Stat, EditableLines } from '../EftBits';
+import { Panel, EditableLines } from '../EftBits';
+
+/**
+ * Raid kits — the spreadsheet, restored.
+ *
+ * This started life as an Excel sheet: one row per map, one column per category
+ * (pouch / food / meds / optional). The first translation to the web threw that
+ * away — it listed every map as a row of buttons, listed them AGAIN as a grid of
+ * progress meters, and then showed exactly one map's four categories as four
+ * loose cards. Three different shapes for one table, and no way to compare two
+ * maps, which is the only reason a table existed in the first place.
+ *
+ * So there are two modes and they are honest about what they're for:
+ *   SHEET — every map × every category, as a grid. What the spreadsheet was.
+ *           This is for planning and comparing.
+ *   PACK  — one map, big checkboxes, for ticking off while you actually load
+ *           your rig. This is for the sixty seconds before you hit Ready.
+ *
+ * The duplicate map list and its progress meters are gone entirely.
+ */
 
 const slugify = (name) => name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
-const allLinesFor = (kit, medBaseline) => [...kit.pouch, ...kit.food, ...medBaseline, ...kit.meds, ...kit.optional];
+const COLUMNS = [
+  { key: 'pouch', label: 'Pouch', placeholder: 'Add a pouch item…' },
+  { key: 'food', label: 'Food / Water', placeholder: 'Add a food or water line…' },
+  { key: 'meds', label: 'Meds', placeholder: 'Add a map-specific med…' },
+  { key: 'optional', label: 'Optional', placeholder: 'Add an optional item…' },
+];
+
+const allLinesFor = (kit, medBaseline) =>
+  [...kit.pouch, ...kit.food, ...medBaseline, ...kit.meds, ...kit.optional];
 
 export default function RaidKitView() {
   const { raidKits, medBaseline, raidChecks, update, prefs, setPref } = useEft();
 
+  const [mode, setMode] = useState('sheet');
   const [newMapName, setNewMapName] = useState('');
   const [editingId, setEditingId] = useState(null);
   const [editName, setEditName] = useState('');
@@ -65,163 +93,142 @@ export default function RaidKitView() {
     if (selectedId === id) setPref('raidMap', remaining[0]?.id || null);
   };
 
-  const addForm = (
-    <div className="eft-controls">
-      <input
-        className="eft-input"
-        placeholder="New map name…"
-        value={newMapName}
-        onChange={(e) => setNewMapName(e.target.value)}
-        onKeyDown={(e) => { if (e.key === 'Enter') addMap(); }}
-      />
-      <button type="button" className="eft-btn eft-btn-sm" onClick={addMap}>Add map</button>
-    </div>
-  );
-
-  if (!kit) {
+  if (!raidKits.length) {
     return (
-      <Panel title="Raid Kit — Maps" actions={addForm}>
+      <Panel title="Raid kits">
+        <div className="eft-controls">
+          <input
+            className="eft-input"
+            placeholder="New map name…"
+            value={newMapName}
+            onChange={(e) => setNewMapName(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') addMap(); }}
+          />
+          <button type="button" className="eft-btn eft-btn-sm" onClick={addMap}>Add map</button>
+        </div>
         <div className="eft-empty">No maps yet. Add one above.</div>
       </Panel>
     );
   }
 
-  const { done, total } = progressFor(kit);
-  const pct = total ? (done / total) * 100 : 0;
-
   return (
     <>
-      <Panel title="Map" actions={addForm}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-          {raidKits.map((k) => (
-            <button
-              key={k.id}
-              type="button"
-              className={`eft-btn eft-btn-sm${k.id === selectedId ? ' eft-is-on' : ''}`}
-              onClick={() => setPref('raidMap', k.id)}
-            >
-              {k.map}
-              {k.added ? <span className="eft-added-flag" style={{ marginLeft: 6 }}>SUGGESTED</span> : null}
-            </button>
-          ))}
+      <div className="eft-listbar">
+        <div className="eft-seg" role="group" aria-label="View">
+          <button
+            type="button"
+            className={mode === 'sheet' ? 'eft-is-on' : ''}
+            onClick={() => setMode('sheet')}
+            title="Every map and every category as one grid — the spreadsheet"
+          >
+            Sheet — all maps
+          </button>
+          <button
+            type="button"
+            className={mode === 'pack' ? 'eft-is-on' : ''}
+            onClick={() => setMode('pack')}
+            title="One map, big checkboxes, for packing before a raid"
+          >
+            Pack one map
+          </button>
         </div>
-      </Panel>
 
-      <Panel title="All Maps — Packing Progress">
-        <div className="eft-cols">
-          {raidKits.map((k) => {
-            const p = progressFor(k);
-            const kPct = p.total ? (p.done / p.total) * 100 : 0;
-            return (
-              <div
-                key={k.id}
-                className="eft-card"
-                role="button"
-                tabIndex={0}
-                onClick={() => setPref('raidMap', k.id)}
-                onKeyDown={(e) => { if (e.key === 'Enter') setPref('raidMap', k.id); }}
-                style={{ cursor: 'pointer', borderColor: k.id === selectedId ? 'var(--eft-gold)' : undefined }}
-              >
-                <h4>
-                  {k.map}
-                  {k.added ? <span className="eft-added-flag" style={{ marginLeft: 6 }}>SUGGESTED</span> : null}
-                </h4>
-                <Bar percent={kPct} />
-                <div className="eft-stat-sub" style={{ marginTop: 6 }}>{p.done}/{p.total} packed</div>
-              </div>
-            );
-          })}
+        {mode === 'pack' ? (
+          <select
+            className="eft-select"
+            value={selectedId || ''}
+            onChange={(e) => setPref('raidMap', e.target.value)}
+          >
+            {raidKits.map((k) => <option key={k.id} value={k.id}>{k.map}</option>)}
+          </select>
+        ) : null}
+
+        <input
+          className="eft-input eft-listbar-search"
+          placeholder="New map name…"
+          value={newMapName}
+          onChange={(e) => setNewMapName(e.target.value)}
+          onKeyDown={(e) => { if (e.key === 'Enter') addMap(); }}
+        />
+        <button type="button" className="eft-btn eft-btn-sm" onClick={addMap}>Add map</button>
+      </div>
+
+      {mode === 'sheet' ? (
+        <div className="eft-sheetwrap">
+          <table className="eft-sheet">
+            <thead>
+              <tr>
+                <th className="eft-sheet-mapcol">Map</th>
+                {COLUMNS.map((c) => <th key={c.key}>{c.label}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {raidKits.map((k) => {
+                const p = progressFor(k);
+                return (
+                  <tr key={k.id} className={k.id === selectedId ? 'eft-is-current' : ''}>
+                    <th scope="row" className="eft-sheet-mapcol">
+                      <div className="eft-sheet-mapname">
+                        {editingId === k.id ? (
+                          <>
+                            <input className="eft-input" value={editName} autoFocus
+                              onChange={(e) => setEditName(e.target.value)}
+                              onKeyDown={(e) => { if (e.key === 'Enter') saveRename(); }} />
+                            <button type="button" className="eft-btn eft-btn-sm" onClick={saveRename}>Save</button>
+                            <button type="button" className="eft-btn eft-btn-sm" onClick={() => setEditingId(null)}>✕</button>
+                          </>
+                        ) : (
+                          <>
+                            <span>{k.map}</span>
+                            {k.added ? <span className="eft-added-flag">SUGGESTED</span> : null}
+                          </>
+                        )}
+                      </div>
+                      {editingId === k.id ? null : (
+                        <div className="eft-sheet-maptools">
+                          <span className="eft-chip">{p.done}/{p.total} packed</span>
+                          <button type="button" className="eft-iconbtn" title="Pack this map"
+                            onClick={() => { setPref('raidMap', k.id); setMode('pack'); }}>☑</button>
+                          <button type="button" className="eft-iconbtn" title="Rename"
+                            onClick={() => startRename(k)}>✎</button>
+                          <button type="button" className="eft-iconbtn" title="Delete this map"
+                            onClick={() => deleteMap(k.id)}>×</button>
+                        </div>
+                      )}
+                    </th>
+
+                    {COLUMNS.map((c) => (
+                      <td key={c.key}>
+                        <EditableLines
+                          lines={k[c.key]}
+                          onChange={(lines) => setKitField(k.id, c.key, lines)}
+                          placeholder={c.placeholder}
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
-      </Panel>
+      ) : null}
+
+      {mode === 'pack' && kit ? (
+        <PackList
+          kit={kit}
+          medBaseline={medBaseline}
+          checks={checksFor(kit.id)}
+          onToggle={(line) => toggleCheck(kit.id, line)}
+          onReset={() => resetChecks(kit.id)}
+          progress={progressFor(kit)}
+        />
+      ) : null}
 
       <Panel
-        title={(
-          <>
-            {kit.map}
-            {kit.added ? <span className="eft-added-flag" style={{ marginLeft: 8 }}>SUGGESTED</span> : null}
-          </>
-        )}
-        actions={editingId === kit.id ? (
-          <>
-            <input className="eft-input" value={editName} onChange={(e) => setEditName(e.target.value)}
-              onKeyDown={(e) => { if (e.key === 'Enter') saveRename(); }} autoFocus />
-            <button type="button" className="eft-btn eft-btn-sm eft-is-primary" onClick={saveRename}>Save</button>
-            <button type="button" className="eft-btn eft-btn-sm" onClick={() => setEditingId(null)}>Cancel</button>
-          </>
-        ) : (
-          <>
-            <button type="button" className="eft-btn eft-btn-sm" onClick={() => startRename(kit)}>Rename</button>
-            <button type="button" className="eft-btn eft-btn-sm eft-is-danger" onClick={() => deleteMap(kit.id)}>Delete</button>
-            <button type="button" className="eft-btn eft-btn-sm eft-is-primary" onClick={() => resetChecks(kit.id)}>Reset checks</button>
-          </>
-        )}
+        title="Shared med baseline"
+        actions={<span className="eft-note">Counts toward every map&apos;s packing list.</span>}
       >
-        <div className="eft-label">Packed {done}/{total}</div>
-        <div style={{ marginTop: 8, marginBottom: 6 }}><Bar percent={pct} /></div>
-
-        <div className="eft-cols" style={{ marginTop: 14 }}>
-          <div className="eft-card">
-            <h4>Pouch</h4>
-            <EditableLines
-              lines={kit.pouch}
-              onChange={(lines) => setKitField(kit.id, 'pouch', lines)}
-              checks={checksFor(kit.id)}
-              onToggleCheck={(line) => toggleCheck(kit.id, line)}
-              placeholder="Add a pouch item…"
-            />
-          </div>
-
-          <div className="eft-card">
-            <h4>Food</h4>
-            <EditableLines
-              lines={kit.food}
-              onChange={(lines) => setKitField(kit.id, 'food', lines)}
-              checks={checksFor(kit.id)}
-              onToggleCheck={(line) => toggleCheck(kit.id, line)}
-              placeholder="Add a food/water line…"
-            />
-          </div>
-
-          <div className="eft-card">
-            <h4>Meds</h4>
-            <ul className="eft-linelist">
-              {medBaseline.map((line, i) => (
-                <li key={`base-${line}-${i}`} className={checksFor(kit.id)[line] ? 'eft-is-checked' : ''}>
-                  <input
-                    type="checkbox"
-                    checked={!!checksFor(kit.id)[line]}
-                    onChange={() => toggleCheck(kit.id, line)}
-                    aria-label={line}
-                  />
-                  <span className="eft-line-text">{line}</span>
-                  <span className="eft-chip eft-is-info">BASELINE</span>
-                </li>
-              ))}
-              {!medBaseline.length ? <li style={{ color: 'var(--eft-text-faint)', fontSize: 12 }}>no shared baseline set</li> : null}
-            </ul>
-            <EditableLines
-              lines={kit.meds}
-              onChange={(lines) => setKitField(kit.id, 'meds', lines)}
-              checks={checksFor(kit.id)}
-              onToggleCheck={(line) => toggleCheck(kit.id, line)}
-              placeholder="Add a map-specific med…"
-            />
-          </div>
-
-          <div className="eft-card">
-            <h4>Optional</h4>
-            <EditableLines
-              lines={kit.optional}
-              onChange={(lines) => setKitField(kit.id, 'optional', lines)}
-              checks={checksFor(kit.id)}
-              onToggleCheck={(line) => toggleCheck(kit.id, line)}
-              placeholder="Add an optional item…"
-            />
-          </div>
-        </div>
-      </Panel>
-
-      <Panel title="Shared Med Baseline" actions={<span className="eft-note">Applies to every map&apos;s Meds section above.</span>}>
         <EditableLines
           lines={medBaseline}
           onChange={(lines) => update('medBaseline', lines)}
@@ -229,5 +236,64 @@ export default function RaidKitView() {
         />
       </Panel>
     </>
+  );
+}
+
+/**
+ * The pre-raid checklist. Deliberately not the sheet: here you want big hit
+ * targets and one column you can run down, not a grid you have to read across.
+ */
+function PackList({ kit, medBaseline, checks, onToggle, onReset, progress }) {
+  const sections = [
+    { label: 'Pouch', lines: kit.pouch },
+    { label: 'Food / Water', lines: kit.food },
+    { label: 'Meds', lines: [...medBaseline.map((l) => ({ line: l, baseline: true })), ...kit.meds.map((l) => ({ line: l }))] },
+    { label: 'Optional', lines: kit.optional },
+  ].map((s) => ({
+    ...s,
+    lines: s.lines.map((l) => (typeof l === 'string' ? { line: l } : l)),
+  }));
+
+  const empty = sections.every((s) => !s.lines.length);
+
+  return (
+    <Panel
+      title={`Packing — ${kit.map}`}
+      actions={(
+        <>
+          <span className="eft-chip eft-is-met">{progress.done}/{progress.total} packed</span>
+          <button type="button" className="eft-btn eft-btn-sm" onClick={onReset}>Reset checks</button>
+        </>
+      )}
+    >
+      {empty ? (
+        <div className="eft-empty">
+          Nothing listed for {kit.map} yet — add lines from the sheet view.
+        </div>
+      ) : (
+        <div className="eft-packgrid">
+          {sections.map((s) => (
+            <section key={s.label} className="eft-packsec">
+              <h4>{s.label}</h4>
+              {!s.lines.length ? (
+                <p className="eft-note">nothing listed</p>
+              ) : (
+                <ul className="eft-packlist">
+                  {s.lines.map(({ line, baseline }, i) => (
+                    <li key={`${line}-${i}`} className={checks[line] ? 'eft-is-checked' : ''}>
+                      <label>
+                        <input type="checkbox" checked={!!checks[line]} onChange={() => onToggle(line)} />
+                        <span className="eft-line-text">{line}</span>
+                        {baseline ? <span className="eft-chip eft-is-info">baseline</span> : null}
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
+        </div>
+      )}
+    </Panel>
   );
 }

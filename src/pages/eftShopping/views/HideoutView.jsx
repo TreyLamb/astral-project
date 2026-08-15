@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef, useEffect } from 'react';
+import { useMemo, useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useEft } from '../eftContext';
@@ -6,9 +6,12 @@ import {
   stationKey, maxLevelOf, currentLevelOf, targetLevelOf,
   stationProgress, upgradeCandidates, itemReqsOf, searchItemNeeds,
 } from '../eftHideoutLogic';
+import { resetAll } from '../eftStorage';
 import { buildCraftIndex } from '../eftCraftGraph';
+import { buildQuestIndex, toggleQuestDone } from '../eftQuestLogic';
 import { Seg, Panel, Counter, fmtDuration } from '../EftBits';
 import { itemIcon } from '../eftApi';
+import { QuestChip, QuestList, QuestDetail } from './QuestLookup';
 
 // What the grid is allowed to show. These are predicates over a station's
 // derived state, not a text search — picking "ready to build" is a question
@@ -38,21 +41,30 @@ function matchesView(view, { progress, cand, off }) {
  */
 function StationFilter({
   stations, rows, hidden, setHidden, view, setView, onIncludeAll, onExcludeAll, includedCount,
+  onResetAll,
 }) {
   const [open, setOpen] = useState(false);
+  // 0 = idle, 1 = armed, 2 = asking for the second confirmation. Wiping every
+  // level, target and item count is the one irreversible thing this tool can
+  // do, so it takes two deliberate clicks and never sits under the cursor.
+  const [resetStep, setResetStep] = useState(0);
   const boxRef = useRef(null);
+
+  // Closing always disarms: an armed destructive button must never be sitting
+  // there waiting the next time this menu is opened.
+  const close = useCallback(() => { setOpen(false); setResetStep(0); }, []);
 
   useEffect(() => {
     if (!open) return undefined;
-    const away = (e) => { if (!boxRef.current?.contains(e.target)) setOpen(false); };
-    const esc = (e) => { if (e.key === 'Escape') setOpen(false); };
+    const away = (e) => { if (!boxRef.current?.contains(e.target)) close(); };
+    const esc = (e) => { if (e.key === 'Escape') close(); };
     document.addEventListener('mousedown', away);
     document.addEventListener('keydown', esc);
     return () => {
       document.removeEventListener('mousedown', away);
       document.removeEventListener('keydown', esc);
     };
-  }, [open]);
+  }, [open, close]);
 
   const shown = rows.filter((r) => r.visible).length;
 
@@ -61,7 +73,7 @@ function StationFilter({
       <button
         type="button"
         className={`eft-btn eft-btn-sm${hidden.length || view !== 'all' ? ' eft-is-on' : ''}`}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => (open ? close() : setOpen(true))}
         aria-expanded={open}
       >
         Filter ▾ <span className="eft-filter-count">{shown}/{stations.length}</span>
@@ -127,6 +139,57 @@ function StationFilter({
               <button type="button" className="eft-btn eft-btn-sm" onClick={onExcludeAll}>Exclude all</button>
             </div>
           </div>
+
+          <div className="eft-filter-danger">
+            {resetStep === 0 ? (
+              <button
+                type="button"
+                className="eft-btn eft-btn-sm eft-is-danger"
+                onClick={() => setResetStep(1)}
+              >
+                Reset all
+              </button>
+            ) : null}
+
+            {resetStep === 1 ? (
+              <div className="eft-filter-confirm">
+                <p>
+                  This erases <strong>everything</strong> — station levels, targets, every item
+                  count, your quest ticks, kits and watchlists. It cannot be undone.
+                </p>
+                <div className="eft-filter-bulk">
+                  <button type="button" className="eft-btn eft-btn-sm" onClick={() => setResetStep(0)}>
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="eft-btn eft-btn-sm eft-is-danger"
+                    onClick={() => setResetStep(2)}
+                  >
+                    Yes, reset it
+                  </button>
+                </div>
+              </div>
+            ) : null}
+
+            {resetStep === 2 ? (
+              <div className="eft-filter-confirm">
+                <p><strong>Last chance.</strong> Really wipe all saved progress?</p>
+                <div className="eft-filter-bulk">
+                  <button type="button" className="eft-btn eft-btn-sm" onClick={() => setResetStep(0)}>
+                    No, keep it
+                  </button>
+                  <button
+                    type="button"
+                    className="eft-btn eft-btn-sm eft-is-danger"
+                    onClick={() => { onResetAll(); close(); }}
+                  >
+                    Wipe everything
+                  </button>
+                </div>
+              </div>
+            ) : null}
+          </div>
         </div>
       ) : null}
     </div>
@@ -139,21 +202,37 @@ function StationFilter({
  * hideout, not just the ones inside the current scope, because an item wanted
  * by an excluded station is still an item you must not sell.
  */
-function ItemSearch({ stations, items, levels, targets, inventory, craftIndex, setHave }) {
+function ItemSearch({
+  stations, items, levels, targets, inventory, craftIndex, questIndex,
+  questsDone, setQuestsDone, setHave,
+}) {
   const [query, setQuery] = useState('');
+  // Which row has its quest drawer open, and which quest (if any) is being read
+  // in full on top of it.
+  const [openQuests, setOpenQuests] = useState(null);
+  const [detailId, setDetailId] = useState(null);
   const barRef = useRef(null);
   const modalRef = useRef(null);
   const wasOpen = useRef(false);
 
   const rows = useMemo(
     () => searchItemNeeds(stations, items, { levels, targets, inventory }, query, {
-      craftIndex, limit: 40,
+      craftIndex, questIndex, questsDone, limit: 40,
     }),
-    [stations, items, levels, targets, inventory, query, craftIndex],
+    [stations, items, levels, targets, inventory, query, craftIndex, questIndex, questsDone],
   );
 
   const short = query.trim().length === 1;
   const open = query.trim().length > 0;
+
+  // A new search is a new question — leaving the previous item's quest drawer
+  // hanging open over unrelated results is just confusing. Done on the way in
+  // rather than in an effect on `query`, so it is one render instead of two.
+  const changeQuery = useCallback((next) => {
+    setQuery(next);
+    setOpenQuests(null);
+    setDetailId(null);
+  }, []);
 
   // Typing hands focus over to the modal's own field so the sentence you are
   // part-way through keeps going, and closing hands it back to the bar. Guarded
@@ -171,10 +250,18 @@ function ItemSearch({ stations, items, levels, targets, inventory, craftIndex, s
 
   useEffect(() => {
     if (!open) return undefined;
-    const esc = (e) => { if (e.key === 'Escape') setQuery(''); };
+    const esc = (e) => { if (e.key === 'Escape') changeQuery(''); };
     document.addEventListener('keydown', esc);
     return () => document.removeEventListener('keydown', esc);
-  }, [open]);
+  }, [open, changeQuery]);
+
+  // Accepts one id or a list, so "mark the 4 quests above this one done" is the
+  // same call as ticking a single box.
+  const toggleDone = (id, force) => setQuestsDone((prev) => {
+    const ids = Array.isArray(id) ? id : [id];
+    if (force) return [...new Set([...prev, ...ids])];
+    return ids.reduce((acc, one) => toggleQuestDone(acc, one), prev);
+  });
 
   const field = (ref, extra) => (
     <input
@@ -182,7 +269,7 @@ function ItemSearch({ stations, items, levels, targets, inventory, craftIndex, s
       className={`eft-input eft-needsearch-input${extra || ''}`}
       value={query}
       placeholder="Do I need this? Search any item…"
-      onChange={(e) => setQuery(e.target.value)}
+      onChange={(e) => changeQuery(e.target.value)}
     />
   );
 
@@ -196,7 +283,7 @@ function ItemSearch({ stations, items, levels, targets, inventory, craftIndex, s
           role="dialog"
           aria-modal="true"
           aria-label="Item search"
-          onMouseDown={(e) => { if (e.target === e.currentTarget) setQuery(''); }}
+          onMouseDown={(e) => { if (e.target === e.currentTarget) changeQuery(''); }}
         >
           <div className="eft-needmodal">
             <header className="eft-needmodal-head">
@@ -204,7 +291,7 @@ function ItemSearch({ stations, items, levels, targets, inventory, craftIndex, s
               <span className="eft-needmodal-count">
                 {rows.length ? `${rows.length} match${rows.length === 1 ? '' : 'es'}` : ''}
               </span>
-              <button type="button" className="eft-btn eft-btn-sm" onClick={() => setQuery('')}>
+              <button type="button" className="eft-btn eft-btn-sm" onClick={() => changeQuery('')}>
                 Close
               </button>
             </header>
@@ -245,6 +332,13 @@ function ItemSearch({ stations, items, levels, targets, inventory, craftIndex, s
                         {row.madeByCrafts ? (
                           <Link className="eft-chip" to={`/EFTsh/crafts?item=${row.itemId}`}>craftable ↗</Link>
                         ) : null}
+                        <QuestChip
+                          quests={row.quests}
+                          open={openQuests === row.itemId}
+                          onToggle={() => setOpenQuests(
+                            openQuests === row.itemId ? null : row.itemId,
+                          )}
+                        />
                       </div>
 
                       {row.outstanding.length ? (
@@ -272,6 +366,17 @@ function ItemSearch({ stations, items, levels, targets, inventory, craftIndex, s
                             : 'No hideout station wants this at any level.'}
                         </div>
                       )}
+
+                      {openQuests === row.itemId ? (
+                        <QuestList
+                          index={questIndex}
+                          itemId={row.itemId}
+                          items={items}
+                          done={questsDone}
+                          onToggleDone={toggleDone}
+                          onOpen={setDetailId}
+                        />
+                      ) : null}
                     </div>
 
                     <div className="eft-need-count">
@@ -285,6 +390,18 @@ function ItemSearch({ stations, items, levels, targets, inventory, craftIndex, s
               </div>
             )}
           </div>
+
+          {detailId ? (
+            <QuestDetail
+              index={questIndex}
+              questId={detailId}
+              items={items}
+              done={questsDone}
+              onToggleDone={toggleDone}
+              onOpen={setDetailId}
+              onClose={() => setDetailId(null)}
+            />
+          ) : null}
         </div>
       ) : null}
     </div>
@@ -297,7 +414,11 @@ function ItemSearch({ stations, items, levels, targets, inventory, craftIndex, s
  * station that wants it, not on a separate screen you had to go and find.
  */
 function StationItems({ station, current, target, items, inventory, setHave }) {
-  const [open, setOpen] = useState(false);
+  // Open by default. What a station still needs is the actual content of the
+  // card — hiding it behind a toggle meant 27 clicks to answer "what am I
+  // short of?". The toggle stays so a card you are done thinking about can be
+  // folded away individually.
+  const [open, setOpen] = useState(true);
 
   const rows = useMemo(() => {
     const byItem = new Map();
@@ -318,11 +439,11 @@ function StationItems({ station, current, target, items, inventory, setHave }) {
 
   const short = rows.filter((r) => (inventory[r.itemId] ?? 0) < r.need).length;
 
+  // The list is the body of the card and the fold control is its footer, so a
+  // card reads as a nameplate over a bill of materials rather than as a tile
+  // with a disclosure widget stuck on it.
   return (
     <div className="eft-station-items">
-      <button type="button" className="eft-station-itemstoggle" onClick={() => setOpen((o) => !o)}>
-        {open ? '−' : '+'} Items ({rows.length - short}/{rows.length} ready)
-      </button>
       {open ? (
         <ul className="eft-station-itemlist">
           {rows.map((r) => {
@@ -347,6 +468,12 @@ function StationItems({ station, current, target, items, inventory, setHave }) {
           })}
         </ul>
       ) : null}
+
+      <button type="button" className="eft-station-itemstoggle" onClick={() => setOpen((o) => !o)}>
+        {open
+          ? '− Hide items'
+          : `+ Show ${rows.length} item${rows.length === 1 ? '' : 's'} (${rows.length - short} ready)`}
+      </button>
     </div>
   );
 }
@@ -354,13 +481,15 @@ function StationItems({ station, current, target, items, inventory, setHave }) {
 export default function HideoutView() {
   const {
     stations, items, levels, targets, disabled, inventory, profile, prefs,
-    update, setPref, status, data,
+    questsDone, update, setPref, status, data, reloadStore, showToast,
   } = useEft();
 
   const ctx = { stations, levels, targets, disabled, inventory, profile, items };
 
-  // Only so the search can also answer "…or is it a crafting ingredient?"
+  // So the search can also answer "…or is it a crafting ingredient?" and
+  // "…or does a quest still want it?"
   const craftIndex = useMemo(() => buildCraftIndex(data), [data]);
+  const questIndex = useMemo(() => buildQuestIndex(), []);
 
   const candidates = useMemo(() => upgradeCandidates(stations, ctx), [stations, levels, targets, disabled, inventory, profile, items]); // eslint-disable-line react-hooks/exhaustive-deps
   const candidateByKey = useMemo(
@@ -372,6 +501,11 @@ export default function HideoutView() {
   // every render and re-run the row derivation below for nothing.
   const hidden = useMemo(() => prefs.hiddenStations || [], [prefs.hiddenStations]);
   const view = prefs.stationView || 'all';
+
+  // Completed stations that the user has re-opened by hand. Deliberately not
+  // persisted: the point of the minimised strip is that a finished station
+  // stays out of the way on every future visit.
+  const [expanded, setExpanded] = useState([]);
 
   const rows = useMemo(() => stations.map((station) => {
     const key = stationKey(station);
@@ -418,7 +552,16 @@ export default function HideoutView() {
     return <div className="eft-empty">{status.loading ? 'Loading hideout data…' : 'No hideout data available.'}</div>;
   }
 
-  const visible = rows.filter((r) => r.visible);
+  // A finished station has nothing left to decide. It sinks to the bottom and
+  // collapses to a one-line strip, and comes straight back up the moment its
+  // level or target changes — which is what "until its level changes" means.
+  // Emergency Wall is the one that made this obvious (it maxes at level 1, so
+  // it is complete almost immediately and then sat in the middle of the grid
+  // forever), but the rule is worth having for every station.
+  const visible = rows
+    .filter((r) => r.visible)
+    .sort((a, b) => Number(a.progress.complete) - Number(b.progress.complete));
+
 
   return (
     <div className="eft-hideout">
@@ -429,6 +572,9 @@ export default function HideoutView() {
         targets={targets}
         inventory={inventory}
         craftIndex={craftIndex}
+        questIndex={questIndex}
+        questsDone={questsDone}
+        setQuestsDone={(next) => update('questsDone', next)}
         setHave={setHave}
       />
 
@@ -446,6 +592,7 @@ export default function HideoutView() {
               includedCount={stations.length - disabled.length}
               onIncludeAll={() => update('disabled', [])}
               onExcludeAll={() => update('disabled', stations.map(stationKey))}
+              onResetAll={() => { resetAll(); reloadStore(); showToast('Everything reset.'); }}
             />
             {prefs.soloStation ? (
               <button type="button" className="eft-btn eft-btn-sm eft-is-on"
@@ -480,6 +627,41 @@ export default function HideoutView() {
         {visible.map(({ key, station, progress, cand, off, current, target, max }) => {
           const solo = prefs.soloStation === key;
 
+          // Finished: one line, at the bottom, until something changes. Still
+          // fully operable — the level picker is right there, so undoing a
+          // mistaken "complete" is one click and does not need un-minimising
+          // first.
+          if (progress.complete && !expanded.includes(key)) {
+            return (
+              <div key={key} className="eft-station eft-is-complete eft-is-mini">
+                <span className="eft-station-minicheck">✓</span>
+                <Link to={`/EFTsh/station/${key}`} className="eft-station-name">{station.name}</Link>
+                <span className="eft-chip eft-is-met">{current}/{max}</span>
+                <div className="eft-levelpick eft-is-mini">
+                  {Array.from({ length: max + 1 }, (_, n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      className={n === current ? 'eft-is-current' : ''}
+                      onClick={() => setLevel(key, n)}
+                      title={n === 0 ? 'Not built' : `Level ${n}`}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="eft-iconbtn"
+                  title="Expand this station"
+                  onClick={() => setExpanded((e) => [...e, key])}
+                >
+                  ▾
+                </button>
+              </div>
+            );
+          }
+
           const classes = ['eft-station'];
           if (progress.complete) classes.push('eft-is-complete');
           else if (cand?.ready) classes.push('eft-is-ready');
@@ -488,6 +670,10 @@ export default function HideoutView() {
 
           return (
             <div key={key} className={classes.join(' ')}>
+              {/* Header band — the nameplate. Identity, level, target and
+                  readiness all live here so the body below is nothing but the
+                  bill of materials. */}
+              <div className="eft-station-head">
               <div className="eft-station-top">
                 {station.imageLink ? (
                   <img className="eft-station-img" src={station.imageLink} alt="" loading="lazy"
@@ -498,6 +684,16 @@ export default function HideoutView() {
                   {station.name}
                 </Link>
                 <div className="eft-station-tools">
+                  {progress.complete ? (
+                    <button
+                      type="button"
+                      className="eft-iconbtn"
+                      title="Minimise this finished station"
+                      onClick={() => setExpanded((e) => e.filter((k) => k !== key))}
+                    >
+                      ▴
+                    </button>
+                  ) : null}
                   <button
                     type="button"
                     className="eft-iconbtn"
@@ -518,55 +714,40 @@ export default function HideoutView() {
                 </div>
               </div>
 
-              <div>
-                <div className="eft-label" style={{ marginBottom: 3 }}>Current level</div>
-                <div className="eft-levelpick">
-                  {Array.from({ length: max + 1 }, (_, n) => {
-                    const cls = [];
-                    if (n === current) cls.push('eft-is-current');
-                    else if (n > current && n <= target) cls.push('eft-is-planned');
-                    else if (n > target) cls.push('eft-is-beyond');
-                    return (
-                      <button
-                        key={n}
-                        type="button"
-                        className={cls.join(' ')}
-                        onClick={() => setLevel(key, n)}
-                        title={n === 0 ? 'Not built' : `Level ${n}`}
-                      >
-                        {n}
-                      </button>
-                    );
-                  })}
-                </div>
+              <div className="eft-levelpick">
+                {Array.from({ length: max + 1 }, (_, n) => {
+                  const cls = [];
+                  if (n === current) cls.push('eft-is-current');
+                  else if (n > current && n <= target) cls.push('eft-is-planned');
+                  else if (n > target) cls.push('eft-is-beyond');
+                  return (
+                    <button
+                      key={n}
+                      type="button"
+                      className={cls.join(' ')}
+                      onClick={() => setLevel(key, n)}
+                      title={n === 0 ? 'Not built' : `Level ${n}`}
+                    >
+                      {n}
+                    </button>
+                  );
+                })}
               </div>
 
-              <div className="eft-controls" style={{ gap: 8 }}>
-                <div className="eft-field">
-                  <span className="eft-label">Target</span>
-                  <select
-                    className="eft-select"
-                    value={targets[key] ?? ''}
-                    onChange={(e) => setTarget(key, e.target.value === '' ? null : Number(e.target.value))}
-                    style={{ padding: '2px 6px' }}
-                  >
-                    <option value="">Max ({max})</option>
-                    {Array.from({ length: max + 1 }, (_, n) => (
-                      <option key={n} value={n}>{n}</option>
-                    ))}
-                  </select>
-                </div>
+              <div className="eft-station-headrow">
+                <span className="eft-label">Target</span>
+                <select
+                  className="eft-select"
+                  value={targets[key] ?? ''}
+                  onChange={(e) => setTarget(key, e.target.value === '' ? null : Number(e.target.value))}
+                >
+                  <option value="">Max ({max})</option>
+                  {Array.from({ length: max + 1 }, (_, n) => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
                 <span className="eft-chip">{cand ? fmtDuration(cand.constructionTime) : 'complete'}</span>
               </div>
-
-              <StationItems
-                station={station}
-                current={current}
-                target={target}
-                items={items}
-                inventory={inventory}
-                setHave={setHave}
-              />
 
               {cand && !progress.complete ? (
                 <div className="eft-blockchips">
@@ -581,6 +762,16 @@ export default function HideoutView() {
                   )}
                 </div>
               ) : null}
+              </div>
+
+              <StationItems
+                station={station}
+                current={current}
+                target={target}
+                items={items}
+                inventory={inventory}
+                setHave={setHave}
+              />
             </div>
           );
         })}

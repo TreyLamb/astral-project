@@ -438,7 +438,13 @@ export function itemNeeds(stations, itemId, { levels, targets }) {
  *                   that no station wants can still answer "yes, three recipes
  *                   use it", which is the other half of the same question.
  */
-export function searchItemNeeds(stations, items, state, query, { limit = 25, craftIndex = null } = {}) {
+export function searchItemNeeds(
+  stations,
+  items,
+  state,
+  query,
+  { limit = 25, craftIndex = null, questIndex = null, questsDone = [] } = {},
+) {
   const q = String(query || '').trim().toLowerCase();
   if (q.length < 2) return [];
 
@@ -456,6 +462,13 @@ export function searchItemNeeds(stations, items, state, query, { limit = 25, cra
     hits.push({ itemId, item, score: at === 0 || shortAt === 0 ? 0 : 1 });
   }
 
+  // Deliberately NOT extended with quest-only items. A Secure Folder 0048 or a
+  // marked drive is not a thing you weigh up keeping — it has one use and no
+  // sale value, so putting it in "do I need this?" is noise. The search pool
+  // stays the real, tradeable item table; quest-only items still show up inside
+  // a quest's own breakdown, which is where they mean something.
+  const doneSet = new Set(questsDone || []);
+
   const rows = hits.map(({ itemId, item, score }) => {
     const needs = itemNeeds(stations, itemId, state);
     const have = Math.max(0, Number(state.inventory?.[itemId] ?? 0));
@@ -465,7 +478,22 @@ export function searchItemNeeds(stations, items, state, query, { limit = 25, cra
       : 0;
     const madeByCrafts = craftIndex ? (craftIndex.byOutput.get(itemId)?.length || 0) : 0;
 
+    // Quests are the other half of "is this safe to sell". An item no station
+    // wants can still be the one thing standing between you and a quest, so a
+    // row is only "safe" when the hideout, the craft tree AND the quest list
+    // have all finished with it.
+    const questRaw = questIndex ? (questIndex.byItemId.get(itemId) || []) : [];
+    const questOpen = questRaw.filter((q) => !doneSet.has(q.questId));
+    const quests = {
+      total: questRaw.length,
+      done: questRaw.length - questOpen.length,
+      remaining: questOpen.length,
+      needRemaining: questOpen.reduce((n, q) => n + q.count, 0),
+      firRemaining: questOpen.some((q) => q.foundInRaid),
+    };
+
     return {
+      quests,
       itemId,
       item,
       name: item.name || itemId,
@@ -478,14 +506,16 @@ export function searchItemNeeds(stations, items, state, query, { limit = 25, cra
       spent: needs.filter((n) => n.when === 'built').reduce((n, x) => n + x.count, 0),
       usedInCrafts,
       madeByCrafts,
-      wanted: outstanding.length > 0 || usedInCrafts > 0,
+      wanted: outstanding.length > 0 || usedInCrafts > 0 || quests.remaining > 0,
       score,
     };
   });
 
   // Things you still owe first, then the near-term ones, then alphabetical.
+  // An outstanding quest ranks alongside an outstanding build: both are reasons
+  // not to sell the thing you are holding.
   rows.sort((a, b) => Number(b.wanted) - Number(a.wanted)
-    || b.needNow - a.needNow
+    || (b.needNow + b.quests.remaining) - (a.needNow + a.quests.remaining)
     || a.score - b.score
     || a.name.localeCompare(b.name));
 

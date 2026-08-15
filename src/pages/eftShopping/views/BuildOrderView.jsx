@@ -5,7 +5,11 @@ import { useEft } from '../eftContext';
 import { stationKey, upgradeCandidates, suggestedBuildOrder } from '../eftHideoutLogic';
 import { Panel, fmtShort, fmtDuration } from '../EftBits';
 
-export default function BuildOrderView() {
+// Exported separately from the route component so the Shopping List can show
+// the same thing as one of its modes — "what's coming up" is the out-of-raid
+// half of the same question the shopping list answers in raid, and keeping two
+// implementations in sync was never going to happen.
+export function BuildOrderPanels() {
   const { stations, items, levels, targets, disabled, inventory, profile } = useEft();
 
   const ctx = { stations, levels, targets, disabled, inventory, profile, items };
@@ -201,4 +205,8 @@ export default function BuildOrderView() {
       </Panel>
     </>
   );
+}
+
+export default function BuildOrderView() {
+  return <BuildOrderPanels />;
 }

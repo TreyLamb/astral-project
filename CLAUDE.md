@@ -53,6 +53,44 @@ was built). `crafts` is no longer in the snapshot's `gaps` list.
 
 ---
 
+## ℹ️ EFT quest + ammo data: the wiki and eft-ammo.com, NOT tarkov.dev or SPT
+As of 2026-08-15 the EFT sub-app has two more committed snapshots, each with its
+own fetch script. **Both exist because the two "obvious" sources are unusable**,
+and that reasoning is worth keeping:
+
+- **tarkov.dev has been down for days** — `GraphQL server unavailable`, and
+  `status.tarkov.dev` itself 523s. Still the only source for flea prices.
+- **The SPT mirror is stale for anything BSG reshuffles per wipe.**
+  `templates/quests.json` was last touched **2025-03-17 for EFT 0.16.0**. It is
+  fine for hideout structure (which barely moves) and wrong for quests.
+  `templates/items.json` is additionally a **Git-LFS pointer** on the raw
+  endpoint — you get 133 bytes unless you go via `media.githubusercontent.com`.
+
+| Data | Script | Source | Why |
+|---|---|---|---|
+| Quests | `npm run eft:quests` | Fandom wiki API (wikitext, 50 pages/batch) | Community-edited within minutes of a patch — verified live edits during the pull. 857 quests. |
+| Ammo | `npm run eft:ammo` | `eft-ammo.com` `__NEXT_DATA__` | Trey named it the source of truth. The page embeds its whole dataset, incl. the hand-tuned class1–6 armour ratings that are the entire point of that layout. 186 rounds. |
+
+- Quests ship as **two files on purpose**: `questIndex.json` (~330 KB, eager —
+  the hideout search needs it on the first keystroke) and `questDetail.json`
+  (~1.3 MB, dynamically imported on first quest-detail open). Prose is 4/5 of
+  the bytes; do not merge them back into one blob.
+- The wiki is **prose, not a schema**, so `scripts/fetchEftQuests.mjs` parses it
+  and every quest keeps its raw objective/requirement lines alongside the parsed
+  fields — a parse miss degrades to "shown verbatim", never to "silently gone".
+- **"Find 3 X in raid" + "Hand over the 3 X" is ONE requirement**, not two. Counts
+  are taken as a max per item per quest, never summed. That phrasing covers
+  roughly a third of all fetch quests.
+- **JavaScript has no `\Z`.** A `(?=^==[^=]|\Z)` section lookahead silently means
+  "or a literal Z" and truncated every section at its first capital Z — it cut
+  "[[Ground Zero]]" in half and halved the guide count. `section()` walks by
+  index instead. There is a regression test for this.
+- **Quest-only items stay out of the hideout item search.** A Secure Folder 0048
+  has one use and no sale value, so it is noise in a "can I sell this?" lookup.
+  Trey called this explicitly. They still appear inside a quest's own breakdown.
+
+---
+
 ## 🎨 webdesign.md is required reading before any layout work
 `webdesign.md` (same directory) is the binding contract for page layout, the
 counterpart to `gamedesign.md` and `featuredesign.md`. Written 2026-08-13 after

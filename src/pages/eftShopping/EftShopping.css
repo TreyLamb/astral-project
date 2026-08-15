@@ -6,9 +6,14 @@
  * generic "military" preset:
  *   - Near-black warm olive ground, never neutral grey and never pure black.
  *   - Bone/tan type on it. The game almost never uses white.
- *   - Square corners. Tarkov's UI has essentially no border radius.
- *   - Hairline 1px borders doing all the separation work; no drop shadows,
- *     no gradients except a faint top-light on raised panels.
+ *   - Hairline borders doing the separation work, with real elevation on cards.
+ *
+ * ROUNDED CORNERS ARE DELIBERATE — do not "restore" square ones.
+ * This file used to say "square corners, Tarkov's UI has essentially no border
+ * radius", and that was true to the game and disliked in practice. Trey called
+ * it on 2026-08-15: "make things more 'round/flowy' not so much SQUARESSSS!!".
+ * Radius comes from the --eft-r* tokens at the end of this file; use those
+ * rather than hard-coding a value, and never set radius to 0 to match the game.
  *   - Condensed technical type, uppercase with wide tracking on labels.
  *   - Diagonal hatching on headers and on disabled/unavailable states — the
  *     game uses it constantly for "this slot is blocked".
@@ -17,25 +22,45 @@
  */
 
 .eft-app {
-  --eft-bg: #0d0d0b;
-  --eft-bg-2: #131310;
-  --eft-panel: #1a1a15;
-  --eft-panel-2: #21211a;
-  --eft-raised: #2a2921;
-  --eft-line: #2e2d24;
-  --eft-line-bright: #423f31;
+  /* Surfaces climb in clear, even steps. The old ramp moved 6–7 points between
+     neighbours, which on a dark ground is below the threshold where an edge
+     reads as an edge — every card, chip and panel dissolved into the one behind
+     it. Each step here is roughly double that, so depth is legible without the
+     page getting brighter overall. */
+  --eft-bg: #0b0b09;
+  --eft-bg-2: #121210;
+  --eft-panel: #1c1c16;
+  --eft-panel-2: #26251d;
+  --eft-raised: #333125;
+  --eft-line: #3a382c;
+  --eft-line-bright: #5d5843;
 
-  --eft-text: #c9c6b5;
-  --eft-text-dim: #8d8a79;
-  --eft-text-faint: #5f5d52;
+  /* Dim and faint were doing real work (labels, units, meta) at contrast ratios
+     under 4:1. Both come up; `text` comes up slightly to match. */
+  --eft-text: #d8d5c4;
+  --eft-text-dim: #a5a291;
+  --eft-text-faint: #7d7a6c;
 
-  --eft-tan: #9a8866;
-  --eft-tan-bright: #cdbb96;
-  --eft-gold: #e0c07a;
-  --eft-green: #7a9a5c;
-  --eft-red: #b4544a;
-  --eft-blue: #6d8ba3;
-  --eft-orange: #c08b4a;
+  --eft-tan: #b09b73;
+  --eft-tan-bright: #e2d0a9;
+  --eft-gold: #f0cd82;
+  --eft-green: #9ac46e;
+  --eft-red: #e06a5c;
+  --eft-blue: #7fa8c6;
+  --eft-orange: #d99a4e;
+  --eft-violet: #b18ad0;
+  --eft-teal: #6fbfae;
+
+  /* Chip fills. A chip is a badge, so it gets a real background rather than a
+     tinted outline — this is the single change that makes tags separate from
+     the card they sit on. */
+  --eft-fill-green: rgba(154, 196, 110, 0.16);
+  --eft-fill-red: rgba(224, 106, 92, 0.16);
+  --eft-fill-gold: rgba(240, 205, 130, 0.16);
+  --eft-fill-blue: rgba(127, 168, 198, 0.16);
+  --eft-fill-violet: rgba(177, 138, 208, 0.16);
+  --eft-fill-teal: rgba(111, 191, 174, 0.16);
+  --eft-fill-neutral: rgba(210, 205, 185, 0.08);
 
   --eft-mono: 'Consolas', 'SF Mono', 'Menlo', monospace;
   --eft-cond: 'Bahnschrift', 'DIN Alternate', 'Roboto Condensed', 'Segoe UI', system-ui, sans-serif;
@@ -521,24 +546,83 @@
 
 /* ---------- Chips ---------- */
 
+/* A chip is a badge, not an outline. Fill + border + text all shift together so
+   the category is readable at a glance and at the edge of vision, which is the
+   whole reason these exist. Each variant also carries a 2px left rule — colour
+   alone is not a safe channel. */
 .eft-chip {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 1.3px 7.5px;
+  padding: 2.5px 8px;
   border: 1px solid var(--eft-line-bright);
-  background: #0f0f0c;
+  border-left-width: 3px;
+  background: var(--eft-fill-neutral);
   font-size: 12.5px;
+  font-weight: 600;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: var(--eft-text-dim);
+  color: var(--eft-text);
   white-space: nowrap;
 }
 
-.eft-chip.eft-is-met { border-color: rgba(122, 154, 92, 0.5); color: var(--eft-green); }
-.eft-chip.eft-is-unmet { border-color: rgba(180, 84, 74, 0.5); color: #cd7a72; }
-.eft-chip.eft-is-fir { border-color: rgba(224, 192, 122, 0.5); color: var(--eft-gold); }
-.eft-chip.eft-is-info { border-color: rgba(109, 139, 163, 0.45); color: var(--eft-blue); }
+.eft-chip.eft-is-met {
+  background: var(--eft-fill-green);
+  border-color: rgba(154, 196, 110, 0.45);
+  border-left-color: var(--eft-green);
+  color: var(--eft-green);
+}
+
+.eft-chip.eft-is-unmet {
+  background: var(--eft-fill-red);
+  border-color: rgba(224, 106, 92, 0.45);
+  border-left-color: var(--eft-red);
+  color: var(--eft-red);
+}
+
+.eft-chip.eft-is-fir {
+  background: var(--eft-fill-gold);
+  border-color: rgba(240, 205, 130, 0.45);
+  border-left-color: var(--eft-gold);
+  color: var(--eft-gold);
+}
+
+.eft-chip.eft-is-info {
+  background: var(--eft-fill-blue);
+  border-color: rgba(127, 168, 198, 0.45);
+  border-left-color: var(--eft-blue);
+  color: var(--eft-blue);
+}
+
+/* Quest-lookup vocabulary. */
+.eft-chip.eft-is-quest {
+  background: var(--eft-fill-violet);
+  border-color: rgba(177, 138, 208, 0.45);
+  border-left-color: var(--eft-violet);
+  color: var(--eft-violet);
+}
+
+.eft-chip.eft-is-trader {
+  background: var(--eft-fill-teal);
+  border-color: rgba(111, 191, 174, 0.45);
+  border-left-color: var(--eft-teal);
+  color: var(--eft-teal);
+}
+
+.eft-chip.eft-is-level,
+.eft-chip.eft-is-loyalty,
+.eft-chip.eft-is-none {
+  background: var(--eft-fill-neutral);
+  border-left-color: var(--eft-text-faint);
+  color: var(--eft-text-dim);
+}
+
+.eft-chip.eft-is-kappa {
+  background: var(--eft-fill-gold);
+  border-color: rgba(240, 205, 130, 0.55);
+  border-left-color: var(--eft-gold);
+  color: var(--eft-gold);
+}
 
 /* ---------- Tables ---------- */
 
@@ -1966,4 +2050,1307 @@
   .eft-needmodal-back { padding: 16px 8px; }
   .eft-needmodal { max-height: calc(100vh - 32px); }
   .eft-needsearch-input.eft-is-big { font-size: 17px; }
+}
+
+/* ==========================================================================
+ * Legibility overhaul (2026-08-15)
+ *
+ * The theme was faithful to the game and hard to actually use: every surface
+ * sat within a few points of every other one, so cards, panels, chips and rows
+ * all read as a single grey field and nothing announced itself. The token ramp
+ * above widened the steps; this section spends them — real elevation on cards,
+ * a filled state for anything selected, and a visible edge wherever two things
+ * meet. The Tarkov vocabulary is untouched: square corners, hairline rules,
+ * hatching for blocked states, bone type on warm near-black.
+ * ========================================================================== */
+
+/* ---------- Elevation ---------- */
+
+.eft-app .eft-panel,
+.eft-app .eft-station {
+  box-shadow: 0 1px 0 rgba(255, 250, 230, 0.04) inset, 0 6px 14px rgba(0, 0, 0, 0.45);
+}
+
+.eft-app .eft-panel { background: var(--eft-panel); border: 1px solid var(--eft-line-bright); }
+
+.eft-app .eft-panelhead {
+  background: var(--eft-panel-2);
+  border-bottom: 1px solid var(--eft-line-bright);
+  color: var(--eft-tan-bright);
+}
+
+/* ---------- Station cards ---------- */
+
+/* State lives on a thick left rule as well as the top border, so a card's
+   status survives being scanned peripherally in a grid of 27. */
+.eft-app .eft-station {
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line-bright);
+  border-top: 2px solid var(--eft-line-bright);
+  border-left: 4px solid var(--eft-line-bright);
+}
+
+.eft-app .eft-station.eft-is-complete {
+  border-top-color: var(--eft-green);
+  border-left-color: var(--eft-green);
+}
+
+.eft-app .eft-station.eft-is-ready {
+  border-top-color: var(--eft-gold);
+  border-left-color: var(--eft-gold);
+  background: linear-gradient(180deg, rgba(240, 205, 130, 0.06), transparent 42%), var(--eft-panel);
+}
+
+.eft-app .eft-station.eft-is-solo {
+  border-color: var(--eft-gold);
+  box-shadow: 0 0 0 1px rgba(240, 205, 130, 0.35), 0 6px 14px rgba(0, 0, 0, 0.45);
+}
+
+.eft-app .eft-station-name {
+  color: var(--eft-tan-bright);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.eft-app .eft-station-name:hover { color: var(--eft-gold); }
+
+/* ---------- Tabs ---------- */
+
+.eft-app .eft-tab {
+  border: 1px solid transparent;
+  border-bottom-color: var(--eft-line);
+  color: var(--eft-text-dim);
+}
+
+.eft-app .eft-tab:hover { color: var(--eft-tan-bright); background: var(--eft-fill-neutral); }
+
+/* The active tab is filled, not merely underlined — an underline on a dark
+   ground at this type size was easy to miss entirely. */
+.eft-app .eft-tab.eft-is-active {
+  background: var(--eft-raised);
+  border-color: var(--eft-line-bright);
+  border-bottom-color: var(--eft-gold);
+  box-shadow: inset 0 -2px 0 var(--eft-gold);
+  color: var(--eft-gold);
+  font-weight: 600;
+}
+
+/* ---------- Buttons ---------- */
+
+.eft-app .eft-btn {
+  background: var(--eft-panel-2);
+  border: 1px solid var(--eft-line-bright);
+  color: var(--eft-text);
+}
+
+.eft-app .eft-btn:hover:not(:disabled) {
+  background: var(--eft-raised);
+  border-color: var(--eft-tan);
+  color: var(--eft-tan-bright);
+}
+
+.eft-app .eft-btn.eft-is-on {
+  background: var(--eft-fill-gold);
+  border-color: var(--eft-gold);
+  color: var(--eft-gold);
+  font-weight: 600;
+}
+
+.eft-app .eft-btn:focus-visible,
+.eft-app .eft-tab:focus-visible,
+.eft-app .eft-input:focus-visible,
+.eft-app .eft-select:focus-visible {
+  outline: 2px solid var(--eft-gold);
+  outline-offset: 1px;
+}
+
+.eft-app .eft-input,
+.eft-app .eft-select {
+  background: var(--eft-bg-2);
+  border: 1px solid var(--eft-line-bright);
+  color: var(--eft-text);
+}
+
+.eft-app .eft-input::placeholder { color: var(--eft-text-faint); }
+
+/* ---------- Tables ---------- */
+
+/* Zebra striping. With 40+ rows of ammo the eye needs a rail to follow. */
+.eft-app .eft-table tbody tr:nth-child(even) { background: rgba(255, 250, 230, 0.022); }
+.eft-app .eft-table tbody tr:hover { background: rgba(240, 205, 130, 0.06); }
+.eft-app .eft-table td { border-bottom: 1px solid var(--eft-line); }
+.eft-app .eft-table th { color: var(--eft-tan); background: var(--eft-panel-2); }
+
+/* ---------- Labels ---------- */
+
+.eft-app .eft-label {
+  color: var(--eft-tan);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.eft-app .eft-note { color: var(--eft-text-dim); }
+
+/* ==========================================================================
+ * Quest lookup
+ *
+ * Nested inside the item search rather than given its own tab: the question it
+ * answers ("can I sell this?") is the same question the search already asks,
+ * and splitting it across two screens would mean checking two places before
+ * dropping anything.
+ * ========================================================================== */
+
+.eft-chip-btn {
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: uppercase;
+}
+
+.eft-chip-btn:hover { filter: brightness(1.25); }
+.eft-chip-btn.eft-is-open { box-shadow: inset 0 0 0 1px currentColor; }
+.eft-chip-caret { font-size: 10px; opacity: 0.8; }
+
+/* ---------- The drill-down list ---------- */
+
+.eft-questlist {
+  margin-top: 10px;
+  border-top: 1px solid var(--eft-line-bright);
+  display: flex;
+  flex-direction: column;
+}
+
+.eft-quest {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 10px 4px 10px 8px;
+  border-bottom: 1px solid var(--eft-line);
+  border-left: 3px solid var(--eft-violet);
+}
+
+.eft-quest:last-child { border-bottom: 0; }
+
+/* A finished quest stays visible — it is the evidence behind "1 of 3 done" —
+   but drops back so the outstanding ones read first. */
+.eft-quest.eft-is-done {
+  border-left-color: var(--eft-green);
+  opacity: 0.55;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(154, 136, 102, 0.05) 0 1px,
+    transparent 1px 6px
+  );
+}
+
+.eft-quest.eft-is-done .eft-quest-name { text-decoration: line-through; }
+
+.eft-quest-tick { display: flex; align-items: center; padding-top: 2px; cursor: pointer; }
+.eft-quest-tick input { width: 18px; height: 18px; accent-color: var(--eft-green); cursor: pointer; }
+
+.eft-quest-body { flex: 1; min-width: 0; }
+
+.eft-quest-head { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
+
+.eft-quest-name {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: 17.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--eft-tan-bright);
+  cursor: pointer;
+  text-align: left;
+}
+
+.eft-quest-name:hover { color: var(--eft-gold); text-decoration: underline; }
+
+.eft-quest-also {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 7px;
+}
+
+.eft-quest-alsolabel {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--eft-text-faint);
+}
+
+.eft-quest-alsoitem {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border: 1px solid var(--eft-line-bright);
+  background: var(--eft-bg-2);
+  font-size: 13.5px;
+  color: var(--eft-text-dim);
+}
+
+.eft-quest-alsoitem img { width: 22px; height: 22px; object-fit: contain; }
+.eft-quest-alsoitem b { color: var(--eft-text); }
+.eft-quest-alsoitem em { font-style: normal; color: var(--eft-gold); font-size: 11px; }
+
+/* ---------- The full quest breakdown ---------- */
+
+/* Sits above the search overlay it was opened from, so closing it returns you
+   to your results rather than to the page. */
+.eft-questmodal-back { align-items: flex-start; padding: 40px 24px 24px; z-index: 60; }
+
+.eft-questmodal {
+  width: min(940px, 100%);
+  max-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line-bright);
+  border-top: 3px solid var(--eft-violet);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
+}
+
+.eft-questmodal-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--eft-line-bright);
+  background: var(--eft-panel-2);
+}
+
+.eft-questmodal-title { flex: 1; min-width: 0; }
+
+.eft-questmodal-title h3 {
+  margin: 0 0 7px;
+  font-size: 23px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--eft-tan-bright);
+}
+
+.eft-questmodal-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.eft-questmodal-tick {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 1px solid var(--eft-line-bright);
+  background: var(--eft-bg-2);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--eft-text-dim);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.eft-questmodal-tick:hover { border-color: var(--eft-green); color: var(--eft-green); }
+.eft-questmodal-tick input { width: 18px; height: 18px; accent-color: var(--eft-green); cursor: pointer; }
+.eft-questmodal-tick:has(input:checked) { border-color: var(--eft-green); color: var(--eft-green); }
+
+.eft-questmodal-body { overflow-y: auto; padding: 4px 18px 18px; }
+
+.eft-questsec { padding: 15px 0; border-bottom: 1px solid var(--eft-line); }
+.eft-questsec:last-of-type { border-bottom: 0; }
+
+.eft-questsec h4 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--eft-tan);
+}
+
+.eft-quest-gate { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+
+.eft-quest-gatelink,
+.eft-quest-chainlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 9px;
+  border: 1px solid rgba(177, 138, 208, 0.45);
+  border-left: 3px solid var(--eft-violet);
+  background: var(--eft-fill-violet);
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--eft-violet);
+  cursor: pointer;
+}
+
+.eft-quest-gatelink:hover,
+.eft-quest-chainlink:hover { filter: brightness(1.3); }
+
+.eft-quest-chainlink em {
+  font-style: normal;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--eft-text-faint);
+}
+
+/* The unlock chain. Indented lists with a rule down the left read as a tree
+   without needing an SVG for what is nearly always 2–4 nodes deep. */
+.eft-quest-chain,
+.eft-quest-chain ul {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 16px;
+  border-left: 1px solid var(--eft-line-bright);
+}
+
+.eft-quest-chain { padding-left: 4px; border-left: 0; }
+.eft-quest-chain li { margin: 5px 0; }
+
+.eft-quest-items { display: flex; flex-direction: column; gap: 6px; }
+
+.eft-quest-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 9px;
+  border: 1px solid var(--eft-line);
+  background: var(--eft-bg-2);
+}
+
+.eft-quest-itemname { flex: 1; min-width: 0; font-size: 16px; color: var(--eft-text); }
+.eft-station-itemicon.eft-is-blank { background: var(--eft-fill-neutral); }
+
+.eft-quest-lines { margin: 0; padding-left: 20px; color: var(--eft-text); font-size: 16px; }
+.eft-quest-lines li { margin: 4px 0; }
+.eft-quest-lines li.eft-is-sub { color: var(--eft-text-dim); font-size: 14.5px; list-style-type: circle; }
+
+.eft-quest-quote {
+  margin: 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--eft-tan);
+  background: var(--eft-bg-2);
+  font-size: 15.5px;
+  font-style: italic;
+  color: var(--eft-text-dim);
+}
+
+.eft-quest-guide { margin: 0; font-size: 16px; line-height: 1.55; color: var(--eft-text); }
+
+.eft-quest-wiki {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--eft-blue);
+}
+
+@media (max-width: 900px) {
+  .eft-questmodal-back { padding: 12px 8px; }
+  .eft-questmodal { max-height: calc(100vh - 24px); }
+  .eft-questmodal-head { flex-wrap: wrap; }
+}
+
+/* ---------- Finished stations ----------
+ *
+ * A maxed station is a settled question. It sorts to the end of the grid and
+ * collapses to a single strip so the cards still asking something of you stay
+ * at the top of the screen. Emergency Wall is the one that exposed this: it
+ * maxes at level 1, so it was permanently complete and permanently occupying a
+ * full card in the middle of the grid.
+ */
+
+.eft-app .eft-station.eft-is-mini {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 12px;
+  border-top-width: 1px;
+  box-shadow: none;
+  background: var(--eft-bg-2);
+}
+
+.eft-station-minicheck { color: var(--eft-green); font-size: 17px; font-weight: 700; }
+
+.eft-app .eft-station.eft-is-mini .eft-station-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eft-levelpick.eft-is-mini button { padding: 1px 8px; font-size: 13px; }
+
+/* ---------- Reset all ----------
+ *
+ * Parked at the bottom of the filter menu behind a divider, because it is used
+ * roughly twice a year and is the only action here that destroys data.
+ */
+
+.eft-filter-danger {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--eft-line-bright);
+}
+
+.eft-btn.eft-is-danger {
+  border-color: rgba(224, 106, 92, 0.55);
+  background: var(--eft-fill-red);
+  color: var(--eft-red);
+}
+
+.eft-btn.eft-is-danger:hover:not(:disabled) {
+  background: rgba(224, 106, 92, 0.28);
+  border-color: var(--eft-red);
+  color: #ffd9d3;
+}
+
+.eft-filter-confirm {
+  border: 1px solid rgba(224, 106, 92, 0.45);
+  border-left: 3px solid var(--eft-red);
+  background: rgba(224, 106, 92, 0.09);
+  padding: 11px 12px;
+}
+
+.eft-filter-confirm p {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--eft-text);
+}
+
+.eft-filter-confirm strong { color: var(--eft-red); }
+
+/* ==========================================================================
+ * Station cards — "nameplate over a bill of materials" (layout C, chosen
+ * 2026-08-15), plus the global rounding pass.
+ *
+ * The old card was a uniform square tile with its requirements hidden behind a
+ * toggle, so 27 of them read as an undifferentiated grid of boxes. Now every
+ * card is a bold header band (identity, level, target, readiness) sitting on a
+ * body that IS the item list. Cards take their natural height, so a station
+ * wanting 2 things is short and one wanting 14 is tall — the grid stops looking
+ * uniform because the data isn't.
+ * ========================================================================== */
+
+.eft-app {
+  --eft-r: 12px;      /* cards, panels, modals */
+  --eft-r-sm: 8px;    /* chips, buttons, inputs, item rows */
+  --eft-r-xs: 5px;    /* tight things inside a group */
+}
+
+/* ---------- Four across ---------- */
+
+.eft-app .eft-station-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  /* Cards start at the top of their row instead of stretching to match the
+     tallest sibling — a 2-item station has no business being as tall as a
+     14-item one. */
+  align-items: start;
+}
+
+@media (max-width: 1500px) { .eft-app .eft-station-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 1100px) { .eft-app .eft-station-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px)  { .eft-app .eft-station-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- The card ---------- */
+
+.eft-app .eft-station {
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--eft-line-bright);
+  border-left-width: 1px;
+  border-top-width: 1px;
+  border-radius: var(--eft-r);
+  background: var(--eft-panel);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 10px 24px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.eft-app .eft-station:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.34), 0 14px 30px rgba(0, 0, 0, 0.46);
+}
+
+/* State reads off the header band's tint and the card's border, not off a
+   single hairline that was invisible at a glance. */
+.eft-app .eft-station.eft-is-complete { border-color: rgba(154, 196, 110, 0.5); }
+.eft-app .eft-station.eft-is-ready { border-color: rgba(240, 205, 130, 0.55); }
+.eft-app .eft-station.eft-is-solo {
+  border-color: var(--eft-gold);
+  box-shadow: 0 0 0 2px rgba(240, 205, 130, 0.28), 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+
+.eft-app .eft-station.eft-is-off { opacity: 0.5; }
+
+/* ---------- Header band ---------- */
+
+.eft-station-head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px 13px;
+  background: linear-gradient(180deg, var(--eft-raised), var(--eft-panel-2));
+  border-bottom: 1px solid var(--eft-line-bright);
+}
+
+.eft-station.eft-is-complete .eft-station-head {
+  background: linear-gradient(180deg, rgba(154, 196, 110, 0.17), var(--eft-panel-2));
+  border-bottom-color: rgba(154, 196, 110, 0.4);
+}
+
+.eft-station.eft-is-ready .eft-station-head {
+  background: linear-gradient(180deg, rgba(240, 205, 130, 0.19), var(--eft-panel-2));
+  border-bottom-color: rgba(240, 205, 130, 0.45);
+}
+
+.eft-station.eft-is-off .eft-station-head {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(154, 136, 102, 0.07) 0 2px,
+    transparent 2px 8px
+  );
+}
+
+.eft-app .eft-station-top { align-items: center; gap: 9px; margin: 0; }
+
+.eft-app .eft-station-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--eft-tan-bright);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eft-station-headrow { display: flex; align-items: center; gap: 8px; }
+.eft-station-headrow .eft-label { flex: none; margin: 0; }
+.eft-station-headrow .eft-select { flex: 1; min-width: 0; padding: 3px 7px; font-size: 14px; }
+
+/* ---------- Level picker ---------- */
+
+/* One rounded pill split into segments, rather than a row of separate boxes. */
+.eft-app .eft-levelpick {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--eft-line-bright);
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--eft-bg-2);
+  width: fit-content;
+}
+
+.eft-app .eft-levelpick button {
+  min-width: 34px;
+  padding: 4px 11px;
+  border: 0;
+  border-right: 1px solid var(--eft-line);
+  background: transparent;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--eft-text-faint);
+  cursor: pointer;
+  transition: background 0.14s ease, color 0.14s ease;
+}
+
+.eft-app .eft-levelpick button:last-child { border-right: 0; }
+.eft-app .eft-levelpick button:hover { background: var(--eft-raised); color: var(--eft-text); }
+
+.eft-app .eft-levelpick button.eft-is-current {
+  background: var(--eft-gold);
+  color: #17150d;
+}
+
+.eft-app .eft-levelpick button.eft-is-planned {
+  background: rgba(240, 205, 130, 0.12);
+  color: var(--eft-gold);
+}
+
+.eft-app .eft-levelpick button.eft-is-beyond { opacity: 0.4; }
+
+.eft-app .eft-blockchips { gap: 5px; }
+
+/* ---------- Item body ---------- */
+
+.eft-app .eft-station-items { display: flex; flex-direction: column; }
+
+.eft-app .eft-station-itemlist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.eft-app .eft-station-itemlist li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--eft-line);
+  transition: background 0.14s ease;
+}
+
+.eft-app .eft-station-itemlist li:hover { background: rgba(240, 205, 130, 0.055); }
+
+/* Something you already have enough of stops competing for attention. */
+.eft-app .eft-station-itemlist li.eft-is-done { opacity: 0.5; }
+.eft-app .eft-station-itemlist li.eft-is-done .eft-station-itemneed { color: var(--eft-green); }
+
+.eft-app .eft-station-itemicon {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  object-fit: contain;
+  border-radius: var(--eft-r-xs);
+  background: var(--eft-bg-2);
+}
+
+.eft-app .eft-station-itemname {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14.5px;
+  color: var(--eft-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eft-app .eft-station-itemneed {
+  font-family: var(--eft-mono);
+  font-size: 13.5px;
+  color: var(--eft-text-dim);
+  white-space: nowrap;
+}
+
+/* ---------- Fold footer ---------- */
+
+.eft-app .eft-station-itemstoggle {
+  width: 100%;
+  padding: 8px 12px;
+  border: 0;
+  border-top: 1px solid var(--eft-line);
+  background: var(--eft-bg-2);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--eft-text-faint);
+  cursor: pointer;
+  transition: background 0.14s ease, color 0.14s ease;
+}
+
+.eft-app .eft-station-itemstoggle:hover { background: var(--eft-raised); color: var(--eft-gold); }
+
+/* ---------- Minimised (finished) card ---------- */
+
+.eft-app .eft-station.eft-is-mini {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  border-radius: var(--eft-r-sm);
+  background: var(--eft-bg-2);
+  box-shadow: none;
+}
+
+.eft-app .eft-station.eft-is-mini:hover { transform: none; }
+.eft-app .eft-station.eft-is-mini .eft-levelpick button { min-width: 27px; padding: 2px 8px; font-size: 13px; }
+
+/* ==========================================================================
+ * Rounding pass
+ *
+ * Trey: "make things more round/flowy not so much SQUARESSSS!!". Applied here
+ * in one place rather than edited into 60 rules above, so the radius scale
+ * stays adjustable from the tokens at the top of this section.
+ * ========================================================================== */
+
+.eft-app .eft-panel,
+.eft-app .eft-modal,
+.eft-app .eft-needmodal,
+.eft-app .eft-questmodal,
+.eft-app .eft-filter-menu,
+.eft-app .eft-banner,
+.eft-app .eft-tablewrap { border-radius: var(--eft-r); overflow: hidden; }
+
+.eft-app .eft-btn,
+.eft-app .eft-input,
+.eft-app .eft-select,
+.eft-app .eft-iconbtn,
+.eft-app .eft-seg,
+.eft-app .eft-counter,
+.eft-app .eft-quest,
+.eft-app .eft-quest-item,
+.eft-app .eft-quest-alsoitem,
+.eft-app .eft-quest-quote,
+.eft-app .eft-filter-confirm,
+.eft-app .eft-need,
+.eft-app .eft-toast { border-radius: var(--eft-r-sm); }
+
+/* Badges go fully round — they are the one element that reads better as a pill
+   than as a plate, and it is what makes the page stop feeling like a grid of
+   rectangles. */
+.eft-app .eft-chip,
+.eft-app .eft-quest-gatelink,
+.eft-app .eft-quest-chainlink,
+.eft-app .eft-need-chip {
+  border-radius: 999px;
+  border-left-width: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* With a pill shape the left rule is gone, so the fill has to carry the
+   category on its own — these are pushed up to compensate. */
+.eft-app .eft-chip.eft-is-met { background: rgba(154, 196, 110, 0.22); }
+.eft-app .eft-chip.eft-is-unmet { background: rgba(224, 106, 92, 0.22); }
+.eft-app .eft-chip.eft-is-fir { background: rgba(240, 205, 130, 0.22); }
+.eft-app .eft-chip.eft-is-info { background: rgba(127, 168, 198, 0.22); }
+.eft-app .eft-chip.eft-is-quest { background: rgba(177, 138, 208, 0.22); }
+.eft-app .eft-chip.eft-is-trader { background: rgba(111, 191, 174, 0.22); }
+.eft-app .eft-chip.eft-is-kappa { background: rgba(240, 205, 130, 0.22); }
+
+.eft-app .eft-tabs { gap: 4px; }
+.eft-app .eft-tab { border-radius: var(--eft-r-sm) var(--eft-r-sm) 0 0; }
+
+/* The tab underline was a hard 2px inset; a soft bottom rule suits the rounder
+   shape better. */
+.eft-app .eft-tab.eft-is-active { box-shadow: inset 0 -3px 0 var(--eft-gold); }
+
+.eft-app .eft-quest { border-left-width: 3px; border-radius: 0; }
+.eft-app .eft-quest:first-child { border-top-left-radius: var(--eft-r-sm); border-top-right-radius: var(--eft-r-sm); }
+.eft-app .eft-quest:last-child { border-bottom-left-radius: var(--eft-r-sm); border-bottom-right-radius: var(--eft-r-sm); }
+
+/* The item list used to be a fold-out with `max-height: 320px; overflow-y:
+   auto`, which made sense when it was a popover. As the card's body it does
+   not: it clipped the last row mid-height and put a scrollbar inside a card
+   that is already free to grow. Cards taking their true height is the whole
+   point of this layout. */
+.eft-app .eft-station-itemlist {
+  max-height: none;
+  overflow: visible;
+  gap: 0;
+}
+
+/* ==========================================================================
+ * Shopping list — the raid grid
+ *
+ * Built for one job: this list is open on a second screen while you are in a
+ * raid, and you get about a second to decide whether the thing on the floor is
+ * worth a slot. A table cannot answer that in a second. A picture, a name and
+ * one big number can.
+ *
+ * Everything else (trader price, which station wants it, flea availability) is
+ * still on the tile, but deliberately small and low-contrast — an aside you can
+ * read when you are back in the hideout, not competing with the count.
+ * ========================================================================== */
+
+.eft-listbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 11px 13px;
+  margin-bottom: 14px;
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line-bright);
+  border-radius: var(--eft-r);
+  position: sticky;
+  top: 0;
+  z-index: 12;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+}
+
+.eft-listbar-search { flex: 1; min-width: 150px; max-width: 320px; }
+
+.eft-listbar-count {
+  margin-left: auto;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--eft-text-dim);
+  white-space: nowrap;
+}
+
+.eft-listbar-count strong { color: var(--eft-gold); font-size: 19px; }
+
+/* ---------- The grid ---------- */
+
+.eft-tilegrid {
+  display: grid;
+  gap: 12px;
+  align-items: start;
+}
+
+/* Three densities. Dozens of items has to stay one screen, so even "large" is
+   modest by web standards — this is a reference card, not a gallery. */
+.eft-tilegrid.eft-size-sm { grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 9px; }
+.eft-tilegrid.eft-size-md { grid-template-columns: repeat(auto-fill, minmax(162px, 1fr)); }
+.eft-tilegrid.eft-size-lg { grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 15px; }
+
+.eft-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 9px 9px;
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line-bright);
+  border-radius: var(--eft-r);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.28), 0 8px 18px rgba(0, 0, 0, 0.34);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.eft-tile:hover { transform: translateY(-2px); border-color: var(--eft-tan); }
+
+/* Collected items stay on screen — knowing you already have it is the point —
+   but stop pulling the eye. */
+.eft-tile.eft-is-done {
+  opacity: 0.44;
+  border-color: rgba(154, 196, 110, 0.45);
+}
+
+.eft-tile.eft-is-done:hover { opacity: 0.85; }
+
+/* ---------- Picture + hero count ---------- */
+
+.eft-tile-pic {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: var(--eft-bg-2);
+  border: 1px solid var(--eft-line);
+  border-radius: var(--eft-r-sm);
+  cursor: pointer;
+}
+
+.eft-tile-pic img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.eft-size-sm .eft-tile-pic img { max-height: 60px; }
+.eft-size-md .eft-tile-pic img { max-height: 82px; }
+.eft-size-lg .eft-tile-pic img { max-height: 112px; }
+
+/* The number you actually need: how many MORE to find. Sits on the picture so
+   the eye lands on both at once. */
+.eft-tile-qty {
+  position: absolute;
+  right: -6px;
+  bottom: -8px;
+  min-width: 34px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--eft-gold);
+  border: 2px solid var(--eft-panel);
+  font-family: var(--eft-cond);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  color: #17150d;
+}
+
+.eft-size-lg .eft-tile-qty { font-size: 22px; min-width: 40px; }
+.eft-tile.eft-is-done .eft-tile-qty { background: var(--eft-green); }
+
+.eft-tile-fir {
+  position: absolute;
+  left: -5px;
+  top: -6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--eft-gold);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #17150d;
+}
+
+/* ---------- Name + counts ---------- */
+
+.eft-tile-name {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--eft-text);
+  /* Two lines then ellipsis: a fixed height keeps the grid rows aligned, and
+     almost every item name fits in two. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.6em;
+}
+
+.eft-size-sm .eft-tile-name { font-size: 12.5px; }
+.eft-size-lg .eft-tile-name { font-size: 16px; }
+
+.eft-tile-count { display: flex; align-items: center; gap: 8px; }
+
+.eft-tile-have {
+  font-family: var(--eft-mono);
+  font-size: 13px;
+  color: var(--eft-text-dim);
+  white-space: nowrap;
+}
+
+.eft-tile-all {
+  width: 100%;
+  padding: 4px 6px;
+  border: 1px solid var(--eft-line-bright);
+  border-radius: var(--eft-r-sm);
+  background: var(--eft-panel-2);
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--eft-text-dim);
+  cursor: pointer;
+}
+
+.eft-tile-all:hover { background: var(--eft-raised); color: var(--eft-gold); border-color: var(--eft-gold); }
+
+/* ---------- The aside ---------- */
+
+.eft-tile-aside {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3px;
+  width: 100%;
+}
+
+.eft-tile-aside .eft-chip {
+  font-size: 10.5px;
+  padding: 1px 7px;
+  border-left-width: 1px;
+  opacity: 0.75;
+}
+
+/* At the smallest density the asides are noise — the picture and the number are
+   the whole point of that size. */
+.eft-size-sm .eft-tile-aside { display: none; }
+.eft-size-sm .eft-tile-all { display: none; }
+
+@media (max-width: 700px) {
+  .eft-listbar { position: static; }
+  .eft-listbar-count { margin-left: 0; }
+}
+
+/* Station names are long ("Equipment Presets Stand 3") and were bursting out of
+   the tile they belong to. The aside is an aside: it clips rather than
+   dictating tile width, and stops after two rows so one item wanted by nine
+   stations cannot stretch the whole grid row. */
+.eft-app .eft-tile-aside {
+  max-width: 100%;
+  max-height: 3.6em;
+  overflow: hidden;
+}
+
+.eft-app .eft-tile-aside .eft-chip {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+ * Raid kit — the sheet
+ *
+ * Maps down the side, categories across the top, exactly as the original Excel
+ * sheet had it. The point of a table here is comparison: "do I take a docs case
+ * on Reserve like I do on Customs?" is one glance across a row, and was
+ * impossible in the old one-map-at-a-time layout.
+ * ========================================================================== */
+
+.eft-sheetwrap {
+  overflow-x: auto;
+  border: 1px solid var(--eft-line-bright);
+  border-radius: var(--eft-r);
+  background: var(--eft-panel);
+  margin-bottom: 16px;
+}
+
+.eft-sheet { width: 100%; border-collapse: collapse; }
+
+.eft-sheet thead th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  padding: 10px 13px;
+  text-align: left;
+  background: var(--eft-panel-2);
+  border-bottom: 1px solid var(--eft-line-bright);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--eft-tan);
+  white-space: nowrap;
+}
+
+.eft-sheet tbody tr { border-bottom: 1px solid var(--eft-line); }
+.eft-sheet tbody tr:last-child { border-bottom: 0; }
+.eft-sheet tbody tr:hover { background: rgba(240, 205, 130, 0.04); }
+.eft-sheet tbody tr.eft-is-current { background: rgba(240, 205, 130, 0.07); }
+
+.eft-sheet td,
+.eft-sheet tbody th {
+  padding: 11px 13px;
+  vertical-align: top;
+  border-left: 1px solid var(--eft-line);
+}
+
+/* The map column is the spine of the sheet — it stays put while the categories
+   scroll sideways on a narrow window. */
+.eft-sheet .eft-sheet-mapcol {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  min-width: 190px;
+  border-left: 0;
+  background: var(--eft-panel-2);
+  text-align: left;
+}
+
+.eft-sheet thead .eft-sheet-mapcol { z-index: 4; }
+.eft-sheet tbody tr.eft-is-current .eft-sheet-mapcol { background: var(--eft-raised); }
+
+.eft-sheet-mapname {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  font-size: 16.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--eft-tan-bright);
+}
+
+.eft-sheet-maptools { display: flex; align-items: center; gap: 5px; margin-top: 8px; flex-wrap: wrap; }
+.eft-sheet-maptools .eft-chip { font-size: 11px; }
+
+.eft-sheet td { min-width: 215px; }
+.eft-sheet .eft-linelist { margin: 0; }
+.eft-sheet .eft-input { font-size: 13.5px; padding: 3px 7px; }
+
+/* ---------- Packing checklist ---------- */
+
+.eft-packgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.eft-packsec {
+  padding: 12px 13px;
+  background: var(--eft-bg-2);
+  border: 1px solid var(--eft-line-bright);
+  border-radius: var(--eft-r-sm);
+}
+
+.eft-packsec h4 {
+  margin: 0 0 9px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--eft-tan);
+}
+
+.eft-packlist { list-style: none; margin: 0; padding: 0; }
+
+.eft-packlist li { border-bottom: 1px solid var(--eft-line); }
+.eft-packlist li:last-child { border-bottom: 0; }
+
+/* The whole row is the hit target — this gets used one-handed, in a hurry. */
+.eft-packlist label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 4px;
+  cursor: pointer;
+  font-size: 15.5px;
+}
+
+.eft-packlist label:hover { color: var(--eft-tan-bright); }
+.eft-packlist input { width: 19px; height: 19px; accent-color: var(--eft-green); cursor: pointer; }
+.eft-packlist .eft-line-text { flex: 1; min-width: 0; }
+
+.eft-packlist li.eft-is-checked .eft-line-text {
+  text-decoration: line-through;
+  color: var(--eft-text-faint);
+}
+
+/* ==========================================================================
+ * Ammo chart — eft-ammo.com's shape
+ *
+ * The armour-class block is the reason this page exists. Six narrow columns,
+ * each a 0-6 rating, colour-ramped red→green so you read the row across and
+ * stop at your target's class. Everything else on the row is supporting
+ * evidence and is styled to stay quieter than those six cells.
+ * ========================================================================== */
+
+.eft-ammo-key {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 10px 13px;
+  margin-bottom: 16px;
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line-bright);
+  border-radius: var(--eft-r);
+}
+
+.eft-ammo-keyitem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.eft-ammo-keyitem b { font-size: 14px; }
+.eft-ammo-credit { margin-left: auto; font-size: 12.5px; color: var(--eft-blue); white-space: nowrap; }
+
+/* The 0-6 ramp. Deliberately not the chip palette — this is a scale, so it has
+   to read as one continuous gradient rather than as seven categories. */
+.eft-eff-0 { background: rgba(150, 46, 40, 0.34); color: #ffb4ab; }
+.eft-eff-1 { background: rgba(178, 74, 40, 0.34); color: #ffc4a2; }
+.eft-eff-2 { background: rgba(196, 124, 44, 0.34); color: #ffd9a0; }
+.eft-eff-3 { background: rgba(190, 168, 56, 0.32); color: #f2e79c; }
+.eft-eff-4 { background: rgba(146, 178, 62, 0.32); color: #dcf0a4; }
+.eft-eff-5 { background: rgba(98, 172, 78, 0.34); color: #bdf0b4; }
+.eft-eff-6 { background: rgba(58, 158, 104, 0.42); color: #a8f5cf; }
+.eft-eff-na { background: transparent; color: var(--eft-text-faint); }
+
+.eft-ammo-block { margin-bottom: 22px; }
+
+.eft-ammo-caliber {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--eft-tan-bright);
+}
+
+.eft-ammo-calcount {
+  padding: 1px 9px;
+  border-radius: 999px;
+  background: var(--eft-fill-neutral);
+  border: 1px solid var(--eft-line-bright);
+  font-size: 12px;
+  color: var(--eft-text-dim);
+}
+
+.eft-ammo-table { font-size: 14.5px; }
+.eft-ammo-table th, .eft-ammo-table td { padding: 6px 10px; }
+
+.eft-ammo-classhead {
+  text-align: center !important;
+  border-left: 1px solid var(--eft-line-bright);
+  border-right: 1px solid var(--eft-line-bright);
+  color: var(--eft-gold) !important;
+}
+
+.eft-ammo-subhead th {
+  padding: 2px 10px;
+  font-size: 11.5px;
+  color: var(--eft-text-faint);
+  background: var(--eft-panel-2);
+}
+
+.eft-ammo-name { min-width: 210px; }
+.eft-ammo-namemain { font-weight: 600; color: var(--eft-text); }
+.eft-ammo-namemain a { color: inherit; text-decoration: none; }
+.eft-ammo-namemain a:hover { color: var(--eft-gold); text-decoration: underline; }
+
+.eft-ammo-flags { display: inline-flex; align-items: center; gap: 5px; margin-left: 7px; }
+.eft-ammo-flags .eft-chip { font-size: 10.5px; padding: 0 7px; }
+.eft-ammo-note { font-size: 12px; color: var(--eft-text-faint); }
+
+.eft-ammo-dmg { font-family: var(--eft-mono); color: var(--eft-text); }
+.eft-ammo-pen { font-family: var(--eft-mono); font-weight: 700; color: var(--eft-gold); }
+
+/* Six equal, tight cells — a block you scan, not columns you read. */
+.eft-ammo-armor {
+  width: 40px;
+  min-width: 40px;
+  text-align: center !important;
+  font-family: var(--eft-mono);
+  font-size: 14.5px;
+  font-weight: 700;
+  border-right: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.eft-ammo-table tbody tr:hover .eft-ammo-armor { filter: brightness(1.22); }
+.eft-ammo-table tbody tr.eft-is-fleabanned .eft-ammo-namemain { color: var(--eft-red); }
+
+.eft-ammo-pennum { width: 74px; }
+
+/* ---------- The personal notes, folded under the chart ---------- */
+
+.eft-ammo-notelist { list-style: none; margin: 0 0 14px; padding: 0; }
+
+.eft-ammo-notelist li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  font-size: 15px;
+  color: var(--eft-text-dim);
+}
+
+.eft-ammo-cheats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+  gap: 16px;
+}
+
+.eft-ammo-cheat h4 {
+  margin: 0 0 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--eft-tan);
+}
+
+@media (max-width: 900px) {
+  .eft-ammo-credit { margin-left: 0; }
+  .eft-ammo-name { min-width: 150px; }
 }

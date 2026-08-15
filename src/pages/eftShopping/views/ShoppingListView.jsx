@@ -5,6 +5,36 @@ import {
   stationKey, pendingLevels, buildShoppingList, filterRows, groupRows, traderBeatsFlea,
 } from '../eftHideoutLogic';
 import { Seg, Panel, Counter, ItemCell, useItemDetail, fmtRub, fmtShort } from '../EftBits';
+import { itemIcon } from '../eftApi';
+import { BuildOrderPanels } from './BuildOrderView';
+
+/**
+ * The shopping list, in three modes.
+ *
+ * The default is a picture-and-quantity GRID, because the real use for this
+ * screen is having it open on a second screen mid-raid: you have about a second
+ * to answer "do I grab this?", and a seven-column table of costs and trader
+ * prices is unreadable in that second. Icon, name, and how many you still need
+ * — everything else is an aside.
+ *
+ * The old table is kept as a mode rather than deleted (it is the only place
+ * costs, trader-beats-flea and per-station attribution are visible), and the
+ * build order is folded in as a third mode so the in-raid "what do I need NOW"
+ * and the out-of-raid "what is coming up" live behind one toggle instead of two
+ * tabs.
+ */
+
+const MODES = [
+  { value: 'grid', label: 'Raid grid', title: 'Pictures and quantities — for glancing at mid-raid' },
+  { value: 'table', label: 'Full detail', title: 'Costs, traders and which station wants what' },
+  { value: 'order', label: 'Build order', title: 'What to build next, and in what order' },
+];
+
+const SIZES = [
+  { value: 'sm', label: 'S' },
+  { value: 'md', label: 'M' },
+  { value: 'lg', label: 'L' },
+];
 
 export default function ShoppingListView() {
   const {
@@ -14,6 +44,9 @@ export default function ShoppingListView() {
 
   const [stationFilter, setStationFilter] = useState('');
   const { openItem, detailNode } = useItemDetail();
+
+  const mode = prefs.listMode || 'grid';
+  const size = prefs.tileSize || 'md';
 
   const pending = useMemo(
     () => pendingLevels(stations, {
@@ -38,6 +71,15 @@ export default function ShoppingListView() {
   );
 
   const groups = useMemo(() => groupRows(filtered, prefs.groupBy), [filtered, prefs.groupBy]);
+
+  // In the grid, what you still owe comes first and anything already covered
+  // sinks — the opposite of alphabetical, which buries the thing you need.
+  const tiles = useMemo(
+    () => [...filtered].sort((a, b) => Number(a.done) - Number(b.done)
+      || b.short - a.short
+      || a.name.localeCompare(b.name)),
+    [filtered],
+  );
 
   const setHave = (itemId, n) =>
     update('inventory', (prev) => {
@@ -85,120 +127,233 @@ export default function ShoppingListView() {
     return prefs.soloStation ? key === prefs.soloStation : !disabled.includes(key);
   });
 
+  const outstanding = filtered.filter((r) => !r.done).length;
+
   return (
     <>
+      {/* One bar, always visible, whatever the mode. In raid this is the only
+          thing you interact with, so it stays short and never scrolls away. */}
+      <div className="eft-listbar">
+        <Seg value={mode} onChange={(v) => setPref('listMode', v)} options={MODES} />
 
+        <Seg
+          value={prefs.scope}
+          onChange={(v) => setPref('scope', v)}
+          options={[
+            { value: 'next', label: 'Need now', title: 'Only what each station’s very next level wants' },
+            { value: 'all', label: 'Everything', title: 'Every level up to each station’s target' },
+          ]}
+        />
 
-      <Panel
-        title="Filters"
-        actions={(
+        {mode === 'grid' ? (
           <>
-            <button type="button" className="eft-btn eft-btn-sm" onClick={copy}>Copy</button>
-            <button type="button" className="eft-btn eft-btn-sm" onClick={download}>Export .txt</button>
-            <button type="button" className="eft-btn eft-btn-sm" onClick={() => window.print()}>Print</button>
-          </>
-        )}
-      >
-        <div className="eft-controls">
-          <div className="eft-field">
-            <span className="eft-label">Scope</span>
-            <Seg
-              value={prefs.scope}
-              onChange={(v) => setPref('scope', v)}
-              options={[
-                { value: 'all', label: 'Everything' },
-                { value: 'next', label: 'Next level' },
-              ]}
-            />
-          </div>
-
-          <div className="eft-field">
-            <span className="eft-label">Group by</span>
-            <Seg
-              value={prefs.groupBy}
-              onChange={(v) => setPref('groupBy', v)}
-              options={[
-                { value: 'item', label: 'Item' },
-                { value: 'station', label: 'Station' },
-                { value: 'category', label: 'Category' },
-              ]}
-            />
-          </div>
-
-          <div className="eft-field">
-            <span className="eft-label">Search</span>
             <input
-              className="eft-input"
-              placeholder="Item name…"
+              className="eft-input eft-listbar-search"
+              placeholder="Filter items…"
               value={prefs.search}
               onChange={(e) => setPref('search', e.target.value)}
             />
-          </div>
+            <label className="eft-checkline">
+              <input type="checkbox" checked={prefs.hideOwned}
+                onChange={(e) => setPref('hideOwned', e.target.checked)} />
+              Hide done
+            </label>
+            <label className="eft-checkline">
+              <input type="checkbox" checked={prefs.showFirOnly}
+                onChange={(e) => setPref('showFirOnly', e.target.checked)} />
+              FIR only
+            </label>
+            <Seg value={size} onChange={(v) => setPref('tileSize', v)} options={SIZES} />
+            <span className="eft-listbar-count">
+              <strong>{outstanding}</strong> still needed
+            </span>
+          </>
+        ) : null}
+      </div>
 
-          <div className="eft-field">
-            <span className="eft-label">Only station</span>
-            <select className="eft-select" value={stationFilter}
-              onChange={(e) => setStationFilter(e.target.value)}>
-              <option value="">All included</option>
-              {inScope.map((s) => (
-                <option key={stationKey(s)} value={stationKey(s)}>{s.name}</option>
-              ))}
-            </select>
-          </div>
+      {mode === 'order' ? <BuildOrderPanels /> : null}
 
-          <label className="eft-checkline">
-            <input type="checkbox" checked={prefs.hideOwned}
-              onChange={(e) => setPref('hideOwned', e.target.checked)} />
-            Hide what I already have
-          </label>
-
-          <label className="eft-checkline">
-            <input type="checkbox" checked={prefs.showFirOnly}
-              onChange={(e) => setPref('showFirOnly', e.target.checked)} />
-            Found-in-raid only
-          </label>
-        </div>
-      </Panel>
-
-      <Panel flush>
-        {!filtered.length ? (
+      {mode === 'grid' ? (
+        !tiles.length ? (
           <div className="eft-empty">
             {rows.length ? 'Nothing matches those filters.'
               : !inScope.length ? 'Every station is excluded — turn some back on from the Hideout tab.'
                 : 'Nothing to buy — every included station is already at its target level.'}
           </div>
         ) : (
-          <div className="eft-tablewrap">
-            <table className="eft-table">
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th className="eft-num-cell">Need</th>
-                  <th className="eft-num-cell">Have</th>
-                  <th className="eft-num-cell">Short</th>
-                  <th className="eft-num-cell">Each</th>
-                  <th className="eft-num-cell">To buy</th>
-                  <th>Wanted by</th>
-                </tr>
-              </thead>
-              <tbody>
-                {groups.map(([title, groupItems]) => (
-                  <GroupBlock
-                    key={title}
-                    title={groups.length > 1 ? title : null}
-                    rows={groupItems}
-                    setHave={setHave}
-                    openItem={openItem}
-                  />
-                ))}
-              </tbody>
-            </table>
+          <div className={`eft-tilegrid eft-size-${size}`}>
+            {tiles.map((row) => (
+              <Tile
+                key={row.itemId}
+                row={row}
+                setHave={setHave}
+                onOpen={row.item ? () => openItem(row.item) : undefined}
+              />
+            ))}
           </div>
-        )}
-      </Panel>
+        )
+      ) : null}
+
+      {mode === 'table' ? (
+        <>
+          <Panel
+            title="Filters"
+            actions={(
+              <>
+                <button type="button" className="eft-btn eft-btn-sm" onClick={copy}>Copy</button>
+                <button type="button" className="eft-btn eft-btn-sm" onClick={download}>Export .txt</button>
+                <button type="button" className="eft-btn eft-btn-sm" onClick={() => window.print()}>Print</button>
+              </>
+            )}
+          >
+            <div className="eft-controls">
+              <div className="eft-field">
+                <span className="eft-label">Group by</span>
+                <Seg
+                  value={prefs.groupBy}
+                  onChange={(v) => setPref('groupBy', v)}
+                  options={[
+                    { value: 'item', label: 'Item' },
+                    { value: 'station', label: 'Station' },
+                    { value: 'category', label: 'Category' },
+                  ]}
+                />
+              </div>
+
+              <div className="eft-field">
+                <span className="eft-label">Search</span>
+                <input
+                  className="eft-input"
+                  placeholder="Item name…"
+                  value={prefs.search}
+                  onChange={(e) => setPref('search', e.target.value)}
+                />
+              </div>
+
+              <div className="eft-field">
+                <span className="eft-label">Only station</span>
+                <select className="eft-select" value={stationFilter}
+                  onChange={(e) => setStationFilter(e.target.value)}>
+                  <option value="">All included</option>
+                  {inScope.map((s) => (
+                    <option key={stationKey(s)} value={stationKey(s)}>{s.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <label className="eft-checkline">
+                <input type="checkbox" checked={prefs.hideOwned}
+                  onChange={(e) => setPref('hideOwned', e.target.checked)} />
+                Hide what I already have
+              </label>
+
+              <label className="eft-checkline">
+                <input type="checkbox" checked={prefs.showFirOnly}
+                  onChange={(e) => setPref('showFirOnly', e.target.checked)} />
+                Found-in-raid only
+              </label>
+            </div>
+          </Panel>
+
+          <Panel flush>
+            {!filtered.length ? (
+              <div className="eft-empty">
+                {rows.length ? 'Nothing matches those filters.'
+                  : !inScope.length ? 'Every station is excluded — turn some back on from the Hideout tab.'
+                    : 'Nothing to buy — every included station is already at its target level.'}
+              </div>
+            ) : (
+              <div className="eft-tablewrap">
+                <table className="eft-table">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th className="eft-num-cell">Need</th>
+                      <th className="eft-num-cell">Have</th>
+                      <th className="eft-num-cell">Short</th>
+                      <th className="eft-num-cell">Each</th>
+                      <th className="eft-num-cell">To buy</th>
+                      <th>Wanted by</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {groups.map(([title, groupItems]) => (
+                      <GroupBlock
+                        key={title}
+                        title={groups.length > 1 ? title : null}
+                        rows={groupItems}
+                        setHave={setHave}
+                        openItem={openItem}
+                      />
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </Panel>
+        </>
+      ) : null}
 
       {detailNode}
     </>
+  );
+}
+
+/**
+ * One item, as a raid glance: picture, name, and the number that matters.
+ *
+ * The hero number is what you are still SHORT, not the total requirement —
+ * standing over a loot pile, "4 more" is the answer; "4 of 12" is arithmetic.
+ * The full have/need stays underneath as the aside.
+ */
+function Tile({ row, setHave, onOpen }) {
+  const trader = traderBeatsFlea(row.item);
+
+  return (
+    <div className={`eft-tile${row.done ? ' eft-is-done' : ''}`}>
+      <button
+        type="button"
+        className="eft-tile-pic"
+        onClick={onOpen}
+        title={onOpen ? `${row.name} — open details` : row.name}
+      >
+        <img
+          src={itemIcon(row.itemId)}
+          alt=""
+          loading="lazy"
+          onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }}
+        />
+        <span className="eft-tile-qty">{row.done ? '✓' : row.short}</span>
+        {row.fir ? <span className="eft-tile-fir">FIR</span> : null}
+      </button>
+
+      <div className="eft-tile-name" title={row.name}>{row.name}</div>
+
+      <div className="eft-tile-count">
+        <span className="eft-tile-have">{row.have}/{row.needed}</span>
+        <Counter value={row.have} max={row.needed * 4} onChange={(n) => setHave(row.itemId, n)} />
+      </div>
+
+      <button
+        type="button"
+        className="eft-tile-all"
+        onClick={() => setHave(row.itemId, row.done ? 0 : row.needed)}
+      >
+        {row.done ? 'Clear' : 'Got it all'}
+      </button>
+
+      {/* Asides. Present, but visually subordinate to the picture and count. */}
+      <div className="eft-tile-aside">
+        {trader ? <span className="eft-chip eft-is-info">{trader.vendor} {fmtShort(trader.price)}</span> : null}
+        {row.item && !row.item.fleaAvailable ? <span className="eft-chip eft-is-unmet">No flea</span> : null}
+        {row.sources.slice(0, 3).map((s, i) => (
+          <span key={`${s.stationKey}-${s.level}-${i}`} className="eft-chip" title={`${s.stationName} level ${s.level} wants ${s.count}`}>
+            {s.stationName} {s.level}
+          </span>
+        ))}
+        {row.sources.length > 3 ? <span className="eft-chip">+{row.sources.length - 3}</span> : null}
+      </div>
+    </div>
   );
 }
 

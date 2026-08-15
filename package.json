@@ -12,7 +12,9 @@
     "test:watch": "vitest",
     "eft:snapshot": "node scripts/fetchEftHideout.mjs",
     "eft:markers": "node scripts/fetchEftMapMarkers.mjs",
-    "eft:mapconfig": "node scripts/buildEftMapConfig.mjs"
+    "eft:mapconfig": "node scripts/buildEftMapConfig.mjs",
+    "eft:quests": "node scripts/fetchEftQuests.mjs",
+    "eft:ammo": "node scripts/fetchEftAmmo.mjs"
   },
   "dependencies": {
     "firebase": "^12.14.0",
