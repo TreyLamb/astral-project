@@ -4,12 +4,12 @@ import { useEft } from '../eftContext';
 import {
   stationKey, pendingLevels, buildShoppingList, filterRows, groupRows, traderBeatsFlea,
 } from '../eftHideoutLogic';
-import { Stat, Seg, Panel, Counter, ItemCell, useItemDetail, fmtRub, fmtShort } from '../EftBits';
+import { Seg, Panel, Counter, ItemCell, useItemDetail, fmtRub, fmtShort } from '../EftBits';
 
 export default function ShoppingListView() {
   const {
     stations, items, levels, targets, disabled, inventory, prefs,
-    update, setPref, showToast, status, hasPrices,
+    update, setPref, showToast,
   } = useEft();
 
   const [stationFilter, setStationFilter] = useState('');
@@ -87,16 +87,7 @@ export default function ShoppingListView() {
 
   return (
     <>
-      <div className="eft-stats">
-        <Stat label="Distinct items" value={totals.items} sub={`${totals.complete} fully stocked`} />
-        <Stat label="Units still short" value={totals.unitsShort.toLocaleString('en-US')}
-          sub={`of ${totals.unitsNeeded.toLocaleString('en-US')} needed`} />
-        <Stat label="Cost remaining" value={fmtShort(totals.cost)} tone="gold"
-          sub={hasPrices ? 'flea, minus what you own' : 'no prices loaded'} />
-        <Stat label="Cost from scratch" value={fmtShort(totals.fullCost)} sub="ignoring your stash" />
-        <Stat label="Stocked" value={`${totals.percent}%`}
-          tone={totals.percent >= 100 ? 'green' : undefined} />
-      </div>
+
 
       <Panel
         title="Filters"

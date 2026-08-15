@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useEft } from '../eftContext';
 import {
-  Panel, Stat, Seg, EditableLines, fmtAgo,
+  Panel, Seg, EditableLines,
 } from '../EftBits';
 import { exportAll, importAll, resetAll } from '../eftStorage';
 import { SEED_HIDEOUT_NEEDS } from '../data/eftSeeds';
@@ -15,7 +15,7 @@ const LL_OPTIONS = [
 
 export default function SettingsView() {
   const {
-    profile, sights, traders, stations, status, update, reloadStore, showToast,
+    profile, sights, traders, stations, update, reloadStore, showToast,
   } = useEft();
 
   const [importText, setImportText] = useState('');
@@ -91,11 +91,7 @@ export default function SettingsView() {
   return (
     <>
       <Panel title="Data Source">
-        <div className="eft-stats">
-          <Stat label="Hideout data" value="game files" sub={fmtAgo(status.generatedAt)} />
-          <Stat label="Prices" value={status.pricesFetchedAt ? fmtAgo(status.pricesFetchedAt) : "none"} />
-          <Stat label="Last price error" value={status.priceError || 'none'} tone={status.priceError ? 'red' : 'green'} />
-        </div>
+
       </Panel>
 
       <Panel title="Profile">

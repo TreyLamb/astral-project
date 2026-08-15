@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useEft } from '../eftContext';
 import { stationKey, upgradeCandidates, suggestedBuildOrder } from '../eftHideoutLogic';
-import { Stat, Panel, fmtShort, fmtDuration } from '../EftBits';
+import { Panel, fmtShort, fmtDuration } from '../EftBits';
 
 export default function BuildOrderView() {
   const { stations, items, levels, targets, disabled, inventory, profile } = useEft();
@@ -38,17 +38,7 @@ export default function BuildOrderView() {
 
   return (
     <>
-      <div className="eft-stats">
-        <Stat label="Ready now" value={ready.length} tone={ready.length ? 'green' : undefined}
-          sub="every requirement met" />
-        <Stat label="Just needs shopping" value={shoppingAway.length} tone="gold"
-          sub="only items missing" />
-        <Stat label="Hard gated" value={gated.length} tone={gated.length ? 'red' : undefined}
-          sub="trader / skill / prereq" />
-        <Stat label="Planned steps" value={order.length}
-          sub={fmtDuration(runningTime)} />
-        <Stat label="Plan cost" value={fmtShort(runningCost)} sub="from scratch, ignoring stash" />
-      </div>
+
 
       <Panel title={`Buildable right now — ${ready.length}`}>
         {!ready.length ? (

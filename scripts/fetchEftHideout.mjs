@@ -33,7 +33,11 @@ const SPT = 'https://raw.githubusercontent.com/sp-tarkov/server/master/project/a
 
 // Fields the SPT fallback cannot fill, surfaced in the snapshot so the app can
 // say why something is blank rather than looking broken.
-const FALLBACK_GAPS = ['prices', 'crafts', 'bonusNames', 'itemSize', 'backgroundColor'];
+//
+// 'crafts' used to be on this list. It isn't any more: BSG's own
+// hideout/production.json carries every recipe, so crafts are now built from the
+// game files like everything else and no longer depend on tarkov.dev being up.
+const FALLBACK_GAPS = ['prices', 'bonusNames', 'itemSize', 'backgroundColor'];
 const FALLBACK_FIELDS_LABEL = FALLBACK_GAPS.join(', ');
 
 // SPT areas.json keys stations by a numeric enum. tarkov.dev keys them by name.
@@ -100,10 +104,11 @@ async function fromTarkovDev() {
 // ---------------------------------------------------------------------------
 
 async function fromSpt() {
-  const [areas, locale, handbook] = await Promise.all([
+  const [areas, locale, handbook, production] = await Promise.all([
     getJson(`${SPT}/hideout/areas.json`),
     getJson(`${SPT}/locales/global/en.json`),
     getJson(`${SPT}/templates/handbook.json`),
+    getJson(`${SPT}/hideout/production.json`),
   ]);
 
   const hbPrice = new Map((handbook.Items || []).map((i) => [i.Id, i.Price]));
@@ -131,6 +136,65 @@ async function fromSpt() {
     }
     return templateId;
   };
+
+  // --- Crafts, straight from BSG's production table -------------------------
+  //
+  // A recipe is `requirements[]` -> one `endProduct` x `count`, run in
+  // `areaType` at `requiredLevel`. Four requirement kinds matter to us:
+  //   Item          consumed input
+  //   Tool          needed in the stash but NOT consumed — the distinction is
+  //                 the whole point of a crafting graph, so it is kept separate
+  //   Area          which station, and at what level
+  //   QuestComplete recipe is locked until a quest is done
+  // `Resource` (fuel/filter durability) and `GameVersion` (Edge of Darkness
+  // exclusives) are carried through as flags rather than dropped.
+  const craftsByArea = new Map();
+  for (const r of production.recipes || []) {
+    const reqs = r.requirements || [];
+    const area = reqs.find((q) => q.type === 'Area');
+    const areaType = area?.areaType ?? r.areaType;
+    if (!AREA_NAMES[areaType]) continue;
+
+    const craft = {
+      id: r._id,
+      level: area?.requiredLevel ?? 1,
+      duration: Math.round(r.productionTime || 0),
+      requiredItems: reqs
+        .filter((q) => q.type === 'Item' && q.templateId)
+        .map((q) => ({
+          itemId: keepItem(q.templateId),
+          name: locale[`${q.templateId} Name`] || q.templateId,
+          count: q.count || 1,
+          foundInRaid: !!q.isSpawnedInSession,
+        })),
+      rewardItems: [{
+        itemId: keepItem(r.endProduct),
+        name: locale[`${r.endProduct} Name`] || r.endProduct,
+        count: r.count || 1,
+      }],
+      tools: reqs
+        .filter((q) => q.type === 'Tool' && q.templateId)
+        .map((q) => ({
+          itemId: keepItem(q.templateId),
+          name: locale[`${q.templateId} Name`] || q.templateId,
+        })),
+      resources: reqs
+        .filter((q) => q.type === 'Resource' && q.templateId)
+        .map((q) => ({
+          itemId: keepItem(q.templateId),
+          name: locale[`${q.templateId} Name`] || q.templateId,
+          resource: q.resource ?? q.count ?? 0,
+        })),
+      questIds: reqs.filter((q) => q.type === 'QuestComplete').map((q) => q.questId),
+      gameVersion: reqs.find((q) => q.type === 'GameVersion')?.gameVersion ?? null,
+      continuous: !!r.continuous,
+      locked: !!r.locked,
+      limitPerRun: r.productionLimitCount || 0,
+    };
+
+    if (!craftsByArea.has(areaType)) craftsByArea.set(areaType, []);
+    craftsByArea.get(areaType).push(craft);
+  }
 
   const stations = areas
     .filter((a) => AREA_NAMES[a.type])
@@ -180,7 +244,8 @@ async function fromSpt() {
         });
       return {
         id: a._id, name, normalizedName: slug(name),
-        imageLink: null, levels, crafts: [],
+        imageLink: null, levels,
+        crafts: (craftsByArea.get(a.type) || []).sort((x, y) => x.level - y.level),
       };
     });
 
@@ -194,10 +259,24 @@ async function fromSpt() {
     if (n > 1) { st.name = `${st.name} ${n}`; st.normalizedName = slug(st.name); }
   }
 
+  // The Christmas Tree (areaType 21) has recipes but no entry in areas.json —
+  // it is a seasonal area with no build stages. Dropping its 17 recipes on the
+  // floor would silently lose real craft data, so anything whose area has no
+  // station is carried here instead and picked up by the crafting graph.
+  const attached = new Set(stations.flatMap((s) => s.crafts.map((c) => c.id)));
+  const extraCrafts = [...craftsByArea.entries()]
+    .map(([areaType, list]) => ({
+      stationName: AREA_NAMES[areaType],
+      stationKey: slug(AREA_NAMES[areaType]),
+      crafts: list.filter((c) => !attached.has(c.id)),
+    }))
+    .filter((g) => g.crafts.length);
+
   return {
     source: 'game-files',
     gaps: FALLBACK_GAPS,
     stations,
+    extraCrafts,
     items,
     traders: Object.entries(TRADER_NAMES).map(([id, name]) => ({
       id, name, normalizedName: slug(name), imageLink: null,
@@ -241,7 +320,10 @@ function enrich(base, live) {
     const match = liveByKey.get(station.normalizedName);
     if (!match) continue;
     if (match.imageLink) station.imageLink = match.imageLink;
-    if (match.crafts?.length) {
+    // Crafts come from the game files now, and those are authoritative for
+    // recipe structure exactly like every other requirement list. tarkov.dev's
+    // copy only fills in for a station the game files had nothing for.
+    if (!station.crafts?.length && match.crafts?.length) {
       station.crafts = match.crafts;
       craftsAdded += match.crafts.length;
     }
@@ -300,6 +382,8 @@ async function main() {
     `  stations   ${snapshot.stations.length}\n` +
     `  levels     ${snapshot.stations.reduce((n, s) => n + s.levels.length, 0)}\n` +
     `  items      ${Object.keys(snapshot.items).length}\n` +
+    `  crafts     ${snapshot.stations.reduce((n, s) => n + s.crafts.length, 0)}` +
+    `${snapshot.extraCrafts?.length ? ` (+${snapshot.extraCrafts.reduce((n, g) => n + g.crafts.length, 0)} unstationed)` : ''}\n` +
     `  ammo       ${snapshot.ammo.length}\n` +
     `  provisions ${snapshot.provisions.length}`,
   );

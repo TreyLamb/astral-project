@@ -86,7 +86,7 @@ function sortByMetric(rows, sort) {
 
 export default function FoodTierView() {
   const {
-    provisions, items, foodTier, update, status, hasPrices,
+    provisions, items, foodTier, update,
   } = useEft();
   const [mode, setMode] = useState('live');
   const [sort, setSort] = useState('price');
@@ -138,15 +138,9 @@ export default function FoodTierView() {
     name: 'New item', match: '', price: 0, slots: 1,
   }]);
 
-  const best = sortedLive[0];
-
   return (
     <>
-      <div className="eft-stats">
-        <Stat label="Live foods/drinks" value={liveRows.length} sub={hasPrices ? undefined : 'needs live prices'} />
-        <Stat label="Best ₽ / slot" value={best ? fmtRub(best.pricePerSlot) : '—'} sub={best?.item.shortName} tone="gold" />
-        <Stat label="My sheet rows" value={foodTier.length} />
-      </div>
+
 
       <Panel
         title="Food &amp; Hydration Tier"

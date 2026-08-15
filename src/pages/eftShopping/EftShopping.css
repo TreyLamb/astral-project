@@ -46,7 +46,7 @@
     radial-gradient(120% 80% at 50% 0%, #17170f 0%, var(--eft-bg) 70%);
   color: var(--eft-text);
   font-family: var(--eft-cond);
-  font-size: 14px;
+  font-size: 17.5px;
   letter-spacing: 0.01em;
 }
 
@@ -74,27 +74,30 @@
 
 /* ---------- Shell ---------- */
 
-.eft-shell { max-width: 1500px; margin: 0 auto; padding: 0 18px 64px; }
+/* Full window, 8px gutters. No max-width, no auto margins — see webdesign.md §1.
+   A tool page uses the whole display; if content doesn't fill it, widen the
+   grids, don't pad the sides. */
+.eft-shell { width: 100%; padding: 0 8px 64px; }
 
 .eft-topbar {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
   flex-wrap: wrap;
-  padding: 16px 0 12px;
+  padding: 20px 0 15px;
   border-bottom: 1px solid var(--eft-line);
 }
 
 .eft-brand {
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  gap: 12.5px;
   margin-right: auto;
 }
 
 .eft-brand h1 {
   margin: 0;
-  font-size: 21px;
+  font-size: 26.3px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -102,7 +105,7 @@
 }
 
 .eft-brand span {
-  font-size: 11px;
+  font-size: 13.8px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--eft-text-faint);
@@ -113,13 +116,13 @@
 .eft-modeswitch { display: flex; border: 1px solid var(--eft-line-bright); }
 
 .eft-modeswitch button {
-  padding: 5px 14px;
+  padding: 6.3px 17.5px;
   background: transparent;
   border: 0;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  font-size: 11px;
+  font-size: 13.8px;
   color: var(--eft-text-dim);
 }
 
@@ -137,8 +140,8 @@
 .eft-status {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 11px;
+  gap: 10px;
+  font-size: 13.8px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--eft-text-faint);
@@ -157,11 +160,11 @@
 
 .eft-banner {
   margin: 12px 0 0;
-  padding: 9px 14px;
+  padding: 11.3px 17.5px;
   border: 1px solid var(--eft-line-bright);
   border-left: 3px solid var(--eft-orange);
   background: rgba(192, 139, 74, 0.07);
-  font-size: 12.5px;
+  font-size: 15.6px;
   color: var(--eft-text-dim);
 }
 
@@ -171,14 +174,14 @@
 
 .eft-tabs {
   display: flex;
-  gap: 2px;
+  gap: 2.5px;
   flex-wrap: wrap;
   margin: 14px 0 18px;
   border-bottom: 1px solid var(--eft-line);
 }
 
 .eft-tab {
-  padding: 8px 15px;
+  padding: 10px 18.8px;
   background: transparent;
   border: 1px solid transparent;
   border-bottom: 0;
@@ -186,7 +189,7 @@
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 0.13em;
-  font-size: 11.5px;
+  font-size: 14.4px;
   cursor: pointer;
   position: relative;
   top: 1px;
@@ -212,9 +215,9 @@
 .eft-panel-head {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 15px;
   flex-wrap: wrap;
-  padding: 9px 14px;
+  padding: 11.3px 17.5px;
   border-bottom: 1px solid var(--eft-line);
   background: var(--eft-panel-2);
   background-image: repeating-linear-gradient(
@@ -227,7 +230,7 @@
 .eft-panel-head h2,
 .eft-panel-head h3 {
   margin: 0;
-  font-size: 12.5px;
+  font-size: 15.6px;
   font-weight: 600;
   letter-spacing: 0.17em;
   text-transform: uppercase;
@@ -242,14 +245,14 @@
 /* ---------- Buttons ---------- */
 
 .eft-btn {
-  padding: 6px 13px;
+  padding: 7.5px 16.3px;
   background: var(--eft-raised);
   border: 1px solid var(--eft-line-bright);
   color: var(--eft-text);
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  font-size: 11px;
+  font-size: 13.8px;
   transition: background 0.12s, color 0.12s, border-color 0.12s;
 }
 
@@ -278,7 +281,7 @@
   color: var(--eft-gold);
 }
 
-.eft-btn-sm { padding: 3px 8px; font-size: 10px; letter-spacing: 0.1em; }
+.eft-btn-sm { padding: 3px 8px; font-size: 12.5px; letter-spacing: 0.1em; }
 
 .eft-iconbtn {
   width: 22px;
@@ -291,7 +294,7 @@
   border: 1px solid var(--eft-line-bright);
   color: var(--eft-text-dim);
   cursor: pointer;
-  font-size: 13px;
+  font-size: 16.3px;
   line-height: 1;
 }
 
@@ -303,7 +306,7 @@
 .eft-input,
 .eft-select,
 .eft-textarea {
-  padding: 5px 9px;
+  padding: 6.3px 11.3px;
   background: #0f0f0c;
   border: 1px solid var(--eft-line-bright);
   color: var(--eft-text);
@@ -323,7 +326,7 @@
 
 .eft-field label,
 .eft-label {
-  font-size: 10px;
+  font-size: 12.5px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--eft-text-faint);
@@ -332,16 +335,16 @@
 .eft-controls {
   display: flex;
   align-items: flex-end;
-  gap: 10px;
+  gap: 12.5px;
   flex-wrap: wrap;
 }
 
 .eft-checkline {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8.8px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 15px;
   color: var(--eft-text-dim);
 }
 
@@ -353,14 +356,14 @@
 .eft-seg { display: inline-flex; border: 1px solid var(--eft-line-bright); }
 
 .eft-seg button {
-  padding: 5px 12px;
+  padding: 6.3px 15px;
   background: transparent;
   border: 0;
   cursor: pointer;
   color: var(--eft-text-dim);
   text-transform: uppercase;
   letter-spacing: 0.11em;
-  font-size: 10.5px;
+  font-size: 13.1px;
 }
 
 .eft-seg button + button { border-left: 1px solid var(--eft-line-bright); }
@@ -377,7 +380,7 @@
 .eft-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
-  gap: 1px;
+  gap: 1.3px;
   background: var(--eft-line);
   border: 1px solid var(--eft-line);
   margin-bottom: 16px;
@@ -386,7 +389,7 @@
 .eft-stat { background: var(--eft-panel); padding: 11px 14px; }
 
 .eft-stat-label {
-  font-size: 9.5px;
+  font-size: 11.9px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--eft-text-faint);
@@ -394,7 +397,7 @@
 }
 
 .eft-stat-value {
-  font-size: 19px;
+  font-size: 23.8px;
   font-family: var(--eft-mono);
   color: var(--eft-tan-bright);
   line-height: 1.1;
@@ -403,7 +406,7 @@
 .eft-stat-value.eft-is-gold { color: var(--eft-gold); }
 .eft-stat-value.eft-is-green { color: var(--eft-green); }
 .eft-stat-value.eft-is-red { color: var(--eft-red); }
-.eft-stat-sub { font-size: 10.5px; color: var(--eft-text-faint); margin-top: 3px; }
+.eft-stat-sub { font-size: 13.1px; color: var(--eft-text-faint); margin-top: 3px; }
 
 /* ---------- Progress ---------- */
 
@@ -413,20 +416,31 @@
 
 /* ---------- Station grid ---------- */
 
+/* Five across, and it stays five across — the cards are a fixed set of 27, so
+   an auto-fill grid just made the row count wander with the window. Steps down
+   only when five would genuinely not fit. */
 .eft-station-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12.5px;
 }
+
+/* The one place with a visible gutter rather than the 8px shell edge: a wall of
+   cards running into the window edge reads as clipped. */
+.eft-hideout { padding: 0 14px; }
+
+@media (max-width: 1500px) { .eft-station-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 1180px) { .eft-station-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 880px) { .eft-station-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 .eft-station {
   background: var(--eft-panel);
   border: 1px solid var(--eft-line);
   border-top: 2px solid var(--eft-line-bright);
-  padding: 11px 12px 12px;
+  padding: 13.8px 15px 15px;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 11.3px;
   position: relative;
 }
 
@@ -456,7 +470,7 @@
 }
 
 .eft-station-name {
-  font-size: 13px;
+  font-size: 16.3px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -471,13 +485,13 @@
 
 .eft-levelpick button {
   min-width: 26px;
-  padding: 3px 0;
+  padding: 3.8px 0;
   background: #0f0f0c;
   border: 1px solid var(--eft-line-bright);
   color: var(--eft-text-faint);
   cursor: pointer;
   font-family: var(--eft-mono);
-  font-size: 11px;
+  font-size: 13.8px;
 }
 
 .eft-levelpick button:hover { color: var(--eft-tan-bright); border-color: var(--eft-tan); }
@@ -496,8 +510,8 @@
 .eft-station-meta {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
-  font-size: 10.5px;
+  gap: 10px;
+  font-size: 13.1px;
   color: var(--eft-text-faint);
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -510,11 +524,11 @@
 .eft-chip {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 1px 6px;
+  gap: 5px;
+  padding: 1.3px 7.5px;
   border: 1px solid var(--eft-line-bright);
   background: #0f0f0c;
-  font-size: 10px;
+  font-size: 12.5px;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--eft-text-dim);
@@ -530,14 +544,14 @@
 
 .eft-tablewrap { overflow-x: auto; }
 
-.eft-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.eft-table { width: 100%; border-collapse: collapse; font-size: 16.3px; }
 
 .eft-table th {
   text-align: left;
-  padding: 7px 10px;
+  padding: 8.8px 12.5px;
   border-bottom: 1px solid var(--eft-line-bright);
   background: var(--eft-panel-2);
-  font-size: 10px;
+  font-size: 12.5px;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -555,7 +569,7 @@
 
 .eft-group-row td {
   background: var(--eft-panel-2);
-  font-size: 10.5px;
+  font-size: 13.1px;
   letter-spacing: 0.17em;
   text-transform: uppercase;
   color: var(--eft-tan);
@@ -577,7 +591,7 @@
 }
 
 .eft-item-name { line-height: 1.25; }
-.eft-item-sub { font-size: 10.5px; color: var(--eft-text-faint); }
+.eft-item-sub { font-size: 13.1px; color: var(--eft-text-faint); }
 
 /* BSG item background colours — how loot is colour-coded in the stash grid. */
 .eft-bg-default { background: #24211d; }
@@ -600,7 +614,7 @@
 .eft-counter input {
   width: 52px;
   text-align: center;
-  padding: 2px 4px;
+  padding: 2.5px 5px;
   background: #0f0f0c;
   border: 1px solid var(--eft-line-bright);
   color: var(--eft-text);
@@ -615,18 +629,18 @@
 .eft-cols {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 10px;
+  gap: 12.5px;
 }
 
 .eft-card {
   background: var(--eft-panel);
   border: 1px solid var(--eft-line);
-  padding: 11px 12px;
+  padding: 13.8px 15px;
 }
 
 .eft-card h4 {
   margin: 0 0 8px;
-  font-size: 11.5px;
+  font-size: 14.4px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--eft-tan-bright);
@@ -637,9 +651,9 @@
 .eft-linelist li {
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 3px 0;
-  font-size: 12.5px;
+  gap: 8.8px;
+  padding: 3.8px 0;
+  font-size: 15.6px;
   border-bottom: 1px dashed rgba(46, 45, 36, 0.9);
 }
 
@@ -648,24 +662,24 @@
 .eft-linelist .eft-line-text { flex: 1; }
 .eft-linelist li.eft-is-checked .eft-line-text { color: var(--eft-text-faint); text-decoration: line-through; }
 
-.eft-note { font-size: 12px; color: var(--eft-text-dim); line-height: 1.55; }
+.eft-note { font-size: 15px; color: var(--eft-text-dim); line-height: 1.55; }
 .eft-note-star { color: var(--eft-tan); }
 
 .eft-empty {
-  padding: 28px 16px;
+  padding: 35px 20px;
   text-align: center;
   color: var(--eft-text-faint);
-  font-size: 12.5px;
+  font-size: 15.6px;
   letter-spacing: 0.06em;
 }
 
 .eft-added-flag {
-  font-size: 9px;
+  font-size: 11.3px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--eft-blue);
   border: 1px solid rgba(109, 139, 163, 0.4);
-  padding: 0 4px;
+  padding: 0 5px;
 }
 
 /* ---------- Ammo ---------- */
@@ -673,13 +687,13 @@
 .eft-ammo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 10px;
+  gap: 12.5px;
 }
 
 .eft-ammo-tier { display: grid; grid-template-columns: 74px 1fr; gap: 5px 9px; align-items: baseline; }
 
 .eft-tier-label {
-  font-size: 10px;
+  font-size: 12.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   text-align: right;
@@ -688,15 +702,15 @@
 .eft-tier-best { color: var(--eft-green); }
 .eft-tier-garbage { color: var(--eft-red); }
 .eft-tier-else { color: var(--eft-text-faint); }
-.eft-tier-value { font-size: 12.5px; }
+.eft-tier-value { font-size: 15.6px; }
 
 .eft-pen {
   display: inline-block;
   min-width: 24px;
   text-align: center;
   font-family: var(--eft-mono);
-  font-size: 11px;
-  padding: 0 4px;
+  font-size: 13.8px;
+  padding: 0 5px;
   border: 1px solid var(--eft-line-bright);
 }
 
@@ -710,10 +724,10 @@
 /* ---------- Verdicts ---------- */
 
 .eft-verdict {
-  padding: 12px 16px;
+  padding: 15px 20px;
   border: 1px solid var(--eft-line-bright);
   border-left-width: 4px;
-  font-size: 17px;
+  font-size: 21.3px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 600;
@@ -734,11 +748,11 @@
   bottom: 26px;
   transform: translateX(-50%);
   z-index: 60;
-  padding: 9px 20px;
+  padding: 11.3px 25px;
   background: var(--eft-panel-2);
   border: 1px solid var(--eft-tan);
   color: var(--eft-tan-bright);
-  font-size: 12px;
+  font-size: 15px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -753,7 +767,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 25px;
 }
 
 .eft-modal {
@@ -774,13 +788,14 @@
 /* ---------- Responsive ---------- */
 
 @media (max-width: 720px) {
-  .eft-shell { padding: 0 10px 48px; }
-  .eft-brand h1 { font-size: 17px; }
+  .eft-shell { padding: 0 6px 48px; }
+  .eft-brand h1 { font-size: 21.3px; }
   .eft-station-grid { grid-template-columns: 1fr; }
-  .eft-table { font-size: 12px; }
+  .eft-hideout { padding: 0 4px; }
+  .eft-table { font-size: 15px; }
   .eft-table th, .eft-table td { padding: 5px 7px; }
   .eft-item { min-width: 150px; }
-  .eft-tab { padding: 7px 10px; font-size: 10.5px; }
+  .eft-tab { padding: 7px 10px; font-size: 13.1px; }
 }
 
 /* ---------- Print ---------- */
@@ -815,12 +830,12 @@
   align-items: center;
   justify-content: center;
   min-height: 55vh;
-  padding: 20px;
+  padding: 25px;
 }
 
 .eft-map-gate-box {
   width: min(320px, 100%);
-  padding: 22px;
+  padding: 27.5px;
   background: var(--eft-panel);
   border: 1px solid var(--eft-line-bright);
   border-top: 2px solid var(--eft-tan);
@@ -832,7 +847,7 @@
 .eft-map-layout {
   display: grid;
   grid-template-columns: 1fr 290px;
-  gap: 12px;
+  gap: 15px;
   align-items: start;
 }
 
@@ -858,9 +873,9 @@
 .eft-map-group-head {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 2px 12px 5px;
-  font-size: 10px;
+  gap: 10px;
+  padding: 2.5px 15px 6.3px;
+  font-size: 12.5px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--eft-tan);
@@ -882,7 +897,7 @@
 
 .eft-cat-icon {
   font-family: 'eft-mapicons';
-  font-size: 13px;
+  font-size: 16.3px;
   line-height: 1;
   width: 15px;
   text-align: center;
@@ -902,25 +917,25 @@
   z-index: 700;
   transform: translate(14px, -50%);
   max-width: 240px;
-  padding: 5px 8px;
+  padding: 6.3px 10px;
   background: var(--eft-panel-2);
   border: 1px solid var(--eft-line-bright);
   color: var(--eft-text);
-  font-size: 12px;
+  font-size: 15px;
   pointer-events: none;
 }
 
 .eft-map-tip strong { display: block; color: var(--eft-gold); }
 .eft-map-tip span { display: block; margin-top: 2px; }
-.eft-map-tip em { display: block; margin-top: 3px; color: var(--eft-text-dim); font-size: 11px; }
+.eft-map-tip em { display: block; margin-top: 3px; color: var(--eft-text-dim); font-size: 13.8px; }
 
 .eft-app .eft-map-label {
   white-space: nowrap;
-  padding: 1px 5px;
+  padding: 1.3px 6.3px;
   background: rgba(13, 13, 11, 0.82);
   border: 1px solid var(--eft-line-bright);
   color: var(--eft-text);
-  font-size: 11px;
+  font-size: 13.8px;
   width: auto !important;
   height: auto !important;
 }
@@ -933,23 +948,23 @@
   bottom: 10px;
   z-index: 700;
   max-width: 60%;
-  padding: 7px 10px;
+  padding: 8.8px 12.5px;
   background: rgba(13, 13, 11, 0.9);
   border: 1px solid var(--eft-gold);
   color: var(--eft-text);
-  font-size: 12px;
+  font-size: 15px;
   pointer-events: none;
 }
 
 .eft-map-hint kbd {
   display: inline-block;
-  padding: 0 4px;
+  padding: 0 5px;
   margin: 0 1px;
   border: 1px solid var(--eft-line-bright);
   background: var(--eft-raised);
   color: var(--eft-gold);
   font-family: var(--eft-mono, monospace);
-  font-size: 11px;
+  font-size: 13.8px;
 }
 
 .eft-map-hint b { color: var(--eft-gold); }
@@ -957,7 +972,7 @@
 .eft-row-card {
   border: 1px solid var(--eft-line);
   border-left: 3px solid var(--eft-tan);
-  padding: 7px 9px;
+  padding: 8.8px 11.3px;
   margin-bottom: 6px;
   background: var(--eft-panel-2);
 }
@@ -967,7 +982,7 @@
 .eft-row-card-head {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7.5px;
   margin-bottom: 5px;
 }
 
@@ -990,10 +1005,10 @@
 .eft-manifest-row {
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 3px 0;
+  gap: 8.8px;
+  padding: 3.8px 0;
   border-bottom: 1px solid var(--eft-line);
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .eft-manifest-row .eft-line-text { flex: 1; }
@@ -1014,7 +1029,7 @@
   color: var(--eft-text);
   border-radius: 0;
   box-shadow: none;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .eft-app .leaflet-tooltip-top::before { border-top-color: var(--eft-line-bright); }
@@ -1027,7 +1042,7 @@
   .eft-map-filters { max-height: 40vh; }
 }
 
-.eft-input-sm { padding: 2px 6px; font-size: 11px; }
+.eft-input-sm { padding: 2px 6px; font-size: 13.8px; }
 
 /* ---------- Full-viewport map layout ----------
    webdesign.md §1: the working surface gets the window; chrome floats over it
@@ -1055,8 +1070,8 @@
   height: 34px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 0 8px;
+  gap: 12.5px;
+  padding: 0 10px;
   background: var(--eft-panel);
   border-bottom: 1px solid var(--eft-line-bright);
   position: relative;
@@ -1066,7 +1081,7 @@
 .eft-hublink {
   color: var(--eft-tan);
   text-decoration: none;
-  font-size: 11px;
+  font-size: 13.8px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -1076,7 +1091,7 @@
 
 .eft-mapbar-title {
   margin-left: auto;
-  font-size: 10.5px;
+  font-size: 13.1px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--eft-text-faint);
@@ -1090,7 +1105,7 @@
   right: 0;
   z-index: 1150;
   margin: 0;
-  padding: 4px 8px;
+  padding: 5px 10px;
   background: var(--eft-panel);
   border-bottom: 1px solid var(--eft-line-bright);
 }
@@ -1123,9 +1138,9 @@
   left: 8px;
   z-index: 1000;
   display: flex;
-  gap: 5px;
+  gap: 6.3px;
   align-items: center;
-  padding: 4px;
+  padding: 5px;
   background: rgba(13, 13, 11, 0.85);
   border: 1px solid var(--eft-line-bright);
 }
@@ -1138,7 +1153,7 @@
   width: min(520px, calc(100vw - 32px));
   max-height: calc(100% - 60px);
   overflow-y: auto;
-  padding: 10px;
+  padding: 12.5px;
   background: rgba(13, 13, 11, 0.96);
   border: 1px solid var(--eft-line-bright);
 }
@@ -1146,7 +1161,7 @@
 .eft-map-menu-head {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 8px;
 }
 
@@ -1162,8 +1177,8 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding-right: 2px;
+  gap: 10px;
+  padding-right: 2.5px;
 }
 
 .eft-map-rail .eft-panel {
@@ -1178,7 +1193,7 @@
   bottom: 8px;
   z-index: 1000;
   display: flex;
-  gap: 1px;
+  gap: 1.3px;
   background: var(--eft-line);
   border: 1px solid var(--eft-line-bright);
   max-width: calc(100% - 340px);
@@ -1186,7 +1201,7 @@
 }
 
 .eft-map-stats .eft-stat { background: rgba(13, 13, 11, 0.94); padding: 6px 10px; }
-.eft-map-stats .eft-stat-value { font-size: 15px; }
+.eft-map-stats .eft-stat-value { font-size: 18.8px; }
 
 .eft-map-callout {
   position: absolute;
@@ -1195,10 +1210,10 @@
   transform: translateX(-50%);
   z-index: 1000;
   width: min(560px, calc(100vw - 32px));
-  padding: 9px 14px;
+  padding: 11.3px 17.5px;
   background: rgba(13, 13, 11, 0.95);
   border: 1px solid var(--eft-orange);
-  font-size: 12.5px;
+  font-size: 15.6px;
   color: var(--eft-text-dim);
 }
 
@@ -1210,7 +1225,7 @@
 .eft-panel-toggle {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8.8px;
   flex: 1;
   padding: 0;
   background: none;
@@ -1219,7 +1234,7 @@
   text-align: left;
 }
 
-.eft-panel-toggle .eft-caret { color: var(--eft-tan); font-size: 10px; }
+.eft-panel-toggle .eft-caret { color: var(--eft-tan); font-size: 12.5px; }
 .eft-panel-toggle:hover h2 { color: var(--eft-gold); }
 .eft-panel.eft-is-closed .eft-panel-head { border-bottom: 0; }
 
@@ -1237,7 +1252,7 @@
   z-index: 2000;
   min-width: 190px;
   max-width: 260px;
-  padding: 5px 0;
+  padding: 6.3px 0;
   background: var(--eft-panel-2);
   border: 1px solid var(--eft-gold);
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
@@ -1246,16 +1261,16 @@
 .eft-ctxmenu-head {
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 4px 10px 6px;
+  gap: 8.8px;
+  padding: 5px 12.5px 7.5px;
   border-bottom: 1px solid var(--eft-line);
   color: var(--eft-tan-bright);
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .eft-ctxmenu-label {
-  padding: 6px 10px 3px;
-  font-size: 9.5px;
+  padding: 7.5px 12.5px 3.8px;
+  font-size: 11.9px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--eft-text-faint);
@@ -1264,15 +1279,691 @@
 .eft-ctxmenu-item {
   display: block;
   width: 100%;
-  padding: 5px 10px;
+  padding: 6.3px 12.5px;
   background: none;
   border: 0;
   text-align: left;
   color: var(--eft-text);
-  font-size: 12px;
+  font-size: 15px;
   cursor: pointer;
 }
 
 .eft-ctxmenu-item:hover:not(:disabled) { background: var(--eft-raised); color: var(--eft-gold); }
 .eft-ctxmenu-item:disabled { opacity: 0.45; cursor: not-allowed; }
 .eft-ctxmenu-item.eft-is-new { border-top: 1px solid var(--eft-line); margin-top: 4px; color: var(--eft-tan); }
+
+/* ---------- Craft tree (flow chart) ---------- */
+/*
+ * A working surface, so it fills the tab: the canvas takes whatever height is
+ * left under the topbar rather than growing a page-length scroll. Chrome
+ * (controls, detail rail) folds away — webdesign.md §1–§2.
+ */
+
+.eft-ct {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Height comes from the view, which measures what the window has left under
+     the tabs — the price banner above it changes that. This is the fallback
+     for the first frame. */
+  height: calc(100vh - 210px);
+  min-height: 430px;
+  padding-top: 12.5px;
+}
+
+/* The shell's usual 64px bottom gutter would push the legend off the bottom of
+   a view that is deliberately sized to the window. */
+.eft-shell:has(.eft-ct) { padding-bottom: 10px; }
+
+.eft-ct-controls {
+  display: flex;
+  align-items: center;
+  gap: 12.5px 17.5px;
+  flex-wrap: wrap;
+  padding: 10px 12.5px;
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line);
+}
+
+.eft-ct-fold {
+  background: none;
+  border: 0;
+  color: var(--eft-tan-bright);
+  font-family: var(--eft-cond);
+  font-size: 13.8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 2.5px 0;
+}
+
+.eft-ct-picker { display: flex; gap: 6px; flex-wrap: wrap; }
+.eft-ct-picker .eft-input { min-width: 160px; }
+.eft-ct-picker select { max-width: 340px; }
+
+.eft-ct-toggle {
+  display: flex;
+  align-items: center;
+  gap: 7.5px;
+  font-size: 13.8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--eft-text-dim);
+  white-space: nowrap;
+}
+
+.eft-ct-toggle input[type="range"] { width: 82px; accent-color: var(--eft-tan); }
+.eft-ct-num { font-family: var(--eft-mono); color: var(--eft-tan-bright); }
+.eft-ct-btns { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+
+.eft-ct-body {
+  position: relative;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 318px;
+  gap: 10px;
+  min-height: 0;
+}
+
+.eft-ct.eft-no-detail .eft-ct-body { grid-template-columns: 1fr; }
+
+.eft-ct-canvas {
+  position: relative;
+  overflow: auto;
+  background:
+    linear-gradient(rgba(154, 136, 102, 0.035) 1px, transparent 1px) 0 0 / 100% 28px,
+    var(--eft-bg-2);
+  border: 1px solid var(--eft-line);
+  cursor: grab;
+  touch-action: none;
+}
+
+.eft-ct-canvas.eft-is-panning { cursor: grabbing; }
+
+.eft-ct-blank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--eft-text-faint);
+  font-size: 16.3px;
+  cursor: default;
+}
+
+.eft-ct-world { position: relative; }
+.eft-ct-scale { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+
+.eft-ct-edges { position: absolute; top: 0; left: 0; pointer-events: none; overflow: visible; }
+.eft-ct-edge { fill: none; stroke: var(--eft-line-bright); stroke-width: 1.4; }
+.eft-ct-edge.eft-is-tool { stroke: var(--eft-blue); stroke-dasharray: 3 3; opacity: 0.7; }
+
+/* The tree's title doubles as its fold control. */
+.eft-ct-band {
+  position: absolute;
+  left: 6px;
+  padding: 0;
+  background: none;
+  border: 0;
+  font-family: var(--eft-cond);
+  font-size: 12.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--eft-text-faint);
+  cursor: pointer;
+}
+
+.eft-ct-band:hover { color: var(--eft-gold); }
+
+/* --- nodes --- */
+
+.eft-ct-node {
+  position: absolute;
+  display: flex;
+  align-items: stretch;
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line-bright);
+  box-sizing: border-box;
+}
+
+.eft-ct-node.eft-is-selected { border-color: var(--eft-gold); }
+.eft-ct-node.eft-is-folded { border-style: dashed; }
+
+.eft-ct-item.eft-is-craftable { border-left: 3px solid var(--eft-green); }
+.eft-ct-item.eft-is-raw { border-left: 3px solid var(--eft-line-bright); }
+.eft-ct-item.eft-is-tool { border-left: 3px solid var(--eft-blue); }
+.eft-ct-item.eft-is-cycle { border-left: 3px solid var(--eft-red); opacity: 0.75; }
+
+.eft-ct-craft {
+  background: var(--eft-panel-2);
+  border-left: 3px solid var(--eft-orange);
+}
+
+.eft-ct-craft.eft-is-locked { border-left-color: var(--eft-red); }
+
+.eft-ct-hit {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 7.5px;
+  min-width: 0;
+  padding: 0 7.5px;
+  background: none;
+  border: 0;
+  color: var(--eft-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.eft-ct-hit:hover { background: rgba(224, 192, 122, 0.07); }
+
+/* A real button with a border. The first version was a bare 9px glyph inside
+   the node and nobody could tell it was the fold control. */
+.eft-ct-caret {
+  flex: none;
+  width: 22px;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: var(--eft-raised);
+  border: 0;
+  border-right: 1px solid var(--eft-line-bright);
+  color: var(--eft-tan-bright);
+  font-family: var(--eft-mono);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.eft-ct-caret:hover { background: var(--eft-tan); color: #14140f; }
+.eft-ct-caret.eft-is-leaf { background: transparent; cursor: default; }
+
+.eft-ct-hidden {
+  flex: none;
+  padding: 0 4px;
+  font-family: var(--eft-mono);
+  font-size: 12px;
+  color: #14140f;
+  background: var(--eft-tan);
+}
+
+.eft-ct-icon {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  object-fit: contain;
+  background: #24211d;
+  border: 1px solid var(--eft-line);
+}
+
+.eft-ct-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 15px;
+  line-height: 1.15;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.eft-ct-count {
+  flex: none;
+  font-family: var(--eft-mono);
+  font-size: 13.8px;
+  color: var(--eft-gold);
+}
+
+.eft-ct-focus {
+  flex: none;
+  width: 25px;
+  background: none;
+  border: 0;
+  border-left: 1px solid var(--eft-line);
+  color: var(--eft-text-faint);
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.eft-ct-focus:hover { color: var(--eft-gold); background: var(--eft-raised); }
+
+.eft-ct-craftbody { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+
+.eft-ct-station {
+  font-family: var(--eft-cond);
+  font-size: 13.8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--eft-tan-bright);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eft-ct-time { font-family: var(--eft-mono); font-size: 12.5px; color: var(--eft-text-faint); }
+
+.eft-ct-flag {
+  position: absolute;
+  right: 22px;
+  bottom: -1px;
+  font-size: 10.6px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--eft-blue);
+  background: var(--eft-bg-2);
+  padding: 0 3.8px;
+}
+
+.eft-ct-flag.eft-is-warn { color: var(--eft-red); }
+
+/* --- detail rail --- */
+
+.eft-ct-detail {
+  overflow-y: auto;
+  padding: 12.5px 15px;
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line);
+}
+
+.eft-ct-detail-empty { padding: 14px; color: var(--eft-text-faint); font-size: 15px; line-height: 1.5; }
+
+.eft-ct-detail-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 8px;
+  font-size: 17.5px;
+  font-weight: 600;
+  color: var(--eft-tan-bright);
+}
+
+.eft-ct-detail-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+
+.eft-ct-subhead {
+  margin: 14px 0 6px;
+  font-family: var(--eft-cond);
+  font-size: 12.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--eft-text-faint);
+}
+
+.eft-ct-recipe {
+  margin-bottom: 8px;
+  padding: 8.8px 10px;
+  background: var(--eft-panel-2);
+  border: 1px solid var(--eft-line);
+}
+
+.eft-ct-recipe-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--eft-cond);
+  font-size: 13.8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--eft-text-dim);
+  margin-bottom: 5px;
+}
+
+.eft-ct-stationlink { color: var(--eft-tan-bright); text-decoration: none; }
+.eft-ct-stationlink:hover { color: var(--eft-gold); }
+
+.eft-ct-reqlist, .eft-ct-uselist { list-style: none; margin: 0; padding: 0; }
+
+.eft-ct-reqlist li, .eft-ct-uselist li {
+  display: flex;
+  align-items: baseline;
+  gap: 7.5px;
+  font-size: 15px;
+  padding: 1.3px 0;
+}
+
+.eft-ct-reqlist li.eft-is-tool { color: var(--eft-text-faint); }
+
+.eft-ct-reqlist button, .eft-ct-uselist button, .eft-ct-yield button {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-bottom: 1px dotted var(--eft-line-bright);
+}
+
+.eft-ct-reqlist button:hover, .eft-ct-uselist button:hover, .eft-ct-yield button:hover {
+  color: var(--eft-gold);
+}
+
+.eft-ct-reqlist .eft-ct-flag,
+.eft-ct-uselist .eft-ct-note { position: static; background: none; padding: 0; }
+
+.eft-ct-yield {
+  margin-top: 5px;
+  padding-top: 6.3px;
+  border-top: 1px solid var(--eft-line);
+  font-size: 15px;
+  color: var(--eft-green);
+}
+
+.eft-ct-note { font-size: 13.8px; color: var(--eft-text-faint); margin: 4px 0 0; }
+
+/* --- legend --- */
+
+.eft-ct-legend {
+  display: flex;
+  align-items: center;
+  gap: 17.5px;
+  flex-wrap: wrap;
+  font-size: 13.8px;
+  color: var(--eft-text-dim);
+}
+
+.eft-ct-key {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+
+.eft-ct-key.eft-is-craftable { background: var(--eft-green); }
+.eft-ct-key.eft-is-raw { background: var(--eft-line-bright); }
+.eft-ct-key.eft-is-tool { background: var(--eft-blue); }
+.eft-ct-key.eft-is-craftkey { background: var(--eft-orange); }
+
+@media (max-width: 900px) {
+  .eft-ct { height: auto; }
+  .eft-ct-body { grid-template-columns: 1fr; grid-template-rows: 62vh auto; }
+  .eft-ct-detail { max-height: 44vh; }
+}
+
+/* ---------- Station filter dropdown ---------- */
+
+.eft-filter { position: relative; }
+.eft-filter-count { font-family: var(--eft-mono); opacity: 0.8; margin-left: 4px; }
+
+.eft-filter-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 40;
+  width: 340px;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line-bright);
+}
+
+.eft-filter-section { padding: 10px 12px; border-bottom: 1px solid var(--eft-line); }
+.eft-filter-section:last-child { border-bottom: 0; }
+
+.eft-filter-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.eft-filter-views { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.eft-filter-bulk { display: flex; gap: 4px; }
+
+.eft-filter-list {
+  margin-top: 6px;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid var(--eft-line);
+}
+
+.eft-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.eft-filter-row:hover { background: var(--eft-raised); }
+.eft-filter-row input { accent-color: var(--eft-tan); }
+.eft-filter-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.eft-filter-lv { font-family: var(--eft-mono); font-size: 12.5px; color: var(--eft-text-faint); }
+
+/* ---------- Have-counters on a station card ---------- */
+
+.eft-station-items { border-top: 1px solid var(--eft-line); padding-top: 8px; }
+
+.eft-station-itemstoggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--eft-text-dim);
+  font-family: var(--eft-cond);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.eft-station-itemstoggle:hover { color: var(--eft-gold); }
+
+.eft-station-itemlist {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.eft-station-itemlist li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.eft-station-itemlist li.eft-is-done { color: var(--eft-green); }
+
+.eft-station-itemicon {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  object-fit: contain;
+  background: #24211d;
+  border: 1px solid var(--eft-line);
+}
+
+.eft-station-itemname {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eft-station-itemneed {
+  flex: none;
+  font-family: var(--eft-mono);
+  font-size: 12.5px;
+  color: var(--eft-text-faint);
+}
+
+.eft-station-itemlist .eft-counter { flex: none; }
+.eft-station-itemlist .eft-counter input { width: 40px; }
+
+/* ---------- Craft tree dead end ---------- */
+
+.eft-ct-deadend {
+  position: absolute;
+  left: 50%;
+  top: 40px;
+  transform: translateX(-50%);
+  z-index: 20;
+  max-width: 420px;
+  padding: 14px 16px;
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line-bright);
+  border-left: 3px solid var(--eft-orange);
+}
+
+.eft-ct-deadend strong { color: var(--eft-tan-bright); }
+.eft-ct-deadend p { margin: 6px 0 10px; font-size: 14px; color: var(--eft-text-dim); }
+.eft-ct-deadend-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* ---------- "Do I need this?" item search ---------- */
+
+.eft-needsearch {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.eft-needsearch-input {
+  flex: 1;
+  min-width: 260px;
+  max-width: 520px;
+  padding: 8px 12px;
+}
+
+.eft-needsearch-results {
+  flex-basis: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  max-height: 46vh;
+  overflow-y: auto;
+  background: var(--eft-line);
+  border: 1px solid var(--eft-line-bright);
+}
+
+.eft-need {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--eft-panel);
+}
+
+/* Nothing in the hideout wants it — dimmed so a stash sweep can skip it fast. */
+.eft-need.eft-is-safe { opacity: 0.62; }
+
+.eft-need-body { flex: 1; min-width: 0; }
+
+.eft-need-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.eft-need-name { font-size: 15px; color: var(--eft-tan-bright); }
+.eft-need-head a.eft-chip { text-decoration: none; }
+
+.eft-need-where { display: flex; flex-wrap: wrap; gap: 4px; }
+
+.eft-need-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 2px 7px;
+  background: var(--eft-panel-2);
+  border: 1px solid var(--eft-line-bright);
+  border-left: 3px solid var(--eft-line-bright);
+  color: var(--eft-text-dim);
+  font-size: 12.5px;
+  text-decoration: none;
+}
+
+.eft-need-chip:hover { border-color: var(--eft-tan); color: var(--eft-tan-bright); }
+.eft-need-chip b { color: var(--eft-text); font-weight: 600; font-family: var(--eft-mono); }
+.eft-need-chip em { font-style: normal; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* The next level of a station is the only thing you need TODAY. */
+.eft-need-chip.eft-is-now { border-left-color: var(--eft-gold); color: var(--eft-text); }
+.eft-need-chip.eft-is-now em { color: var(--eft-gold); }
+.eft-need-chip.eft-is-later { border-left-color: var(--eft-blue); }
+.eft-need-chip .eft-is-faint { color: var(--eft-text-faint); }
+.eft-need-chip .eft-is-fir { color: var(--eft-green); }
+
+.eft-need-count {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------- Item search, as an overlay ---------- */
+/*
+ * Results take over the screen instead of pushing the station grid down the
+ * page: the answer to "do I need this" is a lookup you read and dismiss, and
+ * shoving the whole hideout downward to show it meant losing your place every
+ * time. The bar itself stays put in the layout.
+ */
+
+.eft-needmodal-back { align-items: flex-start; padding: 60px 24px 24px; }
+
+.eft-needmodal {
+  width: min(1240px, 100%);
+  max-height: calc(100vh - 96px);
+  display: flex;
+  flex-direction: column;
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line-bright);
+}
+
+.eft-needmodal-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--eft-line);
+  background: var(--eft-panel-2);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(154, 136, 102, 0.05) 0 1px,
+    transparent 1px 6px
+  );
+}
+
+.eft-needsearch-input.eft-is-big {
+  flex: 1;
+  max-width: none;
+  padding: 11px 15px;
+  font-size: 20px;
+}
+
+.eft-needmodal-count {
+  flex: none;
+  font-family: var(--eft-mono);
+  font-size: 13px;
+  color: var(--eft-text-faint);
+  white-space: nowrap;
+}
+
+.eft-needmodal-empty { padding: 34px 20px; color: var(--eft-text-faint); font-size: 16px; }
+
+/* The results list fills the overlay rather than being a short scroll strip. */
+.eft-needmodal .eft-needsearch-results {
+  flex: 1;
+  max-height: none;
+  border: 0;
+  overflow-y: auto;
+}
+
+.eft-needmodal .eft-need { padding: 12px 16px; gap: 14px; }
+.eft-needmodal .eft-station-itemicon { width: 44px; height: 44px; }
+.eft-needmodal .eft-need-name { font-size: 18px; }
+.eft-needmodal .eft-need-chip { font-size: 13.5px; padding: 3px 9px; }
+.eft-needmodal .eft-need-head { margin-bottom: 7px; }
+.eft-needmodal .eft-need-count { gap: 12px; }
+
+@media (max-width: 900px) {
+  .eft-needmodal-back { padding: 16px 8px; }
+  .eft-needmodal { max-height: calc(100vh - 32px); }
+  .eft-needsearch-input.eft-is-big { font-size: 17px; }
+}

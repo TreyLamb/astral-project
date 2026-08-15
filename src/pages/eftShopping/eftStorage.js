@@ -33,6 +33,7 @@ export const STORE_KEYS = {
   foodTier: `${P}foodtier_v1`,
   lootCalc: `${P}lootcalc_v1`,
   sights: `${P}sights_v1`,
+  craftGraph: `${P}craftgraph_v1`,
 };
 
 export const DEFAULTS = {
@@ -57,6 +58,10 @@ export const DEFAULTS = {
     scope: 'all',
     groupBy: 'item',
     soloStation: null,
+    // Which station cards the hideout grid draws, and the predicate filter over
+    // them. Separate from `disabled`, which is about the shopping list.
+    hiddenStations: [],
+    stationView: 'all',
     hideOwned: false,
     showFirOnly: false,
     search: '',
@@ -73,6 +78,23 @@ export const DEFAULTS = {
   foodTier: SEED_FOOD_TIER,
   lootCalc: SEED_LOOT_CALC,
   sights: SEED_SIGHTS,
+  craftGraph: {
+    mode: 'overview',        // 'overview' | 'station' | 'item'
+    overview: 'chains',      // 'chains' | 'final' | 'intermediate' | 'all'
+    stationKey: null,
+    itemId: null,
+    direction: 'up',         // 'up' = ingredients, 'down' = used in
+    includeTools: true,
+    craftableOnly: false,
+    autoDepth: 3,
+    limit: 12,
+    zoom: 1,
+    controlsOpen: true,
+    detailOpen: true,
+    // Node keys the user folded. A leading '!' means "expanded on purpose",
+    // which is what overrides the auto-fold depth — see eftCraftGraph.
+    collapsed: [],
+  },
 };
 
 export function read(name) {

@@ -36,6 +36,23 @@ map menu shows a warning when it's selected. Its only long-term value is Termina
 
 ---
 
+## ℹ️ EFT craft recipes come from the game files, NOT tarkov.dev
+As of 2026-08-14, `hideout/production.json` in the SPT mirror is the source for
+every hideout recipe — 204 of them, with tool requirements (not consumed),
+quest locks, `continuous` flags and game-edition gates. It is a static file
+mirror, so the craft tree works while tarkov.dev is down (it was, the day this
+was built). `crafts` is no longer in the snapshot's `gaps` list.
+
+- Recipes whose area has no build stages (the seasonal Christmas Tree, 17 of
+  them) have no station to attach to and live in the snapshot's top-level
+  `extraCrafts`. Don't "clean that up" — dropping it loses real recipes.
+- tarkov.dev is still the only source for **prices**, and it only fills crafts
+  for a station the game files had nothing for.
+- The graph itself is `src/pages/eftShopping/eftCraftGraph.js` (pure, tested);
+  the view is `views/CraftTreeView.jsx`.
+
+---
+
 ## 🎨 webdesign.md is required reading before any layout work
 `webdesign.md` (same directory) is the binding contract for page layout, the
 counterpart to `gamedesign.md` and `featuredesign.md`. Written 2026-08-13 after
@@ -183,7 +200,7 @@ canonical casing. Legacy paths redirect the same way. Both live in
 | `/RS` | RSMarket.jsx | was `/rs-market` |
 | `/POGO` | pgotracker/PgoTracker.jsx | **POGO Tracker** — was `/pgo-tracker` |
 | `/POGO-ACCS/*` | pogoaccs/PogoAccsApp.jsx | was `/pogo-accs` |
-| `/EFTsh/*` | eftShopping/EftShoppingApp.jsx | **EFT Shopping** — Tarkov hideout shopping list + raid companion. Live tarkov.dev GraphQL with a committed offline snapshot (`npm run eft:snapshot` regenerates it; falls back to SPT game files if tarkov.dev is down). |
+| `/EFTsh/*` | eftShopping/EftShoppingApp.jsx | **EFT Shopping** — Tarkov hideout shopping list + raid companion. Built from BSG's own game files (SPT mirror) with tarkov.dev layered on top for prices only. `npm run eft:snapshot` regenerates the committed snapshot. Includes `/EFTsh/crafts`, a left-to-right craft flow chart — see the craft-data note below. |
 | `/medaldex/*` | medaldex/MedalDexApp.jsx | |
 | `/stashmap/*` | stashmap/StashMapApp.jsx | |
 | `/antiquityquest/*` | antiquityquest/AntiquityQuestApp.jsx | |

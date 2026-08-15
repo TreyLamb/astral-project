@@ -192,7 +192,7 @@ function CaliberCard({
 
 export default function AmmoView() {
   const {
-    ammo, ammoNotes, ammoStats, items, update, status,
+    ammo, ammoNotes, ammoStats, items, update,
   } = useEft();
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState({ key: 'penetrationPower', dir: 'desc' });

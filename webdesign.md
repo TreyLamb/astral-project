@@ -33,6 +33,42 @@ screen, and it reads as an unfinished template.
 Before shipping a layout, look at it at 1920px wide and ask what fraction of the
 window is doing work. If the answer is "about half", it is wrong.
 
+### How much gutter, exactly
+
+Raised again 2026-08-14 on `/EFTsh`, which shipped with
+`max-width: 1500px; margin: 0 auto`. The number is not a matter of taste:
+
+- **5–10px of side padding.** That is the whole budget for a tool page. `8px` is
+  the default; `18px` is already too much; anything with a `max-width` on the
+  outer shell is wrong.
+- **`width: 100%`, never `margin: 0 auto`.** Auto margins on a capped shell are
+  exactly the pattern being banned. If you catch yourself writing
+  `max-width: NNNNpx; margin: 0 auto;` on a shell, stop.
+- This applies to the outer shell only. Inner panels, modals and prose blocks
+  may still cap their own width where it genuinely helps.
+
+---
+
+## 1b. Responsive means fluid, not mobile-first
+
+Pages should adapt to the screen they are on — **relative to the viewport**.
+That is not the same as building everything for a phone and letting desktop
+inherit the phone layout.
+
+- **Design for the real screen first** (a wide desktop display), then let it
+  reflow down. Don't design a 380px column and stretch it.
+- **Prefer intrinsically fluid CSS over breakpoints**: `repeat(auto-fill,
+  minmax(280px, 1fr))`, `flex-wrap`, `%`/`fr`/`vw` units, `clamp()`. A grid that
+  reflows on its own beats three hand-written media queries.
+- **Breakpoints are for genuine layout changes** — collapsing a two-column split
+  into one, hiding a rail — not for re-specifying padding at every size.
+- **A phone-sized layout must not leak upward.** Single-column stacks, giant tap
+  targets and hidden columns belong inside a `max-width` media query, never in
+  the base rules.
+
+The test: the layout should look deliberate at 1920px AND usable at 400px,
+without either one being a compromise made for the other.
+
 ---
 
 ## 2. Chrome collapses; the working surface does not

@@ -6,7 +6,7 @@ import {
   stationKey, maxLevelOf, currentLevelOf, targetLevelOf,
   levelRequirements, unitCost,
 } from '../eftHideoutLogic';
-import { Stat, Panel, Bar, Counter, ItemCell, useItemDetail, fmtRub, fmtShort, fmtDuration } from '../EftBits';
+import { Panel, Bar, Counter, ItemCell, useItemDetail, fmtRub, fmtShort, fmtDuration } from '../EftBits';
 
 export default function StationView() {
   const { stationKey: key } = useParams();
@@ -45,20 +45,20 @@ export default function StationView() {
       return next;
     });
 
-  const remainingCost = station.levels
-    .filter((lv) => lv.level > current && lv.level <= target)
-    .reduce((sum, lv) => sum + lv.itemRequirements.reduce(
-      (n, r) => n + unitCost(items[r.itemId]) * Math.max(0, r.count - (inventory[r.itemId] ?? 0)), 0,
-    ), 0);
-
-  const remainingTime = station.levels
-    .filter((lv) => lv.level > current && lv.level <= target)
-    .reduce((n, lv) => n + (lv.constructionTime || 0), 0);
-
   return (
     <>
       <div className="eft-controls" style={{ marginBottom: 14 }}>
         <Link to="/EFTsh" className="eft-btn eft-btn-sm" style={{ textDecoration: 'none' }}>← Hideout</Link>
+        {station.crafts?.length ? (
+          <Link
+            to={`/EFTsh/crafts?station=${key}`}
+            className="eft-btn eft-btn-sm"
+            style={{ textDecoration: 'none' }}
+            title={`Chart the ${station.crafts.length} recipes this station runs`}
+          >
+            Craft tree ({station.crafts.length})
+          </Link>
+        ) : null}
         <button
           type="button"
           className={`eft-btn eft-btn-sm${prefs.soloStation === key ? ' eft-is-on' : ''}`}
@@ -76,12 +76,7 @@ export default function StationView() {
         </button>
       </div>
 
-      <div className="eft-stats">
-        <Stat label={station.name} value={`Lv ${current}`} sub={`of ${max}`} />
-        <Stat label="Target" value={target === max ? `Max (${max})` : target} />
-        <Stat label="Cost to target" value={fmtShort(remainingCost)} tone="gold" />
-        <Stat label="Build time left" value={fmtDuration(remainingTime)} />
-      </div>
+
 
       <Panel title="Set current level">
         <div className="eft-levelpick">

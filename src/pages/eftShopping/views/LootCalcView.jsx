@@ -35,8 +35,6 @@ export default function LootCalcView() {
   const estimatedTotal = ratePerSlot * slots;
 
   const bagTotal = bag.reduce((s, i) => s + (Number(i.value) || 0), 0);
-  const bagSlots = bag.reduce((s, i) => s + (Number(i.slots) || 0), 0);
-  const bagRate = bagSlots ? bagTotal / bagSlots : 0;
   const usingBag = bag.length > 0;
   const effectiveTotal = usingBag ? bagTotal : estimatedTotal;
 
@@ -120,7 +118,10 @@ export default function LootCalcView() {
               />
             </div>
           ) : (
-            <Stat label="Slots" value={selectedContainer.slots} />
+            <div className="eft-field">
+              <span className="eft-label">Slots</span>
+              <span className="eft-num-cell">{selectedContainer.slots}</span>
+            </div>
           )}
 
           <div className="eft-field">
@@ -151,16 +152,7 @@ export default function LootCalcView() {
           </div>
         </div>
 
-        <div className="eft-stats" style={{ marginTop: 14 }}>
-          <Stat label="Estimated total" value={fmtRub(estimatedTotal)} />
-          {usingBag ? <Stat label="Bag total (in use)" value={fmtRub(bagTotal)} tone="gold" /> : null}
-          <Stat label="Bail threshold" value={fmtRub(bailThreshold)} />
-          <Stat
-            label="Verdict basis"
-            value={usingBag ? 'Bag tally' : 'Estimate'}
-            sub={usingBag ? `${bag.length} item${bag.length === 1 ? '' : 's'} logged` : 'no bag items logged'}
-          />
-        </div>
+
 
         <div style={{ margin: '14px 0 6px' }}>
           <Bar percent={bailPct} />
@@ -221,13 +213,6 @@ export default function LootCalcView() {
           </table>
         </div>
 
-        {bag.length ? (
-          <div className="eft-stats" style={{ marginTop: 14 }}>
-            <Stat label="Actual total value" value={fmtRub(bagTotal)} />
-            <Stat label="Actual slots used" value={bagSlots} />
-            <Stat label="Actual ₽/slot" value={fmtRub(bagRate)} />
-          </div>
-        ) : null}
       </Panel>
 
       <Panel

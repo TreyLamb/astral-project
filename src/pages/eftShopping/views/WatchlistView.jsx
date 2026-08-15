@@ -134,7 +134,7 @@ function ItemPicker({ items, onPick, onClose }) {
 }
 
 export default function WatchlistView() {
-  const { watchlist, items, update, status, hasPrices } = useEft();
+  const { watchlist, items, update, hasPrices } = useEft();
   const [sort, setSort] = useState('best');
   const [pickerFor, setPickerFor] = useState(null);
   const [detailItem, setDetailItem] = useState(null);
@@ -161,13 +161,6 @@ export default function WatchlistView() {
     return list;
   }, [rows, sort]);
 
-  const stats = useMemo(() => ({
-    total: rows.length,
-    buy: rows.filter((r) => r.verdict.kind === 'buy').length,
-    skip: rows.filter((r) => r.verdict.kind === 'skip').length,
-    unresolved: rows.filter((r) => r.verdict.kind === 'unbound' || r.verdict.kind === 'unknown').length,
-  }), [rows]);
-
   const patchRow = (id, patch) => {
     update('watchlist', (list) => list.map((r) => (r.id === id ? { ...r, ...patch } : r)));
   };
@@ -188,12 +181,7 @@ export default function WatchlistView() {
 
   return (
     <>
-      <div className="eft-stats">
-        <Stat label="Watched" value={stats.total} />
-        <Stat label="Buy now" value={stats.buy} tone="green" />
-        <Stat label="Over threshold" value={stats.skip} tone="red" />
-        <Stat label="No price / unbound" value={stats.unresolved} sub={offline ? 'offline snapshot' : undefined} />
-      </div>
+
 
       <Panel
         title="Buy-Below Watchlist"

@@ -6,6 +6,24 @@ import { slugName } from './eftNormalize';
 
 export const stationKey = (station) => station.normalizedName || slugName(station.name);
 
+/**
+ * Cash is not something you go shopping for, and 28 currency rows across the
+ * hideout made every list noisier without telling you anything. They are
+ * filtered out of every derived list here rather than out of the snapshot —
+ * the data stays honest, this is a presentation decision.
+ */
+export const CURRENCY_IDS = new Set([
+  '5449016a4bdc2d6f028b456f', // Roubles
+  '5696686a4bdc2da3298b456a', // Dollars
+  '569668774bdc2da2298b4568', // Euros
+]);
+
+export const isCurrency = (itemId) => CURRENCY_IDS.has(itemId);
+
+/** The item requirements of a level, cash excluded. Use this, never `.itemRequirements`. */
+export const itemReqsOf = (level) =>
+  (level.itemRequirements || []).filter((r) => !isCurrency(r.itemId));
+
 export const maxLevelOf = (station) =>
   station.levels.reduce((n, lv) => Math.max(n, lv.level), 0);
 
@@ -83,7 +101,7 @@ export function buildShoppingList(pending, items, inventory) {
   const byItem = new Map();
 
   for (const { station, level } of pending) {
-    for (const req of level.itemRequirements) {
+    for (const req of itemReqsOf(level)) {
       if (!req.itemId) continue;
       let row = byItem.get(req.itemId);
       if (!row) {
@@ -263,7 +281,7 @@ export function levelRequirements(station, level, { stations, levels, profile, i
     });
   }
 
-  for (const req of level.itemRequirements) {
+  for (const req of itemReqsOf(level)) {
     const have = Number(inventory[req.itemId] ?? 0);
     out.push({
       kind: 'item',
@@ -288,7 +306,7 @@ export function upgradeCandidates(stations, ctx) {
     if (!next) continue;
     const reqs = levelRequirements(station, next, ctx);
     const missing = reqs.filter((r) => !r.met);
-    const itemCost = next.itemRequirements.reduce(
+    const itemCost = itemReqsOf(next).reduce(
       (n, r) => n + unitCost(ctx.items[r.itemId]) * Math.max(0, r.count - (ctx.inventory[r.itemId] ?? 0)),
       0,
     );
@@ -340,7 +358,7 @@ export function suggestedBuildOrder(stations, ctx, { limit = 60 } = {}) {
       const structural = reqs.filter((r) => !r.met && (r.kind === 'station' || r.kind === 'sequence'));
       if (structural.length) continue;
       const soft = reqs.filter((r) => !r.met && r.kind !== 'item');
-      const cost = level.itemRequirements.reduce(
+      const cost = itemReqsOf(level).reduce(
         (n, r) => n + unitCost(ctx.items[r.itemId]) * r.count, 0,
       );
       options.push({ key, entry, level, cost, warnings: soft, requirements: reqs });
@@ -374,6 +392,106 @@ export function suggestedBuildOrder(stations, ctx, { limit = 60 } = {}) {
   return { order, stranded };
 }
 
+// --- "Is this needed for anything?" --------------------------------------
+
+/**
+ * Every hideout requirement for one item, across the WHOLE hideout.
+ *
+ * Deliberately ignores scope, targets and the excluded-station list. The
+ * question being asked is "can I throw this away", and an item wanted by a
+ * station you happen to have excluded, or at a level past your current target,
+ * is still an item you must not vendor. Those cases are flagged instead of
+ * filtered, so the answer is never a misleading "no".
+ *
+ *   when: 'built' — a level you already own; the cost is spent
+ *         'now'   — the very next level of that station
+ *         'later' — further up the same station
+ */
+export function itemNeeds(stations, itemId, { levels, targets }) {
+  const needs = [];
+  for (const station of stations) {
+    const current = currentLevelOf(station, levels);
+    const target = targetLevelOf(station, targets);
+    for (const lv of station.levels) {
+      for (const req of itemReqsOf(lv)) {
+        if (req.itemId !== itemId) continue;
+        needs.push({
+          stationKey: stationKey(station),
+          stationName: station.name,
+          level: lv.level,
+          count: req.count,
+          foundInRaid: !!req.foundInRaid,
+          when: lv.level <= current ? 'built' : (lv.level === current + 1 ? 'now' : 'later'),
+          beyondTarget: lv.level > target,
+        });
+      }
+    }
+  }
+  needs.sort((a, b) => a.stationName.localeCompare(b.stationName) || a.level - b.level);
+  return needs;
+}
+
+/**
+ * Item search for the hideout page: "is this needed for anything, now or later?"
+ *
+ * @param craftIndex optional buildCraftIndex() result — when supplied, an item
+ *                   that no station wants can still answer "yes, three recipes
+ *                   use it", which is the other half of the same question.
+ */
+export function searchItemNeeds(stations, items, state, query, { limit = 25, craftIndex = null } = {}) {
+  const q = String(query || '').trim().toLowerCase();
+  if (q.length < 2) return [];
+
+  const seen = new Set();
+  const hits = [];
+  for (const [itemId, item] of Object.entries(items)) {
+    if (isCurrency(itemId)) continue;
+    const name = (item.name || '').toLowerCase();
+    const short = (item.shortName || '').toLowerCase();
+    const at = name.indexOf(q);
+    const shortAt = short.indexOf(q);
+    if (at === -1 && shortAt === -1) continue;
+    if (seen.has(itemId)) continue;
+    seen.add(itemId);
+    hits.push({ itemId, item, score: at === 0 || shortAt === 0 ? 0 : 1 });
+  }
+
+  const rows = hits.map(({ itemId, item, score }) => {
+    const needs = itemNeeds(stations, itemId, state);
+    const have = Math.max(0, Number(state.inventory?.[itemId] ?? 0));
+    const outstanding = needs.filter((n) => n.when !== 'built');
+    const usedInCrafts = craftIndex
+      ? (craftIndex.byInput.get(itemId) || []).filter((c) => c.inputs.some((i) => i.itemId === itemId)).length
+      : 0;
+    const madeByCrafts = craftIndex ? (craftIndex.byOutput.get(itemId)?.length || 0) : 0;
+
+    return {
+      itemId,
+      item,
+      name: item.name || itemId,
+      have,
+      needs,
+      outstanding,
+      needNow: outstanding.filter((n) => n.when === 'now').reduce((n, x) => n + x.count, 0),
+      needLater: outstanding.filter((n) => n.when === 'later').reduce((n, x) => n + x.count, 0),
+      totalOutstanding: outstanding.reduce((n, x) => n + x.count, 0),
+      spent: needs.filter((n) => n.when === 'built').reduce((n, x) => n + x.count, 0),
+      usedInCrafts,
+      madeByCrafts,
+      wanted: outstanding.length > 0 || usedInCrafts > 0,
+      score,
+    };
+  });
+
+  // Things you still owe first, then the near-term ones, then alphabetical.
+  rows.sort((a, b) => Number(b.wanted) - Number(a.wanted)
+    || b.needNow - a.needNow
+    || a.score - b.score
+    || a.name.localeCompare(b.name));
+
+  return rows.slice(0, limit);
+}
+
 // --- Station progress ----------------------------------------------------
 
 export function stationProgress(station, { levels, targets, inventory }) {
@@ -385,7 +503,7 @@ export function stationProgress(station, { levels, targets, inventory }) {
   let have = 0;
   for (const lv of station.levels) {
     if (lv.level <= current || lv.level > target) continue;
-    for (const req of lv.itemRequirements) {
+    for (const req of itemReqsOf(lv)) {
       needed += req.count;
       have += Math.min(req.count, Number(inventory[req.itemId] ?? 0));
     }

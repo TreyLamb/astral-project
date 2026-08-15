@@ -156,7 +156,7 @@ export default function RaidKitView() {
           </>
         )}
       >
-        <Stat label="Packed" value={`${done}/${total}`} />
+        <div className="eft-label">Packed {done}/{total}</div>
         <div style={{ marginTop: 8, marginBottom: 6 }}><Bar percent={pct} /></div>
 
         <div className="eft-cols" style={{ marginTop: 14 }}>

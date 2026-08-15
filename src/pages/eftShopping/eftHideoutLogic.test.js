@@ -5,8 +5,10 @@ import {
   stationKey, maxLevelOf, currentLevelOf, targetLevelOf,
   pendingLevels, buildShoppingList, filterRows, groupRows,
   levelRequirements, upgradeCandidates, suggestedBuildOrder, stationProgress,
-  unitCost, traderBeatsFlea,
+  unitCost, traderBeatsFlea, isCurrency, itemReqsOf, CURRENCY_IDS,
+  itemNeeds, searchItemNeeds,
 } from './eftHideoutLogic';
+import { buildCraftIndex } from './eftCraftGraph';
 
 const { stations, items } = snapshot;
 const byName = (name) => stations.find((s) => s.name === name);
@@ -280,6 +282,182 @@ describe('stationProgress', () => {
     const zero = stationProgress(wb, { levels: {}, targets: {}, inventory: {} });
     expect(zero.percent).toBe(0);
     expect(zero.itemsNeeded).toBeGreaterThan(0);
+  });
+});
+
+describe('currency is kept out of every derived list', () => {
+  it('the snapshot really does carry currency requirements', () => {
+    const rows = stations.flatMap((s) => s.levels.flatMap((lv) => lv.itemRequirements))
+      .filter((r) => CURRENCY_IDS.has(r.itemId));
+    expect(rows.length).toBeGreaterThan(10);
+  });
+
+  it('names the three in-game currencies', () => {
+    for (const id of CURRENCY_IDS) {
+      expect(['Roubles', 'Dollars', 'Euros']).toContain(items[id].name);
+    }
+    expect(isCurrency('5449016a4bdc2d6f028b456f')).toBe(true);
+    expect(isCurrency('5d0375ff86f774186372f685')).toBe(false);
+  });
+
+  it('itemReqsOf strips cash and keeps everything else', () => {
+    const solar = byName('Solar Power');
+    const lv1 = solar.levels[0];
+    expect(lv1.itemRequirements.some((r) => isCurrency(r.itemId))).toBe(true);
+    expect(itemReqsOf(lv1).some((r) => isCurrency(r.itemId))).toBe(false);
+    expect(itemReqsOf(lv1).length).toBe(lv1.itemRequirements.length - 1);
+  });
+
+  it('no shopping-list row is a currency', () => {
+    const pending = pendingLevels(stations, { ...base, scope: 'all' });
+    const { rows } = buildShoppingList(pending, items, {});
+    expect(rows.some((r) => isCurrency(r.itemId))).toBe(false);
+    expect(rows.length).toBeGreaterThan(50);
+  });
+
+  it('no station-level requirement row is a currency', () => {
+    const solar = byName('Solar Power');
+    const reqs = levelRequirements(solar, solar.levels[0], base);
+    expect(reqs.some((r) => r.kind === 'item' && isCurrency(r.itemId))).toBe(false);
+  });
+
+  it('stationProgress does not count cash toward "stocked"', () => {
+    const solar = byName('Solar Power');
+    const key = stationKey(solar);
+    const cash = solar.levels[0].itemRequirements.find((r) => isCurrency(r.itemId));
+    const withCash = stationProgress(solar, {
+      levels: { [key]: 0 }, targets: {}, inventory: { [cash.itemId]: cash.count },
+    });
+    const without = stationProgress(solar, { levels: { [key]: 0 }, targets: {}, inventory: {} });
+    expect(withCash.percent).toBe(without.percent);
+    expect(withCash.itemsNeeded).toBe(without.itemsNeeded);
+  });
+});
+
+describe('"do I need this?" search', () => {
+  // Something wanted by more than one station level, so now/later both appear.
+  const findShared = () => {
+    const count = new Map();
+    for (const s of stations) {
+      for (const lv of s.levels) {
+        for (const r of itemReqsOf(lv)) count.set(r.itemId, (count.get(r.itemId) || 0) + 1);
+      }
+    }
+    return [...count.entries()].sort((a, b) => b[1] - a[1])[0][0];
+  };
+  const sharedId = findShared();
+  const state = { levels: {}, targets: {}, inventory: {} };
+
+  it('finds every station level that wants an item', () => {
+    const needs = itemNeeds(stations, sharedId, state);
+    expect(needs.length).toBeGreaterThan(1);
+    for (const n of needs) {
+      expect(n.stationName).toBeTruthy();
+      expect(n.count).toBeGreaterThan(0);
+    }
+  });
+
+  it('splits now from later off the current level', () => {
+    const wb = byName('Workbench');
+    const key = stationKey(wb);
+    const lv2 = wb.levels.find((l) => l.level === 2);
+    const id = itemReqsOf(lv2)[0].itemId;
+
+    const fresh = itemNeeds(stations, id, { levels: {}, targets: {} });
+    const atLv1 = itemNeeds(stations, id, { levels: { [key]: 1 }, targets: {} });
+    const atLv2 = itemNeeds(stations, id, { levels: { [key]: 2 }, targets: {} });
+
+    const at = (list, lvl) => list.find((n) => n.stationKey === key && n.level === lvl);
+    expect(at(fresh, 2).when).toBe('later');
+    expect(at(atLv1, 2).when).toBe('now');
+    expect(at(atLv2, 2).when).toBe('built');
+  });
+
+  it('still reports an item wanted only by an excluded station', () => {
+    const solar = byName('Solar Power');
+    const id = itemReqsOf(solar.levels[0])[0].itemId;
+    // `disabled` is deliberately not consulted — you must not vendor it either way.
+    const needs = itemNeeds(stations, id, { levels: {}, targets: {} });
+    expect(needs.some((n) => n.stationKey === stationKey(solar))).toBe(true);
+  });
+
+  it('flags requirements past your current target rather than hiding them', () => {
+    const wb = byName('Workbench');
+    const key = stationKey(wb);
+    const id = itemReqsOf(wb.levels.find((l) => l.level === 3))[0].itemId;
+    const needs = itemNeeds(stations, id, { levels: {}, targets: { [key]: 1 } });
+    const row = needs.find((n) => n.stationKey === key && n.level === 3);
+    expect(row.beyondTarget).toBe(true);
+  });
+
+  it('ignores a one-character query but answers a real one', () => {
+    expect(searchItemNeeds(stations, items, state, 'a')).toEqual([]);
+    const hits = searchItemNeeds(stations, items, state, 'wrench');
+    expect(hits.length).toBeGreaterThan(0);
+    expect(hits[0].name.toLowerCase()).toContain('wrench');
+  });
+
+  it('matches on short name too', () => {
+    const withShort = Object.values(items).find((i) => i.shortName && i.shortName.length > 3
+      && !i.name.toLowerCase().includes(i.shortName.toLowerCase()));
+    if (!withShort) return;
+    const hits = searchItemNeeds(stations, items, state, withShort.shortName);
+    expect(hits.some((h) => h.itemId === withShort.id)).toBe(true);
+  });
+
+  it('never offers a currency as a result', () => {
+    for (const q of ['roubles', 'euros', 'dollars']) {
+      expect(searchItemNeeds(stations, items, state, q)).toEqual([]);
+    }
+  });
+
+  it('totals what is still owed and what is already spent', () => {
+    const wb = byName('Workbench');
+    const key = stationKey(wb);
+    const id = itemReqsOf(wb.levels[0])[0].itemId;
+    const name = items[id].name;
+
+    const fresh = searchItemNeeds(stations, items, { ...state, levels: {} }, name)
+      .find((r) => r.itemId === id);
+    const built = searchItemNeeds(stations, items, { ...state, levels: { [key]: 1 } }, name)
+      .find((r) => r.itemId === id);
+
+    expect(fresh.totalOutstanding).toBeGreaterThan(built.totalOutstanding);
+    expect(built.spent).toBeGreaterThan(0);
+    expect(fresh.needNow + fresh.needLater).toBe(fresh.totalOutstanding);
+  });
+
+  it('ranks things you still owe above things you do not', () => {
+    const rows = searchItemNeeds(stations, items, state, 'ca', { limit: 50 });
+    expect(rows.length).toBeGreaterThan(1);
+    const firstUnwanted = rows.findIndex((r) => !r.wanted);
+    if (firstUnwanted > -1) {
+      expect(rows.slice(firstUnwanted).every((r) => !r.wanted)).toBe(true);
+    }
+  });
+
+  it('answers "used in a recipe" when a craft index is supplied', () => {
+    const craftIndex = buildCraftIndex(snapshot);
+    const [ingredientId] = [...craftIndex.byInput.keys()];
+    const name = items[ingredientId]?.name;
+    if (!name) return;
+    const row = searchItemNeeds(stations, items, state, name, { craftIndex })
+      .find((r) => r.itemId === ingredientId);
+    expect(row.usedInCrafts + row.madeByCrafts).toBeGreaterThan(0);
+    expect(row.wanted).toBe(true);
+  });
+
+  it('reports honestly when nothing wants an item', () => {
+    const craftIndex = buildCraftIndex(snapshot);
+    const idle = Object.values(items).find((i) => {
+      const needs = itemNeeds(stations, i.id, state);
+      return needs.length === 0 && !craftIndex.byInput.has(i.id);
+    });
+    if (!idle) return;
+    const row = searchItemNeeds(stations, items, state, idle.name, { craftIndex })
+      .find((r) => r.itemId === idle.id);
+    expect(row.wanted).toBe(false);
+    expect(row.totalOutstanding).toBe(0);
   });
 });
 

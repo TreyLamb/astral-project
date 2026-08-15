@@ -10,7 +10,6 @@ import { fmtAgo } from './EftBits';
 import HideoutView from './views/HideoutView';
 import ShoppingListView from './views/ShoppingListView';
 import BuildOrderView from './views/BuildOrderView';
-import StashView from './views/StashView';
 import StationView from './views/StationView';
 import WatchlistView from './views/WatchlistView';
 import FoodTierView from './views/FoodTierView';
@@ -20,6 +19,7 @@ import FrugalView from './views/FrugalView';
 import LootCalcView from './views/LootCalcView';
 import SettingsView from './views/SettingsView';
 import MapView from './views/MapView';
+import CraftTreeView from './views/CraftTreeView';
 
 import './EftShopping.css';
 import HubLink from '../../components/HubLink';
@@ -29,9 +29,9 @@ const ROOT = '/EFTsh';
 const TABS = [
   { to: '', label: 'Hideout' },
   { to: '/map', label: 'Map' },
+  { to: '/crafts', label: 'Craft Tree' },
   { to: '/list', label: 'Shopping List' },
   { to: '/order', label: 'Build Order' },
-  { to: '/stash', label: 'Stash' },
   { to: '/watchlist', label: 'Buy Below' },
   { to: '/food', label: 'Food/Slot' },
   { to: '/raid', label: 'Raid Kit' },
@@ -275,9 +275,9 @@ export default function EftShoppingApp() {
           <Routes>
             <Route index element={<HideoutView />} />
             <Route path="map" element={<MapView />} />
+            <Route path="crafts" element={<CraftTreeView />} />
             <Route path="list" element={<ShoppingListView />} />
             <Route path="order" element={<BuildOrderView />} />
-            <Route path="stash" element={<StashView />} />
             <Route path="station/:stationKey" element={<StationView />} />
             <Route path="watchlist" element={<WatchlistView />} />
             <Route path="food" element={<FoodTierView />} />
