@@ -12,9 +12,9 @@
 //   - /api/v1/maps/{id}/data, for the locations themselves.
 //
 // Five maps are Pro-only and their page is unreachable, so they take a second
-// path — see PRO_MAPS below. Terminal is not covered by this script at all:
-// mapgenie has a Terminal entry (id 73) but it is `enabled: false` with zero
-// locations and no tiles rendered, so there is nothing to fetch.
+// path — see PRO_MAPS below. Terminal takes a third: mapgenie has an entry for
+// it (id 73) but it is `enabled: false` with zero locations and no tiles at any
+// zoom, so it ships as a basemap-only record — see basemapOnlyRecord().
 //
 // Coordinates are stored EXACTLY as the source gives them, and no conversion
 // is needed: the tile pyramid is standard EPSG:3857 Web Mercator, so the
@@ -211,38 +211,41 @@ async function tileExists(url) {
   return res.status === 200;
 }
 
+const MAX_TILE_VERSION = 20;
+
 async function probeTiles(slug, lat, lng, zoom) {
   const z0 = Math.max(9, Math.round(zoom));
   const [x0, y0] = tileXY(lat, lng, z0);
+  const at = (pattern, z, x, y) => `${MG_TILE_BASE}/games/${pattern.replace('{z}', z).replace('{x}', x).replace('{y}', y)}`;
 
+  // COUNT DOWN, NOT UP. mapgenie redraws a map every wipe or so and bumps
+  // `default-vN`, but the superseded pyramids stay on the CDN forever — Woods
+  // is on v11 and v5 still answers 200. Walking up and taking the first hit
+  // therefore finds the OLDEST surviving basemap every time, which is exactly
+  // the bug this replaced: four of five maps shipped on stale imagery, Streets
+  // on v1 when v10 was current. Measured against the free maps, where mapgenie
+  // publishes the real answer: ascending 4/7, descending 7/7.
   let hit = null;
-  for (const ext of ['jpg', 'png']) {
-    for (let v = 1; v <= 20 && !hit; v++) {
+  for (let v = MAX_TILE_VERSION; v >= 1 && !hit; v--) {
+    for (const ext of ['jpg', 'png']) {
       const pattern = `tarkov/${slug}/default-v${v}/{z}/{x}/{y}.${ext}`;
-      if (await tileExists(`${MG_TILE_BASE}/games/${pattern.replace('{z}', z0).replace('{x}', x0).replace('{y}', y0)}`)) {
-        hit = { pattern, v, ext };
-      }
+      if (await tileExists(at(pattern, z0, x0, y0))) { hit = { pattern, v, ext }; break; }
       await sleep(120);
     }
-    if (hit) break;
   }
   if (!hit) return null;
 
-  // The pyramid is not a full square, so a single column can have holes. Walk
-  // outward from a zoom that is known to exist rather than trusting one probe.
-  const zooms = [z0];
-  for (let z = z0 - 1; z >= 6; z--) {
+  // The pyramid is not a square, so the column through the map's centre can
+  // have gaps — Lighthouse has no tile at z10 there but does at z9 and z11.
+  // Stopping at the first miss reported minZoom 9 for a map that starts at 8,
+  // so every level gets its own probe.
+  const zooms = [];
+  for (let z = 6; z <= 18; z++) {
     const [x, y] = tileXY(lat, lng, z);
-    if (await tileExists(`${MG_TILE_BASE}/games/${hit.pattern.replace('{z}', z).replace('{x}', x).replace('{y}', y)}`)) zooms.push(z);
+    if (await tileExists(at(hit.pattern, z, x, y))) zooms.push(z);
     await sleep(120);
   }
-  for (let z = z0 + 1; z <= 18; z++) {
-    const [x, y] = tileXY(lat, lng, z);
-    if (await tileExists(`${MG_TILE_BASE}/games/${hit.pattern.replace('{z}', z).replace('{x}', x).replace('{y}', y)}`)) zooms.push(z);
-    else break;
-    await sleep(120);
-  }
-  zooms.sort((a, b) => a - b);
+  if (!zooms.length) zooms.push(z0);
 
   return {
     url: `${MG_TILE_BASE}/games/${hit.pattern}`,
@@ -283,7 +286,41 @@ async function fetchProTaxonomy(slug, id, locations, sharedCategories) {
   };
 }
 
+// Terminal. mapgenie has an entry for it (id 73) but it is `enabled: false`
+// with zero locations and no tiles rendered at any zoom, and the only other
+// source with real marker coordinates is tarkov.dev, which is down. So it gets
+// no markers — that is what the player base has too.
+//
+// It does have an SVG basemap already sitting in mapConfig.json, so it ships as
+// a basemap-only record rather than a scaffold notice: the map opens, and zones
+// and routes work on it. Emitting the file is what flips MapView off the
+// "markers are not imported yet" branch.
+function basemapOnlyRecord(map) {
+  return {
+    key: map.key,
+    source: 'tarkov.dev-svg',
+    sourceMapId: null,
+    fetchedAt: new Date().toISOString(),
+    sourceBounds: map.bounds || null,
+    // Null tiles is the signal MapView reads to fall back to the SVG overlay.
+    tiles: null,
+    view: { lat: null, lng: null, zoom: null },
+    speeds: [],
+    distanceScale: null,
+    useHaversine: false,
+    presets: [],
+    taxonomySource: 'none',
+    categories: [],
+    markers: [],
+    orphanCategories: [],
+    spritePositions: {},
+    spriteUrl: null,
+  };
+}
+
 async function fetchMap(map, sharedCategories) {
+  if (!map.mapgenie.id) return basemapOnlyRecord(map);
+
   const { slug, id } = map.mapgenie;
   const api = JSON.parse(await getText(`https://mapgenie.io/api/v1/maps/${id}/data`));
   const locations = api.locations || [];
@@ -408,14 +445,15 @@ async function main() {
   const config = JSON.parse(fs.readFileSync(CONFIG, 'utf8'));
   const wanted = process.argv.slice(2);
   const targets = config.maps
-    .filter((m) => m.mapgenie.id && (wanted.length ? wanted.includes(m.key) : true))
+    // A map with no mapgenie id but an SVG still gets a basemap-only record.
+    .filter((m) => (m.mapgenie.id || m.svgPath) && (wanted.length ? wanted.includes(m.key) : true))
     // Pro maps borrow their category names from the free ones, so on a clean
     // checkout the free maps have to be fetched first. Only an ordering hint —
     // being wrong about which is which costs nothing.
     .sort((a, b) => Number(PRO_MAPS.has(a.mapgenie.slug)) - Number(PRO_MAPS.has(b.mapgenie.slug)));
 
   if (!targets.length) {
-    console.error('No matching maps with a mapgenie id. Known keys:');
+    console.error('No matching maps with a mapgenie id or an SVG basemap. Known keys:');
     console.error('  ' + config.maps.map((m) => m.key).join(', '));
     process.exit(1);
   }

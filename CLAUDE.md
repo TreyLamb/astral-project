@@ -117,15 +117,40 @@ Consequences worth knowing before touching this:
 - **A throttled mapgenie answers 200 with the generic landing page**, not 429.
   Treating that as "this map has no data" is what made the first run look like
   five maps were broken.
-- ✂️ **Terminal is not wired and cannot be from mapgenie** — they have an entry
-  (id 73) but it is `enabled: false`, zero locations, and no tiles actually
-  render at any zoom. Its only marker source is tarkov.dev's GraphQL, which is
-  still down (`422 GraphQL server unavailable`; `status.tarkov.dev` 523s), and
-  its only basemap is the tarkov.dev SVG — i.e. the deferred Vector path above.
-  Checked and ruled out: tarkovbot.eu (no public API), tarkov-market (no maps
-  endpoint), TarkovTracker `tarkovdata` (no marker positions), SPT
-  `locations/terminal/base.json` (spawn zones, not the mapgenie marker set),
-  the Fandom wiki (prose, no coordinates).
+- **The tile version counts DOWN, not up.** mapgenie redraws a map most wipes
+  and bumps `default-vN`, but every superseded pyramid stays on the CDN — Woods
+  is on v11 and v5 still answers 200. The first probe walked upward and took the
+  first hit, so it found the *oldest* surviving basemap on every map: Streets
+  shipped on v1 when v10 was current. Measured against the free maps, where
+  mapgenie publishes the right answer: **ascending 4/7 patterns correct,
+  descending 7/7.** Also probe every zoom level rather than stopping at the first
+  miss — the pyramid is not a square and Lighthouse has a hole at z10 in its
+  centre column. Note the probe finds what the CDN *serves*, which is sometimes
+  wider than what mapgenie *declares*: Factory declares z9-14 but serves real
+  256x256 tiles at z8 and z15. Wider, not wrong — a Pro map just gets one more
+  zoom step in each direction than mapgenie's own site allows.
+- **Terminal ships as a basemap-only record** (`basemapOnlyRecord()`, `tiles:
+  null`, zero markers) so the map opens and takes zones and routes instead of
+  showing a scaffold notice. The picker flags it "no pins". It draws on the
+  tarkov.dev SVG — the deferred Vector path above — so a rough render there is
+  the known issue, not a new bug. ✂️ No marker source exists: mapgenie's entry
+  (id 73) is `enabled: false` with zero locations and no tiles at any zoom, and
+  tarkov.dev is down (`422 GraphQL server unavailable`; `status.tarkov.dev`
+  523s). Per Trey, that is fine — if none of the sources have it, the player
+  base doesn't either. Build with what's there.
+
+### Map reference sites (Trey's, 2026-08-16 — also in `EftShoppingPlan.md`)
+Use these in order when mapgenie doesn't have something. **mapgenie treats
+public information as Pro; that does not make it secret** — but the gate is
+server-side and a crawler UA does not move it (Googlebot, Googlebot-Smartphone,
+Bingbot and an empty UA all 302 to `/tarkov/upgrade`; bare `curl` gets 403).
+Don't re-test that.
+
+| Site | Good for | Not good for |
+|---|---|---|
+| `mapgenie.io/tarkov/maps` | Everything currently used: tiles, markers, taxonomy, sprites | The 5 Pro pages |
+| `escapefromtarkov.fandom.com/wiki/Map_of_Tarkov` | Confirming the map roster (13 incl. Terminal), features, mine/sniper zones | Coordinates — it is prose and an imagemap |
+| `tarkov-market.com/maps/<slug>` | All 12 mapgenie maps incl. every Pro one; live (redeployed daily) | Terminal (500). Markers are community "packs" in its own image pixel space, not lat/lng — a cross-check, not a drop-in |
 
 ---
 

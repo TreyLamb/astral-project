@@ -102,3 +102,16 @@ Full build.
 - [SHOULD] H5. Export / import the whole dataset as JSON (backup).
 - [SHOULD] H6. Usable on a phone.
 - [SHOULD] H7. Item detail popover with a wiki link.
+
+
+
+
+###  Map Website references
+
+MapGenie: website we are basically trying to replicate - treats some PUBLIC information as 'PRO' (pay to view).
+https://mapgenie.io/tarkov/maps
+
+
+Public sites with remaining information: Reference  these as well when we can't get something from mapgenie:
+https://escapefromtarkov.fandom.com/wiki/Map_of_Tarkov
+https://tarkov-market.com/maps

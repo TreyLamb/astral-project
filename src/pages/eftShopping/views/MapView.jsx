@@ -581,16 +581,24 @@ export default function MapView() {
           <div className="eft-map-picker">
             {MAPS.map((m) => {
               const ready = !!markerLoader(m.key);
+              // A map with no mapgenie id ships as basemap only: it opens and
+              // takes zones and routes, but nobody publishes pins for it, so
+              // it draws on the vector basemap with its known rough edges.
+              const basemapOnly = ready && !m.mapgenie.id;
+              const title = !ready ? `${m.name} — scaffolded, markers not imported yet`
+                : basemapOnly ? `${m.name} — basemap only, no marker source exists yet. Draw your own zones and routes.`
+                  : `${m.name} — markers imported`;
               return (
                 <button
                   key={m.key}
                   type="button"
                   className={`eft-btn eft-btn-sm${m.key === mapKey ? ' eft-is-on' : ''}`}
                   onClick={() => setPrefs({ lastMap: m.key })}
-                  title={ready ? `${m.name} — markers imported` : `${m.name} — scaffolded, markers not imported yet`}
+                  title={title}
                 >
                   {m.name}
                   {!ready ? <span className="eft-added-flag" style={{ marginLeft: 6 }}>soon</span> : null}
+                  {basemapOnly ? <span className="eft-added-flag" style={{ marginLeft: 6 }}>no pins</span> : null}
                 </button>
               );
             })}
