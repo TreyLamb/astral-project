@@ -329,3 +329,35 @@ export const SEED_SIGHTS = {
   meh: [],
   dogshit: [],
 };
+
+// --- The user's own shopping list ---------------------------------------
+// Seeded, not hardcoded: these are two rows Trey asked for by name, and they
+// are editable and deletable like anything he adds himself afterwards.
+//
+// "Crickent lighter" is spelled the way BSG spells it in-game, which is also
+// how it has to be spelled to match the item table.
+
+export const SEED_MY_LIST = {
+  ongoing: [
+    {
+      id: 'seed-zibbo',
+      itemId: '56742c2e4bdc2d95058b456d',
+      name: 'Zibbo lighter',
+      need: 1,
+      have: 0,
+      note: 'trade for fuel',
+      value: '',
+    },
+    {
+      id: 'seed-crickent',
+      itemId: '56742c284bdc2d98058b456d',
+      name: 'Crickent lighter',
+      need: 1,
+      have: 0,
+      note: 'trade for fuel',
+      value: '',
+    },
+  ],
+  raid: [],
+  value: [],
+};

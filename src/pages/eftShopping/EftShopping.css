@@ -3448,3 +3448,281 @@
    the recipe line lives — so that line yields the corner. */
 .eft-ct-item.eft-is-tool .eft-ct-madeat,
 .eft-ct-item.eft-is-cycle .eft-ct-madeat { padding-right: 46px; }
+
+/* ==========================================================================
+   The hand-built list  (/EFTsh/list, "My list")
+   Two thirds shopping list, one third value list, with a hard rule between
+   them — Trey asked for a clear line, not a gap that reads as "same table".
+   ========================================================================== */
+
+.eft-listsplit {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0;
+  align-items: start;
+}
+
+.eft-listsplit-main {
+  min-width: 0;
+  padding-right: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eft-listsplit-side {
+  min-width: 0;
+  padding-left: 14px;
+  border-left: 2px solid var(--eft-line-bright);
+}
+
+/* Below a tablet the two stack, and the rule moves to the top edge so it still
+   reads as a separator rather than a stray vertical line. */
+@media (max-width: 900px) {
+  .eft-listsplit { grid-template-columns: 1fr; }
+  .eft-listsplit-main { padding-right: 0; }
+  .eft-listsplit-side {
+    padding-left: 0;
+    padding-top: 14px;
+    margin-top: 14px;
+    border-left: 0;
+    border-top: 2px solid var(--eft-line-bright);
+  }
+}
+
+/* --- rows ---------------------------------------------------------------- */
+
+.eft-llist { list-style: none; margin: 10px 0 0; padding: 0; }
+
+.eft-lrow {
+  display: grid;
+  /* Item | count | notes | remove. Notes takes about half the row because the
+     note is the part you actually read.
+     The count column is a FIXED width, not auto: every row is its own grid, so
+     an auto column sizes to its own content and the header labels drift out of
+     line with the rows below them. */
+  grid-template-columns: minmax(0, 1fr) 208px minmax(0, 1.15fr) 28px;
+  gap: 8px;
+  align-items: center;
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--eft-line);
+  border-radius: var(--eft-r-xs);
+}
+
+.eft-lrow:hover { background: var(--eft-panel-2); }
+
+.eft-lrow-head {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--eft-text-faint);
+  border-bottom: 1px solid var(--eft-line-bright);
+}
+.eft-lrow-head:hover { background: none; }
+
+.eft-lrow.eft-is-done .eft-lrow-name { color: var(--eft-text-faint); text-decoration: line-through; }
+
+.eft-lrow-item { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.eft-lrow-icon { width: 30px; height: 30px; object-fit: contain; flex: none; }
+.eft-lrow-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.eft-lrow-count { display: flex; align-items: center; gap: 6px; }
+.eft-lrow-of { color: var(--eft-text-faint); font-size: 11px; }
+.eft-lrow-tally { font-variant-numeric: tabular-nums; min-width: 42px; text-align: right; color: var(--eft-text-dim); }
+.eft-lrow-tally.eft-is-met { color: var(--eft-green); }
+.eft-lrow-need { width: 54px; }
+.eft-lrow-note { width: 100%; }
+.eft-lrow-x { justify-self: end; }
+
+/* --- value list ---------------------------------------------------------- */
+
+.eft-vrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 96px 28px;
+  gap: 8px;
+  align-items: center;
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--eft-line);
+  border-radius: var(--eft-r-xs);
+}
+.eft-vrow:hover { background: var(--eft-panel-2); }
+.eft-vrow-item { display: flex; align-items: center; gap: 7px; min-width: 0; }
+
+/* --- type-ahead picker --------------------------------------------------- */
+
+.eft-picker { position: relative; }
+.eft-picker-input { width: 100%; }
+
+.eft-picker-list {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 3px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--eft-panel-2);
+  border: 1px solid var(--eft-line-bright);
+  border-radius: var(--eft-r-sm);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
+}
+
+.eft-picker-list button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 5px 7px;
+  background: none;
+  border: 0;
+  border-radius: var(--eft-r-xs);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.eft-picker-list button.eft-is-on { background: var(--eft-raised); }
+.eft-picker-list img { width: 26px; height: 26px; object-fit: contain; flex: none; }
+.eft-picker-noicon {
+  width: 26px; height: 26px; flex: none;
+  border: 1px dashed var(--eft-line-bright);
+  border-radius: var(--eft-r-xs);
+}
+.eft-picker-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* --- the corner plus ----------------------------------------------------- */
+
+.eft-addwrap { position: relative; display: inline-flex; }
+
+.eft-addbtn {
+  width: 19px;
+  height: 19px;
+  line-height: 1;
+  padding: 0;
+  flex: none;
+  background: var(--eft-raised);
+  border: 1px solid var(--eft-line-bright);
+  border-radius: 999px;
+  color: var(--eft-text-dim);
+  font-size: 13px;
+  cursor: pointer;
+}
+.eft-addbtn:hover { background: var(--eft-gold); border-color: var(--eft-gold); color: #17150f; }
+
+.eft-item-add { align-self: flex-start; margin-right: 2px; }
+
+.eft-addmenu-back { position: fixed; inset: 0; z-index: 60; }
+
+.eft-addmenu {
+  position: absolute;
+  z-index: 61;
+  top: calc(100% + 4px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 172px;
+  padding: 4px;
+  background: var(--eft-panel-2);
+  border: 1px solid var(--eft-line-bright);
+  border-radius: var(--eft-r-sm);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
+}
+.eft-addmenu button {
+  padding: 6px 9px;
+  background: none;
+  border: 0;
+  border-radius: var(--eft-r-xs);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.eft-addmenu button:hover { background: var(--eft-raised); }
+
+/* --- the derived hideout list, at the foot of /EFTsh/list ---------------- */
+
+.eft-hideoutlist { margin-top: 14px; }
+
+.eft-hrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 58px 118px 150px;
+  gap: 8px;
+  align-items: center;
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--eft-line);
+  border-radius: var(--eft-r-xs);
+}
+.eft-hrow:hover { background: var(--eft-panel-2); }
+.eft-hrow.eft-is-done .eft-hrow-name { color: var(--eft-text-faint); text-decoration: line-through; }
+
+.eft-hrow-name {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.eft-hrow-need { text-align: right; font-variant-numeric: tabular-nums; color: var(--eft-text-dim); }
+.eft-hrow-for { justify-self: start; overflow: hidden; }
+
+@media (max-width: 700px) {
+  .eft-hrow { grid-template-columns: minmax(0, 1fr) 46px auto; }
+  .eft-hrow-for { display: none; }
+}
+
+/* --- waypoints ----------------------------------------------------------- */
+
+/* The draft pin. A ring rather than a filled blob, so you can see the exact
+   pixel it is centred on while dragging — the whole point is precision. */
+.eft-wp-draft { background: none; border: 0; cursor: grab; }
+.eft-wp-draft:active { cursor: grabbing; }
+.eft-wp-draft span {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--eft-gold);
+  border-radius: 999px;
+  background: rgba(240, 205, 130, 0.25);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.eft-wp-draft span::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  width: 2px;
+  height: 2px;
+  background: var(--eft-gold);
+}
+
+.eft-wp-form {
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid var(--eft-line-bright);
+  border-radius: var(--eft-r-sm);
+  background: var(--eft-panel-2);
+}
+
+.eft-wp-jump {
+  flex: 1;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.eft-wp-jump:hover { color: var(--eft-gold); }

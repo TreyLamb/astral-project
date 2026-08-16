@@ -50,6 +50,8 @@ export default function MapCanvas({
   markersInteractive = true,
   overlays,
   cursor,
+  draftWaypoint,
+  onDraftMove,
   onMarkerClick,
   onMapClick,
   onMapMove,
@@ -64,11 +66,12 @@ export default function MapCanvas({
   const overlaysRef = useRef([]);
   const baseRef = useRef(null);
   const tipRef = useRef(null);
+  const draftRef = useRef(null);
   const s = useRef({});
 
   s.current = {
     markers, categories, found, toPoint, markersInteractive,
-    onMarkerClick, onMapClick, onMapMove, onMapDown, onMapUp,
+    onMarkerClick, onMapClick, onMapMove, onMapDown, onMapUp, onDraftMove,
   };
 
   const showTip = useCallback((marker, containerPoint) => {
@@ -303,6 +306,49 @@ export default function MapCanvas({
     overlaysRef.current = overlays;
     drawOverlays();
   }, [overlays, drawOverlays]);
+
+  // --- the draft waypoint -------------------------------------------------
+  // Deliberately NOT an overlay. Overlays are non-interactive and get cleared
+  // and rebuilt on every zoom, which would drop a marker mid-drag. This is one
+  // real Leaflet marker with its own lifecycle, so `draggable` actually works
+  // and the position is exact to wherever it is let go — the tighter you zoom,
+  // the finer the latlng you get, with no snapping of any kind.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return undefined;
+    if (!draftWaypoint) return undefined;
+
+    const marker = L.marker([draftWaypoint.lat, draftWaypoint.lng], {
+      draggable: true,
+      autoPan: true,
+      zIndexOffset: 1000,
+      icon: L.divIcon({ className: 'eft-wp-draft', html: '<span></span>', iconSize: [18, 18], iconAnchor: [9, 9] }),
+    }).addTo(map);
+
+    marker.on('drag', (e) => {
+      const { lat, lng } = e.target.getLatLng();
+      s.current.onDraftMove?.({ lat, lng }, { live: true });
+    });
+    marker.on('dragend', (e) => {
+      const { lat, lng } = e.target.getLatLng();
+      s.current.onDraftMove?.({ lat, lng }, { live: false });
+    });
+
+    draftRef.current = marker;
+    return () => { map.removeLayer(marker); draftRef.current = null; };
+    // Only the draft appearing or disappearing rebuilds it. Position updates
+    // while dragging must not, or the marker is torn out from under the cursor.
+  }, [!draftWaypoint]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Moving the draft from outside (the "recentre" button) still has to move the
+  // marker, but never while the user is the one dragging it.
+  useEffect(() => {
+    const marker = draftRef.current;
+    if (!marker || !draftWaypoint || marker.dragging?.moving?.()) return;
+    const at = marker.getLatLng();
+    if (Math.abs(at.lat - draftWaypoint.lat) < 1e-12 && Math.abs(at.lng - draftWaypoint.lng) < 1e-12) return;
+    marker.setLatLng([draftWaypoint.lat, draftWaypoint.lng]);
+  }, [draftWaypoint]);
 
   useEffect(() => {
     const map = mapRef.current;

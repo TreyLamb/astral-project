@@ -123,25 +123,25 @@ export default function RaidKitView() {
           >
             Sheet — all maps
           </button>
-          <button
-            type="button"
-            className={mode === 'pack' ? 'eft-is-on' : ''}
-            onClick={() => setMode('pack')}
-            title="One map, big checkboxes, for packing before a raid"
-          >
-            Pack one map
-          </button>
         </div>
 
-        {mode === 'pack' ? (
-          <select
-            className="eft-select"
-            value={selectedId || ''}
-            onChange={(e) => setPref('raidMap', e.target.value)}
-          >
-            {raidKits.map((k) => <option key={k.id} value={k.id}>{k.map}</option>)}
-          </select>
-        ) : null}
+        {/* Picking a map IS the switch into packing mode. The old pair — a
+            "Pack one map" button that then revealed a separate map dropdown —
+            made you say the same thing twice to get one screen. */}
+        <select
+          className="eft-select"
+          value={mode === 'pack' ? (selectedId || '') : ''}
+          onChange={(e) => {
+            const id = e.target.value;
+            if (!id) { setMode('sheet'); return; }
+            setPref('raidMap', id);
+            setMode('pack');
+          }}
+          title="Pick a map to pack for"
+        >
+          <option value="">Pack a map…</option>
+          {raidKits.map((k) => <option key={k.id} value={k.id}>{k.map}</option>)}
+        </select>
 
         <input
           className="eft-input eft-listbar-search"

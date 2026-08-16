@@ -10,6 +10,10 @@ import {
 import { resolveMarkers, routeManifest } from '../map/eftMapFilters';
 import { useMapDrawing, routePolyline } from '../map/useMapDrawing';
 import { ZonePanel, RoutePanel, ManifestPanel, CatIcon } from '../map/MapSidePanels';
+import {
+  fetchWaypoints, saveWaypoint, deleteWaypoint, pushWaypoints, mergeWaypoints,
+} from '../map/eftMapFirestore';
+import { useAuth } from '../../../AuthContext';
 import { Panel, Stat, Seg } from '../EftBits';
 import { useEft } from '../eftContext';
 
@@ -41,8 +45,19 @@ const uid = () => `p${Date.now().toString(36)}${Math.random().toString(36).slice
 
 // Same soft, client-side gate as QATracker: it keeps the page from being
 // stumbled into, nothing more, and is not pretending to be security.
+//
+// localStorage, not session: it is a speed bump, not a secret, and re-typing it
+// every time the tab was reopened on the same machine was pure friction.
 const PASSWORD = 'trogdor';
 const UNLOCK_KEY = 'eftmap-unlocked';
+
+const isUnlocked = () => {
+  try {
+    return localStorage.getItem(UNLOCK_KEY) === '1' || sessionStorage.getItem(UNLOCK_KEY) === '1';
+  } catch {
+    return false;
+  }
+};
 
 function PasswordGate({ onUnlock }) {
   const [input, setInput] = useState('');
@@ -79,7 +94,7 @@ function PasswordGate({ onUnlock }) {
 export default function MapView() {
   const { showToast } = useEft();
 
-  const [unlocked, setUnlocked] = useState(() => sessionStorage.getItem(UNLOCK_KEY) === '1');
+  const [unlocked, setUnlocked] = useState(isUnlocked);
   const [prefs, setPrefsState] = useState(() => MapStore.getPrefs());
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -87,6 +102,12 @@ export default function MapView() {
   const [activeFloor, setActiveFloor] = useState(null);
   const [visibleCats, setVisibleCats] = useState(() => new Set());
   const [found, setFound] = useState({});
+  // The user's own pins, and the one being placed right now. The list itself
+  // is derived from storage rather than mirrored into state — `wpVersion` is
+  // just the "storage changed" nudge, which keeps the map-switch case from
+  // needing a setState inside an effect.
+  const [wpVersion, setWpVersion] = useState(0);
+  const [draft, setDraft] = useState(null);
   const [calibration, setCalibrationState] = useState(null);
   const [calMode, setCalMode] = useState(false);
   const [calPairs, setCalPairs] = useState([]);
@@ -172,6 +193,87 @@ export default function MapView() {
 
     return () => { cancelled = true; };
   }, [mapKey, mapConfig]);
+
+  // --- waypoints ----------------------------------------------------------
+  // localStorage is the source of truth so the map still works signed out; the
+  // Firestore copy is what makes a pin placed on the desktop show up on the
+  // laptop. On sign-in the two are merged rather than one overwriting the
+  // other, so points made while signed out are not stranded.
+  const { user } = useAuth() || {};
+  const userId = user?.uid || null;
+
+  const waypoints = useMemo(() => {
+    // Read purely so the memo re-runs after a write: MapStore is localStorage
+    // and not reactive, so bumping a counter is what invalidates this.
+    void wpVersion;
+    return MapStore.getWaypoints(mapKey);
+  }, [mapKey, wpVersion]);
+
+  useEffect(() => {
+    if (!userId) return undefined;
+    let cancelled = false;
+    fetchWaypoints(userId).then((remote) => {
+      if (cancelled) return;
+      const mine = remote.filter((w) => w.mapKey === mapKey);
+      const local = MapStore.getWaypoints(mapKey);
+      const merged = mergeWaypoints(local, mine);
+      MapStore.setWaypoints(mapKey, merged);
+      setWpVersion((v) => v + 1);
+      // Anything local the server has never seen goes up once.
+      const known = new Set(mine.map((w) => w.id));
+      pushWaypoints(userId, merged.filter((w) => !known.has(w.id))).catch(() => {});
+    }).catch(() => { /* offline — the local copy is already on screen */ });
+    return () => { cancelled = true; };
+  }, [userId, mapKey]);
+
+  const writeWaypoints = useCallback((next) => {
+    MapStore.setWaypoints(mapKey, next);
+    setWpVersion((v) => v + 1);
+  }, [mapKey]);
+
+  // A pin starts life dead centre of what you are already looking at, which is
+  // almost always within a drag of where you want it — and the further in you
+  // are zoomed, the finer that drag gets. Nothing snaps.
+  const startWaypoint = useCallback(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const c = map.getCenter();
+    setDraft({
+      id: `wp-${uid()}`,
+      mapKey,
+      name: '',
+      catId: '',
+      lat: c.lat,
+      lng: c.lng,
+    });
+  }, [mapKey]);
+
+  const recentreDraft = useCallback(() => {
+    const map = mapRef.current;
+    if (!map || !draft) return;
+    const c = map.getCenter();
+    setDraft((d) => (d ? { ...d, lat: c.lat, lng: c.lng } : d));
+  }, [draft]);
+
+  const commitWaypoint = useCallback(() => {
+    if (!draft) return;
+    const cat = (data?.categories || []).find((c) => String(c.id) === String(draft.catId));
+    const wp = {
+      ...draft,
+      name: draft.name.trim() || cat?.title || 'Waypoint',
+      color: cat?.color ? `#${cat.color}` : '#e0c07a',
+      updatedAt: Date.now(),
+    };
+    writeWaypoints([...waypoints.filter((w) => w.id !== wp.id), wp]);
+    setDraft(null);
+    if (userId) saveWaypoint(userId, wp).catch(() => showToast('Saved here, but the cloud copy failed'));
+    showToast(userId ? `${wp.name} saved to your account` : `${wp.name} saved on this device`);
+  }, [draft, waypoints, writeWaypoints, userId, data, showToast]);
+
+  const removeWaypoint = useCallback((id) => {
+    writeWaypoints(waypoints.filter((w) => w.id !== id));
+    if (userId) deleteWaypoint(userId, id).catch(() => {});
+  }, [waypoints, writeWaypoints, userId]);
 
   const savedCalibration = MapStore.getCalibration(mapKey);
   const isCalibrated = !!savedCalibration;
@@ -379,6 +481,12 @@ export default function MapView() {
   const overlays = useMemo(() => {
     const out = [];
 
+    // The user's own pins sit on top of everything: they are the one thing on
+    // this map that nobody else published.
+    for (const wp of waypoints) {
+      out.push({ kind: 'pin', point: [wp.lat, wp.lng], label: wp.name || 'Waypoint', color: wp.color || '#e0c07a' });
+    }
+
     for (const z of draw.zones) {
       if (z.hidden || !z.ring?.length) continue;
       out.push({
@@ -458,12 +566,12 @@ export default function MapView() {
     return out;
   }, [draw.zones, draw.routes, draw.activeZoneId, draw.activeRouteId, draw.previewRing,
     draw.previewSegment, draw.snapTarget, draw.editTarget, unitsPerMetre,
-    calMode, calPairs, pendingMarker, calibration]);
+    calMode, calPairs, pendingMarker, calibration, waypoints]);
 
   if (!unlocked) {
     return (
       <PasswordGate onUnlock={() => {
-        sessionStorage.setItem(UNLOCK_KEY, '1');
+        try { localStorage.setItem(UNLOCK_KEY, '1'); } catch { /* private mode — this session still works */ }
         setUnlocked(true);
       }}
       />
@@ -531,6 +639,8 @@ export default function MapView() {
             markersInteractive={!drawing && !draw.editTarget}
             overlays={overlays}
             cursor={drawing || calMode ? 'crosshair' : draw.editTarget ? 'move' : ''}
+            draftWaypoint={draft}
+            onDraftMove={({ lat, lng }) => setDraft((d) => (d ? { ...d, lat, lng } : d))}
             onMarkerClick={handleMarkerClick}
             onMapClick={onMapClick}
             onMapMove={onMapMove}
@@ -822,6 +932,91 @@ export default function MapView() {
                 );
               })}
               {!data ? <div className="eft-empty">No categories loaded.</div> : null}
+            </div>
+          </Panel>
+
+          <Panel
+            title={`My waypoints${waypoints.length ? ` (${waypoints.length})` : ''}`}
+            collapsible
+            open={panelOpen('waypoints')}
+            onToggle={(v) => setPanel('waypoints', v)}
+            actions={(
+              <button type="button" className="eft-btn eft-btn-sm eft-is-primary"
+                onClick={startWaypoint} disabled={!!draft}>
+                + Waypoint
+              </button>
+            )}
+          >
+            {draft ? (
+              <div className="eft-wp-form">
+                <div className="eft-note" style={{ marginBottom: 6 }}>
+                  Drag the dot on the map to place it, then name it. It sits exactly where you
+                  drop it — zoom in for a finer placement.
+                </div>
+                <input
+                  className="eft-input"
+                  autoFocus
+                  placeholder="Name this spot…"
+                  value={draft.name}
+                  onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
+                  onKeyDown={(e) => { if (e.key === 'Enter') commitWaypoint(); if (e.key === 'Escape') setDraft(null); }}
+                  style={{ width: '100%', marginBottom: 6 }}
+                />
+                <select
+                  className="eft-select"
+                  value={draft.catId}
+                  onChange={(e) => setDraft((d) => ({ ...d, catId: e.target.value }))}
+                  style={{ width: '100%', marginBottom: 6 }}
+                >
+                  <option value="">No filter — always shown</option>
+                  {(data?.categories || []).map((c) => (
+                    <option key={c.id} value={c.id}>{c.group} — {c.title}</option>
+                  ))}
+                </select>
+                <div className="eft-note" style={{ marginBottom: 6 }}>
+                  {draft.lat.toFixed(6)}, {draft.lng.toFixed(6)}
+                </div>
+                <div className="eft-controls">
+                  <button type="button" className="eft-btn eft-btn-sm eft-is-primary" onClick={commitWaypoint}>Save</button>
+                  <button type="button" className="eft-btn eft-btn-sm" onClick={recentreDraft}
+                    title="Move the dot back to the middle of the current view">Recentre</button>
+                  <button type="button" className="eft-btn eft-btn-sm" onClick={() => setDraft(null)}>Cancel</button>
+                </div>
+              </div>
+            ) : null}
+
+            {!waypoints.length && !draft ? (
+              <div className="eft-empty">
+                No waypoints on {mapConfig.name} yet.
+                {userId ? ' They sync to your account.' : ' Sign in to carry them between computers.'}
+              </div>
+            ) : null}
+
+            {waypoints.length ? (
+              <ul className="eft-linelist">
+                {waypoints.map((wp) => (
+                  <li key={wp.id}>
+                    <span className="eft-swatch" style={{ background: wp.color || '#e0c07a' }} />
+                    <button
+                      type="button"
+                      className="eft-line-text eft-wp-jump"
+                      title="Centre the map on this waypoint"
+                      onClick={() => mapRef.current?.panTo([wp.lat, wp.lng])}
+                    >
+                      {wp.name}
+                    </button>
+                    <button type="button" className="eft-iconbtn" title="Move or rename"
+                      onClick={() => setDraft({ ...wp })}>✎</button>
+                    <button type="button" className="eft-iconbtn" title="Delete this waypoint"
+                      onClick={() => removeWaypoint(wp.id)}>×</button>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+
+            <div className="eft-note" style={{ marginTop: 8 }}>
+              {userId ? 'Synced to your account — same points on any computer you sign in on.'
+                : 'Saved on this device only. Sign in on the hub to sync them.'}
             </div>
           </Panel>
 

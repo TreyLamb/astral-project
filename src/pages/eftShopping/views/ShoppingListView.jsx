@@ -7,24 +7,28 @@ import {
 import { Seg, Panel, Counter, ItemCell, useItemDetail, fmtRub, fmtShort } from '../EftBits';
 import { itemIcon } from '../eftApi';
 import { BuildOrderPanels } from './BuildOrderView';
+import MyListPanels from './MyListPanels';
 
 /**
- * The shopping list, in three modes.
+ * The shopping list page.
  *
- * The default is a picture-and-quantity GRID, because the real use for this
- * screen is having it open on a second screen mid-raid: you have about a second
- * to answer "do I grab this?", and a seven-column table of costs and trader
- * prices is unreadable in that second. Icon, name, and how many you still need
- * — everything else is an aside.
+ * MY LIST is the default and the main event: a list the user builds by hand,
+ * one item at a time, because that is the thing you actually carry into a raid.
+ * The other three modes are all *derived* from the hideout targets — useful,
+ * but nobody can add a row to them.
  *
- * The old table is kept as a mode rather than deleted (it is the only place
- * costs, trader-beats-flea and per-station attribution are visible), and the
- * build order is folded in as a third mode so the in-raid "what do I need NOW"
- * and the out-of-raid "what is coming up" live behind one toggle instead of two
- * tabs.
+ * RAID GRID is picture-and-quantity, for having open on a second screen
+ * mid-raid: you get about a second to answer "do I grab this?", and a
+ * seven-column table of costs and trader prices is unreadable in that second.
+ *
+ * FULL DETAIL keeps the old table — it is the only place costs,
+ * trader-beats-flea and per-station attribution are visible. BUILD ORDER is
+ * folded in as a mode so "what do I need NOW" and "what is coming up" live
+ * behind one toggle instead of two tabs.
  */
 
 const MODES = [
+  { value: 'mine', label: 'My list', title: 'The list you build yourself — the main event' },
   { value: 'grid', label: 'Raid grid', title: 'Pictures and quantities — for glancing at mid-raid' },
   { value: 'table', label: 'Full detail', title: 'Costs, traders and which station wants what' },
   { value: 'order', label: 'Build order', title: 'What to build next, and in what order' },
@@ -45,7 +49,7 @@ export default function ShoppingListView() {
   const [stationFilter, setStationFilter] = useState('');
   const { openItem, detailNode } = useItemDetail();
 
-  const mode = prefs.listMode || 'grid';
+  const mode = prefs.listMode || 'mine';
   const size = prefs.tileSize || 'md';
 
   const pending = useMemo(
@@ -170,6 +174,13 @@ export default function ShoppingListView() {
           </>
         ) : null}
       </div>
+
+      {mode === 'mine' ? (
+        <>
+          <MyListPanels />
+          <HideoutList rows={rows} setHave={setHave} openItem={openItem} />
+        </>
+      ) : null}
 
       {mode === 'order' ? <BuildOrderPanels /> : null}
 
@@ -425,5 +436,89 @@ function Row({ row, setHave, openItem }) {
         </div>
       </td>
     </tr>
+  );
+}
+
+/**
+ * The derived hideout list, as one flat run of rows at the bottom of the page.
+ *
+ * On the station question: showing every station that wants an item is what
+ * made the old table's last column a wall of chips, and hiding it entirely
+ * loses the one thing you'd want to know. So the middle ground — one station
+ * gets named outright, several collapse to "3 stations" with the full list in
+ * the tooltip. The common case reads at a glance and the messy case never
+ * takes more than one chip's worth of room.
+ */
+function HideoutList({ rows, setHave, openItem }) {
+  const [openOnly, setOpenOnly] = useState(true);
+
+  const shown = useMemo(() => {
+    const list = openOnly ? rows.filter((r) => !r.done) : rows;
+    return [...list].sort((a, b) => Number(a.done) - Number(b.done) || a.name.localeCompare(b.name));
+  }, [rows, openOnly]);
+
+  return (
+    <section className="eft-panel eft-hideoutlist">
+      <header className="eft-panel-head">
+        <h2>Hideout shopping list</h2>
+        <div className="eft-spacer" style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+          <span className="eft-note">everything your station targets still need</span>
+          <label className="eft-checkline">
+            <input type="checkbox" checked={openOnly} onChange={(e) => setOpenOnly(e.target.checked)} />
+            Hide what I have
+          </label>
+          <span className="eft-chip eft-is-met">{rows.filter((r) => r.done).length}/{rows.length} got</span>
+        </div>
+      </header>
+
+      <div className="eft-panel-body">
+        {!shown.length ? (
+          <div className="eft-empty">
+            {rows.length ? 'Everything on the hideout list is covered.' : 'Nothing outstanding — set some station targets on the Hideout tab.'}
+          </div>
+        ) : (
+          <ul className="eft-llist">
+            <li className="eft-hrow eft-lrow-head">
+              <span className="eft-lrow-item">Item</span>
+              <span className="eft-hrow-need">Need</span>
+              <span className="eft-lrow-count">Have</span>
+              <span className="eft-hrow-for">For</span>
+            </li>
+            {shown.map((row) => {
+              const stations = [...new Set(row.sources.map((s) => s.stationName))];
+              return (
+                <li key={row.itemId} className={`eft-hrow${row.done ? ' eft-is-done' : ''}`}>
+                  <div className="eft-lrow-item">
+                    <img className="eft-lrow-icon" src={itemIcon(row.itemId)} alt="" loading="lazy"
+                      onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} />
+                    <button type="button" className="eft-hrow-name" title={row.name}
+                      onClick={row.item ? () => openItem(row.item) : undefined}>
+                      {row.name}
+                    </button>
+                    {row.fir ? <span className="eft-chip eft-is-fir">FIR</span> : null}
+                  </div>
+
+                  <span className="eft-hrow-need">{row.needed}</span>
+
+                  <div className="eft-lrow-count">
+                    <Counter value={row.have} max={row.needed * 4} onChange={(n) => setHave(row.itemId, n)} />
+                  </div>
+
+                  <span className="eft-hrow-for">
+                    {stations.length === 1 ? (
+                      <span className="eft-chip">{stations[0]}</span>
+                    ) : (
+                      <span className="eft-chip" title={row.sources.map((s) => `${s.stationName} level ${s.level} — ${s.count}`).join('\n')}>
+                        {stations.length} stations
+                      </span>
+                    )}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+    </section>
   );
 }

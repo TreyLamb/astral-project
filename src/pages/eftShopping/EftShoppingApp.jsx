@@ -5,6 +5,7 @@ import { EftContext } from './eftContext';
 import { loadEftData, fetchLivePrices } from './eftApi';
 import { GAME_MODES } from './eftNormalize';
 import { read, write, DEFAULTS } from './eftStorage';
+import { addToList } from './eftListLogic';
 import { fmtAgo } from './EftBits';
 
 import HideoutView from './views/HideoutView';
@@ -137,9 +138,21 @@ export default function EftShoppingApp() {
     [items],
   );
 
+  // Lives here rather than in the list view because the whole point is that any
+  // view showing an item can push to the list — a table row on Frugal, a tile
+  // on the shopping grid, a hideout search hit.
+  const addToShoppingList = useCallback((entry, which = 'ongoing') => {
+    update('myList', (prev) => ({
+      ...prev,
+      [which]: addToList(prev?.[which], { need: 1, ...entry }),
+    }));
+    showToast(`${entry.name} → ${which === 'raid' ? 'this raid' : which === 'value' ? 'value list' : 'ongoing list'}`);
+  }, [update, showToast]);
+
   const value = useMemo(() => ({
     ...store,
     update,
+    addToShoppingList,
     reloadStore,
     data,
     stations,
@@ -155,7 +168,7 @@ export default function EftShoppingApp() {
     refresh: refreshPrices,
     refreshPrices,
     showToast,
-  }), [store, update, reloadStore, data, stations, items, status, hasPrices, gameMode, refreshPrices, showToast]);
+  }), [store, update, addToShoppingList, reloadStore, data, stations, items, status, hasPrices, gameMode, refreshPrices, showToast]);
 
   const active = (tab) => {
     const path = `${ROOT}${tab.to}`;

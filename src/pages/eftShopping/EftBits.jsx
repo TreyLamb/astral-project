@@ -3,6 +3,50 @@
 
 import { useState } from 'react';
 import { itemIcon, itemImage } from './eftApi';
+import { useEft } from './eftContext';
+
+/**
+ * The corner plus that puts any item on the hand-built shopping list.
+ *
+ * It reads the context itself rather than taking a handler, because otherwise
+ * every table row in every view would have to thread one down — and the whole
+ * request was that this be available wherever an item is shown, not wherever
+ * someone remembered to wire it.
+ *
+ * Left click adds to the ongoing list. Right click offers the other two, since
+ * a menu on every row would be noise for the common case.
+ */
+export function AddToList({ itemId, name, className = '' }) {
+  const { addToShoppingList } = useEft();
+  const [menu, setMenu] = useState(false);
+  if (!name) return null;
+
+  const add = (which) => { addToShoppingList({ itemId, name }, which); setMenu(false); };
+
+  return (
+    <span className={`eft-addwrap ${className}`.trim()}>
+      <button
+        type="button"
+        className="eft-addbtn"
+        title={`Add ${name} to the ongoing shopping list — right click for this raid or the value list`}
+        onClick={(e) => { e.stopPropagation(); add('ongoing'); }}
+        onContextMenu={(e) => { e.preventDefault(); e.stopPropagation(); setMenu((v) => !v); }}
+      >
+        +
+      </button>
+      {menu ? (
+        <>
+          <span className="eft-addmenu-back" onClick={() => setMenu(false)} />
+          <span className="eft-addmenu" role="menu">
+            <button type="button" onClick={() => add('ongoing')}>Add to ongoing list</button>
+            <button type="button" onClick={() => add('raid')}>Add to this raid</button>
+            <button type="button" onClick={() => add('value')}>Add to value list</button>
+          </span>
+        </>
+      ) : null}
+    </span>
+  );
+}
 
 export const fmtRub = (n) => {
   if (n == null || Number.isNaN(n)) return '—';
@@ -40,11 +84,13 @@ export function fmtAgo(ts) {
   return `${Math.round(h / 24)}d ago`;
 }
 
-export function ItemCell({ item, itemId, sub, onClick }) {
+export function ItemCell({ item, itemId, sub, onClick, noAdd }) {
   const id = item?.id || itemId;
   const bg = `eft-bg-${item?.backgroundColor || 'default'}`;
+  const name = item?.name || null;
   return (
     <div className="eft-item">
+      {noAdd || !name ? null : <AddToList itemId={id} name={name} className="eft-item-add" />}
       <img
         className={`eft-item-icon ${bg}`}
         src={itemIcon(id)}

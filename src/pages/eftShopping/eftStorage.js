@@ -10,7 +10,7 @@
 import {
   SEED_RAID_KITS, SEED_MED_BASELINE, SEED_AMMO_GROUPS, SEED_AMMO_NOTES,
   SEED_FRUGAL, SEED_MED_NOTES, SEED_WATCHLIST, SEED_FOOD_TIER,
-  SEED_LOOT_CALC, SEED_SIGHTS,
+  SEED_LOOT_CALC, SEED_SIGHTS, SEED_MY_LIST,
 } from './data/eftSeeds';
 
 const P = 'eftsh_';
@@ -35,6 +35,7 @@ export const STORE_KEYS = {
   sights: `${P}sights_v1`,
   craftGraph: `${P}craftgraph_v1`,
   questsDone: `${P}questsdone_v1`,
+  myList: `${P}mylist_v1`,
 };
 
 export const DEFAULTS = {
@@ -69,7 +70,7 @@ export const DEFAULTS = {
     // Shopping list presentation. 'grid' is the in-raid quick-reference —
     // picture and quantity, nothing else competing for the glance you get
     // between fights. 'table' is the full detail, 'order' is the build order.
-    listMode: 'grid',
+    listMode: 'mine',
     // Tile size for the grid, so the same list works on a second monitor and
     // on a phone propped against the keyboard.
     tileSize: 'md',
@@ -108,6 +109,10 @@ export const DEFAULTS = {
   // Quest ids the user has finished. Ticking one here is what turns
   // "Used in 3 quests" into "Used in quests 1/3" the next time an item comes up.
   questsDone: [],
+  // The hand-built list — the opposite of the derived hideout one. `ongoing`
+  // carries across raids, `raid` is wiped between them, and `value` is the
+  // separate right-hand column of "what is this worth".
+  myList: SEED_MY_LIST,
 };
 
 export function read(name) {

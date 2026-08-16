@@ -12,6 +12,7 @@ const KEY = {
   zones: (map) => `${P}zones_${map}_v1`,
   routes: (map) => `${P}routes_${map}_v1`,
   found: (map) => `${P}found_${map}_v1`,
+  waypoints: (map) => `${P}waypoints_${map}_v1`,
   presets: (map) => `${P}presets_${map}_v1`,
   prefs: `${P}prefs_v2`,
 };
@@ -33,7 +34,7 @@ export const DEFAULT_PREFS = {
   railOpen: true,
   mapMenuOpen: false,
   // Per-panel collapse state, so a folded panel stays folded.
-  panels: { filters: true, zones: false, routes: false, manifest: true, presets: false },
+  panels: { filters: true, waypoints: false, zones: false, routes: false, manifest: true, presets: false },
 };
 
 function read(key, fallback) {
@@ -85,6 +86,12 @@ export const MapStore = {
   // all" — only the first case gets the starter preset.
   getPresets: (map) => read(KEY.presets(map), null),
   setPresets: (map, v) => write(KEY.presets(map), v),
+
+  // The user's own pins. Mirrored to Firestore when signed in (see
+  // eftMapFirestore.js) — localStorage stays the offline copy so the map still
+  // works signed out, exactly like every other slice here.
+  getWaypoints: (map) => read(KEY.waypoints(map), []),
+  setWaypoints: (map, v) => write(KEY.waypoints(map), v),
 };
 
 export function exportMapData(mapKeys) {
@@ -99,6 +106,7 @@ export function exportMapData(mapKeys) {
       routes: MapStore.getRoutes(m),
       found: MapStore.getFound(m),
       presets: MapStore.getPresets(m),
+      waypoints: MapStore.getWaypoints(m),
     }])),
   }, null, 2);
 }
@@ -121,6 +129,7 @@ export function importMapData(json) {
     if (data.routes) MapStore.setRoutes(map, data.routes);
     if (data.found) MapStore.setFound(map, data.found);
     if (data.presets) MapStore.setPresets(map, data.presets);
+    if (data.waypoints) MapStore.setWaypoints(map, data.waypoints);
     restored.push(map);
   }
   return { ok: true, maps: restored };
