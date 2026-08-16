@@ -115,6 +115,28 @@ export const DEFAULTS = {
   myList: SEED_MY_LIST,
 };
 
+/**
+ * Same trap as the map's prefs: `prefs` is persisted, so changing a default
+ * does nothing for anyone who has already used the tool, and localStorage is
+ * per-origin so localhost and the deployed site disagree. Bumping PREFS_REV
+ * re-applies the listed keys once. Only list a key whose DEFAULT moved.
+ */
+const PREFS_REV = 1;
+const PREFS_REV_RESETS = {
+  1: ['listMode'],
+};
+
+function applyPrefsRev(prefs) {
+  const from = Number(prefs.__rev) || 0;
+  if (from >= PREFS_REV) return prefs;
+  const next = { ...prefs };
+  for (let rev = from + 1; rev <= PREFS_REV; rev++) {
+    for (const key of PREFS_REV_RESETS[rev] || []) next[key] = structuredClone(DEFAULTS.prefs[key]);
+  }
+  next.__rev = PREFS_REV;
+  return next;
+}
+
 export function read(name) {
   const fallback = DEFAULTS[name];
   try {
@@ -125,7 +147,11 @@ export function read(name) {
     // Objects get their defaults backfilled so a key added in a later version
     // does not read as undefined against saved data from an earlier one.
     if (!Array.isArray(fallback) && typeof fallback === 'object') {
-      return { ...structuredClone(fallback), ...parsed };
+      const merged = { ...structuredClone(fallback), ...parsed };
+      if (name !== 'prefs') return merged;
+      const migrated = applyPrefsRev(merged);
+      if (migrated !== merged) write('prefs', migrated);
+      return migrated;
     }
     return parsed;
   } catch {

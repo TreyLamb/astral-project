@@ -36,6 +36,33 @@ export const DEFAULT_PREFS = {
   panels: { filters: true, waypoints: false, zones: false, routes: false, manifest: true, presets: false },
 };
 
+/**
+ * Changing a default is a no-op for anyone who has already used the page: every
+ * one of these is persisted, and a stored value always beats a default. That
+ * has now silently swallowed three separate default changes, and it is
+ * per-origin, so localhost looks correct while the deployed site does not.
+ *
+ * Bumping PREFS_REV re-applies the listed keys from DEFAULT_PREFS exactly once.
+ * Only list a key when the default genuinely moved — this overwrites whatever
+ * the user had, which is right for "the default changed under them" and wrong
+ * for anything they deliberately chose.
+ */
+const PREFS_REV = 1;
+const REV_RESETS = {
+  1: ['markerSize', 'detailZoom'],
+};
+
+function applyPrefsRev(prefs) {
+  const from = Number(prefs.__rev) || 0;
+  if (from >= PREFS_REV) return prefs;
+  const next = { ...prefs };
+  for (let rev = from + 1; rev <= PREFS_REV; rev++) {
+    for (const key of REV_RESETS[rev] || []) next[key] = structuredClone(DEFAULT_PREFS[key]);
+  }
+  next.__rev = PREFS_REV;
+  return next;
+}
+
 function read(key, fallback) {
   try {
     const raw = localStorage.getItem(key);
@@ -60,8 +87,13 @@ function write(key, value) {
 }
 
 export const MapStore = {
-  getPrefs: () => read(KEY.prefs, DEFAULT_PREFS),
-  setPrefs: (v) => write(KEY.prefs, v),
+  getPrefs: () => {
+    const stored = read(KEY.prefs, DEFAULT_PREFS);
+    const migrated = applyPrefsRev(stored);
+    if (migrated !== stored) write(KEY.prefs, migrated);
+    return migrated;
+  },
+  setPrefs: (v) => write(KEY.prefs, { ...v, __rev: PREFS_REV }),
 
   // null means "never calibrated" — the UI must say so rather than silently
   // presenting an auto-fit as though it were accurate.

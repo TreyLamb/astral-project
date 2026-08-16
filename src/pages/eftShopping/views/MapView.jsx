@@ -51,12 +51,26 @@ const uid = () => `p${Date.now().toString(36)}${Math.random().toString(36).slice
 const PASSWORD = 'trogdor';
 const UNLOCK_KEY = 'eftmap-unlocked';
 
-const isUnlocked = () => {
+// Belt and braces, because the failure mode is silent: if localStorage.setItem
+// throws — private mode, quota, a strict privacy setting, a partitioned
+// context — the old code caught it and did nothing, so you stayed unlocked for
+// that session and were asked again on every future one, with no clue why.
+// A plain cookie is written alongside; between them, anything that keeps ANY
+// client-side state keeps this.
+const readUnlock = () => {
+  try { if (localStorage.getItem(UNLOCK_KEY) === '1') return true; } catch { /* blocked */ }
+  try { if (sessionStorage.getItem(UNLOCK_KEY) === '1') return true; } catch { /* blocked */ }
+  return document.cookie.split('; ').some((c) => c === `${UNLOCK_KEY}=1`);
+};
+
+const writeUnlock = () => {
+  let stored = false;
+  try { localStorage.setItem(UNLOCK_KEY, '1'); stored = localStorage.getItem(UNLOCK_KEY) === '1'; } catch { /* blocked */ }
   try {
-    return localStorage.getItem(UNLOCK_KEY) === '1' || sessionStorage.getItem(UNLOCK_KEY) === '1';
-  } catch {
-    return false;
-  }
+    // One year, root path, so it is the same answer on every page of the site.
+    document.cookie = `${UNLOCK_KEY}=1; path=/; max-age=31536000; SameSite=Lax`;
+  } catch { /* blocked */ }
+  return stored || document.cookie.includes(`${UNLOCK_KEY}=1`);
 };
 
 function PasswordGate({ onUnlock }) {
@@ -94,7 +108,7 @@ function PasswordGate({ onUnlock }) {
 export default function MapView() {
   const { showToast } = useEft();
 
-  const [unlocked, setUnlocked] = useState(isUnlocked);
+  const [unlocked, setUnlocked] = useState(readUnlock);
   const [prefs, setPrefsState] = useState(() => MapStore.getPrefs());
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -582,7 +596,9 @@ export default function MapView() {
   if (!unlocked) {
     return (
       <PasswordGate onUnlock={() => {
-        try { localStorage.setItem(UNLOCK_KEY, '1'); } catch { /* private mode — this session still works */ }
+        // If nothing would stick, say so rather than silently asking again
+        // next time — that is indistinguishable from the feature being broken.
+        if (!writeUnlock()) showToast('Unlocked, but this browser is blocking storage — you will be asked again');
         setUnlocked(true);
       }}
       />
