@@ -27,6 +27,7 @@
 // mirrored. See `layoutForest({ flip })`.
 
 export const DIRECTIONS = [
+  { value: 'both', label: 'Both ways', title: 'What makes it, and what it goes on to make' },
   { value: 'up', label: 'Ingredients', title: 'What goes into making this item' },
   { value: 'down', label: 'Used in', title: 'What this item is used to craft' },
 ];
@@ -355,6 +356,50 @@ export function layoutTree(root, startY = 0) {
 
   walk(root, null);
   return { nodes, edges, width: maxX + LAYOUT.padX, height: cursor, root };
+}
+
+/**
+ * One item with BOTH halves of its story: what makes it on the left, what it
+ * goes on to make on the right, and the item itself in the middle.
+ *
+ * Clicking an item is a question about that item, and "where does this come
+ * from" and "what is it for" are two halves of one answer — having to flip a
+ * toggle between them meant never seeing the whole chain at once.
+ *
+ * Built as two ordinary trees sharing a root: the ingredient half is laid out
+ * and mirrored, the uses half is laid out normally and then translated so its
+ * root lands exactly on the other's. The duplicate root is dropped and its
+ * edges re-pointed, so the item is one node with branches leaving both sides.
+ */
+export function layoutBidirectional(upRoot, downRoot, startY = 0) {
+  const up = layoutTree(upRoot, 0);
+  const down = layoutTree(downRoot, 0);
+
+  for (const n of up.nodes) n.x = up.width - n.x - n.w;
+
+  const dx = upRoot.x - downRoot.x;
+  const dy = upRoot.y - downRoot.y;
+  for (const n of down.nodes) { n.x += dx; n.y += dy; }
+
+  const edges = [
+    ...up.edges,
+    ...down.edges.map((e) => (e.from === downRoot ? { ...e, from: upRoot } : e)),
+  ];
+  const nodes = [...up.nodes, ...down.nodes.filter((n) => n !== downRoot)];
+
+  // Each half is centred on its own children, so the merged tree can start
+  // above zero. Slide it back to where the caller asked for it.
+  const minY = Math.min(...nodes.map((n) => n.y - n.h / 2));
+  const shift = startY - minY;
+  for (const n of nodes) n.y += shift;
+
+  return {
+    nodes,
+    edges,
+    root: upRoot,
+    width: Math.max(...nodes.map((n) => n.x + n.w)) + LAYOUT.padX,
+    height: Math.max(...nodes.map((n) => n.y + n.h / 2)),
+  };
 }
 
 /**

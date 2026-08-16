@@ -14,8 +14,8 @@ import { useEft } from '../eftContext';
 import { itemIcon } from '../eftApi';
 import { Seg, fmtDuration, fmtRub } from '../EftBits';
 import {
-  buildCraftIndex, buildTree, layoutForest, rootItems, allGraphItems, searchItems,
-  totalRawInputs, itemName, LAYOUT, DIRECTIONS,
+  buildCraftIndex, buildTree, layoutForest, layoutBidirectional, rootItems, allGraphItems,
+  searchItems, totalRawInputs, itemName, LAYOUT, DIRECTIONS,
 } from '../eftCraftGraph';
 
 const OVERVIEW_MODES = [
@@ -58,7 +58,7 @@ function Fold({ node, onToggle }) {
   );
 }
 
-function ItemNode({ node, selected, onToggle, onFocus, onCycleRecipe }) {
+function ItemNode({ node, selected, onToggle, onFocus, onSelect, onCycleRecipe }) {
   const cls = [
     'eft-ct-node', 'eft-ct-item',
     node.craftable ? 'eft-is-craftable' : 'eft-is-raw',
@@ -82,10 +82,8 @@ function ItemNode({ node, selected, onToggle, onFocus, onCycleRecipe }) {
         <button
           type="button"
           className="eft-ct-hit"
-          onClick={() => onToggle(node)}
-          title={node.hasChildren
-            ? `${node.collapsed ? 'Open' : 'Fold'} this branch — details on the right`
-            : 'No further steps'}
+          onClick={() => onFocus(node.id)}
+          title={`Chart ${node.name} — what makes it and what it is used for`}
         >
           <img
             className="eft-ct-icon"
@@ -125,10 +123,10 @@ function ItemNode({ node, selected, onToggle, onFocus, onCycleRecipe }) {
       <button
         type="button"
         className="eft-ct-focus"
-        onClick={() => onFocus(node.id)}
-        title="Make this item the root of the chart"
+        onClick={() => onSelect(node)}
+        title="Show this item's recipes in the side panel, without moving the chart"
       >
-        ⌖
+        ⓘ
       </button>
       {node.role === 'tool' ? <span className="eft-ct-flag">tool</span> : null}
       {node.cycle ? <span className="eft-ct-flag eft-is-warn">loop</span> : null}
@@ -160,21 +158,25 @@ function edgePath(from, to) {
  * box, which looks like the tool broke. Offers the two ways out.
  */
 function DeadEnd({ name, index, itemId, direction, onDirection, onBack, onAll }) {
+  const upCount = index.byOutput.get(itemId)?.length || 0;
+  const downCount = index.byInput.get(itemId)?.length || 0;
   const other = direction === 'up' ? 'down' : 'up';
-  const otherCount = other === 'up'
-    ? (index.byOutput.get(itemId)?.length || 0)
-    : (index.byInput.get(itemId)?.length || 0);
+  const otherCount = other === 'up' ? upCount : downCount;
+
+  // With both directions on screen, "nothing here" means nothing either way —
+  // there is no other side left to offer.
+  const message = direction === 'both' || (!upCount && !downCount)
+    ? 'No recipe makes this and none uses it, so it has no chain in either direction. It is bought, looted or traded for.'
+    : direction === 'up'
+      ? 'Nothing crafts this — it is bought, looted or traded for, so it has no ingredient tree.'
+      : 'Nothing uses this in a recipe, so it has nothing downstream.';
 
   return (
     <div className="eft-ct-deadend">
       <strong>{name}</strong>
-      <p>
-        {direction === 'up'
-          ? 'Nothing crafts this — it is bought, looted or traded for, so it has no ingredient tree.'
-          : 'Nothing uses this in a recipe, so it has nothing downstream.'}
-      </p>
+      <p>{message}</p>
       <div className="eft-ct-deadend-btns">
-        {otherCount ? (
+        {otherCount && direction !== 'both' ? (
           <button type="button" className="eft-btn eft-btn-sm eft-is-on" onClick={() => onDirection(other)}>
             Show {other === 'up' ? 'what makes it' : `what it is used in (${otherCount})`}
           </button>
@@ -186,7 +188,7 @@ function DeadEnd({ name, index, itemId, direction, onDirection, onBack, onAll })
   );
 }
 
-function GraphCanvas({ forest, zoom, setZoom, selectedKey, onToggle, onFocus, onCycleRecipe }) {
+function GraphCanvas({ forest, zoom, setZoom, selectedKey, onToggle, onFocus, onSelect, onCycleRecipe }) {
   const scrollRef = useRef(null);
   const drag = useRef(null);
 
@@ -195,13 +197,18 @@ function GraphCanvas({ forest, zoom, setZoom, selectedKey, onToggle, onFocus, on
   // keyed on the first tree's identity, so folding a branch doesn't yank the
   // view around while you are reading it.
   const anchorKey = forest.bands[0]?.key;
-  const anchorY = forest.nodes.find((n) => n.depth === 0)?.y;
+  const rootNode = forest.nodes.find((n) => n.depth === 0);
+  const anchorY = rootNode?.y;
+  const anchorX = rootNode?.x;
   const zoomRef = useRef(zoom);
   useEffect(() => { zoomRef.current = zoom; }, [zoom]);
   useEffect(() => {
     const el = scrollRef.current;
     if (!el || anchorY == null) return;
-    el.scrollLeft = 0;
+    // Centre on the item that was asked about. In a both-ways chart that item
+    // sits in the middle of the canvas, so scrolling to 0 would land on its raw
+    // ingredients rather than on it.
+    el.scrollLeft = Math.max(0, (anchorX ?? 0) * zoomRef.current - el.clientWidth / 2);
     el.scrollTop = Math.max(0, anchorY * zoomRef.current - el.clientHeight / 2);
     // anchorY is read at the moment the chart changes; re-running on every
     // re-layout would fight the user's own scrolling.
@@ -303,6 +310,7 @@ function GraphCanvas({ forest, zoom, setZoom, selectedKey, onToggle, onFocus, on
               selected={selectedKey === n.key}
               onToggle={onToggle}
               onFocus={onFocus}
+              onSelect={onSelect}
               onCycleRecipe={onCycleRecipe}
             />
           ))}
@@ -371,8 +379,9 @@ function DetailPanel({ selected, index, onFocus, onDirection, direction }) {
   if (!selected) {
     return (
       <div className="eft-ct-detail-empty">
-        Click any node to see its recipe here. Click the node body to fold or unfold
-        that branch; the ⌖ button re-roots the whole chart on that item.
+        <strong>Click an item</strong> to chart it — what makes it on the left, what it
+        goes on to make on the right. <strong>+ / −</strong> folds a branch.
+        <strong> ⓘ</strong> shows an item&apos;s recipes here without moving the chart.
       </div>
     );
   }
@@ -506,8 +515,13 @@ export default function CraftTreeView() {
 
   const collapsedSet = useMemo(() => new Set(cfg.collapsed), [cfg.collapsed]);
 
+  // 'both' charts one item from both sides at once. It has no meaning for the
+  // overview or a whole station, which already draw many roots.
+  const bidirectional = cfg.direction === 'both' && cfg.mode === 'item' && !!cfg.itemId;
+  const effectiveDirection = cfg.direction === 'both' && !bidirectional ? 'up' : cfg.direction;
+
   const treeOpts = {
-    direction: cfg.direction,
+    direction: effectiveDirection === 'both' ? 'up' : effectiveDirection,
     collapsed: collapsedSet,
     recipeChoice: cfg.recipeChoice || {},
     autoDepth: cfg.autoDepth,
@@ -552,6 +566,25 @@ export default function CraftTreeView() {
   );
 
   const forest = useMemo(() => {
+    if (bidirectional) {
+      const id = shown[0];
+      const up = buildTree(index, id, { ...treeOpts, direction: 'up' });
+      const down = buildTree(index, id, { ...treeOpts, direction: 'down', rootKey: `d:${id}` });
+      up.root.truncated = up.truncated || down.truncated;
+      const laid = layoutBidirectional(up.root, down.root, LAYOUT.padY);
+      return {
+        ...laid,
+        bands: [{
+          key: up.root.key,
+          label: `${itemName(index, id)} — what makes it, and what it makes`,
+          top: LAYOUT.padY,
+          bottom: laid.height,
+          rootNode: up.root,
+        }],
+        height: laid.height + LAYOUT.padY,
+      };
+    }
+
     const entries = shown.map((id) => {
       const { root, truncated } = buildTree(index, id, treeOpts);
       root.truncated = truncated;
@@ -559,14 +592,13 @@ export default function CraftTreeView() {
     });
     // Ingredients flow into their product: raw materials left, finished item
     // right. 'down' already runs that way and is left alone.
-    return layoutForest(entries, { flip: cfg.direction === 'up' });
+    return layoutForest(entries, { flip: effectiveDirection === 'up' });
     // treeOpts is rebuilt each render on purpose — its members are the real deps.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, shown, cfg.direction, cfg.autoDepth, cfg.includeTools, cfg.craftableOnly,
-    collapsedSet, cfg.recipeChoice]);
+    collapsedSet, cfg.recipeChoice, bidirectional, effectiveDirection]);
 
   const toggle = useCallback((node) => {
-    setSelected(node);
     if (!node.hasChildren) return;
     update('craftGraph', (prev) => {
       const next = new Set(prev.collapsed);
@@ -595,9 +627,13 @@ export default function CraftTreeView() {
   const focus = useCallback((itemId) => {
     const canUp = (index.byOutput.get(itemId)?.length || 0) > 0;
     const canDown = (index.byInput.get(itemId)?.length || 0) > 0;
-    const direction = cfg.direction === 'up' && !canUp && canDown ? 'down'
-      : cfg.direction === 'down' && !canDown && canUp ? 'up'
-        : cfg.direction;
+    // Clicking an item is a question about that item, so it opens both sides.
+    // If only one side exists, go straight there rather than showing half an
+    // empty chart.
+    const direction = canUp && canDown ? 'both'
+      : canUp ? 'up'
+        : canDown ? 'down'
+          : cfg.direction;
 
     setHistory((h) => [...h, {
       mode: cfg.mode, itemId: cfg.itemId, stationKey: cfg.stationKey, direction: cfg.direction,
@@ -633,7 +669,9 @@ export default function CraftTreeView() {
 
   // One tree, one node, nothing under it: the chart looks empty rather than
   // finished, so it gets an explanation instead.
-  const deadEnd = forest.bands.length === 1 && !forest.bands[0].rootNode.hasChildren
+  const deadEnd = forest.bands.length === 1
+    && !forest.bands[0].rootNode.hasChildren
+    && forest.nodes.length <= 1
     ? forest.bands[0].rootNode
     : null;
 
@@ -802,6 +840,7 @@ export default function CraftTreeView() {
             selectedKey={selected?.key}
             onToggle={toggle}
             onFocus={focus}
+            onSelect={setSelected}
             onCycleRecipe={cycleRecipe}
           />
         ) : (

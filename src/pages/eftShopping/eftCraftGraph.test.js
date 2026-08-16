@@ -4,6 +4,7 @@ import snapshot from './data/hideoutSnapshot.json';
 import {
   buildCraftIndex, buildTree, layoutTree, layoutForest, rootItems, chainDepth,
   searchItems, allGraphItems, totalRawInputs, isCraftable, LAYOUT, MAX_NODES,
+  layoutBidirectional,
 } from './eftCraftGraph';
 
 const index = buildCraftIndex(snapshot);
@@ -274,6 +275,66 @@ describe('reading direction', () => {
       expect(n.x).toBeGreaterThanOrEqual(0);
       expect(n.x + n.w).toBeLessThanOrEqual(laid.width);
     }
+  });
+});
+
+describe('layoutBidirectional', () => {
+  // 'ingot' is the two-sided one in the fixture: made from ore, used in plate.
+  const halves = () => {
+    const g = fixture();
+    return {
+      up: buildTree(g, 'ingot', { direction: 'up', autoDepth: 9 }).root,
+      down: buildTree(g, 'ingot', { direction: 'down', autoDepth: 9, rootKey: 'd:ingot' }).root,
+    };
+  };
+
+  it('puts the item between what makes it and what it makes', () => {
+    const { up, down } = halves();
+    const laid = layoutBidirectional(up, down);
+    const item = laid.nodes.find((n) => n.key === up.key);
+    const left = laid.nodes.filter((n) => n.x < item.x);
+    const right = laid.nodes.filter((n) => n.x > item.x);
+    expect(left.length).toBeGreaterThan(0);
+    expect(right.length).toBeGreaterThan(0);
+    // Ore feeds the ingot, the ingot feeds the plate.
+    expect(left.map((n) => n.id)).toContain('ore');
+    expect(right.map((n) => n.id)).toContain('plate');
+  });
+
+  it('draws the joining item once, not once per half', () => {
+    const { up, down } = halves();
+    const laid = layoutBidirectional(up, down);
+    // The two halves each had their own root node for the item; only the
+    // ingredient half's survives. (The fixture loops on purpose, so 'ingot' can
+    // legitimately reappear further down the uses chain — what must not exist
+    // is a second node at the join.)
+    expect(laid.nodes.filter((n) => n.key === up.key)).toHaveLength(1);
+    expect(laid.nodes.some((n) => n.key === down.key)).toBe(false);
+  });
+
+  it('re-points the downstream edges onto the surviving node', () => {
+    const { up, down } = halves();
+    const laid = layoutBidirectional(up, down);
+    const orphan = laid.edges.filter((e) => !laid.nodes.includes(e.from) || !laid.nodes.includes(e.to));
+    expect(orphan).toEqual([]);
+  });
+
+  it('keeps everything on the canvas', () => {
+    const { up, down } = halves();
+    const laid = layoutBidirectional(up, down, LAYOUT.padY);
+    for (const n of laid.nodes) {
+      expect(n.x).toBeGreaterThanOrEqual(0);
+      expect(n.x + n.w).toBeLessThanOrEqual(laid.width);
+      expect(n.y - n.h / 2).toBeGreaterThanOrEqual(LAYOUT.padY - 0.001);
+      expect(n.y + n.h / 2).toBeLessThanOrEqual(laid.height + 0.001);
+    }
+  });
+
+  it('starts where it is told to', () => {
+    const { up, down } = halves();
+    const laid = layoutBidirectional(up, down, 200);
+    const top = Math.min(...laid.nodes.map((n) => n.y - n.h / 2));
+    expect(top).toBeCloseTo(200, 5);
   });
 });
 
