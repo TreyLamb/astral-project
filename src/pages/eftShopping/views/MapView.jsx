@@ -116,6 +116,11 @@ export default function MapView() {
   const [presets, setPresetsState] = useState([]);
   // { x, y, cat } while a filter's right-click menu is open.
   const [ctxMenu, setCtxMenu] = useState(null);
+  // Deliberately NOT persisted. It was a stored pref, so opening it once left
+  // it open on every future visit and reload — the map is the point of this
+  // page, and a panel covering a third of it should never be the state you
+  // arrive in. The side panels stay persisted; this one always starts shut.
+  const [mapMenuOpen, setMapMenuOpen] = useState(false);
   // 'tiles' = mapgenie's own pyramid, exact and calibration-free.
   // 'svg'   = tarkov.dev's open vector map, needs calibrating.
   const [base, setBase] = useState('tiles');
@@ -662,11 +667,11 @@ export default function MapView() {
       <div className="eft-map-toolbar">
         <button
           type="button"
-          className={`eft-btn eft-btn-sm${prefs.mapMenuOpen ? ' eft-is-on' : ''}`}
-          onClick={() => setPrefs({ mapMenuOpen: !prefs.mapMenuOpen })}
-          aria-expanded={prefs.mapMenuOpen}
+          className={`eft-btn eft-btn-sm${mapMenuOpen ? ' eft-is-on' : ''}`}
+          onClick={() => setMapMenuOpen((v) => !v)}
+          aria-expanded={mapMenuOpen}
         >
-          {prefs.mapMenuOpen ? '▾' : '▸'} {mapConfig.name}
+          {mapMenuOpen ? '▾' : '▸'} {mapConfig.name}
         </button>
         <input
           className="eft-input eft-input-sm"
@@ -686,12 +691,12 @@ export default function MapView() {
         </button>
       </div>
 
-      {prefs.mapMenuOpen ? (
+      {mapMenuOpen ? (
         <div className="eft-map-menu">
           <div className="eft-map-menu-head">
             <span className="eft-label">Map</span>
             <button type="button" className="eft-btn eft-btn-sm"
-              onClick={() => setPrefs({ mapMenuOpen: false })}>✕</button>
+              onClick={() => setMapMenuOpen(false)}>✕</button>
           </div>
 
           <div className="eft-map-picker">

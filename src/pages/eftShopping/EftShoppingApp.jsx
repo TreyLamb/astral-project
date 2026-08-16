@@ -63,7 +63,10 @@ export default function EftShoppingApp() {
     gaps: [], loading: true, priceError: null, pricesLoading: false,
   });
 
-  // The map page's tab row starts folded — see webdesign.md §2.
+  // The map page's tab row starts folded — see webdesign.md §2. The shell does
+  // not unmount when you move between EFT tabs, so this has to be closed on
+  // navigation too: otherwise opening it on the map, clicking a tab and coming
+  // back leaves the row still showing.
   const [chromeOpen, setChromeOpen] = useState(false);
 
   const [toast, setToast] = useState(null);
@@ -278,6 +281,7 @@ export default function EftShoppingApp() {
                 key={tab.to}
                 to={`${ROOT}${tab.to}`}
                 className={`eft-tab${active(tab) ? ' eft-is-active' : ''}`}
+                onClick={() => setChromeOpen(false)}
               >
                 {tab.label}
               </Link>
