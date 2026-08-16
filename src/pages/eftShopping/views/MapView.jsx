@@ -280,10 +280,10 @@ export default function MapView() {
     if (userId) deleteWaypoint(userId, id).catch(() => {});
   }, [waypoints, writeWaypoints, userId]);
 
-  // The offered thresholds moved from 13/14/15 to 9/11/13. A saved 14 or 15
-  // is not on the new list and would leave the control showing nothing
-  // selected, so anything unrecognised falls to the nearest behaviour.
-  const detailChoice = [9, 11, 13].includes(prefs.detailZoom) ? String(prefs.detailZoom)
+  // The offered thresholds have moved twice. A stored value that is not on the
+  // current list would leave the control showing nothing selected, so anything
+  // unrecognised falls to the nearest behaviour instead of going blank.
+  const detailChoice = [12, 13, 14].includes(prefs.detailZoom) ? String(prefs.detailZoom)
     : prefs.detailZoom >= 90 ? '99' : '13';
 
   const savedCalibration = MapStore.getCalibration(mapKey);
@@ -745,9 +745,9 @@ export default function MapView() {
                 value={detailChoice}
                 onChange={(v) => setPrefs({ detailZoom: Number(v) })}
                 options={[
-                  { value: '9', label: '9', title: 'Dots and names almost immediately — most of the map at once' },
-                  { value: '11', label: '11', title: 'Default — swaps around the zoom the map opens at' },
-                  { value: '13', label: '13', title: 'Keep pins until you are well zoomed in' },
+                  { value: '12', label: '12', title: 'Swap to dots and names a step earlier' },
+                  { value: '13', label: '13', title: 'Default' },
+                  { value: '14', label: '14', title: 'Keep pins until you are well zoomed in' },
                   { value: '99', label: 'Off', title: 'Always use pins' },
                 ]}
               />
@@ -756,20 +756,10 @@ export default function MapView() {
               </div>
             </div>
 
-            {data?.tiles?.url && mapConfig.svgPath ? (
-              <div className="eft-field">
-                <span className="eft-label">Basemap</span>
-                <Seg
-                  value={base}
-                  onChange={setBase}
-                  options={[
-                    { value: 'tiles', label: 'Tiles', title: 'mapgenie raster tiles — exact positions' },
-                    { value: 'svg', label: 'Vector', title: 'tarkov.dev open SVG — known broken, deferred' },
-                  ]}
-                />
-              </div>
-            ) : null}
-
+            {/* No basemap toggle. Vector is parked, so offering the choice was
+                offering a worse map. A map with tiles uses them; one without
+                (Terminal) falls back to the SVG on its own — see the load
+                effect, which is now the only thing that sets `base`. */}
             {!usingTiles && mapConfig.floors.length ? (
               <div className="eft-field">
                 <span className="eft-label">Floor</span>
@@ -796,17 +786,22 @@ export default function MapView() {
                 onChange={(e) => setPrefs({ showStats: e.target.checked })} />
               Show stats overlay
             </label>
-            <button type="button" className={`eft-btn eft-btn-sm${calMode ? ' eft-is-on' : ''}`}
-              onClick={() => { setCalMode((v) => !v); setCalPairs([]); setPendingMarker(null); }}
-              disabled={!data || usingTiles}
-              title={usingTiles ? 'Not needed — the tile basemap needs no calibration' : 'Place two landmarks to solve the projection'}>
-              {calMode ? 'Cancel calibration' : 'Calibrate'}
-            </button>
+            {/* Tiles need no calibration, and with the toggle gone this would
+                otherwise be a permanently disabled button on every map. */}
+            {usingTiles ? null : (
+              <button type="button" className={`eft-btn eft-btn-sm${calMode ? ' eft-is-on' : ''}`}
+                onClick={() => { setCalMode((v) => !v); setCalPairs([]); setPendingMarker(null); }}
+                disabled={!data}
+                title="Place two landmarks to solve the projection">
+                {calMode ? 'Cancel calibration' : 'Calibrate'}
+              </button>
+            )}
           </div>
 
           {!usingTiles ? (
             <div className="eft-note" style={{ marginTop: 8, color: 'var(--eft-orange)' }}>
-              The vector basemap is known to be wrong and is not being worked on — use Tiles.
+              No tile basemap exists for {mapConfig.name}, so it draws on the vector map —
+              which is known to be rough and is not being worked on.
             </div>
           ) : null}
         </div>

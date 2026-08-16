@@ -25,9 +25,9 @@ export const DEFAULT_PREFS = {
   routeMode: 'spline',
   corridorRadius: 40,
   showFound: true,
-  markerSize: 'small',
+  markerSize: 'normal',
   // Zoom at which pins become an exact dot plus a name.
-  detailZoom: 11,
+  detailZoom: 13,
   // Off entirely. The strip was permanent furniture on a page whose whole point
   // is the map; it lives behind this switch in case it is ever wanted.
   showStats: false,
