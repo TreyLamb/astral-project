@@ -713,9 +713,7 @@ export default function CraftTreeView() {
                 >
                   <option value="">Pick an item…</option>
                   {hits.map((h) => (
-                    <option key={h.itemId} value={h.itemId}>
-                      {h.name}{h.recipes ? ` · ${h.recipes} recipe${h.recipes === 1 ? '' : 's'}` : ' · raw'}
-                    </option>
+                    <option key={h.itemId} value={h.itemId}>{h.name}</option>
                   ))}
                 </select>
               </div>
