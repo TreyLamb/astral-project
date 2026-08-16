@@ -275,6 +275,12 @@ export default function MapView() {
     if (userId) deleteWaypoint(userId, id).catch(() => {});
   }, [waypoints, writeWaypoints, userId]);
 
+  // The offered thresholds moved from 13/14/15 to 9/11/13. A saved 14 or 15
+  // is not on the new list and would leave the control showing nothing
+  // selected, so anything unrecognised falls to the nearest behaviour.
+  const detailChoice = [9, 11, 13].includes(prefs.detailZoom) ? String(prefs.detailZoom)
+    : prefs.detailZoom >= 90 ? '99' : '13';
+
   const savedCalibration = MapStore.getCalibration(mapKey);
   const isCalibrated = !!savedCalibration;
   const usingTiles = base === 'tiles' && !!data?.tiles?.url;
@@ -731,12 +737,12 @@ export default function MapView() {
             <div className="eft-field">
               <span className="eft-label">Detail zoom</span>
               <Seg
-                value={String(prefs.detailZoom)}
+                value={detailChoice}
                 onChange={(v) => setPrefs({ detailZoom: Number(v) })}
                 options={[
-                  { value: '13', label: '13', title: 'Swap pins for exact dots + names early' },
-                  { value: '14', label: '14', title: 'Default' },
-                  { value: '15', label: '15', title: 'Keep pins until very close in' },
+                  { value: '9', label: '9', title: 'Dots and names almost immediately — most of the map at once' },
+                  { value: '11', label: '11', title: 'Default — swaps around the zoom the map opens at' },
+                  { value: '13', label: '13', title: 'Keep pins until you are well zoomed in' },
                   { value: '99', label: 'Off', title: 'Always use pins' },
                 ]}
               />

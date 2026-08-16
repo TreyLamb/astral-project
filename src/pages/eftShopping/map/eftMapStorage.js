@@ -27,7 +27,7 @@ export const DEFAULT_PREFS = {
   showFound: true,
   markerSize: 'small',
   // Zoom at which pins become an exact dot plus a name.
-  detailZoom: 14,
+  detailZoom: 11,
   // Off entirely. The strip was permanent furniture on a page whose whole point
   // is the map; it lives behind this switch in case it is ever wanted.
   showStats: false,
