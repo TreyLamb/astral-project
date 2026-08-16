@@ -3726,3 +3726,48 @@
   white-space: nowrap;
 }
 .eft-wp-jump:hover { color: var(--eft-gold); }
+
+/* --- rail tabs ------------------------------------------------------------
+   One arrow per side, sitting on that side's edge, folding the whole side away.
+   Vertically centred rather than at the top so it is reachable wherever you
+   are looking, and it stays put when its side is hidden — an arrow that
+   disappears with the thing it hides leaves no way back. */
+
+.eft-railtab {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001;
+  width: 20px;
+  height: 62px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13, 13, 11, 0.9);
+  border: 1px solid var(--eft-line-bright);
+  color: var(--eft-text-dim);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.eft-railtab:hover { background: var(--eft-raised); color: var(--eft-gold); }
+
+.eft-railtab-left {
+  left: 8px;
+  border-radius: 0 var(--eft-r-sm) var(--eft-r-sm) 0;
+  border-left: 0;
+}
+.eft-railtab-left.eft-is-closed { left: 0; }
+
+.eft-railtab-right {
+  right: 326px;
+  border-radius: var(--eft-r-sm) 0 0 var(--eft-r-sm);
+  border-right: 0;
+}
+.eft-railtab-right.eft-is-closed { right: 0; }
+
+@media (max-width: 900px) {
+  .eft-railtab-right { right: 8px; }
+  .eft-railtab-right.eft-is-closed { right: 0; }
+}

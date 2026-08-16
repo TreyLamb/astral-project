@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react';
 
 import { Panel, Seg } from '../EftBits';
 import { ZONE_MODES } from './eftMapFilters';
-import { ROUTE_MODES } from './useMapDrawing';
 import { SPRITE_GLYPHS } from './SpriteMarkerLayer';
 
 // Sidebar UI for the three filter tiers. The tiers themselves are decided in
@@ -197,9 +196,9 @@ export function ZonePanel({
 }
 
 export function RoutePanel({
-  routes, categories, visibleCats, activeRouteId, routeMode, tool, metresPerUnit,
+  routes, categories, visibleCats, activeRouteId, tool, metresPerUnit,
   canUndo, canRedo, open, onToggleOpen,
-  onNew, onSelect, onUpdate, onRemove, onSetTool, onSetRouteMode, onUndo, onRedo,
+  onNew, onSelect, onUpdate, onRemove, onSetTool, onUndo, onRedo, onJoin,
 }) {
   return (
     <Panel
@@ -209,16 +208,11 @@ export function RoutePanel({
       onToggle={onToggleOpen}
       actions={<button type="button" className="eft-btn eft-btn-sm eft-is-primary" onClick={onNew}>+ Route</button>}
     >
-      <div className="eft-field" style={{ marginBottom: 8 }}>
-        <span className="eft-label">Drawing mode</span>
-        <Seg
-          value={routeMode}
-          onChange={onSetRouteMode}
-          options={ROUTE_MODES.map((m) => ({ value: m.value, label: m.label, title: m.hint }))}
-        />
-        <div className="eft-note" style={{ marginTop: 4 }}>
-          {ROUTE_MODES.find((m) => m.value === routeMode)?.hint}
-        </div>
+      <div className="eft-note" style={{ marginBottom: 8 }}>
+        Open a route to edit it: drag a point to move it, drag the line to insert one,
+        shift-click to delete. Click the <b>last</b> point to carry on drawing from there,
+        and hold <kbd>C</kbd> while placing to bend the segment. Drop an end onto another
+        route&apos;s end to join them into one.
       </div>
 
       {!routes.length ? (
@@ -232,6 +226,9 @@ export function RoutePanel({
       {routes.map((r) => {
         const open = r.id === activeRouteId;
         const drawing = open && tool === 'route';
+        const joinable = open && r.waypoints.length >= 2 && !r.closed
+          ? routes.filter((o) => o.id !== r.id && o.waypoints.length >= 2 && !o.closed)
+          : [];
         return (
           <div key={r.id} className={`eft-row-card${open ? ' eft-is-on' : ''}`}>
             <div className="eft-row-card-head">
@@ -251,10 +248,15 @@ export function RoutePanel({
             {open ? (
               <>
                 <div className="eft-controls" style={{ marginBottom: 8 }}>
-                  <button type="button" className={`eft-btn eft-btn-sm${drawing ? ' eft-is-on' : ''}`}
-                    onClick={() => onSetTool(drawing ? null : 'route')}>
-                    {drawing ? 'Stop drawing' : r.waypoints.length ? 'Continue' : 'Draw'}
-                  </button>
+                  {/* With waypoints on screen you extend by clicking the last
+                      one, so this is only here for a route that has none. */}
+                  {drawing ? (
+                    <button type="button" className="eft-btn eft-btn-sm eft-is-on"
+                      onClick={() => onSetTool(null)}>Stop drawing</button>
+                  ) : !r.waypoints.length ? (
+                    <button type="button" className="eft-btn eft-btn-sm"
+                      onClick={() => onSetTool('route')}>Draw</button>
+                  ) : null}
                   <button type="button" className="eft-btn eft-btn-sm" onClick={onUndo} disabled={!canUndo}
                     title="Ctrl+Z">Undo</button>
                   <button type="button" className="eft-btn eft-btn-sm" onClick={onRedo} disabled={!canRedo}
@@ -269,6 +271,21 @@ export function RoutePanel({
                     disabled={!r.waypoints.length}
                     onClick={() => onUpdate(r.id, { waypoints: [], closed: false })}>Clear</button>
                 </div>
+
+                {joinable.length ? (
+                  <div className="eft-field" style={{ marginBottom: 8 }}>
+                    <span className="eft-label">Join another route onto the end</span>
+                    <select
+                      className="eft-select"
+                      value=""
+                      onChange={(e) => { if (e.target.value) onJoin(e.target.value); }}
+                      style={{ width: '100%' }}
+                    >
+                      <option value="">Pick a route to absorb…</option>
+                      {joinable.map((o) => <option key={o.id} value={o.id}>{o.name}</option>)}
+                    </select>
+                  </div>
+                ) : null}
 
                 <div className="eft-field">
                   <span className="eft-label">

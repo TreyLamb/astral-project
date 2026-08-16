@@ -32,6 +32,7 @@ export const DEFAULT_PREFS = {
   // is the map; it lives behind this switch in case it is ever wanted.
   showStats: false,
   railOpen: true,
+  leftOpen: true,
   // Per-panel collapse state, so a folded panel stays folded.
   panels: { filters: true, waypoints: false, zones: false, routes: false, manifest: true, presets: false },
 };

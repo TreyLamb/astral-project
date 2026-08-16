@@ -217,3 +217,82 @@ export function ringBounds(ring) {
 export function inBounds(p, b) {
   return !!b && p[0] >= b.yLo && p[0] <= b.yHi && p[1] >= b.xLo && p[1] <= b.xHi;
 }
+
+/**
+ * The two loose ends of a route, or null for one too short to have ends.
+ * A closed loop has none — it is already joined to itself.
+ */
+export function routeEnds(route) {
+  const wps = route?.waypoints || [];
+  if (wps.length < 2 || route.closed) return null;
+  return {
+    start: [wps[0].y, wps[0].x],
+    end: [wps[wps.length - 1].y, wps[wps.length - 1].x],
+  };
+}
+
+/**
+ * The nearest loose end belonging to some OTHER route.
+ *
+ * This is what makes two separately drawn routes joinable: you finish one near
+ * where another began, and the tool can see that rather than leaving you with
+ * two lines that merely look connected.
+ */
+export function nearestRouteEnd(routes, point, { exceptId = null, threshold = Infinity } = {}) {
+  let best = null;
+  for (const route of routes || []) {
+    if (route.id === exceptId || route.hidden) continue;
+    const ends = routeEnds(route);
+    if (!ends) continue;
+    for (const which of ['start', 'end']) {
+      const d = dist(point, ends[which]);
+      if (d <= threshold && (!best || d < best.distance)) {
+        best = { routeId: route.id, end: which, point: ends[which], distance: d };
+      }
+    }
+  }
+  return best;
+}
+
+/**
+ * Concatenate route B onto route A so the two named ends meet.
+ *
+ * The shared vertex is dropped rather than duplicated — the same rule the
+ * loop-closing click follows, and the thing that makes the joined line one
+ * route instead of one route with a stutter in it.
+ *
+ * A keeps its name, colour, corridor and rule: it is the route being extended,
+ * not a new third thing. B is removed.
+ *
+ * Bulges belong to the segment ARRIVING at a waypoint, so reversing a run has
+ * to shift them one place as well as flipping the order — otherwise every
+ * curve in the reversed half bends the wrong way.
+ */
+export function joinRoutes(routes, aId, aEnd, bId, bEnd) {
+  const a = routes.find((r) => r.id === aId);
+  const b = routes.find((r) => r.id === bId);
+  if (!a || !b || a === b) return routes;
+
+  const reverse = (wps) => {
+    const flipped = [...wps].reverse();
+    return flipped.map((w, i) => ({
+      ...w,
+      bulge: i === 0 ? 0 : -(flipped[i - 1].bulge || 0),
+    }));
+  };
+
+  // Orient both so A's joining end is last and B's is first.
+  const headA = aEnd === 'end' ? a.waypoints : reverse(a.waypoints);
+  const tailB = bEnd === 'start' ? b.waypoints : reverse(b.waypoints);
+
+  const waypoints = [...headA, ...tailB.slice(1).map((w, i) => ({
+    ...w,
+    // The first surviving vertex of B now arrives from A's last, so it keeps
+    // the bulge it already had for that hop.
+    bulge: i === 0 ? (tailB[1]?.bulge || 0) : w.bulge,
+  }))];
+
+  return routes
+    .map((r) => (r.id === aId ? { ...r, waypoints, closed: false } : r))
+    .filter((r) => r.id !== bId);
+}

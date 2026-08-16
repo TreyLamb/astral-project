@@ -544,8 +544,18 @@ export default function MapView() {
           : 0,
       });
       if (isActive) {
+        // Handles you cannot see are handles you cannot grab. When the route is
+        // open for editing these are drawn at roughly small-marker size with a
+        // dark ring, rather than the 4px pip that vanished into the line.
+        const editing = draw.tool !== 'route';
         for (const w of r.waypoints) {
-          out.push({ kind: 'vertex', point: [w.y, w.x], color: r.color, radius: 4 });
+          out.push({
+            kind: 'vertex',
+            point: [w.y, w.x],
+            color: r.color,
+            radius: editing ? 7 : 4,
+            fill: editing ? '#0d0d0b' : undefined,
+          });
         }
       }
     }
@@ -591,7 +601,7 @@ export default function MapView() {
     return out;
   }, [draw.zones, draw.routes, draw.activeZoneId, draw.activeRouteId, draw.previewRing,
     draw.previewSegment, draw.snapTarget, draw.editTarget, unitsPerMetre,
-    calMode, calPairs, pendingMarker, calibration, waypoints]);
+    calMode, calPairs, pendingMarker, calibration, waypoints, draw.tool]);
 
   if (!unlocked) {
     return (
@@ -680,32 +690,48 @@ export default function MapView() {
 
       {/* Floating chrome. Everything here overlays the map rather than
           shrinking it, so the canvas keeps the whole window. */}
-      <div className="eft-map-toolbar">
-        <button
-          type="button"
-          className={`eft-btn eft-btn-sm${mapMenuOpen ? ' eft-is-on' : ''}`}
-          onClick={() => setMapMenuOpen((v) => !v)}
-          aria-expanded={mapMenuOpen}
-        >
-          {mapMenuOpen ? '▾' : '▸'} {mapConfig.name}
-        </button>
-        <input
-          className="eft-input eft-input-sm"
-          placeholder="Search…"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{ width: 140 }}
-        />
-        <button
-          type="button"
-          className={`eft-btn eft-btn-sm${prefs.railOpen ? ' eft-is-on' : ''}`}
-          onClick={() => setPrefs({ railOpen: !prefs.railOpen })}
-          aria-expanded={prefs.railOpen}
-          title="Filters, zones and routes"
-        >
-          {prefs.railOpen ? 'Panels ✕' : 'Panels ☰'}
-        </button>
-      </div>
+      {/* Both sides fold away behind a single arrow on their own edge, the way
+          mapgenie does it. One arrow per side takes the whole side with it —
+          the map is the point of this page and everything else is furniture. */}
+      {prefs.leftOpen ? (
+        <div className="eft-map-toolbar">
+          <button
+            type="button"
+            className={`eft-btn eft-btn-sm${mapMenuOpen ? ' eft-is-on' : ''}`}
+            onClick={() => setMapMenuOpen((v) => !v)}
+            aria-expanded={mapMenuOpen}
+          >
+            {mapMenuOpen ? '▾' : '▸'} {mapConfig.name}
+          </button>
+          <input
+            className="eft-input eft-input-sm"
+            placeholder="Search…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{ width: 140 }}
+          />
+        </div>
+      ) : null}
+
+      <button
+        type="button"
+        className={`eft-railtab eft-railtab-left${prefs.leftOpen ? '' : ' eft-is-closed'}`}
+        onClick={() => { setPrefs({ leftOpen: !prefs.leftOpen }); setMapMenuOpen(false); }}
+        aria-expanded={prefs.leftOpen}
+        title={prefs.leftOpen ? 'Hide the map menu' : 'Show the map menu'}
+      >
+        {prefs.leftOpen ? '❮' : '❯'}
+      </button>
+
+      <button
+        type="button"
+        className={`eft-railtab eft-railtab-right${prefs.railOpen ? '' : ' eft-is-closed'}`}
+        onClick={() => setPrefs({ railOpen: !prefs.railOpen })}
+        aria-expanded={prefs.railOpen}
+        title={prefs.railOpen ? 'Hide filters, zones and routes' : 'Show filters, zones and routes'}
+      >
+        {prefs.railOpen ? '❯' : '❮'}
+      </button>
 
       {mapMenuOpen ? (
         <div className="eft-map-menu">
@@ -1063,7 +1089,6 @@ export default function MapView() {
             categories={data?.categories || []}
             visibleCats={visibleCats}
             activeRouteId={draw.activeRouteId}
-            routeMode={draw.routeMode}
             tool={draw.tool}
             metresPerUnit={metresPerUnit}
             canUndo={draw.canUndo}
@@ -1071,13 +1096,19 @@ export default function MapView() {
             open={panelOpen('routes')}
             onToggleOpen={(v) => setPanel('routes', v)}
             onNew={draw.newRoute}
-            onSelect={draw.setActiveRouteId}
+            onSelect={(id) => {
+              // Clearing the tool is the fix for "clicking edit made me start a
+              // new line": `tool` is global, so it stayed on 'route' from the
+              // last route you drew and the next map click extended this one.
+              draw.setTool(null);
+              draw.setActiveRouteId(id);
+            }}
             onUpdate={draw.updateRoute}
             onRemove={draw.removeRoute}
             onSetTool={draw.setTool}
-            onSetRouteMode={draw.setRouteMode}
             onUndo={draw.undo}
             onRedo={draw.redo}
+            onJoin={draw.joinTo}
           />
 
           {routeFilter ? (

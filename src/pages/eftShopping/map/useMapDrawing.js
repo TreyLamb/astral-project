@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { MapStore } from './eftMapStorage';
 import {
   boxRing, nearestVertex, nearestSegment, routeToPolyline, arcBetween, dist,
+  nearestRouteEnd, joinRoutes,
 } from './eftMapGeometry';
 
 // The zone + route drawing state machine.
@@ -35,7 +36,19 @@ export const ROUTE_MODES = [
 ];
 
 const ZONE_COLOURS = ['#e0c07a', '#6d8ba3', '#7a9a5c', '#c08b4a', '#b4544a', '#9a86c8'];
-const ROUTE_COLOURS = ['#e0c07a', '#6d8ba3', '#c08b4a', '#7a9a5c'];
+
+// A route has to be findable at a glance against green canopy, tan dirt, grey
+// concrete and dark water — the whole map. The old first two were a pale
+// yellow that vanished into roads and sand, and a desaturated slate that read
+// as water. These are all high-chroma and none of them occur in the map art.
+const ROUTE_COLOURS = [
+  '#ff2fa0', // magenta
+  '#00e0ff', // cyan
+  '#ff8a1f', // orange
+  '#b26bff', // violet
+  '#b6ff2e', // lime
+  '#ff4d4d', // red
+];
 
 const uid = () => `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
 const pick = (list, n) => list[n % list.length];
@@ -359,6 +372,7 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
     setCursorPoint(point);
 
     if (drag && activeRoute) {
+      if (!drag.moved) setDrag((d) => (d ? { ...d, moved: true } : d));
       setRoutes((prev) => prev.map((r) => {
         if (r.id !== activeRoute.id) return r;
         const wps = [...r.waypoints];
@@ -373,7 +387,10 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
    * lock map panning for the duration.
    */
   const handleDown = useCallback((point, e) => {
-    if (routeMode !== 'onthegomap' || !activeRoute || tool === TOOLS.zoneRect || tool === TOOLS.zonePoly) {
+    // No mode to select. Having an open route and not currently placing points
+    // IS edit mode — requiring a second global toggle on top of picking the
+    // route was two ways of saying the same thing.
+    if (!activeRoute || tool === TOOLS.route || tool === TOOLS.zoneRect || tool === TOOLS.zonePoly) {
       return false;
     }
     const pts = activeRoute.waypoints.map((w) => [w.y, w.x]);
@@ -389,7 +406,7 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
         return true;
       }
       snapshot();
-      setDrag({ index: vIdx });
+      setDrag({ index: vIdx, moved: false });
       return true;
     }
 
@@ -401,15 +418,62 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
       // arrives at the old vertex, so the curve does not jump when split.
       wps.splice(sIdx + 1, 0, { y: point[0], x: point[1], bulge: 0 });
       updateRoute(activeRoute.id, { waypoints: wps });
-      setDrag({ index: sIdx + 1 });
+      setDrag({ index: sIdx + 1, moved: true });
       return true;
     }
     return false;
-  }, [routeMode, activeRoute, tool, snapUnits, snapshot, updateRoute]);
+  }, [activeRoute, tool, snapUnits, snapshot, updateRoute]);
 
+  /**
+   * Letting go of an endpoint next to another route's endpoint joins the two
+   * into one route. This is the whole reason two separately drawn halves can
+   * become a single corridor — before, they only looked connected, and the
+   * manifest still treated them as unrelated.
+   */
   const handleUp = useCallback(() => {
-    if (drag) setDrag(null);
-  }, [drag]);
+    if (!drag) return;
+    const { index, moved } = drag;
+    setDrag(null);
+    if (!activeRoute) return;
+
+    const wps = activeRoute.waypoints;
+
+    // A CLICK on the last waypoint (as opposed to a drag) picks the line back
+    // up and carries on from there. That is the only way to extend a route now
+    // — selecting one puts you in edit, never in draw, so nothing starts
+    // adding points behind your back.
+    if (!moved && index === wps.length - 1 && !activeRoute.closed) {
+      setTool(TOOLS.route);
+      onToast?.('Carrying on from that waypoint — click to place, Enter to stop');
+      return;
+    }
+    if (moved === false) return;
+    if (activeRoute.closed) return;
+
+    const isEnd = index === 0 || index === wps.length - 1;
+    if (!isEnd || wps.length < 2) return;
+
+    const here = [wps[index].y, wps[index].x];
+    const hit = nearestRouteEnd(routes, here, { exceptId: activeRoute.id, threshold: snapUnits() });
+    if (!hit) return;
+
+    const other = routes.find((r) => r.id === hit.routeId);
+    snapshot();
+    setRoutes((prev) => joinRoutes(prev, activeRoute.id, index === 0 ? 'start' : 'end', hit.routeId, hit.end));
+    onToast?.(`Joined ${other?.name || 'that route'} into ${activeRoute.name}`);
+  }, [drag, activeRoute, routes, snapUnits, snapshot, setRoutes, onToast]);
+
+  /** The same join, from the panel, for when dragging onto a point is fiddly. */
+  const joinTo = useCallback((otherId) => {
+    if (!activeRoute) return;
+    const ends = { a: activeRoute.waypoints.length - 1 };
+    const other = routes.find((r) => r.id === otherId);
+    if (!other) return;
+    snapshot();
+    setRoutes((prev) => joinRoutes(prev, activeRoute.id, 'end', otherId, 'start'));
+    onToast?.(`Joined ${other.name} onto the end of ${activeRoute.name}`);
+    void ends;
+  }, [activeRoute, routes, snapshot, setRoutes, onToast]);
 
   // --- preview geometry ---------------------------------------------------
   const previewRing = useMemo(() => {
@@ -434,15 +498,15 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
    * would otherwise pan the map out from under it.
    */
   const editTarget = useMemo(() => {
-    if (routeMode !== 'onthegomap' || !activeRoute?.waypoints.length || !cursorPoint) return null;
-    if (tool === TOOLS.zoneRect || tool === TOOLS.zonePoly) return null;
+    if (!activeRoute?.waypoints.length || !cursorPoint) return null;
+    if (tool === TOOLS.route || tool === TOOLS.zoneRect || tool === TOOLS.zonePoly) return null;
     const pts = activeRoute.waypoints.map((w) => [w.y, w.x]);
     const v = nearestVertex(cursorPoint, pts, snapUnits());
     if (v >= 0) return { kind: 'vertex', index: v, point: pts[v] };
     const seg = nearestSegment(cursorPoint, pts, snapUnits());
     if (seg >= 0) return { kind: 'segment', index: seg, point: cursorPoint };
     return null;
-  }, [routeMode, activeRoute, cursorPoint, tool, snapUnits]);
+  }, [activeRoute, cursorPoint, tool, snapUnits]);
 
   // Highlighted when the cursor is close enough that a click would link rather
   // than add — the user should see the link coming, not discover it after.
@@ -467,7 +531,7 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
     previewRing, previewSegment, snapTarget, cursorPoint, editTarget,
     setTool, setRouteMode, setActiveZoneId, setActiveRouteId,
     addZone, updateZone, removeZone, moveZone,
-    newRoute, updateRoute, removeRoute,
+    newRoute, updateRoute, removeRoute, joinTo,
     handleClick, handleMove, handleDown, handleUp,
     undo, redo,
     canUndo: histDepth.past > 0,
