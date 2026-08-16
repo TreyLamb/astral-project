@@ -91,6 +91,44 @@ and that reasoning is worth keeping:
 
 ---
 
+## ℹ️ EFT maps: 12 of 13 are wired; 5 of those are rebuilt, not scraped
+As of 2026-08-16 every mapgenie map is committed under
+`src/pages/eftShopping/map/data/markers/`. `npm run eft:markers` takes two
+different paths and the difference matters:
+
+- **Free maps** (Customs, Factory, Interchange, Shoreline, The Lab, The
+  Labyrinth, Woods) read everything off `/tarkov/maps/<slug>`.
+- **Pro maps** (Ground Zero, Icebreaker, Lighthouse, Reserve, Streets) 302 that
+  page to `/tarkov/upgrade`. Their record is reassembled from the endpoints
+  mapgenie serves openly to an anonymous client — `/api/v1/maps/{id}/data` for
+  locations, `/api/v1/maps/{id}` for the initial view, and the tile CDN. **No
+  session or cookie is forged; nothing logs in.** Each file records which path
+  produced it as `taxonomySource: 'page' | 'derived'`.
+
+Consequences worth knowing before touching this:
+- **Category ids are game-wide**, which is the only reason the Pro path works —
+  the names come from the free maps' taxonomies. `main()` seeds that table from
+  the already-committed files and fetches free maps first. Two categories
+  (`4736` Rogue, `4738` Lightkeeper) appear on Pro maps *only* and are the one
+  hand-written thing in the script.
+- **The tile version suffix is per map and unguessable** (`default-v1` …
+  `default-v7`, `.jpg` or `.png`), so it is probed against the CDN. A missing
+  tile answers **403, not 404**.
+- **A throttled mapgenie answers 200 with the generic landing page**, not 429.
+  Treating that as "this map has no data" is what made the first run look like
+  five maps were broken.
+- ✂️ **Terminal is not wired and cannot be from mapgenie** — they have an entry
+  (id 73) but it is `enabled: false`, zero locations, and no tiles actually
+  render at any zoom. Its only marker source is tarkov.dev's GraphQL, which is
+  still down (`422 GraphQL server unavailable`; `status.tarkov.dev` 523s), and
+  its only basemap is the tarkov.dev SVG — i.e. the deferred Vector path above.
+  Checked and ruled out: tarkovbot.eu (no public API), tarkov-market (no maps
+  endpoint), TarkovTracker `tarkovdata` (no marker positions), SPT
+  `locations/terminal/base.json` (spawn zones, not the mapgenie marker set),
+  the Fandom wiki (prose, no coordinates).
+
+---
+
 ## 🎨 webdesign.md is required reading before any layout work
 `webdesign.md` (same directory) is the binding contract for page layout, the
 counterpart to `gamedesign.md` and `featuredesign.md`. Written 2026-08-13 after
