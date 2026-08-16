@@ -102,6 +102,8 @@ export const DEFAULTS = {
     // Node keys the user folded. A leading '!' means "expanded on purpose",
     // which is what overrides the auto-fold depth — see eftCraftGraph.
     collapsed: [],
+    // { [nodeKey]: recipeIndex } — which recipe a multi-recipe item is showing.
+    recipeChoice: {},
   },
   // Quest ids the user has finished. Ticking one here is what turns
   // "Used in 3 quests" into "Used in quests 1/3" the next time an item comes up.

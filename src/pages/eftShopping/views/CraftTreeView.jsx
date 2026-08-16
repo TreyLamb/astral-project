@@ -58,7 +58,7 @@ function Fold({ node, onToggle }) {
   );
 }
 
-function ItemNode({ node, selected, onToggle, onFocus }) {
+function ItemNode({ node, selected, onToggle, onFocus, onCycleRecipe }) {
   const cls = [
     'eft-ct-node', 'eft-ct-item',
     node.craftable ? 'eft-is-craftable' : 'eft-is-raw',
@@ -68,31 +68,60 @@ function ItemNode({ node, selected, onToggle, onFocus }) {
     node.collapsed ? 'eft-is-folded' : '',
   ].filter(Boolean).join(' ');
 
+  const craft = node.craft;
+  const alternatives = node.recipes?.length || 0;
+
   return (
     <div
       className={cls}
       style={{ left: node.x, top: node.y - node.h / 2, width: node.w, height: node.h }}
     >
       <Fold node={node} onToggle={onToggle} />
-      <button
-        type="button"
-        className="eft-ct-hit"
-        onClick={() => onToggle(node)}
-        title={node.hasChildren
-          ? `${node.collapsed ? 'Open' : 'Fold'} this branch — details on the right`
-          : 'No further steps'}
-      >
-        <img
-          className="eft-ct-icon"
-          src={itemIcon(node.id)}
-          alt=""
-          loading="lazy"
-          onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }}
-        />
-        <span className="eft-ct-name">{node.name}</span>
-        {node.count > 1 ? <span className="eft-ct-count">×{node.count}</span> : null}
-        {node.collapsed ? <span className="eft-ct-hidden">+{node.hiddenCount}</span> : null}
-      </button>
+
+      <div className="eft-ct-itembody">
+        <button
+          type="button"
+          className="eft-ct-hit"
+          onClick={() => onToggle(node)}
+          title={node.hasChildren
+            ? `${node.collapsed ? 'Open' : 'Fold'} this branch — details on the right`
+            : 'No further steps'}
+        >
+          <img
+            className="eft-ct-icon"
+            src={itemIcon(node.id)}
+            alt=""
+            loading="lazy"
+            onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }}
+          />
+          <span className="eft-ct-name">{node.name}</span>
+          {node.count > 1 ? <span className="eft-ct-count">×{node.count}</span> : null}
+          {node.collapsed ? <span className="eft-ct-hidden">+{node.hiddenCount}</span> : null}
+        </button>
+
+        {/* Where it's made — a label on the item, not a step in the chain. */}
+        {craft ? (
+          <div className="eft-ct-madeat">
+            <span className="eft-ct-station">{craft.stationName} {craft.level}</span>
+            <span className="eft-ct-time">
+              {craft.continuous ? 'continuous' : fmtDuration(craft.duration)}
+              {craft.questIds?.length ? ' · quest' : ''}
+              {craft.gameVersion ? ' · edition' : ''}
+            </span>
+            {alternatives > 1 ? (
+              <button
+                type="button"
+                className="eft-ct-altrecipe"
+                onClick={(e) => { e.stopPropagation(); onCycleRecipe(node); }}
+                title={`${alternatives} ways to make this — click to switch`}
+              >
+                {node.recipeIndex + 1}/{alternatives} ⇄
+              </button>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
+
       <button
         type="button"
         className="eft-ct-focus"
@@ -107,51 +136,21 @@ function ItemNode({ node, selected, onToggle, onFocus }) {
   );
 }
 
-function CraftNode({ node, selected, onToggle }) {
-  const c = node.craft;
-  const cls = [
-    'eft-ct-node', 'eft-ct-craft',
-    selected ? 'eft-is-selected' : '',
-    node.collapsed ? 'eft-is-folded' : '',
-    c.questIds?.length ? 'eft-is-locked' : '',
-  ].filter(Boolean).join(' ');
-
-  return (
-    <div
-      className={cls}
-      style={{ left: node.x, top: node.y - node.h / 2, width: node.w, height: node.h }}
-    >
-      <Fold node={node} onToggle={onToggle} />
-      <button
-        type="button"
-        className="eft-ct-hit"
-        onClick={() => onToggle(node)}
-        title={node.hasChildren
-          ? `${node.collapsed ? 'Open' : 'Fold'} this recipe — details on the right`
-          : 'Nothing further'}
-      >
-        <span className="eft-ct-craftbody">
-          <span className="eft-ct-station">{c.stationName} {c.level}</span>
-          <span className="eft-ct-time">
-            {c.continuous ? 'continuous' : fmtDuration(c.duration)}
-            {c.questIds?.length ? ' · quest' : ''}
-            {c.gameVersion ? ' · edition' : ''}
-          </span>
-        </span>
-        {node.collapsed ? <span className="eft-ct-hidden">+{node.hiddenCount}</span> : null}
-      </button>
-    </div>
-  );
-}
-
 // --- Canvas ---------------------------------------------------------------
 
+/**
+ * Connector between a node and its child. Has to work in both orientations:
+ * an ingredient tree is mirrored so the child sits to the LEFT of its parent,
+ * and a hard-coded left-to-right curve would loop back on itself.
+ */
 function edgePath(from, to) {
-  const x1 = from.x + from.w;
+  const rightward = to.x >= from.x;
+  const x1 = rightward ? from.x + from.w : from.x;
+  const x2 = rightward ? to.x : to.x + to.w;
   const y1 = from.y;
-  const x2 = to.x;
   const y2 = to.y;
-  const dx = Math.max(18, (x2 - x1) / 2);
+  const span = (x2 - x1) / 2;
+  const dx = rightward ? Math.max(18, span) : Math.min(-18, span);
   return `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`;
 }
 
@@ -187,7 +186,7 @@ function DeadEnd({ name, index, itemId, direction, onDirection, onBack, onAll })
   );
 }
 
-function GraphCanvas({ forest, zoom, setZoom, selectedKey, onToggle, onFocus }) {
+function GraphCanvas({ forest, zoom, setZoom, selectedKey, onToggle, onFocus, onCycleRecipe }) {
   const scrollRef = useRef(null);
   const drag = useRef(null);
 
@@ -297,22 +296,16 @@ function GraphCanvas({ forest, zoom, setZoom, selectedKey, onToggle, onFocus }) 
             </button>
           ))}
 
-          {forest.nodes.map((n) => (n.kind === 'item' ? (
+          {forest.nodes.map((n) => (
             <ItemNode
               key={n.key}
               node={n}
               selected={selectedKey === n.key}
               onToggle={onToggle}
               onFocus={onFocus}
+              onCycleRecipe={onCycleRecipe}
             />
-          ) : (
-            <CraftNode
-              key={n.key}
-              node={n}
-              selected={selectedKey === n.key}
-              onToggle={onToggle}
-            />
-          )))}
+          ))}
         </div>
       </div>
     </div>
@@ -381,15 +374,6 @@ function DetailPanel({ selected, index, onFocus, onDirection, direction }) {
         Click any node to see its recipe here. Click the node body to fold or unfold
         that branch; the ⌖ button re-roots the whole chart on that item.
       </div>
-    );
-  }
-
-  if (selected.kind === 'craft') {
-    return (
-      <>
-        <h3 className="eft-ct-detail-title">Recipe</h3>
-        <RecipeCard craft={selected.craft} index={index} onFocus={onFocus} />
-      </>
     );
   }
 
@@ -525,6 +509,7 @@ export default function CraftTreeView() {
   const treeOpts = {
     direction: cfg.direction,
     collapsed: collapsedSet,
+    recipeChoice: cfg.recipeChoice || {},
     autoDepth: cfg.autoDepth,
     includeTools: cfg.includeTools,
     craftableOnly: cfg.craftableOnly,
@@ -572,10 +557,13 @@ export default function CraftTreeView() {
       root.truncated = truncated;
       return { label: `${itemName(index, id)}${truncated ? ' — too large, partly hidden' : ''}`, root };
     });
-    return layoutForest(entries);
+    // Ingredients flow into their product: raw materials left, finished item
+    // right. 'down' already runs that way and is left alone.
+    return layoutForest(entries, { flip: cfg.direction === 'up' });
     // treeOpts is rebuilt each render on purpose — its members are the real deps.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, shown, cfg.direction, cfg.autoDepth, cfg.includeTools, cfg.craftableOnly, collapsedSet]);
+  }, [index, shown, cfg.direction, cfg.autoDepth, cfg.includeTools, cfg.craftableOnly,
+    collapsedSet, cfg.recipeChoice]);
 
   const toggle = useCallback((node) => {
     setSelected(node);
@@ -585,6 +573,18 @@ export default function CraftTreeView() {
       if (node.collapsed) { next.delete(node.key); next.add(`!${node.key}`); }
       else { next.delete(`!${node.key}`); next.add(node.key); }
       return { ...prev, collapsed: [...next] };
+    });
+  }, [update]);
+
+  // An item craftable more than one way shows one recipe at a time; this steps
+  // through them. Keyed by node key rather than item id, so the same item
+  // appearing twice in a chart can be set independently.
+  const cycleRecipe = useCallback((node) => {
+    update('craftGraph', (prev) => {
+      const choice = { ...(prev.recipeChoice || {}) };
+      const total = node.recipes?.length || 1;
+      choice[node.key] = ((choice[node.key] ?? 0) + 1) % total;
+      return { ...prev, recipeChoice: choice };
     });
   }, [update]);
 
@@ -804,6 +804,7 @@ export default function CraftTreeView() {
             selectedKey={selected?.key}
             onToggle={toggle}
             onFocus={focus}
+            onCycleRecipe={cycleRecipe}
           />
         ) : (
           <div className="eft-ct-canvas eft-ct-blank">

@@ -10,9 +10,21 @@
 //   'up'   — what goes INTO making it, recursively (ingredients)
 //   'down' — what it is USED IN, recursively (uses)
 //
-// Trees alternate item -> craft -> item -> craft, so a recipe is always its own
-// node. That keeps multi-recipe items honest: an item craftable two ways
-// branches into two craft nodes rather than silently merging their inputs.
+// EVERY NODE IS AN ITEM. Recipes used to be nodes of their own, so a chain read
+// item -> craft -> item -> craft and the station sat in the middle of the flow
+// as though "Medstation 1" were a thing you crafted. It isn't a step, it's
+// where a step happens — so the recipe now rides ON the item it produces, as a
+// header, and the tree is items all the way down.
+//
+// Multi-recipe items (12 of 192 outputs) keep every option: the node holds the
+// full `recipes` list plus the index of the one it is showing, so nothing is
+// merged or hidden — you flip between them on the node itself.
+//
+// READING DIRECTION. Ingredients flow INTO their product, so an 'up' tree is
+// laid out with the raw materials on the LEFT and the finished item on the
+// RIGHT — the way a recipe reads. A 'down' tree already runs that way (the item
+// you asked about on the left, what it becomes on the right), so only 'up' is
+// mirrored. See `layoutForest({ flip })`.
 
 export const DIRECTIONS = [
   { value: 'up', label: 'Ingredients', title: 'What goes into making this item' },
@@ -174,6 +186,7 @@ export function buildTree(index, rootItemId, opts = {}) {
     direction = 'up', collapsed = new Set(), autoDepth = 3,
     includeTools = true, craftableOnly = false, stationKey = null,
     rootKey = `r:${rootItemId}`, rootCount = null, rootCraftId = null,
+    recipeChoice = {},
   } = opts;
 
   let nodes = 0;
@@ -189,7 +202,11 @@ export function buildTree(index, rootItemId, opts = {}) {
     return stationKey ? list.filter((c) => c.stationKey === stationKey) : list;
   };
 
-  const makeItem = (itemId, key, depth, count, path, label) => {
+  /**
+   * @param viaCraft the recipe that produced this node, when the parent already
+   *                 knows it ('down' direction). In 'up' the node picks its own.
+   */
+  const makeItem = (itemId, key, depth, count, path, label, viaCraft, role) => {
     nodes += 1;
     const node = {
       kind: 'item',
@@ -197,10 +214,16 @@ export function buildTree(index, rootItemId, opts = {}) {
       id: itemId,
       depth,
       count,
+      role,
       name: itemName(index, itemId, label),
       item: index.items?.[itemId] || null,
       craftable: isCraftable(index, itemId),
       cycle: path.has(itemId),
+      // The recipe that makes this item. Rendered as a header on the node —
+      // never as a step of its own.
+      craft: viaCraft || null,
+      recipes: [],
+      recipeIndex: 0,
       children: [],
       hasChildren: false,
       collapsed: false,
@@ -216,65 +239,55 @@ export function buildTree(index, rootItemId, opts = {}) {
     // that same recipe again as a way to make it — that's the edge we came in
     // on, and re-expanding it is an infinite regress the user can see.
     if (rootCraftId && key === rootKey) crafts = crafts.filter((c) => c.id !== rootCraftId);
+    if (!crafts.length) return node;
 
-    node.hasChildren = crafts.length > 0;
+    let feed;
+
+    if (direction === 'up') {
+      // Every way to make this item is kept; one is shown at a time.
+      node.recipes = crafts;
+      node.recipeIndex = Math.min(Math.max(0, recipeChoice[key] ?? 0), crafts.length - 1);
+      node.craft = crafts[node.recipeIndex];
+
+      const raw = [
+        ...node.craft.inputs.map((i) => ({ ...i, role: 'input' })),
+        ...(includeTools ? node.craft.tools.map((t) => ({ ...t, count: 1, role: 'tool' })) : []),
+      ];
+      feed = craftableOnly
+        ? raw.filter((f) => f.role === 'tool' || isCraftable(index, f.itemId))
+        : raw;
+    } else {
+      // Downstream: each product of each consuming recipe is a child, and it
+      // carries the recipe that makes it so the header still reads "made at X".
+      feed = crafts.flatMap((craft) => craft.outputs.map((o) => ({ ...o, craft, role: 'output' })));
+    }
+
+    node.hasChildren = feed.length > 0;
     if (!node.hasChildren) return node;
 
-    node.collapsed = collapsed.has(key) || (!collapsed.has(`!${key}`) && depth >= autoDepth * 2);
+    node.collapsed = collapsed.has(key) || (!collapsed.has(`!${key}`) && depth >= autoDepth);
     if (node.collapsed) {
       // What is being hidden, so a folded node can say so instead of just
       // vanishing its branch.
-      node.hiddenCount = crafts.length;
+      node.hiddenCount = feed.length;
       return node;
     }
 
     const nextPath = new Set(path).add(itemId);
-    node.children = crafts.map((craft, i) => makeCraft(craft, childKey(key, 'c', craft.id, i), depth + 1, nextPath));
+    node.children = feed.map((f, i) => makeItem(
+      f.itemId,
+      childKey(key, direction === 'up' ? 'i' : 'o', f.itemId, i),
+      depth + 1,
+      f.count ?? 1,
+      nextPath,
+      f.name,
+      f.craft || null,
+      f.role,
+    ));
     return node;
   };
 
-  const makeCraft = (craft, key, depth, path) => {
-    nodes += 1;
-    const node = {
-      kind: 'craft',
-      key,
-      id: craft.id,
-      depth,
-      craft,
-      children: [],
-      hasChildren: false,
-      collapsed: false,
-    };
-
-    const feed = direction === 'up'
-      ? [
-        ...craft.inputs.map((i) => ({ ...i, role: 'input' })),
-        ...(includeTools ? craft.tools.map((t) => ({ ...t, count: 1, role: 'tool' })) : []),
-      ]
-      : craft.outputs.map((o) => ({ ...o, role: 'output' }));
-
-    const kept = craftableOnly && direction === 'up'
-      ? feed.filter((f) => f.role === 'tool' || isCraftable(index, f.itemId))
-      : feed;
-
-    node.hasChildren = kept.length > 0;
-    if (!node.hasChildren) return node;
-
-    node.collapsed = collapsed.has(key) || (!collapsed.has(`!${key}`) && depth >= autoDepth * 2);
-    if (node.collapsed) {
-      node.hiddenCount = kept.length;
-      return node;
-    }
-
-    node.children = kept.map((f, i) => {
-      const child = makeItem(f.itemId, childKey(key, 'i', f.itemId, i), depth + 1, f.count ?? 1, path, f.name);
-      child.role = f.role;
-      return child;
-    });
-    return node;
-  };
-
-  const root = makeItem(rootItemId, rootKey, 0, rootCount, new Set(), null);
+  const root = makeItem(rootItemId, rootKey, 0, rootCount, new Set(), null, null, null);
   return { root, nodes, truncated };
 }
 
@@ -288,12 +301,14 @@ export function buildTree(index, rootItemId, opts = {}) {
 // Sized to match the 25% type bump in EftShopping.css — the boxes have to grow
 // with the text or the names clip.
 export const LAYOUT = {
-  itemW: 272,
-  // Wide enough for the longest station name ("Intelligence Center 3") without
-  // an ellipsis — the station is the most useful thing on a recipe node.
-  craftW: 250,
-  itemH: 56,
-  craftH: 50,
+  // Wide enough for a long item name beside its icon, and for the station line
+  // underneath ("Intelligence Center 3") without an ellipsis.
+  // 310 rather than 272: the recipe line has to fit a long station name, a
+  // duration and (on multi-recipe items) the switcher without ellipsising the
+  // station, which is the most useful thing on the line.
+  itemW: 330,
+  // Two lines now: the item, and the recipe header that used to be its own node.
+  itemH: 74,
   gapY: 11,
   gapX: 54,
   padX: 30,
@@ -301,13 +316,13 @@ export const LAYOUT = {
   treeGap: 48,
 };
 
-const nodeW = (n) => (n.kind === 'item' ? LAYOUT.itemW : LAYOUT.craftW);
-const nodeH = (n) => (n.kind === 'item' ? LAYOUT.itemH : LAYOUT.craftH);
+const nodeW = () => LAYOUT.itemW;
+const nodeH = () => LAYOUT.itemH;
 
+// Every node is an item, so columns are uniform — there is no longer an
+// alternating narrow recipe column to step over.
 function columnX(depth) {
-  const pair = LAYOUT.itemW + LAYOUT.gapX + LAYOUT.craftW + LAYOUT.gapX;
-  return LAYOUT.padX + Math.floor(depth / 2) * pair
-    + (depth % 2 ? LAYOUT.itemW + LAYOUT.gapX : 0);
+  return LAYOUT.padX + depth * (LAYOUT.itemW + LAYOUT.gapX);
 }
 
 /**
@@ -342,8 +357,17 @@ export function layoutTree(root, startY = 0) {
   return { nodes, edges, width: maxX + LAYOUT.padX, height: cursor, root };
 }
 
-/** Lays out several trees stacked vertically into one coordinate space. */
-export function layoutForest(roots) {
+/**
+ * Lays out several trees stacked vertically into one coordinate space.
+ *
+ * @param opts.flip mirror horizontally once the full width is known. Used for
+ *   'up' (ingredient) trees: the tree is built root-first, but a recipe reads
+ *   inputs-then-output, so the raw materials belong on the LEFT and the
+ *   finished item on the RIGHT. Mirroring after the fact keeps the tidy-tree
+ *   maths in one direction and costs one pass.
+ */
+export function layoutForest(roots, opts = {}) {
+  const { flip = false } = opts;
   const nodes = [];
   const edges = [];
   const bands = [];
@@ -361,7 +385,9 @@ export function layoutForest(roots) {
     y = laid.height + LAYOUT.treeGap;
   }
 
-  return { nodes, edges, bands, width, height: y + LAYOUT.padY };
+  if (flip) for (const n of nodes) n.x = width - n.x - n.w;
+
+  return { nodes, edges, bands, width, height: y + LAYOUT.padY, flipped: flip };
 }
 
 // --- Search ----------------------------------------------------------------

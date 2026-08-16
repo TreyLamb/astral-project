@@ -94,23 +94,61 @@ describe('buildCraftIndex', () => {
 });
 
 describe('buildTree — upstream', () => {
-  it('alternates item and craft levels', () => {
+  it('is items all the way down — a recipe is never a node', () => {
     const f = fixture();
     const { root } = buildTree(f, 'plate', { direction: 'up', autoDepth: 9 });
-    expect(root.kind).toBe('item');
-    expect(root.children[0].kind).toBe('craft');
-    expect(root.children[0].children[0].kind).toBe('item');
+    const kinds = new Set();
+    (function walk(n) { kinds.add(n.kind); (n.children || []).forEach(walk); }(root));
+    expect([...kinds]).toEqual(['item']);
   });
 
-  it('branches once per recipe instead of merging them', () => {
+  it('hangs the recipe on the item it makes', () => {
+    const f = fixture();
+    const { root } = buildTree(f, 'plate', { direction: 'up', autoDepth: 9 });
+    expect(root.craft.id).toBe('c-plate');
+    expect(root.craft.stationName).toBe('Workbench');
+    // …and the ingredients are direct children, with no station in between.
+    expect(root.children.map((c) => c.id)).toEqual(['ingot']);
+  });
+
+  it('keeps every recipe on a multi-recipe item and shows one at a time', () => {
     const f = fixture();
     const { root } = buildTree(f, 'ingot', { direction: 'up', autoDepth: 9 });
-    expect(root.children.map((c) => c.id).sort()).toEqual(['c-ingot', 'c-ingot-alt']);
+    expect(root.recipes.map((r) => r.id).sort()).toEqual(['c-ingot', 'c-ingot-alt']);
+    expect(root.recipeIndex).toBe(0);
+    expect(root.craft.id).toBe('c-ingot');
+    expect(root.children.map((c) => c.id)).toEqual(['ore', 'press']);
+  });
+
+  it('recipeChoice switches which recipe a node is showing', () => {
+    const f = fixture();
+    const first = buildTree(f, 'ingot', { direction: 'up', autoDepth: 9 });
+    const alt = buildTree(f, 'ingot', {
+      direction: 'up', autoDepth: 9, recipeChoice: { [first.root.key]: 1 },
+    });
+    expect(alt.root.craft.id).toBe('c-ingot-alt');
+    expect(alt.root.children.map((c) => c.id)).toEqual(['scrap']);
+  });
+
+  it('clamps an out-of-range recipe choice instead of blanking the node', () => {
+    const f = fixture();
+    const probe = buildTree(f, 'ingot', { direction: 'up' });
+    const over = buildTree(f, 'ingot', {
+      direction: 'up', autoDepth: 9, recipeChoice: { [probe.root.key]: 99 },
+    });
+    expect(over.root.craft).toBeTruthy();
+    expect(over.root.recipeIndex).toBe(1);
   });
 
   it('marks a repeat instead of looping forever', () => {
     const f = fixture();
-    const { root } = buildTree(f, 'plate', { direction: 'up', autoDepth: 99 });
+    // plate -> ingot -> scrap -> plate only closes through ingot's SECOND
+    // recipe, so that one has to be selected for the loop to be reachable.
+    const probe = buildTree(f, 'plate', { direction: 'up', autoDepth: 99 });
+    const ingotKey = probe.root.children[0].key;
+    const { root } = buildTree(f, 'plate', {
+      direction: 'up', autoDepth: 99, recipeChoice: { [ingotKey]: 1 },
+    });
     const flat = [];
     (function walk(n) { flat.push(n); (n.children || []).forEach(walk); }(root));
     const cycles = flat.filter((n) => n.cycle);
@@ -136,14 +174,22 @@ describe('buildTree — upstream', () => {
     const { root } = buildTree(f, 'plate', {
       direction: 'up', autoDepth: 9, craftableOnly: true, includeTools: false,
     });
-    const craft = root.children[0];
-    expect(craft.children.map((c) => c.id)).toEqual(['ingot']);
-    const alt = buildTree(f, 'ingot', {
+    expect(root.children.map((c) => c.id)).toEqual(['ingot']);
+    // Ore is raw and scrap is craftable, so recipe 1 keeps nothing and recipe 2
+    // keeps its one ingredient.
+    const probe = buildTree(f, 'ingot', { direction: 'up' });
+    const onOre = buildTree(f, 'ingot', {
       direction: 'up', autoDepth: 9, craftableOnly: true, includeTools: false,
     });
-    // Ore is raw, scrap is craftable — only the craftable branch survives.
-    const kept = alt.root.children.flatMap((c) => c.children.map((n) => n.id));
-    expect(kept).toEqual(['scrap']);
+    expect(onOre.root.children.map((n) => n.id)).toEqual([]);
+    const onScrap = buildTree(f, 'ingot', {
+      direction: 'up',
+      autoDepth: 9,
+      craftableOnly: true,
+      includeTools: false,
+      recipeChoice: { [probe.root.key]: 1 },
+    });
+    expect(onScrap.root.children.map((n) => n.id)).toEqual(['scrap']);
   });
 });
 
@@ -151,14 +197,16 @@ describe('buildTree — downstream', () => {
   it('walks uses forward', () => {
     const f = fixture();
     const { root } = buildTree(f, 'ore', { direction: 'down', autoDepth: 9 });
-    expect(root.children.map((c) => c.id)).toEqual(['c-ingot']);
-    expect(root.children[0].children.map((c) => c.id)).toEqual(['ingot']);
+    // Straight to what the ore becomes — the recipe rides on that item.
+    expect(root.children.map((c) => c.id)).toEqual(['ingot']);
+    expect(root.children[0].craft.id).toBe('c-ingot');
   });
 
   it('a tool-gated craft shows up under the tool', () => {
     const f = fixture();
     const { root } = buildTree(f, 'press', { direction: 'down', autoDepth: 9 });
-    expect(root.children.map((c) => c.id)).toEqual(['c-ingot']);
+    expect(root.children.map((c) => c.id)).toEqual(['ingot']);
+    expect(root.children[0].craft.id).toBe('c-ingot');
   });
 });
 
@@ -166,9 +214,9 @@ describe('collapse', () => {
   it('folds the node whose key is in the set and nothing else', () => {
     const f = fixture();
     const open = buildTree(f, 'plate', { direction: 'up', autoDepth: 9 });
-    const craftKey = open.root.children[0].key;
+    const ingotKey = open.root.children[0].key;
     const folded = buildTree(f, 'plate', {
-      direction: 'up', autoDepth: 9, collapsed: new Set([craftKey]),
+      direction: 'up', autoDepth: 9, collapsed: new Set([ingotKey]),
     });
     expect(folded.root.children[0].collapsed).toBe(true);
     expect(folded.root.children[0].children).toEqual([]);
@@ -179,13 +227,14 @@ describe('collapse', () => {
 
   it('auto-folds past the depth limit, and an explicit expand overrides it', () => {
     const f = fixture();
+    // One item per level now, so autoDepth counts items, not item+recipe pairs.
     const shallow = buildTree(f, 'plate', { direction: 'up', autoDepth: 1 });
-    const deep = shallow.root.children[0].children[0];
+    const deep = shallow.root.children[0];
     expect(deep.collapsed).toBe(true);
     const forced = buildTree(f, 'plate', {
       direction: 'up', autoDepth: 1, collapsed: new Set([`!${deep.key}`]),
     });
-    expect(forced.root.children[0].children[0].collapsed).toBe(false);
+    expect(forced.root.children[0].collapsed).toBe(false);
   });
 
   it('node keys are stable across rebuilds', () => {
@@ -197,6 +246,37 @@ describe('collapse', () => {
   });
 });
 
+describe('reading direction', () => {
+  it('mirrors an ingredient tree so raw materials sit left of the product', () => {
+    const f = fixture();
+    const { root } = buildTree(f, 'plate', { direction: 'up', autoDepth: 9 });
+    const laid = layoutForest([{ root, label: 'Plate' }], { flip: true });
+    const at = (id) => laid.nodes.find((n) => n.id === id);
+    // plate <- ingot <- ore : the finished plate is furthest RIGHT.
+    expect(at('plate').x).toBeGreaterThan(at('ingot').x);
+    expect(at('ingot').x).toBeGreaterThan(at('ore').x);
+    expect(laid.flipped).toBe(true);
+  });
+
+  it('leaves a downstream tree running left to right', () => {
+    const f = fixture();
+    const { root } = buildTree(f, 'ore', { direction: 'down', autoDepth: 9 });
+    const laid = layoutForest([{ root, label: 'Ore' }], { flip: false });
+    const at = (id) => laid.nodes.find((n) => n.id === id);
+    expect(at('ingot').x).toBeGreaterThan(at('ore').x);
+  });
+
+  it('keeps every node on the canvas after mirroring', () => {
+    const f = fixture();
+    const { root } = buildTree(f, 'plate', { direction: 'up', autoDepth: 9 });
+    const laid = layoutForest([{ root, label: 'Plate' }], { flip: true });
+    for (const n of laid.nodes) {
+      expect(n.x).toBeGreaterThanOrEqual(0);
+      expect(n.x + n.w).toBeLessThanOrEqual(laid.width);
+    }
+  });
+});
+
 describe('layout', () => {
   it('places depth on x and never overlaps siblings on y', () => {
     const f = fixture();
@@ -204,8 +284,7 @@ describe('layout', () => {
     const laid = layoutTree(root);
     for (const n of laid.nodes) {
       expect(n.x).toBeGreaterThanOrEqual(LAYOUT.padX);
-      if (n.depth % 2 === 0) expect(n.w).toBe(LAYOUT.itemW);
-      else expect(n.w).toBe(LAYOUT.craftW);
+      expect(n.w).toBe(LAYOUT.itemW);
     }
     const byDepth = new Map();
     for (const n of laid.nodes) {

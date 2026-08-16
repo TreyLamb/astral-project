@@ -3354,3 +3354,97 @@
   .eft-ammo-credit { margin-left: 0; }
   .eft-ammo-name { min-width: 150px; }
 }
+
+/* ==========================================================================
+ * Craft tree — items only, recipe as a nameplate
+ *
+ * Recipes used to be nodes, so a chain read item → craft → item and "Medstation
+ * 1" appeared to be a thing you crafted. It is where a step happens, not a
+ * step. The station now rides on the item it produces as a second line, and the
+ * tree is items all the way down.
+ *
+ * Ingredient trees are also mirrored (see layoutForest flip) so raw materials
+ * sit on the left and the finished item on the right — the way a recipe reads.
+ * ========================================================================== */
+
+.eft-app .eft-ct-node.eft-ct-item {
+  display: flex;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--eft-r-sm);
+}
+
+.eft-ct-itembody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.eft-app .eft-ct-item .eft-ct-hit {
+  flex: 1;
+  min-width: 0;
+  border-bottom: 0;
+}
+
+/* The recipe line. Quieter than the item name above it — it is a label on the
+   thing, not a peer of it. */
+.eft-ct-madeat {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 9px 4px;
+  border-top: 1px solid var(--eft-line);
+  background: var(--eft-bg-2);
+  min-width: 0;
+}
+
+.eft-ct-madeat .eft-ct-station {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--eft-tan);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eft-ct-madeat .eft-ct-time { flex: none; font-size: 11.5px; }
+
+/* An item craftable more than one way. Small, but it has to be obviously
+   clickable or the alternative recipes are effectively hidden. */
+.eft-ct-altrecipe {
+  flex: none;
+  padding: 0 7px;
+  border: 1px solid rgba(240, 205, 130, 0.5);
+  border-radius: 999px;
+  background: var(--eft-fill-gold);
+  font-family: var(--eft-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--eft-gold);
+  cursor: pointer;
+}
+
+.eft-ct-altrecipe:hover { background: rgba(240, 205, 130, 0.34); }
+
+/* A recipe that is quest-locked used to colour its own node; that node is gone,
+   so the signal moves onto the item's recipe line. */
+.eft-ct-item.eft-is-cycle .eft-ct-madeat { border-top-color: rgba(224, 106, 92, 0.5); }
+
+/* The station is the point of the recipe line, so it keeps its space and the
+   duration yields first when the row is tight. */
+.eft-ct-madeat .eft-ct-station { flex: 1 1 auto; min-width: 84px; }
+.eft-ct-madeat .eft-ct-time { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* "Intelligence Center 2" is the longest station in the game and it has to fit
+   beside a duration and a recipe switcher, so the tracking comes in. */
+.eft-ct-madeat .eft-ct-station { letter-spacing: 0.04em; font-size: 12px; }
+
+/* The TOOL / LOOP flag is pinned bottom-right of the node, which is now where
+   the recipe line lives — so that line yields the corner. */
+.eft-ct-item.eft-is-tool .eft-ct-madeat,
+.eft-ct-item.eft-is-cycle .eft-ct-madeat { padding-right: 46px; }
