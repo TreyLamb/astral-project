@@ -1028,7 +1028,8 @@
 
 .eft-map-hint {
   position: absolute;
-  left: 10px;
+  /* Clears the rail, which now runs the full height of the LEFT edge. */
+  left: 328px;
   bottom: 10px;
   z-index: 700;
   max-width: 60%;
@@ -1219,7 +1220,7 @@
 .eft-map-toolbar {
   position: absolute;
   top: 8px;
-  left: 8px;
+  right: 8px;
   z-index: 1000;
   display: flex;
   gap: 6.3px;
@@ -1232,7 +1233,7 @@
 .eft-map-menu {
   position: absolute;
   top: 46px;
-  left: 8px;
+  right: 8px;
   z-index: 1000;
   width: min(520px, calc(100vw - 32px));
   max-height: calc(100% - 60px);
@@ -1254,7 +1255,7 @@
 .eft-map-rail {
   position: absolute;
   top: 8px;
-  right: 8px;
+  left: 8px;
   bottom: 8px;
   z-index: 1000;
   width: 310px;
@@ -1273,7 +1274,7 @@
 
 .eft-map-stats {
   position: absolute;
-  left: 8px;
+  left: 328px;
   bottom: 8px;
   z-index: 1000;
   display: flex;
@@ -3754,20 +3755,22 @@
 .eft-railtab:hover { background: var(--eft-raised); color: var(--eft-gold); }
 
 .eft-railtab-left {
-  left: 8px;
+  /* Alongside the rail, which is 310px wide plus its 8px inset. */
+  left: 326px;
   border-radius: 0 var(--eft-r-sm) var(--eft-r-sm) 0;
   border-left: 0;
 }
 .eft-railtab-left.eft-is-closed { left: 0; }
 
 .eft-railtab-right {
-  right: 326px;
+  right: 8px;
   border-radius: var(--eft-r-sm) 0 0 var(--eft-r-sm);
   border-right: 0;
 }
 .eft-railtab-right.eft-is-closed { right: 0; }
 
 @media (max-width: 900px) {
-  .eft-railtab-right { right: 8px; }
-  .eft-railtab-right.eft-is-closed { right: 0; }
+  .eft-railtab-left { left: 8px; }
+  .eft-railtab-left.eft-is-closed { left: 0; }
+  .eft-map-hint, .eft-map-stats { left: 10px; }
 }

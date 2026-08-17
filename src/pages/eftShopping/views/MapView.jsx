@@ -727,8 +727,9 @@ export default function MapView() {
           shrinking it, so the canvas keeps the whole window. */}
       {/* Both sides fold away behind a single arrow on their own edge, the way
           mapgenie does it. One arrow per side takes the whole side with it —
-          the map is the point of this page and everything else is furniture. */}
-      {prefs.leftOpen ? (
+          the map is the point of this page and everything else is furniture.
+          The map menu sits RIGHT and the filter rail LEFT. */}
+      {prefs.toolbarOpen ? (
         <div className="eft-map-toolbar">
           <button
             type="button"
@@ -748,24 +749,26 @@ export default function MapView() {
         </div>
       ) : null}
 
+      {/* Right edge: the map menu. */}
       <button
         type="button"
-        className={`eft-railtab eft-railtab-left${prefs.leftOpen ? '' : ' eft-is-closed'}`}
-        onClick={() => { setPrefs({ leftOpen: !prefs.leftOpen }); setMapMenuOpen(false); }}
-        aria-expanded={prefs.leftOpen}
-        title={prefs.leftOpen ? 'Hide the map menu' : 'Show the map menu'}
+        className={`eft-railtab eft-railtab-right${prefs.toolbarOpen ? '' : ' eft-is-closed'}`}
+        onClick={() => { setPrefs({ toolbarOpen: !prefs.toolbarOpen }); setMapMenuOpen(false); }}
+        aria-expanded={prefs.toolbarOpen}
+        title={prefs.toolbarOpen ? 'Hide the map menu' : 'Show the map menu'}
       >
-        {prefs.leftOpen ? '❮' : '❯'}
+        {prefs.toolbarOpen ? '❯' : '❮'}
       </button>
 
+      {/* Left edge: filters, waypoints, zones, routes. */}
       <button
         type="button"
-        className={`eft-railtab eft-railtab-right${prefs.railOpen ? '' : ' eft-is-closed'}`}
+        className={`eft-railtab eft-railtab-left${prefs.railOpen ? '' : ' eft-is-closed'}`}
         onClick={() => setPrefs({ railOpen: !prefs.railOpen })}
         aria-expanded={prefs.railOpen}
         title={prefs.railOpen ? 'Hide filters, zones and routes' : 'Show filters, zones and routes'}
       >
-        {prefs.railOpen ? '❯' : '❮'}
+        {prefs.railOpen ? '❮' : '❯'}
       </button>
 
       {mapMenuOpen ? (

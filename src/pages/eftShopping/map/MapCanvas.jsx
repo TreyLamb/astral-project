@@ -99,7 +99,8 @@ export default function MapCanvas({
       maxZoom: base === 'svg' ? 6 : (tiles?.maxZoom ?? 16),
       zoomSnap: 0.25,
       attributionControl: false,
-      // The top-left corner belongs to the floating map toolbar.
+      // Both top corners belong to the floating chrome: the filter rail runs
+      // down the left edge and the map menu sits top-right.
       zoomControl: false,
       preferCanvas: true,
       // Web Mercator wraps the globe; these maps do not.
@@ -107,7 +108,7 @@ export default function MapCanvas({
       maxBoundsViscosity: 1,
     });
     mapRef.current = map;
-    L.control.zoom({ position: 'bottomleft' }).addTo(map);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
 
     // Below overlayPane (400) so drawn zones and routes sit over the pins.
     map.createPane(SPRITE_PANE).style.zIndex = 380;
