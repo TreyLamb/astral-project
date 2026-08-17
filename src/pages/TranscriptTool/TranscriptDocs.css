@@ -17,6 +17,78 @@
   gap: 14px;
 }
 
+/* Editor toolbar: mode switch, save state, and the sync affordance. */
+.tt-doc-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+}
+.tt-doc-modes { display: flex; gap: 5px; }
+.tt-doc-spacer { flex: 1 1 auto; }
+
+.tt-doc-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  color: var(--tt-dim);
+}
+.tt-doc-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tt-dim);
+  flex: none;
+}
+.tt-doc-status-dirty { color: var(--tt-accent); }
+.tt-doc-status-dirty .tt-doc-dot { background: var(--tt-accent); }
+.tt-doc-status-saving .tt-doc-dot { background: var(--tt-ok); }
+.tt-doc-status-saved { color: var(--tt-good); }
+.tt-doc-status-saved .tt-doc-dot { background: var(--tt-good); }
+.tt-doc-status-error { color: var(--tt-fail); }
+.tt-doc-status-error .tt-doc-dot { background: var(--tt-fail); }
+
+.tt-doc-err {
+  font-size: 0.8rem;
+  color: #f0a3af;
+  background: rgba(226, 88, 106, 0.12);
+  border: 1px solid rgba(226, 88, 106, 0.4);
+  border-radius: 7px;
+  padding: 8px 12px;
+}
+.tt-doc-hint { font-size: 0.75rem; color: var(--tt-dim); }
+
+/* Source and preview side by side while editing; stacked on a phone, where
+   two half-width columns would leave neither usable. */
+.tt-doc-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+.tt-doc-editor {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  min-height: 60vh;
+  padding: 18px;
+  color: var(--tt-text);
+  background: var(--tt-ink);
+  border: 1px solid var(--tt-line);
+  border-radius: 12px;
+  resize: vertical;
+  tab-size: 4;
+}
+.tt-doc-editor:focus-visible { outline: 2px solid var(--tt-accent); outline-offset: -1px; }
+.tt-doc-preview { max-width: none; }
+
+@media (max-width: 900px) {
+  .tt-doc-split { grid-template-columns: minmax(0, 1fr); }
+  .tt-doc-editor { min-height: 46vh; }
+}
+
 .tt-doc-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
 .tt-doc-tab {
   padding: 7px 15px;

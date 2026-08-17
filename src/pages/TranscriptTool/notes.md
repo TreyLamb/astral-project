@@ -19,6 +19,7 @@ MBA office: Office: KB 457 |
     - what if i'm going to UVU but taking remote classes for my master's program?
     - ask about BP waiver? Meps process? Army recruiter said its fine.
     - confirm my plan - and OTS boards dates - if they have them
+    - Electrical engineering bachelors?>??
 2. Figure out how to efing get a hold of OTS.
 3. apply to UVU - call admission office
 4. ask about financial stuff. for school. Financial AID walk ins BA 103, 8-5pm, no number.
@@ -58,7 +59,8 @@ MBA office: Office: KB 457 |
 
 ## UVU MASTERS PROGRAMS:
 
-- Master of AccountancyMaster of Business Administration
+- Master of Accountancy
+- - Master of Business Administration
 - Master of Computer Science
 - Master of Public Administration
 - Master of Physician Assistant Studies
@@ -93,7 +95,7 @@ MBA office: Office: KB 457 |
 Source: BYU Graduate Catalog 2026–2027 Captured: all 91 listed programs.
 
 - Anthropology	MA
-- Athletic Training	MAT
+    - Athletic Training	MAT
 - Cell Biology and Physiology	MS / PhD
 - Chaplaincy	MA
 - Chemical Engineering	MS / PhD

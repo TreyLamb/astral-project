@@ -38,3 +38,7 @@ src/pages/medaldex/data/pokeapiCache.json
 # incl. dist/ build output), never meant to be committed
 .claude/worktrees/
 __pycache__/
+
+# scratch screenshots from local browser checks
+*.tmp.png
+*.tmp.mjs
