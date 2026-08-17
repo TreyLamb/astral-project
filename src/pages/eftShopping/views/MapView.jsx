@@ -327,8 +327,8 @@ export default function MapView() {
   // The offered thresholds have moved twice. A stored value that is not on the
   // current list would leave the control showing nothing selected, so anything
   // unrecognised falls to the nearest behaviour instead of going blank.
-  const detailChoice = [12, 13, 14].includes(prefs.detailZoom) ? String(prefs.detailZoom)
-    : prefs.detailZoom >= 90 ? '99' : '13';
+  const detailChoice = [13, 14, 15].includes(prefs.detailZoom) ? String(prefs.detailZoom)
+    : prefs.detailZoom >= 90 ? '99' : '15';
 
   const savedCalibration = MapStore.getCalibration(mapKey);
   const isCalibrated = !!savedCalibration;
@@ -825,9 +825,9 @@ export default function MapView() {
                 value={detailChoice}
                 onChange={(v) => setPrefs({ detailZoom: Number(v) })}
                 options={[
-                  { value: '12', label: '12', title: 'Swap to dots and names a step earlier' },
-                  { value: '13', label: '13', title: 'Default' },
-                  { value: '14', label: '14', title: 'Keep pins until you are well zoomed in' },
+                  { value: '13', label: '13', title: 'Swap to dots and names a step earlier' },
+                  { value: '14', label: '14', title: 'Swap partway in' },
+                  { value: '15', label: '15', title: 'Default — keep pins until you are well zoomed in' },
                   { value: '99', label: 'Off', title: 'Always use pins' },
                 ]}
               />

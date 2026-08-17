@@ -46,6 +46,17 @@ describe('map prefs revision', () => {
     expect(MapStore.getPrefs().markerSize).toBe('small');
   });
 
+  it('catches someone already migrated to an earlier rev', () => {
+    // The rev-1 crowd stored detailZoom 13. That is still a legal value in the
+    // 13/14/15 band, so nothing about it looks stale — only the rev tells you
+    // it was the old default rather than a choice.
+    localStorage.setItem(MAP_KEY, JSON.stringify({ __rev: 1, detailZoom: 13, markerSize: 'small' }));
+    const prefs = MapStore.getPrefs();
+    expect(prefs.detailZoom).toBe(DEFAULT_PREFS.detailZoom);
+    // rev 1's own resets must not fire a second time on top of it.
+    expect(prefs.markerSize).toBe('small');
+  });
+
   it('does not disturb keys that are not in the reset list', () => {
     localStorage.setItem(MAP_KEY, JSON.stringify({ markerSize: 'small', lastMap: 'reserve', showStats: true }));
     const prefs = MapStore.getPrefs();

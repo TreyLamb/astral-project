@@ -30,7 +30,7 @@ export const DEFAULT_PREFS = {
   showFound: true,
   markerSize: 'normal',
   // Zoom at which pins become an exact dot plus a name.
-  detailZoom: 13,
+  detailZoom: 15,
   // Off entirely. The strip was permanent furniture on a page whose whole point
   // is the map; it lives behind this switch in case it is ever wanted.
   showStats: false,
@@ -51,9 +51,13 @@ export const DEFAULT_PREFS = {
  * the user had, which is right for "the default changed under them" and wrong
  * for anything they deliberately chose.
  */
-const PREFS_REV = 1;
+const PREFS_REV = 2;
 const REV_RESETS = {
   1: ['markerSize', 'detailZoom'],
+  // The band moved 12/13/14 -> 13/14/15 and the default went 13 -> 15. Anyone
+  // who used the page on rev 1 has a stored 13, which is a valid value in the
+  // new band and so would otherwise look deliberate and never move.
+  2: ['detailZoom'],
 };
 
 function applyPrefsRev(prefs) {
