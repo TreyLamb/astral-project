@@ -141,6 +141,11 @@ export function ZonePanel({
         </div>
       ) : null}
 
+      <div className="eft-note" style={{ marginBottom: 8, color: 'var(--eft-orange)' }}>
+        Zones last for this session only. They are saved and restored as part of a saved
+        route — see the Routes panel.
+      </div>
+
       {zones.map((z, i) => {
         const open = z.id === activeZoneId;
         return (
@@ -217,7 +222,8 @@ export function RoutePanel({
       </div>
 
       <div className="eft-note" style={{ marginBottom: 8, color: 'var(--eft-orange)' }}>
-        Routes on the map last for this session only. <b>Save</b> one to keep it.
+        Routes and zones on the map last for this session only. <b>Save</b> a route to keep
+        it — whatever zones are drawn go with it, and come back when you load it.
       </div>
 
       {savedRoutes.length ? (
@@ -235,7 +241,10 @@ export function RoutePanel({
                 >
                   {sv.name}
                 </button>
-                <span className="eft-note">{sv.waypoints?.length || 0} pts</span>
+                <span className="eft-note">
+                  {sv.waypoints?.length || 0} pts
+                  {sv.zones?.length ? ` · ${sv.zones.length} zone${sv.zones.length === 1 ? '' : 's'}` : ''}
+                </span>
                 <button type="button" className="eft-iconbtn" title="Rename"
                   onClick={() => {
                     const name = window.prompt('Rename this saved route', sv.name);

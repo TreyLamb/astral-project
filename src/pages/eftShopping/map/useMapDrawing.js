@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { MapStore } from './eftMapStorage';
 import {
   saveRoute as libSave, overwriteSaved, renameSaved, removeSaved,
-  savedForMap, routeFromSaved,
+  savedForMap, routeFromSaved, zonesFromSaved,
 } from './eftRouteLibrary';
 import {
   boxRing, nearestVertex, nearestSegment, routeToPolyline, arcBetween, dist,
@@ -251,19 +251,24 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
   }, [setRoutes]);
 
   // --- the saved library --------------------------------------------------
+  // Whatever zones are on the map go with the route: they are the other half
+  // of the same plan, and a route saved without them comes back filtering
+  // nothing.
   const saveRouteAs = useCallback((routeId, name) => {
     const route = routes.find((r) => r.id === routeId);
     if (!route?.waypoints.length) return;
-    setSavedRoutes((prev) => libSave(prev, route, mapKey, name));
-    onToast?.(`Saved “${name || route.name}” — it will be here next session`);
-  }, [routes, mapKey, setSavedRoutes, onToast]);
+    setSavedRoutes((prev) => libSave(prev, route, zones, mapKey, name));
+    onToast?.(zones.length
+      ? `Saved “${name || route.name}” with ${zones.length} zone${zones.length === 1 ? '' : 's'}`
+      : `Saved “${name || route.name}”`);
+  }, [routes, zones, mapKey, setSavedRoutes, onToast]);
 
   const updateSavedFrom = useCallback((savedId, routeId) => {
     const route = routes.find((r) => r.id === routeId);
     if (!route) return;
-    setSavedRoutes((prev) => overwriteSaved(prev, savedId, route));
+    setSavedRoutes((prev) => overwriteSaved(prev, savedId, route, zones));
     onToast?.('Saved route updated');
-  }, [routes, setSavedRoutes, onToast]);
+  }, [routes, zones, setSavedRoutes, onToast]);
 
   const renameSavedRoute = useCallback(
     (savedId, name) => setSavedRoutes((prev) => renameSaved(prev, savedId, name)),
@@ -275,17 +280,22 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
     [setSavedRoutes],
   );
 
-  /** Loads a COPY onto the map, so editing it never touches the saved one. */
+  /** Loads a COPY onto the map — route and its zones — so editing what comes
+   *  back never touches the saved one. */
   const loadSavedRoute = useCallback((savedId) => {
     const saved = savedRoutes.find((s) => s.id === savedId);
     if (!saved) return null;
     const route = routeFromSaved(saved, uid);
+    const restored = zonesFromSaved(saved, uid);
     setRoutes((prev) => [...prev, route]);
+    if (restored.length) setZones((prev) => [...prev, ...restored]);
     setActiveRouteId(route.id);
     setTool(null);
-    onToast?.(`Loaded “${saved.name}”`);
+    onToast?.(restored.length
+      ? `Loaded “${saved.name}” and ${restored.length} zone${restored.length === 1 ? '' : 's'}`
+      : `Loaded “${saved.name}”`);
     return route.id;
-  }, [savedRoutes, setRoutes, onToast]);
+  }, [savedRoutes, setRoutes, setZones, onToast]);
 
   // --- keyboard -----------------------------------------------------------
   useEffect(() => {

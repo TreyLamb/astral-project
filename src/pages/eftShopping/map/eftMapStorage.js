@@ -83,11 +83,11 @@ function read(key, fallback) {
 }
 
 /**
- * Routes live in sessionStorage, not localStorage, on purpose: a route is a
- * plan for the raid you are about to do, not a permanent fixture, and having
- * last week's lines still draped over the map on every visit was clutter. A
- * reload still keeps them — losing work to a stray F5 would be worse — but a
- * new session starts clean.
+ * Routes AND zones live in sessionStorage, not localStorage, on purpose: both
+ * are the plan for the raid you are about to do, not permanent fixtures, and
+ * having last week's lines and boxes still draped over the map on every visit
+ * was clutter. A reload still keeps them — losing work to a stray F5 would be
+ * worse — but a new session starts clean.
  *
  * The saved library (below) is the durable home for a route worth keeping,
  * which is what makes Save mean something.
@@ -136,8 +136,10 @@ export const MapStore = {
     try { localStorage.removeItem(KEY.calibration(map)); } catch { /* nothing to do */ }
   },
 
-  getZones: (map) => read(KEY.zones(map), []),
-  setZones: (map, v) => write(KEY.zones(map), v),
+  // Session-scoped, like routes: a zone is part of the plan for a raid, not a
+  // permanent fixture of the map. Save a route to keep its zones with it.
+  getZones: (map) => sessionRead(KEY.zones(map), []),
+  setZones: (map, v) => sessionWrite(KEY.zones(map), v),
 
   // Session-scoped — see sessionRead above. Save one to the library to keep it.
   getRoutes: (map) => sessionRead(KEY.routes(map), []),

@@ -9,6 +9,10 @@
 // A saved route keeps a full copy of the geometry rather than a reference to
 // the live one. Loading it makes a fresh route you can hack about without
 // touching the saved copy, which is the whole point of having saved it.
+//
+// Zones travel WITH the route. A zone is half of the plan — the route says
+// where you walk, the zones say what you care about along the way — so saving
+// one without the other would save half an answer.
 
 const norm = (s) => String(s ?? '').trim();
 
@@ -28,7 +32,18 @@ export function routeSnapshot(route) {
   };
 }
 
-export function saveRoute(library, route, mapKey, name) {
+/** Zones as stored alongside a route. Same rule as the route: geometry and
+ *  rules, not the live id. */
+export function zoneSnapshot(zone) {
+  return {
+    name: zone.name,
+    ring: (zone.ring || []).map((p) => [...p]),
+    rule: zone.rule ? JSON.parse(JSON.stringify(zone.rule)) : { mode: 'only', categories: [] },
+    color: zone.color,
+  };
+}
+
+export function saveRoute(library, route, zones, mapKey, name) {
   const entry = {
     id: uid(),
     mapKey,
@@ -36,14 +51,20 @@ export function saveRoute(library, route, mapKey, name) {
     savedAt: Date.now(),
     updatedAt: Date.now(),
     ...routeSnapshot(route),
+    zones: (zones || []).map(zoneSnapshot),
   };
   return [...(library || []), entry];
 }
 
 /** Overwrite an existing entry in place, keeping its id and its name. */
-export function overwriteSaved(library, savedId, route) {
+export function overwriteSaved(library, savedId, route, zones) {
   return (library || []).map((s) => (s.id === savedId
-    ? { ...s, ...routeSnapshot(route), updatedAt: Date.now() }
+    ? {
+      ...s,
+      ...routeSnapshot(route),
+      zones: (zones || []).map(zoneSnapshot),
+      updatedAt: Date.now(),
+    }
     : s));
 }
 
@@ -81,6 +102,21 @@ export function routeFromSaved(saved, makeId, { nameSuffix = '' } = {}) {
     color: saved.color,
     hidden: false,
   };
+}
+
+/**
+ * The zones that belong to a saved route, as live zones with fresh ids.
+ * Entries saved before zones travelled with routes simply have none.
+ */
+export function zonesFromSaved(saved, makeId) {
+  return (saved.zones || []).map((z) => ({
+    id: makeId(),
+    name: z.name,
+    ring: (z.ring || []).map((p) => [...p]),
+    rule: z.rule ? JSON.parse(JSON.stringify(z.rule)) : { mode: 'only', categories: [] },
+    color: z.color,
+    hidden: false,
+  }));
 }
 
 /** Last edit wins per id, same rule as waypoints — one person, several
