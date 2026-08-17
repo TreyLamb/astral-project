@@ -14,7 +14,8 @@
     "eft:markers": "node scripts/fetchEftMapMarkers.mjs",
     "eft:mapconfig": "node scripts/buildEftMapConfig.mjs",
     "eft:quests": "node scripts/fetchEftQuests.mjs",
-    "eft:ammo": "node scripts/fetchEftAmmo.mjs"
+    "eft:ammo": "node scripts/fetchEftAmmo.mjs",
+    "tt:parse": "node scripts/parseTranscript.mjs"
   },
   "dependencies": {
     "firebase": "^12.14.0",

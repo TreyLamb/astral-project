@@ -1,0 +1,726 @@
+/* GPA Calculator (/TT) — every class prefixed tt- per CLAUDE.md.
+   Full-bleed tool layout per webdesign.md: no centred max-width column, the
+   table gets the window, and the tool's own bar is the only bar on the page. */
+
+.tt-app {
+  --tt-ink: #0e141d;
+  --tt-panel: #16202d;
+  --tt-panel-2: #1c2836;
+  --tt-line: #27384b;
+  --tt-text: #dde5ef;
+  --tt-dim: #8fa1b6;
+  --tt-accent: #e0a63c;
+  --tt-good: #4ec98a;
+  --tt-ok: #58b0e8;
+  --tt-warn: #e8b24a;
+  --tt-bad: #e8804a;
+  --tt-fail: #e2586a;
+  /* Everything above the table body: bar + controls + table caption + the
+     page's bottom padding. Drives the table's own scroll height. */
+  --tt-chrome: 168px;
+
+  /* Tells the browser to render native widgets — dropdown popups, scrollbars,
+     number spinners, the search field's clear button — in their dark variant.
+     Without it the <option> list paints on the OS default WHITE while
+     inheriting the select's grade colour, so a blue B- reads as blue-on-white. */
+  color-scheme: dark;
+
+  /* App shell, not a document: the window never scrolls, the two panes do.
+     ~99% of the viewport goes to the working surface (webdesign.md), and it is
+     what lets the table's column headers stay pinned while the rows move. */
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--tt-ink);
+  color: var(--tt-text);
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- top bar (the only bar on this page) ---------- */
+.tt-bar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 18px;
+  background: linear-gradient(180deg, #1a2635, #141d29);
+  border-bottom: 1px solid var(--tt-line);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+}
+
+.tt-site-home { color: var(--tt-accent); }
+
+.tt-brand h1 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+.tt-brand-sub {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--tt-dim);
+  letter-spacing: 0.04em;
+}
+
+/* The twin readout is the whole point of the page, so it is pinned into the
+   sticky bar rather than living in the scrolling body. */
+.tt-readout {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.tt-read {
+  display: grid;
+  gap: 1px;
+  padding: 4px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--tt-line);
+  min-width: 118px;
+}
+.tt-read-label {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--tt-dim);
+}
+.tt-read-value {
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.tt-read-foot {
+  font-size: 0.68rem;
+  color: var(--tt-dim);
+  font-variant-numeric: tabular-nums;
+}
+.tt-read-whatif.active {
+  border-color: var(--tt-accent);
+  background: rgba(224, 166, 60, 0.09);
+}
+.tt-read-whatif.active .tt-read-value { color: var(--tt-accent); }
+/* Calculator / Documents switch. Real routes (/TT and /TT/documents), so a
+   document is linkable and the back button behaves. */
+.tt-tabs { display: flex; gap: 4px; margin-left: 4px; }
+.tt-tab {
+  padding: 6px 13px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  color: var(--tt-dim);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.tt-tab:hover { color: var(--tt-text); background: rgba(255, 255, 255, 0.05); }
+.tt-tab.active {
+  color: var(--tt-accent);
+  background: rgba(224, 166, 60, 0.12);
+  border-color: rgba(224, 166, 60, 0.45);
+}
+.tt-tab:focus-visible { outline: 2px solid var(--tt-accent); outline-offset: 1px; }
+
+/* Credit hours riding on the what-if. Separated from the GPA pair by a rule
+   because it answers a different question — not "where does this land me" but
+   "how much of the transcript am I assuming". */
+.tt-read-credits {
+  margin-left: 4px;
+  padding-left: 18px;
+  border: none;
+  border-left: 1px solid var(--tt-line);
+  border-radius: 0;
+  background: none;
+  min-width: 108px;
+}
+.tt-read-credits .tt-read-value { color: var(--tt-dim); }
+.tt-read-credits .tt-read-value small {
+  font-size: 0.44em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin-left: 3px;
+  text-transform: uppercase;
+}
+.tt-read-credits.active .tt-read-value { color: var(--tt-ok); }
+
+.tt-read-arrow { color: var(--tt-dim); font-size: 1.1rem; }
+.tt-read-arrow.up { color: var(--tt-good); }
+.tt-read-arrow.down { color: var(--tt-fail); }
+
+/* ---------- warnings ---------- */
+.tt-warn {
+  margin: 10px 18px 0;
+  padding: 9px 13px;
+  border-radius: 7px;
+  background: rgba(226, 88, 106, 0.12);
+  border: 1px solid rgba(226, 88, 106, 0.4);
+  color: #f3b6bf;
+  font-size: 0.83rem;
+}
+
+/* ---------- controls ---------- */
+/* Flex column, not grid. A grid's single `auto` track sizes to its widest
+   item's max-content, and the semester strip's max-content is ~1500px — the
+   track grew to that and dragged the whole page sideways with it. */
+.tt-controls {
+  padding: 12px 18px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+  max-width: 100%;
+}
+.tt-ctl-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
+}
+.tt-ctl-row-thin { gap: 9px; }
+.tt-ctl-spacer { flex: 1 1 auto; }
+.tt-ctl-label {
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--tt-dim);
+}
+
+.tt-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tt-dim);
+}
+.tt-field select,
+.tt-field input {
+  font: inherit;
+  font-size: 0.85rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--tt-text);
+  background: var(--tt-panel-2);
+  border: 1px solid var(--tt-line);
+  border-radius: 6px;
+  padding: 6px 9px;
+}
+.tt-field select:focus-visible,
+.tt-field input:focus-visible,
+.tt-btn:focus-visible,
+.tt-chip:focus-visible,
+.tt-sel:focus-visible {
+  outline: 2px solid var(--tt-accent);
+  outline-offset: 1px;
+}
+
+.tt-chips { display: flex; gap: 6px; flex-wrap: wrap; min-width: 0; }
+.tt-chip {
+  font: inherit;
+  font-size: 0.76rem;
+  white-space: nowrap;
+  color: var(--tt-dim);
+  background: var(--tt-panel);
+  border: 1px solid var(--tt-line);
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+.tt-chip:hover { color: var(--tt-text); border-color: #38506b; }
+.tt-chip.on {
+  color: var(--tt-ink);
+  background: var(--tt-accent);
+  border-color: var(--tt-accent);
+  font-weight: 600;
+}
+.tt-chip:disabled { opacity: 0.4; cursor: default; }
+.tt-chip:disabled:hover { color: var(--tt-dim); border-color: var(--tt-line); }
+
+.tt-bulk { display: flex; gap: 6px; flex-wrap: wrap; }
+.tt-btn {
+  font: inherit;
+  font-size: 0.78rem;
+  color: var(--tt-text);
+  background: var(--tt-panel-2);
+  border: 1px solid var(--tt-line);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.tt-btn:hover:not(:disabled) { border-color: #3d587a; background: #22303f; }
+.tt-btn:disabled { opacity: 0.42; cursor: default; }
+.tt-btn-primary {
+  background: var(--tt-accent);
+  border-color: var(--tt-accent);
+  color: #171003;
+  font-weight: 600;
+}
+.tt-btn-primary:hover:not(:disabled) { background: #efb95c; }
+.tt-btn-warn { color: #f0a9b3; border-color: #4a2b33; }
+
+/* ---------- layout ---------- */
+/* Panel left, table right and flush to the window edge — the table is the
+   thing that wants the room, so it gets everything to the right of the panel
+   with no gutter stealing width from it. */
+.tt-main {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 336px minmax(0, 1fr);
+  gap: 16px;
+  padding: 0 0 0 18px;
+  align-items: stretch;
+}
+.tt-tablewrap {
+  min-width: 0;
+  max-width: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--tt-panel);
+  border: 1px solid var(--tt-line);
+  border-right: none;
+  border-bottom: none;
+  border-radius: 10px 0 0 0;
+  overflow: hidden;
+}
+.tt-tablehead {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 9px 14px;
+  font-size: 0.76rem;
+  color: var(--tt-dim);
+  border-bottom: 1px solid var(--tt-line);
+}
+.tt-count-filtered {
+  color: var(--tt-accent);
+  font-weight: 700;
+}
+.tt-topwin { margin-left: auto; }
+.tt-topwin strong { color: var(--tt-accent); }
+
+/* Wide content scrolls in its own container — the page body never scrolls
+   sideways (webdesign.md).
+   It scrolls VERTICALLY here too, and that is load-bearing: `overflow-x: auto`
+   makes overflow-y compute to `auto` as well, so this element becomes the
+   sticky containing block for the header rows. Without a height for it to
+   scroll against, `position: sticky` on the headers has no room to work and
+   they scroll straight off the top. */
+.tt-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+/* ---------- table ---------- */
+.tt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+.tt-table thead th {
+  background: var(--tt-panel-2);
+  text-align: left;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--tt-dim);
+  font-weight: 600;
+  border-bottom: 1px solid var(--tt-line);
+  white-space: nowrap;
+}
+
+/* Two sticky header rows: labels, then the per-column filters. The offsets are
+   fixed heights rather than `auto` because sticky cannot measure the row above
+   it — both rows below set an explicit height to match. */
+.tt-head-labels th {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  height: 30px;
+  padding: 0;
+}
+.tt-head-filters th {
+  position: sticky;
+  top: 30px;
+  z-index: 5;
+  padding: 3px 6px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--tt-line);
+}
+
+/* Review-mode toggle, stacked under the What-if grade filter. */
+.tt-review {
+  display: block;
+  width: 100%;
+  margin-top: 3px;
+  font: inherit;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  white-space: nowrap;
+  color: var(--tt-dim);
+  background: var(--tt-panel);
+  border: 1px solid var(--tt-line);
+  border-radius: 5px;
+  padding: 3px 4px;
+  cursor: pointer;
+}
+.tt-review:hover { color: var(--tt-text); border-color: #3d587a; }
+.tt-review.on {
+  color: var(--tt-ink);
+  background: var(--tt-accent);
+  border-color: var(--tt-accent);
+  font-weight: 700;
+}
+.tt-review:focus-visible { outline: 2px solid var(--tt-accent); outline-offset: 1px; }
+
+/* Whole header cell is the sort target — a small caret is not a hit area. */
+.tt-sortbtn {
+  display: flex;
+  align-items: center;
+  justify-content: inherit;
+  gap: 5px;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  font: inherit;
+  color: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tt-c-num .tt-sortbtn,
+.tt-c-grade .tt-sortbtn,
+.tt-c-what .tt-sortbtn { justify-content: flex-end; }
+.tt-c-num .tt-sortbtn { flex-direction: row; }
+.tt-sortbtn:hover { color: var(--tt-text); background: rgba(255, 255, 255, 0.04); }
+.tt-caret {
+  font-style: normal;
+  font-size: 0.62em;
+  opacity: 0.35;
+  line-height: 1;
+}
+.tt-sorted { color: var(--tt-accent); }
+.tt-sorted .tt-caret { opacity: 1; }
+.tt-sorted .tt-sortbtn { color: var(--tt-accent); }
+
+/* Per-column filter inputs */
+.tt-f {
+  width: 100%;
+  min-width: 58px;
+  font: inherit;
+  font-size: 0.72rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--tt-text);
+  background: var(--tt-panel);
+  border: 1px solid var(--tt-line);
+  border-radius: 5px;
+  padding: 4px 5px;
+}
+.tt-f:focus-visible { outline: 2px solid var(--tt-accent); outline-offset: 1px; }
+.tt-f:not(:placeholder-shown),
+select.tt-f:not([value='']) { border-color: #3d587a; }
+.tt-head-filters .tt-c-term .tt-f { min-width: 104px; }
+.tt-head-filters .tt-c-title .tt-f { min-width: 120px; }
+.tt-head-filters .tt-c-num .tt-f { min-width: 66px; }
+.tt-head-filters .tt-c-what { min-width: 122px; }
+.tt-table td {
+  padding: 5px 10px;
+  border-bottom: 1px solid rgba(39, 56, 75, 0.55);
+  vertical-align: middle;
+}
+.tt-table tbody tr:hover { background: rgba(255, 255, 255, 0.028); }
+.tt-c-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tt-c-term { color: var(--tt-dim); white-space: nowrap; font-size: 0.78rem; }
+.tt-c-code { white-space: nowrap; font-weight: 600; }
+.tt-c-title { min-width: 210px; }
+
+.tt-row-out td { opacity: 0.42; }
+.tt-row-changed { background: rgba(224, 166, 60, 0.07); }
+.tt-row-changed:hover { background: rgba(224, 166, 60, 0.1); }
+.tt-row-extra { background: rgba(78, 201, 138, 0.07); }
+
+.tt-attr {
+  margin-left: 7px;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--tt-dim);
+  border: 1px solid var(--tt-line);
+  border-radius: 3px;
+  padding: 0 4px;
+}
+.tt-flag {
+  margin-left: 7px;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-weight: 600;
+}
+.tt-flag-e { background: rgba(226, 88, 106, 0.2); color: #f0a3af; }
+.tt-flag-i { background: rgba(78, 201, 138, 0.18); color: #8fe0b6; }
+
+.tt-dash { color: #56677c; }
+.tt-impact { color: var(--tt-accent); font-weight: 600; }
+
+/* grade colouring, shared by cells, selects and the distribution bars */
+.tt-g { font-weight: 700; font-variant-numeric: tabular-nums; }
+.tt-g-A { color: var(--tt-good); }
+.tt-g-B { color: var(--tt-ok); }
+.tt-g-C { color: var(--tt-warn); }
+.tt-g-D { color: var(--tt-bad); }
+.tt-g-E, .tt-g-F { color: var(--tt-fail); }
+.tt-band-A { background: var(--tt-good); }
+.tt-band-B { background: var(--tt-ok); }
+.tt-band-C { background: var(--tt-warn); }
+.tt-band-D { background: var(--tt-bad); }
+.tt-band-E { background: var(--tt-fail); }
+.tt-chip.tt-band-A, .tt-chip.tt-band-B, .tt-chip.tt-band-C,
+.tt-chip.tt-band-D, .tt-chip.tt-band-E {
+  background: var(--tt-panel);
+}
+.tt-chip.tt-band-A { color: var(--tt-good); }
+.tt-chip.tt-band-B { color: var(--tt-ok); }
+.tt-chip.tt-band-C { color: var(--tt-warn); }
+.tt-chip.tt-band-D { color: var(--tt-bad); }
+.tt-chip.tt-band-E { color: var(--tt-fail); }
+.tt-chip.tt-band-A.on { background: var(--tt-good); color: #06170e; }
+.tt-chip.tt-band-B.on { background: var(--tt-ok); color: #04141f; }
+.tt-chip.tt-band-C.on { background: var(--tt-warn); color: #1a1204; }
+.tt-chip.tt-band-D.on { background: var(--tt-bad); color: #1c0d04; }
+.tt-chip.tt-band-E.on { background: var(--tt-fail); color: #1e0509; }
+
+/* The popup list is painted by the browser, not by the select's own rules, so
+   every option needs its background and colour stated explicitly —
+   `color-scheme` alone still lets the inherited grade colour through. The
+   per-grade rules are written at option level so they out-specify the base. */
+.tt-app option,
+.tt-app optgroup {
+  background: var(--tt-panel-2);
+  color: var(--tt-text);
+}
+.tt-app optgroup { color: var(--tt-dim); font-style: normal; }
+.tt-app option.tt-g-A { color: var(--tt-good); }
+.tt-app option.tt-g-B { color: var(--tt-ok); }
+.tt-app option.tt-g-C { color: var(--tt-warn); }
+.tt-app option.tt-g-D { color: var(--tt-bad); }
+.tt-app option.tt-g-E { color: var(--tt-fail); }
+
+.tt-sel {
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: var(--tt-panel-2);
+  border: 1px solid var(--tt-line);
+  border-radius: 5px;
+  padding: 3px 5px;
+  min-width: 64px;
+  cursor: pointer;
+}
+.tt-sel.changed { border-color: var(--tt-accent); background: rgba(224, 166, 60, 0.14); }
+.tt-sel:disabled { cursor: default; opacity: 0.5; }
+.tt-undo {
+  margin-left: 5px;
+  font: inherit;
+  font-size: 0.85rem;
+  line-height: 1;
+  color: var(--tt-dim);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 3px 5px;
+}
+.tt-undo:hover { color: var(--tt-accent); }
+
+td.tt-empty { padding: 26px; color: var(--tt-dim); text-align: center; }
+
+/* ---------- side panel ---------- */
+.tt-side {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  max-width: 100%;
+  align-content: start;
+  overflow-y: auto;
+  padding-bottom: 22px;
+  padding-right: 4px;
+}
+.tt-card {
+  min-width: 0;
+  background: var(--tt-panel);
+  border: 1px solid var(--tt-line);
+  border-radius: 10px;
+  padding: 13px 14px;
+}
+.tt-card h2 {
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--tt-dim);
+  margin-bottom: 9px;
+  font-weight: 700;
+}
+.tt-card .tt-field { display: flex; margin-bottom: 8px; }
+.tt-card .tt-field select,
+.tt-card .tt-field input { flex: 1; min-width: 0; }
+
+.tt-stats { display: grid; gap: 5px; font-size: 0.82rem; }
+.tt-stats > div { display: flex; justify-content: space-between; gap: 10px; }
+.tt-stats dt { color: var(--tt-dim); }
+.tt-stats dd { font-variant-numeric: tabular-nums; }
+.tt-stats em { font-style: normal; color: var(--tt-accent); }
+.tt-stat-big { font-size: 1.05rem; font-weight: 700; }
+
+.tt-check { display: flex; gap: 8px; align-items: flex-start; font-size: 0.82rem; cursor: pointer; }
+.tt-check input { margin-top: 4px; accent-color: var(--tt-accent); }
+.tt-check em { display: block; font-style: normal; font-size: 0.72rem; color: var(--tt-dim); }
+
+.tt-note { font-size: 0.71rem; color: var(--tt-dim); margin-top: 8px; line-height: 1.5; }
+.tt-solve { font-size: 0.84rem; }
+.tt-solve strong { color: var(--tt-accent); }
+
+.tt-addrow { display: grid; grid-template-columns: 1fr 62px 68px auto; gap: 5px; }
+.tt-addrow input,
+.tt-addrow select {
+  font: inherit;
+  font-size: 0.8rem;
+  min-width: 0;
+  color: var(--tt-text);
+  background: var(--tt-panel-2);
+  border: 1px solid var(--tt-line);
+  border-radius: 5px;
+  padding: 5px 7px;
+}
+
+.tt-dist { display: grid; gap: 5px; }
+.tt-dist li { display: grid; grid-template-columns: 16px 1fr 34px; gap: 8px; align-items: center; font-size: 0.78rem; }
+.tt-dist-label { font-weight: 700; }
+.tt-dist-bar { height: 8px; background: var(--tt-panel-2); border-radius: 999px; overflow: hidden; }
+.tt-dist-bar i { display: block; height: 100%; border-radius: 999px; }
+.tt-dist-num { text-align: right; color: var(--tt-dim); font-variant-numeric: tabular-nums; }
+
+.tt-terms { width: 100%; border-collapse: collapse; font-size: 0.74rem; }
+.tt-terms th {
+  text-align: left;
+  color: var(--tt-dim);
+  font-weight: 600;
+  padding: 3px 5px;
+  border-bottom: 1px solid var(--tt-line);
+}
+.tt-terms th + th, .tt-terms td + td { text-align: right; }
+.tt-terms td { padding: 3px 5px; border-bottom: 1px solid rgba(39, 56, 75, 0.45); font-variant-numeric: tabular-nums; }
+.tt-term-bad { background: rgba(226, 88, 106, 0.14); }
+.tt-term-moved { color: var(--tt-accent); font-weight: 700; }
+
+.tt-side-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* ---------- paste modal ---------- */
+.tt-modal-back {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(4, 8, 13, 0.72);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.tt-modal {
+  width: min(760px, 100%);
+  max-height: 88vh;
+  overflow: auto;
+  background: var(--tt-panel);
+  border: 1px solid var(--tt-line);
+  border-radius: 12px;
+  padding: 18px;
+}
+.tt-modal h2 { font-size: 1rem; margin-bottom: 6px; }
+.tt-modal-hint { font-size: 0.78rem; color: var(--tt-dim); margin-bottom: 10px; line-height: 1.55; }
+.tt-modal textarea {
+  width: 100%;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  color: var(--tt-text);
+  background: var(--tt-ink);
+  border: 1px solid var(--tt-line);
+  border-radius: 7px;
+  padding: 10px;
+  resize: vertical;
+}
+.tt-modal-err { color: #f0a3af; font-size: 0.8rem; margin-top: 8px; }
+.tt-modal-actions { display: flex; gap: 7px; margin-top: 12px; align-items: center; }
+
+.tt-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  z-index: 60;
+  background: var(--tt-panel-2);
+  border: 1px solid var(--tt-accent);
+  color: var(--tt-text);
+  font-size: 0.82rem;
+  padding: 9px 16px;
+  border-radius: 8px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- narrow ---------- */
+@media (max-width: 1080px) {
+  /* One column, and back to normal document flow — two independently
+     scrolling panes stacked vertically would be unusable on a phone. The
+     table keeps its own bounded scroll so the headers stay pinned.
+     The panel is FIRST in the DOM for the desktop left-hand layout, so it is
+     re-ordered below the table here — otherwise you would scroll past the
+     entire panel to reach the courses. */
+  .tt-app { height: auto; min-height: 100vh; overflow: visible; }
+  .tt-main {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0 0 26px 18px;
+    align-items: start;
+  }
+  .tt-tablewrap { order: 1; border-bottom: 1px solid var(--tt-line); border-radius: 10px 0 0 10px; }
+  .tt-scroll { flex: none; max-height: calc(100vh - var(--tt-chrome)); }
+  .tt-side {
+    order: 2;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    margin-right: 18px;
+    overflow-y: visible;
+  }
+}
+
+@media (max-width: 720px) {
+  /* The bar wraps to two rows on a phone, so the table gets less height. */
+  .tt-app { --tt-chrome: 232px; }
+  .tt-bar { flex-wrap: wrap; gap: 10px 14px; padding: 9px 12px; }
+  .tt-readout { margin-left: 0; width: 100%; justify-content: space-between; gap: 8px; }
+  .tt-read { flex: 1; min-width: 0; padding: 4px 8px; }
+  .tt-read-value { font-size: 1.35rem; }
+  .tt-read-foot, .tt-read-label { font-size: 0.6rem; }
+  .tt-read-credits { margin-left: 0; padding-left: 10px; min-width: 0; }
+  .tt-main { padding-left: 12px; }
+  .tt-side { margin-right: 12px; }
+  .tt-controls { padding-left: 12px; padding-right: 12px; }
+  .tt-warn { margin-left: 12px; margin-right: 12px; }
+  .tt-c-title { min-width: 150px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tt-app * { transition: none !important; animation: none !important; }
+}

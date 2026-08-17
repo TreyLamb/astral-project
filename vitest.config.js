@@ -10,6 +10,7 @@ export default defineConfig({
       'src/pages/fitnesstracker/**/*.test.js',
       'src/pages/orbit/**/*.test.js',
       'src/pages/eftShopping/**/*.test.js',
+      'src/pages/TranscriptTool/**/*.test.js',
       'api/_lib/**/*.test.js',
     ],
     environment: 'node',

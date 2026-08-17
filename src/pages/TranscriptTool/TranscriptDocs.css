@@ -1,0 +1,147 @@
+/* Documents tab — renders docs/*.md through react-markdown. Prefixed tt- per
+   CLAUDE.md and reuses the --tt-* theme vars from TranscriptTool.css rather
+   than introducing a second palette.
+
+   Every rule targets an ELEMENT TYPE, never a specific document. That is what
+   makes the markdown safe to keep editing: change the prose, add a section,
+   swap a table — the layout follows automatically because nothing here knows
+   what the text says. */
+
+.tt-docs {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 18px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tt-doc-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tt-doc-tab {
+  padding: 7px 15px;
+  border-radius: 9px;
+  border: 1px solid var(--tt-line);
+  background: var(--tt-panel-2);
+  color: var(--tt-dim);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.tt-doc-tab:hover { color: var(--tt-text); border-color: #3d587a; }
+.tt-doc-tab.active {
+  background: rgba(224, 166, 60, 0.14);
+  border-color: var(--tt-accent);
+  color: var(--tt-accent);
+}
+.tt-doc-tab:focus-visible { outline: 2px solid var(--tt-accent); outline-offset: 1px; }
+
+.tt-doc-content {
+  background: var(--tt-panel);
+  border: 1px solid var(--tt-line);
+  border-radius: 12px;
+  padding: 24px 28px;
+  color: var(--tt-text);
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+  /* Prose only — the one place on this tool a measure-limited column is right
+     (webdesign.md: max-width is for long-form reading, never for a dashboard). */
+  max-width: 940px;
+}
+
+.tt-doc-content h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.tt-doc-content h2 {
+  font-size: 1.08rem;
+  font-weight: 800;
+  margin: 30px 0 12px;
+  color: var(--tt-accent);
+  border-bottom: 1px solid var(--tt-line);
+  padding-bottom: 7px;
+  text-wrap: balance;
+}
+.tt-doc-content h3 {
+  font-size: 0.96rem;
+  font-weight: 700;
+  margin: 20px 0 8px;
+  color: var(--tt-text);
+}
+.tt-doc-content p { margin: 0 0 13px; font-size: 0.92rem; }
+.tt-doc-content strong { color: var(--tt-accent); font-weight: 700; }
+.tt-doc-content em { color: var(--tt-dim); font-style: italic; }
+.tt-doc-content ul,
+.tt-doc-content ol { margin: 0 0 14px; padding-left: 22px; font-size: 0.92rem; }
+.tt-doc-content li { margin-bottom: 5px; }
+.tt-doc-content li::marker { color: var(--tt-dim); }
+.tt-doc-content hr { border: none; border-top: 1px solid var(--tt-line); margin: 26px 0; }
+.tt-doc-content a { color: var(--tt-ok); }
+
+.tt-doc-content blockquote {
+  margin: 0 0 14px;
+  padding: 10px 16px;
+  border-left: 3px solid var(--tt-accent);
+  background: rgba(224, 166, 60, 0.07);
+  border-radius: 0 7px 7px 0;
+  color: var(--tt-text);
+}
+.tt-doc-content blockquote p:last-child { margin-bottom: 0; }
+
+.tt-doc-content code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  background: var(--tt-panel-2);
+  border: 1px solid var(--tt-line);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 0.85em;
+  color: var(--tt-ok);
+}
+.tt-doc-content pre {
+  background: var(--tt-ink);
+  border: 1px solid var(--tt-line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 0 0 14px;
+  overflow-x: auto;
+}
+.tt-doc-content pre code { background: none; border: none; padding: 0; color: var(--tt-text); }
+
+/* Wide tables scroll inside their own strip so the page never does. */
+.tt-doc-table-wrap {
+  overflow-x: auto;
+  margin: 0 0 16px;
+  border: 1px solid var(--tt-line);
+  border-radius: 8px;
+}
+.tt-doc-content table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.84rem;
+  font-variant-numeric: tabular-nums;
+}
+.tt-doc-content th,
+.tt-doc-content td {
+  padding: 7px 11px;
+  border-bottom: 1px solid var(--tt-line);
+  text-align: left;
+}
+.tt-doc-content th {
+  background: var(--tt-panel-2);
+  color: var(--tt-accent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.tt-doc-content tbody tr:last-child td { border-bottom: none; }
+.tt-doc-content tbody tr:hover { background: rgba(255, 255, 255, 0.025); }
+
+@media (max-width: 720px) {
+  .tt-docs { padding: 0 12px 22px; }
+  .tt-doc-content { padding: 16px; }
+  .tt-doc-content h1 { font-size: 1.22rem; }
+  .tt-doc-content h2 { font-size: 1rem; }
+}

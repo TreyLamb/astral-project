@@ -24,7 +24,7 @@ export const LEGACY_SEGMENTS = {
 
 // Every first segment the app actually routes, in its canonical casing.
 export const CANONICAL_SEGMENTS = [
-  'MFT', 'VV', 'TKB', 'QA', 'RS', 'POGO', 'POGO-ACCS', 'EFTsh',
+  'MFT', 'VV', 'TKB', 'QA', 'RS', 'POGO', 'POGO-ACCS', 'EFTsh', 'TT',
   'daily-idiom', 'daily-idiom-widget', 'lexicon', 'google-photos', 'mymdb',
   'gitmon', 'bashmon', 'signal-lost', 'pokered', 'python-game',
   'antiquityquest', 'stashmap', 'medaldex', 'timer-tool', 'league-build',

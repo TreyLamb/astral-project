@@ -154,6 +154,39 @@ Don't re-test that.
 
 ---
 
+## ℹ️ `/TT` transcript data — the source file is NOT JSON, and UVU's scale isn't standard
+As of 2026-08-16 the GPA what-if tool at `/TT` is built. Four things about the
+data will bite anyone who assumes the obvious:
+
+- **`src/pages/TranscriptTool/Transcript.json` is raw registrar text**, despite
+  the extension. Vite parses `.json` at import, so `import x from
+  './Transcript.json'` **fails the build**. It is the source of record —
+  never rename, reformat, or hand-edit courses into it. `npm run tt:parse`
+  reads it and emits the real `transcript.data.json` that the page imports.
+- **Rows collide in the source.** Where a row ends in an R (repeat) flag, the
+  next course's subject code is fused to it with no separator — one line in the
+  2012 FALL block holds *three* courses (`…0.00 EMICR 2065 …0.00 EPES 1097 …`).
+  `parseTranscript.js` therefore scans by regex offset, not by line. Splitting
+  on `\n` silently loses courses and still prints a plausible GPA. There is a
+  regression test for each fused line. Related trap: matching the flag with
+  `\s*` lets a flagless row swallow the first letter of the next line's subject
+  (`…11.10\nEXSC 4550` → flag `E` + subject `XSC`), so it uses `[ \t]*`.
+- **UVU's plus/minus steps are ±0.4/0.7, not ±0.3/0.7**, and it **truncates**
+  the displayed GPA rather than rounding (2012 SPRING is 50.80/13 = 3.9077 and
+  prints 3.90). Both are needed to reproduce the printed 3.05. The "standard"
+  US scale is available as a toggle but is not the default — defaulting to it
+  would show a GPA that disagrees with the transcript.
+- **An `R` column value of `E` removes an attempt from the GPA entirely** — zero
+  hours *and* zero points, not merely zero points. Ignoring the flags takes GPA
+  hours from 171 to 189. `ZOOL 2320` appears three times.
+
+The transcript prints its own per-term footers and grand total, so the parser is
+validated against the registrar rather than against anyone's reading of the
+file: `npm run tt:parse` exits non-zero if any of the 15 terms or the total
+disagrees, and the same reconciliation runs in vitest.
+
+---
+
 ## 🎨 webdesign.md is required reading before any layout work
 `webdesign.md` (same directory) is the binding contract for page layout, the
 counterpart to `gamedesign.md` and `featuredesign.md`. Written 2026-08-13 after
@@ -302,6 +335,7 @@ canonical casing. Legacy paths redirect the same way. Both live in
 | `/POGO` | pgotracker/PgoTracker.jsx | **POGO Tracker** — was `/pgo-tracker` |
 | `/POGO-ACCS/*` | pogoaccs/PogoAccsApp.jsx | was `/pogo-accs` |
 | `/EFTsh/*` | eftShopping/EftShoppingApp.jsx | **EFT Shopping** — Tarkov hideout shopping list + raid companion. Built from BSG's own game files (SPT mirror) with tarkov.dev layered on top for prices only. `npm run eft:snapshot` regenerates the committed snapshot. Includes `/EFTsh/crafts`, a left-to-right craft flow chart — see the craft-data note below. |
+| `/TT` | TranscriptTool/TranscriptToolApp.jsx | **Transcript / GPA what-if calculator.** Deliberately NOT in `SITE_LINKS` — URL-only, at Trey's request, so it appears in neither the navbar dropdown nor Home. `TT` is still in `CANONICAL_SEGMENTS` so `/tt` redirects rather than 404s. See the transcript-parsing note below. |
 | `/medaldex/*` | medaldex/MedalDexApp.jsx | |
 | `/stashmap/*` | stashmap/StashMapApp.jsx | |
 | `/antiquityquest/*` | antiquityquest/AntiquityQuestApp.jsx | |

@@ -37,6 +37,7 @@ import OrbitApp from './pages/orbit/OrbitApp';
 import PlanningToolApp from './pages/planningTool/PlanningToolApp';
 import VocabVaultApp from './pages/lang/LangApp';
 import EftShoppingApp from './pages/eftShopping/EftShoppingApp';
+import TranscriptToolApp from './pages/TranscriptTool/TranscriptToolApp';
 import RouteFallback from './pages/RouteFallback';
 import './App.css';
 
@@ -82,6 +83,10 @@ function App() {
             <Route path="/POGO" caseSensitive element={<PgoTracker />} />
             <Route path="/POGO-ACCS/*" caseSensitive element={<PogoAccsApp />} />
             <Route path="/EFTsh/*" caseSensitive element={<EftShoppingApp />} />
+            {/* Deliberately absent from SITE_LINKS — this one is reached by
+                typing the URL, not from the nav or Home. Its HubLink is the
+                only tie back to the rest of the site. */}
+            <Route path="/TT/*" caseSensitive element={<TranscriptToolApp />} />
 
             <Route path="*" element={<RouteFallback />} />
           </Routes>
