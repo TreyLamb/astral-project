@@ -141,13 +141,20 @@ export function autoLabel(marker, category) {
  * `sizes` stays [small, base, large] as the source publishes it: base is the
  * held size and small sets the floor. The large value is what the old ramp
  * climbed to and is deliberately unused.
+ *
+ * FLOOR_SCALE is where the shrink bottoms out — the size names are at on the
+ * last zoom they are visible. It was 0.7 and read too small there, so it is up
+ * 15%. Raising the floor rather than scaling the whole curve keeps the size
+ * continuous at the hold: multiplying everything past zoom 13 would make the
+ * text jump larger the instant it started shrinking.
  */
 export const LABEL_HOLD_TO = 13;
 export const LABEL_HIDE_AT = 15;
+export const FLOOR_SCALE = 0.7 * 1.15;
 
 export function textSizeForZoom(zoom, sizes) {
   const base = sizes?.[1] ?? 14;
-  const floor = (sizes?.[0] ?? 12) * 0.7;
+  const floor = (sizes?.[0] ?? 12) * FLOOR_SCALE;
   if (!Number.isFinite(zoom)) return base;
   if (zoom <= LABEL_HOLD_TO) return base;
   if (zoom >= LABEL_HIDE_AT) return 0;

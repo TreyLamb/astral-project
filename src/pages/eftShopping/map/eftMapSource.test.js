@@ -7,7 +7,7 @@ import woods from './data/markers/woods.json';
 import customs from './data/markers/customs.json';
 import sprites from './data/markerSprites.json';
 import {
-  labelStyle, autoLabel, textSizeForZoom, hasPin, hasText,
+  labelStyle, autoLabel, textSizeForZoom, FLOOR_SCALE, hasPin, hasText,
 } from './eftMapLabels';
 
 // These lock in the parts that come from the source rather than from us. If a
@@ -284,8 +284,19 @@ describe('label styling, ported from mapgenie map.js', () => {
 
     it('never shrinks below the floor before it vanishes', () => {
       for (let z = 13; z < 15; z += 0.1) {
-        expect(textSizeForZoom(z, sizes)).toBeGreaterThanOrEqual(12 * 0.7 - 1e-9);
+        expect(textSizeForZoom(z, sizes)).toBeGreaterThanOrEqual(12 * FLOOR_SCALE - 1e-9);
       }
+    });
+
+    it('bottoms out 15% above the original floor, so the last visible zoom reads', () => {
+      // The size names settle at just before they vanish.
+      const last = textSizeForZoom(15 - 1e-6, sizes);
+      expect(last).toBeCloseTo(12 * 0.7 * 1.15, 4);
+      expect(last / (12 * 0.7)).toBeCloseTo(1.15, 4);
+    });
+
+    it('is still continuous at the hold — no jump when it starts shrinking', () => {
+      expect(textSizeForZoom(13 + 1e-6, sizes)).toBeCloseTo(textSizeForZoom(13, sizes), 3);
     });
 
     it('falls back to the base size for a nonsense zoom', () => {
