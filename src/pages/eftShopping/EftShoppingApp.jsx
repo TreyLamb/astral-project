@@ -28,7 +28,7 @@ import HubLink from '../../components/HubLink';
 const ROOT = '/EFTsh';
 
 const TABS = [
-  { to: '', label: 'Hideout' },
+  { to: '', label: 'Hideout/Quest' },
   { to: '/map', label: 'Map' },
   { to: '/crafts', label: 'Craft Tree' },
   { to: '/list', label: 'Shopping List' },
