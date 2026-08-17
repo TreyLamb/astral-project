@@ -57,6 +57,7 @@ export default function MapCanvas({
   onMapMove,
   onMapDown,
   onMapUp,
+  onMapRightClick,
   onReady,
 }) {
   const hostRef = useRef(null);
@@ -72,6 +73,7 @@ export default function MapCanvas({
   s.current = {
     markers, categories, found, toPoint, markersInteractive,
     onMarkerClick, onMapClick, onMapMove, onMapDown, onMapUp, onDraftMove,
+    onMapRightClick,
   };
 
   const showTip = useCallback((marker, containerPoint) => {
@@ -129,6 +131,12 @@ export default function MapCanvas({
       s.current.onMapMove?.([e.latlng.lat, e.latlng.lng], e.originalEvent);
     });
     map.on('mouseout', () => showTip(null));
+    // Right-click is "I'm done" — Leaflet fires `contextmenu` for it, and the
+    // browser menu is suppressed so the gesture only means the one thing.
+    map.on('contextmenu', (e) => {
+      e.originalEvent?.preventDefault();
+      s.current.onMapRightClick?.([e.latlng.lat, e.latlng.lng], e.originalEvent);
+    });
 
     onReady?.(map);
 

@@ -12,7 +12,9 @@ import { useMapDrawing, routePolyline } from '../map/useMapDrawing';
 import { ZonePanel, RoutePanel, ManifestPanel, CatIcon } from '../map/MapSidePanels';
 import {
   fetchWaypoints, saveWaypoint, deleteWaypoint, pushWaypoints, mergeWaypoints,
+  fetchSavedRoutes, pushSavedRoutes,
 } from '../map/eftMapFirestore';
+import { mergeSaved } from '../map/eftRouteLibrary';
 import { useAuth } from '../../../AuthContext';
 import { Panel, Stat, Seg } from '../EftBits';
 import { useEft } from '../eftContext';
@@ -244,6 +246,34 @@ export default function MapView() {
     }).catch(() => { /* offline — the local copy is already on screen */ });
     return () => { cancelled = true; };
   }, [userId, mapKey]);
+
+  // The saved-route library rides the same rails as waypoints: local copy is
+  // primary, the account copy is what carries it between machines, and the two
+  // are merged on sign-in rather than one clobbering the other.
+  useEffect(() => {
+    if (!userId) return undefined;
+    let cancelled = false;
+    fetchSavedRoutes(userId).then((remote) => {
+      if (cancelled) return;
+      const local = MapStore.getSavedRoutes();
+      const merged = mergeSaved(local, remote);
+      MapStore.setSavedRoutes(merged);
+      draw.setSavedRoutes(merged);
+      const known = new Set(remote.map((r) => r.id));
+      pushSavedRoutes(userId, merged.filter((r) => !known.has(r.id))).catch(() => {});
+    }).catch(() => { /* offline — the local library is already on screen */ });
+    return () => { cancelled = true; };
+    // draw.setSavedRoutes is stable; re-running on every draw change would
+    // refetch the whole library on each edit.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
+
+  // Any change to the library goes up as a whole. It is a handful of documents,
+  // not a hot path, and a full push means a delete cannot leave an orphan.
+  useEffect(() => {
+    if (!userId || !draw.allSavedRoutes.length) return;
+    pushSavedRoutes(userId, draw.allSavedRoutes).catch(() => {});
+  }, [userId, draw.allSavedRoutes]);
 
   const writeWaypoints = useCallback((next) => {
     MapStore.setWaypoints(mapKey, next);
@@ -683,6 +713,11 @@ export default function MapView() {
             onMapMove={onMapMove}
             onMapDown={onMapDown}
             onMapUp={onMapUp}
+            onMapRightClick={() => {
+              // Cancels a waypoint placement too — same "I'm done" gesture.
+              if (draft) { setDraft(null); return; }
+              draw.handleRightClick();
+            }}
             onReady={(map) => { mapRef.current = map; }}
           />
         )}
@@ -1109,6 +1144,12 @@ export default function MapView() {
             onUndo={draw.undo}
             onRedo={draw.redo}
             onJoin={draw.joinTo}
+            savedRoutes={draw.savedRoutes}
+            onSaveAs={draw.saveRouteAs}
+            onUpdateSaved={draw.updateSavedFrom}
+            onRenameSaved={draw.renameSavedRoute}
+            onDeleteSaved={draw.deleteSavedRoute}
+            onLoadSaved={draw.loadSavedRoute}
           />
 
           {routeFilter ? (

@@ -199,6 +199,7 @@ export function RoutePanel({
   routes, categories, visibleCats, activeRouteId, tool, metresPerUnit,
   canUndo, canRedo, open, onToggleOpen,
   onNew, onSelect, onUpdate, onRemove, onSetTool, onUndo, onRedo, onJoin,
+  savedRoutes = [], onSaveAs, onUpdateSaved, onRenameSaved, onDeleteSaved, onLoadSaved,
 }) {
   return (
     <Panel
@@ -214,6 +215,41 @@ export function RoutePanel({
         and hold <kbd>C</kbd> while placing to bend the segment. Drop an end onto another
         route&apos;s end to join them into one.
       </div>
+
+      <div className="eft-note" style={{ marginBottom: 8, color: 'var(--eft-orange)' }}>
+        Routes on the map last for this session only. <b>Save</b> one to keep it.
+      </div>
+
+      {savedRoutes.length ? (
+        <div className="eft-field" style={{ marginBottom: 10 }}>
+          <span className="eft-label">Saved routes ({savedRoutes.length})</span>
+          <ul className="eft-linelist">
+            {savedRoutes.map((sv) => (
+              <li key={sv.id}>
+                <span className="eft-swatch" style={{ background: sv.color }} />
+                <button
+                  type="button"
+                  className="eft-line-text eft-wp-jump"
+                  title={`Load a copy of “${sv.name}” onto the map`}
+                  onClick={() => onLoadSaved(sv.id)}
+                >
+                  {sv.name}
+                </button>
+                <span className="eft-note">{sv.waypoints?.length || 0} pts</span>
+                <button type="button" className="eft-iconbtn" title="Rename"
+                  onClick={() => {
+                    const name = window.prompt('Rename this saved route', sv.name);
+                    if (name) onRenameSaved(sv.id, name);
+                  }}>✎</button>
+                <button type="button" className="eft-iconbtn" title="Delete this saved route"
+                  onClick={() => {
+                    if (window.confirm(`Delete the saved route “${sv.name}”?`)) onDeleteSaved(sv.id);
+                  }}>×</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
 
       {!routes.length ? (
         <div className="eft-note">
@@ -270,6 +306,25 @@ export function RoutePanel({
                   <button type="button" className="eft-btn eft-btn-sm"
                     disabled={!r.waypoints.length}
                     onClick={() => onUpdate(r.id, { waypoints: [], closed: false })}>Clear</button>
+                  <button type="button" className="eft-btn eft-btn-sm eft-is-primary"
+                    disabled={!r.waypoints.length}
+                    title="Keep this route in the library so it survives the session"
+                    onClick={() => {
+                      const name = window.prompt('Save this route as', r.name);
+                      if (name) onSaveAs(r.id, name);
+                    }}>Save</button>
+                  {savedRoutes.length ? (
+                    <select
+                      className="eft-select eft-select-sm"
+                      value=""
+                      disabled={!r.waypoints.length}
+                      title="Overwrite one of your saved routes with this one"
+                      onChange={(e) => { if (e.target.value) onUpdateSaved(e.target.value, r.id); e.target.value = ''; }}
+                    >
+                      <option value="">Overwrite saved…</option>
+                      {savedRoutes.map((sv) => <option key={sv.id} value={sv.id}>{sv.name}</option>)}
+                    </select>
+                  ) : null}
                 </div>
 
                 {joinable.length ? (

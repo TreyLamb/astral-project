@@ -15,6 +15,9 @@ const KEY = {
   waypoints: (map) => `${P}waypoints_${map}_v1`,
   presets: (map) => `${P}presets_${map}_v1`,
   prefs: `${P}prefs_v2`,
+  // Not per-map: each entry carries its own mapKey, and the common read is
+  // "everything I have saved" on sign-in.
+  savedRoutes: `${P}savedroutes_v1`,
 };
 
 // v2 reset the key deliberately: the v1 defaults (big markers, every category
@@ -79,6 +82,35 @@ function read(key, fallback) {
   }
 }
 
+/**
+ * Routes live in sessionStorage, not localStorage, on purpose: a route is a
+ * plan for the raid you are about to do, not a permanent fixture, and having
+ * last week's lines still draped over the map on every visit was clutter. A
+ * reload still keeps them — losing work to a stray F5 would be worse — but a
+ * new session starts clean.
+ *
+ * The saved library (below) is the durable home for a route worth keeping,
+ * which is what makes Save mean something.
+ */
+function sessionRead(key, fallback) {
+  try {
+    const raw = sessionStorage.getItem(key);
+    if (raw === null) return structuredClone(fallback);
+    const parsed = JSON.parse(raw);
+    return parsed ?? structuredClone(fallback);
+  } catch {
+    return structuredClone(fallback);
+  }
+}
+
+function sessionWrite(key, value) {
+  try {
+    sessionStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    /* private mode or quota — the session still works in memory */
+  }
+}
+
 function write(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
@@ -107,8 +139,9 @@ export const MapStore = {
   getZones: (map) => read(KEY.zones(map), []),
   setZones: (map, v) => write(KEY.zones(map), v),
 
-  getRoutes: (map) => read(KEY.routes(map), []),
-  setRoutes: (map, v) => write(KEY.routes(map), v),
+  // Session-scoped — see sessionRead above. Save one to the library to keep it.
+  getRoutes: (map) => sessionRead(KEY.routes(map), []),
+  setRoutes: (map, v) => sessionWrite(KEY.routes(map), v),
 
   // { [markerId]: true }
   getFound: (map) => read(KEY.found(map), {}),
@@ -124,6 +157,11 @@ export const MapStore = {
   // works signed out, exactly like every other slice here.
   getWaypoints: (map) => read(KEY.waypoints(map), []),
   setWaypoints: (map, v) => write(KEY.waypoints(map), v),
+
+  // The saved-route library. Same deal as waypoints: localStorage is the
+  // offline copy, Firestore carries it between machines.
+  getSavedRoutes: () => read(KEY.savedRoutes, []),
+  setSavedRoutes: (v) => write(KEY.savedRoutes, v),
 };
 
 export function exportMapData(mapKeys) {
@@ -140,6 +178,7 @@ export function exportMapData(mapKeys) {
       presets: MapStore.getPresets(m),
       waypoints: MapStore.getWaypoints(m),
     }])),
+    savedRoutes: MapStore.getSavedRoutes(),
   }, null, 2);
 }
 
@@ -154,6 +193,7 @@ export function importMapData(json) {
     return { ok: false, error: 'Not an EFT map backup file.' };
   }
   if (parsed.prefs) MapStore.setPrefs(parsed.prefs);
+  if (parsed.savedRoutes) MapStore.setSavedRoutes(parsed.savedRoutes);
   const restored = [];
   for (const [map, data] of Object.entries(parsed.maps)) {
     if (data.calibration) MapStore.setCalibration(map, data.calibration);

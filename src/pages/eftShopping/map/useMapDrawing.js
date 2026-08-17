@@ -2,6 +2,10 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 
 import { MapStore } from './eftMapStorage';
 import {
+  saveRoute as libSave, overwriteSaved, renameSaved, removeSaved,
+  savedForMap, routeFromSaved,
+} from './eftRouteLibrary';
+import {
   boxRing, nearestVertex, nearestSegment, routeToPolyline, arcBetween, dist,
   nearestRouteEnd, joinRoutes,
 } from './eftMapGeometry';
@@ -91,6 +95,8 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
   const [curveArmed, setCurveArmed] = useState(false);
   const [pendingBulge, setPendingBulge] = useState(0);
 
+  // The library is global, not per map — each entry carries its own mapKey.
+  const [savedRoutes, setSavedRoutesState] = useState(() => MapStore.getSavedRoutes());
   const [drag, setDrag] = useState(null);
   const history = useRef({ past: [], future: [] });
   // A ref alone would leave the undo button stale, so depth is mirrored into
@@ -120,6 +126,14 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
       return value;
     });
   }, [mapKey]);
+
+  const setSavedRoutes = useCallback((next) => {
+    setSavedRoutesState((prev) => {
+      const value = typeof next === 'function' ? next(prev) : next;
+      MapStore.setSavedRoutes(value);
+      return value;
+    });
+  }, []);
 
   const setRoutes = useCallback((next) => {
     setRoutesState((prev) => {
@@ -235,6 +249,43 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
     setRoutes((prev) => prev.filter((r) => r.id !== id));
     setActiveRouteId((cur) => (cur === id ? null : cur));
   }, [setRoutes]);
+
+  // --- the saved library --------------------------------------------------
+  const saveRouteAs = useCallback((routeId, name) => {
+    const route = routes.find((r) => r.id === routeId);
+    if (!route?.waypoints.length) return;
+    setSavedRoutes((prev) => libSave(prev, route, mapKey, name));
+    onToast?.(`Saved “${name || route.name}” — it will be here next session`);
+  }, [routes, mapKey, setSavedRoutes, onToast]);
+
+  const updateSavedFrom = useCallback((savedId, routeId) => {
+    const route = routes.find((r) => r.id === routeId);
+    if (!route) return;
+    setSavedRoutes((prev) => overwriteSaved(prev, savedId, route));
+    onToast?.('Saved route updated');
+  }, [routes, setSavedRoutes, onToast]);
+
+  const renameSavedRoute = useCallback(
+    (savedId, name) => setSavedRoutes((prev) => renameSaved(prev, savedId, name)),
+    [setSavedRoutes],
+  );
+
+  const deleteSavedRoute = useCallback(
+    (savedId) => setSavedRoutes((prev) => removeSaved(prev, savedId)),
+    [setSavedRoutes],
+  );
+
+  /** Loads a COPY onto the map, so editing it never touches the saved one. */
+  const loadSavedRoute = useCallback((savedId) => {
+    const saved = savedRoutes.find((s) => s.id === savedId);
+    if (!saved) return null;
+    const route = routeFromSaved(saved, uid);
+    setRoutes((prev) => [...prev, route]);
+    setActiveRouteId(route.id);
+    setTool(null);
+    onToast?.(`Loaded “${saved.name}”`);
+    return route.id;
+  }, [savedRoutes, setRoutes, onToast]);
 
   // --- keyboard -----------------------------------------------------------
   useEffect(() => {
@@ -430,6 +481,30 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
    * become a single corridor — before, they only looked connected, and the
    * manifest still treated them as unrelated.
    */
+  /**
+   * Right-click finishes whatever is being drawn. Enter and Escape already did,
+   * but reaching for the keyboard mid-line is the wrong hand — every other
+   * drawing tool in existence ends a polyline on right-click.
+   *
+   * A zone in progress is abandoned rather than committed: a half-drawn box or
+   * a two-point polygon is not a shape anyone meant to keep.
+   */
+  const handleRightClick = useCallback(() => {
+    if (tool === TOOLS.route) {
+      setTool(null);
+      setPendingBulge(0);
+      setCurveArmed(false);
+      onToast?.('Finished drawing — the route is still open for editing');
+      return true;
+    }
+    if (draft) {
+      setDraft(null);
+      setTool(null);
+      return true;
+    }
+    return false;
+  }, [tool, draft, onToast]);
+
   const handleUp = useCallback(() => {
     if (!drag) return;
     const { index, moved } = drag;
@@ -532,7 +607,11 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
     setTool, setRouteMode, setActiveZoneId, setActiveRouteId,
     addZone, updateZone, removeZone, moveZone,
     newRoute, updateRoute, removeRoute, joinTo,
-    handleClick, handleMove, handleDown, handleUp,
+    savedRoutes: savedForMap(savedRoutes, mapKey),
+    allSavedRoutes: savedRoutes,
+    setSavedRoutes,
+    saveRouteAs, updateSavedFrom, renameSavedRoute, deleteSavedRoute, loadSavedRoute,
+    handleClick, handleMove, handleDown, handleUp, handleRightClick,
     undo, redo,
     canUndo: histDepth.past > 0,
     canRedo: histDepth.future > 0,
