@@ -142,8 +142,8 @@ export function ZonePanel({
       ) : null}
 
       <div className="eft-note" style={{ marginBottom: 8, color: 'var(--eft-orange)' }}>
-        Zones last for this session only. They are saved and restored as part of a saved
-        route — see the Routes panel.
+        Zones are scratch — reloading the page clears them. They are saved and restored as
+        part of a saved route, so save one from the Routes panel to keep them.
       </div>
 
       {zones.map((z, i) => {
@@ -222,8 +222,8 @@ export function RoutePanel({
       </div>
 
       <div className="eft-note" style={{ marginBottom: 8, color: 'var(--eft-orange)' }}>
-        Routes and zones on the map last for this session only. <b>Save</b> a route to keep
-        it — whatever zones are drawn go with it, and come back when you load it.
+        Routes and zones are scratch — <b>reloading the page clears them</b>. <b>Save</b> a
+        route to keep it; whatever zones are drawn go with it and come back when you load it.
       </div>
 
       {savedRoutes.length ? (

@@ -122,13 +122,35 @@ export function autoLabel(marker, category) {
 }
 
 /**
- * Their text-size ramp: linear interpolation keyed on zoom 10, 11 and 16,
- * flat outside that range.
+ * How a place name sizes with zoom.
+ *
+ * The source's own ramp grew the text from 12px to 18px between zoom 10 and 16
+ * — but the map doubles every level, so over that span the terrain grew by
+ * 3200% while the label grew by 50%. The net effect is a name that withers to
+ * nothing against the thing it is naming.
+ *
+ * So: HOLD it at full size through the first couple of steps in, where you are
+ * still orienting and the names are the whole point; then shrink it as the
+ * detail takes over; then drop it entirely once you are close enough that a
+ * name written across a building is just in the way.
+ *
+ *   zoom <= 13   full size
+ *   13 -> 15     shrinks to the floor
+ *   zoom >= 15   nothing, and the caller skips drawing
+ *
+ * `sizes` stays [small, base, large] as the source publishes it: base is the
+ * held size and small sets the floor. The large value is what the old ramp
+ * climbed to and is deliberately unused.
  */
-export function textSizeForZoom(zoom, [s10, s11, s16]) {
-  if (!Number.isFinite(zoom)) return s11;
-  if (zoom <= 10) return s10;
-  if (zoom >= 16) return s16;
-  if (zoom <= 11) return s10 + (s11 - s10) * (zoom - 10);
-  return s11 + (s16 - s11) * ((zoom - 11) / 5);
+export const LABEL_HOLD_TO = 13;
+export const LABEL_HIDE_AT = 15;
+
+export function textSizeForZoom(zoom, sizes) {
+  const base = sizes?.[1] ?? 14;
+  const floor = (sizes?.[0] ?? 12) * 0.7;
+  if (!Number.isFinite(zoom)) return base;
+  if (zoom <= LABEL_HOLD_TO) return base;
+  if (zoom >= LABEL_HIDE_AT) return 0;
+  const t = (zoom - LABEL_HOLD_TO) / (LABEL_HIDE_AT - LABEL_HOLD_TO);
+  return base + (floor - base) * t;
 }

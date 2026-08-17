@@ -233,6 +233,8 @@ export const SpriteMarkerLayer = L.Layer.extend({
       const { text, color, haloWidth, haloColor, sizes } = style;
       if (!text) continue;
       const px = textSizeForZoom(zoom, sizes);
+      // Zero means "too far in for names" — see textSizeForZoom.
+      if (px <= 0) continue;
       ctx.font = `600 ${px}px ${LABEL_FONT}`;
       // A category that also has a pin puts its name below the point, since
       // the pin (or, at detail zoom, the dot) occupies the point itself.

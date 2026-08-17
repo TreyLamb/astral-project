@@ -255,14 +255,47 @@ describe('label styling, ported from mapgenie map.js', () => {
       .toMatchObject({ text: 'Sawmill', color: '#ffffff' });
   });
 
-  it('reproduces their zoom-keyed text ramp', () => {
+  // Deliberately NOT the source's ramp any more. Theirs grew 12px -> 18px from
+  // zoom 10 to 16 while the map itself doubled every level, so a place name
+  // withered against the terrain it was naming.
+  describe('place-name sizing', () => {
     const sizes = [12, 14, 18];
-    expect(textSizeForZoom(9, sizes)).toBe(12);
-    expect(textSizeForZoom(10, sizes)).toBe(12);
-    expect(textSizeForZoom(10.5, sizes)).toBe(13);
-    expect(textSizeForZoom(11, sizes)).toBe(14);
-    expect(textSizeForZoom(16, sizes)).toBe(18);
-    expect(textSizeForZoom(20, sizes)).toBe(18);
+
+    it('holds one steady size while you are still orienting', () => {
+      for (const z of [8, 9, 10, 11, 12, 13]) {
+        expect(textSizeForZoom(z, sizes)).toBe(14);
+      }
+    });
+
+    it('shrinks once past the hold, never growing', () => {
+      const a = textSizeForZoom(13.5, sizes);
+      const b = textSizeForZoom(14, sizes);
+      const c = textSizeForZoom(14.5, sizes);
+      expect(a).toBeLessThan(14);
+      expect(b).toBeLessThan(a);
+      expect(c).toBeLessThan(b);
+    });
+
+    it('disappears entirely once you are too far in', () => {
+      expect(textSizeForZoom(15, sizes)).toBe(0);
+      expect(textSizeForZoom(16, sizes)).toBe(0);
+      expect(textSizeForZoom(20, sizes)).toBe(0);
+    });
+
+    it('never shrinks below the floor before it vanishes', () => {
+      for (let z = 13; z < 15; z += 0.1) {
+        expect(textSizeForZoom(z, sizes)).toBeGreaterThanOrEqual(12 * 0.7 - 1e-9);
+      }
+    });
+
+    it('falls back to the base size for a nonsense zoom', () => {
+      expect(textSizeForZoom(undefined, sizes)).toBe(14);
+      expect(textSizeForZoom(NaN, sizes)).toBe(14);
+    });
+
+    it('survives a missing sizes array', () => {
+      expect(textSizeForZoom(10, undefined)).toBeGreaterThan(0);
+    });
   });
 
   it('truncates a quest objective so it cannot stripe the map', () => {

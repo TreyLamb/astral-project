@@ -83,32 +83,29 @@ function read(key, fallback) {
 }
 
 /**
- * Routes AND zones live in sessionStorage, not localStorage, on purpose: both
- * are the plan for the raid you are about to do, not permanent fixtures, and
- * having last week's lines and boxes still draped over the map on every visit
- * was clutter. A reload still keeps them — losing work to a stray F5 would be
- * worse — but a new session starts clean.
+ * Routes and zones are NOT persisted at all — they live in memory and go with
+ * the page.
  *
- * The saved library (below) is the durable home for a route worth keeping,
- * which is what makes Save mean something.
+ * They are the plan for the raid you are about to run, not a fixture of the
+ * map, and having last week's lines and boxes draped over every visit was
+ * clutter. sessionStorage was the first attempt and was wrong for the same
+ * reason localStorage was, just at a smaller scale: it survives a reload, and
+ * a reload is exactly where you expect a scratch layer to reset.
+ *
+ * Kept in a module-level store rather than component state so switching map
+ * and switching back does not lose anything mid-session. Reloading does.
+ *
+ * The saved library IS persisted — that is the durable home for a plan worth
+ * keeping, and the reason Save exists.
  */
-function sessionRead(key, fallback) {
-  try {
-    const raw = sessionStorage.getItem(key);
-    if (raw === null) return structuredClone(fallback);
-    const parsed = JSON.parse(raw);
-    return parsed ?? structuredClone(fallback);
-  } catch {
-    return structuredClone(fallback);
-  }
+const scratch = new Map();
+
+function scratchRead(key, fallback) {
+  return scratch.has(key) ? structuredClone(scratch.get(key)) : structuredClone(fallback);
 }
 
-function sessionWrite(key, value) {
-  try {
-    sessionStorage.setItem(key, JSON.stringify(value));
-  } catch {
-    /* private mode or quota — the session still works in memory */
-  }
+function scratchWrite(key, value) {
+  scratch.set(key, structuredClone(value));
 }
 
 function write(key, value) {
@@ -136,14 +133,14 @@ export const MapStore = {
     try { localStorage.removeItem(KEY.calibration(map)); } catch { /* nothing to do */ }
   },
 
-  // Session-scoped, like routes: a zone is part of the plan for a raid, not a
-  // permanent fixture of the map. Save a route to keep its zones with it.
-  getZones: (map) => sessionRead(KEY.zones(map), []),
-  setZones: (map, v) => sessionWrite(KEY.zones(map), v),
+  // Scratch, not saved: a zone is part of the plan for one raid. Save a route
+  // to keep its zones with it.
+  getZones: (map) => scratchRead(KEY.zones(map), []),
+  setZones: (map, v) => scratchWrite(KEY.zones(map), v),
 
-  // Session-scoped — see sessionRead above. Save one to the library to keep it.
-  getRoutes: (map) => sessionRead(KEY.routes(map), []),
-  setRoutes: (map, v) => sessionWrite(KEY.routes(map), v),
+  // Scratch — see scratchRead above. Save one to the library to keep it.
+  getRoutes: (map) => scratchRead(KEY.routes(map), []),
+  setRoutes: (map, v) => scratchWrite(KEY.routes(map), v),
 
   // { [markerId]: true }
   getFound: (map) => read(KEY.found(map), {}),
