@@ -473,3 +473,51 @@ describe('isCraftable', () => {
     expect(isCraftable(f, 'ore')).toBe(false);
   });
 });
+
+describe('stationKey confines a tree to one station', () => {
+  // The "By station" chart used to grow other stations' recipes: the heads were
+  // right, but every ingredient below them expanded through whoever happened to
+  // make it, so Medstation sprouted Nutrition Unit water and Workbench wires.
+  const headsOf = (key) => {
+    const st = index.stations.find((s) => s.key === key);
+    return [...new Set(st.crafts.flatMap((c) => c.outputs.map((o) => o.itemId)))];
+  };
+
+  const stationsSeen = (key, stationKey) => {
+    const seen = new Set();
+    const walk = (n) => {
+      if (n.craft) seen.add(n.craft.stationKey);
+      (n.children || []).forEach(walk);
+    };
+    for (const id of headsOf(key)) {
+      walk(buildTree(index, id, {
+        direction: 'up', collapsed: new Set(), autoDepth: 99, stationKey,
+      }).root);
+    }
+    return seen;
+  };
+
+  it('draws only that station’s recipes, on every station that has any', () => {
+    for (const st of index.stations) {
+      const seen = stationsSeen(st.key, st.key);
+      expect([...seen].filter((k) => k !== st.key)).toEqual([]);
+    }
+  });
+
+  it('is genuinely doing something — unfiltered, Medstation pulls in others', () => {
+    const leaked = [...stationsSeen('medstation', null)].filter((k) => k !== 'medstation');
+    expect(leaked.length).toBeGreaterThan(0);
+  });
+
+  it('keeps the station’s own multi-step chains rather than flattening them', () => {
+    // Pile of meds is a Medstation craft feeding other Medstation crafts, so
+    // filtering must not turn every ingredient into a leaf.
+    const deep = headsOf('medstation').some((id) => {
+      const { root } = buildTree(index, id, {
+        direction: 'up', collapsed: new Set(), autoDepth: 99, stationKey: 'medstation',
+      });
+      return (root.children || []).some((c) => c.children?.length);
+    });
+    expect(deep).toBe(true);
+  });
+});

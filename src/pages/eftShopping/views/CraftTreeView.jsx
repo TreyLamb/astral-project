@@ -527,6 +527,13 @@ export default function CraftTreeView() {
     autoDepth: cfg.autoDepth,
     includeTools: cfg.includeTools,
     craftableOnly: cfg.craftableOnly,
+    // "By station" means this station's recipes, full stop. Without this the
+    // heads are the station's outputs but every branch below them expands
+    // through whatever station happens to make that ingredient — a Medstation
+    // chart grows Nutrition Unit water and Workbench wires, which reads as the
+    // filter being broken. Ingredients made elsewhere stay as leaves; the ⓘ
+    // panel still says where they come from.
+    stationKey: cfg.mode === 'station' ? cfg.stationKey : null,
   };
 
   // Which items head a tree, per mode.
@@ -596,7 +603,8 @@ export default function CraftTreeView() {
     // treeOpts is rebuilt each render on purpose — its members are the real deps.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, shown, cfg.direction, cfg.autoDepth, cfg.includeTools, cfg.craftableOnly,
-    collapsedSet, cfg.recipeChoice, bidirectional, effectiveDirection]);
+    collapsedSet, cfg.recipeChoice, bidirectional, effectiveDirection,
+    cfg.mode, cfg.stationKey]);
 
   const toggle = useCallback((node) => {
     if (!node.hasChildren) return;
@@ -747,7 +755,13 @@ export default function CraftTreeView() {
                 <select
                   className="eft-input eft-input-sm"
                   value={cfg.itemId || ''}
-                  onChange={(e) => set({ itemId: e.target.value || null })}
+                  // Picking from the search must orient the chart the same way
+                  // clicking a node does. It used to just set the id, so with
+                  // the default 'up' direction an item's "used in" side was
+                  // simply absent — the chart looked like the item fed nothing.
+                  onChange={(e) => (e.target.value
+                    ? focus(e.target.value)
+                    : set({ itemId: null }))}
                 >
                   <option value="">Pick an item…</option>
                   {hits.map((h) => (
