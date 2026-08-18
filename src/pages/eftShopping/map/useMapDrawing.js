@@ -7,7 +7,7 @@ import {
 } from './eftRouteLibrary';
 import {
   boxRing, nearestVertex, nearestSegment, routeToPolyline, arcBetween, dist,
-  nearestRouteEnd, joinRoutes,
+  joinRoutes, bestJoin,
 } from './eftMapGeometry';
 
 // The zone + route drawing state machine.
@@ -20,12 +20,11 @@ import {
 // are exactly what those libraries get wrong, so the interaction is ours even
 // though the map, tiles, coordinates and artwork are the source's.
 //
-// Two route modes run against the SAME data so they can be compared directly:
-//
-//   'spline'    place-as-you-go. Straight by default; hold C and the pending
-//               segment becomes an arc that the wheel bends and flips.
-//   'onthegomap' edit-in-place. Drag a vertex to move it, drag a segment to
-//               insert one, shift-click to delete, with undo/redo.
+// Drawing and editing are one mode, not two: with `tool` set to 'route' a click
+// places the next point, and with no tool the open route is editable in place —
+// drag a vertex to move it, drag a segment to insert one mid-route, shift-click
+// to delete. There used to be a `routeMode` switch between the two; nothing
+// ever set it, and the only thing it still did was hide the edit hint.
 
 export const TOOLS = {
   none: null,
@@ -33,11 +32,6 @@ export const TOOLS = {
   zonePoly: 'zone-poly',
   route: 'route',
 };
-
-export const ROUTE_MODES = [
-  { value: 'spline', label: 'Curve draw', hint: 'Click to place. Hold C and scroll to bend the segment.' },
-  { value: 'onthegomap', label: 'Drag edit', hint: 'Drag a point to move it, drag a line to insert one, shift-click to delete.' },
-];
 
 const ZONE_COLOURS = ['#e0c07a', '#6d8ba3', '#7a9a5c', '#c08b4a', '#b4544a', '#9a86c8'];
 
@@ -66,6 +60,25 @@ const SNAP_PX = 12;
 const BULGE_STEP = 0.15;
 const BULGE_MAX = 1.6;
 
+// Joining is strict on purpose. Two endpoints landing near each other is not
+// evidence that two routes are the same path there — every route drawn beside
+// another has that, and acting on it is what made "absorb" mangle a line.
+//
+// A join needs a real shared stretch: MIN_MERGE_POINTS consecutive waypoints
+// that coincide, counting inward from both joining ends, each pair inside
+// MERGE_METRES. The run is then merged in full, so three shared points collapse
+// three and thirty collapse thirty.
+export const MIN_MERGE_POINTS = 3;
+
+// A ground distance, not a screen one. Screen tolerance would mean zooming out
+// makes two separate places mergeable, which is exactly the wrong direction for
+// a rule whose whole job is to be strict.
+const MERGE_METRES = 12;
+// Only for a map with no scale at all, where there is no ground distance to
+// work in. Tighter than SNAP_PX because this asks "is this the same point?",
+// not "did you mean to grab this?".
+const MERGE_PX = 5;
+
 export function routePolyline(route) {
   if (!route?.waypoints?.length) return [];
   const pts = routeToPolyline(route.waypoints);
@@ -81,13 +94,12 @@ export function routePolyline(route) {
   return pts;
 }
 
-export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
+export function useMapDrawing({ mapKey, getUnitsPerPixel, metresPerUnit, onToast }) {
   const [zones, setZonesState] = useState([]);
   const [routes, setRoutesState] = useState([]);
   const [activeZoneId, setActiveZoneId] = useState(null);
   const [activeRouteId, setActiveRouteId] = useState(null);
   const [tool, setTool] = useState(null);
-  const [routeMode, setRouteMode] = useState('spline');
 
   // In-progress shape, before it becomes a zone/route.
   const [draft, setDraft] = useState(null);
@@ -149,39 +161,42 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
   );
 
   // --- undo / redo --------------------------------------------------------
-  // Only route geometry is versioned. Zone edits are single discrete acts with
-  // an obvious delete button; route drawing is the one place a slip costs work.
+  // Zone edits are single discrete acts with an obvious delete button; routes
+  // are where a slip costs work, so only routes are versioned.
+  //
+  // A version is the WHOLE route list, not the active route's waypoints. The
+  // waypoint-only history could not describe the two edits that destroy the
+  // most: a join deletes the absorbed route and a delete removes one outright,
+  // and neither is a change to some surviving route's points. Undo restored the
+  // points and left the other route gone for good.
+  //
+  // The list is also read from the closure rather than from inside the setState
+  // updater. React invokes an updater twice under StrictMode, which pushed two
+  // entries onto the redo stack per undo.
   const snapshot = useCallback(() => {
-    if (!activeRouteId) return;
-    const route = routes.find((r) => r.id === activeRouteId);
-    if (!route) return;
-    history.current.past.push(JSON.stringify(route.waypoints));
+    history.current.past.push(JSON.stringify(routes));
     if (history.current.past.length > 60) history.current.past.shift();
     history.current.future = [];
     syncHist();
-  }, [activeRouteId, routes]);
+  }, [routes]);
 
   const undo = useCallback(() => {
     const h = history.current;
-    if (!h.past.length || !activeRouteId) return;
-    setRoutes((prev) => prev.map((r) => {
-      if (r.id !== activeRouteId) return r;
-      h.future.push(JSON.stringify(r.waypoints));
-      return { ...r, waypoints: JSON.parse(h.past.pop()) };
-    }));
+    if (!h.past.length) return;
+    const restored = h.past.pop();
+    h.future.push(JSON.stringify(routes));
+    setRoutes(JSON.parse(restored));
     syncHist();
-  }, [activeRouteId, setRoutes]);
+  }, [routes, setRoutes]);
 
   const redo = useCallback(() => {
     const h = history.current;
-    if (!h.future.length || !activeRouteId) return;
-    setRoutes((prev) => prev.map((r) => {
-      if (r.id !== activeRouteId) return r;
-      h.past.push(JSON.stringify(r.waypoints));
-      return { ...r, waypoints: JSON.parse(h.future.pop()) };
-    }));
+    if (!h.future.length) return;
+    const restored = h.future.pop();
+    h.past.push(JSON.stringify(routes));
+    setRoutes(JSON.parse(restored));
     syncHist();
-  }, [activeRouteId, setRoutes]);
+  }, [routes, setRoutes]);
 
   // --- zone / route CRUD --------------------------------------------------
   const addZone = useCallback((ring) => {
@@ -245,10 +260,27 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
     setRoutes((prev) => prev.map((r) => (r.id === id ? { ...r, ...patch } : r)));
   }, [setRoutes]);
 
+  /**
+   * Wiping the points goes through here rather than through `updateRoute` so it
+   * takes a history snapshot first. It did not, which made Clear the one action
+   * in the panel that Ctrl+Z could not walk back.
+   */
+  const clearRoute = useCallback((id) => {
+    const route = routes.find((r) => r.id === id);
+    if (!route?.waypoints.length) return;
+    snapshot();
+    setRoutes((prev) => prev.map((r) => (
+      r.id === id ? { ...r, waypoints: [], closed: false } : r
+    )));
+    onToast?.(`Cleared ${route.waypoints.length} waypoints — Ctrl+Z undoes it`);
+  }, [routes, snapshot, setRoutes, onToast]);
+
   const removeRoute = useCallback((id) => {
+    snapshot();
     setRoutes((prev) => prev.filter((r) => r.id !== id));
     setActiveRouteId((cur) => (cur === id ? null : cur));
-  }, [setRoutes]);
+    onToast?.('Route deleted — Ctrl+Z undoes it');
+  }, [snapshot, setRoutes, onToast]);
 
   // --- the saved library --------------------------------------------------
   // Whatever zones are on the map go with the route: they are the other half
@@ -339,6 +371,13 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
         e.preventDefault();
         if (e.shiftKey) redo();
         else undo();
+        return;
+      }
+      // Ctrl+Shift+Z was the only redo. Ctrl+Y is the one most people reach
+      // for on Windows, and it did nothing at all.
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') {
+        e.preventDefault();
+        redo();
       }
     };
 
@@ -376,6 +415,11 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
     () => SNAP_PX * (getUnitsPerPixel?.() || 1),
     [getUnitsPerPixel],
   );
+
+  /** How close two waypoints have to be to count as the same place. */
+  const mergeTolerance = metresPerUnit
+    ? MERGE_METRES / metresPerUnit
+    : MERGE_PX * (getUnitsPerPixel?.() || 1);
 
   const handleClick = useCallback((point) => {
     if (tool === TOOLS.zoneRect) {
@@ -486,12 +530,6 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
   }, [activeRoute, tool, snapUnits, snapshot, updateRoute]);
 
   /**
-   * Letting go of an endpoint next to another route's endpoint joins the two
-   * into one route. This is the whole reason two separately drawn halves can
-   * become a single corridor — before, they only looked connected, and the
-   * manifest still treated them as unrelated.
-   */
-  /**
    * Right-click finishes whatever is being drawn. Enter and Escape already did,
    * but reaching for the keyboard mid-line is the wrong hand — every other
    * drawing tool in existence ends a polyline on right-click.
@@ -532,33 +570,62 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
       onToast?.('Carrying on from that waypoint — click to place, Enter to stop');
       return;
     }
-    if (moved === false) return;
-    if (activeRoute.closed) return;
+    if (!moved || activeRoute.closed) return;
 
+    // Dropping one end onto the SAME route's other end closes the loop. That is
+    // what the end-to-end gesture is for — a square, a circle, a patrol loop —
+    // and it is now the only thing it does. It used to reach across to OTHER
+    // routes and concatenate them, which an end landing near an end never meant:
+    // two separate lines touching at a point are still two lines. Merging two
+    // routes is a deliberate act, and it needs a genuinely shared stretch.
     const isEnd = index === 0 || index === wps.length - 1;
-    if (!isEnd || wps.length < 2) return;
+    // Four, so that dropping the dragged point still leaves a three-point ring.
+    if (!isEnd || wps.length < 4) return;
 
-    const here = [wps[index].y, wps[index].x];
-    const hit = nearestRouteEnd(routes, here, { exceptId: activeRoute.id, threshold: snapUnits() });
-    if (!hit) return;
+    const far = index === 0 ? wps[wps.length - 1] : wps[0];
+    if (dist([wps[index].y, wps[index].x], [far.y, far.x]) > snapUnits()) return;
 
-    const other = routes.find((r) => r.id === hit.routeId);
-    snapshot();
-    setRoutes((prev) => joinRoutes(prev, activeRoute.id, index === 0 ? 'start' : 'end', hit.routeId, hit.end));
-    onToast?.(`Joined ${other?.name || 'that route'} into ${activeRoute.name}`);
-  }, [drag, activeRoute, routes, snapUnits, snapshot, setRoutes, onToast]);
+    // No snapshot here — handleDown took one when the drag began, so a single
+    // Ctrl+Z walks back the whole gesture instead of half of it.
+    updateRoute(activeRoute.id, {
+      waypoints: wps.filter((_, i) => i !== index),
+      closed: true,
+    });
+    onToast?.('Loop closed on the route\'s other end — Ctrl+Z undoes it');
+  }, [drag, activeRoute, snapUnits, updateRoute, onToast]);
 
-  /** The same join, from the panel, for when dragging onto a point is fiddly. */
+  /**
+   * The same join, from the panel, for when dragging onto a point is fiddly.
+   *
+   * It used to hardcode "A's end onto B's start" whichever ends were actually
+   * near each other. Absorbing a route that ran the other way therefore spliced
+   * in B's far end, and the result doubled back across the map — the join read
+   * as having eaten both routes rather than continuing one. It now joins at the
+   * nearest pair of ends, and only welds the two vertices into one when they
+   * are close enough to be the same place.
+   */
   const joinTo = useCallback((otherId) => {
     if (!activeRoute) return;
-    const ends = { a: activeRoute.waypoints.length - 1 };
     const other = routes.find((r) => r.id === otherId);
     if (!other) return;
+    const pick = bestJoin(activeRoute, other, mergeTolerance);
+    if (!pick) return;
+
+    if (pick.overlap < MIN_MERGE_POINTS) {
+      onToast?.(pick.overlap
+        ? `${other.name} only shares ${pick.overlap} point${pick.overlap === 1 ? '' : 's'} `
+          + `with ${activeRoute.name} — ${MIN_MERGE_POINTS} in a row are needed to merge`
+        : `${other.name} does not run along ${activeRoute.name} anywhere — nothing to merge`);
+      return;
+    }
+
     snapshot();
-    setRoutes((prev) => joinRoutes(prev, activeRoute.id, 'end', otherId, 'start'));
-    onToast?.(`Joined ${other.name} onto the end of ${activeRoute.name}`);
-    void ends;
-  }, [activeRoute, routes, snapshot, setRoutes, onToast]);
+    setRoutes((prev) => joinRoutes(
+      prev, activeRoute.id, pick.aEnd, otherId, pick.bEnd, { merge: pick.overlap },
+    ));
+    onToast?.(`Merged ${other.name} into ${activeRoute.name} over `
+      + `${pick.overlap} shared points — Ctrl+Z undoes it`);
+  }, [activeRoute, routes, mergeTolerance, snapshot, setRoutes, onToast]);
 
   // --- preview geometry ---------------------------------------------------
   const previewRing = useMemo(() => {
@@ -597,6 +664,18 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
   // than add — the user should see the link coming, not discover it after.
   const snapTarget = useMemo(() => {
     if (!cursorPoint) return null;
+    // Dragging an end within reach of the same route's other end: the drop will
+    // close the loop, so say so before the mouse comes up rather than after.
+    if (drag && activeRoute && !activeRoute.closed) {
+      const wps = activeRoute.waypoints;
+      const isEnd = drag.index === 0 || drag.index === wps.length - 1;
+      if (isEnd && wps.length >= 4) {
+        const far = drag.index === 0 ? wps[wps.length - 1] : wps[0];
+        const at = [far.y, far.x];
+        if (dist(cursorPoint, at) <= snapUnits()) return { point: at, closes: true };
+      }
+      return null;
+    }
     if (tool === TOOLS.route && activeRoute?.waypoints.length) {
       const pts = activeRoute.waypoints.map((w) => [w.y, w.x]);
       const i = nearestVertex(cursorPoint, pts, snapUnits());
@@ -608,20 +687,21 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, onToast }) {
         : null;
     }
     return null;
-  }, [cursorPoint, tool, activeRoute, draft, snapUnits]);
+  }, [cursorPoint, tool, activeRoute, draft, drag, snapUnits]);
 
   return {
     zones, routes, activeZoneId, activeRouteId, activeRoute,
-    tool, routeMode, draft, curveArmed, pendingBulge, drag,
+    tool, draft, curveArmed, pendingBulge, drag,
     previewRing, previewSegment, snapTarget, cursorPoint, editTarget,
-    setTool, setRouteMode, setActiveZoneId, setActiveRouteId,
+    setTool, setActiveZoneId, setActiveRouteId,
     addZone, updateZone, removeZone, moveZone,
-    newRoute, updateRoute, removeRoute, joinTo,
+    newRoute, updateRoute, removeRoute, clearRoute, joinTo,
     savedRoutes: savedForMap(savedRoutes, mapKey),
     allSavedRoutes: savedRoutes,
     setSavedRoutes,
     saveRouteAs, updateSavedFrom, renameSavedRoute, deleteSavedRoute, loadSavedRoute,
     handleClick, handleMove, handleDown, handleUp, handleRightClick,
+    mergeTolerance, minMergePoints: MIN_MERGE_POINTS,
     undo, redo,
     canUndo: histDepth.past > 0,
     canRedo: histDepth.future > 0,

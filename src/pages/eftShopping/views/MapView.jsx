@@ -181,7 +181,15 @@ export default function MapView() {
     return Math.abs(b.lat - a.lat) || 1;
   }, []);
 
-  const draw = useMapDrawing({ mapKey, getUnitsPerPixel, onToast: showToast });
+  // Metres per map unit. On tiles this is mapgenie's own distance-tool
+  // constant; on the vector basemap it comes from tarkov.dev's transform.
+  // Computed up here because the drawing hook needs it: whether two waypoints
+  // are the same place is a question about ground distance.
+  const usingTilesForScale = base === 'tiles' && !!data?.tiles?.url;
+  const metresPerUnit = usingTilesForScale ? metresPerSourceUnit(data) : metresPerMapUnit(mapConfig);
+  const unitsPerMetre = metresPerUnit ? 1 / metresPerUnit : null;
+
+  const draw = useMapDrawing({ mapKey, getUnitsPerPixel, metresPerUnit, onToast: showToast });
 
   // --- load the selected map ---------------------------------------------
   useEffect(() => {
@@ -332,18 +340,13 @@ export default function MapView() {
 
   const savedCalibration = MapStore.getCalibration(mapKey);
   const isCalibrated = !!savedCalibration;
-  const usingTiles = base === 'tiles' && !!data?.tiles?.url;
+  const usingTiles = usingTilesForScale;
 
   // On the tile basemap the source coordinates ARE the map coordinates.
   const toPoint = useCallback(
     (m) => (usingTiles ? [m.lat, m.lng] : (calibration ? project(calibration, m.lat, m.lng) : null)),
     [usingTiles, calibration],
   );
-
-  // Metres per map unit. On tiles this is mapgenie's own distance-tool
-  // constant; on the vector basemap it comes from tarkov.dev's transform.
-  const metresPerUnit = usingTiles ? metresPerSourceUnit(data) : metresPerMapUnit(mapConfig);
-  const unitsPerMetre = metresPerUnit ? 1 / metresPerUnit : null;
 
   // Everything downstream works in map units, so project once here rather than
   // re-projecting inside every filter pass.
@@ -605,12 +608,12 @@ export default function MapView() {
     }
 
     if (draw.editTarget) {
-      out.push({
-        kind: 'vertex',
-        point: draw.editTarget.point,
-        color: draw.editTarget.kind === 'vertex' ? '#e0c07a' : '#6d8ba3',
-        radius: 8,
-      });
+      // A segment hover means "a click inserts a point HERE", which is a
+      // different promise from "this point moves". Same circle in a slightly
+      // different colour said neither, so the insert never read as one.
+      out.push(draw.editTarget.kind === 'vertex'
+        ? { kind: 'vertex', point: draw.editTarget.point, color: '#e0c07a', radius: 8 }
+        : { kind: 'insert', point: draw.editTarget.point, color: '#7cd65a' });
     }
 
     if (calMode && calibration) {
@@ -665,8 +668,17 @@ export default function MapView() {
           {' '}<kbd>Backspace</kbd> undoes a point, <kbd>Enter</kbd> finishes.</>
       );
     }
-    if (draw.routeMode === 'onthegomap' && activeRoute?.waypoints.length) {
-      return <>Drag a point to move it, drag a line to insert one, <kbd>Shift</kbd>+click a point to delete. <kbd>Ctrl</kbd>+<kbd>Z</kbd> undoes.</>;
+    // Having a route open and no tool running IS edit mode. This used to be
+    // gated on a `routeMode` that nothing ever set, so the one line telling you
+    // a mid-route point exists never rendered and the feature looked missing.
+    if (activeRoute?.waypoints.length >= 2) {
+      return draw.editTarget?.kind === 'segment' ? (
+        <><b>Drag here to insert a waypoint</b> between those two points — it stays in order and follows the cursor.</>
+      ) : draw.editTarget?.kind === 'vertex' ? (
+        <>Drag to move this point · <kbd>Shift</kbd>+click deletes it{draw.editTarget.index === activeRoute.waypoints.length - 1 ? ' · click it to carry on drawing' : ''}.</>
+      ) : (
+        <>Editing <b>{activeRoute.name}</b> — drag a point to move it, drag the <b>line</b> to insert one mid-route, <kbd>Shift</kbd>+click to delete. <kbd>Ctrl</kbd>+<kbd>Z</kbd> undoes.</>
+      );
     }
     return null;
   })();
@@ -705,7 +717,9 @@ export default function MapView() {
             detailZoom={prefs.detailZoom}
             markersInteractive={!drawing && !draw.editTarget}
             overlays={overlays}
-            cursor={drawing || calMode ? 'crosshair' : draw.editTarget ? 'move' : ''}
+            cursor={drawing || calMode ? 'crosshair'
+              : draw.editTarget?.kind === 'segment' ? 'copy'
+                : draw.editTarget ? 'move' : ''}
             draftWaypoint={draft}
             onDraftMove={({ lat, lng }) => setDraft((d) => (d ? { ...d, lat, lng } : d))}
             onMarkerClick={handleMarkerClick}
@@ -970,6 +984,15 @@ export default function MapView() {
             collapsible
             open={panelOpen('filters')}
             onToggle={(v) => setPanel('filters', v)}
+            help={(
+              <>
+                <p>
+                  The map-wide layer — the bottom of three tiers. Zones override it inside their
+                  outline, and a route&apos;s corridor overrides both.
+                </p>
+                <p><b>Right-click any category</b> to drop it into a preset.</p>
+              </>
+            )}
             actions={(
               <>
                 <button type="button" className="eft-btn eft-btn-sm"
@@ -1026,6 +1049,21 @@ export default function MapView() {
             collapsible
             open={panelOpen('waypoints')}
             onToggle={(v) => setPanel('waypoints', v)}
+            help={(
+              <>
+                <p>
+                  Your own pins, separate from the route waypoints below. <b>+ Waypoint</b> drops a
+                  draggable dot — place it, name it, save it. It lands exactly where you let go,
+                  so zoom in for a finer placement.
+                </p>
+                <p>Click a name to centre the map on it.</p>
+                <p>
+                  {userId
+                    ? 'Synced to your account — the same points on any computer you sign in on.'
+                    : 'Saved on this device only. Sign in on the hub to sync them.'}
+                </p>
+              </>
+            )}
             actions={(
               <button type="button" className="eft-btn eft-btn-sm eft-is-primary"
                 onClick={startWaypoint} disabled={!!draft}>
@@ -1035,9 +1073,8 @@ export default function MapView() {
           >
             {draft ? (
               <div className="eft-wp-form">
-                <div className="eft-note" style={{ marginBottom: 6 }}>
-                  Drag the dot on the map to place it, then name it. It sits exactly where you
-                  drop it — zoom in for a finer placement.
+                <div className="eft-note eft-note-tight" style={{ marginBottom: 6 }}>
+                  Drag the dot on the map, then name it.
                 </div>
                 <input
                   className="eft-input"
@@ -1072,10 +1109,7 @@ export default function MapView() {
             ) : null}
 
             {!waypoints.length && !draft ? (
-              <div className="eft-empty">
-                No waypoints on {mapConfig.name} yet.
-                {userId ? ' They sync to your account.' : ' Sign in to carry them between computers.'}
-              </div>
+              <div className="eft-empty">No waypoints on {mapConfig.name} yet.</div>
             ) : null}
 
             {waypoints.length ? (
@@ -1100,10 +1134,11 @@ export default function MapView() {
               </ul>
             ) : null}
 
-            <div className="eft-note" style={{ marginTop: 8 }}>
-              {userId ? 'Synced to your account — same points on any computer you sign in on.'
-                : 'Saved on this device only. Sign in on the hub to sync them.'}
-            </div>
+            {waypoints.length && !userId ? (
+              <div className="eft-note eft-note-tight" style={{ marginTop: 8 }}>
+                This device only — sign in on the hub to sync.
+              </div>
+            ) : null}
           </Panel>
 
           <ZonePanel
@@ -1129,6 +1164,8 @@ export default function MapView() {
             activeRouteId={draw.activeRouteId}
             tool={draw.tool}
             metresPerUnit={metresPerUnit}
+            mergeTolerance={draw.mergeTolerance}
+            minMergePoints={draw.minMergePoints}
             canUndo={draw.canUndo}
             canRedo={draw.canRedo}
             open={panelOpen('routes')}
@@ -1143,6 +1180,7 @@ export default function MapView() {
             }}
             onUpdate={draw.updateRoute}
             onRemove={draw.removeRoute}
+            onClear={draw.clearRoute}
             onSetTool={draw.setTool}
             onUndo={draw.undo}
             onRedo={draw.redo}
@@ -1167,8 +1205,19 @@ export default function MapView() {
             />
           ) : null}
 
-          <Panel title={`Presets${presets.length ? ` (${presets.length})` : ''}`}
-            collapsible open={panelOpen('presets')} onToggle={(v) => setPanel('presets', v)}>
+          <Panel
+            title={`Presets${presets.length ? ` (${presets.length})` : ''}`}
+            collapsible
+            open={panelOpen('presets')}
+            onToggle={(v) => setPanel('presets', v)}
+            help={(
+              <p>
+                A preset is a bundle of filter categories. <b>Right-click a category</b> in Filters
+                to add it to one. A preset adds and removes only its own categories, so more than
+                one can be on at a time.
+              </p>
+            )}
+          >
             {presets.length ? presets.map((p) => (
               <div key={p.id} className="eft-preset-row">
                 <button
@@ -1186,14 +1235,10 @@ export default function MapView() {
                   onClick={() => removePreset(p.id)} title="Delete this preset">×</button>
               </div>
             )) : (
-              <div className="eft-note">
-                No presets. Right-click any filter to add it to one.
+              <div className="eft-empty">
+                No presets. Right-click any filter to start one.
               </div>
             )}
-            <div className="eft-note" style={{ marginTop: 6 }}>
-              Right-click a filter to add it to a preset. Presets add and remove
-              their categories, so more than one can be on at a time.
-            </div>
           </Panel>
         </aside>
       ) : null}

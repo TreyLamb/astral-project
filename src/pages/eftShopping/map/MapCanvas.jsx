@@ -293,6 +293,28 @@ export default function MapCanvas({
           fillOpacity: 1,
           interactive: false,
         }));
+      } else if (o.kind === 'insert') {
+        // The ghost point a drag on the line would create: hollow, dashed and
+        // crossed, so it never looks like a waypoint that is already there.
+        const at = o.point;
+        layer.addLayer(L.circleMarker(at, {
+          radius: 8,
+          weight: 2,
+          color: o.color || '#7cd65a',
+          dashArray: '3,3',
+          fillColor: '#0d0d0b',
+          fillOpacity: 0.55,
+          interactive: false,
+        }));
+        layer.addLayer(L.marker(at, {
+          interactive: false,
+          icon: L.divIcon({
+            className: 'eft-map-insert',
+            html: '+',
+            iconSize: [16, 16],
+            iconAnchor: [8, 8],
+          }),
+        }));
       } else if (o.kind === 'pin') {
         layer.addLayer(L.circleMarker(o.point, {
           radius: 7,

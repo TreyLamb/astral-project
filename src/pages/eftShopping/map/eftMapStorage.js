@@ -25,7 +25,6 @@ const KEY = {
 // keys into an old object would have left them in place.
 export const DEFAULT_PREFS = {
   lastMap: 'woods',
-  routeMode: 'spline',
   corridorRadius: 40,
   showFound: true,
   markerSize: 'normal',

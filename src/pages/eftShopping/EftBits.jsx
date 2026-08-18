@@ -175,17 +175,22 @@ export function Seg({ options, value, onChange }) {
  * `collapsible` turns the header into a toggle. Open state is controlled when
  * `open`/`onToggle` are supplied (so it can be persisted) and self-managed
  * otherwise — a panel should not need a store just to fold up.
+ *
+ * `help` is the panel's explanatory prose. It lives behind a `?` in the header
+ * because it is read once and then in the way forever — a rail full of
+ * paragraphs is what the controls have to be found between.
  */
 export function Panel({
-  title, actions, children, flush, collapsible, open, onToggle, defaultOpen = true,
+  title, actions, help, children, flush, collapsible, open, onToggle, defaultOpen = true,
 }) {
   const [selfOpen, setSelfOpen] = useState(defaultOpen);
+  const [helpOpen, setHelpOpen] = useState(false);
   const isOpen = !collapsible || (onToggle ? open : selfOpen);
   const toggle = () => (onToggle ? onToggle(!open) : setSelfOpen((v) => !v));
 
   return (
     <section className={`eft-panel${collapsible ? ' eft-is-collapsible' : ''}${isOpen ? '' : ' eft-is-closed'}`}>
-      {(title || actions) && (
+      {(title || actions || help) && (
         <header className="eft-panel-head">
           {collapsible ? (
             <button type="button" className="eft-panel-toggle" onClick={toggle}
@@ -194,12 +199,31 @@ export function Panel({
               {title ? <h2>{title}</h2> : null}
             </button>
           ) : (title ? <h2>{title}</h2> : null)}
-          {actions && isOpen ? (
-            <div className="eft-spacer" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>{actions}</div>
+          {(actions || help) && isOpen ? (
+            <div className="eft-spacer" style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+              {actions}
+              {help ? (
+                <button
+                  type="button"
+                  className={`eft-iconbtn eft-helpbtn${helpOpen ? ' eft-is-on' : ''}`}
+                  aria-expanded={helpOpen}
+                  aria-label={helpOpen ? 'Hide help' : 'Show help'}
+                  title={helpOpen ? 'Hide help' : 'How this works'}
+                  onClick={() => setHelpOpen((v) => !v)}
+                >
+                  ?
+                </button>
+              ) : null}
+            </div>
           ) : null}
         </header>
       )}
-      {isOpen ? <div className={`eft-panel-body${flush ? ' eft-flush' : ''}`}>{children}</div> : null}
+      {isOpen ? (
+        <div className={`eft-panel-body${flush ? ' eft-flush' : ''}`}>
+          {help && helpOpen ? <div className="eft-help">{help}</div> : null}
+          {children}
+        </div>
+      ) : null}
     </section>
   );
 }

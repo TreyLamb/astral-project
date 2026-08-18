@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 
 import { Panel, Seg } from '../EftBits';
 import { ZONE_MODES } from './eftMapFilters';
+import { bestJoin } from './eftMapGeometry';
 import { SPRITE_GLYPHS } from './SpriteMarkerLayer';
 
 // Sidebar UI for the three filter tiers. The tiers themselves are decided in
@@ -120,6 +121,20 @@ export function ZonePanel({
       collapsible
       open={open}
       onToggle={onToggleOpen}
+      help={(
+        <>
+          <p>
+            A zone overrides the map-wide filters inside its own outline — the middle of the
+            three tiers. Draw a box around Resort and set it to <strong>Minimal</strong> with
+            just Bosses, and only bosses show there while the rest of the map keeps its own
+            filters.
+          </p>
+          <p className="eft-help-warn">
+            Zones are scratch — reloading the page clears them. They save and restore as part
+            of a saved route, so save one from the Routes panel to keep them.
+          </p>
+        </>
+      )}
       actions={(
         <>
           <button type="button" className={`eft-btn eft-btn-sm${tool === 'zone-rect' ? ' eft-is-on' : ''}`}
@@ -134,17 +149,10 @@ export function ZonePanel({
       )}
     >
       {!zones.length ? (
-        <div className="eft-note">
-          A zone overrides the map-wide filters inside its own outline — the middle of the three
-          tiers. Draw a box around Resort and set it to <strong>Minimal</strong> with just Bosses,
-          and only bosses show there while the rest of the map keeps its own filters.
+        <div className="eft-empty">
+          No zones. Draw a <b>Box</b> or a <b>Shape</b> to filter one part of the map differently.
         </div>
       ) : null}
-
-      <div className="eft-note" style={{ marginBottom: 8, color: 'var(--eft-orange)' }}>
-        Zones are scratch — reloading the page clears them. They are saved and restored as
-        part of a saved route, so save one from the Routes panel to keep them.
-      </div>
 
       {zones.map((z, i) => {
         const open = z.id === activeZoneId;
@@ -200,10 +208,16 @@ export function ZonePanel({
   );
 }
 
+/** How far apart the two ends being joined are, in whatever unit the map has. */
+const gap = (units, metresPerUnit) => (metresPerUnit
+  ? `${Math.round(units * metresPerUnit)} m`
+  : `${units.toFixed(3)} u`);
+
 export function RoutePanel({
   routes, categories, visibleCats, activeRouteId, tool, metresPerUnit,
+  mergeTolerance = 0, minMergePoints = 3,
   canUndo, canRedo, open, onToggleOpen,
-  onNew, onSelect, onUpdate, onRemove, onSetTool, onUndo, onRedo, onJoin,
+  onNew, onSelect, onUpdate, onRemove, onClear, onSetTool, onUndo, onRedo, onJoin,
   savedRoutes = [], onSaveAs, onUpdateSaved, onRenameSaved, onDeleteSaved, onLoadSaved,
 }) {
   return (
@@ -212,23 +226,47 @@ export function RoutePanel({
       collapsible
       open={open}
       onToggle={onToggleOpen}
+      help={(
+        <>
+          <p>
+            A route is the highest filter tier: whatever falls inside its corridor follows the
+            route&apos;s own rule, overriding both zones and the map-wide filters. It also lists
+            what you pass and roughly when.
+          </p>
+          <p><b>Hit <span className="eft-kbdish">edit</span> on a route first — that puts it in edit mode.</b> Then, on the map:</p>
+          <ul className="eft-help-keys">
+            <li><b>Add a point mid-route</b> — press on the <b>line itself</b>, between two
+              existing points, and drag. A new point is inserted there, in order, and follows
+              the cursor until you let go. Hovering the line shows a green <b>+</b> where it
+              would land.</li>
+            <li><b>Move a point</b> — drag it.</li>
+            <li><b>Delete a point</b> — <kbd>Shift</kbd> + click it.</li>
+            <li><b>Carry on from the end</b> — click the <b>last</b> point, then keep clicking
+              to place more. <kbd>Enter</kbd> or right-click stops.</li>
+            <li><b>Bend a segment</b> — hold <kbd>C</kbd> while placing and scroll to curve it.</li>
+            <li><b>Close the loop</b> — a square, a circle, a patrol route — click the
+              <b> first</b> point while drawing, or <b>drag either end onto the route&apos;s own
+              other end</b>. End-to-end is a same-route gesture only; it never reaches across to
+              another route.</li>
+            <li><b>Merge two routes</b> — only where they genuinely run together, and only from
+              the picker below. Two routes merge when at least <b>{minMergePoints} waypoints in a
+              row</b>, counting inward from each route&apos;s end, sit on top of each other. The
+              whole shared run merges, so if they run together for thirty points all thirty
+              collapse into one. Neither line is re-routed.</li>
+            <li><kbd>Ctrl</kbd>+<kbd>Z</kbd> undoes, <kbd>Ctrl</kbd>+<kbd>Y</kbd> redoes. Undo covers
+              the whole route list, so a Clear, a Delete and an Absorb all come back.</li>
+          </ul>
+          <p className="eft-help-warn">
+            Routes and zones are scratch — <b>reloading the page clears them</b>. <b>Save</b> a
+            route to keep it; whatever zones are drawn go with it and come back on load.
+          </p>
+        </>
+      )}
       actions={<button type="button" className="eft-btn eft-btn-sm eft-is-primary" onClick={onNew}>+ Route</button>}
     >
-      <div className="eft-note" style={{ marginBottom: 8 }}>
-        Open a route to edit it: drag a point to move it, drag the line to insert one,
-        shift-click to delete. Click the <b>last</b> point to carry on drawing from there,
-        and hold <kbd>C</kbd> while placing to bend the segment. Drop an end onto another
-        route&apos;s end to join them into one.
-      </div>
-
-      <div className="eft-note" style={{ marginBottom: 8, color: 'var(--eft-orange)' }}>
-        Routes and zones are scratch — <b>reloading the page clears them</b>. <b>Save</b> a
-        route to keep it; whatever zones are drawn go with it and come back when you load it.
-      </div>
-
       {savedRoutes.length ? (
         <div className="eft-field" style={{ marginBottom: 10 }}>
-          <span className="eft-label">Saved routes ({savedRoutes.length})</span>
+          <span className="eft-label">Saved ({savedRoutes.length}) — click to load</span>
           <ul className="eft-linelist">
             {savedRoutes.map((sv) => (
               <li key={sv.id}>
@@ -261,19 +299,27 @@ export function RoutePanel({
       ) : null}
 
       {!routes.length ? (
-        <div className="eft-note">
-          A route is the highest tier: whatever falls inside its corridor is filtered by the
-          route&apos;s own rule, overriding both zones and the map-wide filters. It also gives an
-          ordered list of what you pass and roughly when.
+        <div className="eft-empty">
+          No routes. <b>+ Route</b> starts one — click the map to place points.
         </div>
       ) : null}
 
       {routes.map((r) => {
         const open = r.id === activeRouteId;
         const drawing = open && tool === 'route';
+        // Longest shared run first, and every candidate says how much it shares,
+        // because "absorb" is otherwise a blind pick from a list of names. A
+        // route that shares too little is listed but disabled — seeing WHY it
+        // cannot merge is what tells you the two lines do not actually run
+        // together, rather than leaving you clicking a name that does nothing.
         const joinable = open && r.waypoints.length >= 2 && !r.closed
-          ? routes.filter((o) => o.id !== r.id && o.waypoints.length >= 2 && !o.closed)
+          ? routes
+            .filter((o) => o.id !== r.id && o.waypoints.length >= 2 && !o.closed)
+            .map((o) => ({ route: o, join: bestJoin(r, o, mergeTolerance) }))
+            .filter((o) => o.join)
+            .sort((x, y) => (y.join.overlap - x.join.overlap) || (x.join.distance - y.join.distance))
           : [];
+        const mergeable = joinable.filter((o) => o.join.overlap >= minMergePoints);
         return (
           <div key={r.id} className={`eft-row-card${open ? ' eft-is-on' : ''}`}>
             <div className="eft-row-card-head">
@@ -305,16 +351,20 @@ export function RoutePanel({
                   <button type="button" className="eft-btn eft-btn-sm" onClick={onUndo} disabled={!canUndo}
                     title="Ctrl+Z">Undo</button>
                   <button type="button" className="eft-btn eft-btn-sm" onClick={onRedo} disabled={!canRedo}
-                    title="Ctrl+Shift+Z">Redo</button>
+                    title="Ctrl+Y or Ctrl+Shift+Z">Redo</button>
                   <button type="button" className="eft-btn eft-btn-sm"
                     disabled={r.waypoints.length < 3}
                     onClick={() => onUpdate(r.id, { closed: !r.closed })}
                     title="Join the last waypoint back to the first, linking that vertex rather than duplicating it">
                     {r.closed ? 'Open loop' : 'Close loop'}
                   </button>
-                  <button type="button" className="eft-btn eft-btn-sm"
-                    disabled={!r.waypoints.length}
-                    onClick={() => onUpdate(r.id, { waypoints: [], closed: false })}>Clear</button>
+                </div>
+
+                {/* Clear sat in the row above, one button along from Undo and
+                    Close loop, where a mis-click wiped the whole line. It keeps
+                    its own row with Save — still reachable, no longer in the
+                    path of the buttons you press constantly. */}
+                <div className="eft-controls eft-controls-keep" style={{ marginBottom: 8 }}>
                   <button type="button" className="eft-btn eft-btn-sm eft-is-primary"
                     disabled={!r.waypoints.length}
                     title="Keep this route in the library so it survives the session"
@@ -322,6 +372,16 @@ export function RoutePanel({
                       const name = window.prompt('Save this route as', r.name);
                       if (name) onSaveAs(r.id, name);
                     }}>Save</button>
+                  <button type="button" className="eft-btn eft-btn-sm eft-is-danger"
+                    disabled={!r.waypoints.length}
+                    title="Delete every waypoint on this route, keeping the route itself"
+                    onClick={() => {
+                      const n = r.waypoints.length;
+                      if (window.confirm(
+                        `Clear all ${n} waypoint${n === 1 ? '' : 's'} from “${r.name}”?`
+                        + '\n\nThe route itself stays. Ctrl+Z undoes this.',
+                      )) onClear(r.id);
+                    }}>Clear</button>
                   {savedRoutes.length ? (
                     <select
                       className="eft-select eft-select-sm"
@@ -338,16 +398,39 @@ export function RoutePanel({
 
                 {joinable.length ? (
                   <div className="eft-field" style={{ marginBottom: 8 }}>
-                    <span className="eft-label">Join another route onto the end</span>
+                    <span className="eft-label">
+                      Merge a route that runs along this one
+                    </span>
                     <select
                       className="eft-select"
                       value=""
+                      disabled={!mergeable.length}
                       onChange={(e) => { if (e.target.value) onJoin(e.target.value); }}
                       style={{ width: '100%' }}
                     >
-                      <option value="">Pick a route to absorb…</option>
-                      {joinable.map((o) => <option key={o.id} value={o.id}>{o.name}</option>)}
+                      <option value="">
+                        {mergeable.length
+                          ? `Pick one of ${mergeable.length} to merge…`
+                          : `Nothing shares ${minMergePoints} points with this route`}
+                      </option>
+                      {joinable.map(({ route: o, join }) => {
+                        const ok = join.overlap >= minMergePoints;
+                        return (
+                          <option key={o.id} value={o.id} disabled={!ok}>
+                            {o.name} — {ok
+                              ? `${join.overlap} shared points`
+                              : `only ${join.overlap} shared, needs ${minMergePoints}`}
+                          </option>
+                        );
+                      })}
                     </select>
+                    <div className="eft-note eft-note-tight">
+                      Shared means within {gap(mergeTolerance, metresPerUnit)} of each other,
+                      {' '}
+                      {minMergePoints}
+                      {' '}
+                      in a row from the ends.
+                    </div>
                   </div>
                 ) : null}
 
@@ -364,10 +447,10 @@ export function RoutePanel({
                     onChange={(e) => onUpdate(r.id, { radius: Number(e.target.value) })}
                     style={{ width: '100%' }}
                   />
-                  <div className="eft-note">
+                  <div className="eft-note eft-note-tight">
                     {r.radius === 0
-                      ? 'Zero — the route filters nothing and just draws.'
-                      : `Markers within ${r.radius} ${metresPerUnit ? 'metres' : 'units'} of the line follow the rule below.`}
+                      ? 'Zero — draws only, filters nothing.'
+                      : 'Markers inside the band follow the rule below.'}
                   </div>
                 </div>
 
@@ -386,7 +469,13 @@ export function RoutePanel({
                     {r.closed ? ' · closed loop' : ''}
                   </span>
                   <button type="button" className="eft-btn eft-btn-sm eft-is-danger"
-                    onClick={() => onRemove(r.id)}>Delete</button>
+                    title="Remove this route from the map entirely"
+                    onClick={() => {
+                      if (window.confirm(
+                        `Delete the route “${r.name}”?`
+                        + '\n\nThis removes the route itself, not just its points. Ctrl+Z undoes it.',
+                      )) onRemove(r.id);
+                    }}>Delete</button>
                 </div>
               </>
             ) : (
@@ -417,19 +506,38 @@ export function ManifestPanel({
   if (!route) return null;
 
   return (
-    <Panel title={`Along ${route.name}`} collapsible open={open} onToggle={onToggleOpen}>
-      <div className="eft-note" style={{ marginBottom: 6 }}>
-        {metresPerUnit
-          ? <>Total <strong>{Math.round(manifest.totalMetres)} m</strong></>
-          : <>Total <strong>{manifest.totalUnits.toFixed(3)} units</strong> — this map has no scale, so no metres.</>}
-        {manifest.times.length ? (
-          <> · {manifest.times.map((t) => `${t.name} ${fmtTime(t.seconds)}`).join(' · ')}</>
-        ) : null}
+    <Panel
+      title={`Along ${route.name}`}
+      collapsible
+      open={open}
+      onToggle={onToggleOpen}
+      help={(
+        <>
+          <p>
+            Everything inside this route&apos;s corridor, in the order you walk past it, with how
+            far along the line it sits and how far off to the side.
+          </p>
+          <p>Click a row to centre the map on it. Widen the corridor in Routes to catch more.</p>
+        </>
+      )}
+    >
+      <div className="eft-map-runstrip">
+        <span className="eft-run-total">
+          {metresPerUnit
+            ? `${Math.round(manifest.totalMetres)} m`
+            : `${manifest.totalUnits.toFixed(3)} u`}
+        </span>
+        {manifest.times.map((t) => (
+          <span key={t.name} className="eft-run-leg" title={t.name}>
+            <em>{t.name}</em>{fmtTime(t.seconds)}
+          </span>
+        ))}
+        {metresPerUnit ? null : <span className="eft-run-leg">no scale on this map</span>}
       </div>
 
       {!manifest.rows.length ? (
-        <div className="eft-note">
-          Nothing inside the corridor yet. Draw a route and widen its radius.
+        <div className="eft-empty">
+          Nothing in the corridor. Widen the route&apos;s radius.
         </div>
       ) : (
         <div className="eft-manifest">

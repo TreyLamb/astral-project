@@ -232,23 +232,68 @@ export function routeEnds(route) {
 }
 
 /**
- * The nearest loose end belonging to some OTHER route.
+ * How many waypoints, counting inward from the two named ends, lie on top of
+ * each other.
  *
- * This is what makes two separately drawn routes joinable: you finish one near
- * where another began, and the tool can see that rather than leaving you with
- * two lines that merely look connected.
+ * This is the test for "these two routes genuinely share a stretch", as opposed
+ * to "their endpoints happen to be near each other". Two ends touching says
+ * nothing — every route drawn near another has that. A run of three or more
+ * consecutive coincident points is a shared tail, and it is the only case where
+ * dropping one route's copy of those points is safe.
+ *
+ * Index i steps inward from each route's joining end in lockstep, so a shared
+ * stretch is found however the two routes are oriented. The count stops at the
+ * first pair that is too far apart — the overlap has to be contiguous from the
+ * join, not scattered along the line.
  */
-export function nearestRouteEnd(routes, point, { exceptId = null, threshold = Infinity } = {}) {
+export function overlapRun(a, b, aEnd, bEnd, tolerance) {
+  const wa = a?.waypoints || [];
+  const wb = b?.waypoints || [];
+  if (!wa.length || !wb.length || !(tolerance >= 0)) return 0;
+
+  const fromA = (i) => (aEnd === 'end' ? wa[wa.length - 1 - i] : wa[i]);
+  const fromB = (i) => (bEnd === 'start' ? wb[i] : wb[wb.length - 1 - i]);
+
+  const max = Math.min(wa.length, wb.length);
+  let k = 0;
+  while (k < max) {
+    const p = fromA(k);
+    const q = fromB(k);
+    if (dist([p.y, p.x], [q.y, q.x]) > tolerance) break;
+    k += 1;
+  }
+  return k;
+}
+
+/**
+ * Which pair of loose ends of these two routes are closest together.
+ *
+ * The panel's "absorb" used to hardcode A's end onto B's start. When it was
+ * B's END that lay near A, that spliced the far end of B into the join and the
+ * line shot across the map and doubled back — the join looked like it had
+ * eaten both routes rather than continuing one. Picking the nearest pair means
+ * the absorb always happens where the two lines actually meet.
+ *
+ * The winner is the pairing with the LONGEST shared run, not the one whose
+ * endpoints are nearest: a long overlap is the thing being merged, and two
+ * routes can easily have a closer endpoint pair somewhere that shares nothing.
+ * Distance breaks a tie, and end→start breaks that — the natural "carry
+ * straight on" reading.
+ */
+export function bestJoin(a, b, tolerance = 0) {
+  const ea = routeEnds(a);
+  const eb = routeEnds(b);
+  if (!ea || !eb) return null;
+
   let best = null;
-  for (const route of routes || []) {
-    if (route.id === exceptId || route.hidden) continue;
-    const ends = routeEnds(route);
-    if (!ends) continue;
-    for (const which of ['start', 'end']) {
-      const d = dist(point, ends[which]);
-      if (d <= threshold && (!best || d < best.distance)) {
-        best = { routeId: route.id, end: which, point: ends[which], distance: d };
-      }
+  for (const aEnd of ['end', 'start']) {
+    for (const bEnd of ['start', 'end']) {
+      const distance = dist(ea[aEnd], eb[bEnd]);
+      const overlap = overlapRun(a, b, aEnd, bEnd, tolerance);
+      const better = !best
+        || overlap > best.overlap
+        || (overlap === best.overlap && distance < best.distance);
+      if (better) best = { aEnd, bEnd, distance, overlap };
     }
   }
   return best;
@@ -257,9 +302,12 @@ export function nearestRouteEnd(routes, point, { exceptId = null, threshold = In
 /**
  * Concatenate route B onto route A so the two named ends meet.
  *
- * The shared vertex is dropped rather than duplicated — the same rule the
- * loop-closing click follows, and the thing that makes the joined line one
- * route instead of one route with a stutter in it.
+ * `merge` is how many of B's leading waypoints A already has — the shared run
+ * found by overlapRun. Those are dropped, so the stretch the two routes have in
+ * common appears once instead of twice, and A's copies are the ones kept. Pass
+ * the run length, not a boolean: merging exactly one point is only right when
+ * the overlap really is one point, and blindly swallowing a vertex that is
+ * metres from A's last one silently moves the line.
  *
  * A keeps its name, colour, corridor and rule: it is the route being extended,
  * not a new third thing. B is removed.
@@ -268,7 +316,7 @@ export function nearestRouteEnd(routes, point, { exceptId = null, threshold = In
  * to shift them one place as well as flipping the order — otherwise every
  * curve in the reversed half bends the wrong way.
  */
-export function joinRoutes(routes, aId, aEnd, bId, bEnd) {
+export function joinRoutes(routes, aId, aEnd, bId, bEnd, { merge = 1 } = {}) {
   const a = routes.find((r) => r.id === aId);
   const b = routes.find((r) => r.id === bId);
   if (!a || !b || a === b) return routes;
@@ -285,12 +333,15 @@ export function joinRoutes(routes, aId, aEnd, bId, bEnd) {
   const headA = aEnd === 'end' ? a.waypoints : reverse(a.waypoints);
   const tailB = bEnd === 'start' ? b.waypoints : reverse(b.waypoints);
 
-  const waypoints = [...headA, ...tailB.slice(1).map((w, i) => ({
-    ...w,
-    // The first surviving vertex of B now arrives from A's last, so it keeps
-    // the bulge it already had for that hop.
-    bulge: i === 0 ? (tailB[1]?.bulge || 0) : w.bulge,
-  }))];
+  // Anything merged away was A's point too, so the first surviving vertex of B
+  // arrives over a hop B already had and keeps that hop's curve. With nothing
+  // merged the connecting hop is brand new and carries none.
+  const kept = Math.max(0, Math.min(merge, tailB.length));
+  const rest = tailB.slice(kept).map((w, i) => (
+    i === 0 && kept === 0 ? { ...w, bulge: 0 } : { ...w }
+  ));
+
+  const waypoints = [...headA, ...rest];
 
   return routes
     .map((r) => (r.id === aId ? { ...r, waypoints, closed: false } : r))
