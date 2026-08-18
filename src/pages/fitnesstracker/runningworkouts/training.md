@@ -1,6 +1,6 @@
 # Training — Numbers (Cycle 1 & 2)
 
-**Goal:** 14:00 (7:00/mi) · stretch 13:40 (6:50/mi) · Test: **12/31/26**
+**Goal:** 13:56 (6:58/mi) · stretch 13:40 (6:50/mi) · Test: **12/31/26** *(USAF PFRA — see `Guidelines_AF`)*
 **Baseline (8/2/26):** 2-mile ~18:00 (9:00/mi) · fresh full-recovery 400m ~1:56–2:00
 
 **Pace bands (current):**
@@ -35,7 +35,7 @@ Rep paces below use current full-recovery 400m ability (1:56–2:05), not the sl
 
 **Cycle total: ~17.5 mi**
 
-**Ab/core note:** Cycle 1 stays soft-start throughout — both speed days get the *light* ab add-on only (Dead Bug + Plank, ~5 min, see `cycle.md` → Ab/Core Circuit). No robust 20-min circuit and no sled/carry hybrid this cycle; both start Cycle 2 (see below and `training-context.md` for the reasoning).
+**Ab/core note:** Cycle 1 stays soft-start throughout — both speed days get the *light* ab add-on only (Dead Bug + Plank, ~5 min, see `cycle.md` → Ab/Core Circuit). No robust 20-min circuit this cycle; that starts Cycle 2 (see below and `training-context.md` for the reasoning).
 
 ---
 
@@ -44,7 +44,7 @@ Rep paces below use current full-recovery 400m ability (1:56–2:05), not the sl
 
 | Day | Date | Session | Workout |
 |---|---|---|---|
-| D1 | Fri 8/14 | **Speed 1 — Sled/Carry Hybrid** | WU + sled drag 4x25m + lateral sprint 4x50m + farmers carry (KB) 3x50m + 3x50m classic sprints @90–95% + CD — full prescription in `cycle.md` |
+| D1 | Fri 8/14 | **Speed 1** + light ab | WU 1mi @11:00 + 5x20s strides (walk-back) + 4x400m @2:00 (2:30 jog) + CD 0.5mi (~2.5mi total) + light ab (~5 min, see cycle.md) |
 | D2 | Sat 8/15 | Easy + **Lift A** (chest/arms) + **Ab Circuit A** | 1.5 mi @ 11:00/mi (~16:30) + ~20 min ab circuit (see cycle.md) |
 | D3 | Sun 8/16 | Easy | 1.5 mi @ 11:00/mi (~16:30) |
 | D4 | Mon 8/17 | **Lift B** (legs) | no run |
@@ -60,7 +60,7 @@ Rep paces below use current full-recovery 400m ability (1:56–2:05), not the sl
 
 **Cycle total: ~21.7 mi**
 
-**Cycle 2 is the first cycle to run both new elements at full scope:** the Speed 1 sled/carry hybrid (rule 12) and the every-~3-day Ab/Core Circuit rotation A→B→C→A (rule 13). See `cycle.md` for the full session content and `training-context.md` for the reasoning behind the day choices.
+**Cycle 2 is the first cycle to run the Ab/Core Circuit at full scope** — the every-~3-day rotation A→B→C→A (rule 13). See `cycle.md` for the full session content and `training-context.md` for the reasoning behind the day choices. *(Updated 2026-08-17: this cycle originally also introduced the Speed 1 sled/carry hybrid under rule 12. That was ACFT Sprint-Drag-Carry prep and was retired with the switch to the USAF PFRA — D1 is a classic speed day, and both speed days now carry the light ab add-on.)*
 
 **Correction (2026-08-04):** D11 previously showed a second Lift A (chest/arms) session. Trey's explicit ruling: only one lift session per muscle group per cycle (one chest, one legs, one back) — the A/B/C letters are labels, not a count. D11 is now plain Easy. See `cycle.md` rule 1 and `training-context.md` decision log for the full reasoning.
 

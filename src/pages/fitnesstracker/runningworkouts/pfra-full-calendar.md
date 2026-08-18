@@ -1,6 +1,6 @@
-# ACFT 2-Mile Plan — Calendar (Date + Cycle Day)
+# PFRA 2-Mile Plan — Calendar (Date + Cycle Day)
 
-**How this file works now:** every row shows the actual **date** and the **cycle day** it falls on. Cycles are built and added here one at a time as they actually happen — not pre-projected 14 cycles out — because cycle length and paces both just changed (11-day → 13-day cycle, ~20:00 → ~18:00 baseline) and a long-range table would go stale immediately. See `acft-2mile-training-plan.md` for the phase/checkpoint framework and `cycle.md` for the generic structure each cycle below is built from.
+**How this file works now:** every row shows the actual **date** and the **cycle day** it falls on. Cycles are built and added here one at a time as they actually happen — not pre-projected 14 cycles out — because cycle length and paces both just changed (11-day → 13-day cycle, ~20:00 → ~18:00 baseline) and a long-range table would go stale immediately. See `pfra-2mile-training-plan.md` for the phase/checkpoint framework and `cycle.md` for the generic structure each cycle below is built from.
 
 Fixes from the previous version of this file: the duplicate "Lift A" bug (Day 2 and Day 7 were both showing Lift A) is corrected — Lift A is chest/arms, Lift B is legs, Lift C is back, and both speed days are present.
 
@@ -29,7 +29,7 @@ Fixes from the previous version of this file: the duplicate "Lift A" bug (Day 2 
 
 Paces this cycle: easy ~10:45–11:15/mi by feel, HR controlled. No formal threshold. Speed days are light — strides and relaxed 400s around 2:00, not max effort.
 
-**Ab/core:** Cycle 1 is soft-start throughout, so it gets the *light* ab add-on on both speed days only — no robust 20-min circuit and no sled/carry hybrid yet. Both new elements (`cycle.md` rules 12–13) start Cycle 2, once the standard template is running at full intensity. See `training-context.md` for the full reasoning.
+**Ab/core:** Cycle 1 is soft-start throughout, so it gets the *light* ab add-on on both speed days only — no robust 20-min circuit yet. That starts Cycle 2 (`cycle.md` rule 13), once the standard template is running at full intensity. See `training-context.md` for the full reasoning.
 
 ---
 
@@ -39,7 +39,7 @@ Standard `cycle.md` template, first full application of it.
 
 | Cycle Day | Date | Session |
 |---|---|---|
-| D1 | Fri 8/14 | **Speed Day 1 — Sled/Carry Hybrid** (sled drag + lateral sprint + KB farmers carry + 3x50m classic sprints — see cycle.md) |
+| D1 | Fri 8/14 | **Speed Day 1** (classic) — strides + 400s, full recovery + light ab (~5 min, see cycle.md) |
 | D2 | Sat 8/15 | Easy run + **Lift A** (chest/arms) + **Ab Circuit A** (~20 min) |
 | D3 | Sun 8/16 | Easy run |
 | D4 | Mon 8/17 | **Lift B** (legs) — no run |
@@ -53,7 +53,9 @@ Standard `cycle.md` template, first full application of it.
 | D12 | Tue 8/25 | Long run + **Ab Circuit A** (~20 min, post-run) |
 | D13 | Wed 8/26 | Full true rest — no ab work, no exceptions |
 
-Paces: easy ~10:45–11:15/mi. Speed Day 2 still strides + relaxed 400s (~2:00, full recovery) — still Phase 1, no formal threshold yet. Speed Day 1 becomes the sled/carry hybrid starting this cycle (see `cycle.md` rule 12 for the full prescription and why Day 1 was chosen over Day 10). Ab/Core Circuit (rule 13) also starts this cycle, rotating A→B→C→A on Days 2/5/9/12. Long run distance: modest step up from Cycle 1, stay conservative given the soft start (roughly 3–3.5 mi range, adjust by feel).
+Paces: easy ~10:45–11:15/mi. Both speed days are strides + relaxed 400s (~2:00, full recovery) — still Phase 1, no formal threshold yet. Ab/Core Circuit (rule 13) starts this cycle, rotating A→B→C→A on Days 2/5/9/12, plus the light add-on on both speed days. Long run distance: modest step up from Cycle 1, stay conservative given the soft start (roughly 3–3.5 mi range, adjust by feel).
+
+**Correction (2026-08-17):** D1 originally carried the Speed Day 1 sled/carry hybrid (`cycle.md` rule 12). That session trained the ACFT's Sprint-Drag-Carry; with the switch to the USAF PFRA it has no event to train and was retired. D1 is a classic speed day.
 
 **Correction (2026-08-04):** D11 previously carried a second Lift A (chest/arms) session. Trey ruled: one lift session per muscle group per cycle only — one chest, one legs, one back — the A/B/C letters are labels, not a count. D11 is now plain easy run. See `cycle.md` rule 1 and `training-context.md` for the full reasoning.
 

@@ -4,13 +4,13 @@
 
 **This doc does not change anything.** `cycle.md` still holds the canonical 13-day template, and `training-context.md`'s standing instruction ("do not compress the cycle — the cycle shortens only after Trey relaxes the spacing gaps") still stands. Section 3 below lists exactly which gaps he'd be relaxing. Nothing moves to 11 days until he says so.
 
-Fixed inputs, taken as fact from the live docs and not re-derived here: Cycle 1 = Aug 2–13 (12 days, soft start), Cycle 2 = Aug 14–26 (13 days), **Cycle 3 Day 1 = Thu Aug 27, 2026**, test day = **Dec 31, 2026**, baseline = ~18:00, goal = 14:00 (stretch 13:40).
+Fixed inputs, taken as fact from the live docs and not re-derived here: Cycle 1 = Aug 2–13 (12 days, soft start), Cycle 2 = Aug 14–26 (13 days), **Cycle 3 Day 1 = Thu Aug 27, 2026**, test day = **Dec 31, 2026**, baseline = ~18:00, goal = 13:56 (stretch 13:40).
 
 ---
 
 ## 1. The headline — the 14-cycle plan does not fit the test date
 
-`acft-2mile-training-plan.md` lays out **14 cycles**, with checkpoint tests at cycles 3, 6, 9, and 12, and Cycle 14 tapering into test day. That framework was written when the cycle was 11 days (the doc says so: *"cycle numbers below are approximate now that cycle length has moved from 11 to 13 days"*). Nobody re-checked the arithmetic after the move to 13.
+`pfra-2mile-training-plan.md` lays out **14 cycles**, with checkpoint tests at cycles 3, 6, 9, and 12, and Cycle 14 tapering into test day. That framework was written when the cycle was 11 days (the doc says so: *"cycle numbers below are approximate now that cycle length has moved from 11 to 13 days"*). Nobody re-checked the arithmetic after the move to 13.
 
 There are **127 days** from Cycle 3 Day 1 (Aug 27) to test day (Dec 31).
 
@@ -29,7 +29,7 @@ There are **127 days** from Cycle 3 Day 1 (Aug 27) to test day (Dec 31).
 
 ## 2. Does the checkpoint schedule still line up with the pace chart?
 
-The pace chart in `acft-2mile-training-plan.md` is keyed to **weeks** (checkpoints at ~wk 5, 9, 14, 19; goal at wk 22), not cycles. So the question is whether the cycles land on those weeks. This is where the two variants separate sharply:
+The pace chart in `pfra-2mile-training-plan.md` is keyed to **weeks** (checkpoints at ~wk 5, 9, 14, 19; goal at wk 22), not cycles. So the question is whether the cycles land on those weeks. This is where the two variants separate sharply:
 
 | Chart says | 13-day cycle lands | 11-day cycle lands |
 |---|---|---|
@@ -55,17 +55,15 @@ To reach 11, **two days must come out of g1/g2/g3** — g4 and g5 are already at
 - **No single-gap option is acceptable.** Taking both days from one gap collapses it 3 → 1, putting a lift and a speed day almost back to back. Two gaps at 2 days each spreads the same cost far better.
 - Of the three two-gap options, one stands out: **relax Legs↔Back and Back↔Speed 2, and leave Speed 1 → Legs at the full 3 days.**
 
-That last part matters, and `cycle.md` says why in its own words:
+**⚠️ Updated 2026-08-17 — the original argument for that last part no longer applies.** This section used to lean on a `cycle.md` caveat that the D1→D4 gap "was sized for the original plain speed day, not a loaded hybrid," on the grounds that Speed Day 1's sled/carry hybrid loaded quads/glutes/hamstrings straight into leg day. **The hybrid was retired with the switch to the USAF PFRA, so Speed Day 1 is a plain speed day again and that gap is correctly sized by definition** — it is no longer flagged as possibly-too-short.
 
-> *"Re-verify recovery, don't just assume it holds: as load increases, re-check that the 3-day D1→D4 gap to Lift B (legs) is still enough recovery given the added posterior-chain/grip demand — that gap was sized for the original plain speed day, not a loaded hybrid."*
-
-Speed Day 1 is now the sled/carry hybrid, which loads quads/glutes/hamstrings. That gap is already flagged as *possibly too short*; it is the last one that should shrink.
+The recommendation is unchanged, but for a weaker and more honest reason: Speed 1 → Legs is a *running*-to-legs gap, the only one of the three where the same muscle groups are loaded twice, so it remains the least attractive place to spend a day. That is a preference now, not a flagged risk. Either way, rule 9's standing instruction still governs — the cycle shortens only when **Trey** relaxes the gaps, never as a derivation.
 
 ### Proposed 11-day template
 
 | Cycle Day | Session | Change from the 13-day template |
 |---|---|---|
-| 1 | **Speed Day 1 — Sled/Carry Hybrid** | — |
+| 1 | **Speed Day 1** (classic) | — |
 | 2 | Easy run + **Lift A** (chest/arms) | — |
 | 3 | Easy run | — |
 | 4 | **Lift B** (legs) — no run | — |
@@ -110,7 +108,7 @@ I'd take **(a)**: it keeps a rule the docs reasoned through carefully, and uneve
 
 ## 4. Projection — 13-day cycle (current template)
 
-2-mile targets are the `acft-2mile-training-plan.md` chart interpolated by **week**, since adaptation tracks calendar time rather than cycle count. Long-run and cycle-mileage columns are projections, not prescriptions — see the note under section 6.
+2-mile targets are the `pfra-2mile-training-plan.md` chart interpolated by **week**, since adaptation tracks calendar time rather than cycle count. Long-run and cycle-mileage columns are projections, not prescriptions — see the note under section 6.
 
 | Cycle | Dates | Days | Wk | Phase | Checkpoint | 2-mi target | /mi | /400m | Long run | Cycle mi |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -125,7 +123,7 @@ I'd take **(a)**: it keeps a rule the docs reasoned through carefully, and uneve
 | 9 | Fri 11/13 – 11/25 | 13 | 15 | P2 Threshold | **TEST 3** | 15:10 | 7:35 | 1:54 | 4.5 | 30 |
 | 10 | Thu 11/26 – 12/8 | 13 | 17 | P3 Specificity |  | 14:50 | 7:25 | 1:51 | 6.0 | 40 |
 | 11 | Wed 12/9 – 12/21 | 13 | 19 | P3 Specificity |  | 14:30 | 7:15 | 1:49 | 4.0 | 26 |
-| — | **Tue 12/22 – Thu 12/31** | **10** | 21 | **Taper** | **GOAL TEST 12/31** | **14:00** | **7:00** | **1:45** | — | ~12 |
+| — | **Tue 12/22 – Thu 12/31** | **10** | 21 | **Taper** | **GOAL TEST 12/31** | **13:56** | **6:58** | **1:44** | — | ~12 |
 
 A 10-day taper is longer than a 2-mile race needs (5–7 days is typical). The extra days are dead calendar — not harmful, but not productive either.
 
@@ -146,13 +144,13 @@ A 10-day taper is longer than a 2-mile race needs (5–7 days is typical). The e
 | 11 | Mon 11/23 – 12/3 | 11 | 17 | P3 Specificity |  | 14:50 | 7:25 | 1:51 | 6.0 | 37 |
 | 12 | Fri 12/4 – 12/14 | 11 | 18 | P3 Specificity | **TEST 4** | 14:40 | 7:20 | 1:50 | 5.0 | 32 |
 | 13 | Tue 12/15 – 12/25 | 11 | 20 | P3 Specificity |  | 14:20 | 7:10 | 1:48 | 4.0 | 26 |
-| — | **Sat 12/26 – Thu 12/31** | **6** | 21 | **Taper** | **GOAL TEST 12/31** | **14:00** | **7:00** | **1:45** | — | ~8 |
+| — | **Sat 12/26 – Thu 12/31** | **6** | 21 | **Taper** | **GOAL TEST 12/31** | **13:56** | **6:58** | **1:44** | — | ~8 |
 
 A 6-day taper is close to textbook for a 2-mile.
 
 ### How much more aggressive is it, really?
 
-The calendar window is identical, so the *required rate of improvement per week is exactly the same* in both — 18:00 → 14:00 in 21 weeks either way. What changes is **training density**:
+The calendar window is identical, so the *required rate of improvement per week is exactly the same* in both — 18:00 → 13:56 in 21 weeks either way. What changes is **training density**:
 
 | Between Aug 27 and Dec 31 | 13-day | 11-day | Difference |
 |---|---|---|---|
@@ -172,17 +170,17 @@ So it isn't "the paces get faster" — the required improvement per week is iden
 
 ## 6. Are the targets realistic? — my assessment, not doctrine
 
-`training-context.md` already calls 14:00 *"a real stretch (~4 min improvement, almost all aerobic)."* Putting numbers on that:
+`training-context.md` already calls the goal *"a real stretch (~4 min improvement, almost all aerobic)."* Putting numbers on that (the goal moved 14:00 → 13:56 on 2026-08-17 with the PFRA switch; 4 seconds is well inside the noise of everything below, so the analysis stands as written):
 
-- 18:00 for 2 miles ≈ **VDOT 32**; 14:00 ≈ **VDOT 44**. (Daniels 5K equivalents scaled to 3218 m with Riegel's 1.06 exponent.) A **12-point** VDOT gain in five months would be exceptional by any standard — typical for a returning runner is 5–8.
+- 18:00 for 2 miles ≈ **VDOT 32**; 13:56 ≈ **VDOT 44**. (Daniels 5K equivalents scaled to 3218 m with Riegel's 1.06 exponent.) A **12-point** VDOT gain in five months would be exceptional by any standard — typical for a returning runner is 5–8.
 - **But the 18:00 baseline is not a fair number.** It was set in **91°F heat at ~4,575 ft**; together those realistically cost 5–8%. A cool-weather equivalent is more like **17:00 (VDOT ~35)**, and test day in Utah in late December will be cold. That reframes the ask as a **~9-point** gain — still big, no longer extraordinary.
 - Two things push in his favour: a genuine **30–35 mi/week history** (returning runners regain fitness far faster than novices build it), and a limiter that is **aerobic, not speed** — the most trainable quality there is, and already confirmed by the time-trial data (fresh 400 at 1:56 vs 1:45 goal pace).
 
-**Honest landing zone: 14:15–15:15.** 14:00 is reachable if the aerobic response is good and nothing gets derailed; 13:40 needs an exceptional response. The plan is not fantasy, but the chart's straight march to 14:00 should be treated as the optimistic edge of the range, not the expectation.
+**Honest landing zone: 14:15–15:15.** 13:56 is reachable if the aerobic response is good and nothing gets derailed; 13:40 needs an exceptional response. The plan is not fantasy, but the chart's straight march to 13:56 should be treated as the optimistic edge of the range, not the expectation.
 
-The single highest-leverage thing in the whole plan remains the one `acft-2mile-training-plan.md` already flags: **keep easy runs genuinely easy (10:45–11:15/mi).** Easy-pace creep is the most common way this kind of block underdelivers, and the 185 avg / 197 peak HR reading is exactly the profile of someone whose easy pace has been running too hot.
+The single highest-leverage thing in the whole plan remains the one `pfra-2mile-training-plan.md` already flags: **keep easy runs genuinely easy (10:45–11:15/mi).** Easy-pace creep is the most common way this kind of block underdelivers, and the 185 avg / 197 peak HR reading is exactly the profile of someone whose easy pace has been running too hot.
 
-**On the projected columns:** long-run and cycle-mileage figures ramp ~8% per non-deload cycle from Cycle 2's actual 21.7 mi, with deload cycles at −20%, capped at ~4.2 mi/day. Cycle 1 and 2 values are the real ones from `training.md`. Everything from Cycle 3 on is a projection to sanity-check the shape of the ramp — **replace it with real numbers as each cycle is built**, exactly as `acft-full-calendar.md` already instructs.
+**On the projected columns:** long-run and cycle-mileage figures ramp ~8% per non-deload cycle from Cycle 2's actual 21.7 mi, with deload cycles at −20%, capped at ~4.2 mi/day. Cycle 1 and 2 values are the real ones from `training.md`. Everything from Cycle 3 on is a projection to sanity-check the shape of the ramp — **replace it with real numbers as each cycle is built**, exactly as `pfra-full-calendar.md` already instructs.
 
 ---
 
@@ -191,8 +189,8 @@ The single highest-leverage thing in the whole plan remains the one `acft-2mile-
 The goal test is **Dec 31, 2026**. Nothing in the doc set defines what happens after it, so the tables below are **cycle dates only** — no paces, no volumes. Checkpoint cycles are still marked every 3rd cycle, since that cadence is structural.
 
 ⚠️ **Before any of 2027 becomes a real plan, the objective needs stating.** Plausible directions, none of them assumed here:
-1. **Hold and sharpen** — maintain 14:00, chase the 13:40 stretch on a re-test.
-2. **Full ACFT** — the open flag in `cycle.md`'s Phase 3 progression note and `training-context.md` (✂️ *"confirm with Trey whether the full ACFT is actually in scope"*). Still unanswered, and it would change the whole structure, not just the paces.
+1. **Hold and sharpen** — maintain 13:56, chase the 13:40 stretch on a re-test. Note the PFRA is taken **twice a year**, so a second 2026-cycle test is structural, not optional — this is the likeliest direction by default.
+2. **Chase the non-run components** — under the PFRA the run is 50 of 100 points; push-ups (15), core (15) and waist-to-height ratio (20) are the other half, and none are trained here. *(Replaces the old "Full ACFT" item — the ✂️ flag asking whether the full 6-event ACFT was in scope is closed as moot, there is no ACFT in this plan. See `training-context.md`.)*
 3. **Longer race distance** — a 5K/10K goal reuses the aerobic base directly and would restructure phases entirely.
 
 ### 2027 cycle dates — 13-day variant (cycles 13–40)
@@ -283,6 +281,6 @@ The volume increase (+21% hard sessions) is real and is the risk. Mitigations al
 **If 11 days is adopted, these need updating — none of it has been done here:**
 1. `cycle.md` — rule 2 and rule 4 change from 3 days to 2; rule 9's current-length statement; the cycle-length proof; the 13-day template table; rule 13's ab cadence (4 → 3 circuits, placement per section 3).
 2. `training-context.md` — rules 2, 4, 9; a new dated decision entry recording that Trey relaxed the gaps and why (that record is what the standing "do not compress" instruction is protecting).
-3. `acft-2mile-training-plan.md` — the 14-cycle progression table becomes 13 cycles + taper; the phase-to-cycle mapping.
-4. `acft-full-calendar.md` — Cycle 3 onward built on the 11-day template.
+3. `pfra-2mile-training-plan.md` — the 14-cycle progression table becomes 13 cycles + taper; the phase-to-cycle mapping.
+4. `pfra-full-calendar.md` — Cycle 3 onward built on the 11-day template.
 5. The pace chart's "Wk 22 / Goal" column lands at the **taper block**, not a numbered cycle, in both variants.

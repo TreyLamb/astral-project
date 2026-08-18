@@ -101,19 +101,20 @@
 /* ---- calendar bar ---- */
 .ft-cal-bar { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
 
-/* #5 -- the AFT tier strip. Was 1.35rem of inline-styled text and ate the header
-   row. Base is ~30% smaller; Month shrinks it further still (Month has the least
-   room per day, so the calendar wins there), Week/Day keep a little more. */
-.ft-aft-strip {
+/* #5 -- the PFRA target strip (was the ACFT tier strip until 2026-08-17). Was
+   1.35rem of inline-styled text and ate the header row. Base is ~30% smaller;
+   Month shrinks it further still (Month has the least room per day, so the
+   calendar wins there), Week/Day keep a little more. Three events now, one per
+   column, so the grid fills exactly one row. */
+.ft-pfra-strip {
   display: grid; grid-template-columns: repeat(3, auto); grid-auto-flow: row;
   column-gap: 14px; row-gap: 1px; color: var(--ft-muted); font-weight: 500;
   line-height: 1.2; align-content: center; justify-content: center;
   font-size: 0.95rem;
 }
-.ft-aft-item { white-space: nowrap; }
-.ft-aft-item b { color: var(--ft-text); font-weight: 600; }
-.ft-aft-item i { opacity: 0.6; font-style: normal; }
-[data-view="month"] .ft-aft-strip { font-size: 0.78rem; column-gap: 11px; }
+.ft-pfra-item { white-space: nowrap; }
+.ft-pfra-item b { color: var(--ft-text); font-weight: 600; }
+[data-view="month"] .ft-pfra-strip { font-size: 0.78rem; column-gap: 11px; }
 [data-view="month"] .ft-cal-title { font-size: 1.05rem; }
 [data-view="month"] .ft-nav-btn { min-width: 32px; height: 32px; font-size: 1rem; }
 [data-view="month"] .ft-view-btn { padding: 6px 12px; font-size: 0.85rem; }
@@ -908,8 +909,8 @@
   /* The AFT strip is a 3-column grid of nowrap spans; at phone widths that
      total ran ~6px past the viewport. Two columns, and it may not exceed its
      parent. */
-  .ft-aft-strip { max-width: 100%; min-width: 0; grid-template-columns: repeat(2, auto); column-gap: 10px; font-size: 0.72rem; }
-  [data-view="month"] .ft-aft-strip { font-size: 0.68rem; }
+  .ft-pfra-strip { max-width: 100%; min-width: 0; grid-template-columns: repeat(3, auto); column-gap: 10px; font-size: 0.72rem; }
+  [data-view="month"] .ft-pfra-strip { font-size: 0.68rem; }
   /* The tab row can't wrap (it's a single flex line), so it scrolls instead of
      pushing the document wide. */
   .ft-topnav { overflow-x: auto; scrollbar-width: none; max-width: 100%; }

@@ -5,8 +5,8 @@ import trainingMd from './runningworkouts/training.md?raw';
 import trainingPushupsMd from './runningworkouts-derived/training-with-pushups.md?raw';
 import trainingContextMd from './runningworkouts/training-context.md?raw';
 import cycleMd from './runningworkouts/cycle.md?raw';
-import acft2MileMd from './runningworkouts/acft-2mile-training-plan.md?raw';
-import acftCalendarMd from './runningworkouts/acft-full-calendar.md?raw';
+import pfra2MileMd from './runningworkouts/pfra-2mile-training-plan.md?raw';
+import pfraCalendarMd from './runningworkouts/pfra-full-calendar.md?raw';
 import cycleProjectionMd from './runningworkouts/cycleProjection.md?raw';
 import officerRanksMd from './runningworkouts/usMilitaryOfficerRanks.md?raw';
 import './WorkoutDocsView.css';
@@ -20,7 +20,7 @@ import './WorkoutDocsView.css';
 // splitSessions: true opts a doc's "Session" table column into the
 // double-workout-day treatment below (markDoubleSessionDays + TdCell) — only
 // the two CURRENT docs (training.md, and cycle.md which it points to as the
-// canonical template) get it. The ACFT "(old)" docs' Session columns also use
+// canonical template) get it. The "(old)" docs' Session columns also use
 // "+" for single-session detail joins (e.g. "Speed Day 1 — strides + relaxed
 // 400s"), which isn't a double-workout-day and would be mis-split, so those
 // are deliberately left alone.
@@ -36,8 +36,8 @@ const DOCS = [
   // prose, not the " + "-joined session lists markDoubleSessionDays parses,
   // so no splitSessions here.
   { slug: 'projection', label: 'Projection to 2027', content: cycleProjectionMd },
-  { slug: '2mile', label: 'ACFT 2-Mile Plan (old)', content: acft2MileMd },
-  { slug: 'calendar', label: 'ACFT Full Calendar (old)', content: acftCalendarMd },
+  { slug: '2mile', label: 'PFRA 2-Mile Plan (old)', content: pfra2MileMd },
+  { slug: 'calendar', label: 'PFRA Full Calendar (old)', content: pfraCalendarMd },
   // Reference material rather than a training plan — no session column, so no
   // splitSessions. compact:true sizes the table to its own text (see the CSS).
   { slug: 'ranks', label: 'Officer Ranks', content: officerRanksMd, compact: true },

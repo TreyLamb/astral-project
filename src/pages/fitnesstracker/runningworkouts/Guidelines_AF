@@ -1,0 +1,38 @@
+USAF PFRA (Physical Fitness Readiness Assessment)
+Replaced the ACFT here on 2026-08-17. The old ACFT version of this file was deleted.
+Composite out of 100. Pass = 75 total AND every component minimum. 90+ = Excellent.
+Tested twice a year (scored of record from 1 Jul 2026).
+
+Four components, and what each is worth:
+
+1. Cardiorespiratory - 50 pts
+   Two-Mile Run, or 20m HAMR shuttle. -> running the 2-mile.
+2. Body composition - 20 pts
+   Waist-to-height ratio (waist inches / height inches). Not trained by this plan.
+3. Muscular strength - 15 pts
+   Push-ups 1 min, or Hand-Release Push-ups 2 min. -> running 1-min push-ups.
+4. Core endurance - 15 pts
+   Sit-ups 1 min, or Cross-Leg Reverse Crunch, or Forearm Plank.
+   -> undecided, sit-ups or plank. Targeting the sit-up number for now.
+
+
+TARGETS (Trey, 2026-08-17):
+
+1. 2MR
+13:56
+
+2. Push-ups (1 min)
+56
+
+3. Sit-ups (1 min)
+52
+
+
+Notes:
+- The run is still two miles, same as the ACFT was, so the whole running plan carries
+  over unchanged. Only the goal time moved (14:00 -> 13:56).
+- Sprint-Drag-Carry and the 3RM deadlift are gone - no PFRA equivalent. The sled/carry
+  hybrid speed day that trained SDC was cut from cycle.md on 2026-08-17.
+- Push-up and sit-up programming is handled outside this doc set, by Trey.
+- Exact point-per-rep/second scoring rows live in the official AFPC PFRA scoring charts
+  (male 35-39 bracket). Not reproduced here - the three numbers above are the targets.

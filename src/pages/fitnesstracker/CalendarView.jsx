@@ -19,22 +19,22 @@ import { useAuth } from '../../AuthContext';
 import { firebaseReady } from '../../firebase';
 import { loadOrbitBridgeData, setOrbitDayLocation, addOrbitBase, setOrbitDayLocationsRange } from './orbitTasksBridge';
 
-// Army Combat Fitness Test personal targets — static reference data, not
-// computed from anything. Mirrors src/pages/fitnesstracker/Guidelines_AFT
-// (90/100 score tiers only, per the owner's request); keep in sync by hand
-// if that file changes.
-const AFT_EVENTS = [
-  { id: 'mdl', abbr: 'MDL', name: '3-Rep Max Deadlift (Hex Bar)', unit: 'lb', tiers: { 90: 297, 100: 350 }, lowerIsBetter: false },
-  { id: 'hrp', abbr: 'HRP', name: 'Hand-Release Push-up (reps in 2 min)', unit: 'reps', tiers: { 90: 44, 100: 57 }, lowerIsBetter: false },
-  { id: 'sdc', abbr: 'SDC', name: 'Sprint-Drag-Carry (5x50m: sprint/drag/lateral/carry/sprint)', unit: 'time', tiers: { 90: '1:55', 100: '1:40' }, lowerIsBetter: true },
-  { id: 'plank', abbr: 'PLANK', name: 'Plank (time held)', unit: 'time', tiers: { 90: '2:48', 100: '3:20' }, lowerIsBetter: false },
-  { id: 'run2mi', abbr: '2MR', name: 'Two-Mile Run', unit: 'time', tiers: { 90: '16:14', 100: '14:05' }, lowerIsBetter: true },
+// USAF PFRA personal targets — static reference data, not computed from
+// anything. Mirrors src/pages/fitnesstracker/runningworkouts/Guidelines_AF;
+// keep in sync by hand if that file changes. Replaced the ACFT set 2026-08-17.
+//
+// Only the three events Trey is training are listed. The PFRA's fourth scored
+// component, waist-to-height ratio (20 of 100 pts), is deliberately absent —
+// nothing in this app tracks it, and showing a target with no number behind it
+// would read as a bug. See training-context.md's open flag.
+const PFRA_EVENTS = [
+  { id: 'run2mi', abbr: '2MR', name: 'Two-Mile Run (cardio — 50 pts)', unit: 'time', target: '13:56', lowerIsBetter: true },
+  { id: 'pushups', abbr: 'PU', name: 'Push-ups, 1 min (strength — 15 pts)', unit: 'reps', target: 56, lowerIsBetter: false },
+  { id: 'situps', abbr: 'SU', name: 'Sit-ups, 1 min (core — 15 pts)', unit: 'reps', target: 52, lowerIsBetter: false },
 ];
-function formatAftTier(ev, tier) {
-  const v = ev.tiers[tier];
-  if (ev.unit === 'lb') return `${v} lb`;
-  if (ev.unit === 'reps') return `${v} reps`;
-  return v; // time tiers are already mm:ss strings
+function formatPfraTarget(ev) {
+  if (ev.unit === 'reps') return `${ev.target} reps`;
+  return ev.target; // times are already mm:ss strings
 }
 
 // The "where I am" base governing a day: an explicit day tag wins, else the
@@ -1179,13 +1179,11 @@ export default function CalendarView() {
           <button type="button" className="ft-nav-btn" onClick={() => step(1)} aria-label="Next">›</button>
           <h2 className="ft-cal-title">{title}</h2>
         </div>
-        <div className="ft-aft-strip">
-          {AFT_EVENTS.map((ev) => (
-            <span key={ev.id} className="ft-aft-item" title={ev.name}>
+        <div className="ft-pfra-strip">
+          {PFRA_EVENTS.map((ev) => (
+            <span key={ev.id} className="ft-pfra-item" title={ev.name}>
               {ev.abbr}{' '}
-              <b>{formatAftTier(ev, 90)}</b>
-              <i>/</i>
-              <b>{formatAftTier(ev, 100)}</b>
+              <b>{formatPfraTarget(ev)}</b>
             </span>
           ))}
         </div>

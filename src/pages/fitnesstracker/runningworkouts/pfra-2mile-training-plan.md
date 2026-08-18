@@ -1,6 +1,7 @@
-# ACFT 2-Mile Run Training Plan
-**Goal:** 14:00 (7:00/mile), stretch goal 13:40 (6:50/mile)
-**Test date:** December 31, 2026
+# PFRA 2-Mile Run Training Plan
+**Goal:** 13:56 (6:58/mile), stretch goal 13:40 (6:50/mile)
+**Test:** USAF PFRA — cardiorespiratory component (50 of 100 pts). Events and targets in `Guidelines_AF`.
+**Test date:** December 31, 2026 *(planning anchor — the real date comes from Trey's Fitness Assessment Cell, see `training-context.md`)*
 **Plan start:** July 29, 2026 (Cycle 1 actually kicked off Aug 2, 2026 — see calendar)
 **Cycle structure:** see `cycle.md` — currently a 13-day generic cycle, length will change over time; this doc doesn't duplicate that structure anymore.
 **Training history:** 30–35 mi/week for extended periods, years ago. Longest current run before this restart: 2 miles.
@@ -17,7 +18,7 @@ The plan below was originally built on an assumed 20:00 (10:00/mile) 2-mile base
 - Easy / long run: **~10:45–11:15/mile**, by feel, HR controlled — this is the biggest lever, don't let it creep faster.
 - Threshold (comfortably hard): **~9:00–9:15/mile**.
 - Speed reps (400m): **~2:00 now**, full recovery, building toward 1:45.
-- Goal race pace: **1:45/400m = 14:00 for 2 miles**.
+- Goal race pace: **1:44/400m ≈ 13:56 for 2 miles**.
 - Cycle 1 specifically (base phase, coming off time-trial soreness): keep both speed days light — strides + a few relaxed ~2:00 400s, full recovery, nothing near max. No formal threshold yet.
 
 **HR flag (carried over, not urgent):** 180–185 after the first mile at "maintainable" effort is high for that effort level. Could just be a currently-low aerobic base (fixable — that's what Phase 1 is for), could be an easy pace that's been run too hot, could be a personal HR quirk. Worth knowing resting HR and, if it's been a while, a basic checkup — not because anything sounds wrong, just cheap to check. Not medical advice.
@@ -36,10 +37,10 @@ The original chart assumed a 20:00 start. Rescaled proportionally to the same ch
 
 | Metric | Current (~Wk1) | Checkpoint 1 (~Wk5) | Checkpoint 2 (~Wk9) | Checkpoint 3 (~Wk14) | Checkpoint 4 (~Wk19) | Goal (Wk22) |
 |---|---|---|---|---|---|---|
-| 2-mile time | ~18:00 | 17:00 | 16:10 | 15:20 | 14:30 | **14:00** (stretch 13:40) |
-| Pace/mile | ~9:00 | 8:30 | 8:05 | 7:40 | 7:15 | 7:00 (6:50) |
-| Pace/800m | ~4:30 | 4:15 | 4:03 | 3:50 | 3:38 | 3:30 (3:25) |
-| Pace/400m | ~2:15 | 2:08 | 2:01 | 1:55 | 1:49 | 1:45 (1:42) |
+| 2-mile time | ~18:00 | 17:00 | 16:10 | 15:20 | 14:30 | **13:56** (stretch 13:40) |
+| Pace/mile | ~9:00 | 8:30 | 8:05 | 7:40 | 7:15 | 6:58 (6:50) |
+| Pace/800m | ~4:30 | 4:15 | 4:03 | 3:50 | 3:38 | 3:29 (3:25) |
+| Pace/400m | ~2:15 | 2:08 | 2:01 | 1:55 | 1:49 | 1:44 (1:42) |
 
 The checkpoint **weeks** above are what the cycles have to land on. `cycleProjection.md` maps them to real dates for both cycle lengths — at 11 days they land on weeks 4/9/14/18 (near-exact); at 13 days on 4/10/15 with the fourth never occurring.
 
@@ -52,7 +53,7 @@ The checkpoint **weeks** above are what the cycles have to land on. `cycleProjec
 ### Phase 1 — Rebuild Durability (Cycles 1–5, ~Weeks 1–8)
 Run consistently without digging a fatigue hole. Build long run from 2mi toward 4.5mi. No formal threshold or hill work yet — strides only.
 
-**Speed Day 1 / Sled/Carry Hybrid (added 2026-08-04, starts Cycle 2):** Speed Day 1 each cycle is now a sled-drag/lateral-sprint/kettlebell-farmers-carry block that finishes with 2–4 classic 50m sprints — full prescription, load/rep progression, and the reasoning for picking Day 1 over Day 10 live in `cycle.md`. This doesn't conflict with "strides only" — the closing sprints are short (50m) top-end/neuromuscular work, not a threshold session, same category as strides. Cycle 1 keeps the original light classic format on both speed days (soreness soft-start — see `training-context.md`).
+**Both speed days are classic** — strides and relaxed-fast reps, full recovery, no formal threshold in Phase 1. *(A sled-drag/lateral-sprint/farmers-carry hybrid occupied Speed Day 1 from 2026-08-04 to 2026-08-17 under `cycle.md` rule 12. It trained the ACFT's Sprint-Drag-Carry and was retired with the switch to the USAF PFRA, which has no equivalent event.)*
 
 **Ab/Core Circuit (added 2026-08-04, starts Cycle 2):** 4 rotating ~20-min circuits per cycle on Days 2/5/9/12, plus a short light add-on on Speed Day 2 only. Full exercise content in `cycle.md`.
 
@@ -66,7 +67,7 @@ Train the actual demands of the test. Threshold replaced by race-pace and faster
 
 ## Progressive overload
 
-Deload every 3rd cycle, doubling as a checkpoint test week (test when relatively fresh, not exhausted). Cycle numbers below are approximate now that cycle length has moved from 11 to 13 days — exact dates live in `acft-full-calendar.md` and get filled in as each cycle actually happens, rather than pre-projected all the way to Cycle 14.
+Deload every 3rd cycle, doubling as a checkpoint test week (test when relatively fresh, not exhausted). Cycle numbers below are approximate now that cycle length has moved from 11 to 13 days — exact dates live in `pfra-full-calendar.md` and get filled in as each cycle actually happens, rather than pre-projected all the way to Cycle 14.
 
 > **⚠️ 2026-08-06 — this 14-cycle table does not fit the Dec 31 test date at the current 13-day cycle length.** It was built when the cycle was 11 days (see the sentence directly above). At 13 days only **11 cycles** fit between Aug 27 and Dec 31, so Checkpoint Test 4 and most of Phase 3 fall off the end; at 11 days, 13 cycles fit and all four checkpoints happen. Full arithmetic and both dated projections: `cycleProjection.md`. Treat the rows below as the *intended shape*, not a schedule.
 
@@ -102,7 +103,7 @@ Genuinely useful, not mandatory for a flat 2-mile test. Given ankle history, no 
 
 ## Guardrails
 
-- **Ankle:** any sharp pain (not normal muscle fatigue) is a stop sign for that session. This applies to the Speed Day 1 sled/carry hybrid too — the lateral sprint element loads the ankle differently than straight-line running, which is exactly why its effort is capped at controlled-fast (~80–85%) rather than max in the base prescription (see `cycle.md`).
+- **Ankle:** any sharp pain (not normal muscle fatigue) is a stop sign for that session.
 - **Deload/checkpoint week shows no improvement or feels worse than last checkpoint:** extend Phase 1 or 2 rather than force the calendar.
 - **Two hard days should never sit back-to-back** — `cycle.md` already spaces them; protect that spacing over anything else if life reshuffles the week.
 - Not medical or physical-therapy guidance — anything that flares up meaningfully is worth a professional look.

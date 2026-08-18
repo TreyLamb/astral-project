@@ -17,11 +17,18 @@
 > `src/pages/planningTool/samples/pushup-plan.xlsx` (also served at
 > `/planning-tool-samples/pushup-plan.xlsx`, and loadable with one click from
 > `/planning-tool`'s "📥 Load push-up plan sample" button, then "📊 Dashboard
-> view" for the KPI/chart summary). Re-generate both this file and the
-> workbook from `src/pages/planningTool/samples/generate-pushup-plan.mjs` if
-> `training.md`'s dated tables ever change.
+> view" for the KPI/chart summary).
+>
+> **Corrected 2026-08-17 — how to update this file.** An earlier version of
+> this header said to "re-generate both this file and the workbook" from
+> `src/pages/planningTool/samples/generate-pushup-plan.mjs`. That is wrong and
+> would waste a future session's time: **the generator writes only
+> `pushup-plan.xlsx`** (one `writeFileSync` at the end of the script). This
+> markdown is maintained by hand against `training.md`. So when `training.md`'s
+> dated tables change: edit this file directly, and separately re-sync the
+> generator's hard-coded `DAYS` array and re-run it for the workbook.
 
-**Goal:** 14:00 (7:00/mi) · stretch 13:40 (6:50/mi) · Test: **12/31/26**
+**Goal:** 13:56 (6:58/mi) · stretch 13:40 (6:50/mi) · Test: **12/31/26** *(USAF PFRA — see `../runningworkouts/Guidelines_AF`)*
 **Baseline (8/2/26):** 2-mile ~18:00 (9:00/mi) · fresh full-recovery 400m ~1:56–2:00
 
 *(Pace bands, rep paces, and every other running detail are unchanged from
@@ -91,7 +98,7 @@ second source of truth for the running plan. See `training.md` directly.)*
 
 | Day | Date | Session | Workout | Pushups (4-set, secondary) | Cumulative |
 |---|---|---|---|---|---|
-| D1 | Fri 8/14 | **Speed 1 — Sled/Carry Hybrid** | WU + sled drag 4x25m + lateral sprint 4x50m + farmers carry (KB) 3x50m + 3x50m classic sprints @90–95% + CD — full prescription in `cycle.md` | — *(bench window: 1 day before)* | 320 |
+| D1 | Fri 8/14 | **Speed 1** + light ab | WU 1mi @11:00 + 5x20s strides (walk-back) + 4x400m @2:00 (2:30 jog) + CD 0.5mi (~2.5mi total) + light ab (~5 min, see cycle.md) | — *(bench window: 1 day before)* | 320 |
 | D2 | Sat 8/15 | Easy + **Lift A** (chest/arms) + **Ab Circuit A** | 1.5 mi @ 11:00/mi (~16:30) + ~20 min ab circuit (see cycle.md) | — *(bench window: the day itself)* | 320 |
 | D3 | Sun 8/16 | Easy | 1.5 mi @ 11:00/mi (~16:30) | — *(bench window: 1 day after)* | 320 |
 | D4 | Mon 8/17 | **Lift B** (legs) | no run | — *(bench window: 2 days after — this is the leg-day slot; see note below)* | 320 |
