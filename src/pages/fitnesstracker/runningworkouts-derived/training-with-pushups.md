@@ -1,4 +1,16 @@
-# Training — Numbers, with Pushups (DERIVED — Cycle 1 & 2)
+# Training — Numbers, with Pushups (DERIVED — Cycle 1 & 2, SUPERSEDED)
+
+> **⚠️ STALE as of 2026-08-17 — this mirrors Cycles 1 and 2, which no longer exist.**
+> Trey fell behind, Cycle 2 was ended early at D4, and **Mon 8/17 became Cycle 3 Day 1**.
+> `training.md` now shows Cycles 3–5 and neither of the cycles below. The dates, sessions and
+> therefore every pushup-eligibility calculation on this page are out of date.
+>
+> **It was deliberately not rebuilt.** Trey handles push-up and sit-up programming himself
+> (`../runningworkouts/Guidelines_AF`), so re-deriving a pushup schedule he isn't using would
+> be wasted work. The part worth keeping — the bench/back window rule that decides which days
+> can carry pushups — is restated as a one-liner in `training.md` against the current Cycle 3
+> layout. **Read this page for the rules, not the dates.** If a real pushup schedule is wanted
+> again, rebuild against `training.md`'s current cycles.
 
 > **This is a derived doc, not the source of truth.** It mirrors
 > `../runningworkouts/training.md` (the real running plan) with one extra
@@ -82,12 +94,12 @@ second source of truth for the running plan. See `training.md` directly.)*
 | D3 | Tue 8/4 | **Lift B** (legs) | no run | — *(bench window: 2 days after)* | 0 |
 | D4 | Wed 8/5 | Easy | 1.5 mi @ 11:10/mi (~16:45) | 15,15,15,15 = **60** *(pushup day 1 of 10)* | 60 |
 | D5 | Thu 8/6 | Easy | 1.5 mi @ 11:10/mi (~16:45) | 15,16,15,16 = **62** *(day 2)* | 122 |
-| D6 | Fri 8/7 | **Speed 1** | WU 1mi @11:00 + 5x20s strides (walk-back) + 3x400m @2:03 (2:30 jog) + CD 0.5mi (~2.5mi total) + light ab (~5 min, see cycle.md) | 16,16,16,16 = **64** *(day 3)* | 186 |
+| D6 | Fri 8/7 | **Speed 1** | WU 1mi @11:00 + 5x20s strides (walk-back) + 3x400m @2:03 (2:30 walk) + CD 0.5mi (~2.5mi total) + light ab (~5 min, see cycle.md) | 16,16,16,16 = **64** *(day 3)* | 186 |
 | D7 | Sat 8/8 | Easy recovery | 1.5 mi @ 11:15/mi (~16:53) | — *(back window: 1 day before)* | 186 |
 | D8 | Sun 8/9 | **Lift C** (back) + Easy | 1.5 mi @ 11:10/mi (~16:45) | — *(back window: the day itself)* | 186 |
 | D9 | Mon 8/10 | Long run | 3.0 mi @ 10:40/mi (~32:00) | — *(back window: 1 day after)* | 186 |
 | D10 | Tue 8/11 | Easy | 1.5 mi @ 11:10/mi (~16:45) | 16,17,16,17 = **66** *(day 4)* | 252 |
-| D11 | Wed 8/12 | **Speed 2** | WU 1mi + 4x400m @2:00 (2:30 jog) + CD 0.5mi (~2.5mi total) + light ab (~5 min, see cycle.md) | 17,17,17,17 = **68** *(day 5)* | 320 |
+| D11 | Wed 8/12 | **Speed 2** | WU 1mi + 4x400m @2:00 (2:30 walk) + CD 0.5mi (~2.5mi total) + light ab (~5 min, see cycle.md) | 17,17,17,17 = **68** *(day 5)* | 320 |
 | D12 | Thu 8/13 | Full rest | — | — *(full rest)* | 320 |
 
 **Cycle total: ~17.5 mi running · 320 pushups (4-set variant), 5 of 12 days eligible**
@@ -98,7 +110,7 @@ second source of truth for the running plan. See `training.md` directly.)*
 
 | Day | Date | Session | Workout | Pushups (4-set, secondary) | Cumulative |
 |---|---|---|---|---|---|
-| D1 | Fri 8/14 | **Speed 1** + light ab | WU 1mi @11:00 + 5x20s strides (walk-back) + 4x400m @2:00 (2:30 jog) + CD 0.5mi (~2.5mi total) + light ab (~5 min, see cycle.md) | — *(bench window: 1 day before)* | 320 |
+| D1 | Fri 8/14 | **Speed 1** + light ab | WU 1mi @11:00 + 5x20s strides (walk-back) + 4x400m @2:00 (2:30 walk) + CD 0.5mi (~2.8mi total) + light ab (~5 min, see cycle.md) | — *(bench window: 1 day before)* | 320 |
 | D2 | Sat 8/15 | Easy + **Lift A** (chest/arms) + **Ab Circuit A** | 1.5 mi @ 11:00/mi (~16:30) + ~20 min ab circuit (see cycle.md) | — *(bench window: the day itself)* | 320 |
 | D3 | Sun 8/16 | Easy | 1.5 mi @ 11:00/mi (~16:30) | — *(bench window: 1 day after)* | 320 |
 | D4 | Mon 8/17 | **Lift B** (legs) | no run | — *(bench window: 2 days after — this is the leg-day slot; see note below)* | 320 |
@@ -107,7 +119,7 @@ second source of truth for the running plan. See `training.md` directly.)*
 | D7 | Thu 8/20 | **Lift C** (back) + Easy | 1.5 mi @ 10:55/mi (~16:23) | — *(back window: the day itself)* | 390 |
 | D8 | Fri 8/21 | Easy | 1.5 mi @ 10:55/mi (~16:23) | — *(back window: 1 day after)* | 390 |
 | D9 | Sat 8/22 | Easy + **Ab Circuit C** | 1.5 mi @ 10:55/mi (~16:23) + ~20 min ab circuit (see cycle.md) | 18,18,18,18 = **72** *(day 7)* | 462 |
-| D10 | Sun 8/23 | **Speed 2** + light ab | WU 1mi + 6x400m @1:55 (2:15 jog) + CD 0.5mi (~3.0mi total) + light ab (~5 min, see cycle.md) | 18,19,18,19 = **74** *(day 8)* | 536 |
+| D10 | Sun 8/23 | **Speed 2** + light ab | WU 1mi + 6x400m @1:55 (2:15 walk) + CD 0.5mi (~3.0mi total) + light ab (~5 min, see cycle.md) | 18,19,18,19 = **74** *(day 8)* | 536 |
 | D11 | Mon 8/24 | Easy | 1.5 mi @ 10:50/mi (~16:15) | 19,19,19,19 = **76** *(day 9)* | 612 |
 | D12 | Tue 8/25 | Long run + **Ab Circuit A** | 3.5 mi @ 10:20/mi (~36:10) + ~20 min ab circuit, post-run (see cycle.md) | 19,20,19,20 = **78** *(day 10 of 10)* | 690 |
 | D13 | Wed 8/26 | Full rest | — (no ab work — full rest is exception-free, see cycle.md rule 13) | — *(full rest)* | 690 |

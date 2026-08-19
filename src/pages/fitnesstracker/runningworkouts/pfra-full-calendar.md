@@ -59,13 +59,47 @@ Paces: easy ~10:45–11:15/mi. Both speed days are strides + relaxed 400s (~2:00
 
 **Correction (2026-08-04):** D11 previously carried a second Lift A (chest/arms) session. Trey ruled: one lift session per muscle group per cycle only — one chest, one legs, one back — the A/B/C letters are labels, not a count. D11 is now plain easy run. See `cycle.md` rule 1 and `training-context.md` for the full reasoning.
 
-Cycle 3 Day 1 lands **Thu 8/27**.
+> **⚠️ Cycle 2 was ENDED EARLY at D4 (Mon 8/17).** Trey fell behind and rebased rather than
+> trying to make up missed volume — consistent with this file's own standing rule ("if a
+> cycle's mileage or a session gets missed, resume at the current day, don't try to make up
+> missed volume"). **Only D1–D3 were run** (Fri 8/14 Speed 1, Sat 8/15 Easy + Lift A + Ab
+> Circuit A, Sun 8/16 Easy). D4 onward never happened; the table above is what was
+> *scheduled*, not what was done. **Mon 8/17 became Cycle 3 Day 1** — see below. The last ab
+> circuit actually completed was **Variant A on Sat 8/15**, which is where Cycle 3's rotation
+> picks up.
+
+---
+
+## Cycle 3 — Phase 1, one-time rebased restart (Aug 17 – Aug 30, 14 days)
+
+**Why this cycle is different:** the second one-time exception in the plan, for a different reason than Cycle 1's. Trey rebased mid-Cycle-2 and had already decided Mon 8/17 was an easy 2.5-mile run, but the standard template opens with Speed Day 1. Rather than overwrite a session he'd committed to, **a single extra easy day sits at the front and the normal 13-day chain runs from D2** — which also lands the speed day on Tue 8/18, where he wanted it. That makes this cycle 14 days. **Cycle 4 onward is the standard 13-day template.** No hard rule is bent: full spacing verification is in `training.md` under this cycle's table.
+
+| Cycle Day | Date | Session |
+|---|---|---|
+| D1 | Mon 8/17 | Easy run — 2.5 mi, restart day |
+| D2 | Tue 8/18 | **Speed Day 1** (classic) — strides + 400s, full recovery + light ab (~5 min, see cycle.md) |
+| D3 | Wed 8/19 | Easy run + **Lift A** (chest/arms) + **Ab Circuit B** (~20 min) |
+| D4 | Thu 8/20 | Easy run |
+| D5 | Fri 8/21 | **Lift B** (legs) — no run |
+| D6 | Sat 8/22 | Easy run + **Ab Circuit C** (~20 min) |
+| D7 | Sun 8/23 | Easy run |
+| D8 | Mon 8/24 | **Lift C** (back) + easy run |
+| D9 | Tue 8/25 | Easy run |
+| D10 | Wed 8/26 | Easy run + **Ab Circuit A** (~20 min) |
+| D11 | Thu 8/27 | **Speed Day 2** (classic) + light ab (~5 min) |
+| D12 | Fri 8/28 | Easy run |
+| D13 | Sat 8/29 | Long run + **Ab Circuit B** (~20 min, post-run) |
+| D14 | Sun 8/30 | Full true rest — no ab work, no exceptions |
+
+Paces: easy ~10:55–11:05/mi, long run ~10:20/mi, 400s ~1:58–2:00 full recovery. Still Phase 1, no formal threshold. Full numbers in `training.md`.
+
+Cycle 4 Day 1 lands **Mon 8/31**, and carries **Checkpoint Test 1** (2-mile time trial, target ~17:15) in place of Speed 1 — placed immediately after Cycle 3's full-rest day so it's run relatively fresh.
 
 ---
 
 ## What's next
 
-- **Long-range view:** `cycleProjection.md` now projects every cycle out to end-2027 in both a 13-day and an 11-day variant, with dates, phases, checkpoints and interpolated pace targets. This file stays the record of what was *actually* built and run, one cycle at a time; that one is the forecast. **Note its headline finding:** at 13 days only 11 cycles fit before the Dec 31 test, so Checkpoint Test 4 never happens.
-- **Checkpoint Test 1** lands roughly in Cycle 3 (deload cycle), which starts ~Aug 27 — exact placement and the real target pace will be confirmed when Cycle 3 is built.
-- Cycles 3+ get added here the same way, one at a time, using whatever `cycle.md` says at that point (length may compress from 13 days once recovery capacity allows) and whatever the latest checkpoint-test result says for pace.
+- **Long-range view:** `cycleProjection.md` projects every cycle out to end-2027 in both a 13-day and an 11-day variant. This file stays the record of what was *actually* built and run; that one is the forecast. **⚠️ Its dates are stale as of the 2026-08-17 rebase** — every table in it is anchored to "Cycle 3 Day 1 = Thu Aug 27," which is now **Mon Aug 17, ten days earlier**. Its *structural* conclusions (13-vs-11-day trade-off, which gaps have to give, the VDOT realism check) are unaffected; only the dates and cycle numbering shifted, and shifting the start 10 days earlier means roughly **one more cycle fits** before test day, not fewer. Re-run it when the numbers matter.
+- **Checkpoint Test 1** is now **Cycle 4 Day 1, Mon 8/31**, target ~17:15 — moved off Cycle 3 because Cycle 3 D1 is the rebase day (an easy run Trey had already committed to), and a checkpoint has to be run relatively fresh. It sits immediately after Cycle 3's full-rest day, which is exactly the right slot for that.
+- Cycles 6+ get added here the same way, one at a time, using whatever `cycle.md` says at that point (length may compress from 13 days once recovery capacity allows) and whatever the latest checkpoint-test result says for pace. **Cycles 3–5 are already dated in `training.md`**; Cycle 3 is recorded above, 4 and 5 get copied down here as they actually happen.
 - If a cycle's mileage or a session gets missed, resume at the current day — don't try to make up missed volume.

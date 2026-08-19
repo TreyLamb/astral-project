@@ -1,69 +1,109 @@
-# Training — Numbers (Cycle 1 & 2)
+# Training — Numbers (Cycles 3–5)
 
 **Goal:** 13:56 (6:58/mi) · stretch 13:40 (6:50/mi) · Test: **12/31/26** *(USAF PFRA — see `Guidelines_AF`)*
 **Baseline (8/2/26):** 2-mile ~18:00 (9:00/mi) · fresh full-recovery 400m ~1:56–2:00
 
+**Rebased 2026-08-17.** Trey fell behind partway through Cycle 2, so **Cycle 2 was ended early at D4 and today (Mon 8/17) became Cycle 3 Day 1.** Cycles 1 and 2 are no longer shown here — the record of what was actually run lives in `pfra-full-calendar.md`. This doc now shows the next **three full cycles** and nothing else.
+
 **Pace bands (current):**
 | Type | Pace |
 |---|---|
-| Easy | 10:45–11:15/mi |
-| Long run | 10:15–10:45/mi |
-| Threshold | 9:00–9:15/mi *(not active yet — Phase 1 is strides-only through Cycle 3)* |
-| Speed reps (400m) | 1:55–2:05 now → 1:45 goal |
+| Easy | 10:35–11:05/mi |
+| Long run | 10:00–10:20/mi |
+| Threshold | 9:00–9:15/mi *(not active yet — Phase 1 is strides-only through Cycle 5)* |
+| Speed reps (400m) | 1:52–2:00 now → 1:44 goal |
 
-Rep paces below use current full-recovery 400m ability (1:56–2:05), not the slower fatigued-checkpoint pace — those are two different numbers on purpose.
+Rep paces below use current full-recovery 400m ability, not the slower fatigued-checkpoint pace — those are two different numbers on purpose.
+
+**How to read an interval line** (clarified 2026-08-17 — the old notation said "jog" and was wrong):
+`4x400m @2:00 (2:30 walk)` = **four** 400m reps, each run in 2:00, with **2:30 of walking between reps** — three walk breaks, not four, and nothing after the last rep. That recovery is **not** the cooldown; `CD 0.5mi` is the cooldown and is listed separately.
+
+**Recovery is walked, not jogged**, and the `(~N mi total)` figures assume that — they count warm-up + strides + reps + cooldown only. Jogging the recoveries instead would add **0.7–1.2 mi** to every speed day, which would put a Cycle 5 speed session at ~4.5 mi, level with that cycle's long run. That is not what a Phase 1 speed day is for. Walk them.
+
+**Ab Circuit rotation** continues A→B→C→A from the last one actually done (Variant A, Sat 8/15), so Cycle 3 picks up at **B**. The variants exist for variety, not progression — if a session got skipped, just carry on, don't recount.
+
+**Where pushups go:** not scheduled here — Trey handles push-up and sit-up programming himself (`Guidelines_AF`). The one constraint worth respecting is the old bench/back window: avoid loading pushups the day before, the day of, or the two days after **Lift A** (chest), and the day before/of/after **Lift C** (back).
+
+On the Cycle 3 layout that means: **Lift A D3** blocks D2–D5 · **Lift C D8** blocks D7–D9 · full rest blocks D14. **Clear days: D1 (Mon 8/17), D6 (Sat 8/22), D10 (Wed 8/26), D11 (Thu 8/27), D12 (Fri 8/28), D13 (Sat 8/29).**
+
+⚠️ **Note the conflict with "pushups tomorrow":** D2 (Tue 8/18) is the day *before* bench, so it's inside the window. **D1 — today — is clear**, and is the nearest one. Trey owns this call; the window is a guideline from the old pushup work, not a `cycle.md` hard rule.
 
 ---
 
-## Cycle 1 (Aug 2 – Aug 13, 12 days — one-time soft start)
-**Micro-checkpoint — est. if tested 8/13:** 2-mile **~17:45** (8:53/mi · 2:13/400) — modest gain, mostly rest/recovery cycle.
+## Cycle 3 (Aug 17 – Aug 30, 14 days — one-time rebased restart)
+**Micro-checkpoint — est. if tested 8/30:** 2-mile **~17:20** (8:40/mi · 2:10/400).
+
+**Why 14 days, not 13:** today's session is an easy run, but the standard template opens with Speed Day 1. Rather than force a speed day onto a day Trey has already decided is an easy 2.5-miler, a single extra easy day sits at the front and the normal 13-day chain starts from D2. Same device Cycle 1 used for its soft start. **This is a one-time exception — Cycle 4 onward is the standard 13-day template.** Every hard rule in `cycle.md` still holds; the spacing was re-verified day by day (see the note under the table).
 
 | Day | Date | Session | Workout |
 |---|---|---|---|
-| D1 | Sun 8/2 | Full rest + **Lift A** (chest/arms) | — |
-| D2 | Mon 8/3 | Easy | 2.0 mi @ 11:10/mi (~22:20) |
-| D3 | Tue 8/4 | **Lift B** (legs) | no run |
-| D4 | Wed 8/5 | Easy | 1.5 mi @ 11:10/mi (~16:45) |
-| D5 | Thu 8/6 | Easy | 1.5 mi @ 11:10/mi (~16:45) |
-| D6 | Fri 8/7 | **Speed 1** | WU 1mi @11:00 + 5x20s strides (walk-back) + 3x400m @2:03 (2:30 jog) + CD 0.5mi (~2.5mi total) + light ab (~5 min, see cycle.md) |
-| D7 | Sat 8/8 | Easy recovery | 1.5 mi @ 11:15/mi (~16:53) |
-| D8 | Sun 8/9 | **Lift C** (back) + Easy | 1.5 mi @ 11:10/mi (~16:45) |
-| D9 | Mon 8/10 | Long run | 3.0 mi @ 10:40/mi (~32:00) |
-| D10 | Tue 8/11 | Easy | 1.5 mi @ 11:10/mi (~16:45) |
-| D11 | Wed 8/12 | **Speed 2** | WU 1mi + 4x400m @2:00 (2:30 jog) + CD 0.5mi (~2.5mi total) + light ab (~5 min, see cycle.md) |
-| D12 | Thu 8/13 | Full rest | — |
+| D1 | Mon 8/17 | Easy | 2.5 mi @ 11:00/mi (~27:30) — today's run, Trey's call |
+| D2 | Tue 8/18 | **Speed 1** + light ab | WU 1mi @11:00 + 5x20s strides (walk-back) + 4x400m @2:00 (2:30 walk) + CD 0.5mi (~2.8mi total) + light ab (~5 min, see cycle.md) |
+| D3 | Wed 8/19 | Easy + **Lift A** (chest/arms) + **Ab Circuit B** | 1.5 mi @ 11:00/mi (~16:30) + ~20 min ab circuit (see cycle.md) |
+| D4 | Thu 8/20 | Easy | 1.75 mi @ 11:00/mi (~19:15) |
+| D5 | Fri 8/21 | **Lift B** (legs) | no run |
+| D6 | Sat 8/22 | Easy + **Ab Circuit C** | 1.75 mi @ 11:00/mi (~19:15) + ~20 min ab circuit (see cycle.md) |
+| D7 | Sun 8/23 | Easy | 1.75 mi @ 11:00/mi (~19:15) |
+| D8 | Mon 8/24 | **Lift C** (back) + Easy | 1.5 mi @ 10:55/mi (~16:23) |
+| D9 | Tue 8/25 | Easy | 1.75 mi @ 10:55/mi (~19:06) |
+| D10 | Wed 8/26 | Easy + **Ab Circuit A** | 1.75 mi @ 10:55/mi (~19:06) + ~20 min ab circuit (see cycle.md) |
+| D11 | Thu 8/27 | **Speed 2** + light ab | WU 1mi + 6x400m @1:58 (2:15 walk) + CD 0.5mi (~3.0mi total) + light ab (~5 min, see cycle.md) |
+| D12 | Fri 8/28 | Easy | 1.5 mi @ 10:55/mi (~16:23) |
+| D13 | Sat 8/29 | Long run + **Ab Circuit B** | 3.5 mi @ 10:20/mi (~36:10) + ~20 min ab circuit, post-run (see cycle.md) |
+| D14 | Sun 8/30 | Full rest | — (no ab work — full rest is exception-free, see cycle.md rule 13) |
 
-**Cycle total: ~17.5 mi**
+**Cycle total: ~25.05 mi** (1.79 mi/day, up ~7% per day on Cycle 2's 1.67)
 
-**Ab/core note:** Cycle 1 stays soft-start throughout — both speed days get the *light* ab add-on only (Dead Bug + Plank, ~5 min, see `cycle.md` → Ab/Core Circuit). No robust 20-min circuit this cycle; that starts Cycle 2 (see below and `training-context.md` for the reasoning).
+**Spacing check (all `cycle.md` hard rules):** Legs D5 ↔ Back D8 = 3 ✅ · Legs D5 ↔ Speed 1 D2 = 3 ✅ · Legs D5 ↔ Speed 2 D11 = 6 ✅ · Back D8 ↔ Speed 2 D11 = 3 ✅ · Back D8 ↔ Speed 1 D2 = 6 ✅ · Long run D13 ↔ Speed 2 D11 = 2 ✅ · Long run D13 → Cycle 4's Speed 1 (Mon 8/31) = 2, with the full-rest D14 in between ✅ · Lift A D3 ↔ B D5 = 2 ✅ · B D5 ↔ C D8 = 3 ✅ · A D3 ↔ C D8 = 5 ✅ · one chest / one legs / one back ✅ · two speed days ✅ · one full rest ✅ · ab circuits D3/D6/D10/D13, gaps 3/4/3/3 (last wraps to Cycle 4 D2), none the day before a lift, none the day after back, none on full rest ✅
 
 ---
 
-## Cycle 2 (Aug 14 – Aug 26, 13 days — standard template)
-**Micro-checkpoint — est. if tested 8/26:** 2-mile **~17:20** (8:40/mi · 2:10/400) — first full training cycle, on pace toward Checkpoint 1 target of 17:00 (Cycle 3, ~wk5).
+## Cycle 4 (Aug 31 – Sep 12, 13 days — standard template)
+**Micro-checkpoint — est. if tested 9/12:** 2-mile **~16:55** (8:28/mi · 2:07/400).
+
+**Checkpoint Test 1 lands on D1 (Mon 8/31)** — it replaces Speed 1 that day, and it is the reason D1 sits right after Cycle 3's full-rest day: test relatively fresh, not exhausted (`pfra-2mile-training-plan.md`, progressive-overload section). **Target ~17:15.** Recalculate every pace below off the actual result rather than continuing to run off the ~18:00 baseline.
 
 | Day | Date | Session | Workout |
 |---|---|---|---|
-| D1 | Fri 8/14 | **Speed 1** + light ab | WU 1mi @11:00 + 5x20s strides (walk-back) + 4x400m @2:00 (2:30 jog) + CD 0.5mi (~2.5mi total) + light ab (~5 min, see cycle.md) |
-| D2 | Sat 8/15 | Easy + **Lift A** (chest/arms) + **Ab Circuit A** | 1.5 mi @ 11:00/mi (~16:30) + ~20 min ab circuit (see cycle.md) |
-| D3 | Sun 8/16 | Easy | 1.5 mi @ 11:00/mi (~16:30) |
-| D4 | Mon 8/17 | **Lift B** (legs) | no run |
-| D5 | Tue 8/18 | Easy + **Ab Circuit B** | 1.75 mi @ 11:00/mi (~19:15) + ~20 min ab circuit (see cycle.md) |
-| D6 | Wed 8/19 | Easy | 1.75 mi @ 11:00/mi (~19:15) |
-| D7 | Thu 8/20 | **Lift C** (back) + Easy | 1.5 mi @ 10:55/mi (~16:23) |
-| D8 | Fri 8/21 | Easy | 1.5 mi @ 10:55/mi (~16:23) |
-| D9 | Sat 8/22 | Easy + **Ab Circuit C** | 1.5 mi @ 10:55/mi (~16:23) + ~20 min ab circuit (see cycle.md) |
-| D10 | Sun 8/23 | **Speed 2** + light ab | WU 1mi + 6x400m @1:55 (2:15 jog) + CD 0.5mi (~3.0mi total) + light ab (~5 min, see cycle.md) |
-| D11 | Mon 8/24 | Easy | 1.5 mi @ 10:50/mi (~16:15) |
-| D12 | Tue 8/25 | Long run + **Ab Circuit A** | 3.5 mi @ 10:20/mi (~36:10) + ~20 min ab circuit, post-run (see cycle.md) |
-| D13 | Wed 8/26 | Full rest | — (no ab work — full rest is exception-free, see cycle.md rule 13) |
+| D1 | Mon 8/31 | **Checkpoint Test 1** + light ab | WU 1mi easy + **2-mile time trial, target ~17:15** + CD 0.5mi (~3.5mi total) + light ab (~5 min, see cycle.md) |
+| D2 | Tue 9/1 | Easy + **Lift A** (chest/arms) + **Ab Circuit C** | 1.75 mi @ 10:50/mi (~18:58) + ~20 min ab circuit (see cycle.md) |
+| D3 | Wed 9/2 | Easy | 2.0 mi @ 10:50/mi (~21:40) |
+| D4 | Thu 9/3 | **Lift B** (legs) | no run |
+| D5 | Fri 9/4 | Easy + **Ab Circuit A** | 2.0 mi @ 10:50/mi (~21:40) + ~20 min ab circuit (see cycle.md) |
+| D6 | Sat 9/5 | Easy | 2.0 mi @ 10:50/mi (~21:40) |
+| D7 | Sun 9/6 | **Lift C** (back) + Easy | 1.75 mi @ 10:45/mi (~18:49) |
+| D8 | Mon 9/7 | Easy | 2.0 mi @ 10:45/mi (~21:30) |
+| D9 | Tue 9/8 | Easy + **Ab Circuit B** | 2.0 mi @ 10:45/mi (~21:30) + ~20 min ab circuit (see cycle.md) |
+| D10 | Wed 9/9 | **Speed 2** + light ab | WU 1mi + 6x400m @1:55 (2:15 walk) + CD 0.5mi (~3.0mi total) + light ab (~5 min, see cycle.md) |
+| D11 | Thu 9/10 | Easy | 1.75 mi @ 10:45/mi (~18:49) |
+| D12 | Fri 9/11 | Long run + **Ab Circuit C** | 4.0 mi @ 10:10/mi (~40:40) + ~20 min ab circuit, post-run (see cycle.md) |
+| D13 | Sat 9/12 | Full rest | — (no ab work — full rest is exception-free, see cycle.md rule 13) |
 
-**Cycle total: ~21.7 mi**
-
-**Cycle 2 is the first cycle to run the Ab/Core Circuit at full scope** — the every-~3-day rotation A→B→C→A (rule 13). See `cycle.md` for the full session content and `training-context.md` for the reasoning behind the day choices. *(Updated 2026-08-17: this cycle originally also introduced the Speed 1 sled/carry hybrid under rule 12. That was ACFT Sprint-Drag-Carry prep and was retired with the switch to the USAF PFRA — D1 is a classic speed day, and both speed days now carry the light ab add-on.)*
-
-**Correction (2026-08-04):** D11 previously showed a second Lift A (chest/arms) session. Trey's explicit ruling: only one lift session per muscle group per cycle (one chest, one legs, one back) — the A/B/C letters are labels, not a count. D11 is now plain Easy. See `cycle.md` rule 1 and `training-context.md` decision log for the full reasoning.
+**Cycle total: ~25.75 mi** (1.98 mi/day)
 
 ---
 
-Cycle 3 Day 1 = **Thu 8/27** → real Checkpoint Test 1, target 17:00. Recalculate all paces off that actual result before building Cycle 3's numbers.
+## Cycle 5 (Sep 13 – Sep 25, 13 days — standard template)
+**Micro-checkpoint — est. if tested 9/25:** 2-mile **~16:30** (8:15/mi · 2:04/400). End of Phase 1 — threshold work opens in Phase 2 (Cycle 6+), and hills stay off the table until then either way (ankle history, see `training-context.md`).
+
+| Day | Date | Session | Workout |
+|---|---|---|---|
+| D1 | Sun 9/13 | **Speed 1** + light ab | WU 1mi + 5x20s strides (walk-back) + 5x400m @1:54 (2:15 walk) + CD 0.5mi (~3.0mi total) + light ab (~5 min, see cycle.md) |
+| D2 | Mon 9/14 | Easy + **Lift A** (chest/arms) + **Ab Circuit A** | 2.0 mi @ 10:40/mi (~21:20) + ~20 min ab circuit (see cycle.md) |
+| D3 | Tue 9/15 | Easy | 2.25 mi @ 10:40/mi (~24:00) |
+| D4 | Wed 9/16 | **Lift B** (legs) | no run |
+| D5 | Thu 9/17 | Easy + **Ab Circuit B** | 2.25 mi @ 10:40/mi (~24:00) + ~20 min ab circuit (see cycle.md) |
+| D6 | Fri 9/18 | Easy | 2.25 mi @ 10:40/mi (~24:00) |
+| D7 | Sat 9/19 | **Lift C** (back) + Easy | 2.0 mi @ 10:35/mi (~21:10) |
+| D8 | Sun 9/20 | Easy | 2.25 mi @ 10:35/mi (~23:49) |
+| D9 | Mon 9/21 | Easy + **Ab Circuit C** | 2.25 mi @ 10:35/mi (~23:49) + ~20 min ab circuit (see cycle.md) |
+| D10 | Tue 9/22 | **Speed 2** + light ab | WU 1mi + 7x400m @1:52 (2:15 walk) + CD 0.5mi (~3.25mi total) + light ab (~5 min, see cycle.md) |
+| D11 | Wed 9/23 | Easy | 2.0 mi @ 10:35/mi (~21:10) |
+| D12 | Thu 9/24 | Long run + **Ab Circuit A** | 4.5 mi @ 10:00/mi (~45:00) + ~20 min ab circuit, post-run (see cycle.md) |
+| D13 | Fri 9/25 | Full rest | — (no ab work — full rest is exception-free, see cycle.md rule 13) |
+
+**Cycle total: ~28.0 mi** (2.15 mi/day)
+
+---
+
+Cycle 6 Day 1 = **Sat 9/26** → start of Phase 2 (aerobic strength & threshold). Build it off Checkpoint Test 1's actual result, not off these projections. **Everything after Cycle 4 D1 is an estimate** — the whole point of the checkpoint is to replace it.

@@ -1,5 +1,21 @@
 # Cycle Projection — through end of 2027
 
+> **⚠️ EVERY DATE IN THIS FILE IS STALE (as of the 2026-08-17 rebase). The analysis is not.**
+> All tables below are anchored to **"Cycle 3 Day 1 = Thu Aug 27, 2026."** Trey fell behind,
+> ended Cycle 2 early at D4, and **Cycle 3 Day 1 is now Mon Aug 17** — ten days earlier — with
+> Cycle 3 running 14 days as a one-time rebase (see `training-context.md`). Cycles 3, 4 and 5
+> are dated correctly in `training.md`; this file has not been regenerated, deliberately.
+>
+> **Read the error in the right direction:** the start moved **earlier**, so there is now
+> **136 days** to test day instead of 126 — roughly **one more cycle fits**, not fewer. Nothing
+> below is pessimistic-by-omission; if anything the 13-day variant looks slightly better than
+> section 1 says.
+>
+> What is **unaffected** and still worth reading: the 13-vs-11-day trade-off (§3), which two
+> gaps have to give and what that costs back day, the ab-cadence problem at 11 days, and the
+> VDOT/Riegel realism check (§6). Those are structural, not calendar-dependent. Re-run the
+> date tables when the exact dates actually matter.
+
 **What this is:** the full cycle calendar projected forward, in **two variants** — the current 13-day cycle, and the 11-day cycle Trey wants to move to around Cycle 3 — so the trade between them is visible in numbers rather than argued in the abstract.
 
 **This doc does not change anything.** `cycle.md` still holds the canonical 13-day template, and `training-context.md`'s standing instruction ("do not compress the cycle — the cycle shortens only after Trey relaxes the spacing gaps") still stands. Section 3 below lists exactly which gaps he'd be relaxing. Nothing moves to 11 days until he says so.

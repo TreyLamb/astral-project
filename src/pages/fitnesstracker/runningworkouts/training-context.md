@@ -141,6 +141,20 @@ Not the other way around. The spacing rules are how a recovery preference got wr
 
 **✂️ Open — the real test date.** 12/31/26 was always an estimate and is kept only as a planning anchor. The PFRA is taken twice a year and scheduled by the unit's Fitness Assessment Cell (body composition need not be measured the same day). I could not find an authoritative public statement of the window mechanics under the current DAFMAN 36-2905 — Trey needs to confirm with his FAC. Everything date-driven (`cycleProjection.md`, the checkpoint schedule, the "14 cycles don't fit" finding above) re-dates mechanically once a real date exists.
 
+## Decision — rebase to today, Cycle 2 ended early (2026-08-17, Trey, direct)
+
+**Trey fell behind partway through Cycle 2 and asked to restart from today rather than make up missed volume.** Mon 8/17 was Cycle 2 D4; it is now **Cycle 3 Day 1**. Only Cycle 2's D1–D3 were actually run. This follows `pfra-full-calendar.md`'s own standing rule — resume at the current day, don't chase missed mileage.
+
+**Cycle 3 is 14 days, a second one-time exception.** Trey had already decided today's session (2.5 mi easy @ 11:00/mi) and wanted tomorrow to carry the speed work and abs. The standard template opens with Speed Day 1 on D1, so instead of overwriting a session he'd committed to, **one extra easy day sits at the front and the normal 13-day chain runs from D2** — which lands Speed 1 on Tue 8/18 where he wanted it. **No hard rule is bent**; the full day-by-day spacing verification is in `training.md` under the Cycle 3 table. Cycle 4 onward is the standard 13-day template.
+
+**`training.md` now shows only Cycles 3, 4 and 5** — Trey asked to stop seeing Cycle 1, and Cycle 2 is past. The record of what was actually run lives in `pfra-full-calendar.md`, which is the right home for it.
+
+**Checkpoint Test 1 moved from Cycle 3 to Cycle 4 Day 1 (Mon 8/31), target ~17:15.** Cycle 3 D1 is the rebase day, and a checkpoint has to be run relatively fresh. Cycle 4 D1 sits immediately after Cycle 3's full-rest day, which is the best slot available. The C3/C6/C9/C12 checkpoint cadence therefore shifts to roughly **C4/C7/C10**.
+
+**✂️ `cycleProjection.md`'s dates are now stale and were NOT rebuilt.** Every table in it is anchored to "Cycle 3 Day 1 = Thu Aug 27," which is now Mon Aug 17. Trey explicitly asked not to spend effort on recalculation he didn't need (*"if that messes too much stuff up / requires too much new calculation, ignore that"*), so a staleness banner was added instead of regenerating ~40 rows of dates. **Direction of the error, so nobody mis-reads it:** the start moved **10 days earlier**, giving 136 days to test day instead of 126, so roughly **one more cycle fits**, not fewer. Its structural conclusions (13-vs-11-day trade-off, which gaps give, the VDOT realism check) are unaffected — only dates and numbering.
+
+**✂️ `training-with-pushups.md` is stale** — it mirrors Cycles 1 and 2, which no longer appear in `training.md`. Not rebuilt, because Trey handles push-up programming himself and did not ask for it. A banner says so. `training.md` instead carries a one-line note on which Cycle 3 days are clear of the bench/back windows, so the constraint isn't lost.
+
 ## Instructions for future sessions
 - When asked to update the cycle, calendar, or plan, read this file in full first. It has final say over anything that conflicts with an older doc.
 - Don't revisit the 2026-vs-2027 goal date question — it's settled, 2026 is correct.
