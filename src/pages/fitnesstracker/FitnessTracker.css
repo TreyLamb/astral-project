@@ -980,3 +980,67 @@
 .ft-modal-wide { max-width: 720px; width: 100%; max-height: calc(100vh - 80px); overflow-y: auto; }
 .ft-modal-wide .ft-editor { padding: 0; }
 .ft-day-stat-now .ft-day-stat-k { color: var(--ft-accent); font-weight: 700; }
+
+/* ---- Current fitness panel (CurrentFitness.jsx) -------------------------
+   Derives VDOT from logged runs and prints the Daniels pace table off it.
+   Added 2026-08-19: calc/ could always do this, nothing ever displayed it. */
+.ft-cf-head { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; margin-bottom: 10px; }
+.ft-cf-vdot { display: flex; align-items: baseline; gap: 7px; }
+.ft-cf-vdot-num { font-size: 2.4rem; font-weight: 800; color: var(--ft-accent); line-height: 1; }
+.ft-cf-vdot-lbl { font-size: 0.8rem; font-weight: 700; color: var(--ft-muted); letter-spacing: 0.04em; }
+.ft-cf-badge {
+  font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+  border-radius: 5px; padding: 2px 6px; border: 1px solid var(--ft-border); color: var(--ft-muted);
+}
+.ft-cf-badge.ft-cf-measured { color: var(--ft-accent); border-color: var(--ft-accent); background: rgba(163, 230, 53, 0.12); }
+.ft-cf-badge.ft-cf-inferred { color: #fb923c; border-color: #fb923c; background: rgba(251, 146, 60, 0.12); }
+
+.ft-cf-predict { display: flex; flex-direction: column; gap: 2px; font-size: 0.85rem; }
+.ft-cf-predict-row { display: flex; gap: 10px; justify-content: space-between; min-width: 190px; color: var(--ft-muted); }
+.ft-cf-predict-row strong { color: var(--ft-text); }
+.ft-cf-predict-sub { font-size: 0.72rem; color: var(--ft-muted); opacity: 0.8; }
+.ft-cf-gap { margin-top: 3px; font-size: 0.78rem; font-weight: 700; }
+.ft-cf-gap.ok { color: var(--ft-accent); }
+.ft-cf-gap.behind { color: #fb923c; }
+
+.ft-cf-source { font-size: 0.82rem; color: var(--ft-muted); line-height: 1.5; margin: 0 0 12px; }
+.ft-cf-source strong { color: var(--ft-text); }
+
+.ft-cf-paces { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.ft-cf-paces th {
+  text-align: left; padding: 6px 8px; color: var(--ft-accent); font-weight: 700;
+  border-bottom: 1px solid var(--ft-border); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.ft-cf-paces td { padding: 6px 8px; border-bottom: 1px solid var(--ft-border); vertical-align: top; }
+.ft-cf-paces tr:last-child td { border-bottom: none; }
+.ft-cf-why { color: var(--ft-muted); font-size: 0.76rem; line-height: 1.4; }
+.ft-cf-zone {
+  display: inline-block; min-width: 18px; text-align: center; border-radius: 4px;
+  font-size: 0.66rem; font-weight: 800; padding: 1px 4px; margin-right: 5px; color: #0a0e12;
+}
+.ft-cf-zone-E { background: #22c55e; }
+.ft-cf-zone-M { background: #38bdf8; }
+.ft-cf-zone-T { background: #a3e635; }
+.ft-cf-zone-I { background: #fb923c; }
+.ft-cf-zone-R { background: #f43f5e; }
+
+.ft-cf-acwr { font-size: 0.78rem; color: var(--ft-muted); margin: 12px 0 0; }
+.ft-cf-acwr strong { color: var(--ft-text); }
+.ft-cf-sub { font-size: 0.78rem; font-weight: 700; color: var(--ft-muted); margin: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+.ft-cf-recent { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.ft-cf-recent li { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.8rem; color: var(--ft-text); }
+.ft-cf-recent-date { color: var(--ft-muted); font-variant-numeric: tabular-nums; min-width: 84px; }
+.ft-cf-flag { color: #fb923c; font-size: 0.72rem; font-weight: 700; }
+
+@media (max-width: 640px) {
+  .ft-cf-why { display: none; }
+  .ft-cf-vdot-num { font-size: 1.9rem; }
+}
+
+/* Firebase uid readout in Settings — long, monospace, must wrap on mobile. */
+.ft-uid {
+  display: block; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem; background: var(--ft-bg); border: 1px solid var(--ft-border);
+  border-radius: 7px; padding: 7px 9px; color: var(--ft-text);
+  word-break: break-all; user-select: all;
+}

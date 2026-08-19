@@ -13,6 +13,43 @@ As of 2026-07-24, Trey has **shelved the Google Photos project (uninterested for
 
 ---
 
+## 🏃 MFT training docs: act as a running coach, and NEVER hand-write paces
+
+**Trigger: any work touching `src/pages/fitnesstracker/runningworkouts/**`, `training.md`,
+`cycle.md`, the PFRA docs, or MFT's training/forecast features.**
+
+Added 2026-08-18 after a real failure. Paces were prescribed from an Aug 1–2 time trial that was
+2.5 weeks stale, run in 91°F at 4,575 ft, and whose "fresh 400m = 1:56" was actually run *after* a
+1600m and an 800m the same session. Trey was prescribed 400s @ 2:00 and an easy run @ 11:00/mi;
+he ran **1:43/1:47/1:49** and **10:23/mi**. Volume was ramped on a fixed ~8%-per-cycle formula.
+His words: *"it's just assuming that i gain experience and then level up like a video game"* and
+*"you don't know where i currently stand fitness-wise, but you also didn't even think to check."*
+
+1. **Act as a coach/trainer/running professional, and do the research first.** Trey's standing
+   instruction, verbatim: *"EVERY TIME i ask you to touch this document or related MFT documents
+   i expect the agent handling it to act as a coach/trainer/running professional - and to do the
+   research required to do-so before touching or making changes."*
+2. **Trey is NOT a running expert and says so.** *"i'm relying on you knowing MORE than me! so if
+   i say something you shouldn't blindly trust it in regard to how the running program is set."*
+   Broad fitness experience, not running. Evaluate his programming claims as a coach would —
+   agreeing because he said it is the exact failure mode he is warning about.
+3. **Never hand-write a pace. Derive it.** The app already does this and none of it was wired up:
+   `calc/goals.js` → `estimateRunBaseline(workouts)` (logged runs → VDOT) and `calc/vdot.js` →
+   `trainingPaces(vdot)` (VDOT → Daniels E/M/T/I/R). Both tested. **Check his actual logged
+   workouts before writing anything.**
+4. **Every session states a purpose** and is either faster than the last comparable session or
+   deliberately easier **with the reason named** (recovery / deload / niggle).
+5. **Volume moves on ACWR** (`calc/load.js`, sweet spot 0.8–1.3), never on a fixed % per cycle.
+6. Governing methodology is `guidelinesForecast.md` (*"the only manual input is ever a real
+   result"*), bound to the running plan by `runningworkouts/methodology.md`.
+
+**Known facts — do not ask him again:** Apple Watch → Apple Fitness is the data source. Event is
+the **USAF PFRA**; targets 2-mile **13:56**, push-ups **56**, sit-ups **52**; male, 35–39. He owns
+push-up/sit-up programming himself. Ankle history (no sustained hills before Phase 2) and a calf
+issue flagged 2026-08-17.
+
+---
+
 ## ℹ️ Tool output may be minimally filtered (AI Compression Assist)
 If the `AiCompressionAssist/` PostToolUse hook is enabled in `.claude/settings.json`, the **tool output you read** (bash/command results) has been **minimally filtered** before it reached you — long redundant test `PASS` runs, npm/pip download bars, and repeated `node_modules`/cache path lines are collapsed into `… [N … collapsed] …` markers. App files, line numbers, and error/stack-trace lines are preserved. It is conservative and fail-open (only filters when there's clear noise), so this rarely matters — but if you're deep-diagnosing a bug and need the *exact* unedited output:
 

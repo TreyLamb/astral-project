@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useFitness } from './fitnessContext';
+import { useAuth } from '../../AuthContext';
 import { DEFAULT_ACTIVITY_TYPES, todayISO } from './fitnessConfig';
 import { hrZones } from './calc/hr';
 import { mifflinStJeorBmr } from './calc/bmr';
@@ -65,6 +66,7 @@ export default function Settings() {
   const { settings, updateSettings, mode, bodyWeightLogs, addBodyWeightLog, updateBodyWeightLog } = useFitness();
   const units = settings.units;
   const customTypes = settings.customTypes || [];
+  const { user } = useAuth();
   const profile = settings.profile || {};
   const detailed = !!settings.detailedView;
 
@@ -349,6 +351,24 @@ export default function Settings() {
               />,
               profile.notes || '',
             )}
+            {/* Firebase uid — needed as the FITNESS_UID env var for the api/
+                import endpoints (see IMPORT.md). Nothing displayed it before,
+                which made those endpoints impossible to configure without
+                digging through the Firebase console. */}
+            <div className="ft-field">
+              <label>Firebase user ID</label>
+              {user?.uid ? (
+                <>
+                  <code className="ft-uid">{user.uid}</code>
+                  <p className="ft-hint-sm">
+                    This is <code>FITNESS_UID</code> for the workout/meal import endpoints — see
+                    IMPORT.md. Safe to copy; it identifies your account but grants nothing on its own.
+                  </p>
+                </>
+              ) : (
+                <p className="ft-hint-sm">Sign in to see your Firebase user ID.</p>
+              )}
+            </div>
           </>
         )}
       </div>

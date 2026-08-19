@@ -13,22 +13,29 @@
 .ft-docs-tab:hover { color: var(--ft-text); border-color: var(--ft-accent); }
 .ft-docs-tab.active { background: rgba(163, 230, 53, 0.14); border-color: var(--ft-accent); color: var(--ft-accent); }
 
+/* --ft-docs-scale is set inline by WorkoutDocsView's zoom control (default 1).
+   Every size below is in em so it inherits that scale -- they used to be rem,
+   which is why the docs were stuck at one size no matter what. max-width scales
+   too, otherwise zooming in just squeezes the same column into fewer words per
+   line instead of showing bigger text. */
 .ft-docs-content {
   background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 12px;
   padding: 20px; color: var(--ft-text); line-height: 1.6; overflow-wrap: anywhere;
-  max-width: 900px; box-sizing: border-box;
+  font-size: calc(1rem * var(--ft-docs-scale, 1));
+  max-width: min(100%, calc(900px * var(--ft-docs-scale, 1)));
+  box-sizing: border-box;
 }
 
-.ft-docs-content h1 { font-size: 1.35rem; font-weight: 800; margin: 0 0 14px; color: var(--ft-text); }
+.ft-docs-content h1 { font-size: 1.35em; font-weight: 800; margin: 0 0 14px; color: var(--ft-text); }
 .ft-docs-content h2 {
-  font-size: 1.1rem; font-weight: 800; margin: 26px 0 10px; color: var(--ft-accent);
+  font-size: 1.1em; font-weight: 800; margin: 26px 0 10px; color: var(--ft-accent);
   border-bottom: 1px solid var(--ft-border); padding-bottom: 6px;
 }
-.ft-docs-content h3 { font-size: 0.98rem; font-weight: 700; margin: 18px 0 8px; color: var(--ft-text); }
-.ft-docs-content p { margin: 0 0 12px; font-size: 0.92rem; color: var(--ft-text); }
+.ft-docs-content h3 { font-size: 0.98em; font-weight: 700; margin: 18px 0 8px; color: var(--ft-text); }
+.ft-docs-content p { margin: 0 0 12px; font-size: 0.92em; color: var(--ft-text); }
 .ft-docs-content strong { color: var(--ft-accent); font-weight: 700; }
 .ft-docs-content em { color: var(--ft-muted); }
-.ft-docs-content ul, .ft-docs-content ol { margin: 0 0 12px; padding-left: 22px; font-size: 0.92rem; }
+.ft-docs-content ul, .ft-docs-content ol { margin: 0 0 12px; padding-left: 22px; font-size: 0.92em; }
 .ft-docs-content li { margin-bottom: 4px; }
 .ft-docs-content hr { border: none; border-top: 1px solid var(--ft-border); margin: 20px 0; }
 .ft-docs-content a { color: var(--ft-accent); }
@@ -44,15 +51,15 @@
   overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 0 16px;
   border: 1px solid var(--ft-border); border-radius: 8px;
 }
-.ft-docs-content table { border-collapse: collapse; width: 100%; font-size: 0.82rem; white-space: nowrap; }
+.ft-docs-content table { border-collapse: collapse; width: 100%; font-size: 0.82em; white-space: nowrap; }
 .ft-docs-content th, .ft-docs-content td { padding: 7px 10px; border-bottom: 1px solid var(--ft-border); text-align: left; }
 .ft-docs-content th { background: var(--ft-panel-2); color: var(--ft-accent); font-weight: 700; }
 .ft-docs-content tr:last-child td { border-bottom: none; }
 
 @media (max-width: 640px) {
   .ft-docs-content { padding: 14px; }
-  .ft-docs-content h1 { font-size: 1.15rem; }
-  .ft-docs-content h2 { font-size: 1.02rem; }
+  .ft-docs-content h1 { font-size: 1.15em; }
+  .ft-docs-content h2 { font-size: 1.02em; }
 }
 
 /* Multi-workout-day cells (see WorkoutDocsView's markDoubleSessionDays) — a
@@ -68,7 +75,7 @@
 }
 .ft-docs-double-badge {
   position: absolute; top: 0; left: 0;
-  background: var(--ft-accent); color: #0a0e12; font-size: 0.62rem; font-weight: 800;
+  background: var(--ft-accent); color: #0a0e12; font-size: 0.62em; font-weight: 800;
   border-radius: 5px; padding: 1px 4px; line-height: 1.4;
 }
 .ft-docs-session-group { display: flex; flex-direction: column; gap: 4px; }
@@ -89,3 +96,43 @@
 .ft-docs-compact .ft-docs-content table { width: auto; }
 .ft-docs-compact .ft-docs-content th,
 .ft-docs-compact .ft-docs-content td { padding: 6px 14px; }
+
+/* ---- toolbar: text size + copy ---------------------------------------- */
+
+.ft-docs-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; flex-wrap: wrap;
+}
+.ft-docs-zoom { display: flex; align-items: center; gap: 4px; }
+.ft-docs-zoom-btn, .ft-docs-zoom-val, .ft-docs-copy {
+  border: 1px solid var(--ft-border); background: var(--ft-panel-2); color: var(--ft-muted);
+  border-radius: 8px; font-family: inherit; font-weight: 700; cursor: pointer;
+}
+.ft-docs-zoom-btn { min-width: 34px; height: 30px; font-size: 0.85rem; }
+.ft-docs-zoom-val { min-width: 52px; height: 30px; font-size: 0.78rem; }
+.ft-docs-zoom-btn:hover:not(:disabled), .ft-docs-zoom-val:hover, .ft-docs-copy:hover {
+  color: var(--ft-text); border-color: var(--ft-accent);
+}
+.ft-docs-zoom-btn:disabled { opacity: 0.35; cursor: default; }
+
+.ft-docs-copy { padding: 0 12px; height: 30px; font-size: 0.78rem; white-space: nowrap; }
+.ft-docs-copy.done { color: var(--ft-accent); border-color: var(--ft-accent); background: rgba(163, 230, 53, 0.14); }
+.ft-docs-copy.fail { color: #fb923c; border-color: #fb923c; }
+
+/* Section copy buttons sit top-right inside each section. Kept faint until
+   hover on pointer devices so they don't compete with the text, but always
+   fully visible on touch, where there is no hover to reveal them. */
+.ft-docs-section { position: relative; }
+.ft-docs-copy-section {
+  position: absolute; top: 2px; right: 0; z-index: 1;
+  height: 24px; padding: 0 9px; font-size: 0.68rem; opacity: 0.75;
+}
+.ft-docs-section:hover .ft-docs-copy-section, .ft-docs-copy-section:focus-visible { opacity: 1; }
+@media (hover: hover) { .ft-docs-copy-section { opacity: 0; } }
+@media (hover: hover) { .ft-docs-section:hover .ft-docs-copy-section { opacity: 1; } }
+.ft-docs-copy-section.done, .ft-docs-copy-section.fail { opacity: 1; }
+
+/* The first section carries the h1, whose margin-top is 0 -- give the button
+   room so it never lands on top of the title. */
+.ft-docs-section:first-child > :is(h1, h2) { padding-right: 88px; }
+.ft-docs-section > h2 { padding-right: 88px; }

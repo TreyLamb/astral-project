@@ -14,7 +14,7 @@ export default function MealEditor({ id: idProp, onClose }) {
   const navigate = useNavigate();
   // Modal when opened from the calendar, route when deep-linked — same as
   // EntryEditor. See its comment for why the handlers go through a ref.
-  const close = onClose || (() => close());
+  const close = onClose || (() => navigate('..'));
   const actionsRef = useRef({});
   actionsRef.current.close = close;
   useModalKeys({

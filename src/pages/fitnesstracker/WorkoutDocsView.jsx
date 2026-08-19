@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import trainingMd from './runningworkouts/training.md?raw';
@@ -145,10 +145,92 @@ function TdCell({ children, ...props }) {
   );
 }
 
+// ---- section splitting, zoom, copy -------------------------------------
+
+// Splits a doc at its top-level "## " headings so each section gets its own
+// copy button. Everything before the first heading (title + preamble) becomes
+// section 0 with no heading. "### " can't match here since the third char is
+// "#", not a space. Fenced code is tracked so a "## " inside a fence is not
+// mistaken for a heading.
+function splitSections(md) {
+  const out = [];
+  let cur = [];
+  let heading = null;
+  let inFence = false;
+  for (const line of md.split('\n')) {
+    if (/^```/.test(line)) inFence = !inFence;
+    if (!inFence && /^## /.test(line)) {
+      if (cur.length) out.push({ heading, source: cur.join('\n').trim() });
+      heading = line.replace(/^##\s+/, '').trim();
+      cur = [line];
+    } else {
+      cur.push(line);
+    }
+  }
+  if (cur.length) out.push({ heading, source: cur.join('\n').trim() });
+  return out.filter((s) => s.source !== '');
+}
+
+const ZOOM_KEY = 'ft.docs.zoom';
+const ZOOM_MIN = 0.8;
+const ZOOM_MAX = 2.0;
+const ZOOM_STEP = 0.1;
+const clampZoom = (z) => Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, Math.round(z * 10) / 10));
+
+function readZoom() {
+  const raw = Number(localStorage.getItem(ZOOM_KEY));
+  return Number.isFinite(raw) && raw >= ZOOM_MIN && raw <= ZOOM_MAX ? raw : 1;
+}
+
+// Copies the markdown SOURCE, not the rendered DOM. Selecting a rendered table
+// and hitting ctrl-C pastes the cells as one run-on line with the column
+// structure gone — which is what made these docs feel un-copyable. The source
+// pastes back as a real table anywhere that renders markdown, and stays
+// readable as aligned pipes anywhere that doesn't.
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    // navigator.clipboard needs a secure context — fall back so this still
+    // works over plain http, e.g. hitting the dev server from a phone on the LAN.
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+}
+
+function CopyButton({ text, label, title, className = '' }) {
+  const [state, setState] = useState('idle');
+  return (
+    <button
+      type="button"
+      className={`ft-docs-copy ${className} ${state}`.trim()}
+      title={title}
+      onClick={async () => {
+        const ok = await copyText(text);
+        setState(ok ? 'done' : 'fail');
+        setTimeout(() => setState('idle'), 1600);
+      }}
+    >
+      {state === 'done' ? '\u2713 Copied' : state === 'fail' ? 'Copy failed' : label}
+    </button>
+  );
+}
+
 export default function WorkoutDocsView() {
   const [activeSlug, setActiveSlug] = useState(DOCS[0].slug);
+  const [zoom, setZoom] = useState(readZoom);
   const active = DOCS.find((d) => d.slug === activeSlug) ?? DOCS[0];
-  const content = active.splitSessions ? markDoubleSessionDays(active.content) : active.content;
+  const sections = useMemo(() => splitSections(active.content), [active.content]);
+
+  useEffect(() => { localStorage.setItem(ZOOM_KEY, String(zoom)); }, [zoom]);
 
   return (
     <div className={`ft-docs${active.compact ? ' ft-docs-compact' : ''}`}>
@@ -167,10 +249,43 @@ export default function WorkoutDocsView() {
         ))}
       </nav>
 
-      <div className="ft-docs-content">
-        <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ table: TableWrap, td: TdCell }}>
-          {content}
-        </ReactMarkdown>
+      <div className="ft-docs-toolbar">
+        <div className="ft-docs-zoom" role="group" aria-label="Text size">
+          <button
+            type="button" className="ft-docs-zoom-btn" aria-label="Smaller text"
+            disabled={zoom <= ZOOM_MIN} onClick={() => setZoom((z) => clampZoom(z - ZOOM_STEP))}
+          >A&minus;</button>
+          <button
+            type="button" className="ft-docs-zoom-val" title="Reset to 100%"
+            onClick={() => setZoom(1)}
+          >{Math.round(zoom * 100)}%</button>
+          <button
+            type="button" className="ft-docs-zoom-btn" aria-label="Larger text"
+            disabled={zoom >= ZOOM_MAX} onClick={() => setZoom((z) => clampZoom(z + ZOOM_STEP))}
+          >A+</button>
+        </div>
+        <CopyButton
+          text={active.content}
+          label="Copy whole doc"
+          title="Copy this document's full markdown source"
+          className="ft-docs-copy-all"
+        />
+      </div>
+
+      <div className="ft-docs-content" style={{ '--ft-docs-scale': zoom }}>
+        {sections.map((sec, i) => (
+          <section key={i} className="ft-docs-section">
+            <CopyButton
+              text={sec.source}
+              label="Copy"
+              title={sec.heading ? `Copy the "${sec.heading}" section as markdown` : 'Copy this section as markdown'}
+              className="ft-docs-copy-section"
+            />
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ table: TableWrap, td: TdCell }}>
+              {active.splitSessions ? markDoubleSessionDays(sec.source) : sec.source}
+            </ReactMarkdown>
+          </section>
+        ))}
       </div>
     </div>
   );

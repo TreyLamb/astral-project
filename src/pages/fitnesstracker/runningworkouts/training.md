@@ -5,13 +5,44 @@
 
 **Rebased 2026-08-17.** Trey fell behind partway through Cycle 2, so **Cycle 2 was ended early at D4 and today (Mon 8/17) became Cycle 3 Day 1.** Cycles 1 and 2 are no longer shown here — the record of what was actually run lives in `pfra-full-calendar.md`. This doc now shows the next **three full cycles** and nothing else.
 
-**Pace bands (current):**
-| Type | Pace |
-|---|---|
-| Easy | 10:35–11:05/mi |
-| Long run | 10:00–10:20/mi |
-| Threshold | 9:00–9:15/mi *(not active yet — Phase 1 is strides-only through Cycle 5)* |
-| Speed reps (400m) | 1:52–2:00 now → 1:44 goal |
+> ## ⚠️ RECALIBRATED 2026-08-19 — the old pace bands were ~3 minutes of 2-mile too slow
+>
+> The bands below **replace** the ones derived from the Aug 1–2 time trial. That trial was run in
+> 91°F at 4,575 ft, and its "fresh 400m = 1:56" was actually run *after* a 1600m and an 800m in
+> the same session — so it was never a fresh 400 at all. Everything built on it was too slow.
+>
+> **What the real sessions say.** 8/17: 2.83 mi @ 10:23/mi, comfortable → implies VDOT 37.4–42.2.
+> 8/18: 400s at 1:43 @ ~90–95% → implies VDOT 39.2–43.5. Both must be true, so the overlap is
+> **VDOT 39.2–42.2 — a 2-mile of 14:27–15:24, best estimate 14:54.** Not 18:00. He is roughly
+> **one minute** off the 13:56 goal, not four.
+>
+> **This is still inferred, not measured.** An easy run bounds a range; it cannot pin a number.
+> **Checkpoint Test 1 (a real 2-mile time trial) is now the single most valuable session on the
+> calendar** — log it noted "time trial" and every number here sharpens automatically.
+>
+> Live, always-current versions of these paces are on **`/MFT/dashboard` → Current fitness**,
+> computed from logged runs by `calc/fitness.js` + `calc/vdot.js`. Per `methodology.md` rule 1,
+> **that panel is authoritative and this table is a snapshot.**
+
+**Pace bands — corrected, from VDOT ~40.7 (mid estimate):**
+| Type | Pace | Was (wrong) |
+|---|---|---|
+| Easy (E) | 9:42–10:41/mi | 10:35–11:05 |
+| Long run | 10:00–10:40/mi | 10:00–10:20 |
+| Threshold (T) | **8:05/mi** | 9:00–9:15 |
+| Interval 400 (I) | **1:49** | — |
+| Rep 400 (R) | **1:40** | 1:52–2:00 |
+
+**Read the rep paces as a coach would.** A 400 rep is *supposed* to be faster than 3200m race
+pace — that is the point of rep work. Trey's 1:43s are at **I pace for goal fitness**, which means
+his leg speed is on track and is **not** the limiter. The gap to 13:56 is holding that pace for
+eight continuous laps. So the work that closes it is **threshold volume, more reps at the same
+pace with shorter recovery, and the long run** — not faster 400s. Do not respond to a fast single
+rep by prescribing faster reps.
+
+**✂️ The per-day numbers in the cycle tables below have NOT yet been regenerated** against these
+bands — they still carry the old, too-slow paces. Treat the table above and the Dashboard panel as
+correct, and the per-day pace columns as pending. Regenerating them is the next task.
 
 Rep paces below use current full-recovery 400m ability, not the slower fatigued-checkpoint pace — those are two different numbers on purpose.
 

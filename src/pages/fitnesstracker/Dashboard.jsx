@@ -10,6 +10,7 @@ import { fmtPace, fmtDist, fmtDur, paceUnitFor } from './format';
 import { CORRELATIONS } from './calc/correlations';
 import { detectConflicts, upcomingPlanned } from './calc/planning';
 import GoalEditorModal from './GoalEditorModal';
+import CurrentFitness from './CurrentFitness';
 
 const DAY = 86400000;
 function isoAgo(days) { return new Date(Date.now() - days * DAY).toISOString().slice(0, 10); }
@@ -85,6 +86,11 @@ export default function Dashboard() {
     <div className="ft-dash">
       <h2>Dashboard</h2>
       {!hasAny && <p className="ft-empty">Log a few workouts and your trends, PRs and training-load will appear here.</p>}
+
+      {/* Current fitness — VDOT + training paces derived from logged runs.
+          Sits above the PR shelf because it answers "what should I run today",
+          which is the question the rest of this page only implies. */}
+      <CurrentFitness />
 
       {/* PR shelf */}
       <div className="ft-set-card">
