@@ -3,6 +3,7 @@
 // experimenting with, never the transcript itself — the transcript is static
 // data and is never written back.
 import { COLUMNS, NO_FILTERS } from './columns';
+import { DEFAULT_CREDIT_BLOCK, clampCreditBlock } from './creditBlocks';
 
 const KEY = 'tt-whatif';
 
@@ -15,6 +16,8 @@ const EMPTY_VIEW = {
   chip: null,
   changedFirst: false,
   hideSuperseded: false,
+  creditBlock: DEFAULT_CREDIT_BLOCK,
+  showBlocks: true,
 };
 
 const EMPTY = {
@@ -47,6 +50,8 @@ export function cleanView(v) {
     chip: CHIPS.has(v.chip) ? v.chip : null,
     changedFirst: !!v.changedFirst,
     hideSuperseded: !!v.hideSuperseded,
+    creditBlock: clampCreditBlock(v.creditBlock),
+    showBlocks: v.showBlocks !== false,
   };
 }
 

@@ -310,6 +310,38 @@
 .tt-topwin { margin-left: auto; }
 .tt-topwin strong { color: var(--tt-accent); }
 
+/* Credit-block control. The size is free entry, not a preset list — a term is
+   12 credits for most people and not for everyone. */
+.tt-blocks {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.tt-chip-sm {
+  padding: 2px 8px;
+  font-size: 0.7rem;
+}
+.tt-blocks-lbl {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--tt-dim);
+}
+.tt-blocks-lbl.off { opacity: 0.45; }
+.tt-blocks-in {
+  width: 54px;
+  padding: 2px 4px;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: var(--tt-text);
+  background: var(--tt-panel-2);
+  border: 1px solid var(--tt-line);
+  border-radius: 5px;
+}
+.tt-blocks-in:focus-visible { outline: 2px solid var(--tt-accent); outline-offset: 1px; }
+.tt-blocks-in:disabled { cursor: default; }
+
 /* Wide content scrolls in its own container — the page body never scrolls
    sideways (webdesign.md).
    It scrolls VERTICALLY here too, and that is load-bearing: `overflow-x: auto`
@@ -455,6 +487,50 @@ select.tt-f:not([value='']) { border-color: #3d587a; }
 .tt-row-changed { background: rgba(224, 166, 60, 0.07); }
 .tt-row-changed:hover { background: rgba(224, 166, 60, 0.1); }
 .tt-row-extra { background: rgba(78, 201, 138, 0.07); }
+
+/* Credit-block dividers. Purely a reading aid over the rows you have changed —
+   they carry no state and are not selectable, so they must not look like a
+   row: no hover, no bottom border of their own. */
+.tt-break td {
+  padding: 0;
+  border-bottom: none;
+}
+.tt-break:hover { background: none; }
+.tt-break-in {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 3px 12px;
+}
+.tt-break-rule {
+  flex: 1;
+  height: 1px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--tt-line) 0 5px,
+    transparent 5px 10px
+  );
+}
+.tt-break-tag {
+  font-size: 0.64rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--tt-dim);
+}
+.tt-break-tag strong { color: var(--tt-accent); }
+
+/* The last one also separates the changed rows from the untouched transcript
+   below, so it reads as a heavier line than the internal block breaks. */
+.tt-break-rest .tt-break-rule {
+  background: var(--tt-line);
+}
+.tt-break-tag-rest {
+  color: var(--tt-dim);
+  border: 1px solid var(--tt-line);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
 
 .tt-attr {
   margin-left: 7px;

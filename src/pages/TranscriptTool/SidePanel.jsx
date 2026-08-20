@@ -1,15 +1,13 @@
-import { useState } from 'react';
-import { SCALES, GRADES, isCounted, gradeOf, fmtGpa } from './gpa';
+import { SCALES, isCounted, gradeOf, fmtGpa } from './gpa';
 
 const BANDS = ['A', 'B', 'C', 'D', 'E'];
 
 export default function SidePanel({
   actual, whatIf, termRows, courses, overrides, honorRepeats, scale, goal, solver, extras,
-  onScale, onHonorRepeats, onGoal, onAddExtra, onCopyLink, onExportCsv, onExportJson, onOpenPaste,
+  onScale, onHonorRepeats, onGoal, onOpenProspective, onRemoveExtra,
+  onCopyLink, onExportCsv, onExportJson, onOpenPaste,
 }) {
-  const [name, setName] = useState('');
-  const [credits, setCredits] = useState('3');
-  const [grade, setGrade] = useState('A');
+  const prosCredits = extras.reduce((s, e) => s + (Number(e.credits) || 0), 0);
 
   // Credits per letter band, on the what-if grades — this is the shape of the
   // transcript, so it moves as grades are flipped.
@@ -20,25 +18,6 @@ export default function SidePanel({
       .reduce((s, c) => s + c.credits, 0),
   }));
   const distMax = Math.max(1, ...dist.map((d) => d.credits));
-
-  function addCourse(e) {
-    e.preventDefault();
-    const cr = Number(credits);
-    if (!Number.isFinite(cr) || cr <= 0) return;
-    onAddExtra({
-      id: `extra-${Date.now()}`,
-      isExtra: true,
-      code: 'PLANNED',
-      course: name.trim() || 'Planned course',
-      credits: cr,
-      grade,
-      repeatFlag: null,
-      semester: 'Planned',
-      termOrder: 999999,
-      attribute: null,
-    });
-    setName('');
-  }
 
   return (
     <aside className="tt-side">
@@ -93,19 +72,27 @@ export default function SidePanel({
       </section>
 
       <section className="tt-card">
-        <h2>Planned courses</h2>
-        <form className="tt-addrow" onSubmit={addCourse}>
-          <input type="text" value={name} placeholder="Course name" onChange={(e) => setName(e.target.value)} />
-          <input type="number" min="0.5" step="0.5" value={credits} onChange={(e) => setCredits(e.target.value)} aria-label="Credits" />
-          <select value={grade} onChange={(e) => setGrade(e.target.value)} aria-label="Grade">
-            {GRADES.map((g) => <option key={g} value={g} className={`tt-g-${g.charAt(0)}`}>{g}</option>)}
-          </select>
-          <button type="submit" className="tt-btn tt-btn-primary">Add</button>
-        </form>
+        <h2>Prospective classes</h2>
+        <button type="button" className="tt-btn tt-btn-pros tt-btn-wide" onClick={onOpenProspective}>
+          + Add a prospective class
+        </button>
+        {extras.length > 0 && (
+          <ul className="tt-proslist">
+            {extras.map((e) => (
+              <li key={e.id}>
+                <span className="tt-proslist-code">{e.code}</span>
+                <span className="tt-proslist-title">{e.course}</span>
+                <span className="tt-proslist-cr">{e.credits} cr</span>
+                <span className={`tt-g tt-g-${e.grade.charAt(0)}`}>{e.grade}</span>
+                <button type="button" className="tt-undo" title={`Remove ${e.code}`} onClick={() => onRemoveExtra(e.id)}>✕</button>
+              </li>
+            ))}
+          </ul>
+        )}
         <p className="tt-note">
           {extras.length
-            ? `${extras.length} planned course${extras.length === 1 ? '' : 's'} included in the what-if column.`
-            : 'Add future classes to see where they land you.'}
+            ? `${extras.length} prospective class${extras.length === 1 ? '' : 'es'} — ${prosCredits} cr at assumed grades, counted in the what-if column only.`
+            : 'Classes you have not taken yet, with the grade you are assuming. They get their own section in the table.'}
         </p>
       </section>
 

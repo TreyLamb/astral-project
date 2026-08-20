@@ -6,8 +6,10 @@ import bundled from './transcript.data.json';
 import { parseTranscript } from './parseTranscript';
 import { gpaOf, impactOf, creditsToReach, isCounted, gradeOf, fmtGpa, GRADES, SCALES } from './gpa';
 import { loadScenario, saveScenario, cleanView } from './transcriptStorage';
+import { clampCreditBlock } from './creditBlocks';
 import CourseTable from './CourseTable';
 import SidePanel from './SidePanel';
+import ProspectiveModal from './ProspectiveModal';
 import { COLUMNS, NO_FILTERS } from './columns';
 import './TranscriptTool.css';
 
@@ -46,6 +48,7 @@ export default function TranscriptToolApp() {
     return fromUrl ? { ...loadScenario(), ...fromUrl } : loadScenario();
   });
 
+  const [prosOpen, setProsOpen] = useState(false);
   const [pasteOpen, setPasteOpen] = useState(false);
   const [pasteText, setPasteText] = useState('');
   const [pasteErr, setPasteErr] = useState(null);
@@ -58,7 +61,7 @@ export default function TranscriptToolApp() {
   // table. Review mode: worst grades first, but every course you've actually
   // touched pinned above them, since a grade raised to an A would otherwise
   // sink to the bottom of a worst-first list.
-  const { sort, filters, chip, changedFirst, hideSuperseded } = view;
+  const { sort, filters, chip, changedFirst, hideSuperseded, creditBlock, showBlocks } = view;
 
   useEffect(() => { saveScenario(scenario); }, [scenario]);
 
@@ -132,7 +135,18 @@ export default function TranscriptToolApp() {
     }
   }, [overrides, honorRepeats, scale, impacts]);
 
-  const isChanged = useCallback((c) => !!overrides[c.id] || !!c.isExtra, [overrides]);
+  // Which of the three stacked sections a row belongs to: re-graded courses,
+  // then prospective classes, then the transcript as printed.
+  //
+  // Prospective classes pin to their own band unconditionally, review mode or
+  // not — they have no real position among the actual courses to sort into, so
+  // scattering them through the table would be worse than grouping them. The
+  // re-graded band only floats when review mode asks for it, which is why a
+  // scenario with no prospective classes orders exactly as it always did.
+  const bandRank = useCallback((c) => {
+    if (c.isExtra) return 1;
+    return changedFirst && overrides[c.id] ? 0 : 2;
+  }, [overrides, changedFirst]);
 
   const rows = useMemo(() => {
     const matches = (c) => {
@@ -172,11 +186,9 @@ export default function TranscriptToolApp() {
 
     const mul = sort.dir === 'asc' ? 1 : -1;
     return whatIfCourses.filter(matches).sort((a, b) => {
-      if (changedFirst) {
-        const ca = isChanged(a);
-        const cb = isChanged(b);
-        if (ca !== cb) return ca ? -1 : 1;
-      }
+      const ba = bandRank(a);
+      const bb = bandRank(b);
+      if (ba !== bb) return ba - bb;
       const x = keyOf(a, sort.key);
       const y = keyOf(b, sort.key);
       if (x < y) return -1 * mul;
@@ -184,7 +196,7 @@ export default function TranscriptToolApp() {
       // Stable, readable tiebreak: chronological, then by course code.
       return (a.termOrder - b.termOrder) || a.code.localeCompare(b.code);
     });
-  }, [whatIfCourses, filters, chip, sort, keyOf, impacts, overrides, changedFirst, isChanged, hideSuperseded, honorRepeats]);
+  }, [whatIfCourses, filters, chip, sort, keyOf, impacts, overrides, bandRank, hideSuperseded, honorRepeats]);
 
   const supersededCount = useMemo(
     () => courses.filter((c) => !isCounted(c, honorRepeats)).length,
@@ -456,7 +468,8 @@ export default function TranscriptToolApp() {
           onScale={(v) => patch({ scale: v })}
           onHonorRepeats={(v) => patch({ honorRepeats: v })}
           onGoal={(v) => patch({ goal: v })}
-          onAddExtra={(c) => patch({ extras: [...extras, c] })}
+          onOpenProspective={() => setProsOpen(true)}
+          onRemoveExtra={(id) => patch({ extras: extras.filter((e) => e.id !== id) })}
           onCopyLink={copyLink}
           onExportCsv={exportCsv}
           onExportJson={() => download('gpa-whatif.json', JSON.stringify({ actual, whatIf, overrides, extras, scale, honorRepeats }, null, 2), 'application/json')}
@@ -471,6 +484,37 @@ export default function TranscriptToolApp() {
             <span className={activeFilters ? 'tt-count tt-count-filtered' : 'tt-count'}>
               {activeFilters ? '⚑ ' : ''}{rows.length} of {whatIfCourses.length} courses
               {activeFilters ? ` · ${activeFilters} filter${activeFilters === 1 ? '' : 's'} on` : ''}
+            </span>
+            <button type="button" className="tt-chip tt-chip-sm tt-chip-pros" onClick={() => setProsOpen(true)}>
+              + Prospective class{extras.length ? ` (${extras.length})` : ''}
+            </button>
+
+            {/* Free entry, not a preset list — a block is whatever a term
+                looks like for you, and 12 is only the common answer. */}
+            <span className="tt-blocks">
+              <button
+                type="button"
+                className={`tt-chip tt-chip-sm${showBlocks ? ' on' : ''}`}
+                onClick={() => setView({ showBlocks: !showBlocks })}
+                aria-pressed={showBlocks}
+                title="Rule off the courses you have changed into credit-sized blocks"
+              >Credit breaks</button>
+              <label className={`tt-blocks-lbl${showBlocks ? '' : ' off'}`}>
+                every
+                <input
+                  type="number"
+                  className="tt-blocks-in"
+                  min="0.5"
+                  max="99"
+                  step="0.5"
+                  value={creditBlock}
+                  disabled={!showBlocks}
+                  onChange={(e) => setView({ creditBlock: e.target.value })}
+                  onBlur={(e) => setView({ creditBlock: clampCreditBlock(e.target.value) })}
+                  aria-label="Credits per block"
+                />
+                cr
+              </label>
             </span>
             {topWin && (
               <span className="tt-topwin">
@@ -497,11 +541,22 @@ export default function TranscriptToolApp() {
             changedFirst={changedFirst}
             onChangedFirst={toggleChangedFirst}
             changedCount={changeCount}
+            creditBlock={Number(creditBlock) || 0}
+            showBlocks={showBlocks}
           />
         </section>
       </main>
         </>} />
       </Routes>
+
+      <ProspectiveModal
+        open={prosOpen}
+        onClose={() => setProsOpen(false)}
+        onAdd={(c) => {
+          patch({ extras: [...extras, c] });
+          setToast(`Added ${c.code} — ${c.credits} cr assuming ${c.grade}`);
+        }}
+      />
 
       {pasteOpen && (
         <div className="tt-modal-back" onClick={() => setPasteOpen(false)}>
