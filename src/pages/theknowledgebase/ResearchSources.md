@@ -1,0 +1,21 @@
+From rEddit:
+
+General Advice:
+
+This entire test revolves around speed. All of your practice tests must be time limited to that respective section, completed on a printed out scantron sheet, and with a #2 pencil. If you are taking the eAFOQT, then this strategy will buy you some extra time since the digital test is easier to navigate than burning an extra two-three seconds per question with scantrons and navigating your eye movement to the correct question on the test sheet and the corresponding answer match on the scantron sheet. If you are taking it on paper, then good luck and this will prepare you for it. EVERY SECOND COUNTS. Shaving three seconds per question can be the difference between having the time to answer/review other questions or failing to complete a section.
+
+Big thanks to the guy who shared this AFOQT Scantron sheet for print out. Print about 20 copies, you are going to need them for practice. One small note, I would highly recommend that you edit this document next to the time stamp markers, and put down how many seconds you are allotted per question and what your timer should be at when you get to the halfway point. For example, Math Knowledge (22 mins total, 50 Seconds per question, by half-way at 11 minutes remaining, I need to be around question 13). This will drill the time limit per section into your brain over multiple practice tests. https://www.dropbox.com/scl/fo/94d4sexvydbmw80mcnpoz/ABRyY0IqdNJfqxhvMWmqJmE/AFOQT%20Scantron.pdf?rlkey=231fr1un1pgsy2qo839du0vaf&e=2&dl=0You can also reuse them and fill your answer in on other sections since most subsets are about 25 questions, so no need to print more than 20.
+
+Do NOT dwell on any question you can’t figure out. Put down a guess within 5 seconds and don’t leave it blank, in case you run out of time you won’t be able to come back to it. Mark it for review, and move onto the next question. They are all weighted equally and there will be those you cannot figure out within the time allotted per question. If you are super confident on that section, you can burn an extra few seconds and hope that you can save that time on other questions in the subtest section.
+
+Purchase Trivium, Barron's, and the AFOQT Guide "Colonel" Package immediately https://afoqtguide.com/ . This is the holy trinity of your practice tests. Barron's book is both the gold standard for general knowledge about the test and learning concepts. Trivium book provides more challenging tests and preps you well but is not as user friendly as Barron's. AFOQT Guide Colonel package at 50 bucks is a huge rip off, especially considering it is just 3 pdf tests and does not contain study material, however it is worth it and the only good game in town. The online “tests” in Trivium and AFOQT guide are trash, and just not worth it in my opinion, however, take a look through to learn the concepts.
+
+Get your hands on any and all free practice tests you can. Learning the time limits, random concepts, and ways to solve a variety of problems are crucial.
+
+Do not just keep taking a bunch of practice tests back to back continuously. Take as many as you can, then write down all concepts you got wrong or were unfamiliar with. Spend a few days reviewing and re-learning all concepts, take a break, and then take another batch of practice tests.
+
+The physical science, situational judgement, and self-assessment are not weighted, so I personally did not study or do any practice tests for them. Just read through them in Barron's/Trivium and called it a day.
+
+https://af-oatts.github.io/ Official AFOQT & TBAS Test-familiarization Software. I felt this entire program was just AI Slop, non-user friendly, and did not help. I would not recommend it for study but take a look to see if it works for you.
+
+There is no substitute for just putting in the hours and learning. There are plenty of people on here who just went in after a few days of review and took the test. If you are that capable, then good luck, but the rest of us mere mortals need a good couple of months.

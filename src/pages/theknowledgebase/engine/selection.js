@@ -160,7 +160,11 @@ export function largestRemainderAllocate(shares, poolSizes, total) {
  * @param {() => number} args.rng
  * @returns {{queue: {questionId:string, retry:boolean}[], cyclesOut: Object<string, import('../tkbStorage.js').CycleState>}}
  */
-export function buildSessionQueue({ N, questions, subjects, weights, cycles, settings, profile, today, rng }) {
+export function buildSessionQueue({ N, questions, subjects, weights, cycles, settings, profile, today, rng, scopeSubjectIds = null }) {
+  // scopeSubjectIds is a per-session override of settings.autoScopedSubjectIds. It exists
+  // so a dedicated entry point (e.g. /TKB/asvab) can scope a session to one subject WITHOUT
+  // writing to settings - the ASVAB deck and its settings are read-only.
+  const scopeIds = scopeSubjectIds ?? settings.autoScopedSubjectIds;
   const subjectsById = new Map(subjects.map((s) => [s.id, s]));
   const requiredPipeline = profile.paceClass === 'fast' ? 'main_recall' : 'quick_fact';
 
@@ -169,7 +173,7 @@ export function buildSessionQueue({ N, questions, subjects, weights, cycles, set
     if (q.pipeline !== requiredPipeline) return false;
     const subject = subjectsById.get(q.subjectId);
     if (!subject || !subject.visibleToProfiles.includes(profile.id)) return false;
-    if (profile.subjectScope === 'scoped' && !settings.autoScopedSubjectIds.includes(subject.id)) {
+    if (profile.subjectScope === 'scoped' && !scopeIds.includes(subject.id)) {
       return false;
     }
     return true;

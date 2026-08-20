@@ -15,13 +15,19 @@
     "eft:mapconfig": "node scripts/buildEftMapConfig.mjs",
     "eft:quests": "node scripts/fetchEftQuests.mjs",
     "eft:ammo": "node scripts/fetchEftAmmo.mjs",
-    "tt:parse": "node scripts/parseTranscript.mjs"
+    "tt:parse": "node scripts/parseTranscript.mjs",
+    "afoqt:selftest": "node scripts/afoqtSelftest.mjs",
+    "afoqt:coverage": "node scripts/afoqtCoverage.mjs",
+    "afoqt:sample": "node scripts/afoqtSample.mjs",
+    "afoqt:check": "npm run afoqt:selftest && npm run afoqt:coverage"
   },
   "dependencies": {
+    "@mintplex-labs/piper-tts-web": "^1.0.5",
     "firebase": "^12.14.0",
     "firebase-admin": "^14.2.0",
     "hyperformula": "^3.3.0",
     "jszip": "^3.10.1",
+    "kokoro-js": "^1.2.1",
     "leaflet": "^1.9.4",
     "mammoth": "^1.12.0",
     "react": "^19.2.0",
@@ -40,8 +46,10 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "pdf-parse": "^2.4.5",
     "playwright": "^1.61.1",
     "vite": "^7.2.4",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "yaml": "^2.9.0"
   }
 }

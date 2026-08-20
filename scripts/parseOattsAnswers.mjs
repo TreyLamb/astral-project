@@ -1,0 +1,153 @@
+// Parses OATTS answer-key PDFs into the AFOQT real-question bank.
+//
+// OATTS is USAF-published, cleared for public release (AFRL 2025-4499), so these items MAY
+// ship verbatim as provenance.kind:'real'. Commercial books may NOT - see
+// docs/afoqt/QUESTION-DOCTRINE.md.
+//
+// Two layouts exist in the source PDFs:
+//   A. "Knowledge Check - <section>" / "Question N" / stem / "* answer" / "- why"
+//      -> stem + correct answer + explanation, but NO distractors.
+//   B. "* Question N: <letter>" key block, then "Question N [Solution]" / stem /
+//      "A." .. "E." / optional "Walkthrough:" -> a COMPLETE five-option item.
+//
+//   node scripts/parseOattsAnswers.mjs <pdfDir> <outJson>
+
+import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { PDFParse } from 'pdf-parse';
+
+const [pdfDir, outJson] = process.argv.slice(2);
+if (!pdfDir || !outJson) {
+  console.error('usage: node scripts/parseOattsAnswers.mjs <pdfDir> <outJson>');
+  process.exit(1);
+}
+
+const SUBTEST = {
+  Arithmetic_Reasoning: 'AR', Aviation_Information: 'AI', Block_Counting: 'BC',
+  Instrument_Comprehension: 'IC', Math_Knowledge: 'MK', Reading_Comprehension: 'RC',
+  Table_Reading: 'TR', Verbal_Analogies: 'VA', Word_Knowledge: 'WK',
+  Physical_Science: 'PS',
+};
+// The source PDFs use several bullet glyphs; normalise them off answer text.
+const clean = (t) => String(t ?? '').replace(/^[\s•▪·*\-–—]+/, '').trim();
+
+const subtestOf = (f) => Object.entries(SUBTEST).find(([k]) => f.startsWith(k))?.[1] ?? '??';
+
+// Block Counting, Instrument Comprehension and Table Reading items are meaningless
+// without their figure, which lives in the Captivate lesson module as a baked image.
+const NEEDS_IMAGE = new Set(['BC', 'IC', 'TR']);
+
+const PROV = {
+  kind: 'real',
+  source: 'OATTS (official USAF) Knowledge Check',
+  url: 'https://github.com/af-oatts/content',
+  clearance: 'AFRL 2025-4499, cleared for public release 08 Sep 2025',
+};
+
+async function textOf(path) {
+  const p = new PDFParse({ data: new Uint8Array(readFileSync(path)) });
+  try { return (await p.getText()).text ?? ''; } finally { await p.destroy(); }
+}
+
+const out = [];
+let skipped = 0;
+
+for (const file of readdirSync(pdfDir).filter((f) => /\.pdf$/i.test(f))) {
+  const subtest = subtestOf(file);
+  const area = file.startsWith('Physical_Science__') ? file.split('__')[1].replace(/_/g, ' ') : null;
+
+  const lines = (await textOf(`${pdfDir}/${file}`))
+    .split('\n').map((l) => l.replace(/\s+/g, ' ').trim())
+    .filter((l) => l && !/^-- \d+ of \d+ --$/.test(l) && !/ - Answers? \d+$/.test(l));
+
+  // Pass 1: collect the "* Question N: X" answer key (layout B).
+  const key = new Map();
+  for (const l of lines) {
+    const m = l.match(/^[•*]\s*Question\s+(\d+)\s*:\s*([A-E])\b/i);
+    if (m) key.set(Number(m[1]), m[2].toUpperCase());
+  }
+
+  // Pass 2: walk question blocks.
+  let section = null, cur = null;
+  const flush = () => {
+    if (!cur) return;
+    const stem = cur.stem.replace(/\s*\.\s*\.\s*\.\s*$/, '').trim();
+    const letters = [...cur.choices.keys()].sort();
+    if (stem && letters.length >= 2) {
+      const correct = key.get(cur.n) ?? cur.correctInline;
+      if (!correct || !cur.choices.has(correct)) { skipped++; cur = null; return; }
+      out.push({
+        id: `oatts-${subtest}-${String(out.length + 1).padStart(3, '0')}`,
+        subtest, topic: area ?? section, question: stem,
+        choices: letters.map((L) => ({ label: L, text: cur.choices.get(L) })),
+        correct,
+        answer: cur.choices.get(correct),
+        explanation: cur.why.join(' ').trim() || null,
+        provenance: PROV, complete: true,
+        needsImage: NEEDS_IMAGE.has(subtest) || /image|figure|dial|shown|pictured/i.test(stem),
+      });
+    } else if (stem && cur.answer) {
+      out.push({
+        id: `oatts-${subtest}-${String(out.length + 1).padStart(3, '0')}`,
+        subtest, topic: area ?? section, question: stem,
+        choices: null, correct: null, answer: clean(cur.answer),
+        explanation: cur.why.join(' ').trim() || null,
+        provenance: PROV,
+        // Distractors live in the Captivate lesson modules as baked images, so they are
+        // not recoverable here. Anything generated to fill them is NOT official.
+        complete: false, choicesGenerated: true,
+        needsImage: NEEDS_IMAGE.has(subtest) || /image|figure|dial|shown|pictured/i.test(stem),
+      });
+    } else skipped++;
+    cur = null;
+  };
+
+  for (const line of lines) {
+    if (/^[•*]\s*Question\s+\d+\s*:/i.test(line)) continue;          // key block
+    const sec = line.match(/^Knowledge Check\s*[–-]\s*(.+)$/);
+    if (sec) { flush(); section = sec[1].trim(); continue; }
+    const q = line.match(/^Question\s+(\d+)(?:\s+Solution)?\s*:?\s*$/i);
+    if (q) { flush(); cur = { n: Number(q[1]), stem: '', choices: new Map(), answer: '', why: [] }; continue; }
+    // Instrument Comprehension numbers the stem inline: "1. <stem>" with no 'Question' word.
+    const qn = line.match(/^(\d{1,2})[.)]\s+(\S.*)$/);
+    if (qn && Number(qn[1]) <= 60 && !/^[A-E][.)]/.test(qn[2])) {
+      flush();
+      cur = { n: Number(qn[1]), stem: qn[2].trim(), choices: new Map(), answer: '', why: [] };
+      continue;
+    }
+    if (!cur) continue;
+
+    // Several keys state the answer inline instead of in a key block:
+    //   "The correct answer is D."      (Instrument Comprehension)
+    //   "Correct Answer: C"             (Verbal Analogies)
+    const ca = line.match(/^(?:The correct answer is|Correct Answer\s*:)\s*([A-E])\b/i);
+    if (ca) { cur.correctInline = ca[1].toUpperCase(); cur.inWhy = true;
+              const rest = line.replace(/^(?:The correct answer is|Correct Answer\s*:)\s*[A-E]\b\.?/i, '').trim();
+              if (rest) cur.why.push(rest); continue; }
+
+    const ch = line.match(/^([A-E])[.)]\s+(.*)$/);
+    if (ch && !cur.inWhy) { cur.choices.set(ch[1], ch[2].trim()); cur.last = ch[1]; continue; }
+    if (/^Walkthrough:?$/i.test(line) || /^Walkthrough:/i.test(line)) {
+      cur.inWhy = true;
+      const rest = line.replace(/^Walkthrough:?/i, '').trim();
+      if (rest) cur.why.push(rest);
+      continue;
+    }
+    if (line.startsWith('•')) { cur.answer = line.slice(1).trim(); continue; }
+    if (line.startsWith('-') && cur.answer) { cur.why.push(line.slice(1).trim()); continue; }
+    if (cur.inWhy) { cur.why.push(line); continue; }
+    if (cur.answer) { cur.why.push(line); continue; }
+    if (cur.last) { cur.choices.set(cur.last, `${cur.choices.get(cur.last)} ${line}`.trim()); continue; }
+    cur.stem += (cur.stem ? ' ' : '') + line;
+  }
+  flush();
+}
+
+writeFileSync(outJson, JSON.stringify(out, null, 2));
+const by = {};
+for (const q of out) {
+  by[q.subtest] ??= { total: 0, complete: 0 };
+  by[q.subtest].total++;
+  if (q.complete) by[q.subtest].complete++;
+}
+console.log(`parsed ${out.length} official questions (${out.filter(q=>q.complete).length} with full choices), skipped ${skipped}`);
+console.log(Object.entries(by).map(([k, v]) => `${k}:${v.total}(${v.complete})`).join('  '));

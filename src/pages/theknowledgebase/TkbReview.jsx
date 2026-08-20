@@ -54,10 +54,18 @@ export default function TkbReview() {
     // of scoping to one subject is to work through it, not sample 60 of 750+
     // at random each time. buildSessionQueue already clamps to the real pool
     // size on its own, so an oversized N here is safe.
-    const effectiveN = profile.subjectScope === 'scoped' ? questions.length : settings.defaultN;
+    // ?n= lets an entry point request a session size without changing saved settings.
+    const requestedN = Number(searchParams.get('n'));
+    const effectiveN = Number.isFinite(requestedN) && requestedN > 0
+      ? requestedN
+      : profile.subjectScope === 'scoped' ? questions.length : settings.defaultN;
     effectiveNRef.current = effectiveN;
+    // ?subject=<id> scopes this one session without touching saved settings - used by the
+    // /TKB/asvab entry point, which must leave the ASVAB deck and its settings untouched.
+    const subjectParam = searchParams.get('subject');
     const { queue: builtQueue } = buildSessionQueue({
       N: effectiveN, questions, subjects, weights, cycles, settings, profile, today, rng: rngRef.current,
+      scopeSubjectIds: subjectParam ? [subjectParam] : null,
     });
     sessionStartedAtRef.current = new Date().toISOString();
     // Skip past any leading question ids that don't resolve (defensive; should

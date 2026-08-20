@@ -42,3 +42,15 @@ __pycache__/
 # scratch screenshots from local browser checks
 *.tmp.png
 *.tmp.mjs
+
+# AFOQT calibration books are copyrighted commercial material and live OUTSIDE the repo
+# (G:\My Drive\). This is defensive only — see src/pages/theknowledgebase/CLAUDE.md.
+# The books are a RULER for difficulty calibration, never a corpus to ship.
+src/pages/theknowledgebase/**/*.pdf
+src/pages/theknowledgebase/**/*.epub
+
+# TKB/AFOQT research captures: raw third-party study material (Quizlet deck dumps,
+# instrument and aviation diagram screenshots) kept locally as a reference ruler only.
+# Same rule as the calibration books above — never shipped into the app, and not
+# republished through this repo. Derived/authored content lives in afoqt/data/ instead.
+src/pages/theknowledgebase/ResearchPics/

@@ -1,0 +1,357 @@
+/* AFOQT module. Prefix: afq-. Inherits the --tkb-* tokens from Tkb.css - no new palette. */
+
+.afq-wrap { display: flex; flex-direction: column; gap: 1rem; width: 100%; }
+.afq-loading { padding: 2rem; color: var(--tkb-ink-soft); }
+
+.afq-subnav { display: flex; gap: .5rem; border-bottom: 1px solid var(--tkb-border); padding-bottom: .5rem; }
+.afq-subtab {
+  background: none; border: 1px solid transparent; border-radius: 6px;
+  padding: .35rem .8rem; cursor: pointer; color: var(--tkb-ink-soft); font: inherit;
+}
+.afq-subtab.active { background: var(--tkb-surface); border-color: var(--tkb-border); color: var(--tkb-ink); }
+
+.afq-btn {
+  font: inherit; padding: .45rem .9rem; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--tkb-border); background: var(--tkb-surface); color: var(--tkb-ink);
+}
+.afq-btn:disabled { opacity: .5; cursor: not-allowed; }
+.afq-btn.afq-primary { background: var(--tkb-accent); border-color: var(--tkb-accent); color: #fff; }
+.afq-btn.afq-ghost { background: none; border-color: transparent; color: var(--tkb-ink-soft); }
+.afq-row { display: flex; gap: .5rem; align-items: center; }
+.afq-wrap-row { flex-wrap: wrap; }
+.afq-note { color: var(--tkb-ink-soft); font-size: .85rem; margin: .4rem 0 0; }
+
+/* --- config --- */
+.afq-config section { margin-bottom: 1.25rem; }
+.afq-config h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); margin: 0 0 .5rem; }
+.afq-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .5rem; }
+.afq-tile {
+  display: flex; flex-direction: column; gap: .15rem; text-align: left; font: inherit;
+  padding: .6rem .7rem; border: 1px solid var(--tkb-border); border-radius: 8px;
+  background: var(--tkb-surface); color: var(--tkb-ink); cursor: pointer;
+}
+.afq-tile.active { border-color: var(--tkb-accent); box-shadow: 0 0 0 1px var(--tkb-accent); }
+.afq-tile.empty { opacity: .55; }
+.afq-tile small { color: var(--tkb-ink-soft); font-size: .75rem; }
+.afq-reach { text-transform: uppercase; letter-spacing: .04em; font-size: .7rem; }
+.afq-start { margin-top: .5rem; }
+
+/* --- runner --- */
+.afq-runner { display: flex; flex-direction: column; gap: .75rem; max-width: 760px; }
+/* Subtests that ship a figure get the room the figure needs. 760px is the right measure for
+   reading a question stem and the wrong one for a 33x33 grid, so the column widens only when
+   there is actually something to draw - see `wide` in DrillRunner. */
+.afq-runner-wide { max-width: 1160px; }
+/* ...and the TKB shell caps its reading column at 960px, which predates AFOQT and belongs to
+   the original flashcard tool. Rather than change a shared rule every other TKB page depends
+   on, lift the cap only for a page that is currently showing a figure. Without :has() support
+   the grid simply scrolls inside its own box, which is the designed fallback anyway. */
+.tkb-wrapper .tkb-main:has(.afq-runner-wide) { max-width: 1240px; }
+/* The figure wants the width; the words do not. A five-option list stretched across 1,100px
+   is harder to scan than one at a normal measure. */
+.afq-runner-wide .afq-stem, .afq-runner-wide .afq-choices, .afq-runner-wide .afq-hint { max-width: 620px; }
+.afq-runner-top { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.afq-pill { background: var(--tkb-surface); border: 1px solid var(--tkb-border); border-radius: 999px; padding: .15rem .6rem; font-size: .8rem; }
+.afq-progress { color: var(--tkb-ink-soft); font-size: .85rem; }
+.afq-clock { font-variant-numeric: tabular-nums; font-size: 1.3rem; font-weight: 600; }
+.afq-clock.low { color: var(--tkb-wrong); }
+
+/* Ahead/behind marker. A bare countdown does not teach pace; this does. */
+.afq-pace { font-size: .8rem; padding: .1rem .5rem; border-radius: 999px; }
+.afq-pace-on { color: var(--tkb-ink-soft); }
+.afq-pace-ahead { color: var(--tkb-correct); background: color-mix(in srgb, var(--tkb-correct) 12%, transparent); }
+.afq-pace-behind { color: var(--tkb-wrong); background: color-mix(in srgb, var(--tkb-wrong) 12%, transparent); }
+
+.afq-bar { height: 4px; background: var(--tkb-border); border-radius: 2px; overflow: hidden; }
+.afq-bar-fill { height: 100%; background: var(--tkb-accent); transition: width .2s linear; }
+.afq-alert { background: color-mix(in srgb, var(--tkb-wrong) 12%, transparent); color: var(--tkb-wrong); padding: .5rem .7rem; border-radius: 6px; font-size: .9rem; }
+
+.afq-card { background: var(--tkb-surface); border: 1px solid var(--tkb-border); border-radius: 10px; padding: 1.1rem; }
+.afq-stem { font-size: 1.15rem; margin: 0 0 1rem; line-height: 1.45; }
+.afq-choices { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .4rem; }
+.afq-choice {
+  width: 100%; text-align: left; font: inherit; cursor: pointer;
+  padding: .55rem .7rem; border: 1px solid var(--tkb-border); border-radius: 6px;
+  background: var(--tkb-canvas); color: var(--tkb-ink);
+}
+.afq-choice:hover { border-color: var(--tkb-accent); }
+.afq-letter {
+  display: inline-block; min-width: 1.6em; font-weight: 700; color: var(--tkb-ink-soft);
+}
+.afq-nudge { color: var(--tkb-unsure); font-size: .85rem; margin: .7rem 0 0; }
+.afq-hint { color: var(--tkb-ink-soft); font-size: .8rem; margin: 0; }
+
+/* --- summary --- */
+.afq-summary h2 { font-size: 2.2rem; margin: 0; }
+.afq-summary-grid { display: flex; gap: 1.5rem; flex-wrap: wrap; margin: .5rem 0 1rem; }
+.afq-summary-grid div { display: flex; flex-direction: column; }
+.afq-summary-grid span { font-size: 1.4rem; font-weight: 600; }
+.afq-summary-grid label { font-size: .75rem; color: var(--tkb-ink-soft); text-transform: uppercase; letter-spacing: .05em; }
+.afq-warn { color: var(--tkb-wrong); }
+
+/* --- dashboard --- */
+.afq-dash-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+.afq-dash-head h2 { margin: 0; }
+.afq-empty { padding: 1rem; border: 1px dashed var(--tkb-border); border-radius: 8px; color: var(--tkb-ink-soft); }
+.afq-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.afq-table th { text-align: left; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--tkb-ink-soft); border-bottom: 1px solid var(--tkb-border); padding: .35rem .5rem; }
+.afq-table td { padding: .35rem .5rem; border-bottom: 1px solid var(--tkb-border); }
+.afq-table tr.afq-dim { opacity: .5; }
+.afq-over { color: var(--tkb-wrong); }
+.afq-composites { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: .5rem; }
+.afq-composites li { border: 1px solid var(--tkb-border); border-radius: 8px; padding: .5rem .7rem; display: flex; flex-direction: column; gap: .1rem; }
+.afq-composites span { font-size: .8rem; color: var(--tkb-ink-soft); }
+.afq-composites small { font-size: .72rem; color: var(--tkb-ink-soft); }
+
+@media (max-width: 640px) {
+  .afq-summary-grid { gap: 1rem; }
+  .afq-table { font-size: .8rem; }
+}
+
+/* --- curriculum map ------------------------------------------------------ */
+.afq-curriculum { display: flex; flex-direction: column; gap: 2rem; }
+.afq-track-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+.afq-track-head h2 { margin: 0; }
+.afq-track-stat { display: flex; flex-direction: column; align-items: flex-end; }
+.afq-track-stat span { font-size: 1.6rem; font-weight: 600; line-height: 1; }
+.afq-track-stat label { font-size: .72rem; color: var(--tkb-ink-soft); text-transform: uppercase; letter-spacing: .05em; }
+.afq-track-stat small { color: var(--tkb-ink-soft); font-size: .78rem; }
+.afq-track-meta { display: flex; gap: .5rem; align-items: center; margin: .6rem 0 .9rem; flex-wrap: wrap; }
+
+.afq-chapters { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .4rem; }
+.afq-chapter-hit {
+  display: flex; align-items: flex-start; gap: .85rem; width: 100%; text-align: left;
+  padding: .7rem .85rem; border: 1px solid var(--tkb-border); border-radius: 8px;
+  background: var(--tkb-surface); color: var(--tkb-ink); font: inherit; cursor: pointer;
+}
+.afq-chapter-hit:hover:not(:disabled) { border-color: var(--tkb-accent); }
+.afq-chapter-hit:disabled { cursor: not-allowed; opacity: .55; }
+.afq-chapter.done .afq-chapter-hit { border-left: 3px solid var(--tkb-correct); }
+.afq-chapter-num {
+  flex: 0 0 1.8rem; height: 1.8rem; display: grid; place-items: center; border-radius: 50%;
+  background: var(--tkb-canvas); border: 1px solid var(--tkb-border);
+  font-size: .8rem; font-weight: 600; color: var(--tkb-ink-soft);
+}
+.afq-chapter.done .afq-chapter-num { background: var(--tkb-correct); border-color: var(--tkb-correct); color: #fff; }
+.afq-chapter-body { display: flex; flex-direction: column; gap: .25rem; flex: 1; min-width: 0; }
+.afq-chapter-body small { color: var(--tkb-ink-soft); font-size: .8rem; line-height: 1.35; }
+.afq-chapter-tags { display: flex; gap: .35rem; flex-wrap: wrap; margin-top: .15rem; }
+.afq-chip {
+  font-size: .68rem; padding: .1rem .45rem; border-radius: 999px;
+  background: var(--tkb-canvas); border: 1px solid var(--tkb-border); color: var(--tkb-ink-soft);
+}
+.afq-chip-warn { color: var(--tkb-unsure); border-color: color-mix(in srgb, var(--tkb-unsure) 40%, transparent); }
+.afq-locked-note { color: var(--tkb-unsure) !important; }
+.afq-chapter-state { font-size: .72rem; color: var(--tkb-ink-soft); text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
+.afq-footnote { max-width: 62ch; }
+
+/* --- one chapter --------------------------------------------------------- */
+.afq-chapter-view { display: flex; flex-direction: column; gap: 1rem; }
+.afq-back { align-self: flex-start; padding-left: 0; }
+.afq-chapter-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+.afq-chapter-head h2 { margin: .35rem 0 0; }
+.afq-badge {
+  padding: .25rem .7rem; border-radius: 999px; font-size: .75rem; font-weight: 600;
+  background: color-mix(in srgb, var(--tkb-correct) 15%, transparent); color: var(--tkb-correct);
+}
+.afq-badge-fast { background: color-mix(in srgb, var(--tkb-accent) 15%, transparent); color: var(--tkb-accent); }
+
+.afq-chapter-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: .6rem; }
+.afq-step {
+  display: flex; flex-direction: column; gap: .5rem; align-items: flex-start;
+  padding: .8rem; border: 1px solid var(--tkb-border); border-radius: 8px; background: var(--tkb-surface);
+}
+.afq-step h3 { margin: 0; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
+.afq-step p { margin: 0; font-size: .85rem; line-height: 1.45; flex: 1; }
+.afq-step-done { border-left: 3px solid var(--tkb-correct); }
+
+/* Lesson prose. Comfortable measure on purpose - this is the one place in the tool that is
+   long-form reading rather than a dashboard, which is exactly the exception webdesign.md
+   allows a max-width for. */
+.afq-lesson {
+  max-width: 74ch; line-height: 1.6;
+  padding: 1.25rem 1.5rem; border: 1px solid var(--tkb-border); border-radius: 10px; background: var(--tkb-surface);
+}
+.afq-lesson h1 { font-size: 1.5rem; margin: 0 0 1rem; }
+.afq-lesson h2 { font-size: 1.1rem; margin: 1.8rem 0 .6rem; padding-top: .9rem; border-top: 1px solid var(--tkb-border); }
+.afq-lesson h3 { font-size: .95rem; margin: 1.2rem 0 .4rem; }
+.afq-lesson p, .afq-lesson li { font-size: .92rem; }
+.afq-lesson code { background: var(--tkb-canvas); padding: .1rem .35rem; border-radius: 4px; font-size: .88em; }
+.afq-lesson blockquote {
+  margin: 1rem 0; padding: .6rem .9rem; border-left: 3px solid var(--tkb-unsure);
+  background: color-mix(in srgb, var(--tkb-unsure) 8%, transparent); border-radius: 0 6px 6px 0;
+}
+.afq-lesson blockquote p { margin: .3rem 0; }
+.afq-lesson table { border-collapse: collapse; width: 100%; margin: .9rem 0; font-size: .85rem; }
+.afq-lesson th, .afq-lesson td { border: 1px solid var(--tkb-border); padding: .35rem .55rem; text-align: left; }
+.afq-lesson th { background: var(--tkb-canvas); }
+.afq-lesson hr { border: none; border-top: 1px solid var(--tkb-border); margin: 1.5rem 0; }
+
+.afq-concepts { font-size: .85rem; color: var(--tkb-ink-soft); }
+.afq-concepts summary { cursor: pointer; }
+.afq-concept-list { list-style: none; margin: .6rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .3rem; }
+.afq-concept-list li { display: flex; justify-content: space-between; gap: .5rem; padding: .25rem .5rem; background: var(--tkb-surface); border-radius: 4px; }
+
+/* --- results ------------------------------------------------------------- */
+.afq-verdict { font-weight: 600; }
+.afq-verdict.afq-pass { color: var(--tkb-correct); }
+.afq-misses { display: flex; flex-direction: column; gap: .7rem; margin: .5rem 0 1rem; }
+.afq-misses h3 { margin: 0; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
+.afq-miss { padding: .7rem .85rem; border: 1px solid var(--tkb-border); border-left: 3px solid var(--tkb-wrong); border-radius: 0 8px 8px 0; background: var(--tkb-surface); }
+.afq-miss-stem { margin: 0 0 .4rem; font-weight: 500; }
+.afq-miss-line { display: flex; gap: 1.2rem; flex-wrap: wrap; margin: 0 0 .4rem; font-size: .85rem; }
+.afq-miss-bad { color: var(--tkb-wrong); }
+.afq-miss-good { color: var(--tkb-correct); }
+.afq-miss-why { margin: 0; font-size: .85rem; color: var(--tkb-ink-soft); line-height: 1.5; }
+
+.afq-next {
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+  padding: .9rem 1rem; border: 1px solid var(--tkb-border); border-radius: 10px; background: var(--tkb-surface);
+}
+.afq-next h3 { margin: 0; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
+.afq-next-title { margin: .4rem 0 0; font-size: .9rem; }
+.afq-misspool { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
+
+/* --- figures: the Table Reading grid -------------------------------------
+   33 x 33 = 1,089 cells, and all of them have to be on screen at once - the real subtest
+   prints one block and gives you 10.5 seconds, so a grid that needed scrolling would be
+   measuring scrolling. It is sized to fit a normal window and only scrolls inside its own
+   container on a narrow one (webdesign.md: wide content scrolls itself, the page never does). */
+.afq-table-fig { margin: 0 0 .9rem; }
+.afq-table-wrap {
+  overflow-x: auto; max-width: 100%;
+  border: 1px solid var(--tkb-border); border-radius: 8px; background: var(--tkb-surface);
+  padding: .3rem;
+}
+.afq-tg {
+  border-collapse: collapse; margin: 0 auto;
+  font: 500 11px/1.15 ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  /* No dragging a selection along a row: on paper the directions forbid a straight edge, and
+     a highlighted text selection is the same crutch by another name. */
+  user-select: none;
+}
+.afq-tg td, .afq-tg th {
+  padding: 2px 3px; text-align: center; border: 1px solid color-mix(in srgb, var(--tkb-border) 55%, transparent);
+  white-space: nowrap;
+}
+.afq-tg td { color: var(--tkb-ink); }
+.afq-tg th {
+  background: var(--tkb-canvas); color: var(--tkb-ink-soft); font-weight: 700;
+  position: sticky; z-index: 1;
+}
+.afq-tg thead th { top: 0; }
+.afq-tg tbody th { left: 0; }
+.afq-tg-corner { top: 0; left: 0; z-index: 2; font-size: 9px; letter-spacing: .02em; }
+.afq-tg-axis-lit { background: color-mix(in srgb, var(--tkb-accent) 28%, var(--tkb-canvas)) !important; color: var(--tkb-ink) !important; }
+
+/* Reveal only. During the question nothing is marked - see render/DataTable.jsx. */
+.afq-tg-mark { font-weight: 700; }
+.afq-tg-ok { background: color-mix(in srgb, var(--tkb-correct) 32%, transparent); outline: 2px solid var(--tkb-correct); outline-offset: -2px; }
+.afq-tg-err { background: color-mix(in srgb, var(--tkb-wrong) 22%, transparent); }
+.afq-tg-from { background: color-mix(in srgb, var(--tkb-accent) 25%, transparent); }
+.afq-table-legend {
+  display: flex; align-items: center; gap: .4rem 1rem; flex-wrap: wrap;
+  margin: .45rem 0 0; font-size: .75rem; color: var(--tkb-ink-soft);
+}
+.afq-tg-key { display: inline-block; width: .8rem; height: .8rem; border-radius: 3px; margin-right: .25rem; vertical-align: -1px; }
+
+/* --- error-mode breakdown -------------------------------------------------
+   The payoff for insisting every distractor is a named mistake: a score becomes a diagnosis. */
+.afq-modes {
+  padding: .8rem 1rem; border: 1px solid var(--tkb-border); border-left: 3px solid var(--tkb-unsure);
+  border-radius: 0 8px 8px 0; background: var(--tkb-surface);
+}
+.afq-modes h3 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
+.afq-modes ul { list-style: none; margin: 0 0 .5rem; padding: 0; display: flex; flex-direction: column; gap: .3rem; }
+.afq-modes li { display: flex; gap: .6rem; align-items: baseline; font-size: .88rem; }
+.afq-mode-n { font-weight: 700; color: var(--tkb-wrong); min-width: 2rem; }
+.afq-miss-mode { margin: 0 0 .35rem; font-size: .85rem; font-weight: 600; color: var(--tkb-wrong); }
+
+/* Short options next to a figure: one row, like the answer sheet. Keeps option E on screen. */
+.afq-choices-row { flex-direction: row; flex-wrap: wrap; gap: .5rem; }
+.afq-choices-row li { flex: 0 0 auto; }
+.afq-choices-row .afq-choice {
+  width: auto; min-width: 6.5rem; text-align: center;
+  font-variant-numeric: tabular-nums; padding: .6rem .9rem;
+}
+.afq-runner-wide .afq-choices-row { max-width: none; }
+
+/* A 33x33 grid plus a question plus five options does not fit above the fold on a short
+   laptop screen, and the real subtest never asks you to scroll to reach option E. So on a
+   short window the grid gets DENSER rather than taller - the values stay legible, the row
+   pitch tightens, and the whole figure keeps its shape. */
+@media (max-height: 900px) {
+  .afq-tg { font-size: 10px; line-height: 1.05; }
+  .afq-tg td, .afq-tg th { padding: 0 2px; }
+  .afq-tg-corner { font-size: 8px; }
+}
+@media (max-height: 780px) {
+  .afq-tg { font-size: 9.5px; }
+  .afq-choices-row .afq-choice { padding: .4rem .75rem; }
+}
+
+/* --- figures: the Instrument Comprehension dials and silhouettes ----------
+   Drawn rather than photographed, so they inherit the theme and stay crisp at any size. The
+   colours are deliberately flat: the official figures carry no shading and adding any would
+   invent a depth cue the real item does not give you. */
+.afq-dials { display: flex; gap: 1.25rem; justify-content: center; margin: 0 0 1rem; flex-wrap: wrap; }
+.afq-dial { display: block; }
+.afq-dial-face { fill: var(--tkb-canvas); }
+.afq-dial-rim { fill: none; stroke: var(--tkb-ink); stroke-width: 2.5; }
+.afq-dial-sky { fill: color-mix(in srgb, var(--tkb-accent) 14%, var(--tkb-canvas)); }
+/* "The shaded portions of the instrument face represent the ground." */
+.afq-dial-ground { fill: color-mix(in srgb, var(--tkb-ink) 38%, var(--tkb-canvas)); }
+.afq-dial-horizon { stroke: var(--tkb-ink); stroke-width: 3.5; }
+.afq-dial-tick { stroke: var(--tkb-ink-soft); stroke-width: 1.5; }
+.afq-dial-zero { stroke: var(--tkb-ink); stroke-width: 2.5; }
+.afq-dial-pointer { fill: var(--tkb-ink); }
+.afq-dial-symbol line { stroke: var(--tkb-ink); stroke-width: 3.5; }
+.afq-dial-symbol circle { fill: none; stroke: var(--tkb-ink); stroke-width: 3; }
+.afq-dial-needle polygon { fill: var(--tkb-ink); }
+.afq-dial-needle line { stroke: var(--tkb-ink); stroke-width: 2.5; }
+.afq-dial-hub { fill: var(--tkb-ink); }
+.afq-dial-cardinal { font-size: 11px; font-weight: 700; text-anchor: middle; fill: var(--tkb-ink); }
+/* Captions sit OUTSIDE the dial. Drawn inside the SVG they were clipped by the rim and lost
+   against the ground shading at steep bank angles. */
+.afq-dial-wrap { display: flex; flex-direction: column; align-items: center; gap: .2rem; }
+.afq-dial-wrap figcaption {
+  font-size: .62rem; letter-spacing: .1em; font-weight: 600;
+  color: var(--tkb-ink-soft); text-transform: uppercase;
+}
+
+.afq-silhouette polygon { fill: var(--tkb-ink); }
+.afq-silhouette-muted polygon { fill: var(--tkb-ink-soft); }
+
+/* An option that is a picture: the four aircraft sit side by side, as on the real page. */
+.afq-choices-row .afq-choice-figure { min-width: 8.5rem; padding: .35rem .4rem; }
+.afq-choice-figure { display: flex; flex-direction: column; align-items: center; gap: .2rem; }
+.afq-choice-figure .afq-letter { margin: 0; }
+.afq-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Block Counting: line art, flat fills. The pile is read by tracing interior edges, so the
+   faces take the page colour and only the outlines carry information - a shaded render would
+   invent a depth cue the real figure does not give. */
+.afq-blockpile { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+.afq-block-face {
+  fill: var(--tkb-canvas);
+  stroke: var(--tkb-ink);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+.afq-block-label {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  fill: var(--tkb-ink);
+}
+/* The block actually being asked about. Every numbered block stays legible - the real figure
+   numbers several and asks about one - but the subject of the question is not a scavenger
+   hunt, and 9 seconds does not leave room for one. */
+.afq-block-label-on {
+  font-weight: 700;
+  fill: var(--tkb-accent);
+  font-size: 22px;
+}

@@ -7,6 +7,8 @@ import TkbHome from './TkbHome';
 import TkbReview from './TkbReview';
 import TkbBubbles from './TkbBubbles';
 import TkbSettings from './TkbSettings';
+import AfoqtApp from './afoqt/AfoqtApp';
+import AsvabView from './asvab/AsvabView';
 import './Tkb.css';
 import HubLink from '../../components/HubLink';
 
@@ -315,6 +317,8 @@ export default function TkbApp() {
     { path: '/TKB', label: 'Home', match: (p) => p === '/TKB' },
     { path: '/TKB/review', label: 'Review', match: (p) => p.startsWith('/TKB/review') },
     { path: '/TKB/subjects', label: 'Subjects', match: (p) => p.startsWith('/TKB/subjects') },
+    { path: '/TKB/afoqt', label: 'AFOQT', match: (p) => p.startsWith('/TKB/afoqt') },
+    { path: '/TKB/asvab', label: 'ASVAB', match: (p) => p.startsWith('/TKB/asvab') },
     { path: '/TKB/settings', label: 'Settings', match: (p) => p.startsWith('/TKB/settings') },
   ];
 
@@ -347,6 +351,8 @@ export default function TkbApp() {
               <Route path="review" element={<TkbReview />} />
               <Route path="subjects" element={<TkbBubbles />} />
               <Route path="settings" element={<TkbSettings />} />
+              <Route path="afoqt/*" element={<AfoqtApp />} />
+              <Route path="asvab" element={<AsvabView />} />
             </Routes>
           </div>
 

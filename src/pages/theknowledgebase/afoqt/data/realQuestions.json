@@ -1,0 +1,3257 @@
+[
+  {
+    "id": "oatts-AR-001",
+    "subtest": "AR",
+    "topic": null,
+    "question": "Your university has 14,500 students, with 48% female and 52% male. If 50% of the females are 25 or younger, how many females are older than 25?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "4,380"
+      },
+      {
+        "label": "B",
+        "text": "2,600"
+      },
+      {
+        "label": "C",
+        "text": "3,480"
+      },
+      {
+        "label": "D",
+        "text": "6,960"
+      },
+      {
+        "label": "E",
+        "text": "7,250 Solution Walkthrough: Step 1: write equation for number of females 48% = 48/100 = 12/25 12/25 * 14,500 = 12*14500/25 = 174000/25 = 6,960 total female students Step 2: solve for 50% females over 25 50% = 50/100 = 5/10 5/10 * 6,960 = 5*6960/10 = 34800/10 = 3,480"
+      }
+    ],
+    "correct": "C",
+    "answer": "3,480",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AR-002",
+    "subtest": "AR",
+    "topic": null,
+    "question": "If a car uses 2.5 gallons of gas every 55 miles, how many miles can be driven on 10 gallons of gas?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "120"
+      },
+      {
+        "label": "B",
+        "text": "220"
+      },
+      {
+        "label": "C",
+        "text": "110"
+      },
+      {
+        "label": "D",
+        "text": "230"
+      },
+      {
+        "label": "E",
+        "text": "180 Solution Walkthrough: Step 1: write out the problem as a proportion and cross multiply 2.5/55 = 10/x 2.5x = 550 Step 2: solve for x x = 550/2.5 = 550/(5/2) = 1100/5 = 220 miles"
+      }
+    ],
+    "correct": "B",
+    "answer": "220",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AR-003",
+    "subtest": "AR",
+    "topic": null,
+    "question": "Tim gathered twice as many oranges as Ryan, and Leon gathered 2 pounds more than Ryan. Together they gathered 30 pounds of oranges. How many pounds did Leon gather?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "6"
+      },
+      {
+        "label": "B",
+        "text": "7"
+      },
+      {
+        "label": "C",
+        "text": "8"
+      },
+      {
+        "label": "D",
+        "text": "9"
+      },
+      {
+        "label": "E",
+        "text": "10 Solution Walkthrough: Step 1: write out the equation of information T = Tim, R = Ryan, L = Leon Based on information we can infer that: T = 2R, L = (2 + R), R = R 2R + (2 + R) + R = 30 Step 2: rearrange and simplify the equation 2R + R + R + 2 = 30 4R + 2 = 30 Step 3: solve for R 4R = 28 R = 7 Step 3: solve for Leon (L) L = 2 + R L = 2 + 7 = 9"
+      }
+    ],
+    "correct": "D",
+    "answer": "9",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AR-004",
+    "subtest": "AR",
+    "topic": null,
+    "question": "You buy 3 pairs of pants at full price and 4 more pairs at 50% off. You buy the equivalent of how many pairs of pants at full price?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "4"
+      },
+      {
+        "label": "B",
+        "text": "5"
+      },
+      {
+        "label": "C",
+        "text": "6"
+      },
+      {
+        "label": "D",
+        "text": "7"
+      },
+      {
+        "label": "E",
+        "text": "8 Solution Walkthrough: Step 1: identify information You buy 3 pairs at full price and 4 at 50% off 2 pairs at 50% = 1 at full price 4 pairs at 50% = 2 at full price Step 2: solve for equivalent total 3 + 2 = 5 pairs"
+      }
+    ],
+    "correct": "B",
+    "answer": "5",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AR-005",
+    "subtest": "AR",
+    "topic": null,
+    "question": "Traveling by bike you average 13 miles per hour, it takes you 32 minutes to get to work. If you walk at a speed of 5 miles per hour, approximately how long would it take to get to work?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "75 min"
+      },
+      {
+        "label": "B",
+        "text": "79 min"
+      },
+      {
+        "label": "C",
+        "text": "81 min"
+      },
+      {
+        "label": "D",
+        "text": "64 min"
+      },
+      {
+        "label": "E",
+        "text": "83 min Solution Walkthrough: Step 1: convert the minutes into hours 32/60 = 8/15 hr Step 2: recall the equation for speed-distance-time Distance = speed * time D = 13 * (8/15) = 104/15 = 6.93 Step 3: solve for time with speed of 5 and distance of 6.93 Time = Distance/speed Time = (6.93)/5 = 1.4 hours Step 4: convert hours to minutes 1.4 * 60 = 83.16, the question asks for approximate so round to nearest minute"
+      }
+    ],
+    "correct": "E",
+    "answer": "83 min Solution Walkthrough: Step 1: convert the minutes into hours 32/60 = 8/15 hr Step 2: recall the equation for speed-distance-time Distance = speed * time D = 13 * (8/15) = 104/15 = 6.93 Step 3: solve for time with speed of 5 and distance of 6.93 Time = Distance/speed Time = (6.93)/5 = 1.4 hours Step 4: convert hours to minutes 1.4 * 60 = 83.16, the question asks for approximate so round to nearest minute",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AR-006",
+    "subtest": "AR",
+    "topic": null,
+    "question": "If you need to click a button once every 45 minutes, how many times in a 9-hour period do you need to click the button? Assume you click the button at the very beginning of the 9-hour period.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "10"
+      },
+      {
+        "label": "B",
+        "text": "11"
+      },
+      {
+        "label": "C",
+        "text": "12"
+      },
+      {
+        "label": "D",
+        "text": "13"
+      },
+      {
+        "label": "E",
+        "text": "14 Solution Walkthrough: Step 1: convert hours to minutes 9*60 = 540 min Step 2: solve for number of clicks by identifying number of 45-minute increments in 540 minutes 540/45 = 12 Plus, once at the very beginning 12 + 1 = 13"
+      }
+    ],
+    "correct": "D",
+    "answer": "13",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AR-007",
+    "subtest": "AR",
+    "topic": null,
+    "question": "A basketball team won 5 games with an average lead of 10 points per game. They lost 4 games by an average of 6 points per game. What is the total number of points scored more than the opponents of all the games?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "26"
+      },
+      {
+        "label": "B",
+        "text": "15"
+      },
+      {
+        "label": "C",
+        "text": "10"
+      },
+      {
+        "label": "D",
+        "text": "25"
+      },
+      {
+        "label": "E",
+        "text": "30 Solution Walkthrough: Step 1: calculate total point differential scored for both wins and losses 5 * 10 = 50 points"
+      }
+    ],
+    "correct": "A",
+    "answer": "26",
+    "explanation": "4 * 6 = 24 points Step 2: solve for the difference 50 – 24 = 26 points you must subtract the wins total by the loss total opponents across all the games",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AR-008",
+    "subtest": "AR",
+    "topic": null,
+    "question": "A house casts a shadow of 50 feet at the same time and place a 3- foot-tall mailbox casts a shadow of 5 feet. How tall is the building?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "250 feet"
+      },
+      {
+        "label": "B",
+        "text": "150 feet"
+      },
+      {
+        "label": "C",
+        "text": "65 feet"
+      },
+      {
+        "label": "D",
+        "text": "53 feet"
+      },
+      {
+        "label": "E",
+        "text": "30 feet Solution Walkthrough: Step 1: turn into a proportion x/50 = 3/5 Step 2: cross multiply and solve for x 5x = 50*3 5x = 150 x = 150/5 = 30"
+      }
+    ],
+    "correct": "E",
+    "answer": "30 feet Solution Walkthrough: Step 1: turn into a proportion x/50 = 3/5 Step 2: cross multiply and solve for x 5x = 50*3 5x = 150 x = 150/5 = 30",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AR-009",
+    "subtest": "AR",
+    "topic": null,
+    "question": "A rectangular room is 65 ft long and has a perimeter of 220 ft. What is the width of the room?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "50 ft"
+      },
+      {
+        "label": "B",
+        "text": "65 ft"
+      },
+      {
+        "label": "C",
+        "text": "45 ft"
+      },
+      {
+        "label": "D",
+        "text": "155 ft"
+      },
+      {
+        "label": "E",
+        "text": "130 ft Solution Walkthrough: Step 1: write out known information Perimeter of a rectangle is 2L +2W Perimeter = 220 L = 65 Step 2: write out equation 220 = 2L + 2W 220 = 65(2) +2W 220 = 130 + 2W Step 3: solve for W 2W = 220 - 130 2W = 90 W = 45"
+      }
+    ],
+    "correct": "C",
+    "answer": "45 ft",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AR-010",
+    "subtest": "AR",
+    "topic": null,
+    "question": "A math test has a total of 50 questions. How many questions can students answer incorrectly and still score a 74 on the test?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "13"
+      },
+      {
+        "label": "B",
+        "text": "14"
+      },
+      {
+        "label": "C",
+        "text": "15"
+      },
+      {
+        "label": "D",
+        "text": "10"
+      },
+      {
+        "label": "E",
+        "text": "11 Solution Walkthrough: Step 1: write out known information Test = 50 questions 74% = 74/100 = 37/50 questions correct Step 2: write out equation for number of incorrect 37 = 50 - x x = 50 - 37 x = 13"
+      }
+    ],
+    "correct": "A",
+    "answer": "13",
+    "explanation": "Knowledge Test 1 Answer Key",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AI-011",
+    "subtest": "AI",
+    "topic": "Aircraft Function",
+    "question": "Many larger aircraft are built with winglets to",
+    "choices": null,
+    "correct": null,
+    "answer": "Reduce drag",
+    "explanation": "Winglets were designed to reduce drag on the aircraft by changing the aerodynamic properties of the aircraft",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": false,
+    "choicesGenerated": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AI-012",
+    "subtest": "AI",
+    "topic": "Aircraft Function",
+    "question": "An aircraft’s elevator functions to",
+    "choices": null,
+    "correct": null,
+    "answer": "Change pitch",
+    "explanation": "An aircraft's elevator is designed to change the pitch by manipulating the aerodynamic properties of the horizontal stabilizer",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": false,
+    "choicesGenerated": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AI-013",
+    "subtest": "AI",
+    "topic": "Aircraft Type",
+    "question": "An aircraft with a Q designation means",
+    "choices": null,
+    "correct": null,
+    "answer": "Remote Pilot",
+    "explanation": "A 'Q' designation will always refer to a remotely piloted vehicle",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": false,
+    "choicesGenerated": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AI-014",
+    "subtest": "AI",
+    "topic": "Aircraft Type",
+    "question": "A UH-60 is designated by which of the following",
+    "choices": null,
+    "correct": null,
+    "answer": "Utility and Helicopter",
+    "explanation": "The 'U' is for utility. This aircraft is always a helicopter giving, meaning the 'H' designation is appropriate.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": false,
+    "choicesGenerated": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AI-015",
+    "subtest": "AI",
+    "topic": "Airfield Operation",
+    "question": "Runway 16R is decoded as",
+    "choices": null,
+    "correct": null,
+    "answer": "160 degrees / Right most runway",
+    "explanation": "Runway 16R is decoded as such as Runway numbers use the magnetic heading in increments of 10, so it cannot be 16. Runway 34 is the inverse. 'R' is always 'Right', as 'L' is 'Left', and 'C' is 'Center'.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": false,
+    "choicesGenerated": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AI-016",
+    "subtest": "AI",
+    "topic": "Airfield Operation",
+    "question": "A row of white lights on the airfield most likely indicate",
+    "choices": null,
+    "correct": null,
+    "answer": "Runway edge",
+    "explanation": "Runway edge lights will always be solid white lights as a basic marking. Other colors refer to specific use and/or instruction. Since Green/Red can be viewed as a Go/No-Go scenario, and blue lights are taxi lights, only white lights remain.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": false,
+    "choicesGenerated": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AI-017",
+    "subtest": "AI",
+    "topic": "Weather",
+    "question": "Which weather condition is best for smooth flight?",
+    "choices": null,
+    "correct": null,
+    "answer": "Cool and dry",
+    "explanation": "Since warmer, moister air are contributing factors to storm systems and turbulence, it is often best for aircraft performance to fly in cool and dry conditions, to a point.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": false,
+    "choicesGenerated": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AI-018",
+    "subtest": "AI",
+    "topic": "Weather",
+    "question": "It is best to land",
+    "choices": null,
+    "correct": null,
+    "answer": "Into the wind",
+    "explanation": "While it may seem counter- intuitive to land into the wind as a strong wind can increase lift, flying into the wind also adds the highest amount of drag (if aircraft configuration is proper) to slow the aircraft, and make for a safer landing. Knowledge Check",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": false,
+    "choicesGenerated": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AI-019",
+    "subtest": "AI",
+    "topic": "Weather",
+    "question": "Blinking red lights on an aircraft are symbolizing",
+    "choices": null,
+    "correct": null,
+    "answer": "Beacon Lights",
+    "explanation": "Since position lights are solid colored, and navigation lights are white, like a plane-sized flashlight, our response option must be beacon lights.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": false,
+    "choicesGenerated": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-AI-020",
+    "subtest": "AI",
+    "topic": "Weather",
+    "question": "The downward force acting on an aircraft is called?",
+    "choices": null,
+    "correct": null,
+    "answer": "Weight",
+    "explanation": "There are only four forces acting on an aircraft. Since thrust and drag are opposites and often depicted as \"sides\" of the aircraft instead of top-down. Since we know lift, raises us to the sky our remaining option is 'weight'.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": false,
+    "choicesGenerated": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-BC-021",
+    "subtest": "BC",
+    "topic": null,
+    "question": "In the image, how many blocks is Block 1 touching?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "1"
+      },
+      {
+        "label": "B",
+        "text": "2"
+      },
+      {
+        "label": "C",
+        "text": "3"
+      },
+      {
+        "label": "D",
+        "text": "4"
+      },
+      {
+        "label": "E",
+        "text": "5"
+      }
+    ],
+    "correct": "C",
+    "answer": "3",
+    "explanation": "Block 1 touches the faces of the two blocks on the right and one block supporting it. Therefore, the total number of blocks touched by Block 1 is three.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-BC-022",
+    "subtest": "BC",
+    "topic": null,
+    "question": "In the image, how many blocks is Block 2 touching?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "4"
+      },
+      {
+        "label": "B",
+        "text": "5"
+      },
+      {
+        "label": "C",
+        "text": "6"
+      },
+      {
+        "label": "D",
+        "text": "7"
+      },
+      {
+        "label": "E",
+        "text": "8"
+      }
+    ],
+    "correct": "A",
+    "answer": "4",
+    "explanation": "Block 2 touches the faces of Blocks 3 and 4 and it rests against the adjacent blocks to its left and on top of it. Because Block 2 touches four other block faces, the correct answer for question 2 is A.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-BC-023",
+    "subtest": "BC",
+    "topic": null,
+    "question": "In the image, how many blocks is Block 3 touching?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "5"
+      },
+      {
+        "label": "B",
+        "text": "6"
+      },
+      {
+        "label": "C",
+        "text": "7"
+      },
+      {
+        "label": "D",
+        "text": "8"
+      },
+      {
+        "label": "E",
+        "text": "9"
+      }
+    ],
+    "correct": "B",
+    "answer": "6",
+    "explanation": "Look at Block 3. Block 3 touches the faces of the two blocks above it, the two blocks below it, and the blocks directly to the right and left of it. It does not touch the faces of the two blocks diagonally below it to the right or left. These blocks only touch the corners of Block 3 and do not count. Therefore, Block 3 touches six blocks.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-BC-024",
+    "subtest": "BC",
+    "topic": null,
+    "question": "In the image, how many blocks is Block 4 touching?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "2"
+      },
+      {
+        "label": "B",
+        "text": "3"
+      },
+      {
+        "label": "C",
+        "text": "4"
+      },
+      {
+        "label": "D",
+        "text": "5"
+      },
+      {
+        "label": "E",
+        "text": "6"
+      }
+    ],
+    "correct": "B",
+    "answer": "3",
+    "explanation": "Block 4 touches Blocks 2, 3, and 10. It does not touch Block 5 because corners do not count as touching— only faces are considered touching.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-BC-025",
+    "subtest": "BC",
+    "topic": null,
+    "question": "In the image, how many blocks is Block 5 touching?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "3"
+      },
+      {
+        "label": "B",
+        "text": "4"
+      },
+      {
+        "label": "C",
+        "text": "5"
+      },
+      {
+        "label": "D",
+        "text": "6"
+      },
+      {
+        "label": "E",
+        "text": "7"
+      }
+    ],
+    "correct": "A",
+    "answer": "3",
+    "explanation": "Block 5 touches Blocks 9 and 10 to the left and right of it and Block 3 above it. Block 5 does not touch Block 4.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-BC-026",
+    "subtest": "BC",
+    "topic": null,
+    "question": "In the image, how many blocks is Block 6 touching?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "2"
+      },
+      {
+        "label": "B",
+        "text": "3"
+      },
+      {
+        "label": "C",
+        "text": "4"
+      },
+      {
+        "label": "D",
+        "text": "5"
+      },
+      {
+        "label": "E",
+        "text": "6"
+      }
+    ],
+    "correct": "B",
+    "answer": "3",
+    "explanation": "Block 6 touches the faces of the two blocks underneath it (Block 7 and Block 2) as well as Block 1 on its left. Therefore, the total number of blocks touched by Block 6 is three.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-BC-027",
+    "subtest": "BC",
+    "topic": null,
+    "question": "In the image, how many blocks is Block 7 touching?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "3"
+      },
+      {
+        "label": "B",
+        "text": "4"
+      },
+      {
+        "label": "C",
+        "text": "5"
+      },
+      {
+        "label": "D",
+        "text": "6"
+      },
+      {
+        "label": "E",
+        "text": "7"
+      }
+    ],
+    "correct": "C",
+    "answer": "5",
+    "explanation": "Block 7 touches the faces of Block 6 above it, Block 3 below it, and Blocks 1, 8, and 2 on its left and right sides. Therefore, the total number of blocks touched by Block 7 is five.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-BC-028",
+    "subtest": "BC",
+    "topic": null,
+    "question": "In the image, how many blocks is Block 8 touching?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "1"
+      },
+      {
+        "label": "B",
+        "text": "2"
+      },
+      {
+        "label": "C",
+        "text": "3"
+      },
+      {
+        "label": "D",
+        "text": "4"
+      },
+      {
+        "label": "E",
+        "text": "5"
+      }
+    ],
+    "correct": "D",
+    "answer": "4",
+    "explanation": "Block 8 touches the faces of the two blocks on its right (Blocks 7 and 3) as well as Block 1 above it and an additional block below it. Therefore, the total number of blocks touched by Block 8 is four.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-BC-029",
+    "subtest": "BC",
+    "topic": null,
+    "question": "In the image, how many blocks is Block 9 touching?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "1"
+      },
+      {
+        "label": "B",
+        "text": "2"
+      },
+      {
+        "label": "C",
+        "text": "3"
+      },
+      {
+        "label": "D",
+        "text": "4"
+      },
+      {
+        "label": "E",
+        "text": "5"
+      }
+    ],
+    "correct": "C",
+    "answer": "3",
+    "explanation": "Block 9 touches the faces of Block 3 above it, Block 5 to its right, and an additional block to its left. Therefore, the total number of blocks touched by Block 9 is three.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-BC-030",
+    "subtest": "BC",
+    "topic": null,
+    "question": "In the image, how many blocks is Block 10 touching?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "2"
+      },
+      {
+        "label": "B",
+        "text": "3"
+      },
+      {
+        "label": "C",
+        "text": "4"
+      },
+      {
+        "label": "D",
+        "text": "5"
+      },
+      {
+        "label": "E",
+        "text": "6"
+      }
+    ],
+    "correct": "A",
+    "answer": "2",
+    "explanation": "Block 10 touches the faces of Block 4 (above it) and Block 5 (on its left). Therefore, the total number of blocks touched by Block 10 is two.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-IC-031",
+    "subtest": "IC",
+    "topic": null,
+    "question": "Instrument Comprehension is important to understand",
+    "choices": [
+      {
+        "label": "A",
+        "text": "how aircraft behave in flight."
+      },
+      {
+        "label": "B",
+        "text": "how to maintain control."
+      },
+      {
+        "label": "C",
+        "text": "how to react to changing flight conditions."
+      },
+      {
+        "label": "D",
+        "text": "all of the above"
+      }
+    ],
+    "correct": "D",
+    "answer": "all of the above",
+    "explanation": "Instrument Comprehension is important to understand how aircraft behave in flight, how to maintain control, and how to react to changing flight conditions.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-IC-032",
+    "subtest": "IC",
+    "topic": null,
+    "question": "What direction is the airplane headed based on the compass dial?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Southeast"
+      },
+      {
+        "label": "B",
+        "text": "Northeast"
+      },
+      {
+        "label": "C",
+        "text": "West"
+      },
+      {
+        "label": "D",
+        "text": "Southwest N S E W NW NE SE SW"
+      }
+    ],
+    "correct": "B",
+    "answer": "Northeast",
+    "explanation": "Based on the compass dial, the airplane is headed in the Northeast direction.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-IC-033",
+    "subtest": "IC",
+    "topic": null,
+    "question": "Determine the bank and pitch of the airplane based on the artificial horizon.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "diving, banked 45 degrees to left"
+      },
+      {
+        "label": "B",
+        "text": "diving, banked 45 degrees to right"
+      },
+      {
+        "label": "C",
+        "text": "climbing, banked 45 degrees to left"
+      },
+      {
+        "label": "D",
+        "text": "climbing, banked 45 degrees to right"
+      }
+    ],
+    "correct": "A",
+    "answer": "diving, banked 45 degrees to left",
+    "explanation": "Based on the artificial horizon, the airplane is diving and banked 45 degrees to the left.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-IC-034",
+    "subtest": "IC",
+    "topic": null,
+    "question": "Determine which position the airplane in flight is most nearly in based on the compass and artificial horizon.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Airplane A"
+      },
+      {
+        "label": "B",
+        "text": "Airplane B"
+      },
+      {
+        "label": "C",
+        "text": "Airplane C"
+      },
+      {
+        "label": "D",
+        "text": "Airplane D The correct answer is D. Based on the compass dial, the airplane is headed in the South (and slightly West) direction. Based on the artificial horizon, the airplane is climbing and banked 90 degrees to the left. Together, Airplane D shows which position the airplane in flight is most nearly in."
+      }
+    ],
+    "correct": "D",
+    "answer": "Airplane D The correct answer is D. Based on the compass dial, the airplane is headed in the South (and slightly West) direction. Based on the artificial horizon, the airplane is climbing and banked 90 degrees to the left. Together, Airplane D shows which position the airplane in flight is most nearly in.",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": true
+  },
+  {
+    "id": "oatts-MK-035",
+    "subtest": "MK",
+    "topic": null,
+    "question": "What is the value of (2a + b)2?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "2a2 + b2"
+      },
+      {
+        "label": "B",
+        "text": "4a2b2"
+      },
+      {
+        "label": "C",
+        "text": "4a2 + b2"
+      },
+      {
+        "label": "D",
+        "text": "4a + b2"
+      },
+      {
+        "label": "E",
+        "text": "4a2 + 4ab + b2"
+      }
+    ],
+    "correct": "E",
+    "answer": "4a2 + 4ab + b2",
+    "explanation": "Step 1: expand the binomial (2a)2 + 2 * (2a) * b + b2 Step 2: solve multiplication portion(s) (2a)2 + 4ab + b2 Step 3: square first term coefficient 4a2 + 4ab + b2 Tip for squaring a binomial example: (x + y)2 = x2 + 2xy + y2 X2 is the square of the first term 2xy is twice the product of the two terms in the equation Y2 is the square of the second term",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-MK-036",
+    "subtest": "MK",
+    "topic": null,
+    "question": "Given an equilateral triangle ABC, what is the perimeter of the triangle if AB = 6 in?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "24 in"
+      },
+      {
+        "label": "B",
+        "text": "18 in"
+      },
+      {
+        "label": "C",
+        "text": "12 in"
+      },
+      {
+        "label": "D",
+        "text": "6 in"
+      },
+      {
+        "label": "E",
+        "text": "36 in"
+      }
+    ],
+    "correct": "B",
+    "answer": "18 in",
+    "explanation": "Step 1: identify the equilateral type of triangle; three equal sides AB = AC = BC Step 2: substitute in known information 6 in = AC = BC AC = 6 in BC = 6 in Step 3: identify perimeter formula AB + AC + BC 6 + 6 + 6 = 18 in",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-MK-037",
+    "subtest": "MK",
+    "topic": null,
+    "question": "Simplify the following:",
+    "choices": [
+      {
+        "label": "A",
+        "text": "-2xy"
+      },
+      {
+        "label": "B",
+        "text": "3y - 5x"
+      },
+      {
+        "label": "C",
+        "text": "8xy"
+      },
+      {
+        "label": "D",
+        "text": "3x - 5y"
+      },
+      {
+        "label": "E",
+        "text": "3y2 - 5x2"
+      }
+    ],
+    "correct": "B",
+    "answer": "3y - 5x",
+    "explanation": "Step 1: distribute the numerator Step 2: simplify each fraction X cancels out, y2 cancels out the y in denominator. Vice versa for the second half of the problem Step 3: write out the remaining problem 3y – 5x",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-MK-038",
+    "subtest": "MK",
+    "topic": null,
+    "question": "Solve for x:",
+    "choices": [
+      {
+        "label": "A",
+        "text": "0"
+      },
+      {
+        "label": "B",
+        "text": "-4"
+      },
+      {
+        "label": "C",
+        "text": "-3"
+      },
+      {
+        "label": "D",
+        "text": "3"
+      },
+      {
+        "label": "E",
+        "text": "4"
+      }
+    ],
+    "correct": "E",
+    "answer": "4",
+    "explanation": "Step 1: multiply both sides by the least common factor (6) Step 2: simplify each side 3(6x + 4) = 2(12x – 6) Step 3: distribute each side 18x + 12 = 24x – 12 Step 4: move the x to one side 12 = 24x – 18x – 12 Step 5: combine the x terms 12 = 6x – 12 Step 6: isolate the x term 12 + 12 = 6x Step 7: solve for x 24/6 = x = 4",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-MK-039",
+    "subtest": "MK",
+    "topic": null,
+    "question": "Solve: 55 =",
+    "choices": [
+      {
+        "label": "A",
+        "text": "125"
+      },
+      {
+        "label": "B",
+        "text": "650"
+      },
+      {
+        "label": "C",
+        "text": "2025"
+      },
+      {
+        "label": "D",
+        "text": "3125"
+      },
+      {
+        "label": "E",
+        "text": "15,625"
+      }
+    ],
+    "correct": "D",
+    "answer": "3125",
+    "explanation": "Step 1: break problem down into smaller equations (5 * 5) = 25 Step 2: 25 * 5 = 125 Step 3: 125 * 5 = 625 Step 4: 625 * 5 = 3125 Step 5: verify you multiplied 5, 5 times Tip for exponents: The exponent is the number of times you multiply the number. Ex: 24 gets multiplied 4 times and looks like (((2 * 2) * 2) * 2) = (((4) * 2) * 2) = (8) * 2 = 16",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-MK-040",
+    "subtest": "MK",
+    "topic": null,
+    "question": "Factor: 6y2 – 19y - 7",
+    "choices": [
+      {
+        "label": "A",
+        "text": "(2y + 1)(3y – 7)"
+      },
+      {
+        "label": "B",
+        "text": "(2y + 5)(3y – 2)"
+      },
+      {
+        "label": "C",
+        "text": "(2y – 7)(3y + 1)"
+      },
+      {
+        "label": "D",
+        "text": "(2y + 7)(3y + 1)"
+      },
+      {
+        "label": "E",
+        "text": "(3y – 7)(2y – 1)"
+      }
+    ],
+    "correct": "C",
+    "answer": "(2y – 7)(3y + 1)",
+    "explanation": "Step 1: identify first coefficient (6) and constant (-7) 6 * (-7) = -42 Step 2: identify numbers that multiply to (-42) and add to coefficient of y (19) -21 * 2 = -42 -21 + 2 = -19 Step 3: rewrite function based on step 2 6y2 – 21y + 2y – 7 Step 4: group the terms (6y2 – 21y) + (2y – 7) Step 5: factor out greatest common factor 3y(2y – 7) + 1(2y – 7) Step 6: rewrite with common binomial factor (2y – 7), (3y + 1)",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-MK-041",
+    "subtest": "MK",
+    "topic": null,
+    "question": "If two angles in a parallelogram are each 65°, what is the sum of the other two angles?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "230°"
+      },
+      {
+        "label": "B",
+        "text": "120°"
+      },
+      {
+        "label": "C",
+        "text": "295°"
+      },
+      {
+        "label": "D",
+        "text": "210°"
+      },
+      {
+        "label": "E",
+        "text": "180°"
+      }
+    ],
+    "correct": "A",
+    "answer": "230°",
+    "explanation": "Step 1: identify shape total angles 4 corners, total angle 360° Step 2: add known angles 65° + 65° = 130° Step 3: subtract total from known 360° - 130° = 230°",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-MK-042",
+    "subtest": "MK",
+    "topic": null,
+    "question": "What are the factors of 6a2 + a – 12?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "(6a + 1), (a – 12)"
+      },
+      {
+        "label": "B",
+        "text": "(6a + 3), (a – 4)"
+      },
+      {
+        "label": "C",
+        "text": "(2a – 4), (3a + 3)"
+      },
+      {
+        "label": "D",
+        "text": "(2a + 3), (3a – 4)"
+      },
+      {
+        "label": "E",
+        "text": "(3a – 2), (2a + 6)"
+      }
+    ],
+    "correct": "D",
+    "answer": "(2a + 3), (3a – 4)",
+    "explanation": "Step 1: multiply coefficient and constant 6 * (-12) = -72 Step 2: find numbers that equal step 1: (-72) and add up to coefficient of middle a: (1) 9 * (-8) = -72 9 + (-8) = 1 Step 3: rewrite function 6a2 + 9a – 8a - 12 Step 4: group the terms (6a2 + 9a) + (-8a – 12) Step 5: factor out largest common factor from each group 3a(2a +3) - 4(2a + 3) Step 6: identify common factor (2a + 3), rewrite groupings (2a + 3), (3a – 4)",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-MK-043",
+    "subtest": "MK",
+    "topic": null,
+    "question": "Solve: 83 + 32 =",
+    "choices": [
+      {
+        "label": "A",
+        "text": "155"
+      },
+      {
+        "label": "B",
+        "text": "310"
+      },
+      {
+        "label": "C",
+        "text": "521"
+      },
+      {
+        "label": "D",
+        "text": "1,012"
+      },
+      {
+        "label": "E",
+        "text": "900"
+      }
+    ],
+    "correct": "C",
+    "answer": "521",
+    "explanation": "Step 1: 83 = (8*8)*8 = 64 * 8 = 512 Step 2: 32 = (3*3) = 9 Step 3: 512 + 9 = 521 Answer: C",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-MK-044",
+    "subtest": "MK",
+    "topic": null,
+    "question": "Find the area of this triangle:",
+    "choices": [
+      {
+        "label": "A",
+        "text": "12 in2"
+      },
+      {
+        "label": "B",
+        "text": "64 in2"
+      },
+      {
+        "label": "C",
+        "text": "84 in2"
+      },
+      {
+        "label": "D",
+        "text": "168 in2"
+      },
+      {
+        "label": "E",
+        "text": "48 in2 Walkthrough: Step 1: identify formula (formula sheet provided): A = ½(b*h) [area of triangle] b = 24 in h = 7in Step 2: A = ½(24 * 7) Step 3: A = ½(168) Step 4: A = 84 in"
+      }
+    ],
+    "correct": "C",
+    "answer": "84 in2",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-045",
+    "subtest": "PS",
+    "topic": "Astronomy",
+    "question": "What are comets?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "small rocky bodies"
+      },
+      {
+        "label": "B",
+        "text": "icy bodies with tails that appear when near the Sun"
+      },
+      {
+        "label": "C",
+        "text": "similar to planets but have not cleared their orbital path"
+      },
+      {
+        "label": "D",
+        "text": "natural satellites that orbit planets"
+      },
+      {
+        "label": "E",
+        "text": "small orbiting stars"
+      }
+    ],
+    "correct": "B",
+    "answer": "icy bodies with tails that appear when near the Sun",
+    "explanation": "Comets are icy objects from the outer solar system. When they get close to the Sun, heat causes their ices to vaporize, forming a glowing coma and tail that point away from the Sun. So, the correct answer is B: icy bodies with tails that appear when near the Sun.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-046",
+    "subtest": "PS",
+    "topic": "Astronomy",
+    "question": "Which of the following statements is correct about solar and lunar eclipses?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Only solar eclipses can be partial or total; lunar eclipses are always total."
+      },
+      {
+        "label": "B",
+        "text": "Only lunar eclipses can be partial or total; solar eclipses are always total."
+      },
+      {
+        "label": "C",
+        "text": "Solar eclipses can be total or partial, but lunar eclipses are always partial."
+      },
+      {
+        "label": "D",
+        "text": "Both solar and lunar eclipses can be either total or partial."
+      },
+      {
+        "label": "E",
+        "text": "Neither solar nor lunar eclipses can be partial or total; they are always annular. Walkthrough: Eclipses occur when one celestial body moves into the shadow of another. Solar eclipses (when the Moon blocks the Sun) and lunar eclipses (when Earth’s shadow falls on the Moon) can both be total (fully covered) or partial (partially covered), depending on alignment. So, the correct answer is D: Both solar and lunar eclipses can be either total or partial."
+      }
+    ],
+    "correct": "D",
+    "answer": "Both solar and lunar eclipses can be either total or partial.",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-047",
+    "subtest": "PS",
+    "topic": "Astronomy",
+    "question": "Which aspect of planetary motion primarily causes the seasons on Earth?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Earth’s changing distance from the Sun"
+      },
+      {
+        "label": "B",
+        "text": "Earth’s elliptical orbit"
+      },
+      {
+        "label": "C",
+        "text": "Earth’s rotation on its axis"
+      },
+      {
+        "label": "D",
+        "text": "The tilt of Earth’s axis relative to its orbit"
+      },
+      {
+        "label": "E",
+        "text": "The Moon’s gravitational pull"
+      }
+    ],
+    "correct": "D",
+    "answer": "The tilt of Earth’s axis relative to its orbit",
+    "explanation": "Seasons are caused by Earth's axial tilt. As Earth orbits the Sun, different parts receive more direct sunlight at different times of the year, leading to seasonal changes. So, the correct answer is D: The tilt of Earth’s axis relative to its orbit.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-048",
+    "subtest": "PS",
+    "topic": "Atomic Physics",
+    "question": "What happens when an electron moves from a lower to a higher energy level?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "It emits a photon"
+      },
+      {
+        "label": "B",
+        "text": "It gains energy"
+      },
+      {
+        "label": "C",
+        "text": "It loses energy"
+      },
+      {
+        "label": "D",
+        "text": "It becomes a neutron"
+      },
+      {
+        "label": "E",
+        "text": "It ionizes the atom"
+      }
+    ],
+    "correct": "B",
+    "answer": "It gains energy",
+    "explanation": "When an electron moves from a lower to a higher energy level, it must absorb energy to make the jump. This is because higher energy levels are farther from the nucleus and require more energy to reach—so the correct answer is B: It gains energy.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-049",
+    "subtest": "PS",
+    "topic": "Atomic Physics",
+    "question": "What is the mass number of an atom with 20 protons and 22 neutrons?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "20"
+      },
+      {
+        "label": "B",
+        "text": "22"
+      },
+      {
+        "label": "C",
+        "text": "40"
+      },
+      {
+        "label": "D",
+        "text": "42"
+      },
+      {
+        "label": "E",
+        "text": "44"
+      }
+    ],
+    "correct": "D",
+    "answer": "42",
+    "explanation": "The mass number of an atom is the sum of its protons and neutrons. In this case, 20 protons + 22 neutrons = 42, so the correct answer is D: 42.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-050",
+    "subtest": "PS",
+    "topic": "Atomic Physics",
+    "question": "Which periodic trend increases from left to right across a period?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Atomic radius"
+      },
+      {
+        "label": "B",
+        "text": "Ion size"
+      },
+      {
+        "label": "C",
+        "text": "Reactivity"
+      },
+      {
+        "label": "D",
+        "text": "Electronegativity"
+      },
+      {
+        "label": "E",
+        "text": "Density"
+      }
+    ],
+    "correct": "D",
+    "answer": "Electronegativity",
+    "explanation": "As you move from left to right across a period, electronegativity increases because atoms have more protons and a greater pull on bonding electrons. Thus, the correct answer is D: Electronegativity.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-051",
+    "subtest": "PS",
+    "topic": "Chemistry",
+    "question": "Which state of matter has definite shape and volume?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Solid"
+      },
+      {
+        "label": "B",
+        "text": "Liquid"
+      },
+      {
+        "label": "C",
+        "text": "Gas"
+      },
+      {
+        "label": "D",
+        "text": "Plasma"
+      },
+      {
+        "label": "E",
+        "text": "Fog"
+      }
+    ],
+    "correct": "A",
+    "answer": "Solid",
+    "explanation": "A solid has both a definite shape and a definite volume because its particles are tightly packed and only vibrate in place. So, the correct answer is A: Solid.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-052",
+    "subtest": "PS",
+    "topic": "Chemistry",
+    "question": "How are elements arranged in the periodic table?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "By atomic mass"
+      },
+      {
+        "label": "B",
+        "text": "By number of neutrons"
+      },
+      {
+        "label": "C",
+        "text": "By alphabetical order"
+      },
+      {
+        "label": "D",
+        "text": "By chemical reactivity"
+      },
+      {
+        "label": "E",
+        "text": "By atomic number"
+      }
+    ],
+    "correct": "E",
+    "answer": "By atomic number",
+    "explanation": "Elements in the periodic table are arranged in order of increasing atomic number, which is the number of protons in an atom’s nucleus. This arrangement also groups elements with similar properties into columns. So, the correct answer is E: By atomic number.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-053",
+    "subtest": "PS",
+    "topic": "Chemistry",
+    "question": "Which process is a chemical change?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Boiling water"
+      },
+      {
+        "label": "B",
+        "text": "Melting ice"
+      },
+      {
+        "label": "C",
+        "text": "Burning wood"
+      },
+      {
+        "label": "D",
+        "text": "Freezing water"
+      },
+      {
+        "label": "E",
+        "text": "Dissolving sugar in water"
+      }
+    ],
+    "correct": "C",
+    "answer": "Burning wood",
+    "explanation": "Burning wood is a chemical change because it produces new substances (like carbon dioxide, ash, and smoke) and cannot be reversed by physical means. The other processes are physical changes that don’t change the substance’s chemical identity. So, the correct answer is C: Burning wood.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-054",
+    "subtest": "PS",
+    "topic": "Electrical Physics",
+    "question": "In a series circuit, how does current behave?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "It splits between branches"
+      },
+      {
+        "label": "B",
+        "text": "It increases in each resistor"
+      },
+      {
+        "label": "C",
+        "text": "It is the same through all components"
+      },
+      {
+        "label": "D",
+        "text": "It moves in reverse"
+      },
+      {
+        "label": "E",
+        "text": "It turns into voltage"
+      }
+    ],
+    "correct": "C",
+    "answer": "It is the same through all components",
+    "explanation": "In a series circuit, current has only one path to follow, so the same amount of current flows through every component—it does not split or increase. Thus, the correct answer is C: it is the same through all components.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-055",
+    "subtest": "PS",
+    "topic": "Electrical Physics",
+    "question": "Which of the following would decrease the resistance in a wire?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Making the wire longer"
+      },
+      {
+        "label": "B",
+        "text": "Using a thinner wire"
+      },
+      {
+        "label": "C",
+        "text": "Heating the wire"
+      },
+      {
+        "label": "D",
+        "text": "Increasing the voltage"
+      },
+      {
+        "label": "E",
+        "text": "Using a better conductor like copper"
+      }
+    ],
+    "correct": "E",
+    "answer": "Using a better conductor like copper",
+    "explanation": "Resistance in a wire depends on material, length, thickness, and temperature. Using a better conductor like copper reduces resistance because it allows electrons to flow more easily. Making the wire longer would increase resistance because electrons have to travel farther, encountering more collisions. A thinner wire has less area for current to flow, increasing resistance. Heating the wire would cause atoms to vibrate more, making it harder for electrons to flow and increasing resistance. Finally, increasing the voltage affects current, not resistance; resistance depends on the physical properties of the wire, not the applied voltage. Thus, the correct answer is E: using a better conductor like copper.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-056",
+    "subtest": "PS",
+    "topic": "Electrical Physics",
+    "question": "What does a switch do in a circuit?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Lowers resistance"
+      },
+      {
+        "label": "B",
+        "text": "Stores charge"
+      },
+      {
+        "label": "C",
+        "text": "Measures current"
+      },
+      {
+        "label": "D",
+        "text": "Opens or closes the path for current"
+      },
+      {
+        "label": "E",
+        "text": "Increases voltage"
+      }
+    ],
+    "correct": "D",
+    "answer": "Opens or closes the path for current",
+    "explanation": "A switch controls whether electricity can flow by opening or closing the circuit. When the switch is closed, current flows; when it’s open, current stops. Thus, the correct answer is D: opens or closes the path for current.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-057",
+    "subtest": "PS",
+    "topic": "Light Physics",
+    "question": "Which statement is true about light.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Light is a longitudinal wave"
+      },
+      {
+        "label": "B",
+        "text": "Light can only travel through air"
+      },
+      {
+        "label": "C",
+        "text": "Light slows down in a vacuum"
+      },
+      {
+        "label": "D",
+        "text": "Light does not need a medium to travel"
+      },
+      {
+        "label": "E",
+        "text": "Light only behaves as a particle"
+      }
+    ],
+    "correct": "D",
+    "answer": "Light does not need a medium to travel",
+    "explanation": "Light is an electromagnetic wave, which means it can travel through a vacuum (like space) without needing a medium. It also exhibits both wave and particle behavior (wave-particle duality). So, the correct answer is D: Light does not need a medium to travel.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-058",
+    "subtest": "PS",
+    "topic": "Light Physics",
+    "question": "When light bounces off a surface, it is called _____.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Reflection"
+      },
+      {
+        "label": "B",
+        "text": "Refraction"
+      },
+      {
+        "label": "C",
+        "text": "Absorption"
+      },
+      {
+        "label": "D",
+        "text": "Diffraction"
+      },
+      {
+        "label": "E",
+        "text": "Dispersion"
+      }
+    ],
+    "correct": "A",
+    "answer": "Reflection",
+    "explanation": "Reflection happens when light bounces off a surface, such as a mirror or still water. It allows us to see objects and images, and the light travels in a new direction after hitting the surface. So, the correct answer is A: Reflection.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-059",
+    "subtest": "PS",
+    "topic": "Light Physics",
+    "question": "Which property of a light wave determines its color AND remains unchanged when the light enters a different medium?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Speed"
+      },
+      {
+        "label": "B",
+        "text": "Amplitude"
+      },
+      {
+        "label": "C",
+        "text": "Frequency"
+      },
+      {
+        "label": "D",
+        "text": "Wavelength"
+      },
+      {
+        "label": "E",
+        "text": "Direction"
+      }
+    ],
+    "correct": "C",
+    "answer": "Frequency",
+    "explanation": "Frequency is the correct answer because the color of light is determined by how many wave cycles pass a point each second. When light enters a new medium, its speed and wavelength change, but its frequency stays the same -- so the color stays the same too. This is why frequency (Answer Choice C) uniquely determines the color we perceive.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-060",
+    "subtest": "PS",
+    "topic": "Mechanical Physics",
+    "question": "What does friction do to a moving object?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Increases its mass"
+      },
+      {
+        "label": "B",
+        "text": "Speeds it up"
+      },
+      {
+        "label": "C",
+        "text": "Changes its shape"
+      },
+      {
+        "label": "D",
+        "text": "Opposes its motion"
+      },
+      {
+        "label": "E",
+        "text": "Makes it float"
+      }
+    ],
+    "correct": "D",
+    "answer": "Opposes its motion",
+    "explanation": "Friction is a force that acts against the motion of a moving object, causing it to slow down or stop over time. Thus, the correct answer is D: opposes its motion.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-061",
+    "subtest": "PS",
+    "topic": "Mechanical Physics",
+    "question": "In a tug-of-war where neither side is moving, what does that say about the forces?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "One side is winning"
+      },
+      {
+        "label": "B",
+        "text": "Friction is canceled out"
+      },
+      {
+        "label": "C",
+        "text": "The net force is zero"
+      },
+      {
+        "label": "D",
+        "text": "There is no tension"
+      },
+      {
+        "label": "E",
+        "text": "Gravity is stronger on one side"
+      }
+    ],
+    "correct": "C",
+    "answer": "The net force is zero",
+    "explanation": "When neither side is moving, it means the forces pulling in opposite directions are equal and balanced, so there’s no net force causing motion. Thus, the correct answer is C: the net force is zero.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-062",
+    "subtest": "PS",
+    "topic": "Mechanical Physics",
+    "question": "Why are inclined planes (like ramps) used in mechanical systems?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "They reduce the force needed to lift an object"
+      },
+      {
+        "label": "B",
+        "text": "They increase gravity"
+      },
+      {
+        "label": "C",
+        "text": "They store more energy"
+      },
+      {
+        "label": "D",
+        "text": "They create magnetic force"
+      },
+      {
+        "label": "E",
+        "text": "They convert speed into heat"
+      }
+    ],
+    "correct": "A",
+    "answer": "They reduce the force needed to lift an object",
+    "explanation": "Inclined planes allow you to move objects to a higher elevation using less force by increasing the distance over which you apply that force. Thus, : They reduce the force needed to lift an object.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-063",
+    "subtest": "PS",
+    "topic": "Sound Physics",
+    "question": "As sound waves move, particles are pushed closed together called ______ and spread further apart called ______.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Compressions / Rarefactions"
+      },
+      {
+        "label": "B",
+        "text": "Rarefactions / Compressions"
+      },
+      {
+        "label": "C",
+        "text": "Compressions / Abstractions"
+      },
+      {
+        "label": "D",
+        "text": "Rarefactions / Abstractions"
+      },
+      {
+        "label": "E",
+        "text": "Abstractions / Compressions"
+      }
+    ],
+    "correct": "A",
+    "answer": "Compressions / Rarefactions",
+    "explanation": "As sound waves travel through a medium, they create regions where particles are pushed close together (called compressions) and spread apart (called rarefactions). This pattern is how sound energy moves through substances like air. So, the correct answer is A: Compressions / Rarefactions.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-064",
+    "subtest": "PS",
+    "topic": "Sound Physics",
+    "question": "In general, sound travels fastest in which type of medium?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Air"
+      },
+      {
+        "label": "B",
+        "text": "Water"
+      },
+      {
+        "label": "C",
+        "text": "Oil"
+      },
+      {
+        "label": "D",
+        "text": "Steel"
+      },
+      {
+        "label": "E",
+        "text": "Vacuum"
+      }
+    ],
+    "correct": "D",
+    "answer": "Steel",
+    "explanation": "Sound travels fastest in solids because the particles are packed closely together, allowing vibrations to pass quickly. Among the choices, steel, being a dense solid, transmits sound the fastest. So, the correct answer is D: Steel.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-065",
+    "subtest": "PS",
+    "topic": "Sound Physics",
+    "question": "Which characteristic of sound waves primarily determines the pitch of a sound?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Frequency"
+      },
+      {
+        "label": "B",
+        "text": "Amplitude"
+      },
+      {
+        "label": "C",
+        "text": "Speed"
+      },
+      {
+        "label": "D",
+        "text": "Wavelength"
+      },
+      {
+        "label": "E",
+        "text": "Volume"
+      }
+    ],
+    "correct": "A",
+    "answer": "Frequency",
+    "explanation": "The pitch of a sound is determined by its frequency—how many vibrations occur per second. Higher frequency means a higher pitch, and lower frequency means a lower pitch. So, the correct answer is A: Frequency.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-066",
+    "subtest": "PS",
+    "topic": "Sound Physics",
+    "question": "Which wave behavior involves sound spreading around obstacles?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Reflection"
+      },
+      {
+        "label": "B",
+        "text": "Refraction"
+      },
+      {
+        "label": "C",
+        "text": "Diffraction"
+      },
+      {
+        "label": "D",
+        "text": "Deflection"
+      },
+      {
+        "label": "E",
+        "text": "Intersection"
+      }
+    ],
+    "correct": "C",
+    "answer": "Diffraction",
+    "explanation": "Diffraction is when sound waves bend or spread out as they pass around obstacles or through openings. This is why you can still hear someone speaking even if they’re behind a wall. So, the correct answer is C: Diffraction.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-067",
+    "subtest": "PS",
+    "topic": "Thermodynamics",
+    "question": "Which method of heat transfer occurs through direct contact between particles?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Conduction"
+      },
+      {
+        "label": "B",
+        "text": "Convection"
+      },
+      {
+        "label": "C",
+        "text": "Radiation"
+      },
+      {
+        "label": "D",
+        "text": "Emission"
+      },
+      {
+        "label": "E",
+        "text": "Insulation"
+      }
+    ],
+    "correct": "A",
+    "answer": "Conduction",
+    "explanation": "Conduction is the transfer of heat through direct contact between particles. It happens most effectively in solids, where particles are closely packed and can easily pass energy to one another. So, the correct answer is A: Conduction.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-068",
+    "subtest": "PS",
+    "topic": "Thermodynamics",
+    "question": "The ______ of Thermodynamics states that the change in total energy of a closed system is equal to the heat applied to the system minus the work done by the system.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "First Law"
+      },
+      {
+        "label": "B",
+        "text": "Second Law"
+      },
+      {
+        "label": "C",
+        "text": "Third Law"
+      },
+      {
+        "label": "D",
+        "text": "Zeroth Law"
+      },
+      {
+        "label": "E",
+        "text": "Cooling Law"
+      }
+    ],
+    "correct": "A",
+    "answer": "First Law",
+    "explanation": "The First Law of Thermodynamics states that energy cannot be created or destroyed, only converted from one form to another. This is also known as the law of conservation of energy. So, the correct answer is A: First Law.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-PS-069",
+    "subtest": "PS",
+    "topic": "Thermodynamics",
+    "question": "What happens to the particles of a substance as it is heated?",
+    "choices": [
+      {
+        "label": "A",
+        "text": "They slow down and move closer together"
+      },
+      {
+        "label": "B",
+        "text": "They stop moving completely"
+      },
+      {
+        "label": "C",
+        "text": "They lose energy and settle"
+      },
+      {
+        "label": "D",
+        "text": "They form chemical bonds"
+      },
+      {
+        "label": "E",
+        "text": "They move faster and spread farther apart"
+      }
+    ],
+    "correct": "E",
+    "answer": "They move faster and spread farther apart",
+    "explanation": "As a substance is heated, its particles gain kinetic energy, causing them to move faster and, in most cases, spread apart, especially during phase changes like melting or boiling. So, the correct answer is E: They move faster and spread farther apart.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-VA-070",
+    "subtest": "VA",
+    "topic": null,
+    "question": "Venus is to Saturn as:",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Biology is to Science"
+      },
+      {
+        "label": "B",
+        "text": "Sand is to Beach"
+      },
+      {
+        "label": "C",
+        "text": "Plane is to Bus"
+      },
+      {
+        "label": "D",
+        "text": "Violin is to Instrument"
+      },
+      {
+        "label": "E",
+        "text": "Whisper is to Shout"
+      }
+    ],
+    "correct": "C",
+    "answer": "Plane is to Bus",
+    "explanation": "Step 1: Understand the Relationship in the First Word Pair Venus and Saturn are both planets in the Milky Way galaxy (Part/Part) Step 2: Apply the Same Relationship to Another Pair of Words Step 3: Eliminate Incorrect Answer Choices Plane and Bus are both forms of transportation (Part/Part) Biology is to Science Part/Whole Sand is to Beach Part/Whole Plane is to Bus Part/Part Violin is to Instrument Member/Category Whisper is to Shout Degree",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-VA-071",
+    "subtest": "VA",
+    "topic": null,
+    "question": "Burn is to Blister as Bite is to:",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Tooth"
+      },
+      {
+        "label": "B",
+        "text": "Mark"
+      },
+      {
+        "label": "C",
+        "text": "Chew"
+      },
+      {
+        "label": "D",
+        "text": "Growl"
+      },
+      {
+        "label": "E",
+        "text": "Food"
+      }
+    ],
+    "correct": "B",
+    "answer": "Mark",
+    "explanation": "Step 1: Understand the Relationship in the First Word Pair Blisters are caused by burns on skin (Cause/Effect) Step 2: Apply the Same Relationship to Another Pair of Words The order of the first word pair is “Burn (cause) is to Blister (effect).” Maintaining that order, we can set up the second pair as ”Bite (cause) is to ____ (effect).” Now we can fill in the blank by considering what bites tend to cause. Step 3: Eliminate Incorrect Answer Choices Marks are caused by bites on skin (Cause/Effect)",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-VA-072",
+    "subtest": "VA",
+    "topic": null,
+    "question": "Prototype is to Product as:",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Text is to Call"
+      },
+      {
+        "label": "B",
+        "text": "Blueprint is to Building"
+      },
+      {
+        "label": "C",
+        "text": "Blade is to Windmill"
+      },
+      {
+        "label": "D",
+        "text": "Mechanic is to Car"
+      },
+      {
+        "label": "E",
+        "text": "Branch is to Root"
+      }
+    ],
+    "correct": "B",
+    "answer": "Blueprint is to Building",
+    "explanation": "Step 1: Understand the Relationship in the First Word Pair A prototype comes first, and then the product is made later (Sequence) Step 2: Apply the Same Relationship to Another Pair of Words The order of the first word pair is “Prototype (first) is to Product (second).” Maintaining that order, consider how this structure would fit another word pair. Step 3: Eliminate Incorrect Answer Choices A blueprint comes first, and then the building is constructed later (Sequence) Text is to Call Part/Part Blueprint is to Building Sequence Blade is to Windmill Part/Whole Mechanic is to Car Object/Attribute Branch is to Root Part/Part",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-VA-073",
+    "subtest": "VA",
+    "topic": null,
+    "question": "Shred is to Document as:",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Eat is to Plate"
+      },
+      {
+        "label": "B",
+        "text": "Sleep is to Bed"
+      },
+      {
+        "label": "C",
+        "text": "Flavor is to Seasoning"
+      },
+      {
+        "label": "D",
+        "text": "Fold is to Laundry"
+      },
+      {
+        "label": "E",
+        "text": "Protect is to Helmet"
+      }
+    ],
+    "correct": "D",
+    "answer": "Fold is to Laundry",
+    "explanation": "Step 1: Understand the Relationship in the First Word Pair Documents are objects which can be shredded (Action/Object) Step 2: Apply the Same Relationship to Another Pair of Words The order of the first word pair is “Shred (action) is to Document (object).” Maintaining that order, consider how this structure would fit another word pair. Step 3: Eliminate Incorrect Answer Choices Answer choices A, B, C, and E have different relationships than the original word pair (e.g., documents are the objects being shredded, but plates are not the objects being eaten). Laundry consists of objects which can be folded (Action/Object)",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-VA-074",
+    "subtest": "VA",
+    "topic": null,
+    "question": "Lemon is to Sour as:",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Sky is to Clear"
+      },
+      {
+        "label": "B",
+        "text": "Velvet is to Soft"
+      },
+      {
+        "label": "C",
+        "text": "Floor is to Clean"
+      },
+      {
+        "label": "D",
+        "text": "Vegetable is to Nutritious"
+      },
+      {
+        "label": "E",
+        "text": "Banana is to Ripe"
+      }
+    ],
+    "correct": "B",
+    "answer": "Velvet is to Soft",
+    "explanation": "Step 1: Understand the Relationship in the First Word Pair Lemons are sour (Object/Attribute) Step 2: Apply the Same Relationship to Another Pair of Words The order of the first word pair is “Lemon (object) is to Sour (attribute).” Maintaining that order, consider how this structure would fit another word pair. Step 3: Eliminate Incorrect Answer Choices All of the answer choices follow the object/attribute structure, so it is important to examine the level of association of each response option. Choices A, C, and E are incorrect because they are not universally applicable attributes of their given objects. In other words, lemons are always sour, but the sky is not always clear, the floor is not always clean, and a banana is not always ripe. Choice D has a different level of association than the original word pair because “vegetable” describes a less specific category with a degree of separation further than “lemon” (i.e., Fruit-Lemon-Sour vs Vegetable-Carrot-Nutritious). Choice B fits the same level of association as the original word pair (Fabric-Velvet-Soft).",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-VA-075",
+    "subtest": "VA",
+    "topic": null,
+    "question": "Zipper is to Backpack as:",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Tape is to Glue"
+      },
+      {
+        "label": "B",
+        "text": "Button is to Remote"
+      },
+      {
+        "label": "C",
+        "text": "Pencil is to Paper"
+      },
+      {
+        "label": "D",
+        "text": "Tick is to Mite"
+      },
+      {
+        "label": "E",
+        "text": "Geometry is to Algebra"
+      }
+    ],
+    "correct": "B",
+    "answer": "Button is to Remote",
+    "explanation": "Step 1: Understand the Relationship in the First Word Pair Zippers are part of a backpack (Part/Whole) Step 2: Apply the Same Relationship to Another Pair of Words The order of the first word pair is “Zipper (part) is to Backpack (whole).” Maintaining that order, consider how this structure would fit another word pair. Step 3: Eliminate Incorrect Answer Choices Buttons are part of a remote (Part/Whole) Tape is to Glue Part/Part Button is to Remote Part/Whole Pencil is to Paper Part/Part Tick is to Mite Part/Part Geometry is to Algebra Part/Part",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-VA-076",
+    "subtest": "VA",
+    "topic": null,
+    "question": "Natural is to Artificial as Obscure is to:",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Obvious"
+      },
+      {
+        "label": "B",
+        "text": "Hidden"
+      },
+      {
+        "label": "C",
+        "text": "Complex"
+      },
+      {
+        "label": "D",
+        "text": "Unpopular"
+      },
+      {
+        "label": "E",
+        "text": "Unclear"
+      }
+    ],
+    "correct": "A",
+    "answer": "Obvious",
+    "explanation": "Step 1: Understand the Relationship in the First Word Pair Natural and artificial have opposite meanings (Antonym) Step 2: Apply the Same Relationship to Another Pair of Words To apply an antonym relationship to the second word pair, consider what words can be antonyms for “obscure.” Step 3: Eliminate Incorrect Answer Choices Answer choices B through E are all synonyms for “obscure.” Thus, the correct choice is A.",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-VA-077",
+    "subtest": "VA",
+    "topic": null,
+    "question": "Flaw is to Imperfection as:",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Rich is to Wealthy"
+      },
+      {
+        "label": "B",
+        "text": "Bruise is to Injury"
+      },
+      {
+        "label": "C",
+        "text": "Input is to Output"
+      },
+      {
+        "label": "D",
+        "text": "Trip is to Fall"
+      },
+      {
+        "label": "E",
+        "text": "Length is to Width"
+      }
+    ],
+    "correct": "A",
+    "answer": "Rich is to Wealthy",
+    "explanation": "Step 1: Understand the Relationship in the First Word Pair Flaw and Imperfection have the same meaning (Synonym) Step 2: Apply the Same Relationship to Another Pair of Words Step 3: Eliminate Incorrect Answer Choices Rich and Wealthy have the same meaning (Synonym) Rich is to Wealthy Synonym Bruise is to Injury Member/Category Input is to Output Antonym Trip is to Fall Cause/Effect Length is to Width Part/Part",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-VA-078",
+    "subtest": "VA",
+    "topic": null,
+    "question": "Loud is to Deafening as Damp is to:",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Moist"
+      },
+      {
+        "label": "B",
+        "text": "Chilling"
+      },
+      {
+        "label": "C",
+        "text": "Dry"
+      },
+      {
+        "label": "D",
+        "text": "Soaking"
+      },
+      {
+        "label": "E",
+        "text": "Dirty"
+      }
+    ],
+    "correct": "D",
+    "answer": "Soaking",
+    "explanation": "Step 1: Understand the Relationship in the First Word Pair Loud is a milder form of deafening (Degree) Step 2: Apply the Same Relationship to Another Pair of Words The order of the first word pair is “Loud (milder) is to Deafening (stronger).” Maintaining that order, we can set up the second pair as ”Damp (milder) is to ____ (stronger).” Now we can fill in the blank by considering what a stronger form of damp might be. Step 3: Eliminate Incorrect Answer Choices The only response options related to wetness are Choices A and D. Choice A is incorrect because moist is a synonym for damp and not necessarily a stronger version. Soaking, however, is a stronger form of damp (Degree).",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-VA-079",
+    "subtest": "VA",
+    "topic": null,
+    "question": "Flute is to Instrument as:",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Vegetable is to Celery"
+      },
+      {
+        "label": "B",
+        "text": "Pop is to Rock"
+      },
+      {
+        "label": "C",
+        "text": "Oak is to Spruce"
+      },
+      {
+        "label": "D",
+        "text": "Crow is to Bird"
+      },
+      {
+        "label": "E",
+        "text": "Engine is to Plane"
+      }
+    ],
+    "correct": "D",
+    "answer": "Crow is to Bird",
+    "explanation": "Step 1: Understand the Relationship in the First Word Pair The flute is a type of instrument (Member/Category) Step 2: Apply the Same Relationship to Another Pair of Words The order of the first word pair is “Flute (member) is to Instrument (category).” Maintaining that order, consider how this structure would fit another word pair. Step 3: Eliminate Incorrect Answer Choices Choice A is incorrect because the analogy is in the reversed order (i.e., Vegetable is to Celery instead of Celery is to Vegetable). The crow is a type of bird (Member/Category). Vegetable is to Celery Member/Category Pop is to Rock Part/Part Oak is to Spruce Part/Part Crow is to Bird Member/Category Engine is to Plane Part/Whole",
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-WK-080",
+    "subtest": "WK",
+    "topic": null,
+    "question": "ARDUOUS",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Simple"
+      },
+      {
+        "label": "B",
+        "text": "Tiring"
+      },
+      {
+        "label": "C",
+        "text": "Immediate"
+      },
+      {
+        "label": "D",
+        "text": "Fast"
+      },
+      {
+        "label": "E",
+        "text": "Joyful Step 1: Read the word carefully. Avoid confusing “arduous” with “ardent” Step 2: Try to recall the meaning immediately. Recall: difficult and tiring. Step 3: Use word parts if unsure (prefix, root, suffix). Root “ard-” means to burn or struggle. Step 4: Eliminate obviously wrong choices. Eliminate “Simple,” “Fast,” “Joyful.” Step 5: Choose the best synonym, not just a related word. “Tiring” fits the meaning best."
+      }
+    ],
+    "correct": "B",
+    "answer": "Tiring",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-WK-081",
+    "subtest": "WK",
+    "topic": null,
+    "question": "COGENT",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Weak"
+      },
+      {
+        "label": "B",
+        "text": "Persuasive"
+      },
+      {
+        "label": "C",
+        "text": "Redundant"
+      },
+      {
+        "label": "D",
+        "text": "Complex"
+      },
+      {
+        "label": "E",
+        "text": "Lengthy Step 1: Read the word carefully. Read carefully to avoid mixing with “cogitate.” Step 2: Try to recall the meaning immediately. Recall: logical and convincing. Step 3: Use word parts if unsure (prefix, root, suffix). Prefix “co-” (together) + “agent” (to drive), meaning driving together logically. Step 4: Eliminate obviously wrong choices. Eliminate unrelated words like “Weak” and “Lengthy.” Step 5: Choose the best synonym, not just a related word. “Persuasive” fits perfectly."
+      }
+    ],
+    "correct": "B",
+    "answer": "Persuasive",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-WK-082",
+    "subtest": "WK",
+    "topic": null,
+    "question": "CURSORY",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Energetic"
+      },
+      {
+        "label": "B",
+        "text": "Curious"
+      },
+      {
+        "label": "C",
+        "text": "Automatic"
+      },
+      {
+        "label": "D",
+        "text": "Detailed"
+      },
+      {
+        "label": "E",
+        "text": "Thoughtful Step 1: Read the word carefully. Read carefully to avoid mixing with a similar word like \"curiosity\" Step 2: Try to recall the meaning immediately. Recall: done quickly without attention to detail. Step 3: Use word parts if unsure (prefix, root, suffix). Root: \"curs-\" comes from Latin \"currere\"— to run (i.e., quickly) Step 4: Eliminate obviously wrong choices. Eliminate “Detailed” and “Thoughtful.” Step 5: Choose the best synonym, not just a related word. “Automatic” is closest in meaning."
+      }
+    ],
+    "correct": "C",
+    "answer": "Automatic",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-WK-083",
+    "subtest": "WK",
+    "topic": null,
+    "question": "BENEVOLENT",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Generous"
+      },
+      {
+        "label": "B",
+        "text": "Angry"
+      },
+      {
+        "label": "C",
+        "text": "Sad"
+      },
+      {
+        "label": "D",
+        "text": "Boring"
+      },
+      {
+        "label": "E",
+        "text": "Mysterious Step 1: Read the word carefully. Avoid mixing “benevolent” and “malevolent.” Step 2: Try to recall the meaning immediately. Recall: kind and generous. Step 3: Use word parts if unsure (prefix, root, suffix). Root “bene-” = good. Step 4: Eliminate obviously wrong choices. Eliminate “Angry,” “Sad,” “Mysterious.” Step 5: Choose the best synonym, not just a related word. “Generous” best fits."
+      }
+    ],
+    "correct": "A",
+    "answer": "Generous",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-WK-084",
+    "subtest": "WK",
+    "topic": null,
+    "question": "EXACERBATE",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Ease"
+      },
+      {
+        "label": "B",
+        "text": "Stop"
+      },
+      {
+        "label": "C",
+        "text": "Change"
+      },
+      {
+        "label": "D",
+        "text": "Repeat"
+      },
+      {
+        "label": "E",
+        "text": "Worsen Step 1: Read the word carefully. Read carefully, don’t confuse with “exasperate.” Step 2: Try to recall the meaning immediately. Recall: to make worse. Step 3: Use word parts if unsure (prefix, root, suffix). Root “acerb-” means bitter or harsh. Step 4: Eliminate obviously wrong choices. Eliminate “Ease,” “Stop,” etc. Step 5: Choose the best synonym, not just a related word. “Worsen” matches perfectly."
+      }
+    ],
+    "correct": "E",
+    "answer": "Worsen Step 1: Read the word carefully. Read carefully, don’t confuse with “exasperate.” Step 2: Try to recall the meaning immediately. Recall: to make worse. Step 3: Use word parts if unsure (prefix, root, suffix). Root “acerb-” means bitter or harsh. Step 4: Eliminate obviously wrong choices. Eliminate “Ease,” “Stop,” etc. Step 5: Choose the best synonym, not just a related word. “Worsen” matches perfectly.",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-WK-085",
+    "subtest": "WK",
+    "topic": null,
+    "question": "OBSTINATE",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Passive"
+      },
+      {
+        "label": "B",
+        "text": "Curious"
+      },
+      {
+        "label": "C",
+        "text": "Vague"
+      },
+      {
+        "label": "D",
+        "text": "Stubborn"
+      },
+      {
+        "label": "E",
+        "text": "Honest Step 1: Read the word carefully. Avoid mixing “obstinate” and “ostentatious.” Step 2: Try to recall the meaning immediately. Recall: refusing to change opinion or behavior. Step 3: Use word parts if unsure (prefix, root, suffix). Root “ob-” (against) + “stin-” (stand). Step 4: Eliminate obviously wrong choices. Eliminate “Passive,” “Curious.” Step 5: Choose the best synonym, not just a related word. “Stubborn” is perfect."
+      }
+    ],
+    "correct": "D",
+    "answer": "Stubborn",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-WK-086",
+    "subtest": "WK",
+    "topic": null,
+    "question": "ALOOF",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Engage"
+      },
+      {
+        "label": "B",
+        "text": "Humble"
+      },
+      {
+        "label": "C",
+        "text": "Aggressive"
+      },
+      {
+        "label": "D",
+        "text": "Alert"
+      },
+      {
+        "label": "E",
+        "text": "Remote Step 1: Read the word carefully. Read carefully. Don't misread as \"roof\" Step 2: Try to recall the meaning immediately. Recall: emotionally distant. Step 3: Use word parts if unsure (prefix, root, suffix). Root uncertain—in this situation, rely on memory. Step 4: Eliminate obviously wrong choices. Eliminate “Engaged,” “Alert.” Step 5: Choose the best synonym, not just a related word. “Remote” fits best (signifies emotional distance)."
+      }
+    ],
+    "correct": "E",
+    "answer": "Remote Step 1: Read the word carefully. Read carefully. Don't misread as \"roof\" Step 2: Try to recall the meaning immediately. Recall: emotionally distant. Step 3: Use word parts if unsure (prefix, root, suffix). Root uncertain—in this situation, rely on memory. Step 4: Eliminate obviously wrong choices. Eliminate “Engaged,” “Alert.” Step 5: Choose the best synonym, not just a related word. “Remote” fits best (signifies emotional distance).",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-WK-087",
+    "subtest": "WK",
+    "topic": null,
+    "question": "OPULENT",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Rich"
+      },
+      {
+        "label": "B",
+        "text": "Poor"
+      },
+      {
+        "label": "C",
+        "text": "Secretive"
+      },
+      {
+        "label": "D",
+        "text": "Modest"
+      },
+      {
+        "label": "E",
+        "text": "Clean Step 1: Read the word carefully. Read carefully, don’t confuse with “opponent.” Step 2: Try to recall the meaning immediately. Recall: wealthy, luxurious. Step 3: Use word parts if unsure (prefix, root, suffix). Root “op-” wealth, power. Step 4: Eliminate obviously wrong choices. Eliminate “Poor,” “Modest.” Step 5: Choose the best synonym, not just a related word. “Rich” is the best synonym."
+      }
+    ],
+    "correct": "A",
+    "answer": "Rich",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-WK-088",
+    "subtest": "WK",
+    "topic": null,
+    "question": "INCISIVE",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Indirect"
+      },
+      {
+        "label": "B",
+        "text": "Sharp"
+      },
+      {
+        "label": "C",
+        "text": "Overlooked"
+      },
+      {
+        "label": "D",
+        "text": "Outdated"
+      },
+      {
+        "label": "E",
+        "text": "Curious Step 1: Read the word carefully. Read carefully, don’t confuse with “incisor.” Step 2: Try to recall the meaning immediately. Recall: clear, sharp, direct. Step 3: Use word parts if unsure (prefix, root, suffix). Root “incis-” = cut into. Step 4: Eliminate obviously wrong choices. Eliminate “Indirect,” “Overlooked.” Step 5: Choose the best synonym, not just a related word. “Sharp” is the best synonym."
+      }
+    ],
+    "correct": "B",
+    "answer": "Sharp",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  },
+  {
+    "id": "oatts-WK-089",
+    "subtest": "WK",
+    "topic": null,
+    "question": "DERIDE",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Respect"
+      },
+      {
+        "label": "B",
+        "text": "Reject"
+      },
+      {
+        "label": "C",
+        "text": "Mock"
+      },
+      {
+        "label": "D",
+        "text": "Praise"
+      },
+      {
+        "label": "E",
+        "text": "Confuse Step 1: Read the word carefully. Avoid mixing with “deride” and “decry.” Step 2: Try to recall the meaning immediately. Recall: to ridicule or laugh at. Step 3: Use word parts if unsure (prefix, root, suffix). Root “de-” (down) + “ridere” (to laugh; Latin). Step 4: Eliminate obviously wrong choices. Eliminate “Respect,” “Praise.” Step 5: Choose the best synonym, not just a related word. “Mock” is an exact synonym."
+      }
+    ],
+    "correct": "C",
+    "answer": "Mock",
+    "explanation": null,
+    "provenance": {
+      "kind": "real",
+      "source": "OATTS (official USAF) Knowledge Check",
+      "url": "https://github.com/af-oatts/content",
+      "clearance": "AFRL 2025-4499, cleared for public release 08 Sep 2025"
+    },
+    "complete": true,
+    "needsImage": false
+  }
+]
