@@ -18,7 +18,7 @@
 // Past this zoom every point feature swaps its pin for a small precise dot
 // plus its name. A pin is a ~40px teardrop whose tip is the real position —
 // readable when zoomed out, useless when you are trying to find the exact
-// spot. The dot is 3px and sits exactly on the coordinate.
+// spot. The dot is 14px across and sits exactly on the coordinate.
 export const DEFAULT_DETAIL_ZOOM = 15;
 
 // Deliberately not a category colour: this has to stand out against Tarkov map

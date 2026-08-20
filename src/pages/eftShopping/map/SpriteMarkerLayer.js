@@ -6,6 +6,12 @@ import {
   textSizeForZoom, autoLabel, DEFAULT_DETAIL_ZOOM, DOT_FILL, DOT_RING, DOT_FOUND,
 } from './eftMapLabels';
 
+// The detail-zoom dot, doubled from the 3.5px pip it shipped as. That was
+// precise and effectively invisible: a red speck on a map already full of red
+// and brown, and it is the only marker art left at this zoom.
+const DOT_R = 7;
+const DOT_RING_W = 3;
+
 const LABEL_FONT = "'Bahnschrift', 'DIN Alternate', 'Roboto Condensed', 'Segoe UI', system-ui, sans-serif";
 
 // Draws the source's own marker artwork.
@@ -169,17 +175,16 @@ export const SpriteMarkerLayer = L.Layer.extend({
 
       if (detail) {
         // The dot IS the coordinate — no anchor offset, no artwork.
-        const r = 3.5;
         ctx.globalAlpha = item.dim ? 0.4 : 1;
         ctx.beginPath();
-        ctx.arc(pt.x, pt.y, r + 1.5, 0, Math.PI * 2);
+        ctx.arc(pt.x, pt.y, DOT_R + DOT_RING_W, 0, Math.PI * 2);
         ctx.fillStyle = DOT_RING;
         ctx.fill();
         ctx.beginPath();
-        ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+        ctx.arc(pt.x, pt.y, DOT_R, 0, Math.PI * 2);
         ctx.fillStyle = item.dim ? DOT_FOUND : DOT_FILL;
         ctx.fill();
-        const grab = 7;
+        const grab = DOT_R + DOT_RING_W;
         hits.push({ marker: item.marker, x: pt.x - grab, y: pt.y - grab, w: grab * 2, h: grab * 2 });
         continue;
       }
@@ -238,7 +243,9 @@ export const SpriteMarkerLayer = L.Layer.extend({
       ctx.font = `600 ${px}px ${LABEL_FONT}`;
       // A category that also has a pin puts its name below the point, since
       // the pin (or, at detail zoom, the dot) occupies the point itself.
-      const y = item.pin ? pt.y + px * 0.9 : pt.y;
+      const y = item.pin
+        ? pt.y + (detail ? DOT_R + DOT_RING_W + px * 0.55 : px * 0.9)
+        : pt.y;
 
       ctx.globalAlpha = item.dim ? 0.35 : 1;
       if (haloWidth) {

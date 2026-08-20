@@ -175,7 +175,20 @@ export default function MapView() {
   // number of map units at every zoom level.
   const getUnitsPerPixel = useCallback(() => {
     const map = mapRef.current;
-    if (!map) return 1;
+    // `map._loaded`, not just `map`. mapRef is assigned the instant L.map() is
+    // constructed, but Leaflet gives the map pane no position until the first
+    // setView() — and projecting before that throws "Cannot read properties of
+    // undefined (reading '_leaflet_pos')". Since nothing in this app has an
+    // error boundary, that single throw unmounted the entire site and left the
+    // bare blue body gradient (prod outage, 2026-08-19).
+    //
+    // The window only opens over a network: useMapDrawing's `mergeTolerance`
+    // runs on every render and falls through to this function whenever
+    // metresPerUnit is falsy, which is true while the async marker `data` is
+    // still loading. Locally that chunk resolves off disk before the map is
+    // even built, so the branch never ran; on the CDN it lands after L.map()
+    // but before setView(), which is exactly the unsafe gap.
+    if (!map || !map._loaded) return 1;
     const a = map.containerPointToLatLng([0, 0]);
     const b = map.containerPointToLatLng([0, 1]);
     return Math.abs(b.lat - a.lat) || 1;
@@ -335,7 +348,7 @@ export default function MapView() {
   // The offered thresholds have moved twice. A stored value that is not on the
   // current list would leave the control showing nothing selected, so anything
   // unrecognised falls to the nearest behaviour instead of going blank.
-  const detailChoice = [13, 14, 15].includes(prefs.detailZoom) ? String(prefs.detailZoom)
+  const detailChoice = [14, 15, 16].includes(prefs.detailZoom) ? String(prefs.detailZoom)
     : prefs.detailZoom >= 90 ? '99' : '15';
 
   const savedCalibration = MapStore.getCalibration(mapKey);
@@ -753,13 +766,6 @@ export default function MapView() {
           >
             {mapMenuOpen ? '▾' : '▸'} {mapConfig.name}
           </button>
-          <input
-            className="eft-input eft-input-sm"
-            placeholder="Search…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{ width: 140 }}
-          />
         </div>
       ) : null}
 
@@ -839,14 +845,14 @@ export default function MapView() {
                 value={detailChoice}
                 onChange={(v) => setPrefs({ detailZoom: Number(v) })}
                 options={[
-                  { value: '13', label: '13', title: 'Swap to dots and names a step earlier' },
-                  { value: '14', label: '14', title: 'Swap partway in' },
-                  { value: '15', label: '15', title: 'Default — keep pins until you are well zoomed in' },
+                  { value: '14', label: '14', title: 'Swap to dots and names a step earlier' },
+                  { value: '15', label: '15', title: 'Default — swap once you are well zoomed in' },
+                  { value: '16', label: '16', title: 'Keep pins until you are all the way in' },
                   { value: '99', label: 'Off', title: 'Always use pins' },
                 ]}
               />
               <div className="eft-note">
-                Past this zoom, pins become a 3px dot on the exact spot plus the marker name.
+                Past this zoom, pins become a red dot on the exact spot plus the marker name.
               </div>
             </div>
 
@@ -978,6 +984,21 @@ export default function MapView() {
 
       {prefs.railOpen ? (
         <aside className="eft-map-rail">
+          {/* Search sits with the filters because that is what it is — a
+              text filter over the same markers the category list gates. */}
+          <div className="eft-map-search">
+            <input
+              className="eft-input eft-input-sm"
+              placeholder="Search markers…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            {search ? (
+              <button type="button" className="eft-iconbtn" title="Clear search"
+                onClick={() => setSearch('')}>✕</button>
+            ) : null}
+          </div>
+
           <Panel
             title="Filters"
             flush

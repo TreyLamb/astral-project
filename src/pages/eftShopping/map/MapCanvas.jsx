@@ -116,9 +116,11 @@ export default function MapCanvas({
     spriteRef.current = spriteMarkerLayer({ pane: SPRITE_PANE }).addTo(map);
     overlayLayerRef.current = L.layerGroup().addTo(map);
 
-    const hit = (e) => (s.current.markersInteractive
-      ? spriteRef.current?.hitTest(e.containerPoint)
-      : null);
+    // Two hit tests on purpose. `hit` is gated so a click while drawing goes
+    // to the map instead of selecting a pin; `hover` never is, because knowing
+    // what an icon means is exactly what you need while routing past it.
+    const hover = (e) => spriteRef.current?.hitTest(e.containerPoint) || null;
+    const hit = (e) => (s.current.markersInteractive ? hover(e) : null);
 
     map.on('click', (e) => {
       const marker = hit(e);
@@ -128,7 +130,7 @@ export default function MapCanvas({
     map.on('mousedown', (e) => s.current.onMapDown?.([e.latlng.lat, e.latlng.lng], e.originalEvent, hit(e)));
     map.on('mouseup', (e) => s.current.onMapUp?.([e.latlng.lat, e.latlng.lng], e.originalEvent));
     map.on('mousemove', (e) => {
-      showTip(hit(e), e.containerPoint);
+      showTip(hover(e), e.containerPoint);
       s.current.onMapMove?.([e.latlng.lat, e.latlng.lng], e.originalEvent);
     });
     map.on('mouseout', () => showTip(null));

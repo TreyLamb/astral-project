@@ -176,6 +176,8 @@ export function ZonePanel({
                 disabled={i === 0} onClick={() => onMove(z.id, -1)}>↓</button>
               <button type="button" className="eft-btn eft-btn-sm"
                 onClick={() => onSelect(open ? null : z.id)}>{open ? '−' : 'edit'}</button>
+              <button type="button" className="eft-iconbtn eft-is-danger" title="Delete this zone"
+                onClick={() => onRemove(z.id)}>✕</button>
             </div>
 
             {open ? (
@@ -288,7 +290,7 @@ export function RoutePanel({
                     const name = window.prompt('Rename this saved route', sv.name);
                     if (name) onRenameSaved(sv.id, name);
                   }}>✎</button>
-                <button type="button" className="eft-iconbtn" title="Delete this saved route"
+                <button type="button" className="eft-iconbtn eft-is-danger" title="Delete this saved route"
                   onClick={() => {
                     if (window.confirm(`Delete the saved route “${sv.name}”?`)) onDeleteSaved(sv.id);
                   }}>×</button>
@@ -334,6 +336,19 @@ export function RoutePanel({
                 onClick={() => onUpdate(r.id, { hidden: !r.hidden })}>{r.hidden ? 'off' : 'on'}</button>
               <button type="button" className="eft-btn eft-btn-sm"
                 onClick={() => onSelect(open ? null : r.id)}>{open ? '−' : 'edit'}</button>
+              {/* Delete lived at the bottom of the expanded card, which meant
+                  scrolling past the rule editor to get rid of a route made by
+                  accident. It belongs on the row itself. */}
+              <button type="button" className="eft-iconbtn eft-is-danger"
+                title="Delete this route"
+                onClick={() => {
+                  // An empty route is nothing to lose, so it goes without a prompt.
+                  if (!r.waypoints.length || window.confirm(
+                    `Delete the route “${r.name}”?`
+                    + `\n\nThis removes the route and its ${r.waypoints.length} waypoint`
+                    + `${r.waypoints.length === 1 ? '' : 's'}. Ctrl+Z undoes it.`,
+                  )) onRemove(r.id);
+                }}>✕</button>
             </div>
 
             {open ? (
@@ -468,14 +483,6 @@ export function RoutePanel({
                     {r.waypoints.length} waypoint{r.waypoints.length === 1 ? '' : 's'}
                     {r.closed ? ' · closed loop' : ''}
                   </span>
-                  <button type="button" className="eft-btn eft-btn-sm eft-is-danger"
-                    title="Remove this route from the map entirely"
-                    onClick={() => {
-                      if (window.confirm(
-                        `Delete the route “${r.name}”?`
-                        + '\n\nThis removes the route itself, not just its points. Ctrl+Z undoes it.',
-                      )) onRemove(r.id);
-                    }}>Delete</button>
                 </div>
               </>
             ) : (

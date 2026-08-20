@@ -278,7 +278,16 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, metresPerUnit, onToast
   const removeRoute = useCallback((id) => {
     snapshot();
     setRoutes((prev) => prev.filter((r) => r.id !== id));
-    setActiveRouteId((cur) => (cur === id ? null : cur));
+    setActiveRouteId((cur) => {
+      // Deleting the route you are drawing has to put the tool down too.
+      // Otherwise the cursor stays a crosshair and every click lands on a
+      // route that no longer exists — silently doing nothing.
+      if (cur !== id) return cur;
+      setTool(null);
+      setDraft(null);
+      setPendingBulge(0);
+      return null;
+    });
     onToast?.('Route deleted — Ctrl+Z undoes it');
   }, [snapshot, setRoutes, onToast]);
 
@@ -340,6 +349,12 @@ export function useMapDrawing({ mapKey, getUnitsPerPixel, metresPerUnit, onToast
         return;
       }
       if (e.key === 'Escape') {
+        // A route with no points was never anything — "+ Route" then Esc is a
+        // mistake being taken back, so it should not leave an empty row behind.
+        if (tool === TOOLS.route && activeRoute && !activeRoute.waypoints.length) {
+          setRoutes((prev) => prev.filter((r) => r.id !== activeRoute.id));
+          setActiveRouteId(null);
+        }
         setDraft(null);
         setTool(null);
         setPendingBulge(0);

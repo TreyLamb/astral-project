@@ -70,6 +70,21 @@ function applyPrefsRev(prefs) {
   return next;
 }
 
+/**
+ * The detail-zoom band has moved twice (12/13/14 -> 13/14/15 -> 14/15/16). A
+ * stored value below the current band is no longer on the control, so it would
+ * leave nothing selected while still taking effect. Raised to the lowest
+ * offered step instead of reset through PREFS_REV, which would also stomp Off.
+ */
+const MIN_DETAIL_ZOOM = 14;
+
+function normalisePrefs(prefs) {
+  const z = Number(prefs.detailZoom);
+  // >= 90 is the Off sentinel — a deliberate choice, not a stale one.
+  if (Number.isFinite(z) && z < MIN_DETAIL_ZOOM) return { ...prefs, detailZoom: MIN_DETAIL_ZOOM };
+  return prefs;
+}
+
 function read(key, fallback) {
   try {
     const raw = localStorage.getItem(key);
@@ -122,7 +137,7 @@ function write(key, value) {
 export const MapStore = {
   getPrefs: () => {
     const stored = read(KEY.prefs, DEFAULT_PREFS);
-    const migrated = applyPrefsRev(stored);
+    const migrated = normalisePrefs(applyPrefsRev(stored));
     if (migrated !== stored) write(KEY.prefs, migrated);
     return migrated;
   },
