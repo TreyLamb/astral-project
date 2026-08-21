@@ -39,6 +39,8 @@ import VocabVaultApp from './pages/lang/LangApp';
 import EftShoppingApp from './pages/eftShopping/EftShoppingApp';
 import TranscriptToolApp from './pages/TranscriptTool/TranscriptToolApp';
 import RouteFallback from './pages/RouteFallback';
+import CrashTest from './pages/CrashTest';
+import Boundary, { RouteBoundary } from './components/errors/Boundary';
 import './App.css';
 
 function App() {
@@ -46,7 +48,13 @@ function App() {
     <Router>
       <AuthProvider>
         <div className="App">
-          <Navbar />
+          {/* The nav and the page fail independently: a broken dropdown must
+              not take the page down, and a broken page must not take away the
+              way out. */}
+          <Boundary scope="nav" title="The site nav stopped working." resetId="nav">
+            <Navbar />
+          </Boundary>
+          <RouteBoundary>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/daily-idiom" element={<DailyIdiom />} />
@@ -88,8 +96,14 @@ function App() {
                 only tie back to the rest of the site. */}
             <Route path="/TT/*" caseSensitive element={<TranscriptToolApp />} />
 
+            {/* Dev only. Throws four different ways so each layer of the error
+                system can be seen catching (or correctly not catching) one.
+                Vite drops the whole branch from the production bundle. */}
+            {import.meta.env.DEV && <Route path="/crash-test" element={<CrashTest />} />}
+
             <Route path="*" element={<RouteFallback />} />
           </Routes>
+          </RouteBoundary>
         </div>
       </AuthProvider>
     </Router>

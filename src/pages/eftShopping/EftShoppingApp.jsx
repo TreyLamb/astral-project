@@ -21,6 +21,7 @@ import LootCalcView from './views/LootCalcView';
 import SettingsView from './views/SettingsView';
 import MapView from './views/MapView';
 import CraftTreeView from './views/CraftTreeView';
+import Boundary from '../../components/errors/Boundary';
 
 import './EftShopping.css';
 import HubLink from '../../components/HubLink';
@@ -291,7 +292,11 @@ export default function EftShoppingApp() {
 
           <Routes>
             <Route index element={<HideoutView />} />
-            <Route path="map" element={<MapView />} />
+            {/* Wrapped after the 2026-08-17 outage: one throw inside Leaflet
+                (`_leaflet_pos`, before the first setView) unmounted the entire
+                site. A map that cannot draw should cost you the map, not the
+                tool around it. */}
+            <Route path="map" element={<Boundary title="The map stopped working."><MapView /></Boundary>} />
             <Route path="crafts" element={<CraftTreeView />} />
             <Route path="list" element={<ShoppingListView />} />
             <Route path="order" element={<BuildOrderView />} />

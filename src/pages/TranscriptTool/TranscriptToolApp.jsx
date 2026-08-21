@@ -9,6 +9,7 @@ import { loadScenario, saveScenario, cleanView } from './transcriptStorage';
 import CourseTable from './CourseTable';
 import SidePanel from './SidePanel';
 import ProspectiveModal from './ProspectiveModal';
+import Boundary from '../../components/errors/Boundary';
 import { COLUMNS, NO_FILTERS } from './columns';
 import { clampCreditBlock, bandOf, BAND_PLAIN, BAND_RETAKE, BAND_PROSPECTIVE } from './creditBlocks';
 import { manualRank, moveWithin, pruneOrder, hasManualOrder, manualCount, EMPTY_ORDER } from './rowOrder';
@@ -576,6 +577,11 @@ export default function TranscriptToolApp() {
               </span>
             )}
           </div>
+          {/* Wrapped after the 2026-08-20 crash: a shadowed `band` binding
+              made a helper unreachable and took the whole site down. The
+              readouts, the side panel and the nav are all still useful when
+              the table itself cannot render. */}
+          <Boundary title="The course table stopped working." resetId={`${rows.length}-${changeCount}`}>
           <CourseTable
             rows={rows}
             overrides={overrides}
@@ -597,6 +603,7 @@ export default function TranscriptToolApp() {
             showBlocks={showBlocks}
             onMoveRow={moveRow}
           />
+          </Boundary>
         </section>
       </main>
         </>} />

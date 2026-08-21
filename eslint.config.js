@@ -15,7 +15,13 @@ export default defineConfig([
     ],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        // Stamped into the bundle by vite.config.js `define` (and by
+        // vitest.config.js for tests), so it is a real global at runtime even
+        // though nothing declares it in source.
+        __BUILD_ID__: 'readonly',
+      },
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },

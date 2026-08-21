@@ -224,6 +224,56 @@ disagrees, and the same reconciliation runs in vitest.
 
 ---
 
+## 🛡️ Error boundaries — every page has one, don't remove them
+Added 2026-08-20 after the **second** outage in three days where one broken
+component blanked the whole site (`/EFTsh/map` `_leaflet_pos` on 08-17,
+`/TT` `band2 is not a function` on 08-20). React unmounts the **entire tree**
+when anything throws during render — `#root` empties and you see `index.css`'s
+body gradient with nothing on it. That is the "blank blue page".
+
+Everything lives in `src/components/errors/`. Three layers, all the same class
+component with different props:
+
+| Layer | Where | Catches |
+|---|---|---|
+| `RootBoundary` | `main.jsx`, **outside** `<Router>` | a crash in Router / AuthProvider / Firebase init |
+| `RouteBoundary` | `App.jsx`, around `<Routes>` | any page or sub-app; keeps the Navbar alive |
+| `<Boundary>` | opt-in, per panel | one widget, so the page survives |
+
+- **`<Boundary title="…">` is the one you'll use.** Wrap a panel that does
+  something risky (a map, a canvas, a big table, anything parsing a file). It
+  renders an inline strip instead of the panel. Currently on `MapView`,
+  `CourseTable` and `<Navbar />` — everything else is covered by the route layer.
+- **Boundaries do NOT catch** event handlers, `setTimeout`, or promise
+  rejections — React isn't on the stack for those. `errorNotifier.js` covers
+  them with `window.onerror` / `unhandledrejection`.
+- **`errorNotifier.js` is deliberately not React** and must stay that way: it
+  reports crashes *after React is gone*, so it is plain DOM with inline styles,
+  no imports that could themselves be broken, installed before React renders.
+  A React toast cannot report that React died.
+- **The banner** (bottom-right, persists until dismissed) has Open / Copy /
+  Console. `window.astralErrorReport()` does the same from devtools.
+  `localStorage.setItem('astral_error_alert','1')` upgrades crashes to a
+  blocking `alert()`, capped at 3 per session.
+- **A real pop-up window needs a click** — browsers block `window.open()`
+  outside a user gesture. That's why the banner appears automatically and its
+  Open button does the window. Not a limitation worth fighting.
+- **`/crash-test` is dev-only** (`import.meta.env.DEV` in App.jsx) and throws
+  five different ways so you can see which layer catches which.
+- **`toolStorage.js` maps a route to its localStorage prefixes** for the
+  fallback's reset button. It is a convenience — the "show all keys" path needs
+  no registry. Adding a new tool there is optional; forgetting costs a shortcut,
+  not a capability.
+- **`__BUILD_ID__`** (git sha + time, from `vite.config.js`) is stamped into
+  every report, so "works locally, broken live" is answerable in one glance.
+
+**Tests:** `src/components/errors/*.test.jsx` are the repo's only rendering
+tests. They opt into jsdom per file with `// @vitest-environment jsdom`; the
+vitest default stays `node` so every other suite is unaffected. Use that same
+docblock for any future component test.
+
+---
+
 ## 🎨 webdesign.md is required reading before any layout work
 `webdesign.md` (same directory) is the binding contract for page layout, the
 counterpart to `gamedesign.md` and `featuredesign.md`. Written 2026-08-13 after
