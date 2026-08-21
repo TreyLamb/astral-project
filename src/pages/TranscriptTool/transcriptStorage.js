@@ -4,6 +4,7 @@
 // data and is never written back.
 import { COLUMNS, NO_FILTERS } from './columns';
 import { DEFAULT_CREDIT_BLOCK, clampCreditBlock } from './creditBlocks';
+import { EMPTY_ORDER, cleanOrder } from './rowOrder';
 
 const KEY = 'tt-whatif';
 
@@ -18,6 +19,7 @@ const EMPTY_VIEW = {
   hideSuperseded: false,
   creditBlock: DEFAULT_CREDIT_BLOCK,
   showBlocks: true,
+  order: EMPTY_ORDER,
 };
 
 const EMPTY = {
@@ -52,6 +54,7 @@ export function cleanView(v) {
     hideSuperseded: !!v.hideSuperseded,
     creditBlock: clampCreditBlock(v.creditBlock),
     showBlocks: v.showBlocks !== false,
+    order: cleanOrder(v.order),
   };
 }
 

@@ -6,11 +6,12 @@ import bundled from './transcript.data.json';
 import { parseTranscript } from './parseTranscript';
 import { gpaOf, impactOf, creditsToReach, isCounted, gradeOf, fmtGpa, GRADES, SCALES } from './gpa';
 import { loadScenario, saveScenario, cleanView } from './transcriptStorage';
-import { clampCreditBlock } from './creditBlocks';
 import CourseTable from './CourseTable';
 import SidePanel from './SidePanel';
 import ProspectiveModal from './ProspectiveModal';
 import { COLUMNS, NO_FILTERS } from './columns';
+import { clampCreditBlock, bandOf, BAND_PLAIN, BAND_RETAKE, BAND_PROSPECTIVE } from './creditBlocks';
+import { manualRank, moveWithin, pruneOrder, hasManualOrder, manualCount, EMPTY_ORDER } from './rowOrder';
 import './TranscriptTool.css';
 
 // Reading order of the letter grades, worst last — so a bigger rank is a worse
@@ -61,7 +62,7 @@ export default function TranscriptToolApp() {
   // table. Review mode: worst grades first, but every course you've actually
   // touched pinned above them, since a grade raised to an A would otherwise
   // sink to the bottom of a worst-first list.
-  const { sort, filters, chip, changedFirst, hideSuperseded, creditBlock, showBlocks } = view;
+  const { sort, filters, chip, changedFirst, hideSuperseded, creditBlock, showBlocks, order } = view;
 
   useEffect(() => { saveScenario(scenario); }, [scenario]);
 
@@ -135,6 +136,20 @@ export default function TranscriptToolApp() {
     }
   }, [overrides, honorRepeats, scale, impacts]);
 
+  // The saved order with anything no longer in that section dropped. Derived
+  // rather than pruned on write, so undoing a re-grade forgets that row's
+  // manual position the instant it leaves the section — put the course back
+  // and it returns unranked, at the bottom, which is the documented way to
+  // reset one row without clearing the whole order.
+  const liveOrder = useMemo(() => {
+    const byBand = { [BAND_RETAKE]: new Set(), [BAND_PROSPECTIVE]: new Set() };
+    for (const c of whatIfCourses) {
+      const set = byBand[bandOf(c, overrides)];
+      if (set) set.add(c.id);
+    }
+    return pruneOrder(order, byBand);
+  }, [whatIfCourses, overrides, order]);
+
   // Which of the three stacked sections a row belongs to: re-graded courses,
   // then prospective classes, then the transcript as printed.
   //
@@ -189,6 +204,17 @@ export default function TranscriptToolApp() {
       const ba = bandRank(a);
       const bb = bandRank(b);
       if (ba !== bb) return ba - bb;
+      // A row you dragged outranks the column sort — it is the one ordering
+      // the tool cannot work out for itself. Rows with no manual position have
+      // rank Infinity and fall through to the sort below, so they collect at
+      // the bottom of their own section rather than jumping into the middle.
+      if (ba !== 2) {
+        const band = bandOf(a, overrides);
+        const ma = manualRank(liveOrder, band, a.id);
+        const mb = manualRank(liveOrder, band, b.id);
+        if (ma !== mb) return ma - mb;
+      }
+
       const x = keyOf(a, sort.key);
       const y = keyOf(b, sort.key);
       if (x < y) return -1 * mul;
@@ -196,7 +222,24 @@ export default function TranscriptToolApp() {
       // Stable, readable tiebreak: chronological, then by course code.
       return (a.termOrder - b.termOrder) || a.code.localeCompare(b.code);
     });
-  }, [whatIfCourses, filters, chip, sort, keyOf, impacts, overrides, bandRank, hideSuperseded, honorRepeats]);
+  }, [whatIfCourses, filters, chip, sort, keyOf, impacts, overrides, bandRank, liveOrder, hideSuperseded, honorRepeats]);
+
+  // Dropping a row rewrites its whole band from what is on screen, so a single
+  // drag also fixes the position of every row that had no manual place yet.
+  // Only rows visible in this band take part — a filtered-out course keeps the
+  // position it already had rather than being silently reshuffled.
+  const moveRow = useCallback((dragId, overId, after) => {
+    const row = rows.find((c) => c.id === dragId);
+    const target = rows.find((c) => c.id === overId);
+    if (!row || !target) return;
+    const band = bandOf(row, overrides);
+    if (band === BAND_PLAIN || band !== bandOf(target, overrides)) return;
+
+    const visible = rows.filter((c) => bandOf(c, overrides) === band).map((c) => c.id);
+    const next = moveWithin(visible, dragId, overId, after);
+    const kept = (liveOrder[band] ?? []).filter((id) => !next.includes(id));
+    setView({ order: { ...liveOrder, [band]: [...next, ...kept] } });
+  }, [rows, overrides, liveOrder, setView]);
 
   const supersededCount = useMemo(
     () => courses.filter((c) => !isCounted(c, honorRepeats)).length,
@@ -489,6 +532,15 @@ export default function TranscriptToolApp() {
               + Prospective class{extras.length ? ` (${extras.length})` : ''}
             </button>
 
+            {hasManualOrder(liveOrder) && (
+              <button
+                type="button"
+                className="tt-chip tt-chip-sm on"
+                onClick={() => { setView({ order: EMPTY_ORDER }); setToast('Back to the column sort'); }}
+                title="Drop the order you dragged and go back to sorting by the column headers"
+              >⇅ manual order ({manualCount(liveOrder)}) — clear</button>
+            )}
+
             {/* Free entry, not a preset list — a block is whatever a term
                 looks like for you, and 12 is only the common answer. */}
             <span className="tt-blocks">
@@ -543,20 +595,22 @@ export default function TranscriptToolApp() {
             changedCount={changeCount}
             creditBlock={Number(creditBlock) || 0}
             showBlocks={showBlocks}
+            onMoveRow={moveRow}
           />
         </section>
       </main>
         </>} />
       </Routes>
 
-      <ProspectiveModal
-        open={prosOpen}
-        onClose={() => setProsOpen(false)}
-        onAdd={(c) => {
-          patch({ extras: [...extras, c] });
-          setToast(`Added ${c.code} — ${c.credits} cr assuming ${c.grade}`);
-        }}
-      />
+      {prosOpen && (
+        <ProspectiveModal
+          onClose={() => setProsOpen(false)}
+          onAdd={(c) => {
+            patch({ extras: [...extras, c] });
+            setToast(`Added ${c.code} — ${c.credits} cr assuming ${c.grade}`);
+          }}
+        />
+      )}
 
       {pasteOpen && (
         <div className="tt-modal-back" onClick={() => setPasteOpen(false)}>

@@ -15,6 +15,11 @@
   --tt-warn: #e8b24a;
   --tt-bad: #e8804a;
   --tt-fail: #e2586a;
+  /* Prospective classes. Deliberately a different hue AND a different
+     temperature from --tt-accent, which marks a re-graded course: the two
+     bands sit next to each other in the table and have to be tellable apart
+     at a glance, not on inspection. */
+  --tt-pros: #45d3ff;
   /* Everything above the table body: bar + controls + table caption + the
      page's bottom padding. Drives the table's own scroll height. */
   --tt-chrome: 168px;
@@ -266,6 +271,17 @@
 }
 .tt-btn-primary:hover:not(:disabled) { background: #efb95c; }
 .tt-btn-warn { color: #f0a9b3; border-color: #4a2b33; }
+.tt-btn-pros {
+  color: var(--tt-pros);
+  border-color: rgba(69, 211, 255, 0.42);
+  background: rgba(69, 211, 255, 0.09);
+  font-weight: 600;
+}
+.tt-btn-pros:hover:not(:disabled) {
+  background: rgba(69, 211, 255, 0.17);
+  border-color: var(--tt-pros);
+}
+.tt-btn-wide { display: block; width: 100%; }
 
 /* ---------- layout ---------- */
 /* Panel left, table right and flush to the window edge — the table is the
@@ -320,6 +336,17 @@
 .tt-chip-sm {
   padding: 2px 8px;
   font-size: 0.7rem;
+}
+.tt-chip-pros {
+  color: var(--tt-pros);
+  border-color: rgba(69, 211, 255, 0.42);
+  background: rgba(69, 211, 255, 0.09);
+  font-weight: 600;
+}
+.tt-chip-pros:hover {
+  color: var(--tt-pros);
+  background: rgba(69, 211, 255, 0.17);
+  border-color: var(--tt-pros);
 }
 .tt-blocks-lbl {
   display: inline-flex;
@@ -486,7 +513,40 @@ select.tt-f:not([value='']) { border-color: #3d587a; }
 .tt-row-out td { opacity: 0.42; }
 .tt-row-changed { background: rgba(224, 166, 60, 0.07); }
 .tt-row-changed:hover { background: rgba(224, 166, 60, 0.1); }
-.tt-row-extra { background: rgba(78, 201, 138, 0.07); }
+/* Prospective classes: a soft neon-blue wash plus a lit edge, the cool
+   counterpart to the amber a re-graded row gets. The glow is an inset shadow
+   rather than a filter so it costs nothing to paint on a long table. */
+.tt-row-extra {
+  background: rgba(69, 211, 255, 0.075);
+  box-shadow: inset 3px 0 0 rgba(69, 211, 255, 0.55), inset 0 0 22px rgba(69, 211, 255, 0.07);
+}
+.tt-row-extra:hover { background: rgba(69, 211, 255, 0.115); }
+.tt-row-extra .tt-c-code { color: var(--tt-pros); }
+
+/* Drag-to-order. The grip arms the drag; the row itself is only `draggable`
+   while the grip is held, so selecting text and using the grade dropdown carry
+   on working everywhere else. */
+.tt-grip {
+  display: inline-block;
+  margin-right: 6px;
+  color: #4a6180;
+  cursor: grab;
+  user-select: none;
+  line-height: 1;
+  letter-spacing: -0.12em;
+}
+.tt-grip:hover { color: var(--tt-text); }
+.tt-grip:active { cursor: grabbing; }
+.tt-row-extra .tt-grip:hover { color: var(--tt-pros); }
+.tt-row-changed .tt-grip:hover { color: var(--tt-accent); }
+.tt-row-dragging { opacity: 0.4; }
+
+/* Where the row will land. A shadow rather than a border so the row does not
+   change height mid-drag and shove the drop target out from under the cursor. */
+.tt-drop-above td { box-shadow: inset 0 2px 0 var(--tt-accent); }
+.tt-drop-below td { box-shadow: inset 0 -2px 0 var(--tt-accent); }
+.tt-row-extra.tt-drop-above td { box-shadow: inset 0 2px 0 var(--tt-pros); }
+.tt-row-extra.tt-drop-below td { box-shadow: inset 0 -2px 0 var(--tt-pros); }
 
 /* Credit-block dividers. Purely a reading aid over the rows you have changed —
    they carry no state and are not selectable, so they must not look like a
@@ -520,12 +580,22 @@ select.tt-f:not([value='']) { border-color: #3d587a; }
 }
 .tt-break-tag strong { color: var(--tt-accent); }
 
-/* The last one also separates the changed rows from the untouched transcript
-   below, so it reads as a heavier line than the internal block breaks. */
-.tt-break-rest .tt-break-rule {
-  background: var(--tt-line);
+/* A block inside the prospective band is labelled in that band's colour, so a
+   rule tells you which section it closes without reading the text. */
+.tt-break-pros .tt-break-tag strong { color: var(--tt-pros); }
+.tt-break-pros .tt-break-rule {
+  background: repeating-linear-gradient(
+    to right,
+    rgba(69, 211, 255, 0.35) 0 5px,
+    transparent 5px 10px
+  );
 }
-.tt-break-tag-rest {
+
+/* The last rule of a band also divides it from whatever comes next, so it is a
+   solid line rather than the dashed internal ones. */
+.tt-break-end .tt-break-rule { background: var(--tt-line); }
+.tt-break-end.tt-break-pros .tt-break-rule { background: rgba(69, 211, 255, 0.3); }
+.tt-break-tag-end {
   color: var(--tt-dim);
   border: 1px solid var(--tt-line);
   border-radius: 4px;
@@ -672,18 +742,28 @@ td.tt-empty { padding: 26px; color: var(--tt-dim); text-align: center; }
 .tt-solve { font-size: 0.84rem; }
 .tt-solve strong { color: var(--tt-accent); }
 
-.tt-addrow { display: grid; grid-template-columns: 1fr 62px 68px auto; gap: 5px; }
-.tt-addrow input,
-.tt-addrow select {
-  font: inherit;
-  font-size: 0.8rem;
-  min-width: 0;
-  color: var(--tt-text);
-  background: var(--tt-panel-2);
-  border: 1px solid var(--tt-line);
+/* Prospective classes already added, listed under the button that adds them. */
+.tt-proslist { display: grid; gap: 4px; margin-top: 9px; }
+.tt-proslist li {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto auto;
+  gap: 7px;
+  align-items: center;
+  font-size: 0.76rem;
+  padding: 4px 6px;
   border-radius: 5px;
-  padding: 5px 7px;
+  background: rgba(69, 211, 255, 0.07);
+  box-shadow: inset 2px 0 0 rgba(69, 211, 255, 0.5);
 }
+.tt-proslist-code { font-weight: 700; color: var(--tt-pros); white-space: nowrap; }
+.tt-proslist-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--tt-dim);
+}
+.tt-proslist-cr { color: var(--tt-dim); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 .tt-dist { display: grid; gap: 5px; }
 .tt-dist li { display: grid; grid-template-columns: 16px 1fr 34px; gap: 8px; align-items: center; font-size: 0.78rem; }
@@ -739,6 +819,42 @@ td.tt-empty { padding: 26px; color: var(--tt-dim); text-align: center; }
   padding: 10px;
   resize: vertical;
 }
+/* Add-a-prospective-class form. Narrower than the paste modal — it is a form,
+   not a wall of transcript text — and the fields are stacked label-over-input
+   rather than .tt-field's inline default so a 9-field grid stays scannable. */
+.tt-modal-pros { width: min(560px, 100%); }
+.tt-modal-pros h2 { color: var(--tt-pros); }
+.tt-form-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+.tt-form-grid .tt-field {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  min-width: 0;
+}
+.tt-form-grid .tt-field input,
+.tt-form-grid .tt-field select { width: 100%; }
+.tt-f-subject { grid-column: span 2; }
+.tt-f-number { grid-column: span 2; }
+.tt-f-title { grid-column: span 6; }
+.tt-f-credits { grid-column: span 2; }
+.tt-f-grade { grid-column: span 2; }
+.tt-f-attr { grid-column: span 2; }
+.tt-f-dated { grid-column: span 6; margin-top: 2px; }
+.tt-f-year { grid-column: span 3; }
+.tt-f-term { grid-column: span 3; }
+.tt-form-grid .tt-field input:disabled,
+.tt-form-grid .tt-field select:disabled { opacity: 0.4; cursor: default; }
+
+@media (max-width: 560px) {
+  .tt-f-subject, .tt-f-number, .tt-f-credits, .tt-f-grade, .tt-f-attr,
+  .tt-f-year, .tt-f-term { grid-column: span 3; }
+}
+
 .tt-modal-err { color: #f0a3af; font-size: 0.8rem; margin-top: 8px; }
 .tt-modal-actions { display: flex; gap: 7px; margin-top: 12px; align-items: center; }
 
