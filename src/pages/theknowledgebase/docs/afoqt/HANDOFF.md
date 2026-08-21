@@ -129,6 +129,11 @@ out. Data rows feeding an existing template builder are farmable; the builder it
 - [x] **PART 2** — `templates/wk/ch06-change-degree.js` — 60 word rows *(done 2026-08-21)*
 - [x] **PART 3** — `templates/wk/ch02-roots.js` — 30 roots *(done 2026-08-21)*
 - [x] **PART 4** — `templates/wk/ch04-confusables.js` — 28 pairs *(done 2026-08-21)*
+npm test is RED, deliberately. curriculum.test.js reports that the six WK chapters have no lesson markdown. That's true — it's PARTs 5 and 6. I left it failing rather than stubbing it, because a stub turns off a signal that's working.
+
+22 of your 89 official OATTS items are broken in the app right now. Every AR and every WK item (plus one MK, one IC) ships its entire worked solution inside answer choice E — the ARDUOUS item's option E is 423 characters long and names the answer. pdf-parse joins wrapped lines, so the walkthrough fused onto the last choice. I fixed the parser; I did not repair the committed JSON — the source PDFs are gitignored and I ran out of runway before re-fetching. Until that's done the fused options are still live. It's written up in PLAN.md with both repair routes.
+
+Sonnet did the bulk well, but not unsupervised. All three agents passed the structural gate, and two shipped defects only reading caught: ch03 had three slates carrying two defensible answers (in-/dis-/non- all glossed "not"), and ch05 had six possessives with the apostrophe dropped to fit a single-quoted string. Both are now written into the doctrine — a sense must be distinguishable, not merely a different string.
 - [ ] **PART 5** — WK lessons, chapters 1-3  ← **next, and `npm test` is RED until PART 5 and PART 6 both land**
 - [ ] **PART 6** — WK lessons, chapters 4-6
 - [ ] **PART 7** — WK test suite
