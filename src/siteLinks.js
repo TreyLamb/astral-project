@@ -14,6 +14,7 @@ export const SITE_LINKS = [
   { to: '/RS',                     name: 'RS Market',        desc: 'runescape grand exchange',          icon: '🏛️', bg: '#060f06', accent: '#22c55e', rgb: '34,197,94'    },
   { to: '/QA',                     name: 'QA Tracker',       desc: 'self-rating for qa skills',         icon: '📊', bg: '#0a0d17', accent: '#818cf8', rgb: '129,140,248'  },
   { to: '/TKB',                    name: 'TheKnowledgeBase', desc: 'study & quiz knowledge base',       icon: '🧠', bg: '#041210', accent: '#2dd4bf', rgb: '45,212,191'   },
+  { to: '/DLAB',                   name: 'DLAB Trainer',     desc: 'invented-language aptitude drills', icon: '🗣️', bg: '#161003', accent: '#fbbf24', rgb: '251,191,36'   },
   { to: '/google-photos',          name: 'Google Photos',    desc: 'photo library organizer',           icon: '🖼️', bg: '#100820', accent: '#a78bfa', rgb: '167,139,250'  },
   { to: '/POGO',                   name: 'POGO Tracker',     desc: 'multi-account pokémon go tracker',  icon: '🎒', bg: '#1a0510', accent: '#ee6b6b', rgb: '238,107,107'  },
   { to: '/POGO-ACCS',              name: 'POGO Accs',        desc: 'raid counters & mega tracker',      icon: '💠', bg: '#070d1c', accent: '#67e8f9', rgb: '103,232,249'  },

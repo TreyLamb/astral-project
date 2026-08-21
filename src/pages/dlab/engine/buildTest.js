@@ -119,8 +119,12 @@ export function buildTest({ seed, written, audio, mc = false, presetId = null, r
 
   const items = [...writtenItems, ...audioItems].map((it, i) => ({ ...it, index: i + 1 }));
 
-  if (mc) {
-    for (const it of items) it.choices = buildDistractors(it, language, rng);
+  // Exam Sim needs options on every item. Every OTHER sitting still needs them
+  // on the hard and extreme items, because those offer the opt-in assist toggle
+  // — building them only under `mc` left that toggle with nothing to show, which
+  // made it silently dead in exactly the modes it exists for.
+  for (const it of items) {
+    if (mc || it.assistable) it.choices = buildDistractors(it, language, rng);
   }
 
   return {

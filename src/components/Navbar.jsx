@@ -36,7 +36,7 @@ const GAME_ROUTES = ['/bashmon', '/gitmon', '/signal-lost', '/pokered', '/antiqu
 // the only way back to the hub from inside the tool. Adding a route here
 // WITHOUT adding that link strands the user, so the two go together.
 const OWN_TOPBAR_ROUTES = [
-  '/EFTsh', '/MFT', '/POGO', '/RS', '/TKB', '/TT', '/VV',
+  '/DLAB', '/EFTsh', '/MFT', '/POGO', '/RS', '/TKB', '/TT', '/VV',
   '/google-photos', '/league-build', '/lexicon', '/medaldex', '/mymdb',
   '/orbit', '/planning-tool', '/pogo-filters', '/python-game', '/stashmap',
   '/timer-tool',

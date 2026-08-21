@@ -30,6 +30,17 @@ const VERB_FORMS = {
   break: { s: 'breaks', past: 'broke', base: 'break' },
 };
 
+// Nouns that take no indefinite article in English. "A big water" is not a
+// sentence anyone would write, and a prompt that reads as broken English makes
+// the test-taker wonder what is being asked rather than how to say it.
+//
+// These are only ever glossed bare — never as "the sun" — because the prompt's
+// article has to agree with the spec's definiteness flag. Saying "the" while the
+// spec is indefinite would mean the expected answer carries a definiteness
+// marker the prompt did not ask for, which is an ambiguity on the prompt side
+// that no validator inspects.
+const NO_ARTICLE = new Set(['water', 'fire', 'sun', 'moon']);
+
 /** @param {string} n */
 export function pluralOf(n) {
   return PLURALS[n] || `${n}s`;
@@ -53,7 +64,7 @@ function npGloss(np, { capitalize = false } = {}) {
     parts.push(`the ${owner}'s`);
   } else if (np.definite) {
     parts.push('the');
-  } else if (!np.plural) {
+  } else if (!np.plural && !NO_ARTICLE.has(np.lex)) {
     parts.push(/^[aeiou]/.test((np.adjectives || [])[0] || head) ? 'an' : 'a');
   }
 

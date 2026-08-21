@@ -164,7 +164,7 @@ function buildTranslation(lang, rng, seed, level, modality) {
     tier: tierForDepth(depth),
     depth,
     modality,
-    prompt: `Translate into the language: ${glossSpec(spec)}`,
+    prompt: `Translate into the language: "${glossSpec(spec)}"`,
     answer: r.surface,
     spec,
     composedSurface: r.surface,
@@ -387,20 +387,33 @@ function buildVerbRootRecall(lang, rng, seed, level) {
   });
 }
 
-function buildPictorial(lang, rng, seed, level) {
+function buildPictorial(lang, rng, seed) {
   const count = rng() < 0.55 ? 3 : 1;
   const noun = nounFor(lang, rng, { plural: count > 1, drawable: true });
   if (count > 1 && !hasDistinctPlural(noun)) return null;
 
-  const size = rng() < 0.7 ? pick(['big', 'small'], rng) : null;
-  const red = !size || rng() < 0.4;
+  // Size only ever describes a LONE object. Three objects have to be drawn
+  // smaller to fit side by side in a frame that must stay a constant size to be
+  // the size reference at all — so a "big" trio would render smaller than a
+  // "big" single, and big/small would stop meaning anything. Plural scenes are
+  // distinguished by count and colour instead.
+  const size = count === 1 && rng() < 0.7 ? pick(['big', 'small'], rng) : null;
 
   const np = { lex: noun, plural: count > 1 };
   const adjectives = [];
   if (size) adjectives.push(size);
-  else if (red) adjectives.push('red');
+  else if (rng() < 0.6) adjectives.push('red');
   if (adjectives.length) np.adjectives = adjectives;
-  if (level >= 6) np.definite = true;
+
+  // NOT marked definite, at any level. Every other feature a pictorial item can
+  // carry is drawable — count is how many objects appear, colour is the paint,
+  // and size reads against SceneSvg's always-identical frame, which is the size
+  // reference. "The tree" as against "a tree" is not drawable at all, so a
+  // definite pictorial would have two defensible answers with nothing in the
+  // prompt to choose between them. checkHomophony cannot catch this: it compares
+  // SURFACES, and in a language that marks definiteness the two surfaces
+  // genuinely differ — the ambiguity is on the PROMPT side, where no validator
+  // is looking. The depth this gives up is made back on count and adjective.
 
   const spec = { kind: 'np', np };
   const r = compose(spec, lang);
@@ -418,7 +431,7 @@ function buildPictorial(lang, rng, seed, level) {
     composedSurface: r.surface,
     trace: r.trace,
     ruleIds: traceRuleIds(r.trace),
-    scene: { noun, count, size, color: adjectives.includes('red') ? 'red' : null, definite: !!np.definite },
+    scene: { noun, count, size, color: adjectives.includes('red') ? 'red' : null },
   });
 }
 
@@ -441,7 +454,7 @@ function buildComposite(lang, rng, seed, modality) {
       tier: tierForDepth(depth),
       depth,
       modality,
-      prompt: `Translate into the language: ${glossSpec(spec)}`,
+      prompt: `Translate into the language: "${glossSpec(spec)}"`,
       answer: r.surface,
       spec,
       composedSurface: r.surface,
@@ -481,10 +494,19 @@ function buildComposite(lang, rng, seed, modality) {
 
 // ── Tier-targeted generation ────────────────────────────────────────────────
 
+// A type listed under a tier its measured depth can never reach simply never
+// generates — generateItem discards every out-of-band candidate, and the other
+// types in the list quietly take its slots. That has now bitten twice
+// (rootRecall, pictorial), so each type is listed against its MEASURED range and
+// the selftest asserts every expected type actually appears.
+//
+// pictorial tops out around depth 4: a picture can only carry count, colour and
+// size, and definiteness is not drawable at all (see buildPictorial). It is an
+// easy/medium item and pretending otherwise just deleted it.
 const WRITTEN_TYPES = {
-  easy: ['vocab', 'np', 'np', 'blank'],
-  medium: ['sentence', 'blank', 'transform', 'sentence'],
-  hard: ['sentence', 'transform', 'pictorial', 'blank'],
+  easy: ['vocab', 'np', 'pictorial', 'blank'],
+  medium: ['sentence', 'blank', 'transform', 'pictorial'],
+  hard: ['sentence', 'transform', 'blank', 'composite'],
   extreme: ['composite', 'composite', 'sentence'],
 };
 
@@ -508,7 +530,7 @@ function buildOfType(type, lang, rng, seed, level, modality) {
     case 'dictation': return buildDictation(lang, rng, seed, level);
     case 'rootRecall': return buildRootRecall(lang, rng, seed, level);
     case 'verbRootRecall': return buildVerbRootRecall(lang, rng, seed, level);
-    case 'pictorial': return buildPictorial(lang, rng, seed, level);
+    case 'pictorial': return buildPictorial(lang, rng, seed);
     case 'composite': return buildComposite(lang, rng, seed, modality);
     default: return null;
   }

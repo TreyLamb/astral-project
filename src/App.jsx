@@ -23,6 +23,7 @@ import BashmonApp from './pages/bashmon/BashmonApp';
 import SignalLostApp from './pages/signalLost/SignalLostApp';
 import PokeredApp from './pages/pokeredPage/PokeredApp';
 import TkbApp from './pages/theknowledgebase/TkbApp';
+import DlabApp from './pages/dlab/DlabApp';
 import PythonGameApp from './pages/pythonGame/PythonGameApp';
 import PgoTracker from './pages/pgotracker/PgoTracker';
 import PogoAccsApp from './pages/pogoaccs/PogoAccsApp';
@@ -86,6 +87,7 @@ function App() {
             <Route path="/MFT/*" caseSensitive element={<FitnessTrackerApp />} />
             <Route path="/VV/*" caseSensitive element={<VocabVaultApp />} />
             <Route path="/TKB/*" caseSensitive element={<TkbApp />} />
+            <Route path="/DLAB/*" caseSensitive element={<DlabApp />} />
             <Route path="/QA" caseSensitive element={<QATracker />} />
             <Route path="/RS" caseSensitive element={<RSMarket />} />
             <Route path="/POGO" caseSensitive element={<PgoTracker />} />

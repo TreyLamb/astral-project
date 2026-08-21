@@ -1,0 +1,567 @@
+/* DLAB Trainer — every class prefixed `dlab-` (CLAUDE.md). Dark theme, amber
+   accent. Structure follows FitnessTracker.css; the custom properties are on
+   `.dlab-app` rather than `:root` deliberately, so nothing here can leak into
+   the rest of the site the way a `:root` block would.
+
+   DLAB is in Navbar.jsx's OWN_TOPBAR_ROUTES, so the site nav renders nothing on
+   this route and body padding-top is reset to 0 — the topbar below supplies the
+   only way back, via HubLink. */
+
+.dlab-app {
+  --dlab-accent: #fbbf24;
+  --dlab-accent-dim: rgba(251, 191, 36, 0.14);
+  --dlab-bg: #12100a;
+  --dlab-panel: #1a1710;
+  --dlab-panel-2: #221d14;
+  --dlab-border: rgba(255, 255, 255, 0.09);
+  --dlab-ink: #f0e9d8;
+  --dlab-muted: rgba(228, 216, 190, 0.55);
+  --dlab-ok: #4ade80;
+  --dlab-bad: #fb7185;
+  --dlab-warn: #fbbf24;
+
+  min-height: 100vh;
+  background: var(--dlab-bg);
+  color: var(--dlab-ink);
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ── topbar ─────────────────────────────────────────────────────────────── */
+.dlab-app .dlab-topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 18px;
+  background: var(--dlab-panel);
+  border-bottom: 1px solid var(--dlab-border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  flex-wrap: wrap;
+}
+
+.dlab-app .dlab-site-home {
+  font-size: 12px;
+  color: var(--dlab-muted);
+  text-decoration: none;
+  border-right: 1px solid var(--dlab-border);
+  padding-right: 14px;
+  white-space: nowrap;
+}
+.dlab-app .dlab-site-home:hover { color: var(--dlab-accent); }
+
+.dlab-app .dlab-brand {
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: 0.06em;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.dlab-app .dlab-brand-sub {
+  font-weight: 500;
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--dlab-muted);
+}
+
+.dlab-app .dlab-nav {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+.dlab-app .dlab-nav a {
+  padding: 7px 13px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: var(--dlab-muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.dlab-app .dlab-nav a:hover { color: var(--dlab-ink); background: var(--dlab-panel-2); }
+.dlab-app .dlab-nav a.is-on { background: var(--dlab-accent-dim); color: var(--dlab-accent); }
+
+.dlab-app .dlab-mode {
+  font-size: 11px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--dlab-border);
+  color: var(--dlab-muted);
+  white-space: nowrap;
+}
+.dlab-app .dlab-mode-cloud { color: #67e8f9; border-color: rgba(103, 232, 249, 0.3); }
+
+/* ── layout ─────────────────────────────────────────────────────────────── */
+/* No max-width cage: this is a tool, not an article (webdesign.md). Long-form
+   prose inside a panel gets its own measure where it needs one. */
+.dlab-app .dlab-main {
+  flex: 1;
+  padding: 20px 22px 60px;
+}
+
+.dlab-app .dlab-panel {
+  background: var(--dlab-panel);
+  border: 1px solid var(--dlab-border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+
+.dlab-app h1 { font-size: 1.5rem; margin: 0 0 6px; line-height: 1.2; }
+.dlab-app h2 { font-size: 1.08rem; margin: 0 0 10px; }
+.dlab-app h4 { font-size: 0.82rem; margin: 14px 0 7px; color: var(--dlab-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+.dlab-app .dlab-lede { color: var(--dlab-muted); line-height: 1.6; max-width: 68ch; margin: 0 0 4px; }
+.dlab-app .dlab-help { color: var(--dlab-muted); font-size: 0.83rem; line-height: 1.55; max-width: 74ch; display: block; }
+.dlab-app .dlab-muted { color: var(--dlab-muted); }
+.dlab-app .dlab-tiny { font-size: 0.78rem; }
+.dlab-app .dlab-subtle { color: var(--dlab-muted); font-size: 0.8rem; }
+.dlab-app .dlab-empty { color: var(--dlab-muted); text-align: center; padding: 48px 16px; }
+.dlab-app .dlab-warn { color: var(--dlab-warn); font-size: 0.84rem; line-height: 1.5; }
+.dlab-app .dlab-warn-inline { color: var(--dlab-warn); font-size: 0.78rem; }
+
+.dlab-app .dlab-form {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--dlab-accent);
+  font-size: 0.94rem;
+  word-break: break-word;
+}
+
+.dlab-app .dlab-hero { margin-bottom: 20px; }
+
+/* ── buttons ────────────────────────────────────────────────────────────── */
+.dlab-app .dlab-btn {
+  background: var(--dlab-panel-2);
+  color: var(--dlab-ink);
+  border: 1px solid var(--dlab-border);
+  border-radius: 10px;
+  padding: 9px 15px;
+  font-weight: 650;
+  font-size: 0.88rem;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.dlab-app .dlab-btn:hover:not(:disabled) { border-color: var(--dlab-accent); }
+.dlab-app .dlab-btn:disabled { opacity: 0.42; cursor: default; }
+.dlab-app .dlab-btn.is-on { background: var(--dlab-accent-dim); color: var(--dlab-accent); border-color: var(--dlab-accent); }
+.dlab-app .dlab-btn-primary { background: var(--dlab-accent); color: #17130a; border-color: var(--dlab-accent); }
+.dlab-app .dlab-btn-primary:hover:not(:disabled) { filter: brightness(1.08); }
+.dlab-app .dlab-btn-danger { background: rgba(244, 63, 94, 0.15); color: var(--dlab-bad); border-color: rgba(244, 63, 94, 0.3); }
+.dlab-app .dlab-btn-quiet { background: transparent; }
+.dlab-app .dlab-btn-lg { padding: 12px 22px; font-size: 0.98rem; }
+.dlab-app .dlab-btn-tiny { padding: 5px 10px; font-size: 0.76rem; border-radius: 8px; }
+
+.dlab-app .dlab-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+.dlab-app .dlab-actions-end { justify-content: flex-end; }
+.dlab-app .dlab-rowactions { display: flex; gap: 8px; flex-wrap: wrap; }
+.dlab-app .dlab-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* ── form controls ──────────────────────────────────────────────────────── */
+.dlab-app .dlab-input {
+  background: var(--dlab-bg);
+  border: 1px solid var(--dlab-border);
+  border-radius: 9px;
+  padding: 10px 12px;
+  color: var(--dlab-ink);
+  font-size: 0.95rem;
+  font-family: inherit;
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+}
+.dlab-app .dlab-input:focus { outline: none; border-color: var(--dlab-accent); }
+
+.dlab-app .dlab-setrow { display: block; margin-bottom: 16px; max-width: 560px; }
+.dlab-app .dlab-setlabel { display: block; font-size: 0.82rem; font-weight: 650; margin-bottom: 6px; }
+.dlab-app .dlab-setrow input[type="range"] { width: 100%; accent-color: var(--dlab-accent); }
+
+.dlab-app .dlab-check { display: flex; gap: 11px; align-items: flex-start; margin: 16px 0; max-width: 74ch; cursor: pointer; }
+.dlab-app .dlab-check input { margin-top: 3px; accent-color: var(--dlab-accent); flex-shrink: 0; }
+.dlab-app .dlab-check strong { display: block; font-size: 0.9rem; margin-bottom: 3px; }
+
+.dlab-app .dlab-details { margin: 14px 0; }
+.dlab-app .dlab-details summary { cursor: pointer; font-size: 0.86rem; color: var(--dlab-accent); font-weight: 600; }
+.dlab-app .dlab-details > *:not(summary) { margin-top: 10px; }
+
+/* ── chips and pills ────────────────────────────────────────────────────── */
+.dlab-app .dlab-seed-pill,
+.dlab-app .dlab-chip,
+.dlab-app .dlab-flag-chip,
+.dlab-app .dlab-tier,
+.dlab-app .dlab-tier-chip,
+.dlab-app .dlab-pool,
+.dlab-app .dlab-est-tag {
+  font-size: 0.72rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--dlab-border);
+  white-space: nowrap;
+  font-weight: 650;
+}
+.dlab-app .dlab-seed-pill { font-family: ui-monospace, monospace; letter-spacing: 0.09em; color: var(--dlab-accent); border-color: rgba(251, 191, 36, 0.35); }
+.dlab-app .dlab-flag-chip { color: var(--dlab-muted); }
+.dlab-app .dlab-est-tag { color: var(--dlab-muted); font-weight: 500; text-transform: none; letter-spacing: 0; }
+
+.dlab-app .dlab-tier-easy    { color: #7dd3fc; border-color: rgba(125, 211, 252, 0.35); }
+.dlab-app .dlab-tier-medium  { color: #a3e635; border-color: rgba(163, 230, 53, 0.35); }
+.dlab-app .dlab-tier-hard    { color: var(--dlab-accent); border-color: rgba(251, 191, 36, 0.4); }
+.dlab-app .dlab-tier-extreme { color: #fb7185; border-color: rgba(251, 113, 133, 0.4); }
+
+/* ── setup ──────────────────────────────────────────────────────────────── */
+.dlab-app .dlab-presets {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 11px;
+  margin: 14px 0;
+}
+.dlab-app .dlab-preset {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  background: var(--dlab-panel-2);
+  border: 1px solid var(--dlab-border);
+  border-radius: 12px;
+  padding: 13px 14px;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--dlab-ink);
+}
+.dlab-app .dlab-preset:hover { border-color: rgba(251, 191, 36, 0.45); }
+.dlab-app .dlab-preset.is-on { border-color: var(--dlab-accent); background: var(--dlab-accent-dim); }
+.dlab-app .dlab-presetname { font-weight: 750; font-size: 0.96rem; }
+.dlab-app .dlab-presetsplit { font-size: 0.8rem; color: var(--dlab-accent); font-variant-numeric: tabular-nums; }
+.dlab-app .dlab-presetdesc { font-size: 0.8rem; color: var(--dlab-muted); line-height: 1.45; }
+.dlab-app .dlab-presetmeta { font-size: 0.72rem; color: var(--dlab-muted); margin-top: 2px; }
+
+.dlab-app .dlab-customsliders { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin: 14px 0; }
+
+.dlab-app .dlab-mixes { display: flex; gap: 26px; flex-wrap: wrap; margin: 16px 0 8px; }
+.dlab-app .dlab-mix { flex: 1 1 220px; }
+.dlab-app .dlab-mix.is-empty { opacity: 0.5; }
+.dlab-app .dlab-mixbar { display: flex; gap: 2px; height: 8px; margin: 5px 0; border-radius: 4px; overflow: hidden; }
+.dlab-app .dlab-mixseg { background: currentColor; border-radius: 2px; min-width: 3px; }
+
+.dlab-app .dlab-resume { display: flex; gap: 18px; align-items: center; justify-content: space-between; flex-wrap: wrap; border-color: rgba(251, 191, 36, 0.35); }
+
+.dlab-app .dlab-recent { list-style: none; padding: 0; margin: 8px 0 0; }
+.dlab-app .dlab-recent li { border-bottom: 1px solid var(--dlab-border); }
+.dlab-app .dlab-recent li:last-child { border-bottom: none; }
+.dlab-app .dlab-recent a {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 9px 2px;
+  text-decoration: none;
+  color: var(--dlab-ink);
+  flex-wrap: wrap;
+}
+.dlab-app .dlab-recent a:hover { color: var(--dlab-accent); }
+.dlab-app .dlab-recentpct { font-weight: 750; font-variant-numeric: tabular-nums; min-width: 3.4em; }
+
+/* ── rules brief ────────────────────────────────────────────────────────── */
+.dlab-app .dlab-briefpage .dlab-briefhead {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.dlab-app .dlab-brief { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 24px; }
+.dlab-app .dlab-brief.is-compact { grid-template-columns: 1fr; }
+@media (max-width: 900px) { .dlab-app .dlab-brief { grid-template-columns: 1fr; } }
+
+.dlab-app .dlab-briefrules { display: flex; flex-direction: column; gap: 15px; }
+.dlab-app .dlab-rule { border-left: 3px solid var(--dlab-accent); padding-left: 13px; }
+.dlab-app .dlab-rule h4 { margin: 0 0 5px; color: var(--dlab-ink); text-transform: none; letter-spacing: 0; font-size: 0.94rem; }
+.dlab-app .dlab-rule p { margin: 0; font-size: 0.88rem; line-height: 1.6; color: var(--dlab-muted); max-width: 70ch; }
+
+.dlab-app .dlab-examples {
+  background: var(--dlab-bg);
+  border: 1px solid var(--dlab-border);
+  border-radius: 8px;
+  padding: 9px 11px;
+  margin: 8px 0 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--dlab-accent);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.dlab-app .dlab-briefside { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.dlab-app .dlab-briefblock { min-width: 0; }
+.dlab-app .dlab-briefblockhead { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 8px; }
+.dlab-app .dlab-briefblockhead h2,
+.dlab-app .dlab-briefblockhead h4 { margin: 0; }
+
+.dlab-app .dlab-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; display: block; overflow-x: auto; }
+.dlab-app .dlab-table thead th {
+  text-align: left;
+  color: var(--dlab-muted);
+  font-size: 0.72rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 5px 10px 5px 0;
+  border-bottom: 1px solid var(--dlab-border);
+}
+.dlab-app .dlab-table td { padding: 5px 10px 5px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+
+.dlab-app .dlab-briefaudio,
+.dlab-app .dlab-briefexport { border-color: rgba(251, 191, 36, 0.22); }
+
+/* ── the test ───────────────────────────────────────────────────────────── */
+.dlab-app .dlab-testhead { display: flex; gap: 20px; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; margin-bottom: 12px; }
+.dlab-app .dlab-testphase { display: flex; align-items: baseline; gap: 11px; flex-wrap: wrap; }
+.dlab-app .dlab-testphase h1 { margin: 0; }
+.dlab-app .dlab-testprogress { display: flex; flex-direction: column; gap: 5px; min-width: 190px; flex: 0 1 300px; }
+
+.dlab-app .dlab-progress { display: block; height: 5px; background: var(--dlab-panel-2); border-radius: 3px; overflow: hidden; }
+.dlab-app .dlab-progressfill { display: block; height: 100%; background: var(--dlab-accent); border-radius: 3px; transition: width 0.2s ease; }
+
+.dlab-app .dlab-qnav { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 16px; }
+.dlab-app .dlab-qdot {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--dlab-border);
+  background: var(--dlab-panel);
+  color: var(--dlab-muted);
+  font-size: 0.74rem;
+  font-weight: 650;
+  cursor: pointer;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+}
+.dlab-app .dlab-qdot.is-done { color: var(--dlab-ink); border-color: rgba(251, 191, 36, 0.4); }
+.dlab-app .dlab-qdot.is-flagged { border-color: var(--dlab-bad); color: var(--dlab-bad); }
+.dlab-app .dlab-qdot.is-on { background: var(--dlab-accent); color: #17130a; border-color: var(--dlab-accent); }
+
+/* One measured column for the whole test surface, so the header, the question
+   navigator, the card and the footer all share an edge. Capping only the card
+   left the progress readout floating out at the window edge, which read as a
+   broken layout rather than a deliberate one. A question plus an answer box is
+   focused reading, which is the case webdesign.md allows a measure for — the
+   full-width rule is about dashboards, tables and maps. */
+.dlab-app .dlab-test { max-width: 900px; }
+.dlab-app .dlab-qmeta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+.dlab-app .dlab-qn { font-size: 0.76rem; color: var(--dlab-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 650; }
+
+.dlab-app .dlab-prompt {
+  font-size: 1.06rem;
+  line-height: 1.65;
+  margin: 0 0 16px;
+  white-space: pre-line;
+  max-width: 66ch;
+}
+
+.dlab-app .dlab-answerbox {
+  width: 100%;
+  background: var(--dlab-bg);
+  border: 1px solid var(--dlab-border);
+  border-radius: 10px;
+  padding: 13px 15px;
+  color: var(--dlab-accent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 1.06rem;
+  box-sizing: border-box;
+}
+.dlab-app .dlab-answerbox:focus { outline: none; border-color: var(--dlab-accent); }
+.dlab-app .dlab-answerbox::placeholder { color: var(--dlab-muted); font-family: system-ui, sans-serif; font-size: 0.94rem; }
+
+.dlab-app .dlab-choices { display: flex; flex-direction: column; gap: 8px; }
+.dlab-app .dlab-choice {
+  text-align: left;
+  background: var(--dlab-panel-2);
+  border: 1px solid var(--dlab-border);
+  border-radius: 10px;
+  padding: 12px 15px;
+  color: var(--dlab-ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.96rem;
+  cursor: pointer;
+}
+.dlab-app .dlab-choice:hover { border-color: rgba(251, 191, 36, 0.45); }
+.dlab-app .dlab-choice.is-on { border-color: var(--dlab-accent); background: var(--dlab-accent-dim); color: var(--dlab-accent); }
+
+.dlab-app .dlab-stimulus {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: var(--dlab-panel-2);
+  border: 1px solid var(--dlab-border);
+  border-radius: 11px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+
+.dlab-app .dlab-assist {
+  border: 1px dashed rgba(251, 191, 36, 0.4);
+  border-radius: 11px;
+  padding: 12px 14px;
+  margin-top: 14px;
+}
+
+.dlab-app .dlab-qactions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+.dlab-app .dlab-qactions .dlab-btn-primary { margin-left: auto; }
+.dlab-app .dlab-testfoot { display: flex; gap: 14px; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+
+/* ── timer bar: a depleting bar and no digits (see TimerBar.jsx) ────────── */
+.dlab-app .dlab-timer-bar {
+  height: 5px;
+  background: var(--dlab-panel-2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.dlab-app .dlab-timer-fill {
+  height: 100%;
+  background: var(--dlab-accent);
+  transition: width 1s linear, background-color 0.6s ease;
+}
+.dlab-app .dlab-timer-low .dlab-timer-fill { background: #fb923c; }
+.dlab-app .dlab-timer-critical .dlab-timer-fill { background: var(--dlab-bad); }
+@media (prefers-reduced-motion: reduce) {
+  .dlab-app .dlab-timer-fill { transition: none; }
+}
+
+/* ── scene ──────────────────────────────────────────────────────────────── */
+.dlab-app .dlab-scene { margin: 0 0 16px; }
+.dlab-app .dlab-scene-svg { width: 100%; max-width: 320px; height: auto; display: block; }
+.dlab-app .dlab-scene-frame { fill: var(--dlab-panel-2); stroke: var(--dlab-border); stroke-width: 1; rx: 10; }
+
+/* ── results ────────────────────────────────────────────────────────────── */
+.dlab-app .dlab-scorehead { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 26px; align-items: start; }
+.dlab-app .dlab-scorebig { display: flex; flex-direction: column; gap: 5px; }
+.dlab-app .dlab-scorepct { font-size: 3rem; font-weight: 800; line-height: 1; color: var(--dlab-accent); font-variant-numeric: tabular-nums; }
+.dlab-app .dlab-scorefrac { color: var(--dlab-muted); font-size: 0.88rem; }
+.dlab-app .dlab-scorecode { color: var(--dlab-muted); font-size: 0.76rem; font-family: ui-monospace, monospace; letter-spacing: 0.08em; }
+
+.dlab-app .dlab-estimate h4 { margin-top: 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.dlab-app .dlab-esta { font-size: 1.6rem; font-weight: 750; margin: 0 0 6px; font-variant-numeric: tabular-nums; }
+.dlab-app .dlab-estcat { font-size: 0.82rem; font-weight: 600; color: var(--dlab-ok); }
+.dlab-app .dlab-cats { list-style: none; padding: 0; margin: 10px 0 0; font-size: 0.78rem; }
+.dlab-app .dlab-cats li { display: flex; gap: 9px; padding: 3px 0; color: var(--dlab-muted); flex-wrap: wrap; }
+.dlab-app .dlab-cats li.is-met { color: var(--dlab-ink); }
+.dlab-app .dlab-cats li.is-met strong { color: var(--dlab-ok); }
+.dlab-app .dlab-catmin { font-variant-numeric: tabular-nums; }
+.dlab-app .dlab-catlangs { color: var(--dlab-muted); }
+
+.dlab-app .dlab-breakdown { min-width: 0; }
+.dlab-app .dlab-bar,
+.dlab-app .dlab-scorebar { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 0.8rem; }
+.dlab-app .dlab-bar-label,
+.dlab-app .dlab-scorebar-label { flex: 0 0 6.6em; color: var(--dlab-muted); }
+.dlab-app .dlab-bar-track,
+.dlab-app .dlab-scorebar-track { flex: 1; height: 7px; background: var(--dlab-panel-2); border-radius: 4px; overflow: hidden; min-width: 40px; }
+.dlab-app .dlab-bar-fill,
+.dlab-app .dlab-scorebar-fill { display: block; height: 100%; background: var(--dlab-accent); border-radius: 4px; }
+.dlab-app .dlab-bar-num,
+.dlab-app .dlab-scorebar-num { flex: 0 0 3.6em; text-align: right; font-variant-numeric: tabular-nums; color: var(--dlab-muted); }
+
+.dlab-app .dlab-resultbar { display: flex; gap: 14px; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+.dlab-app .dlab-resultactions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.dlab-app .dlab-reviews { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.dlab-app .dlab-review {
+  background: var(--dlab-panel);
+  border: 1px solid var(--dlab-border);
+  border-left: 3px solid var(--dlab-border);
+  border-radius: 12px;
+  padding: 13px 15px;
+}
+.dlab-app .dlab-review.is-right { border-left-color: var(--dlab-ok); }
+.dlab-app .dlab-review.is-wrong { border-left-color: var(--dlab-bad); }
+.dlab-app .dlab-review-head { display: flex; gap: 9px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+.dlab-app .dlab-review-mark { font-weight: 800; font-size: 1rem; }
+.dlab-app .dlab-review.is-right .dlab-review-mark { color: var(--dlab-ok); }
+.dlab-app .dlab-review.is-wrong .dlab-review-mark { color: var(--dlab-bad); }
+.dlab-app .dlab-pool { border: none; padding: 0; font-size: 0.86rem; }
+.dlab-app .dlab-form.is-blank { color: var(--dlab-muted); font-style: italic; }
+.dlab-app .dlab-review-n { font-family: ui-monospace, monospace; color: var(--dlab-muted); font-size: 0.8rem; }
+.dlab-app .dlab-review-type { color: var(--dlab-muted); font-size: 0.76rem; }
+.dlab-app .dlab-review-head .dlab-btn { margin-left: auto; }
+.dlab-app .dlab-review-prompt { margin: 0 0 10px; font-size: 0.9rem; line-height: 1.55; max-width: 72ch; }
+.dlab-app .dlab-review-heard { font-size: 0.8rem; color: var(--dlab-muted); margin: 0 0 8px; }
+.dlab-app .dlab-review-answers { display: flex; gap: 26px; flex-wrap: wrap; margin-bottom: 8px; }
+.dlab-app .dlab-review-answers > div { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.dlab-app .dlab-review-k,
+.dlab-app .dlab-field-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dlab-muted); font-weight: 650; }
+.dlab-app .dlab-blank { color: var(--dlab-muted); font-style: italic; }
+.dlab-app .dlab-review-note { font-size: 0.8rem; color: var(--dlab-warn); margin: 0 0 8px; }
+.dlab-app .dlab-override { margin-top: 6px; }
+
+.dlab-app .dlab-trace { margin: 10px 0 0; padding-left: 20px; font-size: 0.82rem; line-height: 1.7; }
+.dlab-app .dlab-trace li { margin-bottom: 2px; }
+.dlab-app .dlab-trace strong { color: var(--dlab-ink); }
+.dlab-app .dlab-trace-detail { color: var(--dlab-muted); font-family: ui-monospace, monospace; font-size: 0.78rem; }
+
+/* ── history ────────────────────────────────────────────────────────────── */
+.dlab-app .dlab-histhead { display: flex; gap: 16px; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; }
+.dlab-app .dlab-stats { display: flex; gap: 26px; flex-wrap: wrap; margin: 12px 0; }
+.dlab-app .dlab-stat { display: flex; flex-direction: column; gap: 2px; }
+.dlab-app .dlab-statn { font-size: 1.5rem; font-weight: 750; font-variant-numeric: tabular-nums; }
+.dlab-app .dlab-histtable { width: 100%; border-collapse: collapse; font-size: 0.84rem; display: block; overflow-x: auto; }
+.dlab-app .dlab-histtable th {
+  text-align: left;
+  color: var(--dlab-muted);
+  font-size: 0.71rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 6px 11px 6px 0;
+  border-bottom: 1px solid var(--dlab-border);
+  white-space: nowrap;
+}
+.dlab-app .dlab-histtable td { padding: 8px 11px 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+.dlab-app .dlab-histtable a { color: var(--dlab-accent); text-decoration: none; }
+.dlab-app .dlab-histtable a:hover { text-decoration: underline; }
+
+.dlab-app .dlab-trend { margin: 14px 0; }
+.dlab-app .dlab-trend-svg { width: 100%; max-width: 560px; height: auto; display: block; overflow: visible; }
+.dlab-app .dlab-trend-line { fill: none; stroke: var(--dlab-accent); stroke-width: 2; stroke-linejoin: round; }
+.dlab-app .dlab-trend-mean { stroke: var(--dlab-border); stroke-width: 1; stroke-dasharray: 3 3; }
+
+/* ── page wrappers ──────────────────────────────────────────────────────── */
+/* Tool pages take the window; only the long-form settings column gets a
+   measure, since that one is genuinely prose (webdesign.md). */
+.dlab-app .dlab-setup,
+.dlab-app .dlab-briefpage,
+.dlab-app .dlab-test,
+.dlab-app .dlab-results,
+.dlab-app .dlab-history { width: 100%; }
+.dlab-app .dlab-settings { max-width: 780px; }
+
+/* ── toast ──────────────────────────────────────────────────────────────── */
+.dlab-app .dlab-toast {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  background: var(--dlab-panel-2);
+  border: 1px solid var(--dlab-border);
+  border-left: 3px solid var(--dlab-accent);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.86rem;
+  max-width: 340px;
+  z-index: 50;
+}
+.dlab-app .dlab-toast-error { border-left-color: var(--dlab-bad); }
+
+@media (max-width: 640px) {
+  .dlab-app .dlab-main { padding: 14px 13px 50px; }
+  .dlab-app .dlab-panel { padding: 14px 15px; border-radius: 12px; }
+  .dlab-app .dlab-brand-sub { display: none; }
+  .dlab-app .dlab-scorepct { font-size: 2.4rem; }
+}

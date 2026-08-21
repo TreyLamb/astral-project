@@ -169,7 +169,7 @@ function lexemeSwapDistractors(item, lang, rng) {
   return shuffle(out, rng);
 }
 
-function stressDistractors(item, lang) {
+function stressDistractors(item) {
   const out = [];
   if (/^\d+$/.test(item.answer)) {
     const n = Number(item.answer);
@@ -225,7 +225,7 @@ export function buildDistractors(item, lang, rng, count = 4) {
       if (m !== item.answer) pool.push({ text: m, why: null });
     }
   } else if (item.type === 'stress') {
-    pool.push(...stressDistractors(item, lang));
+    pool.push(...stressDistractors(item));
   } else if (item.type === 'vocab') {
     pool.push(...lexicalDistractors(item, lang, rng));
   } else {

@@ -91,10 +91,30 @@ export function gradeAnswer(item, given) {
 }
 
 /**
+ * Whether one response counts, folding in the manual override and the strict
+ * setting. Every screen that renders a ✓/✗ goes through this, so the mark on
+ * the results list can never disagree with the number at the top of it.
+ *
+ * `strict` withdraws only the FORM leniency — an answer still has to be right,
+ * but it must also be typed exactly as the key has it, capitals and hyphens
+ * included. It never makes a wrong answer right, so it can only lower a score.
+ *
+ * @param {object} item
+ * @param {{answer?: string, overridden?: boolean}} [resp]
+ * @param {boolean} [strict]
+ */
+export function isCorrect(item, resp = {}, strict = false) {
+  if (resp.overridden) return true;
+  const g = gradeAnswer(item, resp.answer);
+  return strict ? g.correct && g.exact : g.correct;
+}
+
+/**
  * @param {object[]} items
  * @param {Record<string, {answer: string, assisted?: boolean, overridden?: boolean}>} responses
+ * @param {{strict?: boolean}} [options]
  */
-export function scoreTest(items, responses) {
+export function scoreTest(items, responses, { strict = false } = {}) {
   const byTier = {};
   const byPool = { written: { correct: 0, total: 0 }, audio: { correct: 0, total: 0 } };
   let correct = 0;
@@ -105,24 +125,27 @@ export function scoreTest(items, responses) {
 
   for (const it of items) {
     const r = responses[it.id] || {};
-    const graded = r.overridden ? { correct: true } : gradeAnswer(it, r.answer);
-    const isCorrect = !!graded.correct;
-    if (isCorrect) correct += 1;
+    const ok = isCorrect(it, r, strict);
+    if (ok) correct += 1;
 
     byTier[it.tier] ||= { correct: 0, total: 0 };
     byTier[it.tier].total += 1;
-    if (isCorrect) byTier[it.tier].correct += 1;
+    if (ok) byTier[it.tier].correct += 1;
 
-    const pool = it.modality === 'audio' ? 'audio' : 'written';
+    // `pool` is the section an item was DELIVERED in, which is what the
+    // breakdown is reporting. `modality` is what the item can support — 'either'
+    // for a plain vocabulary item — so reading the split off modality filed
+    // every such item under "written" no matter which half it was asked in.
+    const pool = (it.pool ?? it.modality) === 'audio' ? 'audio' : 'written';
     byPool[pool].total += 1;
-    if (isCorrect) byPool[pool].correct += 1;
+    if (ok) byPool[pool].correct += 1;
 
     if (r.assisted) {
       assistedTotal += 1;
-      if (isCorrect) assistedCorrect += 1;
+      if (ok) assistedCorrect += 1;
     } else {
       unassistedTotal += 1;
-      if (isCorrect) unassistedCorrect += 1;
+      if (ok) unassistedCorrect += 1;
     }
   }
 
