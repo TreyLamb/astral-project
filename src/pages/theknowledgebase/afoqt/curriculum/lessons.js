@@ -35,6 +35,12 @@ import av10 from './chapters/av/ch10-aircraft-type.md?raw';
 import av11 from './chapters/av/ch11-navigation.md?raw';
 import ic01 from './chapters/ic/ch01-instruments.md?raw';
 import bc01 from './chapters/bc/ch01-block-counting.md?raw';
+import ar01 from './chapters/ar/ch01-translation.md?raw';
+import ar02 from './chapters/ar/ch02-rates.md?raw';
+import ar03 from './chapters/ar/ch03-proportion.md?raw';
+import ar04 from './chapters/ar/ch04-percent-context.md?raw';
+import ar05 from './chapters/ar/ch05-averages.md?raw';
+import ar06 from './chapters/ar/ch06-counting-measure.md?raw';
 
 export const LESSONS = {
   'mk-01-fluency': ch01,
@@ -64,6 +70,12 @@ export const LESSONS = {
   'av-11-navigation': av11,
   'ic-01-instruments': ic01,
   'bc-01-block-counting': bc01,
+  'ar-01-translation': ar01,
+  'ar-02-rates': ar02,
+  'ar-03-proportion': ar03,
+  'ar-04-percent-context': ar04,
+  'ar-05-averages': ar05,
+  'ar-06-counting-measure': ar06,
 };
 
 export const getLesson = (chapterId) => LESSONS[chapterId] ?? null;

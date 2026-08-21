@@ -1,8 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
-import { TRACKS, chaptersForTrack, isUnlocked, getChapter } from '../curriculum/chapters';
+import { TRACKS, CHAPTERS, chaptersForTrack, isUnlocked, getChapter } from '../curriculum/chapters';
 import { chapterState, isChapterDone, curriculumProgress } from '../afoqtStorage';
-import { getSubtest, secPerQuestion, compositeReach } from '../engine/afoqtSpec';
+import { SUBTESTS, getSubtest, secPerQuestion, compositeReach } from '../engine/afoqtSpec';
+
+// Derived, not written down. The hand-written version of this footnote still promised tracks
+// for Aviation Information, Instrument Comprehension and Block Counting three phases after all
+// three had shipped - a track list is exactly the kind of prose that goes stale silently,
+// because nothing fails when it does. This is the same computation `afoqt:coverage` prints.
+const PENDING = SUBTESTS.filter(
+  (s) => s.studyable && !CHAPTERS.some((c) => c.subtest === s.code),
+);
 
 // The chapter list, with prerequisites shown rather than enforced silently. A locked chapter
 // always names what unlocks it - a lock with no explanation reads like a bug.
@@ -83,11 +91,12 @@ export default function CurriculumMap() {
         );
       })}
 
-      <p className="afq-note afq-footnote">
-        Later phases add tracks for Aviation Information, Instrument Comprehension, Block
-        Counting and the verbal subtests. Those subtests are already drillable from the Drill
-        tab wherever a question bank exists.
-      </p>
+      {PENDING.length > 0 && (
+        <p className="afq-note afq-footnote">
+          Later phases add tracks for {PENDING.map((s) => s.name).join(', ')}. Those subtests are
+          already drillable from the Drill tab wherever a question bank exists.
+        </p>
+      )}
     </div>
   );
 }

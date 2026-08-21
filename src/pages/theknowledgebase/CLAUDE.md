@@ -12,10 +12,17 @@ Folder-local rules. Read before touching anything under
 | `/TKB` | General-knowledge rapid-review flashcards (the original tool) |
 | `/TKB/review`, `/TKB/subjects`, `/TKB/settings` | Original tool — **do not redesign, additive changes only** |
 | `/TKB/asvab` | Parked ASVAB module *(planned)* |
-| `/TKB/afoqt/*` | AFOQT training module *(in build)* — Math Knowledge, Table Reading, Aviation Information, Instrument Comprehension and Block Counting live |
+| `/TKB/afoqt/*` | AFOQT training module *(in build)* — Math Knowledge, Arithmetic Reasoning, Table Reading, Aviation Information, Instrument Comprehension and Block Counting live |
 
 **Full docs: `docs/afoqt/`.** `PLAN.md` there is the **live handoff state** — read it first
 in a new session, update it at the end of every working block.
+
+**`docs/afoqt/HANDOFF.md` is the outside-agent work board.** Every remaining piece of farmable
+work is a numbered PART with its own brief and verify block, plus the paste-ready prompt and the
+recipe for the minimal zip (verified: `package.json` + `scripts/afoqt*.mjs` +
+`src/pages/theknowledgebase/` runs all three QC gates on bare node, no `npm install`). **When
+you finish a PART, tick its box in section 5** so Trey never farms out work that is already
+done.
 
 ---
 
@@ -275,6 +282,38 @@ structural check, and were found only by reading questions out loud**:
 4. **Sample the output and read it.** `npm run afoqt:sample -- --only=<id>` is not optional for a
    knowledge subtest. `afoqt:selftest` proves a question is well-FORMED, never that it is well-
    WRITTEN.
+
+## 🔴 Word-problem subtests: the prose is a defect surface, and only reading catches it
+
+From Phase 8 (Arithmetic Reasoning). Every defect below passed `afoqt:selftest` at **8,000
+samples** and was found by running `npm run afoqt:sample` and reading the output aloud.
+
+1. **Draw the NUMBER from the NOUN, never independently.** Independent draws produced a boat at
+   **140 mph**, a train quoted in **gallons per mile**, **"5 identical tickets weigh 100 pounds"**
+   and a **tent sold by the ounce**. The fix is typed pools, not wider ranges: `TRAVEL` carries a
+   `[slow, fast]` per vehicle, `WEIGHABLE` is separate from `COUNTABLES`, `BULK_GOODS` from
+   `GOODS`. An item that is arithmetically perfect and physically absurd still tells the reader
+   the tool does not know its subject.
+2. **Declare word forms; derive nothing linguistic.** `verb.replace(/ed$/, '')` gives
+   *"How many did Quinn **fil**?"* — wrong on 5 of 10 entries (`moved→mov`, `assembled→assembl`,
+   `logged→logg`, irregular `sold`). Pools declare `bare` alongside `verb`.
+3. **An explanation may only cite a distractor guaranteed to reach the page.** `h.choices` keeps
+   the first `need - 1` DISTINCT distractors and drops the rest, so a distractor listed fifth may
+   not exist when the text names it. Order the slate by teaching value and cite from the front.
+4. **Never let a rounded value carry a worked step.** `num()` rounds to 2 dp, so an explanation
+   printed `1/10 + 1/40 = 0.13` and then `1 / 0.13 = 8 hours` — false arithmetic on a page
+   teaching arithmetic. Work in fractions, or in a quantity that is exact by construction.
+5. **Write distractors in ONE canonical form so identities are visible.** `ar-average-raise`
+   failed 8,000/8,000: two distractors were the same expression written differently, and a third
+   expanded to the correct answer. Rewriting them all as `base + <multiple of gap>` made both
+   obvious. **A slate is a set — check it as one.**
+6. **More degenerate draws a sweep cannot rescue** (the Phase 3 rule, four more instances):
+   reference height == its own shadow; a 50/50 population split; a 100-question test; a 50%
+   discount. In each the collision holds for EVERY swept value, so `sweep()` silently returns its
+   `start` and ships the broken item. Exclude the value from the draw.
+7. **The official answer key is a distractor SPEC.** OATTS items ship full solution walkthroughs;
+   its wrong options are named error modes and its numbers are deliberately whole. **A distractor
+   carrying a decimal among integers is eliminable without doing the problem.**
 
 ## 🔴 NEVER write a regex through a shell heredoc
 

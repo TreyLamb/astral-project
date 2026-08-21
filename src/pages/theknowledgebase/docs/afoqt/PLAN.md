@@ -23,8 +23,8 @@ and know exactly where to pick up. Update it at the end of every working block.
 | **5** | Aviation Information (largest teaching build) | ✅ **DONE** |
 | **6** | Instrument Comprehension (+ renderers) | ✅ **DONE** |
 | **7** | Block Counting (+ isometric renderer) | ✅ **DONE** |
-| **8** | Arithmetic Reasoning | ⬜ Not started |
-| **9** | Word Knowledge | ⬜ Not started |
+| **8** | Arithmetic Reasoning | ✅ **DONE** |
+| **9** | Word Knowledge | 🟨 **Templates + gates DONE; lessons and tests open** |
 | **10** | Verbal Analogies | ⬜ Not started |
 | **11** | Reading Comprehension | ⬜ Not started |
 | **12** | Physical Science *(unscored)* | ⬜ Not started |
@@ -1003,21 +1003,144 @@ Three rules adopted:
 
 ---
 
+## PHASE 8 COMPLETE — Arithmetic Reasoning — 2026-08-20
+
+**37 templates · 6 chapters · 31 concepts · 77 lesson-minutes.** Selftest holds at 8,000 samples
+across **197 templates**. Coverage holds both directions. 200 simulated full-length exams produced
+**zero repeated stems**, used all 36 exam-eligible templates, and spread them evenly (125–155 appearances each).
+
+| File | What |
+|---|---|
+| `templates/ar/words.js` | Prose furniture: names, typed object pools, `OATTS` provenance, `times()` |
+| `templates/ar/ch01-translation.js` | The spine — the deferred "chapter 14". `ar-translate-expression` (b1) · `ar-order-trap` · `ar-relate-two` · **`ar-relate-three` (b3, the official three-person shape)** · `ar-answer-asked` · `ar-unit-mismatch` |
+| `templates/ar/ch02-rates.js` | d = rt. `ar-rtd-distance` · `ar-rtd-time` · **`ar-inverse-speed`** · `ar-average-speed` (b4, harmonic) · `ar-fuel-rate` · `ar-closing-rate` |
+| `templates/ar/ch03-proportion.js` | `ar-proportion-words` · `ar-recipe-scale` · **`ar-shadow-height`** · `ar-scale-plan` · `ar-conversion-chain` · `ar-best-buy` |
+| `templates/ar/ch04-percent-context.js` | **`ar-percent-subgroup`** · **`ar-percent-to-count`** · **`ar-discount-equivalence`** · `ar-reverse-tax` · `ar-tip-split` · `ar-percent-remaining` · ✂️`ar-compound-interest` |
+| `templates/ar/ch05-averages.js` | `ar-average-missing` · `ar-average-raise` · `ar-weighted-groups` · **`ar-signed-net`** · ✂️`ar-mixture` · ✂️`ar-work-rate` |
+| `templates/ar/ch06-counting-measure.js` | **`ar-fencepost`** · `ar-fencepost-loop` · **`ar-perimeter-width`** · `ar-area-words` · `ar-volume-words` · `ar-cost-per-area` |
+
+Bold = modelled on a specific official OATTS item, carrying `provenance.kind: 'derived'`.
+
+### ⭐ The official answer key is a DISTRACTOR SPEC, not just a topic list
+
+All ten official AR items ship with a full solution walkthrough, and reading those keys changed
+what got built. The AF's own distractors are named error modes, and three of them were adopted
+verbatim as shapes:
+
+- The 14,500-student item offers **6,960** — the stage-one result, computed perfectly, answering
+  the question you stopped reading halfway through. That "stage-one result" distractor is now the
+  spine of the whole percent chapter.
+- The shadow item offers **250 (= shadow × reference shadow)** and **150 (= shadow × reference
+  height)** — both *whole numbers*. The first build used `shadow × refS / refH`, which is the
+  textbook inversion but arrives with a decimal on it, and **a distractor carrying a decimal
+  among integers is eliminable without doing the problem.** The AF picked integers on purpose.
+- The perimeter item offers **155 (= P − L)**, **130 (= 2L)** and **65 (= L)**.
+
+`ar-` prefixes on all 31 concepts are load-bearing: Math Knowledge already owns `percent-of`,
+`unit-rate`, `proportion-solving`, `scale-conversion` and `weighted-average`, and coverage fails
+if two chapters claim one concept. The split is also true to the test — MK asks you to EXECUTE a
+proportion, AR asks you to notice there is one.
+
+### 🔴 REALISM IS A DEFECT CLASS, and no structural check can see it
+
+Every one of these passed `afoqt:selftest` at 8,000 samples and was found only by running
+`afoqt:sample` and reading the output:
+
+- **a boat travelling at 140 miles per hour** — the speed was drawn independently of the vehicle
+- **a train quoted in gallons per mile**
+- **"5 identical tickets weigh 100 pounds"** — a countable-objects pool used for a weight item
+- **"a tent, 28 ounces for $9.24"** — a durable good sold by the ounce
+- **"1 pounds"**, and a British "water butt" on a USAF test paper
+
+The fix is TYPED POOLS, not wider ranges: `TRAVEL` carries a `[slow, fast]` per vehicle and
+speeds are drawn inside it; `WEIGHABLE` is separate from `COUNTABLES`; `BULK_GOODS` is separate
+from `GOODS`; `ORGS` exists because a district does not "employ". A question that is arithmetically
+perfect and physically absurd still tells the reader the tool does not know what it is talking
+about — and this tool's entire history is a user who walked away from a polluted deck.
+
+### 🔴 Four defects in the ARITHMETIC of the questions themselves
+
+1. **`ar-average-raise` failed 8,000/8,000.** Two of its five distractors, `2t − w` and
+   `t + (t − w)`, are the same expression written two ways — and a third, `w + (n+1)(t − w)`,
+   expands to `(n+1)t − nw`, **which is the correct answer**, sitting in the list labelled
+   "over-corrected". Every distractor is now written in the single form `now + <multiple of gap>`
+   so an identity is visible at a glance instead of hidden behind algebra.
+2. **`num()` made an explanation FALSE.** `ar-work-rate` printed the combined rate as a decimal:
+   `1/10 + 1/40 = 0.13`, then `1 / 0.13 = 8 hours`. The rounding is `num()`'s job and the
+   sentence is simply wrong arithmetic on a page teaching arithmetic. Worked in fractions now —
+   the combined time is a whole number by construction, so `1/<correct>` is exact.
+   **Never let a rounded value carry a worked step in an explanation.**
+3. **An explanation may only cite a distractor guaranteed to survive.** `h.choices` keeps the
+   first `need − 1` DISTINCT distractors and discards the rest. `ar-volume-words` listed
+   "used only two of the three dimensions" fifth and then cited it in the explanation — so the
+   text described an option that was not on the page. Order the slate by teaching value, and
+   cite only from the front of it.
+4. **Fractional people.** `ar-percent-remaining` swept single percentage points and produced
+   "increased by 29%" → 5,263.2 staff. Percentages sweep in 5-point steps and every value on the
+   slate must come out whole.
+
+### ⚠️ Four more degenerate draws a sweep CANNOT rescue
+
+The Phase 3 rule — *a sweep cannot fix a collision that does not depend on the swept value* —
+cost four separate failures here, and the tell is always the same: `sweep()` falls back to its
+`start` value and ships the colliding item silently. Exclude the value from the draw instead.
+
+| Template | Degenerate value | Why it folds |
+|---|---|---|
+| `ar-shadow-height` | `refH === refS` | the reference is as tall as its shadow, so height = shadow for everything and **three** distractors hit the answer at once |
+| `ar-percent-subgroup` | `p1 = 50` | the group and everyone outside it are the same size — for EVERY `p2`, so no sweep value exists |
+| `ar-percent-to-count` | `total = 100` | on a 100-question test the count missed and the percentage missed are the same number |
+| `ar-discount-equivalence` | `off = 50` | the fraction paid and the fraction taken off coincide, collapsing **two** distractors onto the answer. 50% is the official item's own discount, so the slate was rebuilt rather than the case dropped |
+
+`ar-work-rate`'s pair table is now filtered on *both* conditions — whole-number answer AND a
+mutually distinct slate — because `[3, 6]` passes the first and fails the second (faster worker
+= 3, difference of times = 3).
+
+### 🔴 Declared word forms, never derived ones
+
+`obj.verb.replace(/ed$/, '')` produced **"How many did Quinn fil?"**. It is wrong on 5 of 10
+entries: `filed→fil`, `moved→mov`, `assembled→assembl`, `logged→logg`, and the irregular
+`sold→sold`. A mangled verb is still a valid string, so nothing structural could catch it. Every
+pool entry now declares its `bare` form alongside `verb`. Same family as Phase 5's rule about
+never authoring a stem the generator can derive — except here the lesson runs the other way:
+**derive nothing linguistic; declare it.**
+
+### Decisions worth not re-deriving
+
+- **Block Counting got its own track.** It was a chapter on the `perceptual` track alongside
+  Table Reading, and a track prints ITS SUBTEST's pace and composites in the header — so the
+  tightest clock on the test (9.0 s) was labelled with Table Reading's 10.5 s and credited with
+  Table Reading's composites. Tracks are one-per-subtest everywhere else.
+- **The curriculum map's "later phases" footnote is DERIVED now.** The hand-written one still
+  promised tracks for Aviation Information, Instrument Comprehension and Block Counting three
+  phases after all three shipped. Nothing fails when prose goes stale, which is exactly why it
+  does.
+- **`ar-fencepost-loop` generates both variants and the stem does not signal which.** Open run
+  with a post at each end is gaps + 1; a closed loop is gaps. Teaching "always add one" would
+  hand back the reflex the item exists to remove.
+- ✂️ **Mixture, work-rate and compound interest are commercial-only** — in no OATTS module and no AFPC sample item.
+  Built anyway (absence is not proof), banded 4, ranked last in their chapter, and prerequisites
+  for nothing. Compound interest carries `ar-percent-remaining` rather than a concept of its own,
+  which is a real mapping and not a filing convenience - that concept IS "successive percentage
+  changes multiply rather than add", and compounding is the same rule applied n times instead of
+  twice. Its headline distractor is the SIMPLE-interest figure, mirroring `mk-simple-interest`,
+  whose headline distractor is the compounded one.
+
+---
+
 ## NEXT
 
-**Phase 8 — Arithmetic Reasoning.** 25 questions in 29 minutes (69.6 s each, the most generous
-on the test) and it carries the deferred **chapter 14, word-problem translation**. Confirmed
-archetypes from official items: rate/time/distance, percent, proportion/unit-rate, ratio,
-volume-in-words, averages, algebraic setup from prose, discount equivalence, scale/map
-conversion, and **fencepost counting**. ✂️ Compound interest, mixture and work-rate appear in
-commercial prep but in **no** official material — they get templates, ranked below the confirmed
-archetypes.
+**Phase 9 — Word Knowledge.** 25 questions in 5 minutes (12.0 s each, joint-second tightest clock
+on the test). Feeds **CSO, Academic and Verbal**. The known gap is the word list: no
+AFOQT-specific open list was found and the substitute is a GRE/SAT high-frequency list — see
+KNOWN GAPS. 183 free-recall ASVAB items were recovered in Phase 2 and 52 migrated WK items sit in
+the bank already.
 
-After that: Word Knowledge, Verbal Analogies, Reading Comprehension, Physical Science, SJT/SDI,
-then the exam simulator.
+After that: Verbal Analogies, Reading Comprehension, Physical Science, SJT/SDI, then the exam
+simulator.
 
-**Five subtests now exist (MK, TR, AI, IC, BC)** — the whole Pilot composite and three of the
-four CSO subtests.
+**Six subtests now exist (MK, AR, TR, AI, IC, BC)** — the whole Pilot composite, three of the
+four CSO subtests, and the whole **Quantitative** composite.
 
 ### ✂️ Open, and worth Trey's decision
 
@@ -1033,3 +1156,105 @@ four CSO subtests.
   403s to automation; Trey can reach it). The 7×7 pamphlet sample is the only verified specimen.
 - **`docs/afoqt/` is untracked by git.** That is why a truncation was unrecoverable from the
   repo. Worth committing.
+
+---
+
+## PHASE 9 IN PROGRESS — Word Knowledge — 2026-08-21
+
+**Templates are DONE and both gates are green.** `npm run afoqt:selftest` reports
+*233 templates x 400 instances, all templates hold their contract*; `npm run afoqt:coverage`
+reports *coverage holds in both directions*. WK went from 0 to **36 templates** across six
+chapters.
+
+| Chapter | Content | Rows |
+|---|---|---|
+| `wk-01-method` | connotation + the reversed stem, drawn across the whole bank | (frames only) |
+| `wk-02-roots` | Latin and Greek roots | **30**, 10 per band |
+| `wk-03-affixes` | prefixes and suffixes | **24**, 8 per band |
+| `wk-04-confusables` | pairs people actually mix up | **28** (9 / 11 / 8) |
+| `wk-05-vocab-people-speech` | character and speech | **60**, 20 per band |
+| `wk-06-vocab-change-degree` | change, degree and judgment | **60**, 20 per band |
+
+### ⚠️ STILL OPEN in Phase 9 — the phase is NOT complete
+
+- **The six WK lessons do not exist.** `curriculum/chapters/wk/` has not been created and
+  nothing is registered in `curriculum/lessons.js`. **`npm test` is RED because of this**:
+  `curriculum.test.js` asserts every chapter has a lesson, and it is correctly reporting the
+  gap. It was left failing rather than stubbed - a stub would turn a true signal off.
+  Farmed out as **PART 5** and **PART 6** in `docs/afoqt/HANDOFF.md`.
+- **No WK test suite yet** (`engine/__tests__/words.test.js`) - **PART 7**.
+
+### 🔴 A `sense` or a gloss must be DISTINGUISHABLE, not merely a different string
+
+The selftest dedupes a slate by exact string, so two options that mean the same thing in
+different words sail through it - and that is **two correct answers on the page**. It shipped
+three times in one file before being read aloud:
+
+- band 2 offered `in-` "not", `dis-` "not, apart from" and `non-` "not; lacking entirely" on
+  one slate;
+- band 3 offered `anti-` "against, opposed to", `contra-` "against, opposite" and `ob-`
+  "against, in the way of";
+- band 4 offered `im-` "not" beside `an-` "not, without", and `-cracy` beside `-archy`.
+
+The repair is not to reword them apart. It is to keep true synonyms **out of the same band** and
+to drop a row whose meaning another row already owns: `im-` is the same morpheme as `in-` and
+was removed, `-archy` was replaced by `-logy`, and `contra-` moved to band 4. **A declared
+`confusion` is only legitimate when the two senses really are distinguishable** - `ante-`/`anti-`
+and `hyper-`/`hypo-` are; `-cracy`/`-archy` are not.
+
+### `varies: 'options'` — a template whose stem is constant on purpose
+
+`wk-connotation-b*` asks one sentence forever ("which of these words carries a NEGATIVE
+connotation?") and varies the OPTIONS. The audit counted distinct stems, so it reported a
+working generator as broken. Templates now declare `varies: 'options'` and `itemKey()` in
+`templateAudit.js` keys them off the correct choice instead. Declared, not inferred - the same
+rule `stemSpace` follows.
+
+### Distractor pools were being dealt in DECLARATION ORDER
+
+`morphDistractors` and both pair frames walked `rows` in array order, so the first few rows of a
+chapter were the permanent distractors on every question of a run - a candidate learns which
+words are never the answer without learning any of them. All three now shuffle on the instance
+rng, which keeps `(templateId, seed)` byte-identical. `morphDistractors` also prefers the same
+`kind` first: offering "one who does or believes" against `inter-` let a candidate strike it for
+reading like a suffix, without knowing either part. It is a preference, not a filter, because a
+band holds only two suffixes and four distractors are needed.
+
+### 🔴 22 of the 89 OFFICIAL items shipped their worked solution INSIDE an answer choice
+
+Found while writing the WK lesson. `pdf-parse` joins a wrapped line onto the one above it, so
+the walkthrough printed after option E arrived as **part of option E** - and the parser's
+line-start `Walkthrough:` and `The correct answer is X` rules never saw it. Option E of the
+ARDUOUS item was **423 characters long and named the answer**.
+
+Every AR item and every WK item is affected, plus one MK and one IC: **10 AR, 10 WK, 1 MK,
+1 IC**. `explanation` was left `null` on almost all of them, so the study screen had no
+explanation either.
+
+- `scripts/parseOattsAnswers.mjs` now exports `splitFusedChoice()` and `unmangleQuotes()` and
+  applies both. The split boundary is `Solution Walkthrough:` / `Walkthrough:` / `Step 1:` /
+  `The correct answer is X`; the head is the option, the tail becomes the explanation.
+- ✂️ **`afoqt/data/realQuestions.json` is NOT yet repaired** - the parser is fixed but the
+  committed bank still carries the fused text, because the source PDFs are gitignored and were
+  not re-fetched before this session ended. Either re-run `scripts/fetchOatts.mjs` then
+  `scripts/parseOattsAnswers.mjs`, or apply `splitFusedChoice`/`unmangleQuotes` to the JSON
+  directly. **Until then the fused options are still in the app.**
+- The mangled `U+FFFD` characters are the source PDFs' curly quotes, which pdf-parse cannot
+  decode. Only two shapes are recoverable without guessing (an apostrophe between two word
+  characters, and a matched pair around a short phrase); a lone one in `A = <?>(b*h)` is a
+  vulgar fraction and is deliberately left visible.
+
+### The results screen shows every question on demand
+
+`DrillRunner.jsx` keeps "What you missed" as the default, with a toggle that reveals the whole
+run - correct answers included - so the **provenance line is readable on a question you got
+right**. That is the point: "was that official, or ours?" is a fair question after a hard item.
+Correct rows carry `afq-hit` and every row is numbered.
+
+### The outside-agent work board
+
+`docs/afoqt/HANDOFF.md` is new: every remaining farmable piece of work is a numbered PART with
+its own brief and verify block, plus the paste-ready prompt and the zip recipe. **Verified: the
+three QC gates run on bare node with no `npm install`** in a packet of `package.json` +
+`scripts/afoqt*.mjs` + `src/pages/theknowledgebase/` (about 2.8 MB without `ResearchPics/`).
+Tick a PART's box the moment it is finished.

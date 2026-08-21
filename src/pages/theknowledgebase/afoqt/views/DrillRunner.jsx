@@ -12,6 +12,50 @@ import { mulberry32 } from '../../engine/rng';
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E'];
 
+/**
+ * Where a question came from, shown under every miss.
+ *
+ * Trey's request, and the reason is diagnostic rather than legal. A brutal Verbal Analogies run
+ * needs to be readable as one of two completely different things: "this is the real AFOQT
+ * difficulty and I have to get used to it", or "this one is ours and might simply be off".
+ * Without the label those two feel identical from the inside, and the wrong conclusion is
+ * expensive either way - you either dismiss a real weakness or chase a phantom one.
+ *
+ * Deliberately shown only in the post-drill review, never beside a live question. Knowing an
+ * item is official while answering it is a nudge toward trusting it, which is exactly the
+ * judgement the review is supposed to let him make with a clear head.
+ */
+function SourceLine({ q }) {
+  const p = q.provenance ?? { kind: 'authored' };
+  let tone = 'authored';
+  let label = 'Written for this tool';
+  let detail = q.templateId?.startsWith('bank:') ? null : q.templateId;
+
+  if (p.kind === 'real') {
+    tone = 'real';
+    label = 'Official USAF question';
+    detail = p.source ?? null;
+  } else if (p.kind === 'derived') {
+    tone = 'derived';
+    label = 'Ours, modelled on a real item';
+    detail = p.source ?? null;
+  } else if (/asvab/i.test(p.source ?? '')) {
+    tone = 'asvab';
+    label = 'Migrated ASVAB item';
+    detail = 'not an AFOQT question - treat its difficulty as indicative only';
+  }
+
+  return (
+    <p className={`afq-miss-source afq-src-${tone}`}>
+      <span className="afq-src-tag">{label}</span>
+      {detail && <span className="afq-src-detail">{detail}</span>}
+      {p.url && (
+        <a className="afq-src-link" href={p.url} target="_blank" rel="noreferrer">source</a>
+      )}
+    </p>
+  );
+}
+
 export default function DrillRunner() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
@@ -63,6 +107,10 @@ export default function DrillRunner() {
   const [answers, setAnswers] = useState([]);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [done, setDone] = useState(false);
+  // The results page is about the misses by default - a wall of 40 correct answers buries the
+  // three that matter. But provenance is worth reading on a question you got RIGHT too ("was
+  // that official, or ours?"), so the whole run is one click away.
+  const [showAll, setShowAll] = useState(false);
   const startedAt = useRef(Date.now());
   const questionStart = useRef(Date.now());
 
@@ -236,31 +284,58 @@ export default function DrillRunner() {
 
         {/* The single most useful screen in the whole tool: what went wrong, and why. Every
             template writes an explanation naming the error-mode its distractors encode, so a
-            miss turns into a named mistake rather than a red mark. */}
-        {answers.some((a) => !a.correct) && (
+            miss turns into a named mistake rather than a red mark - and every miss now names
+            WHERE THE QUESTION CAME FROM, which is the difference between "this is the real
+            difficulty, get used to it" and "this one is ours and might be off". */}
+        {answers.length > 0 && (
           <section className="afq-misses">
-            <h3>What you missed</h3>
+            <div className="afq-review-head">
+              <h3>{showAll ? `Every question (${answers.length})` : 'What you missed'}</h3>
+              <button
+                className="afq-review-toggle"
+                aria-pressed={showAll}
+                onClick={() => setShowAll((v) => !v)}
+              >
+                {showAll ? `Misses only (${answers.length - right})` : `Show all ${answers.length}`}
+              </button>
+            </div>
+            {!showAll && right === answers.length && (
+              <p className="afq-note">Nothing missed. Show all {answers.length} to read the sources.</p>
+            )}
             {answers.map((a, i) => {
-              if (a.correct) return null;
+              if (a.correct && !showAll) return null;
               const q = questions[i];
               if (!q) return null;
               return (
-                <div key={i} className="afq-miss">
-                  <p className="afq-miss-stem">{q.stem}</p>
+                <div key={i} className={a.correct ? 'afq-miss afq-hit' : 'afq-miss'}>
+                  <p className="afq-miss-stem">
+                    <span className="afq-miss-n">{i + 1}</span>{q.stem}
+                  </p>
                   {q.render && <Figure render={q.render} reveal />}
                   <p className="afq-miss-line">
-                    <span className="afq-miss-bad">You: {a.guessed ? 'guessed' : q.choices[a.picked]}</span>
-                    <span className="afq-miss-good">Answer: {q.choices[q.correctIndex]}</span>
+                    {a.correct ? (
+                      <span className="afq-miss-good">
+                        {a.guessed ? 'Auto-guessed, and it landed on' : 'You:'} {q.choices[q.correctIndex]}
+                      </span>
+                    ) : (
+                      <>
+                        <span className="afq-miss-bad">You: {a.guessed ? 'guessed' : q.choices[a.picked]}</span>
+                        <span className="afq-miss-good">Answer: {q.choices[q.correctIndex]}</span>
+                      </>
+                    )}
                   </p>
                   {a.errorWhy && <p className="afq-miss-mode">You {a.errorWhy}.</p>}
                   {q.explanation && <p className="afq-miss-why">{q.explanation}</p>}
+                  <SourceLine q={q} />
                 </div>
               );
             })}
-            <p className="afq-note">
-              These templates are now in the miss pool and will resurface in about one in ten
-              questions until you get them right on three separate days.
-            </p>
+            {right < answers.length && (
+              <p className="afq-note">
+                These templates are now in the miss pool and will resurface in about one in ten
+                questions until you get them right on three separate days.
+              </p>
+            )}
           </section>
         )}
 

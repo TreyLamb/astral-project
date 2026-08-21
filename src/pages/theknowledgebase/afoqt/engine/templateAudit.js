@@ -37,6 +37,18 @@ export const seedForSample = (i, template) =>
   template?.sheet ? (Math.imul(i + 1, 2654435761) >>> 0) : i;
 
 /**
+ * What makes two instances of a template DIFFERENT questions.
+ *
+ * Normally it is the stem, and a template that emits one stem forever is a static question
+ * wearing a template's clothes. But a few frames deliberately hold the stem constant and vary
+ * the OPTIONS - "which of these words carries a negative connotation?" is the same sentence
+ * every time, and the item is which word is the answer. Keying those off the stem would report
+ * a working generator as broken, so they declare `varies: 'options'` and are keyed off the
+ * correct choice instead. Declared, not inferred: the same rule `stemSpace` follows.
+ */
+export const itemKey = (q, t) => (t?.varies === 'options' ? String(q.choices[q.correctIndex]) : q.stem);
+
+/**
  * @param {Template} t
  * @param {{samples?: number}} [opts]
  * @returns {{id: string, band: number, subtest: string, stems: number, shortCount: number,
@@ -61,7 +73,7 @@ export function auditTemplate(t, { samples = DEFAULT_SAMPLES } = {}) {
     const seed = seedForSample(i, t);
     const q = generateInstance(t.id, seed);
     if (!q) { problems.push(`seed ${seed}: generate() returned nothing`); continue; }
-    stems.add(q.stem);
+    stems.add(itemKey(q, t));
 
     // The real test gives 5 options everywhere except Instrument Comprehension. A short slate
     // means two error-modes produced the same value for those parameters and one was deduped
@@ -97,10 +109,11 @@ export function auditTemplate(t, { samples = DEFAULT_SAMPLES } = {}) {
   // forever is a static question wearing a template's clothes.
   const base = Math.min(Math.ceil(samples * MIN_STEM_RATIO), STEM_FLOOR_CAP);
   const floor = t.stemSpace ? Math.min(t.stemSpace, base) : base;
+  const unit = t.varies === 'options' ? 'answers' : 'stems';
   if (stems.size < floor) {
     problems.push(t.stemSpace
-      ? `only ${stems.size} distinct stems, but stemSpace declares ${t.stemSpace}`
-      : `only ${stems.size} distinct stems in ${samples} samples (needs ${floor}+, or declare stemSpace)`);
+      ? `only ${stems.size} distinct ${unit}, but stemSpace declares ${t.stemSpace}`
+      : `only ${stems.size} distinct ${unit} in ${samples} samples (needs ${floor}+, or declare stemSpace)`);
   }
 
   return { id: t.id, band: t.band, subtest: t.subtest, stems: stems.size, shortCount, firstShort, problems };

@@ -76,6 +76,7 @@ export function registerTemplate(t) {
   if (!(t.band >= 1 && t.band <= 5)) throw new Error(`${t.id}: band must be 1-5`);
   if (typeof t.generate !== 'function') throw new Error(`${t.id}: generate() required`);
   if (t.sheetSpan && !t.sheet) throw new Error(`${t.id}: sheetSpan needs sheet: true`);
+  if (t.varies && t.varies !== 'options') throw new Error(`${t.id}: varies must be 'options'`);
   registry.set(t.id, t);
   return t;
 }

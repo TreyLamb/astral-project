@@ -32,6 +32,45 @@ const clean = (t) => String(t ?? '').replace(/^[\s•▪·*\-–—]+/, '').trim
 
 const subtestOf = (f) => Object.entries(SUBTEST).find(([k]) => f.startsWith(k))?.[1] ?? '??';
 
+/**
+ * Where a worked solution starts, when the PDF ran it onto the end of the last answer choice.
+ *
+ * pdf-parse joins a wrapped line to the one above it, so the walkthrough that follows option E
+ * arrives as part of option E rather than as its own line - and the line-start `Walkthrough:`
+ * and `The correct answer is X` rules below never see it. That shipped 22 of the 89 official
+ * items with their entire solution printed inside a choice: every AR item, every WK item, and
+ * one each of MK and IC. Option E of the ARDUOUS item was 423 characters long and named the
+ * answer, which both gives the item away and makes the tool look broken.
+ *
+ * Split on the first opener; the head is the real option and the tail is the explanation.
+ */
+export const SOLUTION_OPENER =
+  /\s+(?=(?:Solution\s+)?Walkthrough\s*:|Step\s+1\s*:|The correct answer is\s+[A-E]\b)/;
+
+/** Pull a fused walkthrough off one choice. Returns [optionText, solutionText|null]. */
+export function splitFusedChoice(text) {
+  const s = String(text ?? '');
+  const at = s.search(SOLUTION_OPENER);
+  if (at < 0) return [s, null];
+  return [s.slice(0, at).trim(), s.slice(at).trim()];
+}
+
+/**
+ * The source PDFs use curly quotes and pdf-parse cannot decode them, so they arrive as U+FFFD.
+ * Two shapes are recoverable without guessing: an apostrophe between two word characters, and
+ * a matched pair wrapping a short phrase. Anything else is left alone and counted - a lone
+ * U+FFFD in "A = <?>(b*h)" is a vulgar fraction, not a quote, and inventing one would be worse
+ * than leaving it visible.
+ */
+export function unmangleQuotes(text) {
+  if (typeof text !== 'string') return text;
+  // Written as escapes on purpose: a literal U+FFFD does not survive every editor and shell
+  // round-trip, and a silently mangled guard is worse than no guard.
+  return text
+    .replace(/(\w)\uFFFD(\w)/g, "$1'$2")
+    .replace(/\uFFFD([^\uFFFD]{1,60}?)\uFFFD/g, '"$1"');
+}
+
 // Block Counting, Instrument Comprehension and Table Reading items are meaningless
 // without their figure, which lives in the Captivate lesson module as a baked image.
 const NEEDS_IMAGE = new Set(['BC', 'IC', 'TR']);
@@ -72,6 +111,11 @@ for (const file of readdirSync(pdfDir).filter((f) => /\.pdf$/i.test(f))) {
     if (!cur) return;
     const stem = cur.stem.replace(/\s*\.\s*\.\s*\.\s*$/, '').trim();
     const letters = [...cur.choices.keys()].sort();
+    // A wrapped walkthrough lands inside the choice it followed - see splitFusedChoice.
+    for (const L of letters) {
+      const [opt, why] = splitFusedChoice(cur.choices.get(L));
+      if (why) { cur.choices.set(L, opt); cur.why.push(why); }
+    }
     if (stem && letters.length >= 2) {
       const correct = key.get(cur.n) ?? cur.correctInline;
       if (!correct || !cur.choices.has(correct)) { skipped++; cur = null; return; }
@@ -140,6 +184,13 @@ for (const file of readdirSync(pdfDir).filter((f) => /\.pdf$/i.test(f))) {
     cur.stem += (cur.stem ? ' ' : '') + line;
   }
   flush();
+}
+
+for (const q of out) {
+  q.question = unmangleQuotes(q.question);
+  q.answer = unmangleQuotes(q.answer);
+  q.explanation = unmangleQuotes(q.explanation);
+  if (q.choices) for (const c of q.choices) c.text = unmangleQuotes(c.text);
 }
 
 writeFileSync(outJson, JSON.stringify(out, null, 2));

@@ -26,6 +26,29 @@ import './mk/ch11-right-triangles-solids.js';
 import './mk/ch12-coordinate.js';
 import './mk/ch13-probability-stats.js';
 
+// --- Arithmetic Reasoning (Phase 8) ----------------------------------------
+// 69.6s per question, the most generous clock on the test - so difficulty here is reading and
+// setting up, never arithmetic weight. Chapter 1 is the translation spine deferred from the
+// Math Knowledge build; chapters 2-6 are the prose families the official items actually use.
+// Concepts are `ar-` prefixed because Math Knowledge already owns the bare names.
+import './ar/ch01-translation.js';
+import './ar/ch02-rates.js';
+import './ar/ch03-proportion.js';
+import './ar/ch04-percent-context.js';
+import './ar/ch05-averages.js';
+import './ar/ch06-counting-measure.js';
+
+// --- Word Knowledge (Phase 9) ----------------------------------------------
+// 12.0 s/question, and pure recall - the most improvable subtest in the project. Two engines:
+// engine/words.js (vocabulary rows, each declaring its own four error-mode distractors) and
+// engine/morphology.js (roots, affixes and the sound-alike pairs every official item names).
+import './wk/ch01-method.js';
+import './wk/ch02-roots.js';
+import './wk/ch03-affixes.js';
+import './wk/ch04-confusables.js';
+import './wk/ch05-people-speech.js';
+import './wk/ch06-change-degree.js';
+
 // --- Table Reading (Phase 4) -----------------------------------------------
 // One chapter, because the subtest is one skill performed 40 times. Difficulty is scan
 // distance across the real 33x33 grid, never a smaller grid - see the file header.

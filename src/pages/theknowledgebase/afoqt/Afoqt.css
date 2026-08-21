@@ -204,6 +204,19 @@
 .afq-miss-good { color: var(--tkb-correct); }
 .afq-miss-why { margin: 0; font-size: .85rem; color: var(--tkb-ink-soft); line-height: 1.5; }
 
+/* Results review: misses by default, whole run on demand. */
+.afq-review-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.afq-review-toggle {
+  flex: none; font: inherit; font-size: .75rem; letter-spacing: .02em; cursor: pointer;
+  padding: .25rem .65rem; border-radius: 999px;
+  border: 1px solid var(--tkb-border); background: none; color: var(--tkb-ink-soft);
+}
+.afq-review-toggle:hover { color: var(--tkb-ink); border-color: var(--tkb-accent); }
+.afq-review-toggle[aria-pressed="true"] { color: var(--tkb-accent); border-color: var(--tkb-accent); }
+.afq-miss-n { display: inline-block; min-width: 1.7em; font-size: .8rem; font-weight: 600; color: var(--tkb-ink-soft); }
+.afq-hit { border-left-color: var(--tkb-correct); opacity: .78; }
+.afq-hit:hover { opacity: 1; }
+
 .afq-next {
   display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
   padding: .9rem 1rem; border: 1px solid var(--tkb-border); border-radius: 10px; background: var(--tkb-surface);
@@ -355,3 +368,25 @@
   fill: var(--tkb-accent);
   font-size: 22px;
 }
+
+/* Provenance on a missed question. Trey needs to read a hard run as either "this is the real
+   difficulty" or "this one is ours and might be off" - those demand opposite responses, and
+   without the label they are indistinguishable. Sits under the explanation, quiet by default;
+   only the official tag carries colour, because that is the one that changes what he should do. */
+.afq-miss-source {
+  display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap;
+  margin: .5rem 0 0; padding-top: .45rem;
+  border-top: 1px dashed var(--tkb-border);
+  font-size: .75rem; color: var(--tkb-ink-soft);
+}
+.afq-src-tag {
+  font-weight: 600; letter-spacing: .03em; text-transform: uppercase; font-size: .68rem;
+  padding: .1rem .4rem; border-radius: 4px;
+  border: 1px solid var(--tkb-border); background: var(--tkb-bg);
+}
+.afq-src-real .afq-src-tag { color: var(--tkb-correct); border-color: var(--tkb-correct); }
+.afq-src-derived .afq-src-tag { color: var(--tkb-accent, var(--tkb-ink)); }
+.afq-src-asvab .afq-src-tag { color: var(--tkb-wrong); border-color: var(--tkb-wrong); }
+.afq-src-detail { opacity: .85; }
+.afq-src-link { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.afq-src-link:hover { color: var(--tkb-ink); }

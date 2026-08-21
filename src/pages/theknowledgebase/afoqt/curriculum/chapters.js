@@ -19,10 +19,32 @@ export const TRACKS = [
     blurb: 'Feeds five of the six composites - more reach than any other subtest. 25 questions in 22 minutes (52.8s each), and no calculator.',
   },
   {
+    id: 'reasoning',
+    name: 'Arithmetic Reasoning',
+    subtest: 'AR',
+    blurb: 'The other half of the Quantitative composite, and 69.6s per question - the most generous clock on the test. The arithmetic is easy on purpose; the difficulty is reading a paragraph and deciding what to compute.',
+  },
+  {
+    id: 'vocabulary',
+    name: 'Word Knowledge',
+    subtest: 'WK',
+    blurb: '25 questions in 5 minutes - 12 seconds each, joint-tightest clock on the test outside the perceptual subtests. Pure recall, so it is the most improvable subtest here, and roots pay out on words you have never seen.',
+  },
+  {
     id: 'perceptual',
-    name: 'Perceptual speed',
+    name: 'Table Reading',
     subtest: 'TR',
-    blurb: 'Table Reading feeds all three rated composites and is pure trainable speed - no knowledge to forget. 40 questions in 7 minutes is 10.5s each, and most people do not finish.',
+    blurb: 'Feeds all three rated composites and is pure trainable speed - no knowledge to forget. 40 questions in 7 minutes is 10.5s each, and most people do not finish.',
+  },
+  // Block Counting gets its own track rather than sharing "perceptual speed" with Table
+  // Reading. A track prints its subtest's pace and composites in its header, so the shared
+  // arrangement labelled the tightest clock on the test (9.0s) with Table Reading's 10.5s and
+  // credited it with Table Reading's composites. Same family of skill, different subtest.
+  {
+    id: 'blocks',
+    name: 'Block Counting',
+    subtest: 'BC',
+    blurb: 'The tightest clock on the whole test at 9.0s per question. One rule - faces touch, corners do not - decides most of it, and the answer key shifts range every question.',
   },
   {
     id: 'aviation',
@@ -312,12 +334,142 @@ export const CHAPTERS = [
   // would pass exactly the candidate this chapter exists for.
   {
     id: 'bc-01-block-counting',
-    track: 'perceptual', subtest: 'BC', order: 27,
+    track: 'blocks', subtest: 'BC', order: 27,
     title: 'Block Counting - the method',
     summary: 'Faces touch, corners do not. Count above, below, alongside - then see into the pile.',
     minutes: 9, bands: [1, 2, 3, 4], prereqs: [], testOutPass: 5,
     concepts: ['block-face-contact', 'block-corner-exclusion',
       'block-hidden-inference', 'block-scan-order'],
+  },
+
+  // --- Arithmetic Reasoning ------------------------------------------------
+  // Six chapters. The arithmetic in this subtest is deliberately easy - what is being measured
+  // is whether a paragraph can be turned into the right computation, which is why chapter 1 is
+  // the spine and every later chapter is a family of prose the test actually uses.
+  //
+  // Every concept here is `ar-` prefixed, and that is load-bearing rather than cosmetic. Math
+  // Knowledge already owns `percent-of`, `unit-rate`, `proportion-solving`, `scale-conversion`
+  // and `weighted-average`, and `afoqt:coverage` fails if two chapters claim one concept. The
+  // separation is also true to the test: MK asks you to EXECUTE a proportion, AR asks you to
+  // find that there is one.
+  //
+  // Chapter 1 is the deferred "chapter 14" from the Math Knowledge build. It was parked because
+  // word-problem translation is an Arithmetic Reasoning skill wearing a math hat.
+  {
+    id: 'ar-01-translation',
+    track: 'reasoning', subtest: 'AR', order: 28,
+    title: 'Turning words into arithmetic',
+    summary: 'The whole subtest in one chapter: name the unknown, write the sentence as an equation, and answer the question that was actually asked.',
+    // 5/5 to test out. Everything downstream is this skill applied to a topic, so passing here
+    // on a lucky four means every later chapter is built on a gap.
+    minutes: 14, bands: [1, 2, 3], prereqs: [], testOutPass: 5,
+    concepts: ['ar-keyword-translation', 'ar-choose-the-unknown', 'ar-answer-the-question',
+      'ar-operation-order-trap', 'ar-unit-tracking'],
+  },
+  {
+    id: 'ar-02-rates',
+    track: 'reasoning', subtest: 'AR', order: 29,
+    title: 'Rate, time and distance',
+    summary: 'One formula, four rearrangements. The traps are the inverse relationship and the average speed that is not an average.',
+    minutes: 13, bands: [2, 3, 4], prereqs: ['ar-01-translation'], testOutPass: 4,
+    concepts: ['ar-rate-time-distance', 'ar-solve-for-time', 'ar-inverse-rate',
+      'ar-average-speed', 'ar-consumption-rate', 'ar-combined-rates'],
+  },
+  {
+    id: 'ar-03-proportion',
+    track: 'reasoning', subtest: 'AR', order: 30,
+    title: 'Proportion, scale and similar figures',
+    summary: 'Set the ratio up with matching units on top, and the arithmetic takes care of itself. Set it up inverted and every answer is plausible.',
+    minutes: 12, bands: [2, 3, 4], prereqs: ['ar-01-translation'], testOutPass: 4,
+    concepts: ['ar-proportion-setup', 'ar-similar-figures', 'ar-scale-drawing',
+      'ar-conversion-chain', 'ar-best-buy'],
+  },
+  {
+    id: 'ar-04-percent-context',
+    track: 'reasoning', subtest: 'AR', order: 31,
+    title: 'Percent in context',
+    summary: 'Percent of a percent, percent back to a count, and the discount question that is really a counting question.',
+    minutes: 12, bands: [2, 3, 4], prereqs: ['ar-01-translation'], testOutPass: 4,
+    concepts: ['ar-percent-subgroup', 'ar-percent-to-count', 'ar-discount-equivalence',
+      'ar-markup-tax-tip', 'ar-percent-remaining'],
+  },
+  {
+    id: 'ar-05-averages',
+    track: 'reasoning', subtest: 'AR', order: 32,
+    title: 'Averages, totals and combined work',
+    summary: 'Every average question is really a total question. Recover the total first and the rest is one step.',
+    minutes: 13, bands: [2, 3, 4], prereqs: ['ar-01-translation'], testOutPass: 4,
+    concepts: ['ar-average-missing-value', 'ar-weighted-groups', 'ar-signed-net-total',
+      'ar-mixture', 'ar-work-rate'],
+  },
+  {
+    id: 'ar-06-counting-measure',
+    track: 'reasoning', subtest: 'AR', order: 33,
+    title: 'Counting, area and volume in words',
+    summary: 'Fenceposts, and the geometry the AF puts in its own Arithmetic Reasoning syllabus rather than in Math Knowledge.',
+    minutes: 13, bands: [2, 3, 4], prereqs: ['ar-01-translation'], testOutPass: 4,
+    concepts: ['ar-fencepost', 'ar-perimeter-in-words', 'ar-area-in-words',
+      'ar-volume-in-words', 'ar-cost-per-area'],
+  },
+
+  // --- Word Knowledge ------------------------------------------------------
+  // 12.0 s/question. The subtest is pure recall, which makes it the most improvable one in the
+  // whole project - and the only one where the right strategy beats raw memorisation, because
+  // the vocabulary it draws from is unbounded and word PARTS are not.
+  //
+  // Chapters 2 and 3 come first in the prereq graph for that reason. The official AF syllabus
+  // lists exactly two Word Knowledge modules and one of them is "Parts of a Word (prefix, root,
+  // suffix)"; every official item's worked solution uses it at step 3. A memorised word earns
+  // one item, a memorised root earns every word built on it.
+  {
+    id: 'wk-01-method',
+    track: 'vocabulary', subtest: 'WK', order: 34,
+    title: 'The method, and the twelve-second clock',
+    summary: 'Five steps, and the two signals fast enough to use: connotation, and noticing when the question asked for the opposite.',
+    minutes: 10, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['wk-connotation', 'wk-antonym-trap'],
+  },
+  {
+    id: 'wk-02-roots',
+    track: 'vocabulary', subtest: 'WK', order: 35,
+    title: 'Latin and Greek roots',
+    summary: 'The only Word Knowledge strategy that works on a word you have never seen.',
+    minutes: 14, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['wk-latin-roots', 'wk-greek-roots'],
+  },
+  {
+    id: 'wk-03-affixes',
+    track: 'vocabulary', subtest: 'WK', order: 36,
+    title: 'Prefixes and suffixes',
+    summary: 'Prefixes change the meaning, suffixes change the part of speech. Both are worth more than any single word.',
+    minutes: 13, bands: [2, 3, 4], prereqs: ['wk-02-roots'], testOutPass: 4,
+    concepts: ['wk-prefix-negation', 'wk-prefix-direction-degree', 'wk-suffix-wordclass'],
+  },
+  {
+    id: 'wk-04-confusables',
+    track: 'vocabulary', subtest: 'WK', order: 37,
+    title: 'Words that are mistaken for each other',
+    summary: 'Every official item names one of these. They are the highest-yield thing in the subtest.',
+    // 5/5 to test out. A confusable pair is worth two items and a candidate who has them
+    // backwards is CONFIDENTLY wrong, which is exactly what a 4/5 gate waves through.
+    minutes: 12, bands: [2, 3, 4], prereqs: [], testOutPass: 5,
+    concepts: ['wk-confusable-pairs'],
+  },
+  {
+    id: 'wk-05-vocab-people-speech',
+    track: 'vocabulary', subtest: 'WK', order: 38,
+    title: 'Core vocabulary I - people and speech',
+    summary: 'Words for character and for how people talk and write. The densest cluster on the real subtest.',
+    minutes: 15, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['wk-vocab-character', 'wk-vocab-speech'],
+  },
+  {
+    id: 'wk-06-vocab-change-degree',
+    track: 'vocabulary', subtest: 'WK', order: 39,
+    title: 'Core vocabulary II - change, degree and judgment',
+    summary: 'Words for things getting bigger, smaller, better or worse, and for approving and condemning.',
+    minutes: 15, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['wk-vocab-change', 'wk-vocab-magnitude', 'wk-vocab-judgment'],
   },
 ];
 
