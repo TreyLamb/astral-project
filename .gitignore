@@ -54,3 +54,6 @@ src/pages/theknowledgebase/**/*.epub
 # Same rule as the calibration books above — never shipped into the app, and not
 # republished through this repo. Derived/authored content lives in afoqt/data/ instead.
 src/pages/theknowledgebase/ResearchPics/
+
+# AFOQT outside-agent farming packet (regenerate with the recipe in docs/afoqt/HANDOFF.md)
+src/pages/theknowledgebase.zip

@@ -58,6 +58,18 @@ export const TRACKS = [
     subtest: 'IC',
     blurb: 'Four conventions, one of them deliberately backwards. No knowledge, no arithmetic - and the only subtest on the test with FOUR options rather than five. 25 questions in 5 minutes.',
   },
+  {
+    id: 'reading',
+    name: 'Reading Comprehension',
+    subtest: 'RC',
+    blurb: '25 questions in 38 minutes (91.2s each) based on passages of strategic prose. Requires distinguishing main ideas from supporting details and inferring vocabulary from context.',
+  },
+  {
+    id: 'analogies',
+    name: 'Verbal Analogies',
+    subtest: 'VA',
+    blurb: 'Feeds ABM, Academic and Verbal. 25 questions in 8 minutes (19.2s each) - the most generous verbal clock on the test, because the difficulty is the relationship, not the recall.',
+  },
 ];
 
 /**
@@ -470,6 +482,107 @@ export const CHAPTERS = [
     summary: 'Words for things getting bigger, smaller, better or worse, and for approving and condemning.',
     minutes: 15, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
     concepts: ['wk-vocab-change', 'wk-vocab-magnitude', 'wk-vocab-judgment'],
+  },
+
+  // PART 8 design, 2026-08-22. Source: docs/afoqt/RESEARCH.md "VA SOURCING" - 75 real
+  // official-practice-style items (quizlet3.md, quizlet8.md) classified against the 10 official
+  // AF relation concepts. Chapters group those 10 concepts into 5 clusters rather than 1:1,
+  // same pattern WK used. Band is assigned by vocabulary rarity of the pair, not by
+  // relation-type complexity - the real items show band separation comes from word rarity
+  // (TENSION/STRESS reads at band 2; DOMINANCE/HEGEMONY reads at band 4), so PART 9's engine
+  // should take a difficulty dependency on the existing WK word-band data rather than invent a
+  // second scale.
+  //
+  // REOPENED 2026-08-23. Part/Part and Sequence - the two official concepts PART 8 left
+  // deliberately undeclared because no clean example turned up in the 75-item quizlet sample -
+  // now each have a real, sourced item: `afoqt/data/realQuestions.json`, official OATTS content
+  // (provenance.kind: 'real', AFRL 2025-4499), a STRONGER source than the quizlet dumps PART 8
+  // was working from. `oatts-VA-070` (Venus is to Saturn as Plane is to Bus) is Part/Part in its
+  // own official explanation; `oatts-VA-072` (Prototype is to Product as Blueprint is to
+  // Building) is Sequence. This is exactly the condition PART 8's record set for adding them -
+  // "add them once a real sourced item demonstrates one" - not a backfill from memory. Both are
+  // added to va-02-structure alongside the other two structural relations rather than as a new
+  // chapter: all four (part-whole, member-category, part-part, sequence) are the same family of
+  // skill - naming how two things are positioned relative to each other, as opposed to what one
+  // does to the other (chapter 3) or what one means relative to the other (chapter 4).
+  {
+    id: 'va-01-method',
+    track: 'analogies', subtest: 'VA', order: 40,
+    title: 'The two formats, and what makes a pair wrong',
+    summary: 'Complete the fourth term, or pick the whole matching pair - order matters in both. Then the two checks that catch a same-category trap.',
+    minutes: 8, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['va-relation-format', 'va-relation-discriminators'],
+  },
+  {
+    id: 'va-02-structure',
+    track: 'analogies', subtest: 'VA', order: 41,
+    title: 'Part to whole, member to category, part to part, and sequence',
+    summary: 'The single biggest cluster in real items - about 3 in 10. A part must be the same KIND of part; a category must be the right level, not too broad or too narrow; two co-equal parts of one whole are a different relation again, and so is "this comes before that."',
+    minutes: 14, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    // va-part-part and va-sequence added 2026-08-23 - see the REOPENED note above this array.
+    concepts: ['va-part-whole', 'va-member-category', 'va-part-part', 'va-sequence'],
+  },
+  {
+    id: 'va-03-cause-consequence',
+    track: 'analogies', subtest: 'VA', order: 42,
+    title: 'Cause to effect, and doer to action',
+    summary: 'The effect must be direct, not a downstream side effect; the action must be the defining task, not an occasional one.',
+    minutes: 11, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['va-cause-effect', 'va-action-object'],
+  },
+  {
+    id: 'va-04-meaning-degree',
+    track: 'analogies', subtest: 'VA', order: 43,
+    title: 'Synonym, antonym and degree',
+    summary: 'Same meaning, opposite meaning, or same direction at a different intensity - and telling a degree pair from a plain synonym pair.',
+    minutes: 13, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    // Antonym is real but rare in the sample (4/75) - keep the row count modest relative to
+    // the other two concepts here rather than treating all three as equally common.
+    concepts: ['va-synonym', 'va-antonym', 'va-degree'],
+  },
+  {
+    id: 'va-05-defining-traits',
+    track: 'analogies', subtest: 'VA', order: 44,
+    title: 'What defines it',
+    summary: 'A person or thing paired with its defining quality, role, or the place that quality is exercised - not an incidental fact about it.',
+    minutes: 11, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    // Folds in the "worker to workplace" pattern (~6/75 real items - beautician/salon,
+    // cardiologist/heart) that does not cleanly match any of the 10 official concepts.
+    // Treated as a variant of Object/Attribute (the role's defining domain) rather than an
+    // 11th invented concept the official taxonomy does not name.
+    concepts: ['va-object-attribute'],
+  },
+  {
+    id: 'rc-01-method',
+    track: 'reading', subtest: 'RC', order: 50,
+    title: 'Approaching the passage',
+    summary: 'How to manage time, navigate line numbers, and read PME/Joint-Force prose without getting bogged down in jargon.',
+    minutes: 8, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['rc-time-management', 'rc-reading-strategy'],
+  },
+  {
+    id: 'rc-02-main-idea',
+    track: 'reading', subtest: 'RC', order: 51,
+    title: 'Main idea and author intent',
+    summary: 'Distinguishing the thesis from supporting details, and determining what the author actually agrees with.',
+    minutes: 12, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['rc-main-idea', 'rc-author-agreement'],
+  },
+  {
+    id: 'rc-03-details',
+    track: 'reading', subtest: 'RC', order: 52,
+    title: 'Details and paragraph function',
+    summary: 'Scanning for specific details and understanding why a paragraph is structured the way it is.',
+    minutes: 10, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['rc-detail-inference', 'rc-function-of-paragraph'],
+  },
+  {
+    id: 'rc-04-vocabulary',
+    track: 'reading', subtest: 'RC', order: 53,
+    title: 'Vocabulary in context',
+    summary: 'Inferring word meaning from surrounding context when the word has multiple meanings.',
+    minutes: 10, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['rc-vocabulary-in-context'],
   },
 ];
 

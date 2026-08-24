@@ -313,8 +313,10 @@ describe('the Block Counting chapter', () => {
     const lesson = LESSONS['bc-01-block-counting'];
     expect(lesson.length).toBeGreaterThan(2000);
     // Flattened, because the quotes are wrapped across blockquote lines and a naive match
-    // silently passes or fails on where the line happens to break.
-    const flat = lesson.replace(/\n>?[ \t]*/g, ' ').replace(/[ \t]+/g, ' ');
+    // silently passes or fails on where the line happens to break. The \r has to go first:
+    // on a CRLF checkout it survives the \n replace and lands inside the very phrases below,
+    // so the whole assertion fails on Windows and passes everywhere else.
+    const flat = lesson.replace(/\r/g, '').replace(/\n>?[ \t]*/g, ' ').replace(/[ \t]+/g, ' ');
     expect(flat).toMatch(/only touch corners do not count/);
     expect(flat).toMatch(/Six, not eight/);
     expect(flat).toMatch(/descending/);

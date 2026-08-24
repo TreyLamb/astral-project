@@ -25,6 +25,13 @@ src/pages/theknowledgebase/
 **Exclude `src/pages/theknowledgebase/ResearchPics/`** unless the part says otherwise — it is
 4.2 MB of screenshots and no authoring part reads it. Without it the packet is about 2.8 MB.
 
+**Research-sourcing files (`quizlet3.md`, `quizlet8.md`, and similar) are a design-phase input,
+not a farmed-part input.** A `(Claude)`-tagged design part (8, 9, 14, 19, 24, 27...) is worked
+directly with Trey, not zipped to an outside agent, so its source files are just pasted into
+that session — same as this one. Once a design part lands, its findings belong in
+`RESEARCH.md` and its decisions in `chapters.js` / the engine file / this doc's PART DETAIL, and
+that written-down form is what farmed data-row parts read — they should never need the raw
+
 **Verified 2026-08-21: the three QC gates run on bare `node` in that packet with NO
 `npm install` and no `node_modules`.** That is the whole reason the packet is this small. If an
 agent tells you it needs to install dependencies to run `npm run afoqt:selftest`, it is wrong.
@@ -38,8 +45,7 @@ New-Item -ItemType Directory -Force "$dst\scripts", "$dst\src\pages" | Out-Null
 Copy-Item package.json $dst
 Copy-Item scripts\afoqt*.mjs "$dst\scripts"
 Copy-Item -Recurse src\pages\theknowledgebase "$dst\src\pages" -Exclude ResearchPics
-Compress-Archive "$dst\*" "$env:USERPROFILE\Desktop\afoqt-packet.zip" -Force
-```
+Compress-Archive "$dst\*" "$([Environment]::GetFolderPath('Desktop'))\afoqt-packet.zip" -Force```
 
 ---
 
@@ -63,7 +69,8 @@ Compress-Archive "$dst\*" "$env:USERPROFILE\Desktop\afoqt-packet.zip" -Force
 >    say so in your report.
 > 4. Reply with: the **full contents** of every file you created or changed, the final output
 >    of each verify command, and anything you could not do and why — as a live blocker with
->    what you actually tried, never as a bare "not possible".
+>    what you actually tried, never as a bare "not possible". 
+ 5. since it might not be clear in #4, After finishing each file, put them INTO the session chat so Trey has them. Don't keep them on disk where they will be lost when usage hits its limits.
 >
 > Do not commit, do not run git, do not reformat a file you were not asked to touch.
 
@@ -96,6 +103,20 @@ These are not style notes. Each one has cost this project a shipped defect.
 9. **Do not modify the ASVAB deck** (`asvab/`, `asvabQuestions.json`, `asvabSubject.js`). It is
    read-only by owner's rule, no exceptions.
 10. **Do not touch `engine/` or `curriculum/chapters.js`** unless your part names the file.
+11. **`afoqt:coverage` is ALREADY RED, and not because of you.** A phase declares its chapters
+    and concepts before its data rows are farmed, so every `va-*` and `rc-*` concept currently
+    reports as an orphan and every one of those chapters reports "cannot fill a drill". That is
+    the work board, not a regression. Your part is done when the concepts **your part owns**
+    stop being listed — never by deleting a concept from a chapter, inventing a template to
+    silence one, or editing the coverage script. `npm run afoqt:selftest` **must** be clean,
+    and the orphan list must not gain anything you did not add.
+12. **`_reset*()` helpers clear the REAL bank.** `_resetWords`, `_resetMorphology`,
+    `_resetRelations` and `_resetPassages` empty the same module-level registries the template
+    files filled at import time. A test that resets and then registers a fake row leaves every
+    later block in the file running against that fake row — which either explodes somewhere
+    unrelated or, far worse, passes vacuously over an empty array. Snapshot the real rows at
+    the top of the file and restore them in `afterEach`. `engine/__tests__/words.test.js` does
+    this now (`restoreBank`); copy that, and copy the anti-vacuity guards next to it.
 
 ---
 
@@ -121,7 +142,8 @@ out. Data rows feeding an existing template builder are farmable; the builder it
 ## 5. THE BOARD
 
 `[x]` done — do not farm out. `[ ]` ready to send. `[L]` locked, design has not landed yet.
-`[P]` paused, waiting on Trey.
+`[P]` paused, waiting on Trey. `[C]` unlocked but Claude-only — engine or curriculum-design
+work per section 4's not-farmable column; do a live session, never zip this one out.
 
 ### Phase 9 — Word Knowledge
 
@@ -129,31 +151,45 @@ out. Data rows feeding an existing template builder are farmable; the builder it
 - [x] **PART 2** — `templates/wk/ch06-change-degree.js` — 60 word rows *(done 2026-08-21)*
 - [x] **PART 3** — `templates/wk/ch02-roots.js` — 30 roots *(done 2026-08-21)*
 - [x] **PART 4** — `templates/wk/ch04-confusables.js` — 28 pairs *(done 2026-08-21)*
-npm test is RED, deliberately. curriculum.test.js reports that the six WK chapters have no lesson markdown. That's true — it's PARTs 5 and 6. I left it failing rather than stubbing it, because a stub turns off a signal that's working.
-
-22 of your 89 official OATTS items are broken in the app right now. Every AR and every WK item (plus one MK, one IC) ships its entire worked solution inside answer choice E — the ARDUOUS item's option E is 423 characters long and names the answer. pdf-parse joins wrapped lines, so the walkthrough fused onto the last choice. I fixed the parser; I did not repair the committed JSON — the source PDFs are gitignored and I ran out of runway before re-fetching. Until that's done the fused options are still live. It's written up in PLAN.md with both repair routes.
-
-Sonnet did the bulk well, but not unsupervised. All three agents passed the structural gate, and two shipped defects only reading caught: ch03 had three slates carrying two defensible answers (in-/dis-/non- all glossed "not"), and ch05 had six possessives with the apostrophe dropped to fit a single-quoted string. Both are now written into the doctrine — a sense must be distinguishable, not merely a different string.
-- [ ] **PART 5** — WK lessons, chapters 1-3  ← **next, and `npm test` is RED until PART 5 and PART 6 both land**
-- [ ] **PART 6** — WK lessons, chapters 4-6
-- [ ] **PART 7** — WK test suite
+- [x] **PART 5** — WK lessons, chapters 1-3
+- [x] **PART 6** — WK lessons, chapters 4-6
+- [x] **PART 7** — WK test suite *(returned 154 tests, 23 of them failing on arrival; repaired
+  2026-08-24. Four fixtures were written against an imagined registrar — a word row needs all
+  five slate options before it reaches the guard under test, and a blank `answer` trips the
+  earlier word/answer/gloss guard, never the empty-option one. The rest was the `_reset*`
+  clobber now written up as rule 12 in section 3. Two "every pair row …" invariants had been
+  iterating an empty array and reporting green; they have anti-vacuity guards now.)*
 
 ### Phase 10 — Verbal Analogies
 
-- [L] **PART 8** — VA research + curriculum design *(Claude)*
-- [L] **PART 9** — `engine/analogy.js` relation engine *(Claude)*
-- [L] **PART 10** — VA relation rows, set A
-- [L] **PART 11** — VA relation rows, set B
-- [L] **PART 12** — VA lessons
-- [L] **PART 13** — VA test suite
+- [x] **PART 8** — VA research + curriculum design *(Claude, done 2026-08-22 — 5 chapters,
+  10 concepts, in `curriculum/chapters.js` under the new `analogies` track. See "PART 8 —
+  design record" below for what was decided and why. Part/Part and Sequence, two of the
+  official 10 relation concepts, were originally left undeclared — no real example turned up
+  in the 75-item sample — then added 2026-08-23 once `afoqt/data/realQuestions.json` (official
+  OATTS items, already in the repo) turned up one of each. See the REOPENED note in the design
+  record below.)*
+- [x] **PART 9** — `engine/analogy.js` relation engine *(Claude, done 2026-08-23 — see "PART 9
+  design record" below)*
+- [ ] **PART 10** — `templates/va/ch02-structure.js` — part-whole + member-category rows (~24)
+- [ ] **PART 10B** — same file, appended — part-part + sequence rows (~12)
+- [ ] **PART 10C** — `templates/va/ch03-cause-consequence.js` — cause-effect + action-object rows (~24)
+- [ ] **PART 11** — `templates/va/ch04-meaning-degree.js` — synonym + antonym + degree rows (~30)
+- [ ] **PART 11B** — `templates/va/ch05-defining-traits.js` — object-attribute rows (~24)
+- [ ] **PART 12** — VA lessons, all five chapters
+- [ ] **PART 13** — VA test suite
 
 ### Phase 11 — Reading Comprehension
 
-- [L] **PART 14** — RC design + passage engine *(Claude)*
-- [L] **PART 15** — RC passages, set A
-- [L] **PART 16** — RC passages, set B
-- [L] **PART 17** — RC lessons
-- [L] **PART 18** — RC test suite
+- [x] **PART 14** — RC design + passage engine *(Claude — but see "PART 14 review, 2026-08-24"
+  in its design record below. Three defects are open in `engine/passage.js`; the two data parts
+  are paused behind them.)*
+- [P] **PART 15** — RC passages, set A (bands 2 & 3, ~12 passages) *(blocked on the PART 14
+  review — do not farm. 12 passages authored against the current engine would have to be
+  re-banded if the passage/question grouping changes.)*
+- [P] **PART 16** — RC passages, set B (bands 4 & 5, ~12 passages) *(same block as PART 15)*
+- [ ] **PART 17** — RC lessons
+- [ ] **PART 18** — RC test suite
 
 ### Phase 12 — Physical Science
 
@@ -412,6 +448,709 @@ npx vitest run src/pages/theknowledgebase/afoqt/engine/__tests__/words.test.js
 ```
 This part is the one exception to the no-install rule: vitest needs `node_modules`. If the
 packet has none, run `npm install` for this part only, and say so in your report.
+
+---
+
+### PART 8 — design record (done 2026-08-22, Claude + Trey, live session)
+
+Not farmed, so no Verify block — this is a record of what was decided, for whoever picks up
+PART 9. Full sourcing is in `RESEARCH.md` → "VA SOURCING".
+
+**5 chapters, 10 concepts, in `curriculum/chapters.js` under the new `analogies` track**
+(`va-01-method` through `va-05-defining-traits`), grouping the 10 official AF relation concepts
+by real-item frequency rather than 1:1 — same approach WK used. `node --check` and an id/dupe
+scan both passed; `npm run afoqt:coverage` will still fail until PART 9 exists, since no
+template tests these concepts yet — that failure is expected and is not a regression.
+
+**Deliberately left undeclared, then reopened:** Part/Part and Sequence, two of the 10 official
+concepts, had no clean example in the 75-item sample (`quizlet3.md` + `quizlet8.md`) as of
+2026-08-22. Do not add a concept from memory or general AFOQT knowledge — that is the
+invented-curriculum failure section 4 exists to block.
+
+**REOPENED 2026-08-23:** `afoqt/data/realQuestions.json` — official OATTS items already
+committed to the repo, `provenance.kind: 'real'`, a stronger source than the quizlet dumps this
+design was originally built from — contains one clean example of each: `oatts-VA-070` (Venus is
+to Saturn as Plane is to Bus) is labelled Part/Part in its own official explanation, and
+`oatts-VA-072` (Prototype is to Product as Blueprint is to Building) is labelled Sequence. Both
+concepts are now declared on `va-02-structure` in `curriculum/chapters.js` alongside Part/Whole
+and Member/Category. This is the exact condition this record set for reopening the decision —
+do not treat it as license to add further concepts without an equally real, sourced trigger.
+
+**Folded in, not invented:** ~6/75 real items follow a "worker to workplace" pattern
+(beautician/salon, cardiologist/heart) that matches none of the 10 official concepts cleanly.
+Folded into `va-object-attribute` (chapter 5) as a variant reading of Object/Attribute rather
+than declared as an 11th concept.
+
+**Band strategy:** difficulty is assigned by vocabulary rarity of the pair, not by relation-type
+complexity — real items show band separation tracks word rarity (e.g. a common-word pair reads
+easy regardless of relation type; a low-frequency-word pair reads hard regardless of relation
+type). This is why PART 9 should take a dependency on `engine/words.js`'s existing band data
+rather than build a second one.
+
+**Format weighting for PART 9:** real items split roughly 3:1 in favor of format 2 ("pick the
+whole matching pair") over format 1 ("complete the 4th term"). Build format 2 as the primary
+frame.
+
+---
+
+### PART 9 — design record (done 2026-08-23, Claude + Trey, live session)
+
+Not farmed. Engine work per section 4's not-farmable column. This is the record for whoever
+picks up PART 10.
+
+**What was built:** `afoqt/engine/analogy.js` — the relation-pair registry and its two question
+frames. Exports: `registerRelations`, `allRelations`, `relationsFor`, `wordBand`,
+`relationTemplates`, `_resetRelations`.
+
+**The registrar contract (what PART 10/10B/10C/11/11B rows must satisfy):**
+Every row passed to `registerRelations` needs:
+- `id` — unique across the whole bank; suggested prefix `va-` then a short slug
+- `chapter` — one of `va-02-structure`, `va-03-cause-consequence`, `va-04-meaning-degree`,
+  `va-05-defining-traits`
+- `concepts` — must be declared by that chapter in `curriculum/chapters.js`
+- `band` — integer 1-5; vocabulary rarity, NOT relation complexity
+- `relation` — short internal tag, e.g. `'part-whole'`, `'cause-effect'`, `'synonym'`. Used to
+  pool same-relation candidates across the whole bank; distinct from `concepts`
+- `symmetric` — `true` only for synonym/antonym (swapping a/b leaves the relation unchanged);
+  omit or set `false` for everything else
+- `a`, `b` — each with `word` (string) and `pos` (`'adj'|'noun'|'verb'|'adv'`), plus optional
+  `gloss` (shown in explanation only; omit if the word already has a WK bank entry)
+- `tell` — one sentence naming the relation, shown after a miss; same job as `tell` on a
+  confusable pair
+- `confusions` — optional array of OTHER row ids that are a genuine "looks similar but
+  different relation" trap; cross-chapter ids are allowed and preferred over blind draws
+
+**Validators that throw (registrar rejects the whole batch on any violation):**
+- missing id, duplicate id
+- `a.word === b.word`
+- duplicate pair in either order already in the bank
+- `band` out of range
+- `pos` not in `{adj, noun, verb, adv}`
+- band mismatch with the WK bank: if either word exists in `engine/words.js`, this row's band
+  must agree — two subtests cannot disagree about the same word's rarity
+- `confusions` entry that names an id not (yet) registered
+
+**Template builder:** `relationTemplates({ chapter, band, idBase, name, calibratedAgainst })`
+produces two registered templates per `chapter+band` combination that has at least 5 rows:
+- `${idBase}-pair` — FORMAT 2, primary: `"WORD is to WORD as:"` — pick the matching pair
+- `${idBase}-term` — FORMAT 1, secondary: `"A is to B as C is to:"` — complete the fourth term
+
+Both templates fail gracefully (return `null`) if the bank at that band has no partner row
+sharing the base row's `relation` tag — which is why every relation type needs **at least two
+rows at each band where it appears**.
+
+**`wordBand(word)`** is exported so a PART 10/10B/10C/11/11B author can verify a word's WK band
+before assigning this row's band. Use it; do not guess.
+
+**va-01-method has no templates of its own** — every format-2 instance exercises
+`va-relation-format` and `va-relation-discriminators` directly, so both concepts are tagged on
+every template produced by `relationTemplates`. There is nothing to author for va-01-method
+beyond its lesson (PART 12).
+
+---
+
+### PART 10 — `templates/va/ch02-structure.js`, part-whole + member-category rows
+
+**Agent:** Sonnet / medium effort. The validator catches every structural error, but semantic
+mis-classification — ROOM/CITY declared as part-whole, ROBIN/ANIMAL declared as member-category
+— passes every check and reaches the study session untouched. That judgment call is what a
+lighter model gets wrong most often here. Gemini Flash and Haiku at standard effort are not
+suitable for this reason. Gemini Pro is acceptable if Sonnet is unavailable.
+
+**Read first:** `engine/analogy.js` (the whole file — it is 350 lines; its header and the
+`registerRelations` JSDoc block are the authoring contract) and
+`curriculum/chapters.js` (search for `va-02-structure` — that entry lists the four concepts this
+chapter owns: `va-part-whole`, `va-member-category`, `va-part-part`, `va-sequence`). For the
+shape of a finished file, `templates/wk/ch04-confusables.js` is the closest analogue: same
+header-comment-as-contract style, same register-then-call-builder pattern.
+
+**Do:** create `templates/va/ch02-structure.js`. Write **24 relation rows** covering only
+`va-part-whole` and `va-member-category` — do NOT write `va-part-part` or `va-sequence` rows
+(those are PART 10B's scope, to keep session size manageable). Then call `relationTemplates` for
+each band that has at least 5 rows, which generates the `-pair` and `-term` templates.
+
+Target: **8 rows per band at bands 2, 3, and 4**, split across the two concepts:
+- 4-5 part-whole rows per band, 3-4 member-category rows per band
+- Every relation type must appear **at least twice per band** — a lone row of its type at a
+  given band can never produce a format-2 question (buildMatch returns null without a partner)
+
+**Concept rules:**
+- `'va-part-whole'` — a is a physical or functional part of b, and b is specifically the
+  whole it belongs to (PETAL to FLOWER, not PETAL to PLANT). The level must be right:
+  ROOM/BUILDING passes; ROOM/CITY fails (too many intermediate levels).
+- `'va-member-category'` — a is a member, b is the immediate category. ROBIN/BIRD passes;
+  ROBIN/ANIMAL fails (too broad). FORD/CAR passes; FORD/BRAND fails (that is type-to-type).
+
+**Band guidance:**
+- Band 2: both words common enough that a high schooler knows them on sight
+  (FINGER/HAND, WHEEL/CAR, OAK/TREE, TROUT/FISH)
+- Band 3: one or both words at the standard test-prep level
+  (PISTON/ENGINE, FUSELAGE/AIRCRAFT, PLATOON/ARMY, EPITHELIUM/TISSUE)
+- Band 4: one word low-frequency enough to require inference
+  (CUPOLA/DOME, CARTILAGE/JOINT, PHYLUM/KINGDOM, STANCHION/RAILING)
+
+**The distractor arithmetic — read before you write:**
+`buildMatch` (format 2) draws its correct answer from another row in the bank that shares the
+base row's `relation` tag AND is in the same band. If only ONE row per band has a given
+`relation`, format 2 silently skips it. With 8 rows per band and two relations, the safe floor
+is 4 part-whole + 4 member-category at every band — never let either drop to 1 or 2 in a band
+or that relation will go dark at that band. Count before you finalize.
+
+**`confusions` guidance:** the strongest traps are:
+- offering a member-category pair against a part-whole base (SOLDIER/ARMY looks like PETAL/FLOWER
+  to a hurried reader)
+- offering a same-level part-of-body pair when the base is a structural part of a building
+Declaration is optional but rewarded — a declared confusion always beats a blind draw.
+
+**Register the file in `templates/index.js`** by adding
+`import './va/ch02-structure.js';` in a new `// --- Verbal Analogies` section.
+That file is the one exception to "touch only the files your part names."
+
+**Verify:**
+```
+npm run afoqt:selftest
+npm run afoqt:coverage
+npm run afoqt:sample -- --only=va-02-b2-pair
+npm run afoqt:sample -- --only=va-02-b4-term
+```
+`afoqt:coverage` must stop reporting `va-part-whole` and `va-member-category` as orphans.
+Read the sampled questions aloud. Fix any that parse oddly even if selftest passes.
+
+---
+
+### PART 10B — same file, part-part + sequence rows appended
+
+**Agent:** Sonnet / medium effort. Two compounding risks make this harder than its row count
+suggests: (1) the technical trap — calling `relationTemplates` again for a band that Part 10
+already registered will throw a duplicate-id error, and a cheaper model will often miss this
+on a file it did not write; (2) the "do not pad band 4" instruction is exactly the kind of
+scope limit lighter models override. Haiku and Flash are not suitable. Gemini Pro is acceptable
+but should be given the PART 9 design record explicitly as context.
+
+**Read first:** the PART 10 detail above, then `templates/va/ch02-structure.js` (the whole file
+as PART 10 left it). Do not alter any row PART 10 wrote.
+
+**Context for rarity:** these two relations are each represented by exactly ONE real official
+item in the 75-item sample (`oatts-VA-070` for part-part, `oatts-VA-072` for sequence) — they
+are genuinely less common on the real test, which is why the row count is modest.
+
+**Do:** append **12 rows** to `templates/va/ch02-structure.js` covering `va-part-part` and
+`va-sequence` only:
+- 3 rows of `va-part-part` at band 2, 3 rows at band 3 (6 total)
+- 3 rows of `va-sequence` at band 2, 3 rows at band 3 (6 total)
+- Band 4 is intentionally left empty for both — the real sample shows no high-rarity examples,
+  and a template with fewer than 5 rows produces nothing (engine enforces this). Do not pad.
+
+**Concept rules:**
+- `'va-part-part'` — a and b are co-equal parts of the SAME whole; neither contains the other.
+  The official sourced item is VENUS/SATURN (both planets of the same solar system — not one
+  containing the other, not one being a member of a category). The key test: could you swap a
+  and b and still have a valid pair? Yes — that is co-equal. If swapping breaks the relation,
+  it is probably part-whole.
+- `'va-sequence'` — a precedes b in a fixed, ordered process. The official sourced item is
+  PROTOTYPE/PRODUCT (the prototype comes before the production item in a development sequence).
+  The order must be inherent, not incidental: SEED/TREE passes (growth is inherent);
+  MONDAY/TUESDAY is trivially positional without a process, so avoid it.
+
+**Distractor note:** at band 2, the part-whole and member-category rows PART 10 wrote are the
+best cross-relation distractors available. Declare the closest-looking PART 10 rows as
+`confusions` explicitly — the engine puts declared confusions first.
+
+**Then call `relationTemplates`** for each of the new band+chapter combinations that now have
+at least 5 rows. You are adding rows to the chapter that already has part-whole and
+member-category templates registered; calling `relationTemplates` again for the SAME band would
+re-register a colliding id. Do NOT call it for bands where part-part or sequence has only 3
+new rows — the engine returns an empty array for fewer than 5, which is the correct behaviour.
+Only call it for a band if part-part + sequence combined reaches 5 at that band.
+
+**Verify:**
+```
+npm run afoqt:selftest
+npm run afoqt:coverage
+```
+`afoqt:coverage` must stop reporting `va-part-part` and `va-sequence` as orphans.
+Selftest must be clean for all `va-02-*` ids.
+
+---
+
+### PART 10C — `templates/va/ch03-cause-consequence.js`, cause-effect + action-object rows
+
+**Agent:** Sonnet / medium effort. Same class of invisible semantic failure as PART 10:
+"FIRE/HOMELESSNESS" passes selftest as a cause-effect pair; only a model with solid causal
+reasoning rejects it. The action-object "defining, not incidental" test is equally invisible
+to the validator. Gemini Pro is an acceptable substitute. Flash and Haiku at standard effort
+are not suitable.
+
+**Read first:** `engine/analogy.js` (registrar contract, same as PART 10). Then
+`curriculum/chapters.js` (search `va-03-cause-consequence` — concepts: `va-cause-effect`,
+`va-action-object`). Then skim `templates/va/ch02-structure.js` as a finished shape example.
+
+**Do:** create `templates/va/ch03-cause-consequence.js`. Write **24 relation rows** — 12 per
+concept — spread 8 per band across bands 2, 3, 4. Then call `relationTemplates` for each band
+that reaches 5 rows.
+
+Target distribution: **4 cause-effect + 4 action-object per band** — both concepts need at
+least two rows per band, same distractor-arithmetic reason as PART 10.
+
+**Concept rules:**
+- `'va-cause-effect'` — a DIRECTLY causes b; the effect must be immediate, not a downstream
+  side effect. FIRE/SMOKE passes. FIRE/HOMELESSNESS fails (too many causal steps). On the real
+  test, the relation is stated from cause to effect, not from effect to cause — write it that
+  direction (a=cause, b=effect). `symmetric: false` (order matters: smoke does not cause fire).
+- `'va-action-object'` — a is a defining action of b; b is the thing, role, or agent that
+  performs a. The defining test: is this action what b IS, or merely something b sometimes does?
+  BARK/DOG passes (barking defines dogs, not just something dogs sometimes do).
+  EAT/DOG fails (dogs eat, but so does everything else — eating does not define a dog).
+  Note that a is usually a verb and b is usually a noun here, though the format allows
+  cross-POS pairs — declare pos faithfully, do not normalize.
+
+**Strong confusion pairings to declare:**
+- A cause-effect row whose effect is also an action that something performs is easily confused
+  with action-object — declare these cross-concept confusions explicitly.
+- Rows from PART 10's part-whole set make plausible cross-chapter distractors (a thing that
+  causes another is not the same as a part of it). Cross-chapter id references are allowed.
+
+**Register** by adding `import './va/ch03-cause-consequence.js';` in `templates/index.js`.
+
+**Verify:**
+```
+npm run afoqt:selftest
+npm run afoqt:coverage
+npm run afoqt:sample -- --only=va-03-b2-pair
+npm run afoqt:sample -- --only=va-03-b4-term
+```
+`afoqt:coverage` must stop reporting `va-cause-effect` and `va-action-object` as orphans.
+
+---
+
+### PART 11 — `templates/va/ch04-meaning-degree.js`, synonym + antonym + degree rows
+
+**Agent:** Sonnet / medium effort — and this is the one VA data part where you should
+consider high effort if the session budget allows. The synonym/degree distinction is the most
+linguistically subtle judgment in the whole block: weaker models consistently label degree
+pairs as synonyms, and the flag `symmetric: true` must then be set correctly or the engine
+produces a second correct answer hidden inside the distractor slate — a defect that looks fine
+until a student hits it. Haiku and Flash are not suitable. Gemini Pro at high effort is
+acceptable but should be asked to apply the "can you say A is a weaker/stronger form of B?"
+test to every row before finalizing.
+
+**Read first:** `engine/analogy.js` registrar contract. Then `curriculum/chapters.js`
+(`va-04-meaning-degree` — concepts: `va-synonym`, `va-antonym`, `va-degree`). Then the
+design-record note in PART 8 above: antonym is real but rare (~4/75 real items), so keep its
+row count modest relative to synonym and degree.
+
+**Do:** create `templates/va/ch04-meaning-degree.js`. Write **30 relation rows** — roughly
+14 synonym + 6 antonym + 10 degree — spread across bands 2, 3, 4 (10 rows per band). Then
+call `relationTemplates` for each band.
+
+Target per band: **5 synonym + 2 antonym + 3 degree**. Every relation type needs at least two
+rows at every band where it appears, or format 2 silently produces nothing for it at that band.
+With only 2 antonym rows per band that floor is exactly met — do not let it slip to 1.
+
+**Concept rules:**
+- `'va-synonym'` — a and b share the same core meaning. Use `symmetric: true` (TERSE/BRIEF is
+  the same relation as BRIEF/TERSE — order is not a real trap here; offering the reversed pair
+  would just be a second correct answer). Pick pairs that are synonymous in the test-relevant
+  sense, not pairs where one word is a strong hyponym of the other (SCARLET is not a synonym
+  of RED — that is a degree relation).
+- `'va-antonym'` — direct opposites. Use `symmetric: true`. Avoid pairs where one direction is
+  more natural than the other (HOT/COLD is symmetric; LOVE/INDIFFERENCE is not — the natural
+  opposite of love is hate, not indifference). If you are unsure, it is not a clean antonym.
+- `'va-degree'` — a and b share the same direction but differ in intensity. `symmetric: false`
+  (WARM/HOT is degree; HOT/WARM reverses the direction of increase, which is a real error mode).
+  The pair must share a common dimension: TRICKLE/FLOOD (water flow), ANNOYED/FURIOUS (anger).
+  A degree pair is NOT the same as a synonym pair — if swapping a and b leaves the relation
+  intact, it is a synonym, not a degree.
+
+**The test between synonym and degree:** can you say "a is a weaker (or stronger) form of b"?
+If yes, it is degree; if not, it is synonym. TERSE and BRIEF are equally terse — neither is a
+stronger form. IRRITATED and FURIOUS are both angry, but furious is the stronger form.
+
+**Register** by adding `import './va/ch04-meaning-degree.js';` in `templates/index.js`.
+
+**Verify:**
+```
+npm run afoqt:selftest
+npm run afoqt:coverage
+npm run afoqt:sample -- --only=va-04-b2-pair
+npm run afoqt:sample -- --only=va-04-b3-term
+```
+All three `va-04-*` concepts must leave the orphan list. The `-pair` sample for a symmetric row
+must NOT offer the base pair reversed as a distractor — verify that.
+
+---
+
+### PART 11B — `templates/va/ch05-defining-traits.js`, object-attribute rows
+
+**Agent:** Haiku / high effort is acceptable here — this is the most tractable data part
+in the VA block. One concept, the clearest definitional test ("is this attribute part of the
+definition, or just a common fact?"), and the richest cross-bank distractor pool by the time
+this part runs. The worker-domain variant is novel but precisely described. Gemini Flash at
+high effort is also acceptable. If either produces even one pair that fails the definitional
+test on readback, escalate to Sonnet for that row only.
+
+**Read first:** `engine/analogy.js` registrar contract. Then `curriculum/chapters.js`
+(`va-05-defining-traits` — concept: `va-object-attribute`). Then the PART 8 design note:
+the "worker to workplace" pattern (~6/75 real items — BEAUTICIAN/SALON, CARDIOLOGIST/HEART) is
+FOLDED INTO `va-object-attribute` as a variant reading, not a separate concept. Write a mix
+of both the classic object-attribute pattern and the worker-domain variant, both tagged
+`'va-object-attribute'`.
+
+Because `va-05-defining-traits` declares only ONE concept, `crossPool` will draw all its
+cross-relation distractors from the rest of the bank — which is why this chapter needs its own
+file last (the bank is largest by then) but also why declared `confusions` pointing to specific
+rows in PARTS 10-11 are particularly valuable here.
+
+**Do:** create `templates/va/ch05-defining-traits.js`. Write **24 relation rows** — 8 per band
+at bands 2, 3, 4 — all tagged `'va-object-attribute'`. Then call `relationTemplates` for each
+band.
+
+**Concept rules (object-attribute and its worker-domain variant):**
+- Classic: a is a defining attribute or quality of b. FIERCE/TIGER — fierceness is a defining
+  quality of tigers, not just an incidental one. The tell test: is this attribute part of the
+  DEFINITION, or just a common fact? FAST/CHEETAH passes (speed is definitional);
+  STRIPED/CHEETAH fails (stripes are a fact, not the definition).
+- Worker-domain: a is a role or agent; b is the domain or setting where a is defined. Write it
+  as `a=worker, b=domain` (SURGEON/HOSPITAL, NAVIGATOR/COCKPIT). The defining test: does b
+  define a's role, not just locate them? A SURGEON in a hospital is defined by that setting;
+  a SURGEON in a grocery store is still a surgeon — the domain is definitional, not locational.
+
+**Band guidance:**
+- Band 2: both words immediately recognizable (BRAVE/SOLDIER, PILOT/COCKPIT, SWIFT/FALCON)
+- Band 3: one or both words at mid-rarity (TENACIOUS/BULLDOG, LACONIC/SPARTAN,
+  OTOLARYNGOLOGIST/CLINIC would be too hard — keep b recognizable even if a is rare)
+- Band 4: the defining attribute or role requires more inference
+  (PROBITY/JUDGE, PUGNACIOUS/COMBATANT, FIDUCIARY/TRUSTEE)
+
+**Register** by adding `import './va/ch05-defining-traits.js';` in `templates/index.js`.
+
+**Verify:**
+```
+npm run afoqt:selftest
+npm run afoqt:coverage
+npm run afoqt:sample -- --only=va-05-b2-pair
+npm run afoqt:sample -- --only=va-05-b4-term
+```
+`va-object-attribute` must leave the orphan list. `afoqt:selftest` must be fully clean.
+
+---
+
+### PART 12 — VA lessons, all five chapters
+
+**Agent:** Sonnet / medium effort minimum. This is the highest-risk task in the VA block
+because there is no structural validator — every check is human judgment. The specific failure
+modes that disqualify lighter models: (1) hallucinated statistics (Flash and Haiku will
+produce "research shows" claims not sourced in the packet — Doctrine rule 2's spirit prohibits
+this); (2) teaching things no template tests, which passes `afoqt:coverage` only because
+coverage checks concepts, not lesson content; (3) voice inconsistency across five files
+written in one session. Gemini Pro is acceptable if given the two model lessons as explicit
+prior context. Grok and Perplexity are not suitable — their markdown output tends to include
+HTML that breaks the react-markdown renderer. Haiku and Flash are not suitable.
+
+**Read first:** `curriculum/chapters.js` (all five `va-*` chapter entries — concepts, prereqs,
+summaries), `curriculum/lessons.js` (the import + map pattern), and two existing lessons as
+model: `curriculum/chapters/ar/ch01-translation.md` and `curriculum/chapters/wk/ch01-method.md`.
+Voice, heading depth, and section length in those two files are the standard to match.
+
+**Do:** create `curriculum/chapters/va/` and write five lesson files:
+
+`ch01-method.md` — concepts: `va-relation-format`, `va-relation-discriminators`
+- Teach the two real AFOQT formats: format 1 (complete the fourth term) and format 2 (pick the
+  matching pair). Explain that format 2 outnumbers format 1 roughly 3:1 on the real test.
+- Teach the two official discriminators that catch same-category traps: (1) level of
+  association — the pair's relation must be the SAME KIND, not just related; (2) order matters
+  in all non-symmetric relations — offering the correct words in the wrong order is the engine's
+  primary distractor for asymmetric pairs. Name these by what they actually do on the question,
+  not as abstract labels.
+- Note: this lesson's concepts are exercised by EVERY question in every other VA chapter — once
+  this lesson is complete, the student is practicing these two skills in every drill session
+  without a separate drill chapter. Do not invent a bespoke quiz format for va-01-method; the
+  doctrine's spirit rules that out.
+
+`ch02-structure.md` — concepts: `va-part-whole`, `va-member-category`, `va-part-part`,
+`va-sequence`
+- Four relation types in one chapter. Group them by the test that separates them:
+  part-whole vs. member-category: the part belongs to a specific whole; the member belongs to a
+  class. The level-of-category trap (ROBIN/BIRD vs. ROBIN/ANIMAL) is the live error mode.
+  part-part vs. part-whole: co-equal siblings share the same whole but neither CONTAINS the
+  other. A sequence imposes an ORDER on the two elements — the order is inherent to the process.
+- Two or three worked examples per relation type, no more. This chapter accounts for the largest
+  share of real items (~3 in 10) — the lesson is correspondingly the longest VA lesson.
+
+`ch03-cause-consequence.md` — concepts: `va-cause-effect`, `va-action-object`
+- The key distinction: cause-effect runs from the trigger to its direct outcome; action-object
+  names what an agent IS by naming what it DOES. A doctor causing recovery is cause-effect; a
+  doctor performing surgery is action-object. Name the exact error mode that blurs them.
+
+`ch04-meaning-degree.md` — concepts: `va-synonym`, `va-antonym`, `va-degree`
+- The single test that separates synonym from degree: can you say "a is a weaker (or stronger)
+  form of b"? If yes, degree; if not, synonym. Antonym adds a directionality trap the same way
+  the WK reversed-stem does.
+- Note that synonym and antonym rows set `symmetric: true` in the engine — explain WHY order
+  does not matter for these two and DOES matter for degree. That is the lesson's payoff.
+
+`ch05-defining-traits.md` — concept: `va-object-attribute`
+- Two variants that share one concept tag: classic object-attribute (FIERCE/TIGER) and
+  worker-domain (SURGEON/HOSPITAL). Teach the "definitional, not incidental" test for classic;
+  teach "defines the role, not just locates the person" for worker-domain.
+- This is the smallest chapter (one concept) and the lesson should be the shortest.
+
+**Then register all five** in `curriculum/lessons.js`: add five `?raw` imports (e.g.,
+`import va01 from './chapters/va/ch01-method.md?raw';`) and five map entries keyed by the exact
+chapter ids (`'va-01-method': va01,` etc.). That file is the one exception to "touch only the
+files your part names."
+
+**The binding rule applies in both directions (Doctrine rule 2):**
+- every concept each chapter declares must be TAUGHT in its lesson
+- the lesson must NOT teach anything no template tests
+
+**Verify:**
+```
+npm run afoqt:coverage
+```
+No orphan concepts for any `va-*` chapter. Then confirm the markdown renders as plain markdown
+(no raw HTML, no unclosed fences) and that every heading level is consistent with the model
+lessons.
+
+---
+
+### PART 13 — VA test suite
+
+**Agent:** Sonnet / medium effort. The model file (`words.test.js`) is provided and the
+overall structure is mechanical — but two items require reading the engine source, not just
+the test file: (1) the symmetric-distractor check (verifying that `buildMatch` actually skips
+the reversed-pair distractor for symmetric rows) requires understanding the skip logic in
+`analogy.js`; (2) the "do not weaken an assertion" instruction is a trap for any model that
+optimizes for green tests — a model that changes `toBe(5)` to `toBeGreaterThanOrEqual(1)` to
+make a failing test pass has produced a dead guard. Gemini Pro is acceptable. Haiku at high
+effort can handle the mechanical tests (validator rejection, determinism, slate integrity) but
+should not be trusted for item (1) above — if using Haiku, verify the symmetric check
+yourself before ticking the board.
+
+**Read first:** `engine/__tests__/words.test.js` as the model — it is the most recent and most
+thorough test file, and its structure (validator-rejection tests, utility-function tests, bank
+invariants over real registered rows, determinism, slate integrity) is the exact pattern to
+follow here. Also read `engine/analogy.js` in full.
+
+**Do:** create `engine/__tests__/analogy.test.js`. Vitest, `node` environment (no jsdom
+docblock). Cover:
+
+1. **Validator rejection.** Every `throw` in `registerRelations` gets a test that feeds it input
+   that SHOULD fail and asserts it does. Use `_resetRelations()` between cases — **and restore
+   the real bank in `afterEach`, per rule 12 in section 3.** `words.test.js` shipped without
+   that and 20 of its own tests either threw from an unrelated file or passed over an empty
+   array; the `restoreBank` helper at the top of it now is the pattern to copy, along with the
+   `expect(...).toBeGreaterThan(0)` guards that stop an invariant test going vacuous.
+   Guards to cover:
+   - no id
+   - duplicate id
+   - a.word === b.word
+   - duplicate pair (same two words in either order)
+   - band out of range
+   - pos not in `{adj, noun, verb, adv}`
+   - confusions entry naming a non-existent id
+   - band mismatch with WK bank (register a WK word at band 2, then try a VA row using that
+     same word at band 3 — it should throw)
+
+2. **`wordBand(word)`** — returns the correct band when the word exists in the WK bank,
+   returns `null` when it does not.
+
+3. **Bank invariants over the real registered rows** (import `../../templates/index.js` to load
+   all chapters, same as `words.test.js` does):
+   - every id unique across the whole bank
+   - no pair duplicated in either order
+   - every row's `concepts` declared by its chapter in `curriculum/chapters.js`
+   - every band in range 1-5
+   - for every row where either word appears in the WK bank, the band matches
+   - every `confusions` entry names a row that exists in the bank
+
+4. **`relationsFor(chapter, band)`** — returns only rows for the given chapter and band.
+
+5. **Determinism:** `generateInstance(id, seed)` called twice for the same template id and seed
+   gives a byte-identical question.
+
+6. **Slate integrity** over every `va-*` template at a few hundred seeds: five distinct choices,
+   `correctIndex` in range 0-4, no choice text equal to another.
+
+7. **Format-specific checks:**
+   - `-pair` template stem ends with `"as:"`
+   - `-term` template stem ends with `"is to:"`
+   - for a symmetric row, the reversed-pair distractor must NOT appear among the choices
+     (engine skips it for symmetric rows — verify this actually happens)
+
+Do not weaken an assertion to make it pass. If a test finds a real defect in the bank, **leave
+the test failing and report it** — that is the test working.
+
+**Verify:**
+```
+npx vitest run src/pages/theknowledgebase/afoqt/engine/__tests__/analogy.test.js
+```
+This part is the one exception to the no-install rule: vitest needs `node_modules`. If the
+packet has none, run `npm install` for this part only, and say so in your report.
+
+---
+
+### PART 14 — RC design + passage engine (Claude-only)
+
+Not farmed. This is the record for whoever picks up PARTS 15-18.
+
+**What was built:** `afoqt/engine/passage.js` — the central registrar and template generator for Reading Comprehension.
+Exports: `registerPassages`, `allPassages`, `passageTemplates`, `_resetPassages`.
+
+**The registrar contract (what PART 15/16 passages must satisfy):**
+Every passage passed to `registerPassages` needs:
+- `id` — unique across the whole bank (e.g. `rc-001`)
+- `wordCount` — integer strictly between 400 and 600
+- `lineNumbered` — boolean `true`
+- `text` — the passage body string
+- `band` — difficulty score 1-5
+- `questions` — an array of question objects
+
+Every question in the `questions` array needs:
+- `type` — one of: `main-idea`, `vocabulary-in-context`, `detail-inference`, `function-of-paragraph`, `author-agreement`
+- `stem` — the question text (must be unique within the passage)
+- `choices` — array of EXACTLY 5 string distractors (must be unique)
+- `correctIndex` — integer 0-4 pointing to the correct choice
+- `why` — explanation string for the correct answer
+
+**Validators that throw:**
+- missing or duplicate `id`
+- `wordCount` out of 400-600 range
+- `band` not 1-5
+- missing `text` or empty `questions` array
+- any question `type` outside the 5 permitted values
+- duplicate `stem` within a passage
+- `choices` length !== 5, or choices containing duplicates
+- `correctIndex` out of 0-4 bounds
+- missing `why`
+
+**Template builder:** `passageTemplates({ chapter, band, idBase, name, concepts, passages })`
+For RC, a template is created per concept in a chapter, drawing randomly from any eligible question across ALL passages at that band.
+The engine floor: the template builder requires at least **5 eligible questions** across the registered passages for the given concepts, otherwise it quietly returns an empty array.
+
+#### PART 14 review, 2026-08-24 — three open defects, PARTS 15/16 paused behind them
+
+Found reading `engine/passage.js` against the record above and against the `sheet` rules in
+`CLAUDE.md`. None of them is catchable by `afoqt:selftest`, and all three get more expensive
+once 24 passages exist.
+
+1. **A drill re-reads a new 500-word passage almost every question.** `passageTemplates` picks
+   a random eligible question per instance, so the passage comes along for the ride. Measured
+   on four synthetic passages: an 8-question run drew `rc-002 rc-003 rc-004 rc-004 rc-003
+   rc-002 rc-004 rc-002` — three different passages, never twice in a row. The real subtest
+   bundles 4-6 questions under one passage, and this project already has the mechanism for
+   exactly that: `sheet: true` plus `sheetSpan`, which is what stopped Block Counting asking
+   six questions and repeating the other 24. The engine sets neither. The builder's own
+   comment ("templates are isolated units of testing") records the decision, but it is the
+   decision Block Counting had to reverse. **Trey's call:** `sheet: true` with
+   `sheetSpan` = questions-per-passage, or accept the shuffle deliberately.
+2. **`rc-01-method` has no owner.** `rc-time-management` and `rc-reading-strategy` appear in no
+   PART DETAIL and in no `TYPE_TO_CONCEPT` mapping, so nothing can ever clear them off the
+   orphan list. VA solved the same problem by tagging `va-relation-format` and
+   `va-relation-discriminators` onto every template `relationTemplates` builds — every format-2
+   item genuinely exercises them. RC needs the equivalent decision written down before PART 17.
+3. **`lineNumbered` is documented as required but never validated**, and the builder's JSDoc
+   says "a template is created for EACH question type" while the code registers exactly one
+   template per call. Both are cheap to fix and both will mislead a PART 15 author.
+
+PART 15's Verify block is also below the section-6 standard — no `afoqt:coverage`, no `--only=`
+ids, and a parenthetical that hedges on whether the part builds templates at all while its Do
+block says to register the file. Rewrite it when the three items above are settled.
+
+---
+
+### PART 15 — `templates/rc/ch01-passages-set-A.js`, bands 2 & 3
+
+**Agent:** Sonnet / medium effort. Passages must be originally written, adhering to the "PME / Joint-Force strategic prose" register. Gemini Pro is a viable substitute. Hallucinating 5 unique distractors per question and ensuring strict word counts requires strong linguistic capability. Flash and Haiku are not suitable because they tend to output overly generic or encyclopedic passages.
+
+**Read first:** `engine/passage.js` (the whole file, paying attention to `registerPassages` validation), `docs/afoqt/CONTRIBUTING-QUESTIONS.md` (the RC spec), and `curriculum/chapters.js` (the `rc-*` concepts).
+
+**Do:** create `templates/rc/ch01-passages-set-A.js`. Write **12 passages**:
+- 6 passages at band 2
+- 6 passages at band 3
+- Each passage must have 4-6 questions in its `questions` array.
+- Cover all 5 question types across the passages at each band, ensuring AT LEAST 5 questions of each type exist per band (distractor arithmetic: `< 5` means the template builder returns nothing).
+
+**Concept rules:**
+- `main-idea` — Tests extraction of the thesis from supporting points.
+- `vocabulary-in-context` — Tests inferring the meaning of a specific word (e.g. "As used in line 12, 'execute' most nearly means...").
+- `detail-inference` — Tests drawing a logical conclusion from a stated fact.
+- `function-of-paragraph` — Tests understanding why the author structured a paragraph that way (e.g. "The second paragraph serves primarily to...").
+- `author-agreement` — Tests determining what claim the author would likely endorse.
+
+**Register the file:** `templates/index.js` by adding `import './rc/ch01-passages-set-A.js';`.
+
+**Verify:**
+```
+npm run afoqt:selftest
+```
+(No coverage check yet because the templates aren't built until PART 16, or if you build them here, verify they cover the concepts).
+
+---
+
+### PART 16 — `templates/rc/ch02-passages-set-B.js`, bands 4 & 5
+
+**Agent:** Sonnet / medium effort. Same high standard as PART 15, but targeting high-difficulty strategic prose where vocabulary and syntax are significantly more complex.
+
+**Read first:** The same files as PART 15. Then skim `templates/rc/ch01-passages-set-A.js` so you don't overlap topics.
+
+**Do:** create `templates/rc/ch02-passages-set-B.js`. Write **12 passages**:
+- 6 passages at band 4
+- 6 passages at band 5
+- Follow the exact same rules as PART 15 for question arrays and distractor counts.
+
+After writing, call `passageTemplates` for ALL bands (2, 3, 4, 5) and register the templates.
+
+**Register the file:** `templates/index.js`.
+
+**Verify:**
+```
+npm run afoqt:selftest
+npm run afoqt:coverage
+```
+`afoqt:coverage` must stop reporting all `rc-*` concepts as orphans.
+
+---
+
+### PART 17 — RC lessons
+
+**Agent:** Sonnet / medium effort. No structural validator. Hallucinated strategies or teaching things no template tests will pass `afoqt:coverage` silently. Flash/Haiku are not suitable.
+
+**Read first:** `curriculum/chapters.js` (all `rc-*` entries), `curriculum/lessons.js`.
+
+**Do:** create `curriculum/chapters/rc/` and write four lesson files:
+- `ch01-method.md` (time management, reading strategy)
+- `ch02-main-idea.md` (main idea, author agreement)
+- `ch03-details.md` (detail inference, function of paragraph)
+- `ch04-vocabulary.md` (vocabulary in context)
+
+Register them in `curriculum/lessons.js`.
+
+**Verify:**
+```
+npm run afoqt:coverage
+```
+Confirm the markdown renders as plain markdown without HTML tags.
+
+---
+
+### PART 18 — RC test suite
+
+**Agent:** Sonnet / medium effort. Must write deterministic tests and bank invariants.
+
+**Read first:** `engine/__tests__/words.test.js` and `engine/passage.js`.
+
+**Do:** create `engine/__tests__/passage.test.js`.
+Cover:
+- Validator rejection (all `throw`s in `registerPassages`)
+- Bank invariants (all registered passages meet constraints)
+- Determinism over `passageTemplates` output
+- Slate integrity
+
+**Verify:**
+```
+npx vitest run src/pages/theknowledgebase/afoqt/engine/__tests__/passage.test.js
+```
 
 ---
 

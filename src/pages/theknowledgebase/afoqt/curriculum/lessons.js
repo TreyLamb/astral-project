@@ -41,6 +41,12 @@ import ar03 from './chapters/ar/ch03-proportion.md?raw';
 import ar04 from './chapters/ar/ch04-percent-context.md?raw';
 import ar05 from './chapters/ar/ch05-averages.md?raw';
 import ar06 from './chapters/ar/ch06-counting-measure.md?raw';
+import wk01 from './chapters/wk/ch01-method.md?raw';
+import wk02 from './chapters/wk/ch02-roots.md?raw';
+import wk03 from './chapters/wk/ch03-affixes.md?raw';
+import wk04 from './chapters/wk/ch04-confusables.md?raw';
+import wk05 from './chapters/wk/ch05-people-speech.md?raw';
+import wk06 from './chapters/wk/ch06-change-degree.md?raw';
 
 export const LESSONS = {
   'mk-01-fluency': ch01,
@@ -76,6 +82,12 @@ export const LESSONS = {
   'ar-04-percent-context': ar04,
   'ar-05-averages': ar05,
   'ar-06-counting-measure': ar06,
+  'wk-01-method': wk01,
+  'wk-02-roots': wk02,
+  'wk-03-affixes': wk03,
+  'wk-04-confusables': wk04,
+  'wk-05-vocab-people-speech': wk05,
+  'wk-06-vocab-change-degree': wk06,
 };
 
 export const getLesson = (chapterId) => LESSONS[chapterId] ?? null;

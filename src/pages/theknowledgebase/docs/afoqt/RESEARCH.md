@@ -360,6 +360,56 @@ Two official discriminators: **level of association must match** (lemons are alw
 but the sky is not always clear) and **degree of separation must match**.
 Two formats: complete the 4th term, or pick a whole 2nd pair — **order matters**.
 
+#### ⭐ VA SOURCING — 2026-08-22, Trey supplied `quizlet3.md`, `quizlet8.md` and the Barron's VA
+chapter (`Military Flight Aptitude Tests`, "Language Review" section). Gap closed for this
+subtest — see PLAN.md gaps list.
+
+**⚠️ Copyright: the Barron's chapter is paraphrased below, never quoted.** Per rule 3 in
+HANDOFF.md, calibration books are a ruler, not a corpus, and per this dossier's own SOURCE MAP,
+paid books must never enter the repo verbatim. Do not paste Barron's prose into this file, a
+template, or a lesson — not even a sentence of it. The category list below is redescribed in
+this project's own words; write new example pairs when authoring content, never Barron's.
+
+**Relation catalogue (commercial-book cross-reference, broader than the official 10-item list
+above — treat the official list as authoritative for chapter concepts, this as calibration):**
+part-to-whole, cause-to-effect, source-to-product, example-to-category (a specific instance
+paired with its correct "next level up" class — a common wrong-answer trap is a category that's
+too broad or a same-level peer swapped in for the class), object-to-function (paired with the
+object's *primary, defining* use, not an occasional one), user-to-tool (a role paired with its
+characteristic tool), doer-to-action, numerical (a consistent operation must repeat in the
+answer pair), grammatical (matching tense/number transformation — watch past tense vs past
+participle), geographic, descriptive (an inherent quality, not an incidental one), age/growth
+(immature-to-mature form, order must match), synonym, antonym, homonym, measurement (units
+within one dimension), gender, and larger-to-smaller / degree-of-amount. The two discriminators
+already in the official list above (level of association, degree of separation) are the
+mechanism the book uses to explain *why* a same-category distractor is wrong — e.g. two answer
+choices can both be "part-to-whole" and only one is right because the other part isn't the same
+*kind* of part as the base pair's.
+
+**Real item data (75 official-practice-style items, both files carry answer keys):**
+
+| File | Items | Labeled provenance | Format 1 (3-word stem, single-word choices) | Format 2 (2-word stem, pair choices) |
+|---|---|---|---|---|
+| `quizlet3.md` (VA section only — it also bundles unrelated WK and MK decks in the same export) | 25 | "AFOQT **Official** Practice Verbal Analogies" | 3 | 22 |
+| `quizlet8.md` | 50 | "AFOQT Practice-Verbal Analogies" (no "Official") | 16 | 34 |
+
+Format 2 (pick the whole matching pair) outnumbers format 1 roughly 3:1 across both sets
+combined — worth weighting the template/engine split toward format 2 rather than treating the
+two formats as equally common.
+
+Vocabulary load is real: several items in both sets hinge on WK-band words already in the
+bank's confusable/vocab chapters (e.g. a degree/judgment-type item pairing two low-frequency
+synonyms). **PART 9's relation engine should consider taking a dependency on `engine/words.js`
+or `engine/morphology.js`** rather than maintaining a second, disconnected vocabulary — a VA
+item and a WK item can legitimately share a headword without duplicating its definition data,
+and Doctrine rule 2 (orphan concepts) applies the same way here as it does across any two
+chapters.
+
+Neither file has been run through `scripts/parseQuizletDumps.mjs` (still TODO per PLAN.md) —
+these are raw pasted exports, not registered rows. **Curriculum design (chapter breakdown,
+concept names, band assignment) is still undecided** — this section gives the sourcing, not
+the decision. That is PART 8/9's remaining work.
+
 ### Situational Judgment
 
 50 questions / 16 scenarios / 35 min. Each scenario: pick **MOST** then **LEAST** effective
@@ -422,6 +472,9 @@ are called *trash* — the value is in the PDFs and books.
 - **DTIC reports** AD1203687 / AD1168029 / AD1157021 — best source for scoring methodology.
   `apps.dtic.mil` served an **Under Maintenance** page (genuinely down, not blocking us). **Retry.**
 - **Union Test Prep, Quizlet, Docsity** — 403 to automated access. Trey supplies these.
+  ✅ *Verbal Analogies partially resolved 2026-08-22: Trey supplied `quizlet3.md` and
+  `quizlet8.md` (75 VA items with keys) — see the VA SOURCING note above. Other subtests'
+  Quizlet gaps are still open.*
 - **Reddit first-hand reports** — web search returned **zero** results across multiple
   phrasings. Trey supplies these.
 - **AFOQT-specific open word list** — none found. Substitute is a GRE/SAT high-frequency list.
