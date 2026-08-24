@@ -17,6 +17,7 @@ import { createRoot } from 'react-dom/client';
 import { act } from 'react';
 import CourseTable from './CourseTable';
 import { NO_FILTERS } from './columns';
+import { GRADES } from './gpa';
 
 let container;
 let root;
@@ -97,16 +98,20 @@ describe('CourseTable renders', () => {
     const el = renderTable();
     const select = el.querySelector('select.tt-sel');
     expect(select.className).toContain('tt-g-B');
-    // 12 grades, no reset option until the row is actually changed.
-    expect(select.querySelectorAll('option')).toHaveLength(12);
+    // Every grade, plus "removed" — which is not a grade, it drops the course from
+    // the hours and the points both. No reset option until the row is changed.
+    // Counted off GRADES rather than hardcoded: adding the removed option is what
+    // silently broke this assertion the first time.
+    expect(select.querySelectorAll('option')).toHaveLength(GRADES.length + 1);
     expect(select.querySelector('option.tt-g-A')).not.toBeNull();
+    expect(select.querySelector('option.tt-g-removed')).not.toBeNull();
   });
 
   it('offers the reset option only once a row has been changed', () => {
     const c = course();
     const el = renderTable({ rows: [c], overrides: { [c.id]: 'A' }, changedCount: 1 });
     const opts = [...el.querySelectorAll('select.tt-sel option')].map((o) => o.textContent);
-    expect(opts).toHaveLength(13);
+    expect(opts).toHaveLength(GRADES.length + 2); // + removed, + reset
     expect(opts[0]).toMatch(/reset to B\+/i);
   });
 
