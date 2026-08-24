@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { SCALES, GRADES, isCounted, gradeOf } from './gpa';
+import { SCALES, GRADES, REMOVED, isCounted, gradeOf } from './gpa';
 import { COLUMNS } from './columns';
 import { creditBreaks, bandOf, BAND_PROSPECTIVE, BAND_PLAIN } from './creditBlocks';
 
@@ -181,8 +181,10 @@ export default function CourseTable({
           {rows.map((c, i) => {
             const counted = isCounted(c, honorRepeats);
             const grade = gradeOf(c, overrides);
+            const removed = grade === REMOVED;
+            const shown = counted && !removed;
             const changed = !!overrides[c.id];
-            const pts = counted ? table[grade] * c.credits : 0;
+            const pts = shown ? table[grade] * c.credits : 0;
             const impact = impacts[c.id] || 0;
             const mark = breaks.get(i);
             const band = bandOf(c, overrides);
@@ -195,7 +197,8 @@ export default function CourseTable({
                    assumed grade is edited — it is still a prospective class,
                    not a retake, and stacking both tints reads as neither. */
                 className={[
-                  counted ? '' : 'tt-row-out',
+                  shown ? '' : 'tt-row-out',
+                  removed ? 'tt-row-removed' : '',
                   changed && !c.isExtra ? 'tt-row-changed' : '',
                   c.isExtra ? 'tt-row-extra' : '',
                   drag?.id === c.id ? 'tt-row-dragging' : '',
@@ -245,7 +248,7 @@ export default function CourseTable({
                 </td>
                 <td className="tt-c-what">
                   <select
-                    className={`tt-sel tt-g-${gradeBand(grade)}${changed ? ' changed' : ''}`}
+                    className={`tt-sel${removed ? ' tt-g-removed' : ` tt-g-${gradeBand(grade)}`}${changed ? ' changed' : ''}`}
                     value={grade}
                     disabled={!counted}
                     onChange={(e) => {
@@ -260,6 +263,9 @@ export default function CourseTable({
                     {GRADES.map((g) => (
                       <option key={g} value={g} className={`tt-g-${gradeBand(g)}`}>{g === 'E' ? 'E (fail)' : g}</option>
                     ))}
+                    {/* Not a grade — drops the course from both the GPA hours
+                        and the points, same as an excluded repeat attempt. */}
+                    <option value={REMOVED} className="tt-g-removed">✕ Removed (as if it never happened)</option>
                   </select>
                   {changed && (
                     <button type="button" className="tt-undo" title={`Back to ${c.grade}`} onClick={() => onGrade(c.id, null)}>↺</button>
@@ -268,9 +274,15 @@ export default function CourseTable({
                     <button type="button" className="tt-undo" title="Remove this planned course" onClick={() => onRemoveExtra(c.id)}>✕</button>
                   )}
                 </td>
-                <td className="tt-c-num">{counted ? pts.toFixed(2) : <span className="tt-dash" title="Excluded attempt — contributes no hours or points">—</span>}</td>
                 <td className="tt-c-num">
-                  {counted && impact > 0.0005
+                  {shown
+                    ? pts.toFixed(2)
+                    : (
+                      <span className="tt-dash" title={removed ? 'Removed — contributes no hours or points' : 'Excluded attempt — contributes no hours or points'}>—</span>
+                    )}
+                </td>
+                <td className="tt-c-num">
+                  {shown && impact > 0.0005
                     ? <span className="tt-impact">+{impact.toFixed(3)}</span>
                     : <span className="tt-dash">—</span>}
                 </td>

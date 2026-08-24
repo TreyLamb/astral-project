@@ -511,6 +511,7 @@ select.tt-f:not([value='']) { border-color: #3d587a; }
 .tt-c-title { min-width: 210px; }
 
 .tt-row-out td { opacity: 0.42; }
+.tt-row-removed td:not(.tt-c-what) { text-decoration: line-through; text-decoration-color: rgba(226, 88, 106, 0.5); }
 .tt-row-changed { background: rgba(224, 166, 60, 0.07); }
 .tt-row-changed:hover { background: rgba(224, 166, 60, 0.1); }
 /* Prospective classes: a soft neon-blue wash plus a lit edge, the cool
@@ -633,6 +634,7 @@ select.tt-f:not([value='']) { border-color: #3d587a; }
 .tt-g-C { color: var(--tt-warn); }
 .tt-g-D { color: var(--tt-bad); }
 .tt-g-E, .tt-g-F { color: var(--tt-fail); }
+.tt-g-removed { color: var(--tt-dim); font-style: italic; }
 .tt-band-A { background: var(--tt-good); }
 .tt-band-B { background: var(--tt-ok); }
 .tt-band-C { background: var(--tt-warn); }
@@ -668,6 +670,7 @@ select.tt-f:not([value='']) { border-color: #3d587a; }
 .tt-app option.tt-g-C { color: var(--tt-warn); }
 .tt-app option.tt-g-D { color: var(--tt-bad); }
 .tt-app option.tt-g-E { color: var(--tt-fail); }
+.tt-app option.tt-g-removed { color: var(--tt-dim); font-style: italic; }
 
 .tt-sel {
   font: inherit;

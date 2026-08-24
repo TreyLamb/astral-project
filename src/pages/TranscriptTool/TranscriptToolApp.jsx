@@ -4,7 +4,7 @@ import HubLink from '../../components/HubLink';
 import DocsView from './DocsView';
 import bundled from './transcript.data.json';
 import { parseTranscript } from './parseTranscript';
-import { gpaOf, impactOf, creditsToReach, isCounted, gradeOf, fmtGpa, GRADES, SCALES } from './gpa';
+import { gpaOf, impactOf, creditsToReach, isCounted, gradeOf, fmtGpa, GRADES, REMOVED, SCALES } from './gpa';
 import { loadScenario, saveScenario, cleanView } from './transcriptStorage';
 import CourseTable from './CourseTable';
 import SidePanel from './SidePanel';
@@ -132,7 +132,10 @@ export default function TranscriptToolApp() {
       case 'credits': return c.credits;
       case 'actual': return GRADE_RANK[c.grade] ?? 99;
       case 'whatif': return GRADE_RANK[gradeOf(c, overrides)] ?? 99;
-      case 'points': return isCounted(c, honorRepeats) ? SCALES[scale].points[gradeOf(c, overrides)] * c.credits : -1;
+      case 'points': {
+        const g = gradeOf(c, overrides);
+        return isCounted(c, honorRepeats) && g !== REMOVED ? SCALES[scale].points[g] * c.credits : -1;
+      }
       default: return impacts[c.id] || 0;
     }
   }, [overrides, honorRepeats, scale, impacts]);
@@ -378,10 +381,13 @@ export default function TranscriptToolApp() {
 
   function exportCsv() {
     const head = ['Semester', 'Code', 'Course', 'Credits', 'Actual', 'WhatIf', 'Counted', 'Repeat'];
-    const lines = whatIfCourses.map((c) => [
-      c.semester, c.code, `"${c.course.replace(/"/g, '""')}"`, c.credits,
-      c.grade, gradeOf(c, overrides), isCounted(c, honorRepeats) ? 'yes' : 'no', c.repeatFlag || '',
-    ].join(','));
+    const lines = whatIfCourses.map((c) => {
+      const g = gradeOf(c, overrides);
+      return [
+        c.semester, c.code, `"${c.course.replace(/"/g, '""')}"`, c.credits,
+        c.grade, g === REMOVED ? 'REMOVED' : g, isCounted(c, honorRepeats) && g !== REMOVED ? 'yes' : 'no', c.repeatFlag || '',
+      ].join(',');
+    });
     download('gpa-whatif.csv', [head.join(','), ...lines].join('\n'), 'text/csv');
   }
 

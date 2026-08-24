@@ -20,6 +20,12 @@ export const SCALES = {
 
 export const GRADES = ['A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'E'];
 
+// What-if sentinel for "this class never happened" — distinct from a real
+// grade so it can't collide with anything the registrar prints. Unlike an 'E'
+// (which is a fail, and counts against you), a removed course drops out of
+// both the numerator and denominator entirely, same as an excluded repeat.
+export const REMOVED = '__removed';
+
 const FAILING = new Set(['E', 'F']);
 
 // An 'E' in the R column marks an attempt superseded by a retake. It
@@ -52,7 +58,7 @@ export function gpaOf(courses, opts = {}) {
   for (const c of courses) {
     if (!isCounted(c, honorRepeats)) continue;
     const grade = gradeOf(c, overrides);
-    if (grade === null || grade === undefined || grade === '' || grade === 'IP') continue;
+    if (grade === null || grade === undefined || grade === '' || grade === 'IP' || grade === REMOVED) continue;
     const value = table[grade];
     if (value === undefined) continue;
     gpaHours += c.credits;
