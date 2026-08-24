@@ -23,6 +23,8 @@
   padding: 20px; color: var(--ft-text); line-height: 1.6; overflow-wrap: anywhere;
   font-size: calc(1rem * var(--ft-docs-scale, 1));
   max-width: min(100%, calc(900px * var(--ft-docs-scale, 1)));
+  width: 100%;
+  margin: 0 auto;
   box-sizing: border-box;
 }
 
