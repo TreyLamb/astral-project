@@ -1,0 +1,201 @@
+/* Courses (TKB sub-app). Namespaced crs-, inherits --tkb-* tokens — no new palette. */
+
+.crs-wrap {
+  min-height: 100%;
+  color: var(--tkb-ink);
+}
+
+.crs-loading, .crs-error {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--tkb-ink-soft);
+}
+
+.crs-error {
+  color: var(--tkb-wrong);
+}
+
+.crs-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.crs-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.crs-subtitle {
+  color: var(--tkb-ink-soft);
+  font-size: 0.9rem;
+}
+
+.crs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.crs-card {
+  background: var(--tkb-surface);
+  border: 1px solid var(--tkb-border);
+  border-left: 5px solid var(--crs-accent, var(--tkb-accent));
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.crs-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.crs-card-code {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.crs-card-title {
+  color: var(--tkb-ink-soft);
+  font-size: 0.9rem;
+  margin-top: 0.15rem;
+}
+
+.crs-card-meta {
+  margin-top: 0.6rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+}
+
+.crs-pill {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: var(--tkb-border);
+  color: var(--tkb-ink);
+}
+
+.crs-pill.light { opacity: 0.65; }
+.crs-pill.none { opacity: 0.4; text-decoration: line-through; }
+
+.crs-section {
+  background: var(--tkb-surface);
+  border: 1px solid var(--tkb-border);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1.25rem;
+}
+
+.crs-section h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+.crs-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--tkb-border);
+}
+
+.crs-row:last-child { border-bottom: none; }
+
+.crs-tag-list {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.crs-tag {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--tkb-border);
+}
+
+.crs-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.crs-form input, .crs-form select, .crs-form textarea {
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--tkb-border);
+  border-radius: 6px;
+  background: var(--tkb-canvas);
+  color: var(--tkb-ink);
+  font: inherit;
+}
+
+.crs-form textarea {
+  min-height: 4.5rem;
+  resize: vertical;
+}
+
+.crs-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--tkb-accent);
+  color: white;
+  font: inherit;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.crs-btn.secondary {
+  background: var(--tkb-border);
+  color: var(--tkb-ink);
+}
+
+.crs-btn:hover { opacity: 0.9; }
+
+.crs-back {
+  background: none;
+  border: none;
+  color: var(--tkb-accent);
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.crs-hitrate-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.crs-hitrate-table th, .crs-hitrate-table td {
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid var(--tkb-border);
+}
+
+.crs-empty {
+  color: var(--tkb-ink-soft);
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+}
+
+.crs-prompt-box {
+  white-space: pre-wrap;
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+  background: var(--tkb-canvas);
+  border: 1px solid var(--tkb-border);
+  border-radius: 8px;
+  padding: 0.75rem;
+  max-height: 320px;
+  overflow-y: auto;
+}

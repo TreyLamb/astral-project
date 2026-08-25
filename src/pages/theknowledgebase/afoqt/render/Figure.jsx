@@ -3,6 +3,7 @@ import AttitudeIndicator from './AttitudeIndicator.jsx';
 import CompassCard from './CompassCard.jsx';
 import AircraftSilhouette from './AircraftSilhouette.jsx';
 import BlockPile from './BlockPile.jsx';
+import PassageView from './PassageView.jsx';
 
 // One place that knows how to draw a question's figure, so the runner never has to.
 export default function Figure({ render, reveal = false }) {
@@ -47,6 +48,14 @@ export default function Figure({ render, reveal = false }) {
 
   if (render.kind === 'silhouette') {
     return <AircraftSilhouette heading={render.heading} pitch={render.pitch} bank={render.bank} />;
+  }
+
+  // The reading passage. Same figure stays mounted across every question drawn from it in a
+  // run (engine/passage.js picks the passage from the sheet, not per-question) - React sees the
+  // same `text` prop come back on consecutive questions and does not re-mount the DOM, so the
+  // passage does not visibly reload or lose scroll position between questions about it.
+  if (render.kind === 'passage') {
+    return <PassageView text={render.text} lineNumbered={render.lineNumbered} passageId={render.passageId} />;
   }
 
   return null;

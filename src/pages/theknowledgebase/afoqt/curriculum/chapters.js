@@ -70,6 +70,12 @@ export const TRACKS = [
     subtest: 'VA',
     blurb: 'Feeds ABM, Academic and Verbal. 25 questions in 8 minutes (19.2s each) - the most generous verbal clock on the test, because the difficulty is the relationship, not the recall.',
   },
+  {
+    id: 'science',
+    name: 'Physical Science',
+    subtest: 'PS',
+    blurb: 'Unscored - feeds no composite - but the stated goal here is dominating every topic regardless of whether it counts. 20 questions in 10 minutes (30.0s each), general conceptual physics/chemistry/astronomy, no math required.',
+  },
 ];
 
 /**
@@ -136,7 +142,8 @@ export const CHAPTERS = [
     summary: 'The deepest chapter in the track, because AC-method factoring is the hardest algebra the real test asks.',
     minutes: 16, bands: [2, 3, 4], prereqs: ['mk-04-linear', 'mk-05-exponents'], testOutPass: 4,
     concepts: ['polynomial-arithmetic', 'foil-expansion', 'factor-gcf',
-      'factor-difference-of-squares', 'factor-trinomial', 'factor-ac-method'],
+      'factor-difference-of-squares', 'factor-trinomial', 'factor-ac-method',
+      'factor-sum-diff-cubes'],
   },
   {
     id: 'mk-07-quadratics',
@@ -144,7 +151,8 @@ export const CHAPTERS = [
     title: 'Quadratics',
     summary: 'Roots by factoring, the formula for when nothing factors, and the discriminant as a shortcut.',
     minutes: 13, bands: [3, 4], prereqs: ['mk-06-polynomials'], testOutPass: 4,
-    concepts: ['quadratic-by-factoring', 'quadratic-formula', 'discriminant', 'vertex-and-roots'],
+    concepts: ['quadratic-by-factoring', 'quadratic-formula', 'discriminant', 'vertex-and-roots',
+      'complete-the-square'],
   },
   {
     id: 'mk-08-functions',
@@ -182,7 +190,7 @@ export const CHAPTERS = [
     summary: 'Pythagorean triples and the two special triangles are the biggest time-savers on the whole subtest.',
     minutes: 15, bands: [2, 3, 4], prereqs: ['mk-10-geometry-measurement'], testOutPass: 5,
     concepts: ['pythagorean-theorem', 'pythagorean-triples', 'special-right-triangles',
-      'volume-prism-cylinder', 'volume-cone-sphere', 'surface-area'],
+      'volume-prism-cylinder', 'volume-cone-sphere', 'surface-area', 'space-diagonal'],
   },
   {
     id: 'mk-12-coordinate',
@@ -583,6 +591,116 @@ export const CHAPTERS = [
     summary: 'Inferring word meaning from surrounding context when the word has multiple meanings.',
     minutes: 10, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
     concepts: ['rc-vocabulary-in-context'],
+  },
+
+  // --- Physical Science ------------------------------------------------------
+  // Designed 2026-08-25 (Part 19, Claude-only curriculum design - see docs/afoqt/HANDOFF.md).
+  // Grounded in the 25 official OATTS Physical Science items already in the repo
+  // (afoqt/data/realQuestions.json, subtest: 'PS'), which split evenly across exactly 8 areas:
+  // Astronomy, Atomic Physics, Chemistry, Electrical Physics, Light Physics, Mechanical
+  // Physics, Sound Physics, Thermodynamics. One chapter per area - the same "traceable to a
+  // real source" approach VA's Part 8 used, not the placeholder "mechanics/forces/energy" +
+  // "matter/chemistry/earth-space" split HANDOFF.md originally sketched before this bank was
+  // cross-checked (that split does not actually match the real taxonomy; see the design
+  // record in HANDOFF.md for the full note).
+  //
+  // Reuses engine/facts.js AS-IS (built for Aviation Information, flagged reusable for this in
+  // the Phase 5 completion notes) - no new engine file, unlike VA which needed engine/analogy.js.
+  // Every question is one of the two fact-engine frames (identify / recall), same mechanism as
+  // Aviation Information.
+  //
+  // Unscored (feeds no composite - see afoqtSpec.js SUBTESTS, PS: scored: false), but Trey's
+  // stated goal is "dominate all the topics even if I'll never use them," and he confirmed
+  // full-depth investment here (2026-08-25) rather than a lighter pass given the ~5-week
+  // runway to test day - so this is sized to the same order of magnitude as Aviation
+  // Information (374 facts / 64 templates / 11 chapters), not scaled down for being unscored.
+  //
+  // ⚠ MECHANICS OVERLAP WITH AVIATION INFORMATION, NAMED SO IT ISN'T DUPLICATED BY ACCIDENT.
+  // av-02-forces (Aviation Information) already covers Newton's laws AS THEY APPLY TO FLIGHT -
+  // an airfoil, lift/drag/thrust/weight, angle of attack. ps-06-mechanics covers the SAME
+  // underlying physics from a general, non-aviation angle - blocks and ramps and tug-of-war,
+  // not wings. Data-row authors for Part 20 (mechanics/forces/energy) should write facts a
+  // civilian physics class would ask, not reach for aviation examples that already belong to
+  // av-02-forces - two chapters teaching the identical fact under two different ids is exactly
+  // the redundancy Doctrine rule 2 exists to avoid, even though the concepts are technically
+  // scoped to different chapters and would not fail the mechanical coverage check.
+  //
+  // No chapter needs a dedicated "method" lesson the way rc-01-method or wk-01-method do -
+  // there is no special technique here beyond direct recall, same as Aviation Information had
+  // no ch00-method. Prereqs are mostly empty; the two real pedagogical dependencies (chemistry
+  // building on atomic structure; sound and heat both resting on particle motion) are declared,
+  // everything else stands alone the way most AI chapters do.
+  {
+    id: 'ps-01-astronomy',
+    track: 'science', subtest: 'PS', order: 54,
+    title: 'The solar system and the sky',
+    summary: 'Planets, moons and comets; why the Earth has seasons; what causes an eclipse.',
+    minutes: 13, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['ps-solar-system', 'ps-earth-motion-seasons', 'ps-eclipses-moon-phases',
+      'ps-stars-and-universe'],
+  },
+  {
+    id: 'ps-02-atomic-physics',
+    track: 'science', subtest: 'PS', order: 55,
+    title: 'Atoms, electrons and the periodic trends',
+    summary: 'Protons, neutrons and mass number; what an electron does when it changes energy level; the trends that run across a period.',
+    minutes: 13, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['ps-atomic-structure', 'ps-electron-energy-levels', 'ps-periodic-trends',
+      'ps-radioactivity-decay'],
+  },
+  {
+    id: 'ps-03-chemistry',
+    track: 'science', subtest: 'PS', order: 56,
+    title: 'States of matter and chemical change',
+    summary: 'Solid, liquid, gas; how the periodic table is organised; telling a chemical change from a physical one.',
+    minutes: 13, bands: [2, 3, 4], prereqs: ['ps-02-atomic-physics'], testOutPass: 4,
+    concepts: ['ps-states-of-matter', 'ps-periodic-table-organization',
+      'ps-physical-chemical-change', 'ps-acids-and-bases'],
+  },
+  {
+    id: 'ps-04-electrical',
+    track: 'science', subtest: 'PS', order: 57,
+    title: 'Circuits, resistance and magnetism',
+    summary: 'How current behaves in a series circuit, what changes a wire\'s resistance, and the link between electricity and magnetism.',
+    minutes: 13, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['ps-circuit-fundamentals', 'ps-resistance-and-conductors',
+      'ps-circuit-components', 'ps-magnetism-and-electromagnetism'],
+  },
+  {
+    id: 'ps-05-light',
+    track: 'science', subtest: 'PS', order: 58,
+    title: 'Light, reflection and the spectrum',
+    summary: 'What a light wave\'s properties actually determine, how reflection and refraction differ, and where visible light sits in the spectrum.',
+    minutes: 13, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['ps-light-wave-properties', 'ps-reflection-and-refraction',
+      'ps-lenses-and-mirrors', 'ps-electromagnetic-spectrum'],
+  },
+  {
+    id: 'ps-06-mechanics',
+    track: 'science', subtest: 'PS', order: 59,
+    title: 'Forces, friction and simple machines',
+    summary: 'The from-zero chapter here, same role av-01/02 play for Aviation Information - everyday forces, not flight.',
+    minutes: 13, bands: [1, 2, 3], prereqs: [], testOutPass: 4,
+    concepts: ['ps-newtons-laws-general', 'ps-friction', 'ps-simple-machines',
+      'ps-equilibrium-and-net-force'],
+  },
+  {
+    id: 'ps-07-sound',
+    track: 'science', subtest: 'PS', order: 60,
+    title: 'Sound waves and how they travel',
+    summary: 'Compression and rarefaction, why sound is fastest in a solid, and what pitch actually depends on.',
+    minutes: 10, bands: [2, 3, 4], prereqs: ['ps-06-mechanics'], testOutPass: 4,
+    concepts: ['ps-sound-wave-properties', 'ps-sound-propagation-medium',
+      'ps-wave-behavior-diffraction-doppler'],
+  },
+  {
+    id: 'ps-08-thermodynamics',
+    track: 'science', subtest: 'PS', order: 61,
+    title: 'Heat, temperature and the laws of thermodynamics',
+    summary: 'The three ways heat transfers, what the first law actually says, and what heating does to particles.',
+    minutes: 10, bands: [2, 3, 4], prereqs: ['ps-06-mechanics'], testOutPass: 4,
+    concepts: ['ps-heat-transfer-methods', 'ps-laws-of-thermodynamics',
+      'ps-thermal-expansion-phase-change'],
   },
 ];
 

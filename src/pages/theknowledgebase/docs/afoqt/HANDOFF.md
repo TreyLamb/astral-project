@@ -181,23 +181,26 @@ work per section 4's not-farmable column; do a live session, never zip this one 
 
 ### Phase 11 — Reading Comprehension
 
-- [x] **PART 14** — RC design + passage engine *(Claude — but see "PART 14 review, 2026-08-24"
-  in its design record below. Three defects are open in `engine/passage.js`; the two data parts
-  are paused behind them.)*
-- [P] **PART 15** — RC passages, set A (bands 2 & 3, ~12 passages) *(blocked on the PART 14
-  review — do not farm. 12 passages authored against the current engine would have to be
-  re-banded if the passage/question grouping changes.)*
-- [P] **PART 16** — RC passages, set B (bands 4 & 5, ~12 passages) *(same block as PART 15)*
+- [x] **PART 14** — RC design + passage engine *(Claude — the "PART 14 review, 2026-08-24"
+  below records three defects found after the fact; all three are RESOLVED as of 2026-08-24,
+  see "PART 14 fix record" below. PARTS 15/16 are unblocked.)*
+- [ ] **PART 15** — RC passages, set A (bands 2 & 3, ~12 passages) *(unblocked 2026-08-24)*
+- [ ] **PART 16** — RC passages, set B (bands 4 & 5, ~12 passages) *(unblocked 2026-08-24)*
 - [ ] **PART 17** — RC lessons
 - [ ] **PART 18** — RC test suite
 
 ### Phase 12 — Physical Science
 
-- [L] **PART 19** — PS curriculum design *(Claude)*
-- [L] **PART 20** — PS fact rows: mechanics, forces, energy
-- [L] **PART 21** — PS fact rows: matter, chemistry, earth and space
-- [L] **PART 22** — PS lessons
-- [L] **PART 23** — PS test suite
+- [x] **PART 19** — PS curriculum design *(Claude, done 2026-08-25 — 8 chapters, 30 concepts,
+  in `curriculum/chapters.js` under the new `science` track. See "PART 19 design record" below.
+  Supersedes the placeholder split below this line ("mechanics, forces, energy" / "matter,
+  chemistry, earth and space") — that guess did not match the real OATTS taxonomy once checked.)*
+- [ ] **PART 20** — `templates/ps/ch01-astronomy.js`, `ch02-atomic-physics.js` — fact rows
+- [ ] **PART 20B** — `templates/ps/ch03-chemistry.js`, `ch04-electrical.js` — fact rows
+- [ ] **PART 21** — `templates/ps/ch05-light.js`, `ch06-mechanics.js` — fact rows
+- [ ] **PART 21B** — `templates/ps/ch07-sound.js`, `ch08-thermodynamics.js` — fact rows
+- [ ] **PART 22** — PS lessons, all 8 chapters
+- [ ] **PART 23** — PS test suite
 
 ### Phase 13 — Situational Judgment + Self-Description Inventory
 
@@ -216,7 +219,22 @@ work per section 4's not-farmable column; do a live session, never zip this one 
 
 - [ ] **PART 31** — wire `afoqt/engine/*.selftest.mjs` into vitest
 - [ ] **PART 32** — delete the dead `ingestion/` folder
-- [P] **PART 33** — Math Knowledge band-5 `stretch` templates *(needs Trey's yes first)*
+- [x] **PART 33** — Math Knowledge band-5 `stretch` templates *(Claude, done 2026-08-25 — Trey
+  said yes. 3 templates seeded: `mk-factor-sum-diff-cubes` (ch06), `mk-complete-the-square`
+  (ch07), `mk-space-diagonal` (ch11, Trey's named weakest area). All three are genuinely
+  different skills from anything at bands 1-4 in the same chapter, not wider parameter ranges -
+  see each file's own comment for why. Also wired the FIRST-EVER UI path to reach `stretch`
+  content at all: `DrillConfig.jsx` gets a "Depth" section with an off-by-default toggle
+  (only shown when the selected subtest actually has stretch templates), forces untimed the
+  moment it's on, and is mutually exclusive with exam mode both directions. Until this session
+  `includeStretch` had no caller passing `true` anywhere in the app, so band 5 was unreachable
+  even after content existed for it - Aviation Information Part 5's caveat about
+  correctness-vs-reachability applies here too. **This is a seed, not full coverage** - the
+  other 10 MK chapters have no band-5 tier yet. `npm run afoqt:selftest -- --samples=8000`,
+  `npm run afoqt:coverage` and `npx vitest run` all clean; `npm run build` clean. See PLAN.md's
+  2026-08-25 session note for the templates' design reasoning and one real defect the
+  read-aloud step caught (an inverted sign in a hand-typed explanation string, not in any
+  answer or choice).)*
 
 ---
 
@@ -1002,7 +1020,9 @@ Every passage passed to `registerPassages` needs:
 - `id` — unique across the whole bank (e.g. `rc-001`)
 - `wordCount` — integer strictly between 400 and 600
 - `lineNumbered` — boolean `true`
-- `text` — the passage body string
+- `text` — the passage body string, written with a **literal `\n` between each printed line**
+  (see "PART 14 fix record" below — the renderer numbers lines by splitting on `\n`, and the
+  registrar now throws if `lineNumbered: true` but `text` has no `\n` in it at all)
 - `band` — difficulty score 1-5
 - `questions` — an array of question objects
 
@@ -1024,38 +1044,61 @@ Every question in the `questions` array needs:
 - `correctIndex` out of 0-4 bounds
 - missing `why`
 
-**Template builder:** `passageTemplates({ chapter, band, idBase, name, concepts, passages })`
-For RC, a template is created per concept in a chapter, drawing randomly from any eligible question across ALL passages at that band.
-The engine floor: the template builder requires at least **5 eligible questions** across the registered passages for the given concepts, otherwise it quietly returns an empty array.
+**Template builder:** `passageTemplates({ chapter, band, idBase, name, concepts, passages, sheetSpan })`
+Registers exactly **one** template per call (one per (chapter, band) pair — call it once per
+band the way VA's `relationTemplates` is called once per chapter+band). The engine floor: it
+requires at least **5 eligible questions** across the registered passages for the given concepts
+and band, otherwise it quietly returns an empty array — same rule as everywhere else in the
+project.
 
-#### PART 14 review, 2026-08-24 — three open defects, PARTS 15/16 paused behind them
+**Sheet behaviour (fixed 2026-08-24, see fix record below):** the template is registered with
+`sheet: true` and `sheetSpan` (default 5). Consecutive questions drawn from the same template
+pool in one drill land on the SAME passage — chosen deterministically from `h.sheetSeed`, walked
+by `h.item` — for `sheetSpan` questions before the run advances to a different one. You do not
+need to do anything for this; it is automatic once you register passages and call
+`passageTemplates`. **What you DO need to do:** write passages whose `questions` array carries a
+reasonable spread of types (see PART 15/16 below) — a passage with only one or two questions of
+a given type will legitimately repeat that item once its small pool is exhausted within a
+sheet-span block, the same accepted behaviour Block Counting and Table Reading already have for
+a bounded item space (`stemSpace`; see `engine/generator.js`'s own comment on it).
 
-Found reading `engine/passage.js` against the record above and against the `sheet` rules in
-`CLAUDE.md`. None of them is catchable by `afoqt:selftest`, and all three get more expensive
-once 24 passages exist.
+#### PART 14 fix record, 2026-08-24 — all three defects resolved, PARTS 15/16 unblocked
 
-1. **A drill re-reads a new 500-word passage almost every question.** `passageTemplates` picks
-   a random eligible question per instance, so the passage comes along for the ride. Measured
-   on four synthetic passages: an 8-question run drew `rc-002 rc-003 rc-004 rc-004 rc-003
-   rc-002 rc-004 rc-002` — three different passages, never twice in a row. The real subtest
-   bundles 4-6 questions under one passage, and this project already has the mechanism for
-   exactly that: `sheet: true` plus `sheetSpan`, which is what stopped Block Counting asking
-   six questions and repeating the other 24. The engine sets neither. The builder's own
-   comment ("templates are isolated units of testing") records the decision, but it is the
-   decision Block Counting had to reverse. **Trey's call:** `sheet: true` with
-   `sheetSpan` = questions-per-passage, or accept the shuffle deliberately.
-2. **`rc-01-method` has no owner.** `rc-time-management` and `rc-reading-strategy` appear in no
-   PART DETAIL and in no `TYPE_TO_CONCEPT` mapping, so nothing can ever clear them off the
-   orphan list. VA solved the same problem by tagging `va-relation-format` and
-   `va-relation-discriminators` onto every template `relationTemplates` builds — every format-2
-   item genuinely exercises them. RC needs the equivalent decision written down before PART 17.
-3. **`lineNumbered` is documented as required but never validated**, and the builder's JSDoc
-   says "a template is created for EACH question type" while the code registers exactly one
-   template per call. Both are cheap to fix and both will mislead a PART 15 author.
+The review below found three defects reading `engine/passage.js` against the design record and
+against the `sheet` rules in `CLAUDE.md`. None was catchable by `afoqt:selftest`. All three are
+fixed as of 2026-08-24 (Claude, live session, confirmed with Trey on the sheet-mode call):
 
-PART 15's Verify block is also below the section-6 standard — no `afoqt:coverage`, no `--only=`
-ids, and a parenthetical that hedges on whether the part builds templates at all while its Do
-block says to register the file. Rewrite it when the three items above are settled.
+1. **Sheet mode, RESOLVED.** `passageTemplates` now registers `sheet: true` / `sheetSpan: 5` and
+   `generate()` picks the run's current passage via `h.sheetSeed % bandPassages.length`, then
+   walks `h.item` over that passage's own eligible questions rather than drawing a fresh random
+   passage every time. `render.sheetSeed` is set to the passage's own string `id` (not a numeric
+   hash) so `engine/drill.js`'s `groupByFigure` cannot accidentally merge two different bands'
+   questions that happen to compute the same numeric sheet value. A synthetic-data check (10
+   questions, two templates, three passages) confirmed a run stays on one passage for a full
+   `sheetSpan` block, cycles through distinct eligible questions before repeating, and is fully
+   deterministic for a given (rng seed, sheet) — same guarantee TR/BC already give.
+   **Runner note, since Trey asked:** no `DrillRunner.jsx` change was needed to get "the passage
+   stays up, answers aren't revealed until you're done with it" — the runner already never shows
+   per-question feedback (see `submit()` in `DrillRunner.jsx`; the summary screen is the only
+   reveal), so combined with the sheet fix, a passage now visibly stays mounted across its block
+   of questions with no extra work. Per-question progress is still saved to storage immediately
+   on each answer (same as every other subtest) rather than deferred to the end of the passage
+   block — nothing about that is visible to the user, and deferring it would only add risk of
+   losing an answer if the app closes mid-passage, so it was left as-is.
+   **Also found and fixed in the same pass, not in the original review:** `Figure.jsx` had no
+   `kind === 'passage'` branch at all, so a registered RC template would have generated a
+   question with literally nothing rendered above the stem. New `render/PassageView.jsx` (line-
+   numbers every line, split on `\n`) is now wired in.
+2. **`rc-01-method` ownership, RESOLVED.** `passageTemplates` now auto-tags
+   `rc-time-management` and `rc-reading-strategy` onto every template it registers, the same
+   pattern VA used for `va-relation-format`/`va-relation-discriminators`. You do not add these
+   to the `concepts` you pass in — they are added automatically.
+3. **`lineNumbered` validation + stale JSDoc, RESOLVED.** `registerPassages` now throws if
+   `lineNumbered` is not a boolean, and throws separately if `lineNumbered: true` but `text` has
+   no `\n` to number. The JSDoc above the builder now says what the code does (one template per
+   call).
+
+PART 15/16's Verify blocks below are rewritten to the section-6 standard.
 
 ---
 
@@ -1063,13 +1106,30 @@ block says to register the file. Rewrite it when the three items above are settl
 
 **Agent:** Sonnet / medium effort. Passages must be originally written, adhering to the "PME / Joint-Force strategic prose" register. Gemini Pro is a viable substitute. Hallucinating 5 unique distractors per question and ensuring strict word counts requires strong linguistic capability. Flash and Haiku are not suitable because they tend to output overly generic or encyclopedic passages.
 
-**Read first:** `engine/passage.js` (the whole file, paying attention to `registerPassages` validation), `docs/afoqt/CONTRIBUTING-QUESTIONS.md` (the RC spec), and `curriculum/chapters.js` (the `rc-*` concepts).
+**Read first:** `engine/passage.js` (the whole file — the header comments on `registerPassages` and `passageTemplates` are your authoring contract, including the sheet-mode section), `docs/afoqt/CONTRIBUTING-QUESTIONS.md` (the RC spec), and `curriculum/chapters.js` (search `rc-` for the four chapter entries and their concepts).
 
 **Do:** create `templates/rc/ch01-passages-set-A.js`. Write **12 passages**:
 - 6 passages at band 2
 - 6 passages at band 3
 - Each passage must have 4-6 questions in its `questions` array.
 - Cover all 5 question types across the passages at each band, ensuring AT LEAST 5 questions of each type exist per band (distractor arithmetic: `< 5` means the template builder returns nothing).
+
+**The `text` format — read this before writing your first passage.** The renderer numbers
+printed lines by splitting `text` on `\n`, and `registerPassages` now throws if `lineNumbered:
+true` and there is no `\n` in the string at all. Write each passage as a plain string with a
+literal `\n` after roughly every 12-16 words (a natural printed-line length), not as one long
+paragraph. A 500-word passage should come out to somewhere around 30-40 lines. A
+`vocabulary-in-context` stem that says "As used in line 12..." must actually be pointing at a
+real line 12 in your own text — count it, don't estimate it.
+
+**Per-passage type spread — this is new, and it is the whole reason a drill will feel right.**
+Because RC now runs in sheet mode (one passage stays on screen for several consecutive
+questions — see the fix record above), a passage whose `questions` array has only one question
+of a given type will make that exact question repeat if the run asks for that type twice while
+that passage is current. **Give each passage at least 2 questions of at least 3 of the 5 types**
+where the passage's own content supports it honestly — never invent a question just to hit this,
+but do favor passages substantial enough to support two clean readings of the same type (e.g. a
+passage with two distinct inferable details, not one detail asked two different ways).
 
 **Concept rules:**
 - `main-idea` — Tests extraction of the thesis from supporting points.
@@ -1078,13 +1138,29 @@ block says to register the file. Rewrite it when the three items above are settl
 - `function-of-paragraph` — Tests understanding why the author structured a paragraph that way (e.g. "The second paragraph serves primarily to...").
 - `author-agreement` — Tests determining what claim the author would likely endorse.
 
-**Register the file:** `templates/index.js` by adding `import './rc/ch01-passages-set-A.js';`.
+**Then call `passageTemplates`** once per band (2 and 3) for each rc chapter whose concepts your
+passages cover — e.g. `passageTemplates({ chapter: 'rc-02-main-idea', band: 2, idBase:
+'rc-main-idea-b2', name: 'Main idea, band 2', concepts: ['rc-main-idea', 'rc-author-agreement'],
+passages: allPassages() })`, and similarly for `rc-03-details` (`rc-detail-inference`,
+`rc-function-of-paragraph`) and `rc-04-vocabulary` (`rc-vocabulary-in-context`), at both band 2
+and band 3. Do NOT pass `rc-time-management` / `rc-reading-strategy` yourself — they are added
+automatically. If a call returns an empty array, you are short of the 5-eligible-question floor
+for that (chapter, band) — add more passages or more questions of that type before moving on.
+
+**Register the file:** `templates/index.js` by adding `import './rc/ch01-passages-set-A.js';` in a new `// --- Reading Comprehension` section.
 
 **Verify:**
 ```
 npm run afoqt:selftest
+npm run afoqt:coverage
+npm run afoqt:sample -- --only=rc-main-idea-b2
+npm run afoqt:sample -- --only=rc-detail-b3
 ```
-(No coverage check yet because the templates aren't built until PART 16, or if you build them here, verify they cover the concepts).
+(substitute your actual `idBase` values in the last two commands). `afoqt:coverage` must stop
+reporting `rc-main-idea`, `rc-author-agreement`, `rc-detail-inference`, `rc-function-of-
+paragraph`, `rc-vocabulary-in-context`, `rc-time-management` and `rc-reading-strategy` as orphans
+for bands 2-3 (PART 16 covers bands 4-5 of the same concepts). Read the sampled questions and
+confirm any "line N" reference in a stem points at the actual numbered line in that passage's text.
 
 ---
 
@@ -1092,23 +1168,29 @@ npm run afoqt:selftest
 
 **Agent:** Sonnet / medium effort. Same high standard as PART 15, but targeting high-difficulty strategic prose where vocabulary and syntax are significantly more complex.
 
-**Read first:** The same files as PART 15. Then skim `templates/rc/ch01-passages-set-A.js` so you don't overlap topics.
+**Read first:** The same files as PART 15, including the `text` line-break format and the
+per-passage type-spread rule above — both apply here unchanged. Then skim `templates/rc/ch01-passages-set-A.js` so you don't overlap topics.
 
 **Do:** create `templates/rc/ch02-passages-set-B.js`. Write **12 passages**:
 - 6 passages at band 4
 - 6 passages at band 5
-- Follow the exact same rules as PART 15 for question arrays and distractor counts.
+- Follow the exact same rules as PART 15 for question arrays, the `\n`-lined `text` format, and per-passage type spread.
 
-After writing, call `passageTemplates` for ALL bands (2, 3, 4, 5) and register the templates.
+**Then call `passageTemplates`** once per band (4 and 5) for each rc chapter, the same way PART
+15 does for bands 2-3 — `rc-02-main-idea`, `rc-03-details`, `rc-04-vocabulary`.
 
-**Register the file:** `templates/index.js`.
+**Register the file:** `templates/index.js`, alongside PART 15's import.
 
 **Verify:**
 ```
 npm run afoqt:selftest
 npm run afoqt:coverage
+npm run afoqt:sample -- --only=rc-main-idea-b4
+npm run afoqt:sample -- --only=rc-vocabulary-b5
 ```
-`afoqt:coverage` must stop reporting all `rc-*` concepts as orphans.
+(substitute your actual `idBase` values). `afoqt:coverage` must stop reporting every `rc-*`
+concept as an orphan — bands 2-3 come from PART 15, bands 4-5 from this part, and both must have
+landed for the orphan list to fully clear.
 
 ---
 
@@ -1151,6 +1233,357 @@ Cover:
 ```
 npx vitest run src/pages/theknowledgebase/afoqt/engine/__tests__/passage.test.js
 ```
+
+---
+
+### PART 19 — design record (done 2026-08-25, Claude, autonomous session per Trey's go-ahead)
+
+Not farmed. Curriculum design per section 4's not-farmable column. This is the record for
+whoever picks up PARTS 20-23.
+
+**What was built:** 8 chapters (`ps-01-astronomy` through `ps-08-thermodynamics`), 30 concepts,
+in `curriculum/chapters.js` under a new `science` track. `node --check` passed and
+`npm run afoqt:coverage` shows the chapters registered (98 lesson-minutes, 30 concepts, all
+correctly listed as orphans — expected, since no fact rows exist yet).
+
+**Grounded in the real official bank, not a guess.** `afoqt/data/realQuestions.json` already has
+25 official OATTS Physical Science items (`subtest: 'PS'`), and they split **evenly across
+exactly 8 areas** — Astronomy, Atomic Physics, Chemistry, Electrical Physics, Light Physics,
+Mechanical Physics, Sound Physics, Thermodynamics (3-4 items each). One chapter per area. This
+supersedes the placeholder split this file used to carry ("mechanics, forces, energy" / "matter,
+chemistry, earth and space") — that guess predates anyone actually pulling the 25 items and
+checking, and it does not match the real taxonomy (there is no "earth and space" area distinct
+from astronomy in the real bank, and "forces/energy" spans what the real bank keeps as three
+separate areas: mechanical, electrical, thermodynamics). Read the real items yourself before
+writing rows — `node -e "console.log(JSON.parse(require('fs').readFileSync('afoqt/data/realQuestions.json')).filter(q=>q.subtest==='PS'))"` from the repo root — they are short, direct,
+non-mathematical conceptual-recall items, which is exactly the shape `engine/facts.js` (the
+Aviation Information engine) was built for.
+
+**No new engine.** `engine/facts.js` is reused as-is — `registerFacts()` for the data,
+`factTemplates()` for the identify/recall question frames, both already generic. This is
+DIFFERENT from VA, which needed a new `engine/analogy.js` (Part 9) because relation-pairs are not
+fact-lookup shaped. Physical Science facts are exactly the shape Aviation Information facts are,
+so nothing new had to be built — Part 19's whole job was curriculum design, not engine work.
+
+**Depth target: full parity with Aviation Information, per Trey's go-ahead (2026-08-25).** He
+confirmed this explicitly rather than a lighter unscored-subtest pass, citing his stated goal
+("dominate all the topics even if I'll never use them") over the ~5-week runway to test day. AI
+landed at 374 facts / 64 templates / 11 chapters (~34 facts/chapter). Target for PS: **roughly
+35-45 facts per chapter** (4-concept chapters toward the top of that range, the two 3-concept
+chapters — sound, thermodynamics — toward the bottom), landing near 300 facts total. This is
+smaller than AI's 374 only because AI's domain is genuinely larger (11 chapters of real aviation
+knowledge vs. 8 areas of general-education physical science) — it is not a deliberately lighter
+treatment.
+
+**⚠ Mechanics overlap with Aviation Information, read before writing PART 21.**
+`av-02-forces` (Aviation Information, already shipped) covers Newton's laws AS THEY APPLY TO
+FLIGHT — an airfoil, lift/drag/thrust/weight, angle of attack. `ps-06-mechanics` covers the same
+underlying physics from a general, non-aviation angle — blocks, ramps, a tug-of-war, not wings.
+The two chapters are correctly scoped to different concept ids, so `afoqt:coverage` cannot catch
+an accidental duplicate — a `ps-06-mechanics` fact reading like a flight-training example instead
+of a general-physics one would pass every structural check and just be redundant with AI. Write
+facts a general-education physics class would ask.
+
+**Prereqs:** mostly empty — unlike Aviation Information, these 8 areas mostly don't build on each
+other. Two real ones declared: `ps-03-chemistry` depends on `ps-02-atomic-physics` (periodic
+table organization rests on atomic structure), and both `ps-07-sound` and `ps-08-thermodynamics`
+depend on `ps-06-mechanics` (both rest on particle motion, which mechanics introduces).
+`ps-06-mechanics` itself is the "from-zero" entry chapter (bands `[1,2,3]`, the same role
+`av-01`/`av-02` play for Aviation Information) — the most everyday, least-technical area, and the
+one every other PS chapter can lean on.
+
+**Splitting the fact-row parts:** PS is being split into **four** data parts (PART 20, 20B, 21,
+21B — VA's `10`/`10B` numbering convention, chosen specifically so downstream part numbers
+(lessons, tests, and everything from PART 24 onward) don't have to shift), two chapters each,
+roughly 70-90 facts per part — comparable in size to WK's PART 2 (60 rows), the largest single
+farmed data part so far. Aviation Information itself was NOT farmed (it predates the farming
+workflow, built directly in Phase 5) and its own build notes flag real editorial risk in
+fact-engine content — four defect classes shipped there that passed every structural check and
+were only caught by reading questions aloud (see CLAUDE.md's Aviation Information section). Every
+PS data part below repeats the same warning and the same required reading step.
+
+---
+
+### PART 20 — `templates/ps/ch01-astronomy.js`, `ch02-atomic-physics.js`
+
+**Agent:** Sonnet / medium effort. `engine/facts.js`'s registrar catches shape errors (missing
+band, an unresolved confusion id, a shouting gloss) but nothing catches a fact whose IDENTIFY
+stem leaks its own answer or whose gloss doesn't grammatically agree with the derived stem — see
+"FOUR EDITORIAL DEFECT CLASSES" in CLAUDE.md's Aviation Information section, all four of which
+passed `afoqt:selftest` at 8,000 samples. Haiku and Flash are not suitable for this reason —
+every one of those four defects is a judgment call about phrasing, not a shape a validator can
+reject.
+
+**Read first:** `engine/facts.js` in full — the header comment explains why distractors are
+declared confusions rather than random padding, and `identifyStem()`'s doc comment explains the
+two defect classes it exists to prevent (never author the identify stem by hand). Then
+`curriculum/chapters.js`, search `ps-01-astronomy` and `ps-02-atomic-physics` for the concepts
+each chapter owns. Then `templates/av/ch01-anatomy.js` or any other `templates/av/ch*.js` file as
+the closest finished example of this exact shape (same `registerFacts([...]); factTemplates({...})`
+pattern, one file per chapter or chapter pair).
+
+**Do:** create `templates/ps/ch01-astronomy.js` and `templates/ps/ch02-atomic-physics.js`.
+
+- `ch01-astronomy.js`: **35-40 facts** across `ps-solar-system`, `ps-earth-motion-seasons`,
+  `ps-eclipses-moon-phases`, `ps-stars-and-universe`, spread across bands 2/3/4 (roughly even,
+  minimum 5 rows in each band — `factTemplates` silently registers nothing for a band with fewer
+  than 5 eligible rows). Grounded in the real items: `oatts-PS-045` (comets), `oatts-PS-046`
+  (solar/lunar eclipses), `oatts-PS-047` (planetary motion and seasons) are already in
+  `afoqt/data/realQuestions.json` — read them for phrasing register before writing your own.
+- `ch02-atomic-physics.js`: **35-40 facts** across `ps-atomic-structure`,
+  `ps-electron-energy-levels`, `ps-periodic-trends`, `ps-radioactivity-decay`. Real items:
+  `oatts-PS-048` (electron energy levels), `oatts-PS-049` (mass number from protons/neutrons),
+  `oatts-PS-050` (periodic trends).
+
+**Fact-row rules — read before writing your first one:**
+- **Never author the identify stem.** `identifyStem()` derives it from `term` alone. Writing it
+  by hand is exactly what put the answer inside the question 60 times in Aviation Information.
+- **The gloss is a third-person predicate; the article belongs to the term.** "the aileron" +
+  "controls roll"; "lift" + "is the upward force". No rule separates the two cases — decide it
+  per row, the same way Aviation Information's data does.
+- **A gloss must not shout.** `shoutedWord()` in `engine/facts.js` rejects an ALL-CAPS
+  non-acronym word in a gloss (it's a visible tell in the shuffled choices). Known acronyms are
+  allowlisted in that file; if you need a new one (unlikely for these two chapters), say so in
+  your report rather than silently avoiding the term.
+- **Give every fact a `recallStem` unless the gloss genuinely fits more than one term.** The
+  recall frame ("The downward force acting on an aircraft is called ___" style, but for these
+  chapters e.g. "The force that pulls objects toward Earth's center is called ___") only draws
+  from rows that HAVE one — omitting it by default just shrinks that frame's pool for no reason.
+- **`confusions` may only name ids in the SAME chapter file**, and the priority order for a
+  fact's distractors is: declared confusion → same-concept sibling → same-chapter fallback. A
+  fact with no siblings sharing its concept degrades to generic same-chapter distractors, which
+  is weaker — so give each concept enough rows (aim for at least 3-4 per concept per band) that
+  real same-concept distractors exist. Good candidates for `ch01`: "meteor" vs "meteorite" vs
+  "asteroid" vs "comet"; "waxing" vs "waning" phases. For `ch02`: "atomic number" vs "mass
+  number"; "isotope" vs "ion"; adjacent periodic trends (electronegativity vs. atomic radius).
+- **Cite a real source or say "general knowledge."** `source` should be `'OATTS'` where a fact is
+  directly informed by one of the real items above, or omitted/`'general physical science'`
+  otherwise — never invent a citation you have not actually read, same rule PART 12 (VA lessons)
+  used.
+- **Sample and read the output — this is not optional.** `afoqt:selftest` proves a question is
+  well-FORMED, never well-WRITTEN. Read at least 15-20 sampled questions per chapter aloud before
+  calling this done.
+
+**Register the files** by adding `import './ps/ch01-astronomy.js';` and
+`import './ps/ch02-atomic-physics.js';` in a new `// --- Physical Science` section of
+`templates/index.js`. That file is the one exception to "touch only the files your part names."
+
+**Verify:**
+```
+npm run afoqt:selftest
+npm run afoqt:coverage
+npm run afoqt:sample -- --only=ps-astronomy-b2-id
+npm run afoqt:sample -- --only=ps-atomic-physics-b4-recall
+```
+(substitute your actual `idBase` values in the last two — whatever you pass to `factTemplates`).
+`afoqt:coverage` must stop reporting `ps-solar-system`, `ps-earth-motion-seasons`,
+`ps-eclipses-moon-phases`, `ps-stars-and-universe`, `ps-atomic-structure`,
+`ps-electron-energy-levels`, `ps-periodic-trends` and `ps-radioactivity-decay` as orphans.
+
+---
+
+### PART 20B — `templates/ps/ch03-chemistry.js`, `ch04-electrical.js`
+
+**Agent:** Sonnet / medium effort. Same editorial-risk profile as PART 20 — read that part's
+"Fact-row rules" section in full, it applies here unchanged and is not repeated verbatim below.
+
+**Read first:** same as PART 20 (`engine/facts.js`, an existing `templates/av/ch*.js` file), plus
+`curriculum/chapters.js` for `ps-03-chemistry` and `ps-04-electrical`'s concepts.
+
+**Do:** create `templates/ps/ch03-chemistry.js` and `templates/ps/ch04-electrical.js`.
+
+- `ch03-chemistry.js`: **35-40 facts** across `ps-states-of-matter`,
+  `ps-periodic-table-organization`, `ps-physical-chemical-change`, `ps-acids-and-bases`. Real
+  items: `oatts-PS-051` (states of matter), `oatts-PS-052` (periodic table organization),
+  `oatts-PS-053` (chemical vs. physical change).
+- `ch04-electrical.js`: **35-40 facts** across `ps-circuit-fundamentals`,
+  `ps-resistance-and-conductors`, `ps-circuit-components`, `ps-magnetism-and-electromagnetism`.
+  Real items: `oatts-PS-054` (series circuit current), `oatts-PS-055` (what decreases
+  resistance), `oatts-PS-056` (what a switch does).
+
+Follow PART 20's fact-row rules exactly (identify stem never authored, gloss never shouts, give
+every fact a `recallStem` by default, confusions stay in-chapter, cite `'OATTS'` or general
+knowledge honestly, sample and read the output). Good same-chapter confusion candidates: "solid"
+vs "crystalline solid" vs "amorphous solid"; "mixture" vs "compound" vs "solution"; "series" vs
+"parallel" circuit behavior; "conductor" vs "insulator" vs "semiconductor".
+
+**Register the files** in `templates/index.js`, alongside PART 20's imports.
+
+**Verify:**
+```
+npm run afoqt:selftest
+npm run afoqt:coverage
+npm run afoqt:sample -- --only=ps-chemistry-b3-id
+npm run afoqt:sample -- --only=ps-electrical-b2-recall
+```
+(substitute your actual `idBase` values). `afoqt:coverage` must stop reporting
+`ps-states-of-matter`, `ps-periodic-table-organization`, `ps-physical-chemical-change`,
+`ps-acids-and-bases`, `ps-circuit-fundamentals`, `ps-resistance-and-conductors`,
+`ps-circuit-components` and `ps-magnetism-and-electromagnetism` as orphans.
+
+---
+
+### PART 21 — `templates/ps/ch05-light.js`, `ch06-mechanics.js`
+
+**Agent:** Sonnet / medium effort. Same editorial-risk profile as PART 20.
+
+**Read first:** same as PART 20, plus `curriculum/chapters.js` for `ps-05-light` and
+`ps-06-mechanics`'s concepts. **Then read the "⚠ Mechanics overlap with Aviation Information"
+note in the PART 19 design record above before writing a single `ch06-mechanics.js` row** —
+`av-02-forces` already covers Newton's laws for flight (airfoils, lift/drag); this chapter is the
+same physics from an everyday, non-aviation angle (blocks, ramps, tug-of-war), and nothing
+mechanically stops a duplicate from shipping since the two chapters use different concept ids.
+
+**Do:** create `templates/ps/ch05-light.js` and `templates/ps/ch06-mechanics.js`.
+
+- `ch05-light.js`: **35-40 facts** across `ps-light-wave-properties`,
+  `ps-reflection-and-refraction`, `ps-lenses-and-mirrors`, `ps-electromagnetic-spectrum`. Real
+  items: `oatts-PS-057` (a true statement about light), `oatts-PS-058` (reflection naming),
+  `oatts-PS-059` (the wave property that determines color and survives a medium change —
+  frequency, not wavelength or speed).
+- `ch06-mechanics.js`: **35-40 facts** across `ps-newtons-laws-general`, `ps-friction`,
+  `ps-simple-machines`, `ps-equilibrium-and-net-force`. Real items: `oatts-PS-060` (what friction
+  does to a moving object), `oatts-PS-061` (balanced forces in a stationary tug-of-war),
+  `oatts-PS-062` (why an inclined plane is used).
+
+Follow PART 20's fact-row rules exactly. Good same-chapter confusion candidates: "reflection" vs
+"refraction" vs "diffraction"; "concave" vs "convex" lens/mirror behavior; "mass" vs "weight";
+"static friction" vs "kinetic friction"; "speed" vs "velocity" vs "acceleration".
+
+**Register the files** in `templates/index.js`.
+
+**Verify:**
+```
+npm run afoqt:selftest
+npm run afoqt:coverage
+npm run afoqt:sample -- --only=ps-light-b4-id
+npm run afoqt:sample -- --only=ps-mechanics-b2-recall
+```
+(substitute your actual `idBase` values). `afoqt:coverage` must stop reporting
+`ps-light-wave-properties`, `ps-reflection-and-refraction`, `ps-lenses-and-mirrors`,
+`ps-electromagnetic-spectrum`, `ps-newtons-laws-general`, `ps-friction`, `ps-simple-machines`
+and `ps-equilibrium-and-net-force` as orphans.
+
+---
+
+### PART 21B — `templates/ps/ch07-sound.js`, `ch08-thermodynamics.js`
+
+**Agent:** Sonnet / medium effort. Same editorial-risk profile as PART 20. Smaller part than
+20/20B/21 — these are the two 3-concept chapters, so a lighter row count is correct, not a
+shortfall.
+
+**Read first:** same as PART 20, plus `curriculum/chapters.js` for `ps-07-sound` and
+`ps-08-thermodynamics`'s concepts.
+
+**Do:** create `templates/ps/ch07-sound.js` and `templates/ps/ch08-thermodynamics.js`.
+
+- `ch07-sound.js`: **28-32 facts** across `ps-sound-wave-properties`,
+  `ps-sound-propagation-medium`, `ps-wave-behavior-diffraction-doppler`. Real items:
+  `oatts-PS-063` (compression/rarefaction), `oatts-PS-064` (sound travels fastest in which
+  medium — a solid, not a gas), `oatts-PS-065` (what determines pitch), `oatts-PS-066`
+  (diffraction — sound bending around obstacles).
+- `ch08-thermodynamics.js`: **28-32 facts** across `ps-heat-transfer-methods`,
+  `ps-laws-of-thermodynamics`, `ps-thermal-expansion-phase-change`. Real items: `oatts-PS-067`
+  (conduction — direct-contact heat transfer), `oatts-PS-068` (the first law of thermodynamics),
+  `oatts-PS-069` (what heating does to particles).
+
+Follow PART 20's fact-row rules exactly. Good same-chapter confusion candidates: "pitch" vs
+"volume/loudness" vs "timbre"; "reflection" (echo) vs "diffraction" vs "the Doppler effect";
+"conduction" vs "convection" vs "radiation"; first/second/third law of thermodynamics against
+each other.
+
+**Register the files** in `templates/index.js`.
+
+**Verify:**
+```
+npm run afoqt:selftest
+npm run afoqt:coverage
+npm run afoqt:sample -- --only=ps-sound-b3-id
+npm run afoqt:sample -- --only=ps-thermodynamics-b4-recall
+```
+(substitute your actual `idBase` values). `afoqt:coverage` must stop reporting `ps-sound-*` and
+`ps-heat-transfer-methods`, `ps-laws-of-thermodynamics`, `ps-thermal-expansion-phase-change` as
+orphans — this should be the LAST part that clears any `ps-*` concept off the orphan list.
+
+---
+
+### PART 22 — PS lessons, all 8 chapters
+
+**Agent:** Sonnet / medium effort. No structural validator — hallucinated science facts or
+teaching something no template tests will pass `afoqt:coverage` silently (it only checks concept
+ids, not lesson accuracy). Flash and Haiku are not suitable for the same reason PART 12 (VA
+lessons) ruled them out.
+
+**Read first:** all 8 `ps-*` entries in `curriculum/chapters.js`, `curriculum/lessons.js` (the
+import + map pattern), and two existing lessons as model — `curriculum/chapters/av/ch01-*.md`
+(fact-heavy, knowledge-subtest voice, closest analogue) and `curriculum/chapters/wk/ch01-method.md`
+(shorter, for pacing). This part should not run until PARTS 20/20B/21/21B have landed — pull
+example facts FROM the finished `templates/ps/ch*.js` files so the lesson and the questions
+cannot drift, the same instruction WK's lesson parts followed.
+
+**Do:** create `curriculum/chapters/ps/` and write eight lesson files, one per chapter
+(`ch01-astronomy.md` through `ch08-thermodynamics.md`), each covering exactly the concepts its
+chapter declares in `curriculum/chapters.js`. Every fact-heavy chapter (like Aviation
+Information's) reads best as a short method/orientation paragraph plus a reference table pulling
+straight from the registered fact rows — not prose repeating sixty definitions in sentence form.
+
+**Then register all eight** in `curriculum/lessons.js`: a `?raw` import per file plus a
+`'ps-01-astronomy': ps01,` style map entry, keyed by the exact chapter id. That file is the one
+exception to "touch only the files your part names."
+
+**The binding rule applies in both directions (Doctrine rule 2):** every concept a chapter
+declares must be TAUGHT in its lesson; the lesson must NOT teach anything no template tests. Do
+not invent statistics, and do not cite a source you have not read in this packet.
+
+**Verify:**
+```
+npm run afoqt:coverage
+```
+No orphan concepts for any `ps-*` chapter. Then confirm the markdown renders as plain markdown
+(no raw HTML, no unclosed fences) and heading levels match the model lessons.
+
+---
+
+### PART 23 — PS test suite
+
+**Agent:** Sonnet / medium effort. Mechanical in structure, but the "do not weaken an assertion"
+trap applies here exactly as it did for WK/VA.
+
+**Read first:** `engine/__tests__/aviation.test.js` as the closest model — it is the only
+existing test file for `engine/facts.js`'s generic behavior, written against Aviation
+Information's own data. `engine/__tests__/words.test.js` for the `_reset*`/anti-vacuity pattern
+(rule 12 in section 3 of this file). Then `engine/facts.js` in full.
+
+**Do:** create `engine/__tests__/physicalScience.test.js`. Vitest, `node` environment (no jsdom
+docblock). Cover:
+
+1. **Validator rejection.** Each `throw` in `registerFacts` gets a test that feeds it input which
+   SHOULD fail and asserts it does (missing term/gloss, band out of range, no concepts declared,
+   a shouting gloss, `identify: false` with no `recallStem`).
+2. **`shoutedWord()`** — true for a genuine emphasis word, false for an allowlisted acronym
+   (reuse a couple from Aviation Information's list plus any new one PART 20-21B's report flags).
+3. **`identifyStem()`** — capitalizes the term, does not otherwise alter it.
+4. **Bank invariants over the real registered PS rows** (import `../../templates/index.js` to
+   load everything, same as `aviation.test.js` does): every fact id unique across the whole PS
+   bank; every fact's `concepts` are declared by its chapter in `curriculum/chapters.js`; every
+   `confusions` entry resolves to an id that exists AND shares that fact's chapter; no gloss
+   shouts; every `sentence`/`gloss` combination reads as a real predicate (spot check a sample,
+   don't try to automate the editorial judgment — that's what PART 20-21B's own read-aloud step
+   is for).
+5. **Determinism:** `generateInstance(id, seed)` twice gives a byte-identical question, for a
+   `ps-*` template of each frame (identify and recall).
+6. **Slate integrity** over every `ps-*` template at a few hundred seeds: five distinct choices,
+   `correctIndex` in range 0-4, no choice text equal to another.
+
+Do not weaken an assertion to make it pass. If a test finds a real defect in the bank, leave the
+test failing and report it.
+
+**Verify:**
+```
+npx vitest run src/pages/theknowledgebase/afoqt/engine/__tests__/physicalScience.test.js
+```
+This part is the one exception to the no-install rule: vitest needs `node_modules`. If the
+packet has none, run `npm install` for this part only, and say so in your report.
 
 ---
 

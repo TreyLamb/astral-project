@@ -6,7 +6,7 @@
 // to "solve it" and the answer to "how many solutions" are different objects.
 
 import { registerTemplate } from '../../engine/generator.js';
-import { poly, largestSquareFactor } from '../util.js';
+import { poly, largestSquareFactor, binom } from '../util.js';
 
 registerTemplate({
   id: 'mk-quadratic-roots-factoring',
@@ -173,6 +173,48 @@ registerTemplate({
       choices, correctIndex,
       tags: ['algebra'],
       explanation: `Roots ${r1} and ${r2} come from (x ${-r1 < 0 ? '-' : '+'} ${Math.abs(r1)})(x ${-r2 < 0 ? '-' : '+'} ${Math.abs(r2)}) = 0. Expanded: x² - (sum)x + (product) = ${correct}. The middle coefficient is the NEGATIVE of the sum - that sign is the whole item.`,
+    };
+  },
+});
+
+// ⭐ Band 5 / `stretch`. Completing the square is a full derivation this chapter has never
+// asked for - `mk-parabola-vertex` (band 4) hands you the -b/2a shortcut and skips the algebra
+// that produces it. This is that algebra, which is a genuinely different (and slower) skill,
+// not a harder version of the shortcut. Scoped to a MONIC leading coefficient (a = 1) and an
+// EVEN b on purpose, so h = -b/2 is always a clean integer - non-monic completing the square
+// introduces fractions and is real future stretch work, not attempted here.
+registerTemplate({
+  id: 'mk-complete-the-square',
+  subtest: 'MK',
+  band: 5,
+  stretch: true,
+  name: 'Completing the square',
+  concepts: ['complete-the-square'],
+  calibratedAgainst: 'trivium',
+  generate: (rng, h) => {
+    let k = h.int(-9, 9);
+    if (k === 0) k = 3; // k = 0 collapses the whole exercise - no term to complete
+    const b = 2 * k;
+    const c = h.int(-15, 15);
+    // h = -b/2 = -k exactly, by construction. k_val = c - (b/2)^2 = c - k^2.
+    const hVal = -k;
+    const kVal = c - k * k;
+    const bracket = (inner) => `(${binom('x', inner)})^2`;
+    const correct = binom(bracket(hVal), kVal);
+    // Error modes: forgot to subtract the (b/2)^2 adjustment back out at all; flipped the sign
+    // inside the bracket (used +b/2 instead of -b/2); used b instead of b/2 inside the bracket
+    // (forgot to halve before squaring); squared b instead of b/2 in the OUTER adjustment.
+    const { choices, correctIndex, errors, whys } = h.choices(correct, [
+      { value: binom(bracket(hVal), c), error: 'forgot-adjustment', why: 'completed the square inside the brackets but never subtracted the adjustment back out' },
+      { value: binom(bracket(-hVal), kVal), error: 'bracket-sign', why: 'used the same sign as b inside the bracket instead of its negative' },
+      { value: binom(bracket(-b), kVal), error: 'forgot-halve', why: 'used b itself inside the bracket instead of halving it first' },
+      { value: binom(bracket(hVal), c - b * b), error: 'squared-b-not-half', why: 'squared b itself for the adjustment instead of squaring b/2' },
+    ]);
+    return {
+      stem: `Write y = ${poly([1, b, c])} in vertex form by completing the square.`,
+      choices, correctIndex, errors, whys,
+      tags: ['algebra', 'coordinate'],
+      explanation: `Half of b is ${k}; add and subtract ${k}² = ${k * k} inside to get ${correct}. The bracket uses HALF of b with the opposite sign, and whatever you add inside must be subtracted back outside to keep the equation the same.`,
     };
   },
 });

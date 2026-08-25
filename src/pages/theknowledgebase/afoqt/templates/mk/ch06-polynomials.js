@@ -9,6 +9,17 @@
 import { registerTemplate } from '../../engine/generator.js';
 import { poly, binom, gcd } from '../util.js';
 
+// ⭐ Band 5 / `stretch`. Sum and difference of cubes is a DIFFERENT pattern from every other
+// factoring template in this chapter (GCF, difference of squares, trinomial, AC-method) - it is
+// not a wider parameter range on one of those, which is what the doctrine requires a new band to
+// be. It is also genuinely beyond real AFOQT Math Knowledge (Barron's calibration target does
+// not cover it) and squarely Trivium-ceiling material: concept mastery, not pace practice, so it
+// registers `stretch: true` and is untimed by default in the runner.
+//
+// The teaching device is the mnemonic SOAP - Same sign as the original, Opposite sign in the
+// middle term, Always Positive last term - and the headline distractor is a candidate confusing
+// this pattern with difference of squares (same look, wrong factor count).
+
 const VARS = ['x', 'y', 'a', 'n'];
 
 registerTemplate({
@@ -228,6 +239,48 @@ registerTemplate({
       choices, correctIndex,
       tags: ['algebra', 'factoring'],
       explanation: `AC method: ${a} x ${c} = ${a * c}. Find two numbers multiplying to ${a * c} and adding to ${b} (${p * s} and ${q * r}), split the middle term, then factor by grouping: ${correct}. Multiply the outer and inner terms back out - swapping the constants gives the right ${c} and the wrong middle term.`,
+    };
+  },
+});
+
+registerTemplate({
+  id: 'mk-factor-sum-diff-cubes',
+  subtest: 'MK',
+  band: 5,
+  stretch: true,
+  name: 'Factoring a sum or difference of cubes',
+  concepts: ['factor-sum-diff-cubes'],
+  calibratedAgainst: 'trivium',
+  generate: (rng, h) => {
+    // q >= 2 on purpose: at q = 1, the "used the CUBE instead of the square" distractor
+    // (q^3 in place of q^2) collapses onto the correct answer, since 1^3 === 1^2.
+    const p = h.int(1, 4);
+    const q = h.int(2, 6);
+    const v = h.pick(VARS);
+    const sign = h.int(0, 1) ? 1 : -1; // +1 = sum of cubes, -1 = difference of cubes
+    const pv = p === 1 ? v : `${p}${v}`;
+    const p2 = p * p, q2 = q * q, pq = p * q;
+    const trinomial = poly([p2, -sign * pq, q2], v);
+    const correct = `(${binom(pv, sign * q)})(${trinomial})`;
+    // Error modes, all named for the SOAP mnemonic they violate:
+    //   1. Confused the pattern with difference of squares entirely (binomial x binomial).
+    //   2. SOAP's middle "Opposite" violated - used the SAME sign as the binomial.
+    //   3. SOAP's first "Same" violated - flipped the binomial's own sign.
+    //   4. Dropped the cross term altogether (forgot the middle term exists at all).
+    //   5. SOAP's "Always Positive" violated by construction - cubed instead of squared the
+    //      last term, which is also the SPECIFIC reason it says squared, not cubed.
+    const { choices, correctIndex, errors, whys } = h.choices(correct, [
+      { value: `(${binom(pv, sign * q)})(${binom(pv, -sign * q)})`, error: 'squares-pattern', why: 'treated this like a difference of squares - two binomials, not a binomial and a trinomial' },
+      { value: `(${binom(pv, sign * q)})(${poly([p2, sign * pq, q2], v)})`, error: 'soap-opposite', why: 'used the SAME sign as the binomial for the middle term - SOAP says Opposite there' },
+      { value: `(${binom(pv, -sign * q)})(${trinomial})`, error: 'soap-same', why: 'flipped the sign of the binomial itself - SOAP says the first sign matches the original' },
+      { value: `(${binom(pv, sign * q)})(${poly([p2, 0, q2], v)})`, error: 'dropped-cross-term', why: 'dropped the middle term of the trinomial entirely' },
+      { value: `(${binom(pv, sign * q)})(${poly([p2, -sign * pq, q * q * q], v)})`, error: 'cubed-not-squared', why: 'cubed the last term instead of squaring it - SOAP\'s "Always Positive" term is squared, never cubed' },
+    ]);
+    return {
+      stem: `Factor completely: ${poly([p ** 3, 0, 0, sign * q ** 3], v)}`,
+      choices, correctIndex, errors, whys,
+      tags: ['algebra', 'factoring'],
+      explanation: `${sign > 0 ? 'Sum' : 'Difference'} of cubes factors as a binomial times a trinomial: ${correct}. Remember SOAP - Same sign as the original, Opposite sign in the middle term, Always Positive last term. This pattern is beyond the real test's calibration target - it is here for depth, not pace.`,
     };
   },
 });

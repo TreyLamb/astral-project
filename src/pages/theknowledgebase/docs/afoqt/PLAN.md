@@ -26,7 +26,7 @@ and know exactly where to pick up. Update it at the end of every working block.
 | **8** | Arithmetic Reasoning | ✅ **DONE** |
 | **9** | Word Knowledge | 🟨 **Templates + gates DONE; lessons and tests open** |
 | **10** | Verbal Analogies | ⬜ Not started |
-| **11** | Reading Comprehension | ⬜ Not started |
+| **11** | Reading Comprehension | 🟨 Passage engine done + sheet-mode fixed 2026-08-24; data/lessons/tests farmable (HANDOFF Parts 15-18) |
 | **12** | Physical Science *(unscored)* | ⬜ Not started |
 | **13** | Situational Judgment + SDI *(unscored)* | ⬜ Not started |
 | **14** | Exam sim, composite scoring, diagnostic, dashboard | ⬜ Not started |
@@ -1258,3 +1258,154 @@ its own brief and verify block, plus the paste-ready prompt and the zip recipe. 
 three QC gates run on bare node with no `npm install`** in a packet of `package.json` +
 `scripts/afoqt*.mjs` + `src/pages/theknowledgebase/` (about 2.8 MB without `ResearchPics/`).
 Tick a PART's box the moment it is finished.
+
+---
+
+## 2026-08-24 — RC passage engine unblocked (Claude-only, HANDOFF PART 14 fix record)
+
+Trey is about to farm out the next wave (VA Parts 10-13, already unlocked and untouched by this
+session). This session's job was to unblock what was still locked: the three defects the
+2026-08-24 PART 14 review found in `engine/passage.js`. All three are fixed; see the full record
+in `docs/afoqt/HANDOFF.md` under "PART 14 fix record". Short version:
+
+1. **Sheet mode wired in.** RC now shares one passage across a `sheetSpan`-sized block of
+   consecutive questions (default 5), the same mechanism Table Reading and Block Counting
+   already use, instead of drawing an independent random passage almost every question.
+   Confirmed with a synthetic-data script (not committed) before touching real content.
+2. **`rc-01-method`'s two concepts (`rc-time-management`, `rc-reading-strategy`) auto-tag onto
+   every RC template**, mirroring how VA's `va-01-method` concepts ride along on every
+   `relationTemplates` output. They were previously unreachable by any coverage path.
+3. **`lineNumbered` is now validated**, and passage `text` is required to carry literal `\n`
+   line breaks when it does — because a fourth defect turned up while fixing the other three:
+   **`render/Figure.jsx` had no `'passage'` case at all.** A registered RC template would have
+   generated a perfectly valid question with nothing rendered above the stem. New
+   `render/PassageView.jsx` numbers every line (not every 5th — the numbering exists only so an
+   item can point at one) and is now wired into `Figure.jsx`.
+
+**Trey's call on sheet mode, and how it resolved:** asked whether to keep one passage "loaded"
+across its questions (matching the real subtest) or accept the fresh-passage shuffle. He said
+yes to keeping it loaded, and separately asked whether answers should be hidden until the whole
+passage's block of questions is done. Checked `DrillRunner.jsx` first rather than assume: it
+already never reveals correct/incorrect until the full drill's summary screen, for every
+subtest. So the sheet fix alone delivers what he asked for — the passage panel now stays
+mounted (same `text` prop across consecutive questions) with no runner change needed. Per-
+question storage writes stay immediate, same as every other subtest, since deferring them would
+add real risk (an app closed mid-passage) for zero visible benefit.
+
+**Unlocked as a result:** HANDOFF PARTS 15 and 16 (RC passages, bands 2-3 and 4-5) flipped from
+`[P]` paused to `[ ]` ready, with their Do/Verify blocks rewritten to the section-6 standard —
+including a new authoring rule (line-break format in `text`, and a per-passage question-type
+spread requirement so the sheet mechanism doesn't visibly repeat a thin passage's one question of
+a type). PART 17 (RC lessons) needed no change — its concept list already matched the resolved
+`rc-01-method` ownership.
+
+**Verification run:** `npm run afoqt:check` — selftest clean (`233 templates x 400 instances,
+all templates hold their contract`); coverage still reports every `va-*` and `rc-*` concept as
+an orphan, which is the documented "already red" work-board state (HANDOFF section 3, rule 11),
+not a regression — nothing farms data into those concepts yet. `npx vitest run
+src/pages/theknowledgebase/` — 1977 passed, 11 failed, and all 11 are that same pre-existing
+VA/RC orphan state (confirmed by reading every failure). No test outside `curriculum.test.js`
+was affected by this session's changes.
+
+### Not done this session, worth flagging for whoever picks up PART 15/16 next
+
+- The sheet-selection fallback path (a template's concept has no eligible question on the
+  sheet's current passage) was exercised in the synthetic check but not against real content -
+  it degrades safely (falls back to any eligible question in the band and reports its own
+  passage as the sheetSeed) but has not been seen with a real 12-24-passage bank yet. Worth
+  eyeballing once PART 15 lands.
+- Phase 12 (Physical Science) design was NOT started this session - `PART 19` is still `[L]`
+  locked. It is the next Claude-only design task behind a live session, the same shape as VA's
+  PART 8, and `engine/facts.js` (built for Aviation Information in Phase 5) is already flagged
+  as reusable for it.
+
+---
+
+## 2026-08-25 — Physical Science unlocked, MK stretch band seeded, review-tool research doc
+
+Autonomous session while Trey stepped away, per his instruction: answer his standing questions
+up front, then keep unlocking whatever's next without pausing to ask, and report back when he's
+back. Three pieces of real work landed; decisions made along the way are called out below since
+nobody reviewed them in real time.
+
+### Physical Science fully unlocked (PART 19, then PARTS 20-23 written)
+
+8 chapters, 30 concepts, added to `curriculum/chapters.js` under a new `science` track -
+grounded in the 25 official OATTS Physical Science items already in the repo
+(`afoqt/data/realQuestions.json`), which split evenly across exactly 8 real areas. Full record
+in `docs/afoqt/HANDOFF.md` under "PART 19 design record." Two decisions worth flagging:
+
+- **This supersedes HANDOFF's original placeholder split** ("mechanics, forces, energy" / "matter,
+  chemistry, earth and space") - that guess was written before anyone pulled the real 25 items
+  and does not match the actual taxonomy. Checked the primary source before designing, same
+  discipline the figure-bearing subtests required.
+- **No new engine needed.** `engine/facts.js` (built for Aviation Information) is reused as-is -
+  unlike VA, which needed a new `engine/analogy.js`. Part 19's whole job was curriculum design.
+
+PARTS 20/20B/21/21B (fact rows, split VA's `10`/`10B` way so downstream part numbers don't
+shift), 22 (lessons) and 23 (test suite) are now fully detailed and farmable. Trey confirmed
+full-depth investment (parity with Aviation Information's ~370 facts / ~11 chapters) over a
+lighter unscored-subtest pass, given his "dominate every topic" goal.
+
+### MK band-5 `stretch` seeded, and it was unreachable from any view until now
+
+Trey said yes to building this (a standing question in this file - "worth Trey's decision" - had
+sat unanswered for a while). Three new templates, one each in `ch06-polynomials.js`
+(`mk-factor-sum-diff-cubes`), `ch07-quadratics.js` (`mk-complete-the-square`) and
+`ch11-right-triangles-solids.js` (`mk-space-diagonal`, in the chapter covering Trey's named
+weakest area). Each is a genuinely different skill from anything already in its chapter at bands
+1-4, not a wider parameter range - doctrine requires that distinction and it was checked
+deliberately for each one (see each template's file comment).
+
+**Real defect caught by reading the output aloud, exactly the kind structural checks can't see:**
+`mk-complete-the-square`'s hand-typed explanation string had an inverted sign ternary - it
+printed "y = (x + 4)² - 9" and then immediately said "i.e. (x - 4)² - 9" in the same sentence.
+The actual answer choices were never wrong (computed correctly via `binom()`), only the
+redundant hand-typed restatement in the explanation was - which is its own lesson: the fix was
+to delete the hand-typed restatement entirely and lean on the already-correct `correct` variable,
+rather than trying to fix the sign by hand a second time.
+
+**A second thing found in the same pass, not originally part of Part 33's scope:** `stretch`
+content had a UI reachability gap. `assembleDrill`'s `includeStretch` parameter existed and
+worked, but no view ever passed `true` for it - `DrillConfig.jsx` had no control for it at all.
+Band 5 could have been "done" by every structural check while remaining completely invisible to
+Trey, the same class of bug the UI feature contract section of the root CLAUDE.md exists to
+catch ("a toggle must do the thing it claims"). Fixed: a "Depth" section in `DrillConfig.jsx`,
+off by default, shown only for a subtest that actually has stretch templates, forces untimed the
+moment it's enabled, and is mutually exclusive with exam mode in both directions (a "Full
+subtest" simulation has to stay an honest replica of the real test, which has zero band-5
+content).
+
+**Explicitly NOT done:** the other 10 MK chapters have no band-5 tier. This was scoped as a seed
+that proves the mechanism end-to-end (content + reachable UI path), not full stretch coverage of
+the math track - continuing it to more chapters is genuine future work, flagged rather than
+silently implied as finished.
+
+**Verification:** `npm run afoqt:selftest -- --samples=8000` clean (236 templates, band 5 now
+shows 3 - was 0). One structural finding along the way, not a defect: `mk-space-diagonal`'s
+curated table of 10 exact-diagonal triples has two entries that collide when scaled (3-4-12-13 x2
+equals 6-8-24-26; 2-3-6-7 x2 equals 4-6-12-14, both already-scaled primitives happening to
+already be in the table) - declared `stemSpace: 18` (the measured true count) rather than the
+intended 20, following the project's own "declare the bound as measured" convention.
+`npm run afoqt:coverage` clean for the three new concepts. `npm run build` clean. `npx vitest run`
+- 1980 passed, 19 failed, all 19 the documented pre-existing VA/RC/PS "no data yet" pattern (was
+11 before this session; +8 is exactly the 8 new PS chapters getting the same "no lesson yet"
+failure VA/RC already had - not a regression).
+
+### Review-tool design research (not implemented, Trey's to review)
+
+Answered Trey's "I'm worried this isn't great to use long term" concern with actual research
+(spaced repetition / FSRS vs SM-2, retrieval practice, interleaving, UWorld/Anki/CAT patterns,
+gamification pitfalls), audited against the ACTUAL current code rather than from memory, and
+wrote it up at `docs/afoqt/REVIEW-TOOL-DESIGN-RESEARCH.md`. Headline finding: the engine already
+does several research-backed things well (per-template regeneration defeats answer-memorization
+harder than a static Anki card can; distractors as named error-modes is close to unheard-of in
+commercial tools), but the miss-pool is a flat 10% injection rate rather than an adaptive
+priority, and there's no dedicated "drill just my misses" mode - both flagged as cheap, clearly
+worth doing, neither implemented pending Trey's read.
+
+### Also saved this session, for Trey's own reference (not doctrine)
+
+`docs/afoqt/ENGINE-VS-CONTENT-QA.md` - answers his question about how much of a farmed VA/RC
+part is "real" engine-generated variety vs. literally the words a farmed agent typed. Marked
+Claude-ignore at the top; it's a personal note, not a work-board entry.

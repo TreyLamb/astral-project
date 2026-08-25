@@ -269,6 +269,21 @@
 }
 .afq-tg-key { display: inline-block; width: .8rem; height: .8rem; border-radius: 3px; margin-right: .25rem; vertical-align: -1px; }
 
+/* --- figures: the Reading Comprehension passage ----------------------------
+   Unlike the grid/dials/pile figures, this one is prose and wants a COMFORTABLE READING
+   MEASURE, not the full wide-runner column - a 500-word passage stretched to 1160px would run
+   far too many characters per line. Capped independently of .afq-runner-wide's 620px stem/
+   choices rule, which is for a short question line, not a passage. */
+.afq-rc-fig { max-width: 700px; margin: 0 auto 1.1rem; }
+.afq-rc-text { font-size: .95rem; line-height: 1.6; color: var(--tkb-ink); }
+.afq-rc-numbered { display: flex; flex-direction: column; }
+.afq-rc-line { display: flex; gap: .6rem; }
+.afq-rc-lineno {
+  flex: 0 0 2rem; text-align: right; color: var(--tkb-ink-soft); font-size: .75rem;
+  font-variant-numeric: tabular-nums; user-select: none; padding-top: .15rem;
+}
+.afq-rc-linetext { flex: 1 1 auto; }
+
 /* --- error-mode breakdown -------------------------------------------------
    The payoff for insisting every distractor is a named mistake: a score becomes a diagnosis. */
 .afq-modes {

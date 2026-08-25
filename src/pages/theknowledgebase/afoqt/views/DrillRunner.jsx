@@ -66,6 +66,10 @@ export default function DrillRunner() {
   const mode = params.get('mode') ?? progress.settings.mode;
   const pressure = Number(params.get('pressure') ?? progress.settings.pressure);
   const timed = mode !== 'untimed';
+  // Band 5 / `stretch` - see DrillConfig.jsx for why this is the only place that ever sets
+  // includeStretch: true. Exam mode never carries this param (DrillConfig clears it the moment
+  // exam is chosen), so a real-test simulation still can't accidentally include ceiling content.
+  const includeStretch = params.get('stretch') === '1';
 
   // A chapter-scoped run: the test-out gate, the chapter drill, or the mastery check.
   const chapter = getChapter(params.get('chapter') ?? '');
@@ -94,9 +98,10 @@ export default function DrillRunner() {
       // A gate has to be an honest sample of the chapter, so no miss-pool weighting.
       ignoreMissPool: isGate,
       exam: isExam,
+      includeStretch,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subtest, count, chapter?.id, isGate, isExam]);
+  }, [subtest, count, chapter?.id, isGate, isExam, includeStretch]);
 
   // A 33x33 Table Reading grid needs about 950px; a question stem reads best at 760. So the
   // column widens only when the questions actually carry a figure, rather than making every

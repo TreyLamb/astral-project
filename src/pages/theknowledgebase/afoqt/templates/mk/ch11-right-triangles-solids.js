@@ -244,3 +244,54 @@ registerTemplate({
     };
   },
 });
+
+// Exact space-diagonal quadruples [l, w, h, d] with l^2 + w^2 + h^2 = d^2 - the 3D analogue of
+// TRIPLES. Verified by hand: e.g. 1^2+2^2+2^2 = 1+4+4 = 9 = 3^2.
+const BOX_TRIPLES = [
+  [1, 2, 2, 3], [2, 3, 6, 7], [2, 6, 9, 11], [3, 4, 12, 13], [4, 4, 7, 9],
+  [3, 6, 6, 9], [1, 4, 8, 9], [2, 10, 11, 15], [6, 8, 24, 26], [4, 6, 12, 14],
+];
+
+// ⭐ Band 5 / `stretch`. No template in this chapter (or anywhere in the math track) applies
+// Pythagoras in three dimensions - `mk-surface-area-box` and the volume templates work the same
+// rectangular box but never ask for its diagonal. This is genuinely the next step up: run the
+// 2D theorem TWICE (once across the base, once up to the opposite corner), which is exactly the
+// derivation of d = sqrt(l^2 + w^2 + h^2). Geometry is Trey's named weakest area, so this
+// chapter is where this project's first stretch-band 3D item belongs.
+registerTemplate({
+  id: 'mk-space-diagonal',
+  subtest: 'MK',
+  band: 5,
+  stretch: true,
+  // Bounded on purpose - see mk-volume-sphere's stemSpace for the same reasoning. 10 curated
+  // exact-diagonal triples x 2 scale factors gives 20 draws, but two collide (3-4-12-13 x2 ==
+  // 6-8-24-26, and 2-3-6-7 x2 == 4-6-12-14 - both scaled primitives happen to already be in the
+  // table), so the true distinct count is 18. Declared as measured rather than as intended.
+  stemSpace: 18,
+  name: 'Space diagonal of a rectangular box',
+  concepts: ['space-diagonal'],
+  calibratedAgainst: 'trivium',
+  generate: (rng, h) => {
+    const [l0, w0, h0, d0] = h.pick(BOX_TRIPLES);
+    const k = h.int(1, 2); // keeps six-figure coefficients off the page, same reasoning mk-volume-sphere uses
+    const l = l0 * k, w = w0 * k, ht = h0 * k, correct = d0 * k;
+    // Error modes: forgot the third dimension entirely (computed only the base's face
+    // diagonal); added the three edges instead of using Pythagoras at all; ran the formula but
+    // never took the final square root; halved the correct result by a careless slip; reached
+    // for the volume formula instead of a length formula, from the same chapter.
+    const { choices, correctIndex, errors, whys } = h.choices(correct, [
+      { value: Math.round(Math.sqrt(l * l + w * w)), error: 'dropped-a-dimension', why: 'found the diagonal of the base only and never brought the height in at all' },
+      { value: l + w + ht, error: 'added-edges', why: 'added the three edge lengths instead of applying the Pythagorean theorem' },
+      { value: l * l + w * w + ht * ht, error: 'forgot-sqrt', why: 'computed l² + w² + h² correctly but never took the final square root' },
+      { value: Math.round(Math.sqrt(l * l + w * w + ht * ht) / 2), error: 'halved-result', why: 'found the correct diagonal and then halved it' },
+      { value: l * w * ht, error: 'used-volume-formula', why: 'reached for the volume formula (l x w x h) instead of the diagonal formula' },
+      { value: Math.round(Math.sqrt(w * w + ht * ht)), error: 'dropped-a-dimension', why: 'found the diagonal of one face only and never brought the missing dimension in at all' },
+    ]);
+    return {
+      stem: `A rectangular box measures ${l} by ${w} by ${ht}. What is the length of its space diagonal - the line from one corner straight through the box to the opposite corner?`,
+      choices, correctIndex, errors, whys,
+      tags: ['geometry'],
+      explanation: `Pythagoras runs twice: first across the base, diagonal² = ${l}² + ${w}² = ${l * l + w * w}; then up to the opposite corner, d² = ${l * l + w * w} + ${ht}² = ${correct * correct}, so d = ${correct}. One application of the theorem only gets you a FACE diagonal - the space diagonal needs all three dimensions.`,
+    };
+  },
+});
