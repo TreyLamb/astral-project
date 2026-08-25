@@ -32,7 +32,7 @@ export default function StationView() {
   const ctx = { stations, levels, targets, disabled, inventory, profile, items };
   const max = maxLevelOf(station);
   const current = currentLevelOf(station, levels);
-  const target = targetLevelOf(station, targets);
+  const target = targetLevelOf(station, targets, levels);
   const off = disabled.includes(key);
 
   const setLevel = (n) => update('levels', (prev) => ({ ...prev, [key]: n }));

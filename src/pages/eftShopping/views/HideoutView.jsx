@@ -519,7 +519,7 @@ export default function HideoutView() {
       cand,
       off,
       current: currentLevelOf(station, levels),
-      target: targetLevelOf(station, targets),
+      target: targetLevelOf(station, targets, levels),
       max: maxLevelOf(station),
       visible: !hidden.includes(key) && matchesView(view, { progress, cand, off }),
     };
@@ -741,7 +741,7 @@ export default function HideoutView() {
                   value={targets[key] ?? ''}
                   onChange={(e) => setTarget(key, e.target.value === '' ? null : Number(e.target.value))}
                 >
-                  <option value="">Max ({max})</option>
+                  <option value="">Next ({Math.min(max, current + 1)})</option>
                   {Array.from({ length: max + 1 }, (_, n) => (
                     <option key={n} value={n}>{n}</option>
                   ))}

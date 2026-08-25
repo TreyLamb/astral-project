@@ -51,14 +51,22 @@ describe('snapshot integrity', () => {
 });
 
 describe('pendingLevels', () => {
-  it('returns every level of every station from a fresh account', () => {
+  it('with no explicit target, a fresh account only asks for the next level of each station', () => {
     const pending = pendingLevels(stations, { ...base, scope: 'all' });
+    expect(pending).toHaveLength(stations.length);
+    expect(pending.every((p) => p.level.level === 1)).toBe(true);
+  });
+
+  it('scope "all" returns every level of every station once targets are set to max', () => {
+    const targets = Object.fromEntries(stations.map((s) => [stationKey(s), maxLevelOf(s)]));
+    const pending = pendingLevels(stations, { ...base, targets, scope: 'all' });
     const totalLevels = stations.reduce((n, s) => n + s.levels.length, 0);
     expect(pending).toHaveLength(totalLevels);
   });
 
   it('scope "next" returns at most one level per station', () => {
-    const pending = pendingLevels(stations, { ...base, scope: 'next' });
+    const targets = Object.fromEntries(stations.map((s) => [stationKey(s), maxLevelOf(s)]));
+    const pending = pendingLevels(stations, { ...base, targets, scope: 'next' });
     const perStation = new Map();
     for (const p of pending) {
       const k = stationKey(p.station);
@@ -66,7 +74,7 @@ describe('pendingLevels', () => {
     }
     expect([...perStation.values()].every((n) => n === 1)).toBe(true);
     expect(pending.length).toBeLessThan(
-      pendingLevels(stations, { ...base, scope: 'all' }).length,
+      pendingLevels(stations, { ...base, targets, scope: 'all' }).length,
     );
   });
 
@@ -240,7 +248,10 @@ describe('upgradeCandidates', () => {
 });
 
 describe('suggestedBuildOrder', () => {
-  const { order, stranded } = suggestedBuildOrder(stations, { ...base, disabled: [] }, { limit: 200 });
+  const maxTargets = Object.fromEntries(stations.map((s) => [stationKey(s), maxLevelOf(s)]));
+  const { order, stranded } = suggestedBuildOrder(
+    stations, { ...base, targets: maxTargets, disabled: [] }, { limit: 200 },
+  );
 
   it('never places a level before its own predecessor', () => {
     const seen = new Map();
@@ -465,7 +476,15 @@ describe('helpers', () => {
   it('targetLevelOf clamps to the levels that exist', () => {
     const wb = byName('Workbench');
     expect(targetLevelOf(wb, { [stationKey(wb)]: 99 })).toBe(maxLevelOf(wb));
-    expect(targetLevelOf(wb, {})).toBe(maxLevelOf(wb));
+  });
+
+  it('targetLevelOf with no explicit target defaults to just the next level, not max', () => {
+    const wb = byName('Workbench');
+    const key = stationKey(wb);
+    expect(targetLevelOf(wb, {}, {})).toBe(1);
+    expect(targetLevelOf(wb, {}, { [key]: 2 })).toBe(3);
+    // Already maxed with nothing chosen: next level clamps to max, not past it.
+    expect(targetLevelOf(wb, {}, { [key]: maxLevelOf(wb) })).toBe(maxLevelOf(wb));
   });
 
   it('currentLevelOf clamps out-of-range saved values', () => {

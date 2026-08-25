@@ -27,16 +27,24 @@ export const itemReqsOf = (level) =>
 export const maxLevelOf = (station) =>
   station.levels.reduce((n, lv) => Math.max(n, lv.level), 0);
 
-/** Level the user is aiming this station at — their target, clamped to what exists. */
-export function targetLevelOf(station, targets) {
-  const max = maxLevelOf(station);
-  const raw = targets[stationKey(station)];
-  if (raw === undefined || raw === null || raw === '') return max;
-  return Math.max(0, Math.min(max, Number(raw)));
-}
-
 export const currentLevelOf = (station, levels) =>
   Math.max(0, Math.min(maxLevelOf(station), Number(levels[stationKey(station)] ?? 0)));
+
+/**
+ * Level the user is aiming this station at — their target, clamped to what
+ * exists. With no explicit target set, defaults to just the NEXT level above
+ * wherever the station currently stands (never straight to max) — a fresh
+ * station with nothing chosen aims at level 1, not the top of the tree.
+ */
+export function targetLevelOf(station, targets, levels) {
+  const max = maxLevelOf(station);
+  const raw = targets[stationKey(station)];
+  if (raw === undefined || raw === null || raw === '') {
+    const current = levels ? currentLevelOf(station, levels) : 0;
+    return Math.min(max, current + 1);
+  }
+  return Math.max(0, Math.min(max, Number(raw)));
+}
 
 /**
  * Every station level still to be built, given the user's current levels and
@@ -55,7 +63,7 @@ export function pendingLevels(stations, { levels, targets, disabled, scope, solo
     if (soloStation ? key !== soloStation : off.has(key)) continue;
 
     const current = currentLevelOf(station, levels);
-    const target = targetLevelOf(station, targets);
+    const target = targetLevelOf(station, targets, levels);
     if (target <= current) continue;
 
     const ceiling = scope === 'next' ? Math.min(current + 1, target) : target;
@@ -345,7 +353,7 @@ export function suggestedBuildOrder(stations, ctx, { limit = 60 } = {}) {
     const key = stationKey(station);
     if (ctx.disabled?.includes(key)) continue;
     const current = currentLevelOf(station, ctx.levels);
-    const target = targetLevelOf(station, ctx.targets || {});
+    const target = targetLevelOf(station, ctx.targets || {}, ctx.levels);
     const queue = station.levels.filter((lv) => lv.level > current && lv.level <= target);
     if (queue.length) remaining.set(key, { station, queue });
   }
@@ -411,7 +419,7 @@ export function itemNeeds(stations, itemId, { levels, targets }) {
   const needs = [];
   for (const station of stations) {
     const current = currentLevelOf(station, levels);
-    const target = targetLevelOf(station, targets);
+    const target = targetLevelOf(station, targets, levels);
     for (const lv of station.levels) {
       for (const req of itemReqsOf(lv)) {
         if (req.itemId !== itemId) continue;
@@ -526,7 +534,7 @@ export function searchItemNeeds(
 
 export function stationProgress(station, { levels, targets, inventory }) {
   const current = currentLevelOf(station, levels);
-  const target = targetLevelOf(station, targets);
+  const target = targetLevelOf(station, targets, levels);
   const max = maxLevelOf(station);
 
   let needed = 0;
