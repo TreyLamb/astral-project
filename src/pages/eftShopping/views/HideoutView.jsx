@@ -26,9 +26,9 @@ const VIEWS = [
 ];
 
 function matchesView(view, { progress, cand, off }) {
-  if (view === 'ready') return !!cand?.ready && !progress.complete;
-  if (view === 'unbuilt') return !progress.complete;
-  if (view === 'maxed') return progress.complete;
+  if (view === 'ready') return !!cand?.ready && !progress.maxed;
+  if (view === 'unbuilt') return !progress.maxed;
+  if (view === 'maxed') return progress.maxed;
   if (view === 'included') return !off;
   if (view === 'excluded') return off;
   return true;
@@ -552,15 +552,17 @@ export default function HideoutView() {
     return <div className="eft-empty">{status.loading ? 'Loading hideout data…' : 'No hideout data available.'}</div>;
   }
 
-  // A finished station has nothing left to decide. It sinks to the bottom and
-  // collapses to a one-line strip, and comes straight back up the moment its
-  // level or target changes — which is what "until its level changes" means.
-  // Emergency Wall is the one that made this obvious (it maxes at level 1, so
-  // it is complete almost immediately and then sat in the middle of the grid
-  // forever), but the rule is worth having for every station.
+  // A MAXED station has nothing left to decide, ever — not merely one that
+  // reached the goal you happened to set. It sinks to the bottom and collapses
+  // to a one-line strip, and comes straight back up the moment its level
+  // changes. Emergency Wall is the one that made this obvious (it maxes at
+  // level 1, so it is done almost immediately and then sat in the middle of
+  // the grid forever), but the rule is worth having for every station.
+  // Reaching a lower, deliberately-set goal does NOT hide the card — you still
+  // want to see it, glance at its progress, and raise the target later.
   const visible = rows
     .filter((r) => r.visible)
-    .sort((a, b) => Number(a.progress.complete) - Number(b.progress.complete));
+    .sort((a, b) => Number(a.progress.maxed) - Number(b.progress.maxed));
 
 
   return (
@@ -627,11 +629,12 @@ export default function HideoutView() {
         {visible.map(({ key, station, progress, cand, off, current, target, max }) => {
           const solo = prefs.soloStation === key;
 
-          // Finished: one line, at the bottom, until something changes. Still
+          // Maxed: one line, at the bottom, until the level changes. Still
           // fully operable — the level picker is right there, so undoing a
-          // mistaken "complete" is one click and does not need un-minimising
-          // first.
-          if (progress.complete && !expanded.includes(key)) {
+          // mistaken level is one click and does not need un-minimising first.
+          // Reaching a lower target does NOT minimise the card — only nothing
+          // left to build at all does.
+          if (progress.maxed && !expanded.includes(key)) {
             return (
               <div key={key} className="eft-station eft-is-complete eft-is-mini">
                 <span className="eft-station-minicheck">✓</span>
@@ -684,7 +687,7 @@ export default function HideoutView() {
                   {station.name}
                 </Link>
                 <div className="eft-station-tools">
-                  {progress.complete ? (
+                  {progress.maxed ? (
                     <button
                       type="button"
                       className="eft-iconbtn"

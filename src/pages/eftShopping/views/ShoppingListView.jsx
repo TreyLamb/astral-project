@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 
 import { useEft } from '../eftContext';
 import {
-  stationKey, pendingLevels, buildShoppingList, filterRows, groupRows, traderBeatsFlea,
+  stationKey, pendingLevels, buildShoppingList, filterRows, groupRows, traderBeatsFlea, compareRarity,
 } from '../eftHideoutLogic';
 import { Seg, Panel, Counter, ItemCell, useItemDetail, fmtRub, fmtShort } from '../EftBits';
 import { itemIcon } from '../eftApi';
@@ -76,13 +76,18 @@ export default function ShoppingListView() {
 
   const groups = useMemo(() => groupRows(filtered, prefs.groupBy), [filtered, prefs.groupBy]);
 
+  const rarityDir = prefs.raritySort === 'common' ? -1 : 1;
+
   // In the grid, what you still owe comes first and anything already covered
   // sinks — the opposite of alphabetical, which buries the thing you need.
+  // Within that, rarity (flippable rare→common / common→rare) is the ranking
+  // that actually matters when you're standing over a loot pile deciding what
+  // to grab first.
   const tiles = useMemo(
     () => [...filtered].sort((a, b) => Number(a.done) - Number(b.done)
-      || b.short - a.short
+      || compareRarity(a.item, b.item, rarityDir)
       || a.name.localeCompare(b.name)),
-    [filtered],
+    [filtered, rarityDir],
   );
 
   const setHave = (itemId, n) =>
@@ -149,6 +154,21 @@ export default function ShoppingListView() {
           ]}
         />
 
+        {mode === 'mine' || mode === 'grid' ? (
+          <Seg
+            value={prefs.raritySort}
+            onChange={(v) => setPref('raritySort', v)}
+            options={[
+              {
+                value: 'rare',
+                label: 'Rare → Common',
+                title: 'Violet-background, high-value items first (no real spawn-rate data — see note)',
+              },
+              { value: 'common', label: 'Common → Rare', title: 'Flip it' },
+            ]}
+          />
+        ) : null}
+
         {mode === 'grid' ? (
           <>
             <input
@@ -178,7 +198,7 @@ export default function ShoppingListView() {
       {mode === 'mine' ? (
         <>
           <MyListPanels />
-          <HideoutList rows={rows} setHave={setHave} openItem={openItem} />
+          <HideoutList rows={rows} setHave={setHave} openItem={openItem} rarityDir={rarityDir} />
         </>
       ) : null}
 
@@ -449,13 +469,15 @@ function Row({ row, setHave, openItem }) {
  * the tooltip. The common case reads at a glance and the messy case never
  * takes more than one chip's worth of room.
  */
-function HideoutList({ rows, setHave, openItem }) {
+function HideoutList({ rows, setHave, openItem, rarityDir }) {
   const [openOnly, setOpenOnly] = useState(true);
 
   const shown = useMemo(() => {
     const list = openOnly ? rows.filter((r) => !r.done) : rows;
-    return [...list].sort((a, b) => Number(a.done) - Number(b.done) || a.name.localeCompare(b.name));
-  }, [rows, openOnly]);
+    return [...list].sort((a, b) => Number(a.done) - Number(b.done)
+      || compareRarity(a.item, b.item, rarityDir)
+      || a.name.localeCompare(b.name));
+  }, [rows, openOnly, rarityDir]);
 
   return (
     <section className="eft-panel eft-hideoutlist">

@@ -6,7 +6,7 @@ import {
   pendingLevels, buildShoppingList, filterRows, groupRows,
   levelRequirements, upgradeCandidates, suggestedBuildOrder, stationProgress,
   unitCost, traderBeatsFlea, isCurrency, itemReqsOf, CURRENCY_IDS,
-  itemNeeds, searchItemNeeds,
+  itemNeeds, searchItemNeeds, rarityRank, compareRarity,
 } from './eftHideoutLogic';
 import { buildCraftIndex } from './eftCraftGraph';
 
@@ -285,7 +285,18 @@ describe('stationProgress', () => {
     const wb = byName('Workbench');
     const p = stationProgress(wb, { levels: { [stationKey(wb)]: maxLevelOf(wb) }, targets: {}, inventory: {} });
     expect(p.complete).toBe(true);
+    expect(p.maxed).toBe(true);
     expect(p.percent).toBe(100);
+  });
+
+  it('reaching a deliberately-lower target is complete but not maxed', () => {
+    const wb = byName('Workbench');
+    const key = stationKey(wb);
+    const max = maxLevelOf(wb);
+    if (max < 2) return;
+    const p = stationProgress(wb, { levels: { [key]: 1 }, targets: { [key]: 1 }, inventory: {} });
+    expect(p.complete).toBe(true);
+    expect(p.maxed).toBe(false);
   });
 
   it('scales with what is stocked', () => {
@@ -491,6 +502,21 @@ describe('helpers', () => {
     const wb = byName('Workbench');
     expect(currentLevelOf(wb, { [stationKey(wb)]: -5 })).toBe(0);
     expect(currentLevelOf(wb, { [stationKey(wb)]: 99 })).toBe(maxLevelOf(wb));
+  });
+
+  it('rarityRank puts a violet-background item ahead of everything else', () => {
+    const violet = { backgroundColor: 'violet', basePrice: 1 };
+    const grey = { backgroundColor: 'grey', basePrice: 999999 };
+    expect(rarityRank(violet).tier).toBeLessThan(rarityRank(grey).tier);
+    expect(compareRarity(violet, grey, 1)).toBeLessThan(0);
+    expect(compareRarity(violet, grey, -1)).toBeGreaterThan(0);
+  });
+
+  it('compareRarity falls back to price when neither item is violet', () => {
+    const expensive = { backgroundColor: 'default', basePrice: 500000 };
+    const cheap = { backgroundColor: 'default', basePrice: 100 };
+    expect(compareRarity(expensive, cheap, 1)).toBeLessThan(0);
+    expect(compareRarity(expensive, cheap, -1)).toBeGreaterThan(0);
   });
 
   it('unitCost falls back down the price chain and never returns null', () => {

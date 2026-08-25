@@ -74,6 +74,9 @@ export const DEFAULTS = {
     // Tile size for the grid, so the same list works on a second monitor and
     // on a phone propped against the keyboard.
     tileSize: 'md',
+    // 'rare' = violet-background/high-value items float up (see
+    // compareRarity in eftHideoutLogic), 'common' flips it.
+    raritySort: 'rare',
   },
   watchlist: SEED_WATCHLIST,
   raidKits: SEED_RAID_KITS,

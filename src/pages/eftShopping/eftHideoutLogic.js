@@ -86,6 +86,39 @@ export function unitCost(item) {
   return item.fleaBuy?.price ?? item.avg24hPrice ?? item.lastLowPrice ?? item.basePrice ?? 0;
 }
 
+// --- Rarity --------------------------------------------------------------
+
+/**
+ * A "how rare does this feel" ordering for a shopping list, since the game
+ * exposes no actual spawn-rate data. Violet is the one grid background colour
+ * players consistently read as "valuable/rare" (keycards, bitcoin, GPU,
+ * LEDX…) — no other colour in BSG's set has a similarly reliable meaning, so
+ * it is used as a headline tier and nothing more. Price (already a decent
+ * stand-in for "hard to come by") breaks every other tie.
+ *
+ * ⚠ `item.backgroundColor` only carries real data when the snapshot was last
+ * regenerated while tarkov.dev's API was reachable — it is a SPT-fallback gap
+ * (see FALLBACK_GAPS in fetchEftHideout.mjs) otherwise, and every item comes
+ * back 'default'. When that's the case this quietly degrades to a pure price
+ * sort, which is still a reasonable "rare to common" ordering on its own.
+ */
+const RARE_BACKGROUND = 'violet';
+
+export function rarityRank(item) {
+  return {
+    tier: (item?.backgroundColor || 'default') === RARE_BACKGROUND ? 0 : 1,
+    price: unitCost(item),
+  };
+}
+
+/** dir: 1 = rare → common, -1 = common → rare. */
+export function compareRarity(itemA, itemB, dir = 1) {
+  const a = rarityRank(itemA);
+  const b = rarityRank(itemB);
+  if (a.tier !== b.tier) return (a.tier - b.tier) * dir;
+  return (b.price - a.price) * dir;
+}
+
 /** Trader price only if a trader genuinely undercuts the flea. */
 export function traderBeatsFlea(item) {
   const trader = item?.bestTraderBuy;
@@ -551,7 +584,12 @@ export function stationProgress(station, { levels, targets, inventory }) {
     current,
     target,
     max,
+    // Reached the user's chosen goal — not necessarily the top of the tree.
     complete: current >= target,
+    // Truly done: nothing left to build at all. Only this should sink a
+    // station to the bottom of the grid and collapse it — meeting a
+    // deliberately-set-lower goal is still a station worth seeing.
+    maxed: current >= max,
     itemsNeeded: needed,
     itemsHave: have,
     percent: needed ? Math.round((have / needed) * 100) : 100,
