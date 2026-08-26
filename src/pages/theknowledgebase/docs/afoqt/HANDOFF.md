@@ -225,7 +225,14 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   distractor; an asymmetric degree row's `-term` question correctly DOES offer the reversed word
   as a distractor (a real error mode, not a bug). `afoqt:selftest -- --samples=8000` clean,
   `afoqt:coverage` clears `va-synonym`/`va-antonym`/`va-degree`.)*
-- [ ] **PART 11B** — `templates/va/ch05-defining-traits.js` — object-attribute rows (~24)
+- [x] **PART 11B** — `templates/va/ch05-defining-traits.js` — object-attribute rows (~24)
+  *(Claude, done 2026-08-26 — 24 rows, 8/band, mixing the classic and worker-domain readings
+  under one `relation: 'object-attribute'` tag on purpose, so buildMatch treats both readings as
+  valid same-relation partners rather than mistakenly opposing them. Zero WK-band or b-word
+  collisions this time (a preflight scan was run before touching selftest at all, once the same
+  bug class had bitten two parts in a row). `afoqt:selftest -- --samples=8000` clean,
+  `afoqt:coverage` clears `va-object-attribute`. This closes out the whole VA data block —
+  PARTS 12 (lessons) and 13 (test suite) are next.)*
 - [ ] **PART 12** — VA lessons, all five chapters
 - [ ] **PART 13** — VA test suite
 

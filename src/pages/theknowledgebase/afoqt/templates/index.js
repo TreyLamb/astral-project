@@ -85,3 +85,4 @@ import './bc/ch01-block-counting.js';
 import './va/ch02-structure.js';
 import './va/ch03-cause-consequence.js';
 import './va/ch04-meaning-degree.js';
+import './va/ch05-defining-traits.js';
