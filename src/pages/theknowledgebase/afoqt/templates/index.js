@@ -105,3 +105,10 @@ import './ps/ch05-light.js';
 import './ps/ch06-mechanics.js';
 import './ps/ch07-sound.js';
 import './ps/ch08-thermodynamics.js';
+
+// --- Situational Judgment (Phase 13) ----------------------------------------
+// Scenario rows against engine/judgment.js (PART 24). Each scenario answers two questions -
+// MOST and LEAST effective action - via the sheet mechanism, matching the real subtest's own
+// back-to-back numbering.
+import './sjt/ch02-integrity-professionalism.js';
+import './sjt/ch03-leadership.js';

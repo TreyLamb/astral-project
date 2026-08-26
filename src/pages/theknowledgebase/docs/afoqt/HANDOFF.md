@@ -390,7 +390,22 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   halves of section 4's not-farmable column at once, the same way VA needed Parts 8 AND 9. See
   "PART 24 design record" below. PARTS 25/25B/25C (scenario rows), 25D (lessons) and 25E (test
   suite) are now unblocked.)*
-- [ ] **PART 25** — `templates/sjt/ch02-integrity-professionalism.js`, `ch03-leadership.js` — scenario rows *(unblocked 2026-08-26)*
+- [x] **PART 25** — `templates/sjt/ch02-integrity-professionalism.js`, `ch03-leadership.js` — scenario rows
+  *(Claude, done 2026-08-26 — 8 scenarios each (2 band 2, 5 band 3, 1 band 4; only band 3 reaches
+  the 5-row floor per chapter, so each chapter produces exactly one working template - expected,
+  not a shortfall). One real authoring miscount caught by the QC gate itself: `ch03-leadership.js`
+  initially had only 4 band-3 rows, one short of the floor, so only `sjt-02-b3-judge` registered
+  on the first selftest run (`SJ:1` instead of the expected 2) — added an eighth scenario
+  (`sjt-difficult-02`) to reach 5. Per the brief's explicit warning that an unconvincing LEAST is
+  the easiest defect this content type ships invisibly, every LEAST answer across both files was
+  re-read against "would a reasonable officer actually pick this as worst?" after the QC gates
+  passed — two were swapped: `sjt-standards-02`'s LEAST moved from "delegate the conversation to a
+  peer" to "quietly redefine the schedule to hide the lateness" (concealment is a more serious
+  failure than delegation), and `sjt-difficult-02`'s LEAST moved from "wait for a complaint" to
+  "gossip about the behavior to other team members" (active informal discussion of a colleague's
+  behavior is worse than passive inaction). Both are judgment calls with no structural check behind
+  them, exactly as the brief warned. `afoqt:selftest -- --samples=8000` clean, `afoqt:coverage`
+  clears all 8 concepts. `npm run build` clean. PARTS 25B/25C/25D/25E remain.)*
 - [ ] **PART 25B** — `templates/sjt/ch04-resource-management.js`, `ch05-communication.js` — scenario rows *(unblocked 2026-08-26)*
 - [ ] **PART 25C** — `templates/sjt/ch06-innovation.js`, `ch07-mentoring.js` — scenario rows *(unblocked 2026-08-26; ch06 has real sourcing gaps, read its brief before starting)*
 - [ ] **PART 25D** — SJT lessons, all 7 chapters *(unblocked 2026-08-26)*
