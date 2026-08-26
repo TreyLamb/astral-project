@@ -310,7 +310,10 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   do and a rushed engine change here risks exactly the kind of invisible defect this project's own
   doctrine warns about. Flagging for whoever picks up PART 17/18 or a future RC engine pass, per
   section 3 rule 8 - not silently dropped, not silently patched. `npm run build` clean.)*
-- [ ] **PART 17** — RC lessons
+- [x] **PART 17** — RC lessons *(Claude, done 2026-08-26 — four files in `curriculum/chapters/rc/`,
+  registered in `curriculum/lessons.js`. Every worked example pulled from the actual passages
+  registered in PARTS 15/16 so the lesson and the drills cannot drift. `npm run build` clean (the
+  `?raw` markdown imports resolve), no raw HTML tags in any of the four files.)*
 - [ ] **PART 18** — RC test suite
 
 ### Phase 12 — Physical Science

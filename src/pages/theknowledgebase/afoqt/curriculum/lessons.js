@@ -52,6 +52,10 @@ import va02 from './chapters/va/ch02-structure.md?raw';
 import va03 from './chapters/va/ch03-cause-consequence.md?raw';
 import va04 from './chapters/va/ch04-meaning-degree.md?raw';
 import va05 from './chapters/va/ch05-defining-traits.md?raw';
+import rc01 from './chapters/rc/ch01-method.md?raw';
+import rc02 from './chapters/rc/ch02-main-idea.md?raw';
+import rc03 from './chapters/rc/ch03-details.md?raw';
+import rc04 from './chapters/rc/ch04-vocabulary.md?raw';
 
 export const LESSONS = {
   'mk-01-fluency': ch01,
@@ -98,6 +102,10 @@ export const LESSONS = {
   'va-03-cause-consequence': va03,
   'va-04-meaning-degree': va04,
   'va-05-defining-traits': va05,
+  'rc-01-method': rc01,
+  'rc-02-main-idea': rc02,
+  'rc-03-details': rc03,
+  'rc-04-vocabulary': rc04,
 };
 
 export const getLesson = (chapterId) => LESSONS[chapterId] ?? null;
