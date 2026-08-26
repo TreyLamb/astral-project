@@ -100,7 +100,7 @@ registerFacts([
   {
     id: 'ps-liquid-speed', chapter: CH, concepts: PROPAGATION, band: 3,
     term: "sound's speed in a liquid", gloss: 'is faster than in a gas but slower than in a solid, since a liquid\'s particles are more loosely packed than a solid\'s',
-    recallStem: 'How does the speed of sound in a liquid compare to a gas and a solid?',
+    recallStem: "Where does sound's velocity through a liquid rank compared to a gas and a solid?",
     confusions: ['ps-compression-rarefaction', 'ps-vacuum-silence'],
   },
   {

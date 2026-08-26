@@ -43,7 +43,7 @@ registerFacts([
   {
     id: 'ps-periodic-arrangement', chapter: CH, concepts: ORGANIZATION, band: 2,
     term: "the periodic table's arrangement", gloss: 'organizes elements in order of increasing atomic number',
-    recallStem: 'How are elements ordered on the periodic table?',
+    recallStem: 'What organizing principle puts the elements in a predictable left-to-right order?',
     confusions: ['ps-chemical-symbol', 'ps-metal-nonmetal'],
     source: 'OATTS',
   },
@@ -217,7 +217,7 @@ registerFacts([
   {
     id: 'ps-balanced-equation', chapter: CH, concepts: CHANGE, band: 4,
     term: 'a balanced chemical equation', gloss: 'shows equal numbers of each kind of atom on both sides, reflecting the conservation of mass',
-    recallStem: 'What kind of chemical equation shows equal numbers of each kind of atom on both sides?',
+    recallStem: 'What shows equal numbers of each kind of atom on both sides of a reaction?',
     confusions: ['ps-conservation-of-mass', 'ps-catalyst'],
   },
   {

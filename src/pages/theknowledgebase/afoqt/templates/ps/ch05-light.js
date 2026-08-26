@@ -229,7 +229,7 @@ registerFacts([
   {
     id: 'ps-wavelength-energy', chapter: CH, concepts: SPECTRUM, band: 4,
     term: 'the wavelength-energy relationship', gloss: 'across the electromagnetic spectrum is inverse - the shorter the wavelength, the higher the energy',
-    recallStem: 'What is the relationship between wavelength and energy across the electromagnetic spectrum?',
+    recallStem: "How do a photon's wavelength and its energy relate to each other?",
     confusions: ['ps-microwaves', 'ps-spectrum-ordering'],
   },
   {

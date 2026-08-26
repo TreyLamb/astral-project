@@ -151,7 +151,7 @@ registerFacts([
   {
     id: 'ps-radiative-transfer-detail', chapter: CH, concepts: HEAT_TRANSFER, band: 4,
     term: 'radiative heat transfer', gloss: 'travels chiefly as infrared electromagnetic waves, which is why radiant heat can be felt from a distance without any contact',
-    recallStem: 'What form of electromagnetic wave carries most radiative heat transfer?',
+    recallStem: "What form of electromagnetic wave carries most of the Sun's heat to Earth?",
     confusions: ['ps-thermal-equilibrium', 'ps-specific-heat'],
   },
   {

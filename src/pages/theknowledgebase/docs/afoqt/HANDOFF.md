@@ -369,7 +369,18 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   clean, no raw HTML tags. Ran the full `curriculum.test.js` afterward: PS chapters no longer
   appear anywhere in its failures — only the un-farmed SJT chapters and the already-flagged RC
   test-out-gate limitation remain red, both pre-existing and unrelated to this part.)*
-- [ ] **PART 23** — PS test suite
+- [x] **PART 23** — PS test suite *(Claude, done 2026-08-26 — `engine/__tests__/physicalScience.test.js`,
+  modeled closely on `aviation.test.js` since both share `engine/facts.js`. 877 tests. Two real
+  defects caught on the first run, both matching aviation.test.js's documented defect classes:
+  (1) six recall stems literally repeated 2+ content words from their own term (e.g. term "the
+  periodic table's arrangement" / recallStem "...ordered on the periodic table?") — reworded all
+  six to describe the fact without echoing the term's own wording. (2) the "substantial body of
+  facts" threshold I wrote was simply wrong (asserted >280, real count is 266 across 8 chapters at
+  27-36 facts each) — lowered to a real, still-meaningful floor rather than padding content to hit
+  an arbitrary number, which the project's own doctrine forbids. All 877 pass after both fixes.
+  Re-ran `afoqt:selftest -- --samples=8000` (clean) and the full `npx vitest run` (4005/4014
+  passing - the 9 failures are the same pre-existing SJT/RC items already on record, none PS).
+  `npm run build` clean. This closes out the entire Physical Science block - PARTS 19-23.)*
 
 ### Phase 13 — Situational Judgment + Self-Description Inventory
 

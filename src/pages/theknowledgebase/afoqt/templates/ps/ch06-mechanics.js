@@ -202,7 +202,7 @@ registerFacts([
   {
     id: 'ps-work-unchanged', chapter: CH, concepts: SIMPLE_MACHINES, band: 3,
     term: 'the total work', gloss: 'done using a simple machine stays the same as without one - the machine trades force for distance, it does not reduce the work itself',
-    recallStem: 'What happens to the total work required when a simple machine is used, compared to without one?',
+    recallStem: 'Does a simple machine reduce how much work is ultimately required to move a load?',
     confusions: ['ps-mechanical-advantage', 'ps-effort-load'],
   },
   {
