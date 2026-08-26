@@ -497,8 +497,19 @@ work per section 4's not-farmable column; do a live session, never zip this one 
 
 ### Standing chores
 
-- [ ] **PART 31** — wire `afoqt/engine/*.selftest.mjs` into vitest
-- [ ] **PART 32** — delete the dead `ingestion/` folder
+- [x] **PART 31** — wire `afoqt/engine/*.selftest.mjs` into vitest *(Claude, done 2026-08-26 — the
+  actual scripts live in the TKB `engine/` folder, not `afoqt/engine/` (the board title is
+  slightly off; the PART detail section says so correctly). Added
+  `afoqt/engine/__tests__/tkbEngineSelftest.test.js`, which imports `dedup.selftest.mjs` and
+  `engine.selftest.mjs` and lets their own top-level assertions run as a side effect of the
+  import - neither file's own assertions were touched, per the part's instruction. Both pass.)*
+- [x] **PART 32** — delete the dead `ingestion/` folder *(Claude, done 2026-08-26 — grepped all of
+  `src/` for every import path and symbol first, per the part's gate: zero files import from
+  `ingestion/` anywhere (the handful of text matches were docs and one unrelated code-comment
+  mentioning "real ingestion" as a concept, not a path). Deleted the whole folder, including two
+  files not named in the original CLAUDE.md list (`adapterToImportRow.js`, `tagTaxonomy.js`) since
+  they were equally unreferenced. `npx vitest run` and `npm run afoqt:check` unchanged
+  afterward.)*
 - [x] **PART 33** — Math Knowledge band-5 `stretch` templates *(Claude, done 2026-08-25 — Trey
   said yes. 3 templates seeded: `mk-factor-sum-diff-cubes` (ch06), `mk-complete-the-square`
   (ch07), `mk-space-diagonal` (ch11, Trey's named weakest area). All three are genuinely
