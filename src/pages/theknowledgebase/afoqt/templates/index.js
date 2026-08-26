@@ -99,3 +99,5 @@ import './rc/ch02-passages-set-B.js';
 // docs/afoqt/HANDOFF.md for why no new engine was needed.
 import './ps/ch01-astronomy.js';
 import './ps/ch02-atomic-physics.js';
+import './ps/ch03-chemistry.js';
+import './ps/ch04-electrical.js';

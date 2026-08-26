@@ -339,7 +339,10 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   `factTemplates`'s confusion-existence check never actually got to fire on it.
   `afoqt:selftest -- --samples=8000` clean on the real run, `afoqt:coverage` clears all 8
   concepts across both chapters. `npm run build` clean.)*
-- [ ] **PART 20B** — `templates/ps/ch03-chemistry.js`, `ch04-electrical.js` — fact rows
+- [x] **PART 20B** — `templates/ps/ch03-chemistry.js`, `ch04-electrical.js` — fact rows
+  *(Claude, done 2026-08-26 — 36 facts each (9/concept), grounded in oatts-PS-051 through
+  oatts-PS-056. `afoqt:selftest -- --samples=8000` clean on the first real run, `afoqt:coverage`
+  clears all 8 concepts. `npm run build` clean.)*
 - [ ] **PART 21** — `templates/ps/ch05-light.js`, `ch06-mechanics.js` — fact rows
 - [ ] **PART 21B** — `templates/ps/ch07-sound.js`, `ch08-thermodynamics.js` — fact rows
 - [ ] **PART 22** — PS lessons, all 8 chapters
