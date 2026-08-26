@@ -159,3 +159,114 @@ registerRelations([
 for (const band of [2, 3, 4]) {
   relationTemplates({ chapter: CH, band, idBase: `va-02-b${band}`, name: 'Part to whole, member to category' });
 }
+
+// ============================================================================================
+// PART 10B — part-part + sequence rows, appended 2026-08-26. Do not alter any row above this
+// point; those are PART 10's.
+//
+// PART/PART: a and b are co-equal parts of the SAME whole; neither contains the other. The
+// swap test: could you exchange a and b and still have a valid pair? Yes — that is co-equal,
+// which is why every row below sets `symmetric: true`. (The engine JSDoc on RelationRow says
+// symmetric is "true only for synonym/antonym" - that described the bank as it stood when PART 9
+// was built, before any order-independent relation besides those two existed. Leaving these rows
+// at the default `false` would let the engine's own reversed-pair distractor - "the exact same
+// two words, wrong order" - stand as a SECOND correct answer, since reversing a genuinely
+// co-equal pair changes nothing about the relation. `afoqt:selftest` cannot catch this: reversed
+// text is a structurally distinct string, so a slate with two correct answers still reports
+// "5 distinct choices" and passes. Read PART 11's own warning about this exact defect class
+// before touching this file again.)
+//
+// SEQUENCE: a precedes b in a fixed, ordered process; the order is inherent, not incidental.
+// `symmetric` is left at its default (false) here - swapping breaks the relation on every row.
+//
+// Only 3 rows per relation at bands 2 and 3 (the real sourced sample shows no band-4 example of
+// either), so nothing is registered at band 4 - a template needs 5+ rows or the engine returns
+// nothing, and padding to hit 5 would mean inventing a low-confidence "hard" example neither
+// real item supports. Combined (part-part + sequence), each of bands 2/3 reaches 6 rows against
+// the WHOLE chapter's now-14-row pool per band, past the 5-row floor - see the new
+// relationTemplates() calls below, registered under a NEW idBase so they do not collide with
+// PART 10's `va-02-b{band}-pair/term` ids (calling relationTemplates again under the SAME idBase
+// for a band PART 10 already built would throw a duplicate-template-id error).
+
+const PART_PART = ['va-part-part'];
+const SEQUENCE = ['va-sequence'];
+
+registerRelations([
+  // ------------------------------- BAND 2, part-part (3) -------------------------------------
+  {
+    id: 'va-pp-arm', chapter: CH, concepts: PART_PART, band: 2, relation: 'part-part', symmetric: true,
+    a: { word: 'arm', pos: 'noun' }, b: { word: 'leg', pos: 'noun' },
+    tell: 'An arm and a leg are co-equal limbs of the same body - neither one contains the other.',
+    confusions: ['va-pw-finger'],
+  },
+  {
+    id: 'va-pp-mercury', chapter: CH, concepts: PART_PART, band: 2, relation: 'part-part', symmetric: true,
+    a: { word: 'mercury', pos: 'noun' }, b: { word: 'venus', pos: 'noun' },
+    tell: 'Mercury and Venus are co-equal planets of the same solar system - siblings, not one containing the other.',
+  },
+  {
+    id: 'va-pp-trumpet', chapter: CH, concepts: PART_PART, band: 2, relation: 'part-part', symmetric: true,
+    a: { word: 'trumpet', pos: 'noun' }, b: { word: 'drum', pos: 'noun' },
+    tell: 'A trumpet and a drum are co-equal instruments in the same band - two parts of one ensemble.',
+  },
+
+  // ------------------------------- BAND 2, sequence (3) ---------------------------------------
+  {
+    id: 'va-sq-caterpillar', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'sequence',
+    a: { word: 'caterpillar', pos: 'noun' }, b: { word: 'butterfly', pos: 'noun' },
+    tell: 'A caterpillar becomes a butterfly - the order is fixed by the process itself, not by convention.',
+  },
+  {
+    id: 'va-sq-egg', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'sequence',
+    a: { word: 'egg', pos: 'noun' }, b: { word: 'chick', pos: 'noun' },
+    tell: 'An egg hatches into a chick - the egg always comes first in that process.',
+    confusions: ['va-mc-robin'],
+  },
+  {
+    id: 'va-sq-dough', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'sequence',
+    a: { word: 'dough', pos: 'noun' }, b: { word: 'bread', pos: 'noun' },
+    tell: 'Dough is baked into bread - the dough exists first, before the process finishes it.',
+  },
+
+  // ------------------------------- BAND 3, part-part (3) --------------------------------------
+  {
+    id: 'va-pp-liver', chapter: CH, concepts: PART_PART, band: 3, relation: 'part-part', symmetric: true,
+    a: { word: 'liver', pos: 'noun' }, b: { word: 'kidney', pos: 'noun' },
+    tell: 'The liver and a kidney are co-equal organs of the same body - siblings, not nested.',
+    confusions: ['va-mc-epithelium'],
+  },
+  {
+    id: 'va-pp-infantry', chapter: CH, concepts: PART_PART, band: 3, relation: 'part-part', symmetric: true,
+    a: { word: 'infantry', pos: 'noun' }, b: { word: 'cavalry', pos: 'noun' },
+    tell: 'Infantry and cavalry are co-equal combat arms of the same army - two parts of one force, not one inside the other.',
+    confusions: ['va-pw-platoon'],
+  },
+  {
+    id: 'va-pp-starboard', chapter: CH, concepts: PART_PART, band: 3, relation: 'part-part', symmetric: true,
+    a: { word: 'starboard', pos: 'noun' }, b: { word: 'port', pos: 'noun' },
+    tell: 'Starboard and port are the two co-equal sides of the same ship.',
+    confusions: ['va-pw-keel'],
+  },
+
+  // ------------------------------- BAND 3, sequence (3) ---------------------------------------
+  {
+    id: 'va-sq-blueprint', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'sequence',
+    a: { word: 'blueprint', pos: 'noun' }, b: { word: 'building', pos: 'noun' },
+    tell: 'A blueprint is drawn before the building it describes is ever built - the order cannot reverse.',
+  },
+  {
+    id: 'va-sq-recruit', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'sequence',
+    a: { word: 'recruit', pos: 'noun' }, b: { word: 'veteran', pos: 'noun' },
+    tell: 'A recruit becomes a veteran only after time and experience - the order is fixed by the process.',
+    confusions: ['va-pw-platoon'],
+  },
+  {
+    id: 'va-sq-sketch', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'sequence',
+    a: { word: 'sketch', pos: 'noun' }, b: { word: 'painting', pos: 'noun' },
+    tell: 'A sketch comes before the finished painting it leads to - the process runs one direction.',
+  },
+]);
+
+for (const band of [2, 3]) {
+  relationTemplates({ chapter: CH, band, idBase: `va-02b-b${band}`, name: 'Part to part, and sequence' });
+}

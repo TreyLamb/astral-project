@@ -194,7 +194,16 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   in the same band now share a b-word. `afoqt:selftest -- --samples=8000` and `afoqt:coverage`
   clean; `va-part-whole`/`va-member-category` off the orphan list; `va-part-part`/`va-sequence`
   correctly still orphaned, PART 10B's job.)*
-- [ ] **PART 10B** — same file, appended — part-part + sequence rows (~12)
+- [x] **PART 10B** — same file, appended — part-part + sequence rows (~12) *(Claude, done
+  2026-08-26 — 12 rows, 3+3 at bands 2/3, none at band 4 per the sourcing note. Every part-part
+  row sets `symmetric: true` even though the engine's own JSDoc says that flag is "true only for
+  synonym/antonym" — without it, the reversed-pair distractor (e.g. VENUS:MERCURY for a
+  MERCURY:VENUS base) is a genuine second correct answer for a swappable relation, and
+  `afoqt:selftest` cannot catch it since the reversed string is structurally distinct. Verified
+  by sampling: the reversed pair no longer appears in the choice list. New `va-02b-b{2,3}`
+  templates registered under a fresh idBase per PART 9's warning about colliding ids.
+  `afoqt:selftest -- --samples=8000` clean, `afoqt:coverage` shows zero remaining `va-02-structure`
+  orphans.)*
 - [ ] **PART 10C** — `templates/va/ch03-cause-consequence.js` — cause-effect + action-object rows (~24)
 - [ ] **PART 11** — `templates/va/ch04-meaning-degree.js` — synonym + antonym + degree rows (~30)
 - [ ] **PART 11B** — `templates/va/ch05-defining-traits.js` — object-attribute rows (~24)
