@@ -47,6 +47,11 @@ import wk03 from './chapters/wk/ch03-affixes.md?raw';
 import wk04 from './chapters/wk/ch04-confusables.md?raw';
 import wk05 from './chapters/wk/ch05-people-speech.md?raw';
 import wk06 from './chapters/wk/ch06-change-degree.md?raw';
+import va01 from './chapters/va/ch01-method.md?raw';
+import va02 from './chapters/va/ch02-structure.md?raw';
+import va03 from './chapters/va/ch03-cause-consequence.md?raw';
+import va04 from './chapters/va/ch04-meaning-degree.md?raw';
+import va05 from './chapters/va/ch05-defining-traits.md?raw';
 
 export const LESSONS = {
   'mk-01-fluency': ch01,
@@ -88,6 +93,11 @@ export const LESSONS = {
   'wk-04-confusables': wk04,
   'wk-05-vocab-people-speech': wk05,
   'wk-06-vocab-change-degree': wk06,
+  'va-01-method': va01,
+  'va-02-structure': va02,
+  'va-03-cause-consequence': va03,
+  'va-04-meaning-degree': va04,
+  'va-05-defining-traits': va05,
 };
 
 export const getLesson = (chapterId) => LESSONS[chapterId] ?? null;

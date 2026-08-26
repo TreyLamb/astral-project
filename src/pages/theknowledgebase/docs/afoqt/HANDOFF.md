@@ -233,7 +233,12 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   bug class had bitten two parts in a row). `afoqt:selftest -- --samples=8000` clean,
   `afoqt:coverage` clears `va-object-attribute`. This closes out the whole VA data block —
   PARTS 12 (lessons) and 13 (test suite) are next.)*
-- [ ] **PART 12** — VA lessons, all five chapters
+- [x] **PART 12** — VA lessons, all five chapters *(Claude, done 2026-08-26 — five files in
+  `curriculum/chapters/va/`, registered in `curriculum/lessons.js`. Every worked example pulled
+  from actual registered rows in PARTS 10-11B so the lesson and the questions cannot drift.
+  `afoqt:coverage` unaffected as expected (it checks chapters.js concepts, not lesson prose) and
+  `npm run build` clean — the `?raw` markdown imports resolve. No raw HTML tags in any of the
+  five files.)*
 - [ ] **PART 13** — VA test suite
 
 ### Phase 11 — Reading Comprehension
