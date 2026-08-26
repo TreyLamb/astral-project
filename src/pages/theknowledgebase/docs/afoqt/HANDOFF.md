@@ -343,7 +343,16 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   *(Claude, done 2026-08-26 — 36 facts each (9/concept), grounded in oatts-PS-051 through
   oatts-PS-056. `afoqt:selftest -- --samples=8000` clean on the first real run, `afoqt:coverage`
   clears all 8 concepts. `npm run build` clean.)*
-- [ ] **PART 21** — `templates/ps/ch05-light.js`, `ch06-mechanics.js` — fact rows
+- [x] **PART 21** — `templates/ps/ch05-light.js`, `ch06-mechanics.js` — fact rows *(Claude, done
+  2026-08-26 — 36 facts each, grounded in oatts-PS-057 through oatts-PS-062. Caught before writing
+  a single mechanics row: `ps-06-mechanics` is declared `bands: [1, 2, 3]` in chapters.js, not
+  `[2, 3, 4]` like every other PS chapter — it's the from-zero entry chapter, same role av-01/02
+  play for Aviation Information — so `ch06-mechanics.js` targets bands 1/2/3, not the generic
+  2/3/4 the brief's prose suggested; following the brief text instead of the chapter's actual
+  declaration would have put nine facts outside any reachable band. Every mechanics row was also
+  checked against the PART 19 warning about `av-02-forces` overlap and written from a general,
+  non-aviation angle (blocks, ramps, a tug-of-war). `afoqt:selftest -- --samples=8000` clean,
+  `afoqt:coverage` clears all 8 concepts. `npm run build` clean.)*
 - [ ] **PART 21B** — `templates/ps/ch07-sound.js`, `ch08-thermodynamics.js` — fact rows
 - [ ] **PART 22** — PS lessons, all 8 chapters
 - [ ] **PART 23** — PS test suite
