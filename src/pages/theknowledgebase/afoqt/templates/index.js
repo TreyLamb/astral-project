@@ -114,3 +114,5 @@ import './sjt/ch02-integrity-professionalism.js';
 import './sjt/ch03-leadership.js';
 import './sjt/ch04-resource-management.js';
 import './sjt/ch05-communication.js';
+import './sjt/ch06-innovation.js';
+import './sjt/ch07-mentoring.js';

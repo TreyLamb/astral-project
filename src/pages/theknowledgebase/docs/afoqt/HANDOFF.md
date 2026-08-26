@@ -420,7 +420,27 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   worse — kept the quiet-workaround reading since it is the more corrosive, harder-to-detect
   failure, but this one is closer than the others and worth a second look in PART 25D or 25E if
   either surfaces a reason to revisit it. `npm run build` clean.)*
-- [ ] **PART 25C** — `templates/sjt/ch06-innovation.js`, `ch07-mentoring.js` — scenario rows *(unblocked 2026-08-26; ch06 has real sourcing gaps, read its brief before starting)*
+- [x] **PART 25C** — `templates/sjt/ch06-innovation.js`, `ch07-mentoring.js` — scenario rows
+  *(Claude, done 2026-08-26 — mentoring got the usual 8 scenarios (2/5/1 across bands, same
+  band-3-miscount-then-caught pattern as 25B: initially 4 at band 3, added `sjt-coach-05` to
+  reach 5). Innovation got 5 scenarios, ALL at band 3, deliberately smaller per the brief's soft
+  target - and per its own explicit instruction, three real sources were genuinely checked before
+  writing a single row, not just the one Barron's sample PART 24 already flagged: Trivium's
+  practice book was extracted and its table of contents read directly - neither of its two
+  practice tests lists a Situational Judgment section at all, so it has zero SJT content to check.
+  The AFPC pamphlet (afpt-997) was fetched fresh via WebSearch/WebFetch (the first attempt 404'd on
+  a stale URL; a corrected one was found by search) and extracted with `scripts/extractBook.mjs` -
+  it carries exactly two official worked SJT situations with real answer keys, and neither is about
+  innovation (one is a leadership/information-gathering situation, the other is an integrity/
+  honest-reporting situation). `afoqt/data/realQuestions.json` has zero SJ-subtest rows. Three
+  sources checked, all thin-to-empty for this specific competency - confirms rather than merely
+  repeats PART 24's flag. The five rows written are deliberately NOT variations on "outdated
+  process" (the exact thin frame PART 24 warned reads as leadership/delegation in disguise) -
+  sampled and read aloud, both genuinely turn on weighing a real risk or proposing a real idea, not
+  a relabeled leadership call. `afoqt:selftest -- --samples=8000` clean (`SJ:6` confirms all six
+  chapters registered), `afoqt:coverage` clears `sjt-process-improvement`, `sjt-calculated-risk`,
+  `sjt-developmental-coaching` and `sjt-balancing-mentorship-with-workload`. `npm run build` clean.
+  This closes out all SJT scenario-authoring - only PARTS 25D (lessons) and 25E (test suite) remain.)*
 - [ ] **PART 25D** — SJT lessons, all 7 chapters *(unblocked 2026-08-26)*
 - [ ] **PART 25E** — SJT test suite *(unblocked 2026-08-26)*
 - [x] **PART 26** — SDI *(decided 2026-08-26, Trey: do NOT build as an interactive tool. It is a
