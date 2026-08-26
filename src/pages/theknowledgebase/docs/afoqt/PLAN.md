@@ -27,9 +27,9 @@ and know exactly where to pick up. Update it at the end of every working block.
 | **9** | Word Knowledge | 🟨 **Templates + gates DONE; lessons and tests open** |
 | **10** | Verbal Analogies | ⬜ Not started |
 | **11** | Reading Comprehension | 🟨 Passage engine done + sheet-mode fixed 2026-08-24; data/lessons/tests farmable (HANDOFF Parts 15-18) |
-| **12** | Physical Science *(unscored)* | ⬜ Not started |
-| **13** | Situational Judgment + SDI *(unscored)* | ⬜ Not started |
-| **14** | Exam sim, composite scoring, diagnostic, dashboard | ⬜ Not started |
+| **12** | Physical Science *(unscored)* | 🟨 Design + engine done 2026-08-25; PARTS 20-23 (fact rows/lessons/tests) farmable, untouched |
+| **13** | Situational Judgment + SDI *(unscored, SJT disputed)* | 🟨 Design + engine done 2026-08-26; PARTS 25/25B/25C/25D/25E farmable, untouched. SDI decided NOT built as an interactive tool (Trey's call). |
+| **14** | Exam sim, composite scoring, diagnostic, dashboard | 🟨 Composite scoring engine done 2026-08-26 (practice accuracy, not the real percentile - see note below); exam runner/diagnostic/analytics not started |
 
 **Recommended deviation:** build the diagnostic in reduced form right after Phase 4,
 seeded from official OATTS items. Trey's stated goal is "understand where I'm weak and how
@@ -1409,3 +1409,102 @@ worth doing, neither implemented pending Trey's read.
 `docs/afoqt/ENGINE-VS-CONTENT-QA.md` - answers his question about how much of a farmed VA/RC
 part is "real" engine-generated variety vs. literally the words a farmed agent typed. Marked
 Claude-ignore at the top; it's a personal note, not a work-board entry.
+
+---
+
+## 2026-08-26 — Phase 13 (Situational Judgment) unlocked; SDI scope decided
+
+Trey asked what it would take to unlock Phases 13 and 14, said he hasn't had time to farm out the
+already-unlocked work (PS/VA/RC parts still sit untouched) and wants Claude to keep advancing
+whatever isn't farmable in the meantime. Two decisions from him up front: unlock Phase 13 now, and
+do NOT build the SDI as an interactive tool.
+
+### SJT design + a new engine (PART 24)
+
+Read Barron's 4th Ed's SJT section directly rather than working from `RESEARCH.md`'s summary -
+extracted PDF 251-263 with `scripts/extractBook.mjs` to the scratchpad (never the repo). That is
+the full Practice Test #1 SJT subtest: 25 numbered situations, five lettered actions each, plus the
+SUBTEST #6/#7 directions verbatim and 20 sample SDI statements.
+
+**Curriculum:** new `judgment` track in `curriculum/chapters.js`, 7 chapters (a method chapter plus
+one per official competency - Integrity/Professionalism, Leadership, Resource Management,
+Communication, Innovation, Mentoring), 15 concepts. Grouped by what the 25 real situations actually
+show, the same "check the primary source, group by what it shows" discipline PS's Part 19 used -
+not an invented split.
+
+**Engine:** SJT doesn't fit `facts.js` (no dictionary confusions) or `analogy.js` (no relation
+pairs) - every one of a scenario's five actions is an authored judgment call, and the same five
+actions answer TWO different questions (MOST effective, LEAST effective) about one situation. New
+file: `engine/judgment.js`. The one genuinely clever piece: the real subtest asks MOST then LEAST
+back-to-back for each situation, and that pairing falls out for free by reusing the existing sheet
+mechanism (`SHEET_BITS`, built for Table Reading/Block Counting) instead of inventing a new one -
+high seed bits pick the situation, the low bit picks MOST-vs-LEAST, and `buildDrill`'s existing
+figure-rotation logic does the rest. Verified with a throwaway smoke script (registered synthetic
+rows, walked seed pairs across 50 sheet seeds, confirmed pairing + all six registrar guards actually
+reject bad input), then deleted - not committed, same as PART 8/19's `node --check`-only
+verification, since it carried no real content.
+
+**Two things flagged rather than silently resolved**, full detail in HANDOFF.md's "PART 24 design
+record":
+- **Scenario count is disputed and the design does not commit to a number.** `afoqtSpec.js`
+  already flagged "AFPC counts 50 questions across 16 scenarios; Pearson counts the 16 scenarios" -
+  but Barron's actual practice test has **25** situations producing exactly 2 questions each. Both
+  are primary-lineage sources disagreeing on more than a timing footnote. Built to 50 questions
+  (undisputed) without baking either 16 or 25 into the engine.
+- **Innovation is thin in the real sample** - 24 of 25 situations turn on one of the other five
+  competencies. Declared anyway (same precedent as VA's rare-but-real Part/Part and Sequence), but
+  PART 25C is told explicitly not to invent scenarios to fill it and to report a blocker instead if
+  a second source doesn't turn up real grounding.
+
+PARTS 25/25B/25C (scenario rows, split by chapter pair like VA/PS's data parts), 25D (lessons) and
+25E (test suite) are now fully detailed and farmable in HANDOFF.md - none of them touched yet,
+per Trey's "farm it out later" plan.
+
+### SDI: decided not to build (PART 26)
+
+Asked Trey directly rather than assuming: a 240-item personality inventory with explicitly no right
+or wrong answers and zero composite weight has nothing to drill or master, so an interactive
+version would be a UI with no mastery concept behind it. He agreed - skip it, document the format
+only (Likert scale, 45 min / 240 items, answer from first impression) somewhere Trey will see it
+before test day, not as a drillable subtest. Not built this session; flagged for whoever next
+touches exam-overview content.
+
+**Verification:** `node --check` on `chapters.js` and `judgment.js`; `npm run afoqt:selftest` -
+236 templates unchanged, all still hold (confirms the new track/chapters didn't disturb anything
+existing); `npm run afoqt:coverage` - all 15 new `sjt-*` concepts report as orphans, the documented
+"already red" state (no rows exist yet), not a regression.
+
+### Phase 14, PART 27: composite scoring engine - and why it computes practice accuracy, not a score
+
+Kept going per Trey's "keep going on non-farmable work while I get around to farming the rest"
+instruction. Flagged above that PART 27 looked unlockable without a research pass since
+`afoqtSpec.js` already specifies `COMPOSITES` - true, but the deeper question turned out not to
+be "what's the formula," it was "can this tool compute the real AFOQT score at all." It cannot:
+`RESEARCH.md`'s own "Scoring" section already confirms percentiles are norm-referenced against a
+population this tool has no access to, and exact weightings are unpublished Pearson/AFPC IP - not
+a gap another search closes. Faking a percentile would have handed Trey false confidence (or a
+false alarm) on a test with one attempt that counts, so `engine/scoring.js` computes something
+different and labels it everywhere it appears: **practice accuracy** - percent correct so far,
+composited as a question-count-weighted average across each composite's subtests, with "no
+attempts yet" kept distinct from an actual 0%.
+
+Wired into `AfoqtDashboard.jsx`'s Composites section (previously just listed which subtests feed
+which composite, no number at all). Verified two ways beyond unit math: a throwaway Playwright
+script screenshotted the empty state (all six composites read "no attempts yet" - see
+`docs/afoqt/HANDOFF.md`'s PART 27 record) and a populated state with real MK/TR template ids
+seeded into `localStorage` (PILOT/CSO/ABM/ACAD/QUANT all showed hand-verifiable weighted
+percentages, zero console errors). Both scripts deleted after, not committed.
+
+**The rule that matters for anyone touching this next:** a composite's practice-accuracy percentage
+must never render next to its official percentile `min` as though the two are on the same scale.
+The current layout spells out "Xth percentile - not the same scale as the accuracy above" every
+time the minimum appears, rather than trusting a reader to remember a rule stated once. This is
+the single most dangerous mistake this feature could make, and it is now the top of PART 27's
+design record for exactly that reason.
+
+**Not done:** the full-length sequenced Form T exam runner (PART 28), diagnostic mode seeded from
+real OATTS items (PART 29 - flagged back in Phase 0's "Recommended deviation" note and still never
+built), and any trend-over-time view (PART 30). This session was scoped to "can a composite number
+exist at all, honestly" - the rest is real remaining work, detailed as far as it can be without
+building PART 28 first (an exam runner needs real content across VA/RC/PS/SJT to actually
+simulate, which are the still-untouched farmable parts from Phases 10-13).

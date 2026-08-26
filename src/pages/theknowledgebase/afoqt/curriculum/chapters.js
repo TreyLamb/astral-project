@@ -76,6 +76,12 @@ export const TRACKS = [
     subtest: 'PS',
     blurb: 'Unscored - feeds no composite - but the stated goal here is dominating every topic regardless of whether it counts. 20 questions in 10 minutes (30.0s each), general conceptual physics/chemistry/astronomy, no math required.',
   },
+  {
+    id: 'judgment',
+    name: 'Situational Judgment',
+    subtest: 'SJ',
+    blurb: 'No fixed right answer - scored against the consensus judgment of experienced Air Force officers. Every situation asks two questions back to back: MOST effective action, then LEAST effective. 50 questions in 35 minutes. Composite status is disputed - AFPC\'s own 2015 pamphlet and Barron\'s 4th Ed both name a seventh composite; current commercial sources omit it. Do not deprioritise it on the assumption it is worthless.',
+  },
 ];
 
 /**
@@ -701,6 +707,116 @@ export const CHAPTERS = [
     minutes: 10, bands: [2, 3, 4], prereqs: ['ps-06-mechanics'], testOutPass: 4,
     concepts: ['ps-heat-transfer-methods', 'ps-laws-of-thermodynamics',
       'ps-thermal-expansion-phase-change'],
+  },
+
+  // --- Situational Judgment ---------------------------------------------------
+  // Designed 2026-08-26 (Part 24, Claude-only curriculum + engine design - see
+  // docs/afoqt/HANDOFF.md "PART 24 design record"). Grounded in Barron's 4th Ed's full 25-scenario
+  // Practice Test #1 SJT section (PDF 251-263), extracted and read directly - not reasoned about
+  // from RESEARCH.md's summary, per the "check the primary source before designing" rule every
+  // figure-bearing phase has needed. That extraction is scratchpad-only per the copyright line in
+  // CLAUDE.md; nothing from it ships here verbatim.
+  //
+  // SIX CHAPTERS, ONE PER COMPETENCY (plus a method chapter), not one flat SJT chapter - the AFPC
+  // pamphlet and Barron's both name six competencies (Integrity/Professionalism, Leadership,
+  // Resource Management, Communication, Innovation, Mentoring; docs/afoqt/RESEARCH.md
+  // "Situational Judgment"), and reading the 25 real scenarios confirms they cluster cleanly
+  // against those six - the same "group by what the primary source actually shows" approach PS's
+  // Part 19 used for its 8 areas, not an invented split.
+  //
+  // ⚠ INNOVATION IS THIN IN THE SOURCED SAMPLE. 24 of 25 scenarios turn on one of the other five
+  // competencies; only one (a section leader inheriting an outdated, overdue-for-update process)
+  // even brushes it, and that one reads more like leadership/delegation than a genuine "propose
+  // and champion a new idea" situation. sjt-06-innovation is declared anyway, following the same
+  // precedent VA's Part/Part and Sequence set (real but rare is still real) - but PART 25's author
+  // should pull a second source (Trivium's SJT section, if it has one, or the AFPC pamphlet's own
+  // examples) before writing this chapter's rows rather than inventing scenarios to fill it, which
+  // is exactly the "orphan content wearing a doctrine-compliant label" failure the coverage check
+  // cannot see.
+  //
+  // ⚠ SCENARIO COUNT: BARRON'S SHIPS 25, THE AFPC PEARSON NOTE SAYS 16 - RECORDED, NOT RESOLVED.
+  // afoqtSpec.js's existing pearsonNote already flags "AFPC counts 50 questions across 16
+  // scenarios; Pearson counts the 16 scenarios" - but Barron's actual Practice Test #1 SJT section
+  // is 25 numbered situations, each producing exactly 2 questions (1-50), which is a DIFFERENT
+  // structural claim than "16 scenarios x ~3 questions" would imply. Both are primary-lineage
+  // sources (AFPC pamphlet vs. a book that reproduces two full official-style practice tests) and
+  // they disagree on something as basic as the scenario count, not just a timing footnote. This
+  // curriculum is built to 50 QUESTIONS as the fixed, undisputed number (every source agrees on
+  // that), and does not commit to a fixed scenario-bank size - PART 25 should build as many
+  // well-sourced scenarios as it reasonably can rather than stopping at either 16 or 25, since the
+  // engine (engine/judgment.js) places no ceiling on bank size the way it would if the number 16
+  // or 25 had been baked into the data model. Flagged here rather than silently picking one.
+  //
+  // NO PER-CHAPTER TEMPLATE VARIETY THE WAY MATH HAS BANDS OF PARAMETER RANGE. A scenario's
+  // "band" is how CONTESTED the judgment call is (do competent officers mostly agree, or would
+  // several actions have real merit), not vocabulary or arithmetic difficulty - see the `band`
+  // doc in engine/judgment.js. Every chapter below targets bands [2, 3, 4] like every other
+  // subtest's default range; a genuinely split-verdict scenario (Barron's own directions note the
+  // official key sometimes accepts two answers on one item) is the natural band-5 `stretch`
+  // candidate for later, the same role Trivium plays for MK - not seeded now since there is no
+  // real bank yet to draw a genuinely-contested example from.
+  {
+    id: 'sjt-01-method',
+    track: 'judgment', subtest: 'SJ', order: 62,
+    title: 'How the subtest actually works',
+    summary: 'Two questions per situation, back to back: MOST effective action, then LEAST. There is no penalty for guessing and no single "correct" answer key - your response is scored against the consensus of experienced officers.',
+    minutes: 6, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    // No templates of its own - both concepts ride along on every scenarioTemplates() output,
+    // the same role va-01-method plays for every relationTemplates() output (see the header
+    // comment in engine/analogy.js for why that is not padding).
+    concepts: ['sjt-judgment-format', 'sjt-competency-lens'],
+  },
+  {
+    id: 'sjt-02-integrity-professionalism',
+    track: 'judgment', subtest: 'SJ', order: 63,
+    title: 'Integrity and professionalism',
+    summary: 'Reporting the truth even when it is unwelcome, disclosing a personal conflict of interest before it becomes one, owning a mistake immediately rather than concealing it, and checking facts through the proper channel before acting on a suspicion.',
+    minutes: 8, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['sjt-honest-reporting', 'sjt-conflict-of-interest', 'sjt-owning-mistakes',
+      'sjt-fair-process-before-accusation'],
+  },
+  {
+    id: 'sjt-03-leadership',
+    track: 'judgment', subtest: 'SJ', order: 64,
+    title: 'Leadership',
+    summary: 'Acting decisively at your actual level of authority - neither overstepping it nor abdicating it - holding a standard while reading the team\'s state honestly, sequencing safety before mission before paperwork under real pressure, and addressing a difficult personality directly and privately rather than avoiding it or confronting it in public.',
+    minutes: 10, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['sjt-situational-authority', 'sjt-standards-vs-morale', 'sjt-crisis-triage',
+      'sjt-difficult-personalities'],
+  },
+  {
+    id: 'sjt-04-resource-management',
+    track: 'judgment', subtest: 'SJ', order: 65,
+    title: 'Resource management',
+    summary: 'Ranking competing demands instead of trying to do everything or picking arbitrarily, routing a request through the correct chain rather than around it, and communicating what is actually achievable rather than over-promising or flatly refusing.',
+    minutes: 8, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['sjt-prioritization-under-scarcity', 'sjt-proper-channels-for-requests',
+      'sjt-realistic-commitment'],
+  },
+  {
+    id: 'sjt-05-communication',
+    track: 'judgment', subtest: 'SJ', order: 66,
+    title: 'Communication',
+    summary: 'Delivering a hard message privately and specifically without embarrassing the other person, receiving criticism by seeking clarity instead of defending or deflecting, raising a genuine concern to a superior through reasoned explanation rather than staying silent or being insubordinate, and escalating to the person who can actually address it instead of accusing or acting on assumption.',
+    minutes: 9, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['sjt-tactful-feedback', 'sjt-receiving-feedback', 'sjt-respectful-dissent',
+      'sjt-proper-escalation'],
+  },
+  {
+    id: 'sjt-06-innovation',
+    track: 'judgment', subtest: 'SJ', order: 67,
+    title: 'Innovation',
+    summary: 'Identifying and acting on an outdated process at the right scale of authority, and weighing a new idea\'s real upside against its real cost rather than a reflexive yes or no. The thinnest chapter in the sourced sample - see the design-record note above this array before writing its rows.',
+    minutes: 6, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['sjt-process-improvement', 'sjt-calculated-risk'],
+  },
+  {
+    id: 'sjt-07-mentoring',
+    track: 'judgment', subtest: 'SJ', order: 68,
+    title: 'Mentoring',
+    summary: 'Coaching a subordinate through a skill or follow-through gap instead of only directing or punishing, and making real time to develop someone without abandoning your own responsibilities.',
+    minutes: 7, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    concepts: ['sjt-developmental-coaching', 'sjt-balancing-mentorship-with-workload'],
   },
 ];
 

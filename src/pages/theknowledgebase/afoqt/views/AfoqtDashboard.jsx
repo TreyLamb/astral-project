@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
 import { DRILLABLE, getSubtest, secPerQuestion, compositeReach, COMPOSITES } from '../engine/afoqtSpec';
 import { allTemplates } from '../engine/generator';
+import { allCompositeAccuracy, PRACTICE_ACCURACY_LABEL } from '../engine/scoring';
 import { missPoolIds, clearMissPool, curriculumProgress, isChapterDone } from '../afoqtStorage';
 import { CHAPTERS, isUnlocked } from '../curriculum/chapters';
 
@@ -39,6 +40,7 @@ export default function AfoqtDashboard() {
 
   const totalSeen = bySubtest.reduce((n, s) => n + s.seen, 0);
 
+  const composites = allCompositeAccuracy(progress);
   const curriculum = curriculumProgress(progress, CHAPTERS);
   // The next thing to actually do: the first unlocked chapter that is not finished. Ordering
   // by `order` keeps the recommendation stable rather than jumping around between visits.
@@ -123,12 +125,24 @@ export default function AfoqtDashboard() {
 
       <section>
         <h3>Composites</h3>
+        <p className="afq-note afq-score-disclaimer">
+          {PRACTICE_ACCURACY_LABEL}
+        </p>
         <ul className="afq-composites">
-          {COMPOSITES.filter((c) => !c.disputed).map((c) => (
+          {composites.map((c) => (
             <li key={c.code}>
               <strong>{c.name}</strong>
-              <span>{c.subtests.join(' + ')}</span>
-              {c.min && <small>min {c.min}</small>}
+              <span>{COMPOSITES.find((x) => x.code === c.code).subtests.join(' + ')}</span>
+              <span className="afq-composite-acc">
+                {c.accuracy == null
+                  ? 'no attempts yet'
+                  : `${Math.round(c.accuracy * 100)}% practice accuracy`}
+                {c.coverage < 1 && c.accuracy != null
+                  && ` (${Math.round(c.coverage * 100)}% of subtests attempted)`}
+              </span>
+              {COMPOSITES.find((x) => x.code === c.code).min != null && (
+                <small>official minimum: {COMPOSITES.find((x) => x.code === c.code).min}th percentile — not the same scale as the accuracy above</small>
+              )}
             </li>
           ))}
         </ul>

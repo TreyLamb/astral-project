@@ -102,6 +102,11 @@
 .afq-composites li { border: 1px solid var(--tkb-border); border-radius: 8px; padding: .5rem .7rem; display: flex; flex-direction: column; gap: .1rem; }
 .afq-composites span { font-size: .8rem; color: var(--tkb-ink-soft); }
 .afq-composites small { font-size: .72rem; color: var(--tkb-ink-soft); }
+/* The computed practice-accuracy number is the one new piece of data on this card, and the
+   official-percentile-minimum note directly below it is deliberately styled as clearly NOT the
+   same kind of number - see engine/scoring.js's header for why conflating the two is dangerous. */
+.afq-composite-acc { font-size: .85rem; font-weight: 600; color: var(--tkb-ink); }
+.afq-score-disclaimer { font-style: italic; }
 
 @media (max-width: 640px) {
   .afq-summary-grid { gap: 1rem; }

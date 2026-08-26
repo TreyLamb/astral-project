@@ -204,13 +204,31 @@ work per section 4's not-farmable column; do a live session, never zip this one 
 
 ### Phase 13 — Situational Judgment + Self-Description Inventory
 
-- [L] **PART 24** — SJT design *(Claude — see the disputed-composite note in CLAUDE.md; SJT may well be scored, do not deprioritise it)*
-- [L] **PART 25** — SJT scenario rows
-- [L] **PART 26** — SDI
+- [x] **PART 24** — SJT design + engine *(Claude, done 2026-08-26 — curriculum design (6 competency
+  chapters + a method chapter, 15 concepts, `judgment` track) AND a new engine, `engine/judgment.js`
+  — SJT's format doesn't fit the fact engine or the analogy engine, so this one phase needed both
+  halves of section 4's not-farmable column at once, the same way VA needed Parts 8 AND 9. See
+  "PART 24 design record" below. PARTS 25/25B/25C (scenario rows), 25D (lessons) and 25E (test
+  suite) are now unblocked.)*
+- [ ] **PART 25** — `templates/sjt/ch02-integrity-professionalism.js`, `ch03-leadership.js` — scenario rows *(unblocked 2026-08-26)*
+- [ ] **PART 25B** — `templates/sjt/ch04-resource-management.js`, `ch05-communication.js` — scenario rows *(unblocked 2026-08-26)*
+- [ ] **PART 25C** — `templates/sjt/ch06-innovation.js`, `ch07-mentoring.js` — scenario rows *(unblocked 2026-08-26; ch06 has real sourcing gaps, read its brief before starting)*
+- [ ] **PART 25D** — SJT lessons, all 7 chapters *(unblocked 2026-08-26)*
+- [ ] **PART 25E** — SJT test suite *(unblocked 2026-08-26)*
+- [x] **PART 26** — SDI *(decided 2026-08-26, Trey: do NOT build as an interactive tool. It is a
+  240-item personality inventory with no right/wrong answers and zero composite weight — there is
+  nothing to drill or master. Document its existence/format only, so test day isn't a surprise; see
+  the SDI note in "PART 24 design record" below. This is a resolved product-scope decision, not
+  open work — do not farm it out and do not reopen it without Trey raising it again.)*
 
 ### Phase 14 — Exam simulator, scoring, dashboard
 
-- [L] **PART 27** — composite scoring engine *(Claude)*
+- [x] **PART 27** — composite scoring engine *(Claude, done 2026-08-26 — see "PART 27 design
+  record" below. ⚠ Read it before touching `engine/scoring.js` or the Composites section of
+  `AfoqtDashboard.jsx`: the real AFOQT percentile cannot be computed (norm tables are
+  unpublished, confirmed in `docs/afoqt/RESEARCH.md`), so this deliberately computes and
+  clearly labels a PRACTICE ACCURACY number instead, never presented on the same visual scale
+  as a composite's official percentile minimum.)*
 - [L] **PART 28** — full-length Form T exam runner *(Claude)*
 - [L] **PART 29** — diagnostic + dashboard
 - [L] **PART 30** — results and analytics
@@ -1584,6 +1602,398 @@ npx vitest run src/pages/theknowledgebase/afoqt/engine/__tests__/physicalScience
 ```
 This part is the one exception to the no-install rule: vitest needs `node_modules`. If the
 packet has none, run `npm install` for this part only, and say so in your report.
+
+---
+
+### PART 24 — design + engine record (done 2026-08-26, Claude-only autonomous session per Trey's go-ahead)
+
+Not farmed. Curriculum design AND engine work per section 4's not-farmable column — SJT needed
+both, the way VA needed both PART 8 and PART 9. This is the record for whoever picks up PARTS
+25/25B/25C/25D/25E.
+
+**Grounded in the primary source, read directly, not reasoned about from RESEARCH.md's summary.**
+Barron's 4th Ed's full Practice Test #1 SJT section (PDF 251-263) was extracted with
+`scripts/extractBook.mjs` to the scratchpad (never the repo — copyright rule) and read in full: all
+25 numbered situations, their five lettered actions each, and the SUBTEST #6/#7 directions verbatim.
+This is the same "check the figure-bearing subtest's actual source before designing" discipline
+Table Reading and Instrument Comprehension needed the hard way — nothing here was inferred from an
+uncited summary line.
+
+**What was built:**
+- `curriculum/chapters.js` — a new `judgment` track, 7 chapters (`sjt-01-method` through
+  `sjt-07-mentoring`), 15 concepts. One chapter per official competency (Integrity/Professionalism,
+  Leadership, Resource Management, Communication, Innovation, Mentoring — `docs/afoqt/RESEARCH.md`
+  "Situational Judgment"), plus a method chapter mirroring `va-01-method`'s "no templates of its
+  own, concepts ride along on every question" role. `node --check` passed; `npm run afoqt:coverage`
+  lists all 15 `sjt-*` concepts as orphans, which is the documented "already red" work-board state
+  (section 3, rule 11), not a regression.
+- `engine/judgment.js` — a NEW engine, not a wrapper around `facts.js` or `analogy.js`. SJT has no
+  computed error-modes (no arithmetic) and no declared confusions (no dictionary meaning to mix up)
+  — every one of the five actions in a scenario is an authored judgment call, and the SAME five
+  actions answer TWO different questions (MOST effective, LEAST effective) about ONE situation, not
+  one question about one thing. See the file's own header comment for the full reasoning; the short
+  version is in the registrar contract below.
+- **The MOST/LEAST pairing reuses the existing sheet mechanism (`SHEET_BITS`, built for Table
+  Reading and Block Counting) rather than inventing a new one.** The real subtest asks MOST then
+  LEAST back-to-back for one situation before moving to the next. `scenarioTemplates()` registers
+  ONE template per chapter+band with `sheet: true, sheetSpan: 2`: the seed's high bits pick WHICH
+  situation, the low bit picks MOST-vs-LEAST. `buildDrill`'s existing figure-rotation logic does the
+  pairing for free, and `templateAudit.js`'s `seedForSample` already spreads any `sheet` template's
+  high bits generically — nothing outside `engine/judgment.js` needed to change. **Verified working**
+  with a throwaway smoke script (registered synthetic rows, walked `composeSeed(sheetSeed, 0)` and
+  `composeSeed(sheetSeed, 1)` across 50 sheet seeds, confirmed every pair references the same
+  situation and flips MOST→LEAST correctly, confirmed all six registrar validation guards actually
+  reject bad input) before this record was written, then deleted — not committed, since it carried
+  no real content, the same reason PART 8/PART 19 verified with `node --check` rather than leaving
+  scratch files behind.
+
+**The registrar contract (what PART 25/25B/25C rows must satisfy) — full detail lives in
+`engine/judgment.js`'s own JSDoc, not repeated verbatim in every sub-part below:**
+- `id`, `chapter` (an `sjt-0N-*` id), `concepts` (declared by that chapter), `band` (1-5 — **how
+  CONTESTED the judgment call is, not vocabulary or arithmetic difficulty**: a scenario where
+  competent officers would mostly agree is low-band; one where several actions have real merit and
+  the distinction is genuinely fine is high-band)
+- `situation` — original scenario prose, at least a real paragraph (the validator rejects anything
+  under 40 characters as a placeholder, but that is a floor, not a target — write a real situation)
+- `actions` — **exactly 5**, each `{ text, competency, rationale }`. `competency` must be one of the
+  six ids in `engine/judgment.js`'s `COMPETENCIES` export (kebab-case: `integrity-professionalism`,
+  `leadership`, `resource-management`, `communication`, `innovation`, `mentoring`) — this is what
+  lets a miss report as "you picked the response that skipped the chain of command" rather than just
+  marking it wrong, the same job `error`/`why` plays on every other subtest's distractors
+- `mostEffective`, `leastEffective` — indices 0-4 into `actions`, must differ
+- `tell` — one sentence naming the judgment PRINCIPLE at stake (what to recognise next time), not a
+  restated summary of this one scenario — same job `tell` plays on a `morphology.js` pair or an
+  `analogy.js` relation
+
+**Every scenario always fills its slate exactly** — 5 actions, 1 correct, 4 automatic distractors,
+for BOTH questions the situation asks. Unlike every other subtest here, there is no shortfall case
+to guard against and no need to over-supply candidates.
+
+**Scoring simplification, declared rather than hidden:** Barron's own directions note the official
+key sometimes accepts two answers on one item — consensus is a distribution, not a single truth.
+This engine models exactly one accepted MOST index and one accepted LEAST index per scenario. Where
+a real source documents a genuine split verdict, pick the pedagogically clearer answer and record
+the tension in that row's `tell` rather than trying to teach the tool multiple correct indices —
+same "declare the bound honestly" convention as `stemSpace` elsewhere in this codebase.
+
+**⚠ Two things recorded rather than resolved:**
+1. **Scenario count is disputed, and this design does not commit to a fixed bank size.**
+   `afoqtSpec.js`'s existing `pearsonNote` on `SJ` already says *"AFPC counts 50 questions across 16
+   scenarios; Pearson counts the 16 scenarios."* But Barron's actual Practice Test #1 SJT section is
+   **25** numbered situations producing exactly 2 questions each (1-50) — a different structural
+   claim than "16 scenarios" would imply, from a source that reproduces two full official-style
+   practice tests, not a footnote. Both are primary-lineage sources and they disagree on something
+   more basic than a timing footnote. Built to **50 questions** (every source agrees on that) without
+   baking either 16 or 25 into the data model — `engine/judgment.js` places no ceiling on bank size,
+   so PART 25/25B/25C should build as many well-sourced scenarios as reasonably possible per chapter
+   rather than stopping at either number.
+2. **Innovation is thin in the sourced sample.** 24 of the 25 real situations turn on one of the
+   other five competencies; the one that brushes innovation (a section leader inheriting an outdated
+   process) reads more like leadership/delegation than a genuine "propose and champion a new idea"
+   situation. `sjt-06-innovation` is declared anyway — same precedent VA's Part/Part and Sequence set
+   (real but rare is still real, see PART 8's design record) — but PART 25C should pull a second
+   source (Trivium's SJT section if it has one, or the AFPC pamphlet's own worked examples) before
+   writing this chapter's rows, rather than inventing scenarios to fill a doctrine-compliant label.
+
+**SDI decision (PART 26), Trey's call, 2026-08-26:** do not build it as an interactive tool. It is a
+240-statement Likert-scale personality inventory (Strongly disagree … Strongly agree) with
+explicitly no right or wrong answers and zero composite weight — there is nothing to drill or
+master, so an interactive version would be a UI with no mastery concept behind it. Barron's directs
+candidates to answer from first impression, comparing themselves to peers of the same age and sex,
+in 45 minutes for 240 items (11.25s each) — that pacing fact and the format itself belong in
+whichever chapter/reference material documents the whole exam's structure to Trey (not built this
+session; flagged for whoever next touches exam-overview content, likely alongside PART 28's
+full-length runner), not as a drillable subtest.
+
+---
+
+### PART 25 — `templates/sjt/ch02-integrity-professionalism.js`, `ch03-leadership.js`
+
+**Agent:** Sonnet / high effort, not medium. Every other data-farming part on this board has a
+mechanical validator that catches a real defect (a duplicate id, a band mismatch, a short slate).
+This one's hardest failure mode is invisible to `engine/judgment.js`'s registrar entirely: a
+scenario whose "correct" MOST or LEAST answer is actually debatable, or whose four distractor
+actions are all so obviously bad that the item teaches nothing. That is a judgment call about
+judgment calls, and a lighter model will confidently author a scenario that reads as arbitrary.
+Haiku and Flash are not suitable. Gemini Pro is acceptable only if explicitly walked through 3-4 of
+the real Barron's-style situations described below as calibration before writing its own.
+
+**Read first:** `engine/judgment.js` in full (the registrar contract above is a summary, not a
+substitute), `curriculum/chapters.js` (search `sjt-02-integrity-professionalism` and
+`sjt-03-leadership` for the exact concepts each chapter owns), and the "PART 24 design record" above
+in full — it names the primary source and the two open flags you need to know before writing a row.
+
+**Do not read or request Barron's SJT text itself.** It is a copyrighted commercial book and this
+site deploys publicly (CLAUDE.md rule 2, folder CLAUDE.md's hard constraint 2) — the calibration
+books are a ruler, never a corpus. Write original scenarios in the same REGISTER: a first- or
+second-person military workplace situation, one paragraph, ending in an implicit "what do you do?",
+followed by five distinct plausible actions. The competency summaries below (from the design record,
+themselves written without quoting the source) are what to calibrate against.
+
+**Do:** create `templates/sjt/ch02-integrity-professionalism.js` and
+`templates/sjt/ch03-leadership.js`. Target **at least 8-10 scenarios per chapter**, concentrated at
+band 3 with a few at bands 2 and 4 (the engine needs 5+ rows in a band before `scenarioTemplates`
+will build anything for it — see PART 24's design record on what "band" means here). Then call
+`scenarioTemplates({ chapter, band, idBase, name })` for each band that reaches 5.
+
+- `ch02-integrity-professionalism.js` — situations testing `sjt-honest-reporting` (reporting a fact
+  accurately under social or authority pressure to shade it), `sjt-conflict-of-interest`
+  (recognising and disclosing a personal entanglement before it biases a decision, not after),
+  `sjt-owning-mistakes` (self-reporting an error promptly rather than concealing or minimising it),
+  `sjt-fair-process-before-accusation` (gathering facts through the proper channel before acting on
+  a suspicion about a colleague).
+- `ch03-leadership.js` — `sjt-situational-authority` (acting at your ACTUAL level of authority —
+  neither overstepping a decision that is not yours nor punting one that is), `sjt-standards-vs-morale`
+  (holding a real standard while reading the team's actual state, not just cracking the whip or
+  letting it slide), `sjt-crisis-triage` (sequencing safety, then mission, then administrative
+  concerns under real time pressure), `sjt-difficult-personalities` (addressing a performance or
+  behavior problem directly and privately, never by avoidance or public confrontation).
+
+**Authoring rules specific to this content type:**
+- **Every scenario needs a genuinely correct MOST and a genuinely correct LEAST**, and the other
+  three actions should each be a recognisably different KIND of mistake (one overstepping, one
+  under-reacting, one procedurally wrong, etc.) tagged with whichever competency that particular
+  mistake violates — not necessarily the same competency the scenario is filed under. A scenario
+  where all five actions are minor variations of the same idea fails the "genuinely correct" bar even
+  if it passes the registrar.
+- **Write the `rationale` for EVERY action**, not just the two that get used as the answer — a
+  distractor's rationale is what a miss shows the candidate, the same as `why` on every other
+  subtest's wrong choices.
+- **The `tell` is a transferable principle, not a recap.** "Report facts accurately even when
+  they're unwelcome, and route concerns through the person who can act on them" transfers to the next
+  scenario; "In this situation, telling the supervisor was best" does not.
+- **Vary the protagonist's rank/role and the setting** (a NCO's shop, a joint headquarters cell, a
+  deployed convoy, an office) — five scenarios that are all "you are a new lieutenant in an office"
+  will read as the same question five times even with different text.
+
+**Register the files** by adding `import './sjt/ch02-integrity-professionalism.js';` and
+`import './sjt/ch03-leadership.js';` in a new `// --- Situational Judgment` section of
+`templates/index.js`. That file is the one exception to "touch only the files your part names."
+
+**Verify:**
+```
+npm run afoqt:selftest
+npm run afoqt:coverage
+npm run afoqt:sample -- --only=sjt-02-b3-judge
+npm run afoqt:sample -- --only=sjt-03-b3-judge
+```
+(substitute your actual `idBase` values in the last two). `afoqt:coverage` must stop reporting
+`sjt-honest-reporting`, `sjt-conflict-of-interest`, `sjt-owning-mistakes`,
+`sjt-fair-process-before-accusation`, `sjt-situational-authority`, `sjt-standards-vs-morale`,
+`sjt-crisis-triage` and `sjt-difficult-personalities` as orphans. Read every sampled question aloud
+— for this subtest specifically, ask yourself "would a reasonable officer actually pick this as
+worst?" for every LEAST-effective answer, since an unconvincing LEAST is the single easiest defect
+for this content type to ship invisibly.
+
+---
+
+### PART 25B — `templates/sjt/ch04-resource-management.js`, `ch05-communication.js`
+
+**Agent:** Sonnet / high effort. Same risk profile as PART 25 — read that part's authoring rules in
+full, they apply here unchanged and are not repeated verbatim below.
+
+**Read first:** same as PART 25 (`engine/judgment.js`, "PART 24 design record"), plus
+`curriculum/chapters.js` for `sjt-04-resource-management` and `sjt-05-communication`'s concepts. Skim
+`templates/sjt/ch02-integrity-professionalism.js` once PART 25 lands, as a finished shape example —
+if it has not landed yet, proceed from the contract alone.
+
+**Do:** create `templates/sjt/ch04-resource-management.js` and `templates/sjt/ch05-communication.js`.
+Same target as PART 25: **8-10 scenarios per chapter**, concentrated at band 3 with a few at 2 and 4.
+
+- `ch04-resource-management.js` — `sjt-prioritization-under-scarcity` (ranking competing demands
+  rather than trying to do everything or picking arbitrarily), `sjt-proper-channels-for-requests`
+  (routing a cross-team resource ask through the correct chain rather than around it),
+  `sjt-realistic-commitment` (communicating what is actually achievable rather than over-promising or
+  flatly refusing).
+- `ch05-communication.js` — `sjt-tactful-feedback` (delivering a hard message privately,
+  specifically, without embarrassing the other person), `sjt-receiving-feedback` (responding to
+  criticism by seeking clarity and improving, not defending or deflecting), `sjt-respectful-dissent`
+  (raising a genuine concern to a superior through reasoned explanation — neither silent compliance
+  nor insubordination), `sjt-proper-escalation` (routing a concern to the person who can actually
+  address it rather than accusing or acting on assumption).
+
+**Register the files** by adding `import './sjt/ch04-resource-management.js';` and
+`import './sjt/ch05-communication.js';` to the same `// --- Situational Judgment` section PART 25
+started in `templates/index.js`.
+
+**Verify:**
+```
+npm run afoqt:selftest
+npm run afoqt:coverage
+npm run afoqt:sample -- --only=sjt-04-b3-judge
+npm run afoqt:sample -- --only=sjt-05-b3-judge
+```
+`afoqt:coverage` must stop reporting all seven `sjt-04-*`/`sjt-05-*` concepts as orphans.
+
+---
+
+### PART 25C — `templates/sjt/ch06-innovation.js`, `ch07-mentoring.js`
+
+**Agent:** Sonnet / high effort, and read the "PART 24 design record"'s Innovation flag before
+starting — this is the one chapter on the whole SJT board without a clean real-item anchor.
+
+**Do not invent scenarios to hit a row count for `ch06-innovation.js`.** If, after genuinely trying
+a second source (Trivium's SJT section if it has one, the AFPC pamphlet's own examples), you cannot
+find real grounding for a distinct "propose/champion a new idea" situation beyond variations on "you
+notice an outdated process," **report that as a live blocker** (what you tried, what you found) and
+ship fewer than the target row count rather than padding it — this is exactly the kind of judgment
+that produced 60 leaking-the-answer defects in Aviation Information and is invisible to every
+structural check.
+
+**Do:** create `templates/sjt/ch06-innovation.js` (`sjt-process-improvement`, `sjt-calculated-risk`)
+and `templates/sjt/ch07-mentoring.js` (`sjt-developmental-coaching`,
+`sjt-balancing-mentorship-with-workload`). Mentoring has decent real grounding (three of the 25
+sourced situations touch it); target 8-10 rows there as usual. Innovation's target is soft — write
+as many genuinely distinct, well-grounded rows as you can defend, report the count and why.
+
+**Register** by adding the two imports to `templates/index.js`'s Situational Judgment section.
+
+**Verify:**
+```
+npm run afoqt:selftest
+npm run afoqt:coverage
+npm run afoqt:sample -- --only=sjt-07-b3-judge
+```
+`sjt-developmental-coaching` and `sjt-balancing-mentorship-with-workload` must leave the orphan list.
+`sjt-process-improvement`/`sjt-calculated-risk` leaving the orphan list is the goal but not a hard
+gate if the blocker above is genuinely hit — report honestly rather than force a template into
+existence with thin rows.
+
+---
+
+### PART 25D — SJT lessons, all 7 chapters
+
+**Agent:** Sonnet / medium effort minimum, same risk class as PART 12 (VA lessons) — no structural
+validator exists for lesson content, every check here is human judgment. Hallucinated statistics,
+teaching a concept no template tests, and voice drift across seven files in one session are the
+three specific failure modes that disqualify a lighter model. Haiku and Flash are not suitable.
+
+**Read first:** `curriculum/chapters.js` (all seven `sjt-*` chapter entries), `curriculum/lessons.js`
+(the import + map pattern), and two existing lessons as the voice/structure model:
+`curriculum/chapters/va/ch01-method.md` and `curriculum/chapters/ps/ch01-astronomy.md` (once PART 22
+lands; if not yet, use any existing `curriculum/chapters/*/ch01*.md`).
+
+**Do:** create `curriculum/chapters/sjt/` and write seven lesson files, one per chapter id
+(`ch01-method.md` through `ch07-mentoring.md`). `ch01-method.md` teaches the format itself: two
+questions per situation (MOST then LEAST), no guessing penalty, and — the genuinely distinctive part
+— that scoring is against **officer consensus, not a fixed answer key**, so the right frame for a
+candidate is "what would a well-regarded officer actually do here," not "what is the textbook-correct
+answer." The other six each teach their competency's specific judgment test (see the summaries in
+`curriculum/chapters.js`'s `sjt-*` entries and PART 24's design record) with 2-3 worked examples —
+written originally, never lifted from Barron's (see PART 25's "do not read or request Barron's SJT
+text" note, which applies here too).
+
+**Then register all seven** in `curriculum/lessons.js`: seven `?raw` imports and seven map entries
+keyed by the exact chapter ids. That file is the one exception to "touch only the files your part
+names."
+
+**The binding rule applies in both directions (Doctrine rule 2):** every concept a chapter declares
+must be taught in its lesson; the lesson must not teach anything no template tests. If PART
+25/25B/25C have not fully landed by the time this part runs, a chapter's lesson can still be written
+against its declared concepts — `afoqt:coverage` will keep reporting those concepts as orphans until
+the scenario rows exist, which is expected, not a sign the lesson is wrong.
+
+**Verify:** `npm run afoqt:coverage` — no orphan LESSON content (every concept the lessons teach is
+declared by its chapter; coverage may still show concepts orphaned from the OTHER direction if
+25/25B/25C haven't landed yet, which is fine). Confirm the markdown renders as plain markdown, no raw
+HTML, consistent heading levels with the model lessons.
+
+---
+
+### PART 25E — SJT test suite
+
+**Agent:** Sonnet / medium effort. Must write deterministic tests and bank invariants; the
+`registerScenarios` guards need every one of them individually confirmed to actually reject bad
+input (the anti-vacuity discipline section 3 rule 12 exists for), not just exercised.
+
+**Read first:** `engine/__tests__/words.test.js` or `engine/analogy.js`'s eventual PART 13 test file
+(once it exists) as the shape model, plus `engine/judgment.js` in full.
+
+**Do:** create `engine/__tests__/judgment.test.js`. Vitest, `node` environment. Cover:
+
+1. **Validator rejection** — one test per `throw` in `registerScenarios`: missing id, duplicate id,
+   missing chapter, empty concepts, band out of range, short/placeholder situation, wrong action
+   count, missing action text, invalid competency, missing rationale, duplicate action text,
+   mostEffective/leastEffective out of range, mostEffective === leastEffective, missing tell. Use
+   `_resetScenarios()` between cases — snapshot and restore the real bank around each test, per rule
+   12 in section 3, so a test that registers a fake row cannot leave a later test running against it.
+2. **Bank invariants** over the real registered rows (once PART 25/25B/25C exist): every scenario id
+   unique across the whole bank; every scenario's `concepts` are declared by its chapter in
+   `curriculum/chapters.js`; every action's `competency` is one of the six exported `COMPETENCIES`.
+3. **The MOST/LEAST pairing mechanism** — this is the one thing genuinely novel to this engine and
+   deserves its own dedicated tests, not just reuse of a generic pattern: for a chapter+band with a
+   registered template, walk `composeSeed(sheetSeed, 0)` and `composeSeed(sheetSeed, 1)` across many
+   sheet seeds and assert each pair (a) generates without error, (b) references the same underlying
+   scenario, (c) the item-0 draw is tagged `most-effective` and item-1 is tagged `least-effective`.
+4. **Determinism:** `generateInstance(id, seed)` twice gives a byte-identical question.
+5. **Slate integrity:** every `sjt-*` template at a few hundred seeds produces exactly 5 choices, a
+   valid `correctIndex`, and no two choices with identical text.
+
+Do not weaken an assertion to make it pass. If a test finds a real defect in the bank, leave the test
+failing and report it.
+
+**Verify:**
+```
+npx vitest run src/pages/theknowledgebase/afoqt/engine/__tests__/judgment.test.js
+```
+One exception to the no-install rule: vitest needs `node_modules`. If the packet has none, run
+`npm install` for this part only, and say so in your report.
+
+---
+
+### PART 27 — design record (done 2026-08-26, Claude-only autonomous session)
+
+Not farmed. Engine work per section 4's not-farmable column, and the one real design question in
+it (what does "composite score" even mean when the real one is unpublished) is not something to
+farm out regardless. This is the record for whoever picks up PART 28/29/30.
+
+**The blocker that shapes everything else here:** `docs/afoqt/RESEARCH.md` → "Scoring" already
+established *"Composites are reported as percentiles 1 to 99 against a reference group - not
+percent correct. Exact weightings and norming tables are unpublished."* That is Pearson/AFPC
+proprietary IP, not a research gap — no further search closes it, and CLAUDE.md's rule against
+declaring an external source unavailable from a sample of one does not apply here, because the
+absence is already documented and confirmed, not assumed. A tool that fabricated a fake
+percentile from practice accuracy would hand Trey false confidence (or a false alarm) on a test
+with exactly one attempt that counts. So this file computes something different and says so
+everywhere it surfaces.
+
+**What was built:** `engine/scoring.js` — `subtestAccuracy()`, `compositeAccuracy()`,
+`allCompositeAccuracy()`, all pure functions over the existing `templateStats` progress blob (no
+new storage schema needed — `afoqtStorage.js` already tracked everything required per-template).
+A composite's practice accuracy is the question-count-weighted average of its subtests' accuracy
+(each subtest weighted by its real question count from `afoqtSpec.js` — closer to how a raw
+composite is probably assembled than an unweighted average, but still a documented ASSUMPTION
+about unpublished mechanics, not a citation — see the file's header). "No attempts yet" is
+returned as `null`, never `0` — a composite nobody has touched must not read as "you are failing
+this," and the UI (`AfoqtDashboard.jsx`) renders that distinction literally.
+
+**Verified working end-to-end**, not just unit-level: a throwaway smoke script (registered fake
+templates, hand-computed the expected weighted average, confirmed the engine matched exactly;
+confirmed `null`-not-`0` on no data; confirmed the disputed SJT composite is excluded from the
+default list) — deleted after, not committed, same convention as PART 24's engine verification.
+Then wired into `AfoqtDashboard.jsx`'s existing (previously number-free) Composites section and
+checked in a REAL BROWSER via a throwaway Playwright script (also deleted): the empty state
+(screenshot: all six composites correctly read "no attempts yet"), and a populated state with real
+MK/TR template ids seeded into `localStorage` directly (screenshot: PILOT/CSO/ABM/ACAD/QUANT all
+showed the correct hand-verifiable weighted percentages and coverage fractions, zero console
+errors). This is the UI-feature-contract discipline from the root CLAUDE.md ("a toggle must do the
+thing it claims") applied to a number, not a toggle — a scoring engine nobody can see is exactly
+as useless as `includeStretch` was before PART 33 wired it into `DrillConfig.jsx`.
+
+**The one non-negotiable UI rule, for whoever touches this next:** never render a composite's
+practice-accuracy percentage next to its official `min` (a PERCENTILE minimum) as though they are
+on the same scale. The current dashboard render puts them in visually distinct lines with the
+`min` line spelling out "Xth percentile — not the same scale as the accuracy above" explicitly,
+every single time it appears, rather than trusting a reader to remember a rule stated once.
+Collapsing that distinction is the single most dangerous mistake this feature could make.
+
+**Explicitly NOT done, flagged for PART 28/29/30:** no full-length, properly-sequenced Form T exam
+run (Part A → break → Part B, real administration order, the SJT/SDI slots included even though
+SDI itself is not drillable per PART 26's decision); no trend-over-time view (only a snapshot of
+current lifetime accuracy, no "accuracy this week vs last week"); no diagnostic mode seeded from
+`realQuestions.json` (flagged as a good idea back in PLAN.md's "Recommended deviation" note from
+Phase 0, never built). This session was scoped to "can a composite number exist at all, honestly,"
+not the full exam-simulator experience.
 
 ---
 
