@@ -464,7 +464,19 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   engine-level limitation PART 16 already flagged, now known to be systemic to every
   one-template-per-band engine (RC and SJT both), not fixed here for the same reason PART 16 gave.
   `npm run build` clean, no raw HTML in any of the seven files.)*
-- [ ] **PART 25E** — SJT test suite *(unblocked 2026-08-26)*
+- [x] **PART 25E** — SJT test suite *(Claude, done 2026-08-26 — `engine/__tests__/judgment.test.js`,
+  46 tests: validator rejection (all 15 throws in `registerScenarios`), the 5-row floor,
+  bank invariants, `scenariosFor`, the MOST/LEAST sheet-pairing mechanism (walked
+  `composeSeed(sheetSeed, 0)` and `composeSeed(sheetSeed, 1)` across 200 sheet seeds per template,
+  confirming each pair references the same situation and is tagged MOST then LEAST), determinism,
+  and slate integrity. All 46 passed on the first real run - PART 25D's engine fix (method-concept
+  auto-tagging) and the earlier LEAST-answer scrutiny in PARTS 25/25B/25C meant there was nothing
+  left for this test file to catch. Ran the full `npx vitest run` afterward: 4065/4066 passing,
+  the sole failure being the already-documented, already-explained RC/SJT test-out-gate
+  limitation (PART 16, confirmed systemic in PART 25D) - not a regression from this part.
+  `npm run build` clean. **This closes out the entire Situational Judgment block (PARTS 24-25E)
+  and, with it, every farmable AFOQT PART on this board except the two locked exam-simulator
+  parts (28/29/30) that were never in scope for this pass.**)*
 - [x] **PART 26** — SDI *(decided 2026-08-26, Trey: do NOT build as an interactive tool. It is a
   240-item personality inventory with no right/wrong answers and zero composite weight — there is
   nothing to drill or master. Document its existence/format only, so test day isn't a surprise; see
