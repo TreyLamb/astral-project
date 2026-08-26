@@ -84,3 +84,4 @@ import './bc/ch01-block-counting.js';
 // primary frame - it outnumbers format 1 roughly 3:1 in the sourced sample.
 import './va/ch02-structure.js';
 import './va/ch03-cause-consequence.js';
+import './va/ch04-meaning-degree.js';

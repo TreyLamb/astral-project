@@ -210,7 +210,21 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   answer derivable from spelling alone, not from the relation. `afoqt:selftest -- --samples=8000`
   clean on first pass (no b-word collisions this time), `afoqt:coverage` clears
   `va-cause-effect`/`va-action-object`.)*
-- [ ] **PART 11** — `templates/va/ch04-meaning-degree.js` — synonym + antonym + degree rows (~30)
+- [x] **PART 11** — `templates/va/ch04-meaning-degree.js` — synonym + antonym + degree rows (~30)
+  *(Claude, done 2026-08-26 — 30 rows, 5 synonym + 2 antonym + 3 degree per band at 2/3/4. Six
+  words collided with the WK bank's own band for that word (`candid`, `diligent`, `ample`,
+  `frugal`, `garrulous`, `obstinate`, `austere` — WK's confusables/vocab chapters already cover
+  a lot of this exact register) and were swapped for a same-meaning word at the WK-agreeing band
+  instead of forcing a mismatch. Also hit the cross-chapter version of PART 10's b-word collision
+  bug — `WARM:HOT` (degree) shared "hot" with `HOT:COLD` (antonym) at band 2, and since
+  `crossPool` draws from the WHOLE VA bank at a given band (not just the current chapter), this
+  bug is bank-wide, not file-local. Wrote a one-off collision scanner (checked into no file, just
+  run and discarded) that walks every row's a/b words against every OTHER row's b-word in the
+  same band — confirmed zero remaining collisions across all three VA chapters combined.
+  Confirmed by sampling: a symmetric row's `-pair` question never offers the reversed pair as a
+  distractor; an asymmetric degree row's `-term` question correctly DOES offer the reversed word
+  as a distractor (a real error mode, not a bug). `afoqt:selftest -- --samples=8000` clean,
+  `afoqt:coverage` clears `va-synonym`/`va-antonym`/`va-degree`.)*
 - [ ] **PART 11B** — `templates/va/ch05-defining-traits.js` — object-attribute rows (~24)
 - [ ] **PART 12** — VA lessons, all five chapters
 - [ ] **PART 13** — VA test suite
