@@ -257,7 +257,27 @@ work per section 4's not-farmable column; do a live session, never zip this one 
 - [x] **PART 14** — RC design + passage engine *(Claude — the "PART 14 review, 2026-08-24"
   below records three defects found after the fact; all three are RESOLVED as of 2026-08-24,
   see "PART 14 fix record" below. PARTS 15/16 are unblocked.)*
-- [ ] **PART 15** — RC passages, set A (bands 2 & 3, ~12 passages) *(unblocked 2026-08-24)*
+- [x] **PART 15** — RC passages, set A (bands 2 & 3, ~12 passages) *(Claude, done 2026-08-26 — 12
+  PME/Joint-Force-register passages (6 band 2, 6 band 3), 6 questions each, `templates/rc/ch01-
+  passages-set-A.js`. Two real defects found only by running the actual QC gates, not by reading:
+  (1) A sheet-lock bug — a passage with exactly 1 eligible question for a pooled concept pair
+  (main-idea+author-agreement) gets that ONE item every time (`inSheetPassage[h.item % 1]`), so
+  the fallback to the full cross-passage pool never triggers as long as the count stays above
+  zero. 6 of 12 passages had 1 main-idea + 0 author-agreement, collapsing `rc-main-idea-b{2,3}`
+  to 2-3 distinct stems against a declared stemSpace of 12. Fixed by adding an author-agreement
+  question to each of those 6 passages, matching the doctrine's own "2+ questions of 3+ types"
+  guidance I'd under-applied on the first pass. (2) Even after that fix, the SAME check still
+  failed — because I'd reused identical boilerplate stem wording ("Which choice best states the
+  main idea of the passage?", "The author of this passage would most likely agree that:") across
+  most passages, which the registrar's per-passage duplicate-stem check cannot catch (it's scoped
+  to one passage) but the audit's distinct-stem count catches immediately. Varied the wording
+  across 6 rotating phrasings each for main-idea and author-agreement. Also wrote a standalone
+  verification script (not committed) that checks every vocabulary-in-context "line N" reference
+  against the actual `text.split('\n')` output — paragraph-break blank lines get numbered too,
+  which silently shifted several hand-counted references off by 1-5 lines; 15 of the original
+  references were wrong and are now script-verified correct. `afoqt:selftest -- --samples=8000`
+  clean, `afoqt:coverage` clears all seven RC concepts (concept-level, not band-level — PART 16
+  adds bands 4-5 for content depth, not to clear further orphans). `npm run build` clean.)*
 - [ ] **PART 16** — RC passages, set B (bands 4 & 5, ~12 passages) *(unblocked 2026-08-24)*
 - [ ] **PART 17** — RC lessons
 - [ ] **PART 18** — RC test suite

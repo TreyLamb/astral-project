@@ -86,3 +86,9 @@ import './va/ch02-structure.js';
 import './va/ch03-cause-consequence.js';
 import './va/ch04-meaning-degree.js';
 import './va/ch05-defining-traits.js';
+
+// --- Reading Comprehension (Phase 11) ---------------------------------------
+// Sheet mode: one passage stays on screen for a run of consecutive questions - see the header
+// comment in engine/passage.js. Set A covers bands 2-3; ch02-passages-set-B.js (PART 16) covers
+// bands 4-5 of the same three chapters.
+import './rc/ch01-passages-set-A.js';
