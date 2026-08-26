@@ -78,3 +78,8 @@ import './ic/ch01-instruments.js';
 // 9.0 s/question, the tightest clock on the test. Corner contacts do not count, and the
 // answer key shifts range every question and can run descending - see engine/blocks.js.
 import './bc/ch01-block-counting.js';
+
+// --- Verbal Analogies (Phase 10) --------------------------------------------
+// Relation-pair rows against engine/analogy.js. Format 2 ("pick the matching pair") is the
+// primary frame - it outnumbers format 1 roughly 3:1 in the sourced sample.
+import './va/ch02-structure.js';

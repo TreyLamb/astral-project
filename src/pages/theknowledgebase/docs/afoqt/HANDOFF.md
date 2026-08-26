@@ -44,8 +44,21 @@ Remove-Item -Recurse -Force $dst -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Force "$dst\scripts", "$dst\src\pages" | Out-Null
 Copy-Item package.json $dst
 Copy-Item scripts\afoqt*.mjs "$dst\scripts"
-Copy-Item -Recurse src\pages\theknowledgebase "$dst\src\pages" -Exclude ResearchPics
-Compress-Archive "$dst\*" "$([Environment]::GetFolderPath('Desktop'))\afoqt-packet.zip" -Force```
+Copy-Item -Recurse src\pages\theknowledgebase "$dst\src\pages"
+Remove-Item -Recurse -Force "$dst\src\pages\theknowledgebase\ResearchPics"
+Compress-Archive "$dst\*" "$([Environment]::GetFolderPath('Desktop'))\afoqt-packet.zip" -Force
+```
+
+⚠ **Do not add `-Exclude ResearchPics` to the `Copy-Item -Recurse` line above.** It looks like
+the obvious one-liner and it silently does not work — `Copy-Item`'s `-Exclude` does not reliably
+filter a whole subfolder when combined with `-Recurse` on a directory source (a known PowerShell
+quirk, confirmed 2026-08-26: it copied `ResearchPics/` in full, including a stray installer `.exe`
+sitting in `ResearchPics/instruments/`, and blew the packet up to 253 MB instead of the documented
+~2.8 MB). Copy everything, then delete `ResearchPics/` from the destination, as above. Also run
+this from the **repo root**, not from inside `src\pages\theknowledgebase` — the paths above are
+relative to root and fail silently-into-a-nested-shell if pasted into a `powershell` prompt you
+just launched from partway down the tree (the paste can race the new shell's startup and never
+actually execute; if a pasted block produces no output and no errors, assume nothing ran).
 
 ---
 
@@ -71,6 +84,7 @@ Compress-Archive "$dst\*" "$([Environment]::GetFolderPath('Desktop'))\afoqt-pack
 >    of each verify command, and anything you could not do and why — as a live blocker with
 >    what you actually tried, never as a bare "not possible". 
  5. since it might not be clear in #4, After finishing each file, put them INTO the session chat so Trey has them. Don't keep them on disk where they will be lost when usage hits its limits.
+ 6. Other agents are running in paralellel so if a small section that looks like it's meant to be farmed out is not finished - that's probably normal
 >
 > Do not commit, do not run git, do not reformat a file you were not asked to touch.
 
@@ -171,7 +185,15 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   record below.)*
 - [x] **PART 9** — `engine/analogy.js` relation engine *(Claude, done 2026-08-23 — see "PART 9
   design record" below)*
-- [ ] **PART 10** — `templates/va/ch02-structure.js` — part-whole + member-category rows (~24)
+- [x] **PART 10** — `templates/va/ch02-structure.js` — part-whole + member-category rows (~24)
+  *(Claude, done 2026-08-26 — 24 rows, 8/band at bands 2/3/4, split 4 part-whole + 4
+  member-category per band. One real defect found only by the selftest, not by inspection:
+  BRANCH/TREE and OAK/TREE shared the bare b-word "tree", and the `-term` frame's
+  reused-base-word distractor collapsed onto a crossPool candidate's bare word, producing a
+  4-choice slate on ~40% of draws. Fixed by swapping BRANCH/TREE for RUNG/LADDER — no two rows
+  in the same band now share a b-word. `afoqt:selftest -- --samples=8000` and `afoqt:coverage`
+  clean; `va-part-whole`/`va-member-category` off the orphan list; `va-part-part`/`va-sequence`
+  correctly still orphaned, PART 10B's job.)*
 - [ ] **PART 10B** — same file, appended — part-part + sequence rows (~12)
 - [ ] **PART 10C** — `templates/va/ch03-cause-consequence.js` — cause-effect + action-object rows (~24)
 - [ ] **PART 11** — `templates/va/ch04-meaning-degree.js` — synonym + antonym + degree rows (~30)
