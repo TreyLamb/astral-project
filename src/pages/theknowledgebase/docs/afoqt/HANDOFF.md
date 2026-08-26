@@ -204,7 +204,12 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   templates registered under a fresh idBase per PART 9's warning about colliding ids.
   `afoqt:selftest -- --samples=8000` clean, `afoqt:coverage` shows zero remaining `va-02-structure`
   orphans.)*
-- [ ] **PART 10C** — `templates/va/ch03-cause-consequence.js` — cause-effect + action-object rows (~24)
+- [x] **PART 10C** — `templates/va/ch03-cause-consequence.js` — cause-effect + action-object rows (~24)
+  *(Claude, done 2026-08-26 — 24 rows, 4+4 per band at bands 2/3/4. Deliberately avoided
+  self-referential action-object pairs like ARBITRATE/ARBITRATOR — a shared root makes the
+  answer derivable from spelling alone, not from the relation. `afoqt:selftest -- --samples=8000`
+  clean on first pass (no b-word collisions this time), `afoqt:coverage` clears
+  `va-cause-effect`/`va-action-object`.)*
 - [ ] **PART 11** — `templates/va/ch04-meaning-degree.js` — synonym + antonym + degree rows (~30)
 - [ ] **PART 11B** — `templates/va/ch05-defining-traits.js` — object-attribute rows (~24)
 - [ ] **PART 12** — VA lessons, all five chapters

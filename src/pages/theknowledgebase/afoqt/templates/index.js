@@ -83,3 +83,4 @@ import './bc/ch01-block-counting.js';
 // Relation-pair rows against engine/analogy.js. Format 2 ("pick the matching pair") is the
 // primary frame - it outnumbers format 1 roughly 3:1 in the sourced sample.
 import './va/ch02-structure.js';
+import './va/ch03-cause-consequence.js';
