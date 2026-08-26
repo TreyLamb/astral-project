@@ -362,7 +362,13 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   `afoqt:selftest -- --samples=8000` clean on the first real run, `afoqt:coverage` clears all 8
   PS chapters and their 30 concepts — the entire Physical Science subtest content is now built
   (PARTS 20/20B/21/21B). `npm run build` clean. PARTS 22 (lessons) and 23 (test suite) are next.)*
-- [ ] **PART 22** — PS lessons, all 8 chapters
+- [x] **PART 22** — PS lessons, all 8 chapters *(Claude, done 2026-08-26 — eight files in
+  `curriculum/chapters/ps/`, registered in `curriculum/lessons.js`, table-plus-memory-hook style
+  matching the Aviation Information lessons rather than prose repeating each fact in sentence
+  form. Every table entry pulled from the actual fact rows in PARTS 20/20B/21/21B. `npm run build`
+  clean, no raw HTML tags. Ran the full `curriculum.test.js` afterward: PS chapters no longer
+  appear anywhere in its failures — only the un-farmed SJT chapters and the already-flagged RC
+  test-out-gate limitation remain red, both pre-existing and unrelated to this part.)*
 - [ ] **PART 23** — PS test suite
 
 ### Phase 13 — Situational Judgment + Self-Description Inventory

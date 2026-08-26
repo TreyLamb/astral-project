@@ -56,6 +56,14 @@ import rc01 from './chapters/rc/ch01-method.md?raw';
 import rc02 from './chapters/rc/ch02-main-idea.md?raw';
 import rc03 from './chapters/rc/ch03-details.md?raw';
 import rc04 from './chapters/rc/ch04-vocabulary.md?raw';
+import ps01 from './chapters/ps/ch01-astronomy.md?raw';
+import ps02 from './chapters/ps/ch02-atomic-physics.md?raw';
+import ps03 from './chapters/ps/ch03-chemistry.md?raw';
+import ps04 from './chapters/ps/ch04-electrical.md?raw';
+import ps05 from './chapters/ps/ch05-light.md?raw';
+import ps06 from './chapters/ps/ch06-mechanics.md?raw';
+import ps07 from './chapters/ps/ch07-sound.md?raw';
+import ps08 from './chapters/ps/ch08-thermodynamics.md?raw';
 
 export const LESSONS = {
   'mk-01-fluency': ch01,
@@ -106,6 +114,14 @@ export const LESSONS = {
   'rc-02-main-idea': rc02,
   'rc-03-details': rc03,
   'rc-04-vocabulary': rc04,
+  'ps-01-astronomy': ps01,
+  'ps-02-atomic-physics': ps02,
+  'ps-03-chemistry': ps03,
+  'ps-04-electrical': ps04,
+  'ps-05-light': ps05,
+  'ps-06-mechanics': ps06,
+  'ps-07-sound': ps07,
+  'ps-08-thermodynamics': ps08,
 };
 
 export const getLesson = (chapterId) => LESSONS[chapterId] ?? null;
