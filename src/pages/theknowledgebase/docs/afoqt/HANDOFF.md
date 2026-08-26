@@ -406,7 +406,20 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   behavior is worse than passive inaction). Both are judgment calls with no structural check behind
   them, exactly as the brief warned. `afoqt:selftest -- --samples=8000` clean, `afoqt:coverage`
   clears all 8 concepts. `npm run build` clean. PARTS 25B/25C/25D/25E remain.)*
-- [ ] **PART 25B** — `templates/sjt/ch04-resource-management.js`, `ch05-communication.js` — scenario rows *(unblocked 2026-08-26)*
+- [x] **PART 25B** — `templates/sjt/ch04-resource-management.js`, `ch05-communication.js` — scenario rows
+  *(Claude, done 2026-08-26 — 8 scenarios each, same 2/5/1 band split as PART 25. Made the exact
+  same miscounting mistake as PART 25 in both files this time (4 band-3 rows instead of 5) — caught
+  it myself before ever running selftest by counting rows against the template's `< 5` floor while
+  drafting, rather than after the gate flagged it, and added `sjt-commit-03` and `sjt-dissent-02`
+  to reach 5 in each. `afoqt:selftest -- --samples=8000` clean on the actual run (SJ:4 confirms all
+  four chapters registered), `afoqt:coverage` clears all seven `sjt-04-*`/`sjt-05-*` concepts.
+  Re-scrutinized every LEAST answer against the "reasonable officer" test per PART 25's precedent;
+  one genuinely close call flagged rather than silently resolved: `sjt-dissent-01`'s LEAST
+  ("quietly work around the decision" vs. "raise the objection loudly and publicly") has two
+  defensible readings depending on whether covert non-compliance or public confrontation is judged
+  worse — kept the quiet-workaround reading since it is the more corrosive, harder-to-detect
+  failure, but this one is closer than the others and worth a second look in PART 25D or 25E if
+  either surfaces a reason to revisit it. `npm run build` clean.)*
 - [ ] **PART 25C** — `templates/sjt/ch06-innovation.js`, `ch07-mentoring.js` — scenario rows *(unblocked 2026-08-26; ch06 has real sourcing gaps, read its brief before starting)*
 - [ ] **PART 25D** — SJT lessons, all 7 chapters *(unblocked 2026-08-26)*
 - [ ] **PART 25E** — SJT test suite *(unblocked 2026-08-26)*
