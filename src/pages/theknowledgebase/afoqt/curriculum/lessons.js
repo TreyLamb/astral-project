@@ -64,6 +64,13 @@ import ps05 from './chapters/ps/ch05-light.md?raw';
 import ps06 from './chapters/ps/ch06-mechanics.md?raw';
 import ps07 from './chapters/ps/ch07-sound.md?raw';
 import ps08 from './chapters/ps/ch08-thermodynamics.md?raw';
+import sjt01 from './chapters/sjt/ch01-method.md?raw';
+import sjt02 from './chapters/sjt/ch02-integrity-professionalism.md?raw';
+import sjt03 from './chapters/sjt/ch03-leadership.md?raw';
+import sjt04 from './chapters/sjt/ch04-resource-management.md?raw';
+import sjt05 from './chapters/sjt/ch05-communication.md?raw';
+import sjt06 from './chapters/sjt/ch06-innovation.md?raw';
+import sjt07 from './chapters/sjt/ch07-mentoring.md?raw';
 
 export const LESSONS = {
   'mk-01-fluency': ch01,
@@ -122,6 +129,13 @@ export const LESSONS = {
   'ps-06-mechanics': ps06,
   'ps-07-sound': ps07,
   'ps-08-thermodynamics': ps08,
+  'sjt-01-method': sjt01,
+  'sjt-02-integrity-professionalism': sjt02,
+  'sjt-03-leadership': sjt03,
+  'sjt-04-resource-management': sjt04,
+  'sjt-05-communication': sjt05,
+  'sjt-06-innovation': sjt06,
+  'sjt-07-mentoring': sjt07,
 };
 
 export const getLesson = (chapterId) => LESSONS[chapterId] ?? null;

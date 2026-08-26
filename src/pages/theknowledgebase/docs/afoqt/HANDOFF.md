@@ -441,7 +441,29 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   chapters registered), `afoqt:coverage` clears `sjt-process-improvement`, `sjt-calculated-risk`,
   `sjt-developmental-coaching` and `sjt-balancing-mentorship-with-workload`. `npm run build` clean.
   This closes out all SJT scenario-authoring - only PARTS 25D (lessons) and 25E (test suite) remain.)*
-- [ ] **PART 25D** — SJT lessons, all 7 chapters *(unblocked 2026-08-26)*
+- [x] **PART 25D** — SJT lessons, all 7 chapters *(Claude, done 2026-08-26 — seven files in
+  `curriculum/chapters/sjt/`, registered in `curriculum/lessons.js`. `ch01-method.md` teaches the
+  MOST/LEAST format, no guessing penalty, and the genuinely distinctive part - scoring is against
+  officer consensus, not a fixed key. The other six each teach their competency's specific
+  judgment test with worked examples pulled from the actual PART 25/25B/25C scenarios.
+  ⚠ **Found and fixed a real engine bug while verifying this part, not scoped to lessons at all:**
+  `engine/judgment.js`'s `scenarioTemplates()` never auto-tagged `sjt-judgment-format` /
+  `sjt-competency-lens` onto its generated templates, unlike `engine/analogy.js` and
+  `engine/passage.js`, which both do this for their own method concepts. `sjt-01-method`'s two
+  concepts were consequently orphaned no matter how many scenario rows existed anywhere - a real
+  gap in engine work from PART 24, not something any amount of lesson-writing could fix. Added the
+  same `METHOD_CONCEPTS` auto-tag pattern the other two engines use; `afoqt:coverage` immediately
+  cleared both concepts. ⚠ **Also confirmed the RC test-out-gate limitation flagged in PART 16 is
+  NOT unique to RC — it now applies to every SJT chapter too**, for the identical structural
+  reason: `scenarioTemplates()` registers exactly one template per chapter+band, same as
+  `passageTemplates()`, so every `sjt-0N-*` chapter (except the auto-tagged method chapter) tops
+  out at 1 in-band template against the generic 5-template test-out-gate check — confirmed
+  directly since the actual vitest test only reports the FIRST chapter that fails and stops
+  (`rc-02-main-idea`), silently never reaching the SJT chapters after it in chapter-definition
+  order. This is not a regression from this part or from 25/25B/25C's data — it is the same
+  engine-level limitation PART 16 already flagged, now known to be systemic to every
+  one-template-per-band engine (RC and SJT both), not fixed here for the same reason PART 16 gave.
+  `npm run build` clean, no raw HTML in any of the seven files.)*
 - [ ] **PART 25E** — SJT test suite *(unblocked 2026-08-26)*
 - [x] **PART 26** — SDI *(decided 2026-08-26, Trey: do NOT build as an interactive tool. It is a
   240-item personality inventory with no right/wrong answers and zero composite weight — there is

@@ -142,6 +142,17 @@ export function registerScenarios(rows) {
   return rows;
 }
 
+// sjt-01-method ('sjt-judgment-format', 'sjt-competency-lens') has no scenarios of its own -
+// there is no such thing as a scenario that ONLY tests "the MOST/LEAST format." Every scenario
+// this engine ever generates exercises both skills simply by being a two-question situational
+// item, the same way every VA format-2 item exercises va-relation-format without a template
+// written specifically for it (see engine/analogy.js) and every RC item exercises rc-time-
+// management without a dedicated quiz (see engine/passage.js). scenarioTemplates() tags both
+// onto every template it builds, in addition to whatever concepts the scenarios themselves
+// declare - which is what clears them off the afoqt:coverage orphan list without inventing a
+// bogus "name the format" quiz.
+const METHOD_CONCEPTS = ['sjt-judgment-format', 'sjt-competency-lens'];
+
 export const allScenarios = () => [...SCENARIOS.values()];
 export const scenariosFor = (chapter, band = null) =>
   allScenarios().filter((s) => s.chapter === chapter && (band == null || s.band === band));
@@ -168,7 +179,7 @@ export function scenarioTemplates({ chapter, band, idBase, name, calibratedAgain
     subtest: 'SJ',
     band,
     name,
-    concepts: [...new Set(rows.flatMap((r) => r.concepts))],
+    concepts: [...new Set([...rows.flatMap((r) => r.concepts), ...METHOD_CONCEPTS])],
     calibratedAgainst,
     sheet: true,
     sheetSpan: 2,
