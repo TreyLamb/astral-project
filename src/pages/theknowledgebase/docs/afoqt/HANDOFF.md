@@ -278,7 +278,38 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   references were wrong and are now script-verified correct. `afoqt:selftest -- --samples=8000`
   clean, `afoqt:coverage` clears all seven RC concepts (concept-level, not band-level — PART 16
   adds bands 4-5 for content depth, not to clear further orphans). `npm run build` clean.)*
-- [ ] **PART 16** — RC passages, set B (bands 4 & 5, ~12 passages) *(unblocked 2026-08-24)*
+- [x] **PART 16** — RC passages, set B (bands 4 & 5, ~12 passages) *(Claude, done 2026-08-26 —
+  12 passages (6 band 4, 6 band 5), same 6-question layout (main-idea x1, author-agreement x1,
+  detail-inference x1, function-of-paragraph x1, vocabulary-in-context x2) designed from the start
+  to satisfy both pooled-concept sheet-lock floors PART 15 discovered the hard way, plus stem
+  wording rotated through 6 variants from the start rather than fixed after the fact. Two new
+  defect classes turned up anyway: (1) declared `wordCount` values were hand-estimated and wrong
+  for every one of the 12 passages (off by 55-140 words in a few cases) — replaced with an actual
+  word count computed by evaluating each line array. (2) A compound term due for a vocabulary
+  question ("free-riding", "mirror-imaging") occasionally landed split across a line break by the
+  natural ~14-word wrap, so "line N" pointed at only half the word — a plain substring check on
+  `text.split('\n')[N-1]` catches this immediately; fixed by reflowing the line break so the whole
+  term stays on one line. `afoqt:selftest -- --samples=8000` clean on the real run (no failures at
+  all, unlike PART 15's first pass), `afoqt:coverage` clears every `rc-*` concept.
+  ⚠ **Live blocker, flagged not fixed:** `afoqt:coverage` now also reports (separately from the
+  concept-orphan list, under "chapter cannot fill a drill") that `rc-02-main-idea`, `rc-03-details`
+  and `rc-04-vocabulary` each have "only 3 templates inside bands [2, 3, 4] - a 5-question test-out
+  gate would repeat itself." This is NOT fixable by writing more passage content: `passageTemplates()`
+  registers exactly ONE template per (chapter, band) by design (its own docstring says so), so RC
+  structurally tops out at 3 templates per chapter (one per declared band) no matter how much is
+  written, unlike TR (6 templates across bands 1-4, via genuinely different template flavors -
+  anchor/near/far/tight lookup, axis-read - not just one per band) or WK/VA (multiple frames per
+  band). I checked whether this is pre-existing rather than something PART 15/16 caused: the
+  generic check counts TEMPLATES, not distinct QUESTIONS, so it can't see that a single RC
+  template's `stemSpace` already covers many non-repeating questions - it's very likely this same
+  warning already fired after PART 15 too (bands 2-3 alone would have shown "only 2"), just outside
+  what I happened to grep for that session. Fixing it for real needs either redesigning
+  `passageTemplates()` to register more than one template per band (curriculum/engine work,
+  explicitly Claude-only per section 4) or reconsidering RC's `testOutPass` gate logic - I did not
+  attempt either mid-PART-16, since both are outside what "write bands 4-5 passages" was scoped to
+  do and a rushed engine change here risks exactly the kind of invisible defect this project's own
+  doctrine warns about. Flagging for whoever picks up PART 17/18 or a future RC engine pass, per
+  section 3 rule 8 - not silently dropped, not silently patched. `npm run build` clean.)*
 - [ ] **PART 17** — RC lessons
 - [ ] **PART 18** — RC test suite
 

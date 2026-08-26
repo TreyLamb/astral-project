@@ -92,3 +92,4 @@ import './va/ch05-defining-traits.js';
 // comment in engine/passage.js. Set A covers bands 2-3; ch02-passages-set-B.js (PART 16) covers
 // bands 4-5 of the same three chapters.
 import './rc/ch01-passages-set-A.js';
+import './rc/ch02-passages-set-B.js';
