@@ -239,7 +239,18 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   `afoqt:coverage` unaffected as expected (it checks chapters.js concepts, not lesson prose) and
   `npm run build` clean — the `?raw` markdown imports resolve. No raw HTML tags in any of the
   five files.)*
-- [ ] **PART 13** — VA test suite
+- [x] **PART 13** — VA test suite *(Claude, done 2026-08-26 — `engine/__tests__/analogy.test.js`,
+  87 tests, modeled on `words.test.js`'s restoreBank/anti-vacuity pattern. Two real setup bugs
+  caught while writing it, both worth noting: (1) `relationTemplates` returns early below its
+  5-row floor, so the confusion-existence-check test needed 5 fixture rows before the code under
+  test was ever reached — a 1-row fixture made the test pass for the wrong reason (never running
+  the throw at all). (2) The band-mismatch fixture originally used "historic", which is real WK
+  content but registered via `registerPairs` (morphology.js), not `registerWords` (words.js) —
+  `wordBand()` only reads `allWords()`, so it silently returned null and the test failed. Switched
+  to "gregarious", a genuine `words.js` entry. Also verified directly (not just asserted) that a
+  symmetric row's `-pair` template never offers the reversed base pair across 500 seeds, and that
+  an asymmetric row's DOES. This closes out PARTS 10-13 — the entire VA data + lesson + test
+  block. `npx vitest run` on the file: 87/87 passing. `npm run build` clean.)*
 
 ### Phase 11 — Reading Comprehension
 
