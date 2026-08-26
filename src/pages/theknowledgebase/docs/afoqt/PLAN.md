@@ -24,12 +24,12 @@ and know exactly where to pick up. Update it at the end of every working block.
 | **6** | Instrument Comprehension (+ renderers) | ✅ **DONE** |
 | **7** | Block Counting (+ isometric renderer) | ✅ **DONE** |
 | **8** | Arithmetic Reasoning | ✅ **DONE** |
-| **9** | Word Knowledge | 🟨 **Templates + gates DONE; lessons and tests open** |
-| **10** | Verbal Analogies | ⬜ Not started |
-| **11** | Reading Comprehension | 🟨 Passage engine done + sheet-mode fixed 2026-08-24; data/lessons/tests farmable (HANDOFF Parts 15-18) |
-| **12** | Physical Science *(unscored)* | 🟨 Design + engine done 2026-08-25; PARTS 20-23 (fact rows/lessons/tests) farmable, untouched |
-| **13** | Situational Judgment + SDI *(unscored, SJT disputed)* | 🟨 Design + engine done 2026-08-26; PARTS 25/25B/25C/25D/25E farmable, untouched. SDI decided NOT built as an interactive tool (Trey's call). |
-| **14** | Exam sim, composite scoring, diagnostic, dashboard | 🟨 Composite scoring engine done 2026-08-26 (practice accuracy, not the real percentile - see note below); exam runner/diagnostic/analytics not started |
+| **9** | Word Knowledge | ✅ **DONE** |
+| **10** | Verbal Analogies | ✅ **DONE** (2026-08-26 — PARTS 10/10B/10C/11/11B/12/13 all landed in one session) |
+| **11** | Reading Comprehension | ✅ **DONE** (2026-08-26 — PARTS 15/16/17/18 all landed) |
+| **12** | Physical Science *(unscored)* | ✅ **DONE** (2026-08-26 — PARTS 20/20B/21/21B/22/23 all landed) |
+| **13** | Situational Judgment + SDI *(unscored, SJT disputed)* | ✅ **DONE** (2026-08-26 — PARTS 25/25B/25C/25D/25E all landed. SDI decided NOT built as an interactive tool (Trey's call).) |
+| **14** | Exam sim, composite scoring, diagnostic, dashboard | 🟨 Composite scoring engine done 2026-08-26 (practice accuracy, not the real percentile - see note below); exam runner/diagnostic/analytics (PARTS 28/29/30) still `[L]` locked, not started |
 
 **Recommended deviation:** build the diagnostic in reduced form right after Phase 4,
 seeded from official OATTS items. Trey's stated goal is "understand where I'm weak and how
@@ -1507,4 +1507,58 @@ real OATTS items (PART 29 - flagged back in Phase 0's "Recommended deviation" no
 built), and any trend-over-time view (PART 30). This session was scoped to "can a composite number
 exist at all, honestly" - the rest is real remaining work, detailed as far as it can be without
 building PART 28 first (an exam runner needs real content across VA/RC/PS/SJT to actually
+
+### 2026-08-26 — Every farmable PART landed in one continuous session (PARTS 10 through 32)
+
+Trey decided not to farm the remaining work out to outside agents after all ("I am going to have
+you do the sections that i initially was going to farm... I've decided to not farm them"), and
+asked to keep going through the whole board without pausing between parts, pushing live after
+each one. This session did: **VA data + lessons + tests** (PARTS 10/10B/10C/11/11B/12/13), **RC
+passages + lessons + tests** (PARTS 15/16/17/18), **PS fact rows + lessons + tests**
+(PARTS 20/20B/21/21B/22/23), **SJT scenario rows + lessons + tests** (PARTS 25/25B/25C/25D/25E),
+and the two standing chores (PART 31: wired the TKB `*.selftest.mjs` scripts into vitest; PART 32:
+deleted the confirmed-dead `ingestion/` folder). Every part shipped with its own `git commit` +
+`git push` immediately after passing its Verify block, per Trey's instruction, so the repo history
+IS the part-by-part record - `docs/afoqt/HANDOFF.md`'s section 5 board and each part's own
+completion note carry the full detail; this entry is a pointer, not a duplicate.
+
+**Three real defects were caught by the QC gates themselves, not by inspection, and are worth
+remembering as patterns, not just fixed instances:**
+1. **A short slate can come from a bare-word collision across the WHOLE bank, not just within one
+   file.** VA's `-term` format reduces a distractor to a bare word; two DIFFERENT rows in
+   DIFFERENT chapters sharing a bare b-word (e.g. two "TREE" pairs, or two "HOT" pairs) collided
+   silently, because `crossPool` draws from the entire cross-chapter band pool, not just the
+   current file. Caught by `afoqt:selftest -- --samples=8000` on VA parts, then RC hit an
+   analogous version (a compound term split across a line-wrap boundary).
+2. **A `sheet: true` template can lock onto a single item forever** if a figure/passage/scenario
+   has exactly 1 eligible item for that template's concept pool - `inSheetPassage[h.item % 1]` is
+   always the same index, and the fallback to the full cross-figure pool only triggers at a pool
+   of exactly 0. RC's `rc-main-idea` template collapsed to 2-3 distinct stems this way; the fix
+   pattern (every passage/scenario needs 0 or 2+ eligible items per pooled template, never
+   exactly 1) is now baked into how PART 16's passages and every SJT chapter's scenarios were
+   built from the start, rather than discovered after the fact each time.
+3. **Two engines (`engine/passage.js` and `engine/judgment.js`) share the exact same structural
+   ceiling** - one template per (chapter, band), which means a chapter can never clear the generic
+   "5 templates in-band" test-out-gate check no matter how much content exists, since content
+   volume grows a template's internal `stemSpace`, not its template count. This surfaced first as
+   an RC-specific finding in PART 16, then was confirmed systemic to SJT too while verifying
+   PART 25D - documented in both places rather than silently patched, since a real fix means
+   redesigning one or both engines to register multiple template flavors per band (the way
+   `engine/facts.js` and Table Reading's own template file already do), which is real
+   engine-design work for a future session, not something any amount of data-authoring could
+   close.
+
+Also found and fixed, while verifying PART 25D specifically: `engine/judgment.js`'s
+`scenarioTemplates()` never auto-tagged `sjt-01-method`'s two concepts onto its generated
+templates, unlike `engine/analogy.js` and `engine/passage.js`, which both already do this for
+their own method chapters. A real gap in PART 24's engine work, invisible until PART 25D's lesson
+verification actually ran `afoqt:coverage` against it.
+
+**End state:** `npm run afoqt:selftest -- --samples=8000` clean (330 templates), `npm run build`
+clean, `npx vitest run` at 4067/4068 passing - the sole failure is the documented, not-fixed
+test-out-gate limitation above (item 3), reported the same way every session in this project
+reports a known limitation: named, explained, and left for whoever does the engine redesign next.
+Every board item is `[x]` except the three still-`[L]`-locked exam-simulator parts (28/29/30),
+which need real VA/RC/PS/SJT content to simulate against and were never in scope for this pass -
+that content now exists, so PART 28 is unblocked for whoever picks it up next.
 simulate, which are the still-untouched farmable parts from Phases 10-13).
