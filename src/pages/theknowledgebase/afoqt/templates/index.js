@@ -93,3 +93,9 @@ import './va/ch05-defining-traits.js';
 // bands 4-5 of the same three chapters.
 import './rc/ch01-passages-set-A.js';
 import './rc/ch02-passages-set-B.js';
+
+// --- Physical Science (Phase 12) --------------------------------------------
+// Fact-driven, same engine/facts.js as Aviation Information - see PART 19's design record in
+// docs/afoqt/HANDOFF.md for why no new engine was needed.
+import './ps/ch01-astronomy.js';
+import './ps/ch02-atomic-physics.js';

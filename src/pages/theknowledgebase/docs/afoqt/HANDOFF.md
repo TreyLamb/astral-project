@@ -331,7 +331,14 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   in `curriculum/chapters.js` under the new `science` track. See "PART 19 design record" below.
   Supersedes the placeholder split below this line ("mechanics, forces, energy" / "matter,
   chemistry, earth and space") — that guess did not match the real OATTS taxonomy once checked.)*
-- [ ] **PART 20** — `templates/ps/ch01-astronomy.js`, `ch02-atomic-physics.js` — fact rows
+- [x] **PART 20** — `templates/ps/ch01-astronomy.js`, `ch02-atomic-physics.js` — fact rows
+  *(Claude, done 2026-08-26 — 36 facts each (9/concept across 4 concepts, 3/concept/band),
+  grounded in oatts-PS-045 through oatts-PS-050. One authoring slip caught before selftest ever
+  ran: two confusions pointed at ids I'd typo'd with a "-ref" suffix that didn't exist anywhere
+  in the file (`ps-planet-ref`, `ps-meteoroid-ref`) — fixed to the real ids before first run, so
+  `factTemplates`'s confusion-existence check never actually got to fire on it.
+  `afoqt:selftest -- --samples=8000` clean on the real run, `afoqt:coverage` clears all 8
+  concepts across both chapters. `npm run build` clean.)*
 - [ ] **PART 20B** — `templates/ps/ch03-chemistry.js`, `ch04-electrical.js` — fact rows
 - [ ] **PART 21** — `templates/ps/ch05-light.js`, `ch06-mechanics.js` — fact rows
 - [ ] **PART 21B** — `templates/ps/ch07-sound.js`, `ch08-thermodynamics.js` — fact rows
