@@ -103,3 +103,5 @@ import './ps/ch03-chemistry.js';
 import './ps/ch04-electrical.js';
 import './ps/ch05-light.js';
 import './ps/ch06-mechanics.js';
+import './ps/ch07-sound.js';
+import './ps/ch08-thermodynamics.js';

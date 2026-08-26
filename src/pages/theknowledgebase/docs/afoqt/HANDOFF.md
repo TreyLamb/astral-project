@@ -353,7 +353,15 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   checked against the PART 19 warning about `av-02-forces` overlap and written from a general,
   non-aviation angle (blocks, ramps, a tug-of-war). `afoqt:selftest -- --samples=8000` clean,
   `afoqt:coverage` clears all 8 concepts. `npm run build` clean.)*
-- [ ] **PART 21B** — `templates/ps/ch07-sound.js`, `ch08-thermodynamics.js` — fact rows
+- [x] **PART 21B** — `templates/ps/ch07-sound.js`, `ch08-thermodynamics.js` — fact rows *(Claude,
+  done 2026-08-26 — 27 facts each (the two 3-concept, lighter-row-count chapters), grounded in
+  oatts-PS-063 through oatts-PS-069. `ps-thermal-expansion-phase-change` rows deliberately stay on
+  the heat/particle-motion mechanism rather than re-defining melting/freezing/boiling, which are
+  already `ps-states-of-matter` facts in ch03-chemistry.js — avoiding the exact
+  redundant-teaching pattern the av-02/ps-06 overlap note warns about, one chapter over.
+  `afoqt:selftest -- --samples=8000` clean on the first real run, `afoqt:coverage` clears all 8
+  PS chapters and their 30 concepts — the entire Physical Science subtest content is now built
+  (PARTS 20/20B/21/21B). `npm run build` clean. PARTS 22 (lessons) and 23 (test suite) are next.)*
 - [ ] **PART 22** — PS lessons, all 8 chapters
 - [ ] **PART 23** — PS test suite
 
