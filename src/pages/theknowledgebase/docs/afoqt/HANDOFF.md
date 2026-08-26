@@ -314,7 +314,16 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   registered in `curriculum/lessons.js`. Every worked example pulled from the actual passages
   registered in PARTS 15/16 so the lesson and the drills cannot drift. `npm run build` clean (the
   `?raw` markdown imports resolve), no raw HTML tags in any of the four files.)*
-- [ ] **PART 18** — RC test suite
+- [x] **PART 18** — RC test suite *(Claude, done 2026-08-26 — `engine/__tests__/passage.test.js`,
+  50 tests: validator rejection, bank invariants (including a check that every
+  vocabulary-in-context "line N" reference actually points at a line containing the quoted word -
+  the exact defect class PARTS 15/16 kept catching by hand), determinism, a sheet-mode check that
+  consecutive items in one sheet block land on the same passage, and slate integrity. All 50 pass.
+  Ran the FULL `npx vitest run` afterward as a sanity check (not just the new file) - confirmed
+  the pre-existing `curriculum.test.js` failures (17 of them: 15 "orphan concepts"/no-lesson for
+  the un-farmed PS/SJT chapters, plus the RC test-out-gate check flagged in PART 16's record) are
+  unrelated to this part's own work, not a regression it introduced. This closes out the entire
+  RC block - PARTS 15-18.)*
 
 ### Phase 12 — Physical Science
 
