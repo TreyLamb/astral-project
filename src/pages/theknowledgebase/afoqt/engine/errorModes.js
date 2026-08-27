@@ -41,6 +41,21 @@ export const ERROR_LABELS = {
   // applying, the other is a pile you are not reading into.
   'counted-corners': 'counted blocks that only touch at a corner',
   'missed-hidden': 'missed a block hidden inside the pile',
+
+  // --- Verbal Analogies: engine/analogy.js's buildMatch/buildFourthTerm --------------------
+  'reversed-order': 'reversed the pair (right words, wrong order)',
+  'wrong-relation': "picked a pair related a different way than the base pair",
+  'reused-base-word': 'picked a word already used earlier in the analogy',
+
+  // --- Situational Judgment: engine/judgment.js tags a wrong action with the COMPETENCY lens
+  // it actually represents (there is no error-mode/confusion concept for SJT - see that file's
+  // own header comment), so the six ids here are COMPETENCIES verbatim, not new taxonomy.
+  'integrity-professionalism': 'leaned on an integrity/professionalism angle over the stronger action',
+  leadership: 'leaned on a leadership angle over the stronger action',
+  'resource-management': 'leaned on a resource-management angle over the stronger action',
+  communication: 'leaned on a communication angle over the stronger action',
+  innovation: 'leaned on an innovation angle over the stronger action',
+  mentoring: 'leaned on a mentoring angle over the stronger action',
 };
 
 export const labelFor = (id) => ERROR_LABELS[id] ?? id;

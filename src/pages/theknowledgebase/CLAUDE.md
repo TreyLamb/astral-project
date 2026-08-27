@@ -24,12 +24,12 @@ read `PLAN.md` first. Unlike AFOQT, these sit next to the code they describe rat
 sibling `docs/courses/` folder (that folder still exists only for the unused `repo-doc` content
 convention — see `DATA-MODEL.md`'s Content Strategy section).
 
-**`docs/afoqt/HANDOFF.md` is the outside-agent work board.** Every remaining piece of farmable
-work is a numbered PART with its own brief and verify block, plus the paste-ready prompt and the
-recipe for the minimal zip (verified: `package.json` + `scripts/afoqt*.mjs` +
-`src/pages/theknowledgebase/` runs all three QC gates on bare node, no `npm install`). **When
-you finish a PART, tick its box in section 5** so Trey never farms out work that is already
-done.
+**`docs/afoqt/HANDOFF.md` is the project skeleton + known-polish list.** All 33 build PARTs are
+done (2026-08-26), so the old outside-agent farming-board format (numbered PARTs, paste-ready
+prompts, minimal-zip recipe) was retired 2026-08-27 — read it if you need to know what's built,
+what's flagged-but-not-fixed, or what's a deliberate scope decision (SDI). The full historical
+PART-by-PART design records and hard-won engine bugs it replaced are preserved in
+`HANDOFF-ARCHIVE.md`, worth opening only when modifying the VA/RC/SJT/exam engines specifically.
 
 ---
 
