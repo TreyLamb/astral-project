@@ -28,6 +28,7 @@ export function defaultProgress() {
     templateStats: {},   // templateId -> { seen, correct, totalMs, lastSeen, correctDays[] }
     missPool: {},        // templateId -> { seeds: [], addedAt, correctDays: [] }
     runs: [],            // most recent first, capped
+    examRuns: [],        // most recent first, capped - full-length simulated exams only (PART 28)
     chapters: {},        // chapterId -> { status, testedOut, completedAt, bestScore }
     settings: {
       mode: 'paced',
@@ -97,6 +98,48 @@ export function clearMissPool(progress) {
 export function addRun(progress, run) {
   return { ...progress, runs: [run, ...(progress.runs ?? [])].slice(0, MAX_RUNS) };
 }
+
+// --- full-length exam runs (PART 28) ---------------------------------------
+//
+// Distinct from `runs`, which is one entry per single-subtest drill. An exam run covers all
+// 12 Form T steps at once, so it gets its own small list rather than being folded into `runs`
+// and forcing every reader of `runs` to branch on shape.
+
+const MAX_EXAM_RUNS = 50;
+
+/** @param {{examId, startedAt, finishedAt, results, aborted?:boolean}} examRun */
+export function addExamRun(progress, examRun) {
+  return { ...progress, examRuns: [examRun, ...(progress.examRuns ?? [])].slice(0, MAX_EXAM_RUNS) };
+}
+
+// --- exam session (PART 28) -------------------------------------------------
+//
+// The IN-PROGRESS state of a full exam - which step, the current step's questions/answers,
+// its start time. Kept separate from `progress` on purpose: a real exam runs ~4-5 hours, so
+// this is large, changes on every answered question, and is pure scratch state that must
+// never fight the debounced Firestore write `persist()` already does for `progress`. It is
+// local-only - resuming a half-finished exam on a different device is not a requirement this
+// tool takes on, the same way a half-finished DrillRunner session already isn't persisted
+// across devices either.
+const EXAM_SESSION_KEY = 'afoqt_exam_session_v1';
+
+export const ExamSession = {
+  load() {
+    try {
+      const raw = localStorage.getItem(EXAM_SESSION_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  },
+  save(session) {
+    localStorage.setItem(EXAM_SESSION_KEY, JSON.stringify(session));
+    return session;
+  },
+  clear() {
+    localStorage.removeItem(EXAM_SESSION_KEY);
+  },
+};
 
 // --- curriculum chapters ---------------------------------------------------
 //

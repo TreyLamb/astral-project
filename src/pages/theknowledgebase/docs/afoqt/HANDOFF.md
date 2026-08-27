@@ -491,7 +491,20 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   unpublished, confirmed in `docs/afoqt/RESEARCH.md`), so this deliberately computes and
   clearly labels a PRACTICE ACCURACY number instead, never presented on the same visual scale
   as a composite's official percentile minimum.)*
-- [L] **PART 28** — full-length Form T exam runner *(Claude)*
+- [x] **PART 28** — full-length Form T exam runner *(Claude, done 2026-08-26 — see "PART 28
+  design record" below. New `engine/exam.js` (administration-order plan, pure) +
+  `views/ExamConfig.jsx` + `views/ExamRunner.jsx`, wired in as a third "Exam" tab alongside
+  Dashboard/Learn/Drill. ⚠ A real bug shipped and was only found by actually clicking through a
+  full exam in a browser, not by any test: `advance()`/`abandon()` computed the finished exam's
+  record into a variable ASSIGNED INSIDE a `setSession` updater and read that variable
+  IMMEDIATELY on the next line — which silently never fires, because React does not invoke a
+  functional updater synchronously at the `setSession(...)` call site. The result was a
+  finished exam that rendered its own "Exam complete" report correctly on screen while
+  `localStorage` kept showing it "running" forever and the run never reached
+  `progress.examRuns`. Fixed by moving persistence into a `useEffect` that reacts to the
+  COMMITTED `session.status`, never to a closure variable set inside an updater. Read the "PART
+  28 design record" before touching `ExamRunner.jsx` again — the pattern it documents is a real
+  trap, not a style preference.)*
 - [L] **PART 29** — diagnostic + dashboard
 - [L] **PART 30** — results and analytics
 
@@ -2267,6 +2280,144 @@ current lifetime accuracy, no "accuracy this week vs last week"); no diagnostic 
 `realQuestions.json` (flagged as a good idea back in PLAN.md's "Recommended deviation" note from
 Phase 0, never built). This session was scoped to "can a composite number exist at all, honestly,"
 not the full exam-simulator experience.
+
+---
+
+### PART 28 — design record (done 2026-08-26, Claude-only autonomous session)
+
+Not farmed. Sequencing/administration design plus the one engine file it needed — the
+not-farmable column of section 4 (curriculum/administration decisions, and the accuracy-scoring
+math that has to carry the same non-negotiable framing PART 27 established). Record for whoever
+picks up PART 29/30.
+
+**What was built:**
+- `engine/exam.js` — pure data/functions, no React, no storage. Exports `buildExamPlan()` /
+  `EXAM_PLAN` (the 14-step administration order, derived from `afoqtSpec.js`'s `SUBTESTS` +
+  `BREAKS` rather than hand-listed a second time, so a future correction to either table can't
+  silently drift out of sync with the exam runner), `examTestingMinutes()`, `examBreakMinutes()`,
+  `examContentMinutes()`, `OFFICIAL_TOTAL_MINUTES`, `newExamId()`, `examSubtestAccuracy()`,
+  `examCompositeAccuracy()`, `allExamCompositeAccuracy()`, `EXAM_ACCURACY_LABEL`.
+- `views/ExamConfig.jsx` — entry screen: the full step list with per-step question/minute counts,
+  Start/Resume/Discard, and a "Past attempts" table read from `progress.examRuns`.
+- `views/ExamRunner.jsx` — the sequencer itself: 11 timed subtest steps (real question count, real
+  minutes, real pace, `assembleDrill({ exam: true })` — the same honest-sampling mode PART 27's
+  note above already documents), one SDI pass-through step, two break steps, chained with no
+  return to `DrillConfig` between them, ending in a combined report (per-subtest score, composite
+  accuracy via `allExamCompositeAccuracy`, an aggregated "how you missed them" error-mode tally).
+- `afoqtStorage.js` — additive: `examRuns: []` on `defaultProgress()`, `addExamRun()` (same capped
+  most-recent-first shape as `addRun`), and `ExamSession` (a **separate, local-only** localStorage
+  key from `progress` — see "why a separate session store" below).
+- Third nav tab ("Exam") in `AfoqtApp.jsx`, alongside Dashboard/Learn/Drill. A "Resume exam" /
+  "Full exam" button was also added to `AfoqtDashboard.jsx`'s header, per the root CLAUDE.md rule
+  that a new feature gets wired into every place a user would reasonably expect to reach it from,
+  not just its own tab.
+
+**⚠ SD (Self-Description Inventory) is a `kind: 'sdi'` plan step, never a `'subtest'` step.**
+PART 26 already decided it is not drilled — a 240-item personality inventory with no right/wrong
+answers and zero composite weight has nothing to generate a question FOR. `buildExamPlan()`
+special-cases the `SD` code specifically so nobody "fixes" this later by routing it through the
+same `assembleDrill()` call the other 11 steps use — there is no template content for SD and
+there should never be. The SDI step is an informational pass-through: format/timing facts, an
+optional "time the real 45 minutes anyway" countdown for pacing/fatigue practice (default off,
+always skippable), and a Continue button. See the screen's own copy for the exact framing.
+
+**⚠ `examContentMinutes()` (241.5 min = 216.5 testing + 25 break) is NOT the official "~4h47.5m"
+figure from RESEARCH.md (287.5 min).** The ~46-minute gap is untimed administrative overhead this
+tool cannot model — check-in, per-subtest instructions, the demographics page between SJ and SD.
+`OFFICIAL_TOTAL_MINUTES = 287.5` is exported specifically so a caller can show BOTH numbers
+side by side (ExamConfig does exactly this) rather than presenting the simulated total as if it
+were the whole exam. A unit test (`examContentMinutes() < OFFICIAL_TOTAL_MINUTES`) exists
+specifically so nobody "corrects" this gap away by accident later.
+
+**Why a separate `ExamSession` local-storage key, not folded into `progress`:** a full exam runs
+4-5 hours and its live step/answers state changes on every question — bolting that onto
+`progress` would fight the debounced Firestore write `AfoqtApp.jsx` already does for template
+mastery, and an in-progress exam resuming across devices was never a stated requirement (the same
+scope line `DrillRunner`'s own in-progress state already draws — that's local component state,
+never persisted at all). Only the FINISHED record (`examId`, timestamps, final `results`) folds
+into `progress.examRuns`, which does sync normally.
+
+**🔴 A real bug shipped, found only by running the actual exam end-to-end in a browser — read
+this before touching `ExamRunner.jsx`'s `setSession` calls:**
+
+`advance()` and `abandon()` originally looked like this:
+```js
+let finishedRun = null;
+setSession((prev) => {
+  // ... compute `done`, and on the way:
+  finishedRun = { examId: done.examId, /* ... */ };
+  return done;
+});
+if (finishedRun) {           // <-- this ALWAYS ran with finishedRun still null
+  ExamSession.clear();
+  mutate((p) => addExamRun(p, finishedRun));
+}
+```
+This looks synchronous and isn't. **React does not guarantee a functional `setState` updater has
+run by the time the code immediately after the `setState(...)` call executes** — the updater is
+invoked when React actually processes the update, which is not necessarily before your very next
+line. Traced with explicit `console.log` instrumentation (both inside the updater and around the
+`if` block) across several real click-through runs: the updater's own "this is the last step,
+mark it done" branch DID run, every time, correctly — but the `if (finishedRun)` block that was
+supposed to react to it ran BEFORE that assignment was visible, every time. The practical result:
+a fully-completed exam rendered a perfectly correct "Exam complete" report on screen (React's own
+state was right), while `ExamSession` in localStorage stayed frozen at "running, N-1 of N answers
+recorded on the final subtest" forever, and the completed run never reached
+`progress.examRuns` — so the config screen's "Past attempts" table and the "Resume exam" button
+both showed the wrong thing indefinitely. This is invisible to `afoqt:selftest`, `afoqt:coverage`,
+and every vitest suite in the repo, because none of them click through a live component's state
+transitions — it was only found by scripting an actual Playwright click-through of a full 300+
+question exam and checking localStorage's contents at each step, per this project's own standing
+rule that structural checks prove a thing is well-FORMED, never that it BEHAVES correctly.
+
+**The fix, and the pattern to keep using:** every `setSession` call in `ExamRunner.jsx` is now a
+plain, pure update — computes the next state, returns it, nothing else. A single `useEffect`
+watches the committed `session` value and reacts to it: while `status === 'running'` it calls
+`ExamSession.save(session)`; the first time `status` becomes `'done'` or `'aborted'` (guarded by a
+`useRef` so it fires exactly once) it calls `ExamSession.clear()` and folds the result into
+`progress.examRuns` via `mutate()`. **Never read a value assigned inside a `setState` updater on
+the line after calling `setState`.** If a side effect needs to happen "when state becomes X",
+react to X in an effect — that is the only construct React actually guarantees runs against the
+committed value.
+
+**A second, related purity issue was in the same file and is worth naming separately:** two other
+`setSession` updaters (`submit()`'s non-final-answer branch, and `startSdiTiming()`) called
+`ExamSession.save(next)` **from inside** the updater function itself. React 18's `<StrictMode>`
+(this app is wrapped in it, `main.jsx`) deliberately double-invokes a functional updater in
+development specifically to catch exactly this class of impurity — a side effect embedded in a
+component's own state-computation logic must be idempotent-and-harmless if invoked twice, and a
+localStorage write that lands at the WRONG TIME relative to another update (the specific failure
+observed) is neither. Fixed by removing every `ExamSession.save`/`clear` call from inside a
+`setSession` updater, full stop — the one `useEffect` described above is now the only place either
+ever runs.
+
+**Verification, beyond the unit tests:** `engine/__tests__/exam.test.js`, 19 tests covering plan
+order/composition, the sourced timing totals (and the regression guard on the "content minutes
+≠ official total" gap), and the accuracy-math edge cases (composite reached with only some of its
+subtests attempted, a composite never reached at all, weighting by real question count). Then a
+throwaway Playwright script (deleted after, not committed, same convention as PARTS 24/27) drove
+an ENTIRE exam end to end — all ~310 questions across all 11 subtests, both breaks, the SDI
+pass-through — screenshotting the config screen, the first live question, a break screen, the
+SDI screen, and the final report, and asserting zero console/page errors throughout. This is what
+caught both bugs above; neither was visible from `npm run afoqt:check` or `npx vitest run`, which
+both stayed green the entire time this was broken. `npm run build` clean.
+
+**Explicitly NOT done, flagged for PART 29/30:** no diagnostic mode seeded from
+`realQuestions.json` (flagged back in Phase 0's "Recommended deviation" note, still never built);
+no trend-over-time view; no cross-device resume of an in-progress exam (see "why a separate
+ExamSession" above — a deliberate scope line, not an oversight). ✂️ **Also found, not fixed:** the
+aggregated "how you missed them" panel on the exam report calls the same `labelFor()` map
+`DrillRunner.jsx` uses, and several subtests' own named error-mode ids (Verbal Analogies,
+Arithmetic Reasoning, Situational Judgment, and likely Physical Science) were never added to
+`engine/errorModes.js`'s `ERROR_LABELS` table — they render as their raw kebab-case ids (e.g.
+`wrong-relation`, `innovation`, `used-simple-interest`) instead of prose like Table Reading's or
+Instrument Comprehension's entries do. This is a **pre-existing content gap**, not something PART
+28 introduced — `DrillRunner.jsx`'s own single-subtest results screen has the identical gap today
+for the same subtests, PART 28's combined report just surfaces every subtest's misses on one
+screen at once, which is the first place all of them became visible together. Fixing it is real
+editorial work (writing ~30 good prose labels across 3-4 subtests, judgment about how each named
+mistake should actually read) outside what "build the exam runner" was scoped to do — flagged for
+whoever next touches `errorModes.js`, not silently patched here.
 
 ---
 

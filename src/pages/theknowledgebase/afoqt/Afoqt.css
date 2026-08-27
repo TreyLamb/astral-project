@@ -113,6 +113,18 @@
   .afq-table { font-size: .8rem; }
 }
 
+/* --- full-length exam (PART 28) ------------------------------------------ */
+.afq-exam-steps { list-style: none; margin: .6rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .3rem; max-width: 520px; }
+.afq-exam-step { display: flex; justify-content: space-between; gap: 1rem; padding: .4rem .65rem; border-radius: 6px; background: var(--tkb-surface); border: 1px solid var(--tkb-border); font-size: .88rem; }
+.afq-exam-step-label { font-weight: 500; }
+.afq-exam-step-break { opacity: .7; font-style: italic; }
+.afq-exam-step-sdi { border-left: 3px solid var(--tkb-unsure); }
+/* A break or the SDI pass-through is a big centred pause screen, not a question card - nothing
+   to read closely, so it earns more whitespace than a normal .afq-card. */
+.afq-exam-banner { display: flex; flex-direction: column; align-items: center; gap: .7rem; text-align: center; padding: 2.2rem 1.5rem; }
+.afq-exam-banner h2 { margin: 0; }
+.afq-exam-banner .afq-clock { font-size: 2rem; }
+
 /* --- curriculum map ------------------------------------------------------ */
 .afq-curriculum { display: flex; flex-direction: column; gap: 2rem; }
 .afq-track-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }

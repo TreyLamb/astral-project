@@ -29,7 +29,7 @@ and know exactly where to pick up. Update it at the end of every working block.
 | **11** | Reading Comprehension | ✅ **DONE** (2026-08-26 — PARTS 15/16/17/18 all landed) |
 | **12** | Physical Science *(unscored)* | ✅ **DONE** (2026-08-26 — PARTS 20/20B/21/21B/22/23 all landed) |
 | **13** | Situational Judgment + SDI *(unscored, SJT disputed)* | ✅ **DONE** (2026-08-26 — PARTS 25/25B/25C/25D/25E all landed. SDI decided NOT built as an interactive tool (Trey's call).) |
-| **14** | Exam sim, composite scoring, diagnostic, dashboard | 🟨 Composite scoring engine done 2026-08-26 (practice accuracy, not the real percentile - see note below); exam runner/diagnostic/analytics (PARTS 28/29/30) still `[L]` locked, not started |
+| **14** | Exam sim, composite scoring, diagnostic, dashboard | 🟨 Composite scoring engine (PART 27) and the full-length exam runner (PART 28) both done 2026-08-26 - practice accuracy, not the real percentile, see notes below; diagnostic mode + trend analytics (PARTS 29/30) still `[L]` locked, not started |
 
 **Recommended deviation:** build the diagnostic in reduced form right after Phase 4,
 seeded from official OATTS items. Trey's stated goal is "understand where I'm weak and how
@@ -1561,4 +1561,40 @@ reports a known limitation: named, explained, and left for whoever does the engi
 Every board item is `[x]` except the three still-`[L]`-locked exam-simulator parts (28/29/30),
 which need real VA/RC/PS/SJT content to simulate against and were never in scope for this pass -
 that content now exists, so PART 28 is unblocked for whoever picks it up next.
-simulate, which are the still-untouched farmable parts from Phases 10-13).
+
+---
+
+### 2026-08-26 — PART 28: full-length Form T exam runner (Claude-only)
+
+Picked up PART 28 right where the note above left it - all farmable subtest content existed, so
+the exam runner was no longer blocked. New `engine/exam.js` (pure administration-order plan built
+from `afoqtSpec.js`'s `SUBTESTS`/`BREAKS`, so it can't drift out of sync with a future spec edit),
+`views/ExamConfig.jsx` and `views/ExamRunner.jsx`, a third "Exam" nav tab, and an `examRuns` +
+`ExamSession` addition to `afoqtStorage.js`. Full design record is in `docs/afoqt/HANDOFF.md`
+under "PART 28 design record" - read it before touching `ExamRunner.jsx` again.
+
+**The one thing worth repeating here:** this shipped a real bug that every automated gate in the
+repo (`afoqt:selftest`, `afoqt:coverage`, `npx vitest run`, `npm run build`) stayed green through
+the entire time it was broken. `advance()` tried to read a variable assigned inside a `setSession`
+updater on the very next line after calling `setSession(...)` - which doesn't work, because React
+does not guarantee the updater has run by then. The on-screen "Exam complete" report rendered
+correctly (React's own state was fine) while `localStorage` and `progress.examRuns` silently never
+got the finished exam. Found only by scripting an actual Playwright click-through of a full ~310
+question exam and inspecting `localStorage` at each step - the same "structural checks prove
+well-formed, never well-behaved" lesson this project has learned before, just for state
+transitions instead of question content. Fixed by moving every persistence side effect into a
+`useEffect` that reacts to the COMMITTED `session` value instead.
+
+**Verification:** `engine/__tests__/exam.test.js` (19 tests, plan order/timing/accuracy-math) +
+a full browser click-through (all 11 scored subtests, both breaks, the SDI pass-through, the
+final report, zero console errors) + `npm run afoqt:selftest -- --samples=8000` (330 templates,
+unchanged) + `npx vitest run` (3180/3181 in the TKB folder, the sole failure being the
+pre-existing documented RC/SJT test-out-gate limitation, not this part) + `npm run build` clean.
+
+✂️ **Flagged, not fixed:** the exam report's aggregated "how you missed them" panel reveals that
+several subtests (VA, AR, SJT, likely PS) never got their named error-mode ids added to
+`engine/errorModes.js`'s `ERROR_LABELS` table, so they print as raw kebab-case ids instead of
+prose. Pre-existing in `DrillRunner.jsx` too, not introduced by this part - just newly visible now
+that a report shows every subtest's misses on one screen. Real editorial work, out of scope here.
+
+PARTS 29 (diagnostic + dashboard) and 30 (results/analytics) remain `[L]`, unstarted.

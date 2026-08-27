@@ -3,7 +3,7 @@ import { useAfoqt } from '../AfoqtApp';
 import { DRILLABLE, getSubtest, secPerQuestion, compositeReach, COMPOSITES } from '../engine/afoqtSpec';
 import { allTemplates } from '../engine/generator';
 import { allCompositeAccuracy, PRACTICE_ACCURACY_LABEL } from '../engine/scoring';
-import { missPoolIds, clearMissPool, curriculumProgress, isChapterDone } from '../afoqtStorage';
+import { missPoolIds, clearMissPool, curriculumProgress, isChapterDone, ExamSession } from '../afoqtStorage';
 import { CHAPTERS, isUnlocked } from '../curriculum/chapters';
 
 // Days until the test. Trey sits it in early October 2026, and policy is 2 lifetime
@@ -42,6 +42,7 @@ export default function AfoqtDashboard() {
 
   const composites = allCompositeAccuracy(progress);
   const curriculum = curriculumProgress(progress, CHAPTERS);
+  const examInProgress = ExamSession.load()?.status === 'running';
   // The next thing to actually do: the first unlocked chapter that is not finished. Ordering
   // by `order` keeps the recommendation stable rather than jumping around between visits.
   const nextChapter = CHAPTERS
@@ -57,7 +58,13 @@ export default function AfoqtDashboard() {
             {days > 0 ? `${days} days out` : 'test date passed'} · 2 lifetime attempts, 150 days apart
           </p>
         </div>
-        <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/drill')}>Start a drill</button>
+        <div className="afq-row">
+          {examInProgress && (
+            <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/exam/run')}>Resume exam</button>
+          )}
+          <button className="afq-btn" onClick={() => navigate('/TKB/afoqt/exam')}>Full exam</button>
+          <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/drill')}>Start a drill</button>
+        </div>
       </header>
 
       {totalSeen === 0 && (
