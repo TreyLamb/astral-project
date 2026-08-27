@@ -8,14 +8,15 @@
 export const MARK_NONE = null;
 export const MARK_CIRCLE = 'circle';
 export const MARK_X = 'x';
+export const MARK_QUESTION = 'question';
 
-const CYCLE = { circle: MARK_X, x: MARK_NONE };
-
-// null -> circle -> x -> null, looping. Called once per click; no timers,
-// no debounce — safe to fire as fast as the user can click.
+// null -> circle -> x -> question -> null, looping (4 clicks to cycle
+// through every state and land back at blank). Called once per click; no
+// timers, no debounce — safe to fire as fast as the user can click.
 export function nextMark(current) {
   if (current === MARK_CIRCLE) return MARK_X;
-  if (current === MARK_X) return MARK_NONE;
+  if (current === MARK_X) return MARK_QUESTION;
+  if (current === MARK_QUESTION) return MARK_NONE;
   return MARK_CIRCLE;
 }
 

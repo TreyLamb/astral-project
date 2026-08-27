@@ -1,9 +1,13 @@
 // localStorage persistence for the Worksheet engine. One record per
-// worksheet id: { marks: {"<questionId>:<letter>": "circle"|"x"}, notes:
-// {"<questionId>:stem"|"<questionId>:<letter>": "free text"} }. Deliberately
-// localStorage-only (no Firestore mirror yet) — this is a personal
-// single-device study tool for now; the shape here is plain enough to add a
-// Firestore mirror later without a redesign if that's ever needed.
+// worksheet id: { marks: {"<questionId>:<letter>": "circle"|"x"|"question"},
+// notes: {"<questionId>:stem"|"<questionId>:<letter>": "free text"},
+// overrides: {"<questionId>:stem"|"<questionId>:<letter>": "corrected text"} }.
+// overrides are manual text corrections (right-click a line to fix a parse
+// glitch) — kept separate from marks/notes since "Clear all marks & notes"
+// shouldn't also erase a correction. Deliberately localStorage-only (no
+// Firestore mirror yet) — this is a personal single-device study tool for
+// now; the shape here is plain enough to add a Firestore mirror later
+// without a redesign if that's ever needed.
 
 const PREFIX = 'courses_worksheet_';
 const VERSION = 'v1';
@@ -13,7 +17,7 @@ function keyFor(worksheetId) {
 }
 
 function empty() {
-  return { marks: {}, notes: {} };
+  return { marks: {}, notes: {}, overrides: {} };
 }
 
 export const WorksheetStorage = {
@@ -22,7 +26,7 @@ export const WorksheetStorage = {
       const raw = localStorage.getItem(keyFor(worksheetId));
       if (!raw) return empty();
       const parsed = JSON.parse(raw);
-      return { marks: parsed.marks ?? {}, notes: parsed.notes ?? {} };
+      return { marks: parsed.marks ?? {}, notes: parsed.notes ?? {}, overrides: parsed.overrides ?? {} };
     } catch {
       return empty();
     }

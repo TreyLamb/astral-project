@@ -4,9 +4,24 @@
 .wks-page {
   --wks-green: #2e8b52;
   --wks-red: #c0392b;
+  --wks-amber: #b8860b;
+  --wks-blue: #2f6fb0;
   --wks-rule: rgba(120, 130, 150, 0.28);
   --wks-margin: rgba(192, 57, 43, 0.35);
+  --wks-edit-bg: rgba(70, 130, 220, 0.1);
   color: var(--tkb-ink);
+  /* This is a tool grid, not prose — break out of TKB's shared 960px
+     centered-prose column (.tkb-main) so the two-up layout gets real
+     width instead of being crammed into half of an already-narrow column. */
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .wks-page {
+    --wks-edit-bg: rgba(90, 150, 240, 0.16);
+  }
 }
 
 .wks-grid {
@@ -47,16 +62,17 @@
   border-radius: 8px;
   padding: 0.55rem 0.7rem 0.55rem 0.9rem;
   position: relative;
-  /* College-ruled feel: a red margin line plus faint horizontal rules. */
+  /* College-ruled feel: a red margin line down the left. The horizontal
+     rules live on .wks-ruled-line itself (a real border under each row),
+     not a background pattern — a background can't track wrapped text, so
+     it drifted out of sync with the actual lines as soon as anything wrapped. */
   border-left: 2px solid var(--wks-margin);
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent,
-    transparent 1.55rem,
-    var(--wks-rule) 1.55rem,
-    var(--wks-rule) calc(1.55rem + 1px)
-  );
-  background-position: 0 2.2rem;
+}
+
+/* A manual text correction is in effect somewhere on this question — the
+   only visual trace of the right-click-to-edit feature at rest. */
+.wks-question.wks-has-edit {
+  background-color: var(--wks-edit-bg);
 }
 
 .wks-ruled-line {
@@ -65,10 +81,32 @@
   gap: 0.5rem;
   min-height: 1.55rem;
   line-height: 1.55rem;
+  border-bottom: 1px solid var(--wks-rule);
+  padding-bottom: 1px;
+}
+
+.wks-question > .wks-ruled-line:last-child,
+.wks-question > .wks-option-row:last-child > .wks-ruled-line {
+  border-bottom: none;
+}
+
+.wks-line-num {
+  flex: none;
 }
 
 .wks-line-text {
   flex: 0 1 auto;
+  /* Deliberately no hover/cursor affordance — right-click to edit is
+     discoverable by convention, not by hinting that this text is clickable. */
+}
+
+.wks-line-text.wks-editing {
+  flex: 1 1 auto;
+  outline: 1px dashed var(--wks-blue);
+  outline-offset: 2px;
+  background: color-mix(in srgb, var(--wks-blue) 8%, transparent);
+  border-radius: 3px;
+  padding: 0 0.15rem;
 }
 
 .wks-line-stem {
@@ -166,4 +204,22 @@
 
 .wks-letter.wks-mark-x::after {
   transform: translateY(-50%) rotate(-45deg);
+}
+
+/* "Not sure yet" — flag it. The letter itself steps aside for a bold ?. */
+.wks-letter.wks-mark-question {
+  border-color: var(--wks-amber);
+  color: transparent;
+}
+
+.wks-letter.wks-mark-question::before {
+  content: '?';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--wks-amber);
+  font-weight: 800;
+  font-size: 1rem;
 }
