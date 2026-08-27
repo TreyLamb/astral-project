@@ -29,6 +29,7 @@ export function defaultProgress() {
     missPool: {},        // templateId -> { seeds: [], addedAt, correctDays: [] }
     runs: [],            // most recent first, capped
     examRuns: [],        // most recent first, capped - full-length simulated exams only (PART 28)
+    diagnosticRuns: [],  // most recent first, capped - short whole-subtest samples (PART 29)
     chapters: {},        // chapterId -> { status, testedOut, completedAt, bestScore }
     settings: {
       mode: 'paced',
@@ -142,6 +143,24 @@ export const ExamSession = {
     localStorage.removeItem(EXAM_SESSION_KEY);
   },
 };
+
+// --- diagnostic runs (PART 29) -----------------------------------------------
+//
+// A short, honest sample of every scored subtest - see engine/diagnostic.js. Unlike the exam
+// session above, there is no separate in-progress local-storage store: a diagnostic runs well
+// under an hour and its live state is plain React component state in DiagnosticRunner.jsx, the
+// same convention DrillRunner.jsx already uses for an ordinary drill. Only the FINISHED result
+// folds in here, via `mutate()`, same as `addExamRun`/`addRun`.
+
+const MAX_DIAGNOSTIC_RUNS = 20;
+
+/** @param {{takenAt, results}} run */
+export function addDiagnosticRun(progress, run) {
+  return { ...progress, diagnosticRuns: [run, ...(progress.diagnosticRuns ?? [])].slice(0, MAX_DIAGNOSTIC_RUNS) };
+}
+
+/** Most recent diagnostic, or null if none has ever been taken. */
+export const latestDiagnostic = (progress) => progress?.diagnosticRuns?.[0] ?? null;
 
 // --- curriculum chapters ---------------------------------------------------
 //

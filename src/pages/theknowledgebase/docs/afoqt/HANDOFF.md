@@ -505,7 +505,14 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   COMMITTED `session.status`, never to a closure variable set inside an updater. Read the "PART
   28 design record" before touching `ExamRunner.jsx` again — the pattern it documents is a real
   trap, not a style preference.)*
-- [L] **PART 29** — diagnostic + dashboard
+- [x] **PART 29** — diagnostic + dashboard *(Claude, done 2026-08-26 — see "PART 29 design
+  record" below. New `engine/diagnostic.js` (6 questions/subtest, ~37 min total, re-exports
+  PART 28's `engine/exam.js` accuracy math rather than duplicating it) + `views/
+  DiagnosticRunner.jsx`, reachable from a Dashboard empty-state CTA and a DrillConfig
+  cross-link, no new nav tab (it's a one-off assessment, not a recurring practice mode).
+  `DrillConfig.jsx` gained `?subtest=` deep-link support so the diagnostic's "drill your
+  weakest subtest" button actually lands pre-selected. Caught and fixed, before it ever ran in
+  a browser, a second instance of PART 28's exact bug class — see the design record.)*
 - [L] **PART 30** — results and analytics
 
 ### Standing chores
@@ -2418,6 +2425,96 @@ screen at once, which is the first place all of them became visible together. Fi
 editorial work (writing ~30 good prose labels across 3-4 subtests, judgment about how each named
 mistake should actually read) outside what "build the exam runner" was scoped to do — flagged for
 whoever next touches `errorModes.js`, not silently patched here.
+
+---
+
+### PART 29 — design record (done 2026-08-26, Claude-only session, immediately after PART 28)
+
+Not farmed. Curriculum/administration design (what "diagnostic" means, how many questions, how
+it's reached) per section 4. Record for whoever picks up PART 30.
+
+**Why this exists:** flagged on day one and never built. PLAN.md's Phase 0 "Recommended
+deviation" note says it verbatim: *"Trey's stated goal is 'understand where I'm weak and how the
+test feels' — he should get that in week one, not week five."* PART 28's full exam answers the
+same question but costs ~4 hours; PART 29 answers a lighter version of it in well under an hour,
+specifically so there is a way to get that signal before committing to either the full
+curriculum or a full sitting.
+
+**What was built:**
+- `engine/diagnostic.js` — `DIAGNOSTIC_QUESTIONS_PER_SUBTEST = 6`, `DIAGNOSTIC_SUBTESTS` (just
+  `DRILLABLE` from `afoqtSpec.js` re-exported under a clearer name — it already excludes SD the
+  same way the exam plan's dedicated `'sdi'` step does, no special-casing needed), and
+  `weakestSubtests(results, n)`. **The accuracy math is NOT reimplemented** — `examSubtestAccuracy`/
+  `examCompositeAccuracy`/`allExamCompositeAccuracy` from PART 28's `engine/exam.js` are re-exported
+  under diagnostic names, because a diagnostic's `results` map is shaped identically to an exam's
+  (`{[code]: {correct, answered}}`) and two independent copies of the same weighting formula is
+  how they'd quietly drift apart. `DIAGNOSTIC_ACCURACY_LABEL` carries its own framing though —
+  six questions is a **weaker** signal than even practice accuracy, so its wording says "where to
+  look first," never a score.
+- `views/DiagnosticRunner.jsx` — one component, three local `phase` states (`intro` → `running`
+  → `report`), no separate config screen (there is nothing to configure — fixed question count,
+  fixed real pace, fixed subtest order). Deliberately **plain React component state**, the same
+  convention `DrillRunner.jsx` already uses, NOT the `ExamSession`-localStorage-resume machinery
+  PART 28 built — a ~37-minute sitting losing its progress on a stray reload is a minor cost,
+  not a 4-hour one, so the added complexity of cross-reload persistence bought nothing here.
+- Question sourcing reuses `assembleDrill` directly (same call PART 28 makes, same call
+  `DrillConfig`'s "Full subtest" button already exercises) with `exam: true` (honest sample, no
+  miss-pool weighting) and `bankRatio: 0.8` — preferring real OATTS items where the bank has them,
+  for authenticity, falling back to generated content everywhere else. No new drill-assembly
+  logic was needed.
+- `afoqtStorage.js` — `diagnosticRuns: []` + `addDiagnosticRun`/`latestDiagnostic`, kept separate
+  from `examRuns` for the same reason `examRuns` is separate from `runs`: a different shape, a
+  different question (composite scores from a whole sitting vs. six questions per subtest).
+- **Dashboard integration** (the "+ dashboard" half of this part's title): the existing
+  empty-state message (shown when nobody has attempted anything) is replaced with a "take the
+  diagnostic" CTA when no diagnostic exists yet — this is the actual fix for Trey's "week one,
+  not week five" complaint, since it is now the very first thing a new session of this tool
+  offers. Once a diagnostic exists, a "Diagnostic" card shows its weakest subtests and a
+  **"Drill \<weakest subtest\>"** button. That button only works because `DrillConfig.jsx` was
+  taught to read a `?subtest=` query param on mount and preselect it (a small, independently
+  useful addition — any future entry point can deep-link a subtest the same way, not just this
+  one). No new top-level nav tab: a diagnostic is a one-off assessment, not a recurring practice
+  mode, so it is reachable from the Dashboard CTA and a `DrillConfig` cross-link rather than
+  competing for space with Dashboard/Learn/Drill/Exam.
+
+**🔴 A second instance of PART 28's exact bug class was caught and fixed BEFORE it ever reached
+a browser, because the fix was fresh in mind while writing this file:** the first draft of
+`finishSubtest()` used `setAllResults((prevResults) => { const nextResults = {...}; if (...)
+{ setPhase('report'); mutate(...); } else { setSubtestIdx(...); } return nextResults; })` — side
+effects (another component's `setState` via `mutate`, plus more of this component's own
+`setState` calls) living inside a functional updater, precisely the pattern PART 28's design
+record above says not to write. Caught on a second read of the draft, before running anything,
+by checking it against that record. Fixed to the correct shape: compute `nextResults` once from
+the current closure (`{ ...allResults, [meta.code]: folded }`), then call `setAllResults`,
+`setPhase`, `mutate`, and the subtest-advance setters as plain, independent calls — exactly the
+pattern `DrillRunner.jsx` already uses successfully, which is also *why* this file's state
+management deliberately mirrors `DrillRunner.jsx` rather than `ExamRunner.jsx`: the simpler
+pattern has no known bug in it, and there was no reason to import a more complex one that had
+already produced one.
+
+**Verification:** `engine/__tests__/diagnostic.test.js`, 9 tests (subtest-list composition, the
+under-an-hour time budget, `weakestSubtests` ranking/exclusion/count, and that the re-exported
+accuracy math genuinely is PART 28's own functions, not a parallel reimplementation). Then a full
+browser click-through: cleared state → Dashboard shows the empty-state CTA → diagnostic intro →
+all 66 questions across all 11 subtests answered → report screen (composites, weakest-subtest
+ranking, a por-subtest table) → back to Dashboard, which now shows the "Diagnostic" card with the
+correct weakest subtest and a working `Drill <subtest>` button → clicking it lands on
+`DrillConfig` with that exact subtest tile pre-selected. Zero console errors throughout.
+`npm run afoqt:selftest -- --samples=8000` unchanged (330 templates, no template/curriculum files
+touched), `npx vitest run` 3189/3190 (the sole failure is the same pre-existing, already-documented
+RC/SJT test-out-gate limitation, unrelated), `npm run build` clean.
+
+**✂️ Found, not fixed — a pre-existing Dashboard gap, unrelated to this part's own scope:** the
+"By subtest" table's `seen`/`accuracy` columns only aggregate `progress.templateStats` keyed by
+real template ids (`allTemplates().filter(t => t.subtest === code)`); a bank item's stats are
+recorded under a `bank:<id>` key that this aggregation never looks for, so any drill — a normal
+practice drill, the diagnostic, doesn't matter which — that draws a real OATTS/ASVAB bank
+question undercounts that subtest's "seen" total on the Dashboard by however many bank items it
+drew. Visible during this part's own verification run (VA/AR/WK/MK/RC each showed `seen: 1`
+instead of `6` because five of their six diagnostic questions came from the bank). This predates
+PART 29 entirely — it would happen on any ordinary "Start a drill" run too — and fixing it means
+extending the Dashboard's own aggregation to also walk `bankItems()`, real editorial/engine work
+on a different, already-shipped feature, outside what "build the diagnostic" was scoped to do.
 
 ---
 

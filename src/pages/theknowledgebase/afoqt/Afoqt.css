@@ -93,6 +93,7 @@
 .afq-dash-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
 .afq-dash-head h2 { margin: 0; }
 .afq-empty { padding: 1rem; border: 1px dashed var(--tkb-border); border-radius: 8px; color: var(--tkb-ink-soft); }
+.afq-empty button { margin-top: .6rem; }
 .afq-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
 .afq-table th { text-align: left; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--tkb-ink-soft); border-bottom: 1px solid var(--tkb-border); padding: .35rem .5rem; }
 .afq-table td { padding: .35rem .5rem; border-bottom: 1px solid var(--tkb-border); }

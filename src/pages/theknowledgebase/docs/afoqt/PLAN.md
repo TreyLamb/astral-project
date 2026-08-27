@@ -29,7 +29,7 @@ and know exactly where to pick up. Update it at the end of every working block.
 | **11** | Reading Comprehension | ✅ **DONE** (2026-08-26 — PARTS 15/16/17/18 all landed) |
 | **12** | Physical Science *(unscored)* | ✅ **DONE** (2026-08-26 — PARTS 20/20B/21/21B/22/23 all landed) |
 | **13** | Situational Judgment + SDI *(unscored, SJT disputed)* | ✅ **DONE** (2026-08-26 — PARTS 25/25B/25C/25D/25E all landed. SDI decided NOT built as an interactive tool (Trey's call).) |
-| **14** | Exam sim, composite scoring, diagnostic, dashboard | 🟨 Composite scoring engine (PART 27) and the full-length exam runner (PART 28) both done 2026-08-26 - practice accuracy, not the real percentile, see notes below; diagnostic mode + trend analytics (PARTS 29/30) still `[L]` locked, not started |
+| **14** | Exam sim, composite scoring, diagnostic, dashboard | 🟨 Composite scoring (PART 27), the full-length exam runner (PART 28), and diagnostic mode + dashboard integration (PART 29) all done 2026-08-26 - practice accuracy, not the real percentile, see notes below; trend analytics (PART 30) still `[L]` locked, not started |
 
 **Recommended deviation:** build the diagnostic in reduced form right after Phase 4,
 seeded from official OATTS items. Trey's stated goal is "understand where I'm weak and how
@@ -1756,3 +1756,54 @@ prose. Pre-existing in `DrillRunner.jsx` too, not introduced by this part - just
 that a report shows every subtest's misses on one screen. Real editorial work, out of scope here.
 
 PARTS 29 (diagnostic + dashboard) and 30 (results/analytics) remain `[L]`, unstarted.
+
+---
+
+### 2026-08-26 — merging a parallel-session collision on PART 28, then PART 29
+
+Pushing this session's PART 28 commit hit a rejected push - a second, independent session had
+started the same `[L]`-unlocked PART 28 in parallel and already pushed its own WIP commit
+(`b06bb26`, explicitly titled "NOT done - known bug": an unresolved Table Reading zero-questions
+defect, QC gates never run). Resolved as a merge, not a force-push: kept this session's version
+everywhere the two collided (`engine/exam.js`, `ExamRunner.jsx`, `exam.test.js`, the
+AfoqtApp/afoqtStorage/AfoqtDashboard wiring) since it was the complete, QC-green,
+browser-verified one and the other session's TR bug doesn't reproduce in a version that calls
+`assembleDrill` directly instead of a separate reimplementation. Kept the other session's two
+independent, non-colliding additions (a `DrillConfig` → Exam cross-link, and an unrelated Courses
+docs move). Found and fixed a real CSS collision the auto-merge left behind (two different
+`.afq-exam-step` rules from the two implementations); replaced this file's now-superseded
+"PART 28 IN-PROGRESS HANDOFF" section with a pointer to what actually shipped, keeping the
+original as a historical record rather than deleting it. Re-verified everything post-merge
+(vitest, afoqt:selftest, build, a real browser click-through of the merged DrillConfig→Exam
+flow) before pushing. Pushed as `3c8cc1b`.
+
+Picked up **PART 29 (diagnostic + dashboard)** immediately after, per PLAN.md's own Phase 0
+"Recommended deviation" flag ("understand where I'm weak... week one, not week five", never
+built until now). New `engine/diagnostic.js` (6 questions/subtest, ~37 min total, re-exports
+PART 28's `engine/exam.js` accuracy math rather than duplicating it) + `views/
+DiagnosticRunner.jsx`, deliberately built on `DrillRunner.jsx`'s plain-component-state pattern
+rather than PART 28's `ExamSession`-localStorage machinery - a ~37-minute sitting losing
+progress on a stray reload is a minor cost, so the added complexity of cross-reload resume
+bought nothing here. Wired into the Dashboard as an empty-state CTA (the actual fix for the
+"week one" complaint) plus a weakest-subtests card with a working "Drill \<weakest\>" button,
+which needed `DrillConfig.jsx` to learn a `?subtest=` deep-link param.
+
+**Caught a second instance of PART 28's exact bug class before it ever ran** - a first draft of
+`finishSubtest()` nested `mutate()` and sibling `setState` calls inside a `setAllResults`
+functional updater, the identical anti-pattern the PART 28 design record just documented. Caught
+on review before running anything (that record was still fresh), not by a test. Full detail in
+`docs/afoqt/HANDOFF.md`'s "PART 29 design record".
+
+Verified: 9 new unit tests, a full browser click-through (empty-state CTA → diagnostic intro →
+all 66 questions across 11 subtests → report → Dashboard's weakest-subtest card → the
+pre-selected DrillConfig deep link), zero console errors. `afoqt:selftest` unchanged (330
+templates), `npx vitest run` 3189/3190 (same pre-existing RC/SJT limitation, unrelated),
+`npm run build` clean.
+
+✂️ **Flagged, not fixed:** verifying this part surfaced a pre-existing Dashboard gap - the "By
+subtest" table's `seen` column only counts `progress.templateStats` keyed by real template ids,
+so any drill (not just the diagnostic) that draws a bank item undercounts that subtest's seen
+total. Predates this part, affects every drill mode equally, real work on a different
+already-shipped feature - not fixed here.
+
+PART 30 (results/analytics) remains `[L]`, unstarted.

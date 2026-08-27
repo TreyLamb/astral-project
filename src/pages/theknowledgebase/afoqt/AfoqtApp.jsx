@@ -9,6 +9,7 @@ import DrillConfig from './views/DrillConfig';
 import DrillRunner from './views/DrillRunner';
 import ExamConfig from './views/ExamConfig';
 import ExamRunner from './views/ExamRunner';
+import DiagnosticRunner from './views/DiagnosticRunner';
 import './Afoqt.css';
 
 // Templates self-register on import; this pulls the whole registry in once.
@@ -142,6 +143,7 @@ export default function AfoqtApp() {
           <Route path="drill/run" element={<DrillRunner />} />
           <Route path="exam" element={<ExamConfig />} />
           <Route path="exam/run" element={<ExamRunner />} />
+          <Route path="diagnostic" element={<DiagnosticRunner />} />
         </Routes>
       </div>
     </AfoqtContext.Provider>

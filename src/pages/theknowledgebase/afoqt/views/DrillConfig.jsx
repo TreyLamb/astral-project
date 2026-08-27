@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
 import { DRILLABLE, getSubtest, secPerQuestion, compositeReach } from '../engine/afoqtSpec';
 import { templatesFor } from '../engine/generator';
@@ -10,8 +10,16 @@ const COUNTS = [5, 10, 20, 40];
 
 export default function DrillConfig() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
   const { progress, updateSettings } = useAfoqt();
-  const [subtest, setSubtest] = useState('MK');
+  // A caller can deep-link a specific subtest preselected - the diagnostic's "drill your
+  // weakest subtest" button is the reason this exists, but any future entry point can use it
+  // the same way. Read once on mount; DRILLABLE.some() guards against an unknown/typo'd code
+  // falling through to a subtest picker showing nothing selected.
+  const [subtest, setSubtest] = useState(() => {
+    const requested = params.get('subtest');
+    return requested && DRILLABLE.some((s) => s.code === requested) ? requested : 'MK';
+  });
   const [count, setCount] = useState(5);
   const [mode, setMode] = useState(progress.settings.mode);
   const [pressure, setPressure] = useState(progress.settings.pressure);
@@ -38,7 +46,9 @@ export default function DrillConfig() {
       <p className="afq-note">
         Want all 12 subtests, in the real order, back to back? That is the{' '}
         <button className="afq-linklike" onClick={() => navigate('/TKB/afoqt/exam')}>full exam</button>,
-        not a drill.
+        not a drill. New here and not sure where to start? Try the{' '}
+        <button className="afq-linklike" onClick={() => navigate('/TKB/afoqt/diagnostic')}>diagnostic</button>{' '}
+        first - six questions per subtest, ~35 minutes, tells you where to focus.
       </p>
 
       <section>

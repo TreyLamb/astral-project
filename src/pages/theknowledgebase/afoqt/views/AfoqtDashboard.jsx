@@ -3,7 +3,8 @@ import { useAfoqt } from '../AfoqtApp';
 import { DRILLABLE, getSubtest, secPerQuestion, compositeReach, COMPOSITES } from '../engine/afoqtSpec';
 import { allTemplates } from '../engine/generator';
 import { allCompositeAccuracy, PRACTICE_ACCURACY_LABEL } from '../engine/scoring';
-import { missPoolIds, clearMissPool, curriculumProgress, isChapterDone, ExamSession } from '../afoqtStorage';
+import { missPoolIds, clearMissPool, curriculumProgress, isChapterDone, ExamSession, latestDiagnostic } from '../afoqtStorage';
+import { weakestSubtests, DIAGNOSTIC_ACCURACY_LABEL } from '../engine/diagnostic';
 import { CHAPTERS, isUnlocked } from '../curriculum/chapters';
 
 // Days until the test. Trey sits it in early October 2026, and policy is 2 lifetime
@@ -43,6 +44,8 @@ export default function AfoqtDashboard() {
   const composites = allCompositeAccuracy(progress);
   const curriculum = curriculumProgress(progress, CHAPTERS);
   const examInProgress = ExamSession.load()?.status === 'running';
+  const diagnostic = latestDiagnostic(progress);
+  const diagnosticWeakest = diagnostic ? weakestSubtests(diagnostic.results, 3) : [];
   // The next thing to actually do: the first unlocked chapter that is not finished. Ordering
   // by `order` keeps the recommendation stable rather than jumping around between visits.
   const nextChapter = CHAPTERS
@@ -67,10 +70,44 @@ export default function AfoqtDashboard() {
         </div>
       </header>
 
-      {totalSeen === 0 && (
+      {totalSeen === 0 && !diagnostic && (
         <div className="afq-empty">
-          <p>No attempts recorded yet. Run a drill to seed your weak-area map.</p>
+          <p>
+            No attempts recorded yet. Rather than guessing where to start, take the{' '}
+            <strong>diagnostic</strong> — six questions at every subtest's real pace, about 35
+            minutes, tells you where you actually stand before committing to a curriculum.
+          </p>
+          <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/diagnostic')}>
+            Take the diagnostic
+          </button>
         </div>
+      )}
+
+      {diagnostic && (
+        <section className="afq-next">
+          <div>
+            <h3>Diagnostic</h3>
+            <p className="afq-note">
+              Taken {new Date(diagnostic.takenAt).toLocaleDateString()}. {DIAGNOSTIC_ACCURACY_LABEL}
+            </p>
+            {diagnosticWeakest.length > 0 && (
+              <p className="afq-next-title">
+                Weakest: {diagnosticWeakest.map((w) => `${getSubtest(w.code)?.name} (${Math.round(w.accuracy * 100)}%)`).join(' · ')}
+              </p>
+            )}
+          </div>
+          <div className="afq-row">
+            {diagnosticWeakest.length > 0 && (
+              <button
+                className="afq-btn afq-primary"
+                onClick={() => navigate(`/TKB/afoqt/drill?subtest=${diagnosticWeakest[0].code}`)}
+              >
+                Drill {getSubtest(diagnosticWeakest[0].code)?.name}
+              </button>
+            )}
+            <button className="afq-btn" onClick={() => navigate('/TKB/afoqt/diagnostic')}>Retake</button>
+          </div>
+        </section>
       )}
 
       <section className="afq-next">
