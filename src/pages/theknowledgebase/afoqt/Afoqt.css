@@ -410,3 +410,18 @@
 .afq-src-detail { opacity: .85; }
 .afq-src-link { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .afq-src-link:hover { color: var(--tkb-ink); }
+
+/* --- full exam simulator (PART 28) --------------------------------------- */
+.afq-linklike {
+  background: none; border: none; padding: 0; font: inherit; cursor: pointer;
+  color: var(--tkb-accent); text-decoration: underline; text-underline-offset: 2px;
+}
+.afq-exam-intro, .afq-exam-break, .afq-exam-info { max-width: 640px; }
+.afq-exam-sequence { list-style: none; margin: .75rem 0; padding: 0; display: flex; flex-direction: column; gap: .2rem; }
+.afq-exam-step { font-size: .85rem; padding: .3rem .6rem; border-radius: 6px; background: var(--tkb-surface); }
+.afq-exam-step-break { color: var(--tkb-unsure); font-style: italic; }
+.afq-exam-step-info { color: var(--tkb-ink-soft); }
+.afq-exam-shell { display: flex; flex-direction: column; gap: .75rem; max-width: 1160px; }
+.afq-exam-topline { display: flex; justify-content: space-between; align-items: center; }
+.afq-exam-break, .afq-exam-info { text-align: center; margin: 0 auto; padding: 2rem 1rem; }
+.afq-exam-break-clock { font-size: 2.4rem; margin: .5rem 0; }

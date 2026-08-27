@@ -28,6 +28,7 @@ export function defaultProgress() {
     templateStats: {},   // templateId -> { seen, correct, totalMs, lastSeen, correctDays[] }
     missPool: {},        // templateId -> { seeds: [], addedAt, correctDays: [] }
     runs: [],            // most recent first, capped
+    examRuns: [],        // most recent first, capped - one entry per COMPLETED full-length sitting
     chapters: {},        // chapterId -> { status, testedOut, completedAt, bestScore }
     settings: {
       mode: 'paced',
@@ -96,6 +97,19 @@ export function clearMissPool(progress) {
 
 export function addRun(progress, run) {
   return { ...progress, runs: [run, ...(progress.runs ?? [])].slice(0, MAX_RUNS) };
+}
+
+const MAX_EXAM_RUNS = 50;
+
+/**
+ * One completed full-length sitting - PART 28's exam runner. Kept separate from `runs` (which
+ * already gets one entry per subtest inside the sitting via `addRun`) because a sitting's
+ * composite scores are a fact about the WHOLE run, not any one subtest, and PART 30's
+ * trend-over-time view needs to read "how did each full sitting go" without reconstructing it
+ * from 12 individual subtest rows every time.
+ */
+export function addExamRun(progress, run) {
+  return { ...progress, examRuns: [run, ...(progress.examRuns ?? [])].slice(0, MAX_EXAM_RUNS) };
 }
 
 // --- curriculum chapters ---------------------------------------------------

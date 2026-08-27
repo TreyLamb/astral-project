@@ -7,6 +7,7 @@ import CurriculumMap from './views/CurriculumMap';
 import ChapterView from './views/ChapterView';
 import DrillConfig from './views/DrillConfig';
 import DrillRunner from './views/DrillRunner';
+import ExamRunner from './views/ExamRunner';
 import './Afoqt.css';
 
 // Templates self-register on import; this pulls the whole registry in once.
@@ -115,6 +116,7 @@ export default function AfoqtApp() {
     { path: '/TKB/afoqt', label: 'Dashboard', match: (p) => p === '/TKB/afoqt' },
     { path: '/TKB/afoqt/learn', label: 'Learn', match: (p) => p.startsWith('/TKB/afoqt/learn') },
     { path: '/TKB/afoqt/drill', label: 'Drill', match: (p) => p.startsWith('/TKB/afoqt/drill') },
+    { path: '/TKB/afoqt/exam', label: 'Exam', match: (p) => p.startsWith('/TKB/afoqt/exam') },
   ];
 
   return (
@@ -137,6 +139,7 @@ export default function AfoqtApp() {
           <Route path="learn/:chapterId" element={<ChapterView />} />
           <Route path="drill" element={<DrillConfig />} />
           <Route path="drill/run" element={<DrillRunner />} />
+          <Route path="exam" element={<ExamRunner />} />
         </Routes>
       </div>
     </AfoqtContext.Provider>

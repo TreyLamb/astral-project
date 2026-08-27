@@ -57,7 +57,10 @@ export default function AfoqtDashboard() {
             {days > 0 ? `${days} days out` : 'test date passed'} · 2 lifetime attempts, 150 days apart
           </p>
         </div>
-        <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/drill')}>Start a drill</button>
+        <div className="afq-row">
+          <button className="afq-btn" onClick={() => navigate('/TKB/afoqt/exam')}>Full exam</button>
+          <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/drill')}>Start a drill</button>
+        </div>
       </header>
 
       {totalSeen === 0 && (

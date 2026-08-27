@@ -29,11 +29,140 @@ and know exactly where to pick up. Update it at the end of every working block.
 | **11** | Reading Comprehension | ✅ **DONE** (2026-08-26 — PARTS 15/16/17/18 all landed) |
 | **12** | Physical Science *(unscored)* | ✅ **DONE** (2026-08-26 — PARTS 20/20B/21/21B/22/23 all landed) |
 | **13** | Situational Judgment + SDI *(unscored, SJT disputed)* | ✅ **DONE** (2026-08-26 — PARTS 25/25B/25C/25D/25E all landed. SDI decided NOT built as an interactive tool (Trey's call).) |
-| **14** | Exam sim, composite scoring, diagnostic, dashboard | 🟨 Composite scoring engine done 2026-08-26 (practice accuracy, not the real percentile - see note below); exam runner/diagnostic/analytics (PARTS 28/29/30) still `[L]` locked, not started |
+| **14** | Exam sim, composite scoring, diagnostic, dashboard | 🟨 Composite scoring engine done 2026-08-26. **PART 28 (full exam runner) IN PROGRESS as of 2026-08-26 — see "PART 28 — IN-PROGRESS HANDOFF" below, read it FIRST next session.** PARTS 29/30 still `[L]`, not started |
 
 **Recommended deviation:** build the diagnostic in reduced form right after Phase 4,
 seeded from official OATTS items. Trey's stated goal is "understand where I'm weak and how
 the test feels" — he should get that in week one, not week five.
+
+---
+
+## ⚠️ PART 28 — IN-PROGRESS HANDOFF (session paused 2026-08-26, read this FIRST)
+
+Session was stopped mid-PART-28 to prep a clean handoff before hitting a usage limit — this is
+**not a finished part**, nothing has been committed, and the QC gates have not all been run.
+Do not mark PART 28 done in HANDOFF.md's board until the open bug below is resolved and the
+full verify block (at the bottom of this entry) passes clean.
+
+### What PART 28 is
+The full-length, sequenced Form T exam runner — all 12 subtests back to back in the real
+administration order, real per-subtest timing, the two official breaks, and an honest
+(non-drillable) placeholder for the Self-Description Inventory's own slot, ending in a report
+screen with per-subtest scores and single-sitting composite accuracy (practice accuracy only,
+same PART 27 disclaimer — never a real percentile). This part was `[L]` locked in HANDOFF.md
+pending real content across every subtest, which now exists (Phase 13 closed it out), so it was
+picked up as the next unblocked, Claude-only (non-farmable) item on the board.
+
+### Files created this session
+- `afoqt/engine/exam.js` — pure sequencing/scoring engine, no React, no storage. Exports
+  `buildExamSteps`/`EXAM_STEPS` (derives the step order from `SUBTESTS`' own `order` field and
+  `BREAKS`, so it cannot drift from afoqtSpec), `EXAM_TOTAL_MINUTES`, `buildExamQuestions`
+  (wraps `assembleDrill` with `exam: true`, full official count), `examComposites` (single-
+  sitting composite accuracy — sums correct/total across a composite's subtests, which IS the
+  count-weighted average since every question is worth one point), `examOverall`.
+- `afoqt/engine/__tests__/exam.test.js` — 16 tests. **15 pass, 1 fails — see "OPEN BUG" below.**
+- `afoqt/views/ExamRunner.jsx` — the UI. Three phases (`intro` → `running` → `report`).
+  `running` renders one of three step components (`SubtestStep`, `BreakStep`, `InfoStep`) keyed
+  by `stepIndex` so remounting resets local state for free, same trick a fresh drill already
+  relies on elsewhere. Resume checkpoints save to `localStorage` **only at step boundaries**
+  (not mid-subtest) — a deliberate, documented scope cut: a reload mid-subtest loses at most
+  one subtest's progress (worst case ~38 min, Reading Comprehension), not the whole ~3.5-hour
+  sitting. `SubtestStep` mirrors `DrillRunner.jsx`'s live-question logic (timer, keyboard
+  A-E/A-D, guess-sweep on timeout, pace indicator) rather than importing it directly, because
+  `DrillRunner` is tightly coupled to route params + chapter/gate logic that does not apply
+  here — this is a real, small duplication, not an oversight; flagged so a future engine pass
+  can consider factoring a shared hook if it becomes a maintenance problem.
+
+### Files edited this session
+- `afoqt/afoqtStorage.js` — added `examRuns: []` to `defaultProgress()` and `addExamRun(progress,
+  run)`, kept separate from the existing per-subtest `runs`/`addRun` because a sitting's
+  composite scores are a fact about the whole run, not any one subtest (PART 30's future
+  trend-over-time view is expected to read this).
+- `afoqt/AfoqtApp.jsx` — new `Exam` tab, `/TKB/afoqt/exam` route → `ExamRunner`.
+- `afoqt/views/AfoqtDashboard.jsx` — added a `Full exam` button next to `Start a drill` in the
+  header (reachability — per this repo's "wire into every entry point" rule).
+- `afoqt/views/DrillConfig.jsx` — added a one-line pointer to the full exam page.
+- `afoqt/Afoqt.css` — appended `--- full exam simulator (PART 28) ---` block at the end of the
+  file (`.afq-exam-*`, `.afq-linklike`). No existing rules touched.
+
+### 🔴 OPEN BUG — must be root-caused before this part is done
+`buildExamQuestions('TR', mulberry32(seed))` returned **0 questions** (expected 40) for at
+least one seed in the range 1-5 when the test file was run — this is NOT the seed-0 fluke it
+first looked like; the test was widened to seeds 1-5 after seed 0 also failed, and it *still*
+fails on this range. Repro:
+```
+npx vitest run src/pages/theknowledgebase/afoqt/engine/__tests__/exam.test.js
+```
+Look at the `buildExamQuestions … is honest …` failure — it will name the exact seed that
+returns length 0 in its diff. This is a real, reproducible defect somewhere in the
+`assembleDrill`/`buildDrill` path for a **sheet-mode, no-`sheetSpan`** subtest (Table Reading:
+one grid, no figure rotation) specifically under `exam: true` (no miss pool, no bank mixing
+bias) — every other tested subtest (MK) was fine at the same seeds. Suspect areas, in the order
+I would check them next session:
+1. `groupByFigure()` in `engine/drill.js` — keys on `q.render?.sheetSeed`; if TR's sheetSeed
+   comes back `undefined`/falsy for a particular seed, everything piles into the `'_'` bucket,
+   which should still work but is worth ruling out first since it is the newest-looking code
+   path an exam-mode call actually exercises.
+2. `buildDrill`'s own sheet-seed derivation (`runSheet`) in `generator.js` around the
+   `sheetAt(t, i)` helper — re-read that function itself in the real file (the version pulled
+   into this session's context showed a suspicious literal `\` in `Math.floor(i \ t.sheetSpan)`
+   that is almost certainly a display/escaping artifact from the Grep tool, not real file
+   content, but re-read the actual source directly with the Read tool before assuming so).
+3. Whether `composeDrill` (bank mixing, `engine/bank.js`) can return fewer than requested for TR
+   specifically when the generated pool for a given seed comes up short, and whether that
+   shortfall is silently allowed to reach 0 rather than falling back.
+**Do not paper over this by widening the test's seed range further or catching-and-ignoring a
+short queue in `ExamRunner.jsx`.** A real 0-question Table Reading step inside a live exam
+sitting would silently zero out that whole subtest's score and possibly its composites (TR
+feeds all three rated composites) — this has to be root-caused, not test-avoided.
+
+An ad hoc `node -e` repro attempt this session hit `ERR_IMPORT_ATTRIBUTE_MISSING` on
+`afoqt/data/realQuestions.json` (needs `type: json` import attribute on plain node without the
+project's own script tooling) — reach for `npm run afoqt:sample -- --only=<id>` or add a
+throwaway case to the existing `scripts/afoqt*.mjs` tooling instead of a bare inline script,
+same lesson as every other engine debug session in this project.
+
+### Not yet done (do this, in this order, before calling PART 28 done)
+1. Root-cause and fix the TR zero-length bug above.
+2. `npx vitest run` — full suite, not just the new file. Confirm the only failures are the
+   already-documented, pre-existing RC/SJT test-out-gate limitation (see Phase 11/13 entries
+   above) — nothing new.
+3. `npm run afoqt:selftest -- --samples=8000` and `npm run afoqt:coverage` — neither should be
+   affected (no templates or concepts were touched this session), but confirm rather than assume.
+4. `npm run build` — clean.
+5. **Verify in a real browser, not just tests** (this repo's own rule for anything with a
+   renderer or a multi-step flow): start the dev server, open `/TKB/afoqt/exam`, click through
+   the intro screen, run at least the first subtest (VA) to completion, confirm the break screen
+   appears and its countdown/skip work, reload mid-sitting and confirm the Resume prompt appears
+   with the right step count, and check the final report screen after a full run (or a
+   hand-shortened one — consider temporarily patching `SUBTESTS` counts down in a scratch copy
+   if running the real ~3.5-hour sequence end to end is impractical, but say so explicitly if
+   you do that rather than silently claiming a full-length verification).
+6. Tick PART 28 in `docs/afoqt/HANDOFF.md` section 5 (currently still `[L]`) with a completion
+   note in the same style as PARTS 24-27, including this bug and its eventual fix.
+7. Update this PLAN.md file: replace this whole "IN-PROGRESS HANDOFF" section with a normal
+   "PHASE 14, PART 28 COMPLETE" entry (matching the style of the PART 27 entry above it), and
+   fix the STATUS BOARD row for Phase 14.
+8. `git status` will show new/modified files from this session, uncommitted. Commit with a
+   normal message once 1-7 above are actually green — do not commit while step 1's bug is open.
+
+### Design decisions already made this session (do not re-litigate on resume)
+- SDI gets a non-drillable `info` step at its real position in the sequence (not skipped
+  outright) so total time and "how the test feels" stay honest, per PART 26's prior decision
+  not to build it as a drillable tool.
+- Breaks and the SDI info screen show a real countdown but never force a wait — always
+  skippable. Documented as a deliberate practice-tool concession, not a fidelity gap worth
+  fixing (forcing an idle 45-minute wait serves no practice purpose).
+- Resume granularity is per-step, not per-question — see the `render` field IS plain
+  JSON-serializable data (confirmed by reading `render/Figure.jsx`), so per-question resume
+  was technically possible, but was deliberately not built to bound this session's scope. Worth
+  reconsidering only if Trey reports losing meaningful progress to a mid-subtest reload in
+  practice.
+- Single-sitting composite scores (`examComposites`) are computed ONLY from the current
+  sitting's results, never blended with `progress.templateStats` — deliberately a different
+  number from the Dashboard's lifetime `compositeAccuracy` (PART 27), because a full sitting is
+  a single honest sample and always has 100% subtest coverage by construction, unlike partial
+  practice history.
 
 ---
 
