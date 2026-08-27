@@ -103,7 +103,9 @@ export function addRun(progress, run) {
 //
 // Distinct from `runs`, which is one entry per single-subtest drill. An exam run covers all
 // 12 Form T steps at once, so it gets its own small list rather than being folded into `runs`
-// and forcing every reader of `runs` to branch on shape.
+// and forcing every reader of `runs` to branch on shape. PART 30's trend-over-time view can
+// read "how did each full sitting go" directly from here without reconstructing it from 12
+// individual subtest rows.
 
 const MAX_EXAM_RUNS = 50;
 

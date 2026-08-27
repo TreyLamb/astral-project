@@ -422,3 +422,9 @@
 .afq-src-detail { opacity: .85; }
 .afq-src-link { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .afq-src-link:hover { color: var(--tkb-ink); }
+
+/* --- cross-link from DrillConfig to the full exam (PART 28) --------------- */
+.afq-linklike {
+  background: none; border: none; padding: 0; font: inherit; cursor: pointer;
+  color: var(--tkb-accent); text-decoration: underline; text-underline-offset: 2px;
+}

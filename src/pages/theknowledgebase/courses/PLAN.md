@@ -48,7 +48,14 @@ exactly where to pick up. Update it at the end of every working block.
 ## OPEN QUESTIONS FOR TREY (ask when next relevant, don't block on them)
 
 - Real term name/dates beyond "Fall 2026" (seeded as a guess, editable per course).
-- Whether he wants `docs/courses/<CODE>/` populated with any actual notes yet, or everything
-  stays as drive-links for now.
 - Which courses should get their own Tier 2 fact-set/template beyond the MICR/CHEM examples,
   once he's actually a few weeks into the term and has real material to build them from.
+
+## RESOLVED (2026-08-25)
+
+- **Docs location:** `PLAN.md`/`DATA-MODEL.md` moved from `docs/courses/` into this folder
+  (`src/pages/theknowledgebase/courses/`) so the design docs live with the code they describe.
+  Reference them from `theknowledgebase/CLAUDE.md`, not the other way around.
+- **Per-course content:** confirmed live at `H:\My Drive\SupplementalCourseDocs\` (a `drive-link`,
+  not `repo-doc`) — one file per course, e.g. `Chem1210 ThoroughBookNotes.gdoc`. `docs/courses/<CODE>/`
+  stays available as the unused `repo-doc` fallback; nothing currently uses it.

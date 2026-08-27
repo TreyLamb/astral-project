@@ -24,10 +24,15 @@ rebuilt:
 ## Content strategy — references, not blobs
 
 Bulk content (full syllabi, slide decks, scanned book notes) never lives in this repo or in
-Firestore — it stays in Trey's own Drive/cloud-drive folder, or occasionally a small
-hand-committed `.md` under `docs/courses/<CODE>/` when he judges it's small enough. This
-mirrors the existing precedent in this repo: AFOQT's calibration books live at `G:\My Drive\`
-and are never committed, only referenced by path in scripts.
+Firestore — it stays in Trey's own Drive/cloud-drive folder. In practice that's
+`H:\My Drive\SupplementalCourseDocs\`, one file per course (e.g. `Chem1210 ThoroughBookNotes.gdoc`),
+which is why `drive-link` is `DocumentForm.jsx`'s default `ref.type`. This mirrors the existing
+precedent in this repo: AFOQT's calibration books live at `G:\My Drive\` and are never committed,
+only referenced by path in scripts.
+
+`repo-doc` (a path under `docs/courses/<CODE>/`) exists as a secondary option for the rare case
+Trey judges something small enough to hand-commit instead — as of this writing nothing has used
+it, everything real is a `drive-link` into SupplementalCourseDocs.
 
 `CourseDocument` (see `coursesStorage.js` for the full typedef) stores a **reference**
 (`ref: {type: 'drive-link'|'repo-doc'|'none', value}`) plus a short hand-written `summary`
@@ -81,6 +86,8 @@ report screen among several, not a driver of navigation — matches Trey's frami
 
 ```
 src/pages/theknowledgebase/courses/
+  PLAN.md                 — live handoff state, read this first
+  DATA-MODEL.md           — this file
   CoursesApp.jsx          — shell, own nested <Routes>, mirrors afoqt/AfoqtApp.jsx
   coursesStorage.js       — localStorage layer (typedefs live here)
   coursesFirestore.js     — Firestore mirror, users/{uid}/courses_* collections

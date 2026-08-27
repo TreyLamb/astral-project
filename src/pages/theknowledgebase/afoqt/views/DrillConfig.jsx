@@ -35,6 +35,11 @@ export default function DrillConfig() {
   return (
     <div className="afq-config">
       <h2>Build a drill</h2>
+      <p className="afq-note">
+        Want all 12 subtests, in the real order, back to back? That is the{' '}
+        <button className="afq-linklike" onClick={() => navigate('/TKB/afoqt/exam')}>full exam</button>,
+        not a drill.
+      </p>
 
       <section>
         <h3>Subtest</h3>
