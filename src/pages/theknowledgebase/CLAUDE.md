@@ -13,9 +13,16 @@ Folder-local rules. Read before touching anything under
 | `/TKB/review`, `/TKB/subjects`, `/TKB/settings` | Original tool — **do not redesign, additive changes only** |
 | `/TKB/asvab` | Parked ASVAB module *(planned)* |
 | `/TKB/afoqt/*` | AFOQT training module *(in build)* — Math Knowledge, Arithmetic Reasoning, Table Reading, Aviation Information, Instrument Comprehension and Block Counting live |
+| `/TKB/courses/*` | Courses module — per-course document/assessment tracking, real-question capture, and zero-AI question generation feeding TKB's spaced-review engine |
 
-**Full docs: `docs/afoqt/`.** `PLAN.md` there is the **live handoff state** — read it first
+**Full AFOQT docs: `docs/afoqt/`.** `PLAN.md` there is the **live handoff state** — read it first
 in a new session, update it at the end of every working block.
+
+**Full Courses docs live IN the courses folder, not under `docs/`:**
+`courses/PLAN.md` (live handoff state) and `courses/DATA-MODEL.md` (architecture/reasoning) —
+read `PLAN.md` first. Unlike AFOQT, these sit next to the code they describe rather than in a
+sibling `docs/courses/` folder (that folder still exists only for the unused `repo-doc` content
+convention — see `DATA-MODEL.md`'s Content Strategy section).
 
 **`docs/afoqt/HANDOFF.md` is the outside-agent work board.** Every remaining piece of farmable
 work is a numbered PART with its own brief and verify block, plus the paste-ready prompt and the

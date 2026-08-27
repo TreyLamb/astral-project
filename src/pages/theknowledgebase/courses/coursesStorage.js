@@ -44,8 +44,9 @@ const KEYS = {
  * @property {'syllabus'|'slides'|'reading'|'book-notes'|'lecture-notes'} kind
  * @property {string} title
  * @property {{type: 'drive-link'|'repo-doc'|'none', value: string}} ref - a
- *   reference, never the content itself. drive-link is an openable URL;
- *   repo-doc is a path under docs/courses/<CODE>/ that Trey adds by hand.
+ *   reference, never the content itself. drive-link is an openable URL (in
+ *   practice, a file under H:\My Drive\SupplementalCourseDocs\); repo-doc is
+ *   a path under docs/courses/<CODE>/ that Trey adds by hand — unused so far.
  * @property {string} summary   - short, hand-written — what gets tagged/searched
  * @property {string[]} tags    - topic tags, the join key for pattern analysis
  * @property {string} createdAt

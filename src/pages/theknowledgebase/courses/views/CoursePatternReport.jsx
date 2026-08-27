@@ -5,7 +5,7 @@ import { tagHitRate, untestedTaughtTags, recurringAcrossAssessments } from '../e
 // The basic pattern-analysis report: pure counting over Document.tags and
 // RealQuestion.topicTags, no AI. Deliberately one screen, not something that
 // drives navigation — see the "Pattern analysis" section of
-// docs/courses/DATA-MODEL.md for why this stays secondary.
+// ../DATA-MODEL.md for why this stays secondary.
 export default function CoursePatternReport() {
   const { courseId } = useParams();
   const navigate = useNavigate();

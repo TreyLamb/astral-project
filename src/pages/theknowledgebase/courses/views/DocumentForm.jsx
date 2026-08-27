@@ -5,7 +5,7 @@ const KINDS = ['syllabus', 'slides', 'reading', 'book-notes', 'lecture-notes'];
 
 // Adds a Document REFERENCE — a link or a repo-relative path, plus a short
 // hand-written summary and tags. Never the content itself: see the Content
-// strategy section of docs/courses/DATA-MODEL.md for why.
+// strategy section of ../DATA-MODEL.md for why.
 export default function DocumentForm({ courseId, onDone }) {
   const { addDocument } = useCourses();
   const [kind, setKind] = useState('reading');
