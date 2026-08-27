@@ -29,9 +29,14 @@ export default function CoursesDashboard() {
             report. Click the tracking pill to cycle full → light → none.
           </div>
         </div>
-        <button className="crs-btn secondary" onClick={() => setAdding((v) => !v)}>
-          {adding ? 'Cancel' : '+ Add course'}
-        </button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button className="crs-btn secondary" onClick={() => navigate('/TKB/courses/worksheets')}>
+            📝 Worksheets
+          </button>
+          <button className="crs-btn secondary" onClick={() => setAdding((v) => !v)}>
+            {adding ? 'Cancel' : '+ Add course'}
+          </button>
+        </div>
       </div>
 
       {adding && (

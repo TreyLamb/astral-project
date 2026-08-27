@@ -51,6 +51,30 @@ exactly where to pick up. Update it at the end of every working block.
 - Which courses should get their own Tier 2 fact-set/template beyond the MICR/CHEM examples,
   once he's actually a few weeks into the term and has real material to build them from.
 
+## RESOLVED (2026-08-26)
+
+- **New sub-feature: Worksheets** (`/TKB/courses/worksheets`, `/TKB/courses/worksheets/:worksheetId`).
+  A separate, reusable click-to-annotate engine for digitizing a lettered-MCQ practice
+  worksheet PDF from `SupplementalCourseDocs` — click a letter to circle it (green), click
+  again for an X (red), again to clear, looping, no debounce. Click the blank space on any
+  line to type a margin note. Two-column layout in original question order (CSS grid
+  auto-flow, headings span both columns). Marks/notes persist to localStorage per worksheet
+  id (`worksheetStorage.js`) — no Firestore mirror yet, single-device only.
+  - Deliberately NOT part of the `Course`/`CourseDocument` CRUD data model above — a
+    worksheet is a parsed, self-contained JSON blob (`worksheets/data/<id>.json`), not a
+    `drive-link` reference. This is the one exception to "no file upload / references only":
+    the *content itself* is committed as structured JSON, produced by a one-time parser
+    script run against a PDF outside the repo, never the PDF itself.
+  - Reusable by design: `worksheets/worksheetEngine.js` (pure — flatten + mark-cycle logic)
+    and `views/WorksheetViewer.jsx` (rendering + persistence) don't know about "MCI" or
+    "MMAHP" — only `worksheetsRegistry.js` and the specific parser script are per-document.
+  - `scripts/parseMciWorksheet.mjs` is written for the whole MCI-family PDF layout (numbered
+    questions, lettered options, chapter/section headers), not just this one file — re-run it
+    for the next PDF in the series. It hard-fails (non-zero exit) on any structural mismatch
+    rather than silently mis-parsing; a couple of genuine gaps in the source PDF itself
+    (a skipped option letter) are logged as warnings and kept verbatim rather than invented.
+  - Reachable via a "📝 Worksheets" button on the Courses dashboard header.
+
 ## RESOLVED (2026-08-25)
 
 - **Docs location:** `PLAN.md`/`DATA-MODEL.md` moved from `docs/courses/` into this folder

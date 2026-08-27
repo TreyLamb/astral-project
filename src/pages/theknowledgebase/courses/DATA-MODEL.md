@@ -104,6 +104,15 @@ src/pages/theknowledgebase/courses/
     AssessmentCapture.jsx
     ImportGenerated.jsx
     CoursePatternReport.jsx
+    WorksheetsList.jsx
+    WorksheetViewer.jsx
+  worksheets/               — separate reusable click-to-annotate engine, see PLAN.md's
+    worksheetEngine.js         2026-08-26 entry. Not part of the Course/CourseDocument
+    worksheetStorage.js        model above — a worksheet is parsed, committed JSON
+    worksheetsRegistry.js      (data/<id>.json), not a drive-link reference.
+    Worksheet.css
+    data/
+      mmahp-ch1-4.json
 ```
 
 Routes: `/TKB/courses` (dashboard), `/TKB/courses/:courseId` (detail — documents,

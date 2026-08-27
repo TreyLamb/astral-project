@@ -1,0 +1,169 @@
+/* Worksheet engine (reusable click-to-mark study sheet). Namespaced wks-,
+   inherits --tkb-* tokens; --wks-* below are local to this engine only. */
+
+.wks-page {
+  --wks-green: #2e8b52;
+  --wks-red: #c0392b;
+  --wks-rule: rgba(120, 130, 150, 0.28);
+  --wks-margin: rgba(192, 57, 43, 0.35);
+  color: var(--tkb-ink);
+}
+
+.wks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 1.1rem;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .wks-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.wks-heading {
+  grid-column: 1 / -1;
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+.wks-heading-1 {
+  font-size: 1.15rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--tkb-accent);
+}
+
+.wks-heading-2 {
+  font-size: 0.95rem;
+  color: var(--tkb-ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.wks-question {
+  background: var(--tkb-surface);
+  border: 1px solid var(--tkb-border);
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem 0.55rem 0.9rem;
+  position: relative;
+  /* College-ruled feel: a red margin line plus faint horizontal rules. */
+  border-left: 2px solid var(--wks-margin);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 1.55rem,
+    var(--wks-rule) 1.55rem,
+    var(--wks-rule) calc(1.55rem + 1px)
+  );
+  background-position: 0 2.2rem;
+}
+
+.wks-ruled-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  min-height: 1.55rem;
+  line-height: 1.55rem;
+}
+
+.wks-line-text {
+  flex: 0 1 auto;
+}
+
+.wks-line-stem {
+  font-weight: 600;
+}
+
+.wks-option-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.wks-option-row .wks-ruled-line {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Free-text "margin note" — invisible until used, fills whatever blank
+   space is left on the line, matches writing in the margin of ruled paper. */
+.wks-note-input {
+  flex: 1 1 40px;
+  min-width: 30px;
+  border: none;
+  border-bottom: 1px dotted transparent;
+  background: transparent;
+  color: var(--tkb-ink-soft);
+  font: inherit;
+  font-size: 0.85rem;
+  font-style: italic;
+  padding: 0 0.2rem;
+}
+
+.wks-note-input:hover {
+  border-bottom-color: var(--tkb-border);
+}
+
+.wks-note-input:focus {
+  outline: none;
+  border-bottom-color: var(--tkb-accent);
+  color: var(--tkb-ink);
+}
+
+/* The clickable letter marker. No transitions — clicks must register
+   instantly even four-in-a-row, with zero perceptible lag. */
+.wks-letter {
+  flex: none;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: var(--tkb-canvas);
+  color: var(--tkb-ink);
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wks-letter:hover {
+  border-color: var(--tkb-border);
+}
+
+.wks-letter.wks-mark-circle {
+  border-color: var(--wks-green);
+  color: var(--wks-green);
+  background: transparent;
+}
+
+.wks-letter.wks-mark-x {
+  border-color: transparent;
+  color: var(--wks-red);
+}
+
+.wks-letter.wks-mark-x::before,
+.wks-letter.wks-mark-x::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 50%;
+  height: 2px;
+  background: var(--wks-red);
+  border-radius: 1px;
+}
+
+.wks-letter.wks-mark-x::before {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.wks-letter.wks-mark-x::after {
+  transform: translateY(-50%) rotate(-45deg);
+}

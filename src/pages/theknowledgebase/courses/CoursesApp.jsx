@@ -6,6 +6,8 @@ import { CoursesFirestore } from './coursesFirestore';
 import CoursesDashboard from './views/CoursesDashboard';
 import CourseDetail from './views/CourseDetail';
 import CoursePatternReport from './views/CoursePatternReport';
+import WorksheetsList from './views/WorksheetsList';
+import WorksheetViewer from './views/WorksheetViewer';
 import Boundary from '../../../components/errors/Boundary';
 import './Courses.css';
 
@@ -193,6 +195,8 @@ export default function CoursesApp() {
       <div className="crs-wrap">
         <Routes>
           <Route index element={<Boundary title="The courses dashboard stopped working." resetId="dashboard"><CoursesDashboard /></Boundary>} />
+          <Route path="worksheets" element={<Boundary title="The worksheets list stopped working." resetId="worksheets"><WorksheetsList /></Boundary>} />
+          <Route path="worksheets/:worksheetId" element={<Boundary title="This worksheet stopped working." resetId={location.pathname}><WorksheetViewer /></Boundary>} />
           <Route path=":courseId" element={<Boundary title="This course's detail view stopped working." resetId={location.pathname}><CourseDetail /></Boundary>} />
           <Route path=":courseId/patterns" element={<Boundary title="The pattern report stopped working." resetId={location.pathname}><CoursePatternReport /></Boundary>} />
         </Routes>
