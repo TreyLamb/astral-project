@@ -114,6 +114,23 @@
   .afq-table { font-size: .8rem; }
 }
 
+/* --- results & analytics (PART 30) ---------------------------------------
+   A single series (accuracy over time), so no legend - the section heading already
+   names what's plotted. Mark spec per the project's dataviz skill: bars capped at
+   24px thick with air in the band, 4px rounded top / square baseline, one hairline
+   recessive baseline, one accent color throughout (never a rainbow for one series). */
+.afq-stat-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .6rem; margin: .6rem 0 1.2rem; }
+.afq-stat-tile { padding: .7rem .85rem; border: 1px solid var(--tkb-border); border-radius: 8px; background: var(--tkb-surface); }
+.afq-stat-tile span { display: block; font-size: 1.6rem; font-weight: 600; line-height: 1.1; }
+.afq-stat-tile label { font-size: .72rem; color: var(--tkb-ink-soft); text-transform: uppercase; letter-spacing: .05em; }
+
+.afq-spark { display: flex; align-items: flex-end; gap: 3px; height: 90px; padding: 0 0 1px; border-bottom: 1px solid var(--tkb-border); }
+.afq-spark-col { flex: 1 1 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; min-width: 0; }
+.afq-spark-track { width: 100%; max-width: 22px; height: 100%; display: flex; align-items: flex-end; background: color-mix(in srgb, var(--tkb-border) 55%, transparent); border-radius: 4px 4px 0 0; overflow: hidden; }
+.afq-spark-bar { width: 100%; background: var(--tkb-accent); border-radius: 4px 4px 0 0; min-height: 2px; }
+.afq-spark-labels { display: flex; gap: 3px; margin-top: .3rem; }
+.afq-spark-labels span { flex: 1 1 0; text-align: center; font-size: .65rem; color: var(--tkb-ink-soft); min-width: 0; }
+
 /* --- full-length exam (PART 28) ------------------------------------------ */
 .afq-exam-steps { list-style: none; margin: .6rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .3rem; max-width: 520px; }
 .afq-exam-step { display: flex; justify-content: space-between; gap: 1rem; padding: .4rem .65rem; border-radius: 6px; background: var(--tkb-surface); border: 1px solid var(--tkb-border); font-size: .88rem; }

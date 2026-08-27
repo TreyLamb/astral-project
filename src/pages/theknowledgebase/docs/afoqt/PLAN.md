@@ -29,7 +29,12 @@ and know exactly where to pick up. Update it at the end of every working block.
 | **11** | Reading Comprehension | ✅ **DONE** (2026-08-26 — PARTS 15/16/17/18 all landed) |
 | **12** | Physical Science *(unscored)* | ✅ **DONE** (2026-08-26 — PARTS 20/20B/21/21B/22/23 all landed) |
 | **13** | Situational Judgment + SDI *(unscored, SJT disputed)* | ✅ **DONE** (2026-08-26 — PARTS 25/25B/25C/25D/25E all landed. SDI decided NOT built as an interactive tool (Trey's call).) |
-| **14** | Exam sim, composite scoring, diagnostic, dashboard | 🟨 Composite scoring (PART 27), the full-length exam runner (PART 28), and diagnostic mode + dashboard integration (PART 29) all done 2026-08-26 - practice accuracy, not the real percentile, see notes below; trend analytics (PART 30) still `[L]` locked, not started |
+| **14** | Exam sim, composite scoring, diagnostic, dashboard | ✅ **DONE** (2026-08-26 — PARTS 27/28/29/30 all landed. Composites are practice accuracy, never the real percentile - see notes below.) |
+
+**Phase 14 was the last locked phase on the whole board.** Every AFOQT PART is now `[x]` in
+`docs/afoqt/HANDOFF.md` - what remains is real, ongoing use of the tool (studying, taking the
+diagnostic/exam for real, and whatever PART 26's SDI note or new subtest-accuracy gaps surface
+over time), not more unbuilt phases.
 
 **Recommended deviation:** build the diagnostic in reduced form right after Phase 4,
 seeded from official OATTS items. Trey's stated goal is "understand where I'm weak and how
@@ -1807,3 +1812,35 @@ total. Predates this part, affects every drill mode equally, real work on a diff
 already-shipped feature - not fixed here.
 
 PART 30 (results/analytics) remains `[L]`, unstarted.
+
+---
+
+### 2026-08-26 — PART 30: results & analytics, and Phase 14 closes out
+
+Picked up **PART 30** immediately after PART 29, closing the same "trend-over-time" gap flagged
+since Phase 0's "Recommended deviation" and repeated in every one of PARTS 27/28/29's own "not
+done" notes. New `engine/analytics.js` reshapes records those three parts already write
+(`progress.runs`/`.examRuns`/`.diagnosticRuns`/`.templateStats`) - nothing new is tracked. A
+fifth nav tab, "Results" (`views/AfoqtResults.jsx`): four stat tiles (practice days, streak,
+questions answered, exams completed), a 14-day accuracy sparkline, an exam-sitting history
+table, and a diagnostic-vs-now comparison. Unlike the diagnostic (a one-off action reached from
+a CTA), Results is a recurring, revisitable screen, which is why it earned a tab and the
+diagnostic didn't.
+
+The sparkline was built by loading and following this repo's `dataviz` skill before writing any
+chart code, per that skill's own trigger rule - single series (one color, `--tkb-accent`), no
+legend needed, mark spec (thin bars, rounded tops, hairline baseline), and a day with no
+attempts renders as an empty track rather than a zero-height bar, carrying the same null-vs-zero
+distinction the rest of the engine layer already enforces into the pixels.
+
+Verified: 17 new unit tests (`engine/__tests__/analytics.test.js`) + a browser check against a
+synthetic `progress` blob spanning several days, one exam sitting, and one diagnostic (injected
+directly rather than replaying a live full exam/diagnostic run, since those engines are already
+browser-verified in PARTS 28/29 - this only needed to check `AfoqtResults` reads the records
+correctly). All numbers hand-verified against the injected data, zero console errors.
+`afoqt:selftest` unchanged (330 templates), `npx vitest run` 3206/3207 (same pre-existing
+RC/SJT limitation), `npm run build` clean.
+
+**This closes Phase 14, and with it every PART on the entire AFOQT board is now `[x]`** - see
+`docs/afoqt/HANDOFF.md` section 5. What's left from here is real use of the tool, not more
+unbuilt phases.

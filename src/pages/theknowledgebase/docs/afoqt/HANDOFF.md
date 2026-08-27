@@ -513,7 +513,11 @@ work per section 4's not-farmable column; do a live session, never zip this one 
   `DrillConfig.jsx` gained `?subtest=` deep-link support so the diagnostic's "drill your
   weakest subtest" button actually lands pre-selected. Caught and fixed, before it ever ran in
   a browser, a second instance of PART 28's exact bug class — see the design record.)*
-- [L] **PART 30** — results and analytics
+- [x] **PART 30** — results and analytics *(Claude, done 2026-08-26 — see "PART 30 design
+  record" below. New `engine/analytics.js` (a trend-over-time view, reshaping records PARTS
+  27-29 already write — no new tracked facts) + `views/AfoqtResults.jsx`, a fifth nav tab
+  ("Results"). Closes out Phase 14, and with it every PART on this entire board is now `[x]` —
+  see PLAN.md's status board.)*
 
 ### Standing chores
 
@@ -2515,6 +2519,63 @@ instead of `6` because five of their six diagnostic questions came from the bank
 PART 29 entirely — it would happen on any ordinary "Start a drill" run too — and fixing it means
 extending the Dashboard's own aggregation to also walk `bankItems()`, real editorial/engine work
 on a different, already-shipped feature, outside what "build the diagnostic" was scoped to do.
+
+---
+
+### PART 30 — design record (done 2026-08-26, Claude-only session, immediately after PART 29)
+
+Not farmed. Dashboard/analytics design (what "results" means, which trends are worth showing,
+where the view lives) per section 4. This closes out Phase 14 — the last locked PART on the
+whole board.
+
+**Why this exists:** the same flag repeated in Phase 0's "Recommended deviation" and in every one
+of PARTS 27/28/29's own "not done" notes — a trend-over-time view ("accuracy this week vs last
+week", "how did each sitting go") was never built. **Nothing here tracks a new fact.** PARTS
+27-29 already write everything this part reads (`progress.runs`, `.examRuns`, `.diagnosticRuns`,
+`.templateStats`) — PART 30 is purely a reshaping/presentation layer over records that already
+exist, which is why it could be scoped and finished in one session immediately after PART 29.
+
+**What was built:**
+- `engine/analytics.js` — `dailyAccuracy(runs, days)` (buckets `progress.runs` by calendar day,
+  oldest-first, `accuracy: null` for a day with no attempts — never a 0, same distinction every
+  other accuracy function in this tool already draws), `practiceDays`/`currentStreakDays`
+  (unions `runs`/`examRuns`/`diagnosticRuns` dates; a streak ending **yesterday** still counts as
+  live, so the number doesn't read as "broken" the instant midnight passes before that day's
+  first practice), `overallAccuracy(results)` (a whole-sitting weighted average across **every**
+  reached subtest, not scoped to one composite — genuinely new math, unlike the rest of the
+  file, because no existing function answers "how did the entire exam go" rather than "how did
+  one composite go"), `examSittingSummaries` (chronological trend list), and `diagnosticVsNow`
+  (per-subtest "then" from the latest diagnostic vs "now" from `engine/scoring.js`'s
+  `subtestAccuracy` — reused, not reimplemented, same discipline PART 29 already established for
+  reusing PART 28's math).
+- `views/AfoqtResults.jsx` — a fifth nav tab ("Results"), since this is a **recurring, revisitable
+  analytics screen** (unlike the diagnostic, which is a one-off action reached from a CTA/cross
+  -link, not a tab — see PART 29's record for that reasoning, which still holds and is why the
+  two entry points differ). Sections: four stat tiles (practice days, streak, questions answered,
+  exams completed), a 14-day accuracy sparkline, an exam-sitting history table, and a
+  diagnostic-vs-now comparison table (only rendered if a diagnostic exists).
+- The sparkline was built per this repo's `dataviz` skill, loaded and followed before writing any
+  chart code: single series (accuracy, one color) needs no legend or CVD-pair validation:
+  `--tkb-accent` bars, ≤24px thick with air between columns, 4px rounded top / square baseline,
+  one hairline recessive baseline, a native `title` attribute per column as the (deliberately
+  minimal, appropriate-for-an-internal-analytics-screen) hover layer, and an always-visible table
+  underneath for the exam/diagnostic sections satisfying the skill's "a table view exists" rule.
+  A day with no attempts renders an **empty track**, never a filled zero-height bar — the same
+  null-vs-zero distinction the whole engine layer already enforces, carried into the pixels.
+
+**Verification:** `engine/__tests__/analytics.test.js`, 17 tests (bucketing, the streak's
+yesterday-still-counts rule and its "broken more than a day ago is really 0" counterpart, the
+question-count-weighted `overallAccuracy` math, chronological reordering, and the diagnostic
+comparison's null-fallback when nothing has been practiced since). Then a browser check: the
+empty state (nothing recorded yet) renders its own CTA correctly; a synthetic `progress` blob
+spanning several days, one exam sitting, and one diagnostic (injected directly rather than
+replaying a live ~310-question exam or a ~66-question diagnostic — both engines are already
+browser-verified in PARTS 28/29, so this only needed to check that `AfoqtResults` reads the
+records correctly, not re-verify the engines that produce them) rendered all four sections with
+hand-verifiable numbers (stat tiles, sparkline bar count and heights, both tables) and zero
+console errors. `npm run afoqt:selftest -- --samples=8000` unchanged (330 templates, no
+template/curriculum files touched), `npx vitest run` 3206/3207 (same pre-existing, already-
+documented RC/SJT limitation, unrelated to this part), `npm run build` clean.
 
 ---
 

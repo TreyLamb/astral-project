@@ -10,6 +10,7 @@ import DrillRunner from './views/DrillRunner';
 import ExamConfig from './views/ExamConfig';
 import ExamRunner from './views/ExamRunner';
 import DiagnosticRunner from './views/DiagnosticRunner';
+import AfoqtResults from './views/AfoqtResults';
 import './Afoqt.css';
 
 // Templates self-register on import; this pulls the whole registry in once.
@@ -119,6 +120,7 @@ export default function AfoqtApp() {
     { path: '/TKB/afoqt/learn', label: 'Learn', match: (p) => p.startsWith('/TKB/afoqt/learn') },
     { path: '/TKB/afoqt/drill', label: 'Drill', match: (p) => p.startsWith('/TKB/afoqt/drill') },
     { path: '/TKB/afoqt/exam', label: 'Exam', match: (p) => p.startsWith('/TKB/afoqt/exam') },
+    { path: '/TKB/afoqt/results', label: 'Results', match: (p) => p.startsWith('/TKB/afoqt/results') },
   ];
 
   return (
@@ -144,6 +146,7 @@ export default function AfoqtApp() {
           <Route path="exam" element={<ExamConfig />} />
           <Route path="exam/run" element={<ExamRunner />} />
           <Route path="diagnostic" element={<DiagnosticRunner />} />
+          <Route path="results" element={<AfoqtResults />} />
         </Routes>
       </div>
     </AfoqtContext.Provider>
