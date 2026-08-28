@@ -72,6 +72,11 @@ export default function EftShoppingApp() {
   // back leaves the row still showing.
   const [chromeOpen, setChromeOpen] = useState(false);
 
+  // Dismissed for this load of the app, not persisted — a reminder that stuck
+  // around forever after being closed once would be the exact clutter this is
+  // meant to fix; a fresh reminder next session is fine.
+  const [bannerDismissed, setBannerDismissed] = useState(false);
+
   const [toast, setToast] = useState(null);
   const toastTimer = useRef(null);
 
@@ -211,47 +216,78 @@ export default function EftShoppingApp() {
           ) : (
           <header className="eft-topbar">
             <HubLink className="eft-site-home" />
-            <div className="eft-brand">
-              <h1>EFT Shopping</h1>
-              <span>hideout &amp; raid companion</span>
-            </div>
+            <span className="eft-wordmark" title="hideout &amp; raid companion">EFT Shopping</span>
 
-            <div className="eft-modeswitch" role="group" aria-label="Game mode">
-              {GAME_MODES.map((m) => (
-                <button
-                  key={m.id}
-                  type="button"
-                  aria-pressed={gameMode === m.id}
-                  title={m.blurb}
-                  onClick={() => value.setGameMode(m.id)}
+            <nav className="eft-tabs" aria-label="EFT Shopping sections">
+              {TABS.map((tab) => (tab.href ? (
+                <a
+                  key={tab.href}
+                  href={tab.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="eft-tab"
+                  title="Opens tarkov-market.com in a new tab"
                 >
-                  {m.label}
-                </button>
-              ))}
-            </div>
+                  {tab.label}
+                </a>
+              ) : (
+                <Link
+                  key={tab.to}
+                  to={`${ROOT}${tab.to}`}
+                  className={`eft-tab${active(tab) ? ' eft-is-active' : ''}`}
+                >
+                  {tab.label}
+                </Link>
+              )))}
+            </nav>
 
-            <div className="eft-status">
-              <span className={`eft-status-dot ${dotClass}`} />
-              <span title={`Hideout data built from the game files ${fmtAgo(status.generatedAt)}`}>
-                {status.loading ? 'loading'
-                  : hasPrices ? `prices ${fmtAgo(status.pricesFetchedAt)}` : 'no prices'}
-              </span>
-            </div>
+            <div className="eft-topbar-actions">
+              <div className="eft-modeswitch" role="group" aria-label="Game mode">
+                {GAME_MODES.map((m) => (
+                  <button
+                    key={m.id}
+                    type="button"
+                    aria-pressed={gameMode === m.id}
+                    title={m.blurb}
+                    onClick={() => value.setGameMode(m.id)}
+                  >
+                    {m.label}
+                  </button>
+                ))}
+              </div>
 
-            <button
-              type="button"
-              className="eft-btn eft-btn-sm"
-              onClick={refreshPrices}
-              disabled={status.pricesLoading}
-              title="Fetch live flea and trader prices from tarkov.dev. Hideout data is local and never depends on this."
-            >
-              {status.pricesLoading ? 'Fetching…' : 'Get prices'}
-            </button>
+              <div className="eft-status">
+                <span className={`eft-status-dot ${dotClass}`} />
+                <span title={`Hideout data built from the game files ${fmtAgo(status.generatedAt)}`}>
+                  {status.loading ? 'loading'
+                    : hasPrices ? `prices ${fmtAgo(status.pricesFetchedAt)}` : 'no prices'}
+                </span>
+              </div>
+
+              <button
+                type="button"
+                className="eft-btn eft-btn-sm"
+                onClick={refreshPrices}
+                disabled={status.pricesLoading}
+                title="Fetch live flea and trader prices from tarkov.dev. Hideout data is local and never depends on this."
+              >
+                {status.pricesLoading ? 'Fetching…' : 'Get prices'}
+              </button>
+            </div>
           </header>
           )}
 
-          {!isMap && !hasPrices && !status.loading ? (
+          {!isMap && !hasPrices && !status.loading && !bannerDismissed ? (
             <div className="eft-banner">
+              <button
+                type="button"
+                className="eft-banner-dismiss"
+                onClick={() => setBannerDismissed(true)}
+                title="Dismiss"
+                aria-label="Dismiss"
+              >
+                ×
+              </button>
               <strong>No prices loaded.</strong> Hideout requirements come from the game files and are
               complete — costs are the only thing missing. Hit <strong>Get prices</strong> to pull live
               flea and trader prices from tarkov.dev.
@@ -266,8 +302,8 @@ export default function EftShoppingApp() {
             </div>
           ) : null}
 
-          {!isMap || chromeOpen ? (
-          <nav className={`eft-tabs${isMap ? ' eft-is-float' : ''}`}>
+          {isMap && chromeOpen ? (
+          <nav className="eft-tabs eft-is-float">
             {TABS.map((tab) => (tab.href ? (
               <a
                 key={tab.href}

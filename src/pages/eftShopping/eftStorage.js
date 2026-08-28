@@ -55,7 +55,7 @@ export const DEFAULTS = {
     skills: {},
   },
   prefs: {
-    gameMode: 'regular',
+    gameMode: 'pve',
     // 'all' = every remaining level, 'next' = only each station's next level
     scope: 'all',
     groupBy: 'item',
@@ -124,9 +124,13 @@ export const DEFAULTS = {
  * per-origin so localhost and the deployed site disagree. Bumping PREFS_REV
  * re-applies the listed keys once. Only list a key whose DEFAULT moved.
  */
-const PREFS_REV = 1;
+const PREFS_REV = 2;
 const PREFS_REV_RESETS = {
   1: ['listMode'],
+  // PVE became its own permanent economy alongside PVP; PVP was only ever the
+  // default because it existed first. Force everyone already on 'regular' onto
+  // the new default once.
+  2: ['gameMode'],
 };
 
 function applyPrefsRev(prefs) {

@@ -104,50 +104,50 @@
    grids, don't pad the sides. */
 .eft-shell { width: 100%; padding: 0 8px 64px; }
 
+/* One bar, everything in it — webdesign.md §3. This used to stack a full
+   topbar, a banner and a whole second tab-bar section on top of each other;
+   on anything but a tall monitor that left a working view (the craft tree,
+   the map) about half the window. Tabs now live IN this row; the banner
+   below is dismissible instead of permanent. */
 .eft-topbar {
   display: flex;
   align-items: center;
-  gap: 20px;
   flex-wrap: wrap;
-  padding: 20px 0 15px;
-  border-bottom: 1px solid var(--eft-line);
+  gap: 6px 14px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--eft-line-bright);
 }
 
-.eft-brand {
-  display: flex;
-  align-items: baseline;
-  gap: 12.5px;
-  margin-right: auto;
-}
-
-.eft-brand h1 {
-  margin: 0;
-  font-size: 26.3px;
+.eft-wordmark {
+  flex: none;
+  font-size: 15.6px;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--eft-tan-bright);
+  white-space: nowrap;
 }
 
-.eft-brand span {
-  font-size: 13.8px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--eft-text-faint);
+.eft-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12.5px;
+  flex: none;
+  margin-left: auto;
 }
 
 /* ---------- Mode switch ---------- */
 
-.eft-modeswitch { display: flex; border: 1px solid var(--eft-line-bright); }
+.eft-modeswitch { display: flex; border: 1px solid var(--eft-line-bright); flex: none; }
 
 .eft-modeswitch button {
-  padding: 6.3px 17.5px;
+  padding: 4.5px 13px;
   background: transparent;
   border: 0;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  font-size: 13.8px;
+  font-size: 13px;
   color: var(--eft-text-dim);
 }
 
@@ -165,11 +165,12 @@
 .eft-status {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 13.8px;
-  letter-spacing: 0.08em;
+  gap: 8px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--eft-text-faint);
+  white-space: nowrap;
 }
 
 .eft-status-dot {
@@ -184,40 +185,58 @@
 .eft-status-dot.eft-is-offline { background: var(--eft-red); }
 
 .eft-banner {
-  margin: 12px 0 0;
-  padding: 11.3px 17.5px;
+  position: relative;
+  margin: 8px 0 0;
+  padding: 9px 40px 9px 15px;
   border: 1px solid var(--eft-line-bright);
   border-left: 3px solid var(--eft-orange);
   background: rgba(192, 139, 74, 0.07);
-  font-size: 15.6px;
+  font-size: 14.5px;
   color: var(--eft-text-dim);
 }
 
 .eft-banner.eft-is-error { border-left-color: var(--eft-red); background: rgba(180, 84, 74, 0.07); }
 
+.eft-banner-dismiss {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  background: none;
+  border: 0;
+  color: var(--eft-text-faint);
+  font-size: 19px;
+  line-height: 1;
+  cursor: pointer;
+}
+.eft-banner-dismiss:hover { color: var(--eft-tan-bright); }
+
 /* ---------- Tabs ---------- */
 
+/* Lives inline in .eft-topbar now (webdesign.md §3 — one bar, not a second
+   nav section below it). Only the map's floating menu (.eft-is-float) is
+   still a bar of its own, because the map has no persistent topbar row to
+   join. */
 .eft-tabs {
   display: flex;
-  gap: 2.5px;
+  gap: 2px;
   flex-wrap: wrap;
-  margin: 14px 0 18px;
-  border-bottom: 1px solid var(--eft-line);
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .eft-tab {
-  padding: 10px 18.8px;
+  padding: 6px 12px;
   background: transparent;
   border: 1px solid transparent;
-  border-bottom: 0;
   color: var(--eft-text-dim);
   text-decoration: none;
   text-transform: uppercase;
-  letter-spacing: 0.13em;
-  font-size: 14.4px;
+  letter-spacing: 0.1em;
+  font-size: 13px;
   cursor: pointer;
-  position: relative;
-  top: 1px;
+  white-space: nowrap;
 }
 
 .eft-tab:hover { color: var(--eft-tan-bright); background: rgba(154, 136, 102, 0.06); }
@@ -885,13 +904,13 @@
 
 @media (max-width: 720px) {
   .eft-shell { padding: 0 6px 48px; }
-  .eft-brand h1 { font-size: 21.3px; }
+  .eft-wordmark { font-size: 13.8px; }
   .eft-station-grid { grid-template-columns: 1fr; }
   .eft-hideout { padding: 0 4px; }
   .eft-table { font-size: 15px; }
   .eft-table th, .eft-table td { padding: 5px 7px; }
   .eft-item { min-width: 150px; }
-  .eft-tab { padding: 7px 10px; font-size: 13.1px; }
+  .eft-tab { padding: 5px 8px; font-size: 12.3px; }
 }
 
 /* ---------- Print ---------- */
