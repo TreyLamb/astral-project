@@ -2147,6 +2147,32 @@
    the page instead of capped inside a modal — this tab's whole point is one
    place to read, not a lookup you dismiss. */
 
+.eft-uses-filterbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.eft-uses-filterbar-label {
+  font-size: 12px;
+  color: var(--eft-text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-right: 2px;
+}
+
+/* Toggled off: the category still reads (colour + label stay put) but drops
+   out of the visual foreground, matching eft-chip-btn's existing hover/open
+   language instead of inventing a new one. */
+.eft-is-toggled-off {
+  opacity: 0.4;
+  filter: grayscale(0.6);
+}
+
+.eft-is-toggled-off:hover { opacity: 0.65; }
+
 .eft-uses-list {
   display: flex;
   flex-direction: column;

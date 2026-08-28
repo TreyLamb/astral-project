@@ -10,15 +10,44 @@ import gearCatalog from '../data/gearCatalog.json';
 const TAG_CLASS = {
   Hideout: 'eft-is-info',
   Craft: 'eft-is-craft',
+  'Tool for': 'eft-is-craft',
   Quest: 'eft-is-quest',
   Barter: 'eft-is-trader',
   Armor: 'eft-is-met',
 };
 
+const FILTER_TOGGLES = [
+  { key: 'hideout', label: 'Hideout', chipClass: 'eft-is-info' },
+  { key: 'craft', label: 'Craft', chipClass: 'eft-is-craft' },
+  { key: 'toolFor', label: 'Tool for', chipClass: 'eft-is-craft' },
+];
+
 function toggle(set, key) {
   const next = new Set(set);
   if (next.has(key)) next.delete(key); else next.add(key);
   return next;
+}
+
+/**
+ * Applies the Hideout / Craft / Tool-for toggles to one record: craft rows
+ * split on `role` (a "tool for" use never consumes the item, so it's a
+ * separate on/off switch from being consumed as an ingredient), hideout rows
+ * drop wholesale. Quest, Barter and Armor aren't filterable — those are
+ * intentional wants, not the "this is in every recipe" noise the toggles
+ * exist to cut. A record with nothing left after filtering is dropped by the
+ * caller, not shown empty.
+ */
+function applyFilters(rec, filters) {
+  const craftRows = rec.uses.craft.filter((row) => (row.role === 'tool' ? filters.toolFor : filters.craft));
+  const hideoutRows = filters.hideout ? rec.uses.hideout : [];
+  const tags = [];
+  if (hideoutRows.length) tags.push('Hideout');
+  if (craftRows.some((row) => row.role !== 'tool')) tags.push('Craft');
+  if (craftRows.some((row) => row.role === 'tool')) tags.push('Tool for');
+  if (rec.uses.quest.length) tags.push('Quest');
+  if (rec.uses.barter.length) tags.push('Barter');
+  if (rec.uses.gear) tags.push('Armor');
+  return { ...rec, uses: { ...rec.uses, craft: craftRows, hideout: hideoutRows }, tags };
 }
 
 function Detail({ rec }) {
@@ -73,8 +102,13 @@ export default function ItemUsesView() {
 
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(() => new Set());
+  const [filters, setFilters] = useState({ hideout: true, craft: true, toolFor: true });
 
-  const results = useMemo(() => searchItemUses(usesIndex, query), [usesIndex, query]);
+  const rawResults = useMemo(() => searchItemUses(usesIndex, query), [usesIndex, query]);
+  const results = useMemo(
+    () => rawResults.map((rec) => applyFilters(rec, filters)).filter((rec) => rec.tags.length),
+    [rawResults, filters],
+  );
   const trimmed = query.trim();
 
   return (
@@ -89,6 +123,24 @@ export default function ItemUsesView() {
         </>
       )}
     >
+      <div className="eft-uses-filterbar">
+        <span className="eft-uses-filterbar-label">Show:</span>
+        {FILTER_TOGGLES.map(({ key, label, chipClass }) => {
+          const active = filters[key];
+          return (
+            <button
+              key={key}
+              type="button"
+              className={`eft-chip eft-chip-btn ${chipClass}${active ? '' : ' eft-is-toggled-off'}`}
+              aria-pressed={active}
+              onClick={() => setFilters((f) => ({ ...f, [key]: !f[key] }))}
+            >
+              {label}
+            </button>
+          );
+        })}
+      </div>
+
       <input
         className="eft-input"
         type="text"
