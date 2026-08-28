@@ -111,16 +111,27 @@
    below is dismissible instead of permanent. */
 .eft-topbar {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px 14px;
-  padding: 8px 0;
+  flex-direction: column;
+  gap: 6px;
+  padding: 7px 0;
   border-bottom: 1px solid var(--eft-line-bright);
+}
+
+/* Brand + game mode/status/get-prices always sit on this one line, at the
+   top-right corner level with the wordmark — they used to ride along with
+   the tabs and get shoved down onto a wrapped second line the moment the
+   tabs ran out of room. Its own row means the tabs can wrap freely below
+   without ever moving these. */
+.eft-topbar-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13.8px;
 }
 
 .eft-wordmark {
   flex: none;
-  font-size: 15.6px;
+  font-size: 1em;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -128,10 +139,14 @@
   white-space: nowrap;
 }
 
+/* Matches the wordmark/actions scale instead of inheriting the page's 17.5px
+   body size, which used to make it the tallest thing in the row. */
+.eft-site-home { font-size: 1em; }
+
 .eft-topbar-actions {
   display: flex;
   align-items: center;
-  gap: 12.5px;
+  gap: 10px;
   flex: none;
   margin-left: auto;
 }
@@ -214,16 +229,15 @@
 
 /* ---------- Tabs ---------- */
 
-/* Lives inline in .eft-topbar now (webdesign.md §3 — one bar, not a second
-   nav section below it). Only the map's floating menu (.eft-is-float) is
-   still a bar of its own, because the map has no persistent topbar row to
-   join. */
+/* Lives inside .eft-topbar now (webdesign.md §3 — one bar, not a second nav
+   section below it), on its own row under .eft-topbar-row so it can wrap
+   freely without ever pushing the brand/mode-switch/get-prices row down.
+   Only the map's floating menu (.eft-is-float) is still a bar of its own,
+   because the map has no persistent topbar row to join. */
 .eft-tabs {
   display: flex;
   gap: 2px;
   flex-wrap: wrap;
-  flex: 1 1 auto;
-  min-width: 0;
 }
 
 .eft-tab {
@@ -1582,12 +1596,26 @@
 .eft-ct-controls {
   display: flex;
   align-items: center;
-  gap: 12.5px 17.5px;
+  gap: 8px 12px;
   flex-wrap: wrap;
-  padding: 10px 12.5px;
+  padding: 6px 10px;
   background: var(--eft-panel);
   border: 1px solid var(--eft-line);
 }
+
+/* Every control in this bar at one consistent scale. The segmented mode
+   switches and the plain buttons (Expand/Collapse/...) used to be two
+   noticeably different sizes sitting right next to each other — one row of
+   small controls reading as several different UI kits. */
+.eft-ct-controls .eft-seg button,
+.eft-ct-controls .eft-btn {
+  padding: 4px 10px;
+  font-size: 12.5px;
+}
+
+.eft-ct-controls .eft-ct-toggle { font-size: 12.5px; gap: 6px; }
+.eft-ct-controls .eft-ct-picker-input .eft-input { padding: 4px 8px; font-size: 12.5px; }
+.eft-ct-controls .eft-ct-picker-clear { font-size: 13px; }
 
 .eft-ct-fold {
   background: none;

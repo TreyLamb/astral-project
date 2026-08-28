@@ -474,12 +474,22 @@ export function searchItems(pool, query, limit = 40) {
 }
 
 /**
- * Every item the graph knows about, craftable or not — the picker needs raw
- * ingredients too, since "what is this scrap used in" is the whole point of the
- * downstream direction.
+ * Every item the tool knows about at all, not just ones tied to a craft — the
+ * picker needs raw ingredients too (since "what is this scrap used in" is the
+ * whole point of the downstream direction), AND it needs items with no craft
+ * involvement whatsoever, like most gear. Searching "security vest" used to
+ * come back empty because it's in no recipe on either side, which read as a
+ * bug rather than the true, useful answer ("nothing hideout-related touches
+ * this") — so the search pool is every item in the snapshot, and buildTree
+ * on one with no ties just yields a single childless node, which the view's
+ * DeadEnd panel already explains.
  */
 export function allGraphItems(index) {
-  const ids = new Set([...index.byOutput.keys(), ...index.byInput.keys()]);
+  const ids = new Set([
+    ...index.byOutput.keys(),
+    ...index.byInput.keys(),
+    ...Object.keys(index.items || {}),
+  ]);
   return [...ids]
     .map((itemId) => ({
       itemId,

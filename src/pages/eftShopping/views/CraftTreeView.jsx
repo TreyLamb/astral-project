@@ -17,6 +17,7 @@ import {
   buildCraftIndex, buildTree, layoutForest, layoutBidirectional, rootItems, allGraphItems,
   searchItems, totalRawInputs, itemName, LAYOUT, DIRECTIONS,
 } from '../eftCraftGraph';
+import gearCatalog from '../data/gearCatalog.json';
 
 const OVERVIEW_MODES = [
   { value: 'chains', label: 'Multi-step', title: 'Only items whose recipe chain is more than one craft deep' },
@@ -609,7 +610,22 @@ export default function CraftTreeView() {
     update('craftGraph', (prev) => ({ ...prev, ...overlay, ...patch }));
   }, [update, urlStation, urlItem, setParams]);
 
-  const index = useMemo(() => buildCraftIndex(data), [data]);
+  // Gear (armor, rigs, backpacks...) is never a hideout requirement, an
+  // ingredient or a reward, so none of it is in the hideout snapshot this
+  // index is built from — searching "Security vest" came back with nothing
+  // at all, which reads as a bug rather than the true, useful answer ("this
+  // has no craft ties"). Backfilling names from the gear catalog (the one
+  // other item source this tool already trusts — see ItemUsesView) makes
+  // those items searchable and chartable; buildTree on one just yields a
+  // single childless node, which the DeadEnd panel below already explains.
+  const index = useMemo(() => {
+    const idx = buildCraftIndex(data);
+    const items = { ...idx.items };
+    for (const [id, gear] of Object.entries(gearCatalog.items || {})) {
+      if (!items[id]) items[id] = { id, name: gear.name, shortName: gear.shortName };
+    }
+    return { ...idx, items };
+  }, [data]);
   const roots = useMemo(() => rootItems(index), [index]);
   const pool = useMemo(() => allGraphItems(index), [index]);
   const hits = useMemo(() => searchItems(pool, query, 60), [pool, query]);
