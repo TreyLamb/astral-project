@@ -87,6 +87,34 @@ was built). `crafts` is no longer in the snapshot's `gaps` list.
   for a station the game files had nothing for.
 - The graph itself is `src/pages/eftShopping/eftCraftGraph.js` (pure, tested);
   the view is `views/CraftTreeView.jsx`.
+- ⚠️ **The SPT mirror can be individually wrong even while broadly current.**
+  Found 2026-08-28: Trey reported the craft tree charting RDG-2B smoke grenade
+  → Zarya stun grenade. Fetching SPT's live `production.json` at the time
+  showed that recipe *unchanged from our committed snapshot* — same wrong
+  level (2), same phantom RDG-2B input — so it wasn't our fetch/transform
+  logic, it's SPT's own data lagging a live patch on this one recipe. Cross-
+  checked against the wiki's per-item pages (Zarya's own "Crafting" section,
+  and RDG-2B's own page, which shows zero relationship to Zarya): the real
+  recipe is Workbench **level 1**, just 5x UZRGM grenade fuze + 1x Gunpowder
+  "Kite" — no RDG-2B at all. (The next link in that reported chain, Zarya →
+  23x75mm Zvezda flashbang round, checked out exactly against Zvezda's own
+  page and was left alone — not everything flagged as "old" turns out wrong.)
+  Fixed via `KNOWN_ERRATA` in `scripts/fetchEftHideout.mjs`, applied to the
+  raw SPT data on every fetch so a plain `npm run eft:snapshot` re-run can't
+  silently reintroduce it. **Also surfaced a second, separate gap**: SPT's
+  `production.json` has no recipe at all for RDG-2B smoke grenade itself
+  (the wiki has one — Lavatory level 1, chlorine + matches + duct tape +
+  toilet paper), so with the phantom Zarya link removed, RDG-2B currently has
+  zero craft ties anywhere in the snapshot. Not fixed — Trey hasn't said
+  whether he wants it added; ask before synthesizing a recipe SPT doesn't
+  have at all rather than just correcting one SPT already has wrong.
+  **Lesson for next time a recipe looks off**: check SPT's live file first
+  (rules out a stale local snapshot / bad transform), then cross-check the
+  ITEM'S OWN wiki page specifically — the Workbench station page itself is a
+  giant transcluded template (skill-unlock sidebars, Cultist Circle tables,
+  per-station build-cost tabs all interleaved) and grepping it directly is
+  much more likely to mislead than checking `/wiki/<Item name>`'s own
+  "Crafting" section.
 
 ---
 

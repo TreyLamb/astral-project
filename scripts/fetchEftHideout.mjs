@@ -100,6 +100,52 @@ async function fromTarkovDev() {
 }
 
 // ---------------------------------------------------------------------------
+// Known upstream errata
+//
+// SPT's production.json is a community-maintained mirror, not something BSG
+// publishes directly, so it can lag behind a live patch on individual recipes
+// even while the rest of the file is current — confirmed 2026-08-28 (Trey
+// reported the
+// craft tree charting RDG-2B smoke grenade -> Zarya stun grenade, which
+// doesn't hold up against the current wiki). Corrections here apply on every
+// fetch, so a plain `npm run eft:snapshot` re-run can't silently reintroduce
+// a bug that was already found and fixed once. Delete an entry once SPT's
+// own upstream mirror corrects it — a stale entry here just becomes a no-op
+// (the id won't match), not a silent wrong answer.
+// ---------------------------------------------------------------------------
+
+const KNOWN_ERRATA = [
+  {
+    // SPT has this Workbench recipe (Zarya stun grenade) at level 2, requiring
+    // an RDG-2B smoke grenade among its inputs. Both are wrong per the current
+    // game: Zarya's own "Crafting" section, and RDG-2B's own page (which shows
+    // zero relationship to Zarya at all — RDG-2B is only ever an OUTPUT, made
+    // at the Lavatory), agree the real recipe is Workbench LEVEL 1 and never
+    // touches an RDG-2B — just 5x UZRGM grenade fuze + 1x Gunpowder "Kite".
+    // https://escapefromtarkov.fandom.com/wiki/Zarya_stun_grenade
+    // https://escapefromtarkov.fandom.com/wiki/RDG-2B_smoke_grenade
+    // (The Zarya -> 23x75mm Zvezda flashbang round recipe one step further
+    // down the chain was also flagged, but checked out exact against Zvezda's
+    // own page — level 3, same ingredients, same 4h35m — so left alone.)
+    recipeId: '5e37f15386f774299f112a2e',
+    fix(recipe) {
+      const area = (recipe.requirements || []).find((r) => r.type === 'Area');
+      if (area) area.requiredLevel = 1;
+      recipe.requirements = (recipe.requirements || []).filter(
+        (r) => !(r.type === 'Item' && r.templateId === '5a2a57cfc4a2826c6e06d44a'),
+      );
+    },
+  },
+];
+
+function applyKnownErrata(production) {
+  for (const errata of KNOWN_ERRATA) {
+    const recipe = (production.recipes || []).find((r) => r._id === errata.recipeId);
+    if (recipe) errata.fix(recipe);
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Source 2 — SPT game-file mirror (used only when tarkov.dev is down)
 // ---------------------------------------------------------------------------
 
@@ -110,6 +156,7 @@ async function fromSpt() {
     getJson(`${SPT}/templates/handbook.json`),
     getJson(`${SPT}/hideout/production.json`),
   ]);
+  applyKnownErrata(production);
 
   const hbPrice = new Map((handbook.Items || []).map((i) => [i.Id, i.Price]));
   const items = {};
