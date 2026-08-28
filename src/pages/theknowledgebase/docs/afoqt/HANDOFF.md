@@ -56,42 +56,71 @@ npx vitest run src/pages/theknowledgebase/afoqt
 
 ## 2. Needs polish (verified against actual code 2026-08-27, not carried forward from an old estimate)
 
-### Arithmetic Reasoning error-mode labels — the big one
-`engine/errorModes.js`'s `ERROR_LABELS` table had **zero** entries for AR before this pass,
-despite AR's six chapter files declaring **~150 distinct named error ids**
-(`used-simple-interest`, `wrong-operation`, `forgot-to-halve`, etc. — one per distractor,
-by design, per Doctrine rule "distractors are error-modes"). Every AR miss currently prints
-its raw kebab-case id instead of prose. This is real editorial work — reading each id in
-context and writing an accurate one-line description — not a mechanical fix. Do it file by
-file (`ch01-translation.js` through `ch06-counting-measure.js`); each file's ids are listed
-together so it's a bounded task per file, not one 150-line slog.
+### ~~Arithmetic Reasoning error-mode labels~~ — DONE 2026-08-27
+All **133** unlabeled ids now have prose: 112 Arithmetic Reasoning, 13 Math Knowledge, 8 Word
+Knowledge. Written from each distractor's own `why` string (sampled from live generation) rather
+than guessed from the slug, so a label states the mistake the template actually encodes — a wrong
+label is worse than a raw id, because it misdiagnoses the miss. Grouped in `errorModes.js` by
+KIND of mistake (answered the wrong question / setup error / arithmetic slip / percentage base /
+units / fencepost), since that is what the correction differs by.
+`engine/__tests__/errorModes.test.js` now fails if any template emits an id with no label.
 
-### Dashboard "By subtest" table undercounts `seen`
-`AfoqtDashboard.jsx`'s per-subtest aggregation only walks `progress.templateStats` (keyed by
-real template id). A drill that draws a real OATTS/ASVAB bank item — which `bankRatio`-mixed
-drills, the diagnostic, and exams all do — records that item's stats under a `bank:<id>` key
-the aggregation never looks for. Every subtest's "seen" count on the Dashboard is an
-undercount by however many bank items got drawn; verified reproducing during PART 29 (VA/AR/
-WK/MK/RC all showed `seen: 1` instead of `6` in a diagnostic run where 5 of 6 questions came
-from the bank). Fix: extend the Dashboard aggregation to also walk `bankItems()`.
+Note the earlier claim that Verbal Analogies, Situational Judgment and Physical Science were
+also missing labels was **wrong** — `dbe01ed` had already done VA and SJT, and PS shares
+`engine/facts.js` with Aviation Information and only emits the three already-labeled ids.
 
-### RC and SJT test-out gates can repeat a question
-Confirmed still failing as of this pass (`npx vitest run`, 1 failure,
-`curriculum.test.js`'s "every chapter can fill its own test-out gate"):
+### ~~Dashboard "By subtest" table undercounts `seen`~~ — DONE 2026-08-27, and it was worse than described
+The blind spot was not only in `AfoqtDashboard.jsx` — the identical filter lives in
+`scoring.js`'s `subtestAccuracy`, so it also silently skewed **every composite practice-accuracy
+number**, not just a "seen" column. And since `composeDrill` mixes at `bankRatio: 0.5`, that is up
+to *half* of every drill on the six subtests that have a bank (Physical Science 52, Math Knowledge
+49, Arithmetic Reasoning 37, Word Knowledge 35, Verbal Analogies 10, Reading Comprehension 10).
+The ignored half is the official USAF material, so the number was **biased optimistic**, not
+merely incomplete.
 
-- `rc-02-main-idea`, `rc-03-details`, `rc-04-vocabulary` — 3 in-band templates each
-- `sjt-02-integrity-professionalism`, `sjt-03-leadership`, `sjt-04-resource-management`,
-  `sjt-05-communication`, `sjt-06-innovation`, `sjt-07-mentoring` — 1 in-band template each
+Fixed by adding `subtestStatKeys(code)` (templates + bank ids) in `scoring.js`, with
+`AfoqtDashboard` now consuming `subtestAccuracy` instead of duplicating the arithmetic inline —
+that duplication is precisely why the bug existed in two places at once. Guarded by
+`engine/__tests__/scoring.test.js`.
 
-Root cause: `passageTemplates()` (RC) and `scenarioTemplates()` (SJT) both register exactly
-one template per (chapter, band) by design — unlike TR/WK/VA/MK, which register several
-frames per band. A 5-question test-out gate sampling without replacement from 1-3 templates
-must repeat. **Not fixable by writing more content** — each template's own `stemSpace` already
-covers many non-repeating question instances; the gate counts templates, not distinct
-questions. Real fix is either an engine change (register >1 template per band for RC/SJT) or
-loosening the test-out gate's own logic for these two subtests specifically. Flagged three
-times now (PARTs 16, 25D, and this pass) without being picked up — worth actually deciding on
-next.
+### ~~RC and SJT test-out gates can repeat a question~~ — RESOLVED 2026-08-27, and it was a measurement error
+**This was never a real limitation.** Flagged as fact three times (PARTs 16, 25D, and again
+above) on the strength of `curriculum.test.js` counting **templates** — but a template is not a
+question. One SJT template holds ~30 scenarios; one RC template holds every question on its
+passages. Measured against 300 real generated 5-question gates per chapter:
+
+- all six `sjt-*` chapters: a clean **5 of 5**, zero repeats
+- `rc-03-details`, `rc-04-vocabulary`: a clean **5 of 5**, zero repeats
+- `rc-02-main-idea`: genuinely broken — **2 distinct for 5, on every single seed** — and the
+  template-counting check had been *passing* it, because it had 3 templates
+
+So the check was wrong in both directions: eight false alarms, and blind to the one real defect.
+Its root cause was an engine bug, not the curriculum (see below). Both `curriculum.test.js` and
+`afoqtCoverage.mjs` now assert only what template-counting honestly supports — at least one
+in-band template — and whether a gate actually repeats is verified against real drills in
+`engine/__tests__/drillDedup.test.js`. **Do not re-add a template-count threshold.**
+
+### Two real dedup bugs in `buildDrill`, fixed 2026-08-27
+Both made the engine ship a question it had already asked in the same sitting.
+
+1. **The dedup key ignored the figure actually rendered.** It used the numeric run-sheet, but
+   every template in a run shares that number while each maps it to its own figure
+   (`bandPassages[sheetSeed % n]`). RC also reuses stem wording across passages on purpose (so
+   does the real subtest), so two different questions collided on `<same number>:<same stem>`,
+   the retry loop exhausted, and a real duplicate shipped. This is what broke `rc-02-main-idea`.
+2. **The same key was wrong the other way for Instrument Comprehension**, which has no
+   `sheetSeed` and an identical stem on every question — so everything looked like a duplicate of
+   the first, every retry failed, and dedup silently never ran for it. Its identity is the dial
+   values. A `!t.sheet` early-out also limited dedup to figure-sharing subtests only.
+
+Measured over 200 seeds at full subtest length: Instrument Comprehension **min 17/25 → 25/25**,
+`rc-02-main-idea` gate **3.72 → 5/5**, Reading Comprehension 25q **24.5 → 25/25**. TR, BC, VA, MK,
+AR and AI are all exact too. Remaining shortfalls are **content**, not selection, and are asserted
+as floors: Word Knowledge 23/25, Physical Science 19/20, **Situational Judgment 31/50** (only 60
+items exist against a 50-question subtest — authoring work).
+
+⚠ Raising `DEDUP_TRIES` does NOT help and was tried; a non-sheet retry draws from the shared
+`rng`, so a longer walk just reshuffles which items later questions get.
 
 ### Fixed this pass (2026-08-27)
 Verified `engine/analogy.js` (VA) uses 3 named error ids (`reversed-order`, `wrong-relation`,

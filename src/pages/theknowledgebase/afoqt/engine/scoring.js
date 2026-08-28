@@ -28,22 +28,47 @@
 
 import { COMPOSITES, SUBTEST_BY_CODE } from './afoqtSpec.js';
 import { allTemplates } from './generator.js';
+import { bankItems } from './bank.js';
 
 export const PRACTICE_ACCURACY_LABEL =
   'Practice accuracy - not the official AFOQT percentile. The real scoring tables are unpublished; '
   + 'this is how often you have gotten questions right so far, nothing more.';
 
 /**
- * Raw accuracy for one subtest, aggregated across every template it owns.
+ * Every progress key that belongs to one subtest: its generated templates AND its stored bank
+ * items.
+ *
+ * ⚠ THE BANK HALF IS EASY TO FORGET AND WAS MISSING HERE UNTIL 2026-08-26. A generated question
+ * is recorded under its template id; a stored one under `bank:<id>`, which is deliberately kept
+ * out of the template registry (see bank.js's header). So `allTemplates()` alone silently
+ * ignored every official OATTS and migrated-ASVAB question ever answered - and since
+ * `composeDrill` mixes generated with stored at `bankRatio: 0.5`, that is up to HALF of every
+ * drill on the six subtests that have a bank (Physical Science 52, Math Knowledge 49, Arithmetic
+ * Reasoning 37, Word Knowledge 35, Verbal Analogies 10, Reading Comprehension 10).
+ *
+ * That made the number not merely incomplete but BIASED: the ignored half is the official USAF
+ * material, which is the most representative content in the tool. Anything computing a stat per
+ * subtest must go through here rather than filtering `allTemplates()` itself.
+ */
+export function subtestStatKeys(code) {
+  return [
+    ...allTemplates().filter((t) => t.subtest === code).map((t) => t.id),
+    ...bankItems(code).map((b) => b.templateId),
+  ];
+}
+
+/**
+ * Raw accuracy for one subtest, aggregated across every template AND bank item it owns.
  * Returns `accuracy: null` (not 0) when nothing has been attempted - "no data" and "0% correct"
  * are different facts and must not collapse into the same number.
  */
 export function subtestAccuracy(progress, code) {
   const stats = progress?.templateStats ?? {};
-  const ids = allTemplates().filter((t) => t.subtest === code).map((t) => t.id);
+  const ids = subtestStatKeys(code);
   const seen = ids.reduce((n, id) => n + (stats[id]?.seen ?? 0), 0);
   const correct = ids.reduce((n, id) => n + (stats[id]?.correct ?? 0), 0);
-  return { code, seen, correct, accuracy: seen ? correct / seen : null };
+  const totalMs = ids.reduce((n, id) => n + (stats[id]?.totalMs ?? 0), 0);
+  return { code, seen, correct, totalMs, accuracy: seen ? correct / seen : null };
 }
 
 export const allSubtestAccuracy = (progress) =>

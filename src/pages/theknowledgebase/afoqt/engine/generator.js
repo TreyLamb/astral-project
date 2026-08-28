@@ -260,18 +260,70 @@ export function buildDrill({ subtest, count, rng, band = null, filter = null, in
     // run. Walk the item index on rather than shipping a visible repeat. Bounded, because a
     // template with a small item space is allowed to repeat eventually.
     const mySheet = sheetAt(t, i);
-    for (let tries = 0; tries < 16; tries++) {
+    for (let tries = 0; tries < DEDUP_TRIES; tries++) {
       const seed = t.sheet ? composeSeed(mySheet, item++) : Math.floor(rng() * 0xffffffff) >>> 0;
       inst = generateInstance(t.id, seed);
       // Keyed by figure as well as stem: "how many blocks does block 2 touch" is a different
       // question on a different pile, so a stem-only key would suppress legitimate items once
       // the figure rotates.
-      if (!inst || !t.sheet || !asked.has(`${mySheet}:${inst.stem}`)) break;
+      //
+      // ⚠ The figure is the one the instance ACTUALLY RENDERED (`render.sheetSeed`), not the
+      // numeric run-sheet. Those are not the same thing, and using the number was a real bug:
+      // every template in a run shares one numeric `mySheet`, but each maps it to its own
+      // figure - Reading Comprehension does `bandPassages[sheetSeed % bandPassages.length]`, so
+      // the three band templates land on three DIFFERENT passages. Reading Comprehension also
+      // reuses stem wording across passages on purpose (the real subtest does too - "The author
+      // would most likely agree that:" is standard), so two genuinely different questions
+      // collided on `<number>:<same stem>`, the loop burned all 16 retries believing it had a
+      // duplicate, and then shipped an ACTUAL duplicate. `rc-02-main-idea` produced a real
+      // repeat in 300 of 300 simulated 5-question gates because of this.
+      //
+      // This applies to EVERY template, not just sheet-sharing ones. It used to carry a
+      // `!t.sheet` early-out, which silently meant the only subtests protected from asking the
+      // same question twice in one sitting were the figure-based ones. Instrument Comprehension
+      // has a declared item space of ~102 (8 headings x 3 pitches x 5 banks, see its own
+      // header), so a 25-question exam drew about 22 distinct items and repeated three of them
+      // inside five minutes. Word Knowledge and Verbal Analogies hit the same thing on short
+      // chapter gates. A non-sheet retry draws a fresh random seed each pass, so the loop
+      // genuinely explores rather than spinning.
+      if (!inst || !asked.has(askedKey(inst, mySheet))) break;
     }
-    if (inst) { asked.add(`${sheetAt(t, i)}:${inst.stem}`); out.push(inst); }
+    if (inst) { asked.add(askedKey(inst, mySheet)); out.push(inst); }
   }
   return out;
 }
+
+/**
+ * Identity of an already-asked question within one drill: the figure it actually drew, plus its
+ * stem. Falls back to the numeric run-sheet only when an instance carries no figure of its own.
+ */
+function askedKey(inst, mySheet) {
+  // Three cases, and getting any of them wrong disables dedup silently:
+  //  - a shared figure (Table Reading grid, Block Counting pile, Reading Comprehension passage)
+  //    identifies itself with `sheetSeed`, and the stem says which item on it.
+  //  - a per-question figure (Instrument Comprehension's two dials) has NO sheetSeed, and its
+  //    stem is the SAME on every question ("Which aircraft is in the position shown by the two
+  //    dials?"). Keying on stem alone made every question look like a duplicate of the first,
+  //    so all the retries failed and dedup never actually ran - the whole figure is the identity.
+  //  - no figure at all: the stem is the identity.
+  const fig = inst.render
+    ? (inst.render.sheetSeed ?? JSON.stringify(inst.render))
+    : mySheet;
+  return `${fig}:${inst.stem}`;
+}
+
+/**
+ * How hard to look for an unseen question before accepting a repeat. Bounded, because a template
+ * whose space is genuinely exhausted must terminate rather than spin.
+ *
+ * Raising this was tried and does NOT help: a non-sheet retry draws from the shared `rng`, so a
+ * longer walk changes which templates and items every LATER question gets too. Measured across
+ * seeds it moves results around rather than improving them (Instrument Comprehension scored both
+ * better and worse at 64 than at 16, purely by seed). The real constraint on those subtests is
+ * the size of the declared item space, not the search effort - do not "fix" a repeat by turning
+ * this up.
+ */
+const DEDUP_TRIES = 16;
 
 /** Repeated shuffled passes over the pool, so nothing repeats until everything has appeared. */
 function dealRounds(pool, count, rng) {

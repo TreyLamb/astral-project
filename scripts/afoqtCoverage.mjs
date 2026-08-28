@@ -61,9 +61,16 @@ const undrillable = [];
 for (const ch of CHAPTERS) {
   const pool = templates.filter((t) => ch.concepts.some((c) => (t.concepts ?? []).includes(c)));
   if (pool.length === 0) { undrillable.push({ chapter: ch.id, reason: 'no templates at all' }); continue; }
+  // ⚠ Counts TEMPLATES, which is only a reachability check - it is NOT a statement about whether
+  // a gate repeats. This used to demand >= 5 and reported nine chapters as broken for many
+  // sessions; that was wrong in both directions. One Situational Judgment template holds ~30
+  // scenarios and deals five distinct questions perfectly well, while `rc-02-main-idea` had
+  // three templates, passed this check, and genuinely returned 2 distinct questions for 5 on
+  // every seed. Whether a gate actually repeats is measured against real generated drills in
+  // afoqt/engine/__tests__/drillDedup.test.js - do not re-add a template-count threshold here.
   const inBand = pool.filter((t) => ch.bands.includes(t.band));
-  if (inBand.length < 5) {
-    undrillable.push({ chapter: ch.id, reason: `only ${inBand.length} templates inside bands [${ch.bands.join(', ')}] - a 5-question test-out gate would repeat itself` });
+  if (inBand.length === 0) {
+    undrillable.push({ chapter: ch.id, reason: `no templates inside its declared bands [${ch.bands.join(', ')}]` });
   }
 }
 

@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
 import { DRILLABLE, getSubtest, secPerQuestion, compositeReach, COMPOSITES } from '../engine/afoqtSpec';
-import { allTemplates } from '../engine/generator';
-import { allCompositeAccuracy, PRACTICE_ACCURACY_LABEL } from '../engine/scoring';
+import { templatesFor } from '../engine/generator';
+import { allCompositeAccuracy, PRACTICE_ACCURACY_LABEL, subtestAccuracy } from '../engine/scoring';
 import { missPoolIds, clearMissPool, curriculumProgress, isChapterDone, ExamSession, latestDiagnostic } from '../afoqtStorage';
 import { weakestSubtests, DIAGNOSTIC_ACCURACY_LABEL } from '../engine/diagnostic';
 import { CHAPTERS, isUnlocked } from '../curriculum/chapters';
@@ -19,20 +19,19 @@ function daysUntil(iso) {
 export default function AfoqtDashboard() {
   const navigate = useNavigate();
   const { progress, mutate } = useAfoqt();
-  const stats = progress.templateStats ?? {};
   const misses = missPoolIds(progress);
   const days = daysUntil(TEST_DATE);
 
+  // Goes through scoring.js rather than aggregating templateStats here. This view used to
+  // duplicate that arithmetic inline, which is exactly why the "bank items are invisible" bug
+  // existed in two places at once - see subtestStatKeys() for what was being missed.
   const bySubtest = DRILLABLE.map((s) => {
-    const ids = allTemplates().filter((t) => t.subtest === s.code).map((t) => t.id);
-    const seen = ids.reduce((n, id) => n + (stats[id]?.seen ?? 0), 0);
-    const correct = ids.reduce((n, id) => n + (stats[id]?.correct ?? 0), 0);
-    const totalMs = ids.reduce((n, id) => n + (stats[id]?.totalMs ?? 0), 0);
+    const { seen, accuracy, totalMs } = subtestAccuracy(progress, s.code);
     return {
       ...s,
-      templates: ids.length,
+      templates: templatesFor(s.code).length,
       seen,
-      acc: seen ? correct / seen : null,
+      acc: accuracy,
       avgSec: seen ? totalMs / seen / 1000 : null,
       realSec: secPerQuestion(s),
       reach: compositeReach(s.code),

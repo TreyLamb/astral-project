@@ -1844,3 +1844,62 @@ RC/SJT limitation), `npm run build` clean.
 **This closes Phase 14, and with it every PART on the entire AFOQT board is now `[x]`** - see
 `docs/afoqt/HANDOFF.md` section 5. What's left from here is real use of the tool, not more
 unbuilt phases.
+
+---
+
+### 2026-08-26 — repeat audit: two real engine bugs, and the "RC/SJT limitation" was never real
+
+Trey asked the right question - is the engine supposed to never repeat, and if it repeats, is
+that a bounded-content fact or a bug? Auditing that found **two genuine engine defects**, and
+retired a "known limitation" that had been reported as fact for four sessions.
+
+**1. `buildDrill`'s dedup key ignored the figure the instance actually rendered.** It keyed on
+the numeric run-sheet, but every template in a run shares that number while each maps it to its
+OWN figure (`bandPassages[sheetSeed % n]`). Reading Comprehension also reuses stem wording across
+passages deliberately (so does the real subtest), so two genuinely different questions collided
+on `<same number>:<same stem>`, the retry loop burned all 16 attempts believing it had a
+duplicate, and then shipped a real one. `rc-02-main-idea` repeated in **300 of 300** simulated
+5-question gates. Fixed by keying on `render.sheetSeed`.
+
+**2. The same key was wrong in the opposite direction for Instrument Comprehension**, which has
+no `sheetSeed` and an IDENTICAL stem on every question - so every question looked like a
+duplicate of the first, all retries failed, and dedup silently never ran for it at all. Its whole
+identity is the dial values. Fixed by falling back to the full `render`. Also removed a
+`!t.sheet` early-out that had limited dedup to figure-sharing subtests only.
+
+Measured effect (200 seeds per subtest, full-length runs):
+
+| | before | after |
+|---|---|---|
+| Instrument Comprehension, 25q | min 17, avg 21.9 | **25 / 25** |
+| `rc-02-main-idea` 5q gate | 3.72, repeat every seed | **5 / 5, zero repeats** |
+| Reading Comprehension 25q | 24.5 | **25 / 25** |
+
+Table Reading, Block Counting, Verbal Analogies, Math Knowledge, Arithmetic Reasoning and
+Aviation Information all now fill a full-length run with zero repeats. Word Knowledge (min 23/25),
+Physical Science (19/20) and Situational Judgment (**min 31/50**) are limited by how much content
+exists, not by selection - SJT has 60 items total against a 50-question subtest, which is
+authoring work, not an engine fix. Those floors are asserted in `drillDedup.test.js` so a
+regression is visible.
+
+**3. ⚠ The long-reported "RC/SJT chapters structurally cannot pass their test-out gate" was a
+measurement error, not a limitation.** The check counted TEMPLATES, but a template is not a
+question - one SJT template holds ~30 scenarios. Measured against real generated drills, all six
+SJT chapters and two of the three RC chapters dealt a clean 5 of 5, while the check happily
+passed `rc-02-main-idea`, which was the one genuinely broken chapter. Both the vitest check and
+`afoqtCoverage.mjs` now assert only what template-counting can honestly support (at least one
+in-band template); whether a gate repeats is verified against real drills instead.
+
+**`npx vitest run` is now 3225/3225 and `npm run afoqt:check` reports "coverage holds in both
+directions" - both fully green for the first time in this project's history.**
+
+Also fixed in the same pass: `subtestAccuracy` walked only `allTemplates()`, so every answered
+BANK item (official OATTS and migrated ASVAB questions, up to half of a drill at
+`bankRatio: 0.5`) was recorded and never read back - biasing the dashboard and every composite
+number, since the ignored half is the most authentic material in the tool. Now goes through
+`subtestStatKeys()`, and `AfoqtDashboard` consumes that rather than duplicating the arithmetic
+inline, which is why the bug existed in two places at once. And 133 error-mode ids across
+Arithmetic Reasoning, Math Knowledge and Word Knowledge had no prose label and printed as raw
+slugs; all are written now, grounded in each distractor's own `why` text rather than guessed.
+(Verbal Analogies, Situational Judgment, Physical Science and Aviation Information were already
+complete - `dbe01ed` had done those.)
