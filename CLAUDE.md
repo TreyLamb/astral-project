@@ -128,6 +128,51 @@ and that reasoning is worth keeping:
 
 ---
 
+## ℹ️ EFT `/EFTsh/uses` (Item Uses tab): barters + gear catalog, new sources needing wipe upkeep
+
+As of 2026-08-27 "what is this item used for" (hideout / crafting / quests /
+barter / armor) lives in one place — `/EFTsh/uses` — instead of scattered
+across three tabs plus a duplicate reverse-craft index FrugalView had rolled
+by hand (`views/FrugalView.jsx`'s `reverseIndex`, left as-is; a noted, deferred
+cleanup, not touched by this feature). `eftItemUses.js` is the aggregation
+module; it is pure and tested like `eftQuestLogic.js`/`eftCraftGraph.js`.
+
+Two data sources didn't exist before this and both need the same "re-check
+every wipe" treatment quests already get, for the same reason:
+
+- **Barters** (`data/barterSnapshot.json`, `npm run eft:barters`) — scraped
+  from `escapefromtarkov.fandom.com/wiki/Barter_trades`, NOT tarkov.dev. Its
+  schema has a real `barters` query, but the API is down the same way it's
+  been down for other EFT data in this repo, and barters are wipe-shuffled
+  trader data exactly like quests — so this needs periodic re-scraping
+  regardless of whether the API ever comes back. `give` (what you pay) is an
+  array since ~191 of 443 current barters need more than one distinct item;
+  `get` (the reward) is always a single item. A barter's "used for" tag is the
+  give side ONLY — the reward item doesn't get a Barter tag from that trade.
+- **Gear catalog** (`data/gearCatalog.json`, `npm run eft:gear`) — the only
+  source that lets a piece of gear (glasses, a helmet, a rig) show an Armor
+  tag even with zero quest/craft/barter ties. tarkov.dev's `items(types:
+  [...])` query is the real source and is tried first; while it's down this
+  falls back to Fandom wiki categories (`Category:Armor_vests`,
+  `Armor_plates`, `Backpacks`, `Eyewear`, `Earpieces`, `Headwear`,
+  `Chest_rigs`) resolved through the same SPT locale name table quests use.
+  ⚠ **SPT's `templates/items.json` was tried FIRST and abandoned** — it's an
+  18 MB Git-LFS object and this repo's LFS bandwidth quota is exhausted
+  (confirmed: `raw.githubusercontent.com` gives the expected 133-byte
+  pointer, but `media.githubusercontent.com` — the documented pointer-bypass
+  used elsewhere in this file — 404s instead of serving it). Don't retry that
+  path without checking whether the quota has reset.
+  ⚠ **The wiki-category-to-gear-type mapping is provisional**, found by
+  probing search results in one session, not from a real index of the wiki's
+  category tree. `npm run eft:gear` prints a per-type count — a type at or
+  near 0 means the wiki renamed the category, not that the gear vanished.
+  No category was found for the catch-all `wearable` ItemType; it's left out
+  rather than guessed at. `armorClass` is null on every wiki-sourced row
+  (getting it means opening every item's own infobox); wire it up once
+  tarkov.dev is reachable.
+
+---
+
 ## ℹ️ EFT maps: 12 of 13 are wired; 5 of those are rebuilt, not scraped
 As of 2026-08-16 every mapgenie map is committed under
 `src/pages/eftShopping/map/data/markers/`. `npm run eft:markers` takes two
@@ -422,7 +467,7 @@ canonical casing. Legacy paths redirect the same way. Both live in
 | `/RS` | RSMarket.jsx | was `/rs-market` |
 | `/POGO` | pgotracker/PgoTracker.jsx | **POGO Tracker** — was `/pgo-tracker` |
 | `/POGO-ACCS/*` | pogoaccs/PogoAccsApp.jsx | was `/pogo-accs` |
-| `/EFTsh/*` | eftShopping/EftShoppingApp.jsx | **EFT Shopping** — Tarkov hideout shopping list + raid companion. Built from BSG's own game files (SPT mirror) with tarkov.dev layered on top for prices only. `npm run eft:snapshot` regenerates the committed snapshot. Includes `/EFTsh/crafts`, a left-to-right craft flow chart — see the craft-data note below. |
+| `/EFTsh/*` | eftShopping/EftShoppingApp.jsx | **EFT Shopping** — Tarkov hideout shopping list + raid companion. Built from BSG's own game files (SPT mirror) with tarkov.dev layered on top for prices only. `npm run eft:snapshot` regenerates the committed snapshot. Includes `/EFTsh/crafts`, a left-to-right craft flow chart — see the craft-data note below. `/EFTsh/uses` is the one-stop "what is this item used for" search (hideout/craft/quest/barter/armor) — see the barters + gear catalog note below. |
 | `/TT` | TranscriptTool/TranscriptToolApp.jsx | **Transcript / GPA what-if calculator.** Deliberately NOT in `SITE_LINKS` — URL-only, at Trey's request, so it appears in neither the navbar dropdown nor Home. `TT` is still in `CANONICAL_SEGMENTS` so `/tt` redirects rather than 404s. See the transcript-parsing note below. |
 | `/medaldex/*` | medaldex/MedalDexApp.jsx | |
 | `/stashmap/*` | stashmap/StashMapApp.jsx | |

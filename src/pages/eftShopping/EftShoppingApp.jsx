@@ -21,6 +21,7 @@ import LootCalcView from './views/LootCalcView';
 import SettingsView from './views/SettingsView';
 import MapView from './views/MapView';
 import CraftTreeView from './views/CraftTreeView';
+import ItemUsesView from './views/ItemUsesView';
 import Boundary from '../../components/errors/Boundary';
 
 import './EftShopping.css';
@@ -32,6 +33,7 @@ const TABS = [
   { to: '', label: 'Hideout/Quest' },
   { to: '/map', label: 'Map' },
   { to: '/crafts', label: 'Craft Tree' },
+  { to: '/uses', label: 'Item Uses' },
   { to: '/list', label: 'Shopping List' },
   { to: '/order', label: 'Build Order' },
   { to: '/watchlist', label: 'Buy Below' },
@@ -298,6 +300,7 @@ export default function EftShoppingApp() {
                 tool around it. */}
             <Route path="map" element={<Boundary title="The map stopped working."><MapView /></Boundary>} />
             <Route path="crafts" element={<CraftTreeView />} />
+            <Route path="uses" element={<ItemUsesView />} />
             <Route path="list" element={<ShoppingListView />} />
             <Route path="order" element={<BuildOrderView />} />
             <Route path="station/:stationKey" element={<StationView />} />

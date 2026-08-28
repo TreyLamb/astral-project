@@ -23,6 +23,10 @@ Full build.
 - `assets.tarkov.dev` — item icon CDN (independent of the API worker).
 - Fallback source for snapshot regeneration if the API is down:
   SPT game files (`sp-tarkov/server` `hideout/areas.json` + `locales/global/en.json`).
+- Barters: `escapefromtarkov.fandom.com/wiki/Barter_trades` (`npm run eft:barters`) —
+  see the CLAUDE.md note on `/EFTsh/uses` for why not tarkov.dev/SPT.
+- Gear catalog: tarkov.dev `items(types: [...])` when reachable, Fandom wiki
+  categories otherwise (`npm run eft:gear`) — same CLAUDE.md note.
 
 ---
 
@@ -93,6 +97,14 @@ Full build.
 - [SHOULD] G9. Frugal reference auto-derived from the API (what each item is used to craft).
 - [SHOULD] G10. Medstation notes from Sheet6 preserved.
 - [SHOULD] G11. Everything seeded from the sheet is user-editable and persisted.
+
+### I. Item Uses lookup
+- [MUST]   I1. Single search box, comma-separated OR terms, matches item name/shortName substrings.
+- [MUST]   I2. Every match shows every use it's connected to: hideout construction, crafting ingredient/tool, quest turn-in/FIR, barter (item paid), gear/armor tag.
+- [MUST]   I3. Gear items with zero other uses still appear, tagged Armor only (e.g. low-value sunglasses).
+- [SHOULD] I4. Barter data added — none existed before (`data/barterSnapshot.json`, `npm run eft:barters`, wiki-sourced).
+- [SHOULD] I5. Gear catalog added, narrow 7-type subset only (armor/armorPlate/backpack/glasses/headphones/helmet/rig), not the full item catalog.
+- [COULD]  I6. Expandable per-item detail (station/level/count, recipe+station, quest name, barter trader+level+reward, gear type+class).
 
 ### H. Cross-cutting
 - [MUST]   H1. Tarkov-styled theme, every class `eft-` prefixed.

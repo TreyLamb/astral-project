@@ -611,6 +611,16 @@
   color: var(--eft-teal);
 }
 
+/* Item Uses tab's Craft tag — the only tag colour this feature adds; Hideout
+   reuses -info, Quest reuses -quest, Barter reuses -trader (a barter IS a
+   trader interaction), Armor reuses -met (protective gear reads as "good"). */
+.eft-chip.eft-is-craft {
+  background: rgba(217, 154, 78, 0.16);
+  border-color: rgba(217, 154, 78, 0.45);
+  border-left-color: var(--eft-orange);
+  color: var(--eft-orange);
+}
+
 .eft-chip.eft-is-level,
 .eft-chip.eft-is-loyalty,
 .eft-chip.eft-is-none {
@@ -2132,6 +2142,35 @@
   gap: 8px;
 }
 
+/* ---------- Item Uses tab ---------- */
+/* Same `.eft-need` row shell the hideout search overlay uses, just flowing in
+   the page instead of capped inside a modal — this tab's whole point is one
+   place to read, not a lookup you dismiss. */
+
+.eft-uses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.eft-uses-detail {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--eft-line);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.eft-uses-detail-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--eft-text-dim);
+}
+
 /* ---------- Item search, as an overlay ---------- */
 /*
  * Results take over the screen instead of pushing the station grid down the
@@ -2974,6 +3013,7 @@
 .eft-app .eft-chip.eft-is-quest { background: rgba(177, 138, 208, 0.22); }
 .eft-app .eft-chip.eft-is-trader { background: rgba(111, 191, 174, 0.22); }
 .eft-app .eft-chip.eft-is-kappa { background: rgba(240, 205, 130, 0.22); }
+.eft-app .eft-chip.eft-is-craft { background: rgba(217, 154, 78, 0.22); }
 
 .eft-app .eft-tabs { gap: 4px; }
 .eft-app .eft-tab { border-radius: var(--eft-r-sm) var(--eft-r-sm) 0 0; }

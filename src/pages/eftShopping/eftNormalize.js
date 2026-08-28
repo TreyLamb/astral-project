@@ -62,6 +62,22 @@ export const provisionQuery = (mode) => `{
   }
 }`;
 
+// The 7 wearable/protective ItemTypes — the "is this gear" universe for the
+// Item Uses tab's Armor tag. Not the full item catalog; see
+// scripts/fetchEftGearCatalog.mjs for why the wiki, not this query, seeds the
+// committed snapshot while tarkov.dev is down.
+export const GEAR_TYPES = ['armor', 'armorPlate', 'backpack', 'glasses', 'headphones', 'helmet', 'rig'];
+
+export const gearQuery = (mode) => `{
+  items(gameMode: ${mode}, types: [${GEAR_TYPES.join(', ')}]) {
+    ${ITEM_FIELDS}
+    properties {
+      ... on ItemPropertiesArmor { class }
+      ... on ItemPropertiesHelmet { class }
+    }
+  }
+}`;
+
 export const slugName = (s) => String(s || '')
   .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
