@@ -387,6 +387,24 @@ export function layoutBidirectional(upRoot, downRoot, startY = 0) {
   ];
   const nodes = [...up.nodes, ...down.nodes.filter((n) => n !== downRoot)];
 
+  // Which side a node's OWN children sit on, so the view knows which edge of
+  // the box to draw its fold caret on. Up-side children were just mirrored to
+  // the left; down-side children run normally to the right.
+  for (const n of up.nodes) n.side = 'left';
+  for (const n of down.nodes) n.side = 'right';
+
+  // upRoot IS the merged centre node (downRoot is dropped, its edges
+  // re-pointed above) — but it is the one node on the whole chart with
+  // branches on BOTH sides, and its own `.children`/`.collapsed` only ever
+  // describe the up (left) half. Carry the down half's fold state across
+  // separately so the view can offer a second, independent caret for it.
+  upRoot.downBranch = {
+    key: downRoot.key,
+    hasChildren: downRoot.hasChildren,
+    collapsed: downRoot.collapsed,
+    hiddenCount: downRoot.hiddenCount,
+  };
+
   // Each half is centred on its own children, so the merged tree can start
   // above zero. Slide it back to where the caller asked for it.
   const minY = Math.min(...nodes.map((n) => n.y - n.h / 2));
@@ -431,6 +449,10 @@ export function layoutForest(roots, opts = {}) {
   }
 
   if (flip) for (const n of nodes) n.x = width - n.x - n.w;
+  // Whichever side got flipped to is the side this whole forest's children
+  // live on — every node in it shares one direction, so the fold caret goes
+  // on that one edge for all of them.
+  for (const n of nodes) n.side = flip ? 'left' : 'right';
 
   return { nodes, edges, bands, width, height: y + LAYOUT.padY, flipped: flip };
 }

@@ -37,28 +37,37 @@ const ZOOM_MAX = 1.8;
 // --- Node -----------------------------------------------------------------
 
 /**
- * The fold control. It is a real bordered button rather than a bare glyph
- * because the glyph-only version was not readable as something you could
- * click — the first thing raised about this view.
+ * The fold control for one side of a node. `side` is which edge of the box
+ * this is drawn on AND what it folds — left is always "what makes this"
+ * (the branch that runs off to the left), right is always "what this is used
+ * in" (the branch running off to the right). `slot` is null when this node
+ * has nothing on that side at all, in which case nothing renders there.
+ *
+ * It is a real bordered button rather than a bare glyph because the
+ * glyph-only version was not readable as something you could click — the
+ * first thing raised about this view.
  */
-function Fold({ node, onToggle }) {
-  if (!node.hasChildren) return <span className="eft-ct-caret eft-is-leaf" />;
+function Fold({ slot, side, onToggle }) {
+  if (!slot) return null;
+  const cls = `eft-ct-caret eft-ct-caret-${side}`;
+  if (!slot.hasChildren) return <span className={`${cls} eft-is-leaf`} />;
+  const verb = side === 'left' ? 'what makes this' : 'what this is used in';
   return (
     <button
       type="button"
-      className="eft-ct-caret"
-      onClick={(e) => { e.stopPropagation(); onToggle(node); }}
-      title={node.collapsed
-        ? `Open this branch (${node.hiddenCount} hidden)`
-        : 'Fold this branch'}
-      aria-expanded={!node.collapsed}
+      className={cls}
+      onClick={(e) => { e.stopPropagation(); onToggle(slot); }}
+      title={slot.collapsed
+        ? `Show ${verb} (${slot.hiddenCount} hidden)`
+        : `Fold ${verb}`}
+      aria-expanded={!slot.collapsed}
     >
-      {node.collapsed ? '+' : '−'}
+      {slot.collapsed ? '+' : '−'}
     </button>
   );
 }
 
-function ItemNode({ node, selected, onToggle, onFocus, onSelect, onCycleRecipe }) {
+function ItemNode({ node, selected, onToggle, onSelect, onCycleRecipe }) {
   const cls = [
     'eft-ct-node', 'eft-ct-item',
     node.craftable ? 'eft-is-craftable' : 'eft-is-raw',
@@ -70,20 +79,26 @@ function ItemNode({ node, selected, onToggle, onFocus, onSelect, onCycleRecipe }
 
   const craft = node.craft;
   const alternatives = node.recipes?.length || 0;
+  // Almost every node has children on only one side, matching whichever way
+  // its own tree runs. The one exception is the shared centre node of a
+  // both-directions chart, which carries a second, independent `downBranch`
+  // for its right (uses) side alongside its own left (made-from) side.
+  const leftSlot = node.side === 'left' ? node : null;
+  const rightSlot = node.side === 'right' ? node : (node.downBranch || null);
 
   return (
     <div
       className={cls}
       style={{ left: node.x, top: node.y - node.h / 2, width: node.w, height: node.h }}
     >
-      <Fold node={node} onToggle={onToggle} />
+      <Fold slot={leftSlot} side="left" onToggle={onToggle} />
 
       <div className="eft-ct-itembody">
         <button
           type="button"
           className="eft-ct-hit"
-          onClick={() => onFocus(node.id)}
-          title={`Chart ${node.name} — what makes it and what it is used for`}
+          onClick={() => onSelect(node)}
+          title={`${node.name} — show what makes it and what it is used for`}
         >
           <img
             className="eft-ct-icon"
@@ -120,14 +135,7 @@ function ItemNode({ node, selected, onToggle, onFocus, onSelect, onCycleRecipe }
         ) : null}
       </div>
 
-      <button
-        type="button"
-        className="eft-ct-focus"
-        onClick={() => onSelect(node)}
-        title="Show this item's recipes in the side panel, without moving the chart"
-      >
-        ⓘ
-      </button>
+      <Fold slot={rightSlot} side="right" onToggle={onToggle} />
       {node.role === 'tool' ? <span className="eft-ct-flag">tool</span> : null}
       {node.cycle ? <span className="eft-ct-flag eft-is-warn">loop</span> : null}
     </div>
@@ -188,7 +196,7 @@ function DeadEnd({ name, index, itemId, direction, onDirection, onBack, onAll })
   );
 }
 
-function GraphCanvas({ forest, zoom, setZoom, selectedKey, onToggle, onFocus, onSelect, onCycleRecipe }) {
+function GraphCanvas({ forest, zoom, setZoom, selectedKey, onToggle, onSelect, onCycleRecipe }) {
   const scrollRef = useRef(null);
   const drag = useRef(null);
 
@@ -309,7 +317,6 @@ function GraphCanvas({ forest, zoom, setZoom, selectedKey, onToggle, onFocus, on
               node={n}
               selected={selectedKey === n.key}
               onToggle={onToggle}
-              onFocus={onFocus}
               onSelect={onSelect}
               onCycleRecipe={onCycleRecipe}
             />
@@ -375,13 +382,107 @@ function RecipeCard({ craft, index, onFocus }) {
   );
 }
 
+/**
+ * Type-to-find item search. Used to be a text box you typed into and then a
+ * SEPARATE `<select>` you had to click into and choose from — two controls to
+ * operate one search. This is one control: type, a list of matches drops
+ * below the input, click one (or arrow down + Enter).
+ */
+function ItemPicker({ hits, query, onQueryChange, onPick, onClear, hasSelection }) {
+  const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const boxRef = useRef(null);
+
+  useEffect(() => {
+    const onDocPointerDown = (e) => {
+      if (boxRef.current && !boxRef.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('pointerdown', onDocPointerDown);
+    return () => document.removeEventListener('pointerdown', onDocPointerDown);
+  }, []);
+
+  const pick = (hit) => {
+    onPick(hit.itemId);
+    onQueryChange(hit.name);
+    setOpen(false);
+    setActiveIndex(-1);
+  };
+
+  const onKeyDown = (e) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setOpen(true);
+      setActiveIndex((i) => Math.min(i + 1, hits.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveIndex((i) => Math.max(i - 1, 0));
+    } else if (e.key === 'Enter') {
+      if (!open) return;
+      e.preventDefault();
+      const hit = hits[activeIndex] ?? hits[0];
+      if (hit) pick(hit);
+    } else if (e.key === 'Escape') {
+      setOpen(false);
+    }
+  };
+
+  return (
+    <div className="eft-ct-picker" ref={boxRef}>
+      <div className="eft-ct-picker-input">
+        <input
+          className="eft-input eft-input-sm"
+          value={query}
+          placeholder="Search any item…"
+          onChange={(e) => { onQueryChange(e.target.value); setOpen(true); setActiveIndex(-1); }}
+          onFocus={() => setOpen(true)}
+          onKeyDown={onKeyDown}
+          role="combobox"
+          aria-expanded={open}
+          aria-autocomplete="list"
+          aria-controls="eft-ct-picker-list"
+        />
+        {hasSelection ? (
+          <button
+            type="button"
+            className="eft-ct-picker-clear"
+            title="Clear selection"
+            onClick={() => { onClear(); setOpen(false); }}
+          >
+            ×
+          </button>
+        ) : null}
+      </div>
+      {open && query && !hits.length ? (
+        <div className="eft-ct-suggest eft-ct-suggest-empty">No items match &ldquo;{query}&rdquo;.</div>
+      ) : null}
+      {open && hits.length ? (
+        <ul id="eft-ct-picker-list" className="eft-ct-suggest" role="listbox">
+          {hits.map((h, i) => (
+            <li key={h.itemId} role="option" aria-selected={i === activeIndex}>
+              <button
+                type="button"
+                className={i === activeIndex ? 'eft-is-active' : ''}
+                onMouseEnter={() => setActiveIndex(i)}
+                onClick={() => pick(h)}
+              >
+                {h.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  );
+}
+
 function DetailPanel({ selected, index, onFocus, onDirection, direction }) {
   if (!selected) {
     return (
       <div className="eft-ct-detail-empty">
-        <strong>Click an item</strong> to chart it — what makes it on the left, what it
-        goes on to make on the right. <strong>+ / −</strong> folds a branch.
-        <strong> ⓘ</strong> shows an item&apos;s recipes here without moving the chart.
+        <strong>Click an item</strong> to show its recipes and uses here, without moving
+        the chart. <strong>−</strong> on the left folds what makes it; <strong>−</strong> on
+        the right folds what it&apos;s used in. Once selected, &ldquo;Root the chart
+        here&rdquo; jumps the whole chart to it.
       </div>
     );
   }
@@ -513,6 +614,17 @@ export default function CraftTreeView() {
   const pool = useMemo(() => allGraphItems(index), [index]);
   const hits = useMemo(() => searchItems(pool, query, 60), [pool, query]);
 
+  // Keep the search box showing the current selection's name after it changes
+  // from anywhere other than typing here — clicking a node, the back button, a
+  // ?item= deep link. Adjusted during render (the React-recommended way to
+  // react to a prop/derived-value change) rather than an effect, so it never
+  // clobbers an in-progress keystroke and never fires a cascading extra render.
+  const [syncedItemId, setSyncedItemId] = useState(cfg.itemId);
+  if (cfg.mode === 'item' && cfg.itemId && cfg.itemId !== syncedItemId) {
+    setSyncedItemId(cfg.itemId);
+    setQuery(itemName(index, cfg.itemId));
+  }
+
   const collapsedSet = useMemo(() => new Set(cfg.collapsed), [cfg.collapsed]);
 
   // 'both' charts one item from both sides at once. It has no meaning for the
@@ -531,8 +643,8 @@ export default function CraftTreeView() {
     // heads are the station's outputs but every branch below them expands
     // through whatever station happens to make that ingredient — a Medstation
     // chart grows Nutrition Unit water and Workbench wires, which reads as the
-    // filter being broken. Ingredients made elsewhere stay as leaves; the ⓘ
-    // panel still says where they come from.
+    // filter being broken. Ingredients made elsewhere stay as leaves; the
+    // detail panel still says where they come from.
     stationKey: cfg.mode === 'station' ? cfg.stationKey : null,
   };
 
@@ -745,30 +857,18 @@ export default function CraftTreeView() {
             ) : null}
 
             {cfg.mode === 'item' ? (
-              <div className="eft-ct-picker">
-                <input
-                  className="eft-input eft-input-sm"
-                  value={query}
-                  placeholder="Search any item…"
-                  onChange={(e) => setQuery(e.target.value)}
-                />
-                <select
-                  className="eft-input eft-input-sm"
-                  value={cfg.itemId || ''}
-                  // Picking from the search must orient the chart the same way
-                  // clicking a node does. It used to just set the id, so with
-                  // the default 'up' direction an item's "used in" side was
-                  // simply absent — the chart looked like the item fed nothing.
-                  onChange={(e) => (e.target.value
-                    ? focus(e.target.value)
-                    : set({ itemId: null }))}
-                >
-                  <option value="">Pick an item…</option>
-                  {hits.map((h) => (
-                    <option key={h.itemId} value={h.itemId}>{h.name}</option>
-                  ))}
-                </select>
-              </div>
+              <ItemPicker
+                hits={hits}
+                query={query}
+                onQueryChange={setQuery}
+                // Picking must orient the chart the same way clicking a node
+                // does. It used to just set the id, so with the default 'up'
+                // direction an item's "used in" side was simply absent — the
+                // chart looked like the item fed nothing.
+                onPick={focus}
+                onClear={() => { set({ itemId: null }); setQuery(''); }}
+                hasSelection={!!cfg.itemId}
+              />
             ) : null}
 
             <Seg options={DIRECTIONS} value={cfg.direction} onChange={(direction) => set({ direction })} />
@@ -853,7 +953,6 @@ export default function CraftTreeView() {
             setZoom={(fn) => set({ zoom: typeof fn === 'function' ? fn(cfg.zoom) : fn })}
             selectedKey={selected?.key}
             onToggle={toggle}
-            onFocus={focus}
             onSelect={setSelected}
             onCycleRecipe={cycleRecipe}
           />

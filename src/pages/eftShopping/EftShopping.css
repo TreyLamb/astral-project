@@ -1582,9 +1582,65 @@
   padding: 2.5px 0;
 }
 
-.eft-ct-picker { display: flex; gap: 6px; flex-wrap: wrap; }
-.eft-ct-picker .eft-input { min-width: 160px; }
-.eft-ct-picker select { max-width: 340px; }
+.eft-ct-picker { position: relative; }
+
+.eft-ct-picker-input { display: flex; align-items: center; }
+.eft-ct-picker-input .eft-input { min-width: 220px; }
+
+.eft-ct-picker-clear {
+  background: none;
+  border: 1px solid var(--eft-line-bright);
+  border-left: 0;
+  color: var(--eft-text-dim);
+  height: 100%;
+  padding: 0 8px;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+}
+.eft-ct-picker-clear:hover { color: var(--eft-tan-bright); }
+
+.eft-ct-suggest {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 80;
+  margin: 3px 0 0;
+  padding: 3px;
+  list-style: none;
+  width: 320px;
+  max-width: 80vw;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--eft-panel-2);
+  border: 1px solid var(--eft-line-bright);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.eft-ct-suggest li + li { margin-top: 1px; }
+
+.eft-ct-suggest button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 6px 8px;
+  color: var(--eft-text-dim);
+  font-size: 14.5px;
+  cursor: pointer;
+}
+.eft-ct-suggest button:hover,
+.eft-ct-suggest button.eft-is-active {
+  color: var(--eft-tan-bright);
+  background: rgba(154, 136, 102, 0.14);
+}
+
+.eft-ct-suggest-empty {
+  color: var(--eft-text-faint);
+  font-size: 13.8px;
+  padding: 8px 10px;
+}
 
 .eft-ct-toggle {
   display: flex;
@@ -1702,7 +1758,11 @@
 .eft-ct-hit:hover { background: rgba(224, 192, 122, 0.07); }
 
 /* A real button with a border. The first version was a bare 9px glyph inside
-   the node and nobody could tell it was the fold control. */
+   the node and nobody could tell it was the fold control.
+   -left always folds what makes this item (the branch drawn to the left);
+   -right always folds what this item is used in (drawn to the right) — the
+   two never mean the same thing on the same node, so the border/position
+   tells you which before you even read the title. */
 .eft-ct-caret {
   flex: none;
   width: 22px;
@@ -1713,13 +1773,15 @@
   padding: 0;
   background: var(--eft-raised);
   border: 0;
-  border-right: 1px solid var(--eft-line-bright);
   color: var(--eft-tan-bright);
   font-family: var(--eft-mono);
   font-size: 16px;
   line-height: 1;
   cursor: pointer;
 }
+
+.eft-ct-caret-left { border-right: 1px solid var(--eft-line-bright); }
+.eft-ct-caret-right { border-left: 1px solid var(--eft-line-bright); }
 
 .eft-ct-caret:hover { background: var(--eft-tan); color: #14140f; }
 .eft-ct-caret.eft-is-leaf { background: transparent; cursor: default; }
@@ -1759,19 +1821,6 @@
   font-size: 13.8px;
   color: var(--eft-gold);
 }
-
-.eft-ct-focus {
-  flex: none;
-  width: 25px;
-  background: none;
-  border: 0;
-  border-left: 1px solid var(--eft-line);
-  color: var(--eft-text-faint);
-  cursor: pointer;
-  font-size: 15px;
-}
-
-.eft-ct-focus:hover { color: var(--eft-gold); background: var(--eft-raised); }
 
 .eft-ct-craftbody { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 
