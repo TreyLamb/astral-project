@@ -150,3 +150,32 @@ the whole scope. Trey's call, 2026-08-26.
 - Any new OATTS official-practice-software captures — paste raw into
   `afoqt/data/raw/oatts-live-<date>.md` (`# source:` / `# subtest:` headers), screenshots only
   for figures (TR grid / IC dials / BC piles). See `CONTRIBUTING-QUESTIONS.md`.
+
+---
+
+## 5. Optional polish, flagged from a `howtowritetests.md` cross-check (2026-08-28)
+
+Trey had a generic "how to write good test questions" doc reviewed against
+`QUESTION-DOCTRINE.md` and the actual templates, just to see if the engine's logic held up.
+Verdict: it does, and in most places the doctrine is stricter (structural/build-failing checks
+where the primer only has manual-checklist advice — see `QUESTION-DOCTRINE.md` + `scoring.js`'s
+`templateStats` for the item-bank-with-results equivalent). One primer idea doesn't apply here at
+all: **item discrimination** (comparing high vs. low scorers on each item) needs a population of
+test-takers; this is a single-user tool, so there's no cohort to discriminate against — not a gap,
+just a different context than the primer assumes.
+
+Two things the primer covers that we don't, neither urgent, both need Trey's call before building
+since they're new scope, not bugs:
+
+1. **No explicit cognitive-level tag (Recall / Understanding / Application), separate from
+   `band`.** Right now `band` (1-5) does double duty for "how hard" and implicitly "what kind of
+   thinking." AFOQT itself isn't scored by Bloom's level, so this may not be worth adding — but if
+   a coverage view like "are we too recall-heavy in Aviation Information" ever becomes useful,
+   this is the missing axis.
+2. **No automated check for distractor stylistic "tells"** — an option that's obviously longer/
+   shorter than the others, or grammatically mismatched to the stem. `h.choices` in
+   `engine/generator.js` (~line 131) dedupes by value only, nothing checks parity. Low risk for
+   numeric subtests (MK, AR, Block Counting, Table Reading — all short numbers/expressions).
+   Actually relevant for the text-option subtests: Word Knowledge, Verbal Analogies, Aviation
+   Information (fact engine), Reading Comprehension, SJT. Would be a new check inside
+   `afoqt:selftest`, not a template rewrite.
