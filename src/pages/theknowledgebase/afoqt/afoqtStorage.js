@@ -32,6 +32,7 @@ export function defaultProgress() {
     diagnosticRuns: [],  // most recent first, capped - short whole-subtest samples (PART 29)
     chapters: {},        // chapterId -> { status, testedOut, completedAt, bestScore }
     wordBank: {},        // word (lowercased) -> { word, pos, gloss, root, missCount, firstMissedAt, lastMissedAt }
+    flagged: {},         // `${templateId}:${seed}` -> { templateId, seed, subtest, stem, flaggedAt }
     settings: {
       mode: 'paced',
       pressure: 1,
@@ -141,6 +142,43 @@ export function removeFromWordBank(progress, word) {
 /** Worst-first: the word missed the most times floats to the top of the review list. */
 export const wordBankEntries = (progress) =>
   Object.values(progress.wordBank ?? {}).sort((a, b) => b.missCount - a.missCount || a.word.localeCompare(b.word));
+
+// --- flagged questions -------------------------------------------------------
+//
+// Trey's request: a manual "look at this one again later" flag, independent of whether the
+// answer was right or wrong - "if I know the answer, I can navigate to it no matter how long
+// it takes; the real difficulty is the CONTENT and the clock, not the interface." A flag is
+// keyed on (templateId, seed) exactly like the miss pool's exact-replay - that pair regenerates
+// the identical question byte-for-byte (engine/generator.js), so the flagged item can always be
+// pulled back up verbatim, not just remembered as "a question kind of like this one."
+
+export const flagKey = (templateId, seed) => `${templateId}:${seed}`;
+
+export function addFlag(progress, { templateId, seed, subtest, stem }) {
+  if (!templateId || seed == null) return progress;
+  const key = flagKey(templateId, seed);
+  return {
+    ...progress,
+    flagged: {
+      ...progress.flagged,
+      [key]: { templateId, seed, subtest, stem, flaggedAt: new Date().toISOString() },
+    },
+  };
+}
+
+export function removeFlag(progress, templateId, seed) {
+  const key = flagKey(templateId, seed);
+  if (!(key in (progress.flagged ?? {}))) return progress;
+  const next = { ...progress.flagged };
+  delete next[key];
+  return { ...progress, flagged: next };
+}
+
+export const isFlagged = (progress, templateId, seed) => flagKey(templateId, seed) in (progress.flagged ?? {});
+
+/** Most recently flagged first. */
+export const flaggedEntries = (progress) =>
+  Object.values(progress.flagged ?? {}).sort((a, b) => new Date(b.flaggedAt) - new Date(a.flaggedAt));
 
 export function addRun(progress, run) {
   return { ...progress, runs: [run, ...(progress.runs ?? [])].slice(0, MAX_RUNS) };

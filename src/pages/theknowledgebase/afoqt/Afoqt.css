@@ -39,16 +39,16 @@
 .afq-start { margin-top: .5rem; }
 
 /* --- runner --- */
-.afq-runner { display: flex; flex-direction: column; gap: .75rem; max-width: 860px; }
-/* Subtests that ship a figure get the room the figure needs. 760px is the right measure for
-   reading a question stem and the wrong one for a 33x33 grid, so the column widens only when
-   there is actually something to draw - see `wide` in DrillRunner. */
-.afq-runner-wide { max-width: 1160px; }
-/* ...and the TKB shell caps its reading column at 960px, which predates AFOQT and belongs to
-   the original flashcard tool. Rather than change a shared rule every other TKB page depends
-   on, lift the cap only for a page that is currently showing a figure. Without :has() support
-   the grid simply scrolls inside its own box, which is the designed fallback anyway. */
-.tkb-wrapper .tkb-main:has(.afq-runner-wide) { max-width: 1240px; }
+/* The outer runner now holds the reading column AND the question rail side by side, so it needs
+   room for both - the actual comfortable reading measure lives on .afq-runner-main below, not
+   here. (.tkb-main, the shared TKB shell, no longer caps its own width at all - see Tkb.css - so
+   there is nothing left here to override for a wide-figure drill.) */
+.afq-runner { display: flex; flex-direction: column; gap: .75rem; max-width: 1140px; }
+/* Subtests that ship a figure get the room the figure needs - see `wide` in DrillRunner. */
+.afq-runner-wide { max-width: 1440px; }
+.afq-runner-body { display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap; }
+.afq-runner-main { flex: 1 1 480px; min-width: 0; max-width: 860px; }
+.afq-runner-wide .afq-runner-main { max-width: 1160px; }
 /* The figure wants the width; the words do not. A five-option list stretched across 1,100px
    is harder to scan than one at a normal measure. */
 .afq-runner-wide .afq-stem, .afq-runner-wide .afq-choices, .afq-runner-wide .afq-hint { max-width: 620px; }
@@ -497,3 +497,45 @@
 .afq-word-gloss { font-size: 1.1rem; line-height: 1.55; }
 .afq-word-root { display: block; margin-top: .2rem; color: var(--tkb-ink-soft); font-size: 1rem; }
 .afq-word-remove { flex: none; align-self: center; margin-right: .6rem; font-size: .78rem; }
+.afq-flagged-actions { display: flex; flex-direction: column; gap: .4rem; padding: .7rem .9rem 0 0; align-items: stretch; }
+.afq-flagged-actions .afq-btn { white-space: nowrap; }
+
+/* --- question rail + flagging (Trey's request, 2026-08-30) ------------------- */
+/* Back/Forward + the End button share one row so the primary actions on a live question live
+   in one predictable place. */
+.afq-nav-row { justify-content: space-between; flex-wrap: wrap; }
+.afq-nav-row .afq-hint { margin-left: auto; }
+
+.afq-runner-flags { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; margin-bottom: .5rem; }
+.afq-flag-btn {
+  font: inherit; font-size: .9rem; padding: .3rem .7rem; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--tkb-border); background: var(--tkb-surface); color: var(--tkb-ink-soft);
+}
+.afq-flag-btn.afq-flagged { color: var(--tkb-accent); border-color: var(--tkb-accent); background: color-mix(in srgb, var(--tkb-accent) 10%, transparent); }
+.afq-reveal-def { font-size: .95rem; color: var(--tkb-ink-soft); padding: .3rem .3rem; }
+.afq-reveal-toggle.afq-reveal-on { color: var(--tkb-accent); }
+.afq-choice-picked { border-color: var(--tkb-accent) !important; background: color-mix(in srgb, var(--tkb-accent) 8%, var(--tkb-canvas)); }
+
+.afq-question-rail { flex: 1 1 200px; max-width: 260px; position: sticky; top: 1rem; }
+.afq-rail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(2.3rem, 1fr)); gap: .35rem; }
+.afq-rail-item {
+  position: relative; aspect-ratio: 1; font: inherit; font-weight: 600; font-size: .9rem;
+  border-radius: 6px; cursor: pointer; display: grid; place-items: center;
+  border: 1px solid var(--tkb-border); background: var(--tkb-surface); color: var(--tkb-ink-soft);
+}
+.afq-rail-current { border-color: var(--tkb-accent); border-width: 2px; color: var(--tkb-ink); }
+.afq-rail-correct { background: color-mix(in srgb, var(--tkb-correct) 18%, var(--tkb-surface)); color: var(--tkb-correct); border-color: color-mix(in srgb, var(--tkb-correct) 45%, transparent); }
+.afq-rail-wrong { background: color-mix(in srgb, var(--tkb-wrong) 18%, var(--tkb-surface)); color: var(--tkb-wrong); border-color: color-mix(in srgb, var(--tkb-wrong) 45%, transparent); }
+.afq-rail-flag { position: absolute; top: -6px; right: -6px; font-size: .8rem; line-height: 1; }
+.afq-rail-legend { display: flex; gap: .3rem; flex-wrap: wrap; align-items: center; margin: .6rem 0 0; font-size: .8rem; color: var(--tkb-ink-soft); }
+.afq-rail-key { display: inline-block; width: .75rem; height: .75rem; border-radius: 4px; margin: 0 .35rem 0 .7rem; border: 1px solid var(--tkb-border); }
+.afq-rail-key:first-child { margin-left: 0; }
+.afq-rail-key.afq-rail-correct { background: color-mix(in srgb, var(--tkb-correct) 30%, var(--tkb-surface)); }
+.afq-rail-key.afq-rail-wrong { background: color-mix(in srgb, var(--tkb-wrong) 30%, var(--tkb-surface)); }
+.afq-rail-key.afq-rail-unanswered { background: var(--tkb-surface); }
+
+@media (max-width: 900px) {
+  /* A phone-sized layout must not leak upward (webdesign.md 1b) - this only applies inside the
+     narrow breakpoint. The rail drops below the question instead of squeezing beside it. */
+  .afq-question-rail { flex-basis: 100%; max-width: none; position: static; }
+}

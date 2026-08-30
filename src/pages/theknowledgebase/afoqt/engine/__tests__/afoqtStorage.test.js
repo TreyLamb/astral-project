@@ -3,7 +3,10 @@
 // the QUESTION inside a drill, this is a plain definition list read on its own).
 
 import { describe, it, expect } from 'vitest';
-import { defaultProgress, addToWordBank, removeFromWordBank, wordBankEntries } from '../../afoqtStorage.js';
+import {
+  defaultProgress, addToWordBank, removeFromWordBank, wordBankEntries,
+  flagKey, addFlag, removeFlag, isFlagged, flaggedEntries,
+} from '../../afoqtStorage.js';
 
 const ARDUOUS = { word: 'arduous', pos: 'adj', gloss: 'requiring great effort; difficult', root: { form: 'ardu-', sense: 'steep' } };
 const CURSORY = { word: 'cursory', pos: 'adj', gloss: 'hasty and not thorough' };
@@ -73,5 +76,53 @@ describe('wordBankEntries', () => {
 
   it('is empty on a fresh profile', () => {
     expect(wordBankEntries(defaultProgress())).toEqual([]);
+  });
+});
+
+describe('flagged questions', () => {
+  const Q1 = { templateId: 'wk-opposite-b3', seed: 42, subtest: 'WK', stem: 'Which word is most nearly OPPOSITE...' };
+  const Q2 = { templateId: 'mk-simple-interest', seed: 7, subtest: 'MK', stem: '$2500 is invested...' };
+
+  it('flags a question and reports it flagged', () => {
+    const p = addFlag(defaultProgress(), Q1);
+    expect(isFlagged(p, Q1.templateId, Q1.seed)).toBe(true);
+  });
+
+  it('is not flagged before being added', () => {
+    expect(isFlagged(defaultProgress(), Q1.templateId, Q1.seed)).toBe(false);
+  });
+
+  it('keys on (templateId, seed) together - same templateId, different seed is a different flag', () => {
+    let p = addFlag(defaultProgress(), Q1);
+    p = addFlag(p, { ...Q1, seed: 99 });
+    expect(Object.keys(p.flagged).sort()).toEqual([flagKey(Q1.templateId, 42), flagKey(Q1.templateId, 99)].sort());
+  });
+
+  it('removeFlag removes only the targeted flag', () => {
+    let p = addFlag(defaultProgress(), Q1);
+    p = addFlag(p, Q2);
+    p = removeFlag(p, Q1.templateId, Q1.seed);
+    expect(isFlagged(p, Q1.templateId, Q1.seed)).toBe(false);
+    expect(isFlagged(p, Q2.templateId, Q2.seed)).toBe(true);
+  });
+
+  it('removing a never-flagged question is a no-op', () => {
+    const p = removeFlag(defaultProgress(), 'nonexistent', 1);
+    expect(p.flagged).toEqual({});
+  });
+
+  it('flaggedEntries lists most-recently-flagged first', async () => {
+    let p = addFlag(defaultProgress(), Q1);
+    // Real timestamps, not mocked - a tiny real delay guarantees a distinct flaggedAt to sort by.
+    await new Promise((r) => setTimeout(r, 2));
+    p = addFlag(p, Q2);
+    const entries = flaggedEntries(p);
+    expect(entries.map((e) => e.templateId)).toEqual([Q2.templateId, Q1.templateId]);
+  });
+
+  it('does not mutate the progress object passed in', () => {
+    const before = defaultProgress();
+    addFlag(before, Q1);
+    expect(before.flagged).toEqual({});
   });
 });

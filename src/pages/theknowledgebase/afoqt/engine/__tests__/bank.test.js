@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { bankItems, bankSummary, bankTotal } from '../bank';
+import { bankItems, bankSummary, bankTotal, bankItemByTemplateId } from '../bank';
 import { getSubtest } from '../afoqtSpec';
 
 describe('static question banks', () => {
@@ -7,6 +7,21 @@ describe('static question banks', () => {
     // 65 usable OATTS + 128 usable migrated ASVAB. The rest are held back:
     // 24 OATTS need a figure or have no distractors, 183 ASVAB items are free-recall.
     expect(bankTotal()).toBeGreaterThanOrEqual(190);
+  });
+
+  // Flagging a bank item and replaying it later (DrillRunner's ?templateId=bank:... path) can't
+  // regenerate the item the way a real template can - there's no rng behind it - so it has to be
+  // looked up by id directly. This is the only way that lookup happens; if it silently returned
+  // nothing, replaying a flagged bank item would land on "no templates registered" with no error.
+  it('bankItemByTemplateId finds a real item by its templateId', () => {
+    const any = bankItems('MK')[0];
+    expect(any).toBeTruthy();
+    const found = bankItemByTemplateId(any.templateId);
+    expect(found).toBe(any);
+  });
+
+  it('bankItemByTemplateId returns null for an unknown id', () => {
+    expect(bankItemByTemplateId('bank:does-not-exist')).toBeNull();
   });
 
   it('every item is answerable: a real correct index into real choices', () => {

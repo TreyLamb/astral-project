@@ -2,9 +2,14 @@ import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
 import { assembleDrill } from '../engine/drill';
+import { generateInstance } from '../engine/generator';
+import { bankItemByTemplateId } from '../engine/bank';
 import { getSubtest } from '../engine/afoqtSpec';
 import { getChapter, CHAPTERS } from '../curriculum/chapters';
-import { recordTestOut, recordMastery, MASTERY_THRESHOLD, isChapterDone, latestDiagnostic, addToWordBank } from '../afoqtStorage';
+import {
+  recordTestOut, recordMastery, MASTERY_THRESHOLD, isChapterDone, latestDiagnostic,
+  addToWordBank, removeFromWordBank, isFlagged, addFlag, removeFlag,
+} from '../afoqtStorage';
 import { nextPersonalizedChapter } from '../curriculum/personalize';
 import { paceBudget, paceCheck, shouldNudgeAbandon, shouldWarnGuessSweep, formatClock } from '../engine/timing';
 import { labelFor } from '../engine/errorModes';
@@ -57,6 +62,18 @@ function SourceLine({ q }) {
   );
 }
 
+/** First unanswered index scanning forward from (after) `from`, wrapping once; `from` itself if
+ *  every other question is already answered - free navigation means "advance" can run out of
+ *  places to go without the whole run being done. */
+function nextUnanswered(answersArr, from) {
+  const n = answersArr.length;
+  for (let step = 1; step <= n; step++) {
+    const i = (from + step) % n;
+    if (answersArr[i] == null) return i;
+  }
+  return from;
+}
+
 export default function DrillRunner() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
@@ -89,11 +106,26 @@ export default function DrillRunner() {
   const meta = getSubtest(subtest);
   const budget = useMemo(() => paceBudget(subtest, count, pressure), [subtest, count, pressure]);
 
+  // A flagged question is replayed verbatim rather than re-assembled - (templateId, seed)
+  // regenerates byte-identically (engine/generator.js), which is the whole reason a flag can be
+  // keyed on that pair in the first place. Bypasses assembleDrill entirely: a 1-question, untimed,
+  // no-chapter, no-scoring "just look at it again" queue.
+  const replayTemplateId = params.get('templateId');
+  const replaySeed = params.get('seed') != null ? Number(params.get('seed')) : null;
+
   // Build once. A drill is a fixed queue; rebuilding on re-render would reshuffle underfoot.
   //
   // `progress` is read here but deliberately left out of the dependency list: it changes on
   // every answered question, and re-running this would rebuild the queue mid-drill.
   const questions = useMemo(() => {
+    if (replayTemplateId && replaySeed != null) {
+      // Bank items (real OATTS / migrated ASVAB questions - see engine/bank.js) have no
+      // template+rng behind them to regenerate; the item itself IS the content, looked up by id.
+      const one = replayTemplateId.startsWith('bank:')
+        ? bankItemByTemplateId(replayTemplateId)
+        : generateInstance(replayTemplateId, replaySeed);
+      return one ? [one] : [];
+    }
     const rng = mulberry32(Date.now());
     return assembleDrill({
       subtest,
@@ -108,30 +140,48 @@ export default function DrillRunner() {
       includeStretch,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subtest, count, chapter?.id, isGate, isExam, includeStretch]);
+  }, [subtest, count, chapter?.id, isGate, isExam, includeStretch, replayTemplateId, replaySeed]);
 
   // A 33x33 Table Reading grid needs about 950px; a question stem reads best at 760. So the
   // column widens only when the questions actually carry a figure, rather than making every
   // text drill in the tool sprawl.
   const wide = questions.some((q) => q.render);
 
-  const [idx, setIdx] = useState(0);
-  const [answers, setAnswers] = useState([]);
+  // `current` is a VIEWING position, not a progress cursor - free navigation (back/forward, the
+  // rail, jumping around) means it can move in either direction or land on an already-answered
+  // question. `answers` is therefore sparse and INDEX-addressed (one slot per question, filled
+  // in place), not a push-array - Trey's request: "if I know the answer I can navigate to it no
+  // matter how long it takes; the interface shouldn't be the obstacle, the clock and the content
+  // are the real difficulty." Re-submitting on an already-answered question overwrites it, so
+  // going back to change an answer works the way it would on paper.
+  const [current, setCurrent] = useState(0);
+  const [answers, setAnswers] = useState(() => Array(questions.length).fill(null));
   const [elapsedMs, setElapsedMs] = useState(0);
   const [done, setDone] = useState(false);
   // The results page is about the misses by default - a wall of 40 correct answers buries the
   // three that matter. But provenance is worth reading on a question you got RIGHT too ("was
   // that official, or ours?"), so the whole run is one click away.
   const [showAll, setShowAll] = useState(false);
+  // WK-only "cheat" mode: Trey's request, 2026-08-30 - "I want to be able to hover or click to
+  // see the definition of a word" while drilling, as a deliberate opt-in study mode distinct from
+  // testing. `revealMode` is sticky for the session; `revealed` is per-question and resets on
+  // navigation so the next word isn't spoiled by habit.
+  const [revealMode, setRevealMode] = useState(false);
+  const [revealed, setRevealed] = useState(false);
   const startedAt = useRef(Date.now());
   const questionStart = useRef(Date.now());
 
+  useEffect(() => { questionStart.current = Date.now(); setRevealed(false); }, [current]);
+
+  const answeredCount = useMemo(() => answers.filter((a) => a != null).length, [answers]);
+
   const finish = useCallback((finalAnswers) => {
     setDone(true);
-    const right = finalAnswers.filter((a) => a.correct).length;
-    // A gate only counts if it was actually finished - bailing out at question two must not
+    const answered = finalAnswers.filter((a) => a != null);
+    const right = answered.filter((a) => a.correct).length;
+    // A gate only counts if EVERY question was actually answered - bailing out early must not
     // record a failed test-out attempt against the chapter.
-    if (chapter && finalAnswers.length === questions.length) {
+    if (chapter && answered.length === questions.length) {
       if (phase === 'testout') {
         mutate((p) => recordTestOut(p, chapter.id, { correct: right, total: questions.length, pass: testOutPass }));
       } else if (phase === 'mastery') {
@@ -145,15 +195,15 @@ export default function DrillRunner() {
       phase,
       startedAt: new Date(startedAt.current).toISOString(),
       endedAt: new Date().toISOString(),
-      correct: finalAnswers.filter((a) => a.correct).length,
-      answered: finalAnswers.length,
+      correct: right,
+      answered: answered.length,
       totalMs: Date.now() - startedAt.current,
     });
   }, [recordRun, subtest, mode, pressure, count, chapter, phase, questions.length, mutate, testOutPass]);
 
   const submit = useCallback((picked, opts) => {
     const guessed = !!(opts && opts.guessed);
-    const q = questions[idx];
+    const q = questions[current];
     if (!q || done) return;
     const now = Date.now();
     const correct = picked === q.correctIndex;
@@ -175,12 +225,20 @@ export default function DrillRunner() {
     // `!correct && !guessed` the error-mode capture above already uses: a clock-forced random
     // pick says nothing about whether the word itself is known.
     if (!correct && !guessed && q.vocab) mutate((p) => addToWordBank(p, q.vocab));
-    const next = [...answers, entry];
+    // Plain computed values, not a functional updater with setCurrent nested inside it - React
+    // Strict Mode double-invokes a setState updater function to catch exactly this shape of bug
+    // (a side effect living inside what's supposed to be a pure state-derivation function), and
+    // the nested setCurrent call genuinely fired twice, silently double-advancing past a question
+    // every time one was answered. `answers` is in the dependency list so this closure is never
+    // stale, the same guarantee the updater form existed to provide.
+    const next = [...answers];
+    next[current] = entry;
     setAnswers(next);
-    questionStart.current = now;
-    if (idx + 1 >= questions.length) finish(next);
-    else setIdx(idx + 1);
-  }, [questions, idx, answers, done, recordAnswer, finish, mutate]);
+    // Advance to the next unanswered question - the familiar "answer, move on" flow for a fresh
+    // linear run. Re-answering a question reached via the rail/back-forward just overwrites it
+    // in place without forcing a jump anywhere.
+    setCurrent(nextUnanswered(next, current));
+  }, [questions, current, done, recordAnswer, mutate, answers]);
 
   // Whole-subtest countdown, matching how the real test administers: time cannot be banked
   // between questions, so a per-question timer would teach the wrong instinct.
@@ -193,35 +251,38 @@ export default function DrillRunner() {
   const remainingMs = budget.totalMs - elapsedMs;
 
   // Out of time. Rights-only scoring means a blank is strictly worse than a guess, so
-  // unless the user disabled it, sweep the remainder with marks rather than leaving blanks.
+  // unless the user disabled it, sweep every still-unanswered slot with a random mark.
   useEffect(() => {
     if (!timed || done || remainingMs > 0) return;
-    if (answers.length >= questions.length || !progress.settings.autoGuessOnTimeout) {
+    if (answeredCount >= questions.length || !progress.settings.autoGuessOnTimeout) {
       finish(answers);
       return;
     }
     const swept = [...answers];
-    for (let i = answers.length; i < questions.length; i++) {
+    for (let i = 0; i < questions.length; i++) {
+      if (swept[i] != null) continue;
       const q = questions[i];
       const picked = Math.floor(Math.random() * q.choices.length);
       recordAnswer({ templateId: q.templateId, seed: q.seed, correct: picked === q.correctIndex, elapsedMs: 0 });
-      swept.push({ picked, correct: picked === q.correctIndex, elapsedMs: 0, guessed: true });
+      swept[i] = { picked, correct: picked === q.correctIndex, elapsedMs: 0, guessed: true };
     }
     setAnswers(swept);
     finish(swept);
-  }, [timed, done, remainingMs, questions, answers, progress.settings.autoGuessOnTimeout, recordAnswer, finish]);
+  }, [timed, done, remainingMs, questions, answers, answeredCount, progress.settings.autoGuessOnTimeout, recordAnswer, finish]);
 
   useEffect(() => {
     const onKey = (e) => {
       if (done) return;
-      const q = questions[idx];
+      const q = questions[current];
       const i = LETTERS.indexOf(e.key.toUpperCase());
-      if (q && i >= 0 && i < q.choices.length) { e.preventDefault(); submit(i); }
-      if (e.key === 'Escape') { e.preventDefault(); finish(answers); }
+      if (q && i >= 0 && i < q.choices.length) { e.preventDefault(); submit(i); return; }
+      if (e.key === 'Escape') { e.preventDefault(); finish(answers); return; }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); setCurrent((c) => Math.max(0, c - 1)); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); setCurrent((c) => Math.min(questions.length - 1, c + 1)); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [questions, idx, done, submit, finish, answers]);
+  }, [questions, current, done, submit, finish, answers]);
 
   if (questions.length === 0) {
     return (
@@ -233,20 +294,21 @@ export default function DrillRunner() {
   }
 
   if (done) {
-    const right = answers.filter((a) => a.correct).length;
-    const guessed = answers.filter((a) => a.guessed).length;
+    const answered = answers.filter((a) => a != null);
+    const right = answered.filter((a) => a.correct).length;
+    const guessed = answered.filter((a) => a.guessed).length;
     // The whole point of insisting distractors are error-modes: at the end of a run the tool
     // can say WHICH mistake was made and how often, which is a habit to fix rather than a score
     // to feel bad about. Ranked, because "you read Y as ascending four times" is the sentence
     // that changes the next drill.
     const modes = Object.entries(
-      answers.reduce((acc, a) => {
+      answered.reduce((acc, a) => {
         if (a.errorMode) acc[a.errorMode] = (acc[a.errorMode] ?? 0) + 1;
         return acc;
       }, {}),
     ).sort((p, q2) => q2[1] - p[1]);
-    const avgSec = answers.length
-      ? Math.round((answers.reduce((n, a) => n + a.elapsedMs, 0) / answers.length) / 100) / 10
+    const avgSec = answered.length
+      ? Math.round((answered.reduce((n, a) => n + a.elapsedMs, 0) / answered.length) / 100) / 10
       : 0;
     const overPace = avgSec - budget.realSecPerQuestion;
     // `progress` already reflects this run's recordTestOut/recordMastery mutate() call by the
@@ -257,6 +319,12 @@ export default function DrillRunner() {
     const nextChapter = chapterDoneNow
       ? nextPersonalizedChapter(CHAPTERS, progress, latestDiagnostic(progress)?.results ?? null)
       : null;
+    // Flags are read fresh from stored progress rather than tracked locally, same reasoning as
+    // the flag toggle button below - a flag set two questions ago should show up here even
+    // though nothing about THIS render path touched it directly.
+    const flaggedIdx = questions
+      .map((q, i) => (isFlagged(progress, q.templateId, q.seed) ? i : -1))
+      .filter((i) => i >= 0);
     return (
       <div className={'afq-runner afq-summary' + (wide ? ' afq-runner-wide' : '')}>
         <h2>{right} / {questions.length}</h2>
@@ -265,6 +333,7 @@ export default function DrillRunner() {
           <div><span>{avgSec}s</span><label>Avg / question</label></div>
           <div><span>{budget.realSecPerQuestion.toFixed(1)}s</span><label>Real pace</label></div>
           {guessed > 0 && <div><span>{guessed}</span><label>Auto-guessed</label></div>}
+          {flaggedIdx.length > 0 && <div><span>🚩 {flaggedIdx.length}</span><label>Flagged</label></div>}
         </div>
         {overPace > 0 && (
           <p className="afq-warn">
@@ -300,10 +369,29 @@ export default function DrillRunner() {
             </ul>
             {modes[0][1] >= 2 && (
               <p className="afq-note">
-                {modes[0][1]} of your {answers.length - right} misses were the same mistake. That
-                is one habit to fix, not {answers.length - right} questions to redo.
+                {modes[0][1]} of your {answered.length - right} misses were the same mistake. That
+                is one habit to fix, not {answered.length - right} questions to redo.
               </p>
             )}
+          </section>
+        )}
+
+        {/* Flagged questions surface here regardless of right/wrong, per Trey's request - a
+            flag means "look at this again", which is orthogonal to whether it was missed. */}
+        {flaggedIdx.length > 0 && (
+          <section className="afq-modes">
+            <h3>🚩 Flagged this run</h3>
+            <ul>
+              {flaggedIdx.map((i) => (
+                <li key={i}>
+                  <span className="afq-mode-n">{i + 1}</span>
+                  <span>{questions[i].stem.slice(0, 90)}{questions[i].stem.length > 90 ? '…' : ''}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="afq-note">
+              Every flag is saved to your flagged-questions list (<button className="afq-linklike" onClick={() => navigate('/TKB/afoqt/flagged')}>review it</button>) until you remove it there.
+            </p>
           </section>
         )}
 
@@ -312,22 +400,23 @@ export default function DrillRunner() {
             miss turns into a named mistake rather than a red mark - and every miss now names
             WHERE THE QUESTION CAME FROM, which is the difference between "this is the real
             difficulty, get used to it" and "this one is ours and might be off". */}
-        {answers.length > 0 && (
+        {answered.length > 0 && (
           <section className="afq-misses">
             <div className="afq-review-head">
-              <h3>{showAll ? `Every question (${answers.length})` : 'What you missed'}</h3>
+              <h3>{showAll ? `Every question (${answered.length})` : 'What you missed'}</h3>
               <button
                 className="afq-review-toggle"
                 aria-pressed={showAll}
                 onClick={() => setShowAll((v) => !v)}
               >
-                {showAll ? `Misses only (${answers.length - right})` : `Show all ${answers.length}`}
+                {showAll ? `Misses only (${answered.length - right})` : `Show all ${answered.length}`}
               </button>
             </div>
-            {!showAll && right === answers.length && (
-              <p className="afq-note">Nothing missed. Show all {answers.length} to read the sources.</p>
+            {!showAll && right === answered.length && (
+              <p className="afq-note">Nothing missed. Show all {answered.length} to read the sources.</p>
             )}
             {answers.map((a, i) => {
+              if (!a) return null;
               if (a.correct && !showAll) return null;
               const q = questions[i];
               if (!q) return null;
@@ -335,6 +424,7 @@ export default function DrillRunner() {
                 <div key={i} className={a.correct ? 'afq-miss afq-hit' : 'afq-miss'}>
                   <p className="afq-miss-stem">
                     <span className="afq-miss-n">{i + 1}</span>{q.stem}
+                    {isFlagged(progress, q.templateId, q.seed) && <span title="Flagged"> 🚩</span>}
                   </p>
                   {q.render && <Figure render={q.render} reveal />}
                   <p className="afq-miss-line">
@@ -355,7 +445,7 @@ export default function DrillRunner() {
                 </div>
               );
             })}
-            {right < answers.length && (
+            {right < answered.length && (
               <p className="afq-note">
                 These templates are now in the miss pool and will resurface in about one in ten
                 questions until you get them right on three separate days.
@@ -382,62 +472,145 @@ export default function DrillRunner() {
     );
   }
 
-  const q = questions[idx];
+  const q = questions[current];
   const pace = paceCheck({
-    elapsedMs, answeredCount: answers.length, totalMs: budget.totalMs, questionCount: questions.length,
+    elapsedMs, answeredCount, totalMs: budget.totalMs, questionCount: questions.length,
   });
   const nudge = timed && shouldNudgeAbandon(subtest, Date.now() - questionStart.current);
-  const sweepWarn = timed && shouldWarnGuessSweep(remainingMs, questions.length - answers.length);
+  const sweepWarn = timed && shouldWarnGuessSweep(remainingMs, questions.length - answeredCount);
   const barPct = Math.max(0, (remainingMs / budget.totalMs) * 100);
+  const qFlagged = isFlagged(progress, q.templateId, q.seed);
+  const wordFlagged = !!q.vocab && q.vocab.word.toLowerCase() in (progress.wordBank ?? {});
 
   return (
     <div className={'afq-runner' + (wide ? ' afq-runner-wide' : '')}>
       <header className="afq-runner-top">
         <span className="afq-pill">{meta ? meta.name : subtest}</span>
-        <span className="afq-progress">{idx + 1} / {questions.length}</span>
+        <span className="afq-progress">{current + 1} / {questions.length}</span>
         {timed && <span className={remainingMs < 30000 ? 'afq-clock low' : 'afq-clock'}>{formatClock(remainingMs)}</span>}
         {timed && (
           <span className={'afq-pace afq-pace-' + pace.state}>
             {pace.state === 'on' ? 'on pace' : Math.abs(pace.delta) + ' ' + pace.state}
           </span>
         )}
-        <button className="afq-btn afq-ghost" onClick={() => finish(answers)}>End</button>
+        {subtest === 'WK' && (
+          <button
+            className={'afq-btn afq-ghost afq-reveal-toggle' + (revealMode ? ' afq-reveal-on' : '')}
+            onClick={() => setRevealMode((v) => !v)}
+            title="Show the tested word's definition on demand - a study mode, not a test mode"
+          >
+            👁 {revealMode ? 'Cheat mode on' : 'Cheat mode'}
+          </button>
+        )}
+        <button
+          className={'afq-btn' + (answeredCount >= questions.length ? ' afq-primary' : ' afq-ghost')}
+          onClick={() => finish(answers)}
+        >
+          {answeredCount >= questions.length ? 'Finish' : 'End'}
+        </button>
       </header>
 
       {timed && <div className="afq-bar"><div className="afq-bar-fill" style={{ width: barPct + '%' }} /></div>}
 
       {sweepWarn && <div className="afq-alert">Under 15s left. Mark every remaining question - there is no guessing penalty.</div>}
 
-      <div className="afq-card">
-        {q.render && <Figure render={q.render} />}
-        <p className="afq-stem">{q.stem}</p>
-        {/* A figure plus five stacked options runs past the bottom of a laptop screen, and
-            scrolling to reach option E is not a cost the real test charges. Where the options
-            are short - a three-digit table value is three characters - they lay out in a row
-            instead, which is also how they are printed on the answer sheet. */}
-        <ol className={'afq-choices' + (q.optionRender || (q.render && q.choices.every((c) => c.length <= 18)) ? ' afq-choices-row' : '')}>
-          {q.choices.map((c, i) => (
-            <li key={i}>
+      <div className="afq-runner-body">
+        <div className="afq-runner-main">
+          <div className="afq-runner-flags">
+            <button
+              className={'afq-flag-btn' + (qFlagged ? ' afq-flagged' : '')}
+              onClick={() => mutate((p) => (qFlagged
+                ? removeFlag(p, q.templateId, q.seed)
+                : addFlag(p, { templateId: q.templateId, seed: q.seed, subtest, stem: q.stem })))}
+              title={qFlagged ? 'Unflag this question' : 'Flag this question to look at again later'}
+            >
+              {qFlagged ? '🚩 Flagged' : '⚑ Flag question'}
+            </button>
+            {subtest === 'WK' && q.vocab && (
               <button
-                className={'afq-choice' + (q.optionRender ? ' afq-choice-figure' : '')}
-                onClick={() => submit(i)}
+                className={'afq-flag-btn' + (wordFlagged ? ' afq-flagged' : '')}
+                onClick={() => mutate((p) => (wordFlagged
+                  ? removeFromWordBank(p, q.vocab.word)
+                  : addToWordBank(p, q.vocab)))}
+                title={wordFlagged ? `Remove "${q.vocab.word}" from your word bank` : `Add "${q.vocab.word}" to your word bank for review`}
               >
-                <span className="afq-letter">{LETTERS[i]}</span>
-                {/* An option that IS a picture - Instrument Comprehension offers four aircraft,
-                    not four phrases. The text description stays in the DOM for screen readers and
-                    for the post-drill review, but is never shown beside the figure: reading it
-                    would answer the question. */}
-                {q.optionRender
-                  ? <><Figure render={q.optionRender[i]} /><span className="afq-sr-only">{c}</span></>
-                  : c}
+                {wordFlagged ? `📖 ${q.vocab.word.toUpperCase()} flagged` : `📖 Flag word: ${q.vocab.word.toUpperCase()}`}
               </button>
-            </li>
-          ))}
-        </ol>
-        {nudge && <p className="afq-nudge">5s - guess and move on.</p>}
-      </div>
+            )}
+            {revealMode && q.vocab && (
+              revealed ? (
+                <span className="afq-reveal-def">{q.vocab.word.toUpperCase()}: {q.vocab.gloss}</span>
+              ) : (
+                <button className="afq-flag-btn" onClick={() => setRevealed(true)}>👁 Reveal definition</button>
+              )
+            )}
+          </div>
 
-      <p className="afq-hint">Press {LETTERS.slice(0, q.choices.length).join(' / ')} to answer - Esc to end</p>
+          <div className="afq-card">
+            {q.render && <Figure render={q.render} />}
+            <p className="afq-stem">{q.stem}</p>
+            {/* A figure plus five stacked options runs past the bottom of a laptop screen, and
+                scrolling to reach option E is not a cost the real test charges. Where the options
+                are short - a three-digit table value is three characters - they lay out in a row
+                instead, which is also how they are printed on the answer sheet. */}
+            <ol className={'afq-choices' + (q.optionRender || (q.render && q.choices.every((c) => c.length <= 18)) ? ' afq-choices-row' : '')}>
+              {q.choices.map((c, i) => (
+                <li key={i}>
+                  <button
+                    className={'afq-choice' + (q.optionRender ? ' afq-choice-figure' : '') + (answers[current]?.picked === i ? ' afq-choice-picked' : '')}
+                    onClick={() => submit(i)}
+                  >
+                    <span className="afq-letter">{LETTERS[i]}</span>
+                    {/* An option that IS a picture - Instrument Comprehension offers four aircraft,
+                        not four phrases. The text description stays in the DOM for screen readers and
+                        for the post-drill review, but is never shown beside the figure: reading it
+                        would answer the question. */}
+                    {q.optionRender
+                      ? <><Figure render={q.optionRender[i]} /><span className="afq-sr-only">{c}</span></>
+                      : c}
+                  </button>
+                </li>
+              ))}
+            </ol>
+            {nudge && <p className="afq-nudge">5s - guess and move on.</p>}
+          </div>
+
+          <div className="afq-row afq-nav-row">
+            <button className="afq-btn" disabled={current === 0} onClick={() => setCurrent((c) => Math.max(0, c - 1))}>← Back</button>
+            <button className="afq-btn" disabled={current === questions.length - 1} onClick={() => setCurrent((c) => Math.min(questions.length - 1, c + 1))}>Forward →</button>
+            <p className="afq-hint">Press {LETTERS.slice(0, q.choices.length).join(' / ')} to answer · ←/→ to move · Esc to end</p>
+          </div>
+        </div>
+
+        {/* The rail: every question in the run, its status, and a click to jump straight to it.
+            Trey's reasoning: "if I know the answer I can navigate to it no matter how long it
+            takes" - the rail is what makes skipping around and coming back actually practical
+            instead of a mental-tracking exercise. */}
+        <nav className="afq-question-rail" aria-label="Jump to question">
+          <div className="afq-rail-grid">
+            {questions.map((rq, i) => {
+              const a = answers[i];
+              const state = i === current ? 'current' : a == null ? 'unanswered' : a.correct ? 'correct' : 'wrong';
+              const flag = isFlagged(progress, rq.templateId, rq.seed);
+              return (
+                <button
+                  key={i}
+                  className={`afq-rail-item afq-rail-${state}`}
+                  onClick={() => setCurrent(i)}
+                  title={`Question ${i + 1}${a == null ? ' - not answered' : a.correct ? ' - correct' : ' - missed'}${flag ? ' - flagged' : ''}`}
+                >
+                  {i + 1}{flag && <span className="afq-rail-flag">🚩</span>}
+                </button>
+              );
+            })}
+          </div>
+          <p className="afq-rail-legend">
+            <span className="afq-rail-key afq-rail-correct" /> right
+            <span className="afq-rail-key afq-rail-wrong" /> missed
+            <span className="afq-rail-key afq-rail-unanswered" /> unanswered
+          </p>
+        </nav>
+      </div>
     </div>
   );
 }

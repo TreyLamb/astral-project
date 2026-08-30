@@ -2149,5 +2149,108 @@ section.
 - No spaced-repetition/graduation logic for the word bank itself (unlike the miss pool's
   3-separate-days graduation) - a word only leaves via the manual "I know this now" button. If
   Trey wants it to auto-graduate the way the miss pool does, that's a follow-up, not assumed here.
+  ↳ Superseded by the personal remark below, though not literally what he asked for.
 - No search/filter on the word list. Fine at today's scale; would need one if the bank grows into
   the hundreds.
+
+---
+
+## 2026-08-30 — Free navigation, question flagging, and a WK cheat mode (Trey's request, same day)
+
+Trey's own framing, verbatim and worth keeping: *"if the person testing KNOWS the answer, they
+can navigate to it in time even if it takes 10 steps... it's about KNOWING the content"* - the
+interface should never be the thing standing between knowing an answer and getting credit for
+it. Landed as one coherent rewrite of `DrillRunner.jsx` since all three pieces touch the same
+state machine.
+
+### 1. Free navigation (back/forward, a question rail, jump anywhere)
+`idx` (a progress cursor that only ever increased) became `current` (a viewing position that can
+move anywhere), and `answers` became a fixed-length, INDEX-addressed array (one slot per
+question, pre-filled `null`) instead of a push-array - re-answering an already-answered question
+overwrites it in place, the way changing an answer on paper would. A right-side rail lists every
+question with live status (current / correct / missed / unanswered / flagged) and jumps straight
+to any of them on click; Back/Forward buttons and ArrowLeft/ArrowRight do the same one step at a
+time. Answering still auto-advances to the next UNANSWERED question (wrapping around), which
+keeps a fresh linear run feeling exactly like it did before.
+
+**A real bug, caught by an actual browser test, not by re-reading the code**: the first version
+nested `setCurrent(...)` inside the `setAnswers` functional updater. React Strict Mode
+deliberately double-invokes a state updater function to catch exactly this shape of impurity (a
+side effect living inside what's supposed to be a pure derivation) - the nested `setCurrent` call
+genuinely fired twice, silently double-advancing past a question every single time one was
+answered, so navigating in the running app landed one question ahead of where the score said it
+should. Fixed by computing `next`/the new `current` as plain values in `submit()` (with `answers`
+added to its dependency list so the closure is never stale) instead of a nested updater.
+
+**"Finish" is now an explicit action, and has to be** - with free navigation, answering the
+numerically-last question in the array is no longer a reliable signal that the run is over (you
+might have skipped an earlier one). The existing "End" button now relabels itself to "Finish"
+(and goes primary-styled) once every question has an answer; timeout-driven auto-finish and the
+existing rights-only-scoring auto-guess sweep both still work, just rewritten to fill whichever
+slots are actually `null` rather than assuming an always-growing tail.
+
+### 2. Flagged questions - a persistent "look at this again" list, independent of right/wrong
+A ⚑ button next to the live question adds it to a new `progress.flagged` store, keyed on
+`(templateId, seed)` - the same pair that already regenerates a question byte-identically
+(`engine/generator.js`), so "Review" on the new `/TKB/afoqt/flagged` page replays the REAL item,
+not a paraphrase. Flags surface on the results screen regardless of correct/incorrect (a flag
+means "come back to this," which is orthogonal to whether it was missed) and persist until
+removed on the Flagged page itself. New tab, new Dashboard section, same reachability pattern as
+the word bank.
+
+**A second real bug, caught the same way**: bank items (real OATTS + migrated ASVAB questions
+mixed into drills - `engine/bank.js`) have no template-plus-rng behind them to regenerate; the
+item IS the content, with `seed` always `0`. Flagging one and clicking Review sent
+`generateInstance('bank:oatts-AR-002', 0)` into the template registry, which correctly found
+nothing and rendered "No templates registered" - a silent dead end with no error anywhere.
+`bankItemByTemplateId()` added to `engine/bank.js`; `DrillRunner`'s replay path now branches on
+whether the templateId starts with `bank:` before deciding how to look the question back up.
+
+### 3. Word Knowledge specifically: per-word flagging and a "cheat mode"
+Trey's clarification: *"my best choice is to continually run through a lot of drills and pick
+out questions I don't know the answer to and then review those... [for] word knowledge
+specifically."* Two small, WK-scoped additions reusing the word bank built earlier the same day:
+- A second flag button, shown only when the live question carries `q.vocab` (i.e. it's a WK
+  question), reading "📖 Flag word: {WORD}" - toggling it calls the existing `addToWordBank`/
+  `removeFromWordBank` directly, independent of whether the question itself was answered
+  correctly. Reactive off stored progress (checked state = word already in the bank), not a
+  separate local flag, so it stays correct across navigation.
+- A "Cheat mode" toggle in the runner header (WK-only). Off by default; once on, a "Reveal
+  definition" button appears next to the stem, and clicking it shows `q.vocab.gloss` inline -
+  deliberately a click, not always-on, and per-question state resets on navigation so the next
+  word isn't spoiled by habit. This is an explicit study mode, not a scored one.
+
+### 4. A separate content complaint, fixed in the same session: repeated boilerplate explanations
+Trey: *"if I miss 5 questions and the answer tip is to use 'charge' on all of them, THAT IS NOT
+HELPFUL."* Found and fixed 4 templates (`wk-connotation`, `wk-opposite` in `engine/words.js`;
+the `-mean`/`-apply` morpheme frames in `engine/morphology.js`) that appended an identical
+generic strategy sentence to every miss regardless of which word was involved - trimmed all four
+to word-specific content only. Audited the other shared-engine subtests (facts.js for AV/PS,
+analogy.js for VA, judgment.js for SJT, passage.js for RC) for the same pattern; none of them had
+it - their explanations were already per-item content, not a shared boilerplate tail.
+
+### Tests / verification
+New: `bankItemByTemplateId` tests in `bank.test.js`; flagged-questions tests (add/remove/key-on-
+pair/ordering/no-mutation) added to `afoqtStorage.test.js`. Full suite: `npx vitest run` →
+3295/3295. `npm run afoqt:check` unaffected. `npm run build` clean. Verified live in a real
+browser end to end, not just unit tests: rail navigation + jump + back/forward, gate scoring
+after answering out of order via keyboard (arrows + letter keys), flagging a generated template
+question AND a bank item and replaying both from the Flagged page, the WK word-flag checkbox,
+and cheat-mode reveal.
+
+### ✂️ Not built this pass
+- No per-distractor-option flagging for Word Knowledge (flagging is keyed to the question's one
+  primary tested word via `q.vocab`, not each of the 5 options individually) - several WK question
+  frames present MEANINGS as their options rather than words (a headword in the stem, candidate
+  definitions as choices), so "flag this option" doesn't have a consistent word to attach to
+  across every frame. Flagging the stem's own word covers the stated need; per-option flagging on
+  the frames where options genuinely are words (opposite, connotation, -pick) is a narrower
+  follow-up if it turns out to matter in practice.
+- The rail, back/forward, and flagging only exist in `DrillRunner.jsx` (plain drills, chapter
+  gates, chapter mastery checks). `ExamRunner.jsx` and `DiagnosticRunner.jsx` have their own,
+  separate state machines and were not touched - a full exam sitting or the diagnostic still runs
+  the old strictly-linear way. Doing the same rewrite there is a real follow-up, not assumed done.
+- Cheat mode's reveal is per-question only (the tested headword's own definition) - it does not
+  show definitions for the other 4 options on the page, for the same reason per-option flagging
+  didn't generalize: several frames' options are meanings, not words, and there's no gloss to show
+  for a meaning that IS already the option text.

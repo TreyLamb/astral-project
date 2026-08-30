@@ -74,6 +74,12 @@ export const bankItems = (subtest) => ITEMS.filter((q) => q.subtest === subtest)
 export const bankCount = (subtest) => bankItems(subtest).length;
 export const bankTotal = () => ITEMS.length;
 
+// A bank item has no template + rng behind it (seed is always 0, the item IS the content), so it
+// cannot be looked up through engine/generator.js's generateInstance the way a real template can.
+// Anything that wants to replay a specific question by (templateId, seed) - the flagged-questions
+// review page - needs this instead whenever templateId starts with "bank:".
+export const bankItemByTemplateId = (templateId) => ITEMS.find((q) => q.templateId === templateId) ?? null;
+
 /** Counts by subtest, for the dashboard and the drill picker. */
 export function bankSummary() {
   const out = {};

@@ -3,7 +3,7 @@ import { useAfoqt } from '../AfoqtApp';
 import { DRILLABLE, getSubtest, secPerQuestion, compositeReach, COMPOSITES } from '../engine/afoqtSpec';
 import { templatesFor } from '../engine/generator';
 import { allCompositeAccuracy, PRACTICE_ACCURACY_LABEL, subtestAccuracy } from '../engine/scoring';
-import { missPoolIds, clearMissPool, curriculumProgress, ExamSession, latestDiagnostic, wordBankEntries } from '../afoqtStorage';
+import { missPoolIds, clearMissPool, curriculumProgress, ExamSession, latestDiagnostic, wordBankEntries, flaggedEntries } from '../afoqtStorage';
 import { weakestSubtests, DIAGNOSTIC_ACCURACY_LABEL } from '../engine/diagnostic';
 import { CHAPTERS } from '../curriculum/chapters';
 import { nextPersonalizedChapter } from '../curriculum/personalize';
@@ -22,6 +22,7 @@ export default function AfoqtDashboard() {
   const { progress, mutate } = useAfoqt();
   const misses = missPoolIds(progress);
   const words = wordBankEntries(progress);
+  const flagged = flaggedEntries(progress);
   const days = daysUntil(TEST_DATE);
 
   // Goes through scoring.js rather than aggregating templateStats here. This view used to
@@ -142,6 +143,19 @@ export default function AfoqtDashboard() {
             </p>
           </div>
           <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/words')}>Review</button>
+        </section>
+      )}
+
+      {flagged.length > 0 && (
+        <section className="afq-next">
+          <div>
+            <h3>Flagged questions</h3>
+            <p className="afq-note">
+              {flagged.length} question{flagged.length === 1 ? '' : 's'} you've flagged to come
+              back to, right or wrong.
+            </p>
+          </div>
+          <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/flagged')}>Review</button>
         </section>
       )}
 
