@@ -37,7 +37,7 @@ registerTemplate({
       stem: `What is the ${wantComplement ? 'complement' : 'supplement'} of a ${x}° angle?`,
       choices, correctIndex,
       tags: ['geometry'],
-      explanation: `Complementary angles sum to 90°; supplementary angles sum to 180°. ${wantComplement ? '90' : '180'} - ${x} = ${correct}. C comes before S in the alphabet and 90 comes before 180 - that is the whole mnemonic.`,
+      explanation: `Two angles are called COMPLEMENTARY when they add up to exactly 90° (a right angle), and SUPPLEMENTARY when they add up to exactly 180° (a straight line) - those two totals are the whole vocabulary this question type is built on. You're asked for the ${wantComplement ? 'complement' : 'supplement'} of a ${x}° angle, meaning whatever second angle, added to ${x}°, reaches ${wantComplement ? '90°' : '180°'}: ${wantComplement ? '90' : '180'} - ${x} = ${correct}°. The single most common mistake is answering with the OTHER relationship entirely - giving the ${wantComplement ? 'supplement' : 'complement'} (${wantComplement ? 180 - x : 90 - x}) when the ${wantComplement ? 'complement' : 'supplement'} was asked for, since both numbers always sit right next to each other on the answer slate. One memory aid: C comes before S in the alphabet, and 90 comes before 180 on the number line - complement pairs with the smaller total.`,
     };
   },
 });
@@ -80,7 +80,7 @@ registerTemplate({
       stem: `Two parallel lines are cut by a transversal. One angle measures ${x}°. What is the measure of its ${rel.name}?`,
       choices, correctIndex,
       tags: ['geometry'],
-      explanation: `A ${rel.name} is ${rel.equal ? 'EQUAL to' : 'SUPPLEMENTARY to'} the given angle, so it measures ${correct}°. Corresponding, alternate interior, alternate exterior and vertical angles are equal; same-side interior angles and linear pairs sum to 180°.`,
+      explanation: `When one line (a transversal) cuts across two parallel lines, it creates eight angles total, but those eight angles only take on TWO distinct values between them - every one of those angles is either equal to your given angle, or supplementary to it (sums with it to 180°). Which of the two depends on WHERE the angle sits relative to the first one, which is exactly what a name like "${rel.name}" describes. As a shortcut: angles described as "alternate," "corresponding," or "vertical" are always equal to each other, while angles described as "same-side" (co-interior) or a "linear pair" are always supplementary - "same-side" is the one reliable tell for the supplementary group, since everything else on this topic is equal. Here, a ${rel.name} is ${rel.equal ? 'EQUAL to the given angle' : 'SUPPLEMENTARY to the given angle'}, so it measures ${correct}°. Mixing up equal-versus-supplementary is the entire difficulty of this question type - the arithmetic itself, just ${x} or just 180 - ${x}, is trivial once you know which one applies.`,
     };
   },
 });
@@ -118,7 +118,7 @@ registerTemplate({
       stem: `Two angles of a triangle measure ${a}° and ${b}°. What is the third angle?`,
       choices, correctIndex,
       tags: ['geometry'],
-      explanation: `The three interior angles of any triangle sum to 180°: 180 - ${a} - ${b} = ${correct}°. 360° is the sum for a quadrilateral, not a triangle.`,
+      explanation: `Every triangle's three interior angles - the three angles INSIDE it, at its three corners - always add up to exactly 180°, regardless of the triangle's shape or size. So if two of the three are known (${a}° and ${b}° here), the third is whatever is left over from 180°: 180 - ${a} - ${b} = ${correct}°. The trap is using 360° instead - that total belongs to a FOUR-sided shape (a quadrilateral), not a triangle. Every polygon's interior angles sum to (number of sides - 2) x 180°, and a triangle has 3 sides: (3 - 2) x 180 = 180°, not 360°.`,
     };
   },
 });
@@ -158,7 +158,7 @@ registerTemplate({
       stem: `An exterior angle of a triangle measures ${ext}°. One of the two remote interior angles measures ${remote1}°. What is the other?`,
       choices, correctIndex,
       tags: ['geometry'],
-      explanation: `An exterior angle equals the SUM of the two remote (non-adjacent) interior angles: ${ext} = ${remote1} + ?, so ? = ${correct}°. The angle next to it inside the triangle is ${180 - ext}° - that one is the linear pair, not a remote interior angle.`,
+      explanation: `Extending one side of a triangle past a corner creates an EXTERIOR angle at that corner - the angle outside the triangle, between the extended side and the other side meeting at that same corner. The exterior angle theorem says this outside angle always equals the SUM of the two "remote" interior angles - remote meaning the angles at the triangle's OTHER two corners, the ones that do not touch the corner where the exterior angle sits. Here the exterior angle is ${ext}°, one remote interior angle is ${remote1}°, so the other is whatever's left: ${ext} - ${remote1} = ${correct}°. The trap is using the angle immediately NEXT TO the exterior angle instead - that adjacent interior angle (${180 - ext}°) sits at the SAME corner as the exterior angle, forming a straight line with it, which makes it the opposite of "remote," not one of the two angles the theorem is actually about.`,
     };
   },
 });
@@ -190,7 +190,7 @@ registerTemplate({
       stem: `An isosceles triangle has a vertex angle of ${vertex}°. What is the measure of EACH base angle?`,
       choices, correctIndex,
       tags: ['geometry'],
-      explanation: `The two base angles are equal and share what is left of 180°: (180 - ${vertex}) / 2 = ${correct}°. ${180 - vertex}° is the pair TOGETHER - the question asks for one of them.`,
+      explanation: `An isosceles triangle has exactly two equal sides, and the two angles sitting opposite those equal sides - called the BASE angles - are equal to each other too. The third angle, between the two equal sides, is the vertex angle. Since all three angles of any triangle sum to 180°, the two base angles together share whatever is left after the vertex angle: 180 - ${vertex}° = ${180 - vertex}°, split evenly between the two of them because they're equal - so each base angle is ${180 - vertex}° / 2 = ${correct}°. The trap is stopping at ${180 - vertex}° and treating that as the answer - that number is the two base angles ADDED TOGETHER, but the question asks for the measure of just ONE base angle, which needs the extra halving step.`,
     };
   },
 });
@@ -223,7 +223,7 @@ registerTemplate({
       stem: `Triangle ABC is similar to triangle DEF. AB = ${ab}, BC = ${bc}, and DE = ${de}. What is EF?`,
       choices, correctIndex,
       tags: ['geometry'],
-      explanation: `The scale factor is DE/AB = ${de}/${ab} = ${k}, and it applies to EVERY corresponding side: EF = ${k} x ${bc} = ${correct}. Adding the difference (${de - ab}) instead gives ${bc + (de - ab)} and is the classic wrong turn.`,
+      explanation: `Two triangles are SIMILAR when they have the exact same shape (matching angles) but not necessarily the same size - every side of one is the same multiple, called the SCALE FACTOR, of the corresponding side on the other. "Corresponding" sides are found by matching letters in the same naming order: in triangle ABC similar to triangle DEF, side AB corresponds to DE, and BC corresponds to EF. Here DE is ${de} while its corresponding side AB is ${ab}, so the scale factor is DE/AB = ${de}/${ab} = ${k} - every side of DEF is ${k} times its corresponding side in ABC. So EF = ${k} x BC = ${k} x ${bc} = ${correct}. The trap is treating similarity as ADDITIVE instead of multiplicative - noticing DE is ${de - ab} more than AB and assuming EF must be ${de - ab} more than BC too (giving ${bc + (de - ab)}) - but similar figures scale by a RATIO applied uniformly to every side, never by a fixed difference added to each one.`,
     };
   },
 });
@@ -261,7 +261,7 @@ registerTemplate({
       stem: `What is the measure of one interior angle of a ${name}?`,
       choices, correctIndex,
       tags: ['geometry'],
-      explanation: `Interior angles sum to (n - 2) x 180 = ${sum}°, and a REGULAR polygon splits that evenly: ${sum}/${n} = ${correct}°. ${360 / n}° is the exterior angle - the two always add to 180°.`,
+      explanation: `Every polygon's interior angles - the angles inside it, at each corner - add up to (number of sides - 2) x 180°, because any polygon can be split into that many triangles, each contributing 180°. A REGULAR polygon has all sides and angles equal, so once the total is known, dividing by the number of sides gives one interior angle. Here, a ${name} has ${n} sides, so the total is (${n} - 2) x 180 = ${sum}°, and one interior angle is ${sum}/${n} = ${correct}°. The trap is confusing this with the EXTERIOR angle formula (360°/${n} = ${360 / n}°, the angle OUTSIDE at each corner, formed by extending one side) - the two formulas sit right next to each other on the answer slate, and an interior angle plus its own exterior angle always add to exactly 180°, a fast way to sanity-check whichever one you just computed.`,
     };
   },
 });

@@ -1978,3 +1978,116 @@ still 742 lesson-minutes, 330 templates, coverage holds both directions. `npm ru
   and only `weak` gets forefront placement. A three-tier system felt like the right amount of
   personalization for a 6-question-per-subtest sample; more tiers would be reading more precision
   into that sample than it actually has.
+
+---
+
+## 2026-08-30 — "Next chapter" navigation + explanation-depth standard (Trey's request, same day)
+
+Two more same-day requests, both about the loop between finishing a chapter/question and doing
+the next useful thing without a manual detour.
+
+### Next-chapter navigation
+Passing a chapter's test-out or mastery check dropped you on a results screen with "Back to the
+chapter" as the only way forward - re-finding the next chapter meant navigating back to the map
+by hand. `ChapterView.jsx` (once `done`) and `DrillRunner.jsx`'s results screen (whenever
+`isChapterDone(progress, chapter.id)` is true - covers a gate just passed AND casual practice on
+an already-done chapter) now both show a **"Next: {title} →"** button, computed via
+`nextPersonalizedChapter()` (the same personalization from the diagnostic work above - weakest
+subtest first). Verified live in a headless browser, not just unit tests: seeded a completed
+chapter, clicked through from both entry points, confirmed it lands on and correctly renders the
+next chapter each time (a genuine bug surfaced first attempt - reading the DOM immediately after
+`waitForURL` raced React's re-render; settled with a short wait, confirmed real, not a race in
+the app itself).
+
+### Explanation-depth standard
+Trey's complaint, with four concrete examples across a live session: gate-test explanations were
+2 lines of mechanical arithmetic retracing, useless to someone who doesn't already know the
+CONCEPT - "if I don't know reciprocal means, this answer is useless," "what is I? what is PRT?,"
+"if I don't know WHY 7 was multiplied I won't understand it's because this problem was over 7
+years." One example (`ch09-geometry-foundations.md`'s "Vertical angles — the pair opposite each
+other where two lines cross") was from LESSON markdown, not a generated explanation - the same
+terseness problem exists in both content types.
+
+**The corrected standard, established via example rather than a written spec:** every
+explanation must (1) name and DEFINE every symbol/term used in plain English before using it
+(reciprocal, coefficient, exponent, base, remote interior angle, vertical angles, scale
+factor - none assumed known), (2) state the general rule/concept in words, not just the
+instance's arithmetic, (3) explicitly map this problem's specific numbers to their role and WHY
+("t = 7 because the problem states the money sits for 7 years," not just "x 7"), (4) show the
+computation, (5) name the trap and explain WHY it's wrong, not just that it's wrong. Target
+length is 6-7 sentences, not 2. Verified per-template against `npm run afoqt:sample`, per this
+project's own doctrine that `afoqt:selftest` proves a question well-FORMED, never well-WRITTEN.
+
+**Done this pass:** all of `mk-01-fluency` (8 templates), `mk-03-percent` (5, including the exact
+`mk-simple-interest` template Trey quoted), `mk-05-exponents` (7, including the exact
+`mk-negative-exponent` template Trey quoted), `mk-09-geometry-foundations` (7, Trey's
+self-named weakest area) = **27 of 330 templates**, plus the one flagged markdown lesson section
+(the two terse bullets in `ch09-geometry-foundations.md` §1, now with a worked example each).
+Two real pre-existing defects were caught and fixed along the way, not introduced by this pass:
+`mk-term-translation`'s explanation claimed "decreased by" reverses word order the same as "less
+than"/"subtracted from" - this directly CONTRADICTS the same chapter's own lesson text ("a number
+decreased by 4 → n − 4, this one does not reverse"), and was silently teaching the wrong rule.
+And `mk-negative-exponent`'s rewrite first shipped with a redundant `= 49/36 = 49/36` (citing
+`correct` twice, once inline and once via the variable) - caught by actually running
+`afoqt:sample` and reading the output rather than trusting the source.
+
+### First actual figure for a lesson concept
+Mid-session, Trey flagged that even a rewritten "vertical angles" definition can't fully land in
+prose alone - some geometry concepts need a picture, not more words. Built
+`render/AnglePairDiagram.jsx`: two crossing lines with all four angle regions labeled and
+color-coded (a vertical pair shares a color; any two adjacent labels are a linear pair, summing
+to 180) - a small reusable region-math primitive, not a one-off drawing, though only this one
+instance exists so far. Markdown lessons can't embed a live React component inline
+(`react-markdown` renders plain markdown, and raw-HTML passthrough still wouldn't let a component
+compute its own angle math), so `curriculum/chapterFigures.jsx` maps a chapter id to a figure
+component and `ChapterView.jsx` renders it right above the lesson prose when present, rather than
+trying to splice it into the markdown string. Verified with a real browser screenshot, not just
+that it compiles - labels read 38°/142°/38°/142°, confirming the region math (opposite angles
+equal, adjacent angles sum to 180) actually matches what's drawn.
+
+✂️ Only `mk-09-geometry-foundations` has a figure. The transversal relationships (§2 of the same
+chapter - corresponding/alternate/same-side, arguably needing a picture even more than vertical
+angles do), the triangle chapters (10, 11), and every other geometry-adjacent concept elsewhere
+in the curriculum are still text-only. `AnglePairDiagram` itself only draws one scene (two
+crossing lines); a transversal figure (two parallel lines + one crossing line + eight angles) or
+a labeled triangle would each need their own component in the same style, not a config change to
+this one.
+
+### ✂️ NOT done this pass - the real remaining scope, stated plainly
+This is 27 of 330 templates (8%). Every other MK chapter (10, 11, 12, 13 - two more geometry
+chapters plus coordinate geometry and probability/stats, ~27 templates) and all 11 other
+subtests (Arithmetic Reasoning, Word Knowledge, Table Reading, Instrument Comprehension, Block
+Counting, Aviation Information, Reading Comprehension, Verbal Analogies, Physical Science,
+Situational Judgment - roughly 275 more templates, several using a shared fact-engine/data-row
+architecture (`engine/facts.js`, `engine/analogy.js`, `engine/judgment.js`) rather than
+`registerTemplate()` generate-functions, which changes HOW this gets fixed there: likely an
+engine-level explanation-builder change reaching many rows at once, rather than 275 individual
+hand-rewrites) still have the old short explanations. The lesson-markdown audit is also
+incomplete - only `ch09-geometry-foundations.md`'s flagged section was checked; other chapters
+may have the same bullet-glossary terseness and have not been read specifically looking for it.
+Continuing this is real, ongoing content-authoring work, not a mechanical pass - flagged here so
+it isn't mistaken for finished.
+
+### Tests / verification
+`npx vitest run` → 3240/3240 (explanation text changes don't touch structural contracts, but
+verified anyway). `npm run afoqt:check` → unchanged, 742 lesson-minutes / 330 templates /
+coverage holds both directions (no chapters, concepts, or template registrations touched - only
+explanation strings and two markdown bullets). `npm run build` clean. Every rewritten template
+sampled via `npm run afoqt:sample -- --only=<id>` and read, not just structurally validated.
+
+### Also shipped same session: a site-wide Notes tab (unrelated to AFOQT)
+Trey asked for a persistent scratch-notes panel reachable from every page via a nav-adjacent
+toggle - `src/components/NotesPanel.jsx` + `.css`, mounted once in `App.jsx` outside `<Routes>`
+so it survives navigation. Plain text, localStorage only (`astral_notes_v1`), no formatting, no
+sync - "nothing fancy" per the ask. Anchored as a vertical edge-tab at the right-middle of the
+viewport rather than literally inside the Navbar markup, specifically because most sub-apps
+(AFOQT included) hide the global Navbar for their own top bar (see root CLAUDE.md "One top bar
+per tool") - an edge-tab mounted at the App shell level stays reachable everywhere regardless.
+First draft had a real bug: a "persist on [text, open] change" effect sitting next to a "load
+from storage on mount" effect races on every remount, since React fires an effect for its own
+initial run regardless of dependencies - the persist effect saw the still-default state and
+silently overwrote a just-loaded real note with empty values before the load effect's setState
+had re-rendered. Fixed by reading storage via a lazy `useState` initializer (runs once) and
+writing explicitly inside each handler instead of through a reactive effect. Caught by an actual
+browser reload test, not by reasoning about the code - confirmed working across a reload and on
+a page with its own top bar (`/TKB/afoqt`) after the fix.

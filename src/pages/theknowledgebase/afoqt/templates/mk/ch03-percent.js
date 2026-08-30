@@ -34,7 +34,7 @@ registerTemplate({
       stem: `What is ${p}% of ${n}?`,
       choices, correctIndex,
       tags: ['percent'],
-      explanation: `${p}% = ${p / 100}, and "of" means multiply: ${p / 100} x ${n} = ${num(correct)}.`,
+      explanation: `A percent is a fraction out of 100, so ${p}% literally means "${p} out of every 100," or ${p / 100} written as a decimal. The word "of" sitting between a percent and a number is an instruction to multiply - the same job it does in "half of 12" (1/2 x 12). So "${p}% of ${n}" means: convert ${p}% to the decimal ${p / 100}, then multiply that by ${n}: ${p / 100} x ${n} = ${num(correct)}. The most common slip is moving the decimal point the wrong number of places when converting the percent - ${p}% is ${p / 100}, not ${num(p / 10)} (one place) or ${num(p / 1000)} (three places), because "per-CENT" means per hundred, which is always exactly two places. A second common miss is computing "the rest" - the ${100 - p}% of ${n} left over - instead of the ${p}% actually asked for, which answers a completely different question with a completely different number.`,
     };
   },
 });
@@ -69,7 +69,7 @@ registerTemplate({
       stem: `A quantity ${up ? 'rises' : 'falls'} from ${original} to ${num(nv)}. What is the percent ${up ? 'increase' : 'decrease'}?`,
       choices, correctIndex,
       tags: ['percent'],
-      explanation: `Change = ${num(delta)}. Percent change = change / ORIGINAL = ${num(delta)}/${original} = ${num(pct)}%. Dividing by the new value instead gives ${num(Math.round((delta / nv) * 1000) / 10)}%, which is the single most common error on this question type.`,
+      explanation: `Percent change measures how big a change is RELATIVE to where the quantity started, so the formula is: percent change = (amount of change) / (ORIGINAL value). "Original" specifically means the number before anything happened - never the new number, and never some average of the two. Here the quantity ${up ? 'rises' : 'falls'} from ${original} to ${num(nv)}, so the change itself is ${num(delta)}, and the value to divide by is the starting one, ${original} - not the ending one, ${num(nv)}. Dividing: ${num(delta)} / ${original} = ${num(pct)}%. The single most common mistake is dividing by the NEW value instead of the original, which gives ${num(Math.round((delta / nv) * 1000) / 10)}% - a real number, just the answer to a different question ("how big is the change compared to where I ended up" rather than "compared to where I started"). Percent change always looks backward to the starting point, because that starting point is the base the word "change" is being measured against.`,
     };
   },
 });
@@ -100,7 +100,7 @@ registerTemplate({
       stem: `$${principal} is invested at ${rate}% simple interest for ${years} years. How much INTEREST is earned?`,
       choices, correctIndex,
       tags: ['percent'],
-      explanation: `I = Prt = ${principal} x ${rate / 100} x ${years} = ${money(correct)}. Simple interest is charged on the original principal every year - it never earns interest on itself, and the question asks for the interest, not the balance (${money(principal + correct)}).`,
+      explanation: `The formula I = P x r x t calculates simple interest, where I is the Interest earned (what the question asks for), P is the Principal (the original amount invested), r is the annual interest Rate written as a decimal, and t is the Time the money is invested, in years. "Simple" means the interest is calculated on the ORIGINAL principal every single year - unlike compound interest, it never earns interest on interest already earned, so the same dollar amount is added each year rather than a growing one. Here, P = ${principal} (the amount invested), r = ${rate / 100} (the ${rate}% rate written as a decimal, since percent means "per hundred"), and t = ${years} because the problem states the money sits for ${years} years - t is always whatever number of years the question names, nothing more or less. Multiplying all three: I = ${principal} x ${rate / 100} x ${years} = ${money(correct)}. Two different mistakes produce the two most common wrong answers: forgetting to multiply by t at all gives just one year's interest (${money((principal * rate) / 100)}), which is what you'd get if the money had only sat for a single year regardless of what t actually says; and answering with the account's final BALANCE (${money(principal + correct)}) instead of the interest confuses "how much it grew" with "how much is there now" - the question specifically asks for the interest EARNED, which is only the I, not the P + I.`,
     };
   },
 });
@@ -132,7 +132,7 @@ registerTemplate({
       stem: `A $${price} jacket is marked down ${d1}%, and the sale price is then reduced a further ${d2}%. What is the final price?`,
       choices, correctIndex,
       tags: ['percent'],
-      explanation: `${d1}% off leaves ${money(price * (1 - d1 / 100))}. Taking ${d2}% off THAT leaves ${money(correct)}. Successive discounts multiply (${num(((1 - d1 / 100) * (1 - d2 / 100) - 1) * 100)}% overall), they never add to ${d1 + d2}%, because the second discount applies to a smaller base.`,
+      explanation: `Each discount is a percentage OF WHATEVER PRICE EXISTS AT THAT MOMENT, not of the original price - so two discounts in a row apply one after another to a shrinking base rather than combining into one bigger percentage. Taking ${d1}% off the original $${price} leaves ${money(price * (1 - d1 / 100))} (that's ${100 - d1}% of the original remaining). Taking ${d2}% off THAT new, smaller amount - not off the original $${price} again - leaves ${money(correct)}. The overall discount from the original price works out to ${num(((1 - d1 / 100) * (1 - d2 / 100) - 1) * -100)}%, which is NOT the same as simply adding ${d1}% + ${d2}% = ${d1 + d2}% - adding them assumes both discounts came out of the same original price, but the second one actually came out of a price that had already shrunk. This is exactly why "stacking" discounts is always a little less generous than it sounds: ${d2}% of a smaller number is fewer dollars than ${d2}% of the original price.`,
     };
   },
 });
@@ -163,7 +163,7 @@ registerTemplate({
       stem: `${num(part)} is ${p}% of what number?`,
       choices, correctIndex,
       tags: ['percent'],
-      explanation: `part = percent x whole, so whole = part / percent = ${num(part)} / ${p / 100} = ${num(whole)}. Taking ${p}% OF ${num(part)} instead gives ${num((part * p) / 100)} - the right operation run backwards.`,
+      explanation: `Every percent problem relates three quantities through one relationship: part = percent x whole, where "whole" is the total amount, "percent" is the share of it being described, and "part" is the piece that share works out to. This question gives you the part (${num(part)}) and the percent (${p}%), and asks for the missing WHOLE - so the formula has to be rearranged to solve for whole instead of part: whole = part / percent. As decimals: whole = ${num(part)} / ${p / 100} = ${num(whole)}. The reflex mistake is to do what you'd do if the whole were already known and the part were missing - multiply ${num(part)} by ${p}% instead of dividing by it - which gives ${num((part * p) / 100)}, a smaller and unrelated number, because multiplying by a percent under 100% always shrinks a value, while dividing by it (to recover the whole) grows it back up. Reading which of the three quantities - part, whole, or percent - is actually missing decides whether the next step is a multiplication or a division, before any arithmetic even starts.`,
     };
   },
 });

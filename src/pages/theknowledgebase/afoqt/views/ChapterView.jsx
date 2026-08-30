@@ -3,9 +3,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useAfoqt } from '../AfoqtApp';
-import { getChapter, isUnlocked } from '../curriculum/chapters';
+import { getChapter, isUnlocked, CHAPTERS } from '../curriculum/chapters';
 import { getLesson } from '../curriculum/lessons';
+import { CHAPTER_FIGURES } from '../curriculum/chapterFigures';
 import { chapterState, isChapterDone, markLessonRead, MASTERY_THRESHOLD, latestDiagnostic } from '../afoqtStorage';
+import { nextPersonalizedChapter } from '../curriculum/personalize';
 import { templatesFor } from '../engine/generator';
 import { getSubtest } from '../engine/afoqtSpec';
 import {
@@ -59,6 +61,10 @@ export default function ChapterView() {
   const diag = latestDiagnostic(progress);
   const tier = diag ? subtestTier(diag.results, chapter.subtest) : null;
   const diagAcc = diag ? diagnosticSubtestAccuracy(diag.results, chapter.subtest) : null;
+  // The whole point: once this chapter is done, the next one should be one click away right
+  // here, not a trip back to the map to go find it - same complaint applies to DrillRunner's
+  // own results screen, which offers the identical button after a passing gate.
+  const nextChapter = done ? nextPersonalizedChapter(CHAPTERS, progress, diag?.results ?? null) : null;
   const expedited = tier === 'strong' && chapter.testOutPass !== 5;
   const testOutCount = expedited ? EXPEDITED_TEST_OUT_COUNT : TEST_OUT_COUNT;
   const testOutNeed = expedited ? EXPEDITED_TEST_OUT_COUNT : chapter.testOutPass;
@@ -92,9 +98,18 @@ export default function ChapterView() {
           <p className="afq-note">{chapter.summary}</p>
         </div>
         {done && (
-          <span className={'afq-badge' + (st.testedOut ? ' afq-badge-fast' : '')}>
-            {st.testedOut ? 'Tested out' : 'Complete'}
-          </span>
+          <div className="afq-chapter-done-block">
+            <span className={'afq-badge' + (st.testedOut ? ' afq-badge-fast' : '')}>
+              {st.testedOut ? 'Tested out' : 'Complete'}
+            </span>
+            {nextChapter ? (
+              <button className="afq-btn afq-primary" onClick={() => navigate(`/TKB/afoqt/learn/${nextChapter.id}`)}>
+                Next: {nextChapter.title} →
+              </button>
+            ) : (
+              <span className="afq-note">🎉 Every chapter done</span>
+            )}
+          </div>
         )}
       </header>
 
@@ -169,6 +184,12 @@ export default function ChapterView() {
 
       {open && lesson && (
         <article className="afq-lesson">
+          {CHAPTER_FIGURES[chapter.id] && (
+            <div className="afq-lesson-figure">
+              <p className="afq-note">{CHAPTER_FIGURES[chapter.id].caption}</p>
+              {(() => { const { Component } = CHAPTER_FIGURES[chapter.id]; return <Component />; })()}
+            </div>
+          )}
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{lesson}</ReactMarkdown>
           {!st.lessonRead && (
             <button

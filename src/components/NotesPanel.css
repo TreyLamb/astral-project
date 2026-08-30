@@ -1,0 +1,89 @@
+/* Floating scratch-notes tab + panel, visible on every page regardless of whether that page
+   hides the global Navbar (see webdesign.md "One top bar per tool"). Anchored to the vertical
+   middle of the right edge rather than tucked into the top bar itself, so it never collides
+   with the wildly different top-bar heights/layouts each sub-app already has. */
+
+.notes-tab {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 5000;
+  writing-mode: vertical-rl;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  background: rgba(7, 10, 18, 0.88);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.notes-tab:hover { background: rgba(255, 255, 255, 0.1); }
+.notes-tab-open { writing-mode: horizontal-tb; }
+
+.notes-panel {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 4999;
+  width: min(320px, 90vw);
+  max-height: min(70vh, 520px);
+  display: flex;
+  flex-direction: column;
+  background: rgba(10, 14, 24, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  box-shadow: -6px 6px 24px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.notes-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e4edfb;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.notes-clear {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+.notes-clear:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+
+.notes-panel-text {
+  flex: 1;
+  min-height: 200px;
+  resize: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #e4edfb;
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 0.85rem;
+}
+
+.notes-panel-text::placeholder { color: rgba(200, 215, 238, 0.4); }
+
+@media (max-width: 480px) {
+  .notes-panel { max-height: 60vh; }
+}

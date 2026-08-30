@@ -10,6 +10,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
 import Navbar from './components/Navbar';
+import NotesPanel from './components/NotesPanel';
 import Home from './pages/Home';
 import DailyIdiom from './pages/DailyIdiom';
 import DailyIdiomWidget from './pages/DailyIdiomWidget';
@@ -54,6 +55,9 @@ function App() {
               way out. */}
           <Boundary scope="nav" title="The site nav stopped working." resetId="nav">
             <Navbar />
+          </Boundary>
+          <Boundary scope="notes" title="Notes stopped working." resetId="notes">
+            <NotesPanel />
           </Boundary>
           <RouteBoundary>
           <Routes>

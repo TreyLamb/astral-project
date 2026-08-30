@@ -3,8 +3,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
 import { assembleDrill } from '../engine/drill';
 import { getSubtest } from '../engine/afoqtSpec';
-import { getChapter } from '../curriculum/chapters';
-import { recordTestOut, recordMastery, MASTERY_THRESHOLD } from '../afoqtStorage';
+import { getChapter, CHAPTERS } from '../curriculum/chapters';
+import { recordTestOut, recordMastery, MASTERY_THRESHOLD, isChapterDone, latestDiagnostic } from '../afoqtStorage';
+import { nextPersonalizedChapter } from '../curriculum/personalize';
 import { paceBudget, paceCheck, shouldNudgeAbandon, shouldWarnGuessSweep, formatClock } from '../engine/timing';
 import { labelFor } from '../engine/errorModes';
 import Figure from '../render/Figure';
@@ -243,6 +244,14 @@ export default function DrillRunner() {
       ? Math.round((answers.reduce((n, a) => n + a.elapsedMs, 0) / answers.length) / 100) / 10
       : 0;
     const overPace = avgSec - budget.realSecPerQuestion;
+    // `progress` already reflects this run's recordTestOut/recordMastery mutate() call by the
+    // time this renders, so isChapterDone is checked fresh here rather than re-deriving pass/fail
+    // locally - covers a just-passed gate AND a practice run on a chapter that was already done.
+    // This is the fix for "don't make me go back to the map to find the next chapter."
+    const chapterDoneNow = chapter && isChapterDone(progress, chapter.id);
+    const nextChapter = chapterDoneNow
+      ? nextPersonalizedChapter(CHAPTERS, progress, latestDiagnostic(progress)?.results ?? null)
+      : null;
     return (
       <div className={'afq-runner afq-summary' + (wide ? ' afq-runner-wide' : '')}>
         <h2>{right} / {questions.length}</h2>
@@ -350,8 +359,16 @@ export default function DrillRunner() {
           </section>
         )}
 
+        {chapterDoneNow && !nextChapter && (
+          <p className="afq-note">🎉 Every chapter done — nothing left to move on to.</p>
+        )}
         <div className="afq-row">
-          <button className="afq-btn afq-primary" onClick={() => navigate(0)}>Again</button>
+          {nextChapter && (
+            <button className="afq-btn afq-primary" onClick={() => navigate(`/TKB/afoqt/learn/${nextChapter.id}`)}>
+              Next: {nextChapter.title} →
+            </button>
+          )}
+          <button className={'afq-btn' + (nextChapter ? '' : ' afq-primary')} onClick={() => navigate(0)}>Again</button>
           {chapter
             ? <button className="afq-btn" onClick={() => navigate(`/TKB/afoqt/learn/${chapter.id}`)}>Back to the chapter</button>
             : <button className="afq-btn" onClick={() => navigate('/TKB/afoqt/drill')}>Change drill</button>}

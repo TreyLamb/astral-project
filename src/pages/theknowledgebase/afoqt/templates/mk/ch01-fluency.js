@@ -38,7 +38,7 @@ registerTemplate({
       stem: `${a} + ${b}(${c} - ${d})^2 = ?`,
       choices, correctIndex,
       tags: ['arithmetic'],
-      explanation: `Parentheses first: ${c} - ${d} = ${diff}. Then the exponent: ${diff}^2 = ${diff ** 2}. Then multiply: ${b} x ${diff ** 2} = ${b * diff ** 2}. Add last: ${a} + ${b * diff ** 2} = ${correct}. (${c} - ${d})^2 is NOT ${c}^2 - ${d}^2.`,
+      explanation: `Order of operations (PEMDAS) is a strict priority list, not a suggestion: work out anything inside Parentheses first, then Exponents, then Multiplication/Division left to right, and only then Addition/Subtraction left to right - each step must fully finish before the next one starts. Here the parentheses go first: ${c} - ${d} = ${diff}. That result gets squared next, because the exponent applies to the whole parenthetical group, not to ${c} and ${d} individually: ${diff}^2 = ${diff ** 2}. Only now does multiplication happen: ${b} x ${diff ** 2} = ${b * diff ** 2}. Addition is last: ${a} + ${b * diff ** 2} = ${correct}. The trap built into this shape is that (${c} - ${d})^2 is NOT ${c}^2 - ${d}^2: squaring a difference means multiplying (${c} - ${d}) by itself, which expands to ${c}^2 - 2(${c})(${d}) + ${d}^2 - treating the exponent as if it applies to each term separately silently drops that middle "cross" term entirely, and a dropped term is a different number, not a rounding error.`,
     };
   },
 });
@@ -77,7 +77,7 @@ registerTemplate({
       stem: `${a}/${b} + ${c}/${d} = ?`,
       choices, correctIndex,
       tags: ['fractions'],
-      explanation: `Common denominator ${b * d}: ${a}/${b} = ${a * d}/${b * d} and ${c}/${d} = ${c * b}/${b * d}. Sum = ${a * d + c * b}/${b * d} = ${correct}. Adding numerators AND denominators gives ${frac(a + c, b + d).s}, which is never right.`,
+      explanation: `A fraction's denominator names the SIZE of the pieces being counted, and piece-counts can only be added directly once both fractions are counting the same size piece - so before ${a}/${b} and ${c}/${d} can be added, both need to be rewritten over a shared denominator. Multiplying the two denominators together (${b} x ${d} = ${b * d}) always produces a valid shared one. To keep each fraction's VALUE unchanged while its denominator changes, whatever the bottom is multiplied by, the top must be multiplied by too: ${a}/${b} becomes ${a * d}/${b * d}, and ${c}/${d} becomes ${c * b}/${b * d}. Only once both fractions count the same-size pieces can the numerators be added directly: ${a * d} + ${c * b} = ${a * d + c * b}, over ${b * d}, which is ${correct}. The trap is adding straight across the ORIGINAL fractions - numerator plus numerator, denominator plus denominator, giving ${frac(a + c, b + d).s} - which is never valid, because it changes what size piece is being counted partway through instead of converting both fractions to a common size first.`,
     };
   },
 });
@@ -114,7 +114,7 @@ registerTemplate({
       stem: `${w1} ${n1}/${d1} x ${w2} ${n2}/${d2} = ?`,
       choices, correctIndex,
       tags: ['fractions'],
-      explanation: `Convert first: ${w1} ${n1}/${d1} = ${i1}/${d1}, ${w2} ${n2}/${d2} = ${i2}/${d2}. Multiply: ${i1 * i2}/${d1 * d2} = ${correct}. Multiplying the whole parts and the fraction parts separately gives ${mixed(w1 * w2 * d1 * d2 + n1 * n2, d1 * d2)} and drops the two cross terms.`,
+      explanation: `A mixed number like ${w1} ${n1}/${d1} is shorthand for a whole number PLUS a fraction added together, not a single multiplicative unit - so before two mixed numbers can be multiplied, each must first be rewritten as one improper fraction. To convert, multiply the whole number by the denominator and add the existing numerator: ${w1} ${n1}/${d1} becomes (${w1} x ${d1} + ${n1})/${d1} = ${i1}/${d1}, and ${w2} ${n2}/${d2} becomes ${i2}/${d2} the same way. Once both are plain fractions, multiplying is straightforward - numerator times numerator, denominator times denominator: ${i1} x ${i2} over ${d1} x ${d2} = ${i1 * i2}/${d1 * d2}, which is ${correct}. The trap is multiplying the whole-number parts together and the fraction parts together SEPARATELY, then adding those two results (${mixed(w1 * w2 * d1 * d2 + n1 * n2, d1 * d2)}) - that looks reasonable but silently discards two "cross" pieces a real multiplication produces (one whole part times the other's fraction, both ways), the same missing-cross-term mistake that shows up when squaring a binomial. Converting to an improper fraction first isn't a formality; it's what forces those cross terms to be included automatically.`,
     };
   },
 });
@@ -151,7 +151,7 @@ registerTemplate({
       stem: `|${a} - ${b}| - |${c} - ${d}| = ?`,
       choices, correctIndex,
       tags: ['arithmetic'],
-      explanation: `|${a} - ${b}| = ${first} and |${c} - ${d}| = ${second}, so ${first} - ${second} = ${correct}. The bars apply BEFORE the subtraction between them - they do not make the final answer positive.`,
+      explanation: `Absolute value bars mean "distance from zero," which is always zero or positive - but that positivity applies only to what's directly INSIDE one pair of bars, and stops the instant you step outside them. There are two separate absolute-value expressions here, so each resolves independently first: |${a} - ${b}| = ${first} and |${c} - ${d}| = ${second} (both differences are negative before the bars, and the bars flip them positive). Only after both bars are resolved does the OUTER subtraction happen: ${first} - ${second} = ${correct}. The trap is assuming that because absolute values are involved, the final answer must also come out positive - but there are no bars around the outer subtraction itself, so once each bar has done its one job, ordinary subtraction (which can absolutely go negative) takes over for what's left. Treating "|x| - |y|" as if it behaves like "|x - y|" is a different expression, with the bars in a different place and no rule guaranteeing a positive result.`,
     };
   },
 });
@@ -180,7 +180,7 @@ registerTemplate({
       stem: `Express ${dec} as a percent.`,
       choices, correctIndex,
       tags: ['percent'],
-      explanation: `Percent means "per hundred", so multiply by 100 - move the decimal point two places RIGHT: ${dec} -> ${correct}.`,
+      explanation: `Percent literally means "per hundred," so turning any decimal into a percent is always the same mechanical move: multiply by 100, which shifts the decimal point exactly two places to the RIGHT. Here, ${dec} x 100 = ${correct}. A common wrong answer just tacks a "%" sign directly onto the original digits with no shift at all (${n}%) - but a percent sign isn't decoration, it's shorthand for "divide by 100," so leaving the value unshifted while adding that sign silently changes what the number means. Other wrong answers on this question type come from shifting the right direction but the wrong number of places - one place instead of two, or three instead of two. Decimal-to-percent conversions are unforgiving about exactly two places, never more and never fewer.`,
     };
   },
 });
@@ -249,7 +249,7 @@ registerTemplate({
       stem: `Which expression represents "${t.phrase}"?`,
       choices, correctIndex,
       tags: ['algebra', 'vocabulary'],
-      explanation: `"${t.phrase}" translates term by term to ${t.correct}. Watch the order: "less than", "decreased by" and "subtracted from" all REVERSE the order they are read in.`,
+      explanation: `Turning English into algebra means finding the operation each key phrase names, then writing the pieces in the order the MATH needs - which is not always the order the words appear in. "${t.phrase}" becomes ${t.correct}. Most phrases translate left to right exactly as read: "the sum of," "the product of," "times," and "increased by" all just insert their operation between the two quantities in the order given. A specific handful of phrases work backwards from how they read: "X less than Y" means Y − X, not X − Y, and "X subtracted from Y" means Y − X as well - in both, the quantity named FIRST is the one being taken away, not the one being taken away from. "Decreased by" looks like it belongs in that same reversing group but does not: "Y decreased by X" keeps natural order, Y − X, because "decreased by" describes what happens TO the first-named quantity rather than naming something being subtracted from a later one. Reading which specific phrase is in play - not just recognizing "a subtraction is here somewhere" - is what separates a translation that merely looks plausible from one that is actually correct.`,
     };
   },
 });
@@ -280,7 +280,7 @@ registerTemplate({
       stem: `What is the greatest common factor of ${a} and ${b}?`,
       choices, correctIndex,
       tags: ['number-theory'],
-      explanation: `${a} = ${g} x ${m} and ${b} = ${g} x ${n}, and ${m} and ${n} share no factor, so the GCF is ${g}. ${g * m * n} is their LEAST COMMON MULTIPLE - the opposite question.`,
+      explanation: `The Greatest Common Factor (GCF) of two numbers is the largest number that divides evenly into BOTH of them, so it can never be larger than the smaller of the two. Breaking each number down as (shared factor) x (leftover factor) shows this directly: ${a} = ${g} x ${m} and ${b} = ${g} x ${n}. The ${g} is common to both - and since ${m} and ${n} themselves share no factor between them, there's nothing bigger left to pull out, which makes ${g} the greatest common factor. The trap on this question type is answering ${g * m * n} instead - a real number, just the answer to the OPPOSITE question: it's the Least Common Multiple (the smallest number both ${a} and ${b} divide INTO), not the greatest common factor (the largest number that divides INTO both of them). GCF and LCM move in opposite directions - one shrinks toward the smaller starting number, the other grows past the larger one - so confusing them produces an answer bigger than both original numbers instead of smaller.`,
     };
   },
 });
@@ -307,7 +307,7 @@ registerTemplate({
       stem: `What is the least common multiple of ${a} and ${b}?`,
       choices, correctIndex,
       tags: ['number-theory'],
-      explanation: `LCM = (${a} x ${b}) / GCF = ${a * b} / ${gcd(a, b)} = ${correct}. ${a * b} IS a common multiple, but it is not the least one whenever the two numbers share a factor.`,
+      explanation: `The Least Common Multiple (LCM) of two numbers is the SMALLEST number both of them divide into evenly, so it can never be smaller than the larger of the two. The reliable way to find it is LCM = (first number x second number) / GCF - dividing by the GCF is necessary because simply multiplying the two numbers (${a} x ${b} = ${a * b}) double-counts whatever factor they already share. The GCF of ${a} and ${b} is ${gcd(a, b)}, so LCM = ${a * b} / ${gcd(a, b)} = ${correct}. The trap is stopping after the multiplication and answering ${a * b} directly - that number IS a common multiple (both ${a} and ${b} do divide into it evenly), but it is only the LEAST one when the two numbers share no factor to begin with. Since ${a} and ${b} do share a factor here (${gcd(a, b)}), skipping the division step gives a real but needlessly large common multiple, not the smallest one the question actually asks for.`,
     };
   },
 });

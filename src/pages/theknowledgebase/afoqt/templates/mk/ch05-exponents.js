@@ -38,7 +38,7 @@ registerTemplate({
       stem: `Simplify: (${c1}x^${e1})(${c2}x^${e2})`,
       choices, correctIndex,
       tags: ['algebra', 'exponents'],
-      explanation: `Multiply coefficients (${c1} x ${c2} = ${c1 * c2}) and ADD exponents (${e1} + ${e2} = ${e1 + e2}). Multiplying the exponents is the usual slip.`,
+      explanation: `In an expression like ${c1}x^${e1}, the ${c1} out front is the coefficient (the plain number multiplying the variable), and the ${e1} is the exponent - it says how many times x, the base, gets multiplied by itself. When two expressions with the SAME base are multiplied, the coefficients multiply together normally (${c1} x ${c2} = ${c1 * c2}), but the exponents ADD rather than multiply: x^${e1} times x^${e2} means "x multiplied by itself ${e1} times, then ${e2} MORE times," which is x multiplied by itself ${e1 + e2} times total. So (${c1}x^${e1})(${c2}x^${e2}) = ${c1 * c2}x^${e1 + e2}. The trap is multiplying the exponents instead of adding them (giving x^${e1 * e2}) - that operation belongs to a DIFFERENT situation, raising an already-exponentiated term to another power, not to multiplying two separate powers of x together.`,
     };
   },
 });
@@ -75,7 +75,7 @@ registerTemplate({
       stem: `Simplify: ${c1}x^${e1} / ${c2}x^${e2}`,
       choices, correctIndex,
       tags: ['algebra', 'exponents'],
-      explanation: `Divide the coefficients (${c1} / ${c2} = ${k}) and SUBTRACT the exponents (${e1} - ${e2} = ${e1 - e2}). The coefficients divide; only the exponents subtract.`,
+      explanation: `Dividing two powers of the same base works almost like multiplying them, but in reverse: the coefficients (the plain numbers out front) divide normally, while the exponents (which count repeated multiplications of the base) SUBTRACT instead of adding. That's because x^${e1} / x^${e2} means "${e1} copies of x, with ${e2} of them cancelled by the division," leaving x^${e1 - e2}. Applying that: the coefficients divide to ${c1} / ${c2} = ${k}, and the exponents subtract to ${e1} - ${e2} = ${e1 - e2}, giving ${k}x^${e1 - e2}. A common mistake is subtracting the coefficients instead of dividing them (giving ${c1 - c2} instead of ${k}) - the coefficients and exponents deliberately follow OPPOSITE rules here: the coefficients are just ordinary numbers being divided, while the exponents are counts of repeated multiplication being cancelled out, which is a subtraction of counts, not a division.`,
     };
   },
 });
@@ -109,7 +109,7 @@ registerTemplate({
       stem: `Simplify: (${c}x^${m})^${n}`,
       choices, correctIndex,
       tags: ['algebra', 'exponents'],
-      explanation: `The outer power hits EVERYTHING inside: ${c}^${n} = ${c ** n} and x^(${m} x ${n}) = x^${m * n}. Leaving the coefficient as ${c} is the most common miss.`,
+      explanation: `Raising an already-exponentiated expression to another power - (${c}x^${m})^${n} - means multiplying the ENTIRE expression inside the parentheses by itself ${n} times, which applies the outer exponent to every piece inside, including the plain-number coefficient, not just the variable. The coefficient ${c} raised to the ${n} power is ${c ** n} (not left as plain ${c}), and the exponent on x multiplies rather than adds, because "x^${m}, repeated ${n} times over" means x has now been multiplied by itself ${m} x ${n} = ${m * n} times total. So (${c}x^${m})^${n} = ${c ** n}x^${m * n}. The single most common miss is leaving the coefficient unchanged as ${c} while still correctly updating the exponent on x - the outer power applies to everything inside the parentheses, a plain number exactly as much as a variable with an exponent.`,
     };
   },
 });
@@ -141,7 +141,7 @@ registerTemplate({
       stem: `Evaluate: (${a}/${b})^-${n}`,
       choices, correctIndex,
       tags: ['exponents'],
-      explanation: `A negative exponent means RECIPROCAL, not negative: (${a}/${b})^-${n} = (${b}/${a})^${n} = ${correct}. The sign of the answer never changes.`,
+      explanation: `A negative exponent is an instruction to take the RECIPROCAL of whatever is being raised to that power, and then apply the power as a positive number - it is not an instruction to make the result negative. (A reciprocal is what you get by flipping a fraction upside down, swapping which number is on top and which is on bottom: the reciprocal of ${a}/${b} is ${b}/${a}.) This rule exists because exponents follow a consistent pattern - each time the exponent goes down by 1, the value gets divided by the base one more time, and dividing by something repeatedly is the same as multiplying by its reciprocal repeatedly, so a negative exponent is simply that pattern continued past zero. So (${a}/${b})^-${n} means: first flip the fraction to its reciprocal, ${b}/${a}, THEN raise that to the positive power ${n}: (${b}/${a})^${n} = ${b ** n}/${a ** n}. The trap is treating the minus sign as if it belongs to the final ANSWER, making the result negative (-${b ** n}/${a ** n}) - but the negative sign on the exponent is an instruction about flipping the fraction, not a sign that carries through to the value itself. A second trap is forgetting to flip at all and applying the exponent directly to ${a}/${b}, which uses the wrong fraction entirely.`,
     };
   },
 });
@@ -171,7 +171,7 @@ registerTemplate({
       stem: `Simplify: (${c}x^${m})(x^-${m})`,
       choices, correctIndex,
       tags: ['exponents'],
-      explanation: `Add the exponents: ${m} + (-${m}) = 0, and x^0 = 1, so the expression is ${c} x 1 = ${c}. Anything nonzero raised to the zero power is 1, not 0.`,
+      explanation: `Multiplying two powers of the same base adds their exponents - the same rule from earlier in this chapter - so x^${m} times x^-${m} gives x^(${m} + (-${m})) = x^0. Any nonzero base raised to the power of zero equals exactly 1, never 0, because dividing a power by itself must always equal 1 (x^${m} / x^${m} is obviously 1, and dividing powers of the same base is the same operation as subtracting their exponents down to zero). So the x^0 here simply becomes 1, and the whole expression collapses to ${c} x 1 = ${c}. The trap is treating x^0 as "zero copies of x, so the term vanishes to nothing" - exponent rules about adding and subtracting apply to the count in the exponent itself, not to an intuition about emptiness, and a zero exponent is a well-defined value (1), never a signal to erase the term.`,
     };
   },
 });
@@ -206,7 +206,7 @@ registerTemplate({
       stem: `Simplify: √${n}`,
       choices, correctIndex,
       tags: ['radicals'],
-      explanation: `${n} = ${s} x ${r}, and ${s} is a perfect square, so √${n} = √${s} x √${r} = ${correct}. What comes out of the radical is the ROOT of the square factor (${out}), not the factor itself.`,
+      explanation: `A radical (the √ symbol) is asking "what number, multiplied by itself, gives this value" - and simplifying one means checking whether the number underneath has a PERFECT SQUARE hiding inside it as a factor (a perfect square is a number that is some whole number times itself, like ${s} = ${out} x ${out}). Here ${n} breaks down into ${s} x ${r}, and ${s} is a perfect square (√${s} = ${out} exactly), so the square root can be split across the multiplication: √${n} = √${s} x √${r}. Only the perfect-square piece gets a clean root pulled out of it - √${s} becomes the whole number ${out}, while √${r} stays under the radical because ${r} has no perfect-square factor left inside it to extract. So √${n} = ${correct}. The trap is pulling ${s} out from under the radical WITHOUT actually taking its square root first - leaving ${s}√${r} instead of ${out}√${r} - but the whole point of spotting a perfect-square factor is replacing it with its OWN root, not just relocating the same number to outside the radical sign.`,
     };
   },
 });
@@ -239,7 +239,7 @@ registerTemplate({
       stem: `Write ${digits} in scientific notation.`,
       choices, correctIndex,
       tags: ['exponents'],
-      explanation: `Scientific notation needs exactly one nonzero digit before the decimal point: ${correct}. Count the places the point moves - ${e} here. ${(m / 10).toFixed(1)} x 10^${e - 1} is the same NUMBER but is not scientific notation.`,
+      explanation: `Scientific notation writes any number as a single digit from 1-9, followed by a decimal point and the remaining digits, multiplied by a power of ten - the power of ten's job is to record how many places the decimal point had to move to get there. Starting from ${digits}, the decimal point (currently after all the digits) has to move left until only one digit (${Math.floor(m / 100)}) remains in front of it: that takes ${e} moves, which is exactly why the exponent on the 10 is ${e}. So ${digits} becomes ${mant} x 10^${e}. A number can be arithmetically correct and still NOT be in scientific notation - ${(m / 10).toFixed(1)} x 10^${e - 1} equals the exact same value, but its leading part (${(m / 10).toFixed(1)}) is 10 or greater, which breaks the "exactly one digit before the decimal point" rule scientific notation requires. Counting the decimal point's moves carefully, rather than guessing at the exponent, is what keeps the leading digit correctly between 1 and 9.`,
     };
   },
 });

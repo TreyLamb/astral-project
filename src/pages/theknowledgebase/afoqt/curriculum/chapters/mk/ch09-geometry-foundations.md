@@ -25,8 +25,20 @@ The complement of 34° is 56°. Its supplement is 146°.
 
 Two more, which are just special cases:
 
-- **Vertical angles** — the pair opposite each other where two lines cross. **Always equal.**
-- **A linear pair** — two angles side by side on a straight line. **Always supplementary.**
+- **Vertical angles.** When two straight lines cross, they don't make four unrelated angles —
+  they make two matching PAIRS, each pair sitting diagonally across the crossing point from each
+  other (picture an X: the top and bottom angles of the X are one pair, the left and right angles
+  are the other pair). Vertical angles are the two angles in one of those diagonal pairs — not
+  the two sitting next to each other along the same line, but the two facing each other across
+  the crossing. They are **always equal**: if the top angle of the X is 40°, the bottom angle
+  (straight across from it) is also 40° — and the left and right angles, the other pair, are each
+  140°.
+- **A linear pair.** Two angles that sit right next door to each other and together make up one
+  full straight line — like a straight line with one ray sticking up out of the middle of it,
+  splitting the 180° on that side into two adjacent pieces. Because a straight line always
+  measures 180° total, the two angles in a linear pair **always sum to 180°** (are always
+  supplementary): if one of them is 110°, the angle right next to it that completes the line is
+  70°.
 
 A full turn is 360°, a straight line is 180°, a right angle is 90°. Angles are **acute**
 (< 90°), **right** (90°), **obtuse** (90–180°) or **reflex** (> 180°).
