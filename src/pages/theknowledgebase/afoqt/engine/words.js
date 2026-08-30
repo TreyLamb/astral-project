@@ -234,6 +234,10 @@ export function wordTemplates({ chapter, band, idBase, name, calibratedAgainst =
           choices, correctIndex, errors, whys,
           tags: ['wk', ...w.concepts],
           explanation: `${cap(w.word)} (${w.pos}) - ${w.gloss}. The trap is "${w.confusable.meaning}", which is what "${w.confusable.word}" means.${w.root ? ` Word parts: "${w.root.form}" means ${w.root.sense}.` : ''}`,
+          // A structural field, not parsed out of the explanation string, so the word bank
+          // (afoqtStorage.js addToWordBank) can capture a miss reliably regardless of how the
+          // explanation prose is worded.
+          vocab: { word: w.word, pos: w.pos, gloss: w.gloss, root: w.root ?? null },
         };
       },
     }));
@@ -293,6 +297,7 @@ export function methodTemplates({ band, calibratedAgainst = 'oatts' }) {
           choices, correctIndex, errors, whys,
           tags: ['wk', 'wk-connotation'],
           explanation: `${cap(target.word)} means ${target.gloss}, which is disapproving. Charge is the cheapest signal on this subtest: you can often strike two or three options by feel long before you can define anything, and on a 12-second clock that is the difference between answering and guessing.`,
+          vocab: { word: target.word, pos: target.pos, gloss: target.gloss, root: target.root ?? null },
         };
       },
     }));
@@ -325,6 +330,7 @@ export function methodTemplates({ band, calibratedAgainst = 'oatts' }) {
           choices, correctIndex, errors, whys,
           tags: ['wk', 'wk-antonym-trap'],
           explanation: `${cap(w.word)} means ${w.gloss}, so its opposite is "${w.antonym}". The trap is "${w.answer}" - the correct meaning of the word, offered on a question that asked for the reverse. Read the last four words of the stem before you read the options.`,
+          vocab: { word: w.word, pos: w.pos, gloss: w.gloss, root: w.root ?? null },
         };
       },
     }));

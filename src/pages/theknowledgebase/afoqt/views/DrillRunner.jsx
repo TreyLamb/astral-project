@@ -4,7 +4,7 @@ import { useAfoqt } from '../AfoqtApp';
 import { assembleDrill } from '../engine/drill';
 import { getSubtest } from '../engine/afoqtSpec';
 import { getChapter, CHAPTERS } from '../curriculum/chapters';
-import { recordTestOut, recordMastery, MASTERY_THRESHOLD, isChapterDone, latestDiagnostic } from '../afoqtStorage';
+import { recordTestOut, recordMastery, MASTERY_THRESHOLD, isChapterDone, latestDiagnostic, addToWordBank } from '../afoqtStorage';
 import { nextPersonalizedChapter } from '../curriculum/personalize';
 import { paceBudget, paceCheck, shouldNudgeAbandon, shouldWarnGuessSweep, formatClock } from '../engine/timing';
 import { labelFor } from '../engine/errorModes';
@@ -170,12 +170,17 @@ export default function DrillRunner() {
     };
     // Recorded against the TEMPLATE - see afoqtStorage for why per-instance is wrong grain.
     recordAnswer({ templateId: q.templateId, seed: q.seed, correct: entry.correct, elapsedMs: entry.elapsedMs });
+    // A genuinely missed Word Knowledge word joins the standing word bank - see afoqtStorage.js
+    // "word bank" for why this is separate from the miss pool. Gated on the same
+    // `!correct && !guessed` the error-mode capture above already uses: a clock-forced random
+    // pick says nothing about whether the word itself is known.
+    if (!correct && !guessed && q.vocab) mutate((p) => addToWordBank(p, q.vocab));
     const next = [...answers, entry];
     setAnswers(next);
     questionStart.current = now;
     if (idx + 1 >= questions.length) finish(next);
     else setIdx(idx + 1);
-  }, [questions, idx, answers, done, recordAnswer, finish]);
+  }, [questions, idx, answers, done, recordAnswer, finish, mutate]);
 
   // Whole-subtest countdown, matching how the real test administers: time cannot be banked
   // between questions, so a per-question timer would teach the wrong instinct.

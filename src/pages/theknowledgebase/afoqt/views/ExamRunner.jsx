@@ -6,7 +6,7 @@ import { getSubtest, COMPOSITES } from '../engine/afoqtSpec';
 import { paceBudget, formatClock } from '../engine/timing';
 import { labelFor } from '../engine/errorModes';
 import { EXAM_PLAN, allExamCompositeAccuracy, EXAM_ACCURACY_LABEL } from '../engine/exam';
-import { ExamSession, addExamRun } from '../afoqtStorage';
+import { ExamSession, addExamRun, addToWordBank } from '../afoqtStorage';
 import Figure from '../render/Figure';
 import { mulberry32 } from '../../engine/rng';
 
@@ -150,6 +150,7 @@ export default function ExamRunner() {
       errorWhy: !correct && !guessed ? (q.whys?.[picked] ?? null) : null,
     };
     recordAnswer({ templateId: q.templateId, seed: q.seed, correct, elapsedMs: entry.elapsedMs });
+    if (!correct && !guessed && q.vocab) mutate((p) => addToWordBank(p, q.vocab));
     const nextAnswers = [...(session.answers ?? []), entry];
     if (nextAnswers.length >= questions.length) {
       advance(nextAnswers);
@@ -158,7 +159,7 @@ export default function ExamRunner() {
       // status is 'running', which is what actually fires once React commits this update.
       setSession((prev) => ({ ...prev, answers: nextAnswers }));
     }
-  }, [session, step, questions, idx, recordAnswer, advance]);
+  }, [session, step, questions, idx, recordAnswer, advance, mutate]);
 
   // One clock for every timed step: a subtest (real pace budget), a break (its own countdown),
   // or the SDI when the candidate opts into timing it (see the sdi render branch). All three

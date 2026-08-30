@@ -2091,3 +2091,63 @@ had re-rendered. Fixed by reading storage via a lazy `useState` initializer (run
 writing explicitly inside each handler instead of through a reactive effect. Caught by an actual
 browser reload test, not by reasoning about the code - confirmed working across a reload and on
 a page with its own top bar (`/TKB/afoqt`) after the fix.
+
+---
+
+## 2026-08-30 — Word bank: a standing vocabulary list built from real Word Knowledge misses
+
+Trey's reasoning: WK is 5-option multiple choice, so a lucky run can hide real vocabulary gaps -
+"I can go through Word Knowledge and get lucky guessing, but at some point I need to be forced to
+review some of these words." Every genuinely missed WK question (not a clock-forced auto-guess)
+now folds its headword and definition into a standing, browsable list at `/TKB/afoqt/words` (new
+tab), worst-missed-first, flip-to-reveal, with a manual "I know this now" to remove one once it's
+actually learned. Deliberately separate from the existing miss pool: the miss pool resurfaces the
+QUESTION inside a drill; this is a plain definition list readable on its own, growing forever
+unless manually cleared.
+
+**Wired into all four places a WK question can be missed** - `DrillRunner.jsx`, `DiagnosticRunner.jsx`,
+and `ExamRunner.jsx` (a full sitting includes WK too) - gated on the same `!correct && !guessed`
+condition each already uses for error-mode capture, so a timeout sweep never falsely blames a word.
+
+**A real, would-have-shipped-silently bug, caught only because a test was written for it:**
+`generator.js`'s `generateInstance()` builds the runtime question object by explicitly whitelisting
+fields off the template's raw return value - `vocab` wasn't in that whitelist, so every WK
+template's new `vocab: {...}` field was silently dropped before ever reaching `DrillRunner`. The
+feature would have looked completely finished (built, wired, no errors anywhere) and simply never
+worked - nothing would have failed loudly. A new test (`words.test.js`, "carries a vocab field")
+asserting every WK template's generated instance carries a real word+gloss caught it immediately;
+fixed by adding `vocab: raw.vocab ?? null` to the whitelist.
+
+**WK content turned out to span THREE separate registries, not one** - `engine/words.js`'s own
+vocabulary bank (chapters 5-6, the method chapter's two frames), plus `engine/morphology.js`'s
+morphemes (roots/prefixes/suffixes, chapters 2-3) and confusable pairs (chapter 4) - discovered
+because the first version of the new test asserted every `vocab.word` must appear in
+`allWords()` (the words.js registry alone), which correctly failed for every morphology-based
+template. Morpheme templates have no single natural "headword" (the question is about the PART,
+e.g. "what does ardu- mean", not one word), so `-mean` and `-apply` use the morpheme's first
+worked example as the vocab entry instead - missing what a root means implies missing the words
+built on it, starting with that one. Confusable-pair templates (`-define`/`-pick`) use the
+headword actually being asked about directly. The test itself was corrected to check "a real word
+and a real definition" rather than "known to one specific registry," since that was the invariant
+that actually held everywhere.
+
+**Files**: `afoqtStorage.js` (`wordBank: {}` in `defaultProgress`, `addToWordBank`/
+`removeFromWordBank`/`wordBankEntries`), `engine/words.js` + `engine/morphology.js` (all 6 WK
+template-generating functions now return `vocab`), `engine/generator.js` (the whitelist fix),
+`views/WordBank.jsx` (new), `AfoqtApp.jsx` (new `words` tab/route), `AfoqtDashboard.jsx` (entry
+point section, shown whenever the bank is non-empty).
+
+**Tests**: `engine/__tests__/afoqtStorage.test.js` (new - add/remove/ordering/no-mutation) and an
+addition to `words.test.js` asserting every WK template's generated instance carries a usable
+vocab field. Full suite: `npx vitest run` → 3286/3286. `npm run afoqt:check` unaffected. Verified
+live end-to-end in a real browser, not just unit tests: ran a 15-question WK drill deliberately
+missing most of them, confirmed words landed in the bank worst-first, flip-to-reveal showed the
+real definition (including a root note), remove worked, and the Dashboard surfaced the new
+section.
+
+### ✂️ Not built this pass
+- No spaced-repetition/graduation logic for the word bank itself (unlike the miss pool's
+  3-separate-days graduation) - a word only leaves via the manual "I know this now" button. If
+  Trey wants it to auto-graduate the way the miss pool does, that's a follow-up, not assumed here.
+- No search/filter on the word list. Fine at today's scale; would need one if the bank grows into
+  the hundreds.

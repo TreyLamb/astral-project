@@ -31,6 +31,7 @@ export function defaultProgress() {
     examRuns: [],        // most recent first, capped - full-length simulated exams only (PART 28)
     diagnosticRuns: [],  // most recent first, capped - short whole-subtest samples (PART 29)
     chapters: {},        // chapterId -> { status, testedOut, completedAt, bestScore }
+    wordBank: {},        // word (lowercased) -> { word, pos, gloss, root, missCount, firstMissedAt, lastMissedAt }
     settings: {
       mode: 'paced',
       pressure: 1,
@@ -95,6 +96,51 @@ export const missPoolIds = (progress) => Object.keys(progress.missPool ?? {});
 export function clearMissPool(progress) {
   return { ...progress, missPool: {} };
 }
+
+// --- word bank -------------------------------------------------------------
+//
+// Trey's request: Word Knowledge is guessable at 20% a shot (5 options), so a lucky run can
+// leave real gaps invisible. Every MISSED Word Knowledge question - drill, gate, diagnostic,
+// exam, all of them, `recordAnswer` doesn't distinguish - folds that word into a standing
+// personal vocabulary list instead of just resurfacing it through the ordinary miss pool. The
+// miss pool already resurfaces the QUESTION; this is a separate, browsable DEFINITION list that
+// only grows, so "words I've actually gotten wrong" is reviewable on its own, not buried inside
+// a drill. `word` from `q.vocab` is already lowercase (see engine/words.js WordRow.word), and is
+// used as the storage key directly - two rows never describe the same headword differently.
+
+export function addToWordBank(progress, vocab) {
+  if (!vocab || !vocab.word) return progress;
+  const key = vocab.word.toLowerCase();
+  const prev = progress.wordBank?.[key];
+  const today = todayStr();
+  return {
+    ...progress,
+    wordBank: {
+      ...progress.wordBank,
+      [key]: {
+        word: vocab.word, pos: vocab.pos, gloss: vocab.gloss, root: vocab.root ?? null,
+        missCount: (prev?.missCount ?? 0) + 1,
+        firstMissedAt: prev?.firstMissedAt ?? today,
+        lastMissedAt: today,
+      },
+    },
+  };
+}
+
+/** A word graduates once it's been captured but you've since gotten it right elsewhere - kept
+ *  as an explicit action rather than automatic, since "reviewed it" is a judgement only the
+ *  learner can make, not something the drill can infer from one correct answer. */
+export function removeFromWordBank(progress, word) {
+  const key = word.toLowerCase();
+  if (!(key in (progress.wordBank ?? {}))) return progress;
+  const next = { ...progress.wordBank };
+  delete next[key];
+  return { ...progress, wordBank: next };
+}
+
+/** Worst-first: the word missed the most times floats to the top of the review list. */
+export const wordBankEntries = (progress) =>
+  Object.values(progress.wordBank ?? {}).sort((a, b) => b.missCount - a.missCount || a.word.localeCompare(b.word));
 
 export function addRun(progress, run) {
   return { ...progress, runs: [run, ...(progress.runs ?? [])].slice(0, MAX_RUNS) };

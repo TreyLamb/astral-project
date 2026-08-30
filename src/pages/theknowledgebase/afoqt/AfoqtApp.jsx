@@ -11,6 +11,7 @@ import ExamConfig from './views/ExamConfig';
 import ExamRunner from './views/ExamRunner';
 import DiagnosticRunner from './views/DiagnosticRunner';
 import DiagnosticResults from './views/DiagnosticResults';
+import WordBank from './views/WordBank';
 import AfoqtResults from './views/AfoqtResults';
 import './Afoqt.css';
 
@@ -120,6 +121,7 @@ export default function AfoqtApp() {
     { path: '/TKB/afoqt', label: 'Dashboard', match: (p) => p === '/TKB/afoqt' },
     { path: '/TKB/afoqt/learn', label: 'Learn', match: (p) => p.startsWith('/TKB/afoqt/learn') },
     { path: '/TKB/afoqt/drill', label: 'Drill', match: (p) => p.startsWith('/TKB/afoqt/drill') },
+    { path: '/TKB/afoqt/words', label: 'Words', match: (p) => p.startsWith('/TKB/afoqt/words') },
     { path: '/TKB/afoqt/exam', label: 'Exam', match: (p) => p.startsWith('/TKB/afoqt/exam') },
     { path: '/TKB/afoqt/results', label: 'Results', match: (p) => p.startsWith('/TKB/afoqt/results') },
   ];
@@ -148,6 +150,7 @@ export default function AfoqtApp() {
           <Route path="exam/run" element={<ExamRunner />} />
           <Route path="diagnostic" element={<DiagnosticRunner />} />
           <Route path="diagnostic/results" element={<DiagnosticResults />} />
+          <Route path="words" element={<WordBank />} />
           <Route path="results" element={<AfoqtResults />} />
         </Routes>
       </div>

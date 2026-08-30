@@ -3,7 +3,7 @@ import { useAfoqt } from '../AfoqtApp';
 import { DRILLABLE, getSubtest, secPerQuestion, compositeReach, COMPOSITES } from '../engine/afoqtSpec';
 import { templatesFor } from '../engine/generator';
 import { allCompositeAccuracy, PRACTICE_ACCURACY_LABEL, subtestAccuracy } from '../engine/scoring';
-import { missPoolIds, clearMissPool, curriculumProgress, ExamSession, latestDiagnostic } from '../afoqtStorage';
+import { missPoolIds, clearMissPool, curriculumProgress, ExamSession, latestDiagnostic, wordBankEntries } from '../afoqtStorage';
 import { weakestSubtests, DIAGNOSTIC_ACCURACY_LABEL } from '../engine/diagnostic';
 import { CHAPTERS } from '../curriculum/chapters';
 import { nextPersonalizedChapter } from '../curriculum/personalize';
@@ -21,6 +21,7 @@ export default function AfoqtDashboard() {
   const navigate = useNavigate();
   const { progress, mutate } = useAfoqt();
   const misses = missPoolIds(progress);
+  const words = wordBankEntries(progress);
   const days = daysUntil(TEST_DATE);
 
   // Goes through scoring.js rather than aggregating templateStats here. This view used to
@@ -130,6 +131,19 @@ export default function AfoqtDashboard() {
           {nextChapter ? 'Open the chapter' : 'Browse chapters'}
         </button>
       </section>
+
+      {words.length > 0 && (
+        <section className="afq-next">
+          <div>
+            <h3>Word bank</h3>
+            <p className="afq-note">
+              {words.length} word{words.length === 1 ? '' : 's'} you've actually gotten wrong on
+              Word Knowledge - a real gap, not a lucky guess.
+            </p>
+          </div>
+          <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/words')}>Review</button>
+        </section>
+      )}
 
       {misses.length > 0 && (
         <p className="afq-note afq-misspool">

@@ -398,4 +398,17 @@ describe('WK template slate integrity', () => {
       }
     }
   });
+
+  // The word bank (afoqtStorage.js addToWordBank) reads `q.vocab` directly on a miss rather than
+  // parsing the explanation string - every WK-generated question must carry it, or a miss
+  // silently fails to reach the bank. WK content spans three separate registries (this file's
+  // words.js bank, plus morphology.js's morphemes and confusable pairs), so the only invariant
+  // that holds across all of them is "a real word and a real definition", not membership in any
+  // one specific registry.
+  it.each(wkTemplates.map((t) => [t.id, t]))('%s carries a vocab field with a real word and gloss', (id, t) => {
+    const q = generateInstance(id, Math.floor(Math.random() * 1000000));
+    expect(q.vocab, `${id} has no vocab field`).toBeTruthy();
+    expect(q.vocab.word.length).toBeGreaterThan(0);
+    expect(q.vocab.gloss.length).toBeGreaterThan(0);
+  });
 });

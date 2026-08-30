@@ -472,3 +472,22 @@
   background: none; border: none; padding: 0; font: inherit; cursor: pointer;
   color: var(--tkb-accent); text-decoration: underline; text-underline-offset: 2px;
 }
+
+/* --- word bank -------------------------------------------------------------- */
+.afq-wordbank { display: flex; flex-direction: column; gap: 1rem; }
+.afq-wordbank-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+.afq-word-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+.afq-word-card {
+  display: flex; align-items: stretch; gap: .6rem;
+  border: 1px solid var(--tkb-border); border-radius: 8px; background: var(--tkb-surface);
+}
+.afq-word-flip {
+  flex: 1; text-align: left; background: none; border: none; cursor: pointer;
+  padding: .7rem .9rem; display: flex; flex-direction: column; gap: .35rem; color: inherit; font: inherit;
+}
+.afq-word-head { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.afq-word-head strong { font-size: 1.05rem; letter-spacing: .02em; }
+.afq-word-hint { font-size: .82rem; color: var(--tkb-ink-soft); font-style: italic; }
+.afq-word-gloss { font-size: .9rem; line-height: 1.5; }
+.afq-word-root { display: block; margin-top: .2rem; color: var(--tkb-ink-soft); font-size: .85rem; }
+.afq-word-remove { flex: none; align-self: center; margin-right: .6rem; font-size: .78rem; }

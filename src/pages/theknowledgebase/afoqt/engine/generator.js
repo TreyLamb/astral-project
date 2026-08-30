@@ -204,6 +204,9 @@ export function generateInstance(templateId, seed) {
     errors: raw.errors ?? null,
     whys: raw.whys ?? null,
     optionRender: raw.optionRender ?? null,
+    // Word Knowledge only - names the headword a miss should add to the word bank
+    // (afoqtStorage.js addToWordBank). Not derived from the explanation string on purpose.
+    vocab: raw.vocab ?? null,
   };
 }
 

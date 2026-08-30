@@ -5,7 +5,7 @@ import { getSubtest } from '../engine/afoqtSpec';
 import { paceBudget, formatClock } from '../engine/timing';
 import { labelFor } from '../engine/errorModes';
 import { DIAGNOSTIC_SUBTESTS, DIAGNOSTIC_QUESTIONS_PER_SUBTEST, DIAGNOSTIC_ACCURACY_LABEL } from '../engine/diagnostic';
-import { addDiagnosticRun } from '../afoqtStorage';
+import { addDiagnosticRun, addToWordBank } from '../afoqtStorage';
 import Figure from '../render/Figure';
 import DiagnosticReport from './DiagnosticReport';
 import { mulberry32 } from '../../engine/rng';
@@ -104,11 +104,12 @@ export default function DiagnosticRunner() {
       errorWhy: !correct && !guessed ? (q.whys?.[picked] ?? null) : null,
     };
     recordAnswer({ templateId: q.templateId, seed: q.seed, correct, elapsedMs: entry.elapsedMs });
+    if (!correct && !guessed && q.vocab) mutate((p) => addToWordBank(p, q.vocab));
     const nextAnswers = [...answers, entry];
     setAnswers(nextAnswers);
     if (nextAnswers.length >= questions.length) finishSubtest(nextAnswers);
     else setIdx(idx + 1);
-  }, [phase, questions, idx, answers, recordAnswer, finishSubtest]);
+  }, [phase, questions, idx, answers, recordAnswer, finishSubtest, mutate]);
 
   const [, tick] = useState(0);
   const budget = useMemo(
