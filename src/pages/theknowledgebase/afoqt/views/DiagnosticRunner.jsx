@@ -1,16 +1,13 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
 import { assembleDrill } from '../engine/drill';
-import { getSubtest, COMPOSITES } from '../engine/afoqtSpec';
+import { getSubtest } from '../engine/afoqtSpec';
 import { paceBudget, formatClock } from '../engine/timing';
 import { labelFor } from '../engine/errorModes';
-import {
-  DIAGNOSTIC_SUBTESTS, DIAGNOSTIC_QUESTIONS_PER_SUBTEST, allDiagnosticCompositeAccuracy,
-  DIAGNOSTIC_ACCURACY_LABEL, weakestSubtests,
-} from '../engine/diagnostic';
+import { DIAGNOSTIC_SUBTESTS, DIAGNOSTIC_QUESTIONS_PER_SUBTEST, DIAGNOSTIC_ACCURACY_LABEL } from '../engine/diagnostic';
 import { addDiagnosticRun } from '../afoqtStorage';
 import Figure from '../render/Figure';
+import DiagnosticReport from './DiagnosticReport';
 import { mulberry32 } from '../../engine/rng';
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E'];
@@ -35,7 +32,6 @@ function foldResults(finalAnswers) {
  * bug PART 28 found and fixed inside it, simply do not apply to something this short.
  */
 export default function DiagnosticRunner() {
-  const navigate = useNavigate();
   const { recordAnswer, mutate } = useAfoqt();
 
   const [phase, setPhase] = useState('intro'); // 'intro' | 'running' | 'report'
@@ -176,70 +172,11 @@ export default function DiagnosticRunner() {
   }
 
   // --- report -------------------------------------------------------------------------------
+  // Rendered by DiagnosticReport, the same component DiagnosticResults.jsx reads back out of
+  // stored progress later - this is not the only place these results are ever visible.
   if (phase === 'report') {
-    const composites = allDiagnosticCompositeAccuracy(allResults);
-    const weakest = weakestSubtests(allResults, 3);
     const totalMin = startedAt.current ? Math.round((Date.now() - startedAt.current) / 60000) : null;
-    return (
-      <div className="afq-runner afq-summary">
-        <h2>Diagnostic complete</h2>
-        {totalMin != null && <p className="afq-note">Finished in about {totalMin} minute{totalMin === 1 ? '' : 's'}.</p>}
-        <p className="afq-note afq-score-disclaimer">{DIAGNOSTIC_ACCURACY_LABEL}</p>
-
-        {weakest.length > 0 && (
-          <section className="afq-next">
-            <div>
-              <h3>Where to focus first</h3>
-              <p className="afq-next-title">
-                {weakest.map((w) => `${getSubtest(w.code)?.name} (${Math.round(w.accuracy * 100)}%)`).join(' · ')}
-              </p>
-            </div>
-            <button className="afq-btn afq-primary" onClick={() => navigate(`/TKB/afoqt/drill?subtest=${weakest[0].code}`)}>
-              Drill {getSubtest(weakest[0].code)?.name}
-            </button>
-          </section>
-        )}
-
-        <section>
-          <h3 className="afq-note">By subtest</h3>
-          <table className="afq-table">
-            <thead><tr><th>Subtest</th><th>Score</th><th>Accuracy</th></tr></thead>
-            <tbody>
-              {DIAGNOSTIC_SUBTESTS.map((s) => {
-                const r = allResults[s.code];
-                return (
-                  <tr key={s.code}>
-                    <td>{s.name}</td>
-                    <td>{r ? `${r.correct} / ${r.answered}` : '-'}</td>
-                    <td>{r ? `${Math.round((r.correct / r.answered) * 100)}%` : '-'}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </section>
-
-        <section>
-          <h3 className="afq-note">Composites</h3>
-          <ul className="afq-composites">
-            {composites.map((c) => (
-              <li key={c.code}>
-                <strong>{c.name}</strong>
-                <span>{COMPOSITES.find((x) => x.code === c.code).subtests.join(' + ')}</span>
-                <span className="afq-composite-acc">
-                  {c.accuracy == null ? 'not reached' : `${Math.round(c.accuracy * 100)}%`}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <div className="afq-row">
-          <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt')}>Dashboard</button>
-          <button className="afq-btn" onClick={() => navigate('/TKB/afoqt/learn')}>Browse chapters</button>
-        </div>
-      </div>
-    );
+    return <DiagnosticReport results={allResults} takenAt={new Date().toISOString()} totalMin={totalMin} />;
   }
 
   // --- running: a live question -------------------------------------------------------------

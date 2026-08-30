@@ -75,6 +75,12 @@ export default function DrillRunner() {
   const chapter = getChapter(params.get('chapter') ?? '');
   const phase = params.get('phase') ?? 'free';
   const isGate = phase === 'testout' || phase === 'mastery';
+  // The diagnostic's expedited gate shortens the question count AND the pass threshold together
+  // (see engine/diagnostic.js EXPEDITED_TEST_OUT_COUNT) - ChapterView always sends `need`
+  // explicitly rather than this component re-deriving it, so a standard gate and an expedited one
+  // are the same code path here.
+  const passOverride = params.get('need') != null ? Number(params.get('need')) : null;
+  const testOutPass = chapter ? (passOverride ?? chapter.testOutPass) : null;
   // Exam mode is a simulation of the real subtest, which means it is a measurement rather than
   // practice - see `exam` in engine/drill.js for what that switches off.
   const isExam = mode === 'exam';
@@ -126,7 +132,7 @@ export default function DrillRunner() {
     // record a failed test-out attempt against the chapter.
     if (chapter && finalAnswers.length === questions.length) {
       if (phase === 'testout') {
-        mutate((p) => recordTestOut(p, chapter.id, { correct: right, total: questions.length, pass: chapter.testOutPass }));
+        mutate((p) => recordTestOut(p, chapter.id, { correct: right, total: questions.length, pass: testOutPass }));
       } else if (phase === 'mastery') {
         mutate((p) => recordMastery(p, chapter.id, { correct: right, total: questions.length }));
       }
@@ -142,7 +148,7 @@ export default function DrillRunner() {
       answered: finalAnswers.length,
       totalMs: Date.now() - startedAt.current,
     });
-  }, [recordRun, subtest, mode, pressure, count, chapter, phase, questions.length, mutate]);
+  }, [recordRun, subtest, mode, pressure, count, chapter, phase, questions.length, mutate, testOutPass]);
 
   const submit = useCallback((picked, opts) => {
     const guessed = !!(opts && opts.guessed);
@@ -253,10 +259,10 @@ export default function DrillRunner() {
         )}
 
         {chapter && phase === 'testout' && (
-          <p className={right >= chapter.testOutPass ? 'afq-verdict afq-pass' : 'afq-verdict'}>
-            {right >= chapter.testOutPass
+          <p className={right >= testOutPass ? 'afq-verdict afq-pass' : 'afq-verdict'}>
+            {right >= testOutPass
               ? `Tested out of ${chapter.title}. Chapter marked done - skip the lesson.`
-              : `Needed ${chapter.testOutPass} of ${questions.length}. Read the lesson, then come back.`}
+              : `Needed ${testOutPass} of ${questions.length}. Read the lesson, then come back.`}
           </p>
         )}
         {chapter && phase === 'mastery' && (

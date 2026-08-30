@@ -3,9 +3,10 @@ import { useAfoqt } from '../AfoqtApp';
 import { DRILLABLE, getSubtest, secPerQuestion, compositeReach, COMPOSITES } from '../engine/afoqtSpec';
 import { templatesFor } from '../engine/generator';
 import { allCompositeAccuracy, PRACTICE_ACCURACY_LABEL, subtestAccuracy } from '../engine/scoring';
-import { missPoolIds, clearMissPool, curriculumProgress, isChapterDone, ExamSession, latestDiagnostic } from '../afoqtStorage';
+import { missPoolIds, clearMissPool, curriculumProgress, ExamSession, latestDiagnostic } from '../afoqtStorage';
 import { weakestSubtests, DIAGNOSTIC_ACCURACY_LABEL } from '../engine/diagnostic';
-import { CHAPTERS, isUnlocked } from '../curriculum/chapters';
+import { CHAPTERS } from '../curriculum/chapters';
+import { nextPersonalizedChapter } from '../curriculum/personalize';
 
 // Days until the test. Trey sits it in early October 2026, and policy is 2 lifetime
 // attempts 150 days apart - so there is no second attempt this year. The countdown is
@@ -45,11 +46,9 @@ export default function AfoqtDashboard() {
   const examInProgress = ExamSession.load()?.status === 'running';
   const diagnostic = latestDiagnostic(progress);
   const diagnosticWeakest = diagnostic ? weakestSubtests(diagnostic.results, 3) : [];
-  // The next thing to actually do: the first unlocked chapter that is not finished. Ordering
-  // by `order` keeps the recommendation stable rather than jumping around between visits.
-  const nextChapter = CHAPTERS
-    .filter((c) => !isChapterDone(progress, c.id) && isUnlocked(c, progress.chapters ?? {}))
-    .sort((a, b) => a.order - b.order)[0] ?? null;
+  // The next thing to actually do: the first unlocked, unfinished chapter - weakest-diagnostic-
+  // subtest-first once a diagnostic exists, standard `order` otherwise (see curriculum/personalize.js).
+  const nextChapter = nextPersonalizedChapter(CHAPTERS, progress, diagnostic?.results ?? null);
 
   return (
     <div className="afq-dash">
@@ -104,6 +103,7 @@ export default function AfoqtDashboard() {
                 Drill {getSubtest(diagnosticWeakest[0].code)?.name}
               </button>
             )}
+            <button className="afq-btn" onClick={() => navigate('/TKB/afoqt/diagnostic/results')}>Full results</button>
             <button className="afq-btn" onClick={() => navigate('/TKB/afoqt/diagnostic')}>Retake</button>
           </div>
         </section>
@@ -111,7 +111,7 @@ export default function AfoqtDashboard() {
 
       <section className="afq-next">
         <div>
-          <h3>Curriculum</h3>
+          <h3>Curriculum{diagnostic && <span className="afq-chip">personalized</span>}</h3>
           <p className="afq-note">
             {curriculum.done} of {curriculum.total} chapters done
             {curriculum.testedOut > 0 && ` (${curriculum.testedOut} tested out)`}

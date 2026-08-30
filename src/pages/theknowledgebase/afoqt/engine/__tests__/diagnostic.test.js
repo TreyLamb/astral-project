@@ -2,8 +2,11 @@ import { describe, it, expect } from 'vitest';
 import {
   DIAGNOSTIC_QUESTIONS_PER_SUBTEST, DIAGNOSTIC_SUBTESTS, weakestSubtests,
   diagnosticSubtestAccuracy, diagnosticCompositeAccuracy,
+  subtestTier, tierRank, STRONG_ACCURACY, WEAK_ACCURACY,
+  EXPEDITED_TEST_OUT_COUNT, EXPEDITED_MASTERY_COUNT,
 } from '../diagnostic.js';
 import { DRILLABLE, SUBTESTS } from '../afoqtSpec.js';
+import { MASTERY_THRESHOLD } from '../../afoqtStorage.js';
 
 describe('DIAGNOSTIC_SUBTESTS', () => {
   it('is exactly DRILLABLE - every studyable subtest, SD excluded', () => {
@@ -54,6 +57,50 @@ describe('weakestSubtests', () => {
       WK: { correct: 3, answered: 6 }, AR: { correct: 2, answered: 6 },
     };
     expect(weakestSubtests(results, 2)).toHaveLength(2);
+  });
+});
+
+describe('subtestTier', () => {
+  it('is null for a subtest the diagnostic never reached', () => {
+    expect(subtestTier({}, 'MK')).toBeNull();
+  });
+
+  it('is strong at 5/6 and 6/6, matching STRONG_ACCURACY', () => {
+    expect(subtestTier({ MK: { correct: 5, answered: 6 } }, 'MK')).toBe('strong');
+    expect(subtestTier({ MK: { correct: 6, answered: 6 } }, 'MK')).toBe('strong');
+    expect(5 / 6).toBeGreaterThanOrEqual(STRONG_ACCURACY);
+  });
+
+  it('is weak at 3/6 or worse, matching WEAK_ACCURACY', () => {
+    expect(subtestTier({ MK: { correct: 3, answered: 6 } }, 'MK')).toBe('weak');
+    expect(subtestTier({ MK: { correct: 0, answered: 6 } }, 'MK')).toBe('weak');
+    expect(3 / 6).toBeLessThanOrEqual(WEAK_ACCURACY);
+  });
+
+  it('is moderate at 4/6 - one miss should not read as mastery either way', () => {
+    expect(subtestTier({ MK: { correct: 4, answered: 6 } }, 'MK')).toBe('moderate');
+  });
+});
+
+describe('tierRank', () => {
+  it('orders weak before moderate/missing before strong', () => {
+    expect(tierRank('weak')).toBeLessThan(tierRank('moderate'));
+    expect(tierRank('moderate')).toBeLessThan(tierRank('strong'));
+    expect(tierRank(null)).toBe(tierRank('moderate'));
+  });
+});
+
+describe('expedited gate sizing', () => {
+  it('EXPEDITED_TEST_OUT_COUNT still requires a full sweep (no lowered bar, just a shorter one)', () => {
+    expect(EXPEDITED_TEST_OUT_COUNT).toBeGreaterThanOrEqual(3);
+    expect(EXPEDITED_TEST_OUT_COUNT).toBeLessThan(5);
+  });
+
+  it('EXPEDITED_MASTERY_COUNT still allows exactly one miss under MASTERY_THRESHOLD', () => {
+    const oneMiss = (EXPEDITED_MASTERY_COUNT - 1) / EXPEDITED_MASTERY_COUNT;
+    const twoMisses = (EXPEDITED_MASTERY_COUNT - 2) / EXPEDITED_MASTERY_COUNT;
+    expect(oneMiss).toBeGreaterThanOrEqual(MASTERY_THRESHOLD);
+    expect(twoMisses).toBeLessThan(MASTERY_THRESHOLD);
   });
 });
 

@@ -1903,3 +1903,78 @@ Arithmetic Reasoning, Math Knowledge and Word Knowledge had no prose label and p
 slugs; all are written now, grounded in each distractor's own `why` text rather than guessed.
 (Verbal Analogies, Situational Judgment, Physical Science and Aviation Information were already
 complete - `dbe01ed` had done those.)
+
+---
+
+## 2026-08-30 — Diagnostic → personalized curriculum (Trey's request, same-day build)
+
+Trey asked for something the diagnostic never actually did: he expected finishing it to hand
+back a **customized curriculum** — weak subtests up front, strong ones expedited hard (his words:
+"test 1-3 questions instead of 9-12"), and results/curriculum both reachable **later**, not just
+on a one-shot end screen he could navigate away from and lose. All of this is now live.
+
+### What was actually missing before this
+The diagnostic (PART 29) computed a `weakestSubtests` list and stored `diagnosticRuns[]`, but
+that was where it stopped: `latestDiagnostic()` was already persisted and already read by
+`AfoqtDashboard.jsx` for a compact summary, but nothing downstream of it changed the curriculum
+itself — chapter order, test-out length and mastery-check length were the same regardless of
+diagnostic result, and there was no page to see the FULL breakdown again after leaving the runner.
+
+### What shipped
+- **`engine/diagnostic.js`** — added `subtestTier()` (weak ≤50%, moderate, strong ≥83% of the
+  6-question sample; missing stays `null`, never guessed as either), `tierRank()`, and two
+  expedite constants: `EXPEDITED_TEST_OUT_COUNT = 3` (still needs a clean 3/3 - shortening the
+  gate is not the same as lowering the bar, and (1/5)³ ≈ 0.8% guess-through odds keep the
+  lucky-pass protection the standard 5-question gate already has) and
+  `EXPEDITED_MASTERY_COUNT = 8` (85% threshold at n=8 still tolerates exactly one miss, same as
+  the standard 12-question check, just two-thirds the length).
+- **`curriculum/personalize.js`** (new) — the one file allowed to import both
+  `engine/diagnostic.js` (pure accuracy math) and `afoqtStorage.js` (pure persistence), which both
+  deliberately stay standalone. `personalizedChapterOrder`, `personalizedTrackOrder`,
+  `nextPersonalizedChapter` — weakest-subtest-first, falling back to standard authored `order`
+  whenever there's no diagnostic yet.
+- **`views/ChapterView.jsx`** — reads the latest diagnostic and shows an expedited test-out (3Q)
+  and mastery check (8Q) whenever the chapter's subtest tested `strong`, with a banner explaining
+  why. **Exception, on purpose:** a chapter that already demands `testOutPass === 5` (the three
+  geometry chapters, the inverted instrument pointer, block counting) keeps the standard gate
+  regardless of subtest-level strength — that flag exists specifically because someone can be
+  confidently and uniformly wrong on that ONE chapter, and a strong 6-question subtest sample
+  isn't evidence against that specific failure mode. `DrillRunner.jsx` now takes an explicit
+  `need` URL param so the pass threshold travels with the shortened count instead of DrillRunner
+  re-deriving `chapter.testOutPass` and silently requiring 4/5 on a 3-question run.
+- **`views/CurriculumMap.jsx`** — tracks are now `<details>`, ordered weakest-subtest-first, with
+  a strong track collapsed shut by default (manually toggled state is tracked separately so an
+  unrelated re-render can't silently re-collapse a track the user just opened by hand). A banner
+  at the top explains the personalization and links to the full results; a "Show standard order"
+  toggle exists for anyone who wants the plain authored order anyway.
+- **`views/DiagnosticReport.jsx`** (new) — factored out of `DiagnosticRunner.jsx`'s old inline
+  report JSX so the SAME component renders both the just-finished report and a result reopened
+  later. Leads with a "Start your personalized curriculum" CTA straight into
+  `nextPersonalizedChapter()`'s pick, not just the old "browse chapters" / "drill weakest" links.
+- **`views/DiagnosticResults.jsx`** (new) + **`/TKB/afoqt/diagnostic/results`** route — reads
+  `latestDiagnostic(progress)` fresh any time, so the full breakdown (not just the dashboard's
+  compact summary) survives navigating away, a refresh, or coming back next week. Linked from
+  the dashboard ("Full results" button next to Retake) and from the curriculum map banner.
+- No new storage schema. Everything above is *derived live* from `progress.diagnosticRuns[0]`,
+  which PART 29 already persisted (local + debounced Firestore) — personalization just reads it
+  in more places now.
+
+### Tests added
+`engine/__tests__/diagnostic.test.js` gained coverage for the tier thresholds and the expedite
+constants' own math (clean-sweep-only, one-miss-tolerance-preserved). New
+`engine/__tests__/personalize.test.js` (24 tests total across both files) covers ordering,
+tie-breaking on authored `order` within a tier, and the no-diagnostic fallback. Full suite:
+`npx vitest run` → 3240/3240. `npm run afoqt:check` unaffected (no chapters/templates touched) -
+still 742 lesson-minutes, 330 templates, coverage holds both directions. `npm run build` clean.
+
+### ✂️ Not built this pass
+- Personalization only ever operates at SUBTEST granularity (12 buckets), because that's the
+  diagnostic's own granularity (6 questions per subtest, not per chapter). A subtest with 13
+  chapters (Math Knowledge) gets one tier applied uniformly across all of them. A chapter-level
+  diagnostic would be far more precise but is a materially bigger feature (10x the questions to
+  stay statistically honest) - not something Trey asked for, flagged here in case the coarser
+  granularity ever proves annoying in practice.
+- `moderate` tier gets no shortcut at all (standard gate/mastery length) - only `strong` expedites
+  and only `weak` gets forefront placement. A three-tier system felt like the right amount of
+  personalization for a 6-question-per-subtest sample; more tiers would be reading more precision
+  into that sample than it actually has.

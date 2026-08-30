@@ -10,6 +10,7 @@ import DrillRunner from './views/DrillRunner';
 import ExamConfig from './views/ExamConfig';
 import ExamRunner from './views/ExamRunner';
 import DiagnosticRunner from './views/DiagnosticRunner';
+import DiagnosticResults from './views/DiagnosticResults';
 import AfoqtResults from './views/AfoqtResults';
 import './Afoqt.css';
 
@@ -146,6 +147,7 @@ export default function AfoqtApp() {
           <Route path="exam" element={<ExamConfig />} />
           <Route path="exam/run" element={<ExamRunner />} />
           <Route path="diagnostic" element={<DiagnosticRunner />} />
+          <Route path="diagnostic/results" element={<DiagnosticResults />} />
           <Route path="results" element={<AfoqtResults />} />
         </Routes>
       </div>

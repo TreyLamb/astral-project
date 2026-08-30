@@ -65,6 +65,14 @@
 .afq-bar { height: 4px; background: var(--tkb-border); border-radius: 2px; overflow: hidden; }
 .afq-bar-fill { height: 100%; background: var(--tkb-accent); transition: width .2s linear; }
 .afq-alert { background: color-mix(in srgb, var(--tkb-wrong) 12%, transparent); color: var(--tkb-wrong); padding: .5rem .7rem; border-radius: 6px; font-size: .9rem; }
+.afq-alert-strong { background: color-mix(in srgb, var(--tkb-accent) 12%, transparent); color: var(--tkb-accent); }
+.afq-alert-weak { background: color-mix(in srgb, var(--tkb-unsure) 12%, transparent); color: var(--tkb-unsure); }
+.afq-alert-neutral { background: var(--tkb-surface); color: var(--tkb-ink-soft); border: 1px solid var(--tkb-border); }
+.afq-alert small { display: block; margin-top: .3rem; color: inherit; opacity: .8; font-size: .78rem; }
+.afq-personalize-banner {
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+  background: var(--tkb-surface); color: var(--tkb-ink-soft); border: 1px solid var(--tkb-border);
+}
 
 .afq-card { background: var(--tkb-surface); border: 1px solid var(--tkb-border); border-radius: 10px; padding: 1.1rem; }
 .afq-stem { font-size: 1.15rem; margin: 0 0 1rem; line-height: 1.45; }
@@ -145,8 +153,14 @@
 
 /* --- curriculum map ------------------------------------------------------ */
 .afq-curriculum { display: flex; flex-direction: column; gap: 2rem; }
+/* A track is a <details> now (personalization can collapse a strong one shut), so the summary
+   needs the expand affordance a plain <header> never did. */
+.afq-track > summary { cursor: pointer; }
+.afq-track > summary::-webkit-details-marker { margin-right: .4rem; }
+.afq-track-weak { border-left: 3px solid var(--tkb-wrong); padding-left: .8rem; }
+.afq-track-strong { border-left: 3px solid var(--tkb-ink-soft); padding-left: .8rem; opacity: .85; }
 .afq-track-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
-.afq-track-head h2 { margin: 0; }
+.afq-track-head h2 { margin: 0; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
 .afq-track-stat { display: flex; flex-direction: column; align-items: flex-end; }
 .afq-track-stat span { font-size: 1.6rem; font-weight: 600; line-height: 1; }
 .afq-track-stat label { font-size: .72rem; color: var(--tkb-ink-soft); text-transform: uppercase; letter-spacing: .05em; }
@@ -176,6 +190,7 @@
   background: var(--tkb-canvas); border: 1px solid var(--tkb-border); color: var(--tkb-ink-soft);
 }
 .afq-chip-warn { color: var(--tkb-unsure); border-color: color-mix(in srgb, var(--tkb-unsure) 40%, transparent); }
+.afq-chip-fast { color: var(--tkb-accent); border-color: color-mix(in srgb, var(--tkb-accent) 40%, transparent); }
 .afq-locked-note { color: var(--tkb-unsure) !important; }
 .afq-chapter-state { font-size: .72rem; color: var(--tkb-ink-soft); text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
 .afq-footnote { max-width: 62ch; }
@@ -196,7 +211,7 @@
   display: flex; flex-direction: column; gap: .5rem; align-items: flex-start;
   padding: .8rem; border: 1px solid var(--tkb-border); border-radius: 8px; background: var(--tkb-surface);
 }
-.afq-step h3 { margin: 0; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
+.afq-step h3 { margin: 0; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
 .afq-step p { margin: 0; font-size: .85rem; line-height: 1.45; flex: 1; }
 .afq-step-done { border-left: 3px solid var(--tkb-correct); }
 
@@ -258,6 +273,8 @@
 }
 .afq-next h3 { margin: 0; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
 .afq-next-title { margin: .4rem 0 0; font-size: .9rem; }
+.afq-next-primary { border: 1px solid var(--tkb-accent); background: color-mix(in srgb, var(--tkb-accent) 6%, transparent); }
+.afq-next-primary h3 { color: var(--tkb-accent); }
 .afq-misspool { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
 
 /* --- figures: the Table Reading grid -------------------------------------

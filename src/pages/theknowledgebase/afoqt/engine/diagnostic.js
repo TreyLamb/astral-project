@@ -69,3 +69,42 @@ export function weakestSubtests(results, n = 3) {
     .sort((a, b) => a.accuracy - b.accuracy)
     .slice(0, n);
 }
+
+// --- personalization thresholds ---------------------------------------------
+//
+// Six questions per subtest, so accuracy only ever lands on 0, 1/6, 2/6 ... 6/6. STRONG needs
+// 5/6 or 6/6 - a real cluster, not "got lucky once." WEAK is 3/6 or worse - half wrong against a
+// five-option question is a genuine signal even at n=6, not noise (chance alone is 20%). 4/6 is
+// left as MODERATE on purpose: one miss out of six is not enough to claim mastery either way.
+export const STRONG_ACCURACY = 0.8;
+export const WEAK_ACCURACY = 0.5;
+
+/** null = subtest never reached this diagnostic; do not treat that as either weak or strong. */
+export function subtestTier(results, code) {
+  const acc = diagnosticSubtestAccuracy(results, code);
+  if (acc == null) return null;
+  if (acc >= STRONG_ACCURACY) return 'strong';
+  if (acc <= WEAK_ACCURACY) return 'weak';
+  return 'moderate';
+}
+
+/** Sort key: weakest first, strongest last. Missing/moderate share the middle rank. */
+export function tierRank(tier) {
+  return tier === 'weak' ? 0 : tier === 'strong' ? 2 : 1;
+}
+
+/**
+ * How much a `strong` diagnostic result shortens a chapter's gates. Still a full sweep, never a
+ * lower bar - EXPEDITED_TEST_OUT_COUNT of 3 needs 3/3, not "2 out of 3 is close enough." Chance of
+ * bluffing a clean sweep on a genuine guess is (1/5)^3 = 0.8%, so shortening the gate doesn't
+ * reopen the "lucky pass" hole the standard 5-question / 4-or-5-correct gate exists to close.
+ * Chapters that already demand testOutPass === 5 (see curriculum/chapters.js) are exempt from
+ * this - that flag exists specifically because someone can be confidently, uniformly wrong on
+ * that one chapter (the inverted instrument pointer, geometry), and a strong subtest-level
+ * diagnostic result is not evidence against that specific failure mode.
+ */
+export const EXPEDITED_TEST_OUT_COUNT = 3;
+
+/** MASTERY_THRESHOLD (0.85) applied at n=8 allows exactly one miss (7/8 = 87.5%), preserving the
+ *  standard gate's roughly-one-miss tolerance (11/12 = 91.7%) at two-thirds the length. */
+export const EXPEDITED_MASTERY_COUNT = 8;

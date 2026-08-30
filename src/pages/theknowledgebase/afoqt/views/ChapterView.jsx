@@ -5,8 +5,13 @@ import remarkGfm from 'remark-gfm';
 import { useAfoqt } from '../AfoqtApp';
 import { getChapter, isUnlocked } from '../curriculum/chapters';
 import { getLesson } from '../curriculum/lessons';
-import { chapterState, isChapterDone, markLessonRead, MASTERY_THRESHOLD } from '../afoqtStorage';
+import { chapterState, isChapterDone, markLessonRead, MASTERY_THRESHOLD, latestDiagnostic } from '../afoqtStorage';
 import { templatesFor } from '../engine/generator';
+import { getSubtest } from '../engine/afoqtSpec';
+import {
+  subtestTier, EXPEDITED_TEST_OUT_COUNT, EXPEDITED_MASTERY_COUNT, DIAGNOSTIC_ACCURACY_LABEL,
+  diagnosticSubtestAccuracy,
+} from '../engine/diagnostic';
 
 // A chapter is: test-out gate -> lesson -> drill -> mastery check.
 //
@@ -46,7 +51,20 @@ export default function ChapterView() {
   const pool = templatesFor(chapter.subtest)
     .filter((t) => t.concepts.some((c) => chapter.concepts.includes(c)));
 
-  const run = (phase, count) => {
+  // Diagnostic-driven fast lane. A chapter that already demands testOutPass === 5 (geometry, the
+  // inverted instrument pointer, block counting...) keeps the standard gate regardless of subtest
+  // strength - that flag exists specifically for a chapter where someone can be confidently and
+  // uniformly wrong, and a strong subtest-level result is not evidence against that one failure
+  // mode. See engine/diagnostic.js for why 3-question/3-correct doesn't reopen the lucky-pass hole.
+  const diag = latestDiagnostic(progress);
+  const tier = diag ? subtestTier(diag.results, chapter.subtest) : null;
+  const diagAcc = diag ? diagnosticSubtestAccuracy(diag.results, chapter.subtest) : null;
+  const expedited = tier === 'strong' && chapter.testOutPass !== 5;
+  const testOutCount = expedited ? EXPEDITED_TEST_OUT_COUNT : TEST_OUT_COUNT;
+  const testOutNeed = expedited ? EXPEDITED_TEST_OUT_COUNT : chapter.testOutPass;
+  const masteryCount = tier === 'strong' ? EXPEDITED_MASTERY_COUNT : MASTERY_COUNT;
+
+  const run = (phase, count, need) => {
     const params = new URLSearchParams({
       subtest: chapter.subtest,
       count: String(count),
@@ -57,6 +75,7 @@ export default function ChapterView() {
       mode: phase === 'testout' ? 'untimed' : 'paced',
       pressure: String(progress.settings.pressure ?? 1),
     });
+    if (need != null) params.set('need', String(need));
     navigate(`/TKB/afoqt/drill/run?${params}`);
   };
 
@@ -86,15 +105,33 @@ export default function ChapterView() {
         </div>
       )}
 
+      {tier && (
+        <div className={'afq-alert' + (tier === 'strong' ? ' afq-alert-strong' : tier === 'weak' ? ' afq-alert-weak' : ' afq-alert-neutral')}>
+          {tier === 'strong' && (
+            <>⚡ Your diagnostic showed strength in {getSubtest(chapter.subtest)?.name} ({Math.round(diagAcc * 100)}%)
+            {expedited
+              ? <> — the test-out gate and mastery check below are shortened for this chapter.</>
+              : <>, but this chapter always needs the standard clean-sweep gate — see below.</>}</>
+          )}
+          {tier === 'weak' && (
+            <>Your diagnostic flagged {getSubtest(chapter.subtest)?.name} as a focus area ({Math.round(diagAcc * 100)}%) — worth reading the lesson rather than testing out.</>
+          )}
+          {tier === 'moderate' && (
+            <>{getSubtest(chapter.subtest)?.name} was middling on your diagnostic ({Math.round(diagAcc * 100)}%) — standard pace here.</>
+          )}
+          <small className="afq-note">{DIAGNOSTIC_ACCURACY_LABEL}</small>
+        </div>
+      )}
+
       <section className="afq-chapter-steps">
         <div className={'afq-step' + (done ? ' afq-step-done' : '')}>
-          <h3>1 · Test out</h3>
+          <h3>1 · Test out{expedited && <span className="afq-chip afq-chip-fast">⚡ expedited</span>}</h3>
           <p>
-            {TEST_OUT_COUNT} questions, untimed. Get <strong>{chapter.testOutPass} of {TEST_OUT_COUNT}</strong> and
+            {testOutCount} questions, untimed. Get <strong>{testOutNeed} of {testOutCount}</strong> and
             the chapter is marked done — no lesson, no drill.
             {chapter.testOutPass === 5 && ' This one needs a clean sweep, on purpose.'}
           </p>
-          <button className="afq-btn afq-primary" onClick={() => run('testout', TEST_OUT_COUNT)}>
+          <button className="afq-btn afq-primary" onClick={() => run('testout', testOutCount, testOutNeed)}>
             {st.attempts > 0 && !done ? 'Try the gate again' : 'Take the gate'}
           </button>
           {st.attempts > 0 && st.bestScore != null && (
@@ -120,11 +157,11 @@ export default function ChapterView() {
         </div>
 
         <div className="afq-step">
-          <h3>4 · Mastery check</h3>
+          <h3>4 · Mastery check{tier === 'strong' && <span className="afq-chip afq-chip-fast">⚡ expedited</span>}</h3>
           <p>
-            {MASTERY_COUNT} questions at real test pace. {Math.round(MASTERY_THRESHOLD * 100)}% clears the chapter.
+            {masteryCount} questions at real test pace. {Math.round(MASTERY_THRESHOLD * 100)}% clears the chapter.
           </p>
-          <button className="afq-btn afq-primary" onClick={() => run('mastery', MASTERY_COUNT)}>
+          <button className="afq-btn afq-primary" onClick={() => run('mastery', masteryCount)}>
             Take the mastery check
           </button>
         </div>
