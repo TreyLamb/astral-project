@@ -19,7 +19,9 @@
 .afq-btn.afq-ghost { background: none; border-color: transparent; color: var(--tkb-ink-soft); }
 .afq-row { display: flex; gap: .5rem; align-items: center; }
 .afq-wrap-row { flex-wrap: wrap; }
-.afq-note { color: var(--tkb-ink-soft); font-size: .85rem; margin: .4rem 0 0; }
+/* Body-copy floor per webdesign.md #1c - this is read, not glanced at, in dozens of places
+   (diagnostic framing, chapter descriptions, dashboard context lines). */
+.afq-note { color: var(--tkb-ink-soft); font-size: 1.05rem; margin: .4rem 0 0; }
 
 /* --- config --- */
 .afq-config section { margin-bottom: 1.25rem; }
@@ -37,7 +39,7 @@
 .afq-start { margin-top: .5rem; }
 
 /* --- runner --- */
-.afq-runner { display: flex; flex-direction: column; gap: .75rem; max-width: 760px; }
+.afq-runner { display: flex; flex-direction: column; gap: .75rem; max-width: 860px; }
 /* Subtests that ship a figure get the room the figure needs. 760px is the right measure for
    reading a question stem and the wrong one for a 33x33 grid, so the column widens only when
    there is actually something to draw - see `wide` in DrillRunner. */
@@ -64,7 +66,7 @@
 
 .afq-bar { height: 4px; background: var(--tkb-border); border-radius: 2px; overflow: hidden; }
 .afq-bar-fill { height: 100%; background: var(--tkb-accent); transition: width .2s linear; }
-.afq-alert { background: color-mix(in srgb, var(--tkb-wrong) 12%, transparent); color: var(--tkb-wrong); padding: .5rem .7rem; border-radius: 6px; font-size: .9rem; }
+.afq-alert { background: color-mix(in srgb, var(--tkb-wrong) 12%, transparent); color: var(--tkb-wrong); padding: .5rem .7rem; border-radius: 6px; font-size: 1.05rem; }
 .afq-alert-strong { background: color-mix(in srgb, var(--tkb-accent) 12%, transparent); color: var(--tkb-accent); }
 .afq-alert-weak { background: color-mix(in srgb, var(--tkb-unsure) 12%, transparent); color: var(--tkb-unsure); }
 .afq-alert-neutral { background: var(--tkb-surface); color: var(--tkb-ink-soft); border: 1px solid var(--tkb-border); }
@@ -75,7 +77,7 @@
 }
 
 .afq-card { background: var(--tkb-surface); border: 1px solid var(--tkb-border); border-radius: 10px; padding: 1.1rem; }
-.afq-stem { font-size: 1.15rem; margin: 0 0 1rem; line-height: 1.45; }
+.afq-stem { font-size: 1.3rem; margin: 0 0 1rem; line-height: 1.5; }
 .afq-choices { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .4rem; }
 .afq-choice {
   width: 100%; text-align: left; font: inherit; cursor: pointer;
@@ -86,8 +88,8 @@
 .afq-letter {
   display: inline-block; min-width: 1.6em; font-weight: 700; color: var(--tkb-ink-soft);
 }
-.afq-nudge { color: var(--tkb-unsure); font-size: .85rem; margin: .7rem 0 0; }
-.afq-hint { color: var(--tkb-ink-soft); font-size: .8rem; margin: 0; }
+.afq-nudge { color: var(--tkb-unsure); font-size: .95rem; margin: .7rem 0 0; }
+.afq-hint { color: var(--tkb-ink-soft); font-size: .9rem; margin: 0; }
 
 /* --- summary --- */
 .afq-summary h2 { font-size: 2.2rem; margin: 0; }
@@ -186,7 +188,8 @@
 .afq-chapter-body small { color: var(--tkb-ink-soft); font-size: .8rem; line-height: 1.35; }
 .afq-chapter-tags { display: flex; gap: .35rem; flex-wrap: wrap; margin-top: .15rem; }
 .afq-chip {
-  font-size: .68rem; padding: .1rem .45rem; border-radius: 999px;
+  /* .75rem is the floor for a badge/tag per webdesign.md #1c - this was below it. */
+  font-size: .78rem; padding: .1rem .45rem; border-radius: 999px;
   background: var(--tkb-canvas); border: 1px solid var(--tkb-border); color: var(--tkb-ink-soft);
 }
 .afq-chip-warn { color: var(--tkb-unsure); border-color: color-mix(in srgb, var(--tkb-unsure) 40%, transparent); }
@@ -212,8 +215,8 @@
   display: flex; flex-direction: column; gap: .5rem; align-items: flex-start;
   padding: .8rem; border: 1px solid var(--tkb-border); border-radius: 8px; background: var(--tkb-surface);
 }
-.afq-step h3 { margin: 0; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
-.afq-step p { margin: 0; font-size: .85rem; line-height: 1.45; flex: 1; }
+.afq-step h3 { margin: 0; font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+.afq-step p { margin: 0; font-size: 1.05rem; line-height: 1.5; flex: 1; }
 .afq-step-done { border-left: 3px solid var(--tkb-correct); }
 
 /* Lesson prose. Comfortable measure on purpose - this is the one place in the tool that is
@@ -224,29 +227,29 @@
   margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--tkb-border);
 }
 .afq-geo-figure { display: flex; flex-direction: column; align-items: center; gap: .5rem; margin: 0; color: var(--tkb-ink); }
-.afq-geo-figure figcaption { font-size: .82rem; color: var(--tkb-ink-soft); text-align: center; max-width: 46ch; line-height: 1.4; }
+.afq-geo-figure figcaption { font-size: 1rem; color: var(--tkb-ink-soft); text-align: center; max-width: 46ch; line-height: 1.5; }
 .afq-geo-figure figcaption span { font-size: 1.1em; }
 
 .afq-lesson {
   max-width: 74ch; line-height: 1.6;
   padding: 1.25rem 1.5rem; border: 1px solid var(--tkb-border); border-radius: 10px; background: var(--tkb-surface);
 }
-.afq-lesson h1 { font-size: 1.5rem; margin: 0 0 1rem; }
-.afq-lesson h2 { font-size: 1.1rem; margin: 1.8rem 0 .6rem; padding-top: .9rem; border-top: 1px solid var(--tkb-border); }
-.afq-lesson h3 { font-size: .95rem; margin: 1.2rem 0 .4rem; }
-.afq-lesson p, .afq-lesson li { font-size: .92rem; }
-.afq-lesson code { background: var(--tkb-canvas); padding: .1rem .35rem; border-radius: 4px; font-size: .88em; }
+.afq-lesson h1 { font-size: 1.7rem; margin: 0 0 1rem; }
+.afq-lesson h2 { font-size: 1.3rem; margin: 1.8rem 0 .6rem; padding-top: .9rem; border-top: 1px solid var(--tkb-border); }
+.afq-lesson h3 { font-size: 1.15rem; margin: 1.2rem 0 .4rem; }
+.afq-lesson p, .afq-lesson li { font-size: 1.1rem; }
+.afq-lesson code { background: var(--tkb-canvas); padding: .1rem .35rem; border-radius: 4px; font-size: .9em; }
 .afq-lesson blockquote {
   margin: 1rem 0; padding: .6rem .9rem; border-left: 3px solid var(--tkb-unsure);
   background: color-mix(in srgb, var(--tkb-unsure) 8%, transparent); border-radius: 0 6px 6px 0;
 }
 .afq-lesson blockquote p { margin: .3rem 0; }
-.afq-lesson table { border-collapse: collapse; width: 100%; margin: .9rem 0; font-size: .85rem; }
+.afq-lesson table { border-collapse: collapse; width: 100%; margin: .9rem 0; font-size: 1rem; }
 .afq-lesson th, .afq-lesson td { border: 1px solid var(--tkb-border); padding: .35rem .55rem; text-align: left; }
 .afq-lesson th { background: var(--tkb-canvas); }
 .afq-lesson hr { border: none; border-top: 1px solid var(--tkb-border); margin: 1.5rem 0; }
 
-.afq-concepts { font-size: .85rem; color: var(--tkb-ink-soft); }
+.afq-concepts { font-size: 1rem; color: var(--tkb-ink-soft); }
 .afq-concepts summary { cursor: pointer; }
 .afq-concept-list { list-style: none; margin: .6rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .3rem; }
 .afq-concept-list li { display: flex; justify-content: space-between; gap: .5rem; padding: .25rem .5rem; background: var(--tkb-surface); border-radius: 4px; }
@@ -258,10 +261,13 @@
 .afq-misses h3 { margin: 0; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
 .afq-miss { padding: .7rem .85rem; border: 1px solid var(--tkb-border); border-left: 3px solid var(--tkb-wrong); border-radius: 0 8px 8px 0; background: var(--tkb-surface); }
 .afq-miss-stem { margin: 0 0 .4rem; font-weight: 500; }
-.afq-miss-line { display: flex; gap: 1.2rem; flex-wrap: wrap; margin: 0 0 .4rem; font-size: .85rem; }
+.afq-miss-line { display: flex; gap: 1.2rem; flex-wrap: wrap; margin: 0 0 .4rem; font-size: 1rem; }
 .afq-miss-bad { color: var(--tkb-wrong); }
 .afq-miss-good { color: var(--tkb-correct); }
-.afq-miss-why { margin: 0; font-size: .85rem; color: var(--tkb-ink-soft); line-height: 1.5; }
+/* The explanation. This is the single most-read piece of text in the whole tool - see
+   webdesign.md #1c, raised specifically because this text had shipped too small to read
+   comfortably at length. */
+.afq-miss-why { margin: 0; font-size: 1.1rem; color: var(--tkb-ink-soft); line-height: 1.6; }
 
 /* Results review: misses by default, whole run on demand. */
 .afq-review-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
@@ -280,8 +286,8 @@
   display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
   padding: .9rem 1rem; border: 1px solid var(--tkb-border); border-radius: 10px; background: var(--tkb-surface);
 }
-.afq-next h3 { margin: 0; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
-.afq-next-title { margin: .4rem 0 0; font-size: .9rem; }
+.afq-next h3 { margin: 0; font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
+.afq-next-title { margin: .4rem 0 0; font-size: 1.05rem; }
 .afq-next-primary { border: 1px solid var(--tkb-accent); background: color-mix(in srgb, var(--tkb-accent) 6%, transparent); }
 .afq-next-primary h3 { color: var(--tkb-accent); }
 .afq-misspool { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
@@ -336,7 +342,7 @@
    far too many characters per line. Capped independently of .afq-runner-wide's 620px stem/
    choices rule, which is for a short question line, not a passage. */
 .afq-rc-fig { max-width: 700px; margin: 0 auto 1.1rem; }
-.afq-rc-text { font-size: .95rem; line-height: 1.6; color: var(--tkb-ink); }
+.afq-rc-text { font-size: 1.1rem; line-height: 1.65; color: var(--tkb-ink); }
 .afq-rc-numbered { display: flex; flex-direction: column; }
 .afq-rc-line { display: flex; gap: .6rem; }
 .afq-rc-lineno {
@@ -353,9 +359,9 @@
 }
 .afq-modes h3 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
 .afq-modes ul { list-style: none; margin: 0 0 .5rem; padding: 0; display: flex; flex-direction: column; gap: .3rem; }
-.afq-modes li { display: flex; gap: .6rem; align-items: baseline; font-size: .88rem; }
+.afq-modes li { display: flex; gap: .6rem; align-items: baseline; font-size: 1.05rem; }
 .afq-mode-n { font-weight: 700; color: var(--tkb-wrong); min-width: 2rem; }
-.afq-miss-mode { margin: 0 0 .35rem; font-size: .85rem; font-weight: 600; color: var(--tkb-wrong); }
+.afq-miss-mode { margin: 0 0 .35rem; font-size: 1.05rem; font-weight: 600; color: var(--tkb-wrong); }
 
 /* Short options next to a figure: one row, like the answer sheet. Keeps option E on screen. */
 .afq-choices-row { flex-direction: row; flex-wrap: wrap; gap: .5rem; }
@@ -405,7 +411,7 @@
    against the ground shading at steep bank angles. */
 .afq-dial-wrap { display: flex; flex-direction: column; align-items: center; gap: .2rem; }
 .afq-dial-wrap figcaption {
-  font-size: .62rem; letter-spacing: .1em; font-weight: 600;
+  font-size: .75rem; letter-spacing: .1em; font-weight: 600;
   color: var(--tkb-ink-soft); text-transform: uppercase;
 }
 
@@ -456,7 +462,7 @@
   font-size: .75rem; color: var(--tkb-ink-soft);
 }
 .afq-src-tag {
-  font-weight: 600; letter-spacing: .03em; text-transform: uppercase; font-size: .68rem;
+  font-weight: 600; letter-spacing: .03em; text-transform: uppercase; font-size: .75rem;
   padding: .1rem .4rem; border-radius: 4px;
   border: 1px solid var(--tkb-border); background: var(--tkb-bg);
 }
@@ -487,7 +493,7 @@
 }
 .afq-word-head { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
 .afq-word-head strong { font-size: 1.05rem; letter-spacing: .02em; }
-.afq-word-hint { font-size: .82rem; color: var(--tkb-ink-soft); font-style: italic; }
-.afq-word-gloss { font-size: .9rem; line-height: 1.5; }
-.afq-word-root { display: block; margin-top: .2rem; color: var(--tkb-ink-soft); font-size: .85rem; }
+.afq-word-hint { font-size: .95rem; color: var(--tkb-ink-soft); font-style: italic; }
+.afq-word-gloss { font-size: 1.1rem; line-height: 1.55; }
+.afq-word-root { display: block; margin-top: .2rem; color: var(--tkb-ink-soft); font-size: 1rem; }
 .afq-word-remove { flex: none; align-self: center; margin-right: .6rem; font-size: .78rem; }

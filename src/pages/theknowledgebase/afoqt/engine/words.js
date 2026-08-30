@@ -296,7 +296,11 @@ export function methodTemplates({ band, calibratedAgainst = 'oatts' }) {
           stem: 'Which of the following words carries a NEGATIVE connotation?',
           choices, correctIndex, errors, whys,
           tags: ['wk', 'wk-connotation'],
-          explanation: `${cap(target.word)} means ${target.gloss}, which is disapproving. Charge is the cheapest signal on this subtest: you can often strike two or three options by feel long before you can define anything, and on a 12-second clock that is the difference between answering and guessing.`,
+          // Word-specific only, on purpose - the "charge is a fast signal" strategy pitch lives
+          // once in the wk-01-method lesson. Repeating a strategy tip on every single miss is
+          // noise, not help, once you've read it the first time (Trey's direct complaint,
+          // 2026-08-30: missing 5 connotation questions produced the same paragraph 5 times).
+          explanation: `${cap(target.word)} means ${target.gloss} - a disapproving (negative) word.`,
           vocab: { word: target.word, pos: target.pos, gloss: target.gloss, root: target.root ?? null },
         };
       },
@@ -329,7 +333,10 @@ export function methodTemplates({ band, calibratedAgainst = 'oatts' }) {
           stem: `Which word is most nearly OPPOSITE in meaning to ${w.word.toUpperCase()}?`,
           choices, correctIndex, errors, whys,
           tags: ['wk', 'wk-antonym-trap'],
-          explanation: `${cap(w.word)} means ${w.gloss}, so its opposite is "${w.antonym}". The trap is "${w.answer}" - the correct meaning of the word, offered on a question that asked for the reverse. Read the last four words of the stem before you read the options.`,
+          // "Read the stem carefully" is a strategy tip, not a fact about this word - it belongs
+          // in the lesson (read once), not repeated on every miss. See the connotation frame
+          // above for why.
+          explanation: `${cap(w.word)} means ${w.gloss}, so its opposite is "${w.antonym}". The trap is "${w.answer}" - that is what ${w.word} itself means, not its opposite.`,
           vocab: { word: w.word, pos: w.pos, gloss: w.gloss, root: w.root ?? null },
         };
       },

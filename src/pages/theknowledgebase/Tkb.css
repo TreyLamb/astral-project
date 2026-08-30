@@ -75,10 +75,15 @@
   margin-left: 0.5rem;
 }
 
+/* Full width, per webdesign.md #1 - this shell wraps every TKB page (dashboard, subjects,
+   settings, AND /afoqt), so capping it here capped all of them, including pages that are
+   dashboards/tools, not long-form prose. Views that genuinely want a comfortable reading column
+   (the review flashcard, a lesson) already cap THEMSELVES - .tkb-card at 560px,
+   .tkb-review-topbar at 900px, .afq-lesson at 74ch - so removing the shell's own cap costs
+   those views nothing. */
 .tkb-wrapper .tkb-main {
   padding: 1.5rem;
-  max-width: 960px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .tkb-wrapper .tkb-loading-screen {

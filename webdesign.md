@@ -71,6 +71,51 @@ without either one being a compromise made for the other.
 
 ---
 
+## 1c. Body text size — the recurring failure this section exists to stop
+
+**Raised again 2026-08-30, after it had already happened on roughly ten tools in a row.** The
+pattern every time: headers, nav bars and chrome come out looking fine, and the actual body
+copy — the paragraphs, notes and explanations someone is meant to sit and READ — ships at
+11–14px. Nobody decides this on purpose; it's what `font-size: .75rem` /  `.8rem` / `.85rem`
+default to look like when scattered across a stylesheet one declaration at a time with no floor
+anyone is checking against. `/TKB` (and by inheritance `/TKB/afoqt`) was found with **thirteen**
+separate `.8rem` declarations and **eleven** separate `.85rem` ones doing exactly this to its own
+lesson prose, explanations and review text — the "questions" and "answers" a user is meant to
+read closely, not skim.
+
+**The floor, stated as numbers so it's checkable, not a feeling:**
+
+- **Body/paragraph copy — anything meant to be READ, not glanced at — never below `1rem` (16px),
+  and prefer `1.05–1.2rem` (17–19px) for anything long-form or explanation-heavy.** A worked
+  explanation, a lesson paragraph, a card's descriptive text, an article body: this tier.
+- **Secondary/meta text (timestamps, counts, small captions) floors at `0.85rem` (13.6px).**
+  Below that is for badges and tags only, never for a sentence someone reads.
+- **Tags, chips, and single-word labels may go to `0.75rem` (12px)** as the absolute floor —
+  never smaller, and never applied to anything longer than a couple of words.
+- **When in doubt, go bigger, not smaller.** The failure mode has been "too small" ten times in a
+  row and "too large" essentially never — there is no evidence the other direction needs guarding.
+
+**The reference implementation is `/EFTsh`** (`EftShopping.css`): `.eft-app` sets its own
+`font-size: 17.5px` on the page's root container rather than leaving everything at the browser
+default and hoping component-level `rem`s land somewhere reasonable. New tools should do the
+same — set a real base size on the page's own top-level wrapper, not just on scattered leaf
+elements — and Trey has explicitly signed off on EFT's resulting scale as "good" after iterating
+on it. When extending an EXISTING tool's stylesheet, match its established scale rather than
+inventing a smaller one for the new bit you're adding.
+
+**On the mobile excuse specifically**: shrinking body text to make a layout survive a phone
+screen is exactly the anti-pattern §1b above already bans, just applied to typography instead of
+layout. The fix for "reads fine on desktop, cramped on mobile" is the same fluid-layout toolkit
+already prescribed there — reflow, wrap, `clamp()`, a narrower single column — never a smaller
+font. Nobody has asked for smaller text on a phone; several people have now complained about
+smaller text on a DESKTOP monitor because a phone-safe size got shipped as the only size.
+
+**Check this specifically before calling a layout done**: don't just glance at the headers and
+nav — read a paragraph of the page's actual body content out loud at 100% zoom. If it's not
+comfortable, the layout isn't done regardless of how the header looks.
+
+---
+
 ## 2. Chrome collapses; the working surface does not
 
 On any page whose point is a large working surface:

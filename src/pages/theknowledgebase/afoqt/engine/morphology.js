@@ -174,7 +174,10 @@ export function morphemeTemplates({ chapter, band, idBase, name, calibratedAgain
         stem: `The ${m.kind} "${m.form}" means:`,
         choices, correctIndex, errors, whys,
         tags: ['wk', ...m.concepts],
-        explanation: `"${m.form}" is ${m.origin} and means ${m.sense}. You can see it in ${m.examples.map((e) => `${e.word} (${e.gloss})`).join(' and ')}. One root is worth more than one word: it pays out on every unfamiliar word built from it.`,
+        // Part-specific only - "one root is worth more than one word" is a strategy pitch that
+        // does not need to repeat on every single miss (Trey's complaint about the connotation
+        // frame in words.js applies identically here).
+        explanation: `"${m.form}" is ${m.origin} and means ${m.sense}. You can see it in ${m.examples.map((e) => `${e.word} (${e.gloss})`).join(' and ')}.`,
         // No single headword is "the" answer here (the question is about the part, not one
         // word), so the word bank gets the first example instead - missing what a part means
         // means missing every word built on it, starting with this one.
@@ -202,7 +205,7 @@ export function morphemeTemplates({ chapter, band, idBase, name, calibratedAgain
         stem: `Which word is built on a ${m.kind} meaning "${m.sense}"?`,
         choices, correctIndex, errors, whys,
         tags: ['wk', ...m.concepts],
-        explanation: `${cap(ex.word)} carries "${m.form}" (${m.origin}, ${m.sense}) and means ${ex.gloss}. Reading an unfamiliar word part by part is step 3 of the official method, and it is the only Word Knowledge strategy that works on a word you have never seen.`,
+        explanation: `${cap(ex.word)} carries "${m.form}" (${m.origin}, ${m.sense}) and means ${ex.gloss}.`,
         vocab: { word: ex.word, pos: null, gloss: ex.gloss, root: { form: m.form, sense: m.sense } },
       };
     },
