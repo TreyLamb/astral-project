@@ -6,7 +6,7 @@ const TRACKING_CYCLE = { full: 'light', light: 'none', none: 'full' };
 
 export default function CoursesDashboard() {
   const navigate = useNavigate();
-  const { courses, documents, assessments, addCourse, updateCourse } = useCourses();
+  const { courses, addCourse, updateCourse } = useCourses();
   const [adding, setAdding] = useState(false);
   const [code, setCode] = useState('');
   const [title, setTitle] = useState('');
@@ -25,8 +25,8 @@ export default function CoursesDashboard() {
         <div>
           <div className="crs-title">Courses</div>
           <div className="crs-subtitle">
-            {courses.length} courses — open a card for its documents, quizzes and pattern
-            report. Click the tracking pill to cycle full → light → none.
+            {courses.length} courses — open a card for its study material and question
+            generation. Click the tracking pill to cycle full → light → none.
           </div>
         </div>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -50,8 +50,6 @@ export default function CoursesDashboard() {
 
       <div className="crs-grid">
         {courses.map((c) => {
-          const docCount = documents.filter((d) => d.courseId === c.id).length;
-          const assessCount = assessments.filter((a) => a.courseId === c.id).length;
           return (
             <div
               key={c.id}
@@ -72,8 +70,6 @@ export default function CoursesDashboard() {
                 >
                   {c.trackingLevel}
                 </span>
-                {c.trackingLevel !== 'none' && <span className="crs-pill">{docCount} docs</span>}
-                {c.trackingLevel !== 'none' && <span className="crs-pill">{assessCount} assessments</span>}
               </div>
             </div>
           );

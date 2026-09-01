@@ -1,31 +1,24 @@
-import { useState, useMemo } from 'react';
-import { useCourses } from '../CoursesApp';
+import { useState } from 'react';
 import { useTkbData } from '../../TkbApp';
 import { buildStudyPrompt } from '../engine/promptBuilder';
 import { generateFactQuestions, EXAMPLE_MICR_FACTS } from '../engine/facts';
 import { generateBatch, courseTemplatesFor } from '../engine/generator';
 import { dedupeQaBatch } from '../../engine/dedup';
-import { untestedTaughtTags } from '../engine/patternAnalysis';
 
 // Tier 2 (zero-AI, in-app) and Tier 3 (external AI, manual paste) question
 // generation, both landing in the SAME place: TKB's existing question store,
 // via the existing importQuestions() importer (TkbApp's TkbDataContext) —
 // no separate review engine for Courses. Never calls an AI API itself.
 export default function ImportGenerated({ course }) {
-  const { documents, realQuestions } = useCourses();
   const { questions: tkbQuestions, importQuestions } = useTkbData();
+  const [context, setContext] = useState('');
   const [prompt, setPrompt] = useState('');
   const [pasteText, setPasteText] = useState('');
   const [preview, setPreview] = useState(null);
   const [result, setResult] = useState(null);
 
-  const focusTags = useMemo(
-    () => untestedTaughtTags(documents, realQuestions, course.id).map((t) => t.tag),
-    [documents, realQuestions, course.id]
-  );
-
   const buildPrompt = () => {
-    setPrompt(buildStudyPrompt(course, documents, realQuestions, focusTags));
+    setPrompt(buildStudyPrompt(course, context));
   };
 
   const runPreview = (rows) => {
@@ -72,6 +65,12 @@ export default function ImportGenerated({ course }) {
 
   return (
     <div className="crs-form">
+      <textarea
+        placeholder="Optional: paste/describe the material to base questions on (topics, a chapter, notes)"
+        value={context}
+        onChange={(e) => setContext(e.target.value)}
+        style={{ minHeight: '4rem' }}
+      />
       <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
         <button type="button" className="crs-btn secondary" onClick={buildPrompt}>Build AI study prompt</button>
         <button type="button" className="crs-btn secondary" onClick={generateExample}>Generate example questions (zero-AI)</button>

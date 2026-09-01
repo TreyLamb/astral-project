@@ -24,6 +24,16 @@ read `PLAN.md` first. Unlike AFOQT, these sit next to the code they describe rat
 sibling `docs/courses/` folder (that folder still exists only for the unused `repo-doc` content
 convention — see `DATA-MODEL.md`'s Content Strategy section).
 
+🔴 **`courses/AGENT-PROMPT.md` is the binding manual for ingesting new course material** —
+notes, slides, quizzes, exams, textbook chapters that Trey drops into
+`G:\My Drive\SupplementalCourseDocs\`. Read it in full before processing a single document.
+It carries the intake pipeline, the paragraph-classification taxonomy (what becomes a
+question vs. what gets dropped), the required formats for the schedule / chapter guide /
+exam guide, the template + fact-row contracts, the per-course dossiers (CHEM's two-audience
+ACS-vs-instructor split, MICR's missing answer keys), and the dated format traps — including
+that **`.gdoc` files cannot be read at all** and must be exported first. A short pointer copy
+sits in the Drive folder as `README-FOR-AGENTS.md`.
+
 **`docs/afoqt/HANDOFF.md` is the project skeleton + known-polish list.** All 33 build PARTs are
 done (2026-08-26), so the old outside-agent farming-board format (numbered PARTs, paste-ready
 prompts, minimal-zip recipe) was retired 2026-08-27 — read it if you need to know what's built,

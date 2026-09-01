@@ -1,21 +1,21 @@
 // Courses Firestore data layer — used only when signed in. Mirrors
-// coursesStorage.js's business logic exactly, one collection per entity under
-// users/{uid}/courses_courses, users/{uid}/courses_documents,
-// users/{uid}/courses_assessments, users/{uid}/courses_realquestions —
-// same split tkbFirestore.js uses, not a single blob doc, because Documents
-// and RealQuestions are expected to keep growing term over term.
+// coursesStorage.js's business logic exactly, one collection:
+// users/{uid}/courses_courses.
+//
+// The courses_documents/courses_assessments/courses_realquestions
+// collections were removed 2026-08-28 along with the rest of the
+// Documents/Assessments feature — see coursesStorage.js's header comment.
+// Any old documents left in those collections from before the removal are
+// simply orphaned, unread by the app.
 
 import {
-  collection, doc, getDocs, getDoc, setDoc, updateDoc, deleteDoc, writeBatch,
+  collection, doc, getDocs, getDoc, setDoc, updateDoc, deleteDoc,
 } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import { SEED_COURSES } from './coursesSeed';
 import { uid } from './coursesStorage';
 
 function coursesRef(uidStr) { return collection(db, 'users', uidStr, 'courses_courses'); }
-function documentsRef(uidStr) { return collection(db, 'users', uidStr, 'courses_documents'); }
-function assessmentsRef(uidStr) { return collection(db, 'users', uidStr, 'courses_assessments'); }
-function realQuestionsRef(uidStr) { return collection(db, 'users', uidStr, 'courses_realquestions'); }
 
 export const CoursesFirestore = {
   async seedIfEmpty(uidStr) {
@@ -43,85 +43,7 @@ export const CoursesFirestore = {
     const snap = await getDoc(doc(db, 'users', uidStr, 'courses_courses', id));
     return snap.exists() ? snap.data() : null;
   },
-  async removeCourse(uidStr, id, currentDocuments, currentAssessments, currentRealQuestions) {
-    const batch = writeBatch(db);
-    batch.delete(doc(db, 'users', uidStr, 'courses_courses', id));
-    currentDocuments.filter((d) => d.courseId === id).forEach((d) => batch.delete(doc(db, 'users', uidStr, 'courses_documents', d.id)));
-    currentAssessments.filter((a) => a.courseId === id).forEach((a) => batch.delete(doc(db, 'users', uidStr, 'courses_assessments', a.id)));
-    currentRealQuestions.filter((q) => q.courseId === id).forEach((q) => batch.delete(doc(db, 'users', uidStr, 'courses_realquestions', q.id)));
-    await batch.commit();
-  },
-
-  async getDocuments(uidStr) {
-    const snap = await getDocs(documentsRef(uidStr));
-    return snap.docs.map((d) => d.data());
-  },
-  async addDocument(uidStr, partial) {
-    const d = { id: uid(), weekId: null, tags: [], summary: '', createdAt: new Date().toISOString(), ...partial };
-    await setDoc(doc(db, 'users', uidStr, 'courses_documents', d.id), d);
-    return d;
-  },
-  async updateDocument(uidStr, id, updates) {
-    await updateDoc(doc(db, 'users', uidStr, 'courses_documents', id), updates);
-    const snap = await getDoc(doc(db, 'users', uidStr, 'courses_documents', id));
-    return snap.exists() ? snap.data() : null;
-  },
-  async removeDocument(uidStr, id) {
-    await deleteDoc(doc(db, 'users', uidStr, 'courses_documents', id));
-  },
-
-  async getAssessments(uidStr) {
-    const snap = await getDocs(assessmentsRef(uidStr));
-    return snap.docs.map((d) => d.data());
-  },
-  async addAssessment(uidStr, partial) {
-    const a = {
-      id: uid(), type: 'quiz', questionIds: [], score: null, totalPossible: null,
-      createdAt: new Date().toISOString(), ...partial,
-    };
-    await setDoc(doc(db, 'users', uidStr, 'courses_assessments', a.id), a);
-    return a;
-  },
-  async updateAssessment(uidStr, id, updates) {
-    await updateDoc(doc(db, 'users', uidStr, 'courses_assessments', id), updates);
-    const snap = await getDoc(doc(db, 'users', uidStr, 'courses_assessments', id));
-    return snap.exists() ? snap.data() : null;
-  },
-  async removeAssessment(uidStr, id, currentRealQuestions) {
-    const batch = writeBatch(db);
-    batch.delete(doc(db, 'users', uidStr, 'courses_assessments', id));
-    currentRealQuestions.filter((q) => q.assessmentId === id).forEach((q) => batch.delete(doc(db, 'users', uidStr, 'courses_realquestions', q.id)));
-    await batch.commit();
-  },
-
-  async getRealQuestions(uidStr) {
-    const snap = await getDocs(realQuestionsRef(uidStr));
-    return snap.docs.map((d) => d.data());
-  },
-  async addRealQuestion(uidStr, partial, currentAssessment) {
-    const q = {
-      id: uid(), myAnswer: '', correctAnswer: '', topicTags: [], sourceDocId: null,
-      createdAt: new Date().toISOString(), ...partial,
-    };
-    await setDoc(doc(db, 'users', uidStr, 'courses_realquestions', q.id), q);
-    if (currentAssessment && !currentAssessment.questionIds.includes(q.id)) {
-      await updateDoc(doc(db, 'users', uidStr, 'courses_assessments', currentAssessment.id), {
-        questionIds: [...currentAssessment.questionIds, q.id],
-      });
-    }
-    return q;
-  },
-  async updateRealQuestion(uidStr, id, updates) {
-    await updateDoc(doc(db, 'users', uidStr, 'courses_realquestions', id), updates);
-    const snap = await getDoc(doc(db, 'users', uidStr, 'courses_realquestions', id));
-    return snap.exists() ? snap.data() : null;
-  },
-  async removeRealQuestion(uidStr, id, currentAssessment) {
-    await deleteDoc(doc(db, 'users', uidStr, 'courses_realquestions', id));
-    if (currentAssessment) {
-      await updateDoc(doc(db, 'users', uidStr, 'courses_assessments', currentAssessment.id), {
-        questionIds: currentAssessment.questionIds.filter((qid) => qid !== id),
-      });
-    }
+  async removeCourse(uidStr, id) {
+    await deleteDoc(doc(db, 'users', uidStr, 'courses_courses', id));
   },
 };

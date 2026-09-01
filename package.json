@@ -21,7 +21,9 @@
     "afoqt:selftest": "node scripts/afoqtSelftest.mjs",
     "afoqt:coverage": "node scripts/afoqtCoverage.mjs",
     "afoqt:sample": "node scripts/afoqtSample.mjs",
-    "afoqt:check": "npm run afoqt:selftest && npm run afoqt:coverage"
+    "afoqt:check": "npm run afoqt:selftest && npm run afoqt:coverage",
+    "chem:selftest": "node src/pages/theknowledgebase/courses/chem/engine/selftest.mjs",
+    "courses:scan": "node scripts/courseSourceScan.mjs"
   },
   "dependencies": {
     "@mintplex-labs/piper-tts-web": "^1.0.5",

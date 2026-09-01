@@ -4,45 +4,28 @@
 // tkbStorage.importQuestions already accepts (the notesToQuestionsPrompt.md
 // schema), so the output can be pasted straight into ImportGenerated.jsx with
 // no reformatting.
+//
+// Used to also pull in CourseDocument summaries and captured RealQuestions as
+// context — that feature (and the "focus on untested-taught tags" weighting)
+// was removed 2026-08-28 along with Documents/Assessments. Trey types the
+// topic/material himself into the free-text `context` field instead.
 
 /**
  * @param {import('../coursesStorage').Course} course
- * @param {import('../coursesStorage').CourseDocument[]} documents
- * @param {import('../coursesStorage').RealQuestion[]} realQuestions
- * @param {string[]} [focusTags] - tags to weight toward (e.g. untested-taught tags)
+ * @param {string} [context] - free-text: what material/topics to base questions on
  * @param {number} [count]
  * @returns {string}
  */
-export function buildStudyPrompt(course, documents, realQuestions, focusTags = [], count = 40) {
-  const courseDocs = documents.filter((d) => d.courseId === course.id);
-  const courseQuestions = realQuestions.filter((q) => q.courseId === course.id);
-
+export function buildStudyPrompt(course, context = '', count = 40) {
   const lines = [];
   lines.push(`I'm studying for ${course.code} — ${course.title} (${course.term || 'current term'}).`);
   lines.push(`Generate ${count} study questions as a JSON array. Base them on the material below —`);
   lines.push(`do not invent facts about the subject that aren't implied by it.`);
   lines.push('');
 
-  if (courseDocs.length) {
-    lines.push('=== Material covered so far ===');
-    for (const d of courseDocs) {
-      const tagStr = d.tags?.length ? ` [tags: ${d.tags.join(', ')}]` : '';
-      lines.push(`- (${d.kind}) ${d.title}${tagStr}${d.summary ? ` — ${d.summary}` : ''}`);
-    }
-    lines.push('');
-  }
-
-  if (courseQuestions.length) {
-    lines.push('=== Real questions I have already been asked (match this style/difficulty) ===');
-    for (const q of courseQuestions.slice(-25)) {
-      lines.push(`- Q: ${q.verbatimText}${q.correctAnswer ? `  A: ${q.correctAnswer}` : ''}`);
-    }
-    lines.push('');
-  }
-
-  if (focusTags.length) {
-    lines.push(`=== Weight extra toward these topics — they've been taught but not tested yet ===`);
-    lines.push(focusTags.join(', '));
+  if (context.trim()) {
+    lines.push('=== Material to base questions on ===');
+    lines.push(context.trim());
     lines.push('');
   }
 
