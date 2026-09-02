@@ -41,10 +41,79 @@ Files tab and the fix resolves them through module items instead).
 | Dashboard | `/TKB/courses/dashboard` | ✅ Verified in browser |
 | Syllabus template | `/TKB/courses/syllabus` | ✅ CHEM done; MICR ×2 pending |
 | Chem curriculum | `/TKB/courses/chem` | ✅ 9 chapters, 88 templates (`npm run chem:selftest`) |
+| Chem dual coordinates | `chem/syllabusMap.js` | ✅ 45 sections, all carrying concepts; all 88 templates tagged |
+| Chem two-tier gates | `chem/engine/gates.js` | ✅ Logic + storage tested. ⚠ Only 4/45 sections have enough templates to fill one |
+| Chem coverage check | `npm run chem:coverage` | ✅ Verifies the section↔chapter join `chem:selftest` cannot see |
 | Committed data | `courses/data/canvasSchedule.json`, `courses/data/syllabi.json` | ✅ |
 
 Canvas data lands in `G:\My Drive\SupplementalCourseDocs\<COURSE>\_canvas\` (machine-generated,
 never mixed with Trey's own notes) and `\files\`.
+
+## Chem — state as of commit `bdaa25f` (2026-09-02)
+
+**The question bank is thinner than a green test suite makes it look. Read this before
+building anything on top of it.**
+
+`npm run chem:coverage -- --verbose` prints the truth, per section:
+
+```
+Course check (bands 1-3)   4 of 45 sections have the 5 templates a gate needs
+ACS check    (bands 4-5)   0 of 45   — no band 4-5 template exists yet
+```
+
+Quiz 4 (Sec 1-7) has **one** template. Most sections have 1-3. The four that are fillable are
+2-3, 3-2, 4-3 and 6-4. Nothing is broken — the content simply is not written yet, and the
+per-section counts are the build queue.
+
+**What this session fixed.** The blocker was upstream of the templates: 33 of 45 sections in
+`syllabusMap.js` carried `concepts: []`, so 65 of 80 concepts had no course-section home and 71
+of 88 templates had no derivable section. The course track could never have drawn a question.
+Sections now all declare concepts, and every template carries one.
+
+- Sections were **derived, not hand-transcribed** — `npm run chem:tag-sections` (dry run by
+  default, `--write` to apply). It is idempotent: a template that already has a `section:` line
+  is left alone, so hand corrections survive a re-run.
+- Three hand `OVERRIDES` in that script, where the automatic earliest-section tiebreak
+  disagreed with the section's own title (e.g. `molecular-polarity` resolved to 8-2 when 8-3 is
+  *titled* "Molecular Polarity"). Add to that map rather than editing a template by hand.
+- `npm run chem:coverage` is new and checks what `chem:selftest` structurally cannot: a
+  section's concepts must belong to the ACS chapter that section points at, and a template's
+  two coordinates must agree. `npm run chem:check` runs both.
+
+### Two open decisions — do not just pick one silently
+
+1. **Gates may be scoped to the wrong unit.** Trey asked for two gates *per section* and that is
+   what is built. But his quizzes cover **ranges** — "Quiz 5, Sec 2-1 to 2-3". Per section, 2-2
+   has 0 templates and 2-3 has 5; as a quiz-range gate that is a usable 5. `sectionsFromQuizTitle`
+   in `syllabusMap.js` already computes the union. A quiz-level gate layered over the section
+   gates would map 1:1 onto the real graded event and be fillable far sooner. **Ask him.**
+2. **`mole-definition` is misfiled in `curriculum.js`** — it sits under
+   `chem1-02-electronic-structure`, which is why section 6-4 (Electron Configurations) had to
+   adopt it. It belongs in `chem1-03-mole-calculations`. Deliberately left alone: the fix has a
+   **broken intermediate state** — moving the concept fails `chem:selftest` until the template
+   `chem1-02-mole-definition` moves too. Do both edits in one pass, then re-run
+   `chem:tag-sections --write` and `chem:check`.
+
+### Chem build queue, in priority order
+
+1. **Band 4-5 ACS templates. None exist.** Start with the chapters Trey hits in the next six
+   weeks: `chem1-00-toolbox`, `chem1-01-atomic-structure`, `chem1-03-mole-calculations`
+   (quizzes run Sec 1-7 → 4-6 through 14 Oct). ~10-12 per chapter. Set `section: null` and let
+   `chem:tag-sections` assign it. Band 4 = two-step or one step with a real trap; band 5 =
+   three-plus chained steps or a two-idea synthesis. Difficulty comes from the chemistry and the
+   step count, never from uglier numbers.
+2. **Redox (section 5-2) has 1 template.** Course chapter 5, `acs: null` — his instructor tests
+   it and the ACS first-term exam does not, so it is invisible to any ACS-driven count. Quiz 15,
+   14 Oct.
+3. **Fill the thin course-tier sections** so more than 4 of 45 can offer a gate. `--verbose`
+   output is the queue.
+4. **Course track view + ACS track view.** Blocked on 1-3 having content to show; a track view
+   over a bank this thin would render mostly empty gates.
+5. **Capture the real Canvas quiz questions** by `quizId` (present in `canvasSchedule.json`;
+   the Quizzes tab is hidden, so they come through the same module-item path files do).
+
+⚠️ An earlier attempt to have a sub-agent write the band 4-5 templates **did not finish and
+produced no files**. Nothing from it was committed — the tree is clean, not half-applied.
 
 ## Immediate next actions, in order
 
