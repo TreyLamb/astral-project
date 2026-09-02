@@ -3,6 +3,92 @@
 **This file is the resume point.** A fresh session should read this file first and know
 exactly where to pick up. Update it at the end of every working block.
 
+---
+
+# 🔴 RESUME HERE — last session 2026-09-02
+
+## The one thing blocking everything else
+
+**Trey needs to re-run the Canvas capture snippet.** Everything downstream waits on it.
+
+1. Open **https://uvu.instructure.com**, logged in → **F12** → **Console**
+   (if it warns about pasting, type `allow pasting` first)
+2. Paste all of **`scripts/browser/canvasCapture.js`**, Enter, wait for `canvas-capture.json`
+   to download
+3. Tell the agent — it lands in `~/Downloads/canvas-capture.json`
+
+Then the agent runs (from anywhere in the repo):
+
+```bash
+npm run canvas -- --from-capture "$USERPROFILE/Downloads/canvas-capture.json"
+npm run courses:scan
+```
+
+**Why it must be re-run:** the current snapshot predates two fixes. It has **no submission
+status** (so nothing can tell finished work from missed work — 8 past-due items are unknown) and
+**no files** (82 real PDFs/handouts exist but the first capture missed them; instructors hid the
+Files tab and the fix resolves them through module items instead).
+
+## What is built and where
+
+| Thing | Where | State |
+|---|---|---|
+| Agent ingest manual | `courses/AGENT-PROMPT.md` | ✅ The binding doc. Read before touching any course material. |
+| Trey-facing how-to | `courses/INGEST-HOWTO.md` | ✅ Canvas capture, chem-book capture, file handling |
+| Canvas capture (browser) | `scripts/browser/canvasCapture.js` | ✅ No token needed — UVU disables student tokens |
+| Canvas import | `scripts/canvasFetch.mjs` (`npm run canvas`) | ✅ Both capture and token modes |
+| Ingest ledger | `scripts/courseSourceScan.mjs` (`npm run courses:scan`) | ✅ Never re-read an ingested doc |
+| Dashboard | `/TKB/courses/dashboard` | ✅ Verified in browser |
+| Syllabus template | `/TKB/courses/syllabus` | ✅ CHEM done; MICR ×2 pending |
+| Chem curriculum | `/TKB/courses/chem` | ✅ 9 chapters, 88 templates (`npm run chem:selftest`) |
+| Committed data | `courses/data/canvasSchedule.json`, `courses/data/syllabi.json` | ✅ |
+
+Canvas data lands in `G:\My Drive\SupplementalCourseDocs\<COURSE>\_canvas\` (machine-generated,
+never mixed with Trey's own notes) and `\files\`.
+
+## Immediate next actions, in order
+
+1. **Re-run capture** (above), re-import, confirm the dashboard's orange "no submission status"
+   banner disappears and files download.
+2. **Normalize MICR 2065's syllabus** — it is `BIOL 2065 Syllabus-1.docx`, Canvas file
+   `134770986`, which arrives with the re-run. Fill `data/syllabi.json` → `MICR 2065`.
+3. **MICR 2060 has no syllabus in Canvas at all.** Ask Trey where it lives before assuming.
+4. **Build `courses/SCHEDULE.md`** (spec: AGENT-PROMPT §6A). Canvas due dates now make this
+   possible without a syllabus.
+5. **MICR 2060 Exam 1 is 2026-09-19, 135.84 pts, MMAHP Ch 1-3** — the first real study
+   deliverable. There are THREE exams at that weight (Sep 19 / Oct 14 / Nov 14), plus a 165-pt
+   MICR 2065 practical on Dec 8.
+
+## Decisions made — do not re-litigate
+
+- **No password, ever.** Canvas access is the browser-session capture, or a personal access token
+  if UVU ever enables them. Trey confirmed he cannot create a token; his Kaltura scoped key is for
+  the video platform and is useless here.
+- **`.gdoc` files cannot be read by any local tool.** Three are affected. Fix is a `.md` export or
+  the claude.ai Google Drive connector. See AGENT-PROMPT §4.2.
+- **The chem textbook is AcademiQ** (`learn-ai-danielscott26.replit.app`), confirmed by CHEM's own
+  syllabus. Its `/api` is behind a login; the path is a devtools capture (INGEST-HOWTO §Source 2).
+  ⛔ **Blocked until Trey sends one capture** — endpoint names are not visible from outside.
+- **Syllabus fluff gets dropped** (Title IX, ADA, learning outcomes, course philosophy). One fixed
+  template; the view never adapts to the source document.
+- **Contradictions get recorded, never silently resolved.** CHEM 1210's syllabus has three.
+
+## Gotchas that already cost time
+
+- **Canvas `due_at` is UTC.** Formatting it in UTC reported almost every 11:59 PM deadline one day
+  late. Always format in `America/Denver`. Trey caught this one.
+- **Canvas shadows every quiz with a duplicate assignment.** Join on `assignment.quiz_id` or
+  counts double.
+- **Instructors hide the Files/Pages tabs**, so `/files` and `/pages` return empty while the
+  content sits in modules. Resolve through module items.
+- **UVU packs section + term into `course_code`** → folder names must be normalized to `CHEM 1210`.
+- **`npm run` works from any folder; bare `node scripts/...` only from the repo root.**
+- ⚠️ **Commit `scripts/` selectively.** A `git add -A scripts` in this session swept three
+  unrelated OATTS files (`oattsText.mjs`, `parseOattsAnswers.mjs`, `repairOattsBank.mjs`) into
+  commit `890973d` under a Canvas message. Not lost, just mislabeled — offer to split if asked.
+
+---
+
 - **Term:** Fall 2026, 9 courses (see `coursesSeed.js`). 6 tracked `full`, 3 (the AERO
   commissioning classes) tracked `light`.
 - **Goal:** permanent home for course tracking + turning material into study questions, feeding
@@ -54,6 +140,72 @@ exactly where to pick up. Update it at the end of every working block.
 - Real term name/dates beyond "Fall 2026" (seeded as a guess, editable per course).
 - Which courses should get their own Tier 2 fact-set/template beyond the MICR/CHEM examples,
   once he's actually a few weeks into the term and has real material to build them from.
+
+## RESOLVED (2026-09-02)
+
+- **Canvas is wired end to end and the first real pull happened.** UVU runs
+  `uvu.instructure.com` — discovered by rendering the scanned `Microbiology_LAB/SyllabusQuiz.pdf`
+  to PNG and reading the footer URL, not assumed. **Only 3 of 10 courses appear in Canvas**
+  (CHEM 1210, MICR 2060, MICR 2065); the AERO/ESMG/ESFF courses are not published there. Trey
+  noted AERO runs through **BYU's** site and he has not checked it yet — that is a separate,
+  unexplored source.
+- **Token-free capture path** (`scripts/browser/canvasCapture.js`). Trey **cannot create a Canvas
+  personal access token** (UVU disables it for students), and the "Kaltura scoped API key" he does
+  have is for the video platform, not the Canvas REST API. Canvas's API accepts the browser's own
+  session for same-origin requests, so a devtools snippet needs no credential at all.
+  `canvasFetch.mjs --from-capture` imports it; both paths emit byte-identical folders.
+- **First import: 104 dated items across 3 courses**, plus per-course `_canvas/syllabus.md`,
+  `schedule.md`, `schedule.json`, `modules.md`, `pages/`.
+- **Three bugs found and fixed against real data:**
+  1. 🔴 **Off-by-one-day due dates.** `due_at` is UTC; formatting with `toISOString()` reported an
+     11:59 PM Denver deadline as the NEXT DAY. It hit nearly every late-night deadline and failed
+     in the worst direction for a planner — "due tomorrow" when it was due tonight. **Trey caught
+     this**, on OLQ 2. Now formatted via `Intl.DateTimeFormat` in `America/Denver` (`--tz` to
+     override) and `schedule.md` carries a Time column. Midday deadlines (CHEM's 12:30 PM quizzes)
+     were unaffected, which is exactly why it was not obvious.
+  2. **Quizzes double-counted.** Canvas shadows every quiz with an assignment record carrying the
+     same name/date/points. Joined on `assignment.quiz_id`. ⚠ Do NOT "simplify" this by dropping
+     every assignment with a `quiz_id`: CHEM's quizzes endpoint returns 0 rows (New Quizzes lives
+     behind a different API), so its 29 quiz-backed assignments are the only record of them.
+  3. **Files and Pages came back empty.** Instructors hide those tabs, so the endpoints return
+     nothing while the content sits in modules — 81 hidden files in MICR 2060, 33 hidden pages in
+     MICR 2065. Now resolved through module items by `content_id` / `page_url`.
+- **Submission status added** (`include[]=submission`). `statusOf()` folds Canvas's four
+  disagreeing fields (`excused` / `submitted_at` / `workflow_state` / `missing`) into one word in
+  that precedence order. Needed because a planner that cannot tell finished from missed nags about
+  work already done. ⚠ **Not in the current snapshot** — needs the capture re-run.
+- **Canvas-style dashboard** at `/TKB/courses/dashboard`, per Trey: *"just use a lot of the css
+  from canvas uvu.instructure.com so it looks similar."* Lato / `#0374B5` / colour-striped cards /
+  "Coming Up" rail, deliberately more minimal than Canvas. **"Biggest items ahead" ranks by POINTS
+  rather than date** — the actual study-priority question — and immediately surfaced a 165-pt MICR
+  2065 practical and *three* 135.84-pt MICR 2060 exams, none of which were visible reading the
+  list chronologically.
+- **Standard syllabus template** at `/TKB/courses/syllabus` (`data/syllabi.json`), per Trey:
+  *"EVERY teacher does their syllabus slightly different... I just want one standard template that
+  each syllabus gets imported to and the fluff gets kicked out."* Fixed shape; the view never
+  adapts to the source. Fluff taxonomy and the real-vs-fluff rules live in AGENT-PROMPT §B2.
+  A missing section renders **as missing** — an absent late policy silently reads as "no penalty".
+  - **CHEM 1210 normalized in full**, and it has **three self-contradictions**, all recorded in
+    `conflicts[]` rather than resolved: two entirely different grade breakdowns in one document
+    (points table summing to 1100 vs. a later section with percentages and only THREE midterms),
+    "Exams (4 x 125)" labelled 475 (4×125=500), and a final worth 250 in prose but 275 in the
+    table. The points table was used because it sums exactly to 1100 and matches the four-exam
+    schedule — but this is Trey's to confirm with the instructor.
+  - Confirmed from that syllabus: **AcademiQ is the official required text**, and its "progress
+    questions" are the graded homework. Exams are **all cumulative and retroactively raise earlier
+    exam scores**; the scale is curved so **63% is a C**.
+- **Course list corrected + `Course` typedef gained `section`/`credits`/`crn`/`delivery`**;
+  stale `H:` drive letter fixed to `G:` in two docs.
+- **A crash caught only in a real browser:** `SyllabusView` filtered courses on `s.code`, but the
+  `_schema` documentation block documents its own fields as strings, so `_schema.code` is truthy
+  and the schema sailed through as a course (`s.keyRules.map is not a function`). Now filtered on
+  the `_` key prefix. `afoqt:selftest`-style structural checks would never have caught this —
+  the error boundary and a screenshot did.
+- ✂️ **Not built this pass:** `SCHEDULE.md` (now unblocked — Canvas supplies the dates);
+  MICR 2060 / MICR 2065 syllabus normalization (blocked on the re-run and on MICR 2060 having no
+  syllabus in Canvas at all); the AcademiQ textbook crawler (blocked on one capture from Trey);
+  no study guides or question generation from any of this material yet; AERO/BYU entirely
+  unexplored.
 
 ## RESOLVED (2026-08-31)
 
