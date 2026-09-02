@@ -100,83 +100,101 @@ const soft = async (p, label) => {
 function expired() {
   console.error('\nSession expired or revoked.');
   console.error('Grab a fresh Cookie header from the Network tab and update ACADEMIQ_COOKIE.');
-  process.exit(2);
+  console.error('It must come from a request made while ALREADY signed in. A Cookie header');
+  console.error('captured during the login redirect only holds the OIDC handshake');
+  console.error('(code_verifier, nonce, state) and can never authenticate.');
+  process.exitCode = 2;
+  throw new Bail();
 }
 
-let me;
-try {
-  me = await get('/api/auth/user');
-} catch (e) {
-  if (e.message === 'SESSION_EXPIRED') expired();
-  throw e;
-}
-if (!me?.user) expired();
+// Wrapped in main() so the exit path can set process.exitCode and return instead of calling
+// process.exit() mid-flight. On Windows, process.exit() while a fetch handle is still open
+// prints a libuv assertion (UV_HANDLE_CLOSING) AFTER the real error message, which makes an
+// ordinary expired-cookie message look like a crash.
+class Bail extends Error {}
 
-console.log(`Signed in as ${me.user.email ?? me.user.id ?? 'unknown'}`);
-if (CHECK_ONLY) { console.log('Cookie is valid.'); process.exit(0); }
-
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-/**
- * Section ids can sit under any of several plausible key names, and the response shape was not
- * observable from outside the login. Rather than guessing one schema, walk the JSON and take every
- * uuid-shaped value that looks like a section reference.
- */
-function harvestSectionIds(node, into, depth = 0) {
-  if (!node || depth > 10) return;
-  if (Array.isArray(node)) { for (const n of node) harvestSectionIds(n, into, depth + 1); return; }
-  if (typeof node !== 'object') return;
-  for (const [k, v] of Object.entries(node)) {
-    if (typeof v === 'string' && UUID.test(v) && /section/i.test(k)) into.add(v);
-    else if (v && typeof v === 'object') harvestSectionIds(v, into, depth + 1);
+async function main() {
+  let me;
+  try {
+    me = await get('/api/auth/user');
+  } catch (e) {
+    if (e.message === 'SESSION_EXPIRED') expired();
+    throw e;
   }
-  if (typeof node.id === 'string' && UUID.test(node.id) && (node.title || node.name)) into.add(node.id);
-}
+  if (!me?.user) expired();
 
-let courses;
-try {
-  courses = await get('/api/courses');
-} catch (e) {
-  if (e.message === 'SESSION_EXPIRED') expired();
-  throw e;
-}
-const list = Array.isArray(courses) ? courses : (courses.courses ?? []);
-console.log(`${list.length} course(s)`);
+  console.log(`Signed in as ${me.user.email ?? me.user.id ?? 'unknown'}`);
+  if (CHECK_ONLY) { console.log('Cookie is valid.'); return; }
 
-const out = { fetchedAt: new Date().toISOString(), user: me.user.email ?? null, courses: [], sections: {} };
-const sectionIds = new Set();
+  const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-try {
-  for (const c of list) {
-    const id = c.id ?? c.courseId;
-    console.log(`-> ${id} ${c.title ?? c.name ?? ''}`);
-    const detail = await soft(`/api/courses/${id}`, `course ${id}`);
-    out.courses.push({ summary: c, detail });
-    harvestSectionIds(detail, sectionIds);
-    harvestSectionIds(c, sectionIds);
+  /**
+   * Section ids can sit under any of several plausible key names, and the response shape was not
+   * observable from outside the login. Rather than guessing one schema, walk the JSON and take every
+   * uuid-shaped value that looks like a section reference.
+   */
+  function harvestSectionIds(node, into, depth = 0) {
+    if (!node || depth > 10) return;
+    if (Array.isArray(node)) { for (const n of node) harvestSectionIds(n, into, depth + 1); return; }
+    if (typeof node !== 'object') return;
+    for (const [k, v] of Object.entries(node)) {
+      if (typeof v === 'string' && UUID.test(v) && /section/i.test(k)) into.add(v);
+      else if (v && typeof v === 'object') harvestSectionIds(v, into, depth + 1);
+    }
+    if (typeof node.id === 'string' && UUID.test(node.id) && (node.title || node.name)) into.add(node.id);
   }
 
-  console.log(`${sectionIds.size} section(s) to fetch`);
-  let n = 0;
-  for (const sid of sectionIds) {
-    const s = await soft(`/api/sections/${sid}`, `section ${sid}`);
-    if (s) out.sections[sid] = s;
-    if (++n % 10 === 0) console.log(`   ${n}/${sectionIds.size}`);
+  let courses;
+  try {
+    courses = await get('/api/courses');
+  } catch (e) {
+    if (e.message === 'SESSION_EXPIRED') expired();
+    throw e;
   }
+  const list = Array.isArray(courses) ? courses : (courses.courses ?? []);
+  console.log(`${list.length} course(s)`);
+
+  const out = { fetchedAt: new Date().toISOString(), user: me.user.email ?? null, courses: [], sections: {} };
+  const sectionIds = new Set();
+
+  try {
+    for (const c of list) {
+      const id = c.id ?? c.courseId;
+      console.log(`-> ${id} ${c.title ?? c.name ?? ''}`);
+      const detail = await soft(`/api/courses/${id}`, `course ${id}`);
+      out.courses.push({ summary: c, detail });
+      harvestSectionIds(detail, sectionIds);
+      harvestSectionIds(c, sectionIds);
+    }
+
+    console.log(`${sectionIds.size} section(s) to fetch`);
+    let n = 0;
+    for (const sid of sectionIds) {
+      const s = await soft(`/api/sections/${sid}`, `section ${sid}`);
+      if (s) out.sections[sid] = s;
+      if (++n % 10 === 0) console.log(`   ${n}/${sectionIds.size}`);
+    }
+  } catch (e) {
+    if (e.message === 'SESSION_EXPIRED') expired();
+    throw e;
+  }
+
+  fs.mkdirSync(OUT, { recursive: true });
+  const dest = path.join(OUT, 'academiq.json');
+  fs.writeFileSync(dest, JSON.stringify(out, null, 2) + '\n');
+
+  console.log(`\n${calls} API calls.`);
+  console.log(`${out.courses.length} course(s), ${Object.keys(out.sections).length} section(s)`);
+  console.log(`Wrote ${dest}`);
+  if (Object.keys(out.sections).length === 0) {
+    console.log('\nNo sections came back. The id keys may not match /section/i — re-run with the');
+    console.log('browser snippet (scripts/browser/academiqCapture.js) and send the capture instead.');
+  }
+  console.log('\nNext:  npm run courses:scan');
+}
+
+try {
+  await main();
 } catch (e) {
-  if (e.message === 'SESSION_EXPIRED') expired();
-  throw e;
+  if (!(e instanceof Bail)) throw e;
 }
-
-fs.mkdirSync(OUT, { recursive: true });
-const dest = path.join(OUT, 'academiq.json');
-fs.writeFileSync(dest, JSON.stringify(out, null, 2) + '\n');
-
-console.log(`\n${calls} API calls.`);
-console.log(`${out.courses.length} course(s), ${Object.keys(out.sections).length} section(s)`);
-console.log(`Wrote ${dest}`);
-if (Object.keys(out.sections).length === 0) {
-  console.log('\nNo sections came back. The id keys may not match /section/i — re-run with the');
-  console.log('browser snippet (scripts/browser/academiqCapture.js) and send the capture instead.');
-}
-console.log('\nNext:  npm run courses:scan');

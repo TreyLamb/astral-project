@@ -90,11 +90,24 @@ caused this**. It is slated for deletion — do not revive or extend it.
    - The junk (258 supplemental imports) and the ~60 misfiled questions are filtered out of
      the **copy** that feeds AFOQT. They remain in the ASVAB deck, untouched.
    - `/TKB/asvab` is a read-only entry point onto the existing deck, not a cleanup surface.
-2. **Never ship verbatim commercial question text.** This site **deploys publicly to
-   Vercel**. The calibration books at `G:\My Drive\` are a **ruler, not a corpus** — read
-   them to set difficulty bands and extract topic coverage; generate new questions.
-   Only **official AF material** (OATTS, AFPC pamphlet — cleared for public release) may
-   ship verbatim as `provenance.kind: 'real'`.
+2. **Never ship verbatim commercial question text** *(AFOQT deck only — see the scope note)*.
+   The calibration books at `G:\My Drive\` (Barron's, Trivium, the Complete Study Guide) are a
+   **ruler, not a corpus** — read them to set difficulty bands and extract topic coverage;
+   generate new questions. Only **official AF material** (OATTS, AFPC pamphlet — cleared for
+   public release) may ship verbatim as `provenance.kind: 'real'`.
+
+   **Why, stated on its own footing:** these are third-party commercial test-prep products Trey
+   has no licence to redistribute, and the AFOQT deck is a general-purpose question bank rather
+   than his personal study notes. That reasoning stands regardless of who can reach the site.
+   ⚠️ This rule used to be justified with "this site deploys publicly to Vercel." **That premise
+   was wrong — Trey's GitHub repo and Vercel deployment are both PRIVATE** (confirmed
+   2026-09-02). The rule survives the correction; the stated reason did not.
+
+   🔴 **SCOPE — do not carry this rule into `courses/`.** Course material is Trey's own enrolled
+   coursework, for himself and people studying with him, and a study guide *cannot be written*
+   without exact definitions, exact terminology and the real quiz questions he was asked. There,
+   quoting exactly is **required**, not merely tolerated. The two rules are separate and
+   conflating them produces a worse tool. Full statement: `courses/AGENT-PROMPT.md` §2 rule 5.
 3. **CSS prefix `afq-`** for AFOQT, `tkb-` for everything else. Inherit `--tkb-*` tokens;
    no new palette.
 4. **Lessons are markdown** rendered with `react-markdown` (already a dependency).
