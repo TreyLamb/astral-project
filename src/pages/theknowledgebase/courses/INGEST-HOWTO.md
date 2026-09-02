@@ -24,31 +24,45 @@ You're on `uvu.instructure.com`. Canvas has a real API, so this is fully automat
 every assignment and quiz **with due dates and point values**, module structure, pages, and every
 uploaded file — pulled straight into `SupplementalCourseDocs/<COURSE>/`.
 
-### One-time setup (about 60 seconds)
+### ✅ Use this way — no token needed
 
-1. Go to **https://uvu.instructure.com/profile/settings**
-2. Scroll to **Approved Integrations** → **+ New Access Token**
-3. Purpose: `study tool`. **Set an expiry date** (end of term is a good choice).
-4. Copy the token — Canvas shows it **once**.
-5. In your terminal:
-   ```powershell
-   $env:CANVAS_TOKEN = "<paste it here>"
-   ```
-   That lasts for that terminal only. To make it stick, put `CANVAS_TOKEN=<paste>` in a
-   `.env.local` file at the repo root (already gitignored — it will never be committed).
+UVU does not let you create a personal access token (the "+ New Access Token" button is
+disabled for students). **You don't need one.** Your browser is already logged into Canvas, and
+Canvas's API accepts that session — which is exactly how the Canvas web UI itself works.
 
-If it ever leaks or you're just done with it, hit **Delete** next to it on that same settings
-page and it dies instantly.
+1. Open **https://uvu.instructure.com** and make sure you're logged in.
+2. Press **F12** → **Console** tab.
+   *(If it warns about pasting, type `allow pasting` and press Enter first.)*
+3. Open `scripts/browser/canvasCapture.js`, copy the whole file, paste it in the console, Enter.
+4. Wait — it prints progress per course, then downloads **`canvas-capture.json`**.
+5. Drop that file anywhere in the repo and tell me. I run the rest.
 
-### Then
+It only makes GET requests. It changes nothing in Canvas.
+
+Then (this part is mine, not yours):
+
+```bash
+node scripts/canvasFetch.mjs --from-capture canvas-capture.json
+```
+
+⚠️ The file download links inside a capture are time-limited. If attachments fail with an
+expired-link error, just re-run the console snippet for a fresh capture — the metadata is fine
+either way.
+
+### If a token ever becomes available
+
+If that settings page ever *does* offer **+ New Access Token**, the token path is simpler and
+repeatable without a browser: put `CANVAS_TOKEN=<paste>` in `.env` or `.env.local` (both
+gitignored), then:
 
 ```bash
 node scripts/canvasFetch.mjs                  # lists your courses with their ids
 node scripts/canvasFetch.mjs --list           # preview: upcoming due dates, nothing downloaded
 node scripts/canvasFetch.mjs --all            # pull everything for every active course
 node scripts/canvasFetch.mjs --course 637860  # just one course
-node scripts/canvasFetch.mjs --all --no-files # metadata only, skip the big attachments
 ```
+
+Both paths write identical folders.
 
 You get, per course:
 
