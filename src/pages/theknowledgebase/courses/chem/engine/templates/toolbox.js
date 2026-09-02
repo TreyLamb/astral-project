@@ -9,6 +9,7 @@ const CH = 'chem1-00-toolbox';
 registerChemTemplate({
   id: 'chem1-toolbox-unit-prefix',
   chapterId: CH,
+  section: '1-5',
   band: 1,
   name: 'Metric prefix conversion',
   concepts: ['unit-conversions'],
@@ -46,6 +47,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-toolbox-sig-figs-mult',
   chapterId: CH,
+  section: '1-6',
   band: 1,
   name: 'Significant figures in multiplication',
   concepts: ['significant-figures'],
@@ -80,6 +82,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-toolbox-sci-notation',
   chapterId: CH,
+  section: '1-5',
   band: 1,
   name: 'Scientific notation conversion',
   concepts: ['scientific-notation'],
@@ -106,6 +109,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-toolbox-nomenclature-ionic',
   chapterId: CH,
+  section: '2-7',
   band: 2,
   name: 'Naming an ionic compound',
   concepts: ['nomenclature-ionic-covalent'],
@@ -135,6 +139,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-toolbox-nomenclature-covalent',
   chapterId: CH,
+  section: '2-7',
   band: 2,
   name: 'Naming a covalent compound',
   concepts: ['nomenclature-ionic-covalent'],
@@ -169,6 +174,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-toolbox-density',
   chapterId: CH,
+  section: '1-7',
   band: 1,
   name: 'Density calculation',
   concepts: ['density'],
@@ -194,6 +200,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-toolbox-classify-matter',
   chapterId: CH,
+  section: '1-3',
   band: 2,
   name: 'Classifying matter',
   concepts: ['classification-of-matter'],
@@ -220,6 +227,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-toolbox-physical-vs-chemical',
   chapterId: CH,
+  section: '1-4',
   band: 1,
   name: 'Physical vs. chemical property',
   concepts: ['properties-representations-of-matter'],

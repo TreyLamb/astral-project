@@ -17,6 +17,7 @@ const NONELECTROLYTES = ['C₆H₁₂O₆ (glucose)', 'C₂H₅OH (ethanol)', 'C
 registerChemTemplate({
   id: 'chem1-05-electrolyte-classify',
   chapterId: CH,
+  section: '4-3',
   band: 1,
   name: 'Classifying strong/weak electrolytes and nonelectrolytes',
   concepts: ['electrolyte-strong-vs-weak'],
@@ -45,6 +46,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-05-molarity-definition',
   chapterId: CH,
+  section: '3-4',
   band: 1,
   name: 'Definition of molar concentration',
   concepts: ['molar-concentration-definition'],
@@ -82,6 +84,7 @@ const SOLUTES = [
 registerChemTemplate({
   id: 'chem1-05-molarity-from-mass',
   chapterId: CH,
+  section: '3-4',
   band: 2,
   name: 'Molarity from a measured mass',
   concepts: ['molarity-from-mass'],
@@ -112,6 +115,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-05-dilution',
   chapterId: CH,
+  section: '3-4',
   band: 2,
   name: 'Dilution calculations (M₁V₁ = M₂V₂)',
   concepts: ['dilution-calculations'],
@@ -190,6 +194,7 @@ const SOLUBILITY_CASES = [
 registerChemTemplate({
   id: 'chem1-05-solubility-predict',
   chapterId: CH,
+  section: '4-3',
   band: 2,
   name: 'Applying solubility rules',
   concepts: ['solubility-rules-precipitation'],
@@ -234,6 +239,7 @@ const PRECIPITATION_REACTIONS = [
 registerChemTemplate({
   id: 'chem1-05-net-ionic-equation',
   chapterId: CH,
+  section: '4-3',
   band: 3,
   name: 'Writing the net ionic equation for a precipitation reaction',
   concepts: ['net-ionic-equations', 'solubility-rules-precipitation'],
@@ -275,6 +281,7 @@ const WEAK_ACID_PARTICULATE = [
 registerChemTemplate({
   id: 'chem1-05-weak-acid-particulate',
   chapterId: CH,
+  section: '4-3',
   band: 2,
   name: 'Reading a particulate diagram of a weak acid',
   concepts: ['weak-acid-particulate-representation'],
@@ -310,6 +317,7 @@ const OXNUM_COMPOUNDS = [
 registerChemTemplate({
   id: 'chem1-05-oxidation-number',
   chapterId: CH,
+  section: '4-3',
   band: 3,
   name: 'Assigning oxidation numbers',
   concepts: ['oxidation-number-rules'],
@@ -343,6 +351,7 @@ const REDOX_PAIRS = [
 registerChemTemplate({
   id: 'chem1-05-oxidation-reduction-define',
   chapterId: CH,
+  section: '4-3',
   band: 2,
   name: 'Identifying oxidation vs. reduction from a change in oxidation number',
   concepts: ['oxidation-reduction-definitions'],
@@ -389,6 +398,7 @@ const REDOX_REACTIONS = [
 registerChemTemplate({
   id: 'chem1-05-oxidizing-reducing-agent',
   chapterId: CH,
+  section: '5-2',
   band: 3,
   name: 'Identifying the oxidizing and reducing agents',
   concepts: ['oxidizing-reducing-agents', 'oxidation-reduction-definitions'],

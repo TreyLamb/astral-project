@@ -20,6 +20,7 @@ const CH = 'chem1-06-heat-enthalpy';
 registerChemTemplate({
   id: 'chem1-06-specific-heat-definition',
   chapterId: CH,
+  section: '5-3',
   band: 1,
   name: 'What specific heat means',
   concepts: ['specific-heat-definition'],
@@ -54,6 +55,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-06-heat-mass-temp',
   chapterId: CH,
+  section: '5-3',
   band: 1,
   name: 'q = mcΔT calculation',
   concepts: ['heat-mass-temperature-relationship'],
@@ -92,6 +94,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-06-heat-mass-temp-compare',
   chapterId: CH,
+  section: '5-3',
   band: 2,
   name: 'Comparing two substances via q = mcΔT',
   concepts: ['heat-mass-temperature-relationship'],
@@ -147,6 +150,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-06-first-law',
   chapterId: CH,
+  section: '5-3',
   band: 2,
   name: 'First law of thermodynamics, ΔE = q + w',
   concepts: ['first-law-thermodynamics'],
@@ -194,6 +198,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-06-energy-per-mole',
   chapterId: CH,
+  section: '5-5',
   band: 2,
   name: 'Energy released per mole of reactant',
   concepts: ['energy-per-mole-reaction'],
@@ -233,6 +238,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-06-bomb-calorimetry',
   chapterId: CH,
+  section: '5-4',
   band: 2,
   name: 'Bomb calorimetry: constant volume, no work term',
   concepts: ['bomb-calorimetry'],
@@ -267,6 +273,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-06-enthalpy-formation-manipulation',
   chapterId: CH,
+  section: '5-6',
   band: 2,
   name: 'Reversing and scaling a formation ΔH',
   concepts: ['enthalpy-of-formation'],
@@ -350,6 +357,7 @@ const HESS_SETS = [
 registerChemTemplate({
   id: 'chem1-06-hess-law',
   chapterId: CH,
+  section: '5-6',
   band: 3,
   name: "Hess's Law: combining given reactions",
   concepts: ['hess-law'],

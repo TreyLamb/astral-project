@@ -16,6 +16,7 @@ const CH = 'chem1-07-structure-bonding';
 registerChemTemplate({
   id: 'chem1-07-lattice-energy-definition',
   chapterId: CH,
+  section: '7-3',
   band: 1,
   name: 'Lattice energy: definition',
   concepts: ['lattice-energy-definition'],
@@ -43,6 +44,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-07-lattice-energy-ordering',
   chapterId: CH,
+  section: '7-3',
   band: 2,
   name: 'Lattice energy: ordering by charge and ionic size',
   concepts: ['lattice-energy-definition'],
@@ -84,6 +86,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-07-bond-type-electronegativity',
   chapterId: CH,
+  section: '7-2',
   band: 1,
   name: 'Classifying bond type from electronegativity difference',
   concepts: ['bond-type-electronegativity'],
@@ -128,6 +131,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-07-lewis-valence-count',
   chapterId: CH,
+  section: '7-5',
   band: 2,
   name: 'Lewis structures: total valence electrons',
   concepts: ['lewis-dot-structures'],
@@ -165,6 +169,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-07-formal-charge-calc',
   chapterId: CH,
+  section: '7-5',
   band: 2,
   name: 'Formal charge calculation',
   concepts: ['formal-charge-calculation'],
@@ -207,6 +212,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-07-formal-charge-best-structure',
   chapterId: CH,
+  section: '7-5',
   band: 2,
   name: 'Using formal charge to pick the best Lewis structure',
   concepts: ['formal-charge-calculation', 'lewis-dot-structures'],
@@ -253,6 +259,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-07-resonance-structures',
   chapterId: CH,
+  section: '7-6',
   band: 2,
   name: 'Resonance structures',
   concepts: ['resonance-structures'],
@@ -280,6 +287,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-07-bond-enthalpy-reaction',
   chapterId: CH,
+  section: '8-5',
   band: 3,
   name: 'Estimating reaction enthalpy from bond enthalpies',
   concepts: ['bond-enthalpy-reaction-enthalpy'],
@@ -312,6 +320,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-07-bond-order-length-strength',
   chapterId: CH,
+  section: '7-4',
   band: 2,
   name: 'Bond order vs. bond length and bond strength',
   concepts: ['covalent-bond-concepts'],
@@ -346,6 +355,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-07-vsepr-geometry',
   chapterId: CH,
+  section: '8-2',
   band: 2,
   name: 'VSEPR molecular geometry',
   concepts: ['molecular-geometry-vsepr'],
@@ -382,6 +392,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-07-molecular-polarity',
   chapterId: CH,
+  section: '8-3',
   band: 3,
   name: 'Molecular polarity: bond polarity and symmetry together',
   concepts: ['molecular-polarity', 'molecular-geometry-vsepr'],
@@ -436,6 +447,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-07-vb-sigma-pi-overlap',
   chapterId: CH,
+  section: '8-4',
   band: 2,
   name: 'Valence bond theory: sigma vs. pi bonds',
   concepts: ['valence-bond-theory-orbital-overlap'],
@@ -476,6 +488,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-07-mo-bond-order',
   chapterId: CH,
+  section: '8-5',
   band: 3,
   name: 'Molecular orbital bond order for diatomics',
   concepts: ['molecular-orbital-diagrams-bond-order'],

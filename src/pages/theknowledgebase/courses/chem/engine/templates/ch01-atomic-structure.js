@@ -56,6 +56,7 @@ const ISOTOPE_POOL = [
 registerChemTemplate({
   id: 'chem1-01-nuclear-symbol-notation',
   chapterId: CH,
+  section: '2-3',
   band: 1,
   name: 'Reading/writing nuclear symbol notation',
   concepts: ['nuclear-symbol-notation', 'atomic-number-vs-mass-number'],
@@ -82,6 +83,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-01-isotope-definition',
   chapterId: CH,
+  section: '2-3',
   band: 1,
   name: 'What distinguishes two isotopes',
   concepts: ['isotope-and-ion-definitions', 'atomic-number-vs-mass-number'],
@@ -111,6 +113,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-01-particle-counting',
   chapterId: CH,
+  section: '2-3',
   band: 2,
   name: 'Counting neutrons from mass and atomic number',
   concepts: ['atomic-number-vs-mass-number', 'isotope-and-ion-definitions'],
@@ -155,6 +158,7 @@ const ION_EXAMPLES = [
 registerChemTemplate({
   id: 'chem1-01-ion-charge-particles',
   chapterId: CH,
+  section: '2-3',
   band: 2,
   name: 'Electron count of an ion from its charge',
   concepts: ['ion-charge-electrons-protons'],
@@ -190,6 +194,7 @@ const WEIGHTED_AVERAGE_POOL = [
 registerChemTemplate({
   id: 'chem1-01-weighted-average-mass',
   chapterId: CH,
+  section: '2-3',
   band: 3,
   name: 'Average atomic mass from isotope abundances',
   concepts: ['relative-abundance-weighted-average'],
@@ -240,6 +245,7 @@ const FAMILIES = ['alkali metal', 'alkaline earth metal', 'halogen', 'noble gas'
 registerChemTemplate({
   id: 'chem1-01-periodic-groups',
   chapterId: CH,
+  section: '2-5',
   band: 1,
   name: 'Identifying a periodic table family',
   concepts: ['periodic-table-groups-diatomics'],
@@ -281,6 +287,7 @@ const NON_DIATOMIC = [
 registerChemTemplate({
   id: 'chem1-01-diatomic-elements',
   chapterId: CH,
+  section: '2-5',
   band: 1,
   name: 'Identifying a diatomic element',
   concepts: ['periodic-table-groups-diatomics'],
@@ -321,6 +328,7 @@ const CLASSES = ['metal', 'nonmetal', 'metalloid'];
 registerChemTemplate({
   id: 'chem1-01-element-classification',
   chapterId: CH,
+  section: '2-5',
   band: 2,
   name: 'Classifying an element by periodic table position',
   concepts: ['element-classification-periodic-table'],
@@ -362,6 +370,7 @@ const formatFormula = (catSymbol, catCount, anSymbol, anCount) =>
 registerChemTemplate({
   id: 'chem1-01-ionic-formula-predict',
   chapterId: CH,
+  section: '2-6',
   band: 2,
   name: 'Predicting a neutral ionic formula from charges',
   concepts: ['predicting-ionic-formulas'],

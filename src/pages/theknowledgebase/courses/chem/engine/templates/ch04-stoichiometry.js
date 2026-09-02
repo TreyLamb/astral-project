@@ -133,6 +133,7 @@ const REACTIONS2 = [
 registerChemTemplate({
   id: 'chem1-04-balance-coefficient',
   chapterId: CH,
+  section: '4-2',
   band: 1,
   name: 'Balancing a combustion equation',
   concepts: ['balancing-chemical-equations'],
@@ -165,6 +166,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-04-mole-ratio',
   chapterId: CH,
+  section: '4-4',
   band: 1,
   name: 'Mole ratios from coefficients',
   concepts: ['mole-ratios-from-coefficients'],
@@ -217,6 +219,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-04-moles-to-mass',
   chapterId: CH,
+  section: '4-4',
   band: 2,
   name: 'Moles of one species to mass of another',
   concepts: ['moles-to-mass-stoichiometry'],
@@ -258,6 +261,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-04-limiting-reactant-id',
   chapterId: CH,
+  section: '4-5',
   band: 2,
   name: 'Identifying the limiting reactant',
   concepts: ['limiting-reactant-theoretical-yield'],
@@ -303,6 +307,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-04-limiting-reactant-yield',
   chapterId: CH,
+  section: '4-5',
   band: 3,
   name: 'Limiting reactant and theoretical yield',
   concepts: ['limiting-reactant-theoretical-yield'],
@@ -370,6 +375,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-04-molecules-to-moles',
   chapterId: CH,
+  section: '4-2',
   band: 2,
   name: 'Molecules of product from moles of reactant',
   concepts: ['molecules-to-moles-relationship'],

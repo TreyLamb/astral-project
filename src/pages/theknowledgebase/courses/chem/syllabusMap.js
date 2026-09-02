@@ -81,49 +81,51 @@ export const SECTIONS = [
   { section: '2-6', title: 'Ionic and Molecular Compounds', acs: 'chem1-01-atomic-structure', concepts: ['predicting-ionic-formulas'] },
   { section: '2-7', title: 'Chemical Nomenclature', acs: 'chem1-00-toolbox', concepts: ['nomenclature-ionic-covalent'] },
 
-  { section: '3-2', title: 'Formula Mass and the Mole Concept', acs: 'chem1-03-mole-calculations', concepts: [] },
-  { section: '3-3', title: 'Determining Empirical and Molecular Formulas', acs: 'chem1-03-mole-calculations', concepts: [] },
-  { section: '3-4', title: 'Molarity', acs: 'chem1-05-solutions-aqueous-1', concepts: [] },
+  { section: '3-2', title: 'Formula Mass and the Mole Concept', acs: 'chem1-03-mole-calculations', concepts: ['average-atomic-mass-lookup', 'molar-mass-calculation', 'mass-to-moles-conversion', 'avogadros-number', 'moles-to-mass-conversion', 'mole-ratios-from-formula'] },
+  { section: '3-3', title: 'Determining Empirical and Molecular Formulas', acs: 'chem1-03-mole-calculations', concepts: ['empirical-formula-atomic-ratios'] },
+  { section: '3-4', title: 'Molarity', acs: 'chem1-05-solutions-aqueous-1', concepts: ['molar-concentration-definition', 'molarity-from-mass', 'dilution-calculations'] },
 
-  { section: '4-2', title: 'Writing and Balancing Chemical Equations', acs: 'chem1-04-stoichiometry', concepts: [] },
-  { section: '4-3', title: 'Some Chemical Reactions', acs: 'chem1-05-solutions-aqueous-1', concepts: [] },
-  { section: '4-4', title: 'Reaction Stoichiometry', acs: 'chem1-04-stoichiometry', concepts: [] },
-  { section: '4-5', title: 'Reaction Yields', acs: 'chem1-04-stoichiometry', concepts: [] },
-  { section: '4-6', title: 'Titrations and Combustion Analysis', acs: 'chem1-05-solutions-aqueous-1', concepts: [] },
+  { section: '4-2', title: 'Writing and Balancing Chemical Equations', acs: 'chem1-04-stoichiometry', concepts: ['balancing-chemical-equations', 'molecules-to-moles-relationship'] },
+  { section: '4-3', title: 'Some Chemical Reactions', acs: 'chem1-05-solutions-aqueous-1', concepts: ['electrolyte-strong-vs-weak', 'solubility-rules-precipitation', 'net-ionic-equations', 'weak-acid-particulate-representation', 'oxidation-number-rules', 'oxidation-reduction-definitions'] },
+  { section: '4-4', title: 'Reaction Stoichiometry', acs: 'chem1-04-stoichiometry', concepts: ['mole-ratios-from-coefficients', 'moles-to-mass-stoichiometry'] },
+  { section: '4-5', title: 'Reaction Yields', acs: 'chem1-04-stoichiometry', concepts: ['limiting-reactant-theoretical-yield'] },
+  { section: '4-6', title: 'Titrations and Combustion Analysis', acs: 'chem1-05-solutions-aqueous-1', concepts: ['molarity-from-mass', 'dilution-calculations'] },
 
   // Redox is the one genuinely course-only topic: his instructor tests it in Ch5, but the ACS
   // FIRST-TERM exam does not carry it (full redox/electrochemistry is ACS Ch15, second term).
   // acs: null is meaningful - it tells the ACS track to skip it and the course track to keep it.
-  { section: '5-2', title: 'Redox Reactions', acs: null, concepts: [] },
-  { section: '5-3', title: 'Energy Basics', acs: 'chem1-06-heat-enthalpy', concepts: [] },
-  { section: '5-4', title: 'Calorimetry', acs: 'chem1-06-heat-enthalpy', concepts: [] },
-  { section: '5-5', title: 'Enthalpy', acs: 'chem1-06-heat-enthalpy', concepts: [] },
-  { section: '5-6', title: "Hess's Law and Heat of Formation", acs: 'chem1-06-heat-enthalpy', concepts: [] },
+  { section: '5-2', title: 'Redox Reactions', acs: null, concepts: ['oxidation-number-rules', 'oxidation-reduction-definitions', 'oxidizing-reducing-agents'] },
+  { section: '5-3', title: 'Energy Basics', acs: 'chem1-06-heat-enthalpy', concepts: ['first-law-thermodynamics', 'heat-mass-temperature-relationship', 'specific-heat-definition'] },
+  { section: '5-4', title: 'Calorimetry', acs: 'chem1-06-heat-enthalpy', concepts: ['bomb-calorimetry'] },
+  { section: '5-5', title: 'Enthalpy', acs: 'chem1-06-heat-enthalpy', concepts: ['energy-per-mole-reaction'] },
+  { section: '5-6', title: "Hess's Law and Heat of Formation", acs: 'chem1-06-heat-enthalpy', concepts: ['hess-law', 'enthalpy-of-formation'] },
 
-  { section: '6-2', title: 'Electromagnetic Energy', acs: 'chem1-02-electronic-structure', concepts: [] },
-  { section: '6-3', title: 'Development of Quantum Theory', acs: 'chem1-02-electronic-structure', concepts: [] },
-  { section: '6-4', title: 'Electronic Structure of Atoms (Electron Configurations)', acs: 'chem1-02-electronic-structure', concepts: [] },
-  { section: '6-5', title: 'Periodic Variations in Element Properties', acs: 'chem1-02-electronic-structure', concepts: [] },
+  { section: '6-2', title: 'Electromagnetic Energy', acs: 'chem1-02-electronic-structure', concepts: ['rydberg-formula-energy-levels', 'photon-energy-wavelength-relationship', 'absorption-vs-emission'] },
+  { section: '6-3', title: 'Development of Quantum Theory', acs: 'chem1-02-electronic-structure', concepts: ['quantum-number-rules'] },
+  { section: '6-4', title: 'Electronic Structure of Atoms (Electron Configurations)', acs: 'chem1-02-electronic-structure', concepts: ['electron-configuration-periodic-table', 'valence-electrons', 'cation-electron-removal-order', 'orbital-diagrams-paramagnetism', 'mole-definition'] },
+  { section: '6-5', title: 'Periodic Variations in Element Properties', acs: 'chem1-02-electronic-structure', concepts: ['effective-nuclear-charge-zeff', 'periodic-trend-atomic-radius', 'periodic-trend-ionic-radius', 'ionization-energy-trend'] },
 
-  { section: '7-2', title: 'Formation of Ionic Compounds', acs: 'chem1-07-structure-bonding', concepts: [] },
-  { section: '7-3', title: 'Ionic Lattice Energy', acs: 'chem1-07-structure-bonding', concepts: [] },
-  { section: '7-4', title: 'Covalent Bonding', acs: 'chem1-07-structure-bonding', concepts: [] },
-  { section: '7-5', title: 'Lewis Structures', acs: 'chem1-07-structure-bonding', concepts: [] },
-  { section: '7-6', title: 'Resonance', acs: 'chem1-07-structure-bonding', concepts: [] },
+  { section: '7-2', title: 'Formation of Ionic Compounds', acs: 'chem1-07-structure-bonding', concepts: ['bond-type-electronegativity'] },
+  { section: '7-3', title: 'Ionic Lattice Energy', acs: 'chem1-07-structure-bonding', concepts: ['lattice-energy-definition'] },
+  { section: '7-4', title: 'Covalent Bonding', acs: 'chem1-07-structure-bonding', concepts: ['covalent-bond-concepts'] },
+  { section: '7-5', title: 'Lewis Structures', acs: 'chem1-07-structure-bonding', concepts: ['lewis-dot-structures', 'formal-charge-calculation'] },
+  { section: '7-6', title: 'Resonance', acs: 'chem1-07-structure-bonding', concepts: ['resonance-structures'] },
 
-  { section: '8-2', title: 'Molecular Structure and Polarity', acs: 'chem1-07-structure-bonding', concepts: [] },
-  { section: '8-3', title: 'Molecular Polarity', acs: 'chem1-07-structure-bonding', concepts: [] },
-  { section: '8-4', title: 'Hybrid Orbitals', acs: 'chem1-07-structure-bonding', concepts: [] },
-  { section: '8-5', title: 'Multiple Bonds', acs: 'chem1-07-structure-bonding', concepts: [] },
+  { section: '8-2', title: 'Molecular Structure and Polarity', acs: 'chem1-07-structure-bonding', concepts: ['molecular-geometry-vsepr'] },
+  // Geometry appears here as well as in 8-2: you cannot decide whether a molecule is polar without
+  // first knowing its shape, so a polarity question legitimately tests both.
+  { section: '8-3', title: 'Molecular Polarity', acs: 'chem1-07-structure-bonding', concepts: ['molecular-polarity', 'molecular-geometry-vsepr'] },
+  { section: '8-4', title: 'Hybrid Orbitals', acs: 'chem1-07-structure-bonding', concepts: ['valence-bond-theory-orbital-overlap'] },
+  { section: '8-5', title: 'Multiple Bonds', acs: 'chem1-07-structure-bonding', concepts: ['molecular-orbital-diagrams-bond-order', 'bond-enthalpy-reaction-enthalpy'] },
 
-  { section: '9-2', title: 'Gas Pressure', acs: 'chem1-08-states-of-matter', concepts: [] },
-  { section: '9-3', title: 'Relating Pressure, Volume, Amount, and Temperature: The Ideal Gas Law', acs: 'chem1-08-states-of-matter', concepts: [] },
-  { section: '9-4', title: 'Stoichiometry of Gaseous Substances, Mixtures, and Reactions', acs: 'chem1-08-states-of-matter', concepts: [] },
-  { section: '9-5', title: 'Effusion and Diffusion of Gases', acs: 'chem1-08-states-of-matter', concepts: [] },
+  { section: '9-2', title: 'Gas Pressure', acs: 'chem1-08-states-of-matter', concepts: ['ideal-gas-properties', 'combined-gas-law'] },
+  { section: '9-3', title: 'Relating Pressure, Volume, Amount, and Temperature: The Ideal Gas Law', acs: 'chem1-08-states-of-matter', concepts: ['ideal-gas-law'] },
+  { section: '9-4', title: 'Stoichiometry of Gaseous Substances, Mixtures, and Reactions', acs: 'chem1-08-states-of-matter', concepts: ['gas-stoichiometry', 'partial-pressure-dalton'] },
+  { section: '9-5', title: 'Effusion and Diffusion of Gases', acs: 'chem1-08-states-of-matter', concepts: ['kinetic-molecular-theory', 'maxwell-boltzmann-distribution'] },
 
-  { section: '10-2', title: 'Intermolecular Forces', acs: 'chem1-08-states-of-matter', concepts: [] },
-  { section: '10-3', title: 'Heating Curves', acs: 'chem1-08-states-of-matter', concepts: [] },
-  { section: '10-4', title: 'Phase Diagrams', acs: 'chem1-08-states-of-matter', concepts: [] },
+  { section: '10-2', title: 'Intermolecular Forces', acs: 'chem1-08-states-of-matter', concepts: ['hydrogen-bonding', 'intermolecular-forces-boiling-point'] },
+  { section: '10-3', title: 'Heating Curves', acs: 'chem1-08-states-of-matter', concepts: ['vapor-pressure'] },
+  { section: '10-4', title: 'Phase Diagrams', acs: 'chem1-08-states-of-matter', concepts: ['phase-diagrams', 'unit-cell-density'] },
 ];
 
 /**

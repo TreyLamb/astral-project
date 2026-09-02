@@ -79,6 +79,7 @@ const LOOKUP_POOL = ['C', 'N', 'O', 'Na', 'Mg', 'Al', 'S', 'Cl', 'K', 'Ca', 'Fe'
 registerChemTemplate({
   id: 'chem1-03-avg-atomic-mass',
   chapterId: CH,
+  section: '3-2',
   band: 1,
   name: 'Reading average atomic mass off the periodic table',
   concepts: ['average-atomic-mass-lookup'],
@@ -104,6 +105,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-03-molar-mass',
   chapterId: CH,
+  section: '3-2',
   band: 2,
   name: 'Molar mass from a formula',
   concepts: ['molar-mass-calculation'],
@@ -132,6 +134,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-03-mass-to-moles',
   chapterId: CH,
+  section: '3-2',
   band: 2,
   name: 'Grams to moles',
   concepts: ['mass-to-moles-conversion'],
@@ -171,6 +174,7 @@ const MOLES_POOL = [0.1, 0.25, 0.5, 1, 1.5, 2, 2.5, 3, 4, 5];
 registerChemTemplate({
   id: 'chem1-03-avogadro-conversion',
   chapterId: CH,
+  section: '3-2',
   band: 1,
   name: "Moles to particle count via Avogadro's number",
   concepts: ['avogadros-number'],
@@ -200,6 +204,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-03-mole-ratio-formula',
   chapterId: CH,
+  section: '3-2',
   band: 2,
   name: 'Mole ratios from a formula',
   concepts: ['mole-ratios-from-formula'],
@@ -231,6 +236,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-03-moles-to-mass',
   chapterId: CH,
+  section: '3-2',
   band: 2,
   name: 'Moles to grams',
   concepts: ['moles-to-mass-conversion'],
@@ -259,6 +265,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-03-empirical-atom-count',
   chapterId: CH,
+  section: '3-3',
   band: 3,
   name: 'Comparing atom counts in equal-mass samples',
   concepts: ['empirical-formula-atomic-ratios'],

@@ -20,6 +20,7 @@ const TRANSITIONS = [
 registerChemTemplate({
   id: 'chem1-02-rydberg-wavelength',
   chapterId: CH,
+  section: '6-2',
   band: 3,
   name: 'Rydberg formula to photon wavelength',
   concepts: ['rydberg-formula-energy-levels', 'photon-energy-wavelength-relationship'],
@@ -49,6 +50,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-02-absorption-emission',
   chapterId: CH,
+  section: '6-2',
   band: 1,
   name: 'Absorption vs. emission from a transition direction',
   concepts: ['absorption-vs-emission'],
@@ -77,6 +79,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-02-quantum-number-valid',
   chapterId: CH,
+  section: '6-3',
   band: 2,
   name: 'Valid quantum number combinations',
   concepts: ['quantum-number-rules'],
@@ -134,6 +137,7 @@ const CONFIG_ELEMENTS = [
 registerChemTemplate({
   id: 'chem1-02-electron-configuration',
   chapterId: CH,
+  section: '6-4',
   band: 2,
   name: 'Ground-state electron configuration from periodic table position',
   concepts: ['electron-configuration-periodic-table'],
@@ -170,6 +174,7 @@ const VALENCE_ELEMENTS = [
 registerChemTemplate({
   id: 'chem1-02-valence-electrons',
   chapterId: CH,
+  section: '6-4',
   band: 1,
   name: 'Counting valence electrons from group number',
   concepts: ['valence-electrons'],
@@ -211,6 +216,7 @@ const TRANSITION_CATIONS = [
 registerChemTemplate({
   id: 'chem1-02-cation-removal-order',
   chapterId: CH,
+  section: '6-4',
   band: 3,
   name: 'Which electrons a transition metal loses first',
   concepts: ['cation-electron-removal-order'],
@@ -245,6 +251,7 @@ const PARAMAGNETIC_CASES = [
 registerChemTemplate({
   id: 'chem1-02-orbital-paramagnetism',
   chapterId: CH,
+  section: '6-4',
   band: 2,
   name: "Hund's rule and paramagnetism",
   concepts: ['orbital-diagrams-paramagnetism'],
@@ -273,6 +280,7 @@ const ZEFF_PAIRS = [
 registerChemTemplate({
   id: 'chem1-02-zeff-trend',
   chapterId: CH,
+  section: '6-5',
   band: 2,
   name: 'Effective nuclear charge trend across a period',
   concepts: ['effective-nuclear-charge-zeff'],
@@ -302,6 +310,7 @@ const RADIUS_PAIRS = [
 registerChemTemplate({
   id: 'chem1-02-atomic-radius-trend',
   chapterId: CH,
+  section: '6-5',
   band: 1,
   name: 'Periodic trend in atomic radius',
   concepts: ['periodic-trend-atomic-radius'],
@@ -331,6 +340,7 @@ const ION_SIZE_CASES = [
 registerChemTemplate({
   id: 'chem1-02-ionic-radius-compare',
   chapterId: CH,
+  section: '6-5',
   band: 2,
   name: 'Comparing an ion\'s radius to its neutral atom',
   concepts: ['periodic-trend-ionic-radius'],
@@ -361,6 +371,7 @@ const IE_PAIRS = [
 registerChemTemplate({
   id: 'chem1-02-ionization-energy-trend',
   chapterId: CH,
+  section: '6-5',
   band: 2,
   name: 'Periodic trend in first ionization energy',
   concepts: ['ionization-energy-trend'],
@@ -383,6 +394,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-02-mole-definition',
   chapterId: CH,
+  section: '6-4',
   band: 1,
   name: 'What a mole is',
   concepts: ['mole-definition'],

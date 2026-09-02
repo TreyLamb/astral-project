@@ -14,6 +14,7 @@ const cToK = (c) => c + 273.15;
 registerChemTemplate({
   id: 'chem1-08-ideal-gas-conditions',
   chapterId: CH,
+  section: '9-2',
   band: 1,
   name: 'When a real gas behaves most ideally',
   concepts: ['ideal-gas-properties'],
@@ -39,6 +40,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-08-ideal-gas-law-solve',
   chapterId: CH,
+  section: '9-3',
   band: 2,
   name: 'Solving PV = nRT for one variable',
   concepts: ['ideal-gas-law'],
@@ -124,6 +126,7 @@ const GAS_DENSITY_SUBSTANCES = [
 registerChemTemplate({
   id: 'chem1-08-gas-density',
   chapterId: CH,
+  section: '9-3',
   band: 3,
   name: 'Density of a gas (d = PM/RT)',
   concepts: ['ideal-gas-law'],
@@ -154,6 +157,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-08-combined-gas-law',
   chapterId: CH,
+  section: '9-2',
   band: 2,
   name: 'Combined gas law, P1V1/T1 = P2V2/T2',
   concepts: ['combined-gas-law'],
@@ -193,6 +197,7 @@ const GAS_STOICH_REACTIONS = [
 registerChemTemplate({
   id: 'chem1-08-gas-stoichiometry',
   chapterId: CH,
+  section: '9-4',
   band: 3,
   name: 'Stoichiometry with a gas product (PV = nRT + mole ratio)',
   concepts: ['gas-stoichiometry'],
@@ -228,6 +233,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-08-partial-pressure',
   chapterId: CH,
+  section: '9-4',
   band: 2,
   name: "Dalton's law of partial pressures",
   concepts: ['partial-pressure-dalton'],
@@ -254,6 +260,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-08-mole-fraction-pressure',
   chapterId: CH,
+  section: '9-4',
   band: 2,
   name: 'Partial pressure from mole fraction',
   concepts: ['partial-pressure-dalton'],
@@ -285,6 +292,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-08-kinetic-molecular-theory',
   chapterId: CH,
+  section: '9-5',
   band: 1,
   name: 'Core assumptions of kinetic molecular theory',
   concepts: ['kinetic-molecular-theory'],
@@ -325,6 +333,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-08-maxwell-boltzmann-mass',
   chapterId: CH,
+  section: '9-5',
   band: 2,
   name: 'Comparing molecular speeds at the same temperature',
   concepts: ['maxwell-boltzmann-distribution'],
@@ -351,6 +360,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-08-maxwell-boltzmann-temp',
   chapterId: CH,
+  section: '9-5',
   band: 1,
   name: 'How temperature shifts the speed distribution',
   concepts: ['maxwell-boltzmann-distribution'],
@@ -379,6 +389,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-08-hydrogen-bonding-identify',
   chapterId: CH,
+  section: '10-2',
   band: 1,
   name: 'Identifying hydrogen bonding',
   concepts: ['hydrogen-bonding'],
@@ -418,6 +429,7 @@ const BP_COMPARISONS = [
 registerChemTemplate({
   id: 'chem1-08-boiling-point-imf',
   chapterId: CH,
+  section: '10-2',
   band: 2,
   name: 'Ranking boiling points by intermolecular force strength',
   concepts: ['intermolecular-forces-boiling-point'],
@@ -440,6 +452,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-08-vapor-pressure-compare',
   chapterId: CH,
+  section: '10-3',
   band: 2,
   name: 'Comparing vapor pressure via intermolecular forces',
   concepts: ['vapor-pressure'],
@@ -471,6 +484,7 @@ const BCC_METALS = [
 registerChemTemplate({
   id: 'chem1-08-bcc-density',
   chapterId: CH,
+  section: '10-4',
   band: 3,
   name: 'Density from a body-centered cubic unit cell',
   concepts: ['unit-cell-density'],
@@ -503,6 +517,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-08-phase-diagram-read',
   chapterId: CH,
+  section: '10-4',
   band: 2,
   name: 'Reading regions of a phase diagram',
   concepts: ['phase-diagrams'],
