@@ -21,10 +21,11 @@
 //
 // It only makes GET requests. It changes nothing.
 //
-// COPYRIGHT: this is Trey's instructor's authored textbook. It is a RULER, NOT A CORPUS - read it
-// to set difficulty and extract topic coverage, then GENERATE ORIGINAL questions. The chem module
-// deploys publicly to Vercel, so no sentence of this text may ship in it. Same rule the ACS guide
-// and the AFOQT calibration books already carry (theknowledgebase/CLAUDE.md).
+// HOW THE CONTENT MAY BE USED (Trey, 2026-09-02 - do not conflate the two rules):
+//   Private repo, private deployment, audience is Trey and his study group. "Ruler, not corpus"
+//   forbids mirroring the book wholesale; it does NOT forbid quoting. Exact definitions, exact
+//   terminology and real quiz questions MUST stay exact where a study guide needs them.
+//   Full rule: courses/AGENT-PROMPT.md S2.5.
 
 (async () => {
   const out = { capturedAt: new Date().toISOString(), host: location.host, courses: [], sections: {}, misc: {} };

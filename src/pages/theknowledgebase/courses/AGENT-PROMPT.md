@@ -88,11 +88,39 @@ professional and do the research first"), and it means the same thing here:
    tested that no lesson taught. Enforced by the selftest (§8) — rule 2.
 4. **Distractors are named error modes**, never noise. Every wrong option is the answer some
    specific, plausible mistake produces, and it says which (`error` / `why` on `h.choices`).
-5. **Never ship verbatim commercial text.** The ACS guide, Barron's, MMAHP/MCI, publisher
-   slide decks and textbooks are **rulers, not corpora** — read them to set difficulty and to
-   extract topic coverage; write new questions. This site deploys publicly to Vercel.
-   *(Trey's own typed notes and his own captured quiz questions are his; they still do not get
-   published as a public deck — see §9's provenance rule.)*
+5. 🔴 **"Ruler, not corpus" — and do NOT conflate that with "never quote anything."**
+   These are two different rules and an earlier version of this file ran them together. Trey's
+   correction, 2026-09-02, is binding:
+
+   > *"EXCEPT some sentences have to be re-used for study purposes and quizzes etc. It is
+   > IMPOSSIBLE to write a study guide or any similar tool without a lot of 'exact' sentences.
+   > Do not conflate the two... NONE of this is going to be 'published' it is all staying in my
+   > own local files in a different form than what it was given to me."*
+
+   | ❌ Corpus — don't | ✅ Study use — REQUIRED |
+   |---|---|
+   | Mirroring whole chapters of a book into the repo | An **exact definition** ("Combustion is the reaction between an organic compound and oxygen to produce CO₂(g) and H₂O(g)") |
+   | Dumping the source text in as-is so the "guide" is really a copy | **Exact terminology and formula statements**, as the course words them |
+   | Redistributing the material to anyone outside his study group | **Verbatim quiz/exam questions he was actually asked** — these are the best calibration and error-mode source that exists |
+   | Treating a textbook as a question bank to be transcribed wholesale | A **worked example quoted** in order to analyse it |
+
+   **Paraphrasing a definition to avoid quoting it is a DEFECT, not caution.** Exams test the
+   course's exact wording; a reworded definition teaches the wrong thing and makes the tool worse.
+   When exact wording matters, use exact wording.
+
+   Why this is fine here, stated once so it is not re-litigated: **Trey's GitHub repo and his
+   Vercel deployment are both PRIVATE.** The audience is himself and people studying with him,
+   which is ordinary permitted study use. This is his own enrolled coursework. The output is a
+   transformed artifact — a guide, a drill, a question bank — not a copy of the source.
+
+   What still holds, for engineering reasons rather than legal ones: **bulk source material stays
+   in the Drive folder, not the repo** (size, diffability, staleness — see §3), and the deliverable
+   is always the derived artifact rather than a mirror of the input.
+
+   ⚠️ **The AFOQT deck is a separate rule and is NOT relaxed by this.** Barron's and Trivium are
+   commercial test-prep products unrelated to any course Trey is enrolled in; only cleared official
+   USAF material ships there verbatim (`theknowledgebase/CLAUDE.md`). Course material ≠ AFOQT
+   material. Do not carry a conclusion from one to the other in either direction.
 6. **The ASVAB deck is read-only.** Never write to `asvabQuestions.json` or `subj-asvab`.
 7. **No AI API calls from the app, ever.** Generation is Tier 2 (local, procedural, zero-cost)
    or Tier 3 (a prompt Trey pastes into a free chat himself). Never a billed call.
@@ -378,7 +406,7 @@ drop the glue, and do not manufacture three shallow questions out of one transit
 | 5 CONTEXT-ONLY | A clarifying note on the related card | **Never its own question.** |
 | 6 FILLER | Mine one fact, then drop | Do not inflate. |
 | 7 HIS OWN WORDS | The lesson's plain-English layer (§6B) | **Never a question stem.** This is the register explanations should be written in. |
-| 8 REAL TEST ITEM | Difficulty ruler + error-mode source; `provenance` tagged | Do **not** ship an instructor's question verbatim to a public deck. Use it to calibrate a band and to learn which mistakes that instructor baits. |
+| 8 REAL TEST ITEM | **Keep it verbatim**, `provenance` tagged, and use it as difficulty ruler + error-mode source | A question Trey was actually asked is the single most valuable item in the pipeline — it is what the instructor really tests, in the wording they really use. Keep it exact (§2 rule 5), tag where it came from, and mine its distractors for the mistakes that instructor baits. |
 
 ### 5.6 Build or extend
 

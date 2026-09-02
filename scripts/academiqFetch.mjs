@@ -24,10 +24,13 @@
 //   npm run academiq -- --check   just verify the cookie is still valid
 //   npm run academiq -- --out "<dir>"
 //
-// COPYRIGHT: this is the instructor's authored textbook, and the chem module deploys publicly to
-// Vercel. RULER, NOT CORPUS - read it to set difficulty and topic coverage, then generate ORIGINAL
-// questions. No sentence of it may ship. Same rule as the ACS guide (theknowledgebase/CLAUDE.md).
-// Output therefore lands in Trey's Drive folder, NOT in the repo.
+// HOW THE CONTENT MAY BE USED (Trey, 2026-09-02 - do not re-litigate, do not conflate the two):
+//   His GitHub repo and Vercel deployment are BOTH PRIVATE; the audience is himself and people
+//   studying with him. So "ruler, not corpus" means do not mirror the book wholesale - it does NOT
+//   mean avoid quoting. Exact definitions, exact terminology, formula statements and real quiz
+//   questions MUST be reproduced exactly where a study guide needs them; paraphrasing a definition
+//   to dodge a quote teaches the wrong wording and is a defect. Full rule: AGENT-PROMPT.md S2.5.
+// Bulk output still lands in the Drive folder rather than the repo, for size/diffability reasons.
 
 import fs from 'node:fs';
 import path from 'node:path';
