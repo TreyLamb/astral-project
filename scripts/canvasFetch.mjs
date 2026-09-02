@@ -170,6 +170,24 @@ function buildSchedule(rec) {
     });
   }
 
+  // Calendar-only entries: a lecture, a review session, an in-class exam sitting. They carry a
+  // start time rather than a due date and nothing is ever "submitted" against them, so `status` is
+  // fixed at 'event' — treating one as an unsubmitted assignment would make the dashboard nag
+  // about a lecture. They sort into the same list because what Trey wants is one timeline.
+  for (const e of rec.events ?? []) {
+    const at = e.start_at ?? e.end_at ?? null;
+    rows.push({
+      kind: 'event',
+      id: e.id, quizId: null, name: e.title,
+      due: when(at), dueTime: e.all_day ? null : atTime(at), dueAt: at,
+      unlock: null, lock: null,
+      points: null, questions: null, timeLimit: null,
+      status: 'event', score: null, submittedAt: null, late: false,
+      location: e.location_name || null,
+      url: e.html_url ?? null,
+    });
+  }
+
   return rows.sort((a, b) => (a.dueAt ?? '9999').localeCompare(b.dueAt ?? '9999')
     || String(a.name).localeCompare(String(b.name)));
 }
@@ -187,7 +205,8 @@ async function writeCourse(rec, { downloadFile }) {
   console.log(`\n=== ${label} — ${rec.name}`);
   console.log(`    -> ${folder}`);
   console.log(`    ${(rec.assignments ?? []).length} assignments · ${(rec.quizzes ?? []).length} quizzes · `
-    + `${(rec.modules ?? []).length} modules · ${(rec.pages ?? []).length} pages · ${(rec.files ?? []).length} files`);
+    + `${(rec.modules ?? []).length} modules · ${(rec.pages ?? []).length} pages · ${(rec.files ?? []).length} files · `
+    + `${(rec.events ?? []).length} calendar events`);
 
   if (LIST_ONLY) {
     for (const s of schedule.filter((x) => x.due).slice(0, 12)) {

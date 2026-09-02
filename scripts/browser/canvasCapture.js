@@ -67,6 +67,15 @@
       modules: (await soft(() => getAll('/courses/' + id + '/modules?include[]=items'), 'modules')) || [],
       files: (await soft(() => getAll('/courses/' + id + '/files'), 'files')) || [],
       pages: (await soft(() => getAll('/courses/' + id + '/pages'), 'pages')) || [],
+      // Calendar entries that are NOT assignments: lectures, review sessions, exam sittings an
+      // instructor placed on the calendar without a submission attached. They show on Canvas's own
+      // calendar but appear nowhere in /assignments or /quizzes, so without this call they are
+      // invisible to us. `type=event` excludes the assignment-backed entries we already have, so
+      // nothing is double-counted; all_events skips Canvas's default "next two weeks" window.
+      events: (await soft(
+        () => getAll('/calendar_events?type=event&all_events=true&context_codes[]=course_' + id),
+        'calendar events',
+      )) || [],
       syllabus_body: null,
       pageBodies: {},
     };
@@ -100,7 +109,7 @@
     }
 
     console.log('   ' + rec.assignments.length + ' assignments, ' + rec.quizzes.length + ' quizzes, '
-      + rec.files.length + ' files, ' + rec.pages.length + ' pages');
+      + rec.files.length + ' files, ' + rec.pages.length + ' pages, ' + rec.events.length + ' calendar events');
     out.courses.push(rec);
   }
 
