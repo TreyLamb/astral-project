@@ -22,8 +22,12 @@ const registry = new Map();
 /**
  * @typedef {Object} ChemTemplate
  * @property {string} id
- * @property {string} chapterId          curriculum.js chapter id; coverage checks this
- * @property {1|2|3} band                 difficulty band within the chapter (basic/mid/hard)
+ * @property {string} chapterId          curriculum.js chapter id (ACS ordering); coverage checks this
+ * @property {string} [section]          book section, e.g. '4-3' (course ordering). See syllabusMap.js
+ *                                       for why a template needs BOTH coordinates.
+ * @property {1|2|3|4|5} band            1-3 = course level (what the instructor tests)
+ *                                       4-5 = ACS level (the standardized final; harder)
+ *                                       engine/gates.js turns this split into the two gate tests.
  * @property {string} name
  * @property {string[]} concepts          chapter concept ids this template tests
  * @property {(rng: () => number, h: Helpers) => RawInstance} generate
@@ -42,7 +46,9 @@ const registry = new Map();
 export function registerChemTemplate(t) {
   if (!t?.id) throw new Error('chem template needs an id');
   if (registry.has(t.id)) throw new Error(`duplicate chem template id: ${t.id}`);
-  if (!(t.band >= 1 && t.band <= 3)) throw new Error(`${t.id}: band must be 1-3`);
+  // 1-3 course level, 4-5 ACS level. Widened from 1-3 on 2026-09-02: the ACS gate needs a band
+  // above what the course itself demands, and the old ceiling made that literally unrepresentable.
+  if (!(t.band >= 1 && t.band <= 5)) throw new Error(`${t.id}: band must be 1-5`);
   if (!t.chapterId) throw new Error(`${t.id}: chapterId required`);
   if (typeof t.generate !== 'function') throw new Error(`${t.id}: generate() required`);
   registry.set(t.id, t);
@@ -102,6 +108,10 @@ export function generateChemInstance(templateId, seed) {
     templateId: t.id,
     seed,
     chapterId: t.chapterId,
+    // Carried through explicitly. This return is a WHITELIST - a field the template sets but this
+    // object omits vanishes with no error anywhere, which is exactly how AFOQT lost its `vocab`
+    // field for a whole build (theknowledgebase/CLAUDE.md). There is a test for this.
+    section: t.section ?? null,
     band: t.band,
     concepts: t.concepts ?? [],
     stem: raw.stem,
