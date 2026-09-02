@@ -7,7 +7,7 @@
 //   A) BROWSER CAPTURE - no token needed, works even when the school disables token creation.
 //      Paste scripts/browser/canvasCapture.js into the Canvas tab's devtools console, let it
 //      download canvas-capture.json, then:
-//          node scripts/canvasFetch.mjs --from-capture canvas-capture.json
+//          npm run canvas -- --from-capture canvas-capture.json
 //
 //   B) PERSONAL ACCESS TOKEN - only if https://uvu.instructure.com/profile/settings offers
 //      "+ New Access Token". Many institutions turn this off for students.
@@ -16,12 +16,15 @@
 //      Or put CANVAS_TOKEN=... in a gitignored .env.local / .env at the repo root.
 //      Never pass it as a command argument - that lands in shell history.
 //
-// USAGE
-//   node scripts/canvasFetch.mjs --from-capture <file>   import a browser capture
-//   node scripts/canvasFetch.mjs                         (token) list courses + ids
-//   node scripts/canvasFetch.mjs --list                  (token) preview, download nothing
-//   node scripts/canvasFetch.mjs --all                   (token) every active course
-//   node scripts/canvasFetch.mjs --course 637860         (token) one course
+// USAGE — use `npm run canvas`, which works from ANY folder in the repo (npm starts scripts at
+// the package root). A bare `node scripts/canvasFetch.mjs` only works from the repo root itself.
+// The `--` is what passes flags through npm; without it npm eats them.
+//
+//   npm run canvas -- --from-capture canvas-capture.json   import a browser capture
+//   npm run canvas                                         (token) list courses + ids
+//   npm run canvas -- --list                               (token) preview, download nothing
+//   npm run canvas -- --all                                (token) every active course
+//   npm run canvas -- --course 637860                      (token) one course
 //   --no-files    skip attachments      --out "<dir>"    write somewhere else
 //   --force       re-download files that already exist
 //
@@ -33,6 +36,11 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+// Repo root, not the caller's cwd - `npm run` always starts at the package root, but a direct
+// `node path/to/this.mjs` can be launched from anywhere. Env files are looked up here.
+const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 const DEFAULT_HOST = 'uvu.instructure.com';
 const DEFAULT_OUT = 'G:/My Drive/SupplementalCourseDocs';
@@ -52,6 +60,17 @@ const WANT_FILES = !has('--no-files');
 const FORCE = has('--force');
 
 const slug = (s) => String(s).replace(/[<>:"/\\|?*\x00-\x1f]/g, '').replace(/\s+/g, ' ').trim().slice(0, 120);
+
+/**
+ * Folder name for a course. UVU stuffs the section AND the term into course_code
+ * ("CHEM 1210 004 | 2026 Fall - Full Term"), which makes a filthy folder name and stops the
+ * folder matching the course codes in coursesSeed.js. Reduce it to just "CHEM 1210".
+ */
+function courseFolder(rec) {
+  const raw = String(rec.course_code || rec.name || 'course').split('|')[0].trim();
+  const m = raw.match(/^([A-Z]{2,5})\s*(\d{3,4}[A-Z]?)\b/i);
+  return slug(m ? `${m[1].toUpperCase()} ${m[2].toUpperCase()}` : raw);
+}
 const ensure = (d) => fs.mkdirSync(d, { recursive: true });
 const when = (iso) => (iso ? new Date(iso).toISOString().slice(0, 10) : null);
 
@@ -71,21 +90,51 @@ function html2md(html) {
     .trim();
 }
 
-/** Every dated, graded thing in one row shape - this is what SCHEDULE.md is built from. */
+/**
+ * Every dated, graded thing in one row shape - this is what SCHEDULE.md is built from.
+ *
+ * Canvas gives every quiz a shadow ASSIGNMENT carrying the same name, due date and points, so a
+ * naive concat lists each quiz twice (MICR 2060 came back 28+21 for 28 real items). The shadow
+ * links back via `assignment.quiz_id`, which is the only reliable join - titles get edited apart.
+ * We keep the assignment row (it owns the due date the gradebook honours) and fold the quiz's
+ * extra fields into it, so a quiz contributes exactly one row either way.
+ *
+ * Do NOT "simplify" this to dropping every assignment with a quiz_id: CHEM 1210's quizzes
+ * endpoint returned 0 rows (New Quizzes lives behind a different API), so its 29 quiz-backed
+ * assignments are the ONLY record of those items and dropping them loses the whole course.
+ */
 function buildSchedule(rec) {
-  return [
-    ...(rec.assignments ?? []).map((a) => ({
-      kind: 'assignment', id: a.id, name: a.name,
+  const quizzes = rec.quizzes ?? [];
+  const byId = new Map(quizzes.map((q) => [q.id, q]));
+  const claimed = new Set();
+
+  const rows = (rec.assignments ?? []).map((a) => {
+    const q = a.quiz_id != null ? byId.get(a.quiz_id) : null;
+    if (q) claimed.add(q.id);
+    return {
+      kind: q || a.quiz_id != null ? 'quiz' : 'assignment',
+      id: a.id, quizId: a.quiz_id ?? null, name: a.name,
       due: when(a.due_at), unlock: when(a.unlock_at), lock: when(a.lock_at),
-      points: a.points_possible ?? null, url: a.html_url,
-    })),
-    ...(rec.quizzes ?? []).map((q) => ({
-      kind: 'quiz', id: q.id, name: q.title,
+      points: a.points_possible ?? null,
+      questions: q?.question_count ?? null,
+      timeLimit: q?.time_limit ?? null,
+      url: a.html_url,
+    };
+  });
+
+  // A quiz with no shadow assignment (unpublished, or the assignment call was blocked) still counts.
+  for (const q of quizzes) {
+    if (claimed.has(q.id)) continue;
+    rows.push({
+      kind: 'quiz', id: q.id, quizId: q.id, name: q.title,
       due: when(q.due_at), unlock: when(q.unlock_at), lock: when(q.lock_at),
       points: q.points_possible ?? null, questions: q.question_count ?? null,
       timeLimit: q.time_limit ?? null, url: q.html_url,
-    })),
-  ].sort((a, b) => (a.due ?? '9999').localeCompare(b.due ?? '9999'));
+    });
+  }
+
+  return rows.sort((a, b) => (a.due ?? '9999').localeCompare(b.due ?? '9999')
+    || String(a.name).localeCompare(String(b.name)));
 }
 
 /**
@@ -93,9 +142,9 @@ function buildSchedule(rec) {
  * API or from a browser capture, which is the whole reason both paths produce identical output.
  */
 async function writeCourse(rec, { downloadFile }) {
-  const folder = path.join(OUT, slug(rec.course_code || rec.name));
+  const folder = path.join(OUT, courseFolder(rec));
   const meta = path.join(folder, '_canvas');
-  const label = rec.course_code ?? rec.name;
+  const label = courseFolder(rec);
   const schedule = buildSchedule(rec);
 
   console.log(`\n=== ${label} — ${rec.name}`);
@@ -160,12 +209,16 @@ async function writeCourse(rec, { downloadFile }) {
 // --- capture mode ----------------------------------------------------------
 
 if (CAPTURE) {
-  if (!fs.existsSync(CAPTURE)) {
+  // Accept the path relative to wherever the user is standing OR to the repo root, so this
+  // works the same whether it was launched by npm (cwd = repo root) or by hand from a subfolder.
+  const found = [CAPTURE, path.join(REPO, CAPTURE)].find((p) => fs.existsSync(p));
+  if (!found) {
     console.error(`Capture file not found: ${CAPTURE}`);
-    console.error('Run scripts/browser/canvasCapture.js in the Canvas tab first — it downloads canvas-capture.json.');
+    console.error(`Looked in ${path.resolve(CAPTURE)} and ${path.join(REPO, CAPTURE)}`);
+    console.error('\nRun scripts/browser/canvasCapture.js in the Canvas tab first — it downloads canvas-capture.json.');
     process.exit(1);
   }
-  const cap = JSON.parse(fs.readFileSync(CAPTURE, 'utf8'));
+  const cap = JSON.parse(fs.readFileSync(found, 'utf8'));
   if (!Array.isArray(cap.courses)) {
     console.error('That file is not a canvas capture (no "courses" array).');
     process.exit(1);
@@ -198,7 +251,8 @@ if (CAPTURE) {
 
 function readToken() {
   if (process.env.CANVAS_TOKEN) return process.env.CANVAS_TOKEN.trim();
-  for (const f of ['.env.local', '.env']) {
+  for (const name of ['.env.local', '.env']) {
+    const f = path.join(REPO, name);
     if (!fs.existsSync(f)) continue;
     const m = fs.readFileSync(f, 'utf8').match(/^\s*CANVAS_TOKEN\s*=\s*(.+)$/m);
     if (m) return m[1].trim().replace(/^["']|["']$/g, '');
@@ -212,7 +266,7 @@ if (!TOKEN) {
   console.error('EASIEST (no token needed — works even if your school disables token creation):');
   console.error('  1. Open https://' + HOST + ' logged in, press F12 -> Console');
   console.error('  2. Paste scripts/browser/canvasCapture.js, press Enter, wait for the download');
-  console.error('  3. node scripts/canvasFetch.mjs --from-capture canvas-capture.json\n');
+  console.error('  3. npm run canvas -- --from-capture canvas-capture.json\n');
   console.error('OR, if https://' + HOST + '/profile/settings offers "+ New Access Token":');
   console.error('  $env:CANVAS_TOKEN = "<paste>"   (PowerShell), then re-run.');
   process.exit(1);

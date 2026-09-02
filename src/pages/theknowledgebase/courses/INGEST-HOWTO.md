@@ -5,6 +5,32 @@ You asked what the fastest path is and whether there's a tool you don't know abo
 
 ---
 
+## Before anything: where the commands run
+
+Every command here starts with **`npm run`**, which works **from any folder inside the repo** —
+npm finds `package.json` on its own and starts the script at the repo root. You never need to
+`cd` anywhere.
+
+The scripts themselves live at the **repo root**, beside `src/`:
+
+```
+c:\Projects\astral-project\
+├── scripts\
+│   ├── canvasFetch.mjs
+│   ├── courseSourceScan.mjs
+│   └── browser\canvasCapture.js     <- the file you copy into the browser console
+├── src\
+└── package.json
+```
+
+⚠️ A bare `node scripts/...` only works if you're already standing at the repo root — that's why
+everything below uses `npm run` instead. The `--` in `npm run canvas -- --list` is what passes
+flags through npm to the script; without it npm swallows them.
+
+**Once per machine:** `npm install` (dependencies aren't in git).
+
+---
+
 ## First: about giving me your login
 
 **Don't, and you don't need to.** Handing over a password is the one option here that is both

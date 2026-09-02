@@ -70,6 +70,25 @@
     const full = await soft(() => get(location.origin + '/api/v1/courses/' + id + '?include[]=syllabus_body'), 'syllabus');
     if (full) rec.syllabus_body = full.syllabus_body || null;
 
+    // Instructors very often hide the Files and Pages tabs, which makes /files and /pages return
+    // nothing even though the content plainly exists inside the modules. So walk the module items
+    // too and resolve anything the tab endpoints missed. (MICR 2060 hid 81 files this way.)
+    const items = rec.modules.flatMap((m) => m.items || []);
+
+    const haveFile = new Set(rec.files.map((f) => f.id));
+    for (const it of items.filter((i) => i.type === 'File' && i.content_id)) {
+      if (haveFile.has(it.content_id)) continue;
+      const f = await soft(() => get(location.origin + '/api/v1/courses/' + id + '/files/' + it.content_id), 'file ' + it.title);
+      if (f && f.url) { rec.files.push(f); haveFile.add(f.id); }
+    }
+
+    const havePage = new Set(rec.pages.map((p) => p.url));
+    for (const it of items.filter((i) => i.type === 'Page' && i.page_url)) {
+      if (havePage.has(it.page_url)) continue;
+      rec.pages.push({ url: it.page_url, title: it.title });
+      havePage.add(it.page_url);
+    }
+
     // Page list gives titles only; the body needs a call per page.
     for (const p of rec.pages) {
       const body = await soft(() => get(location.origin + '/api/v1/courses/' + id + '/pages/' + p.url), 'page ' + p.url);

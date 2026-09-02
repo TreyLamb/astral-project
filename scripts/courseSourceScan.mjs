@@ -8,11 +8,16 @@
 // when the text is identical), chunk it by paragraph, and record which chunk hashes have already
 // been ingested. A later scan reports only what is genuinely new.
 //
-//   node scripts/courseSourceScan.mjs                  report NEW / CHANGED / UNCHANGED
-//   node scripts/courseSourceScan.mjs --show "<path>"  print ONLY the new chunks of one file
-//   node scripts/courseSourceScan.mjs --mark           record current state as ingested
-//   node scripts/courseSourceScan.mjs --mark "<path>"  ...for one file only
-//   node scripts/courseSourceScan.mjs --root "<dir>"   scan somewhere else
+// Run it with `npm run`, which works from ANY folder in the repo (npm starts scripts at the
+// package root). A bare `node scripts/...` only works if you are already at the repo root.
+//
+//   npm run courses:scan                          report NEW / CHANGED / UNCHANGED
+//   npm run courses:scan -- --show "<path>"       print ONLY the new chunks of one file
+//   npm run courses:scan -- --mark                record current state as ingested
+//   npm run courses:scan -- --mark "<path>"       ...for one file only
+//   npm run courses:scan -- --root "<dir>"        scan somewhere else
+//
+// The `--` is what passes the flags through npm to this script; without it npm eats them.
 //
 // Manifest: src/pages/theknowledgebase/courses/SOURCE-MANIFEST.json (committed, so the ledger
 // survives sessions and machines).
@@ -20,9 +25,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+
+// Resolve everything from the repo root, not the caller's cwd - `npm run` always starts at the
+// package root, but a direct `node path/to/this.mjs` can be launched from anywhere.
+const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 const DEFAULT_ROOT = 'G:/My Drive/SupplementalCourseDocs';
-const MANIFEST = 'src/pages/theknowledgebase/courses/SOURCE-MANIFEST.json';
+const MANIFEST = path.join(REPO, 'src/pages/theknowledgebase/courses/SOURCE-MANIFEST.json');
 
 // Static reference material (a published PDF, a photo of a periodic table) is hashed whole:
 // it is not edited in place, so chunk-level tracking would cost extraction time for no benefit.
@@ -252,5 +262,5 @@ if (marking) {
   manifest.root = ROOT;
   manifest.updatedAt = new Date().toISOString();
   fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2) + '\n');
-  console.log(`\nManifest updated: ${MANIFEST}`);
+  console.log(`\nManifest updated: ${path.relative(REPO, MANIFEST).replace(/\\/g, '/')}`);
 }
