@@ -106,7 +106,13 @@
   a.download = 'canvas-capture.json';
   a.click();
 
-  const dated = out.courses.reduce((n, c) =>
-    n + c.assignments.filter((x) => x.due_at).length + c.quizzes.filter((x) => x.due_at).length, 0);
+  // Canvas gives each quiz a shadow assignment with the same due date, so counting both sides
+  // over-reports. Count a quiz only when no assignment already claims it via quiz_id - the same
+  // join canvasFetch.mjs's buildSchedule() uses, so the two agree on the total.
+  const dated = out.courses.reduce((n, c) => {
+    const claimed = new Set(c.assignments.map((a) => a.quiz_id).filter((id) => id != null));
+    return n + c.assignments.filter((x) => x.due_at).length
+      + c.quizzes.filter((x) => x.due_at && !claimed.has(x.id)).length;
+  }, 0);
   console.log('DONE - ' + out.courses.length + ' courses, ' + dated + ' dated items. Saved canvas-capture.json');
 })();

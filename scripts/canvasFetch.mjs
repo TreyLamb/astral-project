@@ -72,7 +72,16 @@ function courseFolder(rec) {
   return slug(m ? `${m[1].toUpperCase()} ${m[2].toUpperCase()}` : raw);
 }
 const ensure = (d) => fs.mkdirSync(d, { recursive: true });
-const when = (iso) => (iso ? new Date(iso).toISOString().slice(0, 10) : null);
+// Canvas stores due_at in UTC. A deadline of 11:59pm Denver is 05:59Z the NEXT DAY, so
+// formatting in UTC reports almost every deadline one day late - which for a scheduling tool is
+// the worst possible direction to be wrong in. Format in the course's actual timezone.
+const TZ = arg('--tz', 'America/Denver');
+const dateFmt = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' });
+const timeFmt = new Intl.DateTimeFormat('en-US', { timeZone: TZ, hour: 'numeric', minute: '2-digit' });
+
+const when = (iso) => (iso ? dateFmt.format(new Date(iso)) : null);
+/** "11:59 PM" - a date alone cannot tell you whether something is due tonight or tomorrow morning. */
+const atTime = (iso) => (iso ? timeFmt.format(new Date(iso)) : null);
 
 // Canvas returns bodies as HTML. Keep it readable without pulling in a parser.
 function html2md(html) {
@@ -114,7 +123,8 @@ function buildSchedule(rec) {
     return {
       kind: q || a.quiz_id != null ? 'quiz' : 'assignment',
       id: a.id, quizId: a.quiz_id ?? null, name: a.name,
-      due: when(a.due_at), unlock: when(a.unlock_at), lock: when(a.lock_at),
+      due: when(a.due_at), dueTime: atTime(a.due_at), dueAt: a.due_at ?? null,
+      unlock: when(a.unlock_at), lock: when(a.lock_at),
       points: a.points_possible ?? null,
       questions: q?.question_count ?? null,
       timeLimit: q?.time_limit ?? null,
@@ -127,13 +137,14 @@ function buildSchedule(rec) {
     if (claimed.has(q.id)) continue;
     rows.push({
       kind: 'quiz', id: q.id, quizId: q.id, name: q.title,
-      due: when(q.due_at), unlock: when(q.unlock_at), lock: when(q.lock_at),
+      due: when(q.due_at), dueTime: atTime(q.due_at), dueAt: q.due_at ?? null,
+      unlock: when(q.unlock_at), lock: when(q.lock_at),
       points: q.points_possible ?? null, questions: q.question_count ?? null,
       timeLimit: q.time_limit ?? null, url: q.html_url,
     });
   }
 
-  return rows.sort((a, b) => (a.due ?? '9999').localeCompare(b.due ?? '9999')
+  return rows.sort((a, b) => (a.dueAt ?? '9999').localeCompare(b.dueAt ?? '9999')
     || String(a.name).localeCompare(String(b.name)));
 }
 
@@ -168,9 +179,9 @@ async function writeCourse(rec, { downloadFile }) {
 
   fs.writeFileSync(path.join(meta, 'schedule.json'), JSON.stringify(schedule, null, 2) + '\n');
   fs.writeFileSync(path.join(meta, 'schedule.md'),
-    `# ${label} — dated work\n_Pulled from Canvas ${new Date().toISOString().slice(0, 10)}. Canvas due dates are authoritative over a printed syllabus._\n\n`
-    + '| Due | Kind | Pts | Name |\n|---|---|---|---|\n'
-    + schedule.map((s) => `| ${s.due ?? '—'} | ${s.kind} | ${s.points ?? '—'} | ${s.name} |`).join('\n') + '\n');
+    `# ${label} — dated work\n_Pulled from Canvas ${new Date().toISOString().slice(0, 10)}. All times ${TZ}. Canvas due dates are authoritative over a printed syllabus._\n\n`
+    + '| Due | Time | Kind | Pts | Name |\n|---|---|---|---|---|\n'
+    + schedule.map((s) => `| ${s.due ?? '—'} | ${s.dueTime ?? '—'} | ${s.kind} | ${s.points ?? '—'} | ${s.name} |`).join('\n') + '\n');
 
   if ((rec.modules ?? []).length) {
     fs.writeFileSync(path.join(meta, 'modules.md'),
