@@ -1,0 +1,510 @@
+/* Canvas-alike dashboard. Prefix cdash-.
+ *
+ * Borrows Instructure Canvas's visual language on purpose (Trey: "just use a lot of the css from
+ * canvas uvu.instructure.com so it looks similar") - Lato, #0374B5 link blue, #2D3B45 ink, 3px
+ * card radius, the colour-striped course card and the "Coming Up" rail. Kept deliberately more
+ * minimal than real Canvas: three courses, no grades page, no submission UI.
+ *
+ * Canvas is light-only. The neutrals below flip for dark mode so this doesn't burn a hole in the
+ * screen inside TKB's dark theme, while the semantic accents (blue/green/red) stay constant.
+ */
+
+.cdash {
+  --cd-ink: #2d3b45;
+  --cd-ink-soft: #6b7780;
+  --cd-line: #c7cdd1;
+  --cd-surface: #fff;
+  --cd-bg: #f5f5f5;
+  --cd-link: #0374b5;
+  --cd-danger: #e0061f;
+  --cd-success: #0b874b;
+  --cd-warn: #fc5e13;
+
+  font-family: Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: var(--cd-ink);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  .cdash {
+    --cd-ink: #f0ece3;
+    --cd-ink-soft: #b8b0a0;
+    --cd-line: #3a352c;
+    --cd-surface: #26231d;
+    --cd-bg: #1e1c18;
+    --cd-link: #57a9e0;
+  }
+}
+
+/* ---- header ---- */
+
+.cdash-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--cd-line);
+  margin-bottom: 1.25rem;
+}
+
+.cdash-head h1 {
+  font-size: 1.75rem;
+  font-weight: 300;
+  margin: 0;
+  color: var(--cd-ink);
+}
+
+.cdash-synced {
+  font-size: 0.9rem;
+  color: var(--cd-ink-soft);
+}
+
+/* ---- past-due strip ---- */
+
+.cdash-alert {
+  border: 1px solid var(--cd-danger);
+  border-left-width: 4px;
+  border-radius: 3px;
+  background: var(--cd-surface);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.cdash-alert > strong {
+  color: var(--cd-danger);
+  font-size: 1rem;
+}
+
+.cdash-alert ul {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+}
+
+.cdash-alert li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  font-size: 0.98rem;
+}
+
+.cdash-alert-course {
+  font-weight: 700;
+  min-width: 5.5rem;
+}
+
+.cdash-alert-when {
+  margin-left: auto;
+  color: var(--cd-danger);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.cdash-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.cdash-note {
+  border: 1px solid var(--cd-line);
+  border-left: 4px solid var(--cd-warn);
+  border-radius: 3px;
+  background: var(--cd-surface);
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: var(--cd-ink-soft);
+}
+
+/* ---- layout: cards + rail ---- */
+
+.cdash-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 22rem;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .cdash-body { grid-template-columns: 1fr; }
+}
+
+.cdash-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: 1rem;
+}
+
+/* Canvas's dashboard card: colour strip on top, white body, hairline border. */
+.cdash-card {
+  background: var(--cd-surface);
+  border: 1px solid var(--cd-line);
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cdash-card-strip { height: 8px; }
+
+.cdash-card-body {
+  padding: 0.9rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.cdash-card-body h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.cdash-card-term {
+  font-size: 0.9rem;
+  color: var(--cd-ink-soft);
+}
+
+.cdash-next {
+  border-top: 1px solid var(--cd-line);
+  padding-top: 0.6rem;
+  margin-top: 0.2rem;
+}
+
+.cdash-next-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cd-ink-soft);
+  margin-bottom: 0.15rem;
+}
+
+.cdash-next-name {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.cdash-next-meta {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--cd-ink-soft);
+  margin-top: 0.25rem;
+}
+
+.cdash-soon {
+  color: var(--cd-danger);
+  font-weight: 700;
+}
+
+.cdash-clear {
+  color: var(--cd-success);
+  font-size: 0.95rem;
+}
+
+.cdash-card-foot {
+  margin-top: auto;
+  padding-top: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--cd-ink-soft);
+}
+
+/* ---- Coming Up rail ---- */
+
+.cdash-rail {
+  background: var(--cd-surface);
+  border: 1px solid var(--cd-line);
+  border-radius: 3px;
+  padding: 1rem;
+}
+
+.cdash-rail-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.cdash-rail-head h3 {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cd-ink-soft);
+}
+
+.cdash-rail-head select {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.15rem 0.3rem;
+  color: var(--cd-ink);
+  background: var(--cd-surface);
+  border: 1px solid var(--cd-line);
+  border-radius: 3px;
+}
+
+.cdash-rail-empty {
+  color: var(--cd-ink-soft);
+  font-size: 0.95rem;
+  padding: 0.5rem 0;
+}
+
+.cdash-day + .cdash-day { margin-top: 0.9rem; }
+
+.cdash-day-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--cd-ink-soft);
+  border-bottom: 1px solid var(--cd-line);
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.cdash-day-today { color: var(--cd-danger); }
+
+.cdash-item {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-left: 3px solid var(--cdash-accent, var(--cd-link));
+  padding: 0.35rem 0 0.35rem 0.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.cdash-item:hover { background: var(--cd-bg); }
+
+.cdash-item-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cd-ink-soft);
+}
+
+.cdash-item-course { font-weight: 700; }
+
+.cdash-item-name {
+  font-size: 0.98rem;
+  line-height: 1.35;
+  color: var(--cd-link);
+}
+
+.cdash-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--cd-ink-soft);
+  margin-top: 0.15rem;
+}
+
+.cdash-pill {
+  border-radius: 999px;
+  padding: 0 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.cdash-graded, .cdash-submitted, .cdash-excused { background: var(--cd-success); }
+.cdash-missing, .cdash-overdue { background: var(--cd-danger); }
+
+/* ---- footer / empty ---- */
+
+.cdash-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--cd-line);
+  font-size: 0.9rem;
+  color: var(--cd-ink-soft);
+}
+
+.cdash-foot a { color: var(--cd-link); }
+
+.cdash code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  background: var(--cd-bg);
+  border: 1px solid var(--cd-line);
+  border-radius: 3px;
+  padding: 0.05rem 0.3rem;
+}
+
+.cdash-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--cd-ink-soft);
+}
+
+/* ---- syllabus template ---- */
+
+.syl-tabs { display: flex; gap: 0.25rem; flex-wrap: wrap; margin-bottom: 1rem; }
+
+.syl-tab {
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  color: var(--cd-ink-soft);
+  background: transparent;
+  border: 0;
+  border-bottom: 3px solid transparent;
+}
+
+.syl-tab-on {
+  color: var(--cdash-accent, var(--cd-link));
+  border-bottom-color: var(--cdash-accent, var(--cd-link));
+}
+
+.syl-tab-flag { color: var(--cd-warn); margin-left: 0.3rem; }
+
+.syl-title { border-left: 4px solid; padding-left: 0.85rem; margin-bottom: 1.25rem; }
+.syl-title h2 { margin: 0; font-size: 1.35rem; }
+
+.syl-facts { display: flex; gap: 1rem; flex-wrap: wrap; color: var(--cd-ink-soft); font-size: 0.95rem; }
+
+.syl-cols { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 1.25rem; align-items: start; }
+@media (max-width: 900px) { .syl-cols { grid-template-columns: 1fr; } }
+
+.syl-block {
+  background: var(--cd-surface);
+  border: 1px solid var(--cd-line);
+  border-radius: 3px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.syl-block h3 {
+  margin: 0 0 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cd-ink-soft);
+}
+
+.syl-key { border-left: 4px solid var(--cd-success); }
+.syl-key ul, .syl-conflict ul { margin: 0; padding-left: 1.1rem; }
+.syl-key li, .syl-conflict li { margin-bottom: 0.45rem; line-height: 1.5; }
+
+.syl-conflict { border-left: 4px solid var(--cd-warn); }
+.syl-conflict h3 { color: var(--cd-warn); }
+.syl-conflict-note { margin: 0 0 0.5rem; color: var(--cd-ink-soft); font-size: 0.95rem; }
+
+.syl-table { width: 100%; border-collapse: collapse; font-size: 0.98rem; }
+.syl-table th, .syl-table td { text-align: left; padding: 0.45rem 0.4rem; border-bottom: 1px solid var(--cd-line); vertical-align: top; }
+.syl-table thead th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--cd-ink-soft); }
+.syl-table tfoot th { border-top: 2px solid var(--cd-line); border-bottom: 0; }
+.syl-num { text-align: right; white-space: nowrap; }
+
+/* A weight is easier to feel as a bar than as a number. */
+.syl-bar { display: block; height: 4px; width: var(--w); border-radius: 2px; opacity: 0.75; margin-bottom: 0.15rem; margin-left: auto; }
+
+.syl-sub { font-size: 0.88rem; color: var(--cd-ink-soft); line-height: 1.4; margin-top: 0.15rem; }
+
+.syl-chip {
+  display: inline-block;
+  margin-left: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--cd-line);
+  color: var(--cd-ink-soft);
+}
+
+.syl-curve { margin: 0.6rem 0 0; font-size: 0.95rem; line-height: 1.5; color: var(--cd-ink); }
+
+.syl-scale { display: grid; grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr)); gap: 0.3rem; }
+.syl-scale-row { display: flex; justify-content: space-between; gap: 0.4rem; padding: 0.25rem 0.45rem; border: 1px solid var(--cd-line); border-radius: 3px; font-size: 0.92rem; }
+.syl-scale-grade { font-weight: 700; }
+.syl-scale-min { color: var(--cd-ink-soft); }
+
+.syl-dl { margin: 0; font-size: 0.98rem; }
+.syl-dl dt { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--cd-ink-soft); margin-top: 0.5rem; }
+.syl-dl dt:first-child { margin-top: 0; }
+.syl-dl dd { margin: 0.1rem 0 0; line-height: 1.5; }
+.syl-dl a { color: var(--cd-link); }
+
+.syl-policies { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 0.9rem; }
+.syl-policies > div { min-width: 0; }
+
+.syl-materials { list-style: none; margin: 0; padding: 0; }
+.syl-materials li { padding: 0.35rem 0; border-bottom: 1px solid var(--cd-line); }
+.syl-materials li:last-child { border-bottom: 0; }
+
+.syl-missing { color: var(--cd-ink-soft); font-style: italic; }
+
+/* ---- main column: cards + priority list ---- */
+
+.cdash-main { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+
+.cdash-heavy {
+  background: var(--cd-surface);
+  border: 1px solid var(--cd-line);
+  border-radius: 3px;
+  padding: 1rem;
+}
+
+.cdash-heavy h3 {
+  margin: 0 0 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cd-ink-soft);
+}
+
+.cdash-heavy ol { list-style: none; margin: 0; padding: 0; counter-reset: hh; }
+
+.cdash-heavy li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--cd-line);
+}
+
+.cdash-heavy li:last-child { border-bottom: 0; }
+
+.cdash-heavy-pts {
+  font-weight: 700;
+  font-size: 1.05rem;
+  min-width: 3.2rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cdash-heavy-name { line-height: 1.35; min-width: 0; }
+
+.cdash-heavy-meta {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--cd-ink-soft);
+  margin-top: 0.1rem;
+}
+
+/* The rail can run far longer than the cards; let it scroll rather than stretch the page and
+   leave a tall empty column beside it. */
+.cdash-rail { max-height: calc(100vh - 12rem); overflow-y: auto; }
+@media (max-width: 900px) { .cdash-rail { max-height: none; } }

@@ -490,8 +490,47 @@ syllabus produces a `<course>/SYLLABUS.md` with all of the following that the do
 | **Exam logistics** | Format, item count, time limit, open/closed book, location, proctoring. Pacing practice depends on this. |
 | **Standardized-exam notes** | e.g. CHEM's ACS final. Flag its weight loudly. |
 
+**🔴 There is ONE standard template and every syllabus gets normalized into it.**
+Trey: *"EVERY teacher does their syllabus slightly different. They all fluff it with different
+verbage and warnings etc. I just want one standard template that each syllabus gets imported to
+and the fluff gets kicked out. so it's just real information."*
+
+The template is `courses/data/syllabi.json` (its `_schema` key documents every field) and it
+renders at `/TKB/courses/syllabus`. **Never reshape the template to match a source document** —
+normalize the document into the template. A course missing a section keeps the section and shows
+it as missing: "the syllabus doesn't say" is information, and a silently absent late policy reads
+as "no penalty".
+
+**What is FLUFF — drop all of it.** It is identical across every UVU course and changes no
+decision you will ever make:
+
+| Drop | Why |
+|---|---|
+| Title IX / nondiscrimination / ADA / accessibility statements | University-wide boilerplate, byte-identical between courses |
+| Religious-accommodation and pregnancy-accommodation notices | Same |
+| Academic-integrity and plagiarism paragraphs | Same, unless it names a course-specific *mechanism* (a lockdown browser, a proctor service) |
+| "Learning outcomes" / "course objectives" prose | Aspirational, never tested as written |
+| Course-philosophy and motivational text | "My goal is to teach you to learn scientifically" changes nothing |
+| Catalog course descriptions | Already known from the registration |
+| Generic study-tips sections | Not course-specific |
+
+**What is REAL — keep all of it**, and if it is absent say so explicitly: grade weights, points,
+grading scale, curve, assessment→chapter map, dates, drop/retake/replacement rules, late and
+makeup policy, attendance scoring, required materials (including *banned* calculators), exam
+format/length/proctoring, instructor contact and office hours.
+
 Rules:
 - **Weights must total 100%.** If they don't, you misread the file — re-read it, don't guess.
+- 🔴 **NEVER silently resolve a contradiction. Record it in `conflicts[]`.** Syllabi contradict
+  themselves constantly, usually from copy-paste between sections or semesters. CHEM 1210's has
+  **three**: two entirely different grade breakdowns (a points table summing to 1100 vs. a later
+  section listing percentages and only THREE midterms), "Exams (4 x 125)" labelled as 475 points,
+  and a final described as 250 points in prose but 275 in the table. Pick the reading you can
+  defend, say why in the conflict entry, and surface it — the view renders `conflicts[]` in a
+  warning block precisely so Trey can take it to the instructor.
+- **`keyRules[]` is the payload.** Three to six facts that actually change how he studies, written
+  as instructions not descriptions. "Every exam is cumulative and a later exam retroactively
+  raises earlier ones, so a bad Exam 1 is recoverable" beats "exams are cumulative."
 - **A Canvas due date beats a printed syllabus date** when they conflict; instructors move dates
   in Canvas without reissuing the PDF. Note the conflict rather than silently picking one.
 - **A syllabus quiz is a syllabus source.** `Microbiology_LAB/SyllabusQuiz.pdf` is a graded quiz

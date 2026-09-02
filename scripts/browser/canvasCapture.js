@@ -58,7 +58,11 @@
     const id = c.id;
     const rec = {
       id, name: c.name, course_code: c.course_code,
-      assignments: (await soft(() => getAll('/courses/' + id + '/assignments'), 'assignments')) || [],
+      // include[]=submission attaches YOUR submission to each assignment (submitted_at, score,
+      // workflow_state, missing, late, excused). Without it there is no way to tell a past-due
+      // item you finished from one you missed, and a schedule that cannot tell those apart
+      // nags about work that is already done.
+      assignments: (await soft(() => getAll('/courses/' + id + '/assignments?include[]=submission'), 'assignments')) || [],
       quizzes: (await soft(() => getAll('/courses/' + id + '/quizzes'), 'quizzes')) || [],
       modules: (await soft(() => getAll('/courses/' + id + '/modules?include[]=items'), 'modules')) || [],
       files: (await soft(() => getAll('/courses/' + id + '/files'), 'files')) || [],

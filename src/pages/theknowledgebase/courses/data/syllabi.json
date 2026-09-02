@@ -1,0 +1,126 @@
+{
+  "_README": "THE STANDARD SYLLABUS TEMPLATE. Every course's syllabus gets normalized into this exact shape, no matter how the instructor wrote it. Fluff (Title IX, ADA, nondiscrimination, religious-accommodation, academic-integrity boilerplate, learning-outcome prose, motivational filler) is dropped - it is identical across every UVU course and changes no decision. Only decision-relevant facts survive. Rules for what counts as real vs fluff: courses/AGENT-PROMPT.md section B2. Never hand-edit a source syllabus; edit this file.",
+  "_schema": {
+    "code": "string - matches coursesSeed.js",
+    "title": "string",
+    "credits": "number|null",
+    "meets": "string|null - days/times",
+    "location": "string|null",
+    "instructor": { "name": "", "email": "", "phone": "", "office": "", "hours": "" },
+    "materials": "[{ item, required, note }]",
+    "grading": {
+      "totalPoints": "number|null",
+      "components": "[{ name, points, weight, note }] - weight is % of final grade",
+      "scale": "[{ grade, min }] - min % for that letter, descending",
+      "curved": "bool",
+      "curveNote": "string|null"
+    },
+    "assessments": "[{ name, covers, date, points, cumulative, format }]",
+    "policies": "{ attendance, late, makeup, retake, drop, materialsAllowed }",
+    "keyRules": "[string] - the few facts that actually change how you study",
+    "conflicts": "[string] - contradictions IN THE SOURCE. Never silently resolve one.",
+    "source": "string - where this was normalized from",
+    "status": "complete | partial | missing"
+  },
+
+  "CHEM 1210": {
+    "code": "CHEM 1210",
+    "title": "General Chemistry I",
+    "credits": 4,
+    "meets": "M, T, W, R 1:00-1:50 PM",
+    "location": "PS 015",
+    "instructor": {
+      "name": "Daniel Scott, Ph.D.",
+      "email": "Daniel.Scott@uvu.edu",
+      "phone": "(801) 863-8672",
+      "office": "PS 212",
+      "hours": "M, T, W, R 11:00-11:50 AM"
+    },
+    "materials": [
+      { "item": "AcademiQ Fall 2026 Chem 1210 (online text)", "required": true, "note": "learn-ai-DanielScott26.replit.app - homework 'progress questions' live inside the text and are graded" },
+      { "item": "Scientific calculator", "required": true, "note": "Must have logarithm, scientific notation and exponent capability. Permitted on quizzes and exams." },
+      { "item": "Periodic table", "required": false, "note": "Provided during quizzes - do not buy one." }
+    ],
+    "grading": {
+      "totalPoints": 1100,
+      "components": [
+        { "name": "Attendance", "points": 100, "weight": 9.1, "note": "First 3 absences cost 5 pts each; every absence after costs 10." },
+        { "name": "Homework", "points": 50, "weight": 4.5, "note": "Progress questions inside the AcademiQ text." },
+        { "name": "Quizzes", "points": 200, "weight": 18.2, "note": "~25 quizzes at 8 pts. Timed. Due 30 min before class. Quiz title names the practice problems it covers." },
+        { "name": "Midterm exams", "points": 475, "weight": 43.2, "note": "Four midterms. ALL CUMULATIVE." },
+        { "name": "Final exam", "points": 275, "weight": 25.0, "note": "Comprehensive ACS standardized exam. Cannot be made up." }
+      ],
+      "scale": [
+        { "grade": "A", "min": 87 }, { "grade": "A-", "min": 84 }, { "grade": "B+", "min": 82 },
+        { "grade": "B", "min": 78 }, { "grade": "B-", "min": 75 }, { "grade": "C+", "min": 70 },
+        { "grade": "C", "min": 63 }, { "grade": "C-", "min": 57 }, { "grade": "D+", "min": 52 },
+        { "grade": "D", "min": 47 }, { "grade": "D-", "min": 42 }, { "grade": "E", "min": 0 }
+      ],
+      "curved": true,
+      "curveNote": "Exams mirror ACS standardized exams where the class average is expected to be 50%, so the scale is shifted down: 63% is a C, not a D. Do not read these cutoffs against a normal 90/80/70 scale."
+    },
+    "assessments": [
+      { "name": "Exam 1", "covers": "Ch 1-2", "date": null, "points": 125, "cumulative": true, "format": "In class, ACS-style" },
+      { "name": "Exam 2", "covers": "Ch 1-4", "date": null, "points": 125, "cumulative": true, "format": "In class, ACS-style" },
+      { "name": "Exam 3", "covers": "Ch 1-6", "date": null, "points": 125, "cumulative": true, "format": "In class, ACS-style" },
+      { "name": "Exam 4", "covers": "Ch 1-8", "date": null, "points": 125, "cumulative": true, "format": "In class, ACS-style" },
+      { "name": "Final (comprehensive)", "covers": "Ch 1-10", "date": "2026-12-07T13:00", "points": 275, "cumulative": true, "format": "ACS standardized, in class 1:00 PM. No makeup." }
+    ],
+    "policies": {
+      "attendance": "Graded, 100 pts. First 3 absences -5 each, then -10 each. Instructor states 5 absences likely means a low grade, 10 likely means failing.",
+      "late": "Not stated in the syllabus.",
+      "makeup": "The final exam cannot be made up. No makeup policy stated for midterms.",
+      "retake": "No retakes, but see 'drop' - later exams retroactively raise earlier ones.",
+      "drop": "Nothing is dropped. Instead: because exams are cumulative, improving on a later exam RETROACTIVELY raises your earlier exam scores when final grades are tallied.",
+      "materialsAllowed": "Calculator and blank scratch paper permitted. Periodic table provided. Quizzes are closed-note and must be done independently."
+    },
+    "keyRules": [
+      "Every exam is cumulative, and a later exam retroactively raises earlier ones. Early material never stops mattering - and a bad Exam 1 is recoverable.",
+      "The scale is curved: 63% is a C. Exams are built to an expected 50% class average.",
+      "The final is 25% of the grade, comprehensive, ACS-standardized, and cannot be made up. Dec 7, 1:00 PM.",
+      "Attendance is 9% of the grade and is scored by a penalty formula, not by showing up occasionally.",
+      "Quizzes are due 30 minutes BEFORE class, not at end of day. The quiz title names exactly which practice problems it covers."
+    ],
+    "conflicts": [
+      "TWO different grade breakdowns appear in the same syllabus. The points table (Attendance 100 / Homework 50 / Quizzes 200 / Exams 475 / Final 275 = 1100) disagrees with a later section that lists Attendance 8%, Homework+Quizzes 19%, THREE midterms at 11% each (~45%), Final 28%. The points table is used here because it sums exactly to 1100 and matches the four-exam schedule; the later section appears to be stale text from a different section of the course.",
+      "'Exams (4 x 125)' is listed as 475 points, but 4 x 125 = 500. The 475 figure is used here because it is what makes the components total the stated 1100.",
+      "Prose says the final is 'worth 250 points'; the points table says 275. The table is used, for the same reason."
+    ],
+    "source": "Canvas syllabus body, CHEM-1210-004, pulled 2026-09-02",
+    "status": "complete"
+  },
+
+  "MICR 2060": {
+    "code": "MICR 2060",
+    "title": "Microbiology for Health Professions",
+    "credits": 3,
+    "meets": null,
+    "location": "Online",
+    "instructor": { "name": null, "email": null, "phone": null, "office": null, "hours": null },
+    "materials": [],
+    "grading": { "totalPoints": null, "components": [], "scale": [], "curved": false, "curveNote": null },
+    "assessments": [],
+    "policies": {},
+    "keyRules": [],
+    "conflicts": [],
+    "source": "No syllabus body in Canvas for this course - nothing to normalize yet.",
+    "status": "missing"
+  },
+
+  "MICR 2065": {
+    "code": "MICR 2065",
+    "title": "Microbiology for Health Professions Laboratory",
+    "credits": 1,
+    "meets": null,
+    "location": null,
+    "instructor": { "name": null, "email": null, "phone": null, "office": null, "hours": null },
+    "materials": [],
+    "grading": { "totalPoints": null, "components": [], "scale": [], "curved": false, "curveNote": null },
+    "assessments": [],
+    "policies": {},
+    "keyRules": [],
+    "conflicts": [],
+    "source": "Canvas syllabus body is only a link to 'BIOL 2065 Syllabus-1.docx' (Canvas file 134770986). That file is one of the attachments behind the hidden Files tab - it arrives with the next capture, then gets normalized here.",
+    "status": "missing"
+  }
+}

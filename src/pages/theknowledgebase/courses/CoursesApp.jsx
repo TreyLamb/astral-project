@@ -4,6 +4,8 @@ import { useAuth } from '../../../AuthContext';
 import { CoursesStorage } from './coursesStorage';
 import { CoursesFirestore } from './coursesFirestore';
 import CoursesDashboard from './views/CoursesDashboard';
+import CanvasDashboard from './views/CanvasDashboard';
+import SyllabusView from './views/SyllabusView';
 import CourseDetail from './views/CourseDetail';
 import WorksheetsList from './views/WorksheetsList';
 import WorksheetViewer from './views/WorksheetViewer';
@@ -101,6 +103,8 @@ export default function CoursesApp() {
       <div className="crs-wrap">
         <Routes>
           <Route index element={<Boundary title="The courses dashboard stopped working." resetId="dashboard"><CoursesDashboard /></Boundary>} />
+          <Route path="dashboard" element={<Boundary title="The Canvas dashboard stopped working." resetId="canvas-dashboard"><CanvasDashboard /></Boundary>} />
+          <Route path="syllabus" element={<Boundary title="The syllabus view stopped working." resetId="syllabus"><SyllabusView /></Boundary>} />
           <Route path="worksheets" element={<Boundary title="The worksheets list stopped working." resetId="worksheets"><WorksheetsList /></Boundary>} />
           <Route path="worksheets/:worksheetId" element={<Boundary title="This worksheet stopped working." resetId={location.pathname}><WorksheetViewer /></Boundary>} />
           <Route path="chem/*" element={<Boundary title="The Chem curriculum stopped working." resetId={location.pathname}><ChemApp /></Boundary>} />

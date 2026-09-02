@@ -30,6 +30,12 @@ export default function CoursesDashboard() {
           </div>
         </div>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button className="crs-btn" onClick={() => navigate('/TKB/courses/dashboard')}>
+            📊 Canvas dashboard
+          </button>
+          <button className="crs-btn secondary" onClick={() => navigate('/TKB/courses/syllabus')}>
+            📋 Syllabi
+          </button>
           <button className="crs-btn secondary" onClick={() => navigate('/TKB/courses/worksheets')}>
             📝 Worksheets
           </button>

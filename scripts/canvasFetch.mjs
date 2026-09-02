@@ -45,6 +45,10 @@ const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DEFAULT_HOST = 'uvu.instructure.com';
 const DEFAULT_OUT = 'G:/My Drive/SupplementalCourseDocs';
 
+// The Drive folder is outside the repo, so the React dashboard cannot read it at runtime. Same
+// call as the worksheets feature: the derived, structured data gets committed, never the source.
+const SNAPSHOT = path.join(REPO, 'src/pages/theknowledgebase/courses/data/canvasSchedule.json');
+
 const argv = process.argv.slice(2);
 const has = (f) => argv.includes(f);
 const arg = (f, d = null) => {
@@ -112,6 +116,21 @@ function html2md(html) {
  * endpoint returned 0 rows (New Quizzes lives behind a different API), so its 29 quiz-backed
  * assignments are the ONLY record of those items and dropping them loses the whole course.
  */
+/**
+ * Turn Canvas's submission blob into one word. Canvas spreads this across four fields that
+ * disagree: `missing` is only set once the grader notices, `workflow_state` says 'unsubmitted'
+ * for anything never opened including work not yet due, and `excused` overrides both.
+ * Order matters here - excused beats graded beats submitted beats overdue.
+ */
+function statusOf(sub, dueAt) {
+  if (!sub) return 'unknown';
+  if (sub.excused) return 'excused';
+  if (sub.submitted_at) return sub.workflow_state === 'graded' ? 'graded' : 'submitted';
+  if (sub.missing) return 'missing';
+  if (dueAt && new Date(dueAt) < new Date()) return 'overdue';
+  return 'todo';
+}
+
 function buildSchedule(rec) {
   const quizzes = rec.quizzes ?? [];
   const byId = new Map(quizzes.map((q) => [q.id, q]));
@@ -120,6 +139,7 @@ function buildSchedule(rec) {
   const rows = (rec.assignments ?? []).map((a) => {
     const q = a.quiz_id != null ? byId.get(a.quiz_id) : null;
     if (q) claimed.add(q.id);
+    const sub = a.submission ?? null;
     return {
       kind: q || a.quiz_id != null ? 'quiz' : 'assignment',
       id: a.id, quizId: a.quiz_id ?? null, name: a.name,
@@ -128,6 +148,10 @@ function buildSchedule(rec) {
       points: a.points_possible ?? null,
       questions: q?.question_count ?? null,
       timeLimit: q?.time_limit ?? null,
+      status: statusOf(sub, a.due_at),
+      score: sub?.score ?? null,
+      submittedAt: sub?.submitted_at ?? null,
+      late: !!sub?.late,
       url: a.html_url,
     };
   });
@@ -140,7 +164,9 @@ function buildSchedule(rec) {
       due: when(q.due_at), dueTime: atTime(q.due_at), dueAt: q.due_at ?? null,
       unlock: when(q.unlock_at), lock: when(q.lock_at),
       points: q.points_possible ?? null, questions: q.question_count ?? null,
-      timeLimit: q.time_limit ?? null, url: q.html_url,
+      timeLimit: q.time_limit ?? null,
+      status: 'unknown', score: null, submittedAt: null, late: false,
+      url: q.html_url,
     });
   }
 
@@ -167,7 +193,7 @@ async function writeCourse(rec, { downloadFile }) {
     for (const s of schedule.filter((x) => x.due).slice(0, 12)) {
       console.log(`      ${s.due}  ${s.kind.padEnd(10)} ${String(s.points ?? '-').padStart(5)} pts  ${s.name}`);
     }
-    return { course: label, dated: schedule.filter((s) => s.due).length, files: 0 };
+    return { course: label, name: rec.name, dated: schedule.filter((s) => s.due).length, files: 0, schedule };
   }
 
   ensure(meta);
@@ -214,7 +240,26 @@ async function writeCourse(rec, { downloadFile }) {
       console.log('      (capture file URLs are time-limited — re-run the console snippet for a fresh one)');
     }
   }
-  return { course: label, dated: schedule.filter((s) => s.due).length, files: ok };
+  return { course: label, name: rec.name, dated: schedule.filter((s) => s.due).length, files: ok, schedule };
+}
+
+/**
+ * Commit a combined snapshot the React dashboard imports. Written from whatever this run
+ * produced, and merged over any course this run did not touch, so importing one course does not
+ * wipe the other two out of the dashboard.
+ */
+function writeSnapshot(results) {
+  if (LIST_ONLY) return;
+  ensure(path.dirname(SNAPSHOT));
+  const prev = fs.existsSync(SNAPSHOT) ? JSON.parse(fs.readFileSync(SNAPSHOT, 'utf8')) : { courses: {} };
+  const courses = { ...(prev.courses ?? {}) };
+  for (const r of results) {
+    courses[r.course] = { code: r.course, name: r.name, schedule: r.schedule };
+  }
+  fs.writeFileSync(SNAPSHOT, JSON.stringify({
+    generatedAt: new Date().toISOString(), timezone: TZ, courses,
+  }, null, 2) + '\n');
+  console.log(`\nDashboard snapshot: ${path.relative(REPO, SNAPSHOT).split(path.sep).join('/')}`);
 }
 
 // --- capture mode ----------------------------------------------------------
@@ -251,7 +296,8 @@ if (CAPTURE) {
 
   const summary = [];
   for (const rec of cap.courses) summary.push(await writeCourse(rec, { downloadFile }));
-  console.table(summary);
+  writeSnapshot(summary);
+  console.table(summary.map(({ schedule, ...r }) => r));
   if (!LIST_ONLY) {
     console.log('\nNext:  npm run courses:scan   then follow courses/AGENT-PROMPT.md §5');
   }
@@ -363,4 +409,5 @@ for (const course of targets) {
 
 console.log(`\n${calls} API calls.`);
 if (!LIST_ONLY) console.log('Next:  npm run courses:scan   then follow courses/AGENT-PROMPT.md §5');
-console.table(summary);
+writeSnapshot(summary);
+console.table(summary.map(({ schedule, ...r }) => r));
