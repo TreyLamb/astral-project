@@ -126,24 +126,10 @@ async function main() {
   console.log(`Signed in as ${me.user.email ?? me.user.id ?? 'unknown'}`);
   if (CHECK_ONLY) { console.log('Cookie is valid.'); return; }
 
-  const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-  /**
-   * Section ids can sit under any of several plausible key names, and the response shape was not
-   * observable from outside the login. Rather than guessing one schema, walk the JSON and take every
-   * uuid-shaped value that looks like a section reference.
-   */
-  function harvestSectionIds(node, into, depth = 0) {
-    if (!node || depth > 10) return;
-    if (Array.isArray(node)) { for (const n of node) harvestSectionIds(n, into, depth + 1); return; }
-    if (typeof node !== 'object') return;
-    for (const [k, v] of Object.entries(node)) {
-      if (typeof v === 'string' && UUID.test(v) && /section/i.test(k)) into.add(v);
-      else if (v && typeof v === 'object') harvestSectionIds(v, into, depth + 1);
-    }
-    if (typeof node.id === 'string' && UUID.test(node.id) && (node.title || node.name)) into.add(node.id);
-  }
-
+  // /api/courses/:id returns the whole book inline as detail.chapters[].sections[].content.
+  // Confirmed 2026-09-02: 10 chapters, 55 sections, ~861k chars. An earlier version also chased
+  // /api/sections/:id and found nothing, because the ids live under `chapters` rather than under
+  // any key matching /section/i. One request per course is the whole job.
   let courses;
   try {
     courses = await get('/api/courses');
@@ -154,8 +140,8 @@ async function main() {
   const list = Array.isArray(courses) ? courses : (courses.courses ?? []);
   console.log(`${list.length} course(s)`);
 
-  const out = { fetchedAt: new Date().toISOString(), user: me.user.email ?? null, courses: [], sections: {} };
-  const sectionIds = new Set();
+  const out = { fetchedAt: new Date().toISOString(), user: me.user.email ?? null, courses: [] };
+  let chapters = 0, sections = 0, chars = 0;
 
   try {
     for (const c of list) {
@@ -163,16 +149,10 @@ async function main() {
       console.log(`-> ${id} ${c.title ?? c.name ?? ''}`);
       const detail = await soft(`/api/courses/${id}`, `course ${id}`);
       out.courses.push({ summary: c, detail });
-      harvestSectionIds(detail, sectionIds);
-      harvestSectionIds(c, sectionIds);
-    }
-
-    console.log(`${sectionIds.size} section(s) to fetch`);
-    let n = 0;
-    for (const sid of sectionIds) {
-      const s = await soft(`/api/sections/${sid}`, `section ${sid}`);
-      if (s) out.sections[sid] = s;
-      if (++n % 10 === 0) console.log(`   ${n}/${sectionIds.size}`);
+      for (const ch of detail?.chapters ?? []) {
+        chapters++;
+        for (const sec of ch.sections ?? []) { sections++; chars += (sec.content ?? '').length; }
+      }
     }
   } catch (e) {
     if (e.message === 'SESSION_EXPIRED') expired();
@@ -184,9 +164,9 @@ async function main() {
   fs.writeFileSync(dest, JSON.stringify(out, null, 2) + '\n');
 
   console.log(`\n${calls} API calls.`);
-  console.log(`${out.courses.length} course(s), ${Object.keys(out.sections).length} section(s)`);
+  console.log(`${out.courses.length} course(s), ${chapters} chapters, ${sections} sections, ${Math.round(chars / 1000)}k chars`);
   console.log(`Wrote ${dest}`);
-  if (Object.keys(out.sections).length === 0) {
+  if (sections === 0) {
     console.log('\nNo sections came back. The id keys may not match /section/i — re-run with the');
     console.log('browser snippet (scripts/browser/academiqCapture.js) and send the capture instead.');
   }

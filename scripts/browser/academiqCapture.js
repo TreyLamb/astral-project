@@ -55,40 +55,24 @@
   const list = Array.isArray(courses) ? courses : (courses.courses ?? []);
   console.log(list.length + ' course(s)');
 
-  // Section ids can hide under a few plausible key names; collect every uuid-ish id we can see
-  // rather than guessing one shape. Dedupe, then fetch each.
-  const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-  const sectionIds = new Set();
-
-  function harvest(node, depth = 0) {
-    if (!node || depth > 8) return;
-    if (Array.isArray(node)) { for (const n of node) harvest(n, depth + 1); return; }
-    if (typeof node !== 'object') return;
-    for (const [k, v] of Object.entries(node)) {
-      if (typeof v === 'string' && UUID.test(v) && /section/i.test(k)) sectionIds.add(v);
-      else if (typeof v === 'object') harvest(v, depth + 1);
-    }
-    // A node that looks like a section itself.
-    if (typeof node.id === 'string' && UUID.test(node.id)
-        && (node.title || node.name) && !node.courseId === false) sectionIds.add(node.id);
-  }
-
+  // /api/courses/:id returns the WHOLE book inline: detail.chapters[].sections[].content (HTML).
+  // Confirmed 2026-09-02 against the real capture - 10 chapters, 55 sections, ~861k chars. An
+  // earlier version of this script also chased /api/sections/:id separately and found nothing,
+  // because the ids live under `chapters`, not under any key matching /section/i. That call is
+  // unnecessary; one request per course is the whole job.
+  let chapters = 0, sections = 0, chars = 0;
   for (const c of list) {
     const id = c.id ?? c.courseId;
     console.log('-> course ' + id + ' ' + (c.title || c.name || ''));
     const detail = await soft('/api/courses/' + id, 'course ' + id);
     out.courses.push({ summary: c, detail });
-    harvest(detail);
-    harvest(c);
+    for (const ch of (detail && detail.chapters) || []) {
+      chapters++;
+      for (const s of ch.sections || []) { sections++; chars += (s.content || '').length; }
+    }
   }
-
-  console.log(sectionIds.size + ' section id(s) found. Fetching…');
-  let n = 0;
-  for (const sid of sectionIds) {
-    const s = await soft('/api/sections/' + sid, 'section ' + sid);
-    if (s) { out.sections[sid] = s; n++; }
-    if (n % 10 === 0) console.log('  ' + n + '/' + sectionIds.size);
-  }
+  const n = sections;
+  console.log(chapters + ' chapters, ' + sections + ' sections, ' + Math.round(chars / 1000) + 'k chars');
 
   const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
@@ -96,10 +80,7 @@
   a.download = 'academiq-capture.json';
   a.click();
 
-  console.log('DONE — ' + out.courses.length + ' courses, ' + n + ' sections. Saved academiq-capture.json');
-  if (n === 0) {
-    console.warn('No sections captured. Open one section of the book, then re-run — the ids may '
-      + 'only load with the section view. If it still finds none, tell Claude and paste any red '
-      + 'errors above.');
-  }
+  console.log('DONE — ' + out.courses.length + ' course(s), ' + n + ' sections. Saved academiq-capture.json');
+  console.log('Next: hand it to Claude, or run  npm run academiq:import');
+  if (n === 0) console.warn('No sections found — tell Claude and paste any red errors above.');
 })();

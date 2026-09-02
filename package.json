@@ -25,7 +25,8 @@
     "chem:selftest": "node src/pages/theknowledgebase/courses/chem/engine/selftest.mjs",
     "courses:scan": "node scripts/courseSourceScan.mjs",
     "canvas": "node scripts/canvasFetch.mjs",
-    "academiq": "node scripts/academiqFetch.mjs"
+    "academiq": "node scripts/academiqFetch.mjs",
+    "academiq:import": "node scripts/academiqImport.mjs"
   },
   "dependencies": {
     "@mintplex-labs/piper-tts-web": "^1.0.5",
