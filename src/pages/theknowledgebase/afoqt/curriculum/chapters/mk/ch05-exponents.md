@@ -23,7 +23,7 @@ Say them in that order once and the rest of the chapter is bookkeeping.
 
 > **The trap:** doing the same thing to the coefficients as to the exponents. The coefficients
 > multiply and divide normally — only the *exponents* add and subtract. `24x¹⁵` and `10x⁸` are
-> both on the slate for the first one.
+> both among the answer choices for the first one.
 
 ---
 
@@ -51,7 +51,7 @@ is 1.
 
 `3⁻² = 1/3² = 1/9`. The answer is positive. `(2/5)⁻³ = (5/2)³ = 125/8` — flip, then raise.
 
-> **The trap:** `−9` and `−1/9` are both on the slate. A negative exponent never changes the
+> **The trap:** `−9` and `−1/9` are both among the answer choices. A negative exponent never changes the
 > *sign* of the answer; it moves the term across the fraction bar.
 
 Put the two together: `(7x⁴)(x⁻⁴) = 7x⁰ = **7**`. The x is gone, but the 7 is not.
@@ -92,7 +92,7 @@ One nonzero digit before the decimal point, times a power of ten.
 Big number → positive exponent. Small number → negative exponent.
 
 > **The trap:** `34.7 × 10⁴` is the same *number* but it is **not scientific notation**,
-> because the mantissa must be at least 1 and less than 10. That option will be on the slate,
+> because the mantissa must be at least 1 and less than 10. That option will be among the answer choices,
 > and it is testing the definition rather than the arithmetic.
 
 Multiplying: multiply the mantissas, add the exponents, then renormalise if the mantissa left

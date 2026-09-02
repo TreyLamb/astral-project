@@ -27,7 +27,7 @@ them again. You do need to leave the passage with a clear sense of its shape.
 ## 2. Line numbers exist so you can return, not so you can count
 
 Every passage prints a number down the left margin, once per line - not once every five lines, not
-as a distance marker. A stem that says "as used in line 12, 'execute' most nearly means..." is
+as a distance marker. A question that says "as used in line 12, 'execute' most nearly means..." is
 telling you exactly where to look, not asking you to count lines from the top. Go straight to that
 line and read the sentence it sits in, plus the sentence before or after if the meaning still is not
 clear on its own. Never try to answer a vocabulary-in-context question from memory of the passage's
@@ -52,5 +52,5 @@ you have to look up.
 | Signal | Do this |
 |---|---|
 | You're tempted to read the questions before the passage | Don't - read the passage once, deliberately, for its overall point and structure |
-| A stem references "line N" | Go directly to that line - it is a pointer, not a distance to count |
+| A question references "line N" | Go directly to that line - it is a pointer, not a distance to count |
 | You're unsure of an answer and the passage is still visible | Look back at it - do not answer any RC question from memory alone |

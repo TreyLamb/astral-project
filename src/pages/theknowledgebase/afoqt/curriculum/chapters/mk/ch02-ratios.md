@@ -18,11 +18,11 @@ then apply it to the other pair.
 The denominators went `9 → 63`, which is `× 7`. So `x = 7 × 7 = **49**`.
 
 > **The trap:** the denominators also went *up by 54*. Adding 54 to the numerator gives 61,
-> and 61 will be sitting on the answer slate. **A proportion multiplies. It never adds.**
+> and 61 will be sitting among the answer choices. **A proportion multiplies. It never adds.**
 
 Cross-multiplication (`7 × 63 = 9 × x`) always works and is worth using when the scale factor
 is not a whole number. Just keep the pairing straight — crossing the wrong pair gives `81`,
-which is also on the slate.
+which is also among the answer choices.
 
 ---
 
@@ -82,7 +82,7 @@ A map scale is just a rate: `map units × scale = real units`. Going the other w
 > 1 inch = 44 miles. Two towns are 9.5 inches apart. How far apart really?
 > `9.5 × 44 = **418 miles**`
 
-> **The trap:** dropping the half. `9 × 44 = 396` is on the slate, and it is close enough to
+> **The trap:** dropping the half. `9 × 44 = 396` is among the answer choices, and it is close enough to
 > look reasonable. Half an inch is 22 miles here — a half-inch is never a rounding detail.
 
 ---

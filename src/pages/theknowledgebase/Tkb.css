@@ -81,8 +81,11 @@
    (the review flashcard, a lesson) already cap THEMSELVES - .tkb-card at 560px,
    .tkb-review-topbar at 900px, .afq-lesson at 74ch - so removing the shell's own cap costs
    those views nothing. */
+/* Fluid rather than a flat 1.5rem: on a phone this shell's padding was stacking on top of each
+   view's own padding and spending most of a narrow screen on chrome. Same rule, no breakpoint -
+   a 380px screen gets .7rem, a desktop still gets its 1.5rem (webdesign.md 1b). */
 .tkb-wrapper .tkb-main {
-  padding: 1.5rem;
+  padding: clamp(.7rem, 2vw, 1.5rem);
   width: 100%;
 }
 

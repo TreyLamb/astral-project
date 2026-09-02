@@ -78,6 +78,6 @@ so learning only the half you find easier leaves you exposed exactly as often as
 | Situation | Do this |
 |---|---|
 | You are choosing between the two halves of a pair | Recall the tell, not two competing definitions |
-| A word in the slate looks like one you know, but the sentence reads oddly | Check whether it's actually the OTHER half of a pair you know |
+| A word in the answer choices looks like one you know, but the sentence reads oddly | Check whether it's actually the OTHER half of a pair you know |
 | You've learned one half of a pair well | Go back and learn the other half - both sides get tested |
 | A pair differs by only a syllable (band 4) | Read it twice before answering; these are built to be misread once |

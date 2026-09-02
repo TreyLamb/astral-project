@@ -12,6 +12,12 @@ the last four.
 > **a² + b² = c²**, where **c is always the hypotenuse** — the side opposite the right angle,
 > and always the longest.
 
+The two short sides are the **legs**; they are the ones that meet at the right angle. The
+hypotenuse is the third side, the one facing that corner. That is how you identify it in any
+drawing, whatever way up the triangle happens to be printed.
+
+![A 9-12-15 right triangle with the hypotenuse marked opposite the right angle](figure:pythagoras-sides)
+
 **Finding the hypotenuse** — add:
 
 > Legs 9 and 12 → `81 + 144 = 225` → `c = **15**`
@@ -24,7 +30,7 @@ the last four.
 > "find a leg" question produces a number *larger* than the hypotenuse — which is impossible,
 > since the hypotenuse is the longest side. **That size check catches it every time.**
 
-And the other one: `c` is `√(a² + b²)`, never `a + b`. `9 + 12 = 21` is on the slate and it is
+And the other one: `c` is `√(a² + b²)`, never `a + b`. `9 + 12 = 21` is among the answer choices and it is
 not even close, but under time pressure it gets marked.
 
 ### Triples worth recognising on sight
@@ -54,7 +60,10 @@ These have **fixed side ratios**, so one side gives you the other two instantly.
 
 Legs of 7 → hypotenuse `**7√2**`. Hypotenuse of 10 → each leg is `10/√2 = 5√2`.
 
-It is half a square cut along its diagonal, which is why the legs match.
+It is half a square, cut along its diagonal. Both legs are sides of that square, which is why
+they are equal — and the diagonal is the hypotenuse.
+
+![A square cut along its diagonal, showing the 45-45-90 triangle is half a square](figure:triangle-45-45-90)
 
 ### 30-60-90 — half an equilateral triangle
 
@@ -62,12 +71,19 @@ It is half a square cut along its diagonal, which is why the legs match.
 
 - The **hypotenuse is twice the SHORTER leg.**
 - The **longer leg is the shorter leg times √3.**
-- Shortest side faces the smallest angle (30°); the √3 side faces the 60°.
+- The shortest side faces the smallest angle (30°); the √3 side faces the 60°.
 
 Shorter leg 6 → longer leg `6√3`, hypotenuse `12`.
 
+The doubling is not arbitrary. Fold an equilateral triangle down the middle and the fold cuts the
+bottom side exactly in half — so the short leg is half a side while the hypotenuse is still a
+**whole** side. That is where "twice the shorter leg" comes from, and why doubling the *longer*
+leg is wrong.
+
+![An equilateral triangle folded down the middle, producing a 30-60-90 triangle](figure:triangle-30-60-90)
+
 > **The trap:** mixing the two ratios. `√2` belongs to 45-45-90, `√3` to 30-60-90, and each
-> one's numbers appear on the other's answer slate. The other half of the trap is doubling the
+> one's numbers appear on the other's answer choices. The other half of the trap is doubling the
 > **longer** leg — the hypotenuse is twice the **shorter** one.
 
 Rough sizes for sanity: `√2 ≈ 1.41`, `√3 ≈ 1.73`. So in a 30-60-90 with a shorter leg of 6, the
@@ -91,13 +107,16 @@ Every prism and cylinder follows one rule:
 | **Sphere** | **`4/3 πr³`** |
 
 > ⭐ **The trap, and it is the biggest one in solid geometry: the ⅓ on cones and pyramids.**
-> A cone is *exactly one third* of the cylinder that contains it — same base, same height. Same
-> for a pyramid inside its prism. Forgetting it triples your answer, and the cylinder's volume
-> is sitting on the slate waiting for you.
+> A cone holds *exactly one third* of the cylinder it fits inside — same circular base, same
+> height. A pyramid sits inside its prism the same way. Forget the ⅓ and your answer comes out
+> three times too big, and that too-big number is one of the choices, because it is the volume of
+> the cylinder you did not draw.
 
-Radius 5, height 12: cylinder `300π`, cone `100π`. Both will be options.
+![A cone drawn inside the cylinder with the same base and height](figure:cone-in-cylinder)
 
-And the diameter trap follows you here: if a stem gives a cylinder's **diameter**, halve it
+Radius 5, height 12: cylinder `300π`, cone `100π`. Both numbers will be among the options.
+
+And the diameter trap follows you here: if a question gives a cylinder's **diameter**, halve it
 before squaring.
 
 For the sphere, note the powers: **volume is r³** (`4/3 πr³`) while **surface area is r²**
@@ -117,6 +136,8 @@ A 5 × 3 × 4 box: `2(15 + 20 + 12) = 2(47) = **94**`
 > **The trap:** forgetting the 2 and answering 47. A box has three *pairs* of identical faces —
 > front/back, left/right, top/bottom — so every face area is counted twice.
 
+![A box with its three visible faces labelled and its three hidden faces shown dashed](figure:box-faces)
+
 | Solid | Surface area |
 |---|---|
 | Box | `2(lw + lh + wh)` |
@@ -124,11 +145,15 @@ A 5 × 3 × 4 box: `2(15 + 20 + 12) = 2(47) = **94**`
 | Cylinder | `2πr² + 2πrh` (two circles plus the wrapper) |
 | Sphere | `4πr²` |
 
-The cylinder formula is worth understanding rather than memorising: two circular ends `2πr²`,
-plus a rectangle that unrolls from the side whose width is the circumference and whose height
-is `h` → `2πrh`.
+The cylinder formula is worth understanding rather than memorising. Peel a cylinder apart and it
+is three flat pieces: the two circular ends (`πr²` each, so `2πr²` together) and the curved side,
+which unrolls into a plain rectangle. That rectangle had to reach all the way around the circle,
+so its width is the circumference `2πr`, and its height is the cylinder's height `h` — giving
+`2πrh`.
 
-> **The other trap:** answering with the **volume**. Both are always on the slate, and the units
+![A cylinder unrolled into two circles and a rectangle](figure:cylinder-net)
+
+> **The other trap:** answering with the **volume**. Both are always among the answer choices, and the units
 > tell you which the question wanted — cm² for surface area, cm³ for volume.
 
 ---

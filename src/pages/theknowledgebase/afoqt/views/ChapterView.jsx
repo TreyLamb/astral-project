@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, Children, isValidElement } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown, { defaultUrlTransform } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useAfoqt } from '../AfoqtApp';
 import { getChapter, isUnlocked, CHAPTERS } from '../curriculum/chapters';
 import { getLesson } from '../curriculum/lessons';
-import { CHAPTER_FIGURES } from '../curriculum/chapterFigures';
+import { getFigure } from '../curriculum/chapterFigures';
 import { chapterState, isChapterDone, markLessonRead, MASTERY_THRESHOLD, latestDiagnostic } from '../afoqtStorage';
 import { nextPersonalizedChapter } from '../curriculum/personalize';
 import { templatesFor } from '../engine/generator';
@@ -27,6 +27,45 @@ import {
 
 const TEST_OUT_COUNT = 5;
 const MASTERY_COUNT = 12;
+
+// Lessons place a figure by writing an image with a `figure:` src on its own line:
+//
+//     ![Two parallel lines cut by a transversal](figure:transversal)
+//
+// Markdown wraps a lone image in a paragraph, so the swap happens in the `p` override rather than
+// the `img` one - returning a <figure> from inside a <p> would nest a block element inside a
+// paragraph, which is invalid and makes the browser close the <p> early in ways that break the
+// surrounding spacing. Catching it one level up returns the figure INSTEAD of the paragraph.
+//
+// An unknown id renders a visible strip rather than a broken image or nothing at all: a figure
+// silently missing from a lesson is the failure mode that would go unnoticed for months.
+function figureFor(children) {
+  const kids = Children.toArray(children);
+  if (kids.length !== 1 || !isValidElement(kids[0])) return null;
+  const src = kids[0].props?.src;
+  if (typeof src !== 'string' || !src.startsWith('figure:')) return null;
+  return { id: src.slice(7), alt: kids[0].props?.alt ?? '' };
+}
+
+// react-markdown sanitises URLs through `defaultUrlTransform`, which allows only a short list of
+// protocols and rewrites anything else to an empty string - so `figure:transversal` arrived as
+// `src=""` and every figure silently rendered as a broken image instead. Let our own scheme
+// through and hand everything else to the default, so the sanitiser still does its real job on
+// any http/javascript URL a lesson might ever contain.
+const lessonUrlTransform = (url, key, node) =>
+  (url.startsWith('figure:') ? url : defaultUrlTransform(url, key, node));
+
+const lessonComponents = {
+  p(props) {
+    const hit = figureFor(props.children);
+    if (!hit) return <p>{props.children}</p>;
+    const Component = getFigure(hit.id);
+    if (!Component) {
+      return <p className="afq-figure-missing">Missing figure: <code>{hit.id}</code> — {hit.alt}</p>;
+    }
+    return <Component />;
+  },
+};
 
 export default function ChapterView() {
   const { chapterId } = useParams();
@@ -184,13 +223,8 @@ export default function ChapterView() {
 
       {open && lesson && (
         <article className="afq-lesson">
-          {CHAPTER_FIGURES[chapter.id] && (
-            <div className="afq-lesson-figure">
-              <p className="afq-note">{CHAPTER_FIGURES[chapter.id].caption}</p>
-              {(() => { const { Component } = CHAPTER_FIGURES[chapter.id]; return <Component />; })()}
-            </div>
-          )}
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{lesson}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={lessonComponents}
+            urlTransform={lessonUrlTransform}>{lesson}</ReactMarkdown>
           {!st.lessonRead && (
             <button
               className="afq-btn afq-primary"

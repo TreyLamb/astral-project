@@ -78,7 +78,7 @@ Two abnormal combustion terms, distinguished only by timing:
 
 ## ⭐ The four left-turning tendencies
 
-Four distinct effects, each a perfect distractor for the other three, so learn them as a set with
+Four distinct effects, each a perfect planted wrong answer for the other three, so learn them as a set with
 what triggers each:
 
 | Tendency | Cause | When you feel it |

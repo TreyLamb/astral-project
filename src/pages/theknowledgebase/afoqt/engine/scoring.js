@@ -74,6 +74,42 @@ export function subtestAccuracy(progress, code) {
 export const allSubtestAccuracy = (progress) =>
   Object.keys(SUBTEST_BY_CODE).map((code) => subtestAccuracy(progress, code));
 
+/** How many recent drills the headline accuracy is averaged over. */
+export const RECENT_RUN_WINDOW = 10;
+
+/**
+ * Accuracy over the LAST N DRILLS of one subtest, rather than over its whole history.
+ *
+ * `subtestAccuracy` above sums `templateStats`, which are lifetime running totals with no
+ * timestamps - a rep from your first week weighs exactly as much as one from today, so a subtest
+ * you were bad at early keeps reading low long after you have fixed it. That is the wrong number
+ * to answer "where do I stand now", which is the only question that matters this close to a test
+ * with no second attempt.
+ *
+ * `progress.runs` already stores one entry per finished drill, most recent first, so the window
+ * costs nothing to compute. The denominator is `answered`, not `count`: a drill abandoned after
+ * two questions is not a 2/25 performance, it is a two-question sample. Runs with nothing
+ * answered are skipped entirely rather than counted as zero.
+ *
+ * Returns `accuracy: null` when the window is empty - "no recent data" is not "0% correct".
+ */
+export function recentSubtestAccuracy(progress, code, limit = RECENT_RUN_WINDOW) {
+  const runs = (progress?.runs ?? [])
+    .filter((r) => r.subtest === code && (r.answered ?? 0) > 0)
+    .slice(0, limit);
+  const answered = runs.reduce((n, r) => n + (r.answered ?? 0), 0);
+  const correct = runs.reduce((n, r) => n + (r.correct ?? 0), 0);
+  const totalMs = runs.reduce((n, r) => n + (r.totalMs ?? 0), 0);
+  return {
+    code,
+    runs: runs.length,
+    seen: answered,
+    correct,
+    totalMs,
+    accuracy: answered ? correct / answered : null,
+  };
+}
+
 /**
  * Practice accuracy for one composite: the question-count-weighted average of its subtests'
  * accuracy, over only the subtests that have been attempted at least once.

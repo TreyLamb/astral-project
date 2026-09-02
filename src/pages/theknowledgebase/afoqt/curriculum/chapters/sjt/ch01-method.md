@@ -49,7 +49,7 @@ blank never does.
 
 ---
 
-## 4. Five actions, one already-correct slate
+## 4. Five actions, one already-correct set of options
 
 Because a situation always has exactly five actions and you are asked to identify the best and
 the worst among them, there is no shortfall to manage the way there sometimes is on other

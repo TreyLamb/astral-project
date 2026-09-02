@@ -145,7 +145,7 @@ one habit to fix before your next run.
 ## The near-miss drill
 
 One drill in this chapter is deliberately the worst case: every one of the five options is a
-cell immediately touching the answer, so the slate reads something like **088 089 090 091 092**.
+cell immediately touching the answer, so the answer list reads something like **088 089 090 091 092**.
 
 It feels unfair, and it is the most useful practice here. There is no technique that rescues a
 badly tracked row — only a well-tracked one — so this is where you find out whether your method

@@ -1,7 +1,7 @@
 # Probability, counting and statistics
 
 A small chapter with four sharp traps. None of the arithmetic is hard; all of the difficulty is
-in reading the stem precisely.
+in reading the question text precisely.
 
 ---
 
@@ -12,7 +12,7 @@ in reading the stem precisely.
 A bag with 5 red, 7 blue and 4 green: `P(red) = 5/16`.
 
 > **The trap:** `5/11` — favourable over the **rest**. That is the **odds**, a different
-> quantity, and it is on every slate. Probability is part over **whole**; odds are part to part.
+> quantity, and it is among the options every time. Probability is part over **whole**; odds are part to part.
 
 Two facts that come up:
 
@@ -37,7 +37,7 @@ Two facts that come up:
 > - Second: only 5 defective left, and only 14 parts left → `5/14`
 > - `6/15 × 5/14 = 30/210 = **1/7**`
 
-> **The trap:** `6/15 × 6/15` — the *with*-replacement answer, which will be on the slate. Also
+> **The trap:** `6/15 × 6/15` — the *with*-replacement answer, which will be among the answer choices. Also
 > there: dropping the numerator but not the denominator, and vice versa. **Both numbers change.**
 
 For "A **or** B" with mutually exclusive events, add. If they can overlap, add and subtract the
@@ -65,7 +65,7 @@ Ask: *if I swap two of the chosen items, is it a different outcome?*
 The permutation is always the bigger number — by exactly `r!`, since each combination can be
 ordered `r!` ways. `56 × 6 = 336` ✓
 
-> **The trap:** the two are each other's distractors, which is the honest way to write this
+> **The trap:** the two are each other's planted wrong answers, which is the honest way to write this
 > item. The mistake is never the factorials; it is the decision.
 
 Practical note: do not expand the factorials. `P(8,3)` is just `8 × 7 × 6` — start at n and
@@ -82,7 +82,7 @@ multiply down r terms. For `C`, do the same and divide by `r!`.
 
 > ⭐ **The trap: the median requires SORTING first.** In `35, 41, 23, 60, 12, 56, 22`, the
 > middle *as written* is 60. Sorted, it is `12, 22, 23, 35, 41, 56, 60`, and the median is
-> **35**. The unsorted middle is always on the slate.
+> **35**. The unsorted middle is always among the answer choices.
 
 With an even count, the median is the **average of the two middle values**.
 

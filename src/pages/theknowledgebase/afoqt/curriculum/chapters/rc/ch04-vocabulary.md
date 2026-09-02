@@ -22,9 +22,9 @@ sentence makes clear once you actually read it there.
 
 ---
 
-## The distractors are usually real definitions of the word - just not THIS use of it
+## The wrong answers are usually real definitions of the word - just not THIS use of it
 
-A vocabulary-in-context slate is rarely testing whether you know any definition of a word. It is
+A vocabulary-in-context question is rarely testing whether you know any definition of a word. It is
 testing whether you can pick the ONE definition that fits this specific sentence, out of several
 choices that may all be legitimate meanings of the word in some other context. Reading only the
 headword in isolation, without its sentence, will not reliably distinguish between them - reading
@@ -36,7 +36,7 @@ the sentence will.
 
 Occasionally a compound term wraps across two printed lines because of where the line happened to
 break - the meaning is still carried by the full sentence, which usually continues onto the
-following line or two. If a stem's line reference feels like it lands mid-word or mid-phrase, read
+following line or two. If a question's line reference feels like it lands mid-word or mid-phrase, read
 forward a line or two before concluding the reference is wrong; the defining context is there.
 
 ---

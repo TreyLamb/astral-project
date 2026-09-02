@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
 import { DRILLABLE, getSubtest, secPerQuestion, compositeReach, COMPOSITES } from '../engine/afoqtSpec';
 import { templatesFor } from '../engine/generator';
-import { allCompositeAccuracy, PRACTICE_ACCURACY_LABEL, subtestAccuracy } from '../engine/scoring';
+import { allCompositeAccuracy, PRACTICE_ACCURACY_LABEL, subtestAccuracy, recentSubtestAccuracy, RECENT_RUN_WINDOW } from '../engine/scoring';
 import { missPoolIds, clearMissPool, curriculumProgress, ExamSession, latestDiagnostic, wordBankEntries, flaggedEntries } from '../afoqtStorage';
 import { weakestSubtests, DIAGNOSTIC_ACCURACY_LABEL } from '../engine/diagnostic';
 import { CHAPTERS } from '../curriculum/chapters';
@@ -19,7 +19,7 @@ function daysUntil(iso) {
 
 export default function AfoqtDashboard() {
   const navigate = useNavigate();
-  const { progress, mutate } = useAfoqt();
+  const { progress, mutate, updateSettings } = useAfoqt();
   const misses = missPoolIds(progress);
   const words = wordBankEntries(progress);
   const flagged = flaggedEntries(progress);
@@ -29,16 +29,33 @@ export default function AfoqtDashboard() {
   // duplicate that arithmetic inline, which is exactly why the "bank items are invisible" bug
   // existed in two places at once - see subtestStatKeys() for what was being missed.
   const bySubtest = DRILLABLE.map((s) => {
-    const { seen, accuracy, totalMs } = subtestAccuracy(progress, s.code);
+    // `seen` stays LIFETIME - it answers "how much have I done", which does not decay. Accuracy
+    // and pace come from the last few drills instead: they answer "where do I stand now", and a
+    // lifetime average buries recent improvement under every early rep (Trey, 2026-09-01).
+    const { seen } = subtestAccuracy(progress, s.code);
+    const recent = recentSubtestAccuracy(progress, s.code);
     return {
       ...s,
       templates: templatesFor(s.code).length,
       seen,
-      acc: accuracy,
-      avgSec: seen ? totalMs / seen / 1000 : null,
+      acc: recent.accuracy,
+      recentRuns: recent.runs,
+      avgSec: recent.seen ? recent.totalMs / recent.seen / 1000 : null,
       realSec: secPerQuestion(s),
       reach: compositeReach(s.code),
     };
+  });
+
+  // A hidden subtest is hidden from THIS TABLE only. It is deliberately still counted in
+  // `totalSeen` and in every composite below: hiding a row you have stopped worrying about must
+  // not quietly change the numbers you are using to judge readiness.
+  const hidden = new Set(progress.settings.hiddenSubtests ?? []);
+  const shownSubtests = bySubtest.filter((s) => !hidden.has(s.code));
+  const hiddenSubtests = bySubtest.filter((s) => hidden.has(s.code));
+  const toggleHidden = (code) => updateSettings({
+    hiddenSubtests: hidden.has(code)
+      ? [...hidden].filter((c) => c !== code)
+      : [...hidden, code],
   });
 
   const totalSeen = bySubtest.reduce((n, s) => n + s.seen, 0);
@@ -173,18 +190,36 @@ export default function AfoqtDashboard() {
 
       <section>
         <h3>By subtest</h3>
-        <table className="afq-table">
+        <table className="afq-table afq-subtest-table">
           <thead>
-            <tr><th>Subtest</th><th>Composites</th><th>Pace</th><th>Seen</th><th>Accuracy</th><th>Your pace</th></tr>
+            <tr>
+              <th className="afq-hide-col"><span className="afq-sr-only">Hide</span></th>
+              <th>Subtest</th><th>Composites</th><th>Pace</th><th>Seen</th>
+              <th title={`Your last ${RECENT_RUN_WINDOW} drills of this subtest, not your lifetime average`}>Recent accuracy</th>
+              <th>Your pace</th>
+            </tr>
           </thead>
           <tbody>
-            {bySubtest.map((s) => (
+            {shownSubtests.map((s) => (
               <tr key={s.code} className={s.templates === 0 ? 'afq-dim' : ''}>
+                <td className="afq-hide-col">
+                  <button
+                    type="button"
+                    className="afq-hide-btn"
+                    title={`Hide ${s.name} from this table`}
+                    aria-label={`Hide ${s.name} from this table`}
+                    onClick={() => toggleHidden(s.code)}
+                  >
+                    –
+                  </button>
+                </td>
                 <td>{s.name}</td>
                 <td className="afq-reach">{s.reach.length ? s.reach.join(' ') : 'unscored'}</td>
                 <td>{s.realSec.toFixed(1)}s</td>
                 <td>{s.seen || '-'}</td>
-                <td>{s.acc == null ? '-' : `${Math.round(s.acc * 100)}%`}</td>
+                <td title={s.recentRuns ? `over your last ${s.recentRuns} drill${s.recentRuns === 1 ? '' : 's'}` : undefined}>
+                  {s.acc == null ? '-' : `${Math.round(s.acc * 100)}%`}
+                </td>
                 <td className={s.avgSec && s.avgSec > s.realSec ? 'afq-over' : ''}>
                   {s.avgSec == null ? '-' : `${s.avgSec.toFixed(1)}s`}
                 </td>
@@ -192,6 +227,25 @@ export default function AfoqtDashboard() {
             ))}
           </tbody>
         </table>
+        {/* Hidden rows are listed rather than simply gone. A preference you cannot see is a
+            preference you cannot undo, and "why is Block Counting missing" is a worse puzzle
+            than one short line of chips. */}
+        {hiddenSubtests.length > 0 && (
+          <p className="afq-hidden-list">
+            <span className="afq-note">Hidden:</span>
+            {hiddenSubtests.map((s) => (
+              <button
+                key={s.code}
+                type="button"
+                className="afq-hidden-chip"
+                title={`Show ${s.name} again`}
+                onClick={() => toggleHidden(s.code)}
+              >
+                {s.name} <span aria-hidden="true">+</span>
+              </button>
+            ))}
+          </p>
+        )}
       </section>
 
       <section>

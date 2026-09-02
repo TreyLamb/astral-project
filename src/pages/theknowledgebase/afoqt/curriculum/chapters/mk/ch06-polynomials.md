@@ -21,7 +21,7 @@ Combine like terms — same variable, same exponent.
 >
 > `9x² + 11x + 14 − 4x² − 3x − 6 = **5x² + 8x + 8**`
 
-Distributing it to the first term only gives `5x² + 14x + 20`, which will be on the slate.
+Distributing it to the first term only gives `5x² + 14x + 20`, which will be among the answer choices.
 When you see a minus in front of a bracket, rewrite the bracket with every sign flipped
 *first*, then combine. It costs three seconds and removes the error entirely.
 
@@ -88,7 +88,7 @@ Signs, decided before you hunt:
 | negative | either | opposite signs; the larger takes b's sign |
 
 > **The trap:** stopping at the first pair that multiplies correctly. `−35` also comes from
-> `−35 × 1` and `−1 × 35`, and `(x + 1)(x − 35)` will be on the slate. It multiplies to the
+> `−35 × 1` and `−1 × 35`, and `(x + 1)(x − 35)` will be among the answer choices. It multiplies to the
 > right constant and gives the wrong middle term.
 
 ---
@@ -116,7 +116,7 @@ slipped. That built-in check is why AC beats guess-and-check under a clock.
 `6 × (−12) = −72`; two numbers multiplying to −72 and adding to +1 → `9` and `−8`;
 `6a² + 9a − 8a − 12`; `3a(2a + 3) − 4(2a + 3)`; → `**(2a + 3)(3a − 4)**`
 
-> ⭐ **The distractor this item is built around: the SWAPPED constants.**
+> ⭐ **The wrong answer this item is built around: the SWAPPED constants.**
 > For `6y² − 19y − 7`, the option `(2y + 1)(3y − 7)` uses the same four numbers, multiplies to
 > the same `−7`, and produces the wrong middle term. Checking `a` and `c` will not catch it.
 > **Only multiplying out the outer and inner terms will.**

@@ -31,6 +31,27 @@ const LETTERS = ['A', 'B', 'C', 'D', 'E'];
  * item is official while answering it is a nudge toward trusting it, which is exactly the
  * judgement the review is supposed to let him make with a clear head.
  */
+// A question that was never answered. It still gets a card in the review, because on a
+// rights-only test it cost the same as a wrong answer and the reader still needs the answer and
+// the explanation. Distinguished from a miss rather than merged into one: "you did not get to
+// this" and "you got this wrong" call for different fixes - pace versus understanding.
+function UnansweredItem({ n, q }) {
+  return (
+    <div className="afq-miss afq-blank">
+      <p className="afq-miss-stem">
+        <span className="afq-miss-n">{n}</span>{' '}{q.stem}
+      </p>
+      {q.render && <Figure render={q.render} reveal />}
+      <p className="afq-miss-line">
+        <span className="afq-miss-bad">Left blank — no answer marked</span>
+        <span className="afq-miss-good">Answer: {q.choices[q.correctIndex]}</span>
+      </p>
+      {q.explanation && <p className="afq-miss-why">{q.explanation}</p>}
+      <SourceLine q={q} />
+    </div>
+  );
+}
+
 function SourceLine({ q }) {
   const p = q.provenance ?? { kind: 'authored' };
   let tone = 'authored';
@@ -297,6 +318,12 @@ export default function DrillRunner() {
     const answered = answers.filter((a) => a != null);
     const right = answered.filter((a) => a.correct).length;
     const guessed = answered.filter((a) => a.guessed).length;
+    // A blank is a LOST POINT, not an absent question. The AFOQT is rights-only scored, so
+    // leaving one empty costs exactly what getting it wrong costs - and the review used to
+    // measure itself against `answered` rather than the whole run, which meant answering 2 of 6
+    // correctly and skipping the rest printed "2 / 6" and "Nothing missed" on the same screen.
+    // Everything below counts against questions.length for that reason.
+    const blank = questions.length - answered.length;
     // The whole point of insisting distractors are error-modes: at the end of a run the tool
     // can say WHICH mistake was made and how often, which is a habit to fix rather than a score
     // to feel bad about. Ranked, because "you read Y as ascending four times" is the sentence
@@ -333,6 +360,7 @@ export default function DrillRunner() {
           <div><span>{avgSec}s</span><label>Avg / question</label></div>
           <div><span>{budget.realSecPerQuestion.toFixed(1)}s</span><label>Real pace</label></div>
           {guessed > 0 && <div><span>{guessed}</span><label>Auto-guessed</label></div>}
+          {blank > 0 && <div><span className="afq-over">{blank}</span><label>Left blank</label></div>}
           {flaggedIdx.length > 0 && <div><span>🚩 {flaggedIdx.length}</span><label>Flagged</label></div>}
         </div>
         {overPace > 0 && (
@@ -400,30 +428,39 @@ export default function DrillRunner() {
             miss turns into a named mistake rather than a red mark - and every miss now names
             WHERE THE QUESTION CAME FROM, which is the difference between "this is the real
             difficulty, get used to it" and "this one is ours and might be off". */}
-        {answered.length > 0 && (
+        {questions.length > 0 && (
           <section className="afq-misses">
             <div className="afq-review-head">
-              <h3>{showAll ? `Every question (${answered.length})` : 'What you missed'}</h3>
+              <h3>{showAll ? `Every question (${questions.length})` : 'What you missed'}</h3>
               <button
                 className="afq-review-toggle"
                 aria-pressed={showAll}
                 onClick={() => setShowAll((v) => !v)}
               >
-                {showAll ? `Misses only (${answered.length - right})` : `Show all ${answered.length}`}
+                {showAll ? `Misses only (${questions.length - right})` : `Show all ${questions.length}`}
               </button>
             </div>
-            {!showAll && right === answered.length && (
-              <p className="afq-note">Nothing missed. Show all {answered.length} to read the sources.</p>
+            {blank > 0 && (
+              <p className="afq-warn">
+                {blank} question{blank === 1 ? '' : 's'} left blank. The AFOQT scores rights only,
+                so a blank costs exactly what a wrong answer costs — on the real test, always mark
+                something.
+              </p>
+            )}
+            {!showAll && right === questions.length && (
+              <p className="afq-note">Nothing missed. Show all {questions.length} to read the sources.</p>
             )}
             {answers.map((a, i) => {
-              if (!a) return null;
+              // An unanswered question is shown, not skipped: it is a lost point and the reader
+              // still needs to see what the answer was.
+              if (!a) return <UnansweredItem key={i} n={i + 1} q={questions[i]} />;
               if (a.correct && !showAll) return null;
               const q = questions[i];
               if (!q) return null;
               return (
                 <div key={i} className={a.correct ? 'afq-miss afq-hit' : 'afq-miss'}>
                   <p className="afq-miss-stem">
-                    <span className="afq-miss-n">{i + 1}</span>{q.stem}
+                    <span className="afq-miss-n">{i + 1}</span>{' '}{q.stem}
                     {isFlagged(progress, q.templateId, q.seed) && <span title="Flagged"> 🚩</span>}
                   </p>
                   {q.render && <Figure render={q.render} reveal />}
@@ -445,7 +482,7 @@ export default function DrillRunner() {
                 </div>
               );
             })}
-            {right < answered.length && (
+            {right < questions.length && (
               <p className="afq-note">
                 These templates are now in the miss pool and will resurface in about one in ten
                 questions until you get them right on three separate days.
@@ -546,8 +583,13 @@ export default function DrillRunner() {
             )}
           </div>
 
-          <div className="afq-card">
-            {q.render && <Figure render={q.render} />}
+          {/* Table Reading puts the question and the options ABOVE the grid. The grid is a
+              33-column reference surface, not an illustration: with the stem underneath it you
+              read the question, scroll your eye up to look something up, then hunt back down for
+              the options. Trey's request, 2026-09-01. Every other figure is small enough to sit
+              above its stem the way it always has. */}
+          <div className={'afq-card' + (q.render?.kind === 'table' ? ' afq-card-qfirst' : '')}>
+            {q.render?.kind !== 'table' && q.render && <Figure render={q.render} />}
             <p className="afq-stem">{q.stem}</p>
             {/* A figure plus five stacked options runs past the bottom of a laptop screen, and
                 scrolling to reach option E is not a cost the real test charges. Where the options
@@ -573,6 +615,7 @@ export default function DrillRunner() {
               ))}
             </ol>
             {nudge && <p className="afq-nudge">5s - guess and move on.</p>}
+            {q.render?.kind === 'table' && <Figure render={q.render} />}
           </div>
 
           <div className="afq-row afq-nav-row">

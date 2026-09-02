@@ -43,7 +43,7 @@ and magnetism.
 
 > ⚠ **Voltage does not affect resistance.** Resistance depends only on the wire's material,
 > length, thickness and temperature — not on how much voltage is applied across it. That's the
-> distractor this fact is built to catch.
+> planted wrong answer this fact is built to catch.
 
 ---
 

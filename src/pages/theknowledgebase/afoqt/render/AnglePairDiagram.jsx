@@ -56,10 +56,11 @@ export default function AnglePairDiagram({ acute = 40, size = 220 }) {
         })}
       </svg>
       <figcaption>
-        <span style={{ color: VERTICAL_1 }}>■</span> and <span style={{ color: VERTICAL_1 }}>■</span> are
-        a vertical pair (diagonally opposite, always equal) - so are the two{' '}
-        <span style={{ color: VERTICAL_2 }}>■</span> angles. Any two labels sitting next to each
-        other around the crossing point are a linear pair and sum to 180°.
+        The two <strong style={{ color: VERTICAL_1 }}>{acute}° angles</strong> face each other
+        across the crossing — that is a <strong>vertical pair</strong>, and vertical pairs are
+        always equal. The two <strong style={{ color: VERTICAL_2 }}>{180 - acute}° angles</strong>{' '}
+        are the other vertical pair. Any two angles sitting <em>next to</em> each other here (one
+        of each colour) are a <strong>linear pair</strong>, and they add to 180°.
       </figcaption>
     </figure>
   );

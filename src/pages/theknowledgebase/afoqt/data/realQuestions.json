@@ -23,12 +23,12 @@
       },
       {
         "label": "E",
-        "text": "7,250 Solution Walkthrough: Step 1: write equation for number of females 48% = 48/100 = 12/25 12/25 * 14,500 = 12*14500/25 = 174000/25 = 6,960 total female students Step 2: solve for 50% females over 25 50% = 50/100 = 5/10 5/10 * 6,960 = 5*6960/10 = 34800/10 = 3,480"
+        "text": "7,250"
       }
     ],
     "correct": "C",
     "answer": "3,480",
-    "explanation": null,
+    "explanation": "Solution Walkthrough: Step 1: write equation for number of females 48% = 48/100 = 12/25 12/25 * 14,500 = 12*14500/25 = 174000/25 = 6,960 total female students Step 2: solve for 50% females over 25 50% = 50/100 = 5/10 5/10 * 6,960 = 5*6960/10 = 34800/10 = 3,480",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -62,12 +62,12 @@
       },
       {
         "label": "E",
-        "text": "180 Solution Walkthrough: Step 1: write out the problem as a proportion and cross multiply 2.5/55 = 10/x 2.5x = 550 Step 2: solve for x x = 550/2.5 = 550/(5/2) = 1100/5 = 220 miles"
+        "text": "180"
       }
     ],
     "correct": "B",
     "answer": "220",
-    "explanation": null,
+    "explanation": "Solution Walkthrough: Step 1: write out the problem as a proportion and cross multiply 2.5/55 = 10/x 2.5x = 550 Step 2: solve for x x = 550/2.5 = 550/(5/2) = 1100/5 = 220 miles",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -101,12 +101,12 @@
       },
       {
         "label": "E",
-        "text": "10 Solution Walkthrough: Step 1: write out the equation of information T = Tim, R = Ryan, L = Leon Based on information we can infer that: T = 2R, L = (2 + R), R = R 2R + (2 + R) + R = 30 Step 2: rearrange and simplify the equation 2R + R + R + 2 = 30 4R + 2 = 30 Step 3: solve for R 4R = 28 R = 7 Step 3: solve for Leon (L) L = 2 + R L = 2 + 7 = 9"
+        "text": "10"
       }
     ],
     "correct": "D",
     "answer": "9",
-    "explanation": null,
+    "explanation": "Solution Walkthrough: Step 1: write out the equation of information T = Tim, R = Ryan, L = Leon Based on information we can infer that: T = 2R, L = (2 + R), R = R 2R + (2 + R) + R = 30 Step 2: rearrange and simplify the equation 2R + R + R + 2 = 30 4R + 2 = 30 Step 3: solve for R 4R = 28 R = 7 Step 3: solve for Leon (L) L = 2 + R L = 2 + 7 = 9",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -140,12 +140,12 @@
       },
       {
         "label": "E",
-        "text": "8 Solution Walkthrough: Step 1: identify information You buy 3 pairs at full price and 4 at 50% off 2 pairs at 50% = 1 at full price 4 pairs at 50% = 2 at full price Step 2: solve for equivalent total 3 + 2 = 5 pairs"
+        "text": "8"
       }
     ],
     "correct": "B",
     "answer": "5",
-    "explanation": null,
+    "explanation": "Solution Walkthrough: Step 1: identify information You buy 3 pairs at full price and 4 at 50% off 2 pairs at 50% = 1 at full price 4 pairs at 50% = 2 at full price Step 2: solve for equivalent total 3 + 2 = 5 pairs",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -179,12 +179,12 @@
       },
       {
         "label": "E",
-        "text": "83 min Solution Walkthrough: Step 1: convert the minutes into hours 32/60 = 8/15 hr Step 2: recall the equation for speed-distance-time Distance = speed * time D = 13 * (8/15) = 104/15 = 6.93 Step 3: solve for time with speed of 5 and distance of 6.93 Time = Distance/speed Time = (6.93)/5 = 1.4 hours Step 4: convert hours to minutes 1.4 * 60 = 83.16, the question asks for approximate so round to nearest minute"
+        "text": "83 min"
       }
     ],
     "correct": "E",
-    "answer": "83 min Solution Walkthrough: Step 1: convert the minutes into hours 32/60 = 8/15 hr Step 2: recall the equation for speed-distance-time Distance = speed * time D = 13 * (8/15) = 104/15 = 6.93 Step 3: solve for time with speed of 5 and distance of 6.93 Time = Distance/speed Time = (6.93)/5 = 1.4 hours Step 4: convert hours to minutes 1.4 * 60 = 83.16, the question asks for approximate so round to nearest minute",
-    "explanation": null,
+    "answer": "83 min",
+    "explanation": "Solution Walkthrough: Step 1: convert the minutes into hours 32/60 = 8/15 hr Step 2: recall the equation for speed-distance-time Distance = speed * time D = 13 * (8/15) = 104/15 = 6.93 Step 3: solve for time with speed of 5 and distance of 6.93 Time = Distance/speed Time = (6.93)/5 = 1.4 hours Step 4: convert hours to minutes 1.4 * 60 = 83.16, the question asks for approximate so round to nearest minute",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -218,12 +218,12 @@
       },
       {
         "label": "E",
-        "text": "14 Solution Walkthrough: Step 1: convert hours to minutes 9*60 = 540 min Step 2: solve for number of clicks by identifying number of 45-minute increments in 540 minutes 540/45 = 12 Plus, once at the very beginning 12 + 1 = 13"
+        "text": "14"
       }
     ],
     "correct": "D",
     "answer": "13",
-    "explanation": null,
+    "explanation": "Solution Walkthrough: Step 1: convert hours to minutes 9*60 = 540 min Step 2: solve for number of clicks by identifying number of 45-minute increments in 540 minutes 540/45 = 12 Plus, once at the very beginning 12 + 1 = 13",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -257,12 +257,12 @@
       },
       {
         "label": "E",
-        "text": "30 Solution Walkthrough: Step 1: calculate total point differential scored for both wins and losses 5 * 10 = 50 points"
+        "text": "30"
       }
     ],
     "correct": "A",
     "answer": "26",
-    "explanation": "4 * 6 = 24 points Step 2: solve for the difference 50 – 24 = 26 points you must subtract the wins total by the loss total opponents across all the games",
+    "explanation": "4 * 6 = 24 points Step 2: solve for the difference 50 – 24 = 26 points you must subtract the wins total by the loss total opponents across all the games Solution Walkthrough: Step 1: calculate total point differential scored for both wins and losses 5 * 10 = 50 points",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -296,12 +296,12 @@
       },
       {
         "label": "E",
-        "text": "30 feet Solution Walkthrough: Step 1: turn into a proportion x/50 = 3/5 Step 2: cross multiply and solve for x 5x = 50*3 5x = 150 x = 150/5 = 30"
+        "text": "30 feet"
       }
     ],
     "correct": "E",
-    "answer": "30 feet Solution Walkthrough: Step 1: turn into a proportion x/50 = 3/5 Step 2: cross multiply and solve for x 5x = 50*3 5x = 150 x = 150/5 = 30",
-    "explanation": null,
+    "answer": "30 feet",
+    "explanation": "Solution Walkthrough: Step 1: turn into a proportion x/50 = 3/5 Step 2: cross multiply and solve for x 5x = 50*3 5x = 150 x = 150/5 = 30",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -335,12 +335,12 @@
       },
       {
         "label": "E",
-        "text": "130 ft Solution Walkthrough: Step 1: write out known information Perimeter of a rectangle is 2L +2W Perimeter = 220 L = 65 Step 2: write out equation 220 = 2L + 2W 220 = 65(2) +2W 220 = 130 + 2W Step 3: solve for W 2W = 220 - 130 2W = 90 W = 45"
+        "text": "130 ft"
       }
     ],
     "correct": "C",
     "answer": "45 ft",
-    "explanation": null,
+    "explanation": "Solution Walkthrough: Step 1: write out known information Perimeter of a rectangle is 2L +2W Perimeter = 220 L = 65 Step 2: write out equation 220 = 2L + 2W 220 = 65(2) +2W 220 = 130 + 2W Step 3: solve for W 2W = 220 - 130 2W = 90 W = 45",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -374,12 +374,12 @@
       },
       {
         "label": "E",
-        "text": "11 Solution Walkthrough: Step 1: write out known information Test = 50 questions 74% = 74/100 = 37/50 questions correct Step 2: write out equation for number of incorrect 37 = 50 - x x = 50 - 37 x = 13"
+        "text": "11"
       }
     ],
     "correct": "A",
     "answer": "13",
-    "explanation": "Knowledge Test 1 Answer Key",
+    "explanation": "Knowledge Test 1 Answer Key Solution Walkthrough: Step 1: write out known information Test = 50 questions 74% = 74/100 = 37/50 questions correct Step 2: write out equation for number of incorrect 37 = 50 - x x = 50 - 37 x = 13",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -1094,12 +1094,12 @@
       },
       {
         "label": "D",
-        "text": "Airplane D The correct answer is D. Based on the compass dial, the airplane is headed in the South (and slightly West) direction. Based on the artificial horizon, the airplane is climbing and banked 90 degrees to the left. Together, Airplane D shows which position the airplane in flight is most nearly in."
+        "text": "Airplane D"
       }
     ],
     "correct": "D",
-    "answer": "Airplane D The correct answer is D. Based on the compass dial, the airplane is headed in the South (and slightly West) direction. Based on the artificial horizon, the airplane is climbing and banked 90 degrees to the left. Together, Airplane D shows which position the airplane in flight is most nearly in.",
-    "explanation": null,
+    "answer": "Airplane D",
+    "explanation": "The correct answer is D. Based on the compass dial, the airplane is headed in the South (and slightly West) direction. Based on the artificial horizon, the airplane is climbing and banked 90 degrees to the left. Together, Airplane D shows which position the airplane in flight is most nearly in.",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -1484,12 +1484,12 @@
       },
       {
         "label": "E",
-        "text": "48 in2 Walkthrough: Step 1: identify formula (formula sheet provided): A = ½(b*h) [area of triangle] b = 24 in h = 7in Step 2: A = ½(24 * 7) Step 3: A = ½(168) Step 4: A = 84 in"
+        "text": "48 in2"
       }
     ],
     "correct": "C",
     "answer": "84 in2",
-    "explanation": null,
+    "explanation": "Walkthrough: Step 1: identify formula (formula sheet provided): A = ½(b*h) [area of triangle] b = 24 in h = 7in Step 2: A = ½(24 * 7) Step 3: A = ½(168) Step 4: A = 84 in",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -1562,12 +1562,12 @@
       },
       {
         "label": "E",
-        "text": "Neither solar nor lunar eclipses can be partial or total; they are always annular. Walkthrough: Eclipses occur when one celestial body moves into the shadow of another. Solar eclipses (when the Moon blocks the Sun) and lunar eclipses (when Earth’s shadow falls on the Moon) can both be total (fully covered) or partial (partially covered), depending on alignment. So, the correct answer is D: Both solar and lunar eclipses can be either total or partial."
+        "text": "Neither solar nor lunar eclipses can be partial or total; they are always annular."
       }
     ],
     "correct": "D",
     "answer": "Both solar and lunar eclipses can be either total or partial.",
-    "explanation": null,
+    "explanation": "Walkthrough: Eclipses occur when one celestial body moves into the shadow of another. Solar eclipses (when the Moon blocks the Sun) and lunar eclipses (when Earth’s shadow falls on the Moon) can both be total (fully covered) or partial (partially covered), depending on alignment. So, the correct answer is D: Both solar and lunar eclipses can be either total or partial.",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -2888,12 +2888,12 @@
       },
       {
         "label": "E",
-        "text": "Joyful Step 1: Read the word carefully. Avoid confusing “arduous” with “ardent” Step 2: Try to recall the meaning immediately. Recall: difficult and tiring. Step 3: Use word parts if unsure (prefix, root, suffix). Root “ard-” means to burn or struggle. Step 4: Eliminate obviously wrong choices. Eliminate “Simple,” “Fast,” “Joyful.” Step 5: Choose the best synonym, not just a related word. “Tiring” fits the meaning best."
+        "text": "Joyful"
       }
     ],
     "correct": "B",
     "answer": "Tiring",
-    "explanation": null,
+    "explanation": "Step 1: Read the word carefully. Avoid confusing “arduous” with “ardent” Step 2: Try to recall the meaning immediately. Recall: difficult and tiring. Step 3: Use word parts if unsure (prefix, root, suffix). Root “ard-” means to burn or struggle. Step 4: Eliminate obviously wrong choices. Eliminate “Simple,” “Fast,” “Joyful.” Step 5: Choose the best synonym, not just a related word. “Tiring” fits the meaning best.",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -2927,12 +2927,12 @@
       },
       {
         "label": "E",
-        "text": "Lengthy Step 1: Read the word carefully. Read carefully to avoid mixing with “cogitate.” Step 2: Try to recall the meaning immediately. Recall: logical and convincing. Step 3: Use word parts if unsure (prefix, root, suffix). Prefix “co-” (together) + “agent” (to drive), meaning driving together logically. Step 4: Eliminate obviously wrong choices. Eliminate unrelated words like “Weak” and “Lengthy.” Step 5: Choose the best synonym, not just a related word. “Persuasive” fits perfectly."
+        "text": "Lengthy"
       }
     ],
     "correct": "B",
     "answer": "Persuasive",
-    "explanation": null,
+    "explanation": "Step 1: Read the word carefully. Read carefully to avoid mixing with “cogitate.” Step 2: Try to recall the meaning immediately. Recall: logical and convincing. Step 3: Use word parts if unsure (prefix, root, suffix). Prefix “co-” (together) + “agent” (to drive), meaning driving together logically. Step 4: Eliminate obviously wrong choices. Eliminate unrelated words like “Weak” and “Lengthy.” Step 5: Choose the best synonym, not just a related word. “Persuasive” fits perfectly.",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -2966,12 +2966,12 @@
       },
       {
         "label": "E",
-        "text": "Thoughtful Step 1: Read the word carefully. Read carefully to avoid mixing with a similar word like \"curiosity\" Step 2: Try to recall the meaning immediately. Recall: done quickly without attention to detail. Step 3: Use word parts if unsure (prefix, root, suffix). Root: \"curs-\" comes from Latin \"currere\"— to run (i.e., quickly) Step 4: Eliminate obviously wrong choices. Eliminate “Detailed” and “Thoughtful.” Step 5: Choose the best synonym, not just a related word. “Automatic” is closest in meaning."
+        "text": "Thoughtful"
       }
     ],
     "correct": "C",
     "answer": "Automatic",
-    "explanation": null,
+    "explanation": "Step 1: Read the word carefully. Read carefully to avoid mixing with a similar word like \"curiosity\" Step 2: Try to recall the meaning immediately. Recall: done quickly without attention to detail. Step 3: Use word parts if unsure (prefix, root, suffix). Root: \"curs-\" comes from Latin \"currere\"— to run (i.e., quickly) Step 4: Eliminate obviously wrong choices. Eliminate “Detailed” and “Thoughtful.” Step 5: Choose the best synonym, not just a related word. “Automatic” is closest in meaning.",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -3005,12 +3005,12 @@
       },
       {
         "label": "E",
-        "text": "Mysterious Step 1: Read the word carefully. Avoid mixing “benevolent” and “malevolent.” Step 2: Try to recall the meaning immediately. Recall: kind and generous. Step 3: Use word parts if unsure (prefix, root, suffix). Root “bene-” = good. Step 4: Eliminate obviously wrong choices. Eliminate “Angry,” “Sad,” “Mysterious.” Step 5: Choose the best synonym, not just a related word. “Generous” best fits."
+        "text": "Mysterious"
       }
     ],
     "correct": "A",
     "answer": "Generous",
-    "explanation": null,
+    "explanation": "Step 1: Read the word carefully. Avoid mixing “benevolent” and “malevolent.” Step 2: Try to recall the meaning immediately. Recall: kind and generous. Step 3: Use word parts if unsure (prefix, root, suffix). Root “bene-” = good. Step 4: Eliminate obviously wrong choices. Eliminate “Angry,” “Sad,” “Mysterious.” Step 5: Choose the best synonym, not just a related word. “Generous” best fits.",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -3044,12 +3044,12 @@
       },
       {
         "label": "E",
-        "text": "Worsen Step 1: Read the word carefully. Read carefully, don’t confuse with “exasperate.” Step 2: Try to recall the meaning immediately. Recall: to make worse. Step 3: Use word parts if unsure (prefix, root, suffix). Root “acerb-” means bitter or harsh. Step 4: Eliminate obviously wrong choices. Eliminate “Ease,” “Stop,” etc. Step 5: Choose the best synonym, not just a related word. “Worsen” matches perfectly."
+        "text": "Worsen"
       }
     ],
     "correct": "E",
-    "answer": "Worsen Step 1: Read the word carefully. Read carefully, don’t confuse with “exasperate.” Step 2: Try to recall the meaning immediately. Recall: to make worse. Step 3: Use word parts if unsure (prefix, root, suffix). Root “acerb-” means bitter or harsh. Step 4: Eliminate obviously wrong choices. Eliminate “Ease,” “Stop,” etc. Step 5: Choose the best synonym, not just a related word. “Worsen” matches perfectly.",
-    "explanation": null,
+    "answer": "Worsen",
+    "explanation": "Step 1: Read the word carefully. Read carefully, don’t confuse with “exasperate.” Step 2: Try to recall the meaning immediately. Recall: to make worse. Step 3: Use word parts if unsure (prefix, root, suffix). Root “acerb-” means bitter or harsh. Step 4: Eliminate obviously wrong choices. Eliminate “Ease,” “Stop,” etc. Step 5: Choose the best synonym, not just a related word. “Worsen” matches perfectly.",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -3083,12 +3083,12 @@
       },
       {
         "label": "E",
-        "text": "Honest Step 1: Read the word carefully. Avoid mixing “obstinate” and “ostentatious.” Step 2: Try to recall the meaning immediately. Recall: refusing to change opinion or behavior. Step 3: Use word parts if unsure (prefix, root, suffix). Root “ob-” (against) + “stin-” (stand). Step 4: Eliminate obviously wrong choices. Eliminate “Passive,” “Curious.” Step 5: Choose the best synonym, not just a related word. “Stubborn” is perfect."
+        "text": "Honest"
       }
     ],
     "correct": "D",
     "answer": "Stubborn",
-    "explanation": null,
+    "explanation": "Step 1: Read the word carefully. Avoid mixing “obstinate” and “ostentatious.” Step 2: Try to recall the meaning immediately. Recall: refusing to change opinion or behavior. Step 3: Use word parts if unsure (prefix, root, suffix). Root “ob-” (against) + “stin-” (stand). Step 4: Eliminate obviously wrong choices. Eliminate “Passive,” “Curious.” Step 5: Choose the best synonym, not just a related word. “Stubborn” is perfect.",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -3122,12 +3122,12 @@
       },
       {
         "label": "E",
-        "text": "Remote Step 1: Read the word carefully. Read carefully. Don't misread as \"roof\" Step 2: Try to recall the meaning immediately. Recall: emotionally distant. Step 3: Use word parts if unsure (prefix, root, suffix). Root uncertain—in this situation, rely on memory. Step 4: Eliminate obviously wrong choices. Eliminate “Engaged,” “Alert.” Step 5: Choose the best synonym, not just a related word. “Remote” fits best (signifies emotional distance)."
+        "text": "Remote"
       }
     ],
     "correct": "E",
-    "answer": "Remote Step 1: Read the word carefully. Read carefully. Don't misread as \"roof\" Step 2: Try to recall the meaning immediately. Recall: emotionally distant. Step 3: Use word parts if unsure (prefix, root, suffix). Root uncertain—in this situation, rely on memory. Step 4: Eliminate obviously wrong choices. Eliminate “Engaged,” “Alert.” Step 5: Choose the best synonym, not just a related word. “Remote” fits best (signifies emotional distance).",
-    "explanation": null,
+    "answer": "Remote",
+    "explanation": "Step 1: Read the word carefully. Read carefully. Don't misread as \"roof\" Step 2: Try to recall the meaning immediately. Recall: emotionally distant. Step 3: Use word parts if unsure (prefix, root, suffix). Root uncertain—in this situation, rely on memory. Step 4: Eliminate obviously wrong choices. Eliminate “Engaged,” “Alert.” Step 5: Choose the best synonym, not just a related word. “Remote” fits best (signifies emotional distance).",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -3161,12 +3161,12 @@
       },
       {
         "label": "E",
-        "text": "Clean Step 1: Read the word carefully. Read carefully, don’t confuse with “opponent.” Step 2: Try to recall the meaning immediately. Recall: wealthy, luxurious. Step 3: Use word parts if unsure (prefix, root, suffix). Root “op-” wealth, power. Step 4: Eliminate obviously wrong choices. Eliminate “Poor,” “Modest.” Step 5: Choose the best synonym, not just a related word. “Rich” is the best synonym."
+        "text": "Clean"
       }
     ],
     "correct": "A",
     "answer": "Rich",
-    "explanation": null,
+    "explanation": "Step 1: Read the word carefully. Read carefully, don’t confuse with “opponent.” Step 2: Try to recall the meaning immediately. Recall: wealthy, luxurious. Step 3: Use word parts if unsure (prefix, root, suffix). Root “op-” wealth, power. Step 4: Eliminate obviously wrong choices. Eliminate “Poor,” “Modest.” Step 5: Choose the best synonym, not just a related word. “Rich” is the best synonym.",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -3200,12 +3200,12 @@
       },
       {
         "label": "E",
-        "text": "Curious Step 1: Read the word carefully. Read carefully, don’t confuse with “incisor.” Step 2: Try to recall the meaning immediately. Recall: clear, sharp, direct. Step 3: Use word parts if unsure (prefix, root, suffix). Root “incis-” = cut into. Step 4: Eliminate obviously wrong choices. Eliminate “Indirect,” “Overlooked.” Step 5: Choose the best synonym, not just a related word. “Sharp” is the best synonym."
+        "text": "Curious"
       }
     ],
     "correct": "B",
     "answer": "Sharp",
-    "explanation": null,
+    "explanation": "Step 1: Read the word carefully. Read carefully, don’t confuse with “incisor.” Step 2: Try to recall the meaning immediately. Recall: clear, sharp, direct. Step 3: Use word parts if unsure (prefix, root, suffix). Root “incis-” = cut into. Step 4: Eliminate obviously wrong choices. Eliminate “Indirect,” “Overlooked.” Step 5: Choose the best synonym, not just a related word. “Sharp” is the best synonym.",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",
@@ -3239,12 +3239,12 @@
       },
       {
         "label": "E",
-        "text": "Confuse Step 1: Read the word carefully. Avoid mixing with “deride” and “decry.” Step 2: Try to recall the meaning immediately. Recall: to ridicule or laugh at. Step 3: Use word parts if unsure (prefix, root, suffix). Root “de-” (down) + “ridere” (to laugh; Latin). Step 4: Eliminate obviously wrong choices. Eliminate “Respect,” “Praise.” Step 5: Choose the best synonym, not just a related word. “Mock” is an exact synonym."
+        "text": "Confuse"
       }
     ],
     "correct": "C",
     "answer": "Mock",
-    "explanation": null,
+    "explanation": "Step 1: Read the word carefully. Avoid mixing with “deride” and “decry.” Step 2: Try to recall the meaning immediately. Recall: to ridicule or laugh at. Step 3: Use word parts if unsure (prefix, root, suffix). Root “de-” (down) + “ridere” (to laugh; Latin). Step 4: Eliminate obviously wrong choices. Eliminate “Respect,” “Praise.” Step 5: Choose the best synonym, not just a related word. “Mock” is an exact synonym.",
     "provenance": {
       "kind": "real",
       "source": "OATTS (official USAF) Knowledge Check",

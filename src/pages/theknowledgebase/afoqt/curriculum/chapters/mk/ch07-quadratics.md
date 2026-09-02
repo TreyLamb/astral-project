@@ -21,7 +21,7 @@ things multiply to zero, at least one of them is zero.
 
 > **The trap:** reading the roots straight off the factors as `−7` and `5`. The roots are the
 > values that make each factor **zero**, which are the *negatives* of the constants inside.
-> Both sign patterns will be on the slate.
+> Both sign patterns will be among the answer choices.
 
 Check by substituting one root back in. `49 − 14 − 35 = 0` ✓
 
@@ -49,7 +49,7 @@ For `2x² + 3x − 4 = 0`: `a = 2, b = 3, c = −4`
 - `b² − 4ac = 9 − 4(2)(−4) = 9 + 32 = 41`
 - `x = (−3 ± √41) / 4`
 
-Three places people lose it, all on the slate:
+Three places people lose it, all among the answer choices:
 
 1. **`−b` means the opposite of b.** If `b = 3`, the numerator starts `−3`. If `b = −3`, it
    starts `+3`.
@@ -75,8 +75,8 @@ the formula.** It is a genuine shortcut, and questions ask for it directly.
 For `3x² + 4x + 8 = 0`: `16 − 4(3)(8) = 16 − 96 = −80` → **no real solutions.**
 
 > **The trap:** a sign error on `−4ac` flips the sign of the discriminant, which flips the
-> *conclusion*. That is why the answer slate pairs wrong numbers with wrong counts — getting
-> the arithmetic right and the reading wrong lands you on a different distractor.
+> *conclusion*. That is why the answer choices pair wrong numbers with wrong counts — getting
+> the arithmetic right and the reading wrong lands you on a different planted wrong answer.
 
 It also tells you something useful: a **positive** discriminant that is a **perfect square**
 means the quadratic factors over the integers. If you compute it and it is 49, stop using the
@@ -100,7 +100,7 @@ That is what makes it worth asking: "what is the maximum height" and "what is th
 the same question.
 
 > **The trap:** dropping the minus sign, or dividing by `a` instead of `2a`. Both answers are
-> on the slate, and both are the right magnitude.
+> among the answer choices, and both are the right magnitude.
 
 ---
 

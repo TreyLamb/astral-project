@@ -27,7 +27,7 @@ interchangeable:
 
 `in-` is a plain negation; `dis-` implies something was connected and got pulled apart; `mis-`
 does not negate at all, it means done incorrectly. All three can gloss loosely as "roughly means
-not" - which is exactly why a five-option slate can carry two of them without repeating itself.
+not" - which is exactly why a five-option answer list can carry two of them without repeating itself.
 
 **`anti-` is the one to watch.** It means opposed to, acting against - not the same as `ante-`,
 a DIRECTION prefix meaning before in time. They differ by one letter and mean unrelated things:
@@ -86,4 +86,4 @@ that is the wrong part of speech for the sentence the word came from.
 | A word starts with something that glosses as "not" | Check WHICH kind of not - plain negation, reversal, and "done wrongly" are different mistakes |
 | You see `anti-` or `ante-` | Confirm which one - opposed-to and before-in-time are unrelated meanings one letter apart |
 | You see `hyper-` or `hypo-` | Confirm which direction - they are true opposites, not two words for "a lot" |
-| The root is unfamiliar but the suffix is not | Use the suffix to fix the part of speech first - it narrows the slate even without a definition |
+| The root is unfamiliar but the suffix is not | Use the suffix to fix the part of speech first - it narrows the choices even without a definition |

@@ -21,37 +21,49 @@ import { X_VALUES, sheetRows, errorCells, ERROR_LABELS, signed } from '../engine
 const EMPTY = new Map();
 const key = (x, y) => `${x},${y}`;
 
+// X values along the top AND the bottom, Y values down the left AND the right, with the axis
+// named on all four sides. That is exactly how the official OATTS block is printed - see
+// docs/afoqt/OATTS-TABLE-READING.md - and it is the reason a row stays trackable when the
+// directions forbid a straight edge. Labelling only the top-left corner (what this used to do)
+// is harder than the real subtest in a way that trains nothing: by column 30 you are counting
+// header cells backwards instead of reading a value.
+const AxisRow = ({ marks }) => (
+  <tr>
+    <th className="afq-tg-corner" />
+    {X_VALUES.map((x) => (
+      <th key={x} scope="col" className={marks.has(`col:${x}`) ? 'afq-tg-axis-lit' : undefined}>
+        {signed(x)}
+      </th>
+    ))}
+    <th className="afq-tg-corner" />
+  </tr>
+);
+
 const Grid = memo(function Grid({ sheetSeed, marks }) {
   const rows = useMemo(() => sheetRows(sheetSeed), [sheetSeed]);
   return (
     <table className="afq-tg">
-      <thead>
-        <tr>
-          <th className="afq-tg-corner" scope="col">Y \ X</th>
-          {X_VALUES.map((x) => (
-            <th key={x} scope="col" className={marks.has(`col:${x}`) ? 'afq-tg-axis-lit' : undefined}>
-              {signed(x)}
-            </th>
-          ))}
-        </tr>
-      </thead>
+      <thead><AxisRow marks={marks} /></thead>
       <tbody>
-        {rows.map((row) => (
-          <tr key={row.y}>
-            <th scope="row" className={marks.has(`row:${row.y}`) ? 'afq-tg-axis-lit' : undefined}>
-              {signed(row.y)}
-            </th>
-            {row.cells.map((c) => {
-              const mark = marks.get(key(c.x, row.y));
-              return (
-                <td key={c.x} className={mark ? `afq-tg-mark afq-tg-${mark.tone}` : undefined} title={mark?.label}>
-                  {c.text}
-                </td>
-              );
-            })}
-          </tr>
-        ))}
+        {rows.map((row) => {
+          const lit = marks.has(`row:${row.y}`) ? 'afq-tg-axis-lit' : undefined;
+          return (
+            <tr key={row.y}>
+              <th scope="row" className={lit}>{signed(row.y)}</th>
+              {row.cells.map((c) => {
+                const mark = marks.get(key(c.x, row.y));
+                return (
+                  <td key={c.x} className={mark ? `afq-tg-mark afq-tg-${mark.tone}` : undefined} title={mark?.label}>
+                    {c.text}
+                  </td>
+                );
+              })}
+              <th scope="row" className={lit}>{signed(row.y)}</th>
+            </tr>
+          );
+        })}
       </tbody>
+      <tfoot><AxisRow marks={marks} /></tfoot>
     </table>
   );
 });
@@ -78,9 +90,17 @@ export default function DataTable({ sheetSeed, x, y, from = null, reveal = false
 
   return (
     <figure className="afq-table-fig">
-      <div className="afq-table-wrap">
-        <Grid sheetSeed={sheetSeed} marks={marks} />
+      {/* The axis NAMES sit outside the scroll box so they cannot scroll away from the values
+          they label - X centred above and below, Y centred either side, as OATTS prints it. */}
+      <div className="afq-tg-axis-name afq-tg-x">X</div>
+      <div className="afq-tg-frame">
+        <div className="afq-tg-axis-name afq-tg-y">Y</div>
+        <div className="afq-table-wrap">
+          <Grid sheetSeed={sheetSeed} marks={marks} />
+        </div>
+        <div className="afq-tg-axis-name afq-tg-y">Y</div>
       </div>
+      <div className="afq-tg-axis-name afq-tg-x">X</div>
       {reveal && (
         <figcaption className="afq-table-legend">
           <span className="afq-tg-key afq-tg-ok" /> the answer

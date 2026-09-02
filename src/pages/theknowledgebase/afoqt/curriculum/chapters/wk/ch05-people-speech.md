@@ -12,7 +12,7 @@ method plus the table below. The table is what you study; the method is how you 
 
 **1. Charge first.** Every word here reads as positive, negative, or neutral before you have
 pinned down its exact sense - and on a 12.0-second clock, charge is available in about a second
-where a precise definition is not. A five-option slate usually mixes charges, so sorting by
+where a precise definition is not. A five-option answer list usually mixes charges, so sorting by
 charge alone often cuts your real choice down to two.
 
 **2. Word parts second.** If you recognize a root or a prefix, use it to narrow the meaning
@@ -103,7 +103,7 @@ and set aside once you've placed the headword by charge and by parts.
 
 | Situation | Do this |
 |---|---|
-| You recognize the word's tone before its precise meaning | Sort by charge first - it is faster than definition and often narrows the slate to two |
+| You recognize the word's tone before its precise meaning | Sort by charge first - it is faster than definition and often narrows the choices to two |
 | A word is built from a root you know | Use the root to confirm or correct the charge, then check the table's exact sense |
 | An option looks like the headword but is spelled slightly differently | That is the listed confusable - it is there to be eliminated, not chosen |
 | Two options seem close in meaning | One is the answer and one is `related` - close is not the same as correct; go back to the exact gloss |

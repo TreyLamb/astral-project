@@ -82,7 +82,7 @@ Percent means *per hundred*. Converting is only ever a decimal-point move:
 | percent → decimal | `7.2% → 0.072` | two places **left** |
 | fraction → percent | `3/8 → 0.375 → 37.5%` | divide, then two right |
 
-> **The trap:** the answer slate will contain `0.072%`, `0.72%`, `72%` and `720%`. Every one
+> **The trap:** the answer choices will contain `0.072%`, `0.72%`, `72%` and `720%`. Every one
 > of them is the right digits with the wrong shift. Counting the places deliberately costs
 > two seconds and is the only defence.
 
@@ -98,7 +98,7 @@ the GCF is **9**.
 `LCM(63, 81) = (63 × 81) / 9 = **567**`.
 
 > **The trap:** the two questions look identical and each one's answer is on the other's
-> answer slate. Read which word is in the stem before you compute anything. The size check
+> answer choices. Read which word is in the question text before you compute anything. The size check
 > above catches it instantly: an answer bigger than both numbers cannot be a GCF.
 
 `a × b = GCF × LCM` always. It is the fastest route to the LCM once you have the GCF.

@@ -11,7 +11,7 @@ computed, that answers the question you stopped reading halfway through.
 
 ## 1. Percent of a percent
 
-When a stem applies one percent, and then applies a second percent to the RESULT of the first,
+When a question applies one percent, and then applies a second percent to the RESULT of the first,
 the second base is not the original number - it is whatever the first stage produced.
 
 > A squadron has 400 airmen, of whom 25% are qualified on a new system. If 80% of those qualified
@@ -59,7 +59,7 @@ one: `4 × 0.75 = 3` full-price-equivalent shirts. Add the 3 bought outright: `3
 
 **The trap:** applying the discount to the WHOLE purchase, all 7 shirts, instead of only the 4
 that were actually discounted - or the reverse, counting every shirt at full price and ignoring
-the discount entirely. The percentage only touches the items the stem says were discounted; the
+the discount entirely. The percentage only touches the items the question text says were discounted; the
 full-price items pass through untouched, and both groups get added at the end, not before.
 
 ---

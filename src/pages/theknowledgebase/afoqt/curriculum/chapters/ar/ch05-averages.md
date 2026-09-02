@@ -106,7 +106,7 @@ The first printer does `1/6` of the job an hour, and the second does `1/3`. Toge
 
 **The trap:** averaging the two times - `(6 + 3) / 2 = 4.5` hours - which is slower than the
 faster printer acting alone, and cannot possibly be right: adding a second worker can only speed
-a job up, never slow it down. That sanity check is free and eliminates most of a slate at a
+a job up, never slow it down. That sanity check is free and eliminates most of the answer choices at a
 glance - any answer at or above the faster worker's solo time (3 hours here) is wrong before you
 compute anything.
 

@@ -38,7 +38,7 @@ exactly like parentheses.
 > 2. `f(13) = 26 + 5 = **31**`
 
 > ⭐ **The trap:** running it backwards. `g(f(4)) = g(13) = 169 − 3 = 166`. Composition is not
-> commutative — the two answers are usually nowhere near each other, and both are on the slate.
+> commutative — the two answers are usually nowhere near each other, and both are among the answer choices.
 
 The innermost function goes first. If it helps, read `f(g(x))` right to left.
 

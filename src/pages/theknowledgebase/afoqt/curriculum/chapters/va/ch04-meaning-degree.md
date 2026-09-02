@@ -28,7 +28,7 @@ the same feeling.
 
 > FAST is to QUICK. BEGIN is to START. TERSE is to BRIEF.
 
-Because swapping the two words changes nothing about the relation, the reversed-pair distractor
+Because swapping the two words changes nothing about the relation, the reversed-pair planted wrong answer
 (the base pair's own words in the wrong order) is never used against a synonym pair - GLAD is to
 HAPPY would be just as correct as HAPPY is to GLAD, so offering it as a "wrong" option would
 secretly be a second right answer. You will not see that trap here the way you do elsewhere.

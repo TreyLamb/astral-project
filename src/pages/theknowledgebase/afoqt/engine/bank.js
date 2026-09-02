@@ -15,6 +15,18 @@ import MIGRATED from '../data/migratedAsvab.json';
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E'];
 
+// The OATTS Word Knowledge items ship as a bare word - "OBSTINATE" - because on the real
+// subtest the instruction lives once in the printed directions, not on every item. Dropped into
+// a mixed drill that reads as no question at all: the screen shows a word and five adjectives
+// and never says what is being asked. Generated WK questions already phrase it
+// `WORD most nearly means:` (engine/morphology.js), so bank items get the same frame rather
+// than a second convention.
+const bareWord = (s) => typeof s === 'string' && /^[A-Za-z][A-Za-z-]*$/.test(s.trim());
+const frameStem = (q) =>
+  (q.subtest === 'WK' && bareWord(q.question)
+    ? `${q.question.trim().toUpperCase()} most nearly means:`
+    : q.question);
+
 function fromReal(q) {
   // Items needing a figure we do not have alongside them are unanswerable - skip.
   if (q.needsImage || !q.choices || q.correct == null) return null;
@@ -29,7 +41,7 @@ function fromReal(q) {
     stretch: false,
     concepts: q.topic ? [q.topic] : [],
     provenance: q.provenance,
-    stem: q.question,
+    stem: frameStem(q),
     choices,
     correctIndex,
     explanation: q.explanation ?? null,

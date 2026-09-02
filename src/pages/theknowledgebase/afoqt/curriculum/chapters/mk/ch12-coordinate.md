@@ -14,9 +14,17 @@ top right, with signs `(+,+)`, `(−,+)`, `(−,−)`, `(+,−)`.
 
 > **slope = rise / run = (y₂ − y₁) / (x₂ − x₁)**
 
+**Rise** is how far the line goes *up*; **run** is how far it goes *across*. Slope is the rise
+divided by the run — how much height you gain per step sideways.
+
 Through `(2, 3)` and `(7, 15)`: `(15 − 3)/(7 − 2) = 12/5`
 
-> **The trap:** run over rise. `5/12` is on the slate, and so is `−12/5`.
+The next three sections are all the same picture read three different ways, so here it is once.
+Switch between the three readings with the buttons underneath it:
+
+![Two points on a grid, with the run and rise drawn as a right triangle](figure:slope-midpoint-distance)
+
+> **The trap:** run over rise. `5/12` is among the answer choices, and so is `−12/5`.
 >
 > **Subtract in the same order on top and bottom.** If you start with the second point's y,
 > start with the second point's x. Swapping one of them flips the sign of the whole slope.
@@ -64,7 +72,7 @@ Which is the 8-15-17 triple from Chapter 11. **Real items are usually built on t
 recognising one saves the whole calculation.
 
 > **The trap:** adding the differences (`8 + 15 = 23`) or forgetting the square root
-> (`289`). Both are on the slate. Note also that the signs vanish — everything gets squared, so
+> (`289`). Both are among the answer choices. Note also that the signs vanish — everything gets squared, so
 > a distance is never negative and the order you subtract in does not matter here.
 
 ---
@@ -80,7 +88,7 @@ From two points: find `m`, then substitute one point to get `b`.
 > 2. `8 = 3(3) + b` → `b = −1`
 > 3. `**y = 3x − 1**`
 
-> **The trap:** swapping `m` and `b`. `y = −x + 3` is on the slate. In `y = mx + b`, `m`
+> **The trap:** swapping `m` and `b`. `y = −x + 3` is among the answer choices. In `y = mx + b`, `m`
 > multiplies x and `b` stands alone — they are not interchangeable.
 
 Two other forms you may meet:
@@ -101,8 +109,10 @@ Each one is found by zeroing *the other* variable, which is the piece that gets 
 > - x-intercept: set `y = 0` → `4x = 84` → `x = **21**`
 > - y-intercept: set `x = 0` → `7y = 84` → `y = **12**`
 
+![A line crossing both axes, with the x-intercept and y-intercept marked](figure:intercepts)
+
 > **The trap:** computing the y-intercept when the x-intercept was asked. Both numbers are one
-> step away and both are on the slate. It is a reading question as much as an algebra one.
+> step away and both are among the answer choices. It is a reading question as much as an algebra one.
 
 In `y = mx + b` the y-intercept is just `b`, free of charge.
 
@@ -111,7 +121,14 @@ In `y = mx + b` the y-intercept is just `b`, free of charge.
 ## 6. Parallel and perpendicular
 
 > **Parallel lines have the SAME slope.**
-> **Perpendicular lines have NEGATIVE RECIPROCAL slopes** — flip it and change the sign.
+> **Perpendicular lines have NEGATIVE RECIPROCAL slopes** — flip the fraction upside down and
+> change the sign.
+
+![Two perpendicular lines with their step triangles drawn](figure:perpendicular-slopes)
+
+The picture makes both halves one motion: the second line's step triangle is the first one's
+turned a quarter turn. Turning it swaps the run and the rise (that is the flip) and turns the
+climb into a fall (that is the sign).
 
 | Line's slope | Parallel | Perpendicular |
 |---|---|---|
@@ -122,8 +139,7 @@ In `y = mx + b` the y-intercept is just `b`, free of charge.
 The test: two slopes are perpendicular exactly when they **multiply to −1**. `3 × (−1/3) = −1` ✓
 
 > **The trap:** giving the parallel slope, which is the most common miss, or doing only half the
-> operation — flipping without negating, or negating without flipping. All three are on the
-> slate, which is why "flip **and** change the sign" has to be one action, not two.
+> operation — flipping without negating, or negating without flipping. All three are among the answer choices, which is why "flip **and** change the sign" has to be one action, not two.
 
 ---
 

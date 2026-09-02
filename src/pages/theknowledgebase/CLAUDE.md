@@ -138,6 +138,12 @@ caused this**. It is slated for deletion — do not revive or extend it.
   ⚠️ An earlier pass of RESEARCH.md claimed the values were *"non-monotone"* with **no citation
   and no backing item**, and the first build of the generator was written to it (uniform random
   0-999). Treat an uncited line in that dossier as a hypothesis, not a fact.
+  ⚠️ **A real OATTS Table Reading block (2026-09-01) shows a RANDOM field, contradicting the
+  pamphlet.** Trey has decided the generator **stays gradual** and this is closed — the trained
+  skill is scan accuracy, every wrong option is already the value at a specific misread cell
+  (`errorCells()`), and the band-4 `tightChoices` item *needs* a gradual field or its five
+  neighbour options stop clustering and it collapses into an easy item. Do not re-open it.
+  Full transcription + the four-sided axis layout: `docs/afoqt/OATTS-TABLE-READING.md`.
 - Timing is the real difficulty: Block Counting **9.0 s/question**, Table Reading 10.5,
   Word Knowledge 12.0, Instrument Comprehension 12.0.
 

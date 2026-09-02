@@ -38,7 +38,7 @@ an argument for or against.
 
 **The test:** find the sentence or paragraph in the passage that the correct choice restates or
 follows directly from. If you cannot point to a specific place in the text supporting a choice, it
-is very likely a distractor, however reasonable it sounds taken on its own.
+is very likely a planted wrong answer, however reasonable it sounds taken on its own.
 
 ---
 

@@ -18,7 +18,7 @@ Three questions come out of it depending on which piece is missing.
 
 `25% of 340` → `0.25 × 340 = **85**`
 
-> **The trap:** the answer slate carries `8.5`, `850` and `8500`. All of them are the right
+> **The trap:** the answer choices carries `8.5`, `850` and `8500`. All of them are the right
 > digits with the decimal point in the wrong place. `25% = 0.25`, two places, always.
 
 Useful shortcuts under time pressure:
@@ -59,7 +59,7 @@ ended at.
 > A quantity falls from 400 to 200.
 > Change = 200. `200 ÷ **400** = 50%` decrease.
 
-> **The trap:** dividing by the new value. `200 ÷ 200 = 100%`, and "100%" is on the slate.
+> **The trap:** dividing by the new value. `200 ÷ 200 = 100%`, and "100%" is among the answer choices.
 > Dividing by the wrong base is the single most common error on this question type.
 
 This is also why **a 50% drop needs a 100% rise to get back**. The base changed. That asymmetry
@@ -76,7 +76,7 @@ A $500 jacket is marked down 30%, then the sale price is reduced a further 20%.
 1. After 30% off: `500 × 0.70 = $350`
 2. After a further 20% off **that**: `350 × 0.80 = **$280**`
 
-> **The trap:** treating it as 50% off, giving $250. That answer is on the slate and it is
+> **The trap:** treating it as 50% off, giving $250. That answer is among the answer choices and it is
 > wrong by $30, because the second discount applies to the *reduced* price, not the original.
 
 The overall discount here is 44%, not 50%. Two discounts of `a%` and `b%` combine as
@@ -99,13 +99,13 @@ Two things to keep separate:
   on itself. Compound interest does, and compounding is *not* on the AFOQT's confirmed item
   list — if a question mentions interest, read it as simple unless it says otherwise.
 - **Interest is not the balance.** Interest earned is $1,200; the account holds $6,200. Both
-  numbers will be on the slate, and only the stem says which one is wanted.
+  numbers will be among the answer choices, and only the question text says which one is wanted.
 
 ---
 
 ## Before you move on
 
-Read the stem twice for one thing only: **what is the base?**
+Read the question text twice for one thing only: **what is the base?**
 
 | The question says | The base is |
 |---|---|

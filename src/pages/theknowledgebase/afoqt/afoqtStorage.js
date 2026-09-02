@@ -37,8 +37,17 @@ export function defaultProgress() {
       mode: 'paced',
       pressure: 1,
       perQuestionClock: false,
-      autoGuessOnTimeout: true, // rights-only scoring: never leave a blank
+      // OFF at Trey's instruction, 2026-09-01. Rights-only scoring means you should never leave
+      // a blank on the REAL test - but having the tool fill blanks for you hides the fact that
+      // you ran out of time, and a random mark that happens to land right inflates accuracy.
+      // The drill now reports blanks instead (see DrillRunner's "Left blank" tile).
+      autoGuessOnTimeout: false,
       missInjection: MISS_INJECTION_RATE,
+      // Subtest codes the dashboard's "By subtest" table collapses away. Purely a VIEW
+      // preference - a hidden subtest is still drilled, still scored, and still counts toward
+      // its composites. Hiding one you are done worrying about is what keeps the table short
+      // enough to read the rows you do care about.
+      hiddenSubtests: [],
     },
   };
 }
@@ -48,11 +57,20 @@ const MAX_RUNS = 200;
 export function migrate(p) {
   if (!p || typeof p !== 'object') return defaultProgress();
   const d = defaultProgress();
+  const settings = { ...d.settings, ...(p.settings ?? {}) };
+  // One-time flip of auto-guess for profiles saved before it defaulted off. A stored value
+  // always wins over a default, so changing the default alone would have left every existing
+  // profile - including the only one that matters here - still auto-guessing. Stamped so a
+  // deliberate re-enable afterwards sticks and this never runs twice.
+  if (!settings.autoGuessDefaultFlipped) {
+    settings.autoGuessOnTimeout = false;
+    settings.autoGuessDefaultFlipped = true;
+  }
   return {
     ...d,
     ...p,
     schemaVersion: AFOQT_SCHEMA_VERSION,
-    settings: { ...d.settings, ...(p.settings ?? {}) },
+    settings,
   };
 }
 

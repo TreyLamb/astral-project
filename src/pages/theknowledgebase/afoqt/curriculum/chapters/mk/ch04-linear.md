@@ -32,7 +32,7 @@ coefficient positive; it is fewer chances to drop a sign.
 3. Divide: `x = **5**`
 
 > **The trap:** *adding* the two x-coefficients instead of subtracting. `11 + 3 = 14` gives
-> `x ≈ 2.9`, and a rounded version of that will be on the slate. Moving a term across the
+> `x ≈ 2.9`, and a rounded version of that will be among the answer choices. Moving a term across the
 > equals sign **flips its sign** — that is the entire operation.
 
 ---
@@ -50,7 +50,7 @@ question type is built on it:
 1. Subtract 30: `−4x < −24`
 2. Divide by −4 — **and flip**: `x > **6**`
 
-> **The trap:** `x < 6`. It is the first option on the slate and it is what you get by doing
+> **The trap:** `x < 6`. It is the first option among the answer choices and it is what you get by doing
 > everything right except the one step this question exists to test.
 
 Sanity check by substituting: does `x = 10` satisfy `−4(10) + 30 < 6`? `−10 < 6` ✓. So the
@@ -106,7 +106,7 @@ you commit.**
 
 > ⭐ **The trap that costs the most marks on this item type:** solving the system correctly and
 > then reporting `y` when the question asked for `x`. Both numbers are right there and both are
-> on the answer slate. Circle the variable you were asked for before you start.
+> among the answer choices. Circle the variable you were asked for before you start.
 
 Some questions ask for `x + y` rather than either one — read for that too.
 

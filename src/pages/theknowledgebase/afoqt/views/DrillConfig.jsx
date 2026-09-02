@@ -53,7 +53,7 @@ export default function DrillConfig() {
 
       <section>
         <h3>Subtest</h3>
-        <div className="afq-grid">
+        <div className="afq-grid afq-subtest-grid">
           {DRILLABLE.map((s) => {
             const n = templatesFor(s.code).length;
             const bank = bankCount(s.code);
@@ -127,6 +127,20 @@ export default function DrillConfig() {
               {perQ.toFixed(1)}s per question
               {pressure !== 1 && meta && ` (real pace is ${secPerQuestion(meta).toFixed(1)}s)`}
             </p>
+            {/* Was a stored setting with no way to reach it. Off by default now: filling your
+                blanks hides that you ran out of time, and a lucky random mark inflates accuracy.
+                Still offered, because on the real test a blank is strictly worse than a guess. */}
+            <label className="afq-toggle">
+              <input
+                type="checkbox"
+                checked={!!progress.settings.autoGuessOnTimeout}
+                onChange={(e) => updateSettings({ autoGuessOnTimeout: e.target.checked })}
+              />
+              <span>
+                Auto-guess anything still blank when the clock runs out
+                <small>Off: blanks stay blank and are counted against you, which is what the real test does to an unmarked answer.</small>
+              </span>
+            </label>
           </>
         )}
       </section>

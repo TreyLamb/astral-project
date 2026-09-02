@@ -17,28 +17,29 @@ Every angle question on this test resolves to one of two totals:
 > **Complementary angles sum to 90°.**
 > **Supplementary angles sum to 180°.**
 
-The complement of 34° is 56°. Its supplement is 146°.
+The complement of 34° is 56°, because 34 + 56 = 90. The supplement of 34° is 146°, because
+34 + 146 = 180.
 
-> **The trap:** these two are the most-swapped pair in the subtest, and each one's answer is
-> always on the other's slate. **C** before **S** in the alphabet, **90** before **180** on the
-> number line. That mnemonic is worth the four seconds it takes to run.
+> **The trap:** these two get swapped more than any other pair in the subtest, and whenever a
+> question asks for one of them the *other* one is sitting in the answer choices waiting to be
+> picked. **C** before **S** in the alphabet, **90** before **180** on the number line. That
+> mnemonic is worth the four seconds it takes to run.
 
-Two more, which are just special cases:
+Two more, which are just special cases. Both of them are about what happens when two straight
+lines cross, and the figure below shows both at once:
 
-- **Vertical angles.** When two straight lines cross, they don't make four unrelated angles —
-  they make two matching PAIRS, each pair sitting diagonally across the crossing point from each
-  other (picture an X: the top and bottom angles of the X are one pair, the left and right angles
-  are the other pair). Vertical angles are the two angles in one of those diagonal pairs — not
-  the two sitting next to each other along the same line, but the two facing each other across
-  the crossing. They are **always equal**: if the top angle of the X is 40°, the bottom angle
-  (straight across from it) is also 40° — and the left and right angles, the other pair, are each
-  140°.
-- **A linear pair.** Two angles that sit right next door to each other and together make up one
-  full straight line — like a straight line with one ray sticking up out of the middle of it,
-  splitting the 180° on that side into two adjacent pieces. Because a straight line always
-  measures 180° total, the two angles in a linear pair **always sum to 180°** (are always
-  supplementary): if one of them is 110°, the angle right next to it that completes the line is
-  70°.
+![Two crossing lines, with the vertical pairs and the linear pairs marked](figure:angle-pairs)
+
+- **Vertical angles** are the two angles sitting **diagonally opposite each other** across the
+  crossing point — the top and bottom wedges of the X, or the left and right ones. They are
+  **always equal.** In the picture, the two 38° angles face each other, and so do the two 142°
+  angles.
+- **A linear pair** is any two angles sitting **next to each other**, which together make up one
+  straight line. A straight line is 180°, so a linear pair **always sums to 180°.** In the
+  picture, any 38° and the 142° beside it are a linear pair.
+
+The difference between the two is only *where the second angle is*: straight across the crossing
+(equal) or immediately beside it (adds to 180).
 
 A full turn is 360°, a straight line is 180°, a right angle is 90°. Angles are **acute**
 (< 90°), **right** (90°), **obtuse** (90–180°) or **reflex** (> 180°).
@@ -47,27 +48,48 @@ A full turn is 360°, a straight line is 180°, a right angle is 90°. Angles ar
 
 ## 2. Parallel lines cut by a transversal
 
-One line crossing two parallel lines creates eight angles — and only **two distinct values**,
-which are supplementary to each other. So every angle in the figure is either *your* angle or
-`180 − your angle`.
+A **transversal** is one straight line cutting across two parallel lines. Where it crosses them it
+makes eight angles. Here is the entire section in one rule:
 
-The entire question is knowing **which**:
+> **Every small angle in the figure is equal to every other small angle. Every large angle is
+> equal to every other large angle. And any small one plus any large one makes 180°.**
 
-| Relationship | Where it is | Value |
+That is not a rough guide, it is the complete truth about the picture — there are eight angles and
+only **two numbers** among them.
+
+![Two parallel lines cut by a transversal, with all eight angles labelled](figure:transversal)
+
+So these items involve almost no arithmetic. If the question text prints 55°, every angle in that figure is
+either 55° or `180 − 55 = 125°`, and the only decision left is **which of the two** is being asked
+for. Compare the angle you were given with the angle the question is pointing at: if one looks
+small and the other looks large, take the supplement. If they look alike, they *are* alike. That
+check answers most of these on sight.
+
+Why there are only two values, if it helps to know: the two lines are parallel, so the transversal
+meets both at exactly the same slant. One crossing makes a small angle and a large angle, twice
+each. The second crossing is the identical situation, so it repeats the same two numbers.
+
+### The relationship names, for when nothing is drawn
+
+Some items describe the pair in words rather than showing a figure — *"if angle 3 and angle 5 are
+alternate interior angles…"* — and then the small-versus-large check has nothing to look at. That
+is the only reason these names are worth learning:
+
+| Relationship | Where the two angles sit | Value |
 |---|---|---|
-| **Corresponding** | same corner at each intersection | **equal** |
-| **Alternate interior** | opposite sides, between the parallels | **equal** |
-| **Alternate exterior** | opposite sides, outside the parallels | **equal** |
-| **Vertical** | opposite at one intersection | **equal** |
-| **Same-side interior** (co-interior) | same side, between the parallels | **supplementary** |
-| **Linear pair** | adjacent, on a straight line | **supplementary** |
+| **Corresponding** | the same corner at each crossing | **equal** |
+| **Alternate interior** | opposite sides of the transversal, both between the parallels | **equal** |
+| **Alternate exterior** | opposite sides of the transversal, both outside the parallels | **equal** |
+| **Vertical** | straight across from each other at one crossing | **equal** |
+| **Same-side interior** (co-interior) | the same side of the transversal, both between the parallels | **supplementary** |
+| **Linear pair** | side by side along one straight line | **supplementary** |
 
-The shortcut worth memorising: **only the "same-side" relationships are supplementary.**
-Everything with "alternate", "corresponding" or "vertical" in its name is equal.
+Tap the names under the figure above to see where each pair actually lives — the table can tell you
+a relationship is "opposite sides, between the parallels" but it cannot show you where that is.
 
-Visual check that never fails: **all the acute angles are equal, all the obtuse angles are
-equal, and any acute plus any obtuse makes 180°.** If your answer is obtuse and the given
-angle was acute, you needed the supplement.
+The pattern is worth more than the table: **only the two "same-side" relationships are
+supplementary.** Anything with **alternate**, **corresponding** or **vertical** in its name is
+equal.
 
 ---
 
@@ -84,15 +106,23 @@ Angles of 63° and 48° leave `180 − 63 − 48 = **69°**`.
 
 > **An exterior angle equals the SUM of the two remote (non-adjacent) interior angles.**
 
-If an exterior angle is 118° and one remote interior angle is 47°, the other is
-`118 − 47 = **71°**`.
+An **exterior angle** is what you get by extending one side of the triangle past a corner and
+measuring the angle outside. **Remote** interior angles are the two corners at the *far* end of
+the triangle — the two that the exterior angle does not touch.
 
-Why it works: the exterior angle and its adjacent interior angle are a linear pair, so the
-interior one is `180 − 118 = 62°`, and the remaining two must total `180 − 62 = 118°` — the
-exterior angle. The theorem just skips a step.
+![A triangle with one side extended, forming an exterior angle](figure:exterior-angle)
 
-> **The trap:** using the **adjacent** interior angle (62° here) as one of the remote ones.
-> "Remote" means the two angles that do *not* touch the exterior angle.
+If an exterior angle is 118° and one of its two remote interior angles is 47°, then the second
+remote interior angle is `118 − 47 = **71°**`.
+
+Why it works: the exterior angle and the interior angle it touches sit side by side on a straight
+line, so they are a linear pair — the touching interior angle is `180 − 118 = 62°`. All three
+interior angles total 180°, so the other two corners must total `180 − 62 = 118°`, which is the
+exterior angle again. The theorem just lets you skip that detour.
+
+> **The trap:** using the interior angle the exterior angle **touches** (62° in the picture) as
+> one of the remote pair. It is the one corner the theorem excludes — that is the entire meaning
+> of "remote".
 
 ---
 
@@ -105,13 +135,17 @@ exterior angle. The theorem just skips a step.
 | **Scalene** | none equal | none equal |
 | **Right** | — | one 90° angle |
 
-**Isosceles is the one that gets asked**, because it needs a step:
+**Isosceles is the one that gets asked**, because it needs a step. The **vertex angle** is the
+angle between the two equal sides; the **base angles** are the other two, and they are equal to
+each other.
+
+![An isosceles triangle with a 40 degree vertex angle and two 70 degree base angles](figure:isosceles-halving)
 
 > A vertex angle of 40° leaves `180 − 40 = 140°` to be **shared equally** by the two base
-> angles → each is `140 ÷ 2 = **70°**`.
+> angles → each base angle is `140 ÷ 2 = **70°**`.
 
-> **The trap:** answering 140. That is the two base angles *together*; the question asks for
-> one of them. Halving is the step the item is testing.
+> **The trap:** answering 140. That is what the two base angles come to **added together**; the
+> question asks for **one** of them. Halving is the step the item is testing.
 
 Two facts that pair with this:
 
@@ -129,6 +163,8 @@ Two facts that pair with this:
 
 Similarity is what gets tested, because it needs a calculation.
 
+![Two similar triangles drawn to scale, the second three times the size of the first](figure:similar-triangles)
+
 > Triangle ABC ~ triangle DEF. `AB = 6`, `BC = 8`, `DE = 18`. Find `EF`.
 >
 > Scale factor `= DE/AB = 18/6 = 3`, and it applies to **every** corresponding side.
@@ -136,7 +172,7 @@ Similarity is what gets tested, because it needs a calculation.
 
 > ⭐ **The trap:** treating similarity as **additive**. DE is 12 more than AB, so EF must be 12
 > more than BC → 20. Wrong. Similar figures scale by a **ratio**, never by a difference. That
-> distractor is on the slate every time.
+> planted wrong answer is among the answer choices every time.
 
 Two consequences worth carrying:
 
@@ -153,16 +189,24 @@ Two consequences worth carrying:
 > **Each interior angle of a REGULAR polygon = (n − 2) × 180° / n**
 > **Each exterior angle of a regular polygon = 360° / n**
 
+Here `n` is the number of sides. **Regular** means every side and every angle is the same, which
+is the only case where dividing by `n` makes sense.
+
 A regular octagon: sum `= 6 × 180 = 1080°`, each interior angle `= 1080 ÷ 8 = **135°**`, each
 exterior angle `= 360 ÷ 8 = 45°`.
 
-Note `135 + 45 = 180` — an interior angle and its exterior angle are always a linear pair. That
-is the fastest check, and the fastest route: if you know the exterior angle, the interior one
-is `180 −` it.
+![A regular octagon with one interior angle and its exterior angle marked](figure:polygon-angles)
 
-> **The trap:** the two formulas are close enough that `360/n` gets used for the interior angle,
-> and the *sum* gets given when one angle was asked for. Both are on the slate. **The exterior
-> angles of ANY polygon always sum to 360°** — that is where `360/n` comes from.
+Note `135 + 45 = 180` — at every corner, the interior angle and the exterior angle lie along one
+straight line, so they are a linear pair. That is the fastest check and the fastest route: work
+out the exterior angle (`360/n`, which is easy arithmetic) and subtract it from 180 to get the
+interior one.
+
+> **The trap:** the two formulas look alike enough that `360/n` gets used for the *interior*
+> angle, and the *sum of all the angles* gets given when **one** angle was asked for. Both of
+> those wrong numbers appear in the answer choices. **The exterior angles of ANY polygon always
+> total 360°** — walk right round the shape and you have turned through one full circle — and
+> that is where `360/n` comes from.
 
 ---
 

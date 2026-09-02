@@ -8,7 +8,7 @@ A wing stalls when it exceeds its **critical angle of attack** — full stop. No
 slow. Not when the nose is high. An aircraft can stall at any airspeed, in any attitude, at any
 power setting, pointed straight at the ground.
 
-Every distractor in this chapter trades on people believing a stall means "flying too slowly."
+Every planted wrong answer in this chapter trades on people believing a stall means "flying too slowly."
 
 ---
 
