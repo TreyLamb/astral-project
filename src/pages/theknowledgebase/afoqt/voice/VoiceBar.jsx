@@ -77,6 +77,15 @@ export default function VoiceBar({ voice, settings, updateVoice, compact = false
             </button>
           )}
 
+          {/* WHAT IS ACTUALLY TALKING. Not decoration: the engine falls back to the browser voice
+              whenever a neural model fails to load, so without this a bad-sounding run is
+              ambiguous between "this engine sounds bad" and "you are not on that engine". That
+              ambiguity cost a whole round trip. */}
+          <span className="afq-voice-active" title="The engine and voice currently in use">
+            {PROVIDERS.find((p) => p.id === cfg.provider)?.label ?? cfg.provider}
+            {speaker.voice?.name ? ` · ${speaker.voice.name}` : ''}
+          </span>
+
           {cfg.listen && (
             <span
               className={'afq-mic' + (listener.listening ? ' afq-mic-live' : '')}

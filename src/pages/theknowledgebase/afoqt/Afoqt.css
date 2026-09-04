@@ -794,3 +794,13 @@
   .afq-voicebar { gap: .35rem; }
   .afq-heard { max-width: 100%; }
 }
+
+/* Which engine and voice are actually talking. Shown always, because the engine silently falls
+   back to the browser voice when a neural model cannot load - and a bad-sounding run that is
+   ambiguous between "this engine is bad" and "you are not on that engine" is unfixable. */
+.afq-voice-active {
+  font-size: .72rem; color: var(--tkb-ink-soft);
+  padding: .15rem .5rem; border-radius: 999px;
+  border: 1px dashed var(--tkb-border);
+  max-width: 18rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
