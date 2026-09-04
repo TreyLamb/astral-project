@@ -26,6 +26,32 @@ const OBLIQUE = HEADINGS.filter((h) => h.deg % 180 !== 0);
 // the prose above it, and templateAudit.js, which samples `stemSpace` instances, was checking a
 // single attitude per template and reporting clean. The product of the three pools is the actual
 // number of distinct items the template can emit. (Fixed 2026-09-02.)
+/**
+ * The template's item space as a flat, stable list - one entry per (heading, pitch, bank).
+ *
+ * `attitudeAt` is the decode and `attitudeKeys` the enumeration, and they MUST walk the pools in
+ * the same order: buildDrill hands back the index it dealt, and generate() has to resolve it to
+ * the attitude that index named. A key is the attitude itself rather than the template plus an
+ * index, so an attitude two templates can both produce is recognised as one question.
+ */
+function attitudeAt(headings, banks, pitches, i) {
+  const n = headings.length * pitches.length * banks.length;
+  const idx = ((i % n) + n) % n;
+  return {
+    heading: headings[idx % headings.length].deg,
+    pitch: pitches[Math.floor(idx / headings.length) % pitches.length].deg,
+    bank: banks[Math.floor(idx / (headings.length * pitches.length)) % banks.length].deg,
+  };
+}
+
+function attitudeKeys(headings, banks, pitches) {
+  const n = headings.length * pitches.length * banks.length;
+  return Array.from({ length: n }, (_, i) => {
+    const a = attitudeAt(headings, banks, pitches, i);
+    return `att:${a.heading}:${a.pitch}:${a.bank}`;
+  });
+}
+
 function icTemplate({ id, band, name, headings, banks, pitches, blurb, concepts, drillOnly }) {
   const stemSpace = headings.length * banks.length * pitches.length;
   registerTemplate({
@@ -40,12 +66,25 @@ function icTemplate({ id, band, name, headings, banks, pitches, blurb, concepts,
     // The stem is the same sentence every time; the ATTITUDE is the item, and it reaches
     // the audit as the correct option's canonical description. See templateAudit.js itemKey.
     varies: 'options',
+    // AN ITEM POOL, despite the constant stem - and that combination is the whole reason
+    // `itemPool` is declared rather than inferred from `varies`. Repeating the sentence is
+    // NORMAL here: the real subtest asks it 25 times over 25 different pairs of dials, and each
+    // item is a visibly different picture. (The Word Knowledge connotation frame is the opposite
+    // case and opts out - see engine/words.js.)
+    //
+    // Without this, a drill dealt one slot per TEMPLATE and IC's templates hold wildly different
+    // pools - `ic-heading` has 6 attitudes against `ic-attitude`'s 90 - so an ic-heading item was
+    // asked about 15x as often as an ic-attitude one. All 168 attitudes were reachable, so
+    // nothing was missing; exposure was just heavily lopsided toward the narrow training drills.
+    itemPool: true,
+    // Keyed by the ATTITUDE, not by (template, index): the same aircraft position reachable from
+    // two templates is the same question and must share one ticket, or the overlap gets dealt
+    // twice. Order matches the decode in generate() below - they have to stay in step.
+    itemKeys: () => attitudeKeys(headings, banks, pitches),
     generate: (rng, h) => {
-      const correct = {
-        heading: h.pick(headings).deg,
-        pitch: h.pick(pitches).deg,
-        bank: h.pick(banks).deg,
-      };
+      // Indexed off h.item so the dealer can ask for one specific attitude. Mixed-radix decode
+      // over the same three pools attitudeKeys() walks.
+      const correct = attitudeAt(headings, banks, pitches, h.item);
       const opts = optionSet(correct);
       // Four options, not five - the one subtest on the whole test that differs.
       const [right, ...wrong] = opts;

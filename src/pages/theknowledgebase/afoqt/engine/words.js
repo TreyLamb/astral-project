@@ -304,8 +304,10 @@ export function methodTemplates({ band, calibratedAgainst = 'oatts' }) {
       // has to count answers here rather than stems. See itemKey() in templateAudit.js.
       varies: 'options',
       stemSpace: negatives.length,
-      itemPool: true,
-      itemKeys: () => negatives.map((w) => w.id),
+      // NOT an item pool, deliberately. The stem here is one fixed sentence forever, so dealing
+      // this per-item puts several identical-looking questions into a single run - which reads as
+      // exactly the repetition the per-item deal exists to remove. Contrast Instrument
+      // Comprehension, which also has a constant stem but whose items are different PICTURES.
       generate: (rng, h) => {
         // Indexed for the same reason as the chapter frames above - see that comment. Only the
         // TARGET is indexed; the four wrong-charge options stay drawn, since they are the

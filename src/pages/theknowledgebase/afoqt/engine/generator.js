@@ -378,13 +378,14 @@ function dealRounds(pool, count, rng) {
   const byKey = new Map();
   const plain = [];
   for (const t of pool) {
-    // `varies: 'options'` means the STEM never changes and the item is which option is right
-    // (the connotation frame asks one fixed sentence forever). Those get a single ticket however
-    // many items they hold: dealing them per-item put three questions with an identical stem
-    // into one 25-question run, which is the repetition this whole change exists to remove -
-    // the user sees the stem, not the answer key. Deal what a person perceives as a question.
-    const poolable = t.itemPool && t.varies !== 'options';
-    const keys = poolable && typeof t.itemKeys === 'function' ? t.itemKeys() : null;
+    // `itemPool` is the template's OWN declaration that its items are independent questions a
+    // person would perceive as different. It is not inferred from `varies`, and that distinction
+    // is load-bearing: both the Word Knowledge connotation frame and every Instrument
+    // Comprehension template have a constant stem (`varies: 'options'`), but repeating IC is
+    // NORMAL - the real subtest asks the same sentence 25 times over different dials, and each
+    // item is a visibly different picture - while repeating connotation puts three
+    // identical-looking questions in one run. So IC opts in and connotation does not.
+    const keys = t.itemPool && typeof t.itemKeys === 'function' ? t.itemKeys() : null;
     if (keys?.length) {
       keys.forEach((k, i) => {
         if (!byKey.has(k)) byKey.set(k, []);

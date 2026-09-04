@@ -87,6 +87,28 @@ describe('word exposure is uniform', () => {
   });
 });
 
+describe('instrument comprehension exposure', () => {
+  it('spreads evenly over the attitudes an EXAM can ask', () => {
+    // IC's six templates hold pools from 6 attitudes (ic-heading) to 90 (ic-attitude), so
+    // one-slot-per-template asked an ic-heading item ~15x as often as an ic-attitude one -
+    // measured at sd/sqrt 3.72. Nothing was unreachable; exposure was just lopsided toward the
+    // narrow training drills. Exam mode drops the drillOnly aids, so this is the clean signal.
+    const counts = new Map();
+    for (let r = 0; r < 120; r++) {
+      for (const q of assembleDrill({ subtest: 'IC', count: 25, rng: mulberry32(r * 104729 + 3), exam: true })) {
+        const d = q.render ?? {};
+        const k = `${d.heading}:${d.pitch}:${d.bank}`;
+        counts.set(k, (counts.get(k) || 0) + 1);
+      }
+    }
+    const ns = [...counts.values()];
+    const mean = ns.reduce((a, b) => a + b, 0) / ns.length;
+    const sd = Math.sqrt(ns.reduce((a, b) => a + (b - mean) ** 2, 0) / ns.length);
+    expect(counts.size).toBe(90);                       // 6 oblique headings x 5 banks x 3 pitches
+    expect(sd).toBeLessThan(1.5 * Math.sqrt(mean));     // was 3.72x; uniform is 1.0
+  });
+});
+
 describe('band is the difficulty control', () => {
   it('restricts a drill to templates of the requested band', () => {
     // The contract `bands` actually promises, and the one the difficulty picker relies on. Note
