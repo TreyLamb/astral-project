@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { VOICE_DEFAULTS } from './useQuestionVoice';
+import { PROVIDERS } from './useSpeaker';
 
 // The voice strip that sits above a question. One control does the thing you want 95% of the
 // time (turn it on / replay); everything else is behind the gear, because a row of six toggles
 // above every question is exactly the clutter a hands-free mode is supposed to remove.
+
+// The test line, chosen so it exercises what actually goes wrong - a number, a degree symbol, a
+// comma and a question - rather than proving the speakers work.
+const SAMPLE = 'Test. The aircraft banked 30° to the right. Which instrument shows that?';
 
 const RATES = [
   { v: 0.85, label: 'Slow' },
@@ -161,20 +166,69 @@ export default function VoiceBar({ voice, settings, updateVoice, compact = false
             </p>
           </div>
 
+          {/* THE FIRST THING TO CHANGE IF IT SOUNDS BAD, so it is the first thing in the panel.
+              Web Speech quality is whatever the device shipped and nothing else in this panel can
+              improve it - the neural engines are a different class of output, at the cost of a
+              one-time download. */}
+          <div className="afq-voice-field">
+            <span className="afq-voice-label">Engine</span>
+            <div className="afq-row afq-wrap-row">
+              {PROVIDERS.map((p) => (
+                <button
+                  key={p.id}
+                  className={'afq-btn' + (cfg.provider === p.id ? ' afq-primary' : '')}
+                  onClick={() => { speaker.cancel(); updateVoice({ provider: p.id, voiceURI: null }); }}
+                  title={p.note}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+            <p className="afq-note">{PROVIDERS.find((p) => p.id === cfg.provider)?.note}</p>
+            {cfg.provider !== 'webspeech' && (
+              <div className="afq-row afq-wrap-row">
+                <button className="afq-btn" onClick={speaker.download} disabled={speaker.loading}>
+                  {speaker.loading ? 'Downloading…' : 'Download now'}
+                </button>
+                <span className="afq-note">
+                  Cached after the first time. Worth doing on wi-fi before you need it in the car.
+                </span>
+              </div>
+            )}
+            {speaker.loadError && <p className="afq-voice-err">{speaker.loadError}</p>}
+          </div>
+
           <div className="afq-voice-field">
             <span className="afq-voice-label">Voice</span>
-            <select
-              className="afq-voice-select"
-              value={speaker.voice?.voiceURI ?? ''}
-              onChange={(e) => updateVoice({ voiceURI: e.target.value || null })}
-            >
-              {speaker.voices.map((v) => (
-                <option key={v.voiceURI} value={v.voiceURI}>{v.name}</option>
-              ))}
-            </select>
+            <div className="afq-row afq-wrap-row">
+              <select
+                className="afq-voice-select"
+                value={speaker.voice?.id ?? ''}
+                onChange={(e) => updateVoice({ voiceURI: e.target.value || null })}
+              >
+                {speaker.voices.length === 0 && <option value="">Loading…</option>}
+                {speaker.voices.map((v) => (
+                  <option key={v.id} value={v.id}>{v.name}</option>
+                ))}
+              </select>
+              {/* Auditioning a voice must not cost a drill. Without this the only way to hear a
+                  setting is to start a run and spend a question finding out. */}
+              <button
+                className="afq-btn"
+                onClick={() => {
+                  if (speaker.speaking) { speaker.cancel(); return; }
+                  speaker.prime();
+                  speaker.speak([{ kind: 'note', text: SAMPLE }]);
+                }}
+                disabled={speaker.loading}
+              >
+                {speaker.speaking ? '■ Stop' : '▶ Test voice'}
+              </button>
+            </div>
             <p className="afq-note">
-              Best-first. The neural voices (“Natural”, “Google”) are far better than the older
-              built-in ones and are what the list puts at the top.
+              {cfg.provider === 'webspeech'
+                ? 'Best-first, but the list is only what this device has installed. If none of them sound good, that is the engine above, not the voice.'
+                : 'Neural voices, all well past anything in the browser list.'}
             </p>
           </div>
         </div>

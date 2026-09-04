@@ -1,4 +1,4 @@
-// React binding for engine/voice.js.
+// React binding for the shared TTS engine (src/pages/shared/ttsEngine.js).
 //
 // The adapter underneath is provider-agnostic and has no React in it; this adds
 // the three things a component actually needs — the voice list once it resolves,
@@ -10,7 +10,7 @@
 // segment run gaplessly INTO the next one, which is what makes a stressed
 // syllable sound like part of its word instead of a separate utterance.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { listVoices, speakSegments, stop, isSpeaking, lastFallbackReason } from './engine/voice';
+import { listVoices, speakSegments, stop, isSpeaking, lastFallbackReason } from '../shared/ttsEngine';
 import { buildAudioScript, spokenTextFor, stressedSegmentsFor } from './engine/audioScript';
 
 export const VOICE_SUPPORTED = typeof window !== 'undefined' && 'speechSynthesis' in window;

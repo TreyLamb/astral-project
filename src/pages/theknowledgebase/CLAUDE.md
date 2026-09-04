@@ -420,6 +420,19 @@ Built 2026-09-03. Full record: `docs/afoqt/VOICE.md`. Read it before touching `a
   all-caps English word in the bank.
 - **The mic must be ABORTED while the synthesiser talks**, not merely ignored — the recogniser
   buffers audio and hands it over afterwards, so the tool answers its own questions.
+- 🔴 **NEVER use `speechSynthesis.pause()`/`resume()` as a keepalive.** It is the accepted fix for
+  Chrome's ~15s desktop cutoff and it **destroys the audio on a phone** — several mobile TTS
+  engines restart the utterance on `resume()` instead of continuing it, so a long question comes
+  out as overlapping, half-repeated speech. Trey's report was "a haunted house, scary, evil robot
+  voice", which was a BROKEN voice, not a bad one. Short segments plus a per-segment watchdog
+  cover the cutoff with none of that.
+- **TTS is `src/pages/shared/ttsEngine.js`, and it is SHARED with DLAB** — Web Speech, Piper and
+  Kokoro behind one API, both neural models behind a dynamic `import()`. Do not build a fourth
+  TTS path; this repo already had one before AFOQT needed it. Web Speech quality is whatever the
+  device shipped and no setting improves it, which is why the picker exists.
+- **An AudioContext created outside a user gesture starts suspended and never plays.** Synthesis
+  is async, so a context built at playback time is always outside the gesture — silent audio, no
+  error. `primeAudio()` on the toggle's click, reused everywhere.
 - **Every defect above passed structurally and was found by reading the output aloud.** Same
   lesson as the knowledge and word-problem subtests above. `node <scratch>/sayit.mjs <SUBTEST>`
   style dumping of `speechFor()` over real instances is the pass that catches them.

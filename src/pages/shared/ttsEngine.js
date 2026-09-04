@@ -1,4 +1,6 @@
-// Provider-agnostic text-to-speech adapter for the DLAB drill.
+// Provider-agnostic text-to-speech adapter. Shared: DLAB's listening drill and AFOQT's
+// read-aloud both run on it. (It began as `dlab/engine/voice.js`; moved 2026-09-04 when AFOQT
+// needed the same three providers rather than reaching into another sub-app's folder.)
 //
 // Three engines share one API so the rest of the app never branches on which
 // voice is active. Piper and Kokoro are multi-megabyte WASM models, so they
@@ -10,11 +12,24 @@
 // because a stress item is only answerable if one syllable is audibly louder,
 // slower and higher than its neighbours. speakSegments() is what turns that
 // segment list into gapless audio, per provider.
+//
+// ── QUALITY IS THE REASON THE NEURAL PROVIDERS EXIST ─────────────────────────────────────
+// Web Speech quality is whatever the device happens to ship, and on a phone that is often an
+// old compact voice that sounds mechanical however carefully it is driven. Piper and Kokoro
+// synthesise real audio from a neural model, which is a different class of output, not a
+// tuning of the same one. Trey, 2026-09-04, on the built-in voice: "truly terrible quality".
+//
+// One thing NOT to assert here: routing. Web Speech output does not go through Web Audio, so
+// there is no `setSinkId()` and nothing a page can do to steer it — which led to an
+// assumption that it therefore cannot reach a car over Bluetooth. Trey checked, and on his
+// phone it does. Whatever the platform does with that stream, it is not ours to control and
+// not something this file should claim to know. The neural path returns real audio and goes
+// through Web Audio, so it routes like music does; that much is true regardless.
 
 export const PROVIDERS = [
-  { id: 'webspeech', label: 'Web Speech', note: 'Built into the browser. Works offline, zero download.' },
-  { id: 'piper', label: 'Piper', note: 'VITS neural voice via ONNX/WASM. ~75MB, cached after first use.' },
-  { id: 'kokoro', label: 'Kokoro', note: 'Kokoro-82M via transformers.js. Best quality, heaviest download.' },
+  { id: 'webspeech', label: 'Web Speech', note: 'Built into the browser. Zero download, and whatever quality the device happens to ship.' },
+  { id: 'piper', label: 'Piper', note: 'VITS neural voice via ONNX/WASM. ~75MB, cached after first use. Fast enough for a phone.' },
+  { id: 'kokoro', label: 'Kokoro', note: 'Kokoro-82M via transformers.js. Best quality, heaviest download and the slowest to synthesise.' },
 ];
 
 const DEFAULTS = { rate: 0.95, pitch: 1.0, volume: 1.0 };
@@ -47,16 +62,37 @@ function clearWatchdogs() {
   activeWatchdogs = [];
 }
 
+// The one AudioContext the neural providers play through, created inside a user gesture.
+//
+// AN AUDIOCONTEXT CREATED OUTSIDE A GESTURE STARTS SUSPENDED AND NEVER PLAYS. Synthesis is
+// asynchronous and can take seconds, so a context constructed at the point of playback is
+// always outside the gesture that asked for the speech - on iOS that is silent audio with no
+// error anywhere. Priming one on the click that turns voice on, and reusing it, is what makes
+// the neural path work on a phone at all. Reusing it also stops the per-utterance
+// create/close churn, which browsers cap.
+let sharedCtx = null;
+
+export function primeAudio() {
+  if (typeof window === 'undefined') return null;
+  const Ctor = window.AudioContext || window.webkitAudioContext;
+  if (!Ctor) return null;
+  if (!sharedCtx || sharedCtx.state === 'closed') sharedCtx = new Ctor();
+  if (sharedCtx.state === 'suspended') sharedCtx.resume().catch(() => {});
+  return sharedCtx;
+}
+
 function stopActiveAudio() {
   activeAudioSources.forEach((src) => {
     try { src.stop(); } catch { /* already stopped */ }
     try { src.disconnect(); } catch { /* already disconnected */ }
   });
   activeAudioSources = [];
-  if (activeAudioCtx) {
+  // Never close the primed context - it is the one thing here that cannot be recreated outside
+  // a user gesture. Only a context this module made for itself gets torn down.
+  if (activeAudioCtx && activeAudioCtx !== sharedCtx) {
     activeAudioCtx.close().catch(() => {});
-    activeAudioCtx = null;
   }
+  activeAudioCtx = null;
 }
 
 // Every in-flight loop (Web Speech segment-by-segment, or the buffer scheduler)
@@ -226,9 +262,10 @@ async function speakWebSpeechSegments(segments, opts) {
   synth.cancel();
   const token = activeToken;
   const voices = await webSpeechVoices();
-  for (const seg of segments) {
+  for (const [i, seg] of segments.entries()) {
     if (token !== activeToken) return;
     if (opts.signal?.aborted) return;
+    if (opts.onSegment) opts.onSegment(i);
     await speakWebSpeechSegment(seg, token, voices, opts.voiceName);
   }
 }
@@ -245,23 +282,26 @@ async function speakWebSpeechSegments(segments, opts) {
  * word and buys playback that is actually gapless.
  */
 async function synthAndPlayBuffers(synthesizeSegment, segments, opts) {
-  const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
-  const ctx = new AudioCtxClass();
+  const ctx = primeAudio();
+  if (!ctx) throw new Error('no AudioContext');
+  // A context primed several minutes ago can have been suspended by the browser since (tab
+  // backgrounded, phone locked). Resuming is cheap and a no-op when it is already running.
+  if (ctx.state === 'suspended') await ctx.resume().catch(() => {});
   activeAudioCtx = ctx;
   const token = activeToken;
 
   const buffers = [];
-  for (const seg of segments) {
+  for (const [i, seg] of segments.entries()) {
     if (token !== activeToken || opts.signal?.aborted) return;
     const audioBuffer = await synthesizeSegment(ctx, seg, opts);
     if (!audioBuffer) return;
-    buffers.push({ seg, audioBuffer });
+    buffers.push({ seg, audioBuffer, index: i });
   }
 
   if (token !== activeToken || opts.signal?.aborted) return;
 
   let when = ctx.currentTime + 0.05;
-  for (const { seg, audioBuffer } of buffers) {
+  for (const { seg, audioBuffer, index } of buffers) {
     const source = ctx.createBufferSource();
     source.buffer = audioBuffer;
     // Neither Piper nor Kokoro exposes prosody on its synthesis call, so rate is
@@ -276,7 +316,19 @@ async function synthAndPlayBuffers(synthesizeSegment, segments, opts) {
     source.connect(gain);
     gain.connect(ctx.destination);
     source.start(when);
+    // Keeps `isSpeaking()` honest now that the context is long-lived and never leaves the
+    // 'running' state on its own.
+    source.onended = () => { activeAudioSources = activeAudioSources.filter((s) => s !== source); };
     activeAudioSources.push(source);
+    // Everything is scheduled up front (see the note above), so "which segment is playing" is a
+    // clock question rather than an event one. The caller uses it to highlight the option
+    // currently being read.
+    if (opts.onSegment) {
+      const at = setTimeout(() => {
+        if (token === activeToken) opts.onSegment(index);
+      }, Math.max(0, (when - ctx.currentTime) * 1000));
+      activeWatchdogs.push(at);
+    }
     when += audioBuffer.duration / source.playbackRate.value;
   }
 
@@ -360,7 +412,9 @@ function normalizeSegments(segments) {
  * rate/pitch/volume — how a stressed syllable is made audible. Resolves when
  * the last segment finishes, or immediately if `opts.signal` aborts mid-way.
  * @param {{text: string, rate?: number, pitch?: number, volume?: number}[]} segments
- * @param {{provider?: string, voiceName?: string, signal?: AbortSignal}} [opts]
+ * @param {{provider?: string, voiceName?: string, signal?: AbortSignal,
+ *          onSegment?: (index: number) => void}} [opts]
+ *   `onSegment` fires as each segment starts, so a caller can show where the voice has got to.
  * @returns {Promise<void>}
  */
 export async function speakSegments(segments, opts = {}) {
@@ -412,4 +466,23 @@ export async function speakSegments(segments, opts = {}) {
  */
 export async function speak(text, opts = {}) {
   return speakSegments([{ text, rate: opts.rate, pitch: opts.pitch, volume: opts.volume }], opts);
+}
+
+/**
+ * Download and initialise a neural model without speaking anything.
+ *
+ * Worth having its own entry point because the alternative is discovering the download on the
+ * first question - and the case this was built for is studying in a car, where "75MB over
+ * cellular, starting now" is exactly the wrong moment. Resolves once the model is cached and
+ * the next speak() is instant; rejects if the model cannot be loaded, so a caller can say so
+ * rather than silently falling back to the browser voice forever.
+ *
+ * @param {string} providerId
+ * @param {string} [voiceName]
+ * @returns {Promise<void>}
+ */
+export async function preload(providerId, voiceName) {
+  if (providerId === 'piper') { await loadPiper(); return; }
+  if (providerId === 'kokoro') { await kokoroModel(voiceName); return; }
+  await webSpeechVoices();
 }

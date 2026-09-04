@@ -14,6 +14,12 @@ export const VOICE_DEFAULTS = {
   listen: true,
   rate: 1,
   voiceURI: null,
+  // Which synthesiser. `webspeech` is the device's own - instant, free, and only as good as
+  // whatever that device shipped. `piper` and `kokoro` are neural models that download once and
+  // are cached; see PROVIDERS in shared/ttsEngine.js. Default stays webspeech because a silent
+  // 75MB download on someone's first drill is not a default anyone asked for - the picker says
+  // plainly that it is the one to change if the voice sounds bad.
+  provider: 'webspeech',
   // How long a heard answer sits highlighted before it is submitted.
   //
   // NOT ZERO BY DEFAULT, and this is the single most important number in the feature. A
@@ -32,7 +38,7 @@ export const VOICE_DEFAULTS = {
  */
 export default function useQuestionVoice({ q, subtest, enabled, settings, onPick, onCommand }) {
   const cfg = { ...VOICE_DEFAULTS, ...(settings ?? {}) };
-  const speaker = useSpeaker({ rate: cfg.rate, voiceURI: cfg.voiceURI });
+  const speaker = useSpeaker({ rate: cfg.rate, voiceURI: cfg.voiceURI, provider: cfg.provider });
   // A question's identity, and the key everything transient is scoped by. `armed` and `heard`
   // both belong to ONE question, and stamping them with the key is what lets moving to the next
   // question drop them without an effect that fires a setState on every navigation.

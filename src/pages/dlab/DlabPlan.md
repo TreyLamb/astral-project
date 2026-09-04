@@ -37,7 +37,7 @@ local env, not this app — it correctly falls back to local mode.)
 | `DlabApp.jsx` | Shell: HubLink, own topbar, nested routes |
 | `views/SetupView` `BriefView` `TestView` `ResultsView` `HistoryView` `SettingsView` | The six screens |
 | `components/RulesBrief.jsx` | Rule sheet, shared by brief + results |
-| `useVoice.js` | React hook over `engine/voice.js` |
+| `useVoice.js` | React hook over `shared/ttsEngine.js` |
 | `SceneSvg.jsx` · `TimerBar.jsx` | Pictorial renderer · depleting bar |
 | `Dlab.css` | Every class `dlab-` prefixed, vars on `.dlab-app` |
 
@@ -303,7 +303,7 @@ deliberately. Revisit only if it feels slow.
 
 ## Voice — three providers, one adapter
 
-`engine/voice.js` exposes `speak` / `speakSegments` / `stop` / `listVoices`.
+`shared/ttsEngine.js` exposes `speak` / `speakSegments` / `stop` / `listVoices`.
 Piper and Kokoro are **lazy `import()`** so they cost zero bytes unless selected.
 
 | Provider | Package | Notes |

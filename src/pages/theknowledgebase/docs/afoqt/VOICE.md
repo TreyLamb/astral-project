@@ -16,7 +16,8 @@ fallback is not a fallback — it is the layout that ships alongside it.
 |---|---|
 | `afoqt/engine/speech.js` | **Pure.** Text → speakable text, question → utterance list, utterance → action. All the judgement is here, so all of it is testable. |
 | `afoqt/engine/__tests__/speech.test.js` | 40 tests. Every one is a real string the generator emits. |
-| `afoqt/voice/useSpeaker.js` | `speechSynthesis` wrapper + voice ranking + the four browser bugs. |
+| `src/pages/shared/ttsEngine.js` | **Shared, not AFOQT's.** The three-provider adapter - Web Speech, Piper, Kokoro. Also drives DLAB's listening drill. |
+| `afoqt/voice/useSpeaker.js` | React binding over that engine: voice ranking, per-option position, model preload. |
 | `afoqt/voice/useListener.js` | `SpeechRecognition` wrapper + the echo problem + auto-restart. |
 | `afoqt/voice/useQuestionVoice.js` | Composes the two for one question. The only thing a runner imports. |
 | `afoqt/voice/VoiceBar.jsx` | The control strip and the settings panel. |
@@ -109,30 +110,89 @@ with each one would be worse than useless, and it is split into one utterance pe
 
 ---
 
-## The four browser bugs (`useSpeaker`)
+## Engines, and the quality problem (2026-09-04)
+
+First live test in a car. Trey: *"the voice is truly terrible quality... it sounds like a haunted
+house, scary, evil robot voice."* **Two separate causes, and only the second is about the voice.**
+
+### 1. The keepalive was mangling the audio
+
+To dodge Chrome's ~15-second cutoff, the first version called `pause()` then `resume()` every
+nine seconds while speaking. On desktop Chrome that is the accepted workaround. **On a phone it
+is not** - several mobile TTS engines *restart* the current utterance on `resume()` rather than
+continuing it, so a long question became overlapping, half-repeated speech. That is what "haunted
+house" describes: not a bad voice, a broken one.
+
+**Removed.** The shared engine uses a per-segment watchdog instead - a timeout scaled to the text
+length, resolving the segment if `onend` never fires - which costs nothing when nothing is wrong.
+Short segments were always the real defence against the cutoff anyway.
+
+### 2. Web Speech quality is whatever the device shipped
+
+No amount of rate or voice-picking fixes a phone that ships one compact voice from a decade ago,
+because it is not a tuning problem. So the read-aloud path now runs on the **shared three-provider
+engine that was already in this repo** for DLAB's listening drill:
+
+| Engine | What | Cost |
+|---|---|---|
+| **Web Speech** | The device's own voice. Default. | Instant, free, and as good as the device |
+| **Piper** | VITS neural voice, ONNX/WASM | ~75MB once, cached. Fast enough for a phone |
+| **Kokoro** | Kokoro-82M via transformers.js | Heaviest download, slowest to synthesise, best output |
+
+Both neural models are behind a **dynamic `import()`**, so choosing Web Speech never pulls either
+bundle. There is a **Test voice** button - auditioning a setting must not cost a drill question -
+and a **Download now** button, because the case this was built for is studying in a car and
+meeting a 75MB download on the first question is the wrong moment to meet it.
+
+When a neural model fails to load the engine falls back to the browser voice. That is right, and
+it was silently wrong: you would pick Piper, hear the device voice and conclude Piper sounds
+terrible. `lastFallbackReason()` is now surfaced in the panel.
+
+### The AudioContext must be primed inside a gesture
+
+**An AudioContext created outside a user gesture starts suspended and never plays.** Synthesis is
+async and can take seconds, so a context built at the point of playback is always outside the
+gesture that asked for the speech - on iOS that is silent audio with no error anywhere. `primeAudio()`
+creates and resumes one shared context on the Voice toggle's click, and everything reuses it. That
+also stops the per-utterance create/close churn browsers cap.
+
+### On routing
+
+The initial report was that it played only through the phone, never the car. It was reasonable to
+suspect Web Speech for that - its output does not go through Web Audio, there is no `setSinkId()`
+for it, and a page has no way to steer it. **Trey checked again and it does reach the car**, so
+that suspicion was wrong and nothing here claims otherwise. The neural path returns real audio
+through Web Audio, so it routes like music regardless.
+
+---
+
+## The browser bugs (`useSpeaker`)
 
 All four present the same way — the voice just stops, no error anywhere.
 
 1. **`getVoices()` returns `[]` on the first call** in Chrome and Edge; the list arrives on
    `voiceschanged`. Not listening for it means always using the default voice, which on Windows is
    the flattest one installed.
-2. **Speech dies after ~15 seconds in Chrome.** Alternating `pause()`/`resume()` on a 9-second
-   timer is the accepted workaround; there is no API-level alternative. Short segments are the
-   second half of the defence — a dropped one costs an option, not the rest of the question.
+2. **Speech dies after ~15 seconds in Chrome.** Handled by keeping every segment short and by a
+   per-segment watchdog. **NOT by `pause()`/`resume()`** - see above; that workaround is correct
+   on desktop and destroys the audio on a phone.
 3. **`cancel()` immediately followed by `speak()` drops the new utterance.** Cancelling is async.
    One tick between them fixes it; without it, skipping quickly through questions goes silent.
 4. **Autoplay is blocked until a user gesture**, and on iOS the *first* utterance must originate
    inside a handler. The "Voice" toggle is that gesture — it primes with a silent utterance.
 
-We run **our own queue** rather than the browser's: the browser's cannot report which segment is
-playing, which is what lets the UI highlight the option currently being read.
+The engine runs **its own queue** rather than the browser's: the browser's cannot report which
+segment is playing, which is what lets the UI highlight the option currently being read. For the
+neural providers every segment is synthesised before any is scheduled, so playback is gapless, and
+`onSegment` reports position from the scheduled clock.
 
-### Voice quality
+### Voice ranking
 
 There is no quality field in the API, so `rankVoices()` ranks on the naming conventions the
 platforms use: "Natural"/"Neural" and the Google network voices to the top, the old SAPI voices
-(David, Zira, "compact", eSpeak) pushed down. This is the difference between the feature sounding
-like 2025 and sounding like 2005. The picker lists them best-first and the choice is saved.
+(David, Zira, "compact", eSpeak) pushed down. **It can only pick the least-bad option from what is
+installed** - on a device with one mediocre voice it changes nothing, which is exactly the case
+that sent us to the neural engines.
 
 ---
 
