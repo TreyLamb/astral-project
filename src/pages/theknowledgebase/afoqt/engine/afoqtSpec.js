@@ -68,6 +68,87 @@ export function compositeReach(code) {
   return COMPOSITES.filter((c) => !c.disputed && c.subtests.includes(code)).map((c) => c.code);
 }
 
+/**
+ * TREY'S ACTUAL OTS APPLICATION LIST, in his own submitted order (screenshot 2026-09-04).
+ *
+ * This is the thing that makes a study plan HIS rather than generic. Ten of the eleven are
+ * NON-RATED line-officer jobs, which are selected on the Verbal and Quantitative minimums plus
+ * Academic Aptitude as part of the whole-person score. Exactly one - RPA - is RATED, and rated
+ * jobs are the only reason Table Reading, Instrument Comprehension, Block Counting and Aviation
+ * Information matter to him at all.
+ *
+ * `rank` is his submitted preference order; the last two were left unranked on the form.
+ *
+ * ⚠ Composite REQUIREMENTS here are the AFOQT-side gate only. A real board also weighs GPA, the
+ * whole-person score, and for RPA the TBAS/PCSM, none of which this tool models. Treat these as
+ * "which subtests move the needle", not as an eligibility determination.
+ */
+export const CAREERS = [
+  { rank: 1,    name: 'Intelligence',                     rated: false },
+  { rank: 2,    name: 'U.S. Space Force Officer',         rated: false },
+  { rank: 3,    name: 'Remotely Piloted Aircraft (RPA)',  rated: true  },
+  { rank: 4,    name: 'Special Investigations (OSI)',     rated: false },
+  { rank: 5,    name: 'Cyberspace Operations',            rated: false },
+  { rank: 6,    name: 'ICBM Missile',                     rated: false },
+  { rank: 7,    name: 'Munitions & Missile Maintenance',  rated: false },
+  { rank: 8,    name: 'Security Forces',                  rated: false },
+  { rank: 9,    name: 'Logistics Readiness',              rated: false },
+  { rank: null, name: 'Aircraft Maintenance',             rated: false },
+  { rank: null, name: 'Airfield Operations',              rated: false },
+];
+
+/** Non-rated line jobs gate on Verbal + Quantitative and are boarded on Academic Aptitude. */
+const NON_RATED_COMPOSITES = ['VERB', 'QUANT', 'ACAD'];
+/** RPA is the one rated job on his list. ABM is NOT - nothing he applied for uses it. */
+const RATED_COMPOSITES = ['PILOT', 'CSO'];
+
+/** Which composites a job is selected on, and therefore which subtests feed it. */
+export function compositesForCareer(career) {
+  return career.rated ? [...RATED_COMPOSITES, ...NON_RATED_COMPOSITES] : NON_RATED_COMPOSITES;
+}
+
+/** The subtests that feed a given job, in study-priority order. */
+export function subtestsForCareer(career) {
+  const codes = compositesForCareer(career);
+  const set = new Set(COMPOSITES.filter((c) => codes.includes(c.code)).flatMap((c) => c.subtests));
+  return [...set].sort((a, b) => (PRIORITY[b] ?? 0) - (PRIORITY[a] ?? 0));
+}
+
+/**
+ * STUDY PRIORITY, 0-10. Trey's scale and his two anchors: "Math 10 most, physical science 0
+ * least. Tests can tie their numbers."
+ *
+ * Derived from his application list above, not from the test in the abstract:
+ *
+ *  10  MK  the only subtest in EVERY composite he needs - both non-rated (QUANT, ACAD) and
+ *          rated (PILOT, CSO). Nothing else spans both.
+ *   9  WK  Verbal + Academic + CSO. The only other subtest that reaches a rated composite AND
+ *          the non-rated gates that ten of his eleven jobs are selected on.
+ *   8  VA/AR/RC  each feeds exactly two non-rated composites, which is what 10 of 11 jobs are
+ *          scored on. Tied deliberately - there is no honest reason to separate them.
+ *   5  SJ  DISPUTED. Modelled as possibly-scored (see COMPOSITES). If it counts it counts for
+ *          every job on his list, so it is hedged mid-table rather than dismissed.
+ *   6  TR  rated-only, but in BOTH of RPA's composites - the most valuable of the rated group.
+ *   4  IC/BC/AI  rated-only and each in just ONE of RPA's two composites. They matter for
+ *          exactly one job (his #3), which is why they sit below everything non-rated.
+ *   0  PS  feeds no composite at all. His anchor, and correct.
+ */
+export const PRIORITY = {
+  MK: 10, WK: 9, VA: 8, AR: 8, RC: 8, TR: 6, SJ: 5, IC: 4, BC: 4, AI: 4, PS: 0,
+};
+
+/**
+ * The studyable subtests, most important to him FIRST. Ties fall back to real test order so the
+ * list is stable rather than arbitrary.
+ *
+ * DRILLABLE itself deliberately keeps TEST order, because engine/diagnostic.js builds on it and a
+ * diagnostic should mirror the real administration. Only the surfaces a human browses - the drill
+ * picker and the dashboard table - use this one.
+ */
+export const DRILLABLE_BY_PRIORITY = [...DRILLABLE].sort(
+  (a, b) => (PRIORITY[b.code] ?? 0) - (PRIORITY[a.code] ?? 0) || a.order - b.order,
+);
+
 /** Rights-only scoring: a blank is strictly worse than a guess. Never penalise. */
 export const GUESSING_PENALTY = false;
 

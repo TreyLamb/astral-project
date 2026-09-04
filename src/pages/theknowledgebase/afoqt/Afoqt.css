@@ -230,6 +230,36 @@
   }
 }
 
+/* --- study priority + the OTS job list (2026-09-04) -----------------------
+   Trey's own 0-10 scale over his eleven submitted applications: "Math 10 most, physical science
+   0 least. Tests can tie their numbers." The colour is a three-step band rather than a gradient
+   because the number is already the precise signal - the tint only has to answer "is this one of
+   the ones that matters" at a glance. */
+.afq-prio {
+  display: inline-block; min-width: 1.75rem; padding: .1rem .35rem;
+  border-radius: 6px; font-weight: 700; font-variant-numeric: tabular-nums; text-align: center;
+}
+.afq-prio-hi  { background: color-mix(in srgb, var(--tkb-accent) 22%, transparent); color: var(--tkb-ink); }
+.afq-prio-mid { background: color-mix(in srgb, var(--tkb-unsure) 20%, transparent); color: var(--tkb-ink); }
+.afq-prio-lo  { background: none; color: var(--tkb-ink-soft); }
+
+.afq-prio-chip {
+  display: inline-flex; align-items: baseline; gap: .2rem;
+  margin: .1rem .25rem .1rem 0; padding: .1rem .4rem;
+  border: 1px solid var(--tkb-border); border-radius: 999px;
+  font-size: .78rem; font-weight: 600; white-space: nowrap;
+}
+.afq-prio-chip small { font-size: .68rem; opacity: .75; font-variant-numeric: tabular-nums; }
+
+.afq-career-table td { vertical-align: top; }
+/* The one rated job on the list, and the sole reason four subtests are on his plan at all. */
+.afq-career-rated { background: color-mix(in srgb, var(--tkb-accent) 6%, transparent); }
+.afq-career-tag {
+  margin-left: .4rem; padding: .05rem .35rem; border-radius: 999px;
+  border: 1px solid var(--tkb-accent); color: var(--tkb-accent);
+  font-size: .65rem; text-transform: uppercase; letter-spacing: .04em;
+}
+
 /* --- results & analytics (PART 30) ---------------------------------------
    A single series (accuracy over time), so no legend - the section heading already
    names what's plotted. Mark spec per the project's dataviz skill: bars capped at

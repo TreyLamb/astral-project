@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
-import { DRILLABLE, getSubtest, secPerQuestion, compositeReach } from '../engine/afoqtSpec';
+import { DRILLABLE_BY_PRIORITY, getSubtest, secPerQuestion, compositeReach, PRIORITY } from '../engine/afoqtSpec';
 import { templatesFor } from '../engine/generator';
 import { bankCount } from '../engine/bank';
 import { PRESSURE_PRESETS } from '../engine/timing';
@@ -27,7 +27,7 @@ export default function DrillConfig() {
   // now falls back to step one rather than to a picker showing nothing selected.
   const [subtest, setSubtest] = useState(() => {
     const requested = params.get('subtest');
-    return requested && DRILLABLE.some((s) => s.code === requested) ? requested : null;
+    return requested && DRILLABLE_BY_PRIORITY.some((s) => s.code === requested) ? requested : null;
   });
   const [count, setCount] = useState(5);
   const [mode, setMode] = useState(progress.settings.mode);
@@ -105,7 +105,8 @@ export default function DrillConfig() {
 
           <section>
             <div className="afq-grid afq-subtest-grid">
-              {DRILLABLE.map((s) => {
+              {/* Most valuable to HIS eleven applications first, not test order - see PRIORITY. */}
+              {DRILLABLE_BY_PRIORITY.map((s) => {
                 const n = templatesFor(s.code).length;
                 const bank = bankCount(s.code);
                 const reach = compositeReach(s.code);
@@ -116,7 +117,12 @@ export default function DrillConfig() {
                     onClick={() => chooseSubtest(s.code)}
                   >
                     <strong>{s.name}</strong>
-                    <small>{secPerQuestion(s).toFixed(1)}s / question</small>
+                    <small>
+                      <span className={'afq-prio afq-prio-' + (PRIORITY[s.code] >= 8 ? 'hi' : PRIORITY[s.code] >= 4 ? 'mid' : 'lo')}>
+                        {PRIORITY[s.code] ?? 0}
+                      </span>
+                      {' '}priority · {secPerQuestion(s).toFixed(1)}s / question
+                    </small>
                     {/* Reach is why some subtests matter more: MK feeds five composites, TR all three rated ones. */}
                     <small className="afq-reach">{reach.length ? reach.join(' ') : 'unscored'}</small>
                     <small>{[n ? `${n} templates` : null, bank ? `${bank} in bank` : null].filter(Boolean).join(' + ') || 'not built yet'}</small>

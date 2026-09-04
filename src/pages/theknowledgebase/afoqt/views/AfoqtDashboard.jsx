@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
-import { DRILLABLE, getSubtest, secPerQuestion, compositeReach, COMPOSITES } from '../engine/afoqtSpec';
+import { DRILLABLE_BY_PRIORITY, getSubtest, secPerQuestion, compositeReach, COMPOSITES,
+  CAREERS, PRIORITY, subtestsForCareer, compositesForCareer } from '../engine/afoqtSpec';
 import { templatesFor } from '../engine/generator';
 import { allCompositeAccuracy, PRACTICE_ACCURACY_LABEL, subtestAccuracy, recentSubtestAccuracy, RECENT_RUN_WINDOW, subtestCompletion } from '../engine/scoring';
 import { missPoolIds, clearMissPool, curriculumProgress, ExamSession, latestDiagnostic, wordBankEntries, flaggedEntries } from '../afoqtStorage';
@@ -39,7 +40,8 @@ export default function AfoqtDashboard() {
   // Goes through scoring.js rather than aggregating templateStats here. This view used to
   // duplicate that arithmetic inline, which is exactly why the "bank items are invisible" bug
   // existed in two places at once - see subtestStatKeys() for what was being missed.
-  const bySubtest = DRILLABLE.map((s) => {
+  // Ordered by how much each subtest matters to HIS actual application list, not by test order.
+  const bySubtest = DRILLABLE_BY_PRIORITY.map((s) => {
     // `seen` stays LIFETIME - it answers "how much have I done", which does not decay. Accuracy
     // and pace come from the last few drills instead: they answer "where do I stand now", and a
     // lifetime average buries recent improvement under every early rep (Trey, 2026-09-01).
@@ -222,6 +224,7 @@ export default function AfoqtDashboard() {
           <thead>
             <tr>
               <th className="afq-hide-col"><span className="afq-sr-only">Hide</span></th>
+              <th title="How much this subtest is worth to the eleven jobs you actually applied for, 0-10. Not a property of the AFOQT - a property of YOUR list.">Priority</th>
               <th>Subtest</th>
               <th title="Which scored composites this subtest feeds. 'Unscored' means it feeds none - it is on the test but not in any composite you are graded on.">Composites</th>
               <th title="Seconds per question on the real test">Pace</th>
@@ -247,6 +250,11 @@ export default function AfoqtDashboard() {
                   >
                     –
                   </button>
+                </td>
+                <td className="afq-num">
+                  <span className={'afq-prio afq-prio-' + (PRIORITY[s.code] >= 8 ? 'hi' : PRIORITY[s.code] >= 4 ? 'mid' : 'lo')}>
+                    {PRIORITY[s.code] ?? 0}
+                  </span>
                 </td>
                 <td>{s.name}</td>
                 <td className="afq-reach">{s.reach.length ? s.reach.join(' ') : 'unscored'}</td>
@@ -349,6 +357,64 @@ export default function AfoqtDashboard() {
           Math Knowledge feeds five composites and Table Reading all three rated ones, so
           work there carries furthest. Physical Science and the Self-Description Inventory
           feed none. Situational Judgment is disputed - treat it as probably scored.
+        </p>
+      </section>
+
+      {/* The jobs he actually applied for, in his own submitted order, each with the subtests
+          that decide it. This is what makes the priority column above meaningful rather than a
+          generic "MK is important" - ten of these eleven are non-rated and are selected on
+          Verbal + Quantitative, so RPA is single-handedly the reason the four rated-only
+          subtests appear on his study plan at all. */}
+      <section>
+        <h3>Your OTS job list — and what each one is scored on</h3>
+        <p className="afq-note">
+          Your eleven applications in submitted order. <strong>Ten are non-rated</strong> and turn on
+          Verbal + Quantitative plus Academic Aptitude. <strong>RPA is the only rated one</strong>, and
+          it is the only reason Table Reading, Instrument Comprehension, Block Counting and
+          Aviation Information are worth any of your time.
+        </p>
+        <div className="afq-subtest-wrap">
+          <table className="afq-table afq-career-table">
+            <thead>
+              <tr>
+                <th title="Your submitted preference order. The last two were left unranked on the form.">#</th>
+                <th>Job</th>
+                <th title="The AFOQT composites this job is selected on">Composites</th>
+                <th title="Every subtest feeding those composites, most valuable first">Subtests that decide it</th>
+              </tr>
+            </thead>
+            <tbody>
+              {CAREERS.map((c) => (
+                <tr key={c.name} className={c.rated ? 'afq-career-rated' : undefined}>
+                  <td className="afq-num">{c.rank ?? '—'}</td>
+                  <td>
+                    {c.name}
+                    {c.rated && <small className="afq-career-tag">rated</small>}
+                  </td>
+                  <td className="afq-reach">{compositesForCareer(c).join(' ')}</td>
+                  <td>
+                    {subtestsForCareer(c).map((code) => (
+                      <span key={code} className={'afq-prio-chip afq-prio-' + (PRIORITY[code] >= 8 ? 'hi' : PRIORITY[code] >= 4 ? 'mid' : 'lo')}>
+                        {code}<small>{PRIORITY[code]}</small>
+                      </span>
+                    ))}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="afq-note">
+          Read it as: <strong>MK 10</strong> is the only subtest inside every composite you need, rated and
+          non-rated. <strong>WK 9</strong> is the only other one that reaches both. <strong>VA / AR / RC 8</strong> are
+          tied because each feeds exactly two of the non-rated composites that ten of your eleven jobs
+          are scored on. <strong>TR 6</strong> is rated-only but sits in both of RPA's composites;
+          <strong> IC / BC / AI 4</strong> are rated-only and in just one each. <strong>SJ 5</strong> is hedged —
+          it is disputed, and if it counts it counts for all eleven. <strong>PS 0</strong> feeds nothing.
+        </p>
+        <p className="afq-note afq-score-disclaimer">
+          AFOQT side only. A real board also weighs GPA and the whole-person score, and RPA adds the
+          TBAS/PCSM — none of which this tool models.
         </p>
       </section>
     </div>
