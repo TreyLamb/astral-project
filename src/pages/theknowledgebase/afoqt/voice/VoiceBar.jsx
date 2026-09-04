@@ -17,8 +17,9 @@ const RATES = [
   { v: 1.6, label: 'Fast' },
 ];
 
-export default function VoiceBar({ voice, settings, updateVoice, compact = false }) {
+export default function VoiceBar({ voice, settings, updateVoice, queue = null, compact = false }) {
   const [open, setOpen] = useState(false);
+  const [prep, setPrep] = useState(null);
   const cfg = { ...VOICE_DEFAULTS, ...(settings ?? {}) };
   const { speaker, listener, level, note, armed, heard } = voice;
 
@@ -62,6 +63,10 @@ export default function VoiceBar({ voice, settings, updateVoice, compact = false
           >
             {speaker.speaking ? '■ Stop' : '↻ Repeat'}
           </button>
+
+          {/* A neural model can take a couple of seconds on a cold question. Unexplained silence
+              is what makes a slow voice feel broken rather than slow, so it is named. */}
+          {speaker.preparing && <span className="afq-voice-prep">synthesising…</span>}
 
           {/* Reading Comprehension only. The passage serves several questions, so it is never
               re-read automatically with each one - and the button only exists where there is
@@ -205,6 +210,46 @@ export default function VoiceBar({ voice, settings, updateVoice, compact = false
               </div>
             )}
             {speaker.loadError && <p className="afq-voice-err">{speaker.loadError}</p>}
+
+            {/* The next few questions are always warmed in the background while you answer this
+                one, which is enough at a normal pace. This is for the other case: prepare the
+                WHOLE run up front, on wi-fi, before a drive. */}
+            {cfg.provider !== 'webspeech' && queue?.length > 1 && (
+              <div className="afq-row afq-wrap-row">
+                <button
+                  className="afq-btn"
+                  disabled={speaker.loading}
+                  onClick={async () => {
+                    speaker.prime();
+                    setPrep({ done: 0, total: 0 });
+                    const r = await speaker.prepareAll(
+                      voice.segmentsFor(queue),
+                      (done, total) => setPrep({ done, total }),
+                    );
+                    setPrep(r);
+                  }}
+                >
+                  Prepare all {queue.length} questions
+                </button>
+                {prep && (
+                  <span className="afq-note">
+                    {prep.total && prep.done >= prep.total
+                      ? `Ready${prep.failed ? ` (${prep.failed} failed)` : ''} — this run now plays instantly, offline.`
+                      : `${prep.done} of ${prep.total || '…'} clips…`}
+                  </span>
+                )}
+              </div>
+            )}
+
+            {cfg.provider !== 'webspeech' && (
+              <button
+                className="afq-linklike afq-voice-clear"
+                onClick={() => { speaker.clearCache(); setPrep(null); }}
+                title="Delete every cached clip. They are re-made on demand."
+              >
+                Clear cached audio
+              </button>
+            )}
           </div>
 
           <div className="afq-voice-field">

@@ -17,6 +17,7 @@ fallback is not a fallback — it is the layout that ships alongside it.
 | `afoqt/engine/speech.js` | **Pure.** Text → speakable text, question → utterance list, utterance → action. All the judgement is here, so all of it is testable. |
 | `afoqt/engine/__tests__/speech.test.js` | 40 tests. Every one is a real string the generator emits. |
 | `src/pages/shared/ttsEngine.js` | **Shared, not AFOQT's.** The three-provider adapter - Web Speech, Piper, Kokoro. Also drives DLAB's listening drill. |
+| `src/pages/shared/ttsCache.js` | Persistent audio cache (memory LRU + IndexedDB PCM). What makes the slow neural voice usable. |
 | `afoqt/voice/useSpeaker.js` | React binding over that engine: voice ranking, per-option position, model preload. |
 | `afoqt/voice/useListener.js` | `SpeechRecognition` wrapper + the echo problem + auto-restart. |
 | `afoqt/voice/useQuestionVoice.js` | Composes the two for one question. The only thing a runner imports. |
@@ -148,6 +149,34 @@ When a neural model fails to load the engine falls back to the browser voice. Th
 it was silently wrong: you would pick Piper, hear the device voice and conclude Piper sounds
 terrible. `lastFallbackReason()` is now surfaced in the panel.
 
+### 3. Kokoro is slow, so nothing is synthesised when you press play
+
+Measured: **~4 seconds to synthesise ~7 seconds of speech** on a desktop CPU (`device: 'cpu'`,
+q8). The browser path uses WebGPU where it exists so a phone may do better - but designing around
+"maybe it is fast enough" is how this feature got shipped twice already. So it does not
+synthesise on demand at all where it can avoid it:
+
+- **A persistent cache** (`src/pages/shared/ttsCache.js`). In-memory LRU of decoded AudioBuffers
+  in front of IndexedDB holding 16-bit PCM. Keyed on **provider + voice + the exact text**, never
+  on a question id - so a replayed question, a miss-pool item, the same option text in another
+  template, and every word the study plan repeats are all free hits. Survives a reload and a
+  drive. Every failure path (private browsing, blocked origin, full disk) degrades to "no cache",
+  never to "no audio".
+- **Prefetch of the next three questions** while the current one is on screen. Trey's framing:
+  *"I won't be going through these at a bullet pace, so as long as the voice caches as soon as
+  the word pops up then it's fine - cache the next 2-3 too, in case I take long on one word."*
+  Three survives him answering three quickly in a row; more and an abandoned drill has
+  synthesised audio nobody hears. Fire-and-forget: never awaited, never blocks playback, and
+  deliberately **not** cancelled by `stop()` - throwing away finished synthesis because someone
+  pressed stop defeats the point.
+- **"Prepare all N questions"**, with progress, for the case the prefetch cannot cover: do the
+  whole run on wi-fi before driving. After that the run plays instantly and offline.
+- **A "synthesising…" indicator**, because unexplained silence is what makes a slow voice feel
+  broken rather than slow.
+
+`af_heart` is the default Kokoro voice - Kokoro's own default, and the one Trey picked out of
+three by ear.
+
 ### The AudioContext must be primed inside a gesture
 
 **An AudioContext created outside a user gesture starts suspended and never plays.** Synthesis is
@@ -267,3 +296,12 @@ Desktop is untouched.
   Never wrong, occasionally clumsy.
 - ✂️ **No wake word and no hands-free start.** The first question still needs a tap, because
   browsers require a user gesture before any audio and there is no way around that.
+- ✂️ **A cloud TTS provider was offered and declined.** It would be the best-sounding and by far
+  the fastest option, at roughly 8 cents per 25-question drill through an `api/` function using
+  the repo's existing secret pattern. Trey: *"we can't do anything with apis right now"*. Not
+  built. Worth revisiting only if he changes that.
+- ✂️ **Piper is wired but untested.** Trey: *"can we do piper later?"* - he picked Kokoro's
+  `af_heart` by ear and that is what the work went into. Piper should be much faster than Kokoro
+  and is the obvious fallback if Kokoro proves too slow on his phone even with the cache.
+- **The FIRST question of a cold drill still waits on synthesis.** Prefetch covers everything
+  after it; nothing can cover the first one except "Prepare all" beforehand.

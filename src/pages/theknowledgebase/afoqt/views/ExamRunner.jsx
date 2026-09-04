@@ -177,6 +177,7 @@ export default function ExamRunner() {
     settings: progress.settings.voice,
     onPick: submit,
     onCommand: () => {},
+    upcoming: inSubtest ? questions.slice(idx + 1, idx + 4) : null,
   });
 
   // One clock for every timed step: a subtest (real pace budget), a break (its own countdown),
@@ -397,7 +398,7 @@ export default function ExamRunner() {
 
       <div className="afq-bar"><div className="afq-bar-fill" style={{ width: barPct + '%' }} /></div>
 
-      <VoiceBar voice={voice} settings={progress.settings.voice} updateVoice={updateVoice} />
+      <VoiceBar voice={voice} settings={progress.settings.voice} updateVoice={updateVoice} queue={questions} />
 
       <div className="afq-card">
         {q.render && <Figure render={q.render} />}

@@ -302,6 +302,12 @@ export default function DrillRunner() {
     settings: progress.settings.voice,
     onPick: submit,
     onCommand: onVoiceCommand,
+    // The next three questions, synthesised in the background while this one is on screen.
+    // Trey's own framing: "I won't be going through these at a bullet pace, so as long as the
+    // voice caches as soon as the word pops up then it's fine - cache the next 2-3 too, in case
+    // I take long on one word." Three is the number that survives him answering three quickly in
+    // a row; more than that and a drill he abandons has synthesised audio nobody heard.
+    upcoming: questions.slice(current + 1, current + 4),
   });
 
   // Whole-subtest countdown, matching how the real test administers: time cannot be banked
@@ -603,7 +609,7 @@ export default function DrillRunner() {
 
       {sweepWarn && <div className="afq-alert">Under 15s left. Mark every remaining question - there is no guessing penalty.</div>}
 
-      <VoiceBar voice={voice} settings={progress.settings.voice} updateVoice={updateVoice} />
+      <VoiceBar voice={voice} settings={progress.settings.voice} updateVoice={updateVoice} queue={questions} />
 
       <div className="afq-runner-body">
         <div className="afq-runner-main">

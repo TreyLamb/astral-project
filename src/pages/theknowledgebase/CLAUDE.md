@@ -433,6 +433,13 @@ Built 2026-09-03. Full record: `docs/afoqt/VOICE.md`. Read it before touching `a
 - **An AudioContext created outside a user gesture starts suspended and never plays.** Synthesis
   is async, so a context built at playback time is always outside the gesture — silent audio, no
   error. `primeAudio()` on the toggle's click, reused everywhere.
+- **Kokoro sounds excellent and is ~0.5x real time** (measured: 4s of compute for 7s of speech on
+  a desktop CPU). Trey picked `af_heart` by ear and it is the default. **Never synthesise on
+  demand** — `shared/ttsCache.js` caches clips by provider+voice+exact text in IndexedDB, the
+  next three questions are prefetched while the current one is on screen, and "Prepare all"
+  walks a whole run up front. Prefetch is deliberately NOT cancelled by `stop()`.
+- ⚠️ **Trey cannot use API keys right now**, so cloud TTS is off the table however much better it
+  would be. Offered 2026-09-04 and declined; don't re-propose it unopened.
 - **Every defect above passed structurally and was found by reading the output aloud.** Same
   lesson as the knowledge and word-problem subtests above. `node <scratch>/sayit.mjs <SUBTEST>`
   style dumping of `speechFor()` over real instances is the pass that catches them.

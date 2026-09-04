@@ -36,7 +36,9 @@ export const VOICE_DEFAULTS = {
  *   onCommand: (name: string) => void,
  * }} args
  */
-export default function useQuestionVoice({ q, subtest, enabled, settings, onPick, onCommand }) {
+export default function useQuestionVoice({
+  q, subtest, enabled, settings, onPick, onCommand, upcoming = null,
+}) {
   const cfg = { ...VOICE_DEFAULTS, ...(settings ?? {}) };
   const speaker = useSpeaker({ rate: cfg.rate, voiceURI: cfg.voiceURI, provider: cfg.provider });
   // A question's identity, and the key everything transient is scoped by. `armed` and `heard`
@@ -135,6 +137,25 @@ export default function useQuestionVoice({ q, subtest, enabled, settings, onPick
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [on]);
 
+  // PREFETCH. The whole reason the neural voice is usable: Kokoro is around half real time to
+  // synthesise, so paying for it when you press play cannot work, and paying for it while you
+  // are reading the CURRENT question costs nothing you can perceive. `upcoming` is the next few
+  // questions in the run; their audio is synthesised into the persistent cache in the
+  // background, so by the time you get there it is a memcpy.
+  //
+  // Fire-and-forget by design. It is never awaited, never blocks playback, and is not cancelled
+  // by stopping the voice - throwing away completed synthesis because someone pressed stop would
+  // defeat the point.
+  const warm = speaker.warm;
+  useEffect(() => {
+    if (!on || !upcoming?.length) return;
+    const lists = upcoming
+      .filter(Boolean)
+      .map((nq) => speechFor(nq, { includeOptions: cfg.readOptions }));
+    warm(lists);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [on, qKey, warm, cfg.readOptions]);
+
   useEffect(() => () => clearTimeout(commitTimer.current), []);
 
   return {
@@ -151,5 +172,9 @@ export default function useQuestionVoice({ q, subtest, enabled, settings, onPick
     readOptions,
     readPassage,
     stop: speaker.cancel,
+    /** Segment lists for a whole queue - what the "prepare this drill" button walks. */
+    segmentsFor: (list) => (list ?? [])
+      .filter(Boolean)
+      .map((one) => speechFor(one, { includeOptions: cfg.readOptions })),
   };
 }

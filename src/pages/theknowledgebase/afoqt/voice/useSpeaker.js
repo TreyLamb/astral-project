@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   PROVIDERS, speakSegments, stop as stopSpeech, listVoices, preload, primeAudio,
-  lastFallbackReason,
+  lastFallbackReason, prepare, readyCount, clearClips,
 } from '../../../shared/ttsEngine';
 
 // Text-to-speech for a question, over the shared three-provider engine
@@ -65,6 +65,10 @@ export function rankVoices(voices) {
 export default function useSpeaker({ rate = 1, voiceURI = null, provider = 'webspeech' } = {}) {
   const [speaking, setSpeaking] = useState(false);
   const [segment, setSegment] = useState(null);
+  // Speaking, but nothing has come out yet - i.e. the model is still synthesising. Its own flag
+  // rather than something derived, because unexplained silence is the failure mode that makes a
+  // slow voice feel broken rather than slow.
+  const [preparing, setPreparing] = useState(false);
   // Stored WITH the provider it belongs to, so switching provider invalidates the list by
   // derivation rather than by a setState inside an effect.
   const [resolved, setResolved] = useState({ provider: null, voices: [] });
@@ -87,10 +91,20 @@ export default function useSpeaker({ rate = 1, voiceURI = null, provider = 'webs
     return provider === 'webspeech' ? rankVoices(resolved.voices) : resolved.voices;
   }, [resolved, provider]);
 
-  const voice = useMemo(
-    () => voices.find((v) => v.id === voiceURI) ?? voices[0] ?? null,
-    [voices, voiceURI],
-  );
+  // `af_heart` is Kokoro's own default and the one Trey picked out of three by ear, so it is
+  // what an unset preference resolves to rather than whatever the voice table happens to list
+  // first. Only a default - any voice in the list still wins once chosen.
+  const voice = useMemo(() => {
+    if (voiceURI) {
+      const exact = voices.find((v) => v.id === voiceURI);
+      if (exact) return exact;
+    }
+    if (provider === 'kokoro') {
+      const heart = voices.find((v) => v.id === 'af_heart');
+      if (heart) return heart;
+    }
+    return voices[0] ?? null;
+  }, [voices, voiceURI, provider]);
 
   const cancel = useCallback(() => {
     runId.current += 1;
@@ -98,6 +112,7 @@ export default function useSpeaker({ rate = 1, voiceURI = null, provider = 'webs
     abort.current = null;
     stopSpeech();
     setSpeaking(false);
+    setPreparing(false);
     setSegment(null);
   }, []);
 
@@ -115,6 +130,7 @@ export default function useSpeaker({ rate = 1, voiceURI = null, provider = 'webs
     const controller = new AbortController();
     abort.current = controller;
     setSpeaking(true);
+    setPreparing(provider !== 'webspeech');
 
     speakSegments(segments.map((s) => ({ text: s.text, rate })), {
       provider,
@@ -125,12 +141,15 @@ export default function useSpeaker({ rate = 1, voiceURI = null, provider = 'webs
       // line 3 of a reading passage was being read.
       onSegment: (i) => {
         if (id !== runId.current) return;
+        // First segment out means synthesis is behind us and audio is actually playing.
+        setPreparing(false);
         const seg = segments[i];
         setSegment(seg?.kind === 'option' ? seg.index : null);
       },
     }).finally(() => {
       if (id !== runId.current) return;
       setSpeaking(false);
+      setPreparing(false);
       setSegment(null);
       // The engine falls back to the browser voice when a neural model cannot load, which is the
       // right behaviour and the wrong silence: you would pick Piper, hear the device voice, and
@@ -174,6 +193,49 @@ export default function useSpeaker({ rate = 1, voiceURI = null, provider = 'webs
     }
   }, [provider, voice]);
 
+  /**
+   * Synthesise segments into the cache without playing them.
+   *
+   * The load-bearing half of making Kokoro usable. It is roughly 0.5x real time on a desktop
+   * CPU, so synthesising when you press play cannot work - but synthesising the NEXT question
+   * while the current one is on screen costs nothing you notice, and a cache hit afterwards is
+   * a memcpy. Never awaited by anything on the playback path.
+   */
+  const warm = useCallback((segmentLists) => {
+    if (provider === 'webspeech') return;
+    const flat = (segmentLists ?? []).flat().filter((s) => s?.text?.trim());
+    if (!flat.length) return;
+    prepare(flat.map((s) => ({ text: s.text })), {
+      provider,
+      voiceName: voice?.name ?? voice?.id,
+    }).catch(() => {});
+  }, [provider, voice]);
+
+  /** Walk a whole queue up front, with progress. The car case: do this on wi-fi, then drive. */
+  const prepareAll = useCallback(async (segmentLists, onProgress) => {
+    if (provider === 'webspeech') return { done: 0, total: 0, failed: 0 };
+    const flat = (segmentLists ?? []).flat().filter((s) => s?.text?.trim());
+    setLoading(true);
+    setLoadError(null);
+    try {
+      return await prepare(flat.map((s) => ({ text: s.text })), {
+        provider,
+        voiceName: voice?.name ?? voice?.id,
+        onProgress,
+      });
+    } finally {
+      setLoading(false);
+    }
+  }, [provider, voice]);
+
+  const ready = useCallback(
+    (segmentLists) => readyCount((segmentLists ?? []).flat(), {
+      provider,
+      voiceName: voice?.name ?? voice?.id,
+    }),
+    [provider, voice],
+  );
+
   useEffect(() => cancel, [cancel]);
 
   return {
@@ -181,9 +243,14 @@ export default function useSpeaker({ rate = 1, voiceURI = null, provider = 'webs
     cancel,
     prime,
     download,
+    warm,
+    prepareAll,
+    ready,
+    clearCache: clearClips,
     loading,
     loadError,
     speaking,
+    preparing,
     segment,
     voices,
     voice,

@@ -804,3 +804,10 @@
   border: 1px dashed var(--tkb-border);
   max-width: 18rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+
+/* "synthesising…" - a neural model takes a second or two on a question it has not seen. Named
+   rather than left as silence, which is what makes a slow voice feel broken instead of slow. */
+.afq-voice-prep { font-size: .75rem; color: var(--tkb-accent); font-style: italic; }
+.afq-voice-clear {
+  align-self: flex-start; font-size: .72rem; color: var(--tkb-ink-soft);
+}

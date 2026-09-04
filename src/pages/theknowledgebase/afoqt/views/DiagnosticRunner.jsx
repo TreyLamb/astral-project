@@ -124,6 +124,7 @@ export default function DiagnosticRunner() {
     settings: progress.settings.voice,
     onPick: submit,
     onCommand: () => {},
+    upcoming: phase === 'running' ? questions.slice(idx + 1, idx + 4) : null,
   });
 
   const [, tick] = useState(0);
@@ -222,7 +223,7 @@ export default function DiagnosticRunner() {
 
       <div className="afq-bar"><div className="afq-bar-fill" style={{ width: barPct + '%' }} /></div>
 
-      <VoiceBar voice={voice} settings={progress.settings.voice} updateVoice={updateVoice} />
+      <VoiceBar voice={voice} settings={progress.settings.voice} updateVoice={updateVoice} queue={questions} />
 
       <div className="afq-card">
         {q.render && <Figure render={q.render} />}

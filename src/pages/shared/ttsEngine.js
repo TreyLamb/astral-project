@@ -26,6 +26,10 @@
 // not something this file should claim to know. The neural path returns real audio and goes
 // through Web Audio, so it routes like music does; that much is true regardless.
 
+import { cacheKey, getClip, putClip, hasClip, clearClips } from './ttsCache';
+
+export { clearClips };
+
 export const PROVIDERS = [
   { id: 'webspeech', label: 'Web Speech', note: 'Built into the browser. Zero download, and whatever quality the device happens to ship.' },
   { id: 'piper', label: 'Piper', note: 'VITS neural voice via ONNX/WASM. ~75MB, cached after first use. Fast enough for a phone.' },
@@ -352,13 +356,20 @@ async function decodeToBuffer(ctx, source) {
   return ctx.decodeAudioData(arrayBuffer.slice(0));
 }
 
-async function synthesizePiperSegment(ctx, seg, opts) {
+// Raw Float32 samples out of a provider, so the cache can store PCM rather than an AudioBuffer
+// (an AudioBuffer belongs to one context and cannot be persisted).
+async function rawPiper(seg, opts) {
   const mod = await loadPiper();
-  const wav = await mod.predict({
-    text: seg.text,
-    voiceId: opts.voiceName || PIPER_DEFAULT_VOICE,
+  const wav = await mod.predict({ text: seg.text, voiceId: opts.voiceName || PIPER_DEFAULT_VOICE });
+  return wav; // a WAV Blob - decoded below, and cached after decoding
+}
+
+async function synthesizePiperSegment(ctx, seg, opts) {
+  return cachedSynthesis('piper', ctx, seg, opts, async () => {
+    const wav = await rawPiper(seg, opts);
+    const buf = await decodeToBuffer(ctx, wav);
+    return { samples: buf.getChannelData(0), rate: buf.sampleRate };
   });
-  return decodeToBuffer(ctx, wav);
 }
 
 // The model, not a per-utterance handle, is what is expensive to load — cached
@@ -381,9 +392,28 @@ async function kokoroModel(voiceName) {
 }
 
 async function synthesizeKokoroSegment(ctx, seg, opts) {
-  const tts = await kokoroModel(opts.voiceName);
-  const audio = await tts.generate(seg.text, { voice: opts.voiceName || KOKORO_DEFAULT_VOICE });
-  return decodeToBuffer(ctx, audio);
+  return cachedSynthesis('kokoro', ctx, seg, opts, async () => {
+    const tts = await kokoroModel(opts.voiceName);
+    const audio = await tts.generate(seg.text, { voice: opts.voiceName || KOKORO_DEFAULT_VOICE });
+    return { samples: audio.audio, rate: audio.sampling_rate || 24000 };
+  });
+}
+
+/**
+ * Synthesis with the persistent cache in front of it.
+ *
+ * This is the single most important function for whether the neural voice is usable. Kokoro is
+ * roughly 0.5x real time on a desktop CPU; a cache hit is a memcpy. Every repeat - a replayed
+ * question, a miss-pool item, the same option text in another template, anything prefetched
+ * while the previous question was on screen - collapses to nothing.
+ */
+async function cachedSynthesis(providerId, ctx, seg, opts, synthesize) {
+  const key = cacheKey(providerId, opts.voiceName, seg.text);
+  const hit = await getClip(ctx, key);
+  if (hit) return hit;
+  const { samples, rate } = await synthesize();
+  if (!samples?.length) return null;
+  return putClip(ctx, key, samples, rate);
 }
 
 async function speakWithProvider(providerId, segments, opts) {
@@ -485,4 +515,63 @@ export async function preload(providerId, voiceName) {
   if (providerId === 'piper') { await loadPiper(); return; }
   if (providerId === 'kokoro') { await kokoroModel(voiceName); return; }
   await webSpeechVoices();
+}
+
+/**
+ * Synthesise segments into the cache WITHOUT playing them.
+ *
+ * The whole strategy for the neural providers. Kokoro is far too slow to synthesise at the
+ * moment you want to hear something, and fast enough if the work already happened - so the app
+ * prefetches the next question while the current one is on screen, and offers a "prepare this
+ * drill" action that walks the queue up front. Both land here.
+ *
+ * Deliberately independent of stop()/activeToken: preparation is not playback and must NOT be
+ * cancelled by the user pressing stop on the voice, or every prefetch would be thrown away by
+ * the next thing they do. Cancellation is `opts.signal` only.
+ *
+ * @param {{text: string}[]} segments
+ * @param {{provider?: string, voiceName?: string, signal?: AbortSignal,
+ *          onProgress?: (done: number, total: number) => void}} [opts]
+ * @returns {Promise<{done: number, total: number, failed: number}>}
+ */
+export async function prepare(segments, opts = {}) {
+  const providerId = opts.provider || 'webspeech';
+  const list = (segments ?? []).filter((s) => s?.text?.trim());
+  const total = list.length;
+  // Web Speech synthesises as it speaks and has nothing to cache; reporting "done" is honest.
+  if (providerId === 'webspeech' || !total) return { done: total, total, failed: 0 };
+
+  const ctx = primeAudio();
+  if (!ctx) return { done: 0, total, failed: total };
+
+  const synth1 = providerId === 'piper' ? synthesizePiperSegment : synthesizeKokoroSegment;
+  let done = 0;
+  let failed = 0;
+  for (const seg of list) {
+    if (opts.signal?.aborted) break;
+    try {
+      await synth1(ctx, seg, { voiceName: opts.voiceName });
+    } catch {
+      failed += 1;
+    }
+    done += 1;
+    if (opts.onProgress) opts.onProgress(done, total);
+  }
+  return { done, total, failed };
+}
+
+/**
+ * How many of these segments are already synthesised. Lets the UI say "12 of 40 ready" instead
+ * of a progress bar that jumps to full on a warm cache.
+ */
+export async function readyCount(segments, opts = {}) {
+  const providerId = opts.provider || 'webspeech';
+  const list = (segments ?? []).filter((s) => s?.text?.trim());
+  if (providerId === 'webspeech') return list.length;
+  let n = 0;
+  for (const seg of list) {
+    // Sequential on purpose: a cache probe is cheap and parallel IndexedDB reads gain nothing.
+    if (await hasClip(cacheKey(providerId, opts.voiceName, seg.text))) n += 1;
+  }
+  return n;
 }
