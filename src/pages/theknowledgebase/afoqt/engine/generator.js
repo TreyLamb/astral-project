@@ -257,9 +257,13 @@ export function buildDrill({ subtest, count, rng, band = null, filter = null, in
   const asked = new Set();
   let item = 0;
   for (let i = 0; i < count; i++) {
-    const t = order
-      ? order[i]
+    // A dealt entry may name the exact item to ask (see dealRounds). Everything else picks a
+    // template and lets the seed choose within it, as before.
+    const dealt = order ? order[i] : null;
+    const t = dealt
+      ? dealt.t
       : weightFor ? weightedPick(pool, weightFor, rng) : pool[Math.floor(rng() * pool.length)];
+    const wantItem = dealt?.item ?? null;
     let inst = null;
     // Two templates sharing a figure can land on the same part of it - a band-3 and a band-4
     // Table Reading item both picking cell (+9, -13) asks the identical question twice in one
@@ -267,7 +271,13 @@ export function buildDrill({ subtest, count, rng, band = null, filter = null, in
     // template with a small item space is allowed to repeat eventually.
     const mySheet = sheetAt(t, i);
     for (let tries = 0; tries < DEDUP_TRIES; tries++) {
-      const seed = t.sheet ? composeSeed(mySheet, item++) : Math.floor(rng() * 0xffffffff) >>> 0;
+      // An item-pool template gets a seed whose LOW bits name the word to ask and whose high
+      // bits stay random, so the same word can come back later worded from a fresh rng stream
+      // without ever becoming a different word. The retry loop varies only the high bits, which
+      // is why a dedup retry here cannot silently swap the item out from under the deal.
+      const seed = wantItem != null
+        ? composeSeed(randInt(rng, 0, 0xfffff), wantItem)
+        : t.sheet ? composeSeed(mySheet, item++) : Math.floor(rng() * 0xffffffff) >>> 0;
       inst = generateInstance(t.id, seed);
       // Keyed by figure as well as stem: "how many blocks does block 2 touch" is a different
       // question on a different pile, so a stem-only key would suppress legitimate items once
@@ -332,13 +342,66 @@ function askedKey(inst, mySheet) {
 const DEDUP_TRIES = 16;
 
 /** Repeated shuffled passes over the pool, so nothing repeats until everything has appeared. */
+/**
+ * Deal a shuffled round of the pool, giving an ITEM-POOL template one entry per item it holds.
+ *
+ * Trey, 2026-09-04: "Every word should be in the same database and they should all have the same
+ * chance of showing up." They did not. A round dealt every TEMPLATE once, but a Word Knowledge
+ * template is a flat bag of words and those bags are wildly different sizes - 7 words in
+ * `wk-11-b4-syn` against 40 in `wk-opposite-b2`. One slot each meant a word in the small bag was
+ * **5.7x more likely to be asked** than a word in the large one, purely because of which chapter
+ * and band it had been filed under. Nothing about that is a difficulty or teaching decision; it
+ * is an artifact of how the rows happened to group.
+ *
+ * `itemPool: true` says "my items are independent and interchangeable - weight me by how many I
+ * hold". Then P(template) is proportional to its size and P(word | template) is 1/size, so every
+ * word in the subtest comes out equally likely. A word carried by two frames (a `syn` and a
+ * `ctx`) gets both entries, which is right: it can be asked two genuinely different ways.
+ *
+ * Templates WITHOUT the flag keep exactly one slot per round, which is what `distinct` was built
+ * for and must not lose - a Math Knowledge template generates variants of ONE concept, so a
+ * second draw from it is a near-repeat. Weighting those by item space would bring back the bug
+ * that started this: a 5-question gate asking two isosceles-triangle questions and never
+ * mentioning the transversal.
+ *
+ * Repeating an item-pool template within a run is safe because `buildDrill` already dedups by
+ * the rendered stem, so a second draw is a different word, never the same question twice.
+ */
 function dealRounds(pool, count, rng) {
+  // One ticket per distinct ITEM, not per template and not per (template, item) pair. The pair
+  // form was the obvious first move and it is still not fair: a word is asked by however many
+  // FRAMES happen to accept it, and that count varies for reasons that have nothing to do with
+  // difficulty - `indolent` carries a sentence, an antonym and a negative charge so four frames
+  // can ask it, while `noisome` has none of those and only one can. Dealing pairs gave indolent
+  // four tickets to noisome's one. Grouping the hosts and dealing the KEY makes every word
+  // exactly one ticket; which frame asks it is then chosen among that word's own hosts.
+  const byKey = new Map();
+  const plain = [];
+  for (const t of pool) {
+    // `varies: 'options'` means the STEM never changes and the item is which option is right
+    // (the connotation frame asks one fixed sentence forever). Those get a single ticket however
+    // many items they hold: dealing them per-item put three questions with an identical stem
+    // into one 25-question run, which is the repetition this whole change exists to remove -
+    // the user sees the stem, not the answer key. Deal what a person perceives as a question.
+    const poolable = t.itemPool && t.varies !== 'options';
+    const keys = poolable && typeof t.itemKeys === 'function' ? t.itemKeys() : null;
+    if (keys?.length) {
+      keys.forEach((k, i) => {
+        if (!byKey.has(k)) byKey.set(k, []);
+        byKey.get(k).push({ t, item: i });
+      });
+    } else {
+      plain.push({ t, item: null });
+    }
+  }
+  const deck = [...plain, ...[...byKey.values()].map((hosts) => ({ hosts }))];
+
   const out = [];
   while (out.length < count) {
-    const round = shuffle(pool, rng);
-    for (const t of round) {
+    const round = shuffle(deck, rng);
+    for (const entry of round) {
       if (out.length >= count) break;
-      out.push(t);
+      out.push(entry.hosts ? entry.hosts[Math.floor(rng() * entry.hosts.length)] : entry);
     }
   }
   return out;

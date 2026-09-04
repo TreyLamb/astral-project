@@ -57,11 +57,25 @@ export default function DrillConfig() {
   const hasStretch = templates.some((t) => t.stretch);
   const lowBand = templates.filter((t) => t.band <= 2).length;
 
+  // Difficulty. Trey, 2026-09-04: "By band or something so if I want easier words I do an easier
+  // band." The engine has supported a band filter all along - `assembleDrill({ bands })`, reached
+  // through `?bands=` - but the only thing that ever set it was the Speed toggle, so the control
+  // existed and was unreachable. `null` means every band.
+  const [bands, setBands] = useState(null);
+  const bandsAvailable = [...new Set(templates.map((t) => t.band))].sort();
+  const bandCount = (b) => templates.filter((t) => t.band === b).length;
+  const pickBand = (b) => {
+    setBands(b == null ? null : [b]);
+    // Speed IS a band choice (1-2) plus a clock, so a different band has to clear it rather than
+    // leave two controls silently disagreeing about what gets asked.
+    if (b != null && speed) setSpeed(false);
+  };
+
   // Picking a subtest resets the run length. "Full subtest" sets `count` to that subtest's own
   // question count, and carrying 40 over from Table Reading into a 25-question Word Knowledge
   // drill silently builds a run the chosen subtest never administers.
   const chooseSubtest = (code) => {
-    if (code !== subtest) setCount(5);
+    if (code !== subtest) { setCount(5); setBands(null); setSpeed(false); setStretch(false); }
     setSubtest(code);
   };
 
@@ -69,7 +83,9 @@ export default function DrillConfig() {
     updateSettings({ mode, pressure });
     const q = new URLSearchParams({ subtest, count, mode, pressure });
     if (stretch) q.set('stretch', '1');
+    // Speed pins bands 1-2 as part of what it is; otherwise the difficulty picker decides.
     if (speed) q.set('bands', '1,2');
+    else if (bands) q.set('bands', bands.join(','));
     navigate(`/TKB/afoqt/drill/run?${q}`);
   };
 
@@ -204,7 +220,37 @@ export default function DrillConfig() {
         )}
       </section>
 
-      {lowBand > 0 && (
+      {bandsAvailable.length > 1 && (
+            <section>
+              <h3>Difficulty</h3>
+              <div className="afq-row afq-wrap-row">
+                <button
+                  className={'afq-btn' + (!bands && !speed ? ' afq-primary' : '')}
+                  onClick={() => pickBand(null)}
+                  title="Every band, each item equally likely"
+                >
+                  All bands
+                </button>
+                {bandsAvailable.map((b) => (
+                  <button
+                    key={b}
+                    className={'afq-btn' + (!speed && bands?.length === 1 && bands[0] === b ? ' afq-primary' : '')}
+                    onClick={() => pickBand(b)}
+                    title={`${bandCount(b)} templates at band ${b}`}
+                  >
+                    Band {b}
+                  </button>
+                ))}
+              </div>
+              <p className="afq-note">
+                Band is the difficulty dial: 2 is below what the test asks, 3 is about where it
+                sits, 4 is the level worth owning, 5 is deliberately above it. Every item inside
+                the band you pick is equally likely to come up.
+              </p>
+            </section>
+          )}
+
+          {lowBand > 0 && (
         <section>
           <h3>Speed</h3>
           <button

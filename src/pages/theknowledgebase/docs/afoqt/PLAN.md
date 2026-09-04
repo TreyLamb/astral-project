@@ -255,6 +255,69 @@ Verbal = VA+WK+RC · Quantitative = AR+MK · Academic = Verbal ∪ Quantitative.
 
 ---
 
+## SESSION 2026-09-04 - one bank, uniform word selection, band picker
+
+Trey: "Every word should be in the same database and they should all have the same chance of
+showing up. It should all be one bank. By band or something so if I want easier words I do an
+easier band." He was right on every count. Three separate defects, all fixed; one architectural
+finding left open.
+
+**1. The static bank was drowning the generated pool.** 35 WK bank items supplied HALF of every
+drill (`bankRatio: 0.5`) against 252 registry words, so a bank item was ~13x more likely to be
+seen than a generated one. `belie` (`bank:asvab-q-asvab-0154`) came up 13x per 30 drills.
+Now `BANK_SHARE_WITH_TEMPLATES = 0.15` wherever generation can carry the run, plus a
+least-seen-first draw off `progress.templateStats` (which already counted bank items).
+Measured over 750 questions: bank share 52% -> 16%, distinct items 263 -> 353, worst repeat
+x17 -> x7, belie x13 -> x4. Pinned by `engine/__tests__/bankMix.test.js`.
+
+**2. Words did NOT have equal chance, twice over.** `dealRounds` dealt one slot per TEMPLATE,
+and a WK template is a bag of words sized 7 (`wk-11-b4-syn`) to 40 (`wk-opposite-b2`) - so a
+word in a small bag was **5.7x** more likely than one in a large bag, purely from how the rows
+were filed. Dealing (template, word) pairs was still unfair, because a word is askable by
+however many FRAMES accept it (a `sentence` enables ctx, an `antonym` enables opposite), giving
+`indolent` four tickets to `noisome`'s one. Fixed by dealing **distinct word ids** and choosing
+a frame from that word's own hosts - `itemPool` + `itemKeys()` on the three word template
+families, and word selection indexed off `h.item` instead of `h.pick` so a word is addressable
+by seed at all. `varies: 'options'` templates (the connotation frame, one fixed stem forever)
+deliberately keep a single ticket: dealing them per-item put three identical-looking stems in
+one run, which is the same repetition complaint by another route.
+
+The band skew this removed is the one that mattered: band 2 words were asked **20.9** times per
+200 drills against band 5's **11.7**, so the harder half of the bank was systematically
+under-drilled. Now 15.6 / 15.9 / 16.2 / 14.8 across bands 2-5, with sd 4.0 against the 3.96 a
+perfectly uniform (Poisson) draw would give - statistically indistinguishable from uniform.
+Pinned by `engine/__tests__/wordFairness.test.js`.
+
+**3. The band filter existed and was unreachable.** `assembleDrill({ bands })` and `?bands=`
+had shipped long ago, but the only thing that ever set them was the Speed toggle. DrillConfig
+now has a **Difficulty** section - All bands / Band 2 / 3 / 4 / 5, derived from the subtest's
+actual templates - and Speed clears it rather than silently disagreeing with it.
+
+### OPEN: it is still not literally ONE bank - there are three word sources
+Measured 2026-09-04 by walking every WK template's whole item space:
+
+| Source | Words | Shape |
+|---|---|---|
+| `engine/words.js` REGISTRY | 252 | full WordRow: band, gloss, 4 named distractors |
+| `engine/morphology.js` morph examples | part of 105 | root/affix example words (`artist`, `subway`, `circumference`) |
+| `engine/morphology.js` pairs | part of 105 | confusable pairs, own `a`/`b` halves |
+
+**357 distinct headwords are askable; only 252 are registry rows.** The other 105 reach the
+screen through `vocab` on morphology/pair questions without ever being registry-banded, which
+is why `loquacious` can be asked as a band-3 root question and a band-4 vocabulary question.
+That particular case is CORRECT (two different skills) and the fairness test documents why,
+but the general split is real and is what "it should all be one bank" is pointing at.
+
+### OPEN: ~1,000 authored words missing
+`data/wordCandidates.csv` holds **1,146** candidates. **145 are live; 1,001 have never been
+authored.** This is the dominant cause of "I haven't seen a new word in a while" now that
+selection is fair - 252 words against 25-question drills is simply too small a pool. They
+cannot be bulk-imported: every row needs a gloss plus four NAMED distractors (antonym,
+confusable, related, decoy), and bulk import with generic distractors is exactly what polluted
+the ASVAB deck. Roughly 100-150 rows per session.
+
+---
+
 ## SESSION 2026-09-03 — mobile layout, drill flow, and a WK difficulty finding
 
 Three things Trey reported from his phone, all shipped, plus one measurement that is a real

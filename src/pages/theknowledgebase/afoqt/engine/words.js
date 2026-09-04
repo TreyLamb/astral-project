@@ -241,8 +241,19 @@ export function wordTemplates({ chapter, band, idBase, name, calibratedAgainst =
       // Bounded and declared: the bank is a finite list of words, and pretending otherwise
       // would be a static question wearing a template's clothes.
       stemSpace: usable.length,
+      itemPool: true,
+      // The identity of each item, in index order, so buildDrill can deal WORDS rather than
+      // (template, word) pairs - see dealRounds. Word ids, not headwords: two frames asking the
+      // same word must return the same key or the word gets a ticket per frame.
+      itemKeys: () => usable.map((w) => w.id),
       generate: (rng, h) => {
-        const w = h.pick(usable);
+        // INDEXED, not drawn. `h.pick` chose the word from the seed's rng stream, which made the
+        // word unaddressable - the only way to ask about a specific word was to guess seeds until
+        // one produced it. Indexing off `h.item` (the seed's low 12 bits) makes word selection a
+        // plain function of the seed, which is what lets buildDrill deal WORDS uniformly instead
+        // of dealing templates and hoping. Still fully deterministic: (templateId, seed)
+        // regenerates byte-identically, which is the property that actually matters.
+        const w = usable[h.item % usable.length];
         const [correct, ...distractors] = optionsFor(w).map((o) => ({ ...o, value: cap(o.value) }));
         const { choices, correctIndex, errors, whys } = h.choices(correct, distractors);
         return {
@@ -293,8 +304,13 @@ export function methodTemplates({ band, calibratedAgainst = 'oatts' }) {
       // has to count answers here rather than stems. See itemKey() in templateAudit.js.
       varies: 'options',
       stemSpace: negatives.length,
+      itemPool: true,
+      itemKeys: () => negatives.map((w) => w.id),
       generate: (rng, h) => {
-        const target = h.pick(negatives);
+        // Indexed for the same reason as the chapter frames above - see that comment. Only the
+        // TARGET is indexed; the four wrong-charge options stay drawn, since they are the
+        // varying part of the item rather than its identity.
+        const target = negatives[h.item % negatives.length];
         const wrong = [];
         const used = new Set([target.id]);
         for (let i = 0; i < 40 && wrong.length < 4; i++) {
@@ -337,8 +353,11 @@ export function methodTemplates({ band, calibratedAgainst = 'oatts' }) {
       concepts: ['wk-antonym-trap'],
       calibratedAgainst,
       stemSpace: withAntonyms.length,
+      itemPool: true,
+      itemKeys: () => withAntonyms.map((w) => w.id),
       generate: (rng, h) => {
-        const w = h.pick(withAntonyms);
+        // Indexed - see the chapter frames above.
+        const w = withAntonyms[h.item % withAntonyms.length];
         const { choices, correctIndex, errors, whys } = h.choices(cap(w.antonym), [
           { value: cap(w.answer), error: 'took-the-synonym', why: `that is what ${w.word} MEANS, not its opposite` },
           { value: cap(w.related), error: 'related-not-opposite', why: `related to ${w.word}, and not its opposite` },
