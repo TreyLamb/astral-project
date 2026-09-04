@@ -41,6 +41,14 @@ what's flagged-but-not-fixed, or what's a deliberate scope decision (SDI). The f
 PART-by-PART design records and hard-won engine bugs it replaced are preserved in
 `HANDOFF-ARCHIVE.md`, worth opening only when modifying the VA/RC/SJT/exam engines specifically.
 
+🔴 **`docs/afoqt/QUESTION-SELECTION.md` is required reading before touching `engine/drill.js`,
+`engine/generator.js`, `engine/bank.js` or `engine/words.js`** — or before answering any question
+of the form "how many words are in this thing". It covers the FOUR places Word Knowledge words
+live (only 252 of 357 askable headwords are registry rows), the four different counts that all
+sound like "the word count", how a drill is dealt so every item is equally likely, and why none
+of that is visible to `afoqt:selftest` or `afoqt:coverage`. Written after a long session spent
+rediscovering all of it.
+
 ---
 
 ## THE TWO RULES THAT MATTER MOST
