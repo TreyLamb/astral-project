@@ -111,20 +111,53 @@ export function bankSummary() {
  * templates yet and carry the official/real-source material. Mixing means a subtest is
  * useful from day one rather than waiting on its template phase.
  */
-export function composeDrill({ subtest, count, rng, generated = [], bankRatio = 0.5 }) {
+/**
+ * The bank's share of a drill ONCE THE SUBTEST HAS TEMPLATES.
+ *
+ * This was a flat 0.5, and on a built-out subtest that is badly wrong. Trey, 2026-09-04: "I've
+ * seen the word 'belie' like 30x... I haven't seen a new word in a while." He was right, and
+ * the arithmetic is stark. Word Knowledge has **35 bank items** against **450 distinct headwords**
+ * reachable from its 60 templates. At a 0.5 share a 25-question drill drew ~12 of those same 35
+ * every single run - roughly a THIRD of the entire bank per drill - while any given template word
+ * had a ~2.4% chance of appearing. A bank item was about **13x more likely** to be seen than a
+ * generated one, so the bank's handful of words felt like the whole subtest.
+ *
+ * 0.5 is still right where the bank is all there is: `composeDrill` returns early on an empty
+ * `generated`, so a subtest with no templates keeps getting a pure bank drill. This constant only
+ * governs the mix once generation can carry the run, which is what drill.js's own header says the
+ * bank is for - "covers subtests whose template phase has not been built yet."
+ */
+const BANK_SHARE_WITH_TEMPLATES = 0.15;
+
+export function composeDrill({ subtest, count, rng, generated = [], seen = null, bankRatio = null }) {
   const pool = bankItems(subtest);
   if (pool.length === 0) return generated.slice(0, count);
-  if (generated.length === 0) return pickN(pool, count, rng);
+  if (generated.length === 0) return pickN(pool, count, rng, seen);
 
-  const wantBank = Math.min(pool.length, Math.round(count * bankRatio));
-  const fromBank = pickN(pool, wantBank, rng);
+  const ratio = bankRatio ?? BANK_SHARE_WITH_TEMPLATES;
+  const wantBank = Math.min(pool.length, Math.round(count * ratio));
+  const fromBank = pickN(pool, wantBank, rng, seen);
   const fromGen = generated.slice(0, Math.max(0, count - fromBank.length));
   return shuffleInPlace([...fromBank, ...fromGen], rng);
 }
 
-/** Sample without replacement; if asked for more than exist, returns all of them shuffled. */
-function pickN(items, n, rng) {
+/**
+ * Sample without replacement, LEAST-SEEN FIRST; if asked for more than exist, returns all of
+ * them shuffled.
+ *
+ * Lowering the share alone would have thinned the repetition without ever fixing "I haven't seen
+ * a new word in a while" - a uniform draw from a 35-item pool re-serves a seen item just as
+ * happily as an unseen one, so the same few words keep coming back while others never appear at
+ * all. `seen` is `progress.templateStats`, which already counts every bank item because
+ * recordAnswer keys on `templateId` and a bank item's is `bank:<id>`. Nothing new is stored.
+ *
+ * Shuffle FIRST and then sort: Array#sort is stable, so items with equal seen-counts keep their
+ * shuffled order and the choice among equally-fresh items stays random rather than settling into
+ * a fixed rotation.
+ */
+function pickN(items, n, rng, seen = null) {
   const copy = shuffleInPlace(items.slice(), rng);
+  if (seen) copy.sort((a, b) => (seen[a.templateId]?.seen ?? 0) - (seen[b.templateId]?.seen ?? 0));
   return copy.slice(0, Math.min(n, copy.length));
 }
 

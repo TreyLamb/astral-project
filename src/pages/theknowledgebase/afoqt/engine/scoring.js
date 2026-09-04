@@ -42,9 +42,11 @@ export const PRACTICE_ACCURACY_LABEL =
  * is recorded under its template id; a stored one under `bank:<id>`, which is deliberately kept
  * out of the template registry (see bank.js's header). So `allTemplates()` alone silently
  * ignored every official OATTS and migrated-ASVAB question ever answered - and since
- * `composeDrill` mixes generated with stored at `bankRatio: 0.5`, that is up to HALF of every
- * drill on the six subtests that have a bank (Physical Science 52, Math Knowledge 49, Arithmetic
- * Reasoning 37, Word Knowledge 35, Verbal Analogies 10, Reading Comprehension 10).
+ * `composeDrill` mixes generated with stored, that is a real share of every drill on the six
+ * subtests that have a bank (Physical Science 52, Math Knowledge 49, Arithmetic Reasoning 37,
+ * Word Knowledge 35, Verbal Analogies 10, Reading Comprehension 10). The share was a flat HALF
+ * until 2026-09-04 and is now `BANK_SHARE_WITH_TEMPLATES` (0.15) wherever templates can carry
+ * the run - see bank.js for why. Smaller, but never zero, so this still cannot be skipped.
  *
  * That made the number not merely incomplete but BIASED: the ignored half is the official USAF
  * material, which is the most representative content in the tool. Anything computing a stat per

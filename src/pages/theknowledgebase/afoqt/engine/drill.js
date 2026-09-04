@@ -83,7 +83,9 @@ export function assembleDrill({
   bands = null,
   concepts = null,
   includeStretch = false,
-  bankRatio = 0.5,
+  // null means "let composeDrill decide" - it uses a small share once the subtest has templates
+  // and the whole drill when it does not. A caller can still pin an explicit number.
+  bankRatio = null,
   ignoreMissPool = false,
   exam = false,
   missRate = MISS_INJECTION_RATE,
@@ -119,7 +121,11 @@ export function assembleDrill({
   // mastery check is exactly what Doctrine rule 2 forbids.
   const body = concepts
     ? generated.slice(0, remaining)
-    : composeDrill({ subtest, count: remaining, rng, generated, bankRatio });
+    // `seen` lets the bank draw prefer items you have met least - the fix for a small bank
+    // re-serving the same handful of words. Passed even on an exam run: an unbiased SAMPLE is
+    // about not weighting toward known-weak material, which is what `honest` already handles;
+    // showing you the bank items you have not seen yet is not a bias, it is coverage.
+    : composeDrill({ subtest, count: remaining, rng, generated, bankRatio, seen: progress?.templateStats ?? null });
 
   return groupByFigure(shuffleInPlace([...misses, ...body], rng));
 }
