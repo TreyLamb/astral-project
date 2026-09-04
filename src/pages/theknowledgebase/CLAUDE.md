@@ -440,6 +440,14 @@ Built 2026-09-03. Full record: `docs/afoqt/VOICE.md`. Read it before touching `a
   walks a whole run up front. Prefetch is deliberately NOT cancelled by `stop()`.
 - ⚠️ **Trey cannot use API keys right now**, so cloud TTS is off the table however much better it
   would be. Offered 2026-09-04 and declined; don't re-propose it unopened.
+- 🔴 **SAFARI HAS NO ASYNC ITERATION ON `ReadableStream`**, and it broke Kokoro outright on his
+  iPhone — `for await (const B of M)` inside the espeak bundle's module-scope init, so the module
+  never evaluated and nothing downstream could help. `ensureStreamAsyncIterator()` in
+  `shared/ttsEngine.js` polyfills it (it is a real standard feature Safari has not shipped).
+  **Trey's device is an iPhone — assume Safari, not Chrome, when a web API "should" work.**
+- **Read the committed build when a minified third-party stack trace arrives.** `dist/assets/` had
+  the exact chunk and offset from his error report, which turned a guess into a two-minute lookup.
+  The error banner's build id is what makes the local chunk trustworthy.
 - **Every defect above passed structurally and was found by reading the output aloud.** Same
   lesson as the knowledge and word-problem subtests above. `node <scratch>/sayit.mjs <SUBTEST>`
   style dumping of `speechFor()` over real instances is the pass that catches them.

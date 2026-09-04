@@ -152,20 +152,108 @@ async function listWebSpeechVoices() {
   return voices.map((v) => ({ id: v.voiceURI, name: v.name, lang: v.lang }));
 }
 
+/**
+ * SAFARI DOES NOT IMPLEMENT ASYNC ITERATION ON ReadableStream, and Kokoro cannot load without it.
+ *
+ * Reported from an iPhone, 2026-09-04, as a crash banner the moment Kokoro was selected:
+ *   TypeError: undefined is not a function (near '...B of M...')
+ * The offending line is in the espeak-ng phonemizer that kokoro-js initialises at module scope:
+ *
+ *   M = new Blob([w]).stream().pipeThrough(new DecompressionStream("gzip"));
+ *   for await (const B of M) v.push(B);
+ *
+ * `for await` looks up `M[Symbol.asyncIterator]`, which is undefined in Safari — so the whole
+ * module fails to evaluate and no amount of retrying helps. Async iteration IS in the WHATWG
+ * Streams standard; Safari simply has not shipped it, so this is a polyfill for a real feature
+ * rather than a workaround for a quirk.
+ *
+ * Applied lazily, immediately before the imports that need it, so nothing is patched onto a
+ * global for users who never touch a neural voice.
+ */
+export function ensureStreamAsyncIterator() {
+  if (typeof ReadableStream === 'undefined') return;
+  const proto = ReadableStream.prototype;
+  if (typeof proto[Symbol.asyncIterator] === 'function') return;
+
+  const values = function values({ preventCancel = false } = {}) {
+    const reader = this.getReader();
+    return {
+      next() {
+        return reader.read().then(({ done, value }) => {
+          if (done) reader.releaseLock();
+          return { done, value };
+        });
+      },
+      return(value) {
+        if (preventCancel) {
+          reader.releaseLock();
+          return Promise.resolve({ done: true, value });
+        }
+        const cancelled = reader.cancel(value);
+        reader.releaseLock();
+        return cancelled.then(() => ({ done: true, value }));
+      },
+      [Symbol.asyncIterator]() { return this; },
+    };
+  };
+
+  try {
+    if (typeof proto.values !== 'function') proto.values = values;
+    proto[Symbol.asyncIterator] = proto.values;
+  } catch {
+    // A frozen prototype would mean the neural providers stay unavailable here, which the
+    // fallback chain already handles.
+  }
+}
+
+/**
+ * Marks a window during which a stray unhandled rejection is a MODEL failing to load rather than
+ * the app breaking, so `errorNotifier.js` stays quiet (see the matching note there). These
+ * bundles carry their own top-level promises; when one of those rejects there is no caller to
+ * catch it, and the user would get a crash banner for a feature that has already fallen back to
+ * the browser voice and said so in the voice panel.
+ *
+ * Counted, not a boolean: two providers can be loading at once and the first to finish must not
+ * unmute the second.
+ */
+let ttsLoads = 0;
+function markLoading(on) {
+  ttsLoads = Math.max(0, ttsLoads + (on ? 1 : -1));
+  if (typeof window !== 'undefined') window.__astralTtsLoading = ttsLoads > 0;
+}
+
+/** A provider that has already failed to initialise on this device. Retrying a module whose
+ *  evaluation threw gets the same failure and the same delay, every question. */
+const brokenProviders = new Set();
+export function providerBroken(id) {
+  return brokenProviders.has(id);
+}
+
+async function loadModule(id, importer) {
+  if (modelCache.has(id)) return modelCache.get(id);
+  if (brokenProviders.has(id)) throw new Error(`${id} unavailable on this browser`);
+  ensureStreamAsyncIterator();
+  markLoading(true);
+  try {
+    const mod = await importer();
+    modelCache.set(id, mod);
+    return mod;
+  } catch (err) {
+    brokenProviders.add(id);
+    throw err;
+  } finally {
+    // A beat after the import settles: these bundles reject their own floating promises a tick
+    // or two after the module itself resolves or throws.
+    setTimeout(() => markLoading(false), 2000);
+  }
+}
+
 async function loadPiper() {
-  const key = 'piper';
-  if (modelCache.has(key)) return modelCache.get(key);
-  const mod = await import('@mintplex-labs/piper-tts-web');
-  modelCache.set(key, mod);
-  return mod;
+  return loadModule('piper', () => import('@mintplex-labs/piper-tts-web'));
 }
 
 async function loadKokoro() {
-  const key = 'kokoro';
-  if (modelCache.has(key)) return modelCache.get(key);
-  const mod = await import('kokoro-js');
-  modelCache.set(key, mod);
-  return mod;
+  return loadModule('kokoro', () => import('kokoro-js'));
 }
 
 // Verified against the packages' own docs rather than guessed:

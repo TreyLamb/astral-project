@@ -375,6 +375,14 @@ export function installErrorNotifier() {
   });
 
   window.addEventListener('unhandledrejection', (e) => {
+    // A speech model that refuses to load is a FEATURE being unavailable, not the app breaking,
+    // and it must not raise a crash banner. Added 2026-09-04: selecting Kokoro on an iPhone threw
+    // from inside the vendored espeak bundle's own top-level promise — a floating rejection no
+    // caller can catch, even though `shared/ttsEngine.js` already falls back to the browser voice
+    // and reports it in the voice panel. Deliberately narrow: it suppresses only while a TTS
+    // model load is in flight, and `window.__astralTtsLoading` is set and cleared around exactly
+    // that. Anything else still gets the banner.
+    if (window.__astralTtsLoading) return;
     notifyError({ kind: BACKGROUND, error: e.reason, source: 'unhandledrejection' });
   });
 

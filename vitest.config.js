@@ -26,6 +26,8 @@ export default defineConfig({
       'src/pages/eftShopping/**/*.test.js',
       'src/pages/TranscriptTool/**/*.test.{js,jsx}',
       'src/pages/theknowledgebase/**/*.test.js',
+      // Shared engines used by more than one sub-app (currently the TTS adapter).
+      'src/pages/shared/**/*.test.js',
       'api/_lib/**/*.test.js',
     ],
     environment: 'node',

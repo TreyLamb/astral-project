@@ -177,6 +177,47 @@ synthesise on demand at all where it can avoid it:
 `af_heart` is the default Kokoro voice - Kokoro's own default, and the one Trey picked out of
 three by ear.
 
+### 4. Kokoro would not load on iOS Safari at all
+
+Reported from an iPhone (Safari 26.6) the moment Kokoro was selected — a crash banner, not a bad
+voice:
+
+```
+TypeError: undefined is not a function (near '...B of M...')
+  at kokoro-CyoCgwIc.js:2845  (module code)
+```
+
+The build is committed, so the exact line was readable rather than guessable. It is in the
+espeak-ng phonemizer kokoro-js initialises **at module scope**:
+
+```js
+M = new Blob([w]).stream().pipeThrough(new DecompressionStream("gzip"));
+for await (const B of M) v.push(B);
+```
+
+**Safari has not shipped async iteration on `ReadableStream`.** `for await` looks up
+`M[Symbol.asyncIterator]`, gets `undefined`, and the whole module fails to evaluate — so no
+retry, cache or setting could ever have helped. Async iteration *is* in the WHATWG Streams
+standard, so `ensureStreamAsyncIterator()` is a polyfill for a real feature, not a workaround for
+a quirk. It is applied lazily, right before the dynamic import, so nothing is patched onto a
+global for anyone who never selects a neural voice.
+
+**Tested by removing the feature first.** Node has async iteration, so the test deletes
+`Symbol.asyncIterator` and `values` from the prototype, asserts the reported `TypeError`, then
+asserts the polyfill restores in-order iteration over binary chunks, terminates on an empty
+stream, releases the reader lock, and leaves a browser that already has the feature untouched.
+Eight tests in `src/pages/shared/__tests__/ttsEngine.test.js`.
+
+Two things went with it:
+
+- **A failed model load no longer raises a crash banner.** These bundles reject their own
+  top-level promises, which no caller can catch, so `errorNotifier.js` now stays quiet while
+  `window.__astralTtsLoading` is set — a counted flag set only around a model import. A speech
+  model being unavailable is a feature degrading, not the app breaking, and the voice panel
+  already says so.
+- **A provider that fails once is remembered.** Re-importing a module whose evaluation threw
+  produces the same failure and the same delay on every question.
+
 ### The AudioContext must be primed inside a gesture
 
 **An AudioContext created outside a user gesture starts suspended and never plays.** Synthesis is
