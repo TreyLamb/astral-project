@@ -303,8 +303,15 @@ export function relationTemplates({ chapter, band, idBase, name, calibratedAgain
     concepts: [...new Set([...ownConcepts, 'va-relation-format', 'va-relation-discriminators'])],
     calibratedAgainst,
     stemSpace: rows.length,
+    // Same treatment as engine/words.js: this template is a flat bag of independent relation
+    // rows, so it is dealt per ITEM rather than per template and every row gets equal airtime.
+    // Without it the drill dealt one slot per template regardless of pool size, and a row in a
+    // small chapter/band pool was asked far more often than one in a large pool - measured at
+    // sd/sqrt 3.01 against the 1.0 a uniform draw gives. See docs/afoqt/QUESTION-SELECTION.md.
+    itemPool: true,
+    itemKeys: () => rows.map((r) => r.id),
     generate: (rng, h) => {
-      const base = h.pick(rows);
+      const base = rows[h.item % rows.length];
       const built = buildMatch(base, rows, band, rng);
       if (!built) return null;
       const { choices, correctIndex, errors, whys } = h.choices(built.correct, built.distractors);
@@ -328,8 +335,10 @@ export function relationTemplates({ chapter, band, idBase, name, calibratedAgain
     concepts: [...new Set([...ownConcepts, 'va-relation-format'])],
     calibratedAgainst,
     stemSpace: rows.length,
+    itemPool: true,
+    itemKeys: () => rows.map((r) => r.id),
     generate: (rng, h) => {
-      const base = h.pick(rows);
+      const base = rows[h.item % rows.length];
       const built = buildFourthTerm(base, rows, band, rng);
       if (!built) return null;
       const { correctWord, partner, distractors } = built;
