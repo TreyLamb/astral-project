@@ -107,6 +107,19 @@ registerScenarios([
     mostEffective: 0, leastEffective: 1,
     tell: 'Be honest about a real readiness gap while still supporting someone\'s genuine ambition - name the specific gap and offer a path to close it, rather than a false yes, an unexplained no, or a noncommittal middle ground.',
   },
+  {
+    id: 'sjt-workload-04', chapter: CH, concepts: BALANCING_WORKLOAD, band: 3,
+    situation: 'A subordinate you mentor asks for extensive help reworking a project the night before it is due, well after you would normally have stopped for the day. You are willing to help somewhat, but giving the amount of time they are asking for would mean neglecting your own commitments for tomorrow morning.',
+    actions: [
+      { text: 'Offer a specific, bounded amount of time tonight to help with the highest-impact parts, and be honest that you cannot cover everything they are asking for.', competency: 'mentoring', rationale: 'A specific, honest, bounded offer gives real help where it matters most without silently sacrificing your own commitments for tomorrow.' },
+      { text: 'Give them all the time they ask for tonight, even though it means you will be unprepared for your own commitments tomorrow morning.', competency: 'mentoring', rationale: 'Giving unlimited time at the direct cost of your own tomorrow trades one real responsibility for another rather than finding a sustainable middle ground.' },
+      { text: 'Tell them you cannot help at all tonight, without offering any bounded alternative.', competency: 'mentoring', rationale: 'Declining entirely, when a bounded amount of real help was actually available, is a bigger swing away from support than the situation requires.' },
+      { text: 'Agree to help for as long as they need, but stop responding partway through once it starts eating into your own time.', competency: 'communication', rationale: 'Agreeing without a real limit, then silently disappearing partway through, leaves them stranded worse than an honest limit set up front would have.' },
+      { text: 'Do the rework yourself overnight so they do not have to worry about it, without involving them in the process.', competency: 'mentoring', rationale: 'Doing the work for them removes them from the learning opportunity entirely, which is the opposite of what a mentoring moment like this is for.' },
+    ],
+    mostEffective: 0, leastEffective: 3,
+    tell: 'Offer a specific, bounded amount of help you can actually sustain, and say so honestly - agreeing to more than you can give, only to quietly withdraw partway through, is worse than a clear limit set up front.',
+  },
 
   // ============================ BAND 4 ============================
   {
@@ -121,6 +134,32 @@ registerScenarios([
     ],
     mostEffective: 0, leastEffective: 1,
     tell: "When someone you mentor asks for the honest reason behind a setback, give them the specific, honest truth alongside genuine acknowledgment of their real strengths - a comforting but false explanation denies them what they would actually need to grow from it.",
+  },
+  {
+    id: 'sjt-workload-05', chapter: CH, concepts: BALANCING_WORKLOAD, band: 4,
+    situation: 'You are the only person in your section experienced enough to mentor two new team members who both started the same week. Your own project load has not decreased to make room for this, and your supervisor has not addressed the mismatch, seemingly assuming you will simply absorb it.',
+    actions: [
+      { text: 'Raise the actual mismatch with your supervisor directly, describing what mentoring both new members well would require against your current project load, and ask how to resolve the tradeoff.', competency: 'mentoring', rationale: 'Naming the real mismatch to the person who can actually resolve it gives your supervisor the chance to fix a problem they may not have realized they created.' },
+      { text: 'Absorb the extra mentoring load silently by working extended hours, without raising the mismatch with your supervisor at all.', competency: 'mentoring', rationale: 'Quietly absorbing an unaddressed mismatch through extended hours is not sustainable, and it denies your supervisor the chance to actually fix a problem they may not know exists.' },
+      { text: 'Mentor only one of the two new members well and leave the other largely to figure things out on their own, without telling your supervisor why.', competency: 'mentoring', rationale: "Quietly shortchanging one new member's development, without explaining why, leaves your supervisor unaware that the mismatch is even causing a real problem." },
+      { text: 'Tell your supervisor you cannot mentor either new member at all, without proposing any way to make it work.', competency: 'communication', rationale: 'Refusing outright, without naming what would actually make the workload sustainable, gives your supervisor nothing to act on beyond a flat no.' },
+      { text: 'Give both new members a reduced, surface-level version of mentoring, spread thin enough that neither actually benefits much.', competency: 'mentoring', rationale: 'Spreading your attention too thin to be useful to either new member wastes the mentoring relationship for both of them rather than actually resolving the underlying mismatch.' },
+    ],
+    mostEffective: 0, leastEffective: 1,
+    tell: 'When a real mismatch between mentoring responsibility and workload was never actually addressed by the people who could fix it, name it directly rather than quietly absorbing it - an unraised problem does not get less real for staying unraised.',
+  },
+  {
+    id: 'sjt-coach-06', chapter: CH, concepts: DEVELOPMENTAL_COACHING, band: 4,
+    situation: 'A subordinate you mentor has real potential but keeps repeating the same specific mistake despite two previous conversations about it, both of which they seemed to genuinely take on board at the time. This time, the mistake caused a minor but real problem for someone else on the team.',
+    actions: [
+      { text: 'Have a direct conversation naming that this is the third time, ask them what is actually getting in the way of the change sticking, and work out a concrete way to catch it earlier next time.', competency: 'mentoring', rationale: 'Naming the pattern honestly and asking why it has not stuck yet treats a repeat mistake as something to actually diagnose, rather than simply repeating the same conversation or giving up.' },
+      { text: 'Have the same general conversation you had the first two times, without naming that this is a repeat or asking why it has not stuck.', competency: 'mentoring', rationale: 'Repeating the identical conversation, without acknowledging that it has already failed to work twice, is unlikely to produce a different result the third time.' },
+      { text: 'Conclude they are not capable of improving in this area and stop assigning them the kind of work where the mistake comes up.', competency: 'mentoring', rationale: 'Writing off someone with real potential after two conversations, rather than trying a more direct diagnostic conversation first, gives up on a coaching relationship earlier than the situation warrants.' },
+      { text: 'Say nothing this time since you have already addressed it twice before and do not want to repeat yourself.', competency: 'mentoring', rationale: 'Staying silent after a mistake that caused a real problem for someone else lets a known, recurring gap continue to affect other people on the team.' },
+      { text: 'Escalate straight to formal counseling for the third occurrence, without another direct conversation first.', competency: 'leadership', rationale: 'Jumping straight to formal counseling, without first trying to actually understand why the change has not stuck, is a heavier response than the situation has been shown to need yet.' },
+    ],
+    mostEffective: 0, leastEffective: 4,
+    tell: "When a coaching conversation hasn't stuck twice, don't just repeat it or give up on the person - name the pattern directly and diagnose why it isn't sticking before reaching for a heavier response than the situation has earned yet.",
   },
 ]);
 

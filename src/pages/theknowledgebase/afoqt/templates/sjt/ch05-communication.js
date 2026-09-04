@@ -107,6 +107,19 @@ registerScenarios([
     mostEffective: 0, leastEffective: 4,
     tell: 'Raise a genuine, specific concern while a decision can still be adjusted, framed as a question rather than a confrontation - being the one dissenting voice is not a reason to stay silent when you have real information the room does not.',
   },
+  {
+    id: 'sjt-receiving-03', chapter: CH, concepts: RECEIVING_FEEDBACK, band: 3,
+    situation: 'Your supervisor gives you feedback in a group setting, somewhat more publicly than you would have preferred, that a recent report you drafted needs significant rework. The substance of the feedback is fair, but the delivery catches you off guard in front of coworkers.',
+    actions: [
+      { text: 'Accept the substance of the feedback calmly in the moment, and follow up with your supervisor privately afterward if you want to discuss the delivery.', competency: 'communication', rationale: 'Separating the fair substance from the uncomfortable delivery lets you engage productively in the moment while still addressing the delivery concern later, on its own terms.' },
+      { text: 'Push back defensively in the group setting, focused on how the feedback was delivered rather than its actual substance.', competency: 'communication', rationale: 'Redirecting the group conversation toward the delivery, rather than engaging with the substance, reads as deflecting from a fair criticism rather than addressing it.' },
+      { text: 'Say nothing in the moment and quietly resent the public delivery, without ever addressing either the substance or the delivery with your supervisor.', competency: 'communication', rationale: 'Never raising the delivery concern with your supervisor means it never actually gets resolved, and silently resenting it does nothing to prevent a repeat.' },
+      { text: 'Agree to the feedback outwardly, but make no actual changes to the report afterward.', competency: 'communication', rationale: 'Outwardly agreeing while making no real change is worse than any honest response, since it wastes the feedback entirely while appearing to accept it.' },
+      { text: 'Ask to speak with your supervisor privately in the moment, interrupting the group setting to move the conversation elsewhere immediately.', competency: 'communication', rationale: 'Interrupting the group setting to relocate the conversation right away is a bigger disruption than necessary, when calmly accepting the substance now and raising the delivery afterward would work just as well.' },
+    ],
+    mostEffective: 0, leastEffective: 3,
+    tell: 'Separate the substance of feedback from how it was delivered - accept and act on fair substance in the moment, and raise any real concern about delivery separately and privately, rather than letting one contaminate your response to the other.',
+  },
 
   // ============================ BAND 4 ============================
   {
@@ -121,6 +134,32 @@ registerScenarios([
     ],
     mostEffective: 0, leastEffective: 1,
     tell: 'When a superior is missing information through no fault of their own, deliver it directly and privately, framed around the information itself rather than around their original decision - silence protects no one when a decision is actively based on something outdated.',
+  },
+  {
+    id: 'sjt-tactful-03', chapter: CH, concepts: TACTFUL_FEEDBACK, band: 4,
+    situation: 'You need to tell a peer, someone at your same level who you get along with well outside of work, that a piece of shared work they delivered has a significant error that will affect a deliverable due to a senior stakeholder tomorrow. There is no time to be indirect about it, but the friendship makes a blunt conversation genuinely uncomfortable.',
+    actions: [
+      { text: "Tell them directly and specifically what the error is and why it needs fixing before tomorrow's deadline, while keeping the tone collegial rather than accusatory.", competency: 'communication', rationale: 'This delivers the actual urgency and specifics the error requires, without letting the friendship soften the message past the point of being useful.' },
+      { text: 'Soften the message so much that the actual severity and urgency of the error does not come through clearly.', competency: 'communication', rationale: 'Over-softening a time-sensitive, significant error risks your peer not grasping how serious or urgent it actually is before the deadline.' },
+      { text: 'Avoid raising it with them directly and instead quietly try to fix the error yourself before the deadline.', competency: 'communication', rationale: "Fixing it yourself without telling your peer means they never learn about the error at all, and you may not have full context to fix it correctly on your own." },
+      { text: 'Raise it in a group message that includes other teammates, so you do not have to have the conversation one-on-one.', competency: 'communication', rationale: "Routing an individual peer's error through a group message, to avoid a direct conversation, is a more public correction than the situation calls for." },
+      { text: "Wait until after the deliverable goes out to mention the error, to avoid an uncomfortable conversation before the deadline.", competency: 'communication', rationale: 'Waiting until after the deadline guarantees the error reaches the senior stakeholder, defeating the entire purpose of catching it now.' },
+    ],
+    mostEffective: 0, leastEffective: 4,
+    tell: 'A friendship does not change what a message needs to say - be direct and specific about a real, time-sensitive problem, and never let discomfort push the conversation past the point where it could still be fixed.',
+  },
+  {
+    id: 'sjt-dissent-03', chapter: CH, concepts: RESPECTFUL_DISSENT, band: 4,
+    situation: 'Your supervisor is about to present a plan to their own boss that you believe, based on information your supervisor may not have seen yet, has a significant flaw. There is very little time before the presentation, and raising it risks embarrassing your supervisor if you are wrong or if it comes across as undermining them in front of their own boss.',
+    actions: [
+      { text: 'Pull your supervisor aside privately, right before the presentation if that is all the time available, and share the specific information you believe they may be missing.', competency: 'communication', rationale: 'Getting the specific information to your supervisor directly and privately, even at the last minute, gives them the chance to actually use it before the flaw becomes public.' },
+      { text: 'Say nothing before the presentation, reasoning that there is not enough time to raise it properly.', competency: 'communication', rationale: "A brief private word is still possible even with little time - staying silent because the timing feels imperfect lets a real, known flaw go uncorrected." },
+      { text: "Raise the concern during the presentation itself, in front of your supervisor's own boss.", competency: 'communication', rationale: "Surfacing a concern about your supervisor's own plan in front of their boss is the most public and undermining way to raise it, exactly what a private word beforehand exists to avoid." },
+      { text: 'Send the information directly to your supervisor\'s boss instead of to your supervisor, since time is short.', competency: 'communication', rationale: "Going over your supervisor's head, rather than to your supervisor directly, is a bigger step than the time pressure actually requires and skips a more respectful and direct option that was still available." },
+      { text: 'Wait until after the presentation to mention what you noticed, since raising it beforehand felt too last-minute.', competency: 'communication', rationale: 'Waiting until after the presentation means the flaw reaches the boss unaddressed, which is exactly the outcome a last-minute private word could have prevented.' },
+    ],
+    mostEffective: 0, leastEffective: 2,
+    tell: 'Even under real time pressure, a genuine concern about a superior\'s plan belongs with the superior first and privately - not aired in front of their own boss, sent over their head, or held until after it can no longer help.',
   },
 ]);
 

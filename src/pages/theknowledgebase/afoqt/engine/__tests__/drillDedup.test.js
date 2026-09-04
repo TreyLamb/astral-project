@@ -103,6 +103,8 @@ describe('a full-length exam run does not repeat an item', () => {
   it('is exact for every subtest whose item space allows it', () => {
     for (const [code, count] of [
       ['IC', 25], ['TR', 40], ['BC', 30], ['RC', 25], ['VA', 25], ['MK', 25], ['AI', 20], ['AR', 25],
+      // SJ joined this list on 2026-09-04 - see the note below.
+      ['SJ', 50],
     ]) {
       for (let r = 0; r < 60; r++) {
         const q = assembleDrill({ subtest: code, count, rng: mulberry32(r * 104729 + 3), exam: true });
@@ -117,9 +119,26 @@ describe('a full-length exam run does not repeat an item', () => {
   // relax when one drifts. Raising them means authoring more content, nothing else.
   //   Word Knowledge      580 stems, but split across per-band pools -> min 23 of 25
   //   Physical Science    532 facts                                  -> min 19 of 20
-  //   Situational Judgment 60 items total, and the subtest asks 50   -> min 31 of 50
+  //
+  // SITUATIONAL JUDGMENT WAS HERE, at "60 items total, and the subtest asks 50 -> min 31 of 50".
+  // That floor was never really about content. Two separate defects were hiding under it, both
+  // fixed 2026-09-04, and it now scores a clean 50 of 50 on every seed:
+  //
+  //   1. `scenarioTemplates()` builds per chapter+band and refuses a pool under 5, so of 63
+  //      authored scenarios only the 36 at band 3 ever reached a template - bands 2 and 4 were
+  //      registered, validated, coverage-clean and never asked. Fixed by pooling those bands
+  //      across chapters (templates/sjt/ch99-pooled-bands.js), taking the reachable item count
+  //      from 60 to 126.
+  //   2. `askedKey()` prefixed the numeric run-sheet when an instance had no figure, which is a
+  //      no-op for every non-sheet template but broke the one figure-less SHEET template there
+  //      is. SJ draws its whole scenario from `h.sheetSeed`, so the same situation reached under
+  //      two sheet values produced one stem under two keys - the duplicate was invisible and the
+  //      repeat shipped.
+  //
+  // The lesson worth keeping: a "content floor" is a hypothesis until the selection path has been
+  // measured. This one was recorded as a content limit and was a selection bug for both halves.
   it('degrades only as far as the content genuinely allows', () => {
-    for (const [code, count, floor] of [['WK', 25, 23], ['PS', 20, 19], ['SJ', 50, 31]]) {
+    for (const [code, count, floor] of [['WK', 25, 23], ['PS', 20, 19]]) {
       for (let r = 0; r < 60; r++) {
         const q = assembleDrill({ subtest: code, count, rng: mulberry32(r * 104729 + 3), exam: true });
         const distinct = new Set(q.map(itemKey)).size;

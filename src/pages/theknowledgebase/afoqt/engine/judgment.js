@@ -170,11 +170,44 @@ export function _resetScenarios() { SCENARIOS.clear(); }
  * the next, matching the real subtest's own numbering, with no change needed anywhere else in
  * the engine.
  */
+/**
+ * Register ONE template pooling every scenario at a band, ACROSS chapters.
+ *
+ * Why this has to exist. `scenarioTemplates()` builds per chapter+band and refuses a pool under
+ * five, which is the right rule on its own - but SJT's rows are spread thin across six chapters,
+ * and the arithmetic quietly stranded most of the subtest. Measured 2026-09-04, AFTER an
+ * authoring pass added 18 scenarios:
+ *
+ *     band 2   2 per chapter x 5 chapters  = 10 rows, and NOT ONE reached a template
+ *     band 3   6 per chapter x 6 chapters  = 36 rows, all live
+ *     band 4   3 per chapter (2 in ch06)   = 17 rows, and NOT ONE reached a template
+ *
+ * So 27 of 63 authored scenarios - 43% of the subtest, including rows that predate this session -
+ * validated, registered, and then never appeared in a single drill. Nothing failed. `registerScenarios`
+ * accepted them, `afoqt:coverage` held, 4,476 tests passed, and the content was simply inert.
+ * Chapter+band was the wrong grouping for a subtest this wide and this shallow.
+ *
+ * Pooling across chapters is the same move `wordTemplates` vs `methodTemplates` already makes in
+ * engine/words.js: a chapter-scoped frame where the chapter is the point, and a band-scoped one
+ * where the band is. Unlike words.js's method frames, this one DOES claim the rows' own concepts
+ * as well as the method concepts - the scenario is unchanged by being asked here, so its judgment
+ * principle is genuinely what is being tested.
+ */
+export function pooledScenarioTemplates({ band, idBase, name, calibratedAgainst = 'barrons' }) {
+  const rows = allScenarios().filter((s) => s.band === band);
+  if (rows.length < 5) return [];
+  return [buildJudgeTemplate({ rows, band, idBase, name, calibratedAgainst })];
+}
+
 export function scenarioTemplates({ chapter, band, idBase, name, calibratedAgainst = 'barrons' }) {
   const rows = scenariosFor(chapter, band);
   if (rows.length < 5) return [];
+  return [buildJudgeTemplate({ rows, band, idBase, name, calibratedAgainst })];
+}
 
-  return [registerTemplate({
+/** The template body itself, shared by the chapter-scoped and band-pooled builders above. */
+function buildJudgeTemplate({ rows, band, idBase, name, calibratedAgainst }) {
+  return registerTemplate({
     id: `${idBase}-judge`,
     subtest: 'SJ',
     band,
@@ -204,5 +237,5 @@ export function scenarioTemplates({ chapter, band, idBase, name, calibratedAgain
         explanation: `${situation.tell} ${correctAction.rationale}`,
       };
     },
-  })];
+  });
 }

@@ -118,6 +118,19 @@ registerScenarios([
     mostEffective: 0, leastEffective: 4,
     tell: 'Route a suspicion through the process built to gather facts, rather than acting on it directly - confronting, gossiping, or self-investigating all skip the fact-finding a fair process exists to provide.',
   },
+  {
+    id: 'sjt-honest-03', chapter: CH, concepts: HONEST_REPORTING, band: 3,
+    situation: "You are compiling a monthly safety incident summary for your commander, and this month's numbers include a preventable near-miss you were personally involved in - caused by skipping a checklist step under time pressure. No one else witnessed it, and including it accurately means your own name is attached to a preventable incident in a report your commander reads closely.",
+    actions: [
+      { text: 'Report the near-miss accurately, including your own role in it and the checklist step you skipped.', competency: 'integrity-professionalism', rationale: 'The summary exists to give your commander an accurate safety picture, and naming your own role honestly is exactly what that requires, however uncomfortable.' },
+      { text: 'Report the near-miss, but describe it as caused by an equipment issue rather than the checklist step you actually skipped.', competency: 'integrity-professionalism', rationale: "Reporting that something happened while misattributing its real cause defeats the purpose of the report just as much as omitting it would - any follow-up would look in the wrong direction entirely." },
+      { text: 'Omit the near-miss from the summary entirely, since no one else witnessed it and it caused no actual harm.', competency: 'integrity-professionalism', rationale: 'A preventable near-miss is exactly the kind of thing a safety summary exists to catch before it becomes an actual incident - omitting it because it went unwitnessed defeats that purpose.' },
+      { text: "Ask a peer to submit the report in their own name, describing the incident as something they happened to witness rather than something you were involved in.", competency: 'integrity-professionalism', rationale: 'Shifting who the record says was involved is a more serious falsification than simply staying quiet - it creates an actively false account of what happened, not just a missing one.' },
+      { text: "Mention it verbally to your commander in passing, without including it in the written summary itself.", competency: 'communication', rationale: 'A verbal aside outside the actual report leaves no documented account of the near-miss for anyone reviewing the record later.' },
+    ],
+    mostEffective: 0, leastEffective: 3,
+    tell: 'A report is only honest if it names both the real event and the real person responsible - shading the cause, staying silent, or shifting the record onto someone else are all forms of the same dishonesty, just at different costs.',
+  },
 
   // ============================ BAND 4 ============================
   {
@@ -132,6 +145,32 @@ registerScenarios([
     ],
     mostEffective: 0, leastEffective: 1,
     tell: "A specific, detailed allegation earns a real process, even when it's anonymous and even when past anonymous complaints have sometimes been unfounded - dismissing it on that history alone is its own kind of unfairness.",
+  },
+  {
+    id: 'sjt-conflict-03', chapter: CH, concepts: CONFLICT_OF_INTEREST, band: 4,
+    situation: "You sit on a promotion board evaluating packages for a board you also helped design. One of the candidates is someone you personally supervised and mentored closely for a year; you believe, and so does everyone else on the board, that they are genuinely well-qualified - but your own closeness to their case is greater than any other board member has with any candidate being considered.",
+    actions: [
+      { text: 'Disclose the mentoring relationship to the board before the evaluation proceeds, and let them decide how to handle it, including possibly recusing you from that one packet.', competency: 'integrity-professionalism', rationale: 'Disclosing the connection before it can quietly shape the outcome, and letting people without the same closeness decide how to handle it, is what actually protects the evaluation rather than just trusting your own objectivity.' },
+      { text: 'Say nothing and score the packet as you would any other, reasoning that your evaluation is objectively fair regardless of the relationship.', competency: 'integrity-professionalism', rationale: 'Whether a close mentoring relationship is distorting your judgment is exactly the kind of thing a conflicted evaluator is poorly positioned to judge about themselves.' },
+      { text: 'Score the packet slightly lower than you otherwise would, to compensate in advance for the closeness of the relationship.', competency: 'integrity-professionalism', rationale: 'Deliberately adjusting a score to correct for an undisclosed bias is still letting the relationship shape the outcome, just in the opposite direction, and it is unfair to the candidate either way.' },
+      { text: 'Recuse yourself from the entire board without telling anyone why, rather than disclosing the specific relationship behind just one packet.', competency: 'communication', rationale: 'Stepping back without explaining the reason leaves the board unable to verify the process was handled correctly, or to simply recuse you from the one packet that actually needed it.' },
+      { text: "Mention the relationship informally to the board president over coffee, without making it part of the board's official record.", competency: 'communication', rationale: 'An informal, undocumented mention does not actually give the board a documented basis for deciding how to handle the conflict.' },
+    ],
+    mostEffective: 0, leastEffective: 1,
+    tell: 'Disclose a real personal closeness to a case before it can shape the outcome, to people who can judge it without that same closeness - staying silent because you trust your own objectivity is the one option that leaves the conflict completely unaddressed.',
+  },
+  {
+    id: 'sjt-fair-03', chapter: CH, concepts: FAIR_PROCESS, band: 4,
+    situation: "You are a senior NCO and overhear two coworkers discussing a rumor that a specific colleague has been falsifying their timecards. You have no direct evidence, and the coworkers themselves heard it secondhand from someone else. The colleague has an excellent reputation and you personally find the rumor hard to believe, but the specific details in it are oddly consistent.",
+    actions: [
+      { text: 'Report what you overheard, clearly labeled as an unverified secondhand rumor, through the proper channel for someone to review the timecards themselves.', competency: 'integrity-professionalism', rationale: 'This gets the specific, oddly consistent details into a process that can actually verify or clear them, without you personally vouching for or acting on an unconfirmed rumor.' },
+      { text: "Dismiss the rumor entirely without reporting it, based on your own high opinion of the colleague's reputation.", competency: 'integrity-professionalism', rationale: 'A good reputation does not make specific, oddly consistent details automatically false - dismissing it on reputation alone skips the verification a real process could actually provide.' },
+      { text: 'Confront the colleague directly and tell them what people are saying about them.', competency: 'communication', rationale: 'Confronting someone with an unverified, secondhand rumor puts them on the defensive and risks damaging their reputation before any facts have actually been established.' },
+      { text: "Quietly review the colleague's timecards yourself before deciding whether the rumor is worth mentioning to anyone.", competency: 'integrity-professionalism', rationale: 'Reviewing records outside the proper process, on your own authority, is not something a senior NCO is entitled to do based on secondhand gossip alone.' },
+      { text: "Tell the two coworkers to stop spreading the rumor, but take no other action yourself.", competency: 'communication', rationale: 'Stopping the gossip is reasonable but leaves specific, oddly consistent details that might warrant a real look completely unaddressed.' },
+    ],
+    mostEffective: 0, leastEffective: 2,
+    tell: 'Route even a rumor with specific, consistent details through the process built to verify it - don\'t dismiss it on reputation alone, and never confront the accused directly based on secondhand gossip.',
   },
 ]);
 

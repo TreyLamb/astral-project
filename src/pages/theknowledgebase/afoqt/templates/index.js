@@ -129,3 +129,5 @@ import './sjt/ch04-resource-management.js';
 import './sjt/ch05-communication.js';
 import './sjt/ch06-innovation.js';
 import './sjt/ch07-mentoring.js';
+// LAST of the sjt imports on purpose - it pools rows the chapters above register.
+import './sjt/ch99-pooled-bands.js';

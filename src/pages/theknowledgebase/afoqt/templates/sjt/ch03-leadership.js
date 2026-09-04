@@ -93,6 +93,19 @@ registerScenarios([
     mostEffective: 0, leastEffective: 1,
     tell: 'Address a behavior problem directly and privately with the person responsible - never by avoiding the conversation, working around it silently, or confronting it in public.',
   },
+  {
+    id: 'sjt-authority-03', chapter: CH, concepts: SITUATIONAL_AUTHORITY, band: 3,
+    situation: 'You are a shift lead and a new policy from higher headquarters is ambiguous about whether your section is required to follow an updated safety check, or whether it is optional for units like yours. Your team is waiting on your call, this shift\'s report is due soon, and you cannot immediately reach anyone who can rule authoritatively on the ambiguity.',
+    actions: [
+      { text: "Apply the safety check for this shift as the safer reading, note in the report that the policy is ambiguous, and follow up with higher headquarters for a definitive ruling before next shift.", competency: 'leadership', rationale: 'Defaulting to the safer reading under genuine ambiguity, while flagging it for a real ruling afterward, protects the team now without pretending the ambiguity has already been resolved.' },
+      { text: "Skip the safety check for this shift since the policy is ambiguous and you cannot confirm it is actually required.", competency: 'leadership', rationale: 'Resolving genuine ambiguity about a safety check by skipping it is the one reading that risks real harm if the check does turn out to be required.' },
+      { text: "Delay the whole shift's report past its deadline while you keep trying to reach someone who can rule on the ambiguity.", competency: 'leadership', rationale: 'Missing a real reporting deadline to chase a ruling that may not come in time is a bigger cost than simply applying the safer default and following up afterward.' },
+      { text: 'Apply the safety check, but say nothing about the ambiguity in the report since you resolved it on your own.', competency: 'communication', rationale: "Applying the safer default is right, but not flagging the ambiguity means higher headquarters never learns their own policy needs clarifying." },
+      { text: "Ask a team member with less experience than you to decide whether the check applies, since you cannot reach anyone else.", competency: 'leadership', rationale: 'Passing a genuine judgment call down to someone less equipped to make it, rather than deciding it yourself as the shift lead, avoids a responsibility that is actually yours.' },
+    ],
+    mostEffective: 0, leastEffective: 1,
+    tell: 'When a policy is genuinely ambiguous and no one can rule on it in time, default to the safer reading, act, and flag the ambiguity for a real ruling afterward - never resolve genuine ambiguity by skipping the safety-conscious option.',
+  },
 
   {
     id: 'sjt-difficult-02', chapter: CH, concepts: DIFFICULT_PERSONALITIES, band: 3,
@@ -121,6 +134,32 @@ registerScenarios([
     ],
     mostEffective: 0, leastEffective: 4,
     tell: 'Under real time pressure with limited people, treat an active safety hazard as most urgent, then work the mission-critical problem in parallel rather than sequentially - never wait on outside help for something you can act on yourself right now.',
+  },
+  {
+    id: 'sjt-standards-03', chapter: CH, concepts: STANDARDS_VS_MORALE, band: 4,
+    situation: "Your team has hit every deadline this quarter and morale is genuinely high, but you have noticed the team quietly stopped following a documentation step that is officially still required, since skipping it has cost nothing so far and everyone assumes it is fine. You are new enough to the role that you did not set this norm yourself, but it is happening on your watch now.",
+    actions: [
+      { text: "Reintroduce the required documentation step, explain why it still matters, and acknowledge that the team has otherwise been performing well.", competency: 'leadership', rationale: "This corrects a real compliance gap plainly while crediting the team's genuine performance, rather than treating the correction as a referendum on everything else they're doing right." },
+      { text: "Leave the norm as it is, since the team's actual output has not suffered and morale is currently high.", competency: 'leadership', rationale: 'A step that is officially still required does not stop being required just because skipping it has not caused a visible problem yet.' },
+      { text: 'Quietly start doing the documentation step yourself without saying anything to the team about why.', competency: 'leadership', rationale: 'Personally covering the gap without telling the team leaves the actual norm uncorrected and the requirement still unmet by everyone else.' },
+      { text: "Issue a formal warning to the whole team for the lapse, even though it predates your own time in the role.", competency: 'leadership', rationale: 'A formal warning for a norm that was already in place before you arrived, and that has caused no actual harm, is a heavier response than the situation has earned.' },
+      { text: 'Wait until an audit or inspection catches the gap before addressing it, since raising it now might hurt morale unnecessarily.', competency: 'leadership', rationale: 'Waiting for an external inspection to catch a known, officially-required gap risks a compliance failure landing on the team publicly, when a plain correction now would have prevented it entirely.' },
+    ],
+    mostEffective: 0, leastEffective: 4,
+    tell: 'A norm that quietly relaxed before you arrived is still your responsibility once you notice it - reinstate the standard with a clear explanation now, rather than waiting for an audit to force the issue or overreacting with blame for a norm you did not set.',
+  },
+  {
+    id: 'sjt-difficult-03', chapter: CH, concepts: DIFFICULT_PERSONALITIES, band: 4,
+    situation: 'You supervise a technically excellent team member who is also frequently condescending toward less experienced coworkers, in a way that has started to make two junior members reluctant to ask questions at all. The team member seems genuinely unaware of the effect, and their standing on the team makes this a sensitive conversation to have.',
+    actions: [
+      { text: "Meet with the team member privately, describe the specific pattern and its effect on the junior members' willingness to ask questions, and give them a real chance to adjust.", competency: 'leadership', rationale: 'Naming the specific, observed effect directly and privately gives the person genuine information they seem to be missing, and a fair chance to change before anything more drastic is needed.' },
+      { text: 'Say nothing, reasoning that their technical excellence outweighs the interpersonal cost.', competency: 'leadership', rationale: "Technical skill does not offset a real cost to two junior members' willingness to ask questions - leaving it unaddressed lets that cost continue." },
+      { text: 'Reassign the junior members to a different mentor without ever raising the pattern with the team member.', competency: 'leadership', rationale: "Moving the junior members away addresses the symptom for those two people but leaves the actual behavior, and its effect on anyone else, completely unaddressed." },
+      { text: 'Address the pattern generally in a team meeting about communication norms, without naming anyone specifically.', competency: 'communication', rationale: 'A vague, general reminder is easy for the person actually causing the effect to not recognize as being about them, which makes it unlikely to produce any real change.' },
+      { text: 'Tell the two junior members to simply push through their discomfort and keep asking questions anyway.', competency: 'mentoring', rationale: "Placing the burden on the junior members to endure the behavior does nothing about the actual condescension causing it, and asks the people being affected to absorb a cost that is not theirs to fix." },
+    ],
+    mostEffective: 0, leastEffective: 4,
+    tell: "Address a difficult behavior with the person causing it, directly and privately - shifting the burden onto the people affected, working around the problem, or raising it only in the abstract are all ways of leaving the actual behavior unaddressed.",
   },
 ]);
 

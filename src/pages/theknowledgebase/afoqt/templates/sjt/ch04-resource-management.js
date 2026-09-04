@@ -106,6 +106,19 @@ registerScenarios([
     mostEffective: 0, leastEffective: 4,
     tell: 'Give a specific, honest picture of what you can likely deliver and when you will know more - never a vague yes, a flat no, or silence, when a concrete partial answer is available.',
   },
+  {
+    id: 'sjt-channels-03', chapter: CH, concepts: PROPER_CHANNELS, band: 3,
+    situation: 'You need a piece of specialized software licensed for an upcoming project. The official procurement process typically takes about three weeks, but the project deadline is in ten days. A vendor representative you have worked with before offers to let your team use a free trial license immediately - not technically against any rule, but clearly not designed for this kind of stopgap use.',
+    actions: [
+      { text: 'Submit the official procurement request now, flag the timeline conflict to your supervisor, and ask whether an expedited process or an interim workaround is available.', competency: 'resource-management', rationale: 'This uses the actual process while surfacing the real timing problem to someone who can help resolve it, rather than quietly working around either the process or the deadline.' },
+      { text: "Accept the vendor's free trial license immediately to bridge the gap, without looping in your supervisor about the timeline issue.", competency: 'resource-management', rationale: 'Using an ad-hoc trial license not designed for this purpose, without telling anyone, creates a compliance risk your supervisor has no chance to weigh in on.' },
+      { text: 'Wait for the standard three-week process to complete, even though you already know it will miss the ten-day deadline.', competency: 'resource-management', rationale: 'Accepting a known deadline miss without raising it anywhere guarantees the project falls short for a problem that was actually foreseeable and addressable now.' },
+      { text: 'Accept the trial license and also submit the procurement request, planning to quietly extend the trial if the procurement is still not through by the deadline.', competency: 'resource-management', rationale: 'Quietly extending a trial license meant as a short evaluation, rather than resolving the timeline through the actual process, still routes around the process instead of using it.' },
+      { text: 'Ask a different team with an existing license to let your team use their access temporarily instead of pursuing procurement at all.', competency: 'resource-management', rationale: "Borrowing around the problem means the actual licensing need for your own team never gets addressed or properly accounted for." },
+    ],
+    mostEffective: 0, leastEffective: 2,
+    tell: "Route a resource need through the correct process, and if the timeline is a real conflict, raise it and ask about a lawful expedited option - don't silently accept a known deadline miss, and don't quietly work around the process instead.",
+  },
 
   // ============================ BAND 4 ============================
   {
@@ -120,6 +133,32 @@ registerScenarios([
     ],
     mostEffective: 0, leastEffective: 1,
     tell: 'When a genuine resource conflict is invisible to the people creating it, surface the real picture to someone positioned to resolve it - never try to quietly absorb an impossible commitment by working around the problem instead of naming it.',
+  },
+  {
+    id: 'sjt-prioritize-04', chapter: CH, concepts: PRIORITIZATION, band: 4,
+    situation: "You lead a small team supporting three concurrent efforts, and your team's usual capacity was already fully allocated across them when a fourth, genuinely urgent request arrives from a stakeholder outside your usual chain, with no clear guidance on which of the three existing efforts should give up capacity to cover it.",
+    actions: [
+      { text: 'Bring the tradeoff to your own supervisor with a clear picture of what each existing effort would have to give up to cover the new request, and let them help decide the reprioritization.', competency: 'resource-management', rationale: 'Surfacing the real tradeoff to someone positioned to weigh all four efforts against each other gets an informed decision instead of one made alone with incomplete authority over the other three stakeholders.' },
+      { text: 'Decide on your own which of the three existing efforts to deprioritize, without informing any of the three stakeholders involved.', competency: 'leadership', rationale: "Reallocating capacity away from stakeholders without telling them leaves them blindsided by a slip they had no warning of and no chance to plan around." },
+      { text: 'Tell the new stakeholder your team has no capacity and decline the urgent request outright.', competency: 'resource-management', rationale: 'Declining without even exploring whether a reprioritization is possible treats the new request as automatically lower priority than all three existing efforts, which has not actually been established.' },
+      { text: "Try to give all four efforts a slice of your team's time, diluting effort across all of them rather than choosing.", competency: 'resource-management', rationale: 'Splitting capacity four ways when it was already fully committed to three risks every effort, including the genuinely urgent one, getting too little to actually succeed.' },
+      { text: 'Take on the new request in addition to the existing three by having the team work significant unplanned overtime to cover everything.', competency: 'resource-management', rationale: 'Absorbing a fourth genuinely urgent effort through unsustainable overtime, rather than actually reprioritizing, defers the real capacity problem instead of solving it.' },
+    ],
+    mostEffective: 0, leastEffective: 4,
+    tell: "When a new urgent demand genuinely exceeds your team's real capacity, surface the tradeoff to someone positioned to reprioritize across everyone involved - don't silently choose alone, decline outright, dilute everything, or absorb it through unsustainable overtime.",
+  },
+  {
+    id: 'sjt-commit-04', chapter: CH, concepts: REALISTIC_COMMITMENT, band: 4,
+    situation: "Two levels up, a general officer asks your section, in a purely informal hallway conversation, whether a major initiative can be delivered a month early. Your own chain of command has not been consulted on the timeline at all, and you personally know, based on the actual work remaining, that the earlier date is not realistic without cutting corners no one senior has actually approved.",
+    actions: [
+      { text: 'Tell the general officer honestly, in the moment, that you are not in a position to commit to a timeline change without your own chain weighing in, and offer to have your supervisor follow up with a real answer promptly.', competency: 'resource-management', rationale: 'This is honest about the limits of your own authority in the moment while still moving the request toward a real answer quickly, rather than either overstepping your authority or leaving the general officer with nothing.' },
+      { text: 'Tell the general officer the earlier date sounds achievable, since agreeing feels like the safer answer in the moment.', competency: 'resource-management', rationale: 'Agreeing to a date you already know is not realistic, purely to avoid an awkward answer, sets up your own chain for a commitment none of them actually made or reviewed.' },
+      { text: 'Tell the general officer flatly that the date is impossible, without offering to follow up with anyone who could actually give an authoritative answer.', competency: 'communication', rationale: 'A bare refusal, without routing it to someone who can actually speak for your chain, leaves the general officer with no path to a real answer either way.' },
+      { text: 'Say nothing committal in the hallway, then quietly try to make the earlier date happen anyway without ever consulting your own chain.', competency: 'resource-management', rationale: "Attempting to deliver early on your own initiative, without your own chain ever knowing a commitment is being chased, risks corners being cut that no one senior actually approved." },
+      { text: 'Promise to relay the request to your chain, but do not actually follow up on it afterward.', competency: 'communication', rationale: 'A promise to follow up that never happens leaves the general officer believing an answer is coming when none actually is.' },
+    ],
+    mostEffective: 0, leastEffective: 1,
+    tell: 'When someone outside your chain asks for a commitment you are not authorized to make, say so honestly and route it to the person who can actually decide - agreeing in the moment to avoid an awkward answer just relocates the problem to later.',
   },
 ]);
 

@@ -275,9 +275,19 @@ export function buildDrill({ subtest, count, rng, band = null, filter = null, in
       // bits stay random, so the same word can come back later worded from a fresh rng stream
       // without ever becoming a different word. The retry loop varies only the high bits, which
       // is why a dedup retry here cannot silently swap the item out from under the deal.
+      // On a SHEET template the retry must be able to change the FIGURE, not just the item, but
+      // only where the figure is allowed to rotate mid-run. Situational Judgment picks its whole
+      // scenario from `h.sheetSeed`, so walking `item` alone only flips MOST<->LEAST on the SAME
+      // situation - the loop could never escape a duplicate and shipped one. Templates that
+      // declare `sheetSpan` already rotate their figure during a run (SJ every 2 questions, Block
+      // Counting every 6), so nudging it on a retry is consistent with what they already do.
+      // Templates WITHOUT `sheetSpan` hold one figure for the whole run by design - Table
+      // Reading's 33x33 grid serves all 40 questions - and must never be nudged, or a second grid
+      // lands in the middle of a drill.
+      const sheetNudge = t.sheetSpan ? tries : 0;
       const seed = wantItem != null
         ? composeSeed(randInt(rng, 0, 0xfffff), wantItem)
-        : t.sheet ? composeSeed(mySheet, item++) : Math.floor(rng() * 0xffffffff) >>> 0;
+        : t.sheet ? composeSeed((mySheet + sheetNudge) & 0xfffff, item++) : Math.floor(rng() * 0xffffffff) >>> 0;
       inst = generateInstance(t.id, seed);
       // Keyed by figure as well as stem: "how many blocks does block 2 touch" is a different
       // question on a different pile, so a stem-only key would suppress legitimate items once
@@ -321,10 +331,17 @@ function askedKey(inst, mySheet) {
   //    stem is the SAME on every question ("Which aircraft is in the position shown by the two
   //    dials?"). Keying on stem alone made every question look like a duplicate of the first,
   //    so all the retries failed and dedup never actually ran - the whole figure is the identity.
-  //  - no figure at all: the stem is the identity.
+  //  - no figure at all: the stem IS the identity, on its own.
+  //
+  // That last case used to fall back to the numeric run-sheet, which was a no-op for every
+  // non-sheet template (mySheet is constant across their run) and silently broke the one
+  // figure-less SHEET template there is. Situational Judgment draws its whole scenario from
+  // `h.sheetSeed` and carries no `render`, so two sheet values landing on the same situation
+  // produced the identical stem under two different keys - the duplicate was invisible, every
+  // retry "passed", and the repeat shipped. Measured: 14 repeated items in a 50-question run.
   const fig = inst.render
     ? (inst.render.sheetSeed ?? JSON.stringify(inst.render))
-    : mySheet;
+    : '';
   return `${fig}:${inst.stem}`;
 }
 
