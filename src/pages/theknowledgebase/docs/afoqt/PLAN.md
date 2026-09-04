@@ -255,6 +255,46 @@ Verbal = VA+WK+RC · Quantitative = AR+MK · Academic = Verbal ∪ Quantitative.
 
 ---
 
+## SESSION 2026-09-03 — mobile layout, drill flow, and a WK difficulty finding
+
+Three things Trey reported from his phone, all shipped, plus one measurement that is a real
+defect and is **waiting on his call** (see OPEN ITEMS).
+
+1. **Mobile was horizontally broken on every TKB route** — "half the website is off to the
+   side... I have to zoom in." Measured with Playwright at iPhone-13 width: **viewport 390px,
+   `document.scrollWidth` 1083px** on `/TKB`, `/TKB/afoqt` and `/TKB/afoqt/drill`. Cause was
+   non-wrapping flex rows whose flex children cannot shrink below min-content, so the row's
+   width became the DOCUMENT's width and every `width: 100%` column was stranded at the left.
+   Four separate rows, fixed by kind rather than by one blanket `overflow-x: hidden` (which
+   would have hidden the bug instead of fixing it):
+   - `.tkb-topbar`'s 7 tabs (≈1083px) → moved into a `.tkb-tabs` scroll rail with `min-width: 0`.
+   - `.afq-subnav`'s 7 tabs (≈585px) → same treatment.
+   - `.afq-table` data tables (dashboard's was 743px) → `display: block` + `overflow-x: auto`
+     under 760px only, so they scroll themselves. The Table Reading FIGURE is `.afq-tg` and was
+     already inside `.afq-table-wrap`; it is untouched.
+   - `.tkb-slider-row` (452px) and Courses' inline-styled header actions (401px) → `flex-wrap`.
+     These are form/action rows that read fine stacked; a nav strip is not, which is why the two
+     got different fixes.
+   Verified 16/16 TKB routes at 390px AND at 1440px: `documentScrollWidth === clientWidth`
+   everywhere, no page errors, desktop unchanged.
+
+2. **A drill now ends itself.** "Don't make me hit finish to finish a drill. Only on quizzes or
+   larger exams." `submit()` in `DrillRunner` finishes when the answer that fills the LAST blank
+   lands. Two guards, both load-bearing: `wasBlank` (so revising an answer in a completed run
+   does not submit the run) and `next.every()` (so a run with deliberately skipped questions
+   stays open — free navigation exists for that). `ExamRunner` and `DiagnosticRunner` keep their
+   Finish buttons on purpose.
+
+3. **`DrillConfig` is two steps.** "When I select a subtest I want all other subtests to
+   disappear THEN the settings to pop up." `subtest` now starts `null`; step one is the picker
+   alone, step two collapses it to an `.afq-chosen` chip (name, template/bank counts, pace) with
+   a **Change subtest** button and shows everything that depends on the choice. A deep link
+   (`?subtest=TR`, used by the diagnostic's "drill your weakest subtest") still lands on step
+   two. Picking a subtest resets `count` to 5, because "Full subtest" had been leaving another
+   subtest's question count behind.
+
+---
+
 ## OPEN ITEMS / WAITING ON TREY
 
 - [ ] Quizlet deck dumps → `afoqt/data/raw/` (raw paste, `# source:` + `# subtest:` headers)
@@ -262,6 +302,24 @@ Verbal = VA+WK+RC · Quantitative = AR+MK · Academic = Verbal ∪ Quantitative.
 - [ ] Confirm paper vs. eAFOQT delivery (changes pace targets ~2-3 s/question)
 - [ ] Library: LearningExpress via <https://onlinelibrary.utah.gov/> (confirmed to carry AFOQT)
 - [ ] Retry DTIC reports (apps.dtic.mil was down): AD1203687, AD1168029, AD1157021
+- [ ] **Word Knowledge drills skew easy — decide the fix.** Trey, 2026-09-03: "the bands feel
+      like band 1 and 2 only." Measured, and he is right, but the templates are not the cause.
+      **WK has 60 templates: band 2 ×12, band 3 ×12, band 4 ×24, band 5 ×12** — 60% is band 4-5,
+      and none are `stretch`, so band 5 already reaches a normal drill. The dilution is in
+      `assembleDrill`:
+      - `composeDrill`'s **`bankRatio` is 0.5, so HALF of every non-chapter WK drill is drawn
+        from the bank**, which for WK is only **35 items**: 10 from `realQuestions.json` (hard-
+        coded `band: 3`) and 25 migrated ASVAB items.
+      - **All 25 migrated WK items carry `difficulty: 'basic'` → band 2.** They are not basic —
+        the list includes *ephemeral, garrulous, obstinate, candor, placate, frugal*. This is
+        exactly the per-block difficulty labelling this folder's CLAUDE.md records as the defect
+        that polluted the ASVAB deck, arriving through the migration.
+      Net effect on a 25-question drill: ~11 bank items at band 2-3 + ~11 template items
+      (~60% band 4-5) + ~3 miss-pool, so **roughly 14-15 of 25 sit at band 2-3**, and the same
+      35 bank items repeat across every session. Two candidate fixes, and the choice is his
+      because it changes what every WK drill feels like: (a) drop `bankRatio` for WK
+      specifically, and/or (b) re-band the 25 migrated items per-item instead of per-block.
+      ⚠️ The ASVAB deck itself is READ-ONLY — (b) must edit the AFOQT-side copy only.
 
 ## KNOWN GAPS (flagged, not dropped)
 

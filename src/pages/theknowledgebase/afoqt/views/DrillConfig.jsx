@@ -12,13 +12,22 @@ export default function DrillConfig() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const { progress, updateSettings } = useAfoqt();
-  // A caller can deep-link a specific subtest preselected - the diagnostic's "drill your
-  // weakest subtest" button is the reason this exists, but any future entry point can use it
-  // the same way. Read once on mount; DRILLABLE.some() guards against an unknown/typo'd code
-  // falling through to a subtest picker showing nothing selected.
+  // Two steps, not one form. Trey, 2026-09-03: "When I select a subtest to drill I want all
+  // other subtests to disappear THEN I want the settings for how I want to do my drill to pop
+  // up. I don't want to do it all at once."
+  //
+  // So `null` is the real starting state now rather than a preselected MK: with a subtest
+  // already chosen, the picker and every setting competed for attention at once, and on a phone
+  // the settings sat below a 12-tile grid where they were easy to miss entirely. Step one asks
+  // one question; step two collapses the grid to the choice and shows what depends on it.
+  //
+  // A caller can still deep-link a subtest and land straight on step two - the diagnostic's
+  // "drill your weakest subtest" button is the reason this exists, and that caller has already
+  // made the step-one decision. DRILLABLE.some() guards against an unknown/typo'd code, which
+  // now falls back to step one rather than to a picker showing nothing selected.
   const [subtest, setSubtest] = useState(() => {
     const requested = params.get('subtest');
-    return requested && DRILLABLE.some((s) => s.code === requested) ? requested : 'MK';
+    return requested && DRILLABLE.some((s) => s.code === requested) ? requested : null;
   });
   const [count, setCount] = useState(5);
   const [mode, setMode] = useState(progress.settings.mode);
@@ -39,11 +48,22 @@ export default function DrillConfig() {
   // teaching anything new, which is why it forces `exam` timing and refuses stretch.
   const [speed, setSpeed] = useState(false);
 
-  const meta = getSubtest(subtest);
-  const available = templatesFor(subtest).length + bankCount(subtest);
+  // Every derived value below is scoped to the chosen subtest, so all of them have to tolerate
+  // not having one yet - step one renders before any of this means anything.
+  const meta = subtest ? getSubtest(subtest) : null;
+  const templates = subtest ? templatesFor(subtest) : [];
+  const available = subtest ? templates.length + bankCount(subtest) : 0;
   const perQ = meta ? secPerQuestion(meta) * pressure : 0;
-  const hasStretch = templatesFor(subtest).some((t) => t.stretch);
-  const lowBand = templatesFor(subtest).filter((t) => t.band <= 2).length;
+  const hasStretch = templates.some((t) => t.stretch);
+  const lowBand = templates.filter((t) => t.band <= 2).length;
+
+  // Picking a subtest resets the run length. "Full subtest" sets `count` to that subtest's own
+  // question count, and carrying 40 over from Table Reading into a 25-question Word Knowledge
+  // drill silently builds a run the chosen subtest never administers.
+  const chooseSubtest = (code) => {
+    if (code !== subtest) setCount(5);
+    setSubtest(code);
+  };
 
   const start = () => {
     updateSettings({ mode, pressure });
@@ -55,38 +75,64 @@ export default function DrillConfig() {
 
   return (
     <div className="afq-config">
-      <h2>Build a drill</h2>
-      <p className="afq-note">
-        Want all 12 subtests, in the real order, back to back? That is the{' '}
-        <button className="afq-linklike" onClick={() => navigate('/TKB/afoqt/exam')}>full exam</button>,
-        not a drill. New here and not sure where to start? Try the{' '}
-        <button className="afq-linklike" onClick={() => navigate('/TKB/afoqt/diagnostic')}>diagnostic</button>{' '}
-        first - six questions per subtest, ~35 minutes, tells you where to focus.
-      </p>
+      <h2>{subtest ? 'Set up your drill' : 'Pick a subtest'}</h2>
 
-      <section>
-        <h3>Subtest</h3>
-        <div className="afq-grid afq-subtest-grid">
-          {DRILLABLE.map((s) => {
-            const n = templatesFor(s.code).length;
-            const bank = bankCount(s.code);
-            const reach = compositeReach(s.code);
-            return (
-              <button
-                key={s.code}
-                className={'afq-tile' + (subtest === s.code ? ' active' : '') + (n + bank === 0 ? ' empty' : '')}
-                onClick={() => setSubtest(s.code)}
-              >
-                <strong>{s.name}</strong>
-                <small>{secPerQuestion(s).toFixed(1)}s / question</small>
-                {/* Reach is why some subtests matter more: MK feeds five composites, TR all three rated ones. */}
-                <small className="afq-reach">{reach.length ? reach.join(' ') : 'unscored'}</small>
-                <small>{[n ? `${n} templates` : null, bank ? `${bank} in bank` : null].filter(Boolean).join(' + ') || 'not built yet'}</small>
-              </button>
-            );
-          })}
-        </div>
-      </section>
+      {!subtest && (
+        <>
+          <p className="afq-note">
+            Want all 12 subtests, in the real order, back to back? That is the{' '}
+            <button className="afq-linklike" onClick={() => navigate('/TKB/afoqt/exam')}>full exam</button>,
+            not a drill. New here and not sure where to start? Try the{' '}
+            <button className="afq-linklike" onClick={() => navigate('/TKB/afoqt/diagnostic')}>diagnostic</button>{' '}
+            first - six questions per subtest, ~35 minutes, tells you where to focus.
+          </p>
+
+          <section>
+            <div className="afq-grid afq-subtest-grid">
+              {DRILLABLE.map((s) => {
+                const n = templatesFor(s.code).length;
+                const bank = bankCount(s.code);
+                const reach = compositeReach(s.code);
+                return (
+                  <button
+                    key={s.code}
+                    className={'afq-tile' + (n + bank === 0 ? ' empty' : '')}
+                    onClick={() => chooseSubtest(s.code)}
+                  >
+                    <strong>{s.name}</strong>
+                    <small>{secPerQuestion(s).toFixed(1)}s / question</small>
+                    {/* Reach is why some subtests matter more: MK feeds five composites, TR all three rated ones. */}
+                    <small className="afq-reach">{reach.length ? reach.join(' ') : 'unscored'}</small>
+                    <small>{[n ? `${n} templates` : null, bank ? `${bank} in bank` : null].filter(Boolean).join(' + ') || 'not built yet'}</small>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        </>
+      )}
+
+      {subtest && (
+        <>
+          {/* The picker collapses to its answer. Keeping the choice on screen matters more than
+              keeping the grid: every setting below reads differently depending on it (the pace,
+              the "Full subtest" length, whether Speed and Stretch appear at all), so the one
+              thing that must stay visible is which subtest they are describing. */}
+          <div className="afq-chosen">
+            <div className="afq-chosen-id">
+              <strong className="afq-chosen-name">{meta ? meta.name : subtest}</strong>
+              <small className="afq-chosen-meta">
+                {[
+                  templates.length ? `${templates.length} templates` : null,
+                  bankCount(subtest) ? `${bankCount(subtest)} in bank` : null,
+                  meta ? `${secPerQuestion(meta).toFixed(1)}s / question` : null,
+                ].filter(Boolean).join(' · ')}
+              </small>
+            </div>
+            <button className="afq-btn afq-ghost" onClick={() => setSubtest(null)}>
+              Change subtest
+            </button>
+          </div>
 
       <section>
         <h3>Questions</h3>
@@ -199,9 +245,11 @@ export default function DrillConfig() {
         </section>
       )}
 
-      <button className="afq-btn afq-primary afq-start" onClick={start} disabled={available === 0}>
-        {available === 0 ? 'No templates for this subtest yet' : `Start ${count} questions`}
-      </button>
+          <button className="afq-btn afq-primary afq-start" onClick={start} disabled={available === 0}>
+            {available === 0 ? 'No templates for this subtest yet' : `Start ${count} questions`}
+          </button>
+        </>
+      )}
     </div>
   );
 }

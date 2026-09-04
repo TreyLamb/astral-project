@@ -29,7 +29,7 @@ export default function CoursesDashboard() {
             generation. Click the tracking pill to cycle full → light → none.
           </div>
         </div>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div className="crs-header-actions">
           <button className="crs-btn" onClick={() => navigate('/TKB/courses/dashboard')}>
             📊 Canvas dashboard
           </button>

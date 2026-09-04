@@ -331,19 +331,31 @@ export default function TkbApp() {
           <div className="tkb-topbar">
             <HubLink className="tkb-site-home" />
             <div className="tkb-brand" onClick={() => navigate('/TKB')} style={{ cursor: 'pointer' }}>
-              TheKnowledgeBase
+              <span className="tkb-brand-full">TheKnowledgeBase</span>
+              <span className="tkb-brand-short">TKB</span>
             </div>
-            {tabs.map(t => (
-              <button
-                key={t.path}
-                className={`tkb-nav-tab${t.match(location.pathname) ? ' active' : ''}`}
-                onClick={() => navigate(t.path)}
-              >
-                {t.label}
-              </button>
-            ))}
+            {/* The tabs live in their own scroll rail rather than directly in the bar. Seven of
+                them plus the hub link, brand and sync chip measured 1,083px against a 390px
+                phone viewport, and because the bar is a non-wrapping flex row that width became
+                the DOCUMENT's width - every TKB page was ~2.8x the screen with the content
+                column stranded at the left. Scrolling the tabs inside their own box is the rule
+                webdesign.md already states for wide content: the strip scrolls, the page never
+                does. Wrapping instead was rejected - seven tabs wrap to three rows on a phone
+                and eat the screen the drill needs. */}
+            <div className="tkb-tabs">
+              {tabs.map(t => (
+                <button
+                  key={t.path}
+                  className={`tkb-nav-tab${t.match(location.pathname) ? ' active' : ''}`}
+                  onClick={() => navigate(t.path)}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
             <span className="tkb-sync-status" title={signedIn ? 'Synced to your account' : 'Only saved on this device — sign in (top nav) to sync'}>
-              {signedIn ? '☁ Synced' : '📴 Local only'}
+              {signedIn ? '☁' : '📴'}
+              <span className="tkb-sync-label">{signedIn ? ' Synced' : ' Local only'}</span>
             </span>
           </div>
 

@@ -269,14 +269,26 @@ export default function DrillRunner() {
     // the nested setCurrent call genuinely fired twice, silently double-advancing past a question
     // every time one was answered. `answers` is in the dependency list so this closure is never
     // stale, the same guarantee the updater form existed to provide.
+    const wasBlank = answers[current] == null;
     const next = [...answers];
     next[current] = entry;
     setAnswers(next);
+    // A DRILL ends itself. Trey, 2026-09-03: "don't make me hit finish to finish a drill. Only
+    // on quizzes or larger exams." Answering the last blank question is an unambiguous statement
+    // that the run is over, and making him confirm it is a tap that says nothing. The exam and
+    // diagnostic runners deliberately keep their Finish button - a timed measurement you can
+    // still go back and revise is exactly where an explicit "I am done" belongs.
+    //
+    // Two guards, and both are needed. `wasBlank` means only the answer that COMPLETES the set
+    // can end the run: without it, going back through a finished drill to change one answer
+    // would submit you the instant you touched anything. `next.every` means a run with skipped
+    // questions stays open - free navigation exists so you can leave one and come back.
+    if (wasBlank && next.every((a) => a != null)) { finish(next); return; }
     // Advance to the next unanswered question - the familiar "answer, move on" flow for a fresh
     // linear run. Re-answering a question reached via the rail/back-forward just overwrites it
     // in place without forcing a jump anywhere.
     setCurrent(nextUnanswered(next, current));
-  }, [questions, current, done, recordAnswer, mutate, answers]);
+  }, [questions, current, done, recordAnswer, mutate, answers, finish]);
 
   // Voice. Declared up here rather than beside the question card because hooks cannot live after
   // the early returns below, and `active` is the same question the card renders - it is read from

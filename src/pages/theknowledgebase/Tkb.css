@@ -45,7 +45,28 @@
   font-weight: 700;
   font-size: 1.1rem;
   margin-right: auto;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
+/* Two spellings of the same brand, swapped at the breakpoint. The full name costs ~170px, which
+   on a phone is most of the room the tab rail needs; "TKB" is the tool's own route name, so the
+   short form is the name the user already navigates by rather than an invented abbreviation. */
+.tkb-wrapper .tkb-brand-short { display: none; }
+
+/* The tab rail. `min-width: 0` is the load-bearing declaration: without it this flex child
+   refuses to shrink below its content, which is exactly how the bar came to be 1,083px wide on
+   a 390px screen. With it the rail shrinks and scrolls its own overflow instead. */
+.tkb-wrapper .tkb-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.tkb-wrapper .tkb-tabs::-webkit-scrollbar { display: none; }
 
 .tkb-wrapper .tkb-nav-tab {
   background: none;
@@ -56,6 +77,10 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.15s ease;
+  /* A tab must keep its own width inside the scroll rail - shrinking them to fit is how you get
+     seven unreadable slivers instead of a strip you swipe. */
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .tkb-wrapper .tkb-nav-tab:hover {
@@ -73,6 +98,24 @@
   color: var(--tkb-ink-soft);
   white-space: nowrap;
   margin-left: 0.5rem;
+  flex: 0 0 auto;
+}
+
+/* Phone shell. The bar keeps every control it has on a desktop - nothing here removes a way to
+   do something, it only trades words for room: the brand shortens, the sync chip drops to its
+   icon (the full wording survives in its `title`), and the tabs become a swipeable strip. */
+@media (max-width: 760px) {
+  .tkb-wrapper .tkb-topbar {
+    gap: 0.5rem;
+    padding: 0.55rem 0.7rem;
+  }
+  .tkb-wrapper .tkb-brand-full { display: none; }
+  .tkb-wrapper .tkb-brand-short { display: inline; }
+  .tkb-wrapper .tkb-sync-label { display: none; }
+  .tkb-wrapper .tkb-nav-tab {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+  }
 }
 
 /* Full width, per webdesign.md #1 - this shell wraps every TKB page (dashboard, subjects,
@@ -186,11 +229,17 @@
   font-size: 1rem;
 }
 
+/* These rows carry anything from "label + slider + value" to the Focus Weeks composer's two
+   selects, a date field and an Add button - which came to 452px against a 390px phone and took
+   the document sideways with it. Wrapping is right here where it was wrong for the tab rail
+   above: these are form controls that read fine stacked, not a navigation strip whose whole
+   value is staying one glanceable row. */
 .tkb-wrapper .tkb-slider-row {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.4rem 0;
+  flex-wrap: wrap;
 }
 
 .tkb-wrapper .tkb-slider-row label {

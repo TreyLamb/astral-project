@@ -24,6 +24,15 @@
   flex-wrap: wrap;
 }
 
+/* Four action buttons that were an inline `display: flex` with no wrap - 401px inside a 368px
+   header, which pushed the whole page wider than a phone screen. `.crs-header` already wraps;
+   this inner row did not, so the wrapping stopped one level too high. */
+.crs-header-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 .crs-title {
   font-size: 1.4rem;
   font-weight: 700;
