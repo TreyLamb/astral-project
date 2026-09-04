@@ -79,6 +79,9 @@ const lookupTemplate = ({ id, band, name, concepts, cells, blurb, stemSpace, dri
   registerTemplate({
     id,
     subtest: 'TR',
+    // The figure itself is generated, not drawn from an authored list, so
+    // `stemSpace` here counts questions PER FIGURE and the subtest total is unbounded.
+    generatedFigure: true,
     band,
     name,
     concepts,
@@ -170,6 +173,9 @@ const DIRECTIONS = [
 registerTemplate({
   id: 'tr-axis-read',
   subtest: 'TR',
+    // The figure itself is generated, not drawn from an authored list, so
+    // `stemSpace` here counts questions PER FIGURE and the subtest total is unbounded.
+    generatedFigure: true,
   band: 2,
   name: 'Which way is down the Y axis',
   concepts: ['table-axis-orientation'],

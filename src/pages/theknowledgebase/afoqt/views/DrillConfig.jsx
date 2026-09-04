@@ -29,15 +29,28 @@ export default function DrillConfig() {
   // forces untimed the moment it's turned on, same way "Full subtest" forces exam mode - stretch
   // and a real-test simulation are opposite goals and should never combine.
   const [stretch, setStretch] = useState(false);
+  // Speed mode: bands 1-2 only, at 40% less time than the real allotment.
+  //
+  // Trey's request, 2026-09-02, and the reasoning behind it is worth keeping. His ranking puts
+  // bands 1-2 BELOW the level the test asks, so studying them for meaning is wasted time - he
+  // already knows those words. What is not wasted is answering them faster: Word Knowledge gives
+  // twelve seconds a question, and hesitating on a word you half-know is what eats the time you
+  // need for the band 4-5 items. So this trains recall SPEED on easy material rather than
+  // teaching anything new, which is why it forces `exam` timing and refuses stretch.
+  const [speed, setSpeed] = useState(false);
 
   const meta = getSubtest(subtest);
   const available = templatesFor(subtest).length + bankCount(subtest);
   const perQ = meta ? secPerQuestion(meta) * pressure : 0;
   const hasStretch = templatesFor(subtest).some((t) => t.stretch);
+  const lowBand = templatesFor(subtest).filter((t) => t.band <= 2).length;
 
   const start = () => {
     updateSettings({ mode, pressure });
-    navigate(`/TKB/afoqt/drill/run?subtest=${subtest}&count=${count}&mode=${mode}&pressure=${pressure}${stretch ? '&stretch=1' : ''}`);
+    const q = new URLSearchParams({ subtest, count, mode, pressure });
+    if (stretch) q.set('stretch', '1');
+    if (speed) q.set('bands', '1,2');
+    navigate(`/TKB/afoqt/drill/run?${q}`);
   };
 
   return (
@@ -145,7 +158,31 @@ export default function DrillConfig() {
         )}
       </section>
 
-      {hasStretch && (
+      {lowBand > 0 && (
+        <section>
+          <h3>Speed</h3>
+          <button
+            className={'afq-btn' + (speed ? ' afq-primary' : '')}
+            onClick={() => {
+              const on = !speed;
+              setSpeed(on);
+              // Speed and stretch are opposite goals - one drills material you already know for
+              // pace, the other drills material above the test for depth. Never both.
+              if (on) { setStretch(false); setMode('exam'); setPressure(0.6); }
+            }}
+            title="Bands 1-2 only, 40% less time than the real allotment"
+          >
+            {speed ? 'Speed drill: on' : `Speed drill (bands 1-2, ${lowBand} templates)`}
+          </button>
+          <p className="afq-note">
+            The easy bands, answered fast. Not for learning words — for cutting the hesitation on
+            ones you already half-know, which is what costs you the time you need on the hard
+            items. Forces exam timing at 40% less than the real allotment.
+          </p>
+        </section>
+      )}
+
+      {hasStretch && !speed && (
         <section>
           <h3>Depth</h3>
           {/* Band 5 - Trivium-ceiling material, harder than the real test's calibration target

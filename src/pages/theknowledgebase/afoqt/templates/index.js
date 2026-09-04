@@ -48,6 +48,18 @@ import './wk/ch03-affixes.js';
 import './wk/ch04-confusables.js';
 import './wk/ch05-people-speech.js';
 import './wk/ch06-change-degree.js';
+// High-tier vocabulary, added 2026-09-02. Chapters 7-12 are band 4-5 ONLY and are sourced from
+// `data/wordCandidates.csv` at hardListHits >= 3 - words appearing in three or more of the five
+// curated hard GRE lists. Trey's ruling: new Word Knowledge questions are authored from the
+// highest tier only, because the medium tier (SAT / ASVAB / OATTS / band 3) is material he
+// already half-knows and studying it buys speed, not new words.
+// Rationale, sourcing and tier math: docs/afoqt/WORD-BANK-EXPANSION.md
+import './wk/ch07-deception-truth.js';
+import './wk/ch08-praise-blame.js';
+import './wk/ch09-temperament-mood.js';
+import './wk/ch10-clarity-expression.js';
+import './wk/ch11-abundance-harm.js';
+import './wk/ch12-rigor-pace.js';
 
 // --- Table Reading (Phase 4) -----------------------------------------------
 // One chapter, because the subtest is one skill performed 40 times. Difficulty is scan

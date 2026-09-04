@@ -12,6 +12,7 @@ import ExamRunner from './views/ExamRunner';
 import DiagnosticRunner from './views/DiagnosticRunner';
 import DiagnosticResults from './views/DiagnosticResults';
 import WordBank from './views/WordBank';
+import StudyPlan from './views/StudyPlan';
 import FlaggedQuestions from './views/FlaggedQuestions';
 import AfoqtResults from './views/AfoqtResults';
 import './Afoqt.css';
@@ -114,6 +115,20 @@ export default function AfoqtApp() {
     });
   }, []);
 
+  // Voice settings are a nested object, so they cannot go through updateSettings' shallow merge -
+  // patching `{ rate: 1.25 }` through that would drop the chosen voice and the commit delay.
+  const updateVoice = useCallback((patch) => {
+    setProgress((prev) => {
+      const base = prev ?? defaultProgress();
+      const next = {
+        ...base,
+        settings: { ...base.settings, voice: { ...(base.settings.voice ?? {}), ...patch } },
+      };
+      AfoqtLocal.save(next);
+      return next;
+    });
+  }, []);
+
   if (loading || !progress) {
     return <div className="afq-wrap"><div className="afq-loading">Loading…</div></div>;
   }
@@ -129,7 +144,7 @@ export default function AfoqtApp() {
   ];
 
   return (
-    <AfoqtContext.Provider value={{ progress, persist, mutate, recordAnswer, recordRun, updateSettings, signedIn }}>
+    <AfoqtContext.Provider value={{ progress, persist, mutate, recordAnswer, recordRun, updateSettings, updateVoice, signedIn }}>
       <div className="afq-wrap">
         <nav className="afq-subnav">
           {tabs.map((t) => (
@@ -153,6 +168,7 @@ export default function AfoqtApp() {
           <Route path="diagnostic" element={<DiagnosticRunner />} />
           <Route path="diagnostic/results" element={<DiagnosticResults />} />
           <Route path="words" element={<WordBank />} />
+          <Route path="study" element={<StudyPlan />} />
           <Route path="flagged" element={<FlaggedQuestions />} />
           <Route path="results" element={<AfoqtResults />} />
         </Routes>

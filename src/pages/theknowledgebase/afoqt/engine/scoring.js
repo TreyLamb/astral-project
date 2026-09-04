@@ -145,3 +145,61 @@ export function compositeAccuracy(progress, compositeCode) {
  *  callers that want it can still call compositeAccuracy('SJT') directly. */
 export const allCompositeAccuracy = (progress) =>
   COMPOSITES.filter((c) => !c.disputed).map((c) => compositeAccuracy(progress, c.code));
+
+/**
+ * How many DISTINCT questions a subtest can ever ask.
+ *
+ * Trey's requirement, 2026-09-02: for a subtest whose content is curated rather than computed,
+ * "have I seen all of it?" is a real, answerable goal, and he wants it tracked. For one whose
+ * content is parameterised it is not a question at all - a quadratic template re-rolls forever.
+ *
+ * The distinction is already declared per template: `stemSpace` is set exactly when the item
+ * space is finite (QUESTION-DOCTRINE rule 4, "a bounded item space gets DECLARED"). So a subtest
+ * is CAPPED when every one of its templates declares one, and OPEN when any template does not -
+ * one unbounded template is enough to make the total unbounded, so this deliberately does not
+ * report a partial sum for a mixed subtest. That would read as a finish line that does not exist.
+ *
+ * Stored bank items (official OATTS / migrated ASVAB) are a fixed list and always count toward a
+ * capped total.
+ */
+export function subtestItemSpace(code) {
+  const templates = allTemplates().filter((t) => t.subtest === code);
+  // `generatedFigure` templates (Block Counting piles, Table Reading grids) declare a stemSpace
+  // that is questions PER FIGURE, and the figures themselves are generated - so summing it would
+  // invent a finish line that does not exist. Reading Comprehension and Situational Judgment are
+  // also sheet-based but index an AUTHORED list of passages/scenarios, so they stay countable.
+  const open = (t) => t.stemSpace == null || t.generatedFigure;
+  const unbounded = templates.filter(open).length;
+  const generated = templates.reduce((n, t) => n + (open(t) ? 0 : t.stemSpace), 0);
+  const banked = bankItems(code).length;
+  return {
+    code,
+    templates: templates.length,
+    unbounded,
+    capped: templates.length > 0 && unbounded === 0,
+    items: unbounded === 0 ? generated + banked : null,
+    generated,
+    banked,
+  };
+}
+
+/**
+ * Progress toward having answered every question a capped subtest owns, correctly.
+ *
+ * `coverage` is lifetime attempts over the item space and is a PROXY, not a set difference: the
+ * engine records stats per template, never per instance (mastery is per-template by design - see
+ * the folder CLAUDE.md), so nothing here knows which specific seeds have been drawn. Answering
+ * 631 Word Knowledge questions does not guarantee all 631 distinct ones were seen. It is the
+ * honest ceiling on what the stored data can support, and the UI says "of the bank seen" rather
+ * than claiming completion.
+ *
+ * `solved` is deliberately strict: the whole item space attempted AND perfect recent accuracy.
+ * Anything looser turns a finish line into a participation badge.
+ */
+export function subtestCompletion(progress, code, recentAccuracy) {
+  const space = subtestItemSpace(code);
+  const { seen } = subtestAccuracy(progress, code);
+  if (!space.capped) return { ...space, seen, coverage: null, solved: false };
+  const coverage = space.items ? Math.min(1, seen / space.items) : 0;
+  return { ...space, seen, coverage, solved: coverage >= 1 && recentAccuracy === 1 };
+}

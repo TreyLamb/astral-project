@@ -143,6 +143,41 @@
 }
 .afq-hidden-chip:hover { border-style: solid; border-color: var(--tkb-accent); color: var(--tkb-ink); }
 .afq-over { color: var(--tkb-wrong); }
+
+/* --- subtest table density + state (2026-09-02) ---------------------------
+   Trey: "There doesn't need to be so much space between words on the subtest rows. bring the
+   columns closer together, let the rows continue on to the right just with empty space."
+   So the data columns size to their content and a trailing spacer column soaks up the slack,
+   instead of the browser distributing that slack between every column. `width: 1%` on a cell in
+   a `width: 100%` table is the standard shrink-to-fit idiom - the table still fills the width,
+   the empty space just all lands in one place. Narrow screens keep it scrollable rather than
+   letting the numeric columns wrap. */
+.afq-subtest-table { table-layout: auto; }
+.afq-subtest-table th, .afq-subtest-table td { white-space: nowrap; }
+.afq-subtest-table th:not(:nth-child(2)), .afq-subtest-table td:not(:nth-child(2)) { width: 1%; }
+.afq-subtest-table th:nth-child(2), .afq-subtest-table td:nth-child(2) { width: auto; padding-right: 1.2rem; }
+.afq-subtest-table .afq-num { text-align: right; font-variant-numeric: tabular-nums; padding-left: .9rem; }
+.afq-subtest-wrap { overflow-x: auto; }
+
+.afq-bank small { color: var(--tkb-ink-soft); font-size: .78em; margin-left: .3em; }
+.afq-open { color: var(--tkb-ink-soft); font-style: italic; }
+
+/* Accuracy runs red at 0 and green at 100 so a bad row is findable without reading a number.
+   Mixed in oklab rather than sRGB - a straight sRGB blend between these two passes through a
+   muddy brown around the midpoint, which reads as a third state rather than a midpoint. */
+.afq-acc[style*="--acc"] {
+  color: color-mix(in oklab, var(--tkb-wrong), var(--tkb-correct) calc(var(--acc) * 100%));
+  font-weight: 600;
+}
+
+/* A finished subtest: whole bank attempted at 100%, or retired on purpose (see SUNSET in
+   AfoqtDashboard.jsx). Tinted row rather than green text alone, because the point is that the
+   row stops competing for attention with the ones still needing work. */
+.afq-subtest-table tr.afq-solved td { background: color-mix(in oklab, var(--tkb-surface), var(--tkb-correct) 12%); }
+.afq-solved-tag { color: var(--tkb-correct); letter-spacing: .06em; font-size: .78rem; }
+
+.afq-composite-gap { color: var(--tkb-ink-soft); font-size: .72rem; }
+
 .afq-composites { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: .5rem; }
 .afq-composites li { border: 1px solid var(--tkb-border); border-radius: 8px; padding: .5rem .7rem; display: flex; flex-direction: column; gap: .1rem; }
 .afq-composites span { font-size: .8rem; color: var(--tkb-ink-soft); }
@@ -635,4 +670,127 @@
   /* A phone-sized layout must not leak upward (webdesign.md 1b) - this only applies inside the
      narrow breakpoint. The rail drops below the question instead of squeezing beside it. */
   .afq-question-rail { flex-basis: 100%; max-width: none; position: static; }
+}
+
+/* --- study plan (2026-09-02) ------------------------------------------------
+   A reading surface, not a drill: wide rows, generous line height, and the day
+   heading sticky so you always know which day you are inside of. */
+.afq-study-days { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; }
+.afq-study-days > li { border: 1px solid var(--tkb-border); border-radius: 8px; overflow: hidden; }
+.afq-day-head {
+  position: sticky; top: 0; z-index: 1;
+  background: var(--tkb-surface); border-bottom: 1px solid var(--tkb-border); padding: .5rem .7rem;
+}
+.afq-day-check { margin: 0; }
+.afq-study-table { font-size: .88rem; }
+.afq-study-table td { vertical-align: top; line-height: 1.5; }
+.afq-study-table th:first-child, .afq-study-table td:first-child { white-space: nowrap; }
+/* A finished day stays readable but stops competing for attention with the ones still to do. */
+.afq-day-done { opacity: .55; }
+.afq-day-done .afq-day-head { background: color-mix(in oklab, var(--tkb-surface), var(--tkb-correct) 14%); }
+.afq-study-gap {
+  border-left: 3px solid var(--tkb-unsure); background: color-mix(in oklab, var(--tkb-surface), var(--tkb-unsure) 8%);
+  padding: .7rem .9rem; border-radius: 0 6px 6px 0; margin: 0 0 1.2rem; font-size: .9rem;
+}
+
+/* --- voice: read-aloud and answer-out-loud -------------------------------
+   Trey's request, 2026-09-03: hear the question read well, answer by speaking, and on a phone
+   give the answers the screen. Two visual jobs here - a control strip that stays out of the way,
+   and a set of states that make an invisible medium legible (what is being read right now, what
+   the mic thinks it heard, what is about to be submitted). */
+.afq-voicebar {
+  display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+  padding: .35rem 0;
+}
+.afq-voice-toggle, .afq-voice-btn, .afq-voice-gear {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font: inherit; font-size: .85rem; cursor: pointer;
+  padding: .3rem .65rem; border-radius: 999px;
+  border: 1px solid var(--tkb-border); background: var(--tkb-surface); color: var(--tkb-ink);
+}
+.afq-voice-toggle:hover, .afq-voice-btn:hover, .afq-voice-gear:hover { border-color: var(--tkb-accent); }
+.afq-voice-on { border-color: var(--tkb-accent); background: color-mix(in srgb, var(--tkb-accent) 12%, var(--tkb-surface)); }
+.afq-voice-gear { padding: .3rem .5rem; }
+.afq-voice-unsupported { margin: .2rem 0; }
+.afq-voice-err { font-size: .8rem; color: var(--tkb-wrong); }
+
+/* The mic indicator. A voice interface with no visible state is indistinguishable from a broken
+   one - "it is listening and did not understand" and "it is not listening" need to look
+   different, and only one of them is worth repeating yourself over. */
+.afq-mic { display: inline-flex; align-items: center; gap: .35rem; font-size: .78rem; color: var(--tkb-ink-soft); }
+.afq-mic-dot { width: .55rem; height: .55rem; border-radius: 50%; background: var(--tkb-border); }
+.afq-mic-live .afq-mic-dot { background: var(--tkb-correct); animation: afq-mic-pulse 1.6s ease-in-out infinite; }
+@keyframes afq-mic-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .afq-mic-live .afq-mic-dot { animation: none; } }
+
+.afq-heard {
+  font-size: .8rem; color: var(--tkb-ink-soft); font-style: italic;
+  max-width: 26rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.afq-heard-armed { color: var(--tkb-ink); font-style: normal; }
+
+.afq-voice-panel {
+  flex: 1 0 100%; display: flex; flex-direction: column; gap: .7rem;
+  margin-top: .4rem; padding: .8rem .9rem;
+  border: 1px solid var(--tkb-border); border-radius: 8px; background: var(--tkb-surface);
+}
+.afq-voice-field { display: flex; flex-direction: column; gap: .35rem; }
+.afq-voice-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--tkb-ink-soft); }
+.afq-voice-select {
+  font: inherit; font-size: .85rem; padding: .35rem .5rem; max-width: 24rem;
+  border: 1px solid var(--tkb-border); border-radius: 6px;
+  background: var(--tkb-canvas); color: var(--tkb-ink);
+}
+
+/* The option currently being spoken, and the one a spoken answer has armed. Distinct on purpose:
+   one is "the voice is here", the other is "this is about to be submitted unless you say no". */
+.afq-choice-reading { border-color: var(--tkb-accent); background: color-mix(in srgb, var(--tkb-accent) 7%, var(--tkb-canvas)); }
+.afq-choice-armed {
+  border-color: var(--tkb-accent) !important;
+  background: color-mix(in srgb, var(--tkb-accent) 18%, var(--tkb-canvas));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tkb-accent) 45%, transparent);
+}
+
+/* --- the answer-first stage (mobile) -------------------------------------
+   "the screen on mobile should be like 90% answers 10% question" - his words. It applies only
+   while voice is on and only on a narrow screen, because it is a trade: the stem shrinks to a
+   scrollable reminder and the rail, the pace chip and the hint all go, in exchange for five
+   targets you can hit without looking at them. On a desktop none of that is a good trade, so
+   nothing below fires there.
+
+   `100dvh`, not `100vh`: a mobile browser's vh includes the address bar that is not actually
+   there, so a vh-sized column puts option E under the chrome on exactly the screens this layout
+   exists for. */
+@media (max-width: 760px) {
+  .afq-stage .afq-runner-body { display: block; }
+  .afq-stage .afq-question-rail { display: none; }
+  .afq-stage .afq-hint { display: none; }
+  .afq-stage .afq-runner-flags { margin-bottom: .3rem; }
+  .afq-stage .afq-runner-flags .afq-flag-btn { font-size: .72rem; padding: .2rem .45rem; }
+
+  .afq-stage .afq-card {
+    display: flex; flex-direction: column;
+    /* Everything above the card - subnav, header, timer bar, voice strip - measured rather than
+       guessed at, so the card ends at the bottom of the viewport instead of just past it. */
+    min-height: calc(100dvh - 15rem);
+    padding: .7rem;
+  }
+  .afq-stage .afq-stem {
+    flex: 0 1 auto; max-height: 12vh; overflow-y: auto;
+    font-size: .95rem; line-height: 1.35; margin-bottom: .5rem;
+  }
+  .afq-stage .afq-choices { flex: 1 1 auto; gap: .45rem; }
+  .afq-stage .afq-choices li { flex: 1 1 0; display: flex; }
+  .afq-stage .afq-choices .afq-choice {
+    flex: 1; display: flex; align-items: center; gap: .5rem;
+    font-size: 1.05rem; padding: .5rem .8rem;
+  }
+  /* A figure subtest opts out of the whole thing - Table Reading's grid IS the question, and
+     squeezing it into 12vh to make room for five buttons makes the item unanswerable. */
+  .afq-stage.afq-runner-wide .afq-card { min-height: 0; display: block; }
+  .afq-stage.afq-runner-wide .afq-stem { max-height: none; font-size: 1.15rem; }
+  .afq-stage.afq-runner-wide .afq-choices li { flex: 0 0 auto; }
+
+  .afq-voicebar { gap: .35rem; }
+  .afq-heard { max-width: 100%; }
 }

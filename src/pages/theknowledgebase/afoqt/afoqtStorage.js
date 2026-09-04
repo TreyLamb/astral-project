@@ -48,6 +48,11 @@ export function defaultProgress() {
       // its composites. Hiding one you are done worrying about is what keeps the table short
       // enough to read the rows you do care about.
       hiddenSubtests: [],
+      // Read-aloud / answer-out-loud. Shape and the reasoning behind each default live in
+      // voice/useQuestionVoice.js VOICE_DEFAULTS; stored here so a setting survives a reload and
+      // syncs to the other device, and merged over the defaults so a new field arrives without a
+      // migration.
+      voice: {},
     },
   };
 }

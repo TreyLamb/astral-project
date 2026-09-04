@@ -21,7 +21,13 @@ const CH = 'ic-01-instruments';
 /** Headings that are NOT due north or south, so the answer is never also the rear/front view. */
 const OBLIQUE = HEADINGS.filter((h) => h.deg % 180 !== 0);
 
-function icTemplate({ id, band, name, headings, banks, pitches, blurb, stemSpace, concepts, drillOnly }) {
+// `stemSpace` is DERIVED, never passed. Every call site used to hand in a literal 1 while this
+// file's own header said the space was about 120 attitudes - so the declared bound contradicted
+// the prose above it, and templateAudit.js, which samples `stemSpace` instances, was checking a
+// single attitude per template and reporting clean. The product of the three pools is the actual
+// number of distinct items the template can emit. (Fixed 2026-09-02.)
+function icTemplate({ id, band, name, headings, banks, pitches, blurb, concepts, drillOnly }) {
+  const stemSpace = headings.length * banks.length * pitches.length;
   registerTemplate({
     id,
     subtest: 'IC',
@@ -31,6 +37,9 @@ function icTemplate({ id, band, name, headings, banks, pitches, blurb, stemSpace
     drillOnly,
     calibratedAgainst: 'oatts',
     stemSpace,
+    // The stem is the same sentence every time; the ATTITUDE is the item, and it reaches
+    // the audit as the correct option's canonical description. See templateAudit.js itemKey.
+    varies: 'options',
     generate: (rng, h) => {
       const correct = {
         heading: h.pick(headings).deg,
@@ -69,7 +78,6 @@ icTemplate({
   headings: OBLIQUE,
   banks: BANKS.filter((b) => b.deg === 0),
   pitches: PITCHES.filter((p) => p.deg === 0),
-  stemSpace: 1,
   concepts: ['instrument-viewing-convention'],
   drillOnly: true,
   blurb: 'Level and unbanked, so only the compass matters.',
@@ -84,7 +92,6 @@ icTemplate({
   headings: OBLIQUE,
   banks: BANKS.filter((b) => b.deg === 0),
   pitches: PITCHES.filter((p) => p.deg !== 0),
-  stemSpace: 1,
   concepts: ['instrument-pitch-reading'],
   drillOnly: true,
   blurb: 'Unbanked, so the horizon line only moves up and down.',
@@ -98,7 +105,6 @@ icTemplate({
   headings: OBLIQUE,
   banks: BANKS.filter((b) => b.deg !== 0),
   pitches: PITCHES.filter((p) => p.deg === 0),
-  stemSpace: 1,
   concepts: ['instrument-bank-inversion'],
   drillOnly: true,
   blurb: 'Level flight, so the only thing to read is which way the pointer has moved.',
@@ -112,7 +118,6 @@ icTemplate({
   headings: OBLIQUE,
   banks: BANKS,
   pitches: PITCHES,
-  stemSpace: 1,
   concepts: ['instrument-attitude-reading'],
   blurb: 'This is the subtest exactly as it is asked.',
 });
@@ -126,7 +131,6 @@ icTemplate({
   headings: OBLIQUE,
   banks: BANKS.filter((b) => Math.abs(b.deg) === 90),
   pitches: PITCHES.filter((p) => p.deg !== 0),
-  stemSpace: 1,
   concepts: ['instrument-attitude-reading'],
   drillOnly: true,
   blurb: 'Ninety degrees of bank puts the wings vertical - read the pointer, not the picture.',
@@ -149,7 +153,9 @@ registerTemplate({
   concepts: ['instrument-bank-inversion'],
   drillOnly: true,
   calibratedAgainst: 'oatts',
-  stemSpace: 1,
+  // Banked attitudes only (the pointer is the point), times every pitch.
+  stemSpace: BANKS.filter((b) => b.deg !== 0).length * PITCHES.length,
+  varies: 'options',
   provenance: { kind: 'authored', note: 'technique drill - not a real AFOQT item format' },
   generate: (rng, h) => {
     const bank = h.pick(BANKS.filter((b) => b.deg !== 0)).deg;

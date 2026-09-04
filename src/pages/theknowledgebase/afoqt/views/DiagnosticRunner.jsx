@@ -7,6 +7,8 @@ import { labelFor } from '../engine/errorModes';
 import { DIAGNOSTIC_SUBTESTS, DIAGNOSTIC_QUESTIONS_PER_SUBTEST, DIAGNOSTIC_ACCURACY_LABEL } from '../engine/diagnostic';
 import { addDiagnosticRun, addToWordBank } from '../afoqtStorage';
 import Figure from '../render/Figure';
+import useQuestionVoice from '../voice/useQuestionVoice';
+import VoiceBar from '../voice/VoiceBar';
 import DiagnosticReport from './DiagnosticReport';
 import { mulberry32 } from '../../engine/rng';
 
@@ -32,7 +34,7 @@ function foldResults(finalAnswers) {
  * bug PART 28 found and fixed inside it, simply do not apply to something this short.
  */
 export default function DiagnosticRunner() {
-  const { recordAnswer, mutate } = useAfoqt();
+  const { progress, recordAnswer, mutate, updateVoice } = useAfoqt();
 
   const [phase, setPhase] = useState('intro'); // 'intro' | 'running' | 'report'
   const [subtestIdx, setSubtestIdx] = useState(0);
@@ -111,6 +113,19 @@ export default function DiagnosticRunner() {
     else setIdx(idx + 1);
   }, [phase, questions, idx, answers, recordAnswer, finishSubtest, mutate]);
 
+  // Voice, same hook as the drill and the exam. The diagnostic walks every scored subtest in
+  // turn, so `subtest` changes mid-run and the hook re-derives speakability with it - Block
+  // Counting's slice stays silent while Word Knowledge's is read, without anything here knowing
+  // which is which.
+  const voice = useQuestionVoice({
+    q: phase === 'running' ? (questions[idx] ?? null) : null,
+    subtest: meta?.code ?? '',
+    enabled: phase === 'running',
+    settings: progress.settings.voice,
+    onPick: submit,
+    onCommand: () => {},
+  });
+
   const [, tick] = useState(0);
   const budget = useMemo(
     () => (meta ? paceBudget(meta.code, questions.length || DIAGNOSTIC_QUESTIONS_PER_SUBTEST, PRESSURE) : null),
@@ -148,11 +163,12 @@ export default function DiagnosticRunner() {
       if (phase !== 'running') return;
       const q = questions[idx];
       const i = LETTERS.indexOf(e.key.toUpperCase());
-      if (q && i >= 0 && i < q.choices.length) { e.preventDefault(); submit(i); }
+      if (q && i >= 0 && i < q.choices.length) { e.preventDefault(); submit(i); return; }
+      if (voice.on && e.key.toUpperCase() === 'R') { e.preventDefault(); voice.readQuestion(); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [phase, questions, idx, submit]);
+  }, [phase, questions, idx, submit, voice]);
 
   // --- intro ------------------------------------------------------------------------------
   if (phase === 'intro') {
@@ -196,7 +212,7 @@ export default function DiagnosticRunner() {
   const wide = questions.some((qq) => qq.render);
 
   return (
-    <div className={'afq-runner' + (wide ? ' afq-runner-wide' : '')}>
+    <div className={'afq-runner' + (wide ? ' afq-runner-wide' : '') + (voice.on ? ' afq-stage' : '')}>
       <header className="afq-runner-top">
         <span className="afq-progress">Subtest {subtestIdx + 1} / {DIAGNOSTIC_SUBTESTS.length}</span>
         <span className="afq-pill">{meta.name}</span>
@@ -206,13 +222,21 @@ export default function DiagnosticRunner() {
 
       <div className="afq-bar"><div className="afq-bar-fill" style={{ width: barPct + '%' }} /></div>
 
+      <VoiceBar voice={voice} settings={progress.settings.voice} updateVoice={updateVoice} />
+
       <div className="afq-card">
         {q.render && <Figure render={q.render} />}
         <p className="afq-stem">{q.stem}</p>
         <ol className={'afq-choices' + (q.optionRender || (q.render && q.choices.every((c) => c.length <= 18)) ? ' afq-choices-row' : '')}>
           {q.choices.map((c, i) => (
             <li key={i}>
-              <button className={'afq-choice' + (q.optionRender ? ' afq-choice-figure' : '')} onClick={() => submit(i)}>
+              <button
+                className={'afq-choice'
+                  + (q.optionRender ? ' afq-choice-figure' : '')
+                  + (voice.speaker.segment === i ? ' afq-choice-reading' : '')
+                  + (voice.armed?.index === i ? ' afq-choice-armed' : '')}
+                onClick={() => { voice.cancelArmed(); submit(i); }}
+              >
                 <span className="afq-letter">{LETTERS[i]}</span>
                 {q.optionRender
                   ? <><Figure render={q.optionRender[i]} /><span className="afq-sr-only">{c}</span></>

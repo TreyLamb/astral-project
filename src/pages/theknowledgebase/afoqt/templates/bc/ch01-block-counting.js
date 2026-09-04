@@ -99,6 +99,9 @@ const countTemplate = ({ id, band, name, concepts, want, blurb, drillOnly }) =>
   registerTemplate({
     id,
     subtest: 'BC',
+    // The figure itself is generated, not drawn from an authored list, so
+    // `stemSpace` here counts questions PER FIGURE and the subtest total is unbounded.
+    generatedFigure: true,
     band,
     name,
     concepts,

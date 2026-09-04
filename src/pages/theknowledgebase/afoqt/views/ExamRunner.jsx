@@ -8,6 +8,8 @@ import { labelFor } from '../engine/errorModes';
 import { EXAM_PLAN, allExamCompositeAccuracy, EXAM_ACCURACY_LABEL } from '../engine/exam';
 import { ExamSession, addExamRun, addToWordBank } from '../afoqtStorage';
 import Figure from '../render/Figure';
+import useQuestionVoice from '../voice/useQuestionVoice';
+import VoiceBar from '../voice/VoiceBar';
 import { mulberry32 } from '../../engine/rng';
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E'];
@@ -39,7 +41,7 @@ function foldResults(results, code, finalAnswers) {
  */
 export default function ExamRunner() {
   const navigate = useNavigate();
-  const { progress, recordAnswer, mutate } = useAfoqt();
+  const { progress, recordAnswer, mutate, updateVoice } = useAfoqt();
   const [session, setSession] = useState(() => ExamSession.load());
   const [, tick] = useState(0);
   const questionStart = useRef(Date.now());
@@ -161,6 +163,22 @@ export default function ExamRunner() {
     }
   }, [session, step, questions, idx, recordAnswer, advance, mutate]);
 
+  // Voice, same hook the drill and the diagnostic use. Deliberately available during a full
+  // simulated exam even though the real AFOQT is read silently: a session where you cannot use
+  // the tool the way you actually study is a session you skip. The exam's own header carries the
+  // caveat that a read-aloud run is measuring something different from a paper one.
+  //
+  // No navigation commands - the exam is strictly linear, and "back" has no meaning here.
+  const inSubtest = !!step && step.kind === 'subtest' && session?.status === 'running';
+  const voice = useQuestionVoice({
+    q: inSubtest ? (questions[idx] ?? null) : null,
+    subtest: inSubtest ? step.subtest : '',
+    enabled: inSubtest,
+    settings: progress.settings.voice,
+    onPick: submit,
+    onCommand: () => {},
+  });
+
   // One clock for every timed step: a subtest (real pace budget), a break (its own countdown),
   // or the SDI when the candidate opts into timing it (see the sdi render branch). All three
   // reduce to "how much time is left before this step ends itself", so one effect covers all.
@@ -199,11 +217,12 @@ export default function ExamRunner() {
       if (!session || session.status !== 'running' || !step || step.kind !== 'subtest') return;
       const q = questions[idx];
       const i = LETTERS.indexOf(e.key.toUpperCase());
-      if (q && i >= 0 && i < q.choices.length) { e.preventDefault(); submit(i); }
+      if (q && i >= 0 && i < q.choices.length) { e.preventDefault(); submit(i); return; }
+      if (voice.on && e.key.toUpperCase() === 'R') { e.preventDefault(); voice.readQuestion(); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [session, step, questions, idx, submit]);
+  }, [session, step, questions, idx, submit, voice]);
 
   const startSdiTiming = () => setSession((prev) => ({ ...prev, sdiTiming: true, stepStartedAt: Date.now() }));
 
@@ -367,7 +386,7 @@ export default function ExamRunner() {
   const wide = questions.some((qq) => qq.render);
 
   return (
-    <div className={'afq-runner' + (wide ? ' afq-runner-wide' : '')}>
+    <div className={'afq-runner' + (wide ? ' afq-runner-wide' : '') + (voice.on ? ' afq-stage' : '')}>
       <header className="afq-runner-top">
         <span className="afq-progress">Step {overallStepNum} / {totalSteps} - {partLabel}</span>
         <span className="afq-pill">{meta.name}</span>
@@ -378,13 +397,21 @@ export default function ExamRunner() {
 
       <div className="afq-bar"><div className="afq-bar-fill" style={{ width: barPct + '%' }} /></div>
 
+      <VoiceBar voice={voice} settings={progress.settings.voice} updateVoice={updateVoice} />
+
       <div className="afq-card">
         {q.render && <Figure render={q.render} />}
         <p className="afq-stem">{q.stem}</p>
         <ol className={'afq-choices' + (q.optionRender || (q.render && q.choices.every((c) => c.length <= 18)) ? ' afq-choices-row' : '')}>
           {q.choices.map((c, i) => (
             <li key={i}>
-              <button className={'afq-choice' + (q.optionRender ? ' afq-choice-figure' : '')} onClick={() => submit(i)}>
+              <button
+                className={'afq-choice'
+                  + (q.optionRender ? ' afq-choice-figure' : '')
+                  + (voice.speaker.segment === i ? ' afq-choice-reading' : '')
+                  + (voice.armed?.index === i ? ' afq-choice-armed' : '')}
+                onClick={() => { voice.cancelArmed(); submit(i); }}
+              >
                 <span className="afq-letter">{LETTERS[i]}</span>
                 {q.optionRender
                   ? <><Figure render={q.optionRender[i]} /><span className="afq-sr-only">{c}</span></>

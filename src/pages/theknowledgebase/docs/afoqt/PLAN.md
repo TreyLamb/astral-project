@@ -2254,3 +2254,52 @@ and cheat-mode reveal.
   show definitions for the other 4 options on the page, for the same reason per-option flagging
   didn't generalize: several frames' options are meanings, not words, and there's no gloss to show
   for a meaning that IS already the option text.
+
+---
+
+# Session 2026-09-03 — Voice: read-aloud + answer-out-loud
+
+Trey: *"I want to be able to hear the question read well and then if possible reply with voice for
+my answer. If that's not possible then that's fine just voice for the question and make simple
+touch for the 4 buttons after the question is read. the screen on mobile should be like 90%
+answers 10% question."*
+
+**Both halves shipped.** Speaking the answer is possible, so the touch layout is not a fallback -
+it ships alongside. Full record: `docs/afoqt/VOICE.md`.
+
+### Built
+- `afoqt/engine/speech.js` (pure) - notation -> speech, question -> utterance list, utterance ->
+  action. 40 tests in `engine/__tests__/speech.test.js`.
+- `afoqt/voice/` - `useSpeaker` (synthesis + voice ranking), `useListener` (recognition + echo
+  suppression), `useQuestionVoice` (composes them per question), `VoiceBar` (controls + settings).
+- Wired into **all three runners** - DrillRunner, ExamRunner, DiagnosticRunner - through the one
+  hook. `R` re-reads in all three.
+- `.afq-stage` mobile layout: stem to a 12vh scrollable strip, options flex to fill the rest.
+  Under 760px only, voice-on only, and a figure subtest opts out.
+- `npm run afoqt:speech` - the standing version of the reading pass that found every defect below.
+- Settings persist in `progress.settings.voice` via a new `updateVoice` on the context (nested
+  object, so `updateSettings`' shallow merge would have dropped fields).
+
+### Eight defects, all found by reading the output aloud
+Signs before comparison operators (`12 - 8` -> "twelve negative eight"); unbalanced brackets from
+the exponent pattern; implicit-multiply must precede exponents ("14 x cubedthe quantity");
+`f(x)` -> "fthe quantity x"; `x-coordinate` -> "x minus coordinate"; `Solve for x:` -> "solve for
+x is to"; `(co-interior)` -> "the quantity co-interior"; `$580.00` -> "point zero zero dollars".
+Every one passed every structural check.
+
+### Verification
+`npm test` 4435/4435 (85 files, +40 new). `npm run afoqt:check` clean - 354 templates hold their
+contract, coverage holds both directions. `npm run build` clean. New files lint clean; the
+pre-existing lint errors in the three runners and AfoqtApp are unchanged in number (22 before,
+22 after).
+
+### Not verified
+Nothing here has been exercised in a real browser with a real microphone - the browser-facing
+hooks are the half that unit tests cannot reach. The four synthesis workarounds and the
+echo-suppression abort are implemented from documented behaviour, not from watching them fail
+here. First real session is the test.
+
+### Deferred
+- `$725 jacket` reads "725 dollars jacket". Needs a POS pass; clumsy, never wrong.
+- No wake word / hands-free start - browsers require a gesture before any audio.
+- Firefox: synthesis yes, recognition no. Stated in the panel.

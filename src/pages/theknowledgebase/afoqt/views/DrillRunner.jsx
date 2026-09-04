@@ -14,6 +14,8 @@ import { nextPersonalizedChapter } from '../curriculum/personalize';
 import { paceBudget, paceCheck, shouldNudgeAbandon, shouldWarnGuessSweep, formatClock } from '../engine/timing';
 import { labelFor } from '../engine/errorModes';
 import Figure from '../render/Figure';
+import useQuestionVoice from '../voice/useQuestionVoice';
+import VoiceBar from '../voice/VoiceBar';
 import { mulberry32 } from '../../engine/rng';
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E'];
@@ -98,7 +100,7 @@ function nextUnanswered(answersArr, from) {
 export default function DrillRunner() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const { progress, recordAnswer, recordRun, mutate } = useAfoqt();
+  const { progress, recordAnswer, recordRun, mutate, updateVoice } = useAfoqt();
 
   const subtest = params.get('subtest') ?? 'MK';
   const count = Number(params.get('count') ?? 5);
@@ -109,6 +111,17 @@ export default function DrillRunner() {
   // includeStretch: true. Exam mode never carries this param (DrillConfig clears it the moment
   // exam is chosen), so a real-test simulation still can't accidentally include ceiling content.
   const includeStretch = params.get('stretch') === '1';
+  // `?bands=1,2`. Parsed defensively - a junk value must fall back to "every band" rather than
+  // to an empty array, which would assemble a drill of zero questions and look like a crash.
+  const bandFilter = (() => {
+    const raw = params.get('bands');
+    if (!raw) return null;
+    const list = raw.split(',').map(Number).filter((n) => n >= 1 && n <= 5);
+    return list.length ? list : null;
+  })();
+  // `bandFilter` is a fresh array on every render, so the memo below keys off this string
+  // instead - passing the array itself would rebuild the whole drill each render.
+  const bandKey = bandFilter?.join(',') ?? '';
 
   // A chapter-scoped run: the test-out gate, the chapter drill, or the mastery check.
   const chapter = getChapter(params.get('chapter') ?? '');
@@ -154,14 +167,18 @@ export default function DrillRunner() {
       rng,
       progress,
       concepts: chapter ? chapter.concepts : null,
-      bands: chapter ? chapter.bands : null,
+      // A chapter gate fixes the bands; otherwise `?bands=1,2` may fix them, which is what the
+      // speed drill uses. Without a caller for either, a drill spans every band the subtest has
+      // and a "run the easy ones fast" session was impossible to build.
+      bands: chapter ? chapter.bands : bandFilter,
       // A gate has to be an honest sample of the chapter, so no miss-pool weighting.
       ignoreMissPool: isGate,
       exam: isExam,
       includeStretch,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subtest, count, chapter?.id, isGate, isExam, includeStretch, replayTemplateId, replaySeed]);
+  }, [subtest, count, chapter?.id, isGate, isExam, includeStretch, replayTemplateId, replaySeed,
+    bandKey]);
 
   // A 33x33 Table Reading grid needs about 950px; a question stem reads best at 760. So the
   // column widens only when the questions actually carry a figure, rather than making every
@@ -261,6 +278,32 @@ export default function DrillRunner() {
     setCurrent(nextUnanswered(next, current));
   }, [questions, current, done, recordAnswer, mutate, answers]);
 
+  // Voice. Declared up here rather than beside the question card because hooks cannot live after
+  // the early returns below, and `active` is the same question the card renders - it is read from
+  // `questions[current]` in both places.
+  const active = questions[current] ?? null;
+  const onVoiceCommand = useCallback((name) => {
+    if (name === 'next') { setCurrent((c) => Math.min(questions.length - 1, c + 1)); return; }
+    if (name === 'back') { setCurrent((c) => Math.max(0, c - 1)); return; }
+    if (name === 'finish') { finish(answers); return; }
+    if (name === 'flag') {
+      const cur = questions[current];
+      if (!cur) return;
+      mutate((p) => (isFlagged(p, cur.templateId, cur.seed)
+        ? removeFlag(p, cur.templateId, cur.seed)
+        : addFlag(p, { templateId: cur.templateId, seed: cur.seed, subtest, stem: cur.stem })));
+    }
+  }, [questions, current, answers, finish, mutate, subtest]);
+
+  const voice = useQuestionVoice({
+    q: active,
+    subtest,
+    enabled: !done,
+    settings: progress.settings.voice,
+    onPick: submit,
+    onCommand: onVoiceCommand,
+  });
+
   // Whole-subtest countdown, matching how the real test administers: time cannot be banked
   // between questions, so a per-question timer would teach the wrong instinct.
   useEffect(() => {
@@ -297,13 +340,18 @@ export default function DrillRunner() {
       const q = questions[current];
       const i = LETTERS.indexOf(e.key.toUpperCase());
       if (q && i >= 0 && i < q.choices.length) { e.preventDefault(); submit(i); return; }
+      // R for repeat - outside A-E, so it costs nothing, and it is the one voice control worth a
+      // key: re-reading a question you half-heard is the most common thing you want. Gated on
+      // voice being on, because a browser refuses to speak before the toggle's user gesture and a
+      // key that silently does nothing is worse than one that does not exist.
+      if (voice.on && e.key.toUpperCase() === 'R') { e.preventDefault(); voice.readQuestion(); return; }
       if (e.key === 'Escape') { e.preventDefault(); finish(answers); return; }
       if (e.key === 'ArrowLeft') { e.preventDefault(); setCurrent((c) => Math.max(0, c - 1)); }
       if (e.key === 'ArrowRight') { e.preventDefault(); setCurrent((c) => Math.min(questions.length - 1, c + 1)); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [questions, current, done, submit, finish, answers]);
+  }, [questions, current, done, submit, finish, answers, voice]);
 
   if (questions.length === 0) {
     return (
@@ -520,7 +568,11 @@ export default function DrillRunner() {
   const wordFlagged = !!q.vocab && q.vocab.word.toLowerCase() in (progress.wordBank ?? {});
 
   return (
-    <div className={'afq-runner' + (wide ? ' afq-runner-wide' : '')}>
+    // `afq-stage` is the answer-first layout, and it only does anything on a narrow screen.
+    // Trey's spec, verbatim: "the screen on mobile should be like 90% answers 10% question" - once
+    // the question is being read to you, the stem is a reminder rather than something you read,
+    // and what you need is five targets big enough to hit without looking. Desktop is untouched.
+    <div className={'afq-runner' + (wide ? ' afq-runner-wide' : '') + (voice.on ? ' afq-stage' : '')}>
       <header className="afq-runner-top">
         <span className="afq-pill">{meta ? meta.name : subtest}</span>
         <span className="afq-progress">{current + 1} / {questions.length}</span>
@@ -550,6 +602,8 @@ export default function DrillRunner() {
       {timed && <div className="afq-bar"><div className="afq-bar-fill" style={{ width: barPct + '%' }} /></div>}
 
       {sweepWarn && <div className="afq-alert">Under 15s left. Mark every remaining question - there is no guessing penalty.</div>}
+
+      <VoiceBar voice={voice} settings={progress.settings.voice} updateVoice={updateVoice} />
 
       <div className="afq-runner-body">
         <div className="afq-runner-main">
@@ -599,8 +653,15 @@ export default function DrillRunner() {
               {q.choices.map((c, i) => (
                 <li key={i}>
                   <button
-                    className={'afq-choice' + (q.optionRender ? ' afq-choice-figure' : '') + (answers[current]?.picked === i ? ' afq-choice-picked' : '')}
-                    onClick={() => submit(i)}
+                    className={'afq-choice'
+                      + (q.optionRender ? ' afq-choice-figure' : '')
+                      + (answers[current]?.picked === i ? ' afq-choice-picked' : '')
+                      // Follows the voice, so you can see where in the slate it has got to - and
+                      // a spoken answer highlights before it commits, which is what makes the
+                      // confirm delay legible rather than just a lag.
+                      + (voice.speaker.segment === i ? ' afq-choice-reading' : '')
+                      + (voice.armed?.index === i ? ' afq-choice-armed' : '')}
+                    onClick={() => { voice.cancelArmed(); submit(i); }}
                   >
                     <span className="afq-letter">{LETTERS[i]}</span>
                     {/* An option that IS a picture - Instrument Comprehension offers four aircraft,
@@ -621,7 +682,10 @@ export default function DrillRunner() {
           <div className="afq-row afq-nav-row">
             <button className="afq-btn" disabled={current === 0} onClick={() => setCurrent((c) => Math.max(0, c - 1))}>← Back</button>
             <button className="afq-btn" disabled={current === questions.length - 1} onClick={() => setCurrent((c) => Math.min(questions.length - 1, c + 1))}>Forward →</button>
-            <p className="afq-hint">Press {LETTERS.slice(0, q.choices.length).join(' / ')} to answer · ←/→ to move · Esc to end</p>
+            <p className="afq-hint">
+              Press {LETTERS.slice(0, q.choices.length).join(' / ')} to answer · ←/→ to move
+              {voice.on ? ' · R to re-read' : ''} · Esc to end
+            </p>
           </div>
         </div>
 

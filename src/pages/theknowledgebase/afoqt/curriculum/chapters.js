@@ -498,6 +498,70 @@ export const CHAPTERS = [
     concepts: ['wk-vocab-change', 'wk-vocab-magnitude', 'wk-vocab-judgment'],
   },
 
+  // HIGH-TIER VOCABULARY (chapters 7-12), added 2026-09-02.
+  //
+  // `bands: [4, 5]` throughout, and that is the whole point of them. Chapters 5-6 run 2-4 and
+  // are where the bank already was; these six exist because band 5 did not exist at all, so
+  // there was no tier above OATTS to stretch into. Sourcing and tier math live in
+  // docs/afoqt/WORD-BANK-EXPANSION.md.
+  //
+  // `prereqs` point at chapters 2-4 (roots, affixes, confusables) rather than at chapters 5-6.
+  // These words are not harder VERSIONS of the people-and-speech words; they are different
+  // words. What actually transfers is the technique - and at band 5 the morphology is doing
+  // more work than recall is, which is why the roots chapter is the gate.
+  //
+  // `testOutPass: 5` rather than 4: at this tier a single lucky guess out of five options is a
+  // larger share of a short gate, and testing out of a chapter you have not met is worse here
+  // than anywhere else in the curriculum - there is no easier chapter downstream to catch it.
+  {
+    id: 'wk-07-vocab-deception-truth',
+    track: 'vocabulary', subtest: 'WK', order: 40,
+    title: 'High-tier vocabulary I - deception and truth',
+    summary: 'Words for lying, misleading and moral character, including the sound-alike pairs the official items lean on hardest.',
+    minutes: 16, bands: [4, 5], prereqs: ['wk-04-confusables'], testOutPass: 5,
+    concepts: ['wk-vocab-deception', 'wk-vocab-integrity'],
+  },
+  {
+    id: 'wk-08-vocab-praise-blame',
+    track: 'vocabulary', subtest: 'WK', order: 41,
+    title: 'High-tier vocabulary II - praise, blame and scorn',
+    summary: 'Approval and condemnation at GRE level. The cluster where connotation alone often answers the question.',
+    minutes: 16, bands: [4, 5], prereqs: ['wk-04-confusables'], testOutPass: 5,
+    concepts: ['wk-vocab-praise', 'wk-vocab-blame'],
+  },
+  {
+    id: 'wk-09-vocab-temperament-mood',
+    track: 'vocabulary', subtest: 'WK', order: 42,
+    title: 'High-tier vocabulary III - temperament and mood',
+    summary: 'What someone is like and how they feel, built around five near-identical pairs that mean different things.',
+    minutes: 16, bands: [4, 5], prereqs: ['wk-04-confusables'], testOutPass: 5,
+    concepts: ['wk-vocab-temperament', 'wk-vocab-mood'],
+  },
+  {
+    id: 'wk-10-vocab-clarity-expression',
+    track: 'vocabulary', subtest: 'WK', order: 43,
+    title: 'High-tier vocabulary IV - clarity and expression',
+    summary: 'How clearly something is said, how sharp a mind is, and the named forms writing and speech take.',
+    minutes: 16, bands: [4, 5], prereqs: ['wk-02-roots'], testOutPass: 5,
+    concepts: ['wk-vocab-clarity', 'wk-vocab-expression'],
+  },
+  {
+    id: 'wk-11-vocab-abundance-harm',
+    track: 'vocabulary', subtest: 'WK', order: 44,
+    title: 'High-tier vocabulary V - abundance, scarcity and harm',
+    summary: 'Too much, too little, healthy and harmful - and the bank’s densest run of near-opposite decoys.',
+    minutes: 16, bands: [4, 5], prereqs: ['wk-02-roots'], testOutPass: 5,
+    concepts: ['wk-vocab-supply', 'wk-vocab-harm'],
+  },
+  {
+    id: 'wk-12-vocab-rigor-pace',
+    track: 'vocabulary', subtest: 'WK', order: 45,
+    title: 'High-tier vocabulary VI - rigour, obligation and pace',
+    summary: 'How strictly a rule binds and how fast things move. Closes with proscribe/prescribe and ascetic/aesthetic.',
+    minutes: 16, bands: [4, 5], prereqs: ['wk-02-roots'], testOutPass: 5,
+    concepts: ['wk-vocab-rigor', 'wk-vocab-pace'],
+  },
+
   // PART 8 design, 2026-08-22. Source: docs/afoqt/RESEARCH.md "VA SOURCING" - 75 real
   // official-practice-style items (quizlet3.md, quizlet8.md) classified against the 10 official
   // AF relation concepts. Chapters group those 10 concepts into 5 clusters rather than 1:1,

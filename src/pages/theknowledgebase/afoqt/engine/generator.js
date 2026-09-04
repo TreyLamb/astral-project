@@ -33,6 +33,9 @@ const registry = new Map();
  *                                         shape the real test does not use, or a deliberately
  *                                         skewed slice of one that does
  * @property {number} [stemSpace]          declared size of a genuinely bounded item space
+ * @property {boolean} [generatedFigure]   the sheet figure is GENERATED, not drawn from an
+ *                                        authored list - so stemSpace counts questions per
+ *                                        figure and the subtest total is unbounded
  * @property {object} [provenance]
  * @property {(rng: () => number, helpers: Helpers) => RawInstance} generate
  */

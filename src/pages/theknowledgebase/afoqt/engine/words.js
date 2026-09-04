@@ -98,6 +98,7 @@ const LY_ADJECTIVES = new Set([
   'scholarly', 'miserly', 'portly', 'stately', 'kindly', 'silly', 'holy', 'jolly', 'oily',
   'early', 'likely', 'unlikely', 'motley', 'princely', 'saintly', 'sickly', 'steely', 'wobbly',
   'grisly', 'gnarly', 'seemly', 'unseemly', 'manly', 'godly', 'curly', 'burly', 'crumbly',
+  'prickly', 'wobbly', 'gangly', 'knobbly', 'stately', 'courtly', 'comely', 'homely',
 ]);
 
 /**
@@ -161,6 +162,21 @@ export function registerWords(rows) {
         throw new Error(`${at}: option "${o.value}" gives away the headword "${r.word}"`);
       }
     }
+    // A LENGTH outlier is a tell too, and a subtler one. Added 2026-09-02 after 69 of the 132
+    // rows in chapters 7-12 shipped a confusable gloss like "to treat something sacred with
+    // disrespect" onto a slate of one-word options - every structural check passed, and the
+    // trap was findable in under a second by anyone who noticed the long option is always
+    // wrong. It was caught by reading `npm run afoqt:sample` output, which is exactly the
+    // failure mode the folder CLAUDE.md warns knowledge subtests about. Two words longer than
+    // every other option is the threshold: it allows "a wide view" next to "vista" but rejects
+    // a full sentence among single words.
+    const wordCount = (v) => String(v).trim().split(/\s+/).length;
+    const longest = Math.max(...slate.slice(1).filter((o) => o.error !== 'confused-with').map((o) => wordCount(o.value)));
+    const trapLength = wordCount(r.confusable.meaning);
+    if (trapLength >= longest + 2) {
+      throw new Error(`${at}: confusable gloss "${r.confusable.meaning}" is ${trapLength} words against a longest-other of ${longest} - the trap is findable by shape, shorten it`);
+    }
+
     // A part-of-speech outlier is a tell. Checked against the ANSWER's apparent class rather
     // than the declared `pos`, because the answer is what the other four have to match.
     const answerPos = suffixPos(r.answer) ?? r.pos;

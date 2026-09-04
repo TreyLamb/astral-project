@@ -235,6 +235,7 @@ npm run afoqt:selftest -- --samples=8000  # ⚠ DO THIS before declaring a batch
 npm run afoqt:coverage                    # bidirectional traceability (Doctrine rule 2)
 npm run afoqt:check                       # both of the above
 npm run afoqt:sample -- --only=mk-factor  # print real generated questions to eyeball
+npm run afoqt:speech -- --subtest=MK      # print what the READ-ALOUD voice will actually say
 ```
 
 Rules learned in Phase 3, all of them the hard way:
@@ -398,6 +399,32 @@ Two things that go with it: index the item off `h.item` rather than drawing at r
 on collision is coupon-collecting, and it duplicated on some rng seeds but not others), and note
 that `assembleDrill` shuffles the queue, so `groupByFigure` keeps one figure's questions
 contiguous instead of scattering them across the run.
+
+## 🔊 Voice: reading a question aloud is a DATA problem, not an API problem
+
+Built 2026-09-03. Full record: `docs/afoqt/VOICE.md`. Read it before touching `afoqt/voice/` or
+`engine/speech.js`.
+
+- **The normalizer was built from an inventory of what the bank actually emits** — every
+  non-alphanumeric character and every all-caps token across all 354 templates — not from a guess
+  at what a math stem looks like. Do the same before extending it.
+- **SUBSTITUTION ORDER IS THE CORRECTNESS.** Three separate defects were pure ordering: signs must
+  run *before* the comparison operators (or `12 - 8` reads "twelve negative eight", because once
+  `<` is the word "than" you can no longer tell a minus from a negative); implicit multiplication
+  must run *before* exponents (or `14x^3(4x + 8)` reads "14 x cubedthe quantity"); function
+  application must be settled before either (or `f(x)` reads "fthe quantity x"). All three have
+  regression tests naming the exact string.
+- **A synthesiser SPELLS an all-caps run**, so `BENEVOLENT most nearly means:` is unanswerable by
+  ear until it is lowercased. Real acronyms are an explicit list; geometry labels are detected by
+  a rule (strictly ascending letters from A-H) that accepts `AB`/`ABC`/`DEF` and rejects every
+  all-caps English word in the bank.
+- **The mic must be ABORTED while the synthesiser talks**, not merely ignored — the recogniser
+  buffers audio and hands it over afterwards, so the tool answers its own questions.
+- **Every defect above passed structurally and was found by reading the output aloud.** Same
+  lesson as the knowledge and word-problem subtests above. `node <scratch>/sayit.mjs <SUBTEST>`
+  style dumping of `speechFor()` over real instances is the pass that catches them.
+
+---
 
 ## Tooling already available (do not re-install or re-derive)
 
