@@ -561,6 +561,14 @@ export const CHAPTERS = [
     minutes: 16, bands: [4, 5], prereqs: ['wk-02-roots'], testOutPass: 5,
     concepts: ['wk-vocab-rigor', 'wk-vocab-pace'],
   },
+  {
+    id: 'wk-13-vocab-power-defiance',
+    track: 'vocabulary', subtest: 'WK', order: 46,
+    title: 'High-tier vocabulary VII - power, authority and defiance',
+    summary: 'Who holds power and how it is formally gained or given up, and who challenges, undermines or abuses it.',
+    minutes: 16, bands: [4, 5], prereqs: ['wk-04-confusables'], testOutPass: 5,
+    concepts: ['wk-vocab-power', 'wk-vocab-defiance'],
+  },
 
   // PART 8 design, 2026-08-22. Source: docs/afoqt/RESEARCH.md "VA SOURCING" - 75 real
   // official-practice-style items (quizlet3.md, quizlet8.md) classified against the 10 official

@@ -147,6 +147,28 @@ LEAST effective option**.
    anti-pattern.
 5. **No verbatim commercial content.** Books calibrate; they do not supply text.
 6. **Every fact/topic must map to a chapter concept**, or `afoqt:coverage` rejects it.
+7. **A WRONG OPTION MUST BE DEFENSIBLY WRONG, not merely weaker than the answer.** The test:
+   *if a candidate who knows the word perfectly picked this option, would they have a legitimate
+   grievance?* If yes, the item is broken. This is the hardest rule to satisfy and the only one
+   NO check can enforce - `engine/words.js`'s own header says why: "English is full of
+   near-synonyms, so a blind draw will eventually offer a second correct answer, and no
+   structural check can catch it because both options are perfectly well-formed words."
+
+   It bites the `related` field hardest, because "same semantic field" and "acceptable answer"
+   are a hair apart. Found in an authoring pass on 2026-09-04, after 8,000-sample selftest,
+   coverage and 4,475 tests all passed clean:
+
+   | Word | answer | `related` shipped as | why it was broken |
+   |---|---|---|---|
+   | jingoism | nationalism | **patriotism** | the row's own gloss read "extreme, belligerent *patriotism*" |
+   | chauvinism | bias | **nationalism** | aggressive nationalism is chauvinism's primary sense - and it was `jingoism`'s ANSWER two rows away |
+   | renounce | relinquish | **reject** | to renounce a belief is to reject it |
+   | polarize | divide | **antagonize** was needed; it shipped **separate** | gloss read "to *divide* into two..." |
+   | undermine | weaken | **sabotage** | a straight synonym for covert weakening |
+
+   Two habits that catch it: **read the gloss and the option list together** - if the gloss
+   contains the distractor, stop; and **check the chapter against itself** - one word's
+   distractor must not be another word's answer.
 
 ## Validate before handing back
 

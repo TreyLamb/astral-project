@@ -90,6 +90,20 @@ instructions, and both are ordinary enough to appear in a real item. **Ascetic**
 same distinction Table Reading is built on. Interpolating is reading between cells you have;
 extrapolating is guessing past the edge of the grid.`,
   },
+  'wk-13-vocab-power-defiance': {
+    file: 'ch13-power-defiance.md',
+    title: 'High-tier vocabulary VII - power, authority and defiance',
+    lead: `Who holds power and how it is formally gained, exercised or given up, and who
+challenges, undermines or abuses it. The seventh and final high-tier chapter splits into two
+halves: rulers and the offices around them, and the vocabulary of resisting or betraying that
+authority.`,
+    method: `Several pairs here share a prefix and nothing else. **Abrogate is to repeal; arrogate
+is to claim without right** - opposite directions on the same "-rogate" stem. **Undermine is to
+weaken; underline is to emphasise** - the two share four letters and mean nearly opposite things.
+And **egalitarian is not egotistical** - one believes everyone is equal, the other believes in
+oneself above everyone. When a headword shares a stem with a common word, assume you are being
+tested on the difference between them, not the resemblance.`,
+  },
 };
 
 const esc = (s) => String(s).replace(/\|/g, '\\|');

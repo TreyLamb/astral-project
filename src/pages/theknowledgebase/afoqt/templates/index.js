@@ -60,6 +60,7 @@ import './wk/ch09-temperament-mood.js';
 import './wk/ch10-clarity-expression.js';
 import './wk/ch11-abundance-harm.js';
 import './wk/ch12-rigor-pace.js';
+import './wk/ch13-power-defiance.js';
 
 // --- Table Reading (Phase 4) -----------------------------------------------
 // One chapter, because the subtest is one skill performed 40 times. Difficulty is scan
