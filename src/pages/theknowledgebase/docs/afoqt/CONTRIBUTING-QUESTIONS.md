@@ -170,6 +170,14 @@ LEAST effective option**.
    contains the distractor, stop; and **check the chapter against itself** - one word's
    distractor must not be another word's answer.
 
+   🔴 **NARROWING THE GLOSS DOES NOT FIX AN AMBIGUOUS DISTRACTOR.** The candidate never sees the
+   gloss. A Word Knowledge question is the headword in capitals and five options - nothing else;
+   the gloss appears only in the explanation, AFTER the answer is locked in. So an author who
+   finds `BLIGHT` offering both `scourge` and `disease` and "fixes" it by editing the gloss to
+   drop the plant-disease sense has changed nothing a test-taker can see, and shipped an item
+   with two defensible answers. (Real, caught in review 2026-09-04.) The fix is always to change
+   the OPTION - there `disease` became `weed`: same field, unmistakably not the word.
+
 ## Validate before handing back
 
 ```

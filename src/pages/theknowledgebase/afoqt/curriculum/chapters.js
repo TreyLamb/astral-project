@@ -562,6 +562,31 @@ export const CHAPTERS = [
     concepts: ['wk-vocab-rigor', 'wk-vocab-pace'],
   },
   {
+    // THE WORD POOL - one chapter, deliberately, however many hundreds of words it ends up
+    // holding. Trey, 2026-09-04: "Words don't need lesson curriculum."
+    //
+    // He is right, and the alternative was absurd: at the 22-word size of ch07-ch13, the ~987
+    // remaining candidates would have meant ~45 more chapters - 45 lessons, 45 test-out gates and
+    // 45 mastery checks for material whose entire job is to make the DRILL POOL bigger. Nobody
+    // studies 45 vocabulary chapters in a month.
+    //
+    // A chapter is not a file. Any number of files under templates/wk/pool-*.js register words
+    // against this one chapter id, so the pool grows by adding files, never by adding curriculum.
+    // `pool: true` marks it as drill-only: it teaches nothing, so it has no lesson to read, no
+    // sequence, and no gate worth passing. Its lesson exists only because every chapter must have
+    // one, and it says exactly that rather than pretending to teach 250 words.
+    //
+    // The taught chapters (wk-05..wk-13) keep their curriculum and are unaffected - those are 22
+    // curated words each with a real lesson, and that is what a lesson is good for.
+    id: 'wk-20-vocab-pool',
+    track: 'vocabulary', subtest: 'WK', order: 47,
+    pool: true,
+    title: 'Extended word pool',
+    summary: 'Breadth, not instruction. High-confidence GRE-tier words that exist to keep drills from repeating - there is nothing here to read.',
+    minutes: 0, bands: [3, 4, 5], prereqs: ['wk-02-roots'], testOutPass: 5,
+    concepts: ['wk-vocab-pool'],
+  },
+  {
     id: 'wk-13-vocab-power-defiance',
     track: 'vocabulary', subtest: 'WK', order: 46,
     title: 'High-tier vocabulary VII - power, authority and defiance',

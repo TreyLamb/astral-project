@@ -56,6 +56,7 @@ import wk10 from './chapters/wk/ch10-clarity-expression.md?raw';
 import wk11 from './chapters/wk/ch11-abundance-harm.md?raw';
 import wk12 from './chapters/wk/ch12-rigor-pace.md?raw';
 import wk13 from './chapters/wk/ch13-power-defiance.md?raw';
+import wkPool from './chapters/wk/pool.md?raw';
 import va01 from './chapters/va/ch01-method.md?raw';
 import va02 from './chapters/va/ch02-structure.md?raw';
 import va03 from './chapters/va/ch03-cause-consequence.md?raw';
@@ -128,6 +129,7 @@ export const LESSONS = {
   'wk-11-vocab-abundance-harm': wk11,
   'wk-12-vocab-rigor-pace': wk12,
   'wk-13-vocab-power-defiance': wk13,
+  'wk-20-vocab-pool': wkPool,
   'va-01-method': va01,
   'va-02-structure': va02,
   'va-03-cause-consequence': va03,

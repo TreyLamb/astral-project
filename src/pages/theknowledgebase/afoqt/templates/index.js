@@ -61,6 +61,11 @@ import './wk/ch10-clarity-expression.js';
 import './wk/ch11-abundance-harm.js';
 import './wk/ch12-rigor-pace.js';
 import './wk/ch13-power-defiance.js';
+// --- the word pool (chapter wk-20-vocab-pool) ---------------------------------
+// Word files first, the registrar LAST - it reads what they registered. Add a new pool batch by
+// adding its import here, above pool-zz-register.js, and nothing else.
+import './wk/pool-01.js';
+import './wk/pool-zz-register.js';
 
 // --- Table Reading (Phase 4) -----------------------------------------------
 // One chapter, because the subtest is one skill performed 40 times. Difficulty is scan
