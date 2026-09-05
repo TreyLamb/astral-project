@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, createContext, useContext, useRef } f
 import { useAuth } from '../../../AuthContext';
 import { AfoqtLocal, AfoqtCloud, defaultProgress, applyAnswer, addRun } from './afoqtStorage';
 import AfoqtDashboard from './views/AfoqtDashboard';
+import CardsView from './views/CardsView';
 import CurriculumMap from './views/CurriculumMap';
 import ChapterView from './views/ChapterView';
 import DrillConfig from './views/DrillConfig';
@@ -137,6 +138,7 @@ export default function AfoqtApp() {
     { path: '/TKB/afoqt', label: 'Dashboard', match: (p) => p === '/TKB/afoqt' },
     { path: '/TKB/afoqt/learn', label: 'Learn', match: (p) => p.startsWith('/TKB/afoqt/learn') },
     { path: '/TKB/afoqt/drill', label: 'Drill', match: (p) => p.startsWith('/TKB/afoqt/drill') },
+    { path: '/TKB/afoqt/cards', label: 'Cards', match: (p) => p.startsWith('/TKB/afoqt/cards') },
     { path: '/TKB/afoqt/words', label: 'Words', match: (p) => p.startsWith('/TKB/afoqt/words') },
     { path: '/TKB/afoqt/flagged', label: 'Flagged', match: (p) => p.startsWith('/TKB/afoqt/flagged') },
     { path: '/TKB/afoqt/exam', label: 'Exam', match: (p) => p.startsWith('/TKB/afoqt/exam') },
@@ -159,6 +161,7 @@ export default function AfoqtApp() {
         </nav>
         <Routes>
           <Route index element={<AfoqtDashboard />} />
+          <Route path="cards" element={<CardsView />} />
           <Route path="learn" element={<CurriculumMap />} />
           <Route path="learn/:chapterId" element={<ChapterView />} />
           <Route path="drill" element={<DrillConfig />} />

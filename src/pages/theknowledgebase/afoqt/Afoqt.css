@@ -230,6 +230,76 @@
   }
 }
 
+/* --- vocabulary flashcards (2026-09-04) -----------------------------------
+   "This is all fast flash cards. No wrong or right. Just next or back. One tap. No multiple tap
+   to select and then confirm or whatever." - so the whole card is one control and the two moves
+   are the only other controls on the screen. Sized for a thumb first: the card fills the viewport
+   between a thin header and the nav, and Next is the biggest target on the page because it is the
+   one pressed hundreds of times a session. 100dvh, not vh - a phone's vh includes an address bar
+   that is not there, which would push Next under the chrome. */
+.afq-cards { display: flex; flex-direction: column; gap: .6rem; }
+.afq-cards-top { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.afq-cards-decks { display: flex; gap: .35rem; }
+.afq-cards-phase { color: var(--tkb-ink-soft); font-size: .85rem; margin-left: auto; }
+.afq-cards-count { font-variant-numeric: tabular-nums; font-size: .85rem; color: var(--tkb-ink-soft); }
+.afq-cards-bar { height: 3px; background: var(--tkb-border); border-radius: 999px; overflow: hidden; }
+.afq-cards-bar-fill { height: 100%; background: var(--tkb-accent); transition: width .15s ease; }
+
+.afq-card {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .9rem; text-align: center; cursor: pointer; font: inherit;
+  width: 100%; min-height: min(58vh, 30rem); padding: 1.5rem 1.25rem;
+  border: 1px solid var(--tkb-border); border-radius: 14px;
+  background: var(--tkb-surface); color: var(--tkb-ink);
+}
+.afq-card:hover { border-color: var(--tkb-accent); }
+.afq-card-open { justify-content: flex-start; }
+.afq-card-word {
+  font-size: clamp(1.9rem, 7vw, 3rem); font-weight: 700; letter-spacing: .02em; line-height: 1.1;
+}
+.afq-card-open .afq-card-word { font-size: clamp(1.4rem, 5vw, 2rem); color: var(--tkb-accent); }
+.afq-card-hint { font-size: .8rem; color: var(--tkb-ink-soft); text-transform: uppercase; letter-spacing: .08em; }
+.afq-card-back { display: flex; flex-direction: column; gap: .7rem; max-width: 34rem; }
+.afq-card-pos { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
+.afq-card-gloss { font-size: clamp(1.05rem, 3.4vw, 1.3rem); line-height: 1.45; }
+.afq-card-sentence { font-style: italic; color: var(--tkb-ink-soft); line-height: 1.45; }
+.afq-card-root, .afq-card-confusable {
+  font-size: .85rem; color: var(--tkb-ink-soft); line-height: 1.4;
+  border-top: 1px solid var(--tkb-border); padding-top: .55rem;
+}
+.afq-card-done { cursor: default; }
+
+.afq-cards-nav { display: flex; gap: .6rem; }
+.afq-cards-move {
+  flex: 1; font: inherit; font-size: 1.05rem; font-weight: 600;
+  padding: 1rem .8rem; border-radius: 12px; cursor: pointer;
+  border: 1px solid var(--tkb-border); background: var(--tkb-surface); color: var(--tkb-ink);
+}
+/* Next is deliberately dominant - it is pressed far more than Back, and on a phone the thumb
+   should not have to aim. */
+.afq-cards-next { flex: 2.2; background: var(--tkb-accent); border-color: var(--tkb-accent); color: #fff; }
+.afq-cards-move:disabled { opacity: .4; cursor: not-allowed; }
+
+.afq-cards-foot { display: flex; flex-direction: column; gap: .5rem; margin-top: .4rem; }
+.afq-cards-stat {
+  font-size: .78rem; color: var(--tkb-ink-soft);
+  padding: .15rem .55rem; border: 1px solid var(--tkb-border); border-radius: 999px;
+}
+.afq-cards-add { align-items: center; }
+.afq-cards-addlabel { display: inline-flex; align-items: center; gap: .4rem; font-size: .88rem; }
+.afq-cards-addlabel input {
+  width: 4rem; font: inherit; padding: .35rem .4rem; text-align: center;
+  border: 1px solid var(--tkb-border); border-radius: 6px;
+  background: var(--tkb-canvas); color: var(--tkb-ink);
+}
+.afq-cards-addnote { font-size: .78rem; margin: 0; }
+
+@media (max-width: 760px) {
+  .afq-cards-phase { margin-left: 0; flex-basis: 100%; order: 3; }
+  .afq-card { min-height: calc(100dvh - 19rem); }
+  .afq-cards-move { padding: 1.15rem .8rem; font-size: 1.1rem; }
+}
+
 /* --- study priority + the OTS job list (2026-09-04) -----------------------
    Trey's own 0-10 scale over his eleven submitted applications: "Math 10 most, physical science
    0 least. Tests can tie their numbers." The colour is a three-step band rather than a gradient

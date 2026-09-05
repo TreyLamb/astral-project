@@ -33,6 +33,10 @@ export function defaultProgress() {
     chapters: {},        // chapterId -> { status, testedOut, completedAt, bestScore }
     wordBank: {},        // word (lowercased) -> { word, pos, gloss, root, missCount, firstMissedAt, lastMissedAt }
     flagged: {},         // `${templateId}:${seed}` -> { templateId, seed, subtest, stem, flaggedAt }
+    // Daily vocabulary flashcards - see engine/cards.js. Only the DAY a word was introduced is
+    // stored; the passes, the five-day window and the full deck are all derived from that plus
+    // today's date. Nothing is graded here on purpose, so there is no accuracy to keep.
+    cards: { days: {} },   // 'YYYY-MM-DD' -> [wordId]
     settings: {
       mode: 'paced',
       pressure: 1,
