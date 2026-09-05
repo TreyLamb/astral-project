@@ -79,6 +79,23 @@ export function compositeReach(code) {
  *
  * `rank` is his submitted preference order; the last two were left unranked on the form.
  *
+ * ⚠ RPA IS RATED, AND THAT DOES NOT AGE HIM OUT - checked 2026-09-04 because he reasonably
+ * assumed it should have. Manned rated (pilot / CSO / ABM) is the ~33rd-birthday rule everyone
+ * quotes. **RPA is explicitly carved OUT of it**: DAFI 36-2137's Undergraduate Flying Training
+ * age paragraph contains an exception for Undergraduate RPA Training and redirects RPA
+ * applicants to the maximum age for APPOINTMENT in DAFMAN 36-2032 - i.e. the ordinary
+ * commissioning ceiling. AFRS's own OTS selection guidance states RPA applicants must commission
+ * prior to their 40th birthday, and that an age ETP for RPA is not authorized.
+ *
+ * So at 36 he qualifies, the portal listing it under QUALIFIED was right, and the rated-only
+ * subtests (TR, IC, BC, AI) keep their PRIORITY scores below. Do not "correct" this by dropping
+ * RPA or demoting those four.
+ *
+ * Confidence: the primary AFRS PDF 403s to automated fetches, so this rests on sources quoting
+ * it plus the DAFI mechanism above, which independently explains WHY RPA differs. Board rules do
+ * move - worth a recruiter confirmation, and RPA still gates on a flight physical and the
+ * TBAS/PCSM, neither of which is an age rule or modelled here.
+ *
  * ⚠ Composite REQUIREMENTS here are the AFOQT-side gate only. A real board also weighs GPA, the
  * whole-person score, and for RPA the TBAS/PCSM, none of which this tool models. Treat these as
  * "which subtests move the needle", not as an eligibility determination.
