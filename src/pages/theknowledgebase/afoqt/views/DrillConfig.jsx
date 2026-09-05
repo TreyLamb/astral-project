@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
-import { DRILLABLE_BY_PRIORITY, getSubtest, secPerQuestion, compositeReach, PRIORITY } from '../engine/afoqtSpec';
+import { DRILLABLE_BY_PRIORITY, getSubtest, secPerQuestion, compositeReach, PRIORITY, TEST_LEVEL_BAND } from '../engine/afoqtSpec';
 import { templatesFor } from '../engine/generator';
 import { bankCount } from '../engine/bank';
 import { PRESSURE_PRESETS } from '../engine/timing';
@@ -61,21 +61,43 @@ export default function DrillConfig() {
   // band." The engine has supported a band filter all along - `assembleDrill({ bands })`, reached
   // through `?bands=` - but the only thing that ever set it was the Speed toggle, so the control
   // existed and was unreachable. `null` means every band.
-  const [bands, setBands] = useState(null);
   const bandsAvailable = [...new Set(templates.map((t) => t.band))].sort();
   const bandCount = (b) => templates.filter((t) => t.band === b).length;
-  const pickBand = (b) => {
-    setBands(b == null ? null : [b]);
-    // Speed IS a band choice (1-2) plus a clock, so a different band has to clear it rather than
-    // leave two controls silently disagreeing about what gets asked.
-    if (b != null && speed) setSpeed(false);
+
+  // TEST LEVEL IS THE DEFAULT, not "everything". Trey, 2026-09-05: "I want the tool to default to
+  // only the bands that are on the test or higher. I only want to choose the lower bands for
+  // specific reasons."
+  //
+  // Band 3 is about where the real AFOQT sits; 1-2 are below it. Defaulting to all bands meant a
+  // third of every drill was material he had already told us was beneath the level he needs -
+  // which is the opposite of what the priority work was for. Bands below 3 are now opt-in.
+  const testLevelBands = bandsAvailable.filter((b) => b >= TEST_LEVEL_BAND);
+  const defaultBands = testLevelBands.length ? testLevelBands : bandsAvailable;
+  // Multi-select: a set of chosen bands, not one. "I want to be able to choose multiple bands."
+  const [bands, setBands] = useState(defaultBands);
+
+  const toggleBand = (b) => {
+    if (speed) setSpeed(false);
+    setBands((cur) => {
+      const next = cur.includes(b) ? cur.filter((x) => x !== b) : [...cur, b].sort();
+      // Never let the picker reach zero bands - a drill of nothing is not a state worth being in,
+      // and the last band tapped off is almost always a mis-tap.
+      return next.length ? next : cur;
+    });
   };
+  const allSelected = bandsAvailable.every((b) => bands.includes(b));
+  const isDefault = bands.length === defaultBands.length && defaultBands.every((b) => bands.includes(b));
 
   // Picking a subtest resets the run length. "Full subtest" sets `count` to that subtest's own
   // question count, and carrying 40 over from Table Reading into a 25-question Word Knowledge
   // drill silently builds a run the chosen subtest never administers.
   const chooseSubtest = (code) => {
-    if (code !== subtest) { setCount(5); setBands(null); setSpeed(false); setStretch(false); }
+    if (code !== subtest) {
+      setCount(5); setSpeed(false); setStretch(false);
+      const avail = [...new Set(templatesFor(code).map((t) => t.band))].sort();
+      const atLevel = avail.filter((b) => b >= TEST_LEVEL_BAND);
+      setBands(atLevel.length ? atLevel : avail);
+    }
     setSubtest(code);
   };
 
@@ -83,9 +105,10 @@ export default function DrillConfig() {
     updateSettings({ mode, pressure });
     const q = new URLSearchParams({ subtest, count, mode, pressure });
     if (stretch) q.set('stretch', '1');
-    // Speed pins bands 1-2 as part of what it is; otherwise the difficulty picker decides.
+    // Speed pins bands 1-2 as part of what it is; otherwise the difficulty picker decides. Only
+    // omitted when every band is selected, where a filter would be a no-op.
     if (speed) q.set('bands', '1,2');
-    else if (bands) q.set('bands', bands.join(','));
+    else if (bands.length && !bandsAvailable.every((b) => bands.includes(b))) q.set('bands', bands.join(','));
     navigate(`/TKB/afoqt/drill/run?${q}`);
   };
 
@@ -229,54 +252,92 @@ export default function DrillConfig() {
       {bandsAvailable.length > 1 && (
             <section>
               <h3>Difficulty</h3>
+              {/* MULTI-SELECT. Each band is an independent toggle, so any combination is reachable
+                  - band 4 alone, 4+5, or 3+4+5. The default is test level and up; the low bands
+                  are opt-in and say so on their own faces. */}
               <div className="afq-row afq-wrap-row">
+                {bandsAvailable.map((b) => {
+                  const on = !speed && bands.includes(b);
+                  const below = b < TEST_LEVEL_BAND;
+                  return (
+                    <button
+                      key={b}
+                      className={'afq-btn afq-bandbtn' + (on ? ' afq-primary' : '') + (below ? ' afq-band-below' : '')}
+                      onClick={() => toggleBand(b)}
+                      aria-pressed={on}
+                      title={`${bandCount(b)} templates at band ${b}${below ? ' - below the level the test asks' : ''}`}
+                    >
+                      Band {b}{below && <small> below test</small>}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="afq-row afq-wrap-row afq-band-presets">
                 <button
-                  className={'afq-btn' + (!bands && !speed ? ' afq-primary' : '')}
-                  onClick={() => pickBand(null)}
-                  title="Every band, each item equally likely"
+                  className={'afq-btn afq-ghost' + (isDefault && !speed ? ' afq-band-ison' : '')}
+                  onClick={() => { setSpeed(false); setBands(defaultBands); }}
+                >
+                  Test level and up{defaultBands.length ? ` (${defaultBands.join(', ')})` : ''}
+                </button>
+                <button
+                  className={'afq-btn afq-ghost' + (allSelected && !speed ? ' afq-band-ison' : '')}
+                  onClick={() => { setSpeed(false); setBands(bandsAvailable); }}
                 >
                   All bands
                 </button>
-                {bandsAvailable.map((b) => (
-                  <button
-                    key={b}
-                    className={'afq-btn' + (!speed && bands?.length === 1 && bands[0] === b ? ' afq-primary' : '')}
-                    onClick={() => pickBand(b)}
-                    title={`${bandCount(b)} templates at band ${b}`}
-                  >
-                    Band {b}
-                  </button>
-                ))}
               </div>
               <p className="afq-note">
-                Band is the difficulty dial: 2 is below what the test asks, 3 is about where it
-                sits, 4 is the level worth owning, 5 is deliberately above it. Every item inside
-                the band you pick is equally likely to come up.
+                Band 3 is about where the real test sits, 4 is the level worth owning, 5 is
+                deliberately above it. <strong>Bands 1-2 are below what the AFOQT asks</strong> and are
+                off by default — they are not for learning, and their speed practice lives in the
+                flashcards below. Every item inside the bands you pick is equally likely.
               </p>
             </section>
           )}
 
           {lowBand > 0 && (
         <section>
-          <h3>Speed</h3>
-          <button
-            className={'afq-btn' + (speed ? ' afq-primary' : '')}
-            onClick={() => {
-              const on = !speed;
-              setSpeed(on);
-              // Speed and stretch are opposite goals - one drills material you already know for
-              // pace, the other drills material above the test for depth. Never both.
-              if (on) { setStretch(false); setMode('exam'); setPressure(0.6); }
-            }}
-            title="Bands 1-2 only, 40% less time than the real allotment"
-          >
-            {speed ? 'Speed drill: on' : `Speed drill (bands 1-2, ${lowBand} templates)`}
-          </button>
-          <p className="afq-note">
-            The easy bands, answered fast. Not for learning words — for cutting the hesitation on
-            ones you already half-know, which is what costs you the time you need on the hard
-            items. Forces exam timing at 40% less than the real allotment.
-          </p>
+          <h3>Speed — the low bands</h3>
+          {/* Trey, 2026-09-05: "the lower bands were supposed to have their own flash card style
+              speed run." On Word Knowledge that is now literally what it is - a flashcard deck of
+              the band 1-2 words, one tap per card, no five-option slate and no scoring. The point
+              was never to TEST him on words he already knows; it is to cut the hesitation, and a
+              graded multiple-choice drill is the slowest possible way to practise that.
+
+              Other subtests keep the timed drill, because "flashcard" does not mean anything for a
+              Table Reading lookup or a Block Counting pile - there is no front and back. */}
+          {subtest === 'WK' ? (
+            <>
+              <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/cards?deck=speed')}>
+                Open flashcard speed run
+              </button>
+              <p className="afq-note">
+                Bands 1-2, as fast cards rather than a drill. One tap per word, no scoring — this is
+                for cutting hesitation on words you already half-know, which is what costs you the
+                time you need on the hard items. The drill above stays at test level.
+              </p>
+            </>
+          ) : (
+            <>
+              <button
+                className={'afq-btn' + (speed ? ' afq-primary' : '')}
+                onClick={() => {
+                  const on = !speed;
+                  setSpeed(on);
+                  // Speed and stretch are opposite goals - one drills material you already know for
+                  // pace, the other drills material above the test for depth. Never both.
+                  if (on) { setStretch(false); setMode('exam'); setPressure(0.6); }
+                }}
+                title="Bands 1-2 only, 40% less time than the real allotment"
+              >
+                {speed ? 'Speed drill: on' : `Speed drill (bands 1-2, ${lowBand} templates)`}
+              </button>
+              <p className="afq-note">
+                The easy bands, answered fast, at 40% less than the real allotment. Not for learning
+                — for cutting hesitation on items you already half-know.
+              </p>
+            </>
+          )}
         </section>
       )}
 

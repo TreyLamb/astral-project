@@ -1,7 +1,9 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
 import { allWords } from '../engine/words';
 import { todayStr } from '../afoqtStorage';
+import { TEST_LEVEL_BAND } from '../engine/afoqtSpec';
 import {
   WORDS_PER_DAY, NEW_PASSES, WINDOW_DAYS,
   introduceDay, addMore, buildSession, allDeck, introducedIds, idsForDay, remainingCount,
@@ -19,6 +21,19 @@ import {
  *
  * All the day/window logic is in engine/cards.js and tested there. This file only renders.
  */
+/** Same seeded shuffle engine/cards.js uses, so the speed deck is stable across re-renders too. */
+function shuffleIds(ids, seedStr) {
+  let h = 2166136261;
+  for (let i = 0; i < seedStr.length; i++) { h ^= seedStr.charCodeAt(i); h = Math.imul(h, 16777619); }
+  const out = [...ids];
+  for (let i = out.length - 1; i > 0; i--) {
+    h ^= h << 13; h ^= h >>> 17; h ^= h << 5; h >>>= 0;
+    const j = h % (i + 1);
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
 export default function CardsView() {
   const { progress, mutate } = useAfoqt();
   const pool = useMemo(() => allWords(), []);
@@ -30,7 +45,9 @@ export default function CardsView() {
     mutate((p) => introduceDay(p, pool, today));
   }, [mutate, pool, today]);
 
-  const [deck, setDeck] = useState('daily');       // 'daily' | 'all'
+  // `?deck=speed` is how DrillConfig hands off the low-band speed run. Read once on mount.
+  const [params] = useSearchParams();
+  const [deck, setDeck] = useState(() => (params.get('deck') === 'speed' ? 'speed' : 'daily'));
   const [idx, setIdx] = useState(0);
   const [shown, setShown] = useState(false);       // is the back of THIS card showing
   const [addCount, setAddCount] = useState(10);
@@ -38,7 +55,19 @@ export default function CardsView() {
   const byId = useMemo(() => new Map(pool.map((w) => [w.id, w])), [pool]);
   const session = useMemo(() => buildSession(progress, today), [progress, today]);
   const full = useMemo(() => allDeck(progress, today), [progress, today]);
-  const queue = deck === 'daily' ? session : full.map((id) => ({ id, phase: 'all', pass: null }));
+  // THE SPEED DECK. Trey, 2026-09-05: "the lower bands were supposed to have their own flash card
+  // style speed run." Bands below test level, straight from the word registry rather than from
+  // what has been introduced - the whole point is that he already knows these, so gating them
+  // behind the daily drip would defeat the exercise. No scoring, same one-tap walk.
+  const speedIds = useMemo(
+    () => pool.filter((w) => w.band < TEST_LEVEL_BAND).map((w) => w.id),
+    [pool],
+  );
+  const speedDeck = useMemo(() => shuffleIds(speedIds, `speed:${today}`), [speedIds, today]);
+
+  const queue = deck === 'daily' ? session
+    : deck === 'speed' ? speedDeck.map((id) => ({ id, phase: 'speed', pass: null }))
+      : full.map((id) => ({ id, phase: 'all', pass: null }));
 
   const card = queue[idx] ?? null;
   const word = card ? byId.get(card.id) : null;
@@ -75,9 +104,10 @@ export default function CardsView() {
   const phaseLabel = !card ? ''
     : card.phase === 'new' ? `New words — pass ${card.pass} of ${NEW_PASSES}`
       : card.phase === 'mixed' ? `Mixed review — last ${WINDOW_DAYS} days`
-        : `Full deck — every word you have met`;
+        : card.phase === 'speed' ? 'Speed run — bands below test level'
+          : `Full deck — every word you have met`;
 
-  if (!introduced) {
+  if (!introduced && deck !== 'speed') {
     return (
       <div className="afq-wrap">
         <h2>Word cards</h2>
@@ -103,6 +133,15 @@ export default function CardsView() {
           >
             All {introduced}
           </button>
+          {speedIds.length > 0 && (
+            <button
+              className={'afq-btn' + (deck === 'speed' ? ' afq-primary' : ' afq-ghost')}
+              onClick={() => switchDeck('speed')}
+              title="Bands below the level the test asks - for pace, not for learning"
+            >
+              Speed {speedIds.length}
+            </button>
+          )}
         </div>
         <span className="afq-cards-phase">{phaseLabel}</span>
         <span className="afq-cards-count">{queue.length ? idx + 1 : 0} / {queue.length}</span>

@@ -176,6 +176,16 @@ export const DRILLABLE_BY_PRIORITY = [...DRILLABLE].sort(
   (a, b) => (PRIORITY[b.code] ?? 0) - (PRIORITY[a.code] ?? 0) || a.order - b.order,
 );
 
+/**
+ * The band the real AFOQT sits at. Anything below is below the level the test asks.
+ *
+ * Trey, 2026-09-05: "I want the tool to default to only the bands that are on the test or higher.
+ * I only want to choose the lower bands for specific reasons." So bands 1-2 are opt-in everywhere
+ * a band filter is offered, and their practice value is SPEED on material already known - which
+ * is why on Word Knowledge that lives in the flashcards rather than in a scored drill.
+ */
+export const TEST_LEVEL_BAND = 3;
+
 /** Rights-only scoring: a blank is strictly worse than a guess. Never penalise. */
 export const GUESSING_PENALTY = false;
 
