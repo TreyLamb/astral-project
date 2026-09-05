@@ -87,20 +87,22 @@ export function compositeReach(code) {
  * commissioning ceiling rather than a flying-training one. That mechanism is the solid part, and
  * it is what makes "rated means 33" not apply here.
  *
- * ⚠ THE CEILING NUMBER ITSELF IS NOT SETTLED, and an earlier version of this comment stated it
- * as though it were. Sources of different vintages give 39, 40 and 42; the most recent points at
- * 42 under DAFMAN 36-2032 / 10 USC 1251, and notes AF/A1 and SF/S1 may further restrict it by
- * component. AFRS OTS guidance is quoted as "prior to their 40th birthday" with no age ETP
- * authorized for RPA. This is exactly the trap the folder CLAUDE.md names for AFOQT sources: an
- * official-looking document is not necessarily the current one. NO PRIMARY SOURCE WAS READ
- * DIRECTLY - the AFRS PDF 403s to automated fetching, and DAFI 36-2137 / DAFMAN 36-2032 were not
- * pulled from e-publishing. Treat every number above as secondhand.
+ * ⚠ THE CEILING NUMBER IS AN ASSUMPTION, NOT A VERIFIED FACT. Sources of different vintages give
+ * 39, 40 and 42 - the most recent pointing at 42 under DAFMAN 36-2032 / 10 USC 1251, with AF/A1
+ * and SF/S1 able to restrict further by component, while AFRS OTS guidance is quoted as "prior to
+ * their 40th birthday" with no age ETP authorized for RPA. No primary source was read directly:
+ * the AFRS PDF 403s to automated fetching and neither publication was pulled from e-publishing.
  *
- * What survives the uncertainty: at 36 he is inside ALL of 39, 40 and 42, so the conclusion holds
- * whichever is current. The portal listing RPA under QUALIFIED is consistent with that. The
- * rated-only subtests (TR, IC, BC, AI) keep their PRIORITY scores below - do not "correct" this
- * by dropping RPA or demoting those four on the assumption that rated implies an age bar.
+ * TREY'S CALL, 2026-09-04: **assume commissioning by the 40th birthday.** It is the middle of the
+ * three candidates and the conservative one to plan against - if the real ceiling is 42 he has
+ * spare room, and at 36 he is inside all three either way, so ELIGIBILITY does not turn on it.
  *
+ * What the 40 assumption actually constrains is the TIMELINE, not the study plan: it puts a
+ * commissioning deadline roughly four years out, which bounds how many OTS boards he can sit if
+ * the first does not select. The tool does not know his birthdate and does not model any of this.
+ *
+ * The rated-only subtests (TR, IC, BC, AI) keep their PRIORITY scores below - do not "correct"
+ * this by dropping RPA or demoting those four on the assumption that rated implies an age bar.
  * Still worth a recruiter confirmation, and RPA gates separately on a flight physical and the
  * TBAS/PCSM - neither an age rule nor modelled here.
  *
