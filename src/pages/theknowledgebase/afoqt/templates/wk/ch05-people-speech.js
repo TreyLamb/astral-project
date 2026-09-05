@@ -178,7 +178,8 @@ registerWords([
     gloss: 'easily deceived or tricked; too trusting',
     answer: 'credulous',
     antonym: 'skeptical',
-    related: 'trusting',
+    // NOT 'trusting' - the gloss says "too trusting", so it read as a second correct answer.
+    related: 'obliging',
     decoy: 'energetic',
     confusable: { word: 'credible', meaning: 'believable' },
     sentence: 'The recruiter warned that scammers target gullible new hires.',

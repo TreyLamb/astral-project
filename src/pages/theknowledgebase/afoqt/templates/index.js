@@ -65,6 +65,7 @@ import './wk/ch13-power-defiance.js';
 // Word files first, the registrar LAST - it reads what they registered. Add a new pool batch by
 // adding its import here, above pool-zz-register.js, and nothing else.
 import './wk/pool-01.js';
+import './wk/pool-02.js';
 import './wk/pool-zz-register.js';
 
 // --- Table Reading (Phase 4) -----------------------------------------------
