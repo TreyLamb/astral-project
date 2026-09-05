@@ -84,17 +84,25 @@ export function compositeReach(code) {
  * quotes. **RPA is explicitly carved OUT of it**: DAFI 36-2137's Undergraduate Flying Training
  * age paragraph contains an exception for Undergraduate RPA Training and redirects RPA
  * applicants to the maximum age for APPOINTMENT in DAFMAN 36-2032 - i.e. the ordinary
- * commissioning ceiling. AFRS's own OTS selection guidance states RPA applicants must commission
- * prior to their 40th birthday, and that an age ETP for RPA is not authorized.
+ * commissioning ceiling rather than a flying-training one. That mechanism is the solid part, and
+ * it is what makes "rated means 33" not apply here.
  *
- * So at 36 he qualifies, the portal listing it under QUALIFIED was right, and the rated-only
- * subtests (TR, IC, BC, AI) keep their PRIORITY scores below. Do not "correct" this by dropping
- * RPA or demoting those four.
+ * ⚠ THE CEILING NUMBER ITSELF IS NOT SETTLED, and an earlier version of this comment stated it
+ * as though it were. Sources of different vintages give 39, 40 and 42; the most recent points at
+ * 42 under DAFMAN 36-2032 / 10 USC 1251, and notes AF/A1 and SF/S1 may further restrict it by
+ * component. AFRS OTS guidance is quoted as "prior to their 40th birthday" with no age ETP
+ * authorized for RPA. This is exactly the trap the folder CLAUDE.md names for AFOQT sources: an
+ * official-looking document is not necessarily the current one. NO PRIMARY SOURCE WAS READ
+ * DIRECTLY - the AFRS PDF 403s to automated fetching, and DAFI 36-2137 / DAFMAN 36-2032 were not
+ * pulled from e-publishing. Treat every number above as secondhand.
  *
- * Confidence: the primary AFRS PDF 403s to automated fetches, so this rests on sources quoting
- * it plus the DAFI mechanism above, which independently explains WHY RPA differs. Board rules do
- * move - worth a recruiter confirmation, and RPA still gates on a flight physical and the
- * TBAS/PCSM, neither of which is an age rule or modelled here.
+ * What survives the uncertainty: at 36 he is inside ALL of 39, 40 and 42, so the conclusion holds
+ * whichever is current. The portal listing RPA under QUALIFIED is consistent with that. The
+ * rated-only subtests (TR, IC, BC, AI) keep their PRIORITY scores below - do not "correct" this
+ * by dropping RPA or demoting those four on the assumption that rated implies an age bar.
+ *
+ * Still worth a recruiter confirmation, and RPA gates separately on a flight physical and the
+ * TBAS/PCSM - neither an age rule nor modelled here.
  *
  * ⚠ Composite REQUIREMENTS here are the AFOQT-side gate only. A real board also weighs GPA, the
  * whole-person score, and for RPA the TBAS/PCSM, none of which this tool models. Treat these as
