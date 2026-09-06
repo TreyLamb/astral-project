@@ -16,6 +16,7 @@ import WordBank from './views/WordBank';
 import StudyPlan from './views/StudyPlan';
 import FlaggedQuestions from './views/FlaggedQuestions';
 import AfoqtResults from './views/AfoqtResults';
+import AfrotcView from './afrotc/AfrotcView';
 import './Afoqt.css';
 
 // Templates self-register on import; this pulls the whole registry in once.
@@ -143,6 +144,9 @@ export default function AfoqtApp() {
     { path: '/TKB/afoqt/flagged', label: 'Flagged', match: (p) => p.startsWith('/TKB/afoqt/flagged') },
     { path: '/TKB/afoqt/exam', label: 'Exam', match: (p) => p.startsWith('/TKB/afoqt/exam') },
     { path: '/TKB/afoqt/results', label: 'Results', match: (p) => p.startsWith('/TKB/afoqt/results') },
+    // Not an AFOQT subtest - AFROTC coursework, kept here because it is studied in the same
+    // sitting and both its pages had no route into the site at all before this.
+    { path: '/TKB/afoqt/afrotc', label: 'AFROTC', match: (p) => p.startsWith('/TKB/afoqt/afrotc') },
   ];
 
   return (
@@ -174,6 +178,7 @@ export default function AfoqtApp() {
           <Route path="study" element={<StudyPlan />} />
           <Route path="flagged" element={<FlaggedQuestions />} />
           <Route path="results" element={<AfoqtResults />} />
+          <Route path="afrotc" element={<AfrotcView />} />
         </Routes>
       </div>
     </AfoqtContext.Provider>

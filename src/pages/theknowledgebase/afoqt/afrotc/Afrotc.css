@@ -1,0 +1,243 @@
+/* AFROTC tab. Prefix afq-rotc-. Inherits the --tkb-* tokens - no new palette.
+   The two source pages carried their own navy/gold identity; that is dropped on purpose so this
+   reads as part of the study tool rather than a pasted-in document. Only the insignia keep
+   dedicated tokens, because a rank plate has to look like metal on cloth in both themes. */
+
+.afq-rotc {
+  --afq-rotc-plate: #14161a;
+  --afq-rotc-mark: #ffffff;
+  --afq-rotc-gmc: #1b2a6b;
+  --afq-rotc-gold: #8a6410;
+  --afq-rotc-gold-soft: #f7eed8;
+  --afq-rotc-blue-soft: #e3ecf8;
+  display: flex; flex-direction: column; gap: 1rem; min-width: 0;
+}
+@media (prefers-color-scheme: dark) {
+  .afq-rotc {
+    --afq-rotc-plate: #0a0b0d;
+    --afq-rotc-gmc: #4763c8;
+    --afq-rotc-gold: #d5a83e;
+    --afq-rotc-gold-soft: #2c2413;
+    --afq-rotc-blue-soft: #16283f;
+  }
+}
+
+/* --- page switch --- */
+.afq-rotc-nav { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+@media (max-width: 520px) { .afq-rotc-nav { grid-template-columns: 1fr; } }
+.afq-rotc-nav button {
+  display: flex; flex-direction: column; gap: .15rem; text-align: left; font: inherit;
+  padding: .6rem .8rem; border: 1px solid var(--tkb-border); border-radius: 8px;
+  background: var(--tkb-surface); color: var(--tkb-ink); cursor: pointer;
+}
+.afq-rotc-nav button.on { border-color: var(--tkb-accent); box-shadow: 0 0 0 1px var(--tkb-accent); }
+.afq-rotc-nav button b { font-size: 1.05rem; }
+.afq-rotc-nav button span { color: var(--tkb-ink-soft); font-size: .9rem; }
+
+/* --- shared blocks --- */
+.afq-rotc-sheet { display: flex; flex-direction: column; gap: 1.1rem; min-width: 0; }
+.afq-rotc-sheet p { line-height: 1.6; margin: .55rem 0; }
+.afq-rotc-sheet li { line-height: 1.55; margin: .25rem 0; }
+.afq-rotc-sheet .last { margin-bottom: 0; }
+.afq-rotc-sheet h4 { margin: .4rem 0 0; font-size: 1.08rem; }
+.afq-rotc-sheet h5 { margin: .7rem 0 .2rem; font-size: .98rem; }
+
+.afq-rotc-mast { border-bottom: 2px solid var(--tkb-ink); padding-bottom: .8rem; }
+.afq-rotc-mast h2 { margin: .2rem 0; font-size: 1.9rem; line-height: 1.1; }
+.afq-rotc-eyebrow, .afq-rotc-meta {
+  font-size: .75rem; text-transform: uppercase; letter-spacing: .09em; color: var(--tkb-ink-soft);
+}
+.afq-rotc-sub { color: var(--tkb-ink-soft); max-width: 68ch; }
+.afq-rotc-meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: .4rem; }
+
+/* --- time budget --- */
+.afq-rotc-budget { border: 1px solid var(--tkb-border); border-radius: 8px; padding: .7rem .8rem; background: var(--tkb-surface); }
+.afq-rotc-budget-head { display: flex; justify-content: space-between; gap: .8rem; flex-wrap: wrap; }
+.afq-rotc-budget-head span { color: var(--tkb-ink-soft); font-size: .85rem; }
+.afq-rotc-budget-bar { display: flex; gap: 2px; height: 8px; margin: .55rem 0 .4rem; }
+.afq-rotc-budget-bar i { background: var(--tkb-border); border-radius: 2px; }
+.afq-rotc-budget-bar i.pri { background: var(--afq-rotc-gold); }
+.afq-rotc-budget-legend { display: flex; gap: .5rem; flex-wrap: wrap; }
+.afq-rotc-budget-legend a {
+  display: flex; flex-direction: column; text-decoration: none; color: var(--tkb-ink);
+  border: 1px solid var(--tkb-border); border-radius: 6px; padding: .3rem .55rem; min-width: 0;
+}
+.afq-rotc-budget-legend .mins { font-weight: 600; font-variant-numeric: tabular-nums; font-size: .85rem; }
+.afq-rotc-budget-legend .lbl { color: var(--tkb-ink-soft); font-size: .82rem; }
+
+/* --- callouts --- */
+.afq-rotc-call { border: 1px solid var(--tkb-border); border-left-width: 4px; border-radius: 6px; padding: .65rem .8rem; background: var(--tkb-surface); }
+.afq-rotc-call.alert { border-left-color: var(--tkb-wrong); }
+.afq-rotc-call.gold { border-left-color: var(--afq-rotc-gold); background: var(--afq-rotc-gold-soft); }
+.afq-rotc-call.blue { border-left-color: var(--tkb-accent); }
+.afq-rotc-call.ok { border-left-color: var(--tkb-correct); }
+.afq-rotc-tag {
+  display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .09em;
+  font-weight: 700; color: var(--tkb-ink-soft); margin-bottom: .25rem;
+}
+.afq-rotc-call.alert .afq-rotc-tag { color: var(--tkb-wrong); }
+.afq-rotc-call.ok .afq-rotc-tag { color: var(--tkb-correct); }
+.afq-rotc-call ol, .afq-rotc-call ul { margin: .35rem 0; padding-left: 1.2rem; }
+
+.afq-rotc-inline-link {
+  font: inherit; background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--tkb-accent); text-decoration: underline; text-underline-offset: 2px;
+}
+
+/* --- sections --- */
+.afq-rotc-sec { display: flex; flex-direction: column; gap: .55rem; min-width: 0; scroll-margin-top: 1rem; }
+.afq-rotc-sec-head {
+  display: flex; align-items: baseline; gap: .7rem; flex-wrap: wrap;
+  border-bottom: 1px solid var(--tkb-border); padding-bottom: .35rem; margin-top: .6rem;
+}
+.afq-rotc-sec-head h3 { margin: 0; font-size: 1.4rem; flex: 1 1 auto; }
+.afq-rotc-sob, .afq-rotc-clock {
+  font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--tkb-ink-soft);
+}
+
+.afq-rotc-cols { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; align-items: start; }
+@media (max-width: 760px) { .afq-rotc-cols { grid-template-columns: 1fr; } }
+.afq-rotc-card { border: 1px solid var(--tkb-border); border-radius: 8px; padding: .7rem .8rem; background: var(--tkb-surface); }
+.afq-rotc-card > h4:first-child, .afq-rotc-card > h5:first-child { margin-top: 0; }
+.afq-rotc-card ul, .afq-rotc-card ol { margin: .35rem 0; padding-left: 1.2rem; }
+
+/* --- chain ladder --- */
+.afq-rotc-ladder { list-style: none; counter-reset: rung; margin: .3rem 0; padding: 0; }
+.afq-rotc-ladder li {
+  counter-increment: rung; display: flex; flex-direction: column; gap: 0;
+  padding: .3rem 0 .3rem 1.7rem; position: relative; border-bottom: 1px solid var(--tkb-border);
+}
+.afq-rotc-ladder li:last-child { border-bottom: 0; }
+.afq-rotc-ladder li::before {
+  content: counter(rung); position: absolute; left: 0; top: .35rem;
+  font-size: .72rem; font-variant-numeric: tabular-nums; color: var(--tkb-ink-soft);
+}
+.afq-rotc-ladder .role { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--tkb-ink-soft); }
+.afq-rotc-ladder .name { font-weight: 600; }
+/* A rung whose occupant or parent changed recently enough that most course material is wrong. */
+.afq-rotc-ladder li.changed { border-left: 3px solid var(--tkb-wrong); padding-left: 1.9rem; }
+.afq-rotc-ladder li.changed::before { left: .35rem; }
+.afq-rotc-ladder li.you .name { color: var(--tkb-accent); }
+
+/* --- tables --- */
+.afq-rotc-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--tkb-border); border-radius: 8px; }
+.afq-rotc-scroll table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: .92rem; }
+.afq-rotc-scroll th, .afq-rotc-scroll td { text-align: left; padding: .4rem .6rem; border-bottom: 1px solid var(--tkb-border); }
+.afq-rotc-scroll thead th { background: var(--tkb-canvas); font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
+.afq-rotc-scroll tbody tr:last-child td { border-bottom: 0; }
+.afq-rotc-scroll tr.hi td { background: var(--afq-rotc-blue-soft); }
+.afq-rotc-scroll .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* --- fact strip --- */
+.afq-rotc-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .5rem; margin: .4rem 0; }
+.afq-rotc-fact { border: 1px solid var(--tkb-border); border-radius: 6px; padding: .45rem .6rem; background: var(--tkb-surface); }
+.afq-rotc-fact dt { font-size: .74rem; text-transform: uppercase; letter-spacing: .07em; color: var(--tkb-ink-soft); }
+.afq-rotc-fact dd { margin: .1rem 0 0; font-weight: 600; font-size: 1.05rem; }
+.afq-rotc-fact dd small { display: block; font-weight: 400; font-size: .82rem; color: var(--tkb-ink-soft); line-height: 1.4; }
+
+/* --- verbatim scripts: these are said word-for-word, so they get quoted weight --- */
+.afq-rotc-script {
+  border-left: 3px solid var(--tkb-accent); background: var(--tkb-surface);
+  padding: .45rem .7rem; margin: .4rem 0; border-radius: 0 6px 6px 0; font-size: 1.02rem;
+}
+.afq-rotc-script .who { display: block; font-size: .74rem; text-transform: uppercase; letter-spacing: .07em; color: var(--tkb-ink-soft); margin-bottom: .15rem; }
+.afq-rotc-fine { font-size: .9rem; color: var(--tkb-ink-soft); }
+.afq-rotc-responses { line-height: 2; font-size: .95rem; }
+.afq-rotc-six { text-transform: uppercase; letter-spacing: .07em; font-weight: 600; line-height: 1.8; }
+
+.afq-rotc-foot { border-top: 1px solid var(--tkb-border); padding-top: .7rem; color: var(--tkb-ink-soft); font-size: .88rem; }
+
+/* ══════════════ rank drill ══════════════ */
+.afq-rotc-drill { display: flex; flex-direction: column; gap: .7rem; min-width: 0; }
+.afq-rotc-bar { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+.afq-rotc-seg { display: flex; border: 1px solid var(--tkb-border); border-radius: 6px; overflow: hidden; background: var(--tkb-surface); }
+.afq-rotc-seg button {
+  font: inherit; font-size: .92rem; padding: .4rem .75rem; border: 0; cursor: pointer;
+  background: transparent; color: var(--tkb-ink-soft); border-right: 1px solid var(--tkb-border);
+}
+.afq-rotc-seg button:last-child { border-right: 0; }
+.afq-rotc-seg button.on { background: var(--tkb-accent); color: #fff; }
+.afq-rotc-settings-btn { font-size: .92rem; }
+.afq-rotc-score { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--tkb-ink-soft); }
+.afq-rotc-score .ok { color: var(--tkb-correct); }
+.afq-rotc-score .no { color: var(--tkb-wrong); }
+
+.afq-rotc-settings {
+  border: 1px solid var(--tkb-accent); border-radius: 8px; padding: .8rem;
+  background: var(--tkb-surface); display: flex; flex-direction: column; gap: .6rem;
+}
+.afq-rotc-settings h4 { margin: 0; font-size: .8rem; text-transform: uppercase; letter-spacing: .07em; color: var(--tkb-ink-soft); }
+.afq-rotc-presets { display: flex; gap: .4rem; flex-wrap: wrap; }
+.afq-rotc-presets .afq-btn { display: flex; flex-direction: column; align-items: flex-start; gap: .1rem; text-align: left; }
+.afq-rotc-preset-hint { font-size: .78rem; opacity: .75; }
+
+.afq-rotc-checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: .4rem; }
+.afq-rotc-check {
+  display: flex; align-items: center; gap: .55rem; cursor: pointer;
+  border: 1px solid var(--tkb-border); border-radius: 8px; padding: .4rem .55rem;
+}
+.afq-rotc-check.on { border-color: var(--tkb-accent); }
+.afq-rotc-check:not(.on) { opacity: .45; }
+.afq-rotc-check input { accent-color: var(--tkb-accent); flex: 0 0 auto; }
+.afq-rotc-check .afq-rotc-svg { flex: 0 0 auto; }
+.afq-rotc-check-txt { display: flex; flex-direction: column; min-width: 0; }
+.afq-rotc-check-txt b { font-size: .98rem; }
+.afq-rotc-check-txt span { font-size: .85rem; color: var(--tkb-ink-soft); }
+.afq-rotc-check-txt em { font-size: .74rem; color: var(--tkb-ink-soft); font-style: normal; letter-spacing: .05em; text-transform: uppercase; }
+.afq-rotc-scope { display: flex; flex-direction: column; gap: .35rem; }
+
+.afq-rotc-prog { height: 4px; background: var(--tkb-border); border-radius: 2px; overflow: hidden; }
+.afq-rotc-prog i { display: block; height: 100%; background: var(--tkb-accent); transition: width .2s; }
+.afq-rotc-prog-txt { display: flex; justify-content: space-between; font-size: .8rem; color: var(--tkb-ink-soft); }
+
+.afq-rotc-stage {
+  border: 1px solid var(--tkb-border); border-radius: 10px; padding: 1.1rem .9rem;
+  background: var(--tkb-surface); display: flex; flex-direction: column; align-items: center; gap: .6rem;
+}
+.afq-rotc-prompt { margin: 0; font-size: .78rem; text-transform: uppercase; letter-spacing: .09em; color: var(--tkb-ink-soft); }
+.afq-rotc-plates { display: flex; gap: 1.4rem; align-items: center; justify-content: center; flex-wrap: wrap; }
+.afq-rotc-plate-box { display: flex; flex-direction: column; align-items: center; gap: .3rem; }
+.afq-rotc-cap { font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; color: var(--tkb-ink-soft); }
+.afq-rotc-svg { display: block; }
+
+.afq-rotc-answer, .afq-rotc-namecard { text-align: center; }
+.afq-rotc-answer p, .afq-rotc-namecard p { margin: .1rem 0; }
+.afq-rotc-rank { font-size: 1.35rem; font-weight: 600; }
+.afq-rotc-abbr { font-size: 1rem; color: var(--tkb-accent); font-weight: 600; }
+.afq-rotc-tier { font-size: .76rem; text-transform: uppercase; letter-spacing: .08em; color: var(--tkb-ink-soft); }
+.afq-rotc-answer .afq-note { max-width: 46ch; margin-inline: auto; }
+
+.afq-rotc-opts { display: grid; grid-template-columns: repeat(2, auto); gap: .6rem; justify-content: center; }
+.afq-rotc-opts.pins { grid-template-columns: repeat(4, auto); }
+@media (max-width: 520px) { .afq-rotc-opts.pins { grid-template-columns: repeat(2, auto); } }
+.afq-rotc-opt {
+  position: relative; border: 2px solid var(--tkb-border); border-radius: 8px; padding: .5rem;
+  background: var(--tkb-canvas); cursor: pointer; line-height: 0;
+}
+.afq-rotc-opt:not(:disabled):hover { border-color: var(--tkb-accent); }
+.afq-rotc-opt.correct { border-color: var(--tkb-correct); box-shadow: 0 0 0 2px var(--tkb-correct); }
+.afq-rotc-opt.wrong { border-color: var(--tkb-wrong); box-shadow: 0 0 0 2px var(--tkb-wrong); }
+.afq-rotc-opt:disabled { cursor: default; }
+.afq-rotc-key {
+  position: absolute; top: .2rem; left: .3rem; font-size: .7rem; line-height: 1;
+  color: var(--tkb-ink-soft); font-variant-numeric: tabular-nums;
+}
+.afq-rotc-verdict { margin: 0; font-weight: 600; text-align: center; max-width: 52ch; }
+.afq-rotc-verdict.ok { color: var(--tkb-correct); }
+.afq-rotc-verdict.no { color: var(--tkb-wrong); }
+.afq-rotc-actions { display: flex; gap: .5rem; }
+.afq-rotc-actions kbd {
+  font: inherit; font-size: .72rem; opacity: .7; margin-left: .35rem;
+  border: 1px solid currentColor; border-radius: 3px; padding: 0 .25rem;
+}
+
+.afq-rotc-done h3 { margin: 0; }
+.afq-rotc-big { margin: 0; font-size: 3rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.afq-rotc-big span { font-size: 1.4rem; opacity: .5; }
+.afq-rotc-missed { text-align: center; font-size: .9rem; color: var(--tkb-ink-soft); }
+.afq-rotc-missed ul { list-style: none; margin: .25rem 0 0; padding: 0; }
+.afq-rotc-help { text-align: center; }
+.afq-rotc-help kbd {
+  font: inherit; font-size: .8rem; border: 1px solid var(--tkb-border);
+  border-radius: 3px; padding: 0 .25rem; background: var(--tkb-surface);
+}

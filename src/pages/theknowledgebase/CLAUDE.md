@@ -14,6 +14,7 @@ Folder-local rules. Read before touching anything under
 | `/TKB/asvab` | Parked ASVAB module *(planned)* |
 | `/TKB/afoqt/*` | AFOQT training module *(in build)* — Math Knowledge, Arithmetic Reasoning, Table Reading, Aviation Information, Instrument Comprehension and Block Counting live |
 | `/TKB/courses/*` | Courses module — per-course document/assessment tracking, real-question capture, and zero-AI question generation feeding TKB's spaced-review engine |
+| `/TKB/afoqt/afrotc` | **AFROTC tab — not an AFOQT subtest.** Two pages behind one tab (`?view=drill` switches): the graded-recitation crash sheet and the cadet rank drill. See the AFROTC note below. |
 
 **Full AFOQT docs: `docs/afoqt/`.** `PLAN.md` there is the **live handoff state** — read it first
 in a new session, update it at the end of every working block.
@@ -50,6 +51,27 @@ of that is visible to `afoqt:selftest` or `afoqt:coverage`. Written after a long
 rediscovering all of it.
 
 ---
+
+## ℹ️ The AFROTC tab is coursework, NOT an AFOQT subtest
+
+Added 2026-09-05. `afoqt/afrotc/` holds two pages that were built in an earlier session as
+standalone published HTML with **no route into the site at all** — reachable only by URL, no theme,
+no sync, no phone layout. They now live at `/TKB/afoqt/afrotc`.
+
+- **One tab, two pages**, switched by `?view=drill`. The AFOQT subnav already carries eight entries
+  and scrolls sideways on a phone; two more would push the daily-use tabs off-screen.
+- **It is inside AFOQT for scheduling reasons, not taxonomic ones.** Nothing here feeds a composite,
+  a template, the bank, or `afoqt:coverage`. Do not wire it into the drill engine, and do not let
+  `afoqt:selftest` start expecting it.
+- **`rankData.js` must stay at exactly eight grades.** AFROTCI 36-2011 Vol 3 para 10.7.5 forbids
+  cadet enlisted rank; Cadet Airman Basic and friends are AFJROTC/Civil Air Patrol. A "helpful"
+  expansion here teaches something that loses points in the room.
+- **The recitation sheet's flags are load-bearing.** Several facts are recent enough that most
+  course material still teaches the superseded answer (Holm Center left Air University 8 Oct 2024;
+  CSAF Wilsbach; CMSAF Wolfe). They are marked rather than silently corrected because the move in
+  the room is to give what cadre teaches and show you know it changed. **Do not delete a flag to
+  tidy the page**, and treat leadership names as perishable.
+- The drill's deck selection persists under `settings.afrotc` and has a floor of two grades.
 
 ## THE TWO RULES THAT MATTER MOST
 
