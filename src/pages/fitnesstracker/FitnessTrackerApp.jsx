@@ -2,6 +2,7 @@ import { Routes, Route, NavLink, Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { FitnessContext, useFitnessState } from './fitnessContext';
 import CalendarView from './CalendarView';
+import ClassScheduleView from './ClassScheduleView';
 import EntryEditor from './EntryEditor';
 import Settings from './Settings';
 import RunTools from './RunTools';
@@ -74,6 +75,7 @@ export default function FitnessTrackerApp() {
           <div className="ft-brand">MyFitnessTracker</div>
           <nav className="ft-topnav">
             <NavLink end to="/MFT" className={tab}>Calendar</NavLink>
+            <NavLink to="/MFT/schedule" className={tab}>Schedule</NavLink>
             <NavLink to="/MFT/meals" className={tab}>Meals</NavLink>
             <NavLink to="/MFT/tools" className={tab}>Tools</NavLink>
             <NavLink to="/MFT/workouts" className={tab}>Workouts</NavLink>
@@ -93,6 +95,7 @@ export default function FitnessTrackerApp() {
           <Routes>
             <Route index element={<CalendarView />} />
             <Route path="entry/:id" element={<EntryEditor />} />
+            <Route path="schedule" element={<ClassScheduleView />} />
             <Route path="meals" element={<MealsView />} />
             <Route path="meal/:id" element={<MealEditor />} />
             <Route path="tools" element={<RunTools />} />

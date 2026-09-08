@@ -78,7 +78,15 @@
    min-width:0 to shrink, so without a floor here the side panel (plus the
    week-row's fixed-width goals/miles columns) had no limit on how far they
    could crush the day grid before the row ever stacked. */
-.ft-cal { flex: 1; min-width: 560px; display: flex; flex-direction: column; min-height: 0; }
+.ft-cal {
+  flex: 1; min-width: 560px; display: flex; flex-direction: column; min-height: 0;
+  /* Width of the week-row's left summary column. To-do needs room for an assignment name;
+     a goal badge is a number and does not. Both the header cell and the column itself read
+     these, so the two can never drift apart. */
+  --ft-weekcol-w: 96px;
+  --ft-weekcol-w-single: 118px;
+}
+.ft-cal[data-sidemode="todo"] { --ft-weekcol-w: 148px; --ft-weekcol-w-single: 190px; }
 
 /* meal-schedule side panel (target day = whichever day you last clicked).
    Fluid width, not a flat 380px — gives width back to the day grid as the
@@ -99,7 +107,23 @@
 }
 
 /* ---- calendar bar ---- */
-.ft-cal-bar { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+/* A 3-column grid, not space-between. The title's width changes with every view ("September
+   2026" / "Sep 6 - Sep 19" / "Mon, Sep 7") and Week view adds a weeks field, and under
+   space-between both of those dragged the Month/Week/Day tabs to a different spot each time.
+   The 1fr side columns are symmetric, so the PFRA strip stays centred no matter how long the
+   title is, and the right group is right-aligned so the tabs never move. */
+.ft-cal-bar {
+  flex: none; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center; gap: 10px; margin-bottom: 8px;
+}
+.ft-cal-nav { justify-self: start; }
+.ft-cal-bar-right { justify-self: end; display: flex; align-items: center; gap: 10px; }
+/* Too narrow for three columns side by side — stack instead of letting the grid squeeze the
+   title to nothing. */
+@media (max-width: 820px) {
+  .ft-cal-bar { grid-template-columns: 1fr; justify-items: center; }
+  .ft-cal-nav, .ft-cal-bar-right { justify-self: center; }
+}
 
 /* #5 -- the PFRA target strip (was the ACFT tier strip until 2026-08-17). Was
    1.35rem of inline-styled text and ate the header row. Base is ~30% smaller;
@@ -117,7 +141,7 @@
 [data-view="month"] .ft-pfra-strip { font-size: 0.78rem; column-gap: 11px; }
 [data-view="month"] .ft-cal-title { font-size: 1.05rem; }
 [data-view="month"] .ft-nav-btn { min-width: 32px; height: 32px; font-size: 1rem; }
-[data-view="month"] .ft-view-btn { padding: 6px 12px; font-size: 0.85rem; }
+[data-view="month"] .ft-view-btn { padding: 6px 0; font-size: 0.85rem; }
 [data-view="month"] .ft-toggle-btn { font-size: 0.7rem; padding: 4px 9px; }
 .ft-cal-nav { display: flex; align-items: center; gap: 8px; }
 .ft-nav-btn {
@@ -127,15 +151,17 @@
 .ft-today-btn { font-size: 0.85rem; padding: 0 14px; }
 .ft-cal-title { font-size: 1.15rem; margin: 0 0 0 6px; }
 .ft-view-toggle { display: flex; background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 10px; overflow: hidden; }
-.ft-view-btn { background: transparent; color: var(--ft-muted); border: none; padding: 7px 13px; font-size: 0.88rem; font-weight: 600; cursor: pointer; font-family: inherit; }
+/* Fixed width: Month view shrinks the font (below), and a narrower "Month" than "Week"
+   moved the whole toggle. Width is the same in every view now; only the text scales. */
+.ft-view-btn { background: transparent; color: var(--ft-muted); border: none; padding: 7px 0; width: 64px; text-align: center; font-size: 0.88rem; font-weight: 600; cursor: pointer; font-family: inherit; }
 .ft-view-btn.active { background: rgba(163, 230, 53, 0.16); color: var(--ft-accent); }
-.ft-weekcount { display: inline-flex; align-items: center; gap: 6px; color: var(--ft-muted); font-size: 0.8rem; font-weight: 600; }
+.ft-weekcount { display: inline-flex; align-items: center; gap: 6px; color: var(--ft-muted); font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
 .ft-weekcount input { width: 46px; padding: 6px 8px; background: var(--ft-panel); color: var(--ft-text); border: 1px solid var(--ft-border); border-radius: 8px; font-family: inherit; font-weight: 600; text-align: center; }
 
 /* ---- month grid ---- */
 .ft-weekhead { flex: none; display: flex; gap: 4px; margin-bottom: 4px; }
 .ft-weekhead-cell { flex: 1; text-align: center; font-size: 0.78rem; color: var(--ft-muted); font-weight: 600; }
-.ft-weekhead-cell.ft-weekend-head { flex: none; width: 72px; margin-left: 4px; font-size: 0.62rem; }
+.ft-weekhead-cell.ft-weekend-head { flex: none; width: var(--ft-weekcol-w); margin-left: 4px; font-size: 0.62rem; display: flex; gap: 2px; justify-content: center; }
 .ft-month-grid { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
 .ft-week { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
 
@@ -149,8 +175,8 @@
 /* #6 -- narrower and pulled in against the grid (was 92px plus a 10px margin on
    top of the row gap). Same for Miles below. Every px here goes back to the
    seven day columns, which were the cramped part. */
-.ft-weekend-col { flex: none; width: 72px; margin-left: 4px; display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: 3px; }
-.ft-week-row-single .ft-weekend-col { width: 118px; justify-content: flex-start; padding-top: 4px; gap: 6px; }
+.ft-weekend-col { flex: none; width: var(--ft-weekcol-w); margin-left: 4px; display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: 3px; }
+.ft-week-row-single .ft-weekend-col { width: var(--ft-weekcol-w-single); justify-content: flex-start; padding-top: 4px; gap: 6px; }
 .ft-weekend-badge {
   display: flex; align-items: center; gap: 5px; width: 100%;
   border: 1px solid rgba(163, 230, 53, 0.35); border-radius: 7px;
@@ -1044,3 +1070,295 @@
   border-radius: 7px; padding: 7px 9px; color: var(--ft-text);
   word-break: break-all; user-select: all;
 }
+
+/* ==== calendar rails: notes (left) + To-do/Goals (right) ====================
+   Both are siblings of .ft-cal inside .ft-cal-outer, same as the meal panel, so
+   the day grid keeps its own flex:1 and neither rail overlays anything. */
+
+.ft-notes-side {
+  flex: none; width: clamp(200px, 17vw, 280px); display: flex; flex-direction: column; min-height: 0;
+  background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 12px;
+  padding: 12px;
+}
+.ft-notes-head {
+  flex: none; display: flex; align-items: center; gap: 8px;
+  margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--ft-border);
+}
+.ft-notes-state { margin-left: auto; font-size: 0.68rem; color: var(--ft-muted); }
+.ft-notes-x, .ft-side-rail-x { flex: none; }
+/* No resize handle: the pad already fills the rail's height, and a draggable corner
+   inside a flex column just lets it fight the layout. */
+.ft-notes-area {
+  flex: 1; min-height: 160px; resize: none; width: 100%; box-sizing: border-box;
+  background: transparent; color: var(--ft-text); border: none; outline: none;
+  font-family: inherit; font-size: 0.86rem; line-height: 1.55; padding: 0;
+}
+.ft-notes-area::placeholder { color: var(--ft-muted); opacity: 0.7; }
+
+.ft-side-rail {
+  flex: none; width: clamp(230px, 21vw, 320px); display: flex; flex-direction: column; min-height: 0;
+  background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 12px;
+  padding: 12px;
+}
+.ft-side-rail-head {
+  flex: none; display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--ft-border);
+}
+.ft-side-rail-switch {
+  display: flex; background: var(--ft-panel-2); border: 1px solid var(--ft-border);
+  border-radius: 9px; overflow: hidden;
+}
+.ft-side-rail-tab {
+  background: transparent; color: var(--ft-muted); border: none;
+  padding: 6px 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: inherit;
+}
+.ft-side-rail-tab.active { background: rgba(163, 230, 53, 0.16); color: var(--ft-accent); }
+.ft-side-rail-body { flex: 1; min-height: 0; overflow-y: auto; }
+.ft-side-rail-foot {
+  flex: none; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--ft-border);
+  font-size: 0.7rem; color: var(--ft-muted);
+}
+.ft-side-rail-foot a { color: var(--ft-accent); text-decoration: none; }
+.ft-side-rail-foot a:hover { text-decoration: underline; }
+
+/* ---- coursework To-do list ---- */
+.ft-crs-controls { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.ft-crs-select {
+  background: var(--ft-panel-2); color: var(--ft-text); border: 1px solid var(--ft-border);
+  border-radius: 8px; padding: 5px 8px; font-family: inherit; font-size: 0.78rem; font-weight: 600;
+}
+.ft-crs-tally { font-size: 0.72rem; color: var(--ft-muted); }
+.ft-crs-empty { font-size: 0.78rem; color: var(--ft-muted); line-height: 1.5; padding: 10px 0; }
+.ft-crs-empty code { font-size: 0.72rem; word-break: break-all; }
+
+.ft-crs-day { margin-bottom: 10px; }
+.ft-crs-day-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 6px;
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--ft-muted); padding: 3px 0; border-bottom: 1px solid var(--ft-border); margin-bottom: 4px;
+}
+.ft-crs-day-today { color: var(--ft-accent); }
+.ft-crs-day-date { font-weight: 600; letter-spacing: 0; text-transform: none; opacity: 0.8; }
+
+/* --ft-crs-accent is the course colour; the left bar is the only place it carries weight, so
+   several items on one day stay separable without five coloured words competing. */
+.ft-crs-row {
+  display: block; text-decoration: none; color: inherit; cursor: default;
+  border-left: 3px solid var(--ft-crs-accent, var(--ft-border));
+  background: var(--ft-panel-2); border-radius: 0 7px 7px 0;
+  padding: 6px 8px; margin-bottom: 4px;
+}
+a.ft-crs-row { cursor: pointer; }
+a.ft-crs-row:hover { filter: brightness(1.3); }
+.ft-crs-row-soon { box-shadow: inset 0 0 0 1px rgba(163, 230, 53, 0.25); }
+.ft-crs-row-top { display: flex; align-items: baseline; gap: 6px; font-size: 0.66rem; }
+.ft-crs-row-code { font-weight: 700; }
+.ft-crs-row-kind { color: var(--ft-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.ft-crs-row-time { margin-left: auto; color: var(--ft-muted); }
+.ft-crs-row-name { font-size: 0.78rem; line-height: 1.35; margin: 2px 0; word-break: break-word; }
+.ft-crs-row-meta { display: flex; gap: 8px; font-size: 0.66rem; color: var(--ft-muted); }
+.ft-crs-pts { color: var(--ft-text); font-weight: 600; }
+
+.ft-crs-alert {
+  border: 1px solid rgba(248, 113, 113, 0.35); background: rgba(248, 113, 113, 0.08);
+  border-radius: 9px; padding: 8px; margin-bottom: 10px;
+}
+.ft-crs-alert-head { font-size: 0.72rem; font-weight: 700; color: #f87171; margin-bottom: 6px; }
+.ft-crs-note { margin-bottom: 10px; }
+.ft-crs-note-btn {
+  background: none; border: none; padding: 0; font-family: inherit; cursor: pointer;
+  font-size: 0.7rem; color: var(--ft-muted); text-align: left;
+}
+.ft-crs-note-btn:hover { color: var(--ft-text); }
+.ft-crs-note-text { font-size: 0.7rem; color: var(--ft-muted); line-height: 1.45; margin: 6px 0; }
+
+/* ---- week-row column, To-do mode ---- */
+/* Goals centre because there are one or two of them; a week's coursework can be six rows and
+   has to start at the top and scroll rather than bleed past the row. */
+/* min-height:0 is load-bearing: without it the column is a stretched flex item whose
+   content sets its height, so a six-item week pushed the whole month row taller and the
+   grid stopped lining up. With it the column scrolls inside its own row instead. */
+.ft-cal[data-sidemode="todo"] .ft-weekend-col {
+  justify-content: flex-start; padding-top: 2px; min-height: 0; overflow-y: auto;
+}
+.ft-month .ft-weekend-col::-webkit-scrollbar { width: 4px; }
+.ft-month .ft-weekend-col::-webkit-scrollbar-thumb { background: var(--ft-border); border-radius: 2px; }
+.ft-weektodo-badge {
+  display: block; text-decoration: none; color: inherit; box-sizing: border-box; width: 100%;
+  border: 1px solid var(--ft-border); border-radius: 6px; padding: 2px 5px;
+  font-family: inherit; text-align: left; cursor: default;
+}
+a.ft-weektodo-badge { cursor: pointer; }
+a.ft-weektodo-badge:hover { filter: brightness(1.35); }
+.ft-weektodo-overdue { border-style: dashed; opacity: 0.72; }
+.ft-weektodo-top { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; }
+.ft-weektodo-code { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.03em; }
+/* One line, then ellipsis — a full assignment name is 60+ characters, and a Month row is
+   ~148px tall for a week that can hold six of these. The whole name is in the title
+   attribute, and Week view (below) gives it three lines. */
+.ft-weektodo-name {
+  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+  font-size: 0.6rem; line-height: 1.3; color: var(--ft-text); word-break: break-word;
+}
+.ft-weektodo-meta { font-size: 0.55rem; color: var(--ft-muted); white-space: nowrap; }
+.ft-week-row-single .ft-weektodo-badge { padding: 4px 7px; }
+.ft-week-row-single .ft-weektodo-top { display: block; }
+.ft-week-row-single .ft-weektodo-code { font-size: 0.66rem; display: block; }
+.ft-week-row-single .ft-weektodo-name { font-size: 0.7rem; -webkit-line-clamp: 3; }
+.ft-week-row-single .ft-weektodo-meta { font-size: 0.62rem; display: block; }
+
+/* The header cell's own To-do/Goals switch. */
+.ft-weekend-tab {
+  background: transparent; border: 1px solid transparent; border-radius: 5px;
+  color: var(--ft-muted); font-family: inherit; font-size: 0.6rem; font-weight: 700;
+  padding: 1px 5px; cursor: pointer;
+}
+.ft-weekend-tab.active { color: var(--ft-accent); border-color: rgba(163, 230, 53, 0.35); background: rgba(163, 230, 53, 0.12); }
+
+/* ---- coursework chips on a day cell ---- */
+/* Its own strip under the workout/meal content, exactly like .ft-cell-orbit — a due date is
+   context for the day, not another thing scheduled into it. */
+.ft-cell-course {
+  margin-top: 4px; padding-top: 4px; border-top: 1px dashed var(--ft-border);
+  display: flex; flex-direction: column; gap: 2px;
+}
+.ft-course-chip {
+  display: block; width: 100%; box-sizing: border-box; text-decoration: none;
+  background: none; border: none; border-radius: 3px; padding: 0 2px;
+  font-family: inherit; font-size: 0.66rem; line-height: 1.3; text-align: left;
+}
+a.ft-course-chip:hover { background: rgba(255, 255, 255, 0.06); }
+.ft-course-chip-text {
+  display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-weight: 600; opacity: 0.9;
+}
+
+/* ---- coursework in the Day view's right rail ---- */
+.ft-day-course { display: flex; flex-direction: column; gap: 4px; }
+.ft-day-course .ft-course-chip { font-size: 0.76rem; white-space: normal; }
+.ft-day-course .ft-course-chip-text { white-space: normal; }
+.ft-day-course-later { display: flex; align-items: baseline; gap: 6px; font-size: 0.72rem; }
+.ft-day-course-later-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ft-text); }
+.ft-day-course-later-when { color: var(--ft-muted); white-space: nowrap; }
+
+/* Same stack point as the meal panel — below it the day grid's 560px floor plus two rails no
+   longer fit on one row. This has to sit AFTER the rails' own width rules: it is the same
+   specificity, so source order is what decides it. */
+@media (max-width: 1024px) {
+  .ft-notes-side, .ft-side-rail { width: 100%; max-height: 44vh; order: 2; }
+  .ft-notes-area { min-height: 120px; }
+  /* Stacked, the column is taller than the viewport, and the calendar shell is pinned to
+     100dvh with overflow:hidden — so the rails were simply clipped off the bottom. Let the
+     page scroll again, but ONLY when one of these rails is actually present: the
+     meal-panel-only case keeps the pinned-height behaviour it has today. */
+  .ft-app:has(.ft-notes-side, .ft-side-rail) { height: auto; overflow: visible; }
+  .ft-app:has(.ft-notes-side, .ft-side-rail) .ft-cal-body { overflow: visible; }
+}
+
+/* ==== /MFT/schedule — the recurring class week ==============================
+   Laid out to match ClassSchedule_2026Fall22.xlsx: Sun–Sat across, 4am–11pm down in
+   30-minute rows, one coloured block per class. A grid row span IS an Excel merge, which is
+   why the blocks line up with the file without any special-casing. */
+
+.ft-sched { display: flex; flex-direction: column; min-height: 0; flex: 1; gap: 12px; }
+
+.ft-sched-head { flex: none; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.ft-sched-title { margin: 0; font-size: 1.25rem; font-weight: 700; }
+.ft-sched-sub { margin-top: 3px; font-size: 0.8rem; color: var(--ft-muted); }
+.ft-sched-now {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 1px;
+  background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 10px;
+  padding: 8px 12px; min-width: 190px;
+}
+.ft-sched-now-label { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ft-muted); }
+.ft-sched-now-name { font-size: 0.92rem; font-weight: 700; text-align: right; }
+.ft-sched-now-when { font-size: 0.74rem; color: var(--ft-muted); }
+
+/* The grid is a fixed pixel height (40 half-hour rows), so it scrolls rather than squashing
+   4am–11pm into whatever vertical space is left. */
+.ft-sched-scroll { flex: 1; min-height: 0; overflow: auto; border: 1px solid var(--ft-border); border-radius: 12px; background: var(--ft-panel); }
+.ft-sched-grid {
+  /* 21px per half-hour = 42px per hour, which is the floor for a one-hour block to show all
+     three of its lines (time / name / room). At 17px the time and room lines were clipped in
+     half. The grid scrolls instead of shrinking - the spreadsheet scrolls too. */
+  --ft-sched-slot: 21px;
+  display: grid; grid-template-columns: 58px repeat(7, minmax(96px, 1fr));
+  min-width: 760px; position: relative;
+}
+
+.ft-sched-corner { grid-column: 1; grid-row: 1; position: sticky; top: 0; left: 0; z-index: 4; background: var(--ft-panel-2); }
+.ft-sched-dayhead {
+  grid-row: 1; position: sticky; top: 0; z-index: 3;
+  background: var(--ft-panel-2); border-left: 1px solid var(--ft-border); border-bottom: 1px solid var(--ft-border);
+  padding: 7px 6px; text-align: center; font-size: 0.8rem; font-weight: 700; color: var(--ft-text);
+}
+.ft-sched-dayhead-today { color: var(--ft-accent); background: rgba(163, 230, 53, 0.12); }
+.ft-sched-day-abbr { display: none; }
+
+/* Right-aligned into the gutter and nudged up, the way a time ruler reads — the label marks
+   the line the hour starts on, not the middle of the hour's band. */
+.ft-sched-hour {
+  grid-column: 1; position: sticky; left: 0; z-index: 2;
+  background: var(--ft-panel); border-top: 1px solid var(--ft-border);
+  padding: 2px 7px 0 0; text-align: right;
+  font-size: 0.68rem; color: var(--ft-muted); font-weight: 600;
+}
+.ft-sched-cell { border-top: 1px solid var(--ft-border); border-left: 1px solid var(--ft-border); }
+.ft-sched-cell-today { background: rgba(163, 230, 53, 0.045); }
+
+/* margin, not padding: the block sits inside its slot span so neighbouring hours stay
+   visually separate, the way Excel's cell borders do it. */
+.ft-sched-block {
+  margin: 1px 2px; border-radius: 5px; padding: 2px 5px; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center; gap: 1px;
+  text-align: center; z-index: 1; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+.ft-sched-block-time { font-size: 0.58rem; font-weight: 700; line-height: 1.15; opacity: 0.85; }
+.ft-sched-block-name { font-size: 0.72rem; font-weight: 700; line-height: 1.15; }
+.ft-sched-block-where { font-size: 0.58rem; line-height: 1.15; opacity: 0.8; }
+
+/* Sits on the row the current half-hour occupies, offset within it by the real minute. */
+/* height:0 + align-self:start matters: as a normal grid item the element filled the whole
+   half-hour row, and the glow drew around its BOTTOM edge too - which read as a second now-line
+   half an hour later. Collapsed to the border itself, there is only one line. */
+.ft-sched-nowline {
+  align-self: start; height: 0; position: relative; z-index: 2; pointer-events: none;
+  border-top: 2px solid var(--ft-accent);
+  transform: translateY(calc(var(--ft-now-frac) * var(--ft-sched-slot)));
+  box-shadow: 0 0 5px rgba(163, 230, 53, 0.45);
+}
+
+.ft-sched-foot { flex: none; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.ft-sched-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.ft-sched-legend-item { display: inline-flex; align-items: baseline; gap: 6px; font-size: 0.78rem; font-weight: 600; }
+.ft-sched-legend-dot { width: 9px; height: 9px; border-radius: 2px; flex: none; align-self: center; }
+.ft-sched-legend-days { font-size: 0.68rem; font-weight: 500; color: var(--ft-muted); }
+.ft-sched-source { font-size: 0.68rem; color: var(--ft-muted); }
+
+@media (max-width: 640px) {
+  .ft-sched-grid { --ft-sched-slot: 20px; grid-template-columns: 40px repeat(7, minmax(72px, 1fr)); min-width: 580px; }
+  .ft-sched-day-full { display: none; }
+  .ft-sched-day-abbr { display: inline; }
+  /* A 72px column wraps "Team & Leadership Fundamentals" to three lines, which overflowed a
+     one-hour block. The row the block sits on already states the time, so that line goes and
+     the name gets two clamped lines; the full text stays in the legend and the tooltip. */
+  .ft-sched-block-time { display: none; }
+  .ft-sched-block-name {
+    font-size: 0.6rem;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .ft-sched-block-where { font-size: 0.53rem; }
+  .ft-sched-now { min-width: 0; }
+}
+
+/* Recurring class blocks on a calendar day cell, off by default. Same strip treatment as the
+   coursework chips above - a class is context for the day, not something scheduled into it. */
+.ft-cell-class { margin-top: 3px; display: flex; flex-direction: column; gap: 2px; }
+.ft-class-chip {
+  display: flex; align-items: baseline; gap: 4px; width: 100%; box-sizing: border-box;
+  border-left: 3px solid var(--ft-class-accent); border-radius: 0 3px 3px 0;
+  padding: 0 3px; font-size: 0.64rem; line-height: 1.35; background: rgba(255, 255, 255, 0.035);
+}
+.ft-class-chip-time { flex: none; color: var(--ft-muted); font-size: 0.58rem; }
+.ft-class-chip-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }

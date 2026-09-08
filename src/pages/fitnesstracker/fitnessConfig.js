@@ -101,7 +101,21 @@ export function defaultSettings() {
     // so CalendarView falls back to a viewport-based default (on for desktop,
     // off for mobile where the Goals/Miles columns crush the day grid).
     // true/false means the user explicitly toggled it, which wins on any device.
-    calendarPrefs: { mealDayView: false, showMealsOnCalendar: false, chipFilter: 'all', showWeekSideCols: null, view: 'week', weekCount: 2 },
+    // sideMode: 'todo' | 'goals' — what the right-hand rail AND the narrow per-week column
+    // beside each week row are showing. One state for both so they can never disagree.
+    // Defaults to 'todo': coursework is a daily check, goals are a weekly one.
+    // notesPanel / coursePanel are the two rails' own visibility; courseHorizon is the
+    // to-do list's lookahead in days, null meaning "everything left in the term".
+    calendarPrefs: {
+      mealDayView: false, showMealsOnCalendar: false, chipFilter: 'all', showWeekSideCols: null,
+      view: 'week', weekCount: 2,
+      sideMode: 'todo', notesPanel: true, coursePanel: true, courseHorizon: 14, showCourseChips: true,
+      // showClassChips defaults OFF: the recurring class week is identical every week and has
+      // its own grid at /MFT/schedule, so on the calendar it is opt-in.
+      showClassChips: false,
+    },
+    // Free-text pad on the left of the calendar. Not a checklist — see CalendarNotes.jsx.
+    calendarNotes: '',
     // proteinG/carbsG/fatG are canonical grams (as always); *Mode ('g' | 'pct')
     // + *Pct record which of grams/% the user's last edit for that macro
     // actually expressed, so Settings.jsx's calorie-goal-changed effect knows
@@ -127,6 +141,7 @@ export function withSettingsDefaults(s) {
     profile: { ...d.profile, ...(s?.profile || {}) },
     calendar: { ...d.calendar, ...(s?.calendar || {}) },
     calendarPrefs: { ...d.calendarPrefs, ...(s?.calendarPrefs || {}) },
+    calendarNotes: typeof s?.calendarNotes === 'string' ? s.calendarNotes : '',
     nutritionTarget: { ...d.nutritionTarget, ...(s?.nutritionTarget || {}) },
     groups: Array.isArray(s?.groups) ? s.groups : [],
     lastGroupId: s?.lastGroupId ?? null,

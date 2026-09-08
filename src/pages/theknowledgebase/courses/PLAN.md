@@ -45,9 +45,29 @@ Files tab and the fix resolves them through module items instead).
 | Chem two-tier gates | `chem/engine/gates.js` | ✅ Logic + storage tested. ⚠ Only 4/45 sections have enough templates to fill one |
 | Chem coverage check | `npm run chem:coverage` | ✅ Verifies the section↔chapter join `chem:selftest` cannot see |
 | Committed data | `courses/data/canvasSchedule.json`, `courses/data/syllabi.json` | ✅ |
+| MFT calendar rail | `/MFT/calendar` — `fitnesstracker/courseTasks.js` + `CalendarSideRail.jsx` | ✅ Added 2026-09-07 |
 
 Canvas data lands in `G:\My Drive\SupplementalCourseDocs\<COURSE>\_canvas\` (machine-generated,
 never mixed with Trey's own notes) and `\files\`.
+
+### ⚠ `canvasSchedule.json` now has a SECOND consumer outside TKB
+
+Added 2026-09-07. `src/pages/fitnesstracker/courseTasks.js` imports this exact file, so the
+MFT calendar at `/MFT/calendar` shows coursework three ways: a To-do rail down the right, the
+per-week summary column beside each week row, and chips on the day cells themselves. It reads
+only — nothing there writes back.
+
+Consequences:
+
+- **One capture refreshes both surfaces.** `npm run canvas -- --from-capture …` updates
+  `/TKB/courses/dashboard` and the MFT calendar together. There is no second file to sync.
+- **Do not move or rename this file** without updating `courseTasks.js`. A cross-sub-app import
+  is deliberate here (one file, not two copies) but it is invisible from inside `courses/`.
+- **The `status: 'unknown'` problem is now visible in two places.** Both surfaces treat unknown
+  as "still owed" and both show the "N past items with no submission status" note rather than
+  guessing — which makes re-running the capture more worth doing, not less.
+- Per-course colours are duplicated in `courseTasks.js`, brightened for MFT's dark theme
+  (Canvas's `#0374B5` is unreadable on `--ft-panel`). Same hues, different values, on purpose.
 
 ## Chem — state as of commit `bdaa25f` (2026-09-02)
 

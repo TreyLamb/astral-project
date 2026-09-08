@@ -92,3 +92,52 @@ Built out the forecast function against `guidelinesForecast.md`'s full spec (che
 - ✂️ No dedicated "close out a goal" UI for `closed_met`/`closed_not_met` yet — the status values and fields exist on the model, Abandon still covers early termination.
 
 **Verification**: `npm test` → 134 passing (18 files, up from 103/14) — new suites `calc/curves.test.js`, `calc/bodyComposition.test.js`, `calc/realism.test.js`, `calc/checkpoints.test.js` (including the core recompute-forward invariant: a worse-than-projected logged result leaves everything at/before the touch point untouched and steepens, never softens, the remainder). `npm run build` clean, `eslint src/pages/fitnesstracker` clean. Playwright-driven browser passes (two rounds, zero console/page errors) covering: run-goal create→accept with a real deadline, calendar chips showing inline target text in Month/Week/Day, realism ⚠ flags on aggressive checkpoints, Pause button + realism badge on both Goals panels, weigh-in logging + Body weight panel in Meals, weight-goal create with auto-baseline from a logged weigh-in and a live Realism tile, and the EntryEditor checkpoint panel (target/realism/provisional basis/manual override) on a lift goal.
+
+---
+
+## Phase 11 — coursework + class schedule on the calendar ✅ (2026-09-07 / 09-08)
+
+School is the thing competing with training for the same hours, so it lives here rather than
+only in TKB.
+
+### Canvas coursework (`courseTasks.js`)
+- Imports **TKB's own snapshot** — `src/pages/theknowledgebase/courses/data/canvasSchedule.json`,
+  written by `npm run canvas`. Not a copy: one capture refreshes `/TKB/courses/dashboard` and MFT
+  together. Read-only from here. See `courses/PLAN.md` for the note on the other side.
+- **`CalendarSideRail.jsx`** — right-hand rail, `To-do | Goals` behind one switch, defaulting to
+  To-do. The goal rows are the same `goalsNode` the full-width Goals panel renders, defined once.
+- The same `sideMode` drives the **narrow per-week column** beside each week row, so the header
+  cell's toggle and the rail's toggle are one control with two faces.
+- Chips on the day cells (`showCourseChips`, on by default).
+- ⚠ Every row in the current snapshot has `status: 'unknown'` — the capture carried no submission
+  data. Unknown is treated as **still owed**, and past-unknown items go under a collapsed note
+  rather than a false past-due alarm.
+- ✂️ No check-off. Trey chose "show on the calendar days too" and not "check off / dismiss", so
+  the list is read-only over the snapshot.
+
+### Notes pad (`CalendarNotes.jsx`)
+Free-text, left of the calendar, debounced 700ms with an immediate commit on blur, into
+`settings.calendarNotes`. Deliberately **not** a checklist — he asked for a notes section and
+uses it as a to-do list; imposing a row schema would make it worse at that.
+
+### Class schedule (`classSchedule.js`, `ClassScheduleView.jsx`, `/MFT/schedule`)
+- Transcribed from `G:\My Drive\SupplementalCourseDocs\ClassSchedule_2026Fall22.xlsx`, the
+  **"Template" sheet** — the clean recurring week. The other two sheets are a scribbled-on week
+  ("9.1-9.8") and an AFROTC onboarding checklist ("Summary"); neither is a schedule.
+- **Matching the spreadsheet is the requirement.** Sun–Sat across, 4am–11pm down in 30-minute
+  rows (Excel rows 3–42, two per hour), and each block's colour is that cell's own fill from
+  `styles.xml`. A CSS `grid-row: n / span m` **is** an Excel merge, which is why the blocks land
+  where the file puts them with no special-casing. If the file changes, re-transcribe — don't
+  "improve" the layout.
+- Added on top, and only these: today's column tinted, and a now-line. Everything else is the file.
+- `course` on a block ties the spreadsheet's short label to a registrar code where it's
+  unambiguous ("Chem I" → CHEM 1210, "Micro Lab" → MICR 2065). **MICR 2060 is asynchronous online
+  and correctly has no block at all** — that is not a missing row.
+- `showClassChips` puts the blocks on the calendar days too, **off by default**: every week is
+  identical, so on the calendar it is noise unless asked for.
+
+### Toolbar fix
+`.ft-cal-bar` was `justify-content: space-between`, so the Month/Week/Day tabs moved every time
+the title's length changed or Week view added its weeks field. It is a `1fr auto 1fr` grid now
+with the tabs in a right-aligned group, and `.ft-view-btn` has a fixed width so Month's smaller
+font can't resize the toggle. Measured: the tabs' left edges are identical in all three views.

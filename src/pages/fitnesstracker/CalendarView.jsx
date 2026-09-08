@@ -18,6 +18,10 @@ import { isTypingTarget } from './useModalKeys';
 import { useAuth } from '../../AuthContext';
 import { firebaseReady } from '../../firebase';
 import { loadOrbitBridgeData, setOrbitDayLocation, addOrbitBase, setOrbitDayLocationsRange } from './orbitTasksBridge';
+import CalendarSideRail from './CalendarSideRail';
+import CalendarNotes from './CalendarNotes';
+import { COURSE_TASKS_BY_DATE, courseTasksInRange } from './courseTasks';
+import { blocksForDay, timeRange } from './classSchedule';
 
 // USAF PFRA personal targets — static reference data, not computed from
 // anything. Mirrors src/pages/fitnesstracker/runningworkouts/Guidelines_AF;
@@ -172,6 +176,61 @@ function WeekEndBadge({ goal, type, targetValue, units, onClick }) {
       <span className="ft-weekend-text" style={{ color: type.color }}>{targetText}</span>
     </button>
   );
+}
+
+// One Canvas assignment in the week column, when that column is in To-do mode. Same slot the
+// goal badges occupy, so a week reads as either "where the training should be" or "what is due"
+// — never both at once, which is what the toggle is for.
+function WeekTodoBadge({ task, todayISO: today }) {
+  const overdue = task.due < today;
+  const body = (
+    <>
+      {/* Course and day share one line so a Month row fits four or five badges before it has
+          to scroll. Week view has the height to spread out, and its CSS does. */}
+      <span className="ft-weektodo-top">
+        <span className="ft-weektodo-code" style={{ color: task.color }}>{task.code.split(' ')[1] || task.code}</span>
+        <span className="ft-weektodo-meta">
+          {new Date(`${task.due}T00:00:00`).toLocaleDateString(undefined, { weekday: 'short' })}
+          {task.points != null ? ` · ${task.points}p` : ''}
+        </span>
+      </span>
+      <span className="ft-weektodo-name">{task.name}</span>
+    </>
+  );
+  const cls = `ft-weektodo-badge${overdue ? ' ft-weektodo-overdue' : ''}`;
+  const style = { borderColor: `${task.color}59`, background: `${task.color}14` };
+  const title = `${task.code} — ${task.name}${task.dueTime ? ` · due ${task.dueTime}` : ''}`;
+  return task.url
+    ? <a className={cls} style={style} href={task.url} target="_blank" rel="noreferrer" title={title}>{body}</a>
+    : <div className={cls} style={style} title={title}>{body}</div>;
+}
+
+// A recurring class on a day cell. Off by default (the "Classes" toggle) because the full grid
+// lives at /MFT/schedule and every week looks identical — this is for the weeks you want the
+// two side by side.
+function ClassChip({ block }) {
+  return (
+    <div
+      className="ft-class-chip"
+      style={{ '--ft-class-accent': block.color }}
+      title={`${block.title} — ${timeRange(block)}${block.code ? ` · ${block.code}` : ''}${block.room ? ` · room ${block.room}` : ''}`}
+    >
+      <span className="ft-class-chip-time">{block.start}</span>
+      <span className="ft-class-chip-name" style={{ color: block.color }}>{block.title}</span>
+    </div>
+  );
+}
+
+// Coursework on a day cell. Its own strip below the fitness content, exactly like the Orbit
+// to-dos — a Canvas due date is context for the day, not another thing scheduled into it, and
+// it must never compete with a workout chip for the cell's space.
+function CourseChip({ task }) {
+  const label = `${task.code.split(' ')[1] || task.code} ${task.name}`;
+  const title = `${task.code} — ${task.name}${task.dueTime ? ` · due ${task.dueTime}` : ''}${task.points != null ? ` · ${task.points} pts` : ''}`;
+  const inner = <span className="ft-course-chip-text" style={{ color: task.color }}>{label}</span>;
+  return task.url
+    ? <a className="ft-course-chip" href={task.url} target="_blank" rel="noreferrer" title={title} onClick={(e) => e.stopPropagation()}>{inner}</a>
+    : <div className="ft-course-chip" title={title}>{inner}</div>;
 }
 
 function chipLabel(w, units) {
@@ -341,7 +400,7 @@ function DayCell({
   showMeals, mealItems, mealTypes, mealSelected, onAddMeal, onEditMeal, onMealCtrlClick, onMealShiftClick,
   allWorkouts, meals, bmr, calorieGoal, bodyWeightKg,
   orbitScheduled, orbitDue, orbitAreaById, onOrbitOpen, orbitEnergyCap,
-  bases, dayLocations, onOpenWhere, sizeVariant,
+  bases, dayLocations, onOpenWhere, sizeVariant, courseDue, classBlocks,
 }) {
   const iso = isoDate(date);
   const [over, setOver] = useState(false);
@@ -447,6 +506,18 @@ function DayCell({
           </div>
         </div>
       ) : eventsCol}
+      {/* Canvas coursework due this day. Same reasoning as the Orbit strip below it: its own
+          row, visually secondary, never mixed into the workout/meal columns. */}
+      {classBlocks?.length > 0 && (
+        <div className="ft-cell-class">
+          {classBlocks.map((b) => <ClassChip key={b.id} block={b} />)}
+        </div>
+      )}
+      {courseDue?.length > 0 && (
+        <div className="ft-cell-course">
+          {courseDue.map((t) => <CourseChip key={t.id} task={t} />)}
+        </div>
+      )}
       {/* Orbit to-dos — additive, deliberately its own strip below the fitness
           content (not mixed into eventsCol/mealItems) so it stays visually
           secondary and never competes with workout/meal chips for space. */}
@@ -492,6 +563,7 @@ function DayRails({
   side, iso, items, types, units, meals, workouts, bmr, calorieGoal, bodyWeightKg,
   orbitScheduled, orbitDue, orbitAreaById, orbitEnergyCap, onOrbitOpen,
   whereBase, onOpenWhere, weekGoals, weekMilesText, weekRangeLabel, sunISO, satISO,
+  courseDue, courseWeek,
 }) {
   if (side === 'left') {
     const done = items.filter((w) => w.status === 'completed');
@@ -627,6 +699,31 @@ function DayRails({
       <button type="button" className="ft-day-where" onClick={() => onOpenWhere(iso)}>
         {whereBase ? (whereBase.query || whereBase.tag) : 'Not tagged — set a location'}
       </button>
+      {courseDue?.length > 0 && (
+        <>
+          <h4 className="ft-day-rail-title">Due today</h4>
+          <div className="ft-day-course">
+            {courseDue.map((t) => <CourseChip key={t.id} task={t} />)}
+          </div>
+        </>
+      )}
+      {courseWeek?.length > 0 && (
+        <>
+          <h4 className="ft-day-rail-title">Rest of this week</h4>
+          <div className="ft-day-course">
+            {courseWeek.map((t) => (
+              <div key={t.id} className="ft-day-course-later">
+                <span style={{ color: t.color }}>{t.code.split(' ')[1] || t.code}</span>
+                <span className="ft-day-course-later-name">{t.name}</span>
+                <span className="ft-day-course-later-when">
+                  {new Date(`${t.due}T00:00:00`).toLocaleDateString(undefined, { weekday: 'short' })}
+                  {t.points != null ? ` · ${t.points}p` : ''}
+                </span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
       {(orbitScheduled.length > 0 || orbitDue.length > 0) && (
         <>
           <h4 className="ft-day-rail-title">To-dos</h4>
@@ -850,6 +947,21 @@ export default function CalendarView() {
   const sideColsOverride = settings.calendarPrefs?.showWeekSideCols;
   const showWeekSideCols = sideColsOverride != null ? sideColsOverride : !isMobileViewport;
   const toggleWeekSideCols = () => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, showWeekSideCols: !showWeekSideCols } });
+
+  // The two rails and what they show. sideMode drives BOTH the right rail and the narrow
+  // per-week column, so there is one answer to "what is this column" rather than two controls
+  // that can contradict each other. It defaults to 'todo' — see fitnessConfig's calendarPrefs.
+  const sideMode = settings.calendarPrefs?.sideMode === 'goals' ? 'goals' : 'todo';
+  const setSideMode = (m) => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, sideMode: m } });
+  const notesPanel = settings.calendarPrefs?.notesPanel !== false;
+  const coursePanel = settings.calendarPrefs?.coursePanel !== false;
+  const showCourseChips = settings.calendarPrefs?.showCourseChips !== false;
+  // Off by default: every week is identical, so it is noise unless you deliberately want it.
+  const showClassChips = settings.calendarPrefs?.showClassChips === true;
+  const courseHorizon = settings.calendarPrefs?.courseHorizon === undefined ? 14 : settings.calendarPrefs.courseHorizon;
+  const setCourseHorizon = (h) => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, courseHorizon: h } });
+  const saveNotes = (text) => updateSettings({ calendarNotes: text });
+  const today = todayISO();
 
   // Week view shows a configurable window of N weeks (1–10), scrollable one week
   // at a time via the ‹ › nav — Month stays strict to the actual month.
@@ -1104,6 +1216,8 @@ export default function CalendarView() {
     orbitScheduled: orbitScheduledByDate[isoDate(date)] || [], orbitDue: orbitDueByDate[isoDate(date)] || [],
     orbitAreaById, onOrbitOpen, orbitEnergyCap,
     bases: orbitBases, dayLocations: orbitDayLocations, onOpenWhere: openWhere,
+    courseDue: showCourseChips ? (COURSE_TASKS_BY_DATE[isoDate(date)] || []) : [],
+    classBlocks: showClassChips ? blocksForDay(date.getDay()) : [],
   });
 
   // Shared week-grid header + one week-row (7-day grid + goals/miles side
@@ -1115,7 +1229,24 @@ export default function CalendarView() {
       {WEEKDAYS.map((d) => <div key={d} className="ft-weekhead-cell">{d}</div>)}
       {showWeekSideCols && (
         <>
-          <div className="ft-weekhead-cell ft-weekend-head">Goals</div>
+          {/* The header cell IS the switch — "a toggle over the top of the goals". It sets the
+              same sideMode the right rail uses, so the two move together. */}
+          <div className="ft-weekhead-cell ft-weekend-head">
+            <button
+              type="button"
+              className={`ft-weekend-tab${sideMode === 'todo' ? ' active' : ''}`}
+              onClick={() => setSideMode('todo')}
+            >
+              To-do
+            </button>
+            <button
+              type="button"
+              className={`ft-weekend-tab${sideMode === 'goals' ? ' active' : ''}`}
+              onClick={() => setSideMode('goals')}
+            >
+              Goals
+            </button>
+          </div>
           <div className="ft-weekhead-cell ft-weekmiles-head">Miles</div>
         </>
       )}
@@ -1125,7 +1256,8 @@ export default function CalendarView() {
   const renderWeekRow = (week, inMonthOf) => {
     const sunISO = isoDate(week[0]);
     const satISO = isoDate(week[6]);
-    const ends = showWeekSideCols ? weekEndGoals(activeGoals, activityTypes, satISO) : [];
+    const ends = showWeekSideCols && sideMode === 'goals' ? weekEndGoals(activeGoals, activityTypes, satISO) : [];
+    const weekTodos = showWeekSideCols && sideMode === 'todo' ? courseTasksInRange(sunISO, satISO) : [];
     const milesText = formatDistance(weekTrackedDistanceM(workouts, sunISO, satISO), units.distance, 1);
     const weekNet = weekNetCalories(meals, workouts, sunISO, satISO, bmr, latestWeightKg);
     return (
@@ -1138,12 +1270,14 @@ export default function CalendarView() {
         {showWeekSideCols && (
           <>
             <div className="ft-weekend-col">
-              {ends.map(({ goal, type, targetValue }) => (
-                <WeekEndBadge
-                  key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
-                  onClick={() => openWeekOverride(goal, satISO, targetValue)}
-                />
-              ))}
+              {sideMode === 'todo'
+                ? weekTodos.map((t) => <WeekTodoBadge key={t.id} task={t} todayISO={today} />)
+                : ends.map(({ goal, type, targetValue }) => (
+                  <WeekEndBadge
+                    key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
+                    onClick={() => openWeekOverride(goal, satISO, targetValue)}
+                  />
+                ))}
             </div>
             <div className="ft-weekmiles-col">
               <div className="ft-weekmiles-badge" title={`${milesText} tracked this week`}>
@@ -1161,8 +1295,59 @@ export default function CalendarView() {
     );
   };
 
+  // The goal list, defined once and rendered in two places — the existing full-width Goals
+  // panel and the right rail's Goals tab. Every row needs updateGoal / abandonGoal / the
+  // editor modal, all of which live here, so it stays a node rather than becoming a component
+  // that would have to be handed six props to say the same thing.
+  const goalsNode = (
+    <>
+      <div className="ft-goals-head">
+        <span className="ft-field-label">Goals</span>
+        <button type="button" className="ft-btn-ghost ft-goal-new-btn" onClick={() => setGoalEditor('new')}>+ New goal</button>
+      </div>
+      {activeGoals.length === 0 ? (
+        <p className="ft-hint-sm">No goals yet — set one and its training plan will show up right here on the calendar, and each session tagged to it.</p>
+      ) : (
+        <div className="ft-goal-list">
+          {activeGoals.map((g) => {
+            const t = activityType(activityTypes, g.activityType);
+            const worst = worstRealismBand(g);
+            return (
+              <div key={g.id} className="ft-goal-row" style={{ borderLeft: `4px solid ${t.color}` }}>
+                <div className="ft-goal-info">
+                  <span className="ft-goal-label">{t.name} — {g.label || g.kind}</span>
+                  <span className="ft-goal-meta">
+                    <span className={`ft-goal-badge ft-goal-${g.status}`}>{g.status}</span>
+                    {worst && <span className={`ft-realism-badge ft-realism-${worst}`}>{worst}</span>}
+                    {g.taskFrequency?.value ?? g.daysPerWeek}x/wk
+                    {g.forecastWeeks != null && ` · ~${g.forecastWeeks} wk${g.forecastWeeks === 1 ? '' : 's'}`}
+                    {goalDeadline(g) && ` · by ${goalDeadline(g)}`}
+                  </span>
+                </div>
+                <div className="ft-goal-actions">
+                  <button type="button" className="ft-btn-ghost" onClick={() => setGoalEditor(g)}>Edit</button>
+                  {g.status === 'paused'
+                    ? <button type="button" className="ft-btn-ghost" onClick={() => updateGoal(g.id, { status: 'accepted', pausedAt: null })}>Resume</button>
+                    : <button type="button" className="ft-btn-ghost" onClick={() => updateGoal(g.id, { status: 'paused', pausedAt: Date.now() })}>Pause</button>}
+                  <button type="button" className="ft-btn-ghost" onClick={() => abandonGoal(g)}>Abandon</button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </>
+  );
+
   return (
     <div className="ft-cal-outer">
+      {notesPanel && (
+        <CalendarNotes
+          value={settings.calendarNotes ?? ''}
+          onSave={saveNotes}
+          onClose={() => toggleCalendarPref('notesPanel')}
+        />
+      )}
       {showMealPanel && (
         <div className="ft-meal-panel-side">
           <div className="ft-meal-panel-side-head">
@@ -1171,7 +1356,7 @@ export default function CalendarView() {
           <MealDayView date={new Date(lastClickedDate + 'T00:00:00')} />
         </div>
       )}
-      <div className="ft-cal" data-view={view}>
+      <div className="ft-cal" data-view={view} data-sidemode={sideMode}>
       <div className="ft-cal-bar">
         <div className="ft-cal-nav">
           <button type="button" className="ft-nav-btn" onClick={() => step(-1)} aria-label="Previous">‹</button>
@@ -1187,32 +1372,70 @@ export default function CalendarView() {
             </span>
           ))}
         </div>
-        <div className="ft-view-toggle">
-          {['month', 'week', 'day'].map((v) => (
-            <button key={v} type="button" className={`ft-view-btn${view === v ? ' active' : ''}`} onClick={() => setView(v)}>
-              {v[0].toUpperCase() + v.slice(1)}
-            </button>
-          ))}
+        {/* One right-hand group, and the weeks field comes BEFORE the toggle in the DOM. The
+            group is right-aligned, so Month/Week/Day stays pinned to the same pixel and the
+            weeks field grows leftward into the gap when Week view shows it — rather than
+            shoving the tabs sideways every time the view changed. */}
+        <div className="ft-cal-bar-right">
+          {view === 'week' && (
+            <label className="ft-weekcount" title="How many weeks to show at once (scroll a week at a time with ‹ ›)">
+              <span>weeks</span>
+              <input
+                type="number" min={1} max={10} value={weekCount}
+                onChange={(e) => setWeekCount(parseInt(e.target.value, 10))}
+              />
+            </label>
+          )}
+          <div className="ft-view-toggle">
+            {['month', 'week', 'day'].map((v) => (
+              <button key={v} type="button" className={`ft-view-btn${view === v ? ' active' : ''}`} onClick={() => setView(v)}>
+                {v[0].toUpperCase() + v.slice(1)}
+              </button>
+            ))}
+          </div>
         </div>
-        {view === 'week' && (
-          <label className="ft-weekcount" title="How many weeks to show at once (scroll a week at a time with ‹ ›)">
-            <span>weeks</span>
-            <input
-              type="number" min={1} max={10} value={weekCount}
-              onChange={(e) => setWeekCount(parseInt(e.target.value, 10))}
-            />
-          </label>
-        )}
       </div>
 
       <div className="ft-cal-toggles">
+        <button
+          type="button"
+          className={`ft-toggle-btn${notesPanel ? ' active' : ''}`}
+          onClick={() => toggleCalendarPref('notesPanel')}
+          title="A free-text pad down the left of the calendar — saved with your settings, so it follows you between devices"
+        >
+          Notes
+        </button>
+        <button
+          type="button"
+          className={`ft-toggle-btn${coursePanel ? ' active' : ''}`}
+          onClick={() => toggleCalendarPref('coursePanel')}
+          title="The right-hand rail — coursework To-do or Goals, whichever the toggle at its top is set to"
+        >
+          Side rail
+        </button>
+        <button
+          type="button"
+          className={`ft-toggle-btn${showCourseChips ? ' active' : ''}`}
+          onClick={() => toggleCalendarPref('showCourseChips')}
+          title="Show Canvas due dates as chips on the calendar days themselves, not just in the rail"
+        >
+          Coursework
+        </button>
+        <button
+          type="button"
+          className={`ft-toggle-btn${showClassChips ? ' active' : ''}`}
+          onClick={() => toggleCalendarPref('showClassChips')}
+          title="Show your recurring class blocks on the calendar days. The full weekly grid is the Schedule tab."
+        >
+          Classes
+        </button>
         <button
           type="button"
           className={`ft-toggle-btn${mealDayView ? ' active' : ''}`}
           onClick={() => toggleCalendarPref('mealDayView')}
           title="Shows a meal-schedule panel for whichever day you last clicked, alongside the calendar in any view"
         >
-          Meal day view
+          Meal panel
         </button>
         <button
           type="button"
@@ -1220,7 +1443,7 @@ export default function CalendarView() {
           onClick={() => toggleCalendarPref('showMealsOnCalendar')}
           title="Show meals alongside workouts on every calendar day"
         >
-          Show meals on calendar
+          Meals on days
         </button>
         <button
           type="button"
@@ -1250,9 +1473,9 @@ export default function CalendarView() {
           type="button"
           className={`ft-toggle-btn${showWeekSideCols ? ' active' : ''}`}
           onClick={toggleWeekSideCols}
-          title="Show/hide the weekly Goals + Miles summary columns beside the calendar grid — defaults on for desktop, off for mobile, but this overrides that"
+          title="Show/hide the weekly To-do/Goals + Miles summary columns beside the calendar grid — defaults on for desktop, off for mobile, but this overrides that"
         >
-          Goals/Miles cols
+          Side cols
         </button>
       </div>
 
@@ -1294,45 +1517,7 @@ export default function CalendarView() {
         </div>
       )}
 
-      {goalsPanelOpen && (
-        <div className="ft-goals-panel">
-          <div className="ft-goals-head">
-            <span className="ft-field-label">Goals</span>
-            <button type="button" className="ft-btn-ghost ft-goal-new-btn" onClick={() => setGoalEditor('new')}>+ New goal</button>
-          </div>
-          {activeGoals.length === 0 ? (
-            <p className="ft-hint-sm">No goals yet — set one and its training plan will show up right here on the calendar, and each session tagged to it.</p>
-          ) : (
-            <div className="ft-goal-list">
-              {activeGoals.map((g) => {
-                const t = activityType(activityTypes, g.activityType);
-                const worst = worstRealismBand(g);
-                return (
-                  <div key={g.id} className="ft-goal-row" style={{ borderLeft: `4px solid ${t.color}` }}>
-                    <div className="ft-goal-info">
-                      <span className="ft-goal-label">{t.name} — {g.label || g.kind}</span>
-                      <span className="ft-goal-meta">
-                        <span className={`ft-goal-badge ft-goal-${g.status}`}>{g.status}</span>
-                        {worst && <span className={`ft-realism-badge ft-realism-${worst}`}>{worst}</span>}
-                        {g.taskFrequency?.value ?? g.daysPerWeek}x/wk
-                        {g.forecastWeeks != null && ` · ~${g.forecastWeeks} wk${g.forecastWeeks === 1 ? '' : 's'}`}
-                        {goalDeadline(g) && ` · by ${goalDeadline(g)}`}
-                      </span>
-                    </div>
-                    <div className="ft-goal-actions">
-                      <button type="button" className="ft-btn-ghost" onClick={() => setGoalEditor(g)}>Edit</button>
-                      {g.status === 'paused'
-                        ? <button type="button" className="ft-btn-ghost" onClick={() => updateGoal(g.id, { status: 'accepted', pausedAt: null })}>Resume</button>
-                        : <button type="button" className="ft-btn-ghost" onClick={() => updateGoal(g.id, { status: 'paused', pausedAt: Date.now() })}>Pause</button>}
-                      <button type="button" className="ft-btn-ghost" onClick={() => abandonGoal(g)}>Abandon</button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      )}
+      {goalsPanelOpen && <div className="ft-goals-panel">{goalsNode}</div>}
 
 
       <div className="ft-cal-body" ref={calBodyRef} onMouseDown={onGridMouseDown}>
@@ -1374,7 +1559,8 @@ export default function CalendarView() {
           const days = Array.from({ length: 7 }, (_, i) => addDays(s, i));
           const sunISO = isoDate(days[0]);
           const satISO = isoDate(days[6]);
-          const ends = showWeekSideCols ? weekEndGoals(activeGoals, activityTypes, satISO) : [];
+          const ends = showWeekSideCols && sideMode === 'goals' ? weekEndGoals(activeGoals, activityTypes, satISO) : [];
+          const weekTodos = showWeekSideCols && sideMode === 'todo' ? courseTasksInRange(sunISO, satISO) : [];
           const milesText = formatDistance(weekTrackedDistanceM(workouts, sunISO, satISO), units.distance, 1);
           const weekNet = weekNetCalories(meals, workouts, sunISO, satISO, bmr, latestWeightKg);
           return (
@@ -1385,12 +1571,14 @@ export default function CalendarView() {
               {showWeekSideCols && (
                 <>
                   <div className="ft-weekend-col">
-                    {ends.map(({ goal, type, targetValue }) => (
-                      <WeekEndBadge
-                        key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
-                        onClick={() => openWeekOverride(goal, satISO, targetValue)}
-                      />
-                    ))}
+                    {sideMode === 'todo'
+                      ? weekTodos.map((t) => <WeekTodoBadge key={t.id} task={t} todayISO={today} />)
+                      : ends.map(({ goal, type, targetValue }) => (
+                        <WeekEndBadge
+                          key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
+                          onClick={() => openWeekOverride(goal, satISO, targetValue)}
+                        />
+                      ))}
                   </div>
                   <div className="ft-weekmiles-col">
                     <div className="ft-weekmiles-badge" title={`${milesText} tracked this week`}>
@@ -1422,6 +1610,9 @@ export default function CalendarView() {
             weekMilesText: formatDistance(weekTrackedDistanceM(workouts, isoDate(sun), isoDate(sat)), units.distance, 1),
             weekRangeLabel: `${MONTHS[sun.getMonth()].slice(0, 3)} ${sun.getDate()} – ${MONTHS[sat.getMonth()].slice(0, 3)} ${sat.getDate()}`,
             sunISO: isoDate(sun), satISO: isoDate(sat),
+            courseDue: COURSE_TASKS_BY_DATE[iso] || [],
+            // The rest of the week, so Day view doesn't hide what lands tomorrow.
+            courseWeek: courseTasksInRange(isoDate(sun), isoDate(sat)).filter((t) => t.due !== iso),
           };
           return (
             <div className="ft-day">
@@ -1534,6 +1725,19 @@ export default function CalendarView() {
         </div>
       )}
       </div>
+
+      {coursePanel && (
+        <CalendarSideRail
+          mode={sideMode}
+          onMode={setSideMode}
+          todayISO={today}
+          horizon={courseHorizon}
+          onHorizon={setCourseHorizon}
+          goalCount={activeGoals.length}
+          goalsNode={goalsNode}
+          onClose={() => toggleCalendarPref('coursePanel')}
+        />
+      )}
     </div>
   );
 }

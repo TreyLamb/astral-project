@@ -488,7 +488,7 @@ canonical casing. Legacy paths redirect the same way. Both live in
 | `/lexicon` | Lexicon.jsx | Word study tool |
 | `/google-photos` | GooglePhotos.jsx | |
 | `/mymdb/*` | mymdb/MymdbApp.jsx | Movie/book library |
-| `/MFT/*` | fitnesstracker/FitnessTrackerApp.jsx | was `/fitness-tracker` |
+| `/MFT/*` | fitnesstracker/FitnessTrackerApp.jsx | was `/fitness-tracker`. `/MFT/schedule` is the recurring class week, transcribed from `G:\My Drive\SupplementalCourseDocs\ClassSchedule_2026Fall22.xlsx` ("Template" sheet) and laid out to match it — see `FitnessTrackerPlan.md` Phase 11. The calendar's right rail also reads TKB's `canvasSchedule.json` directly. |
 | `/VV/*` | lang/LangApp.jsx | Vocab Vault — was `/vocab-vault`, `/lang` |
 | `/TKB/*` | theknowledgebase/TkbApp.jsx | was `/tkb` |
 | `/QA` | QATracker.jsx | was `/qa-tracker` |
