@@ -3,6 +3,7 @@
 // 2026-08-28 entry for the source and courses/chem/PLAN.md for the doctrine this follows.
 
 import { registerChemTemplate } from '../generator.js';
+import { measured, measuredSmall } from './_numeric.js';
 
 const CH = 'chem1-00-toolbox';
 
@@ -53,20 +54,19 @@ registerChemTemplate({
   name: 'Significant figures in multiplication',
   concepts: ['significant-figures'],
   generate: (rng, h) => {
-    // `display` is a STRING, not derived from the numeric `value` — a JS number silently drops
-    // trailing zeros (12.0 -> "12", 7.50 -> "7.5"), which would show a displayed value with
-    // fewer digits than the sig-fig count it's labelled with. Keep them independent.
-    const pairs = [
-      [{ display: '2.5', value: 2.5, sf: 2 }, { display: '4.10', value: 4.10, sf: 3 }],
-      [{ display: '3.2', value: 3.2, sf: 2 }, { display: '1.005', value: 1.005, sf: 4 }],
-      [{ display: '12.0', value: 12.0, sf: 3 }, { display: '0.5', value: 0.5, sf: 1 }],
-      [{ display: '7.50', value: 7.50, sf: 3 }, { display: '2.0', value: 2.0, sf: 2 }],
-    ];
-    const [a, b] = h.pick(pairs);
-    const product = +(a.value * b.value).toFixed(6);
+    // GENERATED as of 2026-09-09 (was four hard-coded pairs). The original note still governs
+    // how: a value's TEXT is built from digits and never recovered from a JS number, because a
+    // double silently drops the trailing zeros (12.0 -> "12", 7.50 -> "7.5") that carry the
+    // sig-fig count this question is about. See _numeric.js.
+    const sfA = h.int(1, 4);
+    const sfB = h.pick([1, 2, 3, 4, 5].filter((x) => x !== sfA));
+    const draw = (sf) => (rng() < 0.3 ? measuredSmall(h, h.int(1, 2), sf) : measured(h, h.int(1, 2), Math.max(1, sf - h.int(0, 1))));
+    const a = draw(sfA);
+    const b = draw(sfB);
+    const product = Number(((Number(a.scaled) / 10 ** a.dp) * (Number(b.scaled) / 10 ** b.dp)).toPrecision(10));
     const correctSF = Math.min(a.sf, b.sf);
     return {
-      stem: `You multiply a measurement of ${a.display} (${a.sf} sig figs) by a measurement of ${b.display} (${b.sf} sig figs). The raw product is ${product}. How many significant figures should the reported answer have?`,
+      stem: `You multiply a measurement of ${a.str} (${a.sf} sig fig${a.sf === 1 ? '' : 's'}) by a measurement of ${b.str} (${b.sf} sig fig${b.sf === 1 ? '' : 's'}). The raw product is ${product}. How many significant figures should the reported answer have?`,
       ...h.choices(
         String(correctSF),
         [
@@ -116,24 +116,63 @@ registerChemTemplate({
   name: 'Naming an ionic compound',
   concepts: ['nomenclature-ionic-covalent'],
   generate: (rng, h) => {
-    const COMPOUNDS = [
-      { formula: 'FeCl₃', correct: 'iron(III) chloride', wrongCharge: 'iron(II) chloride', noSuffix: 'iron trichloride' },
-      { formula: 'CuO', correct: 'copper(II) oxide', wrongCharge: 'copper(I) oxide', noSuffix: 'copper monoxide' },
-      { formula: 'K₂SO₄', correct: 'potassium sulfate', wrongCharge: 'potassium(I) sulfate', noSuffix: 'potassium sulfide' },
-      { formula: 'Mg(NO₃)₂', correct: 'magnesium nitrate', wrongCharge: 'magnesium(II) nitrate', noSuffix: 'magnesium nitride' },
+    // GENERATED from ion tables as of 2026-09-09. This was four hard-coded compounds, which is
+    // four questions covering one of the two heaviest topics on his Exam 1. Crossing 14 cations
+    // with 12 anions gives the combinatorics the topic actually deserves.
+    //
+    // Only FIXED-charge metals live here, so "does this name need a Roman numeral?" has a real
+    // answer of NO and the unneeded-numeral distractor is a genuine mistake. Variable-charge
+    // metals get the Stock treatment in rev1-ch00-toolbox.js, where deriving the numeral IS the
+    // question — keeping them apart is what stops the two templates teaching opposite lessons.
+    const SUB = { 1: '', 2: '₂', 3: '₃' };
+    const CATIONS = [
+      { sym: 'Na', name: 'sodium', z: 1 }, { sym: 'K', name: 'potassium', z: 1 },
+      { sym: 'Li', name: 'lithium', z: 1 }, { sym: 'Rb', name: 'rubidium', z: 1 },
+      { sym: 'Cs', name: 'caesium', z: 1 }, { sym: 'Ag', name: 'silver', z: 1 },
+      { sym: 'Mg', name: 'magnesium', z: 2 }, { sym: 'Ca', name: 'calcium', z: 2 },
+      { sym: 'Ba', name: 'barium', z: 2 }, { sym: 'Sr', name: 'strontium', z: 2 },
+      { sym: 'Zn', name: 'zinc', z: 2 }, { sym: 'Cd', name: 'cadmium', z: 2 },
+      { sym: 'Al', name: 'aluminium', z: 3 }, { sym: 'Ga', name: 'gallium', z: 3 },
     ];
-    const c = h.pick(COMPOUNDS);
+    // `wrong` is the name a student reaches for when they mix up -ide / -ate / -ite, so it is
+    // a named error rather than a random other anion.
+    const ANIONS = [
+      { f: 'Cl', name: 'chloride', z: 1, poly: false, wrong: 'chlorate' },
+      { f: 'Br', name: 'bromide', z: 1, poly: false, wrong: 'bromate' },
+      { f: 'I', name: 'iodide', z: 1, poly: false, wrong: 'iodate' },
+      { f: 'F', name: 'fluoride', z: 1, poly: false, wrong: 'fluorate' },
+      { f: 'O', name: 'oxide', z: 2, poly: false, wrong: 'peroxide' },
+      { f: 'S', name: 'sulfide', z: 2, poly: false, wrong: 'sulfate' },
+      { f: 'N', name: 'nitride', z: 3, poly: false, wrong: 'nitrate' },
+      { f: 'NO₃', name: 'nitrate', z: 1, poly: true, wrong: 'nitride' },
+      { f: 'OH', name: 'hydroxide', z: 1, poly: true, wrong: 'oxide' },
+      { f: 'SO₄', name: 'sulfate', z: 2, poly: true, wrong: 'sulfide' },
+      { f: 'CO₃', name: 'carbonate', z: 2, poly: true, wrong: 'carbide' },
+      { f: 'PO₄', name: 'phosphate', z: 3, poly: true, wrong: 'phosphide' },
+    ];
+    const ROMAN = ['', 'I', 'II', 'III'];
+
+    const cat = h.pick(CATIONS);
+    const an = h.pick(ANIONS);
+    const g = ((x, y) => { while (y) { [x, y] = [y, x % y]; } return x; })(cat.z, an.z);
+    const m = an.z / g;
+    const a = cat.z / g;
+    const formula = `${cat.sym}${SUB[m]}${an.poly && a > 1 ? `(${an.f})${SUB[a]}` : `${an.f}${SUB[a]}`}`;
+    const correct = `${cat.name} ${an.name}`;
+    const GREEK = ['', 'mono', 'di', 'tri'];
+
     return {
-      stem: `What is the correct name for the ionic compound ${c.formula}?`,
+      stem: `What is the correct name for the ionic compound ${formula}?`,
       ...h.choices(
-        c.correct,
+        correct,
         [
-          { value: c.wrongCharge, error: 'unneeded-roman-numeral', why: 'added a Roman numeral to a metal whose charge does not need to be shown, or used the wrong charge' },
-          { value: c.noSuffix, error: 'wrong-anion-suffix', why: 'used the wrong suffix or name for the anion' },
-          { value: c.formula.toLowerCase() + ' compound', error: 'not-a-name', why: 'did not actually name the compound' },
+          { value: `${cat.name}(${ROMAN[cat.z]}) ${an.name}`, error: 'unneeded-roman-numeral', why: `added a Roman numeral to ${cat.name}, which only ever forms one charge (${cat.z}+) — the numeral is only written when a metal has a choice` },
+          { value: `${cat.name} ${an.wrong}`, error: 'wrong-anion-suffix', why: `used the wrong name for the anion: ${an.wrong} is a different ion from ${an.name}` },
+          { value: `${a > 1 ? GREEK[Math.min(a, 3)] : ''}${cat.name} ${m > 1 ? GREEK[Math.min(m, 3)] : ''}${an.name}`, error: 'used-covalent-prefixes', why: 'used Greek prefixes, which belong to COVALENT naming — an ionic name never counts atoms, because charge balance already fixes them' },
+          { value: `${an.name} ${cat.name}`, error: 'ions-reversed', why: 'named the anion first; the cation always comes first in an ionic name' },
         ],
       ),
-      explanation: `Ionic naming: cation name first, then the anion (polyatomic ions keep their own name; monatomic anions take an -ide suffix). Only give the metal a Roman-numeral charge when it can have more than one.`,
+      explanation: `${formula} is ${correct}. Cation name first, unchanged; then the anion — ${an.poly ? `${an.name} is POLYATOMIC, so it keeps its own name rather than taking an -ide suffix` : `${an.name} is a monatomic anion, so it takes the -ide suffix`}. ${cat.name.charAt(0).toUpperCase() + cat.name.slice(1)} forms only the ${cat.z}+ ion, so NO Roman numeral is written; you would need one for a metal like iron or copper that can be more than one charge. Note the name never mentions the subscripts — ${m > 1 || a > 1 ? 'they come from charge balance, so the name alone is enough to rebuild the formula' : 'they are 1:1 here'}, which is exactly why ionic naming has no Greek prefixes.`,
     };
   },
 });

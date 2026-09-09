@@ -38,6 +38,7 @@
 // instructor's level, not the ACS final's.
 
 import { registerChemTemplate } from '../generator.js';
+import { measured, measuredSmall, render, roundToDp, roundToSigFigs, addSub, digitString, sigFigsOf } from './_numeric.js';
 
 const CH = 'chem1-00-toolbox';
 
@@ -267,21 +268,47 @@ registerChemTemplate({
   name: 'Counting significant figures in a measured quantity',
   concepts: ['significant-figures'],
   generate: (rng, h) => {
-    const ITEMS = [
-      { q: '17.040', sf: 5, digits: 5, why: 'the zero between 4 and nothing is captive AND trailing after a decimal point, so it counts' },
-      { q: '0.00420', sf: 3, digits: 6, why: 'leading zeros never count; the trailing zero after the decimal point does' },
-      { q: '1200', sf: 2, digits: 4, why: 'with no decimal point shown, the trailing zeros are ambiguous and are not counted' },
-      { q: '1200.', sf: 4, digits: 4, why: 'the trailing decimal point is there precisely to say those zeros were measured' },
-      { q: '0.050', sf: 2, digits: 4, why: 'leading zeros are placeholders; the final zero is significant' },
-      { q: '100.0', sf: 4, digits: 4, why: 'a decimal point is shown, so every digit written counts' },
-      { q: '0.0001', sf: 1, digits: 5, why: 'all four zeros are placeholders locating the decimal point' },
-      { q: '45.60', sf: 4, digits: 4, why: 'a trailing zero after a decimal point is a measured digit, not decoration' },
-      { q: '6.022 × 10²³', sf: 4, digits: 4, why: 'in scientific notation only the coefficient carries significant figures' },
-      { q: '3.00 × 10⁸', sf: 3, digits: 3, why: 'in scientific notation only the coefficient carries significant figures' },
-      { q: '0.9080', sf: 4, digits: 5, why: 'the captive zero and the trailing zero after the decimal both count' },
-      { q: '20500', sf: 3, digits: 5, why: 'the captive zero counts; the trailing zeros with no decimal point shown do not' },
-    ];
-    const it = h.pick(ITEMS);
+    // GENERATED as of 2026-09-09 (was a twelve-item list). Every form the rules distinguish is
+    // built here rather than enumerated, so the shape rotates as well as the digits. The counts
+    // come from the construction, never from parsing a JS number back out.
+    const it = (() => {
+      const form = h.pick(['decimal', 'small', 'trailing-int', 'pointed-int', 'sci']);
+      const d = (n) => digitString(h, n);
+      if (form === 'decimal') {
+        // e.g. 17.040 — a decimal point is shown, so every digit written is significant.
+        const ip = h.int(1, 3);
+        const dp = h.int(1, 3);
+        const q = `${d(ip)}.${d(dp).slice(0, dp - 1)}${h.pick(['0', String(h.int(1, 9))])}`;
+        return { q, sf: sigFigsOf(q), digits: q.replace('.', '').length, why: 'a decimal point is shown, so every digit written counts, trailing zeros included' };
+      }
+      if (form === 'small') {
+        // e.g. 0.00420 — leading zeros locate the point and never count.
+        const z = h.int(1, 4);
+        const n = h.int(1, 4);
+        const q = `0.${'0'.repeat(z)}${d(n).slice(0, n - 1)}${h.pick(['0', String(h.int(1, 9))])}`;
+        return { q, sf: sigFigsOf(q), digits: q.replace('.', '').length, why: `the ${z + 1} leading zeros are placeholders locating the decimal point; everything from the first non-zero digit onward counts` };
+      }
+      if (form === 'trailing-int') {
+        // e.g. 1200 — no decimal point, so the trailing zeros are ambiguous and are not counted.
+        const n = h.int(1, 3);
+        const z = h.int(1, 3);
+        const q = `${d(n)}${'0'.repeat(z)}`;
+        return { q, sf: n, digits: q.length, why: 'no decimal point is shown, so the trailing zeros are ambiguous (they may only be locating the magnitude) and are not counted' };
+      }
+      if (form === 'pointed-int') {
+        // e.g. 1200. — the trailing point exists precisely to make those zeros count.
+        const n = h.int(1, 3);
+        const z = h.int(1, 3);
+        const q = `${d(n)}${'0'.repeat(z)}.`;
+        return { q, sf: n + z, digits: n + z, why: 'the trailing decimal point is there precisely to say those zeros were measured, so they all count' };
+      }
+      const n = h.int(1, 5);
+      const digits = d(n);
+      const exp = h.int(-24, 24) || 8;
+      const sup = String(Math.abs(exp)).split('').map((c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(c)]).join('');
+      const q = `${digits[0]}${n > 1 ? '.' + digits.slice(1) : ''} × 10${exp < 0 ? '⁻' : ''}${sup}`;
+      return { q, sf: n, digits: n, why: 'in scientific notation only the digits in the COEFFICIENT count — the power of ten sets the magnitude and never adds precision' };
+    })();
     return {
       // The quantity goes LAST, matching the instructor's own phrasing. It also has to: one of
       // the items is "1200." and "the quantity 1200. have?" is unreadable mid-sentence.
@@ -315,27 +342,45 @@ registerChemTemplate({
   name: 'Addition and subtraction: decimal places, and keep the units',
   concepts: ['significant-figures'],
   generate: (rng, h) => {
-    const CASES = [
-      { a: '1.02 L', b: '0.010 L', op: '−', raw: '1.010', ans: '1.01', unit: 'L', sfWrong: '1.0', dp: 2, from: '1.02' },
-      { a: '12.11 g', b: '0.3 g', op: '−', raw: '11.81', ans: '11.8', unit: 'g', sfWrong: '10', dp: 1, from: '0.3' },
-      { a: '4.7 mL', b: '0.155 mL', op: '+', raw: '4.855', ans: '4.9', unit: 'mL', sfWrong: '4.9', dp: 1, from: '4.7' },
-      { a: '25.00 cm', b: '1.2 cm', op: '+', raw: '26.20', ans: '26.2', unit: 'cm', sfWrong: '26', dp: 1, from: '1.2' },
-      { a: '0.250 g', b: '0.107 g', op: '−', raw: '0.143', ans: '0.143', unit: 'g', sfWrong: '0.143', dp: 3, from: 'both' },
-      { a: '108.4 mL', b: '9.06 mL', op: '+', raw: '117.46', ans: '117.5', unit: 'mL', sfWrong: '117.5', dp: 1, from: '108.4' },
-    ];
-    const c = h.pick(CASES);
+    // GENERATED, not a case table. This was six declared pairs until 2026-09-09, which made the
+    // single most-tested skill on his Exam 1 the thinnest thing in the bank — Trey noticed and
+    // asked whether the tool had any material of its own. Every value here is carried as digits
+    // plus a decimal-place count and every operation is BigInt (see _numeric.js), because a
+    // float cannot even PRINT this question's raw value: 1.02 − 0.010 is 1.0099999999999998.
+    const unit = h.pick(['L', 'mL', 'g', 'kg', 'cm', 'mm', 'mol', 's']);
+    const plus = rng() < 0.5;
+
+    // Unequal decimal places, or the item has nothing to decide.
+    const dpA = h.int(1, 3);
+    const dpB = h.pick([1, 2, 3, 4].filter((x) => x !== dpA));
+    let a = measured(h, h.int(1, 3), dpA);
+    let b = measured(h, h.int(1, 2), dpB);
+    // A subtraction must not go negative — a negative mass reads as a broken question, not a
+    // hard one. Compare on a common scale rather than through Number.
+    if (!plus) {
+      const dp = Math.max(a.dp, b.dp);
+      if (b.scaled * 10n ** BigInt(dp - b.dp) > a.scaled * 10n ** BigInt(dp - a.dp)) [a, b] = [b, a];
+    }
+
+    const raw = addSub(a, b, plus ? '+' : '-');
+    const rawStr = render(raw.scaled, raw.dp);
+    const keepDp = Math.min(a.dp, b.dp);
+    const ansStr = render(roundToDp(raw.scaled, raw.dp, keepDp).scaled, keepDp);
+    const limiter = a.dp < b.dp ? a : b;
+    const sfWrong = roundToSigFigs(raw.scaled, raw.dp, Math.min(a.sf, b.sf));
+
     return {
-      stem: `Perform the calculation and report the result with the correct number of significant figures AND the correct units.\n\n${c.a} ${c.op} ${c.b} =`,
+      stem: `Perform the calculation and report the result with the correct number of significant figures AND the correct units.\n\n${a.str} ${unit} ${plus ? '+' : '−'} ${b.str} ${unit} =`,
       ...h.choices(
-        { value: `${c.ans} ${c.unit}` },
+        { value: `${ansStr} ${unit}` },
         [
-          { value: `${c.raw} ${c.unit}`, error: 'no-rounding-applied', why: 'reported every digit the calculator showed instead of applying the precision rule' },
-          { value: `${c.ans}`, error: 'units-dropped', why: 'got the number right and dropped the unit — a measurement without a unit is not an answer' },
-          { value: `${c.sfWrong} ${c.unit}`, error: 'used-sig-fig-rule', why: 'used the multiplication rule (fewest significant figures) — addition and subtraction use fewest DECIMAL PLACES' },
-          { value: `${c.raw}`, error: 'no-rounding-applied', why: 'neither rounded nor kept the unit' },
+          { value: `${rawStr} ${unit}`, error: 'no-rounding-applied', why: 'reported every digit the calculator showed instead of applying the precision rule' },
+          { value: `${ansStr}`, error: 'units-dropped', why: 'got the number right and dropped the unit — a measurement without a unit is not an answer' },
+          { value: `${sfWrong} ${unit}`, error: 'used-sig-fig-rule', why: 'used the multiplication rule (fewest significant figures) — addition and subtraction use fewest DECIMAL PLACES' },
+          { value: `${rawStr}`, error: 'no-rounding-applied', why: 'neither rounded nor kept the unit' },
         ],
       ),
-      explanation: `Line the numbers up at the decimal point. The raw result is ${c.raw} ${c.unit}. For + and − the answer keeps the FEWEST DECIMAL PLACES of any input${c.from === 'both' ? '' : ` — here that is ${c.from}, with ${c.dp}`}${c.from === 'both' ? `, which is ${c.dp} here` : ''} — giving ${c.ans} ${c.unit}. Significant figures are the rule for × and ÷; they are NOT the rule here. The unit carries straight through unchanged.`,
+      explanation: `Line the numbers up at the decimal point. The raw result is ${rawStr} ${unit}. For + and − the answer keeps the FEWEST DECIMAL PLACES of any input — here that is ${limiter.str}, with ${keepDp} — giving ${ansStr} ${unit}. Significant figures are the rule for × and ÷; they are NOT the rule here. The unit carries straight through unchanged.`,
     };
   },
 });
@@ -352,27 +397,59 @@ registerChemTemplate({
   name: 'Multiplication and division: fewest sig figs, and the unit changes',
   concepts: ['significant-figures'],
   generate: (rng, h) => {
-    const CASES = [
-      { expr: '2.02 g / 0.013 mL', raw: '155.3846...', ans: '1.6 × 10²', unit: 'g/mL', sf: 2, lim: '0.013 (2 sig figs)', badUnit: 'g·mL', wrongSf: '155.38' },
-      { expr: '4.50 g / 1.2 mL', raw: '3.75', ans: '3.8', unit: 'g/mL', sf: 2, lim: '1.2 (2 sig figs)', badUnit: 'mL/g', wrongSf: '3.750' },
-      { expr: '6.02 cm × 2.1 cm', raw: '12.642', ans: '13', unit: 'cm²', sf: 2, lim: '2.1 (2 sig figs)', badUnit: 'cm', wrongSf: '12.6' },
-      { expr: '125 g / 25.0 mL', raw: '5', ans: '5.00', unit: 'g/mL', sf: 3, lim: 'both inputs (3 sig figs)', badUnit: 'mL/g', wrongSf: '5' },
-      { expr: '0.0840 L × 3.5 mol/L', raw: '0.294', ans: '0.29', unit: 'mol', sf: 2, lim: '3.5 (2 sig figs)', badUnit: 'mol/L', wrongSf: '0.294' },
-      { expr: '18.6 m / 2.00 s', raw: '9.3', ans: '9.30', unit: 'm/s', sf: 3, lim: '2.00 (3 sig figs)', badUnit: 'm·s', wrongSf: '9.3' },
+    // Generated, for the same reason as the add/subtract template above. The unit ALGEBRA is the
+    // half the professor bolded, so these pairs are real physical quantities whose quotient or
+    // product is a unit that actually means something — a density, a speed, an area.
+    const QUOTIENTS = [
+      { ua: 'g', ub: 'mL', out: 'g/mL', bad: 'g·mL', is: 'a density' },
+      { ua: 'g', ub: 'cm³', out: 'g/cm³', bad: 'g·cm³', is: 'a density' },
+      { ua: 'm', ub: 's', out: 'm/s', bad: 'm·s', is: 'a speed' },
+      { ua: 'mol', ub: 'L', out: 'mol/L', bad: 'mol·L', is: 'a concentration' },
+      { ua: 'J', ub: 'g', out: 'J/g', bad: 'J·g', is: 'an energy per gram' },
+      { ua: 'km', ub: 'h', out: 'km/h', bad: 'km·h', is: 'a speed' },
     ];
-    const c = h.pick(CASES);
+    const AREAS = [
+      { u: 'cm', out: 'cm²', bad: 'cm', is: 'an area' },
+      { u: 'm', out: 'm²', bad: 'm', is: 'an area' },
+    ];
+
+    const area = rng() < 0.25;
+    const g = area ? h.pick(AREAS) : h.pick(QUOTIENTS);
+    const unitA = area ? g.u : g.ua;
+    const unitB = area ? g.u : g.ub;
+    const op = area ? '×' : '/';
+
+    // Unequal significant-figure counts, or there is nothing to choose between.
+    const sfA = h.int(2, 4);
+    const sfB = h.pick([2, 3, 4].filter((x) => x !== sfA));
+    const draw = (sf) => (rng() < 0.35 ? measuredSmall(h, h.int(1, 2), sf) : measured(h, h.int(1, 2), Math.max(1, sf - h.int(1, 2))));
+    const a = draw(sfA);
+    const b = draw(sfB);
+
+    const av = Number(a.scaled) / 10 ** a.dp;
+    const bv = Number(b.scaled) / 10 ** b.dp;
+    const exact = area ? av * bv : av / bv;
+    const keepSf = Math.min(a.sf, b.sf);
+    // Back into the exact domain to round. 12 dp is far beyond any input's own precision, so
+    // nothing real is lost, and roundToSigFigs can then work in BigInt.
+    const scaled = BigInt(Math.round(exact * 1e12));
+    const ansStr = roundToSigFigs(scaled, 12, keepSf);
+    const rawStr = Number(exact.toPrecision(10)).toString();
+    const wrongSfStr = roundToSigFigs(scaled, 12, keepSf === 2 ? 4 : keepSf - 1);
+    const limiter = a.sf < b.sf ? a : b;
+
     return {
-      stem: `Perform the calculation and report the result with the correct number of significant figures AND the correct units.\n\n${c.expr} =`,
+      stem: `Perform the calculation and report the result with the correct number of significant figures AND the correct units.\n\n${a.str} ${unitA} ${op} ${b.str} ${unitB} =`,
       ...h.choices(
-        { value: `${c.ans} ${c.unit}` },
+        { value: `${ansStr} ${g.out}` },
         [
-          { value: `${c.ans} ${c.badUnit}`, error: 'wrong-derived-unit', why: 'rounded correctly but did not carry the units through the operation — divide the units when you divide the numbers' },
-          { value: `${c.wrongSf} ${c.unit}`, error: 'wrong-sig-fig-count', why: `kept the wrong number of significant figures (the answer can only have ${c.sf})` },
-          { value: `${c.ans}`, error: 'units-dropped', why: 'dropped the unit entirely' },
-          { value: `${c.raw} ${c.unit}`, error: 'no-rounding-applied', why: 'reported the raw calculator display' },
+          { value: `${ansStr} ${g.bad}`, error: 'wrong-derived-unit', why: `rounded correctly but did not carry the units through the operation — ${area ? 'multiplying two lengths gives an area' : 'divide the units when you divide the numbers'}` },
+          { value: `${wrongSfStr} ${g.out}`, error: 'wrong-sig-fig-count', why: `kept the wrong number of significant figures (the answer can only have ${keepSf})` },
+          { value: `${ansStr}`, error: 'units-dropped', why: 'dropped the unit entirely' },
+          { value: `${rawStr} ${g.out}`, error: 'no-rounding-applied', why: 'reported the raw calculator display' },
         ],
       ),
-      explanation: `For × and ÷ the answer keeps the FEWEST SIGNIFICANT FIGURES of any input — here ${c.lim}, so ${c.sf}. The raw value is ${c.raw}, which written to ${c.sf} significant figures is ${c.ans}. Treat the units as algebra alongside the numbers: ${c.expr.replace(/[\d.]+ ?/g, '')} → ${c.unit}.`,
+      explanation: `For × and ÷ the answer keeps the FEWEST SIGNIFICANT FIGURES of any input — here ${limiter.str}, with ${limiter.sf}, so ${keepSf}. The raw value is ${rawStr}, which written to ${keepSf} significant figures is ${ansStr}. Treat the units as algebra alongside the numbers: ${unitA} ${op} ${unitB} → ${g.out}, which is ${g.is}.`,
     };
   },
 });
