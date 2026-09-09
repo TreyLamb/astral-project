@@ -25,6 +25,21 @@ export function ChemReferenceContent() {
         equalities your own quizzes handed you and the list in your class notes.
       </p>
 
+      {/* --- Periodic table ---------------------------------------------------- */}
+      {/* PerTable.jpg from his Drive folder — the OpenStax table, which is the one his AcademiQ
+          text uses and the one the syllabus says is PROVIDED during quizzes. Worth having here
+          precisely because he should practise with the same one he will sit the exam with. */}
+      <section className="chq-res-block">
+        <h3>Periodic table</h3>
+        <p className="chq-res-sub">
+          The same table you are given during quizzes. Tap to open full size — atomic masses are
+          on it, so you are never expected to memorise them.
+        </p>
+        <a className="chq-res-figure" href="/chem/periodic-table.jpg" target="_blank" rel="noreferrer">
+          <img src="/chem/periodic-table.jpg" alt="Periodic table of the elements, with atomic number, symbol, atomic mass and name, colour-coded for metal, metalloid and nonmetal" loading="lazy" />
+        </a>
+      </section>
+
       {/* --- SI base units ------------------------------------------------- */}
       <section className="chq-res-block">
         <h3>SI base units</h3>
@@ -195,41 +210,37 @@ export function ChemReferenceContent() {
       </section>
 
       {/* --- Polyatomic ions -------------------------------------------------- */}
+      {/* Trey's OWN sheet (polyatomicelements.png), not a table typed out here. He put it in
+          SupplementalCourseDocs for exactly this and asked why it had been "remade into text".
+          Fair: the hand-typed version was worse AND differently scoped — it omitted azide,
+          hydrogen sulfate, hydrogen sulfite, dihydrogen phosphate, hydrogen phosphate and the
+          whole bromite/bromate/hypobromite/perbromate series, while adding permanganate,
+          peroxide and oxalate, which his sheet does not carry. When the source exists, the
+          source IS the reference; retyping it only invents a second version to disagree with. */}
       <section className="chq-res-block">
         <h3>Polyatomic ions</h3>
         <p className="chq-res-sub">
-          Your notes flag these. Learn the <strong>-ate</strong> form, then derive the rest: one
-          fewer oxygen is <strong>-ite</strong>, <strong>per-</strong> adds one, <strong>hypo-</strong> removes another.
+          Your own sheet. Tap it to open full size.
         </p>
-        <table className="chq-res-table">
-          <thead><tr><th>1−</th><th>2−</th><th>3−</th><th>Positive</th></tr></thead>
-          <tbody>
-            <tr>
-              <td>nitrate NO₃⁻</td><td>sulfate SO₄²⁻</td><td>phosphate PO₄³⁻</td><td>ammonium NH₄⁺</td>
-            </tr>
-            <tr>
-              <td>nitrite NO₂⁻</td><td>sulfite SO₃²⁻</td><td>phosphite PO₃³⁻</td><td>hydronium H₃O⁺</td>
-            </tr>
-            <tr>
-              <td>hydroxide OH⁻</td><td>carbonate CO₃²⁻</td><td></td><td></td>
-            </tr>
-            <tr>
-              <td>acetate C₂H₃O₂⁻</td><td>chromate CrO₄²⁻</td><td></td><td></td>
-            </tr>
-            <tr>
-              <td>cyanide CN⁻</td><td>dichromate Cr₂O₇²⁻</td><td></td><td></td>
-            </tr>
-            <tr>
-              <td>permanganate MnO₄⁻</td><td>peroxide O₂²⁻</td><td></td><td></td>
-            </tr>
-            <tr>
-              <td>bicarbonate HCO₃⁻</td><td>oxalate C₂O₄²⁻</td><td></td><td></td>
-            </tr>
-          </tbody>
-        </table>
+        <a
+          className="chq-res-figure"
+          href="/chem/polyatomic-ions.png"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img src="/chem/polyatomic-ions.png" alt="Common polyatomic ions, grouped by charge: +1 cations, and −1, −2 and −3 anions" loading="lazy" />
+        </a>
         <p className="chq-res-note">
-          <strong>The chlorine series, as the pattern:</strong> hypochlorite ClO⁻ · chlorite ClO₂⁻ ·
-          chlorate ClO₃⁻ · perchlorate ClO₄⁻. Every one is 1−; only the oxygen count moves.
+          <strong>Learn the pattern, not 30 separate facts.</strong> Fix the <em>-ate</em> form
+          in your head, then everything else moves off it: one fewer oxygen is <em>-ite</em>,
+          <strong> per-</strong> adds one above <em>-ate</em>, <strong>hypo-</strong> drops one
+          below <em>-ite</em>. The charge never changes across the series.
+        </p>
+        <p className="chq-res-note">
+          Chlorine is the full set: hypochlorite ClO⁻ · chlorite ClO₂⁻ · chlorate ClO₃⁻ ·
+          perchlorate ClO₄⁻ — all 1−. Bromine does the same thing one row down.
+          Adding an H⁺ to an anion raises its charge by one and prefixes the name with
+          <strong> hydrogen</strong>: SO₄²⁻ sulfate → HSO₄⁻ hydrogen sulfate.
         </p>
       </section>
 

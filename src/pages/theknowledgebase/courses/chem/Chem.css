@@ -293,3 +293,14 @@
   .chq-res-block { break-inside: avoid; border-color: #ccc; }
   .chq-res { max-width: none; }
 }
+
+/* Reference figures — Trey's own sheets (public/chem/), shown as images rather than
+   retyped. Click opens the full-size file, which is what a periodic table needs on a
+   phone. Constrained so a 1.7MB PNG cannot blow out the drawer's layout. */
+.chq-res-figure {
+  display: block; margin: .2rem 0 .2rem; border: 1px solid var(--tkb-border);
+  border-radius: 8px; overflow: hidden; background: #fff; line-height: 0;
+}
+.chq-res-figure:hover { border-color: var(--tkb-accent); }
+.chq-res-figure img { width: 100%; height: auto; display: block; }
+@media print { .chq-res-figure { break-inside: avoid; } }
