@@ -4,9 +4,32 @@ import { useAfoqt } from '../AfoqtApp';
 import { DRILLABLE_BY_PRIORITY, getSubtest, secPerQuestion, compositeReach, PRIORITY, TEST_LEVEL_BAND } from '../engine/afoqtSpec';
 import { templatesFor } from '../engine/generator';
 import { bankCount } from '../engine/bank';
+import { askableWords } from '../engine/words';
 import { PRESSURE_PRESETS } from '../engine/timing';
 
 const COUNTS = [5, 10, 20, 40];
+
+// What a subtest actually holds, in units a person can read.
+//
+// "35 in bank" was the old line and it got read as "there are only 35 words" - Trey,
+// 2026-09-09. It never meant that. `bankCount` counts PRE-WRITTEN questions (10 official OATTS
+// items + 25 cleaned ASVAB ones), which is a completely different unit from the words Word
+// Knowledge can ask, and it sat one line under "70 templates" with neither line saying "word".
+//
+// So: name the unit every time, and for WK lead with the number he was looking for.
+// `askableWords` is the honest count - registry rows PLUS the headwords that only ever appear
+// as a morphology example or a confusable pair. See docs/afoqt/QUESTION-SELECTION.md section 2,
+// which exists because these four numbers have caused this exact confusion before.
+const inventory = (code) => {
+  const words = code === 'WK' ? askableWords('WK').length : 0;
+  const templates = templatesFor(code).length;
+  const bank = bankCount(code);
+  return [
+    words ? `${words} words` : null,
+    templates ? `${templates} templates` : null,
+    bank ? `${bank} written questions` : null,
+  ].filter(Boolean);
+};
 
 export default function DrillConfig() {
   const navigate = useNavigate();
@@ -130,13 +153,12 @@ export default function DrillConfig() {
             <div className="afq-grid afq-subtest-grid">
               {/* Most valuable to HIS eleven applications first, not test order - see PRIORITY. */}
               {DRILLABLE_BY_PRIORITY.map((s) => {
-                const n = templatesFor(s.code).length;
-                const bank = bankCount(s.code);
+                const stock = inventory(s.code);
                 const reach = compositeReach(s.code);
                 return (
                   <button
                     key={s.code}
-                    className={'afq-tile' + (n + bank === 0 ? ' empty' : '')}
+                    className={'afq-tile' + (stock.length === 0 ? ' empty' : '')}
                     onClick={() => chooseSubtest(s.code)}
                   >
                     <strong>{s.name}</strong>
@@ -148,7 +170,7 @@ export default function DrillConfig() {
                     </small>
                     {/* Reach is why some subtests matter more: MK feeds five composites, TR all three rated ones. */}
                     <small className="afq-reach">{reach.length ? reach.join(' ') : 'unscored'}</small>
-                    <small>{[n ? `${n} templates` : null, bank ? `${bank} in bank` : null].filter(Boolean).join(' + ') || 'not built yet'}</small>
+                    <small>{stock.join(' · ') || 'not built yet'}</small>
                   </button>
                 );
               })}
@@ -168,8 +190,7 @@ export default function DrillConfig() {
               <strong className="afq-chosen-name">{meta ? meta.name : subtest}</strong>
               <small className="afq-chosen-meta">
                 {[
-                  templates.length ? `${templates.length} templates` : null,
-                  bankCount(subtest) ? `${bankCount(subtest)} in bank` : null,
+                  ...inventory(subtest),
                   meta ? `${secPerQuestion(meta).toFixed(1)}s / question` : null,
                 ].filter(Boolean).join(' · ')}
               </small>

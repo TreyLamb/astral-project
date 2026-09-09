@@ -36,7 +36,7 @@ This is the single most misleading thing about the subtest. "The word bank" is n
 | **Word registry** | `engine/words.js` `REGISTRY` | **252** | Full `WordRow`: band, pos, gloss, charge, and four NAMED distractors |
 | **Morphology examples** | `engine/morphology.js` root/affix rows | part of 105 | `examples[]` on a root — `artist`, `subway`, `circumference`. Bare word + gloss |
 | **Confusable pairs** | `engine/morphology.js` `pairsFor` | part of 105 | `a`/`b` halves with a `tell` |
-| **Static question bank** | `data/realQuestions.json` + `data/migratedAsvab.json` via `engine/bank.js` | **35 WK items** | Whole pre-written questions, not words |
+| **Static question bank** | `data/realQuestions.json` + `data/migratedAsvab.json` via `engine/bank.js` | **35 WK items** (10 OATTS + 25 of 52 migrated ASVAB; 27 dropped for having <2 choices) | Whole pre-written questions, **not words** |
 
 **357 distinct headwords are askable in Word Knowledge. Only 252 are registry rows.** The other
 105 reach the screen through `vocab` on a morphology or pair question and are never
@@ -61,16 +61,29 @@ Most of the confusion in this project has been unit confusion. State the unit ev
 
 | Number | What it is | WK value |
 |---|---|---|
-| **Templates** | `templatesFor('WK').length` | 60 |
-| **Registry headwords** | `allWords().length` | 252 |
-| **Askable headwords** | distinct `vocab.word` over every template's whole item space | 357 |
+| **Templates** | `templatesFor('WK').length` | 60 → **70** |
+| **Registry headwords** | `allWords().length` | 252 → **349** |
+| **Askable headwords** | `askableWords('WK').length` | 357 → **454** |
 | **Distinct questions** | sum of item spaces across frames | ~895 |
+| **Pre-written bank questions** | `bankCount('WK')` | **35** |
+
+(First figure 2026-09-04, second 2026-09-09 after the word-pool batches.)
 
 "60" is templates and has never been the word count. Saying it without the unit is how a
 reasonable question ("is the list only 60 words?") becomes unanswerable.
 
+🔴 **A UI that shows one of these MUST name the unit — this has now bitten a real user.** The
+drill picker rendered `35 in bank` one line under `70 templates`, and Trey read it as the word
+count and reported the bank had shrunk to 35 words: *"in afoqt why does my word knowledge drill
+say there's only 35 words in the bank"*, then *"There's supposed to be over 2000 words in this
+bank."* The 35 is `bankCount('WK')` — **pre-written OATTS/ASVAB questions**, the fifth row above,
+which is not a word count and has nothing to do with the registry. The word "bank" doing double
+duty (the static question bank vs. "the word bank") is what made a correct number unreadable.
+The WK tile now leads with `askableWords('WK').length` and every fragment names its unit.
+
 **Never derive a word count by grepping `band:`** — the string appears on morphology rows and
-nested data as well as templates. Use the engine, per §5.
+nested data as well as templates. Use `askableWords()` in `engine/words.js` (memoized; it walks
+the item space, which is the only honest count) or measure per §5.
 
 ---
 

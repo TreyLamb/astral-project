@@ -28,7 +28,7 @@
 // The row also carries a `root` where the morphology genuinely helps, because step 3 of the
 // official method is "use word parts if unsure" - and that is the whole of chapter 2.
 
-import { registerTemplate } from './generator.js';
+import { registerTemplate, templatesFor, generateInstance } from './generator.js';
 
 /**
  * @typedef {Object} WordRow
@@ -210,6 +210,38 @@ export const getWord = (id) => REGISTRY.get(id) ?? null;
 export const wordsFor = (chapter, band = null) =>
   allWords().filter((w) => w.chapter === chapter && (band == null || w.band === band));
 export function _resetWords() { REGISTRY.clear(); }
+
+// "How many words can this thing actually ask me?" - the number a person means when they ask,
+// and it is NOT allWords(). Trey, 2026-09-09, reading the drill picker: "why does my word
+// knowledge drill say there's only 35 words in the bank" - 35 was bankCount('WK'), the count of
+// pre-written OATTS/ASVAB QUESTIONS, mislabelled "in bank" one line under "70 templates".
+//
+// Three different numbers are all true at once (docs/afoqt/QUESTION-SELECTION.md section 2), so any
+// surface that shows one must say which. This is the askable-headword count: registry rows PLUS
+// the ~105 headwords that only ever reach the screen as a morphology example or a confusable
+// pair and are never registry rows. Walking the item space is the only honest way to get it -
+// counting REGISTRY under-reports, and grepping `band:` over-reports.
+//
+// Memoized on the template count, so it recomputes if a template registers later (the QC scripts
+// reset and re-register) and costs nothing on a re-render.
+let askableCache = { templates: -1, words: null };
+export function askableWords(subtest = 'WK') {
+  const templates = templatesFor(subtest);
+  if (askableCache.templates === templates.length && askableCache.words) return askableCache.words;
+  const seen = new Set();
+  for (const t of templates) {
+    for (let i = 0; i < (t.stemSpace ?? 1); i++) {
+      // High bits fixed, low bits name the item - see composeSeed / QUESTION-SELECTION.md section 5.
+      try {
+        const q = generateInstance(t.id, ((0x2ab3d & 0xfffff) << 12) | i);
+        if (q?.vocab?.word) seen.add(q.vocab.word.toLowerCase());
+      } catch { /* a template that cannot build this item contributes no word */ }
+    }
+  }
+  const words = [...seen].sort();
+  askableCache = { templates: templates.length, words };
+  return words;
+}
 
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
