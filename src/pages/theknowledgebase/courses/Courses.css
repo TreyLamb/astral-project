@@ -208,3 +208,38 @@
   max-height: 320px;
   overflow-y: auto;
 }
+
+/* --- Practice panel on a course page -----------------------------------------
+   Trey, 2026-09-09: "I'm starting at the chem 1210 page and there's nothing here
+   to practice." The study module used to be one secondary button labelled
+   "Open". These are the primary action of the page, so they look like it: big
+   targets, each saying what it does, and the first one starts a drill outright
+   rather than opening another menu. See views/CourseDetail.jsx. */
+.crs-practice { margin: 1rem 0 1.25rem; }
+.crs-practice h3 { margin: 0 0 .6rem; font-size: 1rem; }
+.crs-practice-grid {
+  display: grid; gap: .6rem;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+.crs-practice-card {
+  display: flex; flex-direction: column; gap: .15rem; align-items: flex-start;
+  text-align: left; font: inherit; cursor: pointer; min-height: 96px;
+  padding: .8rem .9rem; border-radius: 10px;
+  border: 1px solid var(--tkb-border); background: var(--tkb-surface); color: var(--tkb-ink);
+  transition: border-color .12s, transform .12s;
+}
+.crs-practice-card:hover { border-color: var(--tkb-accent); transform: translateY(-1px); }
+.crs-practice-card strong { font-size: .95rem; }
+.crs-practice-card small { font-size: .78rem; color: var(--tkb-ink-soft); line-height: 1.45; }
+.crs-practice-icon { font-size: 1.3rem; line-height: 1; margin-bottom: .15rem; }
+/* The one you want the night before an exam. */
+.crs-practice-card.primary {
+  background: var(--tkb-accent); border-color: var(--tkb-accent); color: #fff;
+  grid-column: span 2;
+}
+.crs-practice-card.primary small { color: rgba(255, 255, 255, .88); }
+.crs-practice-card.primary:hover { filter: brightness(1.06); }
+@media (max-width: 560px) {
+  .crs-practice-grid { grid-template-columns: 1fr; }
+  .crs-practice-card.primary { grid-column: span 1; }
+}
