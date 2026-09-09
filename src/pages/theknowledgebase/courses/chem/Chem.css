@@ -198,3 +198,23 @@
   border-left: 3px solid var(--tkb-border); padding: .1rem 0 .1rem .7rem;
 }
 .chq-quick-next { align-self: stretch; padding: .7rem; font-size: 1rem; }
+
+/* --- Exam prep (scoped to a real graded event) -------------------------------
+   The coverage list is the point of the page: it says which book sections an
+   exam pulls from and how many questions actually exist per section, so a thin
+   bank cannot masquerade as full coverage. See views/ChemExamPrep.jsx. */
+.chq-exam-scope { display: block; font-size: .7rem; opacity: .75; font-weight: 400; }
+.chq-exam-cover { list-style: none; margin: .5rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .7rem; }
+.chq-exam-cover > li > strong { display: block; font-size: .95rem; margin-bottom: .3rem; }
+.chq-exam-cover ul { list-style: none; margin: 0; padding: 0 0 0 .9rem; display: flex; flex-direction: column; gap: .2rem; }
+.chq-exam-cover ul li {
+  display: flex; align-items: baseline; gap: .5rem; font-size: .85rem;
+  color: var(--tkb-ink-soft); border-left: 2px solid var(--tkb-border); padding-left: .6rem;
+}
+.chq-exam-cover ul li code {
+  font-size: .8rem; background: var(--tkb-surface); border: 1px solid var(--tkb-border);
+  border-radius: 4px; padding: 0 .3rem; flex: none;
+}
+.chq-exam-cover ul li > span { margin-left: auto; flex: none; font-variant-numeric: tabular-nums; }
+.chq-exam-cover ul li.chq-exam-empty { opacity: .55; }
+.chq-exam-cover ul li.chq-exam-empty > span { color: var(--tkb-wrong); }

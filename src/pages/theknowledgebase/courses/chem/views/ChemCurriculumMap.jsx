@@ -27,7 +27,10 @@ export default function ChemCurriculumMap() {
       </header>
 
       <div className="chq-track-meta">
-        <button className="chq-btn chq-primary" onClick={() => navigate('/TKB/courses/chem/practice')}>
+        <button className="chq-btn chq-primary" onClick={() => navigate('/TKB/courses/chem/exam')}>
+          🎯 Exam prep — scoped to YOUR chapters (Exam 1 = Ch 1–2)
+        </button>
+        <button className="chq-btn" onClick={() => navigate('/TKB/courses/chem/practice')}>
           Mass review — mix questions from every chapter
         </button>
         <button className="chq-btn" onClick={() => navigate('/TKB/courses/chem/quick')}>
@@ -35,12 +38,13 @@ export default function ChemCurriculumMap() {
         </button>
       </div>
 
-      {/* The chapter list below is prereq-gated, so everything past the Toolbox reads as
-          "locked" until you clear it. Both buttons above ignore that gating entirely, and
-          without saying so the page looks like it is hiding the material. */}
+      {/* The chapter list below is in ACS order, which is NOT the order this class moves in
+          (see syllabusMap.js). Exam prep is the one that speaks in course chapter numbers, so
+          it says so here rather than leaving "chapter 1" ambiguous between two meanings. */}
       <p className="chq-note">
-        Both of those pull from every chapter regardless of what is unlocked below — the locks
-        only order the guided track, they never ration questions.
+        The chapters below follow the <strong>ACS</strong> ordering, which your class does not —
+        your Ch 1–2 is spread across the first two of them. Use <strong>Exam prep</strong> to
+        practise by your own chapter numbers. Nothing here is rationed by the locks below.
       </p>
 
       <ul className="chq-chapters">

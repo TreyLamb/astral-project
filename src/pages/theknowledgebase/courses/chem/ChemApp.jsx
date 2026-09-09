@@ -7,6 +7,7 @@ import ChemChapterView from './views/ChemChapterView';
 import ChemDrillRunner from './views/ChemDrillRunner';
 import ChemPractice from './views/ChemPractice';
 import ChemQuickReview from './views/ChemQuickReview';
+import ChemExamPrep from './views/ChemExamPrep';
 import './Chem.css';
 
 // Templates self-register on import; this pulls the whole registry in once, mirroring
@@ -78,9 +79,9 @@ export default function ChemApp() {
   return (
     <ChemContext.Provider value={{ progress, mutate, recordRun, signedIn }}>
       <div className="chq-wrap">
-        {/* Quick Review carries its own "← Chem" control in its top bar; two back buttons stacked
-            on a phone is exactly the clutter that page exists to avoid. */}
-        {!location.pathname.endsWith('/quick') && (
+        {/* Quick Review and Exam prep carry their own back control; two stacked back buttons on
+            a phone is exactly the clutter Quick Review exists to avoid. */}
+        {!/\/(quick|exam)$/.test(location.pathname) && (
           <button className="chq-btn chq-ghost chq-back" onClick={() => navigate('/TKB/courses')}>
             ← All courses
           </button>
@@ -91,6 +92,7 @@ export default function ChemApp() {
           <Route path="drill/run" element={<ChemDrillRunner />} />
           <Route path="practice" element={<ChemPractice />} />
           <Route path="quick" element={<ChemQuickReview />} />
+          <Route path="exam" element={<ChemExamPrep />} />
         </Routes>
       </div>
     </ChemContext.Provider>

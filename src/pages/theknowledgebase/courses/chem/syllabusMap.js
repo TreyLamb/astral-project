@@ -71,7 +71,7 @@ export const SECTIONS = [
   { section: '1-3', title: 'Phases and Classification of Matter', acs: 'chem1-00-toolbox', concepts: ['classification-of-matter', 'properties-representations-of-matter'] },
   { section: '1-4', title: 'Physical and Chemical Properties', acs: 'chem1-00-toolbox', concepts: ['properties-representations-of-matter'] },
   { section: '1-5', title: 'Measurements', acs: 'chem1-00-toolbox', concepts: ['unit-conversions', 'scientific-notation'] },
-  { section: '1-6', title: 'Significant Figures, Accuracy, and Precision', acs: 'chem1-00-toolbox', concepts: ['significant-figures', 'accuracy-vs-precision'] },
+  { section: '1-6', title: 'Significant Figures, Accuracy, and Precision', acs: 'chem1-00-toolbox', concepts: ['significant-figures', 'accuracy-vs-precision', 'scientific-notation'] },
   { section: '1-7', title: 'Mathematical Treatment of Measurement Results', acs: 'chem1-00-toolbox', concepts: ['unit-conversions', 'density'] },
 
   { section: '2-2', title: 'Early Ideas in Atomic Theory', acs: 'chem1-01-atomic-structure', concepts: ['atomic-number-vs-mass-number', 'law-of-definite-proportions'] },

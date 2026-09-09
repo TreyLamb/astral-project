@@ -23,10 +23,21 @@ const DEDUP_TRIES = 16;
  *                                    the run is answerable one-handed on a phone. Applied AFTER
  *                                    the chapter scope, so "quick review of chapter 3" works.
  * @param {number[]} [opts.bands]     restrict to these difficulty bands.
+ * @param {string[]} [opts.sections]  restrict to these BOOK sections ('1-3', '2-7', …). This is
+ *                                    the course coordinate, not the ACS one, and it is what an
+ *                                    exam or a quiz is actually scoped by — his syllabus says
+ *                                    "Exam 1 covers Ch 1-2" and Canvas titles quizzes
+ *                                    "Quiz 12, Sec 4-3 to 4-4". `chapterId` cannot express
+ *                                    either, because one course chapter straddles two ACS
+ *                                    chapters. See syllabusMap.js for why both exist.
  * @returns {Object[]} Instance[]
  */
-export function buildChemDrill({ count, rng, chapterId = null, distinct = false, mentalOnly = false, bands = null }) {
+export function buildChemDrill({ count, rng, chapterId = null, distinct = false, mentalOnly = false, bands = null, sections = null }) {
   let pool = chapterId ? chemTemplatesFor(chapterId) : allChemTemplates();
+  if (sections) {
+    const want = new Set(sections);
+    pool = pool.filter((t) => t.section != null && want.has(t.section));
+  }
   if (mentalOnly) pool = pool.filter((t) => t.mental === true);
   if (bands) pool = pool.filter((t) => bands.includes(t.band));
   if (pool.length === 0) return [];

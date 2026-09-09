@@ -36,6 +36,43 @@ Q4/Q5 are the two diagram items on the sheet and
 ⚠️ **Still open from this sheet:** Q7 (which elements are diatomic) and Q10 (mg in
 2.00032 kg) were already covered and were not touched. Nothing else on the sheet is unbuilt.
 
+## Exam prep exists now — and `engine/gates.js` still does not
+
+Trey, 2026-09-09: *"it looked like the only exam was a full exam for the full course and nothing
+for just chapter 1 and 2 for my course."* Correct. The two modes that existed were Mass review
+(all 10 chapters) and per-ACS-chapter drills, and **neither can express "my Ch 1-2"** — his
+Exam 1 straddles ACS chapters 0 and 1 and pulls nomenclature from a third place, so no chapter
+or combination of chapters is the right answer. `/TKB/courses/chem/exam` now scopes a run by
+BOOK SECTION off `syllabusMap.js`'s `EXAMS` + `sectionsForExam()`, both of which were written
+2026-09-02, tested, and **never called by a single screen**. `buildChemDrill` takes `sections`;
+the runner reads `?sections=` + `?label=` and records nothing against gate/mastery state
+(there is no one chapter to record it against). The page lists per-section template counts and
+names the empty sections outright, so a thin bank cannot read as full coverage.
+
+🔴 **`engine/gates.js` is STILL entirely unwired — no `.jsx` imports it.** Two gate tiers per
+section (course bands 1-3, ACS bands 4-5), `gateAvailability`, `gradeGate`, `sectionReadiness`,
+a passing test file, and a `chem:coverage` report line about fillability — all of it reachable
+only from node. That report is measuring a feature the app does not have. Exam prep is scoped by
+section and could host it directly; that is the obvious next move.
+
+⚠️ **Two sections in Exam 1's own range have ZERO templates: 1-2 (Chemistry in Context) and
+2-4 (Chemical Formulas).** 42 questions cover the other ten. 1-2 is one of only two sections in
+the whole book with a graded checkpoint.
+
+## Provenance: the bank was built against the WRONG book, and it mostly does not show
+
+Worth stating plainly because a coverage number hides it. Of 113 templates:
+
+- **25 are traceable to his own course material** — 22 to the instructor's Ch 1-2 review sheet,
+  3 to his assigned textbook's own end-of-section exercises.
+- **88 came from the ACS study guide's topic lists.** That is the right ruler for the FINAL,
+  which genuinely is an ACS standardized exam worth 275 of 1100 points. It is NOT the ruler for
+  the four midterms (475 points), which his instructor writes against his own AcademiQ text.
+
+Auditing a single section of that text (§1-6) against the bank produced three more gaps —
+including one skill our own `toolbox.md` TAUGHT and nothing tested. See
+`templates/academiq-ch01-essential-ideas.js`. The other 54 sections have not been audited.
+
 ## Chapters are no longer locked, and Chem has a front door
 
 Two discoverability bugs, both reported by Trey the same day (*"tell me where the F i can find

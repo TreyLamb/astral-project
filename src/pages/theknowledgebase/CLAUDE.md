@@ -38,6 +38,26 @@ before assuming it is covered. Figures on such a sheet can be asked in prose —
 *"dont worry about making particle diagrams. questions related to mixtures, pure substances,
 etc replace those."*
 
+⚠️ **A bank built from a STANDARDIZED-exam study guide is not aligned to the
+instructor's own midterms, even when the course ends in that standardized exam.** Found
+2026-09-09 auditing chem. CHEM 1210's final really is an ACS exam, so building the first 88
+templates from the ACS study guide's topic lists was defensible — but the four midterms are
+written by the instructor against **his own textbook** (AcademiQ, exported to
+`SupplementalCourseDocs/CHEM 1210/_academiq/`, 10 chapters / 55 sections / 748k chars), and
+nobody had ever checked the bank against it. Reading ONE section of it (§1-6) against the bank
+turned up three more untested skills, one of which (`reading an instrument to one estimated
+digit`) was **taught by our own lesson and tested by nothing** — an orphan under Doctrine rule 2
+that hid because it shares the `significant-figures` concept id with the arithmetic rules.
+Audit against the actual assigned text, section by section, before believing a coverage number.
+
+⚠️ **His Canvas quiz PDFs contain NO questions — do not treat them as a source.** All six in
+`SupplementalCourseDocs/CHEM 1210/` are print-to-PDF captures of a Canvas page whose only content
+is an `<iframe>` onto `learn-ai-DanielScott26.replit.app` (the instructor's own AcademiQ app), so
+they render as empty boxes with a "if the embed is blocked, open it here" link. They also have no
+text layer at all, so `extractBook.mjs` returns blank pages and it looks like an extraction
+failure rather than an empty source. The real quiz items are behind his login; `_academiq/`'s
+end-of-section and additional exercises are the closest available proxy.
+
 🔴 **`courses/AGENT-PROMPT.md` is the binding manual for ingesting new course material** —
 notes, slides, quizzes, exams, textbook chapters that Trey drops into
 `G:\My Drive\SupplementalCourseDocs\`. Read it in full before processing a single document.

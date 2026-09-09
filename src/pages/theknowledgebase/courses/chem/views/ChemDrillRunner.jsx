@@ -22,12 +22,18 @@ export default function ChemDrillRunner() {
   const chapter = getChemChapter(params.get('chapter') ?? '');
   const phase = params.get('phase') ?? 'free';
   const isGate = phase === 'testout' || phase === 'mastery';
+  // Book-section scope, used by exam prep (ChemExamPrep.jsx). A run scoped this way is NOT
+  // scoped to an ACS chapter and never touches gate/mastery state - one course chapter spans
+  // more than one ACS chapter, so there is no chapter for it to be recorded against.
+  const sectionParam = params.get('sections');
+  const sections = sectionParam ? sectionParam.split(',').filter(Boolean) : null;
+  const label = params.get('label');
 
   const questions = useMemo(() => {
     const rng = mulberry32(Date.now());
-    return buildChemDrill({ count, rng, chapterId: chapter ? chapter.id : null, distinct: isGate });
+    return buildChemDrill({ count, rng, chapterId: chapter ? chapter.id : null, distinct: isGate, sections });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [count, chapter?.id, isGate]);
+  }, [count, chapter?.id, isGate, sectionParam]);
 
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState([]);
@@ -90,7 +96,7 @@ export default function ChemDrillRunner() {
   if (questions.length === 0) {
     return (
       <div className="chq-runner">
-        <p>No templates {chapter ? `for ${chapter.title}` : 'registered'} yet.</p>
+        <p>No templates {label ? `for ${label}` : chapter ? `for ${chapter.title}` : 'registered'} yet.</p>
         <button className="chq-btn" onClick={() => navigate('/TKB/courses/chem')}>Back</button>
       </div>
     );
@@ -174,7 +180,9 @@ export default function ChemDrillRunner() {
           <button className="chq-btn chq-primary" onClick={() => navigate(0)}>Again</button>
           {chapter
             ? <button className="chq-btn" onClick={() => navigate(`/TKB/courses/chem/${chapter.id}`)}>Back to the chapter</button>
-            : <button className="chq-btn" onClick={() => navigate('/TKB/courses/chem/practice')}>Change mass review</button>}
+            : sections
+              ? <button className="chq-btn" onClick={() => navigate('/TKB/courses/chem/exam')}>Change exam prep</button>
+              : <button className="chq-btn" onClick={() => navigate('/TKB/courses/chem/practice')}>Change mass review</button>}
         </div>
       </div>
     );
@@ -184,7 +192,7 @@ export default function ChemDrillRunner() {
   return (
     <div className="chq-runner">
       <header className="chq-runner-top">
-        <span className="chq-pill">{chapter ? chapter.title : 'Mass review'}</span>
+        <span className="chq-pill">{label ?? (chapter ? chapter.title : 'Mass review')}</span>
         <span className="chq-progress">{idx + 1} / {questions.length}</span>
         <button className="chq-btn chq-ghost" onClick={() => finish(answers)}>End</button>
       </header>

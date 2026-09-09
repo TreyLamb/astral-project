@@ -13,3 +13,7 @@ import './ch08-states-of-matter.js';
 // surfaced that nothing in the bank could ask. See rev1-ch00-toolbox.js's header.
 import './rev1-ch00-toolbox.js';
 import './rev1-ch01-atomic-structure.js';
+
+// Gaps found by auditing the bank against his ACTUAL assigned textbook (AcademiQ), rather than
+// against the ACS study guide the first 88 templates were built from.
+import './academiq-ch01-essential-ideas.js';
