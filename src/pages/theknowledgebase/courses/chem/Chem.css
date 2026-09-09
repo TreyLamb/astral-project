@@ -15,7 +15,7 @@
 .chq-row { display: flex; gap: .5rem; align-items: center; }
 .chq-wrap-row { flex-wrap: wrap; }
 .chq-note { color: var(--tkb-ink-soft); font-size: .85rem; margin: .4rem 0 0; }
-.chq-pill { background: var(--tkb-surface); border: 1px solid var(--tkb-border); border-radius: 999px; padding: .15rem .6rem; font-size: .8rem; }
+.chq-pill { background: var(--tkb-surface); border: 1px solid var(--tkb-border); border-radius: 999px; padding: .15em .6em; font-size: .8em; }
 .chq-alert { background: color-mix(in srgb, var(--tkb-wrong) 12%, transparent); color: var(--tkb-wrong); padding: .5rem .7rem; border-radius: 6px; font-size: .9rem; }
 
 /* --- practice config --- */
@@ -97,27 +97,33 @@
 .chq-concept-list li { display: flex; justify-content: space-between; gap: .5rem; padding: .25rem .5rem; background: var(--tkb-surface); border-radius: 4px; }
 
 /* --- runner --- */
-.chq-runner { display: flex; flex-direction: column; gap: .75rem; max-width: 760px; }
+/* Question-taking text runs 25% larger than the rest of the app (Trey, 2026-09-09: "All the
+   text on these exams needs to be like 25% bigger"). Scaling the CONTAINER and sizing its
+   descendants in `em` means one number controls the whole surface and anything added later
+   inherits it — bumping fifteen individual rules would have drifted the first time someone
+   added a sixteenth. `em` rather than `rem` so it is 25% bigger than whatever the base
+   actually is, not 25% of an assumed 16px. */
+.chq-runner { display: flex; flex-direction: column; gap: .75rem; max-width: 760px; font-size: 1.25em; }
 .chq-runner-top { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
-.chq-progress { color: var(--tkb-ink-soft); font-size: .85rem; }
-.chq-card { background: var(--tkb-surface); border: 1px solid var(--tkb-border); border-radius: 10px; padding: 1.1rem; }
-.chq-stem { font-size: 1.15rem; margin: 0 0 1rem; line-height: 1.45; }
+.chq-progress { color: var(--tkb-ink-soft); font-size: .85em; }
+.chq-card { background: var(--tkb-surface); border: 1px solid var(--tkb-border); border-radius: 10px; padding: 1.1em; }
+.chq-stem { font-size: 1.15em; margin: 0 0 1em; line-height: 1.45; }
 .chq-choices { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .4rem; }
 .chq-choice {
   width: 100%; text-align: left; font: inherit; cursor: pointer;
-  padding: .55rem .7rem; border: 1px solid var(--tkb-border); border-radius: 6px;
+  padding: .55em .7em; border: 1px solid var(--tkb-border); border-radius: 6px;
   background: var(--tkb-canvas); color: var(--tkb-ink);
 }
 .chq-choice:hover { border-color: var(--tkb-accent); }
 .chq-letter { display: inline-block; min-width: 1.6em; font-weight: 700; color: var(--tkb-ink-soft); }
-.chq-hint { color: var(--tkb-ink-soft); font-size: .8rem; margin: 0; }
+.chq-hint { color: var(--tkb-ink-soft); font-size: .8em; margin: 0; }
 
 /* --- summary --- */
-.chq-summary h2 { font-size: 2.2rem; margin: 0; }
+.chq-summary h2 { font-size: 2.2em; margin: 0; }
 .chq-summary-grid { display: flex; gap: 1.5rem; flex-wrap: wrap; margin: .5rem 0 1rem; }
 .chq-summary-grid div { display: flex; flex-direction: column; }
-.chq-summary-grid span { font-size: 1.4rem; font-weight: 600; }
-.chq-summary-grid label { font-size: .75rem; color: var(--tkb-ink-soft); text-transform: uppercase; letter-spacing: .05em; }
+.chq-summary-grid span { font-size: 1.4em; font-weight: 600; }
+.chq-summary-grid label { font-size: .75em; color: var(--tkb-ink-soft); text-transform: uppercase; letter-spacing: .05em; }
 .chq-verdict { font-weight: 600; }
 .chq-verdict.chq-pass { color: var(--tkb-correct); }
 
@@ -125,20 +131,20 @@
   padding: .8rem 1rem; border: 1px solid var(--tkb-border); border-left: 3px solid var(--tkb-unsure);
   border-radius: 0 8px 8px 0; background: var(--tkb-surface);
 }
-.chq-modes h3 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
+.chq-modes h3 { margin: 0 0 .5em; font-size: .8em; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
 .chq-modes ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .3rem; }
-.chq-modes li { display: flex; gap: .6rem; align-items: baseline; font-size: .88rem; }
+.chq-modes li { display: flex; gap: .6em; align-items: baseline; font-size: .88em; }
 .chq-mode-n { font-weight: 700; color: var(--tkb-wrong); min-width: 2rem; }
 
 .chq-misses { display: flex; flex-direction: column; gap: .7rem; margin: .5rem 0 1rem; }
 .chq-misses h3 { margin: 0; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
 .chq-miss { padding: .7rem .85rem; border: 1px solid var(--tkb-border); border-left: 3px solid var(--tkb-wrong); border-radius: 0 8px 8px 0; background: var(--tkb-surface); }
 .chq-miss-stem { margin: 0 0 .4rem; font-weight: 500; }
-.chq-miss-line { display: flex; gap: 1.2rem; flex-wrap: wrap; margin: 0 0 .4rem; font-size: .85rem; }
+.chq-miss-line { display: flex; gap: 1.2em; flex-wrap: wrap; margin: 0 0 .4em; font-size: .85em; }
 .chq-miss-bad { color: var(--tkb-wrong); }
 .chq-miss-good { color: var(--tkb-correct); }
-.chq-miss-why { margin: 0; font-size: .85rem; color: var(--tkb-ink-soft); line-height: 1.5; }
-.chq-miss-mode { margin: 0 0 .35rem; font-size: .85rem; font-weight: 600; color: var(--tkb-wrong); }
+.chq-miss-why { margin: 0; font-size: .85em; color: var(--tkb-ink-soft); line-height: 1.5; }
+.chq-miss-mode { margin: 0 0 .35em; font-size: .85em; font-weight: 600; color: var(--tkb-wrong); }
 
 .chq-review-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .chq-review-toggle {
@@ -161,10 +167,10 @@
    card stack is a single column at every width, and Next sits at the bottom
    where a thumb already is. See views/ChemQuickReview.jsx for why it is a
    separate page rather than a mode of the drill runner. */
-.chq-quick { display: flex; flex-direction: column; gap: .75rem; max-width: 640px; }
+.chq-quick { display: flex; flex-direction: column; gap: .75rem; max-width: 640px; font-size: 1.25em; }
 .chq-quick-top { display: flex; align-items: center; justify-content: space-between; gap: .6rem; }
 .chq-quick-score { display: flex; align-items: baseline; gap: .5rem; }
-.chq-quick-score strong { font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.chq-quick-score strong { font-size: 1.1em; font-variant-numeric: tabular-nums; }
 .chq-quick-streak {
   font-size: .75rem; font-weight: 600; color: var(--tkb-correct);
   background: color-mix(in srgb, var(--tkb-correct) 12%, transparent);
@@ -179,10 +185,10 @@
 }
 .chq-quick-card {
   background: var(--tkb-surface); border: 1px solid var(--tkb-border);
-  border-radius: 10px; padding: 1rem;
+  border-radius: 10px; padding: 1em;
 }
 /* Bigger hit area than .chq-choice: this page is used standing up. */
-.chq-quick .chq-choice { padding: .8rem .7rem; line-height: 1.4; }
+.chq-quick .chq-choice { padding: .8em .7em; line-height: 1.4; }
 .chq-quick .chq-choice:disabled { cursor: default; }
 .chq-quick .chq-choice.chq-right {
   border-color: var(--tkb-correct); color: var(--tkb-correct); font-weight: 600;
@@ -197,7 +203,7 @@
   display: flex; flex-direction: column; gap: .35rem;
   border-left: 3px solid var(--tkb-border); padding: .1rem 0 .1rem .7rem;
 }
-.chq-quick-next { align-self: stretch; padding: .7rem; font-size: 1rem; }
+.chq-quick-next { align-self: stretch; padding: .7em; font-size: 1em; }
 
 /* --- Exam prep (scoped to a real graded event) -------------------------------
    The coverage list is the point of the page: it says which book sections an
@@ -271,6 +277,8 @@
 .chq-ref-drawer {
   position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column;
   background: var(--tkb-canvas);
+  /* Reset out of the runner's 1.25 scale: this is a dense lookup sheet, not a question. */
+  font-size: 1rem;
 }
 .chq-ref-drawer-head {
   display: flex; align-items: center; justify-content: space-between; gap: .6rem;
