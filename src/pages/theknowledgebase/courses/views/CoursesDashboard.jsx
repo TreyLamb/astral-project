@@ -30,6 +30,16 @@ export default function CoursesDashboard() {
           </div>
         </div>
         <div className="crs-header-actions">
+          {/* Chem's question bank was reachable only by opening the CHEM 1210 card and finding an
+              "Open" button inside it, which is why Trey couldn't find it on 2026-09-09 ("tell me
+              where the F i can find this quiz"). It is the only course with a real drill bank —
+              it gets a front-door link until another one does. */}
+          <button className="crs-btn" onClick={() => navigate('/TKB/courses/chem')}>
+            🧪 Chem drills
+          </button>
+          <button className="crs-btn secondary" onClick={() => navigate('/TKB/courses/chem/quick')}>
+            ⚡ Quick review
+          </button>
           <button className="crs-btn" onClick={() => navigate('/TKB/courses/dashboard')}>
             📊 Canvas dashboard
           </button>

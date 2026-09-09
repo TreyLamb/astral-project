@@ -8,3 +8,8 @@ import './ch05-solutions-aqueous-1.js';
 import './ch06-heat-enthalpy.js';
 import './ch07-structure-bonding.js';
 import './ch08-states-of-matter.js';
+
+// Exam 1 review sheet from the instructor (2026-09-09): the gaps his own Ch 1-2 Review
+// surfaced that nothing in the bank could ask. See rev1-ch00-toolbox.js's header.
+import './rev1-ch00-toolbox.js';
+import './rev1-ch01-atomic-structure.js';

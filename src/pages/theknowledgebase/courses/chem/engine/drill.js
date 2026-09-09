@@ -19,10 +19,16 @@ const DEDUP_TRIES = 16;
  *                                    used for the gate/mastery check, same reasoning AFOQT's
  *                                    buildDrill documents: uniform random sampling of a small
  *                                    pool can skip a concept entirely on a short run.
+ * @param {boolean} [opts.mentalOnly] restrict to templates flagged `mental` — no arithmetic, so
+ *                                    the run is answerable one-handed on a phone. Applied AFTER
+ *                                    the chapter scope, so "quick review of chapter 3" works.
+ * @param {number[]} [opts.bands]     restrict to these difficulty bands.
  * @returns {Object[]} Instance[]
  */
-export function buildChemDrill({ count, rng, chapterId = null, distinct = false }) {
-  const pool = chapterId ? chemTemplatesFor(chapterId) : allChemTemplates();
+export function buildChemDrill({ count, rng, chapterId = null, distinct = false, mentalOnly = false, bands = null }) {
+  let pool = chapterId ? chemTemplatesFor(chapterId) : allChemTemplates();
+  if (mentalOnly) pool = pool.filter((t) => t.mental === true);
+  if (bands) pool = pool.filter((t) => bands.includes(t.band));
   if (pool.length === 0) return [];
 
   const order = distinct ? dealRounds(pool, count, rng) : null;

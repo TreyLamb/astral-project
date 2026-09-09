@@ -15,6 +15,7 @@ const CH = 'chem1-07-structure-bonding';
 // ---------------------------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-07-lattice-energy-definition',
+  mental: true,
   chapterId: CH,
   section: '7-3',
   band: 1,
@@ -43,6 +44,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-07-lattice-energy-ordering',
+  mental: true,
   chapterId: CH,
   section: '7-3',
   band: 2,
@@ -85,6 +87,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-07-bond-type-electronegativity',
+  mental: true,
   chapterId: CH,
   section: '7-2',
   band: 1,
@@ -130,6 +133,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-07-lewis-valence-count',
+  mental: true,
   chapterId: CH,
   section: '7-5',
   band: 2,
@@ -168,6 +172,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-07-formal-charge-calc',
+  mental: true,
   chapterId: CH,
   section: '7-5',
   band: 2,
@@ -211,6 +216,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-07-formal-charge-best-structure',
+  mental: true,
   chapterId: CH,
   section: '7-5',
   band: 2,
@@ -258,6 +264,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-07-resonance-structures',
+  mental: true,
   chapterId: CH,
   section: '7-6',
   band: 2,
@@ -319,6 +326,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-07-bond-order-length-strength',
+  mental: true,
   chapterId: CH,
   section: '7-4',
   band: 2,
@@ -354,6 +362,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-07-vsepr-geometry',
+  mental: true,
   chapterId: CH,
   section: '8-2',
   band: 2,
@@ -391,6 +400,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-07-molecular-polarity',
+  mental: true,
   chapterId: CH,
   section: '8-3',
   band: 3,
@@ -446,6 +456,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-07-vb-sigma-pi-overlap',
+  mental: true,
   chapterId: CH,
   section: '8-4',
   band: 2,
@@ -487,6 +498,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-07-mo-bond-order',
+  mental: true,
   chapterId: CH,
   section: '8-5',
   band: 3,

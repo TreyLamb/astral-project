@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback, createContext, useContext, useRef } from 'react';
 import { useAuth } from '../../../../AuthContext';
 import { ChemLocal, ChemCloud, defaultChemProgress, addChemRun } from './chemStorage';
@@ -6,6 +6,7 @@ import ChemCurriculumMap from './views/ChemCurriculumMap';
 import ChemChapterView from './views/ChemChapterView';
 import ChemDrillRunner from './views/ChemDrillRunner';
 import ChemPractice from './views/ChemPractice';
+import ChemQuickReview from './views/ChemQuickReview';
 import './Chem.css';
 
 // Templates self-register on import; this pulls the whole registry in once, mirroring
@@ -17,6 +18,7 @@ export const useChem = () => useContext(ChemContext);
 
 export default function ChemApp() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useAuth();
   const signedIn = !!user;
 
@@ -76,14 +78,19 @@ export default function ChemApp() {
   return (
     <ChemContext.Provider value={{ progress, mutate, recordRun, signedIn }}>
       <div className="chq-wrap">
-        <button className="chq-btn chq-ghost chq-back" onClick={() => navigate('/TKB/courses')}>
-          ← All courses
-        </button>
+        {/* Quick Review carries its own "← Chem" control in its top bar; two back buttons stacked
+            on a phone is exactly the clutter that page exists to avoid. */}
+        {!location.pathname.endsWith('/quick') && (
+          <button className="chq-btn chq-ghost chq-back" onClick={() => navigate('/TKB/courses')}>
+            ← All courses
+          </button>
+        )}
         <Routes>
           <Route index element={<ChemCurriculumMap />} />
           <Route path=":chapterId" element={<ChemChapterView />} />
           <Route path="drill/run" element={<ChemDrillRunner />} />
           <Route path="practice" element={<ChemPractice />} />
+          <Route path="quick" element={<ChemQuickReview />} />
         </Routes>
       </div>
     </ChemContext.Provider>

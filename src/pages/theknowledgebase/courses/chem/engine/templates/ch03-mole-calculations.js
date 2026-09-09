@@ -78,6 +78,7 @@ const LOOKUP_POOL = ['C', 'N', 'O', 'Na', 'Mg', 'Al', 'S', 'Cl', 'K', 'Ca', 'Fe'
 
 registerChemTemplate({
   id: 'chem1-03-avg-atomic-mass',
+  mental: true,
   chapterId: CH,
   section: '3-2',
   band: 1,
@@ -203,6 +204,7 @@ registerChemTemplate({
 // --- mole-ratios-from-formula --------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-03-mole-ratio-formula',
+  mental: true,
   chapterId: CH,
   section: '3-2',
   band: 2,

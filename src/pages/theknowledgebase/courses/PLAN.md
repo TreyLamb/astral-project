@@ -5,7 +5,72 @@ exactly where to pick up. Update it at the end of every working block.
 
 ---
 
-# 🔴 RESUME HERE — last session 2026-09-02
+# 🔴 RESUME HERE — last session 2026-09-09
+
+## What 2026-09-09 did (chem exam 1)
+
+Trey photographed his instructor's **"Ch 1-2 Review" handout** — 26 questions, the stated
+source of Exam 1 — as `IMG_0008.jpg` / `IMG_0009.jpg` in `SupplementalCourseDocs/`. It is the
+closest thing to an exam blueprint the course has produced so far, and **fifteen of its items
+had no template anywhere in the bank.**
+
+- **22 new course-band templates** in `chem/engine/templates/rev1-ch00-toolbox.js` and
+  `rev1-ch01-atomic-structure.js`. Their headers map every template back to the numbered
+  question on the sheet it came from. Bank: 88 → 110 templates.
+- **Four new concepts**, none of which existed before: `accuracy-vs-precision`,
+  `nomenclature-acids`, `law-of-definite-proportions`, `ionic-vs-molecular-classification`.
+  Added to `curriculum.js`, given a section home in `syllabusMap.js`, and taught in the
+  `toolbox.md` / `ch01-atomic-structure.md` lessons (Doctrine rule 2, both directions).
+- **`chem1-toolbox-classify-matter` widened from 6 items to 23.** The sheet asks the four-way
+  classification three times (Q4, Q5, Q8); six items is a memorisable list, not a skill.
+- **Quick Review** at `/TKB/courses/chem/quick` — the no-arithmetic pool, built for a phone.
+  New `mental: true` flag on a template; 71 of 110 carry it. See its own section below.
+- **Course-tier gate fillability went 4/45 → 7/45 sections**, and the three that flipped
+  (1-5, 1-6, 1-7, 2-7) are exactly the ones Exam 1 covers.
+
+**Particle diagrams were deliberately not built** — Trey, 2026-09-09: *"dont worry about
+making particle diagrams. questions related to mixtures, pure substances, etc replace those."*
+Q4/Q5 are the two diagram items on the sheet and
+`chem1-rev1-00-element-vs-compound-sample` asks the identical reasoning in prose.
+
+⚠️ **Still open from this sheet:** Q7 (which elements are diatomic) and Q10 (mg in
+2.00032 kg) were already covered and were not touched. Nothing else on the sheet is unbuilt.
+
+## Chapters are no longer locked, and Chem has a front door
+
+Two discoverability bugs, both reported by Trey the same day (*"tell me where the F i can find
+this quiz because if it's pushed live i'm not finding it in /courses under chem"*):
+
+1. **The only route into the chem bank was the "Open" button inside the CHEM 1210 course
+   card.** `CoursesDashboard` now has **Chem drills** and **Quick review** buttons in its header.
+2. **8 of 9 chapters rendered greyed out and unclickable**, including Atomic Structure — the
+   chapter Exam 1 is on. The prereq chain is now advice (*"Best read after: … — open it any
+   time"*), never a disabled button. This matches what `engine/gates.js` already says in prose:
+   *"a gate reports readiness; it does not ration content."* The chapter list was the one place
+   quietly contradicting it.
+
+On a 390px phone the TKB tab rail scrolls sideways and **Courses is the 6th of 7 tabs**, so it
+sits off-screen by default. Not changed — the rail is a deliberate fix for a worse bug — but it
+is half of why the module felt missing.
+
+## Quick Review (`/TKB/courses/chem/quick`)
+
+The other half of what 2026-09-09 was asked for: *"a version of my chem study drills that didnt
+have math so i could do reviews on-the-go. Just a simple low budget version."*
+
+- **`mental: true` on a template** means answerable with no arithmetic — recall, naming,
+  classification. It is a claim about ARITHMETIC, not difficulty: naming an ionic compound is
+  band 2 and mental, a metric prefix conversion is band 1 and is not.
+- **It is not a ChemDrillRunner mode, on purpose.** A drill is a sitting: fixed length, banked
+  answers, a score, and it feeds gate/mastery state. Quick Review is an endless stream with the
+  answer revealed on tap and **nothing recorded anywhere** — five questions while the kettle
+  boils should not leave a half-run in the history or move mastery on four data points.
+- `buildChemDrill` also takes `mentalOnly` and `bands` now, so the full drill can be filtered
+  the same way if that is ever wanted.
+
+---
+
+# Previous resume point — last session 2026-09-02
 
 ## The one thing blocking everything else
 
@@ -125,8 +190,9 @@ Sections now all declare concepts, and every template carries one.
 2. **Redox (section 5-2) has 1 template.** Course chapter 5, `acs: null` — his instructor tests
    it and the ACS first-term exam does not, so it is invisible to any ACS-driven count. Quiz 15,
    14 Oct.
-3. **Fill the thin course-tier sections** so more than 4 of 45 can offer a gate. `--verbose`
-   output is the queue.
+3. **Fill the thin course-tier sections** so more than 7 of 45 can offer a gate. `--verbose`
+   output is the queue. (Was 4 of 45; the 2026-09-09 exam-review batch moved 1-5, 1-6, 1-7 and
+   2-7 over the line, which is Exam 1's own coverage. Everything from chapter 3 on is still thin.)
 4. **Course track view + ACS track view.** Blocked on 1-3 having content to show; a track view
    over a bank this thin would render mostly empty gates.
 5. **Capture the real Canvas quiz questions** by `quizId` (present in `canvasSchedule.json`;

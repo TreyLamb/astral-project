@@ -30,7 +30,18 @@ export default function ChemCurriculumMap() {
         <button className="chq-btn chq-primary" onClick={() => navigate('/TKB/courses/chem/practice')}>
           Mass review — mix questions from every chapter
         </button>
+        <button className="chq-btn" onClick={() => navigate('/TKB/courses/chem/quick')}>
+          ⚡ Quick review — no-math questions, built for a phone
+        </button>
       </div>
+
+      {/* The chapter list below is prereq-gated, so everything past the Toolbox reads as
+          "locked" until you clear it. Both buttons above ignore that gating entirely, and
+          without saying so the page looks like it is hiding the material. */}
+      <p className="chq-note">
+        Both of those pull from every chapter regardless of what is unlocked below — the locks
+        only order the guided track, they never ration questions.
+      </p>
 
       <ul className="chq-chapters">
         {CHEM_CHAPTERS.map((ch) => {
@@ -43,9 +54,14 @@ export default function ChemCurriculumMap() {
 
           return (
             <li key={ch.id} className={'chq-chapter' + (done ? ' done' : '')}>
+              {/* Never disabled. The prereq chain is a SUGGESTED ORDER, not a gate — the same
+                  rule engine/gates.js states for the gate tests ("a gate reports readiness; it
+                  does not ration content"), which the chapter list was quietly contradicting.
+                  It mattered on 2026-09-09: Trey's first exam is on chapters 1-2 and Atomic
+                  Structure rendered greyed out and unclickable, reading as "this isn't built
+                  yet" for the one chapter he needed that week. */}
               <button
                 className="chq-chapter-hit"
-                disabled={!unlocked}
                 onClick={() => navigate(`/TKB/courses/chem/${ch.id}`)}
               >
                 <span className="chq-chapter-num">{ch.order}</span>
@@ -53,11 +69,14 @@ export default function ChemCurriculumMap() {
                   <strong>{ch.title}</strong>
                   <small>{ch.summary}</small>
                   {!unlocked && blockers.length > 0 && (
-                    <small className="chq-locked-note">Unlocks after: {blockers.join(', ')}</small>
+                    <small className="chq-locked-note">Best read after: {blockers.join(', ')} — open it any time.</small>
                   )}
                 </span>
+                {/* No badge for an out-of-order chapter: the "Best read after…" line under the
+                    summary already says it, and every short label for it ("locked", "out of
+                    order") reads as "broken" or "unavailable" now that it is openable. */}
                 <span className="chq-chapter-state">
-                  {done ? (st.testedOut ? 'tested out' : 'complete') : st.lessonRead ? 'in progress' : unlocked ? '' : 'locked'}
+                  {done ? (st.testedOut ? 'tested out' : 'complete') : st.lessonRead ? 'in progress' : ''}
                 </span>
               </button>
             </li>

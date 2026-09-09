@@ -38,6 +38,11 @@ export const CHEM_CHAPTERS = [
       'density',
       'classification-of-matter',
       'properties-representations-of-matter',
+      // Added 2026-09-09 from the instructor's own "Ch 1-2 Review" sheet (the exam blueprint —
+      // IMG_0008/IMG_0009 in SupplementalCourseDocs). Both were tested there and neither existed
+      // anywhere in the bank. See templates/rev1-ch00-toolbox.js.
+      'accuracy-vs-precision',
+      'nomenclature-acids',
     ],
   },
   {
@@ -57,6 +62,9 @@ export const CHEM_CHAPTERS = [
       'periodic-table-groups-diatomics',
       'element-classification-periodic-table',
       'predicting-ionic-formulas',
+      // Added 2026-09-09 from the instructor's "Ch 1-2 Review" sheet — see the note above.
+      'law-of-definite-proportions',
+      'ionic-vs-molecular-classification',
     ],
   },
   {

@@ -49,6 +49,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-02-absorption-emission',
+  mental: true,
   chapterId: CH,
   section: '6-2',
   band: 1,
@@ -78,6 +79,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-02-quantum-number-valid',
+  mental: true,
   chapterId: CH,
   section: '6-3',
   band: 2,
@@ -136,6 +138,7 @@ const CONFIG_ELEMENTS = [
 
 registerChemTemplate({
   id: 'chem1-02-electron-configuration',
+  mental: true,
   chapterId: CH,
   section: '6-4',
   band: 2,
@@ -173,6 +176,7 @@ const VALENCE_ELEMENTS = [
 
 registerChemTemplate({
   id: 'chem1-02-valence-electrons',
+  mental: true,
   chapterId: CH,
   section: '6-4',
   band: 1,
@@ -215,6 +219,7 @@ const TRANSITION_CATIONS = [
 
 registerChemTemplate({
   id: 'chem1-02-cation-removal-order',
+  mental: true,
   chapterId: CH,
   section: '6-4',
   band: 3,
@@ -250,6 +255,7 @@ const PARAMAGNETIC_CASES = [
 
 registerChemTemplate({
   id: 'chem1-02-orbital-paramagnetism',
+  mental: true,
   chapterId: CH,
   section: '6-4',
   band: 2,
@@ -279,6 +285,7 @@ const ZEFF_PAIRS = [
 
 registerChemTemplate({
   id: 'chem1-02-zeff-trend',
+  mental: true,
   chapterId: CH,
   section: '6-5',
   band: 2,
@@ -309,6 +316,7 @@ const RADIUS_PAIRS = [
 
 registerChemTemplate({
   id: 'chem1-02-atomic-radius-trend',
+  mental: true,
   chapterId: CH,
   section: '6-5',
   band: 1,
@@ -339,6 +347,7 @@ const ION_SIZE_CASES = [
 
 registerChemTemplate({
   id: 'chem1-02-ionic-radius-compare',
+  mental: true,
   chapterId: CH,
   section: '6-5',
   band: 2,
@@ -370,6 +379,7 @@ const IE_PAIRS = [
 
 registerChemTemplate({
   id: 'chem1-02-ionization-energy-trend',
+  mental: true,
   chapterId: CH,
   section: '6-5',
   band: 2,
@@ -393,6 +403,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-02-mole-definition',
+  mental: true,
   chapterId: CH,
   section: '6-4',
   band: 1,

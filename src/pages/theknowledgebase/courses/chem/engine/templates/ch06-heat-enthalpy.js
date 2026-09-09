@@ -19,6 +19,7 @@ const CH = 'chem1-06-heat-enthalpy';
 // ---------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-06-specific-heat-definition',
+  mental: true,
   chapterId: CH,
   section: '5-3',
   band: 1,
@@ -149,6 +150,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-06-first-law',
+  mental: true,
   chapterId: CH,
   section: '5-3',
   band: 2,
@@ -237,6 +239,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-06-bomb-calorimetry',
+  mental: true,
   chapterId: CH,
   section: '5-4',
   band: 2,

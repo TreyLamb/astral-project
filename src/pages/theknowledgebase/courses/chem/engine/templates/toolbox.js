@@ -46,6 +46,7 @@ registerChemTemplate({
 
 registerChemTemplate({
   id: 'chem1-toolbox-sig-figs-mult',
+  mental: true,
   chapterId: CH,
   section: '1-6',
   band: 1,
@@ -108,6 +109,7 @@ registerChemTemplate({
 
 registerChemTemplate({
   id: 'chem1-toolbox-nomenclature-ionic',
+  mental: true,
   chapterId: CH,
   section: '2-7',
   band: 2,
@@ -138,6 +140,7 @@ registerChemTemplate({
 
 registerChemTemplate({
   id: 'chem1-toolbox-nomenclature-covalent',
+  mental: true,
   chapterId: CH,
   section: '2-7',
   band: 2,
@@ -199,12 +202,20 @@ registerChemTemplate({
 
 registerChemTemplate({
   id: 'chem1-toolbox-classify-matter',
+  mental: true,
   chapterId: CH,
   section: '1-3',
   band: 2,
   name: 'Classifying matter',
   concepts: ['classification-of-matter'],
   generate: (rng, h) => {
+    // Widened 2026-09-09 from six items to twenty-three. The instructor's Ch 1-2 Review asks
+    // this four-way outright ("Is oxygen a compound, an element, a homogenous mixture or a
+    // heterogenous mixture?") and, in Q4/Q5, twice more as particle diagrams. Six items is a
+    // memorisable list, not a skill; the additions are the traps a real exam reaches for —
+    // alloys and air (homogeneous mixtures that look like pure substances), granite and blood
+    // (heterogeneous ones that look uniform at a glance), and elements that happen to travel as
+    // multi-atom molecules (O₂, O₃, S₈), which is the single most common misfire.
     const ITEMS = [
       { desc: 'a bar of pure copper', correct: 'element' },
       { desc: 'table salt (NaCl)', correct: 'compound' },
@@ -212,6 +223,23 @@ registerChemTemplate({
       { desc: 'a glass of water with visible sand settled at the bottom', correct: 'heterogeneous mixture' },
       { desc: 'oxygen gas, O₂', correct: 'element' },
       { desc: 'carbon dioxide, CO₂', correct: 'compound' },
+      { desc: 'ozone, O₃', correct: 'element' },
+      { desc: 'a crown of 18-karat gold', correct: 'homogeneous mixture' },
+      { desc: 'clean, dry air', correct: 'homogeneous mixture' },
+      { desc: 'brass (copper and zinc, melted together)', correct: 'homogeneous mixture' },
+      { desc: 'stainless steel', correct: 'homogeneous mixture' },
+      { desc: 'a slab of granite', correct: 'heterogeneous mixture' },
+      { desc: 'Italian salad dressing that has separated into layers', correct: 'heterogeneous mixture' },
+      { desc: 'whole milk', correct: 'heterogeneous mixture' },
+      { desc: 'a handful of sand mixed with iron filings', correct: 'heterogeneous mixture' },
+      { desc: 'distilled water', correct: 'compound' },
+      { desc: 'tap water', correct: 'homogeneous mixture' },
+      { desc: 'helium in a balloon', correct: 'element' },
+      { desc: 'a sheet of aluminium foil', correct: 'element' },
+      { desc: 'sulfur as it occurs in nature, S₈', correct: 'element' },
+      { desc: 'sucrose (table sugar), C₁₂H₂₂O₁₁', correct: 'compound' },
+      { desc: 'ammonia, NH₃', correct: 'compound' },
+      { desc: 'a cup of black coffee with the grounds filtered out', correct: 'homogeneous mixture' },
     ];
     const item = h.pick(ITEMS);
     const ALL = ['element', 'compound', 'homogeneous mixture', 'heterogeneous mixture'];
@@ -219,13 +247,14 @@ registerChemTemplate({
     return {
       stem: `How is ${item.desc} classified?`,
       ...h.choices(item.correct, distractors.map((v) => ({ value: v, error: 'misclassified-matter', why: `classified it as a ${v} instead` }))),
-      explanation: `An element can't be broken down chemically; a compound is two+ elements chemically bonded in a fixed ratio; a mixture is physically combined and separable, uniform (homogeneous) or not (heterogeneous).`,
+      explanation: `${item.desc} is a ${item.correct}. An element can't be broken down chemically; a compound is two or more DIFFERENT elements chemically bonded in a fixed ratio; a mixture is physically combined and separable, uniform throughout (homogeneous) or not (heterogeneous). Two traps live here: a substance made of multi-atom molecules of ONE element — O₂, O₃, S₈ — is still an element, not a compound; and an alloy or a clear solution is still a MIXTURE however uniform it looks, because its proportions can be varied and its parts separated physically.`,
     };
   },
 });
 
 registerChemTemplate({
   id: 'chem1-toolbox-physical-vs-chemical',
+  mental: true,
   chapterId: CH,
   section: '1-4',
   band: 1,

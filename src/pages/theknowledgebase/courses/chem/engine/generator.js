@@ -29,6 +29,13 @@ const registry = new Map();
  *                                       4-5 = ACS level (the standardized final; harder)
  *                                       engine/gates.js turns this split into the two gate tests.
  * @property {string} name
+ * @property {boolean} [mental]          answerable with no arithmetic — recall, classification,
+ *                                       naming, reading a definition. Feeds the on-the-go Quick
+ *                                       Review (views/ChemQuickReview.jsx), which exists so a
+ *                                       phone in a hallway is a usable study surface. It is a
+ *                                       claim about ARITHMETIC, not about difficulty: a band-3
+ *                                       nomenclature question is mental, a band-1 unit
+ *                                       conversion is not.
  * @property {string[]} concepts          chapter concept ids this template tests
  * @property {(rng: () => number, h: Helpers) => RawInstance} generate
  */
@@ -58,6 +65,8 @@ export function registerChemTemplate(t) {
 export const getChemTemplate = (id) => registry.get(id) ?? null;
 export const allChemTemplates = () => [...registry.values()];
 export const chemTemplatesFor = (chapterId) => allChemTemplates().filter((t) => t.chapterId === chapterId);
+/** Templates answerable without arithmetic — the on-the-go Quick Review's whole pool. */
+export const mentalChemTemplates = () => allChemTemplates().filter((t) => t.mental === true);
 export function _resetChemRegistry() { registry.clear(); }
 
 /** Same contract as afoqt/engine/generator.js's makeHelpers — see that file for the reasoning. */
@@ -113,6 +122,7 @@ export function generateChemInstance(templateId, seed) {
     // field for a whole build (theknowledgebase/CLAUDE.md). There is a test for this.
     section: t.section ?? null,
     band: t.band,
+    mental: t.mental === true,
     concepts: t.concepts ?? [],
     stem: raw.stem,
     choices: raw.choices,

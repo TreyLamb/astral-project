@@ -25,6 +25,19 @@ read `PLAN.md` first. Unlike AFOQT, these sit next to the code they describe rat
 sibling `docs/courses/` folder (that folder still exists only for the unused `repo-doc` content
 convention — see `DATA-MODEL.md`'s Content Strategy section).
 
+ℹ️ **An instructor's own review handout is the highest-value document in the folder — treat it
+as an exam blueprint, not as more notes.** Added 2026-09-09 after CHEM 1210's "Ch 1-2 Review"
+(`SupplementalCourseDocs/IMG_0008.jpg`, `IMG_0009.jpg`) turned out to surface **fifteen skills
+the 88-template chem bank could not ask at all** — acid nomenclature, accuracy vs. precision,
+counting significant figures, squared-unit conversion, the law of definite proportions, ionic
+vs. molecular classification, and more. A bank built from a textbook's chapter structure will
+look complete and still miss most of what one instructor actually asks. Work an item at a time,
+map each new template back to its numbered question in a header comment (see
+`courses/chem/engine/templates/rev1-ch00-toolbox.js`), and check every item against the bank
+before assuming it is covered. Figures on such a sheet can be asked in prose — Trey, 2026-09-09:
+*"dont worry about making particle diagrams. questions related to mixtures, pure substances,
+etc replace those."*
+
 🔴 **`courses/AGENT-PROMPT.md` is the binding manual for ingesting new course material** —
 notes, slides, quizzes, exams, textbook chapters that Trey drops into
 `G:\My Drive\SupplementalCourseDocs\`. Read it in full before processing a single document.

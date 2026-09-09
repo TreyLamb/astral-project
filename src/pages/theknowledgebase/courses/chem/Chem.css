@@ -155,3 +155,46 @@
 @media (max-width: 640px) {
   .chq-summary-grid { gap: 1rem; }
 }
+
+/* --- Quick Review (on-the-go, no arithmetic) ---------------------------------
+   Sized for a thumb rather than a desk: wider tap targets than the drill's, the
+   card stack is a single column at every width, and Next sits at the bottom
+   where a thumb already is. See views/ChemQuickReview.jsx for why it is a
+   separate page rather than a mode of the drill runner. */
+.chq-quick { display: flex; flex-direction: column; gap: .75rem; max-width: 640px; }
+.chq-quick-top { display: flex; align-items: center; justify-content: space-between; gap: .6rem; }
+.chq-quick-score { display: flex; align-items: baseline; gap: .5rem; }
+.chq-quick-score strong { font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.chq-quick-streak {
+  font-size: .75rem; font-weight: 600; color: var(--tkb-correct);
+  background: color-mix(in srgb, var(--tkb-correct) 12%, transparent);
+  padding: .15rem .45rem; border-radius: 999px;
+}
+.chq-quick-filter { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.chq-quick-filter label { font-size: .8rem; color: var(--tkb-ink-soft); }
+.chq-quick-filter select {
+  font: inherit; font-size: .9rem; padding: .35rem .5rem; flex: 1 1 12rem; min-width: 0;
+  border: 1px solid var(--tkb-border); border-radius: 6px;
+  background: var(--tkb-surface); color: var(--tkb-ink);
+}
+.chq-quick-card {
+  background: var(--tkb-surface); border: 1px solid var(--tkb-border);
+  border-radius: 10px; padding: 1rem;
+}
+/* Bigger hit area than .chq-choice: this page is used standing up. */
+.chq-quick .chq-choice { padding: .8rem .7rem; line-height: 1.4; }
+.chq-quick .chq-choice:disabled { cursor: default; }
+.chq-quick .chq-choice.chq-right {
+  border-color: var(--tkb-correct); color: var(--tkb-correct); font-weight: 600;
+  background: color-mix(in srgb, var(--tkb-correct) 10%, var(--tkb-canvas));
+}
+.chq-quick .chq-choice.chq-wrong {
+  border-color: var(--tkb-wrong); color: var(--tkb-wrong);
+  background: color-mix(in srgb, var(--tkb-wrong) 10%, var(--tkb-canvas));
+}
+.chq-quick .chq-choice.chq-dim { opacity: .5; }
+.chq-quick-why {
+  display: flex; flex-direction: column; gap: .35rem;
+  border-left: 3px solid var(--tkb-border); padding: .1rem 0 .1rem .7rem;
+}
+.chq-quick-next { align-self: stretch; padding: .7rem; font-size: 1rem; }

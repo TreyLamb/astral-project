@@ -16,6 +16,7 @@ const NONELECTROLYTES = ['C₆H₁₂O₆ (glucose)', 'C₂H₅OH (ethanol)', 'C
 
 registerChemTemplate({
   id: 'chem1-05-electrolyte-classify',
+  mental: true,
   chapterId: CH,
   section: '4-3',
   band: 1,
@@ -45,6 +46,7 @@ registerChemTemplate({
 
 registerChemTemplate({
   id: 'chem1-05-molarity-definition',
+  mental: true,
   chapterId: CH,
   section: '3-4',
   band: 1,
@@ -193,6 +195,7 @@ const SOLUBILITY_CASES = [
 
 registerChemTemplate({
   id: 'chem1-05-solubility-predict',
+  mental: true,
   chapterId: CH,
   section: '4-3',
   band: 2,
@@ -238,6 +241,7 @@ const PRECIPITATION_REACTIONS = [
 
 registerChemTemplate({
   id: 'chem1-05-net-ionic-equation',
+  mental: true,
   chapterId: CH,
   section: '4-3',
   band: 3,
@@ -280,6 +284,7 @@ const WEAK_ACID_PARTICULATE = [
 
 registerChemTemplate({
   id: 'chem1-05-weak-acid-particulate',
+  mental: true,
   chapterId: CH,
   section: '4-3',
   band: 2,
@@ -316,6 +321,7 @@ const OXNUM_COMPOUNDS = [
 
 registerChemTemplate({
   id: 'chem1-05-oxidation-number',
+  mental: true,
   chapterId: CH,
   section: '4-3',
   band: 3,
@@ -350,6 +356,7 @@ const REDOX_PAIRS = [
 
 registerChemTemplate({
   id: 'chem1-05-oxidation-reduction-define',
+  mental: true,
   chapterId: CH,
   section: '4-3',
   band: 2,
@@ -397,6 +404,7 @@ const REDOX_REACTIONS = [
 
 registerChemTemplate({
   id: 'chem1-05-oxidizing-reducing-agent',
+  mental: true,
   chapterId: CH,
   section: '5-2',
   band: 3,

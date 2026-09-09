@@ -6,6 +6,26 @@ periodic table and how it bonds.
 
 ---
 
+## The law of definite proportions
+
+Before anyone could weigh an atom, this is the observation that proved atoms exist: **a given
+compound always contains the same elements in the same proportion by mass**, no matter where the
+sample came from or how big it is. Water from a tap and water from a glacier are both 11.2%
+hydrogen by mass.
+
+That makes composition a RATIO you can scale. If 33.32 g of a compound contains 10.25 g of X,
+then X is 10.25 / 33.32 = 30.76% of it, and that percentage holds in a 20.00 g sample too
+(20.00 × 0.3076 = 6.15 g).
+
+> **The trap:** carrying the *mass* across instead of the *fraction*. The 10.25 g does not
+> reappear in the second sample; only the 30.76% does. Any time two samples of the same compound
+> are mentioned, the thing they share is a ratio.
+
+Run it the other way and it identifies an unknown. If a compound has 2 atoms of X per 3 atoms of
+O, and 1.336 g of X is combined with 1.000 g of O, then: 1.000 g of O is 1/16.00 = 0.0625 mol of
+O, so there is 0.0625 × 2/3 = 0.04167 mol of X, and 1.336 g ÷ 0.04167 mol = 32.06 u per atom —
+sulfur. The atom ratio is doing all the work; a mass ratio on its own tells you nothing.
+
 ## Isotopes and ions: what stays fixed, what changes
 
 An atom is defined by three particle counts: protons (in the nucleus, positive), neutrons (in
@@ -133,9 +153,27 @@ to **MgO**.
 > charge balance, but it's not how the formula is actually written — always reduce to the
 > smallest whole-number ratio.
 
+## Ionic or molecular? Look for a metal
+
+Before you can name a formula you have to know which naming system it belongs to, and the test
+is a single question: **does the formula contain a metal?**
+
+- **Metal + nonmetal** → electrons are TRANSFERRED, you get ions, the compound is **ionic**.
+  CsBr, MgO, Al₂O₃, FeCl₃.
+- **Nonmetal + nonmetal** → electrons are SHARED, you get molecules, the compound is
+  **molecular** (covalent). N₂S₃, I₄O₉, CO₂, SF₆.
+
+That also picks the naming system for you: ionic gets `-ide`/polyatomic names and a Roman
+numeral where the metal needs one; molecular gets Greek prefixes.
+
+> **The trap:** reading the subscripts. Large or awkward subscripts feel "molecular" and small
+> tidy ones feel "ionic", and neither is evidence — I₄O₉ is molecular and Al₂O₃ is ionic. Only
+> the position of the elements on the periodic table decides it.
+
 ---
 
 **Before you move on:** you should be able to read ¹⁴₆C off the page and say "6 protons, 8
 neutrons," explain in one sentence why two isotopes are still the same element, compute an ion's
-electron count from its charge, and predict the formula CaCl₂ or MgO from the ions' charges
-alone — without looking either compound up.
+electron count from its charge, predict the formula CaCl₂ or MgO from the ions' charges alone —
+without looking either compound up — scale a compound's composition from one sample to another,
+and say whether a formula is ionic or molecular at a glance.

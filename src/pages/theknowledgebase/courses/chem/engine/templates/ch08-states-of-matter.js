@@ -13,6 +13,7 @@ const cToK = (c) => c + 273.15;
 // ---------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-08-ideal-gas-conditions',
+  mental: true,
   chapterId: CH,
   section: '9-2',
   band: 1,
@@ -291,6 +292,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-08-kinetic-molecular-theory',
+  mental: true,
   chapterId: CH,
   section: '9-5',
   band: 1,
@@ -332,6 +334,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-08-maxwell-boltzmann-mass',
+  mental: true,
   chapterId: CH,
   section: '9-5',
   band: 2,
@@ -359,6 +362,7 @@ registerChemTemplate({
 
 registerChemTemplate({
   id: 'chem1-08-maxwell-boltzmann-temp',
+  mental: true,
   chapterId: CH,
   section: '9-5',
   band: 1,
@@ -388,6 +392,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-08-hydrogen-bonding-identify',
+  mental: true,
   chapterId: CH,
   section: '10-2',
   band: 1,
@@ -428,6 +433,7 @@ const BP_COMPARISONS = [
 
 registerChemTemplate({
   id: 'chem1-08-boiling-point-imf',
+  mental: true,
   chapterId: CH,
   section: '10-2',
   band: 2,
@@ -451,6 +457,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-08-vapor-pressure-compare',
+  mental: true,
   chapterId: CH,
   section: '10-3',
   band: 2,
@@ -516,6 +523,7 @@ registerChemTemplate({
 // ---------------------------------------------------------------------------
 registerChemTemplate({
   id: 'chem1-08-phase-diagram-read',
+  mental: true,
   chapterId: CH,
   section: '10-4',
   band: 2,

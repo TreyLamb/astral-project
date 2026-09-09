@@ -132,6 +132,7 @@ const REACTIONS2 = [
 
 registerChemTemplate({
   id: 'chem1-04-balance-coefficient',
+  mental: true,
   chapterId: CH,
   section: '4-2',
   band: 1,
@@ -165,6 +166,7 @@ registerChemTemplate({
 
 registerChemTemplate({
   id: 'chem1-04-mole-ratio',
+  mental: true,
   chapterId: CH,
   section: '4-4',
   band: 1,

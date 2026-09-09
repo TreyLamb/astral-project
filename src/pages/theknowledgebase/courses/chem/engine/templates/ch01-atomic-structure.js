@@ -55,6 +55,7 @@ const ISOTOPE_POOL = [
 
 registerChemTemplate({
   id: 'chem1-01-nuclear-symbol-notation',
+  mental: true,
   chapterId: CH,
   section: '2-3',
   band: 1,
@@ -82,6 +83,7 @@ registerChemTemplate({
 
 registerChemTemplate({
   id: 'chem1-01-isotope-definition',
+  mental: true,
   chapterId: CH,
   section: '2-3',
   band: 1,
@@ -112,6 +114,7 @@ registerChemTemplate({
 
 registerChemTemplate({
   id: 'chem1-01-particle-counting',
+  mental: true,
   chapterId: CH,
   section: '2-3',
   band: 2,
@@ -157,6 +160,7 @@ const ION_EXAMPLES = [
 
 registerChemTemplate({
   id: 'chem1-01-ion-charge-particles',
+  mental: true,
   chapterId: CH,
   section: '2-3',
   band: 2,
@@ -244,6 +248,7 @@ const FAMILIES = ['alkali metal', 'alkaline earth metal', 'halogen', 'noble gas'
 
 registerChemTemplate({
   id: 'chem1-01-periodic-groups',
+  mental: true,
   chapterId: CH,
   section: '2-5',
   band: 1,
@@ -286,6 +291,7 @@ const NON_DIATOMIC = [
 
 registerChemTemplate({
   id: 'chem1-01-diatomic-elements',
+  mental: true,
   chapterId: CH,
   section: '2-5',
   band: 1,
@@ -327,6 +333,7 @@ const CLASSES = ['metal', 'nonmetal', 'metalloid'];
 
 registerChemTemplate({
   id: 'chem1-01-element-classification',
+  mental: true,
   chapterId: CH,
   section: '2-5',
   band: 2,
@@ -369,6 +376,7 @@ const formatFormula = (catSymbol, catCount, anSymbol, anCount) =>
 
 registerChemTemplate({
   id: 'chem1-01-ionic-formula-predict',
+  mental: true,
   chapterId: CH,
   section: '2-6',
   band: 2,
