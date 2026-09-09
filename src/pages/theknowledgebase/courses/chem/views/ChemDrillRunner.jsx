@@ -5,6 +5,7 @@ import { buildChemDrill } from '../engine/drill';
 import { getChemChapter } from '../curriculum';
 import { recordChemTestOut, recordChemMastery, CHEM_MASTERY_THRESHOLD } from '../chemStorage';
 import { mulberry32 } from '../../../engine/rng';
+import { ChemReferenceContent } from './ChemResources';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
 
@@ -39,6 +40,10 @@ export default function ChemDrillRunner() {
   const [answers, setAnswers] = useState([]);
   const [done, setDone] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  // Reference drawer, openable DURING a run (Trey: "it's supposed to be available while taking
+  // a chem drill"). It overlays the question rather than navigating away, because leaving the
+  // route would discard the run - `questions` is a useMemo keyed on the params, not persisted.
+  const [showRef, setShowRef] = useState(false);
   const startedAt = useRef(Date.now());
   const questionStart = useRef(Date.now());
 
@@ -85,13 +90,20 @@ export default function ChemDrillRunner() {
     const onKey = (e) => {
       if (done) return;
       const q = questions[idx];
+      // R opens the reference. It is outside A-D, so it can never be mistaken for an answer.
+      if (e.key.toUpperCase() === 'R') { e.preventDefault(); setShowRef((v) => !v); return; }
       const i = LETTERS.indexOf(e.key.toUpperCase());
       if (q && i >= 0 && i < q.choices.length) { e.preventDefault(); submit(i); }
-      if (e.key === 'Escape') { e.preventDefault(); finish(answers); }
+      // Escape closes the reference first if it is open, and only ends the run otherwise -
+      // ending a 40-question drill because you wanted to shut a panel is not recoverable.
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        if (showRef) setShowRef(false); else finish(answers);
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [questions, idx, done, submit, finish, answers]);
+  }, [questions, idx, done, submit, finish, answers, showRef]);
 
   if (questions.length === 0) {
     return (
@@ -194,8 +206,25 @@ export default function ChemDrillRunner() {
       <header className="chq-runner-top">
         <span className="chq-pill">{label ?? (chapter ? chapter.title : 'Mass review')}</span>
         <span className="chq-progress">{idx + 1} / {questions.length}</span>
+        <button
+          className={'chq-btn chq-ghost' + (showRef ? ' chq-primary' : '')}
+          aria-expanded={showRef}
+          onClick={() => setShowRef((v) => !v)}
+        >
+          {showRef ? 'Close reference' : 'Reference'}
+        </button>
         <button className="chq-btn chq-ghost" onClick={() => finish(answers)}>End</button>
       </header>
+
+      {showRef && (
+        <aside className="chq-ref-drawer">
+          <div className="chq-ref-drawer-head">
+            <strong>Reference</strong>
+            <button className="chq-btn chq-ghost" onClick={() => setShowRef(false)}>Close</button>
+          </div>
+          <div className="chq-ref-drawer-body"><ChemReferenceContent /></div>
+        </aside>
+      )}
 
       <div className="chq-card">
         <p className="chq-stem">{q.stem}</p>
@@ -210,7 +239,7 @@ export default function ChemDrillRunner() {
         </ol>
       </div>
 
-      <p className="chq-hint">Press {LETTERS.slice(0, q.choices.length).join(' / ')} to answer · Esc to end</p>
+      <p className="chq-hint">Press {LETTERS.slice(0, q.choices.length).join(' / ')} to answer · R for the reference sheet · Esc to end</p>
     </div>
   );
 }

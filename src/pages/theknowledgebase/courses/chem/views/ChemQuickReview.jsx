@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CHEM_CHAPTERS } from '../curriculum';
 import { mentalChemTemplates, generateChemInstance } from '../engine/generator';
+import { ChemReferenceContent } from './ChemResources';
 
 // On-the-go review: the chem drills with all the arithmetic taken out, so a phone in a corridor
 // is a usable study surface.
@@ -22,6 +23,9 @@ export default function ChemQuickReview() {
   const [seed, setSeed] = useState(() => Math.floor(Math.random() * 0xffffffff));
   const [picked, setPicked] = useState(null);
   const [tally, setTally] = useState({ right: 0, seen: 0, streak: 0, best: 0 });
+  // Same drawer as the drill runner. On a phone this is the ONLY way to check the prefix ladder
+  // without losing your place, since navigating away drops the streak.
+  const [showRef, setShowRef] = useState(false);
 
   const pool = useMemo(
     () => mentalChemTemplates().filter((t) => chapterId === 'all' || t.chapterId === chapterId),
@@ -80,8 +84,25 @@ export default function ChemQuickReview() {
         <div className="chq-quick-score">
           <strong>{tally.right}/{tally.seen}</strong>
           {tally.streak > 1 && <span className="chq-quick-streak">{tally.streak} in a row</span>}
+          <button
+            className={'chq-btn chq-ghost' + (showRef ? ' chq-primary' : '')}
+            aria-expanded={showRef}
+            onClick={() => setShowRef((v) => !v)}
+          >
+            {showRef ? 'Close' : '📖 Ref'}
+          </button>
         </div>
       </header>
+
+      {showRef && (
+        <aside className="chq-ref-drawer">
+          <div className="chq-ref-drawer-head">
+            <strong>Reference</strong>
+            <button className="chq-btn chq-ghost" onClick={() => setShowRef(false)}>Close</button>
+          </div>
+          <div className="chq-ref-drawer-body"><ChemReferenceContent /></div>
+        </aside>
+      )}
 
       <div className="chq-quick-filter">
         <label htmlFor="chq-quick-chapter">Pull from</label>

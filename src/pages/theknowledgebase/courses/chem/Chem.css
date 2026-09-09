@@ -218,3 +218,70 @@
 .chq-exam-cover ul li > span { margin-left: auto; flex: none; font-variant-numeric: tabular-nums; }
 .chq-exam-cover ul li.chq-exam-empty { opacity: .55; }
 .chq-exam-cover ul li.chq-exam-empty > span { color: var(--tkb-wrong); }
+
+/* --- Reference sheet (page + in-drill drawer) --------------------------------
+   One component, two hosts: the standalone page at /resources and a drawer that
+   overlays a live drill. Trey, 2026-09-09: "it's supposed to be available while
+   taking a chem drill" — a reference you have to leave the run to read is not
+   available during the run. See views/ChemResources.jsx. */
+.chq-res { max-width: 900px; display: flex; flex-direction: column; gap: .4rem; }
+.chq-res-top { display: flex; align-items: center; justify-content: space-between; gap: .6rem; flex-wrap: wrap; }
+.chq-res-actions { display: flex; gap: .4rem; flex-wrap: wrap; }
+.chq-res h2 { margin: .3rem 0 0; }
+.chq-res-block {
+  background: var(--tkb-surface); border: 1px solid var(--tkb-border);
+  border-radius: 10px; padding: .9rem 1rem; margin-top: .8rem;
+}
+.chq-res-block h3 { margin: 0 0 .2rem; font-size: 1.05rem; }
+.chq-res-block h4 { margin: 0 0 .3rem; font-size: .9rem; color: var(--tkb-ink-soft); }
+.chq-res-sub { margin: 0 0 .6rem; font-size: .85rem; color: var(--tkb-ink-soft); line-height: 1.5; }
+/* Wide tables scroll inside their own box rather than pushing the page sideways. */
+.chq-res-table {
+  width: 100%; border-collapse: collapse; font-size: .85rem; display: block;
+  overflow-x: auto; white-space: nowrap;
+}
+.chq-res-table th, .chq-res-table td {
+  text-align: left; padding: .32rem .6rem; border-bottom: 1px solid var(--tkb-border);
+}
+.chq-res-table th { font-size: .75rem; text-transform: uppercase; letter-spacing: .03em; color: var(--tkb-ink-soft); }
+.chq-res-table tbody tr:last-child td { border-bottom: none; }
+.chq-res-table code { font-size: .85em; }
+.chq-res-base td { background: color-mix(in srgb, var(--tkb-accent) 10%, transparent); font-weight: 600; }
+.chq-res-flag { font-size: .72rem; color: var(--tkb-wrong); margin-left: .3rem; }
+.chq-res-note, .chq-res-warn { margin: .6rem 0 0; font-size: .82rem; line-height: 1.55; }
+.chq-res-note { color: var(--tkb-ink-soft); }
+.chq-res-warn {
+  color: var(--tkb-wrong); background: color-mix(in srgb, var(--tkb-wrong) 8%, transparent);
+  border-radius: 6px; padding: .45rem .6rem;
+}
+.chq-res-formula {
+  font-size: .95rem; line-height: 1.7; padding: .6rem .8rem; border-radius: 6px;
+  background: var(--tkb-canvas); border: 1px solid var(--tkb-border); margin-bottom: .6rem;
+  overflow-x: auto;
+}
+.chq-res-good { color: var(--tkb-correct); }
+.chq-res-bad { color: var(--tkb-wrong); }
+.chq-res-list { margin: 0; padding-left: 1.1rem; font-size: .85rem; line-height: 1.65; }
+.chq-res-list li { margin-bottom: .3rem; }
+.chq-res-inline { margin: 0 0 .4rem; font-size: .85rem; line-height: 1.6; }
+.chq-res-two { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+@media (max-width: 700px) { .chq-res-two { grid-template-columns: 1fr; gap: .9rem; } }
+
+/* The drawer. Fixed, scrolls on its own, and never unmounts the run underneath it. */
+.chq-ref-drawer {
+  position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column;
+  background: var(--tkb-canvas);
+}
+.chq-ref-drawer-head {
+  display: flex; align-items: center; justify-content: space-between; gap: .6rem;
+  padding: .6rem .9rem; border-bottom: 1px solid var(--tkb-border);
+  background: var(--tkb-surface); flex: none;
+}
+.chq-ref-drawer-body { overflow-y: auto; padding: 0 .9rem 2rem; -webkit-overflow-scrolling: touch; }
+.chq-ref-drawer-body > h2 { font-size: 1.1rem; }
+
+@media print {
+  .chq-res-top, .tkb-topbar, .chq-back { display: none !important; }
+  .chq-res-block { break-inside: avoid; border-color: #ccc; }
+  .chq-res { max-width: none; }
+}

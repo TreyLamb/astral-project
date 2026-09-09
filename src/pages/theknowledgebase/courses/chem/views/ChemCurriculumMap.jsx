@@ -33,6 +33,9 @@ export default function ChemCurriculumMap() {
         <button className="chq-btn" onClick={() => navigate('/TKB/courses/chem/practice')}>
           Mass review — mix questions from every chapter
         </button>
+        <button className="chq-btn" onClick={() => navigate('/TKB/courses/chem/resources')}>
+          📖 Resources — units, prefixes, polyatomic ions, naming rules
+        </button>
         <button className="chq-btn" onClick={() => navigate('/TKB/courses/chem/quick')}>
           ⚡ Quick review — no-math questions, built for a phone
         </button>
