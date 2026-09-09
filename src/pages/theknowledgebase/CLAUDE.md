@@ -50,13 +50,28 @@ digit`) was **taught by our own lesson and tested by nothing** — an orphan und
 that hid because it shares the `significant-figures` concept id with the arithmetic rules.
 Audit against the actual assigned text, section by section, before believing a coverage number.
 
-⚠️ **His Canvas quiz PDFs contain NO questions — do not treat them as a source.** All six in
-`SupplementalCourseDocs/CHEM 1210/` are print-to-PDF captures of a Canvas page whose only content
-is an `<iframe>` onto `learn-ai-DanielScott26.replit.app` (the instructor's own AcademiQ app), so
-they render as empty boxes with a "if the embed is blocked, open it here" link. They also have no
-text layer at all, so `extractBook.mjs` returns blank pages and it looks like an extraction
-failure rather than an empty source. The real quiz items are behind his login; `_academiq/`'s
-end-of-section and additional exercises are the closest available proxy.
+🔴 **His Canvas quiz PDFs ARE the best source in the project — and the questions start on
+PAGE 3.** Six graded attempt-reviews in `SupplementalCourseDocs/CHEM 1210/`, carrying the
+instructor's exact wording, his exact distractors, the marked correct answer AND per-distractor
+feedback. Two traps stack, and hitting both got them written off as empty on 2026-09-09:
+
+1. **There is no text layer.** `extractBook.mjs` returns ~8 characters per page. That looks like
+   a broken extraction, not a scanned page.
+2. **Pages 1-2 really are empty.** They are the Canvas quiz header plus an unrendered `<iframe>`
+   onto `learn-ai-DanielScott26.replit.app`, complete with an "if the embed is blocked, open it
+   here" link. Rendering only the first pages — and then generalising from one file to all six —
+   produces a confident, wrong "these contain no questions".
+
+**Read them as images from page 3:** `PDFParse().getScreenshot({first, last, scale: 2})`, write
+each page to a PNG, then Read the PNGs (the recipe in the "PDF pages DO render" section below).
+An ink-coverage check is a cheap triage — header pages sit near 1%, question pages 2.5-7%.
+The filenames mislead too: `q3.1-3.pdf` is **Quiz 3 covering Sec 1-6**, not chapter 3. All six
+are Exam 1 material (Sec 1-4 through 1-7). Everything harvested from them lives in
+`courses/chem/engine/templates/quiz-ch01-observed.js`, mapped question by question.
+
+**The wider lesson:** “this source is empty/unavailable” needs the same standard as the root
+CLAUDE.md’s external-data rule — check every page of every file before saying it, and never
+generalise from one sample.
 
 🔴 **`courses/AGENT-PROMPT.md` is the binding manual for ingesting new course material** —
 notes, slides, quizzes, exams, textbook chapters that Trey drops into

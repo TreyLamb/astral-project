@@ -59,6 +59,25 @@ section and could host it directly; that is the obvious next move.
 2-4 (Chemical Formulas).** 42 questions cover the other ten. 1-2 is one of only two sections in
 the whole book with a graded checkpoint.
 
+## 🔴 The six Canvas quiz PDFs are the best source we have — READ THEM FROM PAGE 3
+
+Corrected 2026-09-09 after this session first wrote them off as empty. They are graded attempt
+reviews: the instructor's exact wording, exact distractors, the marked answer, and per-distractor
+feedback. No text layer (so `extractBook.mjs` returns blank) AND pages 1-2 are just the Canvas
+header plus an unrendered iframe — read them as page images from page 3. Full recipe in
+`theknowledgebase/CLAUDE.md` and in `templates/quiz-ch01-observed.js`'s header.
+
+**All six are Exam 1 material** — the filenames mislead (`q3.1-3.pdf` is Quiz 3 / Sec 1-6, not
+chapter 3). They cover Sec 1-4 through 1-7. Six templates were harvested straight from them:
+extensive vs intensive (**the one question he actually got wrong**), SI base units, what an SI
+prefix means (both directions), scientific notation to an SI prefix, volume displacement, and
+mixture-vs-pure-substance as a definition rather than a sorting exercise. The
+physical-vs-chemical item list went 6 -> 22 using his quizzes' own scenarios.
+
+⚠️ **Only the Ch 1 quizzes have been mined.** Every later quiz he exports should go through the
+same pass — this is the highest-yield source in the project and the only one that shows which
+questions he MISSED.
+
 ## Provenance: the bank was built against the WRONG book, and it mostly does not show
 
 Worth stating plainly because a coverage number hides it. Of 113 templates:

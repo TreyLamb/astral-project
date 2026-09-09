@@ -17,3 +17,8 @@ import './rev1-ch01-atomic-structure.js';
 // Gaps found by auditing the bank against his ACTUAL assigned textbook (AcademiQ), rather than
 // against the ACS study guide the first 88 templates were built from.
 import './academiq-ch01-essential-ideas.js';
+
+// Built from his OWN GRADED QUIZZES (Canvas attempt reviews). Highest-fidelity source there
+// is - his instructor's actual wording, distractors and marked answers. Read that file's header
+// before opening those PDFs: they have no text layer and the questions start on page 3.
+import './quiz-ch01-observed.js';

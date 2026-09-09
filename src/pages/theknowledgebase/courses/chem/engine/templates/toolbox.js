@@ -261,6 +261,10 @@ registerChemTemplate({
   name: 'Physical vs. chemical property',
   concepts: ['properties-representations-of-matter'],
   generate: (rng, h) => {
+    // Widened 2026-09-09 from six items to twenty-two, using the scenarios his own graded
+    // quizzes actually use (Quiz 2 Sec 1-4/1-5 and Quiz 4 Sec 1-7 both lean on this heavily -
+    // rusting iron, melting gold, a firecracker, chocolate syrup in milk, burning coal,
+    // condensing nitrogen). Six items is a list to memorise, not a skill.
     const ITEMS = [
       { desc: 'the melting point of ice', correct: 'physical' },
       { desc: 'the color of a solution', correct: 'physical' },
@@ -268,6 +272,22 @@ registerChemTemplate({
       { desc: 'iron rusting in damp air', correct: 'chemical' },
       { desc: 'the density of a metal', correct: 'physical' },
       { desc: 'the reactivity of an acid with a metal', correct: 'chemical' },
+      { desc: 'gold melting in a crucible', correct: 'physical' },
+      { desc: 'a firecracker exploding', correct: 'chemical' },
+      { desc: 'coal burning in a furnace', correct: 'chemical' },
+      { desc: 'chocolate syrup being stirred into milk', correct: 'physical' },
+      { desc: 'nitrogen gas condensing to a liquid', correct: 'physical' },
+      { desc: 'ice melting on a warm day', correct: 'physical' },
+      { desc: 'dry ice subliming to a gas', correct: 'physical' },
+      { desc: 'milk souring', correct: 'chemical' },
+      { desc: 'a copper roof turning green', correct: 'chemical' },
+      { desc: 'the boiling point of ethanol', correct: 'physical' },
+      { desc: 'sugar dissolving in water', correct: 'physical' },
+      { desc: 'the toxicity of a compound', correct: 'chemical' },
+      { desc: 'bread dough rising as yeast produces CO₂', correct: 'chemical' },
+      { desc: 'a nail being hammered flat', correct: 'physical' },
+      { desc: 'silver tarnishing', correct: 'chemical' },
+      { desc: 'the hardness of a mineral', correct: 'physical' },
     ];
     const item = h.pick(ITEMS);
     const other = item.correct === 'physical' ? 'chemical' : 'physical';
