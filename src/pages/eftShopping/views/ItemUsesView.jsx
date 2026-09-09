@@ -6,6 +6,7 @@ import { buildQuestIndex } from '../eftQuestLogic';
 import { buildItemUsesIndex, searchItemUses } from '../eftItemUses';
 import barterSnapshot from '../data/barterSnapshot.json';
 import gearCatalog from '../data/gearCatalog.json';
+import itemNames from '../data/itemNames.json';
 
 const TAG_CLASS = {
   Hideout: 'eft-is-info',
@@ -97,7 +98,7 @@ export default function ItemUsesView() {
   const craftIndex = useMemo(() => buildCraftIndex(data), [data]);
   const questIndex = useMemo(() => buildQuestIndex(), []);
   const usesIndex = useMemo(() => buildItemUsesIndex({
-    hideoutData: data, questIndex, craftIndex, barterData: barterSnapshot, gearCatalog,
+    hideoutData: data, questIndex, craftIndex, barterData: barterSnapshot, gearCatalog, itemNames,
   }), [data, questIndex, craftIndex]);
 
   const [query, setQuery] = useState('');
@@ -105,8 +106,14 @@ export default function ItemUsesView() {
   const [filters, setFilters] = useState({ hideout: true, craft: true, toolFor: true });
 
   const rawResults = useMemo(() => searchItemUses(usesIndex, query), [usesIndex, query]);
+  // An item with NO uses is never filtered out: the toggles say which kinds of use to show, and
+  // an item that has none is not answering that question - it is answering "does this exist, and
+  // is it attached to anything", which is the question that made the full table necessary.
+  // Items that DO have uses still drop out when every one of them is toggled off.
   const results = useMemo(
-    () => rawResults.map((rec) => applyFilters(rec, filters)).filter((rec) => rec.tags.length),
+    () => rawResults
+      .map((rec) => (rec.hasUses ? applyFilters(rec, filters) : rec))
+      .filter((rec) => !rec.hasUses || rec.tags.length),
     [rawResults, filters],
   );
   const trimmed = query.trim();
@@ -118,7 +125,9 @@ export default function ItemUsesView() {
         <>
           Everything an item is connected to, in one place: hideout construction,
           crafting (as an ingredient or a tool), quests, barter trades (the item you
-          pay), and gear that counts as armor even with no other use. Type a
+          pay), and gear that counts as armor even with no other use. Every item
+          in the game is listed, so one with nothing attached says so outright
+          instead of returning an empty search. Type a
           comma-separated list to check several items at once — "cracker, motor".
         </>
       )}
@@ -164,9 +173,19 @@ export default function ItemUsesView() {
                 <ItemCell item={displayItem} />
                 <div className="eft-need-body">
                   <div className="eft-blockchips">
-                    {rec.tags.map((tag) => (
+                    {rec.hasUses ? rec.tags.map((tag) => (
                       <span key={tag} className={`eft-chip ${TAG_CLASS[tag]}`}>{tag}</span>
-                    ))}
+                    )) : (
+                      <span
+                        className="eft-chip eft-is-none"
+                        title="Not required by the hideout, any craft, any quest or any barter in our data"
+                      >
+                        No known uses
+                      </span>
+                    )}
+                    {/* Not `hidden` - .eft-chip sets its own display, which beats the UA
+                        [hidden] rule, so the button stayed visible and did nothing. */}
+                    {rec.hasUses ? (
                     <button
                       type="button"
                       className={`eft-chip eft-chip-btn${isOpen ? ' eft-is-open' : ''}`}
@@ -175,8 +194,9 @@ export default function ItemUsesView() {
                     >
                       {isOpen ? 'Hide detail ▾' : 'Show detail ▸'}
                     </button>
+                    ) : null}
                   </div>
-                  {isOpen ? <Detail rec={rec} /> : null}
+                  {isOpen && rec.hasUses ? <Detail rec={rec} /> : null}
                 </div>
               </div>
             );

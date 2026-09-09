@@ -36,9 +36,16 @@
 // results this session, not from an index of the wiki's real category tree —
 // spot-check the printed per-type counts after every run (a type dropping to
 // 0 means the wiki renamed/restructured the category, not that the gear
-// disappeared from the game). No wiki category was found for the catch-all
-// "wearable" ItemType (face covers, misc worn items) — it's left out rather
-// than guessed at.
+// disappeared from the game).
+//
+// ⚠ CORRECTED 2026-09-09. This header used to say "no wiki category was found
+// for the catch-all wearable ItemType (face covers, misc worn items) — it's
+// left out rather than guessed at". That was wrong, and it cost real trust:
+// searching /EFTsh/uses for the Aybolit mask returned nothing at all.
+// `Category:Face cover` (132 pages), `Category:Armbands` (38) and
+// `Category:Secure containers` (11) all exist and are now fetched. The lesson
+// is the root CLAUDE.md's own external-data rule applied to a wiki taxonomy:
+// one search coming back empty is not evidence the category does not exist.
 //
 // armorClass is left null on every wiki-sourced row: getting it means opening
 // every item's own infobox (300+ page fetches) and isn't needed for the tab's
@@ -81,6 +88,21 @@ async function gql(query) {
 }
 
 // Wiki Category: page per gear type — see the provisional-mapping warning above.
+//
+// ⚠ THIS IS DELIBERATELY A DIFFERENT LIST FROM `GEAR_TYPES` in eftNormalize.js, and the two must
+// not be merged. `GEAR_TYPES` is a **tarkov.dev GraphQL enum list** injected straight into
+// `items(types: [...])`; a value tarkov.dev does not define makes the whole query fail. These
+// keys are just labels on wiki categories and are free to be anything. The last three below have
+// no tarkov.dev ItemType of their own (face covers and secure containers both fall under its
+// catch-all `wearable`/`container`), which is precisely why they were missing.
+//
+// The three added 2026-09-09, after Trey reported the Aybolit mask returning nothing on
+// /EFTsh/uses. The file header used to claim "no wiki category was found for the catch-all
+// wearable ItemType (face covers, misc worn items)". That was a probing miss, not an absence:
+// `Category:Face cover` exists and holds 132 pages, `Category:Armbands` 38, and
+// `Category:Secure containers` 11 — 181 pieces of gear that had never been fetched at all.
+// Re-probe the whole list when a type's count looks wrong; do not assume a category is absent
+// because one search for it came back empty.
 const CATEGORY_BY_TYPE = {
   armor: 'Armor_vests',
   armorPlate: 'Armor_plates',
@@ -89,6 +111,9 @@ const CATEGORY_BY_TYPE = {
   headphones: 'Earpieces',
   helmet: 'Headwear',
   rig: 'Chest_rigs',
+  faceCover: 'Face_cover',
+  armband: 'Armbands',
+  secureContainer: 'Secure_containers',
 };
 
 async function categoryMembers(category) {

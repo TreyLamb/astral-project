@@ -17,6 +17,7 @@
     "eft:ammo": "node scripts/fetchEftAmmo.mjs",
     "eft:barters": "node scripts/fetchEftBarters.mjs",
     "eft:gear": "node scripts/fetchEftGearCatalog.mjs",
+    "eft:items": "node scripts/fetchEftItemNames.mjs",
     "tt:parse": "node scripts/parseTranscript.mjs",
     "afoqt:selftest": "node scripts/afoqtSelftest.mjs",
     "afoqt:coverage": "node scripts/afoqtCoverage.mjs",

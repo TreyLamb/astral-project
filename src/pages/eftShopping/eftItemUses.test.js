@@ -10,7 +10,8 @@ import { buildQuestIndex } from './eftQuestLogic';
 //   - "battery"  -> quest only, real itemId
 //   - "widget"   -> all five buckets at once
 //   - "sunglasses" -> gear only, zero other uses (the sunglasses case)
-//   - "unlinked" -> present in the raw items dict, referenced nowhere -> must not appear
+//   - "unlinked" -> present in the raw items dict, referenced nowhere -> present, no uses
+//   - "facemask" -> in itemNames ONLY, no other source at all -> present, no uses
 //   - name-fallback quest item (no itemId at all)
 
 const hideoutData = {
@@ -90,7 +91,31 @@ const gearCatalog = {
   },
 };
 
+// The full item table. Its job is to make items searchable that NOTHING else references -
+// "facemask" here stands in for the Aybolit mask, which is what started all this. It also
+// carries "Mystery Trinket", so the name-only quest reference can be resolved back onto a real
+// id instead of forking a second name-keyed record.
+const itemNames = {
+  rows: [
+    ['cracker', 'Cracker', 'Crckr'],
+    ['motor', 'Motor'],
+    ['gizmo', 'Gizmo'],
+    ['battery', 'Battery'],
+    ['widget', 'Widget'],
+    ['widgetMade', 'Widget Deluxe'],
+    ['unlinked', 'Unlinked Junk'],
+    ['sunglasses', 'Cheap Sunglasses'],
+    ['facemask', 'Party Face Mask', 'Mask'],
+  ],
+};
+
 const index = buildItemUsesIndex({
+  hideoutData, questIndex, craftIndex, barterData, gearCatalog, itemNames,
+});
+
+// The same world with NO item table, proving the index still works for callers that have not
+// got one (and that nothing below depends on itemNames merely existing).
+const indexNoNames = buildItemUsesIndex({
   hideoutData, questIndex, craftIndex, barterData, gearCatalog,
 });
 
@@ -119,9 +144,37 @@ describe('buildItemUsesIndex', () => {
     expect(rec.uses.gear.types).toEqual(['rig']);
   });
 
-  it('drops an item that is in the raw items dict but referenced nowhere', () => {
-    expect(index.byKey.has('unlinked')).toBe(false);
-    expect(index.all.some((r) => r.itemId === 'unlinked')).toBe(false);
+  // Trey, 2026-09-09: "even if an item doesn't have a usage it needs to be in there or i'll
+  // just assume our data isn't complete." This test asserted the exact opposite until then -
+  // it is the rule that made the Aybolit mask unsearchable, so it is inverted rather than
+  // deleted, to keep the reason visible.
+  it('KEEPS an item referenced nowhere, flagged hasUses false', () => {
+    const rec = index.byKey.get('unlinked');
+    expect(rec).toBeTruthy();
+    expect(rec.tags).toEqual([]);
+    expect(rec.hasUses).toBe(false);
+    expect(index.all.some((r) => r.itemId === 'unlinked')).toBe(true);
+  });
+
+  it('keeps an item that ONLY the item table knows about', () => {
+    const rec = index.byKey.get('facemask');
+    expect(rec).toBeTruthy();
+    expect(rec.name).toBe('Party Face Mask');
+    expect(rec.shortName).toBe('Mask');
+    expect(rec.hasUses).toBe(false);
+    expect(searchItemUses(index, 'party face').map((r) => r.itemId)).toContain('facemask');
+  });
+
+  it('flags every genuinely-used item as hasUses', () => {
+    for (const id of ['cracker', 'motor', 'battery', 'widget', 'sunglasses']) {
+      expect(index.byKey.get(id).hasUses).toBe(true);
+    }
+  });
+
+  it('works with no item table at all, minus the unreferenced items', () => {
+    expect(indexNoNames.byKey.get('widget').tags)
+      .toEqual(['Hideout', 'Craft', 'Quest', 'Barter', 'Armor']);
+    expect(indexNoNames.byKey.has('facemask')).toBe(false);
   });
 
   it('surfaces a gear-only item with zero other uses, tagged Armor only', () => {
@@ -147,10 +200,22 @@ describe('buildItemUsesIndex', () => {
     const give = index.byKey.get('widget');
     const reward = index.byKey.get('widgetMade');
     expect(give.uses.barter).toHaveLength(1);
-    // widgetMade is only ever a barter reward, never a give — it must not
-    // pick up a Barter tag from that same trade, and (having no other source
-    // either) must not appear in the index at all.
-    expect(reward).toBeUndefined();
+    // widgetMade is only ever a barter REWARD, never a give, so it must not pick up a Barter
+    // tag from that trade. It is still in the index - being unused is a fact about it, not a
+    // reason to hide it - so the assertion is on the tag, not on its existence.
+    expect(reward).toBeTruthy();
+    expect(reward.uses.barter).toHaveLength(0);
+    expect(reward.tags).not.toContain('Barter');
+    expect(reward.hasUses).toBe(false);
+  });
+
+  it('resolves a name-only reference onto the id-keyed record when the table knows the name', () => {
+    // "Mystery Trinket" reaches the index with itemId null from the quest parser. With an item
+    // table carrying that name it becomes one record under the real id, instead of a second
+    // name-keyed one that no other source could ever attach to.
+    const rec = index.byKey.get('name:mystery trinket');
+    expect(rec.uses.quest).toHaveLength(1);
+    expect(rec.tags).toEqual(['Quest']);
   });
 });
 
@@ -166,6 +231,13 @@ describe('searchItemUses', () => {
     expect(names).toContain('Cracker');
     expect(names).toContain('Motor');
     expect(names).not.toContain('Battery');
+  });
+
+  it('ranks items that have uses above items that do not', () => {
+    // Both match "wid". "Widget" is used five ways; "Widget Deluxe" is a barter reward and
+    // nothing else. Without this rule the full item table buries real answers under noise.
+    const hits = searchItemUses(index, 'widget').map((r) => r.itemId);
+    expect(hits.indexOf('widget')).toBeLessThan(hits.indexOf('widgetMade'));
   });
 
   it('ignores terms shorter than 2 characters', () => {

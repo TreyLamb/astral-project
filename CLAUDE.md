@@ -181,9 +181,10 @@ every wipe" treatment quests already get, for the same reason:
   source that lets a piece of gear (glasses, a helmet, a rig) show an Armor
   tag even with zero quest/craft/barter ties. tarkov.dev's `items(types:
   [...])` query is the real source and is tried first; while it's down this
-  falls back to Fandom wiki categories (`Category:Armor_vests`,
+  falls back to Fandom wiki categories resolved through the same SPT locale
+  name table quests use. Ten categories as of 2026-09-09: `Armor_vests`,
   `Armor_plates`, `Backpacks`, `Eyewear`, `Earpieces`, `Headwear`,
-  `Chest_rigs`) resolved through the same SPT locale name table quests use.
+  `Chest_rigs`, `Face_cover`, `Armbands`, `Secure_containers`.
   ⚠ **SPT's `templates/items.json` was tried FIRST and abandoned** — it's an
   18 MB Git-LFS object and this repo's LFS bandwidth quota is exhausted
   (confirmed: `raw.githubusercontent.com` gives the expected 133-byte
@@ -191,13 +192,41 @@ every wipe" treatment quests already get, for the same reason:
   used elsewhere in this file — 404s instead of serving it). Don't retry that
   path without checking whether the quota has reset.
   ⚠ **The wiki-category-to-gear-type mapping is provisional**, found by
-  probing search results in one session, not from a real index of the wiki's
-  category tree. `npm run eft:gear` prints a per-type count — a type at or
-  near 0 means the wiki renamed the category, not that the gear vanished.
-  No category was found for the catch-all `wearable` ItemType; it's left out
-  rather than guessed at. `armorClass` is null on every wiki-sourced row
-  (getting it means opening every item's own infobox); wire it up once
-  tarkov.dev is reachable.
+  probing search results, not from a real index of the wiki's category tree.
+  `npm run eft:gear` prints a per-type count — a type at or near 0 means the
+  wiki renamed the category, not that the gear vanished.
+  🔴 **This file used to say "no category was found for the catch-all
+  `wearable` ItemType; it's left out rather than guessed at." That was wrong**
+  and it cost real trust — Trey searched `/EFTsh/uses` for the Aybolit mask
+  and got nothing at all. `Category:Face cover` exists and holds 132 pages;
+  `Category:Armbands` 38; `Category:Secure containers` 11. **181 pieces of
+  gear had never been fetched.** One search returning empty is not evidence a
+  wiki category does not exist — the same standard the external-data rule
+  above sets for APIs applies to a wiki taxonomy.
+  ⚠ `CATEGORY_BY_TYPE` (wiki) and `GEAR_TYPES` (`eftNormalize.js`) are
+  **deliberately different lists and must not be merged**: `GEAR_TYPES` is
+  injected raw into a tarkov.dev GraphQL enum, so a value tarkov.dev doesn't
+  define breaks the whole query. Face covers and secure containers have no
+  tarkov.dev ItemType of their own, which is why they were easy to miss.
+  `armorClass` is null on every wiki-sourced row (getting it means opening
+  every item's own infobox); wire it up once tarkov.dev is reachable.
+- **Complete item table** (`data/itemNames.json`, `npm run eft:items`) —
+  every item in the game, id → name + short name, from SPT's
+  `locales/global/en.json` (the one SPT path the LFS problem doesn't block).
+  🔴 **The Item Uses index contains EVERY item, including ones with no uses
+  at all.** Trey's ruling, 2026-09-09: *"even if an item doesn't have a usage
+  it needs to be in there or i'll just assume our data isn't complete."*
+  `buildItemUsesIndex` used to end with `.filter(rec => rec.tags.length)`, so
+  its universe was only what other snapshots happened to mention — ~700 of
+  ~4,100 items — and searching any of the other 3,400 returned silence, which
+  is indistinguishable from a broken snapshot. "No known uses" is an answer;
+  an empty result set is not. `rec.hasUses` separates the two and
+  `searchItemUses` ranks used items first so real answers stay on top.
+  ⚠ **"Is it an item" is decided by whether it has a `ShortName`.** A bare
+  `<id> Name` scan returns 4,760 entries including factions (BEAR), maps
+  (Customs) and orgs (TERRAGROUP); none of those have a short name and every
+  real inventory item does. That cut is exact, not a threshold, and leaves
+  4,137. The printed count is the canary.
 
 ---
 
