@@ -246,9 +246,50 @@ export function ChemReferenceContent() {
             <tr><td>Electrons are</td><td>transferred</td><td>shared</td></tr>
             <tr><td>Naming</td><td>cation, then anion. No prefixes ever.</td><td>Greek prefixes on both</td></tr>
             <tr><td>Example</td><td>CaCl₂ = calcium chloride</td><td>N₂O₄ = dinitrogen tetroxide</td></tr>
-            <tr><td>Roman numeral?</td><td>only if the metal has more than one charge</td><td>never</td></tr>
+            <tr><td>Roman numeral?</td><td>only if the metal is <strong>Type II</strong> — see below</td><td>never</td></tr>
           </tbody>
         </table>
+
+        {/* Trey supplied this on 2026-09-09 and asked for it saved as a reference note. It is
+            his course's own vocabulary for the split, and the terms are what an exam question
+            will actually use — the sheet described the rule ("only if the metal has more than
+            one charge") without ever naming it, which is no help if the question says "Type II".
+            It also lines up exactly with how the naming templates are split: the fixed-charge
+            metals below are the CATIONS table in templates/toolbox.js, and the variable ones are
+            VARIABLE_METALS in templates/rev1-ch00-toolbox.js. */}
+        <div className="chq-res-two">
+          <div>
+            <h4>Type I cations — fixed charge</h4>
+            <p className="chq-res-inline">
+              Form <strong>one</strong> charge only, so the name is unambiguous without help.
+              <strong> No Roman numeral, ever.</strong>
+            </p>
+            <ul className="chq-res-list">
+              <li>Group 1 → <strong>1+</strong> · Group 2 → <strong>2+</strong></li>
+              <li>Aluminium Al³⁺, zinc Zn²⁺, silver Ag⁺ <span className="chq-res-flag">transition metals but still fixed</span></li>
+              <li>NaCl → sodium chloride</li>
+              <li>MgBr₂ → magnesium bromide</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Type II cations — variable charge</h4>
+            <p className="chq-res-inline">
+              Form <strong>more than one</strong> charge, so the name must say which.
+              <strong> Roman numeral required.</strong> Most transition metals: Fe, Cu, Co, Cr,
+              Mn, Ni, Sn, Pb, Os, Mo.
+            </p>
+            <ul className="chq-res-list">
+              <li>FeCl₂ → iron(<strong>II</strong>) chloride · FeCl₃ → iron(<strong>III</strong>) chloride</li>
+              <li>Cu₂O → copper(<strong>I</strong>) oxide · CuO → copper(<strong>II</strong>) oxide</li>
+            </ul>
+          </div>
+        </div>
+        <p className="chq-res-warn">
+          ⚠️ The numeral is the charge on <strong>one metal ion</strong>, worked out from the
+          anion — <em>not</em> a subscript copied off the formula. They coincide in FeCl₃ (3 and
+          III) and that coincidence is what teaches the wrong habit: in Fe₂O₃ the subscripts are
+          2 and 3, and the answer is still iron(III).
+        </p>
         <div className="chq-res-two">
           <div>
             <h4>Greek prefixes (covalent only)</h4>
@@ -313,8 +354,9 @@ export function ChemReferenceContent() {
           </tbody>
         </table>
         <p className="chq-res-note">
-          <strong>Always one charge:</strong> Ag⁺, Zn²⁺, Cd²⁺, Al³⁺ — never given a Roman numeral.
-          <strong> Variable:</strong> Fe, Cu, Co, Cr, Mn, Pb, Sn, Ni, Os, Mo — always given one.
+          <strong>Type I / always one charge:</strong> Ag⁺, Zn²⁺, Cd²⁺, Al³⁺ — never given a
+          Roman numeral. <strong>Type II / variable:</strong> Fe, Cu, Co, Cr, Mn, Pb, Sn, Ni,
+          Os, Mo — always given one. Full breakdown in the naming section above.
         </p>
         <p className="chq-res-note">
           <strong>Diatomic elements</strong> (they never appear alone): H₂ N₂ O₂ F₂ Cl₂ Br₂ I₂ —
