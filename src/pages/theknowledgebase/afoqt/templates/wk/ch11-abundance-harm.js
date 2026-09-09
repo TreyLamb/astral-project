@@ -28,7 +28,7 @@ registerWords([
     related: 'appetite',
     decoy: 'forfeit',
     confusable: { word: 'surface', meaning: 'exterior' },
-    sentence: 'There was a surfeit of volunteers and a shortage of aircraft.',
+    sentence: 'There was a surfeit of volunteers and nowhere near enough aircraft.',
   },
   {
     id: 'wk-satiate', chapter: CH, concepts: SUPPLY, band: 5,

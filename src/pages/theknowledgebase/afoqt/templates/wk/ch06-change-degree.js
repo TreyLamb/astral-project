@@ -148,7 +148,7 @@ registerWords([
     decoy: 'cheerful',
     confusable: { word: 'imminent', meaning: 'impending' },
     root: { form: 'im-, mens-', sense: 'not + measured (immeasurable)' },
-    sentence: 'The immense hangar could shelter four heavy transports at once.',
+    sentence: 'The immense hangar could shelter four transport aircraft at once.',
   },
   {
     id: 'wk-acute', chapter: CH, concepts: MAGNITUDE, band: 2,
@@ -586,7 +586,7 @@ registerWords([
     decoy: 'silver',
     confusable: { word: 'transparent', meaning: 'clear' },
     root: { form: 'trans-, -i-', sense: 'across + to go (passing across, through)' },
-    sentence: 'The unit put up transient housing for aircrews passing through on temporary duty.',
+    sentence: 'The unit put up transient housing for aircrews passing through overnight.',
   },
   {
     id: 'wk-ephemeral', chapter: CH, concepts: CHANGE, band: 4,

@@ -338,6 +338,8 @@ npm run afoqt:selftest -- --samples=8000  # ⚠ DO THIS before declaring a batch
 npm run afoqt:coverage                    # bidirectional traceability (Doctrine rule 2)
 npm run afoqt:check                       # both of the above
 npm run afoqt:sample -- --only=mk-factor  # print real generated questions to eyeball
+npm run afoqt:words-lint                  # every WK word row's slate, all violations at once
+npm run afoqt:words-todo                  # askable count + what is left in wordCandidates.csv
 npm run afoqt:speech -- --subtest=MK      # print what the READ-ALOUD voice will actually say
 ```
 
@@ -422,6 +424,18 @@ structural check, and were found only by reading questions out loud**:
 4. **Sample the output and read it.** `npm run afoqt:sample -- --only=<id>` is not optional for a
    knowledge subtest. `afoqt:selftest` proves a question is well-FORMED, never that it is well-
    WRITTEN.
+5. 🔴 **A distractor that is a SYNONYM of the answer is a second correct option, and no check can
+   see it.** Found 2026-09-09 while authoring 186 word rows: **55 of them** offered a `related`
+   that was simply another right answer - SACROSANCT with *inviolable* AND *holy*, PLIANT with
+   *yielding* AND *supple*, GRAFT with *corruption* AND *bribery*. Both options are well-formed,
+   same part of speech, correct length; `registerWords` passes every one. Two rules follow.
+   **Point `related` at the word's OTHER sense** (panoply -> armor, pith -> rind, pedestrian ->
+   walking) - that is a named error mode instead of a coin flip. And **check `confusable.meaning`
+   against the ANTONYM too**, because `wk-opposite-*` makes the antonym the answer: overt/covert
+   ("secret") and tempestuous/tempered ("moderated") each ship two right answers in that frame.
+   The third form of it is a **gloss that names its own wrong option** - `expedient` glossed
+   "convenient and practical" with *practical* as a distractor. Read the slates; see
+   `docs/afoqt/WORD-BANK-EXPANSION.md`.
 
 ## 🔴 Word-problem subtests: the prose is a defect surface, and only reading catches it
 

@@ -45,12 +45,20 @@ export default function CardsView() {
     mutate((p) => introduceDay(p, pool, today));
   }, [mutate, pool, today]);
 
-  // `?deck=speed` is how DrillConfig hands off the low-band speed run. Read once on mount.
+  // `?deck=speed` is how DrillConfig hands off the low-band speed run, and `?deck=bank` is the
+  // whole-bank speed run. Read once on mount; anything unrecognised falls back to the daily drip.
   const [params] = useSearchParams();
-  const [deck, setDeck] = useState(() => (params.get('deck') === 'speed' ? 'speed' : 'daily'));
+  const [deck, setDeck] = useState(() => {
+    const want = params.get('deck');
+    return ['daily', 'bank', 'all', 'speed'].includes(want) ? want : 'daily';
+  });
   const [idx, setIdx] = useState(0);
   const [shown, setShown] = useState(false);       // is the back of THIS card showing
   const [addCount, setAddCount] = useState(10);
+  // Bank-deck band filter. 535 cards is a long walk in one direction, and Trey's own tier
+  // ranking (docs/afoqt/WORD-BANK-EXPANSION.md) says bands 4-5 are the material worth learning
+  // and bands 2-3 are speed practice - so "which bands" is the one cut that matters here.
+  const [bands, setBands] = useState('all');
 
   const byId = useMemo(() => new Map(pool.map((w) => [w.id, w])), [pool]);
   const session = useMemo(() => buildSession(progress, today), [progress, today]);
@@ -65,9 +73,26 @@ export default function CardsView() {
   );
   const speedDeck = useMemo(() => shuffleIds(speedIds, `speed:${today}`), [speedIds, today]);
 
+  // THE WHOLE BANK. Trey, 2026-09-09: "I want the CARDS drill to be full of the bank so i can
+  // speed run through it." Every other deck here is gated on what the daily drip has handed out,
+  // which at 30/day meant the 535-word registry would take eighteen days to become reachable.
+  // This one ignores introduction entirely and shuffles the registry itself - the drip is a
+  // learning schedule, and a speed run is not learning, so it should not have to wait on one.
+  const bandCounts = useMemo(() => {
+    const by = new Map();
+    for (const w of pool) by.set(w.band, (by.get(w.band) ?? 0) + 1);
+    return [...by.entries()].sort((a, b) => a[0] - b[0]);
+  }, [pool]);
+  const bankIds = useMemo(
+    () => pool.filter((w) => bands === 'all' || w.band === bands).map((w) => w.id),
+    [pool, bands],
+  );
+  const bankDeck = useMemo(() => shuffleIds(bankIds, `bank:${today}:${bands}`), [bankIds, today, bands]);
+
   const queue = deck === 'daily' ? session
     : deck === 'speed' ? speedDeck.map((id) => ({ id, phase: 'speed', pass: null }))
-      : full.map((id) => ({ id, phase: 'all', pass: null }));
+      : deck === 'bank' ? bankDeck.map((id) => ({ id, phase: 'bank', pass: null }))
+        : full.map((id) => ({ id, phase: 'all', pass: null }));
 
   const card = queue[idx] ?? null;
   const word = card ? byId.get(card.id) : null;
@@ -105,9 +130,10 @@ export default function CardsView() {
     : card.phase === 'new' ? `New words — pass ${card.pass} of ${NEW_PASSES}`
       : card.phase === 'mixed' ? `Mixed review — last ${WINDOW_DAYS} days`
         : card.phase === 'speed' ? 'Speed run — bands below test level'
-          : `Full deck — every word you have met`;
+          : card.phase === 'bank' ? `Whole bank${bands === 'all' ? '' : ` — band ${bands} only`}`
+            : `Full deck — every word you have met`;
 
-  if (!introduced && deck !== 'speed') {
+  if (!introduced && deck !== 'speed' && deck !== 'bank') {
     return (
       <div className="afq-wrap">
         <h2>Word cards</h2>
@@ -127,11 +153,18 @@ export default function CardsView() {
             Today
           </button>
           <button
+            className={'afq-btn' + (deck === 'bank' ? ' afq-primary' : ' afq-ghost')}
+            onClick={() => switchDeck('bank')}
+            title="Every word in the bank, shuffled - not just the ones the daily drip has handed out"
+          >
+            Bank {pool.length}
+          </button>
+          <button
             className={'afq-btn' + (deck === 'all' ? ' afq-primary' : ' afq-ghost')}
             onClick={() => switchDeck('all')}
-            title="Every word you have ever been introduced to, shuffled - for a mass review"
+            title="Only the words you have already been introduced to, shuffled"
           >
-            All {introduced}
+            Met {introduced}
           </button>
           {speedIds.length > 0 && (
             <button
@@ -146,6 +179,27 @@ export default function CardsView() {
         <span className="afq-cards-phase">{phaseLabel}</span>
         <span className="afq-cards-count">{queue.length ? idx + 1 : 0} / {queue.length}</span>
       </header>
+
+      {deck === 'bank' && (
+        <div className="afq-cards-bands">
+          <button
+            className={'afq-cards-band' + (bands === 'all' ? ' afq-on' : '')}
+            onClick={() => { setBands('all'); setIdx(0); setShown(false); }}
+          >
+            All {pool.length}
+          </button>
+          {bandCounts.map(([b, n]) => (
+            <button
+              key={b}
+              className={'afq-cards-band' + (bands === b ? ' afq-on' : '')}
+              onClick={() => { setBands(b); setIdx(0); setShown(false); }}
+              title={b >= TEST_LEVEL_BAND ? 'At or above the level the test asks' : 'Below test level - speed practice'}
+            >
+              Band {b} · {n}
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="afq-cards-bar">
         <div className="afq-cards-bar-fill" style={{ width: queue.length ? `${((idx + 1) / queue.length) * 100}%` : '0%' }} />
@@ -192,8 +246,10 @@ export default function CardsView() {
           <span className="afq-card-word">Done</span>
           <span className="afq-card-gloss">
             {deck === 'daily'
-              ? 'That is today’s review. Add more words below, or switch to the full deck.'
-              : 'That is every word you have met.'}
+              ? 'That is today’s review. Add more words below, or switch to the whole bank.'
+              : deck === 'bank'
+                ? 'That is every word in the bank. Switch bands, or come back tomorrow for a fresh shuffle.'
+                : 'That is every word you have met.'}
           </span>
         </div>
       )}

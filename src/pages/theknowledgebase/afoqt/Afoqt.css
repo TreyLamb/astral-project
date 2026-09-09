@@ -239,7 +239,17 @@
    that is not there, which would push Next under the chrome. */
 .afq-cards { display: flex; flex-direction: column; gap: .6rem; }
 .afq-cards-top { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
-.afq-cards-decks { display: flex; gap: .35rem; }
+.afq-cards-decks { display: flex; gap: .35rem; flex-wrap: wrap; }
+/* Band chips for the whole-bank deck. A row of filters, not a second nav - they stay visually
+   quieter than the deck buttons above them so the deck choice still reads as the primary one. */
+.afq-cards-bands { display: flex; gap: .3rem; flex-wrap: wrap; }
+.afq-cards-band {
+  font: inherit; font-size: .78rem; cursor: pointer;
+  padding: .2rem .6rem; border-radius: 999px;
+  border: 1px solid var(--tkb-border); background: transparent; color: var(--tkb-ink-soft);
+}
+.afq-cards-band:hover { border-color: var(--tkb-accent); color: var(--tkb-ink); }
+.afq-cards-band.afq-on { background: var(--tkb-accent); border-color: var(--tkb-accent); color: #fff; }
 .afq-cards-phase { color: var(--tkb-ink-soft); font-size: .85rem; margin-left: auto; }
 .afq-cards-count { font-variant-numeric: tabular-nums; font-size: .85rem; color: var(--tkb-ink-soft); }
 .afq-cards-bar { height: 3px; background: var(--tkb-border); border-radius: 999px; overflow: hidden; }

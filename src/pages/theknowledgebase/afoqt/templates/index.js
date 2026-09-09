@@ -66,6 +66,12 @@ import './wk/ch13-power-defiance.js';
 // adding its import here, above pool-zz-register.js, and nothing else.
 import './wk/pool-01.js';
 import './wk/pool-02.js';
+import './wk/pool-03.js';
+import './wk/pool-04.js';
+import './wk/pool-05.js';
+import './wk/pool-06.js';
+import './wk/pool-07.js';
+import './wk/pool-08.js';
 import './wk/pool-zz-register.js';
 
 // --- Table Reading (Phase 4) -----------------------------------------------

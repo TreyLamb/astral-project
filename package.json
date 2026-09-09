@@ -22,6 +22,7 @@
     "afoqt:coverage": "node scripts/afoqtCoverage.mjs",
     "afoqt:sample": "node scripts/afoqtSample.mjs",
     "afoqt:words-todo": "node scripts/afoqtWordsTodo.mjs",
+    "afoqt:words-lint": "node scripts/afoqtWordLint.mjs",
     "afoqt:speech": "node scripts/afoqtSpeech.mjs",
     "afoqt:check": "npm run afoqt:selftest && npm run afoqt:coverage",
     "chem:selftest": "node src/pages/theknowledgebase/courses/chem/engine/selftest.mjs",

@@ -53,7 +53,7 @@ registerWords([
     related: 'reprise',
     decoy: 'anchor',
     confusable: { word: 'code', meaning: 'cipher' },
-    sentence: 'The quiet final scene served as a fitting coda to the entire trilogy.',
+    sentence: 'The quiet last scene served as a fitting coda to the entire trilogy.',
   },
   {
     id: 'wk-coffer', chapter: CH, concepts: POOL, band: 4,

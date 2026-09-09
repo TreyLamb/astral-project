@@ -175,9 +175,83 @@ from the rows the questions actually use.
    confusable gloss two or more words longer than every other option, so it cannot recur. The
    original 120 rows had zero instances of it.
 
+---
+
+## What was built, 2026-09-09 — the rest of the high-confidence tier
+
+**186 new words** in `templates/wk/pool-03.js` through `pool-08.js`, taking the registry from
+349 to **535** and askable headwords from 454 to **637**.
+
+This batch is the `hardListHits >= 2` tier. Worth stating plainly, because the previous session's
+handoff got it wrong: **the `>= 3` tier (145 words) was already fully authored** — the 2026-09-02
+pass took 132 of them and later batches finished the rest. Checking the CSV against the live
+registry rather than against this document is what settled it, and that is the check to run first
+next time (`npm run afoqt:words-todo` prints it).
+
+| Tier | Words | State |
+|---|---|---|
+| hardListHits >= 3 | 145 | authored (2026-09-02 and after) |
+| hardListHits == 2 | 187 | **authored here**, minus one deliberate skip |
+| hardListHits == 1 | 728 | still unauthored |
+
+✂️ **`malingerer` is skipped on purpose.** It is the agent noun of `malinger`, which is authored;
+two rows differing by "-er" make two flashcards that teach one word. It is the only remaining
+`>= 2` row, so `afoqt:words-todo` showing `{"2": 1}` is the expected steady state, not a gap.
+
+Template count did **not** move (70 before and after) and that is correct: the pool registrar
+builds one template per band regardless of how many words the band holds, so a batch this size
+widens `stemSpace` rather than adding templates. Anything memoized on template count alone goes
+stale here — `askableWords()` in `engine/words.js` is keyed on registry size too for exactly this
+reason.
+
+### The defect this batch was full of, and it is a NEW one
+
+**A `related` distractor that is a defensible synonym of the answer is a second correct option**,
+and nothing structural can see it — both are well-formed English words of the right part of
+speech. Reading the printed slates turned up **55 of them in 186 rows**, roughly one in three:
+
+| Headword | answer | the `related` that was also right |
+|---|---|---|
+| SACROSANCT | inviolable | **holy** |
+| PLIANT | yielding | **supple** |
+| GRAFT | corruption | **bribery** |
+| PANOPLY | array | **display** |
+| LARGESS | generosity | **charity** |
+| OROTUND | pompous | **resonant** (the literal sense of the word) |
+
+The fix in every case was to move `related` to a genuinely adjacent-but-wrong idea, usually the
+word's OTHER sense — `panoply` → armor, `pith` → rind, `pedestrian` → walking, `plastic` →
+synthetic, `divine` → worship. Those are better distractors anyway: they name the exact mistake
+a reader makes, which is what the doctrine asks for.
+
+Three rows had the sharper version of the same bug: **the gloss named one of its own wrong
+options.** `expedient` was glossed "convenient and practical" with *practical* as a distractor;
+`explicit` said "in detail" with *detailed* as a distractor; `inform` said "run through and
+shape it" with *shape* as a distractor. An explanation that contradicts its own answer key is
+worse than a merely weak item.
+
+And a semantic version of the collision reaches the **opposite** frame: if `confusable.meaning`
+is also a fair antonym, `wk-opposite-*` ships two right answers. `overt`/covert→"secret",
+`recrudesce`/recede→"retreat" and `tempestuous`/tempered→"moderated" were all caught this way and
+given different confusables. The rule: **check the confusable against the ANTONYM, not just
+against the answer.**
+
+**`npm run afoqt:words-lint`** (`scripts/afoqtWordLint.mjs`, written here) catches the mechanical
+half across a whole batch at once instead of `registerWords` throwing on the first row: POS
+outliers, length tells, headword giveaways, and one check `registerWords` cannot do - **a
+sentence containing one of its own options.** Six rows in the pre-existing bank had that, and
+two of them printed the ANSWER in the sentence (`transient` ... "on temporary duty";
+`polarize` ... "an already divided committee"). The semantic half still needs a human reading it.
+
+⚠️ A "does the GLOSS name one of its own wrong options" check was tried and **removed**: it fired
+on 40+ rows and was right about three. A gloss names its own antonym all the time ("dormant:
+temporarily inactive, but able to become ACTIVE again") and, unlike the sentence, the gloss never
+appears beside the options during a question. A guard that mostly cries wolf is worse than none.
+
 ### Still to do
 
-`data/wordCandidates.csv` holds **1,146** sourced candidates; 132 are now authored. The
-remaining ~1,014 each need a gloss, four named wrong answers and a real confusable before they
-can carry a question. The study plan at `/TKB/afoqt/study` states the gap on its own face rather
-than presenting a quarter-full plan as a finished one.
+`data/wordCandidates.csv` holds **1,146** sourced candidates; **417 are now authored** and 729
+remain, all but one of them the `hardListHits == 1` tail. Each still needs a gloss, four named
+wrong answers and a real confusable before it can carry a question. The study plan at
+`/TKB/afoqt/study` states the gap on its own face rather than presenting a part-full plan as a
+finished one.

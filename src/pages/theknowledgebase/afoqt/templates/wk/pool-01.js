@@ -94,7 +94,7 @@ registerWords([
     related: 'contradict',
     decoy: 'polish',
     confusable: { word: 'confront', meaning: 'face' },
-    sentence: "The tax form's contradictory instructions would confound even an accountant.",
+    sentence: "The tax form's instructions would confound even an accountant.",
   },
   {
     id: 'wk-demur', chapter: CH, concepts: POOL, band: 5,

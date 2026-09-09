@@ -61,13 +61,18 @@ Most of the confusion in this project has been unit confusion. State the unit ev
 
 | Number | What it is | WK value |
 |---|---|---|
-| **Templates** | `templatesFor('WK').length` | 60 → **70** |
-| **Registry headwords** | `allWords().length` | 252 → **349** |
-| **Askable headwords** | `askableWords('WK').length` | 357 → **454** |
-| **Distinct questions** | sum of item spaces across frames | ~895 |
+| **Templates** | `templatesFor('WK').length` | 60 -> 70 |
+| **Registry headwords** | `allWords().length` | 252 -> 349 -> **535** |
+| **Askable headwords** | `askableWords('WK').length` | 357 -> 454 -> **637** |
+| **Distinct questions** | sum of item spaces across frames | ~895 -> ~2,700 |
 | **Pre-written bank questions** | `bankCount('WK')` | **35** |
 
-(First figure 2026-09-04, second 2026-09-09 after the word-pool batches.)
+(2026-09-04, then 2026-09-09 before and after the pool-03..08 batches. `npm run
+afoqt:words-todo` prints the live figures - read it rather than trusting this table.)
+
+Note that **templates barely moved while words grew 2x**. The pool registrar builds one template
+per band however many words that band holds, so a word batch widens `stemSpace` instead of adding
+templates. Any cache keyed on template count alone goes stale across a word batch.
 
 "60" is templates and has never been the word count. Saying it without the unit is how a
 reasonable question ("is the list only 60 words?") becomes unanswerable.

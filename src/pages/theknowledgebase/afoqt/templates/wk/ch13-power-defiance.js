@@ -243,7 +243,7 @@ registerWords([
     related: 'antagonize',
     decoy: 'celebrate',
     confusable: { word: 'pulverize', meaning: 'crush' },
-    sentence: 'The proposal only served to polarize an already divided committee.',
+    sentence: 'The proposal only served to polarize a committee that was already at odds.',
   },
   {
     id: 'wk-undermine', chapter: CH, concepts: DEFIANCE, band: 4,

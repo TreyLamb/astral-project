@@ -222,12 +222,15 @@ export function _resetWords() { REGISTRY.clear(); }
 // pair and are never registry rows. Walking the item space is the only honest way to get it -
 // counting REGISTRY under-reports, and grepping `band:` over-reports.
 //
-// Memoized on the template count, so it recomputes if a template registers later (the QC scripts
-// reset and re-register) and costs nothing on a re-render.
-let askableCache = { templates: -1, words: null };
+// Memoized on template count AND registry size. Template count alone is not enough: the pool
+// registrar builds ONE template per band no matter how many words it holds, so batches 03-08
+// added 186 words while `templatesFor('WK').length` stayed at 70. Keyed on templates alone the
+// cache would have gone stale the moment the QC scripts reset and re-registered.
+let askableCache = { key: '', words: null };
 export function askableWords(subtest = 'WK') {
   const templates = templatesFor(subtest);
-  if (askableCache.templates === templates.length && askableCache.words) return askableCache.words;
+  const key = `${subtest}:${templates.length}:${REGISTRY.size}`;
+  if (askableCache.key === key && askableCache.words) return askableCache.words;
   const seen = new Set();
   for (const t of templates) {
     for (let i = 0; i < (t.stemSpace ?? 1); i++) {
@@ -239,7 +242,7 @@ export function askableWords(subtest = 'WK') {
     }
   }
   const words = [...seen].sort();
-  askableCache = { templates: templates.length, words };
+  askableCache = { key, words };
   return words;
 }
 
