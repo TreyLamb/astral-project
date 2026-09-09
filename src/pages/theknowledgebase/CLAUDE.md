@@ -73,6 +73,31 @@ are Exam 1 material (Sec 1-4 through 1-7). Everything harvested from them lives 
 CLAUDE.md’s external-data rule — check every page of every file before saying it, and never
 generalise from one sample.
 
+🔴 **NEVER default a study surface to material the class has not reached.** Trey,
+2026-09-09, after Quick Review served him a mole question the week of an exam on chapters 1-2:
+*"quick-review should ONLY be chapters i've studied. make a note or something. i'm so tired of
+repeating this."* He had said it before, in effect, and it kept coming back because each surface
+was scoped separately.
+
+- **`STUDIED_THROUGH_CHAPTER` in `courses/chem/syllabusMap.js` is the single source of truth.**
+  Bump it as the term moves; `currentExamId()`, `isAheadOfClass()` and `studiedChapters()` all
+  derive from it. Do not add a second place that decides this.
+- **Every new study surface must default through it.** Quick Review defaults to
+  `currentExamId()`; Exam prep is explicitly scoped by the user. A surface that defaults to "all
+  chapters" is a bug, not a neutral choice.
+- **Ahead-of-class material stays reachable, always labelled, never default.** Nothing is
+  censored - the options are there, marked "not covered yet", under their own opt-in group.
+- **Scope by BOOK SECTION, not by ACS chapter.** The ACS chapter list does not line up with his
+  course's chapters, so "chapter 1" in the curriculum map is not his chapter 1. `sectionsForExam()`
+  is the correct filter.
+
+⚠️ **A misfiled concept is invisible to both QC scripts.** `mole-definition` sat under
+`chem1-02-electronic-structure` at section 6-4 (Electron Configurations) until 2026-09-09 - the
+mole is book section 3-2. `chem:selftest` and `chem:coverage` only ask whether a concept has SOME
+chapter and SOME section, never whether it is the RIGHT one, so it passed everything for weeks
+and leaked into runs scoped near chapter 2. When a question shows up somewhere it does not
+belong, suspect the concept's coordinates before suspecting the drill logic.
+
 🔴 **`courses/AGENT-PROMPT.md` is the binding manual for ingesting new course material** —
 notes, slides, quizzes, exams, textbook chapters that Trey drops into
 `G:\My Drive\SupplementalCourseDocs\`. Read it in full before processing a single document.

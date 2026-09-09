@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CHEM_CHAPTERS } from '../curriculum';
+import { EXAMS, sectionsForExam, currentExamId, isAheadOfClass, STUDIED_THROUGH_CHAPTER } from '../syllabusMap';
 import { mentalChemTemplates, generateChemInstance } from '../engine/generator';
 import { ChemReferenceContent } from './ChemResources';
 
@@ -19,7 +20,14 @@ import { ChemReferenceContent } from './ChemResources';
 export default function ChemQuickReview() {
   const navigate = useNavigate();
 
-  const [chapterId, setChapterId] = useState('all');
+  // DEFAULTS TO THE EXAM HE IS STUDYING FOR, not to everything. Trey, 2026-09-09: "my quick
+  // review is asking me a MOLE question. WHY WOULD A MOLE QUESTION BE IN CHAPTER 1-2 REVIEW?"
+  // It defaulted to all ten chapters, so it served gas laws and thermochemistry the week of an
+  // exam on chapters 1-2. Exam prep had scoping from the start and this never got it.
+  //
+  // The scope is by BOOK SECTION, like exam prep — the ACS chapter list this page used to filter
+  // by does not line up with his course's chapters, so "chapter 1" there is not his chapter 1.
+  const [scope, setScope] = useState(currentExamId);
   const [seed, setSeed] = useState(() => Math.floor(Math.random() * 0xffffffff));
   const [picked, setPicked] = useState(null);
   const [tally, setTally] = useState({ right: 0, seen: 0, streak: 0, best: 0 });
@@ -27,16 +35,26 @@ export default function ChemQuickReview() {
   // without losing your place, since navigating away drops the streak.
   const [showRef, setShowRef] = useState(false);
 
-  const pool = useMemo(
-    () => mentalChemTemplates().filter((t) => chapterId === 'all' || t.chapterId === chapterId),
-    [chapterId],
-  );
-
-  // Chapters with nothing calculation-free in them are disabled rather than hidden — a missing
-  // option reads as a bug, a disabled one with a count reads as an honest empty shelf.
-  const perChapter = useMemo(() => {
+  const pool = useMemo(() => {
     const all = mentalChemTemplates();
-    return Object.fromEntries(CHEM_CHAPTERS.map((c) => [c.id, all.filter((t) => t.chapterId === c.id).length]));
+    if (scope === 'all') return all;
+    if (scope.startsWith('exam-') || scope === 'final') {
+      const want = new Set(sectionsForExam(scope).map((x) => x.section));
+      return all.filter((t) => t.section != null && want.has(t.section));
+    }
+    return all.filter((t) => t.chapterId === scope);
+  }, [scope]);
+
+  // Every option shows its own count, so an empty scope reads as an honest empty shelf rather
+  // than as a bug. Options with nothing in them are disabled, not hidden.
+  const counts = useMemo(() => {
+    const all = mentalChemTemplates();
+    const byExam = Object.fromEntries(EXAMS.map((e) => {
+      const want = new Set(sectionsForExam(e.id).map((x) => x.section));
+      return [e.id, all.filter((t) => t.section != null && want.has(t.section)).length];
+    }));
+    const byChapter = Object.fromEntries(CHEM_CHAPTERS.map((c) => [c.id, all.filter((t) => t.chapterId === c.id).length]));
+    return { byExam, byChapter, all: all.length };
   }, []);
 
   const question = useMemo(() => {
@@ -73,9 +91,11 @@ export default function ChemQuickReview() {
     return () => window.removeEventListener('keydown', onKey);
   }, [answer, next, picked]);
 
-  const chapterTitle = chapterId === 'all'
+  const scopeTitle = scope === 'all'
     ? 'every chapter'
-    : CHEM_CHAPTERS.find((c) => c.id === chapterId)?.title ?? chapterId;
+    : EXAMS.find((e) => e.id === scope)?.name
+      ?? CHEM_CHAPTERS.find((c) => c.id === scope)?.title
+      ?? scope;
 
   return (
     <div className="chq-quick">
@@ -105,24 +125,36 @@ export default function ChemQuickReview() {
       )}
 
       <div className="chq-quick-filter">
-        <label htmlFor="chq-quick-chapter">Pull from</label>
+        <label htmlFor="chq-quick-scope">Pull from</label>
         <select
-          id="chq-quick-chapter"
-          value={chapterId}
-          onChange={(e) => { setChapterId(e.target.value); setPicked(null); setSeed(Math.floor(Math.random() * 0xffffffff)); }}
+          id="chq-quick-scope"
+          value={scope}
+          onChange={(e) => { setScope(e.target.value); setPicked(null); setSeed(Math.floor(Math.random() * 0xffffffff)); }}
         >
-          <option value="all">Every chapter ({mentalChemTemplates().length})</option>
-          {CHEM_CHAPTERS.map((c) => (
-            <option key={c.id} value={c.id} disabled={perChapter[c.id] === 0}>
-              {c.title} ({perChapter[c.id]})
-            </option>
-          ))}
+          <optgroup label="Your exams (course chapters)">
+            {EXAMS.map((e) => (
+              <option key={e.id} value={e.id} disabled={counts.byExam[e.id] === 0}>
+                {e.name} — Ch {e.chapters[0]}–{e.chapters[e.chapters.length - 1]} ({counts.byExam[e.id]})
+                {isAheadOfClass(e.id) ? ' · not covered yet' : ''}
+              </option>
+            ))}
+          </optgroup>
+          <optgroup label="Ahead of class — opt in only">
+            <option value="all">Every chapter ({counts.all}) · not covered yet</option>
+          </optgroup>
+          <optgroup label="One ACS chapter (not your course's numbering)">
+            {CHEM_CHAPTERS.map((c) => (
+              <option key={c.id} value={c.id} disabled={counts.byChapter[c.id] === 0}>
+                {c.title} ({counts.byChapter[c.id]})
+              </option>
+            ))}
+          </optgroup>
         </select>
       </div>
 
       {!question ? (
         <p className="chq-note">
-          Nothing calculation-free in {chapterTitle} yet. Pick another chapter, or use the full
+          Nothing calculation-free in {scopeTitle} yet. Pick another chapter, or use the full
           drill — it asks everything, arithmetic included.
         </p>
       ) : (
@@ -170,9 +202,10 @@ export default function ChemQuickReview() {
       )}
 
       <p className="chq-hint">
-        No arithmetic in here — {mentalChemTemplates().length} of the bank's questions are
-        recall, naming and classification, which is what actually fits in a spare two minutes.
-        Nothing is scored or saved.
+        Scoped to <strong>{scopeTitle}</strong> — {pool.length} question{pool.length === 1 ? '' : 's'},
+        all of them recall, naming or classification with no arithmetic. Nothing is scored or saved.
+        {' '}Defaults to what your class has actually covered (through Ch {STUDIED_THROUGH_CHAPTER});
+        anything past that is opt-in and labelled.
       </p>
     </div>
   );

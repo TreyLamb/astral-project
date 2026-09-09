@@ -81,7 +81,7 @@ export const SECTIONS = [
   { section: '2-6', title: 'Ionic and Molecular Compounds', acs: 'chem1-01-atomic-structure', concepts: ['predicting-ionic-formulas', 'ionic-vs-molecular-classification'] },
   { section: '2-7', title: 'Chemical Nomenclature', acs: 'chem1-00-toolbox', concepts: ['nomenclature-ionic-covalent', 'nomenclature-acids'] },
 
-  { section: '3-2', title: 'Formula Mass and the Mole Concept', acs: 'chem1-03-mole-calculations', concepts: ['average-atomic-mass-lookup', 'molar-mass-calculation', 'mass-to-moles-conversion', 'avogadros-number', 'moles-to-mass-conversion', 'mole-ratios-from-formula'] },
+  { section: '3-2', title: 'Formula Mass and the Mole Concept', acs: 'chem1-03-mole-calculations', concepts: ['average-atomic-mass-lookup', 'molar-mass-calculation', 'mass-to-moles-conversion', 'avogadros-number', 'moles-to-mass-conversion', 'mole-ratios-from-formula', 'mole-definition'] },
   { section: '3-3', title: 'Determining Empirical and Molecular Formulas', acs: 'chem1-03-mole-calculations', concepts: ['empirical-formula-atomic-ratios'] },
   { section: '3-4', title: 'Molarity', acs: 'chem1-05-solutions-aqueous-1', concepts: ['molar-concentration-definition', 'molarity-from-mass', 'dilution-calculations'] },
 
@@ -102,7 +102,7 @@ export const SECTIONS = [
 
   { section: '6-2', title: 'Electromagnetic Energy', acs: 'chem1-02-electronic-structure', concepts: ['rydberg-formula-energy-levels', 'photon-energy-wavelength-relationship', 'absorption-vs-emission'] },
   { section: '6-3', title: 'Development of Quantum Theory', acs: 'chem1-02-electronic-structure', concepts: ['quantum-number-rules'] },
-  { section: '6-4', title: 'Electronic Structure of Atoms (Electron Configurations)', acs: 'chem1-02-electronic-structure', concepts: ['electron-configuration-periodic-table', 'valence-electrons', 'cation-electron-removal-order', 'orbital-diagrams-paramagnetism', 'mole-definition'] },
+  { section: '6-4', title: 'Electronic Structure of Atoms (Electron Configurations)', acs: 'chem1-02-electronic-structure', concepts: ['electron-configuration-periodic-table', 'valence-electrons', 'cation-electron-removal-order', 'orbital-diagrams-paramagnetism'] },
   { section: '6-5', title: 'Periodic Variations in Element Properties', acs: 'chem1-02-electronic-structure', concepts: ['effective-nuclear-charge-zeff', 'periodic-trend-atomic-radius', 'periodic-trend-ionic-radius', 'ionization-energy-trend'] },
 
   { section: '7-2', title: 'Formation of Ionic Compounds', acs: 'chem1-07-structure-bonding', concepts: ['bond-type-electronegativity'] },
@@ -140,6 +140,34 @@ export const EXAMS = [
   { id: 'exam-4', name: 'Exam 4', chapters: [1, 2, 3, 4, 5, 6, 7, 8], acsEquivalent: false },
   { id: 'final', name: 'Final (ACS standardized)', chapters: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], acsEquivalent: true },
 ];
+
+// 🔴 HOW FAR THE CLASS HAS ACTUALLY GOT. This is the ONE place to change it.
+//
+// Trey, 2026-09-09, after Quick Review served him a mole question the week of an exam on
+// chapters 1-2: "quick-review should ONLY be chapters i've studied. make a note or something.
+// i'm so tired of repeating this."
+//
+// THE RULE, permanently: a study surface must never DEFAULT to material the class has not
+// reached. Being handed a gas-law question while revising chapter 2 is not "extra practice",
+// it is noise that costs time he does not have. Material ahead of this line stays reachable
+// - nothing is censored - but it is always opt-in, and always labelled as not covered yet.
+//
+// Bump this as the term moves. Everything scoped by it follows automatically:
+// Quick Review's default and its "not covered yet" labels both read from here.
+export const STUDIED_THROUGH_CHAPTER = 2;
+
+/** The exam whose scope matches how far the class has got — Quick Review's default. */
+export const currentExamId = () =>
+  (EXAMS.find((e) => e.chapters[e.chapters.length - 1] >= STUDIED_THROUGH_CHAPTER) ?? EXAMS[0]).id;
+
+/** True when an exam covers material the class has not reached yet. */
+export const isAheadOfClass = (examId) => {
+  const e = EXAMS.find((x) => x.id === examId);
+  return !!e && e.chapters[e.chapters.length - 1] > STUDIED_THROUGH_CHAPTER;
+};
+
+/** Course chapters the class has actually covered. */
+export const studiedChapters = () => COURSE_CHAPTERS.filter((c) => c.num <= STUDIED_THROUGH_CHAPTER);
 
 const chapterOf = (section) => Number(String(section).split('-')[0]);
 

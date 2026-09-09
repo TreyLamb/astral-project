@@ -404,8 +404,11 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-02-mole-definition',
   mental: true,
-  chapterId: CH,
-  section: '6-4',
+  // Filed under chapter 3, not this file's CH. It lives here only because that is where it was
+  // first written; its subject is the mole, which is book section 3-2 and ACS chapter 3. It was
+  // tagged 6-4 (Electron Configurations) and so leaked into any run scoped near chapter 2.
+  chapterId: 'chem1-03-mole-calculations',
+  section: '3-2',
   band: 1,
   name: 'What a mole is',
   concepts: ['mole-definition'],

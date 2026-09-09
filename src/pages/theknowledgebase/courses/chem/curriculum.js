@@ -88,7 +88,6 @@ export const CHEM_CHAPTERS = [
       'periodic-trend-atomic-radius',
       'periodic-trend-ionic-radius',
       'ionization-energy-trend',
-      'mole-definition',
     ],
   },
   {
@@ -107,6 +106,12 @@ export const CHEM_CHAPTERS = [
       'mole-ratios-from-formula',
       'moles-to-mass-conversion',
       'empirical-formula-atomic-ratios',
+      // Moved here 2026-09-09 from chem1-02-electronic-structure. "What a mole is" was filed
+      // under Electronic Structure and mapped to section 6-4 (Electron Configurations), which
+      // is simply wrong - the mole is introduced in book section 3-2. Nothing flagged it because
+      // both coverage checks only ask whether a concept has SOME chapter and SOME section, never
+      // whether it is the right one.
+      'mole-definition',
     ],
   },
   {
