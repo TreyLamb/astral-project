@@ -210,6 +210,34 @@ every wipe" treatment quests already get, for the same reason:
   tarkov.dev ItemType of their own, which is why they were easy to miss.
   `armorClass` is null on every wiki-sourced row (getting it means opening
   every item's own infobox); wire it up once tarkov.dev is reachable.
+### EFT PRICES: what actually works during the tarkov.dev outage (probed 2026-09-10)
+
+Trey asked whether PVE prices are impossible "because there's no data for it
+publicly". They are not — the data is public and abundant. Every route to it is
+just blocked, and for four different reasons. Probe results, so nobody re-runs
+this search:
+
+| Route | Result |
+|---|---|
+| `api.tarkov.dev/graphql`, `gameMode: pve` — **already wired** in `pricesQuery()` | **Down.** 422 `GraphQL server unavailable` for `pve` AND `regular`, so this is not a PVE gap. `status.tarkov.dev` itself 523s. |
+| **`api.tarkov.dev/api/v1/items`** ← the useful find | **UP while GraphQL is down.** 5,312 items, ~6 MB, Tarkov-Market-shaped fields (`price`, `avg24hPrice`, `basePrice`, `traderPrice`, `bsgId`, `diff24h`). ⚠ **PVP ONLY and stale**: `/pve/items`, `?mode=pve` and `/season/items` all return a **byte-identical** body (same MD5), i.e. the mode is ignored, and most rows last updated 2026-09-05. |
+| `api.tarkov-market.app/api/v1` | Real PVE support (`/api/v1/pve/…` or `mode=pve`) plus `season`. **401 `Access denied` without a key**; key needs paid "Pro" status. 300 req/min. |
+| Scraping `tarkov-market.com` item pages | SSR HTML **does** carry prices — but PVP only, and there is **no anonymous PVE toggle on the item page**. Every data fetch the page makes goes to **`/api/be/`, which their `robots.txt` explicitly Disallows**. So the only path to their PVE numbers is the one path they ask crawlers not to take. Don't. |
+| `tarkovforge.com` | Republishes tarkov.dev (26 references in the page) — **shares the outage**, not an independent source. |
+| `tarkovguide.net` | 429 on three attempts across two UAs. Unassessed, not ruled out. |
+| `norvinsk-sys.ru` | 200, but a 9 KB client-rendered shell with no data in the HTML. |
+| `eft.su` | 200, PVE toggle present but `disabled`; price history is "available to subscribers". |
+
+**So for PVE specifically there are exactly two live options: tarkov.dev coming
+back, or paying for a Tarkov Market Pro key.** Both are Trey's call — never
+quietly re-file this as "no data exists", which is the claim that started it.
+
+⚠️ `GAME_MODES` in `eftNormalize.js` has only `regular` and `pve`. There appears
+to be a **third** economy now — a PVP *Season* profile (Season 1 "KORD BREACH",
+3 Aug – 7 Dec 2026), separate from classic PVP and from PVE, corroborated by
+Tarkov Market exposing a `season` mode. Not modelled. Trey plays **PVE**, so it
+was left alone deliberately rather than missed.
+
 - **Complete item table** (`data/itemNames.json`, `npm run eft:items`) —
   every item in the game, id → name + short name, from SPT's
   `locales/global/en.json` (the one SPT path the LFS problem doesn't block).
