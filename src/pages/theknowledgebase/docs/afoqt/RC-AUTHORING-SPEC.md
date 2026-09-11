@@ -252,6 +252,43 @@ Report the final output verbatim in your summary.
 
 ---
 
+## 7a. 🔴 Write your file after EVERY passage — never batch the write to the end
+
+On 2026-09-11 ten agents authoring these passages were killed mid-flight by one session rate
+limit. The three that had already written a file survived; the seven composing in context lost
+everything. One died on the sentence "Now I'll assemble the full file with all six passages."
+
+So: **write the file when passage 1 is done. Append passage 2 when it is done. And so on.**
+Every save must leave the file syntactically valid — close the `registerPassages([...])` call each
+time and re-open it to append — so that if you stop early, what exists is still usable. A
+partial-but-valid file is recoverable; a half-written one is worth nothing.
+
+Do not hold a finished passage in context waiting for its siblings.
+
+---
+
+## 7b. Vary your boilerplate stems — across passages, not just within one
+
+`registerPassages()` rejects a duplicate stem **within** one passage, and `templateAudit` keys item
+identity off the stem **across** the whole band. So six passages all asking *"Which choice best
+states the main idea of the passage?"* count as **one** item, and `afoqt:selftest` fails the
+template with "only 13 distinct stems, but stemSpace declares 24".
+
+Define a pool of **six differently-worded variants** for each boilerplate type at the top of your
+file (`ch02-passages-set-B.js` and `ch04-passages-set-D.js` both do this) and rotate through it.
+
+Two traps:
+
+- **Your variants must not duplicate wordings another set already uses.** Grep the other `rc/`
+  files for your candidate stems before committing to them. Set D's pool collided with Set B's on
+  three of six.
+- **A stem and its choices form a grammatical unit.** `The primary purpose of the passage is to:`
+  needs infinitive choices, `...would most likely agree that:` needs a lowercase clause, and a
+  question-form stem needs full capitalised sentences. Swapping a stem across frames leaves an
+  ungrammatical question that **no checker will catch**. Keep each variant pool inside one frame.
+
+---
+
 ## 8. What to report back
 
 - The file you wrote and the passage ids in it.

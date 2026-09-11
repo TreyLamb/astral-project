@@ -839,4 +839,45 @@ Haiku to parse the data, something smarter to understand it
 
 When you delegate feature work, pass the full requirement checklist verbatim to each sub-agent, give each explicit per-requirement ownership, and audit every line against their actual output before reporting — scope is most often lost at the hand-off (see `featuredesign.md`).
 
+### 🔴 A SUBAGENT'S WORK ONLY EXISTS ONCE IT IS ON DISK — write incrementally, always
+
+**Trigger: every single time you spawn an agent that produces content.** Added 2026-09-11 after
+ten parallel Sonnet agents authoring AFOQT reading passages were all killed mid-flight by one
+session rate limit (`429 · resets 4:20pm`). Roughly an hour of work. **Three survived and seven
+were lost, and the only difference was whether the agent had already written a file.** The
+survivors had saved their output; the losers were composing in context, planning one big write at
+the end. One died on the literal sentence *"Now I'll assemble the full file with all six
+passages."* Everything it had written was in its context window, and the context window is gone.
+
+Trey: *"that happens WAY WAY too often... it will be more efficient than losing an hr of parallel
+agent everytime."* He is right, and the fix costs nothing.
+
+**The rule, in every prompt that asks an agent to produce content:**
+
+1. **Write to the real destination file after EACH unit of work** — each passage, each function,
+   each section — never once at the end. This is also the cheapest option: no scratch copies, no
+   serialisation, no extra tokens. The file you were going to write anyway, written six times
+   instead of once.
+2. **Every intermediate save must be syntactically valid**, so a half-finished file is still
+   usable rather than a parse error. Close the array, close the export, and append into it next
+   time. Partial-but-valid is recoverable; partial-and-broken is the same as nothing.
+3. **Never hold a completed unit in context waiting for its siblings.** If unit 3 of 8 is done,
+   unit 3 belongs on disk before unit 4 starts.
+4. **Say this in the prompt explicitly.** Agents default to composing then writing; they will not
+   do it unless told. One sentence — *"write your file after each item, keeping it valid at every
+   step; do not batch the write to the end"* — is the whole intervention.
+
+**On the parent's side:**
+
+- **Land finished work as soon as it is verified.** Do not hold three clean batches waiting for
+  the other seven. Integrate and commit what passes; the rest can follow.
+- **Design the unit of delegation so partial delivery is worth something.** Ten agents each
+  owning a self-contained file meant losing seven cost exactly seven files, not the whole job.
+  One agent owning all of it would have lost everything.
+- **Check the disk before believing a failure report.** A "failed" agent may well have written
+  most or all of its output — one of the three survivors here reported failure and its file was
+  complete and passed every check. Never re-run a batch without looking first.
+- **The scratchpad is fine for throwaways, but content belongs at its destination.** A file the
+  parent has to go find and move is one more place the work can be dropped.
+
 ## use haiku more often for simple file reads. use sonnet for responding logicially. 
