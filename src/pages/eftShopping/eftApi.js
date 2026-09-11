@@ -113,3 +113,20 @@ export async function fetchLivePrices(mode) {
 export function clearPriceOverlay(mode) {
   try { localStorage.removeItem(priceKey(mode)); } catch { /* nothing to do */ }
 }
+
+// The committed flea/trader price snapshot (`npm run eft:prices`). Separate from the
+// overlay above, which is the live tarkov.dev fetch and has an entirely different shape.
+//
+// Half a megabyte, and only the craft-loops page needs it, so it is imported on demand
+// rather than welded into the bundle every visitor downloads. Its scan timestamps ride
+// along inside it, so a caller can say how old the numbers are instead of implying they
+// are live — the snapshot IS a point in time and the UI has to admit that.
+let priceSnapshotPromise = null;
+export function loadPriceSnapshot() {
+  if (!priceSnapshotPromise) {
+    priceSnapshotPromise = import('./data/priceSnapshot.json')
+      .then((m) => m.default)
+      .catch(() => null);
+  }
+  return priceSnapshotPromise;
+}

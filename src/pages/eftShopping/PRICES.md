@@ -112,10 +112,42 @@ asking us not to. Contrast tarkov-market below, which explicitly says no.
 
 ---
 
-## Open items
+## What is wired up (2026-09-10)
 
-- **Nothing is wired up yet.** This file is research. `eftApi.js` still points at the dead
-  tarkov.dev GraphQL, and the app still shows "NO PRICES".
+`npm run eft:prices` → `data/priceSnapshot.json` (498 KB, dynamically imported so only the
+page that needs it pays for it). `scripts/fetchEftPrices.mjs` pulls both endpoints for one
+mode and strips them to what we use:
+
+| key | shape | what it is |
+|---|---|---|
+| `flea[id]` | `[robustAvg, min, listings, flags, fleaLevelReq]` | flags: 1 stale, 2 low-confidence, **4 buildPriced** |
+| `vendor[id]` | `[rub, traderName, loyalty]` | the best price any trader **pays you** |
+| `offers[]` | `[itemId, traderIdx, loyalty, stack, unlimited, buyRestrictionMax, pay[]]` | the live assortment; `pay` entries are `["RUB"\|"USD"\|"EUR"\|<itemId>, count]` |
+| `fx` | `{RUB:1, USD:170.36, EUR:199.14}` | **derived**, see below |
+
+Three things in there were not obvious and cost time:
+
+- ⚠️ **`traders/offers` is the whole trader assortment**, not just prices — cash AND barter
+  offers, loyalty level, `unlimitedCount`, and `buyRestrictionMax` (the per-restock purchase
+  cap). That last pair is what makes `eftCraftLoops.js` possible at all: an unlimited offer is
+  what makes a craft repeatable, and the restriction is what makes it *semi*-infinite.
+- ⚠️ **FX is derived from the data, never hardcoded.** Every offer carries `requirementsCost`,
+  the RUB value of its price side, so a single-requirement cash offer states the rate directly.
+  It is the **buy** rate and it differs from the one implied by `traderPrices` (~128 ₽/$, what
+  Peacekeeper pays *you*); using the wrong one misprices every Peacekeeper input by a third.
+  A currency with no derived rate makes its offers **skipped**, not priced at 1.
+- ⚠️ **A weapon's `robustAvgPrice` is for MODDED BUILDS, not the bare gun.** A craft outputting
+  a stock AKM looked like it netted 1.79 m. Matched on the exact handbook root `"Weapons"` —
+  a loose `/weapon/i` also catches `"Weapon parts & mods"`, which is 2,244 items whose prices
+  *are* the bare part, and mislabels 1,649 items instead of 433.
+
+**Consumers:** `eftCraftLoops.js` (pure, tested) and `/EFTsh/loops`. The rest of the app still
+runs on `eftApi.js`'s dead tarkov.dev GraphQL and still shows "NO PRICES" — merging this
+snapshot into `loadEftData`'s `items` would light up every other view's price column, and is
+the obvious next step. It is not done because 498 KB eagerly loaded on every EFT page is the
+wrong trade without checking each view first.
+
+## Open items
 - 🔴 **`GAME_MODES` in `eftNormalize.js` has only `regular` and `pve`.** tarkov.dev's own
   `game-modes.mjs` declares **three**: `regular` (0), `pve` (1), `pvp-season` (2). The season
   profile is a separate economy with separate prices. Trey plays **PVE**, so this was left alone

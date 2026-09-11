@@ -4086,3 +4086,355 @@
   .eft-railtab-left.eft-is-closed { left: 0; }
   .eft-map-hint, .eft-map-stats { left: 10px; }
 }
+
+/* ==========================================================================
+ * CRAFT LOOPS  (/EFTsh/loops)  —  `eft-fl-` (flea loops)
+ *
+ * Cards, not a graph. The craft tree next door is a pannable canvas because
+ * "where does this come from" is a shape; this page answers "what do I sit and
+ * repeat", which is a shopping list and a price, and that reads best as a row.
+ *
+ * One card = one farm. Each craft in it is ONE ROW: ingredients on the left,
+ * an arrow, the thing it makes on the right, station and duration hanging off
+ * the end. Rows stack feeders-first, so a chain reads top to bottom in the
+ * order you would actually run it, and the money lands in the footer.
+ *
+ * The chips carry their own source line ("Ragman LL1 · ₽36,506", "sell ₽31,496
+ * ea · flea") because that is the information you need while looking at the
+ * item, not in a legend somewhere else. Green edge = money coming in, tan =
+ * money going out, dim = made one row above and never bought.
+ * ========================================================================== */
+
+.eft-fl { display: flex; flex-direction: column; gap: 14px; }
+
+.eft-fl-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.eft-fl-search {
+  width: 240px;
+  min-width: 150px;
+}
+
+.eft-fl-warn {
+  margin: 10px 0 0;
+  padding: 9px 12px;
+  border-left: 3px solid var(--eft-orange);
+  background: var(--eft-fill-gold);
+  color: var(--eft-text);
+  font-size: 13.2px;
+  line-height: 1.5;
+  border-radius: 0 var(--eft-r-sm) var(--eft-r-sm) 0;
+}
+
+/* ---------- Sections ---------- */
+
+.eft-fl-sectionhead {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 4px 0 10px;
+  font-size: 15px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--eft-tan-bright);
+}
+
+.eft-fl-sectionhead span {
+  font-size: 12.6px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--eft-text-faint);
+}
+
+/* Wide enough for a four-ingredient row without wrapping mid-recipe, and it
+   still drops to one column on a laptop half-screen. */
+.eft-fl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(560px, 1fr));
+  gap: 12px;
+  /* Cards take their own height. Stretching them to match the tallest in the row
+     left a three-craft chain sitting next to half a card of dead space. */
+  align-items: start;
+}
+
+/* ---------- The card ---------- */
+
+.eft-fl-card {
+  background: var(--eft-panel);
+  border: 1px solid var(--eft-line);
+  border-radius: var(--eft-r);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* A farm nothing can break is worth spotting across the page. */
+.eft-fl-card.eft-is-traderfed { border-color: rgba(154, 196, 110, 0.4); }
+
+.eft-fl-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 11px 14px 10px;
+  background: var(--eft-panel-2);
+  border-bottom: 1px solid var(--eft-line);
+}
+
+.eft-fl-title { flex: 1; min-width: 0; }
+
+.eft-fl-title h3 {
+  margin: 0 0 6px;
+  font-size: 16.5px;
+  line-height: 1.25;
+  color: var(--eft-tan-bright);
+  letter-spacing: 0.01em;
+}
+
+.eft-fl-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.eft-fl-tag {
+  font-size: 11.4px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: var(--eft-r-xs);
+  background: var(--eft-fill-neutral);
+  color: var(--eft-text-dim);
+  white-space: nowrap;
+}
+
+.eft-fl-tag.eft-is-good { background: var(--eft-fill-green); color: var(--eft-green); }
+.eft-fl-tag.eft-is-warn { background: var(--eft-fill-gold); color: var(--eft-orange); }
+
+.eft-fl-money { text-align: right; flex: none; }
+
+.eft-fl-net {
+  font-family: var(--eft-mono);
+  font-size: 21px;
+  line-height: 1.1;
+  color: var(--eft-green);
+}
+
+.eft-fl-rate {
+  font-size: 12px;
+  color: var(--eft-text-faint);
+  white-space: nowrap;
+}
+
+/* ---------- Steps ---------- */
+
+.eft-fl-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.eft-fl-step {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 14px;
+  flex-wrap: wrap;
+}
+
+.eft-fl-step + .eft-fl-step { border-top: 1px dashed var(--eft-line); }
+
+.eft-fl-ins { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; flex: 1; min-width: 0; }
+.eft-fl-inwrap { display: inline-flex; align-items: center; gap: 5px; }
+.eft-fl-plus { color: var(--eft-text-faint); font-size: 13px; }
+
+.eft-fl-arrow {
+  color: var(--eft-tan);
+  font-size: 17px;
+  flex: none;
+  line-height: 1;
+}
+
+.eft-fl-out {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  /* Shrinkable, not fixed: a four-ingredient row pushed the station/duration past the
+     card's edge, where `overflow: hidden` ate the last character of "5h 15m". */
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.eft-fl-where {
+  font-size: 11.4px;
+  color: var(--eft-text-faint);
+  text-align: right;
+  flex: none;
+}
+
+/* ---------- Item chips ---------- */
+
+.eft-fl-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 9px 4px 5px;
+  border: 1px solid var(--eft-line);
+  border-left: 2px solid var(--eft-tan);
+  border-radius: var(--eft-r-sm);
+  background: var(--eft-bg-2);
+  max-width: 290px;
+}
+
+.eft-fl-chip.eft-is-sell { border-left-color: var(--eft-green); background: var(--eft-fill-green); }
+.eft-fl-chip.eft-is-made { border-left-color: var(--eft-line-bright); opacity: 0.78; }
+
+.eft-fl-chipicon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  flex: none;
+}
+
+.eft-fl-chiptext { display: flex; flex-direction: column; min-width: 0; }
+
+.eft-fl-chipname {
+  font-size: 13.4px;
+  color: var(--eft-text);
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eft-fl-chipname b { color: var(--eft-tan-bright); font-family: var(--eft-mono); }
+
+.eft-fl-chipsub {
+  font-size: 11.2px;
+  color: var(--eft-text-faint);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eft-fl-chip.eft-is-sell .eft-fl-chipsub { color: var(--eft-green); }
+
+/* ---------- Footer ---------- */
+
+.eft-fl-foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 9px 14px;
+  border-top: 1px solid var(--eft-line);
+  background: var(--eft-bg-2);
+}
+
+.eft-fl-sums {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  flex: 1;
+  font-size: 13px;
+  color: var(--eft-text-dim);
+}
+
+.eft-fl-sum b { font-family: var(--eft-mono); color: var(--eft-text); }
+.eft-fl-sum.eft-is-net b { color: var(--eft-green); font-size: 15px; }
+
+.eft-fl-note {
+  font-size: 11.2px;
+  color: var(--eft-text-faint);
+  border-bottom: 1px dotted var(--eft-line-bright);
+  cursor: help;
+}
+
+/* ---------- "these also feed" ---------- */
+
+.eft-fl-also { border-top: 1px solid var(--eft-line); }
+
+.eft-fl-alsotoggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 7px 14px;
+  font: inherit;
+  font-size: 12.4px;
+  color: var(--eft-text-faint);
+  cursor: pointer;
+}
+
+.eft-fl-alsotoggle:hover { color: var(--eft-tan-bright); background: var(--eft-fill-neutral); }
+
+.eft-fl-alsolist {
+  list-style: none;
+  margin: 0;
+  padding: 0 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12.6px;
+}
+
+.eft-fl-alsolist li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--eft-text-dim);
+}
+
+.eft-fl-alsolist .eft-is-good { color: var(--eft-green); font-family: var(--eft-mono); }
+.eft-fl-alsolist .eft-is-bad { color: var(--eft-red); font-family: var(--eft-mono); }
+
+/* ---------- Cycles panel ---------- */
+
+.eft-fl-verdict {
+  margin: 0 0 10px;
+  font-size: 13.6px;
+  line-height: 1.55;
+  color: var(--eft-text-dim);
+}
+
+.eft-fl-verdict b { color: var(--eft-tan-bright); }
+.eft-fl-verdict .eft-is-bad { color: var(--eft-red); }
+
+.eft-fl-cycles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.eft-fl-cycles li {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  padding: 5px 8px;
+  border-radius: var(--eft-r-xs);
+  background: var(--eft-fill-neutral);
+  font-size: 12.8px;
+}
+
+.eft-fl-cycles li.eft-is-bad { background: var(--eft-fill-red); }
+
+.eft-fl-cycleratio { font-family: var(--eft-mono); color: var(--eft-gold); }
+.eft-fl-cyclepath { color: var(--eft-text); }
+.eft-fl-cyclecost { color: var(--eft-text-faint); }
+.eft-fl-cyclecost.eft-is-bad { color: var(--eft-red); }
+
+@media (max-width: 700px) {
+  .eft-fl-grid { grid-template-columns: 1fr; }
+  .eft-fl-step { align-items: flex-start; }
+  .eft-fl-out { width: 100%; justify-content: space-between; }
+  .eft-fl-cycles li { grid-template-columns: 48px 1fr; }
+  .eft-fl-cyclecost { grid-column: 2; }
+}

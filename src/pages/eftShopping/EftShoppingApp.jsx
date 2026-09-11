@@ -21,6 +21,7 @@ import LootCalcView from './views/LootCalcView';
 import SettingsView from './views/SettingsView';
 import MapView from './views/MapView';
 import CraftTreeView from './views/CraftTreeView';
+import CraftLoopsView from './views/CraftLoopsView';
 import ItemUsesView from './views/ItemUsesView';
 import Boundary from '../../components/errors/Boundary';
 
@@ -33,6 +34,7 @@ const TABS = [
   { to: '', label: 'Hideout/Quest' },
   { to: '/map', label: 'Map' },
   { to: '/crafts', label: 'Craft Tree' },
+  { to: '/loops', label: 'Craft Loops' },
   { to: '/uses', label: 'Item Uses' },
   { to: '/list', label: 'Shopping List' },
   { to: '/order', label: 'Build Order' },
@@ -195,6 +197,12 @@ export default function EftShoppingApp() {
   // webdesign.md §1–§3.
   const isMap = location.pathname.startsWith(`${ROOT}/map`);
 
+  // Craft Loops ships its own committed flea/trader snapshot (`npm run eft:prices`), so the
+  // global "No prices loaded" banner is simply untrue there — it is about the live tarkov.dev
+  // fetch, which that page does not use. Showing it over a page full of rouble figures reads
+  // as a broken tool. The rest of the app still has no prices and still says so.
+  const hasOwnPrices = location.pathname.startsWith(`${ROOT}/loops`);
+
   return (
     <EftContext.Provider value={value}>
       <div className={`eft-app${isMap ? ' eft-is-full' : ''}`}>
@@ -279,7 +287,7 @@ export default function EftShoppingApp() {
           </header>
           )}
 
-          {!isMap && !hasPrices && !status.loading && !bannerDismissed ? (
+          {!isMap && !hasOwnPrices && !hasPrices && !status.loading && !bannerDismissed ? (
             <div className="eft-banner">
               <button
                 type="button"
@@ -338,6 +346,7 @@ export default function EftShoppingApp() {
                 tool around it. */}
             <Route path="map" element={<Boundary title="The map stopped working."><MapView /></Boundary>} />
             <Route path="crafts" element={<CraftTreeView />} />
+            <Route path="loops" element={<CraftLoopsView />} />
             <Route path="uses" element={<ItemUsesView />} />
             <Route path="list" element={<ShoppingListView />} />
             <Route path="order" element={<BuildOrderView />} />

@@ -34,7 +34,9 @@
     "canvas": "node scripts/canvasFetch.mjs",
     "academiq": "node scripts/academiqFetch.mjs",
     "academiq:import": "node scripts/academiqImport.mjs",
-    "academiq:figures": "node scripts/academiqFigures.mjs"
+    "academiq:figures": "node scripts/academiqFigures.mjs",
+    "eft:prices": "node scripts/fetchEftPrices.mjs",
+    "eft:loops": "node scripts/reportEftCraftLoops.mjs"
   },
   "dependencies": {
     "@mintplex-labs/piper-tts-web": "^1.0.5",

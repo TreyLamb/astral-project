@@ -232,6 +232,47 @@ nine other routes already probed and ruled out — including three tarkov.dev en
 200 while **silently ignoring the game-mode parameter** (byte-identical MD5s). Don't re-probe
 them; don't trust a 200 to mean the mode took.
 
+`npm run eft:prices` now builds `data/priceSnapshot.json` from it (flea + trader sell-back +
+the **live trader assortment**, 498 KB, PVE by default, `--mode=` for the others). Only
+`/EFTsh/loops` consumes it so far; the rest of the app still says "NO PRICES". Three traps —
+FX must be *derived* from `requirementsCost` and is a different rate from the one in
+`traderPrices`; a weapon's flea average is for modded builds, not the bare gun; an offer in a
+currency with no derived rate gets skipped, never priced at 1 — are written up in `PRICES.md`.
+
+### ℹ️ EFT craft loops (`/EFTsh/loops`) — a generic engine, not a hand-written list
+
+Added 2026-09-10. Trey described a loop he runs — buy Scav Vests and PACA armour cheaply,
+craft them into Ripstop and Aramid fabric, which feed a BNTI Module-3M — and asked for **an
+engine that finds loops like it**, so it keeps working every wipe. `eftCraftLoops.js` is that
+engine (pure, tested); `npm run eft:loops` prints its results; the tab draws them as cards.
+It finds his exact loop without being told about it, and there is a test asserting that.
+
+- **One fixed point, not a recursion.** `unit[item] = min(cheapest BUY, cheapest CRAFT)`,
+  relaxed to convergence. The two definitions are mutually recursive (a barter can want a
+  crafted item and vice versa), and a DFS with memoisation is wrong here — a result computed
+  under one cycle-guard stack is not valid for a different caller.
+- **Barter ladders are followed to the bottom, and that changes answers.** Scav Vest is a
+  Jaeger barter for Slickers, which is a barter for Pack of Vita juice: 15,833 ₽ against
+  26,500 ₽ to buy the vest outright. 🔴 It also means **a route that looks trader-fed may not
+  be** — that ladder ends at the *flea*, and the card claimed "trader-fed" until `touchesFlea`
+  walked it. Same for throughput: the tightest link governs, not the offer at the top.
+- **A plan is a MATERIAL BALANCE** — buy what the steps consume and don't produce, sell what
+  they produce and don't consume. The first version listed each feeder's gross output as
+  revenue, so a chain that made 9 Piles of meds and then ate 7 booked all nine as profit and
+  "sell the parts" won every time.
+- **`multiplying` is not `infinite`.** Three real cycles multiply the item they cycle (Pile of
+  meds ↔ AI-2 medkit is 9× a lap) but every one also consumes something from outside the loop,
+  so none is free money. Only `ratio > 1 && sideInputs.length === 0` would be, and a test
+  asserts the game currently has none.
+- Farms are **collapsed by their winning plan's steps**, not by the craft they were found
+  from: four armour recipes all reduce to "make the two fabrics and sell them raw", and the
+  losing terminals are kept on the card as `alsoFeeds` with what that branch would cost.
+  A farm is **named by what it sells** — naming it after the craft it was discovered from
+  billed the Broken LCD farm as "Working LCD", which is its *input*.
+- **Not modelled, on purpose:** the flea sales fee (its coefficients have changed between
+  patches; guessing would put invented numbers on the page, and the sell-raw-vs-craft
+  comparison is between two flea sales anyway).
+
 - **Complete item table** (`data/itemNames.json`, `npm run eft:items`) —
   every item in the game, id → name + short name, from SPT's
   `locales/global/en.json` (the one SPT path the LFS problem doesn't block).
@@ -546,7 +587,7 @@ canonical casing. Legacy paths redirect the same way. Both live in
 | `/RS` | RSMarket.jsx | was `/rs-market` |
 | `/POGO` | pgotracker/PgoTracker.jsx | **POGO Tracker** — was `/pgo-tracker` |
 | `/POGO-ACCS/*` | pogoaccs/PogoAccsApp.jsx | was `/pogo-accs` |
-| `/EFTsh/*` | eftShopping/EftShoppingApp.jsx | **EFT Shopping** — Tarkov hideout shopping list + raid companion. Built from BSG's own game files (SPT mirror) with tarkov.dev layered on top for prices only. `npm run eft:snapshot` regenerates the committed snapshot. Includes `/EFTsh/crafts`, a left-to-right craft flow chart — see the craft-data note below. `/EFTsh/uses` is the one-stop "what is this item used for" search (hideout/craft/quest/barter/armor) — see the barters + gear catalog note below. |
+| `/EFTsh/*` | eftShopping/EftShoppingApp.jsx | **EFT Shopping** — Tarkov hideout shopping list + raid companion. Built from BSG's own game files (SPT mirror) with tarkov.dev layered on top for prices only. `npm run eft:snapshot` regenerates the committed snapshot. Includes `/EFTsh/crafts`, a left-to-right craft flow chart — see the craft-data note below. `/EFTsh/uses` is the one-stop "what is this item used for" search (hideout/craft/quest/barter/armor) — see the barters + gear catalog note below. `/EFTsh/loops` finds the semi-infinite craft loops from data — see the craft-loops note below. |
 | `/TT` | TranscriptTool/TranscriptToolApp.jsx | **Transcript / GPA what-if calculator.** Deliberately NOT in `SITE_LINKS` — URL-only, at Trey's request, so it appears in neither the navbar dropdown nor Home. `TT` is still in `CANONICAL_SEGMENTS` so `/tt` redirects rather than 404s. See the transcript-parsing note below. |
 | `/medaldex/*` | medaldex/MedalDexApp.jsx | |
 | `/stashmap/*` | stashmap/StashMapApp.jsx | |
