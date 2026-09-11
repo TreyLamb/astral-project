@@ -143,7 +143,18 @@ export default function MapCanvas({
 
     onReady?.(map);
 
-    return () => { map.remove(); mapRef.current = null; spriteRef.current = null; };
+    return () => {
+      map.remove();
+      mapRef.current = null;
+      spriteRef.current = null;
+      // Tell the OWNER the map is gone, not just this component. `onReady` handed the
+      // instance to MapView, which keeps its own ref, and nothing ever invalidated it — so
+      // toggling the basemap (the only thing this effect depends on) left MapView projecting
+      // through a removed map. Leaflet's remove() deletes `_mapPane` but leaves `_loaded`
+      // true, so MapView's guard could not tell, and it threw `_leaflet_pos` on undefined.
+      // Reported from production 2026-09-11.
+      onReady?.(null);
+    };
     // Mounts once per basemap; handlers read through the ref so a changed
     // callback never tears down the Leaflet instance.
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -9,6 +9,7 @@ import {
 } from '../map/eftMapProject';
 import { resolveMarkers, routeManifest } from '../map/eftMapFilters';
 import { useMapDrawing, routePolyline } from '../map/useMapDrawing';
+import { isLiveMap, withMap } from '../map/mapSafety';
 import { ZonePanel, RoutePanel, ManifestPanel, CatIcon } from '../map/MapSidePanels';
 import {
   fetchWaypoints, saveWaypoint, deleteWaypoint, pushWaypoints, mergeWaypoints,
@@ -175,20 +176,23 @@ export default function MapView() {
   // number of map units at every zoom level.
   const getUnitsPerPixel = useCallback(() => {
     const map = mapRef.current;
-    // `map._loaded`, not just `map`. mapRef is assigned the instant L.map() is
-    // constructed, but Leaflet gives the map pane no position until the first
-    // setView() — and projecting before that throws "Cannot read properties of
-    // undefined (reading '_leaflet_pos')". Since nothing in this app has an
-    // error boundary, that single throw unmounted the entire site and left the
-    // bare blue body gradient (prod outage, 2026-08-19).
+    // `isLiveMap`, not just `map`, and not just `map._loaded` either — see
+    // map/mapSafety.js. There are TWO unsafe windows and this guard has now been
+    // wrong for both of them in turn:
     //
-    // The window only opens over a network: useMapDrawing's `mergeTolerance`
-    // runs on every render and falls through to this function whenever
-    // metresPerUnit is falsy, which is true while the async marker `data` is
-    // still loading. Locally that chunk resolves off disk before the map is
-    // even built, so the branch never ran; on the CDN it lands after L.map()
-    // but before setView(), which is exactly the unsafe gap.
-    if (!map || !map._loaded) return 1;
+    //   2026-08-19: mapRef is assigned the instant L.map() is constructed, but the
+    //   map pane has no position until the first setView(). Projecting in that gap
+    //   throws "Cannot read properties of undefined (reading '_leaflet_pos')" and
+    //   blanked the whole site. `_loaded` was added, and it fixes that window.
+    //
+    //   2026-09-11: it does NOT fix the other one. Leaflet's remove() deletes
+    //   `_mapPane` and leaves `_loaded` true, so a torn-down map passes the check
+    //   and throws the identical error. Toggling the basemap is what tears it down.
+    //
+    // The window only opens over a network: useMapDrawing's `mergeTolerance` runs on
+    // every render and falls through to this function whenever metresPerUnit is
+    // falsy, which is true while the async marker `data` is still loading.
+    if (!isLiveMap(map)) return 1;
     const a = map.containerPointToLatLng([0, 0]);
     const b = map.containerPointToLatLng([0, 1]);
     return Math.abs(b.lat - a.lat) || 1;
@@ -306,7 +310,7 @@ export default function MapView() {
   // are zoomed, the finer that drag gets. Nothing snaps.
   const startWaypoint = useCallback(() => {
     const map = mapRef.current;
-    if (!map) return;
+    if (!isLiveMap(map)) return;
     const c = map.getCenter();
     setDraft({
       id: `wp-${uid()}`,
@@ -320,7 +324,7 @@ export default function MapView() {
 
   const recentreDraft = useCallback(() => {
     const map = mapRef.current;
-    if (!map || !draft) return;
+    if (!isLiveMap(map) || !draft) return;
     const c = map.getCenter();
     setDraft((d) => (d ? { ...d, lat: c.lat, lng: c.lng } : d));
   }, [draft]);
@@ -540,7 +544,7 @@ export default function MapView() {
   // suspended while one is under the cursor.
   useEffect(() => {
     const map = mapRef.current;
-    if (!map?.dragging) return;
+    if (!isLiveMap(map) || !map.dragging) return;
     if (draw.editTarget || draw.drag) map.dragging.disable();
     else map.dragging.enable();
   }, [draw.editTarget, draw.drag]);
@@ -1142,7 +1146,7 @@ export default function MapView() {
                       type="button"
                       className="eft-line-text eft-wp-jump"
                       title="Centre the map on this waypoint"
-                      onClick={() => mapRef.current?.panTo([wp.lat, wp.lng])}
+                      onClick={() => withMap(mapRef.current, (m) => m.panTo([wp.lat, wp.lng]))}
                     >
                       {wp.name}
                     </button>
@@ -1222,7 +1226,7 @@ export default function MapView() {
               metresPerUnit={metresPerUnit}
               open={panelOpen('manifest')}
               onToggleOpen={(v) => setPanel('manifest', v)}
-              onFocus={(m) => mapRef.current?.panTo([m.y, m.x])}
+              onFocus={(pin) => withMap(mapRef.current, (m) => m.panTo([pin.y, pin.x]))}
             />
           ) : null}
 
