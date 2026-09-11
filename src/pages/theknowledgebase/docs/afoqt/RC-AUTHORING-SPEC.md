@@ -119,6 +119,13 @@ which two you double across your batch. A passage carrying fewer than 3 distinct
 sheet-mode drills — the engine has to abandon the on-screen passage and fetch a question from a
 different one.
 
+⚠️ **Double `detail-inference` or `vocabulary-in-context`, not `main-idea`.** A passage has many
+details and many hard words, so two of those are genuinely two questions. It has exactly one main
+idea, so "Which choice best states the main idea?" and "The primary purpose of the passage is to:"
+are the same question wearing two hats — a candidate who answers one has answered both, and it
+burns a slot that could have taught something. `author-agreement` and `function-of-paragraph`
+double acceptably only if you aim them at genuinely different paragraphs or different claims.
+
 Each question is:
 
 ```js

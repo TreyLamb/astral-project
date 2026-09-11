@@ -118,6 +118,9 @@ import './va/ch05-defining-traits.js';
 // bands 4-5 of the same three chapters.
 import './rc/ch01-passages-set-A.js';
 import './rc/ch02-passages-set-B.js';
+import './rc/ch03-passages-set-C.js';
+import './rc/ch04-passages-set-D.js';
+import './rc/ch05-passages-set-E.js';
 import './rc/zz-register.js';   // MUST be last of the rc/ files - see its header
 
 // --- Physical Science (Phase 12) --------------------------------------------

@@ -356,7 +356,7 @@ const P15_LINES = [
 
 registerPassages([
   {
-    id: 'rc-015', wordCount: 520, band: 4, lineNumbered: true,
+    id: 'rc-015', wordCount: 519, band: 4, lineNumbered: true,
     text: P15_LINES.join('\n'),
     questions: [
       {
@@ -487,7 +487,7 @@ const P16_LINES = [
 
 registerPassages([
   {
-    id: 'rc-016', wordCount: 512, band: 4, lineNumbered: true,
+    id: 'rc-016', wordCount: 511, band: 4, lineNumbered: true,
     text: P16_LINES.join('\n'),
     questions: [
       {

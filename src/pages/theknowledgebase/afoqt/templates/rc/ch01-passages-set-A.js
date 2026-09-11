@@ -69,7 +69,7 @@ const P1_LINES = [
 
 registerPassages([
   {
-    id: 'rc-001', wordCount: 512, band: 2, lineNumbered: true,
+    id: 'rc-001', wordCount: 553, band: 2, lineNumbered: true,
     text: P1_LINES.join('\n'),
     questions: [
       {
@@ -208,7 +208,7 @@ const P2_LINES = [
 
 registerPassages([
   {
-    id: 'rc-002', wordCount: 498, band: 2, lineNumbered: true,
+    id: 'rc-002', wordCount: 475, band: 2, lineNumbered: true,
     text: P2_LINES.join('\n'),
     questions: [
       {
@@ -345,7 +345,7 @@ const P3_LINES = [
 
 registerPassages([
   {
-    id: 'rc-003', wordCount: 494, band: 2, lineNumbered: true,
+    id: 'rc-003', wordCount: 446, band: 2, lineNumbered: true,
     text: P3_LINES.join('\n'),
     questions: [
       {
@@ -480,7 +480,7 @@ const P4_LINES = [
 
 registerPassages([
   {
-    id: 'rc-004', wordCount: 468, band: 2, lineNumbered: true,
+    id: 'rc-004', wordCount: 432, band: 2, lineNumbered: true,
     text: P4_LINES.join('\n'),
     questions: [
       {
@@ -616,7 +616,7 @@ const P5_LINES = [
 
 registerPassages([
   {
-    id: 'rc-005', wordCount: 470, band: 2, lineNumbered: true,
+    id: 'rc-005', wordCount: 428, band: 2, lineNumbered: true,
     text: P5_LINES.join('\n'),
     questions: [
       {
@@ -753,7 +753,7 @@ const P6_LINES = [
 
 registerPassages([
   {
-    id: 'rc-006', wordCount: 486, band: 2, lineNumbered: true,
+    id: 'rc-006', wordCount: 444, band: 2, lineNumbered: true,
     text: P6_LINES.join('\n'),
     questions: [
       {
@@ -885,7 +885,7 @@ const P7_LINES = [
 
 registerPassages([
   {
-    id: 'rc-007', wordCount: 528, band: 3, lineNumbered: true,
+    id: 'rc-007', wordCount: 492, band: 3, lineNumbered: true,
     text: P7_LINES.join('\n'),
     questions: [
       {
@@ -1025,7 +1025,7 @@ const P8_LINES = [
 
 registerPassages([
   {
-    id: 'rc-008', wordCount: 542, band: 3, lineNumbered: true,
+    id: 'rc-008', wordCount: 479, band: 3, lineNumbered: true,
     text: P8_LINES.join('\n'),
     questions: [
       {
@@ -1167,7 +1167,7 @@ const P9_LINES = [
 
 registerPassages([
   {
-    id: 'rc-009', wordCount: 556, band: 3, lineNumbered: true,
+    id: 'rc-009', wordCount: 496, band: 3, lineNumbered: true,
     text: P9_LINES.join('\n'),
     questions: [
       {
@@ -1309,7 +1309,7 @@ const P10_LINES = [
 
 registerPassages([
   {
-    id: 'rc-010', wordCount: 566, band: 3, lineNumbered: true,
+    id: 'rc-010', wordCount: 513, band: 3, lineNumbered: true,
     text: P10_LINES.join('\n'),
     questions: [
       {
@@ -1450,7 +1450,7 @@ const P11_LINES = [
 
 registerPassages([
   {
-    id: 'rc-011', wordCount: 560, band: 3, lineNumbered: true,
+    id: 'rc-011', wordCount: 519, band: 3, lineNumbered: true,
     text: P11_LINES.join('\n'),
     questions: [
       {
@@ -1595,7 +1595,7 @@ const P12_LINES = [
 
 registerPassages([
   {
-    id: 'rc-012', wordCount: 570, band: 3, lineNumbered: true,
+    id: 'rc-012', wordCount: 539, band: 3, lineNumbered: true,
     text: P12_LINES.join('\n'),
     questions: [
       {
