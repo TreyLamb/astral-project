@@ -3,9 +3,10 @@ import { useAfoqt } from '../AfoqtApp';
 import { DRILLABLE_BY_PRIORITY, getSubtest, secPerQuestion, compositeReach, COMPOSITES,
   CAREERS, PRIORITY, subtestsForCareer, compositesForCareer } from '../engine/afoqtSpec';
 import { templatesFor } from '../engine/generator';
+import { depthVerdict, nonRepeatingRuns } from '../engine/inventory';
 import { allCompositeAccuracy, PRACTICE_ACCURACY_LABEL, subtestAccuracy, recentSubtestAccuracy, RECENT_RUN_WINDOW, subtestCompletion } from '../engine/scoring';
-import { missPoolIds, clearMissPool, curriculumProgress, ExamSession, latestDiagnostic, wordBankEntries, flaggedEntries } from '../afoqtStorage';
-import { weakestSubtests, DIAGNOSTIC_ACCURACY_LABEL } from '../engine/diagnostic';
+import { missPoolIds, clearMissPool, curriculumProgress, ExamSession, latestDiagnostic, flaggedEntries } from '../afoqtStorage';
+import { weakestSubtests } from '../engine/diagnostic';
 import { CHAPTERS } from '../curriculum/chapters';
 import { nextPersonalizedChapter } from '../curriculum/personalize';
 
@@ -33,7 +34,6 @@ export default function AfoqtDashboard() {
   const navigate = useNavigate();
   const { progress, mutate, updateSettings } = useAfoqt();
   const misses = missPoolIds(progress);
-  const words = wordBankEntries(progress);
   const flagged = flaggedEntries(progress);
   const days = daysUntil(TEST_DATE);
 
@@ -58,6 +58,8 @@ export default function AfoqtDashboard() {
       avgSec: recent.seen ? recent.totalMs / recent.seen / 1000 : null,
       realSec: secPerQuestion(s),
       reach: compositeReach(s.code),
+      depth: depthVerdict(s.code),
+      runs: nonRepeatingRuns(s.code),
       done,
       sunset: SUNSET[s.code] ?? null,
       solved: done.solved || s.code in SUNSET,
@@ -118,105 +120,6 @@ export default function AfoqtDashboard() {
         </div>
       )}
 
-      {diagnostic && (
-        <section className="afq-next">
-          <div>
-            <h3>Diagnostic</h3>
-            <p className="afq-note">
-              Taken {new Date(diagnostic.takenAt).toLocaleDateString()}. {DIAGNOSTIC_ACCURACY_LABEL}
-            </p>
-            {diagnosticWeakest.length > 0 && (
-              <p className="afq-next-title">
-                Weakest: {diagnosticWeakest.map((w) => `${getSubtest(w.code)?.name} (${Math.round(w.accuracy * 100)}%)`).join(' · ')}
-              </p>
-            )}
-          </div>
-          <div className="afq-row">
-            {diagnosticWeakest.length > 0 && (
-              <button
-                className="afq-btn afq-primary"
-                onClick={() => navigate(`/TKB/afoqt/drill?subtest=${diagnosticWeakest[0].code}`)}
-              >
-                Drill {getSubtest(diagnosticWeakest[0].code)?.name}
-              </button>
-            )}
-            <button className="afq-btn" onClick={() => navigate('/TKB/afoqt/diagnostic/results')}>Full results</button>
-            <button className="afq-btn" onClick={() => navigate('/TKB/afoqt/diagnostic')}>Retake</button>
-          </div>
-        </section>
-      )}
-
-      <section className="afq-next">
-        <div>
-          <h3>Curriculum{diagnostic && <span className="afq-chip">personalized</span>}</h3>
-          <p className="afq-note">
-            {curriculum.done} of {curriculum.total} chapters done
-            {curriculum.testedOut > 0 && ` (${curriculum.testedOut} tested out)`}
-            {curriculum.minutesLeft > 0 && ` · ~${curriculum.minutesLeft} min of reading left`}
-          </p>
-          {nextChapter && (
-            <p className="afq-next-title">
-              Next up: <strong>{nextChapter.title}</strong> — {nextChapter.summary}
-            </p>
-          )}
-        </div>
-        <button
-          className="afq-btn afq-primary"
-          onClick={() => navigate(nextChapter ? `/TKB/afoqt/learn/${nextChapter.id}` : '/TKB/afoqt/learn')}
-        >
-          {nextChapter ? 'Open the chapter' : 'Browse chapters'}
-        </button>
-      </section>
-
-      <section className="afq-next">
-        <div>
-          <h3>Study plan</h3>
-          <p className="afq-note">
-            The high-tier word list, {30} a day, in a fixed order — words to learn deliberately
-            rather than meet by accident in a drill.
-          </p>
-        </div>
-        <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/study')}>Open the plan</button>
-      </section>
-
-      {words.length > 0 && (
-        <section className="afq-next">
-          <div>
-            <h3>Word bank</h3>
-            <p className="afq-note">
-              {words.length} word{words.length === 1 ? '' : 's'} you've actually gotten wrong on
-              Word Knowledge - a real gap, not a lucky guess.
-            </p>
-          </div>
-          <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/words')}>Review</button>
-        </section>
-      )}
-
-      {flagged.length > 0 && (
-        <section className="afq-next">
-          <div>
-            <h3>Flagged questions</h3>
-            <p className="afq-note">
-              {flagged.length} question{flagged.length === 1 ? '' : 's'} you've flagged to come
-              back to, right or wrong.
-            </p>
-          </div>
-          <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/flagged')}>Review</button>
-        </section>
-      )}
-
-      {misses.length > 0 && (
-        <p className="afq-note afq-misspool">
-          <span>
-            {misses.length} template{misses.length === 1 ? '' : 's'} in the miss pool — about{' '}
-            {Math.round((progress.settings.missInjection ?? 0.1) * 100)}% of each drill until you
-            get them right on 3 separate days. Exam runs ignore the pool, so a baseline is always honest.
-          </span>
-          {/* The manual half of requirement 12's clean slate. The automatic half is exam mode. */}
-          <button className="afq-btn afq-ghost" onClick={() => mutate(clearMissPool)}>Reset the pool</button>
-        </p>
-      )}
-
       <section>
         <h3>By subtest</h3>
         <div className="afq-subtest-wrap">
@@ -229,6 +132,10 @@ export default function AfoqtDashboard() {
               <th title="Which scored composites this subtest feeds. 'Unscored' means it feeds none - it is on the test but not in any composite you are graded on.">Composites</th>
               <th title="Seconds per question on the real test">Pace</th>
               <th title="Every distinct question this subtest can ever ask. 'Open' means the content is generated from parameters and never runs out.">Bank</th>
+              {/* The number that actually answers "is there enough here to prepare me". A bank is
+                  not big or small on its own - it is big or small against the length of the real
+                  subtest. 165 Reading Comprehension questions sounds ample until you divide by 25. */}
+              <th title="How many full-length sittings of this subtest the bank can serve before it must repeat a question.">Depth</th>
               <th title="Questions you have answered, all time - not the last 10 drills">Seen</th>
               <th title={`Your last ${RECENT_RUN_WINDOW} drills of this subtest, not your lifetime average`}>Recent accuracy</th>
               <th>Your pace</th>
@@ -236,9 +143,14 @@ export default function AfoqtDashboard() {
           </thead>
           <tbody>
             {shownSubtests.map((s) => (
+              // The whole row opens the subtest's own page. Trey, 2026-09-11: "i want to be able
+              // to just click in to the subtest FROM the dashboard to start choosing my study
+              // option." The name cell is also a real <button> so this works from a keyboard and
+              // reads as a control to a screen reader - a click handler on a <tr> alone does not.
               <tr
                 key={s.code}
-                className={[s.templates === 0 ? 'afq-dim' : '', s.solved ? 'afq-solved' : ''].filter(Boolean).join(' ')}
+                className={['afq-subtest-row', s.templates === 0 ? 'afq-dim' : '', s.solved ? 'afq-solved' : ''].filter(Boolean).join(' ')}
+                onClick={() => navigate(`/TKB/afoqt/subtest/${s.code}`)}
               >
                 <td className="afq-hide-col">
                   <button
@@ -246,7 +158,7 @@ export default function AfoqtDashboard() {
                     className="afq-hide-btn"
                     title={`Hide ${s.name} from this table`}
                     aria-label={`Hide ${s.name} from this table`}
-                    onClick={() => toggleHidden(s.code)}
+                    onClick={(e) => { e.stopPropagation(); toggleHidden(s.code); }}
                   >
                     –
                   </button>
@@ -256,7 +168,11 @@ export default function AfoqtDashboard() {
                     {PRIORITY[s.code] ?? 0}
                   </span>
                 </td>
-                <td>{s.name}</td>
+                <td>
+                  <button type="button" className="afq-subtest-link" onClick={(e) => { e.stopPropagation(); navigate(`/TKB/afoqt/subtest/${s.code}`); }}>
+                    {s.name}
+                  </button>
+                </td>
                 <td className="afq-reach">{s.reach.length ? s.reach.join(' ') : 'unscored'}</td>
                 <td className="afq-num">{s.realSec.toFixed(1)}s</td>
                 {/* The finish line, for the subtests that can have one. A capped subtest shows
@@ -271,6 +187,9 @@ export default function AfoqtDashboard() {
                   {s.done.capped
                     ? <>{s.done.items}<small>{s.done.coverage > 0 ? ` ${Math.round(s.done.coverage * 100)}%` : ''}</small></>
                     : <span className="afq-open">open</span>}
+                </td>
+                <td className={`afq-num afq-depth afq-depth-${s.depth.level}`} title={s.depth.hint}>
+                  {s.depth.level === 'open' ? '∞' : `${s.runs < 1 ? s.runs.toFixed(1) : Math.floor(s.runs)}×`}
                 </td>
                 <td className="afq-num">{s.seen || '-'}</td>
                 <td
@@ -300,6 +219,17 @@ export default function AfoqtDashboard() {
           and never repeat. A capped subtest reads <strong>SOLVED</strong> once you have attempted
           its whole bank at 100% recent accuracy.
         </p>
+        {/* Depth is the honest readiness number and it is the one that was missing. The bank
+            column alone cannot tell you whether 165 questions is a lot, because that depends
+            entirely on how long the subtest is. */}
+        <p className="afq-note">
+          <strong>Depth</strong> divides that bank by the subtest's real length, so it answers what
+          the raw count cannot: how many full-length sittings you get before the bank has to repeat
+          itself. <span className="afq-depth-open">∞</span> is an open subtest; a{' '}
+          <span className="afq-depth-thin">red</span> figure means you will start recognising
+          questions instead of solving them. <strong>Click any row</strong> for that subtest's own
+          page — what is actually in it, where you stand, and every way to study it.
+        </p>
         {/* Hidden rows are listed rather than simply gone. A preference you cannot see is a
             preference you cannot undo, and "why is Block Counting missing" is a worse puzzle
             than one short line of chips. */}
@@ -319,6 +249,58 @@ export default function AfoqtDashboard() {
             ))}
           </p>
         )}
+      </section>
+
+      {/* Everything that is not a subtest, in one compact strip.
+          Trey, 2026-09-11: "The 4 section blocks at the top of the AFOQT dashboard are an
+          eyesore and terrible and shouldn't be there." They were four full-width bars stacked
+          above the only table on the page, so the thing he opens the dashboard to read was
+          permanently below the fold. They are now one row of small cards, BELOW the subtest
+          table, and the Study plan is gone from here entirely - it is a Word Knowledge surface
+          and now lives on the Word Knowledge hub, which is where he went looking for it. */}
+      <section className="afq-side">
+        <h3>Everything else</h3>
+        <div className="afq-side-grid">
+          <button className="afq-side-card" onClick={() => navigate(nextChapter ? `/TKB/afoqt/learn/${nextChapter.id}` : '/TKB/afoqt/learn')}>
+            <strong>Curriculum{diagnostic && <em className="afq-side-tag">personalized</em>}</strong>
+            <span>
+              {curriculum.done} of {curriculum.total} chapters done
+              {curriculum.testedOut > 0 && ` (${curriculum.testedOut} tested out)`}
+              {curriculum.minutesLeft > 0 && ` · ~${curriculum.minutesLeft} min of reading left`}
+            </span>
+            {nextChapter && <small>Next up: {nextChapter.title}</small>}
+          </button>
+
+          <button className="afq-side-card" onClick={() => navigate(diagnostic ? '/TKB/afoqt/diagnostic/results' : '/TKB/afoqt/diagnostic')}>
+            <strong>Diagnostic</strong>
+            <span>
+              {diagnostic
+                ? `Taken ${new Date(diagnostic.takenAt).toLocaleDateString()}`
+                : 'Six questions at every subtest\u2019s real pace, about 35 minutes. Tells you where you actually stand.'}
+            </span>
+            {diagnostic && diagnosticWeakest.length > 0 && (
+              <small>Weakest: {diagnosticWeakest.map((w) => getSubtest(w.code)?.name).join(', ')}</small>
+            )}
+          </button>
+
+          {flagged.length > 0 && (
+            <button className="afq-side-card" onClick={() => navigate('/TKB/afoqt/flagged')}>
+              <strong>Flagged<em className="afq-side-tag">{flagged.length}</em></strong>
+              <span>Questions you marked to come back to, right or wrong.</span>
+            </button>
+          )}
+
+          {misses.length > 0 && (
+            <div className="afq-side-card afq-side-static">
+              <strong>Miss pool<em className="afq-side-tag">{misses.length}</em></strong>
+              <span>
+                About {Math.round((progress.settings.missInjection ?? 0.1) * 100)}% of each drill until you get them
+                right on 3 separate days. Exam runs ignore the pool, so a baseline is always honest.
+              </span>
+              <button className="afq-btn afq-ghost" onClick={() => mutate(clearMissPool)}>Reset the pool</button>
+            </div>
+          )}
+        </div>
       </section>
 
       <section>

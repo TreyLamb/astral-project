@@ -118,6 +118,7 @@ import './va/ch05-defining-traits.js';
 // bands 4-5 of the same three chapters.
 import './rc/ch01-passages-set-A.js';
 import './rc/ch02-passages-set-B.js';
+import './rc/zz-register.js';   // MUST be last of the rc/ files - see its header
 
 // --- Physical Science (Phase 12) --------------------------------------------
 // Fact-driven, same engine/facts.js as Aviation Information - see PART 19's design record in

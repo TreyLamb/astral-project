@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback, createContext, useContext, useRef } f
 import { useAuth } from '../../../AuthContext';
 import { AfoqtLocal, AfoqtCloud, defaultProgress, applyAnswer, addRun } from './afoqtStorage';
 import AfoqtDashboard from './views/AfoqtDashboard';
+import SubtestHub from './views/SubtestHub';
 import CardsView from './views/CardsView';
 import CurriculumMap from './views/CurriculumMap';
 import ChapterView from './views/ChapterView';
@@ -136,7 +137,9 @@ export default function AfoqtApp() {
   }
 
   const tabs = [
-    { path: '/TKB/afoqt', label: 'Dashboard', match: (p) => p === '/TKB/afoqt' },
+    // A subtest hub is a leaf OF the dashboard - you reach it by clicking a row there - so the
+    // Dashboard tab stays lit rather than leaving no tab active at all.
+    { path: '/TKB/afoqt', label: 'Dashboard', match: (p) => p === '/TKB/afoqt' || p.startsWith('/TKB/afoqt/subtest') },
     { path: '/TKB/afoqt/learn', label: 'Learn', match: (p) => p.startsWith('/TKB/afoqt/learn') },
     { path: '/TKB/afoqt/drill', label: 'Drill', match: (p) => p.startsWith('/TKB/afoqt/drill') },
     { path: '/TKB/afoqt/cards', label: 'Cards', match: (p) => p.startsWith('/TKB/afoqt/cards') },
@@ -165,6 +168,7 @@ export default function AfoqtApp() {
         </nav>
         <Routes>
           <Route index element={<AfoqtDashboard />} />
+          <Route path="subtest/:code" element={<SubtestHub />} />
           <Route path="cards" element={<CardsView />} />
           <Route path="learn" element={<CurriculumMap />} />
           <Route path="learn/:chapterId" element={<ChapterView />} />

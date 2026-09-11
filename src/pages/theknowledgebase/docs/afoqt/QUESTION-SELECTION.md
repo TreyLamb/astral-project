@@ -64,8 +64,14 @@ Most of the confusion in this project has been unit confusion. State the unit ev
 | **Templates** | `templatesFor('WK').length` | 60 -> 70 |
 | **Registry headwords** | `allWords().length` | 252 -> 349 -> **535** |
 | **Askable headwords** | `askableWords('WK').length` | 357 -> 454 -> **637** |
-| **Distinct questions** | sum of item spaces across frames | ~895 -> ~2,700 |
+| **Distinct questions** | `subtestItemSpace('WK').items` | ~895 -> **1,496** (1,461 generated + 35 written) |
 | **Pre-written bank questions** | `bankCount('WK')` | **35** |
+
+🔴 **`engine/inventory.js` is now the ONLY place allowed to produce one of these numbers for a
+human**, and `engine/__tests__/inventory.test.js` pins the claims. Do not compute a count inline
+in a view again — three views had their own variant of this list and one of them dropped the word
+"written", which is the whole reason 35 got read as a word count. `subtestInventory(code)` returns
+every figure already carrying its unit, plus `depth`, and the subtest hub renders it verbatim.
 
 (2026-09-04, then 2026-09-09 before and after the pool-03..08 batches. `npm run
 afoqt:words-todo` prints the live figures - read it rather than trusting this table.)
@@ -85,6 +91,44 @@ bank."* The 35 is `bankCount('WK')` — **pre-written OATTS/ASVAB questions**, t
 which is not a word count and has nothing to do with the registry. The word "bank" doing double
 duty (the static question bank vs. "the word bank") is what made a correct number unreadable.
 The WK tile now leads with `askableWords('WK').length` and every fragment names its unit.
+
+### The 2026-09-11 audit — every subtest, measured
+
+Trey: *"i keep getting told by other agents that the text bank is only like 500+ words when before
+I was told it would be 2000+ JUST based on the GRE words ... tell me what is real."* Both numbers
+he had been given were wrong in different ways, and **neither 2,000 nor any number near it has ever
+been supportable from this project's own source data.** The arithmetic in
+`WORD-BANK-EXPANSION.md` caps out at **1,266** hard-tier GRE words total (1,146 candidates + the
+120 that existed then). The union of the five curated hard lists *before* filtering easy words is
+1,899; the full merged GRE collection is 9,566, four fifths of which is below his level and was
+deliberately excluded. Whoever said 2,000 was either quoting an unfiltered list or inventing.
+
+Measured live on 2026-09-11 (`subtestItemSpace` for the bank, `askableWords` for words,
+"sittings" = bank ÷ that subtest's own question count):
+
+| Subtest | Templates | Bank | Sittings before a repeat | Verdict |
+|---|---|---|---|---|
+| **MK** | 82 | open (78 of 82 parameterised) | ∞ | ready |
+| **AR** | 37 | open (35 of 37) | ∞ | ready |
+| **WK** | 70 | 1,496 questions over **637 askable words** | 59 | ready |
+| **VA** | 28 | 270 | 10 | ready |
+| **RC** | 12 | **165** over 24 passages | **6** | thinnest scored subtest |
+| TR / BC | 6 / 5 | open | ∞ | ready |
+| AI | 64 | 670 | 33 | ready |
+| PS | 48 | 584 | 29 | unscored anyway |
+| IC | 6 | 168 | 6 | rated-only |
+| SJ | 8 | **63** | **1.3** | thinnest on the test |
+
+**The word bank is the RIGHT 637 words, and that is checkable.** Authoring followed
+`hardListHits` priority: every candidate appearing in **three or more** of the five curated GRE
+lists is authored, and 267 of the 268 appearing in exactly two. The 728 left unauthored are all
+single-list tail. `inventory.test.js` → *"has authored the high-confidence GRE words first"*
+asserts this against `wordCandidates.csv` directly, so it cannot drift into a claim again.
+
+✂️ **RC and SJ are the real gaps and neither was fixed in that session.** RC is priority 8 and
+feeds ACAD + VERB, which ten of his eleven job choices are scored on, so it is the one worth
+authoring against — more passages, not more question types per passage (the five types already
+match the real subtest). SJ is 1.3 sittings but is the disputed-composite subtest.
 
 **Never derive a word count by grepping `band:`** — the string appears on morphology rows and
 nested data as well as templates. Use `askableWords()` in `engine/words.js` (memoized; it walks

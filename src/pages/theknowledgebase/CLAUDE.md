@@ -13,6 +13,7 @@ Folder-local rules. Read before touching anything under
 | `/TKB/review`, `/TKB/subjects`, `/TKB/settings` | Original tool — **do not redesign, additive changes only** |
 | `/TKB/asvab` | Parked ASVAB module *(planned)* |
 | `/TKB/afoqt/*` | AFOQT training module *(in build)* — Math Knowledge, Arithmetic Reasoning, Table Reading, Aviation Information, Instrument Comprehension and Block Counting live |
+| `/TKB/afoqt/subtest/:code` | **One page per subtest** — live content inventory, where you stand, every study option, its chapters. Reached by clicking a row on the dashboard. Anything that belongs to exactly ONE subtest lives here, not on the dashboard (`OWNED` in `views/SubtestHub.jsx`). |
 | `/TKB/courses/*` | Courses module — per-course document/assessment tracking, real-question capture, and zero-AI question generation feeding TKB's spaced-review engine |
 | `/TKB/afoqt/afrotc` | **AFROTC tab — not an AFOQT subtest.** Two pages behind one tab (`?view=drill` switches): the graded-recitation crash sheet and the cadet rank drill. See the AFROTC note below. |
 
@@ -118,10 +119,29 @@ PART-by-PART design records and hard-won engine bugs it replaced are preserved i
 🔴 **`docs/afoqt/QUESTION-SELECTION.md` is required reading before touching `engine/drill.js`,
 `engine/generator.js`, `engine/bank.js` or `engine/words.js`** — or before answering any question
 of the form "how many words are in this thing". It covers the FOUR places Word Knowledge words
-live (only 252 of 357 askable headwords are registry rows), the four different counts that all
+live (only 535 of 637 askable headwords are registry rows), the four different counts that all
 sound like "the word count", how a drill is dealt so every item is equally likely, and why none
 of that is visible to `afoqt:selftest` or `afoqt:coverage`. Written after a long session spent
 rediscovering all of it.
+
+🔴 **NEVER state a content count from memory, from a doc, or from a grep. Call
+`subtestInventory(code)` in `engine/inventory.js` and quote what it returns.** As of 2026-09-11
+that module is the single producer of every "how much is in here" figure, each already carrying
+its unit, and `engine/__tests__/inventory.test.js` pins the claims — including that the word bank
+was authored in GRE `hardListHits` priority order rather than arbitrarily. This exists because
+Trey had been told **500+**, **2,000+**, **60** and **35** by different agents on different days;
+every one of those was a different unit or an invention, and a number asserted in a chat cannot be
+re-checked a week later. The live figures now render on each subtest's own hub page
+(`/TKB/afoqt/subtest/:code`) so the app is the authority, not the transcript. **If an agent's
+claim disagrees with that screen, the screen is right.** For the record, the real answer that day:
+**637 askable words / 1,496 distinct WK questions**, and 2,000 was never supportable — the curated
+GRE hard-list pool tops out at 1,266 words total.
+
+⚠️ **Depth, not bank size, is the readiness number.** `nonRepeatingRuns(code)` divides a bank by
+that subtest's own question count, because 165 questions sounds ample until you divide it by a
+25-question subtest and get six sittings. On that measure **Reading Comprehension (6) is the
+thinnest subtest that actually counts** — priority 8, feeding ACAD and VERB, which ten of his
+eleven job choices are scored on. MK, AR, TR and BC are open and cannot run out; WK is at 59.
 
 ---
 

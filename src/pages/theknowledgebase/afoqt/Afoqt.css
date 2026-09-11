@@ -176,8 +176,11 @@
    letting the numeric columns wrap. */
 .afq-subtest-table { table-layout: auto; }
 .afq-subtest-table th, .afq-subtest-table td { white-space: nowrap; }
-.afq-subtest-table th:not(:nth-child(2)), .afq-subtest-table td:not(:nth-child(2)) { width: 1%; }
-.afq-subtest-table th:nth-child(2), .afq-subtest-table td:nth-child(2) { width: auto; padding-right: 1.2rem; }
+/* The slack goes to the SUBTEST NAME, column 3 - column 1 is the hide button and column 2 is the
+   priority chip. It was pointed at column 2, which stranded the priority number a third of the
+   table away from the name it belongs to. Matters more now that the row is a link you aim at. */
+.afq-subtest-table th:not(:nth-child(3)), .afq-subtest-table td:not(:nth-child(3)) { width: 1%; }
+.afq-subtest-table th:nth-child(3), .afq-subtest-table td:nth-child(3) { width: auto; padding-right: 1.2rem; }
 .afq-subtest-table .afq-num { text-align: right; font-variant-numeric: tabular-nums; padding-left: .9rem; }
 .afq-subtest-wrap { overflow-x: auto; }
 
@@ -957,4 +960,118 @@
 .afq-voice-prep { font-size: .75rem; color: var(--tkb-accent); font-style: italic; }
 .afq-voice-clear {
   align-self: flex-start; font-size: .72rem; color: var(--tkb-ink-soft);
+}
+
+/* ==== Subtest hub + the restructured dashboard ==============================================
+   The dashboard used to open with four stacked full-width "what next" bars above its only
+   table, so the subtest standings - the thing the page exists for - started below the fold.
+   They are now one compact strip UNDER the table, and anything that belongs to a single
+   subtest (the word study plan, the flashcards, the word bank) moved onto that subtest's own
+   hub page instead of living on the dashboard. */
+
+/* --- clicking a subtest row opens its hub ------------------------------------------------- */
+.afq-subtest-row { cursor: pointer; }
+.afq-subtest-row:hover td { background: color-mix(in oklab, var(--tkb-surface), var(--tkb-accent) 7%); }
+.afq-subtest-row.afq-solved:hover td { background: color-mix(in oklab, var(--tkb-surface), var(--tkb-correct) 20%); }
+
+.afq-subtest-link {
+  background: none; border: 0; padding: 0; font: inherit; color: inherit;
+  cursor: pointer; text-align: left; font-weight: 600;
+}
+.afq-subtest-link:hover, .afq-subtest-link:focus-visible { color: var(--tkb-accent); text-decoration: underline; }
+
+/* Depth: bank size measured against the real subtest's own length, which is the only scale on
+   which "is this enough" has an answer. Thin is a warning, not a failure. */
+.afq-depth-deep { color: var(--tkb-correct); }
+.afq-depth-open { color: var(--tkb-accent); font-weight: 700; }
+.afq-depth-ok   { color: var(--tkb-ink-soft); }
+.afq-depth-thin { color: var(--tkb-wrong); font-weight: 700; }
+
+/* --- the compact "everything else" strip --------------------------------------------------- */
+.afq-side { margin-top: 1.6rem; }
+.afq-side > h3 { font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); margin: 0 0 .6rem; }
+.afq-side-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: .7rem; }
+.afq-side-card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: .3rem; text-align: left;
+  padding: .75rem .85rem; border: 1px solid var(--tkb-border); border-radius: 10px;
+  background: var(--tkb-surface); color: inherit; font: inherit; cursor: pointer;
+}
+.afq-side-card:hover { border-color: var(--tkb-accent); }
+.afq-side-card strong { font-size: .95rem; display: flex; align-items: center; gap: .4rem; }
+.afq-side-card span { font-size: .8rem; color: var(--tkb-ink-soft); line-height: 1.4; }
+.afq-side-card small { font-size: .78rem; color: var(--tkb-accent); }
+.afq-side-static { cursor: default; }
+.afq-side-static:hover { border-color: var(--tkb-border); }
+.afq-side-static .afq-btn { margin-top: .35rem; }
+.afq-side-tag {
+  font-style: normal; font-size: .68rem; font-weight: 700; letter-spacing: .04em;
+  padding: .1rem .4rem; border-radius: 999px;
+  background: color-mix(in srgb, var(--tkb-accent) 18%, transparent); color: var(--tkb-accent);
+}
+
+/* --- the subtest hub ----------------------------------------------------------------------- */
+.afq-hub { display: flex; flex-direction: column; gap: 1.4rem; }
+.afq-hub-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+.afq-hub-head h2 { margin: .35rem 0 .2rem; display: flex; align-items: baseline; gap: .55rem; }
+.afq-hub-back { padding: .15rem .4rem; font-size: .78rem; }
+.afq-hub-code {
+  font-size: .78rem; font-weight: 700; letter-spacing: .08em;
+  padding: .15rem .45rem; border-radius: 6px;
+  background: color-mix(in srgb, var(--tkb-accent) 16%, transparent); color: var(--tkb-accent);
+}
+.afq-hub-go { white-space: nowrap; }
+.afq-hub h3 { font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); margin: 0 0 .6rem; }
+
+/* The figures panel. Every number on it is computed from the template registry at render time -
+   it is the standing answer to "how much is actually in here", put where it can be re-read
+   instead of being asserted once in a conversation. */
+.afq-hub-inv, .afq-hub-stand {
+  border: 1px solid var(--tkb-border); border-radius: 12px; padding: .9rem 1rem; background: var(--tkb-surface);
+}
+.afq-hub-inv { border-color: color-mix(in srgb, var(--tkb-accent) 35%, var(--tkb-border)); }
+.afq-hub-figs { display: flex; flex-wrap: wrap; gap: .5rem 2rem; }
+.afq-hub-fig { display: flex; flex-direction: column; gap: .1rem; cursor: help; }
+.afq-hub-fig strong { font-size: 1.5rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.afq-hub-fig span { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--tkb-ink-soft); }
+.afq-hub-depth { margin: .8rem 0 0; font-size: .9rem; }
+.afq-hub-src { margin: .4rem 0 0; font-size: .75rem; }
+
+/* --- study options ------------------------------------------------------------------------- */
+.afq-hub-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: .7rem; }
+.afq-hub-opt {
+  display: flex; flex-direction: column; align-items: flex-start; gap: .35rem; text-align: left;
+  padding: .85rem .95rem; border: 1px solid var(--tkb-border); border-radius: 10px;
+  background: var(--tkb-surface); color: inherit; font: inherit; cursor: pointer;
+}
+.afq-hub-opt:hover { border-color: var(--tkb-accent); }
+.afq-hub-opt strong { font-size: 1rem; display: flex; align-items: center; gap: .4rem; }
+.afq-hub-opt span { font-size: .8rem; color: var(--tkb-ink-soft); line-height: 1.45; }
+.afq-hub-opt-primary { border-color: var(--tkb-accent); background: color-mix(in srgb, var(--tkb-accent) 7%, var(--tkb-surface)); }
+.afq-hub-badge {
+  font-style: normal; font-size: .68rem; font-weight: 700;
+  padding: .1rem .4rem; border-radius: 999px;
+  background: color-mix(in srgb, var(--tkb-accent) 18%, transparent); color: var(--tkb-accent);
+}
+
+/* --- chapters ------------------------------------------------------------------------------ */
+.afq-hub-chapters { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .45rem; }
+.afq-hub-chapter {
+  width: 100%; display: flex; flex-direction: column; gap: .15rem; text-align: left;
+  padding: .6rem .8rem; border: 1px solid var(--tkb-border); border-radius: 9px;
+  background: var(--tkb-surface); color: inherit; font: inherit; cursor: pointer;
+}
+.afq-hub-chapter:hover { border-color: var(--tkb-accent); }
+.afq-hub-chapter strong { font-size: .95rem; }
+.afq-hub-chapter span { font-size: .8rem; color: var(--tkb-ink-soft); line-height: 1.4; }
+.afq-hub-chapter small { font-size: .72rem; color: var(--tkb-ink-soft); opacity: .8; }
+.afq-hub-chapter-done { background: color-mix(in oklab, var(--tkb-surface), var(--tkb-correct) 10%); }
+
+.afq-hub-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.afq-hub-nav:has(> :only-child) { justify-content: flex-end; }
+
+@media (max-width: 640px) {
+  .afq-hub-figs { gap: .5rem 1.2rem; }
+  .afq-hub-fig strong { font-size: 1.25rem; }
+  .afq-hub-head { flex-direction: column; align-items: stretch; }
+  .afq-hub-go { width: 100%; }
 }

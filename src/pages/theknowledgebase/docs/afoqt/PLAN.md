@@ -2424,3 +2424,100 @@ here. First real session is the test.
 - `$725 jacket` reads "725 dollars jacket". Needs a POS pass; clumsy, never wrong.
 - No wake word / hands-free start - browsers require a gesture before any audio.
 - Firefox: synthesis yes, recognition no. Stated in the panel.
+
+---
+
+# 2026-09-11 — the content audit, and a dashboard organised around subtests
+
+Trey, verbatim: *"i keep getting told by other agents that the text bank is only like 500+ words
+when before i was told it would be 2000+ JUST based on the GRE words... tell me what is real. I
+just need to know that i'm studying the right word bank for my AFOQT prep."* And: *"At this point
+i JUST WANT TO KNOW THAT WHAT I'M STUDYING WILL PREPARE ME."*
+
+This was a **trust** problem, not a content problem. The content was fine. What was missing was
+any way for him to check a number without asking an agent and getting a fourth different answer.
+
+## What is real (measured, not recalled)
+
+| Subtest | Templates | Bank | Sittings before a repeat |
+|---|---|---|---|
+| MK | 82 | open (78 of 82 parameterised) | never repeats |
+| AR | 37 | open (35 of 37) | never repeats |
+| WK | 70 | 1,496 questions over **637 askable words** (535 registry rows) | 59 |
+| VA | 28 | 270 | 10 |
+| RC | 12 | **165** over 24 passages | **6** |
+| TR / BC | 6 / 5 | open | never repeats |
+| AI | 64 | 670 | 33 |
+| PS | 48 | 584 | 29 |
+| IC | 6 | 168 | 6 |
+| SJ | 8 | **63** | **1.3** |
+
+`npm run afoqt:coverage` holds in both directions across 366 templates / 266 concepts, so nothing
+is taught untested and nothing is tested untaught.
+
+**Neither number he had been given was right.** 500+ was `allWords()` (535 registry rows), which
+under-reports by the 102 headwords that are only askable through morphology or confusable pairs.
+**2,000 has never been supportable from this project's own data**: `WORD-BANK-EXPANSION.md` caps
+the hard-tier GRE pool at 1,266 words total. 1,899 is the union of the five curated lists before
+easy-word filtering; 9,566 is the whole merged collection, four fifths of it below his level.
+
+**The 637 are the RIGHT 637.** Authoring followed `hardListHits` priority: every candidate in
+three or more of the five curated GRE lists is authored, and 267 of the 268 in exactly two. All
+728 remaining are single-list tail — the lowest-yield words in the pool.
+
+## What was built
+
+- **`engine/inventory.js`** — the single producer of every content figure, each carrying its unit.
+  `subtestInventory(code)`, `nonRepeatingRuns(code)`, `depthVerdict(code)`. No view computes a
+  count inline any more; three of them used to, and one dropped the word "written", which is how
+  `35 in bank` got read as the word count back on 09-09.
+- **`engine/__tests__/inventory.test.js`** — four tests pinning the claims, including the GRE
+  priority-order one, checked against `wordCandidates.csv` directly. Floors, not exact values, so
+  authoring a batch does not break the build.
+- **Depth** — a new dashboard column and the headline on every hub. Bank size divided by that
+  subtest's own question count. This is the metric that was missing: 165 RC questions reads as
+  ample until you divide by a 25-question subtest.
+- **`/TKB/afoqt/subtest/:code` (`views/SubtestHub.jsx`)** — one page per subtest. Header, a
+  "what is actually in here" panel computed at render time, where you stand, every study option,
+  and its chapters. Prev/next links between subtests.
+
+## Dashboard restructure
+
+Trey: *"The 4 section blocks at the top of the AFOQT dashboard are an eyesore and terrible and
+shouldn't be there... The study plan for the word list? that would go under word knowledge not in
+the middle of the dashboard."*
+
+- The four stacked full-width `afq-next` bars are **gone** (0 remain). Curriculum, Diagnostic,
+  Flagged and the miss pool are one compact `afq-side` card strip **below** the subtest table.
+- **Study plan, Flashcards and Word bank left the dashboard entirely** — they are Word Knowledge
+  surfaces and now live on the WK hub, reached by clicking the WK row. `OWNED` in `SubtestHub.jsx`
+  is the map; add to it rather than putting a subtest-specific panel back on the dashboard.
+- **Every subtest row is a link** into its hub. The name cell is a real `<button>` so it works
+  from a keyboard; the hide button stops propagation.
+- Fixed a pre-existing column bug while in there: the table's auto-width was on `nth-child(2)`
+  (the priority chip) rather than `nth-child(3)` (the subtest name), which stranded the priority
+  number a third of the table from the name it labels.
+
+## The gaps, unfixed
+
+✂️ **RC is the thinnest scored subtest at 6 sittings.** Priority 8, feeds ACAD + VERB, which ten
+of his eleven job choices are selected on. The fix is more PASSAGES, not more question types —
+the five types already match the real subtest (48 vocabulary-in-context, 36 detail-inference,
+24 main-idea, 24 author-agreement, 23 function-of-paragraph across 24 passages). Roughly 12 more
+passages would double it to ~12 sittings.
+
+✂️ **SJ is 1.3 sittings (63 questions against a 50-question subtest).** Thinnest on the test, but
+it is the disputed-composite subtest, so it is a lower call than RC.
+
+✂️ **IC is 6 sittings** but rated-only (priority 4) and only matters for the single RPA choice.
+
+✂️ **VA at 10 sittings** has no band-5 templates, where WK does. Not urgent; VA is only 19.2s per
+question and the skill is the relationship, not the vocabulary ceiling.
+
+## Verification
+
+`npm test` 4610/4610 across 93 files. `npm run afoqt:coverage` holds both directions.
+`npm run build` clean. New files lint clean (the two pre-existing `AfoqtApp.jsx` errors are
+unchanged). Browser-checked at 1500px and 420px: zero page errors, no horizontal scroll, row
+click lands on the hub, drill deep-link carries the subtest, an unknown code renders a message
+rather than throwing.

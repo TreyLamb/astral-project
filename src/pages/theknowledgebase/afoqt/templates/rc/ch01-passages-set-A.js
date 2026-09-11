@@ -16,7 +16,8 @@
 // across all six. No question was invented to hit this — every passage was written full enough to
 // honestly support two distinct readings of its doubled types.
 
-import { registerPassages, passageTemplates, allPassages } from '../../engine/passage.js';
+// Template registration lives in rc/zz-register.js, which runs after every passage file.
+import { registerPassages } from '../../engine/passage.js';
 
 // ================================================================================================
 // BAND 2 — straightforward PME prose, common vocabulary, direct argument structure.
@@ -1691,18 +1692,3 @@ registerPassages([
     ],
   },
 ]);
-
-for (const band of [2, 3]) {
-  passageTemplates({
-    chapter: 'rc-02-main-idea', band, idBase: `rc-main-idea-b${band}`, name: 'Main idea and author agreement',
-    concepts: ['rc-main-idea', 'rc-author-agreement'], passages: allPassages(),
-  });
-  passageTemplates({
-    chapter: 'rc-03-details', band, idBase: `rc-detail-b${band}`, name: 'Detail inference and paragraph function',
-    concepts: ['rc-detail-inference', 'rc-function-of-paragraph'], passages: allPassages(),
-  });
-  passageTemplates({
-    chapter: 'rc-04-vocabulary', band, idBase: `rc-vocabulary-b${band}`, name: 'Vocabulary in context',
-    concepts: ['rc-vocabulary-in-context'], passages: allPassages(),
-  });
-}

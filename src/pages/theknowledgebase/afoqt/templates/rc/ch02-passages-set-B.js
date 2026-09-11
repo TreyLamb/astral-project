@@ -24,7 +24,8 @@
 // `text.split('\n')` output with a throwaway script before this file was registered - blank
 // paragraph-break lines get numbered too, so a hand-count is not trustworthy on its own.
 
-import { registerPassages, passageTemplates, allPassages } from '../../engine/passage.js';
+// Template registration lives in rc/zz-register.js, which runs after every passage file.
+import { registerPassages } from '../../engine/passage.js';
 
 const MI_STEMS = [
   'Which choice best states the main idea of the passage?',
@@ -1610,18 +1611,3 @@ registerPassages([
     ],
   },
 ]);
-
-for (const band of [4, 5]) {
-  passageTemplates({
-    chapter: 'rc-02-main-idea', band, idBase: `rc-main-idea-b${band}`, name: 'Main idea and author agreement',
-    concepts: ['rc-main-idea', 'rc-author-agreement'], passages: allPassages(),
-  });
-  passageTemplates({
-    chapter: 'rc-03-details', band, idBase: `rc-detail-b${band}`, name: 'Detail inference and paragraph function',
-    concepts: ['rc-detail-inference', 'rc-function-of-paragraph'], passages: allPassages(),
-  });
-  passageTemplates({
-    chapter: 'rc-04-vocabulary', band, idBase: `rc-vocabulary-b${band}`, name: 'Vocabulary in context',
-    concepts: ['rc-vocabulary-in-context'], passages: allPassages(),
-  });
-}
