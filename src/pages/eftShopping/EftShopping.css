@@ -4512,3 +4512,16 @@
   color: var(--eft-text-faint);
   margin-left: 3px;
 }
+
+/* The Mine category carries a warning badge: its pin count is mapgenie's, it is wildly uneven
+   per map, and the real minefield extent is drawn into the tile art rather than pinned.
+   See MINE_WARNING in views/MapView.jsx for the evidence. */
+.eft-cat-warn {
+  flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 14px; height: 14px; margin-left: 4px;
+  border-radius: 50%;
+  background: var(--eft-red, #c0392b); color: #fff;
+  font-size: 10px; font-weight: 800; line-height: 1;
+  cursor: help;
+}

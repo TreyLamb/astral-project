@@ -36,6 +36,33 @@ const MAPS = mapConfigFile.maps;
 // is not persisted — it resets to this set on every map load, so leaving it off meant
 // re-ticking it every single time you opened the map.
 const DEFAULT_ON = new Set(['Extraction', 'Location', 'BTR Stop']);
+
+/**
+ * The Mine category is the one place on this map where trusting the pins can actually get you
+ * killed, so it is labelled rather than left to look complete.
+ *
+ * Trey, 2026-09-11: "on streets of tarkov we have '3' map pins and around one building on the map
+ * there's a lot of 'red' warning symbols that are static ON the map. those are the real mines...
+ * there's TONS of mines around this building and they aren't marked by pins."
+ *
+ * He is right, and it was verified: our snapshot matches mapgenie's own declared count exactly on
+ * every map, so nothing is being dropped on our side - mapgenie simply publishes 3 mine pins for
+ * Streets against 63 for Shoreline, 15 for Lighthouse and 8 for Ground Zero. Fetching the basemap
+ * tile underneath the Streets pins shows four red-and-white hazard triangles in that single tile
+ * with the nearest pin ~150px away from any of them. The pins mark individual devices somebody
+ * bothered to plot; the drawn triangles are the actual minefield.
+ *
+ * No better source exists right now: tarkov.dev (whose `maps.hazards` field is the natural home
+ * for this) is still returning "GraphQL server unavailable", and SPT's location base.json carries
+ * no minefield keys at all on tarkovstreets, lighthouse or shoreline - the colliders live in the
+ * Unity scene, which SPT does not mirror. If tarkov.dev comes back, wire `hazards` in and delete
+ * this note.
+ */
+const MINE_WARNING = 'INCOMPLETE - do not trust the pin count. These are individual mines mapgenie '
+  + 'happened to plot, not the minefield boundary, and its coverage is wildly uneven (Shoreline 63 '
+  + 'pins, Streets 3). The real extent is the red-and-white hazard triangles DRAWN INTO the map '
+  + 'imagery. Trust those, not these pins. Checked 2026-09-11: tarkov.dev is down and SPT has no '
+  + 'minefield data, so there is no better source yet.';
 const defaultVisible = (categories) => new Set(
   (categories || []).filter((c) => DEFAULT_ON.has(c.title)).map((c) => c.id),
 );
@@ -1064,6 +1091,9 @@ export default function MapView() {
                         <input type="checkbox" checked={visibleCats.has(c.id)} onChange={() => toggleCat(c.id)} />
                         <CatIcon icon={c.icon} color={c.color} />
                         <span className="eft-line-text">{c.title}</span>
+                        {c.icon === 'minefield' ? (
+                          <span className="eft-cat-warn" title={MINE_WARNING} aria-label={MINE_WARNING}>!</span>
+                        ) : null}
                         <span className="eft-note">{c.count}</span>
                       </label>
                     ))}
