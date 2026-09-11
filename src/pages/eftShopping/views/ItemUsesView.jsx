@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useEft } from '../eftContext';
-import { Panel, ItemCell } from '../EftBits';
+import { Panel, ItemCell, fmtRub } from '../EftBits';
 import { buildCraftIndex } from '../eftCraftGraph';
 import { buildQuestIndex } from '../eftQuestLogic';
 import { buildItemUsesIndex, searchItemUses } from '../eftItemUses';
@@ -93,8 +93,44 @@ function Detail({ rec }) {
   );
 }
 
+/**
+ * "Can I sell this, and for how much" — the other half of "what is this used for", and the
+ * reason to look an item up at all when the answer to uses is "none".
+ *
+ * Reads `priceOf` rather than `data.items` because this page's universe is the full 4,137-item
+ * table and the hideout snapshot only carries 397 of them. A weapon is quoted at its trader
+ * price with the flea average flagged, because flea listings for a gun are modded builds.
+ */
+function SellPrice({ price }) {
+  if (!price) return null;
+  const trader = price.bestTraderSell;
+  const flea = price.fleaBuildPriced ? null : price.avg24hPrice;
+  if (!flea && !trader) return null;
+
+  const best = flea && (!trader || flea >= trader.price)
+    ? { rub: flea, where: 'flea' }
+    : { rub: trader.price, where: trader.vendor };
+
+  return (
+    <span
+      className="eft-chip eft-is-price"
+      title={[
+        flea ? `Flea average ${fmtRub(flea)}${price.fleaListings ? ` across ${price.fleaListings} listings` : ''}` : null,
+        price.lastLowPrice ? `Cheapest listing ${fmtRub(price.lastLowPrice)}` : null,
+        trader ? `${trader.vendor} pays ${fmtRub(trader.price)}` : null,
+        price.fleaBuildPriced ? 'Flea listings for a weapon are modded builds, so the average is not this item — trader price shown.' : null,
+        price.fleaStale ? 'This flea sample is stale.' : null,
+        price.fleaLevelRequirement ? `Needs player level ${price.fleaLevelRequirement} to trade on the flea.` : null,
+      ].filter(Boolean).join(' · ')}
+    >
+      {fmtRub(best.rub)} <span className="eft-chip-sub">{best.where}</span>
+      {price.fleaStale || price.fleaLowConfidence ? ' ?' : ''}
+    </span>
+  );
+}
+
 export default function ItemUsesView() {
-  const { data } = useEft();
+  const { data, priceOf } = useEft();
   const craftIndex = useMemo(() => buildCraftIndex(data), [data]);
   const questIndex = useMemo(() => buildQuestIndex(), []);
   const usesIndex = useMemo(() => buildItemUsesIndex({
@@ -173,6 +209,7 @@ export default function ItemUsesView() {
                 <ItemCell item={displayItem} />
                 <div className="eft-need-body">
                   <div className="eft-blockchips">
+                    <SellPrice price={priceOf(rec.itemId)} />
                     {rec.hasUses ? rec.tags.map((tag) => (
                       <span key={tag} className={`eft-chip ${TAG_CLASS[tag]}`}>{tag}</span>
                     )) : (

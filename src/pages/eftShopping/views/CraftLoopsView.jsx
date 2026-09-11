@@ -13,7 +13,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
 import { useEft } from '../eftContext';
-import { loadPriceSnapshot, itemIcon } from '../eftApi';
+import { itemIcon } from '../eftApi';
 import { buildCraftIndex } from '../eftCraftGraph';
 import { findCraftLoops } from '../eftCraftLoops';
 import { Panel, Seg, Stat, fmtRub, fmtShort, fmtDuration, fmtAgo } from '../EftBits';
@@ -29,13 +29,12 @@ const SUPPLY = [
   { value: 'trader', label: 'Trader-fed only', title: 'Every input from unlimited trader stock — nothing depends on other players listing things' },
 ];
 
-const usePrices = () => {
-  const [prices, setPrices] = useState(undefined);
-  if (prices === undefined) loadPriceSnapshot().then((p) => setPrices(p));
-  return prices;
-};
-
 const stamp = (epoch) => (epoch ? fmtAgo(epoch * 1000) : 'unknown');
+
+// Flea prices move hourly and every number on this page is a profit calculation, so a
+// day-old snapshot is not wrong so much as no longer load-bearing.
+const STALE_AFTER_SECONDS = 24 * 3600;
+const isStale = (epoch) => !epoch || (Date.now() / 1000 - epoch) > STALE_AFTER_SECONDS;
 
 function Chip({ itemId, name, count, sub, tone }) {
   return (
@@ -199,10 +198,13 @@ function FarmCard({ farm, nameOf, onShop }) {
 }
 
 export default function CraftLoopsView() {
+  // The raw snapshot, not the merged item fields: this engine needs the trader assortment and
+  // the FX table, neither of which belongs on an item record. The shell already loaded it for
+  // the mode in play, so there is nothing to fetch here.
   const {
-    data, items, levels, profile, gameMode, addToShoppingList, showToast,
+    data, items, levels, profile, gameMode, status, priceSnapshot: prices,
+    addToShoppingList, showToast,
   } = useEft();
-  const prices = usePrices();
 
   const [sort, setSort] = useState('hour');
   const [supplyMode, setSupplyMode] = useState('all');
@@ -253,7 +255,7 @@ export default function CraftLoopsView() {
     showToast(`${farm.best.buys.length} item${farm.best.buys.length > 1 ? 's' : ''} → ongoing list`);
   };
 
-  if (!data || prices === undefined) {
+  if (!data || status.loading) {
     return <Panel><p className="eft-empty">Loading craft loops…</p></Panel>;
   }
 
@@ -261,9 +263,9 @@ export default function CraftLoopsView() {
     return (
       <Panel title="Craft loops">
         <p className="eft-empty">
-          No price snapshot. This page needs one — a craft loop is a question about money, and
-          without prices there is nothing to answer. Run <code>npm run eft:prices</code> to build
-          <code>data/priceSnapshot.json</code>, then reload.
+          No price snapshot for the <b>{gameMode}</b> economy. This page needs one — a craft loop
+          is a question about money, and without prices there is nothing to answer. Build it with{' '}
+          <code>npm run eft:prices -- --mode={gameMode}</code>, then reload.
         </p>
       </Panel>
     );
@@ -272,7 +274,8 @@ export default function CraftLoopsView() {
   const { stats, cycles, supply } = result;
   const chains = farms.filter((f) => f.kind === 'chain');
   const singles = farms.filter((f) => f.kind === 'single');
-  const modeMismatch = prices.mode && prices.mode !== gameMode;
+  const scanned = supply.meta.scannedAt?.flea;
+  const stale = isStale(scanned);
 
   return (
     <div className="eft-fl">
@@ -334,18 +337,17 @@ export default function CraftLoopsView() {
           />
           <Stat
             label="Prices"
-            value={stamp(supply.meta.scannedAt?.flea)}
+            value={stamp(scanned)}
             sub={`${prices.mode} · traders ${stamp(supply.meta.scannedAt?.traders)}`}
-            tone={modeMismatch ? 'warn' : null}
+            tone={stale ? 'warn' : null}
           />
         </div>
 
-        {modeMismatch ? (
+        {stale ? (
           <p className="eft-fl-warn">
-            The price snapshot is <b>{prices.mode}</b> but you have <b>{gameMode}</b> selected.
-            The two economies really do differ — PVE flea prices run well above PVP — so these
-            numbers are not yours. Rebuild with{' '}
-            <code>npm run eft:prices -- --mode={gameMode}</code>.
+            These prices were scanned <b>{scanned ? fmtAgo(scanned * 1000) : 'at an unknown time'}</b>.
+            The flea moves hourly and every number on this page is a profit calculation, so
+            rebuild before trusting the ranking: <code>npm run eft:prices</code>.
           </p>
         ) : null}
       </Panel>

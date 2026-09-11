@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 
 import snapshot from './data/hideoutSnapshot.json';
-import prices from './data/priceSnapshot.json';
+import prices from './data/prices/pve.json';
 import { buildCraftIndex } from './eftCraftGraph';
 import {
   buildSupplyIndex, findCraftLoops, findCycles, readPrices, sellValue, LOOP_DEFAULTS,

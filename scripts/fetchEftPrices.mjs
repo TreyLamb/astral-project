@@ -1,4 +1,4 @@
-// npm run eft:prices  [-- --mode=pve|regular|season]
+// npm run eft:prices  [-- --mode=all|pve|regular|season]
 //
 // Flea prices, trader sell-back prices and the LIVE TRADER ASSORTMENT, from the public
 // upstream documented in src/pages/eftShopping/PRICES.md.
@@ -37,7 +37,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-const OUT = path.join(HERE, '..', 'src', 'pages', 'eftShopping', 'data', 'priceSnapshot.json');
+const OUT_DIR = path.join(HERE, '..', 'src', 'pages', 'eftShopping', 'data', 'prices');
+// One file per economy, named by OUR mode id, so the app can import the one the user has
+// selected and nothing else. PVE and PVP really are different markets — Bolts is 42,872 RUB
+// in PVE against 30,487 in PVP — so showing one under the other's toggle would be a lie the
+// UI has no way to flag.
+const outFor = (mode) => path.join(OUT_DIR, `${mode}.json`);
 const SNAPSHOT = path.join(HERE, '..', 'src', 'pages', 'eftShopping', 'data', 'hideoutSnapshot.json');
 
 const BASE = 'https://publicfleaapi.asoloproject.xyz/api/v2/flea-advanced';
@@ -93,12 +98,20 @@ function deriveFx(offers) {
   return fx;
 }
 
-function main() {
-  const mode = arg('mode', 'pve');
-  const gameType = GAME_TYPE[mode];
-  if (!gameType) throw new Error(`unknown mode "${mode}" — one of ${Object.keys(GAME_TYPE).join(', ')}`);
+// `pvp-season` is deliberately not in the default set: it is a third, separate economy
+// (tarkov.dev's own game-modes.mjs declares regular/pve/pvp-season) that the app does not
+// model yet. The upstream serves it for free with `--mode=season` whenever it matters.
+const DEFAULT_MODES = ['pve', 'regular'];
 
-  return run(mode, gameType);
+async function main() {
+  const requested = arg('mode', 'all');
+  const modes = requested === 'all' ? DEFAULT_MODES : [requested];
+  for (const mode of modes) {
+    const gameType = GAME_TYPE[mode];
+    if (!gameType) throw new Error(`unknown mode "${mode}" — one of all, ${Object.keys(GAME_TYPE).join(', ')}`);
+  }
+  fs.mkdirSync(OUT_DIR, { recursive: true });
+  for (const mode of modes) await run(mode, GAME_TYPE[mode]);
 }
 
 async function run(mode, gameType) {
@@ -225,9 +238,10 @@ async function run(mode, gameType) {
     offers: rows,
   };
 
-  fs.writeFileSync(OUT, JSON.stringify(out));
-  const kb = (fs.statSync(OUT).size / 1024).toFixed(0);
-  console.log(`\n✓ ${path.relative(path.join(HERE, '..'), OUT)} — ${kb} KB`);
+  const target = outFor(mode);
+  fs.writeFileSync(target, JSON.stringify(out));
+  const kb = (fs.statSync(target).size / 1024).toFixed(0);
+  console.log(`\n✓ ${path.relative(path.join(HERE, '..'), target)} — ${kb} KB`);
   console.log(`  mode ${mode} (${gameType})`);
   console.log(`  flea ${out.counts.flea} items (${buildPriced} weapon/build-priced, ${noSample} with no sample)`);
   console.log(`  vendor sell-back ${out.counts.vendor} items`);

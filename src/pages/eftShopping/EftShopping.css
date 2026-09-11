@@ -4438,3 +4438,77 @@
   .eft-fl-cycles li { grid-template-columns: 48px 1fr; }
   .eft-fl-cyclecost { grid-column: 2; }
 }
+
+/* ---------- Settings: where each piece of data comes from ----------
+ * A definition list rather than prose, because the useful question is always
+ * "which of these is stale" and that is a scan, not a read. Every row names the
+ * npm script that rebuilds it, so the answer to "these numbers look wrong" is on
+ * the same line as the complaint.
+ */
+
+.eft-kv {
+  display: grid;
+  grid-template-columns: minmax(140px, 220px) minmax(0, 1fr);
+  gap: 8px 18px;
+  margin: 0;
+  font-size: 13.4px;
+  line-height: 1.55;
+}
+
+.eft-kv dt {
+  color: var(--eft-tan-bright);
+  letter-spacing: 0.04em;
+}
+
+.eft-kv dd {
+  margin: 0;
+  color: var(--eft-text-dim);
+  min-width: 0;
+}
+
+.eft-kv dd b { color: var(--eft-text); }
+
+.eft-kv code {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: var(--eft-r-xs);
+  background: var(--eft-bg-2);
+  border: 1px solid var(--eft-line);
+  font-family: var(--eft-mono);
+  font-size: 12px;
+  color: var(--eft-gold);
+  /* A five-script line has to be able to break; nowrap pushed the panel wider
+     than the viewport on a phone. */
+  white-space: normal;
+}
+
+.eft-kv .eft-note {
+  display: block;
+  margin-top: 3px;
+  font-size: 12.4px;
+  color: var(--eft-text-faint);
+}
+
+.eft-row { display: flex; align-items: center; }
+
+@media (max-width: 640px) {
+  .eft-kv { grid-template-columns: 1fr; gap: 2px 0; }
+  .eft-kv dd { margin-bottom: 10px; }
+}
+
+/* A sell price sitting among the use tags on /EFTsh/uses. Gold rather than a
+   category colour: it is not another kind of use, it is the answer to the other
+   question people open that page with. */
+.eft-chip.eft-is-price {
+  background: var(--eft-fill-gold);
+  color: var(--eft-gold);
+  font-family: var(--eft-mono);
+  cursor: help;
+}
+
+.eft-chip.eft-is-price .eft-chip-sub {
+  font-family: var(--eft-cond);
+  color: var(--eft-text-faint);
+  margin-left: 3px;
+}

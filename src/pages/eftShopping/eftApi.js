@@ -12,6 +12,7 @@
 // was available when it was generated) stay exactly as they were.
 
 import { pricesQuery, normalizePrices } from './eftNormalize';
+import { applyPrices, priceAge } from './eftPrices';
 
 const ENDPOINT = 'https://api.tarkov.dev/graphql';
 
@@ -57,17 +58,32 @@ function withPrices(snapshot, overlay) {
 
 /**
  * @returns {Promise<{data, source:'game-files', generatedAt:number,
- *                    pricesFetchedAt:number|null, gaps:string[]}>}
+ *                    pricesFetchedAt:number|null, priceMode:string|null, gaps:string[]}>}
  */
 export async function loadEftData(mode) {
   const snapshot = await loadSnapshot();
-  const overlay = readPriceOverlay(mode);
+  const priceSnapshot = await loadPriceSnapshot(mode);
+  // Two layers, cheapest-to-trust last. The committed snapshot is the baseline every view now
+  // runs on; the tarkov.dev overlay sits on top when someone has explicitly pulled it, because
+  // an explicit refresh should win over a file committed days ago.
+  const [priced, overlay] = [
+    applyPrices(snapshot, priceSnapshot),
+    readPriceOverlay(mode),
+  ];
   return {
-    data: withPrices(snapshot, overlay),
+    data: withPrices(priced, overlay),
     source: snapshot.source || 'game-files',
     generatedAt: Date.parse(snapshot.generatedAt) || 0,
-    pricesFetchedAt: overlay?.fetchedAt ?? (snapshot.enrichedAt ? Date.parse(snapshot.enrichedAt) : null),
-    gaps: snapshot.gaps || [],
+    pricesFetchedAt: overlay?.fetchedAt ?? priceAge(priced.prices)
+      ?? (snapshot.enrichedAt ? Date.parse(snapshot.enrichedAt) : null),
+    priceSource: overlay ? 'tarkov.dev' : priced.prices ? 'snapshot' : null,
+    priceMode: priced.prices?.mode ?? null,
+    // The RAW snapshot as well as the merged item fields: the craft-loop engine needs the
+    // trader assortment and FX table, which do not belong on an item, and the Item Uses page
+    // needs prices for the ~3,700 ids the hideout snapshot has never heard of.
+    priceSnapshot,
+    pricedItems: priced.prices?.priced ?? 0,
+    gaps: priced.gaps || [],
   };
 }
 
@@ -121,12 +137,18 @@ export function clearPriceOverlay(mode) {
 // rather than welded into the bundle every visitor downloads. Its scan timestamps ride
 // along inside it, so a caller can say how old the numbers are instead of implying they
 // are live — the snapshot IS a point in time and the UI has to admit that.
-let priceSnapshotPromise = null;
-export function loadPriceSnapshot() {
-  if (!priceSnapshotPromise) {
-    priceSnapshotPromise = import('./data/priceSnapshot.json')
+// One file per economy (`npm run eft:prices` writes both), so switching the PVP/PVE toggle
+// switches the market too. Half a megabyte each, imported on demand: Vite turns this template
+// literal into a glob over data/prices/, giving every mode its own chunk, and only the one
+// being used is ever fetched.
+const priceSnapshots = new Map();
+export function loadPriceSnapshot(mode = 'pve') {
+  if (!priceSnapshots.has(mode)) {
+    priceSnapshots.set(mode, import(`./data/prices/${mode}.json`)
       .then((m) => m.default)
-      .catch(() => null);
+      // A mode with no committed snapshot (season) degrades to no prices rather than to a
+      // crash, and must never fall back to another mode's numbers.
+      .catch(() => null));
   }
-  return priceSnapshotPromise;
+  return priceSnapshots.get(mode);
 }

@@ -1,4 +1,4 @@
-// npm run eft:loops  [-- --top=20 --all --cycles]
+// npm run eft:loops  [-- --top=20 --all --mode=pve|regular]
 //
 // Prints what eftCraftLoops.js finds, in the terminal, from the committed snapshots. This is
 // the "run it one time and it tells you" surface Trey asked for; /EFTsh/loops draws the same
@@ -37,7 +37,7 @@ const hours = (s) => (s >= 3600 ? `${(s / 3600).toFixed(1)}h` : `${Math.round(s 
 
 function main() {
   const snapshot = read('hideoutSnapshot.json');
-  const prices = read('priceSnapshot.json');
+  const prices = read(`prices/${arg('mode', 'pve')}.json`);
   const nameRows = read('itemNames.json').rows;
   const NAME = new Map(nameRows.map((r) => [r[0], r[1]]));
   const nameOf = (id) => snapshot.items?.[id]?.name || NAME.get(id) || id;

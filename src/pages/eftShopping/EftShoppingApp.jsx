@@ -3,6 +3,7 @@ import { Routes, Route, Link, useLocation } from 'react-router-dom';
 
 import { EftContext } from './eftContext';
 import { loadEftData, fetchLivePrices } from './eftApi';
+import { priceFieldsFrom } from './eftPrices';
 import { GAME_MODES } from './eftNormalize';
 import { read, write, DEFAULTS } from './eftStorage';
 import { addToList } from './eftListLogic';
@@ -52,6 +53,24 @@ const TABS = [
   { href: 'https://tarkov-market.com/', label: 'Flea Prices ↗' },
 ];
 
+/**
+ * Where the numbers on screen came from, in one hover.
+ *
+ * Worth being explicit about: the snapshot is a point in time, it is per economy, and the
+ * live overlay is a different source with different coverage. A bare "prices 2h ago" invites
+ * you to assume it is live, which it is not.
+ */
+const priceTitle = (status) => {
+  const built = `Hideout data built from the game files ${fmtAgo(status.generatedAt)}.`;
+  if (!status.pricesFetchedAt) return `${built} No price snapshot for this game mode.`;
+  if (status.priceSource === 'tarkov.dev') {
+    return `${built} Prices from a live tarkov.dev fetch — note its REST endpoint ignores the game mode.`;
+  }
+  return `${built} Prices from the committed ${status.priceMode || ''} snapshot `
+    + `(${status.pricedItems} items), scanned ${fmtAgo(status.pricesFetchedAt)}. `
+    + 'Rebuild with: npm run eft:prices';
+};
+
 // Every persisted slice, held in one state object so a single generic
 // `update(key, value)` can serve all of them. Twelve near-identical
 // useState/useEffect pairs would be the alternative.
@@ -65,6 +84,7 @@ export default function EftShoppingApp() {
 
   const [status, setStatus] = useState({
     data: null, source: 'game-files', generatedAt: 0, pricesFetchedAt: null,
+    priceSource: null, priceMode: null, pricedItems: 0, priceSnapshot: null,
     gaps: [], loading: true, priceError: null, pricesLoading: false,
   });
 
@@ -144,6 +164,15 @@ export default function EftShoppingApp() {
 
   const items = data?.items || {};
 
+  // Prices for EVERY item in the game, not just the 397 the hideout snapshot carries. The
+  // merged `items` above is the right thing for views built on the craft graph; this is what
+  // the Item Uses search needs, since its universe is the full 4,137-item table.
+  const priceIndex = useMemo(
+    () => priceFieldsFrom(status.priceSnapshot).byItem,
+    [status.priceSnapshot],
+  );
+  const priceOf = useCallback((itemId) => priceIndex.get(itemId) || null, [priceIndex]);
+
   // One flag every price-dependent view reads, rather than each one re-deriving
   // "do we have prices?" from the data source.
   const hasPrices = useMemo(
@@ -175,13 +204,16 @@ export default function EftShoppingApp() {
     provisions: data?.provisions || [],
     status: { ...status, hasPrices },
     hasPrices,
+    priceSnapshot: status.priceSnapshot,
+    priceOf,
     gameMode,
     setGameMode: (mode) => update('prefs', (p) => ({ ...p, gameMode: mode })),
     setPref: (key, val) => update('prefs', (p) => ({ ...p, [key]: val })),
     refresh: refreshPrices,
     refreshPrices,
     showToast,
-  }), [store, update, addToShoppingList, reloadStore, data, stations, items, status, hasPrices, gameMode, refreshPrices, showToast]);
+  }), [store, update, addToShoppingList, reloadStore, data, stations, items, status, hasPrices,
+    priceOf, gameMode, refreshPrices, showToast]);
 
   const active = (tab) => {
     const path = `${ROOT}${tab.to}`;
@@ -196,12 +228,6 @@ export default function EftShoppingApp() {
   // topbar, no banner, and a tab row that stays folded until asked for.
   // webdesign.md §1–§3.
   const isMap = location.pathname.startsWith(`${ROOT}/map`);
-
-  // Craft Loops ships its own committed flea/trader snapshot (`npm run eft:prices`), so the
-  // global "No prices loaded" banner is simply untrue there — it is about the live tarkov.dev
-  // fetch, which that page does not use. Showing it over a page full of rouble figures reads
-  // as a broken tool. The rest of the app still has no prices and still says so.
-  const hasOwnPrices = location.pathname.startsWith(`${ROOT}/loops`);
 
   return (
     <EftContext.Provider value={value}>
@@ -244,21 +270,11 @@ export default function EftShoppingApp() {
 
                 <div className="eft-status">
                   <span className={`eft-status-dot ${dotClass}`} />
-                  <span title={`Hideout data built from the game files ${fmtAgo(status.generatedAt)}`}>
+                  <span title={priceTitle(status)}>
                     {status.loading ? 'loading'
                       : hasPrices ? `prices ${fmtAgo(status.pricesFetchedAt)}` : 'no prices'}
                   </span>
                 </div>
-
-                <button
-                  type="button"
-                  className="eft-btn eft-btn-sm"
-                  onClick={refreshPrices}
-                  disabled={status.pricesLoading}
-                  title="Fetch live flea and trader prices from tarkov.dev. Hideout data is local and never depends on this."
-                >
-                  {status.pricesLoading ? 'Fetching…' : 'Get prices'}
-                </button>
               </div>
             </div>
 
@@ -287,7 +303,7 @@ export default function EftShoppingApp() {
           </header>
           )}
 
-          {!isMap && !hasOwnPrices && !hasPrices && !status.loading && !bannerDismissed ? (
+          {!isMap && !hasPrices && !status.loading && !bannerDismissed ? (
             <div className="eft-banner">
               <button
                 type="button"
@@ -298,10 +314,10 @@ export default function EftShoppingApp() {
               >
                 ×
               </button>
-              <strong>No prices loaded.</strong> Hideout requirements come from the game files and are
-              complete — costs are the only thing missing. Hit <strong>Get prices</strong> to pull live
-              flea and trader prices from tarkov.dev.
-              {status.priceError ? ` Last attempt failed: ${status.priceError}` : ''}
+              <strong>No prices for this game mode.</strong> Hideout requirements come from the game
+              files and are complete — costs are the only thing missing. Prices ship as a committed
+              snapshot per economy; build one with <code>npm run eft:prices</code>.
+              {status.priceError ? ` Last live attempt failed: ${status.priceError}` : ''}
             </div>
           ) : null}
 

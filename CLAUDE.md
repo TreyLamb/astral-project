@@ -232,12 +232,21 @@ nine other routes already probed and ruled out — including three tarkov.dev en
 200 while **silently ignoring the game-mode parameter** (byte-identical MD5s). Don't re-probe
 them; don't trust a 200 to mean the mode took.
 
-`npm run eft:prices` now builds `data/priceSnapshot.json` from it (flea + trader sell-back +
-the **live trader assortment**, 498 KB, PVE by default, `--mode=` for the others). Only
-`/EFTsh/loops` consumes it so far; the rest of the app still says "NO PRICES". Three traps —
-FX must be *derived* from `requirementsCost` and is a different rate from the one in
-`traderPrices`; a weapon's flea average is for modded builds, not the bare gun; an offer in a
-currency with no derived rate gets skipped, never priced at 1 — are written up in `PRICES.md`.
+`npm run eft:prices` builds `data/prices/pve.json` AND `data/prices/regular.json` from it
+(flea + trader sell-back + the **live trader assortment**, ~500 KB each). **The whole app runs
+on it** as of 2026-09-11: `eftPrices.js` translates the snapshot into the tarkov.dev field
+names every view was already written against, `loadEftData` merges it, and the PVP/PVE toggle
+picks the file. Traps, all written up in `PRICES.md`: FX must be *derived* from
+`requirementsCost` and is a different rate from the one in `traderPrices`; a weapon's flea
+average is for modded builds, not the bare gun; an offer in a currency with no derived rate is
+skipped, never priced at 1; `fleaBuy` is the robust average, not `minPrice`, because
+`unitCost()` reads it first; and 🔴 **`fleaAvailable` is only ever raised to true, never lowered
+to false** — 1,151 items have no flea sample and "no sample" is not "flea-banned", but three
+views truthy-check that field to print a chip saying exactly that.
+
+The live tarkov.dev refresh moved from the top bar to **Settings → Data source**. It is usually
+down, its REST fallback is PVP-only, and a prominent "Get prices" button next to a page already
+full of prices invited you to replace good numbers with worse ones.
 
 ### ℹ️ EFT craft loops (`/EFTsh/loops`) — a generic engine, not a hand-written list
 
@@ -386,6 +395,50 @@ The transcript prints its own per-term footers and grand total, so the parser is
 validated against the registrar rather than against anyone's reading of the
 file: `npm run tt:parse` exits non-zero if any of the 15 terms or the total
 disagrees, and the same reconciliation runs in vitest.
+
+---
+
+## 🔴 `_leaflet_pos` on the EFT map: `map._loaded` is NOT a sufficient guard
+
+This exact TypeError — `Cannot read properties of undefined (reading '_leaflet_pos')` — has now
+been chased **twice**, and the first fix was documented as sufficient when it covered only half
+the problem. A Leaflet map has THREE lifecycle states and two of them are unsafe to project
+through (`containerPointToLatLng`, `latLngToContainerPoint`, `panTo`, `getCenter`, `getBounds`):
+
+| state | `_loaded` | `_mapPane` | safe? |
+|---|---|---|---|
+| constructed, before the first `setView()` | `false` | exists | **no** |
+| ready | `true` | positioned | yes |
+| **after `map.remove()`** | **`true`** | **deleted** | **no — and `_loaded` lies** |
+
+Read `leaflet-src.js`'s `remove()`: it ends with `delete this._mapPane` and **never touches
+`this._loaded`**. `_getMapPanePos()` is `getPosition(this._mapPane)`, which is
+`el._leaflet_pos`. So a torn-down map passes an `if (map._loaded)` check and throws anyway.
+
+- **2026-08-19** was the first state. `mapRef` is assigned the instant `L.map()` returns, but
+  the pane has no position until `setView()`, and `useMapDrawing`'s `mergeTolerance` projects
+  on every render while the async marker chunk is still loading. `_loaded` was added and fixes
+  that window. Local-only testing never hit it — the chunk resolves off disk before the map is
+  even built; it needs a real network to open.
+- **2026-09-11** was the third state, reported from production by Trey: *"I get this randomly
+  on eftsh/map and then when i refresh it all just works normal."* `MapCanvas` is keyed
+  `` `${mapKey}-${base}` ``, so **switching maps remounts it** and its cleanup calls
+  `map.remove()`. But the instance had been handed to `MapView` through `onReady`, and nothing
+  ever invalidated *that* ref — so between the old cleanup and the new mount's effect, MapView
+  held a dead map that still reported `_loaded === true`. Reproduced in Playwright: the error
+  boundary fires within **four map switches** before the fix and survives **39** after it.
+
+The fix is two parts, and the first is the real one:
+1. **`MapCanvas` calls `onReady?.(null)` in its cleanup.** A component that hands an object out
+   must hand out its death too — otherwise every consumer is holding a corpse.
+2. **`map/mapSafety.js`** — `isLiveMap(map)` checks `_loaded` AND `_mapPane`; `withMap(map, fn)`
+   for the one-liners. Use these, never a bare `map?.` or `map._loaded`, at any call site that
+   reaches into Leaflet. `mapSafety.test.js` asserts each of the three states by name, including
+   that a removed map still reports `_loaded === true` — if that assertion ever flips, the crash
+   is back.
+
+**Both crashes were caught by the route boundary and neither blanked the site**, which is the
+error-boundary work below doing its job — but a map that dies on a map switch is still broken.
 
 ---
 

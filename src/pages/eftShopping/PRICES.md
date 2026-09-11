@@ -114,8 +114,8 @@ asking us not to. Contrast tarkov-market below, which explicitly says no.
 
 ## What is wired up (2026-09-10)
 
-`npm run eft:prices` → `data/priceSnapshot.json` (498 KB, dynamically imported so only the
-page that needs it pays for it). `scripts/fetchEftPrices.mjs` pulls both endpoints for one
+`npm run eft:prices` → `data/prices/<mode>.json` (~500 KB each, dynamically imported so only
+the economy in play is ever fetched). `scripts/fetchEftPrices.mjs` pulls both endpoints per
 mode and strips them to what we use:
 
 | key | shape | what it is |
@@ -141,11 +141,38 @@ Three things in there were not obvious and cost time:
   a loose `/weapon/i` also catches `"Weapon parts & mods"`, which is 2,244 items whose prices
   *are* the bare part, and mislabels 1,649 items instead of 433.
 
-**Consumers:** `eftCraftLoops.js` (pure, tested) and `/EFTsh/loops`. The rest of the app still
-runs on `eftApi.js`'s dead tarkov.dev GraphQL and still shows "NO PRICES" — merging this
-snapshot into `loadEftData`'s `items` would light up every other view's price column, and is
-the obvious next step. It is not done because 498 KB eagerly loaded on every EFT page is the
-wrong trade without checking each view first.
+**Two files, one per economy** — `data/prices/pve.json` and `data/prices/regular.json`,
+written by `npm run eft:prices` (both by default; `--mode=` for one). PVE and PVP are genuinely
+different markets, so the app imports the one matching the PVP/PVE toggle and nothing else:
+`loadPriceSnapshot(mode)` is a template-literal import, which Vite globs into a chunk per mode.
+`pvp-season` is a third economy the upstream serves for free and the app does not model.
+
+**Consumers:** everything. `eftPrices.js` (pure, tested) translates the snapshot into the
+tarkov.dev field names every view was already written against — `avg24hPrice`, `lastLowPrice`,
+`fleaBuy`, `bestTraderBuy`, `bestTraderSell` — and `loadEftData` merges it, so `unitCost()`,
+`traderBeatsFlea()`, the shopping-list totals, the build-order estimates, Buy Below, Food/Slot
+and the item detail modal all light up without learning a second vocabulary. `eftCraftLoops.js`
+takes the RAW snapshot instead, because it needs the trader assortment and the FX table, which
+do not belong on an item record. `/EFTsh/uses` shows a sell price per result via `priceOf()`,
+which covers all ~4,100 items rather than the 397 the hideout snapshot carries.
+
+Three mapping decisions that are not obvious:
+
+- **`fleaBuy` is the robust AVERAGE, not `minPrice`.** `unitCost()` reads `fleaBuy` first and
+  feeds every cost estimate in the tool; the single cheapest listing is a snipe, not a price you
+  can plan a stack of ten around. `lastLowPrice` carries the cheapest listing.
+- **`bestTraderBuy` is cash offers only.** A barter's real cost depends on how you get the
+  give-item — a supply question `eftCraftLoops.js` answers properly and a one-line "Trader buy:
+  X" field cannot. Quoting one would put a number next to a trader who will not take money.
+- 🔴 **`fleaAvailable` is only ever raised to TRUE, never lowered to false.** 1,151 items have
+  no flea sample and "no sample" is not "flea-banned" — it also covers an item nobody happens to
+  be listing. Three views truthy-check that field to print a "No flea" / "Flea-banned" chip, so
+  writing `false` on an unknown would print a confident lie in each of them.
+
+The live tarkov.dev refresh still exists and still layers on top when someone pulls it, but it
+moved from the top bar to **Settings → Data source**: it is usually down, its REST fallback is
+PVP-only, and a prominent "Get prices" button next to a page already full of prices invited you
+to replace good numbers with worse ones.
 
 ## Open items
 - 🔴 **`GAME_MODES` in `eftNormalize.js` has only `regular` and `pve`.** tarkov.dev's own

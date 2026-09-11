@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useEft } from '../eftContext';
 import {
-  Panel, Seg, EditableLines,
+  Panel, Seg, EditableLines, fmtAgo,
 } from '../EftBits';
 import { exportAll, importAll, resetAll } from '../eftStorage';
 import { SEED_HIDEOUT_NEEDS } from '../data/eftSeeds';
@@ -16,6 +16,7 @@ const LL_OPTIONS = [
 export default function SettingsView() {
   const {
     profile, sights, traders, stations, update, reloadStore, showToast,
+    status, gameMode, refreshPrices,
   } = useEft();
 
   const [importText, setImportText] = useState('');
@@ -90,8 +91,68 @@ export default function SettingsView() {
 
   return (
     <>
-      <Panel title="Data Source">
+      {/* The live refresh lives here rather than in the top bar. It is a power action with
+          real caveats — tarkov.dev's GraphQL has been down for weeks and its REST fallback
+          silently ignores the game mode — and a prominent "Get prices" button next to a page
+          already full of prices invited you to replace good numbers with worse ones. */}
+      <Panel title="Data source">
+        <dl className="eft-kv">
+          <dt>Hideout, crafts, stations</dt>
+          <dd>
+            BSG&rsquo;s own game files via the SPT mirror, built {fmtAgo(status.generatedAt)}.
+            <code>npm run eft:snapshot</code>
+          </dd>
 
+          <dt>Prices</dt>
+          <dd>
+            {status.priceSource === 'snapshot' ? (
+              <>
+                Committed <b>{status.priceMode}</b> snapshot — {status.pricedItems} of this
+                tool&rsquo;s items priced, scanned {fmtAgo(status.pricesFetchedAt)}.
+                <code>npm run eft:prices</code>
+                <span className="eft-note">
+                  Flea and trader prices come from a public upstream that serves each economy
+                  separately, so the PVP/PVE switch really does switch markets. Prices move
+                  hourly — rebuild when they start looking wrong, and always after a wipe.
+                </span>
+              </>
+            ) : status.priceSource === 'tarkov.dev' ? (
+              <>
+                A live tarkov.dev fetch from {fmtAgo(status.pricesFetchedAt)}, sitting on top of
+                the committed snapshot.
+                <span className="eft-note">
+                  ⚠ tarkov.dev&rsquo;s REST endpoint ignores the game-mode parameter, so these
+                  may be PVP numbers whatever you have selected. Clear it to fall back to the
+                  snapshot.
+                </span>
+              </>
+            ) : (
+              <>
+                None for <b>{gameMode}</b>. Build one with{' '}
+                <code>npm run eft:prices -- --mode={gameMode}</code>.
+              </>
+            )}
+          </dd>
+
+          <dt>Quests, barters, gear, ammo, maps</dt>
+          <dd>
+            Their own committed snapshots — the wiki, eft-ammo.com and mapgenie.
+            <code>npm run eft:quests · eft:barters · eft:gear · eft:ammo · eft:markers</code>
+          </dd>
+        </dl>
+
+        <div className="eft-row" style={{ gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            className="eft-btn eft-btn-sm"
+            onClick={refreshPrices}
+            disabled={status.pricesLoading}
+            title="Try a live pull from tarkov.dev and layer it over the snapshot. Usually fails — its GraphQL has been down for weeks — and its REST fallback is PVP-only."
+          >
+            {status.pricesLoading ? 'Fetching…' : 'Try a live tarkov.dev refresh'}
+          </button>
+          {status.priceError ? <span className="eft-note">Last attempt: {status.priceError}</span> : null}
+        </div>
       </Panel>
 
       <Panel title="Profile">
