@@ -39,6 +39,26 @@ export const DISPLAY = {
 const TRANSIT = 4744;
 const EXTRACTION = 954;
 
+// BTR STOPS ARE NAMES, NOT PINS.
+//
+// The source ships them as `displayType: 'marker'` with a dark purple pin (#453A49) and no
+// label, which on Woods and Streets means six to eight identical anonymous teardrops — you
+// can see that a taxi stops somewhere and not which stop it is, which is the only thing you
+// actually need from them. Trey, 2026-09-11: "the BTR STOPS icon text is super messed up.
+// fix it and just name the stops the names - instead of an icon make the icons be replaced
+// with bold red text - so it stands out from all the other text."
+//
+// Matched on the category's ICON, not its id. The id happens to be 4743 on both maps that
+// have them today, but ids are mapgenie's and have been reshuffled before; `btr_stop` is the
+// source's own semantic tag for the thing.
+//
+// Red because nothing else on these maps uses it: extracts are cyan/orange/green by faction
+// tag, transits are yellow, place names are white, and the terrain is green, tan and grey.
+const BTR_ICON = 'btr_stop';
+export const BTR_COLOR = '#ff2d3a';
+
+export const isBtrStop = (category) => category?.icon === BTR_ICON;
+
 const TAG_COLOURS = [
   ['[PMC]', '#00E99B'],
   ['[SCAV]', '#FFAA00'],
@@ -55,15 +75,46 @@ export const hasPin = (displayType) => !displayType
   || displayType === 'features|marker';
 
 /**
+ * Whether a CATEGORY draws pin artwork — `hasPin` plus the overrides.
+ *
+ * Separate from `hasPin(displayType)` rather than replacing it: that one answers "what does
+ * the source say about this display type", which is still the right question in isolation
+ * and is tested as such. This answers "what do we draw", which is no longer always the same.
+ */
+export const drawsPin = (category) => hasPin(category?.displayType) && !isBtrStop(category);
+
+/**
  * Label text, colour and zoom-keyed sizes for a marker.
  *
  * Returns null when the category is not a text one, so the caller can skip it
  * without knowing the rules.
  */
 export function labelStyle(marker, category) {
-  if (!category || !hasText(category.displayType)) return null;
+  if (!category) return null;
 
   const raw = marker.title || category.title || '';
+
+  // Checked BEFORE hasText, because the source calls these pins and we are overriding that.
+  if (isBtrStop(category)) {
+    return {
+      // Titles already read "BTR Old Sawmill" — the prefix stays, so a red "BTR OLD SAWMILL"
+      // can never be mistaken for the white place name "Old Sawmill" sitting on top of it,
+      // which is exactly where several of them are.
+      text: raw.toUpperCase(),
+      color: BTR_COLOR,
+      weight: 800,
+      haloWidth: 2,
+      haloColor: '#000000',
+      sizes: [14, 16, 20],
+      // A BTR stop is a place you are navigating TO, so it has to survive the zoom where
+      // every other label is deliberately dropped — that is the zoom at which you are looking
+      // for the door.
+      persist: true,
+    };
+  }
+
+  if (!hasText(category.displayType)) return null;
+
   const catId = category.id;
 
   if (catId === EXTRACTION || catId === TRANSIT) {
@@ -152,10 +203,17 @@ export const LABEL_HOLD_TO = 13;
 export const LABEL_HIDE_AT = 15;
 export const FLOOR_SCALE = 0.7 * 1.15;
 
-export function textSizeForZoom(zoom, sizes) {
+export function textSizeForZoom(zoom, sizes, { persist = false } = {}) {
   const base = sizes?.[1] ?? 14;
   const floor = (sizes?.[0] ?? 12) * FLOOR_SCALE;
   if (!Number.isFinite(zoom)) return base;
+  // `persist` holds the label at full size at EVERY zoom, and is only for labels that ARE
+  // the marker. The shrink-then-drop ramp below exists because a place name written across a
+  // building is in the way once you are close — but a BTR stop has no pin behind its name,
+  // so shrinking it makes the marker harder to see and dropping it deletes the stop from the
+  // map at precisely the zoom you went looking for its door. Constant, not merely floored:
+  // holding at the floor instead would shrink it through the ramp and then jump back up.
+  if (persist) return base;
   if (zoom <= LABEL_HOLD_TO) return base;
   if (zoom >= LABEL_HIDE_AT) return 0;
   const t = (zoom - LABEL_HOLD_TO) / (LABEL_HIDE_AT - LABEL_HOLD_TO);

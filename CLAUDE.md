@@ -398,6 +398,39 @@ disagrees, and the same reconciliation runs in vitest.
 
 ---
 
+## ℹ️ EFT map: BTR stops are drawn as NAMES, not pins — a deliberate override
+
+Added 2026-09-11. mapgenie ships BTR stops as `displayType: 'marker'` with a dark purple pin
+(#453A49) and no label, which on Woods and Streets means six to eight identical anonymous
+teardrops — you can see that a taxi stops somewhere and not which stop it is, which is the
+only thing you need from them. Trey: *"the BTR STOPS icon text is super messed up. fix it and
+just name the stops the names - instead of an icon make the icons be replaced with bold red
+text - so it stands out from all the other text."*
+
+Everything else on these maps still follows the source's own display type. This is the one
+place we override it, so **do not "fix" it back** to match mapgenie.
+
+- **Matched on the category's ICON (`btr_stop`), not its id.** 4743 happens to be the id on
+  both maps that have them today, but ids are mapgenie's and have been reshuffled before.
+- `drawsPin(category)` is the override point, kept separate from `hasPin(displayType)` —
+  that one answers "what does the source say", which is still a real question and is tested
+  as such. Red is `#ff2d3a` and nothing else on these maps uses it.
+- 🔴 **`persist: true` means the label holds full size at EVERY zoom**, bypassing the
+  shrink-then-drop ramp in `textSizeForZoom`. That ramp exists because a place name written
+  across a building is in the way once you are close — but a BTR label has no pin behind it,
+  so shrinking it shrinks the marker and dropping it deletes the stop from the map at exactly
+  the zoom you went looking for its door.
+- **Labels that persist also dodge.** The first version collided with the white place names
+  underneath ("BTR SAW~ILL Lumber", "BTR U~EC CHE~KPOINT") — which is the same complaint in a
+  new colour. `SpriteMarkerLayer._draw` now measures every ordinary label first, then settles
+  the persisting ones against that finished picture, nudging vertically. A BTR label is never
+  dropped on collision, only moved; if every candidate collides it draws anyway, on top.
+- **`BTR Stop` is in `DEFAULT_ON`** alongside Extraction and Location. `visibleCats` is NOT
+  persisted — it resets to that set on every map load — so leaving it off meant re-ticking it
+  every single time. It costs six to eight compact red labels now rather than pin art.
+
+---
+
 ## 🔴 `_leaflet_pos` on the EFT map: `map._loaded` is NOT a sufficient guard
 
 This exact TypeError — `Cannot read properties of undefined (reading '_leaflet_pos')` — has now

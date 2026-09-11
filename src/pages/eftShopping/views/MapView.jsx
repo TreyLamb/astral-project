@@ -27,10 +27,15 @@ const markerLoader = (key) => MARKER_FILES[`../map/data/markers/${key}.json`];
 
 const MAPS = mapConfigFile.maps;
 
-// Opening a map with all ~40 categories on is an unreadable wall of pins. These
-// two are the orientation layer — where you can leave, and what the places are
+// Opening a map with all ~40 categories on is an unreadable wall of pins. These three are the
+// orientation layer — where you can leave, where the taxi stops, and what the places are
 // called — so they are the only ones on by default. Everything else is opt-in.
-const DEFAULT_ON = new Set(['Extraction', 'Location']);
+//
+// BTR Stop joined them 2026-09-11. It is six to eight markers on the two maps that have any,
+// it now draws as compact red text rather than pin art (see eftMapLabels), and `visibleCats`
+// is not persisted — it resets to this set on every map load, so leaving it off meant
+// re-ticking it every single time you opened the map.
+const DEFAULT_ON = new Set(['Extraction', 'Location', 'BTR Stop']);
 const defaultVisible = (categories) => new Set(
   (categories || []).filter((c) => DEFAULT_ON.has(c.title)).map((c) => c.id),
 );

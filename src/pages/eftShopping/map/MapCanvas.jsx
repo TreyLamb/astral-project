@@ -3,7 +3,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import { spriteMarkerLayer, MARKER_SCALES } from './SpriteMarkerLayer';
-import { labelStyle, autoLabel, hasPin } from './eftMapLabels';
+import { labelStyle, autoLabel, drawsPin } from './eftMapLabels';
 
 // Two basemaps, two coordinate systems:
 //
@@ -241,8 +241,9 @@ export default function MapCanvas({
         point,
         colour: cat?.color ? `#${String(cat.color).replace('#', '')}` : '#cdbb96',
         dim: !!found?.[m.id],
-        // The source decides pin vs place-name per category, not us.
-        pin: hasPin(cat?.displayType),
+        // The source decides pin vs place-name per category, with the one override we
+        // make on top of it (BTR stops draw as their name) — see drawsPin.
+        pin: drawsPin(cat),
         label: labelStyle(m, cat),
         // Only used past the detail zoom, where pins become dots + names.
         auto: autoLabel(m, cat),

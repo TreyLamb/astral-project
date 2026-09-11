@@ -3,7 +3,7 @@ import L from 'leaflet';
 import sheetUrl from './data/assets/markers.png';
 import spriteData from './data/markerSprites.json';
 import {
-  textSizeForZoom, autoLabel, DEFAULT_DETAIL_ZOOM, DOT_FILL, DOT_RING, DOT_FOUND,
+  textSizeForZoom, DEFAULT_DETAIL_ZOOM, DOT_FILL, DOT_RING, DOT_FOUND,
 } from './eftMapLabels';
 
 // The detail-zoom dot, doubled from the 3.5px pip it shipped as. That was
@@ -232,32 +232,66 @@ export const SpriteMarkerLayer = L.Layer.extend({
     ctx.lineJoin = 'round';
     ctx.miterLimit = 2;
 
+    // Measure everything first, so a label that has to dodge knows what it is dodging.
+    const placed = [];
+    const queued = [];
     for (const { item, pt, auto } of labels) {
       const style = auto ? item.auto : item.label;
-      if (!style) continue;
-      const { text, color, haloWidth, haloColor, sizes } = style;
-      if (!text) continue;
-      const px = textSizeForZoom(zoom, sizes);
-      // Zero means "too far in for names" — see textSizeForZoom.
+      if (!style?.text) continue;
+      const px = textSizeForZoom(zoom, style.sizes, { persist: style.persist });
+      // Zero means "too far in for names" — see textSizeForZoom. A `persist` label never
+      // returns zero, because for those the text IS the marker.
       if (px <= 0) continue;
-      ctx.font = `600 ${px}px ${LABEL_FONT}`;
+      ctx.font = `${style.weight || 600} ${px}px ${LABEL_FONT}`;
       // A category that also has a pin puts its name below the point, since
       // the pin (or, at detail zoom, the dot) occupies the point itself.
       const y = item.pin
         ? pt.y + (detail ? DOT_R + DOT_RING_W + px * 0.55 : px * 0.9)
         : pt.y;
+      const w = ctx.measureText(style.text).width;
+      const box = { x: pt.x - w / 2, y: y - px / 2, w, h: px };
+      // Labels that keep the source's own placement are laid down first and claim their
+      // space; the ones that dodge are settled afterwards, against the finished picture.
+      if (style.persist) queued.push({ item, pt, style, px, y, w });
+      else { placed.push(box); queued.push({ item, pt, style, px, y, w, box }); }
+    }
 
-      ctx.globalAlpha = item.dim ? 0.35 : 1;
-      if (haloWidth) {
-        ctx.strokeStyle = haloColor;
-        ctx.lineWidth = haloWidth * 2;
-        ctx.strokeText(text, pt.x, y);
+    const overlaps = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x
+      && a.y < b.y + b.h && a.y + a.h > b.y;
+
+    // A BTR stop has no pin behind its name, so it cannot just be dropped when it collides —
+    // dropping it deletes the stop from the map. It is nudged instead: straight up first,
+    // because these sit on roads and junctions where the clear space is usually above.
+    const NUDGES = [0, -1, 1, -2, 2, -3, 3];
+
+    for (const entry of queued) {
+      const { item, pt, style, px, w } = entry;
+      let { y } = entry;
+      let box = entry.box;
+
+      if (!box) {
+        for (const step of NUDGES) {
+          const tryY = y + step * px * 1.35;
+          const tryBox = { x: pt.x - w / 2, y: tryY - px / 2, w, h: px };
+          if (!placed.some((other) => overlaps(tryBox, other))) { y = tryY; box = tryBox; break; }
+        }
+        // Every candidate collided. Draw it anyway at its own coordinate — an overlapping
+        // name still tells you a BTR stops here, and it is drawn last so it reads on top.
+        if (!box) box = { x: pt.x - w / 2, y: y - px / 2, w, h: px };
+        placed.push(box);
       }
-      ctx.fillStyle = color;
-      ctx.fillText(text, pt.x, y);
 
-      const w = ctx.measureText(text).width;
-      hits.push({ marker: item.marker, x: pt.x - w / 2, y: y - px / 2, w, h: px });
+      ctx.font = `${style.weight || 600} ${px}px ${LABEL_FONT}`;
+      ctx.globalAlpha = item.dim ? 0.35 : 1;
+      if (style.haloWidth) {
+        ctx.strokeStyle = style.haloColor;
+        ctx.lineWidth = style.haloWidth * 2;
+        ctx.strokeText(style.text, pt.x, y);
+      }
+      ctx.fillStyle = style.color;
+      ctx.fillText(style.text, pt.x, y);
+
+      hits.push({ marker: item.marker, ...box });
     }
 
     ctx.globalAlpha = 1;

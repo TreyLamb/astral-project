@@ -5,9 +5,11 @@ import { routePolyline } from './useMapDrawing';
 import { routeManifest } from './eftMapFilters';
 import woods from './data/markers/woods.json';
 import customs from './data/markers/customs.json';
+import streets from './data/markers/streets-of-tarkov.json';
 import sprites from './data/markerSprites.json';
 import {
-  labelStyle, autoLabel, textSizeForZoom, FLOOR_SCALE, hasPin, hasText,
+  labelStyle, autoLabel, textSizeForZoom, FLOOR_SCALE, hasPin, hasText, drawsPin,
+  isBtrStop, BTR_COLOR, LABEL_HIDE_AT,
 } from './eftMapLabels';
 
 // These lock in the parts that come from the source rather than from us. If a
@@ -231,6 +233,51 @@ describe('label styling, ported from mapgenie map.js', () => {
     const c = woods.categories.find((x) => x.title === 'Cache');
     expect(hasPin(c.displayType)).toBe(true);
     expect(labelStyle({ title: 'Cache' }, c)).toBeNull();
+  });
+
+  it('draws a BTR stop as its NAME, not as a pin', () => {
+    // The source ships them as anonymous dark-purple pins, which on Woods means eight
+    // identical teardrops and no way to tell which stop is which.
+    const c = woods.categories.find((x) => x.title === 'BTR Stop');
+    expect(c.displayType).toBe('marker');
+    expect(hasPin(c.displayType)).toBe(true);   // what the source says
+    expect(drawsPin(c)).toBe(false);            // what we draw
+
+    const style = labelStyle({ title: 'BTR Old Sawmill' }, c);
+    expect(style).toMatchObject({ text: 'BTR OLD SAWMILL', color: BTR_COLOR, weight: 800 });
+  });
+
+  it('matches BTR stops on the icon, not the category id', () => {
+    // 4743 happens to be the id on both maps that have them today, but mapgenie has
+    // reshuffled ids before and `btr_stop` is the source's own name for the thing.
+    expect(isBtrStop({ id: 99999, icon: 'btr_stop' })).toBe(true);
+    expect(isBtrStop({ id: 4743, icon: 'cache' })).toBe(false);
+    expect(isBtrStop(null)).toBe(false);
+  });
+
+  it('keeps every BTR stop on both maps that have them', () => {
+    for (const [name, map] of [['woods', woods], ['streets', streets]]) {
+      const c = (map.categories || []).find((x) => x.icon === 'btr_stop');
+      if (!c) continue;
+      const stops = (map.markers || []).filter((m) => m.cat === c.id);
+      expect(stops.length, name).toBeGreaterThan(0);
+      for (const stop of stops) {
+        const style = labelStyle(stop, c);
+        expect(style.text, `${name}:${stop.id}`).toBeTruthy();
+        expect(style.color).toBe(BTR_COLOR);
+      }
+    }
+  });
+
+  it('holds a BTR label at full size through every zoom', () => {
+    // It has no pin behind it, so shrinking the text shrinks the marker and hiding it deletes
+    // the stop from the map — at exactly the zoom you went looking for its door.
+    const sizes = [14, 16, 20];
+    expect(textSizeForZoom(LABEL_HIDE_AT + 1, sizes)).toBe(0);
+    for (const zoom of [8, 13, 14, LABEL_HIDE_AT, LABEL_HIDE_AT + 4]) {
+      expect(textSizeForZoom(zoom, sizes, { persist: true }), `zoom ${zoom}`).toBe(16);
+    }
+    expect(labelStyle({ title: 'BTR Tram' }, { icon: 'btr_stop' }).persist).toBe(true);
   });
 
   it('uppercases extracts and strips the tag into a colour', () => {

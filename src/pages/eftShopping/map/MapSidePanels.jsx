@@ -4,6 +4,7 @@ import { Panel, Seg } from '../EftBits';
 import { ZONE_MODES } from './eftMapFilters';
 import { bestJoin } from './eftMapGeometry';
 import { SPRITE_GLYPHS } from './SpriteMarkerLayer';
+import { BTR_COLOR } from './eftMapLabels';
 
 // Sidebar UI for the three filter tiers. The tiers themselves are decided in
 // eftMapFilters.js, which is pure and tested; nothing here re-implements the
@@ -18,6 +19,10 @@ import { SPRITE_GLYPHS } from './SpriteMarkerLayer';
  */
 export function CatIcon({ icon, color }) {
   const glyph = icon ? SPRITE_GLYPHS[icon] : null;
+  // BTR stops draw on the map as bold red text rather than pin art, so the legend has to
+  // agree — a purple swatch in the rail next to red names on the map is a filter you cannot
+  // match up to what you are looking at.
+  const tint = icon === 'btr_stop' ? BTR_COLOR : null;
   if (!glyph) {
     return (
       <span
@@ -32,7 +37,7 @@ export function CatIcon({ icon, color }) {
     );
   }
   return (
-    <span className="eft-cat-icon" aria-hidden="true">
+    <span className="eft-cat-icon" aria-hidden="true" style={tint ? { color: tint } : undefined}>
       {String.fromCharCode(parseInt(glyph, 16))}
     </span>
   );
