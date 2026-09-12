@@ -839,6 +839,26 @@ Haiku to parse the data, something smarter to understand it
 
 When you delegate feature work, pass the full requirement checklist verbatim to each sub-agent, give each explicit per-requirement ownership, and audit every line against their actual output before reporting — scope is most often lost at the hand-off (see `featuredesign.md`).
 
+### 🔴 NEVER RUN MORE THAN 2 SUBAGENTS AT ONCE. DEFAULT TO 1.
+
+Trey, 2026-09-11, verbatim: **"DON'T EVER GO OVER 2 PARALELL AGENTS (2+YOU) UNLESS TOLD TO. AND
+NORMALLY JUST STICK WITH 1 + YOU."**
+
+He said it after ten Sonnet agents were spawned at once to author AFOQT reading passages. Two
+separate problems, and the second is the one that bites:
+
+1. It is more concurrency than he wants running against his account without being asked.
+2. **The ten-way fan-out is what exhausted the session rate limit**, which killed eight of them
+   mid-flight and lost about an hour of work. Spawning wide did not go faster — it went to zero.
+   Two at a time would have finished.
+
+**The rule:** one agent, wait, audit, launch the next. Two only when the tasks are genuinely
+independent and each is short. Splitting a big job into many agent-sized batches is still correct;
+running those batches *simultaneously* is not — queue them.
+
+**If a job looks like it wants more parallelism, ask first** — say how many and why. Do not scale
+up on your own judgement. That is the decision he took away, and it is not yours to take back.
+
 ### 🔴 A SUBAGENT'S WORK ONLY EXISTS ONCE IT IS ON DISK — write incrementally, always
 
 **Trigger: every single time you spawn an agent that produces content.** Added 2026-09-11 after
