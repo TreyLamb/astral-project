@@ -41,6 +41,52 @@ function pushDiag(msg) {
   }
 }
 
+// Reports whether the browser still HAS a stored auth session, independently of
+// whether Firebase managed to read one. Added 2026-09-12, because "it forgot my
+// login again" has two completely different causes and the trace above could not
+// tell them apart:
+//
+//   idb=absent + localStorage=absent -> the storage was WIPED. iOS Safari's ITP
+//     clears all script-writable storage after 7 consecutive days with no
+//     first-party visit, and getAuth()'s default persistence chain is
+//     [indexedDB, localStorage, sessionStorage] — every one of which is in that
+//     category. The token is genuinely gone; signing in again is the only cure,
+//     and installing to the home screen is what prevents a recurrence.
+//   idb=present -> the token is STILL ON DISK and our own load path failed to
+//     use it (e.g. auth hung and the 6s fallback below forced signed-out). That
+//     is our bug, not the browser's, and a refresh would likely fix it.
+//
+// Every probe is best-effort and individually guarded: this is diagnostics, and
+// a diagnostic that can break sign-in is worse than no diagnostic at all.
+const AUTH_IDB_NAME = 'firebaseLocalStorageDb';
+async function probeAuthStorage() {
+  const bits = [];
+
+  try {
+    if (typeof indexedDB === 'undefined') {
+      bits.push('idb=unavailable');
+    } else if (typeof indexedDB.databases !== 'function') {
+      // Firefox has never shipped databases(); absence of the API is not
+      // absence of the database, so don't report it as a wipe.
+      bits.push('idb=unknown(no databases())');
+    } else {
+      const names = (await indexedDB.databases()).map((d) => d.name);
+      bits.push(`idb=${names.includes(AUTH_IDB_NAME) ? 'present' : 'absent'}`);
+    }
+  } catch (e) { bits.push(`idb=threw(${e.name})`); }
+
+  try {
+    const n = Object.keys(localStorage).filter((k) => k.startsWith('firebase:authUser:')).length;
+    bits.push(`localStorage=${n ? `present(${n})` : 'absent'}`);
+  } catch (e) { bits.push(`localStorage=threw(${e.name})`); }
+
+  try {
+    bits.push(`persisted=${navigator.storage?.persisted ? await navigator.storage.persisted() : 'n/a'}`);
+  } catch (e) { bits.push(`persisted=threw(${e.name})`); }
+
+  return bits.join(' ');
+}
+
 export function useAuth() {
   return useContext(AuthContext);
 }
@@ -70,6 +116,10 @@ export function AuthProvider({ children }) {
     log(`AuthProvider mounted — firebaseReady=${firebaseReady}, standalone=${window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true}, UA=${navigator.userAgent}`);
     if (!firebaseReady) { log('Firebase not ready — treating as signed out.'); setUser(null); setAuthSettled(true); return; }
     let cancelled = false;
+
+    // Runs alongside the listener below rather than gating it — this is a
+    // read-only observation and must never delay or block sign-in.
+    probeAuthStorage().then((s) => { if (!cancelled) log(`Auth storage probe — ${s}`); });
 
     let pendingAtMount = null;
     try { pendingAtMount = sessionStorage.getItem(PENDING_KEY); } catch (e) { log(`sessionStorage.getItem(PENDING_KEY) threw: ${e.message}`); }

@@ -525,6 +525,47 @@ docblock for any future component test.
 
 ---
 
+## 📲 The web app manifest exists to keep the login — do NOT remove it
+
+Added 2026-09-12 after Trey reported the site had stopped saving his login on mobile.
+
+**Diagnosis, in order.** `getAuth()` in `src/firebase.js` uses the SDK default persistence chain
+— `[indexedDBLocalPersistence, browserLocalPersistence, browserSessionPersistence]` (verified in
+the installed firebase 12.14.0, not from memory). Every one of those is **script-writable
+storage**, and iOS Safari's ITP deletes all of it after **7 consecutive days without a
+first-party visit**. Firebase keeps its refresh token there, so a week away = signed out. Nothing
+in our code regressed; the last auth commit only added logging.
+
+⚠️ **The `authDomain` theory was checked and RULED OUT — don't re-chase it.** `vercel.json`
+reverse-proxies `/__/auth/*` to `astral-project-10a35.firebaseapp.com` so the sign-in handoff
+stays same-origin, which only works if `VITE_FIREBASE_AUTH_DOMAIN` is the app's own domain. Those
+vars live only in Vercel's dashboard and aren't readable from the repo — but the value is **baked
+into the shipped bundle**, so `curl` the live site's `/assets/index-*.js` and grep it. It reads
+`authDomain:"astral-project.vercel.app"`. Correct. That trick settles any build-time env question
+in about a minute; use it instead of guessing or asking him to open the dashboard.
+
+**The fix is `public/manifest.webmanifest` plus the `apple-*` meta tags in `index.html`.** A
+home-screen web app is exempt from the 7-day sweep and gets its own storage partition. Deleting
+the manifest, or dropping `apple-mobile-web-app-capable` (iOS reads the meta tags, **not** the
+manifest, for standalone mode / label / icon), brings the weekly sign-out straight back.
+
+- **Static files beat the SPA rewrite on Vercel** — the filesystem is checked before `rewrites`,
+  so the `/(.*)  -> /index.html` catch-all does not swallow `/manifest.webmanifest` or
+  `/icons/*`. Confirmed live (`/vite.svg` returns `image/svg+xml`, not the SPA HTML).
+- **Status bar is `black`, not `black-translucent`** — translucent draws content up under the
+  status bar and `body` already carries `padding-top: 80px` for the fixed navbar.
+- ✂️ **Not done: the heavier, browser-independent fix.** Firebase Admin's `createSessionCookie()`
+  / `verifySessionCookie()` with an `api/` endpoint would put the session in an **HttpOnly
+  server-set cookie**, which ITP's 7-day cap does not touch — so it would survive in plain Safari
+  with no install required. We already have `api/_lib/firebaseAdmin.js`. It was skipped because it
+  rebuilds site-wide auth to solve a problem the manifest solves for free; revisit only if the
+  installed-app route doesn't stick.
+- **`probeAuthStorage()` in `AuthContext.jsx` decides this next time instead of inferring it.**
+  It logs into the existing diagnostic trace that `WelcomeGate` already renders. `idb=absent
+  localStorage=absent` means the storage was **wiped** (ITP; sign in again). `idb=present` means
+  the token is still on disk and **our** load path failed to use it — e.g. the 6s hang fallback
+  forcing signed-out — which is our bug and a refresh would likely fix it.
+
 ## 🎨 webdesign.md is required reading before any layout work
 `webdesign.md` (same directory) is the binding contract for page layout, the
 counterpart to `gamedesign.md` and `featuredesign.md`. Written 2026-08-13 after
