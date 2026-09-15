@@ -127,3 +127,20 @@ https://mapgenie.io/tarkov/maps
 Public sites with remaining information: Reference  these as well when we can't get something from mapgenie:
 https://escapefromtarkov.fandom.com/wiki/Map_of_Tarkov
 https://tarkov-market.com/maps
+
+### Key-usage overlay (2026-09-13)
+
+"Where do I USE this key" is live on `/EFTsh/map` for all 12 mapped maps — 258 locked
+doors, drawn as a key in clear space with a leader back to the door (`calloutStyle` in
+`map/eftMapLabels.js`). The data is mapgenie's own `locked_door` category, parsed by
+`eftLocks.js` and joined to real item ids by `npm run eft:locks`.
+
+Community "key location" map images (PhotonReady's Reserve map and its equivalents) are
+NOT needed and should not be transcribed: on Reserve, mapgenie's set is a strict superset
+of that image, and it refreshes with `npm run eft:markers` instead of going stale. Full
+reasoning, the three matcher guards, and the 13 keys SPT's locale is missing: root
+`CLAUDE.md` → "EFT key locations".
+
+Marker tooltips are now built by `map/eftMarkerTip.js` rather than injecting `marker.desc`
+raw — mapgenie writes descriptions in wiki markdown and they were rendering with the
+asterisks and full URLs still in them.

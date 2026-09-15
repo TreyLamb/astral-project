@@ -6,6 +6,119 @@ import {
   textSizeForZoom, DEFAULT_DETAIL_ZOOM, DOT_FILL, DOT_RING, DOT_FOUND,
 } from './eftMapLabels';
 
+// --- key callouts ----------------------------------------------------------
+//
+// A locked door draws as a target on the door itself plus a labelled key out in clear
+// space, joined by a thin leader. See `calloutStyle` in eftMapLabels for why.
+
+/** How far the label sits from the door, and in which directions it is tried. */
+const CALLOUT_LEAD = 26;
+// Up-right first: these are doors on buildings, and mapgenie's own place names sit below
+// their points, so above is usually the emptier side.
+const CALLOUT_DIRS = [
+  [1, -1], [-1, -1], [1, 1], [-1, 1], [1, 0], [-1, 0], [0, -1], [0, 1],
+];
+// Tried at each direction before moving on, so a crowded corner pushes further out rather
+// than giving up and stacking labels on each other.
+const CALLOUT_REACH = [1, 1.9, 2.9, 4.2];
+
+/**
+ * A small key, drawn rather than cropped: the sheet's key art is a pin, not an icon.
+ *
+ * Drawn on a diagonal, which is not decoration. Horizontal, at the ~12px this renders at,
+ * a ring-plus-shaft is exactly the shape of a lowercase "o" followed by a dash — the first
+ * version read as the word "On" in front of every code on the map. Tilting it off the text
+ * baseline stops it parsing as a letter, and a solid bow with a punched hole reads as a key
+ * at sizes where an outlined ring just fills in.
+ */
+function drawKeyGlyph(ctx, x, y, size, color) {
+  const r = size * 0.27;
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(-Math.PI / 4);
+  ctx.fillStyle = color;
+  ctx.strokeStyle = color;
+  ctx.lineCap = 'butt';
+
+  // Bow: a thick-stroked ring, NOT a fill with the middle punched out —
+  // `destination-out` would cut through the callout's own background and show the
+  // basemap through the hole, because this is all one shared canvas.
+  ctx.lineWidth = Math.max(1.5, r * 0.72);
+  ctx.beginPath();
+  ctx.arc(-size * 0.26, 0, r * 0.7, 0, Math.PI * 2);
+  ctx.stroke();
+
+  const shaftH = Math.max(1.4, size * 0.15);
+  ctx.fillRect(-size * 0.26, -shaftH / 2, size * 0.74, shaftH);
+  // Teeth, on one side only — a symmetric comb reads as a bracket, not a key.
+  const toothW = Math.max(1.4, size * 0.15);
+  ctx.fillRect(size * 0.34, shaftH / 2, toothW, size * 0.26);
+  ctx.fillRect(size * 0.05, shaftH / 2, toothW, size * 0.18);
+  ctx.restore();
+}
+
+/** A padlock, for a door with no key behind it (keypad, breachable, unknown). */
+function drawLockGlyph(ctx, x, y, size, color) {
+  const w = size * 0.62;
+  const h = size * 0.5;
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
+  ctx.lineWidth = Math.max(1.1, size * 0.12);
+  ctx.beginPath();
+  ctx.arc(x, y - h * 0.45, w * 0.32, Math.PI, 0);
+  ctx.stroke();
+  ctx.fillRect(x - w / 2, y - h * 0.1, w, h * 0.72);
+  ctx.restore();
+}
+
+/** The precise door position: a ring with a dot, so the leader has something to land on. */
+function drawTarget(ctx, x, y, color, dim) {
+  ctx.save();
+  ctx.globalAlpha = dim ? 0.45 : 1;
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = '#0d0d0b';
+  ctx.beginPath();
+  ctx.arc(x, y, 4.6, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  ctx.arc(x, y, 4.6, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+/** The leader: a hairline from the label to the door, with a small head at the door. */
+function drawLeader(ctx, fromX, fromY, toX, toY, color, dim) {
+  const angle = Math.atan2(toY - fromY, toX - fromX);
+  // Stop short of the target ring so the line never crosses it.
+  const endX = toX - Math.cos(angle) * 5.4;
+  const endY = toY - Math.sin(angle) * 5.4;
+  ctx.save();
+  ctx.globalAlpha = dim ? 0.4 : 0.95;
+  // Drawn twice: a dark casing under a thin bright line, so the leader survives running
+  // across pale concrete and dark treeline in the same map.
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = 'rgba(13, 13, 11, 0.85)';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(fromX, fromY);
+  ctx.lineTo(endX, endY);
+  ctx.stroke();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(fromX, fromY);
+  ctx.lineTo(endX, endY);
+  ctx.stroke();
+  ctx.restore();
+}
+
 // The detail-zoom dot, doubled from the 3.5px pip it shipped as. That was
 // precise and effectively invisible: a red speck on a map already full of red
 // and brown, and it is the only marker art left at this zoom.
@@ -154,6 +267,7 @@ export const SpriteMarkerLayer = L.Layer.extend({
     const scale = this._scale || 1;
     const hits = [];
     const labels = [];
+    const callouts = [];
     const zoom = map.getZoom();
     // A pin sitting just off-screen still has its point on-screen, so pad the
     // cull box by one marker rather than by nothing.
@@ -166,6 +280,10 @@ export const SpriteMarkerLayer = L.Layer.extend({
     for (const item of this._items) {
       const pt = map.latLngToContainerPoint(item.point);
       if (pt.x < -pad || pt.y < -pad || pt.x > size.x + pad || pt.y > size.y + pad) continue;
+
+      // A locked door is drawn as a target plus an offset key, settled last against
+      // everything else on the canvas so the leader never runs under another name.
+      if (item.callout) { callouts.push({ item, pt }); continue; }
 
       // Text categories are collected and drawn last, so a place name is never
       // buried under the pins around it.
@@ -292,6 +410,77 @@ export const SpriteMarkerLayer = L.Layer.extend({
       ctx.fillText(style.text, pt.x, y);
 
       hits.push({ marker: item.marker, ...box });
+    }
+
+    // --- key callouts, last of all ---------------------------------------
+    //
+    // Settled against the finished picture for the same reason the BTR labels are: the
+    // whole point of a leader is that the label sits in clear space, so it has to know
+    // what "clear" means. Every door still gets one — on a collision the label moves
+    // further out, and if nothing is clear it draws anyway rather than deleting a door.
+    for (const { item, pt } of callouts) {
+      const style = item.callout;
+      const px = textSizeForZoom(zoom, style.sizes, { persist: true });
+      ctx.font = `${style.weight || 800} ${px}px ${LABEL_FONT}`;
+      const glyph = px * 1.15;
+      const padX = px * 0.42;
+      const gap = px * 0.3;
+      const textW = ctx.measureText(style.text).width;
+      const w = padX * 2 + glyph + gap + textW;
+      const h = px * 1.5;
+
+      let box = null;
+      for (const reach of CALLOUT_REACH) {
+        for (const [dx, dy] of CALLOUT_DIRS) {
+          const len = CALLOUT_LEAD * reach;
+          // Normalised so a diagonal is not 1.41x further out than a straight one.
+          const norm = Math.hypot(dx, dy) || 1;
+          const cx = pt.x + (dx / norm) * (len + w / 2);
+          const cy = pt.y + (dy / norm) * (len + h / 2);
+          const candidate = { x: cx - w / 2, y: cy - h / 2, w, h };
+          if (!placed.some((other) => overlaps(candidate, other))) { box = candidate; break; }
+        }
+        if (box) break;
+      }
+      if (!box) {
+        const norm = Math.SQRT2;
+        box = { x: pt.x + (CALLOUT_LEAD / norm), y: pt.y - (CALLOUT_LEAD / norm) - h, w, h };
+      }
+      placed.push(box);
+
+      const cx = box.x + box.w / 2;
+      const cy = box.y + box.h / 2;
+      // Leave the box from the edge facing the door, not from its centre, so the leader
+      // never draws across its own label.
+      const ang = Math.atan2(pt.y - cy, pt.x - cx);
+      const half = Math.min(
+        Math.abs(box.w / 2 / (Math.cos(ang) || 1e-6)),
+        Math.abs(box.h / 2 / (Math.sin(ang) || 1e-6)),
+      );
+      drawLeader(ctx, cx + Math.cos(ang) * half, cy + Math.sin(ang) * half, pt.x, pt.y, style.color, item.dim);
+      drawTarget(ctx, pt.x, pt.y, style.color, item.dim);
+
+      ctx.globalAlpha = item.dim ? 0.42 : 1;
+      ctx.fillStyle = 'rgba(13, 13, 11, 0.86)';
+      ctx.fillRect(box.x, box.y, box.w, box.h);
+      ctx.strokeStyle = style.color;
+      ctx.lineWidth = 1;
+      ctx.strokeRect(box.x + 0.5, box.y + 0.5, box.w - 1, box.h - 1);
+
+      const glyphX = box.x + padX + glyph / 2;
+      if (style.glyph === 'lock') drawLockGlyph(ctx, glyphX, cy, glyph, style.color);
+      else drawKeyGlyph(ctx, glyphX, cy, glyph, style.color);
+
+      ctx.font = `${style.weight || 800} ${px}px ${LABEL_FONT}`;
+      ctx.textAlign = 'left';
+      ctx.fillStyle = style.color;
+      ctx.fillText(style.text, box.x + padX + glyph + gap, cy + 0.5);
+      ctx.textAlign = 'center';
+
+      // Both the label and the door itself answer a hover — you point at whichever of
+      // the two you can see.
+      hits.push({ marker: item.marker, ...box });
+      hits.push({ marker: item.marker, x: pt.x - 7, y: pt.y - 7, w: 14, h: 14 });
     }
 
     ctx.globalAlpha = 1;

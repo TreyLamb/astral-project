@@ -3,7 +3,8 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import { spriteMarkerLayer, MARKER_SCALES } from './SpriteMarkerLayer';
-import { labelStyle, autoLabel, drawsPin } from './eftMapLabels';
+import { labelStyle, autoLabel, drawsPin, calloutStyle } from './eftMapLabels';
+import { markerTipHtml } from './eftMarkerTip';
 
 // Two basemaps, two coordinate systems:
 //
@@ -45,6 +46,7 @@ export default function MapCanvas({
   toPoint,
   activeFloor,
   found,
+  locks,
   markerSize = 'normal',
   detailZoom,
   markersInteractive = true,
@@ -71,7 +73,7 @@ export default function MapCanvas({
   const s = useRef({});
 
   s.current = {
-    markers, categories, found, toPoint, markersInteractive,
+    markers, categories, found, locks, toPoint, markersInteractive,
     onMarkerClick, onMapClick, onMapMove, onMapDown, onMapUp, onDraftMove,
     onMapRightClick,
   };
@@ -82,9 +84,8 @@ export default function MapCanvas({
     if (!marker) { tip.style.display = 'none'; return; }
     const byCat = new Map((s.current.categories || []).map((c) => [c.id, c]));
     const cat = byCat.get(marker.cat);
-    tip.innerHTML = `<strong>${marker.title || cat?.title || 'Marker'}</strong>`
-      + (marker.desc ? `<span>${marker.desc}</span>` : '')
-      + (cat ? `<em>${cat.group} — ${cat.title}</em>` : '');
+    // mapgenie's descriptions are wiki markdown, not plain text — see eftMarkerTip.
+    tip.innerHTML = markerTipHtml(marker, cat, s.current.locks?.get(marker.id));
     tip.style.display = 'block';
     tip.style.left = `${containerPoint.x}px`;
     tip.style.top = `${containerPoint.y}px`;
@@ -247,12 +248,15 @@ export default function MapCanvas({
         label: labelStyle(m, cat),
         // Only used past the detail zoom, where pins become dots + names.
         auto: autoLabel(m, cat),
+        // A locked door draws as a key out in clear space with a leader back to the
+        // door, instead of a pin sitting on top of it — see calloutStyle.
+        callout: calloutStyle(m, cat, locks?.get(m.id)),
       });
     }
     layer.setScale(MARKER_SCALES[markerSize] ?? MARKER_SCALES.normal);
     layer.setDetailZoom(detailZoom);
     layer.setItems(items);
-  }, [markers, categories, found, toPoint, markerSize, detailZoom]);
+  }, [markers, categories, found, locks, toPoint, markerSize, detailZoom]);
 
   // --- overlays -----------------------------------------------------------
   // A corridor is a real distance on the ground, so its stroke width has to be

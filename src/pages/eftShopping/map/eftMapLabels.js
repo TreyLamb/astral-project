@@ -81,7 +81,52 @@ export const hasPin = (displayType) => !displayType
  * the source say about this display type", which is still the right question in isolation
  * and is tested as such. This answers "what do we draw", which is no longer always the same.
  */
-export const drawsPin = (category) => hasPin(category?.displayType) && !isBtrStop(category);
+export const drawsPin = (category) => hasPin(category?.displayType)
+  && !isBtrStop(category) && !isLockedDoor(category);
+
+// LOCKED DOORS ARE A CALLOUT: a key, a thin leader, and the key's code.
+//
+// The source ships these as a #453A49 padlock pin — the same near-black purple as the BTR
+// stops, on maps that are already brown and grey — and the pin's tip is the door, so the
+// art sits ON TOP of the room you are trying to identify. What you actually need from this
+// category is which key opens which door, and that is exactly how the community draws it:
+// Trey's reference (PhotonReady's Reserve map) puts the key's icon out in clear space with
+// a narrow arrow back to the door. His words, 2026-09-13: "it would make sense to have an
+// icon of the key and a narrow arrow pointing to the map location rather than a floating
+// icon over the location".
+//
+// Matched on the category ICON for the same reason BTR stops are — ids are mapgenie's and
+// have been reshuffled before.
+const LOCK_ICON = 'locked_door';
+export const isLockedDoor = (category) => category?.icon === LOCK_ICON;
+
+// Brass, so it reads as a key against terrain and is distinct from every colour already in
+// use: extracts are cyan/orange/green, transits yellow, BTR stops red, place names white.
+export const LOCK_COLOR = '#ffc046';
+// A lock with no key behind it (a keypad, a breachable door, an unknown) is drawn in a
+// cooler grey so it never looks like a key you should be carrying.
+export const LOCK_COLOR_NOKEY = '#9fb3c8';
+
+/**
+ * The callout for a locked door, or null for every other category.
+ *
+ * `lock` is the matching `lockIndex.json` record; without one this still returns a callout
+ * so the door is never silently missing — it just falls back to the marker's own title.
+ */
+export function calloutStyle(marker, category, lock) {
+  if (!isLockedDoor(category)) return null;
+  const text = (lock?.code || '').trim()
+    || (marker.title || '').replace(/\s*[([][^()[\]]*[)\]]\s*$/, '').trim()
+    || 'Locked';
+  const hasKey = !!lock?.keyName;
+  return {
+    text: text.toUpperCase(),
+    color: hasKey ? LOCK_COLOR : LOCK_COLOR_NOKEY,
+    glyph: hasKey ? 'key' : 'lock',
+    weight: 800,
+    sizes: [11, 12.5, 15],
+  };
+}
 
 /**
  * Label text, colour and zoom-keyed sizes for a marker.

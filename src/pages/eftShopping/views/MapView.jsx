@@ -27,6 +27,20 @@ const markerLoader = (key) => MARKER_FILES[`../map/data/markers/${key}.json`];
 
 const MAPS = mapConfigFile.maps;
 
+// Which key opens which door, keyed by the same marker ids as the file above. One file for
+// every map (170 KB) rather than 12, because it is small next to a single map's markers and
+// the join it carries is built across all of them at once — see `npm run eft:locks`.
+// Dynamically imported so it stays out of the app shell.
+let lockIndexPromise = null;
+const loadLockIndex = () => {
+  if (!lockIndexPromise) {
+    lockIndexPromise = import('../data/lockIndex.json')
+      .then((mod) => mod.default || mod)
+      .catch(() => ({ maps: {} }));
+  }
+  return lockIndexPromise;
+};
+
 // Opening a map with all ~40 categories on is an unreadable wall of pins. These three are the
 // orientation layer — where you can leave, where the taxi stops, and what the places are
 // called — so they are the only ones on by default. Everything else is opt-in.
@@ -35,7 +49,11 @@ const MAPS = mapConfigFile.maps;
 // it now draws as compact red text rather than pin art (see eftMapLabels), and `visibleCats`
 // is not persisted — it resets to this set on every map load, so leaving it off meant
 // re-ticking it every single time you opened the map.
-const DEFAULT_ON = new Set(['Extraction', 'Location', 'BTR Stop']);
+// Locked Door joined them 2026-09-13, when the category became the key overlay Trey asked
+// for ("so that on our map we have the key locations and i dont have to pull up the map
+// separately"). It is 5-55 compact callouts depending on the map, not pin art, and like BTR
+// Stop it would otherwise need re-ticking on every single map load.
+const DEFAULT_ON = new Set(['Extraction', 'Location', 'BTR Stop', 'Locked Door']);
 
 /**
  * The Mine category is the one place on this map where trusting the pins can actually get you
@@ -151,6 +169,8 @@ export default function MapView() {
   const [activeFloor, setActiveFloor] = useState(null);
   const [visibleCats, setVisibleCats] = useState(() => new Set());
   const [found, setFound] = useState({});
+  // marker id -> lockIndex record, for the map currently open.
+  const [locks, setLocks] = useState(null);
   // The user's own pins, and the one being placed right now. The list itself
   // is derived from storage rather than mirrored into state — `wpVersion` is
   // just the "storage changed" nudge, which keeps the map-switch case from
@@ -251,6 +271,13 @@ export default function MapView() {
 
     const loader = markerLoader(mapKey);
     if (!loader) return undefined;
+
+    setLocks(null);
+    loadLockIndex().then((index) => {
+      if (cancelled) return;
+      const rows = index.maps?.[mapKey] || [];
+      setLocks(rows.length ? new Map(rows.map((row) => [row.id, row])) : null);
+    });
 
     setLoading(true);
     loader().then((mod) => {
@@ -762,6 +789,7 @@ export default function MapView() {
             toPoint={null}
             activeFloor={activeFloor}
             found={found}
+            locks={locks}
             markerSize={prefs.markerSize}
             detailZoom={prefs.detailZoom}
             markersInteractive={!drawing && !draw.editTarget}
