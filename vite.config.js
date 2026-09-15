@@ -15,11 +15,25 @@ function buildId() {
   return `${sha} ${new Date().toISOString().slice(0, 16).replace('T', ' ')}`
 }
 
+// Stamps the SAME id into index.html so a running tab can cheaply ask "is index.html still
+// mine?" without loading a new JS bundle - see src/updateCheck.js. Computed once and shared with
+// __BUILD_ID__ below so the two never disagree with each other.
+function htmlBuildIdPlugin(id) {
+  return {
+    name: 'html-build-id',
+    transformIndexHtml(html) {
+      return html.replace('</head>', `    <meta name="build-id" content="${id}" />\n  </head>`)
+    },
+  }
+}
+
+const BUILD_ID = buildId()
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), htmlBuildIdPlugin(BUILD_ID)],
   define: {
-    __BUILD_ID__: JSON.stringify(buildId()),
+    __BUILD_ID__: JSON.stringify(BUILD_ID),
   },
   server: {
     // Lets a Cloudflare Tunnel (random *.trycloudflare.com host each run) or

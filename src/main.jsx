@@ -6,6 +6,7 @@ import { installErrorNotifier, notifyError } from './components/errors/errorNoti
 import { RootBoundary } from './components/errors/Boundary'
 import { CRASH, BACKGROUND } from './components/errors/errorLog'
 import { clearReloadGuard } from './components/errors/chunkReload'
+import UpdateBanner from './components/UpdateBanner.jsx'
 
 // FIRST, before React renders anything. The notifier is plain DOM with no
 // React dependency precisely so it can report a crash that happens during the
@@ -35,6 +36,8 @@ createRoot(document.getElementById('root'), {
     <RootBoundary>
       <App />
     </RootBoundary>
+    {/* Sibling of RootBoundary, not inside it - stays mounted even if the app tree crashes. */}
+    <UpdateBanner />
   </StrictMode>,
 )
 
