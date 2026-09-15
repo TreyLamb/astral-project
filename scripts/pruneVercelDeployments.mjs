@@ -1,12 +1,23 @@
 #!/usr/bin/env node
 // Prune old Vercel deployments to keep Deployment Storage under the 10 GB free-tier cap.
 //
-// WHY THIS IS MANUAL: Vercel's own retention policy is already at its floor (Hobby is
-// capped at 30 days and cannot be set longer OR shorter), and this project deploys ~4x
-// a day, so ~120 deployments accumulate inside that 30-day window. Retention can never
-// catch up with the deploy rate, and its exceptions (last 10 created, last 20 production
-// Ready, last 20 non-production Ready) protect ~30 builds permanently regardless.
-// There is no Vercel setting that does this. It has to be run.
+// THIS IS A BACKSTOP, NOT THE MAIN MECHANISM. Retention does the routine work: Settings ->
+// Security -> Deployment Retention Policy is set to 1 week for Production (the only state
+// that matters here - 139 of 141 deployments). An earlier version of this comment claimed
+// Hobby retention "cannot be set longer OR shorter" than 30 days and justified a manual
+// prune with it; that was wrong - the dropdown offers 30 days / 2 weeks / 1 week / 1 day.
+//
+// What retention still cannot do, and why this script exists: its exceptions keep ~30 builds
+// permanently regardless of age (last 10 created, last 20 production Ready, last 20
+// non-production Ready, production alias, live PR branch), and the sweep takes up to 48
+// hours, so a heavy deploy day can bank a large daily peak before it runs.
+//
+// Expect most runs to find nothing to prune. That is the success case.
+//
+// NOTE ON READING THE RESULT: Vercel bills in GB-months by summing each day's MAXIMUM
+// stored amount across the billing period, so the red dashboard total only ever rises
+// within a cycle and a prune cannot lower it. Judge a run by the per-day figure in the
+// Usage drill-in instead.
 //
 //   npm run vercel:prune -- --status     # print state + last-checked date, change nothing
 //   npm run vercel:prune -- --dry-run    # show exactly what would be deleted

@@ -794,11 +794,26 @@ Don't re-check this every session, and never hand-edit the date — a stale date
 - **Deployment Storage is bytes at rest, NOT traffic.** Source + build output + build cache across
   every retained deployment. Bandwidth is metered separately (Fast Data Transfer, Edge Requests),
   so this warning says nothing about how much the site is being visited.
-- **No Vercel setting fixes it.** Hobby retention is capped at 30 days on all four deployment
-  states and cannot be raised or lowered; this project deploys ~4x/day, so ~120 builds pile up
-  *inside* that window; and ~30 are protected permanently by retention's own exceptions (last 10
-  created, last 20 production Ready, last 20 non-production Ready, production alias, live PR
-  branch). The curve is set by deploy rate, so it has to be pruned by hand.
+- 🔴 **Retention CAN be shortened — this note first said it could not.** The original claim here
+  was that Hobby's 30-day cap "cannot be raised or lowered", and the whole case for a manual
+  prune rested on it. The docs only say *capped*; the floor was an assumption and it was wrong.
+  **Settings → Security → Deployment Retention Policy offers 30 days / 2 weeks / 1 week / 1 day**
+  per state. Set 2026-09-14 to Canceled 1 day, Errored / Pre-Production / **Production 1 week** —
+  Production is the only one that matters here (139 of 141 deployments; every push to `main` is a
+  production build). So retention handles the routine case and the prune script is a **backstop**.
+  Not 1 day, because the exceptions keep the last 20 production Ready regardless of age — ~5 days
+  of rollback either way, so 1 day saves little and buys no safety.
+- **~30 builds are protected permanently regardless of age** by retention's own exceptions (last
+  10 created, last 20 production Ready, last 20 non-production Ready, production alias, live PR
+  branch). No retention setting gets below that floor, which is why the script still exists.
+- 🔴 **The red dashboard figure and the daily figure disagree BY DESIGN — do not chase the red
+  one, and never tell Trey to "prune and watch Usage drop" (that advice was given here once and
+  is wrong).** Vercel bills in GB-months: it records each project's **maximum stored amount per
+  billing day** and **sums those days across the period**. So the dashboard total **only ever
+  goes up within a cycle** — deleting cannot lower an already-banked day. Observed 2026-09-14:
+  the dashboard read over 10 GB in the red while the same day's Usage drill-in read under 2 GB,
+  down from ~7.5 GB pre-prune. Nothing was broken; the prune had worked. **Only the per-day
+  figure responds to a prune.**
 - 🔴 **NEVER run `vercel remove <project-name>`.** With a project name it **deletes the whole
   project** unless `--safe` is passed, and `--safe` only skips deployments holding an active
   preview URL or production domain — that is NOT the same guard as the retention exceptions, so it
