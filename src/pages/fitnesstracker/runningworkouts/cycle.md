@@ -7,7 +7,21 @@
 ## Hard rules (non-negotiable, confirmed by user)
 
 1. **3 lift SESSIONS per cycle, full stop — one chest, one legs, one back.** (Corrected 2026-08-04 — see `training-context.md` decision log. Previously ambiguous wording let a second Lift A/chest session get added at Day 11; Trey's explicit ruling: "The hard rule is only one lift A per cycle. One lift B, one lift C, per cycle... there's only one chest, leg, back workout per cycle, regardless of which LIFT 'x' letter they are assigned.") The **A/B/C letters are just labels** for which muscle group is which (A=chest/arms, B=legs, C=back) — the letter assignment is not itself a rule, the "one session per muscle group" count is. Order among the three doesn't matter — spacing does.
+   **⚠️ Amended 2026-09-14 — Lift A (chest) is exempted from the once-per-cycle cap** and runs
+   truly weekly (see the AFROTC-integrated template below). Grounded in the resistance-training
+   frequency literature (Schoenfeld et al. meta-analyses): at equated per-session volume, 2x/week
+   per muscle group modestly beats 1x/week for strength and hypertrophy, and the effect is
+   available here specifically because chest doesn't compete with running recovery (rule 8).
+   Legs and Back stay capped at one **session** per cycle — see rule 2's amendment.
 2. **Leg day ↔ Back day:** minimum **3 days** apart.
+   **⚠️ Superseded 2026-09-14 for the AFROTC-integrated template's Hybrid Legs/Back day** — this
+   rule exists to keep two *separate*, near-maximal-effort sessions from compounding fatigue too
+   close together. A single deliberately moderate (not maximal) session covering both muscle
+   groups isn't two sessions — there's no second event left to space against, so the rule's own
+   precondition doesn't hold. Full reasoning: `training-context.md`, "Decision — AFROTC
+   detachment PT + Hybrid Legs/Back day (2026-09-14)". **This does not retire the rule for a
+   normal 13-day cycle** — if the AFROTC commitment ever ends and Legs/Back split back into
+   separate sessions, rule 2 is back in force exactly as written.
 3. **Leg day ↔ any speed day:** minimum **3 days** apart.
 4. **Back day ↔ any speed day:** minimum **3 days** apart.
 5. **2 speed days per cycle.**
@@ -22,6 +36,60 @@
 13. **Ab/core circuit days:** 4 dedicated ~20-min circuit days per cycle, spaced roughly every 3 days — **Days 2, 5, 9, 12** in the 13-day template. Never on the full-rest day (Day 13) and never on a day immediately before Lift A/B/C. **Both speed days** (Day 1 and Day 10) additionally get a short **light** ab add-on (~5–8 min). *(Updated 2026-08-17: Day 1 previously got none, on the grounds that the hybrid's loaded farmers carry already delivered an anti-rotation/anti-extension stimulus. With the hybrid retired under rule 12, Day 1 is a plain speed session with no built-in core stimulus, so it takes the same light add-on Day 10 has always had — and core endurance is now a scored PFRA event, which makes leaving a speed day with zero core work harder to justify than it was.)* Full circuit content and the day-before/after-lift/rest exclusion logic live in the **Ab/Core Circuit** section below.
 
 Note on "4–5 days of rest between cycles": this was mentioned once by the user and never fully pinned down — see the open question in `training-context.md`. It is **not** currently enforced as a hard rule below; only the single full-rest day (rule 6) and the long-run/speed buffer (rule 7) are locked in.
+
+14. **Added 2026-09-14. Any day immediately before a fixed external commitment that demands
+    freshness (currently: AFROTC detachment PT, Tue/Thu) is easy-only** — no lift, no speed, no
+    long run. This is why the AFROTC template below has Monday and Wednesday as easy runs, always.
+15. **Added 2026-09-14, corrected same day. The Hybrid Legs/Back day (rule 2's amendment) runs
+    BIWEEKLY, not weekly, and Friday alternates full rest / long run in lockstep with it.**
+    First version of this rule had the hybrid weekly with Friday alternating independently — Trey
+    caught the resulting defect directly: *"You think I can have a long run day the day after a
+    back/leg workout? No."* Correct. With the hybrid glued to Thursday and speed forced to Sunday
+    (the only day ≥3 from Thursday), Friday and Saturday are the only two remaining days for the
+    long run, and **neither works on its own**: Friday sits 1 day after the hybrid (too soon on
+    legs for a long aerobic effort), Saturday sits 0 days before Sunday's speed (violates rule 7
+    outright). No weekly permutation resolves both at once.
+    **Fix:** the hybrid moves to every OTHER Thursday. On the lift week, Thu=PT+Hybrid,
+    Fri=full rest (rule 6 satisfied that week). On the off week, Thu=PT only (no lift),
+    Fri=long run — now on legs that did no lift the prior evening, still 1 full day (Saturday)
+    clear of Sunday's speed. Chest (Saturday) and Speed (Sunday) are unaffected — neither day was
+    ever the actual conflict, only Friday's content needed to track Thursday's.
+    **This also means true full rest (rule 6) only happens every other week** (the lift week's
+    Friday) — the off week's Friday is spent on the long run instead, same trade-off as originally
+    named, just correctly attached to the hybrid's cadence instead of an independent alternation.
+
+---
+
+## Current live template — AFROTC-integrated weekly cycle (added 2026-09-14)
+
+**Active while Trey's Air Force detachment PT commitment (Tue/Thu) stands.** Full reasoning,
+the math for why a separate Back day has no valid slot, and why the Hybrid Legs/Back day resolves
+it: `training-context.md` → "Decision — AFROTC detachment PT + Hybrid Legs/Back day (2026-09-14)".
+**The 13-day generic template further below is not deleted** — it's what this reverts to if the
+detachment commitment ever ends.
+
+| Day | Session (Week A — lift week) | Session (Week B — long-run week) |
+|---|---|---|
+| Mon | Easy run — freshness for Tue PT (rule 14) | same |
+| Tue | **Detachment PT** (AM) + push-ups (Trey's own program, out of scope here) | same |
+| Wed | Easy/light run — freshness for Thu PT (rule 14) | same |
+| Thu | **Detachment PT** (AM) + **Hybrid Legs/Back** (moderate — NOT maximal, rule 2's amendment), evening | **Detachment PT (AM) only — no evening lift** |
+| Fri | **Full rest** (rule 6, satisfied this week only) | **Long run** + robust ab circuit, post-run |
+| Sat | **Lift A (chest)**, evening — every week, exempted from rule 1's cap | same |
+| Sun | **Speed Day** — every week (satisfies rule 5 automatically) | same |
+
+Weeks alternate A/B forever; there is no fixed "cycle length" here in the old sense — Thursday's
+content and Friday's content simply track each other every week, per rule 15.
+
+**Spacing check (Week A):** legs(Thu)↔speed(Sun) = 3 days ✓ rule 3 · back(Thu)↔speed(Sun) = 3 days
+✓ rule 4 · chest(Sat)↔hybrid(Thu) = 2 days ✓ rules 10/11 · leg↔back (rule 2) does not apply — one
+combined session, not two, see the rule 2 amendment above.
+**Spacing check (Week B):** long run(Fri)↔speed(Sun, either side) ≥1 day ✓ rule 7 · long run(Fri)
+follows a Thursday with no lift, so it is not adjacent to any leg/back work.
+
+**Not yet resolved, flagged rather than guessed at:** what, if anything, belongs Tuesday evening —
+depends entirely on what detachment PT actually turns out to involve. Do not schedule anything
+there until Trey has real sessions to report back on.
 
 ---
 

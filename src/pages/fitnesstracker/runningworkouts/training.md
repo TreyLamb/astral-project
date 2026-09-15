@@ -114,27 +114,67 @@ On the Cycle 3 layout that means: **Lift A D3** blocks D2–D5 · **Lift C D8** 
 
 ---
 
-## Cycle 5 (Sep 13 – Sep 25, 13 days — standard template)
-**Micro-checkpoint — est. if tested 9/25:** 2-mile **~16:30** (8:15/mi · 2:04/400). End of Phase 1 — threshold work opens in Phase 2 (Cycle 6+), and hills stay off the table until then either way (ankle history, see `training-context.md`).
+## Cycle 5 — ENDED EARLY at D1 (2026-09-14)
+
+Only D1 (Sun 9/13, Speed 1) was actually run under the 13-day template. **From D2 (Mon 9/14)
+onward, the plan switches to the AFROTC-integrated weekly template** — Trey started mandatory Air
+Force detachment PT on Tue/Thu, which the 13-day template has no way to accommodate. Same
+precedent as the 2026-08-17 Cycle 2→3 rebase: resume at the current day, don't chase the
+superseded structure. Full reasoning: `training-context.md` → "Decision — AFROTC detachment PT +
+Hybrid Legs/Back day (2026-09-14)"; the rule changes live in `cycle.md`.
 
 | Day | Date | Session | Workout |
 |---|---|---|---|
 | D1 | Sun 9/13 | **Speed 1** + light ab | WU 1mi + 5x20s strides (walk-back) + 5x400m @1:54 (2:15 walk) + CD 0.5mi (~3.0mi total) + light ab (~5 min, see cycle.md) |
-| D2 | Mon 9/14 | Easy + **Lift A** (chest/arms) + **Ab Circuit A** | 2.0 mi @ 10:40/mi (~21:20) + ~20 min ab circuit (see cycle.md) |
-| D3 | Tue 9/15 | Easy | 2.25 mi @ 10:40/mi (~24:00) |
-| D4 | Wed 9/16 | **Lift B** (legs) | no run |
-| D5 | Thu 9/17 | Easy + **Ab Circuit B** | 2.25 mi @ 10:40/mi (~24:00) + ~20 min ab circuit (see cycle.md) |
-| D6 | Fri 9/18 | Easy | 2.25 mi @ 10:40/mi (~24:00) |
-| D7 | Sat 9/19 | **Lift C** (back) + Easy | 2.0 mi @ 10:35/mi (~21:10) |
-| D8 | Sun 9/20 | Easy | 2.25 mi @ 10:35/mi (~23:49) |
-| D9 | Mon 9/21 | Easy + **Ab Circuit C** | 2.25 mi @ 10:35/mi (~23:49) + ~20 min ab circuit (see cycle.md) |
-| D10 | Tue 9/22 | **Speed 2** + light ab | WU 1mi + 7x400m @1:52 (2:15 walk) + CD 0.5mi (~3.25mi total) + light ab (~5 min, see cycle.md) |
-| D11 | Wed 9/23 | Easy | 2.0 mi @ 10:35/mi (~21:10) |
-| D12 | Thu 9/24 | Long run + **Ab Circuit A** | 4.5 mi @ 10:00/mi (~45:00) + ~20 min ab circuit, post-run (see cycle.md) |
-| D13 | Fri 9/25 | Full rest | — (no ab work — full rest is exception-free, see cycle.md rule 13) |
-
-**Cycle total: ~28.0 mi** (2.15 mi/day)
 
 ---
 
-Cycle 6 Day 1 = **Sat 9/26** → start of Phase 2 (aerobic strength & threshold). Build it off Checkpoint Test 1's actual result, not off these projections. **Everything after Cycle 4 D1 is an estimate** — the whole point of the checkpoint is to replace it.
+## AFROTC-integrated weekly template — live from Mon 9/14
+
+**Pace bands unchanged** — still the VDOT ~40.7 bands from the 2026-08-19 recalibration at the top
+of this doc (Easy 9:42–10:41/mi, Threshold 8:05/mi, I-pace 1:49/400, R-pace 1:40/400).
+Checkpoint Test 1 (Cycle 4 D1, Mon 8/31, target ~17:15) has no logged result anywhere in this doc
+set — if it actually happened, log it so the bands can be re-derived off real data; until then
+these stay the best available estimate.
+
+**Volume held deliberately flat, not ramped, this cycle.** Detachment PT is a real new twice-
+weekly training stimulus on top of everything already here — adding more personal mileage on top
+of that on the old ramp would be stacking two ramps at once. Easy-run distance and the long run
+are both held at or slightly below where Cycle 5 was already heading; let it climb again once
+there's a week or two of how-it-feels/HR data against the new total load.
+
+| Day | Date | Session | Workout |
+|---|---|---|---|
+| Mon | 9/14 | Easy — freshness for Tue PT | 2.0 mi @ 10:35–10:40/mi (~21:15). *(Supersedes today's originally-planned Lift A/Ab Circuit A — chest moved to Saturday.)* |
+| Tue | 9/15 | **Detachment PT** (AM, external) + push-ups (Trey's own program) | — |
+| Wed | 9/16 | Easy/light — freshness for Thu PT | 2.0 mi @ 10:35–10:40/mi (~21:15) |
+| Thu | 9/17 | **Detachment PT** (AM) + **Hybrid Legs/Back** (moderate, not maximal), evening | no run |
+| Fri | 9/18 | **Full rest** (first week — absorb the new PT + hybrid load before adding the long run) | — |
+| Sat | 9/19 | **Lift A** (chest) + Ab Circuit (~20 min) | — |
+| Sun | 9/20 | **Speed** + light ab | WU 1mi + 5x20s strides (walk-back) + 6x400m @1:52 (2:15 walk) + CD 0.5mi (~3.1mi total) |
+| Mon | 9/21 | Easy — freshness for Tue PT | 2.0 mi @ 10:35–10:40/mi (~21:15) |
+| Tue | 9/22 | **Detachment PT** (AM) + push-ups | — |
+| Wed | 9/23 | Easy/light — freshness for Thu PT | 2.0 mi @ 10:35–10:40/mi (~21:15) |
+| Thu | 9/24 | **Detachment PT** (AM) only — **no lift this week**, see correction below | no run |
+| Fri | 9/25 | **Long run** + Ab Circuit (~20 min, post-run) | 4.0 mi @ 10:05/mi (~40:20) |
+| Sat | 9/26 | **Lift A** (chest) + Ab Circuit (~20 min) | — |
+| Sun | 9/27 | **Speed** + light ab | WU 1mi + 5x20s strides (walk-back) + 7x400m @1:50 (2:15 walk) + CD 0.5mi (~3.2mi total) |
+
+**⚠️ Corrected 2026-09-14, same day as the design above — the Hybrid Legs/Back day is BIWEEKLY,
+not weekly.** Trey caught it directly: *"You think I can have a long run day the day after a
+back/leg workout? No."* Correct — with the hybrid glued to every Thursday and speed forced to
+every Sunday, Friday and Saturday were the only two candidate days for the long run, and neither
+actually works (Friday is 1 day after the hybrid; Saturday is 0 days before speed). There is no
+weekly permutation that fits. **Fix:** the hybrid runs every OTHER Thursday; on the off week,
+Thursday is detachment PT only (no evening lift) and Friday carries the long run instead, now on
+legs that did no lift the night before. So: **Week A** Thu=Hybrid/Fri=full rest (this week, 9/17
++ 9/18, already correct by coincidence) → **Week B** Thu=PT only/Fri=long run (9/24 + 9/25, fixed
+above) → repeats. Chest and speed are unaffected — neither was ever the actual conflict. Full
+reasoning: `training-context.md`'s 2026-09-14 decision, `cycle.md` rule 15.
+
+**Fridays alternate full rest / long run in lockstep with whether Thursday carried the hybrid**
+(rule 15 in `cycle.md`) — never independently of it. Continue the rep-density progression on
+Sundays (add a rep and/or trim 2s roughly every 1–2 weeks,
+per methodology.md rule 3 — re-derive off evidence, not the calendar, if a session comes in
+outside its band). Extend this table week by week as weeks actually happen, same convention the
+old cycle tables used.

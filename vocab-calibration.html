@@ -1,0 +1,576 @@
+<title>Vocabulary Calibration Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+
+<style>
+:root {
+  --ground:      #F4F6F8;
+  --panel:       #FFFFFF;
+  --panel-sunk:  #EDF0F4;
+  --ink:         #10161E;
+  --ink-2:       #3A4552;
+  --muted:       #6B7683;
+  --rule:        #D8DEE6;
+  --rule-soft:   #E7EBF0;
+  --accent:      #1B6B85;
+  --accent-soft: #DCEBF0;
+
+  /* Difficulty ramp: cool = you already know it, warm = the words that cost you points. */
+  --t1: #7C8FA3;
+  --t2: #5E8F76;
+  --t3: #A8862F;
+  --t4: #B0562C;
+  --t5: #8E2F3C;
+
+  --t1-bg: #EDF1F5; --t2-bg: #E7F0EA; --t3-bg: #F6EEDC; --t4-bg: #F7E7DE; --t5-bg: #F6E2E5;
+
+  --shadow: 0 1px 2px rgba(16,22,30,.05), 0 8px 24px -12px rgba(16,22,30,.18);
+  --max: 1240px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:      #0D1117;
+    --panel:       #151B23;
+    --panel-sunk:  #11171E;
+    --ink:         #E6EBF1;
+    --ink-2:       #B3BDC9;
+    --muted:       #7E8B99;
+    --rule:        #262F3A;
+    --rule-soft:   #1D242D;
+    --accent:      #4FB3CE;
+    --accent-soft: #16323C;
+
+    --t1: #8496A8; --t2: #79AE90; --t3: #CBA653; --t4: #D9784B; --t5: #C4566A;
+    --t1-bg: #1A2029; --t2-bg: #17251E; --t3-bg: #26200F; --t4-bg: #2A1A12; --t5-bg: #2A151A;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.8);
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:      #0D1117;
+  --panel:       #151B23;
+  --panel-sunk:  #11171E;
+  --ink:         #E6EBF1;
+  --ink-2:       #B3BDC9;
+  --muted:       #7E8B99;
+  --rule:        #262F3A;
+  --rule-soft:   #1D242D;
+  --accent:      #4FB3CE;
+  --accent-soft: #16323C;
+  --t1: #8496A8; --t2: #79AE90; --t3: #CBA653; --t4: #D9784B; --t5: #C4566A;
+  --t1-bg: #1A2029; --t2-bg: #17251E; --t3-bg: #26200F; --t4-bg: #2A1A12; --t5-bg: #2A151A;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.8);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px 96px; }
+
+h1, h2, h3, .ui { font-family: Archivo, "Helvetica Neue", Arial, sans-serif; }
+
+.eyebrow {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+/* ---------- masthead ---------- */
+header.mast {
+  border-bottom: 1px solid var(--rule);
+  background: var(--panel);
+  padding: 40px 0 32px;
+  margin-bottom: 40px;
+}
+header.mast .wrap { padding-bottom: 0; }
+h1 {
+  font-size: clamp(30px, 4.6vw, 46px); font-weight: 700; letter-spacing: -.022em;
+  line-height: 1.08; margin: 12px 0 14px; text-wrap: balance;
+}
+.dek { font-size: 19px; color: var(--ink-2); max-width: 66ch; margin: 0; }
+
+.countdown {
+  display: flex; flex-wrap: wrap; gap: 0; margin-top: 28px;
+  border: 1px solid var(--rule); border-radius: 3px; overflow: hidden;
+}
+.countdown div {
+  flex: 1 1 150px; padding: 13px 16px; background: var(--panel-sunk);
+  border-right: 1px solid var(--rule);
+}
+.countdown div:last-child { border-right: 0; }
+.countdown .n {
+  font-family: "IBM Plex Mono", monospace; font-size: 23px; font-weight: 600;
+  font-variant-numeric: tabular-nums; display: block; line-height: 1.2; color: var(--ink);
+}
+.countdown .l { font-size: 12px; color: var(--muted); font-family: Archivo, sans-serif; }
+
+/* ---------- generic section ---------- */
+section { margin: 0 0 56px; }
+h2 {
+  font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent); margin: 0 0 6px;
+  font-family: "IBM Plex Mono", monospace;
+}
+.h2sub {
+  font-family: Archivo, sans-serif; font-size: 27px; font-weight: 600;
+  letter-spacing: -.015em; margin: 0 0 20px; line-height: 1.2; text-wrap: balance;
+}
+p { max-width: 68ch; }
+.lede { font-size: 18px; }
+
+.card {
+  background: var(--panel); border: 1px solid var(--rule);
+  border-radius: 4px; padding: 24px 26px; box-shadow: var(--shadow);
+}
+
+/* ---------- correction callout ---------- */
+.correction {
+  border-left: 3px solid var(--t4); background: var(--t4-bg);
+  padding: 20px 24px; border-radius: 0 4px 4px 0; margin-bottom: 28px;
+}
+.correction p { margin: 0 0 10px; }
+.correction p:last-child { margin-bottom: 0; }
+.correction strong { font-weight: 600; }
+
+/* ---------- ladder ---------- */
+.ladder { display: flex; flex-direction: column; gap: 2px; margin: 0 0 8px; }
+.rung {
+  display: grid; grid-template-columns: 46px 1fr auto; align-items: center;
+  gap: 18px; padding: 15px 20px; background: var(--panel);
+  border: 1px solid var(--rule-soft); border-left: 4px solid var(--tone, var(--t1));
+  border-radius: 3px;
+}
+.rung .rank {
+  font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600;
+  color: var(--tone); font-variant-numeric: tabular-nums;
+}
+.rung .name { font-family: Archivo, sans-serif; font-weight: 600; font-size: 17px; }
+.rung .name span { display: block; font-family: "Source Serif 4", serif; font-weight: 400; font-size: 15px; color: var(--muted); margin-top: 2px; }
+.rung .verdict {
+  font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--tone);
+  text-align: right; white-space: nowrap;
+}
+.rung.you { border-left-width: 4px; background: var(--accent-soft); border-color: var(--accent); }
+.rung.you .verdict { color: var(--accent); }
+
+/* ---------- specimen columns ---------- */
+.specimen-scroll { overflow-x: auto; padding-bottom: 8px; margin: 0 -2px; }
+.specimens {
+  display: grid; grid-auto-flow: column;
+  grid-auto-columns: minmax(212px, 1fr); gap: 14px; min-width: min-content;
+}
+.spec {
+  background: var(--panel); border: 1px solid var(--rule);
+  border-top: 3px solid var(--tone); border-radius: 3px;
+  padding: 16px 16px 18px; display: flex; flex-direction: column;
+}
+.spec h3 {
+  font-size: 15px; font-weight: 700; margin: 0 0 2px; letter-spacing: -.01em;
+}
+.spec .meta {
+  font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted);
+  letter-spacing: .04em; margin-bottom: 4px; text-transform: uppercase;
+}
+.spec .src {
+  font-size: 12.5px; color: var(--muted); line-height: 1.45;
+  padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px dashed var(--rule);
+}
+.spec ul {
+  list-style: none; margin: 0; padding: 0;
+  font-family: "IBM Plex Mono", monospace; font-size: 12.5px; line-height: 1.85;
+  color: var(--ink-2); columns: 1;
+}
+.spec li.known { color: var(--muted); }
+.tag {
+  display: inline-block; font-family: "IBM Plex Mono", monospace;
+  font-size: 10px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 2px; background: var(--tone-bg); color: var(--tone);
+  margin-bottom: 10px; align-self: flex-start;
+}
+.scroll-hint {
+  font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted);
+  margin: 10px 0 0; letter-spacing: .04em;
+}
+
+/* ---------- bank state ---------- */
+.bank { display: grid; grid-template-columns: repeat(auto-fit, minmax(196px, 1fr)); gap: 12px; margin-bottom: 22px; }
+.bandcard {
+  background: var(--panel); border: 1px solid var(--rule);
+  border-radius: 3px; padding: 16px 18px; border-top: 3px solid var(--tone);
+}
+.bandcard .n {
+  font-family: "IBM Plex Mono", monospace; font-size: 30px; font-weight: 600;
+  font-variant-numeric: tabular-nums; line-height: 1; color: var(--tone);
+}
+.bandcard .lbl { font-family: Archivo, sans-serif; font-weight: 600; font-size: 14px; margin: 8px 0 4px; }
+.bandcard .note { font-size: 13.5px; color: var(--muted); line-height: 1.45; }
+.bandcard.absent { background: var(--panel-sunk); border-style: dashed; }
+.bandcard.absent .n { color: var(--muted); }
+
+/* ---------- math ---------- */
+.math {
+  background: var(--panel-sunk); border: 1px solid var(--rule);
+  border-radius: 4px; padding: 22px 26px; margin: 22px 0 0;
+}
+.math ol { margin: 0; padding-left: 20px; }
+.math li { margin-bottom: 9px; }
+.math li:last-child { margin-bottom: 0; }
+.math .fig {
+  font-family: "IBM Plex Mono", monospace; font-weight: 600;
+  font-variant-numeric: tabular-nums; color: var(--ink);
+}
+
+/* ---------- engine table ---------- */
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 4px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; min-width: 640px; }
+caption { text-align: left; padding: 16px 20px 0; font-size: 14px; color: var(--muted); }
+th, td { text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--rule-soft); font-size: 15px; }
+th {
+  font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 600;
+  letter-spacing: .07em; text-transform: uppercase; color: var(--muted);
+  border-bottom: 1px solid var(--rule);
+}
+td.num { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+tbody tr:last-child td { border-bottom: 0; }
+.pill {
+  display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 10.5px;
+  font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 2px;
+}
+.pill.inf { background: var(--t2-bg); color: var(--t2); }
+.pill.fin { background: var(--t4-bg); color: var(--t4); }
+
+/* ---------- plan ---------- */
+.plan { display: grid; gap: 12px; }
+.step {
+  display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 3px; padding: 18px 22px;
+}
+.step .idx {
+  font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600;
+  color: var(--accent); padding-top: 3px; font-variant-numeric: tabular-nums;
+}
+.step h3 { font-size: 16px; font-weight: 600; margin: 0 0 4px; }
+.step p { margin: 0; font-size: 15px; color: var(--ink-2); }
+
+footer {
+  border-top: 1px solid var(--rule); margin-top: 20px; padding-top: 22px;
+  font-size: 13.5px; color: var(--muted);
+}
+footer a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--rule); }
+footer a:hover, footer a:focus-visible { border-bottom-color: var(--accent); }
+a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .rung { grid-template-columns: 36px 1fr; }
+  .rung .verdict { grid-column: 2; text-align: left; margin-top: 4px; }
+}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <p class="eyebrow">AFOQT Word Knowledge &middot; bank audit &amp; source calibration</p>
+    <h1>How deep is the word bank, really?</h1>
+    <p class="dek">You asked whether you are studying sixty words or two thousand. The honest answer is <strong>120</strong> &mdash; and only about a third of them sit at the difficulty that will actually cost you points. Here is every source side by side so you can judge the tiers yourself.</p>
+    <div class="countdown">
+      <div><span class="n">22</span><span class="l">days until test day</span></div>
+      <div><span class="n">120</span><span class="l">words in the bank today</span></div>
+      <div><span class="n">40</span><span class="l">at hard tier (band 4)</span></div>
+      <div><span class="n">12s</span><span class="l">per item on the real test</span></div>
+      <div><span class="n">1,100</span><span class="l">words your plan needs</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <h2>Read this first</h2>
+  <p class="h2sub">Two of your assumptions are backwards, and acting on them would cost you the best study material you have.</p>
+
+  <div class="correction">
+    <p><strong>You said you assume SAT and ACT are harder than the GRE.</strong> It is the other way around, and not by a little. The GRE is the hardest vocabulary test in this group &mdash; prep companies publish 1,000+ word lists for it precisely because the words are deliberately obscure. Meanwhile the SAT <em>removed</em> its dedicated vocabulary questions in 2016; today it tests words only in passage context. The ACT never had a dedicated vocabulary section at all.</p>
+    <p><strong>You said you assume the AFOQT is harder than any of them.</strong> On word rarity, no &mdash; AFOQT Word Knowledge draws from the same register of educated vocabulary as the SAT and GRE, and its word difficulty is roughly comparable to the ASVAB's. What makes it brutal is the clock: <strong>25 questions in 5 minutes</strong>. Twelve seconds per word, no context sentence, no time to reason from roots. That is why OATTS felt harder than anything else you have taken. It was not the words. It was the speed.</p>
+    <p style="margin-top:14px"><strong>What this changes:</strong> GRE word lists are not too easy to bother with &mdash; they are the <em>hardest</em> tier available and the single best source for what you need. Do not skip them.</p>
+  </div>
+
+  <div class="ladder">
+    <div class="rung" style="--tone: var(--t1)">
+      <span class="rank">1</span>
+      <span class="name">ACT<span>No dedicated vocabulary section. Words tested only inside reading passages.</span></span>
+      <span class="verdict">Below your level</span>
+    </div>
+    <div class="rung" style="--tone: var(--t1)">
+      <span class="rank">2</span>
+      <span class="name">SAT, 2016&ndash;present<span>Sentence-completion questions removed. Context-only vocabulary.</span></span>
+      <span class="verdict">Below your level</span>
+    </div>
+    <div class="rung" style="--tone: var(--t2)">
+      <span class="rank">3</span>
+      <span class="name">SAT, pre-2016<span>The classic word-list era. Still the standard &ldquo;SAT words&rdquo; corpus everyone means.</span></span>
+      <span class="verdict">Warm-up tier</span>
+    </div>
+    <div class="rung you" style="--tone: var(--accent)">
+      <span class="rank">4</span>
+      <span class="name">ASVAB &amp; AFOQT Word Knowledge<span>Same word register. AFOQT runs roughly four times faster per item.</span></span>
+      <span class="verdict">Your target</span>
+    </div>
+    <div class="rung" style="--tone: var(--t5)">
+      <span class="rank">5</span>
+      <span class="name">GRE<span>1,000+ word lists, deliberately obscure. The ceiling &mdash; and your best source.</span></span>
+      <span class="verdict">Study this</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Side by side</h2>
+  <p class="h2sub">Judge the tiers yourself.</p>
+  <p class="lede">Grey words are ones you told me you already know roughly half of. The two rightmost columns are the ones worth your 22 days. Columns marked <em>repo</em> are pulled live from files in this project; the rest are representative words from published prep lists.</p>
+
+  <div class="specimen-scroll">
+    <div class="specimens">
+
+      <div class="spec" style="--tone: var(--t1); --tone-bg: var(--t1-bg)">
+        <span class="tag">Tier 1</span>
+        <h3>ACT</h3>
+        <p class="meta">Context only</p>
+        <p class="src">No vocabulary section exists. These are the kind of words its passages lean on.</p>
+        <ul>
+          <li class="known">ambivalent</li><li class="known">candid</li><li class="known">conventional</li>
+          <li class="known">dubious</li><li class="known">futile</li><li class="known">hostile</li>
+          <li class="known">indifferent</li><li class="known">novel</li><li class="known">obscure</li>
+          <li class="known">plausible</li><li class="known">prevalent</li><li class="known">reluctant</li>
+          <li class="known">skeptical</li><li class="known">subtle</li><li class="known">tedious</li>
+          <li class="known">versatile</li>
+        </ul>
+      </div>
+
+      <div class="spec" style="--tone: var(--t2); --tone-bg: var(--t2-bg)">
+        <span class="tag">Tier 3</span>
+        <h3>SAT, pre-2016</h3>
+        <p class="meta">Classic word list</p>
+        <p class="src">The corpus most &ldquo;SAT words&rdquo; decks still ship. Overlaps our band 2&ndash;3 heavily.</p>
+        <ul>
+          <li class="known">aberration</li><li class="known">aesthetic</li><li>capitulate</li>
+          <li>circuitous</li><li>clairvoyant</li><li>deleterious</li><li>demagogue</li>
+          <li>evanescent</li><li>extenuating</li><li>fortuitous</li><li>hackneyed</li>
+          <li>haughty</li><li>impetuous</li><li>intrepid</li><li>ostentatious</li>
+          <li>precipitous</li><li>querulous</li><li>surreptitious</li><li>venerable</li>
+          <li>vindicate</li>
+        </ul>
+      </div>
+
+      <div class="spec" style="--tone: var(--accent); --tone-bg: var(--accent-soft)">
+        <span class="tag">Tier 4 &middot; repo</span>
+        <h3>ASVAB deck</h3>
+        <p class="meta">52 items &middot; read-only</p>
+        <p class="src">Live from <code>asvabQuestions.json</code>. Note <em>abeyance</em>, <em>debouch</em>, <em>mulct</em> &mdash; harder than most of our band 3.</p>
+        <ul>
+          <li>abeyance</li><li>aplomb</li><li>belie</li><li class="known">benign</li>
+          <li class="known">candor</li><li>debouch</li><li>decamp</li><li class="known">deplore</li>
+          <li class="known">dubious</li><li>duplicity</li><li>elated</li><li>encore</li>
+          <li>ephemeral</li><li>garrulous</li><li class="known">gregarious</li><li>hale</li>
+          <li>lackadaisical</li><li>mulct</li><li>placate</li><li>raze</li>
+          <li>truculent</li><li>ubiquitous</li><li>vindicate</li>
+        </ul>
+      </div>
+
+      <div class="spec" style="--tone: var(--t4); --tone-bg: var(--t4-bg)">
+        <span class="tag">Tier 4 &middot; official</span>
+        <h3>OATTS</h3>
+        <p class="meta">6 known items</p>
+        <p class="src">Every word we have from a genuine Air Force item. This is the calibration anchor &mdash; and it is only six words deep.</p>
+        <ul>
+          <li>arduous</li><li>ardent</li><li>cursory</li>
+          <li>benevolent</li><li>malevolent</li><li>exasperate</li>
+        </ul>
+        <p class="src" style="border:0; padding:12px 0 0; margin:12px 0 0; border-top:1px dashed var(--rule)">Three of these are <em>confusable pairs</em>, which is the trap the official solutions name most often.</p>
+      </div>
+
+      <div class="spec" style="--tone: var(--t3); --tone-bg: var(--t3-bg)">
+        <span class="tag">Our band 3 &middot; repo</span>
+        <h3>TKB band 3</h3>
+        <p class="meta">40 words</p>
+        <p class="src">Sits just under OATTS. Useful, but this is the tier you say you already know half of.</p>
+        <ul>
+          <li>abate</li><li>acerbic</li><li>affable</li><li>austere</li><li>brusque</li>
+          <li>burgeon</li><li>censure</li><li>cogent</li><li>copious</li><li>denigrate</li>
+          <li>disparage</li><li>espouse</li><li>exacerbate</li><li>extol</li><li>fickle</li>
+          <li>indolent</li><li>obstinate</li><li>paltry</li><li>pedantic</li><li>prosaic</li>
+          <li>quell</li><li>reticent</li><li>succinct</li><li>taciturn</li><li>vilify</li>
+        </ul>
+      </div>
+
+      <div class="spec" style="--tone: var(--t5); --tone-bg: var(--t5-bg)">
+        <span class="tag">Our band 4 &middot; repo</span>
+        <h3>TKB band 4</h3>
+        <p class="meta">40 words &middot; our ceiling</p>
+        <p class="src">Genuinely GRE-tier. These 40 are the only words in the bank pitched at or above OATTS.</p>
+        <ul>
+          <li>avaricious</li><li>bombastic</li><li>excoriate</li><li>exiguous</li>
+          <li>grandiloquent</li><li>impugn</li><li>inveterate</li><li>irascible</li>
+          <li>laconic</li><li>loquacious</li><li>magnanimous</li><li>mendacious</li>
+          <li>obdurate</li><li>perfidious</li><li>prodigious</li><li>pusillanimous</li>
+          <li>repudiate</li><li>sanguine</li><li>truculent</li><li>unctuous</li>
+          <li>vitriolic</li><li>vociferous</li><li>voluble</li>
+        </ul>
+      </div>
+
+      <div class="spec" style="--tone: var(--t5); --tone-bg: var(--t5-bg)">
+        <span class="tag">Tier 5</span>
+        <h3>GRE</h3>
+        <p class="meta">1,000+ published</p>
+        <p class="src">The ceiling. Overlaps our band 4 on <em>laconic</em>, <em>mendacious</em>, <em>obdurate</em>, <em>sanguine</em>, <em>truculent</em> &mdash; which is the proof our top tier is calibrated right.</p>
+        <ul>
+          <li>abstruse</li><li>alacrity</li><li>approbation</li><li>assiduous</li>
+          <li>calumny</li><li>chicanery</li><li>desultory</li><li>diffident</li>
+          <li>dissemble</li><li>enervate</li><li>fatuous</li><li>iconoclast</li>
+          <li>inchoate</li><li>intransigent</li><li>obsequious</li><li>panegyric</li>
+          <li>parsimonious</li><li>perfunctory</li><li>phlegmatic</li><li>probity</li>
+          <li>quiescent</li><li>recalcitrant</li><li>recondite</li><li>sagacious</li>
+          <li>soporific</li><li>specious</li><li>supercilious</li><li>sycophant</li>
+          <li>tendentious</li><li>timorous</li><li>vituperate</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <p class="scroll-hint">&larr; scroll for all seven columns &rarr;</p>
+</section>
+
+<section>
+  <h2>The bank today</h2>
+  <p class="h2sub">120 words, and the shape of them is the problem.</p>
+
+  <div class="bank">
+    <div class="bandcard absent" style="--tone: var(--t1)">
+      <div class="n">0</div>
+      <div class="lbl">Band 1</div>
+      <div class="note">Never built. Correctly so &mdash; below test level.</div>
+    </div>
+    <div class="bandcard" style="--tone: var(--t2)">
+      <div class="n">40</div>
+      <div class="lbl">Band 2</div>
+      <div class="note">candid, frugal, timid, vain. You know these. They are costing you a third of the bank.</div>
+    </div>
+    <div class="bandcard" style="--tone: var(--t3)">
+      <div class="n">40</div>
+      <div class="lbl">Band 3</div>
+      <div class="note">Just under OATTS. Roughly the half you say you already know.</div>
+    </div>
+    <div class="bandcard" style="--tone: var(--t5)">
+      <div class="n">40</div>
+      <div class="lbl">Band 4</div>
+      <div class="note">Genuinely hard. The only tier pitched at OATTS or above.</div>
+    </div>
+    <div class="bandcard absent" style="--tone: var(--t5)">
+      <div class="n">0</div>
+      <div class="lbl">Band 5</div>
+      <div class="note">Never built. This is the real gap &mdash; there is no tier above OATTS to stretch into.</div>
+    </div>
+  </div>
+
+  <div class="math">
+    <p style="margin-top:0"><strong>Why the tests feel shallow, in numbers:</strong></p>
+    <ol>
+      <li>A 5-question quiz shows you <span class="fig">5 headwords + 25 options = 30 words</span>. That matches what you observed.</li>
+      <li>The bank holds <span class="fig">120</span> headwords. At bands 3&ndash;4 only, that is <span class="fig">80</span>.</li>
+      <li>You know roughly half of those, so the genuinely useful pool is about <span class="fig">40 words</span>.</li>
+      <li>At <span class="fig">30 new words a day</span> you exhaust everything worth studying in <span class="fig">under two days</span>.</li>
+      <li>Your plan needs <span class="fig">50 &times; 22 = 1,100</span> words. We are short by roughly <span class="fig">1,020</span>.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2>Your actual question</h2>
+  <p class="h2sub">Why don&rsquo;t the engines just generate infinite words?</p>
+  <p class="lede">Because a generator can only vary what is <em>parameterised</em>. On the math subtests the content is numbers, and numbers are infinitely variable. On the knowledge subtests the content is facts, and a fact cannot be generated &mdash; only curated.</p>
+
+  <div class="tablewrap">
+    <table>
+      <caption>Every AFOQT subtest bank, counted from the repo today.</caption>
+      <thead>
+        <tr><th>Subtest</th><th>What is authored</th><th class="num">Count</th><th>Effective item space</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Math Knowledge</td><td>Parameterised templates</td><td class="num">82</td><td><span class="pill inf">Effectively infinite</span></td></tr>
+        <tr><td>Arithmetic Reasoning</td><td>Parameterised templates</td><td class="num">37</td><td><span class="pill inf">Effectively infinite</span></td></tr>
+        <tr><td>Table Reading</td><td>Templates over a 33&times;33 grid</td><td class="num">2</td><td><span class="pill inf">Effectively infinite</span></td></tr>
+        <tr><td>Instrument Comprehension</td><td>Templates over an attitude space</td><td class="num">2</td><td><span class="pill inf">Effectively infinite</span></td></tr>
+        <tr><td>Block Counting</td><td>Template over generated piles</td><td class="num">1</td><td><span class="pill inf">Effectively infinite</span></td></tr>
+        <tr><td>Aviation Information</td><td>Hand-authored fact rows</td><td class="num">374</td><td><span class="pill fin">Capped at 374</span></td></tr>
+        <tr><td>Physical Science</td><td>Hand-authored fact rows</td><td class="num">266</td><td><span class="pill fin">Capped at 266</span></td></tr>
+        <tr><td>Verbal Analogies</td><td>Hand-authored relations</td><td class="num">114</td><td><span class="pill fin">Capped at 114</span></td></tr>
+        <tr><td><strong>Word Knowledge</strong></td><td>Hand-authored word rows</td><td class="num"><strong>120</strong></td><td><span class="pill fin">Capped at 120</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin-top:22px">A quadratic can be re-rolled forever because <em>x</em> and the coefficients are just numbers. <strong>&ldquo;What does <em>perfidious</em> mean&rdquo; has exactly one instance.</strong> The only way to get a second Word Knowledge question is to add a second real word, by hand, with its full slate of four wrong answers &mdash; each of which has to be a named mistake (the opposite, the confusable, the merely related, the plausible decoy) rather than a random filler word.</p>
+  <p>That is the whole reason the bank is 120 and not 12,000. It is not a missing feature. It is authoring volume &mdash; and it is exactly the work to spend the next few days on.</p>
+</section>
+
+<section>
+  <h2>What I propose building</h2>
+  <p class="h2sub">Two tiers, roughly 1,000 words, in batches you can start studying immediately.</p>
+
+  <div class="plan">
+    <div class="step">
+      <span class="idx">01</span>
+      <div>
+        <h3>Kill band 2 from your rotation, don&rsquo;t delete it</h3>
+        <p>Those 40 words stay in the bank for warm-ups but come out of your daily draw. That alone doubles the density of useful words in every quiz you take, today, before a single new word is written.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="idx">02</span>
+      <div>
+        <h3>Build band 5 &mdash; the tier that does not exist</h3>
+        <p>Roughly 300 words at GRE ceiling: <em>abstruse, obsequious, recondite, vituperate</em>. This is the tier above OATTS, and right now you have no way to stretch into it. Highest value per word of anything on this list.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="idx">03</span>
+      <div>
+        <h3>Deepen band 4 from 40 to ~400</h3>
+        <p>This is the realistic-AFOQT tier and the one you will actually be tested at. Sourced from the GRE and pre-2016 SAT corpora, filtered to the register the Air Force actually uses.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="idx">04</span>
+      <div>
+        <h3>Add ~300 more at band 3</h3>
+        <p>Not because you need easy words, but because a 12-second clock punishes hesitation on words you half-know. Fluency at band 3 is what buys you time to think on the band 5 items.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="idx">05</span>
+      <div>
+        <h3>Mine the confusable pairs deliberately</h3>
+        <p>Half the official OATTS items we have are confusable traps &mdash; <em>arduous/ardent</em>, <em>benevolent/malevolent</em>. Every new word gets a real confusable, so the wrong answers teach the exact mistake the Air Force is testing for.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Sources.</strong> Counts for the TKB and ASVAB columns are read live from this repository. Difficulty tiering and the AFOQT format facts are from <a href="https://frontline-forge.com/afoqt/word-knowledge/">Frontline Forge&rsquo;s AFOQT Word Knowledge guide</a> (25 questions / 5 minutes; GRE and SAT lists align with AFOQT difficulty; faster-paced than the ASVAB at comparable word difficulty) and <a href="https://brightlinkprep.com/is-gre-harder-than-the-sat/">BrightLink Prep on GRE versus SAT vocabulary</a> (GRE requires 1,000+ word lists; the SAT dropped sentence completion after 2016). Additional AFOQT format and study-volume guidance from <a href="https://www.mometrix.com/academy/afoqt-practice-test/">Mometrix</a> and <a href="https://afoqtguide.com/word-knowledge/">AFOQT Guide</a>. GRE, SAT and ACT columns are representative words drawn from published prep corpora, not official published lists &mdash; ETS does not release one.</p>
+  <p style="margin-bottom:0">One caveat worth knowing before you budget 22 days: Word Knowledge feeds the <strong>Verbal, Academic Aptitude and CSO</strong> composites &mdash; but <strong>not the Pilot composite</strong>. If Pilot is your target slot, weight your hours accordingly.</p>
+</footer>
+
+</div>

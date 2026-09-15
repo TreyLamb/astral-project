@@ -155,6 +155,151 @@ Not the other way around. The spacing rules are how a recovery preference got wr
 
 **✂️ `training-with-pushups.md` is stale** — it mirrors Cycles 1 and 2, which no longer appear in `training.md`. Not rebuilt, because Trey handles push-up programming himself and did not ask for it. A banner says so. `training.md` instead carries a one-line note on which Cycle 3 days are clear of the bench/back windows, so the constraint isn't lost.
 
+## Decision — AFROTC detachment PT + Hybrid Legs/Back day (2026-09-14, Trey, direct)
+
+**Trey is now doing mandatory Air Force detachment PT Tuesday and Thursday**, on top of his own
+training. He needs to arrive at those sessions relatively fresh, but detachment PT is not
+structured for his specific 2-mile goal, so his own program keeps running alongside it. This
+replaces the plain 13-day cycle's day-placement freedom with a **fixed external constraint**, and
+is a genuinely new kind of rule for this plan — not a fitness change, a scheduling one.
+
+**What detachment PT actually is, researched rather than assumed** (Trey said up front he doesn't
+know yet what it'll consist of): AFROTC PT sessions typically run about an hour, structured as
+warm-up laps, calisthenics in formation (push-ups, crunches, squats), then station work in small
+groups — a real leg/cardio/core session, not a formality. Source: cadet-facing detachment
+handbooks and program pages (UNH AFROTC "Physical Training," Airmen of Troy "Training Structure,"
+UPRM Det 756 FAQ). **This is an assumption pending Trey's own report back after a session or
+two** — flagged, not settled, per the root `CLAUDE.md` external-data rule (don't declare a gap
+settled from zero data).
+
+**The math problem, stated precisely (this is what actually blocks a plain weekly template, not
+cycle length):** with Legs on Thursday and Speed on Sunday both fixed weekly fixtures, **no day of
+a 7-day week is ever ≥3 days from both at once** — the hard spacing rules (`cycle.md` rules 2–4)
+that have governed this plan since the first draft. Checked directly against Trey's own two
+candidate days for a separate Back day:
+- **Tuesday evening:** 2 days from Thursday's legs, 2 days from Sunday's speed — needs 3 from both.
+- **Friday:** 1 day from Thursday's legs — needs 3.
+
+Neither is close. This is the same 3-day buffer that's protected leg↔back and back↔speed the
+whole time; putting a separate hard Back session on either day would be spending exactly the
+recovery margin those rules exist to protect, not a rounding error.
+
+**Two honest ways out were presented, and Trey picked one directly:**
+1. Alternate Legs/Back across separate Thursdays (zero rule violations, back loses frequency).
+2. Compress the back-day buffer to 2 days on Tuesday — rejected by Trey outright: *"Option 2
+   doesn't work at all with AF PT landing 2x in the middle of the week."*
+
+**What Trey actually chose is a third option, better than either offered: a combined
+Legs/Back "hybrid" session, once a week, at moderate — not maximal — effort.** His words:
+*"They can both be easily worked together if I'm not pushing for maximum effort every time. It's
+mostly to keep them in the cycle, not to try and become the world's strongest man."*
+
+**Why this actually resolves the constraint, not just relocates it:** rule 2 (leg↔back ≥3 days)
+exists to keep two *separate*, near-maximal-effort sessions from compounding fatigue too close
+together. A single deliberately moderate session covering both muscle groups isn't two sessions —
+there's no second event left to space against, so the rule's own mechanism doesn't apply. **Rule 2
+is superseded for this hybrid design specifically** (see `cycle.md`) — this is not a silent
+loosening of a safety rule, it's recognizing the rule's precondition (two separate hard sessions)
+no longer holds. Legs↔speed (3 days, Thu→Sun) and back↔speed (3 days, same day) both still clear
+their full 3-day buffer, because the hybrid sits on the same single Thursday either component
+would have needed anyway.
+
+**Chest is exempted from the old "one session per muscle group per cycle" cap (rule 1) and goes
+truly weekly, on Saturday.** Grounded in the resistance-training frequency literature (Schoenfeld
+et al. meta-analyses): at equated per-session volume, training a muscle group twice a week
+produces modestly better strength/hypertrophy outcomes than once a week, and the effect holds
+specifically because chest work — unlike legs or back — doesn't compete with running recovery.
+Rule 8 already said as much ("Lift A has no spacing restriction relative to running"); this just
+extends that same reasoning to frequency, not only placement.
+
+**The resulting weekly template (first version — corrected below the same day, read both):**
+
+| Day | Session |
+|---|---|
+| Mon | Easy run — freshness for Tue PT |
+| Tue | Detachment PT (AM) + push-ups (Trey's own program, out of scope here) |
+| Wed | Easy/light run — freshness for Thu PT |
+| Thu | Detachment PT (AM) + **Hybrid Legs/Back** (moderate effort, not max), evening |
+| Fri | **Alternates week to week** — full rest / long run (see below) |
+| Sat | Chest, evening |
+| Sun | Speed day, every week |
+
+**Spacing check:** legs(Thu)↔speed(Sun) = 3 days ✓ · back(Thu)↔speed(Sun) = 3 days ✓ ·
+chest(Sat)↔back(Thu) = 2 days ✓ (meets rule 11's "ideally 2") · chest(Sat)↔legs(Thu) = 2 days ✓
+(meets rule 10). Leg↔back spacing (rule 2) does not apply — same session, see above.
+
+**✂️ Rule 6 (1 full true rest day per cycle) is softened to biweekly, and this is a genuine
+trade-off Trey should weigh in on if he disagrees with the call made here.** A plain week only has
+one open day left (Friday) once Mon/Tue/Wed/Thu/Sat/Sun are spoken for, and it can't be both a
+weekly full-rest day and a weekly long run. The long run is one of the two highest-priority
+sessions for the actual 2-mile goal per `methodology.md` ("the work that closes the gap is
+threshold volume, rep density, and the long run") — so the call made here is to keep the long run
+and drop true full-rest to every other week, rather than the reverse. **This was decided, not
+asked** — flag it back if the trade-off should run the other way.
+
+---
+
+### ⚠️ Corrected same day (2026-09-14) — the Hybrid day itself was still wrong
+
+Trey caught it immediately after the table above shipped: *"You think I can have a long run day
+the day after a back/leg workout? No."* He's right, and the table above has that defect built in
+— Friday's long run sits directly after Thursday's Hybrid Legs/Back.
+
+**The actual constraint, worked through properly:** with the Hybrid glued to Thursday (Trey's ask,
+tied to the detachment-PT double-session structure) and Speed forced to Sunday (the only day ≥3
+from Thursday, per rules 3/4), the long run has exactly two candidate days left — Friday and
+Saturday — and **neither survives**: Friday is 1 day after the Hybrid (too soon for a quality
+aerobic effort on the same legs), Saturday is 0 days before Sunday's speed (a direct rule 7
+violation — long run flowing straight into a speed day is literally "the original bug" rule 7 was
+first written to fix, back when it was a long-run→speed problem across a cycle boundary). There is
+no weekly arrangement of {Hybrid, Chest, Speed, Long run} across {Thu, Fri, Sat, Sun} that clears
+both constraints simultaneously — this isn't a placement error, it's the same kind of hard
+impossibility that first ruled out a standalone weekly Back day.
+
+**Fix: the Hybrid itself goes biweekly**, alternating with a Thursday that carries no lift at all:
+
+| | Thu | Fri | Sat | Sun |
+|---|---|---|---|---|
+| **Week A (lift week)** | PT + Hybrid Legs/Back | Full rest | Chest | Speed |
+| **Week B (long-run week)** | PT only, no lift | Long run | Chest | Speed |
+
+The long run now always follows a Thursday with zero leg/back work — properly fresh — while
+staying 1 full day (Saturday) clear of Sunday's speed either direction. Chest and Speed are
+untouched; they were never actually in conflict. **Rule 6's biweekly softening (above) still
+holds, but is now correctly explained**: full rest happens on the lift week's Friday specifically
+*because* that's the week with no long run competing for the slot — not as an independent
+alternation that happened to land there.
+
+**This also changes the frequency of Legs/Back itself**, worth stating plainly since it's a bigger
+change than it looks: from "combined, weekly" to "combined, every other week." Consistent with
+Trey's own stated goal for the hybrid (*"mostly to keep them in the cycle, not to try and become
+the world's strongest man"*) — a maintenance frequency, not a progression one, so biweekly is not
+a downgrade relative to what he actually asked for.
+
+**Current tables (`training.md`, `cycle.md`) reflect this corrected version.** The table earlier
+in this section is kept for the record of what was tried and why it broke, per this doc's own
+practice of not silently erasing superseded reasoning (see the Lift A / Sled-Carry history above).
+
+**Two flags carried forward, not resolved:**
+- **Nothing is scheduled Tuesday evening, on purpose.** Detachment PT's actual content is still
+  unverified. Once Trey has seen a real session or two, revisit whether anything (a light
+  accessory session, or eventually splitting the Thursday hybrid) could move there — don't guess
+  now.
+- **Thursday is now the single heaviest day of the week** — detachment PT (AM) plus a combined
+  Legs/Back session (PM) covering both major lower/posterior-chain groups in one evening. Trey's
+  own framing ("not maximum effort... just to keep them in the cycle") is the right one to hold to
+  here — this is not the day to chase a PR. Watch the ankle/calf flags above specifically on
+  Fridays that carry the long run, since that's a long aerobic effort run on legs that took a
+  combined lift the evening before.
+
+**Push-ups stay entirely out of scope here**, unchanged from the 2026-08-17 decision — Trey placed
+them on Tue/Thu himself and owns that programming; nothing above touches it.
+
+**Effective 2026-09-14 (today).** Today's own session (originally Lift A + Ab Circuit A under the
+old Cycle 5 D2) is superseded — chest moves to Saturday, so today is just the easy run. Cycle 5 is
+ended early at D2, same precedent as the 2026-08-17 Cycle 2→3 rebase (resume at the current day,
+don't chase missed structure). The dated calendar lives in `training.md`.
+
 ## Instructions for future sessions
 - When asked to update the cycle, calendar, or plan, read this file in full first. It has final say over anything that conflicts with an older doc.
 - Don't revisit the 2026-vs-2027 goal date question — it's settled, 2026 is correct.
