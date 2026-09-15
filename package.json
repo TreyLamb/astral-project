@@ -37,7 +37,9 @@
     "academiq:import": "node scripts/academiqImport.mjs",
     "academiq:figures": "node scripts/academiqFigures.mjs",
     "eft:prices": "node scripts/fetchEftPrices.mjs",
-    "eft:loops": "node scripts/reportEftCraftLoops.mjs"
+    "eft:loops": "node scripts/reportEftCraftLoops.mjs",
+    "eft:locks": "node scripts/buildEftLocks.mjs",
+    "vercel:prune": "node scripts/pruneVercelDeployments.mjs"
   },
   "dependencies": {
     "@mintplex-labs/piper-tts-web": "^1.0.5",

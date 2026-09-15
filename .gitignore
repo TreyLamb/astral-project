@@ -57,3 +57,14 @@ src/pages/theknowledgebase/ResearchPics/
 
 # AFOQT outside-agent farming packet (regenerate with the recipe in docs/afoqt/HANDOFF.md)
 src/pages/theknowledgebase.zip
+
+# Local-only standalone games (public/ tools, not React). Removed from the repo
+# 2026-09-14 to cut Vercel Deployment Storage: Vite copies public/ into dist/
+# verbatim, so these cost ~58 MB per deployment (28.5 MB source + 30 MB output)
+# on a 10 GB quota. They stay on disk and still run under `npm run dev` at
+# /birds/index.html, /rustioclone/index.html, /rustpunkio/index.html.
+# Recoverable from git history (they were tracked through 2b2f6c6).
+# Their SITE_LINKS entries were removed too — a deployed card would 404.
+public/birds/
+public/rustioclone/
+public/rustpunkio/

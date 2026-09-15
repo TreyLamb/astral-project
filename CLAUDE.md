@@ -302,6 +302,106 @@ It finds his exact loop without being told about it, and there is a test asserti
 
 ---
 
+## 🔑 EFT key locations: mapgenie already had them — do NOT transcribe a community map image
+
+Added 2026-09-13. Trey asked for the PhotonReady-style "where do I USE this key" overlay
+(the annotated Reserve screenshot the community passes around) and, separately, whether
+those images could be found for the other maps. **Neither was needed.** mapgenie's own
+`locked_door` category is one marker per lock on every map, with the key named in its
+description, and `npm run eft:markers` already commits it. Measured that day: **258 locked
+doors across 12 maps**, and on Reserve the data is a **strict superset of the screenshot** —
+every key on it plus `RB-MP11`, `RB-PKPM`, `RB-PKPTS` and `RB-RLSA`. Trey had already
+suspected this ("this map i'm using may be out of date.. i think there's 1 or 2 keys that
+are not on here"); it was four, and the answer refreshes with the markers every wipe
+instead of going stale in a PNG.
+
+- **`eftLocks.js` is the parser** (pure, tested) and `npm run eft:locks` builds
+  `data/lockIndex.json` from the markers + `itemNames.json`. `--audit` prints every lock
+  and its match; `--misses` prints only the unresolved ones. Re-run it after
+  `eft:markers` or `eft:items`, i.e. once a wipe.
+- **The descriptions are wiki markdown, not a schema.** Every lock keeps its `raw`
+  description, so a parse miss degrades to "shown verbatim", never to "silently gone" —
+  the same contract `fetchEftQuests.mjs` has.
+- **The key→item join is fuzzy because mapgenie's wording is not the game's**
+  ("Rogue USEC barracks key" vs "barrack", "RB-VO Key" vs "RB-VO marked key", "Key to
+  Utility Room of OLI Outlet" vs "OLI outlet utility room key"). 188 of 201 named keys
+  join. Three guards, each added after a real wrong pairing:
+  - 🔴 **A WRONG key is worse than no key.** A match must beat its runner-up by a margin
+    *below* score 0.75 (above it, the Health Resort's thirty sibling room keys tie
+    legitimately and the margin rule was eating real matches).
+  - 🔴 **Coverage ≥ 0.75 of the query's own words.** The margin cannot catch the case
+    where the right item is *absent from the pool*, because then a sibling wins
+    uncontested: **"Old House Toilet Key" took "Old house room key"** at 0.67 with nothing
+    to beat. An unexplained word in the query ("toilet") is the tell.
+  - **`(off)`-prefixed rows are excluded outright** — SPT keeps removed content in the
+    locale and `(off)Black Keycard` beat the real Labs keycard on a plain name match.
+- ⚠️ **13 named keys are real in-game but absent from `itemNames.json`**, so they show
+  mapgenie's name with no item id and no price: Icebreaker's Compartment C-1/C-3 and
+  Boreas engine room keycards, five Labyrinth keys, Knossos LLC facility, Cardinal
+  apartment, Reshala's bunkhouse, RB-PKPTS, Old house toilet. **All were confirmed to
+  exist on the wiki, and SPT's LIVE locale was fetched to check** (2026-09-13, 28,659
+  entries) — it has none of them. This is the documented SPT-lags-new-content pattern, not
+  a parse bug and not something `npm run eft:items` fixes. Don't "fix" it by loosening the
+  matcher.
+- **A callout label must identify its own door.** The game's short name for "Old house room
+  key" is *Depot*, and Woods drew two callouts both reading DEPOT. `dedupeCodes()` rewrites
+  a colliding code to the room — but only when the KEYS differ, because several doors
+  sharing one key (the Labs keycards, Streets' three Iron Gates) is the true answer.
+
+### The drawing: a key in clear space with a leader, not a pin on the door
+
+Trey: *"it would make sense to have an icon of the key and a narrow arrow pointing to the
+map location rather than a floating icon over the location."* mapgenie ships these as a
+`#453A49` padlock pin whose tip is the door — near-black on brown terrain, with the art
+covering the room you are trying to identify.
+
+- `calloutStyle()` in `eftMapLabels.js` is the override, and `drawsPin()` excludes locked
+  doors exactly the way it excludes BTR stops. Matched on the category **icon**
+  (`locked_door`), never its id.
+- Drawn by `SpriteMarkerLayer`: a target ring on the door, a hairline leader (dark casing
+  under a bright line so it survives both pale concrete and treeline), and a bordered box
+  with a key glyph plus the code. Brass `#ffc046` for a door with a key; cool grey
+  `#9fb3c8` with a padlock glyph for a keypad / breachable / unknown door, so it never
+  looks like a key you should be carrying.
+- 🔴 **The key glyph is drawn on a diagonal on purpose.** Horizontal at ~12px, a ring plus
+  a shaft is exactly a lowercase "o" followed by a dash — the first build read as the word
+  **"On"** in front of every code on the map. Tilting it off the text baseline stops it
+  parsing as a letter.
+- **Its bow is a thick-stroked ring, NOT a fill with the middle punched out.**
+  `destination-out` cuts through the callout's own background and shows the basemap
+  through the hole — it is all one shared canvas.
+- **Callouts are settled LAST**, against the finished label picture, then fan out through
+  eight directions at four distances. A door is never dropped on collision; if nothing is
+  clear it draws anyway.
+- **`Locked Door` is in `DEFAULT_ON`** alongside Extraction, Location and BTR Stop —
+  `visibleCats` is not persisted, so leaving it off meant re-ticking it on every map load.
+  It is 5 callouts on Woods and 55 on Streets.
+
+### 🔴 Marker tooltips are FORMATTED now — never inject `marker.desc` raw again
+
+The tooltip was `<strong>title</strong><span>${marker.desc}</span>`, and the description is
+wiki markdown, so a locked door read as one unbroken run of `**Key Required:**
+[RB-ORB1 Key](https://mapgenie.io/tarkov/maps/reserve?locationIds=66967) (+ Jackets/Scavs)`
+— asterisks, brackets and the whole URL. Trey, 2026-09-13: *"The formatting is terrible for
+a tooltip like this. it's all jumbled. no formatting tbh. NO reason to link the mapgenie
+links... They all need cleaned up so humans can actually read them."*
+
+`map/eftMarkerTip.js` is the fix and it is **not a locked-door fix**: mapgenie uses one
+`**Label:**` convention across every category (Location, Quest, Quest Giver, Requirements,
+Possible Spawns, Note, Leads To — 435 of 1,540 descriptions on Streets alone), so parsing
+it once reformats every tooltip on every map.
+
+- **No URL ever reaches a tooltip.** The link TEXT is kept, the target dropped — they are
+  deep links to a page the user is not on. Bare URLs are stripped too.
+- **Everything is escaped.** This is third-party text going into `innerHTML`; it was not
+  escaped before.
+- **A repeated spawn list folds to a count.** "Spawn #1, Spawn #2, …" only differed by
+  their links, and the links are gone.
+- On a lock the key is promoted to its own row showing the **game's** name for it, so the
+  tooltip answers "what am I looking for in my stash".
+
+---
+
 ## ℹ️ EFT maps: 12 of 13 are wired; 5 of those are rebuilt, not scraped
 As of 2026-08-16 every mapgenie map is committed under
 `src/pages/eftShopping/map/data/markers/`. `npm run eft:markers` takes two
@@ -665,7 +765,48 @@ Steps 4 and 5 have collapsed into step 5 — the navbar no longer has hand-writt
 ## Adding a standalone tool (public/ — no React)
 - Drop folder in `public/` → accessible at `/folder-name/index.html`
 - In Navbar use plain `<a href="/folder-name/index.html">` NOT `<Link>` — Link will break it
-- Current public/ tools: `birds/` (game), `chinese-idioms/` (standalone page), `lexicon/` (data + node scripts only)
+- Current public/ tools: `chinese-idioms/` (standalone page), `lexicon/` (data + node scripts only)
+- **LOCAL-ONLY public/ tools (gitignored, NOT deployed):** `birds/`, `rustioclone/`, `rustpunkio/`.
+  Untracked 2026-09-14 to cut Vercel Deployment Storage — 28.45 MB of source plus ~28 MB of build
+  output, since Vite copies `public/` into `dist/` verbatim. They still run under `npm run dev`
+  (Vite serves `public/` off the disk and ignores `.gitignore`). Their `SITE_LINKS` entries were
+  removed with them, so do NOT re-add a card for them — a deployed link would 404. The files live
+  only in the working tree, in Trey's own off-repo backup, and in git history (tracked through
+  2b2f6c6); a fresh clone will not have them.
+  ⚠️ **Do not repeat the sizing claim that was first written here.** This note originally said the
+  three cost "~58 MB of every deployment, roughly half the build", projected from local `du`. The
+  billed number disagrees: 7.5 GB across 141 deployments is **~54 MB per deployment**, so Vercel
+  evidently **deduplicates unchanged files across builds** and an asset that never changes is not
+  stored once per deployment. Trimming static assets helps much less than file sizes suggest.
+  Never project a storage saving from `du` — compare Usage → Deployment Storage before and after.
+
+---
+
+## 🗓️ Vercel Deployment Storage — prune it every couple of days (MANUAL, nothing automates it)
+
+Added 2026-09-14 at 75% of the 10 GB free-tier cap. **`VERCEL-DEPLOYMENTS.md` (repo root) is the
+live state** — it carries a `**Last checked:**` date that the script re-stamps on every run.
+
+**The rule: read that date. If it is under ~2 days old, do nothing and do not mention it.** If it
+is older, run `npm run vercel:prune -- --status`, then `npm run vercel:prune` to clear old builds.
+Don't re-check this every session, and never hand-edit the date — a stale date is the signal.
+
+- **Deployment Storage is bytes at rest, NOT traffic.** Source + build output + build cache across
+  every retained deployment. Bandwidth is metered separately (Fast Data Transfer, Edge Requests),
+  so this warning says nothing about how much the site is being visited.
+- **No Vercel setting fixes it.** Hobby retention is capped at 30 days on all four deployment
+  states and cannot be raised or lowered; this project deploys ~4x/day, so ~120 builds pile up
+  *inside* that window; and ~30 are protected permanently by retention's own exceptions (last 10
+  created, last 20 production Ready, last 20 non-production Ready, production alias, live PR
+  branch). The curve is set by deploy rate, so it has to be pruned by hand.
+- 🔴 **NEVER run `vercel remove <project-name>`.** With a project name it **deletes the whole
+  project** unless `--safe` is passed, and `--safe` only skips deployments holding an active
+  preview URL or production domain — that is NOT the same guard as the retention exceptions, so it
+  deletes recent builds too. `scripts/pruneVercelDeployments.mjs` deletes by explicit URL for
+  exactly this reason, keeping the newest 30 with a hard 7-day age floor.
+- Deletions are recoverable for 30 days under Settings → Security → Recently Deleted.
+
+Full reasoning, measurements and the dedup finding: `VERCEL-DEPLOYMENTS.md`.
 
 ---
 
