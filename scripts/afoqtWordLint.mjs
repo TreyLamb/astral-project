@@ -86,6 +86,41 @@ const files = args.length
   ? args
   : fs.readdirSync(DEFAULT_DIR).filter((f) => f.endsWith('.js')).map((f) => path.join(DEFAULT_DIR, f));
 
+// Every `word:` value across the WHOLE bank (not just the files being checked this run), so a
+// partial invocation (`afoqt:words-lint -- pool-03.js`) still catches a gloss that leans on a
+// headword defined in pool-07. This is the bank's own definition of "a big/complicated word" -
+// Trey, 2026-09-15: "Do not explain the definition of a word by using another big/complicated
+// word" - PRUDENT was glossed via confusable.meaning "puritanical", itself a band-2/3 headword
+// two chapters over. Nothing else in the repo already flags that; the bank IS the hard-word list.
+const ALL_FILES = fs.readdirSync(DEFAULT_DIR).filter((f) => f.endsWith('.js')).map((f) => path.join(DEFAULT_DIR, f));
+const BANK_WORDS = new Set();
+for (const file of ALL_FILES) {
+  const src = fs.readFileSync(file, 'utf8');
+  if (!src.includes('registerWords(')) continue;
+  for (const block of src.split(/\r?\n {2}\{\r?\n/).slice(1)) {
+    const w = field(block, 'word');
+    if (w) BANK_WORDS.add(norm(w));
+  }
+}
+const STOPWORDS = new Set(['a', 'an', 'the', 'to', 'of', 'in', 'on', 'is', 'it', 'not', 'and', 'or', 'but']);
+/** Words that are common English despite happening to also be a headword elsewhere in the bank
+ * (e.g. "grave" the noun is common; GRAVE the adjective is band 3). A meaning that uses one of
+ * these in its everyday sense is not the "explained by a bigger word" defect being caught here. */
+const BENIGN_OVERLAP = new Set([]);
+function hardWordsIn(text, ownWord) {
+  const own = norm(ownWord);
+  const hits = [];
+  for (const raw of String(text).toLowerCase().split(/[^a-z']+/)) {
+    if (!raw || raw.length < 4 || STOPWORDS.has(raw)) continue;
+    const singular = raw.endsWith('s') && !raw.endsWith('ss') ? raw.slice(0, -1) : raw;
+    for (const cand of [raw, singular]) {
+      if (cand === own) continue;
+      if (BANK_WORDS.has(cand) && !BENIGN_OVERLAP.has(cand)) { hits.push(cand); break; }
+    }
+  }
+  return hits;
+}
+
 let problems = 0;
 let rows = 0;
 let skipped = 0;
@@ -130,6 +165,14 @@ for (const file of files) {
     for (const v of [trap, antonym, related, decoy]) {
       const p = suffixPos(v);
       if (p && p !== answerPos) say(`option "${v}" reads as ${p}, answer "${answer}" reads as ${answerPos}`);
+    }
+
+    const gloss = field(block, 'gloss');
+    for (const hit of hardWordsIn(trap, word)) {
+      say(`confusable.meaning "${trap}" explains via bank word "${hit}"`);
+    }
+    for (const hit of hardWordsIn(gloss, word)) {
+      say(`gloss "${gloss}" explains via bank word "${hit}"`);
     }
 
     // NOT CHECKED: whether the gloss names one of its own wrong options. It was tried and

@@ -65,7 +65,7 @@ registerWords([
     antonym: 'cheerful',
     related: 'gloomy',
     decoy: 'verbose',
-    confusable: { word: 'lackadaisical', meaning: 'listless' },
+    confusable: { word: 'lackadaisical', meaning: 'unmotivated' },
     sentence: 'The farewell turned lachrymose about an hour in.',
   },
   {
@@ -172,7 +172,7 @@ registerWords([
   {
     id: 'wk-imperious', chapter: CH, concepts: TEMPER, band: 4,
     word: 'imperious', pos: 'adj', charge: 'neg',
-    gloss: 'assuming authority in an arrogant, domineering way',
+    gloss: 'assuming authority in a bossy, domineering way',
     answer: 'overbearing',
     antonym: 'humble',
     related: 'confident',
@@ -203,6 +203,7 @@ registerWords([
     related: 'defiant',
     decoy: 'prosperous',
     confusable: { word: 'obstinate', meaning: 'stubborn' },
+    note: 'Obstreperous means noisy and hard to control (an obstreperous toddler) - the problem is being loud and unruly. Contumacious specifically means openly disobeying authority, often in a formal or legal sense.',
     sentence: 'The obstreperous crowd drowned out the announcement entirely.',
   },
   {
@@ -270,6 +271,7 @@ registerWords([
     related: 'endure',
     decoy: 'inspire',
     confusable: { word: 'injure', meaning: 'to harm' },
+    note: 'Inure means to become desensitized to something unpleasant through repeated exposure (inured to the noise). Ossify means to become rigid and resistant to CHANGE in general, not specifically to something unpleasant.',
     sentence: 'Six months of alerts had inured him to the sound of the klaxon.',
   },
 ]);

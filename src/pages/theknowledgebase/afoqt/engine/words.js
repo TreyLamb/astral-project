@@ -46,6 +46,14 @@ import { registerTemplate, templatesFor, generateInstance } from './generator.js
  * @property {{word: string, meaning: string}} confusable  option is `meaning`
  * @property {string} [sentence]     the word used in context; enables the context frame
  * @property {{form: string, sense: string}} [root]
+ * @property {string} [note]         flashcard-only disambiguation, NOT used in any drill option -
+ *                                   so unlike `confusable.meaning` it is free to be as long as it
+ *                                   needs to be. For a genuine near-synonym this bank tests
+ *                                   elsewhere (`related`/`answer` colliding with another
+ *                                   headword's), or for a `confusable` pairing whose one-word
+ *                                   `meaning` is too terse to actually keep the two apart. Added
+ *                                   2026-09-15 after Trey: "multifarious still seems like myriad
+ *                                   ... arrogate means to claim? how general and ambiguous."
  * @property {'pos'|'neg'|'neutral'} charge   connotation. Not decoration: on a 12-second clock
  *                                   the fastest usable signal is often "is this word approving
  *                                   or disapproving", which eliminates two or three options
@@ -189,6 +197,7 @@ export function registerWords(rows) {
     if (r.sentence && !new RegExp(r.word.slice(0, Math.max(4, r.word.length - 3)), 'i').test(r.sentence)) {
       throw new Error(`${at}: sentence does not contain the headword`);
     }
+    if (r.note != null && !String(r.note).trim()) throw new Error(`${at}: note, if given, must not be empty`);
     REGISTRY.set(r.id, r);
   }
   return rows;

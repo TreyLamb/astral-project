@@ -59,6 +59,14 @@ export default function CardsView() {
   // ranking (docs/afoqt/WORD-BANK-EXPANSION.md) says bands 4-5 are the material worth learning
   // and bands 2-3 are speed practice - so "which bands" is the one cut that matters here.
   const [bands, setBands] = useState('all');
+  // The speed decks (By band, Speed) used to be seeded by the CALENDAR DAY, so every restart
+  // within the same day re-dealt the identical order - Trey, 2026-09-15: "everytime i start from
+  // the beggning like 7 of the first 10 words are always the same." A speed run is meant to be
+  // shuffled every time you pick it back up, not once every 24 hours - so the seed now lives in
+  // React state and is re-rolled on every restart (switching into the deck, or picking a band),
+  // while `useMemo` below still keeps it from reshuffling mid-session on an unrelated re-render.
+  const [shuffleSeed, setShuffleSeed] = useState(() => Math.random().toString(36).slice(2));
+  const reshuffle = () => setShuffleSeed(Math.random().toString(36).slice(2));
 
   const byId = useMemo(() => new Map(pool.map((w) => [w.id, w])), [pool]);
   const session = useMemo(() => buildSession(progress, today), [progress, today]);
@@ -71,7 +79,7 @@ export default function CardsView() {
     () => pool.filter((w) => w.band < TEST_LEVEL_BAND).map((w) => w.id),
     [pool],
   );
-  const speedDeck = useMemo(() => shuffleIds(speedIds, `speed:${today}`), [speedIds, today]);
+  const speedDeck = useMemo(() => shuffleIds(speedIds, `speed:${shuffleSeed}`), [speedIds, shuffleSeed]);
 
   // THE WHOLE BANK. Trey, 2026-09-09: "I want the CARDS drill to be full of the bank so i can
   // speed run through it." Every other deck here is gated on what the daily drip has handed out,
@@ -87,7 +95,10 @@ export default function CardsView() {
     () => pool.filter((w) => bands === 'all' || w.band === bands).map((w) => w.id),
     [pool, bands],
   );
-  const bankDeck = useMemo(() => shuffleIds(bankIds, `bank:${today}:${bands}`), [bankIds, today, bands]);
+  const bankDeck = useMemo(
+    () => shuffleIds(bankIds, `bank:${shuffleSeed}:${bands}`),
+    [bankIds, shuffleSeed, bands],
+  );
 
   const queue = deck === 'daily' ? session
     : deck === 'speed' ? speedDeck.map((id) => ({ id, phase: 'speed', pass: null }))
@@ -115,7 +126,10 @@ export default function CardsView() {
     setIdx((i) => Math.max(0, Math.min(queue.length - 1, i + delta)));
   }, [queue.length]);
 
-  const switchDeck = (which) => { setDeck(which); setIdx(0); setShown(false); };
+  const switchDeck = (which) => {
+    setDeck(which); setIdx(0); setShown(false);
+    if (which === 'bank' || which === 'speed') reshuffle();
+  };
 
   // Keyboard on desktop, same one-action-per-key rule: nothing here needs a modifier or a confirm.
   useEffect(() => {
@@ -193,7 +207,7 @@ export default function CardsView() {
           <span className="afq-cards-bands-label">Speed through one band:</span>
           <button
             className={'afq-cards-band' + (bands === 'all' ? ' afq-on' : '')}
-            onClick={() => { setBands('all'); setIdx(0); setShown(false); }}
+            onClick={() => { setBands('all'); setIdx(0); setShown(false); reshuffle(); }}
           >
             All {pool.length}
           </button>
@@ -201,7 +215,7 @@ export default function CardsView() {
             <button
               key={b}
               className={'afq-cards-band' + (bands === b ? ' afq-on' : '')}
-              onClick={() => { setBands(b); setIdx(0); setShown(false); }}
+              onClick={() => { setBands(b); setIdx(0); setShown(false); reshuffle(); }}
               title={b >= TEST_LEVEL_BAND ? 'At or above the level the test asks' : 'Below test level - speed practice'}
             >
               Band {b} · {n}
@@ -223,7 +237,7 @@ export default function CardsView() {
             onClick={() => (isBankDeck ? go(1) : setShown((v) => !v))}
           >
             <span className="afq-card-word">{word.word.toUpperCase()}</span>
-            {revealed ? (
+            {revealed && (
               <span className="afq-card-back">
                 <span className="afq-card-pos">{word.pos}</span>
                 <span className="afq-card-gloss">{word.gloss}</span>
@@ -236,11 +250,28 @@ export default function CardsView() {
                 <span className="afq-card-confusable">
                   not <strong>{word.confusable.word}</strong>, which means {word.confusable.meaning}
                 </span>
-                {isBankDeck && <span className="afq-card-hint">tap for next</span>}
+                {/* Unlike everything above, `note` is written ONLY for the flashcard - it is
+                    never a drill option, so it is free to actually explain a distinction instead
+                    of being squeezed to one word. Trey, 2026-09-15: "arrogate means to claim? how
+                    general and ambiguous" and "multifarious still seems like myriad." */}
+                {word.note && <span className="afq-card-note">{word.note}</span>}
+                {/* Three of the row's own five slate options, surfaced rather than authored -
+                    see engine/words.js. `related` is deliberately NOT a synonym (it is the option
+                    that punishes "close enough"), so it reads as a genuine near-miss, not a
+                    second correct answer. */}
+                <span className="afq-card-relations">
+                  <span className="afq-card-rel afq-card-rel-syn"><b>≈</b> {word.answer}</span>
+                  <span className="afq-card-rel"><b>~</b> {word.related}</span>
+                  <span className="afq-card-rel afq-card-rel-ant"><b>≠</b> {word.antonym}</span>
+                </span>
               </span>
-            ) : (
-              <span className="afq-card-hint">tap to show</span>
             )}
+            <span className="afq-card-hintrow">
+              <span className="afq-card-band">Band {word.band}</span>
+              <span className="afq-card-hint">
+                {revealed ? (isBankDeck ? 'tap for next' : '') : 'tap to show'}
+              </span>
+            </span>
           </button>
 
           {!isBankDeck && (

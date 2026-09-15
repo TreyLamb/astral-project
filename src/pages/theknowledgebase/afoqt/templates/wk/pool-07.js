@@ -22,7 +22,7 @@ registerWords([
   {
     id: 'wk-politic', chapter: CH, concepts: POOL, band: 4,
     word: 'politic', pos: 'adj', charge: 'pos',
-    gloss: 'shrewd and prudent in the way it handles people',
+    gloss: 'shrewd and careful in the way it handles people',
     answer: 'prudent',
     antonym: 'rash',
     related: 'courteous',
@@ -105,6 +105,7 @@ registerWords([
     related: 'tedious',
     decoy: 'amber',
     confusable: { word: 'prolific', meaning: 'productive' },
+    note: 'Close to verbose - both mean using too many words - but prolix leans more literary or formal in tone. Different from protracted, which is about TIME dragging on (a protracted negotiation), not word count.',
     sentence: 'The prolix introduction ran to forty pages before the argument began.',
   },
   {
@@ -171,6 +172,7 @@ registerWords([
     related: 'worsen',
     decoy: 'stencil',
     confusable: { word: 'rescind', meaning: 'cancel' },
+    note: 'Not just \'worsen.\' Recrudesce specifically means something that had quieted down flares up again (recrudescent violence); exacerbate just means making a current problem worse, with no requirement that it ever went away.',
     sentence: 'The infection recrudesced two months after treatment stopped.',
   },
   {
@@ -215,6 +217,7 @@ registerWords([
     related: 'immoral',
     decoy: 'ovate',
     confusable: { word: 'repentant', meaning: 'sorry' },
+    note: 'Not the same as licentious. Repugnant means so distasteful it causes disgust - it can describe anything revolting, not specifically loose morals the way licentious does.',
     sentence: 'She found the whole arrangement repugnant and said so in writing.',
   },
   {
@@ -281,6 +284,7 @@ registerWords([
     related: 'elderly',
     decoy: 'brisk',
     confusable: { word: 'sag', meaning: 'drooping' },
+    note: 'Sage leans on wisdom from AGE and experience (and can be a noun - \'a sage\'). Sagacious is about the sharpness of someone\'s judgment, which doesn\'t require being old.',
     sentence: 'She gave one piece of sage advice and left us to it.',
   },
   {
@@ -358,12 +362,13 @@ registerWords([
     related: 'peaceful',
     decoy: 'wiry',
     confusable: { word: 'somber', meaning: 'gloomy' },
+    note: 'Not the same as quiescent. Somnolent means drowsy, or causing drowsiness (a somnolent afternoon); quiescent just means temporarily still or inactive, with no sense of sleepiness.',
     sentence: 'The somnolent afternoon lecture emptied half the hall.',
   },
   {
     id: 'wk-sophistry', chapter: CH, concepts: POOL, band: 5,
     word: 'sophistry', pos: 'noun', charge: 'neg',
-    gloss: 'reasoning that sounds clever but is deliberately false',
+    gloss: 'reasoning that seems clever but is deliberately false',
     answer: 'fallacy',
     antonym: 'logic',
     related: 'rhetoric',

@@ -196,6 +196,7 @@ registerWords([
     related: 'confidence',
     decoy: 'upholstery',
     confusable: { word: 'affront', meaning: 'insult' },
+    note: 'Effrontery is shameless boldness in a specific act (the effrontery to demand a refund after breaking it). Hubris is bigger-picture - excessive pride that tends to lead to someone\'s downfall.',
     sentence: 'He had the effrontery to correct the general mid-sentence.',
   },
   {
@@ -208,6 +209,7 @@ registerWords([
     decoy: 'prosperity',
     // Near-identical in shape and near-OPPOSITE in meaning. One of the best traps in English.
     confusable: { word: 'timidity', meaning: 'shyness' },
+    note: 'Temerity is reckless boldness - nerve that ignores real danger (the temerity to argue with the boss). Panache is a positive quality - stylish, confident flair in how something is done.',
     sentence: 'She had the temerity to question the plan in front of the wing.',
   },
   {

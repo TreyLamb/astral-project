@@ -83,6 +83,7 @@ registerWords([
     related: 'scattered',
     decoy: 'lunar',
     confusable: { word: 'nefarious', meaning: 'wicked' },
+    note: 'Myriad is about NUMBER - a huge count of one kind of thing. Multifarious is about VARIETY - many DIFFERENT kinds at once (multifarious duties, not a myriad of duties in that sense). Also not the same as sparse, which means thin or scanty - the opposite of abundant, not a description of variety.',
     sentence: 'His multifarious interests ran from beekeeping to medieval law.',
   },
   {
@@ -182,6 +183,7 @@ registerWords([
     related: 'antique',
     decoy: 'fibrous',
     confusable: { word: 'absolute', meaning: 'total' },
+    note: 'Not the same as anachronistic. Obsolete means replaced by something better (an obsolete printer); anachronistic means out of its correct time period, which is about timing, not about being superseded.',
     sentence: 'The parts became obsolete two years after the line was launched.',
   },
   {
@@ -198,7 +200,7 @@ registerWords([
   {
     id: 'wk-orotund', chapter: CH, concepts: POOL, band: 5,
     word: 'orotund', pos: 'adj', charge: 'neg',
-    gloss: 'full and rounded in sound, and usually pompous with it',
+    gloss: 'full and rounded in tone, and usually pompous with it',
     answer: 'pompous',
     antonym: 'plain',
     related: 'oratorical',
@@ -313,7 +315,7 @@ registerWords([
     antonym: 'settle',
     related: 'hike',
     decoy: 'laminate',
-    confusable: { word: 'perpetuate', meaning: 'prolong' },
+    confusable: { word: 'perpetuate', meaning: 'stretch out' },
     sentence: 'They peregrinated across three continents over the course of a decade.',
   },
   {

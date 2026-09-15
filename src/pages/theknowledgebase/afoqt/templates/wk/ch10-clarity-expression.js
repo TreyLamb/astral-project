@@ -25,6 +25,7 @@ registerWords([
     related: 'complex',
     decoy: 'magnetic',
     confusable: { word: 'exoteric', meaning: 'mainstream' },
+    note: 'Esoteric is about AUDIENCE - understood only by a small, specialized group (esoteric jargon). Abstruse is about DIFFICULTY - genuinely hard to follow for anyone, expert or not.',
     sentence: 'The manual was full of esoteric terms nobody outside the shop used.',
   },
   {
@@ -47,6 +48,7 @@ registerWords([
     related: 'gentle',
     decoy: 'timid',
     confusable: { word: 'limp', meaning: 'drooping' },
+    note: 'Limpid means perfectly clear - used for water, or for writing or thought that is easy to follow. It has nothing to do with being easy to manage or control.',
     sentence: 'Her limpid explanation made the system obvious in two minutes.',
   },
   {
@@ -64,12 +66,13 @@ registerWords([
   {
     id: 'wk-sagacious', chapter: CH, concepts: CLARITY, band: 4,
     word: 'sagacious', pos: 'adj', charge: 'pos',
-    gloss: 'showing sound judgement and deep understanding',
+    gloss: 'showing good judgement and deep understanding',
     answer: 'wise',
     antonym: 'foolish',
     related: 'elderly',
     decoy: 'gracious',
     confusable: { word: 'salacious', meaning: 'indecent' },
+    note: 'Sagacious is about sharp, sound JUDGMENT - it doesn\'t require age. Sage (as an adjective) specifically carries the sense of wisdom earned through long experience, and is also used as a noun for a wise elder.',
     sentence: 'It was a sagacious call that saved them an hour of rework.',
   },
   {
@@ -139,7 +142,7 @@ registerWords([
     antonym: 'harmony',
     related: 'confusion',
     decoy: 'resonance',
-    confusable: { word: 'dissidence', meaning: 'dissent' },
+    confusable: { word: 'dissidence', meaning: 'disagreement' },
     sentence: 'There was a real dissonance between the brief and the actual plan.',
   },
   {
@@ -173,6 +176,7 @@ registerWords([
     related: 'courage',
     decoy: 'mustache',
     confusable: { word: 'panacea', meaning: 'remedy' },
+    note: 'Not the same as temerity. Panache is stylish, confident flair (doing something with panache) - a positive trait. Temerity is reckless boldness that ignores danger, and reads negatively.',
     sentence: 'He flew the demonstration with real panache.',
   },
   {
@@ -230,6 +234,7 @@ registerWords([
     decoy: 'virtuous',
     // One letter apart; one is complicated, the other is agonising.
     confusable: { word: 'torturous', meaning: 'agonizing' },
+    note: 'Tortuous is about being twisted and hard to follow (a tortuous mountain road, tortuous logic) - it does not mean thorough. Exhaustive means covering absolutely everything, leaving nothing out.',
     sentence: 'The tortuous reasoning took four pages to reach an obvious point.',
   },
   {
@@ -252,6 +257,7 @@ registerWords([
     related: 'bitter',
     decoy: 'urgent',
     confusable: { word: 'poignant', meaning: 'deeply moving' },
+    note: 'Pungent is "sharp" specifically for smell or taste (a pungent odor), or a sharp wit in speech. Acute is the general-purpose word for sharp or intense - pain, a crisis, or the senses generally.',
     sentence: 'His pungent summary of the plan ended the discussion.',
   },
   {

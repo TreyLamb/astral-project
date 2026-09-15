@@ -251,6 +251,7 @@ registerWords([
     related: 'delicate',
     decoy: 'tabular',
     confusable: { word: 'cacophonous', meaning: 'noisy' },
+    note: 'Not the same as ephemeral. Diaphanous describes something sheer and see-through (usually fabric); ephemeral describes something short-lived in time.',
     sentence: 'The dancer wore a diaphanous scarf that fluttered like mist in the breeze.',
   },
   {
@@ -262,6 +263,7 @@ registerWords([
     related: 'youthful',
     decoy: 'porous',
     confusable: { word: 'diminished', meaning: 'reduced' },
+    note: 'Close to minuscule (both mean extremely small), but diminutive is also used for people and can carry a fond or belittling tone; minuscule is a flatter, purely-about-size word.',
     sentence: 'Despite his diminutive stature, the boxer packed a surprisingly powerful punch.',
   },
   {

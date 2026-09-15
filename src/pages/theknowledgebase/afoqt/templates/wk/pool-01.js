@@ -61,6 +61,7 @@ registerWords([
     related: 'historic',
     decoy: 'melodic',
     confusable: { word: 'anarchistic', meaning: 'rebellious' },
+    note: 'Anachronistic means out of its proper time period - often something that feels jarringly wrong for the era (a knight with a wristwatch). Obsolete means no longer used because something better replaced it - it does not require feeling out of place.',
     sentence: "The knight's use of a wristwatch felt jarringly anachronistic in the film.",
   },
   {
@@ -116,6 +117,7 @@ registerWords([
     related: 'ambiguous',
     decoy: 'rectangular',
     confusable: { word: 'dubbed', meaning: 'named' },
+    note: 'Not the same as equivocal. Dubious means doubtful or suspect (a dubious claim); equivocal means deliberately open to more than one interpretation.',
     sentence: "The company's claims about the product's safety seemed dubious at best.",
   },
   {
@@ -138,6 +140,7 @@ registerWords([
     related: 'cheap',
     decoy: 'nautical',
     confusable: { word: 'quartz', meaning: 'crystalline' },
+    note: 'Not the same as paltry. Ersatz means a fake or inferior substitute for the real thing - the issue is authenticity, not smallness of amount.',
     sentence: 'Wartime rationing meant most families drank an ersatz coffee made from roasted grain.',
   },
   {
@@ -231,12 +234,13 @@ registerWords([
   {
     id: 'wk-abstruse', chapter: CH, concepts: POOL, band: 5,
     word: 'abstruse', pos: 'adj', charge: 'neutral',
-    gloss: 'difficult to understand; deliberately obscure',
+    gloss: 'difficult to understand; deliberately unclear',
     answer: 'obscure',
     antonym: 'clear',
     related: 'complicated',
     decoy: 'aquatic',
     confusable: { word: 'abstract', meaning: 'theoretical' },
+    note: 'Not the same as its confusable \'abstract\' - abstract just means non-physical or conceptual (a simple idea like \'fairness\' is abstract), while abstruse means genuinely hard to follow, regardless of subject. Also close to esoteric: esoteric means known only to a small group of insiders; abstruse means hard to understand for anyone, expert or not.',
     sentence: "The professor's abstruse lecture on measure theory lost most of the class within minutes.",
   },
   {
@@ -258,7 +262,7 @@ registerWords([
     antonym: 'sweet',
     related: 'witty',
     decoy: 'melodic',
-    confusable: { word: 'assiduous', meaning: 'diligent' },
+    confusable: { word: 'assiduous', meaning: 'hard-working' },
     sentence: 'Her acidulous remarks about the new policy left no doubt about her opinion.',
   },
   {

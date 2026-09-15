@@ -142,6 +142,7 @@ registerWords([
     related: 'muscular',
     decoy: 'saline',
     confusable: { word: 'genetic', meaning: 'inherited' },
+    note: 'Not the same as transient. Kinetic means relating to motion or the energy of movement (kinetic energy); transient means passing or brief, which is about duration, not motion.',
     sentence: 'A falling weight converts stored energy into kinetic energy.',
   },
   {
@@ -219,6 +220,7 @@ registerWords([
     related: 'indulgent',
     decoy: 'tidal',
     confusable: { word: 'licensed', meaning: 'authorized' },
+    note: 'Licentious specifically means disregarding moral or sexual restraints. Repugnant is broader - anything that causes disgust, not necessarily about morals or sex.',
     sentence: 'The play was banned as licentious and stayed banned for forty years.',
   },
   {

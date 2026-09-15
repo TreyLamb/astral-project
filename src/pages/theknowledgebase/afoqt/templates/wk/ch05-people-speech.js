@@ -222,7 +222,7 @@ registerWords([
   {
     id: 'wk-eloquent', chapter: CH, concepts: SPEECH, band: 2,
     word: 'eloquent', pos: 'adj', charge: 'pos',
-    gloss: 'fluent and persuasive in speaking or writing',
+    gloss: 'smooth and persuasive in speaking or writing',
     answer: 'expressive',
     antonym: 'inarticulate',
     related: 'charismatic',
@@ -240,6 +240,7 @@ registerWords([
     related: 'repetitive',
     decoy: 'nervous',
     confusable: { word: 'verbal', meaning: 'spoken' },
+    note: 'Verbose and prolix both mean "too many words," but verbose is the plainer, everyday version; prolix leans literary and often implies tediously long-winded.',
     sentence: 'The report was so verbose that nobody read past page two.',
   },
   {
@@ -342,7 +343,7 @@ registerWords([
     antonym: 'reckless',
     related: 'cautious',
     decoy: 'spacious',
-    confusable: { word: 'prudish', meaning: 'puritanical' },
+    confusable: { word: 'prudish', meaning: 'overly proper' },
     root: { form: 'pro-vid-', sense: 'to see ahead' },
     sentence: 'A prudent commander keeps a reserve of fuel for the return leg.',
   },
@@ -378,6 +379,7 @@ registerWords([
     related: 'moody',
     decoy: 'talented',
     confusable: { word: 'feckless', meaning: 'irresponsible' },
+    note: 'Fickle is about LOYALTY or PREFERENCE changing - a fickle friend switches sides or affections. Capricious is about BEHAVIOR changing on a whim, not necessarily about loyalty.',
     sentence: 'Sponsors grew wary of the fickle vendor who changed prices weekly.',
   },
   {
@@ -431,7 +433,7 @@ registerWords([
   {
     id: 'wk-brusque', chapter: CH, concepts: SPEECH, band: 3,
     word: 'brusque', pos: 'adj', charge: 'neg',
-    gloss: 'abrupt and blunt in manner or speech, to the point of rudeness',
+    gloss: 'abrupt and short in manner or speech, to the point of rudeness',
     answer: 'gruff',
     antonym: 'polite',
     related: 'hasty',
@@ -550,6 +552,7 @@ registerWords([
     related: 'moody',
     decoy: 'humble',
     confusable: { word: 'capacious', meaning: 'spacious' },
+    note: 'Capricious means acting on sudden whims or impulse. Fickle is more specific - it\'s about loyalty or affection changing, not just mood.',
     sentence: 'Funding for the program was capricious, generous one quarter and gone the next.',
   },
   {
@@ -617,7 +620,7 @@ registerWords([
   {
     id: 'wk-laconic', chapter: CH, concepts: SPEECH, band: 4,
     word: 'laconic', pos: 'adj', charge: 'neutral',
-    gloss: 'using very few words; terse in a way that seems dignified or stoic',
+    gloss: 'using very few words; terse in a way that seems dignified and calm',
     answer: 'terse',
     antonym: 'verbose',
     related: 'stoic',
@@ -727,6 +730,7 @@ registerWords([
     related: 'vague',
     decoy: 'historic',
     confusable: { word: 'equivalent', meaning: 'equal' },
+    note: 'Equivocal is close to ambiguous - deliberately open to more than one reading. Dubious is different - it\'s about doubting whether something is TRUE or trustworthy, not about having multiple meanings.',
     root: { form: 'equi-, -voc-', sense: 'equal, + voice, call' },
     sentence: 'His equivocal answer left both sides thinking they had won the argument.',
   },

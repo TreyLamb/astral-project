@@ -243,6 +243,7 @@ registerWords([
     related: 'age',
     decoy: 'classify',
     confusable: { word: 'ostracize', meaning: 'shun' },
+    note: 'Ossify means to become rigid and stuck, unable to change (ossified habits) - different from wane (gradual weakening) and from inure (getting desensitized to something unpleasant through repetition).',
     root: { form: 'oss-', sense: 'bone' },
     sentence: 'Procedures ossify when nobody is willing to question them.',
   },
@@ -266,6 +267,7 @@ registerWords([
     related: 'important',
     decoy: 'diligent',
     confusable: { word: 'existent', meaning: 'having being' },
+    note: 'Close to acute, but exigent is specifically about needing action NOW (exigent circumstances); acute just means intense or sharp, without that urgency built in.',
     sentence: 'Only exigent circumstances justify skipping the brief.',
   },
 ]);

@@ -50,6 +50,7 @@ registerWords([
     related: 'splash',
     decoy: 'reheat',
     confusable: { word: 'squeal', meaning: 'shriek' },
+    note: 'Close to quell - both mean to forcibly stop something - but squelch is the more informal, immediate one (squelch a rumor); quell fits larger or more formal situations (quell an uprising).',
     sentence: 'Management squelched the rumour before it reached the press.',
   },
   {
@@ -77,7 +78,7 @@ registerWords([
   {
     id: 'wk-strut', chapter: CH, concepts: POOL, band: 3,
     word: 'strut', pos: 'verb', charge: 'neg',
-    gloss: 'to walk with a stiff, vain, self-important step',
+    gloss: 'to walk with a stiff, proud, self-important step',
     answer: 'swagger',
     antonym: 'shuffle',
     related: 'pose',
@@ -204,6 +205,7 @@ registerWords([
     related: 'brief',
     decoy: 'circular',
     confusable: { word: 'stifling', meaning: 'suffocating' },
+    note: 'Close to negligible, but trifling carries more of a dismissive judgment (a trifling complaint) while negligible is closer to \'too small to measurably matter.\'',
     sentence: 'They argued for an hour over a trifling difference in wording.',
   },
   {

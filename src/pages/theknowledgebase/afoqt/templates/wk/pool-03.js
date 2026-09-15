@@ -162,7 +162,7 @@ registerWords([
     antonym: 'original',
     related: 'bonfire',
     decoy: 'treaty',
-    confusable: { word: 'elegy', meaning: 'lament' },
+    confusable: { word: 'elegy', meaning: 'mourning' },
     sentence: 'Protesters burned an effigy of the finance minister.',
   },
   {
@@ -201,7 +201,7 @@ registerWords([
   {
     id: 'wk-ennui', chapter: CH, concepts: POOL, band: 5,
     word: 'ennui', pos: 'noun', charge: 'neg',
-    gloss: 'listless weariness that comes from having nothing that interests you',
+    gloss: 'a heavy, flat weariness that comes from having nothing that interests you',
     answer: 'boredom',
     antonym: 'zest',
     related: 'apathy',
@@ -262,6 +262,7 @@ registerWords([
     related: 'lengthy',
     decoy: 'edible',
     confusable: { word: 'exhausting', meaning: 'tiring' },
+    note: 'Not the same as tortuous. Exhaustive means thorough and complete (an exhaustive search); tortuous means twisting and needlessly complicated, which says nothing about how complete something is.',
     sentence: 'The report offered an exhaustive account of every transaction.',
   },
   {
@@ -273,6 +274,7 @@ registerWords([
     related: 'temporary',
     decoy: 'aromatic',
     confusable: { word: 'expeditious', meaning: 'speedy' },
+    note: 'Not really \'temporary.\' Expedient means useful for getting an immediate result, whether or not it\'s the principled thing to do - the emphasis is on convenience, not duration.',
     sentence: 'Delaying the announcement was the expedient choice, if not the honest one.',
   },
   {
