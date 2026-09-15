@@ -183,6 +183,8 @@
 .afq-subtest-table th:nth-child(3), .afq-subtest-table td:nth-child(3) { width: auto; padding-right: 1.2rem; }
 .afq-subtest-table .afq-num { text-align: right; font-variant-numeric: tabular-nums; padding-left: .9rem; }
 .afq-subtest-wrap { overflow-x: auto; }
+.afq-scroll-hint { display: none; }
+@media (max-width: 760px) { .afq-scroll-hint { display: block; } }
 
 .afq-bank small { color: var(--tkb-ink-soft); font-size: .78em; margin-left: .3em; }
 .afq-open { color: var(--tkb-ink-soft); font-style: italic; }
@@ -230,6 +232,24 @@
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    /* This table is where "Recent accuracy" and "Your pace" live - the two numbers that actually
+       answer "am I ready" - and on a phone they scrolled off the right edge with nothing on
+       screen suggesting there was more table to find. Standard scroll-shadow trick: two gradients
+       pinned to the scroll container's edges (background-attachment: local, so they travel with
+       the content and vanish once you've scrolled past them) layered under two gradients pinned
+       to the viewport (background-attachment: scroll, so they sit over the content as a constant
+       edge cue while there is more to see in that direction). Matches the page's own canvas color
+       so the fade reads as an edge, not a stripe. */
+    background-image:
+      linear-gradient(to right, var(--tkb-canvas) 50%, transparent),
+      linear-gradient(to left, var(--tkb-canvas) 50%, transparent),
+      linear-gradient(to right, rgba(0, 0, 0, .16), transparent),
+      linear-gradient(to left, rgba(0, 0, 0, .16), transparent);
+    background-repeat: no-repeat;
+    background-color: var(--tkb-canvas);
+    background-size: 24px 100%, 24px 100%, 10px 100%, 10px 100%;
+    background-position: left, right, left, right;
+    background-attachment: local, local, scroll, scroll;
   }
 }
 
@@ -245,7 +265,8 @@
 .afq-cards-decks { display: flex; gap: .35rem; flex-wrap: wrap; }
 /* Band chips for the whole-bank deck. A row of filters, not a second nav - they stay visually
    quieter than the deck buttons above them so the deck choice still reads as the primary one. */
-.afq-cards-bands { display: flex; gap: .3rem; flex-wrap: wrap; }
+.afq-cards-bands { display: flex; gap: .3rem; flex-wrap: wrap; align-items: center; }
+.afq-cards-bands-label { font-size: .85rem; color: var(--tkb-ink-soft); margin-right: .2rem; }
 .afq-cards-band {
   font: inherit; font-size: .78rem; cursor: pointer;
   padding: .2rem .6rem; border-radius: 999px;

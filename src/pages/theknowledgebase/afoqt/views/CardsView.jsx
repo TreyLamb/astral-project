@@ -96,6 +96,14 @@ export default function CardsView() {
 
   const card = queue[idx] ?? null;
   const word = card ? byId.get(card.id) : null;
+  // By-band is a pure speed run, not a recall check - there is nothing to test yourself on before
+  // looking, so hiding the definition behind a flip only adds a second tap. Trey, on this deck
+  // specifically: "clicking the word then goes NEXT. One tap. move on. not 2 taps in 2 different
+  // places." So this deck shows both sides at once and the card itself IS the Next control -
+  // every other deck keeps the flip-then-Next flow, where showing your own recall first is the
+  // point.
+  const isBankDeck = deck === 'bank';
+  const revealed = isBankDeck || shown;
 
   // Reset to the front whenever the card changes - a flipped card carrying its state onto the
   // next word would show the answer before the question.
@@ -155,9 +163,9 @@ export default function CardsView() {
           <button
             className={'afq-btn' + (deck === 'bank' ? ' afq-primary' : ' afq-ghost')}
             onClick={() => switchDeck('bank')}
-            title="Every word in the bank, shuffled - not just the ones the daily drip has handed out"
+            title="Filter by band and speed through it - this is also where bands 3-5 live, not just band 1-2's Speed tab"
           >
-            Bank {pool.length}
+            By band {pool.length}
           </button>
           <button
             className={'afq-btn' + (deck === 'all' ? ' afq-primary' : ' afq-ghost')}
@@ -170,9 +178,9 @@ export default function CardsView() {
             <button
               className={'afq-btn' + (deck === 'speed' ? ' afq-primary' : ' afq-ghost')}
               onClick={() => switchDeck('speed')}
-              title="Bands below the level the test asks - for pace, not for learning"
+              title="Bands 1-2 only, below the level the test asks - for pace, not for learning. For bands 3-5, use By band instead."
             >
-              Speed {speedIds.length}
+              Speed (bands 1-2)
             </button>
           )}
         </div>
@@ -182,6 +190,7 @@ export default function CardsView() {
 
       {deck === 'bank' && (
         <div className="afq-cards-bands">
+          <span className="afq-cards-bands-label">Speed through one band:</span>
           <button
             className={'afq-cards-band' + (bands === 'all' ? ' afq-on' : '')}
             onClick={() => { setBands('all'); setIdx(0); setShown(false); }}
@@ -207,10 +216,14 @@ export default function CardsView() {
 
       {card && word ? (
         <>
-          {/* The card itself is the flip control. One tap, whole surface, no confirm. */}
-          <button className={'afq-card' + (shown ? ' afq-card-open' : '')} onClick={() => setShown((v) => !v)}>
+          {/* The card itself is the whole control. On every other deck it flips (recall check,
+              then a separate Next). On the bank deck it IS Next - one tap, move on. */}
+          <button
+            className={'afq-card' + (revealed ? ' afq-card-open' : '')}
+            onClick={() => (isBankDeck ? go(1) : setShown((v) => !v))}
+          >
             <span className="afq-card-word">{word.word.toUpperCase()}</span>
-            {shown ? (
+            {revealed ? (
               <span className="afq-card-back">
                 <span className="afq-card-pos">{word.pos}</span>
                 <span className="afq-card-gloss">{word.gloss}</span>
@@ -223,23 +236,33 @@ export default function CardsView() {
                 <span className="afq-card-confusable">
                   not <strong>{word.confusable.word}</strong>, which means {word.confusable.meaning}
                 </span>
+                {isBankDeck && <span className="afq-card-hint">tap for next</span>}
               </span>
             ) : (
               <span className="afq-card-hint">tap to show</span>
             )}
           </button>
 
-          <div className="afq-cards-nav">
-            <button className="afq-cards-move" onClick={() => go(-1)} disabled={idx === 0} aria-label="Back">‹ Back</button>
-            <button
-              className="afq-cards-move afq-cards-next"
-              onClick={() => go(1)}
-              disabled={idx >= queue.length - 1}
-              aria-label="Next"
-            >
-              Next ›
-            </button>
-          </div>
+          {!isBankDeck && (
+            <div className="afq-cards-nav">
+              <button className="afq-cards-move" onClick={() => go(-1)} disabled={idx === 0} aria-label="Back">‹ Back</button>
+              <button
+                className="afq-cards-move afq-cards-next"
+                onClick={() => go(1)}
+                disabled={idx >= queue.length - 1}
+                aria-label="Next"
+              >
+                Next ›
+              </button>
+            </div>
+          )}
+          {/* Still reachable for the bank deck - keyboard/mouse users get Back without it costing
+              the one-tap-forward promise on the card itself. */}
+          {isBankDeck && idx > 0 && (
+            <div className="afq-cards-nav">
+              <button className="afq-cards-move" onClick={() => go(-1)} aria-label="Back">‹ Back</button>
+            </div>
+          )}
         </>
       ) : (
         <div className="afq-card afq-card-done">

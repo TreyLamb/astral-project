@@ -6,6 +6,12 @@
  * @typedef {Object} Profile
  * @property {string} id
  * @property {string} name
+ * @property {string} desc - plain-language explanation shown on TkbHome. Not decorative -
+ *   these five buttons used to ship as bare names with zero explanation of what they actually
+ *   pull (a different question pipeline, a different subject filter, a different weighting
+ *   scheme), which is precisely why nobody but the person who wrote engine/selection.js could
+ *   tell them apart. Keep this in sync with what buildSessionQueue() actually does, not with
+ *   the name - see selection.js for the real filtering logic these summarize.
  * @property {'all'|'scoped'} subjectScope
  * @property {'manual'|'auto'} adjustmentMode
  * @property {'fast'|'slow'} paceClass
@@ -13,15 +19,30 @@
 
 /** @type {Profile[]} */
 export const PROFILES = [
-  { id: 'main_recall', name: 'Main Recall', subjectScope: 'all', adjustmentMode: 'manual', paceClass: 'fast' },
-  { id: 'quick_facts', name: 'Quick Facts', subjectScope: 'all', adjustmentMode: 'manual', paceClass: 'slow' },
-  { id: 'auto_all', name: 'Auto-Adjust (All)', subjectScope: 'all', adjustmentMode: 'auto', paceClass: 'fast' },
-  { id: 'auto_scoped', name: 'Auto-Adjust (Scoped)', subjectScope: 'scoped', adjustmentMode: 'auto', paceClass: 'fast' },
+  {
+    id: 'main_recall', name: 'Main Recall', subjectScope: 'all', adjustmentMode: 'manual', paceClass: 'fast',
+    desc: 'Every subject. Only questions you have already answered right on 3 separate days - the long-term retention pool. The default way to review.',
+  },
+  {
+    id: 'quick_facts', name: 'Quick Facts', subjectScope: 'all', adjustmentMode: 'manual', paceClass: 'slow',
+    desc: 'Every subject, but only questions still NEW to you - anything not yet answered right on 3 separate days. First-pass learning, before a question graduates into Main Recall.',
+  },
+  {
+    id: 'auto_all', name: 'Auto-Adjust (All)', subjectScope: 'all', adjustmentMode: 'auto', paceClass: 'fast',
+    desc: 'Same pool as Main Recall, but the mix shifts itself toward subjects you are missing and away from ones you have already nailed, instead of an even split.',
+  },
+  {
+    id: 'auto_scoped', name: 'Auto-Adjust (Scoped)', subjectScope: 'scoped', adjustmentMode: 'auto', paceClass: 'fast',
+    desc: 'Auto-Adjust, but narrowed to just the ASVAB deck (the only subject currently set to "scoped" - there is no picker for others yet) and pulls its whole pool each time instead of capping at your session size.',
+  },
   // Fills the one preset combo phase 1 didn't ship: manual + scoped + fast.
   // Shares settings.autoScopedSubjectIds with auto_scoped (same "which
   // subjects" concept; only adjustmentMode differs) - lets you review just
   // one subject (e.g. a single imported deck) with manual weight control.
-  { id: 'focused_review', name: 'Focused Review', subjectScope: 'scoped', adjustmentMode: 'manual', paceClass: 'fast' },
+  {
+    id: 'focused_review', name: 'Focused Review', subjectScope: 'scoped', adjustmentMode: 'manual', paceClass: 'fast',
+    desc: 'A straight grind through the ASVAB deck only, start to finish. Correct/wrong grading only - no "unsure" or come-back-later option.',
+  },
 ];
 
 export function getProfile(id) {

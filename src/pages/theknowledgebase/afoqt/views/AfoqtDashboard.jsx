@@ -122,6 +122,12 @@ export default function AfoqtDashboard() {
 
       <section>
         <h3>By subtest</h3>
+        {/* Text, not just a CSS fade - this table is where "Recent accuracy" and "Your pace" live,
+            the two numbers that actually answer "am I ready", and on a phone they scrolled off the
+            right edge with no visible cue at all. A subtle gradient (afq-table's own scroll-shadow
+            CSS) is still there for anyone already scrolling, but the whole complaint this fixes is
+            "I didn't know this was here", so the fix has to say so in words, not just in shading. */}
+        <p className="afq-note afq-scroll-hint">Swipe the table sideways for pace, bank size and your accuracy →</p>
         <div className="afq-subtest-wrap">
         <table className="afq-table afq-subtest-table">
           <thead>

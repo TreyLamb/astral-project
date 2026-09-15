@@ -204,12 +204,72 @@
 }
 
 .tkb-wrapper .tkb-profile-cards {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1rem;
-  justify-content: center;
   margin-top: 1.5rem;
+  max-width: 74rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
 }
+
+/* Each profile used to be a bare label; the description is why it stopped being one. Fixed
+   height-by-content rather than a truncated blurb - these are the whole reason someone can tell
+   the five apart, so cutting them off with an ellipsis would recreate the exact problem. */
+.tkb-wrapper .tkb-profile-card {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--tkb-border);
+  border-radius: 10px;
+  background: var(--tkb-surface);
+  color: var(--tkb-ink);
+  transition: border-color .15s ease, transform .1s ease;
+}
+.tkb-wrapper .tkb-profile-card:hover { border-color: var(--tkb-accent); }
+.tkb-wrapper .tkb-profile-card:active { transform: scale(0.98); }
+.tkb-wrapper .tkb-profile-card strong { font-size: 1.1rem; }
+.tkb-wrapper .tkb-profile-card span { font-size: 1rem; color: var(--tkb-ink-soft); line-height: 1.45; }
+
+.tkb-wrapper .tkb-home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
+  max-width: 74rem;
+  margin: 2rem auto 0;
+  text-align: left;
+}
+
+.tkb-wrapper .tkb-home-note {
+  font-size: .9rem;
+  color: var(--tkb-ink-soft);
+  margin: .6rem 0 0;
+}
+
+.tkb-wrapper .tkb-home-sessions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.tkb-wrapper .tkb-home-sessions li {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  flex-wrap: wrap;
+  padding: .4rem 0;
+  border-bottom: 1px solid var(--tkb-border);
+}
+.tkb-wrapper .tkb-home-sessions li:last-child { border-bottom: none; }
+.tkb-wrapper .tkb-home-sessions span { color: var(--tkb-ink-soft); font-size: .95rem; }
+.tkb-wrapper .tkb-home-sessions small { margin-left: auto; color: var(--tkb-ink-soft); }
 
 .tkb-wrapper .tkb-settings {
   display: flex;

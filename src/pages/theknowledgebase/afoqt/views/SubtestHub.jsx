@@ -24,7 +24,7 @@ import { chapterState, isChapterDone, flaggedEntries, wordBankEntries, missPoolI
 /** Surfaces that belong to exactly ONE subtest. Keyed here so the dashboard does not have to know. */
 const OWNED = {
   WK: [
-    { to: '/TKB/afoqt/cards', title: 'Flashcards', desc: 'Fast deck, no grading - tap to flip, tap to move. 30 new words a day.' },
+    { to: '/TKB/afoqt/cards', title: 'Flashcards', desc: 'Fast deck, no grading - tap to flip, tap to move. 30 new words a day. Want to speed through one difficulty band instead (including bands 3-5)? Open this, then switch to the "By band" tab.' },
     { to: '/TKB/afoqt/study', title: 'Study plan', desc: 'The high-tier word list, 30 a day in a fixed order - words learned deliberately rather than met by accident in a drill.' },
     { to: '/TKB/afoqt/words', title: 'Word bank', desc: "Words you have actually gotten wrong - a real gap, not a lucky guess.", count: (p) => wordBankEntries(p).length },
   ],

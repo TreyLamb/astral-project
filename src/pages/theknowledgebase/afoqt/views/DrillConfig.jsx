@@ -330,12 +330,16 @@ export default function DrillConfig() {
           {subtest === 'WK' ? (
             <>
               <button className="afq-btn afq-primary" onClick={() => navigate('/TKB/afoqt/cards?deck=speed')}>
-                Open flashcard speed run
+                Open flashcard speed run (bands 1-2)
               </button>
               <p className="afq-note">
                 Bands 1-2, as fast cards rather than a drill. One tap per word, no scoring — this is
                 for cutting hesitation on words you already half-know, which is what costs you the
-                time you need on the hard items. The drill above stays at test level.
+                time you need on the hard items. The drill above stays at test level. Want the same
+                one-tap cards for bands 3-5 instead? Open{' '}
+                <button className="afq-linklike" onClick={() => navigate('/TKB/afoqt/cards?deck=bank')}>
+                  Cards → By band
+                </button>.
               </p>
             </>
           ) : (
