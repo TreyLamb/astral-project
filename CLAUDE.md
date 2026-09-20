@@ -116,6 +116,22 @@ was built). `crafts` is no longer in the snapshot's `gaps` list.
   much more likely to mislead than checking `/wiki/<Item name>`'s own
   "Crafting" section.
 
+- **Second confirmed SPT erratum, 2026-09-19**: Trey noticed the craft tree
+  showing the Surv12 field surgical kit's Medstation-level-3 recipe consuming
+  a Surv12 itself as an input. Checked live `production.json`
+  (`5ede0053879619077751cff1`, still wrong upstream as of this date) against
+  the item's own wiki "Crafting" section: two separate errors, not one — the
+  real input is a **CMS surgical kit** x1 (5d02778e86f774203e7dedbe), not
+  another Surv12, AND the splint is **Aluminum splint** x1
+  (5af0454c86f7746bf20992e8), not "Immobilizing splint" x2
+  (544fb3364bdc2d34748b456a) — a different item, not just a wrong count. Fixed
+  in the same `KNOWN_ERRATA` array. ⚠️ **A recipe eating its own output is not
+  automatically a bug** — scanning all of `production.json` for
+  self-referencing recipes turned up two more (CALOK-B hemostatic applicator,
+  Digital secure DSP radio transmitter) and both check out exactly against
+  their own wiki pages: they're legitimate "recharge a used copy into a fresh
+  one" mechanics, real in-game. Don't "fix" those.
+
 ---
 
 ## ℹ️ EFT quest + ammo data: the wiki and eft-ammo.com, NOT tarkov.dev or SPT

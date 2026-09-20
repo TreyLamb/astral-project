@@ -136,6 +136,32 @@ const KNOWN_ERRATA = [
       );
     },
   },
+  {
+    // SPT has this Medstation level-3 recipe (Surv12 field surgical kit) inputs
+    // wrong in two spots, confirmed 2026-09-19 by re-fetching production.json
+    // live (bug still present upstream) and by the item's own wiki "Crafting"
+    // section: https://escapefromtarkov.fandom.com/wiki/Surv12_field_surgical_kit
+    // 1) It lists "Immobilizing splint" x2 (544fb3364bdc2d34748b456a). The real
+    //    input is "Aluminum splint" x1 (5af0454c86f7746bf20992e8) — a different
+    //    item entirely, not just a wrong count.
+    // 2) It lists the Surv12 itself (5d02797c86f774203f38e30a) x1 as an input —
+    //    i.e. the craft eats its own output. The real input is a "CMS surgical
+    //    kit" x1 (5d02778e86f774203e7dedbe), which is a separate, cheaper item
+    //    the Medstation makes at level 1. Flagged by Trey, who suspected the
+    //    self-reference was stale/wrong.
+    recipeId: '5ede0053879619077751cff1',
+    fix(recipe) {
+      for (const req of recipe.requirements || []) {
+        if (req.type !== 'Item') continue;
+        if (req.templateId === '544fb3364bdc2d34748b456a') {
+          req.templateId = '5af0454c86f7746bf20992e8';
+          req.count = 1;
+        } else if (req.templateId === '5d02797c86f774203f38e30a') {
+          req.templateId = '5d02778e86f774203e7dedbe';
+        }
+      }
+    },
+  },
 ];
 
 function applyKnownErrata(production) {
