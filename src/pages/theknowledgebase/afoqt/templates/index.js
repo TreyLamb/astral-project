@@ -1,6 +1,10 @@
 // Template registry barrel. Every template module self-registers on import, so this file
 // is the single place that decides what exists.
 //
+// 🔴 OWNERSHIP: this file's import list IS the bank. If a subtest looks thin from here, that is
+// your task to fix or flag, not a neutral fact to report - see "YOU ARE THE TEST CREATOR" in the
+// folder CLAUDE.md before adding or auditing anything below.
+//
 // READ docs/afoqt/QUESTION-DOCTRINE.md BEFORE ADDING ONE.
 //   - `band` (1-5) is the difficulty rule made structural: a template emits instances only
 //     inside its own band. A harder question needs a DIFFERENT template.
@@ -121,6 +125,7 @@ import './rc/ch02-passages-set-B.js';
 import './rc/ch03-passages-set-C.js';
 import './rc/ch04-passages-set-D.js';
 import './rc/ch05-passages-set-E.js';
+import './rc/ch06-passages-set-F.js';
 import './rc/zz-register.js';   // MUST be last of the rc/ files - see its header
 
 // --- Physical Science (Phase 12) --------------------------------------------

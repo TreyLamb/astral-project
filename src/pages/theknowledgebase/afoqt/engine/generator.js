@@ -1,5 +1,9 @@
 // Template registry + deterministic instance builder.
 //
+// 🔴 OWNERSHIP: whoever touches this file owns whether the resulting bank is actually good, not
+// just whether it passes afoqt:selftest. See "YOU ARE THE TEST CREATOR" in the folder CLAUDE.md
+// (top of the file) before adding or auditing content through this registry.
+//
 // The unit of content is a TEMPLATE, not a question - see docs/afoqt/QUESTION-DOCTRINE.md.
 // A template carries a difficulty `band` and emits unlimited instances INSIDE that band,
 // which is what makes "iterate at the same difficulty" structural rather than a matter of

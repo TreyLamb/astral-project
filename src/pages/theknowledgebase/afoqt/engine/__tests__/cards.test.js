@@ -8,7 +8,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   WORDS_PER_DAY, NEW_PASSES, WINDOW_DAYS,
-  introduceDay, addMore, buildSession, allDeck, introducedIds, idsForDay,
+  introduceDay, addMore, removeRecent, buildSession, allDeck, introducedIds, idsForDay,
   windowIds, windowDays, nextWords, remainingCount,
 } from '../cards.js';
 
@@ -29,10 +29,17 @@ function runDays(n, start = 1) {
 }
 
 describe('daily intake', () => {
-  it('introduces exactly 30 new words on a day', () => {
+  it('introduces exactly WORDS_PER_DAY new words on a day', () => {
     const p = introduceDay(base(), pool, '2026-09-01');
     expect(idsForDay(p, '2026-09-01')).toHaveLength(WORDS_PER_DAY);
-    expect(WORDS_PER_DAY).toBe(30);
+    // 10, not 30 - Trey, 2026-09-17: "i want to start with like 10". Now a per-profile setting
+    // (afoqtStorage.js `wordsPerDay`); this constant is only the fallback for a fresh profile.
+    expect(WORDS_PER_DAY).toBe(10);
+  });
+
+  it('honors an explicit n, for when a caller overrides the setting', () => {
+    const p = introduceDay(base(), pool, '2026-09-01', 4);
+    expect(idsForDay(p, '2026-09-01')).toHaveLength(4);
   });
 
   it('is idempotent - opening the review twice in a day does NOT hand out 60 words', () => {
@@ -88,6 +95,46 @@ describe('the "add x new words" button', () => {
     const q = buildSession(p, '2026-09-01');
     const newCards = q.filter((c) => c.phase === 'new');
     expect(newCards).toHaveLength((WORDS_PER_DAY + 5) * NEW_PASSES);
+  });
+});
+
+describe('the "minus the newest N" control', () => {
+  it('trims the most recently added words off today', () => {
+    let p = introduceDay(base(), pool, '2026-09-01');
+    const before = idsForDay(p, '2026-09-01');
+    p = removeRecent(p, '2026-09-01', 3);
+    const after = idsForDay(p, '2026-09-01');
+    expect(after).toHaveLength(WORDS_PER_DAY - 3);
+    expect(after).toEqual(before.slice(0, before.length - 3));
+  });
+
+  it('removes words added on top first, same as it would if run right after Add', () => {
+    let p = introduceDay(base(), pool, '2026-09-01');
+    p = addMore(p, pool, '2026-09-01', 5);
+    const added = idsForDay(p, '2026-09-01').slice(-5);
+    p = removeRecent(p, '2026-09-01', 5);
+    const remaining = idsForDay(p, '2026-09-01');
+    expect(remaining).toHaveLength(WORDS_PER_DAY);
+    expect(remaining.some((id) => added.includes(id))).toBe(false);
+  });
+
+  it('never touches an earlier day', () => {
+    let p = runDays(2);
+    const day1Before = idsForDay(p, '2026-09-01');
+    p = removeRecent(p, '2026-09-02', WORDS_PER_DAY);
+    expect(idsForDay(p, '2026-09-01')).toEqual(day1Before);
+    expect(idsForDay(p, '2026-09-02')).toHaveLength(0);
+  });
+
+  it('clamps rather than going negative when asked to remove more than exists', () => {
+    let p = introduceDay(base(), pool, '2026-09-01');
+    p = removeRecent(p, '2026-09-01', 999);
+    expect(idsForDay(p, '2026-09-01')).toHaveLength(0);
+  });
+
+  it('is a no-op on a day with nothing introduced', () => {
+    const p = removeRecent(base(), '2026-09-01', 5);
+    expect(idsForDay(p, '2026-09-01')).toHaveLength(0);
   });
 });
 

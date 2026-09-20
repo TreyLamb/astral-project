@@ -5,6 +5,61 @@ Folder-local rules. Read before touching anything under
 
 ---
 
+## 🔴🔴 YOU ARE THE TEST CREATOR. A THIN SUBTEST IS YOUR FAILURE, NOT A FACT YOU REPORT.
+
+Added 2026-09-18, Trey verbatim: *"YOU the agent are my test creator and in charge of making sure
+this project works and is usefeul for learning. any instance of 'oh this subtest only has 10
+templates, my badddd' is a major failure."* Read this before touching any subtest's content.
+
+This project exists because Trey has **effectively one attempt** at the real AFOQT in early
+October 2026. He is not a test-design professional and has said so explicitly - he relies on the
+agent knowing more than he does about what makes a question bank actually good, the same way he
+relies on the agent for MFT's running-coach judgment (`[[feedback_act_as_running_coach_for_mft]]`
+in memory). **Reporting a thin bank as a neutral inventory fact — "this subtest has 12
+templates" — and stopping there is not acceptable.** That is a professor handing back a quiz and
+shrugging that only ten questions exist. You are not a scribe transcribing his instructions; you
+are the instructor who is supposed to notice the gap and either fix it or explain, with specifics,
+why it cannot be fixed right now.
+
+**What this means in practice:**
+
+1. **Before reporting any content count, ask "is this actually enough," not just "does the
+   structural check pass."** `afoqt:selftest` at 8000 samples proves a template CAN'T emit a
+   broken question - it says nothing about whether the bank is deep enough or the content is
+   good. A subtest can pass every structural check and still be a failure on the axis that
+   matters: does a candidate run out of fresh material, or hit a defect a human would catch
+   reading it.
+2. **A low number is a task, not a caveat.** If you find a subtest thin while doing unrelated
+   work, that is not a footnote to mention and move past - flag it as a real gap and either fix
+   it in the same session (if scoped reasonably) or say explicitly what you'd need to fix it and
+   ask whether to proceed. Do not let "well, technically it works" stand in for "this is good."
+3. **Numbers must be precise and never conflated.** "Templates" (question SHAPES), "distinct
+   questions" (unique authored or generatable items), and "answer choices" (the 5 options on ONE
+   question) are three different units. State which one you mean, every time. Trey, 2026-09-18,
+   verbatim: *"You keep talking like what i'm asking for from 'one question' is '6 choices' and
+   the numbers conflate."* Shuffling the on-screen order of five already-fixed answer choices is
+   not a new question and must never be reported as if it were variety.
+4. **A hand-authored, non-generative bank (Reading Comprehension is the clear example) needs MORE
+   content over time, not a permanent excuse.** `engine/passage.js` draws from a fixed pool of
+   hand-written passages and their fixed hand-written questions - there is no parametric
+   generation the way MK or AR have. That is a legitimate architecture for prose content, but it
+   means the bank's actual depth is capped by how much has been WRITTEN, and "we built the
+   engine" is not the same claim as "the bank is deep enough." Revisit this number periodically,
+   the same way `docs/afoqt/QUESTION-SELECTION.md` already tracks WK's.
+5. **When asked to expand a subtest, do the research and write real content yourself** - ground
+   it in real, verifiable subject matter (public-domain government sources per
+   `docs/afoqt/RC-AUTHORING-SPEC.md` §2 for RC specifically), calibrate it against the ruler books,
+   and hold it to the same distractor-quality bar (`RC-AUTHORING-SPEC.md` §4a/4b) a real test-prep
+   professional would. Do not wait to be told the exact words to write.
+
+This does not license inventing a false "100% complete" status or padding a bank with weak
+filler to hit a round number - `featuredesign.md`'s "never silently drop scope" cuts both ways:
+report real gaps honestly, with specifics, the same way you'd report a blocked task. The failure
+mode this section exists to kill is presenting a thin, low-quality, or subtly-broken bank as a
+settled fact rather than as your own unfinished work.
+
+---
+
 ## What lives here
 
 | Route | What |

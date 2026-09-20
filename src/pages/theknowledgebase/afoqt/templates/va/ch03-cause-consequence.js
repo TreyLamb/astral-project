@@ -13,6 +13,17 @@
 // Neither relation is symmetric. `symmetric` is left at its default (false) on every row here —
 // see the PART 10B header comment in ch02-structure.js for why that flag needs to be set
 // correctly and what breaks if it is not.
+//
+// 🔴 2026-09-17 CORRECTION - the original band-4 action-object rows paired "excavate" with
+// "archaeologist", "forecast" with "meteorologist" and "interrogate" with "detective". Every one
+// of those six words is ordinary, grade-school-familiar vocabulary, not the "low-frequency,
+// inference-level" tier band 4 is supposed to be - Trey, 2026-09-17: "Are the difficulty of the
+// words in the VA Real?... some of hte words you have int here now are harder than Band5 WK,"
+// and this is the opposite defect (words far EASIER than their labeled band), same root cause:
+// nothing was checking word rarity against the band it was filed under except at authoring time.
+// Moved down to band 2, where they sit naturally alongside the chapter's other everyday
+// action-object pairs (teach/teacher, cook/chef); band 4 is backfilled with three pairs whose
+// words are genuinely uncommon (embalm, connive, counterfeit).
 
 import { registerRelations, relationTemplates } from '../../engine/analogy.js';
 
@@ -62,6 +73,24 @@ registerRelations([
     id: 'va-ao-cook', chapter: CH, concepts: ACTION_OBJECT, band: 2, relation: 'action-object',
     a: { word: 'cook', pos: 'verb' }, b: { word: 'chef', pos: 'noun' },
     tell: 'Cooking is the defining action of a chef, the same way teaching defines a teacher.',
+  },
+  // Moved down from band 4, 2026-09-17 - see this file's header note. All three words are
+  // ordinary, everyday vocabulary and belong here with cook/chef and teach/teacher, not filed
+  // under "low-frequency, inference-level".
+  {
+    id: 'va-ao-excavate', chapter: CH, concepts: ACTION_OBJECT, band: 2, relation: 'action-object',
+    a: { word: 'excavate', pos: 'verb' }, b: { word: 'archaeologist', pos: 'noun' },
+    tell: 'Excavating a site is the defining action of an archaeologist.',
+  },
+  {
+    id: 'va-ao-forecast', chapter: CH, concepts: ACTION_OBJECT, band: 2, relation: 'action-object',
+    a: { word: 'forecast', pos: 'verb' }, b: { word: 'meteorologist', pos: 'noun' },
+    tell: 'Forecasting weather is the defining action of a meteorologist - it is the job itself.',
+  },
+  {
+    id: 'va-ao-interrogate', chapter: CH, concepts: ACTION_OBJECT, band: 2, relation: 'action-object',
+    a: { word: 'interrogate', pos: 'verb' }, b: { word: 'detective', pos: 'noun' },
+    tell: 'Interrogating a suspect is the defining action of a detective.',
   },
 
   // ======================= BAND 3 — standard test-prep vocabulary ============================
@@ -135,22 +164,54 @@ registerRelations([
     tell: 'Adjudicating - ruling on a case - is the defining action of a magistrate.',
   },
   {
-    id: 'va-ao-excavate', chapter: CH, concepts: ACTION_OBJECT, band: 4, relation: 'action-object',
-    a: { word: 'excavate', pos: 'verb' }, b: { word: 'archaeologist', pos: 'noun' },
-    tell: 'Excavating a site is the defining action of an archaeologist.',
+    id: 'va-ao-embalm', chapter: CH, concepts: ACTION_OBJECT, band: 4, relation: 'action-object',
+    a: { word: 'embalm', pos: 'verb' }, b: { word: 'mortician', pos: 'noun' },
+    tell: 'Embalming is the defining action of a mortician.',
   },
   {
-    id: 'va-ao-forecast', chapter: CH, concepts: ACTION_OBJECT, band: 4, relation: 'action-object',
-    a: { word: 'forecast', pos: 'verb' }, b: { word: 'meteorologist', pos: 'noun' },
-    tell: 'Forecasting weather is the defining action of a meteorologist - it is the job itself.',
+    id: 'va-ao-connive', chapter: CH, concepts: ACTION_OBJECT, band: 4, relation: 'action-object',
+    a: { word: 'connive', pos: 'verb' }, b: { word: 'conspirator', pos: 'noun' },
+    tell: 'Conniving - secretly cooperating in a scheme - is the defining action of a conspirator.',
   },
   {
-    id: 'va-ao-interrogate', chapter: CH, concepts: ACTION_OBJECT, band: 4, relation: 'action-object',
-    a: { word: 'interrogate', pos: 'verb' }, b: { word: 'detective', pos: 'noun' },
-    tell: 'Interrogating a suspect is the defining action of a detective.',
+    id: 'va-ao-counterfeit', chapter: CH, concepts: ACTION_OBJECT, band: 4, relation: 'action-object',
+    a: { word: 'counterfeit', pos: 'verb' }, b: { word: 'forger', pos: 'noun' },
+    tell: 'Counterfeiting is the defining action of a forger, the same way embalming defines a mortician.',
+  },
+
+  // ============ BAND 5 — added 2026-09-17, closing the VA band-5 gap (see ch04's note). =========
+  {
+    id: 'va-ce-avarice', chapter: CH, concepts: CAUSE_EFFECT, band: 5, relation: 'cause-effect',
+    a: { word: 'avarice', pos: 'noun' }, b: { word: 'embezzlement', pos: 'noun' },
+    tell: 'Avarice - greed - directly drives embezzlement, one step from motive to act.',
+  },
+  {
+    id: 'va-ce-negligence', chapter: CH, concepts: CAUSE_EFFECT, band: 5, relation: 'cause-effect',
+    a: { word: 'negligence', pos: 'noun' }, b: { word: 'liability', pos: 'noun' },
+    tell: 'Negligence directly creates liability - the immediate legal consequence, not a distant one.',
+  },
+  {
+    id: 'va-ce-provocation', chapter: CH, concepts: CAUSE_EFFECT, band: 5, relation: 'cause-effect',
+    a: { word: 'provocation', pos: 'noun' }, b: { word: 'retaliation', pos: 'noun' },
+    tell: 'A provocation directly triggers retaliation - the immediate response, not a downstream one.',
+  },
+  {
+    id: 'va-ao-filibuster', chapter: CH, concepts: ACTION_OBJECT, band: 5, relation: 'action-object',
+    a: { word: 'filibuster', pos: 'verb' }, b: { word: 'legislator', pos: 'noun' },
+    tell: 'Filibustering - stalling a vote with prolonged speech - is a defining tactic of an obstructing legislator.',
+  },
+  {
+    id: 'va-ao-proselytize', chapter: CH, concepts: ACTION_OBJECT, band: 5, relation: 'action-object',
+    a: { word: 'proselytize', pos: 'verb' }, b: { word: 'missionary', pos: 'noun' },
+    tell: 'Proselytizing - trying to convert others to a belief - is the defining action of a missionary.',
+  },
+  {
+    id: 'va-ao-expurgate', chapter: CH, concepts: ACTION_OBJECT, band: 5, relation: 'action-object',
+    a: { word: 'expurgate', pos: 'verb' }, b: { word: 'censor', pos: 'noun' },
+    tell: 'Expurgating - removing objectionable material before publication - is the defining action of a censor.',
   },
 ]);
 
-for (const band of [2, 3, 4]) {
+for (const band of [2, 3, 4, 5]) {
   relationTemplates({ chapter: CH, band, idBase: `va-03-b${band}`, name: 'Cause to effect, doer to action' });
 }

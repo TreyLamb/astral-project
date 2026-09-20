@@ -10,6 +10,7 @@
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import { MISS_INJECTION_RATE } from './engine/afoqtSpec';
+import { WORDS_PER_DAY } from './engine/cards';
 
 export const AFOQT_SCHEMA_VERSION = 1;
 const KEY = 'afoqt_progress_v1';
@@ -52,6 +53,10 @@ export function defaultProgress() {
       // its composites. Hiding one you are done worrying about is what keeps the table short
       // enough to read the rows you do care about.
       hiddenSubtests: [],
+      // How many new vocabulary words CardsView's daily deck introduces on a fresh day - see
+      // engine/cards.js WORDS_PER_DAY for the history. Editable directly in CardsView; this is
+      // only the starting value for a profile that has never touched it.
+      wordsPerDay: WORDS_PER_DAY,
       // Read-aloud / answer-out-loud. Shape and the reasoning behind each default live in
       // voice/useQuestionVoice.js VOICE_DEFAULTS; stored here so a setting survives a reload and
       // syncs to the other device, and merged over the defaults so a new field arrives without a

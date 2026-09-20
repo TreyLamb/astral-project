@@ -63,7 +63,7 @@ registerWords([
     decoy: 'portable',
     confusable: { word: 'traceable', meaning: 'detectable' },
     note: 'Not the same as limpid. Tractable means easy to control, manage or persuade (a tractable committee); limpid means clear, as in transparent water or clear writing.',
-    root: { form: 'tract-', sense: 'to draw, to pull' },
+    root: { form: 'tract-', sense: 'to draw, to pull', lang: 'Latin', examples: ['tractor', 'contract', 'attract', 'extract'] },
     sentence: 'The problem became tractable once they had the right data.',
   },
   {
@@ -165,7 +165,7 @@ registerWords([
     related: 'energetic',
     decoy: 'sympathetic',
     confusable: { word: 'pathetic', meaning: 'pitifully inadequate' },
-    root: { form: 'peri-, -patet-', sense: 'around, + to walk' },
+    root: { form: 'peri-, -patet-', sense: 'around, + to walk (the English word "path" looks similar but is unrelated - it is Germanic, not Greek)', lang: 'Greek', examples: ['perimeter', 'periscope', 'period'] },
     sentence: 'Twenty years of assignments made for a peripatetic family life.',
   },
   {
@@ -177,7 +177,7 @@ registerWords([
     related: 'student',
     decoy: 'electrolyte',
     confusable: { word: 'neonate', meaning: 'newborn' },
-    root: { form: 'neo-, -phyt-', sense: 'new, + grown, planted' },
+    root: { form: 'neo-, -phyt-', sense: 'new, + grown, planted', lang: 'Greek', examples: ['neonate', 'neon', 'epiphyte'] },
     sentence: 'As a neophyte he asked the questions everyone else had stopped asking.',
   },
   {
@@ -211,7 +211,7 @@ registerWords([
     related: 'boring',
     decoy: 'horrific',
     confusable: { word: 'sophomoric', meaning: 'show-offy' },
-    root: { form: 'sopor-', sense: 'deep sleep' },
+    root: { form: 'sopor-', sense: 'deep sleep', lang: 'Latin', examples: ['sopor'] },
     sentence: 'The soporific drone of the cabin made the last hour dangerous.',
   },
   {
@@ -246,7 +246,7 @@ registerWords([
     related: 'antique',
     decoy: 'mechanism',
     confusable: { word: 'anarchism', meaning: 'lawlessness' },
-    root: { form: 'ana-, -chron-', sense: 'against, + time' },
+    root: { form: 'ana-, -chron-', sense: 'against, + time', lang: 'Greek', examples: ['chronology', 'chronic', 'synchronize'] },
     sentence: 'The paper chart was a cheerful anachronism in a glass cockpit.',
   },
   {
@@ -270,7 +270,7 @@ registerWords([
     decoy: 'evaporate',
     // The same distinction Table Reading trains: inside the grid vs. past its edge.
     confusable: { word: 'interpolate', meaning: 'insert' },
-    root: { form: 'extra-', sense: 'outside, beyond' },
+    root: { form: 'extra-', sense: 'outside, beyond', lang: 'Latin', examples: ['extraordinary', 'extraterrestrial', 'extracurricular'] },
     sentence: 'You cannot extrapolate a trend from two data points.',
   },
 ]);

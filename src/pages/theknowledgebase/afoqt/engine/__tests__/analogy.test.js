@@ -302,12 +302,14 @@ describe('VA format shapes', () => {
     }
   });
 
-  it('every -term template stem ends with "is to:"', () => {
-    expect(termTemplates.length).toBeGreaterThan(0);
-    for (const t of termTemplates) {
-      const q = generateInstance(t.id, 1);
-      expect(q.stem.trim().endsWith('is to:'), `${t.id}: stem "${q.stem}" does not end with "is to:"`).toBe(true);
-    }
+  // Format 1 ("complete the fourth term") is deliberately NOT registered right now — see the
+  // "FORMAT 1 IS DISABLED" note at the top of engine/analogy.js. It reused the stem's own two
+  // words as fake distractors (a real shipped bug, caught 2026-09-20) and, once that's fixed,
+  // still can't match the real sourced items' domain-clustered wrong answers without new
+  // per-row data. If this ever fires it means someone re-registered `-term` templates without
+  // reading that note first — go read it before "fixing" this test.
+  it('no -term templates are registered while format 1 stays disabled', () => {
+    expect(termTemplates.length).toBe(0);
   });
 });
 

@@ -36,7 +36,7 @@ registerWords([
     related: 'opinionated',
     decoy: 'forgetful',
     confusable: { word: 'obstreperous', meaning: 'unruly' },
-    root: { form: 'ob-', sense: 'against, in the way of' },
+    root: { form: 'ob-', sense: 'against, in the way of', lang: 'Latin', examples: ['obstruct', 'obstacle', 'object', 'obtain'] },
     sentence: 'He remained obstinate even after the whole crew argued against him.',
   },
   {
@@ -50,7 +50,7 @@ registerWords([
     // The trap this word exists for: both describe someone who is a lot to be around, and only
     // one of them is about talking.
     confusable: { word: 'garrulous', meaning: 'talkative' },
-    root: { form: 'greg-', sense: 'flock, herd' },
+    root: { form: 'greg-', sense: 'flock, herd', lang: 'Latin', examples: ['congregate', 'segregate', 'aggregate', 'egregious'] },
     sentence: 'A gregarious officer, she was never once seen eating alone.',
   },
   {
@@ -62,7 +62,7 @@ registerWords([
     related: 'shy',
     decoy: 'punctual',
     confusable: { word: 'tacit', meaning: 'unspoken' },
-    root: { form: 'tac-', sense: 'to be silent' },
+    root: { form: 'tac-', sense: 'to be silent', lang: 'Latin', examples: ['tacit', 'tacitly'] },
     sentence: 'Her taciturn wingman answered every question with a single word.',
   },
   {
@@ -89,7 +89,7 @@ registerWords([
     // because a lone verb among four adjectives is a free elimination, and because "thoughtful"
     // is the truer error mode: someone who mixes the two believes cogent means thoughtful.
     confusable: { word: 'cogitate', meaning: 'thoughtful' },
-    root: { form: 'ag-, -agent', sense: 'to drive, to lead' },
+    root: { form: 'ag-, -agent', sense: 'to drive, to lead', lang: 'Latin', examples: ['agent', 'agenda', 'agile', 'react'] },
     sentence: 'She made a cogent case for delaying the launch by one day.',
   },
   {
@@ -114,7 +114,7 @@ registerWords([
     related: 'critical',
     decoy: 'cautious',
     confusable: { word: 'candied', meaning: 'flattering' },
-    root: { form: 'cand-', sense: 'to shine, glow white' },
+    root: { form: 'cand-', sense: 'to shine, glow white', lang: 'Latin', examples: ['candle', 'candor', 'incandescent', 'candidate'] },
     sentence: 'The instructor pilot gave a candid review of the landing.',
   },
   {
@@ -228,7 +228,7 @@ registerWords([
     related: 'charismatic',
     decoy: 'athletic',
     confusable: { word: 'elegant', meaning: 'refined' },
-    root: { form: 'loqu-', sense: 'to speak' },
+    root: { form: 'loqu-', sense: 'to speak', lang: 'Latin', examples: ['colloquial', 'soliloquy', 'loquacious', 'ventriloquist'] },
     sentence: "The commander's eloquent speech steadied the squadron before the mission.",
   },
   {
@@ -252,7 +252,7 @@ registerWords([
     related: 'intelligent',
     decoy: 'graceful',
     confusable: { word: 'artful', meaning: 'cunning' },
-    root: { form: 'articul-', sense: 'small joint, divided into distinct parts' },
+    root: { form: 'articul-', sense: 'small joint, divided into distinct parts', lang: 'Latin', examples: ['article', 'articulation', 'inarticulate'] },
     sentence: 'She remained articulate even during the toughest cross-examination.',
   },
   {
@@ -308,7 +308,7 @@ registerWords([
     related: 'confident',
     decoy: 'humorous',
     confusable: { word: 'fluid', meaning: 'flexible' },
-    root: { form: 'flu-', sense: 'to flow' },
+    root: { form: 'flu-', sense: 'to flow', lang: 'Latin', examples: ['fluid', 'fluctuate', 'influence', 'effluent'] },
     sentence: 'After two years abroad, she was fluent enough to brief the allied unit directly.',
   },
   {
@@ -344,7 +344,7 @@ registerWords([
     related: 'cautious',
     decoy: 'spacious',
     confusable: { word: 'prudish', meaning: 'overly proper' },
-    root: { form: 'pro-vid-', sense: 'to see ahead' },
+    root: { form: 'pro-vid-', sense: 'to see ahead', lang: 'Latin', examples: ['provide', 'providence', 'improvident', 'evident'] },
     sentence: 'A prudent commander keeps a reserve of fuel for the return leg.',
   },
   {
@@ -367,7 +367,7 @@ registerWords([
     related: 'humorous',
     decoy: 'nervous',
     confusable: { word: 'affluent', meaning: 'wealthy' },
-    root: { form: 'fa-', sense: 'to speak' },
+    root: { form: 'fa-', sense: 'to speak', lang: 'Latin', examples: ['fable', 'fame', 'infant', 'fate'] },
     sentence: "The affable quartermaster remembered every recruit's name by the second day.",
   },
   {
@@ -425,7 +425,7 @@ registerWords([
     decoy: 'spicy',
     // Named by the engine's own worked example: this is the official OATTS pair.
     confusable: { word: 'malevolent', meaning: 'harmful' },
-    root: { form: 'bene-, -vol-', sense: 'well, + to wish' },
+    root: { form: 'bene-, -vol-', sense: 'well, + to wish', lang: 'Latin', examples: ['benefit', 'benefactor', 'volunteer', 'malevolent'] },
     sentence: "The benevolent commander used his own leave days to cover a grieving airman's shift.",
   },
 
@@ -540,7 +540,7 @@ registerWords([
     related: 'ambitious',
     decoy: 'rainy',
     confusable: { word: 'audacious', meaning: 'daring' },
-    root: { form: 'avar-', sense: 'greed' },
+    root: { form: 'avar-', sense: 'greed', lang: 'Latin', examples: ['avarice'] },
     sentence: 'The avaricious supplier padded every invoice he could.',
   },
   {
@@ -575,7 +575,7 @@ registerWords([
     related: 'proud',
     decoy: 'arctic',
     confusable: { word: 'unanimous', meaning: 'united' },
-    root: { form: 'magn-, -anim-', sense: 'great, + mind, spirit' },
+    root: { form: 'magn-, -anim-', sense: 'great, + mind, spirit', lang: 'Latin', examples: ['magnify', 'magnitude', 'animate', 'unanimous'] },
     sentence: 'The magnanimous winner shared credit with the team he had just beaten.',
   },
   {
@@ -588,7 +588,7 @@ registerWords([
     decoy: 'digital',
     // The shared "-animous" ending is the real trap - the two words are near opposites.
     confusable: { word: 'magnanimous', meaning: 'generous' },
-    root: { form: 'pusill-, -anim-', sense: 'very small, + mind, spirit' },
+    root: { form: 'pusill-, -anim-', sense: 'very small, + mind, spirit', lang: 'Latin', examples: ['animate', 'magnanimous', 'equanimity'] },
     sentence: 'His pusillanimous refusal to report the leak nearly grounded the fleet.',
   },
   {
@@ -600,7 +600,7 @@ registerWords([
     related: 'confident',
     decoy: 'mechanical',
     confusable: { word: 'sanguinary', meaning: 'bloodthirsty' },
-    root: { form: 'sangui-', sense: 'blood' },
+    root: { form: 'sangui-', sense: 'blood', lang: 'Latin', examples: ['sanguinary', 'consanguinity', 'sanguineous'] },
     sentence: "Despite the delay, the flight surgeon stayed sanguine about the recruit's recovery.",
   },
   {
@@ -612,7 +612,7 @@ registerWords([
     related: 'impatient',
     decoy: 'wooden',
     confusable: { word: 'irrevocable', meaning: 'unchangeable' },
-    root: { form: 'irasc-', sense: 'to grow angry' },
+    root: { form: 'irasc-', sense: 'to grow angry', lang: 'Latin', examples: ['ire', 'irate', 'irascibility'] },
     sentence: 'The irascible sergeant snapped at the first radio check that went wrong.',
   },
 
@@ -626,7 +626,7 @@ registerWords([
     related: 'stoic',
     decoy: 'metallic',
     confusable: { word: 'iconic', meaning: 'symbolic' },
-    root: { form: 'Lacon-', sense: 'of Laconia (Sparta), whose people were famously terse' },
+    root: { form: 'Lacon-', sense: 'of Laconia (Sparta), whose people were famously terse', lang: 'Greek' },
     sentence: 'His laconic reply to the query was simply, "Negative."',
   },
   {
@@ -649,7 +649,7 @@ registerWords([
     related: 'secretive',
     decoy: 'fragrant',
     confusable: { word: 'mendicant', meaning: 'begging' },
-    root: { form: 'mendac-', sense: 'lying, false' },
+    root: { form: 'mendac-', sense: 'lying, false', lang: 'Latin', examples: ['mendacity'] },
     sentence: 'The mendacious witness changed his story three times under questioning.',
   },
   {
@@ -661,7 +661,7 @@ registerWords([
     related: 'aggressive',
     decoy: 'mountainous',
     confusable: { word: 'voracious', meaning: 'eager' },
-    root: { form: 'voc-, -fer-', sense: 'voice, + to carry' },
+    root: { form: 'voc-, -fer-', sense: 'voice, + to carry', lang: 'Latin', examples: ['vocal', 'advocate', 'transfer', 'confer'] },
     sentence: 'Vociferous complaints from the back row forced an early break.',
   },
   {
@@ -673,7 +673,7 @@ registerWords([
     related: 'friendly',
     decoy: 'seasonal',
     confusable: { word: 'tenacious', meaning: 'persistent' },
-    root: { form: 'loqu-', sense: 'to speak' },
+    root: { form: 'loqu-', sense: 'to speak', lang: 'Latin', examples: ['colloquial', 'soliloquy', 'eloquent', 'ventriloquist'] },
     sentence: 'The loquacious cab driver talked the entire way to the airfield.',
   },
   {
@@ -718,7 +718,7 @@ registerWords([
     related: 'eloquent',
     decoy: 'biological',
     confusable: { word: 'grandiose', meaning: 'extravagant' },
-    root: { form: 'grandi-, -loqu-', sense: 'great, + to speak' },
+    root: { form: 'grandi-, -loqu-', sense: 'great, + to speak', lang: 'Latin', examples: ['grandeur', 'eloquent', 'loquacious', 'colloquial'] },
     sentence: 'The grandiloquent toast went on for ten minutes before naming the retiree.',
   },
   {
@@ -731,7 +731,7 @@ registerWords([
     decoy: 'historic',
     confusable: { word: 'equivalent', meaning: 'equal' },
     note: 'Equivocal is close to ambiguous - deliberately open to more than one reading. Dubious is different - it\'s about doubting whether something is TRUE or trustworthy, not about having multiple meanings.',
-    root: { form: 'equi-, -voc-', sense: 'equal, + voice, call' },
+    root: { form: 'equi-, -voc-', sense: 'equal, + voice, call', lang: 'Latin', examples: ['equal', 'equivalent', 'vocal', 'advocate'] },
     sentence: 'His equivocal answer left both sides thinking they had won the argument.',
   },
 ]);

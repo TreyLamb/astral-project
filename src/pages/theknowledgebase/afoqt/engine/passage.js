@@ -1,3 +1,7 @@
+// 🔴 OWNERSHIP: RC's bank is 100% hand-authored - there is no parametric generation here, so its
+// real depth is exactly how much has been written. See "YOU ARE THE TEST CREATOR" in the folder
+// CLAUDE.md, and docs/afoqt/RC-AUTHORING-SPEC.md before adding passages.
+
 import { registerTemplate } from './generator.js';
 
 /**

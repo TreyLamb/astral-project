@@ -22,8 +22,17 @@
 // different stages, and folding the first into the second is what makes a vocabulary tool feel
 // like an exam you are failing. The drill stays the exam; this is the deck you flip on a bus.
 
-/** New words introduced per day, and the default for the "add more" button. His number. */
-export const WORDS_PER_DAY = 30;
+/**
+ * New words introduced per day, and the fallback for anyone who has never touched the setting.
+ *
+ * Was 30 - Trey, 2026-09-17, after the daily review had grown to "over 200 words": "let me
+ * choose how many words i want to review... i want to start with like 10, then add 10 to the
+ * same pool, and work up that way." The number is now a per-profile setting
+ * (`progress.settings.wordsPerDay`, see afoqtStorage.js) that CardsView lets him edit directly;
+ * this constant is only what a brand-new profile starts at and what `introduceDay`/`addMore`
+ * fall back to if a caller does not pass `n` explicitly.
+ */
+export const WORDS_PER_DAY = 10;
 
 /** How many times a day's NEW words are shown before old words mix in. His number. */
 export const NEW_PASSES = 3;
@@ -123,6 +132,22 @@ export function addMore(progress, pool, today, n) {
   if (!ids.length) return progress;
   const existing = cards.days?.[today] ?? [];
   return { ...progress, cards: { ...cards, days: { ...cards.days, [today]: [...existing, ...ids] } } };
+}
+
+/**
+ * Undo the most recently added words from TODAY - his "or minus the newest 5" ask, the other
+ * half of "add on top". Only ever trims from the END of today's list (the words `addMore` or
+ * `introduceDay` most recently appended), and only touches today - an earlier study day is
+ * history, not a pool he is still shaping, and `windowIds`/`allDeck` both depend on it staying
+ * put. Silently clamps rather than erroring if `n` is larger than today's list; removing "the
+ * newest 5" from a pool of 3 just means "clear today", not a crash.
+ */
+export function removeRecent(progress, today, n) {
+  const cards = cardsOf(progress);
+  const existing = cards.days?.[today] ?? [];
+  if (!existing.length || n <= 0) return progress;
+  const trimmed = existing.slice(0, Math.max(0, existing.length - n));
+  return { ...progress, cards: { ...cards, days: { ...cards.days, [today]: trimmed } } };
 }
 
 /**

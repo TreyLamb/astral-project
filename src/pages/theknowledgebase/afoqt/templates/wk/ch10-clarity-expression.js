@@ -84,7 +84,7 @@ registerWords([
     related: 'experience',
     decoy: 'abdomen',
     confusable: { word: 'acrimony', meaning: 'bitterness' },
-    root: { form: 'acu-', sense: 'sharp, pointed' },
+    root: { form: 'acu-', sense: 'sharp, pointed', lang: 'Latin', examples: ['acute', 'acid', 'acupuncture', 'acrid'] },
     sentence: 'His tactical acumen was never in question, only his paperwork.',
   },
   {
@@ -119,7 +119,7 @@ registerWords([
     related: 'divide',
     decoy: 'alienate',
     confusable: { word: 'delegate', meaning: 'assign' },
-    root: { form: 'de-, -line-', sense: 'out, + line' },
+    root: { form: 'de-, -line-', sense: 'out, + line', lang: 'Latin', examples: ['line', 'linear', 'lineage', 'outline'] },
     sentence: 'The order failed to delineate who actually owned the decision.',
   },
   {
@@ -131,7 +131,7 @@ registerWords([
     related: 'announce',
     decoy: 'germinate',
     confusable: { word: 'dissimulate', meaning: 'pretend' },
-    root: { form: 'dis-, -semin-', sense: 'apart, + seed' },
+    root: { form: 'dis-, -semin-', sense: 'apart, + seed', lang: 'Latin', examples: ['seminar', 'seminal'] },
     sentence: 'It took a week to disseminate the change to every squadron.',
   },
   {

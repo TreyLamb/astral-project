@@ -6,7 +6,7 @@ import { todayStr } from '../afoqtStorage';
 import { TEST_LEVEL_BAND } from '../engine/afoqtSpec';
 import {
   WORDS_PER_DAY, NEW_PASSES, WINDOW_DAYS,
-  introduceDay, addMore, buildSession, allDeck, introducedIds, idsForDay, remainingCount,
+  introduceDay, addMore, removeRecent, buildSession, allDeck, introducedIds, idsForDay, remainingCount,
 } from '../engine/cards';
 
 /**
@@ -40,9 +40,10 @@ export default function CardsView() {
   const today = todayStr();
 
   // Today's words are introduced on mount, once. `introduceDay` is idempotent per day, so a
-  // re-mount or a second visit cannot hand out another thirty - see its own test.
+  // re-mount or a second visit cannot hand out another batch - see its own test. The count comes
+  // from his own setting, not the hardcoded default - see afoqtStorage.js `wordsPerDay`.
   useEffect(() => {
-    mutate((p) => introduceDay(p, pool, today));
+    mutate((p) => introduceDay(p, pool, today, p.settings.wordsPerDay ?? WORDS_PER_DAY));
   }, [mutate, pool, today]);
 
   // `?deck=speed` is how DrillConfig hands off the low-band speed run, and `?deck=bank` is the
@@ -147,6 +148,7 @@ export default function CardsView() {
   const introduced = introducedIds(progress).length;
   const todayCount = idsForDay(progress, today).length;
   const left = remainingCount(pool, progress);
+  const wordsPerDay = progress.settings.wordsPerDay ?? WORDS_PER_DAY;
 
   const phaseLabel = !card ? ''
     : card.phase === 'new' ? `New words — pass ${card.pass} of ${NEW_PASSES}`
@@ -244,7 +246,18 @@ export default function CardsView() {
                 {word.sentence && <span className="afq-card-sentence">{word.sentence}</span>}
                 {word.root && (
                   <span className="afq-card-root">
-                    <strong>{word.root.form}</strong> — {word.root.sense}
+                    <span>
+                      <strong>{word.root.form}</strong>
+                      {word.root.lang && <span className="afq-card-root-lang"> {word.root.lang}</span>}
+                      {' '}— {word.root.sense}
+                    </span>
+                    {/* Trey, 2026-09-15: "give more examples with those [prefixes/suffixes]...
+                        even if they don't have a definition seeing t[he] words can be helpful." */}
+                    {word.root.examples?.length > 0 && (
+                      <span className="afq-card-root-examples">
+                        also in: {word.root.examples.join(', ')}
+                      </span>
+                    )}
                   </span>
                 )}
                 <span className="afq-card-confusable">
@@ -314,26 +327,53 @@ export default function CardsView() {
           <span className="afq-cards-stat">{introduced} met</span>
           <span className="afq-cards-stat">{left} left in the pool</span>
         </div>
-        {/* "On any day if I decide I need more words I want a button to add x new words." They join
-            today's batch, so they get the three new-word passes too - and tomorrow is untouched. */}
+        {/* "On any day if I decide I need more words I want a button to add x new words" - and,
+            2026-09-17, "or minus the newest 5 etc. i just want more control over that feature."
+            Add and Remove share one count field since they are the same knob run in opposite
+            directions: today's pool, built up or walked back down by hand. Add joins today's
+            batch (so it gets the three new-word passes too); Remove trims from the END of
+            today's list - the words most recently added - and never touches an earlier day. */}
         <div className="afq-row afq-wrap-row afq-cards-add">
           <label className="afq-cards-addlabel">
-            Add
             <input
               type="number" min="1" max="100" value={addCount}
               onChange={(e) => setAddCount(Math.max(1, Math.min(100, Number(e.target.value) || 1)))}
             />
-            new words
+            words
           </label>
+          <button
+            className="afq-btn afq-ghost"
+            disabled={todayCount === 0}
+            title={`Remove the ${addCount} most recently added word${addCount === 1 ? '' : 's'} from today`}
+            onClick={() => { mutate((p) => removeRecent(p, today, addCount)); setIdx(0); setShown(false); setDeck('daily'); }}
+          >
+            − Remove
+          </button>
           <button
             className="afq-btn afq-primary"
             disabled={left === 0}
             onClick={() => { mutate((p) => addMore(p, pool, today, addCount)); setIdx(0); setShown(false); setDeck('daily'); }}
           >
-            {left === 0 ? 'Pool exhausted' : `Add ${addCount}`}
+            {left === 0 ? 'Pool exhausted' : `+ Add ${addCount}`}
           </button>
+        </div>
+        {/* The starting size itself - his other ask: "let me choose how many words i want to
+            review... i want to start with like 10." This only changes what a FUTURE fresh day
+            introduces (introduceDay is idempotent per day - see engine/cards.js), not today's
+            already-introduced batch, which is what the Add/Remove row above is for. */}
+        <div className="afq-row afq-wrap-row">
+          <label className="afq-cards-addlabel">
+            New words per day
+            <input
+              type="number" min="1" max="100" value={wordsPerDay}
+              onChange={(e) => {
+                const n = Math.max(1, Math.min(100, Number(e.target.value) || 1));
+                mutate((p) => ({ ...p, settings: { ...p.settings, wordsPerDay: n } }));
+              }}
+            />
+          </label>
           <span className="afq-note afq-cards-addnote">
-            Tomorrow still gets {WORDS_PER_DAY}. Adding now does not change that.
+            Tomorrow gets {wordsPerDay} new words automatically. Add/Remove above only touch today.
           </span>
         </div>
       </footer>

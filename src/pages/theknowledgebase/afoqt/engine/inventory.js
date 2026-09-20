@@ -1,6 +1,10 @@
 /**
  * ONE honest answer to "how much is actually in here", in units a person can read.
  *
+ * 🔴 OWNERSHIP: a number this module returns is a starting point for judgment, not a clean bill
+ * of health. If a count looks thin, that is your task to flag or fix, not a fact to relay - see
+ * "YOU ARE THE TEST CREATOR" in the folder CLAUDE.md.
+ *
  * This module exists because the count question has been answered wrong, by several different
  * agents, several times - 500, 2000, 60, 35 - and every one of those numbers was either a
  * different unit or an invention. `docs/afoqt/QUESTION-SELECTION.md` §2 is the written version

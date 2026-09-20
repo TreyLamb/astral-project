@@ -165,7 +165,7 @@ registerWords([
     decoy: 'decorate',
     confusable: { word: 'arrogate', meaning: 'claim' },
     note: 'Arrogate is not just \'claim\' - it means to seize or claim power, rights, or a title for yourself WITHOUT any real right to it. Abrogate runs the other direction: an authority that already has the power formally cancels a law or agreement.',
-    root: { form: 'ab-, -rogare', sense: 'away, + to ask or propose a law' },
+    root: { form: 'ab-, -rogare', sense: 'away, + to ask or propose a law', lang: 'Latin', examples: ['interrogate', 'prerogative', 'derogatory'] },
     sentence: 'The government moved to abrogate the treaty within a year of signing it.',
   },
   {
@@ -188,7 +188,7 @@ registerWords([
     related: 'incompetence',
     decoy: 'geography',
     confusable: { word: 'malaise', meaning: 'unease' },
-    root: { form: 'mal-, -feas-', sense: 'bad, + to do' },
+    root: { form: 'mal-, -feas-', sense: 'bad, + to do', lang: 'Latin', examples: ['feasible', 'malice', 'malady', 'malfunction'] },
     sentence: 'The audit uncovered years of malfeasance in the procurement office.',
   },
   {
@@ -212,7 +212,7 @@ registerWords([
     related: 'cowardly',
     decoy: 'circular',
     confusable: { word: 'ignorant', meaning: 'uninformed' },
-    root: { form: 'i-, -nobilis', sense: 'not, + noble' },
+    root: { form: 'i-, -nobilis', sense: 'not, + noble', lang: 'Latin', examples: ['noble', 'nobility', 'ennoble'] },
     sentence: 'It was an ignoble way to end an otherwise distinguished career.',
   },
   {
@@ -268,7 +268,7 @@ registerWords([
     related: 'succession',
     decoy: 'orchestra',
     confusable: { word: 'interrogate', meaning: 'question' },
-    root: { form: 'inter-, -regnum', sense: 'between, + reign' },
+    root: { form: 'inter-, -regnum', sense: 'between, + reign', lang: 'Latin', examples: ['reign', 'regnant', 'international', 'interrupt'] },
     sentence: 'An interregnum followed the king’s death, with no clear heir in place.',
   },
 ]);

@@ -619,7 +619,11 @@ export default function DrillRunner() {
 
       {timed && <div className="afq-bar"><div className="afq-bar-fill" style={{ width: barPct + '%' }} /></div>}
 
-      {sweepWarn && <div className="afq-alert">Under 15s left. Mark every remaining question - there is no guessing penalty.</div>}
+      {sweepWarn && (
+        <div className="afq-alert afq-toast-fixed">
+          Under 15s left. Mark every remaining question - there is no guessing penalty.
+        </div>
+      )}
 
       <VoiceBar voice={voice} settings={progress.settings.voice} updateVoice={updateVoice} queue={questions} />
 

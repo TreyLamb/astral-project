@@ -122,7 +122,27 @@
 .afq-letter {
   display: inline-block; min-width: 1.6em; font-weight: 700; color: var(--tkb-ink-soft);
 }
-.afq-nudge { color: var(--tkb-unsure); font-size: .95rem; margin: .7rem 0 0; }
+/* Both `.afq-nudge` and `.afq-toast-fixed` are pulled OUT OF DOCUMENT FLOW on purpose - Trey,
+   2026-09-17: "when the time passes when the question should be answered the page subtely
+   shifs... that messes up the question locations and makes it so i click the wrong answer."
+   `.afq-stage .afq-card` (the mobile answer-first layout) is a fixed-height flex column with
+   `.afq-choices` set to `flex: 1 1 auto` - so a plain in-flow paragraph appended after the
+   choices, at the exact 5-second mark this nudge fires, shrank the choices column and moved
+   every answer button out from under whichever one was mid-tap. Absolute/fixed positioning
+   removes both from that flex calculation entirely, so their appearing or disappearing can
+   never move a button someone is about to press. */
+.afq-runner .afq-card { position: relative; }
+.afq-nudge {
+  position: absolute; top: .5rem; right: .5rem; margin: 0; z-index: 2;
+  color: var(--tkb-unsure); font-size: .78rem; pointer-events: none;
+  background: color-mix(in srgb, var(--tkb-unsure) 16%, var(--tkb-canvas));
+  padding: .25rem .55rem; border-radius: 999px;
+}
+.afq-toast-fixed {
+  position: fixed; left: 50%; top: 4.4rem; transform: translateX(-50%);
+  z-index: 400; max-width: min(92vw, 480px); width: max-content;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .3);
+}
 .afq-hint { color: var(--tkb-ink-soft); font-size: .9rem; margin: 0; }
 
 /* --- summary --- */
@@ -301,6 +321,12 @@
   font-size: .85rem; color: var(--tkb-ink-soft); line-height: 1.4;
   border-top: 1px solid var(--tkb-border); padding-top: .55rem;
 }
+.afq-card-root { display: flex; flex-direction: column; gap: .2rem; }
+.afq-card-root-lang {
+  font-size: .68rem; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--tkb-accent); font-weight: 600;
+}
+.afq-card-root-examples { font-size: .78rem; font-style: italic; }
 /* The disambiguation tip. A left accent bar rather than a top border, so it visually reads as a
    margin note next to the card's main column instead of another stacked footnote line. */
 .afq-card-note {

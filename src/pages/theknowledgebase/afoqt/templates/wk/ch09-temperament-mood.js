@@ -43,7 +43,7 @@ registerWords([
     related: 'patience',
     decoy: 'unanimity',
     confusable: { word: 'equity', meaning: 'fairness' },
-    root: { form: 'equ-, -anim-', sense: 'even, + mind, spirit' },
+    root: { form: 'equ-, -anim-', sense: 'even, + mind, spirit', lang: 'Latin', examples: ['equal', 'animate', 'unanimous', 'magnanimous'] },
     sentence: 'He took the emergency with an equanimity nobody else in the cockpit had.',
   },
   {
@@ -121,7 +121,7 @@ registerWords([
     related: 'fatigue',
     decoy: 'symmetry',
     confusable: { word: 'antipathy', meaning: 'hostility' },
-    root: { form: 'a-, -path-', sense: 'without, + feeling' },
+    root: { form: 'a-, -path-', sense: 'without, + feeling', lang: 'Greek', examples: ['sympathy', 'empathy', 'pathetic'] },
     sentence: 'The turnout showed apathy rather than opposition.',
   },
   {
@@ -133,7 +133,7 @@ registerWords([
     related: 'hasty',
     decoy: 'humid',
     confusable: { word: 'fetid', meaning: 'stinking' },
-    root: { form: 'ferv-', sense: 'to boil, to glow' },
+    root: { form: 'ferv-', sense: 'to boil, to glow', lang: 'Latin', examples: ['fervent', 'fervor', 'effervescent'] },
     sentence: 'He made a fervid case for keeping the programme alive.',
   },
   {
@@ -178,7 +178,7 @@ registerWords([
     related: 'confident',
     decoy: 'mysterious',
     confusable: { word: 'impervious', meaning: 'impenetrable' },
-    root: { form: 'imper-', sense: 'command, empire' },
+    root: { form: 'imper-', sense: 'command, empire', lang: 'Latin', examples: ['empire', 'emperor', 'imperative', 'imperial'] },
     sentence: 'An imperious wave was the only acknowledgement anyone got.',
   },
   {
@@ -259,7 +259,7 @@ registerWords([
     related: 'clumsy',
     decoy: 'homeless',
     confusable: { word: 'helpless', meaning: 'powerless' },
-    root: { form: 'hap-', sense: 'luck, chance' },
+    root: { form: 'hap-', sense: 'luck, chance', lang: 'Old Norse', examples: ['happen', 'happy', 'perhaps', 'mishap'] },
     sentence: 'The hapless navigator drew the same broken aircraft three days running.',
   },
   {

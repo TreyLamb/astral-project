@@ -33,7 +33,7 @@ registerWords([
     related: 'hesitate',
     decoy: 'illuminate',
     confusable: { word: 'procrastinate', meaning: 'delay' },
-    root: { form: 'pre-, -varic-', sense: 'before, + to straddle, to walk crookedly' },
+    root: { form: 'pre-, -varic-', sense: 'before, + to straddle, to walk crookedly (a close cousin of the "vari-" in variety/variable, from the same ancient root for "bent, crooked")', lang: 'Latin', examples: ['variety', 'variable', 'various', 'variegate'] },
     sentence: 'Asked directly who had authorised the flight, he began to prevaricate.',
   },
   {
@@ -180,7 +180,7 @@ registerWords([
     related: 'suspect',
     decoy: 'purchase',
     confusable: { word: 'amputate', meaning: 'sever' },
-    root: { form: 'im-, -put-', sense: 'in, + to reckon, to think' },
+    root: { form: 'im-, -put-', sense: 'in, + to reckon, to think', lang: 'Latin', examples: ['compute', 'dispute', 'reputation'] },
     sentence: 'It is unfair to impute a motive he has never once expressed.',
   },
   {
@@ -192,7 +192,7 @@ registerWords([
     related: 'apologize',
     decoy: 'decorate',
     confusable: { word: 'recount', meaning: 'to narrate' },
-    root: { form: 're-, -cant-', sense: 'back, + to sing' },
+    root: { form: 're-, -cant-', sense: 'back, + to sing', lang: 'Latin', examples: ['chant', 'incantation', 'canticle'] },
     sentence: 'Under pressure he agreed to recant the statement he had signed.',
   },
   {
@@ -271,7 +271,7 @@ registerWords([
     related: 'accuracy',
     decoy: 'multitude',
     confusable: { word: 'similitude', meaning: 'likeness' },
-    root: { form: 'veri-, -simil-', sense: 'truth, + like, resembling' },
+    root: { form: 'veri-, -simil-', sense: 'truth, + like, resembling', lang: 'Latin', examples: ['verify', 'similar', 'simulate'] },
     sentence: 'The simulator scene had enough verisimilitude to raise his pulse.',
   },
 ]);

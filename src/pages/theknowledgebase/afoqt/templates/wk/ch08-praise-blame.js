@@ -30,7 +30,7 @@ registerWords([
     related: 'lecture',
     decoy: 'diagram',
     confusable: { word: 'panorama', meaning: 'vista' },
-    root: { form: 'pan-, -egyr-', sense: 'all, + assembly' },
+    root: { form: 'pan-, -egyr-', sense: 'all, + assembly', lang: 'Greek', examples: ['panorama', 'pandemic', 'pantheon'] },
     sentence: 'The retirement speech was less a summary than a panegyric.',
   },
   {

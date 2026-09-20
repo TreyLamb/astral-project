@@ -154,9 +154,39 @@ registerRelations([
     a: { word: 'cumulonimbus', pos: 'noun' }, b: { word: 'cloud', pos: 'noun' },
     tell: 'A cumulonimbus IS a cloud — the specific storm-producing kind within that category.',
   },
+
+  // ============ BAND 5 — added 2026-09-17, closing the VA band-5 gap (see ch04's note). =========
+  {
+    id: 'va-pw-filament', chapter: CH, concepts: PART_WHOLE, band: 5, relation: 'part-whole',
+    a: { word: 'filament', pos: 'noun' }, b: { word: 'lightbulb', pos: 'noun' },
+    tell: 'The filament is the thin wire inside a lightbulb that glows - a component, not the bulb itself.',
+  },
+  {
+    id: 'va-pw-cochlea', chapter: CH, concepts: PART_WHOLE, band: 5, relation: 'part-whole',
+    a: { word: 'cochlea', pos: 'noun' }, b: { word: 'ear', pos: 'noun' },
+    tell: 'The cochlea is the spiral, sound-sensing chamber inside the inner ear, not the ear as a whole.',
+  },
+  // A genuinely rarer replacement for "haiku" here - haiku is common enough to be a band-2/3
+  // word (most people meet it in grade school), which would have repeated the same miscalibration
+  // this batch fixes elsewhere (see ch03's note on "detective"/"archaeologist").
+  {
+    id: 'va-mc-villanelle', chapter: CH, concepts: MEMBER_CATEGORY, band: 5, relation: 'member-category',
+    a: { word: 'villanelle', pos: 'noun' }, b: { word: 'poem', pos: 'noun' },
+    tell: 'A villanelle IS a poem - a specific 19-line form within that broader category.',
+  },
+  {
+    id: 'va-mc-epee', chapter: CH, concepts: MEMBER_CATEGORY, band: 5, relation: 'member-category',
+    a: { word: 'epee', pos: 'noun' }, b: { word: 'sword', pos: 'noun' },
+    tell: 'An epee IS a sword - the heaviest of the three fencing blades, a specific kind within that category.',
+  },
+  {
+    id: 'va-mc-dirge', chapter: CH, concepts: MEMBER_CATEGORY, band: 5, relation: 'member-category',
+    a: { word: 'dirge', pos: 'noun' }, b: { word: 'song', pos: 'noun' },
+    tell: 'A dirge IS a song - a specific mournful, funeral kind within that category.',
+  },
 ]);
 
-for (const band of [2, 3, 4]) {
+for (const band of [2, 3, 4, 5]) {
   relationTemplates({ chapter: CH, band, idBase: `va-02-b${band}`, name: 'Part to whole, member to category' });
 }
 
@@ -210,20 +240,29 @@ registerRelations([
     tell: 'A trumpet and a drum are co-equal instruments in the same band - two parts of one ensemble.',
   },
 
-  // ------------------------------- BAND 2, sequence (3) ---------------------------------------
+  // ------------------------------- BAND 2, sequence (4) ---------------------------------------
+  // Split the same way as band 3's sequence rows (see that block's note) - MATURATION (a living
+  // thing becomes its own mature form) versus CREATION_SEQUENCE (a raw material becomes a
+  // finished, separate object). Kept as two clean pairs each rather than three-in-one, so
+  // neither subgroup is ever left with zero same-relation partners.
   {
-    id: 'va-sq-caterpillar', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'sequence',
+    id: 'va-mt-caterpillar', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'maturation',
     a: { word: 'caterpillar', pos: 'noun' }, b: { word: 'butterfly', pos: 'noun' },
     tell: 'A caterpillar becomes a butterfly - the order is fixed by the process itself, not by convention.',
   },
   {
-    id: 'va-sq-egg', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'sequence',
+    id: 'va-mt-egg', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'maturation',
     a: { word: 'egg', pos: 'noun' }, b: { word: 'chick', pos: 'noun' },
     tell: 'An egg hatches into a chick - the egg always comes first in that process.',
     confusions: ['va-mc-robin'],
   },
   {
-    id: 'va-sq-dough', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'sequence',
+    id: 'va-cs-clay', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'creation-sequence',
+    a: { word: 'clay', pos: 'noun' }, b: { word: 'pot', pos: 'noun' },
+    tell: 'Clay is shaped and fired into a pot - a raw material becomes a separate, finished object.',
+  },
+  {
+    id: 'va-cs-dough', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'creation-sequence',
     a: { word: 'dough', pos: 'noun' }, b: { word: 'bread', pos: 'noun' },
     tell: 'Dough is baked into bread - the dough exists first, before the process finishes it.',
   },
@@ -248,20 +287,35 @@ registerRelations([
     confusions: ['va-pw-keel'],
   },
 
-  // ------------------------------- BAND 3, sequence (3) ---------------------------------------
+  // ------------------------------- BAND 3, sequence (4) ---------------------------------------
+  // 🔴 2026-09-17 CORRECTION - all four of these used to share one bare 'sequence' tag, which
+  // let the engine key RECRUIT:VETERAN (a person gaining experience) as a valid "same relation"
+  // match for BLUEPRINT:BUILDING (a document preceding a constructed object) - found while
+  // re-auditing the whole bank after the ch05 object-attribute defect Trey caught. Reading the
+  // actual generated output ("BLUEPRINT is to BUILDING as: Recruit : Veteran <-- correct") made
+  // the mismatch obvious the same way "SURGEON is to HOSPITAL as VIGILANT is to SENTRY" was: two
+  // pairs that pass the same abstract "a precedes b" test without reading as restatements of one
+  // relation. Split into MATURATION (the SAME thing/person becomes its own more-developed form -
+  // the official "age/growth" category from RESEARCH.md's VA SOURCING catalogue) and
+  // CREATION_SEQUENCE (a preliminary draft precedes a DIFFERENT, finished, physical result).
   {
-    id: 'va-sq-blueprint', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'sequence',
-    a: { word: 'blueprint', pos: 'noun' }, b: { word: 'building', pos: 'noun' },
-    tell: 'A blueprint is drawn before the building it describes is ever built - the order cannot reverse.',
-  },
-  {
-    id: 'va-sq-recruit', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'sequence',
+    id: 'va-mt-recruit', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'maturation',
     a: { word: 'recruit', pos: 'noun' }, b: { word: 'veteran', pos: 'noun' },
     tell: 'A recruit becomes a veteran only after time and experience - the order is fixed by the process.',
     confusions: ['va-pw-platoon'],
   },
   {
-    id: 'va-sq-sketch', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'sequence',
+    id: 'va-mt-novice', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'maturation',
+    a: { word: 'novice', pos: 'noun' }, b: { word: 'expert', pos: 'noun' },
+    tell: 'A novice becomes an expert only after time and practice, the same way a recruit becomes a veteran.',
+  },
+  {
+    id: 'va-cs-blueprint', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'creation-sequence',
+    a: { word: 'blueprint', pos: 'noun' }, b: { word: 'building', pos: 'noun' },
+    tell: 'A blueprint is drawn before the building it describes is ever built - the order cannot reverse.',
+  },
+  {
+    id: 'va-cs-sketch', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'creation-sequence',
     a: { word: 'sketch', pos: 'noun' }, b: { word: 'painting', pos: 'noun' },
     tell: 'A sketch comes before the finished painting it leads to - the process runs one direction.',
   },

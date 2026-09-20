@@ -12,6 +12,40 @@
 // Format 2 outnumbers format 1 roughly 3:1 in the 75-item sourced sample, so it is registered
 // first and is the PRIMARY frame — see relationTemplates below.
 //
+// 🔴 2026-09-20 — FORMAT 1 IS DISABLED. Do not re-enable it by un-commenting the registerTemplate
+// call in relationTemplates() without reading this first, and without fixing what's described here.
+//
+// Trey caught a generated item ("PARSIMONIOUS is to MISERLY as RECALCITRANT is to:") that offered
+// "Parsimonious" and "Miserly" — the stem's OWN two words — as 2 of its 4 wrong answers. That was
+// buildFourthTerm's "reused-base-word" distractor, and it is a straight bug: checked against every
+// one of the 75 real sourced items (ResearchPics/quizlet3.md + quizlet8.md), NONE of them ever
+// offers a stem word back as a choice. Fixed below.
+//
+// But fixing that bug exposed a SECOND, deeper problem that is why format 1 is off rather than
+// just patched. Read all 19 real format-1 items in the two source files side by side and every
+// single one draws its WRONG answers from the same real-world TOPIC as the stem's third word —
+// FORK:EAT::PEN:[INK, PENCIL, WRITE, LETTER, BOOK] (all pen/writing objects), TENSION:STRESS::
+// VIRUS:[LIVING, DISEASE, BACTERIA, IMMUNITY, MORBIDITY] (all illness words), ODOMETER:MILEAGE::
+// COMPASS:[SPEED, HIKING, NEEDLE, DIRECTION, HUMIDITY] (all wayfinding/outdoor words). That
+// clustering is what makes the wrong answers plausible enough to require knowing the RELATION,
+// not just recognizing an unrelated word. `crossPool()` (used by format 2 successfully) draws
+// distractors by "different relation tag, same band" — completely blind to topic — so swapping it
+// in for the reused-base-word bug still produces things like "FUSELAGE is to: AIRCRAFT(correct),
+// POEM, FRANK, MALEVOLENT, COAL": four wildly unrelated single words next to one obvious topical
+// fit. That is not just off-flavor, it is a correctness problem — the domain mismatch alone gives
+// the answer away without the test-taker ever reasoning about the relation.
+//
+// Format 2 does NOT have this problem — checked the same way against real items (e.g. "ACTOR is
+// to STAGE as: PATIENT:DOCTOR / OUTSIDE:BENCH / GARAGE:CAR / TEACHER:CLASSROOM / METER:ELECTRICITY")
+// and its wrong PAIRS genuinely do come from unrelated topics; only the relation type has to match.
+// That is exactly what crossPool()/buildMatch() already do, so format 2 needed no design change,
+// just this file's own bug fix (buildFourthTerm, see below) and stays the sole VA frame for now.
+//
+// Re-enabling format 1 for real needs per-relation-row DOMAIN-CLUSTERED distractor words authored
+// by hand (a `topicPool` of same-subject wrong words per row, not a blind cross-relation draw) —
+// a real authoring lift across every chapter, not a one-line fix. Flagged, not silently dropped;
+// ask Trey before investing in it. Until then, relationTemplates() registers format 2 only.
+//
 // WHY A ROW IS NOT A "CONFUSABLE PAIR" (engine/morphology.js) OR A "VOCAB WORD" (engine/words.js)
 // WEARING A NEW LABEL. A confusable pair is asked "which meaning goes with THIS word" — the two
 // halves are rivals for one definition. An analogy pair is asked "does this OTHER pair share the
@@ -213,19 +247,35 @@ function crossPool(base, band, rng) {
 function buildMatch(base, chapterRows, band, rng) {
   const partners = samePool(base, chapterRows);
   if (!partners) return null;
-  const partner = partners[Math.floor(rng() * partners.length)];
+  const shuffledPartners = shuffle(partners, rng);
+  const partner = shuffledPartners[0];
   const correct = renderPair(partner.a.word, partner.b.word);
 
   const distractors = [];
-  // THE classic AFOQT trap: the exact same two words as the base pair, wrong order. Skipped for
-  // symmetric relations (SYNONYM, ANTONYM) where reversing changes nothing, so it would not be a
-  // real mistake and offering it would just be a second correct answer in disguise.
+  // THE classic AFOQT reversed-order trap - but NOT built by flipping the base pair's own two
+  // words. That was the original implementation and it produced things like "SURGEON is to
+  // HOSPITAL as: ... Hospital is to Surgeon" - Trey, 2026-09-17: "that's not ever going to be a
+  // real answer. that's lazy shortcutting to make a 5th answer." He is right, and the real
+  // sourced items agree: `docs/afoqt/RESEARCH.md`'s VA SOURCING items (ResearchPics/quizlet3.md)
+  // never reverse the base pair's own literal words. #16 keys TANKER:SHIP against distractor
+  // INSECT:ANT - a DIFFERENT member-category pair with its two roles swapped, not "SHIP:TANKER".
+  // #24 keys HANDS:CLOCK against CARNIVORE:TIGER the same way. So the real trap is "this relation
+  // is genuine, but here it runs backward" using a DIFFERENT same-relation pair, which reads as a
+  // plausible foil instead of an obviously nonsensical restatement of the question. Falls back to
+  // reversing the base pair itself only when the pool is too thin to offer a second row.
+  // Skipped entirely for symmetric relations (SYNONYM, ANTONYM), where reversing changes
+  // nothing - it would not be a real mistake and would just be a second correct answer.
   if (!base.symmetric) {
+    const reversalSource = shuffledPartners[1] ?? base;
     distractors.push({
-      value: renderPair(base.b.word, base.a.word),
+      value: renderPair(reversalSource.b.word, reversalSource.a.word),
       error: 'reversed-order',
-      why: `that is ${cap(base.a.word)} and ${cap(base.b.word)} in the wrong order - the relation runs `
-        + `${cap(base.a.word)} to ${cap(base.b.word)}, not back the other way.`,
+      why: reversalSource === base
+        ? `that is ${cap(base.a.word)} and ${cap(base.b.word)} in the wrong order - the relation runs `
+          + `${cap(base.a.word)} to ${cap(base.b.word)}, not back the other way.`
+        : `${cap(reversalSource.a.word)} and ${cap(reversalSource.b.word)} really do share this relation, `
+          + `but in the wrong order - it runs ${cap(reversalSource.a.word)} to ${cap(reversalSource.b.word)}, `
+          + `not back the other way.`,
     });
   }
   for (const r of crossPool(base, band, rng)) {
@@ -243,6 +293,12 @@ function buildMatch(base, chapterRows, band, rng) {
 /**
  * FORMAT 1 material: the correct fourth term, a partner pair to supply the stem's "C", and up to
  * four wrong words. Returns null for the same reason buildMatch does.
+ *
+ * NOT CURRENTLY REGISTERED — see the "FORMAT 1 IS DISABLED" note at the top of this file before
+ * wiring this back into relationTemplates(). Kept (and its reused-base-word bug fixed) so the
+ * function is correct and ready once real per-row topic-clustered distractors exist; drawing from
+ * crossPool() alone fixes the "repeats the stem's own words" bug but NOT the deeper domain-
+ * clustering gap the top-of-file note describes.
  */
 function buildFourthTerm(base, chapterRows, band, rng) {
   const partners = samePool(base, chapterRows);
@@ -250,14 +306,7 @@ function buildFourthTerm(base, chapterRows, band, rng) {
   const partner = partners[Math.floor(rng() * partners.length)];
   const correctWord = partner.b.word;
 
-  const distractors = [
-    // Restating a word already on the page is the single most common wrong pick on a rushed
-    // read - it LOOKS related because it was just seen, not because it completes anything.
-    { value: cap(base.a.word), error: 'reused-base-word',
-      why: `${cap(base.a.word)} is already used earlier in the analogy - repeating it completes nothing.` },
-    { value: cap(base.b.word), error: 'reused-base-word',
-      why: `${cap(base.b.word)} is already used earlier in the analogy - repeating it completes nothing.` },
-  ];
+  const distractors = [];
   for (const r of crossPool(base, band, rng)) {
     if (distractors.length >= 4) break;
     distractors.push({
@@ -326,33 +375,11 @@ export function relationTemplates({ chapter, band, idBase, name, calibratedAgain
     },
   }));
 
-  // FORMAT 1 - secondary but still a real AFOQT format (about 1 in 4 sourced items).
-  made.push(registerTemplate({
-    id: `${idBase}-term`,
-    subtest: 'VA',
-    band,
-    name: `${name} - complete the fourth term`,
-    concepts: [...new Set([...ownConcepts, 'va-relation-format'])],
-    calibratedAgainst,
-    stemSpace: rows.length,
-    itemPool: true,
-    itemKeys: () => rows.map((r) => r.id),
-    generate: (rng, h) => {
-      const base = rows[h.item % rows.length];
-      const built = buildFourthTerm(base, rows, band, rng);
-      if (!built) return null;
-      const { correctWord, partner, distractors } = built;
-      const { choices, correctIndex, errors, whys } = h.choices(cap(correctWord), distractors);
-      return {
-        stem: `${base.a.word.toUpperCase()} is to ${base.b.word.toUpperCase()} as `
-          + `${partner.a.word.toUpperCase()} is to:`,
-        choices, correctIndex, errors, whys,
-        tags: ['va', ...base.concepts],
-        explanation: `${cap(base.a.word)} is to ${cap(base.b.word)} by ${readRelation(base.relation)}: `
-          + `${base.tell} ${cap(partner.a.word)} takes the same relation to "${cap(correctWord)}".`,
-      };
-    },
-  }));
+  // FORMAT 1 IS DISABLED — see the "FORMAT 1 IS DISABLED" note at the top of this file for why
+  // (reused-stem-word distractor bug, plus the deeper domain-clustering gap that fixing the bug
+  // alone doesn't close). buildFourthTerm() is still correct and ready for when real per-row
+  // topic-clustered distractors exist to register this from; do not re-add the registerTemplate
+  // call here without that data.
 
   return made;
 }

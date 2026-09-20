@@ -132,6 +132,14 @@ registerRelations([
     a: { word: 'concerned', pos: 'adj' }, b: { word: 'alarmed', pos: 'adj' },
     tell: 'Concerned is a weaker form of alarmed - both are worry at different strengths.',
   },
+  {
+    // Band forced to 3, not 5, by wordBand() - "proliferate" is already a WK headword at band 3
+    // (ch06-change-degree.js). registerRelations throws if a shared word disagrees on band, so
+    // this stays here rather than with the rest of the 2026-09-17 batch below.
+    id: 'va-ant-proliferate', chapter: CH, concepts: ANTONYM, band: 3, relation: 'antonym', symmetric: true,
+    a: { word: 'proliferate', pos: 'verb' }, b: { word: 'cease', pos: 'verb' },
+    tell: 'Proliferate and cease are direct opposites - multiplying rapidly versus stopping entirely.',
+  },
 
   // ========================= BAND 4 — low-frequency, inference-level ==========================
   {
@@ -184,8 +192,64 @@ registerRelations([
     a: { word: 'quibble', pos: 'noun' }, b: { word: 'altercation', pos: 'noun' },
     tell: 'A quibble is a weaker form of an altercation - same dimension (conflict), different intensity.',
   },
+
+  // ============ BAND 5 — added 2026-09-17, closing the gap Trey flagged: VA had NO band-5 ========
+  // content at all in any chapter (npm run afoqt:check confirmed every VA chapter topped out at
+  // band 4). Every word below was checked against the WK bank's `wordBand()` before being
+  // assigned here - see the band-3 exception above for what happens when a word already has an
+  // opinion. None of these collided.
+  {
+    id: 'va-syn-pristine', chapter: CH, concepts: SYNONYM, band: 5, relation: 'synonym', symmetric: true,
+    a: { word: 'pristine', pos: 'adj' }, b: { word: 'unspoiled', pos: 'adj' },
+    tell: 'Pristine and unspoiled both mean untouched and in original condition - true synonyms.',
+  },
+  {
+    id: 'va-syn-tainted', chapter: CH, concepts: SYNONYM, band: 5, relation: 'synonym', symmetric: true,
+    a: { word: 'tainted', pos: 'adj' }, b: { word: 'contaminated', pos: 'adj' },
+    tell: 'Tainted and contaminated both mean impurely spoiled - the same condition, not different degrees of it.',
+  },
+  {
+    id: 'va-syn-hackneyed', chapter: CH, concepts: SYNONYM, band: 5, relation: 'synonym', symmetric: true,
+    a: { word: 'hackneyed', pos: 'adj' }, b: { word: 'banal', pos: 'adj' },
+    tell: 'Hackneyed and banal both mean overused and unoriginal - true synonyms.',
+  },
+  {
+    id: 'va-syn-tantamount', chapter: CH, concepts: SYNONYM, band: 5, relation: 'synonym', symmetric: true,
+    a: { word: 'tantamount', pos: 'adj' }, b: { word: 'equivalent', pos: 'adj' },
+    tell: 'Tantamount and equivalent both mean amounting to the same thing - true synonyms.',
+  },
+  {
+    id: 'va-syn-munificent', chapter: CH, concepts: SYNONYM, band: 5, relation: 'synonym', symmetric: true,
+    a: { word: 'munificent', pos: 'adj' }, b: { word: 'generous', pos: 'adj' },
+    tell: 'Munificent and generous both mean giving lavishly - the same trait, not different amounts of it.',
+  },
+  {
+    id: 'va-ant-championed', chapter: CH, concepts: ANTONYM, band: 5, relation: 'antonym', symmetric: true,
+    a: { word: 'championed', pos: 'adj' }, b: { word: 'abased', pos: 'adj' },
+    tell: 'Championed and abased are direct opposites - held up and exalted versus humiliated and lowered.',
+  },
+  {
+    id: 'va-ant-servile', chapter: CH, concepts: ANTONYM, band: 5, relation: 'antonym', symmetric: true,
+    a: { word: 'servile', pos: 'adj' }, b: { word: 'domineering', pos: 'adj' },
+    tell: 'Servile and domineering are direct opposites - submissively obedient versus controlling and bossy.',
+  },
+  {
+    id: 'va-deg-disquiet', chapter: CH, concepts: DEGREE, band: 5, relation: 'degree',
+    a: { word: 'disquiet', pos: 'noun' }, b: { word: 'anguish', pos: 'noun' },
+    tell: 'Disquiet is a weaker form of anguish - both are distress at different strengths.',
+  },
+  {
+    id: 'va-deg-apprehensive', chapter: CH, concepts: DEGREE, band: 5, relation: 'degree',
+    a: { word: 'apprehensive', pos: 'adj' }, b: { word: 'petrified', pos: 'adj' },
+    tell: 'Apprehensive is a weaker form of petrified - both are fear at different strengths.',
+  },
+  {
+    id: 'va-deg-miffed', chapter: CH, concepts: DEGREE, band: 5, relation: 'degree',
+    a: { word: 'miffed', pos: 'adj' }, b: { word: 'irate', pos: 'adj' },
+    tell: 'Miffed is a weaker form of irate - both are anger at different strengths.',
+  },
 ]);
 
-for (const band of [2, 3, 4]) {
+for (const band of [2, 3, 4, 5]) {
   relationTemplates({ chapter: CH, band, idBase: `va-04-b${band}`, name: 'Synonym, antonym and degree' });
 }

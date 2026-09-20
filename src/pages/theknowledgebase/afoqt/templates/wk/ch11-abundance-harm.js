@@ -72,7 +72,7 @@ registerWords([
     related: 'frugal',
     decoy: 'impervious',
     confusable: { word: 'impetuous', meaning: 'impulsive' },
-    root: { form: 'im-, -pecun-', sense: 'not, + money' },
+    root: { form: 'im-, -pecun-', sense: 'not, + money', lang: 'Latin', examples: ['pecuniary'] },
     sentence: 'An impecunious cadet, he walked everywhere on base.',
   },
   {
@@ -95,7 +95,7 @@ registerWords([
     related: 'medicine',
     decoy: 'peninsula',
     confusable: { word: 'panorama', meaning: 'vista' },
-    root: { form: 'pan-, -acea', sense: 'all, + cure' },
+    root: { form: 'pan-, -acea', sense: 'all, + cure', lang: 'Greek', examples: ['panorama', 'pandemic'] },
     sentence: 'More funding was treated as a panacea for every scheduling problem.',
   },
   {
@@ -186,7 +186,7 @@ registerWords([
     related: 'cure',
     decoy: 'elevate',
     confusable: { word: 'abbreviate', meaning: 'to shorten' },
-    root: { form: 'ad-, -lev-', sense: 'to, + light in weight' },
+    root: { form: 'ad-, -lev-', sense: 'to, + light in weight', lang: 'Latin', examples: ['elevate', 'levity', 'lever', 'relevant'] },
     sentence: 'A second crew would alleviate the pressure on the night shift.',
   },
   {
@@ -244,7 +244,7 @@ registerWords([
     decoy: 'classify',
     confusable: { word: 'ostracize', meaning: 'shun' },
     note: 'Ossify means to become rigid and stuck, unable to change (ossified habits) - different from wane (gradual weakening) and from inure (getting desensitized to something unpleasant through repetition).',
-    root: { form: 'oss-', sense: 'bone' },
+    root: { form: 'oss-', sense: 'bone', lang: 'Latin', examples: ['ossuary', 'osseous'] },
     sentence: 'Procedures ossify when nobody is willing to question them.',
   },
   {

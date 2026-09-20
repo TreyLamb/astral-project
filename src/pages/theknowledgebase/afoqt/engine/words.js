@@ -45,7 +45,14 @@ import { registerTemplate, templatesFor, generateInstance } from './generator.js
  * @property {string} decoy          option: same register, plainly wrong
  * @property {{word: string, meaning: string}} confusable  option is `meaning`
  * @property {string} [sentence]     the word used in context; enables the context frame
- * @property {{form: string, sense: string}} [root]
+ * @property {{form: string, sense: string, lang?: string, examples?: string[]}} [root]
+ *                                   `lang` names the language the root/prefix/suffix is FROM
+ *                                   (Latin, Greek, Old English, ...); `examples` is 2-4 other
+ *                                   real English words that visibly carry the same piece, even
+ *                                   with no gloss of their own - added 2026-09-15, Trey: "for
+ *                                   words with clear prefixes/suffixes... give more examples with
+ *                                   those... even if they don't have a definition seeing t[he]
+ *                                   words can be helpful."
  * @property {string} [note]         flashcard-only disambiguation, NOT used in any drill option -
  *                                   so unlike `confusable.meaning` it is free to be as long as it
  *                                   needs to be. For a genuine near-synonym this bank tests

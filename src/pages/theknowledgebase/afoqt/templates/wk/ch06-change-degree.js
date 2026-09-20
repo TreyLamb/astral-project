@@ -39,7 +39,7 @@ registerWords([
     related: 'cancel',
     decoy: 'repair',
     confusable: { word: 'entail', meaning: 'require' },
-    root: { form: 'curt-', sense: 'short' },
+    root: { form: 'curt-', sense: 'short', lang: 'Latin', examples: ['curt'] },
     sentence: 'Budget cuts forced the wing to curtail the training schedule by two weeks.',
   },
   {
@@ -51,7 +51,7 @@ registerWords([
     related: 'fade',
     decoy: 'whisper',
     confusable: { word: 'dwell', meaning: 'reside' },
-    root: { form: 'dwin-', sense: 'to waste away, diminish' },
+    root: { form: 'dwin-', sense: 'to waste away, diminish', lang: 'Old English' },
     sentence: 'Supplies of spare parts dwindled as the deployment stretched into its third month.',
   },
   {
@@ -63,7 +63,7 @@ registerWords([
     related: 'refresh',
     decoy: 'decorate',
     confusable: { word: 'revise', meaning: 'edit' },
-    root: { form: 're-, viv-', sense: 'again, + to live' },
+    root: { form: 're-, viv-', sense: 'again, + to live', lang: 'Latin', examples: ['vivid', 'vivacious', 'survive', 'revival'] },
     sentence: "The maintenance officer worked through the night to revive the grounded aircraft's systems.",
   },
   {
@@ -75,7 +75,7 @@ registerWords([
     related: 'delay',
     decoy: 'polish',
     confusable: { word: 'prologue', meaning: 'introduce' },
-    root: { form: 'pro-, long-', sense: 'forward, + long' },
+    root: { form: 'pro-, long-', sense: 'forward, + long', lang: 'Latin', examples: ['elongate', 'longitude', 'longevity'] },
     sentence: 'The commander decided to prolong the exercise by an extra day to test night operations.',
   },
   {
@@ -87,7 +87,7 @@ registerWords([
     related: 'calm',
     decoy: 'arrive',
     confusable: { word: 'subsidize', meaning: 'fund' },
-    root: { form: 'sub-, sid-', sense: 'under, + to sit, settle' },
+    root: { form: 'sub-, sid-', sense: 'under, + to sit, settle', lang: 'Latin', examples: ['reside', 'president', 'sediment', 'subsidiary'] },
     sentence: 'Engineers waited for the flood waters to subside before reopening the runway.',
   },
   {
@@ -99,7 +99,7 @@ registerWords([
     related: 'provoke',
     decoy: 'measure',
     confusable: { word: 'intercede', meaning: 'mediate' },
-    root: { form: 'in-, tens-', sense: 'into, + stretched' },
+    root: { form: 'in-, tens-', sense: 'into, + stretched', lang: 'Latin', examples: ['tension', 'intense', 'extensive', 'tendency'] },
     sentence: 'Command warned that enemy jamming would intensify as the strike package approached the target.',
   },
 
@@ -113,7 +113,7 @@ registerWords([
     related: 'sufficient',
     decoy: 'silent',
     confusable: { word: 'amiable', meaning: 'friendly' },
-    root: { form: 'ampl-', sense: 'large, abundant' },
+    root: { form: 'ampl-', sense: 'large, abundant', lang: 'Latin', examples: ['amplify', 'amplitude', 'amplifier'] },
     sentence: 'The squadron kept ample fuel in reserve for a diverted landing.',
   },
   {
@@ -147,7 +147,7 @@ registerWords([
     related: 'heavy',
     decoy: 'cheerful',
     confusable: { word: 'imminent', meaning: 'impending' },
-    root: { form: 'im-, mens-', sense: 'not + measured (immeasurable)' },
+    root: { form: 'im-, mens-', sense: 'not + measured (immeasurable)', lang: 'Latin', examples: ['dimension', 'commensurate', 'measure'] },
     sentence: 'The immense hangar could shelter four transport aircraft at once.',
   },
   {
@@ -160,7 +160,7 @@ registerWords([
     decoy: 'colorful',
     confusable: { word: 'astute', meaning: 'shrewd' },
     note: 'Acute means sharp, intense or severe - used for pain, a crisis, or the senses. Exigent narrows that to \'needs action right now\'; pungent narrows it to sharp smell or taste specifically.',
-    root: { form: 'ac-', sense: 'sharp, pointed' },
+    root: { form: 'ac-', sense: 'sharp, pointed', lang: 'Latin', examples: ['acumen', 'acrid', 'acupuncture'] },
     sentence: 'The flight surgeon treated the pilot for acute altitude sickness within the hour.',
   },
   {
@@ -172,7 +172,7 @@ registerWords([
     related: 'famous',
     decoy: 'cheap',
     confusable: { word: 'formative', meaning: 'shaping' },
-    root: { form: 'formid-', sense: 'fear, dread' },
+    root: { form: 'formid-', sense: 'fear, dread', lang: 'Latin', examples: ['formidably'] },
     sentence: 'The formidable crosswind made the approach the hardest landing of the day.',
   },
   {
@@ -184,7 +184,7 @@ registerWords([
     related: 'small',
     decoy: 'musical',
     confusable: { word: 'finale', meaning: 'final' },
-    root: { form: 'fin-', sense: 'end, limit' },
+    root: { form: 'fin-', sense: 'end, limit', lang: 'Latin', examples: ['final', 'finish', 'define', 'infinite'] },
     sentence: 'Even a nuclear reactor holds only a finite supply of fuel.',
   },
 
@@ -198,7 +198,7 @@ registerWords([
     related: 'endorse',
     decoy: 'measure',
     confusable: { word: 'command', meaning: 'order' },
-    root: { form: 'com-, mend-', sense: 'thoroughly + to trust, entrust' },
+    root: { form: 'com-, mend-', sense: 'thoroughly + to trust, entrust', lang: 'Latin', examples: ['recommend', 'mandate', 'commendation'] },
     sentence: 'The wing commander commended the crew chief for catching the fuel leak.',
   },
   {
@@ -210,7 +210,7 @@ registerWords([
     related: 'ignore',
     decoy: 'decorate',
     confusable: { word: 'condole', meaning: 'sympathize' },
-    root: { form: 'con-, don-', sense: 'together + to give (grant, pardon)' },
+    root: { form: 'con-, don-', sense: 'together + to give (grant, pardon)', lang: 'Latin', examples: ['donate', 'donor', 'pardon'] },
     sentence: 'The commander made it clear he would not condone any shortcuts on the safety checklist.',
   },
   {
@@ -233,7 +233,7 @@ registerWords([
     related: 'apologize',
     decoy: 'paint',
     confusable: { word: 'lambaste', meaning: 'scold' },
-    root: { form: 'lament-', sense: 'to wail, weep' },
+    root: { form: 'lament-', sense: 'to wail, weep', lang: 'Latin', examples: ['lamentable', 'lamentation'] },
     sentence: 'Veterans gathered each year to lament the friends they had lost overseas.',
   },
   {
@@ -245,7 +245,7 @@ registerWords([
     related: 'regret',
     decoy: 'sketch',
     confusable: { word: 'deploy', meaning: 'place' },
-    root: { form: 'de-, plor-', sense: 'thoroughly + to weep, wail' },
+    root: { form: 'de-, plor-', sense: 'thoroughly + to weep, wail', lang: 'Latin', examples: ['deplorable', 'implore', 'exploration'] },
     sentence: 'Analysts deplored the decision to cancel the rescue mission before all options were exhausted.',
   },
   {
@@ -257,7 +257,7 @@ registerWords([
     related: 'obey',
     decoy: 'count',
     confusable: { word: 'reverse', meaning: 'invert' },
-    root: { form: 're-, ver-', sense: 'again + to fear, stand in awe of' },
+    root: { form: 're-, ver-', sense: 'again + to fear, stand in awe of', lang: 'Latin', examples: ['reverence', 'reverent', 'irreverent'] },
     sentence: 'New pilots are taught to revere the checklist, not just follow it.',
   },
   {
@@ -269,7 +269,7 @@ registerWords([
     related: 'arrest',
     decoy: 'garden',
     confusable: { word: 'indite', meaning: 'compose' },
-    root: { form: 'in-, dict-', sense: 'against + to say, declare' },
+    root: { form: 'in-, dict-', sense: 'against + to say, declare', lang: 'Latin', examples: ['dictate', 'dictionary', 'predict', 'verdict'] },
     sentence: 'The inspector general indicted the contractor for falsifying the maintenance logs.',
   },
 
@@ -283,7 +283,7 @@ registerWords([
     related: 'sprout',
     decoy: 'purchase',
     confusable: { word: 'bludgeon', meaning: 'batter' },
-    root: { form: 'burg-', sense: 'bud, sprout' },
+    root: { form: 'burg-', sense: 'bud, sprout', lang: 'Old French' },
     sentence: 'Enrollment burgeoned in the two years after the new wing opened.',
   },
   {
@@ -295,7 +295,7 @@ registerWords([
     related: 'pause',
     decoy: 'publish',
     confusable: { word: 'abase', meaning: 'humiliate' },
-    root: { form: 'a-, bat-', sense: 'to + to beat down' },
+    root: { form: 'a-, bat-', sense: 'to + to beat down', lang: 'Latin', examples: ['debate', 'combat', 'battle', 'rebate'] },
     sentence: "The storm's winds abated just before midnight, allowing the flight to depart on schedule.",
   },
   {
@@ -307,7 +307,7 @@ registerWords([
     related: 'replace',
     decoy: 'forgive',
     confusable: { word: 'argument', meaning: 'dispute' },
-    root: { form: 'aug-', sense: 'to increase' },
+    root: { form: 'aug-', sense: 'to increase', lang: 'Latin', examples: ['auction', 'author', 'august'] },
     sentence: 'The squadron requested two more airframes to augment its patrol coverage.',
   },
   {
@@ -320,7 +320,7 @@ registerWords([
     decoy: 'photograph',
     confusable: { word: 'exasperate', meaning: 'annoy' },
     note: 'Exacerbate means to make an EXISTING problem worse - it does not require the problem to have gone away first. Recrudesce specifically means a problem that had died down BREAKS OUT AGAIN.',
-    root: { form: 'ex-, acerb-', sense: 'out, thoroughly + bitter, harsh' },
+    root: { form: 'ex-, acerb-', sense: 'out, thoroughly + bitter, harsh', lang: 'Latin', examples: ['acerbic'] },
     sentence: 'Skipping the pre-flight check would only exacerbate the fuel gauge problem.',
   },
   {
@@ -332,7 +332,7 @@ registerWords([
     related: 'spread',
     decoy: 'whistle',
     confusable: { word: 'obliterate', meaning: 'destroy' },
-    root: { form: 'proli-, -fer-', sense: 'offspring + to bear, carry' },
+    root: { form: 'proli-, -fer-', sense: 'offspring + to bear, carry', lang: 'Latin', examples: ['prolific', 'transfer', 'confer'] },
     sentence: 'Rumors about the schedule change proliferated across the squadron within an hour.',
   },
   {
@@ -345,7 +345,7 @@ registerWords([
     decoy: 'borrow',
     confusable: { word: 'wean', meaning: 'detach' },
     note: 'Wane means to gradually shrink or weaken (like the moon waning) - a smooth decline. Ossify means to become rigid and unable to change - literally \'turn to bone.\' A tradition can ossify without waning in popularity, or wane without ever ossifying.',
-    root: { form: 'wan-', sense: 'to lessen, grow less' },
+    root: { form: 'wan-', sense: 'to lessen, grow less', lang: 'Old English' },
     sentence: 'Public interest in the air show always wanes once the headline act finishes.',
   },
   {
@@ -358,7 +358,7 @@ registerWords([
     decoy: 'collect',
     confusable: { word: 'quail', meaning: 'cower' },
     note: 'Quell and squelch both mean to forcibly stop something, but quell fits bigger, more formal targets (quell a riot, quell your fears); squelch is more everyday and often about cutting off a specific rumor or objection on the spot.',
-    root: { form: 'cwellan', sense: 'Old English: to kill, destroy' },
+    root: { form: 'cwellan', sense: 'Old English: to kill, destroy', lang: 'Old English', examples: ['kill'] },
     sentence: 'Extra security personnel were posted to quell any unrest before the ceremony began.',
   },
 
@@ -372,7 +372,7 @@ registerWords([
     related: 'detailed',
     decoy: 'narrow',
     confusable: { word: 'capacious', meaning: 'spacious' },
-    root: { form: 'cop-', sense: 'abundance, plenty' },
+    root: { form: 'cop-', sense: 'abundance, plenty', lang: 'Latin', examples: ['cornucopia', 'copy'] },
     sentence: 'The quartermaster kept copious records of every part that left the supply room.',
   },
   {
@@ -384,7 +384,7 @@ registerWords([
     related: 'generous',
     decoy: 'frozen',
     confusable: { word: 'profane', meaning: 'blasphemous' },
-    root: { form: 'pro-, -fus-', sense: 'forth + to pour' },
+    root: { form: 'pro-, -fus-', sense: 'forth + to pour', lang: 'Latin', examples: ['infuse', 'confuse', 'refuse', 'transfuse'] },
     sentence: 'The mechanic offered profuse apologies for the delay in returning the jet to service.',
   },
   {
@@ -397,7 +397,7 @@ registerWords([
     decoy: 'circular',
     confusable: { word: 'negligent', meaning: 'careless' },
     note: 'Negligible is closer to a measurement - small enough that it doesn\'t affect the outcome (a negligible difference). Trifling leans more toward a judgment call - unimportant or petty, not worth your attention.',
-    root: { form: 'neg-, -leg-', sense: 'not + to choose, pick (neglect)' },
+    root: { form: 'neg-, -leg-', sense: 'not + to choose, pick (neglect)', lang: 'Latin', examples: ['neglect', 'elect', 'select', 'collect'] },
     sentence: 'The inspection found negligible wear on the landing gear after the hard landing.',
   },
   {
@@ -445,7 +445,7 @@ registerWords([
     decoy: 'sunny',
     confusable: { word: 'myopic', meaning: 'shortsighted' },
     note: 'Different axis from multifarious: myriad means an enormous COUNT of one kind of thing (myriad stars); multifarious means many DIFFERENT kinds at once, not a big count of one thing.',
-    root: { form: 'myri-', sense: 'ten thousand, countless' },
+    root: { form: 'myri-', sense: 'ten thousand, countless', lang: 'Greek', examples: ['myriapod'] },
     sentence: 'The maintenance manual lists myriad fault codes, but only a few appear during a normal flight.',
   },
 
@@ -459,7 +459,7 @@ registerWords([
     related: 'criticize',
     decoy: 'assemble',
     confusable: { word: 'disparate', meaning: 'differ' },
-    root: { form: 'dis-, par-', sense: 'apart + equal (to treat as unequal)' },
+    root: { form: 'dis-, par-', sense: 'apart + equal (to treat as unequal)', lang: 'Latin', examples: ['par', 'parity', 'disparity', 'comparable'] },
     sentence: 'He disparaged the new manual without reading past the cover page.',
   },
   {
@@ -471,7 +471,7 @@ registerWords([
     related: 'flatter',
     decoy: 'wander',
     confusable: { word: 'exhort', meaning: 'urge' },
-    root: { form: 'ex-, toll-', sense: 'out + to lift, raise up' },
+    root: { form: 'ex-, toll-', sense: 'out + to lift, raise up', lang: 'Latin', examples: ['tolerate', 'tolerance'] },
     sentence: "The general extolled the maintenance team's work during the awards ceremony.",
   },
   {
@@ -483,7 +483,7 @@ registerWords([
     related: 'punish',
     decoy: 'harvest',
     confusable: { word: 'censor', meaning: 'restrict' },
-    root: { form: 'cens-', sense: 'to assess, judge' },
+    root: { form: 'cens-', sense: 'to assess, judge', lang: 'Latin', examples: ['census', 'censor', 'censorship'] },
     sentence: 'The board voted to censure the officer for the unauthorized flight.',
   },
   {
@@ -495,7 +495,7 @@ registerWords([
     related: 'gossip',
     decoy: 'swim',
     confusable: { word: 'degenerate', meaning: 'decline' },
-    root: { form: 'de-, nigr-', sense: 'thoroughly + black (to blacken)' },
+    root: { form: 'de-, nigr-', sense: 'thoroughly + black (to blacken)', lang: 'Latin', examples: ['denigration'] },
     sentence: "The report seemed designed to denigrate the previous commander's decisions.",
   },
   {
@@ -507,7 +507,7 @@ registerWords([
     related: 'join',
     decoy: 'camp',
     confusable: { word: 'expose', meaning: 'reveal' },
-    root: { form: 'e-, spous-', sense: 'out + to pledge, betroth (to bind oneself to a cause)' },
+    root: { form: 'e-, spous-', sense: 'out + to pledge, betroth (to bind oneself to a cause)', lang: 'Latin', examples: ['spouse', 'espousal'] },
     sentence: 'The candidate espoused a policy of stricter maintenance funding.',
   },
   {
@@ -519,7 +519,7 @@ registerWords([
     related: 'insult',
     decoy: 'cook',
     confusable: { word: 'vivify', meaning: 'animate' },
-    root: { form: 'vil-', sense: 'cheap, base, worthless' },
+    root: { form: 'vil-', sense: 'cheap, base, worthless', lang: 'Latin', examples: ['vile', 'revile', 'vilification'] },
     sentence: 'The tabloid piece seemed determined to vilify the pilot before the investigation even began.',
   },
 
@@ -533,7 +533,7 @@ registerWords([
     related: 'young',
     decoy: 'purple',
     confusable: { word: 'ancient', meaning: 'old' },
-    root: { form: 'nasc-', sense: 'to be born' },
+    root: { form: 'nasc-', sense: 'to be born', lang: 'Latin', examples: ['nature', 'native', 'nation', 'renaissance'] },
     sentence: 'The nascent training program had only three instructors when it began.',
   },
   {
@@ -545,7 +545,7 @@ registerWords([
     related: 'sudden',
     decoy: 'hollow',
     confusable: { word: 'incisive', meaning: 'sharp' },
-    root: { form: 'in-, cip-', sense: 'in + to begin, take' },
+    root: { form: 'in-, cip-', sense: 'in + to begin, take', lang: 'Latin', examples: ['capture', 'except', 'receive', 'participate'] },
     sentence: 'Ground crews caught the incipient crack in the wing spar during a routine inspection.',
   },
   {
@@ -558,7 +558,7 @@ registerWords([
     decoy: 'square',
     confusable: { word: 'retracted', meaning: 'withdrawn' },
     note: 'Not about words. Protracted means drawn out longer than expected in TIME (a protracted negotiation); prolix means too many WORDS, which is a different axis entirely.',
-    root: { form: 'pro-, tract-', sense: 'forward + to drag, draw out' },
+    root: { form: 'pro-, tract-', sense: 'forward + to drag, draw out', lang: 'Latin', examples: ['tractor', 'attract', 'contract', 'extract'] },
     sentence: "The protracted labor dispute delayed the base's construction contract for a full year.",
   },
   {
@@ -570,7 +570,7 @@ registerWords([
     related: 'peak',
     decoy: 'melt',
     confusable: { word: 'cultivate', meaning: 'nurture' },
-    root: { form: 'culmin-', sense: 'summit, top' },
+    root: { form: 'culmin-', sense: 'summit, top', lang: 'Latin', examples: ['culmination'] },
     sentence: "Months of drills culminated in the squadron's first live exercise.",
   },
   {
@@ -582,7 +582,7 @@ registerWords([
     related: 'succeed',
     decoy: 'iron',
     confusable: { word: 'supplicate', meaning: 'beg' },
-    root: { form: 'sub-, plant-', sense: 'under + to plant (to root out and replace)' },
+    root: { form: 'sub-, plant-', sense: 'under + to plant (to root out and replace)', lang: 'Latin', examples: ['plant', 'implant', 'transplant'] },
     sentence: 'The new radar system supplanted the aging unit within a single budget cycle.',
   },
   {
@@ -595,7 +595,7 @@ registerWords([
     decoy: 'silver',
     confusable: { word: 'transparent', meaning: 'clear' },
     note: 'Transient means passing or brief - about duration. Kinetic is about physical motion, not duration, so it isn\'t really a synonym here. Expedient is about a shortcut being practical (not necessarily fair or right), not about how long something lasts.',
-    root: { form: 'trans-, -i-', sense: 'across + to go (passing across, through)' },
+    root: { form: 'trans-, -i-', sense: 'across + to go (passing across, through)', lang: 'Latin', examples: ['transit', 'transition', 'exit', 'itinerary'] },
     sentence: 'The unit put up transient housing for aircrews passing through overnight.',
   },
   {
@@ -608,7 +608,7 @@ registerWords([
     decoy: 'loud',
     confusable: { word: 'ethereal', meaning: 'airy' },
     note: 'Ephemeral is about TIME - something that lasts only briefly (an ephemeral trend). Diaphanous is about TEXTURE - so light and thin you can see through it (a diaphanous veil). Different senses entirely.',
-    root: { form: 'epi-, hemer-', sense: 'upon + day (lasting only a day)' },
+    root: { form: 'epi-, hemer-', sense: 'upon + day (lasting only a day)', lang: 'Greek', examples: ['ephemera', 'ephemeris'] },
     sentence: 'The northern lights were ephemeral, gone again within twenty minutes of the first sighting.',
   },
 
@@ -623,7 +623,7 @@ registerWords([
     decoy: 'bitter',
     confusable: { word: 'miniature', meaning: 'small-scale' },
     note: 'Minuscule is pure SIZE - extremely small, full stop. Diminutive can mean small in size too, but it is also used for a small, often endearing form of something (a diminutive nickname), and for people.',
-    root: { form: 'minu-', sense: 'lessened, small' },
+    root: { form: 'minu-', sense: 'lessened, small', lang: 'Latin', examples: ['minute', 'diminish', 'minimum', 'minor'] },
     sentence: 'A minuscule crack in the fitting was enough to ground the aircraft.',
   },
   {
@@ -635,7 +635,7 @@ registerWords([
     related: 'wealthy',
     decoy: 'green',
     confusable: { word: 'exuberant', meaning: 'enthusiastic' },
-    root: { form: 'ex-, orbit-', sense: 'out of + orbit, track (off the normal course)' },
+    root: { form: 'ex-, orbit-', sense: 'out of + orbit, track (off the normal course)', lang: 'Latin', examples: ['orbit', 'orbital'] },
     sentence: 'The contractor billed an exorbitant rate for a repair that should have taken an hour.',
   },
   {
@@ -647,7 +647,7 @@ registerWords([
     related: 'famous',
     decoy: 'spicy',
     confusable: { word: 'prestigious', meaning: 'esteemed' },
-    root: { form: 'prodig-', sense: 'omen, marvel' },
+    root: { form: 'prodig-', sense: 'omen, marvel (a different root from "prodigal", which comes from a separate Latin verb meaning to squander)', lang: 'Latin', examples: ['prodigy'] },
     sentence: "The engineer's prodigious memory for tail numbers amazed the whole squadron.",
   },
   {
@@ -660,7 +660,7 @@ registerWords([
     decoy: 'furry',
     confusable: { word: 'tedious', meaning: 'boring' },
     note: 'Not the same as meager. Tenuous describes something weak or flimsy in structure (a tenuous link, a tenuous grip) - it\'s about fragility, not shortage.',
-    root: { form: 'ten-', sense: 'to stretch, hold thin' },
+    root: { form: 'ten-', sense: 'to stretch, hold thin', lang: 'Latin', examples: ['extend', 'tendon', 'tension', 'tent'] },
     sentence: "The prosecution's case against the supply sergeant was tenuous at best.",
   },
   {
@@ -683,7 +683,7 @@ registerWords([
     related: 'narrow',
     decoy: 'curved',
     confusable: { word: 'ambiguous', meaning: 'unclear' },
-    root: { form: 'ex-, ig-', sense: 'out + to drive (driven out, scanty)' },
+    root: { form: 'ex-, ig-', sense: 'out + to drive (driven out, scanty)', lang: 'Latin', examples: ['exact', 'exigent'] },
     sentence: 'The detachment survived on an exiguous fuel allotment for the entire exercise.',
   },
 
@@ -697,7 +697,7 @@ registerWords([
     related: 'retire',
     decoy: 'bake',
     confusable: { word: 'depreciate', meaning: 'devalue' },
-    root: { form: 'de-, prec-', sense: 'away + to pray (to pray away, avert by prayer)' },
+    root: { form: 'de-, prec-', sense: 'away + to pray (to pray away, avert by prayer)', lang: 'Latin', examples: ['imprecation', 'deprecatory'] },
     sentence: 'The manual now deprecates the old fuel-mixing procedure in favor of the automated system.',
   },
   {
@@ -709,7 +709,7 @@ registerWords([
     related: 'forgive',
     decoy: 'climb',
     confusable: { word: 'enumerate', meaning: 'list' },
-    root: { form: 'ex-, oner-', sense: 'out of + burden (to free from a burden, charge)' },
+    root: { form: 'ex-, oner-', sense: 'out of + burden (to free from a burden, charge)', lang: 'Latin', examples: ['onerous', 'exoneration'] },
     sentence: "New evidence exonerated the crew chief three months after the accident board's report.",
   },
   {
@@ -721,7 +721,7 @@ registerWords([
     related: 'ignore',
     decoy: 'knit',
     confusable: { word: 'repute', meaning: 'consider' },
-    root: { form: 're-, pud-', sense: 'again + to feel shame (to feel shame at, reject)' },
+    root: { form: 're-, pud-', sense: 'again + to feel shame (to feel shame at, reject)', lang: 'Latin', examples: ['impudent', 'repudiation'] },
     sentence: 'The general publicly repudiated the leaked report before the hearing began.',
   },
   {
@@ -733,7 +733,7 @@ registerWords([
     related: 'reward',
     decoy: 'sail',
     confusable: { word: 'audit', meaning: 'inspect' },
-    root: { form: 'laud-', sense: 'praise' },
+    root: { form: 'laud-', sense: 'praise (a different root from "applaud", which comes from "plaudere", to clap)', lang: 'Latin', examples: ['laudable', 'laudatory'] },
     sentence: 'Command lauded the flight for completing the mission without a single delay.',
   },
   {
@@ -745,7 +745,7 @@ registerWords([
     related: 'punish',
     decoy: 'type',
     confusable: { word: 'sanctify', meaning: 'bless' },
-    root: { form: 'sanct-', sense: 'holy, inviolable (something ratified as binding)' },
+    root: { form: 'sanct-', sense: 'holy, inviolable (something ratified as binding)', lang: 'Latin', examples: ['sanctuary', 'sanctify', 'saint'] },
     sentence: 'The base commander sanctioned the modified checklist after two weeks of testing.',
   },
   {
@@ -757,7 +757,7 @@ registerWords([
     related: 'doubt',
     decoy: 'hike',
     confusable: { word: 'impute', meaning: 'attribute' },
-    root: { form: 'in-, pugn-', sense: 'against + to fight' },
+    root: { form: 'in-, pugn-', sense: 'against + to fight', lang: 'Latin', examples: ['pugnacious', 'repugnant', 'pugilist'] },
     sentence: "The defense attorney impugned the witness's account of the timeline.",
   },
   {
@@ -769,7 +769,7 @@ registerWords([
     related: 'wound',
     decoy: 'hum',
     confusable: { word: 'excavate', meaning: 'dig' },
-    root: { form: 'ex-, cori-', sense: 'out of + skin (to strip the skin off)' },
+    root: { form: 'ex-, cori-', sense: 'out of + skin (to strip the skin off)', lang: 'Latin', examples: ['corium'] },
     sentence: "The inspector general's report excoriated the maintenance squadron for the missed deadline.",
   },
 ]);
