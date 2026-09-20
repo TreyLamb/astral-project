@@ -1,0 +1,2072 @@
+{
+  "id": "ch16",
+  "number": 16,
+  "title": "Microbial Ecology and Applied Microbiology",
+  "lead": "Applied microbiology is a discipline that deals with the application of microbes and knowledge about the microbes. The previous chapters discussed a few applications of microbes. Here we will present a few additional applications relevant to human well-being. Initially, we discuss microbial ecology to portray the human-microbe interactions in ecological terms. The remainder of the chapter presents a brief account of microbiology of water and food, and industrial microbiology. 1. Microbial Ecology Ecology is the scientific study of the interactions between organisms and their environment. An organism is a single entity; say a single cell of the bacterium Streptococcus mutans. Imagine that the bacterium is in the mouth of a person. Everything outside the physical body of the S. mutans cell its environment. The environment is made of biotic and abiotic components. The biotic components include all genome creatures, including human cells, and other cellular and acellular microbes in the mouth of the individual. The abiotic components include all the physical elements such as heat, light, gravitation, and air and water currents; and chemical components such as water, minerals, food residues, metabolites released by other microbes and human cells, and antimicrobial agents (such as dentifrice and breath freshener) the person may have applied. The study of the interactions of a single organism with its environment is organismal ecology. Organismal ecology deals with how an individual adapts (fits) to the environment. For example, S. mutans may grow as single cells or form colonies in a biofilm, depending on the availability of certain nutrients and other conditions. Because of their small body size, microbes are studied mostly at the population or community level (Fig. 16.1). A population is all the individuals of one species in a particular environment. A community is made of populations of all species thriving in the environment. Ecosystem ecology deals with interactions of biotic and abiotic components of the environment. Fig. 16.1. Ecological studies. A. The four levels of ecological studies. The study of an individual bacterium or a human subject is organismal ecology; the study of all members of S. mutans present in the oral cavity of a person is population ecology; the study of all populations of all species of the oral cavity is community ecology, and the study of the interactions of the biotic and abiotic components of the environment is ecosystem ecology. B. A microbial community on a dental plaque. The genomes of microbes in the plaque were hybridized with ten different oligonucleotide probes; each probe was labeled with a different fluorescent dye. Note the non-uniform distribution of the genome creatures in the plaque. Image Courtesy: Jessica Welch, Marine Biological Laboratory (https://www.mbl.edu/). The image was scanned using a Zeiss LSM 70 Confocal Microscope.",
+  "openstaxEquivalent": null,
+  "sources": {
+    "chapterPdf": "16. Microbial Ecology and Applied microbiology.pdf",
+    "pptPdf": "MMAHP Ch 16 PowerPoint Lecture Outline.pdf"
+  },
+  "sections": [
+    {
+      "number": "16.1.1",
+      "heading": "Population ecology",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Population ecology is the study of the interactions of a population with its environment. Population ecology investigates (a) the distribution of individuals of a species in the environment, (b) population density (number of organisms/unit area), (c) population growth (increase in the number of organisms of a species in the environment over a unit period), and other related aspects. Individuals of a population can be distributed in space uniformly, randomly, or clustered (Fig. 16.2), and the clusters can be distributed uniformly or randomly, based on the distribution of resources of the environment and some other factors. For example, bloodborne pathogens are distributed uniformly because the organisms are carried and distributed by blood flow. Since most microbes are nonmotile and resources are distributed non-randomly, most microbes grow in clusters of colonies. For example, bacteria that cause dental caries form a biofilm and cluster in certain anatomical structures of the mouth. Population growth We have discussed microbial population growth in Chapter 4. In a closed environment (a flask, for example), the growth curve of a bacterium shows four phases: the lag phase, log phase, stationary phase, and decline phase (see Fig 4.11). In the lag phase, the organisms express appropriate genes to acclimatize to the environment. As a result, the population grows slowly during the lag phase. During the log phase, the population doubles at regular intervals because of the abundance of nutrients and low concentration of toxic metabolic wastes in the environment. As the population increases, nutrients deplete, and waste materials accumulate. Such a condition reduces the growth rate and increases the death rate. During the stationary phase, the growth rate equals the death rate. Further depletion of nutrients and accumulation of excess toxic wastes increase the death rate and reduce growth, causing the population to enter the decline phase (Fig. 4.11).",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Population growth is controlled by population density-dependent and density-independent factors. The density- dependent factors include the current population size. The stationary and decline phases in the culture flask described above result from nutrient depletion and accumulation of toxic metabolic byproducts, which are density-dependent factors. Nutrients deplete, and toxic metabolites accumulate more rapidly as the population size increases. Density-independent factors would affect the population growth irrespective of the current population density of the given species. Density-independent factors include the presence of populations of other species and extreme changes in oxygen concentration, pH, osmotic pressure, and temperature. As described in Chapter 5, density-independent factors are manipulated in controlling microbial growth.",
+          "page": 2
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.2. Distribution of organisms in the habitat. A. Distribution patterns. I- uniform, II- random, III- random",
+          "page": 3,
+          "image": "/mmahp/ch16/16-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "clustered, IV- nonrandom clustered. B. The nonrandom clustered distribution of plaque-forming bacteria on teeth and gum. Shown are the teeth and gum of a person before (left) and after (right) staining with erythrosine, a dye that binds positively charged molecules of plaque-forming bacteria. The dental plaques are more abundant in the gum area, and less abundant in the exposed tooth surfaces. Image courtesy: Touzy LZG. J Denst Oral Disorders Ther 2017; 5(3):1-6. C. An SEM image of part of a microbial community in the dental plaque (x 20,000). Note the presence of cocci, bacilli, spirochetes, and actinomycetes in the plaque. The polysaccharide matrix of the biofilm is not visible in the image. Image source: Holliday R et al., BDJ Open 2015; 1 (15003); https://doi.org/10.1038/bdjopen.2015.3.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "In the natural environment, the population grows slowly, and both density-dependent and density-independent factors affect the growth. The population may grow exponentially, or the population growth may follow a logistic growth model (Fig. 16.3). In a logistic growth model, the population density stays at the stationary phase, which is the carrying capacity (K) of the environment (Fig. 16.3). Thus, if the actual population density (Ka) is smaller than K, the population would rapidly grow and then stabilize at K, but if the actual population is larger than K, the population would rapidly decline and then stabilize at K. If the existing population density is K, the population will sustain as such unless some of the limiting factors are changed. The growth curve usually does not enter a declining phase in natural environments, because metabolic wastes released by a species are recycled by other species of the community.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "A limiting factor is a single most important density-independent factor that controls population growth. Oxygen is a key limiting factor for the growth of aerobic bacteria. If oxygen is low, aerobic bacteria and all other aerobic organisms, including algae, aquatic invertebrates, and vertebrate animals, fail to grow, irrespective of the abundance of all other ingredients. Therefore, oxygen depletion creates dead zones in the lakes and gulfs. Large areas of the Gulf of Mexico and many other shallow seas of the world turn into a dead zone when the dissolved oxygen is depleted by excessive bacterial growth. Other limiting factors include temperature, light, water current, pH, and key nutrients.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "An increase in nutrient supply spurs rapid population growth beyond the carrying capacity (Fig. 16.3). For example, bacterial growth in the blood of an anemic patient is limited by iron scarcity. Iron supplements to the subject may cause rapid bacterial growth leading to the development of septicemia. Similarly, the limiting nutrient availability of a pristine lake supports limited microbial growth. However, an increase in nutrients to the lake due to the release of raw municipal sewage or fertilizer runoff from the nearby agricultural lands would rapidly increase the microbial population, leading to water pollution (discussed elsewhere in this chapter).",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.3. Growth of a population of an aerobic bacterium in close and open environments (idealized). A.",
+          "page": 4,
+          "image": "/mmahp/ch16/16-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Exponential versus logistic growth curves. Exponential growth is generally unsustainable. The three phases of a logistic growth curve (i.e., the lag, log, and stationary phases) are shown. See text for details. Redrawn after Cioruta B-V, DOI:10.5593/sgem2017H/63/S27.119). B. Growth of an aerobic bacterium in a pristine clean lake. The bacterial population grows slowly but exponentially if the resources are abundant and toxic metabolic wastes are recycled. If the nutrient supply is limiting, the growth curve stays in a prolonged stationary phase, at the carrying capacity of the environment. Availability of excess nutrients and/or other favorable conditions may cause population explosion (indicated by the pink bump on the curve) followed by depletion of oxygen and rapid decline of population size to the carrying capacity of the environment. K- carrying capacity, Ka- actual population density, K/2- maximum sustainable yield (the largest average harvest that can be removed without harming the population).",
+          "page": 4
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 2,
+          "title": "Microbial Ecology",
+          "bullets": [
+            "Ecology",
+            "Biotic components",
+            "Cellular organisms",
+            "Acellular creatures(!)",
+            "Abiotic components",
+            "Water and dissolved minerals",
+            "Soil minerals",
+            "Air",
+            "Energy (light, heat, current, etc.)",
+            "Space"
+          ]
+        },
+        {
+          "slideIndex": 4,
+          "title": "Population ecology",
+          "bullets": [
+            "Distribution",
+            "Uniform",
+            "Random",
+            "Clustered",
+            "Biofilm"
+          ]
+        },
+        {
+          "slideIndex": 5,
+          "title": "Population ecology 2",
+          "bullets": [
+            "Growth",
+            "Lag phase",
+            "Log phase",
+            "Stationary phase",
+            "Decline phases",
+            "Density-dependent factors",
+            "Population size",
+            "Community size",
+            "Density-independent factors",
+            "Physical factors, chemical",
+            "Limiting factors"
+          ]
+        },
+        {
+          "slideIndex": 10,
+          "title": "Aquatic microbes",
+          "bullets": [
+            "Planktonic",
+            "Pelagic",
+            "Benthic",
+            "Salinity",
+            "Freshwater",
+            "Brakish water",
+            "Seawater",
+            "Brine",
+            "Obligate haophile",
+            "pH",
+            "Acidophile",
+            "Alkaliphile"
+          ]
+        },
+        {
+          "slideIndex": 19,
+          "title": "Pollution",
+          "bullets": [
+            "Undesirable conditions of the natural environment due to",
+            "Pollutants- contaminants that appear in the environment at a rate",
+            "Air pollution- excess particulate and nonparticulate including naturally",
+            "Water pollution- excess soluble or non soluble substances, and heat",
+            "Soil pollution- excess visible or invisible substances in the soil altering its",
+            "Sound pollution- excess noise"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "16.1.2",
+      "heading": "Community Ecology",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "In natural environments, a species can only exist in a community, along with many other species. Some of the issues of community ecology are species diversity, inter-species interactions (such as competition, resource sharing, symbiosis, and disturbances.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Diversity",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "More diverse (species-rich) communities are more stable than less diverse communities. Metagenomic studies (see Chapter 3) indicate that well-aerated and wet organic soils may contain as many as a million species of microbes. The species diversity of the resident microbes in different parts of the human body varies from a few hundred species (in the mouth) to a few thousand species (in the large intestine) (see Chapter 12). Microbial diversity drops precipitously if the environment gets polluted.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Competition",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Two or more species that depend on the same type of resources compete. For example, lactobacilli and yeasts compete for the resources in the vagina. The hydrogen peroxide-producing strains of Lactobacillus, such as L. acidophilus, usually outcompete yeasts. Lactobacilli ferment sugar and accumulate lactic acid that lowers the pH of the environment. The lower pH further suppresses yeast growth. However, conditions (such as prolonged antibiotic use) that disfavor the growth of lactobacilli enable rapid growth of yeasts, which may lead to vulvovaginitis. Species may also engage in amensalism, where one species eliminates another by depriving the other species of resources (such as food or sunlight), and antibiosis, where one species releases chemical substances, including antibiotics, that kill or inhibit the growth of other species. Many fungi and soil bacteria synthesize/release antibiotics in the environment.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Resident microbiota of the mucous membrane occupy the receptors of the host cells and thus prevent soil microbes and aquatic microbes (that may come in contact with the body surfaces) from colonizing the body surfaces. Disturbances, such as the use of broad-spectrum antibiotics, may wipe out resident bacteria and allow pathogenic soil bacteria such as Pseudomonas aeruginosa, Yersinia enterocolitica, and Clostridium difficile to colonize the mucous membranes. Since many environmental bacteria are resistant to many antibiotics, such infections may lead to fatal consequences.",
+          "page": 5
+        },
+        {
+          "type": "subheading",
+          "text": "Predator-prey relationship",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Predators such as worms, worm larvae, amoebae, and lytic bacteriophages kill bacteria (the prey). Bacteriophages accidentally added to fermentation vats may rapidly kill fermenting bacteria. Bacteriophage contamination can cause significant economic losses in the dairy industries that utilize fermenting bacteria. The dairy industry likes to develop fermenting bacterial strains that are resistant to phage predation. Lytic phages are also used in treating multidrug-resistant bacterial infections in humans. Note that the predator-prey relationship is not a competition because predators and prey do not eliminate each other through the process. For example, bacteriophage l stop killing their prey (E. coli) if the bacterial population goes critically low. Under such conditions, the phage takes the lysogenic route of infection (see Chapter 6). Lysogeny protects the infected E. coli cells from infection by the same and related phages. The predator-prey relationship causes the species to undergo the process of coevolution. Thus, bacteria develop CRISPR in their genomes to prevent phage infections, and phages mutate to overcome the host immunity.",
+          "page": 5
+        },
+        {
+          "type": "subheading",
+          "text": "Resource partitioning: Ecological niches",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Organisms in the natural environment usually do not compete; rather, they partition and share the available resources. For example, some oral bacteria (Streptococcus mutans) occupy tooth surfaces, but Treponema sp. occupies the gingival cavity. Different bacteria may also prefer different nutrients, and some species use waste products released by another species of bacterium. Such partitioning of resources indicates occupying different ecological niches (an ecological niche is a position in the ecosystem that matches the ecological needs of the species).",
+          "page": 5
+        },
+        {
+          "type": "subheading",
+          "text": "Symbiosis",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Organisms of an environment may live together in direct physical contact, a phenomenon known as symbiosis (Fig. 16.4). Three distinguishable types of symbiotic relationships are mutualism, commensalism, and parasitism.",
+          "page": 5
+        },
+        {
+          "type": "subheading",
+          "text": "Mutualism",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "In mutualism, both partners benefit through the relationship. A very good example of mutualism is the symbiosis of the root nodule bacterium (Bradyrhizobium japonicum) and soybean plants. Here the bacterium fixes atmospheric nitrogen, a key nutrient for plants. In return, the bacterium obtains shelter in the root nodules and some nutrients from the host plant (Fig. 16.4). The rumen bacteria and cattle also have a mutual relationship. Cattle lack enzymes to digest hay. The rumen bacteria digest cellulose in hay and allow cattle to survive on hay. In return, the rumen bacteria obtain shelter and food in the rumen. Some of the resident bacteria of the human body (for example, E. coli in the intestine) may also have a mutual relationship with the host body. The bacterium obtains food and shelter from the host body but also releases some micronutrients (such as vitamins) utilized by the host body.",
+          "page": 5
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.4. Symbiotic relationships. A. Mutualism. Shown are nodules in the roots of a burclover plant harboring",
+          "page": 6,
+          "image": "/mmahp/ch16/16-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "millions of Sinoyrhizobium meliloti (a bacterium). Image Courtesy: Ninjatacoshell (Wikimedia). B. Commensalism. Shown is a digitally colored SEM image of four Salmonella enterica var enteritis cells (colored pink) on the surface of the ruffled plasma membrane of an epithelial cell (colored yellow) of the human intestine. Note the thread-like peritrichous flagella of the bacterium. Image: CDC-PHIL (NIAID). C. Parasitism. Shown is a photograph of two hookworms (Ancyclostoma caninum) biting on the intestinal mucosa of a dog. Image: CDC-PHIL. D. Endosymbiosis. Shown is a confocal image of a stage 15 aphid embryo. Many bacteriocytes (i.e., special bacteria-harboring cells) of the embryo (stained green) have the endosymbiotic bacterium Buchnera sp. (stained red). Image courtesy: Braendle C et al. PLoS Biol 2003; doi.org/10.1371/journal.pbio.0000021. Recent metagenomic and biochemical studies indicate that certain members of the gut microbiome digest food that the human gut cannot digest or absorb. The gut microbiome renders the food absorbable by the intestinal tissue. Such bacterial species are likely more abundant in the gut microbiome of obese and overweight individuals, but rare or absent in the gut of slim individuals. Studies also indicate that the resident microbiome affects the immune system and neurophysiology of our body (see Chapter 12).",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Commensalism",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Commensalism is a relationship where one of the partners remains unaffected, but the other partner is benefited. Salmonella enterica is found in the intestine of most vertebrate animals (Fig. 16.4), apparently without causing disease. The bacterium obtains nutrients and shelter from the host body, but there is no indication that the bacterium benefits the host in any significant way. The host may suffer no consequence if this bacterium is removed from the host. Thus, S. enterica can be considered a commensal to human subjects.",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Parasitism",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Parasitism is a relationship where one of the partners is benefited at the cost of the other partner (Fig. 16.4). All primary pathogens are parasites. Note that some disease-causing organisms (disease-causing soil bacteria, for example) are not true parasites because humans are incidental victims, not a regular biological host of soil organisms.",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Endosymbiosis",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "In endosymbiosis, one of the symbionts lives inside the cell of the other partner. Mitochondria and chloroplasts are the two most important endosymbionts. Most endosymbionts are in mutual relationships with their hosts. The alga Zoochlorella sp. found inside the cells of the protozoan Paramecium bursaria, and the bacterium Buchnera sp. found in the cells of aphids (Fig. 16.4), are some other examples of endosymbionts. The genomes of endogenous retroviruses found in the genomes of eukaryotic cells are genomic endosymbionts. Genetic experiments have shown that some avian endogenous retroviruses are in a mutual relationship with the host cell. Removal of the viral genome from the bird genome can be harmful to the host. However, some endogenous retroviruses of pigs are parasitic or commensals because pigs shed endogenous retroviruses produced by some porcine cells, and removal of some endogenous viruses is harmless to the host animals.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Formation of microbial communities and ecological succession The intestine of a newborn is sterile. However, within a day of birth, the intestine becomes populated with certain bacteria. In the following days and weeks, some of the bacterial species disappear, others appear, and some become established in the intestine. Such establishment of a community in a fresh environment is primary succession (Fig. 16.5). Other body surfaces, including the eye, mouth, nose, middle ear, and vagina of an infant, get populated by maternal microbiota during and after childbirth. The establishment of a proper resident microbiota is essential for the development of a functional immune system. Notably, the adaptive immune system is poorly developed in organisms raised in a germ-free environment (see Chapter 12).",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "The microbial community established on the skin and mucous membranes of a healthy subject can be disturbed by burn injuries and the use of broad-spectrum antibiotics. Such disturbances could open the possibility of infection of the affected tissues by environmental microbes (such as Pseudomonas aeruginosa in the burned skin and Clostridium difficile in the intestine). A disturbed environment gets repopulated with a microbiota through a process known as secondary succession. For example, healing of the skin wound would allow reestablishment of the normal skin microbiota. Similarly, discontinuing broad-spectrum antibiotics and using probiotics (introducing live beneficial microbes into the body), or fecal transplantation (introduction of feces from a next of kin directly into the intestine of the affected subject), may help reestablish the normal gut microbiota. As in primary succession in a new environment, recovery of a disturbed community involves successive arrivals and disappearances of specific species until the establishment of a new community. The gut microbiota can be manipulated for therapeutic purposes, such as treating obesity and irritable bowel syndrome (IBS).",
+          "page": 7
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.5. The transition of the gut microbiota during early childhood. The color of the circle indicates the",
+          "page": 7,
+          "image": "/mmahp/ch16/16-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "families of bacterial species, and the size of the circles indicates relative abundance of the bacterial families. Bifidobacterial species (phylum Actinobacteria) dominate the gut of infants, but as the children get solid food by the age of 4-6 months, additional families of actinobacteria (i.e., families Lachnospiracea, Clostridiaceae, and Ruminococcaceae) occupy the intestine. By the age of 2-3, families Bacteroidaceae (phylum Bacteroidetes), Lachnospiraceae, and Ruminococcaceae become established and remain so until adulthood. As bacterial diversity increases with age, interpersonal differences in gut bacterial species diversity reduce. Figure courtesy: Arrieta M-C, et al. Front Immunol 2014; 5(1): DOI:10.3389/fimmu.2014.00427.",
+          "page": 7
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 3,
+          "title": "Ecological hierarchies",
+          "bullets": [
+            "Organismal ecology",
+            "Population ecology",
+            "Community ecology",
+            "Ecosystem ecology"
+          ]
+        },
+        {
+          "slideIndex": 6,
+          "title": "Community ecology",
+          "bullets": [
+            "Diversity",
+            "Species-rich complex community",
+            "Species-poor simple community",
+            "Competition",
+            "Resident biota and competition",
+            "Amensalism",
+            "Antibiosis"
+          ]
+        },
+        {
+          "slideIndex": 7,
+          "title": "Noncompetitive relationships",
+          "bullets": [
+            "Predator prey relationship",
+            "Keystone species",
+            "Coevolution",
+            "Resources partitioning",
+            "Ecological niches",
+            "Symbiosis",
+            "Parasitism",
+            "Comensalism",
+            "Mutualism",
+            "Endosymbioisis",
+            "Established",
+            "Evolving"
+          ]
+        },
+        {
+          "slideIndex": 9,
+          "title": "Ecological succession",
+          "bullets": [
+            "Primary succession",
+            "Newborn body and gut",
+            "Disturbance",
+            "Volcanic eruption",
+            "Flood, wildfire",
+            "Pollution, accidents",
+            "Antibiotic use",
+            "Secondary succession",
+            "Probiotics",
+            "Fecal transplantation"
+          ]
+        },
+        {
+          "slideIndex": 11,
+          "title": "Soil microbes",
+          "bullets": [
+            "Particles",
+            "Rock dust",
+            "Humus",
+            "Porosity",
+            "Air and water channels",
+            "Waterlogging",
+            "Nitrogen fixation",
+            "Free-living",
+            "Root-nodules",
+            "Rhzosphere",
+            "Ecto",
+            "Endo"
+          ]
+        },
+        {
+          "slideIndex": 36,
+          "title": "HCAAP used in the food industries",
+          "bullets": [
+            "Applicable to Food handlers",
+            "Proper handwashing by workers",
+            "Control of employee health conditions",
+            "Applicable to production methods",
+            "Safety of water contacting food items and the preparation surfaces",
+            "Conditions of utensils and worker wares",
+            "Contact of raw products and unsanitary products to food items",
+            "Applicable to production facilities",
+            "Contact of non-food chemicals (lubricants, disinfectants, etc.) with food",
+            "Proper labeling and safe storage of the hazardous chemicals",
+            "Exclusion of pests"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "16.2",
+      "heading": "Microbes in the environment",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Microbes, including bacterial viruses, bacteria, and bacterial endospores, archaea, fungi, fungal spores, worms, and their eggs and larvae, are the most abundant life forms, both in biomass and diversity. Our knowledge of the biology of microorganisms in their native environment is still very primitive. Here is an anecdotal presentation of the subject.",
+          "page": 7
+        },
+        {
+          "type": "subheading",
+          "text": "Water",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Freshwater of streams, rivers, many natural wells, and lakes and ice-melt contains <0.5% salt. Seawater contains 3.5% salt, and the brackish water of the estuaries (where rivers meet the seas) contains 0.5-3.5% salt. Some lakes are salty (salt concentration >0.5%), and/or alkaline (pH >9.0) and/or acidic (pH <5.0) because of the presence of excessive salt, alkali (such as sodium hydroxide), or inorganic acids (such as sulfuric acid) in the water. The water of thermal vents is very hot (temperature as high as 500oC), and the water of the permafrost and polar regions is extremely cold. However, microbes thrive in all these aquatic environments. Microbes in the freshwater environment include archaea, bacteria, cyanobacteria, algae, water molds, diatoms, fungi, worms, and their eggs and larvae. Depending on the concentrations of the nutrients, oxygen, and toxic chemicals in water, microbial abundance varies widely (1x101-1x108/ml). Some archaea, bacteria, cyanobacteria, algae, and arthropods may grow in extreme environments such as thermal vents, hot geysers, soda lakes, and brine (salt concentration >10%).",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Natural freshwater environments are generally nutrient-poor; thus, they carry modest microbial biomass. Clean fresh water and brackish water usually contain low levels of soil bacteria, cyanobacteria, some algae, protozoa, worms, and their larvae. Enteric microbes such as E. coli, amoebae, Giardia sp., and Cyclospora sp., and naked viruses such as hepatitis A virus, may be present in water if animal waste or raw sewage is released to water. These pathogenic microbes may contaminate drinking water, shellfish grown in such water, and fruits and vegetables grown and washed using such water. The brackish water of the estuaries receives nutrients carried by the rivers. Undisturbed estuaries are some of the most productive environments. Bacteria, cyanobacteria, dinoflagellates, diatoms, and various types of algae grow abundantly in brackish water.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Marine water is nutrient-poor and poor in microbial mass. Nonetheless, microbes can be found everywhere in the ocean. A metagenomic survey by genome scientist Craig Venter (2008) indicated that there are millions of different bacterial types in the marine environment. Algae and some bacteria produce food at the surface of the seas. Dead algae, bacteria, and other organisms produce a nutrient rain that supports a small number of organisms in the water column and the sea bottom (abyssal region). The deeper water and the abyss are dark and cold. Many bacteria (both free-living and symbiotic) in these zones produce bioluminescence (Fig 16.6). The bioluminescent bacteria are anaerobes. These bacteria produce an enzyme called luciferase. The enzyme oxidizes reduced flavin mononucleotide (FMNH2) to FMN. The main purpose of this reaction is probably detoxifying oxygen, but it might have other purposes. Other animals, including many bottom-dwelling invertebrates and fishes, capture the bacteria and develop a symbiotic relationship (Fig. 16.6). The light-emitting capacity of the symbiotic organisms (invertebrates and fishes) is involved in social (mating) behavior, avoiding predators, attracting prey, and many other functions.",
+          "page": 8
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.6. Microbes in extreme aquatic environments. A. Bacteria (appearing as fluorescent dots) on the ice",
+          "page": 9,
+          "image": "/mmahp/ch16/16-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "crystals of permafrost. Image: www.gi.alaska.edu/. B. Bacteria grown from brine (~20% salt) of the Great Salt Lake, Utah. Image courtesy: Dr. Jonathan Oaks. C. An SEM image of bacteria harvested from a hydrothermal vent. Image courtesy: people.cornellcollege.edu/. D. Vibrio fischeri, a luminescent marine bacterium (a free- living strain). Shown are two photographs of the same plate. The photograph on the left used an ambient light source; the photograph on the right used bioluminescence of the bacterial colonies as the light source. Photo from NSF Multimedia Gallery (original image: J. W. Hastings, Harvard University, through E. G. Ruby, University of Hawaii). E. A glowing squid. The bacterium in the luminescent organs of this squid is an endosymbiotic strain of Vibrio fischeri. Image from NSF Multimedia Gallery (original Image: M. J. McFall-Njai and E. G. Ruby. University of Hawaii).",
+          "page": 9
+        },
+        {
+          "type": "subheading",
+          "text": "Soil",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Soil is a mixture of granulated rocks, organic substances (mainly polysaccharides of plant origin), moisture, and microbes. The microbial diversity of soil depends on nutrient and water availability, soil porosity (i.e., oxygen availability in air capillaries), and the absence of toxic substances. Bacteria, cyanobacteria, fungi, protozoa, and worms are the major microbes of soil. As many as 1x107 microbes of as many as 500 different species can be present in one gram of well-aerated organic soil. Some microbes (bacteria) stay attached to the rock granules of soil, some (fungi, algae, worms) grow between the granules, and some microbes grow inside other organisms (plants and animals) of the environment.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "The root zone (rhizosphere) of soil is particularly rich in nitrogen-fixing bacteria and fungi. The roots of nearby plants release nutrients (especially sugars) into the soil to attract microbes. Many species of free-living bacteria, including the genera Azotobacter, Beijerinckia, and several cyanobacteria) use the nutrients, grow, and fix nitrogen. Other bacteria (for example, Bradyrhizobium japonicum, Frankia sp., and several cyanobacteria) enter the root tissue or even root cells and fix nitrogen as endosymbionts (Fig. 16.4). Nitrogen-fixing organisms have an enzyme called nitrogenase. The enzyme breaks molecular nitrogen (N2) and attaches three H atoms to each of the two N atoms. The reaction (N2+3H2 à 2NH3) is an endergonic reaction, and it depends on the ATP generated through sugar oxidation. Since NH3 is water-soluble, it is a readily available nutrient for plants. Many plants also have a symbiotic relationship with various soil fungi (mycorrhizae). The ectomycorrhizae are fungi that cover the root hairs like a mat, whereas endomycorrhizae penetrate inside the outer layer of the root tissue and grow there (Fig. 16.7). In this symbiosis, the fungi offer protection from pathogens and mineral nutrients to the plants; the plants offer organic carbon to fungi. Such a symbiotic relationship is almost obligatory to some trees. For example, some pine seedlings would not grow if the mycorrhizal partner is unavailable in the soil.",
+          "page": 9
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.7. Mycorrhizae. A. Ectomycorrhiza grow outside the root (left, the strings of hyphae covering the root",
+          "page": 10,
+          "image": "/mmahp/ch16/16-7.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "surface), endomycorrhizae grow inside some selected cells of the root (right). Mycorrhizae increase the absorption surfaces of plant roots by as much as 700-fold. Image courtesy: Jeff Schalau (https://cals.arizona.edu/). B. A pine sapling with extensive ectomycorrhizae (the whitish mass of fungal hyphae) covering the entire root system of the sapling. Note the high root to shoot ratio of the sapling. Image courtesy: https://lurpenaturalsolutions.com/.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Soil conditions may change rapidly. Soil can be inundated and waterlogged (i.e., devoid of gaseous oxygen; the capillaries are occupied entirely by water) or dry (lack of water in capillaries) in different months of the year. Soil microbes are somewhat adapted to such extreme conditions. Many soil bacteria are endowed with unusual physiological capacities. Pseudomonas aeruginosa and Burkholderia cepacia, two common soil bacteria, may use many different organic materials (including toxic organic compounds) as nutrient sources. Some soil bacteria (of the genera Clostridium and Bacillus) produce highly resistant endospores. Some actinomycetes, several species of the genus Bacillus, and many soil fungi produce antibiotics. Larvae of some of the parasitic nematodes may survive in moist soil (devouring bacteria) for many months, waiting to invade animal hosts. Many free- living nonparasitic flatworms and nematodes live in the soil. Some soil nematodes infect plants and other soil organisms.",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "Air",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Leave a lid-free blood agar plate in a room for one hour, put the lid on, and then incubate the plate at 37 oC overnight. The following morning you will see a multitude of bacteria (and probably some fungi) growing on the plate (Fig. 16.8). Microbes in the room air are a major source of microbial contamination of wounds, food items, and microbial culture media. To prevent microbial infections, microbes in the air of operation theaters and laboratory hoods are killed by short-wavelength UV radiation and/or removed by high-efficiency particulate (HEPA) filters.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Viable microbe count/unit volume of air can be directly measured using a microbial air sampler (Fig. 16.8). Humidifiers, water fountains, and cooling towers of thermal power plants aerosolize aquatic microbes. Water- loving environmental bacteria such as Legionella pneumophila can be abundant in the moist air released by such facilities. Microbes attached to dust particles are readily carried by air. Viable microbes may stay afloat in the air for months or longer. Scientists observed that wind carries microbes from eastern China across the Pacific to the United States. Scientists have used airplanes to collect particles 10 km above sea level and found that about 20% of the particles are bacterial cells. These floating bacteria help seed cloud formation because ice crystals grow around the bacteria, which enhances condensation to form raindrops. Thus, atmospheric bacteria may influence the local weather.",
+          "page": 10
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.8. Microbes in the air. A. Bacterial colonies grew on a blood agar plate exposed to unfiltered (left) and",
+          "page": 11,
+          "image": "/mmahp/ch16/16-8.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "filtered (right) room air of a Danish Hospital. The diverse colony types indicate the presence of many different species of microbes in the air. Image courtesy: Song Z, et al., Orthopedic Rev 2013; 5(2): 65-71. B. A microbial air sampler (SS100). The machine can be used to suck a measured volume of air to deposit the microbes therein directly on an agar plate. Image Courtesy: Rapid Microbiology (https://www.rapidmicrobiology.com/). Trophic level and energy transfer Energy is harvested by producers; consumers obtain energy by consuming producers (and other consumers), and when producers and consumers die, decomposers recycle nutrients and return them to the environment (Fig. 16.9). All producers and decomposers are microbes. Thus, photosynthetic bacteria, chemosynthetic bacteria, and chloroplasts of algae and plants are the autotrophs (they synthesize organic compounds using CO2 and water) and the producers supporting the community. Protozoa and animals are the consumers; some bacteria, fungi, and some invertebrates are decomposers. Energy from the producers passes through a series of different consumers. The series is called a food chain. The interconnected food chains of an environment constitute the food web (Fig. 16.9).",
+          "page": 11
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 12,
+          "title": "Microbes in the air",
+          "bullets": [
+            "Microbes in the dust",
+            "Microbes in cloud seeding",
+            "Microbe in moisture",
+            "Humidifier, water towers, etc.",
+            "Sampling airborne microbes",
+            "Air samplers",
+            "Hepa filters",
+            "Microbes (fungi) in household air"
+          ]
+        },
+        {
+          "slideIndex": 13,
+          "title": "Trophic structure",
+          "bullets": [
+            "Producers",
+            "Green sulfur, purple",
+            "Consumers",
+            "Zooplanktons, soil",
+            "Decomposers",
+            "Bacteria and fungi",
+            "Food chain",
+            "Food web"
+          ]
+        },
+        {
+          "slideIndex": 21,
+          "title": "Water microbiology",
+          "bullets": [
+            "Definitions",
+            "Water contamination vs pollution",
+            "Sources of water pollution",
+            "Physical changes",
+            "Heat",
+            "Radioactivity",
+            "Chemical changes",
+            "Synthetic chemicals",
+            "Crude oils",
+            "Petrochemicals",
+            "Heavy metals",
+            "Biodegradable",
+            "Non-biodegradable",
+            "Bioremediation",
+            "Phytoremediation",
+            "Biological changes",
+            "Coliforms",
+            "Fecal viruses"
+          ]
+        },
+        {
+          "slideIndex": 23,
+          "title": "Drinking water",
+          "bullets": [
+            "Source",
+            "Surface water",
+            "Groundwater",
+            "Excess groundwater extraction",
+            "Irrigated agriculture",
+            "Arsenic and lead contamination",
+            "Aquifer depletion",
+            "Land subsidence",
+            "Climate change effect",
+            "Unpredictable rainfall, droughts,",
+            "Coastal flooding",
+            "Salinity intrusion"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "16.3",
+      "heading": "The biogeochemical cycles",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "There is a limited supply of soluble macronutrients (i.e., carbon, nitrogen, sulfur, and phosphorus compounds) and other life-supporting chemical compounds in the Earth's crust. A small amount of those compounds is fixed in plant and animal tissues, and a vast amount is settled in the seawater and the Earth's crust. The compounds must be recycled for the continuous existence of diverse life forms in the earth's environments. The recycling process could be entirely physical/geochemical (i.e., by the actions of electromagnetic radiation, heat, gravitation, wind and water current, movement of the Earth’s crust, etc.), or partly physical/geochemical and partly biological (i.e., by the actions of living things such as microbes, plants, and animals). Oxygen and water are recycled entirely by the physical/geochemical processes. Oxygen dissolves in water; the dissolved oxygen then circulates in water bodies through water currents and upwelling of water in the oceans. The process is slow, a reason why the bottom region of some lakes and gulfs can turn anoxic. Photosynthetic organisms release a vast amount of oxygen back to the atmosphere.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Water is cycled through evaporation of the seawater; cloud formation; movement of the clouds due to air currents; precipitation and snowfall; penetration of water to the ground; formation of lakes, rivers, and glaciers; and their emptying to the seas.",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.9. Microbes in the energy flow of the soil ecosystem. A. Microbes may serve as producers, consumers,",
+          "page": 12,
+          "image": "/mmahp/ch16/16-9.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "and decomposers. Shown are producers such as cyanobacteria (top), consumers such as nematodes and their larvae (middle), and decomposes such as soil molds (bottom). B. The food web of a soil environment. The arrows connected the predators to their prey. Image source: USDA.",
+          "page": 12
+        },
+        {
+          "type": "subheading",
+          "text": "The carbon cycle",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbes have a significant role in the recycling of C, N, S, and P, as briefly described below. Every year, chloroplasts (of plants and algae), cyanobacteria, and green and purple photosynthetic bacteria fix some 1.1 × 10^11 tons of CO2 to synthesize organic carbon compounds. All other organisms obtain organic carbon compounds produced by these producers. Respiration by aerobes, decomposition of dead organisms, and burning of biomass return some of the fixed carbon back to the atmosphere (Fig. 16.10), mostly as CO2 gas. Some archaea (i.e., methanogens) also release carbon as methane gas (CH4). Some fixed carbon deposits at the bottom of water bodies and get covered by sediments. The trapped fixed carbon becomes peat and later coal, oil, and gas deposits through geological processes.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "About 5 × 10^12 tons of fixed carbon is present in the Earth's crust. The movement of the Earth's crust makes the fixed carbon available for human consumption. About 9 × 10^9 tons of fossilized fixed carbon is mined in the form of coal, crude oil, and natural gas and burned every year. Burning these fossil fuels releases enormous amounts of carbon (and oxides of nitrogen and sulfur) back to the atmosphere. During the last two centuries, the net annual release of carbon to the atmosphere is higher than the net annual amounts of carbon mineralized. As a result, the atmospheric CO2 level has steadily increased from 320 ppm in the 1960s to 430 ppm in 2026. CO2 and oxides of nitrogen are greenhouse gases (trap heat, preventing heat from dissipating to outer space). The increased CO2 level in the atmosphere is a contributor to global warming. About one-half of the CO2 released through burning fossil fuels dissolves in ocean water and turns to bicarbonate (HCO3-) ions. The accumulated bicarbonate ions have reduced the ocean pH from 8.2 to 8.1 (i.e., a reduction of 30%) over the past century. The low pH of seawater is detrimental to shelled microbes (such as dinoflagellates and diatoms) and shelled animals (such as mollusks). These organisms need to use more energy to deposit calcium salts to build their shells if the pH of water is < 8.2.",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.10. The carbon and nitrogen cycles. A. The carbon cycle involves carbon fixation by bacteria, algae,",
+          "page": 13,
+          "image": "/mmahp/ch16/16-10.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "and plants, respiration, decomposition, fossilization, and use of fossil fuels. B. The nitrogen cycle involves microbial and chemical (i.e., the Haber process of) nitrogen fixation, human use of mineral nitrates, and microbial denitrification (nitrogen fixation and denitrification in the aquatic environment are not shown). Burning fossil fuels also contributes to the release of nitrogen into the atmosphere. Image source: https://philschatz.com/biology.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "The nitrogen cycle",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "The nitrogen cycle is outlined in Fig. 16.10. There is a limited amount of soluble nitrate (mostly sodium and potassium nitrates) in the Earth's crust. Plants and other photosynthetic organisms depend on soluble nitrates for nitrogen. About 78% (by volume) of the air is nitrogen gas. However, nitrogen gas is inert and insoluble in water. A small amount of atmospheric nitrogen reacts with oxygen and water because of the energy released by lightning. Some free-living and some symbiotic bacteria and cyanobacteria fix about 200 million tons of atmospheric nitrogen every year through the following reaction N2 + 16ATP + 16H2O + 8e- + 8H+ à 2NH3 + H2 + 16ADP + 16 PO4 The fixed nitrogen is available immediately as NH3. Ammonia is highly soluble in water. With water, ammonia produces NH4+ ions. Aerobic nitrifying bacteria convert ammonia to nitrite and then to nitrates through the reactions NH3 + H2O à NH4+ + -OH- NH4+ + O2 à NO2- + H20 + 2H+ NO2- + O2 à NO3-.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Nitrates are highly soluble. The solution penetrates the earth and is readily absorbed by soil microbes and plants. Consumer organisms obtain nitrogen from producers. Consumers excrete some nitrogen, and both producers and consumers release nitrogen upon death and decomposition. Protein and nucleic acids (two major nitrogen- containing organic compounds) are decomposed by bacteria and fungi into ammonia and other nitrogenous compounds. Some nitrate compounds are reduced to NO2 gas and molecular nitrogen by denitrifying bacteria under anaerobic conditions, thus completing the nitrogen cycle (Fig. 16.11). Some fixed nitrogen in plants and animals becomes part of the fossil fuels as described previously.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "At present, the release of nitrogen compounds (i.e., oxides of nitrogen) to the atmosphere is quite high because of the burning of fossil fuels and plant biomass. The oxides of nitrogen react with moisture and produce nitric acid and contribute to acid rain. Industrially developed countries use the Haber process to produce about 230 million tons of NH3 every year using atmospheric nitrogen gas and mined natural gas. The Haber process uses high pressure (200 atmospheres) and temperature (400 oC) and iron as the catalyst to conduct the chemical reaction N2 + 3H2 à 2NH3. Ammonia is used as fertilizer and in manufacturing urea and other chemicals, including explosives. Excess nitrates (and nitrites) present in fertilized farmlands get leached as agricultural runoff and end up in the nearby water bodies or groundwater. The US Environmental Protection Agency (EPA) has set the upper limit of nitrate in drinking water at 10 mg/liter. Wastewater released from households and farms may contain 25-100 mg/liter of nitrate. Nitrates and nitrogen oxides are the major pollutants of water and air, respectively.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "The phosphorus cycle",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Phosphate-containing rocks come to the land through volcanic activities and the movement of the Earth's crust. Phosphates, the main sources of phosphorus, are poorly soluble. Bacterial enzymes and acids acting on the phosphate rocks release some orthophosphate (-PO43-) ions to be absorbed by bacteria and plants. Animals obtain phosphates through food. Excretion, death, and decomposition of animals and plants release phosphates to nature (Fig. 16.11). Microbes only have a limited role in phosphate cycling. Guano (deposits of bird and bat droppings) was once used as a major source of phosphate fertilizer in the past century, but almost all guano deposits have been exhausted.",
+          "page": 14
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.11. The phosphorus and sulfur cycles. A. The phosphorus cycle involves the leaching of phosphate",
+          "page": 14,
+          "image": "/mmahp/ch16/16-11.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "ions by bacterial enzymes, mining of phosphate rocks, absorption of phosphate ions by living organisms, death and decay of living organisms, water carrying phosphate ions to the ocean, precipitation of phosphate ions on the seafloor, and movement of the Earth's crust. Poor solubility of phosphate compounds slows down phosphate recovery. B. The sulfur cycle. Bacteria recycle sulfur efficiently. Note that human activities such as burning fossil fuels, nitrogen fixation by the Haber process, and the use of mined phosphate rocks as fertilizers add excess C, N, S, and P to the biosphere. Image source: https://philschatz.com/biology.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Globally, about 250 million tons of phosphate rocks are mined every year and used in manufacturing highly soluble fertilizers (ammonium phosphate). Phosphates not used by crop plants leach to lakes and rivers, which may cause rapid bacterial and algal blooms in the water. Phosphates precipitate in saltwater and deposit on the bottom of the seas. It takes millions of years of tectonic movement of the Earth's crust for the sea-bottom phosphate to return to the land. Scientists predict that the phosphate ores that can be mined affordably will be depleted in 50-100 years. At that point, phosphate must be recovered from the seafloor to sustain agriculture. The sulfur cycle The sulfur cycle is outlined in Fig. 16.11. Sulfur is abundant in the Earth's crust, soil, and water as sulfate ions, sulfate salts (i.e., limestone deposits), hydrogen sulfide, and elemental sulfur. Several species of bacteria are intensely associated with sulfur cycling. Plants, fungi, and bacteria absorb sulfur as sulfate ions (SO42-). Sulfur is incorporated into protein (methionine and cysteine) and in proteoglycans. Death and decomposition of cells release sulfur in the form of H2S gas. In the aquatic environment, the gas bubbles upward from the bottom mud. Some photosynthetic bacteria (i.e., green sulfur bacteria and purple sulfur bacteria) and chemolithotrophic sulfur bacteria use H2S as a source of electrons and, in the process, release elemental sulfur.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "(a) H2S à S + H+ + 2e- (b) H2S +O2 à S + H2O + Energy Reaction (a) is conducted by photosynthetic sulfur bacteria. Reaction (b) is conducted by chemolithotroph sulfur bacteria to generate energy. Sulfur may accumulate as sulfur granules in some bacteria. However, some chemolithotrophic bacteria may convert the elemental sulfur to sulfate ions by the following process. (c) S + O2 + H2O à SO42- + H+ + Energy (i.e., ATP) Reaction (c), in theory, completes the biological sulfur cycle. Sulfate ions react with water and produce sulfuric acid. The local environment and bacterial species diversity determine whether elemental sulfur or sulfuric acid accumulates in the environment. The sulfuric acid may accumulate in the sulfur-rich mining pools where pH may reach 2.0. Thiobacillus sp., an extreme acidophile bacterium, creates such an environment and thrives there. Thiobacillus sp. can also use iron sulfide to produce sulfuric acid and elemental iron. Some bacteria in the hydrothermal vents of the seafloor oxidize H2S and produce enough energy to sustain a small community. Various species of fish, crustaceans, mollusks, and polychaete tubeworms live in the deep vent communities (Fig. 16.12).",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.12. The other faces of the sulfur cycle. A. A hydrothermal vent in the floor of the Caribbean Sea. Some",
+          "page": 15,
+          "image": "/mmahp/ch16/16-12.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "bacteria use the heat energy and chemical substances to produce enough food energy that could sustain a complex community consisting of tubeworms, crabs, fish, and a few other organisms. Image courtesy- Woods Hole Oceanographic Institution. B. Acid rain destroyed trees in the forest of the Jizera Mountains, the Czech Republic. Image courtesy: Wikipedia.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "About 100 million tons of oxides of sulfur (mainly SO2 gas) are released into the atmosphere annually because of burning fossil fuels and volcanic activities. Oxides of sulfur react with moisture and produce sulfate ions and later sulfuric acid, a major contributor to acid rain (the other major contributor to acid rain is nitric acid). Acid rain kills trees (Fig. 16.12) and reduces the pH of the soil and lakes. The US Environmental Protection Agency regulations on fossil fuel use have significantly reduced the frequency and severity of acid rain in the United States.",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Environmental pollution",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Pollution is defined as undesirable conditions of the natural environment due to pollutants generated by human activities. Pollutants are contaminants that appear in the environment at a rate higher than the rate at which the contaminants can be dissipated or recycled by the local biogeochemical processes. Contaminants do not have to be toxic to act as a pollutant. Even life-supporting chemicals such as nitrates and phosphates turn to pollutants when they accumulate in excess in the lakes and shallow seas.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Pollutants could be physical or chemical in nature. Light and sound pollution in cities, and radioactive and thermal pollution in rivers and lakes (due to the release of hot and contaminated water from power generators) are physical pollutants. Chemical pollutants include organic carbon compounds, nitrates, phosphates, sulfate, heavy metals, and toxic chemicals such as arsenic and chromium compounds. Some microbes are used in remediating some chemical pollutants (see Section 16.4).",
+          "page": 16
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 14,
+          "title": "Biogeochemical cycles",
+          "bullets": [
+            "Limited availability of soluble",
+            "Biological players",
+            "Bacteria and fungi",
+            "Geochemical players:",
+            "Air and water current, gravitation",
+            "Plate movement",
+            "Rock decay",
+            "Mining",
+            "Water cycle",
+            "Oxygen cycle"
+          ]
+        },
+        {
+          "slideIndex": 15,
+          "title": "Carbon cycle",
+          "bullets": [
+            "0.4% of air is CO2",
+            "160 billion tons of CO2",
+            "Respiration and",
+            "Methanogenesis",
+            "Fossil carbon",
+            "9 billion tons of carbon",
+            "260 (1700) to 427 (2025) ppm",
+            "Ocen pH decrease by 30%"
+          ]
+        },
+        {
+          "slideIndex": 16,
+          "title": "Nitrogen cycle",
+          "bullets": [
+            "78% of air is N2",
+            "N2 fixation by bacteria 200",
+            "N2à NH3àNO2 àNO3 by",
+            "Haber process of N fixation 230",
+            "Fertilizer released to",
+            "NO2 release from fossil fuel",
+            "NO2àNO3à HNO3à Acid rain",
+            "Harmful algal bloom (HAB), Red",
+            "Excess N2 in drinking water (10"
+          ]
+        },
+        {
+          "slideIndex": 17,
+          "title": "Phosphorus cycle",
+          "bullets": [
+            "Bacterial phosphatase",
+            "250 million tons mined",
+            "Some leached to water,",
+            "Slow recycle",
+            "Possibility of PO4"
+          ]
+        },
+        {
+          "slideIndex": 18,
+          "title": "Sulfur cycle",
+          "bullets": [
+            "Plentiful in earth crust as S,",
+            "Plenty of SO4 ions for",
+            "Deepwater vents and sulfur",
+            "Excess sulfur",
+            "Acid pools in mining areas",
+            "SO2 release by fossil fuel",
+            "SO2àSO3àH2SO4à acid"
+          ]
+        },
+        {
+          "slideIndex": 35,
+          "title": "Industrially produced food",
+          "bullets": [
+            "Applicable to Food handlers",
+            "Proper handwashing by workers",
+            "Control of employee health conditions",
+            "Applicable to production methods",
+            "Safety of water contacting food items and the preparation surfaces",
+            "Conditions of utensils and worker wares",
+            "Contact of raw products and unsanitary products to food items",
+            "Applicable to production facilities",
+            "Contact of non-food chemicals (lubricants, disinfectants, etc.) with food",
+            "Proper labeling and safe storage of hazardous chemicals",
+            "Exclusion of pests"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "16.4",
+      "heading": "Microbiology of treating drinking water and wastewater",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "That water-borne diseases can kill, and that drinking water should be filtered, boiled, and stored in copper vessels, were mentioned in ancient Sanskrit writings (Sushruta Samhita), dated back to 2,000 BC. The water supply system of the ancient Roman Empire (500 BC) was well developed. Modern sand filters used to produce drinking water were initiated in Italy in the mid-1600s. Dr. John Snow observed a cholera outbreak centered on a certain water well in the 1850s. In 1852, London City enacted the Metropolitan Water Act to ensure the supply of filtered water. The United States passed the Safe Drinking Water Act in 1974 (amended in 1986 and 1996) and gave authority to the US Environmental Protection Agency (EPA) to set drinking water standards. Sewage drain systems and flushing commodes were used by elites of the ancient City of Harappa (modern-day Pakistan, dated 2,500 BC). The Romans (~500 BC) developed long aqueducts to transport clean water and drains to remove sewage to be emptied into the local rivers. The Harrapans and Romans also developed many bathhouses and public toilets. The removal of human waste from sewage water began in the 1860s in France. Today, many countries remove as much as 97% of the dissolved organic compounds, nitrates, and phosphates from wastewater before releasing treated water to the watershed.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Clean drinking water and safe disposal of wastewater are available mostly in the cities of developed countries. A large fraction of the world population does not have access to clean drinking water, whereas disposal of wastewater remains primitive in many countries. Rapid population growth, a shrinking supply of freshwater, and rising water pollution are among the major challenges of global public health today. In this section, we will discuss how drinking water and domestic wastewater are treated in developed countries and the integrated sewage management in some developing countries.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "Water contamination and pollution",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Water is a universal solvent, and it supports microbial growth. Both these properties affect water quality. Water is considered contaminated when unwanted chemicals or microbes are present in water without changing the taste, smell, or appearance of water. Smelly water and water with altered taste and appearance are considered polluted water. Polluted water can be avoided easily, but contaminated water may cause unsuspected damage. A shortlist of water contaminants and pollutants is shown in Table 16.1.",
+          "page": 16
+        },
+        {
+          "type": "figure",
+          "text": "Table 16.1: Common water pollutants and their sources.",
+          "page": 16,
+          "image": "/mmahp/ch16/16-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Pollutant type Major categories Major source Biodegradability Physical Hot water Power Plants No Radioactive chemicals Nuclear power plants, nuclear waste dumps No Chemical Insecticides, pesticides, herbicides, antibiotics, and hormones Agricultural effluents *Yes, but the speed varies Crude oils, petrochemicals, organic solvents, chlorinated hydrocarbons including PCB Oil fields, refineries, tanker wrecks, and effluents of factories Some are non- biodegradable; some are slowly biodegradable Inorganic chemicals such as mercury, lead, chromium, magnesium, and sulfuric acid Strip mining, chemical factories, power plants No Fertilizers (nitrates and phosphates) Agricultural effluents Yes Silt Land erosion (agriculture, deforestation) No Biological Excess microbial growth, presence of coliforms in lakes and rivers Domestic and industrial wastewater loaded with nitrates, phosphates, and organic materials Yes Viruses Released in wastewater Yes *- applicable to most of the chemical agents of this category approved by EPA.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Some of the contaminants/ pollutants are biodegradable (i.e., microbes may degrade them and ultimately decontaminate water). Excess organic nutrients, nitrates, and phosphates in water are among biodegradable pollutants. Non-biodegradable contaminants/ pollutants may stay in the environment indefinitely, enter the food chain, and accumulate in the bodies of consumer organisms, including humans. Polychlorinated biphenyls (PCBs) used in paints, lubricants, insulations, and plastics are non-biodegradable pollutants. The United States stopped manufacturing PCBs in 1977. But because PCBs are non-biodegradable, they are present in water, soil, and air. In the United States, the PCB level in breast milk is about 200ng/gm of milk fat. The level could be three times as high in some East European countries. High levels of PCB and other chemicals in the human body have been linked with cancers and implicated in organ failure and mental and reproductive health issues. The problem of chemical pollution further illustrates the importance of microbes on life on Earth.",
+          "page": 17
+        },
+        {
+          "type": "subheading",
+          "text": "Bioremediation",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Bioremediation is the use of living organisms, including microorganisms and plants, to solve environmental problems. Some soil bacteria and water bacteria have the unusual capacity to metabolize and detoxify toxic inorganic chemicals (including lead and mercury), organic chemicals such as crude oils, or synthetic organic chemicals such as PCB. Selected bacterial strains or genetically manipulated strains are used for bioremediation. Polluted water or soil can be removed and treated in a bacterial lagoon or a large bioreactor. Alternatively, bacteria grown in a big bioreactor can be sprayed in the polluted area in situ. Oil-contaminated gulfs and seashores are generally treated in situ (Fig. 16.13). For in situ bioremediation, fertilizers or soluble nutrients (such as corn starch) are sprayed, and air is bubbled (to increase dissolved oxygen concentration) in the affected areas to encourage rapid microbial growth.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Phytoremediation is an alternative process where tolerant plants are grown in the affected area (Fig. 16.13), and the entire biomass (plants and animals) of the area is later removed and disposed of elsewhere (usually buried underground). Much research is needed to tap the full potential of microbial bioremediation. Here we discuss microbial bioremediation of drinking water, sewage, and solid waste.",
+          "page": 17
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.13. Bioremediation in action. A. Bioremediation in situ. Workers outfitted in safety attire spraying",
+          "page": 18,
+          "image": "/mmahp/ch16/16-13.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "nutrients to encourage rapid microbial growth for the Bioremediation Project on the Exxon Valdez oil spill (1989) in Prince William Sound, Alaska. Photo courtesy: USGS. B. Bioremediation at a remote station. Polluted water is removed, treated, and then returned to the affected areas. Image source: Wikipedia.",
+          "page": 18
+        },
+        {
+          "type": "subheading",
+          "text": "Drinking water treatment",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Drinking water is derived from surface water (of streams, rivers, and freshwater lakes) or groundwater and aquifers (underground water channels). Surface water is generally contaminated with microbes and some chemicals. Groundwater is generally free of microbes because surface water migrates through rocks with very small pores before turning to groundwater. However, dissolved chemicals may still be present in groundwater. Groundwater is used as drinking water in some countries without any treatment. Because of the slow recharge of the aquifers from penetrating rain and snowmelt, only limited amounts of groundwater can be extracted. Excess water extraction from an aquifer causes a drop in the water table. The water table is the underground surface below which the ground is saturated with water. Because of excess extraction of drinking water and water used in agriculture, the water table has been sinking across the globe for several decades and is approaching a crisis point (Fig. 16.14). Water table sinking leads to chemical (such as arsenic and mercury) contamination of groundwater (Fig. 16.14) and ground subsidence (Fig. 16.14). Ground subsidence damages buildings, bridges, and highways.",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.14. Some effects of over-extraction of groundwater. A. Effect of arsenic contamination of drinking",
+          "page": 18,
+          "image": "/mmahp/ch16/16-14.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "water extracted from depleted wells. Shown is the severe skin condition of a person resulting from drinking unprocessed arsenic-contaminated groundwater. Image courtesy: India Environmental Portal. B. Sinking agricultural land because of sustained over-extraction of groundwater in the San Joaquin Valley, California. In the photograph, a USGS survey scientist shows where a farmer would have stood in 1988, 2004, 2008, and 2013. Note that the ground has sunk by about four feet in 20 years between 1988-2008, but another three feet in five years between 2008-2013, indicating that the prolonged drought of the US Southwest has exacerbated the preexisting problem of groundwater depletion.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Because of the high cost of processing, polluted water and water containing heavy metals such as lead, mercury, and uranium, toxic chemicals such as hexavalent chromium compounds, and nonbiodegradable toxic organic compounds such as PCB are not used in producing drinking water. In addition, relatively benign chemicals such as excess calcium and magnesium salts are left in the treated drinking water. Treatment regimens vary depending on the locality, water quality, and technologies available or selected. The major steps of producing drinking water are pretreatment, sedimentation, filtration, disinfection, adding of additives, and distribution (Fig. 16.15), as described below.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "Pretreatment",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "The collected water is pumped to a holding tank and is stored there for weeks or months. Lime or soda ash may be added to water to increase the pH above 7. Flocculating agents such as alum (potassium-aluminum sulfate), aluminum hydroxide, or ferric chloride are added, and water is taken to a flocculation tank. Insoluble particulate materials in water coagulate (i.e., floccule) and form a scam. This pretreated water is then transferred to a sedimentation tank.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "Sedimentation",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "The sedimentation tank is a large but shallow tank where water moves very slowly so that the floccules may sediment at the bottom. Since the sediment must be removed regularly, two tanks are used in turns, one for sedimentation and the other for sludge removal from the tank bottom. Water from the settling tank is directed towards the filtration bed.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "Filtration",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "The filter bed is constructed on a perforated platform over the reservoir of filtered water. The filter bed is made of a mixture of coarse sand and crushed anthracite coal or diatomaceous clay. Two types of filters are used. The fast flow filter bed is periodically cleaned by a reverse flow of clean water. The slow filter bed is left uncleaned, but a top layer of sand is removed and replaced with a new layer of sand. Some facilities employ pressure filtration using a membrane filter.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "Disinfection and additives",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Water filtered using a sand bed filter is further treated with various types of antimicrobial agents such as liquid chlorine gas, sodium hypochlorite, chloramines, chlorine dioxide, ozone, or UV light. Chlorine-containing chemicals are most widely used, but chlorine may react with contaminants in water and produce certain chemicals such as halomethanes and haloacetic acids, which are known to be carcinogens. Chlorine treatment may not be sufficient to remove protozoan cysts. Ozone and UV-light treatment are more effective and safer, but water treated as such does not contain any residual antimicrobial agents; thus, microbes may start growing in the treated water before and during distribution.",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.15. Steps of surface water treatment to derive drinking water. 1. Water is harvested from rivers,",
+          "page": 20,
+          "image": "/mmahp/ch16/16-15.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "lakes, springs, or wells. 2. Water passes through a screen to remove large objects and moves to a sedimentation tank. 3. Flocculating agents are added to the water, and flocs are removed. 4. Water is filtered using a sand bed. 5. Filtered water is disinfected using low-wavelength UV light, ozone, chlorine, or chlorine compounds. 6. The pH of the water is adjusted, and water is fluoridated (in some water districts). 6. Water is stored and distributed to households and businesses. Figure courtesy: Treacy J. IntechOpen, DOI: http://dx.doi.org/10.5772/intechopen.80780. A part of the figure is removed.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Some water districts add sodium monoflurophosphate (Na2PO3F) to water to a final concentration of one ppm. The low fluoride contents in drinking water inhibit bacterial tooth decay. In addition, corrosion inhibitors may be added to water to protect water pipes, and ammonium sulfate can be added to chelate insecticides, herbicides, and metal ions. In some water districts, hard water (containing excess calcium and magnesium salts) is softened by adding lime and soda ash or passing through ion-exchange columns containing zeolite (aluminum silicate). Distribution Purified water is pumped to the reservoir of a water tower and then distributed to the households. Water at the household faucets usually contains 2-3 ppm of chlorine (to prevent microbial growth). Nontoxic plastic polymer and corrosion-proof (i.e., copper) pipes are preferred for distribution. Breakage of pipes (which is not uncommon) in the ground may cause microbial contamination of water. Many households use absorbent filtration devices to filter the supply water before drinking and cooking, to remove chlorine, halomethanes, protozoan cysts, and dissolved heavy metals such as lead.",
+          "page": 20
+        },
+        {
+          "type": "subheading",
+          "text": "Testing microbial contamination of water",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Drinking water sources could be contaminated with pathogenic viruses, bacteria, and protozoan cysts. Water districts routinely monitor the presence of indicator bacterial species such as E. coli. The presence of E. coli and other coliforms (i.e., enteric bacteria of the family Enterobacteriaceae) in water indicates that the water resources have been exposed to human and/or animal wastes.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "There are several methods for the bacteriological analysis of water. In the membrane filter method, a sample of 100 ml of water is passed through a sterile membrane. The membrane is then exposed to an agar plate containing a medium selective for coliforms. The plate is incubated at 37 oC, and the colonies are counted (Fig. 16.16). The hydrogen sulfide test utilizes the ability of the coliforms to produce H2S. In this test, a specific reagent is added to 100 ml of test water in a sterile bottle. The bottle is sealed and incubated at 35oC for 24 hours. The color of the water sample turns dark black if coliforms are present in the water sample (Fig. 16.16). The Colilert test for bacterial contamination of water utilizes the ability of the coliforms to utilize o-nitrophenyl- п-D-galactopyranoside (ONPG), and the ability of E. coli to digest 4-methylumbelliferyl-b-D-glucuronide (MUG). A proprietary mixture of chemicals in the Colilert medium prevents the growth of non-coliforms. A sample of 100 ml of water is added to the bottle containing the Colilert reagent, and the bottle is incubated at 35 oC for 24 hours. The development of yellow color indicates the presence of coliforms (Fig. 16.16). The digested MUG fluoresces if exposed to UV light, indicating the presence of E. coli.",
+          "page": 20
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.16. Bacteriological water analysis. A. The membrane filter technique. A 100 ml sample of water to be",
+          "page": 21,
+          "image": "/mmahp/ch16/16-16.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "tested is filtered using a membrane of 0.45-micrometer nominal pore size. The membrane is exposed to an agar plate selective for coliform growth. The plate is incubated at 370C for 24 hours. Growth of pink colonies with a metallic sheen indicates the presence of E. coli. The colony count/100 is the approximate coliform count/ml of water. The image of the agar plate is from www.nj.gov/. B. The H2S test kit (Ltec Systems, Nagpur, India). A 100 ml sample of water to be tested is added to the bottle containing a growth medium and detection reagents. The bottle is incubated at 350C for 24 hours. Development of dark coloration (the bottle on the right) indicates the presence of coliforms (the left bottle is a negative control). C. The Colilert test kit (IDEXX US, Westbrook, Maine). 100 ml of water is added to the bottle containing a growth medium and proprietary detection reagent. The bottle is incubated at 35oC for 24 hours. The development of yellow color indicates the presence of coliforms. The presence of E. coli is confirmed if the bottle with yellow medium fluoresces bluish when exposed to UV light. D. The Quanti-Tray method (IDEXX, Westbrook, Maine) uses automated Colilert technology to derive an approximate bacterial count/ml of test water.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "The biological oxygen demand (BOD) of wastewater Many countries release raw sewage (i.e., unprocessed wastewater) directly to lakes, rivers, or oceans. Besides many pathogenic microbes, wastewater contains high concentrations of nutrients such as organic carbon, nitrogen, and phosphorus compounds. These nutrients increase biological oxygen demands (BOD). BOD is the amount of oxygen (in ppm) required for microbial degradation of the organic nutrients present in a water sample. The higher the nutrient-richness of a water sample, the higher the BOD (Fig. 16.17). The concentration of dissolved oxygen in clean surface water is about 5-10 ppm, and it can be depleted very quickly by microbes if excess nutrients are present in the water. Depletion of oxygen from water leads to the death of aerobic organisms such as cyanobacteria, algae, aquatic animals including fish, and aquatic plants. The decomposition of dead organisms releases more nutrients into the water, and that leads to more bacterial growth and, ultimately, water fouling. The municipalities of many countries treat raw sewage before releasing water to lakes and rivers. Wastewater is treated mainly to remove harmful microbes and reduce BOD.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "On average, a US citizen generates about 400 liters of wastewater every day, which contains 75 gm of organic waste and accounts for a BOD of about 200 ppm. BOD of a water sample is determined by measuring the concentration of dissolved oxygen before and after processing the water sample. Thus, the concentration of oxygen is measured immediately after collecting the water sample. A known volume (usually 0.3 liters) of the sample is then placed in a tightly capped glass bottle, leaving no air space in the bottle. The bottle is incubated at room temperature in a dark place (to prevent photosynthesis) for 5-7 days, and then the oxygen concentration of the water sample is measured again. BOD is the difference in oxygen concentration (in ppm) between the first and the second measurement (Fig. 16.17). If the second measurement is zero, the water sample is diluted with oxygen-free distilled water and the oxygen concentration of the diluted water sample is measured again.",
+          "page": 22
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.17. Biological oxygen demand (BOD). A. Bottles used for BOD testing. The bottles have an airtight",
+          "page": 22,
+          "image": "/mmahp/ch16/16-17.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "cap. Bottles covered by a dark plastic membrane do not need to be incubated in a dark room. Image courtesy: SKS Science Products (Saratoga Springs, NY). B. A graph showing the BOD and the concentrations of total ammonium, nitrate, and orthophosphate in some European rivers between 1992 and 2001. Abbreviations: BOD5- bottles incubated for standard 5 days, BOD7- bottles incubated for 7 days. The graphs indicate that BOD and concentration of dissolved nutrients (except nitrates) have reduced in the European rivers in the past ten years (1992-2001, reflecting the increase in the number of wastewater treatment facilities in European countries. Graph adapted from European Environment Agency http://ims.eionet.europa.eu (2009).",
+          "page": 22
+        },
+        {
+          "type": "subheading",
+          "text": "Wastewater treatment",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "The composition of contaminants in wastewater from different cities varies. Some cities allow industrial wastewater and stormwater (i.e., rainwater) to be mixed with domestic wastewater. Therefore, runoff water may contain leaves and silt as well as human waste and kitchen waste. Technologies employed in treating wastewater by different municipalities also vary significantly. Here is an overview of the basic treatment steps (Fig. 16.18).",
+          "page": 22
+        },
+        {
+          "type": "subheading",
+          "text": "Primary treatment",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Wastewater is passed through a wire mesh to remove large objects (such as tree branches, leaves, feminine napkins, pebbles, etc.) and a sand grit to remove sand. Water is then allowed to settle in a large sedimentation tank. Floating objects such as oils and grease are skimmed away mechanically. Particulate materials, including fecal solids, settle at the bottom as sludge. The sludge is scraped off and removed for further treatment. The liquid portion is sent to a secondary treatment tank. Primary treatment reduces BOD by 25-50%.",
+          "page": 22
+        },
+        {
+          "type": "subheading",
+          "text": "Secondary treatment",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "The effluent is aerated using one of the two methods described below. The goal is to encourage rapid growth of aerobic microorganisms, including the bacterium Zoogloea ramigera, so that the microbes may convert the organic nutrients to microbial biomass (cells).",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Trickling filter system",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "For smaller communities, the less efficient trickling filter system is used. A trickling filter is a bed made of porous stones or plastic on which microbes (bacteria, fungi, algae, protozoa, and worms) grow in abundance as a ~2 mm thick biofilm. Liquid sewage is sprayed over the bed. The film is kept wet but not submerged to allow oxygenation and the growth of aerobic microbes. Flow rate is maintained to maximize microbial removal of organic substances. For every million people, 5-50 acres of land is necessary for trickling filtration.",
+          "page": 23
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.18. The processes of wastewater treatment. Shown is the basic scheme. Additional steps can be utilized",
+          "page": 23,
+          "image": "/mmahp/ch16/16-18.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "based on the level of desired water quality and budgetary constraints of the municipalities. Image source: The Open University, UK.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Activated sludge system",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "The more effective activated sludge method requires less than 5 acres/million people. Here, microbes are grown on activated sludge (suspended biofilm on floc), and aeration is done either by pumping (bubbling) air or by mechanically spraying the sludge-filled water. The organic content is metabolized by microbes to CO2 and converted to biomass. After aeration is completed, the sludge is sent to a settling tank where solid sludge settles and is removed. A portion of the sludge is returned to the aerator as a starter culture for the next batch of incoming sewage. Activated sludge removal reduces BOD by 85-95%. Although the effluent after secondary treatment has very low BOD, a significant concentration of nitrates and phosphates may remain in it. If directly released to lakes and rivers, the effluent would cause the water bodies to undergo eutrophication (i.e., excess microbial and algal growth) and oxygen depletion, leading to the formation of a dead zone (Fig. 16.19).",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Tertiary treatment",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Tertiary treatment is carried out to remove more nitrates and phosphates from the effluent. There are various methods that can be applied, including (a) aeration of the effluent in a pool to encourage microbial growth, (b) settling and further removal of sludge, and (c) release of the aerated effluent to artificial wetlands. More targeted nitrate removal involves growing denitrifying bacteria under anaerobic conditions. Phosphate can be removed by growing bacteria that accumulate phosphate in their cells. The cells are then removed, and phosphate-rich fertilizers are derived from the biomass. Phosphate can also be precipitated by adding alum or ferric salt. Tertiary treatment does not remove heavy metals and non-biodegradable organic chemicals. Those are removed by passing water through activated charcoal or ion exchange resins. Many municipalities are financially incapable of conducting tertiary treatments. Thus, effluent generated after secondary treatment is directly released to lakes and rivers. As a result, lakes, rivers, and gulfs across the globe are gradually accumulating excess nutrients, metal ions, and organic pollutants, including nonbiodegradable organic chemicals (Fig. 16.19). Improved and more cost-effective technologies are needed to address this problem.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Sludge disposal",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Sludge removed after primary, secondary, and tertiary treatments contains live microbes and can become putrid very quickly. The sludge can be kept in a container for anaerobic treatment (digestion) by methanogens (methane-producing anaerobic archaea). The process can be enhanced by heating the sludge to 55°C. Methane gas evolved in the process is burned to heat the digester. The digested sludge is then mechanically pressed to remove water and dried. The dried sludge can be incinerated or used in landfills.",
+          "page": 24
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.19. Eutrophication and Dead Zones. A. Eutrophication in the Potomac River (Virginia, USA) is",
+          "page": 24,
+          "image": "/mmahp/ch16/16-19.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "indicated by excessive growth of algae and cyanobacteria. This photo was taken at a wastewater outlet to the river. Image courtesy: Alexander Trubetskoy (Wikipedia). B. The projected summer 2021 dead zone in the Northern Gulf of Mexico is indicated by extremely low oxygen concentrations at the sea bottom (normal oxygen concentration in seawater is about 9 mg/liter). The size of the summertime dead zone in the Northern Gulf of Mexico is approximately 5,000 square miles. No aerobic organisms can survive in the dead zone. Image courtesy: US EPA.",
+          "page": 24
+        },
+        {
+          "type": "subheading",
+          "text": "Water disinfection and release",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Effluent water can be released to lagoons after secondary or tertiary treatment. Microbes and plants in the lagoons absorb nutrients and further reduce the BOD of the released water. In some cities, water is treated with antimicrobial agents (such as chlorine or UV light) and then released to recreational lakes or replenishing deeper aquifers. Water can also be used for irrigation, domestic use (toilet flushing), fire-fighting, and industrial cooling sprayers. Treated wastewater is usually not directly processed for deriving drinking water. However, in places such as Southern California with severe water shortages, highly processed wastewater is mixed with potable groundwater and distributed to households.",
+          "page": 24
+        },
+        {
+          "type": "subheading",
+          "text": "Septic tank",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "About 60% of the US population lives in service areas of modern sewage systems. Urban families use individual septic tanks (Fig. 16.20). A septic tank is a large concrete holding tank that allows the settling of solid waste. The tank has outlets for gas and liquid exits. Little or no treatment takes place in the tank itself. Overflow liquid passes through a gravel bed, porous pipes, and then dissipates in the soil. Some reduction of BOD is accomplished if the gravel bed and soil are well-aerated.",
+          "page": 24
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.20. Septic tank. A. Overview of a conventional septic tank system. Household wastewater enters a",
+          "page": 25,
+          "image": "/mmahp/ch16/16-20.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "holding tank. Some solid objects deposit in the bottom of the tank and may get decomposed by anaerobic bacteria and archaea. The rest of the solids and liquid enters perforated pipes placed over a gravel bed and then dissipate to the ground. B. Structure of a septic tank. The tank contains two or more chambers for sludges to be settled and outlets for the release of gases and effluent water. Image source: US EPA.",
+          "page": 25
+        },
+        {
+          "type": "subheading",
+          "text": "Garbage Incineration",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "An alternative to burying solid waste is incineration. However, the process releases harmful gases, heavy metals, and some particulate matter into the air. Metals and particulates can be recaptured. Incineration is generally unpopular in most communities. Countries (such as Japan) with a severe shortage of land have few alternatives to incineration. Incineration plants require a very small land area. The garbage pile can be used as a composter to generate methane prior to burning the solid wastes. The methane gas and the treated solid wastes are burned to generate electricity. Methane production in the trash pile can be significantly increased by spraying water on the pile. A small power plant can be operated from methane collected from an average-sized dump.",
+          "page": 25
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.21. Solid waste disposal. A. Disposal of solid waste in India. The photograph shows a waste dump",
+          "page": 25,
+          "image": "/mmahp/ch16/16-21.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "visible from the Taj Mahal, one of the most beautiful structures ever created by humans. Not shown are the street urchins (who sift through the raw garbage to collect anything valuable), cattle, pigs, dogs, crows, and other scavengers. Photo courtesy: IndiaNetzone. B. The structure of a modern solid waste disposal pit (landfill). 1. A layer of clay over a thick non-permeable plastic liner. 2. Layers of clay and gas pipes between layers of solid waste. 3. Leachate collected at the bottom of the pit, mixed with water, and pumped back to the pit. Methane produced is collected and burned to generate electricity. 4. A clay/sand layer over a non-permeable plastic liner. Groundwater around the pit is monitored for leachate contamination. Image source: National Waste & Recycling Council, Arlington VA.",
+          "page": 25
+        },
+        {
+          "type": "subheading",
+          "text": "Recycling",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "With increasing environmental sensitivity among the public, recycling is getting popular. Many cities have recycling plants. Households that participate in recycling separate garden wastes, kitchen wastes, glass and metals, plastics, papers, wood products, and clothes (in different canisters) for trash collectors to pick up (Fig. 16.22). Garden and kitchen wastes are converted to compost; wood, paper, and clothes are converted to recycled paper; and metals and plastic are used to make new products. Some cities charge garbage collection fees by weight (to encourage producing less garbage). The “more garbage you make, more you pay” approach and the genuine environmental sensitivity of the public have motivated many families to convert organic wastes to compost. Some experts think recycling is not economically sustainable.",
+          "page": 25
+        },
+        {
+          "type": "subheading",
+          "text": "Composting",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Composting is quite easy and safe. The organic materials (grass clippings, leaves, kitchen wastes, animal waste, wood chips, etc.) are mixed in a pit or in a heap (Fig. 16.22). The pressure and the bulk make the interior of the heap anaerobic, where microbes convert the organic materials to methane and carbon dioxide. The temperature of the interior of the pit increases to about 60°C. High temperature selects for thermophile bacteria and kills mesophiles (including pathogenic microbes). After aging for about 18 months, the materials are dried, crushed, and then used as garden soil. Commercial compost makers bag the product and supply it to dealers. Composting reduces pressure on the community landfill but does not reduce the emission of greenhouse gases such as CO2 and methane. Reducing consumption is more helpful than recycling and composting.",
+          "page": 26
+        },
+        {
+          "type": "subheading",
+          "text": "Biogas",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Methane produced due to the decomposition of organic materials is popularly called biogas. Gases released during sludge processing and from garbage dumps are mixtures of methane (50-75%), CO2 (10-50%), and other gases including nitrogen and nitrogen oxides, hydrogen, hydrogen sulfide, and oxygen (0-10%), depending on the digestion process and conditions. The non-methane components can be separated, and the pure methane gas can be canned as gas or liquefied gas. The product, called biomethane, is sold in several Western European countries. Biomethane can be used as a fuel for household burners or gas-driven automobiles.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "A more primitive form of technology for producing biogas is used in the rural communities of developing countries, including India and China (Fig. 16.22). Organic waste such as agricultural wastes, animal wastes (including human waste in some localities), and a measured amount of wastewater is fed to a large concrete digester. Gases generated due to microbial degradation of organic substances (mainly methane and CO2) are collected at the tip of the digester and used as cooking and lighting fuel. The digester is cleaned occasionally using a pump. The liquid is used for fertilizing agricultural lands. In India, a family with a few cattle may produce enough methane gas for lighting and cooking.",
+          "page": 26
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.22. Recycling, composting, and biogas manufacturing. A. Recyclable household wastes are sorted in",
+          "page": 26,
+          "image": "/mmahp/ch16/16-22.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "different bins for the trash collectors to pick up. The items are further sorted at the recycling plants. B. A simple composter made of lumber. By the time the third chamber on the right is full of decomposable garbage, the first bin on the left would be ready with compost to be used in gardening. Image: Ingimar Erl/ Wikimedia Commons. C. A simplified biogas plant. Mixed organic garbage items are added through the inlet. Decomposed materials can be removed through the outlet. Gas accumulates at the top silo to be removed, caned, and distributed, or burned for generating electricity. Image courtesy: FAO.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "The natural environment in the United states is protected by several acts including the (a) The Solid Waste Disposal Act 1965, (b)The Clean Air Act 1970, (c) The Federal Water Pollution Control Act (also known as Clean Water Act) 1972; (d) The National Environmental Policy Act 1972, (e) The Federal Insecticide, Fungicide and Rodenticide Act 1972, (f) The Safe Drinking Water Act 1974, and (g) The Resource Conservation and Recovery Act 1972. The Environmental Protection Agency (EPA), an independent agency of the United States Government, enforces the acts.",
+          "page": 26
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 22,
+          "title": "Types of pollutants and bioremediation",
+          "bullets": [
+            "Biodegradable pollutants",
+            "Excess nitrate, phosphate, carbon and sulfur in water",
+            "Microbes can use /recycle them",
+            "Non-biodegradable",
+            "Microbe may not recycle them or recycle them very slowly",
+            "Examples- PCB, DTT, plastics, heavy metals",
+            "Bioremediation",
+            "Use of living organisms including microorganisms and plants to remove",
+            "Crude oil, and plastic bioremediation by microbes",
+            "Heavy metal and radioactive material removed by plants (phytoremediation)"
+          ]
+        },
+        {
+          "slideIndex": 24,
+          "title": "Drinking water treatment",
+          "bullets": [
+            "Pretreatment",
+            "Soda ash pH",
+            "Alum for flocculation",
+            "Sedimentation",
+            "To remove sediments",
+            "Filtration",
+            "Sand-bed filter or paper filter",
+            "Disinfection",
+            "Chlorine (halomthane)",
+            "UV or ozone",
+            "Additives",
+            "Fluoride",
+            "Anticorrosives",
+            "Distribution",
+            "2ppm Chlorine to prevent bacterial growth"
+          ]
+        },
+        {
+          "slideIndex": 25,
+          "title": "Testing microbial contamination of water",
+          "bullets": [
+            "Testing methods",
+            "Filter paper method",
+            "H2S method",
+            "Colilert method",
+            "Why E. coli is tested?",
+            "Biological oxygen",
+            "BOD5",
+            "BOD 7"
+          ]
+        },
+        {
+          "slideIndex": 26,
+          "title": "Wastewater treatment",
+          "bullets": [
+            "Primary treatment (reduce BOD by 25-50%)",
+            "Rake filter",
+            "Sedimentation tank",
+            "Sludge removal",
+            "Secondary treatment",
+            "Trickling filter (spray aeration, 50 acres /m ppln)",
+            "Activated sludge (pumping or bubbling aeration, 5 acres/ m ppln)",
+            "BOD reduction to 85-95%",
+            "Tertiary treatment",
+            "Another round of aeration and settling",
+            "Release of water to wetlands",
+            "Nonbiodegradable chemicals cannot be removed by these methods"
+          ]
+        },
+        {
+          "slideIndex": 30,
+          "title": "Septic Tank",
+          "bullets": [
+            "About 40% of US",
+            "Removes sold",
+            "Liquid waste is fed",
+            "Marginal or no"
+          ]
+        },
+        {
+          "slideIndex": 31,
+          "title": "Solid waste management",
+          "bullets": [
+            "Mount trash more method",
+            "Developing countries",
+            "Developed countries",
+            "Biogas generation",
+            "Industrials scale",
+            "Household scale",
+            "Incineration",
+            "Release of toxic gas",
+            "Dust recapture",
+            "Recycling",
+            "Not economically viable",
+            "Composting",
+            "It could make a dent if"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "16.5",
+      "heading": "Food and Industrial Microbiology",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Food is a substance that can be metabolized by an organism to obtain nutrients and energy. Humans consume food for nutrition as well as for sensual pleasure. For that reason, food must be nutritious and wholesome (with proper visual appearance, flavor, and texture). Microbes, particularly various species of bacteria and fungi, can metabolize virtually any food item. The mere presence of certain microbes in food may make it unacceptable for human consumption. As microbes metabolize food items, their metabolic products and wastes accumulate in the food. As a result, the food items may lose nutritional and aesthetic qualities or even turn toxic. Food-borne illnesses are quite common in all societies. Deterioration of nutritional and aesthetic qualities of food due to undesirable biochemical changes is food spoilage. Food can be spoiled by enzymes already present in food items such as meat and vegetables, by oxidation of fat, coagulation of proteins, loss of moisture, and the presence of contaminants. Microbial growth in food is the major cause of food spoilage. However, controlled microbial spoilage can be used in preparing and preserving certain food items. Here we will discuss microbial food spoilage; proper food handling, preparation, and preservation of food; and the use of controlled microbial degradation of food items to prepare food and other useful items.",
+          "page": 27
+        },
+        {
+          "type": "subheading",
+          "text": "Microbes generally found in food",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbes and some other contaminants can be an intrinsic part of certain food items. For example, worm cysts can be present in fresh meat, and algal toxins can be present in fresh seafood. Microbes and other contaminants may enter food items after harvest or preparation. For example, Staphylococcus aureus may get into prepared food from the hands of the chef. Fresh vegetables washed with contaminated water may gain pathogenic enteric viruses and bacteria. A shortlist of microbes found in common food items and the significance of such contamination is listed in Table 16.2.",
+          "page": 27
+        },
+        {
+          "type": "figure",
+          "text": "Table 16.2. Harmful microbes, microbial toxins, and other harmful substances found in food substances.",
+          "page": 27,
+          "image": "/mmahp/ch16/16-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Food type Common pathogenic microbes Comments Grains, oilseeds, nuts Fungi* (various species of Aspergillus, Claviceps, Phoma, Curvularia, etc.), bacteria (various species of Bacillus, Clostridium, and Erwinia). Fungi of the genera Aspergillus, Rhizopus, Mucor, Penicillium, and Monilia may grow in bread, particularly homemade and organic bread. Cooked rice supports the growth of many bacteria including the toxin- producing Bacillus cereus and some molds.",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "USDA inspects and certifies grains, nuts, and seeds to be marketed; moisture contents of 7% or higher encourage fungal growth in seeds; Aspergillus flavus produces aflatoxin, a carcinogen; ergot toxin produced by Claviceps purpurea in burley grains is a neurotoxin (a hallucinogen), uninspected imported nuts and nut-products may contain fungal toxins.",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "Fruits and vegetables Soil fungi (various species of Aspergillus, Monilia, Fusarium, and Penicillium), various types of yeasts, and bacteria (pseudomonads, actinomycete, various species of Bacillus), produces grown on or washed with contaminated water may contain enteric bacteria and viruses including picornavirus, calicivirus, and rotavirus.",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "Produces sold in the supermarket are washed with chlorinated water, can be irradiated, and waxed to increase shelf life; damaged produces get spoiled quicker, uninspected imported produces may contain enteric bacteria and fecal viruses.",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "Meat and poultry Mold (some species of Cladosporium), soil bacteria (pseudomonads and clostridia, several species of Pasteurella, and Bacillus), enteric bacteria (especially of the genera Salmonella and Escherichia), and some other bacteria (including the genera Leptospira, Listeria, Brucella, and Francisella), worm eggs and USDA inspects and certifies meat and eggs, aging meat at subzero temperature (to enhance texture and flavor) may inactivate some worm eggs and larvae (but not other microbes), about 0.01% of eggs sold larvae, avian and animal influenza viruses; mostly transferred from fur, feathers, urine and stool of the animals; organ meats (especially liver) may contain accumulated fungal toxins, heavy metals, antibiotics, and non-biodegradable organic chemicals; eggs may contain low counts of Salmonella enterica.",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "in the supermarkets, despite being washed with antimicrobial agents, contain live Salmonella enterica.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Fish and shellfish Worm eggs and larvae in the muscle of finfish; naked icosahedral viruses from the intestine may contaminate muscles during processing; Clostridia, Mycobacterium marinum in bottom-feeding fishes; vibrioids (Vibrio parahaemolyticus and V. vulnificus), and worm larvae in shellfishes.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Oysters and other filter feeders may accumulate algal toxins and enteric viruses. Only USDA-certified batches of these organisms could be consumed.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Milk and dairy products Milk- soil microbes (including pseudomonads, Clostridium perfringens, Listeria monocytogenes, Serratia marcescens), enteric bacteria (Salmonella enterica), and other bacteria (Mycobacterium bovis, and various species of Brucella, Coxiella, and Leptospira); dairy products with low sugar contents may contain soil bacteria (such as pseudomonads, Clostridium perfringens, Serratia marcescens) and Staphylococcus aureus (from hands of food handlers); the microbes may rapidly grow in the food items and some may secrete toxins in the food items.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "The udders of cattle are sub- clinically infected by bacteria and fungi, pasteurized milk is safe but gets contaminated by airborne microbes during use, milk of cattle treated with growth hormones (such as bovine somatotropin) may contain slightly higher levels of insulin-like growth factor 1 (IGF-1).",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Spices, condiments, and supplements Dried spices and supplements are usually sterilized (chemically or by irradiation). Raw spices (onion, garlic, zinger roots) can be colonized and spoiled by fungi and some bacteria. Honey may contain bacterial endospores (including endospores of Clostridium botulinum) Some imported spices may contain higher levels of heavy metal, herbal tea may contain soil fungi and bacterial endospores; raw honey should not be given to infants Microbial and non-microbial food spoilage Spoilage requires microbial growth in food items. Some species of microbes can spoil almost any food item, but not all food items are equally perishable. Foods are grouped as highly perishable, perishable, and non- perishable (this latter term is not quite appropriate but used in this field), based on how rapidly the food item can be spoiled by microbes. Both intrinsic (built-in) and extrinsic (externally applied) factors affect the rapidity of food spoilage (see Table 16.3). The intrinsic factors are an integral part of fresh food items. Intrinsic factors include physical barriers (such as the rind of fruits, husk of seeds and nuts, and shell of eggs, etc.), naturally occurring antimicrobial agents present in food (such as antibacterial agents in spices, antimicrobial antibodies, and enzymes present in live eggs), nutrient richness (such as vitamins), pH, and water activity. Foods of acidic pH are highly stable because most microbes either fail to grow in acidic foods or grow in them very slowly. Note that the pH of almost all natural or prepared food items is 7.0 or lower. Food items of pH above 7.5 are rare, with the exception of egg white (pH 9.0).",
+          "page": 28
+        },
+        {
+          "type": "subheading",
+          "text": "Water activity",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Water activity (aw) is defined as the ratio of the vapor pressure of water of a food item to the vapor pressure of pure water at the same temperature. The aw of pure distilled water is 1.0, and that of tap water is ~0.99. Dissolved chemical substances reduce water activity. The higher the water activity of food, the more perishable the food item is. Thus, milk, fresh meat, and fish (aw=0.97) are more perishable than beef jerky (aw= <0.88), fruit jam (aw= 0.85), or dry fish (aw ~0.75). Most bacteria are unable to grow below an aw of 0.90, although an aw of 0.7 is required to inhibit mold growth.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Food preparation and preservation often involve (a) reduction of aw and pH, (b) addition of antimicrobial agents in food, (c) manipulation of extrinsic factors such as storage temperature, (d) removal of oxygen (to prevent oxidation and inhibit the growth of aerobes), (e) protecting from light (to inhibit light-induced chemical reactions), and (f) shielding from the environment (to prevent post-preparation contamination).",
+          "page": 28
+        },
+        {
+          "type": "figure",
+          "text": "Table 16.3. Intrinsic and extrinsic factors that affect food spoilage. The factors are marked as (+) if they",
+          "page": 29,
+          "image": "/mmahp/ch16/16-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "inhibit spoilage, or (-) if they support rapid spoilage.",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Intrinsic factors (+) Physical barriers to the environment (such as husk, rind, and shell) (+) Antimicrobial agent (such as allicin, an antibiotic found in garlic) (-) Nutrient richness (such as dissolved sugar and vitamins in raw milk) (-) High Water Activity (as in milk) (-) Neutral pH (as in milk) Extrinsic factors (+) Putting a barrier (such as canning) (+) Reducing water activity (such as drying, curing, pickling, and jellying) (+) Lowering pH (i.e., adding organic acids to food, or fermenting) (+) Prevent chemical reactions (reducing temperature, shielding from air and light) Food handling and cooking Safe handling of food involves the acquisition, storage, and preparation. USDA (see http://www.fsis.usda.gov) has excellent internet resources on food handling. Food should be handled by a healthy adult. People infected by highly infectious microbes (such as disease-causing strains of Salmonella sp., Mycobacterium tuberculosis, and hepatitis A or hepatitis B viruses) should not handle food. There are four basic rules (also called the CSCC rules, see Fig. 16.23) of food handling: • Clean (wash hands and surfaces that may come in contact with food).",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "• Separate (do not cross-contaminate, for example, do not allow raw meat to touch milk).",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "• Cook (to appropriate temperature), and • Chill (store at an appropriate temperature.",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Finally, food not to be used should be discarded and safely disposed of at some point. Good food handling starts with shopping. Food should be bought from reliable vendors. While shopping, food to be refrigerated should be picked after non-perishables are already collected. The expiration date (i.e., the ‘use before’ or ‘best before’ dates) should be checked before purchasing. Perishable items should be refrigerated (or frozen if applicable) within two hours of purchase. Food should be thawed and marinated in a leak-free covered pot in a refrigerator. Spilling and aerosolization of fluid during cutting meat and fish should be avoided, and the cutting board (and any surfaces that came into contact with raw meat and fish) should be decontaminated using 6% sodium hypochlorite (Clorox®) solution. The cutting boards should be nonporous. Thawed and fully marinated food items should be cooked immediately.",
+          "page": 29
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.23. Basic (CBCC) rules of food handling. Besides the four basic steps (Clean, Separate, Cook, and",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Chill), the USDA suggests two additional rules: Check and Throw Away. Image courtesy: CDC.gov.",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Anthropologist Richard Wrangham (1948-) argued that humans evolved as the dominating species because they adopted cooking. Cooking reduces infection risks drastically and increases the shelf life of food significantly. Cooking is essentially heat-pasteurization, aimed at eliminating disease-causing microbes such as viruses, vegetative microbial cells, protozoan cysts, worm eggs, and larvae. Raw food items may expose consumers to numerous pathogenic microbes. A list of common food-borne illnesses is provided in Table 16.4.",
+          "page": 30
+        },
+        {
+          "type": "figure",
+          "text": "Table 16.4. Common foodborne illnesses (the list is highly condensed; additional information on the",
+          "page": 30,
+          "image": "/mmahp/ch16/16-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "illnesses is available in Chapters 13-15).",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Conditions Major causative agents (principal sources) Intoxication Clostridium botulinum toxins (improperly canned food, fermented fish), and heat- stable toxins of Staphylococcus aureus (post-preparation contamination from food handlers) and Clostridium perfringens (bacteria grown in prepared food).",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Diarrhea/ gastroenteritis Bacteria: Vibrio sp. (shellfish), Salmonella sp. (poultry and egg), E. coli (meat), Clostridium perfringens (meat and salad), Bacillus anthracis (meat), B. cereus (cooked rice), Shigella sp. (meat), and Campylobacter jejuni (meat, raw milk); protozoa: Isospora sp. (contaminated fruits and vegetables).",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Hepatitis A HAV and HEV (contaminated shellfish consumed raw, fruits and vegetables washed with contaminated water or touched by HAV- or HEV-contaminated hands).",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Blood infections Listeria monocytogenes (undercooked meat, raw salad, unpasteurized milk, cold cut meat, and cheese), Brucella sp. (meat and unpasteurized milk), Francisella tularensis (meat), Coxiella burnetii (meat and unpasteurized milk), Salmonella enterica typhi (meat and fecal-contaminated food).",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Respiratory infections Mycobacterium bovis (unpasteurized milk), influenza A (from handling infected carcass).",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Kidney (blood) Leptospira sp. (meat handling), E. coli 0157:H7 (contaminated meat).",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Meningitis Listeria monocytogenes (uncooked or undercooked meat, raw salad, and unpasteurized milk, deli meat, and cheese).",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Worm infections Uncooked or undercooked water vegetables, meat, poultry, and fish.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Food is considered cooked if the temperature of the core of the item reaches 75°C or above. Most harmful microbes and microbial toxins are destroyed at such temperatures. Cooking at a lower temperature requires treating the food at 60°C for 30 minutes, 65°C for 10 minutes, or 70°C for 2 minutes, given that the temperature is uniformly distributed in the cooked items. Note that cooking does not inactivate prion agents, endospores of Bacillus or Clostridium, and certain heat-stable microbial toxins (such as heat-stable toxins of Staphylococcus aureus). Hot food should be served hot or kept hot (at or above 60oC) for later serving, and cold food should be served cold or kept cool (at 5-8 °C) if to be served later. Some prepared or thawed food items could be refrigerated or frozen again, but it may deteriorate the taste and texture of the food items. Perishable prepared food left open for more than two hours should be discarded.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "There are local, state, and federal rules on food handling and preparation. Those rules should be consulted for events such as community feasts for senior citizens to avoid foodborne infections. Note that foodborne infections account for about 25% of all emergency hospital visits. Commercial food preparers must follow those rules and additional procedures (including Hazard Analysis and Critical Control Points or HCAAP) formulated by the FDA and USDA. HCAAP rules (Table 16.5) apply to food handlers, food handling procedures, and production facilities.",
+          "page": 30
+        },
+        {
+          "type": "figure",
+          "text": "Table 16.5. Hazard Analysis and Critical Control Points (HCAAP) in the food industry (adapted from FDA",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "web resources).",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Applicable to Food handlers Proper handwashing by workers Control of employee health conditions Applicable to production methods Safety of water contacting food items and the preparation surfaces Conditions of utensils and worker wares Contact of raw products and unsanitary products with food items Applicable to production facilities Contact of non-food chemicals (lubricants, disinfectants, etc.) with food Proper labeling and safe storage of the hazardous chemicals Exclusion of pests",
+          "page": 31
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 33,
+          "title": "Food spoilage",
+          "bullets": [
+            "Undesirable changes in aesthetic and nutritional qualities of food",
+            "Intrinsic",
+            "enzymes",
+            "Worm eggs and larvae",
+            "Heavy metal and toxic chemicals",
+            "Microbes",
+            "Nonpathogenic bacteria and fungi",
+            "Pathogenic bacteria and fungi",
+            "Animal viruses",
+            "Insect eggs and larvae",
+            "Physical",
+            "Heat (protein coagulation)",
+            "Oxygen (oxidation)",
+            "Loss of moisture, etc.",
+            "Food types",
+            "Highly perishable",
+            "Perishable",
+            "(Relatively) non-perishable Principles f food handling"
+          ]
+        },
+        {
+          "slideIndex": 34,
+          "title": "Foodborne Illnesses",
+          "bullets": [
+            "Intoxication- C. botulinum, C. perfringens, S. aureus, B.",
+            "Diarrhea- E. coli, V. cholerae, C. perfringens, picornaviruses",
+            "Hepatitis-HAV and HEV",
+            "Blood infections- L. monocytogenes, B. aborta, F. tularensis, C.",
+            "Respiratory illnesses- M. bovis",
+            "Kidney diseases- E. coli",
+            "Meningitis- L. monocytogenes",
+            "Worm infection- tapeworms, trichinellosis"
+          ]
+        },
+        {
+          "slideIndex": 37,
+          "title": "Microbial foods: Non-fermented",
+          "bullets": [
+            "Seaweed",
+            "Nori",
+            "Alginic acid",
+            "Carrageenan",
+            "Mushroom and truffles",
+            "Lichens",
+            "Single-cell food",
+            "Spirulina"
+          ]
+        },
+        {
+          "slideIndex": 38,
+          "title": "Microbial food: Fermented",
+          "bullets": [
+            "Buttermilk (Streptococcus lactis)",
+            "Acidophilous milk (Lactobacillus acidophilus)",
+            "Sour cream (Streptococcus lactis)",
+            "Yogurt (Streptococcus salivarius subspecies thermophilus (ST) and",
+            "Cheese (Propionibacterium shermanii, Penicillium roquefortii, or P.",
+            "Fermented meat (Lactobacillus and/or Pediococcus, etc. )",
+            "Fermented fish (fish intestine bacteria)",
+            "Fermented fruits and vegetables (Lactobacillus, Pediococcus, Leuconostoc,"
+          ]
+        },
+        {
+          "slideIndex": 41,
+          "title": "Other fermented products",
+          "bullets": [
+            "Raised bread (S. cerevisiae)",
+            "Sourdough bread (lactic acid bacteria)",
+            "Brewed vinegar (Acetobacter and Gluconobacter)",
+            "Monosodium glutamate (MSG)-Micrococcus",
+            "Brewed hot sauce (plant anaerobic bacteria)",
+            "Soy sauce (Aspergillus oryzae, A. sojae, A. tamarii,",
+            "Tea, coffee, and fodder- various species of"
+          ]
+        },
+        {
+          "slideIndex": 42,
+          "title": "Food preservation",
+          "bullets": [
+            "Pasteurization",
+            "Hot pasteurization (milk)",
+            "Cold pasteurization (fruit juices)",
+            "Canning",
+            "Acidic foods",
+            "Nonacidic foods (should not be done in-home)",
+            "Irradiation (using 60Co27 source)",
+            "Poultry (3kG), red meat (4.5-7 kG), other food (1 kG)",
+            "Refrigeration (-21 oC for 7 days)",
+            "Meat and fish for deworming",
+            "Wild meat must be cooked",
+            "Reduction of water activity (aw) to below 0.9",
+            "Pickling, drying, and salting",
+            "Using antibiotics",
+            "Nisin and natamycin in cheese",
+            "Acidification",
+            "Adding vinegar"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "16.4",
+      "heading": "Microbes as food and in food preparation",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Several microbes such as mushrooms (certain species of Basidiomycota), truffles (certain species of Ascomycota), and nori and other algae (marine algae of the phyla Rhodophyta and Phaeophyta) are harvested wild or grown and used as food. Agar and carrageenan extracted from red algae, and alginic acid extracted from brown algae, are important food ingredients. Single-cell proteins (SCP), a new food concept, were developed in the 1960s to obtain food from microorganisms such as bacteria, fungi, and algae (Fig. 16.24).",
+          "page": 31
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.24. Single-cell nutrients. A. The cyanobacterium Arthrospira platensis. Shown are filaments containing",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "a row of individual cells. Image courtesy: F Karali/Microbe Wiki. B. Fresh spirulina drinks ready for consumption. Image source: https://luxuryactivist.com/. C. Spirulina tablets sold in health food stores. Image courtesy- Wikipedia.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Since edible microbes can be grown in massive quantities at a low cost, it was thought that SCP would help solve global food shortages and malnutrition. The expectation had not been realized. Instead, SCP such as dried yeasts and Spirulina powder have become expensive nutritional supplements. Spirulina supplements are dried biomass of the cyanobacterium Arthrospira platensis (the species was previously grouped under the Genus Spirulina). The cyanobacterium is grown under controlled conditions in European countries or in freshwater ponds of tropical countries. Spirulina is consumed as a broth of live cells or dried powder suspended in water as a smoothie, or as tablets or capsules (Fig. 16.24).",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbes have been used for producing many food items since the dawn of civilization. The primitive societies fermented perishable food items such as milk and fruits into semi-perishable and non-perishable food items such as cheese and wines without knowing the microbes involved in the process. Today, many selected or domesticated strains of microbes are used for fermentation at household or industrial scales. At certain concentrations, the fermentation end products, such as organic acids (usually lactic, acetic, and propionic acids), aldehydes (usually benzaldehyde), and alcohols (i.e., ethanol), inhibit microbial growth. Some nutrients and food calories remain in the fermented food. The microbes may also produce some other organic compounds and vitamins that add flavor and nutritional value to the fermented food items. Some common fermented foods are shown in Fig. 16.25.",
+          "page": 31
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.25. Still Life with Invisibles. Shown are some common fermented food items including fish sauce [1],",
+          "page": 32
+        },
+        {
+          "type": "paragraph",
+          "text": "beer (alcohol-free) [2], wine vinegar [3], balsamic vinegar [4], yogurt (plain and flavored) [5a, 5b], teriyaki sauce [6], Worcestershire sauce [7], black tea [8], soy sauce [9], coffee [10], pickled olives [11], dill pickles [12], pickled jalapeno pepper [13], sauerkraut [14], cocoa in chocolate candy [15], raised bread [16], cheese (slices and shredded) [17a, 17b], turkey bologna [18]. The items were instantly assembled in the author’s kitchen, indicating the importance of microbial fermentation in the daily life of common people.",
+          "page": 32
+        },
+        {
+          "type": "subheading",
+          "text": "Fermented dairy products",
+          "page": 32
+        },
+        {
+          "type": "paragraph",
+          "text": "Milk is fermented to acidophilus milk or yogurt, and milk curd is converted to cheese of various kinds. There are numerous local variations in the actual process. Here we will summarize the processes used in industrial settings in the United States.",
+          "page": 32
+        },
+        {
+          "type": "subheading",
+          "text": "Cultured buttermilk",
+          "page": 32
+        },
+        {
+          "type": "paragraph",
+          "text": "Whole milk or skim milk is heated to 95 oC and then homogenized at high pressure to prevent creaming (i.e., separation of dissolved components from water). Starter culture containing Streptococcus lactis is then added to 1-2% of the milk volume and fermented for 16-20 hours till the lactic acid concentration reaches 0.9%. Buttermilk is used as a drink or in baking. A starter culture is a specific (blend of) fermenting organisms produced under controlled growth conditions, protected from undesirable microbes.",
+          "page": 32
+        },
+        {
+          "type": "subheading",
+          "text": "Acidophilus milk",
+          "page": 32
+        },
+        {
+          "type": "paragraph",
+          "text": "Sweet acidophilus milk contains 2-5% (by volume) of Lactobacillus acidophilus starter culture. The mixture is used as a probiotic (live microbes used for health benefits) without fermentation, or the mixture is fermented for several days at 37 °C to produce sour acidophilus milk. Sour acidophilus milk contains 1% lactic acid. Sour cream Whole milk contains about 3.7% fat. To produce sour cream, additional milk fat is added to whole milk to a final fat concentration of 12-30%. A starter culture (1-2% by volume of Streptococcus lactis) is then added, and the mixture is fermented until the lactic acid concentration reaches 0.6%. Fermented sour cream is heated to 80oC and then homogenized under high pressure before packing.",
+          "page": 32
+        },
+        {
+          "type": "subheading",
+          "text": "Yogurt",
+          "page": 33
+        },
+        {
+          "type": "paragraph",
+          "text": "A starter culture containing a 1:1 blend of Streptococcus salivarius subspecies thermophilus (ST) and Lactobacillus delbrueckii subspecies bulgaricus (SB) is added to warm milk, and the mixture is fermented at 43 °C for 4-6 hours until titratable acidity reaches 0.85-1.2%. The product is then cooled to stop fermentation. Additional milk solids (dry milk powder, concentrated skim milk, or whey), stabilizers (such as gelatin, alginate, or guar gum), sweeteners (sucrose, aspartame, etc.), and flavors (usually fruit puree) may be added before packaging.",
+          "page": 33
+        },
+        {
+          "type": "subheading",
+          "text": "Cheese",
+          "page": 33
+        },
+        {
+          "type": "paragraph",
+          "text": "Milk is pasteurized, warmed, and then acidified to separate curd (mostly milk proteins) from whey (i.e., water, lipids, dissolved chemicals, and vitamins). Curding is accelerated by adding rennet (a mixture of enzymes, including chymosin, obtained from the mucosa of the fourth stomach chamber of butchered pre-weaned calves). Whey is separated from curd by straining. Curd can be used as unripened cheese, such as cottage cheese, or fermented and aged. Curd can be washed in hot water (to reduce acid), kneaded (to increase rubber-like consistency), heated (to reduce water), salted (to remove water and increase stringiness of the curd proteins), and stained (by adding food color) before fermenting.",
+          "page": 33
+        },
+        {
+          "type": "paragraph",
+          "text": "The curd can be fermented by the microbes naturally present in the curd or after adding additional microbes (such as Propionibacterium shermanii, Penicillium roquefortii, or P. camemberti) to develop specific flavors. Aging is done in a non-sterile and moist darkroom dedicated to the purpose. Some cheese varieties are aged only for a few days, but sharp cheese varieties are aged for many months to increase total acid contents. During aging, microbial metabolites (such as organic acids, amino acids, and amines) accumulate in the cheese to provide specific flavor.",
+          "page": 33
+        },
+        {
+          "type": "subheading",
+          "text": "Fermented meat products",
+          "page": 33
+        },
+        {
+          "type": "paragraph",
+          "text": "Salami, summer sausage, pepperoni, and other processed meats are usually made from chopped or ground meats, organ meats, and fat. The items are mixed with sugar, salt, spices, sodium nitrite, and a starter culture containing certain species of Lactobacillus and/or Pediococcus. The added sugar is used as a substrate for fermentation; salt prevents the growth of undesirable microbes, and sodium nitrite (NaNO2) suppresses the germination of bacterial endospores (especially the endospores of Clostridium botulinum) and enhances the reddish color of processed meat.",
+          "page": 33
+        },
+        {
+          "type": "paragraph",
+          "text": "The ingredients are mixed thoroughly and then inserted into a cleaned intestine of slaughtered animals or a synthetic polymer casing and then fermented at an elevated temperature (~42oC) for a few days to several months. When acid concentration reaches the desired level, the meat product is smoked and/or dried. The cured meat products are consumed raw (i.e., uncooked). Sodium nitrite in processed meats may produce nitrosamines during food preparation. Nitrosamine is a carcinogen (cancer-causing agent). American Cancer Society (ACS) suggested reduced consumption of red meat and processed meat to reduce cancer risks. World Health Organization (WHO) has listed processed meats among Group 1 carcinogens (known to cause cancers in humans) based on epidemiological data.",
+          "page": 33
+        },
+        {
+          "type": "subheading",
+          "text": "Fermented fish",
+          "page": 33
+        },
+        {
+          "type": "paragraph",
+          "text": "In some countries, some fish species are overabundant in certain parts of the year. The excess seasonal catch is fermented after mixing with sea salt in a large earthen vat. The vats are left under the open sky or underground for several months. The microbes already present in the fish initially rot and then ferment the contents. The liquid portion is then filtered and used as fish sauce, a common condiment for East Asian cooking. Alaskan natives ferment fish more simply, just by burying fish under two feet of soil for two weeks. The fish is then recovered and consumed as is or after freezing.",
+          "page": 33
+        },
+        {
+          "type": "subheading",
+          "text": "Fermented fruits and vegetables",
+          "page": 34
+        },
+        {
+          "type": "paragraph",
+          "text": "Many fruits and vegetables, including cabbage, carrot, cucumber, turnip, eggplant, olive, lime, green mango, and garlic are fermented. Fermentation of fruits and vegetables involves pickling (i.e., curing in brine containing 8% NaCl). Lactic acid bacteria (of genera Lactobacillus, Pediococcus, Leuconostoc, etc.) abundant in raw fruits and vegetables serve as the starters. Pickling raw fruits and vegetables are common in all cultures and therefore the processes vary greatly among different societies. Sauerkraut, a European delicacy is made from cabbage. To prepare sauerkraut, shredded cabbage and salt are layered in a ratio of 100:2 (by weight) in an airtight stone jar or food-grade plastic jar with a one-way valve to release gases. Spices can be added to cabbage for flavoring, and lime or alum is added to make the pickles crunchy. After about two weeks of fermentation at room temperature, the product is canned or packaged in food-grade plastic bags. Olives contain a bitter polysaccharide, which is removed by treating with sodium hydroxide solution before pickling.",
+          "page": 34
+        },
+        {
+          "type": "subheading",
+          "text": "Alcoholic beverages",
+          "page": 34
+        },
+        {
+          "type": "paragraph",
+          "text": "The main ingredient of alcoholic beverages is ethyl alcohol (i.e., ethanol). Ethanol fermentation is a major industrial activity in many countries. Homebrewing is a hobby of many individuals. Improperly home-brewed alcoholic beverages may contain methanol, a toxic chemical compound (Box 16.1). However, homebrewing has spawned a cottage industry for manufacturing alcoholic beverages in many countries. The major categories of alcoholic beverages are wine, beer, and spirits. The processes of brewing alcoholic beverages are summarized in Fig. 16.26.",
+          "page": 34
+        },
+        {
+          "type": "subheading",
+          "text": "Box 16.1: Homebrewing and methanol poisoning",
+          "page": 34
+        },
+        {
+          "type": "paragraph",
+          "text": "Over a million US households brew alcohol at home. Homebrewing/distillation was more prevalent during 1920- 1933 when alcoholic beverages were prohibited by federal law. Homebrewing is generally safe if clean ingredients are used and proper fermentation processes are followed. A potential risk of drinking home-brewed alcohol is methanol poisoning. Ingestion of about 10 ml of methanol as a methanol-contaminated alcoholic beverage can cause permanent blindness. Ingestion of about 118 ml (about 4 ounces) of methanol is fatal. There is no known microbe used in fermentation that synthesizes methanol. However, some bacteria, yeast, and other fungi have an enzyme called pectin esterase that degrades pectin to pectate and methanol. Very low levels of methanol can be detected in various alcoholic beverages, including wines and spirits. Methanol is added to ethyl alcohol in some countries, and the product, called methylated spirit, is sold as a solvent or for other uses. Methanol can be mixed into alcoholic beverages either deliberately or by ignorance by unscrupulous traders. A small amount of methanol is present in household glass cleaners and antifreeze liquids. Methanol poisoning is quite frequent in many developing countries where ethanol drinking is prohibited by law (as in Muslim-majority countries), or ethanol is prohibitively expensive (as in Africa, South Asia, and East Asia). About a thousand people die of ethanol poisoning in India every year. Ethanol is administered as an antidote for treating methanol poisoning.",
+          "page": 34
+        },
+        {
+          "type": "subheading",
+          "text": "Wine",
+          "page": 34
+        },
+        {
+          "type": "paragraph",
+          "text": "Select cultivars of red and/or white grapes of appropriate ripeness are crushed in a machine. The resulting mix of juice and solids is called must. For red wine, the must is fermented for a few days before the solids are removed. For white wine, the solids are removed before fermentation. Specific strains of yeast (Saccharomyces cerevisiae) are added to the must for fermentation of sugar to alcohol. Wild yeasts and bacteria naturally present in the must are inhibited by adding sodium sulfite or sulfur dioxide. Fermentation is carried on at a controlled temperature and stopped when ethanol content reaches ~15%. A clear wine is then siphoned away from the vat and aged in wooden casks. The liquid is then filtered and bottled. The flavor of wine comes from chemical substances released from grape skin, grape seeds, and the wood of the casks.",
+          "page": 34
+        },
+        {
+          "type": "subheading",
+          "text": "Beer",
+          "page": 34
+        },
+        {
+          "type": "paragraph",
+          "text": "Beer is made from grains (barley, wheat, rye, and rice). Grains contain only small amounts of fermentable sugars. Therefore, fermentable sugars are extracted from starches of the grain. Barley is soaked so that the seeds may germinate. Various enzymes, including amylases and proteases, are expressed during the germination process. Amylases digest starch and release fermentable sugars. The germinating grains (called malt) are then dried or roasted in a kiln and then ground to separate the kernel from the husk.",
+          "page": 34
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.26. Brewing beer, wine, and spirits. Only the basic steps are shown. Beer and spirit manufacturing is",
+          "page": 35,
+          "image": "/mmahp/ch16/16-26.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "essentially identical except that in beer manufacturing, (a) hops are added, (b) sugar release from starch is regulated by boiling the mash before the fermentation process starts, and (d) alcohol is not distilled. In manufacturing spirits, sugar extraction from starch continues during fermentation, and alcohol is collected by distillation.",
+          "page": 35
+        },
+        {
+          "type": "paragraph",
+          "text": "Water is added to the ground malt, and the resulting product, called mash, is incubated at 45-75oC for several hours. During this time, amylases (enzymes) present in the granules digest starch and release maltose, a fermentable sugar. The resulting sugary solution (called wort) is separated from the granular materials, and florets of the hop plant (Humulus lupulus) are added to it. The mixture is then boiled to inactivate the enzymes and to extract the resins of hop flowers that give beer its bitter taste.",
+          "page": 35
+        },
+        {
+          "type": "paragraph",
+          "text": "The liquid is then cooled down and taken to a fermentation kettle. Yeast (specific strains of Saccharomyces cerevisiae) is added to initiate fermentation. Depending on the yeast strain, fermentation is performed at 15-24 oC (to produce ale beer) or at about 10 oC (to produce lager beer) for several weeks. At that time, fermentable sugars are converted to alcohol. The liquid is then cooled down to near freezing temperature to separate insoluble substances, unpleasant chemical substances, and yeast cells. Beer is then filtered and conditioned in wooden casks for several months before being packed in bottles, cans, or casks. Based on the degree of malt roasting and the filtration process, beer can be very pale yellow to deep black in coloration. Beer contains about 5% alcohol by volume, some carbohydrates, proteins, hop resins, and various metabolites of yeast. Light beers or low-point beers contain reduced (2-4%) alcohol and carbohydrate contents.",
+          "page": 35
+        },
+        {
+          "type": "subheading",
+          "text": "Spirits (liquors)",
+          "page": 36
+        },
+        {
+          "type": "paragraph",
+          "text": "Spirits, grain alcohol, and ethanol in gasohol (car fuel containing 5-95% ethyl alcohol) are produced from sugar and/or starch of various plant products such as grains (including wheat, corn, and rice), fruits (such as peaches), tubers (such as potato and beet), juice and plant extracts (such as sugarcane juice or molasses and the extract of agave stem). The fermentable sugars are released from starches by the malting and mashing processes described previously for beer. For fuel-grade ethanol production, corn starch is treated with dilute sulfuric acid or fungal amylase to release fermentable sugars. The mash (or comparable liquid) is then directly fermented (without inactivating the enzymes) using high-alcohol-tolerant strains of yeast (Saccharomyces cerevisiae). Tequila is produced from fluid extracted from blue agave and is fermented by a bacterium (Zymomonas mobilis). After fermentation, alcohol is separated from the mash by distillation. Beverage-grade alcohol is aged in wooden casks. Other ingredients (such as juniper berry extract in gin) are mixed before bottling. Spirit or alcoholic liquors contain 35-46% alcohol by volume (alcohol content is adjusted by adding water).",
+          "page": 36
+        },
+        {
+          "type": "subheading",
+          "text": "Raised bread",
+          "page": 36
+        },
+        {
+          "type": "paragraph",
+          "text": "Bread is raised by CO2 gas released during alcoholic fermentation of sugar by baker’s yeast (certain strains of S. cerevisiae). Baker’s yeast is available in supermarkets as packages of dry powder. Yeast is reconstituted by mixing a small amount of the powder with warm water and then adding it to the dough (containing flour, water, sugar, milk, butter, nuts, and other ingredients). The dough ball is placed in a pot for a few hours. During this time, yeast multiplies, ferments sugar, and produces ethanol and CO2 gas. The CO2 gas increases the size of the dough ball. Alcohol is evaporated, and yeast cells are killed during baking. A starter culture of lactic acid bacteria can be added to the dough to produce (fermented) sourdough bread.",
+          "page": 36
+        },
+        {
+          "type": "subheading",
+          "text": "Soy sauce",
+          "page": 36
+        },
+        {
+          "type": "paragraph",
+          "text": "Soy sauce is made from roasted whole soybean seeds mixed with roasted cracked wheat and other grains using a variety of methods throughout East Asia. The production process varies greatly in different regions. In general, starch and proteins in the seeds are released in water and then digested to amino acids and fermentable sugars by enzymes released by the fungus Aspergillus oryzae or some other species of Aspergillus. After a few days of the treatment, salt is added to a final concentration of about 18%, and the product is aged for a year or more under the open sun or in underground silos. Salt-tolerant bacteria (such as Lactobacilli and Pediococcus sp.) and fungi grow in the vat, but no starter culture is added. The liquid portion of the aged product is separated from solids. Additional ingredients may be added before packaging. Traditionally made soy sauce may contain toxic chemicals including ethyl carbamate, a carcinogen. Industrially produced soy uses soy flour, and the fermentation process is conducted under controlled conditions.",
+          "page": 36
+        },
+        {
+          "type": "subheading",
+          "text": "Brewed vinegar",
+          "page": 36
+        },
+        {
+          "type": "paragraph",
+          "text": "Vinegar (4% acetic acid by volume) is generally produced from dilute alcohol by acetic acid bacteria of the genera Acetobacter and Gluconobacter. Dilute fermented alcohol (in fermented cane juice, apple cider, must, or mashed grain) is placed in a tank, and mother of vinegar (i.e., a starter culture containing acetic acid bacteria) is inoculated into the liquid. The liquid is stirred, and the air is continuously bubbled into the liquid for oxygenation of ethanol. Under these conditions, Acetobacter sp. convert the ethyl alcohol contents of the fluid to vinegar within 1-3 days through the reaction CH3-CH2-OHà CH3COOH + H2O. Kombucha vinegar is produced from kombucha (i.e., fermented green or black tea) by a coculture of yeast and anaerobic bacteria. Spirit vinegar (also called white, distilled, or virgin vinegar) contains 5-8% acetic acid, which is produced from diluted distilled alcohol or synthetic acetic acid.",
+          "page": 36
+        },
+        {
+          "type": "subheading",
+          "text": "Monosodium glutamate",
+          "page": 36
+        },
+        {
+          "type": "paragraph",
+          "text": "Monosodium glutamate (MSG) is a sodium salt of glutamic acid. Glutamate is present in almost all foods in low concentration (for example, Roquefort cheese may contain 1.0% w/w free glutamate). MSG is used as a flavor enhancer, particularly for industrially manufactured foods. MSG is industrially produced by specific strains of the bacterium Micrococcus glutamicus grown in a nutrient broth. The bacterium releases excess MSG in the culture medium. Crystalline MSG is separated from the culture broth. MSG or other forms of glutamates are generally safe in low concentrations. However, glutamate is a neurotransmitter; excess intake of glutamate has been associated with excitability, neck pain, nausea, and some other symptoms in humans and blindness in test animals.",
+          "page": 36
+        },
+        {
+          "type": "subheading",
+          "text": "Brewed hot sauce",
+          "page": 37
+        },
+        {
+          "type": "paragraph",
+          "text": "Most of the chili sauces sold in the market are a mixture of chili paste, vinegar, and spices. However, chili pepper paste can be fermented by anaerobic bacteria naturally present on fresh chili peppers to produce hot sauces. Spices are added to the fermented chili paste before packaging.",
+          "page": 37
+        },
+        {
+          "type": "subheading",
+          "text": "Other fermented products",
+          "page": 37
+        },
+        {
+          "type": "paragraph",
+          "text": "Many other products are produced through fermentation. Retting of jute plants to separate jute fibers, production of black tea from tea leaves, separating cocoa beans from cocoa pods, and separating coffee beans from coffee cherries involve microbial fermentation. A few of the additional products are described here.",
+          "page": 37
+        },
+        {
+          "type": "paragraph",
+          "text": "A shortlist of microbes used for agricultural and industrial fermentation is provided in Table 16.6.",
+          "page": 37
+        },
+        {
+          "type": "figure",
+          "text": "Table 16.6. Common bacteria and fungi involved in fermentation.",
+          "page": 37,
+          "image": "/mmahp/ch16/16-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Food items Common microbes used in fermentation Cultured milk Streptococcus lactis, Lactobacillus acidophilus Sour Cream Streptococcus lactis, Lactobacillus acidophilus Yogurt Streptococcus salivarius, Lactobacillus delbrueckii Cheese Bacteria: Lactobacillus bulgaricus, L. lactis, L. helveticus, Streptococcus thermophilus, S. diacetilactis, S. lactis, S. cremoris, S. durans, S. faecalis, Leuconostoc citrovorum, L. dextranicu, Propionibacterium shermanii; fungi: Penicillium roquefortii, P. camemberti Meat products Various species of Lactobacillus and Pediococcus.",
+          "page": 37
+        },
+        {
+          "type": "paragraph",
+          "text": "Fish Bacteria present in the intestine and body surfaces of fishes.",
+          "page": 37
+        },
+        {
+          "type": "paragraph",
+          "text": "Alcoholic beverages Bacteria: Zymomonas mobilis (tequila only), Fungus: Saccharomyces cerevisiae. Grain alcohol Saccharomyces cerevisiae.",
+          "page": 37
+        },
+        {
+          "type": "paragraph",
+          "text": "Raised bread Bacteria: Lactic acid bacteria (for sourdough bread only), fungus: Saccharomyces cerevisiae.",
+          "page": 37
+        },
+        {
+          "type": "paragraph",
+          "text": "Soy sauce Fungus: Aspergillus oryzae, A. sojae, A. tamarii, (also bacteria: salt-tolerant species of the genera Lactobacillus and Pediococcus).",
+          "page": 37
+        },
+        {
+          "type": "paragraph",
+          "text": "Pickled vegetables Various species of Lactobacillus, Pediococcus, and Leuconostoc.",
+          "page": 37
+        },
+        {
+          "type": "paragraph",
+          "text": "Tea, coffee, and fodder Various species of Clostridium, Bacillus, Micrococcus, and some other genera. Monosodium glutamate Micrococcus glutamicus.",
+          "page": 37
+        },
+        {
+          "type": "subheading",
+          "text": "5. Microbiology of food Preservation",
+          "page": 37
+        },
+        {
+          "type": "paragraph",
+          "text": "The main objectives of food preservation are (a) preventing spoilage, (b) preventing the accumulation of microbial toxins, (c) retaining nutritional and aesthetic properties, and (d) increasing the shelf life of food. Some of the principles applied in food preservation are described in Chapter 7. Only specific food preservation procedures are briefly described here.",
+          "page": 37
+        },
+        {
+          "type": "subheading",
+          "text": "Pasteurization",
+          "page": 38
+        },
+        {
+          "type": "paragraph",
+          "text": "Pasteurization involves treatments that kill vegetative cells of pathogenic microbes. Cooking food at modest temperatures is essentially pasteurization. Milk, some dairy products, and meat products are heat-pasteurized; fruit juices are cold pasteurized using high pressure (see Chapter 5). The process increases the shelf life of highly perishable food items. Bacterial endospores and heat-resistant bacteria (such as Bacillus stearothermophilus) may remain viable in pasteurized milk and juice and ultimately spoil them by the time the shelf life approaches. Canning: Vacuum packing and nitrogen packing Canning is packing food items in airtight glass, metallic, or plastic containers under reduced pressure. Foods of acidic pH are cooked, but food items of neutral pH are autoclaved (to inactivate Clostridium botulinum endospores) before canning. Low oxygen tension in the cans reduces the rate of spoilage by oxidation. Home- canning of non-acidic food items is discouraged because Clostridium botulinum spores may germinate and release botulinum toxin in the can. Fortunately, botulinum toxin can be deactivated by boiling or cooking the suspected canned food for 5 minutes at 70 oC.",
+          "page": 38
+        },
+        {
+          "type": "paragraph",
+          "text": "Potato chips, nuts, salad mixes, fruits, lunch meats, and some frozen foods are packed in non-porous airtight bags or containers. To prevent oxidation and spoilage of packed items, air is removed from the package and replaced by nitrogen gas. Since nitrogen is an inert gas, nitrogen-packed foods remain fresh for a longer period. Refrigeration and freezing Low heat reduces microbial growth. However, psychrotrophs such as Listeria monocytogenes continue to grow in refrigerators. Worm eggs and larvae naturally found in the meat of domesticated animals are generally killed at freezing conditions if stored at -15 oC for 20 days or -21 oC or below for 1-7 days. Eggs and larvae of worms in meats of game animals and wild-caught freshwater fishes may or may not be killed at these temperatures. Brief exposure of meat to liquid nitrogen may kill eggs and larvae of some worms.",
+          "page": 38
+        },
+        {
+          "type": "paragraph",
+          "text": "Foods frozen for prolonged periods may suffer from freezer burn due to dehydration and oxidative damage to the food. Food containing unsaturated fatty acids (such as fatty fishes) becomes rancid due to oxidation of unsaturated fats. Self-defrosting freezers should not be used for storing frozen food because repeated heat-thaw cycles the machines conduct damage food texture due to crystallization of water inside the food and thawing of the ice crystals.",
+          "page": 38
+        },
+        {
+          "type": "paragraph",
+          "text": "Drying, pickling, and preserving in thick syrup These processes reduce water content (i.e., water activity) and increase osmotic pressure. Vegetative bacterial cells fail to grow if water activity (aw) is 0.9 or lower, and most fungi fail to grow at aw of 0.7 or lower. Food irradiation Gamma rays passing through food items would kill/inactivate microbes by destroying DNA and RNA. However, intense gamma rays may alter the taste, flavor, and consistency of food. FDA has approved the isotope 60Co27 for irradiation of various food items (Table 16.7) because the cobalt isotope has a half-life of about 5 years, it generates strong gamma radiation, the isotope is easy to manufacture and dispose of, but the isotope is not fissile (the isotope does not break/ create other radioactive nuclides).",
+          "page": 38
+        },
+        {
+          "type": "paragraph",
+          "text": "Many developed countries routinely irradiate fruits, grains, spices, and seasonings to eliminate worms, insects and their eggs and larvae, and other microorganisms. The US Military uses irradiated meat for military rations. Irradiated fruits and meats (Fig. 16.27) are gradually being accepted by US consumers.",
+          "page": 38
+        },
+        {
+          "type": "subheading",
+          "text": "Acidification of food",
+          "page": 38
+        },
+        {
+          "type": "paragraph",
+          "text": "Most pathogenic microbes fail to grow at a pH below 4.5. Adding vinegar (5% acetic acid), lactic acid, and other organic acids to food reduces pH and prevents microbial spoilage.",
+          "page": 38
+        },
+        {
+          "type": "figure",
+          "text": "Table 16.7. Some food items approved for irradiation by FDA.",
+          "page": 39
+        },
+        {
+          "type": "paragraph",
+          "text": "Food items Dose (kGy*) Approved use/comments All food 1.0 Insect control, retard ripening or germination Spices (dry) 30.0 Eliminate microbes and insects Poultry 3.0 Controlling disease-causing microbes (Salmonella sp. in particular) Red meat (of cattle) Fresh- 4.5 Frozen- 7.0 Retard spoilage, control disease-causing microbes (especially worm eggs and bacteria) *kGy- kiloGray is 1,000 Gray units; one Gray unit is equivalent to the absorption of one Joule of energy in the form of ionizing radiation by one kilogram of matter.",
+          "page": 39
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 16.27. Some food items that are preserved by irradiation in the United States. The main objectives for",
+          "page": 39
+        },
+        {
+          "type": "paragraph",
+          "text": "irradiating various food items are indicated. The FDA and EPA regulations require that the Irradiation Logo (shown at the center) and the phrase “Treated with Irradiation” be displayed on the packaging of irradiated food. Image courtesy: https://foodmicrobiology.academy/2020/07/13/food-irradiation-is-safe/.",
+          "page": 39
+        },
+        {
+          "type": "subheading",
+          "text": "Adding antimicrobial agents to food",
+          "page": 39
+        },
+        {
+          "type": "paragraph",
+          "text": "Organic acids (such as benzoic acid), bacterial colicins, and antibiotics (such as nisin and natamycin) prevent the growth of certain species of bacteria. Sodium nitrite prevents germination of bacterial endospores, especially endospores of Clostridium botulinum. Spices, including ginger, garlic, onion, and turmeric, contain some antimicrobial agents that suppress microbial growth and thus increase the shelf-life of prepared food. Extraction of useful biochemicals from microbes Various useful products, including polysaccharides, proteins, and enzymes, are extracted from bacterial and fungal cells. These products have medical, biological, and industrial applications. The yield of these products can be enhanced through genetic selection or genetic manipulation of the microbes (see Chapter 6). Recombinant bacteria and fungi are significant sources of valuable recombinant polypeptides, including hormones such as insulin, human growth hormone, and follicle-stimulating hormones used in animal breeding; antigens like those found in hepatitis B vaccines; cytokines such as recombinant erythropoietin used to treat anemia; and antibodies, including Humira® for rheumatoid arthritis. In the industrial manufacturing of recombinant proteins, recombinant microorganisms are cultivated in large tanks under controlled growth conditions. The cells are harvested and then lysed to release their contents. The proteins are separated from the extract using chromatographic methods. Recently, yeast cells have been engineered to produce a complete range of human antibodies.",
+          "page": 39
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 22,
+          "title": "Types of pollutants and bioremediation",
+          "bullets": [
+            "Biodegradable pollutants",
+            "Excess nitrate, phosphate, carbon and sulfur in water",
+            "Microbes can use /recycle them",
+            "Non-biodegradable",
+            "Microbe may not recycle them or recycle them very slowly",
+            "Examples- PCB, DTT, plastics, heavy metals",
+            "Bioremediation",
+            "Use of living organisms including microorganisms and plants to remove",
+            "Crude oil, and plastic bioremediation by microbes",
+            "Heavy metal and radioactive material removed by plants (phytoremediation)"
+          ]
+        },
+        {
+          "slideIndex": 24,
+          "title": "Drinking water treatment",
+          "bullets": [
+            "Pretreatment",
+            "Soda ash pH",
+            "Alum for flocculation",
+            "Sedimentation",
+            "To remove sediments",
+            "Filtration",
+            "Sand-bed filter or paper filter",
+            "Disinfection",
+            "Chlorine (halomthane)",
+            "UV or ozone",
+            "Additives",
+            "Fluoride",
+            "Anticorrosives",
+            "Distribution",
+            "2ppm Chlorine to prevent bacterial growth"
+          ]
+        },
+        {
+          "slideIndex": 25,
+          "title": "Testing microbial contamination of water",
+          "bullets": [
+            "Testing methods",
+            "Filter paper method",
+            "H2S method",
+            "Colilert method",
+            "Why E. coli is tested?",
+            "Biological oxygen",
+            "BOD5",
+            "BOD 7"
+          ]
+        },
+        {
+          "slideIndex": 26,
+          "title": "Wastewater treatment",
+          "bullets": [
+            "Primary treatment (reduce BOD by 25-50%)",
+            "Rake filter",
+            "Sedimentation tank",
+            "Sludge removal",
+            "Secondary treatment",
+            "Trickling filter (spray aeration, 50 acres /m ppln)",
+            "Activated sludge (pumping or bubbling aeration, 5 acres/ m ppln)",
+            "BOD reduction to 85-95%",
+            "Tertiary treatment",
+            "Another round of aeration and settling",
+            "Release of water to wetlands",
+            "Nonbiodegradable chemicals cannot be removed by these methods"
+          ]
+        },
+        {
+          "slideIndex": 30,
+          "title": "Septic Tank",
+          "bullets": [
+            "About 40% of US",
+            "Removes sold",
+            "Liquid waste is fed",
+            "Marginal or no"
+          ]
+        },
+        {
+          "slideIndex": 31,
+          "title": "Solid waste management",
+          "bullets": [
+            "Mount trash more method",
+            "Developing countries",
+            "Developed countries",
+            "Biogas generation",
+            "Industrials scale",
+            "Household scale",
+            "Incineration",
+            "Release of toxic gas",
+            "Dust recapture",
+            "Recycling",
+            "Not economically viable",
+            "Composting",
+            "It could make a dent if"
+          ]
+        }
+      ]
+    }
+  ],
+  "unmatchedSlides": []
+}

@@ -41,7 +41,8 @@ export default function CourseDetail() {
     ? tkbQuestions.filter((q) => q.subjectId === tkbSubject.id && q.status === 'active').length
     : 0;
   const hasChemCurriculum = course.code === 'CHEM 1210';
-  const hasStudyMaterial = courseWorksheets.length > 0 || activeQuestionCount > 0 || hasChemCurriculum;
+  const hasMmahpReader = course.code === 'MICR 2060';
+  const hasStudyMaterial = courseWorksheets.length > 0 || activeQuestionCount > 0 || hasChemCurriculum || hasMmahpReader;
 
   return (
     <div>
@@ -110,6 +111,19 @@ export default function CourseDetail() {
               <span className="crs-practice-icon">📚</span>
               <strong>Chapters &amp; lessons</strong>
               <small>Read a lesson, test out, or drill one chapter at a time.</small>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {hasMmahpReader && (
+        <div className="crs-practice">
+          <h3>Read</h3>
+          <div className="crs-practice-grid">
+            <button className="crs-practice-card primary" onClick={() => navigate('/TKB/courses/micr2060/reader')}>
+              <span className="crs-practice-icon">📖</span>
+              <strong>MMAHP reader</strong>
+              <small>Chapter reading + lecture slides combined, by topic. Multi-chapter view and global search.</small>
             </button>
           </div>
         </div>

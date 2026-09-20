@@ -10,6 +10,7 @@ import CourseDetail from './views/CourseDetail';
 import WorksheetsList from './views/WorksheetsList';
 import WorksheetViewer from './views/WorksheetViewer';
 import ChemApp from './chem/ChemApp';
+import MmahpReader from './micr2060/reader/views/MmahpReader';
 import Boundary from '../../../components/errors/Boundary';
 import './Courses.css';
 
@@ -108,6 +109,7 @@ export default function CoursesApp() {
           <Route path="worksheets" element={<Boundary title="The worksheets list stopped working." resetId="worksheets"><WorksheetsList /></Boundary>} />
           <Route path="worksheets/:worksheetId" element={<Boundary title="This worksheet stopped working." resetId={location.pathname}><WorksheetViewer /></Boundary>} />
           <Route path="chem/*" element={<Boundary title="The Chem curriculum stopped working." resetId={location.pathname}><ChemApp /></Boundary>} />
+          <Route path="micr2060/reader" element={<Boundary title="The MMAHP reader stopped working." resetId="mmahp-reader"><MmahpReader /></Boundary>} />
           <Route path=":courseId" element={<Boundary title="This course's detail view stopped working." resetId={location.pathname}><CourseDetail /></Boundary>} />
         </Routes>
       </div>

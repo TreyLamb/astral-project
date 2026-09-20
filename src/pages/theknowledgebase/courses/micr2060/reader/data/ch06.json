@@ -1,0 +1,1477 @@
+{
+  "id": "ch06",
+  "number": 6,
+  "title": "Microbial Genetics and Biotechnology",
+  "lead": "Different microbes, even highly related ones, may look and behave differently. For example, E. coli strain K-12 does not infect humans, whereas E. coli strain O157:H7 causes deadly kidney diseases. Why such differences? The answer is the variations in the genome and differences in gene expression between the two strains. Variations among members of a species arise from genetic and epigenetic changes. Genetic variation arises from mutations, defined as changes in the nucleotide sequence of the genome. Although mutations inevitably change the genotype (the nucleotide sequences of the genome), not all mutations cause phenotypic changes. A phenotype is an observable attribute (such as height or color) of an individual due to the expression of certain genes. Gene expression is the production of functional RNAs or proteins coded by genes. Epigenetic variations do not involve changes in the nucleotide sequence of the genome. Most epigenetic variations result from modifications of chromosomal DNA (for example, methylation of nitrogenous bases) or proteins (such as histones) that bind to it. The modifications alter gene expression, thereby changing the cell's phenotype. All mutations and some epigenetic changes are heritable (i.e., they pass from parent to offspring). We will not discuss epigenetics in this course. This chapter discusses microbial genetics and biotechnology. Genetics is the study of heredity and genetic variations in living organisms. Microbial genetic variations present both challenges and opportunities for microbiologists. For example, genetic variations may convert drug-sensitive microbes into drug-resistant ones, or into attenuated strains that can be used as vaccines. Biotechnology is the use of cells or their parts to develop products and services. We will briefly address how microbial genetic information is used in biotechnology. Part 1: Microbial Genetics Inheritance of genetic variations A cell inherits its genome vertically from its parental cell. Progeny of asexual reproduction inherit DNA from a single parental (mother) cell, whereas those of sexual reproduction inherit DNA from two parents (Fig. 6.1). Many mutations that occurred in the parental cells' genome in their lifetime are passed to the progeny cells. Fig. 6.1. Vertical and horizontal (lateral) DNA transfer. A. Cells (and organisms) inherit the genome vertically from their parents. In asexual reproduction, the progeny receive DNA from one parent. In sexual reproduction, the progeny receive DNA from two parents. B. A cell may obtain DNA horizontally from another live cell (which is not its parent) via conjugation or from a dead cell via transfection and transduction. In transfection, exogenous DNA enters the recipient cell; in transduction, defective viruses deliver DNA from a cell to the recipient cell. The cell may also get plasmids and provirus DNA (see text for details). During its lifetime, the cell accumulates many mutations in the genome. In addition, the cell may acquire foreign DNA from other organisms, including other (non-parental) cells, plasmids, and viruses, through lateral (i.e., horizontal) DNA transfer (Fig. 6.1). Once acquired, the foreign DNA may change the cell's genotype and, in some cases, phenotype.",
+  "openstaxEquivalent": null,
+  "sources": {
+    "chapterPdf": "6. Microbial Genetic and Biotechnology.pdf",
+    "pptPdf": "MMAHP Ch 6 PowerPoint Outlinepdf.pdf"
+  },
+  "sections": [
+    {
+      "number": "6.1",
+      "heading": "Vertical DNA transfer",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Genetic variation is the difference between the nucleotide sequences of the wild-type genome and the genome of an individual of the same species. A wild type is the version of the genome that is most common in the population, and it confers advantages on individuals who carry it. However, mutations, especially point mutations, are so common that a true wild type exists only as a theoretical construct, not an established one. A mutation can be deleterious, neutral, or beneficial. If a mutation is found in <1.0% (of the members) of a population, it is most likely deleterious because it may have reduced the fitness of its carriers and prevented its frequency from increasing. Alternatively, the mutation may have occurred recently. If a mutation is found in >1% (of the members) of a population of a species, it is most likely neutral or beneficial; such mutations are considered tolerated mutations or polymorphisms. The two major types of mutations are point mutations and chromosomal anomalies.",
+          "page": 2
+        },
+        {
+          "type": "subheading",
+          "text": "Point mutations",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Point mutations are changes in one or a few nucleotides of a gene or the genome. The three major types of point mutations are nucleotide substitution, nucleotide insertion, and nucleotide deletion (Fig. 6.2). The substitution mutations can be a transition (a purine nucleotide substituted by a purine nucleotide or a pyrimidine nucleotide substituted by a pyrimidine nucleotide) or a transversion mutation (a pyrimidine nucleotide substituted by a purine nucleotide or vice versa). Insertion and deletion involve the gain and loss of a few nucleotides, respectively. The most common point mutations are single-nucleotide polymorphisms (SNPs). The frequency of SNPs in the human genome is about one per 1,000 nucleotides.",
+          "page": 2
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.2. Common point mutations and chromosomal anomalies. A. Point mutations. base substitutions; a and b-",
+          "page": 2,
+          "image": "/mmahp/ch06/6-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "transitions; c and d- transversions; e- single nucleotide deletion or insertion; f- deletion or insertion of multiple nucleotides. B. Whole genome chromosomal anomalies in a diploid cell. a- normal diploid chromosome count (2n); b- translocation (exchange of DNA fragments between chromosomes 1 and 2), c- polysomy (2n+ one extra chromosome 2), d- monosomy (2n, except one of the two chromosome 2 missing), e- polyploidy (4n). C. Anomalies within a chromosome. From top- insertion, deletion, inversion, translocation, and amplification. Chromosomal anomalies The number and structure of chromosomes determine the karyotype of a cell. A cell is generally monoploid (contains one set of chromosomes) or diploid (contains two identical sets of chromosomes). The cells of prokaryotes and some protists are monoploid; the higher eukaryotes are generally diploid. If a cell loses or gains one or more chromosomes, the cell has a chromosomal anomaly (Fig. 6.2). Loss or gain of a large portion of a chromosome, or rearrangement of a chromosome involving a large chunk of DNA, is also a chromosomal anomaly.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "The common structural changes within chromosomes include (a) insertion (a small or large segment of non-native DNA is inserted into the chromosome through phosphodiester bonds, (b) deletion (a small or large segment of native DNA is removed from the chromosome), (c) inversion (a small or large segment of DNA of the chromosome is inserted back into the same location of the genome in reverse orientation), (d) translocation (a portion of a chromosome moves to another location of the chromosome), and (e) amplification (a small or large segment of chromosome is replicated repeatedly and retained in the genome) (Fig. 6.2).",
+          "page": 2
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 4,
+          "title": "Mutations",
+          "bullets": [
+            "Point mutations",
+            "Transition",
+            "Transversion",
+            "Insertion",
+            "Deletion",
+            "Chromosomal",
+            "Loss of a fragment or a",
+            "Gain of a fragment or",
+            "Changes in the"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.2",
+      "heading": "The causes of mutations",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The genome undergoes mutations due to internal and external factors. The internal factors include DNA replication errors, failure of the DNA repair system, and transposon movement. External factors include physical, chemical, and biological agents that cause DNA damage. If damaged DNA is not repaired or is repaired incorrectly, mutations occur. Physical, chemical, or biological factors that increase mutation rates are mutagens.",
+          "page": 3
+        },
+        {
+          "type": "subheading",
+          "text": "DNA replication errors and proofreading",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "When DNA polymerases copy DNA, they may mistakenly select the wrong nucleotide, omit a nucleotide, or copy one nucleotide with two or more nucleotides. Such mistakes result in substitution, deletion, and insertion mutations, respectively (Fig. 6.3). DNA polymerases detect most errors and correct them using their 3’ to 5’ exonuclease activity (removing DNA containing the incorrect nucleotides) and then replacing them (Fig. 6.3). This proofreading ability reduces error rate of the E. coli DNA polymerase III to about 1 on 10 million bp replicated. The presence of some mutagens increases the error rates of DNA polymerase. RNA polymerases either lack proofreading ability or are inefficient in proofreading. As a result, RNA viruses mutate more frequently and evolve rapidly.",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.3. Proofreading and base mismatch repair. A. Proofreading by DNA polymerase III of E. coli. The DNA",
+          "page": 3,
+          "image": "/mmahp/ch06/6-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "polymerase detected an A-C mismatch, backtracked by removing some nucleotides, including the incorrect one, and then resumed DNA replication. B. Base mismatch repair. The mismatch-tracking proteins found a C-T mismatch that had been left uncorrected by the DNA polymerase. The trackers recruited nucleases that removed a patch of DNA from the strand containing the incorrect nucleotide. The gap was then filled in by DNA polymerase I. DNA ligase sealed the DNA ends, completing the repair.",
+          "page": 3
+        },
+        {
+          "type": "subheading",
+          "text": "Mismatch repair",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "If a replication error is not removed by proofreading, the resulting base mismatch creates an ssDNA bubble on dsDNA (Fig. 6.3). The cell’s DNA mismatch repair system detects such errors and recruits nucleases to remove a patch of nucleotides on the newly synthesized DNA strand surrounding the ssDNA bubble. DNA polymerase then replicates DNA to fill in the gap (Fig. 6.3).",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "The system fails to correct all the mismatches before the chromosome is replicated again. Once DNA is replicated, mutations are passed to progeny cells, where they appear as part of the natural DNA and cannot be repaired. This is the natural background rate of mutation, which, for E. coli cells, is about one mutation per 1 to 10 billion nucleotides replicated. Such mutations (about 1 mutation per 100 to 1000 cell divisions) help the species evolve even in the absence of selective pressure.",
+          "page": 3
+        },
+        {
+          "type": "subheading",
+          "text": "DNA damage",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Because it contains reactive elements such as O, H, and P, DNA may readily react with various reactive chemicals, including water and chemical mutagens, leading to DNA damage. DNA damage includes chemical changes in the nitrogenous bases or in the sugar-phosphate backbone. Some effects of the mutagens are listed below. Ionizing radiation: Short-wave (100-280 nm) UV light (also called UVC), gamma radiation, X-ray, and E-beam radiation may remove electrons from water, creating highly reactive chemical substances such as hydroxyl radicals (– OH-), hydrogen peroxide (H2O2), and singlet oxygen (O20). The items may react with DNA, causing ssDNA or dsDNA breaks (Fig. 6.4). DNA polymerase cannot replicate broken DNA unless it is repaired.",
+          "page": 4
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.4. DNA damage. A. Ionizing radiation produces reactive chemicals from water. The chemicals may damage",
+          "page": 4,
+          "image": "/mmahp/ch06/6-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "the bases and break the DNA backbone. B. UVB may cross-link adjacent T and C or T and T bases. C. Water may remove -NH2 groups from a nitrogenous base or the entire purine (A or G) nucleotide of DNA. D. Alkylating agents add alkyl groups (such as CH3 or CH3-CH2- groups) to the nitrogenous bases of DNA.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "UV irradiation: Medium-wavelength UV light (280-315 nm, also called UVB) causes covalent bond formation (cross-linking) between adjacent T/T or T/C bases (Fig. 6.4). DNA polymerase cannot replicate cross-linked DNA unless it is repaired.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Water damage: Water occasionally removes NH2 groups from A, G, or C bases or the entire A and G bases from nucleotides of genomic DNA (Fig. 6.4). DNA mutates if it is replicated before repairing the damage (Fig. 6.4). Here, water, the foundation of life, behaved as a mutagen, indicating the importance of the evolution of genomes. Alkylation: Agents such as methyl methane sulfonate (MMS), methyl mercury (CH3Hg+), and nitrosamines (R-N- N=O) attach alkyl (i.e., CH3, CH3CH2-, or similar R) groups to the nitrogenous bases of DNA. Alkylated nucleotides improperly base-pair, causing DNA mutations if the damaged DNA is replicated before it is repaired (Fig. 6.4). Repair of damaged DNA Damaged DNA can be repaired by various methods, including the following.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "UV cross-linked DNA: E. coli uses photolyase, an enzyme that uses the energy of UV to remove T=T and T=C cross- linking bonds (Fig. 6.5)",
+          "page": 5
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.5. What happens if damaged DNA is replicated before repair? A. Effect of DNA damage. The bases G and",
+          "page": 5,
+          "image": "/mmahp/ch06/6-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "A on the top strand were damaged and turned to X and H. X and H were not repaired before DNA replication. They were replicated with incorrect nucleotides A and G. As a result, a GC base pair turned to an AT base pair, while a TA base pair turned to a GC base pair. B. Methylated G (shown as Gm) caused the CG base pair to turn into a TG base pair in the cell that received the bottom strand. In the cell that received the bottom strand, the mismatched TG base pair turned into a TA base pair after DNA replication.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "DNA methyltransferases: A bacterial enzyme known as methyltransferase removes damaging alkyl (CH3, etc.) groups attached to nucleotides (Fig. 6.6).",
+          "page": 5
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.6. Repair of damaged DNA. A. Bacterial photolyase repairs cross-linked DNA by cutting away the covalent",
+          "page": 5,
+          "image": "/mmahp/ch06/6-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "bonds between cross-linked T=C or T=T. B. Methyltransferases repair incorrectly methylated DNA by removing methyl groups from nitrogenous bases such as methylated guanine (Gm) and methylated cytosine (Cm). C. The base excision repair system removes damaged bases and then the sugar-phosphate backbone, allowing DNA polymerase to repair the gap. D. The nucleotide excision repair system removes the damaged base and additional nucleotides flanking the damaged base. The gap is then filled in by a DNA polymerase. DNA ligase ligates the DNA ends. Nitrogenous base and nucleotide excision repair systems: A dedicated group of enzymes removes the damaged nitrogenous bases or the damaged nucleotides along with a chunk of ssDNA around the damaged nucleotide. The gap is then filled in by a DNA polymerase such as the bacterial DNA polymerase I (Fig. 6.6).",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Repair of ssDNA nicks: An ssDNA nick is a break in a phosphodiester bond of one of the two strands of a dsDNA molecule. The single-strand break repair (SSBR) system detects the nick and recruits DNA ligase. DNA ligase repairs the damage by restoring the phosphodiester bond (Fig. 6.7).",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Repair of broken dsDNA: dsDNA breaks cause chromosome fragmentation. Nucleases in the cell may remove additional nucleotides from the broken ends. The cell may not repair such damage to avoid mutations and may instead choose to die through apoptosis. However, diploid eukaryotic cells may use a complex system called homologous DNA repair to reconnect the ends of a broken chromosome using the other chromosome as a template. The process requires melting dsDNA to create ssDNA, DNA replication, and DNA ligation. The detail is not provided here. Eukaryotic cells also have a non-homologous end-joining (NHEJ) system that can ligate two DNA fragments. NHEJ repair almost always leads to mutations. However, B and T lymphocytes in vertebrates use this method to generate genetic diversity in certain receptor genes (see Chapter 9).",
+          "page": 6
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.7. Repair of ssDNA nick and dsDNA breaks. A. The ssDNA nick is repaired by the SSBR system. B. Two",
+          "page": 6,
+          "image": "/mmahp/ch06/6-7.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "dsDNA molecules can be joined by the NH EJ system without repairing any possible damage. The process may create mutations, indicated by the blue dots on the lines. C. dsDNA repair using the homologous recombination method. Cells with multiple mutations, especially with DNA crosslinking and broken dsDNA, kill themselves. This process is known as programmed cell death (PCD) in bacteria and apoptosis in eukaryotic cells. Microbiologists use this cellular trend, employing physical and chemical agents that induce DNA damage, to control microbial populations and treat cancers.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Not all DNA damage is lethal. Some cells partially repair the damaged genome and survive. In multicellular organisms, cells with a mutated genome may turn into transformed cells or tumors. Tumor cells lack tight cell-cycle regulation, so they divide frequently and accumulate additional mutations, eventually becoming cancer cells. Environmental mutagens are serious health hazards in modern societies.",
+          "page": 6
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 5,
+          "title": "Causes of mutation",
+          "bullets": [
+            "Replication error",
+            "Effects of",
+            "Errors in"
+          ]
+        },
+        {
+          "slideIndex": 7,
+          "title": "Repair of damaged bases and nucleotides",
+          "bullets": [
+            "UV crosslinking repair",
+            "by bacterial",
+            "Alkylated nucleotides",
+            "by alkyl transferases",
+            "Base excision/",
+            "Detection",
+            "Removal",
+            "Patching"
+          ]
+        },
+        {
+          "slideIndex": 8,
+          "title": "Repair of broken DNA",
+          "bullets": [
+            "SsDNA nicks",
+            "SSBR system",
+            "dsDNA break",
+            "NHEJ system",
+            "Mutation risks",
+            "Homologous"
+          ]
+        },
+        {
+          "slideIndex": 9,
+          "title": "Error or damages not corrected/repaired",
+          "bullets": [
+            "The cell die",
+            "Programmed cell death",
+            "Apoptosis (eukaryotes)",
+            "Daughter cells get",
+            "Base substitution"
+          ]
+        },
+        {
+          "slideIndex": 10,
+          "title": "Biological mutagens",
+          "bullets": [
+            "DNA viruses",
+            "Viruses with oncogenes",
+            "Cellular oncogenes",
+            "Movement of DNA",
+            "Chromosome break and loss of",
+            "Insertional mutation of a gene",
+            "Translocation of genes",
+            "Movement of"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.3",
+      "heading": "Mutation caused by transpositions (mobile DNA elements)",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Mobile DNA is a stretch of DNA that is found in different locations of the chromosomes of different individuals of the same species. The mobile DNA elements in bacteria include insertion sequences (also called IS elements), DNA transposons, and transposon-like viruses. IS elements and DNA transposons have inverted repeat DNA sequences at their ends. (Fig. 6.8). IS elements lack genes except for one encoding the transposase enzyme. There are various types of DNA transposons in bacterial genomes, but they all contain the transposase gene and additional genes, including genes for antibiotic resistance. Transposon-like viruses are mutated proviral (bacteriophage) genomes inserted into the host bacterium's chromosome. Some temperate (i.e., lysogenic) phages can also be present in the bacterial genomes (Fig. 6.8).",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Eukaryotic cells also harbor a heavy load of DNA transposons. In addition, they have retrotransposons and DNA genomes of RNA retroviruses inserted into their chromosomes. Here, we will not discuss the mobile DNA of eukaryotic cells.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacterial IS elements and DNA transposons move from one location of the chromosomal DNA to another when the cellular transcription machinery transcribes the transposase genes, and the mRNA is translated to synthesize the transposase (enzyme). Transposase binds the inverted-repeat DNA sequence of the transposon, cuts it, and excises it. The enzyme then cuts another site on the chromosomal DNA and inserts the transposon there (Fig. 6.8). The enzyme does not repair the chromosome break caused by the transposon's removal. Moreover, the enzyme may insert the transposon inside a functional gene, thereby damaging it or its regulation. Therefore, both the removal and insertion of the transposon may cause mutations. Transposons are built-in elements of the genome that facilitate mutation and genome evolution.",
+          "page": 7
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.8. Genetic variation due to mobile DNA. The transposase enzyme binds to and cuts at the end of the inverted",
+          "page": 7,
+          "image": "/mmahp/ch06/6-8.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "repeats of the DNA transposon, removes the transposon, and inserts it into another location. The enzyme does not repair the dsDNA break in the previous location and may disrupt a gene or operon.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Mobile DNA, DNA viruses, and oncoviruses (viruses having cancer-causing genes), are potential biological mutagens because their activities may alter the genomic structure and gene expression of the host cell.",
+          "page": 7
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "6.4",
+      "heading": "Consequences of mutations and DNA damages",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Point mutations in spacer DNA, repeat DNA, and transposons in the genome may not have negative consequences. Point mutations in gene promoters and regulatory elements may alter gene expression rates. The most damaging mutations are those that affect the structural region of genes encoding rRNAs, tRNAs, and mRNAs. The mutations may prevent the RNAs from folding properly, disrupt mRNA translation, or create a mutant protein with an altered amino acid sequence. The altered protein may not fold and function properly. The consequences could be diverse. Some potential effects of point mutation on the structural region of an mRNA gene are shown in Fig. 6.9. Point mutations in exons and the open reading frames (ORF) of mRNA genes can affect cells in many ways. For example, the codon 5’AAA3’ codes for lysine. A single nucleotide change in the codon may convert it to 5’CAA3’, which codes for glutamine. Such mutations in the ORF that change the amino acid sequence of a protein are missense mutations. Mutation of the codon 5’AAA3’ to 5’TAA3’ would convert the codon to a stop codon. These mutations, which lead to the synthesis of a shorter, nonfunctional protein, are called nonsense mutations. Insertion or deletion of one or two nucleotides in the ORF causes a frameshift that changes all codons, including the stop codon of the ORF. A mutation in the stop codon may turn the stop codon into another codon. Such a mutation is a read-through mutation, in which ribosomes continue translating the mRNA and cannot terminate translation. Many mutations in the ORF are silent because many amino acids have multiple codons. For example, glycine has four codons (5’GGG3’, 5’GGC3’, 5’GGA3’, and 5’GGT3’); thus, a substitution mutation in the third nucleotide of the codon would not change the amino acid sequence of the protein. Such mutations are called silent mutations.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Deletion, insertion, duplication, and inversion of large DNA segments within a chromosome can have various adverse effects. If a telomere (the end of a eukaryotic chromosome) is deleted, the entire chromosome may be lost from the cell, or the chromosome may fuse with another chromosome. Insertion, duplication, and inversion of large DNA fragments inside a gene could inactivate some of the genes in the chromosome. Loss or gain of one or more chromosomes and polyploidy are almost always deleterious in animals, although plants tolerate many such mutations.",
+          "page": 8
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.9. Consequences of some point mutations in the ribosome binding site (RBS)and the ORF of a bacterial",
+          "page": 8,
+          "image": "/mmahp/ch06/6-9.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "mRNA gene. A. A normal gene with a functional RBS (5’AGGAGG3’, shown in the green box) and the original ORF. The start codon (5’ATG3’) and the stop codon (5’TAA3’) are shown in the boxes. The translation product is shown under the ORF. B. A missense mutation due to a T to C transition mutation that changed the codon from 5’AAA3’ to 5’CAA3’ and the amino acid from Lys to Gln. C. A nonsense mutation due to an A to T transversion mutation that changed the codon 5’AAA3’ to a stop codon 5’TAA3’. D. An insertion mutation. Insertion of a T nucleotide changed all the codons, including the stop codon of the ORF. E. Read through mutation due to a T to C transition that changed the stop codon 5’TAA3’ to a codon 5’CAA3’, allowing the ribosomes to continue translating. F. A mutation in the RBS may prevent the ribosomes from translating the mRNA of the gene.",
+          "page": 8
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 11,
+          "title": "Consequences of mutations",
+          "bullets": [
+            "No apparent consequences",
+            "Lethality",
+            "Lack of DNA replication",
+            "Cells may survive",
+            "Lack of gene transcription",
+            "Altered phenotype due to",
+            "Can be beneficial",
+            "Can be deleterious",
+            "Can be neutral (polymorphic)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.5",
+      "heading": "Variations through horizontal DNA transfer",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Heritable variation in a bacterial cell resulting from the uptake of foreign DNA is known as bacterial transformation. The three major processes of horizontal (also called lateral) DNA transfer are transfection, transduction, and conjugation (Fig. 6.1). In transfection, DNA is acquired from the environment (soil and water). In transduction, a virus delivers the DNA of one cell to another. In conjugation, a plasmid helps transfer the DNA of one cell to another. Virus-infected cells receive viral genomes. Viral DNA genomes occasionally integrate into the host cell's chromosome. Viral RNA, on occasion, is reverse-transcribed into DNA, which can be inserted into the host cell's chromosomes. Horizontal gene transfer is relatively rare, yet billions of such events occur every minute because of the astronomical size of the microbial population in nature. Thus, horizontal gene transfer plays an important role in microbial evolution.",
+          "page": 8
+        },
+        {
+          "type": "subheading",
+          "text": "Fate of DNA inserted into a cell",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "The many nucleases (enzymes) of the cell readily destroy DNA from unrelated organisms entering a cell. On rare occasions, some of this foreign DNA, having no nucleotide sequence similarity with the genome of the host cell, gets inserted into the host cell’s chromosome by a process known as non-homologous insertion. The mechanism of this process is not fully elucidated.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "If the sequence of the foreign DNA is quite similar to the recipient cell's genome, the cell may accept portions of it via homologous recombination (Fig. 6.10). Initially, enzymes of the cell melt the dsDNA and remove one of the two ssDNA strands. The system uses the remaining ssDNA to replace part of a chromosome (Fig. 6.10). The resulting dsDNA, called heteroduplex, will contain base mismatches, but the cell's DNA repair enzymes will correct them, creating a recombinant gene. This process is called gene conversion (Fig. 6.10). Gene conversion brings forth permanent genetic variation. Homologous recombination/gene conversion is a safer way to accomplish variation without the risk of deleterious mutations.",
+          "page": 8
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.10. Homologous recombination in bacteria. A bacterial enzyme complex melts foreign dsDNA (shown in",
+          "page": 9,
+          "image": "/mmahp/ch06/6-10.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "red) and ultimately destroys it unless it detects a specific (TGG) signal in the foreign DNA. If the enzyme complex detects the signal, it aligns one of the two strands of the foreign DNA with one of the two strands of the chromosomal DNA (shown in blue). If the two DNA strands are largely complementary, the system removes one of the chromosomal DNA strands and replaces it with the foreign DNA strand. B. Mismatch repair. If the foreign ssDNA and the chromosomal ssDNA strands have a few base-pair mismatches (such as the T-G base pair shown in the figure), the mismatch repair system repairs them. This process, called gene conversion, mutates the cell's genome without any deleterious consequences.",
+          "page": 9
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 3,
+          "title": "Gene transfer",
+          "bullets": [
+            "Vertical",
+            "Asexual reproduction",
+            "Sexual reproduction",
+            "Horizontal or lateral",
+            "Mutations in lifetime",
+            "Transfection",
+            "Transduction",
+            "Conjugation"
+          ]
+        },
+        {
+          "slideIndex": 13,
+          "title": "Lateral DNA transfer: Possible consequences",
+          "bullets": [
+            "Destruction of DNA",
+            "Homologous",
+            "Gene conversion",
+            "Non-homologous"
+          ]
+        },
+        {
+          "slideIndex": 14,
+          "title": "Bacterial transformation",
+          "bullets": [
+            "Transformation of bacteria",
+            "Transformation of eukaryotic",
+            "Transfection",
+            "Can it happen to any cell",
+            "DNA damage",
+            "Natural competence",
+            "Can be done in test tubes"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.5.1",
+      "heading": "Bacterial transformation and DNA transfection",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "DNA, being quite stable, can leak from dead cells and subsequently come into contact with live cells. DNA is negatively charged (due to phosphate groups) and hydrophilic (due to phosphate groups and pentose sugars). The plasma membrane of the cell is also negatively charged (due to phospholipids) on the outside and hydrophobic (due to fatty acids) on the inside. Thus, a fragment of environmental DNA would be electrostatically repelled from a cell. However, when bacterial cells suffer DNA damage, they enter a physiological state called competence, which allows them to take up DNA from the environment. Some bacteria, such as Streptococcus pneumoniae and Haemophilus influenzae, have been found to become naturally competent.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Healthy bacterial cells can be artificially made competent by treating them with cations (such as K+ or Na+). The cations interact with and thus neutralize the negative charges on the DNA and the cell, allowing DNA to be deposited on the cell surface or to pass into the cytoplasm. The rate of DNA passage into the cell can be dramatically increased by exposing the DNA-cell mixture to a short pulse of electric current (about 15 kVolts/cm) or a brief heat shock (42 oC for 30 seconds). The electric current or the high temperature temporarily damages the membrane, allowing rapid DNA entry into the cell (Fig. 6.11).",
+          "page": 9
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.11. Transfecting bacteria. Foreign DNA was mixed with healthy bacterial cells in a cold 0.75% KCl solution.",
+          "page": 9,
+          "image": "/mmahp/ch06/6-11.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "The K+ ions neutralized the negative charge of the DNA and the cells, allowing the DNA to precipitate onto the cells. A brief pulse of elevated temperature (42 °C for 30 seconds) allowed some DNA molecules to enter the bacterial cells. This method is widely used to introduce foreign DNA into bacterial cells.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Eukaryotic cells also naturally take up foreign DNA or can be forced to do so. There are many other methods for inserting foreign DNA into the cell (see Part 2 of this Chapter). Bacterial cells that have taken up foreign DNA are often called transformed bacteria. However, eukaryotic cells that have taken up foreign DNA are called transfected cells because, for eukaryotes, transformation is the change of a healthy cell into a tumor cell. Uptake of foreign DNA may or may not cause a eukaryotic cell to transform.",
+          "page": 10
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "6.5.2",
+      "heading": "Bacterial transduction",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Both lytic and lysogenic infections of a bacterial cell by a bacteriophage (see Chapter 3) may result in bacterial transduction. Recall that during the lytic cycle, the enzymes of the bacteriophage break the chromosome of the host cell into small pieces. Some of these chromosomal DNA pieces may be packaged into some of the newly assembled phage particles. If this unnatural phage particle infects another host cell, it safely delivers the bacterial DNA fragment to the infected cell (Fig. 6.12) The bacteriophage lacks its genome; it cannot damage the host cell. Instead, the host cell uses the foreign DNA for homologous recombination/gene conversion. Any fragment of a bacterial genome can be transferred by the lytic phages. This type of DNA transfer by bacteriophages is called generalized transduction.",
+          "page": 10
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.12. Gene delivery through phage infections. A. Lytic cycle. (i). A phage infects a host cell (injects DNA into",
+          "page": 10,
+          "image": "/mmahp/ch06/6-12.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "the host cell). (ii). Viral genes are expressed, and viral DNA (shown in red) is replicated; the host cell's chromosome (shown in blue) is fragmented. (iii) New phages are assembled, most with viral (red) DNA and a few with the host (blue) DNA. (iv) and (v)- Normal and defective phages infect new host bacteria. The host cell infected by the defective phage uses the delivered DNA for homologous recombination/gene conversion. B. Lysogenic cycle. (i) A phage injects its genomic DNA into its host cell. (ii) The phage genomic DNA gets integrated into the chromosome of the host cell. (iiia) The lysogen fails to replicate DNA; the prophage accurately detaches from the host chromosome. The prophage quickly completes a lytic infection cycle, producing many infectious phages and few mutants (iva and va). (iiib)-The prophage detaches from the chromosome of the lysogen, but a fragment of the host chromosome remains attached to the prophage genome. The defective phage completes a lytic cycle, but all progeny viruses are defective. They deliver the host chromosomal DNA by infecting new host bacterial cells (ivb and vb). The cell infected by the defective phage uses the DNA for homologous recombination/gene conversion.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "In a lysogenic infection, the phage genome is inserted into the host bacterium's chromosome. The infected bacterium (i.e., the lysogen) survives and divides normally for many generations. However, if the lysogen accumulates too many mutations in its genome, it stops replicating DNA, turns senescent, and ultimately dies. Before the lysogen dies, the prophage (i.e., the inserted phage genome) excises itself from the host cell chromosome and completes a lytic infection cycle. This process is called phage induction. If the induced phage genome is undamaged, the phage produces many infectious phages and some defective phages. The defective phages may cause generalized transduction upon infecting new bacterial hosts (Fig. 6.12).",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "During induction, the prophage occasionally carries a fragment of the host cell chromosome near the site of its insertion (Fig. 6.12). The mutant induced phage may complete the lytic cycle, but all the progeny phages carry a fragment of bacterial DNA. When these defective phages infect another bacterium, they fail to kill the host cell; instead, they deliver a fragment of bacterial DNA that the recipient cell may use for homologous recombination/gene conversion. This type of DNA transfer by phages is called specialized transduction because it can transfer only a particular DNA fragment from the previous host to the new host bacterium.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "If a nonpathogenic bacterium turns pathogenic due to lysogenic viral infection, the process is called lysogenic conversion. Lysogenic conversion occurs because some viral genes expressed in the host cell help the bacterium cause harmful effects on the host. Corynebacterium diphtheriae is normally nonpathogenic, but it becomes pathogenic when lysogenized by a bacteriophage known as corynebacteriophage. The lysogen expresses the diphtheria toxin gene of the prophage. The diphtheria toxin causes diphtheria. Several other bacterial diseases, including botulism, cholera, and bacillary dysentery, can be caused by bacteria that have undergone lysogenic conversion.",
+          "page": 11
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 16,
+          "title": "Bacterial transduction",
+          "bullets": [
+            "Lytic infection",
+            "As an antibacterial",
+            "Generalized",
+            "Lysogenic infection",
+            "Lysogen",
+            "Lysogenic conversion",
+            "Specialized"
+          ]
+        },
+        {
+          "slideIndex": 22,
+          "title": "Viruses with a fragmented genome",
+          "bullets": [
+            "Influenza virus",
+            "Antigens",
+            "Antigenic drift",
+            "Antigenic shift"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.5.3",
+      "heading": "Bacterial conjugation",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Before we discuss bacterial conjugation, we need a brief on plasmids. Plasmids are genome creatures with a linear or circular, single-stranded or double-stranded DNA genome, but lacking a capsid. Circular dsDNA plasmids are most common. Plasmid sizes range from 2 to 400 kb. Plasmids contain a genome replication origin that allows them to replicate independently of the host cell. Plasmids replicated during the lifetime of the host cells are distributed vertically (i.e., partitioned) to their daughter cells during binary fission. However, some plasmids are transferred horizontally. Plasmids can be grouped by the types of genes they contain (Table 6.1).",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Table 6.1. Bacterial plasmids",
+          "page": 11,
+          "image": "/mmahp/ch06/6-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Conjugative plasmids (F factors) Large plasmids, have genes that encode the pilin proteins for sex pilus, responsible for bacterial conjugation, may transfer laterally.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Non-conjugative plasmids Smaller in size; can be transferred laterally only with the help of a compatible conjugative plasmid, otherwise pass vertically to daughter bacterial cells during binary fission of the parent cell.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Resistance plasmids (R factors) Plasmids containing one or more antibiotic resistance genes.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Dissimilation plasmids (D factors) Plasmids containing genes that encode proteins that metabolize toxic environmental chemical compounds and allow the host bacteria to thrive there.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Bactericinogenic plasmids Plasmids containing genes that encode bacteriocins (a group of antibiotics) that allow the host species to outcompete some other bacterial species in the same environment.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Virulence plasmids Plasmids that have genes that encode virulence factors such as exotoxins, adhesins, and capsule proteins that make the host bacterium more pathogenic.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "The plasmid genomes may also contain transposons and lysogenic phage (prophage) genomes integrated into them. The R factor plasmids may transfer from one strain or species of bacteria to another. The spread of drug resistance among pathogenic bacteria through R factor plasmids is increasingly a big public health concern. Virulence factor plasmids make the host bacterium more pathogenic. Cholera toxins of Vibrio cholerae, tetanus toxins of Clostridium tetani, and anthrax toxins of Bacillus anthracis are in the virulence plasmids of those bacterial species. The process of bacterial conjugation Bacterial conjugation is a process of lateral DNA transfer through an F factor plasmid. Unlike sexual reproduction, conjugation does not involve the fusion of two cells. Based on the F factor, bacterial strains can be grouped as follows (Fig. 6.13): • F- strains: bacterial cells that lack an F factor plasmid.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "• F+ strains: bacterial cells have a free F factor plasmid.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "• Hfr strains: bacterial cells that have an F factor plasmid integrated into their chromosome. • F’ strains: bacterial cells that have a mutant (but free) F factor plasmid; A fragment of chromosomal DNA is attached to the F factor plasmid.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "The F+, hfr, and F’ bacterial strains can grow sex pili, and they can deliver DNA to an F- strain through a sex pilus. The sex pilus of an F+, hfr, and F’ cell intially contacts an F- cell and attaches to it (Fig. 6.13). The pilus then gradually shortens (by removing pilin subunits) to bring the conjugant cells closer. At that point, DNA from the F+, hfr, and F’ cells pass to the F- cell via the sex pilus. Different donor strains pass different types of DNA to the F- recipients, as follows • F+ strains- They pass one or a few copies of the intact F factor plasmid to the recipient, turning the F- strain into an F+ strain.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "• Hfr strains- They pass the F factor as well as a short or long portion of the chromosomal DNA to the F- strain, depending on how long the two cells remain attached by the sex pilus.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "• F’ strains- They pass one or more copies of the mutant F’ factor plasmid to the recipient F- strains. The donor and recipient bacterial conjugants ultimately separate. The recipient strains can now have the sex pilus and transfer DNA to other F- cells of the same or even different species. The donor strains may also transfer other plasmids they harbor, including R and D factor plasmids, to the recipient strains. The recipient strains that receive chromosomal DNA from the hfr or F’ strains can use it for homologous recombination/gene conversion. Overall, bacterial conjugation is a rich source of lateral DNA transfer for bacterial evolution. Some F+ bacteria (such as Agrobacterium tumefaciens) can conjugate, transferring DNA to plant cells.",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.13. Bacterial conjugation. A. An illustration showing bacterial conjugation. Note that only one of the two",
+          "page": 12,
+          "image": "/mmahp/ch06/6-13.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "bacterial cells has pili, including a sex pilus. The sex pilus must be shortened by removing many units of pilin so that the two cells are in physical contact for the DNA of the donor cell to transfer to the recipient cell. Image courtesy: Biology Stock Exchange. B. F-, F+, hfr, and F- cells. Note that F- cells lack pili, but other strains have them. C. Transfer of DNA from an F+ to an F- cell. Note that at the end of the event, the F- cell turns to an F+ cell. D. Transfer of DNA from an hfr cell to an F- cell. Note that a portion of the chromosome of the hfr cell was transferred to the F- cell. The f- cell can use the bacterial DNA for homologous recombination/gene conversion.",
+          "page": 12
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 18,
+          "title": "Plasmids",
+          "bullets": [
+            "General properties",
+            "Nature of genome",
+            "Types",
+            "F factor",
+            "R factor",
+            "Colicinogenic",
+            "Dissimilation",
+            "Virulence"
+          ]
+        },
+        {
+          "slideIndex": 19,
+          "title": "Bacterial conjugation",
+          "bullets": [
+            "F factor plasmids",
+            "Pilin genes",
+            "Sex pilus",
+            "Bacteria with F",
+            "F(-)",
+            "F(+)",
+            "Hfr",
+            "F’"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.6",
+      "heading": "Genetic variation among viruses",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Viral enzymes (DNA and RNA polymerases) that replicate viral genomes have limited proofreading capacity and a propensity for higher replication error rates. As a result, viruses, especially RNA viruses, accumulate mutations at a higher rate and evolve more rapidly than the cell (Fig. 6.14). For example, a virus strain may evolve into multiple strains, some sensitive to an antiviral drug and others resistant, within the body of a single infected person. Faulty genome replication may also produce defective interfering (DI) viruses with shorter genomes (Fig. 6.14). The DI viruses are like satellites; they infect host cells only if a replication-competent helper virus has previously infected the same cell. The DI virus competes with the wild-type virus for viral proteins and other resources, reducing the pathogenicity of the wild-type virus. However, DI viruses may help establish a persistent/chronic viral infection. A gradual accumulation of point mutations in viral genomes may alter the amino acid sequences of viral protein antigens (for the definition of antigens, see Chapter 9). The host antibodies that recognize/bind the antigens would no longer bind the mutant virus proteins. Such a change in the antigenicity of virus antigens is antigenic drift (Fig. 6.15). Antigenic drift may change the structure of the H and N antigens of influenza viruses. A person who was vaccinated and has antibodies to the H and N antigens of an influenza virus strain (say, H1N1 strain) may not be protected from infection by the H3N2 strain of the same virus species.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.14. Mutations among viruses. A. Rapid mutations in RNA viruses due to the lack of proofreading functions",
+          "page": 13,
+          "image": "/mmahp/ch06/6-14.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "in the viral RNA-dependent RNA polymerases. B. DI viruses have a shorter genome than the wild-type virus from which they evolved. C. Wild-type viruses would rapidly kill the infected cells and elicit a robust immune response. Coinfection with wild-type and DI viruses produces more DI and fewer wild-type viruses. As a result, the immune response would be mild, and the infection may become chronic or persistent.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Some RNA viruses have a fragmented genome. For example, the influenza virus genome is made of 8 different RNA molecules. When two different strains of a virus with a fragmented genome simultaneously infect a single cell, some of their progeny viruses can undergo antigenic shift, incorporating genome fragments from both parental strains (Fig. 6.15). Antigenic shift and drift produce highly infectious influenza viruses that have caused large pandemics in the past.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.15. Antigenic shift and antigenic drift in influenza viruses. A. Antigenic drift is caused by point mutations",
+          "page": 14,
+          "image": "/mmahp/ch06/6-15.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "in the viral genome and concomitant changes in the structure and antigenicity of the virus antigens. B. Antigenic shift is only possible in viruses with a fragmented genome. If two strains of such a virus infect a single host cell, progeny viruses may contain genome fragments of both viruses. In this case, the virions would have antigens from both viruses. Section 2: Microbial Biotechnology Biotechnology is the use of living organisms or their parts to make or modify products and services. Our Neolithic ancestors started biotechnology by (unknowingly) using microbes to make fermented foods and beverages some 8,000 years ago. Modern microbiologists uncovered the mechanisms of biotechnology and applied this knowledge to develop modern biotechnology, such as molecular biotechnology (technology that uses macromolecules such as nucleic acids and proteins as tools) and genetic engineering (technology of changing the genome of living cells). A major tool of molecular biotechnology is recombinant DNA (using synthetic or natural DNA from two or more sources to create a DNA molecule of expected attributes). These technologies allow us to express mouse genes in bacteria and vice versa. The scope of biotechnology and genetic engineering is wide-ranging. Here, we will discuss a few aspects, including molecular cloning, the use of cloned DNA for pathogen detection, and disease diagnosis. Additional aspects of biotechnology will be discussed in Chapter 15.",
+          "page": 14
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 21,
+          "title": "Variation among viruses",
+          "bullets": [
+            "Rapid mutation",
+            "Lack of or",
+            "Fragile RNA",
+            "DI particles"
+          ]
+        },
+        {
+          "slideIndex": 27,
+          "title": "Stability issues of macromolecules",
+          "bullets": [
+            "DNA- relatively stable at low",
+            "Proteins- relatively stable at",
+            "RNA- highly unstable even",
+            "Used right after extraction",
+            "Or cDNA is synthesized cDNA",
+            "Reverse transcriptase",
+            "dNTPs",
+            "A primer"
+          ]
+        },
+        {
+          "slideIndex": 28,
+          "title": "Cloning",
+          "bullets": [
+            "Cellular cloning",
+            "Asexual reproduction",
+            "Cell division",
+            "Organismal cloning",
+            "Grafting, cutting",
+            "Parthenogenesis",
+            "Splitting the zygote",
+            "Molecular cloning",
+            "Chemically",
+            "Enzymatically",
+            "Using a genome"
+          ]
+        },
+        {
+          "slideIndex": 37,
+          "title": "Use of cloned DNA: DNA fingerprinting",
+          "bullets": [
+            "Based on",
+            "Random genome",
+            "Alteration of cutting",
+            "RE digestion of DNA",
+            "Gel electrophoresis",
+            "Band pattern",
+            "Can be as accurate as"
+          ]
+        },
+        {
+          "slideIndex": 38,
+          "title": "Use of cloned DNA: Transgenesis",
+          "bullets": [
+            "Inserting agene of species",
+            "GMO crops via transfecting",
+            "Edible vaccine",
+            "GMP animals vi transfecting",
+            "Gene therapy",
+            "Creating transgenic stem cells"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.7",
+      "heading": "Extraction of proteins, DNA, and RNA",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Since biotechnology uses them as tools or raw materials, one must know how to isolate these molecules from the cell. Proteins, RNA, and DNA constitute about 15%, 6%, and 1% of the wet weight of the cell, respectively. To isolate them, the cell is broken open, the target molecules are collected, and the unwanted cellular molecules are selectively removed. Animal cells can be easily broken by detergents (soap-like molecules that denature lipid membranes and proteins). Bacterial, fungal, algal, and plant cells have thick cell walls that require either mechanical force or enzymes to break. Lysozyme can be applied to destroy the bacterial cell wall, while lyticase can be utilized to destroy the fungal cell wall. The cell extract is prepared in a buffered solution (pH 8.2) containing reducing agents, such as dithiothreitol (to prevent oxidation and the formation of unnecessary covalent bonds between molecules), and chelating agents, such as ethylenediaminetetraacetic acid (EDTA), that bind metal ions (such as Ca2+ and Mg2+). Proteins and RNAs are labile (they lose biological activity and get degraded easily), but DNA is quite stable. For convenience, the three entities are isolated, each using different methods.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "To separate proteins, the cell is treated with a mild detergent (such as Triton X-100) to disrupt the plasma membrane, then extracted with a buffered salt solution to solubilize proteins. RNase and DNase can be added to degrade and remove RNA and DNA. Water-insoluble components, such as lipids and polysaccharides, are then removed by centrifuging the tubes. The soluble, protein-containing fraction is further purified using various matrices to which the protein binds (Fig. 6.16). The process of protein separation is known as liquid chromatography.",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.16. Separation of protein, DNA, and RNA from the cellular extract. The steps are briefly described in the",
+          "page": 15,
+          "image": "/mmahp/ch06/6-16.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "figure. Plasmid and viral DNA and RNA can also be extracted using similar protocols.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "For DNA extraction, the cell is treated with harsh detergents such as sodium dodecyl sulfate (SDS) (to denature lipids and proteins), proteases (to degrade proteins), and RNase (to degrade RNA), and then extracted with a phenol- chloroform mixture. Degraded proteins, lipids, and polysaccharides are separated by centrifugation. The aqueous upper layer is collected in a new tube. Ethanol is then added to the tube to precipitate the dissolved DNA. The solution is centrifuged again to pellet the DNA and remove the watery supernatant (Fig. 6.16).",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "For RNA extraction, the cell is treated directly with a buffered solution containing guanidinium thiocyanate, a harsh detergent, to rapidly denature proteins and DNA. The rest of the protocol is similar to DNA extraction (Fig. 6.16). The amount of protein, DNA, or RNA extracted can be determined by various methods, including spectroscopy. Proteins absorb UV light (peak absorption at 280 nm). DNA and RNA also absorb UV light (peak at 260 nm). Based on the amount of UV light (of a specific wavelength) absorbed, one can determine the concentration of protein or nucleic acid (mg/ml) in a solution.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Proteins and DNA can be stored at low temperatures (-80 °C) for many months without loss of biological activity. However, RNA rapidly degrades in aqueous solution. Scientists usually use RNA as soon as it is extracted or synthesize complementary DNA (cDNA) using the extracted RNA.",
+          "page": 15
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 26,
+          "title": "Extraction of Proteins, DNA and RNA",
+          "bullets": [
+            "Break the cell wall",
+            "Mechanical",
+            "Enzymatic",
+            "Break membranes",
+            "Detergents",
+            "Chloroform",
+            "Break proteins",
+            "Detergents",
+            "Proteases",
+            "and phenol",
+            "Break DNA",
+            "DNase",
+            "Break RNA",
+            "RNase",
+            "Chelating agents",
+            "EDTA",
+            "Reducing agents",
+            "DTT, BME"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.8",
+      "heading": "Synthesizing cDNA",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "To synthesize cDNA, scientists use an enzyme known as reverse transcriptase (RT). This enzyme is like a DNA polymerase, but it copies ssRNA using dATP, dCTP, dGTP, and dTTP. The process also needs a primer. A short synthetic DNA (about 10 nucleotides in length) serves as the primer. After cDNA is synthesized, the RNA template is degraded by a nuclease named RNaseH. The cDNA preserves the nucleotide sequence of the RNA template in the opposite orientation (Fig. 6.17).",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.17. Complementary DNA synthesis. A. An ssRNA molecule. B. A primer (5’CTGG3’) annealed and",
+          "page": 16,
+          "image": "/mmahp/ch06/6-17.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "hybridized with the ssRNA molecule. C. An RT (enzyme) extended the primer by copying the ssRNA using dATP, dTTP, dCTP and dGTP. D. A DNA-RNA hybrid molecule is created. E. RNaseH removes the ssRNA molecule from the RNA-DNA hybrid. F. A cDNA molecule is synthesized.",
+          "page": 16
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "6.9",
+      "heading": "Molecular cloning",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Cloning is the creation of many replicas of an original. Bacteria clone themselves through cell division. One can easily clone a tree by planting a few of its twigs. Identical twins are clones of the initial fertilized egg. Biologists can clone an organism, a cell, or a DNA molecule (6.18).",
+          "page": 16
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.18. Cloning in various forms. A. A cell clones itself by cell division (binary fission or mitosis). B. Identical",
+          "page": 16,
+          "image": "/mmahp/ch06/6-18.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "twins (such as Mark and Scott Kelly, image-NASA) are clones. The zygote formed by the union of a sperm and an egg from their parents divided into two cells and developed into two babies. C. Cloning DNA is making many copies of a section of a genome or the whole genome.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Cloning a DNA molecule is molecular cloning. Handling a single DNA molecule is difficult because of its small size. Having many identical copies of it makes DNA easier to handle and manipulate. Proteins and RNAs are not cloned because they can be synthesized once the DNA encoding them is available. The three common methods of cloning DNA are synthetic DNA, polymerase chain reaction (PCR) cloning, and vector-based cloning.",
+          "page": 16
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 30,
+          "title": "PCR cloning",
+          "bullets": [
+            "Ingredients",
+            "DNA template",
+            "dNTPs",
+            "Heat-stable DNA",
+            "Two primers",
+            "Thermocycler",
+            "Three cycle PCR",
+            "95 oC",
+            "55-65 oC",
+            "72 oC"
+          ]
+        },
+        {
+          "slideIndex": 31,
+          "title": "Vector-based cloning",
+          "bullets": [
+            "Cloning vectors",
+            "Plasmids",
+            "Viruses",
+            "Artificial",
+            "Properties of cloning",
+            "Replication origin",
+            "Multicloning site",
+            "Selective marker gene",
+            "Advantages",
+            "Large product",
+            "Less mutation",
+            "Protein expression"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.9.1",
+      "heading": "Synthetic DNA, RNA, and proteins",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "If the nucleotide sequence of a DNA molecule is known, it can be synthesized using a DNA synthesizer. The machine allows dATP, dCTP, dTTP and dGTP to chemically react under a highly controlled environment. A computer controls the reaction sequence, thereby dictating the sequence of the synthesized DNA. Since many copies of the target DNA are synthesized, synthetic DNA is also cloned DNA. A limitation of the method is its inability to synthesize molecules longer than a few hundred nucleotides.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Short RNA and short polypeptides can also be synthesized using RNA synthesizers and peptide synthesizers, respectively. Synthetic nucleotides and synthetic peptides have wide applications. PCR primers (see Section 6.9.2) are synthetic DNA. Some synthetic RNAs are used as drugs. The currently used hepatitis B vaccine is a synthetic polypeptide chain.",
+          "page": 17
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 29,
+          "title": "Synthetic DNA, RNA and polypeptide",
+          "bullets": [
+            "DNA synthesizer",
+            "dNTPsà DNA",
+            "Synthetic RNAs",
+            "NTPsà RNA",
+            "Chemically modified",
+            "RNA drugs",
+            "Synthetic peptides",
+            "Amino acids à"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.9.2",
+      "heading": "Polymerase chain reaction (PCR) cloning",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "PCR is an origin-independent DNA replication method performed in a test tube (Fig. 6.19). In the cell, the dsDNA must have a replication origin; helicases must melt the dsDNA; a primase must create the primer; and then DNA polymerase replicates the ssDNA. In a test tube, dsDNA is heated in a buffer to 95 °C to melt it. A synthetic oligonucleotide complementary to the target DNA serves as the primer. The DNA polymerase used in PCR is isolated from Thermus aquaticus or other bacteria that normally grow in hot-water geysers.",
+          "page": 17
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.19. PCR basics. A. The template and primers. Shown are a long dsDNA molecule and two primers that anneal",
+          "page": 17,
+          "image": "/mmahp/ch06/6-19.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "and hybridize to the two DNA strands. The boxed region between the two primers is the target DNA sequence to be cloned. B. Duplication of the target DNA following each cycle of PCR. The original DNA strands are shown in red and yellow; the newly synthesized DNA strands are shown in teal. Note that after cycles 1, 2, 3, and 4, the number of copies of the target dsDNA increased to 21=2, 22=4, 23=8, and 24=16, respectively. After 35 cycles, the number of target dsDNA would be 235, an enormous number.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "For PCR, the template DNA, dNTPs, the primers, and the heat-stable DNA polymerase are mixed in a tube. The tube is placed in a thermocycler. The machine elevates the temperature to 95°C to separate the two strands of the template dsDNA. The temperature is then rapidly lowered to about 55°C so that the primers (used in excess) can anneal to complementary ssDNA templates, long before the two strands of the template DNA can hybridize to form dsDNA. The DNA polymerase then extends the 3’ ends of the hybridized primers (i.e., replicates DNA). The temperature is increased to 72°C (the optimum temperature for the heat-stable DNA polymerase) to enable the enzyme to extend the primer most efficiently (Fig. 6.19).",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "The three steps described above are repeated so that DNA synthesized in earlier rounds may serve as template DNA in later rounds. After a few rounds, an enormous number of copies of the target DNA are synthesized (Fig. 6.19). Single-stranded cDNA can also be used as a template for PCR cloning. Since cDNA is synthesized using reverse transcriptase, PCR using cDNA template is known as reverse transcriptase PCR (RT-PCR).",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Under stringent conditions (i.e., at high temperature), primers align or hybridize only with the specific DNA sequences to which they are complementary. For example, the primer 5’CCAGTTCAGT3’ would anneal/hybridize only with a DNA molecule that has the sequence 5’ACTGAACTGG3’ and no other DNA molecule. The primer is 10 nucleotides in length; the chance of a random DNA molecule having the exact same sequence as the primer is very low, just 1/(410). Thus, PCR can be used as a detection/diagnostic tool. For example, whether a person (without any disease symptoms) is infected with the hepatitis B virus can be easily tested by PCR using an appropriate primer pair and DNA extracted from the subject's blood plasma. If there were one virus particle in one ml of the serum sample, PCR could be employed to detect it.",
+          "page": 18
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "6.9.3",
+      "heading": "DNA cloning using cloning vectors",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A cloning vector is typically a plasmid or a mutant viral genome. The mutant viruses infect but cannot kill the host cell. The target DNA to be cloned is inserted into the cloning vector, and the recombinant cloning vector is then introduced into a host cell (Fig. 6.20). Since the plasmid or viral genome contains a replication origin, the recombinant vector replicates within the host cell. The inserted target DNA replicates as a part of the vector. As the host cell divides, the progeny cells receive the recombinant vectors. Bacteria such as E. coli divide every 15 minutes. In 6 hours, an E. coli cell would divide (6 hours x 60 min per hour) / 15 min per cell division = 24 times, generating 224 or 16,777,216 cells. If each cell has 5 copies of the recombinant cloning vector, about 83,000,000 copies of the insert DNA will be generated.",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.20. Production of human insulin in bacteria through vector-based cloning. Human insulin mRNAs are",
+          "page": 18,
+          "image": "/mmahp/ch06/6-20.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "extracted from pancreatic tissue. The mRNAs are used for synthesizing cDNA. RT-PCR, using cDNA as the template, amplifies the insulin ORF. The ORF is then inserted into a plasmid vector. The plasmid cloning vector has built-in promoters and terminators of a bacterial gene. E. coli cells are transfected with the recombinant plasmid. The recombinant gene is transcribed and translated inside the bacterium. The E. coli cells are broken, and insulin molecules are separated from the crude cell lysate by chromatography. The purified insulin is formulated, bottled, and marketed for human use. Insulin vial image: Wikipedia.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "The vector-based cloning methods were developed before PCR cloning. A major problem of vector-based cloning is that the target DNA must be isolated in a pure form before it can be cloned into a vector. PCR-cloned DNA is often used as the target DNA (i.e., the insert) for vector-based cloning. Vector-based cloning is slower, but the methods have specific advantages. Only a short DNA fragment (size <20,000 bp) can be cloned using PCR. Besides, the DNA polymerases used in PCR cloning are error prone. In contrast, DNA fragments of 500,000 bp can be cloned using vector-based cloning methods, yet the DNA remains mostly mutation-free.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Most importantly, vector-based cloning allows the expression of genes present in the cloned DNA. Thus, one may clone the ORF of the human insulin gene, along with appropriately positioned bacterial promoters, terminators, and RBS, into a plasmid vector. Once the recombinant vector is introduced into an E. coli cell, the cell transcribes the gene construct and translates the mRNA to synthesize human insulin protein. The E. coli cell is then broken, and insulin can be separated from the bacterial cell extract. All insulin drugs sold worldwide (total annual revenue: $28-44 billion) are synthesized using this method.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "Some more details of vector-based cloning",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Before a target DNA (i.e., the insert) can be inserted into a plasmid vector, it must be cut and shaped using restriction endonucleases (REs). Suppose one wants to insert a 5,000 bp fragment of the human papillomavirus (HPV) genome into a cloning vector. The HPV genome is 9,000 bp. Thus, 4,000 bp of the HPV genome must be removed. This can be done by PCR using appropriate primers. However, traditionally, it was done using REs. REs are like molecular scissors that recognize a specific DNA sequence and cut within or near the recognition site (Fig. 6.21). For example, the RE named HinD III (obtained from the bacterium Hemophilus influenzae), binds and cuts within the sequence 5’GAATTC3’ but not any other DNA sequences. Over 500 REs with various sequence-specificities are now available. One may use one or more suitable REs to remove unwanted portions of a DNA molecule before vector- based cloning (Fig. 6.22).",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.21. Restriction endonuclease acts as molecular scissors with specific cutting preferences. The restriction",
+          "page": 19,
+          "image": "/mmahp/ch06/6-21.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "endonuclease HinD III binds the sequence 5’GAATTC3’ and cuts within the sequence. Similarly, Sma I binds/cuts within the sequence is 5’GGGCCC3’ and Pst I binds/cuts within the sequence 5’CTGCAG’. Note that different REs create different types of DNA ends.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "The cloning vectors currently used are designed. They have a suitable replication origin that allows the vector to replicate at a desired rate in the host cell. Using synthetic DNA, many RE sites are inserted into the vectors (in the multicloning site, or MCS). Protein expression cloning vectors also contain a bacterial promoter, a terminator, and a ribosome-binding site (RBS).",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "For cloning, the vector and the insert DNA are treated with the same RE or REs that create compatible DNA ends. The properly created insert and vector DNA are then mixed in a tube. DNA ligase joins the insert and vector DNA to form a recombinant DNA molecule, which is then introduced into a competent E. coli cell (6.22). The transfected E. coli cells are then grown to a large volume, harvested, and the plasmid DNA is extracted.",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.22. Vectored cloning using a plasmid cloning vector. A. The vector (3,950 bp) contains the replication origin",
+          "page": 20,
+          "image": "/mmahp/ch06/6-22.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "(ori), a multicloning site (MCS), and a selectable marker gene (ampR). The DNA source for the insert is shown at the bottom. B. The cloning vector and the source DNA are separately digested with an RE. C. In insert DNA (1,225 bp) is separated from the other two DNA fragments and mixed with the vector DNA. D. A DNA ligase ligated the insert DNA with the vector DNA, creating a recombinant plasmid vector (5,175 bp in size). E. The recombinant plasmid is mixed with competent E. coli cells, and the cells are briefly exposed to a heat shock. F. The bacterial cells are grown on a nutrient agar plate containing ampicillin. E. coli cells that survived on the plate contained the recombinant plasmid. G. The recombinant plasmid replicated inside the transformed E. coli cells. As the transformed E. coli cells divided, many copies of the recombinant plasmids were generated.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Foreign DNA is introduced into bacterial and fungal cells by brief heat or electric shock, as described previously. In animal cells, DNA (or proteins, RNA, drugs, etc.) can be packaged into lipid vesicles. The lipid vesicles fuse with the plasma membrane and deliver the packaged DNA inside the cells. DNA can also be delivered into fertilized eggs (such as fish or amphibian eggs) using microinjectors (thin syringes). For plant cells, a gene gun is used for this purpose. A gene gun is an air gun that shoots DNA mixed with fine copper or gold particles into palnt cells in tissue culture.",
+          "page": 20
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 32,
+          "title": "Restriction endonucleases (REs)",
+          "bullets": [
+            "Enzyme like molecular",
+            "Bind DNA sequence-specifically",
+            "Cut within/around the binding",
+            "Do not bind/cut if a single",
+            "Can be used for sizing DNA with",
+            "Used in",
+            "Vectored cloning",
+            "DNA fingerprinting"
+          ]
+        },
+        {
+          "slideIndex": 33,
+          "title": "Vectored cloning procedures",
+          "bullets": [
+            "Purify the DNA to be",
+            "Cut with RE and separate",
+            "Cut the vector with the",
+            "Mix the vector and insert",
+            "Add ATP and DNA ligase",
+            "Insert the recombinant",
+            "Screen the recipient"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.10",
+      "heading": "Many uses of the cloned DNA",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "PCR-amplified, synthetic, and vector-cloned DNA molecules have versatile applications, including the detection of microbes and the diagnosis of infections and other diseases. For example, cloned DNA or cDNA can help detect whether a person is infected with a viral or cellular pathogen, which strain infected the person, and the infection load (number of e.g., virus particles/ml of blood). Cancers and some metabolic diseases are linked with the expression of some genes (marker genes). Cloned DNA and cDNA can also help detect the markers. Other molecular techniques, such as antibody techniques, are used to detect protein markers. Here, we will list a few uses of cloned DNA.",
+          "page": 20
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "6.10.1",
+      "heading": "Probe hybridization",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Until recently, cloned DNA probes were used for detection and diagnosis via hybridization techniques. In hybridization techniques, cloned DNA of known nucleotide sequence (the probe) is mixed with an unknown DNA or RNA sample, allowing the probe to hybridize to it. The probe, or the unknown DNA or RNA, is labeled with a radioactive or fluorescent marker so it can be traced (Fig. 6.23). Since ssDNA or ssRNA molecules hybridize only when complementary ssDNA or ssRNA, the presence or absence of hybridization is diagnostic (Fig. 6.23). Several probe-hybridization techniques (including solution hybridization, Southern blotting, northern blotting, microarray, and gene chip) were developed for mass detection and diagnostic use, but the tedious, expensive, error-prone methods have been largely replaced by DNA sequencing.",
+          "page": 20
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.23. Probe hybridization. A. Labeled nucleotide to create labeled DNA or RNA probes. Shown is a 32P",
+          "page": 21,
+          "image": "/mmahp/ch06/6-23.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "radioisotope-labeled ATP (left) and a fluorescein (a fluorescent dye)-labeled ATP (right). If DNA or RNA is synthesized using labeled nucleotides, the synthesized RNA and DNA become labeled. The radiolabeled probes can be traced using photography or sensors; the fluorescently labeled probes can be detected using a fluorescence microscope. B. A labeled DNA probe. The labeled nucleotides are shown in pink. C. The labeled DNA probe hybridized to an unknown RNA, due to proper nucleotide sequence complementarity. D. The labeled DNA probe was not hybridized to an unknown RNA due to the lack of proper nucleotide sequence complementarity.",
+          "page": 21
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 34,
+          "title": "Use of cloned DNA: Probe hybridization",
+          "bullets": [
+            "What is a probe",
+            "How probes can be traced",
+            "Radioactive labeling",
+            "Fluorescent dye labeling",
+            "Utility",
+            "Accurate A-T or A-U and",
+            "Under stringent condition",
+            "Not used much these"
+          ]
+        },
+        {
+          "slideIndex": 35,
+          "title": "Use of cloned DNA: DNA sequencing",
+          "bullets": [
+            "What is sequencing",
+            "Modern methods",
+            "DNA polymerase-based",
+            "ssDNA",
+            "Primer",
+            "Labeled NTPs",
+            "DNA polymerase",
+            "Sensors and software",
+            "Nanopore enzyme method",
+            "A ring-shaped enzyme",
+            "ssDNA",
+            "Sensors and software"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.10.2",
+      "heading": "DNA sequencing",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Sequencing is the process of determining the exact nucleotide sequence of a DNA or cDNA molecule. Since sequencing requires a substantial amount of pure DNA or cDNA, cloned DNA is used.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Modern sequencing methods use ssDNA template, a DNA polymerase, and dATP, dCTP, dGTP, and dTTP, each labeled with a fluorescent dye of a different color (Fig. 6.24).",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "As the DNA polymerase copies the template DNA and adds a nucleotide to the primer, a sensor detects and reports this event. Computer software records the sequence of nucleotides utilized (Fig. 6.24).",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Alternatively, ssDNA of unknown nucleotide sequence is allowed to pass through a ring-shaped protein with a narrow hole (i.e., nanopore). Each time a nucleotide crosses the nanopore, it generates a signal that is recorded by software to reconstruct the nucleotide sequence of the template molecule.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "There are several other methods for large scale DNA sequencing. Modern DNA sequencing is inexpensive yet powerful. One can clone all RNA expressed by a normal cell and a tumor cell, synthesize cDNA, sequence the cDNAs, and compare which mRNAs were expressed by the two cells in what quantities. Based on the differences, marker genes involved in heath and diseases (in this case, cancer) can be identified. This method is known as RNA-seq. One can also extract genomic DNA, break it into overlapping fragments (by partially digesting with a restriction enzyme), clone them into a plasmid vector, and sequence each fragment. Computer software then aligns the nucleotide sequences of overlapping DNA fragments to generate the entire genome's nucleotide sequence. This process of creating a molecular map of an organism's genome is known as the shotgun method (Fig. 6.25).",
+          "page": 21
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.24. Sequencing a DNA molecule of unknown nucleotide sequence using DNA polymerase. A. The",
+          "page": 22,
+          "image": "/mmahp/ch06/6-24.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "necessary components. B. The process of sequencing and recording the nucleotide sequence. Note that the monitor is showing the nucleotide sequence based on the order of nucleotides used in DNA synthesis.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "DNA sequencing is widely used to detect (identify) and characterize microbes, including viruses, bacteria, and protists. In metagenomics (see Chapter 3), DNA extracted from soil, water, and fecal samples is sequenced to estimate microbial diversity in natural environments.",
+          "page": 22
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.25. The shotgun method of genome sequencing (simplified). A. A bacterial species is identified. B. Genomic",
+          "page": 22,
+          "image": "/mmahp/ch06/6-25.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "DNA is extracted from a pure culture of the cell. C. DNA is broken into overlapping fragments. D. The nucleotide sequence of each of the DNA fragments is determined using one of the methods of DNA sequencing. The DNA sequences are compared by powerful computer software. E. The software aligns overlapping DNA sequences to determine the sequence of the entire genome.",
+          "page": 22
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 36,
+          "title": "Use of cloned DNA: Whole genome sequencing",
+          "bullets": [
+            "Isolate the organism",
+            "Extract DNA",
+            "Partially digest with an RE",
+            "Clone the DNA fragments",
+            "Sequence each fragment",
+            "Use a software to",
+            "Subtract the overlaps and"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.10.3",
+      "heading": "DNA fingerprinting",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Because of DNA replication errors, the genome contains many random, harmless point mutations. Such mutations are usually benign, and thus, they are polymorphisms. The most common polymorphism is single nucleotide polymorphism (SNP). Any two human subjects (other than identical twins) can have as many as 3,000,000 points of difference in the nucleotide sequences of the genome.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Polymorphic genetic differences can be detected using DNA fingerprinting (without sequencing the genome). For DNA fingerprinting, the genomic DNA of a virus or bacterium, or a large PCR-cloned fragment of animal or plant DNA chromosome, is digested with a restriction enzyme. The digested DNA is then resolved using a semisolid agar slab in an electric field. Since DNA is negatively charged, it migrates towards the positive pole. However, because larger DNA molecules move more slowly than smaller molecules through the agar bed's polysaccharide matrix, the DNA fragments separate at different speeds, creating discrete bands (Fig. 6.26). This method, known as restriction fragment length polymorphism (RFLP), compares band patterns and helps detect individuals, much as fingerprint identification of human subjects (Fig. 6.26).",
+          "page": 22
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "6.10.4",
+      "heading": "Amplified fragment length polymorphism (AFLP)",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "This method uses simple sequence length polymorphism (SSLP) among individuals. SSLP arises because individuals may have different numbers of short DNA repeats in the genome. For example, some people have 5’CAG3’ repeated 25 times in the huntingtin gene, while another individual may have 40 repeats in the same location of the same gene. Individuals with 40 or more CAG repeats in the huntingtin gene develop Huntington’s chorea, a severe neurological disease. One can easily detect this by PCR cloning a fragment of the DNA surrounding the 5’CAG3’ repeat region of the huntingtin gene and then resolving the DNA in an agarose gel (Fig. 6.26).",
+          "page": 22
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.26. DNA fingerprinting. A. RFLP utilizes point mutations that destroy restriction endonuclease",
+          "page": 23,
+          "image": "/mmahp/ch06/6-26.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "recognition/cutting sites. Shown are two DNA molecules (i and ii) with identical DNA sequences except for a single nucleotide substitution in molecule ii (indicated by an arrow). The mutation is within the recognition/cutting site (5’GGCC3’) of the restriction endonuclease Msp I. Thus, Msp I would cut molecule i twice and produce three DNA fragments, but the enzyme would cut molecule ii only once and produce two DNA fragments, as shown in the gel shown underneath. B. AFLP utilizes different numbers repeat DNA present in certain genes of the genome. Molecule III has two repeat units (5’CAGCAG3’), but molecule IV has four repeat units (5’CAGCAGCAGCAG3’). PCR- cloning of the region of the genome using identical primer sets would produce DNA fragments of different lengths, as shown in the gel below. C. A photograph of a gel showing the RFLP patterns of six different isolates of Salmonella typhimurium. The genomic DNA was extracted, digested with a restriction endonuclease (RE), and then resolved in the gel. Note that isolates S0 and S4 have identical DNA fingerprints. Thus, these two isolates most certainly belong to the same clone. Image courtesy: http://www.kdheks.gov/. For all three gels, the positive and negative poles of the electric field were at the top and bottom, respectively.",
+          "page": 23
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "6.10.5",
+      "heading": "Transgenic cells and genetically modified organisms",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Transgenesis is a process by which certain genes of one species are horizontally transferred to the chromosomes of another species. The simplest method for creating transgenic animals is inserting a cloned foreign gene into the fertilized eggs (Fig. 6.27) of an animal, or plant cells in tissue culture. Juveniles derived from fertilized eggs and saplings grown from cultured plant cells carry the gene in their chromosome. These organisms can be selectively bred to create stable transgenic animals and crop plants.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Many meat and dairy animals and crops have been created using this method. The organisms are known as genetically modified organisms (GMOs) or living modified organisms (LMOs). Almost all cultured salmon and corn sold in the supermarket are GMO. GMOs can also be created by genome editing, not discussed in this chapter. A similar method can also be used to generate vaccines in animals and plants. Vaccines are microbial proteins to which vertebrate animals develop an immune response. For this, the genes encoding the vaccine proteins are cloned and inserted into animals or plants. The GMOs produce the proteins in their milk, fruits, nuts or tubers. Animals get vaccinated by eating these edible vaccines. However, fear of food allergies has prevented the use of edible vaccines in humans.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Another instance of transgenesis is gene therapy. People with a mutant gene in their genome may develop a life- threatening disease. Gene therapy attempts to provide a copy of the wild-type gene (here, the drug is the gene). This is done by creating transgenic stem cells and infusing them into the affected subject. Initially, a wild-type copy of the gene is cloned from the cells of a healthy subject. The gene is then inserted into the genome of a mutant virus. The recombinant mutant virus infects but cannot kill the host cells. The mutant virus is then allowed to infect stem cells harvested from the patient's bone marrow. The bone marrow cell is grown in the lab and then given to the patient intravenously.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "It is expected that the virus genome will integrate into the chromosomes of some stem cells. The gene from the inserted virus gets transcribed and translated to produce functional proteins that the patient was missing. Gene therapy carries the risk of chromosomal mutations and the development of tumors. An alternative to gene therapy is cell therapy, in which stem cells from a matching healthy donor are infused into affected subjects.",
+          "page": 24
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.27. How transgenic animals and plants are generated. A. How a fast-growing transgenic catfish can be",
+          "page": 24,
+          "image": "/mmahp/ch06/6-27.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "produced. The growth hormone gene is cloned from cDNA derived from RNA extracted from the pituitary gland tissue of a cow. A properly constructed growth hormone gene is the injected into the fertilized eggs of catfish. The fingerlings are selected and selectively bred to obtain a strain of fast-growing GM catfish. B. Transgenic crop resistant to insect pests. The cry gene is cloned from the genome of the bacterial species Bacillus thuringiensis. A properly constructed cry gene is then inserted into plant thallus culture. The transgenic plant grown out of the thallus would express the cry protein in its tissues. The cry protein kills insects that eat the transgenic plants. The seedlings are then grown in the field, selected and selectively bred to obtain suitable cultivars of the transgenic plant . Image courtesy: Salmon roe: Washington State Government; Catfish: USDA; Bacillus thuringiensis- Wikipedia; plant tissue culture- ARS.",
+          "page": 24
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "6.10.6",
+      "heading": "Recombinant virus vaccines and mRNA vaccines",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Some vaccine genes have been inserted into the genomes of a ‘benign’ virus and bacteria. Benign microbes are mutants that infect host animals but do not cause disease. Genetically modified microbes express the vaccine proteins in vaccinated animals (Fig. 6.28). The COVID-19 vaccines developed by Johnson and Johnson (New Brunswick, NJ) and AstraZeneca (Cambridge, UK) used a mutant adenovirus as the genetic carrier to deliver the spike protein gene of the SARS-CoV-2 virus (the coronavirus that causes COVID-19 disease). The recombinant viral DNA was injected into the muscle of the vaccinated individuals. The DNA must enter the cell, the RNA must be transcribed, and the protein must be synthesized for the recipient to develop an immune response. Since foreign DNA can be accidentally inserted into a human chromosome, causing mutations and ultimately leading to a tumor, DNA vaccines are discouraged.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "The mRNA vaccines do not carry the risks of DNA vaccines. The mRNA vaccines are produced by synthesizing microbial mRNAs encoding microbial protein antigens. The mRNAs are packaged in lipid vesicles (Fig. 6.28). When the vaccine is injected into the muscle, the lipid vesicles fuse with the plasma membranes of nearby host cells, allowing the mRNA to enter the cell. The mRNAs are translated, and the spike proteins are synthesized. The proteins induce the immune response (see Chapter 9).",
+          "page": 24
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 6.28. Principles of creating recombinant DNA virus vaccines and mRNA vaccines. A. Creating recombinant",
+          "page": 25,
+          "image": "/mmahp/ch06/6-28.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "adenovirus vaccines. The gene that encodes the spike protein of SARS-CoV-2 is inserted into the genome of a mutant adenovirus. The recombinant adenovirus DNA is transfected into a human cell line that supports the replication of adenovirus. The transfected human cells (in tissue culture) produce many adenovirus particles carrying the SARS- CoV-2 spike protein gene. The viruses are harvested from the tissue culture fluid and used as a vaccine. When the recombinant adenovirus is injected into a human subject, the virus infects some of the cells of the vaccinated subjects. As the infected cells express adenovirus proteins and the spike protein genes of SARS-CoV-2, the immune system of the subject develops antibodies and T cells to the spike protein (and adenovirus proteins). B. How to create mRNA vaccines. The mRNAs that encode the target antigen proteins (indicated here as NRM and SAM) are mixed with amphipathic lipids in water to create lipid micelles to be used as vaccines. When injected into the muscle, the lipid micelles fuse with the plasma membrane of human cells and deliver the mRNAs into the cytoplasm of the cell. Ribosomes of the cell synthesize proteins using the inserted mRNAs as the templates. The cell may display the protein on its membrane or secrete the protein in the surrounding. The B cells and T cells recognize the foreign proteins and develop antibodies and T cell receptors. (CC)- Jackson NAC, et al., NPJ vaccines 2020; 5(11): https://doi.org/10.1038/s41541-020-0159-8.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "The COVID-19 vaccines developed by BioNTech (Mainz, Germany) and Moderna Messenger Therapeutics (Cambridge, MA) are mRNA vaccines. These vaccines were approved for human use in 2020 by the United States and many other countries. The vaccine appeared safe and effective, helping protect many lives during the COVID-19 pandemic of 2019-2023, which claimed the lives of more than 7 million people worldwide.",
+          "page": 25
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 6,
+          "title": "Causes of mutations (2)",
+          "bullets": [
+            "DNA damage",
+            "Physical mutagens",
+            "UV radiation",
+            "Gamma radiation",
+            "Chemical mutagens",
+            "Alkylating agents",
+            "DNA binding agents",
+            "Reactive chemicals",
+            "Water damage",
+            "Loss of NH2 groups",
+            "Loss of purine bases"
+          ]
+        },
+        {
+          "slideIndex": 15,
+          "title": "How foreign DNA can be inserted in cell",
+          "bullets": [
+            "Natural competence",
+            "Artificial competence",
+            "Cations (Na+, Li+, Ca++)",
+            "Heat shock poration",
+            "Electric shock (electroporation)",
+            "Gene gun (for plant)",
+            "Lipid vesicle (lipofection)",
+            "Using viruses and bacteria",
+            "Direct injection (microinjection)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.11",
+      "heading": "Safety and ethical issues of biotechnology",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Biotechnology and genetic engineering invoke many ethical concerns. Ethics is the set of moral principles that guide a human being. Since humans are the only organisms that use biotechnology on a large scale (insects such as bees and ants use biotechnology, but on a very limited scale), humans should be morally responsible for their actions. Some of the ethical issues related to biotechnology are the following.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "Unforeseen consequences: GMOs may have unintended environmental impacts. GM crops have been linked with allergies and inflammatory bowel disease in some animals and humans. Gene therapy is currently on a moratorium in many countries because people who received gene therapy have an elevated risk of developing certain cancers. Yet GM tomatoes have been on the menu since 1994, and GM papayas have been eaten since 1998, with no severe or widespread ill effects observed.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "The creation of hazardous new pathogens: GM microbes accidentally released into the environment may evolve and become pathogenic to humans and other organisms. This fear has not yet been substantiated.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "GMOs can become superweeds and super pests: Many GM crops are engineered to be resistant to pests and herbicides. Pollen from GM crops may fertilize their wild relatives, creating wild hybrid GM plants. These wild hybrids would be resistant to pests and herbicides and could potentially become uncontrollable invasive weeds. Many naturally occurring invasive species, such as mice, rats, and rabbits in Australia; chestnut blight fungus, kudzu vines, tumbleweed, Asian carp, and zebra mussels in the USA; mongoose and toads in Hawaii, have caused havoc in the natural environments of the respective regions. However, GMO superweeds and super pests have not been observed. The monopoly of the GMO seed stock: Some GMO seeds are engineered to produce sterile plants (i.e., the GM plants would fail to produce seeds). Other GM seeds produce fertile seeds, but because biotech companies own the patent rights to the seeds, farmers, by law, are prevented from preserving seeds or any cultivatable stock of the plants. Agribiotech companies in the USA have sued many small farmers for patent infringement, alleging that the farmers have saved and replanted patented GM seeds. The companies have even sued farmers who used seeds pollinated by airborne pollen from GM crops in neighboring fields. Farmers have lost many of these court cases. It has been argued that farmers are at risk of becoming perpetually dependent on seed stocks produced by biotechnology companies. Altering the human genome: Some scientists tried to clone humans, and others have edited the genomes of human subjects. Genome editing in organisms, including humans, has become technically feasible. Most people consider the human genome a sacred object, not to be manipulated. Humans should not be the creators of their own destiny because they know too little about the long-term consequences of any changes to the genome.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Privacy protection: Every human subject has multiple mutant genes, and thus, everyone is susceptible to certain diseases. If the information in the genome sequences of a subject is exposed, she/he may be discriminated against by insurance providers, employers, and other agencies.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Negotiators from 130 countries (including the United States) agreed on a Biosafety Protocol that at present guides biosafety issues. Each nation also has national biosafety protocols for the ethical use of genomic information and for the formulation of ethically sound biotechnology legislation. In the United States, the Environmental Protection Agency (EPA), the Food and Drug Administration (FDA), the Office of Science and Technology Policy (OSTP), and the U.S. Department of Agriculture (USDA) are among the many agencies that monitor biotechnology issues. In addition, many non-governmental organizations and think tanks monitor local, regional, and international biotechnology issues. These organizations include the Council of Responsible Genetics (USA), Consumers Reports (USA), Gene Watch (UK), Australian GeneEthics Network (Australia), and Gene Campaign (India).",
+          "page": 26
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 39,
+          "title": "Safety concerns on biotechnology",
+          "bullets": [
+            "Potential Rissik",
+            "Unforeseen consequences",
+            "Recombinant microbial pathogens",
+            "GMO super pests and super weeds",
+            "Market monopoly by biotech companies",
+            "Altering human genomes (custom babies)",
+            "Personal genetic privacy",
+            "International Biosafety protocol",
+            "Over 130 signees",
+            "Every countries have their own biosafety legislation",
+            "Enforcing agencies",
+            "EPA, USDA, OSTP, FDA, Consumer Reposts, etc."
+          ]
+        }
+      ]
+    },
+    {
+      "number": "6.12",
+      "heading": "Bioinformatics and Computational Biology",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Bioinformatics, according to National Research Council (USA) is “the application of computers to the collection, organization, analysis, manipulation, presentation, and sharing of biologic data, and ------to design and operate biologic databases.” Microbiologists are especially concerned with the data on gene and protein sequences. Such data may help microbiologists identify and classify different microbes, develop various diagnostic tools, and design new drugs. There are several databases for gene and protein sequences. Some of the major databases of this category are listed here: A. Gene sequence databases: GenBank (http://www.ncbi.nlm.nih.gov/) and EMBL (http://www.embl- heidelberg.de/) B. Protein database: Swissprot (http://us.expasy.org/sprot/) C. Complete genome database: TIGR (http://www.tigr.org/) Software bundles are available to retrieve and interpret the data from the databases listed above. Free software available on the internet includes BLAST (http://blast.ncbi.nlm.nih.gov/Blast.cgi) and MultAlin (http://bioinfo.genopole-toulouse.prd.fr/multalin/multalin.html) for comparing gene and protein sequences, and GRAIL (http://www.ornl.gov/sci/) for locating genes in DNA sequences. There are other software bundles for producing on-screen restriction maps of DNA sequences, finding ORFs in mRNA sequences, on-screen translation of mRNA to proteins, or designing PCR primers for PCR or DNA sequencing. These types of software can be freeware (available for free) and downloadable from the internet (such as pDRAW32), or purchased from various developers (Lasergene from DNAStar Corporation and GDAS from Affymetrix Corporation), for example.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Published information on microbes and microbial diseases can also be rapidly located using internet resources. There are a number of databases (including PUBMED, http://www.ncbi.nlm.nih.gov/pubmed/, maintained by the National Library of Medicine) that collect and index high-quality research and review publications. Artificial Intelligence (AI) and Large Language Models (LLM) have opened the door to an enormous opportunity to summarize existing and synthesize new microbial information. Future microbiologists should be fully aware of the growing importance of internet resources in bioinformatics, AI, and LLMs. To a microbiologist, computer/internet literacy is as important as microbiology itself.",
+          "page": 27
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 40,
+          "title": "Bioinformatics",
+          "bullets": [
+            "“the application of computers to the collection, organization, analysis,",
+            "Importance of bioinformatics for microbiologists",
+            "Databases",
+            "Gene sequence databases: GenBank (http://www.ncbi.nlm.nih.gov/) and EMBL",
+            "Protein database: Swissprot (http://us.expasy.org/sprot/)",
+            "Complete genome database: TIGR (http://www.tigr.org/)",
+            "PubMed",
+            "Software’s",
+            "Blast",
+            "MultAlin",
+            "Grail"
+          ]
+        }
+      ]
+    }
+  ],
+  "unmatchedSlides": [
+    {
+      "slideIndex": 2,
+      "title": "Definitions (Cont.)",
+      "bullets": [
+        "Genetics",
+        "Genetic variations",
+        "Mutations",
+        "Polymorphisms",
+        "Genotype",
+        "Phenotype",
+        "Epigenetics"
+      ]
+    },
+    {
+      "slideIndex": 25,
+      "title": "Definitions",
+      "bullets": [
+        "Biotechnology",
+        "Molecular biology",
+        "Molecular biotechnology",
+        "Genetic engineering",
+        "Genomics",
+        "Recombinant DNA Science Direct"
+      ]
+    }
+  ]
+}

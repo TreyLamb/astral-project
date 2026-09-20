@@ -1,0 +1,1963 @@
+{
+  "id": "ch10",
+  "number": 10,
+  "title": "Immune Response and Applied Immunology",
+  "lead": "A functional immune system produces an appropriate response when exposed to pathogenic microbes. Such a response eliminates microbes and their antigens with minimal inflammation and tissue damage and prevents them from causing chronic infection. The concomitant memory response protects the subject from future infections by the same pathogens. Many genes are involved in producing and regulating immune responses. Mutations and polymorphisms in these genes can lead to various immunological disorders. For instance, the immune system of some individuals mounts an excessively high memory response upon re-exposure to an antigen. Such harmful memory responses are immune hypersensitivity reactions. In rare instances, some people's immune systems attack self-antigens, causing autoimmunity. Additionally, some individuals' immune systems fail to respond effectively to foreign antigens, indicating an immunodeficiency. One or more components of the innate and/or adaptive immune system may be nonfunctional in immunodeficiency. This chapter explains the normal immune response to microbial infections and provides an overview of hypersensitivity reactions, autoimmunity, and immunodeficiencies. Note that, • Hypersensitivity reactions are excessive memory immune responses to foreign antigens • Autoimmunity is a primary or secondary immune response to self-antigens • Immunodeficiency is a low or no immune response to foreign antigens The antibodies and TCRs recognize authentic antigens with high accuracy under various environmental conditions, including within another individual's body or in a test tube. Immunologists leverage the specificities of antibodies and TCRs to develop many applications, such as vaccines, immunodetection methods, and immunotherapies. This chapter offers a brief overview of vaccines and immunodetection using antibodies.",
+  "openstaxEquivalent": null,
+  "sources": {
+    "chapterPdf": "10. Immune Responses and Applied Immunology.pdf",
+    "pptPdf": "MMAHP Ch 10 PowerPoint Lecture Outline.pdf"
+  },
+  "sections": [
+    {
+      "number": "10.1",
+      "heading": "Immune responses to microbial infections",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The immune system uses different strategies to respond to different pathogens. The strategies are summarized in Table",
+          "page": 1
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 3,
+          "title": "Immune responses to viral infections",
+          "bullets": [
+            "Innate response",
+            "The skin",
+            "The mucosa",
+            "IFNa and TNF b",
+            "TLRs",
+            "Complements",
+            "Phagocytes",
+            "NK cells",
+            "ADCC",
+            "Adaptive response",
+            "TH cells",
+            "Cytokines",
+            "TC cells",
+            "Cytotoxicity",
+            "B cells",
+            "Antigen presentation",
+            "Antibody synthesis"
+          ]
+        },
+        {
+          "slideIndex": 4,
+          "title": "Immune responses to bacterial infections",
+          "bullets": [
+            "Innate immunity",
+            "Intact skin",
+            "Intact mucosa",
+            "TLRs and PRRs",
+            "Complements",
+            "Clotting and un-clotting",
+            "Transferrin, and",
+            "Gamma delta T cells",
+            "Adaptive response",
+            "TH cells",
+            "Cytokines",
+            "TC cells",
+            "Cytotoxicity",
+            "B cells",
+            "Antigen presentation",
+            "Antibody synthesis"
+          ]
+        },
+        {
+          "slideIndex": 5,
+          "title": "Immune responses to fungal infections",
+          "bullets": [
+            "Innate response",
+            "The skin",
+            "TLRs",
+            "Complements",
+            "Phagocytes",
+            "Adaptive response",
+            "TH cells"
+          ]
+        },
+        {
+          "slideIndex": 6,
+          "title": "Immune response to protozoan infections",
+          "bullets": [
+            "Innate response",
+            "The skin",
+            "The mucosa",
+            "TLRs",
+            "Complements",
+            "Phagocytes",
+            "NK cells",
+            "ADCC",
+            "Adaptive response",
+            "TH cells",
+            "Cytokines",
+            "B cells",
+            "Antigen presentation",
+            "Antibody synthesis"
+          ]
+        },
+        {
+          "slideIndex": 7,
+          "title": "Immune response to worm infections",
+          "bullets": [
+            "Innate response",
+            "Granulocytes",
+            "Mast cells",
+            "Complements",
+            "Adaptive response",
+            "TH cells",
+            "Cytokines",
+            "B cells",
+            "IgE and IgM synthesis"
+          ]
+        },
+        {
+          "slideIndex": 30,
+          "title": "Seroconversion and related matters",
+          "bullets": [
+            "Seroconversion-The initial antibody production in a subject after a",
+            "Antibody Titer",
+            "Dilution factor that gives a positive reaction",
+            "A titer of 1:10,000 means serum diluted 10,000 folds still binds antigens",
+            "Antibody types and concentration",
+            "IgM (+), IgG (-): Recent, possibly active infection",
+            "IgM (+), IgG (+): Mid-stage infection.",
+            "IgM (-), IgG (+): Past infection, active immunity",
+            "IgM (-), IgG (-): Lack of infection"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.1",
+      "heading": "Immune responses to important pathogenic microbes will be further discussed in Chapters 13-15. Table 10.1",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "indicates that both humoral and cell-mediated components of the innate and adaptive wings of the immune system are well developed in responding to viral and bacterial infections, but are much less developed in responding to infections by eukaryotic pathogens. Scientists have investigated immune responses to pathogenic viruses and bacteria more extensively than those to pathogenic fungi, protozoa, and worms. There are many effective vaccines to prevent viral and bacterial infections, but no effective vaccines have been developed to prevent fungal, protozoal, or worm infections.",
+          "page": 1
+        },
+        {
+          "type": "figure",
+          "text": "Table 10.1. The reactions of the immune system to microbial infections. *",
+          "page": 2,
+          "image": "/mmahp/ch10/10-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "A. Viral Infections Innate immunity Intact skin Dead cells lacking receptors line the surface (thus prevent infection), the epithelial cells shed that also prevent infection.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "IFNa and IFNb Virus-infected cells secrete IFNa and IFNb, secreted cytokines bind receptors of the uninfected cells and protect those cells from infection.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "TLRs TLRs recognize viral CpG-rich DNA, ssRNA, dsRNA, and glycoproteins and activate host immune response.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Complements Membrane attack complex (MAC) destroys enveloped viruses; C3b and C4b deposition on viruses activates phagocytosis and erythrocyte-mediated removal of the viruses. Anaphylatoxin released in response to complement activation bind cell receptors and activate inflammation.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Phagocytes Destroy phagocytized viruses through oxidative and lytic (enzymatic) killing; kill opsonized (i.e., Ig-coated) virus-infected cells through ADCC; APCs display viral antigens and activate TH cells.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "NK cells Kill opsonized (i.e., Ig-coated) virus-infected cells through ADCC, and Fas ligand-Fas receptor interactions (i.e., inducing apoptosis), and also kill virus- infected cells that express fewer or excessive MHC I.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Adaptive immunity Antibodies Bind and neutralize viruses (prevent viruses from binding host cell receptors); IgM and IgG bound to viruses activate complement pathway; IgM may agglutinate viruses and increase phagocytotic removal of the viruses, antibody deposition on target cells activates ADCC and the classical complement pathway. Membrane-bound antiboidies bind viral antigens and activate B cells to differentiate and secrete antibodies.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "TC cells Kills virus-infected cells by injecting perforin and granzyme, by secreting TNF and LT (cytokines), and destroy virus-infected cells through apoptosis induced by Fas ligand-Fas receptor and TNF-TNF report interaction pathways.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "TH cells Cause antiviral state by secreting IFNg and other cytokines including IL-2; the cytokines activate B cells, TC cells, NK cells, phagocytes, and APCs.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "B. Bacterial infections Innate Immunity Intact skin Dead cells lacking receptors line the surface (thus prevent infection); older cells slough off with attached bacteria and thus reduce the chances of infection; sebaceous glands secrete antibacterial fatty acids and peptide antibiotics; sweat glands release salt that resists the growth of some bacteria; resident bacteria and fungi occupy host cell receptors and prevent invading bacteria from attaching to the host cells.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Mucous membranes Secrete mucous secretions that trap bacteria; movement of cilia removes mucous-trapped bacteria; epithelial cells slough off with attached bacteria (thus prevent infection); mucous glands secrete enzymes such as amylase, lysozyme, and pepsin and acids such as hydrochloric acid that prevent the growth of some bacteria; some mucous membranes have resident microbiota that occupies receptors and thus prevent infection by the invading bacteria; resident microbiota may secrete acids (such as lactic acid) and other metabolites (including antibiotics) that prevent the growth of some pathogenic bacteria.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "TLRs and other PRRs Bind bacterial PAMPs (flagellin, pilin, LPS, LTA, peptidoglycan, and bacterial CpG-rich DNA) and activate signaling pathways.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Complements Membrane attack complex (MAC) destroys the outer membrane of G(-) bacteria, C3b and C4b opsonizes bacteria and activates phagocytosis; C3a, C4a, and C5a activate inflammatory responses.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Clot forming blood proteins The clotting factors form clots that trap bacteria and prevent bacteria from invading the blood stream; fibrinopeptides released from the clot activate inflammatory responses.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Transferrin and lactoferrin Sequester iron and prevent bacterial growth.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Phagocytes Kill bacteria by phagocytosis (oxidative and lytic killing); secrete cytokines that induce fever response, cause cell migration, and activate T cells; if macrophages fail to kill phagocytized bacteria, they induce the formation of granuloma to contain bacteria in a cocoon made of the host cells.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "gdT cells** Recognize lipid antigens presented by cells infected by Mycobacterium and related bacteria and kill the infected cells by perforins and granzymes and through Fas ligand-Fas receptor pathway.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Adaptive immunity Antibodies Neutralize bacteria by binding bacterial antigens (prevent bacteria from binding host cells); bind and neutralize bacterial toxins (prevents bacterial toxins from binding host cell receptors); IgM and IgG activate complement pathway upon binding bacterial antigens; IgM and IgA may agglutinate (aggregate) bacteria and induce phagocytotic removal of bacteria.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "TC cells Kill bacteria-infected cells and form granuloma around bacteria-infected macrophages.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "TH cells Secrete cytokines that activate B cells, Tc cells, NK cells, and phagocytes.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "C. Fungal infections Innate immunity Intact skin Dryness of skin prevents fungal growth; metabolites of the resident bacteria inhibit the growth of many fungal species.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Mucous membrane Mucoid proteins in the mucous bind trap fungi; cilia of the ciliary epithelia remove mucous-trapped fungi; metabolites of the resident bacteria of some mucous membrane inhibit the growth of many fungi.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "TLRs Recognize fungal antigens (fungal cell wall and lipoproteins) and activate phagocytes Complements C3b and C4b deposition on fungi activates phagocytosis; C3a, C4a, and C5a (anaphylatoxins) activate inflammation.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Phagocytes Phagocytize yeasts and fungal spores and kill the phagocytized fungi through oxidative and lytic processes; macrophages secrete cytokines upon phagocytosis that induce intense inflammation and activate T cells.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Adaptive immunity Antibodies Bind and opsonize fungi (activate phagocytosis); IgM and IgG deposition on fungi activate classical complement pathways.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "TH cells Secrete cytokines that activate phagocytes to kill phagocytized fungi.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "D. Protozoan infection Innate immunity Phagocytes and granulocytes Phagocytize and kill protozoa-infected host cells and protozoa through oxidative and lytic processes; eosinophils may kill opsonized protozoa through ADCC (by injecting perforin, lytic enzymes, and granule components); secrete cytokines that activate T cells.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Complements Membrane attack complex kills opsonized protozoa; C3b deposition on protozoa activates phagocytosis; C3a, C4a, and C5a activate inflammation that may lead to cell migration and phagocytotic removal of parasitic protozoa.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Cytokines Activate phagocytes that lead to phagocytotic removal of some protozoa.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Adaptive immunity Antibodies Bind the protozoan cells or protozoa-infected host cells and activate phagocytosis, complement pathways, and ADCC.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "TH cells Secrete cytokines that activate phagocytes to kill phagocytosed protozoa; activate B cells to secrete anti-protozoan antibodies.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "E. Worms Innate immunity Phagocytes and granulocytes Neutrophils and macrophages bind IgG-coated worms and try to kill the parasite by injecting lytic enzymes; eosinophils and basophils bind IgE-coated worms and may kill the parasite by injecting granule components, perforins, and granzymes.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Mast cells Release toxic granules, also histamines that cause movements (spasms) of the intestine and bronchioles that destabilize worm parasites from the lumen of the organs.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Complements C3b deposition activates the adhesion of phagocytes to the worms; C3a, C4a, and C5a activate inflammation that may lead to leukocyte migration around the worm.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Adaptive immunity Antibody IgG binding to worms activates ADCC by neutrophils and macrophages, IgE binding to worms activates ADCC by eosinophils and basophils.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "TH cells Release cytokines that activate phagocytes and B cells.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "*The pathogens have evolved in numerous ways to bypass the effector mechanisms listed in the table, which is why some strains can cause diseases despite these defenses. How pathogens evade the body's immune surveillance is explained in Chapter 11. **-gd T cells carry TCRs made of gamma and delta chains. Less than 10% of T cells have γδ type TCR. The majority of the T cells carry ab αβ type TCR. This textbook primarily discusses T cells with ab type TCR.",
+          "page": 4
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 3,
+          "title": "Immune responses to viral infections",
+          "bullets": [
+            "Innate response",
+            "The skin",
+            "The mucosa",
+            "IFNa and TNF b",
+            "TLRs",
+            "Complements",
+            "Phagocytes",
+            "NK cells",
+            "ADCC",
+            "Adaptive response",
+            "TH cells",
+            "Cytokines",
+            "TC cells",
+            "Cytotoxicity",
+            "B cells",
+            "Antigen presentation",
+            "Antibody synthesis"
+          ]
+        },
+        {
+          "slideIndex": 4,
+          "title": "Immune responses to bacterial infections",
+          "bullets": [
+            "Innate immunity",
+            "Intact skin",
+            "Intact mucosa",
+            "TLRs and PRRs",
+            "Complements",
+            "Clotting and un-clotting",
+            "Transferrin, and",
+            "Gamma delta T cells",
+            "Adaptive response",
+            "TH cells",
+            "Cytokines",
+            "TC cells",
+            "Cytotoxicity",
+            "B cells",
+            "Antigen presentation",
+            "Antibody synthesis"
+          ]
+        },
+        {
+          "slideIndex": 5,
+          "title": "Immune responses to fungal infections",
+          "bullets": [
+            "Innate response",
+            "The skin",
+            "TLRs",
+            "Complements",
+            "Phagocytes",
+            "Adaptive response",
+            "TH cells"
+          ]
+        },
+        {
+          "slideIndex": 6,
+          "title": "Immune response to protozoan infections",
+          "bullets": [
+            "Innate response",
+            "The skin",
+            "The mucosa",
+            "TLRs",
+            "Complements",
+            "Phagocytes",
+            "NK cells",
+            "ADCC",
+            "Adaptive response",
+            "TH cells",
+            "Cytokines",
+            "B cells",
+            "Antigen presentation",
+            "Antibody synthesis"
+          ]
+        },
+        {
+          "slideIndex": 7,
+          "title": "Immune response to worm infections",
+          "bullets": [
+            "Innate response",
+            "Granulocytes",
+            "Mast cells",
+            "Complements",
+            "Adaptive response",
+            "TH cells",
+            "Cytokines",
+            "B cells",
+            "IgE and IgM synthesis"
+          ]
+        },
+        {
+          "slideIndex": 30,
+          "title": "Seroconversion and related matters",
+          "bullets": [
+            "Seroconversion-The initial antibody production in a subject after a",
+            "Antibody Titer",
+            "Dilution factor that gives a positive reaction",
+            "A titer of 1:10,000 means serum diluted 10,000 folds still binds antigens",
+            "Antibody types and concentration",
+            "IgM (+), IgG (-): Recent, possibly active infection",
+            "IgM (+), IgG (+): Mid-stage infection.",
+            "IgM (-), IgG (+): Past infection, active immunity",
+            "IgM (-), IgG (-): Lack of infection"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.2",
+      "heading": "Immunodeficiencies",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Immunodeficiency refers to a condition where the immune system cannot mount an adequate response to pathogens that infect a person. Immunodeficiency can be congenital (i.e., primary immunodeficiency) or acquired during a person's lifetime (i.e., secondary immunodeficiency). Primary immunodeficiency results from mutations in specific genes that affect signal transduction, cell differentiation, and essential metabolic pathways. Secondary immunodeficiency may occur if a person is exposed to certain microbial infections, toxic chemicals, or ionizing radiation, which destroys key immune cells. Loss of vital lymphoid organs (such as the thymus and spleen) due to trauma or surgery, chronic malnutrition, stress, and very young or very old age can also cause secondary immunodeficiency (Fig. 10.1). Some primary immunodeficiency diseases are listed in Table 10.2.",
+          "page": 4
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.1. Immunodeficiencies. Only genetic and epigenetic changes in the genome may cause primary",
+          "page": 5,
+          "image": "/mmahp/ch10/10-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "immunodeficiencies. A variety of other factors may contribute to secondary immunodeficiencies. Immunodeficiency, whether congenital or acquired, ultimately leads to more frequent infections and malignancies, especially malignancies associated with microbial infections. Figure courtesy: Chinen J, Shearer WT. J Allergy Clin Immun 2009; 2(3): S195-S203.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "A person with a genetically normal immune system may lose the functions of one or more of the components of the immune system if exposed to immunosuppressive drugs (such as corticosteroids, FK506, cyclosporine A, anti-CD3 antibodies, cyclophosphamide, and azathioprine); some chemotherapeutic agents used in cancer therapy (such as cisplatin, methotrexate, and epirubicin); and ionizing (i.e., gamma) radiation. These agents affect the immune system in a variety of ways, including suppressing bone marrow function, preventing maturation, proliferation, or activation of lymphocytes, and killing leukocytes. Chemotherapy following organ transplantation and chemotherapy and/or radiotherapy for cancer treatment can lead to severe immunodeficiency. The treated subjects may die not because of organ failure or cancer relapse but from massive viral and bacterial infections.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Certain microbial infections may also cause immunodeficiencies. For example, HIV-1 and HIV-2 infect and kill TH cells and cause severe immunosuppression known as acquired immune deficiency syndrome (AIDS). Infection with certain bacteria, such as Mycobacterium tuberculosis, and parasites, such as blood flukes, may trigger an initial autoimmune response that can later lead to immunosuppression. Whether primary or secondary, immunodeficiency makes a person highly vulnerable to microbial infections and microbe-induced cancers.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Infections by viruses, especially oncoviruses (viruses that have cancer-causing genes or oncogenes), DNA viruses, and viruses that cause chronic infections (such as hepatitis C virus) contribute to as much as 17% of all cancers. A few bacterial infections, for example, Helicobacter pylori (gastric cancer), Fusobacterium nucleatum and Bacteroides fragilis (colorectal cancer), Salmonella typhi (gallbladder cancer), and Chlamydia pneumoniae (lung cancer), have been associated with cancer in humans. Infections caused by fungi of the genera Candida, Malassezia, and Blastomyces have been associated with increased risks of gastrointestinal and lung cancers. Infections by the protozoan parasites such as Trichomonas vaginalis (prostate and colorectal cancers), and Toxoplasma gondii (ocular tumors and lymphoma). Finally, worm infections (such as liver flukes with bile duct cancer, and blood flukes with bladder cancer) have been shown to be associated with cancers. Infection-associated cancers are more commonly found in people with immune deficiency compared to those with normal immune function.",
+          "page": 6
+        },
+        {
+          "type": "figure",
+          "text": "Table 10.2. Some common forms of primary immunodeficiency.",
+          "page": 6,
+          "image": "/mmahp/ch10/10-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Type of immunodeficiency Abnormalities and susceptibilities to infections Severe combined immunodeficiency (SCID) Lack of both functional TH cells and B lymphocytes leading to generalized immunosuppression. The affected subjects are highly vulnerable to microbial infections and microbe-induced cancers.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "DiGeorge syndrome Lack of thymus development, thereby no mature T cells, affected persons my suffer generalized immunosuppression as in SCID (however, different individuals may suffer different levels of immune dysfunction).",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "HLA (I or II) deficiency Lack of adult CD4 positive or CD8 positive T cells, the affected subjects are vulnerable to microbial infection and inflammatory diseases.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "X-linked agammaglobulinemia Affected subjects have a mutated Burton’s tyrosine kinase (BTK) gene. B cells of the subject fail to get activated. The affected subjects are susceptible to bacterial and viral infections (may also develop juvenile arthritis). More common among male children.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Hyper IgM syndrome Mutation in one or more genes causes situations that prevent antibody class switching leading to lack of IgG, IgE, or IgA synthesis, affected persons are susceptible to bacterial and fungal infections.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Phagocyte deficiencies Mutation in one or more genes causes situations that lead to lack of proper phagocyte function including lack of cell adhesion and migration, Chediak-Higashi syndrome, and chronic granulomatous disease (CGD).",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Complement deficiencies or hyperactivities Mutation in one or more genes leading to lack of activation or improper activation of complement pathways. The affected person suffers frequent bacterial infections (due to lack of complement activation) or frequent tissue injuries (due to unregulated complement activation).",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "PRM, PRR, and TLR mutations Mutated PRMs, PRRs, and TLRs fail to bind certain PAMPs and DAMPs, thus unable to activate leucocytes in response to microbial infections.",
+          "page": 6
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 8,
+          "title": "Immunodeficiency",
+          "bullets": [
+            "Primary (congenital)",
+            "Mutations in some key genes",
+            "Lack of some leucocytes",
+            "Lack of lymphoid organs",
+            "Lack of activation and effector function of lymphocytes",
+            "Acquired",
+            "Accidental loss of lymphoid organs",
+            "Toxic effects on lymphoid organs",
+            "Toxic effects on lymphocytes"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.3",
+      "heading": "Hypersensitivity reactions",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Hypersensitivity reactions are excessive immune responses to foreign antigens (and some self-antigens) to the extent that they are harmful to the host. In the 1960s, Phillip Gell (1914-2001) and Robin Coombs (1921-2006) grouped hypersensitivity reactions into four categories, known as Type I, Type II, Type III, and Type IV hypersensitivity reactions. Of them, Type I, II, and III reactions develop rapidly after re-exposure to the triggering antigens and are initiated by antibodies. Type IV reactions, also called delayed-type hypersensitivity (DTH), develop slowly after re- exposure to the triggering antigens and are initiated by Th cells and antigen-presenting cells.",
+          "page": 6
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 16,
+          "title": "Type IV hypersensitive reactions (DTH)",
+          "bullets": [
+            "Antigens recognized by",
+            "Memory T cells get activated",
+            "Cytokine release and tissue",
+            "Example",
+            "TB test",
+            "Eczema to nickel",
+            "Eczema to poison ivy"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.3.1",
+      "heading": "Type I hypersensitivity reactions",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Type I hypersensitivity is mediated by IgEs. A genetic predisposition called atopy causes B cells of some people to generate excess IgEs. Atopy can result from genetic variations (i.e., polymorphisms) in diverse genes, including growth factor genes, cytokine genes, cytokine receptor genes, and MHC genes. Studies involving identical twins indicate that the environment plays a key role in the development of atopy. Improved hygienic practices and public health infrastructure (i.e., fewer infections) tend to increase the chance of developing atopy. The immune system of normal subjects generates IgEs in response to the antigens of eukaryotic parasites (protozoans and worms). However, the immune system of atopic subjects may generate IgEs in response to various non-parasite antigens, including proteins of hen’s egg, pet saliva, ragweed pollen, fungal spores, bacteria in the dust particles, mites, fruits, nuts, and insect venoms. Non-parasite antigens that induce an IgE response are allergens.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Allergens and the physiologic conditions of atopic subjects promote the generation of Th-2-type T cell responses. Cytokines released by Th-2 cells tend to cause B cells to class switch to IgE. In normal subjects, most allergens would be tolerated, or the activated B cells would class switch to IgG or IgA. Once plasma B cells secrete IgEs, the antibodies (IgEs) bind to Fc receptors on mast cells, basophils, and eosinophils (Fig. 10.2). This stage of an allergic immune response is called sensitization. If the allergen that initially sensitized a subject enters the subject's body at a later instance, IgEs bound to the primed mast cells and basophils bind the allergen. Such binding, especially binding of two or more IgE molecules of the same sensitized cell to the same antigen (i.e., bridging or crosslinking), activates the sensitized cells to degranulate. Granules are membrane-bound vesicles filled with antimicrobial substances, including preformed biological mediators such as histamine, serotonin, chemotactic factors, heparin, and proteases. Granules are found in the cytoplasm of the granulocytes. Degranulation is the fusion of the granules to the plasma membrane that leads to the release of the contents of the granules (Fig. 10.2).",
+          "page": 7
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.2. Type I hypersensitivity. A. The process of B cell activation, granulocyte sensitization, and degranulation.",
+          "page": 7,
+          "image": "/mmahp/ch10/10-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Only the acute phase reactions are shown. In delayed-phase reactions, migrated eosinophils, macrophages, neutrophils, and Th-2 cells also contribute to overall inflammation (not shown). B. A child showing severe signs of an allergy (hives on the skin and eyelid swelling). Image courtesy: James Heilman (Wikipedia).",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "The released histamines and serotonin bind their receptors on endothelial cells, causing vasodilation and other signs of inflammation. Chemotactic factors (chemokines) attract granulocytes to the site. The role of heparin is unclear (it prevents blood clotting). Proteases damage the extracellular matrices and the epithelial tissues. All these reactions take place within 1-30 minutes of the second exposure to the allergen. This is the acute phase of an allergic reaction. Within the next 1-24 hours, the activated basophils and mast cells may release mediators, such as leukotrienes and prostaglandins, and cytokines, including IL-2, IL-3, IL-4, IL-5, IL-6, TGFβ, and GM-CSF. Leucocytes, such as eosinophils, neutrophils, macrophages, and Th-2 cells, also secrete cytokines (such as TNF, IL-1, and IL-6) in the inflamed affected tissues. Eosinophils also secrete toxins that kill neurons. All these components induce severe inflammatory responses, including itching, swelling, excessive mucous secretion, ulceration of mucous membranes, smooth muscle contraction, blood clotting, and tissue damage. Contraction of the smooth muscles of the bronchial tubes leads to difficulty in breathing. Collectively, these events are the delayed-phase reactions of allergy. The effects of type I hypersensitivity are collectively called anaphylaxis (a harmful response of the immune system). The manifestations of anaphylaxis partially depend on the route of the secondary exposure to allergens (Table 10.3). The effect ranges from a few hives on the skin to vascular shock and death.",
+          "page": 8
+        },
+        {
+          "type": "figure",
+          "text": "Table 10.3. Manifestations of anaphylaxis upon secondary exposure to allergens.",
+          "page": 8,
+          "image": "/mmahp/ch10/10-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Route of exposure Possible major manifestations* Skin contact Eczema and dermatitis Eye contact Red watery eyes, swelling of the eyelids, some respiratory symptoms.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Inhalation Hay fever or allergic rhinitis (itchy/teary eyes, sneezing, nasal congestion, and runny nose), asthma (bronchial constriction leading to breathing difficulties, and secretion of excess mucous).",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Ingestion Hives or urticaria (itchy swelling in the skin surrounded by a red flare), can lead to systemic anaphylaxis in some cases.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Injected into the blood Generalized anaphylactic reaction involving breathing problems, widespread vasodilation, and extremely low blood pressure leading to vascular shock and death.",
+          "page": 8
+        },
+        {
+          "type": "subheading",
+          "text": "*- some of the symptoms may overlap",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "One in every four persons in the United States has atopy. Atopic subjects should avoid allergens to which they are sensitized. Allergies are treated with medications such as antihistamines (to block histamine receptors), lipoxygenases (to prevent leukotriene synthesis), hormones such as epinephrine (to activate cAMP production, increase heart rate, relax contracted smooth muscles of the lung, and reduce granulocyte degranulation), and cortisone (to reduce histamine synthesis and prevent T cell activation).",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "People who have been diagnosed with atopy and are prone to anaphylactic attacks should carry an epinephrine autoinjector (also called EpiPen®, a spring-loaded device containing epinephrine solution to inject the hormone into the thigh muscle) to treat sudden cardiac arrest and acute asthma caused by an anaphylactic reaction. A cure for an allergy requires identifying the allergen to which a person has been sensitized.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "There are several methods for detecting triggering allergens. The simplest method is the skin flare test. In this test, a dilute solution of a panel of suspected allergens is injected into the skin in a grid. A flare develops around the injection site if the person is sensitized to that allergen (Fig. 10.3). More advanced methods for detection of allergens have been developed (not discussed here).",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Once the allergen is identified, a person can be desensitized through repeated, controlled exposures to it. This process, called allergy vaccination, is expected to induce an IgG response to the allergen. IgG would bind to allergens before the allergens could bind to IgE on mast cells or basophils. The treatment reduces the severity of allergies in up to 90% of treated persons. People with a severe allergy can be treated with monoclonal antibodies that destroy IgE-producing B-cell clones.",
+          "page": 9
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.3. The skin flare test for detecting allergens. A small amount of a potential allergen is suspended in a fluid",
+          "page": 9,
+          "image": "/mmahp/ch10/10-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "vehicle and pricked into the skin using a 1.0 mm lancet. Excess fluid is wiped away with a paper towel. A flare, indicated by the green circles, that develops within 12 minutes of pricking suggests a positive reaction. The absence of a flare indicates a negative result, shown by the blue circles. A negative control test is conducted by pricking the skin with the fluid vehicle alone. Image courtesy: Scoch3 (Wikipedia), partly modified.",
+          "page": 9
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 11,
+          "title": "Type I Hypersensitivity Reactions",
+          "bullets": [
+            "Atopy",
+            "T2 type T cell response",
+            "Allergen",
+            "Exposure and initial B cell response",
+            "Sensitization of Mast cells and",
+            "Subsequent exposures",
+            "Bridging/ cross-linking",
+            "Degranulation of mast cells and",
+            "Acute phase response",
+            "Delayed response",
+            "Leucocyte migration, cytokine release,",
+            "Local vs systemic (anaphylaxis)"
+          ]
+        },
+        {
+          "slideIndex": 13,
+          "title": "Identification of allergen and treatment of allergy",
+          "bullets": [
+            "Treatments",
+            "Antihistamines- block receptors",
+            "Epinephrine- activate cAMP level",
+            "Corticosteroids- suppress T cells",
+            "Allergy vaccine",
+            "Mab to kill IgE producing B cell",
+            "Testing",
+            "Skin flare test",
+            "IgE test (RIST)",
+            "Allergen specific IgE test (RAST)"
+          ]
+        },
+        {
+          "slideIndex": 14,
+          "title": "Type 2 hypersensitivity reactions",
+          "bullets": [
+            "IgM or IgG deposited on cells",
+            "Trigger complement activation",
+            "Tissue damage by MAC",
+            "Release of anaphylatoxins",
+            "Examples",
+            "Transfusion reactions",
+            "Goodpaster's syndrome (kidney",
+            "Erythroblastosis fetalis",
+            "Hemolytic anemia",
+            "Gillian Barr syndrome"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.3.2",
+      "heading": "Type II hypersensitivity reactions",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Type II hypersensitivity is initiated by IgGs and IgMs bound to cell-associated antigens. The binding activates the classical complement pathway. The membrane attack complex (MAC) generated in this process destroys the cells. Anaphylatoxins (C3a, C4a, and C5a) released during the process induce inflammation that promotes blood clotting and the destruction of the endothelial cell lining of the blood vessels. The deposited IgG may also activate macrophages, neutrophils, and NK cells to destroy the affected cells by ADCC (Fig. 10.4).",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Type II hypersensitivity reactions are involved in the hyperacute rejection of allograft organs (rejection of organs within a few minutes to a few hours of transplantation), blood transfusion reaction (massive blood coagulation, tissue damage, and vascular shock following transfusion of unmatched blood to a person), and erythroblastosis fetalis (erythrocyte and liver damage of an Rh-positive fetus born to an Rh-negative mother, where Rh is a blood group antigen). Hemolytic anemia (anemia due to destruction of erythrocytes), thrombocytopenia (reduction of platelet counts due to destruction of platelets), Goodpasture’s disease (destruction of kidney tissues due to deposition of anti- collagen antibodies), and pemphigus (blistering of the skin due to antibodies bound to desmoglein protein of the skin tissues) are caused by Type II hypersensitivity reactions.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Infections by certain viruses (such as cytomegalovirus, varicella-zoster virus, and Zika virus) and bacteria (such as Campylobacter jejuni and Mycoplasma pneumoniae) may subsequently lead to type II hypersensitivity reactions known as Guillain–Barré syndrome (GBS). GBS is manifested by lethargy, weakness of muscles, and breathing difficulties, all due to nerve damage. The infected person develops antibodies against the microbes' antigens, but some of these antibodies (especially IgG) cross-react (i.e., bind) with self-antigens on neurons (Fig. 10.4). Note that an antibody normally binds the antigen that induces the production of the antibody. However, if another antigen is structurally very similar to the original antigen, the antibody may bind (i.e., cross-react with) the mimic antigen.",
+          "page": 9
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.4. Type II hypersensitivity reactions in Guillain–Barré syndrome. Antibodies to the lipid A portion of the",
+          "page": 10,
+          "image": "/mmahp/ch10/10-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "LPS of Campylobacter jejuni cross-reacted with gangliosides (a glycolipid on the plasma membrane) of a neuron. Antibody deposition on the Schwann cells activated the classical complement pathway, leading to the formation of MAC. The MACs damaged the neurons' Schwann cells, and macrophages removed the damaged neurons. Image redrawn after van den Berg et al., Nature Rev Neurol 2014; 10:469-482.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "The mimic antigens responsible for Guillain–Barré syndrome (GBS) are specific lipid molecules of the nerve cells. Antibody binding to the nerve cell activates complement pathways. As a result, membrane attack complexes (MACs) damage the nerve cells. Macrophages then remove the damaged nerve cells (Fig. 10.4). Loss of neurons leads to lethargy, muscle weakness, breathing difficulties, etc. GBS can be fatal in the worst-case scenario, but most people recover.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Elimination of the antigens that may trigger a type II hypersensitivity reaction is the first step of therapy. The signs of GBS can be reduced by plasmapheresis (removal of gamma globulins from the blood plasma). Glucocorticoids can be used to reduce inflammation. Rituximab, a monoclonal antibody drug, can be used to remove B cells that produce the triggering antibodies.",
+          "page": 10
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "10.3.3",
+      "heading": "Type III hypersensitivity reactions",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Type III hypersensitivity is initiated by soluble antibodies such as IgG bound to soluble antigens (not cell surface antigens), forming antibody-antibody complexes (immune complexes). Large immune complexes formed by IgMs and IgGs are readily removed by macrophages in the spleen. However, small immune complexes formed by a few IgGs and antigens may not be readily removed from the blood because the Fc receptors of macrophages may not bind the Fc region of IgGs of the small immune complex. The immune complexes may get deposited on fine blood vessels, synovial membranes of the joints, glomeruli of the kidney, and choroid plexus of the brain. The Fc region of the IgGs of the deposited immune complex activates the classical complement pathway. The membrane attack complexes (MACs) formed as a result would destroy cells in the area where the immune complex is deposited. The anaphylatoxins (C3a, C4a, and C5a) released as a result also recruit and activate neutrophils. The activated neutrophils release large amounts of lytic enzymes at the site, causing additional tissue damage (Fig. 10.5). Type III hypersensitivity reactions to antigens deposited directly on the skin and lungs (not through the blood) are called Arthus reactions. Rheumatoid arthritis (joint disease) and glomerulonephritis (damage to the kidney tubules, leading to kidney failure) following scarlet fever, Lyme disease, malaria, and infectious mononucleosis, as well as Farmer’s lung (an inflammatory response to fungal spores, farm waste, and animal excretions), are type III hypersensitivity reactions. Type III hypersensitivity could cause severe pain, fever, arthritis, and organ failure. Some signs of type III hypersensitivity reactions can be treated by anti-inflammatory drugs such as corticosteroids and immunosuppressive drugs such as nucleotide analogs.",
+          "page": 10
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.5. Type III hypersensitivity reaction in glomerulonephritis. A. A Streptococcus pyogenes infection induced",
+          "page": 11,
+          "image": "/mmahp/ch10/10-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "an antibody response. Some S. pyogenes antigens bound to antibodies, rapidly forming small immune complexes that were not quickly cleared from the blood. As a result, some of the immune complexes were deposited in fine blood vessels. The antibodies of the deposited immune complexes activated the classical complement pathway. Complement activation released MAC and anaphylatoxins. MACs deposited on the glomerular endothelial cells damaged them. The anaphylatoxins (C3a, C4a, and C5a) activated neutrophils. Lytic enzymes released by the activated neutrophils damaged the blood vessels, killing the endothelial cells in the glomerulus. B. A section of a kidney showing a damaged glomerulus. Note the massive accumulation of mononuclear cells in the glomerulus. Image courtesy: Wikipedia.",
+          "page": 11
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 15,
+          "title": "Type III hypersensitivity reactions",
+          "bullets": [
+            "IgG immune complex deposits on",
+            "Activate complement pathway",
+            "Anaphylatoxins/ inflammation",
+            "Examples",
+            "Arthus reactions",
+            "Rheumatoid arthritis",
+            "Farmers lung",
+            "Kidney failure after Staph infections"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.3.4",
+      "heading": "Type IV hypersensitivity reactions",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Type IV hypersensitivity (or DTH) reactions are mediated by Th-1 cells, APCs, and the cytokines they release. The body develops memory TH cells when exposed to protein antigens. If the same antigens appear in the body later, macrophages process and present the antigens on their MHC II molecules. Memory TH cells recognize the antigens, get activated, and secrete cytokines. The cytokines activate additional leukocytes. Thus, a type IV reaction is a normal activity of the immune system. However, it can become a hypersensitivity reaction if the antigens are not removed promptly, leading to severe inflammation and tissue damage (Fig. 10.6).",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "DTH may develop to microbial antigens such as protein antigens of Mycobacterium tuberculosis and the herpes simplex virus, or neoantigens. A neoantigen is a self-antigen that is normally not immunogenic but becomes immunogenic when it is cross-linked to a hapten. A hapten is a simple chemical compound, such as poison oak urushiol, hair dye, nickel ions, or antibiotics, that is normally non-antigenic but becomes antigenic upon binding to a large protein antigen (called the carrier).",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "A skin reaction developed in response to a tuberculin test (also called the Mantoux skin test) is a DTH reaction (Fig. 10.6). In the tuberculin test, a small amount of purified protein derivative (PPD) of Mycobacterium tuberculosis is injected into the skin. If the person were previously exposed to the bacterium, even if the bacterium is no longer present in the patient's body, a DTH reaction would develop, evidenced by erythema (redness), induration (hard swelling), and other tissue injuries around the inoculation site (Fig. 10.6). A positive tuberculin test is distinguished from trauma-related redness caused by the picking needle by the extent of the erythema.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "The interpretation of the tuberculin test depends on the subject's status. A healthy subject with no history of exposure to tuberculosis patients should be considered positive if the induration is >1.5 cm in diameter. For healthy subjects with a history of exposure to TB patients, the test is considered positive if the induration diameter is >1.0 cm. For HIV-positive subjects, the test is considered positive if the diameter of the induration is >0.5 cm. Once a person is found tuberculin test positive, the person should never receive another tuberculin test to avoid a damaging DTH reaction. A highly immunosuppressed person lacking an adequate count of TH cells, such as a person with AIDS, may not show a DTH reaction in response to a tuberculin test even if the subject has active TB.",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.6. Type IV hypersensitivity to the tuberculin test. A. The mechanism of DTH. PPD injected into the skin",
+          "page": 12,
+          "image": "/mmahp/ch10/10-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "is taken up, processed, and presented by macrophages. Memory TH cells recognize the presented antigens and secrete cytokines. Activated macrophages also secrete cytokines (IL-1). As a result, additional leucocytes migrate to the area and cause inflammatory responses, including erythema and induration (hard swelling). B. Tuberculin tests showing positive (top) and negative (bottom) outcomes. Note that the positive test shows an induration of about 1.5 cm in diameter. The negative test shows only slight erythema and no induration. Images: CDC-PHIL.",
+          "page": 12
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "10.4",
+      "heading": "Autoimmune diseases",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Autoimmunity develops if the immune system allows mature B and T lymphocytes reactive to self-antigens to get activated and proliferate in the periphery. The self-reactive B and T cells are supposed to be negatively selected (deleted) in the bone marrow and thymus, respectively (see Chapter 9). However, the deletion is not 100% efficient. Some self-reactive B and T cells survive the negative selection in every person. However, under normal conditions, the self-reactive B and T cells remain harmless because of anergy. Anergy is defined as a state of immune unresponsiveness of B and T lymphocytes to antigens. However, anergy is not perfect. In about 7% of the human subjects, self-reactive B and T cells proliferate and develop autoimmunity, the self-destructive immune responses. Why certain self-antigens induce an immune response is not fully understood. Here are observations on self-antigens and their possible roles in activating autoimmunity.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Sequestered antigens: Proteins from certain cells, such as neurons and spermatozoa, are not adequately expressed in the thymus or bone marrow to enable negative selection of T and B cells. Microbial infections or accidental injuries to neural and testicular tissues may expose sequestered antigens to T and B cells, prompting them to mount an immune response.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbial mimics of cellular molecules: Some microbial antigens are structurally similar to host antigens (Fig. 10.7). It is presumed that antibodies that bind microbial antigens may cross-react with host antigens and induce an autoimmune response.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Effect of prolonged inflammation: When the body experiences prolonged inflammation due to microbial infections and trauma, certain cells, such as pancreatic beta cells and skin keratinocytes, express MHC II molecules and secrete cytokines. These cells, known as nonprofessional antigen-presenting cells, can activate T cells, initiating autoimmune responses. Virus-infected cells also secrete cytokines, which may trigger autoimmune reactions.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.7. Some of the mechanisms of autoimmune responses. A. Trauma in the spinal cord. Injuries to the vertebrae",
+          "page": 13,
+          "image": "/mmahp/ch10/10-7.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "(shown here is a magnetic resonance image of the fractured 4th cervical vertebra) allow macrophages to migrate to the injured spinal cord. Macrophages may scavenge dead and damaged cells, including damaged neurons, and process and present previously sequestered neural antigens to mature naïve T cells. Activated T cells thus created may induce an autoimmune response against nervous tissue. Image courtesy: Andrey Korolev (Wikipedia). B. Molecular mimicry. The p24 antigen of HIV-1 and human IgG heavy chain share the amino acid sequence GVETTTPS. An antibody to the p24 epitope of HIV-1 may bind human IgG and induce an immune response. C. T cell-independent antigens. Some periodic polysaccharide antigens may cross-link (bind multiple membrane-bound) antibodies on the surface of mature naïve B cells. The affected B cell may get activated without the need for IL-2 secreted by activated TH cells. Activated B cells may secrete self-reactive antibodies, thereby mounting an autoimmune response.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "T cell-independent activation of B cells: Certain microbial antigens, such as some polysaccharides and glycoproteins of some G(-) bacteria and enveloped viruses, activate B cells without the need for T cell help (Fig. 10.7). Antibodies secreted by such B cell clones may bind self-antigens and contribute to autoimmune diseases.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Mutant proteins: Protein products of certain genes (such as mutant or polymorphic forms of certain cytokine genes, cytokine receptor genes, growth factor genes, growth factor receptor genes, genes involved in apoptosis, and certain transcription factor genes) may alter the mode of regulation of immune responses and may contribute to autoimmune responses.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "People who have suffered many bouts of microbial infections are prone to developing autoimmune diseases. However, some people develop autoimmune diseases apparently without any significant predisposing factors. Both genetic and non-genetic factors (e.g., environmental exposures, including infections) contribute to the development of autoimmunity. Autoimmune diseases can be organ-specific (limited to certain organs) or systemic (affecting the whole body). The major autoimmune diseases and their underlying mechanisms are summarized in Table 10.4.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Table 10.4. Some autoimmune diseases of humans and the underlying causes of the diseases.",
+          "page": 14,
+          "image": "/mmahp/ch10/10-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Diseases Self-antigens Immune response and disease manifestations Organ-specific Addison’s disease Antigens on the cells of the adrenal gland Autoantibodies bind hormone-producing cells of the adrenal gland and activate the complement pathway (i.e., it is a type II hypersensitivity reaction), which kills the cells. A drop in the level of cortisol (hormone) creates many pathologies including weight loss, muscle weakness, hyperpigmentation of the skin, and low blood pressure.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Anemia Antigens on erythrocytes, and vitamin B12-binding proteins Autoantibodies bind antigens on the erythrocytes and activate the complement pathway leading to hemolytic anemia. Autoantibodies may bind vitamin B12-binding proteins in the intestinal mucosa and inhibit the absorption of vitamin B12. Vitamin B12 deficiency leads to pernicious anemia.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Graves’ disease Thyroid- stimulating hormone (TSH) receptor Autoantibodies bind the TSH receptors and stimulate the thyroid gland, excess thyroid hormone causes various symptoms including weight loss, muscle weakness, and tremor.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Insulin-dependent diabetes mellitus Beta cells of the pancreatic islets T cells and autoantibodies destroy beta cells that produce insulin. Low insulin level leads to type -1 diabetes.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Myasthenia gravis Acetylcholine receptors (AChr) Autoantibodies bind AChrs and prevent signal transmission.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Ultimately the antibodies destroy the cells that have AChr on their plasma membrane, through complement activation (i.e., it is a type II hypersensitivity reaction). Lack of neurotransmission leads to muscular weakness and paralysis.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Glomerulonephritis Antigens on the kidney tubules Antibodies to microbial antigens cross-react with antigens of kidney tubules, antibody deposition leads to complement activation, tissue damage, and kidney failure. It is a type III hypersensitivity reaction.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Autoimmune infertility Spermatozoa Autoantibodies bind and destroy spermatozoa through activating the classical complement pathway (i.e., through type II hypersensitivity reaction) and phagocytosis. Lower spermatozoa count leads to male sterility.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Systemic Multiple sclerosis Myelin sheath of neurons T cell-mediated destruction of the myelin sheath of the neuronal axons leads to neuron destruction, weakness, and paralysis.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Goodpasture’s syndrome Collagen and some other basement membrane proteins Autoantibodies bind the basement membranes of the kidneys and the lung and activate complement pathways leading to tissue damage, kidney failure, bleeding, and in worst cases, death (these are type II hypersensitivity reactions).",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Rheumatoid arthritis (RA) Self-antibodies Autoantibodies bind self-antibodies and form immune complexes. The immune complexes deposit on the joints and activate the complement pathway leading to tissue damage, bone damage, and disfigurement (this is a type III hypersensitivity reaction).",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Systemic lupus erythematosus (SLE) Various types of self-antigens Unregulated B cells secrete autoantibodies to various self-antigens including histones, clotting factors, erythrocytes, platelets, and leucocytes. The binding of antibodies to the antigens leads to complement activation, tissue damage, and various painful symptoms including vasculitis, fever, arthritis, skin pathologies, and kidney failure (these involve type II and III hypersensitivity reactions.",
+          "page": 15
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 17,
+          "title": "Autoimmune diseases",
+          "bullets": [
+            "Common causes",
+            "Sequesters antigens",
+            "Molecular mimicry by microbes",
+            "Prolonged inflammation/excels",
+            "T cell-independent activation of B cell",
+            "Gene polymorphism",
+            "Examples",
+            "RA and SLE",
+            "Graves’ disease",
+            "Multiple sclerosis",
+            "Insulin-dependent diabetes"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.5",
+      "heading": "Immunization and vaccines",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Vaccines are harmless antigens that, if given to vertebrate animals, induce humoral and/or cellular immune responses that confer protection against various conditions, including infections, allergies, cancers, and pregnancies. Pasteur proposed the blanket term vaccine in 1881 to honor Edward Jenner (1749-1823), who, in the 1790s, administered the cowpox virus to human subjects to prevent smallpox and called it vaccine (Latin: Vacca, from a cow). Smallpox, once a dreaded killer, was eradicated through a global vaccination campaign in the 1970s. Our civilization is on the cusp of eradicating polio through a vaccination campaign. In the United States, widespread routine vaccination has reduced the incidence rate of some common infectious diseases (such as diphtheria, measles, mumps, pertussis, rubella, and tetanus) by over 99.%. However, effective vaccines for several communicable diseases, including sexually transmitted diseases, diarrheal diseases, and parasitic infections, are yet to be developed.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "A person can be immunized by transferring antibodies (or B and T lymphocytes) from a previously immunized person or animal to the subject. Such transfer of antibodies or B and T lymphocytes to a person is passive immunization. In contrast, active immunization involves administering immunogens, such as live or dead microbes or their antigens.",
+          "page": 15
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 21,
+          "title": "Immunization",
+          "bullets": [
+            "Natural immunization",
+            "Passive immunization",
+            "Mother to fetus",
+            "Serum therapy",
+            "T cell transfer"
+          ]
+        },
+        {
+          "slideIndex": 25,
+          "title": "More on immunization",
+          "bullets": [
+            "Route of vaccine",
+            "Oral",
+            "Intramuscular",
+            "Inhalation",
+            "Other routes",
+            "Adjuvants",
+            "Precipitants (mineral oil, alum, etc.)",
+            "Immunoactivity (heat-killed Mycobacterium)",
+            "Mixed (Freund’s complete and incomplete)",
+            "Modern adjuvants (lipids and dsRNA)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.5.1",
+      "heading": "Passive immunization",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Naturally occurring passive immunization",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "The newborns of all higher vertebrate animals are passively immunized. Maternal antibodies are packed in the eggs of egg-laying vertebrates. For mammals, IgG binds the Fc receptors on the placenta. The bound antibodies are internalized and then pass into the fetal circulation (Fig. 10.8).",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Maternal IgG in the amniotic fluid is also believed to enter the fetus because fetuses drink amniotic fluid, and the fetal intestine has Fc receptors. Maternal antibodies have a limited half-life (the time it takes for a protein to be degraded by 50% of the total amount). Thus, antibody titer in the infant’s circulation gradually declines to a point of crisis (in humans, about six months after birth). Babies become highly vulnerable to microbial infections at that point. Breastfed babies, however, continue to receive some antibodies through colostrum and breast milk. Antibodies found in colostrum and breast milk are mainly IgA and IgM. It is unclear whether the Fc receptors on epithelial cells in the infant's intestine bind antibodies in breast milk and pass them into the infant’s circulation. It is scientifically well established that breastfeeding for as long as two years is healthful for babies.",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Passive immunization using human sera",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Diverse microbes infect us throughout our lives. Sometimes, these infections cause symptoms; other times, they resolve without noticeable signs of disease. However, the immune system of infected individuals may produce antibodies and T-cell clones in response. Therefore, the blood plasma of a healthy adult contains antibodies to many pathogenic microbes.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Serum collected from blood donated by healthy volunteer blood donors and paid plasma donors can be used for passive immunization. Donated sera are lifesavers for people with congenital hypogammaglobulinemia, a genetic disorder that prevents B cell maturation and immunoglobulin production. People with immunodeficiency cannot be vaccinated with live attenuated vaccines (see below). However, such individuals can receive passive immunization using donated human serum. Donor sera are also used to treat certain infections, such as respiratory syncytial virus (RSV) infections in young children.",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.8. Passive immunization of mammalian fetuses and infants. A. Maternal IgGs in the maternal blood in the",
+          "page": 16,
+          "image": "/mmahp/ch10/10-8.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "sinuses of the uterus bind the Fc receptors on the surface of the placenta. The Fc receptor-bound IgGs pass to the placental blood vessels through transcytosis. The IgGs ultimately enter the fetal circulation. Once in the circulation of the fetus, maternal IgGs can exert all effector functions, including ADCC, complement activation, and opsonization- induced phagocytosis. B. Transfer of IgA through the mammary gland. Maternal IgA binds the pIG receptor on the epithelial cells of the mammary gland. The IgA molecules are then transferred across the epithelial cell by transcytosis to the lumen of the mammary gland, where the antibodies dissolve in the milk. As the antibodies are ingested by a baby (or sucking calves), the antibodies conduct normal effector functions. IgAs can also be transported into the intestinal mucosa by retrograde transport. Image courtesy: Langel SN et al. PLOS Pathogens 2020. https://doi.org/10.1371/journal.ppat.1008303.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "Passive immunization using animal sera",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Vertebrate animals produce antibodies if antigens are injected into them. Serum derived from the plasma of the vaccinated animals can be used for passive immunization of human subjects (Fig. 10.9). Passive immunization remains an effective method of treating some life-threatening conditions, such as poisoning due to snake and insect bites (i.e., poisoning by venoms), diphtheria, tetanus, botulism, and rabies.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "Limitations of passive immunization",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "In passively immunized subjects, the antibodies work solely by neutralizing the viruses, toxins, or venoms involved. Passive immunization through serum transfer does not provide lasting immunity. Antibody molecules have a half-life of just a few weeks. Adult humans develop antibodies against animal antibodies and human alloantibodies (antibodies from another person), rapidly clearing the foreign antibodies from the circulation. If the immune complexes (i.e., antibodies of the recipient bind to donated antibodies) are not quickly eliminated, a Type III hypersensitivity reaction called serum sickness may occur. If a person develops IgE against the donated animal antibodies, a systemic anaphylactic reaction can occur, which can be fatal. Lastly, removing viruses and subviral agents from human or animal sera is challenging, if not impossible. Although sera are collected from healthy individuals and animals and carefully tested before use, serum therapy still carries some risk of viral infection.",
+          "page": 16
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.9. Veterinary antisera for passive immunization. A. The process of harvesting antisera from livestock.",
+          "page": 17,
+          "image": "/mmahp/ch10/10-9.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Chemically inactivated viruses, toxins, or venoms are injected into germ-free livestock animals. The animals develop antibodies to the toxins. The animals are bled, and the plasma is separated. The formed elements of the blood are suspended in normal saline (0.87% NaCl solution) and given back to the animal. The serum is separated from the plasma, decontaminated, formulated, and bottled for veterinary usage. B. Photograph of a bottle of the very first batch of diphtheria antitoxin produced in horses (or goats) by the Hygienic Laboratory (now NIH) in 1895. Image courtesy: NIH (Wikipedia).",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Animal antisera are typically avoided in treating human diseases because animal antibodies can act as antigens in the human body and cause Type III hypersensitivity reactions. Additionally, human leukocytes lack receptors for the Fc region of animal antibodies, so these antibodies do not trigger phagocytosis by human leukocytes. For human use, pooled human serum, genetically engineered monoclonal antibodies, or humanized mouse antibodies are preferred over animal sera. A mouse antibody can be humanized by attaching the constant region of a human antibody gene to the variable region of a mouse monoclonal antibody gene. Common passive immunization agents currently used are listed in Table 10.5.",
+          "page": 17
+        },
+        {
+          "type": "figure",
+          "text": "Table 10.5. Commonly used passive immunization agents for humans.",
+          "page": 17,
+          "image": "/mmahp/ch10/10-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Antivenins Snake venoms (antivenin, serum of immunized horses, or eggs of antibodies from immunized hens) Black widow spider venom (antivenin, serum of immunized horses) Antitoxins Tetanus toxin (antitoxin, pooled human immunoglobulin, or serum of immunized horses) Diphtheria toxin (antitoxin, serum of immunized horses) Botulinum toxin (antitoxin, serum of immunized horses) Antiviral antisera Cytomegalovirus (polyclonal human antisera) Hepatitis A and B viruses (pooled human immunoglobulin) Measles virus (pooled human immunoglobulin) SARS-Cov-2 antiserum: Pooled antiserum from patients recovered from a SARS-Cov-2 infection Rabies virus (pooled human immunoglobulin) Respiratory syncytial virus (monoclonal antibody or pooled human immunoglobulin) Varicella-Zoster virus (polyclonal human antibody) Passive immunization by cell therapy Passive immunization can also be achieved by transferring antigen-specific mature B or T cells, mature naïve B and T lymphocytes, hematopoietic stem cells, or total bone marrow from one person to another. However, these methods carry the risk of graft-versus-host disease (where the donated leukocytes may attack the cells of the recipient), unless highly matched donor cells are used. These techniques are employed to reconstruct the immune system of individuals who have undergone total body irradiation therapy to treat disseminated cancers.",
+          "page": 17
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 24,
+          "title": "Commonly used passive immunization",
+          "bullets": [
+            "Antivenins",
+            "Snake venoms (horse or hems egg)",
+            "Black widow spider venom (hrse)",
+            "Antitoxins",
+            "Tetanus toxin (pooled human or horses)",
+            "Diphtheria toxin (horses)",
+            "Botulinum toxin (horses)",
+            "Antiviral human antisera- CMV, HAV, HBV, measles virus, rabies,"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.5.2",
+      "heading": "Active immunization",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Active immunization employs antigens (not antisera or leucocytes). Chinese and Indian shamans of the Middle Ages used dried (inactivated whole) variola viruses as vaccines. Edward Jenner (1749-1823), Lewis Pasteur (1822-1895), and Robert Koch (1843-1910) used live attenuated microbes as the vaccine antigens (see Chapter 1). Many alternative forms of vaccine antigens have since been developed. Various types of antigens used for routine vaccination are described below. Different antigens are delivered through various routes, leading to different types of immune responses. Each type of vaccine antigen has its own advantages and limitations.",
+          "page": 18
+        },
+        {
+          "type": "subheading",
+          "text": "Live-attenuated vaccines",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "An attenuated microbe is a live/biologically active microbe that can infect a host or host cells but is unable to cause disease. A microbe can be attenuated by growing under unusual conditions, such as at very low temperatures, in suboptimal growth media, or in unnatural host animals. For example, live attenuated influenza viruses are grown in chicken eggs or chicken embryonic tissue culture and incubated at 30 °C for a prolonged period. The viruses adapted to these conditions fail to grow at body temperature (37 °C) fast enough to cause disease. Live attenuated vaccines are generally administered orally or in the nasal cavity. The low levels of infection caused by attenuated microbes in the host are sufficient to elicit both humoral and cell-mediated immunity.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Creating a perfectly attenuated microbe for a vaccine is challenging. Some microbes have many pathogenic strains. RNA viruses evolve quickly and create new strains in real time. Therefore, the attenuated microbe vaccine may not always guarantee protection. There is a small but definite chance that an attenuated microbe could mutate back to a disease-causing strain. It is estimated that one in every 2.4 million children receiving the Sabin polio vaccine (i.e., live attenuated polio vaccine) might develop polio due to such reversion. Attenuated microbes can replicate and potentially cause chronic infections in immunocompromised individuals. Additionally, attenuated vaccines are hard to transport because they are destroyed at ambient temperatures.",
+          "page": 18
+        },
+        {
+          "type": "subheading",
+          "text": "Inactivated whole vaccines",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Highly purified microbes are treated with crosslinking agents, such as formaldehyde, to produce inactivated whole vaccines. The crosslinking agent creates many covalent bonds among the macromolecules of the microbes. As a result, the microbe is killed/inactivated, but its antigens remain functional. Inactivated whole vaccines are easy to store and transport, but they must be injected to be effective. Inactivated vaccines initially elicit an antibody response. Memory response may not develop unless several booster shots are given. Inadequately inactivated whole vaccines may contain a few live/active microbes that may infect the vaccinated subject and cause disease.",
+          "page": 18
+        },
+        {
+          "type": "subheading",
+          "text": "Toxoids",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Highly purified bacterial exotoxins, such as diphtheria toxin and tetanus toxin, are treated with formaldehyde to create toxoid vaccines (Fig. 10.10). The toxoids retain their antigenic properties but cannot bind to host cell receptors to cause disease. Toxoids are ideal vaccines, but only a few have been developed.",
+          "page": 18
+        },
+        {
+          "type": "subheading",
+          "text": "Subunit vaccines",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Subunit vaccines are short synthetic polypeptides, short polypeptides synthesized through recombinant DNA technologies, or purified microbial polysaccharides (Fig. 10.10). Subunit vaccines do not require formalin treatment because they lack full biological activities. Subunit vaccines are safe but antigenically poor. Even repeated shots of subunit vaccines may fail to elicit a robust immune response and protective immunity.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "Conjugate vaccines",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Purified polysaccharide antigens of Haemophilus influenzae strain b (a major cause of childhood meningitis) have been linked to tetanus toxoid (Fig. 10.10) to develop a conjugated vaccine that offers protection against infection by Haemophilus influenzae. A promising antifungal conjugate vaccine has been developed by linking diphtheria toxoid to b-glucan (a polysaccharide found in fungi and some algae).",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.10. Toxoids and conjugated vaccines. A. Toxoid antigens. A bacterial exotoxin, such as diphtheria toxin, is",
+          "page": 19,
+          "image": "/mmahp/ch10/10-10.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "treated with formaldehyde or glutaraldehyde to produce a toxoid. The covalent crosslinking bonds (shown by the red bars) render the toxin biologically inactive, but it remains antigenic. B. A conjugate vaccine. A toxoid is cross-linked (indicated by the green bars) to a synthetic polypeptide or polysaccharide antigen, creating a conjugated antigen.",
+          "page": 19
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "10.5.3",
+      "heading": "Newer approaches for vaccine development",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The newer approaches to vaccine development include DNA-based vaccines, genetically manipulated microbes carrying vaccine genes, mRNA vaccines, edible vaccines, microbeads, liposomes, and virosomes.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "DNA vaccines",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "DNA-based vaccines are protein-expression cloning vectors that contain the open reading frames of one or more antigens from pathogenic microbes. DNA vaccines can be naked DNA packaged in lipid vesicles (micelles) and injected directly into animal muscles, or they can be delivered via genetically modified bacteria or viruses that carry the genes encoding the vaccine proteins (Fig. 10.11). For DNA vaccines to work, the DNA must enter the nucleus of host cells (including human cells), where genes are transcribed. The host cell's ribosomes then translate the mRNAs into proteins. The proteins act as vaccines if the cell's proteasome processes them and displays the antigens on its HLA I molecules.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "The COVID-19 vaccines developed by Johnson and Johnson (New Brunswick, NJ), and AstraZeneca (Cambridge, UK) are genetically manipulated adenoviruses carrying the spike protein gene of the SARS-CoV-2 virus (the coronavirus that causes COVID-19 disease). DNA vaccines are discouraged in humans because the injected DNA may be inserted into the chromosomes of host cells and cause mutations, increasing the risk of cell transformation and cancer.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "Messenger RNA (mRNA) vaccines",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "mRNA vaccines consist of mRNA molecules packaged in lipid micelles. When injected in the muscle, the lipid micelles fuse with the host cell's plasma membrane and deliver the mRNA directly into the cytoplasm. Ribosomes translate the mRNAs to synthesize proteins. The proteins act as vaccines if the cell's proteasome processes them and displays the antigens on its HLA I molecules. Memory response occurs when antigens are cross-presented by DCs on HLA-II molecules. The individual will develop immunity if the immune system responds to the vaccine proteins. mRNA vaccines were used extensively during the COVID-19 pandemic of 2019-2020.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "The COVID-19 vaccines developed by BioNTech (Mainz, Germany) and Moderna Therapeutics (Cambridge, MA) use liposomes to deliver mRNA encoding the spike protein of the SARS-CoV-2 virus. These vaccines were approved for human use in 2020 by the United States and many other countries worldwide, and billions of doses have been administered. The vaccines have been found effective and reasonably safe.",
+          "page": 20
+        },
+        {
+          "type": "subheading",
+          "text": "Edible vaccines",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Edible vaccines are vaccine antigens (proteins) expressed in fruits and tubers of genetically modified plants. As animals eat fruits and vegetables containing antigenic proteins, their immune systems develop a response to these antigens (see Chapter 6 for more details). Edible vaccines are discouraged in humans due to the potential for food allergies. Moreover, high doses of antigen ingested with food suppress immune responses to the antigen. Microbead vaccines Microbead vaccines are created by attaching antigens, such as synthetic polypeptide antigens, to microscopic beads made from nontoxic organic polymers (Fig. 10.11). These antigens, like short polypeptides, can be too small to trigger an immune response on their own but become immunogenic when associated with the microbeads.",
+          "page": 20
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.11. Some novel approaches to vaccine development. A. Genetically manipulated bacteria, where vaccine",
+          "page": 20,
+          "image": "/mmahp/ch10/10-11.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "antigen genes are inserted into a plasmid or the chromosome of a nonpathogenic bacterium. The bacterial cells then express the vaccine proteins. The host macrophages phagocytize and kill the bacteria, exposing the immune system to the antigens. B. Genetically manipulated viruses, in which vaccine antigen genes are inserted into the genome of a mutant virus that can infect host cells but does not cause disease (see Chapter 6 for more details on genetically manipulated virus vaccines). C. Microbead vaccines, where antigens are attached to tiny beads made of inert polymers such as alginate. D. Liposomes and virosomes, with liposomes being lipid micelles carrying vaccine antigens, DNA constructs, or mRNAs encoding vaccine proteins. Virosomes are liposomes that incorporate virus glycoproteins into their lipid bilayer. E. VLPs, which are virus capsids where vaccine antigens, DNA constructs, or mRNAs substitute for the virus genome.",
+          "page": 20
+        },
+        {
+          "type": "subheading",
+          "text": "Liposome and virosome vaccines",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Liposomes are lipid micelles formed by mixing amphipathic lipids with water and microbial antigens, such as recombinant microbial proteins or synthetic polypeptides. Liposomes can also be used to deliver naked DNA and mRNA vaccines. To boost effectiveness, some RNA vaccines are designed so that the RNA molecules can replicate within cells. The lipid micelles fuse with the plasma membranes of macrophages and other host cells, delivering the contents into the cells.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Liposomes are called virosomes if viral envelope glycoproteins are incorporated into the liposome (Fig. 10.11). The viral glycoproteins of virosomes would bind host cell receptors and facilitate more efficient fusion of the liposome with the host cell.",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "Virus-like particles (VLPs)",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "VLPs are empty virus capsids (lacking the virus genome). VLPs are created in test tubes by mixing viral proteins in the presence of additional antigens and/or DNA or mRNA. VLPs have capsid proteins (ligands) that bind the receptors of the host cell and thus allow the VLPs to infect their host cell. Once the VLPs are internalized by the host cells and the VLPs are disassembled, the antigens, DNA cassettes, or mRNAs they carry are released.",
+          "page": 21
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 23,
+          "title": "Some new vaccine approaches",
+          "bullets": [
+            "DNA vaccine- J&J Covid-19",
+            "mRNA Vaccine- Pfizer-",
+            "Edible vaccine",
+            "Microbead vaccine",
+            "Liposome vaccine",
+            "Virosome vaccine",
+            "VLP vaccine"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.5.4",
+      "heading": "Adjuvants and vaccine delivery vehicles",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Soluble antigens, such as proteins and polysaccharides, may rapidly disappear from blood plasma soon after they are injected into muscle. If the antigens are not captured by DCs, macrophages, and B cells and presented to T cells, there will be no immune response. Adjuvants (France: adjuvare-help) may help induce a more robust immune response to soluble antigens.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Adjuvants are chemicals or biological substances. Adjuvants can be grouped as precipitants and immunoactivating adjuvants (Table 10.6). The precipitants probably act by helping antigens precipitate or remain at the site of inoculation for a longer period. This allows DCs and macrophages to pick up the antigens. Immunoactivating adjuvants work by activating macrophages and T cells. Mixed adjuvants such as Freund’s incomplete and Freund’s complete adjuvants (Table 10.6) are usually more effective adjuvants.",
+          "page": 21
+        },
+        {
+          "type": "figure",
+          "text": "Table 10.6. Different types of adjuvants.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Precipitant type Alum (potassium aluminum sulfate) Mineral oils Natural or synthetic lipid or lipid conjugates (example Matrix-M™ adjuvant*) Immunoreactive adjuvants Heat-killed Mycobacterium bovis or Bordetella pertussis PRR ligands (PAMPs such as microbial macromolecules) Mixed adjuvants Freund’s complete adjuvant (oil-in-water emulsion containing heat-killed Mycobacterium bovis) Freund’s incomplete adjuvant (oil-in-water emulsion alone) *Matrix-MTM (Novavax, Gaithersburg MD)- nanoparticles made of saponins from the bark of Quillaja plants, formulated with cholesterol and phospholipids. It augments TH1 and TH2 type immune responses.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Alum, Matrix-MTM, and a few PRR ligands are among the adjuvants approved for use in human vaccines. The immunoreactive and mixed adjuvants activate lymphocytes non-specifically, which may initially contribute to acute inflammation and later to autoimmune diseases. Immunoreactive adjuvants and mixed adjuvants are not used in humans but are used in animal vaccination.",
+          "page": 21
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "10.5.5",
+      "heading": "The routine vaccines",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Vaccines are used as a preventive public health measure worldwide. Routine vaccines are designed to prevent common childhood infections, including endemic diseases of certain countries. Some routine vaccines are also administered to adults and the elderly. The list of routine vaccines given in the United States is shown in Table 10.7.",
+          "page": 21
+        },
+        {
+          "type": "figure",
+          "text": "Table 10.7. Routine childhood (birth-18 years of age) and adult vaccines as recommended by CDC (2016). The",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "number of required booster doses for childhood vaccines is shown in parentheses. The number of doses given to adult subjects is shown in italics. For more information visit http://www.cdc.gov/vaccines/schedules. Vaccines Antigen type Fist dose (and boosters); Adult doses Disease prevented Hepatitis B (HepB) Subunit (protein) At birth (2) Adults: 3 doses Hepatitis caused by hepatitis B virus (HBV) Rotavirus (Rotarix or RotaTeq) Live attenuated Six weeks (1) Childhood diarrhea caused by rotavirus Diphtheria, tetanus, and acellular pertussis (DTaP) Toxoid (diphtheria, tetanus), subunit (polysaccharide) pertussis 2 months (4) Adult: once every 10 years Diphtheria, tetanus, and whooping cough Haemophilus influenzae type b (Hib) purified polysaccharide- toxoid conjugate 2 months (3) Adults: 1-3 doses Meningitis caused by H. influenza strain B Streptococcus pneumoniae (PCV13) Capsule polysaccharide- diphtheria toxoid conjugate 2 months (3) Adults: one dose Pneumonia and meningitis caused by S.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "pneumoniae Poliovirus (IPV) Inactivated whole 2 months (4) Polio Influenza virus A (IIV, LIAV) Inactivated whole or Live attenuated 6 months (once every year) Adults: Once/year Influenza Measles, mumps, rubella (MMR) Live attenuated viruses 12 months (1) Adults: Two doses Measles, mumps, and rubella Varicella-zoster (VAR) Live attenuated virus 12 months (1) Adults: Two doses (one dose for zoster) Chickenpox Hepatitis A (HepA) Inactivated whole virus 12 months (0) Adults: 3 doses Hepatitis caused by hepatitis A virus (HAV) Neisseria meningitides (various types) Conjugate or subunit (polysaccharide) 7 years Adults: 2-3 doses Meningitis caused by N. meningitides Human papillomavirus (2vHPV, 4vHPV or 9vHPV)* Subunit (proteins) 9 years (1) Adults: 3 doses Cervical cancer and some other cancers caused by HPV *- 2vHPV- vaccine contains antigens of two different strains (strains 16 and 18); 4vHPV- vaccine contains antigens of four different strains (strains 6, 11, 16 and 18); 9vHPV vaccine contains antigens of nine different strains (strains 6, 11, 16, 18, 31, 33, 45, 52, and 58) of HPV. CDC recommends the 2vHPV only for females; 4vHPV and 9vHPV for both males and females. Females are benefitted more from these latter vaccines.",
+          "page": 22
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "10.5.6",
+      "heading": "Additional vaccines",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Additional vaccines are available for travelers and professionals, such as veterinarians and researchers, who may face infection risks at visited locations and workplaces. For example, people traveling to East Asia can get vaccines for typhoid, cholera, or plague, and scientists studying the rabies lyssavirus may receive a rabies vaccine. The rabies vaccine is administered to individuals bitten or scratched by potentially rabid feral and wild animals. Some additional vaccines (not routinely given) are listed in Table 10.8.",
+          "page": 22
+        },
+        {
+          "type": "figure",
+          "text": "Table 10.8. Some other available vaccines.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Vaccines \tComments",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Anthrax vaccine: To prevent inhalation or contact anthrax disease caused by Bacillus anthracis. Vaccines are limited to military use only.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Cholera vaccine Live-attenuated bacterium, oral vaccine (Dukoral) for travelers, effective against cholera caused by toxigenic Vibrio cholerae and E. coli.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Japanese encephalitis virus vaccine For travelers to certain regions of East Asia for a prolonged stay. Lyme disease A vaccine was available for hunters and campers; the vaccine is no longer distributed.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Monkeypox Smallpox vaccine (Vaccinia) given to researchers and other highly susceptible subjects.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Typhoid vaccine Inactivated or live-attenuated bacteria for adult travelers to certain countries. Tuberculosis Live-attenuated Mycobacterium bovis (Bacillus Calmette-Guérin or BCG) vaccine given to children of mothers with tuberculosis and other vulnerable subjects; questionable effectiveness.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Yellow fever Live-attenuated virus, for travelers to regions endemic for yellow fever.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "No vaccine for the majority of infectious diseases It is evident in Tables 10.7 and 10.8 that we have effective vaccines for only a handful of infectious diseases. Currently, there is no effective vaccine for some of the world's biggest public health problems, such as hepatitis C virus, HIV-1 and HV-2, herpes simplex virus-1 and -2, Epstein-Barr virus, respiratory syncytial virus, cytomegalovirus, syphilis, gonorrhea, chlamydiosis, tuberculosis, malaria, schistosomiasis, trypanosomiasis, leishmaniasis, and filariasis. The World Health Organization (WHO) approved a vaccine to prevent malaria in 2021. Although this vaccine's efficacy is low, it is encouraging news given malaria's global significance.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "The major reason for the lack of vaccines for important infectious diseases is insufficient research. Some of these diseases are endemic to less-developed countries, which are often unable to develop vaccines. Multinational drug companies may not find it financially rewarding to create vaccines for endemic diseases. The World Health Organization, along with governments of some developed countries, including the United States, the Bill and Melinda Gates Foundation, and other private charitable organizations, has provided funding to develop vaccines for some of these diseases. Although developing vaccines for these infections is technically challenging, it is not impossible.",
+          "page": 23
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 27,
+          "title": "Additional vaccines",
+          "bullets": [
+            "Available",
+            "Anthrax",
+            "Cholera",
+            "Rabies",
+            "Tuberculosis",
+            "Yellow fever",
+            "Lyme disease",
+            "Japanese encephalitis virus",
+            "Ebola",
+            "Influenza and COVID-19",
+            "No vaccine",
+            "For all STDs (except papilloma virus)",
+            "Common bacterial and viral infections"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.5.7",
+      "heading": "Vaccine side effects",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Vaccines are generally safe and the most effective method of preventing many infectious diseases. There are a few risks and side effects associated with some vaccines. The risks and side effects depend on the nature of the antigens and other components used in the vaccine preparations. The potential side effects are listed in Table 10.9. Since different brands of vaccines for the same disease may contain various types of antigens and other components like solvents, inactive ingredients, preservatives, etc., it is challenging to provide a comprehensive list of side effects for each vaccine. CDC maintains an updated list of common side effects for vaccines approved by the US Food and Drug Administration (FDA).",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "There are concerns about inactive ingredients in vaccines, such as solvents and preservatives, and potential contaminants that might remain in vaccine preparations. Some preservatives, like mercury compounds, could cause neurotoxicity, but these compounds are no longer used. Live-attenuated viruses grown in animal cells, such as chicken or monkey cells, may contain animal viruses. For example, SV40 Virus (a monkey polyomavirus) was found in Sabin polio vaccines in the past. Influenza virus antigens purified from viruses grown in hens’ eggs cannot be used in people with egg allergies. Similarly, HBsAg (hepatitis B virus vaccine) produced in yeast should not be given to individuals allergic to yeast.",
+          "page": 23
+        },
+        {
+          "type": "figure",
+          "text": "Table 10.9. Common vaccine side effects.",
+          "page": 24,
+          "image": "/mmahp/ch10/10-9.jpg"
+        },
+        {
+          "type": "subheading",
+          "text": "Vaccines \tSide effects",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Injected vaccines Common: Rashes, soreness, mild fever, cough, chills, sleeplessness, nausea, mild diarrhea (all due to cytokine release and inflammation).",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Uncommon: High fever and seizure (due to excessive cytokine release), and allergic reaction (anaphylactic shock).",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Live-attenuated vaccines (oral, nasal, or skin wounds) Common: Rashes, soreness, mild fever, lymphadenopathy (due to cytokine release, leukocyte migration, and inflammation), cough, chills, sleeplessness, nausea, and mild diarrhea.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Uncommon: High fever (due to excessive cytokine release), allergic reactions (runny nose, excess mucous secretions, watery eyes), seizure, coma, brain damage, reversion of the attenuated microbes to infectious microbes causing actual disease symptoms, and infection of immunocompromised subjects by the live attenuated microbes.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "There are some legitimate concerns about vaccine safety, but the benefits of vaccination significantly outweigh the risks. Parents of vaccinated children should keep in close contact with pediatricians during and after vaccination. Fever, lymphadenopathy, seizures, and any signs of allergy should be quickly reported to doctors. According to the CDC, concerns such as vaccination causing autism among children are unfounded.",
+          "page": 24
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 22,
+          "title": "Common antigens used in vaccination",
+          "bullets": [
+            "Live attenuated vaccine- oral polio",
+            "Inactivated vaccine- injected polio",
+            "Toxoid- diphtheria",
+            "Subunit vaccines- hepatitis B",
+            "Conjugated vaccines- pertussis"
+          ]
+        },
+        {
+          "slideIndex": 28,
+          "title": "Vaccine side effects",
+          "bullets": [
+            "Injected vaccines",
+            "Common: Rashes, soreness, mild fever, cough, chills, sleeplessness, nausea,",
+            "Uncommon: High fever and seizure (due to excessive cytokine release),",
+            "Live-attenuated vaccines (oral, nasal, or skin wounds)",
+            "Common: Rashes, soreness, mild fever, lymphadenopathy (due to cytokine",
+            "Uncommon: High fever (due to excessive cytokine release), allergic reactions"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.6",
+      "heading": "Use of antibodies in detection and diagnosis",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Immunological techniques rely on intermolecular interactions. Immunologists can develop amazing techniques. Here are a few common immunological techniques involving antibodies. Because this textbook is introductory, cellular immunology techniques are not discussed here.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "The common antibody techniques include precipitation, agglutination, radioimmunoassay (RIA), enzyme-linked immunosorbent assay (ELISA), enzyme-linked immunosorbent spot (ELISPOT) assay, Western blot detection, immunofluorescence, and flow cytometry. Immunoassays utilize the unusual ability of antibodies to detect and bind specific antigens. The sensitivity (limit of detection of target molecules) of the assays varies (the limit is 20-200 μg/ml for precipitation, 0.06-0.0006 μg/ml for agglutination, and below 0.0006 μg/ml for RIA and ELISA). A detection limit of 0.0006 μg/ml means that deposition of 0.6 ng of antibody in one ml of liquid could be detected by ELISA. A few terminologies used in immunology and serology are provided here before describing the techniques. Immunological methods versus serological methods The immunological and serological methods are similar in techniques but differ in approaches. In immunological methods, antibodies or lymphocytes are used to detect antigens. In serological methods, antigens are used to detect antibodies or lymphocytes in the patient's body. Serology is the study of serum to track different aspects of infections and immunity, including antibody types, titers, and a person's infection history.",
+          "page": 24
+        },
+        {
+          "type": "subheading",
+          "text": "Seroconversion",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "The initial antibody production in a subject after a known exposure to a microbe or vaccination is seroconversion. Suppose a person was transfused with blood potentially contaminated with the hepatitis C virus. Seroconversion confirms an infection but does not guarantee that the immune system has eradicated the pathogen in question. Seroconversion after vaccination indicates the vaccine's effectiveness.",
+          "page": 24
+        },
+        {
+          "type": "subheading",
+          "text": "Recent versus repeat or past infections",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "A recently infected person usually has a higher concentration of IgM and a lower concentration of IgG or IgA, or no IgG or IgA at all. Here is a generalized interpretation of IgM vs. IgG/IgA response.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "• IgM (+), IgG (-): Recent (possibly currently active) infection • IgM (+), IgG (+): Mid-stage infection.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "• IgM (-), IgG (+): Past infection, active immunity.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "• IgM (-), IgG (-): Lack of infection Titer The concentration of antibodies in a serum sample is expressed as a titer. The serum is serially (two-fold) diluted, and the presence of the antibody is detected by binding to a specific antigen. An antibody titer is the inverse of the highest dilution factor that still gives a positive test result.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "The serum of a person who has been chronically infected with the Epstein-Barr virus can have an antibody titer of 1: 50,000 against the virus capsid antigen. It means the patient’s serum would have detectable levels of antibodies against the viral capsid even if 1 ml of his serum is diluted with 50,000 ml of dilution buffer.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "A consistently high serum IgG titer against a microbe indicates a chronic infection. Seroconversion or recent reinfection is suspected if there is a fourfold increase in antibody titer to a microbe during the acute phase compared to the convalescent phase of an infectious disease.",
+          "page": 25
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 29,
+          "title": "Immunological tests vs serological tests",
+          "bullets": [
+            "Immunological tests",
+            "A person’s antibodies or lymphocytes used to detect antigens",
+            "To test if a patients have immunological disorder",
+            "Serological tests",
+            "Antigens used to detect antibodies or lymphocytes of a person",
+            "To est if the antient has developed an immune response to an antigen"
+          ]
+        },
+        {
+          "slideIndex": 36,
+          "title": "Western blot",
+          "bullets": [
+            "Antigen attached to a pistic",
+            "The membrane is coated with",
+            "The membranes placed in a",
+            "Enzyme-linked detection",
+            "The membrane is washed",
+            "The membrane exposed to the"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.6.1",
+      "heading": "Precipitation reaction",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Precipitation is the formation of a precipitate due to antibodies binding to an antigen. An antibody that causes the precipitation of an antigen is a precipitin. A precipitin is preferably a polyvalent antibody such as IgA(2, 3, or 4) and IgM(5). To be precipitated, the antigen must contain two or more identical epitopes. Precipitation occurs when an antibody binds to more than one antigen, forming a large macromolecular lattice (Fig. 10.12).",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "For effective precipitation, antigen and antibody concentrations should be optimal. Excess of antigens or excess antibodies in a mixture encourages one antigen-one antibody binding and a lack of precipitation. Precipitation reactions can be employed to identify and quantify antigens using immunodiffusion methods. In immunodiffusion, antigens and antibodies are placed in wells of an agarose gel. As the antigens and antibodies diffuse through the pores of the gel, antigen-antibody complexes form and precipitate (Fig. 10.12). Immunodiffusion requires high concentrations of antigens and antibodies and is rarely used today.",
+          "page": 25
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.12. Immunoprecipitation. A. An antigen with two or more identical epitopes forms a lattice with antibodies,",
+          "page": 26,
+          "image": "/mmahp/ch10/10-12.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "but only at optimal concentrations of both antigen and antibody. Excess antigens or excess antibodies prevent lattice formation. B. Double immunodiffusion (the Ouchterlony method): Antibodies (Ab) and antigens (Ag) are placed in two wells of an agarose gel. Ab and Ag migrate through the pore of the gel and form Ag-Ab complexes that precipitate at the zone of equivalence. C. The principle of double diffusion is used to identify and quantify antigens. An antibody is placed in the central well. Antigens are placed in wells a-f in decreasing concentrations. A white line (indicated by an arrow) surrounding the central well indicates precipitation. The result indicates that wells e and f lacked enough of the antigen, or the antigens present in those two wells were not recognized by the antibody. Image courtesy: Proquence (Wikipedia).",
+          "page": 26
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 31,
+          "title": "Precipitin reaction",
+          "bullets": [
+            "Antigen must be polyvalent",
+            "IgM and IgA are better than",
+            "Can be used to detect",
+            "Quantification of antibody",
+            "Seldom used because"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.6.2",
+      "heading": "Agglutination reaction",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Agglutination is a variation of the precipitation reaction. Here, the antigens used are naturally insoluble (such as erythrocytes) or soluble antigens attached to insoluble microbeads. The antigens must have multiple identical epitopes. The antibodies that agglutinate particulate antigens are called agglutinins. Polyvalent antibodies such as IgMs and IgAs are better agglutinins than IgGs. The antibodies bind the antigens and produce lattices. In the simplest version of the method, the clumping or granular appearance of the antigen-antibody mixture indicates a positive result (Fig. 10.13).",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "The concentration of an antibody in a serum sample to an antigen can be measured by the agglutination method. Fixed amounts of antigen-coated beads or antigen-linked (formaldehyde-fixed) sheep erythrocytes are placed in the wells of a microtiter plate. Microtiter plates are plastic plates containing concave-bottomed wells. Equal volumes of serially diluted serum are added to wells of the plate and mixed. The plate is incubated to allow the antibodies to bind to the antigens, then is visually examined. Lack of agglutination allows the beads (or erythrocytes) to settle down at the bottom of the plate, forming a button (Fig. 10.13). Agglutinated beads (or erythrocytes) remain spread across the plate. The inverse of the lowest dilution of the serum that caused agglutination is the antibody titer (Fig. 10.13). The serum of an immunized person can be diluted as much as 50,000-fold, yet it may still agglutinate antigens. A titer less than 10 is usually considered very low or a lack of immunity to the microbe. A significant increase in antibody titer in a person’s serum indicates a recent infection.",
+          "page": 26
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.13. Agglutination assay. A. Rh blood typing. Anti-D antiserum was mixed with a small amount of blood",
+          "page": 27,
+          "image": "/mmahp/ch10/10-13.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "obtained from two different donors. The granular appearance of the antibody-erythrocyte mixture indicates that the antibody agglutinated the erythrocytes, and thus, the blood sample is Rh-positive. Lack of agglutination of erythrocytes in the bottom sample indicates that the sample is Rh-negative. The diagrams on the right side illustrate the antibody-erythrocyte interactions and lack thereof. B. Hemagglutination assay using microtiter plates. Serially (1:2 to 1:32) diluted serum samples were mixed with equal amounts of antigen-coated sheep erythrocytes. The plates were incubated on a flat surface. Agglutination occurred in three plates on the left. Antibody concentration was too low for agglutination to occur in the two plates on the right (the erythrocytes settled at the bottom of the wells and formed a button). Therefore, the serum antibody titer is 8, which is the inverse of the dilution factor (i.e., 1/8).",
+          "page": 27
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 32,
+          "title": "Agglutination reaction",
+          "bullets": [
+            "The antigen must be",
+            "Example- antigen",
+            "Very useful in determining"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.6.3",
+      "heading": "Immunoprecipitation",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Immunoprecipitation is not related to conventional precipitation reactions. In immunoprecipitation, an antibody attached to plastic beads is used for separating a protein antigen or a virus from a mixture of antigens, such as a crude cell extract. The bead-linked antibodies are mixed with the protein mixture. The protein bound to the antibody is separated from the crude extract by centrifugation or using a magnet (if the beads are magnetic, Fig. 10.14). Unbound proteins are removed from the beads by discarding the supernatant and washing the beads repeatedly. The bound protein is then separated from the antibody by applying heat, detergents, or a buffer of extreme pH.",
+          "page": 27
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.14. Immunoprecipitation. Antibodies are covalently attached to magnetic beads. The antibody-bound beads",
+          "page": 27,
+          "image": "/mmahp/ch10/10-14.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "are mixed with a crude antigen preparation. Antigens bound to the antibodies are removed by a magnet. Unbound (and unrelated) antigens are removed by discarding the supernatant and washing the beads.",
+          "page": 27
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 33,
+          "title": "Immunoprecipitation",
+          "bullets": [
+            "Antibodies is attached",
+            "The beads are sued to",
+            "Very useful in"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.6.4",
+      "heading": "Labeling antibodies and antigens",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Methods such as precipitation and agglutination require large amounts of antibodies and/or antigens, and they cannot be used to accurately quantify antigens or antibodies. These limitations have largely been bypassed by labeling the antibodies or the antigens and tracing the labeled entities.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Antibodies or any protein antigens can be radiolabeled by growing cells expressing the proteins in the presence of radiolabeled amino acids such as 3H-leucine or 35S-methionine. In most cases, antibodies and antigens are tagged. Tagging is the attachment of a radioisotope, a small chemical compound such as biotin, an enzyme, or a fluorescent dye to purified antibodies or antigens.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Tagging is performed by mixing the tag with the antibodies in the presence of an oxidizing agent (such as iodogen for antibody iodination) or a cross-linking agent (such as formaldehyde) to attach an enzyme to an antibody (Fig. 10.15). The cross-linking reaction is stopped, and the unused tags are then removed by chromatography. The tags got attached to antibodies or antigens via stable covalent bonds. Once tagged, the tagged antibody or the tagged antigens can be stored for a long period for future use.",
+          "page": 28
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.15 Tagging antibodies with an enzyme. The majority of the antibodies and the enzymes retain biological",
+          "page": 28,
+          "image": "/mmahp/ch10/10-15.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "activities after tagging. The enzyme is linked to the antigen via stable covalent bonds.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Radioactive iodine (125I or 131I) is a radioisotope of choice for radiolabeling proteins. The radiolabeled antibodies and antigens can be traced by X-ray photography or scintillation counters. The assays that use radiolabeled antigens or antibodies are radioimmunoassays (RIA).",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Highly stable enzymes such as horseradish peroxidase and alkaline phosphatase are the enzymes of choice for enzyme-tagging. The tagged antibodies are called enzyme-antibody conjugates. The enzyme-conjugated antibodies are detected by the enzyme substrate (peroxides for horseradish peroxidase and phosphate salts for alkaline phosphatase).",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "The substrates are colorless, but when the enzyme acts on them, an insoluble colored product is formed (Fig. 10.16). Such a substrate is called a chromogenic substrate. The depth of color indicates the quantity of the enzyme-linked antibodies in a particular test. The color is visible to the naked eye, but the depth of color can be quantified using a plate reader (colorimeter). The immunoassays that use enzyme-conjugated antibodies in detecting antigens are enzyme-linked immunosorbent assays (ELISA). Luminol, a chemiluminescent chemical compound, can also be used as a substrate in ELISA if the linked enzyme is horseradish peroxidase. When luminol is catalyzed by horseradish peroxidase, the chemical compound emits blue light (428 nm) that can be detected by x-ray photography.",
+          "page": 28
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.16. Tagged antibodies and how they are traced. A. Tagged antibodies. Top- A radio-iodinated antibody.",
+          "page": 29,
+          "image": "/mmahp/ch10/10-16.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Middle- An enzyme-linked antibody. Bottom- A fluorescently tagged antibody. B. Direct ELISA. The detection antibody (green) is tagged. The linked enzyme cuts the chromogenic substrate and releases insoluble blue dye that can be visualized or quantified by a colorimeter. C. Indirect ELISA. The detection antibody (green) is not tagged. A secondary antibody (red) that binds the detection antibody is tagged. The enzyme linked to the secondary antibody cuts the chromogenic substrate and releases an insoluble blue dye that can be visualized or quantified by a colorimeter. A similar scheme applies to indirect RIA or indirect IFA.",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Fluorescent dyes are currently the most popular tags. Fluorescently labeled antibodies or antigens can be detected using fluorescent microscopes or various types of fluorimeters. The immunoassays that use fluorescently labeled antigens or antibodies are immunofluorescence assays (IFA).",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "If the detection antibody used for RIA, ELISA, or IFA is tagged, the assays are called direct ELISA, direct RIA, or direct IFA. Often, tagging the detection antibodies is unnecessary because many biotechnology vendors offer pre- tagged antibodies that specifically bind to detection antibodies. For example, if you have a mouse IgG that binds human insulin, you can obtain a radiolabeled, enzyme-linked, or fluorescently labeled rabbit antibody that binds to mouse IgG. In such cases, the assay is referred to as indirect ELISA, indirect RIA, or indirect IFA (Fig. 10.16).",
+          "page": 29
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 34,
+          "title": "Labeling antibodies",
+          "bullets": [
+            "Is done to trace antibodies",
+            "131-labled iodine for RIA",
+            "Fluorescent dyes for IFA",
+            "Enzymes such as alkaline",
+            "Antibody and the tags are"
+          ]
+        },
+        {
+          "slideIndex": 37,
+          "title": "Immunofluorescence assay (IFA)",
+          "bullets": [
+            "Direct IFA- The detection",
+            "Indirect IFA- a tagged",
+            "Very useful for fluorescence"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.6.5",
+      "heading": "Radioimmunoassay (RIA)",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "RIA, originally developed by Roslyn Yalow (1977-2011) and her coworkers, is a highly useful tool for quantifying antigens. The assay can be formatted in many ways. The simplest version uses a solid-phase detection method where the antibody is attached to a polystyrene plate. When an antibody solution (or a solution of any proteins) is air-dried on a polystyrene surface, the proteins are permanently attached (immobilized) to the plate. Excess non-specific proteins (such as milk protein or bovine serum albumin) are also added to the wells to completely cover them, leaving no room for other proteins to bind to the plastic surfaces of the plate. The radio-labeled antigens are then added to the wells. The labeled antigens cannot bind the wells (because the wells are coated with excess proteins), but may bind the antibody. The plate is then washed to remove any unbound antigens. The bound antigens are then quantified by measuring the plate's radioactivity with a gamma counter. The assay is highly sensitive but hazardous and expensive. RIA has largely been replaced by ELISA and immunofluorescence assays.",
+          "page": 29
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "10.6.6",
+      "heading": "Enzyme-linked immunosorbent assays (ELISA)",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "ELISA can be performed in various formats, including plastic wells, nylon membranes, or filter paper strips. A plastic- well assay, called a sandwich ELISA, is schematically illustrated in Fig. 10.17. In a sandwich ELISA, unlabeled detection antibodies are immobilized in plastic wells. The wells are then coated with excess protein, such as serum albumin, to prevent other proteins from binding to their surfaces. The crude sample containing the antigens to be detected is then added to the plate. The antigens cannot bind directly to the plate, but the antibodies may specifically bind the target antigens. After incubation, the wells are emptied and washed repeatedly to remove any unbound antigens.",
+          "page": 29
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.17. Principles of sandwich ELISA tests. Unlabeled anti-rotavirus antibodies (the capture antibodies) are",
+          "page": 30,
+          "image": "/mmahp/ch10/10-17.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "attached to the wells. The plate is coated with excess bovine serum albumin to prevent any additional proteins from binding to it. A filtered stool sample (containing rotavirus antigens) is added to the wells. If any viruses are present in the sample, they cannot bind to the plate, but the antibodies on the plate may bind them. The plate is incubated for a few hours. Unbound antigens are then removed by repeated washes. Enzyme-linked detection antibodies are then added to the plates. The plates are incubated for the detection of antibodies that bind to the captured antigens. The unbound enzyme-linked antibodies are then removed by washing. Finally, a chromogenic substrate of the enzyme is added to the plates. The color development indicated that the sample contained rotavirus. Appropriate positive and negative controls (not shown) are needed to validate the results.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Enzyme-linked antibodies are then added to the wells and incubated so that the enzyme-linked antibodies can bind to the antigens. The plates are washed, and the chromogenic substrate for the enzyme is finally added to them. A color change indicates a positive result, and the intensity of the color reflects the concentration of the antigens (Fig. 10.17). The filter paper strip format of ELISA is highly optimized, allowing anyone to perform the test at home. Several over- the-counter home testing ELISA kits are now available, including pregnancy tests, HIV testing kits, SARS-CoV-2 detection kits, and kits for detecting recreational drug use.",
+          "page": 30
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 35,
+          "title": "Sandwich ELISA Test",
+          "bullets": [
+            "Detection antibody attached on",
+            "Plate is coated with excess",
+            "Antigens are added for binding",
+            "Washed and then tagged",
+            "Washed and then colorless",
+            "Color and extents of it give"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "10.6.7",
+      "heading": "Western blot detection",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "In a Western blot, antigens are immobilized on a nylon or polyvinyl pyrrolidone fluoride (PVDF) membrane. Protein can be directly applied to the membrane or transferred onto the membrane from a gel (after resolving the crude mixture of proteins electrophoretically). The proteins bind the membranes through hydrophobic interactions, but the binding is very stable. After the proteins of interest are immobilized on the membrane, the membrane is completely covered with excess nonspecific proteins, such as milk protein (casein), so that no other proteins may directly bind to the membrane. The immobilized proteins are then detected using an enzyme-linked or fluorescently labeled antibody (Fig. 10.18).",
+          "page": 30
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 10.18. Western blot and immunofluorescence tests. A. Detection of HCV infection in five members of a family.",
+          "page": 31,
+          "image": "/mmahp/ch10/10-18.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "(i) Serum of the five members resolved in a gel. (ii) The protein bands are transferred from the gel onto a filter paper. (iii) The filter paper is placed in a trough containing a bovine serum albumin solution. The excess protein coats the filter paper, leaving no room for other proteins to bind to it. Enzyme-linked antibodies are added to the trough. The antibodies can bind the antigens, but not the filter paper. (iv) The filter paper is washed, and then the chromogenic substrate is added to the trough. The deposition of colored chemicals at specific locations of the membrane indicates that patients 1, 2, and 3 have HCV antigens in their plasma. B. Direct immunofluorescence test to detect rabies virus in the salivary gland of a raccoon. A thin slice of the salivary gland was fixed on a glass slide. The slide was covered with excess protein, and then a fluorescently labeled anti-lyssavirus monoclonal antibody was added. After a period of incubation, the unbound antibodies were removed by repeated washes. The slide was examined using a fluorescent microscope. The greenish-blue areas indicate rabies virus-infected cells. If the animal were uninfected, the slide would appear dark. Image source: CDC-PHIL.",
+          "page": 31
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "10.6.8",
+      "heading": "Immunofluorescence",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Fluorescent dyes absorb light of a particular wavelength and then emit light with a different wavelength. For example, fluorescein absorbs blue light (wavelength 490 nm) and emits yellow-green light (wavelength 517 nm). Fluorescent dye-labeled antibodies can be used to detect antigens on the surface or within specific compartments of live or dead cells. Since the labeled antibodies fluoresce (i.e., glow), a few specific antigens present among millions of non-target antigens can be detected by this method (Fig. 10.18). Immunofluorescence has revolutionized the detection and quantification of microbes and their antigens in pathological samples.",
+          "page": 31
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "10.7",
+      "heading": "Use of antibodies as therapeutic agents",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Many humanized monoclonal antibodies have been approved by the FDA for therapeutic use. Some antibodies, their uses, and how they treat diseases are shown in Table 10.10.",
+          "page": 31
+        },
+        {
+          "type": "figure",
+          "text": "Table 10.10. Some therapeutic antibodies, the diseases they treat, and their mechanisms of action.",
+          "page": 31,
+          "image": "/mmahp/ch10/10-10.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Generic and brand names of the antibodies Diseases treated Mechanisms of action Pembrolizumab (Keytruda) Melanoma and lung cancer The antibodies bind specific antigens on cancer cells, activate killing of the cell by complement activation and ADCC Rituximab (Rituxan) Certain lymphoma and leukemia Same as the above Tarlatamab (Imdelltra) Small cell lung cancer The antibody simultaneously binds to molecules on healthy TC cells and antigens on lung cancer cells, the TC cell then kill the cancer cells by releasing perforin and granzyme.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Adalimumab (Humira) Rheumatoid arthritis, and Chron’s Disease The antibody binds to TNF-alpha, prevent the cytokine from binding cellular receptors (prevent inflammation) Secukinumab (Cosentyx) Plaque psoriasis (an autoimmune disease) The antibody binds to IL-17A, prevent the cytokine from binding cellular receptors (prevent inflammation) Lecanemab (Leqembi) Althamer’s disease The antibody binds to amyloid-beta fibrils, glial cells of the brain then remove the antibody-bound beta fibrils (reduce plaques in the brain) Palivizumab (Synagis) Respiratory syncytial virus infection The antibody binds to/neutralizes the virus (the virus fails to infect host cells)",
+          "page": 31
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 38,
+          "title": "Some therapeutic antibodies",
+          "bullets": [
+            "Almost always monoclonal",
+            "Have generic and trade names",
+            "Act by",
+            "binding antigens on cells and then activating complement pathway to kill",
+            "Binding antigens on viruses or cytokines and neutralize them (preventing",
+            "TC cells and DCs are also used for therapy (not discussed here)"
+          ]
+        }
+      ]
+    }
+  ],
+  "unmatchedSlides": [
+    {
+      "slideIndex": 2,
+      "title": "Definitions",
+      "bullets": [
+        "Immune regulation",
+        "Optimum response (rapid and high response at infection)",
+        "No major tissue damage",
+        "Gradual waning after infection is controlled",
+        "Hypersensitivity reactions- excessive memory response to foreign",
+        "Type I",
+        "Type II",
+        "Type III",
+        "Type IV (DTH)",
+        "Autoimmune responses: Response to self-antigens",
+        "Immune deficiency: lack of response to foreign antigens"
+      ]
+    }
+  ]
+}

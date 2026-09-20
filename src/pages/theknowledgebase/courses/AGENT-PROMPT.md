@@ -139,10 +139,68 @@ common way this work goes sideways, so decide deliberately.
 | **A. TKB question store** (spaced review) | Vocabulary, terminology, definitions, discrete facts. Anything that is *recall*. | Rows in `importQuestions` shape → open-recall flashcards on TKB's existing scheduler | `courses/engine/facts.js` fact sets (Tier 2), or a Tier-3 pasted batch |
 | **B. Chem-style curriculum module** | A course with real chapter structure, procedures, and calculations that need unlimited same-band practice. | `curriculum.js` chapters + `lessons/*.md` + seeded `templates/*.js` + gate/lesson/drill/mastery views | `courses/<course>/` — `courses/chem/` is the worked example |
 | **C. Worksheet** | A specific lettered-MCQ practice PDF Trey wants to *work through and annotate*, as-is. | A parsed JSON blob + a registry entry | `courses/worksheets/data/<id>.json` |
+| **D. Combined reader** | Reading material + a lecture deck covering the SAME chapters, that he wants merged into one browsable, searchable view rather than drilled as questions. | Parsed chapter-text JSON + parsed slide-deck JSON, matched section-by-section and combined into one JSON per chapter | `courses/<course>/reader/data/<id>.json` — `courses/micr2060/reader/` is the only instance so far |
 
 **How to choose:** if the material is "know this term" → **A**. If it is "be able to do this
 kind of problem, repeatedly, forever" → **B**. If it is "let me sit and take this exact
-practice sheet" → **C**. A single course can feed all three; CHEM 1210 already does.
+practice sheet" → **C**. If it is "let me READ this, with the lecture's own emphasis folded in
+at the right spot, and search across what I haven't opened yet" → **D**. A single course can
+feed more than one system; CHEM 1210 does A+B+C, MICR 2060 does A (worksheet, system C really)
++ D.
+
+### D in detail — MICR 2060's MMAHP reader (built 2026-09-18)
+
+Trey's ask, verbatim: chapters + PPT lecture outlines "combined together in some logical way so
+that if 'x' is referenced in the power point, it can be inserted smoothly into the MMAHP chapter
+reading in a place where it would make sense." Plus: search by chapter, multi-select chapters,
+and a global search over chapters NOT currently open with a popup preview.
+
+- **The source PDFs were NOT in the Drive folder metadata capture** — `canvasCapture.js` only
+  ever records `/api/v1/courses/:id/files` LISTINGS (filenames, ids, a `url`), never bytes. On
+  this Canvas tenant those captured file URLs carry no verifier token and can't be downloaded
+  server-side at all (see the 2026-09-18 trap entry above) — getting the real 76 files onto disk
+  needed the separate `canvasDownloadFiles.js` browser script + `npm run canvas:import-zip`.
+  **Don't assume a Canvas capture means the files are on disk — check for the `files/` folder.**
+- **`scripts/parseMmahpChapter.mjs`** parses one chapter PDF (via `extractBook.mjs`) into
+  `{ title, lead, sections: [{ number, heading, text }] }`, splitting on the book's own numbered
+  headings (`7.1 How microbes grow…`). Two real format inconsistencies, both handled: some
+  headings have a trailing period before the space ("1.3. The species concept") and some don't;
+  chapters 1-6 repeat the running title before every `Page N of M`, chapters 7-16 don't repeat it
+  at all (fallback: the short lines right after the bare chapter-number line, before real prose
+  starts around ~70+ chars/line).
+- **`scripts/parseMmahpSlides.mjs`** parses one "PowerPoint Lecture Outline" PDF (one slide per
+  PDF page) into `{ chapterTitle, openstaxEquivalent, slides: [{ title, bullets }] }`. The title
+  slide always states the OpenStax-equivalent chapter ("Equivalent: OpenStax Microbiology 2nd Ed.
+  Chapter 1") — captured and shown as a reference tag, not merged into the reading.
+- **`scripts/buildMmahpReader.mjs`** is the orchestrator + matcher. Chapter-to-file mapping is a
+  **hand-written table**, not glob-matched — the same folder holds 26 OpenStax reference chapters
+  whose filenames collide on "Ch N" patterns, and chapter 5's PPT is the one file in the set named
+  completely differently (`MICR 2060 MMAHP Lecture 5.pdf`). 🔴 **The matcher scores a slide against
+  a section mostly by whether the slide's title WORDS appear literally inside that section's
+  PROSE**, not by comparing the slide title to the section's short heading — heading-to-heading
+  matching alone missed most of history-chapter slides like "Louis Pasteur (1822-1895)" (zero
+  words shared with the heading "The formative years of microbiology") that are obvious hits once
+  you check the section's actual body text. Result: 96%+ of real slides matched across all 15
+  chapters, 0-2 unmatched per chapter (kept in an `unmatchedSlides` bucket at the chapter's end
+  rather than forced into a wrong section).
+- ⚠️ **Chapter 15 does not exist** — confirmed against the Canvas module listing itself, not a
+  build gap. The course runs 1-14, 16.
+- **Matching is a best-effort heuristic, not verified per-slide by a human.** A slide can land in
+  a plausible-but-not-ideal section (e.g. ch1's "Two types of cells" slide matched 1.2.1 "Acellular
+  microbes" when 1.1.2 "Cellular microbes: Prokaryotes and Eukaryotes" would read slightly better)
+  — never egregiously wrong in spot-checking, but this was NOT hand-verified chapter-by-chapter.
+  If Trey reports a slide reads oddly out of place, that's real signal to retune `similarity()`,
+  not necessarily a one-off fix.
+- View: `courses/micr2060/reader/views/MmahpReader.jsx` at `/TKB/courses/micr2060/reader` — chapter
+  multi-select (persisted to localStorage only, no Firestore mirror, same precedent as worksheets),
+  global search scoped to unopened chapters (`readerEngine.js`'s `searchChapters`), and a popup
+  preview so a global hit doesn't navigate away from what's currently open. CSS prefix `mmr-`.
+  Entry point: MICR 2060's `CourseDetail` page, a "Read" section (same pattern as CHEM 1210's
+  "Practice" section).
+- ✂️ **Not built**: any actual interleaving of the 26-chapter OpenStax reference text (it's
+  linked per-chapter as a citation only, per the PPT's own stated equivalence — merging its prose
+  in too was not asked for and would roughly double the parsing/matching surface for a secondary
+  reference); no per-user progress/highlight tracking on the reader itself.
 
 ### Folder layout for a course
 
@@ -757,6 +815,7 @@ module for a 0.5-credit lab. The AERO courses are `trackingLevel: 'light'` by de
 
 | Date | Trap |
 |---|---|
+| 2026-09-18 | **Captured Canvas file URLs do not work with a plain server-side download on this tenant.** `canvasFetch.mjs --from-capture` failed 76/76 on MICR 2060 with an unauthenticated fetch — every captured `url` redirected into UVU's SAML login. Checked directly: 0 of 76 URLs carried Canvas's usual `?verifier=` signed token, so this is NOT an expired-link issue and re-capturing reproduces it identically. Fix: `scripts/browser/canvasDownloadFiles.js` (also at the Drive root) fetches file bytes from inside the browser tab, where the session cookie authenticates same-origin requests normally, zips them client-side, and `npm run canvas:import-zip -- <zip> --course "<NAME>"` (`scripts/importCanvasZip.mjs`, uses the already-installed `jszip`) unpacks the zip into `<course>/files/`. |
 | 2026-08-31 | **`.gdoc` files cannot be read by any local tool** — OS-level failure, not an empty file. Four real workarounds in §4.2; the Google Drive connector is the one that removes the manual step. |
 | 2026-08-31 | **Never re-read a whole source document.** Run `npm run courses:scan` first and read only `--show` output. Trey flagged repeat-reading of already-ingested material as wasted budget. |
 | 2026-08-31 | **`coursesSeed.js` disagrees with the registrar.** The xlsx lists 10 registered courses / 17.5 hrs including **AERO 1430R** (Air Force Physical Training) and **AERO 1100** (DAF Professionalism A), which the seed lacks; the seed lists **PHIL 2050G**, which is not in the registration. The spreadsheet is authoritative. Flag it — do not silently rewrite the seed, it is edit-once and may already be customized in his account. |

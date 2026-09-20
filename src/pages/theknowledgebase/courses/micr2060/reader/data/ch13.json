@@ -1,0 +1,1668 @@
+{
+  "id": "ch13",
+  "number": 13,
+  "title": "Infection of the Integumentary and Musculoskeletal Systems",
+  "lead": "The human body is a complex machine. A solid understanding of the body is crucial for understanding both healthy and diseased states. This chapter provides an overview of the structure of the human body as it relates to infection and immunity. The cell is the fundamental structural and functional unit of the human body. A group of cells working together to perform a common function is called a tissue. Two different cells of a tissue, although they have the same genome, can be morphologically and physiologically distinct because different groups of genes are expressed in them. Two or more types of tissues combine to form an organ, and multiple organs make up an organ system. A system is a coordinated group of interacting and interdependent components that carry out physiological functions. An organism, such as a human being, consists of about 11 organ systems (i.e., integumentary, skeletal, muscular, nervous, endocrine, cardiovascular, lymphatic, respiratory, digestive, urinary, and reproductive). Because many microbes infect specific tissues within an organ, and because cells in the external membranes are the first to encounter microbes, here we will introduce the four fundamental tissues and membranes. We will discuss the structures of the organs and list the microbes that infect these organs, along with the diseases they cause. The description will be brief and obviously non-comprehensive. Note that almost every microbial pathogen infects cells and tissues of multiple organs and causes multiple diseases. Microbiology textbooks either list organs and the pathogens that infect them, or list pathogens and the diseases they cause. Neither of these methods offers a perfect solution for summarizing the vast amount of information on pathogenic microbiology. Here, we will follow the former method but also give a list of the microbes and the organs they infect. Given the high information load, we will divide the discussion into three chapters, each focusing on related organ systems. The present chapter discusses the integumentary, skeletal, and muscular systems.",
+  "openstaxEquivalent": null,
+  "sources": {
+    "chapterPdf": "13. Skin and musculoskeletal.pdf",
+    "pptPdf": "MMAHP Ch 13 PowerPoint Lecture Outline.pdf"
+  },
+  "sections": [
+    {
+      "number": "13.1",
+      "heading": "Four fundamental tissues",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The tissues of the human body can be broadly categorized into four major classes: epithelial tissue, muscle tissue, connective tissue, and nervous tissue. An organ may consist of two or more types of tissues.",
+          "page": 1
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 2,
+          "title": "Epithelial tissue",
+          "bullets": [
+            "Made of epithelial cells",
+            "Membranous epithelia- cover the",
+            "Squamous (flat cells)",
+            "Cuboidal (rectangular cells)",
+            "Columnar- elongated cells",
+            "Flagellated or monoflagellated",
+            "Stratified- multiple layers",
+            "Glandular epithelia- secrete sweat,",
+            "Exocrine- have ducts",
+            "Endocrine- no duct, secretions"
+          ]
+        },
+        {
+          "slideIndex": 3,
+          "title": "Muscle Tissue",
+          "bullets": [
+            "Made of myocytes, contain",
+            "Skeletal muscles- voluntary,",
+            "Cardiac- involuntary but striated",
+            "Smooth muscle- involuntary,"
+          ]
+        },
+        {
+          "slideIndex": 4,
+          "title": "Connective tissue",
+          "bullets": [
+            "Made mainly of fibroblast",
+            "They secrete collagen, elastin and reticulin",
+            "They create",
+            "Fascia- covers muscle bundles",
+            "dermis- underneath the epidermis of the skin",
+            "Tendons- connect muscles to bone or muscles",
+            "Ligaments- connect bones",
+            "Meninges- cover the CNS",
+            "Sclera- part of the eyeball",
+            "Periosteum- covers the bone",
+            "Perineurium- covers the nerves",
+            "Submucosa and lamina propria- under the"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "13.1.1",
+      "heading": "Epithelial tissues",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Epithelial tissues (or epithelia) consist of various types of epithelial cells. There are two major types of epithelia: membranous and glandular. Membranous epithelium covers both the outer and inner surfaces of the body, effectively separating it from the external and internal environments. This type of epithelium remains attached to the underlying connective tissue (see below) by a layer of basement membrane, which is composed of glycoprotein (Fig. 13.1). Epithelia may consist of one or more layers of cells. The cells can be flat (squamous), cuboidal (globular), or columnar (elongated). Stratified epithelia contain multiple layers of cells. Some epithelial cells, such as those in the lungs, contain cilia, while others, like those in the intestine, may have numerous microvilli, which are small projections that increase the cell's surface area.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Membranous epithelium may lose the basement membrane and differentiate into glandular epithelium (Fig. 13.1). Glandular epithelia synthesize and secrete many substances, such as sweat, sebum, gastric juice, bile, sperm, eggs, and various types of hormones. Glandular epithelia are classified as exocrine if the glands contain ducts or endocrine if the secretions (hormones, in this case) are released directly into the bloodstream. Epithelia are exposed to the environment and are the first body surfaces to encounter microbes. Many microbes bind to receptors on epithelial cells and initiate infections. However, epithelia are heavily protected by cilia, mucus, various enzymes, and antibodies (see Chapter 9). Epithelia have stem cells. Differentiated epithelial cells readily shed and are replaced by new cells generated from epithelial stem cells. Cell shedding helps prevent microbial infections. Frequent DNA replication and mitotic cell divisions make epithelial cells prone to tumor development.",
+          "page": 1
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.1. Membranous and glandular epithelia. A. Membranous epithelium (left half) remains attached to the",
+          "page": 2,
+          "image": "/mmahp/ch13/13-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "connective tissue via the basement membrane. Membranous epithelia consist of one or more layers of squamous, cuboidal, or columnar cells, with or without cilia. These epithelia are not directly connected to blood vessels or nerves. Glandular epithelium (right half and bottom) loses connection with the basement membrane and may be attached to blood vessels and neurons. B. Ciliated pseudostratified columnar epithelium of the lung. Figure courtesy: Wikipedia.",
+          "page": 2
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "13.1.2",
+      "heading": "Muscle tissues",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Muscle tissue primarily consists of muscle cells (myocytes). Myocytes are differentiated cells and cannot regenerate if they are damaged. Within their cytoplasm, myocytes contain contractile organelles known as myofibrils. The myofibrils comprise alternating stacks of proteins (Fig. 13.2). Under complex cellular signaling controls, which involve nerve impulses and ATP production, the myofibrils can move laterally to increase or decrease the size of the fiber. This movement facilitates actions in cells, organs, or the entire body. There are three types of muscle tissue in the human body. Skeletal muscles, which constitute most of the body mass, can be voluntarily controlled by motor nerves (see below). Cardiac muscles are exclusively in the heart. Cardiac muscles contract and relax in an inherent rhythm modulated by signals from autonomic nerves. Smooth muscles are found in various organs, such as blood vessels, visceral organs (those situated within the body cavity), and the hair follicle. Smooth muscle contraction is involuntary and regulated by autonomic nerves.",
+          "page": 2
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.2. Muscle tissue. A. Skeletal muscle. B. Smooth muscle. C. Cardiac muscle. A few individual muscle cells",
+          "page": 2,
+          "image": "/mmahp/ch13/13-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "from each muscle tissue type are shown in the inserts. The red arrows indicate the position of the nuclei. 9.1.3 Connective tissues Connective tissue connects other tissues. There are many types of connective tissues, and they regenerate readily. Fibrous connective tissue is made of fibroblasts. Fibroblasts secrete extracellular fibers such as collagen, elastin, and reticulin. These fibers (tissue cement) from many different structures such as fascia (covering of muscle bundles), dermis (lays underneath the epidermis of the skin), tendons (connect bones with muscles), ligaments (tie bones in the joints), meninges (cover the central nervous system), periosteum (covers of the bones), sclera (covers eyeballs), hypodermis (supports the skin), submucosa and lamina propria (support the mucous membrane) (Fig. 13.3). Additional connective tissues include bones, cartilages, blood, fat (adipose) tissue, reticular tissue (lymphoid tissue such as lymph nodes, thymus, and spleen), bone marrow and mesenchymal tissue. Bone marrow, blood, and reticular tissues are discussed in Chapter 9.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Some bacteria, such as Clostridium perfringens and Streptococcus pyogenes, secrete enzymes such as hyaluronidase and collagenase that degrade tissue cement, enabling the microbes to penetrate deeper into tissues.",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.3. Collagen, elastin, and reticulin fibers. Pre-collagen, collagen, elastin, and reticulin fibers are illustrated.",
+          "page": 3,
+          "image": "/mmahp/ch13/13-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Three pre-collagen fibers twist together to form one collagen fiber. Elastin fibers may form lamellae (not shown). Reticulin molecules resemble cobwebs between other fibers. Image: Kinesis, Inc.",
+          "page": 3
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 32,
+          "title": "Bones and cartilages",
+          "bullets": [
+            "Osteoblasts, osteocytes,",
+            "Compact bone",
+            "Osteons",
+            "Channels for blood vessels",
+            "Spongy bone",
+            "Bone marrow",
+            "Blood-bone marrow barrier",
+            "Cartilages",
+            "Chondrocytes",
+            "Hyaluronic acid",
+            "Proteoglycan"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "13.1.4",
+      "heading": "Nervous tissues",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Nervous tissues are made of neurons and neuroglial cells. Neurons conduct electrical impulses. Neurons are terminally differentiated cells and do not divide. A typical neuron has a cell body and a few or many processes (Fig. 13.4).",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.4. Neural tissue (schematic presentation). Two neurons (shown in yellow) are surrounded by glial cells",
+          "page": 3,
+          "image": "/mmahp/ch13/13-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "(microglial cells, astrocytes, and oligodendrocytes). Ependymal cells are glial cells that function like epithelial cells. The feet of the exons are not shown in the figure. Figure courtesy: UEN.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "The processes that bring electrical impulses to the cell are dendrites, and the process that takes impulses away from the cell is the axon (Fig. 13.4). A typical neuron contains many dendrites and one axon (the axon can be branched). Axons can be very long (up to several meters). To prevent the dissipation of the electric signal, the axons are insulated by Schwann cells. Schwann cells are loaded with myelin (a lipid). Glial cells, such as oligodendrocytes and astrocytes, perform the function of Schwann cells in the brain. Neurons with axons and dendrites covered by Schwann cells are myelinated neurons. Some neurons are not myelinated.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Some viruses, such as herpesvirus-1 and -2, and the rabies virus, infect or destroy neurons and travel along axons to reach brain tissue. Certain bacteria, such as Mycobacterium leprae, infect and damage Schwann cells, leading to neuronal destruction. Additionally, some bacterial toxins, including botulinum toxin and tetanus toxin, disrupt normal neuronal functions and cause severe pathologies.",
+          "page": 4
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 5,
+          "title": "Nervous tissues",
+          "bullets": [
+            "Made of neurons and neuroglial",
+            "A typical neuron has a cell body,",
+            "Schwan cells or feet of",
+            "Schwan cells have excess"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "13.2",
+      "heading": "Membranes",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A membrane is an epithelium attached to connective tissue. There are four types of membranes: mucous membrane, serous membrane, cutaneous membrane, and synovial membrane.",
+          "page": 4
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 6,
+          "title": "Membranes: Mucous membrane",
+          "bullets": [
+            "Covers the digestive, respiratory,",
+            "Sits on lamina propria",
+            "Generally columnar but can be",
+            "Can be ciliated",
+            "Can be occupied by resident",
+            "Glandular, releases proteins,"
+          ]
+        },
+        {
+          "slideIndex": 7,
+          "title": "Serous membrane",
+          "bullets": [
+            "Covers the inner surfaces of the",
+            "It is a squamous epithelium over a",
+            "Keeps the organs in place while the",
+            "Pleura- covers the lung",
+            "Peritoneum- covers visceral organs",
+            "Pericardium- covers the heart",
+            "Serious fluid vs. ascites (effusion"
+          ]
+        },
+        {
+          "slideIndex": 8,
+          "title": "Synovial membrane",
+          "bullets": [
+            "Made of intimal cells over",
+            "Covers the joint cavities and",
+            "Synovium- the cavity itself",
+            "Synovial cavity between bone",
+            "Bursae- between bone and",
+            "Synovial fluid"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "13.2.1",
+      "heading": "Mucous membranes",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Mucous membranes cover the surface of the digestive, respiratory (Fig. 13.1), urinary, and reproductive tracts. Epithelial cells of the mucous membrane are kept moist by secretions from goblet cells, deeper glands with necks, or fluid from other sources (such as urine or semen). The connective tissue underlying the epithelium is called lamina propria. There could be alternative layers of muscle and connective tissue below the lamina propria. The epithelium is generally columnar or ciliated columnar (as in the intestine and lung), but it could be squamous (as in the mouth), pseudo-squamous (as in the urinary tract), or transitional (as in the urinary bladder).",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Mucous membrane secretions contain mucoid proteins (which trap microbes), enzymes (that digest microbial macromolecules), and antibodies (IgA, which capture microbes). The cilia of ciliated epithelia prevent microbes from attaching to the cells and remove mucous-trapped microbes through a mechanism known as the ciliary escalator. The epithelial cells undergo rapid mitosis for renewal. This turnover helps prevent microbial colonization of epithelial membranes. Microbial infections caused by Bordetella pertussis can destroy (denude) cilia, leading to microbial colonization. Damage to epithelial cells and glands from radiation or chemotherapy reduces mucus production, increasing the risk of tissue injury and infection.",
+          "page": 4
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "13.2.2",
+      "heading": "Serous membranes",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Serous membranes cover the inner surfaces of the visceral cavity and surround organs. A serous membrane consists of a thin layer of squamous epithelium, known as mesothelium, supported by connective tissue. Examples of serous membranes include the pleura (which covers the lungs and lung cavities), the pericardium (which covers the heart and part of the chest), and the peritoneum (which covers the abdominal wall and organs, the coelom). These membranes are thin and glassy; the organs beneath them can be seen in their natural colors (Fig. 13.5).",
+          "page": 4
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.5. Serous membrane covers and holds organs such as the heart, liver, and intestine in place. Bacterial infection",
+          "page": 4,
+          "image": "/mmahp/ch13/13-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "and the resulting inflammation may cause an accumulation of ascites fluid in the serous cavity. Image: Linus Books. However, serous membranes are strong. They reduce friction between the organs and the body wall during movements. A small amount of macrophage-rich serous fluid lubricates the membranes. The membranes are permeable to body fluids. Tissue injury or bacterial infection may lead to the rapid accumulation of effusion (ascitic) fluid in the cavity (Fig. 13.5). Such fluid accumulation can interfere with the mechanics of nearby organs.",
+          "page": 4
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "13.2.3",
+      "heading": "Synovial membranes",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Synovial membranes line the synovial cavity of the bone joints (Fig. 13.6). Bursae between muscles and bones are somewhat similar to synovium. The membrane primarily consists of connective tissue, with many macrophages and fibroblasts scattered throughout. The fluid found in the synovium is called synovial fluid. This fluid can be infected by blood-borne bacteria, which activate macrophages. Activated macrophages secrete various enzymes and proteins that may contribute to inflammation in the bursa (bursitis) and the destruction of the cartilages of the bone joints.",
+          "page": 5
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.6. Synovium and bursa. A. Synovium in the hip joint. B. A bursa in the shoulder joint. Synovium and bursa",
+          "page": 5,
+          "image": "/mmahp/ch13/13-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "are filled with synovial fluid. Image- Linus Books.",
+          "page": 5
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "13.2.4",
+      "heading": "Cutaneous membrane",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The cutaneous epithelium is the epidermis of the skin. This membrane consists of stratified squamous epithelium with cornified (hardened) dead cells on the surface. Cornification occurs partly because of the accumulation of the protein keratin. Glands are present, but the membrane is generally kept dry. It might become wet due to sweat secreted by the skin’s sweat glands (Fig. 13.7). The dryness, the cornified cells, and the fatty acids and peptide antibiotics secreted by the glands help prevent the growth of many microbes. The membrane is inhabited by various resident microbes (see Chapter 11), including bacteria (Corynebacterium sp., Propionibacterium acnes, and Staphylococcus epidermidis) and fungi (Malassezia sp. and Candida sp.). Papillomaviruses may infect epidermal cells of the stratum corneum, causing warts.",
+          "page": 5
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 9,
+          "title": "Cutaneous membrane",
+          "bullets": [
+            "Same as the epidermis of the skin",
+            "Made of a stratified squamous",
+            "Keratinized (cornified)",
+            "Covers the entire outer surface of",
+            "Has sweat and sebaceous glands",
+            "Secrete sebum, sweat, NaCl, fatty",
+            "Is occupied by resident microbiota"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "13.3",
+      "heading": "The integumentary system",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The skin (cutis) is the largest organ, covering about 1.6-1.9 square meters (17-20 square feet) of the external body surfaces. A vertical section of the skin reveals two distinct layers: the epidermis and the dermis (Fig. 13.7). The dermis is connected to subcutaneous tissues (tissues located below the skin) by a thin layer of connective tissue known as the hypodermis. The epidermis is approximately 0.1 mm thick, except in the palms and soles, where the thickness ranges from 1.0 to 1.5 mm.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "The epidermis contains many layers of cells, with the deepest layers referred to as the stratum germinativum. This layer is made of stem cells resting on the basement membrane and continuously divides through mitosis. The newly generated cells migrate outward as they mature. There is no circulation in the epidermis; therefore, as the cells move away from the dermis, they become flattened and lose viability. However, the cells remain firmly attached to each other and synthesize keratin (a water-insoluble protein). The outer cell layers of the epidermis are known as the stratum corneum, which consists of dead cells that gradually shed at the outermost margin.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "The dermis is composed of connective tissue and is vascularized (traversed by blood vessels) and supplied with nerve fibers and tactile (sense of touch) sensory organs. Hair and nails are composed of keratin, a protein secreted by the cells of the stratum germinativum.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "The skin contains many glands. Sweat glands produce sweat (watery secretions containing some NaCl). As sweat evaporates, the body loses heat and cools down. Mammary glands are modified sweat glands that produce and secrete milk when activated by hormonal signals. Sebaceous glands produce an oily substance called sebum, which keeps the outer layers of skin and hair oily and pliable. Sebaceous glands also produce various antimicrobial agents. Ceruminous glands are present only in the outer ear and produce earwax.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Intact skin provides strong protection against microbial infection. Only a few cellular microbes (including some spirochetes) can penetrate intact skin. However, the skin is vulnerable to various injuries, including cuts, burns, insect bites, and exposure to chemical and physical agents, particularly UV radiation. Microbes can readily enter through injured skin. The dermis and subdermal areas are heavily guarded by skin-associated lymphoid tissues (SALT). UV irradiation may cause mutations in the genomes of continuously growing cells in the stratum germinativum, leading to skin cancers such as basal cell carcinoma and melanoma.",
+          "page": 6
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.7. A vertical section of the skin. A. Major components of the epidermis and dermis are shown. Image: Linus",
+          "page": 6,
+          "image": "/mmahp/ch13/13-7.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Books.",
+          "page": 6
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 11,
+          "title": "The skin- the integumentary system",
+          "bullets": [
+            "The largest organ of the body, part of the",
+            "Vertical section",
+            "Epidermis- stratum germinativum, stem cells",
+            "Keratinized dead cell layers (stratum coronium)",
+            "Glands- sweat, sebaceous, mammary and",
+            "Cancer risk",
+            "Hypodermis (connective tissue)",
+            "Dermis- nerves, blood vessels and fat tissues",
+            "Body contour",
+            "Immune protection",
+            "Gland secretions (sweat, salt, lipids, peptide",
+            "SALT"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "13.3.1",
+      "heading": "Pathogens that cause skin infections",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "In the following sections, various groups of pathogens and the skin diseases they cause are summarized (the list is not exhaustive; only the most common pathogens are listed). The diseases are shown in blue letters. Skin diseases caused by different pathogens may share similar pathological manifestations (see Section 13.3.2).",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Viral infections",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Human parvovirus B19 (fifth disease), Coxsackie virus, rubella virus; Chikungunya virus, Yellow Fever virus, dengue virus, West Nile virus, St. Louis encephalitis virus, Japanese encephalitis virus, Ebola virus, Marburg virus, measles virus, Lassa virus, Junin virus, Oropouche virus, Lacrosse virus, Crimean Congo hemorrhagic fever virus, Rift Valley fever virus, Hantan virus, Puumala virus, Sin Nombre virus, and Colorado tick fever virus (various types of skin rashes or erythema); herpes simplex virus-1 and -2 (eczema, blisters, and ulcers); varicella zoster virus (chicken pox and shingles); Human herpesvirus 8 (Kaposi’s sarcoma); human papillomavirus (skin and planters warts); monkeypox virus (pox); sheep pox virus (orf and skin ulcers); and molluscum contagiosum virus (benign skin tumor). Bacterial infections Staphylococcus aureus (impetigo, bullous impetigo, folliculitis, furuncle, carbuncle and Ritter’s disease); Streptococcus pyogenes (impetigo, scarlet fever and erysipelas); Bacillus anthracis (skin anthrax); Erysipelothrix rhusiopathiae (erysipeloid); Propionibacterium acnes and P. propionicus (acne); Haemophilus ducreyi (soft chancre); Clostridium botulinum, Francisella tularensis and some slow growing mycobacteria (skin ulcers); Burkholderia cepacia, Clostridium perfringens, Corynebacterium diphtheriae, C. ulcerans and C. pseudotuberculosis, Pseudomonas aeruginosa and related species (cellulitis); Borrelia burgdorferi and related species, Neisseria gonorrhoeae, Neisseria meningitidis, Rickettsia rickettsiae, R. akari and Ehrlichia sp. (various types of skin rashes); Pseudomonas aeruginosa, Burkholderia cepacia and related species (burn wound infections and ecthyma); Treponema pallidum (hard chancre, alopecia, yaws, pinta and gumma); Mycobacterium tuberculosis (gumma), various staphylococci and enterococci, Propionibacterium acnes and P. propionicus, Clostridium botulinum and C. tetani, Corynebacterium diphtheriae, C. ulcerans and C. pseudotuberculosis, some fast growing mycobacteria (including Mycobacterium marinum), Actinomyces sp., Acinetobacter sp., Vibrio parahaemolyticus and V. vulnificus, Aeromonas sp., Pasteurella multocida and Bacteroides sp. (wound infections); and Mycobacterium leprae (leprosy). Fungal infections Malassezia furfur and related species (skin discoloration, dandruff, and nail infections); Hortaea werneckii (skin discoloration); Trichosporon sp. and Piedra hortae (hair shaft infections); various species of Epidermophyton, Microsporum and Trichophyton (tinea, ringworm, athletes’ foot, jock itch, hair, and nail infections); Sporothrix schenckii (wound infections); Cladosporium carrionii, Fonseca compacta, F. pedrosoi, Phialophora verrucosa, and Rhinocladiella aquaspersa (chromoblastomycosis, disfiguring skin nodules); Acremonium falciforme, Aspergillus nidulans, Fusarium moniliforme, Madurella grisea, Pseudallescheria boydii (mycetoma); Basidiobolus ranarum, and Conidiobolous coronatus (subcutaneous zygomycosis) Blastomyces dermatitidis, Coccidioides immitis, C. posadasii, Histoplasma capsulatum, Penicillium marneffei, Candida albicans and related species (skin rashes). Algal and parasitic infections Algae: Prototheca wickerhamii and P. zopfii (skin rashes and ulcers); protozoa: Leishmania donovani, L. tropica, and L. braziliensis (skin ulcers); Trypanosoma cruzi (Chagas disease); flatworms: Schistosoma mansoni, S. japonicum and S. haematobium (skin rashes); and roundworms: Spirometra mansoni (sparganosis and wound inflammation); Dracunculus medinensis (skin ulcers), and Onchocerca volvulus (onchocerciasis, skin nodules), larvae of nematode worms in the skin (cutaneous larva migrans).",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Insect infections",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Scabies mite (Sarcoptes sp., scabies); flies (including bot fly Dermatobia hominis), (myiasis, fly larvae in the skin); and bacterial cellulitis at the biting site of various insects, fleas, and ticks.",
+          "page": 7
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 26,
+          "title": "Wound infections",
+          "bullets": [
+            "Wounds",
+            "Internal",
+            "External",
+            "Microbes that infect wounds",
+            "Viruses- HHV-1, and 2, HPV",
+            "Bacteria- resident (Staphylococcus, Enterococcus, etc.), environmental",
+            "Fungi- resident (Candida, etc.)",
+            "Other- Leishmania sp., hookworm larvae, fly larvae, etc."
+          ]
+        }
+      ]
+    },
+    {
+      "number": "13.3.2",
+      "heading": "Diseases of the skin due to infections",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Acne",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Acne begins when hair follicles become blocked due to excess oil and dead skin buildup. The follicle initially appears white (whiteheads) and later turns black (blackheads). This anaerobic environment encourages the growth of bacteria like Propionibacterium acnes. Increased bacterial activity triggers TLR signaling and macrophages to invade the tissue, leading to inflammation, which causes the hair follicle to look red and tender (papules), and eventually develops into a pus-filled pimple (pustules) (Fig. 13.8). Large, painful lumps (nodules) and pus-filled lumps (cystic lesions) are less common. Acne usually appears on the face and forehead, but can also be found on the chest, shoulders, and back.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "About 9% of the population gets acne, but about 85% of people aged 12-24 have it. More women than men get acne, and acne may last longer in women than in men. Acne can heal spontaneously. More severe cases can be treated topically with salicylic acid and benzoyl peroxide. The most severe form of acne is treated with oral medications such as steroids, isotretinoin, doxycycline, erythromycin, and sarecycline (together with topical medications). Isotretinoin has serious side effects, including excessive dryness of the eyes and skin. The drug is teratogenic (may cause birth defects) and cannot be given to pregnant women. Acne is not a contagious disease.",
+          "page": 7
+        },
+        {
+          "type": "subheading",
+          "text": "Alopecia (hair loss)",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Most cases of alopecia, including scalp and body hair loss (such as male pattern baldness), are congenital or due to autoimmune diseases or metabolic diseases (such as alopecia ariata). Microbial infections also cause hair loss. Bacterial skin infections may contribute to secondary hair loss (see folliculitis). Untreated syphilis (secondary syphilis, caused by Treponema pallidum) may involve hair loss. Fungal infection (especially by Trichophyton sp.) causes ringworm, which presents as severely itching circular patches of skin with hair loss (Fig. 13.8). Alopecia due to infections is treated by treating the pathogen that caused the disease. Effective treatment stops further hair loss but might not restore hair growth.",
+          "page": 7
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.8. Some superficial skin infections. A. Acne. Shown are papules, pustules, and nodules. B. Ringworm. Shown",
+          "page": 8,
+          "image": "/mmahp/ch13/13-8.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "are tinea capitis with alopecia (top) and tinea corporis on the hand. Note the circular shape with an elevated margin. C. Infections of the hair follicles. Top- schematic diagram of a normal hair follicle, furuncle, and carbuncle. Bottom- Photographs of folliculitis, furuncle, and carbuncle. Images are from Wikipedia.",
+          "page": 8
+        },
+        {
+          "type": "subheading",
+          "text": "Cellulitis",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Cellulitis involves deep skin inflammation, with red, hot, tender, swollen skin affecting a large area of the body (not the whole body). Cellulitis is a local manifestation of a systemic bacterial infection, most commonly caused by Staphylococcus aureus or Streptococcus pyogenes. The patient experiences not only pain in the affected skin but also fever, chills, and fatigue. If left untreated, the condition may progress to skin blistering, skin sloughing (see necrotizing fasciitis), sepsis, and death. Treatment involves cleaning the affected tissues, administering oral or injected antibiotics, using a fever reducer, and managing pain. The patient needs several weeks to recover from the disease. About 14 million cases of cellulitis are reported in the USA annually, causing about $3.7 billion in costs. Proper skin care and skin wound management can significantly reduce the risk of cellulitis.",
+          "page": 8
+        },
+        {
+          "type": "subheading",
+          "text": "Folliculitis, Furuncle, and Carbuncle",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Infection (mainly by Streptococcus pyogenes or Pseudomonas aeruginosa) and the resulting inflammation of a single hair follicle is folliculitis. The follicle appears itchy, red, and pus-filled. If the inflammation is more severe and deeper in the dermis, the condition is called a furuncle (Fig. 13.8). Several furuncles may fuse to create a carbuncle. About 17-25% of bedridden patients develop carbuncles in the pressure points on the back. A furuncle, and more commonly a carbuncle, allows infectious agents to migrate into the bloodstream and cause systemic infections. Folliculitis and furuncles can be treated topically using warm compresses, antiseptics (such as hydrogen peroxide solution), and topical antibiotics (such as neomycin). Carbuncle treatment may need surgical intervention (drainage) and oral or injected antibiotic therapy.",
+          "page": 8
+        },
+        {
+          "type": "subheading",
+          "text": "Chagas disease",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Chagas disease is the manifestation of infection by the protozoan parasite Trypanosoma cruzi. The parasite is transmitted through the bite of blood-sucking insects of the family Reduviidae, especially Triatoma infestans and Rhodnius prolixus (Fig. 13.9). The bugs prefer to bite the face, hence the name \"kissing bugs.\" The parasites are in the bug's feces, not in its saliva. The biting site may show no signs, but mild signs such as swelling of the biting area, especially the eyelids (Romana’s sign), may appear as the parasite from the insect’s feces enters the wound. The acute symptoms soon disappear, only to remain latent for decades. The parasite replicates in the blood and later in the tissues. About 30% of infected individuals develop signs of chronic infection, such as an enlarged heart and swollen esophagus. Acute infection can be detected by examining a blood smear, but chronic infection requires immunologic detection. The disease is endemic in areas with reduviid bugs, including parts of the United States, Central, and South America. Global warming is predicted to increase the range of northward expansion. About 7 million people are currently infected, with an annual incidence of 200,000 new cases. There is no vaccine for the disease. If detected early, the infection can be treated using benznidazole or nifurtimox.",
+          "page": 8
+        },
+        {
+          "type": "subheading",
+          "text": "Dandruff",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Dandruff is a result of a fungal infection of the scalp, mainly caused by the yeast Malassezia sp. Symptoms include mild irritation, redness, and the shedding of yellowish, dry flakes. Risk factors include dry skin, stress, and poor hair care. About 50 million people in the USA develop dandruff each year. The condition can be treated with shampoos containing antifungal agents such as zinc pyrithione, selenium sulfide, ketoconazole, salicylic acid, or coal tar.",
+          "page": 9
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.9. Some superficial skin diseases. A. Chagas disease. Shown is Roman’s sign, swelling at the biting site of",
+          "page": 9,
+          "image": "/mmahp/ch13/13-9.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "a kissing bug. Image-CDC. B. Erysipelas in the face and nose. Image- Wikipedia. C. Eysepeloid on the skin of an ankle. Image- Wikimedia.",
+          "page": 9
+        },
+        {
+          "type": "subheading",
+          "text": "Erysipelas",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "It is a superficial skin infection affecting the leg and face caused by Streptococcus pyogenes. The hallmark of the disease is a shiny, dark red, slightly raised patch with a well-defined margin (Fig. 13.9). The condition begins when the pathogen enters through a superficial wound, such as an abrasion or insect bite. Initial signs include warmth in the affected area and pain with a burning sensation. Patients may also experience fever and chills. Individuals with obesity and chronic illnesses are more susceptible to the disease. If left untreated, the condition can progress to blistering and deeper infection. With proper wound care, it heals relatively quickly and is typically treated with oral antibiotics.",
+          "page": 9
+        },
+        {
+          "type": "subheading",
+          "text": "Erysipeloid",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "It is a superficial skin infection characterized by a violet-red patch with an irregular but well-defined margin (Fig. 13.9), caused by the bacterium Erysipelothrix rhusiopathiae. It is an occupational hazard, affecting mainly the hands and fingers of workers who handle fish and meat. Signs of the disease include itching, pain, and a burning sensation, which may occur with or without a low-grade fever and swelling of the local lymph glands. Untreated cases can lead to bacteremia, septicemia, and endocarditis. The condition can be easily treated with penicillin G (injectable). Erythema and exanthema Erythema is a localized skin condition caused by increased blood flow in the superficial capillaries, resulting in a diffuse redness. It can be triggered by infections or other factors such as allergic reactions, psoriasis, sunburn, radiation therapy, and medication side effects. Erythema is usually a localized red rash. Erythema can be caused by various pathogens. Some examples are • Erythema multiforme: patches of redness around herpes simplex virus infection.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "• Erythema migrans: multiple concentric circular red patches (bull's-eye rashes) around a tick bite contaminated with the Lyme disease agents (Borrelia sp.). Although diagnostic of Lyme disease (Fig. 13.10), the bull's-eye rash occurs in fewer than 30% of individuals bitten.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "• Erythema infectiosum: also called the fifth disease (Fig. 13.10), characterized by skin rashes, especially on the faces of children infected with parvovirus B19.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "• Erythema nodosum- red nodules in the skin of the legs due to streptococcal infection.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Erythema is treated after the cause is diagnosed. Erythema may disappear spontaneously without a resolution of the underlying cause (infection). Patients should seek follow-up medical advice because an unresolved infection may lead to more severe disease or systemic infection.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Although the terms erythema and exanthema are sometimes used interchangeably (for example, fifth disease is an exanthema, but it is called erythema infectiosum), exanthemata affect more widespread areas of the skin. Exanthems are usually caused by microbial infections, autoimmune reactions, and drug side effects. Some of the common exanthemas are the following: • Rubeola (caused by measles virus): Red, purple, or brown macules (flat rashes less than 1 cm in diameter) and papules (raised, solid, tender patches less than 1 cm in diameter) on the skin, along with Koplik's spots (white spots with a red margin on the cheeks) in the mouth. The rashes fade without forming pus when the immune system clears the virus infection (Fig. 13.10).",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "• Rubella (caused by rubivirus): Pink macules and papules over the skin. An important difference between rubeola and rubella is fever (high for measles, low for rubella).",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "• Roseola (caused by the human herpes virus-6 and -7). Infants and children develop dark pink rashes (Fig. 13.10), accompanied by high fever. The rashes disappear within 3-5 days, although the virus may persist latently in TH cells and remain in the body for many years.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "• Hand, foot, and mouth disease (caused by Coxsackie virus): Red rashes on the soles, feet, palms, hands, buttocks, face, and oral cavity, accompanied by sore throat and fever. The spots disappear in about 10 days as the immune system controls the infection.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "• Chickenpox (caused by human herpesvirus 3, also known as varicella zoster virus): Red rashes in many parts of the body, which soon turn into dewdrop blisters, which can lead to secondary bacterial infections. • Scarlet fever (caused by Streptococcus pyogenes)- Sand-like rashes on the upper body (neck, chest, and abdomen) of children.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Traditionally, rubeola, scarlet fever, rubella, fifth disease, and roseola are called the 1st, 2nd, 3rd, 5th, and 6th childhood exanthems (the 4th disease, although named, was unfounded). There are additional childhood exanthems (such as chicken pox) that are not numbered. There is no specific drug to treat viral erythema and exanthems. Rest, hydration, supplemental nutrition, and fever management help heal the infections. Bacterial erythema must be treated with antibiotics to prevent systemic infection and post-infection complications such as type III hypersensitivity reactions (i.e., rheumatic fever and glomerulonephritis) and heart valve disease.",
+          "page": 10
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.10. Some superficial infections of the skin. A. Bull’s eye rash around the tick bite site, found in about 30%",
+          "page": 10,
+          "image": "/mmahp/ch13/13-10.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "of Lyme disease cases. Image- CDC. B. Fifth disease (erythema infectiosum) on the cheek of a child. Image- Health Harvard.edu. C. Signs of rubeola on the abdomen of a child. Image- CDC. D. Roseola on the skin of a child. Image- dftbskindeep.com.",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "Gumma",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "A deep, soft (tumor-like) granuloma in multiple organs, including the skin, caused by type IV hypersensitivity reactions to antigens of Treponema pallidum, the agent responsible for syphilis. The disease occurs in individuals with tertiary syphilis, left untreated for several decades. Symptomatic tuberculosis (caused by Mycobacterium tuberculosis) may also display gumma (Fig. 13.11).",
+          "page": 11
+        },
+        {
+          "type": "subheading",
+          "text": "Hard chancre",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "It is a sign of primary syphilis, a sexually transmitted infection (STI) caused by Treponema pallidum, characterized by painless, round ulcers on the skin around the genitalia, anus, and mouth—at the entry points of the bacterium (Fig. 13.11). Although painless, the lesion contains numerous bacteria, and someone with such scars can transmit them to sex partners. The lesions usually heal spontaneously within 1-5 weeks without leaving a scar, but the bacterium may cause a systemic infection that, if untreated, could progress to secondary and tertiary syphilis. Secondary syphilis shows signs such as skin rashes, chronic inflammation, patchy hair loss, and inflammation in the liver, kidneys, and eyes, while tertiary syphilis causes even more severe signs, including neuropathy, gummas, and bone deformities. Primary syphilis can be treated very easily with simple antibiotics such as penicillin G (injectable). Impetigo and ecthyma These are skin lesions caused by S. aureus or S. pyogenes. Non-bullous impetigo features red sores with a thick crust, while bullous impetigo manifests as fluid-filled, painless blisters (Fig. 13.11). Both types of sores may transmit pathogens through close contact. Untreated impetigo may lead to ecthyma, a deep form of impetigo with pus-filled or pus-releasing (purulent) ulcers. Ecthyma usually occurs on the legs and lower body. Poor hygiene, malnutrition, a poor immune system, and diabetes are the risk factors for all three conditions. Treatment options include wound management and antibiotics.",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.11. Some skin pathologies due to infections. A. Surface of a gumma (caused by M. tuberculosis) on the neck",
+          "page": 11,
+          "image": "/mmahp/ch13/13-11.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "of a person. Under the gumma, there is extensive necrotic tissue. B. Soft chancre caused by Treponema pallidum infection (top) and soft chancre caused by H. ducreyi infection (bottom) on the genitalia. C. Crustose (top left) and bullous impetigo (bottom) on the abdomen of a child, caused by S. aureus. Images: A and B- Wikipedia. C- CDC- PHIL.",
+          "page": 11
+        },
+        {
+          "type": "subheading",
+          "text": "Kaposi’s sarcoma",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Sarcomas are cancers of connective tissues, including bones, muscles, and tendons. Kaposi’s sarcoma appears as purple blotches on the skin of the face, arms, and legs, caused by human herpesvirus 8 (Fig. 13.12). The virus infects endothelial cells of blood vessels and lymph nodes, transforming them into tumor cells. The tumor may spread to other organs, including the lung and stomach. The skin lesion can be painful but not itchy. The disease is endemic in the Mediterranean region, where about one-third of the population harbors the virus, latently infecting peripheral bood mononuclear cells (PBMCs). Only approximately 5% of the latently infected individuals develop Kaposi’s sarcoma, especially if they are also infected with HIV-1 or have immunosuppression due to other reasons. The disease is initially treated by addressing the cause of immunosuppression (for example, if the patient is infected with HIV-1 or -2, they are treated for HIV first), along with local radiotherapy and chemotherapy.",
+          "page": 11
+        },
+        {
+          "type": "subheading",
+          "text": "Leprosy",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Leprosy is a disease caused by Mycobacterium leprae that can affect the skin, muscles, bones, neurons, and other organs. The disease is transmitted through droplets, not through skin contact, and occurs from infected people or, in rare cases, from infected armadillos. People with full T-cell immunity usually get paucibacillary (also called tuberculoid) leprosy, developing fewer than 5 skin lesions (Fig. 13.12). The skin lesion may lack sensation due to neuronal death, but a biopsy of the affected skin may not reveal any live M. leprae cells. The affected subject may not transmit the infection to other people.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "People with T-cell immunity issues may have multibacillary (or lepromatous) leprosy, with more than 5 skin lesions at the outset. If left untreated, the patient would develop extensive tissue damage and severe disfigurement (Fig. 13.12). L. leprae does not produce significant virulence factors, such as enzymes and other exotoxins. The bacterium grows slowly and affects tissues at lower temperatures (extremities such as the tip of the limbs, nose, the ears, and the skin surface). The tissue and skin damage is mostly due to a type IV hypersensitivity reaction, in which TH cells activate macrophages and other leucocytes, which kill infected cells; however, the immune response fails to eradicate the bacterium. People with lepromatous leprosy can transmit the disease to others.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Leprosy was once a common disease in the Old World. At present, new cases (about 170,000/year) of the disease are mostly reported in a few countries in East Asia. Indonesia and Brazil. Fewer than 250 cases, mostly among immigrants, are reported in the United States. The disease can be treated with a combination of antibiotics (clofazimine, dapsone, rifampin, moxifloxacin, and minocycline), for six (for paucibacillary leprosy) to 12 months (for multibacillary leprosy). The WHO Global Leprosy Strategy aims to eradicate or radically reduce leprosy incidence through combination antibiotic therapy by 2030.",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.12. Some skin condition. A. Kaposi's sarcoma caused by human herpesvirus-8. B. Tuberculoid leprosy caused",
+          "page": 12,
+          "image": "/mmahp/ch13/13-12.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "by Mycobacterium lepriae, featuring painless skin lesions with an elevated margin. C. Lepromatous leprosy caused by Mycobacterium lepriae, showing extensive tissue damage leading to loss of fingers. D. Mulluscum contagiosum, featuring pearly lesions on the skin, caused by the human herpesvirus 8. E. Orf lesions on the skin caused by the orf virus (the sheep poxvirus). F. Pinta, skin discoloration due to chronic infection by the spirochete pathogen Treponema carateum. All images are from CDC-PHIL.",
+          "page": 12
+        },
+        {
+          "type": "subheading",
+          "text": "Molluscum contagium",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "These are dome-shaped, flesh-colored clusters of papules on the face and upper body (Fig. 13.12), caused by the molluscum contagiosum virus. The papules are painless but can be itchy. The virus lacks oncogenes yet somehow transforms infected cells into benign tumors, which then disappear in about 2 years. About 5% of the US population harbors the virus. Young people, especially those who participate in contact sports, are more vulnerable to the infection. Treatments are unnecessary for the disease, although doctors may remove the papules by cryosurgery (with liquid nitrogen) or topical laser surgery, or immunostimulant medicine (cantharidin) for cosmetic reasons. Myiasis The disease results from larvae of the botfly. The flies may lay eggs on existing open wounds, or the larvae might enter the skin through insect bites. Lesions usually develop in the neck, face, ear, or nose. The larvae can cause severe inflammation, leading to papules on the skin. The disease is more common in Africa and Central and South America. Treatment options include suffocating the larvae with a thick layer of cream and cleaning or debriding the wound. Topical antibiotics can be used to prevent secondary bacterial infections.",
+          "page": 12
+        },
+        {
+          "type": "subheading",
+          "text": "Orf",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Orf is a zoonosis caused by a poxvirus that normally infects sheep and goats. The disease is characterized by small pus-filled blisters, mainly on the hands and fingers (Fig. 13.12). Farmers, veterinarians, and other people handling animals are vulnerable to infection. There is no medication for the disease. The blisters heal in about five weeks, leaving no scar. Recovered people are protected from reinfection for a time being.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "Pinta",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Pinta is a skin disease caused by the spirochete Treponema carateum. The disease is acquired from the community (not a sexually transmitted infection) and is endemic in rural Central and South America. The initial skin lesions are red or purple, but chronic infection leads to brown, blue, or black papules with scaly plaques (Fig. 13.12). Untreated plaques eventually turn into white patches within 2-5 years. The disease can be treated with penicillin G (injectable), although discolored skin may not regain its normal color.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "Pox",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Pox is a group of skin diseases characterized by a rash of pustules. Smallpox, caused by the variola virus, was once a devastating annual pandemic disease. The disease was eradicated through widespread vaccination in 1977. Currently, monkeypox, caused by the monkeypox virus, produces skin symptoms similar to those of smallpox in humans (Fig. 13.13). Pox caused by poxviruses features ballooning and later disintegration of the infected keratinocytes of the skin and separation of the skin cells due to degradation of the matrix between the affected cells. Chickenpox, caused by human herpesvirus-3, results in smaller pox. Pox lesions are pustules (pus-filled, raised lesions). Healed lesions may leave scars.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.13. Some skin diseases. A. Pathological changes in the skin because of the burrowing of the scabies mite.",
+          "page": 13,
+          "image": "/mmahp/ch13/13-13.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Shown is a section of the skin of an affected person. Image-CDC-PHIL. B. Face of a person showing numerous pustules caused by variola virus infection. Image-CDC-PHIL. C. Rickettsial pox lesion on the skin, caused by the bacterium Rickettsia akari. Image- Wikipedia. D. Ritter’s disease, showing peeled skin layers, due to infection by the exfoliantin-toxin positive S. aureus. Image- Wikipedia.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Rickettsial pox is caused by the bacterium Rickettsia akari. The bacterium is transmitted by mites that feed on mice. The initial signs of the disease include painless red bumps on the skin that progress to chickenpox-like pustules (Fig. 13.13). The skin lesions result from the body's cell-mediated immune response, which kills infected cells and causes pus to collect in the pustules. Additional inflammatory responses include high fever and body aches. Secondary bacterial infections can also occur. There is no specific treatment for viral pox, but effective vaccines are available. Rickettsial pox has no vaccine, but it can be effectively treated with doxycycline.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "Ritter’s disease",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Also known as Staphylococcal scalded skin syndrome (SSS), the disease is caused by Staphylococcus aureus strains that carry genes encoding exfoliative toxins A and B. The initial symptoms include red, sand-like rashes that turn into blisters, and then layers of skin peel off like onion skins (Fig. 13.13). The peeling is caused by the exfoliative toxins, which digest the tissue cement between the skin cell layers. Newborns, infants, children under five years old, and immunocompromised adults are vulnerable to the disease. The disease is treated with intravenous antibiotic therapy. Scabies Severe inflammatory responses (itching and red pimples) due to the mite Sarcoptes scabiei, making tunnels in the skin and lays eggs, cause scabies (Fig. 13.13). Untreated lesions can lead to secondary bacterial infections. Good hygienic conditions prevent rapid transmission of the mite. Although oral ivermectin is highly effective, topical use of 5% permethrin cream or 0.5% malathion is sufficient treatment for scabies.",
+          "page": 14
+        },
+        {
+          "type": "subheading",
+          "text": "Shingles (zoster)",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Shingles is caused by the reactivation of human herpesvirus 3, which has been dormant in various neural ganglia, especially the dorsal root ganglia near the vertebral column, after a person recovers from chickenpox (caused by the same virus). Reactivation may occur decades later, usually among the elderly, but in rare cases it occurs among immunocompromised subjects a few months or years after recovery from chickenpox. The reactivated virus replicates, and its progeny migrates through the neurons to the dermatomes they innervate. The early signs of reactivation include a tingling sensation and itching. Dew-drop rashes, which are fluid-filled blisters (Fig. 13.14), develop within a week and are often accompanied by severe pain, including neuralgia (neuropathic inflammation) in the affected dermatomes. Untreated, shingles usually heal within 2 to 6 weeks. Severe cases are treated with antiviral medications like valacyclovir and pain relievers. Only individuals who have had chickenpox can develop shingles, especially if their immune system is weakened. Factors such as stress, immune-suppressing drugs, radiotherapy, and older age (60 or above) increase susceptibility to shingles. Several vaccines with over 90% effectiveness are now available to prevent shingles. Note that there is an effective vaccine for chicken pox, which obviously prevents chicken pox and shingles.",
+          "page": 14
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.14. Some skin disease. A. Shingles on a dermatome of the body due to reactivation of human herpesvirus-3,",
+          "page": 14,
+          "image": "/mmahp/ch13/13-14.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "showing many pustules. Image-CDC. B. Swimmer’s itch, inflamed lesions on the leg at the entry site of blood fluke larvae. Image- Wikipedia. C. Filiform and dome-shaped warts, caused by human papillomavirus, on the face of a person. Image-Wikipedia.",
+          "page": 14
+        },
+        {
+          "type": "subheading",
+          "text": "Soft chancre (cancroid)",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Chancroids develop on and around the genitalia, creating an open and painful ulcerative wound (Fig. 13.11). The STI is caused by the bacterium Haemophilus ducreyi, which is transmitted through skin contact. The open wound harbors and releases bacteria and can be transmitted through sexual activities. The wound heals spontaneously within three months, and the infection does not persist, except that nearby lymph nodes may swell and, in some cases, may rupture. The acute infection should be treated with antibiotics, such as azithromycin, to prevent complications and secondary infections from other viral and bacterial STIs. The disease is more common in tropical regions. Fewer than 20 cases are reported annually in the US.",
+          "page": 14
+        },
+        {
+          "type": "subheading",
+          "text": "Sparganosis and other worm infections",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Migrating larvae of the nematode worm genus Spirometra in the skin and other organs, including the brain, cause sparganosis. The skin manifests as painful, itchy lumps. People acquire the infection by drinking untreated water contaminated with copepods (water fleas) that harbor worm larvae, by consuming raw or undercooked meat from fish, frogs, and snakes, or by using folk remedies such as applying raw frog- or snake-meat poultices to open wounds. The infection can be positively diagnosed using serological methods and treated with surgery and medication (albendazole).",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "The aquatic larvae of blood flukes, including those from the genus Schistosoma, penetrate the skin and migrate to the blood vessels. Not all species can invade blood vessels, but all cause severe inflammation of the skin, leading to small red pimples (Fig. 13.14). The eggs of blood flukes are barbed and can become tangled in the small blood vessels of various organs, including the skin, causing significant inflammation. Macrophages destroy the inflamed skin tissue, releasing the worm eggs into the water during bathing. Blood fluke infections are treated with praziquantel and supportive medications such as corticosteroids. Avoiding open water in regions where blood flukes are endemic (i.e., East Asia, Africa, and South America) is an important preventive measure.",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Tinea (ringworm)",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Tinea is a group of diseases caused by the fungal genera Trichophyton, Microsporum, and Epidermophyton. The commonly affected areas include body surfaces (tinea corporis), feet and between the toes (tinea pedis), groin areas (tinea cruris, also called jock itch), scalp (tinea capitis), and nails (tinea unguium). Tinea corporis presents as a circular area with an elevated, scaly border, hence the name ringworm. The fungi feed on keratin and trigger a robust inflammatory response, leading to itching, redness, and hair loss (Fig. 13.8). Infected nails may discolor and become deformed. Tinea agents are contagious. Avoiding close contact with infected individuals, animals, and contaminated environments, as well as dry and clean clothing, helps prevent infection. People with a weakened immune system are more prone to tinea. Tinea can be treated with topical antifungal agents such as azoles and polyenes. Warts Warts are benign skin growths caused by over 100 different strains of the human papillomavirus. The virus contains oncogenes. They infect skin cells by entering small skin wounds, transforming them, and causing them to divide continuously, leading to irregular growths. Skin warts and genital warts can be irregular, warts on the face can be filiform (string-like) (Fig. 13.14), dome-shaped, or flat, while plantar warts on the sole are flat. Aside from plantar warts, most warts are painless, though they can be disfiguring. Genital warts are sexually transmitted. About 7-10% of the US population has common warts. Infected cells of the wart shed and help spread the virus. Warts should be covered (or removed) to prevent transmission of the disease.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "About 65% of common warts spontaneously disappear within two years, especially in children and young adults. However, warts may spread among people with impaired T-cell immunity. Transformation of a common wart into verrucous carcinoma is extremely rare. For cosmetic reasons, to relieve pain from plantar warts, or an immunocompromised subject having many warts, a dermatologist should evaluate and determine suitable treatment options. Warts can be treated with salicylic acid (for plantar warts), trichloroacetic acid, imiquimod (an immunostimulant chemical), cryosurgery, and laser surgery. Relapse after surgery is possible.",
+          "page": 15
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 16,
+          "title": "Microbial diseases of the skin",
+          "bullets": [
+            "Acne",
+            "Agents",
+            "Symptoms",
+            "Treatments",
+            "Alopecia",
+            "Agents",
+            "Symptoms",
+            "Treatments",
+            "Cellulitis",
+            "Agents",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 17,
+          "title": "Microbial diseases of the skin",
+          "bullets": [
+            "Folliculitis, Furuncle, and Carbuncle",
+            "Agents",
+            "Symptoms",
+            "Treatments",
+            "Chagas disease",
+            "Agents",
+            "Symptoms",
+            "Treatments",
+            "Dandruff",
+            "Agents",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 18,
+          "title": "Microbial diseases of the skin",
+          "bullets": [
+            "Erysipelas",
+            "Agents",
+            "Symptoms",
+            "Treatments",
+            "Erysipeloid",
+            "Agents",
+            "Symptoms",
+            "Treatments",
+            "Gumma",
+            "Agents",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 19,
+          "title": "Microbial diseases of the skin",
+          "bullets": [
+            "Erythema",
+            "Erythema multiforme",
+            "Erythema migrans (bull’s eye rash)",
+            "Erythema infectiosum (5th disease)",
+            "Erythema nodosum",
+            "Exanthems",
+            "Rubeola (1st disease)",
+            "Rubella (3rd disease)",
+            "Roseola (6th disease)",
+            "Chicken pox",
+            "Scarlet fever (2nd disease)"
+          ]
+        },
+        {
+          "slideIndex": 20,
+          "title": "Microbial diseases of the skin",
+          "bullets": [
+            "Hard chancre",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Impetigo and ecthyma",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Kaposi's sarcoma",
+            "Agent",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 21,
+          "title": "Microbial diseases of the skin",
+          "bullets": [
+            "Molluscum contagiosm",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Myiasis",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Orf",
+            "Agent",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 22,
+          "title": "Microbial diseases of the skin",
+          "bullets": [
+            "Pinta",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Pox",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Ritter’s disease (SSS)",
+            "Agent",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 23,
+          "title": "Microbial diseases of the skin",
+          "bullets": [
+            "Scabies",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Shingles",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Soft chancre",
+            "Agent",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 24,
+          "title": "Microbial diseases of the skin",
+          "bullets": [
+            "Sparganosis and other worm",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Tinea",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Warts",
+            "Agent",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 27,
+          "title": "Bite wounds",
+          "bullets": [
+            "Agents",
+            "Dogs: Pasteurella multocida, staphylococci, and streptococci",
+            "Cats: Pasteurella multocida, Bartonella henseliae, staphylococci, and",
+            "Rats: Streptobacillus moniliforms, staphylococci, and streptococci",
+            "Mice: Leptospira interorgan, and lymphocytic choriomeningitis virus",
+            "Unvaccinated dogs, coyotes, bats, and raccoons: rabies lyssavirus",
+            "Humans: Bacteria of the genera Staphylococcus, Streptococcus, Eikenella,",
+            "Treatment",
+            "Washing",
+            "Vaccination",
+            "Antibiotic therapy"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "13.4",
+      "heading": "External wound infections",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Many organs, including the skin, muscles, bones, blood vessels, nerves, blood, and the central nervous system, can have wounds, but skin wounds are the most common. Wounds can be infected by resident microbes, primary pathogens, and environmental microbes. Here we will briefly treat the microbes that infect wounds and the diseases they cause.",
+          "page": 15
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 13,
+          "title": "Microbes that infect the skin",
+          "bullets": [
+            "Viruses",
+            "From person to person- B-19, HHV 1, 2, 3, etc.",
+            "Zoonotic agents Colorado tick fever virus, hantavirus, pox viruses, etc.",
+            "Arboviruses- West Nile virus, yellow fever, dengue, chikungunya virus etc.",
+            "Oncogenic viruses: HHV-8, HPV, molluscum contagiosum virus, etc.",
+            "Bacteria",
+            "From resident biota- Gnera Bacteriodes, Corynebacteria, Enterococcus,",
+            "From person to person- Genera Staphylococcus, Streptococcus, Neisseria,",
+            "From the environment- Genera Bacillus, Pseudomonas, Burkholderia,",
+            "Zoonotic- Pasteurella, Bacillus, Vibrio, Rickettsia, Francicessa, Ehrlichia,"
+          ]
+        },
+        {
+          "slideIndex": 14,
+          "title": "Microbes that infect the skin",
+          "bullets": [
+            "Fungi",
+            "From resident biota- Gneera Malassezia, Candia, Trchosporon, etc.",
+            "Zoonotic- Genera Epidermophyton, etc.",
+            "From the environment- Genera Sporothrix, Aspergillus, Coccidioides,",
+            "Algae",
+            "From environments- Genus Prototheca, etc.",
+            "Protozoa",
+            "Zoonotic- Genera Leishmania, Trypanosoma, etc."
+          ]
+        },
+        {
+          "slideIndex": 15,
+          "title": "Microbes that infect the skin",
+          "bullets": [
+            "Worms",
+            "From the environment- Genera Schistosoma, Spirometra, Dracanculus,",
+            "Zoonotic- Genera Onchocerca, etc.",
+            "Other microbes",
+            "Insects- Genera Sarcoptes, Dermatobia, etc."
+          ]
+        }
+      ]
+    },
+    {
+      "number": "13.4.1",
+      "heading": "Microbes that infect external wounds",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Viruses: Human herpes virus-1 (herpetic whitlow), human papillomavirus (warts).",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacteria: Staphylococcus aureus, S. epidemididis, Streptococcus pyogenes, Enterococcus sp. (traumatic and surgical wound infections), Pseudomonas aeruginosa, Acinetobacter baumannii, S. aureus, K. pneumoniae, Enterococcus sp. (traumatic and burn wound infections), Enterococcus faecalis, Escherichia coli, Klebsiella pneumoniae, Bacteroides sp. (infection of visceral cavity and organs after a wound in the intestine, see Chapter 15), Bacillus anthracis, Clostridium perfringens, and C. tetani (soiled traumatic wound infection).",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Fungi: Candida sp., Aspergillus sp., Fusarium sp., and Trichosporon sp. (traumatic, burn, surgical, and diabetic wounds), Sporothrix sp. (thorn-pricking wounds).",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Parasites: Leishmania sp. (sand fly bite wound), hookworm larvae (larval migrans), fly larvae of several flies, including botfly, blowfly, and jigger flea (myiasis),",
+          "page": 16
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 28,
+          "title": "Burn wounds",
+          "bullets": [
+            "Causes",
+            "Scalding",
+            "Chemical",
+            "Cryogenic",
+            "Degree",
+            "1st",
+            "2nd",
+            "3rd",
+            "Infections"
+          ]
+        },
+        {
+          "slideIndex": 29,
+          "title": "Surgical, traumatic and pricking wounds",
+          "bullets": [
+            "SSI",
+            "Occurrence",
+            "Infections by S. aureus, P.",
+            "Traumatic wounds",
+            "Soiled wounds",
+            "Cleaning to prevent endospore",
+            "Anthrax, tetanus",
+            "Vaccination and treatments",
+            "Pricking wounds by plant materials",
+            "Bacterial infections",
+            "Fungal infections"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "13.4.2",
+      "heading": "Diseases due to external wound infections",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Bite wounds",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Bite wounds can be inflicted by leeches, insects, sea snails, snakes, carnivorous animals, and humans. Biting leeches and insects on the skin should be gently removed with a flat object, so that they move away without leaving teeth in the injured tissue or regurgitating on the wound. Leaches may carry the aquatic bacterium of the genus Aeromonas, which can infect wounds. Biting insects can transmit a wide range of pathogens, from viruses to worms (see Chapter 11). Some insect bites (say, mosquito bites) are difficult to avoid. Whenever possible, insect bite sites should be cleaned with soap and antiseptic agents. The (bee) sting should be removed from the wounds. Calamine lotion or hydrocortisone cream can be used to prevent itching, and topical antibiotics can be used to prevent infections. If the biting insects are venomous (e.g., spiders and scorpions), the patient may require hospitalization. Poisonous sea snail and octopus bites and bee stings in people allergic to bee venom can be life-threatening and require immediate medical attention.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Subjects bitten by a venomous snake should seek medical assistance immediately. The bite wound caused by animals (including humans), should be cleaned immediately with soap and water, then with an antiseptic. The principal infection risks of different biting animals are the following • Dogs: Pasteurella multocida, staphylococci, and streptococci • Cats: Pasteurella multocida, Bartonella henseliae, staphylococci, and streptococci • Rats: Streptobacillus moniliforms, staphylococci, and streptococci • Mice: Leptospira interorgan, and lymphocytic choriomeningitis virus • Unvaccinated dogs, coyotes, bats, and raccoons: rabies lyssavirus • Humans: Bacteria of the genera Staphylococcus, Streptococcus, Eikenella, Bacteroides, and Fusobacterium Pasteurella multocida and Bartonella henselae may cause inflammation at the bite site (Fig. 13.15) and, in some cases, bacteremia, meningitis, and sepsis. Streptobacillus moniliformis may cause rat bite fever, bacteremia, and endocarditis (inflammation of the inner heart surfaces). Bacteria of the genera Staphylococcus, Streptococcus, Eikenella, Bacteroides, and Fusobacterium may cause wound inflammation, bacteremia, and endocarditis. Leptospira interrogans may cause bacteremia and kidney infections. Lymphocytic choriomeningitis virus and rabies lyssavirus cause severe encephalopathy.",
+          "page": 16
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.15. Some wound infections. A. Scratch of a cat harboring Bartonella henselae may cause a superficial skin",
+          "page": 16,
+          "image": "/mmahp/ch13/13-15.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "condition (and lymphadenopathy, and bacteremia, not shown). B. Burn wound infected by P. aeruginosa, characterized by greenish pigmentation of the wound due to pyocyanin, a pigment released on the wound by the pathogen. Image: Treget EW, et al. Burns 2004; 30(1): 3-26. https://doi.org/10.1016/j.burns.2003.08.00. C. Hepatic withdrawal in the finger of a patient. Note the dew drop blister, which would open and create open wounds. Image- Wikipedia.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Overall, animal bite wounds should be taken seriously. People bitten by unvaccinated dogs, stray dogs, coyotes, bats, and raccoons should be considered to have contracted rabies lyssavirus. The wound should be surgically opened, soaked in anti-rabies serum, and then the rabies vaccine administered. All affected persons should be monitored for signs of bacteremia (fever and chills) and treated with antibiotics as necessary. Notably, patients who had a tetanus shot more than five years ago should receive a new shot, because a bite wound may also transmit endospores of Clostridium sp.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "Burn wounds",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Burn wounds can result from contact with flames, hot objects, hot liquids or vapor (scaling injuries), cold objects (such as liquid nitrogen, causing cryogenic burn), strong acids, strong alkalis, or chaotropic agents (chemical burns). A burn caused by overexposure to bright sunlight is a sunburn. A first-degree burn affects only the epidermis; a second-degree burn affects the dermis but not the nerves; and a third-degree burn affects all layers of skin and destroys the nerves, appearing charred and exposing white skin. The first- and second-degree burns are extremely painful, but the third-degree burn can be painless due to nerve damage. Burn injuries should be cooled with clean, cold water (but not with ice, to prevent further injury). First- and second-degree burns can be cleaned with anesthetic wound cleaners, if available. The wound should be covered with a sterile gauge. Patients with second and third-degree burns should be hospitalized.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "It is difficult, if not impossible, to prevent burn wound infection. A multitude of bacteria and fungi infect burn wounds. Signs of infection include increased inflammation (swelling, redness, fever, and chills), foul odors, and discoloration of the wound. A greenish discoloration around the wound indicates infection with Pseudomonas aeruginosa (Fig. 13.15). Infections can be treated with local or systemic (injected) antibiotic therapy, depending on the size of the wound. Large burn wounds are covered with artificial skin (collagen-impregnated nylon or silicone sheath), lab-grown or 3-D-printed skin, to prevent infection and dehydration, and promote rapid healing. The lab-grown or 3-D-printed skin also yields much-improved healing in cosmetically important burn wounds.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "About half a million people in the USA experience burn wounds annually, with about 80% of the victims requiring medical care, and around 3,500 deaths. The annual economic cost of burn wounds in the country is approximately $1 billion.",
+          "page": 17
+        },
+        {
+          "type": "subheading",
+          "text": "Herpetic whitlow",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Herpes simplex virus-1 and -2 from fever blisters or genital sores may enter a finger wound, causing a whitlow (Fig. 13.15). The infected wound may develop blisters and turn red due to inflammation. The wound is painful with a burning sensation. Health workers, people with recurring herpes, and children sucking fingers are more vulnerable to whitlow. The wound heals spontaneously within two weeks. Large and painful whitlows can be treated with oral acyclovir. Whitlow is a rare disease, with about 2.5 cases per 100,000 per year.",
+          "page": 17
+        },
+        {
+          "type": "subheading",
+          "text": "Larva migrans (creeping eruptions)",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Hookworm larvae create a biting wound on the skin and then migrate through the skin in search of a large blood vessel. The affected area may cause intense itching, and the migrating worm can sometimes be visible (Fig. 13.16). Avoiding walking barefoot on the seashore and in parks helps prevent infections. The infection can be treated locally with prescription drugs, such as albendazole.",
+          "page": 17
+        },
+        {
+          "type": "subheading",
+          "text": "Surgical wounds",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Infection within 30-90 days of a surgical procedure is considered a surgical wound infection. Surgical site infections (SSIs) can be superficial incisional (affecting only the skin), deep incisional (affecting deeper and surrounding tissues), and/or organ-specific (involving the entire manipulated organ or space). The inflammation can be local or systemic and may involve fever and chills. Multiple bacteria and fungi may infect the surgical wound; however, the main agents are the bacterial species S. aureus, P. aeruginosa, E. coli, and Enterococcus sp., and the fungus Candida sp. (Fig. 13.16). The agents, especially S. aureus, could be multidrug-resistant. Despite a coordinated approach to infection control, about 2-4% of surgeries involve SSI, accounting for about 150,000 cases, with an annual mortality of about 11% of infected cases. The probability of infection depends on patients’ health conditions, the type of surgery (organs involved), and the duration of surgery. Infection rates vary among hospitals (by 1-10%) and among nations (under 3% in developed countries and over 20% in developing and less-developed countries). The rate of surgical site infection is increasing, and an estimated 60% of infections can be prevented. Surgical infections are treated by antibiotics, wound management, drainage, debridement (removal of dead tissues), and additional surgery if necessary. Traumatic wounds Traumatic wounds are accidental blunt force, abrading, lacerating, penetrating, or cutting injuries. Sudden deceleration (as in car accidents) may cause internal injuries. Injuries release DAMPs, and allow resident and environmental microbes to enter the wounds. There are many similarities between these wounds and those caused by biting, burns, and surgery. However, traumatic injuries bear a higher risk of exposure to foreign bodies and environmental microbes, and the wounds can be more complicated. Of particular importance is the deep anaerobic wound caused by metal objects. Since metal objects absorb oxygen, anaerobic bacteria and their endospores can stay viable on such surfaces. Endospores of Bacillus anthracis and Clostridia may germinate in the anaerobic wounds and produce toxins such as anthrax toxin (causing skin anthrax), tetanus toxin (which causes spastic paralysis), and botulinum toxin (which causes flaccid paralysis).",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Soiled wounds are the main reason for gas gangrene caused by the toxins and gases released by Clostridium perfringens. The disease is caused by several exotoxins and gases (hydrogen and carbon dioxide) that the bacterium releases in the wounds. The exotoxins (including proteases, collagenase, nucleases, phospholipase A, and hemolysins) damage connective tissues, including fascia; kill cells, including erythrocytes; and cause tissue to rupture. Hydrogen and CO2 gases released in the site break open the muscle bundles (the tearing of the muscle fibers can make an audible crackling noise). The wound appears blistery, swollen, and discolored, with dark black areas (due to erythrocyte death) and foul-smelling (Fig. 13.16). The patient also suffers from signs of systemic inflammation, including fever and vascular shock. Gas gangrene treatment may require surgical debridement of necrotic tissue (amputation, if necessary), intravenous antibiotic therapy, and intensive supportive care (hydration, pain management, hemodynamic stability, etc.). The patient is kept in a hyperbaric (high oxygen) chamber to prevent the growth of the anaerobic bacterium. Reconstructive surgery may be necessary for some surviving patients. Gas gangrene is rare in the USA (less than 3,000 cases per year), but it can be quite common in developing countries, and many of those cases are fatal.",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.16. Some infections of the skin and the underlying tissues. A. Larva migrans (or creeping eruption) in",
+          "page": 18,
+          "image": "/mmahp/ch13/13-16.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "response to the migration of worm larvae and the associated immune response. Image- Wikipedia. B. Surgical wound infection can be polybacterial (caused simultaneously by multiple species). Image- orthobullets.com. C. Traumatic wound infection. A puncture from a nail on the foot led to a Clostridium perfringens infection, which progressed to a gas gangrene. Image: step1.medbullets.com.",
+          "page": 18
+        },
+        {
+          "type": "subheading",
+          "text": "Wounds due to the pricking of plant material",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Thorns and scales cause injuries among gardeners, farmers, loggers, and hobbyists. These injuries can allow bacteria and fungi to enter the wounds. Fungi, such as Sporothrix sp., that enter the wound this way may cause inflammation of the wound and nearby lymph nodes, especially in older individuals. Symptomatic infections (which can be >90%) require prolonged treatment—about 6 months—with oral antifungal agents like amphotericin B.",
+          "page": 18
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 33,
+          "title": "Microbes that infect musculoskeletal system",
+          "bullets": [
+            "Viral",
+            "B19, Poliovirus, Influenza A, SARS-CoV",
+            "Bacterial",
+            "Person to person- genera Staphylococcus, Streptococcus, Treponema,",
+            "Zoonotic- Genera Borrelia, Briucella, etc.",
+            "Environmental- Genera Clostridium, Bacillus, Nocardia, Actinomyces,",
+            "Fungal",
+            "Mostly environmental- genera Acremonium, Aspergillus, Fusarium, Madurella,",
+            "Parasitic",
+            "Genera Toxoplasma, Schistosoma, Taenia, Echinococcus, Trichinella, etc."
+          ]
+        },
+        {
+          "slideIndex": 34,
+          "title": "Diseases of the musculoskeletal system",
+          "bullets": [
+            "Aplastic crisis",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Inflammation due to worm",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Hydatid cysts",
+            "Agent",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 35,
+          "title": "Diseases of the musculoskeletal system",
+          "bullets": [
+            "Muscular",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Mycetoma",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Myositis and",
+            "Agent",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 36,
+          "title": "Diseases of the musculoskeletal system",
+          "bullets": [
+            "Necrotizing fasciitis",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Osteomyelitis",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Septic arthritis",
+            "Agent",
+            "Symptoms",
+            "Treatments"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "13.5",
+      "heading": "The musculoskeletal system",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Muscles",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Muscles and bones make up the bulk of the human body mass. Here, we will briefly discuss components of the system that are frequently affected by microbial infections. Muscles are considered organs because they contain multiple tissues, including connective tissue, muscle tissue, blood vessels, and neurons. A typical skeletal muscle has a belly in the middle and tendons at the ends (Fig. 13.17). Each muscle cell is encased in a connective tissue sheath. A bundle of muscle cells, arteries, and veins is covered by fascia. Fascia also connects muscle groups to the skin and other muscle groups. Of the three categories of fasciae of a skeletal muscle, the epimysium covers the entire muscle, the perimysium covers individual bundles of muscle fibers (i.e., fascicles), and the endomysium covers individual muscle fibers (Fig. 13.17). Tendons emerge from the ends or sides of the muscle belly and attach muscles to bones. Some bacteria, including certain strains of Staphylococcus aureus, Streptococcus pyogenes, and Clostridium perfringens, produce enzymes that destroy fascia and cause severe muscular wounds. Small worms, worm eggs, and larvae can enter muscles through the bloodstream and form cysts within them. Viral infections may cause the death of neurons that innervate muscles. Muscles that lose innervation suffer from atrophy (loss of muscle mass).",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.17. Structure of muscle. Shown is a typical muscle attached to a bone through a tendon. Image: Linus Books.",
+          "page": 19,
+          "image": "/mmahp/ch13/13-17.jpg"
+        },
+        {
+          "type": "subheading",
+          "text": "Bones",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "The human body contains 206 bones. Bone tissue is formed and remodeled by three cell types: osteoblasts, osteocytes, and osteoclasts. Bone is the fibrous mass secreted and formed by these cells, and mineral deposits (mostly calcium phosphate) on the fibers. Many channels traverse bone tissue, allowing blood vessels and nerves to run through them. Bones can be classified as compact or spongy. A cross-section of a long bone reveals a rim of compact bone on the outside and spongy bone in the center surrounding and traversing a cavity filled with marrow (Fig. 13.18). Aging, hormonal changes, and infections, especially osteomyelitis, may cause osteoporosis, characterized by reduced bone density and thinning of the compact and spongy bones. If not treated, osteoporosis may lead to bone fractures, severe deformity, lack of movement, and death. Muscles are connected to bones by tendons. Two or more bones may form joints with synovium in between and ligaments (fibrous tissue) connecting the bones (Fig. 13.18). Bacteria and fungi may infect bones through dirty fractures, surgical wounds, and through the bloodstream. Worms may create cysts inside the bone tissue. Artificial joints made from metal and synthetic materials may also be a source of infection. Some bacteria, including Staphylococcus aureus, S. epidermidis, S. hemolyticus, Pseudomonas aeruginosa, Enterococcus faecalis, E. faecium, Klebsiella pneumoniae, and Cutibacterium acnes, may form biofilm on prosthetic joints. Bone infections can lead to abscesses (i.e., tissue damage and accumulation of pus), bone loss, and fractures. Bacterial infections can also activate macrophages in the area. Bone marrow is a primary lymphoid organ. All blood cells and some non-bone-marrow cells (see Chapter 9) are produced in the bone marrow and mature there (except T cells, which mature in the thymus). Although bone marrow is protected from bloodborne microbes by the bone marrow blood barrier, highly pathogenic microbes can overcome the barrier. Bone marrow infections (osteomyelitis) may allow microbial antigens to negatively select B cells and disrupt the regulation of immune responses.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "Cartilages",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Cartilages are connective tissues secreted by a single type of cell called chondroblasts. Cartilages contain a jelly- like substance known as the matrix, which is composed of hyaluronic acids and proteoglycans (proteins attached to glycosaminoglycan type polysaccharides such as hyaluronic acid, dermatan sulfate, chondroitin sulfate, heparan, heparan sulfate, keratan sulfate), and collagen and elastin fibers (Fig. 13.18). Cartilages are found at the ends of long bones, between vertebrae, and in non-movable joints. It serves as the major supportive tissue in the ear and at the tip of the nose. Cartilage can be infected by bloodborne pathogens. Activated macrophages can secrete enzymes (hyaluronidase, collagenase, and elastase) that damage the collagen and elastin fibers in cartilage.",
+          "page": 20
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.18. Bones and Cartilages. A. A long bone and a section of it showing bone lamellae, bone channels, and the",
+          "page": 20,
+          "image": "/mmahp/ch13/13-18.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "marrow cavities. Bone-forming cells (osteocytes) are present at the margins of the lamellae. B. Structure of fibrous cartilage displaying cells, matrix, and fibers. The cells are chondrocytes (relatives of fibroblasts). The matrix contains collagen, elastin fibers, and proteoglycans (proteins attached to glycosaminoglycan-type polysaccharides such as chondroitin sulfate, keratan sulfate, heparan sulfate, and hyaluronic acid). Some bacteria produce enzymes that may damage cartilage matrix and fibers.",
+          "page": 20
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 31,
+          "title": "The musculoskeletal system",
+          "bullets": [
+            "Muscles are organs",
+            "Fascia of the skeletal muscles",
+            "Epimysium",
+            "Perimysium",
+            "Endomysium",
+            "Tendons",
+            "Tenocytes",
+            "Collagen (65-80%)",
+            "Elastin (102%)",
+            "ECM",
+            "Tenons",
+            "Fasciitis and tendonitis",
+            "Muscular atrophy"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "13.4",
+      "heading": "1 The pathogens that infect the musculoskeletal system",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Viral diseases",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "B19 parvovirus (aplastic crisis); poliovirus (muscular atrophy); influenza virus A, SARS-CoV-2, and several other viruses (myositis and myalgia).",
+          "page": 20
+        },
+        {
+          "type": "subheading",
+          "text": "Bacterial diseases",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Staphylococcus aureus (cellulitis, osteomyelitis, septic arthritis, and peritonitis); Streptococcus pyogenes (cellulitis, necrotizing fasciitis, and septic arthritis); Clostridium botulinum (flaccid paralysis); Clostridium tetani (spastic paralysis); Borrelia burgdorferi and related species (arthritis and paralysis); Nocardia sp. Actinomadura madurae, Streptomyces somaliensis, and related organisms (mycetoma); Mycobacterium tuberculosis, Brucella abortus, and related species, Pseudomonas aeruginosa and related species, Burkholderia cepacia and related species, Salmonella typhi and related species, Treponema pallidum and many other bacteria (osteomyelitis); and Haemophilus influenzae and related species (septic arthritis).",
+          "page": 20
+        },
+        {
+          "type": "subheading",
+          "text": "Fungal diseases",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Acremonium falciforme, Aspergillus nidulans, Fusarium moniliforme, Madurella grisea, Pseudallescheria boydii, and many other fungi (mycetoma); Basidiobolus ranarum and Conidiobolus coronatus (zygomycosis, fungal elephantiasis of the leg); Blastomyces dermatitidis, Coccidioides immitis, C. posadasii, Histoplasma capsulatum, Paracoccidioides brasiliensis, Candida albicans and related species (osteomyelitis).",
+          "page": 20
+        },
+        {
+          "type": "subheading",
+          "text": "Parasitic diseases",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Protozoa: Toxoplasma gondii (inflammation of the muscle); flatworms: Schistosoma mansoni, S. japonicum, and S. haematobium (muscle necrosis due to granuloma around the worm eggs); Taenia solium (muscle and bone cysticercosis); Echinococcus granulosus (hydatid cysts in muscle and bone); roundworms: Genera Ancylostoma, Necator, and Strongyloides (inflammation of muscle and bone in case of superinfection); Trichinella spiralis (inflammation of muscles in case of excessive encystation).",
+          "page": 20
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 13,
+          "title": "Microbes that infect the skin",
+          "bullets": [
+            "Viruses",
+            "From person to person- B-19, HHV 1, 2, 3, etc.",
+            "Zoonotic agents Colorado tick fever virus, hantavirus, pox viruses, etc.",
+            "Arboviruses- West Nile virus, yellow fever, dengue, chikungunya virus etc.",
+            "Oncogenic viruses: HHV-8, HPV, molluscum contagiosum virus, etc.",
+            "Bacteria",
+            "From resident biota- Gnera Bacteriodes, Corynebacteria, Enterococcus,",
+            "From person to person- Genera Staphylococcus, Streptococcus, Neisseria,",
+            "From the environment- Genera Bacillus, Pseudomonas, Burkholderia,",
+            "Zoonotic- Pasteurella, Bacillus, Vibrio, Rickettsia, Francicessa, Ehrlichia,"
+          ]
+        },
+        {
+          "slideIndex": 14,
+          "title": "Microbes that infect the skin",
+          "bullets": [
+            "Fungi",
+            "From resident biota- Gneera Malassezia, Candia, Trchosporon, etc.",
+            "Zoonotic- Genera Epidermophyton, etc.",
+            "From the environment- Genera Sporothrix, Aspergillus, Coccidioides,",
+            "Algae",
+            "From environments- Genus Prototheca, etc.",
+            "Protozoa",
+            "Zoonotic- Genera Leishmania, Trypanosoma, etc."
+          ]
+        },
+        {
+          "slideIndex": 15,
+          "title": "Microbes that infect the skin",
+          "bullets": [
+            "Worms",
+            "From the environment- Genera Schistosoma, Spirometra, Dracanculus,",
+            "Zoonotic- Genera Onchocerca, etc.",
+            "Other microbes",
+            "Insects- Genera Sarcoptes, Dermatobia, etc."
+          ]
+        }
+      ]
+    },
+    {
+      "number": "13.4.2",
+      "heading": "Diseases of the musculoskeletal system due to infections",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Aplastic crisis",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "This condition can be triggered by parvovirus B19 infection in children, particularly those with sickle cell disease and hemolytic anemia. The disease involves severely low erythrocyte counts (due to low production of the cells in the bone marrow), and low hemoglobin levels. The patients may have high fever, rapid heart rate, and high fatigue. Treatment includes blood transfusion, anti-parvovirus B19 antiserum therapy, rest, and other supportive activities. Inflammation due to worms and their cysts When a Trichinella larva emerges from the ingested uncooked/undercooked meat in the stomach, it penetrates the stomach wall to enter the bloodstream. The larvae then enter the muscle, and each larva encysts within a single muscle cell as the cell changes into a nurse cell. As many as 1-3,000 Trichinella larvae can be encysted per gram of muscle (accounting for about 0-0.3% of the muscle mass by wet weight). Initial inflammatory responses are felt when the larvae penetrate the stomach wall (diarrhea, abdominal pain, nausea, etc.). More severe inflammation, indicated by the swelling of the eyelids, muscle pains, including myocarditis, headache, and rashes) ensues when the larvae enter skeletal and cardiac muscle, the brain, and other organs (the larvae can encyst only in the muscle cells). If left untreated, the worms remain encysted until the individual's death (Fig. 13.19), allowing them to complete their life cycle in a carnivorous animal after the animal eats the carcass. Trichinosis can be treated with albendazole or mebendazole along with steroids to reduce posttreatment inflammation. Trichinella infection does not occur through eggs (e.g., contaminated food or water). Worm cysts in the meat are the source of trichinella transmission. Proper cooking (to an internal temperature of 160 degrees F) and deep-freezing meat for weeks before consumption reduce the risk of infection. Trichinosis can be diagnosed based on patient history, elevated eosinophil count, and serological assays. Trichinosis is rare in the United States (less than 20 reported cases per year) but more common in East Asia and some Russian republics.",
+          "page": 21
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.19. Some infections of the musculoskeletal system. A. Trichinella sp. encysted in the muscle (nurse) cells.",
+          "page": 21,
+          "image": "/mmahp/ch13/13-19.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "An individual cyst is about 0.2 x 0.5 mm square. Image- Wikipedia. B. Hydatid cyst in the muscle. Shown is a contrast- enhanced magnetic resonance image of a hydatid cyst with multiple daughter cysts in the right adductor muscle. Image- Tekin R, et al. Rev Soc Bras Med Trop 2015; 48(5): https://doi.org/10.1590/0037-8682-0197-2015. C. Post- polio muscular atrophy. Shown is an Egyptian stele depicting a person with a walking stick and atrophied muscle in the right leg. Image: Wikipedia.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Cysts of the protozoan parasite Toxoplasma gondii are abundant in the muscles and brain of many people (who are exposed to ingestion of cat fecal materials) and people who eat undercooked or uncooked meat. These cysts are usually asymptomatic except in highly immunocompromised individuals, in whom the cysts may reactivate and cause inflammatory responses, including encephalitis and blindness. Diseases caused by the larvae and cysts of some other flat- and round worms are presented in Chapters 14 and 15.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Elephantiasis (See Chapter 15) Hydatid cysts Hydatid cysts can form in any solid organ, especially the liver, muscles, and bones. The cysts are slow-growing, tumor-like growths with a fluid-filled chamber in which larvae of the tapeworm Echinococcus granulosus reproduce asexually. Humans get infected by ingesting food or water contaminated with dog feces that contain the parasite’s eggs. The eggs release embryos that penetrate the digestive system, enter the blood, and finally settle in a solid organ. Small cysts show no symptoms, but as they grow larger and produce daughter cysts (Fig. 13.19), they can cause pain and other symptoms depending on the organs affected. Large cysts may rupture and release their contents, which can trigger an anaphylactic shock. The cysts can be detected by CT or X-ray imaging and treated with antiparasitic drugs (such as albendazole) or by surgical removal. The disease is rare in the United States, with fewer than 5 cases per year reported in the southern states, most of them among foreign-born individuals. Globally, about a million infections are estimated, with over 20,000 deaths annually. The disease can be prevented by avoiding contact with dogs and thoroughly cleaning fruits and vegetables intended for raw consumption, using strong antimicrobial agents (soaked in a 5 ppm sodium hypochlorite solution or 5% acetic acid for 30 minutes).",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "Muscular atrophy",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "The death of polio virus-infected motor neurons initiates muscular atrophy. The neuron's death prevents electrical signals from reaching the muscles it innervates. The surviving neurons try to regrow and establish new connections. However, in many cases, these efforts ultimately fail. The muscles initially fail to contract (show weakness) and ultimately fail and get atrophied (lose muscle mass severely) (Fig. 13.19). Fortunately, polio is a vanishing disease, expected to be eradicated by 2029, due to the WHO-coordinated vaccine campaign.",
+          "page": 22
+        },
+        {
+          "type": "subheading",
+          "text": "Mycetoma and fungal elephantiasis",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "It is a slow-growing inflammatory disease in response to bacterial (i.e., actinomycetoma) and fungal (i.e., eumycetoma) infections. Infections typically occur when the pathogens enter through skin injuries on the leg. Initially, painless nodules develop in the affected areas and can progress over months to years, involving muscles and bones (Fig. 13.20). In the bone, fungi may infect the marrow, leading to osteomyelitis. If left untreated, infections can cause painless tissue swelling, sinus drainage, deformities, and loss of function in the affected limbs. These infections are endemic in tropical and subtropical regions, where barefoot farm workers are often the victims. Although most cases occur on the feet, the hands, neck, and head can also be affected. The disease can be identified through clinical signs and PCR, but inadequately trained healthcare providers may misdiagnose it as cancer. Early diagnosis is crucial for successful treatment. Treatments include prolonged antibiotic therapy (for actinomycetoma) or antifungal (itraconazole) therapy (eumycetoma). Surgical intervention may be necessary to correct deformities.",
+          "page": 22
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.20. Some infectious diseases of the musculoskeletal system. A. Mycetoma. The foot of a 40-year-old person",
+          "page": 22,
+          "image": "/mmahp/ch13/13-20.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "with mycetoma caused by the fungus Madurella mycetomatis. Image- CDC. B. Subcutaneous zygomycosis (fungal ephentiasis). Shown is a child with bilateral rhinofacial infection caused by Conidiobolus coronatus. Image- Mendoza L. Cold Spring Harbor Persp Med. 2014; 5(4): 1-33. C. Myositis. Shown is Gottron’s papule, characteristic of dermatomyosistis of a child. Image- Wikipedia.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Fungal elephantiasis (subcutaneous zygomycosis, currently called mucormycosis) is caused by the fungi Basidiobolus ranarum and Conidiobolus coronatus. The fungi enter the body through skin injuries or insect bites. B. ranarum affects the lower body, while C. coronatus affects the nose, face, and mouth. The fungi release various enzymes that damage tissues, leading to the accumulation of eosinophils and other leukocytes, which results in the formation of large granulomas and severe disfigurement (Fig. 13.20). Untreated zygomycetes cause severe necrosis and, if left untreated, are fatal. Zygomycosis (unlike mycetoma, which may occur in healthy individuals) occurs primarily in immunocompromised individuals. Like mycetoma, zygomycosis is endemic in tropical and subtropical regions of Asia, Africa, and South America. The diseases are identified by biopsy (fungal growth on selective media). Treatment includes long-term itraconazole therapy and surgical correction of the deformed tissues. Fungi infecting human subjects generally do not secrete mycotoxins; even if they do, the toxin may affect local tissues (as in some cases of eumycetoma), it does not cause toxemia (fungal toxin circulating in the blood).",
+          "page": 22
+        },
+        {
+          "type": "subheading",
+          "text": "Myositis and myalgia",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Myositis is an inflammatory autoimmune disease triggered by infection with certain viruses (HIV, Coxsackie virus, and influenza A virus). The disease involves antibody-mediated complement activation and destruction of muscle cells (13.20). The signs of the disease include muscle weakness and red rashes on the back, face, and arms. It is detected by the presence of anti-self antibodies, high levels of the enzyme creatine kinase in the blood, and a muscle biopsy. The disease is treated with immunosuppressive drugs, including corticosteroids. Myalgia involves muscle stiffness, tenderness, and pain caused by overuse of the muscle, side effects of drugs (such as quinolones and statins), or viral infections (such as influenza or SARS-CoV-2). If an autoimmune response or drug side effect can be ruled out, myalgia can be treated with rest and pain medications.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Necrotizing fasciitis",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "This condition occurs following a systemic bacterial infection, usually in debilitated patients, including those with diabetes, kidney failure, third-degree burn, and cancer. The condition (necrosis- cell death, and fasciitis- inflammation of the fascia) is a form of gangrene caused by Staphylococcus aureus, Streptococcus pyogenes or polybacterial infections. It is commonly called a meat-eating bacterial infection because collagenase, released by the bacteria, damages fascia, causing rapid muscle degeneration. Additional enzymes, such as lipases and exotoxins, damage the plasma membrane and kill host cells. The skin becomes discolored, with numerous blisters and exposed, dead adipose tissue (Fig. 13.21). The patient shows severe signs of sepsis, including high fever, diarrhea, mottled skin, and profound hypotension. Treatment options include intravenous antibiotic therapy, surgical removal of dead tissue (amputation if necessary), blood transfusions, and other supportive therapies. The death rate is about 33% among hospitalized patients. Despite the high diabetic and elderly population, the disease is relatively rare in the USA, with about 700- 1,200 cases a year.",
+          "page": 23
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 13.21. Some infectious diseases of the musculoskeletal system. A. Necrotizing fasciitis. Shown is an affected",
+          "page": 23,
+          "image": "/mmahp/ch13/13-21.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "leg after extensive debridement (removal of dead tissue). Image- Wikipedia. B. Osteomyelitis. Shown is a computed tomography of an unhealed fractured femur with osteomyelitis and soft tissue infections caused by Mycobacterium doricum. C. Septic arthritis. Shown is an X-ray image of the pelvic girdle, showing extensive damage to the head of the femur and the joint. Image: Matt Skalski/Wikidoc.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Osteomyelitis",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Although many bacteria and a few fungi can infect bone, S. aureus is the main causative agent. Disease signs include fever, localized bone pain, redness, heat, open drainage from the affected bone, and swelling of the surrounding tissues. The infection is almost always initiated by pathogens in the blood. People with weakened immune systems, diabetics, and patients with recent trauma or surgery are more prone to the disease. The disease can be detected through patient history, X-ray (Fig. 13.21), bone scan, and bone biopsy. Treatment options include prolonged intravenous antibiotic therapy and, if necessary, surgical removal of the affected tissues. The incidence of the disease is rising in the USA, with about 2-20 cases per 100,000 people annually.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Paralysis (see Chapter 14) Septic arthritis The disease is triggered by infection of the synovial fluid of the joints by bacteria (specifically S. aureus, S. pyogenes, and N. gonorrhoeae), fungi (of the genera Candida, Sporothrix, and Coccioides), or viruses (for example, hepatitis B and C viruses, and Chikungunya virus). Infection of the joint occurs when pathogens in the blood invade the joint (Fig. 13.21). The presence of microbes in space activates macrophages to release cytokines, which attract other leukocytes to migrate in. Enzymes released by the bacteria and/or leukocytes may damage the cartilage. Symptoms include joint swelling, severe pain, inability to use the joint, and fever. Immune complexes that enter the joints may also cause symptoms. The condition is diagnosed by collecting joint fluid and measuring bacterial growth and cytokine levels. The condition is treated with intravenous antibiotic therapy and supportive therapy for pain and swelling. People with older age, osteoarthritis, previous joint surgery, diabetes, and a poor immune system are more vulnerable to the disease. Septic arthritis is relatively common in the USA (about 4-10 cases per 100,000 population, with 7-15% mortality of hospitalized patients).",
+          "page": 24
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 33,
+          "title": "Microbes that infect musculoskeletal system",
+          "bullets": [
+            "Viral",
+            "B19, Poliovirus, Influenza A, SARS-CoV",
+            "Bacterial",
+            "Person to person- genera Staphylococcus, Streptococcus, Treponema,",
+            "Zoonotic- Genera Borrelia, Briucella, etc.",
+            "Environmental- Genera Clostridium, Bacillus, Nocardia, Actinomyces,",
+            "Fungal",
+            "Mostly environmental- genera Acremonium, Aspergillus, Fusarium, Madurella,",
+            "Parasitic",
+            "Genera Toxoplasma, Schistosoma, Taenia, Echinococcus, Trichinella, etc."
+          ]
+        },
+        {
+          "slideIndex": 34,
+          "title": "Diseases of the musculoskeletal system",
+          "bullets": [
+            "Aplastic crisis",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Inflammation due to worm",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Hydatid cysts",
+            "Agent",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 35,
+          "title": "Diseases of the musculoskeletal system",
+          "bullets": [
+            "Muscular",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Mycetoma",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Myositis and",
+            "Agent",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 36,
+          "title": "Diseases of the musculoskeletal system",
+          "bullets": [
+            "Necrotizing fasciitis",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Osteomyelitis",
+            "Agent",
+            "Symptoms",
+            "Treatments",
+            "Septic arthritis",
+            "Agent",
+            "Symptoms",
+            "Treatments"
+          ]
+        }
+      ]
+    }
+  ],
+  "unmatchedSlides": [
+    {
+      "slideIndex": 12,
+      "title": "Two ways of studying clinical microbiology",
+      "bullets": [
+        "By organs- present a list of microbes that infect the organs",
+        "By microbes- present a list of organs a given microbial species infect",
+        "Both methods only give a partial and complicated picture",
+        "Most species infect multiple organs or cells but cause different disease",
+        "Multiple species may infect the same organs and tissues and causes similar",
+        "A compromise",
+        "Know the microbes, know the anatomy of the organs, then relate the microbes"
+      ]
+    }
+  ]
+}

@@ -32,7 +32,10 @@
                   "letter": "D",
                   "text": "RNA or DNA."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "A genome is nucleic acid - DNA or RNA - never lipid, carbohydrate, or protein.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q2",
@@ -55,7 +58,10 @@
                   "letter": "D",
                   "text": "The DNA or RNA contents that carry the genetic blueprint of a creature."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "The genome is the DNA or RNA content carrying the genetic blueprint; \"all nucleic acids\" is too broad (includes non-genomic RNA) and \"chromosomes in a nucleus\" excludes prokaryotes, organelles, and acellular microbes.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q3",
@@ -78,7 +84,10 @@
                   "letter": "D",
                   "text": "Transform energy."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Acellular genome creatures (viruses, etc.) cannot independently maintain homeostasis, grow, or transform energy - the one trait shared across all genome creatures, cellular or not, is that their genetic material can replicate, mutate, and evolve.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q4",
@@ -101,7 +110,10 @@
                   "letter": "D",
                   "text": "All microbes are cellular beings."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Chapter 1 frames essentially every microbe as a genome creature; prions are the deliberate, separately-flagged exception, not a reason to abandon the general rule this early question is testing.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q5",
@@ -128,7 +140,10 @@
                   "letter": "E",
                   "text": "A prion."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "A mushroom is the macroscopic, visible fruiting body of a fungus - unlike the microscopic yeasts/molds, or the \"metazoan microbes\" (worms, arthropods) this book still classifies as microbes, a mushroom itself is not treated as one.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q6",
@@ -155,7 +170,10 @@
                   "letter": "E",
                   "text": "A virus."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "A bacterium is a true cellular, living organism - a \"microorganism.\" Satellites, virusoids, viroids, and viruses are all acellular and lack independent metabolism.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -179,7 +197,10 @@
                   "letter": "C",
                   "text": "All cellular microbes evolved from acellular microbes."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Every acellular microbe is an obligate parasite of a host cell (proven, observable fact); whether acellular life evolved before or after cellular life is still a debated, unproven hypothesis.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -207,7 +228,10 @@
                   "letter": "D",
                   "text": "It has a naked capsid."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "A virion is defined functionally as the complete, independently infectious viral particle - envelope, genome type, and capsid nakedness are all just structural variants, not what makes something a virion.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q9",
@@ -230,7 +254,10 @@
                   "letter": "D",
                   "text": "It has a circular ssRNA genome."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "A satellite has its own genome AND its own capsid (just not its own replication enzymes, which is why it needs a helper virus); using the helper's capsid instead of its own is what specifically defines a virusoid, not satellites generally.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q10",
@@ -253,7 +280,10 @@
                   "letter": "D",
                   "text": "A satellite."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "A virusoid (circular RNA genome + stolen capsid) is a subtype of satellite - the type that borrows its capsid instead of encoding one.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -281,7 +311,10 @@
                   "letter": "D",
                   "text": "Viroid genomes lack genes, yet viroids do not require a helper virus to infect their host cells."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Both viroids and virusoids are non-coding RNAs, so lacking genes isn't unique to viroids - what sets viroids apart is that they replicate with zero helper virus at all, using only host enzymes.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -305,7 +338,10 @@
                   "letter": "C",
                   "text": "They do not have a capsid."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Plasmids are naked DNA/RNA with no protein coat at all, unlike viruses which always package their genome in a capsid.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q13",
@@ -328,7 +364,10 @@
                   "letter": "D",
                   "text": "Higher eukarya, such as vertebrate animals."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Plasmids are a hallmark of microbial genetics (bacteria, archaea, and even some protists/fungi) but are essentially absent from complex multicellular eukaryotes like vertebrates.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -356,7 +395,10 @@
                   "letter": "D",
                   "text": "They can move from one location in the host genome to another."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "\"Mobile DNA\" describes exactly what a transposon does - it relocates from one position in the host genome to another, rather than moving between cells or organisms.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q15",
@@ -383,7 +425,10 @@
                   "letter": "E",
                   "text": "RNA viruses, RNA satellites, and viroids."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Transposons are DNA elements; they are not found in genomes made entirely of RNA (RNA viruses, RNA satellites, viroids).",
+              "answerSource": "derived"
             }
           ]
         },
@@ -411,7 +456,10 @@
                   "letter": "D",
                   "text": "It has a very tiny RNA genome lacking genes."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "A prion is specifically an abnormal, misfolded (\"mutated\" in the sense of altered conformation) version of a normal cellular protein - just \"a protein\" (A) is too generic to define it, and prions have no genome at all (ruling out D).",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q17",
@@ -430,7 +478,10 @@
                   "letter": "C",
                   "text": "They convert normal cellular prion proteins into insoluble, abnormal prion proteins."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Prions cause disease by templating their misfolded shape onto normal cellular prion protein (PrP), converting it into more of the insoluble, abnormal form - a chain reaction, not by attacking other proteins or a genome.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -462,7 +513,10 @@
                   "letter": "E",
                   "text": "Any of these."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Viruses infect representatives of essentially every domain and kingdom of cellular life - bacteria, archaea, fungi, protozoa, plants, and animals alike.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q19",
@@ -481,7 +535,10 @@
                   "letter": "C",
                   "text": "Plasmids and viroids."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Satellites are obligately dependent on a helper virus for replication enzymes, literally exploiting it; transposons are also known to hitch inside and move via viral genomes.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -509,7 +566,10 @@
                   "letter": "D",
                   "text": "It has a nucleoid but not a karyon."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Having a nucleoid instead of a true membrane-bound nucleus (karyon) is the one defining, always-true criterion of a prokaryotic cell - unlike a cell wall (Mycoplasma lacks one) or \"many ribosomes,\" which are not strict universals.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q21",
@@ -532,7 +592,10 @@
                   "letter": "D",
                   "text": "It has transposons in its genome and can be infected by viruses and plasmids."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Housing the genome inside a membrane-bound organelle (the nucleus) is the defining eukaryotic trait - eukaryotes have a \"karyon,\" not a \"nucleoid,\" and are generally larger, not smaller, than prokaryotes.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -564,7 +627,10 @@
                   "letter": "E",
                   "text": "It is made of related Genera."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Standard taxonomic hierarchy runs Domain > Kingdom > Phylum > Class > Order > Family > Genus > Species, so a domain is made of related kingdoms.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q23",
@@ -591,7 +657,10 @@
                   "letter": "E",
                   "text": "Any of these spaces."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Prokaryotes are famously ubiquitous extremophiles and generalists, found in every environment listed - deep trenches, mountain peaks, body surfaces, deserts, permafrost, and thermal vents alike.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q24",
@@ -614,7 +683,10 @@
                   "letter": "D",
                   "text": "All archaea live in extreme environments such as acid lakes and salt flats."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Most bacterial species are not pathogenic and archaea are found on human body surfaces (e.g. gut methanogens) - but no archaeon has ever been conclusively established as a human pathogen, a genuinely notable and often-tested fact.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -642,7 +714,10 @@
                   "letter": "D",
                   "text": "Algae."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "The book's term \"metazoan microbes\" (multicellular animal-type organisms still studied in microbiology) specifically covers worms and arthropods.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -670,7 +745,10 @@
                   "letter": "D",
                   "text": "One that lives in freshwater, mud, and moist soil."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "An alga that has lost its chloroplasts and photosynthetic ability must get nutrients some other way, pushing it toward a heterotrophic, parasitic lifestyle - exactly the pattern seen in Prototheca, the one algal genus with genuine animal pathogens.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -702,7 +780,10 @@
                   "letter": "E",
                   "text": "It is a single-celled organism."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Yeast is defined by its unicellular growth form; the thread-like multicellular form (D) describes mold, not yeast.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -730,7 +811,10 @@
                   "letter": "D",
                   "text": "All protozoa infect other animals."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Protozoa are called \"tiny animals\" because, like animal cells, they lack a cell wall and can actively ingest solid food particles (phagocytosis) - not because of size, habitat, or pathogenicity.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -758,7 +842,10 @@
                   "letter": "D",
                   "text": "It is a colony of cells that recycle soil nutrients."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "A lichen is the textbook symbiosis of a fungus with a photosynthetic partner - an alga or a cyanobacterium.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -786,7 +873,10 @@
                   "letter": "D",
                   "text": "They are all parasitic."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Flatworms are acoelomate and nematodes are pseudocoelomate - \"lacking a body cavity or having only a false one\" is broadly true of the worm groups covered here, unlike the other options which are simply false (not all worms are parasitic, and worms are animals, not Protists).",
+              "answerSource": "derived"
             }
           ]
         },
@@ -814,7 +904,10 @@
                   "letter": "D",
                   "text": "It is usually a spider or a crustacean."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "A \"vector\" is defined by its role in disease transmission - an organism that carries a pathogen from one host (often an animal reservoir) to another, here to humans.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -838,7 +931,10 @@
                   "letter": "C",
                   "text": "A population of male and female organisms that breeds fertile offspring."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "The classic biological species concept - a population that interbreeds and produces fertile offspring - is the natural, general definition of species, but it only applies to sexually reproducing organisms.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q33",
@@ -857,7 +953,10 @@
                   "letter": "C",
                   "text": "A group of acellular agents that infect a particular cell type and share some distinctive characteristics."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Bacteria don't reproduce sexually, so the biological species concept is useless to a pathologist; the practical definition actually applied to bacteria is a population sharing similar distinctive characteristics.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q34",
@@ -880,7 +979,10 @@
                   "letter": "D",
                   "text": "A population of a species that is genetically slightly different from another population of the same species."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "A strain is a genetically slightly different population within the same species - not a different species, not a definition of pathogenicity, and not simply \"a population.\"",
+              "answerSource": "derived"
             }
           ]
         },
@@ -908,7 +1010,10 @@
                   "letter": "D",
                   "text": "ICNB."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "The Bacteriological Code is the rulebook (and its governing body) that sets and approves species names for prokaryotes, distinct from ICZN/ICBN (animals/plants) and ICTV (viruses).",
+              "answerSource": "derived"
             }
           ]
         },
@@ -940,7 +1045,10 @@
                   "letter": "E",
                   "text": "The name can be abbreviated."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "ICTV rules do NOT allow abbreviating an official virus species name - that is reserved for informal common names like \"HSV-1\"; capitalization, spelling, and full italicization of the species name are all real ICTV rules.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q37",
@@ -963,7 +1071,10 @@
                   "letter": "D",
                   "text": "The fever blister virus may cause a latent infection of some neural ganglia."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "\"Human alphaherpesvirus 1\" is the properly formatted, italicized ICTV species name; HSV-1, \"herpes simplex virus type 1,\" and \"the fever blister virus\" are all informal common names.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -991,7 +1102,10 @@
                   "letter": "D",
                   "text": "The name should be spelled as approved by ICZN or ICBN."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "The species epithet (second word) of a binomial name is never capitalized - only the genus name's first letter is.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q39",
@@ -1014,7 +1128,10 @@
                   "letter": "D",
                   "text": "Neisseria Gonorrhoeae."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "\"Neisseria gonorrhoeae\" is the correctly formatted full binomial species name; the genus alone, the epithet alone, and a capitalized epithet are all incomplete or wrong.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q40",
@@ -1037,7 +1154,10 @@
                   "letter": "D",
                   "text": "Some strains of staphylococcus aureus secrete exotoxins."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "\"Staphylococcus aureus\" is properly capitalized (genus) and lowercase (species epithet) and used as a full binomial - the other options either give the genus alone, wrongly capitalize \"Aureus,\" or fail to capitalize the genus.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q41",
@@ -1060,7 +1180,10 @@
                   "letter": "D",
                   "text": "They are names of three different genera."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Despite sharing the species epithet \"pneumoniae\" (all three cause pneumonia), Streptococcus, Klebsiella, and Mycoplasma are three entirely different genera - the deeper, more specific insight the challenge question is testing, beyond the more trivial fact that they are also three different species.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q42",
@@ -1079,7 +1202,10 @@
                   "letter": "C",
                   "text": "The isolate has not yet been fully characterized."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "A bare alphanumeric code like this is a placeholder isolate designation used before a microbe has been fully characterized and assigned a formal name.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -1103,7 +1229,10 @@
                   "letter": "C",
                   "text": "(a) Family/ (b) Genus"
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "In this book's simplified framework, Family is the highest formal rank used for virus classification, while Genus is in practice the highest rank actually assigned to most classified viruses.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q44",
@@ -1126,7 +1255,10 @@
                   "letter": "D",
                   "text": "All the ancestral groups of existing organisms are extinct."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Phylogenetic classification rests on the assumption that all lower taxa nested within a higher taxon share a common ancestor - the core premise of tree-based, evolutionary classification.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -1154,7 +1286,10 @@
                   "letter": "D",
                   "text": "People of antiquity never used, visualized, or described any microbes."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Ancient peoples couldn't see or describe microbes without microscopes, but they did cultivate and exploit them unknowingly - fermenting bread, beer, wine, and cheese using yeasts and bacteria.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -1186,7 +1321,10 @@
                   "letter": "E",
                   "text": "James Watson and Francis Crick."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "This is the classic Miller-Urey experiment (1952), sparking a gas mixture of H2, NH3, CH4, and H2O to synthesize amino acids.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q47",
@@ -1213,7 +1351,10 @@
                   "letter": "E",
                   "text": "Lipid vesicles/liposomes were formed from fatty acids."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "The five stages run: (1) small inorganic molecules exist naturally, (2) small organic compounds (amino/fatty acids) form, (3) macromolecules like DNA and RNA are synthesized, (4) lipid vesicles form from fatty acids, (5) protocells form from DNA/RNA plus lipid micelles - making macromolecule synthesis the third stage.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -1241,7 +1382,10 @@
                   "letter": "D",
                   "text": "making and testing hypotheses"
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Making and testing hypotheses is the hallmark of the modern scientific method, not the older philosophical/descriptive approach of inquiring, reasoning, debating, and theorizing.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q49",
@@ -1260,7 +1404,10 @@
                   "letter": "C",
                   "text": "Observing and collecting data to understand the underlying principles without manipulating the study materials."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "The descriptive method is observation and data collection to understand underlying patterns without manipulating the study material - as opposed to the scientific method's active hypothesis testing.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q50",
@@ -1283,7 +1430,10 @@
                   "letter": "D",
                   "text": "A mouse can be generated in a pile of garbage."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Spontaneous generation is literally the pre-scientific belief that living things (like a mouse) can arise directly from non-living matter (like a pile of garbage) - the opposite of biogenesis, which the cell theory (option A) and C both actually refute.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -1311,7 +1461,10 @@
                   "letter": "D",
                   "text": "Women who deliver babies at home are healthier than those who deliver babies in hospitals."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Before testing, and without the modern language of germ theory, Semmelweis's working hypothesis was that something in the hospital environment - \"more germs\" in modern terms - was the source of the excess puerperal fever, a precursor to his eventual conclusion about doctors carrying it from patient to patient.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q52",
@@ -1334,7 +1487,10 @@
                   "letter": "D",
                   "text": "The number of women who had not suffered from puerperal fever after assisted childbirth."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "In his hand-washing experiment, the intervention was doctors washing their hands; \"not washing hands\" was the pre-existing standard practice serving as the baseline/control against which the effect of hand-washing was measured.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -1362,7 +1518,10 @@
                   "letter": "D",
                   "text": "Types of frames used in the construction."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Leeuwenhoek's microscopes had a mechanism for adjusting the distance between lens and specimen to bring it into sharp focus at extreme magnification; eyeglasses are simple, fixed-focus corrective lenses with no such mechanism.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q54",
@@ -1385,7 +1544,10 @@
                   "letter": "D",
                   "text": "Yeast causes wine souring."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Pasteur demonstrated that certain microbes (he coined the terms aerobic/anaerobic) can grow without oxygen - the pebrine agent is actually a protozoan/microsporidian, not a bacterium, and it was yeast that caused fermentation while separate contaminating bacteria, not yeast, caused wine souring.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q55",
@@ -1408,7 +1570,10 @@
                   "letter": "D",
                   "text": "The process concentrated alcohol and reduced the acids in the vat."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Heating the grape juice before fermentation killed the contaminating spoilage bacteria responsible for souring, while a controlled yeast culture was still used afterward to carry out the desired alcoholic fermentation.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q56",
@@ -1431,7 +1596,10 @@
                   "letter": "D",
                   "text": "All microbe species (including the test microbe) affecting the test animal should be isolated in pure cultures."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Koch's fourth postulate requires re-isolating the SAME test microbe from the experimentally infected animal, not isolating every microbe species present in that animal.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q57",
@@ -1454,7 +1622,10 @@
                   "letter": "D",
                   "text": "Because he used semi-solid culture media to grow microbes."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Pasteur worked primarily with liquid broth cultures, which mix multiple microbial species together and make it essentially impossible to reliably isolate a single, pure causative organism - the technical gap that Koch's solid-media pure-culture technique later closed.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q58",
@@ -1481,7 +1652,10 @@
                   "letter": "E",
                   "text": "Reporting that the bacterium Bacillus anthracis produces highly stable endospores."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "The bacteria-removing porcelain filter is credited to Charles Chamberland, a colleague of Pasteur's - not Koch, whose real contributions include identifying M. tuberculosis, describing B. anthracis endospores, and advancing sterilization and water-safety practices.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -1509,7 +1683,10 @@
                   "letter": "D",
                   "text": "1850-1914/DNA"
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "The Second Golden Age of microbiology (roughly 1940-1970, the post-WWII era) is marked by advances like the electron microscope, coming after the first \"classic bacteriology\" golden age and before the post-genomic era.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q60",
@@ -1536,7 +1713,10 @@
                   "letter": "E",
                   "text": "Metchnikoff: Macrophages kill bacteria."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Discovering filterable infectious agents (viruses, via tobacco mosaic virus) is credited to Ivanovsky and Beijerinck, not Jules Bordet, who is instead known for discovering the complement system and Bordetella pertussis.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q61",
@@ -1563,7 +1743,10 @@
                   "letter": "E",
                   "text": "Rosalind Franklin and Maurice Wilkins (1950s)."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Avery, MacLeod, and McCarty (1944) were the first to experimentally show that DNA, not protein, is the transforming/hereditary material in bacteria - years before Hershey-Chase confirmed it further, and well before Watson/Crick/Franklin worked out DNA's structure.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q62",
@@ -1586,7 +1769,10 @@
                   "letter": "D",
                   "text": "1970-present."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "The post-genomic golden age of microbiology runs from about 1970 to the present, driven by molecular biology and genome sequencing.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -1618,7 +1804,10 @@
                   "letter": "E",
                   "text": "Biological information flow."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "\"Biological information flow\" is the ASM curriculum area covering the central dogma - genomes, genes, gene expression, and its regulation.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q64",
@@ -1641,7 +1830,10 @@
                   "letter": "D",
                   "text": "The rapid growth of the human population."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Microbiology's biggest historical win - crushing infectious-disease mortality - is also, paradoxically, a root driver of the rapid human population growth now straining every other resource, making it the \"unusual\" contribution among these choices.",
+              "answerSource": "derived"
             },
             {
               "id": "ch1-q65",
@@ -1668,7 +1860,10 @@
                   "letter": "E",
                   "text": "Over-exploitation of renewable resources."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Microbial pathogens (like the amphibian chytrid fungus and bat white-nose syndrome fungus) are among the most directly documented drivers of modern biodiversity loss.",
+              "answerSource": "derived"
             }
           ]
         }
@@ -1702,7 +1897,10 @@
                   "letter": "D",
                   "text": "1.25 cm"
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "1 m ≈ 1.09 yd = 39.24 in, so 100 cm / 39.24 in ≈ 2.55 cm per inch.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q2",
@@ -1725,7 +1923,10 @@
                   "letter": "D",
                   "text": "54 mg"
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "0.5 g gross tablet has 325 mg active drug, so 100 mg active drug scales to 500 × (100/325) ≈ 154 mg gross weight.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q3",
@@ -1752,7 +1953,10 @@
                   "letter": "E",
                   "text": "1.4 mg Light Microscopes (LMs)"
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "120 mg/dL = 120 mg per 100 mL, so 2 mL contains 120 × (2/100) = 2.4 mg of sugar.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q4",
@@ -1779,7 +1983,10 @@
                   "letter": "E",
                   "text": "The eye, or a camera."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Light in a brightfield LM travels: diaphragm, then condenser lens, then the specimen, then objective lens, then ocular lens, then the eye - making the condenser lens second.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q5",
@@ -1802,7 +2009,10 @@
                   "letter": "D",
                   "text": "500 nm/ multiple glass lenses are used as the ocular and objective lenses"
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Glass-lens light microscopes resolve to about 200 nm because that is roughly the diffraction limit set by the 400-700 nm wavelength range of visible light.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q6",
@@ -1821,7 +2031,10 @@
                   "letter": "C",
                   "text": "The wavelength of visible light is 400-700 nm."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Staining solves the problem that glass lenses and unstained biological specimens are both essentially transparent and colorless, giving almost no contrast.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q7",
@@ -1844,7 +2057,10 @@
                   "letter": "D",
                   "text": "to maximize the amount of light emerging from the specimen to enter the objective lens"
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Immersion oil matches the refractive index of glass, preventing light from bending away at the specimen-air-lens boundary and instead maximizing the light collected by a high-power objective.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q8",
@@ -1867,7 +2083,10 @@
                   "letter": "D",
                   "text": "The lens is thin."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Lens power is inversely related to focal length - the shorter the focal length, the higher the magnifying power.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q9",
@@ -1890,7 +2109,10 @@
                   "letter": "D",
                   "text": "50x"
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Magnification = image size / actual size = 1.5 mm / 0.003 mm (3 micrometers) = 500x.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q10",
@@ -1913,7 +2135,10 @@
                   "letter": "D",
                   "text": "500 micrometers."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Total magnification = 50x × 10x = 500x; 0.5 micrometers × 500 = 250 micrometers.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q11",
@@ -1936,7 +2161,10 @@
                   "letter": "D",
                   "text": "240 nm Contrast-enhancing light microscopes (LMs)"
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "6 mm = 6,000,000 nm; divided by the 50,000x magnification gives an actual diameter of 120 nm.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q12",
@@ -1959,7 +2187,10 @@
                   "letter": "D",
                   "text": "Make a smear of the diluted semen on a glass slide, stain with hematoxylin, and examine under a differential interference contrast microscope."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Assessing motility requires observing live, unstained cells - staining or fixing (as in the other three options) kills the cells - and dark-field microscopy is specifically suited to giving unstained live specimens like sperm strong contrast.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q13",
@@ -1986,7 +2217,10 @@
                   "letter": "E",
                   "text": "The image it creates appears on a dark background."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "A differential interference contrast (DIC) microscope is defined by its use of polarized light split through prisms to generate contrast from subtle optical path differences.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2014,7 +2248,10 @@
                   "letter": "D",
                   "text": "Both these microscopes require the specimen to be stained with a fluorochrome."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "The one thing a simple fluorescence microscope and a confocal microscope both require is that the specimen be stained with a fluorochrome, which absorbs light at one wavelength and re-emits (\"glows\") at a longer one.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q15",
@@ -2041,7 +2278,10 @@
                   "letter": "E",
                   "text": "The final image of the specimen must be assembled using computer software."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "A major advantage of confocal microscopy is that it CAN be used to examine live cells, unlike electron microscopy - making the claim that it cannot the false statement here.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2069,7 +2309,10 @@
                   "letter": "D",
                   "text": "EMs create images of specimens on a fluorescent screen or using computer software."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Resolution is fundamentally limited by the wavelength used for imaging, and an electron beam's wavelength (0.004-0.012 nm) is thousands of times shorter than visible light's, which is the core physical reason for EM's vastly superior resolution.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q17",
@@ -2096,7 +2339,10 @@
                   "letter": "E",
                   "text": "The images created are always black-and-white."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "SEM specimens must be fixed and coated with a thin layer of metal (e.g. gold-palladium) to make the surface conductive for scanning, while TEM instead requires ultrathin sectioning and heavy-metal staining for electron transmission - the other listed traits (electron beam, metal grids, solenoid lenses, grayscale images) are shared by both.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q18",
@@ -2115,7 +2361,10 @@
                   "letter": "C",
                   "text": "A TEM, or an SEM."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Electrons passing through a thin specimen, with some scattered by heavy-metal stain, is the classic transmission-based image formation of a TEM.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q19",
@@ -2138,7 +2387,10 @@
                   "letter": "D",
                   "text": "A SEM."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "A standard TEM image is a 2-D transmission projection through an ultrathin slice - not inherently 3-D like confocal z-stacks, DIC's relief effect, or SEM's surface topography.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2166,7 +2418,10 @@
                   "letter": "D",
                   "text": "The basal body."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "The basal body houses the rotary motor complex driven by the proton motive force, which is what actually powers flagellar rotation.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q21",
@@ -2185,7 +2440,10 @@
                   "letter": "C",
                   "text": "It is tumbling."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Counterclockwise rotation of the flagellar motor bundles the flagella together for smooth forward swimming (a \"run\"); clockwise rotation causes them to fly apart into a tumble.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q22",
@@ -2212,7 +2470,10 @@
                   "letter": "E",
                   "text": "Lophotrichous."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "A single polar (monotrichous) flagellum rotating like a propeller drives the cell forward in a corkscrew-like spinning motion.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2240,7 +2501,10 @@
                   "letter": "D",
                   "text": "Bacterial nanowire."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Bacterial nanowires are literally the structure certain bacteria (like Geobacter) use for extracellular electron transport.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q24",
@@ -2267,7 +2531,10 @@
                   "letter": "E",
                   "text": "Bacterial nanowire."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Sex pili form the mating bridge that allows DNA transfer between bacteria during conjugation.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q25",
@@ -2290,7 +2557,10 @@
                   "letter": "D",
                   "text": "Spreading Factors Bacterial structure: Glycocalyx (slime, capsule, biofilm, etc.)"
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Structures like flagella, pili, and glycocalyx that contribute to a pathogen's ability to cause disease are collectively called virulence factors.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q26",
@@ -2317,7 +2587,10 @@
                   "letter": "E",
                   "text": "It is tightly attached to the cells."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "A biofilm is a structured, often multi-species community shared by many members of a bacterial population, distinguishing it from an individual cell's own loosely- or tightly-bound capsule/slime layer.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q27",
@@ -2344,7 +2617,10 @@
                   "letter": "E",
                   "text": "Settling on live tissues more efficiently than inanimate objects in the body."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Biofilms protect against desiccation, harmful chemicals, and predation, and help bacteria adhere to surfaces - but there is no established rule that they settle more efficiently on living tissue than on inanimate objects (biofilms famously colonize catheters and pipes just as readily).",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2372,7 +2648,10 @@
                   "letter": "D",
                   "text": "Peptide chains and cross-linking chains."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "The peptide cross-linking chains of peptidoglycan are made entirely of amino acids; murein, NAG, and NAM all include sugar components.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q29",
@@ -2395,7 +2674,10 @@
                   "letter": "D",
                   "text": "Mycoplasma pneumoniae, a G(-) shapeless bacterium."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Gram-negative bacteria like E. coli have a thin peptidoglycan layer tucked into the periplasmic space between the inner (plasma) membrane and the outer membrane.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2427,7 +2709,10 @@
                   "letter": "E",
                   "text": "Proteins, including receptors and transport proteins."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "True sterols with a hydrocarbon tail are largely a eukaryotic membrane feature; most bacteria instead use hopanoids as a functional substitute (Mycoplasma, which incorporates host sterols, is the well-known exception).",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q31",
@@ -2450,7 +2735,10 @@
                   "letter": "D",
                   "text": "actino-/ G(+)"
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Gram-negative bacteria have two membranes (inner and outer); Actinobacteria effectively have two wall-like layers (peptidoglycan plus an outer mycolic acid layer).",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q32",
@@ -2473,7 +2761,10 @@
                   "letter": "D",
                   "text": "Outer leaf of the outer membrane (envelope)."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Lipopolysaccharide (LPS) is found exclusively in the outer leaflet of the outer membrane, facing the external environment - the defining feature of the Gram-negative envelope.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2501,7 +2792,10 @@
                   "letter": "D",
                   "text": "They are toxic because they bind receptors and activate macrophages."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Endotoxin (LPS) is toxic because it binds receptors like TLR4 on macrophages and triggers an overwhelming inflammatory cytokine response - it is not itself a directly cytotoxic protein, and it is released mainly on cell lysis, not actively secreted by live cells.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q34",
@@ -2520,7 +2814,10 @@
                   "letter": "C",
                   "text": "They are easier to treat with antibiotics."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "The waxy, hydrophobic mycolic acid layer makes these bacteria notoriously difficult to stain by ordinary methods, requiring specialized acid-fast staining - and far from being nonpathogenic or easy to treat, mycolic-acid bacteria like Mycobacterium are classic hard-to-treat pathogens.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q35",
@@ -2543,7 +2840,10 @@
                   "letter": "D",
                   "text": "They are made of proteins."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Exotoxins are, by definition, secreted protein toxins - not structural cell-wall/membrane components and not made of lipids or polysaccharides (that describes endotoxin).",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2571,7 +2871,10 @@
                   "letter": "D",
                   "text": "Volutin granules- stored phosphate particles."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Gas vesicles (\"air bubbles\") are enclosed by a rigid protein shell, not a lipid membrane, so calling them \"membrane-bound\" is the incorrect description among these inclusion bodies.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2599,7 +2902,10 @@
                   "letter": "D",
                   "text": "50S and 70S"
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "The bacterial 70S ribosome is literally assembled from two subunits, the 30S and the 50S.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q38",
@@ -2626,7 +2932,10 @@
                   "letter": "E",
                   "text": "Chlorosomes of the green photosynthetic bacteria."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Magnetosomes are genuinely enclosed by a lipid membrane, making them true membrane-bound organelles - unlike the nucleoid (never membrane-bound, the defining trait of prokaryotes) or chlorosomes (enclosed by a protein monolayer, not a true membrane).",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2654,7 +2963,10 @@
                   "letter": "D",
                   "text": "It is a dormant cell that does not absorb nutrients; it does not divide, but it germinates to create a bacterium."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "An endospore is a dormant cell whose purpose is survival through a harsh environment, not reproduction - one vegetative cell forms exactly one endospore, so cell number never increases.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2682,7 +2994,10 @@
                   "letter": "D",
                   "text": "The length of bacterial genomic DNA is shorter than the length of the bacterial nucleoid."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Because bacteria lack a nuclear envelope, both DNA replication and RNA transcription occur directly within the nucleoid region - a distinctive fact worth testing beyond the more basic observation that the nucleoid simply contains dsDNA.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2714,7 +3029,10 @@
                   "letter": "E",
                   "text": "Spirochete."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Spirochetes are classically described as very thin, long, and flexible with many helical turns/curvatures - distinct from the rigid, fewer-curved spirillum.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q42",
@@ -2741,7 +3059,10 @@
                   "letter": "E",
                   "text": "diplococci and streptobacilli Eukaryotic cell structure"
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Cocci and coccobacilli look very similar under the microscope (short rods can easily be mistaken for spheres), a classic source of confusion for beginners.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q43",
@@ -2764,7 +3085,10 @@
                   "letter": "D",
                   "text": "About 10,000."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Volume scales with the cube of the radius: (10 µm / 1 µm)^3 = 1000, so about 1,000 of the smaller bacterial cells fit by volume inside the larger eukaryotic cell.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2792,7 +3116,10 @@
                   "letter": "D",
                   "text": "The function of the structures."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Bacterial and eukaryotic flagella are built from completely different proteins and powered by completely different energy sources (proton motive force vs. ATP) - the one thing they genuinely share is their function, providing motility.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q45",
@@ -2815,7 +3142,10 @@
                   "letter": "D",
                   "text": "To catch microbes."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "The cilia lining the trachea and bronchi drive the mucociliary escalator, sweeping mucus, trapped debris, and microbes up and out of the airway.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2839,7 +3169,10 @@
                   "letter": "C",
                   "text": "It is buried under the plasma membrane."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Eukaryotic cell walls are chemically diverse across lineages - polysaccharides, proteins, silicates (diatoms), carbonates, and more - unlike the uniform peptidoglycan-plus-crosslinking-peptide structure of a bacterial wall, and the wall sits outside, not under, the plasma membrane.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q47",
@@ -2862,7 +3195,10 @@
                   "letter": "D",
                   "text": "By the presence or absence of proteins in the plasma membrane."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Without chloroplasts to use as a visual cue, fungal (chitin) and algal (cellulose) cell walls are distinguished by their different polysaccharide chemistry, since both are eukaryotic (both have a nucleus) and cell size is unreliable.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q48",
@@ -2889,7 +3225,10 @@
                   "letter": "E",
                   "text": "A red blood cell (erythrocyte) of a person."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Cells with rigid walls (fungal, algal, bacterial) resist bursting in a hypotonic solution despite water influx; a red blood cell has no cell wall at all, so unchecked osmotic swelling in fresh water causes it to lyse.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2913,7 +3252,10 @@
                   "letter": "C",
                   "text": "keratin and vimentin/ lamins and neurofilament"
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Microfilaments are built from alpha and beta actin, and intermediate filaments from proteins like keratin and vimentin - not tubulin, which instead makes up microtubules.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q50",
@@ -2932,7 +3274,10 @@
                   "letter": "C",
                   "text": "Maintaining the shape of the cell."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Actin-based microfilaments drive cytoplasmic streaming and the movement of small molecules and cytoplasm within the cell; moving large organelles and chromosomes is a microtubule job.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -2960,7 +3305,10 @@
                   "letter": "E",
                   "text": "Central vacuole: Storage and waste disposal."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Lipid synthesis is the job of the smooth ER, not the rough ER, whose defining feature (ribosome-studded) is protein synthesis and processing.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q52",
@@ -2979,7 +3327,10 @@
                   "letter": "C",
                   "text": "pinocytosis Eukaryotic cell: The Nucleus and the genome"
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Phagocytosis - engulfing a particle like a bacterium into a membrane-bound vesicle - is a specific form of endocytosis (bringing material into the cell).",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q53",
@@ -3002,7 +3353,10 @@
                   "letter": "D",
                   "text": "A nucleus is found in eukaryotic cells all the time."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "The nucleus is not present in every eukaryotic cell \"all the time\" - mature mammalian red blood cells are enucleated, and the nuclear envelope itself breaks down during mitosis in many cell types.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q54",
@@ -3025,7 +3379,10 @@
                   "letter": "D",
                   "text": "Small DNA molecules in the cytoplasm of some cells."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Chromatin is, by definition, DNA wound around histone proteins to form nucleosomes and the higher-order 11 nm and 30 nm fibers - not simply any folded DNA, and not sister chromatids joined by cohesins.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -3053,7 +3410,10 @@
                   "letter": "D",
                   "text": "They have an endoplasmic membrane like eukaryotic cells."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "A short, circular dsDNA genome is the hallmark bacterial genome architecture, and finding exactly that inside mitochondria and chloroplasts is the strongest structural evidence tying them to a bacterial (endosymbiotic) origin.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q56",
@@ -3080,7 +3440,10 @@
                   "letter": "E",
                   "text": "It most likely evolved from photosynthetic bacteria."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Mitochondria most likely evolved from an aerobic bacterium capable of oxidative phosphorylation, while chloroplasts evolved from a photosynthetic bacterium (cyanobacterium) - both organelles can make ATP, so that alone doesn't distinguish them.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q57",
@@ -3103,7 +3466,10 @@
                   "letter": "D",
                   "text": "An aerobic bacterium (capable of using oxygen for ATP synthesis) invaded the ancestral eukaryotic cell."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Because mitochondria are found in essentially all eukaryotes while chloroplasts are limited to photosynthetic lineages, the aerobic bacterium (future mitochondrion) must have been acquired first; the photosynthetic bacterium (future chloroplast) entered a cell that already had that endosymbiont, making it the last event.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q58",
@@ -3130,7 +3496,10 @@
                   "letter": "E",
                   "text": "For all these reasons."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Wolbachia in Wuchereria satisfies every one of these organelle-like criteria simultaneously - obligate for host survival, nutrient-providing, unable to survive outside the host, and permanently intracellular - which together, not any single trait alone, is what justifies calling it an organelle.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -3150,7 +3519,10 @@
                   "letter": "B",
                   "text": "How: Make a smear on a slide using formaldehyde and air-dry; why: To make sure the shape of the cell remains intact during staining."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "The standard heat-fixation method - smear, air-dry, briefly pass through a flame - adheres cells to the slide so they aren't washed away during the staining steps that follow.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q60",
@@ -3173,7 +3545,10 @@
                   "letter": "D",
                   "text": "Cut the sample into thin slices using a microtome."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Standard tissue processing runs: fix in formaldehyde, dehydrate, embed in wax or epoxy, then section with a microtome - making embedding the third step.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q61",
@@ -3200,7 +3575,10 @@
                   "letter": "E",
                   "text": "Giemsa is an acidic dye."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Safranin's chromophore is positively charged and binds negatively charged cellular components - crystal violet is likewise positively charged (not negative), eosin is an acidic (not basic) dye, carbol fuchsin is a basic (not neutral) dye, and Giemsa is a mixed acidic/basic dye, not purely acidic.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q62",
@@ -3227,7 +3605,10 @@
                   "letter": "E",
                   "text": "Mycoplasma pneumoniae, a bacterium lacking a cell wall."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Without the safranin counterstain, only Gram-positive bacteria - which retain the crystal violet-iodine complex through decolorization - remain visible; Gram-negative bacteria are decolorized and invisible without the pink counterstain, and Mycoplasma and the very thin Treponema aren't reliably seen this way regardless.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q63",
@@ -3250,7 +3631,10 @@
                   "letter": "D",
                   "text": "Negative staining of bacterial capsule using India ink and simple staining with safranin."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Both acid-fast staining and the Schaffer-Fulton endospore stain require heating (steaming) the specimen for several minutes to drive the primary stain through, respectively, the waxy mycolic acid coat or the tough endospore coat; Leifson flagella stain and India ink capsule stain are both done at room temperature.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q64",
@@ -3273,7 +3657,10 @@
                   "letter": "D",
                   "text": "Protozoa- fixed and stained with hematoxylin."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Calcofluor white is a fluorochrome that only becomes visible under a fluorescence/UV microscope - it is useless on a simple brightfield LM, unlike the other unstained or conventionally-stained wet mounts listed.",
+              "answerSource": "derived"
             },
             {
               "id": "ch2-q65",
@@ -3296,7 +3683,10 @@
                   "letter": "D",
                   "text": "Viruses are soluble in water; they cannot be harvested for microscopic examination."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Virus particles (roughly 20-300 nm) fall well below the ~200 nm resolution limit of light microscopy, so LMs simply cannot resolve them as distinct structures - not a staining or cellularity issue.",
+              "answerSource": "derived"
             }
           ]
         }
@@ -3326,7 +3716,10 @@
                   "letter": "C",
                   "text": "The structure and physiologic abilities of organisms."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Phylogenetic classification is based on genetic/molecular sequence data (a single gene or a whole genome); structure and physiology are phenotypic traits used in the older, separate approach of phenetic classification.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q2",
@@ -3353,7 +3746,10 @@
                   "letter": "E",
                   "text": "It can cause disease only in individuals with a compromised immune system."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "A primary (frank) pathogen is defined by its ability to cause disease in otherwise healthy, immunocompetent hosts - unlike opportunists, which only cause disease under compromised conditions.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -3385,7 +3781,10 @@
                   "letter": "E",
                   "text": "It is a naked capsid."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "A nucleocapsid is, by general definition, the protein shell that serves as a container housing the viral genome - \"made of many capsomeres\" or \"icosahedral\" describe only specific capsid shapes, not the general nucleocapsid concept.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q4",
@@ -3412,7 +3811,10 @@
                   "letter": "E",
                   "text": "ssRNA."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "The seven Baltimore classes are defined by genome chemistry - strandedness, polarity, and replication strategy (dsDNA, ssDNA, dsRNA, +ssRNA, -ssRNA, and the two reverse-transcribing classes) - not by whether the genome happens to be circular or linear.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q5",
@@ -3439,7 +3841,10 @@
                   "letter": "E",
                   "text": "(-) ssRNA."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "A (+)ssRNA genome can be translated directly by host ribosomes exactly like an mRNA molecule, which is literally how Baltimore Class IV is defined.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -3471,7 +3876,10 @@
                   "letter": "E",
                   "text": "EBV."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Shingles is caused by reactivation of the same virus that causes chickenpox: HSV-3, the varicella-zoster virus.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q7",
@@ -3498,7 +3906,10 @@
                   "letter": "E",
                   "text": "HPV."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Molluscum contagiosum virus is the cancer-associated virus classified in family Poxviridae; the others belong to Adenoviridae, Herpesviridae (x2), and Papillomaviridae.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q8",
@@ -3521,7 +3932,10 @@
                   "letter": "D",
                   "text": "human parvovirus/ rotavirus"
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Human parvovirus is the classic pathogenic ssDNA virus, and rotavirus is the classic pathogenic dsRNA virus.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q9",
@@ -3548,7 +3962,10 @@
                   "letter": "E",
                   "text": "HEV."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Hepatitis B virus is uniquely a dsDNA virus that replicates through a reverse-transcriptase step, unlike the other hepatitis viruses, which are all RNA viruses.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q10",
@@ -3571,7 +3988,10 @@
                   "letter": "D",
                   "text": "WEEV."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "MERS-CoV is a coronavirus (family Coronaviridae); SLEV, WNEV, and WEEV are all encephalitis-causing flaviviruses/alphaviruses, not coronaviruses.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q11",
@@ -3598,7 +4018,10 @@
                   "letter": "E",
                   "text": "Chikungunya virus."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Chikungunya virus causes fever, joint pain (arthritis), and rash rather than hemorrhagic fever, unlike Ebola, Hantavirus, Pumala virus, and Marburg virus.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q12",
@@ -3625,7 +4048,10 @@
                   "letter": "E",
                   "text": "Rhinovirus."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Respiratory syncytial virus is literally named for causing syncytia - fused giant cells - in pediatric pneumonia.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q13",
@@ -3652,7 +4078,10 @@
                   "letter": "E",
                   "text": "Junin virus."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "California encephalitis virus belongs to genus Orthobunyavirus within family Peribunyaviridae; the others are an arenavirus and an alphavirus.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q14",
@@ -3679,7 +4108,10 @@
                   "letter": "E",
                   "text": "JEV."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "HTLV-1 (Human T-lymphotropic virus 1) is a classic ssRNA retrovirus; the others are flaviviruses or a dsDNA-RT hepadnavirus.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -3711,7 +4143,10 @@
                   "letter": "E",
                   "text": "Gardeners may unknowingly transmit plant viruses from infected plants to healthy plants."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Commonly cited estimates put global crop losses from plant viruses closer to tens of billions of dollars annually, not $100 billion - the other statements about insect-infecting plant viruses, twin-icosahedral capsids, viable virus in healthy feces, and gardener transmission are all documented facts.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q16",
@@ -3738,7 +4173,10 @@
                   "letter": "E",
                   "text": "Release of newly generated virus particles from the damaged host cell."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "The lytic cycle runs: infection, genome replication, protein synthesis, production of progeny particles (assembly), then release - making assembly of progeny particles the fourth step.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q17",
@@ -3757,7 +4195,10 @@
                   "letter": "C",
                   "text": "It makes the lysogen replicate more rapidly."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Lysogeny confers immunity to reinfection (superinfection exclusion) on the bacterial host, meaning the target bacteria become resistant to further phage killing - defeating the purpose of phage therapy.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -3789,7 +4230,10 @@
                   "letter": "E",
                   "text": "Firmicutes."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Actinobacteria (high-GC Gram-positive bacteria like Mycobacterium and Corynebacterium) are essentially uniformly Gram-positive, without the Gram-negative-like exceptions found within Firmicutes.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -3821,7 +4265,10 @@
                   "letter": "E",
                   "text": "Enterococcus faecium."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Streptococcus pyogenes is a classic primary pathogen, causing disease like strep throat and necrotizing fasciitis in healthy people, unlike the other options, which are normal-flora/opportunistic species.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q20",
@@ -3848,7 +4295,10 @@
                   "letter": "E",
                   "text": "Gordonia bronchialis."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Mycobacterium intracellulare (part of the Mycobacterium avium complex) is the textbook cause of opportunistic, TB-like disease in immunocompromised patients, especially those with AIDS.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q21",
@@ -3875,7 +4325,10 @@
                   "letter": "E",
                   "text": "Bacillus anthracis."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Listeria monocytogenes is THE classic foodborne bacteremia/sepsis pathogen, associated with contaminated deli meats, soft cheeses, and unpasteurized dairy.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q22",
@@ -3894,7 +4347,10 @@
                   "letter": "C",
                   "text": "Neisseria gonorrhoeae."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Neisseria gonorrhoeae is the organism commonly called the gonococcus.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q23",
@@ -3921,7 +4377,10 @@
                   "letter": "E",
                   "text": "Proteus mirabilis/ Salmonella enterica"
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Klebsiella pneumoniae is a well-known cause of severe pneumonia, and Yersinia pestis causes plague - both members of Enterobacteriaceae.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q24",
@@ -3948,7 +4407,10 @@
                   "letter": "E",
                   "text": "Vibrio parahaemolyticus."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Helicobacter pylori is the well-established cause of gastric cancer and peptic ulcer disease among these flagellated Gram-negative bacilli.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q25",
@@ -3975,7 +4437,10 @@
                   "letter": "E",
                   "text": "Legionella penumophila."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Bordetella pertussis causes whooping cough (pertussis).",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q26",
@@ -4002,7 +4467,10 @@
                   "letter": "E",
                   "text": "Clostridium tetani."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Clostridioides difficile is the textbook example of an opportunistic intestinal pathogen, causing severe pseudomembranous colitis specifically after normal gut flora is disrupted, usually by antibiotics.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q27",
@@ -4025,7 +4493,10 @@
                   "letter": "D",
                   "text": "Porphyromonas gingivallis."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Fusobacterium literally means \"spindle-shaped,\" and F. nucleatum is associated with surgical wound and gum infections.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q28",
@@ -4044,7 +4515,10 @@
                   "letter": "C",
                   "text": "Leptospira interrogans."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Borrelia burgdorferi is the spirochete that causes Lyme disease.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q29",
@@ -4067,7 +4541,10 @@
                   "letter": "D",
                   "text": "Chlamydophila psittaci."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Chlamydia trachomatis causes the most common bacterial sexually transmitted infection.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -4095,7 +4572,10 @@
                   "letter": "D",
                   "text": "It reproduces by sporulation."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Prototheca reproduces asexually by internal septation, producing multiple autospores within a sporangium - a process reasonably described as sporulation; its defining trait is actually the LACK of chloroplasts, not their presence.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q31",
@@ -4118,7 +4598,10 @@
                   "letter": "D",
                   "text": "It occurs only in coastal seawater."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "A harmful algal bloom is, by definition, an overgrowth of algae or cyanobacteria - typically triggered by excess nutrients and warm conditions, and it depletes rather than increases dissolved oxygen, killing fish through hypoxia; it also occurs in freshwater, not only coastal seawater.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q32",
@@ -4141,7 +4624,10 @@
                   "letter": "D",
                   "text": "aflatoxin and citrinin"
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Aflatoxin and citrinin are fungal mycotoxins; pectenotoxins, pfiesteria toxins, brevetoxin, dinophysis toxins, gonyautoxin, and okadaic acid are all algal toxins.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q33",
@@ -4164,7 +4650,10 @@
                   "letter": "D",
                   "text": "They live close to coasts affected by HAB and inhale air contaminated with algal toxins."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Filter-feeding shellfish (mussels, clams, oysters) bioaccumulate the causative toxin (saxitoxin) from HAB-affected water, and eating them is how people develop paralytic shellfish poisoning.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -4192,7 +4681,10 @@
                   "letter": "D",
                   "text": "Mycelia and mushrooms."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "\"Dimorphic\" means a fungus can exist in two forms - typically a yeast form at body temperature/in tissue and a mold form in the environment - as seen in Histoplasma, Blastomyces, and Coccidioides.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q35",
@@ -4215,7 +4707,10 @@
                   "letter": "D",
                   "text": "Peanuts, peanut butter, and oils extracted from affected crops."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Cultivated edible mushrooms and truffles are not a significant mycotoxin source for humans; mycotoxins instead come from molds contaminating cereals, nuts, fruit, and animal feed.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q36",
@@ -4238,7 +4733,10 @@
                   "letter": "D",
                   "text": "The group does not produce sexually and produces no sexual spores."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Zygomycota is named for the thick-walled zygospore it produces during sexual reproduction, formed within a ball-shaped zygosporangium.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q37",
@@ -4265,7 +4763,10 @@
                   "letter": "E",
                   "text": "None of these species."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Basidiobolus ranarum causes chronic subcutaneous zygomycosis in otherwise healthy (immunocompetent) people, especially in the tropics, unlike Mucor species, which are classic opportunists restricted to immunocompromised hosts.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q38",
@@ -4288,7 +4789,10 @@
                   "letter": "D",
                   "text": "Fusarium solani."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Aspergillus fumigatus causes opportunistic lung mycoses (aspergillosis) and belongs to a genus well known for producing mycotoxins like aflatoxin.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q39",
@@ -4315,7 +4819,10 @@
                   "letter": "E",
                   "text": "Coccidioides immitis."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Coccidioides immitis causes coccidioidomycosis, popularly known as Valley Fever.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q40",
@@ -4342,7 +4849,10 @@
                   "letter": "E",
                   "text": "Malassezia fufur."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Candida albicans causes oral thrush and is responsible for the most commonly reported fungal infections in the Western Hemisphere.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -4370,7 +4880,10 @@
                   "letter": "D",
                   "text": "Sarcodina."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Sarcodina (the amoebae) are defined by moving via pseudopodia.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q42",
@@ -4393,7 +4906,10 @@
                   "letter": "D",
                   "text": "Cysts are more vulnerable to extreme environmental factors than trophozoites."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "A protozoan cyst's defining feature is a thick, protective polysaccharide cell wall - cysts are dormant and metabolically reduced (not actively absorbing nutrients or dividing) and are specifically the environmentally RESISTANT stage, not the more vulnerable one.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q43",
@@ -4420,7 +4936,10 @@
                   "letter": "E",
                   "text": "Giardia lamblia."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Trypanosoma brucei, a flagellate (mastigophoran) protozoan, causes African sleeping sickness.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q44",
@@ -4443,7 +4962,10 @@
                   "letter": "D",
                   "text": "Naegleria fowleri."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Acanthamoeba castellanii is classically linked to contact-lens-associated keratitis and can also cause granulomatous brain infection.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q45",
@@ -4470,7 +4992,10 @@
                   "letter": "E",
                   "text": "Babesia microti."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Plasmodium falciparum, an apicomplexan protozoan, causes malaria.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q46",
@@ -4493,7 +5018,10 @@
                   "letter": "D",
                   "text": "Eneterocytozoon bienesi Pathogenic flatworms"
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Balantidium coli is the only ciliate protozoan that causes significant human disease in the United States.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q47",
@@ -4520,7 +5048,10 @@
                   "letter": "E",
                   "text": "Lack of a coelom."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "A syncytial tegument (a multinucleate covering with no individual cell membranes) is shared by the parasitic flatworms - trematodes and cestodes - but not by free-living, ciliated turbellarian flatworms, so it is not a trait of \"all flatworms.\"",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q48",
@@ -4547,7 +5078,10 @@
                   "letter": "E",
                   "text": "Getting bitten by Culex or Aedes mosquitoes."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Mosquitoes (Culex, Aedes) transmit roundworms like filarial worms, not flatworms/trematodes, which instead spread through undercooked fish, crustaceans, contaminated water vegetables, or skin penetration while wading.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q49",
@@ -4574,7 +5108,10 @@
                   "letter": "E",
                   "text": "Schistosome haematobium."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Schistosoma haematobium's urogenital tropism, beyond its well-established link to bladder cancer, extends to pelvic organs including the prostate.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q50",
@@ -4601,7 +5138,10 @@
                   "letter": "E",
                   "text": "Suckers."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Both cestodes (via the scolex) and trematodes have suckers as attachment organs - cestodes alone are segmented with proglottids and lack a gut, while trematodes retain a simple blind intestine.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q51",
@@ -4624,7 +5164,10 @@
                   "letter": "D",
                   "text": "Taenia solium."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Taenia solium, the pork tapeworm, causes cysticercosis when its larvae migrate into skin, organs, or the brain.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q52",
@@ -4647,7 +5190,10 @@
                   "letter": "D",
                   "text": "Echinococcus multilocularis."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Echinococcus multilocularis causes hydatid (alveolar hydatid) cyst disease.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -4679,7 +5225,10 @@
                   "letter": "E",
                   "text": "Lack of segmentation."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "A pseudocoelom (a body cavity not fully lined by mesoderm) is the textbook defining feature that separates nematodes from acoelomate flatworms and from true-coelomate annelids like earthworms.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q54",
@@ -4706,7 +5255,10 @@
                   "letter": "E",
                   "text": "All these"
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Contaminated produce, barefoot contact with soil, undercooked meat/fish, and mosquito bites are all real transmission routes for different specific roundworm species.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q55",
@@ -4729,7 +5281,10 @@
                   "letter": "D",
                   "text": "Abdominal cramps."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "A heavy Ascaris burden can form a mass that completely obstructs the intestine, the most commonly cited severe, potentially fatal complication of ascariasis.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q56",
@@ -4756,7 +5311,10 @@
                   "letter": "E",
                   "text": "Anisakis simplex."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Enterobius vermicularis (pinworm) causes the classic perianal itching, especially in children, as females migrate to the anus at night to lay eggs.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q57",
@@ -4779,7 +5337,10 @@
                   "letter": "D",
                   "text": "Necator americanus."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Dracunculus medinensis (Guinea worm) is transmitted via contaminated water containing infected copepods, an entirely different biology from the soil-transmitted, skin-penetrating true hookworms Ancylostoma duodenale and Necator americanus.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q58",
@@ -4806,7 +5367,10 @@
                   "letter": "E",
                   "text": "Onchocerca volvulus."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Onchocerca volvulus causes onchocerciasis, popularly known as African river blindness.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q59",
@@ -4825,7 +5389,10 @@
                   "letter": "C",
                   "text": "Dirofilaria immitis and Onchocerca volvulus."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Brugia malayi and Wuchereria bancrofti are the lymphatic filariasis worms that block lymphatic vessels and cause elephantiasis.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -4857,7 +5424,10 @@
                   "letter": "E",
                   "text": "Leiurus hebraeus (a scorpion)."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Linguatula serrata, an unusual pentastomid arthropod, can cause a lasting visceral infection (pentastomiasis) as its larvae persist in internal organs - unlike a leech's temporary feeding or the venomous, non-parasitic bites/stings of the others.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q61",
@@ -4884,7 +5454,10 @@
                   "letter": "E",
                   "text": "Tsetse fly: African river blindness."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "The tsetse fly transmits African sleeping sickness (trypanosomiasis), not river blindness - river blindness (onchocerciasis) is instead transmitted by blackflies, making this the mismatched pair.",
+              "answerSource": "derived"
             },
             {
               "id": "ch3-q62",
@@ -4911,7 +5484,10 @@
                   "letter": "E",
                   "text": "Musca domestica (a fly)"
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Dermatobia hominis, the human botfly, is the classic myiasis-causing organism, with larvae that burrow directly into skin.",
+              "answerSource": "derived"
             }
           ]
         }
@@ -4945,7 +5521,10 @@
                   "letter": "D",
                   "text": "catabolic/ metabolic/anabolic"
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Catabolic reactions release energy, anabolic reactions consume it; together both are called metabolic reactions.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q2",
@@ -4968,7 +5547,10 @@
                   "letter": "D",
                   "text": "Producing sugar from CO2 and water."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Breaking down amino acids to release energy for ATP synthesis is catabolic; the other three all build larger molecules (anabolic).",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q3",
@@ -4991,7 +5573,10 @@
                   "letter": "D",
                   "text": "Digesting RNA to nucleotides."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Synthesizing proteins from amino acids builds a larger molecule from smaller ones - anabolic. The others break bonds (catabolic).",
+              "answerSource": "derived"
             }
           ]
         },
@@ -5023,7 +5608,10 @@
                   "letter": "E",
                   "text": "It is formed because of the electrostatic attraction of delta-positive and delta-negative induction of two covalent compounds, one with a hydrogen atom."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "A covalent bond is defined by two atoms SHARING A PAIR of electrons. (B) is wrong because covalent bonds share a pair, not a single electron; (D)/(E) describe weaker non-covalent interactions.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q5",
@@ -5046,7 +5634,10 @@
                   "letter": "D",
                   "text": "Bond energy is 190 kacl/mol."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Hydrogen bonds are weak, roughly ~1-5 kcal/mol - far weaker than a covalent bond (tens of kcal/mol). 1.9 kcal/mol is the realistic order of magnitude among the choices.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q6",
@@ -5069,7 +5660,10 @@
                   "letter": "D",
                   "text": "It is chemically inert."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "A high-energy compound has one or more UNSTABLE covalent bonds that release a large amount of energy when broken (e.g. the phosphoanhydride bonds in ATP).",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q7",
@@ -5092,7 +5686,10 @@
                   "letter": "D",
                   "text": "Pyrophosphate (PO3-O-PO3)."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Pyrophosphate (PO3-O-PO3) has the unstable phosphoanhydride bond - the same type of high-energy bond found in ATP. Water and CO2 are fully stable/oxidized; ethylene’s double bond is not a \"high-energy\" biochemical bond in this sense.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -5120,7 +5717,10 @@
                   "letter": "D",
                   "text": "As sodium carbonate (Na+CO3-Na+)"
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "At physiological (near-neutral) pH, dissolved CO2 mostly exists as bicarbonate ion (HCO3-) after hydrating to carbonic acid and dissociating.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q9",
@@ -5143,7 +5743,10 @@
                   "letter": "D",
                   "text": "Inorganic compounds and polar organic compounds are hydrophobic."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Water is a polar covalent molecule, so it hydrogen-bonds/interacts readily with other polar or charged (inorganic) compounds.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q10",
@@ -5166,7 +5769,10 @@
                   "letter": "D",
                   "text": "Octane molecules interacted with one another, forming many van der Waals interactions."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Octane (a nonpolar hydrocarbon) cannot form ionic bonds with water at all - that interaction never happens. The other three interactions (water-water H-bonds, water excluding octane, octane-octane van der Waals) are exactly what causes the separation.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q11",
@@ -5189,7 +5795,10 @@
                   "letter": "D",
                   "text": "Salt from the cytoplasm will migrate out of the cell to the glass, causing the cell to shrink."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "The cell is hypertonic to the surrounding pure water, so water moves IN by osmosis - but bacteria have a rigid cell wall that resists the resulting turgor pressure, so the cell does not burst.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q12",
@@ -5212,7 +5821,10 @@
                   "letter": "D",
                   "text": "O2 à O2."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Acetic acid dissociates to release H+ (a proton) - the defining behavior of an acid. (B) releases OH- (a base); (C) is a neutral salt; (D) does not dissociate at all.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q13",
@@ -5239,7 +5851,10 @@
                   "letter": "E",
                   "text": "Saliva before morning tooth brushing (pH 5.5)."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Lowest [H+] = highest pH. Blood at pH 7.4 is the highest pH listed, so it has the fewest protons/hydronium ions.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -5271,7 +5886,10 @@
                   "letter": "E",
                   "text": "COOH"
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "COOH is the carboxylic acid functional group by definition.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q15",
@@ -5294,7 +5912,10 @@
                   "letter": "D",
                   "text": "A phosphoglycerolipid."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "A phosphoglycerolipid (phospholipid) has a hydrophobic fatty-acid tail AND a hydrophilic phosphate head group - the textbook definition of amphipathic. Triglycerides and octane have no polar head group.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q16",
@@ -5321,7 +5942,10 @@
                   "letter": "E",
                   "text": "Sedoheptulose (a heptose)"
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "A tetrose has a 4-carbon skeleton; erythrose is the tetrose in the list (glycerol=3C, ribose=5C, fructose=6C, sedoheptulose=7C).",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q17",
@@ -5344,7 +5968,10 @@
                   "letter": "D",
                   "text": "Glucose and maltose."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Free glucose by itself has no glycosidic bond (nothing is attached to it yet) - unlike maltose (paired with it here), which does have one, and unlike every item in the other three options, which all genuinely have a glycosidic-type linkage.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q18",
@@ -5367,7 +5994,10 @@
                   "letter": "D",
                   "text": "The R group."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "The -NH2 (amino) group is what makes an amino acid an amino acid - fatty acids and other organic acids have a -COOH group but no amino group.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q19",
@@ -5390,7 +6020,10 @@
                   "letter": "D",
                   "text": "Tryptophan and phenylalanine."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Arginine’s guanidino side chain effectively carries three nitrogen/amine-type groups; aspartic acid has two carboxylic acid groups (the alpha-COOH plus a side-chain COOH).",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q20",
@@ -5413,7 +6046,10 @@
                   "letter": "D",
                   "text": "C or S."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "N and O (in -OH, -COOH, -NH2, -CONH2 side chains) are what make an R group polar/charged; C and H alone are nonpolar and present in every amino acid, so they cannot be the distinguishing atoms.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q21",
@@ -5436,7 +6072,10 @@
                   "letter": "D",
                   "text": "Cytosine and cytidine."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Adenine is a purine BASE; guanosine (guanine + ribose, no phosphate) is a ribonucleoSIDE - matching \"a purine base and a ribonucleoside respectively.\" The other options pair a nucleoside with a nucleotide, not a base with a nucleoside.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q22",
@@ -5455,7 +6094,10 @@
                   "letter": "C",
                   "text": "The number of phosphate groups used in making the nucleotides."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Ribonucleotides use ribose; deoxyribonucleotides use deoxyribose (missing the 2’-OH) - the sugar is the defining difference, not the base or phosphate count.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -5483,7 +6125,10 @@
                   "letter": "D",
                   "text": "Murein."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Glycogen is the storage polysaccharide (in animals/bacteria). Cellulose, chitin, and murein (peptidoglycan) are all structural.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q24",
@@ -5502,7 +6147,10 @@
                   "letter": "C",
                   "text": "Nucleic acids and polysaccharides."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Nucleic acids (nucleotides, which include a sugar) and polysaccharides (built entirely of sugars) share sugar-based building blocks; proteins/nucleic acids and proteins/polysaccharides do not share a common monomer type.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q25",
@@ -5525,7 +6173,10 @@
                   "letter": "D",
                   "text": "It is single-stranded."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "The sequence contains U (uracil), which is unique to RNA - DNA never has uracil. A sequence with T is DNA, not RNA; being single-stranded or being a viral genome does not guarantee RNA (DNA can be either too).",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q26",
@@ -5552,7 +6203,10 @@
                   "letter": "E",
                   "text": "Some viruses have a dsRNA genome."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "Circular nucleic acid molecules (plasmids, many circular viral genomes) are closed loops with no free ends at all, so they do NOT have a 5’ and 3’ end - this statement cannot be universally correct. RNA-DNA hybrids, folded ssRNA, dsDNA genomes in all cells, and dsRNA viral genomes are all real and correct.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q27",
@@ -5575,7 +6229,10 @@
                   "letter": "D",
                   "text": "About 0.085 cm."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "249,000,000 bp × 0.34 nm/bp = 84,660,000 nm = 8.466 cm (1 cm = 10^7 nm) ≈ 8.5 cm.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q28",
@@ -5598,7 +6255,10 @@
                   "letter": "D",
                   "text": "The three-dimensional structure of two polypropylene chains folded together."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Alpha helices and beta sheets are, by definition, the SECONDARY structure of a polypeptide (sequence = primary; single folded chain = tertiary; multiple chains together = quaternary).",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q29",
@@ -5617,7 +6277,10 @@
                   "letter": "C",
                   "text": "The high temperature causes the cytoplasm to boil and the cells to burst."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "High fever denatures proteins by breaking the weak hydrogen bonds and van der Waals forces that hold secondary/tertiary structure - it does not break the strong covalent peptide bonds, and 40°C is nowhere near boiling.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -5649,7 +6312,10 @@
                   "letter": "E",
                   "text": "The reaction is endergonic."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "A negative ΔG (exergonic, energy released) means the reactants started out with MORE energy than the (lower-energy, more stable) products - the opposite of options B and D, and (E) is wrong because negative ΔG is exergonic, not endergonic.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q31",
@@ -5668,7 +6334,10 @@
                   "letter": "C",
                   "text": "P + Q à PQ, DG= -1.1 kcal/mol."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "A positive ΔG (+11 kcal/mol) means the reaction is endergonic and will not proceed spontaneously without an outside energy input (like heat). The other two have negative ΔG (exergonic, spontaneous).",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q32",
@@ -5687,7 +6356,10 @@
                   "letter": "C",
                   "text": "all endergonic and almost all exergonic reactions/ the reactants must move and collide Catalysis and the catalysts"
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Activation energy is needed for essentially all reactions (endergonic and almost all exergonic) because reactant molecules must first collide with enough energy and the right orientation to reach the transition state - it is not limited to just one thermodynamic category.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q33",
@@ -5710,7 +6382,10 @@
                   "letter": "D",
                   "text": "Catalysts increase the activation energy of chemical reactions."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "A catalyst’s defining role is lowering the activation energy of a reaction; it is not consumed, and it does participate (transiently) in the reaction mechanism.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q34",
@@ -5733,7 +6408,10 @@
                   "letter": "D",
                   "text": "RNA-protein complexes"
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Naturally occurring cellular enzymes can be proteins, RNAs (ribozymes), or RNA-protein complexes (like the ribosome) - but never DNA. DNA-based catalysts (deoxyribozymes) are lab-made, not found in nature.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q35",
@@ -5752,7 +6430,10 @@
                   "letter": "C",
                   "text": "increasing pressure and temperature within the enzyme reaction site Metabolic pathways and enzyme regulation"
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Enzymes work at existing physiological temperature and pressure - they lower activation energy through binding/orientation and inducing strain on the substrate, not by physically raising the temperature or pressure at the active site.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q36",
@@ -5779,7 +6460,10 @@
                   "letter": "E",
                   "text": "The enzymes are made of proteins, RNAs, or RNA-protein complexes; they are relatively unstable."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "That enzymes are made of proteins/RNA/RNA-protein complexes and are relatively unstable is a true fact about enzyme composition, but it does not explain WHY the cell needs MANY DIFFERENT enzymes and pathways - the other four options are all real reasons for that diversity.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q37",
@@ -5802,7 +6486,10 @@
                   "letter": "D",
                   "text": "AàBàCàD; BàEàF; EàGàH Oxidation-reduction reactions"
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "A cycle must return to its starting point: A→B→C→D→A closes the loop. The other options are linear or branching pathways, not cycles.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q38",
@@ -5825,7 +6512,10 @@
                   "letter": "D",
                   "text": "Both Ca and F reduced."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Ca goes from a neutral atom to Ca2+ (loses electrons = OXIDIZED); F goes from neutral to F- (gains an electron = REDUCED).",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q39",
@@ -5844,7 +6534,10 @@
                   "letter": "C",
                   "text": "Pyruvate Substrate-level phosphorylation"
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "NAD+ becomes NADH+H+ - it gained a hydride/electrons, so it was REDUCED. Pyruvate was oxidized (lost CO2 and electrons); CoA was neither oxidized nor reduced, just acylated.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q40",
@@ -5863,7 +6556,10 @@
                   "letter": "C",
                   "text": "ADP +PO4 à ATP"
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "GTP directly transferring its phosphate to ADP is a genuine substrate-level phosphorylation (direct donor-to-ADP transfer, as in the Krebs cycle’s succinyl-CoA step). (C) is just the generic ADP+Pi→ATP reaction common to BOTH substrate-level and oxidative phosphorylation, so it does not specifically illustrate substrate-level phosphorylation.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q41",
@@ -5886,7 +6582,10 @@
                   "letter": "D",
                   "text": "Terminal electron acceptors (O2, CO2, S, NO3-, Fe3+, etc.)."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "ETC Complexes I, III, and IV are the proton pumps that move H+ across the membrane. CoQ and cytochrome c are mobile electron carriers (they do not pump protons); F0F1 ATP synthase lets protons flow back IN, it does not pump them out.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q42",
@@ -5909,7 +6608,10 @@
                   "letter": "D",
                   "text": "A coroplast inner membrane is used instead of the inner membrane of a mitochondrion."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "A hole in the membrane would let charged ions leak through and dissipate the proton gradient (the same way a chemical uncoupler works), stopping chemiosmotic ATP synthesis. The gradient itself (protons higher outside) is the normal, working state, not something that stops it.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q43",
@@ -5928,7 +6630,10 @@
                   "letter": "C",
                   "text": "The F0 component of the F0F1 ATP synthase catalyses the reaction XPO4 + ADPà X+ ATP."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "The F1 head of F0F1 ATP synthase is the part that actually catalyzes ADP + Pi → ATP, powered by protons flowing through F0 - this is literally \"using the proton gradient.\" (A) and (C) describe substrate-level phosphorylation instead.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q44",
@@ -5947,7 +6652,10 @@
                   "letter": "C",
                   "text": "It will go to CoQ to complex I to complex II to complex III to complex IV to oxygen to F0F1 ATP synthase."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "FADH2 donates electrons directly to Complex II (never Complex I, which is NADH-specific), and from there electrons flow to CoQ, cytochrome c, Complex IV, and finally oxygen - matching (A), the only option that excludes Complex I.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -5975,7 +6683,10 @@
                   "letter": "D",
                   "text": "Lacked ETC, ATP was synthesized by glycolysis; electrons of NADH+H+ went to an organic compound."
                 }
-              ]
+              ],
+              "answer": "D",
+              "answerRationale": "By definition, cellular respiration (aerobic or anaerobic) always uses an electron transport chain. This option has NO ETC at all - ATP comes only from glycolysis (substrate-level phosphorylation) and NADH’s electrons go to an organic molecule - that is fermentation, neither aerobic nor anaerobic respiration.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q46",
@@ -5994,7 +6705,10 @@
                   "letter": "C",
                   "text": "Lactate + oxygen → acetic acid + CO2 + H2 gas."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Pyruvate + NADH+H+ → Lactate + NAD+ regenerates NAD+ without an ETC - the defining feature of fermentation. (B) runs the reaction backward (consumes NAD+, does not regenerate it) and (C) uses oxygen, which is not fermentation at all.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -6018,7 +6732,10 @@
                   "letter": "C",
                   "text": "They digest the macromolecules outside the cell, then bring the precursor molecules for ATP synthesis."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Macromolecules are too large to cross the cell membrane, so bacteria/fungi secrete exoenzymes to digest them OUTSIDE the cell first, then transport the smaller breakdown products in for ATP synthesis.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q48",
@@ -6041,7 +6758,10 @@
                   "letter": "D",
                   "text": "The Krebs cycle"
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "The pentose phosphate pathway is defined by producing ribose-5-phosphate (needed by every cell for nucleotide/nucleic acid synthesis) and NADPH.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q49",
@@ -6064,7 +6784,10 @@
                   "letter": "D",
                   "text": "The Krebs cycle"
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Among these four, the pentose phosphate pathway is the one built around generating reducing power rather than net ATP - it is the best fit for \"reducing power but no ATP\" among the listed pathways.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q50",
@@ -6091,7 +6814,10 @@
                   "letter": "E",
                   "text": "FADH2"
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "The Krebs cycle’s substrate-level phosphorylation step directly makes GTP (option C, a real direct product) - GTP is then converted to ATP by a separate enzyme (nucleoside diphosphate kinase), so ATP itself is not directly generated by the cycle.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q51",
@@ -6114,7 +6840,10 @@
                   "letter": "D",
                   "text": "6"
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "One acetyl group through the Krebs cycle + ETC yields 3 NADH (×3=9 ATP) + 1 FADH2 (×2=2 ATP) + 1 GTP (=1 ATP) = 12 ATP.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q52",
@@ -6137,7 +6866,10 @@
                   "letter": "D",
                   "text": "ATP synthesis by F0F1 ATP synthase."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "The Krebs cycle enzymes are located in the mitochondrial matrix. Glycolysis is cytoplasmic; electron transport and F0F1 ATP synthase are both on the inner mitochondrial membrane, not in the matrix.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q53",
@@ -6160,7 +6892,10 @@
                   "letter": "D",
                   "text": "Beta oxidation."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Without mitochondria or Krebs cycle enzymes, the only ATP-generating mechanism left is substrate-level phosphorylation (as in glycolysis) - oxidative phosphorylation, aerobic respiration, and beta-oxidation all require the machinery Giardia lacks.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q54",
@@ -6183,7 +6918,10 @@
                   "letter": "E",
                   "text": "28% Lipid, protein, and nucleic acid catabolism"
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "32 mol ATP × 7.3 kcal/mol = 233.6 kcal captured, out of 686 kcal available = 233.6/686 ≈ 34%.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q55",
@@ -6206,7 +6944,10 @@
                   "letter": "D",
                   "text": "Phosphate ions."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Lipase hydrolyzes the ester bonds of a triglyceride, directly releasing glycerol and (three) fatty acids - acyl-CoA, ATP/NADH, and phosphate are all later/unrelated products.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q56",
@@ -6229,7 +6970,10 @@
                   "letter": "D",
                   "text": "19 acetyl-CoAs Protein catabolism"
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Beta-oxidation removes 2 carbons at a time. An odd-numbered (19C) chain cannot divide evenly into 2-carbon units, so it ends in one 3-carbon propionyl-CoA plus eight 2-carbon acetyl-CoAs: (19-3)/2 = 8 acetyl-CoA + 1 propionyl-CoA.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q57",
@@ -6256,7 +7000,10 @@
                   "letter": "E",
                   "text": "Oxidation of the organic acid skeleton of amino acids in the Krebs cycle."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "Protein catabolism proceeds: proteases break the protein into peptides (step 1), then peptidases break peptides into free amino acids (step 2), before amino group removal, R-group processing, and finally Krebs cycle oxidation.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q58",
@@ -6283,7 +7030,10 @@
                   "letter": "E",
                   "text": "Amino acids and organic acids."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "Amino acids (and therefore proteins) contain no phosphorus in their basic structure, so phosphate is not a product of protein breakdown - CO2, ammonia, and sulfur compounds (from Cys/Met) all are.",
+              "answerSource": "derived"
             }
           ]
         },
@@ -6315,7 +7065,10 @@
                   "letter": "E",
                   "text": "Genomic DNA."
                 }
-              ]
+              ],
+              "answer": "E",
+              "answerRationale": "Genomic DNA is the cell’s permanent, protected genetic record - it is repaired, not routinely broken down and recycled for parts/energy the way carbohydrates, lipids, proteins, and especially short-lived mRNA/tRNA are.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q60",
@@ -6338,7 +7091,10 @@
                   "letter": "D",
                   "text": "kinases."
                 }
-              ]
+              ],
+              "answer": "C",
+              "answerRationale": "A nucleotidase removes the phosphate group from a nucleotide (converting it to a nucleoside) - by definition, the enzyme that \"removes PO4 groups... of a nucleotide.\"",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q61",
@@ -6361,7 +7117,10 @@
                   "letter": "D",
                   "text": "The PO4 groups."
                 }
-              ]
+              ],
+              "answer": "B",
+              "answerRationale": "The ribose/deoxyribose sugar is the part of a nucleotide that can be fed into central sugar metabolism (e.g. via the pentose phosphate pathway) for real ATP-generating catabolism - the bases, phosphates, and phosphodiester linkages do not yield comparable usable energy.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q62",
@@ -6384,7 +7143,10 @@
                   "letter": "D",
                   "text": "carbohydrates"
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "Lipids have roughly double the caloric density of protein or carbohydrate (~9 kcal/g vs ~4 kcal/g), and nucleic acids are mostly non-caloric phosphate/base content - so even at a smaller mass (8g), the lipid portion contributes the most total calories.",
+              "answerSource": "derived"
             },
             {
               "id": "ch4-q63",
@@ -6403,7 +7165,10 @@
                   "letter": "C",
                   "text": "The method is yet to be fully elucidated."
                 }
-              ]
+              ],
+              "answer": "A",
+              "answerRationale": "ATP couples to endergonic reactions by transferring its phosphate to (activating) one reactant, which then reacts with the other reactant to drive the otherwise-unfavorable reaction forward - not by releasing heat, which is not how controlled biological energy coupling works.",
+              "answerSource": "derived"
             }
           ]
         }

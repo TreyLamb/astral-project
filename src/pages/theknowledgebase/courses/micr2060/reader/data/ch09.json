@@ -1,0 +1,1951 @@
+{
+  "id": "ch09",
+  "number": 9,
+  "title": "The Immune System and Its Effectors",
+  "lead": "Immunity is the natural or acquired resistance of an organism to disease. All cells, including dying and dead cells, contribute to immunity, but the cells and organs more dedicated to immune defense constitute the immune system. The skin, mucous membranes, lymphoid organs, endothelial cells of the blood and lymphatic vessels, and bone- marrow-derived cells in the blood and tissues make up the immune system. Many cell-surface and plasma proteins are directly involved in immunity. Part of the immune system that matures in the absence of infection constitutes inborn (innate) immunity, while the parts that fully mature after infection, as an adaptation to the infection, constitute adaptive immunity. The two wings are intricately overlapped. Adaptations are adjustments to the environment through changes in gene expression patterns without genetic mutations. Both innate and adaptive immune responses adapt. For example, both wings express cytokine genes only in response to infection and tissue damage. However, the adaptive immune system of vertebrate animals preemptively and deliberately mutates genes. Thus, the adaptive immune system evolves in anticipation of infection. In this chapter, we will very briefly describe the system and then focus on the mechanisms of its actions. The structure of the skin, the mucous membrane, and the circulatory system will be discussed in more detail in Chapters 12-14. Part 1: The Immune System",
+  "openstaxEquivalent": null,
+  "sources": {
+    "chapterPdf": "9. The Immune System & Its Effectors.pdf",
+    "pptPdf": "MMAHP Ch 9 PowerPoint lecture outline.pdf"
+  },
+  "sections": [
+    {
+      "number": "9.1",
+      "heading": "The anatomical barriers",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The anatomical barriers are primarily provided by the skin and mucous membranes. The skin covers the outer surfaces of the body, while the mucous membranes cover some external surfaces (such as the eyes) and inner surfaces of the mouth, nose, respiratory system, alimentary canal, urinary bladder, urethra, uterus, and vagina. The skin and mucous membranes possess numerous antimicrobial mechanisms (Table 9.1). Underneath the skin and the mucus membrane lies a generous supply of lymphoid tissues to further boost the effectiveness of the anatomical barriers (see section 9.3) Antimicrobial peptides In recent years, several antimicrobial peptides have been identified in various animal and plant species. Below are some of the antimicrobial peptides isolated from human cells and body fluids.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Psoriasin: It is a 101-amino-acid polypeptide. This peptide is synthesized by the skin and tongue. Psoriasin impairs the membranes of G(-) bacteria, including E. coli, and kills them.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Defensins: Defensins are short peptides (35-40 amino acids) produced by cells of mucous membranes and skin. They are secreted as longer proteins and then processed in saliva or other body secretions. The processed defensins enter the membranes or cell walls of bacteria, killing them. Dermicidin, another short polypeptide (47 amino acids) secreted in sweat, also exhibits antibacterial activity.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Pentraxins: Pentraxins are a group of blood proteins synthesized by liver cells, leukocytes, and some other cells. Pentraxins bind to microbial surfaces and promote phagocytosis of the bound microbes.",
+          "page": 1
+        },
+        {
+          "type": "figure",
+          "text": "Table 9.1. Anatomical components of the skin and mucous membranes.",
+          "page": 2,
+          "image": "/mmahp/ch09/9-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "The skin • Dead, cornified, and shedding cells: Prevent microbial attachment and infection • Keratin and antimicrobial peptides of the skin cells: Kill or inactivate some microbes • Fatty acids and sebum of sebaceous glands of the skin: Prevent the growth of some microbes • Salt in sweat secreted by the sweat glands: Prevents the growth of some bacteria • Resident microbiota: Occupy receptors (prevent attachment of foreign microbes), secrete antimicrobials (such as propionic acid, which prevents the growth of foreign microbes) The mucous membranes • Mucus flow from the mucous glands: Traps and washes away microbes • Ciliary motion of the cilia on the ciliated epithelial membranes: Removes mucus-trapped microbes from the lung and the respiratory canals • Immunoglobulins (IgA) in the mucosal secretions: Bind and inactivate microbes • Lysozyme in tears: Digests bacterial cell walls and kills some G(+) bacteria • Antimicrobial peptides, such as cathelicidins and statins, in mucous secretions kill fungi and protozoan pathogens.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "• Amylase, pepsin, and other digestive enzymes (in the gastric secretions): Digest microbial macromolecules • Hydrochloric acid in the gastric juice: Kills/inactivates most microbes in the ingested food and drinks • Rapid turnover (shedding) of the epithelial cells: Prevents microbial attachment • Resident microbiota in the mucous membranes of the eye, oral and nasal surfaces, large intestine, and vagina: Occupy receptors and prevent attachment of foreign microbes, secrete antimicrobials (such as lactic acid in the vagina, which prevents the growth of foreign microbes)",
+          "page": 2
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 4,
+          "title": "Blood",
+          "bullets": [
+            "Plasma (55%)",
+            "Plasma proteins",
+            "Serum",
+            "Serum proteins",
+            "Formed elements",
+            "Erythrocytes",
+            "Leucocytes"
+          ]
+        },
+        {
+          "slideIndex": 17,
+          "title": "Skin defense",
+          "bullets": [
+            "Shedding",
+            "Keratin and Psoriasin",
+            "Fatty acids",
+            "Sweat and salt",
+            "Bacterial acids",
+            "Lactic acid",
+            "Propionic acid",
+            "Resident microbes"
+          ]
+        },
+        {
+          "slideIndex": 18,
+          "title": "Mucous membranes",
+          "bullets": [
+            "Mucous flow",
+            "Ciliary motion",
+            "Mucoid proteins,",
+            "Enzymes",
+            "Inorganic acids (HCl)",
+            "Organic acids",
+            "Resident microbes"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.2",
+      "heading": "Blood and the endothelial cells",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Blood is a fluid connective tissue. An adult body contains about 5 liters of blood (7.5% of the body weight), and the heart pumps about that much blood every minute. About 55% (by volume) of blood is fluid, or plasma, and the rest consists of cells and cell fragments (also called formed elements).",
+          "page": 2
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 3,
+          "title": "Blood and Endothelial cells",
+          "bullets": [
+            "Circulation unify the body",
+            "Endothelial cells"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.2.1",
+      "heading": "Blood plasma and serum",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Plasma contains 92% water, 6-8% protein, 1.0% each of lipids and salts, and about 0.1% sugar (all by weight). Plasma proteins include complements, clotting factors, albumins, globulins, low-density and high-density lipoproteins, and peptide hormones. Serum is the liquid portion of blood plasma after removing clotted materials. The serum contains various proteins, including albumins and alpha-, beta-, and gamma-globulins. The gamma globulins (8-18% of serum proteins) are mostly immunoglobulins involved in adaptive immunity (see section 9.4).",
+          "page": 2
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 22,
+          "title": "More about complements",
+          "bullets": [
+            "Not an effector until activated",
+            "MAC",
+            "Only affect enveloped viruses, and cell with a membrane",
+            "Anaphylatoxins",
+            "C3a, C4a, C51, must bind receptors to activate inflammation",
+            "Opsonins",
+            "C3b, C1Q and C4b",
+            "Must be deposited and bound by CR (complement receptors)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.2.3",
+      "heading": "Formed elements of the blood",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The formed elements of blood (Table 9.2) can be divided into two major categories: erythrocytes and leukocytes. The erythrocytes, or red blood cells (RBC), are the most numerous (>99.0% of all cells) of the blood cells. Mature erythrocytes lack a nucleus and appear as biconcave discs (Fig. 9.1). Erythrocytes are pink due to an overabundance of the iron-containing protein hemoglobin. Hemoglobin binds and transports oxygen and CO2. Erythrocytes also help remove microbes from the blood.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Leukocytes, or white blood cells (WBC), are divided into granulocytes and agranulocytes (Table 9.2). Granulocytes contain numerous cytoplasmic granules (membrane-bound vesicles filled with antimicrobial molecules and mediators, not particulate/crystalline materials). There are three types of granulocytes: neutrophils, basophils, and eosinophils, named after the dyes that stain them. The nucleus of these cells is lobed, which is why they are also called polymorphonuclear leukocytes (PMNs, PMLs, or PMNLs). Basophil granules contain histamine, serotonin, and other vasoactive molecules (capable of affecting the blood vessels). Mast cells, found in many tissues, share some characteristics of basophils.",
+          "page": 2
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.1. The formed elements of blood. Shown are a mature erythrocyte, three types of granulocytes (i.e.,",
+          "page": 3,
+          "image": "/mmahp/ch09/9-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "neutrophils, basophils, and eosinophils), four types of agranulocytes (i.e., monocytes, macrophages, lymphocytes, and dendritic cells), a megakaryocyte, and several platelets. The T and B lymphocytes and the NK cells are morphologically very similar to the generic lymphocyte shown in the figure. Figure source: Cancer.gov. There are two types of agranulocytes: monocytes and lymphocytes (Table 9.2). Monocytes circulate for a short time, then migrate to tissues and become macrophages. Macrophages are avid phagocytes. Blood also contains many minute cells called platelets (or thrombocytes). Platelets are produced due to the fragmentation of megakaryocytes, a type of bone-marrow-derived leukocyte. Platelets play a key role in blood clotting.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "There are three types of blood lymphocytes: B cells, T cells, and natural killer (NK) cells. Some tissue-resident cells, such as dendritic cells (DCs) and mast cells, are derived from the bone marrow and play essential roles in immunity. NK cells also primarily reside in solid tissues. Leukocytes with a single round nucleus (i.e., monocytes and lymphocytes) are collectively called peripheral blood mononuclear cells (PBMCs).",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Table 9.2 Formed elements in the human blood.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Cell types ~number/μl of blood (x1,000) Range (in %) of all leukocytes Major immune functions Erythrocytes 5,000 * O2 and CO2 transport, removal of microbe from blood Neutrophils 4.3 38-80 Phagocytosis, inflammation, cytotoxicity (via ADCC) Eosinophils 0.15 0-8 Phagocytosis, killing parasites, inflammation, cytotoxicity via ADCC Basophils 0.04 0-2 Inflammation Monocytes 0.35 0-13 Phagocytosis, antigen presentation, inflammation (become macrophages when migrate to tissues) Macrophages - - Phagocytosis, antigen presentations, cytotoxicity via ADCC T cells 2.0 15-40 Regulating immune response, cytokine secretion, cytotoxicity (killing infected cells and tumors) B cells 0.10 0-1 Antibody synthesis, antigen presentation NK cells 0.30 2-10 Cytotoxicity (killing infected cells and tumors) DCs - - Migrate to tissues, conduct phagocytosis, antigen presentation, cytotoxicity via ADCC, and activating T cell Platelets 140-390 ** Blood clotting, removal of microbes from blood * >99% of all blood cells, ** platelets are cell fragments, thus not counted as cells. ADCC- antibody-dependent cell- mediated cytotoxicity, cytotoxicity is killing the infected host cells (and for worm parasites). Inflammation includes cell migration, cytokine release, signaling, pain, vasodilation, tissue swelling, and fever.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Neutrophils, eosinophils, monocytes, macrophages, and DCs are phagocytes. They can deliberately engulf external objects, including bacterial and fungal cells, by extending their plasma membranes. DCs, macrophages, and B cells are called professional antigen-presenting cells (APCs). They can process (break down) microbial proteins and present protein fragments on their surface for T and B lymphocytes to detect the antigens.",
+          "page": 4
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 10,
+          "title": "Bone Marrow",
+          "bullets": [
+            "Long bones",
+            "Vertebrae and ribs",
+            "Red marrow",
+            "Hematopoiesis",
+            "B cell development",
+            "Reconstitution of the immune",
+            "Yellow marrow",
+            "Blood bone marrow barrier"
+          ]
+        },
+        {
+          "slideIndex": 37,
+          "title": "Roles of erythrocytes",
+          "bullets": [
+            "Glycophorin A",
+            "Hemoglobin",
+            "CR1 to bind opsonized",
+            "Microbe exchange in the",
+            "TLRs and cytokines"
+          ]
+        },
+        {
+          "slideIndex": 38,
+          "title": "Fever",
+          "bullets": [
+            "Trigger",
+            "Cytokine synthesis",
+            "Mechanism",
+            "Cytokines binding receptor in brain cells",
+            "Activation of phospholipases",
+            "Activation of cyclooxygenase",
+            "Key players",
+            "Eicosanoids (biding their receptors)",
+            "How to manage",
+            "Corticosteroid, NSAIDs, Zomepirac"
+          ]
+        },
+        {
+          "slideIndex": 51,
+          "title": "ADCC",
+          "bullets": [
+            "Cells that can do it",
+            "Target cells",
+            "Host cell",
+            "Eukaryotic parasites",
+            "Weapons",
+            "Granzyme",
+            "Perforin",
+            "TNF",
+            "Lytic enzymes"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.2.3",
+      "heading": "The endothelial cells and the blood vessels",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A single layer of endothelial cells lines the inner surface of the heart and the lumen of the arteries and veins (see Chapter 14). Arteries are tubes that carry blood away from the heart. Arteries branch into slender arterioles and finally into capillaries. Capillaries (and lymphatic vessels, see section 9.3) are made of a single layer of endothelial cells over a thin basement membrane. Blood from the arterial capillaries is collected into venules. Many venules drain their contents into smaller veins and ultimately into the large veins (venae cavae) that empty into the heart.",
+          "page": 4
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 10,
+          "title": "Bone Marrow",
+          "bullets": [
+            "Long bones",
+            "Vertebrae and ribs",
+            "Red marrow",
+            "Hematopoiesis",
+            "B cell development",
+            "Reconstitution of the immune",
+            "Yellow marrow",
+            "Blood bone marrow barrier"
+          ]
+        },
+        {
+          "slideIndex": 37,
+          "title": "Roles of erythrocytes",
+          "bullets": [
+            "Glycophorin A",
+            "Hemoglobin",
+            "CR1 to bind opsonized",
+            "Microbe exchange in the",
+            "TLRs and cytokines"
+          ]
+        },
+        {
+          "slideIndex": 38,
+          "title": "Fever",
+          "bullets": [
+            "Trigger",
+            "Cytokine synthesis",
+            "Mechanism",
+            "Cytokines binding receptor in brain cells",
+            "Activation of phospholipases",
+            "Activation of cyclooxygenase",
+            "Key players",
+            "Eicosanoids (biding their receptors)",
+            "How to manage",
+            "Corticosteroid, NSAIDs, Zomepirac"
+          ]
+        },
+        {
+          "slideIndex": 51,
+          "title": "ADCC",
+          "bullets": [
+            "Cells that can do it",
+            "Target cells",
+            "Host cell",
+            "Eukaryotic parasites",
+            "Weapons",
+            "Granzyme",
+            "Perforin",
+            "TNF",
+            "Lytic enzymes"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.3",
+      "heading": "The lymphoid organs and tissues",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The lymphoid organs and tissues are sites of lymphocyte production, maturation, activation, and/or action. They are grouped into primary, secondary, and tertiary lymphoid organs/tissues (Table 9.3). Note that tissues consist of a few types of cells and are not enclosed by a capsule. Organs are made of multiple tissues and are generally covered by a membranous capsule.",
+          "page": 4
+        },
+        {
+          "type": "figure",
+          "text": "Table 9.3. Lymphoid organs and tissues and their major functions.",
+          "page": 4,
+          "image": "/mmahp/ch09/9-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Primary* Propagation and maturation of lymphocytes Bone marrow Propagation of all blood cells including lymphocytes and maturation of all blood cells except T cells Thymus Maturation of T cells Secondary Leucocytes trapping microbes and microbial molecules, allowing interactions of lymphocytes and antigen-presenting cells, activation and proliferation of lymphocytes, and propagation and housing of memory T cells and B cells Lymph nodes Trapping tissue microbes and microbial molecules Spleen Trapping blood microbes and microbial molecules, removing aged and damaged erythrocytes MALT (NALT, BALT and GALT) Trapping microbes and their antigens crossing the mucous membranes CALT (SALT) Trapping microbes and their antigens crossing the skin Tertiary Activation of previously activated lymphocytes; temporary assembly of lymphoid tissue in inflamed organs or ectopic lymphoid tissues found in patients with autoimmune diseases such as lupus and rheumatoid arthritis *- Fetal blood cells are initially generated in the yolk sac and later in the liver. In the 5th month of fetal development, the bone marrow appears and becomes the sole organ for blood cell production.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Bone marrow",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "The bone marrow (BM) is composed of soft tissues within the marrow cavities of the long bones and vertebrae (Fig. 9.2). The marrow cavity is traversed by numerous bony trabeculae (partition walls) and blood vessels. BM of all bones appears red in early life, but BM of limb bones turns yellow in adults. Yellow marrow produces mostly fat cells and some leukocytes. The red marrow of the vertebrae and hip bones produces all types of blood cells throughout life. BM has stem cells that express diverse sets of genes; the cells divide and differentiate into different types of blood cells. Specialized epithelial cells, stromal cells, and macrophages in the bone marrow provide surfaces and signals for the maturation and selection of BM-derived cells. BM helps maintain the appropriate counts of different blood cell types in health, during infection, and after traumatic blood loss.",
+          "page": 4
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.2. Bone marrow. A. Fixed BM stained with Prussian blue. BM cells appear in various shades of pink. The blue",
+          "page": 5,
+          "image": "/mmahp/ch09/9-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "granules are stored iron particles (Image: CDC-PHILL). The cross-section of the humerus in the inset shows the location of red and yellow BM within the bone. B. The thymus. A cross-section of part of the organ showing the capsule, trabeculae, cortex, and medulla. The cortex stains darker than the medulla because it is packed with many thymocytes (young T cells). Many maturing thymocytes undergo apoptosis. As a result, the medulla contains fewer T cells. Image: Wikipedia.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Suppression or destruction of BM by toxins, radiation, or chemotherapy prevents stem cells from dividing and causes the immune system to fail. Transplantation of a matched BM from a healthy donor into an affected recipient may reconstitute the bone marrow and the immune system.",
+          "page": 5
+        },
+        {
+          "type": "subheading",
+          "text": "The thymus",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "The thymus is a two-lobed, soft organ located between the lungs, just above the heart (Fig. 9.2). The weight of the thymus increases to a maximum of about 40 g by age 10. Thereafter, the organ gradually shrinks and becomes completely fibrous by the age of 70. The thymus is covered by a capsule (made of fibrous tissue). Lobes of the capsule extend towards the center of the organ as trabeculae that incompletely divide the organ into small lobules. Immature T cells arise in the BM, enter the thymus via blood vessels, and enter the cortex (Fig. 9.2). Fully mature T cells move to the medulla and then leave the organ via blood vessels. Some children lack a thymus (as in DiGeorge syndrome), fail to develop T cells, and suffer from severe immunodeficiency (lack of immune function).",
+          "page": 5
+        },
+        {
+          "type": "subheading",
+          "text": "The spleen",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "A single spleen is in the left abdominal cavity between the stomach and the kidney. A thin capsule covers the organ. The capsule extends anteriorly towards the spleen as trabeculae. The trabeculae partially divide the enclosed tissue mass called the pulp. Leucocyte-rich areas near the arteries within the organ create the white pulp, and the erythrocyte- rich regions make up the red pulp (Fig. 9.3). The macrophages, B cells, and DCs catch and remove blood-borne microbes in the white pulp. Macrophages also remove old and injured erythrocytes from the spleen. B and T cells get activated and rapidly divide in the follicles and germinal centers of the spleen. An adult spleen weighs about 160 g, but its size can increase by 5-10-fold in persons with chronic microbial infections. The condition, known as splenomegaly, is caused by the aggregation and excessive proliferation of lymphocytes in the spleen. The lymph nodes The lymph nodes are distributed throughout the body, except in the brain. Lymph nodes are more abundant in the neck, groin, armpit areas, the trachea, and the intestines. A normal lymph node is a bean-shaped organ with a diameter of about 0.1- 2.5 cm. Lymph nodes are connected to arteries and veins, as well as to several afferent lymphatic ducts (Fig. 9.3). Microbes in the tissue spaces are carried to the local lymph nodes by lymph flow. Lymphatic fluid passes through the sinuses located underneath the capsule, then through the cortex, and accumulates in the medulla. The fluid then exits the organ via the efferent lymph vessels at the hilus. (Fig. 9.3). Macrophages, DCs, and B cells in the lymph node cortex and sinuses capture and remove microbes and microbial molecules. B cells and T cells are activated in the germinal centers of the lymph node cortex. Local lymph nodes swell and form buboes in response to microbial infections in the area. This condition, called lymphadenopathy, results from excessive proliferation of T and B lymphocytes in the lymph nodes.",
+          "page": 5
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.3. Secondary lymphoid organs A. The spleen. Shown is a schematic cross-section of a lobule of the spleen.",
+          "page": 6,
+          "image": "/mmahp/ch09/9-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "The capsule, trabeculae, sinuses, arteries, veins, white pulp, and red pulp are indicated. Figure: Tarining.seer.cancer.gov (NIH). The location of the spleen relative to the stomach is shown in the inset. B. A lymph node. Diagram of a sagittal section of a lymph node showing the capsule, trabeculae, afferent and efferent lymphatic vessels, and blood vessels. The direction of lymphatic fluid and blood flow is also indicated. The location of lymph nodes in a person’s neck is shown in the inset. Image source: Wikipedia.",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Lymphatic vessels",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Blood plasma leaks from capillaries to supply nutrients to nearby cells. The fluid is then collected into lymphatic vessels, which are lined by endothelial cells (Fig. 9.4). Lymph entering the lymphatic vessels cannot escape; rather, it moves through the lymphatic vessels (and lymph nodes) and is ultimately collected into the lymphatic trunks, which drain into the subclavian veins (Fig. 9.4). Although lymph travels through the lymphatic vessels under minimal pressure (0-2 mm mercury), blockages in the lymphatic vessels can cause fluid accumulation in the tissue, a condition known as lymphedema. As in filarial worm infections, permanent blockage or scarring of the lymph vessels may cause elephantiasis (distention and disfigurement of organs). Lymphatic channels are present in all tissues except the central nervous system, though the meninges surrounding it contain lymphatic vessels.",
+          "page": 6
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.4. The lymphatic system. A. The distribution of the lymphatic trunks and the lymph nodes in the human body.",
+          "page": 6,
+          "image": "/mmahp/ch09/9-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Image: University of Virginia Health System/NIH. B. Construction of the lymphatic vessels around a capillary bed. Inlet valves in the blinded end of a lymphatic vessel are shown in the inset. The arrows indicate the direction of flow of the tissue fluid. Image: Wikipedia.",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Mucosa-associated lymphoid tissues (MALT)",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Aggregations of lymphoid cells in the form of lymph nodules lacking a capsule, located beneath the mucous membranes, are MALT. NALT, GALT, and BALT are MALT associated with the nasopharynx, gut, and bronchi, respectively. NALT includes tonsils and adenoids in the mouth (Fig. 9.5). Peyer’s patches, lymphoid tissues in the mucosa of the small intestine, are part of GALT.",
+          "page": 7
+        },
+        {
+          "type": "subheading",
+          "text": "Skin-associated lymphoid tissues (SALT)",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Lymph nodules under the skin (cutis) are SALT (or CALT). The nodules can be present in the epidermis and dermis. Epidermal nodules are populated by a special type of DCs (Langerhans cells).",
+          "page": 7
+        },
+        {
+          "type": "subheading",
+          "text": "Tertiary lymphoid tissues",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Tertiary lymphoid tissues are temporary aggregations of lymphoid cells that form nodules in chronically inflamed tissues throughout the body. These nodules are also observed in individuals with autoimmune diseases, such as lupus erythematosus and rheumatoid arthritis.",
+          "page": 7
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.5. NALT. A. Photograph of a pharyngeal tonsil (indicated by an arrow). Image source: CDC-PHILL. B. Cross-",
+          "page": 7,
+          "image": "/mmahp/ch09/9-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "section of a tonsil showing lymphoid tissue under the oral mucous membrane. Image source: http://education.vetmed.vt.edu.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "The bone marrow and thymus constitute the central immune system. Spaces other than these constitute the immunological periphery.",
+          "page": 7
+        },
+        {
+          "type": "subheading",
+          "text": "Part 2: Innate Immunity",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Innate immunity of a person, like the anatomical barriers, is ready to function on its first ever encounter with a microbe. However, it involves specific binding interactions between microbial molecules (ligands) and cellular receptors, signal transduction, and the disposal of effector functions. Innate immunity protects us on a moment-by-moment basis. Adaptive immunity kicks in only if innate immunity fails to clear microbes before they invade sterile areas of the body. Innate immunity was previously overlooked and tagged as non-specific immunity. Recent research uncovered much new information on innate immunity.",
+          "page": 7
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 2,
+          "title": "The immune system",
+          "bullets": [
+            "What is a system",
+            "The immune system",
+            "The organs",
+            "The cells",
+            "The molecules",
+            "Innate immunity",
+            "Existent",
+            "Induced",
+            "Adaptive immunity"
+          ]
+        },
+        {
+          "slideIndex": 8,
+          "title": "The Lymphatic system",
+          "bullets": [
+            "Primary lymphoid organs",
+            "BM",
+            "Thymus",
+            "Secondary lymphoid organs",
+            "Spleen",
+            "Lymph Nodes",
+            "MALT and SALT",
+            "Tertiary lymphoid tissue",
+            "Lymphatic vessels",
+            "Blockage"
+          ]
+        },
+        {
+          "slideIndex": 11,
+          "title": "The thymus",
+          "bullets": [
+            "Main function",
+            "T cell development",
+            "Capsule and",
+            "Cortex",
+            "Medulla",
+            "Blood thymus barrier",
+            "DiGeorge Syndrome"
+          ]
+        },
+        {
+          "slideIndex": 12,
+          "title": "The spleen",
+          "bullets": [
+            "Main Functions",
+            "Removal of microbes",
+            "T cell and B cell activation",
+            "Capsule and trabeculae",
+            "Arteries and veins",
+            "While palp",
+            "PALS",
+            "Follicles",
+            "Red Palp",
+            "Splenic cords"
+          ]
+        },
+        {
+          "slideIndex": 13,
+          "title": "Lymph nodes",
+          "bullets": [
+            "Main function",
+            "Removal of tissue antigens",
+            "Activation of T cells and B cells",
+            "Capsule and trabeculae",
+            "Arteries and veins",
+            "Efferent and efferent lymph",
+            "Cortex",
+            "Follicles",
+            "Medulla"
+          ]
+        },
+        {
+          "slideIndex": 14,
+          "title": "MALT & SALT",
+          "bullets": [
+            "Main function",
+            "Removal of microbes",
+            "Activation of T cells and B cells",
+            "Subtypes",
+            "NALT (tonsils)",
+            "GALT (Payer’s Patches)",
+            "BALT",
+            "SALT",
+            "Dermis"
+          ]
+        },
+        {
+          "slideIndex": 15,
+          "title": "Pathologies of secondary lymphoid organs",
+          "bullets": [
+            "Lymphadenopathy",
+            "Splenomegaly",
+            "Tonsilitis"
+          ]
+        },
+        {
+          "slideIndex": 53,
+          "title": "B cell maturation and activation",
+          "bullets": [
+            "Maturation in the bone marrow",
+            "Gene recombination",
+            "Expression of IgM",
+            "Positive and negative selection",
+            "Expression of IgD and IgM (mature naïve B cells)",
+            "Activation in the secondary lymphoid organs",
+            "Initial activation of mature naïve B cells, proliferation (making a clone)",
+            "differentiation to plasma cells and memory cells",
+            "Plasma cells secrete IgM",
+            "Activation of memory B cells",
+            "Proliferation and Class switching",
+            "Differentiation to plasma cells, secrete IgG, IgA or IgE"
+          ]
+        },
+        {
+          "slideIndex": 58,
+          "title": "T cell receptors",
+          "bullets": [
+            "Structures",
+            "Alpha-beta (ab) and gamma-delta (gd)",
+            "Variable region for antigen binding",
+            "Constant region for anchoring",
+            "Ig fold domain",
+            "No secreted version",
+            "T cell antigens",
+            "Ab TCR only can bind processed and",
+            "Gd TCRs may bind processed and"
+          ]
+        },
+        {
+          "slideIndex": 59,
+          "title": "Maturation of T cells in thymus",
+          "bullets": [
+            "Precursor T cells from bone marrow",
+            "migrate to cortex of the thymus",
+            "Double negative T cell: Expression of TCR",
+            "Double positive T cells: Expression of coreceptors CD4 and CD8",
+            "Negative selection (killed by apoptosis)",
+            "Positive selection (cell proliferate)",
+            "Single positive T cell",
+            "T helper cell (TCR + CD4)",
+            "T cytotoxic cells (TCR + CD8)"
+          ]
+        },
+        {
+          "slideIndex": 70,
+          "title": "Effector functions of activated Th 0 cells",
+          "bullets": [
+            "Th o cells turn to"
+          ]
+        },
+        {
+          "slideIndex": 78,
+          "title": "Memory T cells and Memory B cells",
+          "bullets": [
+            "Not fully understood",
+            "Most likely travel between primary and secondary lymphoid",
+            "Memory T cells do not need activated DCs to get activated",
+            "Memory Th cell get activated upon binding antigens on MHC II of any",
+            "Memory Tc cell get activated upon binding antigens on MHC I of any cell",
+            "Both cells the create clones of effector cells",
+            "Memory B cells may or may not need Th cells for activation",
+            "Memory B cells get activated by binding cell surface or soluble antigens",
+            "Rapidly proliferate and create many plasma cells"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.4",
+      "heading": "The inducible effector functions of the innate immunity",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "An effector function is the mechanism by which a system disposes of its final action. Thus, the effector function of a phagocyte is to engulf a microbe and destroy it; the effector function of an antibody is to bind to the microbe's antigens and prevent the microbe from infecting a host cell. If an effector function depends on signal transduction (see Box 10.1), it is an inducible effector function. Since some signal transduction may involve new gene expression, the response may take a few hours or days to develop. So, some of the functions are also called delayed effector functions. Box 10.1 Signal transduction A signal is a physical, chemical, or biological message (stimulus) that a cell receives from inside the cell or the outside environment. The message must be transduced (converted/translated) for the cell to respond to the stimulus. For example, when a rod cell in the retina of the eye receives a light signal, it is translated into an electrical signal, which passes through the neuron to the brain to enable vision. For the immune system, a signal is the binding of a microbial or cellular molecule (an antigen or a ligand) to a cellular receptor. The signal is transduced to the genome via diverse mechanisms. A common mechanism is as follows: the signal activates a previously inactive enzyme; the active enzyme chemically modifies a transcription regulator in the cytoplasm; the modified transcription regulator enters the nucleus; it binds the enhancers of certain genes, which causes RNA polymerase to transcribe the genes. The mRNAs thus synthesized enter the cytoplasm and are translated. The proteins perform specific functions that alter the cell's phenotype (size, shape, and abilities), which are the cell's response to the signal.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Shown above is a schematic of TLR4 signal transduction. When LPS, the endotoxin of G(-) bacteria, binds its receptor (TLR4) with the help of LBP and MD2 proteins, a signal is created. This signal activates two transduction pathways, only one of which is shown here. Here, the signal activates the enzymes IRAK, TRAF6, and IkK, which ultimately allow the transcription regulator NFkB to move from the cytoplasm to the nucleus. In the nucleus, NFkB binds enhancers of various genes (including the cytokine genes IL-1 beta, IL-6, IL-8, and TNF alpha) and activates their transcription. The mRNAs are transported to the cytoplasm and translated. The cell soon releases powerful cytokines. Image- Liebers V, Raulf-Heimsoth M, Bruning T. Arch Toxicol. 2008; DOI:10.1007/s00204-008-0290-1.",
+          "page": 8
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 29,
+          "title": "Cytokines",
+          "bullets": [
+            "Many names",
+            "Lymphokines",
+            "Monokines",
+            "Chemokines",
+            "Common mode of",
+            "Signal transduction",
+            "Some examples",
+            "IL-1, TNFb, INFa, IL-6, IL-"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.4.1",
+      "heading": "The complement pathways",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Complement comprises about 30 proteins (including C1 through C9, B, D, properdin, etc.) synthesized by the liver and some leukocytes. They constitute about 5% of the plasma proteins. Complement proteins are inactive until they are activated by one of the three signaling events. When activated, the pathways may destroy microbes, induce inflammation, and activate the immune system.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "There are three major pathways for complement activation. All three pathways depend on the C3. If C3 is cleaved by a protease into C3a and C3b, C3b cleaves C5 to release C5a and C5b; finally, C5b binds C6 and C7. The C3b-6-7 complex enters the envelope of enveloped viruses, the outer membrane of G(-) bacteria, or the plasma membrane of eukaryotic cells. Once the complex is in the membrane, C8 and 10-17 different C9 proteins join the complex, creating a molecular channel about 7-10 nm in diameter (Fig. 9.6). The channel, known as the membrane attack complex (MAC), is large enough for ions to pass through freely. The result is a loss of homeostasis and death/inactivation of the microbe. The three signaling pathways that may activate the complement cascade are the following:",
+          "page": 8
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.6. Cleaving of C3 leading to the formation of the MAC. A. The sequence of events that led to the formation",
+          "page": 9,
+          "image": "/mmahp/ch09/9-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "of the MAC. B. An electron micrograph showing the outer membrane of Shigella dysenteriae, a G(-) bacterium damaged due to MAC deposition. The holes (indicated by a white arrow) are about 7-10 nm in diameter. Image: Kimble’s Biology Page (original image by Drs. J. H. Humphrey and R. Dourmashkin).",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "The classical pathway: If one IgM or two IgGs type (see Section 9.6) bind a microbe or a large microbial molecule, C1 binds the deposited antibodies and activates its protease partners. The protease partners then cleave C2 and C4, releasing C2a and C4b. The C2aC4b complex cuts C3 to release C3b (Fi. 9.7).",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "The alternative pathway: C3 binds to microbial surfaces, cleaving itself to generate C3i; C3i, in association with complements B and D, cleaves C3 into C3a and C3b (Fi. 9.7).",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "The lectin pathway: The liver of patients with inflammation produces a protein called mannose-binding lectin (MBL). MBL binds to mannose sugars on the surface of microbial cells. The binding activates proteases that cleave complement proteins C2 and C4, releasing C2a and C4b. The C2aC4b complex cuts C3 to release C3b (Fi. 9.7).",
+          "page": 9
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.7. The three pathways of complement activation. A. The classical pathway. When IgG or IgM is deposited",
+          "page": 9,
+          "image": "/mmahp/ch09/9-7.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "on a microbe, C1 binds to the antibodies, activating proteases associated with C1. These proteases cleave C2 and C4; C2aC4b then cleaves C3 into C3a and C3b. B. The lectin pathway. MBL binds to mannose on the surface of microbes, activating proteases linked to MBL. These proteases cleave C2 and C4; C2aC4b then cleaves C3 into C3a and C3b. C. The alternative pathway. C3 cleaves itself after binding to the microbial surface to produce C3i; C3i is stabilized by D and B; C3bBb cleaves C3 into C3a and C3b.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "MAC can destroy enveloped viruses and any cell (including host cells) that has an exposed membrane. However, MAC cannot penetrate the capsids of naked viruses or the cell walls of Gram-positive bacteria or fungi. Additional effector functions, such as opsonins and anaphylatoxins, help eradicate the microbes.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Opsonization: The major opsonins are the complements C3b and C4b, IgG and IgM. The binding of these to the microbial surface is opsonization. Macrophages and some other cells have receptors for deposited opsonins. Those cells bind opsonized microorganisms and rapidly kill them by phagocytosis.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Anaphylatoxins (ATs): C3a, C4a, and C5a (released as a byproduct of complement activation) are anaphylatoxins. They bind receptors on mast cells, basophils, neutrophils, monocytes/macrophages, eosinophils, dendritic cells, and endothelial cells, causing degranulation of granulocytes, vasodilation, and inflammation.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "It is evident that the alternative and the lectin pathways are truly innate mechanisms, but the classical pathway depends on antibodies, a part of the adaptive immune system. Since the complement pathways can cause tissue damage, the pathways are meticulously regulated to minimize collateral damage.",
+          "page": 10
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 19,
+          "title": "Complement pathways",
+          "bullets": [
+            "Main function",
+            "Killing/inactivating microbes",
+            "Activating inflammation",
+            "Activating phagocytosis",
+            "Complement proteins",
+            "MAC",
+            "Activation of complement pathways",
+            "Classical",
+            "Alternative",
+            "Lectin"
+          ]
+        },
+        {
+          "slideIndex": 44,
+          "title": "Antibodies",
+          "bullets": [
+            "Beta and gamma globulins (glycoproteins) of blood and",
+            "Other names: antiserum, antivenin, precipitin, agglutinin",
+            "Structure",
+            "Heavy chain",
+            "Light chain",
+            "Ig Fold",
+            "Constant region (Fc)",
+            "Variable region (Fab)"
+          ]
+        },
+        {
+          "slideIndex": 46,
+          "title": "Functions of antibodies",
+          "bullets": [
+            "Antigen binding",
+            "Activation of B cells and granulocytes",
+            "Receptor mediated endocytosis (by B cells)",
+            "Complement activation",
+            "Opsonization/ phagocytosis",
+            "Antibody dependent cellular cytotoxicity (ADCC) by NK cells,",
+            "Neutralization of microbes and toxic proteins"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.4.2",
+      "heading": "Pattern recognition",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The receptors on the cells of the immune system recognize/bind several groups of molecules, including antigens, pathogen-associated molecular patterns (PAMPs), and disease-associated molecular patterns (DAMPs). Antigens, immunogens, and epitopes An antigen is a molecule that receptors on B cells (i.e., antibodies) or T cells (i.e., T cell receptors, TCRs) bind to. Typically, antigens are complex proteins or polysaccharides; thus, they are universally present in all cells and viruses. However, antibodies and TCRs normally bind foreign antigens, not host cell (i.e., self) antigens. A foreign antigen is called an immunogen if it, when injected into a vertebrate animal, activates B cells and T cells to mount an immune response (see Section 9.6). An immunogen can be a large molecule, but an antibody only binds 5-22 amino acids of a protein antigen or about 3-6 sugars of a polysaccharide antigen. The exact binding site of an antigen is called an epitope. A large protein or polysaccharide can have many epitopes. Each epitope is unique. An antibody or TCR can bind only one unique epitope.",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "PAMPs",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "PAMPs are molecular structures found in microbes but not in the host cell. The common PAMPs found in various groups of microbes are listed below: • Viruses: GC-rich (have more G and C than A and U nucleotides) ssRNA, dsRNA, GC-rich DNA, and viral glycoproteins.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "• Bacteria: Peptidoglycan, LPS, LTA, polysaccharides with excess mannose, CG-rich, nonmethylated DNA, certain bacterial lipoproteins, flagellin, and pilin.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "• Fungi: Chitin, glucan, zymosan, mannan (polysaccharides of fungal cell walls), and some lipoproteins. • Animal parasites: Chitin, hemozoin (of the malarial parasite), and special molecules of the eggs and various instars of larvae.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Note that the host cell has DNA, RNA, and glycoproteins. However, host RNAs are AU-rich, host DNA is methylated and AT-rich, and host glycoproteins have sugars that differ from those of microbial glycoproteins. DAMPs Common DAMPs include • Extracellular DNA, RNA, histones, heat shock proteins, ATP, lactoferrin, defensins (these molecules should be inside the cell; cell damage caused the molecules to leak out into body fluids) • Activated complement proteins and coagulation factors (these are extracellular/plasma proteins, but activation alters their structure).",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "Pattern-recognition receptors (PRRs)",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "The cellular receptors that bind PAMPs and DAMPs are pattern-recognition receptors (PRRs). Note that, unlike antigens, PAMPs and DAMPs are not unique, but they have common structural elements (patterns). For example, all bacteria have peptidoglycan, and all G(-) bacteria have LPs. A PRR may bind peptidoglycan or LPS of any bacterial species. There are many groups of PRRs, but their effector mechanisms are based on ligand binding and signal transduction. For simplicity, we will describe only one group of PRRs, known as the toll-like receptors or TLRs. Toll-like receptors (TLRs) TLRs are so named because they are structurally similar to the Toll proteins of the fruit flies. Human cells have some 10 TLRs, some in the plasma membrane, some in the ER, and some dissolved in the cytoplasm. Leukocytes and some non-leukocyte cells have TLRs. A typical TLR has a leucine-rich region that binds PAMPs, a transmembrane region, and a tail end responsible for signal transduction (Fig. 9.8). The common TLRs and the PAMPs they recognize are listed in Table 9.4.",
+          "page": 10
+        },
+        {
+          "type": "figure",
+          "text": "Table 9.4. Human TLRs and the PAMPs they bind.",
+          "page": 11,
+          "image": "/mmahp/ch09/9-4.jpg"
+        },
+        {
+          "type": "subheading",
+          "text": "The plasma membrane resident TLRs",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "TLR 1/TLR 2: LPS, LTA, fungal cell wall, lipopeptides, viral membrane lipid, peptidoglycan, etc. TLR 4: LPS, heat shock proteins, etc.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "TLR 5: Microbial lipopeptides and bacterial flagellin.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "TLR 6: Microbial RNA and DNA.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "The endomembrane resident TLRs TLR 3/TLR 7 and TLR 8: Viral dsRNA and ssRNA.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "TLR 9: Viral dsRNA and unmethylated CG-rich DNA.",
+          "page": 11
+        },
+        {
+          "type": "subheading",
+          "text": "The effects of TLR-PAMP binding interactions",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "The binding of a TLR to a PAMP generates a signal that is transduced to the cell's nucleus (see Box 10.1), leading to the transcription of certain genes and subsequent synthesis of new proteins. The new proteins synthesized in response to TLR4 binding to viral ssRNA include interferon-beta (Fig. 9.8). The cell releases the cytokine, which then binds to receptors on the same cell and neighboring cells. The binding generates another signal and the synthesis of additional proteins, including antiviral proteins (AVPs), that help the cells to establish an antiviral state (see Chapter 8).",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.8. The structure and mode of action of a TLR. A. Structure of a TLR showing the ligand-binding domain,",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "the transmembrane region, and the signal transduction domain. B. Signaling by TLR 3, 7, or 8 (these TLRs are located in the ER). TLR3-bound viral RNA or DNA generates a signal. The signal is transduced through several proteins. The ultimate outcome is the synthesis and secretion of the cytokine IFN-β.",
+          "page": 11
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 23,
+          "title": "PRRs and TLRs",
+          "bullets": [
+            "Receptors that bind diverse molecules that are structurally similar",
+            "PAMPS",
+            "Microbial ssRNA, dsRNA, nonmethylated DNA, Gc-rich DNA",
+            "Cell wall polysaccharides (PGN, LPS, LTA, glucan, Chitin)",
+            "Flagellin, pilin, fungal glycoprotein, etc.",
+            "DAMPS",
+            "Host cell internal molecules (ATPs, hsps, histones, DNA, RNA, etc.)",
+            "Activated effector proteins (complement proteins, clots)"
+          ]
+        },
+        {
+          "slideIndex": 24,
+          "title": "TLRs",
+          "bullets": [
+            "The plasma membrane resident TLRs",
+            "TLR 1/TLR 2: LPS, LTA, fungal cell wall, lipopeptides, viral membrane lipid,",
+            "TLR 4: LPS, heat shock proteins, etc.",
+            "TLR 5: Microbial lipopeptides and bacterial flagellin",
+            "TLR 6: Microbial RNA and DNA",
+            "The endomembrane resident TLRs",
+            "TLR 3/TLR 7 and TLR 8: Viral dsRNA and ssRNA",
+            "TLR 9: Viral dsRNA and unmethylated CG-rich DNA"
+          ]
+        },
+        {
+          "slideIndex": 42,
+          "title": "Antigens and immunogens",
+          "bullets": [
+            "Antigens",
+            "Chemical nature",
+            "Size",
+            "Complexity",
+            "Foreignness",
+            "Immunogens",
+            "How to make immunogenic",
+            "Hapten",
+            "Carrier",
+            "Adjuvants"
+          ]
+        },
+        {
+          "slideIndex": 65,
+          "title": "T cell recognition of presented antigens",
+          "bullets": [
+            "ab-Th cells",
+            "The antigen must be presented on MHC II of APCs",
+            "Coreceptors must validate authenticity of binding",
+            "Effects: Th cell activation, proliferation and cytokine secretion",
+            "ab-Tc cells",
+            "The antigen must be presented on MHC I of nucleated cells including APCs (the",
+            "Coreceptors must validate authenticity of binding",
+            "Effects: Tc cell activation, proliferation and killing of the target cell",
+            "gd-T cells",
+            "The antigen must be presented on CD1 of nucleated cells including APCs (the",
+            "Effects: Tc cell activation, proliferation and killing of the target cell"
+          ]
+        },
+        {
+          "slideIndex": 71,
+          "title": "Effect of excess of certain Th cells",
+          "bullets": [
+            "Excess Th 1 cell- inflammation, autoimmunity",
+            "Excess Th 2 cell- inflammation, allergy",
+            "Excess Th 17 cell- inflammation, autoimmunity",
+            "Excess iT-reg cell- inability to mount vigorous immune response,"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.4.3",
+      "heading": "Inflammation",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Inflammation is a physiological response of the innate and adaptive immune systems aimed at removing harmful foreign molecules and live or dead pathogens from the body. It also attempts to eliminate the body’s (own) damaged molecules, although we will not address those issues here. An inflammatory response always involves cell migration (from blood to injured/affected tissues). The common signs of inflammation are listed in Table 9.5.",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Table 9.5. The common attributes of inflammation.",
+          "page": 12,
+          "image": "/mmahp/ch09/9-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Acute inflammation: Rapid onset, severe signs, responds to mild injuries, quick resolution, localized to the affected tissues or systemic (the whole body).",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Pain: Due to vasodilation and activation of pain receptors by peptides released by the injured cells Redness: Due to vasodilation and increased blood flow in the tissue Swelling: Due to vasodilation and excessive leakage of plasma through capillaries Heat: Due to increased blood flow Fever: Due to the actions of certain cytokines and mediators, such as histamine Other signs: Sleeplessness, nausea, and vomiting Chronic inflammation: Slow onset, subtle signs, responds to slow but severe injuries, slow resolution, or progressive worsening, usually systemic.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Same as acute inflammation, although pain, redness, swelling, or heat may be absent. Signs include low- grade fever, tissue remodeling (such as liver cirrhosis, emaciation, and weight loss), signs of arthritis, sleeplessness, nausea, and vomiting. Severe signs include atherosclerosis (plagues in the arteries) and cancers in the inflamed tissues (such as the prostate, stomach, intestine, and liver) The mediators of inflammation The binding of PAMPs or DAMPs to PRRs triggers an inflammatory response. The resulting signal transduction causes the synthesis of many mediators. The mediators include small organic molecules (such as histamine), small polypeptides (such as bradykinin), cytokines (such as IL-1), chemokines (small cytokines such as CXCL8 and CCL3), acute phase proteins such as the C-reactive protein (CRP), anaphylatoxins (such as C3a, C4a, and C5a), eicosanoids (such as prostaglandin and leukotriene produced from fatty acids by leukocytes), and contents of the granules of the granulocytes (such as histamine and heparin).",
+          "page": 12
+        },
+        {
+          "type": "subheading",
+          "text": "Cell migration",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "The mediators bind to endothelial cell and leucocyte receptors, thereby inducing signaling events. The signal causes the cells to express adhesion molecules (adhesins) and cytokines. In the blood vessels of healthy tissues, blood cells pass through readily. However, the expression of adhesins and their binding interactions slow (arrest) leucocytes. Ultimately, the leucocytes reorganize their cytoskeleton (i.e., shape) and pass (extravasate) through gaps in capillary endothelial cells into nearby tissues (Fig. 9.9).",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.9. Blood leukocyte adhesion to blood vessels and leukocyte migration from blood vessels to nearby tissues.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "If endothelial cells (ECs) express adhesins such as selectin, selectin binds to mucin on the surface of leukocytes. As a result, the leukocytes roll (i.e., slow down and fail to move freely through the lumen of the blood vessel). Selectin- mucin interactions generate signals that lead to the expression of more adhesins, such as integrins and ICAM-1. The newly expressed adhesins bind to their ligands, enhancing the intensity of EC-leukocyte interactions. The leukocytes ultimately change shape, pass through the gaps between endothelial cells, and migrate to the nearby inflamed tissue. Image- based on Man S, Ubogu EE, and Ransohoff RM. Brain Pathol 2007; 17(2): 243-50.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Once in the injured tissue, the leukocytes display their effector functions. Thus, neutrophils rapidly phagocytize and destroy bacteria and injured host cells; B cells release antibodies; and T cells release cytokines to activate leukocytes. The surrounding tissue experiences more pain (inflammation), but the coordinated effort rapidly clears the microbes and helps heal the injured tissue (details not presented here). The healing process may involve the formation of pus, which results from the apoptotic death of many leukocytes (mainly neutrophils) as they clear microbes and injured tissue. As soon as the DAMPs and PAMPs in the tissues are removed, the cells no longer receive signaling, and the inflammation subsides and ultimately ceases.",
+          "page": 13
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 26,
+          "title": "Inflammation",
+          "bullets": [
+            "Acute inflammation",
+            "Pain",
+            "Swelling",
+            "Heat",
+            "Fever",
+            "Other signs",
+            "Chronic inflammation",
+            "Cirrhosis",
+            "Weight loss",
+            "Arthritis",
+            "Cancers"
+          ]
+        },
+        {
+          "slideIndex": 40,
+          "title": "Chronic inflammation",
+          "bullets": [
+            "Trigger",
+            "Failure to remove microbes or their antigens",
+            "Autoantigens",
+            "Perpetuation",
+            "Chronic release of low levels of IL-1, IL-6, and TNFb",
+            "Damages",
+            "Granuloma, cirrhosis, cancer, atherosclerosis, and hypertension",
+            "How to manage",
+            "Aggressive cytokine therapy",
+            "Corticosteroid therapy",
+            "Cytoablative therapy"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.4.4",
+      "heading": "Cytokines and chemokines",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Cytokines are small proteins (with a molecular mass of about 20,000 Da) secreted by leukocytes and other cells. Chemokines, a subset of cytokines, are even smaller (with a molecular mass of about 10,000 Da). Both cytokines and chemokines bind to receptors on the cells that secrete them and other nearby or distantly located cells. Cytokines and chemokines act by binding to their cellular receptors and inducing signals.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Although cytokines have potent effects, they are quite unstable. As a result, the effects of cytokines are felt only when they are synthesized and released in the body. Cytokines play a role in both innate and adaptive immunity (see Section 9.5). Chemokines are particularly important for attracting leukocytes to the injury sites and mediating inflammation. About 500 cytokines have been reported, but many have overlapping activities. The biological effects of some common cytokines involved in innate immunity are shown in Table 9.6.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Table 9.6. Some common cytokines are involved in innate immunity.",
+          "page": 13,
+          "image": "/mmahp/ch09/9-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Cytokine Cells that release it Target cells/organs (effect) IL-1 Macrophages, monocytes, endothélial cells (ECs) EC (inflammation), the brain (fever response), liver (synthesis of acute phase proteins) TNF-alpha Macrophages EC (inflammation), neutrophiles (activation), liver (synthesis of acute phase proteins), muscle cells (cell death) IFN-gamma Macrophages Many cell types (antiviral state), NK cells (activation) INF-beta Fibroblasts Many cell types (antiviral state), NK cells (activation) IL-6 Macrophages, ECs Liver (new protein synthesis), B lymphocytes (activation and antibody synthesis) IL-12 Macrophages, DCs NK cells (activation), B lymphocytes (activation and antibody synthesis) Fever response Fever, a significant sign of inflammation, is a response to cytokines. When cytokines in the blood enter the brain and bind to receptors on endothelial cells (ECs) in brain blood vessels and on microglial cells, they induce signal transduction that activates phospholipases. Phospholipases are enzymes that act on membrane lipids, releasing arachidonic acid (a 20-carbon fatty acid). Cyclooxygenases utilize arachidonic acid to synthesize various eicosanoids, including prostaglandin E2 (PGE2) (Fig. 9.9). PGE2 then binds to its receptor, triggering the brain to increase and maintain a higher body temperature until all PGE2 molecules are cleared from the body (Fig. 9.10). The body temperature rises by reducing heat loss through muscle contraction and blood vessel constriction, which limits blood flow to the extremities (limbs and skin), causes shivering, and triggers the release of epinephrine and thyroid hormones. A brief, low-grade fever prevents microbial growth in the boy and helps heal injuries. However, a sustained high fever can cause brain damage, convulsions, coma, and death. Reducing fever is necessary to manage patients with sustained fever. Cooling the head and body with ice packs can be helpful.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Antipyretic drugs (i.e., fever reducers), including nonsteroidal anti-inflammatory drugs (NSAIDs) such as aspirin and ibuprofen, are used to reduce fever and treat some other signs of inflammation. NSAIDs work by inhibiting the enzymes cyclooxygenase (Cox) 1 and 2, which are essential for prostaglandin production. Cox-1 is also vital for maintaining gastrointestinal tissues. Inhibition of Cox-1 can lead to stomach bleeding and ulcers. Other NSAIDs, such as naproxen and Vioxx, primarily inhibit Cox-2, but they can cause other side effects, including an increased risk of heart attack. An ideal fever-reducing NSAID has yet to be found. Note that acetaminophen (brand names include Tylenol), often used to manage body pain and fever, is not an NSAID. The mode of action of acetaminophen is unclear.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.10. The febrile response and some fever reducers. A. The fever pathway. Cytokines bind to receptors on",
+          "page": 14,
+          "image": "/mmahp/ch09/9-10.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "endothelial cells (ECs) and microglial cells in the brain, activating phospholipases. Phospholipases act on phospholipids, releasing arachidonic acid (a fatty acid). Cyclooxygenases convert arachidonic acid into prostaglandins, including prostaglandin H. Prostaglandin E synthase then uses PGH to produce prostaglandin E2 (PGE2). PGE2 binds to its receptors in the hypothalamus, prompting the hypothalamus to reset body temperature. The structures of arachidonic acid and PGE2 are depicted below. B. Mechanism of action of some fever-reducing drugs. Corticosteroids inhibit cytokine synthesis, thereby preventing the activation of phospholipases. NSAIDs inhibit cyclooxygenase, preventing the synthesis of PGH. Zomepirac inhibits PGE2 synthase, thereby reducing PGE2 production.",
+          "page": 14
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "9.4.5",
+      "heading": "Phagocytosis, endocytosis, and autophagy",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Cells use various strategies to capture microbes, their molecules, and injured host cells and their released molecules. The major mechanisms are the following (Fig. 9.11): • Pinocytosis: capturing external fluid in a membrane vesicle (macropinosome) pinched off from the plasma membrane.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "• Receptor-mediated endocytosis: A microbe or external molecule binds to a cellular receptor; it is taken into the cell in a membrane vesicle coated with the protein clathrin.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "• Phagocytosis: A microbe or external molecule is taken inside a membrane vesicle (phagosome) created through extending the plasma membrane.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "• Autophagy: Molecules already inside the cell are captured in a membrane vesicle (autophagosome) by wrapping with the endoplasmic membrane.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "All physiologically active cells can perform pinocytosis, receptor-mediated endocytosis, and autophagy to varying extents. However, only phagocytes (i.e., neutrophils, macrophages, eosinophils, and dendritic cells) are capable of phagocytosis. The primary purposes of capturing microbes or damaged host molecules are to break them into harmless small fragments and to dispose of them. Professional antigen-presenting cells (APCs), which include phagocytes, also display fragments of captured molecules on their surfaces to activate leukocytes (see Section 9.6). There are two methods for breaking/destroying the captured molecules: the enzymatic method and the oxidative method.",
+          "page": 14
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.11. Various strategies that mammalian cells use to sample, capture, and clear microbes and damaged",
+          "page": 15,
+          "image": "/mmahp/ch09/9-11.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "host molecules. Receptor-mediated endocytosis generates clathrin-coated vesicles, pinocytosis produces macropinosomes, autophagy creates autophagosomes, and phagocytosis produces phagosomes. These vesicles turn into early endosomes. Receptors used for endocytosis or phagocytosis are removed and recycled at this point. Figure adapted from Mak TW et al. Elsevier, New York, Primer to the Immune Response, (2014).",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Killing by the enzymatic method",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "The membrane vesicles formed by pinocytosis, receptor-mediated endocytosis, phagocytosis, or autophagy ultimately fuse with cytoplasmic membrane vesicles to form early endosomes. The proton pumps of the early endosome import protons (H+) inside the vesicle, creating an acidic pH inside the early endosome. The early endosomes fuse with enzyme-filled lysosomes to form endolysosomes (Fig. 9.12). The enzymes in the lysosomes are normally inactive. The acidic pH of the phagolysosome activates the enzymes. The activated lytic enzymes, such as nucleases, lipases, proteases, and glycosidases, degrade microbial nucleic acids, lipids, proteins, and polysaccharides, respectively. The cell may use some of these precursor molecules in anabolic reactions or dispose of them by exocytosis.",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.12. Destruction of phagocytized items by lytic enzymes. The early endosomes fuse with trans-Golgi vesicles",
+          "page": 15,
+          "image": "/mmahp/ch09/9-12.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "to form late endosomes; the late endosomes fuse with lysosomes to form endolysosomes (or phagolysosomes). The acidic pH of the vesicles activates hydrolytic enzymes in the phagolysosome to digest captured microbes (shown in pink) and their molecules. Figure adapted from Mak TW et al. Primer to the Immune Response, Elsevier (2014). Killing by reactive chemicals: The metabolic burst Soon after phagocytosis, phagocytes increase NADPH-H+ production via the pentose phosphate pathway (see Chapter 4). The cell also absorbs more oxygen and uses the enzyme NADPH oxidases (NOX) to create superoxide anion (O2-). Additional enzymes convert superoxide anions into reactive oxygen species (ROSs), including hydrogen peroxide (H2O2), hydroxyl radical (OH*), hypochlorous acid (HOCl), and peroxynitrite (OONO-). These ROSs react with microbial molecules such as DNA, RNA, and proteins, killing the microbes (Fig. 9.13). After the microbes are killed, the cells use enzymes such as SOD, catalase, and oxidase to neutralize ROSs, to prevent them from damaging host-cell molecules (see Chapter 7). However, some ROSs may leak out and cause cellular damage, including genome mutations, which is collateral damage to host organisms. Reducing infection risk is thus more beneficial than successfully treating infections.",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.13. Synthesis of ROSs in the phagosomes. NOX-complexes on the membrane of the phagosomes synthesize",
+          "page": 16,
+          "image": "/mmahp/ch09/9-13.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "superoxide (O2-). SOD and oxidases use superoxide to produce H2O2. Myeloperoxidase (MPO) uses H2O2 and chloride ions (Cl-) to synthesize HOCl-. Fe2+ may react with H2O2 to produce hydroxyl radical (OH*). Finally, superoxide may react with NO to produce peroxynitrite (OONO-). All these ROSs may react with microbial molecules and destroy the microbe. If leaked out of the endolysosomes, H2O2 is detoxified by catalase and oxidase. Pink arrows: synthesis and effector functions of the ROSs, green arrows: detoxification reactions. NO is synthesized by nitric oxide synthases (NOSs) by the reaction: arginine + O2 + NADPH +H+ à citrulline + NADP + NO.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "People with a mutant NOX gene suffer from a syndrome called chronic granulomatous disease (CGD). The phagocytes of the affected subjects phagocytize but fail to kill the captured microbes. Phagocytes, however, release cytokines that attract other leucocytes, creating a nodule-like structure in the tissue known as a granuloma. Some pathogens, such as Mycobacterium tuberculosis, are naturally resistant to phagocytic killing and almost always elicit a granuloma. Phagocytes in people affected by Chediak-Higashi syndrome (a genetic condition caused by mutations in the LYST gene) also fail to kill phagocytized microbes because of impaired trafficking of proteins and enzymes to trans-Golgi vesicles and lysosomes.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "Part 3: Adaptive immunity",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "The key players of adaptive immunity are the receptors of T and B lymphocytes. These receptors (i.e., TCRs and antibodies) do not bind their ligands by detecting a pattern; they uniquely recognize the epitope of an antigen and bind only that antigen. For example, an antibody that recognizes/binds the flagellin protein of E. coli may not bind the flagellin protein of Pseudomonas aeruginosa. T and B cells can produce these receptors for synthetic antigens that never existed before. These cells do that by creating unique receptors through recombination and mutation of the genes that encode TCRs and antibodies. The method is so effective that a person's T and B cells can produce millions of different TCRs and antibodies to combat any microorganisms that ever enter the body.",
+          "page": 16
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 30,
+          "title": "Phagocytosis, endocytosis & Autophagy",
+          "bullets": [
+            "Engulfing",
+            "Pinocytosis- macropinosome",
+            "Endocytosis (mediated by clathrin, opsonin, etc. )- vesicles",
+            "Phagocytosis-phagosome",
+            "Autophagy- autophagosome",
+            "Processing",
+            "Early endosome",
+            "Further processing",
+            "Destruction of the trapped materials by reactive chemicals or enzymes"
+          ]
+        },
+        {
+          "slideIndex": 32,
+          "title": "Destruction by reactive oxygen molecules",
+          "bullets": [
+            "Metabolic burst/ NADPH",
+            "Creation of superoxide by NOX",
+            "Creation of other reactive chemicals",
+            "superoxide anions (O2-),",
+            "hydrogen peroxide (H2O2),",
+            "hydroxyl radical (OH*)",
+            "hypochlorous acid anion (HOCl-),",
+            "peroxynitrite (OONO-)",
+            "Nitric oxide",
+            "How these work?"
+          ]
+        },
+        {
+          "slideIndex": 34,
+          "title": "Reactive chemicals (Contd.)",
+          "bullets": [
+            "Neutralizing reactive chemicals",
+            "Catalase and oxidase",
+            "Bacteria with catalase and oxidase",
+            "Deficiency in metabolic burst and phagocytosis",
+            "CGD",
+            "CHS"
+          ]
+        },
+        {
+          "slideIndex": 35,
+          "title": "Destruction of microbes by enzymes",
+          "bullets": [
+            "Formation of endolysosomes",
+            "Gradual acidification",
+            "Recycling of the receptors",
+            "Activation of lysosomal enzymes",
+            "Nucleases, proteases, glycosylases, lipases",
+            "Use of processed PAMPs and DAMPs",
+            "Exocytosis"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.5",
+      "heading": "Structure of TCRs and antibodies",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Although all cells in the human body have Genes for TCR and antibodies, only T cells express TCRs and B cells express antibodies. A TCR is made of two polypeptide chains, alpha and beta chains (some T cells have gamma and delta chains, but we will not discuss them in this book). Each chain is made of about 250 amino acids. The two chains are attached to each other by a disulfide bond, and both are anchored in the plasma membrane (Fig. 9.14). The bulk of the molecules stays outside the plasma membrane. The chains fold into two regions (domains): the constant regions near the plasma membrane, while the variable region remains away from it. The variable region interacts with and binds the antigen. The constant region of all TCRs of a person is structurally identical, but the variable region is slightly different for different batches of T cells of the same person, so that different T cells may bind and react to different antigens. A T cell can have 20,000-100,000 TCRs on its surface. All the TCRs in a single T cell have the same variable region.",
+          "page": 17
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.14. Structure of ab type TCR and a typical antibody. A. A diagram of a TCR showing",
+          "page": 17,
+          "image": "/mmahp/ch09/9-14.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "the variable, constant, and transmembrane regions of the a and b chains. The two chains are connected by a disulfide (S-S) bond. The Va and Vb domains recognize/bind the antigen. B.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Structure of a typical antibody. The two heavy chains, two light chains, the two variable (Fab) regions, and one constant (Fc) region of the antibody are indicated. Figure- Wikipedia.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "A typical antibody comprises two pairs of polypeptide chains. The short pair (light chains) is made of two identical polypeptide chains (about 215 amino acids); the longer pair (called the heavy chains) is composed of two identical polypeptide chains (about 450 amino acids). One light chain is attached to one heavy chain with one or more disulfide bonds. The two heavy chains are also connected to each other by one or more disulfide bonds (Fig. 9.14). Thus, antibodies have two identical variable (Fab) regions to bind antigens and one constant (Fc) region. Antibodies can have five different types of constant regions; at any given time, only one of them stays attached to the variable region. Depending on the constant region, antibodies are named IgA, IgD, IgE, IgG, and IgM (Fig. 9.15). T cells always have TCRs on the plasma membrane. There is no secreted version of TCR. However, B cells may have antibodies on their surfaces or secrete them into the blood and mucous secretions. The membrane-bound antidotes have a membrane anchor and a short cytoplasmic domain beneath the constant region.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "The constant region TCRs and antibodies have specific biological functions. For example, the MHC molecules of antigen-presenting cells (APCs) interact with the constant region of TCRs. Complement C1 binds the Fc region of secreted IgM and IgG, and Fc receptors on some leucocytes bind the Fc region of secreted IgM, IgG, and IgE. The constant regions of five secreted IgM antibodies can be linked to each other via disulfide bonds and to a separate protein, the J chain, creating a pentameric IgM molecule. Similarly, the constant regions of 2-3 IgA molecules can be attached to each other by a secretory chain and by disulfide bonds via the J chain (Fig. 9.15).",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.15. The five types of antibodies. The secreted IgMs form pentamers. The five Fc regions of the five IgM",
+          "page": 18,
+          "image": "/mmahp/ch09/9-15.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "antibodies stay attached to a J chain through disulfide bonds. Secreted IgAs may exist as dimers or trimers connected to a J chain via disulfide bonds. A secretory protein also binds the IgA molecules. Secreted IgG, IgD, and IgE exist as monomers. Note that the heavy chains of IgG, IgA, and IgD contain four Ig domains, whereas IgM and IgE have five. Image source: labome.com/.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "The five types of secreted antibodies have slightly different distributions and functions. Secreted IgD, IgM, and IgG are mostly in the blood, while IgA is found mostly in mucous secretions and milk. Some secreted IgEs are found in the blood, and others are in tissues, bound to the Fc receptors on eosinophils, basophils, and mast cells. How B cells and T cells create the diverse variable regions The antibody and TCR genes are structurally unusual because they are made of many gene fragments. The gene fragments can be grouped into variable (V), diversity (D), junction (J), and constant (C) fragments (Fig. 9.16). There could 30-80 V, 0-27 D, 5-61 J, and 1-12 C gene fragments in TCR and Ig genes. The human cell has four TCR genes, one Ig heavy chain gene, and two Ig light chain genes.",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.16. Recombination of TCR or Ig genes (shown schematically). A. A germline gene with many V, D, J, and",
+          "page": 18,
+          "image": "/mmahp/ch09/9-16.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "C segments. B. Recombination of a V and a D segment. C. Recombination of the VD and a J segment. D. The pre- RNA. E. Spliced mature mRNA ready to be translated. The pink boxes between the V and D and D and J segments are mutations.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "While maturing B cells are in the bone marrow, and maturing T cells are in the thymus, the VDJ recombination system randomly selects one V, 0-4 D, and one J gene segment to create a recombinant VDJ or VJ gene segment. Different maturing B cells or T cells pick different V, D, and J fragments. In addition, the system deliberately inserts additional nucleotides at the junctions between the V and D, and between D and J, fragments. Random recombination and deliberate mutations create a unique variable region in each maturing B and T cell (Fig. 9.16). Although the same system recombines and mutates TCR and antibody genes, TCR genes are recombined only in T cells, and antibody genes are recombined only in B cells. The recombined gene is then transcribed. Grooming of the pre-mRNA yields mature mRNA for translation. Recombination and mutations occasionally create recombinant genes whose mRNA cannot be translated. Since human cells have two sets of chromosomes, the cell then recombines the Ig or TCR genes of the other chromosome. If recombination of the second chromosome also fails, the cell dies by apoptosis. Successful recombination of the genes allows the successful expression of the protein molecules. The proteins are assembled in the endoplasmic reticulum and then in the Golgi complex. Finally, the TCR or Ig molecules appear on the cell surface. The maturing T and B cells also express some additional genes. The maturing T and B cells undergo positive and negative selection (see Section 9.6). The positively selected, mature but native (because they have not yet encountered any foreign antigens) B or T cells then leave the bone marrow or thymus and enter the bloodstream.",
+          "page": 19
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 48,
+          "title": "Five types of antibodies",
+          "bullets": [
+            "Monomers vs",
+            "J chains",
+            "Secretory"
+          ]
+        },
+        {
+          "slideIndex": 49,
+          "title": "Membrane -bound and secreted antibodies",
+          "bullets": [
+            "Membrane bound antibodies",
+            "Attached to the plasma membrane",
+            "Mature naïve B cells- IgM, IgD",
+            "Memory B cells, IgM or any antibodies",
+            "Always monomeric",
+            "Secreted antibodies",
+            "Plasma cells",
+            "In the blood",
+            "I mucous secretions",
+            "Can be monomeric or multimeric"
+          ]
+        },
+        {
+          "slideIndex": 52,
+          "title": "Antibody diversity",
+          "bullets": [
+            "Six different genes",
+            "Somatic",
+            "Deliberate mutations"
+          ]
+        },
+        {
+          "slideIndex": 63,
+          "title": "The MHC molecules",
+          "bullets": [
+            "Class I molecules",
+            "Structure",
+            "Cells that must express them",
+            "What it a cell does not express it",
+            "Antigens presented are 7-9 amino acids",
+            "Internally generated processed by proteasomes",
+            "Class II molecules",
+            "Structure",
+            "What express them",
+            "Antigens presented are 13-21 amino acids",
+            "Imported or autophagized antigens processed by endolysosomal proteases"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.6",
+      "heading": "Selection and activation of B cells",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The antibody of a B cell and the TCR of a T cell must not bind host antigens. Such bindings would cause autoimmune diseases. However, Ig or TCR should bind foreign antigens to induce an immune response. To prevent an autoimmune response and to ensure foreign antigen binding, maturing and mature naïve B and T cells undergo positive and negative selection. B cells initially express IgM on their surface. If the antibody produced by a maturing B cell in the bone marrow tightly binds to any self-antigens, the cell is eliminated by apoptosis (negative selection, see Fig. 9.17). The surviving (i.e., positively selected) B cells leave the bone marrow for the blood, and from the blood they migrate to the lymph nodes and spleen, where they begin to express IgD on their surfaces (Fig. 9.17). The antibodies can bind soluble antigens. The follicular DCs in the lymph node and spleen may capture antigens and show them to the naïve B cells. The V region of an antibody is like a lock that fits with one unique antigen, the key. If the antibodies on naïve B cells fail to bind any available foreign antigen in the lymph nodes, spleen, GALT, or SALT, the naïve B cells die by apoptosis.",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.17. B cell maturation and generation of plasma cells and memory cells. The depiction is a gross summary",
+          "page": 19,
+          "image": "/mmahp/ch09/9-17.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "of the events. Please read the text for details.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "If multiple surface antibodies on a B cell bind a large foreign polysaccharide antigen in the lymph node or spleen, the B cell can be activated. The activated B cell divides, and progeny cells may differentiate into plasma cells. Unlike the mature B cells, the plasma cells lack antibodies on their plasma membrane. The plasma cells instead secrete IgM antibodies for a time and ultimately die. These activated B cells usually do not produce any memory cells. This is why polysaccharide antigens are not suitable vaccines. Note that T cells do not recognize and cannot bind polysaccharide antigens. Thus, polysaccharide antigens are also called T-independent antigens.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "If the surface antibodies of a naïve B cell bind foreign protein antigens in the lymph node or spleen, the B cell takes up the antigen via endocytosis, processes it, and presents antigen fragments on its MHC II (MHC II) molecules (see Section 9.6). An activated TH cell recognizes the antigen on the MHC II of the B cell and releases several cytokines, including IL-2. IL-2 binds IL-2 receptors on the B cell and activates the B cell. This process is the T cell’s help in activating B cells.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "The IL-2-activated B cells repeatedly divide (proliferate), creating a clone. The clone members compete to bind the same antigens. The B cells allow replication errors (mutations) in the VDJ region of the antibody gene, creating more effective antigen-binding antibodies. This process, known as somatic hypermutation, occurs only in B cells (not in T cells). The progeny of the activated B cells that are not very efficient at binding antigens differentiate into plasma cells (Fig. 9.17). The Plasma cells do not have membrane-bound surface antibodies; instead, they secrete IgM in the medulla of lymph nodes. The antibodies then circulate through the bloodstream in search of antigens. This is called the primary immune response of an activated B cell.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "The progeny of the activated B cells that can bind the remaining antigens remain activated B cells or differentiate into memory B cells. Memory B cells are small, round B stem cells with surface antibodies that reside in secondary lymphoid organs but occasionally enter the bloodstream and migrate to the inflamed tissues. The surface antibodies on memory B cells (and activated B cells) can bind antigens and become activated, with or without help from a TH cell. This event is called the secondary immune response of an activated B cell. These activated B cells may class switch. Class-switching occurs via gene recombination, in which some of the constant gene fragments are removed. As a result, some clone members express IgG, some express IgA, and some express IgE (Fig. 9.18).",
+          "page": 20
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.18. Antibody class switching by activated B cells. A. The B cell is activated upon binding to antigens. The",
+          "page": 20,
+          "image": "/mmahp/ch09/9-18.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "activated B cell expresses cytokine receptors that bind to cytokines secreted by activated Th cells. B. Class switching. The activated B cell removes some of the constant regions to express IgG, IgE, or IgA. Note that one or more of the constant gene fragments are removed during class switching, but the previously recombined variable region remains unchanged.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "B cells may proliferate and differentiate into memory B cells and plasma cells after class switching. Class switching is important because different classes of secreted antibiotics exhibit distinct biological properties (Table 9.10). B-cell maturation and class switching depend heavily on cytokines secreted by T cells and on the anatomical sites where B cells are activated. If TH cells secrete IL-4, B cells may class-switch to IgG and IgE to combat infections caused by blood-borne pathogens and worms. If TH cells secrete more TGF-beta and B cells are activated at the mucosal membrane, the B cells may class-switch to IgA. The cytokines bind to B cell receptors and transduce signals that cause B cells to activate, divide, and class switch.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "The plasma cells produced during secondary activation events secrete higher levels of antibodies more quickly. Moreover, plasma cells are long-lived cells that may persist in the body for months, decades, or even a lifetime. The booster shots of antigens are expected to induce a secondary immune response, class switching of B cells to secrete appropriate antibodies, and the creation of long-lived plasma cells. For example, a good influenza virus vaccine should induce secondary B cell activation, leading to IgA secretion in the mucous membranes of the nasopharynx and the lung.",
+          "page": 21
+        },
+        {
+          "type": "figure",
+          "text": "Table 9.10. The major functions of the five types of secreted antibodies. (-) Function absent; (+) functions present to",
+          "page": 21,
+          "image": "/mmahp/ch09/9-10.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "various extents. The leucocytes that the antibodies may affect are indicated. Adapted from Parham P. The Immune System, Garland Science (2014).",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Functions IgM IgD IgG IgA IgE Neutralization1 + - +++ +++ - Opsonization2 + - +++ + + Granulocytes they activate - Basophils Mast cells - Basophils, Mast cells Complement activation +++ - +++ + - Crossing across the mucous membrane + - - +++ - Crossing the placenta - - +++ - - Moving out of blood vessels - - +++ ++ + Activating ADCC3 by granulocytes, macrophages, and NK cells - - ++++ - - 1- antibody binding prevents the microbes from infecting the host cells. 2- Antibody binding activates phagocytosis. 3- Antibody-dependent cellular cytotoxicity, which allows the mentioned leucocytes to kill infected host cells. A healthy adult produces some 10 billion different B cell clones, each with a different variable region/antigen-binding specificity. However, <5% of clones find antigens and survive in the body; they proliferate and create their own clones, each carrying one of the five types of antibodies. At any given time, a person may have about 100 million distinct B- cell clones, each hunting for a different antigen. Antibodies secreted by multiple B cell clones may recognize different epitopes of the same antigen (Fig. 9.19). Thus, the secreted antibodies in a person’s plasma against an antigen are polyclonal.",
+          "page": 21
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.19. Polyclonal and monoclonal antibodies. A. Polyclonal antibodies. Antibodies secreted by multiple B-cell",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "clones bind to different epitopes of a single antigen. B. Serum protein profile (SPP). Serum proteins separated by electrophoresis illustrate one band of albumin and several bands of globulins. Antibodies are found in the gamma- globulin area. In healthy people, polyclonal antibodies create a thin diffuse band (indicated by the green arrow). People with myeloma may generate a thick band of monoclonal antibody. C. The method for creating hybridoma cell lines to produce monoclonal antibodies to any target antigen. SPP image- Hokama NK et al. Case Rep Hepatol 2017; doi.org/10.1155/2017/2705131.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Some people develop B-cell cancer (myeloma) in which a single B-cell clone proliferates rapidly, and the progeny B cells secrete a large mass of antibodies, all binding to a single epitope of a single antigen. Such antibodies are monoclonal (Fig. 9.19). Since polyclonal antibodies bind to many epitopes, they are more effective in fighting microbial infections. Monoclonal antibodies often lose their ability to bind antigens, and they may deposit in tissues and cause diseases (such as kidney failure, amyloidosis).",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Because monoclonal antibodies bind to a single, unique epitope, they can serve as diagnostic tools. Hybridoma technology enables the fusion of a healthy B cell with a myeloma cell that has stopped producing antibodies. The hybridoma cell continues to synthesize the unique monoclonal antibody in tissue culture. This technology allows the production of monoclonal antibodies to any given antigen (Fig. 9.19). Since antibody binding activates complement and induces ADCC, leading to the killing of target cells, many cancer-antigen-specific monoclonal antibodies are used in cancer therapy.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Effector functions of antibodies Antibody binding to antigens triggers the following effector functions (see also Fig. 9.20).",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "• Neutralization of microbes and toxins: Antibody binding prevents microbes (especially viruses) and toxins (such as diphtheria toxin) from binding to cell receptors, preventing subsequent harmful effects. • Activation of the classical complement pathway: IgM, IgG, and IgA bind to antigen, activating the complement pathway, which destroys enveloped viruses, G(-) bacteria, and animal cells.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "• Opsonization: IgM, IgG, IgA, and IgE, as well as complement C3b and C4b, are opsonins. The deposition of these on microbes and their molecules activates their phagocytosis and destruction.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "• ADCC: IgM and IgG deposition on virus-infected host cells recruits macrophages, neutrophils, and NK cells to destroy the infected cells. IgE deposition on parasites enables eosinophils and mast cells to destroy them. • B cell activation: Binding to antigens by surface antibodies of mature naïve B cells, activated B cells, and memory B cells leads to their activation, differentiation, and antibody secretion.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "• Priming eosinophils, basophils, and mast cells: The Fc region of IgE binds to the Fc receptors on these cells, priming them (i.e., making them ready) to bind antigens on worm parasites and kill them via ADCC.",
+          "page": 22
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.20. Some effector functions of antibodies. A. Complement activation destroys microbes and activates",
+          "page": 22,
+          "image": "/mmahp/ch09/9-20.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "inflammation. B. Opsonization facilitates phagocytosis and ADCC. C. Neutralization stops viruses or toxins from binding to host cell receptors, thereby preventing toxic effects or viral infections. D. Foreign antigens attached to the membrane-bound antibodies of B cells activate these cells.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Antibodies make up 10-20% of the plasma proteins. Thus, an astronomical number (~10^17) of antibody molecules are present in the human body. However, free antibodies, whether soluble or on the surface of a B cell, cannot execute any of these effector functions. The binding of the Fab region of the antibodies to antigens or Fc region to Fc receptors triggers the effector functions.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Antibody-dependent cell-mediated cytotoxicity (ADCC) Cytotoxicity is the process by which leucocytes kill target cells in an animal. These target cells include microbe- infected host cells, tumor cells, and flatworm or roundworm cells in the host’s blood or tissues. Before destroying target cells, cytotoxic leucocytes must correctly identify them. The Fab regions of the IgGs bind to antigens on the surface of target cells. Neutrophils, eosinophils, macrophages, and natural killer (NK) cells have Fc receptors that bind the Fc region of antigen-bound IgG antibodies, anchoring the leukocytes to the target cell (Fig. 9.21).",
+          "page": 23
+        },
+        {
+          "type": "figure",
+          "text": "Fig.9.21. ADCC. The Fc receptors of neutrophils, eosinophils, macrophages, and NK cells bind to the Fc region of",
+          "page": 23,
+          "image": "/mmahp/ch09/9-21.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "the antigen-bound IgGs on the membrane of a target cell. The mechanism of killing differs by the leucocyte type. The molecules that kill the target cells are shown in the box on the right. Redrawn from Kindt TJ, Osborne B, Goldsby R. Kuby Immunology 6th Ed, WH Freeman (2006).",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "The leucocytes then destroy the target through several mechanisms, including the release of lytic enzymes, cytokines, granzymes, and perforins (Fig. 9.21). The lytic enzymes penetrate the target cell and degrade its macromolecules. Granzymes and perforins will be discussed in Section 9.6. Often, the host's target cells express Fas receptors. NK cells display Fas ligands. Fas ligands are cytokine-like membrane proteins that bind to Fas receptors. This binding triggers a signal in the target cell, leading to its death through apoptosis.",
+          "page": 23
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 56,
+          "title": "Polyclonal versus monoclonal antibodies",
+          "bullets": [
+            "What is a clone",
+            "Polyclonal: Many clones/ many antibodies to different epitopes of one",
+            "What is normally found in animals",
+            "B cell tumors",
+            "Hybridoma",
+            "Purpose-made monoclonal antibodies"
+          ]
+        },
+        {
+          "slideIndex": 67,
+          "title": "Activation of mature naïve Th cells",
+          "bullets": [
+            "TCR binds antigen on MHC II (of DCs, no other cells)",
+            "CD4 binds MHC II",
+            "Other coreceptors: CD28 binds B7, CD45R bind CD45 etc.",
+            "Th cell express IL-2 and IL-2 receptors",
+            "IL-2 binds IL-2 receptor",
+            "Th cell disengage, become a Th 0 cell",
+            "proliferate, create memory cell and secrete cytokines",
+            "move out of the lymphoid organs and migrate to inflamed tissues"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.6",
+      "heading": "Selection and activation of T cells",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The TCR genes recombine and mutate as maturing T cells develop in the thymus. Successful expression of TCR on T cell surfaces initiates positive and negative selection (Fig. 9.22). TCRs can bind only protein antigens, not soluble antigens. The protein antigens must be processed and presented on cell-surface molecules called MHC I and MHC II for TCRs to recognize and bind the antigens. The maturing T cells in the thymus also express CD8 and CD4 molecules on their surfaces to interact with MHC I and MHC II on antigen-presenting cells. These T cells are called double- positive (DP) T cells.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "The antigens found in the thymus are all self-antigens. If the TCR of a DP T cell fails to interact with self-antigen presented on MHC I and MHC II, the DP T cell undergoes apoptosis (the TCR is most likely improperly formed). If the TCR of a DP T cell binds self-antigen presented on MHC I or MHC II with high affinity, the cell also faces a deadly fate. This is the negative selection process that prevents autoimmune disease. DP T cells with TCRs that bind self-antigens presented on MHC I and MHC II proteins with modest affinity are positively selected. At that point, some T cells stop expressing either CD4 or CD8 molecules. The single-positive (SP) T cells expressing TCR and CD4 are called helper T (or TH) cells, and those expressing TCR and CD8 are called cytotoxic (or TC) cells. The mature naïve T cells leave the thymus, enter the blood, and then migrate to the lymph nodes and spleen (Fig. 9.22). As for B cells, billions of T cell clones are generated every day, but a small percentage survive the negative selection. A healthy person contains about 100 million different T cell clones; each clone has a TCR variable region specific for a different epitope of an antigen. Unlike B cells, mature naïve T cells are not killed if they cannot find an antigen in the spleen or lymph nodes at the time. The cells move from lymph nodes to the spleen and into the bloodstream in search of antigens. An adult with a nonfunctional thymus likely survives because many T cell clones accumulated during early life.",
+          "page": 23
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.22. T cell maturation in the thymus. T cell progenitors migrate from the blood into the thymic cortex. These",
+          "page": 24,
+          "image": "/mmahp/ch09/9-22.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "progenitors express TCR genes and subsequently CD4 and CD8, becoming double-positive (DP) T cells. DP T cells undergo both positive and negative selection. The positively selected DP T cells become single-positive (SP) T cells (either TH or TC cells), migrate to the medulla, then to the bloodstream, and from there to the spleen and/or lymph nodes.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Barrier between blood, bone marrow (BM), and thymus If microbes or microbial antigens are in the BM and thymus, they would appear as self-antigens and be used to negatively select B and T cells that recognize them. As a result, there would be no effector T and B lymphocytes in the periphery to protect from those microbes. To prevent this, the BM and thymus (and brain) are isolated from the blood by barriers called the blood-BM, blood-thymus, and blood-brain barriers. The barriers are created by the tighter junctions between endothelial cells of the blood capillaries in those organs and reticular cells that surround the blood vessels. The tight junctions prevent the passage of microbes from the blood to those organs.",
+          "page": 24
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 56,
+          "title": "Polyclonal versus monoclonal antibodies",
+          "bullets": [
+            "What is a clone",
+            "Polyclonal: Many clones/ many antibodies to different epitopes of one",
+            "What is normally found in animals",
+            "B cell tumors",
+            "Hybridoma",
+            "Purpose-made monoclonal antibodies"
+          ]
+        },
+        {
+          "slideIndex": 67,
+          "title": "Activation of mature naïve Th cells",
+          "bullets": [
+            "TCR binds antigen on MHC II (of DCs, no other cells)",
+            "CD4 binds MHC II",
+            "Other coreceptors: CD28 binds B7, CD45R bind CD45 etc.",
+            "Th cell express IL-2 and IL-2 receptors",
+            "IL-2 binds IL-2 receptor",
+            "Th cell disengage, become a Th 0 cell",
+            "proliferate, create memory cell and secrete cytokines",
+            "move out of the lymphoid organs and migrate to inflamed tissues"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.6.1",
+      "heading": "Antigen processing and presentation",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "TCRs have additional limitations; they can only recognize/bind peptide antigens but cannot recognize large protein antigens. The large protein antigens must be processed (fragmented to an acceptable size) and presented on cell surface molecules known as major histocompatibility (MHC) antigens (for humans, the molecules are called human leucocyte antigens or HLA). Here, we will use the term \"MHC\" rather than \"HLA\" because human leukocytes have many antigens besides the MHC antigens.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "There are two types of antigen-presenting cells: professional antigen-presenters (APCs) and target cells. APCs (i.e., DCs, macrophages, and B cells) capture antigens via phagocytosis, endocytosis, and autophagy, and then enzymatically break down the protein antigens in phagolysosomes. Fragments of protein antigens, made of 13-21 amino acids, are then attached to newly synthesized MHC II molecules (Fig. 9.23). The MHC II molecules move to the plasma membrane, where they display antigens.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Target cells are any biologically active (i.e., nucleated) cells of the body, including T cells, B cells, and the APCs. These cells must recycle (break down) old proteins synthesized inside the cell, whether their own, tumor proteins, or those of pathogens growing within them. The cells break down the protein antigens using a small machine named the proteasome. Protein fragments 7-9 amino acids in length are loaded onto newly synthesized MHC I (9.23). The MHC I molecules move to the plasma membrane and display the antigens.",
+          "page": 25
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.23. Antigen processing and presentation. Left side: Processing and presenting antigens on MHC I molecules.",
+          "page": 25,
+          "image": "/mmahp/ch09/9-23.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Proteins are shredded by proteases within the proteasomes. Some of the resulting oligopeptides (7-9 amino acids in length) are loaded onto recently synthesized MHC I molecules and displayed on the membrane of the cell. Right side: Processing of antigens for presentation on MHC II molecules. Proteins are digested in the phagolysosomes of professional antigen-presenting cells to create small polypeptides. Some of the polypeptides (13-19 amino acids in length) are loaded onto recently synthesized MHC II molecules and displayed on the membrane. Image- Online Science Notes.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "MHC proteins are diverse. Each person has 12-16 MHC I and MHC II genes. These few MHC proteins must present all possible antigens that the cells will ever encounter. Some MHC proteins of the same class are more efficient at presenting certain antigens than others. Since TCR binds foreign antigen along with MHC proteins, the presentation of antigen affects the overall immune response. Animals (including humans) try to diversify the MHC antigens in their offspring by selecting unrelated reproductive partners.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "MHC proteins display both self and non-self (microbial and cancer) antigens. Maturing T cells that can bind self- antigens are killed in the thymus. Therefore, T cells in the periphery should not be able to recognize the presented self-antigens. However, some T cells in the periphery may recognize/bind self-antigens presented improperly by an MHC molecule. This may lead to autoimmune diseases. Although all people have some anti-self T cells in the periphery, most such clones are suppressed by a regulatory process known as T cell anergy.",
+          "page": 25
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 61,
+          "title": "Antigen processing",
+          "bullets": [
+            "Protein recycling",
+            "Cellular proteins including tumor proteins",
+            "Any other protein translated in the cell (i.e. viral proteins)",
+            "By the proteases present in the proteasomes",
+            "Peptide of size 7-9 amino acids are presented",
+            "Processing of endocytosed/phagocytized/autophagized antigens",
+            "By proteases (and lipases) of the endolysosomes",
+            "Peptide of size 13-21 amino acids are presented",
+            "Some lipid antigens are also presented"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.6.2",
+      "heading": "Activation of mature naïve T cells in the periphery",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Only DCs can activate mature naïve T cells. The DCs themselves must be activated before they can activate mature naïve T cells. PAMPs and DAMPs bind PRRs of DC’s and trigger signaling, activating DCs. Activated DCs secrete cytokines such as IL-12, TNF-alpha, IL-6, and IL-1 beta.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "DCs capture antigens in the phagosomes and autophagosomes, process them, and present them on their MHC II. Phagocytosis also activates DC to secrete cytokines. DCs infected by microbes process microbial antigens on proteasomes and present the antigens on MHC I. Finally, DCs move some of the antigens from the phagolysosome to the cytoplasm, to present them on MHC I, and some antigens from the cytoplasm to the phagolysosome to present on MHC II. This is cross-presentation.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Mature naïve TH cells detect and bind antigens presented on MHC II of activated DCs. CD4 proteins of TH cells interact with MHC II of DCs to validate antigen binding. Additional surface molecules on TH cells interact with DCs’ surface molecules, further authenticating antigen binding by the TCR (Fig. 9.24). Such authentication prevents autoimmune responses.",
+          "page": 26
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.24. Activation of mature naive TH cells. A. TCR binding to the antigen on MHC II, CD4 interaction with",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "MHC II, and additional receptor-ligand interactions provide signal 1, causing the DC to express B7 and CD40, and the TH cells to express CD28 and CD40L. B. Binding of CD22 to B7 and CD40 to CD40L provides the second signal, causing the TH cells to produce IL-2. IL-2 binding to the IL-2 receptor (IL-2R) fully activates the TH cells. The TH cell then separates from the DC and turns into a Th0 cell.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "These receptor-ligand interactions provide the TH cell with a signal to express co-stimulatory receptors such as CD40L and CD28 (Fig. 9.24). CD28 and CD45R bind their ligands B7 and CD45 on the DC surface. These multiple receptor-ligand interactions activate both the TH cells and DCs. The activated TH cells express and secrete IL-2, a powerful cytokine that binds to IL-2 receptors on TH cells. At this point, the TH cells detach from the DCs and differentiate into TH0 cells.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "TH0 cells divide repeatedly to form a clone. TH0 cells express many surface receptors. If the person is infected, other leukocytes, including DCs and macrophages, release cytokines that bind TH0 cell receptors. Depending on the cytokine environment, TH0 cells differentiate into various effector TH cell types (Table 9.13). Most of these differentiated cells are effector cells, but a fraction of them become memory TH cells.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Effector T cells leave the spleen and lymph nodes to enter the blood and then migrate to inflamed tissues to fight infections and injuries. Memory T cells generally reside in the spleen and lymph nodes but occasionally migrate into the blood and inflamed tissues when needed. When they encounter antigens on APCs, memory T cells activate and perform effector functions more rapidly than mature naïve TH cells. Activated T cells do not require interactions with DCs to be activated.",
+          "page": 26
+        },
+        {
+          "type": "subheading",
+          "text": "Effector functions of TH cells",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Activated TH1, TH2, and TH17, and iT-reg cells may bind antigens on any APC displaying antigen on MHC II. Upon binding the antigens, the activated T cells release various cytokines (Table 9.13). The cytokines bind to receptors on other leukocytes and transduce signals (Table 9.13). For example, if a TH1 cell releases IL-2 and IL-2 binds to the IL- 2 receptor on a TC cell, the TC cell will be activated and kill virus-infected or tumor cells more effectively. Secreting appropriate cytokines is the sole effector function of Th cells. However, this is an extremely important function because it regulates the entire immune system. People with a low count of TH cells fail to mount an effective immune response. On the other hand, people who have excess TH1 cells or TH17 cells may develop destructive autoimmune diseases.",
+          "page": 26
+        },
+        {
+          "type": "figure",
+          "text": "Table 9.13. Fate of Th0 cells and the effector functions of fully activated TH cells.",
+          "page": 27,
+          "image": "/mmahp/ch09/9-13.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Cytokines in the locality Fate of the TH0 cell Cytokines the cell secrete Effector functions of the cell IFN-gamma, IL-12 TH1 IFN-gamma, IL-12, IL-27 Activate TC cells to kill infected host cells and tumor cells IL-4 TH2 Il-4, IL-5, IL-13 Activate B cells to secrete antibodies such as IgG, and IgE TGF-beta, IL-6, IL-21 TH17 IL-17, IL-22, IL-26 Protect the skin and mucous membrane TGF-beta, IL-2 iTreg IL-10, TGF-beta Suppress T cells to prevent to prevent excess inflammation",
+          "page": 27
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 68,
+          "title": "Activation of naïve mature Tc cell",
+          "bullets": [
+            "TCR binds antigen on MHC I of DCs (no other cells)",
+            "CD8 binds MHC I",
+            "Other coreceptors: LFA1 binds ICAM1, etc.",
+            "Tc cell express IL-2 receptors",
+            "IL-2 secreted by Th cell binds IL-2 receptors of Tc cell",
+            "Tc cell disengages, becomes a CTL",
+            "proliferates, creates memory cells",
+            "Move out of the lymphoid organ in search of the target cells"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.6.3",
+      "heading": "Activation of mature naïve TC cells",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "As in TH cells, only activated DCs can activate mature naïve TC cells. The initial interactions between activated DCs and mature naïve TC cells are similar to those of DCs and mature naïve TH cells (Fig. 9.24). However, TC cells cannot secrete IL-2. An activated TH cell must secrete IL-2 locally, and the cytokine must bind the IL-2 receptor on the naïve TC cell to fully activate it. The fully activated TC cells are called cytotoxic T lymphocytes (CTLs). CTLs separate from DCs, leave the lymph node and spleen, enter the bloodstream, and then go to inflamed/infected tissues. In the inflamed tissues, cytokines such as IL-12, and IFN-gamma bind the receptors of CTL and activate them further. Effector functions of CTLs In the infected tissue, CTL TCRs recognize and bind antigens presented by MHC I on any cell displaying foreign antigens. CD8 of CTL interacts with MHC I of the target cell. Additional receptors and ligands on the CTL and target cells augment binding, providing the CTL with a green signal to kill the infected cell (Fig. 9.25). The CTL may kill the target cell by one or more of the following methods",
+          "page": 27
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.25. The effector functions of armed CTLs. A. The TCR of CTL binds antigen on the MHC I of the target",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "cell. Additional receptor-ligand binding authenticates the TCR-antigen binding interactions. The CTL then releases granules and TNF. The Fas ligand of CTLs binds the Fas receptor of the target cell. B. Apoptotic death of the target cells occurs due to signals generated by Fas ligand-Fas receptor interaction, TNF-TNF receptor interaction, and granzymes acting on their targets in the CTL.",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "• Releasing granules containing perforin and granzymes: Perforin is a protein that forms pores 5-20 nm in diameter in the target cell membrane. Granzyme enters the target cell's cytoplasm through pores or by binding its receptors, triggering apoptotic cell death.",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "• Fas ligand binding: The Fas ligand on CTLs binds the Fas receptor on the target cell and triggers a signal that ultimately leads to apoptosis of the target cell.",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "• Cytokine release: CTL releases the cytokine TNF, which binds to TNF receptors on the target cell and activates a signaling cascade that ultimately leads to the target cell's apoptosis.",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "An activated CTL kills one target cell at a time, moves away from the killed cell, recharges (to accumulate more perforin and granzymes), and then engages the next target cell. Most of the target cells that are attacked die by apoptosis (disintegrate into small cell fragments, which are removed by macrophages). A few target cells may lyse (break open) and release DAMPs. The DAMPs bind to TLRs and activate the inflammatory response. Apoptotic death of the target cells may reduce inflammation.",
+          "page": 28
+        },
+        {
+          "type": "subheading",
+          "text": "Memory lymphocytes",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Memory B and T cells differ from mature naïve and activated B and T cells. Memory B cells have surface antibodies similar to those on mature naïve and activated B cells. However, unlike activated B cells, memory B cells are not required to become plasma cells in the absence of antigens and IL-2. Memory B cells can bind antigens anywhere in the body, quickly activate, undergo class switching, and differentiate into plasma cells that produce higher levels of antibodies.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Memory T cells do not require activated DCs for activation and can survive in the absence of antigens and IL-2. They can also get activated anywhere in the body (in secondary or tertiary lymphoid tissues) as long as they detect presented antigens. Memory T cells are rapidly activated and display more intense effector functions.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Memory B and T cells occasionally divide like stem cells, thereby maintaining their populations. It appears that when activated, memory B and T cells may not generate a new batch of memory cells. Frequent reinfections and repeated antigen exposure may cause clonal exhaustion of B and T memory cells, evidenced by lower cytokine and antibody production in response.",
+          "page": 28
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 72,
+          "title": "Effector functions of CTLs",
+          "bullets": [
+            "TCR binds antigen of the target cell",
+            "CD8 bind MHC I of the target cell",
+            "LFA1 binds ICAM1 of the target cell",
+            "Fas ligand binds fas receptor of the target cell",
+            "T cell secrete",
+            "Perforin",
+            "Granzyme",
+            "TNF",
+            "Induce apoptotic death of the target cell"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "9.6.4",
+      "heading": "Regulation of T and B cells’ immune response",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Anti-self B cells and T cells are negatively selected (killed) in the bone marrow and thymus, respectively. A few anti- self T and B cells may escape the negative selection and enter the periphery. Most of these self-reactive B and T cells fail to activate. Self-reactive B cells cannot get activated because they need self-reactive T cells to support them by secreting IL-2. It is unlikely that a person has self-reactive B and self-reactive T cells simultaneously for the same antigen.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Self-reactive T cells cannot be activated due to the lack of activated DCs. Self-reactive T cells become permanently inactivated (anergized) if there are no DCs to present B7 molecules that bind the CD28 molecules on mature naïve T cells.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Activated B cells cannot stay activated if they no longer find antigens to bind or if TH cells do not secrete IL-2. Most plasma cells die after secreting antibodies for a few weeks or months. Memory B cells stay quiescent (do not activate) in the absence of antigens.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Activated T cells die of apoptosis if (a) their TCRs can no longer find antigens presented on MHC molecules, (b) IL- 2 does not bind to their IL-2 receptors on the T cells, and (c) Fas ligand of an APC or target cell binds the Fas-receptors of activated T cells.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "When a person is infected, the abundance of antigen activates many T cells and B cells. The activated TH cells secrete cytokines that activate leukocytes. The leucocytes secrete more cytokines and perform other effector functions, such as phagocytosis and cytotoxic killing of the infected cells. CTLs kill many target cells. DAMPs released by dead cells activate inflammation. Plasma cells release antibodies that activate complement pathways, which in turn activate inflammation. The excess cytokines and the resulting inflammatory responses cause many of the signs of infectious diseases.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "As microbes are killed and their antigens are cleared by phagocytes, T and B cells cannot remain activated, leading them to undergo apoptosis. Disease signs gradually disappear, and normal health resumes. However, this may not occur if the immune system fails to remove all pathogens and their antigens from the sterile spaces of the body. In that case, the low antigen levels may induce chronic inflammation.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "More severe problems arise when the normal regulation of the immune response is disrupted by gene mutations and polymorphisms. In these cases, the immune system may not respond adequately, causing immunodeficiency; may react to self-antigens, causing autoimmune diseases; or may overreact to foreign antigens, causing hypersensitivity reactions. These subjects and some aspects of applied immunology are discussed in Chapter 10.",
+          "page": 29
+        },
+        {
+          "type": "subheading",
+          "text": "The Venn diagram of the immune system",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Based on the effector mechanisms, the immune system has historically been divided into innate immunity (the effectors such the skin, and macrophages, are built-in), adaptive immunity (the effectors, the T and B lymphocytes, mutate and evolve in the lifetime of the host animal), humoral immunity (the effectors, such as antibodies, complements and cytokines, are proteins, dissolved in the body fluids), and cell-mediated immunity (the effectors are granulocytes and lymphocytes). Mucosal immunity (effectors are associated with mucous membranes and secretions) has joined the groups in recent years. However, the mechanisms do not function in isolation; they are intricately associated and functionally overlapping (Fig. 9.26).",
+          "page": 29
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 9.26. Immunity by various names. A Venn diagram showing that innate, adaptive, humoral, and cell-mediated",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "immunity share many of the effector elements of the immune system. The various compartments created in the Venn diagram can be assigned to different compartments of the body, such as mucosal immunity, immunity to fetuses and grafted organs, and immunity to privileged tissues such as the central nervous system.",
+          "page": 29
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 74,
+          "title": "Regulation of adaptive immunity",
+          "bullets": [
+            "Central regulation (central tolerance)",
+            "Anti-self B cells killed in the bone marrow",
+            "Anti-self T cells killed in the thymus",
+            "Peripheral regulation (tolerance) of B cells",
+            "B cells failed to find an antigen are killed of antigen",
+            "B cells must present antigens to T h cells and Th cell must secrete IL-2 for",
+            "Memory B cells can not get activated till bind antigens"
+          ]
+        },
+        {
+          "slideIndex": 75,
+          "title": "Regulation of T cells in the periphery",
+          "bullets": [
+            "No DAMPs and PAMPs in the body, DCs are no activated, without",
+            "Anergy: If anti-self T cells bind antigen on DCs, DCs would not",
+            "Overactivated Th cells inactivated by inactivated by CTLA4 of the",
+            "iTreg cells kill overactivated T cells by Fas ligand/Fas receptor",
+            "Lack of antigens and IL-2 kill activated T cells by apoptosis",
+            "Only memory T cells survive"
+          ]
+        },
+        {
+          "slideIndex": 77,
+          "title": "What if the regulation network is broken",
+          "bullets": [
+            "Excess inflammation (due to cytokines) allow anti-self T cells and B",
+            "Mutations in some regulatory genes (for example in IL-10 or CTLA4",
+            "Excess of one of other cell types may disturb the balance",
+            "In most cases the result are",
+            "Autoimmunity or",
+            "lack of adequate immune response (immunosuppression)",
+            "Excess antigens or cytokines may cause cytokine storm",
+            "Septicemia",
+            "Viremia",
+            "Bacterial superantigens"
+          ]
+        }
+      ]
+    }
+  ],
+  "unmatchedSlides": []
+}

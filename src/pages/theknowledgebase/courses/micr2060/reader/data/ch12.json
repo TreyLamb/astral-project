@@ -1,0 +1,1557 @@
+{
+  "id": "ch12",
+  "number": 12,
+  "title": "Infectious Diseases in Human Populations",
+  "lead": "This chapter addresses the principles of pathology and epidemiology of infectious diseases. Pathology is the study of the causes, processes, and consequences of diseases. Epidemiology is the study of the causes, distribution, and control of disease in human populations. Pathology originated long ago; the subject constituted Book IV of Avicenna's (980- 1037) The Canon, the classical medical textbook used in medical schools until the late 1700s. Epidemiology emerged slightly before microbiology and helped establish microbiology as a core discipline. Two physicians, Ignaz Semmelweis (1818-1865) and John Snow (1813-1858), are considered the founders of modern epidemiology. Semmelweis (1847) demonstrated the importance of handwashing by interns assisting with childbirth. The practice significantly reduced the incidence of puerperal fever (infection of the female reproductive tract following childbirth, also called childbed fever) among women. Snow discovered the source of the 1848 cholera outbreaks in London by working like a disease detective. He noted the distribution of cholera cases and the sources of drinking water in London and concluded that the water of certain wells was contaminated. Banning the suspected wells drastically reduced the number of cholera cases in London. The causative agent of cholera (i.e., Vibrio cholerae) was discovered in 1854 by Filippo Pacini (1812-1883).",
+  "openstaxEquivalent": null,
+  "sources": {
+    "chapterPdf": "12. nfectious Diseases in the Populations.pdf",
+    "pptPdf": "MMAHP Ch 12 PowerPoint Lecture Outline.pdf"
+  },
+  "sections": [
+    {
+      "number": "12.1",
+      "heading": "Host-microbe symbiosis",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "In most cases, microbes enter the host body before they can cause disease. Once the microbe occupies the host body, a symbiotic relationship is established. Symbiosis is the interaction of two members of different species in close physical proximity. Symbiotic relationships could be grouped into three major categories: mutualism, commensalism, and parasitism. In mutualism, both partners, the hosts and the microbes (mutuals), benefit from the relationship. An example of mutualism is Lactobacillus crispatus inhabiting the vagina (Fig. 12.1), where the microbe obtains food and shelter. In return, the bacterium benefits the host by creating an acidic environment (pH 3.8-4.5) that inhibits the growth of many pathogenic microbes.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "In commensalism, the host remains unaffected, but the microbe (the commensal) benefits. Propionibacterium acnes living on the skin can be considered commensal because the bacterium gains shelter and nutrients. However, it is assumed that the bacterium provides no specific advantage to the host (Fig. 12.1). Some strains of P. acnes can be considered parasites.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "In parasitism, the host is harmed, while the microbe (the parasite) benefits. All primary pathogens (i.e., microbes that colonize or cause disease upon entering the body surfaces of a healthy subject) are parasites because they obtain nutrition and shelter from the host and harm it (Fig. 12.1).",
+          "page": 1
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 12.1. The three types of symbiosis. A. Mutualism. Lactobacilli on the surface of a vaginal epithelial cell. Gram-",
+          "page": 2,
+          "image": "/mmahp/ch12/12-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "stained sample. Image Courtesy: CDC PHILL. B. Commensalism. An SEM image showing Propionibacterium acnes strain P6 growing on prostate epithelial cells (scale bar- 2 microns). Microscopy by Volker Brinkmann, Max Planck Institute for Infection Biology, Berlin, Germany. Image source: Leheste JK, Ruvolo KE, Chrostowski JE, Rivera K, et al. Front cell Infect Microbiol 2017, 7: 81. C. Parasitism. A TEM image of lung cells infected by Middle East respiratory syndrome coronavirus (MERS-CoV). The microbes are indicated by arrowheads. Image courtesy: CDC- PHILL.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Of the microbes that permanently or transiently occupy or colonize the human body, only some of the bacterial species are proven commensals; all animal viruses, some bacteria, most fungi and protozoa, and all algae and metazoan organisms, including worms and insects such as scabies mites, are considered parasites. In an ecological sense, any microbes, including viruses, bacteria, fungi, protozoans, or worms, that have a parasitic relationship with the human body are parasites. However, some biologists tend to limit the term ‘parasite’ to denote pathogenic protozoa and worms. In this book, we will use the term parasite to denote any microbes that have a parasitic relationship with the human body. Commensals (and on rare occasions, mutuals) may turn to opportunists by migrating to normally sterile areas of the body and causing pathologies (see later in this chapter).",
+          "page": 2
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 2,
+          "title": "Host microbe symbiosis",
+          "bullets": [
+            "Symbiosis",
+            "Mutualism",
+            "Commensalism",
+            "Parasitism",
+            "Use of the term parasite"
+          ]
+        },
+        {
+          "slideIndex": 21,
+          "title": "Course of an infection",
+          "bullets": [
+            "Naïve subject vs. immune subjects",
+            "Inapparent (subclinical) disease vs. clinical disease",
+            "Symptoms versus signs and syndrome",
+            "Nonspecific vs. specific signs",
+            "Acute vs persistent infections",
+            "Disease progression",
+            "Incubation period",
+            "Prodrome",
+            "Clinical disease",
+            "Convalescence"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "12.1.2",
+      "heading": "Normal microbiota and opportunists",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "All the microbes in a habitat, such as the human body, collectively are its microbiota. Microbes found in certain areas of healthy individuals' bodies that do not cause disease are collectively called the normal microbiota (Fig. 12.2). Some textbooks use the term normal microflora (Latin, flor- flower). All life forms other than animals are considered flora, but the term \"normal microbiota\" is more comprehensive because some animals (such as protozoa) inhabit human body surfaces. Some members of the normal microbiota permanently occupy specific parts of the body; for example, Enterococcus faecalis and Bacteroides fragilis occupy the intestine. Such microbes are called the resident normal microbiota.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbes in the environment (soil, water, food items, or other organisms' bodies) occasionally enter and temporarily occupy certain areas of the human body, where they are part of the transient normal microbiota. For example, the yeast Saccharomyces cerevisiae, ingested with ripe grapes, may occupy the intestine for a while and become part of the transient normal microbiota.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "The normal resident or transient microbiota occupies only the following body surfaces: skin, eyes, upper respiratory tract, mouth, outer and middle ear, alimentary tract, urethra, bladder, and vagina. The most common genera of microbes present in the resident microbiota are listed in Table 12.1.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "The lower respiratory surfaces, including the lung and the uterus, can be temporarily occupied by microbes, but they are quickly cleared or expelled by the immune system. The presence of any microbes, including the members of normal microbiota, in any other part of the body except those areas mentioned here (Fig. 12.2) is considered an infection. Many of the resident microbes do enter restricted parts of the body and cause opportunistic infections.",
+          "page": 2
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 12.2. Body surfaces occupied by resident microbes and their numbers. Shown is the number of microbes/sq",
+          "page": 3,
+          "image": "/mmahp/ch12/12-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "cm of the skin surface or per gm of homogenized tissue, or per gm solid or fluid of the contents of the areas. The figure is redrawn after Davis P, In Baron S (ed), Medical Microbiology 4th ed.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "https://www.ncbi.nlm.nih.gov/books/NBK7627/.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Normal microbiota includes species belonging to the following groups: (a) viruses that infect bacteria (bacteriophages), archaea (archaeoviruses), and plants, (b) bacteria, (c) archaea, (d) fungi, and (e) protozoa. Some bacteriophages and archaeoviruses are resident microbes, but all plant viruses occupy the human intestine only transiently (see Chapter 3). All animal viruses, worms, and insects found in the human body are considered parasites, although a few viruses (such as adeno-associated virus and hepatitis G virus) infect human cells without causing disease.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Opportunistic infections result from breaches of innate and/or adaptive immunity. For example, improper use of bath tissue may cause resident intestinal bacteria in the fecal materials to enter the female urethra. Similarly, abdominal wounds allow resident skin or intestinal microbes to enter the visceral cavities and blood. In both cases, opportunistic infections ensue. Lapses in adaptive immunity (such as a lack of T lymphocytes, as in AIDS) also allow resident or transient bacteria, fungi, and protozoa to cause opportunistic infections. The soil bacterium Pseudomonas aeruginosa may occasionally enter the human body but may not cause disease in healthy subjects. However, the same bacterium may cause fatal opportunistic infections in burn victims and people with cystic fibrosis (a congenital lung disease).",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Table 12.1. Genera of microbes that commonly occupy/colonize the allowed areas of the human body surfaces. The",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "list is not comprehensive. For a list of primary pathogens, see Chapter 3.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Genera Skin Upper resp. tract1 Gastrointestinal tract2 Genitourinary tract3 Bacteria Acinetobacter + + + Actinobacillus + Actinomyces + + + Aerococcus + Bacillus + Bacteroides + + Bifidobacterium + + Campylobacter + Clostridium + + + Corynebacterium + + Cardiobacterium + Eikenella + Enterobacteriaceae + + + Enterococcus + + Eubacterium + + + Fusobacterium + + + Gardnerella + Haemophilus + + + Helicobacter + Kingella + Lactobacillus + + Micrococcus + Mobiluncus + Moraxella + Mycoplasma + + Neisseria + Peptostreptococcus + + + + Porphyromonas + + + Prevotella + + + Propionibacterium + + + + Pseudomonas + Staphylococcus + + + + Streptococcus + + + + Rothia + Treponema + + Veillonella + + Ureaplasma + Archaea Methanobrevibacter + ++ Methanosphaera ++ Methanomassiliicoccus Methanobacterium Fungi Candida + + + + Malassezia + Algae Blastocystis + Protozoa Chilomastix + Endolimax + Entamoeba + + Iodamoeba + Trichomonas + + + 1-The upper respiratory tract includes the oral cavity, the nasal cavity, the paranasal sinuses, the eye surfaces, the middle ear, the Eustachian tube, the pharynx, and the trachea. The lower respiratory tract (bronchioles and alveoli) is expected to be sterile although some bacteria can be found there. 2- The gastrointestinal tract is from the esophagus to the rectum; the esophagus, stomach, and caeca are usually free of resident microbes. 3-The genitourinary tract includes the urethra, vagina, and bladder; the ureters and the uterus are expected to be free of resident microbes.",
+          "page": 3
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 3,
+          "title": "Normal Microbiota",
+          "bullets": [
+            "Normal microbiota- Microbes",
+            "Resident",
+            "viruses that infect bacteria",
+            "Transient",
+            "Microbes that normally thrives in"
+          ]
+        },
+        {
+          "slideIndex": 23,
+          "title": "Primary and other infections",
+          "bullets": [
+            "Primary infection- infection of a naïve subject for the first time",
+            "Secondary infections- infection of by a second species of",
+            "Tertiary, quaternary, etc. infection –infection by subsequent strains o the",
+            "Superinfection- infection by resistant strain of the same species",
+            "Hyperinfection- larvae of worms generated in the body infect the"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "12.1.3",
+      "heading": "Occupation, colonization, and infection",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The presence of normal microbiota on the allowed body surfaces is occupation; the presence of pathogenic microbes on the body surfaces without causing any disease signs is colonization. However, there is a tendency to use the two terms interchangeably. In this book, the presence of mutuals, commensals, and normal resident microbes in the allowed areas of human body surfaces, without causing any pathology, will be considered an occupation of those surfaces. The presence of parasites and primary pathogens on any human body surface without causing pathology will be considered colonization of that surface.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "The presence of pathogenic microbes on body surfaces causing signs of disease, or on restricted (normally sterile) body surfaces, is considered an infection. Many highly pathogenic bacterial species are frequently isolated from apparently healthy subjects. For example, Corynebacterium diphtheriae, Haemophilus infuenzae, Moraxella catarrhalis, Neisseria meningitides, Staphylococcus aureus, Streptococcus pyogenes, and Streptococcus pneumoniae can be present in the throat; Staphylococcus aureus, Streptococcus pneumoniae, and Pseudomonas aeruginosa can be present in the middle ear; Moraxella catarrhalis, Haemophilus infuenzae, Staphylococcus aureus, and Streptococcus pneumoniae can be present the eyes; Helicobacter pylori can be present in the stomach; Salmonella typhimurium, Escherichia coli, and Campylobacter jejuni can be present in the small intestine; Clostridium difficile, Pseudomonas aeruginosa and Entamoeba histolytica can be present in the colon (large intestine); Chlamydia trachomatis, Mycoplasma genitalium, and Neisseria gonorrhea can be present in the urogenital tracts and the eyes of asymptomatic patients; and Clostridium perfringens can be present on the skin of healthy subjects. Although a person colonized by a pathogenic microbe may not show symptoms of disease, they can still transmit the pathogens to others. Many fatal cases of meningitis caused by the transmission of Neisseria meningitidis from colonized individuals to naive (i.e., previously unexposed) individuals have been reported.",
+          "page": 5
+        },
+        {
+          "type": "subheading",
+          "text": "Importance of the normal microbiota",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Mitochondria and chloroplasts are the two most important bacterial endosymbionts; without them, the current success of eukarya would certainly be impossible. There are many other beneficial bacterial endosymbionts in the kingdoms of animals and plants, discussed elsewhere in this textbook. Some additional roles of the normal microbiota are listed below: Role in the immune system: The normal microbiota is necessary for the proper development of the immune system. The immune system of experimental model animals raised in a germ-free environment is poorly developed. They are more vulnerable to intestinal tumors due to poor renewal of the intestinal epithelium, and their hearts are smaller than those of their microbe-occupied littermates. The gut microbiota also affects gut permeability and inflammation. Vitamins and micronutrients: Some members of the resident microbiota synthesize some vitamins and other micronutrients. For example, Escherichia coli probably synthesizes some B vitamins and vitamin K in the human intestine, and some of these vitamins are probably absorbed by the cells of the host animal.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Detoxification of metabolites: Some members of the resident microbiota detoxify certain toxic chemicals entering the body. A mother koala forces her suckling pup to eat her fecal material so that the microbes in her feces can protect the young animals' intestines from the highly toxic chemicals found in eucalyptus leaves, which are the primary food of koalas.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Availability and absorbability of nutrients: In wood-eating insects, ruminant animals, and probably humans as well, resident microbes assist in extracting nutrients from hard-to-digest food items and sometimes convert these nutrients into a more absorbable form for the host animals. Experimental evidence shows that when resident microbes from obese animals are transplanted into nonobese animals of the same species, the healthy nonobese animals become obese, even without an increase in total food intake. This is interpreted as the resident microbes of obese animals extracting more calories from the food for their hosts. Termites exposed to antibiotics gradually die as the antibiotics kill the intestinal bacteria responsible for digesting wood for the insects.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Prevent colonization by pathogens: The normal microbiota covers the exposed surfaces of the body and occupies most, if not all, of the cell receptors. As a result, pathogenic microbes often fail to attach and colonize these surfaces. The normal microbiota also creates an environment that inhibits the growth of pathogenic microbes. For example, the endospores of Clostridium botulinum fail to germinate in an adult's intestine. However, the endospores may germinate in the intestines of infants whose microbiota has not yet fully established itself. Clostridium botulinum colonizing the infant's intestine produces botulinum toxin, causing botulism (a neurological disease).",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Adult patients treated with broad-spectrum antibiotics may lose part of their resident microbiota. The intestine of such a patient may then be colonized by toxin-producing soil bacteria such as Clostridiodes difficile. As a consequence, the patient may develop severe or even fatal colitis (inflammation of the large intestine). In the worst-case scenario, a fecal transplant (unprocessed feces from a relative) is administered to the affected subject to repopulate the normal colon biota. Research reports indicate that fecal transplants can cure severe colitis caused by Clostridium difficile. Some significant differences between normal biota and primary pathogens are summarized in Table 12.2.",
+          "page": 6
+        },
+        {
+          "type": "figure",
+          "text": "Table 12.2. Some differences between normal microbiota and primary pathogens.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Attributes Normal biota Primary pathogens Types of microbes Bacteriophages, archaeoviruses, and plant viruses; bacteria, archaea, fungi, and protozoans.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Animal viruses, bacteria, fungi, protozoans, worms, and insects.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Where they are found in the body Restricted areas (the skin, eyes, nose, the outer and middle ear, mouth and the alimentary canal, balder, urethra, and vagina).",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Potentially any part of the body.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Ecological relationship Mutualism (help develop a healthy immune system and normal physiological homeostasis; may synthesize molecules beneficial to the host organism; prevent invading pathogens from colonizing the body surfaces; may detoxify some toxic metabolites; may help digest food substances and create absorbable nutrients out of the digested food substances), or commensalism.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Parasitism.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Space they take relative to the host cells and tissues Stay on the surface of the host cells (extracellular), do not invade tissues except if the host immune system is severely compromised and for warm-blooded animals, the oxygen saturation of the blood goes critically low.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "May stay on the surface of the host cells, may invade sterile tissues, can be intracellular or intercellular.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Ability to cause disease Only if the host organisms have physical or biological breaches in the immune system.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "May infect healthy subjects with the normal immune system, more destructive if the host immune system has some breaches.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Virulence factors (attributes that make a microbe a pathogenic microbe) Ability to thrive on certain surfaces of the host body; avoiding adverse immune responses; usually do not produce metabolites that are toxic to the host; do not kill host cells including the cells of immune functions.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Ability to thrive in diverse areas of the host body including inside host cells; may produce toxins and various other molecules to invade sterile tissues, evade the immune surveillance, and kill host cells including the cells of immune functions.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "How the immune system responds Does not respond as long as the microbes stay in the restricted areas, successfully remove occupants from restricted areas without mounting a response that may cause discomfort to the host animals and damage host tissues.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "May not respond to some colonizing pathogens, but normally mount a strong immune response that usually causes discomfort to the host animal and damage some host tissues.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbiome-gut-brain axis: Gut microbes influence the synthesis of certain neurotransmitters (such as serotonin, dopamine, and norepinephrine) by the intestinal epithelium, while some microbes themselves synthesize neurotransmitters (such as GABA), thereby affecting stress, anxiety, mood, and motivation of the host. The resident microbiome A microbiome is the totality of the genetic information of microbes present in a given environment. Different body surfaces have a slightly normal microbiome. Recent data indicate that the microbiome determines health and disease in human subjects. This is not unexpected, as fewer than 50% of the cells in the human body are human cells. Over 600 microbial species from 13 different phyla have been identified from the human oral cavity alone. The species count exceeds 13,000 in the intestinal microbiome. The genome of the human cell and the collective microbiomes constitute a human superorganism with a very complex genotype. Thus, the human species benefits from the evolving human genome and the genomes of the microbiota.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Experimental evidence indicates that the microbiome also determines the phenotype of the human organism. For example, the gut microbiomes of obese and lean human subjects are dissimilar. As previously described, the gut microbiome of obese mice transferred to their non-obese littermates causes the recipients to develop the obesity phenotype. Many discoveries in this area, such as (a) the diversity and the genomics of the microbiomes, (b) interpersonal and inter-regional differences in the microbiomes, (c) the effect of lifestyle choices on the microbiomes, and (d) the effect of the microbiomes on the mental health of humans, are currently in the process of making. The timely occupation and proper maintenance of the microbiome are essential for good health. The full significance of the normal microbiota in health and disease, and the difference between normal biota and pathogens, are currently being investigated by scientists.",
+          "page": 7
+        },
+        {
+          "type": "subheading",
+          "text": "Microbial pathogens",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Pathogens are microbes capable of causing disease. Opportunistic pathogens are members of the normal microbiota or other normally nonpathogenic environmental microbes that infect a person with some degree of immune dysfunction. For example, normal skin bacteria do not infect the skin, but they may infect abraded skin because the abrasion compromises the skin's immune barrier. The primary pathogens are microbes that can cause infection whenever they colonize the human body. Almost all eukaryotic microbes (excepting a few yeasts and protozoa) can colonize the human body or its cells, and almost all animal viruses that infect human cells can be considered primary pathogens. There are some primary bacterial pathogens (such as Vibrio cholerae, which causes cholera), that cause diseases immediately upon colonizing. However, many highly pathogenic bacteria (such as Staphylococcus aureus and Neisseria meningitidis) are found on the skin, in the throat, in the intestine, and on other surfaces of healthy human subjects. The size of the invading pathogenic microbe population and the immune status of the host body largely determine whether a primary pathogen would colonize the body without causing disease or would cause disease right away. We will discuss the major opportunistic pathogens and most primary pathogens across various microbial groups in Chapters 13-15.",
+          "page": 7
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 4,
+          "title": "Occupation, colonization, & infection",
+          "bullets": [
+            "Occupation- by resident or environmental microbes of allowed",
+            "Colonization- by primary pathogens without causing disease of",
+            "Infection- disease associated with microbes or presence of",
+            "Opportunistic infections– by resident or transient microbores",
+            "Primary infections- by primary pathogens"
+          ]
+        },
+        {
+          "slideIndex": 5,
+          "title": "Importance of normal microbiota",
+          "bullets": [
+            "Role in the development of the immune",
+            "Micronutrient synthesis",
+            "Detoxification of toxins in food",
+            "Extraction of nutrition in food",
+            "Preventing colonization"
+          ]
+        },
+        {
+          "slideIndex": 6,
+          "title": "The microbiome",
+          "bullets": [
+            "The totality of the genetic information",
+            "Bacteria outnumber human cells in",
+            "Species combination of different",
+            "600 species in the oral cavity",
+            "13,000 in intestine",
+            "Gene counts",
+            "Human cells- about 20,000",
+            "100s of thousands in microbes",
+            "The human super creature"
+          ]
+        },
+        {
+          "slideIndex": 14,
+          "title": "Transmission of Pathogens (b)",
+          "bullets": [
+            "Zoonotic pathogens",
+            "Pets",
+            "Domestic animals",
+            "Pests",
+            "Wild animals",
+            "Vectors",
+            "Mechanical vectors",
+            "Biological vectors"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "12.2",
+      "heading": "Transmission of disease agents",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A disease is defined as any impairment of the body’s normal functioning. A pathogen or some of its toxic products must touch or enter the body to cause infectious diseases. Salmonella typhimurium must enter the human body to cause diarrhea (i.e., salmonellosis). However, Clostridium botulinum does not have to enter the body to cause botulism; ingestion of canned food contaminated with botulinum toxin (botulin) would alone cause botulism, the paralytic disease. Here, S. typhimurium and botulinum toxin are the disease-causing agents. Transfer of S. typhimurium from food or drink, and of botulinum toxin from canned food to the human body exemplifies the transmission of the causative agents of these diseases. Here, we will discuss various types of infectious diseases and the processes by which they are transmitted.",
+          "page": 7
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "12.2.1",
+      "heading": "Communicability of diseases",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "An infectious disease can be communicable or non-communicable. A communicable disease agent may pass (transmit) from an infected person to another through direct or indirect contact with the infected person's bodily discharges. Chickenpox, influenza, tuberculosis, and sexually transmitted infections (STI) are communicable diseases. Some communicable diseases, such as measles and tuberculosis, rapidly transmit from host to host. Such diseases are contagious diseases, and the causative agents are contagions.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Non-communicable diseases include genetic, metabolic, neoplastic, and mental diseases that do not pass from person to person. Some infectious diseases, including certain opportunistic infections, fall into this category. Coccidioidomycosis, for example, does not pass from person to person; instead, a person must inhale desert dust contaminated with the hyphal fragments of the fungus Coccidioides immitis to contract the disease. Similarly, diseases caused by some bacterial exotoxins (such as botulin) are non-communicable diseases. Vector-borne diseases can be communicable if the vectors (small animals such as mosquitoes) transmit the disease directly from person to person, but are non-communicable if the reservoirs of the infectious agents are non-human organisms.",
+          "page": 8
+        },
+        {
+          "type": "subheading",
+          "text": "Portals of exit of the disease agents",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "The disease agents are shed by the infected hosts through scabs of the wounds, dander of the skin, or through solids, fluids, and aerosols (droplets) released by various orifices of the body (i.e., skin glands, mouth, nostrils, eyes, the openings of the genital and urinary ducts, and the anus). The orifices are called the portals of exit. The main exit routes for some key infectious diseases are listed in Table 12.3. Knowing the portal of exit of a contagious disease allows public health officials to focus on that aspect to control an outbreak. For instance, it is known that severe acute respiratory syndrome (SARS, caused by a coronavirus) spreads through droplets. During a SARS outbreak, infected individuals should be isolated, and healthcare workers must wear a mask while caring for them.",
+          "page": 8
+        },
+        {
+          "type": "figure",
+          "text": "Table 12.3. Portal of exit of some communicable disease agents.",
+          "page": 8,
+          "image": "/mmahp/ch12/12-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Portal of exit Examples of pathogens Dander and flakes Human papillomavirus (HPV), and fungi (genera Trichophyton, Microsporum, and Epidermophyton, etc.) that infect skin and hair.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Mouth (saliva) Hepatitis B virus (HBV), Epstein-Barr virus (EBV), Herpes simplex virus 1 (HSV-1), Cytomegalovirus (CMV), Lyssavirus, Mycobacterium tuberculosis, and Helicobacter pylori.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Dental surfaces (biting wound) Some species of the genera Bacteroides, and Prophyromonas.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Nasal/oral secretions and droplets Influenza virus, rhinoviruses, adenoviruses, measles virus, lyssavirus, Mycobacterium tuberculosis, Hemophilus influenzae, Staphylococcus pyogenes, and Neisseria meningitides.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Pus from surface wounds Staphylococcus aureus, and Streptococcus pyogenes.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Blood Human immunodeficiency virus 1 and 2 (HIV-1 and HIV-2), Hepatitis C virus (HCV), EBV, the genera Borrelia,* Plasmodium,* Trypanosoma* and other blood pathogens.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Genital secretions HPV, HSV-2, Neisseria gonorrhoeae, Chlamydia trachomatis, Treponema palladium, Mycoplasma genitalium, and the genus Ureaplasma.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Urinary tract Coxsackie viruses, rubella virus, adenovirus, Leptospira interrogans, and eggs of the genus Schistosoma.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Stool Hepatitis A virus (HAV), Hepatitis E virus (HEV), poliovirus, rotavirus, Norovirus, Enterobacteriaceae, worm eggs, and proglottids.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "*- these pathogens may be transmitted through transfusion of blood obtained from an infected person, but normally, the pathogens are transmitted by insect vectors Portals of entry of the disease agents The routes by which disease-causing agents enter the human body are the portals of entry. The portals are host body orifices such as skin wounds, mouth, nostrils, eyes, the openings of the genital and urinary ducts, and the anus (Fig. 12.3). The intact bare skin can serve as the portal of entry by certain bacteria, such as spirochetes and some viruses (such as HPV).",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "The entry portals can influence the outcomes of a transmission event. Some disease agents, like the endospores of Bacillus anthracis, can cause disease regardless of the entry point, but they would produce skin lesions, pneumonia, and hemorrhagic diarrhea if they enter through the skin, nose, and digestive tract, respectively. The endospores of Clostridium tetani might not cause disease if they enter the adult body via the mouth and digestive system. However, if the spores enter through a deep anaerobic wound, they will germinate; the bacteria will grow and release tetanus toxin, leading to tetanus.",
+          "page": 9
+        },
+        {
+          "type": "figure",
+          "text": "Fig 12.3. The portals of entry of some infectious disease agents. Note that the portals of entry are also the portals",
+          "page": 9,
+          "image": "/mmahp/ch12/12-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "of exit for many disease agents",
+          "page": 9
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 8,
+          "title": "Communicability of diseases",
+          "bullets": [
+            "Noncommunicable- congenital,",
+            "Communicable- person to person",
+            "Contagious- rapidly transmitting"
+          ]
+        },
+        {
+          "slideIndex": 9,
+          "title": "Portals of exit",
+          "bullets": [
+            "Skin flakes",
+            "Mouth (saliva)",
+            "Dental surfaces",
+            "Nasal droplets",
+            "Pus and scabs",
+            "Blood",
+            "Genital secretions",
+            "Urinary",
+            "Stool"
+          ]
+        },
+        {
+          "slideIndex": 10,
+          "title": "Portals of entry",
+          "bullets": [
+            "Skin",
+            "Mouth",
+            "Ear",
+            "Nose",
+            "Eye",
+            "Blood",
+            "Genital orifices",
+            "Urinary orifices",
+            "Anus"
+          ]
+        },
+        {
+          "slideIndex": 13,
+          "title": "Respiratory droplets",
+          "bullets": [
+            "The most effective route of"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "12.2.2",
+      "heading": "Reservoirs of pathogens",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A reservoir is a place where microbial pathogens normally thrive. Thus, a reservoir serves as a constant supply of the microbes in question. Some of the important reservoirs (Table 12.4) are humans, other animals, and the environment (soil, water, air, and vegetation).",
+          "page": 9
+        },
+        {
+          "type": "subheading",
+          "text": "The human reservoir",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Some pathogens are capable of growing only in human cells or tissues. Humans are the only known reservoir of almost all sexually transmitted infections (STI) and the majority of human viruses (Table 12.4). A person with a symptomatic infection is potentially a reservoir. If the infectious agent is contagious, the person should be isolated from the population to prevent disease transmission. Asymptomatic carriers, chronically infected subjects, subjects during the incubation period of the disease (see below), and healthy subjects colonized by pathogens are also potential reservoirs. There are some distinct advantages in controlling the transmission of infectious diseases for which humans are the only known reservoir. Smallpox was successfully eradicated by a massive and coordinated vaccination program because humans are the only reservoir of the disease. A similar effort could help eradicate polio soon. If effective vaccines had existed, many sexually transmitted infections (STIs) might also have been eliminated. Animal reservoirs Humans share about 150 different infectious diseases with domesticated and wild animals. Animals are the reservoirs for such diseases. An animal disease that can be transmitted to humans is zoonosis (pl. zoonoses) or zoonotic disease. Zoonoses include viral diseases (such as viral hemorrhagic fever and encephalitis), bacterial diseases (such as plague, brucellosis, tularemia, tuberculosis, and Lyme disease), fungal diseases (such as ringworm), protozoan diseases (such as toxoplasmosis and trypanosomiasis), and many parasitic worm infections (Table 12.4). Zoonotic agents more readily infect humans if the animal hosts are phylogenetically closer to humans. Thus, infectious diseases of monkeys and chimpanzees would be more easily transmitted to humans than those of fish and amphibians. Domesticated animals, pets, and insect pests are some of the most important sources of zoonoses. Zoonoses are more difficult to contain or eradicate by vaccination.",
+          "page": 9
+        },
+        {
+          "type": "subheading",
+          "text": "Environmental reservoirs",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Some pathogenic bacteria, such as Pseudomonas aeruginosa, Serratia marcescens, Vibrio parahaemolyticus, and fungi, such as Coccidioides immitis, and Cryptococcus neoformans) normally grow and replicate in soil, water, and plants, and occasionally transmit to the human body through inhaled air and dust particles, food, and water. For these organisms, the environment is the reservoir (Table 12.4).",
+          "page": 10
+        },
+        {
+          "type": "figure",
+          "text": "Table 12.4. Common reservoirs of human diseases.",
+          "page": 10,
+          "image": "/mmahp/ch12/12-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Reservoirs Important diseases Humans Herpes; mononucleosis; Hepatitis A, B, C, D and G; HIV-1 and HIV-2, measles, mumps, rubella, German measles, polyoma, and papillomavirus infections; infections by adenoviruses, rotaviruses, and enteroviruses; tuberculosis, leprosy, gonorrhea, syphilis, meningitis and pneumonia caused by meningococci, pneumococci and the genus Haemophilus; pertussis; shigellosis; urinary tract infections by E. coli; candidiasis; and trichomoniasis Animals Various virus agents that cause hemorrhagic diseases and encephalitis; hepatitis E infection; salmonellosis; Lyme disease; plague; ehrlichiosis; typhus; rocky mountain spotted fever; undulant fever; Q fever; tularemia; tuberculosis caused by certain species of Mycobacterium; psittacosis; anthrax; ringworm; malaria; babesiosis; trypanosomiasis; Chagas disease; river blindness; toxoplasmosis; leishmaniasis; filariasis and most of the worm infections.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Soil and water Cholera; infections caused by the species of the genus Pseudomonas, Burkholderia, Legionella, Actinomyces; anthrax, tetanus, and botulism (endospores); a majority of the fungus infections, all algal infections, some protozoan infections (such as Genera Entamoeba, Acanthamoeba, Giardia, Naegleria, and Balantidium), and some worm infections (such as blood flukes, liver flukes, and hookworms).",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Some infectious agents enter soil and water at specific stages of their life cycle, such as worm eggs and larvae. Soil and plant surfaces are primary sources of endospores from pathogenic species of Bacillus and Clostridium. All algal infections are transmitted through water and mud. Although environmental pathogens are the hardest to control and eliminate, most of these microbes cause non-communicable diseases.",
+          "page": 10
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 11,
+          "title": "Reservoirs of pathogens",
+          "bullets": [
+            "Humans",
+            "STIs",
+            "Asymptomatic carriers",
+            "Animals",
+            "Zoonoses",
+            "Vector born",
+            "Environmental",
+            "Wounds",
+            "Inhalation",
+            "Food and drinks"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "12.2.3",
+      "heading": "Transmission of pathogens",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "There are various means of transmitting pathogens or their products to humans. Person-to-person transmission is a major route for the spread of infectious agents from the human reservoir. Person-to-person transmission may occur vertically and/or horizontally (Fig. 12.4). Food, water, inhaled dust particles, and insect vectors are the major processes of transmission of environmental and zoonotic agents.",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "Vertical transmission",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Communicable diseases transmitted directly from mother to offspring in utero, during childbirth, or through breastfeeding are the only routes of vertical transmission. Some viruses (such as varicella-zoster virus, cytomegalovirus, EBV, polyomaviruses, papillomaviruses, HIV-1 and HIV-2, and measles), bacteria (such as Treponema pallidum, Listeria monocytogenes, and Brucella abortus), and protozoa (such as Toxoplasma gondii) may pass from mother to fetus through the placenta. Some viruses, such as herpes simplex virus 1 and 2, and papillomaviruses; some bacteria, such as Streptococcus pyogenes, Streptococcus agalactiae, Neisseria gonorrhoeae, and Chlamydia trachomatis, may pass from mother to child during parturition (the birthing process). Some viruses (such as CMV, HAV, and HIV) and bacteria (such as Mycobacterium tuberculosis and Borrelia burgdorferi) may pass through milk. The passage of worm eggs from the milk of infected animals to their pups has been documented. Such transmission cannot be ruled out in humans. However, mothers' milk contains antibodies that bind pathogens and leucocytes that phagocytose microbes, thereby somewhat reducing the risk of vertical transmission.",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "Horizontal (or lateral) transmission",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Communicable diseases are mostly transmitted horizontally (i.e., laterally) from infected to uninfected persons. The transmission is considered direct contact if the transmission occurred due to direct physical contact (such as sexual activities) or very close proximity (directly inhaling someone’s respiratory droplets). People who do not adequately wash their hands after using the lavatories often carry fecal bacteria on their hands. Fecal bacteria survive on the hands from a few minutes to a few days, depending on the species. The nose of many human subjects is colonized by Staphylococcus aureus and Streptococcus pyogenes. These and other nasal bacteria and viruses may transfer onto hands. Handshaking would transfer some of those bacteria to the next host. When the person uses the unwashed hand to clean the nose, eye, oral cavity, or wounds or uses the hands for food preparation and eating, the person inoculates himself with the agents.",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 12.4. Transmission of the infectious agents. The central circle represents a female subject, but it can also depict",
+          "page": 11,
+          "image": "/mmahp/ch12/12-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "a male; in that case, vertical transmission cannot happen. Direct contacts are shown with a pink arrow, environmental contacts with blue arrows, contacts from medical interventions with a green arrow, and the vertical transmission route with a red arrow. The green, pink, and red arrows mainly indicate direct contacts, while the blue arrows mostly represent indirect contacts.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbes shed by the infected host into the environment may be transmitted to the next host through indirect contact. Microbes on hands and body surfaces can contaminate doorknobs, utensils, clothing, bed linens, and other inanimate objects. These objects act as fomites. Other people can acquire microbes by touching or using these fomites. Stable pathogens like Mycobacterium tuberculosis and naked viruses such as rhinovirus, poliovirus, HPV, and adenovirus are easily spread through contaminated fomites. Even unstable (i.e., enveloped) viruses like influenza viruses, respiratory syncytial viruses, SARS-CoV-2, and bacteria such as Chlamydia trachomatis elementary bodies and Neisseria gonorrhoeae can be transmitted this way.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbes in nasal secretions can be released as droplets and aerosol particles during exhaling, coughing, and sneezing (Fig. 12.5). According to WHO and CDC, droplets are larger than 5 micrometers in diameter, while aerosol particles are smaller than 5 micrometers. These droplets (and aerosol particles) can be inhaled directly by another person, or they may fall on food, drinks, clothing, and other surfaces. CDC recommends that people wear masks and stay 1.5 meters (6 feet) apart to reduce the risk of SARS-CoV-2 transmission. Coughing and sneezing can propel droplets at speeds of 10-50 meters per second, reaching distances of 2-6 meters (Fig. 12.5) if no barrier is used. Covering the nose and mouth with a handkerchief before coughing or sneezing significantly decreases the spread of droplet clouds.",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 12.5. Release of salivary droplets and aerosol particles during sneezing, coughing, and exhaling. (a)",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Sneezing propels droplets up to 6 meters at 50 meters/sec within 0.12 seconds. (b) Coughing moves droplets 2 meters at 10 meters/sec within 0.2 seconds. (c) Exhalation sends droplets 1 meter at 1 meter/sec within 0.1 seconds. The droplets (>5 micrometers in size) quickly fall to the ground, but aerosol particles remain airborne for an extended period. Image source: Jayaweera M, et al. Environ Res. 2020 Sep; 188: 109819. doi: 10.1016/j.envres.2020.109819. Microbes released through tears, sweat, urine, and stool may also accidentally deposit on fomites. Mycobacterium tuberculosis released through sputum, and hepatitis B virus particles released through saliva may be deposited on utensils and cutlery. Microbes found in human waste can contaminate raw sewage, which may be used for irrigation. Microbes such as rotavirus, enteric viruses (like coxsackieviruses, polioviruses, and hepatitis A virus), noroviruses, caliciviruses, protozoan cysts, and worm eggs may be deposited on vegetables and fruits irrigated or washed with untreated water. Eating uncooked fruits and vegetables can transmit these agents. Some protozoan cysts are highly resistant to common water treatment chemicals. Contaminated water is a major source of protozoan gastroenteritis, including cyclosporiasis, giardiasis, and amebiasis.",
+          "page": 12
+        },
+        {
+          "type": "subheading",
+          "text": "Transmission of zoonotic agents",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "It is estimated that about 75% of all human infections are zoonoses. There are numerous ways for animal pathogens to transmit to humans. Fresh meat and fish may contain eggs and larvae of parasitic worms; and trophozoites, and cysts of protozoan parasites. Some bacteria, such as the genus Vibrio, can be present in saltwater fish and shellfish. A hen’s egg usually contains about 10 or more live Salmonella enterica cells. Intestinal microbes such as coliforms (e.g., E. coli, Salmonella Typhimurium, and Yersinia enterocolitica) and other gut bacteria can be transmitted to milk and meat during the harvesting and processing of these products. Mycobacterium bovis, Listeria monocytogenes, and Coxiella burnetti are present in the milk of the infected animals.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "The microbes mentioned above can be transmitted to humans through contaminated food. Prolonged freezing of meat and fish kills eggs and larvae of most parasitic worms. Pasteurization destroys microbes in milk, and proper cooking eliminates all microbes in animal-derived food products. However, eating raw (uncooked) meat, poultry, eggs, fish, shellfish, and unpasteurized milk is still quite common. Many cases of microbial transmission through uncooked, unpasteurized, or undercooked food have been documented in the Western Hemisphere. The use of antibiotics is widespread in industrial (and even subsistence) animal farming. Microbes resistant to antibiotics are selected in farmed animals, poultry, and fish. The transmission of antibiotic-resistant bacteria from farm-raised animals to humans is now a significant public health concern.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Aerosolized animal secretions and animal dander may also contain infectious microbes. Tularemia (caused by the bacterium Francisella tularensis), for example, is transmitted to humans usually when a person processes the carcass of an infected rabbit. Direct contact with animals, especially pets, has been a major source of transmission of some fungal infections, such as ringworm, and worm infections, such as toxocariasis and cysticercosis. The spread of human habitation into forested areas and the shrinkage of wild animals' habitats have increased contact between animals and humans. Several viral diseases, such as those caused by hantavirus, Junín virus, Hendra virus, and Nipah virus, and the transmission of raccoon roundworms to humans, are examples of zoonoses transmitted through contact between wild animals and humans.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "Disease vectors",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Vectors are small animals that help transmit microbes from the environmental or zoonotic reservoirs to the uninfected hosts. Some vectors, such as house flies, may land on soil, manure, animal waste, or open wounds and become contaminated with pathogenic microbes. The microbes do not infect or multiply within the fly's body. However, the fly can land on food, utensils, or open wounds and transfer the microbes to a new host. Such vectors, not part of the pathogens' life cycle, are mechanical vectors. In contrast, biological vectors serve as hosts for the completion of the microbe's replication cycle. For example, malarial parasites (genus Plasmodium) infect and complete part of their life cycle in the alimentary canal of mosquitoes. The mosquito then delivers the parasites to a human subject. Vectors such as fleas, ticks, lice, flies, mosquitoes, kissing bugs, and bats (Fig. 12.6) transmit many infectious diseases.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 12.6. Vectors of some of the infectious diseases. A. Mites are vectors of scrub typhus and rickettsial pox. B.",
+          "page": 13,
+          "image": "/mmahp/ch12/12-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Ticks transmit many diseases, including Colorado tick fever, Powassan encephalitis, Lyme disease, ehrlichiosis, Q fever, bartonellosis, Rocky Mountain spotted fever, tularemia, and babesiosis. C. Sandflies spread leishmaniasis (kala- azar) and Carrion’s disease. D. The tsetse fly is the vector for African sleeping sickness. E. Tabanid flies may transmit tularemia and anthrax. F. Reduviid bugs, also called kissing bugs, are vectors of Chagas disease. G. Fleas transmit plague, typhus, and tapeworms. H. Lice are vectors for typhus, relapsing fever, and trench fever. I. Mosquitoes carry viral encephalitis, hemorrhagic fevers, yellow fever, malaria, and filaria. J. Vampire bats may transmit bacterial infections such as bartonellosis and viral diseases such as rabies. Image courtesy: A, B, C, D, F, G, H, and I: CDC- PHIL; E- WHO TDR Image Library; J- NPR.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "Transmission of environmental microbes",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacterial endospores and fungal spores are abundant in the air and airborne dust particles. Contaminated soil is the major source of endospore-associated diseases, including anthrax, tetanus, and those caused by Clostridium perfringens and Clostridium difficile. Soil bacteria such as Pseudomonas aeruginosa, Burkholderia cepacia, Nocardia asteroides, and Actinomyces israelii can be transmitted through food consumed raw. The aquatic bacteria Legionella pneumophila and L. pittsburghensis that cause pneumonia can be transmitted through aerosols released from air- conditioning and humidifier outlets. Most lung mold infections, such as valley fever caused by Coccidioides immitis and C. posadasii, are transmitted through airborne particles. Many airborne microbes are deactivated because of desiccation and solar UV radiation, but some can remain active and cause disease. Airborne bacterial endospores released in China have been found in soil samples from the United States. It should be noted that various infectious diseases affecting specific organs and organ systems are generally associated with a particular route of transmission, as summarized in Table 12.5.",
+          "page": 14
+        },
+        {
+          "type": "figure",
+          "text": "Table 12.5. Disease types and the common routes of transmission.",
+          "page": 14,
+          "image": "/mmahp/ch12/12-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Disease type Major routes of transmission Respiratory infections Droplets, aerosols, and airborne particles Skin infections Direct contact, fomites, and droplets Alimentary canal infections Food and drinks, fomites, and fecal-oral transmission Sexually transmitted infections Sexual (direct) contacts, and vertical transmission Blood and lymphatic infections Vector born, pricking fomites, and medical devices Brain and nerve infections Vector-borne, pricking fomites, and medical devices",
+          "page": 14
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 12,
+          "title": "Transmission of Pathogens (a)",
+          "bullets": [
+            "Vertical",
+            "In utero",
+            "Parturition",
+            "Breast feeding",
+            "Lateral (horizontal)",
+            "Direct",
+            "Sexual",
+            "Casual",
+            "Indirect",
+            "Droplets",
+            "Fomites",
+            "Other"
+          ]
+        },
+        {
+          "slideIndex": 15,
+          "title": "Major routes for major diseases",
+          "bullets": [
+            "Disease type \tMajor routes of transmission",
+            "Respiratory infections \tDroplets, aerosols, airborne",
+            "Skin infections \tDirect contact, fomites, droplets",
+            "Alimentary canal infections \tFood and drinks, fomites, fecal-",
+            "Sexually transmitted infections \tSexual (direct) contacts, vertical",
+            "Blood and lymphatic infections \tVector born, pricking fomites,",
+            "Brain and nerve infections \tVector borne, pricking fomites,"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "12.3",
+      "heading": "Healthcare-associated infections (HAI)",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "HAI, or nosocomial (Greek: nosus- diseases, komeion-care given) infections, are infections transmitted in hospitals and other health care facilities. About 5% of all patients admitted to the hospital contract HAI. The major factors contributing to this seemingly unusual phenomenon are listed below.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Vulnerable population: Patients admitted to hospitals are usually somewhat immunocompromised and therefore vulnerable to infections. In some cases, the patients' normal microbiota may cause infections.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Medical procedures: Surgery, cauterization, endoscopy, colonoscopy, intubation, catheterization, and similar procedures may allow the contaminating pathogens, resident microbes, and environmental microbes to cause infections.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Availability of infectious agents: Although hospitals are kept clean using various disinfectants, highly resistant environmental microbes such as the genera Pseudomonas, Burkholderia, Serratia, and Legionella can survive in hospital environments. Patients visiting hospitals for medical care also introduce many microbes, including pathogenic ones. These microbes include drug-resistant bacteria such as methicillin-resistant Staphylococcus aureus (MRSA) and vancomycin-resistant Staphylococcus aureus (VRSA).",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Chain of potential transmitters: A small number of hospital workers provide services to all the clients. The workers may cross-contaminate patients through their hands, their machines, food, drinks, and other consumables. Invasive devices: Although most invasive devices used in hospitals are sterile-disposable or sterile-autoclavable, they can still accidentally become contaminated. Sterile devices like catheters may become contaminated by the normal microbiota, such as Staphylococcus epidermidis, Bacteroides fragilis, and E. coli, from the patient's body. Human errors: Hospital workers usually work long hours. Often, they have to rush to attend to patients who need emergency medical care. Under such situations, errors are harder to eliminate. Research shows that handwashing reduces the transmission of diarrheal disease by 31% and respiratory infections by 21%. Although hand washing between patient examinations is required, its omission is not uncommon.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "HAI could be very mild to life-threatening. The infectious agents are generally opportunists, drug-resistant bacteria, soil bacteria, and blood-borne viruses. According to the CDC, about 722,000 cases of HAI were reported in 2011, and about 75,000 of those patients died of the infections. The major HAI-associated diseases are pneumonia, surgical site infections, gastrointestinal illnesses, urinary tract infections, and primary blood infections (Fig. 12.7). The major microbes associated with HAI are also shown in Fig 12.7. The microbes include mostly bacteria (of genera Acinetobacter, Burkholderia, Clostridium, Escherichia, Klebsiella, Staphylococcus, Pseudomonas, Mycobacterium, and Enterococcus) and some viruses (hepatitis B and C viruses, HIV-1 and -2, human influenza virus, and norovirus). Some bacteria associated with HAI (such as Clostridium difficile, Clostridium sordellii, E. coli, Klebsiella pneumonia, Staphylococcus aureus, and Pseudomonas aeruginosa) are resistant to many antibiotics.",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 12.7. Healthcare-associated infections. A. The pie charts of HAI. Abbreviations: GII- gastrointestinal illnesses,",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "UTI- urinary tract infections, PBI- primary blood infections, SSI- surgical site infections. The total estimated incidence was 721,800. Data from CDC HAI Data and Statistics (2011). B. The pie chart of pathogens that cause HAIs. Abbreviations: CNS- coagulase-negative staphylococci, SA- Staphylococcus aureus, Etc- Enterococcus sp., Can- Candida sp., ECO- Escherichia coli, PAE- Pseudomonas aeruginosa, KNE- Klebsiella pneumoniae, Etb- Enterobacter sp., Ecb- Acinetobacter sp., KOX- Klebsiella oxytoca, other- all other pathogens. Data (adapted from Hidron AI, et al. Infect Cont Hosp Epidemiol 2008; 29(11): 996-1011.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Hospitals employ infection control specialists and train the crews to reduce HAI. Hospitals also install on-site decontamination and sterilization facilities, proper airflow regulators, and filtration systems to prevent infections. The Global Alliance for Infections in Surgery (GAIS) has a seven-point strategy to prevent HAI (Fig. 12.8). The points include • hand hygiene (i.e., proper and timely handwashing), • environmental hygiene (i.e., reduction of infection agent every way possible), • screening and cohorting patients (i.e., early detection of patients with antibiotic-resistant bacteria and isolating the patients), • surveillance (integral public health system to monitor infection control in individual facilities to national level), • antibiotic stewardship (proper use of appropriate antibiotics to prevent the development of antibiotic resistance), • following appropriate guidelines (i.e., guidelines on infection control, formulated by WHO and CDC), and • safety culture (reducing unnecessary harm associated with healthcare to an acceptable minimum). Similar efforts in the USA have reduced certain categories of HAIs by up to 50%. Educated patients and their family caregivers may also help further reduce HAI.",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 12.8. Preventing HAIs: The seven-point strategy to prevent healthcare-associated infections proposed by the",
+          "page": 16,
+          "image": "/mmahp/ch12/12-8.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "World Alliance for Infections in Surgery. The figure is redrawn after GAIS (https://infectionsinsurgery.org/7- strategies-to-prevent-healthcare-associated-infections/).",
+          "page": 16
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 16,
+          "title": "Healthcare-associated infections (HAI)",
+          "bullets": [
+            "Factors",
+            "Vulnerable",
+            "Medical procedures",
+            "Availability of",
+            "Chain of potential",
+            "Invasive devices",
+            "Human errors"
+          ]
+        },
+        {
+          "slideIndex": 17,
+          "title": "Infections control in hospitals",
+          "bullets": [
+            "CDC",
+            "WHO",
+            "Global Alliance for"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "12.4",
+      "heading": "Factors affecting disease outcomes",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Transmission of an infectious agent to a host does not always result in disease. Bacteria regularly enter the bloodstream through toothbrush wounds, reach the lungs through inhaled dust particles, and enter the stomach through food and drinks, but infections leading to diseases are relatively rare. This is because the innate immune system and existing antibodies rapidly remove the pathogens. Signs and symptoms of an infectious disease develop only if the innate immune system fails to clear the microbes or their molecules. Important factors that affect the outcome of an infection transmission are described below.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "Dose",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "The number of microbes required to enter the body of healthy, previously unexposed (i.e., naïve) subjects through the appropriate portal of entry to cause an infectious disease in 50% of the exposed subjects is the infectious dose 50 (ID50). Here is an example of how to calculate ID50 in mice.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "A solved problem",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Groups of mice were injected with live Borrelia burgdorferi, and the percentage of the mice that showed signs of infection was calculated.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacterial count % of mice infected 104 0 105 6 106 8 107 44 108 80 In this experiment, a dose of 107 bacteria caused disease in 44% of the exposed mice, and a dose of 108 bacteria caused infection in 80% of the exposed mice. What is the ID50?",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Solution: Here, the percent of mice infected below 50%/ percent infected above 50%= (50-44)/(80-44)= 6/36=0.17. The log of 107 is 7; 7+ 0.17= 7.17, inverse log of 7.17= 7.5x107. Thus, the ID50 for Borrelia burgdorferi via the injected route of entry in mice is 7.5x107.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Note: Data and calculations from: (https://www.niaid.nih.gov/sites/default/files/lzp_mouseinfection.pdf). ID50 varies from agent to agent. Studies in monkeys indicated that the ID50 for anthrax is as low as 4,000 endospores, whereas for Salmonellosis it is as high as 1,000,000 bacterial cells. Salmonella enterica is highly susceptible to the toxic effects of stomach acid. Thus, if fewer than a million cells of S. enterica enter the stomach, none of the exposed subjects may get an infection. However, if the stomach acid is neutralized by acid reducers such as calcium carbonate (an ingredient of over-the-counter antacid drugs), a smaller dose of Salmonella would cause salmonellosis. The ranges of LD50 of some bacterial pathogens are listed in Table 12.6.",
+          "page": 16
+        },
+        {
+          "type": "figure",
+          "text": "Table 12.6. ID50 of some common bacterial pathogens.",
+          "page": 17,
+          "image": "/mmahp/ch12/12-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Pathogen species ID50 (minimum) ID50 (maximum) Portal of entry Bacillus anthracis 8,000 50,000 Inhaled Brucella melitensis 8,000 50,000 Inhaled Burkholderia mallei 10 10 Inhaled Campylobacter jejuni 100 1,000,000 Ingested Clostridium perfringens 10,000,000 10,000,000 Ingested Coxiella burnetii 1 10 Inhaled E. coli (EHEC)* 10 10 Ingested E. coli (ETEC)** 100,000,000 10,000,000,000 Ingested Francisella tularensis 10 50 Inhaled Gardnerella vaginalis 20,000,000,000 20,000,000,000 Other Haemophilus ducreyi 30 30 Other Helicobacter pylori 10,000 10,000 Ingested Legionella pneumophila 100,000 100,000 Inhaled Listeria monocytogenes 1,000 1,000 Ingested Mycobacterium tuberculosis 10 10 Inhaled Mycoplasma pneumoniae 10,000,000 100,000,000 Inhaled Neisseria gonorrhoeae 250 1,600 Other Neisseria meningitidis 1,000 1,000 Inhaled Orientia tsutsugamushi 3 3 Other Pseudomonas aeruginosa 10,000,000 10,000,000 Ingested Rickettsia prowazekii 10 10 Other Rickettsia rickettsii 10 10 Other Salmonella enterica typhi 100,000 100,000 Ingested Shigella dysenteriae 10 10 Ingested Staphylococcus aureus 100,000 8,000,000 Other Streptococcus pyogenes 1,000 1,000 Ingested Treponema pallidum 57 57 Other Vibrio cholerae 1,000,000 100,000,000,000 Ingested Vibrio vulnificus 100 100 Ingested Yersinia pestis 500 17,000 Inhaled Yersinia pseudotuberculosis 1,000,000 1,000,000 Ingested *- enterohaemorrhagic E. coli, **- enterotoxigenic strain E. coli.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Note: Original data compiled from primary literature as a supplement by Gama JA et al. PLoS Patholog 2012; 8(2): doi: 10.1371/journal.ppat.1002503. References for the sources of the data are available in the article. Portal of entry Pathogens must enter the body through appropriate portals of entry to cause disease. For example, Clostridium tetani endospores entering the body through the mouth of an unvaccinated adult do not cause any signs of disease, but if a few endospores enter through a puncture wound of the same person, they can cause tetanus. Bacillus anthracis may cause cutaneous, intestinal, or lung anthrax depending on the portal of entry of the endospores. The ID50 of the same pathogen could vary depending on the portal of entry.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "The condition of the subjects and the community Genetic background, physical and mental health, age, sex, gender, and religious and cultural orientations of a subject may affect the outcome of an infectious agent's transmission. For example, elderly females of lower sociological status (affected by malnutrition) would get more frequent urinary tract infections than the age-matched females of upper social status. Subjects with cystic fibrosis (a congenital lung disease) suffer from more frequent bouts of Pseudomonas aeruginosa infections than their normal counterparts. Herd immunity (immunity across the community due to previous vaccination campaigns or natural infections) affects disease transmission in a community. If herd immunity is high (i.e., >90% of the population is vaccinated), a disease transmitted in the community would be contained by vaccinated individuals (Fig. 12.9).",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 12.9. The effect of herd immunity. A. Non-vaccinated populations. The disease agents transmit rapidly, and",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "every newly infected person or population serves a transmitter. B. Population with a small number of vaccinated subjects. The disease agent still transmits rapidly because the disease carrier is surrounded by unvaccinated subjects/populations. C. Population with high hard immunity. The infected carrier subject or population is surrounded by vaccinated subjects or populations. The vaccinated subjects/populations serve as a shield and prevent rapid transmission of the disease agent. Figure courtesy: NIAID.",
+          "page": 18
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 18,
+          "title": "Factors that affect disease outcomes on individuals",
+          "bullets": [
+            "Dose",
+            "ID50",
+            "Minimum and maximum ID50",
+            "For C. jejuni, min and max ID50 are",
+            "Portal of entry",
+            "Conditions of the subject",
+            "Genetics",
+            "Age",
+            "Sex",
+            "Socioeconomic status"
+          ]
+        },
+        {
+          "slideIndex": 19,
+          "title": "How to calculate ID50",
+          "bullets": [
+            "A solved problem",
+            "Groups of mice were injected with live Mycobacterium tuberculosis strain X,",
+            "Bacterial count (CFU) \t% of mice infected",
+            "1 \t20",
+            "2 \t42",
+            "3 \t65",
+            "4 \t87",
+            "5 \t100",
+            "In this experiment, a dose of 2 bacteria caused disease in 42% of the",
+            "Solution: ID50= 𝑋 = 𝑋1 + !\"!#",
+            "Here, X1 = dose that gives an infection rate just below 50% (i.e., 2, Y1=42%), Y= 50%, X2 = dose that gives an infection just above 50%"
+          ]
+        },
+        {
+          "slideIndex": 20,
+          "title": "Factors that affect disease transmission",
+          "bullets": [
+            "Socioeconomic conditions",
+            "Vulnerable populations",
+            "Healthcare infrastructures",
+            "Disease surveillance",
+            "Herd Immunity"
+          ]
+        },
+        {
+          "slideIndex": 24,
+          "title": "Diseases in the populations",
+          "bullets": [
+            "Prevalence- (total number of cases x 100,000)/ total population",
+            "Point prevalence- on a given date",
+            "Period prevalence- for a time period",
+            "Utility- predict the likelihood of a person to have the disease and",
+            "Incidence- New cases/ total number of vulnerable subjects",
+            "Utility- determine the probability of an average person developing a"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "12.5",
+      "heading": "Course of an infectious disease",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The initial transmission of a pathogen to a naïve (i.e., previously unexposed and unvaccinated) subject constitutes exposure. The pathogen must survive in the body and replicate to create a critical population size to cause disease. This takes anywhere from a few days to a few decades, depending on the pathogen strain or species. Symptoms or signs of the disease may not appear in the exposed person in the first few days or months. This period is the incubation period of the disease (Fig. 12.10).",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "The subject may begin to experience some discomfort or changes due to the infection at the end of the incubation period. Such conditions (felt by the patient but not measurable by a healthcare provider) are symptoms. Up to this point, the infection is inapparent or subclinical. The infection would be cured in a vaccinated person at this point because the memory immune responses would rapidly mature and soon clear the infectious agents. However, a naïve subject would develop signs of the disease (such as fever, rash, and sleeplessness). Signs are symptoms that can be measured (quantified). Some signs (such as fever, runny nose, skin rashes, tonsillitis, diarrhea, and sleeplessness) are nonspecific because many unrelated diseases can present with them.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "There are some specific signs diagnostic of a particular disease. For example, diarrhea with stool that resembles nonfat milk (i.e., rice water diarrhea) is a specific sign of cholera, and spastic paralysis of the limbs is a distinctive sign of tetanus. The signs that appeared during the prodrome are generally non-specific. A clinical disease or illness would display all the specific and non-specific signs and symptoms (collectively called the syndrome) typical for the disease. Some diseases lack any specific signs.",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 12.10. The possible courses of infectious diseases in a naïve subject. A. Acute illness. B. Chronic infections.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "C. Latent infections. D. Subacute infections. The line graphs illustrate the abundance of microbial antigens (red line) and the level of the protective immune response, represented by antibody titer and/or T cell count (purple line), in arbitrary units. The white boxes denote the incubation period, during which no signs or symptoms of disease are observed; the purple boxes represent the prodrome, when mild nonspecific signs of illness appear; the blue boxes indicate periods of illness, where both specific and nonspecific signs may be visible; the pink boxes suggest the potential for fatal outcomes followed by the appearance of the most severe disease signs; and the yellow boxes signify convalescence or full recovery, during which no signs or symptoms of illness should be present. Illnesses usually occur because the immune systems of naive subjects fail to mount an adequate immune response to the pathogen (see Chapter 9). The immune system eventually catches up and eliminates the infectious agent in most cases. Some immune responses—such as vasodilation (tissue swelling), fever, cytokine release, cytotoxic killing of infected cells, cell migration, and tissue damage—are responsible for many of the disease's signs and symptoms. Toxic molecules (including endotoxins and exotoxins) secreted by infectious agents and DAMPs secreted by damaged host cells further activate the immune system, adding to the patient’s suffering. Medications of various types are administered to reduce suffering, support the immune system, and eliminate infectious agents. The death of the subject can be the endpoint of the infection if the immune system and medications fail.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Several other alternative outcomes are possible. If the immune system and the drugs eliminate or significantly reduce the infectious agents and their antigens from the body, the signs of the disease would gradually disappear after a period of convalescence. In many (but not all) cases, the recovered individual develops lasting immunity to the infectious agent. An inadequate initial immune response may allow the microbe to persist in the body, resulting in chronic infection. A very low but persistent presence of microbial antigens in hidden areas of the body may lead to a latent infection, regardless of the extent of the initial immune response (Fig. 12.10).",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Acute, subacute, chronic, and latent infections Most illnesses that follow initial or primary infections are acute. Acute diseases have a rapid onset followed by a quick and complete recovery or death (Fig. 12.10). Influenza A is an example of an acute illness. However, not all primary infections result in acute disease. Some infections cause illness after a prolonged incubation period, with slow but progressive worsening of the disease's signs and symptoms. Such diseases are subacute diseases. Prion diseases are examples of subacute diseases. Diseases with a relatively slow onset but prolonged (more than six months) duration are chronic diseases (Fig. 12.10). Hepatitis C and HIV-1 infections may initially produce an acute phase followed by a prolonged (lasting tens of years) phase of chronic illness.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "In some cases, the infectious agent hides in privileged areas of the body (areas that are hidden from the immune system, such as neurons, macrophages, and lymphocytes). The viruses may stop replication and reduce gene expression to a minimum to avoid cell-mediated immune surveillance by the body. Such infections are latent infections (Fig. 12.10). The asymptomatic intervals between episodes of fever blisters caused by herpes simplex virus- 1 are an example of a latent infection. The virus hides in the trigeminal ganglia, does not replicate, and does not express any viral proteins, thereby achieving latent infection. However, the virus can reactivate and cause symptomatic infection (e.g., fever blisters). Such relapses (reactivation of latent infections) occur when the subject suffers from an episode of immune insufficiency or deficiency. Relapses of the latently infecting herpes simplex virus, varicella-zoster virus, BK virus, and JC virus cause blisters, shingles, hematuria (blood in the urine), and encephalopathy (inflammation of the brain cells), respectively.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Both chronic and latent infections are persistent infections. However, unlike latent infections, chronic illnesses continue to show some signs and symptoms. Chronic diseases develop when the immune system fails to fully eliminate the infectious agents and their antigens. In cases of HBV, HCV, or HIV-1 infection, the viruses inside the host cells evade complete removal by the immune system. These chronic infections also cause chronic inflammation (see Chapter 9), which can lead to various complications, including autoimmunity, atherosclerosis (narrowing of the arteries), and tumorigenesis.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "On some rare occasions, the subject becomes an asymptomatic carrier of the microbe following asymptomatic infection. For example, some survivors of typhoid fever may carry and shed Salmonella enterica serovar Typhi in their gallbladder for many years, or even for a lifetime. Subjects with a symptomatic infectious disease can be quarantined and isolated from the population. However, patients in the prodrome, asymptomatic carriers, and patients with latent, subacute, or chronic infections may not be easily identified and isolated from the population. As a result, these subjects may serve as a reservoir of the infectious agents.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Primary and secondary infections and superinfections The initial or primary infection may make a person vulnerable to subsequent or secondary infections. Thus, a child who has recently suffered a viral sore throat (caused by human mastadenovirus) may develop secondary infections, such as streptococcal sore throat, followed by scarlet fever and rheumatoid arthritis. Drug-resistant microbes may evolve in a person being treated for an acute or chronic infection. The treatment may temporarily relieve the disease syndrome, but the drug-resistant strain may cause a relapse while the disease is being treated with the drug. Such an infection is considered a superinfection, which is quite common for RNA viruses (such as HIV) and some bacteria. In dengue virus infections, a person may be infected by several different strains of the virus over time. The initial infection is the primary infection, and the subsequent infections by different strains of dengue viruses are secondary, tertiary, quaternary (etc.) infections.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "In worm infections, the worms may lay eggs in the infected subject’s body. The eggs may develop into larval stages. The larvae usually do not infect the patient. They leave the body and enter the same or a different person's body from the environment before they can cause disease. If the larvae infect the patient without leaving the patient’s body, it is a hyperinfection. Hyperinfection is rare, typically observed in patients with severely suppressed immune systems.",
+          "page": 20
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "12.6",
+      "heading": "Diseases in the human populations",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Epidemiologists continually observe and record the frequency of various diseases in the population. In particular, they record the following aspects of diseases in the communities.",
+          "page": 21
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "12.6.1",
+      "heading": "Prevalence and incidence",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Disease prevalence is defined as the ratio of the total number of existing cases, including newly diagnosed cases (X), to the number of subjects vulnerable to the disease (N). Disease prevalence (X/N) can be calculated as point prevalence, determined at a given point in time or date (e.g., January 1, 2018), or period prevalence, for a span of time (e.g., January 1 through January 31, 2019).",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "The prevalence rate can be expressed as a percentage or per 100,000 persons. Data on disease prevalence help epidemiologists predict the likelihood that an individual has the disease and determine which services (medications, vaccines, etc.) a community may need and stockpile. The point prevalence of chronic diseases such as diabetes and hepatitis C is usually high, but that of seasonal acute infections (such as influenza) can vary drastically from very low to very high.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Disease incidence is defined as the ratio of the total number of new cases of a disease (Xn) to the number of subjects vulnerable to the disease (N). The rate of disease incidence is expressed as Xn/N, where N= 1,000,000 people. Note that only new cases are counted in for calculating disease incidence.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Incidence data helps healthcare providers estimate the likelihood of an average person developing a specific disease within a certain period and assists in identifying the disease's causes. At a given time point, the incidence rate of chronic diseases such as diabetes is generally quite low; by contrast, that of a contagious disease such as influenza can vary drastically.",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "A solved problem",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Based on a random sample of 200 people who had an annual health checkup on January 1, 2020, it was estimated that there are 162,000 people with human papillomavirus infection in a city with a total population of 270,000. On the same day, 30 new cases of cervical cancer were diagnosed in the city. 50.6% of the city's population is female. Calculate the prevalence of papillomavirus infection and incidence of papillomavirus-associated cancer in the city. Also, explain what this data means.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Solution: Since all human beings can be infected by papillomaviruses, the point prevalence of papillomavirus infection on January 1, 2020, = Total number of existing plus the newly diagnosed cases/population = (162,000+30)/270,00= 0.6, or 60%. It means that a person living in that city has a 60% chance of contracting the virus. Only females can get cervical cancer. The total number of females in the city is 270,00x0.506=136,620. The incidence of cervical cancer is = (number of newly diagnosed cases x 1000)/ number of vulnerable people = (30 x1000)/136,620= 0.22 new cases per 1,000 women.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Attack rate, morbidity rate, and mortality rate The attack rate is the cumulative incidence of a disease in a group exposed to a particular dose of the infectious agent over a given period. This measure enables public health officials to determine or forecast how many of every 100 people exposed will develop the disease. For example, 600 children were exposed to beef contaminated with E. coli strain 057:H7. The attack rate would allow health care officials to predict how many of the exposed children would develop hemolytic uremic syndrome (a disease caused by E. coli strain 057:H7).",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "Other parameters also recorded include the",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "• Morbidity rate- the number of subjects who suffer a specific disease (say influenza) during a specific time period, divided by the number of people at risk • Mortality rate (death rate)-the percent of people who die of a specific disease (say, influenza) upon contracting it.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "• Crude mortality rate is the number of deaths from all causes/1,000 people (a time factor can also be applied here).",
+          "page": 22
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "12.6.2",
+      "heading": "Prevalence of diseases in time and space",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Sporadic disease",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Diseases can be categorized by the rapidity of transmission and the size of the affected area. A disease that occurs infrequently in a population (i.e., the current prevalence is usually close to zero) is a sporadic disease. Congenital diseases caused by deleterious genetic mutations (such as hemophilia) are usually sporadic diseases. Plague bacilli (Yersinia pestis) found in prairie dogs occasionally transmit to ranchers in the Southwestern United States. Thus, plague is a sporadic disease in the USA (about 7 cases per year).",
+          "page": 22
+        },
+        {
+          "type": "subheading",
+          "text": "Endemic disease",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "A disease that is constantly present in the population of a geographic area (i.e., the current prevalence is never zero) is an endemic disease. Coccidioidomycosis, a chronic fungal infection, is endemic in the southwestern United States, and plague is an endemic disease in India. A persistent endemic disease with a high incidence rate is a hyperendemic disease. Human papillomavirus (HPV) infection is hyperendemic in all human populations.",
+          "page": 22
+        },
+        {
+          "type": "subheading",
+          "text": "Outbreak",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "The prevalence of a disease may change over time. An outbreak is an increase in the prevalence of a disease beyond the expected rate in a small locality and a short period. The bird flu that infected human beings was originally an outbreak in Hong Kong in 1997. By 2006, bird flu was an epidemic affecting many countries including Thailand, Indonesia, India, and Romania.",
+          "page": 22
+        },
+        {
+          "type": "subheading",
+          "text": "Epidemic",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "A disease is called an epidemic if there is an increase in prevalence over a larger area, such as a large country or several countries in a region, and the disease spreads to previously low-prevalence regions. Currently, a chikungunya virus epidemic is spreading across countries in the tropical region of the world.",
+          "page": 22
+        },
+        {
+          "type": "subheading",
+          "text": "Pandemic",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "An epidemic involving many countries or continents (such as HIV, hepatitis C virus, and SARS-CoV-2 infections) is a pandemic.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "The incidence rate of a disease increases during an outbreak, epidemic, or pandemic, but the rate of increase can be very high (as in the case of CARS-CoV-2 infections) or relatively low (as in the case of hepatitis C). The relationship among endemic, outbreak, epidemic, and pandemic diseases is shown in Fig. 12.11.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "The prevalence and the rate of incidence of a disease increase for various reasons, including • The pathogens evolve and gain new virulence factors • The pathogen brought to previously unexposed populations • Changes in the mode of transmission of the pathogen • Changes in the portal of entry and rate of exposure • Changes in the reservoirs and vectors of a disease, and • Changes in the susceptibility of the population Smallpox and influenza, for example, were introduced to the Americas and rapidly spread, almost wiping out the Native American populations. The annual influenza A epidemic mainly results from the emergence of new strains of the influenza A virus. The rate of blood-borne diseases like hepatitis B and C has rapidly increased in Afro-Asian countries over the past decades, mainly due to the reuse of hypodermic needles, while in Western countries, it has been driven by the use of intravenous recreational drugs. People affected by wars, famines, and natural disasters, as well as those forced to live in crowded camps with minimal facilities, are vulnerable to many diseases.",
+          "page": 22
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 12.11. A presentation of the relationships among sporadic, endemic, hyperendemic, outbreak, epidemic,",
+          "page": 23,
+          "image": "/mmahp/ch12/12-11.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "and pandemic stages of a disease. The Y-axis indicates the prevalence of the disease and the ovals indicate the sizes of the areas affected. Sporadic and endemic diseases can affect larger geographical areas.",
+          "page": 23
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 27,
+          "title": "Changes in the disease incidence (2)",
+          "bullets": [
+            "Emerging disease- recently discovered, incidence increasing",
+            "Remerging disease- incidence increasing after long decline",
+            "Causes of emergence or reemergence",
+            "Evolution of new virulence factors",
+            "Brought to unexposed populations",
+            "changes in the mode of transmission",
+            "Changes in the portal of entry and rate of exposure",
+            "Changes in the reservoirs and vectors of a disease",
+            "changes in the susceptibility of the population.",
+            "Please see the list in Table 17.7"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "12.6.3",
+      "heading": "Emerging and reemerging infectious diseases",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A disease that has recently appeared and is rapidly expanding its range in the human population is an emerging disease. Historically, the transfer of animal pathogens to humans through hunting, domestication, and farming practices has been some of the major causes of disease emergence. It is now understood that SARS-CoV-2 was transmitted from bats to pangolins (or other wild animals used as food in China) to humans. According to the CDC, changes in ecological and environmental conditions—including global warming and climate change—that bring people into contact with unfamiliar microbes are some of the main causes of the emergence of newly identified diseases.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Natural disasters, new technologies, war, civil unrest, pathogen mutations, and the misuse of drugs also contribute to the emergence of new diseases. Eye infections caused by Acanthamoeba sp. are an example of disease emergence linked to new technology, such as the widespread use of contact lenses. Multi-drug-resistant tuberculosis has arisen due to factors like human migration, improper antibiotic use, and pathogen mutations. A previously known disease agent can become a new threat when introduced to a different geographic area.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "The factors that contribute to disease emergence may also increase the prevalence of certain endemic or sporadic diseases in their native range. Such diseases that had declined before increasing in prevalence are reemerging diseases. The prevalence of tuberculosis in North America went from very high in the 1700s to very low in the mid- 1900s, but currently, the prevalence of the disease is increasing among the elderly, HIV-infected subjects, and poor immigrants.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "The incidence of tuberculosis has doubled globally, from about 2.5 million new cases in 1980 to over 5.0 million new cases in 2005. The prevalence of malaria declined in many Asian countries after the widespread use of pesticides in the 1960s. Malaria is reemerging in some of those countries due to increased irrigation for rice cultivation. Irrigation increases mosquito breeding habitats, the vectors of malaria. The list of emerging and reemerging diseases maintained by the National Institute of Allergy and Infectious Diseases (NIAID) is shown in Table 12.7. Agents that can be used in bioterrorist attacks are also listed (the agents are not threats at present, but a terrorist attack may turn these into reemerging diseases).",
+          "page": 23
+        },
+        {
+          "type": "figure",
+          "text": "Table 12.7. Emerging diseases/pathogens. Adapted from NIAID web page www3.niaid.nih.gov (February 2009).",
+          "page": 24,
+          "image": "/mmahp/ch12/12-7.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Group I-Pathogens newly recognized in the past two decades Virus: Australian bat lyssavirus, Parvovirus B19, Hepatitis C, Hepatitis E, Human herpesvirus-8, Human herpesvirus 6, Hendra or equine morbillivirus; Bacteria: Ehrlichia, Borrelia, Helicobacter pylori, Bartonella henselae; Protozoa: Babesia (atypical), Encephalitozoon cuniculi, Encephalitozoon hellem, Enterocytozoon bieneusi, Acanthamoeba.",
+          "page": 24
+        },
+        {
+          "type": "subheading",
+          "text": "Group II-Re-emerging pathogens",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Viruses: Enterovirus 71, Mumps virus, Bacteria: Clostridium difficile, Streptococcus (Group A), Staphylococcus aureus.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Group III-Agents with bioterrorism potential NIAID-Category A Viruses: Viral hemorrhagic fevers (Arenaviruses- LCM, Junin virus, Machupo virus, Guanarito virus), Lassa Fever, Bunyaviruses (Hantaviruses, Rift Valley Fever), Flaviviruses (Dengue), Filoviruses (Ebola, Marburg), Variola major (smallpox), and other related poxviruses; Bacteria: Bacillus anthracis, Clostridium botulinum toxin, Yersinia pestis, Francisella tularensis.",
+          "page": 24
+        },
+        {
+          "type": "subheading",
+          "text": "NIAID-Category B",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Viruses: Caliciviruses, Hepatitis A, West Nile virus, LaCrosse, California encephalitis, VEE, EEE, WEE, Japanese Encephalitis virus, Kyasanur Forest virus; Bacteria: Burkholderia mallei, Burkholderia pseudomallei, Coxiella burnetii, Brucella, Chlamydia psittaci, Epsilon toxin of Clostridium perfringens, Staphylococcus enterotoxin B, Rickettsia prowazekii, Diarrheagenic E.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "coli, Pathogenic Vibrios, Shigella, Salmonella, Listeria monocytogenes, Campylobacter jejuni, Yersinia enterocolitica, Protozoa: Cryptosporidium parvum, Cyclospora cayatanensis, Giardia lamblia, Entamoeba histolytica, Toxoplasma; Fungi: Microsporidia.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "NIAID-Category C Nipah virus and additional hantaviruses.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "NIAID priority areas: Viruses: Rabies, Prions, Chikungunya virus, Severe acute respiratory syndrome-associated coronavirus (SARS-CoV), Tick-borne hemorrhagic fever viruses, Crimean- Congo Hemorrhagic Fever virus, Tick-borne encephalitis viruses, Influenza, Yellow fever; Bacteria: Multidrug-resistant TB, Other Rickettsia; Fungi: Coccidioides.",
+          "page": 24
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 25,
+          "title": "Some related terminologies",
+          "bullets": [
+            "Attack rate",
+            "Morbidity rate",
+            "Mortality rate",
+            "Crude mortality- total deaths x 1000/ total population",
+            "Prevalence over time and space",
+            "Sporadic- prevalence is close to zero",
+            "Endemic- local, rare but prevalence never zero",
+            "Hyperendemic- endemic but prevalence is very high",
+            "Outbreak- prevalence increasing rapidly in a locality",
+            "Epidemic- prevalence increasing rapidly in a region",
+            "Pandemic- prevalence increasing rapidly and globally"
+          ]
+        },
+        {
+          "slideIndex": 32,
+          "title": "Emerging and remerging diseases",
+          "bullets": [
+            "Emerging- recently appeared and is expanding in the range",
+            "Why disease emerge",
+            "Zoonosis (SARS-CoV-2)",
+            "Spreading of the vector (Chikungunya virus)",
+            "Human travel and migration (Tuberculosis in the USA)",
+            "Climate change (Yellow fever in USA)",
+            "Societal stress (war, famine, political upheaval, etc.), break in the",
+            "Mutations ( Influenza virus)",
+            "Remerging- declined but incidence rate is increasing recently"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "12.7",
+      "heading": "Epidemiological studies and intervention",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Although epidemiologists do not cure diseases, they play an equally vital role as disease detectives. They investigate the causative agents, reservoirs, and transmission routes of disease agents following recent or past outbreaks to design programs that intervene and control current and future outbreaks. They also monitor the incidence and prevalence of diseases, evaluate morbidity and mortality rates, and track any changes in the prevalence of existing endemic or epidemic diseases. There are three levels of epidemiological studies: descriptive, analytical, and experimental epidemiology.",
+          "page": 24
+        },
+        {
+          "type": "subheading",
+          "text": "Descriptive epidemiology",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Descriptive epidemiology seeks the answers to the questions –who, when, what, and where? In the wake of a disease outbreak, epidemiologists collect data on the place and time of the outbreak and the persons affected. Such a study in 1981 allowed Michael Gottlieb (1947-), Sandra Ford (1950-2015), and scientists at the Center for Disease Control and Prevention (CDC) to recognize the acquired immunodeficiency disease syndrome (AIDS) among the homosexual men in Los Angeles, California; long before the detection of HIV-1 as the causative agent of the disease in 1983 by Luc Montagnier (1932-) and other scientists. Here are the questions that descriptive epidemiology seeks answers: Who (is affected): The age, sex, occupation, personal habits, and other personal details of the affected individuals help identify key risk factors of the disease.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "When the outbreak took place: The time of year when the incidence of a disease increases, and the rate of transmission indicates whether the disease is communicable. The year-round incidence of Lyme disease in Ontario, Canada, is shown in Fig. 12.12. The figure indicates that outdoor activities during certain parts of the year are important risk factors for transmission of Lyme disease.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "What (type of agent caused the outbreak): The identity of the pathogen helps healthcare workers design appropriate surveillance, prevention, and management strategies.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "Where (the outbreak took place): Information on the location of the outbreak may reveal the reservoirs and the relative abundance of the infectious agents and their vectors.",
+          "page": 25
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 12.12. An example of a descriptive epidemiological study. Lyme disease cases among locals (endemic),",
+          "page": 25,
+          "image": "/mmahp/ch12/12-12.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "travelers, and others by month in Ontario, Canada. Outdoor activities during certain months seem to correlate with an increase in disease occurrence. Data from Vrbova L, Middleton D. Canada Communicable Disease Report 2006; 32(21). https://publications.gc.ca/collections/Collection/HP3-1-32-21.pdf.",
+          "page": 25
+        },
+        {
+          "type": "subheading",
+          "text": "Analytical epidemiology",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "Analytical epidemiology seeks answers to the questions: why and how the outbreak took place, using risk factors identified by descriptive epidemiological studies. In particular, the studies aim to identify the causes and factors that influence the transmission rate of the disease. Analytical studies can be conducted in various ways, including the following: Cross-sectional studies: These studies analyze the association between risk factors and disease at a single point in time or over a short period. An example of a cross-sectional study is determining the prevalence of hepatitis B virus (HBV) infection among people seeking treatment at a drug abusers’ rehabilitation clinic. Suppose 20 of the 90 patients (prevalence is 22%) examined in the clinic in one week were found HBV-positive. This type of study examines exposure and outcome simultaneously; thus, it cannot determine the cause-and-effect relationship between risk factors and disease.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "Longitudinal studies: In these studies, the same variable is examined within a group of individuals, and data is collected at multiple time points over a period. An example of a longitudinal study is the developmental outcomes of sexually abused children. One such study (Ferguson DM, McLeod GF, Horwood LJ. Child Abuse Negl 2013; 37(9):664-674) observed a cohort of children for 30 years and found that sexual abuse of children is associated with increased rates of depression, anxiety disorder, suicidal ideation, dependence on illicit drugs, and sexual activities at an earlier age.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "Prospective studies: This type of study examines the risk factors and the relationships between these risk factors and disease prevalence in populations that are exposed to an agent versus those that are not over a period. One such study (Stratton K, Almario DA, McCormick MC. Immunization Safety Review: SV40 Contamination of Polio Vaccine and Cancer; Washington DC, National Academies Press, 2002) is the study of cancer prevalence among the children exposed to polio vaccine contaminated with SV40 virus compared to the children who were not exposed to the risk factor. Some batches of vaccines were contaminated with the SV 40 virus, a polyomavirus that normally infects monkeys, because the vaccine strain of poliovirus was cultivated in monkey cells already infected by SV 40. SV 40 contains oncogenes and can transform human cells, potentially causing cancer. A fifty-year review of the prospective study indicated that exposure to SV 40 has not increased cancer risks among the children who were exposed. Retrospective studies: In this type of study, the risk factors and the relationship between these risk factors and the disease prevalence in affected and unaffected populations from a previous outbreak are analyzed. An example of a retrospective study is assessing the risk of myelodysplastic syndromes (MDS, disorders that disrupt production of blood cells) among the survivors of the Nagasaki atomic bomb fallout (Iwanaga M, Hsu WL, Soda M, Takasaki Y, et al., J Clin Oncol 2011; 29(4)428-34). It was observed that there is a significant linear radiation dose-response for MDS among the atomic bomb survivors 40-60 years after the radiation exposure.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "All these types of studies have potential shortcomings that can be minimized through a careful study plan and the use of statistical tools to prevent biases and autocorrelations. Details of these are beyond the scope of this textbook. Experimental epidemiology Experimental studies intervene with certain risk factors and observe the outcomes on disease prevalence. Because experimental studies require case and control groups, they are not always feasible in human populations. Thus, animal models are frequently used. Human subjects who are naturally or accidentally exposed to risk factors can be part of an experimental observational study. Here, exposure, incidence rate, disease prevalence, and disease-related mortality (at different time points) in the exposed and unexposed populations are analyzed. One such study investigated whether the male-specific H-Y antigen has any adverse immunologic effect on kidney graft survival (Keith D, Patrie JT. J Transplant Surg 2011; 5: DOI: 10.1155/2011/148457). It is known that male bone marrow donation to female recipients can cause some adverse effects. The authors examined the outcomes of kidneys from deceased male donors transplanted into female recipients. Cases where kidneys from deceased male donors were transplanted into male recipients served as the control group. The authors found that male donors to female recipients did not have any immunologically significant effects on kidney transplantation outcome (Fig. 12.13).",
+          "page": 26
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 12.13. Experimental epidemiology in action. Kaplan-Meier plot of death-censored graft survival between six",
+          "page": 26,
+          "image": "/mmahp/ch12/12-13.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "months and ten years after kidney transplantation. The black line is for female recipients, the red line is for male recipients. There is no significant difference between the slopes of the two curves (P = 0.445), indicating no contraindication of male-to-female kidney transplantation outcomes. Figure from Keith D, Patrie JT. J Transplant Surg 2011; 5: DOI: 10.1155/2011/148457.",
+          "page": 26
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 28,
+          "title": "Epidemiological studies (1)",
+          "bullets": [
+            "Descriptive studies",
+            "Who is affected",
+            "When incidence increases",
+            "What type of agents",
+            "Where incidence increases"
+          ]
+        },
+        {
+          "slideIndex": 29,
+          "title": "Epidemiological studies (2)",
+          "bullets": [
+            "Analytical studies",
+            "Cross-sectional- association of risk",
+            "Longitudinal- the same variables of",
+            "Prospective- exposed and unexposed",
+            "Retrospective- exposed and"
+          ]
+        },
+        {
+          "slideIndex": 30,
+          "title": "Epidemiological studies (3)",
+          "bullets": [
+            "Experimental studies- intervene",
+            "Cases",
+            "Controls"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "12.8",
+      "heading": "Disease surveillance",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Disease surveillance starts with individual citizens and their health care providers. The AIDS epidemic, for example, was brought to light in 1981 by a physician/teacher (Michael Gottlieb), a drug technician (Sandra Ford), and the CDC. Every county in the United States has a health department and many health districts. The department provides birth and death certificates, but it also has a bureau of epidemiology that collects and maintains records of many diseases. Most states have laws requiring healthcare providers to report the incidence of certain diseases, called Notifiable Diseases, to the county health office. The county health offices then report to the state and federal health departments. The federal health department, the US Department of Health and Human Services, has many agencies involved in disease surveillance, both directly and indirectly.",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "The Centers for Disease Control and Prevention (CDC) Central to disease surveillance at the national level in the United States is the Centers for Disease Control and Prevention (CDC), located in Atlanta, Georgia. It provides expertise, assists state and local agencies in identifying disease agents, and helps collect data on diseases important to public health. The CDC website (www.cdc.gov) is an important source of public health information and education. Every microbiology student should be familiar with the extensive online resources offered by the CDC. The CDC publishes many online booklets and journals weekly and monthly. Among them, the Morbidity and Mortality Weekly Report (MMWR) summarizes the status of diseases of public health importance, especially Notifiable Diseases (Table 12.8). Local and state health departments, along with the CDC, decide which diseases should be added or removed from the list of Notifiable Diseases.",
+          "page": 27
+        },
+        {
+          "type": "figure",
+          "text": "Table 12.8. Nationally Notifiable Infectious Diseases (2016), adapted from CDC list (Sept 2016).",
+          "page": 27
+        },
+        {
+          "type": "subheading",
+          "text": "Viral diseases",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "Diseases caused by arboviruses, California serogroup virus, chikungunya virus, Eastern Equine Encephalitis virus, Powassan virus, St. Louis Encephalitis virus, West Nile virus, Western Equine Encephalitis virus, Hantavirus, Hepatitis A, B and C (acute or chronic); measles, rubeola, Mumps, novel influenza A virus infections, poliomyelitis (paralytic or nonparalytic), rabies (animal or human), rubella (congenital or usual), Severe Acute Respiratory Syndrome (due to SARS CoV infection), smallpox, chickenpox, viral hemorrhagic fever (VHF), Crimean-Congo Hemorrhagic Fever virus, Ebola virus, Lassa virus, Lujo virus, Marburg virus, New World Arenavirus (Guanarito virus, Junin virus, Machupo virus, and Sabia virus) infections, Yellow fever, and Zika virus (usual or infections, congenital) infections.",
+          "page": 27
+        },
+        {
+          "type": "subheading",
+          "text": "Bacterial diseases",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "Anthrax, botulism (foodborne, infant, wound botulism), brucellosis, campylobacteriosis, chancroid, Chlamydia trachomatis infections, cholera, diphtheria, ehrlichiosis, anaplasmosis, gonorrhea, Haemophilus influenzae (invasive disease), Hansen's disease (leprosy), hemolytic uremic syndrome (by E. coli), Streptococcus pneumoniae (invasive disease), legionellosis, leptospirosis, listeriosis, Lyme disease, pertussis, plague, psittacosis (ornithosis), Q fever (acute or chronic), salmonellosis, Shiga toxin-producing Escherichia coli (STEC), shigellosis, rickettsiosis, streptococcal toxic shock syndrome (STSS), syphilis (congenital, primary, early or late latent, secondary and tertiary), tetanus, toxic shock syndrome (other than Streptococcal), tuberculosis, tularemia, typhoid fever, vancomycin-intermediate Staphylococcus aureus, and vancomycin-resistant Staphylococcus aureus (VISA/VRSA), and vibriosis Fungal diseases Coccidioidomycosis (Valley Fever) Protozoan diseases Babesiosis, cryptosporidiosis, cyclosporiasis, giardiasis, and malaria Worm diseases Trichinellosis and trichinosis The World Health Organization (WHO) The World Health Organization (WHO) is the health agency of the United Nations, governed by its 193 member nations. WHO aims to achieve a seven-point agenda that includes individual and global health security and addresses health risks. WHO electronically publishes the Weekly Epidemiological Record, which includes, among other topics, reports on the outcomes of interventions against various epidemic diseases. The publication can be viewed in several languages at http://www.who.int/. The two most pressing issues WHO is currently focusing on are the spread of avian flu and the global effort to eradicate poliomyelitis. WHO advises and shares resources with the health departments of member nations, working together to improve and maintain human health, prevent diseases, and pursue eradication efforts.",
+          "page": 27
+        },
+        {
+          "type": "subheading",
+          "text": "Eradication of infectious diseases",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Eradication of a disease means eliminating it from the human population. A disease can be eradicated if (a) humans are the only susceptible organisms, (b) humans are the only reservoirs of the disease, and (c) highly effective vaccines to prevent transmission of the disease are available, and/or highly effective prophylactic and/or curative medicines for the disease are available. WHO, along with a coordinated effort of all countries, eradicated smallpox in 1977. WHO made an effort to eradicate smallpox in 1956, but the effort failed because the vaccine and available technology were insufficient. By 1966, WHO developed an improved vaccine, new vaccination needles, and a highly trained workforce, which enabled the organization to mass-vaccinate vulnerable populations worldwide. Surveillance of any disease resembling smallpox (through house-to-house searches), containment of outbreaks, and mass vaccination ultimately eradicated the disease (Fig. 12.14). The last case of natural smallpox infection was reported in Somalia in 1977.",
+          "page": 28
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 12.14. WHO-coordinated attempts for eradicating smallpox and poliomyelitis. The confirmed cases of",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "smallpox dropped sharply soon after the WHO vaccination campaign began in 1956 (indicated by an arrow). No new cases have been reported since 1977. A similar effort to eradicate poliomyelitis started in 1988, with initial success. Currently, fewer than 1,000 poliomyelitis cases are reported annually. The figure is redrawn from Earth Policy Institute (Two stories of disease: Smallpox and polio; Sept 15, 2011), based on WHO data.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "The smallpox eradication campaign lasted nearly a decade and cost about $300 million. For over two thousand years, smallpox threatened human populations worldwide and nearly wiped out Native American communities. The eradication of such a terrible disease demonstrates the power of epidemiology and international cooperation. The poliomyelitis eradication efforts started in 1988. WHO forecasted the eradication of poliomyelitis by 2003 but failed to achieve the goal. A few cases of natural infections by wild poliovirus are still being reported from a few nations (including India, Pakistan, Afghanistan, Nigeria, and Niger).",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "The government of India launched the National Leprosy Eradication Program (NLEP) in 1983. The World Bank supported a multidrug combination therapy program aimed at eradicating leprosy. By 2005, NLEP had effectively eliminated leprosy at the national level, although cases may still be endemic in certain districts. In 1991, the World Health Assembly—the decision-making body of WHO—began a global effort to eradicate leprosy. However, according to the American Leprosy Mission (Greenville SC), 117 countries, including the United States with 168 cases, have reported over 210,000 new cases of leprosy as of 2017.",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "The Carter Center International Task Force for Disease Eradication (Atlanta, GA) identified in 2008 five additional diseases—measles, mumps, rubella, lymphatic filariasis, and cysticercosis—that can be eradicated using available technologies. Given the current pace of technological advancements and innovations, it is reasonable to expect that these and additional diseases will be eradicated from human populations in the near future.",
+          "page": 29
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 31,
+          "title": "Disease surveillance",
+          "bullets": [
+            "Notifiable disease",
+            "See List in Table 17.8",
+            "Important agents",
+            "CDC",
+            "WHO",
+            "Disease eradication",
+            "Smallpox",
+            "Leprosy",
+            "Polio, measles, mumps,",
+            "Ethnic Treponema"
+          ]
+        },
+        {
+          "slideIndex": 33,
+          "title": "Notifiable diseases, CDC and WHO",
+          "bullets": [
+            "Notifiable disease",
+            "To be reported to CDC by local, state and federal law",
+            "Not all diseases are notifiable",
+            "Most notifiable diseases are viral or bacterial",
+            "CDC",
+            ". It provides expertise, assists state and local agencies in identifying disease agents, and",
+            "Publishes Morbidity and Mortality Weekly Report (MMWR)",
+            "Maintains a huge web resources on infectious disease and public helath information",
+            "WHO",
+            "aims to achieve a seven-point agenda that includes individual and global health security",
+            "WHO electronically publishes the Weekly Epidemiological Record, which includes,"
+          ]
+        }
+      ]
+    }
+  ],
+  "unmatchedSlides": [
+    {
+      "slideIndex": 1,
+      "title": "Definitions",
+      "bullets": [
+        "Pathology- the study of the",
+        "Epidemiology- the study of the",
+        "Disease detectives",
+        "Dr. John Snow in 1848",
+        "Dr. Zhang Jixian 2019."
+      ]
+    }
+  ]
+}

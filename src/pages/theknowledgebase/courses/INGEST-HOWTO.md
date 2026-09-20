@@ -59,7 +59,10 @@ Canvas's API accepts that session — which is exactly how the Canvas web UI its
 1. Open **https://uvu.instructure.com** and make sure you're logged in.
 2. Press **F12** → **Console** tab.
    *(If it warns about pasting, type `allow pasting` and press Enter first.)*
-3. Open `scripts/browser/canvasCapture.js`, copy the whole file, paste it in the console, Enter.
+3. Open `G:\My Drive\SupplementalCourseDocs\canvasCapture.js` (a copy kept right in the Drive
+   folder so you don't have to dig through the repo — the canonical version lives at
+   `scripts/browser/canvasCapture.js`; ask for the Drive copy to be refreshed if it's ever stale),
+   copy the whole file, paste it in the console, Enter.
 4. Wait — it prints progress per course, then downloads **`canvas-capture.json`**.
 5. Drop that file anywhere in the repo and tell me. I run the rest.
 
@@ -71,9 +74,25 @@ Then (this part is mine, not yours):
 node scripts/canvasFetch.mjs --from-capture canvas-capture.json
 ```
 
-⚠️ The file download links inside a capture are time-limited. If attachments fail with an
-expired-link error, just re-run the console snippet for a fresh capture — the metadata is fine
-either way.
+⚠️ **If every file fails the same way, it's not an expired link — see below.**
+
+### If attachments fail — check WHICH kind of failure it is
+
+The line above (time-limited links) is real for some Canvas tenants, but on UVU's Canvas it is
+**not the actual cause**: confirmed 2026-09-18 that none of the captured file URLs carry Canvas's
+usual `?verifier=` token at all, so a plain unauthenticated download always gets redirected into
+UVU's login page — 76/76 failed on MICR 2060, and a fresh capture reproduces it identically.
+
+If you see `fail 500` (or similar) on every single file, do this instead:
+
+1. Open `G:\My Drive\SupplementalCourseDocs\canvasDownloadFiles.js`.
+2. Same paste-into-console steps as above, but run it **on a page inside the course itself**
+   (e.g. `https://uvu.instructure.com/courses/635327`) — edit the `COURSE_ID` at the top of the
+   file first if it's a different course.
+3. It downloads one `.zip` with every file's real bytes (fetched from inside your logged-in tab,
+   so no login wall).
+4. Tell Claude where the zip landed — `npm run canvas:import-zip -- <zip> --course "MICR 2060"`
+   unpacks it straight into that course's `files/` folder.
 
 ### If a token ever becomes available
 

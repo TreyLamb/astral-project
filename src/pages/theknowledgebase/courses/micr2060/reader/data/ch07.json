@@ -1,0 +1,2233 @@
+{
+  "id": "ch07",
+  "number": 7,
+  "title": "Microbial Growth and Its Control",
+  "lead": "Microbiologists may need to grow microbes to detect them, use them as experimental models, or isolate molecules such as antibiotics and enzymes. Microbiologists may also need to kill or inactivate microbes to decontaminate spaces and treat infected subjects. Thus, microbiologists should know how microbes grow in natural environments and how to grow them in the laboratory. If the growth conditions of a microbe are known, those conditions can be manipulated to control microbial growth more efficiently. Safety is the central concern of the allied health professions. Healthcare professionals must protect themselves, their families, and their clients from infection risks at all times. For these reasons, allied health care professionals should be highly knowledgeable about disinfection, antisepsis, and personal protection. This chapter initially addresses microbial growth and finishes with the control of microbial growth in the environment. Despite all efforts to control them, microbial infections are inevitable. Treating microbial infections will be covered in Chapter 8. Part 1: Microbial Growth Subcellular and unicellular microbes grow by number but not by size, because the size of the parent and progeny is about the same. In contrast, multicellular metazoan organisms grow in both number (through reproduction) and size, from a single cell (zygote) about 50 micrometers to a larva or embryo (measured in centimeters) to an adult (which can be measured in centimeters to meters).",
+  "openstaxEquivalent": null,
+  "sources": {
+    "chapterPdf": "7. Microbial Growth & Control.pdf",
+    "pptPdf": "MMAHP Ch 7 PowerPoint Lecture Outline.pdf"
+  },
+  "sections": [
+    {
+      "number": "7.1",
+      "heading": "How microbes grow in natural environments",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Almost all microbes can be considered aquatic organisms because they quickly desiccate in open terrestrial environments and are damaged by UV radiation. Thus, microbes generally grow in water, near an adequate moisture supply, or within the host body or cell.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Traditionally, microbial growth was studied in the laboratory, one species at a time. In natural environments, many microbial species live in communities, where some are producers (e.g., photosynthetic organisms that produce organic compounds), some are consumers (e.g., organisms that get nutrients from producers and other consumers as predators or parasites), and some are decomposers (e.g., organisms that recycle nutrients from dead organisms). All pathogenic microbes are predators, parasites, or decomposers. In this chapter, we will discuss the growth of mostly the pathogenic microbes.",
+          "page": 1
+        },
+        {
+          "type": "subheading",
+          "text": "Aquatic environments",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbes in the aquatic environment may live as plankton (motile organisms that drift with water currents) or adhere to floating objects or the bottom substratum. Planktonic microbes are usually flagellated and may contain an air bubble for buoyancy. Microbes that adhere to a substratum usually create a biofilm. Oral bacteria from biofilm on teeth (dental plaque). Microbes in the large intestine form a biofilm on undigested food remnants. Bloodborne bacteria may also form biofilms on inanimate substances in the body, such as pacemakers and venous catheters. Many microbes, such as sulfur bacteria and some methane-producing archaea, grow deeper inside the bottom mud.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "The common waterborne pathogens include viruses (such as norovirus, rotavirus, astrovirus, and hepatitis A and E viruses); bacteria (genera Vibrio, Pseudomonas, Legionella, Burkholderia, Aeromonas, and Escherichia, Salmonella, Shigella, Serratia, Klebsiella, and some species of Mycobacterium) (Fig. 7.1), protozoa (such as the genera Cryptosporidium, Cyclospora, Giardia, Naegleria, Entamoeba, and Balantidium); and fungi (such as some species of the genera Alternaria, Aspergillus and Fusarium). Some aquatic bacteria (such as Legionella pneumophyla) infect aquatic protozoa (amoebae). Ingestion of the infected amoebae transfers the pathogen to the human body. Aquatic larvae of some flatworms (for example, the genus Schistosoma) penetrate human skin before they enter the bloodstream. Eggs and larvae of some worms, such as the Guinea worm (Dracunculus mediensis), infect aquatic arthropods. Accidental ingestion of the infected arthropods transmits the worm eggs to humans. Some of the aquatic pathogens may also thrive in moist soil. Enteric bacteria such as E. coli and Salmonella normally reside in the intestines of animals and humans. They can survive in natural waterbodies for a short time. The presence of E. coli in water indicates that human or animal waste has been released into the water.",
+          "page": 2
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.1. Microbial growth in water and soil. A. E. coli from a water sample grew on a selective agar plate (forming",
+          "page": 2,
+          "image": "/mmahp/ch07/7-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "purple-colored colonies), indicating that the water source was contaminated with fecal materials. Image- Bio-Rad. B. Microbes in the soil. Shown is a false-colored SEM image of soil showing many bacterial species adhering to rock and mineral particles. Not shown are fungi, protozoa, nematodes, and other invertebrates, all of which are also plentiful in soil. (CC) Alice Dohnalkova (PNNL).",
+          "page": 2
+        },
+        {
+          "type": "subheading",
+          "text": "Soil",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Soil is made of fine rock particles and organic molecules, mainly plant materials (known as humus). Soil lacking organic materials is sand. There are air and water channels between the soil particles. Microbes usually grow attached to the rock particles. Organic-rich, well-drained, moist soil can contain as many as a billion microbial cells per gram of soil. Excess water floods the air capillaries of soil and drastically reduces biodiversity. Polluted soil and water (see Chapter 15) are also poor in biodiversity. Soil-borne pathogens include bacteria (genera Bacillus, Clostridium, Clostridioides, Burkholderia, Nocardia, Actinomyces, Streptomyces, and Listeria), protozoa (such as the genus Acanthamoeba), and fungi (genera Blastomyces, Coccidioides, Histoplasma, and Cryptococcus). Larvae of many nematode worms (including the hookworm larvae) enters human body from soil. Eggs and larvae of some flatworms (such as Taenia solium), and nematodes (such as the Genera Enterobius, Trichinella, Ascaris, and Toxocara) enter the human body through soiled food or accidental ingestion of contaminated soil. Fungal hyphae, nitrogen-fixing bacteria, and tree roots create an extensive network of living cells/tissues in soil. Worms and arthropods are also plentiful in soil.",
+          "page": 2
+        },
+        {
+          "type": "subheading",
+          "text": "Air",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Wind flow can cause microbes attached to soil particles to become airborne and aerosolize aquatic microbes. Floating dust and aerosol particles may travel for many miles. Microbes on dust particles have been collected 10 km above the Earth's surface. Airborne soil microbes from Africa crossing the Atlantic Ocean and from China crossing the Pacific Ocean have been recorded. Airborne dust and microbe particles in the upper atmosphere contribute to the formation of raindrops and clouds.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Humans and animals release microbes through breathing and sneezing as droplets of diverse sizes (see Chapter 11). The droplets may stay airborne for a few minutes to a few hours. Microbes (bacteria and bacterial and fungal spores) in the ground-level air are plentiful. This can be proven by exposing a blood agar to room air for a few hours and then incubating at 35 oC overnight (Fig. 7.2). Air in dusty cities and areas near solid waste disposal contains high loads of microbes, which can be sampled and quantified using an air sampler (Fig. 7.2). Contaminated air is the primary source of respiratory infections and some other diseases.",
+          "page": 2
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.2. Microbes in the air. A. Bacterial colonies grew on a blood agar plate exposed to unfiltered (left) and filtered",
+          "page": 3,
+          "image": "/mmahp/ch07/7-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "(right) room air of a Danish Hospital. The diverse colony types indicate the presence of many different microbial species in the air. Image courtesy: Song Z, et al., Orthopedic Rev 2013; 5(2): 65-71. B. A microbial air sampler (SS100). The machine can be used to suck a measured volume of air to deposit the microbes therein directly on an agar plate. Image Courtesy: Rapid Microbiology (https://www.rapidmicrobiology.com/).",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Airborne pathogenic microbes include viruses (influenza virus, parainfluenza virus, rhinovirus, coronaviruses, measles virus, mumps virus, varicella zoster virus, adenovirus, and respiratory syncytial virus), bacteria (of the genera Legionella, Mycobacterium, Bordetella, Corynebacterium, Neisseria, Coxiella, Mycoplasma, Chlamydia, and Chlamydophila), and fungi (of genera Aspergillus, Mucor, Rhizopus, Histoplasma, Coccidioides, Cladosporium, and Penicillium). The water and air of countries where human waste is not properly disposed of are heavily contaminated with microbes. Even nematode worm eggs have been sampled from the air in some of those countries. Human body Normal microbiotas reside in the skin, the eyes, the nasal cavity, the oral cavity, the pharynx, the middle and outer ear, the large intestine, the lower urethra, and the vagina of healthy individuals. The upper respiratory tract, stomach, small intestine, ureter, and bladder may contain a few bacteria in some subjects. Some primary pathogens can also colonize on those surfaces without causing disease. Humans are the only reservoir of sexually transmitted microbial agents (including viruses such as herpes simplex virus-1 and 2, human papillomavirus, and human immunodeficiency virus-1 and 2; bacterial pathogens Neisseria gonorrhoeae, Treponema pallidum, Chlamydia trachomatis, Mycoplasma genitalium, and Haemophilus ducreyi; and protozoan pathogens such as Trichomonas vaginalis. Human pathogens exit the body via dead skin cells, scabs, oral/nasal aerosols, blood from wounds, genital secretions, urine, and stool, and are transmitted to other humans (see Chapter 11).",
+          "page": 3
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 2,
+          "title": "Microbial growth",
+          "bullets": [
+            "Growth can be in numbers or size or both",
+            "Viruses and single-celled organisms grows by number, not",
+            "Multicellular organism develop from zygote to juvenile and then",
+            "Acellular microbes grow by synthesis of macromolecules and",
+            "Cellular being primarily grow by cell division and differentiation"
+          ]
+        },
+        {
+          "slideIndex": 3,
+          "title": "How microbes grow in natural environments",
+          "bullets": [
+            "Cellular microbes grow in a community",
+            "A community is all the populations of all species in an environments",
+            "The species grow as",
+            "Producers",
+            "Consumers",
+            "Decomposers",
+            "Always interdependent",
+            "Acellular microbes only grow if their hosts are in the environment",
+            "They control the population size of their host organism"
+          ]
+        },
+        {
+          "slideIndex": 4,
+          "title": "Cellular microbes in aquatic environments",
+          "bullets": [
+            "Planktons",
+            "Benthic, attached to a substratum",
+            "Forming a biofilm",
+            "Inside the soil",
+            "Blood as an aquatic environment",
+            "Waterborne pathogens",
+            "Viruses: norovirus, rotavirus, astrovirus, and hepatitis A and E viruses)",
+            "Bacteria (genera Vibrio, Pseudomonas, Legionella, Burkholderia, Aeromonas,",
+            "Protozoa (such as the genera Cryptosporidium, Cyclospora, Giardia, Naegleria,",
+            "Fungi (such as some species of the genera Alternaria, Aspergillus and Fusarium).",
+            "Worms: Schistosoma, Dracunculus mediensis"
+          ]
+        },
+        {
+          "slideIndex": 5,
+          "title": "Cellular microbes in soil environments",
+          "bullets": [
+            "Soil",
+            "Humus, soil vs sand",
+            "Rock particles, water and air channels",
+            "Waterlogging",
+            "Effects of pollutants",
+            "Soilborne pathogens",
+            "Bacteria: Bacillus, Clostridium, Clostridioides, Burkholderia, Nocardia,",
+            "Fungi: genera Blastomyces, Coccidioides, Histoplasma, and Cryptococcus).",
+            "Worms: Taenia, hookworm larvae, Enterobius, Trichinella, Ascaris, and Toxocara"
+          ]
+        },
+        {
+          "slideIndex": 7,
+          "title": "Human body as a microbial reservoir",
+          "bullets": [
+            "Resident microbiota",
+            "The skin, the eyes, the nasal cavity, the oral cavity, the pharynx, the",
+            "Occupation vs. colonization",
+            "As a reservoir of all STIs",
+            "Viruses: herpes simplex virus- 1 and 2, human papilloma virus, and",
+            "Bacteria: Neisseria gonorrhoeae, Treponema pallidum, Chlamydia",
+            "Protozoa: Trichomonas vaginalis",
+            "Portals of exit and entrance"
+          ]
+        },
+        {
+          "slideIndex": 9,
+          "title": "Effects of water on microbial growth",
+          "bullets": [
+            "All microbes are essentially aquatic",
+            "Desiccation, and effect of dissolved chemicals",
+            "Osmotic pressure",
+            "Salt concentration of the cytoplasm",
+            "Bacteria in fresh water",
+            "Bacteria in brine and sugar syrup, plasmolysis",
+            "Halophiles",
+            "pH",
+            "pH on the structure of macromolecules and enzymes",
+            "Normal pH of the cytoplasm",
+            "pH of blood, urine, gastric juice, saliva, urine and vaginal fluid",
+            "Alkaliphiles",
+            "Acidophiles"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "7.2",
+      "heading": "Factors that influence microbial growth",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Cellular organisms grow best when all the factors that affect their growth are present at their optimum levels. Non- cellular microbes, such as viruses and subviral agents, grow if their host cells grow optimally. The growth of all cellular microbes is affected by physical, chemical, and biological factors, as summarized below.",
+          "page": 3
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 12,
+          "title": "Biological factors",
+          "bullets": [
+            "Prototroph- can synthesize all needed organic compounds",
+            "Auxotroph- can not synthesize some organic compounds, such as",
+            "Completion",
+            "Resident biota competes with pathogens, thus protect the host",
+            "Symbiosis",
+            "Mutualism- some resident biota benefit the host",
+            "Commensalism- some resident get benefit without harming",
+            "Parasitism- pathogens get benefit and harm",
+            "Parasites can not survive without host, host and parasite do not compete,"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "7.2.1",
+      "heading": "Physical factors",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Physical factors, including temperature, light, pressure, sound waves, gravitation, water flow, and air currents, affect microbial growth. For pathogenic microbes, temperature is the most important factor. Temperature affects enzyme structure and the rate of chemical reactions. Cellular microbes are grouped as psychrophiles (cold-loving), psychrotrophs (cold-preferring), mesophiles (loving moderate temperatures, which is also the human body temperature), thermophiles (heat-loving), and hyperthermophiles (loving extreme heat), based on their optimum growth temperature and the range of temperatures they can survive (Table 7.1). All pathogenic microbes are either psychrotrophs or mesophiles. Mesophiles (such as E. coli) do not grow in refrigerators, but psychrotrophs (such as Listeria monocytogenes) do, which is a concern when consuming refrigerated food. Light is important for photosynthetic microbes, but none of them is pathogenic.",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Table 7.1. Temperature tolerance range and the optimum growth temperatures for cellular microbes.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Type Range (0C) Optimum (0C) Typical habitats Example (from bacteria) Psychrophiles -5 to 15 10 Tundra, glaciers, ocean abyss Protoccus sp.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Psychrotrophs 0 to 35 25 Refrigerator, subtropical lakes Listeria monocytogenes Mesophiles 15 to 42 37 The human body, tropical forests Escherichia coli Thermophiles 40 to 80 65 Compost bin, biogas plants Bacillus stearothermophilus Hyperthermophiles 65 to 130 90 Deep-sea vents, terrestrial thermal geysers and hot ponds Pyrococcus furiosus",
+          "page": 4
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "7.2.2",
+      "heading": "Chemical factors",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Water",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Water is abundant in cells and the Earth's crust. Microbes rapidly desiccate when exposed to air, in the absence of water. Thus, the removal of water (drying, pickling, etc.; see Part 2 of this Chapter) is a major means of controlling microbes. Dissolved chemicals in water alter osmotic pressure, pH, and ion strength (ion concentration), thereby affecting microbial growth.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Osmotic pressure",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "The salt concentration in human body fluids is about 0.9% (about 295 milliosmole/kg), which is optimal for pathogenic microbes. Bacteria and fungi may survive in pure water (salt concentration < 0.5%) because they possess robust cell walls. Protozoan parasites survive in pure water by actively pumping water out of the cells. However, all microbial pathogens suffer crenation (shrinkage of cells lacking a cell wall) or plasmolysis (collapse of the cytoplasm of cells with a cell wall) due to water loss, leading to cell collapse at higher salt concentrations. A few bacterial pathogens, such as the genera Vibrio and Escherichia, survive in brackish water (salt concentration 0.5-3%). In general, brine (salt concentration 3.5-10%) inhibits the growth of most microbes, except obligate halophiles (salt-loving bacteria and archaea), but none of them are pathogenic.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "pH",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "The pH of human body fluids is shown in Table 7.2. Since pH affects enzyme structure and function, microbes survive only within a narrow pH range. Pathogenic cellular microbes usually prefer a normal pH (about 7.0), but a few survive at extreme pH values. For example, Helicobacter pylori thrives in the stomach at pH 1.0-3.5, and E. coli survives in urine and blood (pH 3.5-7.5). Many microbes cannot grow in fermented foods due to the low pH created by lactic acid and other organic acids. Some acidophile (acid-loving) prokaryotes grow in sulfuric acid pools (pH about 3.0), while some alkaliphile (base-loving) prokaryotes thrive in soda lakes (pH about 12), but none of those are pathogenic.",
+          "page": 4
+        },
+        {
+          "type": "figure",
+          "text": "Table 7.2. The normal pH of human body fluids.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Body fluid Range of pH Blood 7.31-7.45 Gastric juice 1.0-3.5 Saliva 6.2-7.5 Sweat 4.0-6.8 Urine 4.5-8.0 Vaginal fluid 3.8-4.5 Oxygen Aerobes use oxygen for cellular respiration (see Chapter 4). Obligate aerobes (such as Pseudomonas aeruginosa, Mycobacterium tuberculosis, and Neisseria gonorrhoeae) cannot use other terminal electron acceptors. Thus, anaerobic conditions would kill them. However, facultative anaerobes (such as E. coli, Klebsiella pneumoniae, Salmonella enterica, Staphylococcus aureus, and Listeria monocytogenes) use oxygen if available, or an alternative terminal electron acceptor for respiration, or ferment if oxygen is unavailable. Obligate anaerobes (such as the genera Actinomyces, Clostridium, Bacteroides, Prevotella, and Fusobacterium) and obligate fermenters (such as Streptococcus pyogenes and Lactobacillus bulgaricus) thrive by fermenting.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Some obligate anaerobes (such as the genus Clostridium) are killed when exposed to air (oxygen). However, some obligate fermenters, such as Lactobacilli, survive in the presence of oxygen. Oxygen is a powerful oxidizing agent. Catabolic reactions involving oxygen generate some powerful reactive chemicals (free radicals) such as superoxide (O2-), hydrogen peroxide (H2O2), and singlet oxygen (1O2). These chemical substances can react with nucleic acids, proteins, and lipids, damaging these molecules. Aerobes, facultative anaerobes, and some obligate fermenters have chemical compounds, such as antioxidants (agents that prevent oxidation), and specific enzymes to help prevent such damage. The antioxidants include glutathione, carotene, and vitamins A and C. The enzymes that detoxify the reactive chemicals include superoxide dismutase (SOD), catalase, and peroxidase. SOD neutralizes singlet oxygen by the reaction 2O2- + 2H+ à H2O2 + O2 Catalases and peroxidases detoxify H2O2 by the reactions 2H2O2 à 2H2O + O2 H2O2 + NADH + H+ à 2H2O +NAD+ Some pathogens (such as Helicobacter pylori and Neisseria gonorrhoeae) require oxygen for respiration but lack an enzyme to detoxify the free radicals. These organisms are called microaerophilic organisms; excess oxygen can kill them.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "We previously discussed (in Chapter 4) that cellular microbes require 25 elements, a carbon source, and an electron source. Autotrophs use light energy to extract electrons from water or other inorganic compounds, while heterotrophs use organic chemicals (carbohydrates, lipids, proteins, etc.) as the electron source (see Chapter 4). A few microbes (such as Pseudomonas aeruginosa and E. coli) are prototrophs (can synthesize all the necessary organic molecules), but most pathogenic microbes are auxotrophs (depend on other organisms for certain organic molecules, such as vitamins and amino acids). This information helps grow microbes in a laboratory and control their growth. Limiting factors A limiting factor is a physical, chemical, or biological factor that restricts microbial growth, regardless of the abundance of other factors. For example, obligate aerobes cannot grow irrespective of the richness of the medium if oxygen is absent. Microbiologists manipulate the limiting factors to control microbes, both in the environment and within the human body.",
+          "page": 5
+        },
+        {
+          "type": "subheading",
+          "text": "Biological factors",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "As previously described, no organism in the biosphere is self-sufficient. Different species have slightly different gene sets, which give them distinct metabolic capacities. All species in the community, through their different roles, sustain the community biologically. The interdependence is so intense that most microbes (>99%) cannot be grown in the laboratory. Research has shown that one species uses another's metabolic waste products in natural environments, a phenomenon that is difficult to generate under laboratory conditions. Fortunately, most pathogenic microbes can be grown in the laboratory",
+          "page": 5
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 6,
+          "title": "Cellular microbes in air environments",
+          "bullets": [
+            "Microbes flying soil particles",
+            "Contribution to cloud seeding",
+            "Droplets vs aerosols",
+            "Airborne pathogens",
+            "Viruses- influenza virus, parainfluenza virus, rhinovirus, coronaviruses,",
+            "Bacteria: Genera Legionella, Mycobacterium, Bordetella,",
+            "Fungi: Aspergillus, Mucor, Rhizopus, Histoplasma, Coccidioides,"
+          ]
+        },
+        {
+          "slideIndex": 10,
+          "title": "Effects of Oxygen on microbial growth",
+          "bullets": [
+            "Is oxygen a nutrient? Why cell needs oxygen?",
+            "Obligate aerobe",
+            "Microaerophiles",
+            "Facultative anaerobes",
+            "Obligate anaerobe",
+            "Obligate fermenters",
+            "Reactive oxygen species",
+            "Superoxide (O2-), effect of SOD (O2- + 2H+ àH2O2 + O2)",
+            "Peroxide (H2O2), peroxidase/catalase effect (2H2O2 à 2H2O + O2)",
+            "Singlet oxygen(1O2)- effects of carotinoids",
+            "Antioxidants- glutathione, SOD, peroxidase, etc.)"
+          ]
+        },
+        {
+          "slideIndex": 11,
+          "title": "Limiting factors",
+          "bullets": [
+            "Definition- a factor that restrict",
+            "Heat for mesophiles",
+            "Water for aquatic bacteria",
+            "Cell for acellular creatures",
+            "Can be manipulated to grow to"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "7.3",
+      "heading": "Basics for growing microbes",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Microbiologists grow viruses, bacteria, fungi, protozoa, and worms for various reasons, including diagnostic and research purposes. Growing viruses also requires growing the host cells/organisms. Growing (or culturing) cellular microbes in the laboratory requires a sterile growth medium (media guaranteed free of live microbes). The sterile medium is inoculated with the target microbes (usually a pure culture), and the culture is protected from any other contaminating microbes. This practice is called the aseptic technique.",
+          "page": 5
+        },
+        {
+          "type": "subheading",
+          "text": "Standard aseptic techniques",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Standard aseptic techniques for microbiology laboratories include practices that ensure: (a) the culture medium must be kept sterile, (b) the laboratory bench surfaces should be clean, (c) microbes from the body of laboratory workers should not contaminate the workspace or the culture media, (d) microbes from the workspace must not enter the body surfaces of the laboratory workers, (e) microbial cultures must be protected from contaminating microbes, and (f) biohazard wastes (any item potentially contaminated with microbes) must be appropriately disposed of. A clearer understanding of aseptic techniques will develop after studying this chapter and the next (Chapter 6). Growth media A growth medium (also called a culture medium) is a mixture of nutrients necessary for growing an organism. Microbiologists have developed generic and species-specific culture media for many pathogenic and nonpathogenic microbes (see Difco BBL Manual, Difco Laboratories, Franklyn Lane, NJ). Here we will discuss media for growing bacteria, fungi, protozoa, worms, and mammalian cells.",
+          "page": 5
+        },
+        {
+          "type": "subheading",
+          "text": "Broth vs. semisolid media",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "In general, culture media are mixtures of nutrients in a buffered solution, known as broth. Broth is used for large- scale microbial culture. However, separating cellular microbes requires a semisolid medium. A semisolid medium is a broth containing 0.25-1.90 % agar. Agar is a mixture of polysaccharides derived from marine red algae, such as the genera Gelidium and Gracilaria. Agar is an ideal solidifying agent because a few microbes can digest it as a food source.",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Chemically defined vs. complex media",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "A chemically defined medium contains pure chemical compounds (such as glucose and NaCl) of known chemical composition (Table 7.3). Only prototrophs can grow on such a medium. The medium can be manipulated to isolate auxotrophs and mutant prototrophs that require a specific organic molecule (supplement) to grow. A complex medium contains a mixture of pure chemical compounds and complex nutrients of unknown chemical composition, such as peptone (lean protein boiled and partially digested by proteolytic enzymes), tryptone (milk proteins partially digested by proteolytic enzymes), and yeast extract (broken yeast cells partially digested by endogenous enzymes). Some common complex media are listed in Table 7.3.",
+          "page": 6
+        },
+        {
+          "type": "figure",
+          "text": "Table 7.3. Contents of some growth media used in growing microbes and human cells. All the recipes are for one",
+          "page": 6,
+          "image": "/mmahp/ch07/7-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "liter of broth unless otherwise mentioned. To make semisolid media, 0.25-19.0 gm of agar is added to the media. A. A chemically defined medium (for soil bacteria such as Pseudomonas aeruginosa) Glucose 5.0 gm Ammonium phosphate monobasic (NH4H2PO4) 1.0 gm Sodium chloride (NaCl) 5.0 gm Magnesium sulfate (MgSO4) 0.2 gm Potassium phosphate dibasic (K2HPO4) 1.0 gm Water 1.0 liter Autoclave the mixture in a loosely capped 2.5-liter flask for 15 minutes.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "B. Complex medium: Lysogeny Broth (LB broth), also called Luria-Bertani broth, for bacteria such as E. coli Tryptone 10.0 gm Yeast extract 5.0 gm Sodium chloride 10.0 gm Water 1.0 liter Autoclave the mixture in a loosely capped 2.5-liter flask for 15 minutes.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "C. Potato-dextrose agar (for fungi) Potato infusion solid 5.0 gm Dextrose 20.0 gm Agar 15.0 gm Distilled water 1 liter Adjust pH to 5.1 with dilute HCl Autoclave the mixture in a loosely capped 2.5-liter flask for 15 minutes, then aseptically pour into Petri dishes. D. A medium to grow Paramecium aurelia (a protozoan) Wheat grass powder or hay 2.5 gm Distilled deionized (DDi) water 900 ml Boil the mixture for 5 minutes, then remove the grass by filtration. Add 100 mL of 1% Na2PO4 solution. Divide the mixture into 100 mL jars, then autoclave for 15 minutes. Protozoa are grown only in broth.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "E. Nematode Growth Medium (NGM): a medium for growing Caenorhabditis elegans (a worm). This is a semisolid medium.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "NaCl 3.0 gm Peptone 2.5 gm Agar 17.0 gm DDI water 975 ml Autoclave the mixture for 15 minutes, then cool down to 55oC, and then add the following (the components must be filter-sterile) 1M CaCl2 1.0 ml 5mg/ml cholesterol (dissolved in ethanol) 1.0 ml 1M MgSO4 solution 1.0 ml 1M KPO4 solution 25.0 ml Mix by swirling and then dispense into plastic Petri dishes.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "F. Minimum essential medium (MEM): for mammalian tissue culture.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "MEM broth contains a mixture of amino acids, vitamins, glucose, salts, and a pH indicator dye. Making a tissue culture medium is cumbersome. Various biotech companies manufacture the basic ingredients for tissue culture media. Some of the ingredients are unstable. Therefore, the ingredients are mixed in the laboratory just before use. The prepared media have a limited shelf life.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "1x MEM liquid (buffered with dissolved sodium carbonate) 900.00 ml 100x L-glutamine solution 10.00 ml 100x sodium pyruvate solution 10.0 ml 100x penicillin/gentamicin solution 10 ml Virus/Mycoplasma-free fetal calf serum 100 ml Filter the mixture through a 0.2-micron filter and store it in a refrigerator in a tightly capped bottle. Initiating a culture To initiate a culture, a small amount of a clinical or environmental sample containing the target microbe is added to a vessel containing a liquid or semisolid medium, which is then placed in an incubator (a temperature/humidity- controlled chamber). Various types of vessels are available for semisolid and liquid cultures (Fig. 7.3). Aerobic organisms are grown in broth cultures on an agitating platform to ensure aeration.",
+          "page": 7
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.3. Growing microbes. A. A nutrient agar plate. B. Agar slant and agar tubes. C. Broth medium in a conical",
+          "page": 7,
+          "image": "/mmahp/ch07/7-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "flask. D. A tissue culture flask used in growing animal cells and animal viruses. E. A simple bioreactor for growing microbes and animal cells.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "How to establish a pure culture of a prokaryote or fungus A pure culture contains only one strain or species of an organism. Since all microbes in the environment live in communities, a microbe cannot be biologically characterized unless a pure culture is established. To establish a pure culture, a loop that has touched a broth culture is streaked onto a semisolid medium, such as an agar plate (Fig. 7.4). Alternatively, a small volume of diluted culture is mixed with warm (40 oC) liquid agar and then poured on a plate (Fig. 7.4). Many species of bacteria, archaea, and fungi create distinct colonies on the plate. A colony is assumed to have developed from the growth of a single cell, more precisely, a colony-forming unit (CFU). However, the initial colony can contain two or more species. Streaking a few times using a well-isolated colony ensures a pure culture. Some microbes cannot grow in semisolid media but may grow in liquid media. A pure culture of such an organism can be tentatively established by counting cells/mL and then diluting the culture so that 1 mL of the culture medium contains 0-0.3 cells. One ml of the culture is then transferred to a new vessel to initiate a tentative pure culture.",
+          "page": 7
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.4. Establishing a bacterial pure culture. A. The streaking method. A sterile disposable loop containing the",
+          "page": 8,
+          "image": "/mmahp/ch07/7-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "microbe is gently dragged across a quarter of the plate. The loop is discarded. A second disposable loop takes a sample from the first quarter and then streaks the next quarter. The process continues 2-3 more times. If done properly, cell contraction in the fourth or fifth streak may be low enough to give individual colonies. Image- Wikipedia. B. The pour-plate method. i. 10 ml of cool liquid agar (about 38-42 °C) is mixed with 10 microliters of bacterial culture and thoroughly mixed, and ii. The mixture is poured onto an agar plate. The plates are incubated for 12-16 hours to check colony growth. Note: Liquid agar media turns semisolid at 32-42 oC.",
+          "page": 8
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 13,
+          "title": "Standard aseptic techniques",
+          "bullets": [
+            "The culture medium must be kept sterile",
+            "The laboratory bench surfaces should be clean",
+            "Microbes from the body of laboratory workers should not",
+            "Microbes from the workspace must not enter the body surfaces of",
+            "Microbial cultures must be protected from contaminating",
+            "Biohazard wastes (any item potentially contaminated with"
+          ]
+        },
+        {
+          "slideIndex": 14,
+          "title": "Growth media",
+          "bullets": [
+            "Broth- dissolved nutrients in a buffered",
+            "Semisolid- broth with about 1.5% agar",
+            "Chemically defined- made of water and",
+            "Complex media- nutrients, chemical",
+            "Selective media-",
+            "Differential media-",
+            "Selective-differential media-",
+            "Selective-enrichment media-"
+          ]
+        },
+        {
+          "slideIndex": 17,
+          "title": "Growing eukaryotes",
+          "bullets": [
+            "Fungi- simple nutrients",
+            "Algae- autoclaved pond",
+            "Protozoa- boiled hay water",
+            "Worm- bacterial lawn",
+            "Bacterial virus- bacterial"
+          ]
+        },
+        {
+          "slideIndex": 18,
+          "title": "Counting microbes",
+          "bullets": [
+            "Direct count",
+            "With a ceilometer",
+            "Live bacterial count",
+            "Serial dilution",
+            "Filter paper method",
+            "Indirect counting",
+            "Coulter counter",
+            "Turbidity",
+            "Wet or dry pellet"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "7.4",
+      "heading": "Growth curve",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "When a pure culture of a microbe (a bacterium, yeast (fungus), or protozoan) is added to a broth culture, the cells initially do not grow. This step, called the lag phase (Fig. 7.5), is when the cell acclimatizes to the new environment and expresses proper genes to survive there. The cells then grow by binary fission at a fixed time interval known as the doubling time. The number of cells can be determined by taking a small sample, growing it in a semisolid medium, and counting the colonies.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "The doubling continues as long as the medium contains adequate nutrients and no toxic waste products. This phase of growth is the log or exponential phase. At this phase, cells synthesize primary metabolites (such as amino acids, RNAs, and proteins) necessary for normal growth.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "As the number of cells increases and nutrients are depleted, some cells die. At some point, the rate of cell growth equals the rate of cell death. This phase is known as the stationary phase. If fresh medium is added to the flask, the cells return to log phase, but then back to the stationary phase when the nutrients are depleted. Microbiologists may use a bioreactor to continuously add fresh nutrients and remove a small volume of cells to maintain a permanent log- phase culture.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "During the stationary phase, cells begin producing secondary metabolites, such as antibiotics and toxins, to outcompete other cells. In addition, dead cells release cellular waste products into the medium. The toxic condition causes the death rate to exceed the growth rate. This step, known as the death or decline phase, continues for a while. Only mutated cells that can survive the toxic environment survive before the population completely collapses (Fig. 7.5).",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "In pristine natural environments, microbes grow continuously in the log phase because the nutrient supply is constant, predators and parasites continually remove some cells, and waste materials are recycled. The microbial count on a clean lake or a healthy human subject's body surfaces remains nearly constant for this reason. Death and detachment of epithelial cells covering the body, urination, defecation, showering, toothbrushing, and other hygienic practices prevent excessive microbial growth. However, environmental changes, such as higher temperatures and sudden nutrient surges (e.g., leakage of municipal waste into the local lake), may cause excessive microbial growth, leading to a stationary phase followed by a decline.",
+          "page": 8
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.5. An idealized growth curve of E. coli in a flask of growth medium. Different growth phases are indicated.",
+          "page": 9,
+          "image": "/mmahp/ch07/7-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Note that the number of viable cells and the concentration of primary metabolites paralleled. Adding fresh nutrients after a stationary phase initiated a new log phase. Secondary metabolites gradually accumulate with time.",
+          "page": 9
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "7.5",
+      "heading": "Growing selected pathogenic microbes in the laboratory",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Growing bacteria",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbiologists have developed many different types of growth media that help enrich, isolate, identify, and characterize different bacteria. A microbiologist could cleverly design growth media for different purposes. Growth media could be roughly grouped into the following categories: Selective media They suppress unwanted microbes and encourage the growth of desired microbes. Example: bismuth sulfite agar. Here, bismuth sulfite inhibits G(+) bacteria and most enteric bacteria but allows the growth of Salmonella enterica. Differential media They promote the growth of many species, but each species produces a distinct colony structure. Example: Blood agar plates where alpha-hemolytic species (of Streptococcus) produce green colonies, beta-hemolytic species clear the blood pigments and produce transparent colonies, and gamma-hemolytic species produce white colonies (Fig. 7.6). Selective-differential media They suppress unwanted species and allow surviving species to form different colony morphologies. Example: MacConkey agar; it suppresses G(+) bacteria while enteric bacteria (such as Escherichia and Salmonella) grow, forming colonies of different colors (Fig. 7.6 Selective-enrichment media Custom-designed for different species, for example, a medium with crude oil as the only carbon source to isolate a bacterium that can degrade crude oil in polluted soil (Fig. 7.6).",
+          "page": 9
+        },
+        {
+          "type": "subheading",
+          "text": "Maintenance media",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "These are nonselective media (for example, LB broth, blood agar, potato dextrose agar, etc.) that support the growth of diverse species and are used to maintain them in pure culture.",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "Growing fastidious bacteria",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "These are custom-designed media with added nutrients for pathogenic bacteria that have lost the ability to synthesize some essential molecules, such as vitamins. Example: chocolate agar medium for the cultivation of Francisella tularensis (Fig. 7.6).",
+          "page": 10
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.6. Bacterial growth on specific media. A. Differential medium. Blood agar plates showing growth of",
+          "page": 10,
+          "image": "/mmahp/ch07/7-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Enterococcus faecalis forming gamma-hemolytic white colonies, Streptococcus pneumoniae forming alpha-hemolytic green colonies, and Streptococcus pyogenes forming beta-hemolytic transparent colonies. B. Selective- differential medium: MacConkey agar; G(+) bacteria failed to grow; E. coli produced pink colonies; Salmonella enterica produced white colonies. C. Enrichment medium: Crude oil agar plate: one unknown species grew, forming white colonies. D. Specialty medium: Chocolate agar (containing boiled sheep blood) that allows the fastidious bacterium Francisella tularensis to grow. Image courtesy: Wikipedia.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Microaerophilic bacteria (such as Helicobacter pylori) grow in reduced oxygen, and capnophile (CO2-loving) bacteria (such as Campylobacter jejuni) grow in a reduced-oxygen/high CO2 atmosphere. Such an environment can be created inside a Candle Jar (Fig. 7.7). The inoculated plates are placed in a lidded jar, and a candle is burned inside to remove oxygen and generate excess CO2.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Strict anaerobes, such as Clostridium botulinum, cannot grow in the presence of molecular oxygen. To grow them, dissolved oxygen in the media is removed by adding sodium thioglycolate, and the plates are incubated in oxygen- free (i.e., replaced by nitrogen) incubators (Fig. 7.7)",
+          "page": 10
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.7. Growing fastidious bacteria. A. A candle jar for growing microaerophiles or capnophiles. B. An oxygen-",
+          "page": 10,
+          "image": "/mmahp/ch07/7-7.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "free workstation with gloved sleeves (figure courtesy of Terra Universal.com). C. A Vacu-Quick Jar is used for growing strict anaerobes. A pouch containing oxygen-removing chemicals removes oxygen from the jar's air. Figure courtesy of Almore Inc., Portland, OR.",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "Growing fungi",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "The methodologies of growing fungi and bacteria are similar. Fungal media (Table 7.3) are made from simple materials such as potato starch, cornmeal, carrot powder, and sucrose. The pH of fungal media is acidic, and antibiotics such as gentamicin are added to prevent bacterial growth. In agar plates, yeasts (single fungal cells) generally produce colonies like those of bacteria (Fig. 7.8). Molds produce thread-like hyphae inside and on top of the semisolid medium (Fig. 7.8).",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "Growing algae",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Photosynthetic freshwater algae (such as Chlorella sp.) can be grown in autoclaved pond water supplemented with algal nutrients (SSD 1+2, Health Algae, Uppsala, Sweden), in a jar placed near a light source (Fig. 7.8). Some algae grow on agar plates supplemented with algal nutrients.",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.8. Growing eukaryotic microbes. A. Yeast (Candida albicans) colonies on a Sabouraud-dextrose agar plate.",
+          "page": 11,
+          "image": "/mmahp/ch07/7-8.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Photo: Ken Slater. B. Phoma herbarum, a mold, growing on a potato-dextrose agar plate. Photo: Ken Slater. C. Paramecium aurelia growing in a jar containing straw broth, with Klebsiella aerogenes as the food organisms. Photo: Nahid Kuddus. D. Chlorella vulgaris (a green alga) growing in a plastic bottle containing an algal growth medium. Image courtesy: Wikimedia. E. Paramecium caudatum, a protozoan (10x). Photo courtesy: VWR. F. Caenorhabditis elegans, a nematode worm, growing on a lawn of E. coli on an agar plate. Photo courtesy: http://www.nematodes.org. G. Phage plaques on a lawn of Pseudomonas aeruginosa on an agar plate. Photo: Isaac Miller.",
+          "page": 11
+        },
+        {
+          "type": "subheading",
+          "text": "Growing protozoa",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Some freshwater protozoans, such as Paramecium aurelia, can be grown in grass soup. Grass soup is made by boiling grass in water, then adding the bacteria, such as Klebsiella aerogenes, as the feed (Fig. 7.8) Growing worms Caenorhabditis elegans, a nematode worm, is used as a model animal for genetic and molecular biology research. The organism can be grown on an E. coli lawn on an agar plate. The worm grows by feeding on bacteria (Fig. 7.8). Growing bacterial viruses Phages harvested from municipal wastewater infect bacterial cells. Wastewater is centrifuged to remove cellular debris and particulates, then filtered through a 0.45-micron filter. The filtrate (about 100 microliters) is mixed with 0.1 ml of a healthy bacterial culture in the presence of 0.1 M MgSO4 (which allows the phages to settle on the bacterial cells). The mixture is added to 3 ml of molten soft agar medium (0.6% agar) and plated onto a nutrient agar plate. The bacterium grows, creating a lawn; the phage kills bacteria in some areas of the lawn, leaving empty spaces called plaques (Fig. 7.8). It is assumed that each plaque is formed by a single phage particle, or more precisely, a plaque- forming unit (pfu). The plaque count can be used to determine the concentration of phage particles in the original wastewater sample that are capable of infecting the bacterial species.",
+          "page": 11
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 15,
+          "title": "Growing anaerobes",
+          "bullets": [
+            "Capnophile-candle jar (5%",
+            "Stric anaerobes (no oxygen in",
+            "Sodium thioglycolate in media",
+            "Nitrogen replaced growth"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "7.6",
+      "heading": "Enumerating microbes",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Microbiologists may need to know how many bacteria, virus particles, or white blood cells are in a 1 mL sample. There are many methods for enumerating microbes. Here are a few examples.",
+          "page": 12
+        },
+        {
+          "type": "subheading",
+          "text": "Direct counting",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "A Petroff-Hausser or CellometerTM counting chamber (a glass slide with a small chamber and grids etched on its bottom) can be used to count cells directly. A dilute sample is placed in the chamber under a cover slip, then examined with a light microscope. The number of cells on the grids is counted, and then a formula (specific for the slide used) gives the cell count/ml of sample. For bacterial cells, both live and dead cells are counted. In counting human cells, a dye (trypan blue) is added to the cell solution to stain dead cells blue, allowing only live cells to be counted (Fig. 7.9).",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.9. Counting mammalian cells using a Cellometer™. A. The structure of a Cellometer. B. The counting area",
+          "page": 12,
+          "image": "/mmahp/ch07/7-9.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "of the Cellometer. One of the four counting areas is indicated by a red square. C. Cells in one of the four counting areas are shown. Images B and C are from Electron Microscopy Sciences, Hatfield, Pennsylvania.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Counting live bacteria by the serial dilution method The bacteria sample is serially diluted (Fig. 7.10), and then 0.1 ml of the diluted sample is plated on agar plates. The number of colonies on the plate, ranging from 10 to 300, is counted. The number of bacteria in the original sample is calculated as colony-forming units (cfu) using the formula N= nx10 x dilution factor, where N is the cfu/eml of the original sample, n is the number of colonies on a plate, and 10 is to compensate for the 0.1 ml sample used for plating. Suppose the sample was diluted 10,000-fold and the colony counts on the plate were 45. The cfu/ml of the original sample N= 45x10x10,000= 4.5x106 cfu/ml. A similar method is used to count bacteriophages through the plaque assay described previously.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Counting live bacterial cells in a sample using filter papers If the bacterial count is low (as in clear pond water), a large sample (say 100 mL) is filtered through sterile filter paper. If the bacterial count is high, the sample is diluted before filtration. The filter paper retains bacterial cells on its surface. The filter paper is then placed on a blood agar plate and incubated for 20 hours to allow the bacteria to form colonies (Fig. 7.10). The colony count gives the live bacterial count per mL of water sample.",
+          "page": 12
+        },
+        {
+          "type": "subheading",
+          "text": "Indirect counting",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Direct microbe counting is often too cumbersome and even unnecessary. A fair estimate by some alternative methods is sufficient for most practical purposes. There are many ways to get a fair estimate of the microbe concentration in a sample. Some of the methods are briefly described here.",
+          "page": 12
+        },
+        {
+          "type": "subheading",
+          "text": "Automatic counting devices (Coulter counter)",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "A Coulter counter counts both viable and non-viable cells as well as particles such as debris and dust particles. The cells, diluted in a liquid, pass through a very narrow channel of the apparatus in a single file (Fig. 7.11). The counter detects changes in the channel's electrical conductance. Because cells are poor electrical conductors, each cell passing through the channel generates a signal. The counter may also determine the size range of the particles. The cell count is displayed on the apparatus's liquid crystal display.",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.10. Estimating the number of viable bacteria. A. A urine sample was serially diluted by mixing 1 ml of urine",
+          "page": 13,
+          "image": "/mmahp/ch07/7-10.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "(or urine-nutrient broth mixture) with 9 ml of nutrient broth; 0.1 ml of the diluted sample was plated on a blood agar plate (in duplicates). To reduce sampling errors, plates with too many or too few colonies are ignored; dilutions that yield a significant colony count (i.e., 10-300 colonies on a 10 cm plate) are used to estimate colony counts. B. Estimating the number of viable bacteria in a sample containing very few bacteria. 100 ml of lake water was filtered using a 0.2-micron filter paper, and the filter paper was pressed over an EMB agar plate. The filter paper was removed, and the plate was incubated at 20oC overnight. The colonies that grew were counted. Since 121 colonies grew on the plate, the bacterial count was 121 cfu/100 mL, or about 1.2 cfu/mL. Image courtesy: Microbenotes.com. Turbidity measurement When cells (or other particulate matter) are present in a fluid, the fluid scatters light more strongly than the pure fluid. A rough estimate of the bacterial cells in a culture broth can be obtained by comparing the degree of light scattering in the culture broth with that of a sterile sample of the same medium.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "A simple spectrometer can be used for this purpose. The scattering of visible light (i.e., wavelength 600 nm) by 1 ml of the sterile culture medium is set as the background (i.e., 0 scattering). The degree of light scattering by 1 ml of the bacterial culture (grown in the same culture medium) gives a rough estimate of the cell concentration (Fig. 7.11). For Escherichia coli growing in LB broth, an A600 value of 0.2-0.9 indicates that the bacterium is in the log phase of growth. An A600 value >1.0 indicates that the cell population is in the stationary phase.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "Wet or dry weight",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "If one is growing a very large batch of cells (for protein or nucleic acid extraction, for example), the wet or dry weight of the harvested cells could give an estimate of the cell mass. The cells are pelleted by centrifugation, and the supernatant is removed. The wet weight of the pellet is the difference between the weight of the empty tube and the weight of the tube containing the pellet. The tube can be placed in a desiccator to evaporate the liquid before weighing it to obtain the dry weight of the cells.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.11. Indirect methods for estimating microbial counts. A. A Coulter counter counts cells (or particles) as the",
+          "page": 14,
+          "image": "/mmahp/ch07/7-11.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "particle (suspended in liquid) passes through a hole (indicated by an arrow) and thereby disturbs the electric conductance of the liquid. The disturbance events are counted and displayed by an attached device. B. Bacterial growth changes the color and consistency of the culture broth. Here, two cuvettes show sterile culture medium (left) and bacterial growth in the same medium (right). C. A simple spectrometer that measures the light scattering of bacterial cells in a culture medium relative to the sterile culture medium. Visible light passes through a slit, and the light is quantified by a sensor. A tube of sterile medium is used to calibrate the spectrometer before the spectrometer measures the light scattered by a tube containing a bacterial culture.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Part 2: Disinfection, antisepsis, and personal protection To prevent contamination, spoilage, and infections, microbes must be removed or reduced in abundance from various products and surfaces. This section discusses controlling microbial growth in laboratory and health care settings, emphasizing disinfection, antisepsis, and personal protection. This discussion may or may not be relevant for open environments, industries, and agriculture.",
+          "page": 14
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "7.7",
+      "heading": "Theoretical consideration",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Important terminologies",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Different situations call for different levels of microbial removal. Microbiologists use specific terms (Table 7.4) to describe different degrees of decontamination.",
+          "page": 14
+        },
+        {
+          "type": "figure",
+          "text": "Table 7.4. Terminologies used in sterilization, disinfection, and antisepsis.",
+          "page": 14,
+          "image": "/mmahp/ch07/7-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Antisepsis Chemical treatment of skin surfaces for reducing microbe counts Cooking Heat-pasteurization to reduce/remove vegetative cells from food Degerming Low-level antisepsis using some chemical agents Disinfection Elimination of microbes from inanimate objects High-level Disinfection (HLD) Inactivating all microbes, including bacterial endospores, from items that cannot be autoclaved (HLD is essentially equivalent to sterilization) Intermediate-level disinfection (ILD) Removing all vegetative cells and viruses from an inanimate object Low-level disinfection (LLD) Cleaning an inanimate object to reduce microbial counts Pasteurization Physical treatments to reduce vegetative microbial cells in a liquid Preservatives Chemicals added to food or medicine to inhibit microbial growth Sanitization LLD of cooking pots and utensils An antimicrobial agent may kill cellular microbes, but the term killing is inappropriate for viruses and subviral agents. We will use the term inactivation to refer to the cessation of all biological activity in cellular organisms, vegetative cells, spores, endospores, acellular microbes, prions, and enzymes.",
+          "page": 14
+        },
+        {
+          "type": "subheading",
+          "text": "Specific aims",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "The goal of infection control is to remove microbes at the desired level using available resources at a reasonable cost. For example, washing can be sufficient for bed linen, but aprons used in the operating theaters require sterilization. To make an informed decision about which treatments to use and the level of disinfection required, one must have a clear understanding of the microbes involved, the materials to be treated, and the end use of the treated materials. The following aspects are especially considered.",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Targets of the microbes",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "A target is an essential microbial component that can be easily and effectively destroyed. The most vulnerable microbial targets are the lipid membrane, enzymes, and the genome. Different antimicrobial agents affect one or more of these targets.",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "The resilience of the microbes",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "All microbes are inactivated if the hardiest one is eliminated. The degree of resilience of microbes, from the most durable to the most vulnerable, is generally as follows: The prion agents > bacterial endospores > protozoan cysts > hydrophilic (i.e., the naked) viruses, satellites, and viroids > worm eggs > fungi and fungal spores > vegetative bacterial cells > vegetative protozoan cells > hydrophobic (i.e., the enveloped) viruses and satellites.",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Items to be treated",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Some items are too large to sterilize, and others are heat-labile; thus, certain disinfection methods are more suitable for treating them. Durable items such as stainless-steel trays can be heat-treated or irradiated; plastic items can be irradiated but not heat-treated. Serum for tissue culture or therapeutic use should be filter-sterilized because heat or chemical treatment would inactivate the proteins. New methods and treatment agents are developed every year, requiring professionals involved in infection control to stay current.",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Nature of the environment",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Organic substances protect microbes from treatment agents. Thus, a higher level of treatment is required to inactivate microbes in a liter of blood (because of its high protein content) than in a liter of urine (because of its low protein content).",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Number of microbes",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "All factors being equal, the rate of microbe inactivation is a function of time. The higher the concentration of microbes, the longer the treatment must last to inactivate them.",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "The intensity of exposure and the D value",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "In general, a short exposure at a high intensity is equivalent to a longer exposure at a lower intensity. Microbes in a unit volume inactivate at a constant rate under constant treatment conditions (say, temperature fixed at 220 ⁰F in a retort).",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "In the food industry, the decimal reduction time (D value) is used. A D value is defined as the time required to inactivate 90% of the microbes in an item. Thus, each D value reduces the microbial count by one log (Fig. 7.12). If a batch of soup contains 1x104 endospores/gm and the D value at 220⁰C (i.e., D220) is 2 minutes, then it will take six additional minutes of treatment to reduce the endospore count to 1x101. Treatment should continue until the endospore count approaches <1/gm, say 10-6/gm. Such a low count indicates that there would be no more than one endospore in one million grams of the treated food. The D value depends on many factors, including pressure, temperature, and the item's volume.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "If the D value is determined at different fixed temperatures and then plotted as a function of temperature, the fitted curve shows a decrease in D value/min with increasing temperature (Fig. 7.12). The slope of the curve is the z value (in minutes). The z value for a particular treatment arrangement helps determine the number of D-value equivalents to apply when a different temperature is used for the treatment.",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.12. The D and z values. A. D value. Endospores present in a fixed volume of liquid get inactivated at a constant",
+          "page": 16,
+          "image": "/mmahp/ch07/7-12.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "rate under fixed treatment conditions (here 240 ⁰F). Here, D240 is one minute; each minute of treatment would reduce the total spore count/mg of food by one log. B. z value. The D values determined at different temperatures are plotted vs. temperature. Note that the D value was reduced from 10 minutes (at 220 oF) to 1 minute (at 240 oF). The slope of the curve (i.e., the z value) is 18 minutes. The z value indicates that if the treatment temperature increases by 18 °F, the treatment time would be reduced by 1 log. Figure adapted from US Food and Drug Administration Inspection Technical Guide.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "Risk of infection",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Earle Spaulding (1907-1995) grouped objects with a potential risk of infection into three categories (Fig. 7.13): non- critical, semi-critical, and critical items. Items such as the linen and stethoscope cuffs that only touch intact skin are non-critical; items such as the oral spatula that touch intact mucous membranes are semi-critical; and items such as needles and venous catheters that touch sterile tissue and blood are critical. LLD is sufficient for treating noncritical items (ILD is required if the suspected contaminants include highly resilient microbes, such as Mycobacterium sp.). HLD is required to treat most semi-critical and all critical items. Critical items should be enclosed in a pouch impervious to microbes and then sterilized before use.",
+          "page": 16
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.13. Critical, semi-critical, and non-critical items. A. Critical items such as surgical scissors are packaged in",
+          "page": 16,
+          "image": "/mmahp/ch07/7-13.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "breathable but germ-proof pouches and then sterilized. B. Semi-critical items such as endoscopes must undergo HLD treatment and be used immediately before contamination or be encased for future use. C. Non-critical items, such as bedpans, may undergo LLD or ILD treatment based on what type of microbes might have contaminated the items.",
+          "page": 16
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 16,
+          "title": "Growth curve of unicellular organisms",
+          "bullets": [
+            "In the laboratory condition",
+            "Lag phase- why a lag phase",
+            "Log phase",
+            "Doubling time",
+            "Can log phase be maintained",
+            "Stationary phase",
+            "Why a stationary phase",
+            "Declining phase",
+            "Microbial growth curve in"
+          ]
+        },
+        {
+          "slideIndex": 21,
+          "title": "Definition of the commonly used terms",
+          "bullets": [
+            "Antisepsis- treating live tissue to reduce microbe count",
+            "Degerming- low level antisepsis by mechanical/chemical means",
+            "Disinfection- reduction/elimination of microbes of inanimate surfaces",
+            "Pasteurization- physical treatment to reduce vegetative cell count",
+            "Sanitization- disinfection of cooking pots and utensils",
+            "Sterilization- making an object free of any live/active microbes",
+            "Suffixes",
+            "-static, -cidal (bacteriostatic, fungicide etc.)",
+            "-ant, -sis, -tic, -tion and –tive (disinfectant, antisepsis, antiseptic, sterilization,"
+          ]
+        },
+        {
+          "slideIndex": 22,
+          "title": "Theoretical considerations",
+          "bullets": [
+            "Microbial targets: membrane, proteins, and nucleic acids",
+            "Resilience of microbes",
+            "The prion agents > bacterial endospores > protozoan cysts > hydrophilic",
+            "Items to be treated: size, durability, lability",
+            "Nature of the environment: organic contents (say urine vs. stool)",
+            "Number of microbes: D value and Z value",
+            "Risk of infection: Critical, semi-critical and non-critical items"
+          ]
+        },
+        {
+          "slideIndex": 23,
+          "title": "D value and Z value",
+          "bullets": [
+            "D value- time required",
+            "Z value: slope of the"
+          ]
+        },
+        {
+          "slideIndex": 32,
+          "title": "Physical methods: Heat",
+          "bullets": [
+            "Dry heat: oxidation (200oC/",
+            "Incineration",
+            "Aerosol and particulates",
+            "Moist heat",
+            "Pasteurization: 630C/30",
+            "HIST (72oC, 15 sec)",
+            "UHT150oC for 2 sec)",
+            "Autoclaving",
+            "15 psi/121oC for 10 min or",
+            "Solid and liquid cycles,"
+          ]
+        },
+        {
+          "slideIndex": 34,
+          "title": "Physical Methods: Cryopreservation",
+          "bullets": [
+            "Refrigeration- 4oC, to retard enzyme",
+            "Freezing",
+            "-18-170 oC",
+            "To kill worms and their eggs and larvae in",
+            "-4°F (-20°C) or below for 7 days",
+            "-31°F (-35°C) or below for 15 hours,",
+            "-31°F (-35°C) or below until solid-4°F (-20°C) or",
+            "Dehydration and oxidation issues",
+            "Not sufficient to kill bacteria and viruses"
+          ]
+        },
+        {
+          "slideIndex": 39,
+          "title": "Chemical Methods: Criteria",
+          "bullets": [
+            "Highly effective at reasonably low concentrations",
+            "Nontoxic and non-carcinogenic to humans and other animals",
+            "Cost effective in terms of manufacturing, transportation, storage and",
+            "Cannot be easily manipulated to manufacture hazardous chemicals",
+            "Nonreactive with common chemicals such as paints and does not",
+            "Does not produce hazardous chemicals during its degradation in the",
+            "Biodegradable, but it has a reasonable shelf life",
+            "Effective concentration does not change during its shelf life"
+          ]
+        },
+        {
+          "slideIndex": 40,
+          "title": "Chemical methods (1)",
+          "bullets": [
+            "Alcohols",
+            "Mode of action- protein",
+            "70-95% aq. soln.",
+            "Antiseptic, preservative",
+            "Limitations",
+            "Aldehydes",
+            "Mode of action: cross linking",
+            "Formalin (Formaldehyde)",
+            "Glutaraldehyde and ortho-",
+            "Sterilant, preservative",
+            "Limitation"
+          ]
+        },
+        {
+          "slideIndex": 41,
+          "title": "Chemical methods (2)",
+          "bullets": [
+            "Biguanides",
+            "Mode of action- disrupt lipid",
+            "Chlorhexidine digluconate (0.2%)",
+            "limitations",
+            "Epoxides",
+            "Mode of action: crosslinking",
+            "Ethylene- and propylene oxide",
+            "Limitations"
+          ]
+        },
+        {
+          "slideIndex": 43,
+          "title": "Chemical methods (4)",
+          "bullets": [
+            "Metal ions",
+            "Mode of action",
+            "Bordeaux mixture: Ca(OH)2 and",
+            "Alum (Sulfates of Al, Na and K)",
+            "Green vitriol Fe2SO4)",
+            "AgNO3",
+            "Ozone and peroxygens",
+            "Mode of action",
+            "H2O2- 3% solution, or ionized gas",
+            "Benzoyl peroxide",
+            "Peracetic acid (0.2% solution)"
+          ]
+        },
+        {
+          "slideIndex": 45,
+          "title": "Chemical Methods (6)",
+          "bullets": [
+            "Soaps: Na or K salts of fatty acids",
+            "Mode of action- reduce surface tension",
+            "limitations",
+            "Detergents-petrochemicals, polar ends with hydrocarbon tail",
+            "Nonionic- does not ionize (NP-40, trionx100)",
+            "Laundry and dish detergents (may contain water softener, bleach, enzymes etc.)",
+            "Cationic- head groups are positively charged",
+            "Quats (mildly antimicrobial)",
+            "Benzalkonium chloride",
+            "Anionic- release anions (ex: SDS)",
+            "Make foam",
+            "Zwitterionic- head groups have anionic and cationic entities",
+            "CHAPS"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "7.8",
+      "heading": "Protecting persons and spaces from microbial contamination",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Various precautions are taken to protect workers and reduce the possibility of person-to-person, person-to-equipment, and equipment-to-person transmission of pathogens. Some of the general precautions are described below (see also Chapter 5 for aseptic techniques).",
+          "page": 17
+        },
+        {
+          "type": "subheading",
+          "text": "Handwashing",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "According to the CDC, hand washing is a “do-it-yourself (DIY) vaccine.” This statement should be taken seriously because vaccines are the most effective measures of infection control known to humanity. Hands must be washed (a) before and after preparing food; (b) before and after examining patients; (c) after touching garbage, animals, animal food, and animal waste; and (d) after using lavatories and other public spaces, changing diapers, and participating in any other activities that may potentially expose hands to microbes. The CDC recommends the following process for regular hand washing (Fig. 7.14): a) Rinse hands with warm running water.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "b) Take a dab of liquid soap and rub on hands (i.e., lather) for at least 20 seconds. Scrub all surfaces (Fig. 7.14), particularly under the fingernails, the spaces between the fingers, and the back of the palm and wrist. c) Rinse hand surfaces well with running water.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "d) Dry hands with a clean or disposable towel.",
+          "page": 17
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.14. Hand washing. A. Steps of the correct way of handwashing. B. Critical areas of hand surfaces (indicated",
+          "page": 17,
+          "image": "/mmahp/ch07/7-14.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "by arrows) that may retain microbes if not carefully lathered and washed.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Bar soaps (including antibacterial ones) are not recommended because many microbes grow on them. The liquid soap dispensers should be free of microbial contamination. It is important to lather for 20 seconds. Surveys indicate that people lather their hands for only about 3 seconds. Counting from 1001 to 1020 while rubbing and lathering can ensure 20 seconds of scrubbing.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Clean hands are more prone to microbial contamination than dirty hands. Thus, potentially dirty surfaces should be avoided after rinsing hands. Electric hand dryers can be used only if the machine is in good working condition and equipped with a highly effective particulate (HEPA) filter to remove microbes. Without such a filter, the electric hand dryer would concentrate airborne microbes and deposit them onto the clean hands.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "When soap and water are not available or cannot be used, hand sanitizers can be used. The active ingredient of hand sanitizers is usually 70% ethanol or isopropanol in a polyacrylate gel. Some brands may contain mild antibacterial agents such as triclosan or triclocarban, which can be toxic to some people. Hand sanitizers are not an alternative to handwashing. The CDC discourages using hand sanitizers if the hands are visibly dirty.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "If one must use hand sanitizer, one should take a large dab of the gel and rub it all over the palm and fingers for at least 20 seconds, until all surfaces are uniformly wet. Wet surfaces must not be wiped with paper towels; rather, the hand should be rubbed until the liquid evaporates.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Regular handwashing is intended to remove environmental microbes from hand surfaces, not the skin's resident microbiota. Medical handwashing for work in operating rooms and emergency rooms requires the use of antimicrobial soap (such as povidone-iodine) and additional scrubbing. Some medical and research protocols also require a shower. Showering and body washing with soap drastically reduce the skin's microbial load and the shedding of dead skin cells and microbes attached to them.",
+          "page": 18
+        },
+        {
+          "type": "subheading",
+          "text": "Body coverings",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Laboratory and healthcare workers wear clean clothing, body garb over the clothing, gloves, head covers, goggles or full-face covers, and shoe covers (Fig. 7.15) to reduce microbial contamination. Different lab/healthcare-related activities require varying levels of protective coverage.",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.15. Protective measures to prevent microbial contamination of researchers/healthcare workers and clean",
+          "page": 18,
+          "image": "/mmahp/ch07/7-15.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "spaces. Shown is a fully garbed Biocontainment Care Unit nurse of the University of Texas Medical Branch, Houston TX. Image courtesy: Texas Medical Center.",
+          "page": 18
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 24,
+          "title": "Hand washing",
+          "bullets": [
+            "DIY vaccination",
+            "The four steps",
+            "Rinse",
+            "Soap and lather",
+            "Rinse",
+            "Dry",
+            "Alternative methods",
+            "70% ethanol or isopropanol",
+            "triclosan or triclocarban"
+          ]
+        },
+        {
+          "slideIndex": 25,
+          "title": "Protective gears",
+          "bullets": [
+            "Purpose",
+            "Person",
+            "Space",
+            "Types",
+            "Apron",
+            "Head cover",
+            "Face mask",
+            "Goggles",
+            "Shoe cover",
+            "Respirator"
+          ]
+        },
+        {
+          "slideIndex": 31,
+          "title": "Emergency protocols",
+          "bullets": [
+            "Suggested practices",
+            "Proper training, avoid after hours, have partners if after hours",
+            "Know MSDS, fire drills, and OSHA and HHS rules",
+            "Common emergencies",
+            "Spills of toxic chemicals or biohazardous liquids",
+            "Animal bites, puncture wounds, splash, burn wounds, cryo-wound",
+            "Activation of fire alarms",
+            "Common protocols",
+            "Call supervisor, 911 if needed, report the incident formally",
+            "Deposit blood sample, have health monitored as indicated by OSHA and"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "7.9",
+      "heading": "Biosafety levels of containments",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Hospitals and teaching/research laboratories handle many infectious agents. Protecting workers from these agents is a top priority. There are four biosafety levels (BSL) of containment for handling various microbial agents. More information on BSLs can be found at http://www.cdc.gov.",
+          "page": 18
+        },
+        {
+          "type": "subheading",
+          "text": "BSL-1 facility",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "A BSL-1 facility is designed to handle microbes that do not cause disease in healthy humans. A high school biology laboratory is a typical BSL-1 facility. Such a facility is not isolated from the rest of the building. The facility displays appropriate biohazard emblems (Fig. 7.16). Inward airflow (i.e., air entering the laboratory and then leaving through designated air ducts) is preferred but not required. The facility is built from sturdy materials and can be chemically or physically decontaminated if necessary. The facility's benchtops are made of acid-resistant materials. The facility should have hand and eyewash stations and biohazard waste containers. Workers in a BSL-1 facility should have access to laboratory coats, gloves, safety glasses, and mechanical pipetting devices for liquid handling. Mouth- pipetting, eating, drinking, smoking, or storing consumables in such a facility is prohibited. All workers should be trained before being allowed to work in a BSL-1 facility.",
+          "page": 18
+        },
+        {
+          "type": "subheading",
+          "text": "BSL-2 facility",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "A BSL-2 facility may handle certain microbes that can infect healthy subjects, but the agents do not readily aerosolize or are unstable if aerosolized. According to the CDC, appropriately trained personnel may handle prion agents in BSL- 2 containment. Workers should be vaccinated against common blood-borne pathogens. Because there is no vaccine for many infectious microbes, workers should deposit a serum sample for use as a reference should they ever be exposed to an infectious agent. All BSL-1 requirements also apply to BSL-2, except that inward directional airflow is mandatory (Fig. 7.16). All procedures that generate infectious aerosols or splashes should be performed in a Class II biosafety cabinet (BSC II) equipped with a laminar flow hood (Fig. 7.16), where air flows through the base of the cabinet and then passes through a high-efficiency particulate (HEPA) filter. A HEPA filter removes 99.97% of particles larger than 0.3 micrometers. Hazardous wastes should be stored in spill-proof bags and autoclaved before disposal. Used sharp objects should be collected in puncture-resistant canisters. Appropriate regulatory instructions should be posted in the facility. Most college-level and hospital laboratories are BSL-2 facilities.",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.16. Hazard emblems and a typical BSL-2 Facility. A. Common hazard emblems displayed in a BSL-2 facility.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Image: Vanderbilt University Medical Center. B. Structure of a BSL-2 facility. 1- Locked door showing hazard emblems; 2- Floor made of monolithic impervious materials; 3a- Chemical hood to handle volatile chemicals; 3b- biological hood; 4- Refrigerators showing the emblem ‘No Food or Drink’; 5- Biohazard waste receptacle with an appropriate emblem; 6- Canister for radioactive waste with an appropriate emblem; 7- Canister to collect sharp objects (it also contains an appropriate emblem but the emblem is not visible in this image); 8- Electric liquid handling devices; 9- Benchtop with acid/base-resistant surface and sinks; 10- Emergency shower head and eyewash station. Image: WHO Biosafety Manual 3rd Ed., 2004.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "BSL-3 facility",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "A BSL-3 facility is required for handling pathogenic microbes that can be aerosolized and cause life-threatening infections. All BSL-1 and BSL-2 requirements apply to BSL-3 facilities. Additional requirements include the following: the facility should be on an isolated floor of a building and equipped with double-door entrances; the wall and roof of the facility should be made of waterproof materials that can be decontaminated readily; the floor should be monolithic (not covered with tiles) and curved four inches up around the wall; the facility should be airtight except that filtered air should flow in the facility and leave through specific vents (without being re-circulated); and the incubators and centrifugation devices that may be used for the facility should be located and operated inside the facility. The incubators and centrifugation devices should suppress aerosol formation.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "An entire BSL-3 facility functions as a large biosafety cabinet equipped with HEPA filters. Depending on the microbes used, workers may need to wear a mask or a fully contained respirator suit (Fig. 7.17). Only appropriately trained and experienced workers should be allowed to work at a BSL-3 facility. The hospital's operating rooms (ORs) are maintained as if they were BSL-3 facilities.",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.17. Some equipment used in BSL-2, 3, and 4 facilities. A. Workers wearing positive pressure suits before",
+          "page": 20,
+          "image": "/mmahp/ch07/7-17.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "entering a BSL-4 facility. The tube supplies a steady flow of breathable air and maintains a positive pressure inside the suit to prevent air from the BSL-4 facility from entering. Image courtesy: CDC-PHIL. B. A BSC II type cabinet with stainless-steel and glass walls and a stainless-steel floor. Photo: Ken Slater. C. A laboratory worker using a BSC III. Highly dangerous microbes stored in the cabinet can be handled only through the cabinet's glove boxes. Image courtesy: CDC-PHIL.",
+          "page": 20
+        },
+        {
+          "type": "subheading",
+          "text": "BSL-4 facility",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "A BSL-4 facility provides the highest level of protection for laboratory workers. Pathogenic microbes that are easily aerosolized and cause serious or deadly diseases with no current cure or treatment are handled in BSL-4 facilities. In addition to BSL-3 requirements, BSL-4 facilities require airlocks to prevent microbes from escaping. Air, water, and trash entering a BSL-4 facility must be decontaminated before disposal. In most cases, the entire lab is treated as a large biosafety cabinet. Laboratory work in a BSL-4 facility is performed in a biosafety cabinet (BSC) III, or workers wear a positive-pressure suit (Fig. 7.17) and use a BSC II cabinet. Workers wearing a positive-pressure suit will pass through a chemical shower, then remove the suit and take a personal shower before leaving the facility. Class I, II, and III biosafety cabinets (BSCs) BSC I: A BSC is a contained workspace. The CDC classifies BSCs into three types. All BSCs are laminar-flow hoods with HEPA filters. The hood wall is made of stainless steel and sturdy glass, and the floor is stainless steel as well (Fig. 7.17). The cabinet is equipped with a UV lamp for decontamination. The inward airflow (i.e., speed of the air passing through the hood) for BSC I is 75 feet /min, sufficient to protect workers but not the cells or tissues placed in the cabinet. The air passing through the HEPA filter of a BSC I can be recirculated (i.e., the hood is not ducted). A BSC I is usually used to house centrifuges.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "BSC II: There are several types of BSC IIs. The inward airflow rate ranges from 75 to 100 feet/min, and the filtered air can be vented or recirculated within the cabinet. BSC II protects both the workers and the microbial cultures exposed to the cabinet's air.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "BSC III: A BSC III is a gas-tight box. Workers may touch materials placed inside the cabinet only through the glovebox (Fig. 7.17). BSL-2 and BSL-3 facilities usually use BSC IIs, and BSL-4 facilities may use BSC IIIs or some types of BSC IIs.",
+          "page": 20
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 26,
+          "title": "Common emblems",
+          "bullets": [
+            "No food/drink",
+            "Biohazard risks",
+            "Sharpies",
+            "Broken glass",
+            "Radiation hazard",
+            "Flammable",
+            "Chemical hazard"
+          ]
+        },
+        {
+          "slideIndex": 27,
+          "title": "Biosafety levels of containments",
+          "bullets": [
+            "BSL-1",
+            "Non-pathogenic microbes",
+            "Impervious bench top, eye wash, biohazard waste,",
+            "Basic training, garb requirements, mechanical pipetting,",
+            "BSL-2",
+            "Infectious but non-aerosolized pathogens, regulatory",
+            "Inward air flow, BSC-II, HEPA filter (0.3 micron to ensure",
+            "Sharpie collector, waste inactivation before disposal"
+          ]
+        },
+        {
+          "slideIndex": 28,
+          "title": "Biosafety levels of containments",
+          "bullets": [
+            "BSL-3",
+            "Pathogens that can be aerosolized and can cause lethal disease",
+            "Isolated corner of a building, double door, water-proof wall and roof,",
+            "Air not recirculated, centrifuge etc. are in house",
+            "High skill training, mask or respirator, BSC-II",
+            "BSL-4",
+            "Pathogens that can be aerosolized and deadly, separate building",
+            "All solid, liquid and gas decontaminated before disposal",
+            "BSC-II with respirator and positive pressure suit; or BSC-III"
+          ]
+        },
+        {
+          "slideIndex": 29,
+          "title": "Biosafety cabinets (BSC)",
+          "bullets": [
+            "BSC-I",
+            "Stainless steel wall, glass door, UV decontamination",
+            "HEPA filter, air flow 75 feet/min, recirculated",
+            "Protects workers but not tissue culture",
+            "Used for housing centrifuges",
+            "BSC-II",
+            "HEPA filter, air flow 75-100 feet/min, recirculated or released through vent",
+            "Protects workers and tissue culture, used in BSL-2, 3 or 4",
+            "BSC-III",
+            "Gas-tight globe box, used in BSL-3 or 4"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "7.9",
+      "heading": "Emergency protocols in case of accidental exposure to infectious agents",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Accidental exposure to hazardous microbes may occur even when all routine precautionary protocols are rigorously followed. Some of the common accidents in a healthcare facility or a laboratory are (a) fire, (b) activation of a fire alarm, (c) spill of biohazard materials such as body fluids, tissue culture supernatants, and toxic chemicals, (d) bite or scratch by laboratory animals, (e) personal injuries from contaminated broken glass, sharp objects and hypodermic needles, and (f) burn injuries from splashed chemicals, open flames and exploded cryovials (vials used for storing microbes in liquid nitrogen).",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Laboratory and healthcare workers must report all accidents and personal injuries to the facility supervisor. The affected area should be immediately washed with plenty of clean water. Workers should avoid handling hazardous materials after hours without a second person present. In some cases, calling 911 may be necessary. The supervisor should arrange emergency medical care as needed and have the worker provide a blood sample for reference. In general, affected workers are treated for potential pathogens and are monitored periodically for signs of infection and seroconversion related to accidental exposure, in accordance with the regulations of the Occupational Safety and Health Administration (OSHA) and the Department of Health and Human Services (HHS).",
+          "page": 21
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 26,
+          "title": "Common emblems",
+          "bullets": [
+            "No food/drink",
+            "Biohazard risks",
+            "Sharpies",
+            "Broken glass",
+            "Radiation hazard",
+            "Flammable",
+            "Chemical hazard"
+          ]
+        },
+        {
+          "slideIndex": 27,
+          "title": "Biosafety levels of containments",
+          "bullets": [
+            "BSL-1",
+            "Non-pathogenic microbes",
+            "Impervious bench top, eye wash, biohazard waste,",
+            "Basic training, garb requirements, mechanical pipetting,",
+            "BSL-2",
+            "Infectious but non-aerosolized pathogens, regulatory",
+            "Inward air flow, BSC-II, HEPA filter (0.3 micron to ensure",
+            "Sharpie collector, waste inactivation before disposal"
+          ]
+        },
+        {
+          "slideIndex": 28,
+          "title": "Biosafety levels of containments",
+          "bullets": [
+            "BSL-3",
+            "Pathogens that can be aerosolized and can cause lethal disease",
+            "Isolated corner of a building, double door, water-proof wall and roof,",
+            "Air not recirculated, centrifuge etc. are in house",
+            "High skill training, mask or respirator, BSC-II",
+            "BSL-4",
+            "Pathogens that can be aerosolized and deadly, separate building",
+            "All solid, liquid and gas decontaminated before disposal",
+            "BSC-II with respirator and positive pressure suit; or BSC-III"
+          ]
+        },
+        {
+          "slideIndex": 29,
+          "title": "Biosafety cabinets (BSC)",
+          "bullets": [
+            "BSC-I",
+            "Stainless steel wall, glass door, UV decontamination",
+            "HEPA filter, air flow 75 feet/min, recirculated",
+            "Protects workers but not tissue culture",
+            "Used for housing centrifuges",
+            "BSC-II",
+            "HEPA filter, air flow 75-100 feet/min, recirculated or released through vent",
+            "Protects workers and tissue culture, used in BSL-2, 3 or 4",
+            "BSC-III",
+            "Gas-tight globe box, used in BSL-3 or 4"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "7.10",
+      "heading": "The physical methods of sterilization and disinfection",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Sterilization and disinfection methods can be broadly grouped into physical and chemical methods. Physical methods utilize energy and mechanical means, while chemical methods use various chemical substances. Our ancestors used physical methods of infection control, including sunlight for curing and fire for cooking. The major physical methods include heat, electromagnetic radiation, sound waves, high pressure, adsorption, and filtration.",
+          "page": 21
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 35,
+          "title": "Physical Methods: Electromagnetic radiation",
+          "bullets": [
+            "Ionizing radiation",
+            "Gamma & X-radiation (0.0001-10 nm)",
+            "UVC radiation UVC (100-280 nn)",
+            "E-Beam",
+            "Nonionizing radiation",
+            "UVA (315-400 nm)",
+            "UVB (280-315 nm)",
+            "Radiolysis",
+            "H2O (ionizing radiation) à H2O+ + e-",
+            "free radicals (OH-)",
+            "hydrogen peroxide (H2O2) and",
+            "Crosslinking"
+          ]
+        },
+        {
+          "slideIndex": 36,
+          "title": "Physical Methods: Other radiation",
+          "bullets": [
+            "Solar radiation",
+            "Visible light (40-750 nm)",
+            "Cosmic rays (high energy",
+            "UV light",
+            "Microwave oven",
+            "Principles",
+            "limitation",
+            "Laser",
+            "fixed wavelength",
+            "waves are synchronized"
+          ]
+        },
+        {
+          "slideIndex": 37,
+          "title": "Physical Methods: Sound wave and ultrahigh pressure",
+          "bullets": [
+            "Sound waves",
+            "oscillation of pressure, stress or",
+            "Cavitation and heat",
+            "Sonar bath and sonicator",
+            "High pressure",
+            "~100,000 bars",
+            "Protein denaturation",
+            "Cold pasteurization"
+          ]
+        },
+        {
+          "slideIndex": 38,
+          "title": "Physical Methods: Filtration",
+          "bullets": [
+            "Adsorption filtration",
+            "Size exclusion filters",
+            "Nominal pore size (0.1-0.4",
+            "HEPA filter (0.3 micron)",
+            "Ultrafiltration (0.0001-0.1",
+            "Reverse osmosis",
+            "H2O (18D) separated from",
+            "Hollow fiber filters"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "7.10.1",
+      "heading": "Heat",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Heat weakens or breaks chemical bonds and facilitates chemical reactions. Low heat (under 200oC) liquefies membrane lipids and denatures proteins and nucleic acids. High heat (above 200oC) causes combustion, an exothermic reaction between organic substances and oxygen, leading to the formation of carbon dioxide and water. Thermal energy is used in two forms: moist heat and dry heat.",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "Dry heat",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Dry heat is transferred through hot air generated in an oven (Fig. 7.18). Heat transfer through air is inefficient, requiring prolonged treatment at high temperatures and resulting in waste. Biologists sterilize glassware and stainless steelware using this method by heating the items at 200ºC for 2-4 hours to remove RNases, prion agents, and other extremely stable proteins.",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "Incineration",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Many hospitals use large-capacity electric incinerators for the disposal of body parts, animal carcasses, gauges, and some other biohazardous wastes. Incineration is also the method of choice for disposing of large flocks of infected birds. Some municipalities have incinerators for solid waste disposal. Incineration is generally more cost-effective than any other method of decontamination of solid waste. Incineration poses the risk of releasing toxic gases, particulate pollutants, and aerosolized microbes, all of which must be captured. The capture process is technically challenging and expensive. Some microbiologists decontaminate inoculation loops by incinerating them on a Bunsen burner. It may aerosolize microbes, causing an inhalation hazard. A safer alternative is to use an electric loop burner or a disposable loop (Fig. 7.18).",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "Moist heat",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Moist heat is the transfer of heat through steam. Heated water molecules interact with hydrophilic molecules (i.e., proteins and nucleic acids) and rapidly denature them. Thus, moist heat is much more efficient than dry heat of the same temperature and is more cost-effective.",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "Heat pasteurization",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Heat pasteurization is a low-intensity cooking process that inactivates viruses and vegetative cells but not bacterial endospores. It delays spoilage and increases the shelf life of perishable food items. Household open-pot cooking is a form of heat pasteurization. Milk is traditionally pasteurized by heating to 63 °C for 30 minutes. In the high- temperature, short-time (HTST) method, liquid products are heated for only 15 seconds at 72°C. In the ultra-high- temperature (UHT) method, liquid substances are heated for a few seconds at 140-150°C and then rapidly cooled. Vegetative cells and viruses rupture during rapid expansion at 72-150°C. HTST and UHT are extensively used in the food industry, especially in milk processing. Modern laundry machines and clothes dryers essentially heat-pasteurize non-disposable clothes.",
+          "page": 21
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.18. Dry heat for sterilization and disinfection. A. A dry-heat oven is used to sterilize laboratory glassware.",
+          "page": 22,
+          "image": "/mmahp/ch07/7-18.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "B. An electric burner for the heat-sterilization of metal loops. Inset: Disposable sterile plastic loops, a safer alternative to the conventional metal loops. C. Flame of a Bunsen burner. If it must be used for heating inoculation loops, the metal loop should be incinerated at the tip of the flame (indicated by the arrow), where the temperature is most intense. Autoclaving An autoclave (Fig. 7.19) is a sophisticated pressure cooker that can maintain water vapor at 15 pounds per square inch (PSI) pressure and 121 °C. Note that water boils at 100 oC at sea level, where the barometric pressure is one atmosphere (i.e., 14.7 pounds/sq inch or 1013 millibars). The elevated pressure is necessary to increase the steam temperature to 121 °C. If done properly, autoclaving kills/inactivates bacterial endospores and all microbes, although it does not inactivate prion agents and some RNases.",
+          "page": 22
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.19. Using an autoclave. A. Structure of an autoclave showing the treatment chamber and steam inlets and",
+          "page": 22,
+          "image": "/mmahp/ch07/7-19.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "outlets. The temperature gauge and the insulation components are not shown. Image courtesy: scienceabc.com/. EV- exhaust valve, SI- steam inlet, SS- steam supply, WL- steam waste line. B. Liquid substances are autoclaved in heat- tolerant, loosely capped containers, such as Pyrex conical flasks. C. Solid objects are wrapped in microporous paper/plastic pouches) before autoclaving. D. Wrapping with aluminum or ordinary plastic foil may not guarantee sterilization.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Liquid and solid (but not gaseous) items can be autoclaved. Liquid items must be placed in a loosely capped, heat- stable vessel (to prevent explosion and melting). Solid items must also be heat-stable. Autoclaving liquid items involves three steps: conditioning (gradually increasing steam pressure and temperature to prevent rapid expansion and rupture of glass vessels), treatment (maintaining a constant temperature of 121 oC and pressure of 15 PSI for 10- 15 minutes to ensure sterilization), and exhaust (gradually releasing steam pressure to prevent boilover). Solid objects do not require the three steps. The flash autoclaving method reduces the exposure time to 3 minutes by increasing the pressure to 28 PSI and the temperature to 135 oC. To prevent scalding injuries, the autoclave door must not be opened until the exhaust step is complete. Liquid samples (such as bacterial growth media) should be removed soon after the exhaust step is complete to prevent evaporative loss and caramelization.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Objects such as surgical knives must be cleaned to remove any chemical contaminants, washed, and then properly wrapped before autoclaving. The wrap must have microscopic pores through which moisture passes, but microbes cannot. An item would not be sterilized if steam does not come into direct contact with its surfaces. Solid objects wrapped in aluminum foil or ordinary plastic membranes may not be sterilized because the wrapping may lack holes of the appropriate size for steam to enter (Fig. 7.19). There are special paper and plastic wraps for autoclaving surgical instruments.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Quality control for autoclaving",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Inadequately autoclaved surgical and other medical equipment has been involved in many fatal microbial infections. To ensure proper functioning, autoclaves should be periodically inspected and serviced by an engineer. When heated, indicator tapes placed on the items to be autoclaved darken (Fig. 7.20). Darkened tapes do not guarantee that the items have been sterilized. Some autoclave models display the operating conditions, which are more reliable than indicator tapes.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "A more appropriate test for proper autoclave function is employing the endospore viability test, using commercially available endospores of Bacillus subtilis or Geobacillus stearothermophilus. The endospores are packed into a tube and then placed in an ampule containing bacterial growth medium (Fig. 7.20). The growth medium contains a pH indicator dye to give it a purple color. The ampule is placed in the autoclave (or in the center of a bag full of biohazard waste). After autoclaving, the tube containing the endospores is broken (by tightening the ampule cap) so that the spores are suspended in the medium. For the Pro-Spore test (Mesa BI, Bozeman, MT), the sealed ampule containing the endospores is placed in the autoclave and then incubated at room temperature for 48 hours. If the autoclave had functioned properly, the endospores would have been inactivated, and the medium would have remained purple (Fig.7.20). If the autoclave had malfunctioned, the spores would have germinated. Vegetative bacterial cells would grow in the medium and release lactic acid, changing the medium's color from purple to yellow (Fig. 7.20).",
+          "page": 23
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.20. Quality control for autoclave function. A. Indicator tapes show white and beige stripes before heating",
+          "page": 23,
+          "image": "/mmahp/ch07/7-20.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "and zebra stripes after heating. B. Germination of bacterial endospores in the Pro-Spore test. The autoclaved ampules changing from purple to yellow indicate that the autoclave malfunctioned (sterilization had not been achieved). Image: Midland Scientific Inc.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Decontaminating prion agents",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "According to the CDC, tissues, cells, and body fluids containing prion agents should be incinerated in an appropriately constructed facility. Glass and metal equipment that contacted prion agents should be immersed in a 1.0 M NaOH solution or a 20,000 ppm sodium hypochlorite solution for 1 hour, then autoclaved for 1 hour at 121 °C. Equipment that contacts brain tissue should be considered potentially contaminated with prion agents and decontaminated accordingly before reuse.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Cryopreservation",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Naturally present enzymes in fresh meat, fruits, and vegetables degrade and spoil them even in the absence of microbial growth. Low temperatures slow enzyme activity and microbial growth, thereby slowing food spoilage. This is why perishable items in the households are either refrigerated (stored at 4-8°C) or frozen at -18 oC. According to the FDA, freezing at -4°F or below for 7 days, or freezing at -35°C or below for 15 hours, kills most worms, their eggs, and their larvae, provided the items are less than 6 inches thick. In the United States, meat and seafood consumed raw (such as sushi, sashimi, ceviche, and tartar) must be deep-frozen before serving. Viruses, as well as some bacteria and fungi, may remain viable in freezing conditions. Frozen food can suffer freezer burn (dehydration and oxidation), which alters its consistency and taste, especially when a frost-free freezer is used.",
+          "page": 24
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 33,
+          "title": "Quality control of autoclave operation",
+          "bullets": [
+            "Hazard of incomplete",
+            "Quality control",
+            "Zebra tape",
+            "Autoclave printout",
+            "Spore inactivation test",
+            "Special issues",
+            "Decontamination of prion agents",
+            "Incineration of animal carcass",
+            "Heat sterilization",
+            "1.0M NaOH or 20,000 ppm sodium"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "7.10.2",
+      "heading": "Electromagnetic radiation",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Electromagnetic radiation is waves of photons in an electromagnetic field. All photons travel at 299,792 km/sec but may have different wavelengths. The shorter the wavelength, the higher the wave frequency (number of waves/sec) expressed in Hertz (Hz), and the energy of the radiation (Fig. 7.21). Thus, gamma radiation is more energetic than UV light or visible light. Atoms get excited when they absorb electromagnetic radiation. This has various consequences, including the movement of atoms and the breaking/making of chemical bonds. Thus, light can be used to inactivate microbes. Solar and cosmic radiation contain both high-energy (gamma rays and X-rays) and low-energy (UV light and visible light).",
+          "page": 24
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.21. The electromagnetic radiation spectrum. Showing is the range of wavelengths of various forms of light.",
+          "page": 24,
+          "image": "/mmahp/ch07/7-21.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Note that the shorter the wavelength, the more energetic and penetrative the radiation. The wave frequency (cycles/sec, in Hz) of different types of radiation is shown at the bottom. Image: NIH.gov.",
+          "page": 24
+        },
+        {
+          "type": "subheading",
+          "text": "Ionizing radiation",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Cosmic rays, gamma rays, and X-rays are short wavelengths/high-energy radiation (Fig. 7.21). Many radioisotopes, including Cobalt-60 and Cesium-137, emit gamma rays. X-rays are produced by bombarding metallic lenses with electrons. Gamma rays and X-rays are classified as ionizing radiation because atoms may lose electrons and become ionized upon absorbing them. Since water is the most abundant chemical in the cell, they absorb most of the radiation and undergoes radiolysis.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "H2O (ionizing radiation) à H2O+ + e- (electron) H2O+ soon breaks, and the e- reacts with water, initiating a chain reaction that creates many reactive chemical species, including hydroxyl free radicals (OH-), hydrogen peroxide (H2O2), and superoxide (O2-). These chemical species may react with macromolecules such as DNA, RNA, and proteins, altering them. Gamma rays and X-rays may also directly break DNA and RNA. Broken DNA cannot be replicated, broken mRNA cannot be translated, and altered proteins may lose enzyme activities, all of which contribute to cell death.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Gamma radiation (emitted by radioisotopes such as Cobalt-60 or Cesium-137) is widely used to sterilize heat-sensitive materials, such as disposable plastic medical devices and surgical supplies. Dry food products and spices are also sterilized by gamma irradiation. The FDA has recently approved gamma irradiation for sterilizing and pasteurizing wet food items such as meat and dairy products. Gamma irradiation may affect the flavor of some food items; however, these approved methods are safe. Many of the NASA and US military food rations are sterilized by gamma irradiation. Gamma irradiation treatment is usually performed in a dedicated plant designed for continuous operation (Fig. 7.22). Materials to be irradiated are packed in cartons and then conveyed to the plant for irradiation. A drawback is that gamma irradiation facilities generate hazardous waste that is difficult and expensive to dispose of. Electron beam (E-beam) The E-beam is generated in a cathode-ray tube. The electrons are then accelerated by a high-power linear accelerator. High-velocity electrons are used to sterilize medical equipment made of plastic, paper, and cloth (Fig. 7.22). E-beams, like gamma radiation, are ionizing radiation. E-beam is less penetrating than gamma irradiation, but E-beam sterilizes faster (in about a minute) than gamma irradiation (which takes several hours). Like a gamma radiation facility, E- beam sterilization requires the setup of a plant for continuous operation (Fig. 7.22). E-beam treatment does not produce potentially hazardous chemicals within the treated products. However, E-beam is not used to sterilize food substances.",
+          "page": 24
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.22. Gamma irradiation and E-Beam facilities. A. A gamma radiation station. Gamma rays from a Cobalt-60",
+          "page": 25,
+          "image": "/mmahp/ch07/7-22.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "source are used to irradiate items (including food). B. An E-beam irradiation station. The high-speed electrons pass through a metal window and enter the packages containing the items to be treated. The items are placed on a conveyor belt to transport them to the treatment chamber. Images are adapted from the Center for Consumer Research, UC Davis.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "Non-ionizing radiation UV light UV radiation is often divided into UVA (wavelength 315-400 nm), UVB (wavelength 280-315 nm), and UVC (wavelength 100-280 nm) based on their wavelengths and the extent to which the ozone layer in the upper atmosphere absorbs them. The ozone layer does not absorb UVA radiation, partially absorbs UVB radiation, and completely absorbs UVC radiation from incoming solar radiation.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "UVB radiation coming through the ozone layer can cause skin cancer if one is exposed to intense solar radiation. UVC generated by mercury lamps may ionize water molecules, acting like ionizing radiation. High doses of UVA and UVB cross-link DNA, RNA, and proteins, inactivating them (Fig. 7.23). UV rays do not penetrate well and therefore have only limited applications in controlling microbes. UVC is used to treat drinking water, fruit juice, and alcoholic beverages (in thin films), and to decontaminate air and the surfaces of operating rooms and safety cabinets.",
+          "page": 25
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.23. The mode of action of ionizing radiation and short-wave UV radiation. A. Ionizing radiation, such as",
+          "page": 26,
+          "image": "/mmahp/ch07/7-23.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "gamma-ray, X-Ray, E-beam, and UVC, ionizes molecules, including water molecules, and creates reactive chemicals. Reactive chemicals bind to and break DNA (and RNA, not shown). B. A normal DNA molecule with two adjacent thymine residues. C. DNA molecules with UV-induced cross-links. UVA and UVB rays activate C atoms of the bases, causing unnatural covalent bonds (cross-links, shown by the red lines).",
+          "page": 26
+        },
+        {
+          "type": "subheading",
+          "text": "Microwave ovens",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Microwave ovens use a magnetron to generate relatively long-wave (wavelength ~12.2 cm) electromagnetic radiation (Fig. 7.24). When a microwave oven is on, the electric field inside it reverses direction repeatedly at very high speed, causing water molecules in food to rotate rapidly and generate intense heat. Heat distribution in the commonly available microwave ovens is non-uniform because microwaves penetrate different materials at different rates. One region of microwave-treated frozen meat may remain ice-cold while the other part of the same item may be burned. Therefore, microwave ovens fail to uniformly inactivate microbes. Microwave ovens can be used for warming food, not for conventional disinfection/cooking.",
+          "page": 26
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.24. Use of non-ionizing radiation in inactivating microbes. A. Structure of a microwave oven; a- transformer,",
+          "page": 26,
+          "image": "/mmahp/ch07/7-24.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "b- filter, c- capacitor, d- magnetron, e- waveguide, f- mode stirrer, g- control panel, h- turntable, i- food item to be warmed, j- water molecules inside the food item, k- the rapid shifting in the polarity of the wave field. The mode stirrer and turntable strive to distribute the microwave energy uniformly. The oven generates intense heat due to the rapid rotation of water molecules (and friction among them) in response to the rapid shift in the electric field's polarity. B. Use of diode laser in treating periodontal infections. The laser serves as an adjunct in eradicating bacteria that cause periodontitis. Image from Lobo TM, Pol DG. J Indian Soc Periodontology 2015; 19(1): 43-48.",
+          "page": 26
+        },
+        {
+          "type": "subheading",
+          "text": "Laser",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Light from a light bulb is blackbody radiation, consisting of light of many different wavelengths. The waves of such light are unsynchronized and deflect in many directions. A laser consists of photons released by excited electrons in an atom. The photons have a single wavelength, and the waves are synchronized and directional. Laser beams can be made very thin, sharp, and extremely powerful. Lasers can be used to cut live tissues during surgery, cauterize inflamed tissues, and inactivate microbes present in live tissues (Fig. 7.24).",
+          "page": 26
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "7.10.3",
+      "heading": "Sound waves and cavitation",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Sound is the oscillation of pressure, stress, or displacement of particles in a solid, liquid, or gaseous medium. Sound waves with frequencies above the audible range are ultrasonic. Ultrasonic sound waves (20-40 kHz/sec) create miniature bubbles in a fluid. The process is called cavitation. Microbubbles form within the cytoplasm of a cell exposed to ultrasonic sound waves. The bubbles subsequently collapse, creating a shock wave that damages the cell by disrupting the plasma membrane. The shock wave may release heat, detach molecules from hard surfaces, and break larger molecules into fragments. Sonicators (used to make cell extracts) break bacterial cells through cavitation. Ultrasonic baths (Fig. 7.25) are used to clean the surfaces of surgical equipment before the items are washed and autoclaved. Cavitation technologies for cleaning water and pasteurizing eggs have also been developed.",
+          "page": 27
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.25. Use of sound waves and pressure in inactivating microbes. A. An ultrasonic bath is a common sight in",
+          "page": 27,
+          "image": "/mmahp/ch07/7-25.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "a hospital. The bath contains a fluid through which sonar pulses (sound waves) travel. Metallic surgical instruments are decontaminated in the sonic bath. B. Ultra-high-pressure chambers are used in cold pasteurizing fruit juice. The process denatures proteins and lipids, thereby inactivating microbes.",
+          "page": 27
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "7.10.4",
+      "heading": "Pressure",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "High-pressure processing (HPP) involves applying up to 100,000 bars to pasteurize foods such as guacamole and fruit juices (Fig. 7.25). The high pressure presumably denatures proteins and affects membrane properties. The process, also called hyperbaric (or cold) pasteurization, inactivates microbial cells and increases the shelf life of the treated food without destroying its delicate flavor.",
+          "page": 27
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "7.10.5",
+      "heading": "Filtration",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Filtration is the use of absorbent surfaces (i.e., matrix filters) or physical sieves (i.e., size-exclusion filters) to remove particles suspended in gases or liquids. The matrix filter holds (adsorbs) the molecules to be removed (the molecules bind and form a film on the matrix filter). Some matrix filters, such as activated charcoal filters (Fig. 7.26), also adsorb soluble substances and suspended particles from air and water.",
+          "page": 27
+        },
+        {
+          "type": "subheading",
+          "text": "Size-exclusion filters",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "Size-exclusion filters have a nominal (average) pore size or cutoff limit that allows smaller particles and the medium (solvent or air) to pass through, while retaining larger particles (Fig. 7.26). Various types of inert organic fibers (cellulose, polysulfone, polycarbonate, and nylon) are used to make the size-exclusion filters. Filters with 0.1-0.2 micrometer nominal pore size remove all cellular microbes. However, filters with a nominal pore size of 0.40 microns or higher may not retain bacterial cells of the genera Mycoplasma and Ureaplasma (because they lack cell walls) and spirochetes (because they are 0.35 microns in width).",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "Commonly used size-exclusion filtration devices do not remove virus particles. Air in a laminar-flow hood is filtered by HEPA filters. HEPA filters have a cutoff of 0.3 micrometers. Narrower pores limit airflow, but a pump can increase the flow rate. Drinking water in some municipalities is filtered through gravel-and-sand filters. Groundwater is naturally purified as rainwater passes through many layers of microporous rocks.",
+          "page": 27
+        },
+        {
+          "type": "subheading",
+          "text": "Ultrafiltration",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Ultrafiltration also uses size-exclusion filters, but the membranes have a nominal pore size of 0.0001- 0.1 micrometers, capable of retaining molecules as small as NaCl dissolved in water. Reagent-grade water is produced from tap water, and drinking water is produced from seawater using ultrafiltration. The ultrafiltration membrane quickly becomes fouled due to the deposition of solute molecules on the surface. The membrane is constantly cleaned by bubbling gas to increase the flow rate (Fig. 7.26).",
+          "page": 28
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.26. Filtration and ultrafiltration. A. A matrix filter adsorbs particulate matter or soluble contaminants from",
+          "page": 28,
+          "image": "/mmahp/ch07/7-26.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "a solvent. A household water filter unit containing a cartridge packed with activated carbon particles is shown. B. A size-exclusion filter. A negative pressure is applied to the device to increase the flow rate. Inset: A SEM image of the filter's pores created by many layers of cellulose or nylon fibers. C. Ultrafiltration. Shown is the PruronTM filtering device (Koch, Wilmington, MA) that uses hollow fibers. Negative pressure draws water molecules into the hollow fibers but excludes larger molecules, such as NaCl. The collected water is removed at the base. Air bubbles are constantly pushed through the column to clean the hollow fibers. Figure courtesy http://www.kochmembrane.com/.",
+          "page": 28
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "7.11",
+      "heading": "Chemical methods of sterilization and disinfection",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Thousands of brands of antimicrobial chemicals are available for household, hospital, municipal, and industrial use. Several factors are considered in selecting a chemical antimicrobial agent. An ideal antimicrobial chemical should have most of the following characteristics: a) highly effective at reasonably low concentrations b) nontoxic and noncarcinogenic c) cost-effective in manufacturing, transportation, storage, and field applications d) not easily altered to hazardous chemicals such as explosives and poisons e) non-reactive and non-corrosive f) does not produce hazardous degradation byproducts g) biodegradable, but it has a reasonable shelf life h) effective concentration does not change during its shelf life None of the available antimicrobial chemicals has all the ideal properties, but different groups of chemicals have specific applications. The commonly used groups of antimicrobial chemicals are described here in alphabetical order. Alcohols Alcohols are chaotropic agents (chemicals that disrupt hydrogen bonding) that denature proteins and are effective against enveloped viruses, many species of bacteria (vegetative), and fungi and fungal spores. Water enhances protein- alcohol interactions, thereby increasing efficacy. Thus, 75-91 % ethanol is more effective than pure (i.e., 100% or 200 proof) ethanol. However, some bacteria, including Pseudomonas aeruginosa may grow inside diluted (<50%) ethanol. Mouthwashes contain about 27% ethanol and should be protected from bacterial contamination. Recent reports indicated that alcohol-containing mouthwashes may increase the risk of oral cancers. Prolonged exposure to isopropanol vapor has also been linked to neurological damage and nasal cancers. Other common alcohols, such as methanol, phenol, and ethylene glycol, have similar biological activities, but they cannot be used because they are toxic to humans.",
+          "page": 28
+        },
+        {
+          "type": "subheading",
+          "text": "Aldehydes",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Formaldehyde, glutaraldehyde, and ortho-phthalaldehyde inactivate microbes by cross-linking the –NH2, –OH, – COOH, —SH functional groups of the macromolecules (Fig. 7.27). Formalin (a 37% aqueous solution of formaldehyde) is used to preserve biological samples such as stools, tissue sections, and cadavers. Alkaline 2.0% glutaraldehyde solution is a sterilant (used for HLD); it inactivates vegetative cells in 10 minutes and endospores in 10-12 hours. Both formaldehyde and glutaraldehyde are carcinogens; thus, treated surfaces must be thoroughly rinsed in sterile distilled water before use.",
+          "page": 29
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.27. Aldehydes, biguanides, and epoxides. A. Formaldehyde and how it cross-links. Shown is the crosslinking",
+          "page": 29,
+          "image": "/mmahp/ch07/7-27.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "reaction of two NH2 groups by a formaldehyde molecule. B. Chlorhexidine, a biguanide, works by disrupting the lipid membranes. C. Ethylene oxide (an epoxide) and how it cross-links. The crosslinking reaction of two NH2 groups by a molecule of ethylene oxide is illustrated.",
+          "page": 29
+        },
+        {
+          "type": "subheading",
+          "text": "Biguanides",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Biguanides (Fig. 7.27) inactivate some bacteria by disrupting the lipid membranes and binding to the cell wall. Some biguanides, such as chlorhexidine, can be toxic (they may cause deafness if applied to the middle ear). Chlorhexidine is effective against some bacteria and viruses. Chlorhexidine digluconate (0.2%) is used in mouthwashes, topical skin cleansers, and swimming pools. Biguanides are more effective in controlling G(+) bacteria than G(-) bacteria. However, the agent's effective concentration is essentially ineffective against most fungi, some bacterial genera (such as Pseudomonas sp.), and endospores. Many nosocomial (hospital-acquired) bacterial infections start with contaminated mouthwash containing biguanides as preservatives.",
+          "page": 29
+        },
+        {
+          "type": "subheading",
+          "text": "Epoxides",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Similar to aldehydes, epoxides (such as ethylene oxide and propylene oxide gases) inactivate microbes by cross- linking the –NH2, –OH, –COOH, –SH functional groups of the macromolecules (Fig. 7.27). Ethylene oxide (gas) can be used to sterilize heat-labile objects such as pacemakers. The gases are highly toxic (potentially carcinogenic) and flammable. Objects must be treated for about 10 hours at a specific temperature and humidity, and the treated objects must be detoxified for 12 hours before use.",
+          "page": 29
+        },
+        {
+          "type": "subheading",
+          "text": "Halogens",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Four elements of the Periodic Table group 17 (i.e., F, Cl, Br, and I) are collectively called the halogens. Halogen ions (for example, F- and Cl-) are strong reducing agents, while molecular halogens (such as Cl2 and F2) and many of their compounds are powerful oxidizing agents.",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Fluorine is excessively reactive and is not used. A small amount of sodium monophosphofluoride (NaFPO4) is added to the municipal water supply in some states and to toothpaste. Fluoride reacts with tooth enamel, preventing tooth decay. Fluoridation of water has no antimicrobial effect.",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Bromine is the most stable and least irritating halogen. It is used to decontaminate and preserve swimming pools and hot spas. However, bromine is relatively expensive. Iodine is nontoxic at some concentrations, quite stable, and relatively inexpensive. Households, municipalities, hospitals, and industries extensively use various compounds of chlorine and iodine.",
+          "page": 30
+        },
+        {
+          "type": "subheading",
+          "text": "Chlorine compounds",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Chlorine works by oxidizing proteins and inactivating enzymes. The commonly used chlorines include elemental chlorine (Cl2), sodium hypochlorite (NaOCl2), bleaching powder (a mixture of CaOCl2, CaCl2, and CaO2Cl2), chloramine (NH2Cl), and chlorine oxide (ClO2) gas (Fig. 7.28). The availability of molecular chlorine in the solution determines the effectiveness of the products. A basic pH and the presence of organic substances that absorb Cl- ions reduce the effectiveness of chlorine products. A mere one part per million (ppm) of chlorine may inactivate bacteria and viruses suspended in liquid. Chlorine ions are consumed rapidly. Therefore, higher concentrations of hypochlorite or less chemically active alternatives, such as chloramines, are used for municipal water treatment.",
+          "page": 30
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.28. Some antimicrobial halogen compounds. A. Sodium hypochlorite and chloramine are used in water",
+          "page": 30,
+          "image": "/mmahp/ch07/7-28.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "treatment. B. Clorox®, a brand of Clorox Co (Oakland, CA), is a 6% sodium hypochlorite solution. C. Trihalomethane is a toxic byproduct of chlorine, generated in chlorinated water that contains decayed organic substances. D. Povidone- iodine, such as Betadine® (a trademark of Mundipharma, Cambridge, MA), is as effective as tincture of iodine but much less irritating.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Tap water contains about 0.5 ppm of chlorine, not enough to inactivate protozoan cysts, bacterial endospores, and some naked viruses. Clorox (6% sodium hypochlorite solution) is a commonly used household disinfectant. A 10% Clorox solution may effectively inactivate all viruses and bacterial cells in a few minutes. Chlorine reacts with certain suspended organic chemicals to produce toxic and repugnant byproducts, such as trihalomethanes (THMs), including dibromochloromethane (Fig. 7.28). THMs cause liver, kidney, and central nervous system damage. The Florida Department of Health limits THM concentrations in drinking water to <80 micrograms/liter. Concentrated chlorine solutions are toxic, corrosive, irritating, and smelly.",
+          "page": 30
+        },
+        {
+          "type": "subheading",
+          "text": "Iodine compounds",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Iodine, like chlorine, is an oxidizing agent that presumably reacts with the tyrosine residues and inactivates enzymes. Iodine inactivates vegetative cells but not endospores. Iodine, unlike chlorine, is non-corrosive and can be used as an antiseptic to clean the doctor’s hands and the patient’s body surfaces before surgery. Tincture of iodine (a 2% solution of iodine and sodium iodide in ethanol) is an effective disinfectant but is highly irritating and may stain fabrics. Iodophors are agents formed by attaching iodine atoms to a carrier molecule, such as polyvinylpyrrolidone. Iodophors are non-irritating, do not stain clothing, and release more free iodine ions than tinctures. Povidone-iodine, an iodophor, is commonly used in households (Fig. 7.28). However, some bacteria, such as Pseudomonas aeruginosa, may grow in iodophor preparations.",
+          "page": 30
+        },
+        {
+          "type": "subheading",
+          "text": "Metal compounds",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Many metal salts dissolve in water, releasing cations. The cations are powerful oxidizing agents. They react with cellular molecules, inactivating them. Metal salts may readily inactivate vegetative cells but not necessarily the endospores. The effective antimicrobial concentration of the metal ions is toxic to humans and potentially damaging to treated surfaces. Therefore, metal salts are rarely used.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "The two most commonly used metal salts are copper sulfate (CuSO4) and silver nitrate (AgNO3). Bordeaux mixture, an aqueous solution of Ca(OH)2 and CuSO4 (1.0% each), is an effective antifungal agent used to prevent fungal infections of grape plants. However, it is highly toxic to animals, including humans and algae. A dilute CuSO4 solution (about 0.1 mg/liter) is highly effective in controlling algal blooms in ponds and lakes.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "In the past, dilute solutions of silver nitrate (AgNO3) (about 0.1 mg/liter) were used as eye drops to prevent neonatal eye infections. At present, antibiotic eye drops are used instead. Silver-impregnated catheters and kitchen countertops retard microbial growth.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Alum (a mixture of aluminum sulfate and sulfates of several other elements, including potassium and sodium) is used as an astringent. Alum causes suspended particles and bacterial cells in water to flocculate and precipitate. Green vitriol (FeSO4, nH20) can also be used as a flocculating agent. These agents are used in water purification (see Chapter 15).",
+          "page": 31
+        },
+        {
+          "type": "subheading",
+          "text": "Ozone and other peroxygens",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Ozone (O3) is an unstable form of molecular oxygen (Fig. 7.29). Peroxygens are compounds containing excess or readily removable oxygen atoms. Ozone and peroxygens are highly reactive and powerful oxidizing agents. They inactivate microbes by reacting with cellular macromolecules. Commonly used peroxygens include hydrogen peroxide (H2O2), benzoyl peroxide ([C6H5C(O)]2O2), peracetic acid (CH3CO3H), and sodium perborate (Na2H4B2O8). Peroxygens can be used as sterilants, but they are unstable and must be synthesized in situ. Ozone gas is used for drinking water treatment.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Hydrogen peroxide gas is used for decontaminating food containers because the gas is non-corrosive and does not produce toxic byproducts. Hydrogen peroxide (3-6% in water) and benzoyl peroxide (2.5-10.0%) are used as antiseptic agents, particularly in washing wounds and acne.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "A 0.2% peracetic acid solution can be used to rapidly sterilize solid surfaces. Peracetic acid is toxic and lethal at concentrations of 1.5 ppm or higher. Peroxygens release nascent oxygen atoms that bleach colored substances. Thus, peroxygens are often used in bleaching fabrics, paper, and hair.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Sodium perborate is used in laundry detergents and some whitening toothpastes, but its primary purpose is bleaching, not disinfection. Peroxides are irritants and potentially carcinogenic at high concentrations and with prolonged exposure.",
+          "page": 31
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.29. Peroxygens and phenolics. Shown are the structures of ozone, hydrogen peroxide, peracetic acid, phenol,",
+          "page": 31,
+          "image": "/mmahp/ch07/7-29.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "triclosan, and hexachlorophene.",
+          "page": 31
+        },
+        {
+          "type": "subheading",
+          "text": "Phenol and phenolics",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Phenolics (or phenols) are aromatic hydrocarbons with one or more –OH functional groups directly attached to the benzene ring. Phenol, also called carbolic acid (Fig. 7.29), is the simplest of the phenols. Phenol was the antiseptic Joseph Lister (1827-1912) used in the 1850s, a discovery that revolutionized surgery. Phenol dissolves lipid membranes and denatures proteins in vegetative cells, but some naked viruses and endospores are resistant to phenol. Phenol is highly pungent, caustic, expensive, and unstable at room temperature.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Some phenolics are less pungent, inexpensive, and more effective than phenol. Hexachlorophene, once a widely used phenolic, is currently not used because it is neurotoxic and potentially mutagenic and teratogenic (may cause birth defects) at high concentrations. Triclosan, another phenolic, was once used in soap and dentifrices (Fig. 7.29), but the FDA has found it ineffective.",
+          "page": 32
+        },
+        {
+          "type": "paragraph",
+          "text": "Capsaicin, the chemical compound that makes hot chili peppers, is a phenolic compound. Capsaicin is occasionally used as a biodegradable pesticide. Some nontoxic phenolics, such as triclosan (Fig. 7.29) and thymol, are added to personal care products, including soaps and toothpaste. Menthol, another phenolic compound, is used in candies and cough syrups. Most of the phenolics are modestly effective antimicrobial agents.",
+          "page": 32
+        },
+        {
+          "type": "subheading",
+          "text": "Soaps and detergents",
+          "page": 32
+        },
+        {
+          "type": "paragraph",
+          "text": "Soaps are sodium or potassium salts of naturally occurring fatty acids (Fig. 7.30). Detergents are synthetic petrochemicals with a hydrocarbon tail and a polar head group (Fig. 7.30). Soaps and some detergents have little antimicrobial activity, but they are surfactants (enhance the cleaning power of water). When dissolved in water, surfactants reduce the surface tension of water. As a result, soapy water interacts more strongly with surfaces and penetrates small cracks and crevices (Fig. 7.30).",
+          "page": 32
+        },
+        {
+          "type": "paragraph",
+          "text": "Unlike soaps, some detergents are non-biodegradable. Non-biodegradable detergents released by households and industries may accumulate in lakes and rivers, polluting water bodies. Soaps are less effective in hard water (water containing dissolved minerals such as calcium and magnesium sulfates). Detergents are unaffected by water hardness because they do not interact with metal ions as soaps do. Both soaps and detergents have hydrophobic tails that interact with grease and oils, helping to clean oily surfaces.",
+          "page": 32
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 7.30. Soaps and detergents. A. A molecule of soap (sodium palmitate). B. An SEM image of cotton fabric (x100)",
+          "page": 32
+        },
+        {
+          "type": "paragraph",
+          "text": "showing microscopic holes. Water molecules may move through the holes if the surface tension of water is reduced by adding soap or detergent. Image source: ARS-USDA. C. Nonidet P-40, a nonionic detergent. D. Sodium dodecyl sulfate, an anionic detergent. E. Benzalkonium chloride, a quat (also a cationic detergent). F. CHPAS, a zwitterionic detergent.",
+          "page": 32
+        },
+        {
+          "type": "paragraph",
+          "text": "Detergents can be non-ionic, anionic, cationic, and zwitterionic. Nonionic detergents have a polar head group that does not dissociate. Detergents used for dishwashing are nonionic because they do not foam. Some nonionic detergents, such as Nonidet P-40 (Fig. 7.30) and Triton X-100, are used in protein extraction because they may disrupt membranes and lyse cells without denaturing proteins.",
+          "page": 32
+        },
+        {
+          "type": "paragraph",
+          "text": "Anionic detergents have a sulfate, sulfonate, or similar negatively charged head group. Anionic detergents, such as sodium dodecyl sulfate (SDS), are excellent cleaners and produce abundant foam (Fig. 7.30). SDS also disrupts lipid membranes and completely denatures proteins. The polar end of some cationic detergents contains a positively charged quaternary ammonium ion. These detergents, called quats, may inactivate vegetative cells and enveloped viruses by interacting with lipid membranes. Some quats, such as benzalkonium chloride, are non-toxic to humans. Benzalkonium chloride is used in personal hygiene products such as oral rinses and eye drops, but some bacteria, such as Pseudomonas aeruginosa, may grow in quats. Zwitterionic detergents have both positively and negatively charged polar groups. CHAPS, a zwitterionic detergent, disrupts lipid membranes to extract membrane proteins. Laundry detergents contain nonionic and anionic surfactants, as well as various additives. Major additives include water softeners (such as EDTA), bleaches (such as sodium hypochlorite), enzymes (such as fungal proteases), antifoaming agents (such as silica), lubricants (such as sodium silicate), fabric softeners (such as quats, to reduce static electricity in dried clothes), and perfumes. Beyond bleach and quats, the ingredients of conventional laundry detergents have little overall antimicrobial activity. Clothes washed in cold water with conventional laundry detergents retain many microbes. Items contaminated with high concentrations of microbes should be sorted and washed separately. Modern high-temperature washers remove more microbes.",
+          "page": 33
+        },
+        {
+          "type": "paragraph",
+          "text": "Dishwasher detergents usually contain nonionic detergents, chlorine bleach, lubricants, and perfumes. Because a dishwasher operates at a higher temperature, washed dishes are much cleaner than clothes washed using a laundry machine.",
+          "page": 33
+        },
+        {
+          "type": "subheading",
+          "text": "Chemical preservatives",
+          "page": 33
+        },
+        {
+          "type": "paragraph",
+          "text": "Chemical preservatives are added to food, beverages, medicines, vaccines, and cosmetics to prevent microbial growth and undesirable chemical changes. An ideal preservative should be stable, non-reactive, non-toxic, non-carcinogenic, water-soluble, and effective. Highly toxic preservatives such as thiomersal (a mercury compound) were used in the past. Much safer alternatives are available today, but an ideal preservative has yet to be developed. The commonly used preservatives are listed in Table 7.5. The table indicates that most of the preservatives are suitable only for specific purposes.",
+          "page": 33
+        },
+        {
+          "type": "figure",
+          "text": "Table 7.5. Some common chemical preservatives and their pros and cons.",
+          "page": 33
+        },
+        {
+          "type": "paragraph",
+          "text": "Preservative Mode of action Applications Comments Benzoic acid, sodium benzoate, hydroxybenzoate Suppress growth of molds, yeast, and some bacteria Acidic fruit juice, jams, jellies, soft drinks, fluid medications, ointments May react with other food additives and release benzene, a carcinogen Butylated hydroxytoluene (BHT) and butylated hydroxyanisole (BHA) Prevent oxidation Meat- and cheese- containing prepared food Suspected carcinogens Lactic acid, malic acid, citric acid Reduce pH, prevent oxidation, prevent the growth of some bacteria Pickles, dairy products, salad dressing Naturally present, generated in, or added to many food items Propionic acid, sodium propionate Suppress growth of mold and bacteria Baked goods, cheeses Naturally present in some food items Sorbic acid, sodium sorbate Prevent fungal growth at acidic pH Cheese, fermented beverages, baked goods, fluid medications, and ointments Can be an irritant Sodium nitrite Prevent germination of bacterial endospore, give a reddish color to meat products Cold cut meat products, sausages React with amino acids and produce nitrosamine, a carcinogen Sulfur dioxide, sodium sulfite, sodium metabisulfite, and related compounds Prevent fungal growth and oxidation Dried fruits, fermented beverages May cause allergies EDTA Chelate metal ions, prevent oxidation Frozen food, prepared packaged food, medicine Mildly toxic Methyl-, ethyl- or propylparaben Prevent microbial growth Medicines, cosmetics May cause sensitivity if exposed to injured skin Ethyl, propyl- and benzyl alcohol Prevent microbial growth Medicines, cosmetics Propyl alcohol can be neurotoxic, benzene is a carcinogen Imidurea Release formaldehyde, a strong antimicrobial agent Medicines, cosmetics Formaldehyde is a carcinogen Phenolics, biguanides, quats Antimicrobial activities Medicines, cosmetics Toxic at certain concentrations Thimerosal, phenyl mercurate Prevent microbial growth Medicines, cosmetics, vaccines Neurotoxic Other disinfectants Laboratory glassware can be cleaned using inorganic acids such as nitric acid (HNO3), hydrochloric acid (HCl), and chromic acid (H2CrO4). Chromic acid, a highly corrosive and carcinogenic chemical, is an excellent cleaner for cloudy glassware. The treated items must be rinsed with clean water and then autoclaved.",
+          "page": 33
+        },
+        {
+          "type": "paragraph",
+          "text": "Some dyes, such as gentian violet, are powerful oxidizing agents. Gentian violet inactivates some vegetative cells by damaging proteins and nucleic acids. Gentian violet is used in treating superficial bacterial and fungal infections of the skin and oral cavity.",
+          "page": 34
+        },
+        {
+          "type": "paragraph",
+          "text": "Alkaloids in the leaf extracts of some trees, such as neem (Azadirachta indica) and ginkgo (Ginkgo biloba), have low- level antimicrobial activity. Many spices, including garlic, onion, ginger, turmeric, chili pepper, and black pepper, contain ingredients and enzymes with modest antimicrobial activity.",
+          "page": 34
+        },
+        {
+          "type": "paragraph",
+          "text": "The mode of action and application conditions for various agents used in sterilization and HLD are summarized in",
+          "page": 34
+        },
+        {
+          "type": "figure",
+          "text": "Table 7.6.",
+          "page": 34
+        },
+        {
+          "type": "figure",
+          "text": "Table 7.6. Common sterilants, disinfectants, and antiseptic agents. The mechanism of action of each agent is",
+          "page": 34
+        },
+        {
+          "type": "paragraph",
+          "text": "indicated in parentheses. The description is not applicable to prion agents.",
+          "page": 34
+        },
+        {
+          "type": "paragraph",
+          "text": "Sterilants Physical methods Dry heat 200 oC for 2 hours (oxidation) Moist heat 121-135oC for 10 or 3 minutes (protein and lipid denaturation) Gamma irradiation Dose depending on objects (genome damage) UV irradiation 254 nm, exposed surface only (genome damage) Filtration 0.005-0.1 micron filter under negative pressure (size exclusion, except small viruses) Gases Ethylene oxide 0.5-1.25 gm/liter, 30-65oC for 5 hours (protein cross-linking) Formaldehyde 2-8%, 60-80oC for 2-12 hours (protein cross-linking) Hydrogen peroxide gas Ionized gas (oxidation of the macromolecules) Liquids Glutaraldehyde 2%, 10 minutes to ten hours (protein cross-linking) Peracetic acid 0.2% (oxidation of macromolecules) Disinfectants HLD Glutaraldehyde 2% (protein cross-linking) Formaldehyde 3-8% (protein cross-linking) Peracetic acid 0.2% (oxidation of macromolecules) Hydrogen peroxide 3-25% (oxidation of macromolecules) ILD Chlorine 2-5 ppm (oxidation of cellular molecules) Iodine 3-50 ppm (inactivation of enzymes) Alcohol 70% in water (denaturation of proteins and lipids) LLD Biguanides 0.5-5.0% (membrane damage) Phenolics 1-5% (denaturation of lipids and proteins) Quats 0.4-1.6% (membrane damage) Antiseptic agents Ethanol and isopropanol 70% Biguanides 0.5-5.0% Phenolics 1-5% Iodophors 30-50 ppm of iodine Quats 0.4-1.6%",
+          "page": 34
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 42,
+          "title": "Chemical methods (3)",
+          "bullets": [
+            "Halogens",
+            "Mode of action- reduction (ions), oxidation",
+            "Limitations",
+            "Fluorine- toxic, fluoridation of drinking water",
+            "Chlorine",
+            "Cl2, NaOCl2, NH2Cl, ClO2",
+            "1 ppm kills vegetative cells but not endospores",
+            "Trihalomethane",
+            "Br- least irritating and stable but expensive",
+            "Iodine",
+            "Tincture (2% iodine and NaI in ethanol)",
+            "Iodophor (povidone iodine)"
+          ]
+        },
+        {
+          "slideIndex": 44,
+          "title": "Chemical Methods (5)",
+          "bullets": [
+            "Phenols and phenolics",
+            "Mode of action- membrane",
+            "Limitations",
+            "Carbolic acid",
+            "Hexachlorophene-",
+            "Thymol and menthol",
+            "Capsaicin Hexachlorophene- banned because mutagenic"
+          ]
+        },
+        {
+          "slideIndex": 48,
+          "title": "Sterilants",
+          "bullets": [
+            "Physical methods",
+            "Dry heat \t200 oC for 2 hours (oxidation)",
+            "Moist heat \t121-135oC for 10 or 3 minutes (protein and lipid denaturation)",
+            "Gamma irradiation \tDose depending on objects (genome damage)",
+            "UV irradiation \t254 nm, exposed surface only (genome damage)",
+            "Filtration \t0.005-0.1 micron, filter under negative pressure (size",
+            "Gases",
+            "Ethylene oxide \t0.5-1.25 gm/liter, 30-65oC for 5 hours (protein cross-linking)",
+            "Formaldehyde \t2-8%, 60-80oC for 2-12 hours (protein cross-linking)",
+            "Hydrogen peroxide gas \tIonized gas (oxidation of the macromolecules)",
+            "Liquids",
+            "Glutaraldehyde \t2%, 10 minutes to ten hours (protein cross-linking)",
+            "Peracetic acid \t0.2% (oxidation of macromolecules)"
+          ]
+        },
+        {
+          "slideIndex": 49,
+          "title": "Disinfectants",
+          "bullets": [
+            "HLD",
+            "Glutaraldehyde \t2% (protein cross-linking)",
+            "Formaldehyde \t3-8% (protein cross-linking)",
+            "Peracetic acid \t0.2% (oxidation of macromolecules)",
+            "Hydrogen peroxide \t3-25% (oxidation of macromolecules)",
+            "ILD",
+            "Chlorine \t2-5 ppm (oxidation of cellular molecules)",
+            "Iodine \t3-50 ppm (inactivation of enzymes)",
+            "Alcohol \t70% in water (denaturation of proteins and lipids)",
+            "LLD",
+            "Biguanides \t0.5-5.0% (membrane damage)",
+            "Phenolics \t1-5% (denaturation of lipids and proteins)",
+            "Quats \t0.4-1.6% (membrane damage)"
+          ]
+        }
+      ]
+    }
+  ],
+  "unmatchedSlides": [
+    {
+      "slideIndex": 50,
+      "title": "Antiseptics",
+      "bullets": [
+        "Ethanol and isopropanol \t70%",
+        "Biguanides \t0.5-5.0%",
+        "Phenolics \t1-5%",
+        "Iodophors \t30-50 ppm of iodine",
+        "Quats \t0.4-1.6%"
+      ]
+    }
+  ]
+}

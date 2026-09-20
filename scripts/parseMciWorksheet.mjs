@@ -48,7 +48,10 @@ const RE = {
   runningHeader: /^MMAHP Chapter \d+$/,
   pageFooter: /^Page \d+ of \d+$/,
   pageBreak: /^-- \d+ of \d+ --$/,
-  examLine: /^Exam \d+$/,
+  // A bare "Exam N" line appears before most chapter subtitles, but at least
+  // one chapter (OLQ 5-8's Ch 6) instead has "MICR 2060: Exam N" — same
+  // boilerplate, an extra course-code prefix.
+  examLine: /^(?:[A-Z]{2,} \d+:\s*)?Exam \d+$/,
   chapterStartMarker: /^MCIs for OLQ (\d+) Answered and Explained$/i,
   mcisBoilerplate: /^Multiple[- ]choice items \(MCIs\)$/i,
   chapterEndMarker: /^End\s+\S+\s+Ch\s+(\d+)/i,
@@ -56,7 +59,11 @@ const RE = {
   // \s* not \s+: a couple of options in the source PDF lost their space after
   // the period during text extraction ("A.Phosphodiester bonds...").
   question: /^(\d+)\.\s*(.*)$/,
-  option: /^([A-E])\.\s*(.*)$/,
+  // A handful of questions (10 of 251 in the OLQ 5-8 doc, all in the Ch 7
+  // range) carry a leading "*" marking that option as the source's own
+  // correct answer — sparse, not a consistent full key, but real signal
+  // where it appears. Captured as a separate group so parse() can record it.
+  option: /^(\*)?([A-E])\.\s*(.*)$/,
 };
 
 async function extractText(path) {
@@ -159,7 +166,8 @@ function parse(rawText) {
 
     const oMatch = line.match(RE.option);
     if (oMatch && question) {
-      const opt = { letter: oMatch[1], text: oMatch[2] };
+      const opt = { letter: oMatch[2], text: oMatch[3] };
+      if (oMatch[1]) opt.sourceMarkedCorrect = true;
       question.options.push(opt);
       openOption = opt;
       continue;

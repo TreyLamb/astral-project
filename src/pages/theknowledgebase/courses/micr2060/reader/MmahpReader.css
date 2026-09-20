@@ -1,0 +1,536 @@
+/* MMAHP combined reader (MICR 2060). Namespaced mmr-.
+   Deliberately its OWN bright palette, not --tkb-* - Trey, 2026-09-18: "holding onto this dark
+   depressing css is not the way... this is for quizz reference, studying." A study/reading tool
+   needs to look like a bright printed page regardless of the device's system theme (--tkb-*
+   itself goes dark under prefers-color-scheme: dark), so these are fixed local tokens, not a
+   site-wide palette change - scoped entirely under .mmr-wrap, nothing here leaks out. */
+
+.mmr-wrap {
+  --mmr-bg: #fdfbf6;
+  --mmr-paper: #ffffff;
+  --mmr-ink: #1f2328;
+  --mmr-ink-soft: #5a6068;
+  --mmr-border: #e4dfd3;
+  --mmr-accent: #2563a8;
+  --mmr-accent-soft: #eaf2fb;
+  --mmr-highlight: #fff2a8;
+  --mmr-highlight-ink: #3a2f00;
+  --mmr-danger: #b3261e;
+  /* Two more source colors, added 2026-09-19 for the OpenStax parallel-reading feature - Trey:
+     "Keep MMAHP with one color background and OS with it's own color background so i can tell
+     why there's 2 sections talking about identical information." Lecture slides keep the
+     existing blue (--mmr-accent-soft); MMAHP's own text gets a warm tan (the primary/assigned
+     book), OpenStax gets a cool green (the secondary/reference book) - three visibly distinct
+     hues so no two sources are ever confused at a glance. */
+  --mmr-mmahp-bg: #f7efe0;
+  --mmr-mmahp-border: #d8c9a8;
+  --mmr-openstax-bg: #e8f3ea;
+  --mmr-openstax-border: #b9d9bf;
+  --mmr-openstax-ink: #1f5c34;
+
+  background: var(--mmr-bg);
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 1rem 1rem 4rem;
+  color: var(--mmr-ink);
+}
+
+.mmr-back {
+  background: none;
+  border: none;
+  color: var(--mmr-accent);
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.mmr-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--mmr-bg);
+  padding: 0.75rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--mmr-border);
+  margin-bottom: 1.25rem;
+}
+
+/* --- chapter picker --- */
+
+.mmr-picker { position: relative; }
+
+.mmr-picker-toggle {
+  background: var(--mmr-paper);
+  border: 1px solid var(--mmr-border);
+  color: var(--mmr-ink);
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.mmr-picker-panel {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: 0;
+  background: var(--mmr-paper);
+  border: 1px solid var(--mmr-border);
+  border-radius: 10px;
+  padding: 0.6rem;
+  max-height: 60vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 28px rgba(30, 30, 20, 0.14);
+}
+
+.mmr-picker-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.mmr-picker-actions button {
+  background: var(--mmr-bg);
+  border: 1px solid var(--mmr-border);
+  color: var(--mmr-ink);
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.mmr-picker-list { display: flex; flex-direction: column; gap: 0.15rem; }
+
+.mmr-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.4rem 0.3rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.92rem;
+}
+.mmr-picker-row:hover { background: var(--mmr-accent-soft); }
+.mmr-picker-row input { flex-shrink: 0; }
+.mmr-picker-row span { flex: 1; }
+
+.mmr-picker-only {
+  background: none;
+  border: 1px solid var(--mmr-border);
+  color: var(--mmr-ink-soft);
+  border-radius: 5px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mmr-picker-only:hover { border-color: var(--mmr-accent); color: var(--mmr-accent); }
+
+/* --- search row (global + in-page filter side by side, stack on phone) --- */
+
+.mmr-search-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.mmr-search-row > * { flex: 1 1 240px; min-width: 0; }
+
+.mmr-search, .mmr-filter { position: relative; }
+
+.mmr-search input[type="search"], .mmr-filter input[type="search"] {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--mmr-paper);
+  border: 1px solid var(--mmr-border);
+  color: var(--mmr-ink);
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+  font-size: 1rem;
+}
+.mmr-filter input[type="search"]:not(:placeholder-shown) {
+  border-color: var(--mmr-accent);
+}
+
+.mmr-filter-clear {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--mmr-ink-soft);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.2rem 0.4rem;
+}
+
+.mmr-filter-count {
+  margin-top: 0.3rem;
+  font-size: 0.82rem;
+  color: var(--mmr-accent);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.mmr-filter-count-zero {
+  color: var(--mmr-danger);
+}
+.mmr-filter-nav {
+  background: var(--mmr-paper);
+  border: 1px solid var(--mmr-accent);
+  color: var(--mmr-accent);
+  border-radius: 4px;
+  width: 1.6rem;
+  height: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.mmr-filter-nav:hover { background: var(--mmr-accent-soft); }
+
+.mmr-search-results {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: 0;
+  background: var(--mmr-paper);
+  border: 1px solid var(--mmr-border);
+  border-radius: 10px;
+  max-height: 50vh;
+  overflow-y: auto;
+  z-index: 21;
+  box-shadow: 0 10px 28px rgba(30, 30, 20, 0.14);
+}
+
+.mmr-search-hit {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--mmr-border);
+  color: var(--mmr-ink);
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+}
+.mmr-search-hit:last-child { border-bottom: none; }
+.mmr-search-hit:hover { background: var(--mmr-accent-soft); }
+
+.mmr-search-hit-loc {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--mmr-ink-soft);
+  margin-bottom: 0.15rem;
+}
+
+.mmr-search-hit-snippet {
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.mmr-search-empty {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: 0;
+  background: var(--mmr-paper);
+  border: 1px solid var(--mmr-border);
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  color: var(--mmr-ink-soft);
+  font-size: 0.9rem;
+}
+
+.mmr-tag-slide {
+  display: inline-block;
+  background: var(--mmr-accent);
+  color: #fff;
+  border-radius: 4px;
+  padding: 0.05rem 0.4rem;
+  font-size: 0.72rem;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+.mmr-tag-openstax {
+  display: inline-block;
+  background: var(--mmr-openstax-ink);
+  color: #fff;
+  border-radius: 4px;
+  padding: 0.05rem 0.4rem;
+  font-size: 0.72rem;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+
+.mmr-empty {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--mmr-ink-soft);
+}
+
+/* --- chapter reading --- */
+
+.mmr-chapter {
+  background: var(--mmr-paper);
+  border: 1px solid var(--mmr-border);
+  border-radius: 12px;
+  padding: 1.1rem 1.3rem;
+  margin-bottom: 1.5rem;
+}
+
+.mmr-chapter-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.mmr-chapter-head h2 {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.mmr-openstax-tag {
+  font-size: 0.78rem;
+  color: var(--mmr-ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.mmr-lead {
+  font-style: italic;
+  color: var(--mmr-ink-soft);
+  line-height: 1.6;
+  font-size: 1.02rem;
+  margin-bottom: 1.4rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--mmr-border);
+}
+
+/* Real typographic hierarchy - Trey, 2026-09-18: "it's all formatted the same, no text diff, no
+   font size diff." Three clearly distinct levels now: a section heading is big/bold with its own
+   rule underneath it (a real chapter break, not a slightly-bigger paragraph); a subheading is a
+   small accent-colored label that reads as a label, not a sentence; body text is plain, roomy,
+   and never competes with either. */
+.mmr-section { margin-bottom: 2rem; }
+.mmr-section h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--mmr-accent);
+  color: var(--mmr-ink);
+  line-height: 1.3;
+}
+
+.mmr-p {
+  line-height: 1.75;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--mmr-ink);
+  margin: 0 0 1rem;
+}
+.mmr-p:last-child { margin-bottom: 0; }
+
+.mmr-subheading {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 1.4rem 0 0.6rem;
+  padding: 0.15rem 0.55rem;
+  background: var(--mmr-accent-soft);
+  color: var(--mmr-accent);
+  border-radius: 4px;
+}
+.mmr-subheading:first-child { margin-top: 0; }
+
+.mmr-figure {
+  margin: 0.9rem 0;
+  padding: 0.7rem;
+  background: var(--mmr-bg);
+  border: 1px solid var(--mmr-border);
+  border-radius: 8px;
+}
+.mmr-figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+.mmr-figure-caption {
+  font-size: 0.85rem;
+  color: var(--mmr-ink-soft);
+  line-height: 1.45;
+  font-style: italic;
+}
+
+/* The MMAHP reading itself, boxed in its own color so it visually contrasts with the OpenStax
+   box that can follow it - previously unstyled/transparent, which made the two look like one
+   continuous unlabeled stream once OpenStax content was added below it. */
+.mmr-mmahp-box {
+  background: var(--mmr-mmahp-bg);
+  border: 1px solid var(--mmr-mmahp-border);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 0.6rem;
+}
+.mmr-mmahp-box .mmr-p:last-child { margin-bottom: 0; }
+
+.mmr-openstax-box {
+  background: var(--mmr-openstax-bg);
+  border: 1px solid var(--mmr-openstax-border);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  margin: 0.6rem 0;
+}
+.mmr-openstax-label {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--mmr-openstax-ink);
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--mmr-openstax-border);
+}
+
+.mmr-slide-box {
+  background: var(--mmr-accent-soft);
+  border-left: 3px solid var(--mmr-accent);
+  border-radius: 6px;
+  padding: 0.6rem 0.9rem;
+  margin: 0.6rem 0;
+}
+.mmr-slide-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  color: var(--mmr-ink);
+}
+.mmr-slide-box ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.mmr-unmatched { border-top: 1px dashed var(--mmr-border); padding-top: 1rem; }
+.mmr-text-soft { color: var(--mmr-ink-soft); font-size: 0.92rem; line-height: 1.5; }
+
+/* --- in-page filter: highlight + collapse --- */
+
+.mmr-hl {
+  background: var(--mmr-highlight);
+  color: var(--mmr-highlight-ink);
+  border-radius: 3px;
+  padding: 0 0.1em;
+}
+.mmr-hl-current {
+  background: var(--mmr-accent);
+  color: #fff;
+  outline: 2px solid var(--mmr-ink);
+}
+
+.mmr-gap {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--mmr-bg);
+  border: 1px dashed var(--mmr-border);
+  border-radius: 6px;
+  color: var(--mmr-ink-soft);
+  font-size: 0.85rem;
+  padding: 0.4rem 0.7rem;
+  margin: 0.5rem 0;
+  cursor: pointer;
+}
+.mmr-gap:hover { border-color: var(--mmr-accent); color: var(--mmr-accent); }
+
+/* --- preview popup --- */
+
+.mmr-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 18, 10, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.mmr-modal {
+  background: var(--mmr-paper);
+  border: 1px solid var(--mmr-border);
+  border-radius: 12px;
+  max-width: 640px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mmr-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem 0.75rem;
+  border-bottom: 1px solid var(--mmr-border);
+}
+.mmr-modal-sub { color: var(--mmr-ink-soft); font-size: 0.88rem; margin-top: 0.2rem; }
+
+.mmr-modal-close {
+  background: none;
+  border: none;
+  color: var(--mmr-ink-soft);
+  font-size: 1.1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.mmr-modal-body {
+  padding: 1rem 1.1rem;
+  overflow-y: auto;
+  line-height: 1.6;
+}
+
+.mmr-modal-actions {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.75rem 1.1rem;
+  border-top: 1px solid var(--mmr-border);
+}
+
+.mmr-btn {
+  background: var(--mmr-accent);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.mmr-btn.secondary {
+  background: none;
+  color: var(--mmr-ink);
+  border: 1px solid var(--mmr-border);
+}
+
+/* Phone width (webdesign.md: must work at ~400px, side gutter never zeroed) */
+@media (max-width: 480px) {
+  .mmr-wrap { padding: 0.75rem 0.75rem 3rem; }
+  .mmr-chapter { padding: 0.85rem; }
+}

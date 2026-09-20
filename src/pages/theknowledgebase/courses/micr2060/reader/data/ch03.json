@@ -1,0 +1,856 @@
+{
+  "id": "ch03",
+  "number": 3,
+  "title": "Diversity of Pathogenic Microbes",
+  "lead": "Microbial diversity is bewildering. The exact number of species and strains of viruses, subviral agents, prokaryotes, protists, and worms in the biosphere is unknown. Microbiologists estimated the total number of species at 1 trillion, of which more than 99.99% remain uncharacterized. Knowing those species could be beneficial for understanding the processes of organic evolution and developing new products and services. Biologists name and classify genome creatures that have been grown in the laboratory and genetically characterized. Genetic characterization includes sequencing the isolate's whole genome (i.e., determining its nucleotide sequence). However, only a small number of microbes have been studied to that level. Biologists now use a new approach known as metagenomics. In the metagenomic approach, scientists extract DNA (and RNA) from environmental samples (soil, water, body fluids, etc.) and sequence them (determining the nucleotide sequence of the molecules). They then use powerful software to reconstruct the organisms' genomes (Fig. 3.1). This has enabled the detection of millions of viral and prokaryotic species. However, microbes identified in this way alone cannot be formally named or classified. Fig. 3.1. Metagenomic approach of studying biodiversity. The method can yield tentative genome sequences for acellular and some cellular creatures. Some biologists look for the diversity of the ribosomal RNA gene in this manner. Image: learn.gencore.bio.nyu.edu. Knowing all microbes is at present impossible. Taxonomists have classified many species of different groups of microbes, providing an overall picture of biodiversity. Newer technologies offer more effective means of isolating and characterizing microbes. The newly gained knowledge also makes taxonomists frequently revise classifications. Classification is a hierarchical grouping of (phylogenetically) related species. Many microbial groups are polyphyletic (do not share a common ancestor), and the phylogenetic relationships of many taxonomic groups remain unclear. Taxonomists compare genotypic and phenotypic information for classifying organisms. Comparison of genetic information allows phylogenetic classification. Genotype is the nucleotide sequence of the genome of an isolate. For acellular creatures, the whole genome sequence is used for classification. For cellular beings, the genomes are large and more diverse than initially thought. For example, the whole-genome sequences of two bacterial strains belonging to the same species may differ by 20% of the genome sequences and genes. To avoid confusion, some taxonomists compare the nucleotide sequence of the 16S ribosomal RNA gene (16S rRNA is found in the 30S ribosomal subunit of bacteria and archaea). Ribosomal RNAs must interact with ribosomal proteins to form ribosome particles. Ribosomal RNAs in the ribosomes then must interact with mRNA, tRNAs, and many proteins for protein synthesis (see Chapter 5). Mutations in ribosomal RNAs may disrupt one or more of these interactions, halting protein synthesis and leading to cell death. Since mutations in the rRNA genes can be lethal, these genes mutate very slowly. If two isolates have a very similar nucleotide sequence for the 16S rRNA gene, they must be highly related; if they are too different, they must be quite unrelated. Microbiologists use rRNA gene sequences to classify prokaryotes quite extensively. The current working principles are the following: (a) Two isolates (of prokaryotes) are considered belonging to the same species if the DNA sequences of the 16S rRNA genes of the isolates are no more than 3% different and the DNA sequences of the other genes are >70% identical by genomic DNA hybridization value. (b) If the nucleotide sequences of the SSU rRNA genes are >97% identical, the DNA sequence similarities of some other housekeeping genes are considered in classifying the isolates. (c) If the DNA sequences of the 16S ribosomal RNA genes of two isolates differ by more than 5%, the two isolates are considered to belong to different genera. The above criteria have allowed microbiologists to identify and classify about 30,000 prokaryotic species. The current estimates on the total number of prokaryotic species vary from several millions to several billions. Phenotypic information includes an organism's structure (for example, the size and shape of a bacterial cell, how they cluster, the structure of their colonies, etc.) and physiological abilities (for example, what nutrients they require to grow, etc.). Phenotypic information cannot be used in phylogenetic classification but can serve as an important surrogate. Eukaryotic organisms are currently classified primarily on the basis of phenotypic traits. Clinical microbiologists do not need to know the overall picture of all classified microbes, because most microbial species are nonpathogenic and non-resident of the human body. Microbes normally found on the surfaces of a healthy human body are considered normal biota (also called normal flora). Research indicates that normal biota is an integral part of human health and well-being. Microbes of the normal biota are currently not discussed in elementary microbiology textbooks. Clinical microbiologists, however, do need a deeper understanding of pathogenic microbes. They should be able to quickly isolate and identify pathogen species and strains to treat and manage infections. For these reasons, clinical microbiology textbooks aim to discuss important pathogenic microbes that pose significant public health risks. Since the number of clinically relevant microbes has not changed significantly over the past few decades, clinical microbiologists often use technical grouping schemes to rapidly detect pathogenic strains and species. In this chapter, we will use a clinical scheme and not a phylogenetic one. Since there are no known human pathogens among subviral agents (other than a few satellites), plasmids, and archaea, we will not classify those in this chapter.",
+  "openstaxEquivalent": "OpenStax Microbiology 2nd Ed. Chapters 4, 5 & 6",
+  "sources": {
+    "chapterPdf": "3. Diversity of Pathogenic Microbes.pdf",
+    "pptPdf": "MMAHP Ch 3 PowerPoint Lecture Outline.pdf"
+  },
+  "sections": [
+    {
+      "number": "3.1",
+      "heading": "Classification of pathogenic viruses and satellites",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "There are viruses that infect bacteria, archaea, protists, and plants, but none of those viruses have been found to infect humans. Some viruses that infect insects and vertebrate animals also infect human cells. In this section, we will mostly discuss human viruses (viruses that infect only human cells) and some animal viruses (viruses that normally infect animal cells) that infect humans. However, before that, we will discuss the structure of those viruses. We will also present a small account of plant viruses and bacterial viruses (viruses that infect bacteria, also known as bacteriophages or phages (Greek: phagein- to eat), and at the end of the section.",
+          "page": 2
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 4,
+          "title": "Structure of viruses",
+          "bullets": [
+            "Capsids",
+            "Capsomere",
+            "Icosahedral capsids",
+            "Helical capsids",
+            "Nucleocapsids",
+            "Complex capsids",
+            "Naked capsids",
+            "Enveloped capsids"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "3.1.1",
+      "heading": "Structure of viruses and satellites",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "As mentioned in Chapter 1, viruses are particles with a DNA or RNA genome enclosed in a protein capsid. The capsid is made of one or a few types of capsomeres; each capsomere contains one or a few proteins. The capsid can serve as a container for the genome (Fig. 3.2), or the proteins may directly bind the genome, forming a nucleocapsid (Fig. 3.2). Capsids with flat surfaces and vertices are icosahedral capsids (Greek: icosa- twenty). All icosahedral capsids are spherical with 20 triangular faces and 12 vertices. Capsids lacking flat surfaces are helical capsids. All helical capsids are also nuclear capsids.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "A few viruses have complex capsids, with both helical and icosahedral components, or unusual structures such as a brick-shaped capsid (Fig. 3.2). The capsid of some viruses is enclosed in a lipid membrane, making them enveloped capsids. Capsids lacking a lipid membrane are naked capsids (Fig. 3.1). An enveloped capsid can have multiple nucleocapsids within it (see Fig. 3.2). Additional proteins can be found inside a capsid. A given virus species can have only one of these capsid types. For example, all adenoviruses have a naked icosahedral capsid.",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 3.2. Common capsid types. A. The naked helical capsid of tobacco mosaic virus. B. The enveloped helical capsid",
+          "page": 3,
+          "image": "/mmahp/ch03/3-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "of rabies lyssavirus, containing one nucleocapsid. C. The enveloped helical capsids of an influenza virus, containing 8 nucleocapsids. F. The naked icosahedral capsid of adenovirus. D. The enveloped icosahedral capsid of herpes simplex virus 1. F. The naked complex capsid of the bacteriophage T4. G. The enveloped brick-shaped capsid of poxvirus. Shown are a diagram of the capsid (on top) and an electron microscopic image of the same (on bottom). The EM images are from: A, F- Wikipedia, B, C, D, E and F- CDC-PHIL. Not drawn to scale. All these viruses are about 200 nm in length/diameter, except poxvirus, which is about 500 nm in diameter. Abbreviations: C- capsomeres, EN- envelope, G-genome, GP- membrane glycoproteins, MP- matrix protein, NC- the nucleocapsid.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Viruses that infect human cells can be grouped by the structure of their genomes, as found in a virion (a mature virus capable of infecting the host cell). This grouping, also known as the Baltimore Classification, after David Baltimore (born 2025), has seven classes: Class I: dsDNA viruses, the genome is made of one molecule of dsDNA Class II- ssDNA viruses, the genome is made of one molecule of dsDNA Class III- dsRNA viruses, the genome is made of several molecules of dsRNA Class IV- (+) ssRNA viruses, the genome is made of one molecule of mRNA Class V- (-) ssRNA viruses, the genome is made of one or more molecules of antisense ssDNA Class VI- ssRNA retroviruses, the genome in the mature virus particle is made of two molecules of mRNA Class VII- dsDNA retrovirus, the genome in the mature virus particle is made of one molecule of dsDNA A dsDNA molecule is made of two antiparallel complementary DNA strands, and ssDNA contains one strand of DNA. Similarly, a dsRNA molecule is made of two antiparallel complementary RNA strands. A (+) ssRNA is an mRNA molecule that a ribosome can translate into a protein. A (-) ssRNA is an RNA molecule that ribosomes cannot translate (although its complementary RNA can be translated). Please see Chapter 5 for more information on the structure of DNA and RNA.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "A retrovirus is a virus that can have an ssRNA genome or a dsDNA genome at different stages of its replication cycle. If the mature virus particle of a retrovirus contains an ssRNA genome, it is an ssRNA retrovirus; if it contains dsDNA, it is a dsDNA retrovirus. All retroviruses have an unusual enzyme called reverse transcriptase, which is not found in cellular organisms. Reverse transcriptases can copy ssRNA to synthesize DNA.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "All viruses are primary pathogens (they can infect healthy people). However, some species cause more severe diseases than others. The Baltimore Classification of the common pathogenic viruses is presented in Table 3.1. The table shows the common names of the virus species (for the scientific names, see https://ictv.global/) along with some diseases they may cause. Note that all pathogens cause many different disease signs in different organs, but the table avoids an exclusive list of the diseases a pathogen may cause. Critically important virus species are shown in red letters.",
+          "page": 4
+        },
+        {
+          "type": "figure",
+          "text": "Table 3.1. The Baltimore classification of the common pathogenic viruses. Some important species are indicated",
+          "page": 4,
+          "image": "/mmahp/ch03/3-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "in red letters.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Baltimore classes Family Species Common diseases they may cause Class I: dsDNA virus Herpesviridae Herpe simplex virus 1 (HSV-1) Fever blister, keratitis, encephalitis Herpe simplex virus 2 (HSV-2) Genital herpes, eczema Varicella-zoster virus (HSV-3, VZV) Chickenpox, zoster (shingles) Cytomegalovirus (CMV) Mononucleosis, kidney and eye infections Roseola virus (HSV-6a, HSV-6b, HSV-7) Roseola among children Epstein-Barr virus (EBV) Mononucleosis, lymphoma, carcinoma Kaposi’s sarcoma- associated herpesvirus (KSHV) Skin cancer (Kaposi’s sarcoma) Pappillomaviridae Human papillomavirus (HPV) Warts, cervical cancer, head and neck cancer Polyomaviridae BK polyomavirus (BKPyV) Kidney bleeding JC polyomavirus (JCPyV) Encephalitis Simian virus 40 (SV-40) Tumors Poxviridae Variola virus Smallpox Monkeypox virus Pox Orf virus Orf skin disease Molluscum contagiosum virus Benign tumors in the skin Adenoviridae Human adenovirus Tonsillitis, pink eye Class II ssDNA Viruses Parvoviridae Human parvovirus B19 Skin rases (5th disease) of children Class III dsRNA viruses Reoviridae Rotavirus Childhood fever and diarrhea Colorado tick fever virus Fever and viremia Class IV (+) ssRNA viruses Coronaviridae Human coronavirus 229E Bronchitis Human coronavirus HKU1 Bronchiolitis Severe acute reparatory syndrome coronavirus 1 and 2 (SARS-CoV-1, SARS-CoV-2) Respiratory syndromes, pneumonia Middle-eastern reparatory syndrome coronavirus (MERS-CoV) Respiratory syndromes, pneumonia Picornaviridae Coxsackie virus A Hand, foot and mouth disease (rashes) Coxsackie virus B Inflammation of lung, heart and other internal organs Poliovirus, 1, 2, 3 Polio Rhinovirus Common cold Hepatitis A virus (HAV) Hepatitis, jaundice Caliciviridae Norwalk virus Diarrhea Astroviridae Mamastrovirus Childhood fever and diarrhea Flaviviridae Dengue virus Dengue fever Japanese enecephalitis virus (JEV) Encephalitis Saint Louis encephalitis virus (SLEV) Encephalitis West Nole virus (WNEV) Encephalitis Yellow fever virus Hepatitis, jaundice Zika virus Fever, microcephalia among newborn Hepatitis C virus (HCV) Hepatitis, liver cancer Hepeviridae Hepatitis E virus (HEV) Hepatitis Matonaviridae Rubella virus Rubella (German measles) Togaviridae Western equine encephalitis virus (WEEV) Encephalitis Eastern equine encephalitis virus (WEEV) Encephalitis Sindbis virus Skin rashes, encephalitis Chikungunya virus Skin rashes, fever and arthritis Class V (-)ssRNA viruses Filoviridae Ebolavirus Hemorrhagic fever Marburg virus Hemorrhagic fever Paramyxoviridae Human parainfluenzavirus (HPIV) Reaspiratory tract infection Measles virus Measles Mumps virus Mumps Hanipaviridae Hendra virus Respiratory infections Nipha virus Respiratory infections Pneumoviridae Human metapneumovirus Respiratory infections Respiratory syncytial virus (RSV) Giant cell pneumonia among children Rhabdoviridae Lyssavirus Rabies Arenaviridae Junin virus Encephalitis Machupo virus Encephalitis Lymphocytic choriomeningitis virus (LCMV) Encephalitis Hantaviridae Hantavirus Hantan hemorrhagic fever Pumala virus Hemorrhagic fever Peribunyaviridae California encephalitis virus Fever, encephalitis Oropouche virus Fever, encephalitis Phenuiviridae Rift valley fever virus Fever, hepatitis Orthomyxoviridae Influenza A, B and C virus Influenza Deltaviridae Hepatitis D virusoid (HDV) Hepatitis Class VI ssRNA retroviruses Retroviridae Human T lymphotropic virus 1 and 2 (HTLV-1, HTLV-2) T cell leukemia Human immunodeficeinecy virus 1 and 2 (HIV-1, HIIV-2) Acquired immunodeficiency diseases (AIDS) Class VII dsDNA retroviruses Hepadnaviridae Hepatis B virus Hepatitis, liver cancer",
+          "page": 4
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 3,
+          "title": "Classification of pathogenic viruses",
+          "bullets": [
+            "Scope",
+            "Viruses that infect only human cells",
+            "Viruses that infect animals and human cells",
+            "Viruses cause important public health problems",
+            "Why not all other viruses",
+            "Plant viruses",
+            "Bacterial viruses"
+          ]
+        },
+        {
+          "slideIndex": 5,
+          "title": "Baltimore classification of animal viruses",
+          "bullets": [
+            "Class I: dsDNA viruses, the genome is made of one molecule of dsDNA",
+            "Class II- ssDNA viruses, the genome is made of one molecule of dsDNA",
+            "Class III- dsRNA viruses, the genome is made of several molecules of",
+            "Class IV- (+) ssRNA viruses, the genome is made of one molecule of",
+            "Class V- (-) ssRNA viruses, the genome is made of one or more molecules",
+            "Class VI- ssRNA retroviruses, the genome in the mature virus particle is",
+            "Class VII- dsDNA retrovirus, the genome in the mature virus particle is"
+          ]
+        },
+        {
+          "slideIndex": 6,
+          "title": "Pathogen types",
+          "bullets": [
+            "Primary pathogens",
+            "All animal viruses",
+            "All worms",
+            "Some bacteria, protozoa, and fungi",
+            "Normal Biota (normal flora)",
+            "Bacterial and plant viruses",
+            "Some bacteria, fungi and protozoa",
+            "Opportunistic pathogens",
+            "Some members of the ormal biota",
+            "Environmental microbes"
+          ]
+        },
+        {
+          "slideIndex": 16,
+          "title": "Bacterial phyla that have human pathogens (1)",
+          "bullets": [
+            "Phylum Proteobacteria: G(-) rod or cocci, a thin cell wall in between two",
+            "Phylum Campylobacterota: G(-) spirilla, a thin cell wall between two lipid",
+            "Phylum Actinobacteria: G(+) rods, cocci, or multicellular (hyphal) filaments,",
+            "Phylum Firmicutes: G(+) (or Gram-variable) rods or cocci, one lipid"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "3.1.2",
+      "heading": "Plant viruses",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Dmitri Ivanovsky (1864-1920) and later Martinus Beijerinck (1851-1931) discovered viruses in the 1890s as filterable (i.e., soluble) pathogens that cause leaf mosaic disease of tobacco plants. The virus is now known as the tobacco mosaic virus (TMV). Although only a small number of plant viruses have been characterized to date, they are quite diverse. The ICTV master species list of viruses (2018b) includes about 50 virus families that infect cultivated plants alone. The list of viruses that infect wild plants could be enormous.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Many of the known plant viruses are evolutionarily related to animal viruses. Some virus families include species that infect plants and some animals. For example, different species of rhabdoviruses infect plants, insects, and humans (the species that infects humans is the lyssavirus). Biologically active plant viruses can be isolated from human feces and from the feces of some grass-eating mammals, but no plant virus species has ever been found to cause disease in humans.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "The plant viruses have either a helical or an icosahedral capsid (Fig. 3.3). The helical capsid can be a stiff rod, flexible rod, or bacilliform. Icosahedral capsids can be simple or twin (two icosahedra fused side by side, Fig. 3.3). Some rare plant viruses are enveloped. Some plant viruses are exceptionally stable in the environment. For example, the tobacco mosaic virus can stay biologically active in the tobacco field for years, and biologically active viruses can be isolated from inhaled smoke of a cigarette smoker.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Annual crop losses due to viral infections are estimated at 60 billion. Plant viruses are transmitted from one plant to another via tissue damage caused by plant-eating animals, especially insects that sucks juice of live plants, or through roots and infected seeds. Gardeners also transmit plant viruses by using cutting tools that are not decontaminated after trimming a virus-infected plant. Common signs of viral infections of plants include curling of the leaves and petals, discoloration mosaics and streaks on the leaf and petals, necrotic spots, change in color patterns, yellowing, and change in the size and shape of leaves, flowers, fruits, and seeds (Fig. 3.3). Plants have both adaptive and innate immune systems to prevent and cure viral infections. However, highly pathogenic viruses may kill plants or make them more vulnerable to environmental stresses such as drought and grazing, leading to their death. Some plant viruses seem to have a mutual relationship with their host plants.",
+          "page": 6
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 3.3 Some plant viruses. A. Nonflexible rod-shaped (naked helical) nucleocapsid. Shown is a TEM image of the",
+          "page": 7,
+          "image": "/mmahp/ch03/3-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tobacco mosaic virus (Fam. Virgaviridae). Image courtesy: Wikipedia. B. Flexible rod-shaped (naked helical) nucleocapsid. Shown is a TEM image of a seagrass potexivirus. Image courtesy: Bogaert HV et al. Limnology Oceanograp Lett 2019; 4:1-8. C. Bacilliform (helical) nucleocapsid. Shown is a TEM image of the virions of the Tomato spotted wilt virus (Fam. Tspoviridae). Image courtesy: Thomas German/ Wikipedia. D. Naked icosahedral capsids. Shown is a TEM image of the Strawberry latent ringspot virus (Fam. Secoviridae). Image courtesy: Robert IM, Harrison BD. J Gen Virol 1970; 7(1):47-54. E. Naked twin icosahedral capsid. Shown is a TEM image of the Maize streak virus (Fam. Geminiviridae). Image courtesy: Kassie Kasdorf, Ed Rybicki/Wikipedia. F. Pepper plants infected by leaf curl viruses. Note the deformation of the leaves. Image: Wikipedia. G. Pepper plants infected by Pepper mild mottle virus produce fewer and inferior fruits than uninfected plants of the same cultivar grown under identical conditions. Viruses used in infecting the plants were obtained from human fecal materials, indicating that humans serve as a vector for plant pathogens. Image courtesy: Roberts P. PLos ONE 2006; 4(1): e15. https://dx.doi.org/10.1371/journal.pbio.0040015. I. Rice plants infected by the Rice stripe mosaic virus; and I. Virus- infected rice plants grow poorly and produce few or no seeds. Image courtesy: Yang X, Huang J, Liu C, Chen B, et al. Frontiers Microbiol. 2017; 7(2140): https://doi.org/10.3389/fmicb.2015.02140.",
+          "page": 7
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 12,
+          "title": "Plant viruses",
+          "bullets": [
+            "Diversity",
+            "Structure",
+            "Icosahedral",
+            "Twin icosahedral",
+            "Helical",
+            "Enveloped",
+            "Mode of transmission",
+            "Relation to animal viruses",
+            "Does infect humans and",
+            "Economic importance"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "3.1.3",
+      "heading": "Bacteriophages",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Frederick Twort (1877-1950) and later Felix d’Herelle (1873-1949) reported bacterial viruses (bacteriophages) in the early 1900s, as plaques (empty spaces) on agar plates where a bacterium was growing, creating a lawn. Since then, many bacteriophage species have been isolated and characterized. Because viruses act on the host cell at the molecular level, the discipline of molecular biology (the study of cellular macromolecules) emerged from the study of the replication cycle of bacteriophages. Some bacteriophages infect their host cells and complete their replication cycle in a few minutes, enabling rapid discoveries in molecular biology. Bacteriophages have been an important tool in biotechnology. Bacteriophages can have icosahedral, helical, or complex capsids, and the capsids can be naked or enveloped (Fig. 3.4). The majority of bacteriophages have a dsDNA genome, but some bacteriophages have an RNA genome.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Infection of a host cell by a virus, replication of the viral genome, synthesis of viral proteins, production of progeny virus particles, and release of newly generated virus particles from the host cell complete the replication cycle. Bacteriophages can have two major types of replication cycles, the lytic and lysogenic cycles.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "In the lytic cycle, the bacteriophage completes the replication cycle rapidly (in a few tens of minutes). Some viral enzymes, including lysins, degrade the bacterial cell wall and release newly produced virus particles (Fig. 3.5). This rapid killing of bacterial host cells prompted d’Herelle to use viruses as an antibacterial agent (like antibiotics, in treating bacterial infections). Many lytic bacteriophages and lysins are now used for phage therapy (the use of bacteriophages to treat drug-resistant bacterial infections). However, phage therapy has limitations. Most bacteriophages infect only a few strains of a bacterial species, and some synthesize proteins that can harm human cells. Moreover, bacteriophages may adopt the lysogenic replication cycle, which does not immediately kill the infected cell; instead, it protects the host cell from infection by another virus of the same species.",
+          "page": 7
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 3.4. Bacterial viruses. A. Structural diversity of virion morphology of the common bacteriophage families. The",
+          "page": 8,
+          "image": "/mmahp/ch03/3-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "icosahedral capsids and the heads of the complex capsids are shown in blue; the tails of the complex capsids are shown in red, and lipids are shown in yellow. The phages are arranged (left to right) in the order of decreasing genome size. Figure courtesy: Hyman P, Abedon ST. Scientifica (Cairo) 2012; 734023. doi: 10.6064/2012/734023. B. Phages infecting a bacterial cell. Note the size difference between the bacterial cell and the tailed bacteriophages infecting the cell. Image courtesy: Graham Beards/ Wikipedia.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "In the lysogenic replication cycle, the phage does not replicate its genome; instead, it inserts its genome into the host virus's chromosome. The host virus (now called a lysogen) survives and replicates by binary fission as usual. Every time the lysogen divides, the virus genome in its chromosome (now called a provirus) replicates along with it. The process may continue for months or even years. However, if the bacterium accumulates many mutations in its chromosome or cannot replicate for any reason, the provirus dissociates from the bacterium's chromosome and initiates lytic replication, killing the host bacterium.",
+          "page": 8
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 3.5. Replication cycles of bacteriophages and phage therapy. A. Lytic and lysogenic replication cycles of",
+          "page": 8,
+          "image": "/mmahp/ch03/3-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "temperate phages such as lambda phage of Escherichia coli. The bacterial chromosome is shown as a blue line, and the phage genome is shown as red line. The lytic replication cycle is shown on the right half of the figure. The left half shows the lysogenic cycle. The lysogenic cycle ends in a lytic cycle when the provirus gets activated due to damage of DNA of the host cell. See text for more details. Image courtesy: Chiang YN, Penadés JR, Chen, J. PLoS Pathogens 2019; B. Intesti®, a mixture of phages packaged for phage therapy by ImBio, Nizhny Novgorod, Russian Federation. Image courtesy: Krylov V, Shaburova O, Krylov SV, Pleteneva E. Viruses 2013; 5: 15-53. An estimated 1031 bacteriophage particles exist in natural environments. This astronomical number of bacteriophages controls bacterial populations and drives bacterial evolution. Many bacteria in nature are lysogens and express some genes from their prophages. As a result, the lysogen gains some unusual abilities. For example, a normal bacterium of the species Corynebacterium diphtheriae does not cause disease. However, the same species causes diphtheria when it is lysogenized by bacteriophages known as coynephages. Such abilities of pathogenic bacteria carrying a lygoenic phage is known as lysogenic conversion.",
+          "page": 8
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 13,
+          "title": "Bacteriophages",
+          "bullets": [
+            "Capsid Structure",
+            "Icosahedra",
+            "Helical",
+            "Complex",
+            "Enveloped",
+            "Evonomics importance",
+            "Shear number 1031 particle",
+            "Phage therapy",
+            "Control prokaryotic",
+            "Coevolution"
+          ]
+        },
+        {
+          "slideIndex": 14,
+          "title": "Phage replication cycle",
+          "bullets": [
+            "Steps",
+            "Six steps",
+            "Lytic cycle",
+            "Lysogenic cycle",
+            "Lysogen",
+            "Provirus",
+            "Phage therapy",
+            "Challenges",
+            "Prospects"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "3.2",
+      "heading": "Classification of pathogenic bacteria",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Bacteria are classified in many phyla based on the similarities and differences of the nucleotide sequences of the 16S ribosomal RNA gene. The following phyla contain species pathogenic to humans. The brief description of the cell structure of the phyla is presented below.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Phylum Proteobacteria: G(-) rod or cocci, a thin cell wall in between two lipid membranes, with lipopolysaccharides in the outer membrane, may or may not have flagella.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Phylum Campylobacterota: G(-) spirilla, a thin cell wall between two lipid membranes, with lipopolysaccharides in the outer membrane, and flagella at one or both ends of the cell.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Phylum Actinobacteria: G(+) rods, cocci, or multicellular (hyphal) filaments, with an arabinogalactan cell wall (beside the peptidoglycan cell wall) with or without a mycolic acid layer; lipoteichoic acid is usually absent in the cell wall; the genome has a high G and C nucleotide content.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Phylum Firmicutes: G(+) (or Gram-variable) rods or cocci, one lipid membrane; the thick cell wall contains lipoteichoic acid; the genome has a low G and C nucleotide content.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Phylum Mycoplasmotota: G(-) pleomorphic cells with one lipid membrane containing sterols, and no peptidoglycan cell wall.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Phylum Bacteroidota: G(-) rods, a thin cell wall in between two lipid membranes, with lipopolysaccharides in the outer membrane, lack flagella but may contain pili for gliding movement.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Phylum Clamydiae: G(-) coccobacilli, two lipid membranes, lipopolysaccharides in the outer membrane, lack a cell wall, but the outer membrane is rigid due to a protein layer, and reproduce exclusively by sporulation.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Phylum Spirochaetota: G(-) spirochetes with a thin cell wall and two lipid membranes, lack lipopolysaccharides in the outer membrane, and have sheathed flagella.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Phylum Fusobacteriota: G(-) spindle-shaped bacilli with a thin cell wall and two lipid membranes; the outer membrane contains lipopolysaccharides.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "One can easily note too many overlapping properties of the phyla, and ask: why are they in different phyla? The answer is: the nucleotide sequences of their 16S ribosomal RNA are quite different. However, the nucleotide sequence 16S ribosomal RNA is not very helpful in the detection of pathogenic bacteria. Microbiologists usually grow the pathogens, examine them microscopically, and test the isolate's growth requirements to identify them. Some newer detection tools are discussed in Chapter 6.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "For simplicity, clinical bacteriologists group pathogenic bacteria according to how they are isolated from clinical samples. The grouping of the common pathogenic bacteria shown in Table 3.2 followed the schemes presented in a medical microbiology Textbook (Murray P et al., Medical Microbiology, 5th Ed., 2005, Philadelphia, Elsevier/Mosby). The table shows all important primary pathogens and opportunistic pathogens (microbes that can cause disease in people with weakened immune systems). Some opportunists are part of the normal bacterial biota of the skin and mucous membranes, but others normally thrive in animal bodies, soil, water, and air.",
+          "page": 9
+        },
+        {
+          "type": "figure",
+          "text": "Table 3.2 Common pathogenic bacteria. The list shows the most important pathogenic species. The primary",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "pathogens are shown in red letters. A few additional species of the shown genera may also cause clinical infections. They will be mentioned in Chapters 12-14. O- opportunistic infections only.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Oxygen requirement and Gram stain Key distinctive features Species Major infectious diseases associated to Aerobic G(+), (catalase- positive) cocci Family Staphylococcaceae Staphylococcus aureus Skin, wound and blood infections Family Micrococcaceae Micrococcus luteus Opportunistic (O) bacteremia Aerobic G(+), (catalase- negative) cocci Family Staphylococcaceae Staphylococcus epidermidis O bacteremia Family Streptococcaceae Streptococcus pyogenes Skin, wound and blood infections Streptococcus pneumoniae Pneumonia, middle ear infections Streptococcus agalactiae Neonatal sepsis Family Enterococcaceae Enterococcus faecalis O bacteremia, urinary tract infections (UTI) Enterococcus faecium O bacteremia and UTI Aerobic G(+) bacilli Actinobacteria with mycolic acid Corynebacteriaceae Corynebacterium diphtheriae Diphtheria among children Family Gordoniaceae Gordonia bronchialis O surgical wound infections Family Nocardiaceae Nocardia asteroides O skin and lung infections Nocardia brasilensis Skin infections Family Mycobacteriaceae Mycobacterium tuberculosis Tuberculosis Mycobacterium bovis Tuberculosis Mycobacterium leprae Leprosy Mycobacterium intercellular O tuberculosis Mycobacterium abscessus O lung infection Mycobacterium marinum O wound infections Actinobacteria lacking mycolic caid Family Thermomonasporaceae Actinomadura madurae O skin infections Family Streptomyceltaceae Streptomyces somaliensis O Mycetoma (skin infections) Other G(+) bacteria Family Bacillaceae Bacillus cereus Diarrhea, eye infections Bacillus anthracis Anthrax Family Brevibacteriaceae Brevibacterium casei O bacteremia Family Erysipelotrichaceae Erysipelothrix rushiopathiae Skin infections Family Bifidobacteriaceae Gardnerella vaginalis O vaginosis Family Listeriaceae Listeria monocytogenes Bacteremia from food Aerobic G(-) cocci or coccobacilli Family Moraxellaceae Branhamella (Moraxella) catarrhalis Sinusitis Family Neisseriaceae Neisseria gonorrhoeae Gonorrhea Neisseria meningitides Meningitis, bacteremia Aerobic G(-) bacilli Family Enterobacteriaceae Citrobacter freundii O sepsis Enterobacter cloacae O UTI, gastroenteritis, bacteremia Escherichia coli UTI, diarrhea, kidney failure Klebsiella pneumoniae Pneumonia Morganella morganii O sepsis Proteus mirabilis O UTI, kidney failure Salmonella enterica Gastroenteritis, typhoid fever Serratia marcescence O bacteremia Shigella dysenteriae Dysentery Yersinia pestis Plague Yersinia enetrocolitica gastroenteritis Family Vibrionaceae Vibrio cholerae Cholera Vibrio parahaemolyticus Diarrhea Vibrio vulnificus Diarrhea Family Aeromonadaceae Aeromonas hydrophila O wound infections Family Campylobacteriaceae Campylobacter jejuni Gastroenteritis Family Helicobacteriaceae Helicobacter pylori Gastritis, stomach cancer Pseudomonadaceae Pseudomonas aeruginosa Soft tissue infection, bacteremia Pasteurellaceae Pasteurella multocida O bacteremia Hemophilus influenzae Sinusitis, meningitis Hemophilus ducreyi Genital ulcer Family Moraxellaceae Acinetobacter baumannii O bacteremia and lung infections Family Bactonellaceae Bartonella henselae O skin infection and bacteremia Fmily Alkaligenaceae Bordetella pertussis Whooping cough Family Brucellaceae Brucella melitensis Undulant fever Family Burhiolderiaceae Burkholderia cepacea Soft tissue infection Family Francicellaceae Francisella tularensis Tularemia fever Family Legionellaceae Legionella penumophila Pneumonia, fever Anaerobic G(-) cocci Family Veillonellaceae Veillonella parvula O bacteremia Anaerobic G(+) rods Family Actinomycetaceae Actinomyces israelii O bacteremia Family Propionibacteriaceae Propionibacterium acnes Acne Family Clostridiaceae Clostridium perfringens Wound infection, gastroenteritis Clostridium tetani Tetanus Clostridium botulinum Flaccid paralysis Family Peptosteptococcaceae Clostridiodes dificile O gastroenteritis Anaerobic G(-) rods Family Bacteroidaceae Bacteroides fragilis O bacteremia Family Prophyromondaceaee Porphyromonas gingivallis O dental infections Family Prevotellaceae Prevotella melaninogenica O lung infections Family Fusobacteriaceae Fusobacterium nucelatum O surgical wound infection, dental infections Bacteria lacking cell wall Family Mycopalsmataceae Mycoplasma pneumoniae Walking pneumonia Ureaplasma urealyticum O infection of the uretha Spirochaetes Family Borrelliaceae Borrelia burgdorferi Lyme disease Family Treponemaceae Treponema pallidum Syphilis Family Leptospiraceae Leptospira interrogans Bacteremia, kidney infection Chlamydae Family Chlamydeaceae Chlamydia trachomatis Genital tract infection, eye infections Chlamydia neumoniae Pneumonia Chlamydophila psittaci O febrile disease Obligate intracellular coccobacilli Family Coxiellaceae Coxiella burnetii Q fever Ehrlichiaceae Ehrlichia cahffensis Febrile disease Family Rickettsiaceae Orientia tsutshugamishi Scrub typhus Rickettsia rickettsiae Rock Mountain spotted fever",
+          "page": 10
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 15,
+          "title": "Classification pathogenic bacteria",
+          "bullets": [
+            "Criteria of prokaryotic classification",
+            "Two isolates are in same species if SSU rRNA seq no more than 3%",
+            "If SSU rRNA are 100% identical, sequence of housekeeping genes",
+            "If SSU rRNA seq >5% different, the isolates belong to different genera",
+            "Problems for the scheme",
+            "Never ending prospect",
+            "Two isolates can have nearly identical SSU rRNA gene y radically different in all other",
+            "Two isolates can have very different SSU rRNA gene very similar in all other genes"
+          ]
+        },
+        {
+          "slideIndex": 17,
+          "title": "Bacterial phyla that have human pathogens (2)",
+          "bullets": [
+            "Phylum Mycoplasmotota: G(-) pleomorphic cells with one lipid membrane",
+            "Phylum Bacteroidota: G(-) rods, a thin cell wall in between two lipid",
+            "Phylum Clamydiae: G(-) coccobacilli, two lipid membranes,",
+            "Phylum Spirochaetota: G(-) spirochetes with a thin cell wall and two lipid",
+            "Phylum Fusobacteriota: G(-) spindle-shaped bacilli with a thin cell wall and"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "3.3",
+      "heading": "Classification of Eukaryotic microbes",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Pathogenic eukaryotic microbes are found among algae, fungi, protozoa, flatworms, roundworms, and arthropods. Some members of these groups may not directly infect humans, but their metabolic products may affect human health and welfare. Here, we will define the groups, list their primary/important human pathogens, and provide a brief on non-pathogenic microbes that indirectly affect human health.",
+          "page": 12
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 1,
+          "title": "Classification of microbes",
+          "bullets": [
+            "Why classification",
+            "Summarization",
+            "Manageable information load",
+            "Foundation of classification",
+            "Genotypic information",
+            "Whole genome sequence (suitable for",
+            "Sequences of one or a few genes",
+            "Why rRNA genes are often used (for",
+            "Phylogenetic classification",
+            "Phenotypic information",
+            "Cell structure",
+            "Physiological abilities"
+          ]
+        },
+        {
+          "slideIndex": 28,
+          "title": "Pathogenic fungi",
+          "bullets": [
+            "Structure",
+            "Yeast",
+            "Mold (hyphae)",
+            "Septate",
+            "Aseptate",
+            "Dimorphic fungi",
+            "Mycelia (mushrooms)",
+            "Fungal toxins- aflatoxins,",
+            "Fungal toxin sources"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "3.3.1",
+      "heading": "Algae",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Algae are a polyphyletic group of several unrelated groups of organisms. All the organisms called algae share no common properties other than being aquatic protists. Many members have a cell wall composed of cellulose and a chloroplast for photosynthesis. Some are single-celled, others are multicellular but lack tissues and organs (thus they are protists). Only one algal genus, Prototheca, has some known species that can be considered primary pathogens. The genus Prototheca belongs to the Phylum Chlorophyta (Green algae). Like other green algae, this genus has a cellulose cell wall but lacks chloroplasts for photosynthesis, and it reproduces by sporulation. Two species of this genus, P. wikcerhamii (Fig. 3.6) and P. zopfi, can cause opportunistic wound infection in humans and nose and lung infections in some mammals (especially dogs).",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Most species of algae are important food sources for aquatic animals. Endosymbiotic algae in corals provide the energy for building coral reefs. Giant algae, such as sea kelp, create a habitat for many sea creatures. However, some algal species, especially those lacking chloroplasts, can be parasitic. For example, several species of the algal genus Phytophthora infect crop plants and trees, and the genus Saprolegnia infects wounded fish.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Some algal species overgrow in response to excess nutrients, higher water temperature, and other stresses. The condition is called a harmful algal bloom (HAB). Overgrowth of algae and their subsequent death and decay may deplete dissolved oxygen. Low oxygen levels and excessive algae covering the gills may cause fish death. HAB due to overgrowth of some algae is called a red tide for the reddish color of the affected water body. During HAB, some species overgrow but do not secrete toxins, while others overgrow and may produce toxins and/or various pigments, including fluorescent pigments (Fig. 3.6). The common algal toxins associated with marine HAB include brevetoxin, dinophysis toxins, gonyautoxin, okadaic acid, pectenotoxins, pfiesteria toxins, and saxitoxin.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Fish that eat algae producing some of these toxins may die. However, shellfish, such as oysters and clams, that eat the toxin-producing algae are immune to the toxins; they accumulate the toxins in their tissues. Humans, birds, and aquatic mammals that eat shellfish contaminated with algal toxins may develop various diseases, including diarrhea, skin conditions, and neurological conditions known as paralytic shellfish poisoning. Since HAB has become common in recent decades, the United States Department of Agriculture (USDA) inspects shellfish for algal toxins before allowing them to be sold. USDA inspectors also restrict fishing and swimming in HAB-affected water. Note that freshwater lakes may also develop HAB, but the agents that cause HAB in freshwater are a group of bacteria known as cyanobacteria. Cyanobacteria also produce some toxins during HAB.",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 3.6. Pathogenic and toxic algae. A. Prototheca wikerhamii, an alga that can infect muddy human wounds. The",
+          "page": 13,
+          "image": "/mmahp/ch03/3-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "bar is 10 micrometers. The arrow indicates a sporulating cell. Image- Fernándeza MS et al. Rev Argentina Micro. 2017; 49(3): 224-226. B. Photograph of an area of Lake Erie affected by HAB. Note the green fluorescence. Image NOAA. C. Photo of HAB-affected the coastal waters of New Zealand. Note the various hues and fluorescence in different parts of the bloom. Image: NOAA.",
+          "page": 13
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 27,
+          "title": "Pathogenic algae and algal toxins",
+          "bullets": [
+            "Cell structure",
+            "Economic importance",
+            "Pathogenic algae",
+            "Prototheca",
+            "Harmful algal bloom (HAB)",
+            "Triggers",
+            "Marine (dinoflagellates, etc.)",
+            "Freshwater (cyanobacteria)",
+            "Algal toxins: brevetoxin,",
+            "Other effects",
+            "Paralytic shellfish poisoning"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "3.3.2",
+      "heading": "Classification of pathogenic fungi",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A fungus can be single-celled (yeast) or a thin, long chain of many identical cells (mold). Dimorphic fungi grow as yeast or mold under different environmental conditions. The thread-like chain of a fungal mold is known as a hypha (pl. hyphae, Fig. 3.7). Hyphae can be septate (cells in a hypha are separated from each other by a perforated septum), or aseptate (the long thread is made of many nuclei, not separated by septa). Under favorable growth conditions, yeast may grow rapidly, forming a hyphal-like structure called a pseudohypha. A compact mass of hyphae creates a mycelium or mushroom (Fig. 3.7).",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Fungi lack chloroplasts; thus, like animals, they must obtain food from other living organisms. However, they have a cell wall and cannot consume solid food. Most fungi are saprophytes; they release enzymes to digest dead animals and plants and absorb soluble nutrients. Thus, they recycle nutrients in the environment. Many soil fungi, known as mycorrhizal fungi, form symbiotic relationships with plants. They surround the roots, protect them from other pathogens, and, in return, receive sugar that the roots release. Some fungi produce important antibiotics with antibacterial and antifungal activity. Some mushrooms and truffles are used as food and flavorings. However, a few of the estimated 2-11 million fungal species are parasitic; they infect plants and some animals for nutrients. Some of these fungi grow on food crops, stored food grains, fruits, and animal feed. Some of these fungi produce toxins (called mycotoxins) such as aflatoxins, ochratoxins, citrinins, fumonisins, trichothecenes, and ergot toxins. Some of these toxins can be found in cattle that consume hay contaminated with mycotoxins. These toxins, if consumed in sufficient amounts, may cause various diseases, including cancer of the liver, kidney diseases, and neurological diseases. Common sources of mycotoxins include rye, corn, wheat, rice, peanuts, oils extracted from these crops, fruits, fruit juice, pork, and beef (especially organ meats). The USDA inspects these items to protect citizens. Edible mushrooms and truffles do not produce these toxins.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Fungi may reproduce asexually by binary fission or by forming various types of asexual spores known as arthrospores and conidia (Fig. 3.7). However, Fungi are classified based on the structures they develop during sexual reproduction. Fungi of the phylum Zygomycota have aseptate hyphae, and they create a ball-like sporangium for producing many spores through sexual reproduction. Fungi of the phylum Ascomycota produce an ascus (pl. asci), which contains 4- 8 ascospores. Fungi of the phylum Basidiomycota produce a basidium that produces four basidiospores (Fig. 3.7). Both ascomycetes and basidiomycetes have septate hyphae. Fungi that do not reproduce sexually are arbitrarily grouped together as imperfect fungi.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Most pathogenic fungi that infect humans are opportunists; they infect very young or very old individuals, or those stressed by infections, cancers, metabolic diseases, or immunosuppressive drugs. Common fungal infections include mycosis (pl. mycoses, fungal growth in tissues) and fungemia (fungi in the bloodstream). Inhalation of fungal spores, injuries, and close contact with animals are the major routes of fungal infections. About a dozen fungal pathogens are considered primary pathogens. The primary pathogens and some important fungal opportunists are listed in Table 3.3.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 3.7. Structure of fungi. A. Structure of the yeast form of fungi. B. Binary fission of yeast. C. A pseudohypha",
+          "page": 14,
+          "image": "/mmahp/ch03/3-7.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "created due to rapid cell division of a yeast, before the progeny cells separated from each other. D. An aseptate (or coenocytic) hypha with many nuclei. D. A septate hypha, the nuclei are separated by a septum. F, G, and H- Sporangia producing various types of asexual spores. I- a zygosporangium containing many spores created through sexual reproduction. J. Section of the fruiting body or a mushroom to show the location of the asci. K- two asci, each containing 8 ascospores. L- A basidium with four basidiospores.",
+          "page": 14
+        },
+        {
+          "type": "figure",
+          "text": "Table 3.3. Some pathogenic fungi. The primary fungal pathogens and some important opportunists are shown in red",
+          "page": 14,
+          "image": "/mmahp/ch03/3-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "letters.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Phylum Zygomycota Family Species Associated disease Mucoraceae Mucor indicus O-Mycoses (lung) Basidiobolaceae Basidiobolus ranarum O- Mycoses (lung) Ancylistaceae Condiobolus coronatus O-Facial and nasal mycoses Ajellomycetaceae Lacazia loboi O- Skin nodules Phylum Ascomycota Arthrodermataceae Trichophyton rubrum Tinea (mycoses of skin and nails) Trichocomaceae Aspergillus fumigatus O- Mycoses of sinuses and the lung, fungal balls in the lung, aflatoxin and ochratoxins Penicillium marneffei O- systemic mycosis of AIDS patients, citrinin toxins Clavicipitaceae Clavices purpurea Ergot toxin Nectriaceae Fusarium solani O- skin mycoses, fumosinin and trichothecene toxins Ajellomycetaceae Blastomyces dermatitidis Lung or systemic mycoses Paracoccidioides brasiliensis Infection of the lung and lymph nodes Paracoccidioides lutzii Infection of the lung and lymph nodes Histoplasma capsulatum Skin and lung mycoses, O- systemic mycoses Onygenaceae Coccidioides immitis Valley fever, skin mycoses, O- systemic mycoses Coccidioides posadasi Valley fever, skin mycoses, O- systemic mycoses Ophiostomataceae Sporothrix schenckii O- wound and blood infections Hypocreaceae Acremonium strictum O- skin and mung mycoses Stachybotryaceae Stachybotrys chartarum O- infantile lung mycoses Saccharomycetaceae Candida albicans O- mycoses (thrush) of the alimentary canal, the skin and vagina Pneumocystidaceae Pneumocystis jirovecii O-pneumonia Phylum Basidiomycota Tremellaceae Cryptococcus neoformans O- lung and brain mycoses Trichosporonaceae Trichosporon cutaneum White piedra (skin disease) Malasseziaceae Malassezia fufur Skin infections and dandruff",
+          "page": 14
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "3.3.3",
+      "heading": "Pathogenic Protozoa",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Protozoans are a polyphyletic assembly of a few unrelated groups of protists. All protozoa are single-celled (diameter 0.1-0.3 mm) aquatic organisms that lack a cell wall. The feeding and dividing (i.e., vegetative) protozoan cells are called trophozoites. Trophozoites are covered by a membrane-like structure called the pellicle. Trophozoites may move by pseudopodia (protrusions on the cell), one or a few flagella, or many short flagella (cilia); these mobility devices group them into amoebae, flagellates, and ciliates, respectively (Fig. 3.8). Some protozoans have pseudopodia or flagella at different stages of their life cycles. Trophozoites of another group, the apicomplexans, lack these appendages but have an apical complex, a glandular organelle that helps the protozoans penetrate host cells.",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 3.8. Structures of trophozoites and cysts of common pathogenic protozoa. A. The amoeboid cell of the genera",
+          "page": 15,
+          "image": "/mmahp/ch03/3-8.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Entamoeba histolytica (pink) and Acanthamoeba sp. (blue). A thin-walled, round, and multinucleated cyst of E. histolytica is also shown. B. The oblong cell and a cyst of Giardia lamblia, a flagellate. C. An eel-like cell of Trypanosoma brucei, a flagellate. D. The oblong cell of Paramecium caudatum, a ciliate. Ciliates are covered with many cilia. E. A thick-walled multinucleated cyst of the Balantidium coli. The cysts as well as the trophozoites of this species (not shown) are ciliated. F. A trophozoite of the genus Babesia microti, a member of the group Apicomplexa, showing the apical complex.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Many species of protozoa create cysts, non-feeding, non-dividing cells with a thick polysaccharide coat, to overcome unfavorable environmental conditions. When the environment becomes favorable, the cysts germinate to create trophozoites. Protozoa reproduce asexually by binary fission and multiple fission (the nucleus divides several times within the plasma membrane of the parental cell before the cell divides into many cells) and sexually by syngamy (fusing of two gamete cells to create a zygote). Some protozoa (ciliates) conjugate like bacteria (they exchange DNA without fusing to create a zygote). The common pathogenic protozoans are listed in Table 3.4.",
+          "page": 16
+        },
+        {
+          "type": "figure",
+          "text": "Table 3.4. Common pathogenic protozoa. The important primary pathogens are shown in red letters.",
+          "page": 16,
+          "image": "/mmahp/ch03/3-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Phylum Family Species Associated pathology Mastigophora (flagellates) Hexamitidae Giardia lamblia Gastroenteritis Trichomonadidae Trichomonas vaginalis Vaginal and urethral infections Trypanosomatidae Trypanosoma brucei African sleeping sickness Trypanosoma cruzi Chagas (skin and blood) disease Leishmania donovani Visceral infection (kala azar) Leishmania major Ulcerative skin infections Phylum Sarcodina (amoebae) Entamoebidae Entamoeba histolytica Bloody dysentery Acanthamoebidae Acanthamoeba castellanii O- Eye and brain infections Vahlkampfiidae Naegleria fowleri Meningoencephalitis Balamuthiidae Balamuthia mandrillaris Skin and brain infections Phylum Apicomplexa Plasmodidae Plasmodium falciparum Malaria Plasmodium vivax Malaria Babesiidae Babesia microti Fever and hemolytic anemia Sarcocystidae Toxoplasma gondii O- enecephalopathy Cryptosporidiidae Cryptosporidium parvum Cough and diarrhea Eimeriidae Cyclospora cayetanensis Diarrhea Cytosisospora belli Diarrhea Phylum Ciliophora (ciliates) Balantidiidae Balantidium coli Diarrhea Phylum Microspora Enterocytozoonidae Enterocytozoon bieneusi O- diarrhea Unikaryonidae Encephalitozoon cuniculi O-brain and kidney infections",
+          "page": 16
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 31,
+          "title": "Pathogenic Protozoa",
+          "bullets": [
+            "Cell structure",
+            "Trophozoites",
+            "Amoebae",
+            "Flagellates",
+            "Ciliates",
+            "Apicomplexans",
+            "Cysts",
+            "Reproduction",
+            "Asexual",
+            "Binar fission",
+            "Multiple fission",
+            "Conjugation",
+            "Sexual",
+            "syngamy"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "3.3.4",
+      "heading": "Pathogenic flatworms",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Flatworms (Phylum Platyhelminthes) are true metazoans, having tissues and organs, but they lack a body cavity (coelom) or peritoneal membranes to tie the internal organs in proper positions. Some flatworms (for example, Planaria sp.) are free-living water and soil dwellers, while others are parasites. The body is covered by tegument. Parasitic flatworms have suckers to adhere to the surfaces of the host animals. Almost all flatworms are hermaphrodites (have both male and female sex organs in the same animal). The male and female gametes of the organism fuse within the worm’s body to form zygotes.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "The two major classes of the phylum that have species parasitic to humans are Trematoda and Cestoda. Trematodes (or flukes) have a leaf-like flat body without segmentation, and an intestine with a mouth but no anus (Fig. 3.9). Parasitic adult flukes lay fertilized eggs while they are in the body of the host animal.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Cestodes (or tapeworms) have an elongated, segmented body with a scolex and many proglottids (Fig. 3.9), but no alimentary canal (the organisms absorb nutrients through their tegument). The scolex contains a few suckers and hooks for adhering to the host body. Each mature proglottid contains all the worm's organs. New proglottids are generated from the scolex, and older proglottids detach from the worm to release fertilized eggs into or outside the host's body.",
+          "page": 16
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 3.9. Structures of some flatworms and their eggs and larvae. A. Structure of Fasciola hepatica, a fluke. Actual",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "size about 0.7x7 cm. B. An egg of F. hepatica (actual length about 125 micrometers). C. The scolex, neck, and a few proglottids of the beef tapeworm Taenia solium (actual size about 1.0 cm x 200 cm). D. A detached proglottid of the beef tapeworm T. solium showing the branched ovary. E. An egg of the tapeworm T. solium. Images A from Creative Commons; images B, C, D, and E are from CDC-PHIL.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Flatworms have a complex life cycle. People may become infected by ingesting fertilized worm eggs in water or food such as undercooked meat, by ingesting worm larvae encysted (cocooned) on vegetables and fruits, or by free- swimming worm larvae in water, penetrating human skin, to initiate an infection. Important parasitic flatworms are listed in Table 3.5.",
+          "page": 17
+        },
+        {
+          "type": "figure",
+          "text": "Table 3.5. The common parasitic flatworms that infect humans. Parasites of high public health importance are",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "shown in red.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Class Family Species Organs affected (diseases) Trematoda (flukes) Fasciolidae Fasciola hepatica Liver and gallbladder (pain, gallbladder perforation) Fasciolopsis buski Intestine (pain, weight loss) Opisthorchiidae Opisthorchis viverrini Intestine, gallbladder (inflammation) Clonorchis sinensis Liver, bile duct, gallbladder (inflammation) Echinostomatidae Echinostoma revolutum Intestine (pain) Trogotrematidae Paragonimus westermani The lung (bleeding), spinal cord (paralysis) Schistosomatidae Schistosoma mansoni Schistosome haematobium Schistosoma japonica The skin, internal organs, especially the prostate (inflammation and cancer) Bilharziella polonica The skin (inflammation, itching) Class Cestoda (tapeworms) Diphyllobothriidae Diphyllobothrium latum Stomach (weight loss, anemia due to poor vitamin B12 absorption) Spirometra erinaceieuropaei The skin (inflammation, edema) Taeniidae Taenia sagnata Intestine Taenia solium The skin, intestine, internal organs and the brain (cysticercosis) Echinococcus gabulosus Solid organs (hydatid cysts) Echinococcus multilocularis The lung and liver (disseminated hydatid cyst) Hymenolepididae Hymenolepis nana Intestine (diarrhea) Dipylidiidae Dipylidium caninum Intestine (diarrhea)",
+          "page": 17
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 34,
+          "title": "Parasitic flatworms",
+          "bullets": [
+            "Body structure",
+            "Cuticle",
+            "Suckers",
+            "Lack of body cavity",
+            "Hermaphroditism",
+            "Complex life cycle",
+            "Trematodes (flukes)",
+            "Body structure",
+            "Intestine",
+            "Cestodes",
+            "Scolex",
+            "Proglottids"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "3.3.5",
+      "heading": "Parasitic round worms",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Roundworms (Phylum Nematoda) have a tubular body covered by a tegument. The animals have a false body cavity (pseudocoelom, with a membrane on one side of the body cavity) and are unisexual (each animal has either male or female sex organs). Nematodes have a complete alimentary canal (with a mouth and an anus). There are both free- living and parasitic nematodes (Fig. 3.10).",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Parasitic nematodes have a relatively simple life cycle. The male and female copulate and their gametes fuse to form a zygote, which develops into a larva and then into an adult worm. The larva can also be encysted in the tissues of the infected animal or grow as a free-living organism in the soil and water. People can be infected by roundworms by ingesting fertilized worm eggs on fruits and vegetables, by eating undercooked meat containing encysted larvae, or by free-living soil larvae penetrating the skin. Parasitic nematodes are generally not host-specific. Many species of parasitic nematodes infect humans and many other animals. Some common parasitic nematode worms are listed in",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Table 3.6.",
+          "page": 18,
+          "image": "/mmahp/ch03/3-6.jpg"
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 3.10. Structure of some nematode worms, their eggs, larvae, and larval cysts. A. Anatomy of a male and a",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "female of the intestinal roundworm Ascaris lumbricoides. Adult males are 15-30 cm, and adult females are 20-35 cm in length. Image from https://biology.stackexchange.com/. B. An infective larva of the hookworm genus Strongyloides sp. (about 1.0 mm). The larvae hatch from eggs in fecal material in the soil. Nematode larvae may survive in the soil by feeding on bacteria. Image source: CDC-PHIL. C. Two fertilized eggs of A. lumbricoides. The eggs are about 60 micrometers in length. Image source: CDC-PHIL.",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Table 3.6 Some parasitic nematodes that infect humans. Parasites of high public health importance are shown in",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "red.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Phylum Family Species Affected organs (diseases) Nematoda Ascarididae Ascaris lumbricoides Intestine (malnutrition, intestine blockage and perforation, sepsis) Anisakidae Anisakis simplex Intestine (granulomas in the intestine) Oxyuridae Enterobius vermicularis (pinworm) Intestine (diarrhea), Rectum (irritation,) Trichuridae Trichuris trichiura Intestine (pain and diarrhea) Trichinellidae Trichinella spiralis Muscle (pain and edema) Strongyloididae Strongyloides stercoralis (hookworm) Intestine (anemia) Ancylostomatidae Ancylostoma duodenale (hookworm) Intestine (anemia) Necator americanus (hookworm) Intestine (anemia) Filariidae Brugia malayi (filarial worm) Lymphatic vessels (filaria/elephantiasis) Loa loa (eye worm) Skin and eyes (edema, inflammation) Onchocercidae Onchocerca volvulus (skin and eye worm) Skin and eye (African river blindness) Wuchereria bancrofti (filarial worm) Lymphatics vessels (filaria, elephantiasis) Dirofilaria immitis Heart (inflammation) Dracunculidae Dracunculus medinensis (Guinea worm) Skin (ulcer, inflammation) Toxocaridae Toxocara canis Visceral organs and the brain (neurological symptoms)",
+          "page": 18
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 37,
+          "title": "Parasitic roundworms",
+          "bullets": [
+            "Body structure",
+            "Cuticle",
+            "Body cavity",
+            "Unisexual",
+            "Simple life cycle",
+            "Lack of strict host"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "3.3.6",
+      "heading": "Other harmful invertebrates",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Many other invertebrates affect human health. Here is a very brief mention of some of those species without the detailed classification.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "Phylum Annelida",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Annelids are segmented worms with a true body cavity. Annelids include earthworms, leeches, and marine worms. Leeches (Genera Hirudo and Hirudinaria) may bite human skin and suck blood. Leeches harbor symbiotic bacteria, such as Aeromonas sp., which may infect the bite wounds.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "Phylum Mollusca",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Mollusks have a non-segmented body covered by a mantle. Mollusks include slugs, limpets, snails, bivalves, octopuses, and nautiluses. Many mollusks also have an external calcified skeleton. Some conch snails of the genus Hastula are venomous, and they can sting beachgoers. The snail's venom could be fatal.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "Phylum Arthropoda",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Arthropods include centipedes, spiders, scorpions, mites, ticks, bugs, and insects. Arthropods have an external skeleton made of chitin and jointed appendages. The tongue worm (Linguatula serrata), an arthropod of unclear lineage, infects the nasal cavity, causing chronic discomfort. Biting centipedes such as Scolopendra subspinipes; spiders, such as Latrodectus mactans; and scorpions, such as Leiurus hebraeus, are venomous. The scabies mite Sarcoptes scabies is a true human parasite because it burrows into human skin and lays eggs there, causing severe skin irritation. The mite Trombicula autumnalis is the vector for scrub typhus, which is caused by the bacterium Orientia tsutsugamushi. Many species of ticks suck the blood of animals and humans. The saliva of the ticks of the genus Dermacentor (Fig. 3.11) has a neurotoxin that may cause paralysis in children. Ticks are also vectors for pathogens that cause Rocky Mountain spotted fever, Lyme disease, Q fever, relapsing fever, Colorado tick fever, tularemia, and babesiosis.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Insects are the most numerous land invertebrates. They affect many aspects of human life, both positively and negatively. Here we are only summarizing their harmful impacts. The housefly (Musca domestica) may transmit foodborne bacterial pathogens. The botfly (Dermatobia hominis) eggs that enter wounds may grow into maggots, causing severe inflammation (myiasis). Biting flies such as tabanid flies (Fig. 3.11) serve as vectors for bacterial pathogens that cause tularemia, cat-scratch disease, and anthrax; sand flies (Fig. 3.11) serve as vectors for leishmaniasis; mango flies (Fig. 3.11) serve as vectors for eye worms (Loa loa); tsetse flies (Fig. 3.11) serve as vectors for Trypanosoma brucei, which causes African sleeping sickness; and black flies transmit the worm (Onchocerca volvulus) that causes African river blindness.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Lice (genus Pediculus) not only bite but also transmit bacterial pathogens that cause relapsing fever, epidemic typhus, and trench fever. Mosquitoes are the most prolific disease vectors. Mosquitoes serve as the vectors for pathogens that cause yellow fever, dengue fever, viral encephalitis, malaria, and filaria. Some flea species serve as vectors for the bacterial pathogen Yersinia pestis that causes plague. Fleas (Ctenocephalides canis) also transmit the worm Dipylidium caninum. Bugs such as bedbugs (Cimex hemipterus) have the most painful bites. Reduviid bugs (genus Rhodnius) serve as vectors for Trypanosoma cruzi that causes Chagas disease. Biting insects such as wasps and bees may cause inflammation and allergic reactions that can be fatal.",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 3.11. Arthropod vectors of some microbial pathogens. A. Mites are vectors of scrub typhus and rickettsialpox.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "B. Ticks are vectors of many diseases, including Colorado tick fever, Powassan encephalitis, Lyme disease, ehrlichiosis, Q fever, bartonellosis, Rocky Mountain spotted fever, tularemia, and babesiosis. C. Sandflies are vectors of leishmaniasis (kala-azar) and Carrion’s disease. D. Tsetse flies are vectors of African sleeping sickness. E. Tabanid flies may serve as vectors for tularemia and anthrax. F. Mango flies transmit the eye worm (Loa loa) in humans. G. Reduviid bugs (also called kissing bugs) are vectors of Chagas disease. H. Fleas are vectors of plague, typhus, and tapeworms. I. Lice are vectors of typhus, relapsing fever, and trench fever. J. Mosquitoes are vectors of viral encephalitis, hemorrhagic fevers, yellow fever, malaria, and filariasis. Image courtesy: All images are from CDC- PHIL except E, which is from WHO TDR Image Library.",
+          "page": 20
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 40,
+          "title": "Other harmful invertebrates (1)",
+          "bullets": [
+            "Phylum Annelida",
+            "Hirudo",
+            "Hirudonaria",
+            "Phylum Molluca",
+            "Venous snail (Hastula)",
+            "Phylum Arthropoda",
+            "Tongue worm",
+            "Centipedes",
+            "Spiders",
+            "Scorpions \tWikipedia"
+          ]
+        },
+        {
+          "slideIndex": 41,
+          "title": "Some harmful arthropods",
+          "bullets": [
+            "The botfly- Miyasis",
+            "Housefly- foodborne illneses",
+            "Tabanid flies- tularemia, cat-scratch disease, and anthrax",
+            "Sand flies-Leishmaniasis",
+            "Tsetse flies- African sleeping sickness",
+            "Black fly- African river blindness",
+            "Lice- relapsing fever, epidemic typhus, and trench fever",
+            "Fleas- plague, worms",
+            "Reduviid bugs- Chagas disease",
+            "Mosquitoes- encephalitis, malaria, filaria, etc."
+          ]
+        }
+      ]
+    }
+  ],
+  "unmatchedSlides": [
+    {
+      "slideIndex": 2,
+      "title": "The metagenomic approach",
+      "bullets": [
+        "Feasibility",
+        "Both cellular and acellular",
+        "The methods",
+        "Extract nucleic acid",
+        "Sequence DNA",
+        "Align DNA sequences",
+        "Create a draft genome",
+        "Alternatively",
+        "Check 16S RNA gene diversity"
+      ]
+    }
+  ]
+}

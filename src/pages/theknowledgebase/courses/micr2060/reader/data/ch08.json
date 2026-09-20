@@ -1,0 +1,2111 @@
+{
+  "id": "ch08",
+  "number": 8,
+  "title": "Antimicrobial Chemotherapy",
+  "lead": "Microbes are ubiquitous and abundant. They frequently enter the human body but generally do not cause disease because the innate immune system swiftly eliminates microbes and their antigens. However, if a substantial dose of a microbe invades the body and the innate immune system fails to eliminate it, the microbes may replicate, damage tissues, and trigger the adaptive immune response. Disinfection, antisepsis, and preventive measures (including hand washing) substantially reduce the incidence of infections. This chapter emphasizes prevention but primarily discusses therapeutic agents for microbial infections. Neither the author nor the publisher of this textbook endorses nor refutes the efficacy of any drugs mentioned in this textbook.",
+  "openstaxEquivalent": null,
+  "sources": {
+    "chapterPdf": "8. Antimicrobial Chemothrapy.pdf",
+    "pptPdf": "MMAHP Ch 8 PowerPoint Lecture Outline.pdf"
+  },
+  "sections": [
+    {
+      "number": "8.1",
+      "heading": "Prevention and Cure of Viral Infections",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Viruses utilize cellular machinery for biosynthesis. This complicates the destruction of viruses without damaging host cells or organisms. Vaccines are the most effective way to prevent viral infections. Unfortunately, only a limited number of vaccines are available to prevent viral infections. Certain virus vaccines, such as rabies vaccines, can be administered after infection. Many viral pathogens, including HIV-1, HIV-2, hepatitis C virus, herpes simplex viruses, cytomegalovirus, Epstein-Barr virus, and West Nile virus, lack vaccines. Good hygiene practices, personal protective measures, lifestyle choices, and public health safety measures (Table 8.1) significantly affect the frequency of viral infections.",
+          "page": 1
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.1. Common measures that are preventive against virus infections (the list is not exhaustive).",
+          "page": 1,
+          "image": "/mmahp/ch08/8-1.jpg"
+        },
+        {
+          "type": "subheading",
+          "text": "Measures \tMajor steps",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Personal hygiene Proper handwashing after touching any surface that is actually or potentially contaminated by microbes.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Personal protection Obtaining proper training for handling biohazard materials, wearing proper gloves, laboratory goggles, double gloves, face mask, and respirator whenever applicable.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Lifestyle choices Avoiding recreational drug use, casual sexual activities, tattooing, mutilation, and body piercing.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Public health measures Enforcing childhood vaccination, proper inspection of food (such as eggs, seafood, meat, poultry, fruits, and vegetables), proper vaccination of pets (and, if feasible, wild animals), controlling mosquitoes, ticks, and other vectors, postmortem inspection of deceased wild animals, and epidemiological surveillance.",
+          "page": 1
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "8.1.1",
+      "heading": "Discovery of antiviral drugs",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Not too long ago, there was no effective antiviral medication. Antiviral antisera became available in the late 1800s. The first antiviral drug (i.e., acyclovir) was developed in the 1960s. Since the 1980s, several new antiviral drugs have been developed. Supportive care (such as rest, hydration, anti-inflammatory drugs, and immune-boosting nutrition) has remained the primary treatment for many viral infections to this day. There are significant obstacles to developing antiviral drugs. The lack of precise drug targets is the most important one. A good target is an essential microbial structure, enzyme, or metabolic pathway that is absent in the host cells. Since viruses mostly use host cell machinery for biosynthesis, there are only a few potential drug targets in viruses (Fig. 8.1).",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Knowledge of the virus’s replication cycle often provides appropriate targets for drug development and therapeutic options. The typical replication cycle of viruses that infect animal cells comprises six steps (Fig. 8.1). The steps are as follows: • Attachment- a virus particle binds to cell surface molecules (receptors).",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "• Penetration- the virus particle enters the host cell via receptor-mediated endocytosis (in a membrane vesicle). • Uncoating- The virus particle is partially or completely disassembled by enzymes carried by the virus and/or by host-cell enzymes, releasing the genome and the enzymes it carried.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "• Biosynthesis- the viral genome is replicated, viral genes are transcribed, and viral proteins are synthesized. • Assembly- viral proteins and the viral genome interact to create progeny virus particles.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "• Egress- the progeny virus particles move out of the host cell, killing or not killing the host cell, depending on the virus species.",
+          "page": 2
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.1. Replication cycle of animal viruses. The virus particle itself, any step in the replication cycle, and some",
+          "page": 2,
+          "image": "/mmahp/ch08/8-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "viral enzymes are key drug targets. Some drugs that target each of these are indicated in the figure (shown in red).",
+          "page": 2
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 2,
+          "title": "Viral drug targets",
+          "bullets": [
+            "Best target- essential virus",
+            "RDRP of RNA viruses",
+            "Thymidine kinase of HSV",
+            "Reverse transcriptase and",
+            "Next best target- both the virus",
+            "protein and RNA synthesis Singh TU, et al. Phama Reports 2020; 72: 1479-1508"
+          ]
+        },
+        {
+          "slideIndex": 3,
+          "title": "Antiviral drugs-1",
+          "bullets": [
+            "Drugs that target virions: example Nonxynol-9",
+            "Drugs that inhibit virus attachment",
+            "Antibodies",
+            "Analogs of virus ligands or host cell receptors",
+            "Drugs that inhibit virus penetration- example chloroquine",
+            "Drugs that inhibit virus uncoating",
+            "Pleconaril (enteroviruses)",
+            "Amantadine (FLUAV)",
+            "Tromantadine (HIV-1)"
+          ]
+        },
+        {
+          "slideIndex": 13,
+          "title": "Important terminologies",
+          "bullets": [
+            "Antibacterial activity",
+            "Bactericidal",
+            "Bacteriostatic",
+            "MBC (minimum bactericidal concentration) lethal dose",
+            "MIC- (minimum inhibitory concentration) growth inhibitory dose",
+            "Antibiotic",
+            "Natural",
+            "Semi-synthetic",
+            "Synthetic",
+            "Antibiotic spectrum",
+            "Broad-spectrum: both G(+) and G(-) and beyond",
+            "Narrow spectrum: selective species only",
+            "Chemotherapeutic agent",
+            "Drugs"
+          ]
+        },
+        {
+          "slideIndex": 37,
+          "title": "Important terminology",
+          "bullets": [
+            "Drug types",
+            "Fungicide",
+            "Fungistatic",
+            "Drug toxicity",
+            "Fungal drug target",
+            "Cell wall",
+            "Plasma membrane",
+            "Nucleic acid synthesis",
+            "Protein synthesis",
+            "Ergosterol synthesis",
+            "Enzymes"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "8.1.2",
+      "heading": "The common antiviral drugs",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Drugs that target the virions",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Enveloped viruses are readily damaged by detergents. Nonoxynol-9 is a nonionic detergent used in birth control jellies, which inactivates spermatozoa. The chemical also inactivates enveloped viruses, such as herpes simplex virus and HIV-1 (Fig. 8.2), but not naked viruses, such as HPV. The detergent may not inactivate all virions in the affected areas and can have side effects such as irritation and allergic reactions. Acidic pH damages rhinoviruses. Thus, citric acid could be added to facial wipes to reduce rhinovirus transmission.",
+          "page": 2
+        },
+        {
+          "type": "subheading",
+          "text": "Drugs that inhibit virus attachment",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "To infect a host cell, a viral ligand must bind specific receptors on the host cell. These receptors are generally protein or polysaccharide molecules. Synthetic polypeptides or polysaccharides structurally similar to the receptors can be used as drugs. These drugs would bind and neutralize viral ligands. Passive immunization works by binding antibodies to viruses, preventing them from binding host-cell receptors (see Fig. 8.2). No drug (other than antibodies) in this category is currently available. However, this is a promising research area.",
+          "page": 2
+        },
+        {
+          "type": "subheading",
+          "text": "Drugs that inhibit virus penetration",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Penetration involves fusion of the viral envelope with the host cell's plasma membrane or receptor-mediated endocytosis. Once the viral ligands bind to cell receptors, penetration occurs automatically. Chloroquine and related drugs (normally used to treat malaria) that interfere with endocytosis and membrane trafficking have been tested as anti-penetration drugs. Natural products, such as rhododendron extract, have been shown to interfere with the penetration of certain viruses.",
+          "page": 2
+        },
+        {
+          "type": "subheading",
+          "text": "Drugs that inhibit virus uncoating",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "The virus capsid must disassemble inside the endosome to release the genome. This uncoating step is particularly important for viruses with naked icosahedral capsids, as the genome remains enclosed within the capsid if uncoating is blocked. Pleconaril and related drugs bind a pocket of the naked capsid of picornaviruses and prevent disassembly of the capsid (Fig. 8.2). Pleconaril mimics a cellular receptor that helps disassemble the capsid. Structural biologists and drug discovery scientists may develop similar drugs for other viruses with an icosahedral capsid.",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.2. Mechanisms of action of some antiviral drugs. A. Detergent-like drugs, such as nonoxynol-9, bind and",
+          "page": 3,
+          "image": "/mmahp/ch08/8-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "disrupt the viral envelope. B. Neutralizing antibodies bind virus surface molecules (ligands) and prevent virus ligands from binding the cellular receptors. B. Drugs, such as pleconaril, prevent the uncoating of the naked icosahedral capsid of picornaviruses. Pleconaril inserts itself in the furrows of the capsid of picornaviruses and prevents disassembly (and thus uncoating) of the capsid. D. Drugs, such as amantadine, prevent the fusion of the virus envelope and the plasma membrane of the host cells, preventing uncoating of the virus.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Enveloped viruses disassemble by fusing their envelope with the endosomal membrane. Amantadine and related drugs inhibit this uncoating process in influenza viruses. Amantadine binds the M protein (a proton channel) on the envelope of the influenza virus and prevents fusion of the viral envelope with the plasma membrane of the host cell (Fig. 8.1). Amantadine and T20 (enfuvirtide) act analogously and prevent uncoating of herpes simplex virus and HIV-1, respectively.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Drugs that inhibit viral nucleic acid synthesis Guanidine (Fig. 8.3) and related drugs bind the 2C protein (a membrane protein) of picornavirus and prevent viral RNA synthesis. Pyrophosphate analogs, such as foscarnet, inhibit the DNA polymerases of herpesviruses. Nevirapine and related drugs bind reverse transcriptase of HIV-1 and inactivate the enzyme. Ribavirin (Fig. 8.3), an analog of riboguanosine (a nucleoside), prevents GTP synthesis and mRNA capping, thereby preventing viral (and cellular) RNA synthesis. Isatin-β-thiosemicarbazone activates RNA degradation and was once used to treat smallpox. Interferon treatment induces ribonucleases that degrade both viral and cellular RNAs and inhibit protein synthesis. Some antiviral drugs in this group also inhibit certain host-cell enzymes, making them quite toxic. Many antiviral drugs in this category are nucleoside analogs. A nucleoside consists of a pentose sugar and a nitrogenous base (Fig. 8.3). Nucleoside analogs are synthetic compounds that are structurally similar to one of the eight nucleosides. Transferases and kinases attach phosphate groups (PO4) to nucleosides to form nucleotides. Thymidine kinase of herpesviruses preferentially phosphorylates acyclovir, a guanosine analog, to form a nucleotide analog. Viral DNA polymerase or reverse transcriptase uses nucleotide analogs such as vidarabine, ddAMP, acyclovir triphosphate, and azidothymidine (AZT) during DNA or cDNA synthesis (Fig. 8.3). These analogs may prevent the elongation step of viral genome replication, increase the rate of point mutations, or make the replicated DNA or RNA brittle. As a result, many of the progeny viruses fail to infect host cells.",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Fig 8.3. Some drugs interfere with viral nucleic acid metabolism. Shown are guanidine, ribavirin, foscarnet",
+          "page": 4,
+          "image": "/mmahp/ch08/8-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "sodium, isatin-beta- thiosemicarbazone, gancyclovir, vidarabine, ddAMP, and acyclovir. The modes of action of these agents are described in the text.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "The nucleoside analog drugs that inactivate certain viral enzymes are listed in Table 8.2. Unfortunately, viral enzymes do not respond uniformly to nucleotide analogs, and viruses rapidly evolve and become resistant to nucleoside analogs.",
+          "page": 4
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.2. Principal targets of some common nucleoside analog drugs.",
+          "page": 4,
+          "image": "/mmahp/ch08/8-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Nucleoside analogs Virus species (and principal drug targets) Acyclovir and related compounds Herpes simplex virus and varicella-zoster virus (thymidine kinase and DNA polymerase) Ganciclovir Cytomegalovirus (protein kinase and DNA polymerase) AZT and related compounds HIV-1 and 2 (reverse transcriptase) Remdesivir Ebola viruses, MERS-CoV, and possibly SARS-CoV-2 (RNA- dependent RNA polymerase or RDRP) Drugs that inhibit viral protein synthesis Viral proteins are synthesized by the machinery of the host cells. Thus, there is no drug that selectively inhibits viral protein synthesis. Interferons can be used to temporarily suppress protein synthesis in infected cells and viruses therein. However, prolonged interferon therapy impairs host cell protein synthesis and kills them. Antiviral state Virus-infected cells and activated lymphocytes secrete interferons. The secreted interferons bind interferon receptors of the interferon-secreting cells and the nearby cells. The binding generates a signal that activates the expression of over two dozen antiviral proteins (AVPs) in those cells. The newly expressed AVPs create an antiviral state by exerting diverse activities (Fig. 8.4). This state arrests the cell cycle and prevents cell division. Some of the activities of AVPs are the following: (a) Some AVPs prevent the entry of new viruses into cells (usually by interfering with endocytosis). (b) Some AVPs prevent translation of viral and host mRNAs (usually by modifying a translation initiation factor).",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "(c) Some AVPs prevent virus egress (usually by affecting membrane trafficking).",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "(d) Some AVPs prevent transcription of viral genes.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "(e) Some AVPs prevent virus assembly.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "(f) Some AVPs (nucleases) degrade viral (and some cellular) RNAs.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "(g) Some AVPs modify and inactivate viral (and some cellular) proteins.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "(h) Some AVPs make the infected host cell an easy target for NK cell killing.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Some AVPs are activated upon binding to dsRNA. Different viruses induce the expression of different sets of AVPs. Unfortunately, highly pathogenic viruses encode proteins that interfere with some AVPs, preventing the formation of a fully developed antiviral state. The antiviral state usually lasts for three days, sufficient time for the innate immune system to eradicate viruses. The host cells are also affected, and some host cells die as a result. Recombinant interferons are used to treat chronic hepatitis C virus and HIV infections. Synthetic dsRNA, such as poly rI: poly rC, can be used as a drug to treat viral infections because dsRNA induces interferon synthesis. Prolonged use of interferons induces chronic inflammation, which is harmful to patients.",
+          "page": 5
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.4. Mechanism of action of interferons. Interferons bind to cell receptors and activate the expression of antiviral",
+          "page": 5,
+          "image": "/mmahp/ch08/8-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "proteins (AVPs). The AVPs become activated and engage in diverse antiviral activities, as shown in the figure (see the text for more details).",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Translation inhibition by RNA interference (RNAi) Any cellular RNAs or viral mRNAs can be selectively destroyed by inserting complementary synthetic dsRNAs (siRNAs) into a cell. Suppose a patient has lymphoma because of Epstein-Barr virus (EBV) infection. One may insert synthetic dsRNA that resembles an important mRNA of EBV. The dicer enzyme complex of the cell processes the siRNAs, and the RISC enzyme complex uses the processed siRNA to detect and destroy the target mRNA (Fig.8.5). As a result, the target RNA cannot be replicated or translated in the cell.",
+          "page": 5
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.5. How RNAi works. Long dsRNAs are introduced into virus-infected or cancer cells. The Dicer enzyme",
+          "page": 5,
+          "image": "/mmahp/ch08/8-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "processes (cuts) the dsRNA into about 25-bp fragments. The RISC protein complex binds the processed dsRNA and uses one of the two strands as the guide RNA. RISC uses the guide RNA to identify the target mRNA by hybridizing the guide RNA with the target mRNA. A nuclease component of RISC then cuts the target mRNA. The sliced target mRNA cannot be translated and is destroyed by nucleases.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "RNAi technology works in the test tube, but the method has not been fully perfected as an antiviral therapeutic agent. The major problems of RNAi therapy are: (a) natural RNAs are very unstable, (b) chemically modified synthetic RNAs can be stable, but they are usually toxic, and (c) there is no effective method for inserting siRNA selectively into the target cell (siRNA injected into the blood or muscle may enter unrelated cells). FDA has approved siRNA drugs to treat genetic diseases such as amyloidosis and hepatic porphyria. More therapeutic antiviral RNAi drugs are anticipated to be developed in the near future.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Drugs that inhibit viral assembly and maturation A long polyprotein is synthesized during the biosynthesis step of the replication cycle of certain viruses. A viral protease processes the polyprotein, releasing mature viral capsid proteins and enzymes. Chemical compounds that inhibit these proteases have been developed as antiviral drugs. One such drug, lopinavir, inhibits the HIV-1 protease that processes the gag-pol polyprotein (Fig. 8.6). Lopinavir treatment may not completely eradicate the virus, but the drug significantly reduces the virus load in the patient's body and delays or prevents the development of AIDS.",
+          "page": 6
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.6. Inhibition of HIV-1 gag-pol polyprotein processing. A. Translation of the gag-pol mRNA produces the",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "gag-pol polyprotein. A viral protease must cleave the polyprotein to generate the mature, active gag and pol proteins. A protease inhibitor (such as lopinavir) binds to the protease and prevents it from cleaving the polyprotein. B. Structure of lopinavir. Lopinavir is structurally similar to the dipeptide L-phenylalanine-L-proline.",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Drugs that inhibit viral egress",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "A virus must move away from the host cell after egress; otherwise, it would bind the previous host's receptor and attach to the dead/dying cell. For example, the haemagglutinin (HA) ligand of the influenza virus binds sialic acid on the plasma membrane of the host cell immediately after egress. To move away from the cell, the influenza virus uses an enzyme called neuraminidase (NA). NA cuts sialic acid and allows the virus to move away from the host cell (Fig. 8.7).",
+          "page": 6
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.7. Interfering with viral egress. How the NA enzyme of the influenza A virus allows the virus to leave the",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "dying host cell and how the drug zanamivir prevents the process by inactivating NA.",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Combination therapy",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Viruses, especially RNA viruses, rapidly evolve and become resistant to antiviral agents. An effective solution to this issue is combination therapy. For example, in the highly active antiretroviral therapy (HART) protocol, multiple drugs, including an inhibitor of reverse transcriptase (such as AZT) and a protease inhibitor (such as lopinavir), are used in treating HIV-1 infections. Such a mixture can be more effective because multiple drugs inhibit multiple drug targets. It also prevents viral drug resistance, because the virus must simultaneously mutate two or more genes to become resistant to multiple drugs. However, antiviral drugs are quite toxic, and combination therapy can be more toxic than single therapy.",
+          "page": 7
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 5,
+          "title": "Drugs that inhibit viral biosynthesis",
+          "bullets": [
+            "Major target- RNA synthesis and",
+            "Enzyme inhibitors",
+            "Foscarnet- inhibit HSV-1 DNA",
+            "Navirapine- inhibit RT of HIV-1",
+            "Nucleoside analogs",
+            "Ganciclovir",
+            "Vidarabine",
+            "ddAMP",
+            "Acyclovir",
+            "Azidothymidine (AZT)"
+          ]
+        },
+        {
+          "slideIndex": 6,
+          "title": "Antiviral state of virus-infected cells and neighboring uninfected cells",
+          "bullets": [
+            "TLR signaling",
+            "Viral glycoproteins, GC-rich viral DNA and RNA and dsRNA activate TLR",
+            "TLR signaling cause expression of cytokine such as interferon",
+            "Interferon signaling",
+            "The cytokines bind receptors and activate many genes",
+            "AVP proteins are synthesized",
+            "The infected cells express more MHC I (and MHC II)",
+            "MHC I help killing of the infected cells by NK cells and Tc cells",
+            "MHC II activate Th cells"
+          ]
+        },
+        {
+          "slideIndex": 7,
+          "title": "Antiviral state",
+          "bullets": [
+            "Some AVPs prevent penetration of new viruses into the cells (usually by",
+            "Some AVPs prevent translation of viral and host mRNAs (usually by",
+            "Some AVPs prevent virus egress (usually by modifying membrane",
+            "Some AVPs prevent transcription of viral genes",
+            "Some AVPs prevent virus assembly",
+            "Some AVPs (nucleases) degrade viral (and some cellular) RNAs",
+            "Some AVPs modify and inactivate virus (and cellular) proteins, and",
+            "Some AVPs make the infected host cell an easy target for killing by NK"
+          ]
+        },
+        {
+          "slideIndex": 9,
+          "title": "RNA interference-based antiviral therapy",
+          "bullets": [
+            "dsRNA complementary to",
+            "DICER processes the",
+            "RISC takes the 22 bp RNA",
+            "Nucleases cut viral mRNAs"
+          ]
+        },
+        {
+          "slideIndex": 10,
+          "title": "Drugs that inhibit virus assembly and egress",
+          "bullets": [
+            "Assembly inhibitors",
+            "Lopinavir- inhibits protease of",
+            "Combination therapy",
+            "HART protocol for HIV-1 infection",
+            "Ribavirin and interferon alpha for",
+            "Preventing egress",
+            "Zanamivir and oseltamivir for"
+          ]
+        },
+        {
+          "slideIndex": 16,
+          "title": "Drugs that interfere with the membrane",
+          "bullets": [
+            "Polymyxin B- topical OTC, in polysporin",
+            "Gramicidins- same as polymyxin but may act on G(+) bacteria,",
+            "Isoniazid - inhibits mycolic acid synthesis, hepatotoxic",
+            "Daptomycin- a lipopeptide, damages membrane and inhibits"
+          ]
+        },
+        {
+          "slideIndex": 27,
+          "title": "Drugs that inhibit nucleic acid synthesis",
+          "bullets": [
+            "Quinolones: ciprofloxacin,",
+            "Metronidazole- binds DNA,",
+            "Clofazimine- binds Guanine, TB",
+            "Rifamycin- RNA polymerase,"
+          ]
+        },
+        {
+          "slideIndex": 35,
+          "title": "Bacterial drug resistance 2",
+          "bullets": [
+            "Chloramphenicol -Plasmid-borne enzyme (CAT) mediated drug modification",
+            "Macrolides (azithromycin)- Mutation or methylation of 23S rRNA,",
+            "Clindamycin-Methylation/mutation of 23sRNA.",
+            "Quinolones (ciprofloxacin)-Low influx, high efflux, mutation in DNA gyrase",
+            "Rifamycins (Rifampin)- Mutation in the b-subunit of bacterial RNA",
+            "Metronidazole- Reduced influx and increased efflux of active drug",
+            "Sulfonamides (sulfamethaxole)-Lack of target (in some bacteria),"
+          ]
+        },
+        {
+          "slideIndex": 43,
+          "title": "Problems with antiprotozoal agents",
+          "bullets": [
+            "Lack of unique target in the protozoan",
+            "Similarities with human cells",
+            "Metabolic diversity",
+            "Differential toxicity (not selective toxicity)",
+            "More toxic to protozoans than humans",
+            "Traditional drugs",
+            "Quinine, Artemisinin, etc.",
+            "Some antibacterial agents are useful .",
+            "More research necessary"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "8.1.3",
+      "heading": "Immunization as antiviral therapy",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Active immunization to prevent viral infections is discussed in Chapter 11. Active immunization uses antigens. Passive immunization uses antibodies harvested from immunized individuals or animals and injects them into people to prevent infection in subjects likely to be exposed to certain viruses (i.e., pre-exposure application) or in subjects who have already contracted the virus and/or developed symptoms of the disease (post-exposure application). Serum (pl. sera) is collected from plasma donors. Serum from vaccinated animals or monoclonal antibodies produced by a hybridoma cell line are also used as therapeutic antibodies. The antibodies used in passive immunization bind virus particles, preventing them from binding to host cell receptors. In addition, antibody-bound viruses are rapidly removed from the body by white blood cells (leukocytes). An issue with passive immunization and therapeutic antibodies is type III hypersensitivity reactions (serum sickness), which may lead to kidney failure (see Chapter 9).",
+          "page": 7
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.3 summarizes passive immunization for the prevention and/or therapy of some viral infections. Table 8.3. Passive immunization to cure and prevent viral infections (Source: MERC Manuals).",
+          "page": 7,
+          "image": "/mmahp/ch08/8-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Immunoglobulins Applications Pooled immune globulin Pooled human antibodies. Use for prophylaxis for hepatitis A pre-exposure and post-exposure; measles post-exposure; rubella exposure during the 1st trimester of pregnancy; varicella (if varicella-zoster immune globulin is unavailable), and in cases with immunoglobulin deficiency (people who cannot produce antibodies).",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "CMV immune globulin intravenous (CMV-IGIV) Cytomegalovirus-specific human antibodies, prophylaxis for bone marrow and kidney transplant recipients.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Hepatitis B immune globulin (HBIG), (Trade names: HEPAGAM B, HYPERHEP B S/D, NABI-HB, etc.), specific human antibodies, prophylaxis for hepatitis B (post-exposure).",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Rabies immune globulin (HRIG) Specific human antibodies, management of rabies post- exposure in people not previously immunized with rabies vaccine.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "=RSV immune globulin intravenous (RSV-IGIV) Respiratory syncytial virus (RSV)-specific human antibodies, prevention of RSV in infants <35-week gestation, or children with chronic lung diseases (i.e., bronchopulmonary dysplasia).",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "RSV murine monoclonal antibody (RSV-mAb) Mouse monoclonal antibody (trade names: palivizumab, SYNAGIS, etc.); prevention of RSV in infants <35-week gestation, or children with chronic lung diseases (i.e., bronchopulmonary dysplasia).",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Varicella-zoster immune globulin (VZIG) provides VZV-specific human antibodies for postexposure prophylaxis of susceptible immunocompromised subjects, certain groups of susceptible pregnant women, and exposed newborns.",
+          "page": 7
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 11,
+          "title": "Passive immunization for prophylaxis and therapy: Some examples",
+          "bullets": [
+            "Convalescent sera from",
+            "Pooled human sera",
+            "Mouse monoclonal"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "8.2",
+      "heading": "Antibacterial chemotherapeutic agents",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "According to Paul Ehrlich (1854-1915), therapeutic agents should be a magic bullet, harmless to humans (and the normal biota) but lethal to pathogens. However, initial chemotherapeutic agents such as arsphenamine (i.e., salvarsan, for treating syphilis), developed by Sahachiro Hata (1873-1938) and Paul Ehrlich in the 1910s, were quite toxic. In the 1930s, Gerhard Domagk (1895-1964) tested prontosil (a red dye used for staining leather) and found it to be selectively toxic to streptococci but harmless to humans. Many natural and synthetic antimicrobial agents, including antibiotics, have since been discovered or synthesized for treating bacterial infections.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Antibiotics are chemical compounds synthesized by some microbes to kill other microbes. Alexander Fleming (1881- 1955) and others observed antibiotic activity in fungi in the 1930s. In the 1940s, Howard Florey (1898-1968), Ernst Chain (1906-1989), and their colleagues isolated penicillin, the first antibiotic, to treat bacterial infections in humans. In 1943, Selman Waxman (1888-1973) and his colleagues isolated streptomycin from the bacterium Streptomyces griseus.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Currently, thousands of antibiotics are available, including natural products (synthesized by microbes), semisynthetic (chemically modified natural products), and entirely synthetic. Here, we will collectively call them the antibacterial chemotherapeutic agents (ACAs). Some of these agents are narrow-spectrum, effective against a limited number of G(+) or G(-) bacterial species, while others are broad-spectrum, effective against many species of G(+) and G(-) bacteria. Finally, some of these agents are bactericidal (they kill bacteria), while others are bacteriostatic (they inhibit bacterial growth) but may not kill bacteria at physiologically relevant doses. Commercially important antibiotics are synthesized by a few species of bacteria and fungi. Recent research indicates that antimicrobial peptides are synthesized by the skin and mucous membranes of humans and many other animals. Plants also produce antimicrobial peptides to deter bacterial infections. Some antibiotic-producing organisms and the antibiotics they produce are listed in Table 8.4.",
+          "page": 8
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.4. Some antibiotics synthesizing organisms.",
+          "page": 8,
+          "image": "/mmahp/ch08/8-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacteria Species Example of antibiotics Bacillus subtilis Bacitracin B. polymyxa Polymyxin Streptomyces nodosus Amphotericin B S. venezuelae Chloramphenicol S. aureofaciens Tetracyclines S. erythreus Erythromycin S. fradiae Neomycin S. griseus Streptomycin Micromonospora purpurea Gentamicin Fungi Cephalosporium sp. Cephalosporin Penicillium griseofulvum Griseofulvin P. notatum Penicillin Antimicrobial peptides Humans Defensins Frog (Xenopus laevis) Magainin Insect (Moth, Hyalophora sp.) Cecropins Plant (Wheat, Triticum aestivum) Purothionins Bacteria (E. coli) Bacteriocins The targets of ACAs Different groups of ACAs act on different targets. An ideal target is present in microbes but absent in humans. The six common targets for which ACAs have been developed are: membrane integrity, cell wall synthesis, nucleic acid synthesis, nucleotide synthesis, protein synthesis, and folate synthesis (Fig. 8.8). Only cell wall and folate synthesis are unique targets (specific to bacteria); the other targets are also present in human cells. Thus, most ACAs are differentially toxic (more toxic to bacteria than to human cells), and only a few are selectively toxic to bacteria. Many potentially useful bacterial targets, such as LPS and LTA synthesis, remain unrealized.",
+          "page": 8
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.8. Some useful drug targets of bacterial pathogens.",
+          "page": 9,
+          "image": "/mmahp/ch08/8-8.jpg"
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 14,
+          "title": "Sources of natural antibiotics",
+          "bullets": [
+            "Bacteria",
+            "Bacillus subtilis \tBacitracin (enzymatically synthesized polypeptides)",
+            "B. polymyxa \tPolymyxin (enzymatically synthesized polypeptides)",
+            "Streptomyces nodosus \tAmphotericin B (a polyene, an antifungal agent)",
+            "S. venezuelae \tChloramphenicol (novel)",
+            "S. aureofaciens \tTetracyclines (polyketide/tetracyclines)",
+            "S. erythreus \tErythromycin (macrolides)",
+            "S. fradiae \tNeomycin (aminoglycosides)",
+            "S. griseus \tStreptomycin (aminoglycosides)",
+            "Micromonospora purpurea \tGentamicin (aminoglycosides)",
+            "Fungi",
+            "Cephalosporium sp. \tCephalosporin (b-lactum)",
+            "Penicillium griseofulvum \tGriesofulvin",
+            "P. notatum \tPenicillin (b-lactum)",
+            "Peptide antibiotics synthesized on ribosomes",
+            "Humans \tDefensins",
+            "Frog (Xenopus) \tBombinin",
+            "Insect (Moth) \tCecropins",
+            "Plant (Wheat) \tPurothionin",
+            "Bacteria (E. coli) \tBacteriocins"
+          ]
+        },
+        {
+          "slideIndex": 25,
+          "title": "Antibiotics that inhibit protein synthesis-3",
+          "bullets": [
+            "Tetracyclines (polyketatide) - may discolor teeth",
+            "Chlortetracycline- acne, neurotoxic",
+            "Doxycyclines- anthrax, MRSA, bacterial STD",
+            "Oxazolidinone- Linezolid, MRSA and VRSA",
+            "Chloramphenicol- anemia, brain infections",
+            "Macrolides: G(+) only",
+            "Lincosamide- Clindamycin, antimalarial",
+            "Streptogramins: MRSA and VRSA"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "8.2.1",
+      "heading": "ACAs that interfere with bacterial membranes and lipid synthesis",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Polymyxins",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "The polymyxins (polymyxin B and E) are cyclic peptides (Fig. 8.9) with a lipid tail. Polymyxins bind to the LPS of susceptible G(-) bacteria and permeabilize their membranes, killing the bacteria. The drugs are neurotoxic and nephrotoxic. Polymyxin B is an ingredient in over-the-counter (OTC) topical antibacterial ointments and is occasionally used to treat urinary tract infections (UTIs) caused by Pseudomonas aeruginosa. Polymyxins are ineffective against Proteus spp. (which causes UTIs) and G(+) bacteria.",
+          "page": 9
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.9. Drugs that interfere with membrane function and lipid synthesis. Shown are the structures of polymyxin",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "B, daptomycin, gramicidin, isoniazid, and ethionamide. Polymyxins, daptomycin, and gramicidin interfere with membrane function; isoniazid and ethionamide inhibit mycolic acid synthesis.",
+          "page": 9
+        },
+        {
+          "type": "subheading",
+          "text": "Daptomycin",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Daptomycin (Fig. 8.9) is a lipopeptide produced by the bacterium Streptomyces roseosporus. The drug binds to and disrupts the plasma membrane's charge polarity, killing the bacterium. The drug is used in treating soft tissue infections by susceptible G(+) bacteria, including methicillin-resistant Staphylococcus aureus (VRSA) and vancomycin- resistant Staphylococcus aureus (MRSA). The drug is inhibited by surfactants (detergent-like molecules); thus, it cannot be used in treating pneumonia. The drug is toxic to muscles in high doses.",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "Gramicidin D",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Gramicidin D (Fig. 8.9) is a mixture of three polypeptides synthesized by the bacterium Bacillus brevis. Gramicidin D inserts into the membrane and forms a channel that kills susceptible bacteria. The drug is effective against G(+) bacteria but also damages erythrocyte membranes, leading to hemolysis (breakage of red blood cells). Thus, the drug is used only topically, as ointments or eye drops, and is mixed with polymyxin B and neomycin (as in Neocin PG, Bausch & Lomb).",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Note: All antibiotics are effective only against susceptible strains/species of bacteria. None of the antibiotics is uniformly effective against all bacterial pathogens.",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "Isoniazid and ethionamide",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Isoniazid (Fig. 8.9) is a synthetic chemical. When activated by an enzyme of actinobacteria, isoniazid inhibits the mycolic acid synthesis of Mycobacterium tuberculosis and other acid-fast bacteria. The drug is effective against actively growing mycobacteria. Isoniazid is hepatotoxic and neurotoxic. Isoniazid is used in combination therapy (with other ACAs such as rifamycin and aminosalicylic acid), to treat latent tuberculosis infections (LTBI). Strict patient monitoring is needed to avoid serious drug toxicity, including liver failure. Ethionamide (Fig. 8.9) also inhibits mycolic acid synthesis. Ethionamide is usually used in combination with isoniazid to treat tuberculosis.",
+          "page": 10
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "8.2.2",
+      "heading": "ACAs that inhibit cell wall (peptidoglycan) synthesis",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Bacterial peptidoglycan synthesis is discussed in Chapter 5. Many ACAs inhibit one of the steps of peptidoglycan synthesis. These ACAs are effective at killing bacteria that are actively dividing (which require the cell wall to be broken and repaired).",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "Beta-lactam antibiotics",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Beta-lactam antibiotics contain a beta-lactam ring that is a structural analog of D-alanyl-D-alanine (Fig. 8.10), the substrate of penicillin-binding proteins (PBP), bacterial transpeptidases. The beta-lactam antibiotics bind to PBPs and inhibit the cross-linking of peptide bridges between polysaccharide chains. As a result, the cell wall weakens and ultimately ruptures under osmotic pressure. Beta-lactam antibiotics bound to PBPs also activate bacterial autolysins, enzymes that degrade bacterial cell walls and assist in rapid bacterial killing. There are several groups of beta-lactam antibiotics, as summarized below.",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "Penicillins",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Penicillins have a thiazolidine ring attached to the beta-lactam ring (Fig. 8.10). Penicillin G, originally isolated from Penicillium notatum, is effective only against some G(+) bacteria. Penicillin G must be injected (it degrades at the stomach's acidic pH). The bioavailability (the proportion of a drug dose that enters the bloodstream) of Penicillin G is relatively low, and many bacteria have become resistant to it. Drug developers have developed a large group of penicillins for specific uses (Table 8.5). The structures of some of the penicillins are shown in Fig. 8.10. Broad-spectrum penicillins are often mixed with a chemical compound that inhibits penicillinase enzymes (i.e., a type of beta-lactamase). Beta-lactamases are enzymes secreted by some bacteria. The enzymes degrade the beta-lactam ring and inactivate beta-lactam antibiotics (Fig. 8.10). Compounds such as sulbactam, sodium clavulanate, and tazobactam bind to and inhibit certain beta-lactamases, allowing the antibiotics to work even if the bacteria secrete them.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "However, different strains of pathogenic bacteria produce different types of beta-lactamases. For example, some strains of enteric bacteria produce extended-spectrum beta-lactamases (ESBLs), which can hydrolyze the beta-lactam ring of penicillins, cephalosporins, and monobactams. Thus, there will always be some bacterial strains that will be resistant to beta-lactam antibiotics.",
+          "page": 10
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.10. Some penicillin group of antibiotics. A. Penicillin G. The beta-lactam ring is shown in red, and the",
+          "page": 11,
+          "image": "/mmahp/ch08/8-10.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "thiazolidine ring is shown in blue. The green line indicates that the structure of beta-lactam drugs resembles D-alanyl- D-alanine. B. D-alanyl-D-Alanine, the natural substrate of PBPs. C. Ampicillin (an aminopenicillin). D. Piperacillin (a ureidopenicillin). E. Methicillin (penicillinase-resistant penicillin). F. Sulbactam (a beta-lactamase inhibitor added to penicillin, such as ampicillin). G. Penicillinases on penicillin. The enzymes cleave the C-N bond of the beta-lactam ring, then decarboxylate. PBPs do not bind the modified drug, rendering the antibiotics ineffective.",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.5. Penicillin G and subsequent generations of penicillins.",
+          "page": 11,
+          "image": "/mmahp/ch08/8-5.jpg"
+        },
+        {
+          "type": "subheading",
+          "text": "Group \tExamples and specific attributes",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Natural penicillins Penicillin G: Effective against some G(+) cocci only, must be injected, low bioavailability, susceptible bacteria develop resistance quite rapidly.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Penicillin V: Same as penicillin G, except that it is stable in the acidic pH of the stomach (can be taken orally).",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Broad-spectrum penicillins Aminopenicillins: Ampicillin, amoxicillin, carbenicillin, etc.; effective against many G(+) cocci and some G(-) rods.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Ureidopenicillins: Piperacillin, same as aminopenicillin but more active against susceptible G(-) rods.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Penicillinase-resistant penicillins: Methicillin, nafcillin, oxacillin, etc.; resistant to penicillinase (i.e., beta-lactam ring destroying enzymes) produced by some antibiotic- resistant bacteria.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Penicillins mixed with beta-lactamase inhibitors: Ampicillin-sulbactam combination, amoxicillin-clavulanate combination (i.e., Augmentin), and piperacillin-tazobactam combination, etc., more effective against penicillinase-positive bacteria, including some strains of Pseudomonas aeruginosa.",
+          "page": 11
+        },
+        {
+          "type": "subheading",
+          "text": "Cephems (cephalosporins and cephamycin)",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Cephalosporins are beta-lactam antibiotics with a beta-lactam ring attached to a dihydrothiazine ring (Fig. 8.11). Cephamycins are structurally analogous to cephalosporins, except that they have a 7-alpha-methoxy group (Fig. 8.11). There are many synthetic cephalosporins and cephamycins (Table 8.6). The newer generations of these drugs are more resistant to many beta-lactamases and have improved spectrum, efficacy, and bioavailability. Currently, the fifth-generation cephalosporins are effective against some MRSA strains.",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.11. Cephalosporins (and cephamycins). A. The core structure of cephalosporins. B. The core structure of",
+          "page": 12,
+          "image": "/mmahp/ch08/8-11.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "cephamycins. Note that cephalosporins and cephamycins are very similar, except that cephamycins contain a methoxy group at the 7-alpha position. C. Ceftobiprole, a fifth-generation cephalosporin. D. Cefepime, a fourth-generation cephalosporin. E. Ceftazidime, a third-generation cephalosporin. F. Cefaclor, a second-generation cephalosporin. Carbapenems and monobactams Carbapenems (such as imipenem, meropenem, and doripenem) are beta-lactam antibiotics that contain a thiazolidine ring in which a C atom replaces the S atom and a double bond is present (Fig. 8.12). Monobactams (such as aztreonam and nocardicin A) are also beta-lactam antibiotics, but the beta-lactam ring is not attached to the thiazolidine ring (Fig. 8.12). Carbapenems and monobactams are highly resistant to beta-lactamases, although some enteric bacteria have developed carbapenem resistance. Carbapenems are used to treat antibiotic-resistant G(-) and G(+) bacteria, including P. aeruginosa. Monobactams are effective only against susceptible G(-) bacteria. However, these two groups of antibiotics are ineffective against intracellular bacterial pathogens.",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.6. Some cephalosporins and their specific properties (partly adapted from Merck Manual). Note: The",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "generation designations of different cephalosporins are not recognized by all countries.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Generation Examples Some specific properties 1st Cefazolin Narrow spectrum, effective against methicillin-sensitive S. aureus, can be used as a prophylactic drug before surgery.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "2nd Cefaclor and Cephamycin Broader-spectrum, effective against some G(+) cocci and G(-) rods including Bacteroides sp.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "3rd Ceftazidime More effective against G(-) rods, including some strains of Pseudomonas aeruginosa.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "4th Cefepime Board-spectrum, effective against G(+) cocci, G(-) rods including P.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "aeruginosa and some ESBL-positive strains of enteric bacteria.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "5th Ceftobiprole Board-spectrum, effective against some strains of MRSA.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "ESBLs (extended-spectrum beta-lactamases) are enzymes produced by some bacterial species. These enzymes can destroy the beta-lactam rings of some cephalosporins, cephamycins, and monobactams. Bacterial strains that produce such enzymes are called ESBL-positive strains.",
+          "page": 12
+        },
+        {
+          "type": "subheading",
+          "text": "Vancomycin",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Vancomycin (Fig. 8.12) is a glycopeptide (a short polypeptide covalently attached to a short polysaccharide molecule). Vancomycin binds to the terminal two D-Ala residues of the NAM pentapeptide and prevents cross-linking of the peptides (thus preventing cell wall synthesis). Vancomycin is effective only against some G(+) bacteria, including MRSA and susceptible strains of Clostridioides difficile. Vancomycin is also used to treat bacterial infections in subjects allergic to beta-lactam antibiotics. Vancomycin is toxic to the kidneys and skin. Strains of vancomycin-resistant S. aureus (VRSA) have been reported from many hospitals in recent years.",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.12. Structure of carbapenems, monobactams, vancomycin, bacitracin, ethambutol, and cycloserine. A.",
+          "page": 13,
+          "image": "/mmahp/ch08/8-12.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Imipenem, a carbapenem drug. Note that the thiazolidine ring of the beta-lactam drug lacks the S atom, and it has a double bond. B. Aztreonam, a monobactam group antibiotic. Note that its beta-lactam ring is not directly attached to the thiazolidine ring. C. Vancomycin, a glycopeptide antibiotic. D. Bacitracin, a cyclic peptide with a tail. E. Ethambutol, a synthetic chemical compound with antibiotic activities. F. Cycloserine, another synthetic chemical compound with antibiotic activities.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "Bacitracin",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacitracin (Fig. 8.12) is a group of polypeptides synthesized by the bacterium Bacillus subtilis. The drug inhibits cell wall synthesis by preventing the recycling (through dephosphorylation) of the lipid II molecules that carry NAG-NAM disaccharide units across the plasma membrane. The drug may also disrupt the plasma membrane of susceptible bacterial species. The drug is toxic and ineffective if taken orally. However, the drug is highly effective when used topically and is a major ingredient in OTC antibiotic ointments. The drug may not cross the cell wall of some G(+) bacteria, and these bacteria are resistant to it.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "Ethambutol",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Ethambutol (Fig. 8.12) is a synthetic chemical compound that inhibits the synthesis of arabinogalactan, a cell wall polysaccharide of actinobacteria, including Mycobacterium tuberculosis. Mycolic acids are attached to arabinogalactan. Lack of arabinogalactan and mycolic acid destroys the integrity of the cell wall of actinobacteria and acid-fast bacteria. Ethambutol is used in combination with isoniazid to treat tuberculosis. Ethambutol is neurotoxic and may cause vision problems.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "Cycloserine",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Cycloserine (Seromycin) is a synthetic compound (Fig. 8.12) that inhibits cell wall synthesis in susceptible bacteria by inhibiting the enzymes D-alanine-D-alanine ligase and alanine racemase. Cycloserine is highly toxic because it inhibits the enzyme GABA transaminase, affecting the central nervous system and neural transmission. Cycloserine is used only as a second-line (i.e., newer and more expensive) drug for treating tuberculosis when other treatments cannot be used.",
+          "page": 13
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 20,
+          "title": "β-lactam antibiotics-1",
+          "bullets": [
+            "Bind PBP and inhibit transpeptidase",
+            "Natural penicillins",
+            "Penicillin G, Penicillin V",
+            "Broad-spectrum penicillin",
+            "Aminopenicillin: Ampicillin, amoxicillin,",
+            "Penicillinase-resistant penicillins,",
+            "Penicillins mixed with b-lactamase",
+            "Ampicillin-salbactum combination,"
+          ]
+        },
+        {
+          "slideIndex": 21,
+          "title": "β-lactam antibiotics-2",
+          "bullets": [
+            "Cephalosporins- Contain b-lactum ring",
+            "Ist generation- Ceflexin, cefazolin (G+",
+            "2nd generation- Cefaclor, Broad spectrum",
+            "3rd generation- ceftriaxone, Broad",
+            "4th generation- Cefepime, cefpirome,"
+          ]
+        },
+        {
+          "slideIndex": 22,
+          "title": "β-lactam and other cell wall synthesis inhibitors",
+          "bullets": [
+            "Carbapenem- example imipenem",
+            "Glycopeptides- such as vancomycin",
+            "Bacitracin- topical use only, OTC",
+            "Cycloserine- inhibits cell wall synthesis of",
+            "Ethambutol- \tinhibits arabinogalactan"
+          ]
+        },
+        {
+          "slideIndex": 24,
+          "title": null,
+          "bullets": [
+            "Aminoglycosides- active on G(-) aerobes",
+            "Streptomycin- hearing loss",
+            "Neomycin- hepatotoxic and neurotoxic",
+            "Gentamicin- neurotoxic, nephrotoxic",
+            "Tobramycin-Pseudomonas aeruginosa",
+            "Amikacin- hearing loss and kidney toxicity"
+          ]
+        },
+        {
+          "slideIndex": 33,
+          "title": "Bacterial drug resistance",
+          "bullets": [
+            "b-lactum (Ampicillin)- Modification of BPB, degradation of b-lactum",
+            "Vancomycin-Lack of target in bacteria, plasmid/transposon-borne",
+            "Bacitracin- Lower influx of the antibiotic.",
+            "Isoniazid/ethambutol- Lower influx, mutations in the binding",
+            "Aminoglycosides (tobramycin)-Low influx, high efflux, mutation in",
+            "Tetracyclines (doxycycline)- Low influx, activation of alternative"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "8.2.3",
+      "heading": "ACAs that inhibit DNA replication",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Fluoroquinolones",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Fluoroquinolones (Fig. 8.13) bind DNA gyrase or topoisomerases IV of bacteria and inhibit DNA replication, repair, and recombination. Fluoroquinolones are broad-spectrum antibacterial agents. These antibiotics can be effective in treating intracellular bacterial pathogens, including members of the genus Mycoplasma. Ciprofloxacin, a second- generation fluoroquinolone, is the drug of choice for treating anthrax. The third and fourth generation fluoroquinolones (for example, levofloxacin and prulifloxacin, respectively) are currently available. Resistance to the drug has been observed among staphylococci, enterococci, and Pseudomonas aeruginosa. Fluoroquinolones can be toxic to the muscles, tendons, and neurons. The use of fluoroquinolones in children is restricted.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "Clofazimine",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Clofazimine is a lipid-soluble organic dye (Fig. 8.13). The drug binds guanine residues of DNA and most likely inhibits DNA replication. The drug may have some toxic activities. The drug is highly effective against Mycobacterium sp. and is a primary medicine to treat leprosy (in combination with rifamycin and/or dapsone). The drug may cause reversible yellowish skin pigmentation and temporary discoloration of body fluids. Clofazimine prevents T cell activation, thereby causing immunosuppression.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.13. Antibiotics that inhibit nucleic acid synthesis in bacteria. A. Ciprofloxacin, a second-generation",
+          "page": 14,
+          "image": "/mmahp/ch08/8-13.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "fluoroquinolone. B. Clofazimine, an organic lipid-soluble dye. C. Metronidazole, a synthetic nitroimidazole. D. Rifampicin, a semisynthetic drug derived from rifamycin B.",
+          "page": 14
+        },
+        {
+          "type": "subheading",
+          "text": "Metronidazole",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Metronidazole (8.13) is a synthetic nitroimidazole. When metronidazole is reduced by the nitroreductase enzymes of anaerobic organisms, the modified drug binds to DNA and causes single-stranded DNA breaks (nicks). RNA polymerases cannot transcribe RNA if the template DNA molecules have nicks. As a result, the bacteria perish. Metronidazole is effective against many anaerobic bacteria (including Bacteroides sp., Clostridioides difficile, and Helicobacter pylori), some protozoa (Trichomonas vaginalis, Giardia lamblia, and Entamoeba histolytica), and worms (Guinea worm, a nematode). The drug has been found to cause tumors in mice. Prolonged high doses of the drug can be neurotoxic and may also cause an upset stomach.",
+          "page": 14
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "8.2.4",
+      "heading": "ACAs that inhibit bacterial RNA transcription",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Rifamycins",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Rifamycins, such as rifampin, rifampicin (Fig. 8.13), rifabutin, and rifapentine, are semisynthetic antibiotics derived from rifamycin B, which is produced by the bacterium Streptomyces mediterranei. Rifamycins bind bacterial RNA polymerase and inhibit transcription initiation. These drugs are effective against susceptible species of the genus Mycobacterium and some other G(+) bacteria. Susceptible strains rapidly develop resistance to rifamycins. Thus, the drugs are used in combination therapy. Rifamycin resistance arises from mutations in the bacterial RNA polymerase gene. Rifamycins are toxic to the liver, brain, and bone marrow.",
+          "page": 14
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "8.2",
+      "heading": "5 ACAs that inhibit protein synthesis",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Several groups of antibiotics inhibit the initiation or elongation step of protein synthesis in bacteria (Fig. 8.14). Some of the protein synthesis inhibitors are described below.",
+          "page": 14
+        },
+        {
+          "type": "subheading",
+          "text": "Aminoglycosides",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "An amino-sugar that has lost an -OH group in exchange for another functional group is an aminoglycoside. Some aminoglycosides, such as kanamycin, neomycin, streptomycin, tobramycin, and gentamicin (Fig. 8.15), are natural products synthesized by microbes, whereas others (such as amikacin and netilmicin) are semisynthetic. Aminoglycosides bind to the 16S rRNA of the 30S ribosomal particle and inhibit protein synthesis. Even if protein synthesis initiates, translation elongation becomes error-prone and is prone to premature termination. Aminoglycosides are bactericidal. The drugs can be used alone or in combination with beta-lactam antibiotics to treat serious bacterial infections caused by susceptible strains of aerobic G(-) bacilli and G(+) bacteria. Anaerobic G(-) bacteria are not affected by aminoglycosides.",
+          "page": 14
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.14. Translation initiation, elongation, and termination of protein synthesis in bacteria. Some antibiotics",
+          "page": 15,
+          "image": "/mmahp/ch08/8-14.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "that inhibit different steps of the process are indicated.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "All aminoglycosides are moderately or severely nephrotoxic and neurotoxic. Amikacin is the most commonly used aminoglycoside. Streptomycin can be used in combination therapy for tuberculosis, and tobramycin is used in an inhalation mist for cystic fibrosis patients (to prevent and manage Pseudomonas aeruginosa infections). Aminoglycosides are poorly absorbed from the gastrointestinal tract. Therefore, they are usually given intravenously, intramuscularly, or subcutaneously. Several new drugs in this group (including plazomicin) are currently in development.",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.15. The structure of some aminoglycosides. Shown are the chemical structures of streptomycin, gentamicin,",
+          "page": 15,
+          "image": "/mmahp/ch08/8-15.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "tobramycin, kanamycin B, and amikacin.",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Aminocyclitols",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Aminocyclitols are three-ring organic compounds (related to aminoglycosides). The drugs in this group bind to the 30S ribosomal subunit and inhibit protein synthesis in bacterial cells. The drugs are not nephrotoxic or neurotoxic like aminoglycosides. Spectinomycin (Fig. 8.16), a member of this group, is used in treating gonorrhea (an STI caused by Neisseria gonorrhoeae) in patients who are sensitive to penicillin.",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Tetracyclines",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Tetracyclines are a large group of antibiotics with a characteristic polyketide structure (Fig. 8.16). Some of these drugs, such as tetracycline, are natural products (produced by the bacterium Streptomyces aureofaciens), others (such as minocycline and doxycycline are semi-synthetic. Tetracyclines bind to the 16S rRNA of the 30S ribosome. This binding prevents the entry of the aminoacyl tRNA into the ribosome, thereby inhibiting protein synthesis. Some of these drugs may also bind to the 50S ribosome and damage the bacterial membrane. Tetracyclines are broad-spectrum bactericidal antibiotics.",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.16. The chemical structures of aminocyclitols and tetracyclines. A. Spectinomycin, an aminocyclitol",
+          "page": 16,
+          "image": "/mmahp/ch08/8-16.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "antibiotic. B. Tetracycline, a naturally occurring polyketide antibiotic. C. Doxycycline, a semisynthetic antibiotic of the tetracycline group of antibiotics.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Tetracyclines can be toxic to neurons, the kidneys, and the liver. The drugs may deposit in the bones and cause tooth discoloration. Tetracyclines can be teratogenic (causing fetal deformities if taken by the expectant mother). The drugs increase UV sensitivity of the skin and eyes. Tetracyclines gradually degrade during storage and can become more toxic after the expiration date. Thus, tetracyclines are used only to treat certain infections in adults (infants, expectant and lactating mothers, and children are not treated with antibiotics).",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Chlortetracycline and minocycline are used in treating acne. Minocycline can also be used to treat MRSA infections and meningitis caused by Neisseria meningitidis. Doxycycline is the most used tetracycline in treating intracellular bacterial infections (caused by susceptible species of Mycoplasma, Rickettsia, and Ehrlichia), bacterial sexually transmitted infections (caused by Neisseria gonnorhoeae, Chlamydia trachomatis, and Treponema pallidum), infections by MRSA, Yersinia pestis, and some other enterobacteria; anthrax (caused by Bacillus anthracis), and Lyme disease (caused by Borrelia burgdorferi). Doxycycline is also useful in treating malaria (a protozoan infection) and filarial worm infections. Minocycline and doxycycline also have anti-inflammatory effects and are used in treating rheumatoid arthritis.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "Macrolides",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Macrolides are polyketide-type antibiotics containing a macrolide lactone ring attached to one or two sugar units (Fig. 8.17). Some macrolides (such as erythromycin) are natural products, while others (such as azithromycin and clarithromycin) are semisynthetic. These drugs bind to the 23S rRNA of the 50S ribosomal subunit and prevent translation elongation.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Macrolides are effective against many species of G(+) cocci, and, to some extent, intracellular bacterial pathogens such as Mycobacterium tuberculosis, Chlamydia trachomatis, and Rickettsia sp. Macrolides may cause an upset stomach and nausea. Azithromycin is often preferred over other macrolides because of its short-term treatment regimen (one tablet daily for 3-5 days). Macrolides may interfere with birth control pills.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "Oxazolidinones",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Oxazolidines are synthetic chemical compounds with antibiotic properties. The drugs bind the P site of the 50S ribosome and inhibit protein synthesis. Linezolid (Fig. 8.17), an oxazolidinone, is effective against nearly all pathogenic G(+) cocci, including MRSA and VRSA. Linezolid is one of the most expensive antibiotics, but it is used as a last resort to treat multidrug-resistant staphylococci, streptococci, and enterococci. Linezolid is also used in treating tuberculosis in combination therapy. Side effects are minor and include gastrointestinal troubles. Chloramphenicol Chloramphenicol (Fig. 8.17) binds 50S ribosome particles and inhibits peptidyl transferase activity and therefore prevents the translation elongation process in the bacterial cell. Chloramphenicol is a bacteriostatic agent, highly effective against many species of G(+) and G(-) bacteria, including some drug-resistant strains. Chloramphenicol is used to treat bacterial meningitis and to treat eye infections after ophthalmic surgery. Chloramphenicol is a preferred antibiotic for treating bacterial infections of the brain and its meninges because it accumulates effectively in the cerebrospinal fluid. However, its use is restricted because of serious side effects, including bone marrow suppression (lack of formation of blood cells), aplastic anemia, and possibly childhood leukemia.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "Lincosamides",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Lincosamides bind the 23S rRNA of the 50S ribosome and cause premature translation termination. Some lincosamides (such as lincomycin) are natural products; others, including clindamycin (Fig. 8.17), are semisynthetic. Lincosamides are effective against staphylococci, streptococci, and anaerobic G(-) rods. Clindamycin is also used as an antimalarial agent in combination with chloroquine. Side effects of lincosamides include gastrointestinal problems.",
+          "page": 17
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.17. Some antibiotics that inhibit protein synthesis by affecting the 50S ribosome and/or the translation",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "elongation process. A. Azithromycin, a semisynthetic macrolide antibiotic. B. Linezolid, a synthetic antibiotic of the oxazolidine class. C. Chloramphenicol, a bacteriostatic antibiotic. D. Clindamycin, a semisynthetic antibiotic of the lincosamide group. E. Synercid is a mixture of two streptogramins, quinupristin and dalfopristin. Streptogramins are cyclic polypeptide antibiotics.",
+          "page": 17
+        },
+        {
+          "type": "subheading",
+          "text": "Streptogramins",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Streptogramins are cyclic peptide antibiotics. Synercid, a mixture of two streptogramins, quinupristin and dalfopristin (Fig. 8.17), is used to treat vancomycin-resistant Enterococcus faecium infections. The components of Synercid bind the 50S ribosomal subunit and cause premature termination of translation in bacterial cells. Side effects of Synercid include nausea, rash, and headache.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Another example of this group is virginiamycin, which is used in the biofuel and gasohol (petroleum mixed with ethyl alcohol) industries to prevent bacterial growth in yeast-based fermentation vats and as an additive in animal feed, particularly to prevent bacterial infections in swine. Such agro-industrial use of the antibiotic might have contributed to the development of Synercid resistance among pathogenic bacteria.",
+          "page": 17
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 14,
+          "title": "Sources of natural antibiotics",
+          "bullets": [
+            "Bacteria",
+            "Bacillus subtilis \tBacitracin (enzymatically synthesized polypeptides)",
+            "B. polymyxa \tPolymyxin (enzymatically synthesized polypeptides)",
+            "Streptomyces nodosus \tAmphotericin B (a polyene, an antifungal agent)",
+            "S. venezuelae \tChloramphenicol (novel)",
+            "S. aureofaciens \tTetracyclines (polyketide/tetracyclines)",
+            "S. erythreus \tErythromycin (macrolides)",
+            "S. fradiae \tNeomycin (aminoglycosides)",
+            "S. griseus \tStreptomycin (aminoglycosides)",
+            "Micromonospora purpurea \tGentamicin (aminoglycosides)",
+            "Fungi",
+            "Cephalosporium sp. \tCephalosporin (b-lactum)",
+            "Penicillium griseofulvum \tGriesofulvin",
+            "P. notatum \tPenicillin (b-lactum)",
+            "Peptide antibiotics synthesized on ribosomes",
+            "Humans \tDefensins",
+            "Frog (Xenopus) \tBombinin",
+            "Insect (Moth) \tCecropins",
+            "Plant (Wheat) \tPurothionin",
+            "Bacteria (E. coli) \tBacteriocins"
+          ]
+        },
+        {
+          "slideIndex": 25,
+          "title": "Antibiotics that inhibit protein synthesis-3",
+          "bullets": [
+            "Tetracyclines (polyketatide) - may discolor teeth",
+            "Chlortetracycline- acne, neurotoxic",
+            "Doxycyclines- anthrax, MRSA, bacterial STD",
+            "Oxazolidinone- Linezolid, MRSA and VRSA",
+            "Chloramphenicol- anemia, brain infections",
+            "Macrolides: G(+) only",
+            "Lincosamide- Clindamycin, antimalarial",
+            "Streptogramins: MRSA and VRSA"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "8.2.6",
+      "heading": "ACAs that inhibit certain metabolic pathways",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "There is a long array of bacterial metabolic pathways that can be potentially targeted to kill pathogenic bacteria or prevent their growth in a patient's body. However, only a few pathways are currently utilized. Here we will discuss drugs that interfere with the folate synthesis pathway (Fig. 8.18).",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Folate and folic acid belong to vitamin B9. Vitamins of the B9 group are necessary for adenosine, guanosine, and thymidine synthesis, and the synthesis of some of the amino acids. One of these vitamins, tetrahydrofolate, is essential for thymidine synthesis. Several antibiotics inhibit key enzymes in the folate synthesis pathway and thereby inhibit nucleotide synthesis (Fig. 8.18).",
+          "page": 17
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.18. Antibiotics that inhibit the tetrahydrofolate synthesis pathway. A. The tetrahydrofolate synthesis",
+          "page": 18,
+          "image": "/mmahp/ch08/8-18.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "pathway. Note that sulfonamides and trimethoprim inhibit two different enzymes (shown on the left side of the arrows) in the same pathway. B. The chemical structure of PABA, an important coenzyme. C. Some antibiotics that are structurally similar to PABA. Shown are the chemical structures of sulfamethoxazole, dapsone, and PASER. D. The chemical structures of trimethoprim and tetroxoprim, which inhibit the enzyme dihydrofolate reductase. Bacteria cannot salvage (reuse) nucleotides from nutrients (must use newly synthesized nucleotides). A lack of nucleotide synthesis ultimately inhibits DNA replication in bacteria. Antibiotics that inhibit folate synthesis in bacteria do not inhibit the corresponding enzymes in human cells to the same extent. In addition, the human cell can salvage nucleotides from dietary sources. Thus, DNA replication in human cells is not significantly affected by these antibiotics. Some of these antibiotics are described below.",
+          "page": 18
+        },
+        {
+          "type": "subheading",
+          "text": "Sulfonamides",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Sulfonamide is the active component of the first nontoxic antibacterial agent (prontosil) ever used to treat bacterial infections in humans. Commonly used sulfonamides are synthetic sulfa drugs that are structural analogs of para- aminobenzoic acid (PABA), a coenzyme required for dihydropteroate synthesis. Sulfonamides competitively bind and inactivate the enzyme dihydrofolate synthase, thereby inhibiting bacterial growth. Different sulfa drugs are available in different countries. A few, including sulfamethoxazole (Fig. 8.17), are available in the United States. Sulfonamides are effective against both G(+) and G(-) bacteria. Side effects of sulfa drugs include stomach upset. Unfortunately, some people develop sulfonamide allergies.",
+          "page": 18
+        },
+        {
+          "type": "subheading",
+          "text": "Dapsone and p-amino-salicylic acid (PASER)",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Dapsone and PASER (Fig. 8.18) inhibit the enzyme dihydropteroate synthase. Dapsone and PASER are used in combination therapy (with a rifamycin) in treating tuberculosis and leprosy. Dapsone and PASER are mildly hepatotoxic and may cause hemolysis. PASER may also cause goiter (enlargement of the thyroid gland) by inhibiting the synthesis of thyroid hormone. Dapsone and PASER also inhibit the activity of some proinflammatory transcription factors, such as NFkB, and thus prevent certain inflammatory immune responses.",
+          "page": 18
+        },
+        {
+          "type": "subheading",
+          "text": "Trimethoprim and related drugs",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Trimethoprim and tetroxoprim are synthetic chemicals that inhibit dihydrofolate reductase, a key enzyme in the tetrahydrofolate synthesis pathway (Fig. 8.18). Since sulfonamides and trimethoprim block different enzymes in the same metabolic pathway, they are used in combination therapy. Sulfamethoxazole-trimethoprim (5:1 ratio, trade name Bactrim) combination is effective against many G(+) and G(-) bacteria. Bactrim is used as a prophylactic agent against pneumocystis pneumonia (caused by Pneumocystis jirovecii, a protozoan) among HIV-positive patients. Bactrim can also be used to treat urinary tract infections. Bactrim is mildly nephrotoxic and can be hepatotoxic to some patients. Bactrim is not recommended for pregnant women because of the potential for teratogenesis, and for pediatric use because of the possibility of necrosis of the skin.",
+          "page": 18
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "8.3",
+      "heading": "Prevention and Cure of Fungal Infections",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Fungi are universally distributed, making it impossible to avoid contact with them. However, exposure to fungal toxins can be significantly reduced by taking precautionary measures (see Table 8.7). Houseplants and pets are major sources of fungal spores. Superficial fungal infections (mycosis) such as ringworm, jock itch, athlete’s foot, nail and hair fungi, can be prevented by improving personal hygiene, keeping body surfaces clean and dry, and avoiding contact with potentially contaminated surfaces (such as the floors of public exercise rooms and swimming pools).",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.7. Common fungal toxins to which human subjects may get exposed to.",
+          "page": 19,
+          "image": "/mmahp/ch08/8-7.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Toxin Major producer species Toxin Source Effect on human subjects Aflatoxin Aspergillus flavus Cereal grains, nuts (peanuts), nut oil, spices Toxic and carcinogenic to liver cells Amatoxin Amantia sp. and several other colored mushrooms Eating wild mushrooms Inhibits RNA polymerase II, cause multiple organ (specially, liver and kidney) failure Ergot toxin Claviceps purpurea (rust fungi) Eating infected grain (rye) Lysergic acid (LSD)-like hallucinogenic effects on the nervous system, convulsion Ochratoxin Aspergillus ochraceus and Penicillium verrucosum Contaminated grains, pork, coffee, and raisins Carcinogenic, may suppress immune system Rubratoxin Penicillium rubrum Contaminated cereal grains and pork DNA damage (mutagenic), neurotoxin Zearalenone, Trichothecenes, Fumonisins Fusarium sp. Contaminated cereal grains Cytotoxic, suppress immune system Patulin Some species of Aspergillus, Penicillium and Byssochlamys.",
+          "page": 19
+        },
+        {
+          "type": "subheading",
+          "text": "Rotting fruit and juice \tMutagenesis of DNA",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Pets, soil, air (in fungus-contaminated homes), and nebulizers are important sources of fungus infection. Indwelling catheters may allow skin fungi (Candida sp. and Malassezia sp.) to enter the body. Sexual contact may transmit Blastomyces sp. People with malignancies, AIDS, organ transplants, and other conditions that compromise cell- mediated immunity should take special precautions when using public pools, around pets, in homes with leaking walls and roofs, and around moist organic soil (i.e., gardening). There is no vaccine or prophylactic agent to prevent fungal infections.",
+          "page": 19
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "8.3.1",
+      "heading": "Antifungal agents",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The AIDS epidemic has sparked a mini revolution in antifungal research. The number of useful antifungal agents has increased from a few to several dozen over the past two decades. Antifungal agents can be grouped by the fungal targets they affect. Common fungal targets include the cell wall, plasma membrane, DNA and RNA synthesis, specific proteins, and protein synthesis (Fig. 8.19). Agents effective against these targets are either fungistatic (prevent fungal growth) or fungicidal (kill fungi). All antifungal agents are toxic to some extent. Highly toxic antifungal agents are used only topically (on the skin or external mucous membranes) or, as a last resort, systemically to save life. Agents that interfere with fungal cell wall synthesis Echinocandins Echinocandins (for example, caspofungin) are semisynthetic lipopeptides (Fig. 8.20) that inhibit beta-glucan (a cell wall polysaccharide) synthesis. The drug is effective against the genera Candida and Aspergillus. Fungi with low beta- glucan in the cell wall (including genera Fusarium and Cryptococcus) are resistant to echinocandins. Another drug, nikkomycin Z, inhibits chitin synthesis (another cell-wall polysaccharide).",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": ".",
+          "page": 20
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.19. The targets of common antifungal agents. The currently used drugs against common targets are listed.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Note that the agents may damage the existing target and or prevent synthesis of the target. Not all fungal species are equally susceptible to the drugs.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Agents that interfere with the fungal plasma membrane and sterol synthesis Allylamines and alkylamines Allylamines inhibit an enzyme involved in ergosterol synthesis, disrupting fungal membranes. Terbinafine, an alkylamine (Fig. 8.20), can be used both orally and topically. These agents are effective against some species of the genera Candida, Malassezia, Cryptococcus, Trichosporon, Aspergillus, and Fusarium. Terbinafine is one of the less toxic fungistatic agents. Naftifine, another alkylamine, is used topically.",
+          "page": 20
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.20. Chemical structure of some common antifungal agents. Shown are caspofungin acetate or cancidas (an",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "echinocandin); terbinafine (an alkylamine); ketoconazole (an azole), amphotericin B (a polyene); flucytosine (a nitrogenous base analog); griseofulvin and sordarin.",
+          "page": 20
+        },
+        {
+          "type": "subheading",
+          "text": "Azoles",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Azoles are a group of cyclic organic compounds containing two nitrogen atoms (i.e., imidazole) or three nitrogen atoms (i.e., triazoles) in a ring (Fig. 8.20). The drugs inhibit the synthesis of ergosterol (a molecule structurally similar to cholesterol). Azoles are fungistatic (not fungicides). Of the several imidazoles currently available, ketoconazole is effective against some species of the genera Candida, Cryptococcus, Malassezia, Aspergillus, and Fusarium. The drug can be given orally, but it shows many side effects (including nausea, diarrhea, and liver toxicity). The drug is not effective in treating brain mycosis. Triazoles (such as fluconazole, itraconazole, and voriconazole) have largely replaced imidazoles. Fluconazole is less toxic and water-soluble (can be given orally or intravenously). Voriconazole is most effective for brain mycoses. Triazoles are effective against most common pathogenic fungi (Table 8.8).",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "Polyenes",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Polyenes contain a large lactone ring with several hydroxyl groups (Fig. 8.20). The drugs bind to membrane ergosterol and create a membrane channel that disrupts membrane integrity (allowing leakage of ions). Amphotericin B, originally isolated from Streptomyces sp., is one of the most commonly used antifungal drugs. The drug can be given topically or intravenously (but it does not get absorbed if given orally). It is mildly toxic (because it also binds cholesterol found in the membrane of human cells. Currently, a less toxic lipid formulation of the drug is used. The drug is effective against most pathogenic fungi except some species of Aspergillus and Fusarium (Table 8.8). Nystatin, another member of this group, is used topically. Polyenes are fungicides.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Agents that interfere with fungal RNA (and protein) synthesis Flucytosine Flucytosine is a fluorinated nitrogenous base (Fig. 8.20) that is modified by fungal enzymes to 5-fluorouridylic acid, which competes with uridine. As a result, the drug inhibits RNA synthesis (and, indirectly, protein synthesis). Flucytosine is active against only a few fungi, including some species of Candida, Saccharomyces, and Cryptococcus. The drug is generally used in combination with amphotericin B or fluconazole.",
+          "page": 21
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.8. Effectiveness of common antifungal agents against important fungal pathogens (modified from",
+          "page": 21,
+          "image": "/mmahp/ch08/8-8.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Murray et al. 2005, Medical Microbiology 5th Ed., Elsevier).",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Fungus Caspofungin Fluconazole Itraconazole/ voriconazole Amphotericin B Flucytosine Aspergillus +++ 0 ++++/++++ ++++ 0 Blastomyces + + ++++/++++ ++++ 0 Candida ++++ ++++ ++++/++++ ++++ ++++ Coccidioides ++ ++++ ++++/++++ ++++ 0 Cryptococcus 0 +++ ++/++++ ++++ +++ Fusarium 0 0 +/+++ +++ 0 Histoplasma ++ ++ ++++/++++ ++++ 0 Penicillium ++ ++++/++++ ++++ 0 Zygomycetes + 0 0/0 ++++ 0 -C. crusi is resistant, sensitive only to Caspofungin and voriconazole, -data for P. marneffei, Agents that interfere with fungal proteins and protein synthesis Griseofulvin Griseofulvin (Fig. 8.20) is a fungal metabolite (isolated from Penicillium). The drug inhibits mitosis by binding fungal microtubules. The drug is effective only for skin infections caused by dermatophytes (Trichophyton sp.). The drug is given orally and has low-level side effects (nausea, vomiting, and diarrhea). The drug has been largely replaced by more effective agents such as itraconazole.",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "Sordarin",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Sordarin is a metabolite of the fungus Sordaria araneosa. Sordarin group of antibiotics (Fig. 8.20) is a selective inhibitor of fungal protein synthesis. In test tubes, these agents are broad-spectrum antifungal agents, effective against both yeast and mold forms. As of now, the drugs are experimental antifungal agents.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Some strains of fungi are only partially sensitive to the drugs described above, and some fungal pathogens have developed partial resistance to certain of them. In such cases, combination therapy is used. Amphotericin B is often mixed with fluconazole or echinocandins. Antifungal agents commonly used in treating specific fungal infections are listed in Table 8.8.",
+          "page": 22
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 38,
+          "title": "Antifungal agents-1",
+          "bullets": [
+            "Inhibitors of cell wall synthesis",
+            "Caspofungin",
+            "NikkomycinZ",
+            "Inhibitors of ergosterol synthesis",
+            "Allylamines (Terbinafine, Naftifine): Inhibit fungal ergosterol synthesis)",
+            "Azoles (imidazoles, trazoles) (fungistatic)",
+            "Ketoconazole",
+            "Fluconazole",
+            "Itraconazole",
+            "Voriconazole",
+            "Polyenes (fungicides)",
+            "Amphotericin B",
+            "Nistatine"
+          ]
+        },
+        {
+          "slideIndex": 39,
+          "title": "Antifungal agents-2",
+          "bullets": [
+            "Inhibitors of RNA synthesis",
+            "Flucytosine",
+            "Inhibitors of protein synthesis",
+            "Griseofulvin",
+            "Sordarin"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "8.4",
+      "heading": "Prevention and cure of protozoan infections",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Over a billion people suffer from morbidity caused by protozoan infections. However, there is currently only one experimental vaccine to prevent these infections. Good hygiene practices and well-developed public health infrastructures are essential to reducing the incidence of protozoan infections. The safe disposal of human and animal waste is crucial to preventing outbreaks of enteric protozoa. Filtration of chlorinated municipal water supplies significantly reduces protozoan cysts. If economically feasible, at-risk groups, including pregnant women, infants, and immunosuppressed individuals, should drink only water that has been treated and further purified using a 1.0-micron filter. Additionally, these populations should avoid contact with pets, a source of many enteric and blood protozoa. Some commonsense measures for preventing protozoan infections are listed in Table 8.9.",
+          "page": 22
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.9. Measures to prevent protozoan infection.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Measures Why Avoid untreated surface water To avoid swallowing cysts of enteric protozoa.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Filter municipal water To remove protozoan cysts that survive chlorination.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Use protective clothing and use insect repellants To prevent insect bites.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Eat prophylactic medications (quinine) To prevent malaria while visiting where malaria is endemic. Avoid raw salad and unpeeled fruits To avoid enteric protozoa in some developing countries.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Drain small stagnant water To prevent the breeding of mosquitoes.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Take precautions while swimming in open water To prevent protozoan meningitis.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Avoid contact lenses or take extra care To prevent eye infection by soil amoebae.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Avoid dogs, cats, and other pets To protect immunocompromised subjects from infections.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Water treatment and the disposal of human and animal waste are poorly developed in less-developed countries. Travelers should avoid surface water and all raw produce in those countries. Mosquito control is an endless, failing battle. Personal protection should be attempted by wearing clothing with insect repellents such as permethrin. Removing water pots and small ditches around the household helps prevent mosquito breeding. Note that even 10 mL of standing rainwater for a few days can support the reproduction of certain mosquito species. A few protozoan infections can spread through sexual contact (heterosexual or homosexual intercourse and anal-oral contact). Healthy sexual behavior is always an effective infection-control measure.",
+          "page": 22
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "8.4.1",
+      "heading": "Cures for protozoal infections",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Developing drugs against protozoa is complicated because protozoa are eukaryotes. There are very few drug targets that are sufficiently distinct from their human counterparts. Consequently, drug developers seek drugs with differential toxicity rather than selective toxicity. A drug with differential toxicity is more harmful to parasites and less harmful to human cells at the same concentration. Some traditional antiprotozoal drugs (such as quinine) have been incorporated into mainstream medical practice. Some of the antiprotozoal drugs are detailed in the following sections. Quinine and related drugs Quinine is extracted from the bark of cinchona trees. The Incas of South America used quinine to treat fever and shivering since antiquity. Europeans adopted the medicine in the 1700s. Today, quinines (Fig. 8.21) are the most widely used anti-malarial agents. Malaria is caused by several species of the genus Plasmodium. Some quinine drugs are semi- or fully synthetic.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "The mechanisms by which quinines work are not fully understood. Some proposed mechanisms include (a) interfering with DNA replication, (b) increasing the pH inside the endosomes where the malarial parasite resides, and (c) interfering with hemoglobin digestion by the parasite.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Some drugs in this group (such as 4-aminoquinoline) rapidly kill malaria parasites within erythrocytes. Such drugs are given as prophylactic agents to people in regions where malaria is endemic. Unfortunately, some strains of malaria parasites are resistant to quinine, and some individuals are sensitive to the drug (side effects include blurred vision, hearing loss, anemia, and arrhythmia).",
+          "page": 23
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.21. Some antiprotozoal agents. Shown are mefloquine, a quinine drug; sulfamethoxazole and trimethoprim",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "(inhibitors of folate synthesis); clindamycin (a protein-synthesis inhibitor); metronidazole (an inhibitor of DNA synthesis); artemisinin (a free-radical generator); and meglumine antimoniate, a drug used to treat leishmaniasis. Inhibitors of folic acid synthesis Folic acid (vitamin B9) is necessary for synthesizing nucleotides and some amino acids. Some protozoa (such as Entamoeba sp.) cannot absorb folic acid from the host body and must synthesize it inside their own cells. Thus, the metabolic pathway for folic acid synthesis is a promising target for killing these protozoa. Sulfa drugs, trimethoprim, and pyrimethamine (Fig. 8.20) inhibit the folic acid synthesis pathway.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Inhibitors of protein synthesis",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Some antibiotics (for example, clindamycin, tetracycline, and doxycycline) inhibit protein synthesis in certain protozoan species (for example, the genera Toxoplasma and Plasmodium). Clindamycin (Fig. 8.21) can be administered alongside quinine to treat partially quinine-resistant malaria.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Agents that interfere with DNA metabolism",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Pentamidine and metronidazole (Fig. 8.21) bind to and damage DNA; quinolones (such as ciprofloxacin) bind to DNA gyrase (an enzyme required for DNA replication) in some protozoa and prevent DNA replication. The above drugs are used in combination to treat Pneumocystis pneumonia.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Free-radical activators",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Artemisia annua, a Chinese herb, has been used as a folk antimalarial agent for over 2,000 years. Artemisinin, a terpene compound purified from this plant (Fig. 8.21), has been shown to be effective against quinine-resistant malarial parasites. The exact mechanism of the drug is not fully understood. One proposal is that the drug interacts with iron, preventing it from neutralizing free radicals such as hydrogen peroxide. Consequently, the free radicals destroy the macromolecules and kill the parasite.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Heavy metal compounds",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Several metal-organic compounds (Fig. 8.21) are used as antiprotozoal drugs. The metal ions (such as arsenic and antimony) probably oxidize the sulfhydryl (SH) group, thereby inhibiting certain enzymes. The drugs may also cause oxidative damage, including DNA damage. Melarsoprol (which has arsenic) is used in treating African sleeping sickness (caused by Trypanosoma brucei). Meglumine antimonate is the first-line treatment for leishmaniasis (caused by Leishmania donovani). Heavy metals are highly toxic to humans (side effects include brain malfunction and possibly DNA mutation). These drugs have been replaced in many countries with some newly developed drugs, such as Fexinidazole (for treating African sleeping sickness), and Miltefosine (to treat leishmaniasis).",
+          "page": 23
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 28,
+          "title": "Folate synthesis inhibitors",
+          "bullets": [
+            "Sulfonamides-bind dihydrofolate",
+            "Trimethoprim- binds dihydrofolate",
+            "Dapsone- leprosy",
+            "p-aminosalicylic acid (Paser)- TB"
+          ]
+        },
+        {
+          "slideIndex": 44,
+          "title": "Antiprotozoal drugs",
+          "bullets": [
+            "Unknown mechanisms",
+            "Quinine, chloroquine, (Plasmodium)",
+            "Artemisinin (usually used with quinine for malaria)",
+            "Heavy metal compounds (flagellate para sites)",
+            "(Arsenic, antimony, and bismuth)- most likely oxidizing agents",
+            "Inhibitors of folate synthesis",
+            "Sulfa drugs, trimethoprim and pyrimethamine (Entamoeba)",
+            "Inhibitors of protein synthesis",
+            "Clindamycin, tetracycline, and doxycycline (Toxoplasma, Plasmodium)",
+            "Inhibitors of DNA replication (for Pneumocystis)",
+            "Pentamidine, Metronidazole (bind and break DNA)",
+            "Quinolones (DNA gyrase inhibitors)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "8.5",
+      "heading": "Prevention and cure of worm infection",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Humans have dealt with worm infections since the dawn of civilization. Vegetarianism and the prohibition of meat from omnivorous or carnivorous animals indicate this traditional knowledge. Nearly every culture has traditional treatments for worm infections. Globally, at least 1.5 billion people are infected with worms, yet there is no vaccine to prevent these infections. Current knowledge of worm life cycles suggests preventive measures (Table 8.10), but fully avoiding worm infections is impractical in many countries.",
+          "page": 24
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.10. Some measures to prevent worm infections.",
+          "page": 24,
+          "image": "/mmahp/ch08/8-10.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Measures Why Proper hand washing To avoid ingestion of fecal dust, containing worm eggs.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Wear shoes To prevent penetration of worm larvae through the sole of the feet.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Avoid direct contact with animals and animal saliva To prevent ingestion/inhalation of worm larvae and eggs in the saliva and on the fur.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Avoiding dusty air, and unclean open water To avoid accidental inhalation and swallowing fleas and worm larvae and eggs.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Freeze meat and fish at -40°C for 15 days To kill worms, eggs and larvae in fish and meat of food animals (it may not be effective for game animals).",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Avoid raw, uncooked, salted, smoked and lightly cured fish and meat To avoid worms, worm larvae and eggs.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Properly cook all food of animal origin and aquatic vegetables To kill worms, eggs and larvae.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Go beyond food inspection Inspection is important but not fail-safe, subject with problems with the immune system should take all precaution even with inspected food.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "The FDA recommends freezing raw fish at -20°C for seven days before consuming it raw. Fish thicker than 6 inches should be frozen at a lower temperature (-35°C) for a longer period to ensure safety. However, freezing does not eliminate all worm eggs and larvae of all species.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Salting (in brine containing 8-21% NaCl), smoking, and refrigerating fish and meats for a short time may not effectively inactivate worms, larvae, or eggs. Cooking at 60°C for 30 minutes or boiling for 10 minutes kills worms, larvae, larval cysts, and eggs, provided that adequate heat reaches all areas (including the core) for the prescribed time. The larvae of Trichinella sp. remain viable in salt-treated pork for over a month, but not in prosciutto cured for over 70 days. It is estimated that 100% of animals are infected with at least one worm. Most worm infections in developed countries stem from raw food (i.e., sushi), salted, cured, smoked, or poorly cooked animal tissues. Eating undercooked game animals and fish (for example, while camping) can be deadly for immunocompromised individuals.",
+          "page": 24
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 30,
+          "title": "Pharmacology",
+          "bullets": [
+            "Combination antibiotic therapy",
+            "Why/ why not",
+            "Antibiotic interaction",
+            "indifferent",
+            "Synergistic",
+            "antagonistic:"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "8.5.1",
+      "heading": "Cures for worm infections",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Until 1980, treatments for worm infections were traditional. The drug targets of some traditional but effective antihelminth agents are now known, and several new, highly effective anthelmintic medications (drugs to kill worms) have become available. Worms are advanced eukaryotes and are molecularly very similar to humans. Therefore, there are very few specific targets for which drugs can be designed. A compromise is to find agents with differential toxicity. Some modern, effective anthelmintic agents are described below (see also Table 8.11). Currently available drugs mostly affect adult worms, but some also affect certain larval stages.",
+          "page": 24
+        },
+        {
+          "type": "subheading",
+          "text": "Avermectins",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "A prototype of this group of medications is ivermectin (Fig. 8.22). In invertebrates, the drugs bind to glutamate-gated chloride channels at neuromuscular synapses, interfering with neurotransmission. As a result, the parasite becomes paralyzed and unable to reproduce. The paralyzed worms are expelled through bowel movements. The drug is effective against many worms and insect parasites, but its high toxicity limits its use. It is used extensively in animals and to treat filariasis in humans.",
+          "page": 24
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.11. The modes of action of anthelmintic drugs.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "Drugs Prototype Possible mechanism (overall effect on the worms) Effective on Avermectins Ivermectin Bind chloride channels (causes paralysis) Flatworms, roundworms and some insects Benzimidazoles Albendazole Inhibits enzymes, bind beta tubulin, prevents cell division and ATP synthesis (causes paralysis or death) Flatworms, and roundworms Piperazines Piperazine citrate Binds GABA receptors of neuromuscular synapses (causes paralysis) Roundworms Chlorinated salicylanilides Niclosamide Affects sugar uptake, prevents ATP synthesis (causes paralysis) Flatworms Pyrazino isoquinolines Praziquantel Affect calcium influx and signal transduction (causes paralysis) Flatworms and roundworms Tetrahydropyrimidines Pyrantel pamoate Binds acetylcholine (cholinergic) receptors (causes paralysis) Roundworms Benzimidazoles Albendazole (Fig. 8.22) is a prototype of this group of medications. Related drugs include mebendazole and thiabendazole. The possible modes of action for these drugs include inactivating certain enzymes, inhibiting glucose transport, preventing ATP synthesis, and blocking microtubule formation (by binding beta-tubulin). The ultimate result is paralysis and death. Albendazole is effective against many flatworms and roundworms. The drug is hepatotoxic and nephrotoxic and can suppress blood cell production in the host at high doses.",
+          "page": 25
+        },
+        {
+          "type": "subheading",
+          "text": "Piperazines",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "A prototype of this group of medications is piperazine citrate (Fig. 8.22). The drugs act on the neuromuscular junctions, paralyzing the worms. This medication is effective only against roundworms and is generally less effective than benzimidazoles.",
+          "page": 25
+        },
+        {
+          "type": "subheading",
+          "text": "Chlorinated salicylanilide",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "The prototype of this group of medications is niclosamide (Fig. 8.22). The drug affects sugar uptake and prevents ATP synthesis in worms and some other aniamls, including aquatic invertebrates and fish. It is effective only against intestinal flatworms and is primarily used to treat tapeworm infections. Contraindications include nausea, vomiting, and constipation.",
+          "page": 25
+        },
+        {
+          "type": "subheading",
+          "text": "Pyrazino isoquinolines",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "A prototype of this group of medications is praziquantel (Fig. 8.22). The mode of action is not fully understood, but it is likely that the drug allows unregulated calcium influx into the cell, causing paralysis and tegument damage. The drugs are highly effective against flukes and tapeworms and are used to treat schistosomiasis and hydatid disease. The drug is also effective against roundworms. Side effects, including nausea, headache, vertigo, and seizures, are related to immune reactions to antigens released by the dying/dead flatworms.",
+          "page": 25
+        },
+        {
+          "type": "subheading",
+          "text": "Tetrahydropyrimidines",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "A prototype of this group of medications is pyrantel pamoate (Fig. 8.22). The drug binds to acetylcholine receptors and stimulates muscle contraction. As a result, the worm becomes paralyzed. The drug is effective against intestinal roundworm infections, including ascariasis (Ascaris lumbricoides), enterobiasis (pinworm), trichinellosis (Trichinella sp.), and hookworm infections, but is ineffective against flatworms. Subjects heavily infected with Ascaris lumbricoides may experience intestinal obstruction after treatment with this drug due to the passage of too many paralyzed worms at once. Side effects include nausea, headache, and temporary sleeplessness.",
+          "page": 25
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.22. The chemical structures of some of the anthelmintic agents. Shown are ivermectin, albendazole,",
+          "page": 26,
+          "image": "/mmahp/ch08/8-22.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "piperazine citrate, niclosamide, and pyrantel pamoate.",
+          "page": 26
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "8.5",
+      "heading": "Some aspects of the pharmacology of ACAs",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Pharmacology is the study of drugs, their modes of action, and their effects on cells. Here, we will discuss aspects of pharmacology, including combination therapy, dosing, drug interactions, and bacterial drug resistance.",
+          "page": 26
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 30,
+          "title": "Pharmacology",
+          "bullets": [
+            "Combination antibiotic therapy",
+            "Why/ why not",
+            "Antibiotic interaction",
+            "indifferent",
+            "Synergistic",
+            "antagonistic:"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "8.5.1",
+      "heading": "Combination antibiotic therapy",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Combination antibiotic therapy involves using two or more antibiotics together to treat an infection. When two antibiotics are used together, there could be three possible outcomes: a) indifferent: the two drugs do not interfere with each other, the overall outcome is a simple additive effect; b) synergistic: the effect of one antibiotic enhances the effect of the other, the overall outcome is more than the simple additive effect; and c) antagonistic: the effects of the drugs interfere with each other, the overall outcome is less than the simple additive effects. Both beneficial and harmful effects of drugs could be indifferent, synergistic, or antagonistic. Note that side effects of a drug are harmful or beneficial effects that occur in addition to the intended action of a drug.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "When two drugs act on the same target or pathway (as with sulfamethoxazole and trimethoprim), their effects are usually synergistic. When two drugs act on different targets, their effects can be indifferent, synergistic, or antagonistic. The antibacterial activities of beta-lactam drugs and chloramphenicol are considered antagonistic. A logical explanation for this outcome is that beta-lactam drugs kill actively dividing bacteria, whereas chloramphenicol is a bacteriostatic drug (it stops protein synthesis and inhibits bacterial growth). Antibiotic synergy or antagonism is species-specific and can be accurately measured only if appropriate drug doses are administered. Combination antibiotic therapy is often used, irrespective of other possible outcomes, especially to prevent the development of bacterial drug resistance. For example, up to three antibiotics (dapsone, clofazimine, and rifampin) are used to treat leprosy. The efficacy and toxicity of drugs depend substantially on the genotype of the human subjects. A drug well tolerated by most patients can be highly toxic to certain individuals. This is a key issue in pharmacogenomics (the study of how a person’s genome affects drug effects). Efforts are underway to understand a patient’s genome, transcriptome, and proteome so that only the best-fitting drugs can be dispensed to the subject.",
+          "page": 26
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "8.5.2",
+      "heading": "Drug interactions",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Drug interactions occur when the effect of a drug is altered by another chemical substance. The substance altering the drug effect can be other drugs, cosmetics, or food substances. The possible outcomes include increased or decreased bioavailability, drug effectiveness, and drug toxicity. A few examples of drug interactions involving antibiotics are listed in Table 8.12.",
+          "page": 26
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.12. A few examples of drug interactions involving ACAs.",
+          "page": 27,
+          "image": "/mmahp/ch08/8-12.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Antibiotics Interacting drug or food Outcomes Ampicillin Allopurinol (for gout) Excessive skin rashes Amoxicillin Beta blockers (for cardiac arrhythmia) Drop in beta-blocker absorption Mezlocillin Methotrexate (for cancer or arthritis) Increased blood level of methotrexate Isoniazid Alcohol Excessive liver toxicity Ciprofloxacin Calcium-rich food Reduced absorption of ciprofloxacin Rifampin Oral contraceptives The contraceptives may not work - Mezlocillin is a beta-lactam antibiotic.",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "Prescription drug labels always include detailed information on drug interactions, possible short- and long-term side effects, and necessary precautions. This information protects pharmacists and drug manufacturers from liability and helps patients avoid harmful side effects. Over-the-counter (OTC) drug packages also include possible drug interactions and a list of necessary precautions. Informed patients take necessary precautions when taking any drugs, including OTC, and seek alternative drugs if necessary to reduce risk and obtain maximum benefits.",
+          "page": 27
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 31,
+          "title": "Drug interactions involving antibiotics",
+          "bullets": [
+            "Ampicillin/ Allopurinol (gout): Excessive skin rashes",
+            "Amoxicillin/ b-blocker (arrhythmia): Drop in b-blocker absorption",
+            "Mezlocillin/ Methotrexate (cancer): Increased blood concentration of",
+            "Isoniazid/ Alcohol: Excessive liver toxicity",
+            "Ciprofloxacin/ Calcium-rich food: Reduced absorption of ciprofloxacin",
+            "Rifampin/Oral contraceptive: Contraceptive may not work"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "8.5.3",
+      "heading": "Testing the drug susceptibility of pathogenic bacteria",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Different strains of the same bacterial species may have varying degrees of susceptibility to an ACA. Once the strain of the pathogen causing a disease in a subject is identified, the physician may perform an antibiogram to determine the strain's overall susceptibility profile to a group of ACAs, so that the most effective antibiotics with the fewest adverse effects can be used to treat the infection. Unfortunately, antibiotics are frequently dispensed based on ‘best guess’ clinical assessment rather than on the diagnosis of the etiological bacterial agent. In some cases (such as meningitis), antibiotics must be used urgently before the etiological agent can be identified.",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "Some antibacterial agents (such as tetracyclines, macrolides, clindamycin, Bactrim, linezolid, and chloramphenicol) are bacteriostatic. Bacteriostatic drugs inhibit bacterial growth at certain concentrations but do not kill susceptible bacteria at physiologically relevant doses. Other antibacterial agents (such as beta-lactams, vancomycin, daptomycin, fluoroquinolones, and metronidazole) can be bacteriostatic at certain doses but bactericidal (they kill bacteria) at higher doses.",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "The minimum inhibitory and minimum microbicidal concentrations The minimum inhibitory concentration (MIC) is the lowest concentration of an ACA required to inhibit the growth of a bacterial strain (in vitro). Minimum bactericidal concentration (MBC) is the lowest concentration of an ACA that kills 99.9% of a given strain of a bacterium (in vitro). In terms of drug concentration, MIC is always higher than MBC. However, MIC is generally sufficient to treat uncomplicated infections of immunocompetent subjects. MIC also minimizes the side effects of toxic drugs. There are several methods for determining susceptibility, MIC, and MBC. Here are a few of the tests.",
+          "page": 27
+        },
+        {
+          "type": "subheading",
+          "text": "Kirby-Bauer antibiotic susceptibility test",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "William Kirby (1915-1997) and Alfred Bauer (1926-1998) developed the method in the 1960s. The method is also called the disc-diffusion test (Fig. 8.23). The bacterial strain to be tested is uniformly spread on an agar plate. As many as a dozen different ACA-impregnated paper discs are firmly pressed on the plate, and the plate is incubated for up to 20 hours. The water-soluble antibiotics diffuse around the discs, creating a hostile environment for the bacterium. A circular zone of inhibition develops around the disc if the bacterium is susceptible to the drug. The diameter of the zone in a Kirby-Bauer test depends on many factors, including the drug concentration on the disc, the drug's molecular weight, its chemical nature, and its stability in the culture medium used. The diameters of the zones of inhibition for different drugs cannot be directly compared. The size of the zone of inhibition of a particular drug is compared to a standard curve (developed by the supplier of the drug-impregnated discs) to find out if the bacterium in question is susceptible or resistant to the drug. The Kirby-Bauer test only tests susceptibility; it cannot determine the MBC or MIC of an antibiotic.",
+          "page": 27
+        },
+        {
+          "type": "subheading",
+          "text": "The E-test",
+          "page": 27
+        },
+        {
+          "type": "paragraph",
+          "text": "The E-test is a variation of the Kirby-Bauer test that also allows MIC determination. The strain of bacterium to be tested is uniformly inoculated onto agar plates. Paper strips impregnated with an ACA are placed on the plate (Fig. 8.23). The drug is impregnated in the strip in a gradient. The strips are commercially available from AB Biodisc, (Culver City, CA). The plate is then incubated for 16-20 hours. As the bacterium grows, the antibiotic in the strip dissolves in the agar plate's liquid and diffuses away from the strip. A zone of inhibition is observed if the bacterium is susceptible to the antibiotic. The MIC is the concentration (imprinted on the strip) at which the elliptical zone of inhibition intersects the strip. The method is not useful in determining MBC.",
+          "page": 27
+        },
+        {
+          "type": "subheading",
+          "text": "The liquid culture methods",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "In the liquid culture method, the antibiotic is serially two-fold diluted in an equal volume of broth (Fig. 8.23). An equal inoculum (live/active microbes) is added to the medium, and the tubes are incubated for 16-24 hours at the strain's optimum growth temperature. Bacterial growth is determined by measuring the turbidity of the tubes using a spectrometer and by transferring aliquots from the treated tubes to antibiotic-free culture tubes. The second series of tubes is then incubated for 16-24 hours and examined for bacterial growth. The lowest concentration of the drug that inhibits bacterial growth (as evidenced by no change in turbidity) in the first series of tubes is the MIC for the bacterial strain (Fig. 8.23). The tube with the lowest drug concentration that yields no bacterial growth in the second set of (antibiotic-free) tubes is the MBC for the same strain (Fig. 8.23).",
+          "page": 28
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.23. Determination of MIC and MBC. The Kirby-Bauer test. Twelve paper discs, each impregnated with a",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "different water-soluble ACA, were placed on a bacterial lawn. The size of the zone of inhibition indicates whether the bacterium is susceptible, semi-susceptible, or resistant to the drug. Figure courtesy: Wikimedia. B. The E-Test. A paper strip impregnated with a water-soluble ACA at graduated concentrations was placed on a bacterial lawn. The MIC is the concentration (imprinted on the strip) where the elliptical zone-of-inhibition intersects the strip. Figure courtesy: Wikimedia. C. MIC and MBC determined by the broth culture method. Tubes 1-6 contained bacteria (105 cells) and 0-4 micrograms/ml of an ACA. Tube 7 was an uninoculated control lacking any ACA. After 20 hours of incubation, no bacterial growth was observed in tubes 5 and 6 (their turbidity was the same as that of tube 7). Thus, the MIC is 2 micrograms/ml. A small sample (0.1 ml) from tubes 4-7 was transferred to tubes 4a and 6a, lacking the ACA. Cells grew in tubes 4a and 5a but not in tube 6a. Thus, the MBC is 4 micrograms/ml.",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "MIC or MBC tests are performed according to guidelines established by professional organizations such as the Clinical and Laboratory Standards Institute (CLSI, USA) or the European Committee on Antimicrobial Susceptibility Testing (EUCAST). The MIC indicates whether the bacterium is susceptible to the antibiotic and whether the antibiotic can be used to treat patients. Note that only a specific antibiotic concentration can be achieved in the patient's body without causing excessive toxicity.",
+          "page": 28
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "8.5.4",
+      "heading": "Microbial drug resistance",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Ernst Chain (1906-1984) observed bacterial resistance to penicillin G in the 1940s, before the drug was used to treat fewer than 200 patients. According to a recent New England Journal of Medicine report, strains of pathogenic bacteria have been isolated that are resistant to nearly all known antibiotics. Bacterial drug resistance is so widespread that some scientists have warned that the age of antibiotic therapy is nearing its end and have urged substantial investment in developing new antibacterial drugs. Pathogenic bacteria develop antibiotic resistance through various mechanisms (Table 8.13). The most common processes are briefly discussed here (also see Fig. 8.24).",
+          "page": 29
+        },
+        {
+          "type": "subheading",
+          "text": "Enzymatic inactivation of antibiotics",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Some bacterial strains have genes that encode enzymes that inactivate antibiotics. For example, some bacterial strains produce beta-lactamases that cleave the beta-lactam ring of beta-lactam antibiotics, rendering the antibiotics ineffective. Similarly, the bacterial chloramphenicol acetyltransferase (CAT) enzyme adds an acetyl (CH3-COO) group to chloramphenicol, and the modified drug fails to bind to the 50S ribosome. This is a covalent modification of the drug. Pathogenic bacteria usually acquire the genes for these enzymes through lateral gene transfer (see Chapter 6). Plasmids are the most common source of antibiotic resistance genes. Some viruses and transposons also carry such genes. Pathogenic bacteria may acquire genes from nonpathogenic bacteria, and vice versa.",
+          "page": 29
+        },
+        {
+          "type": "subheading",
+          "text": "Mutations in the drug target",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Mutations in the PBP genes of bacteria would produce a PBP protein that no longer binds penicillin. As a result, the bacterium will become penicillin-resistant. A mutation in bacterial 16S or 23S rRNA may inhibit the binding of tetracyclines (to 30S ribosomes) and macrolides (to 50S ribosomes) to the ribosomes.",
+          "page": 29
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 8.24. Common processes in the development of bacterial ACA resistance. a. An acquired enzyme breaks",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "down certain ACAs. b. An acquired enzyme chemically modifies (and thus inactivates) the antibiotic. c. When bacterial susceptibility genes mutate, antibiotics fail to bind the enzymes or RNAs they encode. d. The bacterium overexpresses an efflux pump (a membrane channel) to expel antibiotics. e. The bacterium suppresses the expression of influx pumps (membrane channels) to limit drug uptake. f. The bacterium expresses an alternative gene to bypass the drug’s effect on an enzyme. Redrawn after Wistrand-Yuen E/ ReAct (reactgroup.org/).",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "It is less likely that pathogenic bacteria selectively mutate specific genes in their genomes in response to certain antibiotics. Rather, a few of the millions of bacteria present in an infected patient’s body may fortuitously carry the genetic mutation. The presence of an antibiotic in the pathogen's environment (i.e., the human body) exerts selective pressure. The antibiotic would have killed all the susceptible bacteria, but it would have selected the few mutants that are resistant to it. Soon, antibiotic-resistant bacteria would grow within the patient's body, spread into the environment, and be transmitted to other individuals.",
+          "page": 29
+        },
+        {
+          "type": "subheading",
+          "text": "Expression of alternative enzymes",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "If an antibiotic binds to and inactivates one enzyme in a pathway, a microbe may express an alternative enzyme that performs the same function but cannot be inactivated by the antibiotic (Fig. 8.24). Bacterial resistance to doxycycline is often conferred by this method.",
+          "page": 30
+        },
+        {
+          "type": "subheading",
+          "text": "Lack of a drug target",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Some pathogens lack the target for a given antibiotic. For example, Streptococcus faecalis can absorb folic acid from the growth environment and does not need to synthesize folate. Therefore, the bacterium would be resistant to sulfonamides.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Reduce drug accumulation in the bacterial cells Reduced influx (import) and increased efflux (export) of antibiotics would prevent accumulation of antibiotics in the bacterial cell to levels sufficient to inhibit bacterial growth (Fig. 8.24). Mutations in transporter genes involved in influx and efflux may affect drug accumulation in the bacterial cytoplasm. Overexpression of efflux protein genes and underexpression of influx protein genes would also have the same overall effect. Pseudomonas aeruginosa often becomes drug-resistant through these processes.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Some known mechanisms of bacterial antibiotic resistance are summarized in Table 8.13.",
+          "page": 30
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.13. How bacteria become resistant to some commonly used ACAs.",
+          "page": 30
+        },
+        {
+          "type": "subheading",
+          "text": "ACAs (example) \tPrincipal method",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Beta-lactams (penicillins) Modifications of BPB, degradation of the beta-lactam ring by beta-lactamases. Vancomycin Lack of target in bacteria or plasmid/transposon-borne enzymes of bacteria chemically modify/inactivate vancomycin.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacitracin Lower influx of the antibiotic.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Isoniazid/ethambutol Lower influx, mutations in the genes that encode the target enzyme.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Aminoglycosides (tobramycin) Low influx, high efflux, mutations in the target rRNA genes, or covalent modification of the drugs.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Tetracyclines (doxycycline) Low influx, activation of alternative target proteins (i.e., the elongation factor). Chloramphenicol Plasmid-coded enzyme (CAT)-mediated covalent modification of the drug.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Macrolides (azithromycin) Mutations in the 23S RNA gene, methylation of 23S rRNA, and covalent modification or degradation of the drug by bacterial enzymes.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Clindamycin Mutations in the 23S RNA gene, methylation of 23S rRNA.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Quinolones (ciprofloxacin) Low influx, high efflux, and mutations in the genes that encode DNA gyrase and topoisomerase IV.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Rifamycins (Rifampin) Mutations in the beta-subunit of the bacterial RNA polymerase gene.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Metronidazole Reduced influx and increased efflux of the active drug metabolite.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Sulfonamides (sulfamethoxazole) Lack of target (in some bacteria), modification or mutation of the genes that encode target enzymes, reduced influx of the drug.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "How to reduce the likelihood of microbial drug resistance Experimental and clinical data suggest that antibiotic use selects for antibiotic-resistant bacteria. Thus, drug resistance would not be a problem if they were not used in the first place. However, abandoning antibiotics is not a viable option. Careful, rational use of antibiotics (Table 8.14) may slow the spread of antibiotic resistance. In addition, public education, strict professionalism among healthcare providers, and rigorous enforcement of regulations on antibiotic use in healthcare and agro-industries are necessary to prevent the looming antibiotic- resistance crisis. Developing effective and affordable new antibiotics is necessary to reduce mortality and morbidity associated with antibiotic-resistant bacterial strains.",
+          "page": 30
+        },
+        {
+          "type": "figure",
+          "text": "Table 8.14. How to slow down the development and rapid spread of antibiotic resistance among bacteria.",
+          "page": 31
+        },
+        {
+          "type": "subheading",
+          "text": "Suggested measures \tWhy",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Minimize ACA use Fewer the occasions a patient uses ACAs, the lower the chances of the patient having bacteria with antibiotic resistance. Antibiotics should be used only to treat confirmed bacterial infections or as prophylaxis for certain high-risk bacterial infections.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Enforcing drug laws Many developing countries fail to enforce laws that control the buying and selling of prescription drugs. Such lags encourage unnecessary use of antibiotics and use of inappropriate doses of antibiotics, which may lead to the development of antibiotic resistance.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Patient compliance Patients should use ACAs as prescribed (complete the full dose unless otherwise suggested by the physician). Noncompliance is the major cause of multidrug resistance in Mycobacterium tuberculosis.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Inactivate outdated ACAs Thousands of tons of outdated ACAs are disposed of in the environment. Inactivating them before disposal would eliminate the risk of ACAs selecting for resistant bacteria in the environment.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "ACA-free industries : ACAs are used extensively in poultry farming, animal husbandry, aquaculture, and the brewing industry. Animals raised on ACA-containing feeds or animals given prophylactic ACAs (both in developed and developing countries) invariably cause the development of bacterial drug resistance. The resistant animal pathogens subsequently pass to humans through the food and also directly to the environment through animal waste. Brewing and aquaculture industries directly release wastes containing antibiotics into the environment. It allows the development of antibiotic-resistant bacteria in natural environments.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Industries could use unstable (time-sensitive, self-destroying) antibiotics and inactivate them before releasing the contaminated industrial waste into the environment.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Developing new antibiotics All the above measures may not eliminate bacterial strains that are already antibiotic-resistant. Research indicates that some antibiotic-resistant bacterial strains retain the resistance even after growing in antibiotic-free conditions.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Thus, at least some new and highly effective antibiotics are needed to eliminate those strains. Once those strains are under control, rational use of antibiotics and public education may prevent another antibiotic crisis. Fortunately, several new antibiotics are currently in the development and testing pipelines.",
+          "page": 31
+        }
+      ],
+      "slides": []
+    }
+  ],
+  "unmatchedSlides": []
+}

@@ -5,7 +5,218 @@ exactly where to pick up. Update it at the end of every working block.
 
 ---
 
-# 🔴 RESUME HERE — last session 2026-09-09
+# 🔴 RESUME HERE — last session 2026-09-18
+
+## MICR 2060 MMAHP combined reader — built and live
+
+Trey asked to pull his microbiology chapters + PPT lecture outlines off Canvas and combine them
+into one searchable reading view. Full build, live at `/TKB/courses/micr2060/reader` (entry point:
+MICR 2060's course detail page, "Read" section). Full technical detail, the matching algorithm's
+real limitations, and the format inconsistencies handled: `AGENT-PROMPT.md` §3 "D in detail".
+
+- **All 76 MICR 2060 Canvas files are now actually on disk** at
+  `SupplementalCourseDocs/MICR 2060/files/` — they weren't before this session (only the module
+  *listing* had ever been captured). Getting them required a second browser script,
+  `canvasDownloadFiles.js` (also copied to the Drive root next to `canvasCapture.js`), because
+  this Canvas tenant's captured file URLs carry no verifier token and 500/redirect on any
+  server-side download attempt — confirmed NOT an expired-link issue, see the 2026-09-18 trap in
+  `AGENT-PROMPT.md` §10.
+- Includes, as a bonus: the **complete 26-chapter OpenStax Microbiology reference text** was in
+  the same Canvas module and came through in the same pull — linked per-MMAHP-chapter as a
+  citation (each PPT states its own OpenStax-equivalent chapter), not interleaved into the reading.
+- 15 chapters processed (1-14, 16 — chapter 15 does not exist in this course). Data lives at
+  `courses/micr2060/reader/data/ch01.json`…`ch16.json`, committed, built by
+  `scripts/buildMmahpReader.mjs` (re-run it, or `--only N`, if Trey ever replaces a source file).
+- ✂️ Not built: OpenStax content actually merged into the reading (linked only); per-user
+  progress/highlighting on the reader.
+
+**Reworked same day, after real feedback the first pass got wrong:** Trey: *"everything is one
+chunk of words... not fit for a human to read"* + *"is it not possible to have pictures put
+in?"* + *"holding onto this dark depressing css is not the way."* All three addressed:
+- Chapter text is now real **blocks** (`paragraph` / `subheading` / `figure`), not one joined
+  string — `parseMmahpChapter.mjs`'s header explains the three text-reflow signals used (short
+  line + terminal punctuation = paragraph end; short line + long line after = subheading; a line
+  starting `Fig./Table` = its own block). No blank lines survive PDF extraction to split on, so
+  this is real signal-based reconstruction, not a guess.
+- **The PDFs' own embedded figures are now real `<img>`s**, extracted with `pdf-parse`'s
+  `getImage()` (confirmed 2026-09-18: returns clean, already-isolated real images, no manual
+  page-screenshot cropping needed), resized/JPEG'd with `sharp` to `public/mmahp/<chapterId>/`
+  (16MB total across all 15 chapters, ~285 images). Matched to their caption by PDF page number
+  (±2 pages, then an ordinal fallback pass). ~80% of figure captions got a real image; the rest
+  are captions with no matched image — some of the book's figures are vector-drawn diagrams, not
+  embedded raster images, and `getImage()` can't recover those. Known limit, not a bug.
+- **New local palette**, scoped entirely to `.mmr-wrap` (not `--tkb-*`, not site-wide) — a fixed
+  bright "paper" look regardless of the device's system theme, since `--tkb-*` itself goes dark
+  under `prefers-color-scheme: dark` and that's exactly what read as "depressing" for a study tool.
+- **New in-page filter/highlight search**, separate from the existing cross-chapter global search:
+  typing in it highlights matches and collapses everything else into "N paragraphs hidden — show
+  more" gaps, grouped by the book's own subheadings (`groupIntoRuns`/`runMatchesQuery` in
+  `readerEngine.js`) so a whole topic stays together rather than one isolated paragraph. Clearing
+  the filter restores everything.
+
+**Second round of fixes, same day, after a real defect report + more UX gaps:**
+- 🔴 **Real bug, not cosmetic: nine DIFFERENT slides collapsed into what looked like nine copies
+  of one.** `MMAHP Ch 3 PowerPoint Lecture Outline.pdf` has a "Murray et al scheme of grouping
+  pathogenic bacteria (1)" through "(9)" series - one classification table split across 9 slides.
+  The title wraps onto a second physical line ("...pathogenic" / "bacteria (1)"), and the old
+  title-parser only ever kept the first line, so all nine showed the identical truncated title
+  with empty-looking bodies (their content is a wrapped multi-column table with no `•` bullets,
+  which the renderer only ever showed via `bullets`, never `other`). Fixed two ways:
+  `parseMmahpSlides.mjs` now joins up to 2 title lines and rejects ANY tab character as a
+  disqualifier (was 2+ tabs, which let 2-column table rows slip through as "titles"); and
+  `buildMmahpReader.mjs` now drops a slide entirely when it has zero real bullets, rather than
+  rendering a garbled table dump - a missing box reads better than 9 empty/near-duplicate ones.
+  149 slides dropped this way across all 15 chapters (was 642 slide-boxes rendered, now 564, all
+  of them carrying real content).
+- 🔴 **Real bug: chapters 3-6's running title leaked into the body 73 times.** The parser strips
+  "MMAHP Ch N:" off the running title for DISPLAY, but was then using that already-stripped
+  string to filter out the (unstripped) repeating header on every later page - so it stopped
+  matching after the first occurrence and the raw header text leaked in as a spurious paragraph,
+  15-21 times per chapter. Fixed by keeping the unstripped string for the noise filter and only
+  stripping the display copy.
+- **Real typographic hierarchy** - Trey: *"it's all formatted the same, no text diff, no font
+  size diff."* Chapter title, section heading (now underlined, bold, 1.35rem), subheading (now a
+  small accent-colored label chip, not just bold-and-slightly-bigger), and body text are now
+  genuinely differentiated in size, weight and treatment, not clustered within a narrow range.
+- **Slide boxes are now filtered too**, on the same complaint pattern (*"the powerpoitns NEVER go
+  away... even if they are unrelateed"*) - a slide box that doesn't match the active filter
+  collapses behind a "Show N unrelated lecture slides" toggle exactly like paragraph runs do.
+- **Prev/next match navigation with auto-scroll**, matching native Ctrl+F: *"there's no way to go
+  to the next found word."* The filter box shows "N of M" and ◂/▸ steps through every rendered
+  `.mmr-hl` in document order, scrolling it into view and giving the current one a distinct
+  darker highlight (`mmr-hl-current`).
+- **An explicit zero-match state.** *"there's no way to tell if 0 hits are found"* - a new
+  `countFilterMatches()` reports a real number, always, so "no matches" is a visible red line
+  rather than a page that just quietly collapses to nothing with no explanation.
+
+**OpenStax parallel reading — prototyped on chapter 4, 2026-09-19.** Trey wants the MMAHP
+reading and its OpenStax equivalent shown side by side, "in a way that seems like normal
+progression," each in its own colored box "so i can tell why there's 2 sections talking about
+identical information." Explicitly authorized doing this for real (not just linked) after
+confirming his professor doesn't require OpenStax and accepting the volume trade-off. Built and
+verified on chapter 4 only, per his own "do it for chapter 4 first, we can work from there":
+
+- **`scripts/parseOpenstaxChapter.mjs`** - a SEPARATE parser from `parseMmahpChapter.mjs`.
+  OpenStax's format differs enough to need its own rules: alternating header/footer order by
+  page side, a "Chapter Outline" up front that looks exactly like real headings and must be
+  skipped (it isn't a real section), a "Learning Objectives" bullet list under every heading
+  (stripped, navigational not reading material), a "Summary" back-matter section that RESTATES
+  every heading number then a "Review Questions" bank (cut the same way MMAHP's SOQ section is,
+  and for the same reason: real chapter content). It also intersperses "Clinical Focus"
+  patient-case boxes (spanning several non-contiguous "Part N" installments) and standalone
+  "Link to Learning" boxes THROUGHOUT real sections, not just at chapter end - stripped by a
+  bare-label start marker + a closing-phrase-or-15-line cap (Link to Learning boxes have no
+  closing phrase at all, hence the cap). ~0.6% of blocks still leaked a bare "Clinical Focus"
+  label with nothing after it; filtered as a final pass rather than chasing the exact boundary
+  variant that let it through.
+- 🔴 **Two of the folder's own OpenStax filenames are wrong** - `OpenStax Micro Ch 7 Acellular
+  Microbes.pdf` is actually real chapter 6 (confirmed by reading its own "Chapter 6" line); the
+  real chapter 7 is `OpenStax Micro Ch 7 Molecules.pdf`. `scripts/buildOpenstaxMatch.mjs`'s
+  `OPENSTAX_FILES` map is keyed by the VERIFIED internal number, not the filename's claim.
+- 🔴 **The PPT's stated equivalence and the OLQ quiz's stated equivalence disagree** - MMAHP ch4's
+  PPT says "OpenStax Chapters 7 & 8," but the actual OLQ 4 quiz title only names "M2OS Ch 8."
+  Both candidate chapters were included in the matching pool regardless, since matching is by
+  real content overlap, not by trusting either label - a chapter that turns out irrelevant just
+  won't win any matches.
+- **The matcher (`buildOpenstaxMatch.mjs`) needed real tuning, not just a threshold.** A broad
+  foundational OpenStax section ("8.1 Energy, Matter, and Enzymes") shares enough generic
+  vocabulary with nearly every later topic to win as "best match" for far more MMAHP sections
+  than it's really specifically about (7 of 17, in the first pass). Fixed with a hard rule: each
+  OpenStax section is attached to AT MOST ONE MMAHP section, chosen by an acceptance threshold
+  (0.35) applied AFTER that cap - a pick that only wins because its real candidates got claimed
+  first is worse than showing nothing, since the whole point is trusting the two boxes are
+  genuinely about the same thing.
+- 🔴 **Even after tuning, the algorithm still produced 2-3 wrong pairings on a 17-section chapter**
+  (lipid catabolism forced onto "Photosynthesis"; catabolism/anabolism definitions onto
+  "Biogeochemical Cycles" - both coincidental word-overlap, not real topical links). **These were
+  caught and fixed by hand, not automatically** - read the actual content of the top few
+  candidates for each doubtful pairing, and reassigned or dropped as appropriate. **This manual
+  verification pass is required for every chapter, not just chapter 4** - do not trust
+  `buildOpenstaxMatch.mjs`'s raw output as final for any future chapter without reading the
+  matched pairs against the real text first. Final chapter 4 result: 9 of 17 sections matched,
+  8 correctly left unmatched (no forced pairing).
+- **Schema**: `section.openstax` is a same-shaped sibling to `section.slides` - an array (kept
+  to length 1 for now) of `{chapterNumber, chapterTitle, number, heading, blocks, matchScore}`.
+  Reuses the EXACT SAME block shape (`paragraph`/`subheading`/`figure`) as MMAHP's own sections,
+  so `FilteredRuns`, the in-page filter, and highlighting all work on it with zero new rendering
+  logic - `FilteredOpenstax` in `MmahpReader.jsx` is a thin colored-box wrapper around the same
+  `FilteredRuns` component MMAHP's own content uses.
+- **Three-color scheme**, all new local CSS tokens under `.mmr-wrap`: lecture slides keep the
+  existing blue; MMAHP's own text is now boxed in a warm tan (`--mmr-mmahp-bg`) where it used to
+  be unstyled/transparent; OpenStax is a cool green (`--mmr-openstax-bg`) with its own labeled
+  header ("📗 OpenStax Microbiology Ch N, §M — Heading"). Also indexed into the existing
+  cross-chapter global search (`kind: 'openstax'`, tagged distinctly in results).
+- **Next**: Trey authorized parallelizing the remaining chapters across up to 3 Opus subagents
+  once the chapter-4 approach was proven - not yet started. Whoever does chapter N next needs
+  the real OpenStax-equivalence mapping (only chapters 1-5 have one stated in their own PPT title
+  slide; 6-16 show `openstaxEquivalent: null` in the already-built JSON - unconfirmed whether
+  those chapters' PPTs just don't state one, or the parser missed a differently-worded line).
+
+**Third fix, same day: end-of-chapter self-test questions removed from every chapter.** Every
+MMAHP chapter PDF ends with a huge back-matter block `parseMmahpChapter.mjs` was previously
+parsing as if it were real chapter content: a "Short [and] Objective Questions (SOQs)" bank
+(numbered short-answer + lettered multiple-choice items, real exam-style questions, not reading
+material), then a "Reflections" real-world case study, then discussion "Questions" about it, then
+a literal `End MMAHP Ch N` marker. This was the single largest source of the "reading a 200,000-
+word body" complaint - cutting it dropped block counts 40-80% per chapter (ch1: 459→111 blocks,
+ch16: 546→271). The heading wording drifts per chapter ("Short-Objective Questions (SOQs)",
+"Short and objective questions (SOQs)", "Short Objective questions" with no suffix at all, "Short
+Objective Questions (SOC)" - a typo) so the cut matches on the stable phrase "Short [and/-]
+Objective Questions" alone, case-insensitive, with the `End MMAHP Ch[apter] N` marker as a
+fallback cut point for any chapter that doesn't have the phrase. Confirmed present (one spelling
+or the other) in all 15 chapters - the parser now warns loudly if a future source file is missing
+both markers, rather than silently including its back matter.
+
+## MCI worksheets: `mmahp-ch1-4` fully answered, `mmahp-ch5-8` built and fully answered
+
+Same day, follow-on work. Trey asked for chapter 4's already-answered treatment (derived
+`answer`/`answerRationale`/`answerSource`, plus a "Show answers" reveal toggle and a per-chapter
+filter dropdown — both already built into `WorksheetViewer.jsx`) extended to the rest of
+`mmahp-ch1-4`, then for the next worksheet in the series to be found, parsed, and answered too.
+
+- **`mmahp-ch1-4` is now 255/255 answered** (chapters 1-3, 192 questions, joined chapter 4's
+  existing 63). Same standard throughout: real microbiology/biochemistry reasoning, cross-checked
+  against the actual parsed MMAHP chapter text where useful, `answerSource: 'derived'` since this
+  document family has no official key anywhere (`AGENT-PROMPT.md` §2 rule 5 doctrine still holds).
+- **Trey directly challenged ch4-q42's answer** ("Which of the following would stop ATP synthesis
+  by the ETC/F0F1 ATP synthase?", answered C — a membrane hole — asking "Why is this not A" —
+  excess NADH/FADH2). Answered in full: NADH/FADH2 are the ETC's electron-donor fuel, not an
+  inhibitor of it — excess fuel drives more electron flow, not less, absent a separate feedback
+  mechanism this question isn't testing; a membrane hole directly and unambiguously destroys the
+  proton gradient the synthase depends on, the same mechanism real uncouplers (DNP) use. Kept C.
+- **Next worksheet found and built: `mmahp-ch5-8`** (id `mmahp-ch5-8`, title "MMAHP Ch 5-8 — MCIs
+  for OLQ 5-8"), source `SupplementalCourseDocs/MICR 2060/files/MCI for OLQs 5-8 on MMAHP Ch 5-8.pdf`
+  — found alongside the ch1-4 PDF and its Canvas copy, confirming the Canvas-recovery pull from
+  earlier this session got the whole series. 251 questions across 4 chapters (ch5 "Microbial
+  Metabolism I" [64] — same title as ch1-4's own ch4, a real authoring quirk in the source, not a
+  parse bug, kept verbatim; ch6 "Microbial Genetic and Biotechnology" [64]; ch7 "How to Grow and
+  Control Microbial Growth" [60]; ch8 "Antimicrobial Chemotherapy" [63]). Registered in
+  `worksheetsRegistry.js` alongside `mmahpCh14`. All 251 now answered, same derived standard.
+  - `scripts/parseMciWorksheet.mjs` needed two small extensions for this file, confirming the
+    original "written for the whole MCI family, re-run it" design note: (1) a handful of option
+    lines (10 of 251, all in ch7's range) carry a leading `*` marking the source's OWN correct
+    answer — the option regex now captures that as `sourceMarkedCorrect: true` instead of
+    silently failing to match and truncating the question's option list; (2) the "Exam N"
+    boilerplate-line filter only matched a bare `Exam N`, and this file's Ch 6 subtitle block has
+    `MICR 2060: Exam 2` instead, which bled into the parsed chapter title until the regex was
+    generalized to `(?:[A-Z]{2,} \d+:\s*)?Exam \d+`.
+  - **Those 9 source-marked answers are real signal, not a full key** — sparse (9 of 251, all in
+    ch7), not present anywhere else in the document, so this does NOT contradict the "no official
+    answer key exists" doctrine for this MCI family; it just means 9 specific questions happen to
+    carry the original document author's own marking. Given `answerSource: 'derived'` already
+    meant "not an official key" and these 9 genuinely are more authoritative than a derived guess,
+    a new `answerSource: 'official'` value was added (`WorksheetViewer.jsx` renders a distinct
+    "marked correct in the source PDF" tag instead of the "derived" one; `Worksheet.css` →
+    `.wks-official-tag`). All 9 line up with independently-derived reasoning — good cross-check.
+  - `ch6-q23` has a genuine source-PDF typo: two of its four options are both lettered "C" (should
+    be B and C). Kept verbatim per the parser's existing "preserve verbatim, don't invent" rule
+    for source gaps — flagged in that question's own rationale text so the duplicate-letter
+    highlight in the UI doesn't read as a bug.
+- Full vitest suite (48 tests, courses folder) and a production build both pass after all of this.
+
+---
+
+# Previous resume point — last session 2026-09-09
 
 ## What 2026-09-09 did (chem exam 1)
 

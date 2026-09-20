@@ -1,0 +1,1037 @@
+{
+  "id": "ch01",
+  "number": 1,
+  "title": "Modern Microbiology for Allied Health Professions: An Overview",
+  "lead": "Microbiology is the study of microbes—the most abundant and diverse organisms on our planet. They are found everywhere water exists, from the boiling water of hot springs and deep-sea vents to the frozen polar ice caps and the highest mountain peaks. In fact, the total mass of all microbes on Earth likely outweighs all other living things combined. These organisms are essential to our world; they maintain our environment, influence our health, and cause or prevent diseases. Beyond biology, microbes drive a massive portion of the global economy through their use in medicine, agriculture, and industry. Because of its impact, microbiology is a foundational subject in science education worldwide. This text focuses on the microbes that directly affect human life. In this chapter, you will learn essential vocabulary, meet the scientists who founded the field, and explore where microbiology is headed in the future.",
+  "openstaxEquivalent": "OpenStax Microbiology 2nd Ed. Chapter 1",
+  "sources": {
+    "chapterPdf": "1 Modern Microbiology for Allied Health Professions An Overview Posted.pdf",
+    "pptPdf": "MMAHP Ch 1 PowerPoint Lecture Outline.pdf"
+  },
+  "sections": [
+    {
+      "number": "1.1",
+      "heading": "What is a microbe?",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The classic definition of a microbe—a microscopic agent that replicates, mutates, and evolves—is inadequate. If we stuck strictly to that definition, we couldn't consistently group related organisms together. Consider this: individual yeast cells are invisible to the naked eye, but the molds they can form under certain environmental conditions are easily visible. The same problem applies to tapeworms; an adult can grow several meters long, while its eggs and larvae are microscopic and share the key characteristics of a microbe (as shown in Figure 1.1). For simplicity and practicality, we generally consider yeasts, molds, and tapeworms, along with their various life stages, to be microbes. While a few microbes can cause infections in humans and other organisms, it's important to remember that most microbes are vital for maintaining a healthy, natural environment.",
+          "page": 1
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 1,
+          "title": "What is a microbe",
+          "bullets": [
+            "Definition",
+            "Conventional definition",
+            "Limitations of this definition",
+            "Practical definition",
+            "Types of microbes",
+            "Acellular",
+            "Viral",
+            "Subviral",
+            "Cellular",
+            "Prokaryotic",
+            "Eukaryotic"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "1.2",
+      "heading": "Different types of microbes",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "All microbes are considered genome creatures because they contain a genome. A genome is the totality of the RNA or DNA molecules that serve as the sole repository of genetic information. Microbes can be divided into two main categories: cellular and acellular microbes.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Cellular microbes are made of one or more cells (tissues and organs). All cells have a protein-lipid membrane, a DNA genome, RNA and proteins for structure and function, and ribosomes for protein synthesis. The cell can transform energy and maintain internal homeostasis (regulate the internal environment). Cellular microbes include bacteria, archaea, algae, fungi, protozoa, and some worms and arthropods.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Acellular microbes, such as viruses and subviral agents (such as viroids), lack one or more of the attributes of a cell (see Section 1.2.1). In addition, they cannot transform energy or maintain homeostasis; instead, they rely on their host cells for replication and other biological functions.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Cellular microbes are living entities. They are also called microorganisms. Acellular microbes are non-living entities (thus not microorganisms). In this text, we will use the term microbes to refer to both cellular and acellular microbes. Almost all known genomes contain some genes. A gene is a region of a genome that codes for an RNA and/or a protein. Besides genes, an RNA genome contains spacer RNA, and a DNA genome contains spacer DNA and some transposons (also called mobile DNA). Spacer RNA of an RNA genome or spacer DNA of a DNA genome contains both known and unknown information. We will discuss genes and genomes in Chapters 2, 5, and 6 of this Textbook.",
+          "page": 1
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 2,
+          "title": "The Genome and Genes",
+          "bullets": [
+            "What is a genome",
+            "DNA genome",
+            "RNA genome",
+            "The gene",
+            "Definition",
+            "Spacer DNA/spacer RNA",
+            "Genomes without a gene"
+          ]
+        },
+        {
+          "slideIndex": 3,
+          "title": "The Cell",
+          "bullets": [
+            "Definition of a cell",
+            "Common structural components of all cells",
+            "The plasma membrane Made of lipids and proteins",
+            "Watery cytoplasm",
+            "A DNA genome",
+            "RNA and proteins for structure and function",
+            "Ribosomes for protein synthesis",
+            "Common functional properties of the cell",
+            "Ability to transform energy",
+            "Ability to maintain homeostasis ©- PLANTNET"
+          ]
+        },
+        {
+          "slideIndex": 4,
+          "title": "Subcellular creatures",
+          "bullets": [
+            "What is a subcellular creature",
+            "Missing one one or more structural or functional attributes of a cell",
+            "Viral agents",
+            "Have a DNA or RNA genome in a protein capsid",
+            "Can infect and replicate in a host cell independently",
+            "Subviral agents",
+            "Missing one or more attributes of viruses",
+            "Satellites",
+            "Plasmids",
+            "Viroids",
+            "Transposons (mobile DNA)",
+            "Some introns"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "1.2.1",
+      "heading": "Acellular microbes: Viruses and subviral agents",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Viruses",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "A virus has either a DNA or RNA genome encased in a protein coat called the capsid. Some viruses have a lipid membrane surrounding the capsid, making them enveloped viruses, while those without the membrane are naked viruses. A virus can infect a host cell and use the cell's machinery to produce progeny virus particles. A virus particle capable of infecting a cell is called a virion. An example of a virus is the hepatitis B virus (HBV). It infects liver cells (hepatocytes) and causes liver inflammation (hepatitis).",
+          "page": 2
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 1.1. Some microbes. A. A rhinovirus particle that may cause the common cold (3.0x10-8 meters in diameter). B.",
+          "page": 2,
+          "image": "/mmahp/ch01/1-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Escherichia coli, a bacterium that may cause diarrhea (3.0x10-6 meters in length). C. Aspergillus niger, the black mold that may cause lung infections (0.02 meters in length). D. Giardia lamblia, a protozoan that may cause gastroenteritis (1.5x10-5 meters in diameter). E. Taenia saginata, an intestinal tapeworm (4.0 meters in length). Images from CDC- PHIL.",
+          "page": 2
+        },
+        {
+          "type": "subheading",
+          "text": "Subviral agents",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Subviral (sub- under viral) agents are also acellular parasites of the cell, but they lack one or more properties of a virus. Subviral agents include satellites, viroids, plasmids, transposons, and certain types of introns (Table 1.1).",
+          "page": 2
+        },
+        {
+          "type": "figure",
+          "text": "Table 2.1. Viruses and subviral agents",
+          "page": 2,
+          "image": "/mmahp/ch01/2-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Type Genome Capsid Ability to infect host cell Viruses DNA or RNA Always No helper needed Satellites DNA or RNA Some have a capsid, some uses the capsid of the helper virus A helper virus is needed Viroid RNA Never No helper needed Plasmids DNA or RNA Never Some act independently, some need a helper plasmid Transposons DNA Never Some act independently; some need a helper helper transposon Satellites Satellites are virus-like creatures; they have an RNA or a DNA genome, but they cannot infect a host cell or replicate within it unless the host cell is co-infected with another virus, known as a helper virus. Some satellites have their own capsid, but others use the helper virus's capsid. RNA satellites with a short circular single-stranded RNA (ssRNA) genome are called virusoids. An example of a virusoid is the Hepatitis D virus (HDV). HDV infects liver cells if its helper virus (hepatitis B virus or HBV) also infects the same cell.",
+          "page": 2
+        },
+        {
+          "type": "subheading",
+          "text": "Viroids",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Viroids have a small, circular ssRNA genome but lack a capsid. The genome lacks genes. Yet, viroids do not require a helper virus to infect host cells and replicate within them. An example of a viroid is the potato spindle tuber viroid (PSTV), which infects potato plants.",
+          "page": 3
+        },
+        {
+          "type": "subheading",
+          "text": "Plasmids",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Plasmids are DNA or RNA molecules found in some prokaryotic cells and in some protasis (see section . All plasmids contain a few genes. Plasmids lack a capsid and do not require a helper virus to infect their host cells. Plasmids can move from one host cell to another within the same or a related species. Some plasmids act independently, but some may need a helper plasmid for infecting a new host cell.",
+          "page": 3
+        },
+        {
+          "type": "subheading",
+          "text": "Transposons (mobile DNA)",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Transposons are DNA elements found in the DNA genome of viruses, plasmids, and cellular organisms. Transposons can move from one location in the genome to another (hence their name, mobile DNA). Transposons may or may not contain genes. Like plasmids, transposons lack a capsid. When a cell divides, transposons pass from the parent cell to the daughter cells, but they cannot move out of the host cell. Some introns (portions of a gene that are removed during RNA processing) also behave like transposons.",
+          "page": 3
+        },
+        {
+          "type": "subheading",
+          "text": "Prion agents",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Prions are mutated (abnormal) proteins lacking a genome. They act as infectious agents because they convert the cell’s normal prion proteins into abnormal prion proteins. The abnormal prion proteins accumulate in the cell and form prion fibrils that ultimately cause cell death. Since prions lack a genome, they are not considered microbes.",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 1.2. Viruses and subviral agents. A. A Hepatitis B virus particle containing a partially double-stranded DNA",
+          "page": 3,
+          "image": "/mmahp/ch01/1-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "genome and an enveloped capsid. B. A hepatitis delta virusoid (HDV) an RNA satellite) particle containing a hepatitis delta virusoid RNA genome packaged in an envelope of a Hepatitis B virus. C. The RNA genome of the Potato spindle tuber viroid. D. A bacterial cell showing the DNA genome of the cell and four plasmid genomes. E. A portion of the chromosomal DNA of a cell showing a transposon and two introns inside a gene. F. A prion is an abnormal protein that forms fibrils inside the cell (image courtesy: Genetic Home Reference, NIH). Diagrams A-D are not drawn to scale.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "All cellular organisms, from bacteria to humans, are potential hosts of viruses, satellites, transposons, and introns. Plasmids are usually found in prokaryotes and protists (see section 1.12), while prions are found in many eukaryotes (see Section 1.1.2). Viruses and subviral agents are discussed in more detail in the subdiscipline known as virology.",
+          "page": 3
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 7,
+          "title": "Two types of cells",
+          "bullets": [
+            "All cells have the same seven structural and functional attributes",
+            "The cells are divided into two categories on the the structure of the nucleoid",
+            "Prokaryotic cells",
+            "The nucleoid is not covered membrane",
+            "The genome is haploid and can have circular dsDNA chromosomes",
+            "The cells are smaller (about 1 micrometer in diameter)",
+            "Eukaryotic cell",
+            "The nucleoid is surrounded by a four-layered membrane (the nuclear envelope)",
+            "The genome can be haploid or diploid but the chromosomes are linear dsDNA",
+            "The cells are larger (about 1 micrometer in diameter)"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "1.1.2",
+      "heading": "Cellular microbes: Prokaryotes and Eukaryotes",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Cells are grouped into two categories: prokaryotic and eukaryotic (Fig. 1.3). In prokaryotic cells, the DNA genome is located in the central region of the cell called the nucleoid. In eukaryotic cells, the DNA genome is packaged in a membrane-bound organelle (tiny organ) called the nucleus (Latin- karyon). Organisms having the prokaryotic cell (cells lacking a karyon) are prokaryotes, and those having the eukaryotic cell (cells with a karyon) are eukaryotes. Biologists classify all cellular organisms into various subgroups and groups. The largest group is the domains. There are three domains. Prokaryotes belong to the domains of Bacteria and Archaea. All eukaryotic organisms belong to the domain Eukarya.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Domain Bacteria",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacteria (sing. bacterium) are unicellular (i.e., single-celled) organisms. However, some bacteria may form multicellular (made of two or more cells) filaments and clusters (Fig. 1.3). Bacteria are the most numerous of all organisms and can be found in diverse environments. Bacteria are involved in nutrient recycling and the production of many goods of economic importance. A few bacteria infect plants and animals and cause diseases. Bacteria are discussed in more detail in the sub-discipline of bacteriology.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Domain Archaea",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Archaea (formerly known as archaebacteria) are bacteria-like organisms with some distinctive features (Fig. 1.3). These organisms live in diverse habitats, including animal guts, soil, marshy areas, and extreme environments such as salt flats, hot springs, and thermal vents on the seafloor. Archaea are important in the extraction of nutrients from rocks. Although a few archaea have been found in the clinical samples, none have been definitively linked to human disease. Archaea are discussed in more detail in the sub-discipline archebacteriology.",
+          "page": 4
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 1.3. Schematics of the cell of Bacteria, Archaea, and Eukarya. A. A typical bacterial cell. The cell contains a",
+          "page": 4,
+          "image": "/mmahp/ch01/1-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "cell wall and a plasma membrane underneath. The cell's genome is located in the nucleoid. B. A typical archaeal cell. The cell is covered by a layer of protein and may contain a cell wall over the plasma membrane. The genome of the cell is organized as chromatin in the nuceloid. C. A typical eukaryotic cell. The cell is larger than a bacterial or archaeal cell. The cell may or may not have a cell wall. The cytoplasm contains many organelles, including a nucleus where the genome is organized as chromatin.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Domain Eukarya",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Eukarya contains diverse groups of organisms. A typical eukaryotic cell is schematically presented in Fig. 1.3. Members of Eukarya could be unicellular (made of one cell, such as protozoa), or multicellular (made of many cells). Multicellular organisms include protists (many identical cells forming loose or clusters) and metazoans (cells of different structures forming tissues and organs, as in worms and insects). Eukaryotic microbes belong to five major taxonomic categories: algae, fungi, protozoa, worms, and arthropods.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Algae",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Some algae are unicellular, but most are multicellular organisms (Fig. 1.4), and the cell has a cellwall. Most algae live in water or damp soil. Most algae have chloroplasts and synthesize their food; thus, they usually do not infect other organisms. A few algae lack chloroplasts, and they infect plants and animals. Some algae produce toxic substances when they overgrow in polluted environments. The toxins can harm aquatic animals and humans who consume them. Algae are studied in botany (the study of plants) and phycology (the study of algae).",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Fungi",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Several groups of organisms, including yeasts, molds, rusts, smuts, and mushrooms, fall in this group (Fig. 1.4). Fungal cells have a cell wall. Thus, like algae, fungi cannot eat solid food particles; they absorb nutrients dissolved in water. Fungi may exist either as yeasts (i.e., single spherical cells), molds (i.e., thread-like filaments of cells), or a compact mass of the filaments known as mycelia. Most fungi decompose organic matter and recycle nutrients back into the environment. Some fungi infect animals and plants. Many fungi infect food crops and produce toxins that may affect human and animal health. Mycology (the study of fungi) is the branch of biology that investigates fungi. Protozoa Protozoa (Greek: proto first, zoon animal) are unicellular organisms (Fig. 1.4), although some rare types of protozoa may form structured colonies of cells. Unlike algae and fungi, protozoan cells lack a cell wall. Thus, they may eat solid food particles, including bacteria and archaea, and are considered animals. Most protozoa live in water or damp places. A few protozoa infect animals. Protozoa are studied in the branch of biology called protozoology (study of protozoa).",
+          "page": 5
+        },
+        {
+          "type": "subheading",
+          "text": "Slime molds",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Slime molds are organisms that can form colonies. A few slime molds are aquatic, but most species grow in damp soil. The organisms may help recycle nutrients in the environment. No known slime mold infects animals, but a few infect plants. Slime molds are discussed in protozoology. We will not discuss slime molds in this textbook. Lichens Lichens are symbiotic (live-together) colonies made of one or more fungal molds and an alga or a cyanobacterium, where the fungal partner acquires water and mineral nutrients, and the algal/cyanobacterial partner produces energy through photosynthesis. Lichens grow in tree bark and on moist rocks and help recycle nutrients. Some lichens are important food for animals and humans in the polar region. Since lichens do not infect animals, we will not discuss lichens in this textbook.",
+          "page": 5
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 1.4. Some eukaryotic microbes. A. Prototheca wickerhamii (x1,125), an alga that may infect wounds and the",
+          "page": 5,
+          "image": "/mmahp/ch01/1-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "lung. B. Microsporum distortum (x~400), a fungus that may cause skin infections. C. Trypanosoma brucei (x1,000), a protozoan that causes blood infections. D. Physarum polycephalum, a slime mold that grows on moist grounds (x1). E- Letharia vulpine, a lichen made of some four species of fungi and an alga. F- Dendrocoelum lactum, an aquatic flatworm (x5). G. A larva in the soil (x125) of a roundworm (hookworm) that may cause intestinal infections. H. The scabies mite Sarcoptes scabie (x100) that causes scabies in humans. Images A-D from CDC-PHIL; D-F from Wikipedia. H- is from www.cdc.gov/parasites/.",
+          "page": 5
+        },
+        {
+          "type": "subheading",
+          "text": "Worms (flatworms and roundworms)",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Flatworms and roundworms are multicellular animals with tissues and organs (metazoans). They lack a body cavity (coelom) or have a primitive body cavity (pseudocoelom). Most worms live in water and soil as free-living organisms. Some members of the group infect animals, and some infect or colonize plants. Zoology is the branch of biology that discusses worms and other animals. Parasitic protozoa and worms are studied in the discipline known as parasitology. Arthropods Arthropods are joint-footed invertebrate animals with an outer skeleton. They include spiders, crustaceans, and insects. A few insects infect other organisms. For example, scabies mites burrow into human skin and lay their eggs in the tunnels. Many insects serve as vectors for microbial infections. A vector is a small animal that harbors microbes and transfers them to other animals and plants. Mosquitoes, for example, transmit many viral, protozoan, and worm pathogens.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "All microbes other than arthropods are considered aquatic (residents of water) because they desiccate quickly when exposed to open air and sunlight. Arthropods, especially insects, have evolved into true land animals because they can retain water and reproduce in terrestrial environments.",
+          "page": 6
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 9,
+          "title": "The three domains",
+          "bullets": [
+            "Domains are the highest hierarchies of",
+            "Prokaryotic domains",
+            "Domain Bacteria- we will describe detail of",
+            "Domain Archaea- we will brief on archaeal",
+            "Eukaryotic domain",
+            "Domain Eukarya- we will describe detail of"
+          ]
+        },
+        {
+          "slideIndex": 10,
+          "title": "The Eukaryotic microbes",
+          "bullets": [
+            "Some eukaryotes of the following groups are treated in microbiology",
+            "Protists",
+            "Alage- have a cellulose cell wall, member lacking chloroplasts may infect animals",
+            "Fungi- Have a non-cellulose polysaccharide cell wall, many species infects plants",
+            "Lichens- Symbiosis of fungi and an alga or a cyanobacteria, do not infect animals or",
+            "Slime molds- colonial cells, may form spores, doe not infect animal but may infect",
+            "Protozoa- single celled animals, some may infect animals and plants",
+            "Metazoa",
+            "Flatworms- flat animals lacking a body cavity, some species infect animals",
+            "Roundworms- tubular animals with a false body cavity, some species infect animals",
+            "Insects- some species infect animals, some serve as disease vectors 11"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "1.3",
+      "heading": "The species concept",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Biologists like to name every genome creature so that all biologists everywhere can identify, describe, and report the organism by the same name. The agents cannot be named individually; instead, a group of related microbes is given a single name. For that purpose, biologists follow the species concept.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "The species concept holds that organisms that have evolved from a common ancestor share common genetic information and can be grouped as a species. The individual organisms within a species are not genetically identical, but their genetic differences are not significant enough to warrant classification as different species. Alfred Wallace (1823-1913) had defined species as follows: “Species are merely those strongly marked races or local forms which, when in contact, do not intermix, and when inhabiting distinct areas are generally believed to have had a separate origin, and to be incapable of producing a fertile hybrid offspring.”",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Or simply, a species is a group of male and female organisms that, when they mate, produce fertile offspring. This is a natural definition. If two organisms fail to produce fertile offspring, they must be genetically distant enough to belong to different species.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Although this is a good (natural) definition, it is impractical in many cases. For example, acellular agents and prokaryotes do not have males and females, and many eukaryotes do not have sexual reproduction. To accommodate these difficulties, Alfred Wallace also gave a more practical definition of species “A species is a group of living organisms, separated from all other such groups by a set of distinctive characters, having relations to the environment not identical with those of any other groups of organisms, and having the power of continuously reproducing its like.”",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "For different groups of microbes, Wallace’s definition is slightly modified, as shown below: For acellular agents: A species is a group of isolates that share a very similar genome, infect and replicate in a similar type of host cell, and exhibit some common characteristics.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "An isolate is a pure sample of a microbe harvested from natural sources such as the blood of an animal or the soil of a locality. Expert virologists determine how similar isolates must be to group them as members of the same species. For prokaryotes: A species is a collection of strains (i.e., related isolates) that share many features but differ significantly from other groups or strains.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "All members of a species thriving in a particular environment constitute a population. Two populations of the same species may have slightly different characteristics. If so, the two populations are classified as two different strains. Experts compare the characteristics of different strains of bacteria and archaea and decide which strains should be grouped under a given species.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "For Eukarya: A species is a group of interbreeding natural populations that are reproductively isolated from other such groups.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Historically, the majority of eukaryotic species have been established based on morphological similarities. Morphology is the form, structure, and configuration of an organism.",
+          "page": 7
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 12,
+          "title": "The species concept",
+          "bullets": [
+            "The concept- organisms with similar structure and function",
+            "Purpose- to identify species, to name the species and for everyone",
+            "Wallace's definitions of species",
+            "Natural definition: “Species are merely those strongly marked races or",
+            "Practical definition- “A species is a group of living organisms, separated"
+          ]
+        },
+        {
+          "slideIndex": 13,
+          "title": "Practical definition of species",
+          "bullets": [
+            "Terminologies",
+            "Population",
+            "Isolates",
+            "Strains",
+            "Definition of species",
+            "For acellular agents: A species is a group of isolates that share a very similar",
+            "For prokaryotes: A species is a collection of strains (i.e., related isolates) that",
+            "For Eukarya:",
+            "If they breed sexually-A species is a group of interbreeding natural populations that are",
+            "If they do not breed sexually- populations that share many morphological attributes but"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "1.4",
+      "heading": "Naming and classifying microbes",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Biologists name species following a set of rules. The names are approved by international organizations that have established those rules. The International Committee on Taxonomy of Viruses (ICTV) approves the names of viruses and subviral species. Similarly, the International Code of Nomenclature of Bacteria (ICNB or the Bacteriological Code, 1990) approves the names of bacterial species. Names of eukaryotic species are approved by different international organizations, including the International Code of Zoological Nomenclature (ICZN) and the International Code of Botanical Nomenclature (ICBN).",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Once a species name is approved, everyone must use it. A scientist may attempt to name a species only if the species is newly discovered and has not been named before. The process of naming species and the other higher-order groups is nomenclature.",
+          "page": 7
+        },
+        {
+          "type": "subheading",
+          "text": "Naming acellular microbes",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Scientific names of acellular species are descriptive. There are two types of names, common names and scientific names. Common names follow no rule except that the spelling should be correct. The name can be abbreviated. For example, the virus that causes fever blister is known as the herpes simplex virus 1 (abbreviated HSV-1). Scientific names of acellular species are also descriptive. However, the name must be approved by ICTV, and the following rules apply: (a) the first letter is a capital letter, (b) the second and subsequent words of the name should not be capitalized, (c) the entire name is italicized, (d) the name should not be abbreviated, and (e) the name must be spelled as ICTV spells it. The scientific name of herpes simplex virus 1 (HSV-1) is Human alphaherpesvirus 1. The naming of cellular species Cellular species can also have common names and scientific names. The common names follow no rules, but the scientific names follow the rules proposed by Gaspard Bauhin (1560-1624) and Carolus Linnaeus (1707-1778). The scientific names of cellular species are also known as binomial names, because they include the name of the genus to which the species belongs. The rules are: (a) the first letter of the name should be capitalized, (b) the second word of the name must not be capitalized, (c) the whole name should be italicized, and (d) the name should be spelled as approved by an international naming organization (such as ICZN).",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "The common name of the bacterium that causes pneumonia is pneumococcus; its scientific name is Streptococcus pneumoniae. Note that the name includes the genus name (Streptococcus) and the species name Streptococcus pneumoniae. This scientific name can be abbreviated (e.g., S. pneumoniae) when repeated in a document. Note that the name will be incorrect if written in any of the following ways pneumoniae (the genus name is missing) Streptococcus pneumoniae (the name is not italicized) streptococcus pneumoniae (the genus name is not capitalized, and the name is not italicized) Streptococcus Pneumoniae (the second word is capitalized) Binomial nomenclature is not used in naming cellular microbes that have not been fully characterized. Those organisms are cataloged by names that combine numbers and letters (for example, AY145533.79.93). Classification of microbes Classification is the process of organizing species into related hierarchical groups. Thus, related species are grouped under a Genus, related genera (plural of genus) are grouped into a Family, related families are grouped into an Order, related orders are grouped into a Class, related classes are grouped into a Phylum, related phyla (plural of phylum) are grouped into a Kingdom, and related kingdoms are grouped into a Domain (Fig. 1.5). Related domains of viruses are grouped into a Realm. However, most viral species are classified up to an Order. Beyond Order, viruses are classified as DNA or RNA viruses (based on their genome type).",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Taxonomy (or systematics) is the science of arranging related organisms into groups (i.e., taxa; sing. taxon). International organizations may or may not regulate the naming of higher-order taxa beyond the Genus. Higher groups are defined by their evolutionary (i.e., phylogenetic) relationships among lower taxa.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Phylogenetic relationships imply that all lower taxa within a higher taxon originated from a common ancestral group. If scientists are convinced that all members of a taxon share a single common ancestor, the group is considered monophyletic. An example of a monophyletic group is the class Mammalia. Groups such as algae and slime molds are polyphyletic because their members are most certainly derived from several different ancestors. Studying all the species in the biosphere is neither possible nor generally necessary. Phylogenetic classification allows drawing plausible conclusions about many species within a large taxon in a manageable timeframe. For example, if a few species of mammals are studied, one can conclude that all mammals have hair, mammary glands, and a uterus. Conversely, any animal with those characteristics can be classified as a mammal.",
+          "page": 8
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 1.5. The hierarchical classification schemes. A. Classification of the virus Human herpesvirus 8 (i.e., Kaposi’s",
+          "page": 8,
+          "image": "/mmahp/ch01/1-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "sarcoma-associated virus) that causes the skin cancer known as Kaposi’s sarcoma. B. Classification of the bacterium Salmonella enterica that causes gastroenteritis. C. Classification of the human species Homo sapiens.",
+          "page": 8
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 14,
+          "title": "Naming of species",
+          "bullets": [
+            "Common names",
+            "historical or causally used by both scientists and lay people to denote",
+            "No rules applied but usually follow same spelling",
+            "Scientific names",
+            "Proposed by scientists who initially identified the species",
+            "Accepted and formalized by international organizations, who also give the",
+            "For Viruses/subviral agents- ICTV",
+            "For Bacteria and archaea- ICNP, Bacterial Code",
+            "For Eukarya- ICBN, ICZN",
+            "Purpose- to avoid chaos of naming same organisms differently"
+          ]
+        },
+        {
+          "slideIndex": 15,
+          "title": "Rules of naming subcellular species",
+          "bullets": [
+            "Rules are given by ICTV, names are approved by ICTV",
+            "The first word is capitalized",
+            "The second and subsequent words –not capitalized",
+            "The entire name is italicized",
+            "The name should not be abbreviated",
+            "The name must be spelled as ICTV spells it.",
+            "Example",
+            "Common names- herpes simplex virus 1",
+            "The name can be abbreviated (HSV-1)",
+            "Scientific name- Human alphaherpesvirus 1"
+          ]
+        },
+        {
+          "slideIndex": 16,
+          "title": "Naming of cellular species",
+          "bullets": [
+            "Rules",
+            "The name must be binomial (have the genus name mentioned)",
+            "The first letter of the name is capitalized",
+            "The second word of the name must not be capitalized",
+            "The whole name should be italicized",
+            "The name should be spelled as approved (by ICZN, ICBN, ICNP, etc.).",
+            "Example",
+            "Common name- pneumococcus",
+            "Scientific name Streptococcus pneumoniae",
+            "Here Streptococcus is the genus name, Streptococcus pneumoniae is the species"
+          ]
+        },
+        {
+          "slideIndex": 17,
+          "title": "Classification, taxonomy & phylogenetic method",
+          "bullets": [
+            "Classification- organizing species into larger groups based on",
+            "Phylogenetic method- classifying based on similarities and",
+            "Monophyletic group- have adequate proof that all members evolved from",
+            "Polyphyletic group- members have some similarities but they have not",
+            "Taxonomy- the scientific discipline of the science classification of"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "1.5",
+      "heading": "History of microbiology: The antiquity",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Microbes are everywhere in the biosphere in very large numbers. The human body has more microbial cells than human cells. Surprisingly, people were not fully aware of microbes until microscopes were developed in the early seventeenth century. There is no written account of bacteria and viruses in any of the known ancient documents. People of almost all ancient civilizations, however, were aware of invisible disease-causing entities and used microbes for various economic purposes. The nomadic Turkic tribes were making cheese as early as 8000 BC, and the people of present-day Iran were brewing wine as early as 7000 BC. Cheesemaking and brewing require controlled microbial growth. People of ancient civilizations also perceived that disease-causing agents were present in human waste. A sewage disposal system was initially developed in present-day Pakistan and Egypt, dating to 3000 BC, to prevent the dissemination of harmful microbes.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Observers in the past also noticed that microbial growth alters the state of matter. Aristotle (384-322 BC), one of the greatest philosophers, observed that raw meat kept in an open pot would decompose, and there could be maggots growing in it. The decomposition (due to enzymatic activity and the growth of bacteria and fungi) and the emergence of maggots (because of flies laying eggs on the meat) are two distinct processes, but early observers lacked the technology to distinguish between them.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Box 1: Where did life come from?",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Alexander Oparin (1894-1980) proposed in 1923 that the molecules that make up living things evolved through chemical evolution. According to this theory, methane, CO2, and water vapor in the atmosphere of the primitive Earth reacted under UV radiation and lightning, creating simple organic molecules such as amino acids and sugars. These molecules accumulated in the oceans because there were no microbes to destroy them. JBS Haldane (1892-1964) called this the primitive soup (1928). Stanley Miller (1930-2007) and Harold Urey (1893-1981) demonstrated in 1952 that some organic chemicals (amino acids) can be synthesized if a mixture of water vapor, methane, ammonia, and hydrogen is zapped with electric sparks in a closed glass jar. Such spontaneously generated simple organic compounds might have reacted to synthesize macromolecules such as RNAs and lipids.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "A living thing has three basic properties: heritability (the ability to self-preserve through the replication of its genome), mutability (the ability to evolve through changes in the genome), and the ability to transform energy (synthesize biologically useful energy sources such as ATP from the matter and energy of the surroundings). Many scientists think that the earliest genome creatures were RNA molecules because RNAs can serve as enzymes (as in ribozymes), structural molecules (as in ribosomes), regulators of gene expression (as in snRNAs), and genomes (as in viroids and some viruses). However, RNAs are notoriously unstable in water. Some scientists propose that DNA evolved quite early and began serving as the genome. The genomic RNA or DNA might have invaded spontaneously formed lipid vesicles. The vesicles thus created the ‘protocell,’ which provided a contained environment for the evolution of the cell. The earliest fossil records resembling cyanobacteria-like microbes date to 3.5 billion years ago. Since cyanobacteria are quite complex organisms, the earliest cells must have evolved much earlier, some 3.8 billion years ago. Notably, the Earth was created from gases leftover from the formation of the Sun 4.5 billion years ago. Scientists think the eukaryotic cells evolved from prokaryotic cells some 2 billion years ago.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "The progenitors of eukaryotic cells were larger in volume than those of prokaryotic cells. The ratio of the internal surface area (created by the plasma membrane) to volume for the progenitor eukaryotic cell was smaller than that of the prokaryotic cell. To accommodate this discrepancy, progenitor eukaryotic cells developed a network of internal membranes by extending the plasma membrane to the interior of the cell. This endomembrane covered the nucleoid and formed the nucleus, thereby creating primitive eukaryotic cells. The eukaryotic cell later gained mitochondria and chloroplasts as endosymbionts (cells that live inside a host cell). We will discuss the Endosymbiosis Theory in Chapter 2 of this book.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Origin of life in stages. Shown is the cooling of the primitive Earth, the chemical evolution of organic molecules (prebiotic synthesis), the synthesis of polymers and lipid vesicles into protocells, and the earliest cell. Since all existing cell types are structurally and functionally very similar, they all must have evolved from a common ancestral cellular being, called the last universal common ancestor (LUCA). Image- Chiswick Chap (Wikipedia).",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Aristotle and others called this emergence of complex living organisms from decaying substances the phenomenon of spontaneous generation. The theory was widely accepted by common folk as well as by philosophers and scientists of the time, including theologians such as Thomas Aquinas (1224-1274) and scientists such as Isaac Newton (1643- 1727). Though the theory of spontaneous generation is not fundamentally wrong (life evolved spontaneously from nonliving substances over many millions of years; see Box 1), a maggot cannot be spontaneously created from rotting meat.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Francesco Redi (1626-1697) disproved the theory of spontaneous generation in 1670. Redi demonstrated that maggots do not grow in meat if meat is protected from flies (Fig. 1.6). The theory of spontaneous generation continued to get support until Louis Pasteur (1822-1995) conclusively disproved the theory in 1859. The controversy, however, played a positive role in the development of microbiology (the scientific study of microbes).",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "How knowledge is acquired",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "There are several methods of acquiring knowledge about natural phenomena. Aristotle developed the theory of spontaneous generation by applying the philosophical method. Philosophical methods include observation, reflection, reasoning, and theorizing, but not experimentation. Scientists use the descriptive and scientific method to gain knowledge. The descriptive method relies on observation and data collection without manipulating the variables that affect the observed phenomena. Redi utilized the scientific method (Fig. 1.6). Since microbiologists often use the scientific method, let us discuss it in a little more detail.",
+          "page": 10
+        },
+        {
+          "type": "figure",
+          "text": "Fig 1.6. The beginning of the end of the theory of spontaneous generation. A. Francesco Redi (1629-1697)",
+          "page": 10,
+          "image": "/mmahp/ch01/1-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "questioned the validity of the theory of spontaneous generation. Image from Wikipedia. B. Redi’s controlled experiment showed that maggots grew in meat in the control jar that was exposed to flies (the uncovered jars on the left) but not in the test jar that was protected from flies (the covered jars on the right). Image adapted from harlem- school.com.",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "The scientific method",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Ibn al-Haytham (935-1040) developed the method in the 900s AD. Roger Bacon (1214-1294) popularized the method in Europe in the 1200s AD. Let us pretend that Redi observed that meat decomposes and maggots emerge from it, as flies lay eggs on the meat. He would apply the scientific method through the following steps.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "a) deep observation of a phenomenon: How maggots grow in the rotting meat.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "b) asking specific questions about the observation: Where do maggots come from?",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "c) developing a hypothesis on the phenomenon: Maggots come from eggs laid by flies on the meat. d) testing the hypothesis using controlled experiments, manipulating some variables: Allow flies to touch the meat in the control jar, cover the test (manipulated) jar with a piece of cloth to prevent flies from touching the meat.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "(e) accepting or rejecting the hypothesis: Maggots in the manipulated jar; the hypothesis is rejected. No maggots in the manipulated control jar; the hypothesis is accepted.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Suppose Redi observed that maggots appeared in the control jar but not in the test jar. Redi would accept his hypothesis and repeat the experiment. If he finds the same outcome after many repeats of the experiment, his hypothesis becomes a theory (say, maggots only come from the eggs of flies). If other scientists repeat Redi’s experiment and never find an exception in the results, the theory becomes a natural law (e.g., complex living things only come from preexisting complex living things).",
+          "page": 11
+        },
+        {
+          "type": "subheading",
+          "text": "Visualization of microbes",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "The Chinese artisans initially developed eyeglasses to protect the eyes from dust particles (200 BC). Salvino D'Armate (1258-1312), an Italian, is credited with being the first Westerner to perfect eyeglasses for correcting vision problems. Galileo Galilei (1564-1632), Zacharias Janssen (1580-1638), and Robert Hooke (1635-1703) used the lenses to design simple microscopes. Unlike eyeglasses, microscopes have a focusing device.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "In 1674, Anton van Leeuwenhoek (1632-1723), a Dutchman, devised a simple microscope and examined water and various body fluids. Leeuwenhoek was most likely the first person to visualize microbes such as bacteria and protozoa (he called them animalcules or small animals) (Fig. 1.7). He later published an illustrated account of the animalcules in the Philosophical Transactions of the Royal Society (London), a leading journal of the time (Fig. 1.7).",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 1.7. Seeing the unseen. A. Anton van Leeuwenhoek (1632-1723), was the first person to visualize microbes",
+          "page": 11,
+          "image": "/mmahp/ch01/1-7.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "invisible to the naked eye. Image from Wikipedia. B. Leeuwenhoek's microscope. The scope has one glass lens. The sample (a drop of liquid) is placed on the tip of the sample pin. The distance between the sample and the lens could be adjusted using screws (the screws served as the focusing devices). Image from cartage.org. C. Some of the animalcules Leeuwenhoek described in his illustrated letters published in the Philosophical Transactions of the Royal Society (1683). Image from leeuwenhoek.wordpress.com.",
+          "page": 11
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 20,
+          "title": "How knowledge is acquired",
+          "bullets": [
+            "Philosophical method",
+            "observation, reflection, reasoning, and theorizing, but not experimentation",
+            "Descriptive methods",
+            "observation and data collection without manipulating the variables",
+            "The Scientific method",
+            "Observing and asking question how",
+            "Making a hypothesis",
+            "Testing hypothesis using control and test samples",
+            "Accepting and rejecting hypotheses",
+            "Theory- a scientific concept nearly always found to be valid",
+            "Law of nature- a scientific concept always found to be valid (no exception)"
+          ]
+        },
+        {
+          "slideIndex": 21,
+          "title": "The theory of spontaneous generation refuted",
+          "bullets": [
+            "Based on philosophical method of developing knowledge",
+            "Organism get generated spontaneously out of nonliving substances (Aristotle",
+            "Example: Maggots grow spontaneously in rotting meat",
+            "Francisco Redi proved it wrong by applying the Scientific Method",
+            "Observations- flies lay eggs on meat, meat rot, maggot grow in it",
+            "Hypothesis- maggots grow in rotting meat infested by flies",
+            "Control sample- meat in an open vessel",
+            "Test sample- meat in similar vessel but covered by a cloth (to prevent entry of",
+            "Result- maggot grew in test sample, but not in control sample",
+            "Hypothesis accepted",
+            "The theory of spontaneous generation made positive contribution to"
+          ]
+        },
+        {
+          "slideIndex": 23,
+          "title": "The theory of Chemical Evolution of life",
+          "bullets": [
+            "Alexander Oparin (1894-1980)- organic chemicals such as amino acids,",
+            "Miller and Ury (1952)- organic chemicals can be synthesized of simple inorganic",
+            "Small organic molecules reacted to create macromolecules such as",
+            "RNA or DNA trapped in bubble of fatty acid created protocells",
+            "Protocells evolved to th least universal common ancestor cells (LUCA)",
+            "Proaryotes and eukaryotes evolved out of LUCA"
+          ]
+        },
+        {
+          "slideIndex": 25,
+          "title": "Leuwenhoek: Visualization of microbes",
+          "bullets": [
+            "Seeing the unseen",
+            "What is a lens",
+            "What is a microscope",
+            "Leuwenhoek's",
+            "Leuwenhoek’s",
+            "Significance of"
+          ]
+        },
+        {
+          "slideIndex": 35,
+          "title": "College general microbiology",
+          "bullets": [
+            "The course curriculum (ASM)",
+            "Microbial evolution",
+            "Structure and function",
+            "Microbial metabolism",
+            "Biological information flow",
+            "Microbial genetic",
+            "Microbial systems",
+            "Impact of microorganisms",
+            "The course will be modified to some extent to accommodate"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "1.6",
+      "heading": "The formative years of microbiology",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Leeuwenhoek’s reports on animalcules encouraged many scientists to study unseen life forms. In 1838, two German naturalists, Theodor Schwann (1810-1882) and Matthias Schleiden (1804-1881), proposed the famous cell theory, which claims that the cell is the structural and physiological unit of living organisms. In 1844, Agostino Bassi (1773- 1856), an Italian naturalist, revived the long-held germ theory of disease, proposing germs (i.e., disease-causing microbes) cause diseases such as measles and syphilis. The theory implied that reducing environmental germs would reduce the prevalence of infectious diseases.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Ignaz Semmelweis (1818-1865), a Hungarian obstetrician, observed that women who delivered their babies in the hospital were more likely to develop puerperal fever (also known as childbed fever) than women who delivered at home with the help of a midwife. Puerperal fever is a potentially fatal infection contracted by some women during assisted childbirth. In 1847, Semmelweis reported that if doctors washed their hands with chlorinated lime (CaOCl2) before delivery, the incidence of puerperal fever reduced. This simple procedure drastically reduced or eliminated the germs that doctors were transmitting to mothers. In 1854, John Snow (1813-1858), an English surgeon, observed that certain water pumps and water from sewage-contaminated sections of the Thames River were the sources of cholera outbreaks in London. In 1858, Rudolph Virchow (1821-1902), a German scientist, asserted that a cell could only originate from a pre-existing cell, supporting the cell theory proposed by Schwann and Schleiden in 1838. This proposal directly opposed the theory of spontaneous generation and underscored the importance of removing germs to prevent infections.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbiology came of age by the mid-1850s, when the French chemist Louis Pasteur (1822-1895) and the German physician Robert Koch (1843-1910) began studying microbes. Pasteur (Fig. 1.8) demonstrated that yeasts ferment sugars in grape juice to produce wine. In addition, Pasteur found that bacteria in the juice ferment sugars and produce acids. Because acids taste sour, if both yeasts and bacteria are present in a batch of grape juice, a batch of sour (i.e., spoiled) wine is produced. Thus, bacteria cause wine spoilage. Pasteur demonstrated that some germs can thrive in the absence of air (oxygen) and proposed that different types of germs are involved in the spoilage of different types of food and drinks. In 1862, Pasteur demonstrated that microbial spoilage can be prevented or delayed by heat treatment (a process now known as pasteurization), filtration, or the application of germicides (chemicals that kill germs).",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Pasteur’s work encouraged Joseph Lister (1827-1912), a British surgeon, to use phenol as a germicide (in 1867) to decontaminate surgical equipment, operating rooms, and body surfaces. The treatments drastically reduced the incidence of wound infections and other surgery-related diseases such as tetanus and gangrene. Pasteur’s research supported the germ theory of disease, but he was unable to prove it because he could not isolate the germs using the liquid culture media available at the time. He, however, was able to demonstrate in 1865 that a protozoan parasite was the causative agent of the pebrine disease of silkworm larvae. Pasteur showed that the germs that cause fowl cholera, anthrax, and rabies can be attenuated (weakened by growing the microbes in poor culture conditions or unnatural host animals) and that the attenuated germs can be used as vaccines. His excellent research accomplishments earned him public funding to establish a research laboratory now known as the Pasteur Institute. A large number of scientists have worked in his laboratory (during his lifetime and today) and have made numerous contributions to the field of microbiology.",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 1.8. Pioneering scientists who established microbiology as a distinct field of inquiry. A. Louis Pasteur (1822-",
+          "page": 12,
+          "image": "/mmahp/ch01/1-8.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "1895). B. Robert Koch (1843-1910). Images from Wikipedia.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "The germ theory of disease gained greater significance in 1871, when Gerhard Hansen (1841-1912), a Norwegian physician, isolated a bacterium from the lesions of leprosy patients and proposed that leprosy was caused by that bacterium. The concept of linking a disease to a specific germ was fully established by Robert Koch (Fig. 1.8). In 1876, Koch demonstrated that different species of bacteria could be separated from one another by growing a mixture of them on a semi-solid culture medium. He was able to grow individual colonies of bacteria to establish a pure culture. A pure culture is the growth of a single species free of any other contaminating microbes. Koch also demonstrated that a pathogenic bacterium could be (a) isolated from an infected subject, (b) grown in the laboratory as a pure culture, (c) shown to cause the disease if a sample of the pure culture were injected into a test animal (i.e., a mouse), and (d) reisolated in pure culture from the infected test animal. These steps are the foundation of Koch’s postulates and are customarily used in assigning a microbe as the causative agent of a disease (Fig. 1.9). Koch later isolated the species of bacterium (Bacillus anthracis) that causes anthrax (1876), Mycobacterium tuberculosis that causes tuberculosis (1882), and Vibrio cholerae that causes cholera (1883). Koch also reported that Bacillus anthracis produces highly heat-stable spores (i.e., endospores) that may remain viable in the soil for many years. Koch worked on epidemic diseases in Africa, India, and Italy. Koch also contributed to the development of sterilization methods (rendering an item free of microbes) and to the preparation and distribution of safe drinking water. In 1890, Koch was appointed the director of the Institute of Infectious Diseases (Berlin), where he worked with some of the most outstanding scientists of the time. Koch and his associates developed semi-solid bacterial culture media containing meat broth and gelatin. Fannie Hesse (1850-1934), one of Koch’s laboratory technicians, devised a more effective semisolid medium containing agar. Semisolid media, poured into flat dishes (called Petri dishes), devised by Koch’s associate Julius Petri (1852-1921), were used to isolate bacteria and obtain a pure culture. Koch was awarded the Nobel Prize in Physiology or Medicine in 1905.",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 1.9. The premises of Koch’s postulates. The premises are inscribed in the boxes. To establish a pure culture, a",
+          "page": 13,
+          "image": "/mmahp/ch01/1-9.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "small sample of sputum from a tuberculosis patient is spread on a plate containing a semi-solid culture medium so that some spots on the plate receive a single bacterial cell. The bacterial cell replicates many times and forms a visible colony. A well-isolated colony can be considered a pure culture. Image sources: A- WHO-TDR/Crump; B and D- CDC-PHIL, C- City of Berkeley, CA.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "The Classical Golden Age of Microbiology",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "The field of microbiology saw rapid progress during 1850-1914. Biologists call this period the First or Classical Golden Age of Microbiology. Pasteur, Koch, and many of their associates and contemporaries illuminated this period. Some of the major discoveries of this period include: extraction of nucleic acids by Friedrich Miescher (Fig. 1.11) in 1869; attenuation of pathogenic microbes to generate vaccines by Pasteur, Koch, Emile Roux (1853-1933), and others in the 1870s; visualization of animal cells (now known as macrophages) eating and destroying pathogenic bacteria by Eli Metchnikoff (Fig. 1.11) in 1883; invention of filters that can remove bacteria from liquid samples by Charles Chamberland (1821-1908) and Pasteur in the 1880s; detection of microbes (now known as viruses) that may pass through bacterial filters by Dimitri Ivanovski (1864-1920) (Fig. 1.12) in 1892 and by Martinus Beijerinck (1851-1931) (Fig. 1.11) in 1898; detection of antimicrobial proteins in the blood plasma (now known as complements) by Jules Bordet (1870-1961) in 1895; and (what is now known as) antibodies by Emil Von Behring (1854-1917) and Shibasaburo Kitasato (1853-1931) (Fig. 1.11) in 1901; discovery of antibiotics by Alexander Fleming (1885-1955) and others in 1928; and the demonstration of antibacterial chemotherapeutic agents by Gerhard Domagk (1895- 1964) in 1935.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "The Second and Third Golden Ages of Microbiology The second major wave of discoveries in microbiology took place between 1940 and 1970. This period, called the Second Golden Age of Microbiology, witnessed the invention of the electron microscope that can be used in visualizing viruses by Ernst Ruska (1906-1988) in the 1930s; the isolation of many antibiotics by Ernst Chain (1906- 1989), Howard Florey (1898-1968) and others in the 1940s; the use of viruses as a model microbe to study microbes at the molecular level by Max Delbruck (1906-1981) and Salvador Luria (1912-1991) in 1943; discovering that DNA is the carrier of heredity by Oswald Avery (1877-1955) and others in 1944, and by Alfred Hershey (1908-1997) and Martha Chase (1927-2003) in 1952; deciphering the structure of DNA by Rosalind Franklyn (1920-1958), Maurice Wilkins (1916-2004), Francis Crick (1916-2004) and James Watson (b. 1928) in the 1950s; detection of the prion agents by Daniel Gajdusek (1923-2008) in 1957; and isolation of the enzyme that replicates DNA by Arthur Kornberg (1918-2007) in 1960.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "The third major wave of discoveries in microbiology began in 1970 and continues today. Technologies developed during this Third Golden Age of Microbiology enabled scientists to manipulate DNA and generate recombinant DNA molecules. A recombinant DNA molecule is created by splicing together DNA from two different sources. These technologies also allowed scientists to study the entire genetic endowment of various organisms. This discipline, known as genomics (the study of genomes), is currently a major thrust of microbiology. The volume of discoveries in this period (and the previous two periods) is too large to include in this textbook. A precise history of discoveries in microbiology and related fields can be found in the American Society for Microbiology web resources (A Chronology of Microbiology in Historical Context, http://www.asmscience.org/content /book/10.1128/9781555818081).",
+          "page": 14
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 1.11. Some pioneering scientists of the First Golden Age of Microbiology. A. Friedrich Miescher (1844-1895)",
+          "page": 14,
+          "image": "/mmahp/ch01/1-11.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "discovered DNA in 1869. B. Emile Roux (1853-1933) developed attenuated virus vaccines in the 1870s. C. Eli Metchnikoff (1845-1916) discovered macrophages in 1883. D. Emil Von Behring (1854-1917) and E. Shibasaburo Kitasato (1853-1931) discovered antitoxin (i.e., antibodies) in 1901. F. Dimitri Ivanovski (1864-1920) discovered filterable infectious agents in 1892. G. Martinus Beijerinck (1851-1931) confirmed Ivanovski’s observations and called the agents viruses in 1898. H. Alexander Fleming (1881-1955) discovered penicillin in 1928. Images from Wikipedia.",
+          "page": 14
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 19,
+          "title": "History of Microbiology",
+          "bullets": [
+            "Please read if you like-",
+            "In the antiquity (before middle ages, accounts not",
+            "No written accounts, no cave picture, etc.",
+            "The ancient people used microbes",
+            "Cheese making in Turkeye (8000 BC)",
+            "Winemaking in Iran (7000 BC)",
+            "They were aware of unseen agents of disease",
+            "safe disposal of human waste in 3000 BC in"
+          ]
+        },
+        {
+          "slideIndex": 26,
+          "title": "The germ theory of disease",
+          "bullets": [
+            "Proposed by many, including Augustino Bassi (1773-1856)",
+            "Invisible germs in air, water and food may cause diseases (removing",
+            "Theodor Schwann (1810-1882) and Matthias Schleiden (1804-",
+            "Ignaz Semmelweis (1818-1865): Infection control on reducing",
+            "John Snow (1813-1858)- Birth of epidemiology- infection control",
+            "Rudolph Virchow- a more perfect cell theory"
+          ]
+        },
+        {
+          "slideIndex": 27,
+          "title": "Louis Pasteur (1822-1895)",
+          "bullets": [
+            "A chemist by training",
+            "Solving the cause of wine souring",
+            "Yeast fermentation of alcohol",
+            "Bacterial fermentation of lactic acid",
+            "Anaerobic organisms (organisms that can live without oxygen)",
+            "The process of Pasteurization",
+            "The germ theory of disease proved (partially)",
+            "The causative agent of the Pebrine disease",
+            "Vaccine by attenuating rabies virus, fowl cholera, anthrax,"
+          ]
+        },
+        {
+          "slideIndex": 28,
+          "title": "Robert Koch (1843-1910)",
+          "bullets": [
+            "Pure culture of bacteria on semi-solid medium",
+            "The Kochs Postulates",
+            "Discovery of bacterial endospore",
+            "The process of sterilization",
+            "The germ theory of disease proven (completely)",
+            "The process of making safe drinking water",
+            "Identification of the causative agents of tuberculosis, cholera,"
+          ]
+        },
+        {
+          "slideIndex": 30,
+          "title": "First Golden age of Microbiology (1850-1914)",
+          "bullets": [
+            "All discoveries and inventions of Pasteur and Koch, their team",
+            "Joseph Lister- chemical germicides in infection control (1867)",
+            "Friedrich Miescher- DNA (1869)",
+            "Gerhard Hansen- causative agent of leprosy (1871)",
+            "Pasteur, Koch, Emile Roux (1853-1933)- attenuation",
+            "Eli Metchnikoff- Macrophages (1883)",
+            "Charles Chamberland and Pasteur- microbial filters (1880s)",
+            "Dimitri Ivanovski and Martinus Beijerinck- Viruses (1890s)",
+            "Jules Bordet- complements in blood (1895)",
+            "Von Behring and Kitasato- antibodies (1901)"
+          ]
+        },
+        {
+          "slideIndex": 32,
+          "title": "The Second Golden age (1940-1970)",
+          "bullets": [
+            "Alexander Fleming, etc. Penicillin (1928)",
+            "Gerhard Domagk (chemotherapy/sulfa drugs) in 1935",
+            "Earnst Ruska- Electron microscopy (1930s)",
+            "Ernst Chain and Howard Florey- new antibiotics (1940)",
+            "Max Delbruck and Salvador Luria- molecular biology (1940)",
+            "Avery, Hersey, and others- DNA as the genome of the cell (1944-1950)",
+            "Rosalynd Franklyn and others- structure of DNA (1950s)",
+            "Daniel Gajdusek- prion (1957)",
+            "Cohen, Berg, Boyer, and others- Recombinant DNA technology (1970s)",
+            "The Third golden age- genomics, etc. (1970- today)"
+          ]
+        },
+        {
+          "slideIndex": 33,
+          "title": "Contributions of microbiology to the society",
+          "bullets": [
+            "Basic contributions",
+            "Safe drinking water",
+            "Food safety",
+            "Safe waste disposal",
+            "Preventive health care including vaccination",
+            "Modern medicines (including antibiiotics and chemotherapeutic agents)",
+            "Indirect effect",
+            "Rapid population growth",
+            "Increase in human longevity",
+            "Application of recombinant DNA technologies"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "1.7",
+      "heading": "Microbiology today and tomorrow",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Modern microbiology is a vast field. The new tools and technologies of the post-genomic era have created an environment in which the field is growing faster and larger. It is estimated that the majority of microbial species remain unidentified. The vast genetic endowment of microbes is now accessible to scientists for developing new products and services. Research on the importance of microbes in human and other organisms' health and disease has also gained new momentum. Teaching and learning microbiology have never been more challenging because of the sheer size of the current knowledge base. Microbiology educators and professional organizations have been continuously observing the field's growth and strategizing on how to organize and categorize information for instructional purposes. This textbook follows the American Society for Microbiology (ASM)-recommended curriculum guidelines for undergraduate microbiology education (2012). We will focus on the following areas of modern microbiology: Microbial evolution: We will discuss the interrelationships of microbial groups, the natural and human-influenced factors affecting microbial evolution, the processes of microbial evolution, and the importance of microbial evolution in human welfare.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Structure and function: We will discuss the microscopic structure of acellular and cellular microbes, the structures and functions of common and unique organelles and macromolecules (large organic compounds) across various microbial groups, and the importance of these structures in human health and disease.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbial metabolism: We will discuss the common and some unique metabolic pathways of microbes, how those pathways help microbes thrive in their environment, how the pathways affect human welfare, and how the pathways can be manipulated and used to further human welfare.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Biological information flow: We will discuss microbial genomes, gene expression, and gene regulation. We will also discuss how external and internal conditions affect the rate of microbial replication and gene expression. Finally, we will discuss how microbial gene expression can be manipulated to improve human welfare.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbial genetics: We will discuss the causes and processes of genomic change, the consequences of these changes, and how microbial genomes can be manipulated to create new products and services.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbial systems: Systems biology is the holistic approach to deciphering the complexity of biological systems. We will discuss where microbes naturally grow, how they interact with their surroundings, and how they interact with each other. We will also discuss how microbial growth can be encouraged or suppressed to further human welfare. We will place special emphasis on how microbes interact with the human body and how the human body responds to these interactions.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Impact of microorganisms: We will discuss the importance of microbes in the biosphere and in human health and disease. We will also discuss the economic importance of microbes and microbial products and the potential for additional microbial products and services that remain to be developed.",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Future of microbiology",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Microbiology has contributed significantly to the creation of our modern civilization. Effective waste disposal, clean and safe drinking water, food security, preventive health care, and modern medicines are among the areas where microbiology has made substantial contributions. Microbiological advances have contributed to the rapid growth of the human population, and that growth has created many new problems, including food shortages, depletion of nonrenewable resources such as fossil fuels, overexploitation of renewable resources such as topsoil and freshwater, loss of biodiversity, environmental pollution, climate change driven by human activities, and the development of drug resistance among pathogenic microbes. Microbiologists of the future will have to address these emerging challenges. Microbes have already been used to address many of these problems. Many known and still-unknown microbes hold potential tools to mitigate these problems. Therefore, microbiology will remain an important field for future professionals, scientists, and educators.",
+          "page": 15
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 34,
+          "title": "Challenges created and to be solved",
+          "bullets": [
+            "Problems due to direct and indirect effects (overpopulation)",
+            "Food shortages",
+            "Depletion of non-renewable resources (such as fossil fuels)",
+            "Overexploitation of renewable resources such as topsoil, freshwater,",
+            "Loss of biodiversity",
+            "Environmental pollution",
+            "Climate change driven by human activities",
+            "Development of drug resistance among pathogenic microbes",
+            "Microbiologist can play significant roles in solving these issues"
+          ]
+        }
+      ]
+    }
+  ],
+  "unmatchedSlides": []
+}

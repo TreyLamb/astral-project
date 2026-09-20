@@ -1,0 +1,1677 @@
+{
+  "id": "ch14",
+  "number": 14,
+  "title": "Infections of the Nervous, Digestive and Respiratory Systems",
+  "lead": "The nervous system is not as directly connected to the respiratory and digestive systems as those two are to each other. Most microbial infections of the nervous system arise from bloodborne pathogens, whereas the other two systems are mainly infected by external pathogens that directly contact the organs. However, some respiratory pathogens may enter the bloodstream and then infect the nervous system.",
+  "openstaxEquivalent": null,
+  "sources": {
+    "chapterPdf": "14. Infections of the Nervous, Digestive & Resiratory Systems.pdf",
+    "pptPdf": "MMAHP Ch 14 PowerPoint Lecture Outline.pdf"
+  },
+  "sections": [
+    {
+      "number": "14.1",
+      "heading": "The nervous system",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The nervous system is divided into two anatomical divisions: the central nervous system (CNS) and the peripheral nervous system (PNS) (Fig. 14.1). CNS includes the brain and the spinal cord; the PNS consists of the nerves, ganglia (masses of nervous tissue containing neuron cell bodies outside the brain and spinal cord), and the sensory receptors (for vision, taste, hearing, balance, and tactile perception).",
+          "page": 1
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.1. The nervous system. A. The central nervous system includes the brain and spinal cord. B. The cranium is",
+          "page": 1,
+          "image": "/mmahp/ch14/14-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "shown to highlight the meninges, ventricles, and the flow pathway of cerebrospinal fluid (CSF). C. The lower part of the spinal cord is illustrated to show how a sample of CSF (a spinal tap) can be collected by inserting a needle between the lumbar vertebrae in the lower back. D. A diagram of a section of the spinal cord reveals sensory and motor nerves. E. A diagram of a brain section demonstrating the blood-brain barrier, which is formed by numerous astrocyte feet adhering to the blood vessels. Image: Linus Books.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Some components of the CNS and PNS form the autonomic nervous system (ANS), which innervates cardiac muscle, smooth muscle, and glandular epithelia. The autonomic nervous system is not discussed in the chapter. The CNS is in the bony chamber of the cranium and the neural canals of the vertebrae and is protected by three meninges. The dura mater, the outermost of the meninges, is fused to the bones (Fig. 14.1). The middle layer, called the arachnoid mater, is attached by spider web-like processes to the pia mater, the innermost of the three meninges. The pia mater loosely covers the brain and spinal cord. A clear fluid called cerebrospinal fluid (CSF) circulates in the space between the pia mater and arachnoid mater, as well as in the spaces (ventricles) within the brain and the central canal of the spinal cord (Fig. 14.1). CSF is a watery substance containing a few cells (leukocytes). CSF is normally sterile, but bacteria entering it may grow very rapidly.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "The brain is a large sheet of neurons meticulously folded to fit within the cranium. Only a few types of cells make up most of the brain (see Chapter 13). Neurons conduct electrical signals. Oligodendrocytes function like Schwann cells and provide the function of the myelin sheath for axons and dendrites in the brain. Astrocytes cover the blood capillaries in the brain and form the blood-brain barrier (BBB), which quite effectively prevents microbes from entering the brain from the blood. Microglial cells are mobile and may engulf invading microbes and damaged neural tissue. Ependymal cells line the cavities (ventricles) of the brain, and in certain locations, they secrete cerebrospinal fluid. Finally, stellate cells support the ganglia.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "The brain is divided into anatomical/functional regions and locations that are not detailed here. The four major regions of the brain are the cerebrum (or forebrain), cerebellum (or hindbrain), pons, and medulla oblongata. The lower end of the medulla oblongata exits the cranial cavity and becomes the spinal cord. The spinal cord is a tube-like organ with a central canal. Cerebrospinal fluid (CSF) flows through the canal and the subarachnoid space. The presence of microbes in CSF can be tested by taking a sample (spinal tap) from the subarachnoid space with a needle puncture between lumbar vertebrae 3 and 4 (Fig. 14.1). Both the brain and spinal cord have regions known as gray matter and white matter (Fig. 14.1). Gray matter is rich in the cell bodies of neurons, while white matter is rich in axons. Many viruses (including poliovirus, rabies virus, herpes simplex virus, and several arboviruses) may infect brain cells in the gray matter, causing encephalitis, a severe brain inflammation.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "There are three types of neurons: sensory neurons, motor neurons, and internuncial neurons. The cell body of a motor neuron is located within the brain or spinal cord. Motor neurons transmit signals from the brain to muscles and glands (Fig. 14.2). An internuncial neuron, found in the spinal cord, connects motor and sensory neurons. The cell body of a sensory neuron is typically situated outside the CNS. Sensory neurons carry signals from sensory organs (such as the eyes, tongue, nose, and ears) and tactile receptors in the skin back to the brain. A nerve is a bundle of axons that transports information between the CNS and PNS. Nerves emerging from the brain and medulla oblongata are called cranial nerves, while those emerging from the spinal cord are called spinal nerves. Nerves also contain arteries and veins, and the entire bundle is encased in a matrix and connective tissue membrane (epineurium). Thus, a nerve resembles a sheathed electric wire (Fig. 14.2). A nerve may contain axons of both sensory and motor neurons. We will not discuss sympathetic and parasympathetic nerves, as these are not regular targets of microbial infections.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "The neurons transmit electric impulses. The electrophysiology of impulse transmission is beyond the scope of this textbook. Simply put, the electric impulse travels across the cell through the axon. In a naked axon, the impulse travels at about 1 meter per second, but in myelinated axons, it travels over 100 meters per second. The axon of the neuron contacts the dendrite of the next neuron or a muscle or gland through a gap junction called a synapse (Fig. 14.2). When the electrical impulse reaches the synapse, it causes the release of chemical substances called neurotransmitters.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Neurotransmitters are pre-made at the end of the axons and packed in membrane vesicles. The impulse causes specific proteins, known as SNARE proteins, to fuse the vesicles with the plasma membrane. The released chemicals then cross the gap and bind to receptors on the target cell. There are several classes of neurotransmitters, including amino acids (such as glutamate, GABA, glycine, and aspartate), monoamines (such as dopamine, serotonin, norepinephrine, and histamines), peptides (such as endorphins and oxytocin), and others (such as acetylcholine, ATP, and adenosine). Neurotransmitters can be divided into functional categories: excitatory neurotransmitters (such as glutamate, acetylcholine, dopamine, epinephrine, nitric oxide, and histamine), which initiate impulses; and inhibitory neurotransmitters (such as GABA, glycine, serotonin, and endorphin), which inhibit impulses upon binding their receptors. Bacterial toxins, such as botulinum toxin and tetanus toxin, inhibit the release of excitatory and inhibitory neurotransmitters, respectively, causing paralysis.",
+          "page": 2
+        },
+        {
+          "type": "figure",
+          "text": "Fig.14.2. Peripheral Nerves. A. A nerve contains several sensory or motor neurons, an artery, and a vein, all covered",
+          "page": 3,
+          "image": "/mmahp/ch14/14-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "by a connective tissue membrane called the epineurium. The bundles of axons within are also packed by a membrane named endoneurium. B. The pathway of an impulse over a reflex arc (simplified). Note that the sensory neuron carries the sensation to the CNS. The cell body of the sensory neuron is located outside the CNS. An internuncial (i.e., connector) neuron relays the impulse to the dendrites of a motor neuron. The cell body of the motor neuron is located within the CNS. The motor neuron transmits the response to a muscle or gland through its axon. C. The electrochemical nature of neurotransmission: an impulse is transmitted through an axon as an electrical impulse generated by the opening and closing of ion channels. D. Synapse and signal transmission: as the electrical impulse reaches the end of the axon at the neural junction, it triggers the release of neurotransmitters. These neurotransmitters travel across the synaptic gap and bind to receptors on the target neuron, muscle, or gland cell. This receptor binding initiates signal transduction, leading to the next action.",
+          "page": 3
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 2,
+          "title": "The nervous system",
+          "bullets": [
+            "CNS- the brain and the spinal",
+            "PNS-nerves, ganglia and",
+            "Cranial nerves",
+            "Sensory and motor nerves",
+            "The meninges",
+            "Dura mater",
+            "Arachnoid mater",
+            "Pia mater",
+            "Ventricles",
+            "Central canal",
+            "CSF",
+            "Spinal tap"
+          ]
+        },
+        {
+          "slideIndex": 3,
+          "title": "The nervous system (Contd)",
+          "bullets": [
+            "The blood-brain barrier",
+            "Gray mater",
+            "White matter",
+            "Myelinated axons in the",
+            "Structure of a nerve",
+            "Structure of a neural",
+            "Neurotransmission",
+            "Structure of a synapse"
+          ]
+        },
+        {
+          "slideIndex": 4,
+          "title": "Neurotransmitters",
+          "bullets": [
+            "How they are released",
+            "How they act",
+            "Types",
+            "Amino caids: glutamate, GABA, glycine, and aspartate",
+            "Monoamines: dopamine, serotonin, norepinephrine, and histamines",
+            "Peptides: endorphins and oxytocin",
+            "Other-acetylcholine, ATP, and adenosine",
+            "Excitatory: glutamate, acetylcholine, dopamine, epinephrine,",
+            "Inhibitory: GABA, glycine, serotonin, and endorphin"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "14.1.1",
+      "heading": "Infectious diseases of the nervous system",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Viral and subviral diseases",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Human herpesvirus virus-1 and -2 (meningitis, encephalitis, neuralgia, latency in ganglia); Varicella Zoster virus (neuralgia and latency in ganglia); JC virus (progressive multifocal leukoencephalopathy and neural damage); alphaviruses (EEEV, WEEV, VEE, SINV, and Semliki Forest virus); Crimean Congo hemorrhagic virus, Dengue virus, Human immunodeficiency virus 1 and 2, influenza virus A, Japanese encephalitis virus, Lacrosse virus, Lassa (hemorrhagic) virus, Junin virus, rabies lyssavirus, lymphochoriomeningitis virus, Machupo virus, mumps virus, Oropouche virus, poliovirus, Rift Valley fever virus, rubella virus, St. Louis encephalitis virus, various tick-borne encephalitis viruses, West Nile virus and prion agent (encephalopathy); rabies lyssavirus (hydrophobia), Borna disease virus (neurological conditions such as autism spectrum) and measles virus (subacute sclerosing panencephalopathy). Bacterial diseases Acinetobacter sp., Actinomyces sp., Borrelia burgdorferi, and related species, Burkholderia cepacia and related species, Escherichia coli, Klebsiella pneumoniae, K. oxytoca, Leptospira interrogans and related species, Listeria monocytogenes, Neisseria meningitidis, Nocardia and related organisms, Pseudomonas aeruginosa, Serratia sp., Hemophilus influenzae and related species, Streptococcus pneumoniae and many other bacteria (meningitis); Borrelia burgdorferi and related species, Chlamydophila psittaci and Treponema pallidum pallidum (encephalitis); Actinomyces sp., Nocardia asteroides and related organisms (brain abscess); Bordetella pertussis and B. parapertussis (mechanical brain damage as an aftermath of whooping cough); Clostridium botulinum (flaccid paralysis); Clostridium tetani (spastic paralysis); Campylobacter sp. (Guillain-Barre syndrome); Rickettsia prowazekii, R. typhi and Orientia tsutsugamushi (various neurological problems).",
+          "page": 3
+        },
+        {
+          "type": "subheading",
+          "text": "Fungal diseases",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Aspergillus niger, A. fumigatus, A. flavus, A. terreus, Blastomyces dermatitidis, Coccidioides immitis, C. posadasii, Cryptococcus neoformans and Histoplasma capsulatum (meningitis, mostly among immunocompromised subjects). Parasitic diseases Protozoa: Encephalitozoon, Enterocytozoon and related species, Toxoplasma gondii, Naegleria fowleri, Balamuthia sp., and Acanthamoeba sp. (encephalopathy, brain eating disease); Plasmodium falciparum (cerebral malaria); Trypanosoma brucei (African sleeping sickness); flatworms: Paragonimus westermani (encephalopathy), Taenia solium (brain cysticercosis); Echinococcus granulosus (hydatid cysts in the brain); Toxocara canis and T. cati (encephalopathy); roundworms: Ancylostoma, Necator, and Strongyloides (meningitis due to excessive infection among immunodeficient subjects) and Trichinella spiralis (meningitis due to mass migration to the brain).",
+          "page": 4
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 9,
+          "title": "Encephalitis vs encephalopathy",
+          "bullets": [
+            "Encephalitis- encephalopathy with inflammation (fever,",
+            "Encephalopathy- any pathological changes in the brain function",
+            "Causes",
+            "Infectious encephalitis- caused by infection of the brain cells/tissues",
+            "Infection-related encephalopathy- brain function decline due to systemic",
+            "Post-infection encephalitis- mostly due to autoimmune reactions",
+            "Infection-triggered encephalopathy- neurological decline after high fever"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "14.1.2",
+      "heading": "Pathologies of brain infections",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "African sleeping sickness",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "This disease is caused by the protozoan parasite Trypanosoma brucei and transmitted by tsetse flies. Of the two strains of the parasite, the East African strain is more common, and it causes slow-progressing disease (about a year before symptoms arise). The West African strain causes fast-progressing disease (symptoms arise within weeks of the bite by infected flies). The initial (stage 1) signs occur while the parasite is in the blood and lymphatics, and the signs include recurrent fever, headache, and joint pain. The stage 2 signs include changes in the sleep cycle (daytime sleepiness, nighttime insomnia, and personality changes) after the parasite crosses the blood-brain barrier and enters brain tissue (Fig. 14.3). An untreated individual suffers extensive damage in the CNS, becomes comatose, and ultimately dies. Rural citizens engaged in farming and animal care are more prone to infection. Treatment options include oral fexinidazole (if detected early) and Nifurtimox-Eflornithine Combination Therapy (if detected late in the infection, with CNS involvement). The arsenic-containing, highly toxic drug (melarsoprol) is no longer used. Preventive measures include avoiding the region (i.e., sub-Saharan Africa) where the disease is endemic, staying away from bushes, and wearing white clothing (covering the whole body) impregnated with insect repellent. There is no vaccine for the disease at present.",
+          "page": 4
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.3. Some brain pathologies. A. A child with symptomatic African sleeping sickness. Note the tired and",
+          "page": 4,
+          "image": "/mmahp/ch14/14-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "somnolent gaze in the child. Image: Wikimedia. B. A child with ASD. Image: Wikipedia. C. A CT scan of the brain of a child with a large brain abscess. Image: CDC.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Autism spectrum disorder (ASD)",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Prenatal and childhood infections by diverse pathogens, including rubella virus, cytomegalovirus, human herpes virus- 1, -2, -3, influenza A, Zika virus, SARS-CoV-2, and Borna disease virus; bacterial meningitis, Lyme disease (caused by Borrelia sp.), and parasitic infections (including Toxoplasma gondii), have been associated with ASD. However, the evidence is indirect and weak. The association of vaccines and ASD has been ruled out. ASD includes varying levels of social impairment, repetitive behaviors, learning difficulties, and heightened or atypical sensitivity to stimuli. If infections are indeed associated with ASD, infection prevention and vaccination should be ideal to reduce ASD incidence.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Brain abscess",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "It is a life-threatening disease that may stem from skull injury, infections in the face, mouth, teeth, and eyes, and in surgical wounds, usually among debilitated individuals with a compromised immune system. The causative agents include bacteria (especially actinobacteria), fungi, and protozoan parasites. The signs include fever, headache, confusion, lethargy, vision difficulties, stiff neck, and seizures. The lesion in the brain contains live and dead pathogens, dead cells, including dead neutrophils, and pus, surrounded by a thin wall that can be covered by a fibrous capsule over time (Fig. 14.3). The condition can be diagnosed from patient history, disease signs, and MRI or CT scan of the head, and treated with aggressive antimicrobial drugs and removal (aspiration) of the fluid from the lesion. Brain cysticercosis The disease develops among people who accidentally ingest the eggs of the pork tapeworm (Taenia solium ) in soiled food and drinks (not from consuming uncooked or undercooked pork containing the worm's larvae). Diverse organs, especially the brain (Fig. 14.4), muscles, skin (subcutaneous), and eyes, can be affected. Low-level infections of the other organs can be asymptomatic, but brain infections show many pathological signs, including seizures, headache, confusion, psychosis, and death. The disease is more common in rural areas of Africa, South America, and East Asia, where subsistence pig farming is common. About 2,000 cases of brain cysticercosis (which accounts for about 2% of cases of seizure) are reported annually in the USA, mostly among South American Immigrants. Brain cysticercosis is diagnosed by patient history and CT scan of the brain. The disease is treated with albendazole or praziquantel, along with corticosteroids (to reduce inflammation from dying cysts).",
+          "page": 5
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.4. Some brain infections. A. Brain cysticercosis. Shown is a brain CT scan with numerous cysticerci (the",
+          "page": 5,
+          "image": "/mmahp/ch14/14-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "dark spots). Image- Wikipedia. B. Keratitis due to Acanthamoeba sp. infection. Note the opacity and inflammation of the cornea of the eye. Image- EyeWiki. C. Cerebral malaria. Shown is a CT scan of the brain of a subject with cerebral malaria showing effacement of the cistern (i.e., swelling of the brain, shown by the yellow arrows) and false hemorrhage (excessive brightening, further indicating brain edema, shown by the red arrows). Image: Perry SG, et al. Brown Hosp Med 2025; 4(3): doi:10.56305/001c.140959. D. Negri bodies in the neuronal cell body of a patient with rabies. Shown is a section of the brain showing the cell bodies of several neurons. The Negri bodies are dense, round structures located outside the cell nucleus. Figure: Wikipedia.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Brain-eating disease (amebic meningoencephalitis) It is a rare disease caused by the protozoan pathogen Naegleria fowleri. People contract the infection while swimming in warm freshwater lakes and rivers (the organism is considered a thermophile). Only inhalation (but not ingestion) of the parasite causes infection. The parasite travels from the nasal sinus to the brain through the olfactory nerves. The pathogen normally sustains itself by hunting bacteria. In the brain, the parasite consumes astroglial cells and neurons. Although the initial symptoms (within five days of contracting) include flu-like conditions, headache, and vomiting, the conditions soon turn to severe headache, seizure, hallucination, and death. The disease's rapid progression may prevent diagnosis and proper treatment in many cases. Definitive diagnosis requires a case history (warm water contact or nasal washing with untreated water) and PCR of DNA extracted from the brain biopsy. The disease is treated with amphotericin B, which is essentially ineffective because 97% of the patients die within 18 days of infection. Prevention of infection (avoiding swimming in warm freshwater or using such water to wash the nasal cavity) is easier. The disease is extremely rare, with fewer than 500 cases globally and fewer than 5 cases in the USA. Acanthamoeba sp., another protozoan parasite, may infect the eyes, lungs, skin, and brain. People (mostly immunocompromised individuals) in the Western Hemisphere contract amoebic keratitis through contact lenses contaminated with dirt, mud, or water (e.g., during swimming) that may contain the amoeba or through the skin to the blood. Note that Acanthamoeba sp. can survive in contact lens cleaning solutions. If the parasite enters the brain (from the eyes or blood), it triggers the formation of a granuloma in brain tissue, where it releases proteases that damage the brain. The signs of eye infection include redness and ulceration (Fig. 14.4), and those of brain infection include fever, nausea, vomiting, seizures, and death. Eye infections can be treated with anti-protozoan eye drops or corneal transplantation (if necessary); the brain infections are usually fatal. The infection can be definitively diagnosed by brain biopsy and PCR of DNA extracted from the biopsy. It is estimated that annually, around 1,500 people in the USA develop Acanthamoeba keratitis, and about 3 people contract brain infections caused by the parasite. Cerebral malaria Malaria is caused by several species of the protozoan genus Plasmodium, including P. falciparum, which may cause cerebral malaria. Female Anopheles mosquitoes transmit the parasite to humans while sucking blood. The parasite travels to the liver and infects hepatocytes. The infected hepatocytes rupture (in about 15 days) and release new instars of parasites (about 40,000/hepatocyte) that infect erythrocytes. The parasite consumes the contents of erythrocytes and replicates there for several days. The parasite then breaks the cell open, releasing the new batch of parasites and various metabolites (including hemozoin) into the blood, causing high fever and chills. The parasite infects a new batch of erythrocytes, and the cycle continues every 48-72 hours, depending on the species. If left untreated, patients suffer from massive splenomegaly and ultimately die in a few months or years after infection, of severe anemia, rupture of the spleen, and multiple organ failure (especially the lung). However, P. falciparum infections may kill the patient within 4-8 days of the initial mosquito bite. Erythrocytes infected by this species deform and become sticky. The deformed and sticky erythrocytes block the blood capillaries of the brain and cause severe symptoms, including seizures, coma, and death. The sticky cells may also affect the blood vessels of the lung and cause severe acute respiratory syndrome (ARDS), leading to death.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Malaria is detected by disease symptoms, PCR using DNA extracted from blood, or microscopic examination of erythrocytes. The disease can be treated with oral quinine (chloroquine) and artemisinin combination therapy. Malaria is one of the most prevalent infectious diseases, with about 300,000,000 new cases and over 600,000 deaths, mostly children, pregnant women, and the elderly. About 95% of malaria deaths are caused by P. falciparum. The disease is endemic in Central America, the northern part of South America, central Africa, South Asia, and the East Indies, but 90% of cases are reported from sub-Saharan Africa. The endless battle to prevent malaria through insecticide spraying had failed, though it had reduced mosquito biting to some extent. The WHO has approved two malaria vaccines that are currently available in sub-Saharan Africa for children. The vaccine is 50-70% effective in preventing malaria. CDC recommends that people traveling to areas where P. falciparum is highly prevalent take prophylactic (prescription) antimalarial drugs (such as atovaquone/proguanil, mefloquine, and doxycycline).",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Encephalitis and encephalopathy",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Encephalitis is a form of encephalopathy characterized by inflammation, with signs such as fever, headache, hallucinations, seizures, and stiff neck. Encephalopathy is any pathological change in normal brain function. These diseases can be caused by infection, lack of oxygen (after a stroke), accumulation of toxic metabolites due to kidney or liver failure, autoimmune reactions, etc. The signs of encephalitis include changes in the mental state, memory loss, and dementia. Note the following • Infectious encephalitis- caused by infection of the brain cells/tissues • Infection-related encephalopathy- brain function decline due to systemic infection (without brain infection) • Post-infection encephalitis- mostly due to autoimmune reactions (antibodies binding brain tissues) • Infection-triggered encephalopathy- neurological decline after high fever Section 14.1.1 gives a partial list of microbes that cause encephalitis and encephalopathy. The pathogens also affect other organs. Since encephalitis and encephalopathy are generally nonspecific signs, findings in other organs can be helpful in identifying the causative agents. Encephalopathy/encephalitis (as well as meningitis) can progress to rapid fatality (death occurs within 48-72 hours among infants and children, within 3-7 days among adults), treatments must be started as early as possible. In many cases, treatment begins even before the causative agents are detected. Survivors often live with some disabilities.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Infection-related encephalitis is relatively common in the USA, with 10-15 cases per 100,000 population and a mortality rate of 5.6% of the hospitalized cases. Children under one year or the elderly (65 and older) are the more vulnerable groups. Infection-related encephalitis is treated using a combination of (a) antimicrobial chemotherapeutic agents, (b) high doses of corticosteroids, (c) immunoglobulin therapy, and (d) supportive care (sedatives, anti-seizure medications, ventilation, pain management, and intravenous nutrients).",
+          "page": 7
+        },
+        {
+          "type": "subheading",
+          "text": "Rabies",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "A classic case of encephalitis that leads to encephalopathy is rabies. The virus enters the human body through scratches, bites, or through inhalation of aerosolized saliva from rabid animals. If the affected person receives medical care (proper wound cleaning and rabies vaccine), the patient will survive without showing any signs of rabies. For untreated victims, the virus initially infects local cells and replicates there. The progeny viruses enter the local neurons, migrate to the spinal cord, and then to the brain, where they infect the neural cell bodies. The virus replicates rapidly without killing the host cell, causing granular inclusion particles (Negri bodies) to form inside the cell (Fig. 14.4). It may take months to years after contracting the virus before initial signs of encephalitis (fever, headache, and anorexia) develop. The length of the prodrome is proportional to the distance of the inoculation site from the brain. The person develops both antibody and cell-mediated immune responses to the virus, but they are not protective (nearly all cases of symptomatic rabies are fatal). The patients subsequently develop signs of encephalopathy, such as personality changes, hydrophobia (fear of drinking water, because drinking is associated with intense pain), and ultimately die of respiratory failure and coma. Symptomatic rabies is essentially untreatable, but combined antiviral and antiserum therapy and induced coma show a possibility of saving life. A vaccine for rabies is available, but it is given to animal handlers and veterinarians. The general public gets the vaccine only if they are potentially exposed to the virus. Globally, about 10 million cases of rabies are reported annually, including 20,000 in the USA, with approximately 60,000 deaths. Coyotes, raccoons, bats, and skunks serve as reservoirs of rabies in the United States. In South America, vampire bats transmit the virus to cattle, causing the deaths of hundreds of thousands of cattle each year. In Asian countries, street and pet dogs are the primary vectors due to inconsistent animal vaccination.",
+          "page": 7
+        },
+        {
+          "type": "subheading",
+          "text": "Flaccid paralysis due to botulism",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "The endospores of Clostridium botulinum are plentiful in soil. Endospores are frequently ingested with food, but they do not germinate in the adult intestine because of competing resident gut biota. However, endospores may germinate in the intestines of infants (lacking the resident biota), in wounds, and in the anaerobic environment of improperly canned non-acidic foods. The vegetative cells secrete botulinum toxin, a type III (i.e., A-B type) toxin. The B subunit of the botulinum toxin binds receptors on nearby neurons and is taken in by endocytosis. Once inside the neuron, the A subunit leaves the endosome and is processed to become a peptidase (a protease that cleaves other proteins). The mature A subunit cleaves specific SNARE proteins involved in the release of excitatory neurotransmitters, including acetylcholine, epinephrine, glutamate, histamine, and dopamine. As a result, the affected muscles cannot contract, leading to flaccid paralysis (Fig. 14.5). The disease is also called botulism. Botulinum toxin is one of the most potent toxins known; about 1 ng/kg is lethal to an adult person. Death usually occurs more quickly if the toxin affects the lung muscles of the person.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Botulism was a major disease among sausage eaters in Europe. Since the adoption of sodium nitrite in meat processing and the implementation of industrial sterilization standards in food canning, botulism has almost disappeared from developed countries. In the United States, some 30 cases of foodborne botulism and 100 cases of infant botulism occur every year. Non-acidic canned food imported from developing countries is a potential source of foodborne botulism. Occasional outbreaks of botulism occur in Alaska, where seal flippers are fermented at low heat in wooden or metal casks. Endospores germinate in the cask, especially in metal casks, allowing botulinum to accumulate in the food. The fermented flippers are eaten without any further processing. Such food may cause acute botulism among Alaskans who eat the contaminated fermented seal flippers. C. botulinum endospores do not germinate in acidic canned food. Suspect non-acidic canned food can be heated to 85 oC to inactivate botulinum toxin. Children under 1 year old should not be given raw honey or cooked or baked foods (endospores can only be inactivated by autoclaving or pressure- cooking at 121 °C for 15 minutes). A silver lining of botulinum toxin is that it has many medical uses, including treating uncontrolled muscle movement, overactive bladder, facial wrinkles, and pain management. The US market value of medically used botulin (i.e., BotoxTM) is about $6 billion.",
+          "page": 7
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.5. Mode of action of botulinum toxin. A. A normal neuromuscular junction illustrating the steps of",
+          "page": 8,
+          "image": "/mmahp/ch14/14-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "neurotransmitter release. The SNARE proteins interact with the synaptobrevin proteins on vesicles loaded with excitatory neurotransmitters (such as acetylcholine). These vesicles fuse with the plasma membrane at the axon terminal and release acetylcholine, which binds to receptors on muscle cells, triggering signal transduction that leads to muscle contraction. B. A neuromuscular junction affected by botulinum toxin. The protease activity of the A subunit of the exotoxin cleaves the SNARE proteins. Consequently, the SNARE proteins cannot facilitate the fusion of vesicles loaded with acetylcholine. This failure to release acetylcholine impairs signal transduction and ultimately causes flaccid paralysis. Image is drawn after Al-Ghamadi AS, et al. J Dermatol Dermatol Surg 2015; 19(1): 1-8. Guillain-Barré syndrome This is an autoimmune disease that can occur after recovering from Zika virus, SARS-CoV-2, influenza, or Campylobacter jejuni infections. Some antibodies produced during infection by these pathogens bind to neurons and destroy them by activating complement pathways. The inflammation also triggers T cells and macrophages, leading to further inflammation. Vaccination may also cause these symptoms, but rarely. Symptoms of the disease include tingling sensations in the skin, muscle pain, temporary paralysis, and breathing difficulties. The disease is diagnosed based on clinical history and the accumulation of excess proteins in the blood and CSF. About 3,000- 10,000 people in the USA develop the disease every year. Most recover spontaneously but slowly, with a mortality less than 10%. In some cases, removal of excess antibodies through plasmapheresis, ventilation, and pain management may be necessary to treat the patients.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Hydatid cysts (see Chapter 13) Brain damage due to whooping cough (see Section 14.3.3) Meningitis Meningitis includes a group of signs and symptoms involving inflammation of the membranes of the brain. Symptoms occur when microbes (mainly viruses and bacteria, but fungi and parasites may also cause it) in the blood cross the blood-brain barrier and enter the cerebrospinal fluid. The presence of microbes and their PAMPs triggers an immune response, including leukocyte migration, release of reactive oxygen species, cytokine secretion, cytotoxic activities (cleaning infected cells), antibody deposition, and complement activation. The presence of microbes and excess leukocytes in the CSF can be assessed by fluid collected through a spinal tap. Although leukocyte migration is essential for controlling infection, it can also contribute to severe disease signs (high fever, severe headache, stiff neck, and skin rashes) in meningitis. The effects on the brain include high intracranial pressure, brain swelling (edema), and damage to brain tissue. Meningitis often appears with septicemia.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Early diagnosis and prompt medical intervention are crucial for effectively treating meningitis. Bacterial meningitis requires aggressive antibiotic treatment, while viral meningitis is generally milder and may resolve without antiviral therapy. Additional supportive care, similar to that used for encephalitis, is also important. Often, antibacterial treatments are administered before the specific causative agents are identified. Microbial analysis of CSF and PCR/RT-PCR testing using nucleic acid extracted from CSF helps identify the responsible pathogens (Fig. 14.6). Meningitis is a common disease, with approximately 2.5 million cases annually (fewer than 1,000 in the USA) and around 100,000 deaths worldwide. Bacterial meningitis, caused by pathogens such as Streptococcus pneumoniae, Streptococcus agalactiae, Haemophilus influenzae, and Neisseria meningitidis, is among the deadliest, with a mortality rate of over 15%, despite the availability of effective vaccines for some of these pathogens. Newborns, infants, and the elderly are at higher risk. Many survivors of meningitis may experience mild to severe neurological impairments.",
+          "page": 9
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.6. Meningitis and PML. A. A sample of CSF obtained via a spinal tap. The cloudiness of the sample indicates",
+          "page": 9,
+          "image": "/mmahp/ch14/14-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "the presence of bacteria (specifically, Streptococcus sp.) and excess leukocytes. B. A Gram-stained smear of CSF of a patient showing the presence of G(-) diplococci (Neisseria meningitidis, indicated by the arrow) and many neutrophils. C. An MRI scan of a patient's head with PML showing multifocal lesions. All images are from Wikipedia. Neuralgia Neuralgia is episodic pain that follows a nerve. The pain can vary in qualities such as burning, stabbing, throbbing, and more. The root cause is nerve damage from infections (such as human herpesvirus-1, -2, and -3, Treponema pallidum, and Borrelia sp.) or noninfectious conditions (such as diabetes, kidney disease, nerve compression from tumors or other causes, and injuries). Symptoms can be triggered by unrelated stimuli like touch, movement, and temperature changes. People who have or have recovered from syphilis, Lyme disease, disseminated herpes, and shingles may show signs of the disease. Neuralgia is diagnosed through patient history and MRI. Treatment involves addressing the underlying causes, nerve blocking, medications (such as anticonvulsants), and surgery (to relieve nerve pressure).",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Progressive multifocal leukoencephalopathy (PML) PML is caused by the reactivation of the JC virus latently infecting the brain. Almost everybody is latently infected by the virus, but the virus reactivates among people with severe immunosuppression, especially among people with AIDS and subjects being treated with highly immunosuppressive drugs. The reactivated virus infects and kills glial cells, causing demyelination of axons in the brain. Lesions develop in the white matter of the brain (Fig. 14.6). The patient shows progressive signs of neurodegeneration, including weakness in the limbs, memory loss, and signs of blindness. Lack of T cell immunity allows the damage to progress to a fatal end. The disease can be detected by brain imaging and by the presence of viral DNA in the CSF (by PCR). There is no specific treatment for PML. Treatments are aimed at restoring cell-mediated immunity (by treating HIV-I and -2 infections, and reducing immunosuppression). About 30-50% of the affected subjects die within a few months of reactivation of the virus, although some people survive longer with significant disabilities.",
+          "page": 9
+        },
+        {
+          "type": "subheading",
+          "text": "Spastic paralysis",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "The disease is caused by the type III exotoxin (i.e., tetanospasmin) produced by Clostridium tetani. The bacterium cannot survive in the air, but its endospores do. Endospores may enter a soiled deep wound and germinate there. The vegetative cells emerge there and produce tetanospasmin. The toxins are released by the bacterium upon lysis. The B subunit of the A-B type toxin binds to its receptors on neurons, is taken up by endocytosis, and is transported to the neuron's cell body. The A subunit of the toxin exits the endosome and cleaves synaptobrevin, preventing the release of inhibitory neurotransmitters (such as GABA and glycine). However, the release of the excitatory neurotransmitter remains unaffected. As a result, muscles innervated by the neuron continue to contract without intermittent relaxation, leading to spastic paralysis (Fig. 14.7).",
+          "page": 10
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.7. Tetanus and SSPE. A. Uptake of the A-B tetanospasmin by the toxin receptors of a motor neuron at a",
+          "page": 10,
+          "image": "/mmahp/ch14/14-7.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "myoneural junction. B. The whole A-B toxin is transported through the axon to the cell body located in the brain or spinal cord. The A subunit of the toxin leaves the vesicle and enters the cytoplasm. C. The A subunit of the toxin destroys synaptobrevin and inhibits the release of the inhibitory neurotransmitters. Release of excitatory neurotransmitters continues, leading to chronic muscle contraction and ultimately spastic paralysis of the muscle that the motor neuron innervates. Redrawn after Bomba-Warkzac E, et al. Cell Receptors 2016; 16(7): 1974-1987. D. An infant with systemic tetanus. Note the stiffness in the neck and legs of the infant held at the feet and head. Image- Wikipedia. E. A child with SSPE, having a distorted stature. The MRI of the child’s brain (right) shows diffuse cerebral atrophy. Image- Kaur S, et al. J Move Disorders 2023;16(3):336-338. DOI: https://doi.org/10.14802/jmd.23052 It takes about 5 days for the disease to develop after exposure to tetanus endospores in a wound. Several types of clinical diseases are caused by tetanospasmin. Neonatal tetanus begins with the unhygienic removal of the umbilical stump from the newborn. Both motor neurons and sympathetic neurons can be affected in generalized tetanus. This form is characterized by a locked jaw, muscle contractions resembling a smile in the face, and severe spasms in the back muscles leading to a curved body (Fig. 14.7). The closer the injury is to the central nervous system, the faster the disease progresses and the more severe the symptoms usually are. Patients may suffer from bone fractures, muscle tears, breathing difficulties, lung and kidney failure, and ultimately death—all caused by uncontrolled muscle spasms and their aftereffects. In localized tetanus, symptoms stay confined to an affected area, such as the head (cephalic tetanus). Different receptors for tetanospasmin influence whether the disease becomes localized or generalized. Tetanus can be deadly (with a lethality rate as high as 90% in some cases). Survivors usually suffer lasting damage in the nervous system. Tetanospasmin binding to neurons is irreversible. Therefore, recovery is only possible after the neurons are regenerated.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Over a million cases of tetanus, many with fatal outcomes, occur globally each year. Contact sports on dirt and fireworks (explosions that cause small soil particles to penetrate the skin) are among the main sources of exposure to C. tetani endospores. In developed countries, a highly effective tetanus toxoid vaccine, such as the DTP vaccine, has nearly eradicated the disease. Fewer than one hundred cases are reported in the United States, mostly among the elderly who have low antibody levels to tetanospasmin. A booster shot every ten years is highly effective in preventing tetanus in older age groups.",
+          "page": 11
+        },
+        {
+          "type": "subheading",
+          "text": "Subacute sclerosing panencephalopathy (SSPE)",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "SSPE develops in children who are chronically infected with the mutant measles virus, such as defective interfering particles of the virus. Children two years old or younger with poor cell-mediated immunity, who were naturally infected by the wild-type virus, are at risk of developing the disease. The defective virus causes a persistent infection in the brain cells. Symptoms of SSPE typically appear about 6 to 10 years after the initial infection. The signs include fever, seizures, personality changes, altered body posture, memory loss, muscle spasms (Fig. 14.7), loss of movement, and death. Affected children show a poor cell-mediated immune response but an excessive antibody response, both of which contribute to the pathology of the disease. Research indicates that the live-attenuated measles vaccine does not cause SSPE.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "The disease can be diagnosed through patient history, detection of viral RNA in the CSF (using RT-PCR), and imaging such as MRI or CT scans of the head. There is no cure for SSPE; patients usually die within 1 to 3 years of diagnosis. Widespread childhood vaccination has drastically reduced measles and SSPE in developed countries, but new outbreaks have been reported in many countries, including the USA. WHO estimates approximately 10 million cases of measles each year. The risk of SSPE is about 27 cases per 100,000 unvaccinated children after initial infection. The growing antivaccine sentiment, especially in Western countries like the USA, may contribute to higher incidences of measles and SSPE in the future.",
+          "page": 11
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 5,
+          "title": "Microbes that cause diseases in the nervous system",
+          "bullets": [
+            "Viruses- Human herpesviruses 1, 2 and 3; many of the",
+            "Bacteria-",
+            "Person to person- Genera Neisseria, Treponema, Bordetella,",
+            "From resident microbiota- Genera Acinetobacter, Escherichia, Klebsiella,",
+            "Zoonotic- Genera Borrelia, Chlamydophila, Campylobacter, Rickettsia,",
+            "Environmental- Actinomyces, Pseudomonas, Burkholderia, Nocardia,"
+          ]
+        },
+        {
+          "slideIndex": 6,
+          "title": "Microbes that cause diseases in the nervous system",
+          "bullets": [
+            "Fungi",
+            "Environmental- Genera Aspergillus, Blastomyces, Coccidioides,",
+            "Protozoa",
+            "Environmental- Genera Encephalitozoon, Enterocytozoon, Toxoplasma,",
+            "Worms",
+            "Genera Paragonimus, Taenia, Echinococcus, Necator, Trichinella, etc."
+          ]
+        },
+        {
+          "slideIndex": 7,
+          "title": "Infection-related disease of the nervous system",
+          "bullets": [
+            "African sleeping sickness",
+            "Agents",
+            "Symptoms",
+            "Treatment",
+            "Autism Spectrum disorder",
+            "Agents",
+            "Symptoms",
+            "Treatment",
+            "Brain abscess",
+            "Agents",
+            "Symptoms",
+            "Treatment"
+          ]
+        },
+        {
+          "slideIndex": 8,
+          "title": "Infection-related disease of the nervous system",
+          "bullets": [
+            "Brain cysticercosis",
+            "Agents",
+            "Symptoms",
+            "Treatment",
+            "Amebic",
+            "Agents",
+            "Symptoms",
+            "Treatment",
+            "Cerebral malaria",
+            "Agents",
+            "Symptoms",
+            "Treatment"
+          ]
+        },
+        {
+          "slideIndex": 10,
+          "title": "Infection-related disease of the nervous system",
+          "bullets": [
+            "Rabies",
+            "Agents",
+            "Symptoms",
+            "Treatment",
+            "Flaccid paralysis",
+            "Agents",
+            "Symptoms",
+            "Treatment",
+            "Spastic paralysis",
+            "Agents",
+            "Symptoms",
+            "Treatment"
+          ]
+        },
+        {
+          "slideIndex": 12,
+          "title": "Infection-related disease of the nervous system",
+          "bullets": [
+            "Meningitis",
+            "Agents",
+            "Symptoms",
+            "Treatment",
+            "Neuralgia",
+            "Agents",
+            "Symptoms",
+            "Treatment",
+            "PML",
+            "Agents",
+            "Symptoms",
+            "Treatment"
+          ]
+        },
+        {
+          "slideIndex": 13,
+          "title": "Infection-related disease of the nervous system",
+          "bullets": [
+            "SSPE",
+            "Agents",
+            "Symptoms",
+            "Treatment"
+          ]
+        },
+        {
+          "slideIndex": 32,
+          "title": "Infection of the respiratory system",
+          "bullets": [
+            "Air exchange",
+            "The diaphragm",
+            "Inflammation",
+            "Tracheitis",
+            "Bronchitis",
+            "Bronchiolitis",
+            "Alveolitis or pneumonitis",
+            "Pneumonia",
+            "Granuloma"
+          ]
+        },
+        {
+          "slideIndex": 33,
+          "title": "The Eye",
+          "bullets": [
+            "Eyelids",
+            "Eyebrows",
+            "Lacrimal glands",
+            "Meibomian glands",
+            "Lacrimal ducts",
+            "The eyeball",
+            "Sclera/cornea/ conjunctiva",
+            "Choroid/ciliary body-lens/iris",
+            "Aqueous humor/ Vitreous humor",
+            "Retina",
+            "Inflammation",
+            "Stye",
+            "Conjunctivitis optic ulcers",
+            "Retinitis"
+          ]
+        },
+        {
+          "slideIndex": 34,
+          "title": "Common eye infections",
+          "bullets": [
+            "Conjunctivitis",
+            "Pink eye",
+            "Keratitis",
+            "Corneal ulcers",
+            "Stye",
+            "Blepharitis",
+            "Worm infections",
+            "In the eye muscles",
+            "In the blood vessels"
+          ]
+        },
+        {
+          "slideIndex": 37,
+          "title": "Microbes that cause diseases of the respiratory system",
+          "bullets": [
+            "Viruses",
+            "Human parvovirus B19, human rhinovirus, human corona virus, HSV-1 and -2,",
+            "Bacterial",
+            "Person to person: Genera Staphylococcus, Streptococcus, Corynebacterium,",
+            "Resident microbiota- Genera Acinetobacter, Klebsiella, Citrobacter,",
+            "Zoonotic- Genera Mycobacterium, Bacillus, Brucella, Yersinia, Coxiella,",
+            "Environmental- Genera Bacillus, Pseudomonas, Burkhoderia, Nocardia,"
+          ]
+        },
+        {
+          "slideIndex": 38,
+          "title": "Microbes that cause diseases of the respiratory sestem",
+          "bullets": [
+            "Fungal",
+            "Environmental- Genera Basidiobolus, Conidobolus, Blastomyces,",
+            "Resident- Candida sp.",
+            "Zoonotic- Pneumocystis",
+            "Parasitic",
+            "Protozoans- Genera Encephalitozoon, Enterocytozoon, Toxoplasma gondii",
+            "Flatworms- Genera Paragonimus, Taenia, Spirometra, Echinococcus, etc.",
+            "Roundworms- Toxocara, Trichinella, Loa loa, Onchocerca, etc."
+          ]
+        },
+        {
+          "slideIndex": 39,
+          "title": "Infections diseases of the respiratory system",
+          "bullets": [
+            "African river blindness",
+            "Agents",
+            "Signs and symptoms",
+            "Treatments",
+            "ARDS",
+            "Agents",
+            "Signs and symptoms",
+            "Treatments",
+            "Common cold",
+            "Agents",
+            "Signs and symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 40,
+          "title": "Infections diseases of the respiratory system",
+          "bullets": [
+            "Conjunctivitis and",
+            "Agents",
+            "Signs",
+            "Treatments",
+            "Trachoma",
+            "Agents",
+            "Signs",
+            "Treatments",
+            "Cough",
+            "Agents",
+            "Signs",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 41,
+          "title": "Infections diseases of the respiratory system",
+          "bullets": [
+            "Croup",
+            "Agents",
+            "Signs",
+            "Treatments",
+            "Lung fibrosis",
+            "Agents",
+            "Signs",
+            "Treatments",
+            "Fungal ball",
+            "Agents",
+            "Signs",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 42,
+          "title": "Infections diseases of the respiratory system",
+          "bullets": [
+            "Influenza",
+            "Agents",
+            "Signs",
+            "Treatments",
+            "Metastatic hydatid cysts",
+            "Agents",
+            "Signs",
+            "Treatments",
+            "Nasopharyngeal carcinoma",
+            "Agents",
+            "Signs",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 43,
+          "title": "Infections diseases of the respiratory system",
+          "bullets": [
+            "Bronchitis",
+            "Agents",
+            "Symptoms",
+            "COPD/emphysema",
+            "Treatments",
+            "Bronchiolitis",
+            "Agents",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 44,
+          "title": "Infections diseases of the respiratory system",
+          "bullets": [
+            "Ocular larvae migrans",
+            "Agents",
+            "Signs",
+            "Treatments",
+            "Loiasis",
+            "Agents",
+            "Signs",
+            "Treatments",
+            "Otitis externa",
+            "Agents",
+            "Signs",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 45,
+          "title": "Infections diseases of the respiratory system",
+          "bullets": [
+            "Otitis media",
+            "Agents",
+            "Signs",
+            "Treatments",
+            "Pneumonia",
+            "Agents",
+            "Signs",
+            "Pneumonitis",
+            "Treatments",
+            "Respiratory anthrax",
+            "Agents",
+            "Signs",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 46,
+          "title": "Infections diseases of the respiratory system",
+          "bullets": [
+            "Retinitis",
+            "Agents",
+            "Signs",
+            "Treatments",
+            "Scarlet fever",
+            "Agents",
+            "Signs",
+            "Treatments",
+            "Sinusitis",
+            "Agents",
+            "Signs",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 47,
+          "title": "Infections diseases of the respiratory system",
+          "bullets": [
+            "Tonsilitis,",
+            "Agents",
+            "Signs",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 48,
+          "title": "Infections diseases of the respiratory system",
+          "bullets": [
+            "Tuberculosis",
+            "Agents",
+            "Signs",
+            "LTBI,",
+            "DS-TB, DR-TB, MDR-",
+            "Treatments",
+            "Whooping cough",
+            "Agents",
+            "Signs",
+            "Treatments"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "14.2",
+      "heading": "Digestive system",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The digestive (alimentary) system includes the mouth, oral cavity, alimentary canal, liver, gallbladder, pancreas, and associated ducts (Fig. 14.8). The mouth is divided by a line of teeth into two chambers: the vestibule at the front and the oral cavity proper at the rear. The sides of the mouth are called the cheeks. The bottom is covered by the tongue. The roof of the mouth is formed by the hard palate at the front and the soft palate at the rear. The posterior border of the soft palate is called the uvula, which hangs from the roof of the mouth. Behind the soft palate is the gullet, which connects the mouth to the tubular cavity known as the pharynx. The respiratory and digestive systems are joined at the pharynx. Lymphoid tissues, such as tonsils and adenoids, are located at the back of the mouth, at the end of the soft palate, on the roof of the pharynx, and at the base of the tongue (Fig. 14.8).",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "The mouth contains buccal glands throughout the oral cavity and salivary glands in three distinct locations. The salivary glands include the parotid glands, located below the ears; the submandibular glands; and the submaxillary glands, found near the lower jaw under the tongue (Fig. 14.8). The secretions of these glands (saliva) are essential for food lubrication and digestion. The tongue is composed of skeletal muscle and is crucial for properly positioning food for chewing. The tongue also contains numerous taste buds, which serve as chemosensory organs. The entire oral cavity, along with the pharynx and esophagus, is covered by a squamous epithelium.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Teeth are bony organs used for mastication (chewing). Each tooth has a visible crown and a root that fits into the bony sockets of the maxilla and mandible bones. The gum (i.e., gingiva) is soft tissue (part connective tissue, part mucosa) that loosely covers the neck of the tooth (Fig. 14.8). Under the gum, the teeth are anchored to the bony socket by ligaments (not by basement membrane or cement). The crown of the teeth is covered by enamel, the hardest tissue in the human body. Enamel consists of 97% calcified minerals (including crystalline minerals) and 3% organic molecules. The remainder of the tooth is composed of dentine, another calcified tissue (50% calcified) that encases the pulp cavity. Although stronger than dense bone, dentine is less mineralized than enamel. The pulp cavity houses blood vessels and neurons.",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.8. The digestive system. A. The system in its entirety. B. Mouth and pharynx showing tonsils and glands. C.",
+          "page": 12,
+          "image": "/mmahp/ch14/14-8.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Structure of a tooth. Image: Linus Books.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "The pharynx is a tube-like cavity divided into three sections. The nasopharynx connects directly to the nasal cavity and to the middle ear through the Eustachian canal (Fig. 14.8). The oropharynx receives food and drinks from the mouth via the gullet, passing them to the laryngopharynx and finally into the esophagus. The esophagus, approximately 25 cm long and 2 cm wide, begins at the base of the tongue and empties into the stomach. It is lined with stratified squamous epithelium interspersed with layers of connective tissue proper and smooth muscle. There is no distinct sphincter valve at either the beginning or the end of the esophagus, although the tube remains constricted to prevent a backflow of food.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "The stomach is a tubular sac, shaped like a bird. It consists of three distinct regions: the fundus, the body, and the pylorus (Fig. 14.9). The stomach is covered by glandular epithelium and layers of muscle and connective tissue. Gastric glands are present in the pits of the fundus and the body of the stomach. These glands secrete mucus and gastric juice. Gastric juice contains components such as hydrochloric acid, pepsinogen (the inactive form of the protease pepsin), and vitamin B12-binding protein (intrinsic factor). At the end of the pylorus, there is a muscular sphincter (ring) that prevents the premature release of stomach contents and the backflow of intestinal contents. The entire stomach is coated with a thick layer of mucus to protect the underlying tissue from gastric acid (whose pH can be as low as 2.0) and enzymes.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "The small intestine of an adult person is a 6,000 x 2 cm tube that connects the pyloric sphincter and the large intestine (Fig. 14.8). The small intestine can be divided into three parts. The duodenum is a C-shaped initial portion (about 25 cm) that receives the common ducts from the pancreas, liver, and gall bladder (Fig. 14.9). The next segment, the jejunum (about 2,500 cm), and the final segment, the ileum (about 3,500 cm), constitute the bulk of the lower abdomen (Fig. 14.9). The ileum ends with a sphincter that connects it to the large intestine. The small intestine is covered by glandular epithelium containing fingerlike projections called intestinal villi (Fig. 14.9). The villi (sing. villus) are finger-like structures at the tips of epithelial cells, increasing the absorptive surface area of the cell. The glands in the duodenum secrete juice that neutralizes stomach acid. The cells of its internal surface shed and release proteolytic enzymes that activate pre-enzymes found in the pancreatic juice (see below). Absorption occurs mainly in the jejunum, where digested food enters the cells and then into venous blood. Venous blood carries nutrients to the liver via the hepatic portal veins. The digested lipids form lipid-protein complexes (chylomicrons), which are absorbed in the intestine. However, chylomicrons are transported by lymphatic ducts. The ileum contains a large mass of lymphoid tissue called Peyer's patches (see Chapter 9).",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.9. The stomach, intestine, and colon. A. Stomach (top) and a section through the body of the stomach",
+          "page": 13,
+          "image": "/mmahp/ch14/14-9.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "(below). B. Small intestine (duodenum) with bile and pancreatic ducts (top) and a section of a healthy intestine (below). C. Colon and appendix (top) and a section through a healthy colon (bottom). All histological slides were stained with H&E. Unlike the small intestine, the stomach and colon lack villi. The mucous membrane in each of these three areas is secretory.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "The large intestine is a flat tube measuring 1,500 x 7 cm, consisting of three sections: the caecum, the colon, and the rectum (Fig. 14.10). Its primary function is to reabsorb water from the chyme (the leftover from digested food) and compact the chyme to produce and eject feces. A worm-like appendix is attached to the caecum. The appendix is not part of the digestive system; it contains lymphoid tissue. The colon is folded to form an imperfect square in the lower abdomen, encircling the small intestine. The rectum serves as a temporary repository for feces before it exits the body through the anus, which is guarded by the anal sphincter.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "The liver is the largest internal organ in the body, serving over 200 functions. It has four lobes, each containing approximately 100,000 hexagonal lobules, which are separated by connective tissue. At the center of each lobule lies a vein known as the central vein (Fig. 14.10). Numerous cell plates comprising a single layer of liver cells (i.e., hepatocytes) radiate to the central vein like spokes on a wheel. The cell plates are separated by blood-filled sinusoids (a very wide capillary-like blood vessel). Blood in the sinusoids is supplied by the branches of the hepatic portal vein (see Chapter 15), which carries nutrient-rich blood from the intestine. At each of the (six or so) corners of the lobules, branches of the hepatic artery and hepatic portal veins can be found. Blood from the branches of the hepatic portal veins as well as oxygen-rich blood from the hepatic arteries flows into the sinusoids and then into the central vein. The hepatocytes absorb nutrient molecules in the blood of the hepatic portal vein to a level tolerable for the body (removing up to 25% of ingested glucose and 90% of ingested fructose, for example). Hepatocytes also secrete bile, which is necessary for digesting lipids. Bile is collected in the bile ductules (Fig. 14.10). Ductules from different lobes of the liver unite to form the common bile duct, which joins the pancreatic duct before opening into the duodenum. The pancreas is located beneath the pylorus, attached to the fold of the duodenum. This organ comprises both exocrine and endocrine components. The exocrine components consist of alkaline pancreatic juice secreted by numerous acinar cells (Fig. 14.10). This juice contains various proteases (i.e., chymotrypsinogens, trypsinogen, etc.), amylases, lipases, and nucleases, which, when activated in the intestine, digest proteins, carbohydrates, lipids, and nucleic acids, respectively. The pancreatic juice flows into two pancreatic ducts that merge with the common bile duct and open into the duodenum. The endocrine components include glucagon and insulin (hormones) essential for regulating blood sugar levels. These hormones are secreted by alpha and beta cells, respectively, found within discrete pancreatic islets (Fig. 14.10).",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.10. Liver and pancreas. A. A section of the liver showing the architecture of liver lobules. At each corner of",
+          "page": 14,
+          "image": "/mmahp/ch14/14-10.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "the lobules, there is a branch of the hepatic portal vein, a hepatic artery, and a bile duct (shown exaggerated). The rays of hepatocytes are separated by sinusoids that converge towards the central vein. Image: ohiostate.pressbooks.pub/. B. A section of the pancreas showing acinar cells and pancreatic islets. The islet is completely covered by connective tissue. Inside the islet, there are insulin-secreting beta cells and glucagon-secreting alpha cells. Image: Linus Books. The digestive system is exposed to the environment and is constantly threatened by microbial infections from food and beverages. The oral cavity and large intestine are heavily populated by normal microbiota, including resident bacteria, fungi, and protozoa. Microbial counts in the stomach, small intestine, liver, and pancreas are relatively low. Pathogenic microbes, including viruses, bacteria, fungi, protozoa, and worms, may inhabit the oral cavity, stomach, intestine, colon, liver, and gall bladder and cause diverse pathologies.",
+          "page": 14
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 15,
+          "title": "The digestive system: The mouth",
+          "bullets": [
+            "The mouth",
+            "Vestibule",
+            "Cheek",
+            "Oral cavity",
+            "Salivary glands",
+            "Parotid",
+            "Submandibular",
+            "submaxillary",
+            "Hard palate",
+            "Soft palate",
+            "The uvula",
+            "The gullet",
+            "The pharynx",
+            "Oropharynx",
+            "Nasopharynx",
+            "Laryngopharynx"
+          ]
+        },
+        {
+          "slideIndex": 16,
+          "title": "The digestive system: Teeth",
+          "bullets": [
+            "Teeth",
+            "The crown",
+            "The root",
+            "The gum (gingiva)",
+            "Structure",
+            "Enamel",
+            "Dentine",
+            "The palp cavity"
+          ]
+        },
+        {
+          "slideIndex": 17,
+          "title": "The digestive system: The stomach and intestine",
+          "bullets": [
+            "The stomach",
+            "The fundus",
+            "The pylorus",
+            "Small intestine",
+            "Duodenum",
+            "Jejunum",
+            "Ileum",
+            "Large intestine",
+            "The colon",
+            "The caecum"
+          ]
+        },
+        {
+          "slideIndex": 18,
+          "title": "The digestive system: The liver",
+          "bullets": [
+            "The lobes",
+            "Lobules",
+            "Central vein",
+            "Cell plates",
+            "Sinusoids",
+            "Hepatic artery and hepatic",
+            "Bile ductulus and the"
+          ]
+        },
+        {
+          "slideIndex": 19,
+          "title": "Digestive system: The pancreas",
+          "bullets": [
+            "Exocrine cells",
+            "Acinar cells",
+            "Pancreatic juice",
+            "Endocrine cells",
+            "Alpha cells (insulin)",
+            "Beta cells (glucagon)"
+          ]
+        },
+        {
+          "slideIndex": 35,
+          "title": "The ear",
+          "bullets": [
+            "External ear",
+            "Pinna",
+            "Ear canal",
+            "Ceruminous glands",
+            "Ear drum",
+            "Middle ear",
+            "Eustachian canal",
+            "The ear ossicles",
+            "Inner ear",
+            "Cochlea",
+            "Semicircular canals",
+            "Vestibule"
+          ]
+        },
+        {
+          "slideIndex": 36,
+          "title": "Common infections of the ear",
+          "bullets": [
+            "External ear",
+            "Otitis externa",
+            "Simple (swimmer’s ear) or malignant ear infection",
+            "Middle ear",
+            "Otitis media",
+            "Inflammation, pressure and rupture of ear drum",
+            "Inner ear",
+            "Labyrinthitis",
+            "Vertigo"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "14.2.1",
+      "heading": "Microbes that infect the digestive system",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Viral diseases",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Human adenovirus (sore throat); human adenovirus, poliovirus, Norwalk virus, Ebola virus, Marburg virus, Oropouche virus, Lacrosse virus, Crimean Congo hemorrhagic virus, Rift Valley fever virus, Hantan virus, Puumala virus, Sin Nombre virus and rotavirus (diarrhea); human adenovirus, hepatitis A, B, C, D, and E viruses and yellow fever virus (hepatitis and jaundice); herpes simplex virus 1 and 2, cytomegalovirus, Coxsackie virus and measles virus (oral ulcers); hepatitis B and C viruses (hepatocellular carcinoma); influenza virus (Reye’s syndrome); roseola viruses and mumps virus (inflammation of the salivary glands, especially the parotid glands).",
+          "page": 14
+        },
+        {
+          "type": "subheading",
+          "text": "Bacterial diseases",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Aeromonas sp., Campylobacter sp., Chlamydophila psittaci, Clsotridiodes difficile, Clostridium perfringens, Escherichia coli, Listeria monocytogenes, Salmonella typhi, S. enterica and S. typhimurium, Staphylococcus aureus, Vibrio cholerae, V. parahaemolyticus, V. vulnificus, Yersinia enterocolitica, Campylobacter jejuni and many other species (diarrhea); Leptospira interrogans and related species (hepatitis); Salmonella typhi and related species, Klebsiella pneumoniae and K. oxytoca (liver abscess); Treponema pallidum (ulceration in the mouth); Escherichia coli and Shigella sp. (dysentery); Clostridium perfringens (pigbel); Clostridioides difficile (pseudomembrane colitis); Bacillus anthracis (intestinal anthrax); Streptococcus mutans, S. salivarius, S. sobrinus, and some other species (dental caries); genera Porphyromonas, Fusobacterium, oral spirochetes, and Prevotella sp. (dental diseases); Corynebacterium diphtheriae, C. ulcerans and C. pseudotuberculosis (diphtheria membrane); Neisseria gonorrhoeae and Chlamydia trachomatis (perihepatitis); Helicobacter pylori (gastric cancer).",
+          "page": 14
+        },
+        {
+          "type": "subheading",
+          "text": "Fungal diseases",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Histoplasma capsulatum (oral ulcer); Paracoccidioides brasiliensis (liver disease); Candida albicans and related species (thrush in the mouth and alimentary canal), Malassezia furfur (lipid-dependent yeast overgrowth). Parasitic diseases Protozoa: Entamoeba histolytica (intestinal ulcer and dysentery); Giardia lamblia (diarrhea, flatulence and abdominal cramps); Balantidium coli (dysentery, nausea and abdominal cramps); various species of Cryptosporidium, Cyclospora and Isospora (diarrhea); various species of Encephalitozoon, Enterocytozoon (liver abscess); Leishmania donovani and related species (liver abscess, hepatosplenomegaly); and Plasmodium sp. (hepatomegaly). Flatworms: Fasciola hepatica and Opisthorchis sinensis (liver rot and bile duct obstruction); Schistosoma mansoni, S. japonicum and S. haematobium (granulomas in various organs); Taenia solium and T. saginata (intestinal wounds and malabsorption); Diphyllobothrium latum (vitamin B12 deficiency); Hymenolepis nana and H. diminuta (intestinal discomfort); Echinococcus granulosus (hydatid cysts in the liver).",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Roundworms: Enterobius vermicularis (proctitis and pruritus ani); Trichuris trichiura (appendicitis); Ascaris lumbricoides (malnutrition, intestinal obstruction and intestinal perforation); species of the genera Ancylostoma, Necator and Strongyloides (intestinal ulceration), and Trichinella spiralis (migration injuries and bleeding).",
+          "page": 15
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "14.2.3",
+      "heading": "Pathologies due to infections of the digestive system",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Appendicitis",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Inflammation of the appendix occurs due to obstruction caused by hardened fecal materials, parasites, or tumor growth. It may cause fever, nausea, abdominal pain, and swelling on the right side of the abdomen. Medical examination of the abdomen and a CT scan confirm the diagnosis. The condition demands urgent care because the inflamed appendix can rupture within 48-72 hours, leading to severe sepsis and death. The treatments include surgical (appendectomy) and supportive therapies.",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Dental diseases",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Dental infectious diseases include dental plaque (bacterial biofilms on teeth), dental caries (cavities in teeth), gingivitis (inflammation of the gums), periodontal diseases (gum disease involving the underlying bone), and oral herpes affecting the gums. Dental plaque is a polybacterial disease because members of several genera, including Streptococcus, Lactobacillus, Porphyromonas, Actinobacillus, Bacteroides, Treponema, and Actinomyces are involved. The availability of fermentable sugars, such as glucose and fructose, in the mouth accelerates plaque formation. Bacteria in the plaques ferment sugars, and the acids produced are exposed to dental surfaces beneath the plaques. A low pH promotes the loss of minerals (calcium phosphate) from dental enamel, particularly in areas beneath the plaque, leading to softening, discoloration, and, ultimately, the formation of cavities (Fig. 14.11). Softening and thinning of the enamel may increase sensitivity to cold, hot, or acidic foods and drinks. Dental cavities involving the pulp may cause severe pain and swelling in the gums and make affected teeth prone to fracture.",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Accumulation of plaque on the surfaces of teeth adjacent to the gums triggers an inflammatory response (pain, swelling, redness, and bleeding, collectively called gingivitis) that leads to gum retraction and weakening of the tooth roots. Untreated gingivitis progresses to periodontal disease, which shows all the signs of gingivitis and additional signs such as bad breath, persistent pain, and tooth loss. Affected subjects include people with poor dental hygiene, diabetics, people with dry mouth, and individuals with a weak immune system. Gingivitis and periodontal disease allow oral bacteria to enter the blood, which may lead to more serious conditions such as bacteremia, endocarditis, and actinomycosis (pus-filled granulomas in the jaw, caused by Actinomyces israelii). Reducing intake of sugary foods, washing the mouth after eating sweet substances, regular flossing, and toothbrushing with fluoridated toothpaste (to harden dental enamel) of an alkaline pH may help prevent dental plaque and caries. Good dental hygiene practices should be instituted among children. Regular dental check-ups allow early detection of weakened enamel, cavities, and recessed gums. Efforts to develop vaccines to prevent dental caries have not yet materialized. Note that people with poor mucosal immunity suffer from severe forms of dental disease despite good dental hygiene. Thus, good health and a functional immune system are always a necessity.",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.11. Dental caries. A. Dental plaque. The person brushed her teeth and then chewed a plaque disclosing tablet",
+          "page": 16,
+          "image": "/mmahp/ch14/14-11.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "containing a bright red dye (such as phloxine B) that stains dental plaques. Note that plaques are more abundant at the gum line than on the exposed surfaces of teeth. Image courtesy: Themolarbear/Wikipedia. B. Gum recession due to dental plaques and tooth cavities. Inflammation caused by dental plaque leads to gum recession, which contributes to weakening of the tooth roots and tooth loss. Image- Wikipedia. C. An SEM image (x35,000) of a subgingival dental plaque showing many bacterial cells (r) entangled by polymeric sweater-like structures (s), and extracellular matrix (indicated by the arrows). Image courtesy: Holiday R, et al. BDJ Open 2015; 15003. doi.org/10.1038/bdjopen.2015.3. D. Severe colitis (pseudomembranous colitis) caused by Clostridioides difficile.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Gastroenteritis, diarrhea, cholera, dysentery, and other related diseases Gastroenteritis is inflammation of the gastrointestinal tract due to infection. Diarrhea is passing watery or loose stools more than three times in 24 hours, generally accompanied by an urgency (or loss of control), cramps, nausea, and vomiting. Diarrhea can be caused by infections of diverse microbes, noninfectious causes such as drug effects, and autoimmune diseases, such as irritable bowel disease (IBD). Diarrhea can be acute or chronic, and with or without blood loss. Diarrhea causes dehydration, blood loss in case of bloody diarrhea, loss of electrolytes (Na+, Cl-, K+, Mg+, HCO3-), and blood thickening, leading to diverse pathologies, including stomach cramps, malabsorption (lack of absorption of nutrients from ingested food), nausea, hypotension, organ failure, coma, and death. Viral diarrhea is usually acute (sudden onset), watery, and non-bloody, caused mainly by impaired water reabsorption by virus-infected intestinal epithelial cells. The affected subject may also have fever and other virus-specific signs. Children are more prone to viral diarrhea. The disease is usually treated with oral or intravenous saline solution (to replenish water and electrolytes). Oral saline can be homemade by mixing 1 teaspoon of table salt and 12 teaspoons of sugar into 2 liters of water. Injectable saline contains 0.9 % NaCl, about 5% glucose, and 0.15-0.3% KCl in pyrogen- free distilled water. Note that ordinary distilled water can have bacterial endotoxins (pyrogens). Bacterial diarrhea includes ordinary diarrhea with or without blood in the stool (caused by Salmonella enterica, Campylobacter jejuni, Clostridium perfringens, Vibrio vulnificus, V. parahaemolyticus, Staphylococcus aureus, Yersinia pestis, E. coli, etc.), cholera (Vibrio cholerae and certain strains of E. coli), dysentery (Shigella spp.), and colitis (Bacillus anthracis and Clostridium difficile). Many cases of bacterial diarrhea are associated with bacterial exotoxins. Cholera toxins and anthrax toxins act by activating adenylate cyclase. The excess cAMP triggers signals that cause water and electrolyte loss. Cholera is characterized by rapid dehydration and passage of milky stool. Patients may die within 2-12 hours if water and electrolytes are not replenished. Diarrhea caused by B. anthracis (always occurs after consuming meat contaminated with exotoxins of the bacterium) is caused by edema toxin and lethal toxin that kill cells (tissue damage) and increase cAMP levels. Thus, the diarrhea is bloody. Diarrhea caused by C. difficile occurs only among people being treated with broad-spectrum antibiotics. The endospores of the bacterium germinate in the intestine only if the normal biota of the intestine is severely depleted. The disease is caused by exotoxins released by C. difficile, which inflict severe injury to intestinal tissues. The disease, known as pseudomembranous colitis (Fig. 14.11), is chronic, and the affected patient may die because of malabsorption and severe intestinal damage. Bacterial (bacillary) dysentery involves diarrhea, with significant amounts of blood and mucus in the stool. The disease is caused by the Shiga toxin released by the bacterium and by the immune response triggered by its presence in the intestinal mucosa. Bacterial diarrhea requires immediate electrolyte replacement (and hydration) and, in most cases, antibiotic therapy. For diarrhea and colitis caused by C. difficile, antibiotics are ineffective; instead, the antibiotic is temporarily discontinued, and fecal transplant (enema of diluted feces from a first-degree blood relative or oral encapsulated stool) is used for therapy. Diarrhea caused by protozoa (members of the genera Balantidium, Giardia, Entamoeba, Cyclospora, Isospora and Cryptosporidium) is mostly due to immune responses (inflammatory responses), although some (Entamoeba and Cryptosporidium) release proteases in the intestinal mucosa they infect. The disease is treated by hydration and antiprotozoal medications (such as metronidazole and nitazoxanide) if necessary.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "Diphtheria",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Diphtheria is caused by the bacterium Corynebacterium diphtheriae (and a few related species), which is lysogenized by a bacteriophage (i.e., corynephage) that expresses diphtheria toxin (DT). DT is a type III (A-B type) exotoxin encoded by the bacteriophage's genome. C. diphtheriae not infected by corynephages are found in the throat of healthy people and do not cause diphtheria. The B subunit of DT helps the A subunit enter the host cell; the A subunit inactivates a translation elongation factor (EF2) and inhibits protein synthesis, killing the affected cell. Naïve (i.e., unvaccinated) children exposed to the disease-causing strains of C. diphtheriae usually develop symptoms within 7 days. The bacterium grows in the throat, causing fever, severe sore throat with exudative (fluid-releasing) pharyngitis, and in some children, a swollen neck (Fig. 14.12). The exudate, dead and live host cells, bacteria, fibrin clots, and other debris accumulate on the throat and tongue, forming a thick crust called the diphtheria membrane. This membrane can be pulled with forceps (Fig. 14.12). The membrane adheres tightly to the tissue underneath, so it cannot be peeled away without bleeding. In severe infections, diphtheria toxin may enter the bloodstream and affect cells in distant organs. Because neurons and heart muscle cells have many receptors for the toxin, these tissues are most affected. Respiratory blockage and cardiac arrhythmia may develop, leading to coma and ultimately death. Fig. 14. 12. Diseases caused by C. diphtheriae. A. Gram-stained bacteria (size- 0.3-0.8 x 1.0-8.0 μm). Note the ball- and-rope and horseshoe-like appearance of some of the bacteria. Image courtesy: Dr. PB Smith/CDC. B. A ten-year- old child with severe diphtheria developed a swollen neck (the bull neck). Image courtesy: CDC/Barbara Rice. C. Diphtheria membrane on the palate of a child. Image- Wikipedia. D. Ulcerative diphtheria. Shown is a photograph of an ulcerative diphtheria wound without a diphtheria membrane in the leg of a patient. Image courtesy: CDC. Disease-causing strains of C. diphtheriae can also cause skin ulcers that heal slowly (Fig. 14.12), which can be secondarily infected with Staphylococcus aureus. If enough exotoxin is produced at the ulcer site, systemic symptoms of diphtheria may develop. Patients who recover may not develop immunity to the bacterium or the toxin. Diphtheria is diagnosed by the diphtheria membrane (diagnosis of the bacterium is unnecessary) and treated by antiserum (to inactivate DT) and antibiotics (to kill the bacterium). Routine childhood DTap vaccination has almost eradicated the disease in developed countries. Fewer than 25,000 cases are reported each year globally, mostly in South and East Africa.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Gastritis and gastric cancer caused by Helicobacter pylori About 90% of patients with stomach cancer are also infected with H. pylori. The bacterium releases urease, an enzyme that breaks down urea found in body fluids into ammonia and CO2. Ammonia is a weak base that creates a buffer zone around the bacterium, allowing it to survive the extremely low pH (about 2.0) of the stomach. It also removes the thick mucus layer that protects the stomach wall from stomach acid. Contact with acid causes an inflammatory response in the stomach, initiating gastritis (inflammation of the stomach). The presence of the bacterium in the stomach and the stomach injuries chronically activate the immune system. The bacterium also secretes toxins that kill cells in the stomach lining and contribute to metaplasia (a radical but reversible change in the phenotype of cells in a tissue) and dysplasia (irreversible transformation of cells). Leucocytes migrate to inflamed areas and release ROS and NO to kill bacteria, but they also cause DNA damage in the epithelial cells of the stomach and the lymphocytes in the MALT of the stomach. If left untreated, some of these cells may develop into tumors and later into cancer cells. Most of the stomach cancers are adenocarcinomas (Fig. 14.13).",
+          "page": 17
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.13. Gastric mucosa before and after H. pylori infection. A. Uninfected sample lacks cells expressing the",
+          "page": 18,
+          "image": "/mmahp/ch14/14-13.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "CD44 protein. B. Metaplasia in the mucosa after H. pylori infection, identified by expression of CD44 (cell stained intensely red). C. Dysplasia in the mucosa showing cells extensively expressing CD44 and changes in the structure of the tissue. CD44 is a cell surface molecule involved in cell attachment. Image- Giraud J, et al. 2017; DOI:10.5772/intechopen.69947.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Initial H. pylori infection causes abdominal pain, bloating, nausea, and loss of appetite (feeling full before satiety). Stomach cancer shows the same signs in a more severe form (abdominal pain with a burning sensation) and additional signs such as difficulty swallowing, black stool, anemia, and weight loss. H. pylori can be detected by PCR, by antibody tests, and by the production of CO2 from urea. Stomach cancer can be detected by endoscopy and CT scans. The bacterial infection can be treated with antibiotics (amoxicillin, clarithromycin, etc.) and acid inhibitors (e.g., omeprazole). Eradication of bacteria usually alleviates many symptoms, and cancer may go into remission. Additional therapy may be necessary in some cases of stomach cancer. Eradication of H. pylori does not provide immunity against future reinfection. H. pylori infection is a zoonosis (it normally infects cats and dogs), but it can also be transmitted person to person through saliva. The risk of reinfection is relatively high. Approximately 35% of the US population is infected with H. pylori, and about 1-3% of those infected develop stomach cancer.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Hepatitis, hepatomegaly, jaundice, liver fibrosis, and hepatocellular carcinoma Hepatitis is inflammation of the liver, particularly hepatocytes. It can be caused by infections (of various hepatitis viruses and other viruses), alcohol abuse, and autoimmunity. The disease results from the death of hepatocytes, thereby reducing the liver's ability to produce many of the proteins it normally produces and to process bilirubin (a pigment produced by the breakdown of erythrocytes). The signs of the acute disease include fatigue, nausea, vomiting, diarrhea, jaundice, dark urine, and pale stool. Since about 250 billion erythrocytes naturally die every day, the amount of bilirubin produced in the body is substantial (about 0.3 grams). Jaundice occurs due to reduced excretion (and bodily accumulation) of bilirubin, resulting in yellowing of the skin and eyes (Fig. 14.14).",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "About 20-90% of cases of hepatitis due to the hepatitis B virus and 1-5% of cases of hepatitis C virus infection, as well as all cases of sustained alcohol abuse, culminate in chronic hepatitis, which involves continuous death and regrowth of hepatocytes (liver repair) and activation of the liver stellate cells. Over time, the liver gets larger (develops hepatomegaly). Some of these activated stellate cells differentiate into myofibroblasts. The myofibroblasts secrete excess collagen fibers, leading to liver fibrosis (and later, cirrhosis). The collagen matrix subsequently interconnects and alters the liver's internal structure, leading to compression of the blood vessels and increased hepatic blood pressure. Chronic inflammation exposes liver cells (hepatocytes) to excess ROSs and reactive nitrogen compounds, which may cause mutations. Some of these mutated cells may become tumors and ultimately liver cancer (hepatocellular carcinoma, Fig. 14.14).",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.14. Some diseases of the liver. A. A person with jaundice, indicated by yellowing of the skin and the",
+          "page": 19,
+          "image": "/mmahp/ch14/14-14.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "conjunctiva. Image- Wikipedia. B. A CT scan of the liver showing hepatocellular carcinoma (indicated by the arrow). Image- Hsiao C-H, et al. IEEE J Biomed Health Info. 2024; DOI:10.1109/JBHI.2024.3400599. C. Biliary obstruction by liver flukes. Shown is a rabbit bile duct infected by the fluke Chlonorchis sinensis. Note the extensive hyperplasia of the mucosa (indicated by the arrows); the bile duct is completely obstructed by the fluke. Image: Lim JH. Korean J Radiol. 2011; 12(3): 269-79. DOI:10.3348/kjr.2011.12.3.269.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Hepatitis can be diagnosed using clinical signs, biochemical tests (i.e., liver panel), detection of viruses (by PCR or RT-PCR using nucleic acid extracted from blood), ultrasound, MRI, and liver biopsy. Hepatitis caused by HAV, HEV, and other viruses (such as adenovirus and yellow fever viruses) usually resolves without any specific treatment (supportive treatment enhances recovery). There is no treatment at this point for hepatitis caused by HBV (alone or with HDV), although antiviral drugs (such as entecavir) and interferon therapy may prevent fibrosis and liver cancer. Chronic hepatitis caused by HCV is now treatable using antiviral drugs, such as combination antivirals (such as Zepatier), or ribavirin, and interferon-alpha. Fibrosis cannot be treated, although treating the underlying infections may prolong life. Liver cancer can be treated with liver resection, local chemo- or radiotherapy, or liver transplantation.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "About 250 million people around the globe have HBV infection, and 50 million have HCV infection (including 1-2 million US citizens with HBV, and 2-5 million with HCV). More than 60% of the infected people are unaware of their infections and do not seek treatment. About 25% of the chronically HBV-infected subjects and about 1-4% of chronically HCV-infected subjects develop hepatocellular carcinoma. The total global economic burden due to HBV and HCV infection is close to a trillion dollars. There is a vaccine for HBV (up to 95% effective), but no vaccine for HCV. Both HBV and HCV can be transmitted sexually and vertically from mother to child, and laterally through contact with contaminated blood. Since the diseases are treatable, screening and early treatment can be beneficial in countries with very high incidence rates. Health care workers should assume that every patient is infected with HBV, HCV, HIV, and tuberculosis and handle the patients and pathological samples with due caution.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Hydatid cysts (see Chapter 13) Parotitis and inflammation of other salivary glands Salivary glands can be infected by viruses (e.g., mumps virus, influenza virus, or HIV) or bacteria (such as Staphylococcus aureus). The parotid glands are most often infected, leading to parotitis (Fig. 14.15), with signs including painful swelling of the glands, reduced saliva flow, and pain during eating and swallowing. Viral parotitis is usually bilateral, while bacterial infections are one-sided. Viral parotitis (most caused by the mumps virus) lacks specific therapy; rest and supportive care usually suffice. Bacterial parotitis is treated with antibiotics. Because of the effective mumps vaccine, parotitis is rare in the United States, with about 5,000 cases per year.",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.15. Some infections of the digestive system. A. A child with parotitis caused by the mumps virus. Note the",
+          "page": 20,
+          "image": "/mmahp/ch14/14-15.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "swelling and other signs of inflammation. Image: Wikipedia. B. Pigbel. Shown is a section of the jejunum displaying mucosal necrosis and pseudomembrane (a yellowish membrane-like structure over the mucous membrane, indicated by the large arrow) and pneumatosis (gas bubbles, indicated by the small arrow). Image: Gui L, et al. Mod Pathol. 202; 15(1): 66-70. C. Thrush. Showing oral candidiasis with a pseudomembrane. Note the extensive cottage cheese- like growth on the tongue. Image: Wikipedia.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Intestinal anthrax (see diarrhea) Liver abscess, liver rot, bile duct obstruction An abscess is a pus-filled cavity with a wall, formed by infection and inflammation (see brain abscess). Liver abscess is commonly caused by bacteria (such as E. coli, Fusobacterium sp., and Klebsiella sp.), and protozoa (Entamoeba histolytica). Diabetes, preexisting biliary duct disease, and a poor immune system are risk factors. Signs include fever, right upper abdominal pain, jaundice, and a change in stool color. The disease can be detected by a CT scan and treated by drainage and antimicrobial therapy.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Liver rot is liver damage caused by liver fluke infection, as the worms bore and migrate through liver tissue until they reach and settle in the gallbladder. Early disease signs include severe belly pain, nausea, and hepatomegaly. After the parasite takes over and obstructs the bile duct, the patient may develop jaundice. Some patients develop bile duct cancer. The disease can be treated with praziquantel.",
+          "page": 20
+        },
+        {
+          "type": "subheading",
+          "text": "Perihepatitis",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Perihepatitis is the inflammation of the peritoneum covering the liver, caused by sexually transmitted infections caused by Neisseria gonorrhoeae or Chlamydia trachomatis. The disease is characterized by sharp pain in the right upper abdomen. It is associated with pelvic inflammatory disease (PID), which occurs only in sexually active women. The bacteria enter the body cavity by attaching to the spermatozoa. Some spermatozoa carry bacteria through the uterus, into the fallopian tube, and ultimately into the abdominal cavity, where the bacteria infect the peritoneum. Other signs of PID include fever, nausea, vaginal discharge, and blockage of the fallopian tubes, which can lead to ectopic pregnancy (the fetus starts growing in the fallopian tube, instead of the uterus) and female sterility (see Chapter 15). Perihepatitis may affect about one-third of women with PID. PID is quite common in the USA, with over 1 million cases each year. The disease can be treated with antibiotics.",
+          "page": 20
+        },
+        {
+          "type": "subheading",
+          "text": "Pigbel",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Pigbel (pork-belly) is caused by Clostridium perfringens, which secretes beta-toxin (an exotoxin) that kills intestinal cells and causes necrotic conditions (Fig. 14.15). The source of the bacterium (endospores) is undercooked pork. Even well-cooked contaminated pork can transmit the bacterium through its heat-stable endospores. Affected individuals are either severely maltreated, producing very little trypsin (to destroy the beta toxin), or people who eat sweet potato, which contains trypsin inhibitors. The disease is more common in New Guinea, where sweet potato and pork are staples. Symptoms include abdominal pain, vomiting, diarrhea, intestinal obstruction, and death. The disease can be detected by the presence of C. perfringens in stool, PCR of DNA extracted from feces, and imaging techniques such as X-ray or CT scan, and treated with antibiotics. Surgery may be necessary if the intestinal damage is substantial. Addressing underlying nutritional conditions is essential for full recovery.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Pseudomembrane colitis (see diarrhea) Proctitis and pruritus ani (due to pinworm infection) Female pinworms (Enterobius vermicularis) migrate to the rectum, move out through the anus to lay eggs in the perianal region. The worm may enter the vagina after laying eggs. The migration causes severe irritation and inflammation. The movement occurs mostly at night, which causes sleep deprivation. Children are more often infected, and they may use their fingers to relieve itching, causing rectal injuries. The disease can be diagnosed by rectal inflammation and microscopic examination of perianal samples. Perianal samples are collected with adhesive tape and examined microscopically to detect worm eggs. The disease can be treated with mebendazole or albendazole, given two doses one week apart to prevent reinfection. Children playing with sand and soil may get reinfected even after a two-dose treatment. Pinworm infection is extremely common, with a global estimate of 1 billion cases, including 30 million cases in the USA. E. vermicularis does not infect mammals other than humans. Since albendazole is highly effective in killing pinworms, pinworm infection can be effectively eradicated.",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "Reye’s syndrome",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Children under 12 infected with influenza or human herpesvirus-3 and treated with aspirin may develop this rare disease. Early signs include persistent vomiting and lethargy, which may progress to brain edema, seizure, convulsion, and coma. The disease causes severe liver injury, indicated by elevated liver enzymes in the blood. The disease can be diagnosed using blood levels of liver-specific enzymes, a liver biopsy, and a brain scan. There is no specific treatment for the disease, although supportive therapies (intravenous glucose, mannitol, and ventilation) may help spontaneous recovery. Since viral infections are difficult to distinguish, childhood fever should be managed with acetaminophen (for children under 6) and ibuprofen (for children over 6). The disease is extremely rare in the United States at present, most likely due to the complete stoppage of aspirin in treating children.",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "Thrush",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Thrush is an opportunistic infection caused by several Candida species (mostly by C. albicans). Although thrush can affect the skin, most cases occur in the mouth, vagina, and intestine, where the sores appear as creamy white patches (a pseudomembrane) termed cottage cheese lesions (Fig. 14.15). The rashes are itchy and painful. Thrush is more common among infants, the elderly, and people with severely low cell-mediated immunity (including patients with AIDS and cancer). The disease may progress to blood (disseminated) infection in severely immunodeficient subjects. Thrush can be treated with antifungal agents such as nystatin and echinocandins, but underlying immune dysfunction should be addressed. About 4 million cases, including over 20,000 invasive thrush cases, are reported in the USA annually.",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "Vitamin B12 deficiency due to infection",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Dietary vitamin B12 is released from food in the stomach (due to the low pH) and is absorbed in the distal ileum. H. pylori degrades cells that synthesize intrinsic factor, a protein that binds vitamin B12 and helps its absorption. Besides H. pylori infection, excessive bacterial growth in the ileum and infection with the fish tapeworm (Diplobothrium latum) may cause vitamin B12 deficiency because the microbes consume vitamin B12. Vitamin B12 is necessary for diverse physiological functions, including erythrocyte production and DNA synthesis. Vitamin B12 deficiency is characterized by anemia, fatigue, neurological issues (including tingling sensation and memory loss), and mouth sores. Treating the infections and taking vitamin supplements can resolve these issues.",
+          "page": 21
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 20,
+          "title": "Microbes that cause diseases of the digestive system",
+          "bullets": [
+            "Viruses",
+            "Adenovirus, poliovirus, hepatitis viruses, various arboviruses, Coxsackie",
+            "Bacteria",
+            "Person to person: Genera Staphylococcus, Streptococcus, Neisseria,",
+            "Resident microbiota- Genera Escherichia, Klebsiella, Streptococcus,",
+            "Zoonotic- Genera Campylobacter, Helicobacter, Salmonella, etc.",
+            "Environmental- Genera Clostridium, Listeria, Vibrio, Pseudomonas, etc."
+          ]
+        },
+        {
+          "slideIndex": 21,
+          "title": "Microbes that cause diseases of the digestive system",
+          "bullets": [
+            "Fungi",
+            "Resident biota- Genera Candida, Malassezia, etc.",
+            "Environmental- Genera Histoplasma; Paracoccidioides, etc.",
+            "Protozoan",
+            "Environmental- Genera Entamoeba, Giardia, Balantidium,",
+            "Worms",
+            "Genera Fasciola, Opisthorchis, Schistosoma, Echinococcus, Taenia,"
+          ]
+        },
+        {
+          "slideIndex": 22,
+          "title": "Infections diseases of the digestive system",
+          "bullets": [
+            "Appendicitis",
+            "Agents",
+            "Symptoms",
+            "Treatments",
+            "Dental disease",
+            "Dental plaques",
+            "Dental caries (decay and",
+            "Gingivitis",
+            "Periodontal diseases"
+          ]
+        },
+        {
+          "slideIndex": 23,
+          "title": "Infections diseases of the digestive system",
+          "bullets": [
+            "Gastroenteritis",
+            "Diarrhea",
+            "Cholera",
+            "Dysentery",
+            "Pseudo"
+          ]
+        },
+        {
+          "slideIndex": 24,
+          "title": "Infections diseases of the digestive system",
+          "bullets": [
+            "Diphtheria",
+            "Agents",
+            "Symptoms",
+            "Treatment",
+            "Gastritis and",
+            "Agents",
+            "Symptoms",
+            "Treatment"
+          ]
+        },
+        {
+          "slideIndex": 25,
+          "title": "Infections diseases of the digestive system",
+          "bullets": [
+            "Hepatitis",
+            "Hepatomegaly",
+            "Jaundice",
+            "Liver fibrosis",
+            "Hepatocellular",
+            "Liver rot",
+            "Bile duct obstruction"
+          ]
+        },
+        {
+          "slideIndex": 26,
+          "title": "Infections diseases of the digestive system",
+          "bullets": [
+            "Parotitis",
+            "Agents",
+            "Symptoms",
+            "Treatments",
+            "Perihepatitis",
+            "Agents",
+            "PID",
+            "Symptoms",
+            "Treatments",
+            "Pigbel",
+            "Agents",
+            "Symptoms",
+            "Treatments"
+          ]
+        },
+        {
+          "slideIndex": 27,
+          "title": "Infections diseases of the digestive system",
+          "bullets": [
+            "Proctitis",
+            "Agents",
+            "Symptoms",
+            "Treatment",
+            "Reye’s Syndrome",
+            "Agents",
+            "Symptoms",
+            "Treatment",
+            "Thrush",
+            "Agents",
+            "Symptoms",
+            "Treatment"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "14.3",
+      "heading": "The respiratory system",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The respiratory system consists of the nose, nasal cavity, paranasal sinuses, nasopharynx, larynx, trachea, bronchial tree, and lungs (Fig. 14.16). Its main function is gas exchange. The nostrils, the external openings of the nose, have coarse hairs that filter dust and other particles. Three folded structures called nasal conchae hang from the lateral walls of the nasal cavity, creating narrow spiral passages. The total area of the internal surfaces of an adult person’s nose is about 160 sq cm (25 sq inches). These narrow spaces help direct airflow through moist, blood-rich epithelia, which filter out more particles and moisten the air to nearly 100% humidity. The cool air is also warmed to near body temperature before it enters the pharynx and lungs (however, the nose cannot cool hot air to near body temperature). Paranasal sinuses are located within the bony chambers. These cavities are lined with a mucous membrane and have a narrow opening to the nasal cavities (Fig. 14.16). The sinuses produce mucus and help reduce the weight of the head. The nasal cavity connects to the eyes via the nasolacrimal ducts. The back of the nasal cavity links into the nasopharynx through the internal nares. The Eustachian tube, which emerges from the middle ear, also opens into the nasopharynx. The entire nasal cavity, including the paranasal sinuses and the nasopharynx, is covered with columnar epithelium.",
+          "page": 21
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.16. The respiratory system. A. The system is depicted, with the upper (U) and lower (L) respiratory organs",
+          "page": 22,
+          "image": "/mmahp/ch14/14-16.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "marked. B. The nose and nasopharynx are enlarged to illustrate the sinuses, nasal conchae, nasolacrimal ducts, tonsils, Eustachian canal, and epiglottis. Image: Linus Books.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "The larynx (i.e., voice box) is located right at the base of the tongue and is the uppermost portion of the trachea (Fig. 14.17). Several cartilages, ligaments, and the hyoid bone form the supporting structure of the larynx. The opening of the larynx is the glottis. The glottis is partly covered by ligaments known as the ventricular and vocal folds (also called vocal cords). Inhaled air forced through the glottis produces sound as it resonates within the vocal folds. The sound is converted to voice after being articulated by the tongue, teeth, nose, palate, and paranasal sinuses. The epiglottis, a muscular flap supported by the hyoid bone, completely covers the glottis during swallowing, preventing food from entering the trachea.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "The trachea, or windpipe, is an 11x2.5 cm flexible tube made of a series of C-shaped cartilages alternated with annular ligaments. The trachea is connected to the esophagus. The internal surface of the trachea is covered with a partially stratified columnar epithelium. The tube bifurcates at the end to form the primary bronchi, which enter the left and right lungs. Within the lungs, the primary bronchi divide into several secondary bronchi, which in turn divide into many tertiary bronchi (Fig. 14.17). These bronchial structures are supported by cartilage. The tertiary bronchi further divide into numerous bronchioles. Bronchioles lack cartilage support but are surrounded by smooth muscle. The bronchioles then divide into terminal bronchioles, which supply air to the pulmonary lobules. Within the pulmonary lobule, the terminal bronchiole divides into respiratory bronchioles and, eventually, into bronchial ducts. Bronchial ducts supply air to individual alveolar sacs. Each alveolar sac consists of several alveoli (sing. alveolus). The total surface area of about 400,000,000 alveoli of an adult lung is about 100 sq meters (about a tennis court). The extensively branched bronchial tree and the alveoli, along with the extensive blood and lymph vessels, are contained within the lobes of the lungs.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "The alveoli are composed of simple squamous epithelium supported by connective tissue (elastic fibers). There are surfactant cells in the alveolar lining that secrete a soapy fluid that reduces surface tension and prevents the alveoli from collapsing. A few macrophages are present in the alveoli to guard the sac from microbial infections. Air in the alveoli never comes into direct contact with body fluids. Blood capillaries are located on the outer surface of the alveoli. Oxygen diffuses through the surfactant fluid, the alveolar epithelium, the basement membrane, the endothelial cells (about 1.5 μm of solid obstacle), and blood plasma to reach a red blood corpuscle (Fig. 14.17). Carbon dioxide (in plasma and red blood cells) diffuses out of the blood and enters the alveoli by crossing the same obstacles. Since CO2 and O2 are permeable to lipid membranes, diffusion occurs readily. Air enters the lungs due to the movement of the chest and diaphragm. The diaphragm is a thick muscular flap that separates the chest from the abdomen. When relaxed, the chest is slightly smaller, and the diaphragm maintains a curved shape. Upon muscle contraction, the chest expands, and the diaphragm flattens. The resulting increase in lung volume causes inhalation. The exhalation (expiration) is automatic and results from muscle relaxation.",
+          "page": 22
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.17. Larynx, bronchi, and alveoli. A. The larynx (bottom) and the components of the vocal fold (top) are",
+          "page": 23,
+          "image": "/mmahp/ch14/14-17.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "displayed. B. The bronchial tree begins at the bronchus and concludes at the terminal bronchiole (see text for details). C. A cluster of alveoli along with its blood supply and the direction of blood flow are illustrated (venules- blue, arterioles- red). D. Gaseous exchange in the alveoli is represented schematically. Gas exchange involves the diffusion of gases across blood vessels and the walls of the alveoli. Images: Linus Books.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "An average adult inhales about 500 ml of air with each breath (~11,500 liters a day). Depending on air quality, a person may intake many microbes, including bacteria, fungi, bacterial and fungal spores, viruses, and worm eggs. The upper respiratory tract is inhabited by resident microbiota (bacteria and fungi), while the lower respiratory system should be sterile. Some resident microbes, as well as many pathogenic ones, including viruses and bacteria, may infect the nasal cavities, pharynx, and lymphoid tissues of the pharynx, epiglottis, larynx, bronchi, or lungs. Inflammation in the lungs (due to microbial infection) can cause fluid accumulation in the bronchi and alveoli. This fluid accumulation may obstruct oxygenation of the blood, leading to respiratory failure.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "The respiratory system is divided into the upper (nose, nasal cavity, sinuses, mouth, pharynx, and larynx) and lower (trachea and the rest of the organs below) respiratory systems. Infection and inflammation of various components of the system are rhinitis (for the mucous membrane of the nose), sinusitis (for the sinuses), stomatitis (of the mouth), pharyngitis (for the pharynx), laryngitis (for the larynx), tracheitis (for the trachea), bronchitis (for the bronchi), bronchiolitis (for the bronchioles), alveolitis, pneumonitis and pneumonia (for the alveoli). Pneumonia and pneumonitis are different because the former is due to a microbial infection and involves fluid accumulation in the lungs, whereas the latter involves inflammation due to noninfectious causes (such as allergies, radiation, or chemotherapy) and usually does not involve fluid accumulation. An affected person usually suffers from multiple of these ailments simultaneously.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "The Eye",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "The eyes are intimately connected with the brain and nose (Fig. 14.18). An adult's eye is a ball, about 2.4 cm in diameter, located in the orbital socket of the cranium. The ball consists of three concentric layers of tissue. The outermost layer comprises two components: the sclera, a thick, opaque white connective tissue in the posterior region, and the cornea, a transparent connective tissue in the anterior region. The cornea is covered by the conjunctiva, a thin mucous membrane. The second tissue layer consists of three components: the choroid, a pigmented membrane at the rear, and the ciliary body (smooth muscle) and iris at the front. The ciliary body is attached to a biconvex lens through ligaments and divides the eye into two chambers. The anterior chamber is filled with watery aqueous humor, while the posterior chamber contains jelly-like vitreous humor. The third tissue layer, the retina, only covers the posterior chamber. The retina is a sensory epithelium comprising several million light-sensitive cells known as rods and cones. Rods and cones are connected to sensory neurons, which converge to form the optic nerve that exits the eye at the back of the orbit.",
+          "page": 24
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.18. The eye and ear are closely related to the nose and mouth. A. Schematic presentation of a section of",
+          "page": 24,
+          "image": "/mmahp/ch14/14-18.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "an eye. The eye is connected to the nasal cavity through the lacrimal duct (bottom). The lacrimal duct is at the bottom of the lacrimal sac (not shown). The locations of the lacrimal gland and meibomian glands are indicated. B. Structure of the ear. The middle ear is connected to the oral cavity through the Eustachian canal. Ligaments connecting the ear ossicles (bones) to the cranium are not shown. Images: Linus Books.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "The optic nerve is covered by the dura mater, one of the brain’s meninges. Through the center of the optic nerve, the retinal artery and vein enter the eyeball and perfuse the choroid. The lens and retina receive no blood supply. The eyeball is moved by six different skeletal muscles attached to it. The conjunctiva is partly covered by the eyelids that are margined with special hairs called eyebrows. The conjunctiva and eyelid surfaces are coated by a thin film of tears secreted by the lacrimal gland, an almond-shaped gland located beneath the upper edge of the orbit, behind the eyebrow. Excess tears are drained away by two lacrimal ducts. These ducts converge to form the nasolacrimal duct, which empties into the nasal cavity. Many meibomian glands (Fig. 14.18) on the eyebrow line secrete oily substances to prevent drying of the eye.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "The conjunctiva and eyelids contain resident microbiota, predominantly skin bacteria. The eyes can be infected by viruses, bacteria, and, less frequently, by fungi, protozoa, and worms. Viral and bacterial eye infections, along with the resulting inflammation of the conjunctiva (conjunctivitis or pink eye), are among the primary eye ailments. Bacteria may infect the hair follicles of the eyebrows, causing a stye. Protozoa from dirt, dirty water, or contaminated contact lenses may cause conjunctival ulcers. Demodex mites (Demodex folliculorum), normally found in the hair follicles of the face, may occupy follicles of the eyelashes and cause inflammation. Blood-borne worm eggs or larvae can lodge in the eye muscles or the eyeball, causing mechanical issues. The eye is also a significant site of allergic inflammation.",
+          "page": 24
+        },
+        {
+          "type": "subheading",
+          "text": "The ear",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "The ear is a sensory organ for hearing and balance. The ears are anatomically connected to the brain and mouth. The ear is divided into three regions: the external ear, the middle ear, and the inner ear (Fig. 14.18). The external ear consists of the pinna (a skin-covered, curved cartilage that collects sound waves), a shallow ear canal (2.5 cm x 0.7 cm), and an eardrum made of a thin tympanic membrane. The skin of the ear canal contains ceruminous glands that secrete earwax. The middle ear is a small air-filled chamber connected to the oral cavity through the Eustachian canal (3.5 cm). The Eustachian canal is normally closed but can be opened by lowering the jaw. Opening the Eustachian canal is necessary to equalize air pressure differences between the ear canal and the middle ear. The eardrum connects to the inner ear via three small bones (malleus, incus, and stapes, collectively called the ear ossicles), allowing sound waves to be efficiently transmitted to the inner ear. The inner ear is deeply embedded in the cranial bones, where the cochlea (the organ of hearing) and the semicircular canals and vestibule (organs for the senses of gravity and motion) are located.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "The outer and middle ears contain normal microbiota comparable to those of the skin and mouth. The inner ear is normally sterile. The external ear can be infected by soil and water bacteria (mostly Pseudomonas aeruginosa) and skin bacteria (mostly staphylococci and streptococci). Earwax has antimicrobial activity, but molds may grow in it. Ear canal infections and inflammation (otitis externa) are generally called swimmer’s ear, but can be malignant (i.e., necrotizing, involving bone damage). The middle ear can become infected with external bacteria if the eardrum ruptures. However, most middle ear infections and inflammation (otitis media) are caused by oral bacteria that enter the middle ear through the Eustachian tube. Although viruses usually do not infect the middle ear, they may contribute to middle ear maladies by infecting the tonsils and other oral surfaces, potentially blocking the Eustachian tube. Blockage of the Eustachian canal creates anaerobic conditions in the middle ear. Bacterial infections of the middle ear may also cause inflammation and blockage of the Eustachian tube. Such a blockage may increase pressure in the middle ear (due to gases released by bacteria infecting the middle ear), which can result in eardrum rupture. Inner ear infections and inflammation (labyrinthitis) are rare but may arise from middle ear infections (mostly bacterial) or through meningitis (viral, bacterial, or rarely fungal). A major sign of labyrinthitis is partial loss of hearing and balance (vertigo). Vertigo is characterized by dizziness and a sensation of the body spinning, even when the affected person is stationary. Labyrinthitis caused by middle ear infection is limited to one ear, whereas meningitis may affect both ears.",
+          "page": 25
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 30,
+          "title": "The respiratory system: The Nose",
+          "bullets": [
+            "Nostrils",
+            "The nasal cavity",
+            "Nasal Conchae",
+            "Paranasal sinuses",
+            "The nasolacrimal ducts",
+            "Eustachian canals",
+            "Internal nares",
+            "The nasopharynx",
+            "Columnar epithecium",
+            "Resident biota"
+          ]
+        },
+        {
+          "slideIndex": 31,
+          "title": "The respiratory system: The larynx and trachea",
+          "bullets": [
+            "The voice box",
+            "The glottis",
+            "Ventricular and vocal fold",
+            "Laryngitis",
+            "The tracheal tree",
+            "Primary, secondary and tertiary",
+            "Bronchioles",
+            "Terminal bronchioles",
+            "Pulmonary lobule",
+            "Respiratory bronchioles",
+            "Bronchial ducts",
+            "Alveolar sacs"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "14.3.1",
+      "heading": "Microbes that infect the respiratory system, the eye, and the ear",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Viral diseases",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "Human parvovirus B19, human rhinovirus, human corona virus and orthoreovirus (inflammation of nasal epithelium and cold symptoms); human adenovirus (sore throat, pink eye, bronchitis, pneumonia); herpes simplex virus 1 and 2 (nasal and pharyngeal sores and herpetic keratitis); cytomegalovirus (sore throat, pneumonia and retinitis); Epstein Barr virus (nasopharyngeal carcinoma); human papillomavirus (warts in nose and vocal cord); poliovirus (sore throat); Coxsackie virus (conjunctivitis and pleural inflammation); Chikungunya virus (conjunctivitis); various spices of SARS-CoV (severe acute respiratory disease); Ebola virus and Marburg virus (lung damage due to hemorrhage); human paramyxovirus (croup, bronchitis and pharyngitis); measles virus (cold-like symptoms, conjunctivitis and pneumonia); Hendra virus and Nipah virus (cold-like syndromes) and influenza virus A, B and C (influenza). Bacterial diseases Staphylococcus aureus (pneumonia and empyema); Streptococcus pyogenes (pharyngitis, laryngitis, epiglottitis and scarlet fever); Streptococcus pneumoniae (sinusitis, middle ear infection and pneumonia); Bacillus anthracis (respiratory anthrax); Bacillus cereus (blinding corneal ulcer); Peptostreptococcus sp. (sinusitis); Corynebacterium diphtheriae, C. ulcerans and C. pseudotuberculosis (pharyngitis and respiratory failure); Nocardia sp., Aspergillus sp., and related organisms (hyphal ball in the lung and lung abscess); Mycobacterium tuberculosis, M. bovis, and M. avium-complex (tuberculosis); Neisseria gonorrhoeae (pharyngitis, neonatal and adult eye infections); Bordetella pertussis and B. parapertussis (whooping cough and pneumonia); Brucella sp. (cough); Moraxella catarrhalis (sinusitis, eye infection and middle ear infections); Acinetobacter sp. (sinusitis, pneumonia and eye infection); Pseudomonas aeruginosa and related species, Burkholderia cepacia and related species (sinusitis, pneumonia, eye infections, middle ear infections and malignant external ear infection); Legionella pneumophila and related species (sinusitis and pneumonia); Salmonella typhi and related species (pneumonia); Yersinia pestis, Klebsiella pneumoniae and K. oxytoca (necrotic pneumonia); Klebsiella rhinoscleromatis and K. ozaenae (nose infections); some species of the genera Citrobacter, Enterobacter, Morganella, Proteus (pneumonia); Serratia sp. (pneumonia and eye infections); Haemophilus influenzae and related species (sinusitis, epiglottitis and pneumonia); Mycoplasma pneumoniae (bronchitis and atypical pneumonia); Coxiella burnetii (atypical pneumonia); Chlamydophila trachomatis (trachoma eye disease and pneumonia); and Chlamydia psittaci (conjunctivitis and pneumonia).",
+          "page": 25
+        },
+        {
+          "type": "subheading",
+          "text": "Fungal diseases",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Basidiobolus ranarum and Conidiobolus coronatus (disfiguring nasal nodules, also called zygomycosis); Blastomyces dermatitidis and Penicillium marneffei (TB-like lung nodules); Histoplasma capsulatum (lung inflammation and fibrosis); Paracoccidioides brasiliensis (lung inflammation); Candida albicans and related species (retinitis); Coccidioides immitis, C. posadasii and Cryptococcus neoformans (lung inflammation), Pneumocystis jirovecii (pneumonia).",
+          "page": 26
+        },
+        {
+          "type": "subheading",
+          "text": "Parasitic diseases",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Protozoa: Encephalitozoon, Enterocytozoon and related species (eye infections); Toxoplasma gondii (lung inflammation, pneumonia, and retinitis); Acanthamoeba sp. (corneal ulcer).",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Flatworms: Paragonimus westermani (lung alveolar damage); Taenia solium (cysticercosis in the lung); Spirometra mansoni and related worms (sparganosis type eye inflammation); Echinococcus multilocularis (metastatic hydatid cysts in the lung).",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Roundworms: Toxocara canis and T. catii (lung inflammation); Trichinella spiralis (pneumonitis); Loa loa (ocular larva migrans); and Onchocerca volvulus (African river blindness).",
+          "page": 26
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "14.3.2",
+      "heading": "Pathologies caused by infections of the respiratory system, eyes, and ears",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "African river blindness",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "It is an endemic disease, caused by the nematode worm Onchocerca volvulus (transmitted by blackflies) in sub- Saharan Africa, where about 18 million people are currently infected. The disease signs include itchy skin nodules, eye nodules, and blindness (Fig. 14.19), about 1-2 years after initial transmission. The disease can be detected by a skin biopsy and treated with ivermectin. WHO is working to eradicate the disease through mass medication and control of blackfly populations. Several countries have reported zero new cases in recent years.",
+          "page": 26
+        },
+        {
+          "type": "subheading",
+          "text": "Acute Respiratory Distress Syndrome (ARDS)",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "ARDS is an acute form of pneumonia, involving rapid fluid accumulation in the alveoli, leading to severe shortness of breath, rapid breathing, cough, cyanosis (bluish skin, indicating lack of blood oxygen), confusion, and death. The disease can be triggered by sepsis, viruses, including SARS-CoV-1 and SARS-CoV-2 infection, as well as noninfectious causes such as trauma, drowning, and smoke inhalation. Treatment mainly involves supportive therapy, such as oxygenation. Antimicrobial agents are administered for infection-related ARDS. The mortality rate for ARDS is about 30-50%. ARDS is common in the United States, with an estimated 170,000 cases, accounting for about 3.5% of all Intensive Care Unit (ICU) admissions. Globally, ARDS accounts for 10% of all ICU admissions. Bronchitis and bronchiolitis Bronchitis is inflammation of the airways (larger than bronchioles), featuring cough, wheezing, fever, fatigue, and chest pain. Most bronchitis cases are caused by cold and flu viruses, but bacterial infection may also cause the symptoms. The disease is not treated (especially for viral diseases), and most patients recover completely. However, the symptoms may persist for longer and develop into chronic obstructive pulmonary disease (COPD) if they last more than 3 months and if they involve alveolar damage (emphysema). COPD, as the name implies, is due to restricted airflow into the lungs, and its symptoms include chest tightness, shortness of breath, and a productive cough. Smokers are more vulnerable to bronchitis and COPD. COPD and chronic bronchitis with emphysema are treated with behavioral changes, supportive therapies, and ventilation when necessary. About 5% of the US population develops bronchitis and COPD each year, with costs totaling about $30 billion. Over 0.2 billion people globally suffer from COPD.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Bronchiolitis is inflammation of the bronchioles, the tubes that connect the airway with the alveoli. The disease is caused primarily by viruses, and children under 6 months of age are the most affected group. The disease is diagnosed by physical examination and usually treated by supportive therapy.",
+          "page": 27
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.19. Some infectious diseases of the respiratory tract and the eyes. A. African river blindness caused by the",
+          "page": 27,
+          "image": "/mmahp/ch14/14-19.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "nematode worm O. volvulus. Note the white spots and opacity of the cornea. Image: Wikipedia. B. An X-ray image of the lung of a patient with ARDS due to SARS-CoV-2 infection. Note the diffuse opacity throughout the lung. Image: Wikipedia. C. A photomicrograph of the lung biopsy tissue stained with a fluorescently labeled antibody to respiratory syncytial virus (RSV). RSV causes both bronchiolitis and pneumonia among children. Image: CDC-PHIL. Common cold The common cold is an inflammation of the upper respiratory tract, including the nose, sinuses, throat, and pharynx, most often caused by rhinoviruses and some other viruses. Eyes may also be affected. Symptoms include a runny nose, congestion, and watery or pink eyes. Low-grade fever, body aches, and dehydration may also occur. Viruses kill epithelial cells, which release bradykinin and histamine, which bind their receptors, triggering inflammation. Excessive use of facial tissues can cause skin and nasal damage, leading to injuries and secondary bacterial infections. The common cold is the most widespread infectious disease in the United States, with about a billion cases annually— each person experiences 3-4 colds per year. Although most cases resolve spontaneously within 7-20 days, they result in many doctor visits and lost work hours, costing approximately $1.5 billion dollars in economic losses. Diagnosis is based on clinical signs, and treatment is supportive. Vitamin C intake and facial tissues infused with vitamin C may help speed recovery. Frequent, proper handwashing and wearing an N95 mask during flu season can be protective. The cold induces a cell-mediated mucosal immune response that appears to protect against more virulent pathogens. Conjunctivitis, corneal ulcer, keratitis, and trachoma Conjunctivitis is the inflammation of the conjunctiva (the membrane over the cornea) of the eye caused by bacterial (mostly Staphylococcus aureus, Pseudomonas aeruginosa, Neisseria gonorrhoeae, and Chlamydia trachomatis) or viral (adenovirus, rhinovirus, and many other viruses) infections, or due to type I hypersensitivity to pollen or microbial antigens. Keratitis is a more severe form of conjunctivitis that also affects the cornea underneath. Signs of conjunctivitis include pink eye (Fig. 14.20) with thick mucus, pain, and difficulty opening the eyes after sleeping (due to dried mucus). Infection of the conjunctiva by some bacteria, fungi (e.g., Candida sp., Aspergillus sp.), protozoan parasites (e.g., Acanthamoeba sp. from contaminated contact lenses), and herpes simplex virus-1 can lead to ulceration and subsequent keratitis. Untreated ulcerative eye diseases and keratitis may result in blindness and brain involvement. These diseases are detected through eye examinations and microbe-specific tests. For example, herpetic keratitis is detected by the branching (dendritic) lesion on the eye and PCR tests. The diseases are treated with oral and topical antiviral drugs such as ganciclovir and valacyclovir. Keratoplasty (corneal transplant) may be necessary if damage is extensive. Healthcare professionals should use protective eye coverings to reduce the risk of eye infection. Many infections occur through the eye as a portal of entry, especially viral ones, and may not cause symptoms in the eyes but can cause respiratory and systemic infections. About 3-6 million cases of conjunctivitis and about 60,000 cases of keratitis occur in the USA annually, of which over 70% are due to viral infections.",
+          "page": 27
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.20. Some infectious diseases of the respiratory tract and eyes. A. Photograph of an eye affected by viral",
+          "page": 28,
+          "image": "/mmahp/ch14/14-20.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "conjunctivitis. Note the dilated blood vessels that give the eye a pink appearance. Image: Wikipedia. B. Stages of trachoma caused by Chlamydia trachomatis eye infection. The disease begins with hardening of the tissues on the inner surfaces of the eyelid (a and b), followed by scarring of the conjunctiva (c), and then opacity of the cornea and deformation of the eyelids (d). Image: Hu VH et al. Wikimedia Commons. C. Pulmonary fibrosis. A high-resolution CT scan of the lung shows scarring (accumulation of collagen-secreting cells). Image: Wikipedia. Trachoma is a keratoconjunctivitis caused by the bacterium Chlamydia trachomatis. The bacteria infect the inner surfaces of the eyelids, leading to tissue hardening. This hardened tissue rubbing against the cornea causes inflammation. If left untreated, the disease worsens, leading to eyelid deformity and eyelashes rubbing against the conjunctiva (Fig. 14.20). The cornea becomes inflamed and scarred, eventually becoming opaque. An ophthalmologist can detect the infection by eye examination. Early infections can be treated with azithromycin. More advanced infections may also require surgical correction of the eyelid. Globally, about 40 million people, mostly children in Africa, have trachoma, with approximately 2 million blinded by the disease. Trachoma generally does not transmit sexually; it is transmitted by direct contact in crowded living conditions. Although around 1.6 million cases of sexually transmitted Chlamydia trachomatis are reported annually in the United States, trachoma is extremely rare in the USA. Cough Cough is a reflex that can be voluntary or involuntary, involving a deep inhalation followed by a forced exhalation. It is triggered by the brain's cough center to clear mucus and solid particles from the airways. Various infections of the upper or lower respiratory tract can increase cough frequency. A productive cough expels mucus, which can be bloody, while a dry cough produces no mucus. A cough that lasts more than three weeks is considered subacute, and one lasting longer than eight weeks is classified as chronic. Patients with subacute or chronic cough should seek medical attention to determine the underlying cause and receive appropriate treatment.",
+          "page": 28
+        },
+        {
+          "type": "subheading",
+          "text": "Croup",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "It is a childhood illness caused by viral infections, especially parainfluenza virus, characterized by inflammation of the trachea and larynx, and marked by a barking (hoarse) cough. Affected children may also have a fever, runny nose, and sore throat. The symptoms worsen at night and may include difficulty breathing and swallowing. Croup is detected by physical examination and is treated supportively, with nebulizers and steroids (to open the airways), cough suppressants, and ventilation if necessary.",
+          "page": 28
+        },
+        {
+          "type": "subheading",
+          "text": "Fibrosis of the lung",
+          "page": 28
+        },
+        {
+          "type": "paragraph",
+          "text": "Fibrosis (scarring) in the lungs can occur after lung recovery from pneumonia or severe acute respiratory distress syndrome (ARDS). Inflammation in severely damaged lung tissue, including damage to the alveolar epithelium, activates lung myofibroblasts to secrete excessive collagen fibers. The scar results from improper healing of the lung involving excess fibrous (scar) tissue. Lung infections caused by many microbes, including SARS-CoV, influenza, Epstein-Barr virus, cytomegalovirus, HCV, Staphylococcus aureus, Mycobacterium tuberculosis, Propionibacterium acnes, and Pneumocystis jirovecii infection, may trigger lung fibrosis. Symptoms of the disease include persistent dry cough, shortness of breath, and fatigue. The disease is detected by physical examination and computed tomography (CT) scan (Fig. 14.20). The disease cannot be fully treated (the damage is irreversible) but can be managed to prevent further progression through supportive therapy.",
+          "page": 28
+        },
+        {
+          "type": "subheading",
+          "text": "Fungal ball",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "It is a form of mycetoma characterized by the noninvasive buildup of fungal hyphae in body cavities, especially the maxillary sinuses and lungs, primarily due to Aspergillus sp. infections (Fig. 14.21). The disease can be asymptomatic (in about 10% of cases) or present with symptoms such as yellow or greenish sputum, pressure on the jaw and eyeballs, and headaches. The condition can be diagnosed through microscopic examination of sputum, nasal endoscopy, and CT scans. Symptomatic cases are treated with surgery and postoperative therapies.",
+          "page": 29
+        },
+        {
+          "type": "subheading",
+          "text": "Influenza",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "It is a spectrum of diseases caused by human influenza viruses A, B, and C, as well as some zoonotic influenza viruses, especially those from birds and swine. Symptoms include high fever, sore throat, runny nose, cough, pneumonia, severe body and muscle pain, secondary bacterial infection of the lungs, a cytokine storm, and sepsis. The severity of the signs varies depending on the virus species and strain. The incubation period after contact is about 1-4 days, and symptoms last for about a week. The disease may cause mortality by leading to ARDS, pneumonia, cardiovascular complications, and encephalitis. Influenza is detected through signs of illness and RT-PCR testing using RNA extracted from a nasal swab. Treatment includes supportive therapy (rest, hydration, and fever management with non- aspirin drugs), while complicated cases and debilitated patients are treated with antiviral agents such as oseltamivir and zanamivir.",
+          "page": 29
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.21. Some diseases due to infections of the lungs and the upper respiratory tract. A. Fungal ball. Shown",
+          "page": 29,
+          "image": "/mmahp/ch14/14-21.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "is a chest radiograph displaying a fungal ball (Aspergilloma) in the upper left lung. Image: Denning DW, et al. CDC Emerging Infectious Diseases 2018; 24(8): https://wwwnc.cdc.gov/eid/article/24/8/17-1312-f1. B. Hydatid cysts in the lung. Shown is a chest radiograph displaying many well-defined cysts in both lungs. Image: Emlik D, et al. Current Topics in Echinococcosis 2015; DOI: 10.5772/60884. C. Nasopharyngeal carcinoma. Shown is a CT scan indicating the primary site. Image: Wikipedia.",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "With a multi-fragmented RNA genome and an error-prone RNA polymerase, influenza viruses are among the fastest- mutating viruses known, with many new strains emerging each year. Occasionally, avian and swine viruses are transmitted to humans, leading to antigenic shifts. An annual vaccine is recommended for vulnerable groups, such as children, adults aged 65 and older, and those with weakened immune systems. Despite these efforts, about 50 million flu cases occur each year in the United States, resulting in over 40,000 deaths. Vaccinated individuals are not completely protected but generally experience milder illness. Global pandemics caused by specific strains of influenza A have occurred in 1918-20, 1957-58, and 1968-69, killing an estimated 100 million, 1-2 million, and 1-4 million people, respectively. Influenza remains a constant occupational hazard for healthcare workers. Proper and frequent handwashing, wearing and regularly cleaning appropriate garments, annual vaccination, and the use of face masks can help reduce the risk of influenza infection. The economic burden of influenza in the United States is about $29 billion. Metastatic hydatid cysts in the lung It is a rare hydatid cyst disease caused by the larvae of Echinococcus multilocularis. It primarily develops in the liver and the lungs. Unlike typical hydatid cysts (caused by the larvae of E. granulosus), metastatic hydatid cysts are not fluid-filled pressure chambers; they lack a capsule and grow like metastatic tumors. The disease is endemic in the northern hemisphere, including China, Siberia, Central Europe, and North America, where about 10,000 cases are reported annually. The disease is detected by a CT scan (Fig. 14.21) and treated by surgery and albendazole. Nasopharyngeal carcinoma (NPC) It is categorized as a head and neck cancer and is associated with Epstein-Barr virus (EBV) infection. The virus persistently (latently) infects B lymphocytes in people exposed to it or who have survived infectious mononucleosis. However, NPC is a cancer of epithelial cells (not a B cell cancer). The disease symptoms include painless lumps in the neck, nose bleeding, and facial pain (Fig. 14.21). The disease is diagnosed by physical examination, needle biopsy of the lump, CT scan, and history of EBV infection. The disease is treated with chemo/radiotherapy and immunochemotherapy. The disease is endemic in South-East Asia, Southern China, and North Africa, where about 120,000 cases are reported every year.",
+          "page": 29
+        },
+        {
+          "type": "paragraph",
+          "text": "Ocular larva migrans (toxocariasis and loiasis) Accidental ingestion of cat or dog feces contaminated with eggs of the nematode worms of the genus Toxocara initiates toxocariasis. The egg hatches in the intestine, and the larvae penetrate the intestinal wall and enter the bloodstream. African eyeworm (Loa loa) larvae enter the human body through the bite of a deerfly. The larvae can migrate to various parts of the body, causing different signs of disease (for example, meningitis if they migrate to the brain). The larva may migrate to the eye, causing signs such as vision loss, misalignment, white spots in the pupil, and inflammation (Fig. 14.22). The disease can be diagnosed through an eye examination and a blood test (to check for an elevated eosinophil count). The disease is treated with albendazole (for toxocariasis) and diethylcarbamazine (for loiasis), if needed, along with supportive therapy such as corticosteroids to suppress inflammation. With approximately 150 million cats and dogs, toxocariasis is quite common in the United States. About 10% of the population is seropositive for the parasite, although the number of reported cases of ocular larva migrans remains negligible. About 15 million people in central and western Africa are infected with L. loa. Travelers from other parts of the world (including the United States) to this endemic range of the worm occasionally are diagnosed with the disease.",
+          "page": 30
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.22. Some diseases resulting from eye and ear infections. A. Ocular loiasis. Shown is a photograph of the",
+          "page": 30,
+          "image": "/mmahp/ch14/14-22.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "eye, revealing a migrating nematode. Image: Tat IAP, Pascual-Camps I. Romanian J Opthalmolog. 2019; 63(2): 184- 187. DOI:10.22336/rjo.2019.28. B. Otitis media. Diagrams showing the structure of the middle ear. An uninfected control (left) and an infected (right) middle ear are presented for comparison. Note the fluid accumulation, inflammation, and obstruction of the Eustachian canal of the inflamed middle ear. C. An otoscope is used to examine the eardrum. Image courtesy: Servier Medical Art. D. Conditions of the eardrum with inflammation, effusion under, and perforation of the eardrum as viewed through an otoscope. Image source: www.utmem.edu/.",
+          "page": 30
+        },
+        {
+          "type": "subheading",
+          "text": "Otitis externa and otitis media",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "Outer ear infections (otitis externa, or swimmer's ear) are primarily caused by Staphylococcus aureus and Pseudomonas aeruginosa. External ear injury and moisture in the ear canal help initiate infections. The disease signs include pain, swelling, and drainage from open wounds (Fig. 14.22). Middle ear infection (otitis media) begins when oral microbes (including about 60 bacterial species, such as Streptococcus pneumoniae, Haemophilus influenzae, and Moraxella catarrhalis, as well as some viruses that cause the common cold) enter the middle ear via the Eustachian tube. Inflammation following the infection closes the Eustachian canal, creating an anaerobic environment where some bacteria grow rapidly and release gases. Accumulated gases can cause painful pressure and rupture the eardrum. Bottle-fed children are among the most vulnerable groups to otitis media.",
+          "page": 30
+        },
+        {
+          "type": "paragraph",
+          "text": "An ear infection can be diagnosed based on the patient’s history and an ear examination with an otoscope (Fig. 14.22). Some ear infections resolve spontaneously and can be cared for with pain management; however, bacterial infections may require oral antibiotic therapy. A ruptured eardrum usually heals after the infection is controlled. Some children develop recurrent otitis media, requiring an ear tube to be inserted into the eardrum.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Otitis is extremely common in the United States. The incidence rates for otitis externa and media are 123 and 60.5 per 1000 people. Children aged 5-12 years are most vulnerable to otitis externa, and those aged 6-24 months are more prone to otitis media. Proper swimming training may reduce the risk of otitis externa, while breastfeeding and feeding infants and children in a sitting position (and not lying on the bed) may reduce the risk of otitis media. Pneumonia and pneumonitis Pneumonia is an inflammation of the alveoli that causes fluid buildup and impairs gas exchange. Pneumonitis is inflammation of the alveoli (pneumonia-like symptoms) due to noninfectious factors. It can occur due to inhalation of dust, mold, type I hypersensitivity reactions, and radiation therapy. The typical symptoms of pneumonia are caused by bacteria such as Streptococcus pneumoniae, Staphylococcus aureus, Hemophilus influenzae, Klebsiella pneumoniae, Pseudomonas aeruginosa, and S. agalactiae. Yersinia pestis causes pneumonic plague, pneumonia with sudden high fever, chest pain, and shortness of breath. Mycobacterium tuberculosis and M. avium complex, and the fungus Pneumocystis jirovecii may also cause pneumonia among debilitated patients. These symptoms include fever, a productive cough, shortness of breath, chest pain, and severe fatigue. The severity of the disease depends on how much lung tissue is affected. Patients can transmit the disease agent via aerosols and thus require isolation. Diagnosis can be made through physical examination, chest X-ray, and blood tests. Pneumonia is usually treated with antibiotics. Patients also need rest and supportive care, such as hydration, ventilation if needed, and fever control. Patients who recover, particularly those infected with K. pneumoniae, may experience lasting lung damage.",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Pneumonia caused by Mycoplasma pneumoniae, Chlamydophila pneumoniae, Legionella pneumophila, some fungi, and some viruses (including respiratory syncytial virus, influenza virus, and some strains of coronaviruses) is called atypical pneumonia, because the disease shows less severe symptoms, such as low-grade fever, non-productive cough, headache, and less accumulation of fluid in the lung. Diagnosis and treatment of the disease are the same as those for typical pneumonia. Note that incapacitated patients may develop pneumonia from saliva flooding the lungs. Pneumonia is common in the United States, with about 1.5 million cases each year and roughly 50,000 deaths. Childhood pneumonia has been significantly reduced in the USA because of the effective vaccines for S. pneumoniae and H. influenzae. At present, elderly people (65 or older) are the most vulnerable group.",
+          "page": 31
+        },
+        {
+          "type": "subheading",
+          "text": "Respiratory anthrax",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Inhalation of Bacillus anthracis endospores is necessary for the disease to develop. The endospores germinate in the lung, and the resulting vegetative bacteria secrete exotoxins. The exotoxins LTx and ETx cause pneumonia by activating adenyl cyclase and raising cAMP levels in lung epithelial cells. Symptoms include fever, cough, shortness of breath, and shock. The mortality rate can be up to 85%, mainly due to delays in diagnosis and treatment. The disease can be treated with antibiotics like doxycycline or levofloxacin and supportive care. People involved in farming, wool processing, and handling animal bones are at higher risk of respiratory anthrax. B. anthracis endospore has been weaponized by several countries and has been used in bioterrorism in the USA and Japan. An effective vaccine is available but is only administered to special individuals.",
+          "page": 31
+        },
+        {
+          "type": "subheading",
+          "text": "Retinitis",
+          "page": 31
+        },
+        {
+          "type": "paragraph",
+          "text": "Retinitis caused by infections involves inflammation of the retina due to viruses (such as cytomegalovirus, Fig. 14.23), bacteria (such as Borrelia sp.), and parasites (such as Toxoplasma gondii). Signs of the disease include patients experiencing light flashes, blurred vision, and vision loss, especially at night. The condition is usually diagnosed based on symptoms and eye examination and treated with antimicrobial agents and supportive therapies (such as vitamin A therapy, anti-inflammatory treatment, and eyeglasses).",
+          "page": 31
+        },
+        {
+          "type": "subheading",
+          "text": "Scarlet fever",
+          "page": 32
+        },
+        {
+          "type": "paragraph",
+          "text": "The disease is caused by the erythrogenic toxin of Streptococcus pyogenes and is characterized by pink skin (Fig. 14.23). Affected individuals (mostly children 5-15 years) also experience sore throat, inflamed tongue (strawberry tongue), fever, and body aches. Scarlett fever is diagnosed based on clinical signs and a throat culture and is treated with oral antibiotics. If left untreated, it can lead to severe complications such as throat abscess and rheumatic fever (involving joint and heart diseases). S. pyogenes infection kills about 500,000 people globally. About 15-30% of the children in the USA get S. pyogenes infection every year.",
+          "page": 32
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.23. Some diseases caused by infection of the eye and the upper respiratory tract. A. Photograph of the",
+          "page": 32,
+          "image": "/mmahp/ch14/14-23.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "retina of the eye infected by the cytomegalovirus showing inflammation of the retina. Image: Wikipedia. B. Sinusitis. Shown is a coronal tomographic image of the nasal sinuses of a person. The opacity (indicated by the arrow) is consistent with sinusitis. The deep dark chambers are not affected. Image: Eggesbo HB. IntechOpen. 2020. DOI: 10.5772/intechopen.90773. C. Tonsillitis and sore throat. Note the redness of the tonsils and the uvula. Image: CDC- PHIL. D. Scarlet fever. Shown is a photograph of a female with massive erythema on the skin of the chest and abdomen. Image: CDC-PHIL.",
+          "page": 32
+        },
+        {
+          "type": "subheading",
+          "text": "Sinusitis",
+          "page": 32
+        },
+        {
+          "type": "paragraph",
+          "text": "Sinusitis is inflammation of the nasal sinuses caused by viral (usually rhinovirus, parainfluenza virus, or influenza virus), or bacterial (mainly Streptococcus pneumoniae, Haemophilus influenzae, or Moraxella catarrhalis) infections. Allergies are also associated with sinusitis. Infection-related sinusitis involves closing the sinus tubes. The symptoms include nasal and forehead pain, pressure, nasal congestion, headache, postnasal drip, gum pain, bad breath, sore throat, and fever. The disease is diagnosed based on symptoms, nasal endoscopy, and CT scan (Fig. 14.23), and treated with nasal corticosteroids and decongestants. Antibiotics are used if a bacterial infection is involved or if the symptoms last longer than ten days. The condition is considered chronic if it lingers for more than 12 weeks and repeats frequently. Sinusitis is a major public health problem in the United States, affecting 12% of the population annually, costing some $12 billion dollars, including about $3 billion in direct drug costs.",
+          "page": 32
+        },
+        {
+          "type": "paragraph",
+          "text": "Tonsillitis, pharyngitis, laryngitis, and epiglottitis These diseases are inflammation of the throat (pharynx), the voice box (larynx), and the epiglottis, respectively (Fig. 14.23), caused mainly by viruses (mainly adenovirus, rhinovirus, influenza virus, or coronaviruses) and a few bacterial species, particularly Streptococcus pyogenes. The signs of tonsillitis, pharyngitis, and epiglottitis include redness, swelling of the tonsils, and painful swallowing. The signs of laryngitis include a drastic change in the voice (hoarseness) and a temporary inability to vocalize. Additional signs include fever, swelling of the lymph nodes in the neck, pink eye, breathing difficulties, and cough. The conditions are diagnosed by physical examination and throat culture. Since most cases are viral infections, treatment includes rest and supportive therapy. Breathing difficulty requires ventilation. To rule out bacterial (Streptococcal) infection, a blood agar plate culture is performed, and the positive cases are treated with appropriate antibiotics. An untreated bacterial sore throat can lead to severe complications, such as scarlet fever, sepsis, and rheumatic fever. Children with repeated tonsillitis may require tonsillectomy. Pharyngitis accounts for 1-2% of doctors’ office visits in the United States. Children under 15 years old are among the most vulnerable group. Children having a full range of routine vaccinations are less prone to these diseases.",
+          "page": 32
+        },
+        {
+          "type": "subheading",
+          "text": "Tuberculosis",
+          "page": 33
+        },
+        {
+          "type": "paragraph",
+          "text": "The disease, caused by Mycobacterium tuberculosis, may affect various tissues, but the lung is the primary target, where the bacterium causes granuloma. About 5% of the patients who contract the germ develop clinical tuberculosis (TB) within two years, showing signs such as night sweats, fever, weight loss, fatigue, body pain, and coughing that yields sputum with pus and blood. About 90% of the patients develop latent TB (LTBI), showing no disease signs for many years. Active TB may develop later in life in many patients with LTBI, particularly patients with immunosuppression. Patients with poor cell-mediated immunity may develop disseminated TB affecting multiple organs, including the skin and brain. On the other hand, heavily infected patients with good cell-mediated immunity may develop autoimmune diseases such as arthritis, vasculitis, and erythema. TB is detected by microscopic examination of sputum, PCR of DNA extracted from sputum, and chest X-ray (Fig. 14.24). The tuberculin skin test can also be used, but positive test results do not indicate whether the patient has active TB; rather, they indicate that the subject had TB in the past or has LTBI.",
+          "page": 33
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 14.24. Some lung diseases caused by infections. A. Tuberculosis. Shown is a chest X-ray indicating TB lesions",
+          "page": 33,
+          "image": "/mmahp/ch14/14-24.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "in both lungs (indicated by the arrowheads). Image: Wikipedia. B. Relative abundance of DS-, DR-, MDR-, and XDR- TB. About 10% of TB cases are DR-TB, and 3-4% are MDR-TB. 5-8% of the MDR TB can be XDR TB. C. A child with a paroxysmal cough due to infection by B. pertussis. Image: Wikipedia.",
+          "page": 33
+        },
+        {
+          "type": "paragraph",
+          "text": "TB is treated with combination antibiotic therapy for about six months. TB that responds to the first-line antibiotics (isoniazid, rifampicin, pyrazinamide, ethambutol) is drug-sensitive TB (DS-TB, see Fig. 14.24). TB resistant to one of these drugs is considered drug-resistant TB (DR-TB). Multidrug-resistant TB (MDR TB) is resistant to isoniazid and rifampin, and extensively drug-resistant TB (XDR TB) is resistant to isoniazid and rifampin, fluoroquinolone, and at least one of the three injectable second-line drugs (i.e., amikacin, kanamycin, or capreomycin). Patients with such a disease are isolated and treated with antibiotics after conducting an antibiogram. These antibiotics are toxic, and many patients cannot tolerate them and become non-compliant. For them, direct observation therapy is administered, where a person witnesses the patient taking the pills. TB is one of the most severe global public health problems, with about 25% of the population infected, 11 million new cases, and 1.2 million deaths every year. TB is less common (about 10,000 new cases per year) in the United States.",
+          "page": 33
+        },
+        {
+          "type": "subheading",
+          "text": "Whooping cough",
+          "page": 33
+        },
+        {
+          "type": "paragraph",
+          "text": "It is a contagious, mostly childhood disease caused by Bordetella pertussis and some related species that produce pertussis toxin (a type III exotoxin). The pathogens enter the lungs, destroy the cilia of epithelial cells, and then release the exotoxin. The disease signs during the first couple of weeks include cold-like symptoms followed by the paroxysmal stage. During this stage, the A subunit of the A-B5-type toxin (ultimately) activates adenylyl cyclase in epithelial cells, leading to excessive, thick mucus secretion. The bacterium also causes an excessive accumulation of leukocytes in the airways. The thick mucus triggers violent coughing that expels all air from the lungs and may last up to 2 minutes per episode (paroxysms) for several weeks (Fig. 14.24). During paroxysms, children cannot breathe, which reduces oxygen levels in the brain. After the ~2-minute paroxysms, the child struggles to rapidly inhale, which makes a whopping (loud gasping) noise, giving the name of the disease. Repeated coughing, especially at night, can make children get exhausted and may cause seizures, brain damage, and death. The disease can be detected from disease signs and PCR of DNA extracted from a nasal swab, and treated with common antibiotics (erythromycin, etc.). Antibodies to neutralize the pertussis toxin in the affected patients have yet to be developed. Since the disease is caused by an exotoxin rather than the bacterium, early treatment prevents the development of damaging disease signs. The highly effective vaccine (DTaP and Tdap) has reduced whooping cough to about a million cases globally (including 35,000 in the USA), but recently the number of cases has been on the upswing. Recently, older children and elderly people have been getting whooping cough, because the whooping cough vaccine does not provide lifelong immunity. Although infection in older people is less damaging, they are advised to receive the vaccine.",
+          "page": 33
+        }
+      ],
+      "slides": []
+    }
+  ],
+  "unmatchedSlides": []
+}

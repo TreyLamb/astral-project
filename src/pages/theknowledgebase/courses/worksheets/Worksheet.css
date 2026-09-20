@@ -223,3 +223,61 @@
   font-weight: 800;
   font-size: 1rem;
 }
+
+/* --- answer key reveal (session-only toggle, see WorksheetViewer.jsx) --- */
+
+.wks-header-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.wks-chapter-select {
+  background: var(--tkb-surface);
+  border: 1px solid var(--tkb-border);
+  color: var(--tkb-ink);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+/* A solid fill, not just a colored ring - the ring is already used for the student's own
+   "circled" mark (.wks-mark-circle), so the answer key needs a visually distinct treatment to
+   avoid reading as "you picked this one" when it's actually "this is the correct one." */
+.wks-letter.wks-correct-answer {
+  background: var(--wks-green);
+  color: #fff;
+  border-color: var(--wks-green);
+}
+.wks-letter.wks-correct-answer.wks-mark-x::before,
+.wks-letter.wks-correct-answer.wks-mark-x::after {
+  background: #fff;
+}
+
+.wks-answer-note {
+  margin-top: 0.4rem;
+  padding-top: 0.4rem;
+  border-top: 1px dashed var(--wks-rule);
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--tkb-ink-soft);
+}
+.wks-answer-note strong {
+  color: var(--wks-green);
+}
+.wks-derived-tag {
+  display: inline-block;
+  margin-left: 0.4rem;
+  font-size: 0.72rem;
+  font-style: italic;
+  opacity: 0.75;
+}
+.wks-official-tag {
+  display: inline-block;
+  margin-left: 0.4rem;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--wks-green);
+  opacity: 0.9;
+}

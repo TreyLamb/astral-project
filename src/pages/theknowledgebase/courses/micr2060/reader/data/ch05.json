@@ -1,0 +1,1499 @@
+{
+  "id": "ch05",
+  "number": 5,
+  "title": "Microbial Metabolism II: Biosynthetic Reactions",
+  "lead": "of the Cell Biosynthesis (or anabolism) is the ability of the cell to synthesize larger molecules from smaller ones and reorganize a molecule to create the needed molecule. Anabolic activities can be grouped into four categories: (i) carbon and nitrogen fixation (i.e. attaching C and N atoms from atmospheric CO2 and N2 to organic compounds), (ii) acquisition of other macronutrients such as phosphorus and sulfur, (iii) synthesis of precursor organic molecules such as fatty acids, amino acids, simple sugars and nucleotides, and (iv) synthesis of macromolecules such as lipids, polysaccharides, nucleic acids, and proteins. The spectrum of synthetic capabilities of the microbes is enormous. Even an elementary discussion of all these reaction types could take many volumes. Here, we will briefly discuss the fundamental anabolic reactions, except for nucleic acid and protein synthesis, which we will present in some detail.",
+  "openstaxEquivalent": "OpenStax Microbiology 2nd Ed. Chapter 10",
+  "sources": {
+    "chapterPdf": "5 Micrbail Metabolism Reactions.pdf",
+    "pptPdf": "MICR 2060 MMAHP Lecture 5.pdf"
+  },
+  "sections": [
+    {
+      "number": "5.1",
+      "heading": "Acquisition of the major macronutrients",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A nutrient is a chemical substance made of one or more elements that the cell needs to live and grow. Of the 25 essential elements, the cell needs C, N, S, and P in large quantities. Microbes acquire these macronutrients in various ways. We will mention only the major acquisition processes. Noite that pathogenic microbes obtain almost all their nutrients from the host body.",
+          "page": 1
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 1,
+          "title": "The Four Major biosynthesis pathways",
+          "bullets": [
+            "Carbon and nitrogen fixation",
+            "Acquisition of other macronutrients such as phosphorus and",
+            "Synthesis of precursor organic molecules",
+            "fatty acids",
+            "amino acids",
+            "simple sugars",
+            "nucleotides",
+            "Synthesis of macromolecules",
+            "Lipids",
+            "Polysaccharides",
+            "Nucleic acids",
+            "proteins."
+          ]
+        }
+      ]
+    },
+    {
+      "number": "5.1.1",
+      "heading": "Carbon fixation and acquisition",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Carbon is needed for the synthesis of all organic compounds of the cell. The principal carbon source, CO2, is abundant, accounting for 0.04% of the air and 0.001% of water (by volume). However, CO2 is a stable, low-energy compound. Only chloroplasts and some photosynthetic bacteria acquire CO2 from air or water. These organisms are called autotrophs (self-feeders). All other creatures, called heterotrophs (feed on others), obtain carbon from autotrophs and other heterotrophs, as decomposers, parasites, and predators. Green plants and algae are autotrophs because they have chloroplasts in their cells.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "The process of converting CO2 into organic compounds is carbon fixation, where a CO2 molecule is attached to an existing organic molecule. For simplicity, we will discuss how chloroplasts and cyanobacteria fix carbon. Coroplasts attach CO2 to the pentose, ribulose bisphosphate (RuBP). This reaction is catalyzed by an enzyme named RuBisCo; and the metabolic pathway is known as the Calvin cycle. The resulting 6-carbon compound is unstable; it breaks down to two molecules of glycaldehyde-PO4 (G3P). Some G3P molecules are removed to synthesize other carbon compounds, including glucose, fatty acids, and amino acids. Other G3P molecules are used to regenerate RuBP through a series of highly energy-consuming (endergonic) reactions in the Calvin Cycle (Fig. 5.1). Since only one C atom is fixed through every round of the Calvin cycle, it takes six cycles to produce one molecule of glucose. The overall reaction of glucose synthesis through the Calvin cycle can be presented as follows: 6CO2 + 18ATP + 12NADPH+H+ + 12H+ à Glucose + 18ADP + 16PO4 + 12NADP+ Note the high energy cost (18 ATPs and 12 NADPH to synthesize one molecule of glucose) of carbon fixation. The ATPs and NADPH+H+ come from the light-dependent reactions of photosynthesis. Note that water is not a reactant in photosynthesis, although you often see the reaction written as 6CO2 +H2O à C6H12O6 (i.e., glucose). The reason for writing the reaction this way is that the electrons ultimately come from water molecules, as discussed in the next section.",
+          "page": 1
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.1. A simplified presentation of the Calvin cycle. Shown is the synthesis of one extra G3P through three cycles.",
+          "page": 2,
+          "image": "/mmahp/ch05/5-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "CO2 is initially attached to RuBP by the enzyme RuBisCo. The resulting 6-carbon compound breaks into two G3Ps. The G3Ps are either used to recover RuBP or removed from the cycle to synthesize other organic molecules. Photosynthesis Photosynthesis is a chemical process that uses light energy to extract electrons for synthesizing reducing power (i.e., NADPH+H+) and ATP. These reactions require visible light with wavelengths of 400-750 nm and are collectively called the light-dependent reactions. Once NADPH+H+ and ATP are generated, they can drive endergonic reactions in light or in darkness. These latter reactions are called light-independent reactions, which include the Calvin cycle, described in the previous section.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Light (i.e., energy of photons) is harvested by various pigments in the thylakoid membranes of chloroplasts and cyanobacteria. The pigments are water-insoluble (or soluble) organic compounds, such as chlorophylls, phycobilin, phycoerythrin, phycocyanin, and carotenoids. They bind proteins and form light-harvesting antennae. The antennae are part of a larger structure known as the photosystems. Chloroplasts and cyanobacteria have two types of reaction centers, photosystem I and II (Fig. 5.2). Photosystems also have a reaction center with various pigments, including a special pair of chlorophyll a.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "When exposed, the pigments of the antennae absorb light energy and channel it to the reaction centers. The rush of the light energy causes two special chlorophyll a molecules in the reaction center to release electrons. The electrons released by photosystem I pass through an electron transport system and are ultimately transferred to NADP+ to generate NADPH+H+ (Fig. 5.3). The electrons released by photosystem II pass through an electron transport system that pumps protons across the thylakoid membrane, creating a proton gradient. These electrons are ultimately transferred to the oxidized chlorophylls of photosystem I. The FoF1 ATP synthases in the thylakoid membrane use the proton gradient to synthesize ATPs using the reaction ADP + PO4 à ATP (Fig. 5.2). The NADH+H+ and ATP created by the process derive the Calvin cycle and many other biosynthetic reactions.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "When chlorophyll a releases electron, they are oxidized. They must be reduced (regain electrons) for the process to continue. The oxidized chlorophyll a of photosystem I gains electrons released by the Chlorophyll a of photosystem II. The oxidized chlorophyll a of photosystem II gains electrons extracted from water molecules. An enzyme, water- plastoquinone oxidoreductase (WPO), of the photosystem II splits water to release electrons and molecular oxygen. 2H2O à 4H+ + 4e- + O2 Several groups of bacteria, including purple sulfur bacteria (example, Allochromatium vinosum), green sulfur bacteria (example, Chlorobium limicola), and some non-sulfur purple and non-sulfur green bacteria, conduct photosynthesis, but they do not split water or release oxygen. Life evolved in the primitive Earth that lacked any molecular oxygen. Every molecule of oxygen in the atmosphere and dissolved in water today is a product of photosynthesis by cyanobacteria and chloroplasts.",
+          "page": 2
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.2. The light phase reactions of photosynthesis in chloroplasts (and cyanobacteria). A. Diagram of a",
+          "page": 3,
+          "image": "/mmahp/ch05/5-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "chloroplast to show the membranes, matrix, and thylakoids. B. Electron transport during the light-dependent reactions of photosynthesis. Electrons released by PS I are donated to NADP+ to generate NADPH. The electrons lost by PS I are replenished by the electrons released by PS II. The electrons released by PSII are transported through an electron transport chain, and the process also contributes to generating a proton gradient. Electrons lost by PS II are replenished by electrons generated from water by water-plastoquinone oxidoreductase (shown here as oxygen-evolving complex). Water splitting also generates a proton gradient. The proton gradient is employed by the F0F1 ATP synthase in generating ATP. The ATP and NADPH+H+ thus generated are used in the dark phase reactions of the Calvin cycle. Image from Wikipedia.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "The mechanisms of bacterial photosynthesis are quite diverse and beyond the scope of this book. Note that the Calvin cycle is not the only way to fix carbon. Some photosynthetic bacteria fix carbon by the reverse Krebs cycle and the reductive pentose phosphate pathway. Irrespective of the pathways, water does not directly react with CO2 to synthesize glucose; rather, it provides electrons for ATP and NADPH+H+ synthesis, which then drive carbon fixation. Overall, photosynthetic bacteria and chloroplasts harvest about 2 × 1021 kcal of energy per year, about 0.2% of the solar energy received by Earth, to synthesize 100-200 billion tons of organic compounds, which sustains life on Earth.",
+          "page": 3
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 2,
+          "title": "Carbon fixation",
+          "bullets": [
+            "Attaching CO2 to an existing organic molecule",
+            "3 CO2 + 3RuBp à (Rubisco) à 6G3P +3 RuBp",
+            "3 CO2 + 9 ATP + 6 NADPH + 6 H+ à G3P + 9 ADP + 8 PO4 + 6 NADP+",
+            "Electrons are needed to generate ATP and NADPH",
+            "Organisms capable of doing it (photosynthetic organisms)",
+            "Chemolithotrophs",
+            "Electrons come from inorganic chemicals other than water (i.e., from H2S etc.)",
+            "Examples: purple sulfur bacteria, green sulfur bacteria",
+            "Chemoorganotrophs",
+            "Electrons come from organic compounds",
+            "Example- purple non-sulfur bacteria and the green-non-sulfur bacteria",
+            "Photoautotrophs",
+            "Electrons come from water, examples: Cyanobacteria and chloroplasts"
+          ]
+        },
+        {
+          "slideIndex": 3,
+          "title": "Photosynthesis",
+          "bullets": [
+            "Light-independent reactions",
+            "Using ATP and NADPH to attach",
+            "Light-dependent reactions",
+            "Extracting elections from",
+            "Using the electrons to synthesis"
+          ]
+        },
+        {
+          "slideIndex": 4,
+          "title": "Light-dependent reactions (LDR) in cyanobacteria and chloroplasts",
+          "bullets": [
+            "Chlorophyll a",
+            "Photosystem I and reaction",
+            "P700 and Synthesis of NADPH",
+            "Photosystem II and reaction",
+            "ETC",
+            "Creation of proton gradient",
+            "ATP synthesis by F0-F1 ATP synthase",
+            "Water splitting by water-"
+          ]
+        },
+        {
+          "slideIndex": 10,
+          "title": "Synthesis of amino acids",
+          "bullets": [
+            "Source of organic acids",
+            "Glycolytic pathway",
+            "Krebs cycle",
+            "Transamination",
+            "Essential amino acids",
+            "phenylalanine, valine,"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "5.1.2",
+      "heading": "Nitrogen acquisition",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The principal sources of nitrogen are atmospheric nitrogen (N2 gas, 78% of air by volume) and small amounts of nitrates (NO32-) found in the earth’s crust. Nitrates are soluble; thus, microbes and plants absorb them. Shortage of nitrates is a major cause of global hunger. Nitrogen gas is nonreactive. The energy of lightning causes nitrogen to react with oxygen to generate small amounts of nitrogen oxides, which then react with water to generate nitrates. Nitrogen fixation Nitrogen-fixing bacteria (also called diazotrophs), including free-living bacteria (such the genera Azotobacter and Clostridium), root-associated bacteria (such as genus Azospirillum), endophytic root nodule bacteria (such as the genus Rhizobium Fig. 5.3), and some cyanobacteria (for example, Anabaena azollae and Nostoc commune), have enzymes called nitrogenases that activate nitrogen gas, causing it to react with hydrogen to generate absorbable nitrogen compounds such as ammonia (NH3). This process, called nitrogen fixation, supplies the highest amount of absorbable nitrogen in the biosphere. The reaction can be presented as follows: N2 + 8H+ + 8e- + 16ATP à 2NH3 + H2 + 16ADP + 16 PO4 Note the high energy cost of nitrogen fixation. The cell attaches ammonia to glutamic acid to produce glutamine. Ammonia and glutamine serve as the major nitrogen donors in the cell (Fig. 5.3). Bacteria and archaea synthesize about 200-300 million tons of absorbable nitrogen compounds per year. However, it is not sufficient to support the current global population. To meet global demand, an additional 85 million tons of ammonia are produced each year industrially by the Haber-Bosch process (i.e., N2 + 3H2 à 2NH3).",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.3. Root nodule symbiotic bacteria. A. Root system of a legume plant showing extensive root nodules. Photo",
+          "page": 4,
+          "image": "/mmahp/ch05/5-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "courtesy: Wikipedia. B. Photomicrograph of a section of a root nodule showing the presence of Rhizobium sp., a symbiotic bacterium, inside the nodule. Photo courtesy: the University of Hawaii at Manoa. C. Synthesis of glutamine from glutamic acid and ammonia.",
+          "page": 4
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 5,
+          "title": "Nitrogen fixation",
+          "bullets": [
+            "Nitrogen sources",
+            "Atmospheric N2",
+            "Nitrates in the soil and water",
+            "N2-fixing: Diazotrophs",
+            "N2 + 8H+ + 8e- + 16ATP à 2NH3 + H2 +",
+            "Free-living bacteria (Azotobacter,",
+            "Associative bacteria (Azospirillum)",
+            "Root nodule bacteria (Rhizobium)",
+            "The Heber-Bosch process",
+            "Nitrification",
+            "NH3 à NO2 à NO3",
+            "Nitrogen donors of the cell (NH3 and"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "5.1.3",
+      "heading": "Sulfur acquisition",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Sulfur in the soil exists as organic sulfate esters (R-O-SO3-) and sulfonates (R-SO2-OH). Some environments also provide hydrogen sulfide (H2S) and other sulfides (including FeS). Bacteria (and fungi) release enzymes such as sulfatases and monooxygenases into the soil. These enzymes cause the release of dissolved sulfate (-SO4-2) ions from sulfur compounds. Bacteria, fungi, and plants absorb soluble sulfate ions. Other organisms obtain sulfur from food and decomposed organic materials (i.e., proteins and proteoglycans). Sulfur is abundant in the Earth's crust and is not a limiting factor.",
+          "page": 4
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 6,
+          "title": "Sulfur acquisition",
+          "bullets": [
+            "Sulfur sources",
+            "Organic sulfate esters and",
+            "H2S, molecular sulfur",
+            "Bacterial sulfatases and",
+            "Activation of sulfate ions",
+            "ATP +-SO4-2 à APS + O3P-O-PO3",
+            "Sulfur donors of the cell",
+            "L-cysteine"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "5.1.4",
+      "heading": "Phosphate acquisition",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Phosphates in soil exist as organic compounds such as phytic acid (Fig. 5.4) and as inorganic phosphates, such as apatite (Ca5(PO4)3FClOH) and saltpeter (KNO3) ores. Some inorganic phosphates, such as Ca3(PO4)2 and apatite, are insoluble in water. Soil bacteria release organic acids and enzymes (such as phosphatases) to dissolve and mobilize phosphate ions. Bacteria and plants absorb soluble phosphate ions in the soil and water. Other organisms obtain phosphates mostly from food and decomposed organic materials (nucleic acids). Phosphates are not plentiful in earth crust. Phosphates precipitate in seawater, making them unavailable to land organisms. Large deposits of sea bird droppings (guano) are excellent sources of nitrogen and phosphorus.",
+          "page": 4
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.4. Some sulfur and phosphate sources. A. Sulfide-rich mud volcano in the Yellowstone National Park. Image:",
+          "page": 4,
+          "image": "/mmahp/ch05/5-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "National Park Service. B. An apatite mine in Finland. Image- Wikipedia. C. Phytic acid (inositol penta-phosphate) is a component of seeds and a major form of organic phosphate in soil and compost.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Other elements",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacteria and plants may absorb other elements, including Na, K, Ca, Fe, Cu, Zn, Ni, Se, Cl, and I ions dissolved in water. Other organisms obtain the elements mostly from food or decomposed organic materials.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Absorbable nutrients are not always plentiful in the earth crusts. They are recycled through geological, chemical, and biological processes to sustain life. Microbes play a big role in this cycling (see Chapter 15).",
+          "page": 4
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 7,
+          "title": "Acquisition of Phosphate and other minerals",
+          "bullets": [
+            "Phosphate sources",
+            "Inositol hexaphosphate (i.e., phytic",
+            "Phosphate rocks",
+            "Bacterial phosphatases",
+            "Bacterial volutin granules",
+            "Phosphate donors of the cell",
+            "ATP",
+            "Acquisition of other minerals",
+            "Na, K, Ca, Fe, Cu, Zn, Ni, Se, Cl, I"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "5.2",
+      "heading": "Synthesis of precursors and template-independent macromolecules",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The cells of prototrophic organisms contain genes that encode enzymes that synthesize all necessary precursor molecules, including fatty acids, monosaccharides, amino acids, nucleotides, and vitamins, using inorganic and organic compounds acquired from the environment. Many environmental bacteria, including Pseudomonas aeruginosa, some archaea, and green plants, are prototrophs. However, most organisms, including humans, are auxotrophs, because they are incapable of synthesizing some precursor organic compounds. For example, human cells cannot synthesize 9 of the 20 amino acids required for protein synthesis.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Auxotrophs lack certain genes or have mutated versions of them. Auxotrophs must absorb the required organic compounds from food. This makes organisms interdependent in natural environments, forming prey-predator, host- parasite, and other symbiotic relationships. Host dependence often allows parasites to lose many genes, rendering them obligate endosymbionts. Microbiologists use knowledge of microbes' biosynthetic abilities and limitations to control microbial growth and generate products and services. However, the scope of microbial biosynthesis is vast. Here we will present a few examples of bacterial (i.e., E. coli) biosynthetic reactions.",
+          "page": 5
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 8,
+          "title": "Synthesis of precursors and macromolecules",
+          "bullets": [
+            "Prototroph vs. auxotroph",
+            "Metabolic interdependence",
+            "Precursor molecules vs. macromolecules",
+            "Monomers and polymers",
+            "Major precursor molecules",
+            "Fatty acids, sugars, amino acids, nucleotides",
+            "Macromolecules",
+            "Template independent (lipids and",
+            "Template dependent (nucleic acids and"
+          ]
+        },
+        {
+          "slideIndex": 11,
+          "title": "Synthesis of nucleotides",
+          "bullets": [
+            "Raw materials",
+            "Ribose, amino acids,",
+            "Pyrimidine nucleotides",
+            "UMP",
+            "UTP and CTP",
+            "Purine nucleotide",
+            "IMP",
+            "ATP, GTP",
+            "Synthesis of dTTP,"
+          ]
+        },
+        {
+          "slideIndex": 37,
+          "title": "Interfering with bacterial protein synthesis",
+          "bullets": [
+            "Binding 30S ribosome",
+            "tetracycline and",
+            "Binding 50S ribosome",
+            "chloramphenicol,",
+            "Use of agents that prevent",
+            "Lopinavir"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "5.2.1",
+      "heading": "Synthesis of precursor molecules",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Monosaccharides",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "The cell may interconvert trioses, tetroses, pentoses, hexoses, and heptoses (monosaccharides containing 3, 4, 5, 6, or 7 C atoms) through the pentose-phosphate pathway (see Chapter 4). Glucose, a centrally important nutrient, can also be synthesized from smaller organic compounds, including pyruvate, 3-phosphoglycerate, and propionyl-CoA, through a process called gluconeogenesis. Gluconeogenesis may involve carbon fixation (Fig. 5.5).",
+          "page": 5
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.5. Gluconeogenesis. The process usually uses pyruvate as the starting point. Other organic compounds, such",
+          "page": 5,
+          "image": "/mmahp/ch05/5-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "as amino acids and fatty acids containing odd numbers of carbon atoms, may also be used in gluconeogenesis. Amino acids Amino acids are synthesized mostly from carboxylic acids (R-COOH group). The Krebs cycle (Fig. 4.23) is a source of several organic acids. Some amino acids are synthesized by adding an –NH2 group to the organic acids. Ammonium ion or glutamine usually donates the –NH2 group (Fig. 5.6). The synthesis of some organic acids (such the ones with aromatic R group) is complicated and not described here.",
+          "page": 5
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.6 An example of biosynthesis of an amino acid from an organic acid. Shown here is the synthesis of glutamic",
+          "page": 6,
+          "image": "/mmahp/ch05/5-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "acid from alpha-ketoglutarate. The amine group is obtained from another amino acid, generally glutamine. A transaminase (enzyme) catalyzes the reaction.",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Nucleotides",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Nucleotide synthesis involves a complex set of chemical reactions. Initially, uridine monophosphate (UMP) and inosine monophosphate (IMP) are synthesized using ribose, amino acids, CO2, and ATP. Other nucleotides are synthesized from UMP and IMP as summarized in Fig. 5.7. Deoxyribonucleotides (dATP, dCTP, dGTP, and dTTP) are synthesized from ribonucleotides (ATP, GTP, CTP, and UTP, respectively) through a series of reactions (Fig. 5. .7), that require reduced thioredoxin (a protein) and a B vitamin (i.e., tetrahydrofolate, Fig. 4.10).",
+          "page": 6
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.7. Biosynthesis of the nucleotides. UMP is used in the synthesis of UTP and CTP (reactions 1-3). IMP is used",
+          "page": 6,
+          "image": "/mmahp/ch05/5-7.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "in the synthesis of AMP and GMP (reactions 4 and 5). Nucleotide diphosphates (NDPs) are synthesized from nucleotide monophosphates (NMPs) and ATP (reaction 1, for example). NDPs are oxidized to synthesize dNDP (reaction 6). Deoxynucleotide triphosphates (dNTPs) are synthesized using dNDPs) and ATP (reaction 7). dTMP is synthesized from dUMP. UDP is first converted to UMP (reaction 8) and then dUMP is converted to dTMP (reaction 9). Reaction 9 is indirectly inhibited by sulfa drugs and trimethoprim. dTTP is synthesized from dTMP and two ATPs (reaction 9).",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Fatty acids and lipids",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Fatty acids are synthesized from acetyl-CoA and malonyl-CoA. Acetyl-CoA is synthesized by removing a CO2 molecule from pyruvic acid (Fig. 4.23). Malonyl-CoA is synthesized from acetyl-CoA and CO2. The acetyl (CH3- COO) and malonyl groups (CO-CH2-CO-) are then transferred to a carrier protein named acyl carrier protein (ACP) to generate acetyl-ACP and malonyl-ACP, which are then used in a series of reactions to synthesize long-chain fatty acids (details not shown here). Fatty acids are initially generated as fully saturated molecules. Specific dehydrogenases (enzymes) remove a pair of hydrogen atoms from two adjacent carbons, producing unsaturated fatty acids (usually cis-unsaturated). Phospholipids and triglycerides are synthesized using fatty acids and glycerol or dihydroxyacetone phosphate. Most species synthesize the fatty acids and lipids they need. However, human cells cannot synthesize some unsaturated fatty acids (omega-6 and omega-3 fatty acids). Those are essential dietary fatty acids for humans. Polysaccharides Many varieties of polysaccharides, both linear and highly branched, exist. Here we will sketch the synthesis of glycogen and bacterial peptidoglycan. Nearly all cells synthesize glycogen, a highly branched polysaccharide that serves as the cells’ storage form of glucose. Glycogen is the homopolymer of D-glucose. To synthesize glycogen, glucose-PO4 is activated by forming a phosphate ester with UDP. The resulting product, UDP glucose, is attached to an existing glycogen polymer (Fig. 5.8).",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Glucose-1-PO4 + UTP à UDP-Glucose + O3P-O-PO3 Glycogen(n) + UDP-Glucose à Glycogen (n+1) + UDP Here, n is the number of glucose units in the glycogen molecules. The glucose molecules linked by α-(1-4) linkages form the linear portions of glycogen. To form a branch, a short linear section is removed and attached to a glucose residue in the middle of a linear portion of the glycogen molecule (Fig. 5.8) via an α1-6 glycosidic bond. Different enzymes catalyze the synthesis of α-(1-4) and α-(1-6) linkages. There are other glycosidic bonds found in polysaccharides not mentioned here.",
+          "page": 7
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.8. Glycogen synthesis. A. The general plan. An activated glucose entity (i.e., UDP-glucose) is attached to an",
+          "page": 7,
+          "image": "/mmahp/ch05/5-8.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "existing glycogen molecule via an alpha 1-4 glycosidic bond. Cellulose and starches are synthesized in a somewhat similar way. B. Structure of glycogen showing an alpha-1,6 glycosidic bond at the branch point. C. A schematic 2- dimensional diagram of a glycogen molecule formed around a protein core. The molecule may contain about 30,000 glucose units (indicated as black dots).",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Synthesis of bacterial cell wall (peptidoglycan) Peptidoglycan is made of oligopeptide (short polypeptide chains) and polysaccharide components. The oligopeptide components are synthesized by bacterial transpeptidase enzymes (not ribosomes) using amino acids as the raw materials. The amino acid composition and sizes of the cell wall oligopeptides vary among bacterial species. The polysaccharide component of the cell wall is made of two modified hexose sugars, N-acetyl muramic acid (NAM) and N-acetyl glucosamine (NAG). The NAM entity has a tail made of five amino acids (a-a-a-a-a-NAM), where a is an amino acid. One a-a-a-a-a-NAM is attached to one NAG in the cytoplasm of bacteria (Fig. 5.9). Detailed chemistry of the reaction is avoided here. The a-a-a-a-a-NAM-NAG disaccharide is linked to a carrier lipid found in the inner face of the plasma membrane. The lipid-disaccharide complex is called Lipid II.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "A carrier protein binds and transports Lipid II across the plasma membrane to the periplasmic space (space between the plasma membrane and the cell wall or the outer envelope. The NAG entity of the Lipid II is then linked to an NAM entity of a preexisting polysaccharide chain of the cell wall via a glycosidic bond (Fig. 5.9). the reaction is catalyzed by a glycosyltransferase (enzyme). The carrier lipid is removed from the a-a-a-a-a-NAM-NAG disaccharide and recycled (brought into the cytoplasm) to repeat the operations. Finally, a transpeptidase enzyme (also known as the penicillin-binding protein or PBP) cross-links the pentapeptide chains of two NAM entities from two different polysaccharide chains (Fig. 5.9).",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "A bacterium must break its cell wall before it can divide. The dividing cell must synthesize additional cell wall and repair the broken cell wall to generate two healthy daughter cells. Bacteria fail to divide if they cannot synthesize or repair the cell wall. Therefore, bacterial cell wall synthesis is an important therapeutic target in controlling the growth of pathogenic bacteria in the patient’s body. Several groups of antibiotics (including penicillin, cephalosporin, carbapenem, monobactam, cycloserine, bacitracin, and vancomycin) interfere with bacterial cell wall synthesis (see Chapter 8).",
+          "page": 8
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.9. Synthesis of bacterial peptidoglycan. Initially, a pentapeptide-linked NAM (shown as blue hexagons) and",
+          "page": 8,
+          "image": "/mmahp/ch05/5-9.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "a NAG (shown as purple hexagons) are activated in the cytoplasm. The activated pentapeptide NAM is then attached to the carrier lipid ICL-PO4 to generate an NAM-ICL complex-PO4. An activated NAG then reacts with the NAM on the ICL-PO4 to form the Lipid II. A carrier protein moves the Lipid II across the plasma membrane. A glycosyl transferase then links the NAM entity of the NAM-NAG disaccharide to a NAM entity of an existing polysaccharide in the cell wall. Finally, PBP cross-links the pentapeptides of two NAM entities of two different polysaccharide chains via a peptide bond. The ICL-PO4 must be recycled for the process to continue.",
+          "page": 8
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 9,
+          "title": "Synthesis of simple sugars (monosaccharides)",
+          "bullets": [
+            "Pentose",
+            "Making simple",
+            "Gluconeogenesis",
+            "Synthesis of"
+          ]
+        },
+        {
+          "slideIndex": 12,
+          "title": "Fatty acid synthesis",
+          "bullets": [
+            "Source materials",
+            "Acetyl CoA",
+            "Malonyl CoA",
+            "Saturated fatty acid",
+            "Unsaturated fatty acids",
+            "Essential fatty acids",
+            "Omega 3 and omega six fatty",
+            "Synthesis of sterols and"
+          ]
+        },
+        {
+          "slideIndex": 13,
+          "title": "Lipid Synthesis",
+          "bullets": [
+            "Raw materials",
+            "Glycerol",
+            "Fatty acids",
+            "Phosphatidic acid",
+            "Triglyceride",
+            "Membrane lipids",
+            "Head groups",
+            "Choline, serine, inositol,"
+          ]
+        },
+        {
+          "slideIndex": 14,
+          "title": "Polysaccharide synthesis",
+          "bullets": [
+            "Raw materials",
+            "Glucose and other six carbon",
+            "Important polysaccharides",
+            "Glycogen polymer of D glucose",
+            "Cellulose",
+            "Biocellulose",
+            "Starch (amylose and pectin)",
+            "Murein",
+            "Glucan, mannan, chitin, etc."
+          ]
+        },
+        {
+          "slideIndex": 15,
+          "title": "Synthesis of bacterial cell wall",
+          "bullets": [
+            "Raw materials",
+            "N-acetyl muramic acid",
+            "N-acetyl glucosamine (Gn)",
+            "Activation of sugars",
+            "Synthesis of disaccharide",
+            "Transport across the",
+            "Attachment to existing",
+            "Crosslinking of the",
+            "Beta lactam antibiotic and"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "5.3",
+      "heading": "DNA synthesis",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The cell synthesizes DNA for two purposes: to repair damaged DNA and to copy the chromosomes. Repair of damaged DNA only requires a small amount of DNA synthesis (discussed in Chapter 6). Copying the entire chromosome is DNA replication. Healthy cells replicate their DNA only when they receive internal and external signals to divide (i.e., the cells are large enough to divide, there are sufficient nutrients, and the growth conditions are favorable). Chromosome replication is regulated by the cell cycle.",
+          "page": 8
+        },
+        {
+          "type": "subheading",
+          "text": "The cell cycle and DNA replication",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "The cell cycle is the lifetime of a cell, involving growth, genome (DNA) replication, and cell division. In bacteria, the cell normally functions during the B period, during which it feeds and conducts normal metabolic activities. If the cell receives a growth signal, it enters the C period and replicates its genome. When the genome is fully replicated, the cell enters the D period to equally distribute the chromosomes to two daughter cells (Fig. 5.10). The daughter cells separate and enter the B period. However, if the growth conditions are favorable, the daughter bacterial cells may initiate DNA replication (perform activities of the C period) before completing the D period. Thus, the cell cycle events in bacteria are not distinct. Note that bacterial cells divide by binary fission, not by mitosis (bacteria lack the mitotic apparatus).",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "The cell cycle of eukaryotic cells is tightly regulated. The eukaryotic cell cycle has two phases: interphase (the cell has a nucleus intact, the chromatin fibers are 10 or 30 nm in thickness, and the cell is not dividing) and the mitotic phase (the nuclear envelope is disrupted, and the cell divides by mitosis). The interphase is divided into three phases: Gap 1 (G1) phase: The cell performs all normal physiological activities except genome replication. Synthetic (S) phase: The cell performs all normal physiological activities and replicates the genome. The cell enters the S phase only after receiving a robust growth (mitogenic) signal.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Gap 2 (G2) phase: The cell performs all normal physiological activities and checks whether the genome is completely replicated; if not, it completes the genome replication.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "During the mitotic (M) phase, the cell performs a limited set of biological activities. The cell condenses the chromosomes to form mitotic chromosomes, 1.4 nm in thickness. The nuclear envelope disintegrates, and the cell divides into two daughter cells by cytokinesis. As the daughter cells separate, the nuclear membrane and 10- and 30- nm chromatin reappear, and the cells enter the G1 phase.",
+          "page": 9
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.10. The cell cycle. A. Bacterial cell cycle showing the B period (the cell with one set of chromosomes), C",
+          "page": 9,
+          "image": "/mmahp/ch05/5-10.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "period- the cell starts to replicate the chromosomes, and D period- the parental cell divides and segregates one set of chromosomes to each daughter cell. The daughter cells then separate. B. Eukaryotic cell cycle. G1 phase- a healthy cell with one set of chromosomes in the form of chromatin inside the nucleus. S phase- the cell replicates the chromosomes, but they are still in the form of chromatin inside the nucleus. G2 phase- the cell checks if all the chromosomes are fully replicated within the nucleus, M phase- the nuclear membrane disintegrates, the chromatin is condensed to create 1.4 micrometer mitotic chromosomes, the cell divides by mitosis, each daughter cell receives one set of chromosomes, the mitotic chromosomes relax to create 10- and 30 nm chromatin and the nuclear membrane reappears; cytokinesis- the two daughter cells physically separate.",
+          "page": 9
+        },
+        {
+          "type": "subheading",
+          "text": "Chromosomal DNA replication in bacteria",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Replication of chromosomal DNA is semi-conservative (i.e., the two single strands of the parental dsDNA remain intact; both ssDNA strands are copied, and then they separate). Thus, the daughter cells receive one parental strand and one newly synthesized strand (Fig. 5.11).",
+          "page": 9
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.11. DNA replication, shown schematically. A. Semi-conservative DNA replication. Note that the replicated",
+          "page": 10,
+          "image": "/mmahp/ch05/5-11.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "DNA has one old strand (red) and one newly synthesized strand (blue). B. Origin-dependent bidirectional DNA replication. A replication bubble around the replication origin showing two primers (teal) and newly synthesized DNA (red or blue).",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "The following conditions must be met before chromosomal DNA of a cell can be replicated: (a) DNA replication must start at the replication origin (a stretch of DNA with specific nucleotide sequences, also called the replicator), (b) the dsDNA must be melted to create ssDNA (only ssDNA can be replicated), (c) a short RNA primer must hybridize with the template DNA, (d) the RNA primer must be removed, and replaced by DNA, and (e) any nicks (breaks) in the newly synthesized DNA must be ligated (sealed). Various enzymes and proteins involved in DNA replication in E. coli are listed in Table 5.1. DNA replication involves three major steps: initiation, elongation, and termination. The replication origin (replicator) is species-specific. This bacterial chromosome will not be replicated in a human cell, and vice versa. This is because the proteins that recognize and bind the replicator of one species may not recognize the same in another species.",
+          "page": 10
+        },
+        {
+          "type": "figure",
+          "text": "Table 5.1. Functions of E. coli proteins involved in DNA replication.",
+          "page": 10,
+          "image": "/mmahp/ch05/5-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Name of the proteins/enzymes Functions Initiator proteins (also called the origin binding proteins) Bind the replication origin (replicator), twist dsDNA to create a ssDNA bubble.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Helicase loader Load DNA helicase on the ssDNA DNA helicases Use energy of ATP to melt dsDNA, creating ssDNA, and the replication forks Primases Synthesize a short RNA primer, copying ssDNA Sliding clamp loader Loads the sliding clamp and DNA polymerase III on primed ssDNA Sliding clamp Form a ring on the primer for DNA polymerase III to hang on (do not fall of) DNA polymerase III Copy ssDNA while hanging on the sliding clamp DNA polymerase I Removes RNA primers and replace it by replicating DNA without hanging on the sliding clamp DNA topoisomerases Cut dsDNA to remove any knots and then ligate and restore dsDNA DNA ligase Ligate nicks and the Okazaki fragments (see text) by phosphodiester bonds Initiation step The steps are the following: (i) The initiator proteins bind the replication origin (replicator) and create a short ssDNA bubble. The two ends of the bubble are the replication forks. (ii) The helicase loaders (proteins) load DNA helicase on ssDNA in the replication bubble, (iii) DNA helicase opens dsDNA, creating more ssDNA, (iv) primases interact with DNA helicase and synthesize a short RNA primer through copying ssDNA, (v) the sliding clamp loader (proteins) loads a sliding clamp and a DNA polymerase III on the primed DNA. This is the end of the initiation event. Bacterial chromosomes have only one replicator; each chromosome requires only one initiation event.",
+          "page": 10
+        },
+        {
+          "type": "subheading",
+          "text": "Elongation step",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "During elongation, DNA polymerase III adds nucleotides (dNMPs) to the 3’ end of the primer. DNA polymerase picks one nucleotide (dATP, dCTP, dGTP or dGTP) at a time and hybridizes its nitrogenous base to the nitrogenous base of the template DNA (A with T and C with G). If the two bases are matched, the enzyme nips off the PO3-O-PO3 (i.e., the pyrophosphate) moiety of the incoming nucleotide and attaches the nucleotide monophosphate (dNMP) to the 3’ end of the primer (Fig. 5.12).",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.12. Chemistry of the DNA replication reaction. The DNA polymerase must replicate the dAMP (indicated",
+          "page": 11,
+          "image": "/mmahp/ch05/5-12.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "by a star) on the ssDNA template because it is the first nucleotide after the 3’ end of the hybridized primer. The enzyme would pick a dTTP, hybridize its nitrogenous base to the same base as the dAMP, then cleave the pyrophosphate to attach the dTMP portion to the primer. Image: Khan Academy.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Since DNA replication starts at the middle of the chromosome and the replication fork opens on both ends of the original bubble, new ssDNA appears on the opposite side of the original primers (Fig. 5.13). Primases generate new RNA primers on that ssDNA, and DNA polymerase III extends the primers (Fig. 5.13).",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "The process produces many short DNA fragments, each about 1,000 bp, known as Okazaki fragments (Fig. 5.13). The new DNA strands synthesized from the initial two primers are the leading strands. The DNA strands synthesized by the subsequent primers in the form of Okazaki fragments are the lagging strands. DNA polymerase I removes the primers on the Okazaki fragments and replaces them with DNA. DNA polymerase I leaves a nick between two consecutive Okazaki fragments. A DNA ligase seals the nick by creating a phosphodiester bond (not shown in Fig. 5.13.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "If one opens a rope in the middle, a bubble is created, and knots appear on both ends of the bubble. The same phenomenon occurs when helicases open dsDNA at the replication forks (Fig. 5.13). DNA topoisomerases remove kinks and knots by cutting and ligating dsDNA, so that helicases can continue to open dsDNA.",
+          "page": 11
+        },
+        {
+          "type": "subheading",
+          "text": "Termination event",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "DNA replication continues in both replication forks (bidirectionally) at an equal rate, about 1000 nucleotides per second. E. coli has only one chromosome, which is circular. DNA replication terminates when the DNA helicase is inhibited from opening dsDNA by Tus proteins that bind the two Ter sites on the chromosome (Fig. 5.14).",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.13. The elongation phase of DNA replication in E. coli (simplified). A. Leading strand synthesis. DNA",
+          "page": 12,
+          "image": "/mmahp/ch05/5-13.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "polymerase III elongates the two original RNA primers continuously as the helicases extend the replication fork. Note the knots and kinks formed on dsDNA at the replication fork, and the topoisomerases to remove them. B. The lagging strand synthesis. New RNA primers are laid on the template DNA, and the primers are elongated by DNA polymerase III to create the Okazaki fragments. C. DNA polymerase I removes the RNA primers and replaces RNA with newly synthesized DNA. D. The DNA ligase ligates the 3’ end and 5’ end of two consecutive Okazaki fragments. In B, C, and D, only the events of the bottom template strand of the parental DNA are shown. Parental DNA is shown in blue, newly synthesized DNA molecules are shown in red, and RNA primers are shown in green.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "The two newly synthesized dsDNA molecules remain attached as catenae (Fig. 5.14). DNA resolvase (a topoisomerase) separates the chromosomes. The two chromosomes move to opposite corners of the parental cell and attach to the plasma membrane. During binary fission, each daughter cell receives one chromosome.",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.14. Termination of chromosome replication in E. coli. A. Tus protein binds the ter sites. The helicase may",
+          "page": 12,
+          "image": "/mmahp/ch05/5-14.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "pass through one but stop at the second ter site, causing DNA replication to end. B. Decatenation of the two chromosomes by a resolvase. Image-http://reasonandscience.heavenforum.org/. C. Segregation of the two chromosomes to two daughter cells. The two chromosomes are attached to the membrane at the opposite ends of the parental cell by parA and parB proteins (and possibly other proteins). After decatenation, the chromosomes are segregated into the two daughter cells as a new cell wall, and later a fissure in between separates the two daughter cells. S-Wheeler RT, Shapiro L. Cell 1997; 88(5): 577-579.",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "DNA polymerases of the host cell also replicate viral and plasmid DNA that successfully infects the host cell. Certain viral or plasmid proteins bind to cellular DNA polymerases, causing the enzymes to replicate the viral or plasmid DNA genomes. The replication of viral and plasmid DNA is essentially the same as described above, although the initiation and priming steps may differ. Some viruses have an RNA genome. Cells usually lack an enzyme that can replicate RNA. RNA viruses have RNA polymerases that copy/replicate viral RNA.",
+          "page": 13
+        },
+        {
+          "type": "subheading",
+          "text": "Agents that target nucleic acid replication",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "DNA and RNA replication are among the primary targets for controlling microbial growth and cancer. Cancer is a disease due to unregulated DNA replication. Inhibiting DNA replication inhibits microbial growth and cancer cell proliferation. The common antimicrobial/anticancer agents that target nucleic acid replication include the following: Gamma radiation and UV irradiation: Gamma radiation breaks nucleic acids, and UV irradiation cross-links them. DNA polymerases cannot replicate broken DNA or cross-linked DNA.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Nucleoside analogs: Nucleoside analogs are synthetic chemicals that are structurally similar to nucleosides of the cell. The cell uses the analogs to synthesize nucleotide analogs. DNA and RNA polymerases may use nucleotide analogs to synthesize DNA or RNA, but the newly synthesized molecules containing these analogs are prone to breakage. Besides, the nucleotide analogs cause too many mutations, rendering the progeny viruses and cells nonviable.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "DNA-binding chemicals: Some antimicrobial drugs (such as metronidazole) and DNA alkylating agents (such as busulfan) bind and damage DNA. DNA polymerases do not replicate the damaged or alkylated DNA.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Topoisomerase inhibitors: Some drugs, such as topotecan and quinolones, bind and inactivate the DNA topoisomerases at the replication fork. In the absence of active topoisomerases, DNA helicases fail to open dsDNA. As a result, DNA replication stops, and the microbes (or the cancer cells) fail to multiply.",
+          "page": 13
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 16,
+          "title": "Inhibiting bacterial cell wall synthesis",
+          "bullets": [
+            "Bacterial vulnerability during cell division",
+            "Must break the cell wall and repair",
+            "If fails, killed by osmotic pressure",
+            "Antibiotics groups",
+            "Penicillin group- Inhibits BPB from crosslinking",
+            "Cycloserine- prevent peptide synthesis",
+            "Bacitracin- prevent recycling of the lipid carrier",
+            "Vancomycin- inhibit peptide crosslinking"
+          ]
+        },
+        {
+          "slideIndex": 17,
+          "title": "Cell cycle and DNA synthesis",
+          "bullets": [
+            "In prokaryotes",
+            "C period",
+            "B period",
+            "D period",
+            "In Eukaryotes",
+            "Interphase",
+            "G1 phase",
+            "S Phase",
+            "G2 Phase",
+            "Mitotic phase",
+            "Prophase",
+            "metaphase",
+            "anaphase",
+            "Telophase",
+            "Cytokinesis"
+          ]
+        },
+        {
+          "slideIndex": 18,
+          "title": "Nucleic acid synthesis",
+          "bullets": [
+            "Raw materials",
+            "NTPs and dNTPs",
+            "Template",
+            "Primer",
+            "Template-independent",
+            "Enzymes",
+            "DNA polymerases",
+            "RNA polymerases"
+          ]
+        },
+        {
+          "slideIndex": 19,
+          "title": "Replication of chromosomal DNA",
+          "bullets": [
+            "Replication origin (replicator)",
+            "Origin binding proteins (Initiators)",
+            "Semi-conservative replication",
+            "Melting dsDNA",
+            "Replication fork",
+            "Replication bubble",
+            "Directionality",
+            "Primer-dependence",
+            "Three steps of DNA replication",
+            "Initiation",
+            "Elongation",
+            "Completion"
+          ]
+        },
+        {
+          "slideIndex": 20,
+          "title": "Enzymes/proteins in DNA replication in E. coli",
+          "bullets": [
+            "DNA polymerase",
+            "Processive vs. non-processive",
+            "DNA pol III",
+            "Sliding clamp",
+            "Initiator (origin-binding) proteins",
+            "Replicative helicases",
+            "SSB/RPA",
+            "Primases",
+            "Topoisomerases",
+            "DNA Pol I",
+            "DNA ligases"
+          ]
+        },
+        {
+          "slideIndex": 21,
+          "title": "Completion of genome replication in E. coli",
+          "bullets": [
+            "The Ter sites",
+            "The Tus proteins",
+            "Catenation",
+            "Resolvase",
+            "Chromosome",
+            "Cell division"
+          ]
+        },
+        {
+          "slideIndex": 22,
+          "title": "Interfering with DNA replication",
+          "bullets": [
+            "Gamma radiation",
+            "UV radiation",
+            "Inhibition of topoisomerases",
+            "Quinolones",
+            "Topotecan",
+            "Use of nucleoside analogs",
+            "DNA binding chemicals",
+            "Metronidazole (binds DNA)",
+            "Clofazimine (bind GMP)"
+          ]
+        },
+        {
+          "slideIndex": 23,
+          "title": "Replication of viral DNA genome",
+          "bullets": [
+            "Origin dependent DNA",
+            "Origin-independent DNA",
+            "Replication of DNA using",
+            "Rolling circle model",
+            "Concatemers"
+          ]
+        },
+        {
+          "slideIndex": 28,
+          "title": "Replication & transcription of RNA genomes",
+          "bullets": [
+            "Replication of RNA",
+            "RDRP",
+            "Genes in the RNA",
+            "Promoter",
+            "terminator",
+            "Role of RdRP",
+            "RdRP as a target of"
+          ]
+        },
+        {
+          "slideIndex": 33,
+          "title": "Initiation of protein synthesis (in E. coli)",
+          "bullets": [
+            "Small subunit ribosome",
+            "Binds RBS of the mRNA",
+            "Binds initiator tRNA",
+            "With help of protein factors",
+            "Large subunit ribosome joins",
+            "A site",
+            "P site",
+            "E site"
+          ]
+        },
+        {
+          "slideIndex": 35,
+          "title": "Termination of protein synthesis",
+          "bullets": [
+            "A stop codon at the A",
+            "Entrance of release",
+            "Release of the peptide",
+            "Disassembly of the",
+            "Reuse of mRNA, tRNAs"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "5.4",
+      "heading": "RNA synthesis",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Like DNA synthesis, RNA synthesis in the cell is template-dependent. RNA polymerases copy ssDNA or ssRNA molecules to synthesize new RNA, using ATP, CTP, GTP, and UTP as substrates. In the cell, RNA polymerases do not copy the entire genome; they transcribe only genes and synthesize various types of RNAs, including messenger RNA (mRNA), ribosomal RNA (rRNA), transfer RNA (tRNA), and regulatory RNAs. Transcription is the copying of the template strand of a gene to synthesize RNA molecules. Since cellular RNA polymerases copy ssDNA to synthesize RNA, they are DNA-dependent RNA polymerases (DDRP). Some DNA viruses have DNA-dependent RNA polymerases. RNA viruses have RNA-dependent RNA polymerases (RDRPs) that may copy (replicate) the entire viral RNA genome or transcribe discrete genes within the viral RNA genome. Here, we will define genes and describe transcription in bacteria (i.e., E. coli).",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.15. The genes and the transcripts. A. The genes and the intergenic spacers. B. The top, or the coding strand",
+          "page": 13,
+          "image": "/mmahp/ch05/5-15.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "(red), and the bottom, or the template strand (blue), of a gene. RNA polymerase copies the template strand. The transcript (pink) has the same nucleotide sequence as the coding strand, except that the Ts are replaced by Us. Structure of a gene A gene is a region of the genome that is transcribed by an RNA polymerase. The portions of the genome that are not transcribed are called spacers (Fig. 5.15). A gene may code for a protein or a functional RNA. The transcripts of the protein-coding genes are mRNAs. The mRNAs are translated to synthesize proteins. The transcripts of functional RNA genes are not translated; they function as RNAs. Common functional RNAs include rRNAs, tRNAs, and regulatory RNAs.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "How do RNA polymerases distinguish genes from spacers? The genes have some signposts that RNA polymerases recognize (in association with other proteins). The signposts are nothing but specific DNA sequences. The common signposts of bacterial genes are the core promoter, the control elements, and the terminator (Fig. 5.16). Bacterial genes are about 1,000 bp in size. The exact location of the gene where RNA polymerase starts copying is the start site (i.e., position +1). The core promoter is 10-35 bp upstream of the start site, and the control elements are within 100 bp upstream or downstream of the start site. Typical bacterial genes code for one protein or functional RNA, but some genes (called operons) code for multiple proteins and/or functional RNAs. The Terminator is about 500-700 bp downstream to the start site (Fig. 5.16). The space between +1 and the terminator is the structural region of the gene.",
+          "page": 14
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.16. Structure of bacterial genes. The core promoters are shown as green boxes, the control elements are shown",
+          "page": 14,
+          "image": "/mmahp/ch05/5-16.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "in pink and black boxes, the coding regions of the genes are shown in purple, and the terminator is shown in red. The bent arrow indicates the start site (i.e., the position +1).",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacteria have only one RNA polymerase, which transcribes all types of bacterial genes. The RNA polymerase can bind DNA, but cannot distinguish genes from spacers. A group of proteins named transcription factors helps RNA polymerase bind the core promoter. In bacteria, the transcription factors are traditionally called sigma factors. The core promoter of almost all genes of E. coli has the nucleotide sequence 5’TATAAAT3’. Some bacterial core promoters have an additional element, such as 5’TTGACA3’ at the position centering -35. Proteins known as transcription regulators bind the gene’s control elements and increase or decrease the rate of transcription. RNA polymerase completes transcribing the gene and falls off at the terminator.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "The transcription process has three steps: initiation, elongation, and termination (Fig. 5.17). Transcription initiation occurs when a sigma factor binds to RNA polymerase, enabling it to bind to core promoters. The sigma factor soon leaves, and the RNA polymerase twists and turns, causing dsDNA to melt to create a ssDNA transcription bubble. RNA polymerase then copies the template strand (Fig. 5.17) at the transcription bubble and synthesizes an RNA molecule about 10 nucleotides in size, using ATP, CTP, GTP, and UTP as the substrates. This ends the transcription initiation.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "During transcription elongation, the RNA polymerase copies the template strand till it reaches the terminator. As the RNA polymerase copies the terminator region, that portion of RNA folds, and the folded RNA pushes the RNA polymerase off the DNA template, causing transcription termination. In some genes, a protein named rho factor binds the end of the RNA and pushes the RNA polymerase off the template DNA.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "The cell transcribes many genes simultaneously. If the cell fails to transcribe genes, it undergoes a crisis and soon perishes. Thus, transcription can be a target for controlling microbial growth. Rifamycin, an antibiotic, inhibits bacterial RNA polymerase. Actinomycin D intercalates DNA, which inhibits human RNA polymerase II and is used in cancer therapy.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "RNA viruses cannot replicate their genome and transcribe their gene if their RNA-dependent RNA polymerases (RDRPs) are inhibited. Various drugs (such as remdesivir and ribavirin) inhibit the RDRP of some viruses.",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.17. The three steps of gene transcription in E. coli. A. The initiation events (in order): (a) The sigma factor",
+          "page": 15,
+          "image": "/mmahp/ch05/5-17.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "binds the RNAP; (b) the RNAP-sigma factor complex binds the core promoter; (c) the RNA polymerase opens dsDNA as the sigma factor leaves, and the RNA polymerase synthesizes about 10 nucleotides of RNA (shown as the green line). B. The elongation events: The RNA polymerase moves away from the promoter and elongates the initial RNA molecule as the ssDNA bubble moves towards the 3’ end of the gene. C. The termination events: RNA polymerase completes transcription of the gene, releases the transcript, and dissociates from the terminator. The coding strand of DNA is shown in blue, the template strand is shown in red, and the transcript is shown in green. RNA grooming Almost all newly synthesized RNAs (i.e., pre-RNAs) except bacterial mRNAs are groomed before they can function. RNA grooming may involve RNA processing, splicing, editing, and modifications. In RNA processing, certain portions of the pre-RNA transcript are removed by nucleases to create the mature RNA (Fig. 5.18). Some pre-RNAs (especially eukaryotic pre-mRNAs) contain exons and introns. The process of RNA splicing removes introns and sequentially ligates exons (Fig. 5.18).",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "In RNA editing, additional nucleotides are added to already synthesized/processed RNA transcripts. For example, a GDP is attached at the 5’ end of the eukaryotic mRNA, and 50-500 Amps are added the 3’ end of eukaryotic mRNAs (Fig. 5.18) In RNA modification, the nitrogenous bases of certain nucleotides in the RNA transcript are chemically modified (Fig. 5.18). About 10-20% of the nitrogenous bases of tRNA are modified after transcription.",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.18. RNA grooming. A. Processing of a bacterial pre-rRNA/pre-tRNA transcript. Nucleases cut the pre-RNA",
+          "page": 16,
+          "image": "/mmahp/ch05/5-18.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "and remove certain regions to create the mature rRNA and tRNAs. B. Splicing of eukaryotic pre-mRNA. The introns (red) are removed, and the exons (green) are sequentially joined together. C. Editing a pre-mRNA. A G nucleotide is added at the 5’ ned and many A nucleotides are added to the 3’ end of the mature mRNA. D. Modification of RNA. Many uracil bases of tRNAs are modified to pseudouracil (the C of position 5 is changed to N.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "Fate of groomed RNAs",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Processed rRNAs fold and bind a set of proteins (named ribosomal proteins) to produce the ribosome particles. Processed tRNA folds and takes the shape of the letter L before it can be used as a carrier of an amino acid. Bacterial mRNAs are used without grooming. The groomed eukaryotic mRNAs are transported from the nucleus to the cytoplasm and used as the template for protein synthesis. All RNAs are ultimately recycled.",
+          "page": 16
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 24,
+          "title": "RNA synthesis",
+          "bullets": [
+            "Replication versus transcription",
+            "Template-dependent RNA",
+            "DNA-dependent RNA polymerase",
+            "RNA-depednednt RNA polymerase",
+            "Genes vs. spacers",
+            "mRNA, rRNA and tRNA genes",
+            "Gene DNA strands",
+            "Top or Coding strand",
+            "Bottom or template strand"
+          ]
+        },
+        {
+          "slideIndex": 25,
+          "title": "Simple genes versus operons",
+          "bullets": [
+            "Simple bacterial",
+            "Start site (+)",
+            "Core promoters",
+            "Regulatory elements",
+            "Enhancers",
+            "Silencers",
+            "Structural region",
+            "ORFs",
+            "Terminator",
+            "Bacterial operon"
+          ]
+        },
+        {
+          "slideIndex": 26,
+          "title": "Transcription in bacteria",
+          "bullets": [
+            "Initiation",
+            "General transcription",
+            "RNA polymerase",
+            "Elongation",
+            "Termination",
+            "Interfering with RNA",
+            "Rifamycin",
+            "Alpha amanitin"
+          ]
+        },
+        {
+          "slideIndex": 27,
+          "title": "RNA grooming",
+          "bullets": [
+            "RNA processing",
+            "RNA splicing",
+            "RNA editing",
+            "RNA modification",
+            "Fate of RNAs",
+            "rRNA",
+            "tRNA",
+            "mRNA",
+            "Other RNAs"
+          ]
+        },
+        {
+          "slideIndex": 31,
+          "title": "The ribosome particles",
+          "bullets": [
+            "The RNA components",
+            "The protein components",
+            "The S value (one S unit=",
+            "Ribosomal RNAs",
+            "16S RNA",
+            "23S RNA",
+            "5S RNA",
+            "Bacterial ribosomes",
+            "30S subunit",
+            "50 S subunits",
+            "70S ribosome"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "5.5",
+      "heading": "Protein synthesis",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Proteins are synthesized by enzymes using the reaction a1 + a2 à a1-a2 + H2O, where a1 and a2 are two amino acids, and a1-a2 is a dipeptide (Fig. 5.19). The reaction creates a peptide (C-N) bond between two amino acids.",
+          "page": 16
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.19. Formation of a dipeptide from two amino acids. In the reactions, the –COOH group of the amino acid",
+          "page": 16,
+          "image": "/mmahp/ch05/5-19.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "on the left reacted with the –NH2 group of the amino acid on the right. The C-N bond linking the two amino acids of the dipeptide is the peptide bond. It is a condensation reaction (removes a water molecule from the reactants). A group of enzymes named peptidyl transferases catalyzes the peptide bond formation. The cell has some protein transpeptidases (i.e., protein enzymes) that can create peptide bonds. Bacterial penicillin-binding protein (PBP) is one such transpeptidase. Glutathione, a tripeptide (N-Glu-Gly-Cys-C) found in all cells, is also synthesized by protein transpeptidases. However, most proteins in the cell are synthesized by ribosomal RNA transpeptidases (i.e., ribozymes) via a process known as translation. Protein translation is the process by which the ribosome interprets the genetic code of an mRNA as it synthesizes the peptide bonds of a polypeptide chain. Ribosomes serve as the factory; tRNAs serve as the carrier of amino acids; and mRNAs serve as the template and provide the genetic code.",
+          "page": 16
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 29,
+          "title": "Protein synthesis",
+          "bullets": [
+            "Formation of peptide bond",
+            "Template dependent",
+            "Role of mRNA template",
+            "Role of ribosomes",
+            "Role of tRNA",
+            "Other proteins",
+            "Template independent",
+            "Transpeptidases",
+            "Dipeptide, tripeptide--,"
+          ]
+        },
+        {
+          "slideIndex": 30,
+          "title": "The mRNAs and the genetic code",
+          "bullets": [
+            "Bacterial mRNAs",
+            "RBS",
+            "5’UTR, ORFs and",
+            "Codons",
+            "Start codons",
+            "Elongation codons",
+            "Stop codons",
+            "anticodons"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "5.5.1",
+      "heading": "Structure of mRNAs and the genetic code",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "All mRNAs have untranslated regions (UTRs) at their 5’ and 3’ ends and one or more open reading frames (ORFs) in between (Fig. 5.20). The UTRs serve various regulatory functions. The UTR at the 5’ end contains a hexanucleotide (5’AGGAGG3’) recognition sequence known as a ribosome binding site (RBS). The ORF holds the codons. A codon is a nucleotide triplet in the ORF.",
+          "page": 17
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.20. Structure of the mRNA. A. The mRNA of a simple gene has 5’ and 3’ UTRs and one ORF. The ribosome binding",
+          "page": 17,
+          "image": "/mmahp/ch05/5-20.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "site (RBS) is within 5-9 nucleotides upstream of the start codon of the ORF. B. The mRNA of an operon with three ORFs. The RBS, start codon, and stop codons are shown as purple, blue, and red boxes, respectively. Some internal ORFs may not have an RBS.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "An ORF starts with a start codon (which is usually 5’AUG3’) and ends with one of the three stop codons (Table 5.2). Every three nucleotides after the start codon are elongation codons. The codon 5’AUG3’ may also serve as an elongation codon. Thus, an ORF must contain a total number of nucleotides divisible by 3. Since there are four ribonucleotides (A, U, C, and G), there could be a total of 43 or 64 possible codons. Of these, 61 triplets code for amino acids, and the remaining three triplets serve as the stop codons (Table 5.2). The start and elongation codons code for an amino acid; the stop codons do not.",
+          "page": 17
+        },
+        {
+          "type": "figure",
+          "text": "Table 5.2. The Universal Genetic Code. The codons and the three-letter and single-letter abbreviations of the twenty amino",
+          "page": 17,
+          "image": "/mmahp/ch05/5-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "acids are shown. Note that there is one codon for Met and Trp; two codons for Phe, Tyr, His, Gln, Lys, Asp, Asn, Glu, and Cys; three codons for Ile; four codons for Val, Pro, Thr, Ala, and Gly; and six codons for Leu, Ser, and Arg. UUU UUC Phe (F) UCU UCC UCA UCG Ser (S) UAU UAC Tyr (Y) UGU UGC Cys (C) UUA UUG CUU CUC CUA CUG Leu (L) UAA UAG Stop UGA Stop UGG Trp (W) CCU CCC CCA CCG Pro (P) CAU CAC His (H) CGU CGC CGA CGG Arg (R) CAA CAG Gln (Q) AUU AUA AUC Ile (I) ACU ACC ACA ACG Thr (T) AAU AAC Asn (N) AGU AGC Ser (S) AAA AAG Lys (K) AGA AGG Arg (R) AUG Met (M) GUU GUC GUA GUG Val (V) GCU GCC GCA GCG Ala (A) GAU GAC Asp (D) GGU GGC GGA GGG Gly (G) GAA GAG Glu (E) Note that a nucleotide triplet (such as 5’AAU3’) can be called a codon only if it is located inside an ORF of an mRNA or protein-coding gene. Nucleotide triplets located elsewhere in the genome may not be codons.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "The genetic code is nearly universal. The genetic code for human cells and E. coli is identical; however, some codons may mean different amino acids in some species. For example, 5’UAA3’ is a stop codon for humans and E. coli, but it is the codon for glutamine in Paramecium sp. (a protozoan).",
+          "page": 18
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "5.5.2",
+      "heading": "Structure of the ribosome subunits",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Ribosomes are rRNA-protein complexes in the form of particles (Fig 5.21). When not engaged in protein synthesis, the ribosome particles remain as the small and large subunits, called the 30S and 50S ribosomal subunits. During protein synthesis, the large and small subunits assemble into larger particles, the 70S ribosomes (Fig. 5 .21).",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.21. Structures of the typical ribosome particles of bacteria and eukaryotes. The small subunit ribosome",
+          "page": 18,
+          "image": "/mmahp/ch05/5-21.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "contains one molecule of rRNA and 21-33 different proteins. The large subunit ribosome particles contain 2-3 molecules of rRNA and 34-50 different proteins. The sizes of the rRNAs are indicated by the number of nucleotides (nts) and also S values. The S value indicates the sedimentation property of a particle that is suspended in a liquid and centrifuged. One S unit is equivalent to 10-13 seconds.",
+          "page": 18
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "5.5.3",
+      "heading": "Structure of tRNAs and tRNA charging",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The tRNAs are relatively small molecules (about 75 nts in length). The self-complementarity of the nucleotides of different regions within all tRNAs causes the molecules to fold to the shape of the letter L (Fig. 5.22). Different stems and loops of tRNAs are known by specific names, such as the D loop, T-psi-C loop, anticodon loop, and the acceptor stem (Fig. 5.22).",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "A group of enzymes called aminoacyl tRNA synthetases (AATases) recognize specific tRNA molecules by their structures and attach an amino acid to the 3’-OH end of the acceptor stem of the tRNA. The enzyme initially activates an amino acid using ATP. There are 20 AATases in the cell, each specific for one of the 20 amino acids used in protein synthesis. However, an AATase specific for one amino acid may charge all the tRNAs that can accept the amino acid. Thus, the AATase for leucine charges all six tRNAs that can carry leucine. A tRNA with an amino acid attached to its 3’OH end is a charged tRNA.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Opposite to the acceptor stem is the anticodon loop of a tRNA, where a triplet of nucleotides serves as the anticodon. The anticodon is complementary to the codons in the mRNA. The acceptor stem and the anticodon specify which amino acid a tRNA can be charged with. Thus, if the anticodon of the tRNA is 5’GGC3’, the codon must be 5’GCC3’, and an AATase would attach the amino acid alanine (but no other amino acid) to the tRNA (Fig. 5.22). Since there are 61 codons, there should be 61 different tRNAs, each with a different anticodon. However, most species have fewer than 61 types of tRNAs. Different species have different sets of codons in their mRNAs; they also have different sets of tRNA. This phenomenon is known as codon bias. For example, E. coli has 46 tRNAs, sufficient to translate all mRNAs synthesized in the cell. However, human cells may not use the same codons. Thus, a human mRNA may not be successfully translated in an E. coli cell, because of the lack of needed tRNAs.",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.22. Structure of a tRNA. A. The theoretical 2-dimensional structure of a tRNA that carries the amino acid",
+          "page": 19,
+          "image": "/mmahp/ch05/5-22.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "methionine, showing the double-stranded stems and the single-stranded loops. The names of different loops are indicated. B. The 3-dimensional (L-shaped) structure of a charged tRNA. C. The codon of the mRNA is complementary to the anticodon of the tRNA in the antiparallel orientation. Here, the codon is 5’GCC3’, and the anticodon is 5’GGC3’. Images- Wikipedia.",
+          "page": 19
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 32,
+          "title": "tRNAs and its charging",
+          "bullets": [
+            "Size",
+            "Secondary structure",
+            "Stems",
+            "Loops",
+            "The 5’CCA3’ end",
+            "The anticodon",
+            "Tertiary structure",
+            "Why all tRNAs have the same structure",
+            "Aminoacyl tRNA synthase",
+            "Charged vs uncharged tRNAs",
+            "Initiator tRNA vs. elongation tRNAs"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "5.5.4",
+      "heading": "The process of translation",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The translation process involves three steps: initiation, elongation, and termination. During initiation, a 30S ribosome binds an mRNA and the initiator tRNA. The initiator tRNA is charged with methionine (its anticodon is 5’CAU3’). A 50S ribosome joins the complex at this point to form a 70S ribosome. The 70S ribosome has three chambers: the aminoacyl tRNA site (A site), the peptidyl tRNA site (P site), and the exit site (E site). The initiator tRNA stays at the P site, and the A and E sites remain empty (Fig. 5.23). This is the end of translation initiation.",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.23. Translation initiation in E. coli. A. The 30S ribosome binds to the RBS of an mRNA. B. The initiator",
+          "page": 19,
+          "image": "/mmahp/ch05/5-23.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "tRNA carrying methionine joins the complex, and its anticodon (5’CAU3’) hybridizes with the mRNA’s start codon (5’AUG3’). C. A 50S ribosome joins the complex, creating a 70S ribosome and functional A, P, and E sites. The process of elongation begins with the entry of another charged tRNA into the A site of the initiation complex. The only charged tRNA that can enter and stay in the A site is the one that has an anticodon complementary to the codon of the mRNA located at the A site at the time. If the anticodon of the tRNA properly hybridizes with the codon located at the A site, the peptidyl transferase enzyme in the 50S ribosome catalyzes the removal of the amino acid of the tRNA in the P site and then attaches it to the amino acid of the tRNA in the A site via a peptide bond (Fig. 5.24).",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "The above activity causes the tRNA at the P site to be uncharged, and the tRNA at the A site to carry a dipeptide. At this point, the ribosome moves the mRNA by exactly one codon. This process, called translocation, causes the uncharged tRNA to move to the E site of the ribosome and ultimately leave the ribosome. It also causes the peptide- carrying tRNA to move to the P site, leaving the A site vacant (Fig. 5.24). Another charged tRNA then enters the A site, depending on the codon/anticodon match. The above processes repeat until the stop codon of the ORF aligns with the A site.",
+          "page": 20
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.24. Translation elongation in E. coli. A. A charged tRNA enters the A site of the initiation complex if the",
+          "page": 20,
+          "image": "/mmahp/ch05/5-24.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "anticodon of the tRNA matches the codon of the mRNA at the A site. B. The peptidyl transferase of the 50S ribosome helps remove the amino acid from the A-site tRNA and attach it to the amino acid of the P-site tRNA. C. Translocation. A protein (not shown in the figure) enters the A site and pushes the tRNA/mRNA by exactly one codon, causing the P site tRNA to move to the E site (and then out of the ribosome) and the A site tRNA to move to the P site. The A site is now empty, ready to accept another charged tRNA. The process continues till a stop codon aligns with the A site. Translation termination ensues when one of the stop codons of the mRNA aligns with the A site of the 70S ribosome. There is no tRNA for the stop codons. However, proteins called release factors enter the A site and detach the polypeptide from the tRNA in the P site (Fig. 5.25). Additional protein factors then detach the 30S ribosome from the 50S ribosome, removing the tRNAs and the mRNA. The freed mRNA, tRNA, and ribosomal subunits can be reused for the next round of translation.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Several protein factors are necessary for translation initiation, elongation, and termination, but for simplicity, the factors are not discussed here.",
+          "page": 20
+        },
+        {
+          "type": "subheading",
+          "text": "Protein folding and grooming",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "In E. coli, translation takes place in the cytoplasm. The newly synthesized polypeptide chain begins folding as it is translated. A group of proteins called chaperonins helps proteins fold properly. Some proteins are also groomed. Protein grooming involves processing (i.e., removal of certain regions of the newly translated polypeptide chain by certain proteases) and modification (certain functional groups, such as -PO4, fatty acids, or polysaccharide chains, are attached to certain amino acids of a protein). Finally, the proteins are transported to their proper locations within the cell, and the cell secretes some of them into the extracellular space.",
+          "page": 20
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.25. Translation termination in E. coli. A. The stop codon 5’UGA3’ of the mRNA is at the A site. The P site",
+          "page": 21,
+          "image": "/mmahp/ch05/5-25.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "tRNA is attached to a long polypeptide chain. B. RF1, a release factor, enters the A site and detaches the polypeptide chain from the tRNA. C. Additional protein factors, including RF3, cause the 70S ribosome to disassemble into 50S and 30S ribosomes and release the tRNA and mRNA. The 50S and 30S ribosomes, the mRNA, and the tRNA can now be used for additional transcription initiation events.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Translation and protein processing as targets for controlling microbes Many synthetic and natural antibiotics inhibit bacterial translation through various mechanisms. The tetracycline and streptomycin classes of antibiotics bind the bacterial 30S ribosome. Many antibiotics, including chloramphenicol, erythromycin, clindamycin, linezolid, and puromycin, bind the bacterial 50S ribosome. Tetracyclines block the A site of the ribosome, preventing tRNA from entering the A site. Chloramphenicol and streptomycin inhibit bacterial peptidyl transferase activity. Clindamycin and puromycin inhibit translocation and translation termination (see Chapter 8) in 70S ribosomes. Drug designers are continually developing various chemical substances that interfere with translation and protein processing to be used as drugs to treat microbial infections.",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "5.5.5: Regulation of genome expression",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "The nucleotide sequence of the genome determines the cell's (and the species’) genotype. The genome (the DNA content) of the cell serves no function other than holding the genetic information. The structure and function of the cell are determined by the functional proteins and functional RNAs of the cell. The overall effects of functional proteins and functional RNAs determine the cell's phenotype. The size, shape, and various abilities/inabilities of the cell are its phenotype. The cell must express its genes, transcribe RNAs, and translate the mRNAs to synthesize the necessary proteins to achieve the genotype. As we discussed previously, the majority of the freshly synthesized RNAs and proteins are nonfunctional. They must be groomed (processed, spliced, modified, and edited to make them functional). Only the functional proteins and functional RNAs determine the phenotype of the cell.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Cellular genomes have many genes. For example, E. coli has about 5,000 genes, and the human cell has over 20,000 genes. The cell would run out of resources and fall into chaos if it expressed all its genes simultaneously. For example, an E. coli cell growing at high temperature needs the heat shock (hsp) proteins to refold proteins being denatured at high temperature. The cell does not need cold-shock proteins to relax proteins and RNA that are tightly folded at low temperatures. The cell regulates the expression of most of the genes. RNAs and proteins of some genes are needed by the cell all the time. For example, E. coli needs tRNAs and enzymes that run the glycolytic cycle continuously. These types of genes, called the housekeeping or constitutive genes, the cell does not regulate. The rest are regulated genes. The cell may turn off the genes (does not synthesize the RNA and proteins encoded by the genes), or turn them on (synthesizes the RNA and proteins encoded by the genes). The regulation includes transcription, translation, and the grooming of RNAs and proteins. The cell may enforce the regulatory regime at multiple stages of gene expression to maintain the appropriate levels of functional RNAs and proteins at any given moment. The cell depends on internal (cytoplasmic) and external (environmental) signals to determine which genes it may turn off, which it may turn on, and how much of the functional RNAs and proteins of the turned-on genes it will retain. The right amounts of functional RNAs and proteins determine all aspects of the cell, including how much glucose it converts to glycogen, how many pili it has, and how much capsule it secretes.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "The points where a cell can regulate gene expression The cell has layer after layer of regulatory measures to fine-tune gene expression. The layers can be grouped as follows: (i) Pretranscription level: The cell keeps the appropriate genes hidden from the transcription machinery; no RNAs are transcribed from the genes. Eukaryotic cells use this strategy most extensively.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "(ii) Transcriptional level: The genes are not fully hidden; the transcription machinery is instructed to transcribe them at a lower or higher level.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "(iii) Post-transcriptional but pre-translational level: The RNAs are synthesized, the cell may or may not groom them properly, rapidly degrade them, or keep them for a longer period for current and future use.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "(iv) Translational level: The mRNAs are available, and the cell may translate them rapidly or slowly. (v) Post-translational level: The proteins are synthesized, the cell may or may not groom them properly, rapidly degrade them, or keep them for a longer period for current and future use.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Transcription and translation are energy-consuming reactions. Thus, pre-transcriptional regulation is the most economical, and post-translational regulation is the least economical. However, because the proteins are already available, post-translational regulation enables the cell to meet environmental challenges most expeditiously. Here we present an example of regulating genome expression in E. coli.",
+          "page": 22
+        },
+        {
+          "type": "subheading",
+          "text": "The lac operon of E. coli",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Like all cells, E. coli prefer glucose as an energy and carbon source over other sugars. However, as a gut bacterium, it is often exposed to other sugars, including lactose, the milk sugar (a disaccharide composed of glucose and galactose). E. coli grown in a jar containing a small amount of glucose and plenty of lactose as the sole carbon source showed how E. coli regulates gene expression to survive and prosper when glucose runs out, and lactose turns into the sole carbon source. The lac operon codes for the enzymes the cell needs to catabolize lactose. The lactose operon has the core promoter, several regulatory elements, and a terminator. The most important of the regulatory elements include an enhancer (known as the cap binding site) at the position -61, and a silencer (named operator) located just below the start site (Fig. 5.26). When a transcription regulator binds the enhancer, the rate of transcription increases. When a transcription regulator binds a silencer, transcription either decreases or stops.",
+          "page": 22
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.26. The structure of the lac operon of E. coli. See text for details. The elements are not drawn to the scale.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "The structural region of the operon has three ORFs (Fig. 5.26); the ORFs and their functions are listed below. lacZ: It codes for beta-galactosidase, a lactase enzyme that can split lactose to glucose and galactose or isomerize lactose to allolactose.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "LacY: It codes lactose permease, a membrane transporter that imports lactose into the cell.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "lacA: It codes a transacetylase (enzyme) that detoxifies toxic sugars that may enter the cell.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "When transcribed, the lac operon produces a single long polycistronic mRNA. The mRNA is translated to synthesize the three proteins.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Regulation of the lac operon",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "When E. coli grows in a medium with plenty of glucose but no lactose, a transcriptional regulatory protein, named the lac repressor, binds the operator (silencer) of the operon. It prevents RNA polymerase from binding to the promoter. RNA polymerase cannot transcribe the operon, except if the lac repressor momentarily falls off the operator. The cell contains very few, or almost none, of the mRNA or proteins encoded by the operon (Fig. 5.27).",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "When E. coli grows in a medium that has both glucose and no lactose, the lactose transporter imports lactose inside the cell. The lactase enzyme converts some lactose molecules into allolactose (Fig. 5.26). The lactose repressor has an affinity for allolactose. However, once it binds allolactose, lac repressor cannot bind the operator. This opens the promoter for RNA polymerase to transcribe the operon's mRNA. The cell has a good number of proteins coded by the operon and can use lactose as a carbon source (Fig. 5.27).",
+          "page": 23
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 5.27. Expression of the lac operon at different conditions. The concentration of different molecules is shown in",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "arbitrary units. A- lactose transporter, C- CAP, M- mRNA of the lac operon, R- lac repressor, Y- transacetylase, Z- lactase. Note that the levels of CAP proteins and lac repressor do not change.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "When E. coli grows in a medium containing lactose but no glucose, the cell requires more proteins encoded by the lac operon to survive and divide on lactose as the sole carbon source. When glucose levels are low, the cell synthesizes cyclic AMP from ATP. Cyclic AMP signals the cell of glucose shortage. A protein named catabolite activator protein (CAP) binds cyclic AMP. It changes the structure of CAP, allowing it to bind the lac operon's enhancer (CAP site). CAP binding of the CAP site causes RNA polymerase to transcribe the lac operon at a higher rate. As a result, the cell can synthesize large amounts of the proteins encoded by the operon (Fig. 5.27). This allows the cell to grow in the medium as it would have grown in a medium containing glucose.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "E. coli and other bacteria have many regulated genes and operons. The cells regulate their expression using diverse methods. Mutations (changes in the nucleotide sequence) in the genome alter the cell's genotype. It may also disrupt the regulatory network. The cell may perish, survive with a different phenotype, or evolve into a new strain or species. For example, pathogenic bacteria may become resistant to antibiotics through mutations in their genomes and resulting phenotypic changes. We will discuss that in Chapter 6.",
+          "page": 23
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 34,
+          "title": "Elongation of polypeptide chain",
+          "bullets": [
+            "Entrance of elongation tRNA",
+            "Ensuring accuracy",
+            "Peptide bond synthesis of",
+            "The process of translocation",
+            "Elongation factors",
+            "Repeating the steps"
+          ]
+        },
+        {
+          "slideIndex": 36,
+          "title": "Protein folding, grooming & trafficking",
+          "bullets": [
+            "Protein folding",
+            "Chaperonins",
+            "Protein grooming",
+            "Processing",
+            "Modification",
+            "Special situations in",
+            "ER",
+            "Golgi apparatus",
+            "Transport vesicles",
+            "Protein and RNA recycling"
+          ]
+        },
+        {
+          "slideIndex": 38,
+          "title": "Genome expression",
+          "bullets": [
+            "Genotype",
+            "Role of the genome",
+            "Phenotype",
+            "Role of function proteins",
+            "Roles of functional RNA",
+            "Why the cell cannot express all genes all the times",
+            "Types of genes",
+            "House keeping genes",
+            "Regulated genes"
+          ]
+        },
+        {
+          "slideIndex": 39,
+          "title": "Points of regulation enforcement",
+          "bullets": [
+            "Pre-transcriptional",
+            "hiding genome from the transcription machinery, no transcription",
+            "Transcriptional",
+            "Very low or low rate of transcription",
+            "Activated rate of transcription",
+            "Post transcriptional",
+            "RNA groomed or delayed",
+            "Groomed RNA kept or destroyed",
+            "Translational",
+            "Low rate or high rate of translation",
+            "Post translational",
+            "Pre-proteins groomed or delayed",
+            "Groomed protein kept or recycled"
+          ]
+        },
+        {
+          "slideIndex": 40,
+          "title": "The E coli lac operon",
+          "bullets": [
+            "Structure",
+            "Importance of the",
+            "The three ORFs",
+            "Purpose of regulation",
+            "Turn of when glucose is",
+            "Turn on when both glucose",
+            "Activate when glucose"
+          ]
+        },
+        {
+          "slideIndex": 41,
+          "title": "Regulation of the lac operon",
+          "bullets": [
+            "When glucose present, lacrosse",
+            "Lac repressor binds the silencer",
+            "When both glucose and lactose",
+            "Allolactose binds/removes lac",
+            "Basal level transcription",
+            "When glucose absent, lactose",
+            "Synthesis of cAMP",
+            "CAP binding to the cap site"
+          ]
+        }
+      ]
+    }
+  ],
+  "unmatchedSlides": []
+}

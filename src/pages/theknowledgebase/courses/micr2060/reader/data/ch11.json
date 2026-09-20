@@ -1,0 +1,1798 @@
+{
+  "id": "ch11",
+  "number": 11,
+  "title": "Mechanisms of Microbial Pathogenesis",
+  "lead": "This chapter explores microbial pathogenesis (Greek: patho- disease, genesis- birth of), or how microbes cause disease. The scope of this topic is quite broad, so only a concise overview can be presented in a chapter like this. The chapter begins with an overview of the viral replication cycle, followed by the mechanisms of pathogenesis of viral, bacterial, and eukaryotic pathogens.",
+  "openstaxEquivalent": null,
+  "sources": {
+    "chapterPdf": "11 Mechanisms of Microbail pathogenesis copy.pdf",
+    "pptPdf": "MMAHP Ch 11 PowerPoint Lecture Outline.pdf"
+  },
+  "sections": [
+    {
+      "number": "11.1",
+      "heading": "Mechanisms of viral pathogenesis",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Viruses cannot synthesize ATP or conduct major anabolic reactions. Therefore, viruses must infect host cells and utilize the cell’s biosynthetic machinery. In the process, some viruses kill the host cell, some use the host cell or the host cell’s genome as their residence, and some turn the host cell into a tumor. The virus’s effects on host cells and the immune system’s responses to viral infection constitute the signs of viral pathogenesis.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Understanding the virus replication cycle helps explain viral pathogenesis. Max Delbrück (1906-1981) observed in the 1930s that when a few viruses capable of causing infection are mixed with some host cells, the viruses temporarily disappear. No virus can be recovered from the mixture for a while. This period is called the eclipse. However, a few tens of minutes later, a very large number of viruses emerge. The number of virions produced per infected cell is called the burst size. The virus counts plateau once the last live host cell is infected and killed.",
+          "page": 1
+        },
+        {
+          "type": "paragraph",
+          "text": "Delbrück termed this phenomenon the one-step growth curve (Fig. 11.1). This observation indicated that viruses do not divide like a cell; instead, the viral replication cycle involves synthesizing viral molecules and assembling them to produce many new virus particles. The virus replication cycle typically encompasses six steps: attachment, penetration, uncoating, biosynthesis, assembly, and egress (Fig. 11.1). All these steps except attachment and egress are completed during the eclipse period.",
+          "page": 1
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 11.1. The one-step growth curve and replication cycle of viruses. A. One-step growth curve. Infectious virus",
+          "page": 1,
+          "image": "/mmahp/ch11/11-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "particles can’t be recovered during the eclipse period. Many virions emerged after the eclipse period, but the count plateaus, indicating a one-step growth. B. Virus replication cycle. The six steps of the cycle are shown.",
+          "page": 1
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 2,
+          "title": "The one-step growth curve of viruses",
+          "bullets": [
+            "Virus completely",
+            "Virus replicate only if the",
+            "Virus get disintegrated",
+            "Thus, viruses are"
+          ]
+        },
+        {
+          "slideIndex": 3,
+          "title": "The six steps of virus replication cycle",
+          "bullets": [
+            "Attachment",
+            "Penetration",
+            "Uncoating",
+            "Biosynthesis",
+            "Assembly",
+            "Egress"
+          ]
+        },
+        {
+          "slideIndex": 4,
+          "title": "Attachment: some details",
+          "bullets": [
+            "Virus ligands",
+            "Cell receptors",
+            "Coreceptors",
+            "Lock and Key analogy",
+            "Tissue trophism",
+            "Species specificity",
+            "Dermotrophic",
+            "Pneumotrophic",
+            "Viscerotrhhic",
+            "Neurotrophic"
+          ]
+        },
+        {
+          "slideIndex": 5,
+          "title": "Penetration: some details",
+          "bullets": [
+            "Membrane fusion",
+            "Receptor-mediated",
+            "Clathrin-coated vesicles",
+            "Phagocytosis",
+            "Attachment-associated"
+          ]
+        },
+        {
+          "slideIndex": 6,
+          "title": "Uncoating: Some details",
+          "bullets": [
+            "Partial of complete",
+            "Rotavirus and pox virus",
+            "Herpesvirus",
+            "Site of uncoating",
+            "Enzymes related to",
+            "Viral",
+            "Host enzymes in the",
+            "Role of pH in uncoating",
+            "Role of other cellular proteins"
+          ]
+        },
+        {
+          "slideIndex": 7,
+          "title": "Biosynthesis: The sequence of events",
+          "bullets": [
+            "The sequence depends on type of genome of the virus and virus",
+            "Sense or ambisense ssRNA genome: translation à translation of mRNAàRNA",
+            "Antisense ssRNA genome: Transcription à translation of mRNAs à RNA",
+            "dsRNA genome: transcription à translation of mRNAs à genome replication",
+            "dsDNA genome: transcription à translation of mRNAs à genome replication",
+            "ssDNA genome: DNA replication à transcription à translation of mRNAà",
+            "RNA retrovirus: cDNA synthesis- cDNA insertion to host genome à RNA",
+            "DNA retrovirus: DNA replication à transcription à mRNA translationà cDNA",
+            "Protein, RNA and genome processing"
+          ]
+        },
+        {
+          "slideIndex": 12,
+          "title": "Assembly of viruses",
+          "bullets": [
+            "Protein synthesis and processing in the cytoplasm",
+            "Protein-protein interactions",
+            "Protein transport to the nucleus or Golgi or plasma membrane",
+            "Genomic RNA or DNA synthesis in the cytoplasm or the nucleus",
+            "Protein-DNA or protein-RNA interactions",
+            "Site of assembly",
+            "For envelope viruses",
+            "partly in the membrane",
+            "partly elsewhere",
+            "For naked viruses",
+            "preassembly of scaffold",
+            "Reassembly with the genome"
+          ]
+        },
+        {
+          "slideIndex": 14,
+          "title": "Virus egress",
+          "bullets": [
+            "For enveloped viruses",
+            "Budding out of the live",
+            "Membrane damage of",
+            "For naked viruses",
+            "Death and decay of the"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "11.1.1",
+      "heading": "The virus replication cycle",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Attachment",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Attachment is the binding of certain surface molecules of a virus particle (ligands) with certain surface molecules of the host cell (receptors) (Fig. 11.2). Receptor-ligand binding is a lock-and-key-like interaction. A virus can infect only the cells that have its receptors. It defines the host range (host species the virus can infect) and tissue tropism (the specific cells of the host organism the virus can infect). A virus cannot infect a cell lacking receptors for it. No known bacterial or plant viruses infect human cells because of host range limitations. A virus is dermatotropic, pneumotropic, viscerotropic, or neurotropic if it can infect the integumentary system, respiratory system, internal organs, or nervous system. Those organs have the receptors for the virus in question.",
+          "page": 2
+        },
+        {
+          "type": "subheading",
+          "text": "Penetration",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Penetration is an active (i.e., energy-dependent) transportation of the receptor-bound viruses inside the host cell. Bacterial and fungal cells have a thick cell wall. Viruses that infect those cells have enzymes that make a hole in the cell wall through which the viruses inject their genome directly into the host cell. Thus, bacterial and fungal viruses penetrate and uncoat at the same time.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Animal viruses may penetrate in two different ways. Some enveloped viruses penetrate by fusing their envelope with the plasma membrane and releasing the capsid inside the cytoplasm of the cell (Fig. 11.2). The receptor-ligand interactions allow such membrane fusion. Naked viruses and some enveloped viruses enter cells via receptor-mediated endocytosis. The virus enters the host cell in a clathrin-coated endosome (see Chapter 9).",
+          "page": 2
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 11.2. The attachment, penetration, and uncoating steps of HIV-1. A. Attachment and penetration. The virus",
+          "page": 2,
+          "image": "/mmahp/ch11/11-2.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "ligand gp120 binds the host cell receptors CD4 and CCR5 (1 and 2). The binding interactions cause the virus’s envelope to fuse with the plasma membrane of the host cell (3). Actin and microtubules in the host cell move the virus capsid toward the nucleus (4 and 5). B. Uncoating. The capsid attaches to a nuclear pore complex (steps 5-6). The capsid then gradually disintegrates, releasing the genome (step 7), which completes the uncoating step. Uncoating Uncoating is a complete or partial disassembly of the envelope and the capsid. The acidic pH and enzymes in the endosome facilitate uncoating. DNA viruses usually uncoat in the nucleus, while RNA viruses may uncoat in the cytoplasm or the nucleus.",
+          "page": 2
+        },
+        {
+          "type": "subheading",
+          "text": "Biosynthesis",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Biosynthesis is the synthesis of a virus molecule in the host cell. Depending on the virus species, biosynthesis can have five different steps: (a) replication of the viral genome, (b) transcription of the viral genes, (c) grooming of the viral mRNAs, (d) translation of the viral mRNAs, and (e) grooming of the viral proteins.",
+          "page": 2
+        },
+        {
+          "type": "paragraph",
+          "text": "Processes of biosynthesis differ across virus species. The host cell supplies the raw materials (such as nucleotides and amino acids) for biosynthesis. However, the virus involved may supply some enzymes for genome replication, RNA transcription, and RNA and protein processing. For example, RNA viruses must have an RNA-dependent RNA polymerase (RDRP) to replicate and transcribe their RNA genomes, and retroviruses must have reverse transcriptase (RT) to synthesize cDNA (human cells lack such enzymes). Table 11.1 gives a general description of the biosynthesis steps for the 7 Baltimore Groups of animal viruses. Fig. 11.3 shows biosynthesis among viruses with sense ssRNA genomes (Baltimore Group IV) and antisense ssRNA genomes (Baltimore Group V).",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.1. Biosynthesis during the replication cycle of the seven Baltimore Groups of animal viruses.",
+          "page": 3,
+          "image": "/mmahp/ch11/11-1.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Transcription of mRNA is shown in yellow boxes; protein synthesis is shown in green boxes; genome replication is shown in pink boxes; and reverse transcription of retroviruses is shown in teal boxes. The steps are not completely sequential; some steps may partially overlap.",
+          "page": 3
+        },
+        {
+          "type": "paragraph",
+          "text": "Baltimore Groups Step 1 Step 2 Step 3 Step 4 I. dsDNA viruses mRNAs are transcribed using viral dsDNA as the template Viral proteins are synthesized by translating viral mRNAs The viral DNA genome is replicated II. ssDNA viruses ssDNA genome is replicate to create viral dsDNA Viral mRNAs transcribed using the viral dsDNA as the template Viral proteins are synthesized by translating viral mRNAs Viral dsDNA is copied to create viral ssDNA for the progeny viruses III. dsRNA viruses mRNAs are transcribed using viral dsRNA as the template Viral proteins are synthesized by translating viral mRNAs The genomic dsRNA is replicated for the progeny viruses IV. ssRNA (sense, i.e., mRNA) viruses Viral proteins are synthesized by translating viral mRNAs genome The sense ssRNA is replicated to create viral antisense ssRNA The antisense ssRNA is replicated to create sense ssRNA for the progeny viruses V. ssRNA (antisense) viruses mRNAs are transcribed using viral antisense ssRNA genome as the template Viral proteins are synthesized by translating viral mRNAs The viral antisense ssRNA genome is replicated to create viral sense ssRNA genome The viral sense ssRNA genome is replicated to create viral antisense ssRNA genome for the progeny viruses VI: RNA retroviruses The ssRNA genome is reverse transcribed to synthesize viral cDNA The viral cDNA is inserted into to host chromosome The provirus DNA genome in the host chromosome is transcribed to synthesize mRNAs Viral proteins are synthesized by translating viral mRNAs VII. DNA retroviruses The partially ss/partially ds DNA genome is replicated to create fully dsDNA viral genome The dsDNA viral genome is transcribed to synthesize viral mRNAs Viral proteins are synthesized by translating viral mRNAs Viral mRNAs are reverse- transcribed to synthesize viral DNA genome Translation of viral mRNA Viruses lack ribosomes. Thus, the host cell ribosomes translate viral mRNAs. However, some viral proteins may interact with the translation machinery of the cell to ensure preferential translation of the viral mRNAs over the cell's mRNAs. In eukaryotic cells, translation usually takes place in the endoplasmic reticulum of the host cell.",
+          "page": 3
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 11.3. Biosynthesis of macromolecules in viruses with sense and antisense ssRNA genomes. A. Viruses with",
+          "page": 4,
+          "image": "/mmahp/ch11/11-3.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "a sense ssRNA genome (Baltimore Group IV). (a) The genomic RNA is translated, (b) the polyprotein is processed to mature protein including RNA-dependent RNA polymerase (RDRP), (c) the viral RDRP replicates the sense RNA to create antisense RNA, and (d) the RDRP replicates antisense RNA to create the viral sense ssRNA genome. The capsid proteins bind newly synthesized sense ssRNAs to form new virus particles. B. Viruses with an antisense ssRNA genome (Baltimore Group V). (a) The RDRP in the virus capsid copies the antisense genomic RNA to synthesize mRNAs and genome-length sense RNAs. (b) Ribosomes translate the mRNA to synthesize viral proteins, including RDRP. (c) The RDRP replicates the genome-length sense RNAs to generate antisense genomic RNAs. The capsid proteins bind newly synthesized antisense RNAs to form new virus particles. Note: The green lines represent sense RNAs, and red lines indicate antisense RNAs.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Virus assembly",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "Much less is known about how viruses are assembled. The process could be as diverse as the virus species. The site of assembly varies by virus families. For example, herpesviruses assemble in the nucleus, whereas poxviruses assemble in the cytoplasm. Generally, the cellular membranes serve as the anchoring platform for viral assembly. The virus capsomeres (units that create the capsid, usually made of one or more coat proteins) unite by protein-protein interactions to form the capsid. The assembly process involves proteolytic processing of coat proteins, processing of the viral genome, and protein-protein and protein-nucleic acid interactions. In helical viruses, the capsomeres directly bind to the viral genome to form the nucleocapsid. For icosahedral viruses, the capsomeres create an initial capsid. The scaffold protein binds the genome and packs it inside the initial capsid.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "The initially assembled virion may undergo maturation. During maturation, some of the capsid proteins are further processed by proteases. Many virus particles are assembled without a genome or other necessary components. Such virus particles are defective and incapable of infecting a host cell.",
+          "page": 4
+        },
+        {
+          "type": "subheading",
+          "text": "Viral egress",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "For enveloped viruses: The processes of virus assembly, maturation, and egress are coordinated. Virus egress is not well understood. Enveloped viruses bud out of the nuclear membrane and then the plasma membrane (example: herpes viruses) or the plasma membrane (example: influenza viruses). The viral envelope proteins are localized to patches on the cellular membrane, where host cell microtubules deliver the viral nucleocapsid. The interactions among the viral matrix protein, nucleocapsid proteins, and envelope glycoproteins help the enveloped virion detach from the cellular membrane (Fig. 11.4). This may leave a small hole in the plasma membrane that soon heals. Enveloped viruses usually do not kill the host cell; instead, they use it as a virus factory. However, the budding of many virions at once may leave too many tiny holes in the membrane for an extended period, killing the host cell.",
+          "page": 4
+        },
+        {
+          "type": "paragraph",
+          "text": "For naked viruses: The process of egress of naked viruses is less well understood. Plant and bacterial naked viruses are cytopathic (they kill the host cell after completing the replication cycle). Once the host cell breaks open, the viruses egress. Some naked animal viruses, such as adenoviruses, egress after the collapse of the host cells. Some very naked animal viruses, such as poliovirus, may use a host cell’s microtubules to exit the cell before the cell's death.",
+          "page": 4
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 11.4. Assembly and egress of viruses. A. Assembly and egress of herpes simplex virus (an enveloped virus).",
+          "page": 5,
+          "image": "/mmahp/ch11/11-4.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "The virus’s capsid proteins are transported to the nucleus, where they bind the virus’s genomic DNA and form a capsid. The capsid buds out initially through the nuclear envelope and then through Golgi vesicles before egressing through the plasma membrane. B. Assembly and egress of the influenza virus. The viral envelope proteins assemble on the plasma membrane. The nucleocapsid assembles beneath the envelope proteins. As the virus buds from the plasma membrane, the viral HA protein may bind to sialic acid receptors on the host cell, but the viral NA protein cleaves sialic acid to allow the virus to move away from the dying host cell.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Permissive, semi-permissive and non-permissive cells A cell carrying viral receptors can be a permissive, semi-permissive, or non-permissive host cell. The infection process may have the following consequences on the host cells.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Permissive cells: They allow productive infection, including completion of the viral replication cycle and the generation of infectious progeny viruses. The cell may be killed by the process. Infection of a permissive cell usually leads to acute infection.",
+          "page": 5
+        },
+        {
+          "type": "paragraph",
+          "text": "Semi-permissive cell: These cells support viral biosynthesis and progeny virus production, but the process is slow. Since the viral load remains low, the immune system may not respond adequately, leading to a chronic infection. Non-permissive cells: These cells do not support viral biosynthesis; thus, the infection is non-productive (i.e., no progeny virus is produced). However, tumor viruses encode oncoproteins that disrupt the cell cycle, causing cells to divide repeatedly. Tumor viruses may transform the non-permissive cells into semi-permissive cells and then into tumor cells.",
+          "page": 5
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 30,
+          "title": "Bacterial infectious diseases",
+          "bullets": [
+            "Bacterial diseases may result from",
+            "Exposure to bacterial products (toxins) alone",
+            "Example 1: Activation of TLRs of macrophages by bacterial LPS (an endotoxin)",
+            "Example 2: Inhibition of protein synthesis by diphtheria toxin (an exotoxin secreted",
+            "Infection by intercellular bacteria",
+            "Bacteria that live between cells in tissues",
+            "Infection by intracellular bacteria",
+            "Bacteria that live inside the host cells"
+          ]
+        },
+        {
+          "slideIndex": 45,
+          "title": "Step 4: Reproduction",
+          "bullets": [
+            "Pathogenic bacteria should increase its population to cause acute",
+            "Bacteriostatic antibiotics stop bacterial reproduction (do not kill bacteria)",
+            "If pathogen population is low, the host immune system may soon",
+            "The pathogens may hide inside certain host cells a low numbers",
+            "Mycobacterium sp. hides inside macrophages",
+            "Mycoplasma sp. and Chlamydia sp. hide in epithelial cells"
+          ]
+        },
+        {
+          "slideIndex": 56,
+          "title": "Protozoan pathogenies (at cellular level)",
+          "bullets": [
+            "Virulence factors",
+            "Intracellular protozoa",
+            "Hiding inside the host cell (malarial parasite)",
+            "Release of toxic metabolites (hemozoin)",
+            "Latent infections",
+            "Intercellular protozoa",
+            "Ability to grow at body temperature",
+            "Metabolic diversity",
+            "Motility (for moving away from immune attack)",
+            "Encystation",
+            "Complex life cycle",
+            "Molecular mimicry and antigenic variation",
+            "Inflammation and allergic response"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "11.1.2",
+      "heading": "How viruses cause diseases",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A few viruses can cause disease using bacterial exotoxin-like proteins (see Section 11.2) without infecting the host cells. For example, certain rotaviruses, SARS-CoV-2, and HIV bind cell receptors and induce an inflammatory response. Most viruses cause disease by infecting host cells and replicating within them. The infected cells may die, change phenotype, or become tumor cells. Any of these events can affect the infected subject. Viruses may contain one or more virulence factors (Table 11.2), attributes that enhance their pathogenicity. The host organism's immune responses cause most disease pathologies. Some viral infections (for example, latent infections) may not show any clinical signs because the immune system does not respond to the virus during latency.",
+          "page": 5
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.2. Common virulence factors of pathogenic viruses.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Virulence factors How do the factors play out?",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Fast replication Excessive viral replication commandeers the host’s synthetic machinery. It depletes the host cell's resources, which may ultimately lead to the host cell’s death (as observed with influenza viruses). Viral macromolecules may assemble into insoluble inclusion particles that precipitate inside the cell, causing toxicity.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Damaging enzymes Viral enzymes may destroy and/or modify host chromosomal DNA, RNA, and proteins, crippling the host cell's biosynthetic machinery (for example, an enzyme of poliovirus destroys the host cell's capped mRNAs).",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Fusion glycoproteins The envelope glycoproteins of some viruses (respiratory syncytial virus, for example) cause several host cells to fuse and form a giant cell. The giant cells ultimately collapse, leaving a cavity inside the tissue.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Superantigens Some viruses (such as Epstein-Barr virus and SARS-CoV-2) have superantigens that bind CD4 of T cells along with the MHC II molecules or macrophages and excessively activate TH cells. The activated TH cells release excess cytokines, which induce various damaging inflammatory responses.",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "Toxic molecules Toxic molecules from viruses may affect host cells. For example, herpes simplex viruses produce Cowdry type A inclusion bodies in the infected cells, which kill the host cell; the NSP4 protein of rotavirus kills active intestinal epithelial cells, causing diarrhea.",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Changes in size and shape of the host cells",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "In tissue culture, infected host cells (animal cells) become rounder and smaller. Cells that normally attach to the substratum (i.e., the plastic plate) may float in the culture medium due to detachment of their anchors (Fig. 11.5). Similar processes may occur in cells in infected tissues.",
+          "page": 6
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 11.5. Effect of viral infection on permissive cells. A. Change in cell shape and cell attachment. Shown is a",
+          "page": 6
+        },
+        {
+          "type": "paragraph",
+          "text": "monolayer of human cells exposed to herpes simplex virus. The uninfected cells stay attached to the plastic surface. The infected cells detach, leaving an empty space on the plate called a plaque (indicated by an arrow). The plate was stained with gentian violet. Image-Wikipedia. B. Inclusion particles. Shown is the Negri body (indicated by an arrow) inside a rabies lyssavirus-infected neuronal cell body. Image: Daniel Perl/ CDC. C. Giant cell formation. Shown are the histopathological changes in the lung tissue. Note the excess accumulation of leucocytes (stained dark purple) and a multinucleated giant cell (indicated by an arrow). Image: CDC PHIL. D. Tissue damage due to virus infection. A biopsied liver tissue sample infected by rabies lyssavirus showing histopathologic changes (cells with shrunken nuclei and intensely stained cytoplasm indicating apoptosis). The tissue was stained with toluidine blue azure II. IC: W Winn/CDC PHIL.",
+          "page": 6
+        },
+        {
+          "type": "subheading",
+          "text": "Cell lysis",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "A cytopathic virus kills the infected host cell. Cytopathic viruses produce enzymes that may destroy host proteins, RNA, or DNA, causing a host shutdown (sudden stop of normal cellular activities) and cell death. Some viruses produce insoluble inclusion bodies within infected cells, causing cell death (Fig. 11.5). Some enveloped viruses cause infected cells to fuse with neighboring cells, forming giant cells (Fig. 11.5) that ultimately collapse. Apoptotic cell death Ligands on some viruses (for example, HIV-1) bind host cell receptors and trigger an apoptotic signal. The cell undergoes apoptosis (the nucleus condenses and the cell breaks into small fragments) (Fig. 11.5). Cytotoxic activities Cytotoxic cells are host leucocytes that kill virus-infected host cells. Virus-infected cells display viral antigens on their MHC I molecules, which trigger TC cells to kill them. If antibodies bind to virus-infected cells, NK cells, macrophages, dendritic cells, and neutrophils bind the antibodies and kill the infected cells. This process is called antibody-dependent cellular cytotoxicity (ADCC, see Chapter 9).",
+          "page": 7
+        },
+        {
+          "type": "subheading",
+          "text": "Virus-induced tumors",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "About 15% of all cancers detected worldwide are caused by viruses. Nearly 100% of the cases of cervical cancer are associated with human papillomavirus infections. Oncogenic viruses such as Epstein-Barr virus, Kaposi’s sarcoma virus, papillomavirus, and adenovirus have oncogenes (cancer-causing genes). Oncogenic viruses obtained viral oncogenes (i.e., v-oncogenes) from their host cells. Host cells have protooncogenes that encode proteins that affect the cell cycle, allowing the host cells to divide rapidly when necessary. Protooncogenes include genes for transcription regulators, growth factors, growth factor receptors, and signal-transducing proteins.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "The cells tightly regulate the expression of the proto-oncogenes. However, mutations in the protooncogenes create cellular oncogenes (c-oncogenes). The cells can no longer regulate the expression of c-oncogenes. Proteins encoded by c-oncogenes transform the cell. The transformed cells replicate more frequently and create a cell mass, a tumor. Tumor cells appear like cells of the local tissue and remain in the same location. However, tumor cells accumulate more mutations and turn into cancer cells. Cancer cells do not appear like the local cells. They destroy tissue structure, cause more blood vessels to grow, and ultimately move away from the tissue into the blood and then to other organs. Some of the migrated cancer cells form new tumors in the organs they migrated to. This process is called metastasis. The oncoviruses have somehow obtained the c-oncogenes from their host cell in the evolutionary past. When oncoviruses infect non-permissive host cells, their v-oncogene transforms the host cell in a manner similar to c- oncogenes. The transformed cells become tumor cells and subsequently cancer cells. For example, human papillomavirus infection causes tumors (warts) of the skin and cancer of the cervix. Epstein-Barr virus infection of B cells causes lymphoma, while infection of endothelial cells by Kaposi’s sarcoma virus may lead to sarcoma (cancer of connective tissue). Although a very large fraction of some human populations is infected with the Epstein-Barr virus and Kaposi’s sarcoma virus, the immune system keeps the virus infections under control and prevents cancer. However, if an infected person develops severe immunodeficiency, they may develop cancers. About 10,000 cases of EBV-related lymphoma and cervical cancer caused by human papillomavirus are detected in the USA annually. All humans are repeatedly infected with human adenoviruses throughout their lifetimes. Although human adenoviruses may transform infected cells, they kill the cells to complete their replication cycle, preventing the formation of tumors. Some viruses, such as the hepatitis B and hepatitis C viruses, lack oncogenes yet can still cause cancers, especially when infections are chronic. Chronic infections are associated with chronic inflammation and the continuous production of cytokines. Reactive oxygen species (ROS) released by leukocytes during inflammation may mutate the DNA of some host cells. Some cytokines induce rapid cell division, which may lead to the accumulation of mutations in the genome and ultimately to cell transformation. The genomes of DNA viruses may integrate into the host chromosome, which can also lead to cell transformation and tumorigenesis.",
+          "page": 7
+        },
+        {
+          "type": "paragraph",
+          "text": "Effects of virus infection on the host organisms Viruses enter the host body through injured skin, mucous membranes, or directly into the blood. The delivered viruses initially infect local cells and replicate there. The viral disease may not develop till the virus reaches and infects cells of the target tissues. For example, the rabies lyssavirus initially infects epithelial cells of the skin or the mucous membranes. Still, signs of disease appear only when the virus reaches the brain via neurons that innervate the initial sites of infection. The period between virus transmission and disease development is the incubation period, which may vary from days to months depending on the virus species. If the innate immune system clears the virus, no disease signs appear (this is a silent infection), or only minor signs appear. If the virus replicates and damages tissue, the adaptive immunity induces full-blown signs of the disease (Table 11.3). Disease signs resulting from the immune response are part of immunopathogenesis (see Chapter 9).",
+          "page": 7
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.3. Immunopathogenesis due to virus infections.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Cytokine release Fever, chills, and body pain, especially during the prodrome.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Superantigen effect Excessive TH cell activation and cytokine release may lead to severe inflammatory responses, including vascular shock.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Immune complex formation Weak IgG response to viral antigens may produce soluble immune complexes (i.e., virus antigen bound to antibodies) that may lead to type III hypersensitivity diseases (see Chapter 9).",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Delayed-type hypersensitivity (DTH) T cell immune response to certain viral infections may cause severe DTH upon second and subsequent exposure to the same virus (as in dengue hemorrhagic fever, see Chapter 9).",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Tissue damage Death of the infected cells, and imperfect repair of the affected tissues and organs (for example, liver cirrhosis after chronic hepatitis C virus infection).",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Immunosuppression The virus may destroy certain elements of the host immune system (for example, HIV-1 infection may kill many TH cells, causing acquired severe combined immunodeficiency).",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Direct or indirect cell death following viral infection contributes to disease signs of various severity. Loss of a few critical neurons in the brain may cause big damage (such as blindness or hearing loss). The severity of the disease depends on many factors, including (a) the number of viruses entering the host body, (b) the genetic nature of the virus, (c) the condition of the host (age, sex, immune status, pre-existing conditions, and genotype of the person), and (d) the port of entry of the virus.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Mild disease signs become apparent during the prodrome period of an infection (see Chapter 12). The infected person may transmit viruses to other individuals during the prodrome and the clinical illness that follows. All disease signs, including virus-specific disease signs, appear during the period of clinical illness (see Chapter 12). Many viral species may produce similar disease signs; thus, identifying a virus based on disease signs is difficult. Some common disease signs for viral infections are summarized in Table 11.4.",
+          "page": 8
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.4. The common disease signs associated with viral infections.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Disease signs How the signs develop (a generalized description) Example of viruses associated with the signs Fever and body ache Virus molecules bind TLR and other receptors of leucocytes, the leucocytes get activated and release cytokines including IL-1 and IL- 6, the cytokines bind receptors and activate pain and fever responses.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Almost all viruses Skin rashes (erythema) Activated Tc cells kill virus-infected endothelial cells. Blood and plasma leak through the injured blood capillaries.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Measles virus, Roseola virus, varicella-zoster virus, and parvovirus Hemorrhage (bleeding) Virus-infected endothelial cells of the capillaries activate monocytes and macrophages. Virus infected cells are killed by the virus and leucocytes causing damages in the blood vessels, which lead to bleeding.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "Arenavirus, bunya virus, Ebola viruses, and dengue virus Pox Virus-infected cells killed by leucocytes. Migration of many leucocytes and inflammation create a pimple-like injury (pox), secondary bacterial infections may follow.",
+          "page": 8
+        },
+        {
+          "type": "paragraph",
+          "text": "varicella-zoster virus and poxviruses Diarrhea Viruses infect and kill many epithelial cells of the intestine; toxic molecules of viruses disturb the ion channels of the epithelial cells.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Lack of absorption of fluid and/or fluid leakage by the affected epithelial cells leads to diarrhea.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Rotavirus, enteroviruses, norovirus, astrovirus, and calicivirus.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Hepatitis, jaundice, and liver cirrhosis The cell-mediated killing of the virus-infected hepatocytes (liver cells) induces inflammation. The inability of the inflamed liver cells to properly process bilirubin results in jaundice. Unregulated regeneration of the liver cells and activation of stellate cells of the liver leads to fibrosis (scar tissue) and then cirrhosis.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Jaundice- Hepatitis A, B, C, D, and E viruses, cirrhosis- hepatitis B and C viruses.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Conjunctivitis Virus-infected corneal cells activate leucocytes to release cytokine, dilation of blood vessels, and inflammation cause pink eye syndrome.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Adenovirus and herpes simplex virus Tonsillitis, pharyngitis, and laryngitis Virus-infected cells of the tonsils, throat (pharynx) and voice box (larynx) activate macrophages, DCs, B cells, and T cells; excess proliferation of the leucocytes in the affected tissues causes inflammation and swelling (adenopathy).",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Adenovirus, influenza virus, cytomegalovirus, and Epstein Barr virus Runny nose and watery eyes Virus-infected /damaged cells release kinins including bradykinin, kinins bind their receptors on blood vessels and cause vasodilation and fluid leakage.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Rhinovirus, influenza virus, and SARS-CoV- Pneumonia Virus-infected cells of the lung activate leucocytes, leucocytes release excess cytokines, the cytokines cause inflammation; vasodilation, leakage of fluids through the capillaries, and fluid accumulation in the alveoli (air sacs) of the lung follow; oxygen exchange gets severely impeded.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "SARS-CoV-1, MERS-CoV, SARS- CoV-2, and influenza viruses A, B, and C Kidney failure Virus-infected kidney cells are killed by Tc cells and other leucocytes. Virus antigens bound to IgG (i.e., soluble immune complexes) got tangled in the kidney tubules and activate the classical complement pathway. Anaphylatoxins thus released activate leucocytes. The two processes damage kidney tubules; removal of urea gets seriously impeded.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Hepatitis A virus, dengue virus, and cytomegalovirus Encephalitis Viruses kill infected neurons; Tc cells and other leucocytes kill virus-infected neurons; leucocyte migration and cytokine released to the affected areas induce severe inflammation.",
+          "page": 9
+        },
+        {
+          "type": "paragraph",
+          "text": "Rabies viruses, poliovirus, West Nile virus, and hantavirus The actual disease outcomes could be inapparent, acute, subacute, chronic, persistent or latent (see Chapter 12), depending on the extent of tissue damage, duration of the disease, and the severity of the inflammatory response. Diseases caused by important virus species will be discussed in Chapters 12-14.",
+          "page": 9
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 18,
+          "title": "Virus-induced tumors",
+          "bullets": [
+            "Tumor viruses (Oncoviruses)- adenovirus, EBV, KSV, HPV, HTLV",
+            "Some DNA viruses and RNA retroviruses",
+            "Viral oncogenes cause cells to divide by mitosis and transform the cell",
+            "Accumulation of new mutations in the transformed cell",
+            "Non-tumor DNA viruses (HBV): insertion of DNA on the chromosome",
+            "Insertional mutation",
+            "Activation of protooncogenes",
+            "Inactivation of tumor suppressor genes",
+            "Cell get transformed and they accumulate more mutation",
+            "Non-tumor RNA viruses (HCV)- mostly due to chronic inflammation"
+          ]
+        },
+        {
+          "slideIndex": 19,
+          "title": "Protooncogene and oncogenes",
+          "bullets": [
+            "Protooncogenes",
+            "Able to affect cell cycle, rate of mitosis",
+            "Types",
+            "Transcription regulators",
+            "Growth factors",
+            "Growth factor receptors",
+            "Singal transduction protein including kinsases",
+            "Properties- wild type genes, highly regulated",
+            "C-oncogenes- mutant genes, unregulated",
+            "V-oncogenes- mutant, unregulated"
+          ]
+        },
+        {
+          "slideIndex": 20,
+          "title": "Various types cellular and viral oncogenes",
+          "bullets": [
+            "Type \tExample \tNormal biological functions",
+            "Growth factor \tc-sis, v-sis \tEncodes platelet growth factor.",
+            "Growth factor receptor \tc-fms, v-fms \tReceptor for colony stimulating factor 1.",
+            "Kinases \tc-ras, v-ras \tInvolved in signal transduction",
+            "Transcription factor \tc-myc, v-myc Activates transcription of certain genes."
+          ]
+        },
+        {
+          "slideIndex": 21,
+          "title": "Tumor versus cancer",
+          "bullets": [
+            "Tumors (few mutation in some key genes)",
+            "transformed cells lacking cell cycle regulation and contact inhibition",
+            "Divide more frequently, pile up and make mass",
+            "Stay in a capsule in the parent tissues, may damage local tissues",
+            "Cancers (malignant tumors, many mutations in the key genes)",
+            "Produce hormones to create more blood vessels",
+            "Secrete proteases to damage and kill neighboring cell",
+            "Migrate out of the local tissues",
+            "Colonize remote organs (metastasize)"
+          ]
+        },
+        {
+          "slideIndex": 24,
+          "title": "Common signs of virus infections",
+          "bullets": [
+            "Fever and aches",
+            "Skin rashes",
+            "Hemorrhage",
+            "Pox",
+            "Diarrhea",
+            "Hepatitis, jaundice, cirrhosis",
+            "Conjunctivitis",
+            "Tonsilitis, pharyngitis, laryngitis",
+            "Rhinitis",
+            "Pink eye",
+            "Pneumonitis and pneumonia",
+            "encephalitis"
+          ]
+        },
+        {
+          "slideIndex": 28,
+          "title": "Bacterial infections",
+          "bullets": [
+            "To cause diseases, bacteria or their products should",
+            "enter a host",
+            "adhere to host cells and enter host tissues, (and enter inside the host",
+            "avoid host immune surveillance",
+            "invade host tissues",
+            "damage host tissues and/or activate pathological immune responses",
+            "Bacterial products such as certain endotoxins and exotoxins may"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "11.1.3",
+      "heading": "How viruses avoid host immune surveillance",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The immune system and the pathogen coevolve, but because viruses evolve faster, they always find ways to overcome host immune surveillance. Viruses have developed various strategies to avoid immune surveillance (Table 11.5).",
+          "page": 9
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.5. Some strategies viruses use to evade the host animal's immune surveillance.",
+          "page": 10,
+          "image": "/mmahp/ch11/11-5.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Immune response How viruses overcome it Example Expression of interferons and antiviral state Viruses suppress interferon release and the development of antiviral state SARS-Cov-2 Antibodies to bind virus particle Viruses move from cell to another cell without coming outside Herpesviruses, penumoviruses Infected cells display virus antigens on MHC I and MHC II molecules Viruses infect cell that express MHC-1 and MHC-II at a very low level or suppress the expression of those molecules Herpesviruses The immune system generates antibodies and TCRs to bind virus antigens The viruses stop synthesizing virus antigen Herpesviruses during latent infection Viruses mutate frequently to change the structure of the antigens Influenzas virus The immune system express inflammatory cytokines such as interferon gamma, IL-1, TNF-beta Viruses express cytokines (such as IL- 10) that suppresses inflammation Epstein-Barr virus The immune system increases the number of leucocytes (such as TH cells) upon virus infection Viruses kill leucocytes such as Th cells HIV-1 and HIV-2 Host cells do not support viral replication cycle Viruses transform cells to immortal tumor cells Papillomaviruses",
+          "page": 10
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 25,
+          "title": "How viruses avoid host immune surveillance",
+          "bullets": [
+            "Please see MMAHP Table 11.4",
+            "Suppress inflammatory cytokine synthesis \tHCV",
+            "Suppress MHC I expression \tHSV-1",
+            "Suppress MHC II expression \tCMV",
+            "Infect cells with low MHC I \tHSV-1",
+            "Cell-to cell migration \tHRSV, FLUAV",
+            "Rapid mutation to change antigens \tHIV-1, HIV-2, FLUAV",
+            "Killing or inactivating lymphocytes \tHIV-1, HIV-2, EBV",
+            "Viral cytokine, or cytokine-like molecules \tEBV and KSV",
+            "Generalized immunosuppression \tHIV-1 and HIV-2"
+          ]
+        },
+        {
+          "slideIndex": 58,
+          "title": "Protozoan pathogenies (at organismal level)",
+          "bullets": [
+            "Malabsorption and diarrhea",
+            "Anemia",
+            "Affecting the nervous system",
+            "Splenomegaly",
+            "Blindness",
+            "Encephalopathy"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "11.2",
+      "heading": "Mechanisms of bacterial pathogenesis",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Unlike viruses, bacteria do not need to be inside the host body or cells to cause disease; the presence of bacterial endotoxins or exotoxins may be sufficient for bacterial pathogenesis. For example, a person would develop botulism (i.e., flaccid paralysis) by ingesting food contaminated with botulinum toxin, without coming in direct contact with Clostridium botulinum, the bacterium that produces the toxin. A person would develop a high fever if injected with a saline solution contaminated with bacterial endotoxins such as LPS.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Resident bacteria do not cause disease in healthy subjects as long as they occupy the allowable human body surfaces. Disease signs may appear if resident bacteria enter and grow in restricted body compartments, or if pathogenic bacteria colonize or disseminate within the human body. The pathogenesis of diseases caused by bacterial infections generally involves the following steps: (i) entrance to the body, (ii) adhesion to the body surfaces, (iii) colonization of certain body surfaces without causing disease for the time being (see Box 11.1), (iv) evasion of the innate and in some cases, adaptive immune responses of the body, (v) invasion of the immune surveillance and entering into the deeper tissues of the body, and (vi) destruction of tissues and organs (Fig. 11.6).",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Box 11.1: Colonization, infection, and occupation Colonization is defined as the reproduction of microorganisms on the surfaces of a host’s body without causing tissue damage or clinical signs of disease. An infection is colonization by primary pathogens. A primary pathogen typically causes disease upon colonization, although there are exceptions. For instance, the upper respiratory tract of approximately 35.7% of healthy Japanese individuals is colonized by Staphylococcus aureus, a primary pathogen. Infections that do not involve tissue damage or clinical symptoms are referred to as inapparent or latent infections. Colonization of specific body surfaces such as the skin, mouth, upper respiratory tract, eyelids, cornea, outer and middle ear, alimentary canal, lower urethra, and vagina by normal microbiota is considered colonization (we will call it occupation). The normal microbiota found in any area of the body other than those listed above constitutes an opportunistic or secondary infection. Therefore, Staphylococcus epidermidis, which is part of the normal biota of the skin, becomes an opportunistic or secondary pathogen if it colonizes the endocardium of the heart. The six steps listed above can be performed in different sequences, and some of the steps can be combined or skipped for certain bacterial pathogens. The virulence factors of pathogenic bacteria, such as glycocalyx, flagella, pili, endotoxins, exotoxins, and some other metabolites (such as siderophores), help pathogens achieve one or more of the six objectives above. Resident and other opportunistic environmental bacteria may cause disease by taking some of the above steps, but only if the host’s immune mechanism is somewhat compromised.",
+          "page": 10
+        },
+        {
+          "type": "paragraph",
+          "text": "Resident bacteria and the majority of environmental bacteria usually do not cause diseases for the following reasons: • They cannot grow or grow very slowly at body temperature.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "• They do not invade the sterile tissues.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "• They lack highly potent virulence factors, and they do not produce metabolites harmful to humans. • The immune system efficiently eliminates them from the body’s sterile spaces.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "• The immune system quickly removes their harmful metabolites.",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Any bacterial species, including resident and environmental ones such as Lactobacillus lactis, may cause opportunistic infections in subjects with a weakened immune system. However, some of the resident species, such as Enterobacter faecium are more aggressive opportunists than others (such as Lactobacillus lactis). Ironically, opportunistic infections caused by resident bacteria (such as Enterococcus faecalis) and environmental bacteria (such as Clostridioides difficile) are among the most difficult to treat.",
+          "page": 11
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 48,
+          "title": "Destruction by exotoxins (1)",
+          "bullets": [
+            "Three types of exotoxins: I, II and III",
+            "Type I exotoxins: act just by binding receptors",
+            "Superantigens of Staph and Strep",
+            "Heat stable enterotoxin of E. coli,"
+          ]
+        },
+        {
+          "slideIndex": 50,
+          "title": "Destruction by exotoxins (3)",
+          "bullets": [
+            "Type III exotoxins: A-B or AB5 toxins, B binds host cell receptors, A gets inside the host",
+            "Anthrax toxin (Bacillus anthracis), increases cAMP level, causes cell death",
+            "Pertussis tixin or Bordetella pertussis, activate or inhibit certain signal",
+            "Botulinum toxin (Clostridium botulinum), interferes with neuro transmission",
+            "Cholera toxin (Vibrio cholerae) and heat labile enterotoxin (E. coli), increase",
+            "Diphtheria toxin (of Corynebacterium diphtheriae) and Pseudomonas",
+            "Tetanospasmin or tetanus toxin (of Clostridium tetani), interferes with neuro"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "11.2.1",
+      "heading": "The six steps of bacterial pathogenesis",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Bacterial entrance in host body",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacteria may enter the human body vertically from mother to child (through the placenta, during parturition, or through breastfeeding) and laterally through casual or sexual contacts, from aerosols, respiratory droplets, body fluids, and dander of other humans and animals, from inanimate substances (dust, dirt, fomites, and contaminated food and drinks), and through contaminated medical devices (see Chapter 12). Some pathogenic bacteria (for example, species of the genera Borrelia and Rickettsia) enter the human body through bites inflicted by their insect vectors. Intact skin, bordered by dead epithelial cells, is a highly protective barrier against infection. Only a few species of bacteria (including the spirochete Leptospira interrogans), may enter the body through the intact skin. Injured skin, however, is an effortless conduit of infection, where the entering bacteria directly enter deeper tissues and blood. Bacteria entering the body through animal bites also gain deeper access. Bacteria that come in contact with the mucous membrane face many immune defense mechanisms. Still, the mucous membranes are covered by live epithelial cells; the entering bacteria may find the mucous membranes more suitable (than skin) for the next steps of the infection process.",
+          "page": 11
+        },
+        {
+          "type": "subheading",
+          "text": "Bacterial adhesion to host cells and tissues",
+          "page": 11
+        },
+        {
+          "type": "paragraph",
+          "text": "Unlike viruses, not all bacteria need biological receptors to adhere to body surfaces. For example, Streptococcus mutans may grow abundantly on human tooth surfaces, even though these surfaces are non-living and lack biological receptors. S. mutans adheres to the surface through its glycocalyx and creates a biofilm (see Box 11.2). Box 11.2: Biofilm A population of bacteria (of one or more species) secretes and shares capsular materials to form biofilms (Fig. 11.6). It is estimated that 60-80% of bacterial infections involve biofilms. A biofilm is a three- dimensional matrix composed of macromolecules (mostly polysaccharides, glycoproteins, and other proteins). Many bacterial species can rapidly develop biofilms on inanimate surfaces within the human body. Examples include exposed areas of tooth enamel, undigested food residues in the intestine, indwelling catheters, synthetic heart valves, prosthetic devices, pacemakers, intrauterine devices (IUDs) for birth control, and tampons inserted in the vagina. Environmental bacteria may produce biofilms on rocks, mud, the surfaces of aquatic plants and animals, and other substances. A biofilm is an organized community of bacteria. Despite the compact nature of a biofilm, bacteria within it can obtain adequate nutrients and readily remove metabolic wastes. Bacteria in biofilms are highly resistant to the body's immune response, chemotherapeutic agents, and many disinfectants. A dental plaque is a good example of a biofilm. Bacteria may form a biofilm on the wall of an indwelling catheter; a portion of the colony may break off and enter the bloodstream; the bacteria may then develop a biofilm on a synthetic heart valve. Numerous bacterial species (both primary pathogens and resident bacteria) form biofilms on implanted devices and dead tissues. Some species, for example Pseudomonas aeruginosa, may form biofilms on living tissues, including mucous membranes. It is estimated that about 5 million medical implants are used in the USA every year, and bacteria may develop biofilms on almost all types of medical implants. Bacterial biofilms are a persistent problem in modern medicine. In addition to bacteria, some species of protozoa and fungi form biofilms in both the environment and the patient's body. Biotechnologists are constantly seeking to develop physiologically acceptable implant materials inherently resistant to biofilm development. Primary pathogens generally use specific molecules (as ligands) to bind receptors on host cells. Bacterial ligands that bind to host cell receptors are collectively called adhesins. Genetic and biochemical studies have revealed many bacterial surface molecules that are adhesins. A few bacterial adhesins and host cell receptors with which they interact are listed in Table 11.6. Receptors for many bacterial adhesins are not fully elucidated.",
+          "page": 11
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.6. Some of the common bacterial adhesins and their receptors (receptors are shown in parentheses).",
+          "page": 12,
+          "image": "/mmahp/ch11/11-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacterial adhesins Examples of bacterial molecules (the host cell receptors they interact with are shown in the parenthesis) Capsular materials Staphylococci, enterococci and Hemophilus sp.: Glycocalyx (unknown) Non-capsular/non-pilus proteins Bordetella pertussis: Cell surface proteins (galactose); Chlamydia sp.: Cell surface lectin (N-acetyl glucosamine); Enterobacteriaceae: Outer membrane proteins (unknown); Listeria sp.: The internalin protein (E-cadherin); Mycoplasma pneumoniae: Protein P1 (sialic acid); Streptococcus pyogenes: Protein F (fibronectin, a glycoprotein); Staphylococcus aureus: Cell surface protein (fibronectin); Streptococcus pneumoniae: Cell surface protein (N-acetyl glucosamine-Gal); Treponema pallidum: Outer membrane protein p1, p2, and p3 (fibronectin) Fimbriae and pili Enterobacteriaceae: Type I fimbriae (D-mannose); E. coli: Type I fimbriae (D- mannose); Colonization factor antigen fimbriae (GM Ganglioside 1); P fimbriae (p blood group antigen); Neisseria gonorrhoeae: Type IV pili (Glucosamine-galactose); Vibrio cholerae: Type IV pili (fucose and mannose).",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Lipoteichoic acid (LTA) Staphylococcus aureus: LTA (unknown); Group A streptococci: LTA- M protein complex (fibronectin).",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Lipopolysaccharide (LPS) Helicobacter pylori: LPS (mucin, mucin receptor).",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacterial adhesins are diverse molecules, including membrane proteins, fimbriae, pili, lipoteichoic acids (LTA), and secreted polysaccharides or proteins. Receptors that bacterial adhesins bind to are usually short polysaccharide molecules attached to membrane proteins or lipids of the host cells (Fig. 11.6).",
+          "page": 12
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 11.6. Bacterial attachment to the host cells and other surfaces. A. Bacterial adhesins interact with the host",
+          "page": 12,
+          "image": "/mmahp/ch11/11-6.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "cell receptors. A multitude of surface molecules of Helicobacter pylori (shown in pink) interact with the receptors on the epithelial cells of the stomach (shown in brown and green). Redrawn after Testerman TL et al. Helicobacter pylori: Physiology and Genetics. Washington DC, ASM Press (2001). B. An electron micrograph showing part of a biofilm produced by Staphylococcus aureus on the luminal surface of an indwelling catheter. The image is magnified ~2,000 times. If unmagnified, the film would appear as a solid slime. (Image courtesy: CDC PHIL).",
+          "page": 12
+        },
+        {
+          "type": "paragraph",
+          "text": "Adhesion is generally an essential step in colonization or infection. If all the receptors of the epithelial cells of the mucous membrane were bound to the ligands of the resident microbiota, an entering foreign bacterium would be unable to adhere to the surface. The resident microbiota also synthesizes molecules that prevent invading microbes from colonizing these spaces. For example, lactobacilli synthesize acids and make the mucous membrane of the vagina unsuitable for fungal growth. If the normal microbiota is disrupted (for example, by antibiotic therapy), external pathogens would find ample receptors to interact with. The environmental bacterium Clostridioides difficile, for example, infects the large intestine only if the normal biota there is disrupted by prolonged antibiotic therapy. Bacterial invasion in host tissues Bacteria that enter the body through injuries can readily enter sterile tissues and blood. Some pathogenic bacteria may colonize the mucous membranes before damaging them and invading the submucosa (the tissue layer beneath the mucous membranes) to infect deeper tissues (Fig. 11.7). These pathogens produce various enzymes, exotoxins, and gases that facilitate their invasion of tissues. The molecules that help bacteria invade host tissues are grouped into invasins (proteins on the surface of live bacterial cells) and spreading factors (proteins and enzymes secreted by bacteria). Some important invasins and spreading factors and their functions are listed in Table 11.7.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 11.7. Invasion and dissemination of Shigella sp. The M cells of the intestinal epithelium engulf bacteria from",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "the lumen of the intestine and transport them to macrophages in the intestinal mucosa. Macrophages kill the bacteria and show their antigens to T cells in the Peyer's patches. However, highly pathogenic bacteria may kill macrophages, spread within the mucosa, infect epithelial cells, and move from one infected cell to another via host-cell F-actin. Ultimately, the immune system detects the infection and kills the bacteria, although that also causes lateral damage such as ulceration and inflammation. Adapted from Schroeder GN, Hilbi H. Clin Micr Rev 2008; DOI: 10.1128/CMR.00032-07.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.7. Some bacterial invasins, spreading factors, and other products involved in bacterial invasion.",
+          "page": 13
+        },
+        {
+          "type": "paragraph",
+          "text": "Type Mechanism of action Example Invasins Help bacteria enter tissue without being phagocytized (captured by phagocytes) Invasins (of Yersinia enterocolitica) that binds integrin on the host cell Spreading factors Membrane damaging proteins secreted by bacterial pathogens Leucocidin (of Staphylococcus aureus), protein get into the membrane of leucocytes and kill them Hemolysins (of Streptococcus pyogenes): get into the membrane of erythrocytes and kill them Enzymes secreted by bacterial pathogens Collagenase (of Clostridium perfringens) degrade collagens of connective tissues Hyaluronidases (of S. aureus) that degrade cartilages Lipases (of Pseudomonas aeruginosa) destroy membrane lipid and kill the affected cells Nucleases (of S. pyogenes) that degrade DNA and RNA of killed host cells for free movement of the bacterium CO2 gases (of C. perfringens) that rupture muscle bindles Bacterial secretion systems Bacteria have various pores/channels in their plasma membrane and the outer membrane [of G(-) bacteria] to secrete proteins, exotoxins, antibiotics, and other molecules. Some of these channels, such as the Type I, Type II, and Type V secretion systems (T1SS, T2SS, and T5SS) of G(-) bacteria, release bacterial molecules in the spaces outside the bacterial cells (Fig 11.8). The type III, IV, and VI secretion systems (T3SS, T4SS, and T6SS) of G(-) bacteria serve as molecular needles to inject bacterial molecules directly into host animal cells. Different species of G(-) bacteria inject different effector molecules into the host cells. The affected host cells react in a variety of ways (see Fig. 11.8). The effect on the host cell may include deformation of the plasma membrane (membrane ruffling), changing internal membrane trafficking patterns, allowing the bacteria to enter the host cell cytoplasm, failing to kill the internalized bacteria, and failing to properly interact with the neighboring host cells.",
+          "page": 13
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 11.8. The secretion systems of G(-) bacteria. Types I, II, III, IV, and VI secretion systems span the bacterial",
+          "page": 14,
+          "image": "/mmahp/ch11/11-8.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "plasma membrane and the outer membrane. The Type V secretion system has different components in the inner and outer membranes. Types I, II, and V SS secrete bacterial proteins first into the periplasmic space and then outside the cell. Types III, IV, and VI SS function as molecular needles, allowing them to penetrate the host cell's plasma membrane and deliver bacterial effector molecules directly into the host cell. Abbreviations: BOM- bacterial outer membrane, BPM- bacterial plasma membrane, HPM- host cell plasma membrane, PGN- peptidoglycan, PPS- periplasmic space. Figure adapted from Green ER, Mecsas J. Microbiol Spectr 2016; doi:10.1128/microbiolspec.VMBF-0012-2015.",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Bacterial evasion of the host immune surveillance Bacterial pathogens must either withstand or, preferably, disable the host’s immune mechanisms to persist in the body and continue causing damage. Pathogenic bacteria employ various strategies to evade humoral (i.e., antibody-, complement-, and cytokine-mediated) and cell-mediated immune responses. Some common strategies bacteria use to evade host immune surveillance are listed in Table 11.8.",
+          "page": 14
+        },
+        {
+          "type": "subheading",
+          "text": "Destruction",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Pathogenic bacteria destroy host molecules, cells, and tissues in diverse ways. Some bacterial products involved in adhesion, invasion, and evasion (described in the previous sections) also contribute to the destruction of host tissues. For example, bacterial hyaluronidase and collagenase (spreading factors) degrade tissue integrity, bacterial lipases degrade host cell membranes, and bacterial pore-forming toxins disrupt host cell membranes. Gases produced by Clostridium perfringens rupture host connective tissues. In the following sections, we will discuss bacterial toxins and how they damage host cells, tissues, and organs.",
+          "page": 14
+        },
+        {
+          "type": "subheading",
+          "text": "Bacterial Toxins",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Toxins are harmful chemical substances produced by the metabolic activities of certain organisms. Bacterial toxins can be divided into two major categories: endotoxins and exotoxins.",
+          "page": 14
+        },
+        {
+          "type": "subheading",
+          "text": "Bacterial endotoxins",
+          "page": 14
+        },
+        {
+          "type": "paragraph",
+          "text": "Endotoxins are cell-associated toxins. Because they are integral parts of bacterial cells, they can be released only after death. The principal endotoxins are lipopolysaccharides (LPS) found in the outer membrane of G(-) bacteria. Other bacterial molecules with endotoxin-like activities include the bacterial peptidoglycan cell wall, lipoteichoic acids (LTA) of G(+) bacteria, arabinogalactan and mycolic acids of actinobacteria, and bacterial RNA and DNA. All of these are non-protein molecules, so they are heat-stable (boiling does not destroy these agents). Endotoxins act by binding TLR or some other receptors on the host cell surface (see Chapter 9). Receptor binding activates powerful signal transduction pathways, leading to the expression of new proteins, including pro- inflammatory cytokines such as IL-1, IL-6, and TNF-alpha (Fig. 11.9).",
+          "page": 14
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.8. Some common bacterial strategies to evade host immune surveillance.",
+          "page": 15,
+          "image": "/mmahp/ch11/11-8.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Host immune response Bacterial evasion mechanisms Example Phagocytosis Capsule and biofilm- prevent phagocytosis Neisseria gonorrhoeae Prevent killing after phagocytosis by preventing phagolysosome formation Legionella pneumophila, Mycobacterium tuberculosis, Chlamydia trachomatis Prevent killing after phagocytosis by destroying ROSs and lytic enzymes Salmonella typhimurium, Coxiella burnetiid, and M. tuberculosis Prevent killing after phagocytosis by moving out of the phagosome to the cytoplasm Listeria monocytogenes, Francisella tularensis Prevent killing after phagocytosis by killing the phagocytes Streptococcus pyogenes, Clostridium perfringens Antibodies binding to the bacterial surface proteins Use proteases to digest the antibodies S. pyogenes, N. gonorrhoea Changing antigens frequently to prevent antibody binding Brucella melitensis Coating bacterial surface with host cell proteins (such as antibodies) S. pyogenes, S. aureus Activation of complement pathways Digest deposited complement or use host proteins to prevent complement activation S. aurius, Pophyromonas gingivalis Express bacterial proteins that appear like host proteins (molecular mimicry) Campylobacter jejuni, Helicobacter pylori Host cells hide key nutrients such as iron from pathogens Bacteria secrete siderophores and other molecules to bind and steal the hidden nutrients from the host cell Escherichia coli, Pseudomoans aeruginosa These cytokines bind to cytokine receptors and initiate another round of signal transduction, activating many leukocytes, which can then remove the bacteria and their antigens. The process also induces non-specific disease symptoms such as fever, body pain, headache, and skin rashes. If many dead bacteria are present in the host body (as in sepsis), many leukocytes would be activated, leading to the secretion of excessive inflammatory cytokines. This process, collectively called the pyrogenic acute response (also known as cytokine storm), includes fever, vasodilation, blood clotting, activation of complement pathways, and rapid/devastating hypotension (vascular shock), which can be fatal. Unlike LPS, peptidoglycan and LTA induce a modest pyrogenic acute response. Bacterial exotoxins Exotoxins are proteins secreted by toxigenic strains of pathogenic bacteria. Most, but not all, exotoxins are heat-labile (inactivated by boiling). Exotoxins can be divided into three categories: Type I, Type II, and Type III, as described below (also see Table 11.9).",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Type I exotoxins",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Type I exotoxins bind receptors on the host cell and activate a signal transduction pathway. Type I exotoxins do not damage the host cell membrane and do not enter the host cell. A good example of type I toxins is superantigens secreted by Staphylococcus aureus and Streptococcus pyogenes. The superantigens simultaneously bind to the TCRs on TH cells and the MHC II molecules on antigen-presenting cells, such as macrophages, activating TH cells. Activated TH cells secrete excessive cytokines, which may lead to vascular shock (Fig. 11.10).",
+          "page": 15
+        },
+        {
+          "type": "subheading",
+          "text": "Type II exotoxins",
+          "page": 15
+        },
+        {
+          "type": "paragraph",
+          "text": "Type II exotoxins are membrane-active proteins, such as leucocidins and hemolysins, secreted by Staphylococcus aureus. These toxins damage the membrane by forming pores, which kill the affected host cells (Fig. 11.10).",
+          "page": 15
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 11.9. Endotoxins and their toxic effects. A. Activation of TLR signaling pathways. Endotoxins such as LPS,",
+          "page": 16,
+          "image": "/mmahp/ch11/11-9.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "bind specific TLRs and activate signal transduction pathways. The activated leukocyte (shown here is a dendritic cell) releases cytokines such as IL-1, IL-6, and TNF-alpha. B. Activation of cytokine signaling. Cytokines bind to receptors on leukocytes, activating them to release additional cytokines. C. The cascading effect of cytokines. Cytokines activate the immune system to eradicate pathogens, but they may also cause many of the disease signs associated with bacterial infections.",
+          "page": 16
+        },
+        {
+          "type": "subheading",
+          "text": "Type III exotoxins",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Type III exotoxins are secreted toxins that usually act after entering the host cell. Many members of this family of exotoxins are made of A and B components. They usually have an A1-B1 or A1-B5 subunit combination (Fig. 11.10). Usually, the B subunit binds the receptor present in the host cells and helps the A subunit to enter the host cell. The A subunit, and in some cases both A and B subunits, subsequently carry out the damaging biological activities. The outcomes (i.e., the detrimental effects) are diverse (Table 11.9), including signal transduction and activation of certain enzymes; inhibition of endosomal movement within the host cell; alteration of certain structural components of the host cell; deregulation of membrane channels; and inhibition of protein synthesis.",
+          "page": 16
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.9. Modes of action of some common bacterial exotoxins.",
+          "page": 16
+        },
+        {
+          "type": "paragraph",
+          "text": "Exotoxins Mechanism Example Type I Locks TH cells with antigen presenting cell, activate T cells, activated TH cells release excess cytokines, which lead to vascular shock Toxic shoch syndrome toxin of Staphylococcus pyogenes, and Streptococcus pyogenes Type II Bind cholesterol and create a pore in the membrane, kill the affected host cell Alpha toxin of S. aureus Enzymes that damage host cell lipid membrane and kill them Lipase of C. perfringens Create a pore in the membrane, kill the affected host cell Hemolysin of S. aureus Type III The toxins bind host cell receptors, activate adenylyl cyclase, the increased cAMP level cause electrolyte and water loss Anthrax PA-EF toxin (of Bacillus anthracis), pertussis toxin (of Bordetella pertussis), cholera toxin (of Vibrio cholerae and Escherichia coli) The toxins bind host cell receptors, activate MAPK kinase pathway, leading to apoptotic cell death Anthrax PA-LF toxin (of Bacillus anthracis) The toxin inhibits the snare proteins in neuronal synapse, prevents the release of the excitatory neurotransmitter, leading to flaccid paralysis Botulinum toxin of Clostridium botulinum The toxin cuts synatobrevin proteins in the neural synapse, preventing the release of inhibitory neurotransmitters (without affecting the release of excitatory neurotransmitter) leading to spastic paralysis Tetanus toxin of Clostridium tetani The toxin modifies a translation elongation factor (eEF-2), preventing protein synthesis (which kill the host cells) Diphtheria toxin (of Corynebacterium diphtheriae) and exotoxin A (of Pseudomonas aeruginosa) The toxin cuts 28S rRNA in the 60S ribosome particle, preventing protein synthesis (which kill the host cells) Shiga toxin (of Shigella dysenteriae and enterotoxigenic E. coli)",
+          "page": 16
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 11.10. Mode of action of some bacterial exotoxins. A. A type I exotoxin in action. Shown is a bacterial",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "superantigen (SAG) cross-linking the TCR of a TH cell and the MHC (HLA) II of a macrophage. Such bindings over- activate TH cells, leading to excessive cytokine release. B. A type II exotoxin. Shown is the structure of alpha- hemolysin of S. aureus (top). Image: Wikipedia. The cartoon at the bottom shows alpha-hemolysin inserted into the membrane of an erythrocyte, creating a pore. C. Type III exotoxin. Shown is the mode of action of cholera toxin, an A1B5 type exotoxin. The five B components of the toxin bind the host cell receptor (i.e., GM1 ganglioside). The entire toxin then enters the cell via receptor-mediated endocytosis. The A component enters the cytoplasm and modifies the enzyme adenylyl cyclase, leading to the synthesis of excess cAMP and, ultimately, the activation of the CFTR channel, leading to the loss of ions (i.e., Cl-, Na+, HCO3-) and water. The result is cholera (severe diarrhea and dehydration). Redrawn after Lassak J et al. Biol Chem 2019; 400(11): DOI:10.1515/hsz-2019-0182.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Destruction due to immunopathology in bacterial infections The immune responses to bacterial (or other microbial) infections lead to significant morbidity and, in some cases, mortality. Here are some of the pathologies the immune system contributes to in response to bacterial infections. Damages due to cytokine storm During bacterial sepsis (growth of bacteria in the blood and visceral organs), bacterial endotoxins, especially LPS of G(-) bacteria in the blood (and other body fluids) bind TLRs and other receptors, activating macrophages. The macrophages release massive amounts of cytokines that lead to (a) excess cytokine secretion by various leukocytes, (b) unregulated complement activation and tissue damage, (c) uncontrolled blood clotting, (d) high fever, (e) vascular shock (extremely low blood pressure), and (f) multiple organ failure. Bacterial sepsis is usually fatal unless treated in a critical care facility. Some exotoxins, such as TSST-1 superantigens of Staphylococcus aureus) may also trigger a cytokine storm and vascular shock by locking TH cells onto antigen-presenting cells such as macrophages (Fig. 11.10). In this case, the cytokines are released by activated TH cells, but the ultimate outcome is the same as in sepsis. Damage by antibodies Type II hypersensitivity reactions Some bacteria (such as S. aureus, Treponema pallidum, and Campylobacter jejune) secrete bacterial molecules that are structurally similar to some host proteins. Antibodies specific to those bacterial antigens may cross-react with (thus bind) the antigens on the host cells. Such binding activates complement pathways and neutrophils, leading to inflammation and tissue damage. Heart muscle damage (myocarditis) and joint pain (rheumatic arthritis) after S. aureus infection and Guillain-Barré Syndrome (paralysis due to nerve damage) after Campylobacter jejuni infections are Type II hypersensitivity reactions (see Chapter 9).",
+          "page": 17
+        },
+        {
+          "type": "subheading",
+          "text": "Type III hypersensitivity reactions",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "People infected with certain strains of Staphylococcus aureus, Streptococcus pyogenes, and Borrelia burgdorferi synthesize non-neutralizing IgG antibodies that bind bacterial antigens and form immune (i.e., antigen-antibody) complexes (see Chapter 9). The immune complexes may settle in narrow blood vessels and activate the complement pathway. Depending on the tissues in which immune complexes deposit, disease symptoms can include skin damage, kidney failure, joint pain, and even paralysis.",
+          "page": 17
+        },
+        {
+          "type": "paragraph",
+          "text": "Damage by leucocytes Inflammation Microbial infection activates neutrophils and macrophages. Activated macrophages secrete various inflammatory cytokines (including IL-1, IL-6, and TNF-alpha) and activate TH cells. Activated TH cells secrete additional cytokines, and the cascade generates a massive inflammatory response.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Some signs of inflammation include pain, low-grade fever, chills, night sweats, fatigue, sleeplessness, weight loss, nausea, diarrhea, atherosclerosis (buildup of lipid plaques in the arteries), lymphadenopathy (swelling of the lymph nodes), and hepatosplenomegaly (enlargement of the liver and spleen).",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Chronic infections may lead to chronic inflammation, with less severe signs of disease. However, prolonged chronic inflammation may also cause additional damage. For example, chronic inflammation due to chronic infection of the stomach by Helicobacter pylori may lead to stomach cancer.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Diseases such as bacterial meningitis (inflammation of the membranes that cover the brain) are primarily driven by cell-mediated inflammatory responses rather than by bacterial tissue damage. Bacteria generally cannot enter the brain or the meninges because of the blood-brain barrier (created by the endothelial cells of the brain's blood vessels). Inflammation triggered by the bacterial antigens may cause vasodilation, allowing bacteria to enter the meninges. The presence of bacteria in the meninges activates macrophages. Activated macrophages destroy tissues containing bacteria or their antigens, which leads to meningitis.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "Blindness caused by Chlamydia trachomatis or Neisseria gonorrhoeae is not due to bacterial damage to the retina. Instead, the bacteria and their antigens activate neutrophils and macrophages. Activated leucocytes damage the eyelid tissue and cause scarring. The scar tissue of the eyelids rubs against the cornea. Over time, the cornea becomes opaque, leading to blindness.",
+          "page": 18
+        },
+        {
+          "type": "subheading",
+          "text": "Type IV hypersensitivity reactions",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "When macrophages fail to kill phagocytized bacteria (such as Mycobacterium tuberculosis), the infected cells secrete cytokines that activate TH cells. The activated TH cells also secrete additional cytokines. As a result, millions of macrophages, cytotoxic T cells, neutrophils, eosinophils, and fibroblasts surround the infected macrophages, forming a granuloma or tubercle (Fig. 11.11).",
+          "page": 18
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 11.11. Granulomas in chronic granulomatous diseases. A. Genesis of a granuloma. Macrophages and dendritic",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "cells persistently infected by bacteria present bacterial antigens to T cells. They also secrete cytokines and chemokines. Many leucocytes migrate to the site and create a granuloma around the infected macrophages or DCs, damaging nearby tissues and blood vessels. Lack of oxygen causes cell death and necrosis. B. A granuloma with a necrotic center from the lung of a tuberculosis patient. Image-Wikipedia.",
+          "page": 18
+        },
+        {
+          "type": "paragraph",
+          "text": "In granulomas, macrophages reorganize into an epithelial cell-like structure and fuse to form giant cells. As the granuloma grows larger (due to the accumulation of additional leukocytes around the initial granuloma), it damages local blood vessels and other structures, such as the alveoli of the lung. Ultimately, the granuloma becomes fibrous, and the cells in the core die by necrosis (due to a lack of oxygen supply). The bacteria inside the granuloma may enter latency or form a biofilm. On occasion, the host immune system may resolve the granuloma and restore healthy tissue, but more often, the encased bacteria remain viable and may activate it and even break it open. Reinfection by the same bacteria may exacerbate granuloma formation. Granulomas are hallmarks of tuberculosis and leprosy. The effects of bacterial infections of the organ systems are discussed further in Chapters 12-14.",
+          "page": 19
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 15,
+          "title": "How viruses cause disease: At the cellular level",
+          "bullets": [
+            "Direct cytopathy",
+            "Fast replication, host shutoff",
+            "Damaging enzymes",
+            "Fusion glycoprotein and syncytium formation",
+            "Inclusion bodies inside the host cell",
+            "Indirect cytopathy",
+            "Cytotoxicity by NK cell, ADCC, and Tc cells; complement activation",
+            "Apoptosis",
+            "By transforming the host cell",
+            "Nonpermissive cells",
+            "Permissive cells",
+            "Semi permissive cells"
+          ]
+        },
+        {
+          "slideIndex": 16,
+          "title": "How viruses cause disease; At cellular level",
+          "bullets": [
+            "Cell permissibility",
+            "Non-permissive- non-productive infection (or no infection),",
+            "Semi-permissive- productive but slow, may lead to chronic",
+            "Permissive- productive, may lead to acute infection",
+            "Changes in the size, shape and anchoring",
+            "Cell lysis by the virus",
+            "Toxic viral proteins (especially naked viruses)",
+            "Excessive membrane damage (for enveloped viruses)",
+            "Apoptotic cell death",
+            "Condensation of the chromosomes",
+            "Fragmentation of the cell"
+          ]
+        },
+        {
+          "slideIndex": 23,
+          "title": "How viruses cause disease: At the organism level",
+          "bullets": [
+            "Please see Table 11.3 of MMAHP",
+            "Loss of key cell such as neurons- muscle atrophy, blindness, hearing loss",
+            "Cytokine release- fever, body ache, vasodilation, shock, pneumonia,",
+            "Superantigen effect- excess activation of Th cells, fever, body ache,",
+            "Immune complex disease- virus antigen bound to antibodies (complex)",
+            "Delayed type hypersensitivity- Th cell mediated tissue damage",
+            "Immunosuppression- viruses kill key leucocytes or prevent leucocyte",
+            "Tumor and cancer"
+          ]
+        },
+        {
+          "slideIndex": 29,
+          "title": "The five major steps of bacterial pathogenesis",
+          "bullets": [
+            "Adhesion- adhere to the cellular receptors or certain molecules",
+            "Invasion",
+            "enter inside the tissue using a cell, between cells or injured tissues",
+            "Enter inside the host cell",
+            "Evasion- avoid host immune surveillance",
+            "Reproduction: by binary fission etc., to overcome death rate and",
+            "Destruction: production of products that cause tissue damage"
+          ]
+        },
+        {
+          "slideIndex": 31,
+          "title": "Why resident biota and environmental microbes generally do not cause diseases",
+          "bullets": [
+            "They usually do not invade the sterile tissues.",
+            "Environmental microbe can not grow at body temperature",
+            "They do not have highly potent virulence factors, and they do not produce",
+            "The immune system efficiently eliminates resident bacteria from the sterile",
+            "The immune system quickly removes the harmful metabolites produced by",
+            "Resident biota/env microbes may",
+            "Occupy certain body surfaces, do not invade, or invade only if the immune syste is",
+            "Primary pathogens colonize, and then the invade"
+          ]
+        },
+        {
+          "slideIndex": 32,
+          "title": "Step 1: Adhesion",
+          "bullets": [
+            "Adhesins: bacterial molecules that help bacteria adhere to host",
+            "Bacterial adhesins can be proteins, polysaccharides, and lipid",
+            "The host target molecules may play like receptors of the bacterial",
+            "The target molecules can be proteins or polysaccharides"
+          ]
+        },
+        {
+          "slideIndex": 35,
+          "title": "Step 2: Bacterial invasion",
+          "bullets": [
+            "The three major ways bacteria invade are",
+            "Invasins: bacterial cells surface-associated molecules that help bacteria",
+            "Spreading factors- molecules secreted by bacteria",
+            "Secretion systems",
+            "Type I and types III, IV and VI: molecular needles",
+            "Type II, V and VII secretion systems: periplasmic space",
+            "Invasins and spreading factors can cause some destructions",
+            "Some (not all) invasins and spreading factors can be considered exotoxins"
+          ]
+        },
+        {
+          "slideIndex": 38,
+          "title": "Some bacterial spreading factors (1)",
+          "bullets": [
+            "Proteins that form pores in the membrane of host cells",
+            "Leucocidin",
+            "Streptolysin",
+            "Hemolysins",
+            "Enzymes that degrade proteins",
+            "Collagenase",
+            "Coagulase",
+            "Kinins (for example streptokinase)"
+          ]
+        },
+        {
+          "slideIndex": 39,
+          "title": "Some bacterial spreading factors (2)",
+          "bullets": [
+            "Enzymes (glycosidases) that degrade glycans",
+            "Hyaluronidases",
+            "Neuraminidase",
+            "Enzymes that degrade lipids: Lipases",
+            "Enzymes that degrade nucleic acids: DNases, RNases",
+            "Gas: Hydrogen and CO2"
+          ]
+        },
+        {
+          "slideIndex": 40,
+          "title": "Step 3: Evasion of the immune surveillance",
+          "bullets": [
+            "Capsules and biofilms",
+            "Protective enzymes- example, IgA proteases Digest IgA complements",
+            "Molecular mimicry",
+            "Protein A and G of staphs and streps",
+            "Proteins structurally similar to host cell proteins",
+            "Protein taken from host – C3b receptors",
+            "Antigenic variation- periodically changing bacterial surface antigens"
+          ]
+        },
+        {
+          "slideIndex": 42,
+          "title": "Evasion of the immune surveillance (2)",
+          "bullets": [
+            "Preventing phagocytic killing",
+            "Inhibition of phagolysosome formation",
+            "inhibition of oxidative burst",
+            "resistance to lysosomal enzymes due to capsular materials",
+            "migrating out of phagosomes and replicating in the cytoplasm",
+            "killing phagocytes by secreting toxic substances such as alpha"
+          ]
+        },
+        {
+          "slideIndex": 43,
+          "title": "Bacterial evasion of host metabolic defense",
+          "bullets": [
+            "Siderophores- small chemical substances secreted by some",
+            "Chelate iron from host iron-binding proteins such as plasma transferrin",
+            "Iron-bound siderophore binds receptors of the bacteria and deliver iron to",
+            "Siderophores can possibly be used in treating metal deposition diseases"
+          ]
+        },
+        {
+          "slideIndex": 46,
+          "title": "Step 5: Destruction (and suffering)",
+          "bullets": [
+            "Destruction and suffering could be due entirely or partly to",
+            "Bacterial molecules bind TLRs and activate macrophages to secrete",
+            "Bacterial exotoxins may cause destruction by themselves or in"
+          ]
+        },
+        {
+          "slideIndex": 49,
+          "title": "Destruction by exotoxins (2)",
+          "bullets": [
+            "Type II exotoxins: Damage host cell",
+            "α-toxin of S. aureus, binds",
+            "Phospholipase of C."
+          ]
+        },
+        {
+          "slideIndex": 52,
+          "title": "Destruction by the immune response",
+          "bullets": [
+            "Leucocyte migration",
+            "Inflammation, pain, fever, granuloma",
+            "Complement activation",
+            "MAC- mediated damage and inflammation",
+            "Tissue damage",
+            "Antibody mediated",
+            "Type III hypersensitivity",
+            "Immune complex disease",
+            "Cell mediated tissue damage",
+            "Type IV hypersensitivity",
+            "Granulomatous diseases"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "11.3",
+      "heading": "Mechanisms of fungal pathogenesis",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Fungi may cause multiple human diseases, including intoxication, allergies, inflammations, and tissue destruction.",
+          "page": 19
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "11.3.1",
+      "heading": "Fungal intoxication",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Food and drinks contaminated with mycotoxins (fungal toxins) are sources of intoxication. Mycotoxins pose major challenges in animal husbandry. These toxins can accumulate in animal meat and milk and pass to human consumers. Some fungal toxins that may affect humans are shown in Table 11.10. The table indicates that potent toxins can be easily avoided in developed countries, where high-quality, inspected food is abundant. However, in hot, humid developing countries, where fungi thrive, it is challenging to completely prevent citizens from being exposed to mycotoxins. Avoiding fungus-contaminated items, especially peanuts and products made with peanut butter or peanut oil, cereals, wine, spices, herbal medications, and herbal teas imported from developing countries may help reduce exposure to mycotoxins.",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.10. Common fungal toxins to which human subjects can be exposed.",
+          "page": 19
+        },
+        {
+          "type": "paragraph",
+          "text": "Toxins Major producer species Toxin Source Effect on human subjects Aflatoxin Aspergillus flavus Cereal grains, nuts (peanuts), nut oils, spices Toxic and carcinogenic to liver cells Amatoxin Amantia and several other colored mushrooms Eating wild mushrooms Inhibits RNA polymerase II, cause multiple organ (especially, liver and kidney) failure Ergot toxin Claviceps purpurea (rust fungi) Eating infected grains (rye) Lysergic acid (LSD)-like hallucinogenic effects on nervous system, convulsion Ochratoxin Aspergillus ochraceus and Penicillium verrucosum Contaminated grains, pork, coffee, raisins Carcinogenic, may suppress immune system Rubratoxin Penicillium rubrum Contaminated food DNA damage (mutagenic), neurotoxin Zeralenon, Trichothecenes, Fumonisins Fusarium sp. Contaminated cereal grains Cytotoxic, suppress immune system",
+          "page": 19
+        }
+      ],
+      "slides": []
+    },
+    {
+      "number": "11.3.2",
+      "heading": "Other fungal diseases",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Fungal infections (or mycoses) are more common among immunocompromised and debilitated individuals. Major contributors to fungal pathogenesis include tissue damage (caused by fungal proteases), physical interference (from hyphae and mycelia within tissues), fungal metabolites, and the host’s inflammatory response to fungal antigens. Various fungal species can infect the same tissue and produce similar disease symptoms. It is important to note that the occurrence and severity of fungal infections largely depend on the patient's condition (Table 11.11). Some fungi are endemic, affecting only local populations, while occupation also plays a significant role in contracting mycoses.",
+          "page": 19
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.11. Predisposing factors for mycoses.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Factors Susceptible groups Age Low birth-weight babies, infants, and the elderly.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Sex Females, especially pregnant women and premature female children (exception-males more susceptible than females to Histoplasma capsulatum).",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Occupation Soil and bird-dropping movers, grave diggers, cleaners, gardeners, farmers, animal handlers, pet owners, and cave explorers (exposure to bat droppings).",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Injuries Burns, traumatic injuries, surgical wounds, indwelling catheters, and prostheses use. Drug use Corticosteroids, birth control pills, broad-spectrum antibiotics, intravenous drug abuse. Immune system status Low neutrophil count, chronic granulomatous disease, poor cell-mediated immunity. Health conditions Radiation or chemotherapy, malignancies, chronic viral infection, stress, malnutrition. Living conditions Certain geographic areas, hot and humid weather, houses with leaky roofs and walls, crowded conditions, dusty bedrooms, and wet linens.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Virulence factors of fungi Ability to grow at 37°C Most fungi typically thrive in the cooler temperatures of shady environments (15-30°C). Many fungi grow very slowly or not at all at 37°C. The host immune system readily eliminates slow-growing fungi from the body. The ability to grow at 37°C is a distinguishing characteristic of primary fungal pathogens and a few opportunistic ones. Dimorphism People are exposed to fungal spores more often than to mold and yeast. The host immune system quickly removes spores, but a few may germinate in wounds and the lungs. Most pathogenic fungi are dimorphic, exhibiting both mold and yeast growth stages. This morphological transition also causes changes in their surface antigens. The surface antigens of mold and yeast forms may differ, and this difference can help fungi evade host immune surveillance. Cell wall components The yeast form of virulent fungal strains possesses a thick layer of beta (1,3)-glucan in the cell wall. The yeast form often sheds protein antigens (such as the WI-1 antigen of Blastomyces sp.) from the cell wall into the host body. The soluble protein antigens bind to antibodies, thereby preventing antibody deposition on the fungal cell wall. Interference with the host immune system Some pathogenic fungi (such as Blastomyces sp.) prevent phagocytosis, while some (such as Coccidioides sp.) allow phagocytosis but prevent phagocytic killing. While T cell-mediated immunity (TH1-type immunity) is necessary for fighting fungal infections, most fungi suppress T cell immunity and increase antibody production (TH2-type immunity), which is ineffective against them.",
+          "page": 20
+        },
+        {
+          "type": "subheading",
+          "text": "Enzymes and secondary metabolites",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Many fungi (such as the genera Coccidioides, Candida, and Aspergillus) secrete enzymes that digest host collagen, elastin, and other fibrous tissues. A few pathogenic fungi (such as Aspergillus sp.) secrete gliotoxins in the infected tissue, which suppress the host immune response. Cryptococcus neoformans secretes melanin, a pigment that inhibits phagocytosis and phagocytic killing.",
+          "page": 20
+        },
+        {
+          "type": "subheading",
+          "text": "Pathology due to inflammatory responses",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "Fungal molecules (such as glycoproteins and polysaccharides) bind to TLRs and other receptors, activating leukocytes. Activated leukocytes secrete cytokines and also damage affected tissues, inducing disease symptoms such as skin damage, nodules, and fungal balls in the lungs, asthma, and delayed-type (type IV) hypersensitivity. Allergies Allergies develop if IgE antibodies are produced in response to fungal antigens. Chronic exposure to fungal spores can lead to various allergic conditions of the skin, eyes, lungs, and other organs. Living in old houses with water leakage problems is a significant contributing factor to fungal allergies. The most effective way to avoid fungal allergies is to eliminate fungi from living spaces.",
+          "page": 20
+        },
+        {
+          "type": "paragraph",
+          "text": "The effects of fungal infections on organ systems are further discussed in Chapters 13-15.",
+          "page": 20
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 54,
+          "title": "Fungal pathogenesis",
+          "bullets": [
+            "Intoxication",
+            "Aflatoxin, Amatoxin, Ergot, Ochratoxin",
+            "Rubratoxin, Zeralenon, Trichothecenes, Fumonisins",
+            "Fungal virulence factors",
+            "Dimorphism",
+            "Cell and soluble fungal antigens",
+            "Capsule",
+            "Fungal enzymes",
+            "Inflammatory response and allergy",
+            "Allergeies"
+          ]
+        },
+        {
+          "slideIndex": 55,
+          "title": "Fungal infections: Predisposing factors",
+          "bullets": [
+            "Age- low birth weight, premature, old",
+            "Sex, female, pregnancy, (male-occupational)",
+            "Occupation- soil related, cave related, animal handling",
+            "Injuries- traumatic or burn",
+            "Drug use- tobacco, recreational, prescribed immunosuppressive",
+            "Immune system status- cancer, radio and chemotherapy, AIDS",
+            "Living conditions- dusty, high density, wet, leaky roof"
+          ]
+        },
+        {
+          "slideIndex": 60,
+          "title": "Pathology due to warm infections",
+          "bullets": [
+            "Virulence factors",
+            "Adhesive property",
+            "Larvae can dig holes in the tissues",
+            "Complex life cycle",
+            "Ability to survive stomach acid",
+            "Ability to suppress the immune system",
+            "Mechanical damage of gall bladder",
+            "Blockage of the lymphatics, tissue",
+            "Malabsorption"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "11.4",
+      "heading": "Mechanisms of protozoal pathogenesis",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The pathogenesis of eukaryotic microbes has not been investigated as extensively as that of viruses and bacteria. The mechanism of protozoan pathogenesis is cryptically presented here.",
+          "page": 21
+        },
+        {
+          "type": "subheading",
+          "text": "Adherence, entrance, and replication",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Protozoa that infect the intestine are acquired through contaminated water and food. Almost all intestinal (and a few blood) protozoa form cysts, which are stable in the environment. Human and animal feces are significant sources of protozoan cysts. Fecal-oral contact (hand-to-food and hand-to-mouth) and undercooked animal flesh are important contributors to the transmission of cysts as well as vegetative cells. A few species of protozoa colonize the genital tract. These species are typically transmitted through sexual contact and, to a lesser extent, by fomites (inanimate objects such as cloths). Animal vectors (ticks, mosquitoes, flies, and other insects) transmit blood protozoa. Some protozoa remain in the lumen of the gut, genital tract, or blood vessels, loosely attached to nearby host cells. Others enter host cells, reproduce there, and ultimately damage the cell (Table 11.12). Like bacteria, protozoa adhere to host cells via adhesins, molecules that bind to host-cell receptors. For example, the malarial parasite binds to the Duffy blood group antigen on erythrocytes. The presence of such receptors determines the tissue tropism of protozoa. Tissue and cell damage Protozoan pathogens may secrete various proteases and lipases that can degrade host proteins and lipids, respectively. For example, Entamoeba histolytica secretes proteases that degrade the intestinal mucosa. Intracellular protozoa (such as the malarial parasite) produce toxic metabolic byproducts such as hemozoin in infected erythrocytes. When the infected cells break open, the toxic metabolites cause fever and chills and activate T cells.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Intestinal protozoa typically cause diarrhea by damaging the mucous membrane and activating leukocytes. Common problems associated with diarrhea include dehydration and reduced nutrient absorption. Malabsorption weakens the infected person and makes them vulnerable to secondary bacterial and fungal infections.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "As with any other microbes, protozoan infections activate the immune system. Infection by Trypanosomes, for example, may trigger any of the four types of hypersensitivity reactions. Parasitic infections and cell damage also stimulate macrophages and TH cells to release cytokines, leading to high fever and other disease symptoms. Meningitis caused by protozoan parasites primarily results from leukocyte-induced inflammation in the affected tissues.",
+          "page": 21
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.12. How protozoa cause disease (shown schematically).",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Mechanism Example Protease and lipase Enzymes of Entamoeba hystolitica degrade the intestinal mucosa.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Destruction of infected host cells Malarial parasite (genus Plasmodium) kills erythrocytes and also causes the release of cellular waste products (hemozoin).",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Inflammation Antibody-mediated damage of infected cells.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Neutrophil activation and release of lytic enzymes.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Release of cytokines by macrophages and TH cells (almost all intracellular protozoa).",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Induction of hypersensitive reactions.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Diarrhea, malabsorption Intestinal protozoa (genera Entamoeba, Isospora, and Cyclospora, for example). How protozoa avoid the host immune response Protozoan parasites are removed from the body mainly by (a) Complement activation by the classical (antibody-dependent) pathway.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "(b) Phagocytic killing (c) Leucocytes kill infected cells through antibody-dependent cellular cytotoxicity (ADCC) (d) TC cells kill infected human cells.",
+          "page": 21
+        },
+        {
+          "type": "paragraph",
+          "text": "Most protozoan parasites are highly adapted to evade host immune responses. Some blood protozoa infect erythrocytes, so host antibodies may not bind the parasites effectively. Trypanosomes frequently alter surface antigens (antigenic variation), so previously induced antibodies may not recognize the mutated antigens. Some protozoa escape the phagosome of a macrophage and migrate to the cytoplasm. Other parasites remain within the phagosome and prevent phagolysosome formation, thereby avoiding destruction. Malarial parasites induce immunosuppression through mechanisms not fully elucidated. A high load of parasite antigens in the host body may induce tolerance to the pathogen.",
+          "page": 21
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 57,
+          "title": "How protozoan parasites cause diseases",
+          "bullets": [
+            "Damaging enzymes (proteases",
+            "Destruction of host cells, release",
+            "Inflammation- antibody,"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "11.5",
+      "heading": "Mechanisms of algal pathogenesis",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Intoxication",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Diatoms and dinoflagellates do not infect humans. However, these organisms produce toxins under certain environmental conditions. The toxins accumulate in filter-feeding shellfish (such as oysters) without causing noticeable harm to the organisms. Humans can suffer from intoxication by consuming the affected shellfish. Several species of cyanobacteria also produce toxins, and in rare cases, these toxins may reach humans through fish and shellfish. The common algal toxins are listed in Table 11.13. Human neurological diseases caused by algal toxins are generally referred to as paralytic fish poisoning.",
+          "page": 22
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.13. Common algal toxins and their mode of action.",
+          "page": 22,
+          "image": "/mmahp/ch11/11-13.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Toxin Source, its effects on humans shown in parentheses) Domoic acid Red algae and diatoms during algal bloom (neuronal damage, short-term memory loss) Saxitoxin Dinoflagellates and cyanobacteria during algal bloom (neurodegenerative diseases) Gonyautoxin Dinoflagellates during algal bloom (neurodegenerative diseases, including paralysis) Brevetoxin Dinoflagellates during algal bloom (neurodegenerative diseases, including paralysis)",
+          "page": 22
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 59,
+          "title": "Algal pathogenesis (protothecosis)",
+          "bullets": [
+            "Algal toxins",
+            "Domoic acid, Saxitoxin,",
+            "Algal pathogenesis",
+            "Metabolic capacity",
+            "The cell wall",
+            "Ability to grow at body temperature",
+            "Toxic metabolites",
+            "Inflammation induction"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "11.6",
+      "heading": "Mechanisms of helminth pathogenesis",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Unlike bacteria and protozoa, the offspring of worms typically do not infect the same host unless the fertilized eggs or embryos leave the host and re-enter the body through an appropriate port of entry. Mechanisms of helminth pathogenesis differ by species. In all cases, the eggs or larvae must enter the patient's body, the worms must survive, and, in some instances, reproduce inside the victim's body to cause disease syndromes. The following is a general description of the pathogenesis processes.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Adherence, entrance, movement, and reproduction Eggs and encysted worms can enter the human body through food and beverages. In rare cases, infections may result from inhaling airborne worm eggs or consuming/accidentally inhaling worm-infected insects and water fleas. Worm cysts and eggs may contain tiny hooks, suckers, or mucous plugs that help them adhere to the victim's body (Table 11.14). The cysts of certain flukes are strategically placed (on aquatic plants, within insect body cavities, and in the muscle tissues of animals) to facilitate transfer to the next host. Larvae of filarial worms and some other worms enter the body through insect bites. Free-living aquatic or soil larvae of some worms may penetrate the human body from water and soil through openings created by the larvae in the victim's skin.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Because skin is covered by dead cells, receptor-mediated adherence is not a viable option for worm larvae to attach to human skin. Worm larvae typically have various glands that secrete enzymes to digest the host's skin and tissue matrices. They may migrate from the skin to nearby blood vessels, and from the blood vessels to various organs, including the lungs, liver, brain, eyes, and spinal cord. Larvae of some species move from the intestine to the body cavity (i.e., coelom) and then to the liver; they also move from the lungs to the airways and throat, where they may be swallowed with sputum and occupy the intestine.",
+          "page": 22
+        },
+        {
+          "type": "paragraph",
+          "text": "Most flatworms are hermaphrodites, and a hermaphrodite flatworm's sperm can fertilize its own eggs, resulting in the release of hundreds or even thousands of eggs daily. However, sexual union between two hermaphrodite worms is also common. Blood flukes are not hermaphrodites; the male blood flukes permanently clasp the females to ensure sexual reproduction. Most roundworms are unisexual, so the sexual union of male and female roundworms is necessary for egg fertilization.",
+          "page": 22
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.14. Some common strategies worms employ for infecting their victims.",
+          "page": 23,
+          "image": "/mmahp/ch11/11-14.jpg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Strategies How the strategies work Adhesive properties Eggs are highly sticky (example, eggs of Ascaris sp.), larvae may have hooks and suckers to adhere to the host animals (example flukes) Ability of digging holes in tissues Larvae have glands that secrete lytic enzymes to make holes in the tissues, so the worm may migrate (i.e. move through) the tissue masses.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Eggs and larvae in the food Eggs, cysts and larvae are stable in the moist environments; eggs and larvae present in soiled fruits and vegetables and in flesh and organs of the food animals for easy delivery of the larvae and eggs to the host organisms.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Ability to survive stomach acid Eggs, cysts and larvae eaten through food may survive stomach acid Reproductive specialties Worms lay a very large number of eggs; asexual and hermaphrodite reproduction ensure reproductive success. Some unisexual male and female worms tie for the lifetime to ensure reproductive success.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Ability to utilize intermediate/ alternative hosts as the vectors Biting insects may deliver worm larvae directly to host blood, infected insects and water flea can be eaten or accidentally inhaled. Roundworms may infect many different vertebrate species (lack host restriction).",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Ability to survive in tissues and blood Egg, larvae and adult worms may survive on solid tissues (such as muscles) mucous membranes and blood, despite of the presence of diverse immune defenses there.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Tissue and cell damage",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "The migration of larvae through organs—especially the skin, intestine, liver, and eye—induces inflammation, sometimes severely. Guinea worms cause necrotic skin sores. Onchocerca volvulus (the eye worm) can cause significant skin damage and blindness. Hookworms bite into and invade the intestinal mucosa and suck host blood. Excessive hookworm infection may lead to anemia. The migration of a large number of Trichinella sp. larvae (from ingested uncooked or undercooked meat) across the host’s intestine may cause severe tissue damage and can be fatal. It is suspected that lost explorers from Andree’s North Pole Expedition (1897) consumed raw bear meat and died from intestinal injuries caused by migrating worms (especially Trichinella sp.).",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "High fever and certain anthelminthic drugs may trigger a rapid migration of intestinal worms, particularly Ascaris lumbricoides. The migrating worms may penetrate the intestinal wall, bile duct, and pancreatic duct. Leakage into the intestine encourages bacterial growth in the body cavities, which, if not treated, almost always leads to fatal septicemia. Obstruction or leakage in the bile and pancreatic ducts, along with the inflammatory responses to these events, could have severe or even fatal consequences.",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Liver fluke infections cause significant liver damage and hepatomegaly. Inflammation caused by worm infections can lead to cell damage, resulting in fatty degeneration (excess fat accumulation in the cell), necrosis (cell lysis), hyperplasia (cell proliferation), hypertrophy (increase in organ size), and metaplasia (the change of one type of cell in an organ to another type of cell due to changes in the gene expression program). The inflammatory response induced by eggs of blood flukes (Schistosoma sp.) deposited in the bladder and prostate, and by liver flukes (Fasciola hepatica) occupying the bile ducts, may lead to cancers.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Physical blockage and pressure",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "Eggs of flatworms and larvae of nematodes can obstruct smaller blood vessels. Such blockages in the brain (Fig. 11.12), compounded by inflammatory responses, may lead to severe neurological symptoms. The blockage of lymph vessels by filarial worms results in massive hypertrophy, known as elephantiasis, in the limbs (Fig. 11.12) and genitalia. Intestinal worms, particularly Ascaris sp., can physically obstruct the intestine and block the passage of gut contents. Large hydatid cysts in solid organs, such as the liver and brain (Fig. 11.12), can create pressure that damages nearby tissues.",
+          "page": 23
+        },
+        {
+          "type": "subheading",
+          "text": "Loss of nutrients and malabsorption",
+          "page": 23
+        },
+        {
+          "type": "paragraph",
+          "text": "A few dozen hookworms may consume enough blood from a host to cause anemia. Many intestinal worms rely almost exclusively on glucose for nutrition. Because worms produce ATP primarily through glycolysis, the parasite must absorb a significant amount of glucose from the host. As a result, a heavily infected person may lose some food calories to the worms. For this and other reasons, subjects heavily infected with intestinal worms may consume a high- calorie diet without gaining weight. Worm infections can lead to loss of appetite, nausea, vomiting (due to inflammatory responses), and malabsorption.",
+          "page": 23
+        },
+        {
+          "type": "figure",
+          "text": "Fig. 11.12. Some pathologies related to worm infections. A. Elephantiasis. Microscopic filarial worms block the",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "lymph vessels and hinder lymph flow. New lymph vessels grow around the blockage to compensate, leading to tissue hypertrophy (i.e., elephantiasis). B. An MRI image of a person’s brain displaying worm (Taenia solium) cysts (indicated by the arrows). Similar cysts can develop in muscles and other organs. C. A gross pathology photograph of hydatid cysts excised from the lung of an infected subject, which contain many larvae. Such cysts may also grow in the liver, bones, and brain. Images from CDC-PHIL.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Inflammation and the disruption in the host immune system Female pinworms (Enterobius vermicularis) inhabit the colon but migrate to the rectum to lay their eggs. This migration triggers a severe inflammatory response. Injuries to the eye, skin, liver, bladder, brain, and muscle caused by worm infections are primarily inflammatory in origin. A significant number of muscle cells die around the encysted muscle worms (i.e., Trichinella sp.). The presence of worm cysts in fine muscles can completely disable the muscles. For instance, individuals with worms in the eye muscles cannot move their eyes. Neutrophils, macrophages, eosinophils, and T cells are activated during the early phase of worm infection. An increase in eosinophil count (i.e., eosinophilia) is regarded as an indication of worm infection. Activated leukocytes secrete cytokines, leading to both local and systemic inflammation. Common mechanisms of pathologies caused by worm infection are summarized in",
+          "page": 24
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.15.",
+          "page": 24
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.15. Mechanisms of pathology due to worm infections.",
+          "page": 24
+        },
+        {
+          "type": "subheading",
+          "text": "Type \tExample",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Enzymatic damage Enzymes secreted by the larval glands damage skin and some connective tissues. Direct tissue damage Movement of the adult worms or larvae through the tissues and organs may cause internal bleeding and induce inflammation.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Blockage of various ducts Intestinal worms may block the intestinal lumen; filarial worms block the lumen of the lymph vessels; liver worms may block the bile ducts, and worm eggs may block fine blood vessels of the brain and other organs.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Pressure and tissue deformation Hydatid cysts in the liver, brain and other solid organs may damage nearby tissues; the hydatid cysts in the lung mimic many signs of lung cancer.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Reduction in nutrient absorption Hookworms cause blood loss; intestinal worms may cause malabsorption.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "Immunopathology Type I hypersensitivity Type II hypersensitivity Type III hypersensitivity Examples Inflammation of the lung after lung fluke infections Tissue and kidney damage after Schistosoma sp. infection Tissue damage after Schistosoma sp. infection Tissue damage Fatty degeneration and hepatomegaly (swelling of the liver) due to liver fluke infection.",
+          "page": 24
+        },
+        {
+          "type": "paragraph",
+          "text": "How worms avoid and disrupt the host immune response The role of the immune system in worm infections is poorly understood. Healthy individuals exhibit fewer signs of worm infections, whereas immunocompromised individuals suffer from severe diseases, demonstrating that an intact immune system is essential in combating worm infections. Worms, along with their eggs and larvae, induce both cellular and humoral immune responses. Antibody-dependent cellular cytotoxicity (ADCC)-mediated killing by granulocytes and mast cell degranulation (Fig. 11.13) are primary immune effector mechanisms against worms and their larvae.",
+          "page": 25
+        },
+        {
+          "type": "figure",
+          "text": "Fig 11.13. The major immune responses to worm infections and how worms evade effector mechanisms. A.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "Mast cells degranulate when they interact with IgE deposited on the surface of the parasite. This inflammatory process attracts other leukocytes to the site. B cells secrete antibodies (IgE and IgG) that bind to parasite antigens. Activated TH cells (typically Th2-type cells) release cytokines that activate macrophages and B cells to secrete more IgG and IgE antibodies. ADCC by macrophages, eosinophils, and neutrophils may lead to the parasite's death. Some methods parasites use to evade host immune responses are indicated below the worm.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "Worms have evolved exquisitely to avoid host immune responses. They possess a very tough cuticle, which host proteolytic enzymes may not be able to destroy. Some worms secrete enzymes that digest antibodies deposited on their cuticle. Schistosoma sp. periodically changes the antigens on its cuticle or expresses antigens that mimic some of the host's antigens. Such antigenic variation and mimicry prevent antibodies and suppress effective B cell activation. Schistosoma sp. masks its surface with host proteins, such as Fc receptors, to prevent antibody deposition. The worms and their motile larvae may move away from leukocyte aggregates to evade killing through ADCC. Some worms, worm eggs, and larvae form granulomas due to the accumulation of leukocytes around them. The granuloma (also called a cyst) may become fibrous due to the activities of fibroblasts. The core of the granuloma can become necrotic due to toxic substances secreted by the leukocytes or the parasite itself. Such granulomas are called palisading granulomas, and the parasites may remain unharmed within them.",
+          "page": 25
+        },
+        {
+          "type": "paragraph",
+          "text": "F",
+          "page": 25
+        }
+      ],
+      "slides": [
+        {
+          "slideIndex": 61,
+          "title": "Worm pathology",
+          "bullets": [
+            "Blockage of the blood vessels by the",
+            "Blockage and perforation of the",
+            "Blockage and of the blood vessels in",
+            "Morphological changes of the cells",
+            "Hyperplasia- excess number of cells",
+            "Metaplasia- excess number of cells,"
+          ]
+        },
+        {
+          "slideIndex": 62,
+          "title": "Pathology due to worm infections",
+          "bullets": [
+            "Enzymatic damage",
+            "Direct tissue damage due movement of larvae and adult worms",
+            "Blockage of various ducts (including bile duct and lymphatic vessels)",
+            "Tissue hypertrophy (elephantiasis)",
+            "Cysts including hydatid cysts inside the solid organs",
+            "Malabsorption (intestinal tapeworms), blood loss (hookworms)",
+            "Cancer due chronic inflammation (schistosomiasis)",
+            "Eosinophilia",
+            "Hypersensitivity reactions"
+          ]
+        },
+        {
+          "slideIndex": 63,
+          "title": "How worms evade host immune responses",
+          "bullets": [
+            "Complex life cycle, larval stages",
+            "Molecular mimicry- produce surface",
+            "Covering body surfaces with human",
+            "Hiding inside host cells and inside",
+            "Constant moving to prevent ADCC by",
+            "Thick cuticle to prevent oxidative and"
+          ]
+        }
+      ]
+    },
+    {
+      "number": "11.1.4",
+      "heading": "Some commonsense ways to prevent microbial infections",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Good hygiene practices, personal protective measures, lifestyle choices, and public health safety measures (Table 11.16) greatly influence the frequency of microbial infections.",
+          "page": 25
+        },
+        {
+          "type": "figure",
+          "text": "Table 11.16. Common measures that are preventive to virus infections (the list is not exhaustive).",
+          "page": 26
+        },
+        {
+          "type": "subheading",
+          "text": "Measure \tMajor steps",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Personal hygiene Proper handwashing after touching any surface that is actually or potentially contaminated by microbes.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Personal protection Obtaining proper training for handling biohazard materials, wearing proper garb, laboratory goggles, double gloves, face mask, and respirator whenever applicable.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Lifestyle choices Avoiding recreational (injectable) drug use, casual sexual activities, extra caution on tattooing, mutilation, and body piercing.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Avoiding potentially contaminated food (raw animal meat, unpasteurized milk, and cheese), and direct contact with contaminated dirt, warm water pools, and wild and pet animals.",
+          "page": 26
+        },
+        {
+          "type": "paragraph",
+          "text": "Public health measures Enforcing childhood vaccination, proper inspection of food (eggs, seafood, meat, poultry, fruits, and vegetables), proper vaccination of pets (and, if feasible, wild animals), controlling mosquitoes, ticks, and other vectors, postmortem inspection of deceased wild animals, and epidemiological surveillance.",
+          "page": 26
+        }
+      ],
+      "slides": []
+    }
+  ],
+  "unmatchedSlides": []
+}

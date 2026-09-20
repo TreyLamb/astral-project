@@ -30,7 +30,8 @@ export function stemNoteKey(questionId) {
 
 /**
  * @param {Object} worksheet - {chapters:[{number,title,sections:[{heading,questions}]}]}
- * @returns {Array} flat render blocks: {type:'heading', level, key, text} | {type:'question', key, id, number, stem, options}
+ * @returns {Array} flat render blocks: {type:'heading', level, key, text, chapterNumber} |
+ *   {type:'question', key, id, number, stem, options, chapterNumber}
  */
 export function flattenWorksheet(worksheet) {
   const blocks = [];
@@ -40,6 +41,7 @@ export function flattenWorksheet(worksheet) {
       level: 1,
       key: `ch${chapter.number}-title`,
       text: `Chapter ${chapter.number} — ${chapter.title}`,
+      chapterNumber: chapter.number,
     });
     (chapter.sections ?? []).forEach((section, sIdx) => {
       if (section.heading) {
@@ -48,14 +50,20 @@ export function flattenWorksheet(worksheet) {
           level: 2,
           key: `ch${chapter.number}-h${sIdx}`,
           text: section.heading,
+          chapterNumber: chapter.number,
         });
       }
       for (const q of section.questions ?? []) {
-        blocks.push({ type: 'question', key: q.id, ...q });
+        blocks.push({ type: 'question', key: q.id, chapterNumber: chapter.number, ...q });
       }
     });
   }
   return blocks;
+}
+
+/** @returns {Array<{number, title}>} every chapter in the worksheet, in source order. */
+export function listChapters(worksheet) {
+  return (worksheet.chapters ?? []).map((c) => ({ number: c.number, title: c.title }));
 }
 
 export function countQuestions(worksheet) {
