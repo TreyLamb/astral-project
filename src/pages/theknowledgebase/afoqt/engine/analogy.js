@@ -104,14 +104,18 @@ import { allWords } from './words.js';
  * @property {string} id
  * @property {string} chapter        a va-0N-* chapter id from curriculum/chapters.js
  * @property {string[]} concepts     must be declared by that chapter — afoqt:coverage checks it
- * @property {1|2|3|4|5} band        word rarity — see wordBand() below
+ * @property {1|2|3|4|5} band        VA effectively has no difficulty ladder — only bands 2 and 3
+ *                                   are registered, at the SAME vocabulary ceiling; 3 differs from
+ *                                   2 only in how close the wrong pairs are, never in word rarity.
+ *                                   See the "VA IS NOT A VOCABULARY TEST" note above wordBand().
  * @property {string} relation       short internal tag ('part-whole', 'cause-effect', ...). Not
  *                                   the same thing as `concepts`: two rows in different chapters
  *                                   can legitimately share a relation tag (used to pool "same
  *                                   relation" and "different relation" candidates across the
  *                                   whole bank), while a concept stays scoped to one chapter.
- * @property {boolean} [symmetric]   true when swapping a/b does not change the relation (SYNONYM,
- *                                   ANTONYM). Order-reversal is not a real trap for these, so the
+ * @property {boolean} [symmetric]   true when swapping a/b does not change the relation (e.g.
+ *                                   PART_PART - ARM/LEG are co-equal, swapping changes nothing).
+ *                                   Order-reversal is not a real trap for these, so the
  *                                   reversed-pair distractor is skipped for them — see buildMatch.
  * @property {RelationHalf} a
  * @property {RelationHalf} b
@@ -133,13 +137,67 @@ const POS = new Set(['adj', 'noun', 'verb', 'adv']);
 const norm = (s) => String(s).trim().toLowerCase();
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
+// 🔴 VA IS NOT A VOCABULARY TEST — 2026-09-20, read before authoring or reviewing any RelationRow.
+//
+// Trey, verbatim, after "PARSIMONIOUS is to MISERLY as RECALCITRANT is to:" (band 4) and then
+// "AUDACIOUS is to BRAZEN as: ... Recalcitrant : Intransigent" (also band 4) both shipped:
+// "The point is not to test someone's vocabulary. It's to test their logical reasoning of how the
+// words connect. The tester should NEVER HAVE TO GUESS WHAT A WORD MEANS." And, more precisely,
+// on which relation types even qualify: "Audacious vs brazen? that is questioning the difference
+// of the definition of the two words. Fork is to eat, pen is to... that is testing the logical
+// connection between the words, it has nothing to do with the definition."
+//
+// This reverses the PART 8 design decision at the top of this file ("BAND IS WORD RARITY, NOT
+// RELATION COMPLEXITY") — that decision is now known WRONG for VA and is kept here, struck
+// through in spirit, only so nobody re-derives it independently and reintroduces the bug:
+//
+//   1. SYNONYM and ANTONYM are NOT banned relation types — that was this file's first draft of
+//      this note, and it was an overcorrection, reversed the same day. Two things surfaced after
+//      the ban: Trey's own lesson draft for ch04 (`TreysDontTouch.md`) teaches synonym/antonym
+//      explicitly with plain words (FAST:QUICK, HOT:COLD, BENEVOLENT:MALEVOLENT), and two of the
+//      ten OFFICIAL, cleared OATTS items in `data/realQuestions.json` — `oatts-VA-076`
+//      (NATURAL:ARTIFICIAL::OBSCURE:OBVIOUS) and `oatts-VA-077` (FLAW:IMPERFECTION::RICH:WEALTHY)
+//      — ARE synonym/antonym, both using dead-simple words. The real defect was never the
+//      relation type; it was pairing "X means the same/opposite as Y" with SAT-tier vocabulary
+//      (recalcitrant, parsimonious) that offers no path to reasoning it out. Rule 2 below is what
+//      actually matters and applies to synonym/antonym exactly as hard as everything else — a
+//      synonym/antonym row with a hard word is exactly as wrong as it ever was. DEGREE was never
+//      in question (Trey confirmed it, it's in the commercial-book relation catalogue in
+//      RESEARCH.md's VA SOURCING section, and `oatts-VA-078` confirms it officially too).
+//   2. Every VA word must be simple enough that NO test-taker has to stop and guess a definition.
+//      Trey's own calibration, given directly: `sponge, mechanic, ink, pencil, write, letter,
+//      book, insect, ant` = fine. `delirious` (a word that would land around WK band 2-3) =
+//      already too hard. The one narrow exception: a single moderately-elevated word is fine ONLY
+//      when the item's own structure makes it inferable without prior memorization — his own
+//      example, `TYRANT:CRUELTY::SYCOPHANT:FLATTERY`, has three plain words and "sycophant" is
+//      figure-out-able from the pattern (a person defined by an abstract trait/behavior) the same
+//      way tyrant is defined by cruelty. Compare `RECALCITRANT`/`PARSIMONIOUS`, which offer zero
+//      contextual scaffolding and simply require already knowing the word. One inferable word per
+//      item, never an isolated must-already-know word, never two hard words in the same item.
+//   3. VA effectively has NO band ladder. "Most VA questions are just deep thinking questions. you
+//      can't really make the[m] much more difficult without losing the concept" (Trey). Every VA
+//      chapter now registers only bands 2 and 3, held to the SAME vocabulary ceiling — band 3
+//      differs from band 2 only in how close the wrong pairs are to the right one (a subtler
+//      relation-boundary judgment), never in word rarity. `wordBand()` below is a plain lookup now
+//      with NO enforcement against it (see the removed cross-check in registerRelations) — a VA
+//      word matching or beating its WK band is coincidence, not a requirement.
+//   4. Distractors must be reasoned per item, not mechanically diverse. Trey: "Distractors are not
+//      simply 'opposites' or 'what might someone conclude immediately' — you have to really look
+//      at the question and know what relationship you're trying to match." Prefer declared
+//      `confusions` (an author-picked genuine near-miss) over letting crossPool's blind draw
+//      supply the wrong pairs — see the field's own doc above.
+//
+// Full source analysis this rewrite is built on: all 75 items in ResearchPics/quizlet3.md and
+// quizlet8.md, categorized by relation type AND by what specifically makes each wrong answer
+// wrong (reversed-order-of-a-different-pair, adjacent-but-distinct relation, cross-relation-
+// family, antonym-of-the-pattern, synonym-flavor trap, or a plausible-sounding but underspecified
+// pair) — none of them is a blind grab from "anything else in the bank at this difficulty."
+
 /**
- * The band a word already carries in the WK bank, or null if it is not there. Exported so a
- * PART 10/11 author can check a candidate word before assigning a band by hand, and used by
- * registerRelations() to enforce that the two subtests never silently disagree about the same
- * word's rarity. Returns null (no opinion, no error) until the WK chapters that define that
- * word have actually been imported and registered — module load order is the caller's problem,
- * same as it already is for every other cross-chapter check in this codebase.
+ * The band a word already carries in the WK bank, or null if it is not there. NOT enforced
+ * against a VA row's own band (see the note above) — a mismatch is expected and correct, since VA
+ * words are supposed to sit far below whatever WK calls the same word. Kept as a lookup an author
+ * can consult by hand while choosing a word, not as a rule the registry checks for you.
  */
 export function wordBand(word) {
   const w = norm(word);
@@ -173,17 +231,11 @@ export function registerRelations(rows) {
       if (sameOrder || swapped) throw new Error(`${at}: duplicates the pair in "${other.id}"`);
     }
 
-    // Word-rarity cross-check against the WK bank (see wordBand() above). A word this row
-    // shares with WK must agree on how hard it is - two subtests disagreeing about the same
-    // word's rarity is a real data defect, not a judgement call, so it throws rather than warns.
-    for (const half of ['a', 'b']) {
-      const wk = wordBand(r[half].word);
-      if (wk != null && wk !== r.band) {
-        throw new Error(
-          `${at}: ${half}.word "${r[half].word}" is band ${wk} in the WK bank but this row is band ${r.band} - `
-          + 'a word cannot be two different rarities across subtests. Match the WK band, or use a different word.');
-      }
-    }
+    // 🔴 2026-09-20 — there used to be a check here forcing a word shared with the WK bank to
+    // agree on band between the two subtests. That was exactly backwards under the corrected VA
+    // doctrine (see the "VA IS NOT A VOCABULARY TEST" note above `wordBand()` below): VA words are
+    // supposed to sit far BELOW whatever WK calls the same word's band, not match it. A shared
+    // word disagreeing on band is now expected, not a defect - do not resurrect this check.
 
     for (const id of r.confusions ?? []) {
       // Existence is checked here; cross-reference resolution (which needs every chapter's

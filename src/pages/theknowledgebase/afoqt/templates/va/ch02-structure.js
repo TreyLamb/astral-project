@@ -1,8 +1,12 @@
 // Chapter 2 — Part to whole, and member to category.
 //
-// PART 10 of docs/afoqt/HANDOFF.md. This is the single biggest cluster of real items (~3 in 10
-// of the 75-item sourced sample) — but only its first two relations. Part/Part and Sequence are
-// PART 10B's rows, appended to this same file once these 24 have landed.
+// PART 10 of docs/afoqt/HANDOFF.md. REWRITTEN 2026-09-20 — read the "VA IS NOT A VOCABULARY TEST"
+// note at the top of ../../engine/analogy.js before touching this file again. Two things changed:
+// vocabulary that required prior memorization (stanchion, vestibule, cornice, cochlea, epithelium,
+// gavotte, anthracite, cumulonimbus, villanelle, epee - none of them inferable from context, all
+// of them exactly the kind of word Trey ruled out) was replaced with plain, everyday words; and
+// the old bands 4/5 were folded into bands 2/3 - VA has no real difficulty ladder, so both bands
+// now share the SAME vocabulary ceiling and differ only in how obvious the right pairing is.
 //
 // THE TEST THAT SEPARATES THE TWO RELATIONS HERE: try "a IS A b."
 //   - FINGER is a HAND?  False — a finger is a PART of a hand. That is part-whole.
@@ -17,9 +21,9 @@
 //   - member-category: the category must be the IMMEDIATE one. A robin is a bird, not "an
 //     animal" — too broad. Never let the category be a level too broad either.
 //
-// distractor arithmetic (engine/analogy.js buildMatch/buildFourthTerm): format 2 needs another
-// row sharing the base row's `relation` tag at the SAME band, or it returns null. This file keeps
-// a 4-and-4 floor at every band so neither relation ever goes dark.
+// distractor arithmetic (engine/analogy.js buildMatch): format 2 needs another row sharing the
+// base row's `relation` tag at the SAME band, or it returns null. This file keeps an 8-and-8 floor
+// at both bands so neither relation ever goes dark.
 
 import { registerRelations, relationTemplates } from '../../engine/analogy.js';
 
@@ -28,7 +32,7 @@ const PART_WHOLE = ['va-part-whole'];
 const MEMBER_CATEGORY = ['va-member-category'];
 
 registerRelations([
-  // ============================ BAND 2 — everyday, on-sight words ============================
+  // ================================ BAND 2 — everyday parts ===================================
   {
     id: 'va-pw-finger', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
     a: { word: 'finger', pos: 'noun' }, b: { word: 'hand', pos: 'noun' },
@@ -43,12 +47,31 @@ registerRelations([
     id: 'va-pw-petal', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
     a: { word: 'petal', pos: 'noun' }, b: { word: 'flower', pos: 'noun' },
     tell: 'A petal is one piece of a flower, the way a page is one piece of a book.',
-    confusions: ['va-mc-oak'],
   },
   {
     id: 'va-pw-rung', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
     a: { word: 'rung', pos: 'noun' }, b: { word: 'ladder', pos: 'noun' },
     tell: 'A rung is one of the crossbars that makes up a ladder, not the ladder itself.',
+  },
+  {
+    id: 'va-pw-yolk', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
+    a: { word: 'yolk', pos: 'noun' }, b: { word: 'egg', pos: 'noun' },
+    tell: 'The yolk is the yellow part inside an egg, not the whole egg.',
+  },
+  {
+    id: 'va-pw-branch', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
+    a: { word: 'branch', pos: 'noun' }, b: { word: 'tree', pos: 'noun' },
+    tell: 'A branch grows out of a tree — it is one part, not the whole tree.',
+  },
+  {
+    id: 'va-pw-sleeve', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
+    a: { word: 'sleeve', pos: 'noun' }, b: { word: 'shirt', pos: 'noun' },
+    tell: 'A sleeve is the part of a shirt that covers the arm, not the whole shirt.',
+  },
+  {
+    id: 'va-pw-heel', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
+    a: { word: 'heel', pos: 'noun' }, b: { word: 'shoe', pos: 'noun' },
+    tell: 'The heel is the back part of a shoe, not the whole shoe.',
   },
   {
     id: 'va-mc-trout', chapter: CH, concepts: MEMBER_CATEGORY, band: 2, relation: 'member-category',
@@ -70,8 +93,28 @@ registerRelations([
     a: { word: 'ant', pos: 'noun' }, b: { word: 'insect', pos: 'noun' },
     tell: 'An ant IS an insect — one member of that class.',
   },
+  {
+    id: 'va-mc-sparrow', chapter: CH, concepts: MEMBER_CATEGORY, band: 2, relation: 'member-category',
+    a: { word: 'sparrow', pos: 'noun' }, b: { word: 'bird', pos: 'noun' },
+    tell: 'A sparrow IS a bird, the same way a robin is.',
+  },
+  {
+    id: 'va-mc-pine', chapter: CH, concepts: MEMBER_CATEGORY, band: 2, relation: 'member-category',
+    a: { word: 'pine', pos: 'noun' }, b: { word: 'tree', pos: 'noun' },
+    tell: 'A pine IS a tree, the same way an oak is.',
+  },
+  {
+    id: 'va-mc-shark', chapter: CH, concepts: MEMBER_CATEGORY, band: 2, relation: 'member-category',
+    a: { word: 'shark', pos: 'noun' }, b: { word: 'fish', pos: 'noun' },
+    tell: 'A shark IS a fish, the same way a trout is.',
+  },
+  {
+    id: 'va-mc-beetle', chapter: CH, concepts: MEMBER_CATEGORY, band: 2, relation: 'member-category',
+    a: { word: 'beetle', pos: 'noun' }, b: { word: 'insect', pos: 'noun' },
+    tell: 'A beetle IS an insect, the same way an ant is.',
+  },
 
-  // ======================= BAND 3 — standard test-prep vocabulary ============================
+  // ==================== BAND 3 — same simple words, less obvious pairing ======================
   {
     id: 'va-pw-piston', chapter: CH, concepts: PART_WHOLE, band: 3, relation: 'part-whole',
     a: { word: 'piston', pos: 'noun' }, b: { word: 'engine', pos: 'noun' },
@@ -93,6 +136,26 @@ registerRelations([
     tell: 'The keel is the structural spine running along the bottom of a ship\'s hull, not the ship itself.',
   },
   {
+    id: 'va-pw-cartilage', chapter: CH, concepts: PART_WHOLE, band: 3, relation: 'part-whole',
+    a: { word: 'cartilage', pos: 'noun' }, b: { word: 'joint', pos: 'noun' },
+    tell: 'Cartilage is the cushioning tissue inside a joint, not the joint itself.',
+  },
+  {
+    id: 'va-pw-filament', chapter: CH, concepts: PART_WHOLE, band: 3, relation: 'part-whole',
+    a: { word: 'filament', pos: 'noun' }, b: { word: 'lightbulb', pos: 'noun' },
+    tell: 'The filament is the thin wire inside a lightbulb that glows - a component, not the bulb itself.',
+  },
+  {
+    id: 'va-pw-blade', chapter: CH, concepts: PART_WHOLE, band: 3, relation: 'part-whole',
+    a: { word: 'blade', pos: 'noun' }, b: { word: 'fan', pos: 'noun' },
+    tell: 'A blade is one of the spinning parts of a fan, not the whole fan.',
+  },
+  {
+    id: 'va-pw-strap', chapter: CH, concepts: PART_WHOLE, band: 3, relation: 'part-whole',
+    a: { word: 'strap', pos: 'noun' }, b: { word: 'watch', pos: 'noun' },
+    tell: 'The strap holds a watch to the wrist - a part, not the whole watch.',
+  },
+  {
     id: 'va-mc-sonnet', chapter: CH, concepts: MEMBER_CATEGORY, band: 3, relation: 'member-category',
     a: { word: 'sonnet', pos: 'noun' }, b: { word: 'poem', pos: 'noun' },
     tell: 'A sonnet IS a poem — a specific 14-line form of the wider category.',
@@ -108,115 +171,182 @@ registerRelations([
     tell: 'A peninsula IS a landform — a specific shape within that geographic category.',
   },
   {
-    id: 'va-mc-epithelium', chapter: CH, concepts: MEMBER_CATEGORY, band: 3, relation: 'member-category',
-    a: { word: 'epithelium', pos: 'noun' }, b: { word: 'tissue', pos: 'noun' },
-    tell: 'Epithelium IS a tissue type — one member of the category, not a piece cut from it.',
-  },
-
-  // ========================= BAND 4 — low-frequency, inference-level ==========================
-  {
-    id: 'va-pw-cartilage', chapter: CH, concepts: PART_WHOLE, band: 4, relation: 'part-whole',
-    a: { word: 'cartilage', pos: 'noun' }, b: { word: 'joint', pos: 'noun' },
-    tell: 'Cartilage is the cushioning tissue inside a joint, not the joint itself.',
-  },
-  {
-    id: 'va-pw-stanchion', chapter: CH, concepts: PART_WHOLE, band: 4, relation: 'part-whole',
-    a: { word: 'stanchion', pos: 'noun' }, b: { word: 'railing', pos: 'noun' },
-    tell: 'A stanchion is the upright post that holds a railing up — a component, not the railing.',
-  },
-  {
-    id: 'va-pw-vestibule', chapter: CH, concepts: PART_WHOLE, band: 4, relation: 'part-whole',
-    a: { word: 'vestibule', pos: 'noun' }, b: { word: 'ear', pos: 'noun' },
-    tell: 'The vestibule is the balance-sensing chamber inside the inner ear, not the ear as a whole.',
-  },
-  {
-    id: 'va-pw-cornice', chapter: CH, concepts: PART_WHOLE, band: 4, relation: 'part-whole',
-    a: { word: 'cornice', pos: 'noun' }, b: { word: 'facade', pos: 'noun' },
-    tell: 'A cornice is the projecting molding along the top of a facade — one architectural part of it.',
-  },
-  {
-    id: 'va-mc-gavotte', chapter: CH, concepts: MEMBER_CATEGORY, band: 4, relation: 'member-category',
-    a: { word: 'gavotte', pos: 'noun' }, b: { word: 'dance', pos: 'noun' },
-    tell: 'A gavotte IS a dance — a specific French court dance within that category.',
-  },
-  {
-    id: 'va-mc-anthracite', chapter: CH, concepts: MEMBER_CATEGORY, band: 4, relation: 'member-category',
-    a: { word: 'anthracite', pos: 'noun' }, b: { word: 'coal', pos: 'noun' },
-    tell: 'Anthracite IS coal — the hardest, highest-carbon grade within that category.',
-  },
-  {
-    id: 'va-mc-trapezoid', chapter: CH, concepts: MEMBER_CATEGORY, band: 4, relation: 'member-category',
+    id: 'va-mc-trapezoid', chapter: CH, concepts: MEMBER_CATEGORY, band: 3, relation: 'member-category',
     a: { word: 'trapezoid', pos: 'noun' }, b: { word: 'quadrilateral', pos: 'noun' },
     tell: 'A trapezoid IS a quadrilateral — one four-sided shape within that broader class.',
   },
   {
-    id: 'va-mc-cumulonimbus', chapter: CH, concepts: MEMBER_CATEGORY, band: 4, relation: 'member-category',
-    a: { word: 'cumulonimbus', pos: 'noun' }, b: { word: 'cloud', pos: 'noun' },
-    tell: 'A cumulonimbus IS a cloud — the specific storm-producing kind within that category.',
-  },
-
-  // ============ BAND 5 — added 2026-09-17, closing the VA band-5 gap (see ch04's note). =========
-  {
-    id: 'va-pw-filament', chapter: CH, concepts: PART_WHOLE, band: 5, relation: 'part-whole',
-    a: { word: 'filament', pos: 'noun' }, b: { word: 'lightbulb', pos: 'noun' },
-    tell: 'The filament is the thin wire inside a lightbulb that glows - a component, not the bulb itself.',
-  },
-  {
-    id: 'va-pw-cochlea', chapter: CH, concepts: PART_WHOLE, band: 5, relation: 'part-whole',
-    a: { word: 'cochlea', pos: 'noun' }, b: { word: 'ear', pos: 'noun' },
-    tell: 'The cochlea is the spiral, sound-sensing chamber inside the inner ear, not the ear as a whole.',
-  },
-  // A genuinely rarer replacement for "haiku" here - haiku is common enough to be a band-2/3
-  // word (most people meet it in grade school), which would have repeated the same miscalibration
-  // this batch fixes elsewhere (see ch03's note on "detective"/"archaeologist").
-  {
-    id: 'va-mc-villanelle', chapter: CH, concepts: MEMBER_CATEGORY, band: 5, relation: 'member-category',
-    a: { word: 'villanelle', pos: 'noun' }, b: { word: 'poem', pos: 'noun' },
-    tell: 'A villanelle IS a poem - a specific 19-line form within that broader category.',
-  },
-  {
-    id: 'va-mc-epee', chapter: CH, concepts: MEMBER_CATEGORY, band: 5, relation: 'member-category',
-    a: { word: 'epee', pos: 'noun' }, b: { word: 'sword', pos: 'noun' },
-    tell: 'An epee IS a sword - the heaviest of the three fencing blades, a specific kind within that category.',
-  },
-  {
-    id: 'va-mc-dirge', chapter: CH, concepts: MEMBER_CATEGORY, band: 5, relation: 'member-category',
+    id: 'va-mc-dirge', chapter: CH, concepts: MEMBER_CATEGORY, band: 3, relation: 'member-category',
     a: { word: 'dirge', pos: 'noun' }, b: { word: 'song', pos: 'noun' },
     tell: 'A dirge IS a song - a specific mournful, funeral kind within that category.',
   },
+  {
+    id: 'va-mc-daisy', chapter: CH, concepts: MEMBER_CATEGORY, band: 3, relation: 'member-category',
+    a: { word: 'daisy', pos: 'noun' }, b: { word: 'flower', pos: 'noun' },
+    tell: 'A daisy IS a flower — a specific kind within that category.',
+  },
+  {
+    id: 'va-mc-novel', chapter: CH, concepts: MEMBER_CATEGORY, band: 3, relation: 'member-category',
+    a: { word: 'novel', pos: 'noun' }, b: { word: 'book', pos: 'noun' },
+    tell: 'A novel IS a book — a specific long-fiction kind within that category.',
+  },
+  {
+    id: 'va-mc-chess', chapter: CH, concepts: MEMBER_CATEGORY, band: 3, relation: 'member-category',
+    a: { word: 'chess', pos: 'noun' }, b: { word: 'game', pos: 'noun' },
+    tell: 'Chess IS a game — a specific board game within that category.',
+  },
 ]);
 
-for (const band of [2, 3, 4, 5]) {
+// Harvested 2026-09-20 from "AFOQT Verbal Analogies — 50 New Study Bank Questions.md" (Trey
+// supplied it, asked to "add this to our bank"). That doc hand-wrote 50 full questions, but a
+// lot of its own distractors reverse the BASE PAIR'S OWN two words (WHEEL is to SPOKE as a wrong
+// answer to SPOKE is to WHEEL) - the exact pattern Trey rejected earlier this session ("that's
+// lazy shortcutting to make a 5th answer"), which is why buildMatch never does that. Rather than
+// import 50 fixed question objects and carry the bug forward, only the underlying WORD PAIRS were
+// pulled out - our own engine generates non-reversed-base-pair distractors from them automatically.
+registerRelations([
+  {
+    id: 'va-pw-spoke', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
+    a: { word: 'spoke', pos: 'noun' }, b: { word: 'wheel', pos: 'noun' },
+    tell: 'A spoke is one of the rods connecting a wheel\'s hub to its rim, not the wheel itself.',
+  },
+  {
+    id: 'va-pw-page', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
+    a: { word: 'page', pos: 'noun' }, b: { word: 'book', pos: 'noun' },
+    tell: 'A page is one leaf of a book, not the whole book.',
+  },
+  {
+    id: 'va-pw-brick', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
+    a: { word: 'brick', pos: 'noun' }, b: { word: 'wall', pos: 'noun' },
+    tell: 'A brick is one unit making up a wall, not the whole wall.',
+  },
+  {
+    id: 'va-pw-lens', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
+    a: { word: 'lens', pos: 'noun' }, b: { word: 'camera', pos: 'noun' },
+    tell: 'The lens is the part of a camera that focuses light, not the whole camera.',
+  },
+  {
+    id: 'va-pw-sail', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
+    a: { word: 'sail', pos: 'noun' }, b: { word: 'boat', pos: 'noun' },
+    tell: 'A sail is a part of a boat that catches wind, not the whole boat.',
+  },
+  {
+    id: 'va-pw-handle', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
+    a: { word: 'handle', pos: 'noun' }, b: { word: 'door', pos: 'noun' },
+    tell: 'A handle is the part of a door you grip, not the whole door.',
+  },
+  {
+    id: 'va-pw-leg', chapter: CH, concepts: PART_WHOLE, band: 2, relation: 'part-whole',
+    a: { word: 'leg', pos: 'noun' }, b: { word: 'chair', pos: 'noun' },
+    tell: 'A leg is one of the supports holding up a chair, not the whole chair.',
+  },
+  {
+    id: 'va-pw-key', chapter: CH, concepts: PART_WHOLE, band: 3, relation: 'part-whole',
+    a: { word: 'key', pos: 'noun' }, b: { word: 'keyboard', pos: 'noun' },
+    tell: 'A key is one button on a keyboard, not the whole keyboard.',
+  },
+  {
+    id: 'va-pw-beam', chapter: CH, concepts: PART_WHOLE, band: 3, relation: 'part-whole',
+    a: { word: 'beam', pos: 'noun' }, b: { word: 'ceiling', pos: 'noun' },
+    tell: 'A beam is a structural support inside a ceiling, not the whole ceiling.',
+  },
+  {
+    id: 'va-pw-roof', chapter: CH, concepts: PART_WHOLE, band: 3, relation: 'part-whole',
+    a: { word: 'roof', pos: 'noun' }, b: { word: 'house', pos: 'noun' },
+    tell: 'A roof covers the top of a house, not the whole house.',
+  },
+  {
+    id: 'va-pw-string', chapter: CH, concepts: PART_WHOLE, band: 3, relation: 'part-whole',
+    a: { word: 'string', pos: 'noun' }, b: { word: 'guitar', pos: 'noun' },
+    tell: 'A string is one part of a guitar that vibrates to make sound, not the whole guitar.',
+  },
+  {
+    id: 'va-pw-wire', chapter: CH, concepts: PART_WHOLE, band: 3, relation: 'part-whole',
+    a: { word: 'wire', pos: 'noun' }, b: { word: 'fence', pos: 'noun' },
+    tell: 'A wire is one strand making up a fence, not the whole fence.',
+  },
+
+  {
+    id: 'va-mc-owl', chapter: CH, concepts: MEMBER_CATEGORY, band: 2, relation: 'member-category',
+    a: { word: 'owl', pos: 'noun' }, b: { word: 'bird', pos: 'noun' },
+    tell: 'An owl IS a bird, the same way a robin is.',
+  },
+  {
+    id: 'va-mc-hammer', chapter: CH, concepts: MEMBER_CATEGORY, band: 2, relation: 'member-category',
+    a: { word: 'hammer', pos: 'noun' }, b: { word: 'tool', pos: 'noun' },
+    tell: 'A hammer IS a tool — one member of that category.',
+  },
+  {
+    id: 'va-mc-triangle', chapter: CH, concepts: MEMBER_CATEGORY, band: 2, relation: 'member-category',
+    a: { word: 'triangle', pos: 'noun' }, b: { word: 'polygon', pos: 'noun' },
+    tell: 'A triangle IS a polygon — a specific three-sided shape within that category.',
+  },
+  {
+    id: 'va-mc-walnut', chapter: CH, concepts: MEMBER_CATEGORY, band: 2, relation: 'member-category',
+    a: { word: 'walnut', pos: 'noun' }, b: { word: 'nut', pos: 'noun' },
+    tell: 'A walnut IS a nut, one kind within that category.',
+  },
+  {
+    id: 'va-mc-lily', chapter: CH, concepts: MEMBER_CATEGORY, band: 2, relation: 'member-category',
+    a: { word: 'lily', pos: 'noun' }, b: { word: 'flower', pos: 'noun' },
+    tell: 'A lily IS a flower, the same way a daisy is.',
+  },
+  {
+    id: 'va-mc-bass', chapter: CH, concepts: MEMBER_CATEGORY, band: 2, relation: 'member-category',
+    a: { word: 'bass', pos: 'noun' }, b: { word: 'fish', pos: 'noun' },
+    tell: 'A bass IS a fish, the same way a trout is.',
+  },
+  {
+    id: 'va-mc-apple', chapter: CH, concepts: MEMBER_CATEGORY, band: 2, relation: 'member-category',
+    a: { word: 'apple', pos: 'noun' }, b: { word: 'fruit', pos: 'noun' },
+    tell: 'An apple IS a fruit, one member of that category.',
+  },
+  {
+    id: 'va-mc-sofa', chapter: CH, concepts: MEMBER_CATEGORY, band: 2, relation: 'member-category',
+    a: { word: 'sofa', pos: 'noun' }, b: { word: 'furniture', pos: 'noun' },
+    tell: 'A sofa IS furniture, one member of that category.',
+  },
+  {
+    id: 'va-mc-cedar', chapter: CH, concepts: MEMBER_CATEGORY, band: 3, relation: 'member-category',
+    a: { word: 'cedar', pos: 'noun' }, b: { word: 'tree', pos: 'noun' },
+    tell: 'A cedar IS a tree, the same way an oak is.',
+  },
+  {
+    id: 'va-mc-rectangle', chapter: CH, concepts: MEMBER_CATEGORY, band: 3, relation: 'member-category',
+    a: { word: 'rectangle', pos: 'noun' }, b: { word: 'quadrilateral', pos: 'noun' },
+    tell: 'A rectangle IS a quadrilateral, the same way a trapezoid is.',
+  },
+  {
+    id: 'va-mc-soccer', chapter: CH, concepts: MEMBER_CATEGORY, band: 3, relation: 'member-category',
+    a: { word: 'soccer', pos: 'noun' }, b: { word: 'sport', pos: 'noun' },
+    tell: 'Soccer IS a sport, one member of that category.',
+  },
+  {
+    id: 'va-mc-wrench', chapter: CH, concepts: MEMBER_CATEGORY, band: 3, relation: 'member-category',
+    a: { word: 'wrench', pos: 'noun' }, b: { word: 'tool', pos: 'noun' },
+    tell: 'A wrench IS a tool, the same way a hammer is.',
+  },
+  {
+    id: 'va-mc-sedan', chapter: CH, concepts: MEMBER_CATEGORY, band: 3, relation: 'member-category',
+    a: { word: 'sedan', pos: 'noun' }, b: { word: 'car', pos: 'noun' },
+    tell: 'A sedan IS a car, one specific body style within that category.',
+  },
+]);
+
+for (const band of [2, 3]) {
   relationTemplates({ chapter: CH, band, idBase: `va-02-b${band}`, name: 'Part to whole, member to category' });
 }
 
 // ============================================================================================
-// PART 10B — part-part + sequence rows, appended 2026-08-26. Do not alter any row above this
-// point; those are PART 10's.
+// PART 10B — part-part + sequence rows. Already at bands 2-3 only; vocabulary was already plain
+// and needed no changes in this rewrite.
 //
 // PART/PART: a and b are co-equal parts of the SAME whole; neither contains the other. The
 // swap test: could you exchange a and b and still have a valid pair? Yes — that is co-equal,
-// which is why every row below sets `symmetric: true`. (The engine JSDoc on RelationRow says
-// symmetric is "true only for synonym/antonym" - that described the bank as it stood when PART 9
-// was built, before any order-independent relation besides those two existed. Leaving these rows
-// at the default `false` would let the engine's own reversed-pair distractor - "the exact same
-// two words, wrong order" - stand as a SECOND correct answer, since reversing a genuinely
-// co-equal pair changes nothing about the relation. `afoqt:selftest` cannot catch this: reversed
-// text is a structurally distinct string, so a slate with two correct answers still reports
-// "5 distinct choices" and passes. Read PART 11's own warning about this exact defect class
-// before touching this file again.)
+// which is why every row below sets `symmetric: true`.
 //
 // SEQUENCE: a precedes b in a fixed, ordered process; the order is inherent, not incidental.
 // `symmetric` is left at its default (false) here - swapping breaks the relation on every row.
-//
-// Only 3 rows per relation at bands 2 and 3 (the real sourced sample shows no band-4 example of
-// either), so nothing is registered at band 4 - a template needs 5+ rows or the engine returns
-// nothing, and padding to hit 5 would mean inventing a low-confidence "hard" example neither
-// real item supports. Combined (part-part + sequence), each of bands 2/3 reaches 6 rows against
-// the WHOLE chapter's now-14-row pool per band, past the 5-row floor - see the new
-// relationTemplates() calls below, registered under a NEW idBase so they do not collide with
-// PART 10's `va-02-b{band}-pair/term` ids (calling relationTemplates again under the SAME idBase
-// for a band PART 10 already built would throw a duplicate-template-id error).
 
 const PART_PART = ['va-part-part'];
 const SEQUENCE = ['va-sequence'];
@@ -272,7 +402,6 @@ registerRelations([
     id: 'va-pp-liver', chapter: CH, concepts: PART_PART, band: 3, relation: 'part-part', symmetric: true,
     a: { word: 'liver', pos: 'noun' }, b: { word: 'kidney', pos: 'noun' },
     tell: 'The liver and a kidney are co-equal organs of the same body - siblings, not nested.',
-    confusions: ['va-mc-epithelium'],
   },
   {
     id: 'va-pp-infantry', chapter: CH, concepts: PART_PART, band: 3, relation: 'part-part', symmetric: true,
@@ -288,16 +417,6 @@ registerRelations([
   },
 
   // ------------------------------- BAND 3, sequence (4) ---------------------------------------
-  // 🔴 2026-09-17 CORRECTION - all four of these used to share one bare 'sequence' tag, which
-  // let the engine key RECRUIT:VETERAN (a person gaining experience) as a valid "same relation"
-  // match for BLUEPRINT:BUILDING (a document preceding a constructed object) - found while
-  // re-auditing the whole bank after the ch05 object-attribute defect Trey caught. Reading the
-  // actual generated output ("BLUEPRINT is to BUILDING as: Recruit : Veteran <-- correct") made
-  // the mismatch obvious the same way "SURGEON is to HOSPITAL as VIGILANT is to SENTRY" was: two
-  // pairs that pass the same abstract "a precedes b" test without reading as restatements of one
-  // relation. Split into MATURATION (the SAME thing/person becomes its own more-developed form -
-  // the official "age/growth" category from RESEARCH.md's VA SOURCING catalogue) and
-  // CREATION_SEQUENCE (a preliminary draft precedes a DIFFERENT, finished, physical result).
   {
     id: 'va-mt-recruit', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'maturation',
     a: { word: 'recruit', pos: 'noun' }, b: { word: 'veteran', pos: 'noun' },
@@ -318,6 +437,107 @@ registerRelations([
     id: 'va-cs-sketch', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'creation-sequence',
     a: { word: 'sketch', pos: 'noun' }, b: { word: 'painting', pos: 'noun' },
     tell: 'A sketch comes before the finished painting it leads to - the process runs one direction.',
+  },
+]);
+
+// Harvested 2026-09-20 from the same 50-question study bank doc (see the note above the
+// part-whole/member-category registerRelations block).
+registerRelations([
+  {
+    id: 'va-pp-artery', chapter: CH, concepts: PART_PART, band: 2, relation: 'part-part', symmetric: true,
+    a: { word: 'artery', pos: 'noun' }, b: { word: 'vein', pos: 'noun' },
+    tell: 'An artery and a vein are co-equal parts of the circulatory system - siblings, not nested.',
+  },
+  {
+    id: 'va-pp-salt', chapter: CH, concepts: PART_PART, band: 2, relation: 'part-part', symmetric: true,
+    a: { word: 'salt', pos: 'noun' }, b: { word: 'pepper', pos: 'noun' },
+    tell: 'Salt and pepper are co-equal seasonings of the same shaker set.',
+  },
+  {
+    id: 'va-pp-plate', chapter: CH, concepts: PART_PART, band: 2, relation: 'part-part', symmetric: true,
+    a: { word: 'plate', pos: 'noun' }, b: { word: 'bowl', pos: 'noun' },
+    tell: 'A plate and a bowl are co-equal dishes of the same place setting.',
+  },
+  {
+    id: 'va-pp-pitcher', chapter: CH, concepts: PART_PART, band: 3, relation: 'part-part', symmetric: true,
+    a: { word: 'pitcher', pos: 'noun' }, b: { word: 'catcher', pos: 'noun' },
+    tell: 'A pitcher and a catcher are co-equal positions on the same baseball team.',
+  },
+  {
+    id: 'va-pp-quarter', chapter: CH, concepts: PART_PART, band: 3, relation: 'part-part', symmetric: true,
+    a: { word: 'quarter', pos: 'noun' }, b: { word: 'nickel', pos: 'noun' },
+    tell: 'A quarter and a nickel are co-equal coins of the same currency.',
+  },
+  {
+    id: 'va-pp-hammer', chapter: CH, concepts: PART_PART, band: 3, relation: 'part-part', symmetric: true,
+    a: { word: 'hammer', pos: 'noun' }, b: { word: 'saw', pos: 'noun' },
+    tell: 'A hammer and a saw are co-equal tools in the same toolbox.',
+  },
+  {
+    id: 'va-pp-door', chapter: CH, concepts: PART_PART, band: 3, relation: 'part-part', symmetric: true,
+    a: { word: 'door', pos: 'noun' }, b: { word: 'window', pos: 'noun' },
+    tell: 'A door and a window are co-equal parts of the same house.',
+  },
+  {
+    id: 'va-pp-knife', chapter: CH, concepts: PART_PART, band: 3, relation: 'part-part', symmetric: true,
+    a: { word: 'knife', pos: 'noun' }, b: { word: 'fork', pos: 'noun' },
+    tell: 'A knife and a fork are co-equal parts of the same place setting.',
+  },
+  {
+    id: 'va-pp-brush', chapter: CH, concepts: PART_PART, band: 3, relation: 'part-part', symmetric: true,
+    a: { word: 'brush', pos: 'noun' }, b: { word: 'comb', pos: 'noun' },
+    tell: 'A brush and a comb are co-equal tools in the same grooming kit.',
+  },
+
+  {
+    id: 'va-mt-tadpole', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'maturation',
+    a: { word: 'tadpole', pos: 'noun' }, b: { word: 'frog', pos: 'noun' },
+    tell: 'A tadpole becomes a frog - the order is fixed by the growth process itself.',
+  },
+  {
+    id: 'va-mt-cocoon', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'maturation',
+    a: { word: 'cocoon', pos: 'noun' }, b: { word: 'moth', pos: 'noun' },
+    tell: 'A cocoon precedes the moth that emerges from it, the same way a caterpillar precedes a butterfly.',
+  },
+  {
+    id: 'va-cs-mold', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'creation-sequence',
+    a: { word: 'mold', pos: 'noun' }, b: { word: 'statue', pos: 'noun' },
+    tell: 'A mold is used to cast a statue - a shaping tool comes before the finished, separate object.',
+  },
+  {
+    id: 'va-cs-batter', chapter: CH, concepts: SEQUENCE, band: 2, relation: 'creation-sequence',
+    a: { word: 'batter', pos: 'noun' }, b: { word: 'cake', pos: 'noun' },
+    tell: 'Batter is baked into a cake - the batter exists first, before the process finishes it.',
+  },
+  {
+    id: 'va-mt-seedling', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'maturation',
+    a: { word: 'seedling', pos: 'noun' }, b: { word: 'sapling', pos: 'noun' },
+    tell: 'A seedling becomes a sapling - the order is fixed by the growth process.',
+  },
+  {
+    id: 'va-mt-acorn', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'maturation',
+    a: { word: 'acorn', pos: 'noun' }, b: { word: 'oak', pos: 'noun' },
+    tell: 'An acorn grows into an oak, the same way a seedling grows into a sapling.',
+  },
+  {
+    id: 'va-mt-nymph', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'maturation',
+    a: { word: 'nymph', pos: 'noun' }, b: { word: 'dragonfly', pos: 'noun' },
+    tell: 'A nymph becomes a dragonfly, the same way a tadpole becomes a frog.',
+  },
+  {
+    id: 'va-cs-rehearsal', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'creation-sequence',
+    a: { word: 'rehearsal', pos: 'noun' }, b: { word: 'performance', pos: 'noun' },
+    tell: 'A rehearsal comes before the performance it prepares for - the order cannot reverse.',
+  },
+  {
+    id: 'va-cs-practice', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'creation-sequence',
+    a: { word: 'practice', pos: 'noun' }, b: { word: 'game', pos: 'noun' },
+    tell: 'Practice comes before the game it prepares for, the same way a rehearsal precedes a performance.',
+  },
+  {
+    id: 'va-cs-audition', chapter: CH, concepts: SEQUENCE, band: 3, relation: 'creation-sequence',
+    a: { word: 'audition', pos: 'noun' }, b: { word: 'role', pos: 'noun' },
+    tell: 'An audition comes before landing the role it leads to - the order cannot reverse.',
   },
 ]);
 

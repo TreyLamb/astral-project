@@ -59,6 +59,22 @@ Every wrong choice must be the answer produced by a **specific plausible mistake
 teach nothing, and they make a question look harder than it is. This reasoning is why
 templates are hand-written by Claude and **not** farmed out to bulk generation.
 
+### 🔴 Verbal Analogies is the one subtest where "band = harder words" is WRONG
+
+Every other subtest bands on difficulty of the underlying skill. VA doesn't get to, because its
+skill is relationship reasoning, and the vocabulary used to express a relationship isn't part of
+that skill — it's a confound. Trey, 2026-09-20, after a shipped item asked "PARSIMONIOUS is to
+MISERLY as RECALCITRANT is to:": *"The point is not to test someone's vocabulary. It's to test
+their logical reasoning of how the words connect. The tester should NEVER HAVE TO GUESS WHAT A
+WORD MEANS."* SYNONYM and ANTONYM were briefly retired as VA relation types over this, then
+restored the same day once real OATTS data (`oatts-VA-076`, `oatts-VA-077`) and Trey's own lesson
+draft showed the relation types are fine — the actual defect was pairing them with SAT-tier
+vocabulary, which the vocabulary ceiling below already forbids for every relation type, not just
+these two. Full doctrine, the "sycophant rule" for the one narrow exception (one contextually-
+inferable elevated word is fine, an isolated must-already-know word is not), and the band collapse
+to 2/3 only: `afoqt/engine/analogy.js`'s "VA IS NOT A VOCABULARY TEST" note. Don't re-derive this
+from Rule 1 alone — VA is the deliberate exception, not an oversight.
+
 ---
 
 ## RULE 2 — Relevance / Traceability (Trey's words)

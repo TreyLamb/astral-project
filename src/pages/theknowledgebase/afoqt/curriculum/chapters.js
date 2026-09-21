@@ -620,8 +620,8 @@ export const CHAPTERS = [
     id: 'va-01-method',
     track: 'analogies', subtest: 'VA', order: 40,
     title: 'The two formats, and what makes a pair wrong',
-    summary: 'Complete the fourth term, or pick the whole matching pair - order matters in both. Then the two checks that catch a same-category trap.',
-    minutes: 8, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    summary: 'Pick the whole matching pair - the format this app drills. Then the check that catches a same-category trap.',
+    minutes: 8, bands: [2, 3], prereqs: [], testOutPass: 4,
     concepts: ['va-relation-format', 'va-relation-discriminators'],
   },
   {
@@ -629,7 +629,7 @@ export const CHAPTERS = [
     track: 'analogies', subtest: 'VA', order: 41,
     title: 'Part to whole, member to category, part to part, and sequence',
     summary: 'The single biggest cluster in real items - about 3 in 10. A part must be the same KIND of part; a category must be the right level, not too broad or too narrow; two co-equal parts of one whole are a different relation again, and so is "this comes before that."',
-    minutes: 14, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    minutes: 14, bands: [2, 3], prereqs: [], testOutPass: 4,
     // va-part-part and va-sequence added 2026-08-23 - see the REOPENED note above this array.
     concepts: ['va-part-whole', 'va-member-category', 'va-part-part', 'va-sequence'],
   },
@@ -638,17 +638,22 @@ export const CHAPTERS = [
     track: 'analogies', subtest: 'VA', order: 42,
     title: 'Cause to effect, and doer to action',
     summary: 'The effect must be direct, not a downstream side effect; the action must be the defining task, not an occasional one.',
-    minutes: 11, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    minutes: 11, bands: [2, 3], prereqs: [], testOutPass: 4,
     concepts: ['va-cause-effect', 'va-action-object'],
   },
   {
     id: 'va-04-meaning-degree',
     track: 'analogies', subtest: 'VA', order: 43,
     title: 'Synonym, antonym and degree',
-    summary: 'Same meaning, opposite meaning, or same direction at a different intensity - and telling a degree pair from a plain synonym pair.',
-    minutes: 13, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
-    // Antonym is real but rare in the sample (4/75) - keep the row count modest relative to
-    // the other two concepts here rather than treating all three as equally common.
+    summary: 'Same meaning, opposite meaning, or same direction at a different intensity - and telling a degree pair from a plain synonym pair. Every word here is plain on purpose - see the chapter lesson.',
+    minutes: 13, bands: [2, 3], prereqs: [], testOutPass: 4,
+    // Synonym and antonym were retired 2026-09-20, then restored the same day once two things
+    // surfaced: Trey's own lesson draft (TreysDontTouch.md) teaches them with plain words, and
+    // two of the ten OFFICIAL OATTS items (oatts-VA-076, oatts-VA-077) ARE synonym/antonym, both
+    // using dead-simple vocabulary. The real defect was pairing the relation with SAT-tier words
+    // (recalcitrant, parsimonious), not the relation type itself - see engine/analogy.js's
+    // "VA IS NOT A VOCABULARY TEST" note and ch04-meaning-degree.js's own header for the full
+    // back-and-forth. The vocabulary ceiling still applies to all three relations, no exceptions.
     concepts: ['va-synonym', 'va-antonym', 'va-degree'],
   },
   {
@@ -656,7 +661,7 @@ export const CHAPTERS = [
     track: 'analogies', subtest: 'VA', order: 44,
     title: 'What defines it',
     summary: 'A person or thing paired with its defining quality, role, or the place that quality is exercised - not an incidental fact about it.',
-    minutes: 11, bands: [2, 3, 4], prereqs: [], testOutPass: 4,
+    minutes: 11, bands: [2, 3], prereqs: [], testOutPass: 4,
     // Folds in the "worker to workplace" pattern (~6/75 real items - beautician/salon,
     // cardiologist/heart) that does not cleanly match any of the 10 official concepts.
     // Treated as a variant of Object/Attribute (the role's defining domain) rather than an

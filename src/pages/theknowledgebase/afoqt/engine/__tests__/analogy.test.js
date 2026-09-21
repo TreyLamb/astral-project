@@ -114,18 +114,11 @@ describe('registerRelations validator rejection', () => {
       .toThrow(/confusions must be ids/);
   });
 
-  it('rejects a word whose band disagrees with the WK bank', () => {
-    // "gregarious" is registered by wk/words.js (via one of the WK vocabulary chapters) at band
-    // 3 in the real bank (already loaded via the templates/index.js import above). A VA row
-    // reusing it at a different band is a real data defect - two subtests cannot disagree about
-    // the same word's rarity. (This must come from words.js, not morphology.js's registerPairs -
-    // wordBand() only reads allWords(), so a confusable-pair headword like "historic" would not
-    // trip this check at all.)
-    expect(() => registerRelations([{
-      ...BASE_ROW, id: 'fx-1', band: 4, a: { word: 'gregarious', pos: 'adj' }, b: { word: 'fixzzz', pos: 'noun' },
-    }]))
-      .toThrow(/is band 3 in the WK bank but this row is band 4/);
-  });
+  // There used to be a test here asserting that a VA word sharing a headword with the WK bank
+  // must agree on band. That enforcement was removed 2026-09-20 (see the "VA IS NOT A VOCABULARY
+  // TEST" note at the top of engine/analogy.js) - it is now CORRECT and expected for a VA row to
+  // disagree with WK's band for the same word, since VA words are meant to sit far below whatever
+  // WK calls the same word. Do not re-add this check.
 });
 
 describe('relationTemplates confusion-existence check', () => {
@@ -207,16 +200,11 @@ describe('Verbal Analogies bank invariants', () => {
     }
   });
 
-  it('every word shared with the WK bank agrees on band', () => {
-    for (const r of vaRows) {
-      for (const half of ['a', 'b']) {
-        const wk = wordBand(r[half].word);
-        if (wk != null) {
-          expect(wk, `${r.id}: ${half}.word "${r[half].word}" is band ${wk} in WK but band ${r.band} here`).toBe(r.band);
-        }
-      }
-    }
-  });
+  // "every word shared with the WK bank agrees on band" was removed 2026-09-20 along with the
+  // registerRelations enforcement it was pinning - see the note in the rejection tests above.
+  // VA bands and WK bands are now fully decoupled (they measure different things - relation
+  // subtlety vs. word rarity), so a real word appearing in both banks at different numbers is
+  // expected, not a defect.
 
   it('every confusions entry names a row that exists in the bank', () => {
     const ids = new Set(vaRows.map((r) => r.id));

@@ -58,10 +58,13 @@ export default function CurriculumMap() {
         const reach = compositeReach(track.subtest);
         const tier = results ? subtestTier(results, track.subtest) : null;
         const acc = results ? diagnosticSubtestAccuracy(results, track.subtest) : null;
-        // Strengths pushed out of the way, on request: collapsed shut rather than deleted, so
-        // "not at the forefront" doesn't cost reachability.
-        const collapsedByDefault = tier === 'strong' && stats.done < stats.total;
-        const open = manualOpen[track.id] ?? !collapsedByDefault;
+        // Every subtest defaults CLOSED - Trey, 2026-09-20: "if i want to pick a subtest at the
+        // bottom i[don't] want to scroll to the bottom to get to it. i want to 'open' the
+        // curriculum like collapse/open clicking." Before this, only a "strong" track (which
+        // needs a diagnostic to even exist) defaulted shut - with no diagnostic taken, every
+        // track was open at once and the page was one long scrolling column of every chapter in
+        // every subtest. Manual opens still stick (manualOpen below), same as before.
+        const open = manualOpen[track.id] ?? false;
 
         return (
           <details
