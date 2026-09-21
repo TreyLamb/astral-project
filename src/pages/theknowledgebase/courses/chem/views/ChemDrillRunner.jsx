@@ -88,6 +88,10 @@ export default function ChemDrillRunner() {
 
   useEffect(() => {
     const onKey = (e) => {
+      // The global Notes scratchpad floats over every page - without this guard typing a note
+      // fires answer letters, R and Escape into the running drill.
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       if (done) return;
       const q = questions[idx];
       // R opens the reference. It is outside A-D, so it can never be mistaken for an answer.

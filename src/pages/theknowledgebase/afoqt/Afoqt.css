@@ -608,6 +608,8 @@
 .afq-misses h3 { margin: 0; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); }
 .afq-miss { padding: .7rem .85rem; border: 1px solid var(--tkb-border); border-left: 3px solid var(--tkb-wrong); border-radius: 0 8px 8px 0; background: var(--tkb-surface); }
 .afq-miss-stem { margin: 0 0 .4rem; font-weight: 500; }
+.afq-miss-headrow { display: flex; justify-content: space-between; align-items: flex-start; gap: .6rem; }
+.afq-miss-headrow .afq-miss-stem { margin: 0; }
 .afq-miss-line { display: flex; gap: 1.2rem; flex-wrap: wrap; margin: 0 0 .4rem; font-size: 1rem; }
 /* A blank reads as its own state, not as a miss: same cost on a rights-only test, different fix
    (pace, not understanding). Amber rather than red keeps that distinction visible at a glance. */
@@ -883,6 +885,8 @@
   border: 1px solid var(--tkb-border); background: var(--tkb-surface); color: var(--tkb-ink-soft);
 }
 .afq-flag-btn.afq-flagged { color: var(--tkb-accent); border-color: var(--tkb-accent); background: color-mix(in srgb, var(--tkb-accent) 10%, transparent); }
+.afq-copy-btn { white-space: nowrap; }
+.afq-copy-btn-sm { font-size: .75rem; padding: .15rem .5rem; flex-shrink: 0; }
 .afq-reveal-def { font-size: .95rem; color: var(--tkb-ink-soft); padding: .3rem .3rem; }
 .afq-reveal-toggle.afq-reveal-on { color: var(--tkb-accent); }
 .afq-choice-picked { border-color: var(--tkb-accent) !important; background: color-mix(in srgb, var(--tkb-accent) 8%, var(--tkb-canvas)); }

@@ -225,6 +225,10 @@ function DrillRun({ deck, mode, form, scope }) {
       // A focused <button> already fires its own click on Space/Enter; without this the key
       // handler runs too and the card advances twice.
       if ((e.key === ' ' || e.key === 'Enter') && e.target.closest?.('button')) return;
+      // The global Notes scratchpad floats over every page - without this guard typing a note
+      // fires number-key answers and restart into the drill behind it.
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       if (e.key === 'r' || e.key === 'R') { restart(); return; }
       if (run.done) return;
 

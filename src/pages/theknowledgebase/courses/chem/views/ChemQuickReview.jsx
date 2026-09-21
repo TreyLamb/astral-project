@@ -80,6 +80,10 @@ export default function ChemQuickReview() {
 
   useEffect(() => {
     const onKey = (e) => {
+      // The global Notes scratchpad floats over every page - without this guard typing a note
+      // fires answer letters into the running review.
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       if (e.key === 'Enter' || e.key === ' ') {
         if (picked !== null) { e.preventDefault(); next(); }
         return;

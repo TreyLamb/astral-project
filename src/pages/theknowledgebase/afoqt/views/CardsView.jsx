@@ -135,6 +135,10 @@ export default function CardsView() {
   // Keyboard on desktop, same one-action-per-key rule: nothing here needs a modifier or a confirm.
   useEffect(() => {
     const onKey = (e) => {
+      // See DrillRunner.jsx - the global Notes scratchpad floats over every page, and without
+      // this guard typing a note fires card navigation into the deck behind it.
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
       else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
       else if (e.key === 'Enter' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {

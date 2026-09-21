@@ -161,6 +161,10 @@ export default function DiagnosticRunner() {
 
   useEffect(() => {
     const onKey = (e) => {
+      // See DrillRunner.jsx - the global Notes scratchpad floats over every page, and without
+      // this guard typing a note mid-diagnostic fires answer letters into the running subtest.
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       if (phase !== 'running') return;
       const q = questions[idx];
       const i = LETTERS.indexOf(e.key.toUpperCase());

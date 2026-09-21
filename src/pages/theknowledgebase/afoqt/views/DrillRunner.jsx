@@ -20,6 +20,44 @@ import { mulberry32 } from '../../engine/rng';
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E'];
 
+/** Stem + lettered choices, plain text - the shape you'd want pasted into a note or a chat with
+ *  someone else. `withAnswer` also names the correct letter and the explanation, so it is only
+ *  ever passed true from the post-drill review, where the answer is already on screen - never
+ *  from a live question, which would hand you the answer through the clipboard instead of your
+ *  own head. */
+function questionToText(q, { withAnswer = false } = {}) {
+  const lines = [q.stem];
+  q.choices.forEach((c, i) => lines.push(`${LETTERS[i]}. ${c}`));
+  if (withAnswer) {
+    lines.push(`Answer: ${LETTERS[q.correctIndex]}. ${q.choices[q.correctIndex]}`);
+    if (q.explanation) lines.push(q.explanation);
+  }
+  return lines.join('\n');
+}
+
+/** Same clipboard button everywhere it appears - live question and every review card. Feedback
+ *  is a 1.5s label swap rather than a toast: AFOQT has no toast system of its own (unlike the
+ *  ASVAB reviewer this was modelled on) and one button doesn't need one built for it. */
+function CopyButton({ getText, label = 'Copy', small, title }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      className={'afq-flag-btn afq-copy-btn' + (small ? ' afq-copy-btn-sm' : '')}
+      title={title ?? 'Copy the question and answer choices to your clipboard'}
+      onClick={(e) => {
+        e.stopPropagation();
+        navigator.clipboard.writeText(getText()).then(
+          () => { setCopied(true); setTimeout(() => setCopied(false), 1500); },
+          () => {},
+        );
+      }}
+    >
+      {copied ? '✓ Copied' : `⧉ ${label}`}
+    </button>
+  );
+}
+
 /**
  * Where a question came from, shown under every miss.
  *
@@ -40,9 +78,12 @@ const LETTERS = ['A', 'B', 'C', 'D', 'E'];
 function UnansweredItem({ n, q }) {
   return (
     <div className="afq-miss afq-blank">
-      <p className="afq-miss-stem">
-        <span className="afq-miss-n">{n}</span>{' '}{q.stem}
-      </p>
+      <div className="afq-miss-headrow">
+        <p className="afq-miss-stem">
+          <span className="afq-miss-n">{n}</span>{' '}{q.stem}
+        </p>
+        <CopyButton getText={() => questionToText(q, { withAnswer: true })} label="Copy" small />
+      </div>
       {q.render && <Figure render={q.render} reveal />}
       <p className="afq-miss-line">
         <span className="afq-miss-bad">Left blank — no answer marked</span>
@@ -354,6 +395,11 @@ export default function DrillRunner() {
 
   useEffect(() => {
     const onKey = (e) => {
+      // The global Notes scratchpad (src/components/NotesPanel.jsx) floats over every page,
+      // this one included - without this guard, typing a note mid-drill fires answer letters,
+      // arrow-key navigation and Escape-ends-the-run into the quiz behind it.
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       if (done) return;
       const q = questions[current];
       const i = LETTERS.indexOf(e.key.toUpperCase());
@@ -525,10 +571,13 @@ export default function DrillRunner() {
               if (!q) return null;
               return (
                 <div key={i} className={a.correct ? 'afq-miss afq-hit' : 'afq-miss'}>
-                  <p className="afq-miss-stem">
-                    <span className="afq-miss-n">{i + 1}</span>{' '}{q.stem}
-                    {isFlagged(progress, q.templateId, q.seed) && <span title="Flagged"> 🚩</span>}
-                  </p>
+                  <div className="afq-miss-headrow">
+                    <p className="afq-miss-stem">
+                      <span className="afq-miss-n">{i + 1}</span>{' '}{q.stem}
+                      {isFlagged(progress, q.templateId, q.seed) && <span title="Flagged"> 🚩</span>}
+                    </p>
+                    <CopyButton getText={() => questionToText(q, { withAnswer: true })} label="Copy" small />
+                  </div>
                   {q.render && <Figure render={q.render} reveal />}
                   <p className="afq-miss-line">
                     {a.correct ? (
@@ -639,6 +688,7 @@ export default function DrillRunner() {
             >
               {qFlagged ? '🚩 Flagged' : '⚑ Flag question'}
             </button>
+            <CopyButton getText={() => questionToText(q)} label="Copy question" />
             {subtest === 'WK' && q.vocab && (
               <button
                 className={'afq-flag-btn' + (wordFlagged ? ' afq-flagged' : '')}
