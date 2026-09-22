@@ -17,7 +17,7 @@
 // ranked last in the chapter and neither is a prerequisite for anything.
 
 import { registerTemplate } from '../../engine/generator.js';
-import { num, money, sweep } from '../util.js';
+import { num, money, sweep, meanMissingValue } from '../util.js';
 import { NAMES, twoNames, OATTS } from './words.js';
 
 registerTemplate({
@@ -28,34 +28,11 @@ registerTemplate({
   concepts: ['ar-average-missing-value'],
   calibratedAgainst: 'barrons',
   generate: (rng, h) => {
-    const n = h.int(4, 6);
-    // The known values are drawn first and the MISSING one is swept, which is the only ordering
-    // that cannot fail. Drawing the average first and letting the remainder fall out produces a
-    // negative missing value whenever the known values happen to run high - and a template that
-    // bails and returns null is a template the audit counts as broken.
-    const given = [];
-    let spent = 0;
-    for (let i = 0; i < n - 1; i++) {
-      const v = h.int(9, 44);
-      given.push(v);
-      spent += v;
-    }
-    const correct = sweep(8, 45, h.int(8, 45), (cand) => {
-      const t = spent + cand;
-      if (t % n !== 0) return null;          // the stem quotes a whole-number average
-      const a = t / n;
-      return [cand, a, Math.round(spent / (n - 1)), t, spent, Math.abs(a - cand), t - spent + n];
-    });
-    const total = spent + correct;
-    const avg = total / n;
-    const { choices, correctIndex, errors, whys } = h.choices(num(correct), [
-      { value: num(avg), error: 'assumed-it-is-the-average', why: 'assumed the missing value equals the average' },
-      { value: num(Math.round(spent / (n - 1))), error: 'averaged-the-known', why: 'averaged the values that were given' },
-      { value: num(total), error: 'answered-with-the-total', why: 'gave the total of all the values' },
-      { value: num(spent), error: 'answered-with-the-subtotal', why: 'gave the total of the known values' },
-      { value: num(Math.abs(avg - (total - spent))), error: 'wrong-operation', why: 'subtracted the answer from the average' },
-      { value: num(total - spent + n), error: 'off-by-the-count', why: 'added the number of values back in' },
-    ]);
+    // See meanMissingValue (templates/util.js) - shared with MK ch13's identical item.
+    const {
+      count: n, known: given, correct, total, mean: avg, spent, distractors,
+    } = meanMissingValue(h);
+    const { choices, correctIndex, errors, whys } = h.choices(num(correct), distractors);
     return {
       stem: `The average of ${n} numbers is ${avg}. ${n - 1} of them are ${given.slice(0, -1).join(', ')} and ${given[given.length - 1]}. What is the remaining number?`,
       choices, correctIndex, errors, whys,

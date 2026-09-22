@@ -8,6 +8,7 @@ import { labelFor } from '../engine/errorModes';
 import { EXAM_PLAN, allExamCompositeAccuracy, EXAM_ACCURACY_LABEL } from '../engine/exam';
 import { ExamSession, addExamRun, addToWordBank } from '../afoqtStorage';
 import Figure from '../render/Figure';
+import { mathText } from '../render/mathText';
 import useQuestionVoice from '../voice/useQuestionVoice';
 import VoiceBar from '../voice/VoiceBar';
 import { mulberry32 } from '../../engine/rng';
@@ -406,7 +407,7 @@ export default function ExamRunner() {
 
       <div className="afq-card">
         {q.render && <Figure render={q.render} />}
-        <p className="afq-stem">{q.stem}</p>
+        <p className="afq-stem">{mathText(q.stem)}</p>
         <ol className={'afq-choices' + (q.optionRender || (q.render && q.choices.every((c) => c.length <= 18)) ? ' afq-choices-row' : '')}>
           {q.choices.map((c, i) => (
             <li key={i}>
@@ -419,8 +420,8 @@ export default function ExamRunner() {
               >
                 <span className="afq-letter">{LETTERS[i]}</span>
                 {q.optionRender
-                  ? <><Figure render={q.optionRender[i]} /><span className="afq-sr-only">{c}</span></>
-                  : c}
+                  ? <><Figure render={q.optionRender[i]} /><span className="afq-sr-only">{mathText(c)}</span></>
+                  : mathText(c)}
               </button>
             </li>
           ))}

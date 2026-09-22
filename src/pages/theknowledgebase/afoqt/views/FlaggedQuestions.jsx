@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
 import { flaggedEntries, removeFlag } from '../afoqtStorage';
 import { getSubtest } from '../engine/afoqtSpec';
+import { mathText } from '../render/mathText';
 
 // Trey's request: a manual "look at this again" flag, independent of right/wrong, persisted
 // until deleted here - separate from the word bank (which is Word-Knowledge-specific and
@@ -38,7 +39,7 @@ export default function FlaggedQuestions() {
                   <span className="afq-chip">{getSubtest(e.subtest)?.name ?? e.subtest}</span>
                   <span className="afq-word-hint">{new Date(e.flaggedAt).toLocaleDateString()}</span>
                 </span>
-                <span className="afq-word-gloss">{e.stem}</span>
+                <span className="afq-word-gloss">{mathText(e.stem)}</span>
               </div>
               <div className="afq-flagged-actions">
                 <button

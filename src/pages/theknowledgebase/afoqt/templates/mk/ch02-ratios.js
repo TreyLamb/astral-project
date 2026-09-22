@@ -139,10 +139,18 @@ registerTemplate({
 
 // factor = how many of the SMALLER unit fit in one of the larger. Everything here is one
 // multiplication; the entire difficulty is deciding which way it runs.
+//
+// `maxN` caps how high the count goes, and only "mile" needs one. 100 and 1000 (metre,
+// kilometre) are round enough that multiplying or dividing by them is just shifting a decimal
+// point regardless of the count; 12, 3, 16, 4, 60, 7 are small single-digit-ish factors, easy
+// to scale by hand at any count up to 40. 5280 is neither - not round, not small - so a large
+// count in the DIVIDE direction ("how many miles in 158400 feet?") means dividing a 6-figure
+// number by 5280 by hand, which is not something 30-45s covers. Capping the count is enough:
+// it bounds the number in BOTH directions, since multiply and divide use the same product.
 const CONVERSIONS = [
   { big: 'foot', bigPl: 'feet', small: 'inch', smallPl: 'inches', factor: 12 },
   { big: 'yard', bigPl: 'yards', small: 'foot', smallPl: 'feet', factor: 3 },
-  { big: 'mile', bigPl: 'miles', small: 'foot', smallPl: 'feet', factor: 5280 },
+  { big: 'mile', bigPl: 'miles', small: 'foot', smallPl: 'feet', factor: 5280, maxN: 5 },
   { big: 'pound', bigPl: 'pounds', small: 'ounce', smallPl: 'ounces', factor: 16 },
   { big: 'gallon', bigPl: 'gallons', small: 'quart', smallPl: 'quarts', factor: 4 },
   { big: 'hour', bigPl: 'hours', small: 'minute', smallPl: 'minutes', factor: 60 },
@@ -161,7 +169,7 @@ registerTemplate({
   calibratedAgainst: 'oatts',
   generate: (rng, h) => {
     const u = h.pick(CONVERSIONS);
-    const n = h.int(2, 40);
+    const n = h.int(2, u.maxN ?? 40);
     const toSmall = h.int(0, 1) === 1;
     // Both directions on purpose: the mistake is never the arithmetic, it is running the
     // conversion the wrong way, and that only shows up if both directions get asked.

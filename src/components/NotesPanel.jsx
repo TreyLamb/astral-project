@@ -1,28 +1,44 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { firstSegment, segmentLabel } from '../routeAliases';
 import './NotesPanel.css';
 
-// A single scratch-note pad, reachable from every page regardless of whether that page hides
-// the global Navbar for its own top bar (most sub-apps do - see webdesign.md "One top bar per
-// tool"). Mounted once in App.jsx, outside <Routes>, so open/closed state and the note text
-// survive navigating between pages without a remount. Plain text, localStorage only - no
-// formatting, no sync, nothing fancy, per the ask.
+// A scratch-note pad, reachable from every page regardless of whether that page hides the
+// global Navbar for its own top bar (most sub-apps do - see webdesign.md "One top bar per
+// tool"). Mounted once in App.jsx, outside <Routes>, so the open/closed state survives
+// navigating between pages without a remount. Plain text, localStorage only - no formatting,
+// no sync, nothing fancy, per the ask.
 //
-// State is read from storage via a LAZY useState initializer (runs once, first render only) and
-// written explicitly inside each handler rather than through a reactive effect keyed on
-// [text, open] - that effect shape looks natural but races on mount: React fires an effect for
-// its OWN initial run regardless of dependencies, so a "persist on change" effect sitting next to
-// a "load on mount" effect writes the STILL-DEFAULT state back to storage before the just-loaded
-// setState calls have re-rendered, silently overwriting a real saved note with the empty default
-// on every remount (i.e., every page reload). Explicit writes in the handlers can't race like that.
-const KEY = 'astral_notes_v1';
+// PER-PAGE, not one shared blob: added 2026-09-21 after Trey noticed a note meant for TKB
+// showing up on the EFT page. "It should be page-specific" - keyed on the first path segment
+// (TKB, EFTsh, MFT, ...), the same granularity the site already uses for tool-level state
+// elsewhere (OWN_TOPBAR_ROUTES, SITE_LINKS). Finer than that (one note per exact URL) would
+// lose your note walking from /TKB/afoqt to /TKB/afoqt/drill, which is worse, not better.
+// `open` stays a single global toggle - only the TEXT is per-section - so the panel doesn't
+// re-close every time you navigate.
+const KEY = 'astral_notes_v2';
+const LEGACY_KEY = 'astral_notes_v1';
 
-function readStored() {
+// `currentSection` is only used to migrate a v1 note somewhere reachable rather than dropping
+// it - wherever Trey happens to be the first time this runs after the upgrade.
+function readStored(currentSection) {
   try {
     const raw = localStorage.getItem(KEY);
-    return raw ? JSON.parse(raw) : {};
+    const parsed = raw ? JSON.parse(raw) : null;
+    if (parsed) return { open: !!parsed.open, notes: parsed.notes ?? {} };
   } catch {
-    return {};
+    /* fall through to legacy/default */
   }
+  try {
+    const legacyRaw = localStorage.getItem(LEGACY_KEY);
+    const legacy = legacyRaw ? JSON.parse(legacyRaw) : null;
+    if (legacy?.text) {
+      return { open: !!legacy.open, notes: { [currentSection]: legacy.text } };
+    }
+  } catch {
+    /* nothing to migrate */
+  }
+  return { open: false, notes: {} };
 }
 
 function writeStored(next) {
@@ -34,25 +50,33 @@ function writeStored(next) {
 }
 
 export default function NotesPanel() {
-  const [open, setOpen] = useState(() => !!readStored().open);
-  const [text, setText] = useState(() => readStored().text ?? '');
+  const location = useLocation();
+  const section = firstSegment(location.pathname) || 'home';
+  const label = segmentLabel(location.pathname);
+
+  const [open, setOpen] = useState(() => !!readStored(section).open);
+  const [notes, setNotes] = useState(() => readStored(section).notes);
+
+  const text = notes[section] ?? '';
 
   const toggle = () => {
     const next = !open;
     setOpen(next);
-    writeStored({ text, open: next });
+    writeStored({ notes, open: next });
   };
 
   const onChangeText = (e) => {
-    const next = e.target.value;
-    setText(next);
-    writeStored({ text: next, open });
+    const value = e.target.value;
+    const nextNotes = { ...notes, [section]: value };
+    setNotes(nextNotes);
+    writeStored({ notes: nextNotes, open });
   };
 
   const clear = () => {
-    if (text.trim() && !window.confirm('Clear your notes? This cannot be undone.')) return;
-    setText('');
-    writeStored({ text: '', open });
+    if (text.trim() && !window.confirm(`Clear your ${label} notes? This cannot be undone.`)) return;
+    const nextNotes = { ...notes, [section]: '' };
+    setNotes(nextNotes);
+    writeStored({ notes: nextNotes, open });
   };
 
   return (
@@ -61,22 +85,22 @@ export default function NotesPanel() {
         className={'notes-tab' + (open ? ' notes-tab-open' : '')}
         onClick={toggle}
         aria-label={open ? 'Close notes' : 'Open notes'}
-        title={open ? 'Close notes' : 'Open notes'}
+        title={open ? 'Close notes' : `Open notes (${label})`}
       >
         {open ? '✕' : '📝'}
       </button>
 
       {open && (
-        <div className="notes-panel" role="dialog" aria-label="Notes">
+        <div className="notes-panel" role="dialog" aria-label={`${label} notes`}>
           <div className="notes-panel-head">
-            <span>Notes</span>
-            <button className="notes-clear" onClick={clear} title="Clear notes">Clear</button>
+            <span>Notes — {label}</span>
+            <button className="notes-clear" onClick={clear} title="Clear notes for this page">Clear</button>
           </div>
           <textarea
             className="notes-panel-text"
             value={text}
             onChange={onChangeText}
-            placeholder="Jot something down…"
+            placeholder={`Jot something down for ${label}…`}
             autoFocus
           />
         </div>

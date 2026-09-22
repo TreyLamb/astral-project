@@ -6,7 +6,7 @@
 // is built on a Pythagorean triple or a special-triangle ratio so the answer is exact.
 
 import { registerTemplate } from '../../engine/generator.js';
-import { TRIPLES, pi, piFrac, radical, sweep } from '../util.js';
+import { pi, piFrac, radical, sweep, scaledTriple } from '../util.js';
 
 registerTemplate({
   id: 'mk-pythagorean-hypotenuse',
@@ -15,10 +15,13 @@ registerTemplate({
   name: 'Hypotenuse from two legs',
   concepts: ['pythagorean-theorem', 'pythagorean-triples'],
   calibratedAgainst: 'oatts',
+  // scaledTriple caps each of the 10 triples' scale factor so the hypotenuse never exceeds 75
+  // (see its own comment in templates/util.js for the reported failure this fixed) - which
+  // bounds the item space to 25 legal (triple, k) pairs, the same tradeoff mk-volume-sphere and
+  // mk-space-diagonal below already make and declare. Measured, not guessed: 5+5+4+3+2+1+2+1+1+1.
+  stemSpace: 25,
   generate: (rng, h) => {
-    const [a0, b0, c0] = h.pick(TRIPLES);
-    const k = h.int(1, 5);
-    const a = a0 * k, b = b0 * k, correct = c0 * k;
+    const { a, b, c: correct, a0, b0, c0 } = scaledTriple(h);
     // Error modes: added the legs; forgot to take the square root; SUBTRACTED the squares
     // (which is the formula for the missing LEG, not the hypotenuse).
     const { choices, correctIndex } = h.choices(correct, [
@@ -45,10 +48,13 @@ registerTemplate({
   name: 'Missing leg from a hypotenuse',
   concepts: ['pythagorean-theorem'],
   calibratedAgainst: 'barrons',
+  // Same bound as mk-pythagorean-hypotenuse above, capped to 23 legal (triple, k) pairs -
+  // measured: 4+4+4+3+2+1+2+1+1+1.
+  stemSpace: 23,
   generate: (rng, h) => {
-    const [a0, b0, c0] = h.pick(TRIPLES);
-    const k = h.int(1, 4);
-    const known = a0 * k, hyp = c0 * k, correct = b0 * k;
+    // scaledTriple (templates/util.js) caps the scaled hypotenuse - see its own comment for the
+    // reported failure this fixes: 33-56-65 x4 gave a hypotenuse of 260 and a leg of 132.
+    const { a: known, b: correct, c: hyp } = scaledTriple(h, { maxK: 4 });
     // ⭐ The error this item exists for: adding the squares instead of subtracting them,
     // i.e. running the hypotenuse formula when you were given the hypotenuse.
     const { choices, correctIndex } = h.choices(correct, [

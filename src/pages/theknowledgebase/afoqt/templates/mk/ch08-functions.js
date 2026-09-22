@@ -153,10 +153,21 @@ registerTemplate({
   name: 'nth term of a geometric sequence',
   concepts: ['geometric-sequence'],
   calibratedAgainst: 'barrons',
+  // n is now fully determined by (a1, r) - the cap below removes the independent 5-8 draw -
+  // so the item space is exactly 11 x 3 = 33, the same declared-not-guessed tradeoff
+  // mk-permutation-combination and mk-volume-sphere already make in this math track.
+  stemSpace: 33,
   generate: (rng, h) => {
     const a1 = h.int(2, 12);
     const r = h.int(2, 4);
-    const n = h.int(5, 8);
+    // n is capped so a1 * r^(n-1) - the number you actually reach by continuing the shown
+    // pattern a few more steps - stays within pencil-and-paper reach. r=4 grows too fast to
+    // reach n=8 the way r=2 can: r=4, n=8 needs 4^7 = 16384 times a1 up to 12, nothing close
+    // to 30-45s of no-calculator arithmetic. n never drops below 5 (the original floor) even
+    // if that alone still exceeds the cap - you cannot shrink the next step, only decline to
+    // ask for a later one.
+    let n = 8;
+    while (n > 5 && a1 * r ** (n - 1) > 1000) n--;
     const correct = a1 * r ** (n - 1);
     const shown = [a1, a1 * r, a1 * r * r, a1 * r ** 3].join(', ');
     // Error modes: r^n instead of r^(n-1); multiplied by r*n; treated it as arithmetic.

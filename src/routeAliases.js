@@ -33,6 +33,19 @@ export const CANONICAL_SEGMENTS = [
 
 const BY_LOWER = new Map(CANONICAL_SEGMENTS.map((s) => [s.toLowerCase(), s]));
 
+// Lowercased first path segment, used as a storage key - stable across the casing redirect
+// above (`/tkb` and `/TKB` must key to the same notes/prefs, not two different ones).
+export function firstSegment(pathname) {
+  return (pathname || '').replace(/^\/+/, '').split('/')[0]?.toLowerCase() || '';
+}
+
+// Human-facing name for that segment, in its canonical casing where one is known.
+export function segmentLabel(pathname) {
+  const seg = firstSegment(pathname);
+  if (!seg) return 'Home';
+  return BY_LOWER.get(seg) || seg;
+}
+
 // Returns the path this one should redirect to, or null if it's already
 // canonical (or genuinely unknown — the caller renders Not Found for that).
 export function canonicalPathFor(pathname) {

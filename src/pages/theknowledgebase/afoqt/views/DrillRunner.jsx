@@ -14,6 +14,7 @@ import { nextPersonalizedChapter } from '../curriculum/personalize';
 import { paceBudget, paceCheck, shouldNudgeAbandon, shouldWarnGuessSweep, formatClock } from '../engine/timing';
 import { labelFor } from '../engine/errorModes';
 import Figure from '../render/Figure';
+import { mathText } from '../render/mathText';
 import useQuestionVoice from '../voice/useQuestionVoice';
 import VoiceBar from '../voice/VoiceBar';
 import { mulberry32 } from '../../engine/rng';
@@ -26,11 +27,11 @@ const LETTERS = ['A', 'B', 'C', 'D', 'E'];
  *  from a live question, which would hand you the answer through the clipboard instead of your
  *  own head. */
 function questionToText(q, { withAnswer = false } = {}) {
-  const lines = [q.stem];
-  q.choices.forEach((c, i) => lines.push(`${LETTERS[i]}. ${c}`));
+  const lines = [mathText(q.stem)];
+  q.choices.forEach((c, i) => lines.push(`${LETTERS[i]}. ${mathText(c)}`));
   if (withAnswer) {
-    lines.push(`Answer: ${LETTERS[q.correctIndex]}. ${q.choices[q.correctIndex]}`);
-    if (q.explanation) lines.push(q.explanation);
+    lines.push(`Answer: ${LETTERS[q.correctIndex]}. ${mathText(q.choices[q.correctIndex])}`);
+    if (q.explanation) lines.push(mathText(q.explanation));
   }
   return lines.join('\n');
 }
@@ -80,16 +81,16 @@ function UnansweredItem({ n, q }) {
     <div className="afq-miss afq-blank">
       <div className="afq-miss-headrow">
         <p className="afq-miss-stem">
-          <span className="afq-miss-n">{n}</span>{' '}{q.stem}
+          <span className="afq-miss-n">{n}</span>{' '}{mathText(q.stem)}
         </p>
         <CopyButton getText={() => questionToText(q, { withAnswer: true })} label="Copy" small />
       </div>
       {q.render && <Figure render={q.render} reveal />}
       <p className="afq-miss-line">
         <span className="afq-miss-bad">Left blank — no answer marked</span>
-        <span className="afq-miss-good">Answer: {q.choices[q.correctIndex]}</span>
+        <span className="afq-miss-good">Answer: {mathText(q.choices[q.correctIndex])}</span>
       </p>
-      {q.explanation && <p className="afq-miss-why">{q.explanation}</p>}
+      {q.explanation && <p className="afq-miss-why">{mathText(q.explanation)}</p>}
       <SourceLine q={q} />
     </div>
   );
@@ -525,7 +526,7 @@ export default function DrillRunner() {
               {flaggedIdx.map((i) => (
                 <li key={i}>
                   <span className="afq-mode-n">{i + 1}</span>
-                  <span>{questions[i].stem.slice(0, 90)}{questions[i].stem.length > 90 ? '…' : ''}</span>
+                  <span>{mathText(questions[i].stem.slice(0, 90))}{questions[i].stem.length > 90 ? '…' : ''}</span>
                 </li>
               ))}
             </ul>
@@ -573,7 +574,7 @@ export default function DrillRunner() {
                 <div key={i} className={a.correct ? 'afq-miss afq-hit' : 'afq-miss'}>
                   <div className="afq-miss-headrow">
                     <p className="afq-miss-stem">
-                      <span className="afq-miss-n">{i + 1}</span>{' '}{q.stem}
+                      <span className="afq-miss-n">{i + 1}</span>{' '}{mathText(q.stem)}
                       {isFlagged(progress, q.templateId, q.seed) && <span title="Flagged"> 🚩</span>}
                     </p>
                     <CopyButton getText={() => questionToText(q, { withAnswer: true })} label="Copy" small />
@@ -582,17 +583,17 @@ export default function DrillRunner() {
                   <p className="afq-miss-line">
                     {a.correct ? (
                       <span className="afq-miss-good">
-                        {a.guessed ? 'Auto-guessed, and it landed on' : 'You:'} {q.choices[q.correctIndex]}
+                        {a.guessed ? 'Auto-guessed, and it landed on' : 'You:'} {mathText(q.choices[q.correctIndex])}
                       </span>
                     ) : (
                       <>
-                        <span className="afq-miss-bad">You: {a.guessed ? 'guessed' : q.choices[a.picked]}</span>
-                        <span className="afq-miss-good">Answer: {q.choices[q.correctIndex]}</span>
+                        <span className="afq-miss-bad">You: {a.guessed ? 'guessed' : mathText(q.choices[a.picked])}</span>
+                        <span className="afq-miss-good">Answer: {mathText(q.choices[q.correctIndex])}</span>
                       </>
                     )}
                   </p>
                   {a.errorWhy && <p className="afq-miss-mode">You {a.errorWhy}.</p>}
-                  {q.explanation && <p className="afq-miss-why">{q.explanation}</p>}
+                  {q.explanation && <p className="afq-miss-why">{mathText(q.explanation)}</p>}
                   <SourceLine q={q} />
                 </div>
               );
@@ -716,7 +717,7 @@ export default function DrillRunner() {
               above its stem the way it always has. */}
           <div className={'afq-card' + (q.render?.kind === 'table' ? ' afq-card-qfirst' : '')}>
             {q.render?.kind !== 'table' && q.render && <Figure render={q.render} />}
-            <p className="afq-stem">{q.stem}</p>
+            <p className="afq-stem">{mathText(q.stem)}</p>
             {/* A figure plus five stacked options runs past the bottom of a laptop screen, and
                 scrolling to reach option E is not a cost the real test charges. Where the options
                 are short - a three-digit table value is three characters - they lay out in a row
@@ -741,8 +742,8 @@ export default function DrillRunner() {
                         for the post-drill review, but is never shown beside the figure: reading it
                         would answer the question. */}
                     {q.optionRender
-                      ? <><Figure render={q.optionRender[i]} /><span className="afq-sr-only">{c}</span></>
-                      : c}
+                      ? <><Figure render={q.optionRender[i]} /><span className="afq-sr-only">{mathText(c)}</span></>
+                      : mathText(c)}
                   </button>
                 </li>
               ))}

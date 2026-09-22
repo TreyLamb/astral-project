@@ -111,6 +111,57 @@ export function sweep(lo, hi, start, slateFor) {
   return start;
 }
 
+/**
+ * A "find the missing value from a mean" item - numbers AND the standard distractor slate,
+ * shared by AR ch05 (ar-average-missing) and MK ch13 (mk-mean-missing-value). Same skill, same
+ * skeleton, so both now draw the same pencil-and-paper-sized numbers with the same named error
+ * modes, rather than two independently tuned versions of one item.
+ *
+ * MK's version used to draw known values up to 95, pick the mean SEPARATELY, and "fix" a
+ * collision (missing value equal to the mean, or to the average of the knowns) by nudging a
+ * known value up - which only ever pushes the missing value further negative, never toward a
+ * legal one, since a higher known sum makes `total - sum` smaller. Reported failure: mean 32
+ * across 89, 62, 38, 15 - an unflagged negative missing value of -44, well past what a rights-
+ * only, no-calculator test at 30-45s a question can be worked in. (MK is actually the tighter
+ * clock of the two: 22 min / 25 questions = 52.8s; AR is 29 min / 25 = 69.6s.)
+ *
+ * Every number here - known values, the missing value, the mean, the total - is drawn from or
+ * built out of the same small range, so the whole item is one addition, one multiplication and
+ * one subtraction: nothing past two digits, and the missing value is always positive by
+ * construction (the known values and the swept missing value share one range, so the total can
+ * never fall short of it).
+ */
+export function meanMissingValue(h, { lo = 9, hi = 44, count } = {}) {
+  const n = count ?? h.int(4, 6);
+  const known = [];
+  let spent = 0;
+  for (let i = 0; i < n - 1; i++) {
+    const v = h.int(lo, hi);
+    known.push(v);
+    spent += v;
+  }
+  const avgKnown = Math.round(spent / (n - 1));
+  const correct = sweep(lo, hi + 1, h.int(lo, hi + 1), (cand) => {
+    const t = spent + cand;
+    if (t % n !== 0) return null;               // the stem quotes a whole-number mean
+    const mean = t / n;
+    return [cand, mean, avgKnown, t, spent, Math.abs(mean - cand), t - spent + n];
+  });
+  const total = spent + correct;
+  const mean = total / n;
+  return {
+    count: n, known, correct, total, mean, spent,
+    distractors: [
+      { value: mean, error: 'assumed-it-is-the-average', why: 'assumed the missing value equals the average' },
+      { value: avgKnown, error: 'averaged-the-known', why: 'averaged the values that were given' },
+      { value: total, error: 'answered-with-the-total', why: 'gave the total of all the values' },
+      { value: spent, error: 'answered-with-the-subtotal', why: 'gave the total of the known values' },
+      { value: Math.abs(mean - correct), error: 'wrong-operation', why: 'subtracted the answer from the average' },
+      { value: total - spent + n, error: 'off-by-the-count', why: 'added the number of values back in' },
+    ],
+  };
+}
+
 export const PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47];
 
 /** n! — only ever called with small n here (permutations/combinations). */
@@ -128,6 +179,27 @@ export const TRIPLES = [
   [3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29],
   [9, 40, 41], [12, 35, 37], [11, 60, 61], [28, 45, 53], [33, 56, 65],
 ];
+
+/**
+ * Pick a triple and a legal integer scale factor, capping the LARGEST resulting side (the
+ * hypotenuse) at `maxSide` - so a template scaling a Pythagorean triple can never produce
+ * numbers past what a no-calculator, ~50s-a-question subtest can work in.
+ *
+ * TRIPLES' own primitives already reach 61 and 65 (11-60-61, 33-56-65), so scaling ANY of them
+ * by even a small, uniformly-drawn factor can explode past what is quick to compute OR to
+ * recognise - the reported failure was 33-56-65 scaled by 4: a hypotenuse of 260 and a leg of
+ * 132, neither of which is fast arithmetic even though the triple itself is exact.
+ *
+ * The cap is per-triple, not a filter: a primitive that already exceeds `maxSide` on its own
+ * (11-60-61, 28-45-53, 33-56-65) still gets drawn, just always at k=1 - you cannot shrink a
+ * primitive triple, only decline to scale it up further.
+ */
+export function scaledTriple(h, { triples = TRIPLES, maxSide = 75, maxK = 5 } = {}) {
+  const [a0, b0, c0] = h.pick(triples);
+  const legalMax = Math.max(1, Math.min(maxK, Math.floor(maxSide / c0)));
+  const k = h.int(1, legalMax);
+  return { a: a0 * k, b: b0 * k, c: c0 * k, k, a0, b0, c0 };
+}
 
 /** π as a symbolic coefficient: 25π, π, 0. Keeps answers exact rather than decimal. */
 export function pi(k) {

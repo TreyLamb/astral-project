@@ -5,7 +5,7 @@
 // do not, and an average of averages is not an average unless the groups are the same size.
 
 import { registerTemplate } from '../../engine/generator.js';
-import { frac, nPr, nCr, num } from '../util.js';
+import { frac, nPr, nCr, num, meanMissingValue } from '../util.js';
 
 registerTemplate({
   id: 'mk-simple-probability',
@@ -163,35 +163,20 @@ registerTemplate({
   concepts: ['mean-median-mode'],
   calibratedAgainst: 'barrons',
   generate: (rng, h) => {
-    const count = h.int(4, 6);
-    const mean = h.int(10, 90);
-    const known = [];
-    for (let i = 0; i < count - 1; i++) known.push(h.int(5, 95));
-    // If the missing value equals the mean (or the average of the known ones), two distractors
-    // land on the answer. Nudge one known value until it does not.
-    for (let i = 0; i < 30; i++) {
-      const s = known.reduce((a, b) => a + b, 0);
-      const c = mean * count - s;
-      if (c !== mean && c !== Math.round(s / (count - 1)) && c > 0) break;
-      known[0] += 1;
-    }
-    const sum = known.reduce((a, b) => a + b, 0);
-    const correct = mean * count - sum;
-    // Error modes: subtracted the mean instead of the total; answered with the total; used
-    // count - 1; answered with the mean itself.
-    const { choices, correctIndex } = h.choices(correct, [
-      mean - Math.round(sum / (count - 1)),
-      mean * count,
-      mean * (count - 1) - sum,
-      mean,
-      sum - mean * count,
-      Math.round(sum / (count - 1)),
-    ]);
+    // See meanMissingValue (templates/util.js) - shared with AR ch05's identical item. This
+    // template used to draw known values up to 95 and pick the mean independently, which could
+    // ship a negative missing value well past what a rights-only, no-calculator test can work in
+    // 52.8s (MK's real per-question time, tighter than AR's 69.6s) - see the helper's own comment
+    // for the reported failure (mean 32 across 89/62/38/15, missing value -44).
+    const {
+      count, known, correct, total, mean, spent, distractors,
+    } = meanMissingValue(h);
+    const { choices, correctIndex, errors, whys } = h.choices(num(correct), distractors);
     return {
       stem: `The mean of ${count} numbers is ${mean}. ${count - 1} of them are ${known.join(', ')}. What is the remaining number?`,
-      choices, correctIndex,
+      choices, correctIndex, errors, whys,
       tags: ['statistics'],
-      explanation: `A mean of ${mean} across ${count} numbers means the TOTAL is ${mean} x ${count} = ${mean * count}. The known values sum to ${sum}, so the missing one is ${correct}. Always convert the mean back into a total first.`,
+      explanation: `A mean of ${mean} across ${count} numbers means the TOTAL is ${mean} x ${count} = ${total}. The known values sum to ${spent}, so the missing one is ${total} - ${spent} = ${correct}. Always convert the mean back into a total first.`,
     };
   },
 });
