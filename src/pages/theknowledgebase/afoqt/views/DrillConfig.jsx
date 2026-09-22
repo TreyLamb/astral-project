@@ -71,6 +71,15 @@ export default function DrillConfig() {
   // teaching anything new, which is why it forces `exam` timing and refuses stretch.
   const [speed, setSpeed] = useState(false);
 
+  // Custom "by type" drill: pick exact templates (not a band/concept scope) and give each its
+  // own count. Trey's request, 2026-09-22, prompted by a specific AR item ("the two-prices-
+  // blend-to-a-target word problem") he wanted to drill on its own - `typePicks` maps
+  // templateId -> count, and only entries with a positive count are actually picked.
+  // engine/drill.js's assembleTypedDrill is the engine side of this.
+  const [showTypeBuilder, setShowTypeBuilder] = useState(false);
+  const [typeFilter, setTypeFilter] = useState('');
+  const [typePicks, setTypePicks] = useState({});
+
   // Every derived value below is scoped to the chosen subtest, so all of them have to tolerate
   // not having one yet - step one renders before any of this means anything.
   const meta = subtest ? getSubtest(subtest) : null;
@@ -117,6 +126,7 @@ export default function DrillConfig() {
   const chooseSubtest = (code) => {
     if (code !== subtest) {
       setCount(5); setSpeed(false); setStretch(false);
+      setShowTypeBuilder(false); setTypeFilter(''); setTypePicks({});
       const avail = [...new Set(templatesFor(code).map((t) => t.band))].sort();
       const atLevel = avail.filter((b) => b >= TEST_LEVEL_BAND);
       setBands(atLevel.length ? atLevel : avail);
@@ -132,6 +142,32 @@ export default function DrillConfig() {
     // omitted when every band is selected, where a filter would be a no-op.
     if (speed) q.set('bands', '1,2');
     else if (bands.length && !bandsAvailable.every((b) => bands.includes(b))) q.set('bands', bands.join(','));
+    navigate(`/TKB/afoqt/drill/run?${q}`);
+  };
+
+  // Type-picker helpers. Adding a type defaults it to 5 - Trey's stated default - and it stays
+  // editable per row afterward. Only entries with n > 0 count as "picked" anywhere below.
+  const activeTypePicks = Object.entries(typePicks).filter(([, n]) => n > 0);
+  const typeTotal = activeTypePicks.reduce((s, [, n]) => s + n, 0);
+  const addType = (id) => setTypePicks((p) => ({ ...p, [id]: p[id] > 0 ? p[id] : 5 }));
+  const removeType = (id) => setTypePicks((p) => { const n = { ...p }; delete n[id]; return n; });
+  const setTypeCount = (id, n) => setTypePicks((p) => ({ ...p, [id]: Math.max(1, Math.min(200, Number(n) || 1)) }));
+  const filteredTemplates = templates.filter((t) => {
+    if (!typeFilter.trim()) return true;
+    const needle = typeFilter.trim().toLowerCase();
+    return t.name.toLowerCase().includes(needle) || t.id.toLowerCase().includes(needle);
+  });
+
+  const startTyped = () => {
+    if (!activeTypePicks.length) return;
+    updateSettings({ mode, pressure });
+    const q = new URLSearchParams({
+      subtest,
+      count: typeTotal,
+      mode,
+      pressure,
+      types: activeTypePicks.map(([id, n]) => `${id}:${n}`).join(','),
+    });
     navigate(`/TKB/afoqt/drill/run?${q}`);
   };
 
@@ -218,7 +254,71 @@ export default function DrillConfig() {
               Full subtest ({meta.questions} in {meta.minutes}:00)
             </button>
           )}
+          {/* Custom by TYPE - pick exact templates (e.g. "Blending two prices to a target") and
+              give each its own count, default 5. Trey's request, 2026-09-22: recognising a
+              specific question shape you're weak on and drilling only that, not a whole band. */}
+          <button
+            className={'afq-btn afq-ghost' + (showTypeBuilder ? ' afq-primary' : '')}
+            onClick={() => setShowTypeBuilder((v) => !v)}
+          >
+            🎯 Build by type{activeTypePicks.length ? ` (${typeTotal})` : ''}
+          </button>
         </div>
+
+        {showTypeBuilder && (
+          <div className="afq-typebuilder">
+            <p className="afq-note">
+              Pick the exact question shapes you want, each with its own count. This is a template
+              hand-picked by name, not a band or difficulty filter - {templates.length} is how many
+              shapes {meta?.name ?? subtest} has, not a cap on how many questions it can ask; most
+              generate an effectively unlimited number of distinct instances.
+            </p>
+            <input
+              type="text"
+              className="afq-typebuilder-search"
+              placeholder="Search question types by name..."
+              value={typeFilter}
+              onChange={(e) => setTypeFilter(e.target.value)}
+            />
+            <div className="afq-typebuilder-list">
+              {filteredTemplates.map((t) => {
+                const picked = typePicks[t.id] > 0;
+                return (
+                  <div key={t.id} className={'afq-typebuilder-row' + (picked ? ' afq-typebuilder-on' : '')}>
+                    <button
+                      type="button"
+                      className="afq-typebuilder-name"
+                      onClick={() => (picked ? removeType(t.id) : addType(t.id))}
+                      title={t.id}
+                    >
+                      <span className={'afq-typebuilder-check' + (picked ? ' on' : '')}>{picked ? '✓' : '+'}</span>
+                      {t.name}
+                      <small>band {t.band}</small>
+                    </button>
+                    {picked && (
+                      <input
+                        type="number"
+                        min={1}
+                        max={200}
+                        className="afq-typebuilder-count"
+                        value={typePicks[t.id]}
+                        onChange={(e) => setTypeCount(t.id, e.target.value)}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+              {filteredTemplates.length === 0 && <p className="afq-note">No question types match that search.</p>}
+            </div>
+            <button
+              className="afq-btn afq-primary"
+              onClick={startTyped}
+              disabled={activeTypePicks.length === 0}
+            >
+              {activeTypePicks.length ? `Start custom quiz (${typeTotal} questions)` : 'Pick at least one type'}
+            </button>
+          </div>
+        )}
       </section>
 
       <section>

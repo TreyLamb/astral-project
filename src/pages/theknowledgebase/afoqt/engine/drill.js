@@ -152,6 +152,43 @@ function groupByFigure(questions) {
   return [...groups.values()].flat();
 }
 
+/**
+ * Build a drill from an explicit list of TYPES (exact templates), each with its own count.
+ *
+ * "Type" here means one template - the same grain `q.templateId` is already recorded and
+ * scored against everywhere else in the engine (afoqtStorage, the miss pool, flags), so this
+ * needed no new taxonomy. Trey's request, 2026-09-22: he can name a specific shape he's weak on
+ * ("the two-prices-blend-to-a-target word problem", i.e. `ar-mixture`) and build a drill of just
+ * that, at whatever count he wants, mixed with other named types at their own counts.
+ *
+ * Deliberately bypasses band/exam/bank filtering: naming an exact template is a MORE specific
+ * request than a band or a concept, so it wins outright - including reaching stretch-band
+ * templates without the separate stretch toggle, since asking for a template by name already
+ * says exactly what you want regardless of which band it happens to sit in.
+ *
+ * @param {string} subtest
+ * @param {{templateId: string, count: number}[]} picks
+ * @param {() => number} rng
+ * @returns {object[]} instances, shuffled together, grouped by shared figure where one exists
+ */
+export function assembleTypedDrill({ subtest, picks, rng }) {
+  const runSheet = Math.floor(rng() * 0x100000);
+  const out = [];
+  for (const { templateId, count } of picks) {
+    if (!templateId || !count || count <= 0) continue;
+    const part = buildDrill({
+      subtest,
+      count,
+      rng,
+      sheet: runSheet,
+      includeStretch: true,
+      filter: (t) => t.id === templateId,
+    });
+    out.push(...part);
+  }
+  return groupByFigure(shuffleInPlace(out, rng));
+}
+
 function matchesScope(t, bands, concepts) {
   if (bands && !bands.includes(t.band)) return false;
   if (concepts && !(t.concepts ?? []).some((c) => concepts.includes(c))) return false;

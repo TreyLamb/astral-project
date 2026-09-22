@@ -1,24 +1,30 @@
 /* Design tokens and shell styles for TKB */
 
+/* 2026-09-22: retheme from brown/tan to dark-teal/turquoise, Trey's request. This is what he's
+   actually seeing day to day ("basic brown 99% with white text and tannish text") - checked git
+   history first per the project's "why does it look this way" question, and it's NOT a
+   regression: the very first TKB commit (b351304, 2026-07-07) already had these brown/tan
+   values, alongside the original ASVAB module. There's no earlier, differently-themed version
+   of this app in this repo's history to restore - this is a genuinely new palette, not a revert. */
 :root {
-  --tkb-canvas: #f3efe7;
-  --tkb-surface: #faf7f0;
-  --tkb-ink: #2e2a24;
-  --tkb-ink-soft: #6b6459;
-  --tkb-border: #e2dcce;
+  --tkb-canvas: #e7f3f1;
+  --tkb-surface: #f4fbfa;
+  --tkb-ink: #12302c;
+  --tkb-ink-soft: #4c6f6a;
+  --tkb-border: #c7e2dd;
   --tkb-correct: #1e7d5f;
   --tkb-wrong: #a63d2f;
   --tkb-unsure: #8a7a52;
-  --tkb-accent: hsl(203, 68%, 55%);
+  --tkb-accent: hsl(174, 62%, 40%);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --tkb-canvas: #1e1c18;
-    --tkb-surface: #26231d;
-    --tkb-ink: #f0ece3;
-    --tkb-ink-soft: #b8b0a0;
-    --tkb-border: #3a352c;
+    --tkb-canvas: #0e2624;
+    --tkb-surface: #143430;
+    --tkb-ink: #e7f7f3;
+    --tkb-ink-soft: #a6c9c3;
+    --tkb-border: #204b45;
   }
 }
 

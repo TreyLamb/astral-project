@@ -1,0 +1,85 @@
+/* PassageWindow - the floating RC reading pane. Every colour here is a literal, not a
+   var(--tkb-*) token, on purpose: this must never inherit a TKB retheme. Warm "reading lamp"
+   palette (paper + navy + brass) chosen specifically to look nothing like TKB's own colours. */
+
+.rcw-panel {
+  position: fixed;
+  z-index: 3200;
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  min-height: 44px;
+  max-width: 96vw;
+  max-height: 92vh;
+  background: #fbf6ea;
+  border: 1px solid #d8c8a0;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(30, 24, 12, 0.32), 0 2px 8px rgba(30, 24, 12, 0.18);
+  overflow: hidden;
+  resize: both;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.rcw-panel.rcw-minimized { resize: none; min-height: 0; }
+.rcw-panel.rcw-maximized { resize: none; }
+
+.rcw-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+  padding: .55rem .7rem .55rem .9rem;
+  background: #1c2733;
+  color: #f2ede0;
+  cursor: move;
+  user-select: none;
+}
+.rcw-title { font-weight: 600; font-size: .92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.rcw-controls { display: flex; align-items: center; gap: .3rem; flex: 0 0 auto; }
+.rcw-btn {
+  width: 1.6rem; height: 1.6rem; display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px; color: #f2ede0; font-size: .8rem; line-height: 1; cursor: pointer;
+  padding: 0;
+}
+.rcw-btn:hover { background: rgba(255, 255, 255, 0.18); }
+.rcw-btn-close:hover { background: #9c3b34; border-color: #9c3b34; }
+
+.rcw-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1rem 1.15rem 1.2rem;
+}
+.rcw-body::-webkit-scrollbar { width: 10px; }
+.rcw-body::-webkit-scrollbar-thumb { background: #c9b482; border-radius: 6px; }
+.rcw-body::-webkit-scrollbar-track { background: transparent; }
+
+.rcw-text {
+  font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #2b2015;
+}
+.rcw-numbered { display: flex; flex-direction: column; }
+.rcw-line { display: flex; gap: .6rem; }
+.rcw-line-blank { min-height: .5em; }
+.rcw-lineno {
+  flex: 0 0 1.6rem; text-align: right; color: #a9822f; font-size: .72rem;
+  font-family: system-ui, sans-serif; font-variant-numeric: tabular-nums;
+  user-select: none; padding-top: .18rem;
+}
+.rcw-linetext { flex: 1 1 auto; }
+
+/* The reopen chip, shown in place of the panel once it's closed. Fixed to a corner so it's
+   never lost, no matter where the panel itself was dragged before closing. */
+.rcw-reopen {
+  position: fixed; z-index: 3200; right: 1.25rem; bottom: 1.25rem;
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .6rem 1rem; border-radius: 999px; border: 1px solid #d8c8a0;
+  background: #1c2733; color: #f2ede0; font: inherit; font-size: .9rem; font-weight: 600;
+  box-shadow: 0 6px 18px rgba(30, 24, 12, 0.3); cursor: pointer;
+}
+.rcw-reopen:hover { background: #26333f; }

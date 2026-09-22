@@ -4,6 +4,7 @@ import CompassCard from './CompassCard.jsx';
 import AircraftSilhouette from './AircraftSilhouette.jsx';
 import BlockPile from './BlockPile.jsx';
 import PassageView from './PassageView.jsx';
+import PassageWindow from './PassageWindow.jsx';
 
 // One place that knows how to draw a question's figure, so the runner never has to.
 export default function Figure({ render, reveal = false }) {
@@ -54,8 +55,15 @@ export default function Figure({ render, reveal = false }) {
   // run (engine/passage.js picks the passage from the sheet, not per-question) - React sees the
   // same `text` prop come back on consecutive questions and does not re-mount the DOM, so the
   // passage does not visibly reload or lose scroll position between questions about it.
+  //
+  // LIVE question (`reveal` unset) gets the floating, draggable PassageWindow so the stem and
+  // choices are never buried under 35+ rows of passage text. The post-drill review/miss list
+  // passes `reveal` and can show several missed RC questions on screen at once - stacking a
+  // floating window per miss would be its own mess, so that path keeps the plain inline block.
   if (render.kind === 'passage') {
-    return <PassageView text={render.text} lineNumbered={render.lineNumbered} passageId={render.passageId} />;
+    return reveal
+      ? <PassageView text={render.text} lineNumbered={render.lineNumbered} passageId={render.passageId} />
+      : <PassageWindow text={render.text} lineNumbered={render.lineNumbered} passageId={render.passageId} />;
   }
 
   return null;

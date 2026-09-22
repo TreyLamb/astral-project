@@ -14,6 +14,10 @@ const KEY = {
   found: (map) => `${P}found_${map}_v1`,
   waypoints: (map) => `${P}waypoints_${map}_v1`,
   presets: (map) => `${P}presets_${map}_v1`,
+  // One-time flag: has this map's presets already been backfilled with the
+  // isDefault-flagged preset that replaced the old hardcoded DEFAULT_ON set?
+  // See migrateDefaultPreset in MapView.jsx.
+  presetsDefaultMigrated: (map) => `${P}presetsdefmig_${map}_v1`,
   prefs: `${P}prefs_v2`,
   // Not per-map: each entry carries its own mapKey, and the common read is
   // "everything I have saved" on sign-in.
@@ -37,6 +41,12 @@ export const DEFAULT_PREFS = {
   toolbarOpen: true,
   // Per-panel collapse state, so a folded panel stays folded.
   panels: { filters: true, waypoints: false, zones: false, routes: false, manifest: true, presets: false },
+  // The floating mini shopping-list window. Starts closed and centred-ish —
+  // position/size are then whatever the user last dragged/resized it to.
+  shoppingListOpen: false,
+  shoppingListTab: 'raid',
+  shoppingListPos: { x: 420, y: 60 },
+  shoppingListSize: { w: 320, h: 420 },
 };
 
 /**
@@ -91,7 +101,15 @@ function read(key, fallback) {
     if (raw === null) return structuredClone(fallback);
     const parsed = JSON.parse(raw);
     if (parsed === null || parsed === undefined) return structuredClone(fallback);
-    if (!Array.isArray(fallback) && typeof fallback === 'object') {
+    // `typeof null === 'object'` in JS, so a `null` fallback (getPresets,
+    // getCalibration — used to mean "never set" as distinct from "cleared")
+    // used to slip through this check too. Spreading a real ARRAY into an
+    // object (`{ ...null, ...parsedArray }`) silently turns it into
+    // `{"0": ..., "1": ...}` — found via presets doing exactly that on every
+    // read after the first write. A `null` fallback has no keys to backfill
+    // anyway, so it should just return `parsed` as-is, same as any other
+    // non-object fallback.
+    if (fallback !== null && !Array.isArray(fallback) && typeof fallback === 'object') {
       return { ...structuredClone(fallback), ...parsed };
     }
     return parsed;
@@ -168,6 +186,9 @@ export const MapStore = {
   // all" — only the first case gets the starter preset.
   getPresets: (map) => read(KEY.presets(map), null),
   setPresets: (map, v) => write(KEY.presets(map), v),
+
+  getPresetsDefaultMigrated: (map) => read(KEY.presetsDefaultMigrated(map), false),
+  setPresetsDefaultMigrated: (map, v) => write(KEY.presetsDefaultMigrated(map), v),
 
   // The user's own pins. Mirrored to Firestore when signed in (see
   // eftMapFirestore.js) — localStorage stays the offline copy so the map still

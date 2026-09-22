@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAfoqt } from '../AfoqtApp';
-import { assembleDrill } from '../engine/drill';
-import { generateInstance } from '../engine/generator';
+import { assembleDrill, assembleTypedDrill } from '../engine/drill';
+import { generateInstance, allTemplates } from '../engine/generator';
 import { bankItemByTemplateId } from '../engine/bank';
 import { getSubtest } from '../engine/afoqtSpec';
 import { getChapter, CHAPTERS } from '../curriculum/chapters';
@@ -189,6 +189,23 @@ export default function DrillRunner() {
   const replayTemplateId = params.get('templateId');
   const replaySeed = params.get('seed') != null ? Number(params.get('seed')) : null;
 
+  // A custom "by type" drill (DrillConfig's type builder): `?types=id:count,id:count,...`,
+  // one exact template per pick rather than a band/concept scope. See assembleTypedDrill in
+  // engine/drill.js for why a template id is the right grain for "type" - it's the same grain
+  // `q.templateId` is already scored and flagged against everywhere else. Plain recompute each
+  // render, same as `bandFilter` above - cheap enough that memoizing it buys nothing.
+  const typesParam = params.get('types');
+  const typePicks = (() => {
+    if (!typesParam) return null;
+    const picks = typesParam.split(',').map((pair) => {
+      const [templateId, n] = pair.split(':');
+      return { templateId, qty: Number(n) };
+    }).filter((p) => p.templateId && p.qty > 0);
+    return picks.length ? picks : null;
+  })();
+  // Fresh array/object on every render, same reason `bandKey` exists for `bandFilter` below.
+  const typesKey = typePicks ? typePicks.map((p) => `${p.templateId}:${p.qty}`).join(',') : '';
+
   // Build once. A drill is a fixed queue; rebuilding on re-render would reshuffle underfoot.
   //
   // `progress` is read here but deliberately left out of the dependency list: it changes on
@@ -203,6 +220,10 @@ export default function DrillRunner() {
       return one ? [one] : [];
     }
     const rng = mulberry32(Date.now());
+    if (typePicks) {
+      const picks = typePicks.map((p) => ({ templateId: p.templateId, count: p.qty }));
+      return assembleTypedDrill({ subtest, picks, rng });
+    }
     return assembleDrill({
       subtest,
       count,
@@ -220,7 +241,7 @@ export default function DrillRunner() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subtest, count, chapter?.id, isGate, isExam, includeStretch, replayTemplateId, replaySeed,
-    bandKey]);
+    bandKey, typesKey]);
 
   // A 33x33 Table Reading grid needs about 950px; a question stem reads best at 760. So the
   // column widens only when the questions actually carry a figure, rather than making every
@@ -336,6 +357,11 @@ export default function DrillRunner() {
   // the early returns below, and `active` is the same question the card renders - it is read from
   // `questions[current]` in both places.
   const active = questions[current] ?? null;
+  // Looked up once, not per question - the registry never changes at runtime. Backs the subtle
+  // "type" tag on the live question (Trey's request, 2026-09-22): seeing which exact template
+  // you're on lets you notice a recurring weak spot mid-run and go build a custom-by-type drill
+  // targeting it afterward, without having to guess or remember the wording.
+  const templateNameById = useMemo(() => new Map(allTemplates().map((t) => [t.id, t.name])), []);
   const onVoiceCommand = useCallback((name) => {
     if (name === 'next') { setCurrent((c) => Math.min(questions.length - 1, c + 1)); return; }
     if (name === 'back') { setCurrent((c) => Math.max(0, c - 1)); return; }
@@ -751,6 +777,10 @@ export default function DrillRunner() {
             {nudge && <p className="afq-nudge">5s - guess and move on.</p>}
             {q.render?.kind === 'table' && <Figure render={q.render} />}
           </div>
+
+          {templateNameById.get(q.templateId) && (
+            <p className="afq-type-tag">{templateNameById.get(q.templateId)}</p>
+          )}
 
           <div className="afq-row afq-nav-row">
             <button className="afq-btn" disabled={current === 0} onClick={() => setCurrent((c) => Math.max(0, c - 1))}>← Back</button>

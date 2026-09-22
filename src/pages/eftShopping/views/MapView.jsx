@@ -11,6 +11,7 @@ import { resolveMarkers, routeManifest } from '../map/eftMapFilters';
 import { useMapDrawing, routePolyline } from '../map/useMapDrawing';
 import { isLiveMap, withMap } from '../map/mapSafety';
 import { ZonePanel, RoutePanel, ManifestPanel, CatIcon } from '../map/MapSidePanels';
+import FloatingShoppingList from '../map/FloatingShoppingList';
 import {
   fetchWaypoints, saveWaypoint, deleteWaypoint, pushWaypoints, mergeWaypoints,
   fetchSavedRoutes, pushSavedRoutes,
@@ -41,18 +42,23 @@ const loadLockIndex = () => {
   return lockIndexPromise;
 };
 
-// Opening a map with all ~40 categories on is an unreadable wall of pins. These three are the
-// orientation layer — where you can leave, where the taxi stops, and what the places are
-// called — so they are the only ones on by default. Everything else is opt-in.
+// Opening a map with all ~40 categories on is an unreadable wall of pins. These four are the
+// orientation layer — where you can leave, where the taxi stops, what the places are called,
+// and where the locked doors are — so they are the only ones on by default. Everything else
+// is opt-in. Extraction/Location were the original two; BTR Stop joined 2026-09-11 (it now
+// draws as compact red text rather than pin art, see eftMapLabels) and Locked Door joined
+// 2026-09-13 (the key overlay Trey asked for).
 //
-// BTR Stop joined them 2026-09-11. It is six to eight markers on the two maps that have any,
-// it now draws as compact red text rather than pin art (see eftMapLabels), and `visibleCats`
-// is not persisted — it resets to this set on every map load, so leaving it off meant
-// re-ticking it every single time you opened the map.
-// Locked Door joined them 2026-09-13, when the category became the key overlay Trey asked
-// for ("so that on our map we have the key locations and i dont have to pull up the map
-// separately"). It is 5-55 compact callouts depending on the map, not pin art, and like BTR
-// Stop it would otherwise need re-ticking on every single map load.
+// Trey, 2026-09-22: these were never supposed to live as a hardcoded JS constant that only an
+// agent could change — "the only filters that are auto-selected should be ones that are set
+// within a preset." So this list is ONLY the seed/migration data now: it seeds the starter
+// preset for a first-time user (below) and, once, folds these four into whatever preset an
+// existing user already has (see the presetsDefaultMigrated migration in the load effect).
+// What actually auto-applies on load is `defaultVisibleFromPresets` — the union of every
+// preset with `isDefault: true` — which the user can see, edit, and turn off entirely from the
+// Presets panel (the ★ on each preset row). visibleCats itself is still never persisted
+// directly: anything turned on ad hoc during a session is gone on the next reload, same as
+// before.
 const DEFAULT_ON = new Set(['Extraction', 'Location', 'BTR Stop', 'Locked Door']);
 
 /**
@@ -85,14 +91,46 @@ const defaultVisible = (categories) => new Set(
   (categories || []).filter((c) => DEFAULT_ON.has(c.title)).map((c) => c.id),
 );
 
+// The union of every preset flagged `isDefault` is what actually auto-applies when the map
+// loads — see the comment on DEFAULT_ON above. Filtered against this map's real category ids
+// so a stale id from a preset saved under a different snapshot never sneaks in silently.
+const defaultVisibleFromPresets = (presetList, categories) => {
+  const validIds = new Set((categories || []).map((c) => c.id));
+  const ids = new Set();
+  for (const p of presetList || []) {
+    if (!p.isDefault) continue;
+    for (const id of p.categories || []) if (validIds.has(id)) ids.add(id);
+  }
+  return ids;
+};
+
 // Presets are ours, not the source's. mapgenie ships exactly one per map
 // ("Extracts + PMC Spawns") and spawn points are not what this map gets opened
-// for, so the starter preset is the same pair the filters default to.
+// for, so the starter preset is the same set the filters used to hardcode as
+// defaults — now living as an ordinary, editable, isDefault-flagged preset.
 const seedPresets = (categories) => [{
   id: 'seed-extract-location',
-  title: 'Extracts + Locations',
+  title: 'Default view',
   categories: [...defaultVisible(categories)],
+  isDefault: true,
 }];
+
+// One-time backfill for a map the user already had presets on before `isDefault` existed:
+// fold the categories that used to be hardcoded into whichever preset used to play that role
+// (matched by the seed's own id), or add a fresh one if that preset was renamed/deleted, then
+// flag it default. Gated on MapStore's per-map `presetsDefaultMigrated` flag rather than "does
+// any preset already have isDefault" — a user who deliberately un-defaults every preset (to
+// mean "nothing auto-selects") must have that choice survive a reload, not get re-migrated.
+const migrateDefaultPreset = (stored, categories) => {
+  const wanted = defaultVisible(categories);
+  if (!wanted.size) return stored;
+  const idx = stored.findIndex((p) => p.id === 'seed-extract-location');
+  if (idx !== -1) {
+    const merged = new Set([...(stored[idx].categories || []), ...wanted]);
+    return stored.map((p, i) => (i === idx ? { ...p, categories: [...merged], isDefault: true } : p));
+  }
+  return [...stored, { id: 'seed-extract-location', title: 'Default view', categories: [...wanted], isDefault: true }];
+};
 
 const uid = () => `p${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
 
@@ -284,9 +322,17 @@ export default function MapView() {
       if (cancelled) return;
       const d = mod.default || mod;
       setData(d);
-      setVisibleCats(defaultVisible(d.categories));
+
+      const storedPresets = MapStore.getPresets(mapKey);
+      const alreadyMigrated = MapStore.getPresetsDefaultMigrated(mapKey);
+      const resolvedPresets = storedPresets == null
+        ? seedPresets(d.categories)
+        : alreadyMigrated ? storedPresets : migrateDefaultPreset(storedPresets, d.categories);
+      if (!alreadyMigrated) MapStore.setPresetsDefaultMigrated(mapKey, true);
+      setPresets(resolvedPresets);
+      setVisibleCats(defaultVisibleFromPresets(resolvedPresets, d.categories));
+
       setFound(MapStore.getFound(mapKey));
-      setPresets(MapStore.getPresets(mapKey) ?? seedPresets(d.categories));
       setCalibrationState(MapStore.getCalibration(mapKey) || autoFit(d.markers, mapConfig.bounds));
       setBase(d.tiles?.url ? 'tiles' : 'svg');
       setLoading(false);
@@ -529,6 +575,14 @@ export default function MapView() {
   };
 
   const removePreset = (id) => setPresets((prev) => prev.filter((p) => p.id !== id));
+
+  // Whether this preset's categories auto-apply the next time the map loads.
+  // Doesn't touch the CURRENT visibleCats — it's "remember for next time",
+  // not "apply now". More than one preset can be default at once, same as
+  // more than one can be active at once.
+  const toggleDefault = (id) => setPresets((prev) => prev.map((p) => (
+    p.id === id ? { ...p, isDefault: !p.isDefault } : p
+  )));
 
   const toggleFound = (marker) => {
     setFound((prev) => {
@@ -830,8 +884,42 @@ export default function MapView() {
           >
             {mapMenuOpen ? '▾' : '▸'} {mapConfig.name}
           </button>
+          <button
+            type="button"
+            className={`eft-btn eft-btn-sm${prefs.shoppingListOpen ? ' eft-is-on' : ''}`}
+            onClick={() => setPrefs({ shoppingListOpen: !prefs.shoppingListOpen })}
+            aria-expanded={prefs.shoppingListOpen}
+            title={prefs.shoppingListOpen ? 'Hide the shopping list' : 'Show the shopping list'}
+          >
+            {prefs.shoppingListOpen ? '▾' : '▸'} List
+          </button>
         </div>
-      ) : null}
+      ) : (
+        // The toolbar hides itself entirely when collapsed — that's the whole
+        // point of the arrow below — but the shopping-list toggle is a control
+        // the user reaches for on its own, not "map furniture", so it gets its
+        // own always-visible tab rather than disappearing along with the rest.
+        <button
+          type="button"
+          className={`eft-btn eft-btn-sm eft-map-toolbar-standalone${prefs.shoppingListOpen ? ' eft-is-on' : ''}`}
+          onClick={() => setPrefs({ shoppingListOpen: !prefs.shoppingListOpen })}
+          aria-expanded={prefs.shoppingListOpen}
+          title={prefs.shoppingListOpen ? 'Hide the shopping list' : 'Show the shopping list'}
+        >
+          {prefs.shoppingListOpen ? '▾' : '▸'} List
+        </button>
+      )}
+
+      <FloatingShoppingList
+        open={prefs.shoppingListOpen}
+        tab={prefs.shoppingListTab}
+        onTabChange={(v) => setPrefs({ shoppingListTab: v })}
+        initialPos={prefs.shoppingListPos}
+        initialSize={prefs.shoppingListSize}
+        onPosChange={(p) => setPrefs({ shoppingListPos: p })}
+        onSizeChange={(s) => setPrefs({ shoppingListSize: s })}
+        onClose={() => setPrefs({ shoppingListOpen: false })}
+      />
 
       {/* Right edge: the map menu. */}
       <button
@@ -1085,7 +1173,8 @@ export default function MapView() {
                   All
                 </button>
                 <button type="button" className="eft-btn eft-btn-sm"
-                  onClick={() => setVisibleCats(defaultVisible(data?.categories))}>
+                  title="Back to whatever preset(s) are starred as default"
+                  onClick={() => setVisibleCats(defaultVisibleFromPresets(presets, data?.categories))}>
                   Reset
                 </button>
                 <button type="button" className="eft-btn eft-btn-sm" onClick={() => setVisibleCats(new Set())}>
@@ -1302,12 +1391,25 @@ export default function MapView() {
               <p>
                 A preset is a bundle of filter categories. <b>Right-click a category</b> in Filters
                 to add it to one. A preset adds and removes only its own categories, so more than
-                one can be on at a time.
+                one can be on at a time. <b>★ a preset</b> to have it auto-select when the map
+                loads — nothing else does. Everything else you turn on this session is gone on
+                the next reload.
               </p>
             )}
           >
             {presets.length ? presets.map((p) => (
               <div key={p.id} className="eft-preset-row">
+                <button
+                  type="button"
+                  className={`eft-iconbtn${p.isDefault ? ' eft-is-on' : ''}`}
+                  onClick={() => toggleDefault(p.id)}
+                  aria-pressed={!!p.isDefault}
+                  title={p.isDefault
+                    ? 'Default — auto-selected every time the map loads. Click to unset.'
+                    : 'Not default — click to auto-select this preset every time the map loads.'}
+                >
+                  {p.isDefault ? '★' : '☆'}
+                </button>
                 <button
                   type="button"
                   className={`eft-btn eft-btn-sm${presetActive(p) ? ' eft-is-on' : ''}`}

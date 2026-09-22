@@ -72,6 +72,41 @@
 .afq-reach { text-transform: uppercase; letter-spacing: .04em; font-size: .7rem; }
 .afq-start { margin-top: .5rem; }
 
+/* --- custom drill by TYPE (2026-09-22) ------------------------------------ */
+.afq-typebuilder {
+  margin-top: .7rem; padding: .8rem .9rem; border: 1px solid var(--tkb-border);
+  border-radius: 8px; background: var(--tkb-surface);
+}
+.afq-typebuilder-search {
+  width: 100%; margin: .5rem 0 .6rem; padding: .5rem .65rem; font: inherit; font-size: .95rem;
+  border: 1px solid var(--tkb-border); border-radius: 6px; background: var(--tkb-canvas); color: var(--tkb-ink);
+}
+.afq-typebuilder-list {
+  display: flex; flex-direction: column; gap: .25rem; max-height: 320px; overflow-y: auto;
+  padding-right: .2rem; margin-bottom: .7rem;
+}
+.afq-typebuilder-row {
+  display: flex; align-items: center; justify-content: space-between; gap: .6rem;
+  padding: .3rem .4rem; border-radius: 6px;
+}
+.afq-typebuilder-row.afq-typebuilder-on { background: color-mix(in srgb, var(--tkb-accent) 10%, transparent); }
+.afq-typebuilder-name {
+  flex: 1 1 auto; display: flex; align-items: center; gap: .5rem; text-align: left;
+  font: inherit; font-size: .92rem; color: var(--tkb-ink); background: none; border: none;
+  cursor: pointer; padding: .1rem 0;
+}
+.afq-typebuilder-name small { color: var(--tkb-ink-soft); font-size: .72rem; margin-left: auto; padding-right: .4rem; }
+.afq-typebuilder-check {
+  flex: 0 0 auto; width: 1.3rem; height: 1.3rem; display: inline-flex; align-items: center;
+  justify-content: center; border: 1px solid var(--tkb-border); border-radius: 5px;
+  color: var(--tkb-ink-soft); font-size: .8rem;
+}
+.afq-typebuilder-check.on { background: var(--tkb-accent); color: #fff; border-color: var(--tkb-accent); }
+.afq-typebuilder-count {
+  flex: 0 0 4rem; width: 4rem; text-align: center; font: inherit; padding: .3rem .3rem;
+  border: 1px solid var(--tkb-border); border-radius: 6px; background: var(--tkb-canvas); color: var(--tkb-ink);
+}
+
 /* --- runner --- */
 /* The outer runner now holds the reading column AND the question rail side by side, so it needs
    room for both - the actual comfortable reading measure lives on .afq-runner-main below, not
@@ -710,17 +745,26 @@
 .afq-tg-key { display: inline-block; width: .8rem; height: .8rem; border-radius: 3px; margin-right: .25rem; vertical-align: -1px; }
 
 /* --- figures: the Reading Comprehension passage ----------------------------
-   Unlike the grid/dials/pile figures, this one is prose and wants a COMFORTABLE READING
-   MEASURE, not the full wide-runner column - a 500-word passage stretched to 1160px would run
-   far too many characters per line. Capped independently of .afq-runner-wide's 620px stem/
-   choices rule, which is for a short question line, not a passage. */
-.afq-rc-fig { max-width: 700px; margin: 0 auto 1.1rem; }
-.afq-rc-text { font-size: 1.1rem; line-height: 1.65; color: var(--tkb-ink); }
+   2026-09-22: each authored line is forced onto its own row (so "line 12" means something -
+   RC-AUTHORING-SPEC.md §3), and a 400-600 word passage runs 35-45 of them. A narrow 700px
+   column was wrapping most of those rows onto a second visual line - the actual defect, not
+   the row count itself. A boxed, internally-scrolling pane was tried and made it worse (two
+   nested scroll contexts, same total height). Trey's fix, verbatim: "expand the question area
+   on each side by a few pixels, it will literally make the question half as long" - the
+   passage doesn't need to fit a phone, so it now runs at the width .afq-runner-wide already
+   gives figure-bearing questions (see the `wide` flag in DrillRunner/ExamRunner/
+   DiagnosticRunner), wide enough that a 12-20 word authored line fits on ONE row instead of
+   wrapping to two, and the page scrolls once, normally, the way every other subtest's card does. */
+.afq-rc-fig { max-width: 1040px; margin: 0 auto 1.1rem; }
+.afq-rc-text { font-size: 1.05rem; line-height: 1.45; color: var(--tkb-ink); }
 .afq-rc-numbered { display: flex; flex-direction: column; }
 .afq-rc-line { display: flex; gap: .6rem; }
+/* A blank authored entry is still a counted line (RC-AUTHORING-SPEC.md §3) but only needs to
+   read as a paragraph break, not another full row. */
+.afq-rc-line-blank { min-height: .5em; }
 .afq-rc-lineno {
-  flex: 0 0 2rem; text-align: right; color: var(--tkb-ink-soft); font-size: .75rem;
-  font-variant-numeric: tabular-nums; user-select: none; padding-top: .15rem;
+  flex: 0 0 1.6rem; text-align: right; color: var(--tkb-ink-soft); font-size: .7rem;
+  font-variant-numeric: tabular-nums; user-select: none; padding-top: .1rem;
 }
 .afq-rc-linetext { flex: 1 1 auto; }
 
@@ -878,6 +922,15 @@
    in one predictable place. */
 .afq-nav-row { justify-content: space-between; flex-wrap: wrap; }
 .afq-nav-row .afq-hint { margin-left: auto; }
+
+/* The live question's exact template, subtle on purpose - a footnote you can glance at, not a
+   label competing with the question. Trey's request, 2026-09-22: seeing which type you're on
+   lets you notice "I keep missing THIS shape" mid-run, then go build a custom-by-type drill for
+   it from DrillConfig afterward. */
+.afq-type-tag {
+  margin: .3rem 0 0; font-size: .72rem; color: var(--tkb-ink-soft); opacity: .65;
+  text-align: right; font-style: italic;
+}
 
 .afq-runner-flags { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; margin-bottom: .5rem; }
 .afq-flag-btn {
