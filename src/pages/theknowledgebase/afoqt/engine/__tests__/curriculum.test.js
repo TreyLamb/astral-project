@@ -178,10 +178,14 @@ describe('chapter progress', () => {
     expect(chapterState(p, ch.id).status).toBe('reading');
   });
 
-  it('completing a prerequisite unlocks what depends on it', () => {
-    const ch10 = getChapter('mk-10-geometry-measurement');
-    expect(isUnlocked(ch10, defaultProgress().chapters)).toBe(false);
-    const p = recordTestOut(defaultProgress(), 'mk-09-geometry-foundations', { correct: 5, total: 5, pass: 5 });
-    expect(isUnlocked(ch10, p.chapters)).toBe(true);
+  // 2026-09-22: Trey's explicit instruction - "UNLOCK ALL CHAPTERS... NONE SHOULD RELY ON ANY
+  // OTHER" - every chapter in curriculum/chapters.js now declares `prereqs: []`. This used to
+  // assert the opposite (ch10 locked until ch09 test-out); it now asserts every chapter is
+  // unlocked from a blank progress blob, which is the actual current behaviour.
+  it('every chapter is unlocked with no progress at all', () => {
+    const blank = defaultProgress().chapters;
+    for (const ch of CHAPTERS) {
+      expect(isUnlocked(ch, blank)).toBe(true);
+    }
   });
 });
