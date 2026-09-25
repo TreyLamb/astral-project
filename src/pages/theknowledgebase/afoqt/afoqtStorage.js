@@ -34,6 +34,7 @@ export function defaultProgress() {
     chapters: {},        // chapterId -> { status, testedOut, completedAt, bestScore }
     wordBank: {},        // word (lowercased) -> { word, pos, gloss, root, missCount, firstMissedAt, lastMissedAt }
     flagged: {},         // `${templateId}:${seed}` -> { templateId, seed, subtest, stem, flaggedAt }
+    flaggedCards: {},    // AFROTC knowledge-card id -> { id, subject, front, flaggedAt } - see below
     // Daily vocabulary flashcards - see engine/cards.js. Only the DAY a word was introduced is
     // stored; the passes, the five-day window and the full deck are all derived from that plus
     // today's date. Nothing is graded here on purpose, so there is no accuracy to keep.
@@ -211,6 +212,37 @@ export const isFlagged = (progress, templateId, seed) => flagKey(templateId, see
 /** Most recently flagged first. */
 export const flaggedEntries = (progress) =>
   Object.values(progress.flagged ?? {}).sort((a, b) => new Date(b.flaggedAt) - new Date(a.flaggedAt));
+
+// --- flagged AFROTC knowledge cards -----------------------------------------
+//
+// Same "come back to this later" idea as the question flag above, but a separate namespace -
+// a knowledge card's id (cardData.js's `${subject}-${n}`) is a stable static string, not a
+// (templateId, seed) pair, so reusing flagKey()/flagged would just be two different key shapes
+// colliding in one bucket for no reason. Kept deliberately dumb: no right/wrong, just a marker.
+
+export function addCardFlag(progress, { id, subject, front }) {
+  if (!id) return progress;
+  return {
+    ...progress,
+    flaggedCards: {
+      ...progress.flaggedCards,
+      [id]: { id, subject, front, flaggedAt: new Date().toISOString() },
+    },
+  };
+}
+
+export function removeCardFlag(progress, id) {
+  if (!(id in (progress.flaggedCards ?? {}))) return progress;
+  const next = { ...progress.flaggedCards };
+  delete next[id];
+  return { ...progress, flaggedCards: next };
+}
+
+export const isCardFlagged = (progress, id) => id in (progress.flaggedCards ?? {});
+
+/** Most recently flagged first. */
+export const flaggedCardEntries = (progress) =>
+  Object.values(progress.flaggedCards ?? {}).sort((a, b) => new Date(b.flaggedAt) - new Date(a.flaggedAt));
 
 export function addRun(progress, run) {
   return { ...progress, runs: [run, ...(progress.runs ?? [])].slice(0, MAX_RUNS) };

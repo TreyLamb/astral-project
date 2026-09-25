@@ -24,7 +24,9 @@
 
 /* --- page switch --- */
 .afq-rotc-nav { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
-@media (max-width: 520px) { .afq-rotc-nav { grid-template-columns: 1fr; } }
+.afq-rotc-nav-3 { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 760px) { .afq-rotc-nav-3 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .afq-rotc-nav, .afq-rotc-nav-3 { grid-template-columns: 1fr; } }
 .afq-rotc-nav button {
   display: flex; flex-direction: column; gap: .15rem; text-align: left; font: inherit;
   padding: .6rem .8rem; border: 1px solid var(--tkb-border); border-radius: 8px;
@@ -241,3 +243,27 @@
   font: inherit; font-size: .8rem; border: 1px solid var(--tkb-border);
   border-radius: 3px; padding: 0 .25rem; background: var(--tkb-surface);
 }
+
+/* ══════════════ knowledge cards ══════════════ */
+.afq-rotc-kc-card {
+  position: relative;
+  width: 100%; max-width: 60ch; min-height: 7rem; display: flex; flex-direction: column;
+  justify-content: center; gap: .5rem; text-align: center; padding: .4rem 2.2rem;
+}
+.afq-rotc-kc-front { margin: 0; font-size: 1.2rem; font-weight: 600; line-height: 1.4; }
+.afq-rotc-kc-rule { width: 3rem; border: none; border-top: 1px solid var(--tkb-border); margin: .2rem auto; }
+.afq-rotc-kc-back { margin: 0; font-size: 1.05rem; line-height: 1.55; }
+.afq-rotc-kc-note { margin-top: .3rem; }
+.afq-rotc-grade-miss { border-color: var(--tkb-wrong); color: var(--tkb-wrong); }
+.afq-rotc-grade-got.afq-primary { background: var(--tkb-correct); border-color: var(--tkb-correct); }
+
+/* Flag: a manual "come back to this" marker, kept visually distinct (gold, top-right corner of
+   the card) so it never reads as part of the grading flow (Got it / Missed it). */
+.afq-rotc-flag-toggle { display: flex; align-items: center; gap: .3rem; }
+.afq-rotc-flag-btn {
+  position: absolute; top: .1rem; right: 0; font: inherit; font-size: 1.15rem; line-height: 1;
+  border: none; background: transparent; cursor: pointer; padding: .3rem;
+  color: var(--tkb-border); opacity: .6; transition: color .15s, opacity .15s, transform .1s;
+}
+.afq-rotc-flag-btn:hover { opacity: 1; transform: scale(1.1); }
+.afq-rotc-flag-btn.on { color: var(--afq-rotc-gold); opacity: 1; }
