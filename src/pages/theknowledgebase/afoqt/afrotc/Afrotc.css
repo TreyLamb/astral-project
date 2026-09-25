@@ -254,8 +254,6 @@
 .afq-rotc-kc-rule { width: 3rem; border: none; border-top: 1px solid var(--tkb-border); margin: .2rem auto; }
 .afq-rotc-kc-back { margin: 0; font-size: 1.05rem; line-height: 1.55; }
 .afq-rotc-kc-note { margin-top: .3rem; }
-.afq-rotc-grade-miss { border-color: var(--tkb-wrong); color: var(--tkb-wrong); }
-.afq-rotc-grade-got.afq-primary { background: var(--tkb-correct); border-color: var(--tkb-correct); }
 
 /* Flag: a manual "come back to this" marker, kept visually distinct (gold, top-right corner of
    the card) so it never reads as part of the grading flow (Got it / Missed it). */

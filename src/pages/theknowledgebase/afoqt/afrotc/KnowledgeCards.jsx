@@ -7,11 +7,10 @@ import { addCardFlag, removeCardFlag, isCardFlagged } from '../afoqtStorage';
  * AFROTC knowledge-card drill: mission/values, creeds/oaths/songs, real AF/Space Force officer
  * and enlisted ranks, customs & greetings, org structure, and acronyms.
  *
- * Self-graded, like a physical flashcard deck: front shows the prompt, "Show answer" reveals the
- * back, then the user marks it "Got it" or "Missed it" themselves. Unlike the rank drill's
- * picture-based multiple choice, most of this content is prose (a creed line, a song lyric, a
- * definition) that doesn't reduce to a clean set of wrong-answer options - self-grading is the
- * honest fit for that shape of content, the same way Anki-style tools handle it.
+ * Plain flip-through, like a physical flashcard deck: front shows the prompt, "Show answer"
+ * reveals the back, "Next" moves on. No self-grading (Trey removed the Got it/Missed it step,
+ * 2026-09-25 - not something he asked for) - flagging a card (see toggleFlag below) is the only
+ * "come back to this" mechanism, and it's a deliberate marker, not a graded miss.
  *
  * Same settings/selection pattern as RankDrill.jsx (subject checkboxes, presets, persisted
  * selection) but under its own settings key - `settings.afrotcCards` - so it doesn't collide with
@@ -146,7 +145,7 @@ export default function KnowledgeCards() {
 
 function makeRun(deck) {
   const queue = shuffle(deck);
-  return { queue, i: 0, revealed: false, graded: null, firstTry: {}, missed: [], right: 0, wrong: 0, done: false };
+  return { queue, i: 0, revealed: false, done: false };
 }
 
 function DrillRun({ deck }) {
@@ -170,32 +169,8 @@ function DrillRun({ deck }) {
   const next = useCallback(() => {
     setRun((s) => {
       const i = s.i + 1;
-      if (i < s.queue.length) {
-        return { ...s, i, revealed: false, graded: null };
-      }
-      if (s.missed.length) {
-        const queue = shuffle(s.missed);
-        return { ...s, queue, missed: [], i: 0, revealed: false, graded: null };
-      }
+      if (i < s.queue.length) return { ...s, i, revealed: false };
       return { ...s, done: true };
-    });
-  }, []);
-
-  // Scored on the first look at each card, same reasoning as RankDrill: a re-dealt card still has
-  // to be cleared, but grading it again must not move the counters or the percentage stops
-  // meaning anything.
-  const grade = useCallback((ok) => {
-    setRun((s) => {
-      if (s.graded !== null || s.done) return s;
-      const c = s.queue[s.i];
-      const firstTry = { ...s.firstTry };
-      let { right, wrong } = s;
-      if (!(c.id in firstTry)) {
-        firstTry[c.id] = ok;
-        if (ok) right++; else wrong++;
-      }
-      const missed = !ok && !s.missed.some((m) => m.id === c.id) ? [...s.missed, c] : s.missed;
-      return { ...s, graded: ok ? 'got' : 'missed', firstTry, right, wrong, missed };
     });
   }, []);
 
@@ -208,20 +183,14 @@ function DrillRun({ deck }) {
       if (run.done) return;
       if (e.key === 'f' || e.key === 'F') { e.preventDefault(); toggleFlag(); return; }
 
-      if (!run.revealed) {
-        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); reveal(); }
-        return;
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        run.revealed ? next() : reveal();
       }
-      if (run.graded === null) {
-        if (e.key === 'g' || e.key === 'G') { e.preventDefault(); grade(true); }
-        else if (e.key === 'm' || e.key === 'M') { e.preventDefault(); grade(false); }
-        return;
-      }
-      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); next(); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [run, reveal, grade, next, restart, toggleFlag]);
+  }, [run, reveal, next, restart, toggleFlag]);
 
   if (!deck.length) {
     return (
@@ -234,10 +203,6 @@ function DrillRun({ deck }) {
 
   return (
     <>
-      <p className="afq-rotc-score">
-        <b className="ok">{run.right}</b> right · <b className="no">{run.wrong}</b> missed
-      </p>
-
       <div className="afq-rotc-prog">
         <i style={{ width: run.done ? '100%' : `${(run.i / run.queue.length) * 100}%` }} />
       </div>
@@ -247,7 +212,7 @@ function DrillRun({ deck }) {
       </div>
 
       {run.done ? (
-        <Done run={run} deck={deck} onAgain={restart} />
+        <Done deck={deck} onAgain={restart} />
       ) : (
         <div className="afq-rotc-stage">
           <p className="afq-rotc-prompt">{bySubject(cur.subject)?.label}</p>
@@ -274,11 +239,6 @@ function DrillRun({ deck }) {
           <div className="afq-rotc-actions">
             {!run.revealed ? (
               <button className="afq-btn afq-primary" onClick={reveal}>Show answer <kbd>Space</kbd></button>
-            ) : run.graded === null ? (
-              <>
-                <button className="afq-btn afq-rotc-grade-miss" onClick={() => grade(false)}>Missed it <kbd>M</kbd></button>
-                <button className="afq-btn afq-rotc-grade-got afq-primary" onClick={() => grade(true)}>Got it <kbd>G</kbd></button>
-              </>
             ) : (
               <button className="afq-btn afq-primary" onClick={next}>Next <kbd>Space</kbd></button>
             )}
@@ -287,27 +247,17 @@ function DrillRun({ deck }) {
       )}
 
       <p className="afq-note afq-rotc-help">
-        <kbd>Space</kbd> reveal, then next · <kbd>G</kbd> got it · <kbd>M</kbd> missed it ·{' '}
-        <kbd>F</kbd> flag · <kbd>R</kbd> reshuffle.
+        <kbd>Space</kbd> reveal, then next · <kbd>F</kbd> flag · <kbd>R</kbd> reshuffle.
       </p>
     </>
   );
 }
 
-function Done({ run, deck, onAgain }) {
-  const fumbled = deck.filter((c) => run.firstTry[c.id] === false);
-  const pct = deck.length ? Math.round((run.right / deck.length) * 100) : 0;
+function Done({ deck, onAgain }) {
   return (
     <div className="afq-rotc-stage afq-rotc-done">
-      <h3>Round clear</h3>
-      <p className="afq-rotc-big">{run.right}<span>/{deck.length}</span></p>
-      <p className="afq-note">{pct}% first time. Every card was cleared before the round ended.</p>
-      {fumbled.length > 0 && (
-        <div className="afq-rotc-missed">
-          <strong>Missed first time</strong>
-          <ul>{fumbled.map((c) => <li key={c.id}>{c.front}</li>)}</ul>
-        </div>
-      )}
+      <h3>Deck complete</h3>
+      <p className="afq-note">Went through all {deck.length} card{deck.length === 1 ? '' : 's'}.</p>
       <div className="afq-rotc-actions">
         <button className="afq-btn afq-primary" onClick={onAgain}>Run again <kbd>R</kbd></button>
       </div>
