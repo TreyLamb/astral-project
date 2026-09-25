@@ -43,6 +43,28 @@ export const SUBJECTS = [
 
 export const SUBJECT_IDS = SUBJECTS.map((s) => s.id);
 
+// Named subject GROUPS, one click away from the full 8-subject picker. Trey's request
+// (2026-09-25): a preset that's "only things like mottos, mission and values, ranks - remove
+// customs and acronyms and stuff like that" - i.e. the pure recite-it "Warrior Knowledge" trivia
+// (creeds, values, both rank structures), split apart from the procedural/reference subjects
+// (how you address people, how the detachment is organized, admin reporting windows, shorthand).
+// That's a clean binary split of all 8 subjects, so both halves get a preset rather than just the
+// one that was asked for - the complement is one line of code and means the split goes both ways.
+export const PRESETS = [
+  {
+    id: 'core-knowledge',
+    label: 'Mottos, Values & Ranks',
+    hint: 'Pure recite-it material: mission/values, creeds/oaths/songs, both rank structures. No customs, org, admin, or acronyms.',
+    subjects: ['mission-values', 'mottos-creeds', 'ranks-officer', 'ranks-enlisted'],
+  },
+  {
+    id: 'procedures-reference',
+    label: 'Customs, Org & Admin',
+    hint: 'Everything else: how you address people and report in, org structure, admin/reporting policy, acronyms.',
+    subjects: ['customs', 'org', 'admin', 'acronyms'],
+  },
+];
+
 let n = 0;
 const card = (subject, front, back, note) => ({ id: `${subject}-${++n}`, subject, front, back, note });
 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAfoqt } from '../AfoqtApp';
-import { SUBJECTS, SUBJECT_IDS, CARDS, cardsFor, bySubject } from './cardData';
+import { SUBJECTS, SUBJECT_IDS, CARDS, PRESETS, cardsFor, bySubject } from './cardData';
 import { addCardFlag, removeCardFlag, isCardFlagged } from '../afoqtStorage';
 
 /**
@@ -68,6 +68,7 @@ export default function KnowledgeCards() {
   };
 
   const allOn = selected.length === SUBJECT_IDS.length;
+  const matchesPreset = (ids) => selected.length === ids.length && ids.every((id) => selected.includes(id));
 
   return (
     <div className="afq-rotc-drill">
@@ -101,6 +102,20 @@ export default function KnowledgeCards() {
               All subjects
               <span className="afq-rotc-preset-hint">{CARDS.length} cards total</span>
             </button>
+            {PRESETS.map((p) => {
+              const count = CARDS.filter((c) => p.subjects.includes(c.subject)).length;
+              return (
+                <button
+                  key={p.id}
+                  className={'afq-btn' + (matchesPreset(p.subjects) ? ' afq-primary' : '')}
+                  onClick={() => setCfg({ subjects: p.subjects })}
+                  title={p.hint}
+                >
+                  {p.label}
+                  <span className="afq-rotc-preset-hint">{count} cards</span>
+                </button>
+              );
+            })}
           </div>
 
           <div className="afq-rotc-checks">
