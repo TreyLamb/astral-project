@@ -13,6 +13,7 @@
 
 import { pricesQuery, normalizePrices } from './eftNormalize';
 import { applyPrices, priceAge } from './eftPrices';
+import { PRICE_BASE, GAME_TYPE, buildPriceSnapshot } from './eftPriceBuild';
 
 const ENDPOINT = 'https://api.tarkov.dev/graphql';
 
@@ -142,13 +143,82 @@ export function clearPriceOverlay(mode) {
 // literal into a glob over data/prices/, giving every mode its own chunk, and only the one
 // being used is ever fetched.
 const priceSnapshots = new Map();
+
+// The in-app Refresh button's result. Kept apart from the committed file so a refresh can
+// never be lost to a rebuild, and compared by the UPSTREAM scan time so a stale local copy
+// can never beat a freshly committed one.
+const snapKey = (mode) => `eftsh_pricesnap_${mode}_v1`;
+const memorySnaps = new Map();
+
+function readStoredSnapshot(mode) {
+  if (memorySnaps.has(mode)) return memorySnaps.get(mode);
+  try {
+    const raw = localStorage.getItem(snapKey(mode));
+    const parsed = raw ? JSON.parse(raw) : null;
+    return parsed?.flea && parsed?.offers ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+const scanTime = (snap) => (snap?.scannedAt?.flea || 0)
+  || Math.floor((Date.parse(snap?.generatedAt) || 0) / 1000);
+
 export function loadPriceSnapshot(mode = 'pve') {
   if (!priceSnapshots.has(mode)) {
     priceSnapshots.set(mode, import(`./data/prices/${mode}.json`)
       .then((m) => m.default)
       // A mode with no committed snapshot (season) degrades to no prices rather than to a
       // crash, and must never fall back to another mode's numbers.
-      .catch(() => null));
+      .catch(() => null)
+      .then((committed) => {
+        const stored = readStoredSnapshot(mode);
+        return scanTime(stored) > scanTime(committed) ? stored : committed;
+      }));
   }
   return priceSnapshots.get(mode);
+}
+
+/**
+ * Pull this economy's flea + trader prices straight from the public upstream (CORS is open)
+ * and keep them locally. Never throws. About 15 MB down, so it is a deliberate click, never
+ * something that runs on load. See PRICES.md.
+ *
+ * @returns {Promise<{ok:boolean, count?:number, scannedAt?:number, error?:string}>}
+ */
+export async function refreshPriceSnapshot(mode) {
+  try {
+    const gameType = GAME_TYPE[mode];
+    if (!gameType) throw new Error(`No price source for game mode "${mode}".`);
+    const getJson = async (url) => {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`Price server returned HTTP ${res.status}`);
+      return JSON.parse(await res.text());
+    };
+    const [overview, assort, hideout] = await Promise.all([
+      getJson(`${PRICE_BASE}/${gameType}/items-overview`),
+      getJson(`${PRICE_BASE}/${gameType}/traders/offers`),
+      loadSnapshot(),
+    ]);
+    const traderName = new Map((hideout.traders || []).map((t) => [t.id, t.name]));
+    const snap = buildPriceSnapshot({ mode, overview, assort, traderName });
+
+    memorySnaps.set(mode, snap);
+    try {
+      localStorage.setItem(snapKey(mode), JSON.stringify(snap));
+    } catch {
+      /* quota — applies for this session, just won't survive a reload */
+    }
+    priceSnapshots.delete(mode);
+    return { ok: true, count: snap.counts.flea, scannedAt: snap.scannedAt.flea };
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
+}
+
+/** Drop the locally refreshed copy and fall back to the committed file. */
+export function clearPriceSnapshot(mode) {
+  memorySnaps.delete(mode);
+  priceSnapshots.delete(mode);
+  try { localStorage.removeItem(snapKey(mode)); } catch { /* nothing to do */ }
 }

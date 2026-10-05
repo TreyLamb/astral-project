@@ -184,7 +184,17 @@ export const MapStore = {
 
   // null means "never seeded", which is distinct from "the user deleted them
   // all" — only the first case gets the starter preset.
-  getPresets: (map) => read(KEY.presets(map), null),
+  getPresets: (map) => {
+    const p = read(KEY.presets(map), null);
+    if (Array.isArray(p)) return p;
+    // An object keyed "0","1",… is an array that was spread into `{}` by an
+    // old write; recover it rather than letting `.findIndex` throw on load.
+    if (p && typeof p === 'object') {
+      const vals = Object.keys(p).filter((k) => /^\d+$/.test(k)).sort((a, b) => a - b).map((k) => p[k]);
+      return vals.length ? vals : null;
+    }
+    return null;
+  },
   setPresets: (map, v) => write(KEY.presets(map), v),
 
   getPresetsDefaultMigrated: (map) => read(KEY.presetsDefaultMigrated(map), false),

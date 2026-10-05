@@ -333,6 +333,32 @@ export const KEY_ALIASES = {
 };
 
 /**
+ * Door-level corrections where mapgenie's own marker names no key (or the wrong one) and a
+ * second source does. Keyed by mapgenie location id, applied BEFORE the item join so the
+ * normal matcher still resolves the name to a real item id. Same spirit as `KNOWN_ERRATA`
+ * in `fetchEftHideout.mjs`: the reason sits next to the data.
+ *
+ * Source for all of these: Piranha's Tarkov Key List (the Google Sheet behind
+ * bit.ly/Piranha-EFT-Keys-List), cross-checked against item names that exist in SPT's
+ * locale. That sheet is OLDER than mapgenie (no Icebreaker, no Labyrinth) so it is used
+ * only to fill a blank or fix a name, never to override a key mapgenie already names.
+ */
+export const LOCK_ERRATA = {
+  // Customs "Factory Exit" gates: mapgenie's text says only "Factory Exit Key", which is not
+  // an item name. Piranha lists "Factory Emergency Exit Key" under Customs.
+  30163: { keyName: 'Factory Emergency Exit Key' },
+  30164: { keyName: 'Factory Emergency Exit Key' },
+  // Customs dorm 314: mapgenie says "Marked Key"; the item is "Dorm room 314 marked key".
+  30143: { keyName: 'Dorm Room 314 Marked Key' },
+  // Customs dorm 218: tagged "Random Drop" with no key named, but the key exists.
+  30135: { keyName: 'Dorm Room 218 Key', keyHint: 'Random drop (jackets, drawers, Scavs)' },
+  // Interchange KIBA Store: needs the outer door key AND the inner grate door key.
+  28684: { keyName: 'KIBA Arms Outer Door Key', keyHint: '+ KIBA Arms Inner Grate Door Key' },
+  // Interchange Object #21WS container: Piranha lists the Object #21WS keycard on Interchange.
+  28909: { keyName: 'Object #21WS Keycard', keyHint: 'Power must also be on' },
+};
+
+/**
  * Build the searchable pool once. `rows` is itemNames.json's shape: [id, name, short?].
  *
  * `(off)`-prefixed rows are REMOVED content that still sits in the locale file — SPT
@@ -435,6 +461,12 @@ export function buildLockIndex(mapData, rows) {
   for (const marker of mapData?.markers || []) {
     if (!lockCats.has(marker.cat)) continue;
     const lock = parseLock(marker);
+    const fix = LOCK_ERRATA[marker.id];
+    if (fix) {
+      lock.keyName = fix.keyName;
+      lock.keyHint = fix.keyHint ?? lock.keyHint;
+      lock.kind = lockKindFrom({ keyName: fix.keyName, title: marker.title, desc: '' });
+    }
     const match = matchKeyItem(lock.keyName, pool);
     out.push({
       ...lock,

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 
 import { EftContext } from './eftContext';
-import { loadEftData, fetchLivePrices } from './eftApi';
+import { loadEftData, fetchLivePrices, refreshPriceSnapshot, clearPriceSnapshot } from './eftApi';
 import { priceFieldsFrom } from './eftPrices';
 import { GAME_MODES } from './eftNormalize';
 import { read, write, DEFAULTS } from './eftStorage';
@@ -20,6 +20,7 @@ import AmmoView from './views/AmmoView';
 import FrugalView from './views/FrugalView';
 import LootCalcView from './views/LootCalcView';
 import SettingsView from './views/SettingsView';
+import FleaView from './views/FleaView';
 import MapView from './views/MapView';
 import CraftTreeView from './views/CraftTreeView';
 import CraftLoopsView from './views/CraftLoopsView';
@@ -30,6 +31,10 @@ import './EftShopping.css';
 import HubLink from '../../components/HubLink';
 
 const ROOT = '/EFTsh';
+
+// Past this the banner offers a refresh. Flea averages move within hours, but a nag every
+// morning is its own clutter, so a day.
+const STALE_AFTER_MS = 24 * 60 * 60 * 1000;
 
 const TABS = [
   { to: '', label: 'Hideout/Quest' },
@@ -46,11 +51,7 @@ const TABS = [
   { to: '/frugal', label: 'Frugal' },
   { to: '/loot', label: 'Loot Calc' },
   { to: '/settings', label: 'Settings' },
-  // Live flea prices are the one thing no free source exposes (tarkov.dev is
-  // the only open API and it is unreliable; tarkov-market encrypts its browser
-  // payload and gates its real API behind a key). Until that changes, the
-  // honest move is to send you straight there rather than fake it in-app.
-  { href: 'https://tarkov-market.com/', label: 'Flea Prices ↗' },
+  { to: '/flea', label: 'Flea Prices' },
 ];
 
 /**
@@ -86,6 +87,7 @@ export default function EftShoppingApp() {
     data: null, source: 'game-files', generatedAt: 0, pricesFetchedAt: null,
     priceSource: null, priceMode: null, pricedItems: 0, priceSnapshot: null,
     gaps: [], loading: true, priceError: null, pricesLoading: false,
+    fleaLoading: false, fleaError: null,
   });
 
   // The map page's tab row starts folded — see webdesign.md §2. The shell does
@@ -155,6 +157,28 @@ export default function EftShoppingApp() {
     }
   }, [gameMode, load, showToast]);
 
+  // The in-app flea refresh: pulls this economy's prices straight from the public upstream
+  // (see PRICES.md). Separate from `refreshPrices` above, which is the tarkov.dev overlay.
+  const refreshFlea = useCallback(async () => {
+    setStatus((s) => ({ ...s, fleaLoading: true, fleaError: null }));
+    const result = await refreshPriceSnapshot(gameMode);
+    if (result.ok) {
+      await load(gameMode);
+      setStatus((s) => ({ ...s, fleaLoading: false, fleaError: null }));
+      showToast(`${gameMode.toUpperCase()} prices updated — ${result.count} items`);
+    } else {
+      setStatus((s) => ({ ...s, fleaLoading: false, fleaError: result.error }));
+      showToast('Price refresh failed — prices unchanged');
+    }
+    return result;
+  }, [gameMode, load, showToast]);
+
+  const resetFlea = useCallback(async () => {
+    clearPriceSnapshot(gameMode);
+    await load(gameMode);
+    showToast('Back on the built-in prices');
+  }, [gameMode, load, showToast]);
+
   const data = status.data;
 
   const stations = useMemo(() => {
@@ -211,9 +235,11 @@ export default function EftShoppingApp() {
     setPref: (key, val) => update('prefs', (p) => ({ ...p, [key]: val })),
     refresh: refreshPrices,
     refreshPrices,
+    refreshFlea,
+    resetFlea,
     showToast,
   }), [store, update, addToShoppingList, reloadStore, data, stations, items, status, hasPrices,
-    priceOf, gameMode, refreshPrices, showToast]);
+    priceOf, gameMode, refreshPrices, refreshFlea, resetFlea, showToast]);
 
   const active = (tab) => {
     const path = `${ROOT}${tab.to}`;
@@ -221,7 +247,14 @@ export default function EftShoppingApp() {
     return location.pathname.startsWith(path);
   };
 
-  const dotClass = hasPrices ? '' : 'eft-is-stale';
+  // Flea prices move hourly. Measured against the UPSTREAM's scan time, not when we pulled it,
+  // and per game mode: the snapshot on screen is for the economy you have selected.
+  const priceAgeMs = status.pricesFetchedAt ? Date.now() - status.pricesFetchedAt : null;
+  const pricesStale = hasPrices && !status.loading && status.priceSource !== 'tarkov.dev'
+    && priceAgeMs != null && priceAgeMs > STALE_AFTER_MS;
+  const modeLabel = GAME_MODES.find((m) => m.id === gameMode)?.label || gameMode;
+
+  const dotClass = hasPrices && !pricesStale ? '' : 'eft-is-stale';
 
   // The map is a full-viewport working surface, so it gets none of the standard
   // chrome by default: no site navbar (see Navbar.jsx FULLSCREEN_ROUTES), no
@@ -321,6 +354,30 @@ export default function EftShoppingApp() {
             </div>
           ) : null}
 
+          {!isMap && pricesStale && !bannerDismissed && location.pathname !== `${ROOT}/flea` ? (
+            <div className="eft-banner">
+              <button
+                type="button"
+                className="eft-banner-dismiss"
+                onClick={() => setBannerDismissed(true)}
+                title="Dismiss"
+                aria-label="Dismiss"
+              >
+                ×
+              </button>
+              <strong>{modeLabel} prices are {fmtAgo(status.pricesFetchedAt).replace(' ago', '')} old.</strong>{' '}
+              <button
+                type="button"
+                className="eft-btn eft-btn-sm"
+                onClick={refreshFlea}
+                disabled={status.fleaLoading}
+              >
+                {status.fleaLoading ? 'Refreshing…' : `Refresh ${modeLabel} prices`}
+              </button>
+              {status.fleaError ? ` Refresh failed: ${status.fleaError}` : ''}
+            </div>
+          ) : null}
+
           {!isMap && hasPrices && status.priceError && !status.pricesLoading ? (
             <div className="eft-banner eft-is-error">
               <strong>Price refresh failed.</strong> {status.priceError} — showing the last prices
@@ -373,6 +430,7 @@ export default function EftShoppingApp() {
             <Route path="ammo" element={<AmmoView />} />
             <Route path="frugal" element={<FrugalView />} />
             <Route path="loot" element={<LootCalcView />} />
+            <Route path="flea" element={<FleaView />} />
             <Route path="settings" element={<SettingsView />} />
             <Route path="*" element={<HideoutView />} />
           </Routes>

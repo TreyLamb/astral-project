@@ -58,6 +58,11 @@ src/pages/theknowledgebase/ResearchPics/
 # AFOQT outside-agent farming packet (regenerate with the recipe in docs/afoqt/HANDOFF.md)
 src/pages/theknowledgebase.zip
 
+# Personal AFROTC/coursework files Trey keeps in the repo for convenience.
+# Not app code, never meant to be tracked or committed — same reasoning as the
+# wellness-memo files that live in Downloads, just sitting here instead.
+src/pages/theknowledgebase/*.docx
+
 # Local-only standalone games (public/ tools, not React). Removed from the repo
 # 2026-09-14 to cut Vercel Deployment Storage: Vite copies public/ into dist/
 # verbatim, so these cost ~58 MB per deployment (28.5 MB source + 30 MB output)

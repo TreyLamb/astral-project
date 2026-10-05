@@ -181,3 +181,13 @@ to replace good numbers with worse ones.
   deliberately rather than missed — but the upstream serves `season` for free whenever it matters.
 - `armorClass` is still null on every wiki-sourced gear row (see the root `CLAUDE.md`); this
   upstream does not carry it either.
+
+## In-app refresh (added 2026-10-04)
+
+`/EFTsh/flea` has a **Refresh PVE/PVP prices** button. The upstream sends
+`access-control-allow-origin: *`, so the browser pulls `items-overview` + `traders/offers` for the
+selected mode directly (~15 MB, ~1 s), runs them through `eftPriceBuild.js` (the SAME transform
+`npm run eft:prices` uses) and keeps the result in `localStorage` (`eftsh_pricesnap_<mode>_v1`).
+`loadPriceSnapshot` takes whichever of {committed file, local copy} has the newer upstream scan
+time, so a stale local copy can never beat a freshly committed file. A banner offers the refresh
+when the numbers are over a day old. Don't move the transform back into the script only.
