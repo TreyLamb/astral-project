@@ -2,11 +2,14 @@ import { useNavigate } from 'react-router-dom';
 import { useChem } from '../ChemApp';
 import { CHEM_CHAPTERS, isChemChapterUnlocked, TOTAL_CHEM_LESSON_MINUTES } from '../curriculum';
 import { chemChapterState, isChemChapterDone, chemCurriculumProgress } from '../chemStorage';
+import { EXAMS, currentExamId } from '../syllabusMap';
 
 export default function ChemCurriculumMap() {
   const navigate = useNavigate();
   const { progress } = useChem();
   const stat = chemCurriculumProgress(progress, CHEM_CHAPTERS);
+  const exam = EXAMS.find((e) => e.id === currentExamId()) ?? EXAMS[0];
+  const span = `Ch ${exam.chapters[0]}–${exam.chapters[exam.chapters.length - 1]}`;
 
   return (
     <div className="chq-curriculum">
@@ -28,7 +31,10 @@ export default function ChemCurriculumMap() {
 
       <div className="chq-track-meta">
         <button className="chq-btn chq-primary" onClick={() => navigate('/TKB/courses/chem/exam')}>
-          🎯 Exam prep — scoped to YOUR chapters (Exam 1 = Ch 1–2)
+          🎯 Exam prep — {exam.name} = {span}, scoped to YOUR chapters
+        </button>
+        <button className="chq-btn chq-primary" onClick={() => navigate('/TKB/courses/chem/quizzes')}>
+          📋 Quizzes — every quiz, what it covers, practice for each
         </button>
         <button className="chq-btn" onClick={() => navigate('/TKB/courses/chem/practice')}>
           Mass review — mix questions from every chapter

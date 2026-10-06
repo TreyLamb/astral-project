@@ -9,6 +9,8 @@ import ChemPractice from './views/ChemPractice';
 import ChemQuickReview from './views/ChemQuickReview';
 import ChemExamPrep from './views/ChemExamPrep';
 import ChemResources from './views/ChemResources';
+import ChemConceptView from './views/ChemConceptView';
+import ChemQuizCenter from './views/ChemQuizCenter';
 import './Chem.css';
 
 // Templates self-register on import; this pulls the whole registry in once, mirroring
@@ -82,7 +84,7 @@ export default function ChemApp() {
       <div className="chq-wrap">
         {/* Quick Review and Exam prep carry their own back control; two stacked back buttons on
             a phone is exactly the clutter Quick Review exists to avoid. */}
-        {!/\/(quick|exam|resources)$/.test(location.pathname) && (
+        {!/\/(quick|exam|resources|quizzes)$|\/concept\//.test(location.pathname) && (
           <button className="chq-btn chq-ghost chq-back" onClick={() => navigate('/TKB/courses')}>
             ← All courses
           </button>
@@ -95,6 +97,8 @@ export default function ChemApp() {
           <Route path="quick" element={<ChemQuickReview />} />
           <Route path="exam" element={<ChemExamPrep />} />
           <Route path="resources" element={<ChemResources />} />
+          <Route path="concept/:section" element={<ChemConceptView />} />
+          <Route path="quizzes" element={<ChemQuizCenter />} />
         </Routes>
       </div>
     </ChemContext.Provider>

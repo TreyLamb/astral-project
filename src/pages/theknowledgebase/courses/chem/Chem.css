@@ -304,3 +304,101 @@
 .chq-res-figure:hover { border-color: var(--tkb-accent); }
 .chq-res-figure img { width: 100%; height: auto; display: block; }
 @media print { .chq-res-figure { break-inside: avoid; } }
+
+/* --- "Explain further": the go-deeper page for a missed question's section --- */
+/* Prose meant to be read closely, so it floors at 1rem+ (webdesign.md 1c). */
+.chq-explain {
+  font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; margin-top: .5rem;
+  padding: .25rem .7rem; border-radius: 999px;
+  border: 1px solid var(--tkb-accent); background: none; color: var(--tkb-accent);
+}
+.chq-explain:hover { background: color-mix(in srgb, var(--tkb-accent) 12%, transparent); }
+.chq-concept { display: flex; flex-direction: column; gap: 1.25rem; max-width: 70ch; font-size: 1.05rem; }
+.chq-concept-head h2 { margin: .4rem 0 0; font-size: 1.5rem; line-height: 1.25; }
+/* In the drawer the page is prose, so it may centre its own column (webdesign.md 1: prose is the
+   one place a max-width belongs) instead of hugging the left edge of a full-screen overlay. */
+.chq-ref-drawer-body .chq-concept { margin: 1rem auto 0; }
+.chq-sources {
+  border-left: 3px solid var(--tkb-accent); padding: .1rem 0 .1rem 1rem;
+  background: color-mix(in srgb, var(--tkb-accent) 5%, transparent); border-radius: 0 6px 6px 0;
+}
+.chq-sources h3 { font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tkb-ink-soft); margin: .6rem 0 .3rem; }
+.chq-source { margin: .7rem 0; }
+.chq-source blockquote { margin: 0; padding: 0; font-size: 1rem; line-height: 1.55; color: var(--tkb-ink); }
+.chq-source blockquote::before { content: '\201C'; }
+.chq-source blockquote::after { content: '\201D'; }
+.chq-source figcaption { margin-top: .25rem; font-size: .85rem; color: var(--tkb-ink-soft); }
+.chq-concept-body { line-height: 1.65; }
+.chq-concept-body h2 { font-size: 1.2rem; margin: 1.4rem 0 .5rem; }
+.chq-concept-body h3 { font-size: 1.05rem; margin: 1rem 0 .4rem; text-transform: none; letter-spacing: 0; color: var(--tkb-ink); }
+.chq-concept-body p { margin: .5rem 0; }
+.chq-concept-body ul, .chq-concept-body ol { margin: .5rem 0; padding-left: 1.3rem; }
+.chq-concept-body li { margin: .25rem 0; }
+.chq-concept-body code {
+  background: var(--tkb-surface); border: 1px solid var(--tkb-border);
+  border-radius: 4px; padding: .05rem .3rem; font-size: .9em;
+}
+.chq-concept-body pre {
+  background: var(--tkb-surface); border: 1px solid var(--tkb-border); border-radius: 6px;
+  padding: .7rem .9rem; overflow-x: auto; font-size: .95rem; line-height: 1.55;
+}
+.chq-concept-body pre code { background: none; border: none; padding: 0; font-size: 1em; }
+.chq-concept-body table { width: 100%; border-collapse: collapse; font-size: .95rem; margin: .7rem 0; display: block; overflow-x: auto; }
+.chq-concept-body th, .chq-concept-body td { text-align: left; padding: .35rem .6rem; border-bottom: 1px solid var(--tkb-border); }
+.chq-concept-body th { color: var(--tkb-ink-soft); font-weight: 600; }
+.chq-concept-body blockquote { margin: .6rem 0; padding-left: .9rem; border-left: 3px solid var(--tkb-border); color: var(--tkb-ink-soft); }
+
+/* --- quiz center (/TKB/courses/chem/quizzes) --- */
+.chq-qz { font-size: 1.05rem; }
+.chq-qz .chq-note { font-size: .95rem; line-height: 1.55; }
+.chq-qz-next {
+  border: 1px solid var(--tkb-accent); border-radius: 10px; padding: .8rem 1rem;
+  background: color-mix(in srgb, var(--tkb-accent) 7%, transparent);
+}
+.chq-qz-next-body { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: .8rem; }
+.chq-qz-next-name { font-size: 1.15rem; }
+.chq-qz-next-when { color: var(--tkb-ink-soft); font-size: .95rem; margin: .15rem 0 .4rem; }
+.chq-qz-secs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .2rem; font-size: .95rem; }
+.chq-qz-secs li { display: flex; gap: .5rem; align-items: baseline; }
+.chq-qz-secs code { font-size: .85rem; }
+.chq-qz-secs span { color: var(--tkb-ink-soft); font-size: .85rem; }
+.chq-qz-secs span.thin { color: var(--tkb-wrong); font-weight: 600; }
+.chq-qz-exams { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .3rem; }
+.chq-qz-exams li {
+  display: grid; grid-template-columns: 9rem 5rem 1fr 6rem auto; gap: .6rem; align-items: center;
+  padding: .35rem .5rem; border-bottom: 1px solid var(--tkb-border); font-size: .95rem;
+}
+.chq-qz-exams li span { color: var(--tkb-ink-soft); }
+@media (max-width: 640px) { .chq-qz-exams li { grid-template-columns: 1fr 1fr; } }
+.chq-qz-table-wrap { overflow-x: auto; }
+.chq-qz-table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+.chq-qz-table th {
+  text-align: left; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--tkb-ink-soft); padding: .3rem .5rem; border-bottom: 1px solid var(--tkb-border);
+}
+.chq-qz-table td { padding: .4rem .5rem; border-bottom: 1px solid var(--tkb-border); vertical-align: middle; }
+.chq-qz-row.done { opacity: .55; }
+.chq-qz-row.upcoming .chq-qz-num { font-weight: 700; }
+.chq-qz-num a { color: inherit; }
+.chq-qz-real { margin-left: .5rem; font-size: .8rem; color: var(--tkb-accent); font-weight: 600; white-space: nowrap; }
+.chq-qz-covers span {
+  display: inline-block; margin: 0 .25rem .15rem 0; padding: 0 .4rem; border-radius: 5px;
+  background: var(--tkb-surface); border: 1px solid var(--tkb-border); font-size: .85rem;
+}
+.chq-qz-dim { color: var(--tkb-ink-soft); }
+.chq-qz-due { white-space: nowrap; }
+.chq-qz-status { white-space: nowrap; color: var(--tkb-ink-soft); }
+.chq-qz-status.missing { color: var(--tkb-wrong); font-weight: 700; }
+.chq-qz-status.past-unverified { color: var(--tkb-unsure); font-weight: 600; }
+.chq-qz-status.upcoming { color: var(--tkb-ink); }
+.chq-qz-bank { text-align: right; font-variant-numeric: tabular-nums; }
+.chq-qz-bank.thin { color: var(--tkb-wrong); font-weight: 700; }
+.chq-qz-go { white-space: nowrap; padding: .2rem .6rem; }
+.chq-qz-check {
+  width: 1.15rem; height: 1.15rem; border-radius: 4px; border: 1.5px solid var(--tkb-ink-soft);
+  background: none; cursor: pointer; padding: 0; font-size: .75rem; font-weight: 800; color: #fff;
+  display: grid; place-items: center;
+}
+.chq-qz-check.on { background: var(--tkb-correct); border-color: var(--tkb-correct); }
+.chq-qz-asks { border-left: 3px solid var(--tkb-unsure); padding: .2rem 0 .2rem .9rem; }
+.chq-qz-asks p { margin: .4rem 0; line-height: 1.55; }

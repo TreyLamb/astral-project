@@ -6,6 +6,8 @@ import { getChemChapter } from '../curriculum';
 import { recordChemTestOut, recordChemMastery, CHEM_MASTERY_THRESHOLD } from '../chemStorage';
 import { mulberry32 } from '../../../engine/rng';
 import { ChemReferenceContent } from './ChemResources';
+import { ConceptContent } from './ChemConceptView';
+import { conceptPageFor } from '../concepts';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
 
@@ -51,6 +53,9 @@ export default function ChemDrillRunner() {
   // a chem drill"). It overlays the question rather than navigating away, because leaving the
   // route would discard the run - `questions` is a useMemo keyed on the params, not persisted.
   const [showRef, setShowRef] = useState(false);
+  // The "Explain further" page for a missed question's section, shown over the results. A drawer,
+  // not a route: navigating away and back would rebuild the drill and lose the results.
+  const [deeper, setDeeper] = useState(null);
   const startedAt = useRef(Date.now());
   const questionStart = useRef(Date.now());
 
@@ -193,10 +198,29 @@ export default function ChemDrillRunner() {
                   </p>
                   {a.errorWhy && <p className="chq-miss-mode">You {a.errorWhy}.</p>}
                   {q.explanation && <p className="chq-miss-why">{q.explanation}</p>}
+                  {q.section && conceptPageFor(q.section) && (
+                    <button
+                      className="chq-explain"
+                      onClick={() => setDeeper(q.section)}
+                      title={`Go deeper on Sec ${q.section} — the rules, worked math, and the source text`}
+                    >
+                      ? Explain further — Sec {q.section}
+                    </button>
+                  )}
                 </div>
               );
             })}
           </section>
+        )}
+
+        {deeper && conceptPageFor(deeper) && (
+          <aside className="chq-ref-drawer" role="dialog" aria-label={`Sec ${deeper} explained`}>
+            <div className="chq-ref-drawer-head">
+              <strong>Sec {deeper} — explained</strong>
+              <button className="chq-btn chq-ghost" onClick={() => setDeeper(null)}>Back to results</button>
+            </div>
+            <div className="chq-ref-drawer-body"><ConceptContent page={conceptPageFor(deeper)} /></div>
+          </aside>
         )}
 
         <div className="chq-row">
