@@ -20,7 +20,7 @@ import { firebaseReady } from '../../firebase';
 import { loadOrbitBridgeData, setOrbitDayLocation, addOrbitBase, setOrbitDayLocationsRange } from './orbitTasksBridge';
 import CalendarSideRail from './CalendarSideRail';
 import CalendarNotes from './CalendarNotes';
-import { COURSE_TASKS_BY_DATE, courseTasksInRange } from './courseTasks';
+import { useCourseTasks } from './courseTasks';
 import { blocksForDay, timeRange } from './classSchedule';
 
 // USAF PFRA personal targets — static reference data, not computed from
@@ -226,11 +226,13 @@ function ClassChip({ block }) {
 // it must never compete with a workout chip for the cell's space.
 function CourseChip({ task }) {
   const label = `${task.code.split(' ')[1] || task.code} ${task.name}`;
-  const title = `${task.code} — ${task.name}${task.dueTime ? ` · due ${task.dueTime}` : ''}${task.points != null ? ` · ${task.points} pts` : ''}`;
+  const title = `${task.code} — ${task.name}${task.dueTime ? ` · due ${task.dueTime}` : ''}${task.points != null ? ` · ${task.points} pts` : ''}${task.done ? ' · done' : ''}`;
   const inner = <span className="ft-course-chip-text" style={{ color: task.color }}>{label}</span>;
+  // Exams read heavier and finished work recedes, so the day cell says which line matters.
+  const cls = `ft-course-chip${task.kind === 'exam' ? ' ft-course-chip-exam' : ''}${task.done ? ' ft-course-chip-done' : ''}`;
   return task.url
-    ? <a className="ft-course-chip" href={task.url} target="_blank" rel="noreferrer" title={title} onClick={(e) => e.stopPropagation()}>{inner}</a>
-    : <div className="ft-course-chip" title={title}>{inner}</div>;
+    ? <a className={cls} href={task.url} target="_blank" rel="noreferrer" title={title} onClick={(e) => e.stopPropagation()}>{inner}</a>
+    : <div className={cls} title={title}>{inner}</div>;
 }
 
 function chipLabel(w, units) {
@@ -770,6 +772,8 @@ export default function CalendarView() {
     bodyWeightLogs, openEntryEditor, openMealEditor,
   } = useFitness();
   const navigate = useNavigate();
+  // Live coursework (see courseTasks.js) — same names the view used when this was a static import.
+  const { byDate: COURSE_TASKS_BY_DATE, inRange: courseTasksInRange } = useCourseTasks();
   const units = settings.units;
   const groups = resolveGroups(settings);
   const goalsById = useMemo(() => new Map(goals.map((g) => [g.id, g])), [goals]);

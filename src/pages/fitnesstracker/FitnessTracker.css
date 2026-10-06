@@ -1144,7 +1144,7 @@
 /* --ft-crs-accent is the course colour; the left bar is the only place it carries weight, so
    several items on one day stay separable without five coloured words competing. */
 .ft-crs-row {
-  display: block; text-decoration: none; color: inherit; cursor: default;
+  display: flex; align-items: flex-start; gap: 7px; text-decoration: none; color: inherit; cursor: default;
   border-left: 3px solid var(--ft-crs-accent, var(--ft-border));
   background: var(--ft-panel-2); border-radius: 0 7px 7px 0;
   padding: 6px 8px; margin-bottom: 4px;
@@ -1159,6 +1159,42 @@ a.ft-crs-row:hover { filter: brightness(1.3); }
 .ft-crs-row-name { font-size: 0.78rem; line-height: 1.35; margin: 2px 0; word-break: break-word; }
 .ft-crs-row-meta { display: flex; gap: 8px; font-size: 0.66rem; color: var(--ft-muted); }
 .ft-crs-pts { color: var(--ft-text); font-weight: 600; }
+.ft-crs-row-meta { flex-wrap: wrap; }
+
+/* Check-off + body. The body is the link to the LMS; the box is never inside it, so ticking an
+   item off can't open Canvas by accident. */
+.ft-crs-row-body { flex: 1; min-width: 0; display: block; text-decoration: none; color: inherit; }
+a.ft-crs-row-body { cursor: pointer; }
+a.ft-crs-row-body:hover .ft-crs-row-name { text-decoration: underline; }
+.ft-crs-check {
+  flex: none; width: 18px; height: 18px; margin-top: 1px; border-radius: 5px;
+  border: 1.5px solid var(--ft-muted); background: transparent; color: var(--ft-bg);
+  font-size: 0.72rem; font-weight: 800; line-height: 1; cursor: pointer; padding: 0;
+  display: grid; place-items: center; font-family: inherit;
+}
+.ft-crs-check:hover { border-color: var(--ft-accent); }
+.ft-crs-check.on { background: var(--ft-accent); border-color: var(--ft-accent); }
+.ft-crs-row-done { opacity: 0.5; }
+.ft-crs-row-done .ft-crs-row-name { text-decoration: line-through; }
+.ft-crs-row-exam .ft-crs-row-name { font-weight: 700; }
+.ft-crs-hint { color: var(--ft-muted); font-style: italic; }
+.ft-crs-hint-now { color: var(--ft-accent); font-style: normal; font-weight: 700; }
+
+.ft-crs-next {
+  border: 1px solid rgba(163, 230, 53, 0.3); background: rgba(163, 230, 53, 0.06);
+  border-radius: 9px; padding: 8px; margin-bottom: 10px;
+}
+.ft-crs-next-head {
+  font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--ft-accent); margin-bottom: 6px;
+}
+.ft-crs-fresh {
+  font-size: 0.7rem; line-height: 1.45; color: #fbbf24; margin-bottom: 10px;
+  border-left: 2px solid #fbbf24; padding-left: 7px;
+}
+.ft-crs-fresh.ok { color: var(--ft-muted); border-left-color: var(--ft-accent); }
+.ft-crs-fresh a { color: inherit; font-weight: 700; }
+.ft-crs-note-warn { color: #fbbf24; font-weight: 700; }
 
 .ft-crs-alert {
   border: 1px solid rgba(248, 113, 113, 0.35); background: rgba(248, 113, 113, 0.08);
@@ -1229,6 +1265,8 @@ a.ft-weektodo-badge:hover { filter: brightness(1.35); }
   font-family: inherit; font-size: 0.66rem; line-height: 1.3; text-align: left;
 }
 a.ft-course-chip:hover { background: rgba(255, 255, 255, 0.06); }
+.ft-course-chip-exam .ft-course-chip-text { font-weight: 800; opacity: 1; }
+.ft-course-chip-done .ft-course-chip-text { text-decoration: line-through; opacity: 0.45; }
 .ft-course-chip-text {
   display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   font-weight: 600; opacity: 0.9;
@@ -1362,3 +1400,120 @@ a.ft-course-chip:hover { background: rgba(255, 255, 255, 0.06); }
 }
 .ft-class-chip-time { flex: none; color: var(--ft-muted); font-size: 0.58rem; }
 .ft-class-chip-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+
+/* ===================================================================================
+   School planner (/MFT/school) - courses/SCHOOL-OPS.md workstream 2.
+   A full page, so it sets a real reading size on its own root (webdesign.md 1c) instead
+   of inheriting the calendar's dense chip scale. Full width; the side column is fixed-ish
+   and the table takes everything else.
+   =================================================================================== */
+.ft-school { font-size: 16px; display: flex; flex-direction: column; gap: 12px; }
+.ft-school-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px; }
+.ft-school-head h1 { margin: 0; font-size: 1.6rem; }
+.ft-school-sub { margin: 4px 0 0; color: var(--ft-muted); font-size: 1rem; line-height: 1.5; max-width: 70ch; }
+.ft-school-stats { display: flex; flex-wrap: wrap; gap: 8px; }
+.ft-school-stats > div {
+  background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 10px;
+  padding: 8px 14px; display: flex; flex-direction: column; min-width: 92px;
+}
+.ft-school-stats strong { font-size: 1.5rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.ft-school-stats span { font-size: 0.85rem; color: var(--ft-muted); }
+.ft-school-stats .bad strong { color: #f87171; }
+.ft-school-stats .warn strong { color: #fbbf24; }
+.ft-school .ft-crs-fresh { font-size: 0.9rem; margin: 0; }
+
+.ft-school-grid { display: grid; grid-template-columns: minmax(0, 1fr) clamp(300px, 27vw, 440px); gap: 14px; align-items: start; }
+@media (max-width: 980px) { .ft-school-grid { grid-template-columns: minmax(0, 1fr); } }
+.ft-school-main { min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.ft-school-side { display: flex; flex-direction: column; gap: 12px; }
+
+.ft-school-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ft-school-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ft-school-chip {
+  background: var(--ft-panel-2); color: var(--ft-muted); border: 1px solid var(--ft-border);
+  border-radius: 999px; padding: 5px 12px; font: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+}
+.ft-school-chip:hover { color: var(--ft-text); }
+.ft-school-chip.on { color: var(--ft-accent); border-color: rgba(163, 230, 53, 0.45); background: rgba(163, 230, 53, 0.1); }
+.ft-school-toggle { font-size: 0.9rem; color: var(--ft-muted); display: flex; align-items: center; gap: 6px; }
+.ft-school-empty { color: var(--ft-muted); }
+
+.ft-school-week { background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 12px; padding: 12px 14px; }
+.ft-school-week h2 { margin: 0 0 8px; font-size: 1.05rem; display: flex; align-items: baseline; gap: 10px; }
+.ft-school-week h2 span { font-size: 0.85rem; color: var(--ft-muted); font-weight: 500; }
+.ft-school-table { width: 100%; border-collapse: collapse; }
+.ft-school-table th {
+  text-align: left; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--ft-muted); padding: 4px 8px; border-bottom: 1px solid var(--ft-border);
+}
+.ft-school-table td { padding: 7px 8px; border-bottom: 1px solid var(--ft-border); vertical-align: top; font-size: 0.95rem; }
+.ft-school-row td:first-child { border-left: 3px solid var(--ft-crs-accent, var(--ft-border)); }
+.ft-school-row.done { opacity: 0.5; }
+.ft-school-row.done .ft-school-item a, .ft-school-row.done .ft-school-item > span { text-decoration: line-through; }
+.ft-school-row.exam .ft-school-item { font-weight: 700; }
+.ft-school-check-cell { width: 26px; }
+.ft-school-due { white-space: nowrap; }
+.ft-school-due-day { display: block; font-weight: 600; }
+.ft-school-due-time { display: block; font-size: 0.85rem; color: var(--ft-muted); }
+.ft-school-course { white-space: nowrap; font-weight: 700; font-size: 0.9rem; }
+.ft-school-item a { color: var(--ft-text); text-decoration: none; }
+.ft-school-item a:hover { text-decoration: underline; }
+.ft-school-kind {
+  margin-left: 8px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--ft-muted); border: 1px solid var(--ft-border); border-radius: 5px; padding: 0 5px; white-space: nowrap;
+}
+.ft-school-note { font-size: 0.85rem; color: var(--ft-muted); margin-top: 2px; font-weight: 400; }
+.ft-school-pts { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ft-school-pts span { display: block; font-size: 0.85rem; color: var(--ft-muted); }
+.ft-school-opens { white-space: nowrap; font-size: 0.9rem; }
+.ft-school-dim { color: var(--ft-muted); }
+.ft-school-start { white-space: nowrap; font-size: 0.9rem; color: var(--ft-muted); font-style: italic; }
+.ft-school-start.now { color: var(--ft-accent); font-style: normal; font-weight: 700; }
+.ft-school-act { white-space: nowrap; text-align: right; }
+.ft-school-practice {
+  font-size: 0.85rem; font-weight: 700; color: var(--ft-accent); text-decoration: none;
+  border: 1px solid rgba(163, 230, 53, 0.4); border-radius: 7px; padding: 3px 8px;
+}
+.ft-school-practice:hover { background: rgba(163, 230, 53, 0.12); }
+@media (max-width: 760px) {
+  .ft-school-table thead { display: none; }
+  .ft-school-table, .ft-school-table tbody, .ft-school-table tr, .ft-school-table td { display: block; width: auto; }
+  .ft-school-row { display: grid !important; grid-template-columns: 30px 1fr auto; gap: 2px 8px; padding: 8px 0; border-bottom: 1px solid var(--ft-border); }
+  .ft-school-row td { border: none !important; padding: 0; }
+  .ft-school-row .ft-school-check-cell { grid-row: span 3; }
+  .ft-school-row .ft-school-item { grid-column: 2 / 4; order: -1; }
+}
+
+.ft-school-card { background: var(--ft-panel); border: 1px solid var(--ft-border); border-radius: 12px; padding: 12px 14px; }
+.ft-school-card h3 { margin: 0 0 4px; font-size: 1.02rem; }
+.ft-school-card-sub { margin: 0 0 10px; font-size: 0.9rem; color: var(--ft-muted); line-height: 1.5; }
+.ft-school-next { border-color: rgba(163, 230, 53, 0.35); }
+.ft-school-bad { border-color: rgba(248, 113, 113, 0.4); }
+.ft-school-warn { border-color: rgba(251, 191, 36, 0.4); }
+.ft-school-side .ft-crs-row-name { font-size: 0.92rem; }
+.ft-school-side .ft-crs-row-top, .ft-school-side .ft-crs-row-meta { font-size: 0.78rem; }
+.ft-school-steps { margin: 0 0 10px; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 8px; font-size: 0.95rem; line-height: 1.5; }
+.ft-school-steps a { color: var(--ft-accent); }
+
+/* Load chart: one series, one hue (the accent), bars on a shared baseline with 4px rounded
+   tops and 2px gaps; the axis is the day labels only. Each column is a button so the
+   readout works by keyboard as well as hover. */
+.ft-school-load { display: grid; grid-template-columns: repeat(14, 1fr); gap: 2px; height: 120px; margin-top: 8px; }
+.ft-school-load-col {
+  display: grid; grid-template-rows: 1fr auto auto; align-items: end; justify-items: center;
+  background: none; border: none; padding: 0; font: inherit; color: var(--ft-muted); cursor: default; min-width: 0;
+}
+.ft-school-load-track { width: 100%; height: 100%; display: flex; align-items: flex-end; justify-content: center; border-bottom: 1px solid var(--ft-border); }
+.ft-school-load-bar { width: 70%; background: var(--ft-accent); border-radius: 4px 4px 0 0; opacity: 0.8; }
+.ft-school-load-col.focus .ft-school-load-bar { opacity: 1; }
+.ft-school-load-col:focus-visible { outline: 2px solid var(--ft-accent); outline-offset: 1px; border-radius: 4px; }
+.ft-school-load-day { font-size: 0.75rem; margin-top: 3px; }
+.ft-school-load-date { font-size: 0.75rem; }
+.ft-school-load-col.today .ft-school-load-day, .ft-school-load-col.today .ft-school-load-date { color: var(--ft-accent); font-weight: 800; }
+.ft-school-load-readout { margin-top: 8px; font-size: 0.88rem; color: var(--ft-muted); min-height: 2.6em; line-height: 1.45; }
+.ft-school-load-readout strong { color: var(--ft-text); }
+
+.ft-school-add { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px 10px; }
+.ft-school-add label { display: flex; flex-direction: column; gap: 3px; font-size: 0.85rem; color: var(--ft-muted); }
+.ft-school-add label.wide { grid-column: span 2; }
+.ft-school-add-actions { display: flex; gap: 8px; align-items: end; }
