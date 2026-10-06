@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EXAMS, COURSE_CHAPTERS, sectionsForExam } from '../syllabusMap';
+import { currentExamId, EXAMS, COURSE_CHAPTERS, sectionsForExam, examChapterWeights } from '../syllabusMap';
 import { allChemTemplates } from '../engine/generator';
+import { allocateByChapter } from '../engine/drill';
 
 // Practice scoped to a REAL graded event, by the course's own chapter numbers.
 //
@@ -21,8 +22,11 @@ import { allChemTemplates } from '../engine/generator';
 // so the section list grows with each exam rather than sliding along.
 export default function ChemExamPrep() {
   const navigate = useNavigate();
-  const [examId, setExamId] = useState('exam-1');
+  const [examId, setExamId] = useState(currentExamId);
   const [count, setCount] = useState(20);
+  // On by default: a cumulative midterm still spends most of its points on the chapters it is
+  // the first exam for. Off = every chapter gets an equal share.
+  const [leanNew, setLeanNew] = useState(true);
 
   const exam = EXAMS.find((e) => e.id === examId) ?? EXAMS[0];
 
@@ -45,11 +49,25 @@ export default function ChemExamPrep() {
     };
   }, [exam]);
 
+  const weights = useMemo(
+    () => (leanNew ? examChapterWeights(exam.id) : Object.fromEntries(exam.chapters.map((c) => [String(c), 1]))),
+    [exam, leanNew],
+  );
+  const split = useMemo(() => {
+    const want = new Set(sections);
+    const pool = allChemTemplates().filter((t) => t.section != null && want.has(t.section));
+    return Object.entries(allocateByChapter(pool, count, weights))
+      .filter(([, n]) => n > 0)
+      .sort(([a], [b]) => Number(a) - Number(b));
+  }, [sections, count, weights]);
+  const hasNew = exam.id !== EXAMS[0].id && !exam.acsEquivalent;
+
   const start = () => {
     const params = new URLSearchParams({
       count: String(count),
       sections: sections.join(','),
       label: exam.name,
+      weights: Object.entries(weights).map(([c, w]) => `${c}:${w}`).join(','),
     });
     navigate(`/TKB/courses/chem/drill/run?${params}`);
   };
@@ -122,6 +140,22 @@ export default function ChemExamPrep() {
           ))}
         </div>
       </section>
+
+      {hasNew && (
+        <section>
+          <h3>Mix</h3>
+          <div className="chq-row chq-wrap-row">
+            <button className={'chq-btn' + (leanNew ? ' chq-primary' : '')} onClick={() => setLeanNew(true)}>New chapters ×2</button>
+            <button className={'chq-btn' + (!leanNew ? ' chq-primary' : '')} onClick={() => setLeanNew(false)}>Even split</button>
+          </div>
+          <p className="chq-note">
+            This run: {split.map(([c, n]) => `Ch ${c} ×${n}`).join(' · ')}.{' '}
+            {leanNew
+              ? `The chapters ${exam.name} is the first exam on count double. It is cumulative, so the earlier chapters still show up, but most of its new points come from the new material.`
+              : 'Every chapter gets an equal share.'}
+          </p>
+        </section>
+      )}
 
       <button className="chq-btn chq-primary chq-start" onClick={start} disabled={ready === 0}>
         {ready === 0 ? 'No questions for this exam yet' : `Start ${exam.name} practice — ${count} questions`}

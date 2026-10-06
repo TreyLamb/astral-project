@@ -5,7 +5,35 @@ exactly where to pick up. Update it at the end of every working block.
 
 ---
 
-# 🔴 RESUME HERE — last session 2026-09-18
+# 🔴 RESUME HERE — last session 2026-10-06 (chem Exam 2, night before)
+
+- `STUDIED_THROUGH_CHAPTER` 2 → 4; `ChemExamPrep` now defaults to `currentExamId` (was hardcoded Exam 1).
+- New `chem/engine/templates/academiq-ch03-ch04.js`: every AcademiQ ch 3-4 Additional Exercise
+  as a book bank, plus 7 generated templates (percent composition, empirical from %, molecular
+  formula, percent yield, titration, gravimetric, neutralization/strong acids). 119 → 140 templates.
+- 🔴 **AcademiQ's ch 3-4 answer keys are badly wrong**: 17 wrong keys, 7 items with no correct
+  option, 1 with two. Full list + corrections in that file's header. Recompute before trusting one.
+- Redox templates moved 4-3 → 5-2 (the book teaches redox in §5-2). §4-6 has no combustion analysis.
+- New concepts (curriculum + syllabusMap + lessons): percent-composition, molecular-formula-from-empirical,
+  chemical-equation-notation, percent-yield, acid-base-neutralization, titration-calculations, gravimetric-analysis.
+- Still open: sections 1-2 and 2-4 have zero templates; no ch 2-4 quiz PDFs uploaded yet; 52 of 55
+  AcademiQ sections still unaudited for prose-only gaps (only the exercise blocks of ch 3-4 were read).
+- **Recovered the unpushed 09-08 pools** (`ch1Items.js` 63 real graded-quiz items + 20 defs, `ch2Items.js`
+  32 book items + 25 defs, `examReviewItems.js` the professor's 23 review-sheet items + 25 iterations) and
+  registered them as templates in `engine/templates/real-items-ch01-ch02.js` → 187 templates. Four keys
+  re-keyed first (silver-bar displacement, cylinder density, 1000.0 − 0.010, Cl average mass) — two are
+  AcademiQ's own grader being wrong; the explanations say what the AcademiQ quiz expects.
+- **Exam runs are weighted by course chapter** (`buildChemDrill({ chapterWeights })`, `examChapterWeights()`):
+  chapters new to this exam ×2. Exam 2 at 20 Qs = Ch3 ×7, Ch4 ×7, Ch1 ×3, Ch2 ×3. Toggle on the page.
+- Still in the stash and NOT yet wired: `concepts.js` + `ChemConceptView.jsx` (the "?" go-deeper pages Trey
+  asked for 09-08), `ChemScheduleView.jsx` (quiz → section table). Restored to the worktree as untracked files.
+  The stash also holds the 09-08 versions of tracked docs (PLAN/AGENT-PROMPT/INGEST-HOWTO/CLAUDE.md) — diff
+  before dropping it.
+- 🔴 Project ownership doc for quizzes + coursework dashboard + calendar sync: `courses/SCHOOL-OPS.md`.
+
+---
+
+# Previous resume point — last session 2026-09-18
 
 ## MICR 2060 MMAHP combined reader — built and live
 

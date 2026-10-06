@@ -108,6 +108,24 @@ mol(A) → mol(B) → molecules(B)
 > the molecule count. Moles and molecule counts differ by a factor of 6.022 × 10²³ — a "reasonable
 > looking" small decimal number is almost never actually a molecule count.
 
+## Reading an equation: states, Δ, and what coefficients mean (AcademiQ §4-2)
+
+(s) solid, (l) liquid, (g) gas, (aq) dissolved in water. Δ over the arrow means **heat is
+required**. Coefficients are ratios of **particles or moles**, never of grams. You balance with
+coefficients only: changing a subscript (H₂O → H₂O₂) changes the substance. A fraction is fine
+mid-way (7/2 O₂); multiply through at the end. 3N₂ + 9H₂ → 6NH₃ is *balanced* but not in lowest
+terms.
+
+## Percent yield (AcademiQ §4-5)
+
+```
+percent yield = actual yield / theoretical yield × 100
+```
+
+The theoretical yield comes from the **limiting reactant** through the mole ratio. Both yields must
+be in the same units. Above 100% means something is wrong with the product (wet, impure) or the
+measurement, not a great reaction.
+
 ---
 
 **Before you move on:** you should be able to balance a simple combustion or synthesis equation

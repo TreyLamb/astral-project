@@ -176,6 +176,38 @@ reduced), so Cu²⁺ is the *oxidizing* agent.
 > the other species*. The oxidizing agent doesn't get oxidized — it gets reduced. This backwards
 > naming trips up almost everyone the first few times.
 
+## Acids, bases and neutralization (AcademiQ §4-3)
+
+An acid gives H⁺ (really H₃O⁺) in water; a base gives OH⁻. **The six strong acids** (completely
+ionized): HCl, HBr, HI, HNO₃, HClO₄, H₂SO₄. Everything else here (HF, acetic acid, HNO₂, H₂CO₃,
+H₃PO₄, HCN) is weak. Strong means how completely it ionizes, not how dangerous it is. NH₃ is a weak base.
+
+```
+acid + base → salt + water        2HNO₃ + Ca(OH)₂ → Ca(NO₃)₂ + 2H₂O
+```
+
+The salt is the base's cation plus the acid's anion, with charges balanced to zero: Ca²⁺ needs
+two NO₃⁻.
+
+## Titration (AcademiQ §4-6)
+
+A solution of known molarity (titrant) is added until the **equivalence point**, where the reactants
+have reacted in the ratio from the balanced equation. The **endpoint** is the observed signal (the
+indicator's color change), chosen to land as close to equivalence as possible.
+
+```
+mol titrant = M × V(L)  →  × mole ratio  →  mol analyte  →  ÷ V analyte (L)
+```
+
+Watch the ratio: H₂SO₄ needs 2 NaOH; Ba(OH)₂ neutralizes 2 HNO₃. Forgetting mL → L makes the
+answer 1000× too big.
+
+## Gravimetric analysis
+
+Turn the analyte into a solid you can weigh, then dry it and weigh it. Precipitate mass → moles (÷ its
+molar mass) → moles analyte (ratio) → grams analyte → ÷ sample mass × 100. 0.2865 g AgCl from a
+0.5000 g sample → 0.2865/143.32 × 35.45 = 0.0709 g Cl → 14.2% Cl.
+
 ---
 
 **Before you move on:** you should be able to classify a dissolved substance as a strong

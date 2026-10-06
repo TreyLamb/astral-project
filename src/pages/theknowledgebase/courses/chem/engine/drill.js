@@ -5,6 +5,7 @@
 // miss-pool weighting, no bank-mixing, no exam pacing — see courses/chem/PLAN.md for why.
 
 import { shuffle } from '../../../engine/rng.js';
+import { largestRemainderAllocate } from '../../../engine/selection.js';
 import { chemTemplatesFor, allChemTemplates, generateChemInstance } from './generator.js';
 
 const DEDUP_TRIES = 16;
@@ -30,9 +31,15 @@ const DEDUP_TRIES = 16;
  *                                    "Quiz 12, Sec 4-3 to 4-4". `chapterId` cannot express
  *                                    either, because one course chapter straddles two ACS
  *                                    chapters. See syllabusMap.js for why both exist.
+ * @param {Object<string, number>} [opts.chapterWeights] course chapter -> relative weight. Splits
+ *                                    `count` across COURSE chapters (largest remainder) instead
+ *                                    of drawing uniformly over templates. Without it, the chapter
+ *                                    with the most templates dominates the run: once the Ch 1-2
+ *                                    real-item pools landed (2026-10-06), a uniform Exam 2 run
+ *                                    was ~2/3 review of material Exam 1 already tested.
  * @returns {Object[]} Instance[]
  */
-export function buildChemDrill({ count, rng, chapterId = null, distinct = false, mentalOnly = false, bands = null, sections = null }) {
+export function buildChemDrill({ count, rng, chapterId = null, distinct = false, mentalOnly = false, bands = null, sections = null, chapterWeights = null }) {
   let pool = chapterId ? chemTemplatesFor(chapterId) : allChemTemplates();
   if (sections) {
     const want = new Set(sections);
@@ -42,7 +49,9 @@ export function buildChemDrill({ count, rng, chapterId = null, distinct = false,
   if (bands) pool = pool.filter((t) => bands.includes(t.band));
   if (pool.length === 0) return [];
 
-  const order = distinct ? dealRounds(pool, count, rng) : null;
+  const order = chapterWeights
+    ? weightedChapterOrder(pool, count, rng, chapterWeights)
+    : distinct ? dealRounds(pool, count, rng) : null;
   const out = [];
   const asked = new Set();
 
@@ -57,6 +66,30 @@ export function buildChemDrill({ count, rng, chapterId = null, distinct = false,
     if (inst) { asked.add(inst.stem); out.push(inst); }
   }
   return out;
+}
+
+const courseChapterOf = (t) => String(t.section ?? '').split('-')[0];
+
+/** How many questions each course chapter gets, given the weights. Exported for the preview. */
+export function allocateByChapter(pool, count, chapterWeights) {
+  const shares = {};
+  const caps = {};
+  for (const t of pool) {
+    const ch = courseChapterOf(t);
+    shares[ch] = chapterWeights[ch] ?? 1;
+    caps[ch] = count;
+  }
+  return largestRemainderAllocate(shares, caps, count);
+}
+
+/** Each chapter's share dealt in distinct rounds (variety first), then the whole run shuffled. */
+function weightedChapterOrder(pool, count, rng, chapterWeights) {
+  const alloc = allocateByChapter(pool, count, chapterWeights);
+  const out = [];
+  for (const [ch, n] of Object.entries(alloc)) {
+    out.push(...dealRounds(pool.filter((t) => courseChapterOf(t) === ch), n, rng));
+  }
+  return shuffle(out, rng);
 }
 
 /** Repeated shuffled passes over the pool, so nothing repeats until everything has appeared. */

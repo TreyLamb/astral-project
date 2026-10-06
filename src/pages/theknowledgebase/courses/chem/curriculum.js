@@ -112,6 +112,9 @@ export const CHEM_CHAPTERS = [
       // both coverage checks only ask whether a concept has SOME chapter and SOME section, never
       // whether it is the right one.
       'mole-definition',
+      // Added 2026-10-06 from AcademiQ §3-3 (Exam 2) - the book teaches both, nothing tested either.
+      'percent-composition',
+      'molecular-formula-from-empirical',
     ],
   },
   {
@@ -128,6 +131,9 @@ export const CHEM_CHAPTERS = [
       'moles-to-mass-stoichiometry',
       'limiting-reactant-theoretical-yield',
       'molecules-to-moles-relationship',
+      // Added 2026-10-06 from AcademiQ §4-2 / §4-5 (Exam 2).
+      'chemical-equation-notation',
+      'percent-yield',
     ],
   },
   {
@@ -148,6 +154,10 @@ export const CHEM_CHAPTERS = [
       'weak-acid-particulate-representation',
       'oxidation-number-rules',
       'oxidation-reduction-definitions',
+      // Added 2026-10-06 from AcademiQ §4-3 (acid-base half) and §4-6 (Exam 2).
+      'acid-base-neutralization',
+      'titration-calculations',
+      'gravimetric-analysis',
       'oxidizing-reducing-agents',
     ],
   },

@@ -114,6 +114,32 @@ instead of the "solve for the formula" direction.
 > water and ten grams of iron(III) oxide do not contain the same number of particles, because a
 > gram of each buys you a very different number of moles.
 
+## Percent composition (AcademiQ §3-3)
+
+Percent composition is the **mass** percent of each element:
+
+```
+%X = (n × atomic mass of X) / (formula mass) × 100
+```
+
+NH₃: formula mass 17.03; N contributes 14.01 → 82.27% N, and H the rest. Two traps: forgetting
+the subscript `n` (H₂O has TWO H), and counting atoms instead of mass (H is 2 of 3 atoms in water
+but only 11.2% of its mass).
+
+## Empirical formula from percent data
+
+1. Assume 100 g, so every percent becomes grams.
+2. Convert each to **moles** (÷ atomic mass). Never take the ratio of the percents themselves.
+3. Divide every mole value by the smallest.
+4. If a ratio ends in .5, double everything; .33 or .67, triple. **Never round 2.5 to 2 or 3.**
+
+0.150 mol Cl : 0.525 mol O = 1 : 3.5 → ×2 → Cl₂O₇.
+
+## Molecular formula from the empirical formula
+
+`n = molar mass ÷ empirical formula mass`, then multiply **every** subscript by n. CH₂O (30.0) with
+molar mass 180 → n = 6 → C₆H₁₂O₆. If n = 1 the two formulas are the same.
+
 ---
 
 **Before you move on:** you should be able to read an average atomic mass off a periodic table

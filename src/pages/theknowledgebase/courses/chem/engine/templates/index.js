@@ -22,3 +22,12 @@ import './academiq-ch01-essential-ideas.js';
 // is - his instructor's actual wording, distractors and marked answers. Read that file's header
 // before opening those PDFs: they have no text layer and the questions start on page 3.
 import './quiz-ch01-observed.js';
+
+// Exam 2 (ch 1-4): AcademiQ ch 3-4 end-of-section exercises with CORRECTED keys, plus generated
+// templates for the ch 3-4 skills nothing could ask. Read that file's header before trusting a
+// book answer key.
+import './academiq-ch03-ch04.js';
+
+// His REAL Ch 1-2 items (graded AcademiQ quizzes, the professor's review sheet, the book's Ch 2
+// exercises), recovered from an unpushed 2026-09-08 session. See that file's header.
+import './real-items-ch01-ch02.js';

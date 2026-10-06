@@ -29,12 +29,19 @@ export default function ChemDrillRunner() {
   const sectionParam = params.get('sections');
   const sections = sectionParam ? sectionParam.split(',').filter(Boolean) : null;
   const label = params.get('label');
+  // "3:2,4:2,1:1,2:1" - course chapter : relative weight. Set by exam prep so a cumulative exam
+  // run leans on the new chapters instead of on whichever chapter has the most templates.
+  const weightParam = params.get('weights');
+  const chapterWeights = useMemo(
+    () => (weightParam ? Object.fromEntries(weightParam.split(',').map((p) => p.split(':')).map(([c, w]) => [c, Number(w)])) : null),
+    [weightParam],
+  );
 
   const questions = useMemo(() => {
     const rng = mulberry32(Date.now());
-    return buildChemDrill({ count, rng, chapterId: chapter ? chapter.id : null, distinct: isGate, sections });
+    return buildChemDrill({ count, rng, chapterId: chapter ? chapter.id : null, distinct: isGate, sections, chapterWeights });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [count, chapter?.id, isGate, sectionParam]);
+  }, [count, chapter?.id, isGate, sectionParam, chapterWeights]);
 
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState([]);

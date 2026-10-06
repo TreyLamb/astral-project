@@ -82,14 +82,14 @@ export const SECTIONS = [
   { section: '2-7', title: 'Chemical Nomenclature', acs: 'chem1-00-toolbox', concepts: ['nomenclature-ionic-covalent', 'nomenclature-acids'] },
 
   { section: '3-2', title: 'Formula Mass and the Mole Concept', acs: 'chem1-03-mole-calculations', concepts: ['average-atomic-mass-lookup', 'molar-mass-calculation', 'mass-to-moles-conversion', 'avogadros-number', 'moles-to-mass-conversion', 'mole-ratios-from-formula', 'mole-definition'] },
-  { section: '3-3', title: 'Determining Empirical and Molecular Formulas', acs: 'chem1-03-mole-calculations', concepts: ['empirical-formula-atomic-ratios'] },
+  { section: '3-3', title: 'Determining Empirical and Molecular Formulas', acs: 'chem1-03-mole-calculations', concepts: ['empirical-formula-atomic-ratios', 'percent-composition', 'molecular-formula-from-empirical'] },
   { section: '3-4', title: 'Molarity', acs: 'chem1-05-solutions-aqueous-1', concepts: ['molar-concentration-definition', 'molarity-from-mass', 'dilution-calculations'] },
 
-  { section: '4-2', title: 'Writing and Balancing Chemical Equations', acs: 'chem1-04-stoichiometry', concepts: ['balancing-chemical-equations', 'molecules-to-moles-relationship'] },
-  { section: '4-3', title: 'Some Chemical Reactions', acs: 'chem1-05-solutions-aqueous-1', concepts: ['electrolyte-strong-vs-weak', 'solubility-rules-precipitation', 'net-ionic-equations', 'weak-acid-particulate-representation', 'oxidation-number-rules', 'oxidation-reduction-definitions'] },
+  { section: '4-2', title: 'Writing and Balancing Chemical Equations', acs: 'chem1-04-stoichiometry', concepts: ['balancing-chemical-equations', 'molecules-to-moles-relationship', 'chemical-equation-notation'] },
+  { section: '4-3', title: 'Some Chemical Reactions', acs: 'chem1-05-solutions-aqueous-1', concepts: ['electrolyte-strong-vs-weak', 'solubility-rules-precipitation', 'net-ionic-equations', 'weak-acid-particulate-representation', 'acid-base-neutralization'] },
   { section: '4-4', title: 'Reaction Stoichiometry', acs: 'chem1-04-stoichiometry', concepts: ['mole-ratios-from-coefficients', 'moles-to-mass-stoichiometry'] },
-  { section: '4-5', title: 'Reaction Yields', acs: 'chem1-04-stoichiometry', concepts: ['limiting-reactant-theoretical-yield'] },
-  { section: '4-6', title: 'Titrations and Combustion Analysis', acs: 'chem1-05-solutions-aqueous-1', concepts: ['molarity-from-mass', 'dilution-calculations'] },
+  { section: '4-5', title: 'Reaction Yields', acs: 'chem1-04-stoichiometry', concepts: ['limiting-reactant-theoretical-yield', 'percent-yield'] },
+  { section: '4-6', title: 'Titrations and Combustion Analysis', acs: 'chem1-05-solutions-aqueous-1', concepts: ['molarity-from-mass', 'dilution-calculations', 'titration-calculations', 'gravimetric-analysis'] },
 
   // Redox is the one genuinely course-only topic: his instructor tests it in Ch5, but the ACS
   // FIRST-TERM exam does not carry it (full redox/electrochemistry is ACS Ch15, second term).
@@ -154,11 +154,25 @@ export const EXAMS = [
 //
 // Bump this as the term moves. Everything scoped by it follows automatically:
 // Quick Review's default and its "not covered yet" labels both read from here.
-export const STUDIED_THROUGH_CHAPTER = 2;
+export const STUDIED_THROUGH_CHAPTER = 4; // 2026-10-06: end of ch 4, Exam 2 is 2026-10-07
 
 /** The exam whose scope matches how far the class has got — Quick Review's default. */
 export const currentExamId = () =>
   (EXAMS.find((e) => e.chapters[e.chapters.length - 1] >= STUDIED_THROUGH_CHAPTER) ?? EXAMS[0]).id;
+
+/**
+ * Relative weight per course chapter for an exam-scoped run: chapters the PREVIOUS midterm already
+ * covered weigh 1, chapters new to this exam weigh `newWeight`. A coaching default, not a syllabus
+ * fact - the syllabus says every exam is cumulative but states no split. The ACS final is
+ * comprehensive by design, so it stays even.
+ */
+export function examChapterWeights(examId, newWeight = 2) {
+  const i = EXAMS.findIndex((e) => e.id === examId);
+  if (i < 0) return null;
+  const exam = EXAMS[i];
+  const prev = new Set(i > 0 && !exam.acsEquivalent ? EXAMS[i - 1].chapters : exam.chapters);
+  return Object.fromEntries(exam.chapters.map((c) => [String(c), prev.has(c) ? 1 : newWeight]));
+}
 
 /** True when an exam covers material the class has not reached yet. */
 export const isAheadOfClass = (examId) => {

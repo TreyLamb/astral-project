@@ -323,7 +323,7 @@ registerChemTemplate({
   id: 'chem1-05-oxidation-number',
   mental: true,
   chapterId: CH,
-  section: '4-3',
+  section: '5-2', // was 4-3; AcademiQ teaches redox in §5-2, not §4-3 (checked 2026-10-06)
   band: 3,
   name: 'Assigning oxidation numbers',
   concepts: ['oxidation-number-rules'],
@@ -358,7 +358,7 @@ registerChemTemplate({
   id: 'chem1-05-oxidation-reduction-define',
   mental: true,
   chapterId: CH,
-  section: '4-3',
+  section: '5-2', // was 4-3; AcademiQ teaches redox in §5-2, not §4-3 (checked 2026-10-06)
   band: 2,
   name: 'Identifying oxidation vs. reduction from a change in oxidation number',
   concepts: ['oxidation-reduction-definitions'],
