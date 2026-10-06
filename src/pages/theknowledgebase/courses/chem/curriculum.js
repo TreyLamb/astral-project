@@ -158,6 +158,7 @@ export const CHEM_CHAPTERS = [
       'acid-base-neutralization',
       'titration-calculations',
       'gravimetric-analysis',
+      'combustion-analysis',
       'oxidizing-reducing-agents',
     ],
   },

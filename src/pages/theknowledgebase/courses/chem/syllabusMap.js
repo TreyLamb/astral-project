@@ -89,7 +89,7 @@ export const SECTIONS = [
   { section: '4-3', title: 'Some Chemical Reactions', acs: 'chem1-05-solutions-aqueous-1', concepts: ['electrolyte-strong-vs-weak', 'solubility-rules-precipitation', 'net-ionic-equations', 'weak-acid-particulate-representation', 'acid-base-neutralization'] },
   { section: '4-4', title: 'Reaction Stoichiometry', acs: 'chem1-04-stoichiometry', concepts: ['mole-ratios-from-coefficients', 'moles-to-mass-stoichiometry'] },
   { section: '4-5', title: 'Reaction Yields', acs: 'chem1-04-stoichiometry', concepts: ['limiting-reactant-theoretical-yield', 'percent-yield'] },
-  { section: '4-6', title: 'Titrations and Combustion Analysis', acs: 'chem1-05-solutions-aqueous-1', concepts: ['molarity-from-mass', 'dilution-calculations', 'titration-calculations', 'gravimetric-analysis'] },
+  { section: '4-6', title: 'Titrations and Combustion Analysis', acs: 'chem1-05-solutions-aqueous-1', concepts: ['molarity-from-mass', 'dilution-calculations', 'titration-calculations', 'gravimetric-analysis', 'combustion-analysis'] },
 
   // Redox is the one genuinely course-only topic: his instructor tests it in Ch5, but the ACS
   // FIRST-TERM exam does not carry it (full redox/electrochemistry is ACS Ch15, second term).

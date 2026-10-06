@@ -28,8 +28,11 @@
 // Section facts that drove the tagging (read from the book, not assumed):
 //   - §4-3 "Some Chemical Reactions" is precipitation + acid-base ONLY. Redox is §5-2 in this
 //     book, so the two oxidation-number templates were moved out of 4-3 (ch05-solutions-aqueous-1).
-//   - §4-6 "Titrations and Combustion Analysis" actually teaches titration + GRAVIMETRIC analysis.
-//     Despite the title there is no combustion-analysis content, so none is generated.
+//   - §4-6 "Titrations and Combustion Analysis" teaches titration, gravimetric analysis AND
+//     combustion analysis. ⚠ An earlier pass of this header (same day) said there was no
+//     combustion content: the subsection has no heading of its own, so a heading-only scan missed
+//     it. It has two worked examples (polyethylene -> CH2, polystyrene -> CH) and is generated
+//     below. Scan section BODIES, not just headings, before declaring a topic absent.
 //   - §4-2's ionic-equation items are tagged 4-3: `net-ionic-equations` belongs to the ACS
 //     chapter 4-3 points at, and the Exam 2 scope includes both sections anyway.
 
@@ -44,7 +47,14 @@ const CH5 = 'chem1-05-solutions-aqueous-1';
 const SUB = '₀₁₂₃₄₅₆₇₈₉';
 const sub = (n) => (n === 1 ? '' : String(n).split('').map((d) => SUB[+d]).join(''));
 const formula = (parts) => parts.map(([el, n]) => `${el}${sub(n)}`).join('');
-const sf3 = (x) => Number(x.toPrecision(3)).toString();
+// A displayed measurement keeps its trailing zeros (0.00900 g, not 0.009 g) — a JS number drops
+// them, which on a sig-fig-heavy course teaches the wrong habit. Strings for display, numbers for math.
+const sf3 = (x) => x.toPrecision(3);
+const SUPS = { '-': '⁻', 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
+const sci = (x, digits = 2) => {
+  const [m, e] = x.toExponential(digits).split('e');
+  return `${m} × 10${String(Number(e)).split('').map((ch) => SUPS[ch]).join('')}`;
+};
 const sf4 = (x) => x.toPrecision(4);
 const pct = (x) => `${x >= 100 ? x.toFixed(0) : x.toFixed(1)}%`;
 
@@ -477,10 +487,11 @@ registerChemTemplate({
     const mass = h.int(105, 899) / 10;
     const [a, b] = x.ratio;
     const theo = mass / x.Mr * (b / a) * x.Mp;
-    const actual = Number((theo * h.int(52, 94) / 100).toPrecision(3));
+    const actualStr = (theo * h.int(52, 94) / 100).toPrecision(3);
+    const actual = Number(actualStr);
     const right = actual / theo * 100;
     return {
-      stem: `For ${x.eq}, ${mass.toFixed(1)} g of ${x.r} reacts completely (the other reactants are in excess) and ${actual} g of ${x.p} is collected. What is the percent yield? (${x.r} = ${mm(x.Mr)}, ${x.p} = ${mm(x.Mp)} g/mol)`,
+      stem: `For ${x.eq}, ${mass.toFixed(1)} g of ${x.r} reacts completely (the other reactants are in excess) and ${actualStr} g of ${x.p} is collected. What is the percent yield? (${x.r} = ${mm(x.Mr)}, ${x.p} = ${mm(x.Mp)} g/mol)`,
       ...h.choices(pct(right), [
         { value: pct(theo / actual * 100), error: 'ratio-inverted', why: 'divided theoretical by actual — percent yield is ACTUAL / theoretical, and cannot exceed 100% for a clean product' },
         ...(a !== b ? [{ value: pct(actual / (mass / x.Mr * x.Mp) * 100), error: 'ignored-mole-ratio', why: `skipped the ${a}:${b} mole ratio from the balanced equation` }] : []),
@@ -488,7 +499,7 @@ registerChemTemplate({
         { value: pct(100 - right), error: 'reported-loss', why: 'that is the percent LOST, not the percent yield' },
         { value: `${(right / 100).toFixed(3)}%`, error: 'forgot-times-100', why: 'left the ratio as a decimal fraction and never multiplied by 100' },
       ]),
-      explanation: `Theoretical yield: ${mass.toFixed(1)} g / ${mm(x.Mr)} = ${(mass / x.Mr).toFixed(4)} mol ${x.r} × ${b}/${a} = ${(mass / x.Mr * b / a).toFixed(4)} mol ${x.p} × ${mm(x.Mp)} = ${sf3(theo)} g. Percent yield = actual / theoretical × 100 = ${actual} / ${sf3(theo)} × 100 = ${pct(right)}.`,
+      explanation: `Theoretical yield: ${mass.toFixed(1)} g / ${mm(x.Mr)} = ${(mass / x.Mr).toFixed(4)} mol ${x.r} × ${b}/${a} = ${(mass / x.Mr * b / a).toFixed(4)} mol ${x.p} × ${mm(x.Mp)} = ${sf3(theo)} g. Percent yield = actual / theoretical × 100 = ${actualStr} / ${sf3(theo)} × 100 = ${pct(right)}.`,
     };
   },
 });
@@ -527,7 +538,7 @@ registerChemTemplate({
         { value: `${sf4(molB * (a / b))} M`, error: 'reported-moles', why: 'stopped at moles of acid and never divided by the acid volume in liters' },
         { value: `${sf4(Mb)} M`, error: 'assumed-equal', why: 'assumed the acid has the same molarity as the base' },
       ]),
-      explanation: `mol ${t.base} = ${Mb.toFixed(4)} mol/L × ${(Vb / 1000).toFixed(5)} L = ${molB.toExponential(3)} mol. Ratio ${a} ${t.acid} : ${b} ${t.base} → mol ${t.acid} = ${(molB * a / b).toExponential(3)} mol. Divide by ${(Va / 1000).toFixed(5)} L of acid: ${sf4(right)} M.`,
+      explanation: `mol ${t.base} = ${Mb.toFixed(4)} mol/L × ${(Vb / 1000).toFixed(5)} L = ${sci(molB, 3)} mol. Ratio ${a} ${t.acid} : ${b} ${t.base} → mol ${t.acid} = ${sci(molB * a / b, 3)} mol. Divide by ${(Va / 1000).toFixed(5)} L of acid: ${sf4(right)} M.`,
     };
   },
 });
@@ -549,10 +560,11 @@ registerChemTemplate({
     const g = h.pick(GRAVIMETRIC);
     const sample = h.int(4000, 9999) / 10000;
     const frac = h.int(12, 88) / 100;
-    const pptMass = Number((sample * frac * g.Mppt / g.Man).toPrecision(4));
+    const pptStr = (sample * frac * g.Mppt / g.Man).toPrecision(4);
+    const pptMass = Number(pptStr);
     const right = pptMass / g.Mppt * g.Man / sample * 100;
     return {
-      stem: `A ${sample.toFixed(4)} g sample is treated with ${g.reagent}, and ${pptMass} g of ${g.ppt}(s) is collected. What is the mass percent of ${g.analyte} in the sample? (${g.ppt} = ${g.Mppt}, ${g.analyte} = ${g.Man} g/mol)`,
+      stem: `A ${sample.toFixed(4)} g sample is treated with ${g.reagent}, and ${pptStr} g of ${g.ppt}(s) is collected. What is the mass percent of ${g.analyte} in the sample? (${g.ppt} = ${g.Mppt}, ${g.analyte} = ${g.Man} g/mol)`,
       ...h.choices(pct(right), [
         { value: pct(pptMass / sample * 100), error: 'used-precipitate-mass', why: `treated the precipitate mass as if it were all ${g.analyte}` },
         { value: pct(pptMass * g.Mppt / g.Man / sample * 100), error: 'ratio-inverted', why: 'multiplied by the molar masses upside down' },
@@ -560,7 +572,7 @@ registerChemTemplate({
         { value: pct(pptMass / g.Mppt * g.Man * 100), error: 'forgot-sample-mass', why: 'never divided by the sample mass' },
         { value: `${(right / 100).toFixed(3)}%`, error: 'forgot-times-100', why: 'left the ratio as a decimal fraction and never multiplied by 100' },
       ]),
-      explanation: `mol ${g.ppt} = ${pptMass} / ${g.Mppt} = ${(pptMass / g.Mppt).toExponential(3)} mol = mol ${g.analyte} (1:1). Mass ${g.analyte} = × ${g.Man} = ${(pptMass / g.Mppt * g.Man).toFixed(4)} g. ÷ ${sample.toFixed(4)} g sample × 100 = ${pct(right)}.`,
+      explanation: `mol ${g.ppt} = ${pptStr} / ${g.Mppt} = ${sci(pptMass / g.Mppt, 3)} mol = mol ${g.analyte} (1:1). Mass ${g.analyte} = × ${g.Man} = ${(pptMass / g.Mppt * g.Man).toFixed(4)} g. ÷ ${sample.toFixed(4)} g sample × 100 = ${pct(right)}.`,
     };
   },
 });
@@ -580,6 +592,54 @@ const NEUTRALIZATIONS = [
 ];
 const STRONG_ACIDS = ['HCl', 'HBr', 'HI', 'HNO₃', 'HClO₄', 'H₂SO₄'];
 const WEAK_ACIDS = ['HF', 'CH₃COOH (acetic acid)', 'HNO₂', 'H₂CO₃', 'H₃PO₄', 'HCN'];
+
+// §4-6 combustion analysis, exactly as the book works it: every C ends up in CO2 and every H in
+// H2O, TWO H per water; mol H / mol C gives the empirical formula. Hydrocarbons only, like the
+// book's examples. Masses are at the book's milligram scale (0.00126 g of polyethylene).
+const HYDROCARBONS = [
+  { name: 'polyethylene', emp: [1, 2] },
+  { name: 'polystyrene', emp: [1, 1] },
+  { name: 'methane', emp: [1, 4] },
+  { name: 'ethane', emp: [1, 3] },
+  { name: 'propane', emp: [3, 8] },
+  { name: 'butane', emp: [2, 5] },
+  { name: 'propyne', emp: [3, 4] },
+  { name: 'pentane', emp: [5, 12] },
+  { name: 'cyclohexene', emp: [3, 5] },
+  { name: 'toluene', emp: [7, 8] },
+];
+const gcd = (a, b) => (b ? gcd(b, a % b) : a);
+const hc = (c, h) => formula([['C', c], ['H', h]]);
+const reduced = (c, h) => { const g = gcd(c, h); return hc(c / g, h / g); };
+
+registerChemTemplate({
+  id: 'chem1-aq-04-combustion-analysis',
+  chapterId: CH5, section: '4-6', band: 3, mental: false,
+  name: 'Combustion analysis: empirical formula from CO2 and H2O masses',
+  concepts: ['combustion-analysis'],
+  generate: (rng, h) => {
+    const x = h.pick(HYDROCARBONS);
+    const [c, hy] = x.emp;
+    const sample = h.int(100, 400) / 100000;
+    const units = sample / (c * AM.C + hy * AM.H);
+    const co2Str = (units * c * 44.01).toPrecision(3);
+    const h2oStr = (units * (hy / 2) * 18.02).toPrecision(3);
+    const co2 = Number(co2Str);
+    const h2o = Number(h2oStr);
+    const molC = co2 / 44.01;
+    const molH = (2 * h2o) / 18.02;
+    return {
+      stem: `A ${sample.toFixed(5)}-g sample of ${x.name}, a hydrocarbon, is burned completely in a combustion analysis, producing ${co2Str} g of CO₂ and ${h2oStr} g of H₂O. What is its empirical formula?`,
+      ...h.choices(hc(c, hy), [
+        { value: reduced(2 * c, hy), error: 'forgot-two-H-per-water', why: 'counted one H per H₂O — every water molecule carries TWO hydrogens, so mol H = 2 × mol H₂O' },
+        { value: hc(2 * c, 2 * hy), error: 'not-simplest', why: 'right ratio, not the simplest whole numbers' },
+        ...(c !== hy ? [{ value: hc(hy, c), error: 'subscripts-swapped', why: 'put the H count on carbon and the C count on hydrogen' }] : []),
+        { value: reduced(c, 2 * hy), error: 'doubled-H', why: 'doubled the hydrogen twice — mol H₂O × 2 is already mol H' },
+      ]),
+      explanation: `All the carbon ends up in CO₂ and all the hydrogen in H₂O. mol C = ${co2Str} g ÷ 44.01 g/mol × 1 C per CO₂ = ${sci(molC)} mol. mol H = ${h2oStr} g ÷ 18.02 g/mol × 2 H per H₂O = ${sci(molH)} mol. H : C = ${(molH / molC).toFixed(3)} : 1${c > 1 ? `, which is ${hy} : ${c} as whole numbers` : ''} → ${hc(c, hy)}. (No balanced equation is needed — only the C and H counts. The sample mass isn't used for a pure hydrocarbon; it would be, to find O by difference, if the compound contained oxygen.)`,
+    };
+  },
+});
 
 registerChemTemplate({
   id: 'chem1-aq-04-neutralization-salt',

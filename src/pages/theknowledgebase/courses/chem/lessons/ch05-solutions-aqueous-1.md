@@ -208,6 +208,20 @@ Turn the analyte into a solid you can weigh, then dry it and weigh it. Precipita
 molar mass) → moles analyte (ratio) → grams analyte → ÷ sample mass × 100. 0.2865 g AgCl from a
 0.5000 g sample → 0.2865/143.32 × 35.45 = 0.0709 g Cl → 14.2% Cl.
 
+## Combustion analysis
+
+Burn a weighed sample in excess O₂; every carbon leaves as CO₂ and every hydrogen as H₂O, and both
+are weighed. Then:
+
+```
+mol C = g CO₂ ÷ 44.01         (1 C per CO₂)
+mol H = g H₂O ÷ 18.02 × 2     (2 H per H₂O  ← the step people drop)
+H : C ratio → empirical formula (Ch 3 method)
+```
+
+Polyethylene: 0.00394 g CO₂ → 8.95 × 10⁻⁵ mol C; 0.00161 g H₂O → 1.79 × 10⁻⁴ mol H; H : C = 2 : 1 →
+CH₂. No balanced equation is needed.
+
 ---
 
 **Before you move on:** you should be able to classify a dissolved substance as a strong
