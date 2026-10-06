@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { useCourseTasks, kindAbbr } from './courseTasks';
 import { TaskRow, FreshnessNote } from './CalendarSideRail';
 import { startHint, shortDate } from './courseworkFormat';
+import { CalendarSyncButton } from './CalendarHub';
 import { SEED_COURSES } from '../theknowledgebase/courses/coursesSeed';
 import { sectionsFromQuizTitle } from '../theknowledgebase/courses/chem/syllabusMap';
 import { addDaysISO, daysBetween } from '../theknowledgebase/courses/coursework/courseworkModel';
@@ -349,10 +350,11 @@ export default function SchoolPlanner() {
                 <strong>Google Calendar</strong> (web) → Other calendars <em>+</em> → <em>From URL</em> → paste each link. They now show on your iPhone too.
               </li>
               <li>
-                <Link to="/MFT/settings#calendars">MFT → Settings → Calendars</Link> → Connect → <em>Sync now</em>. This page then refreshes
+                Press the button below (or <Link to="/MFT/settings#calendars">Settings → Calendars</Link>). This page then refreshes
                 from those feeds — every course, including ones the capture never saw.
               </li>
             </ol>
+            <CalendarSyncButton compact />
             <p className="ft-school-card-sub">
               {cw.meta.feedsSyncedAt
                 ? <>Last school-feed sync: {new Date(cw.meta.feedsSyncedAt).toLocaleString()} ({cw.meta.feedCounts.canvas} Canvas, {cw.meta.feedCounts.ls} Learning Suite items).</>

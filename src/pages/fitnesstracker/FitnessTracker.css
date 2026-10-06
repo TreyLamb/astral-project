@@ -1517,3 +1517,31 @@ a.ft-course-chip:hover { background: rgba(255, 255, 255, 0.06); }
 .ft-school-add label { display: flex; flex-direction: column; gap: 3px; font-size: 0.85rem; color: var(--ft-muted); }
 .ft-school-add label.wide { grid-column: span 2; }
 .ft-school-add-actions { display: flex; gap: 8px; align-items: end; }
+
+/* ---- calendar hub: events from his other Google calendars on a day cell ---- */
+.ft-cell-gcal {
+  margin-top: 4px; padding-top: 4px; border-top: 1px dashed var(--ft-border);
+  display: flex; flex-direction: column; gap: 2px;
+}
+.ft-gcal-chip {
+  display: flex; align-items: baseline; gap: 4px; width: 100%; box-sizing: border-box;
+  text-decoration: none; color: var(--ft-text); font-size: 0.66rem; line-height: 1.3; padding: 0 2px; border-radius: 3px;
+}
+a.ft-gcal-chip:hover { background: rgba(255, 255, 255, 0.06); }
+.ft-gcal-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; align-self: center; }
+.ft-gcal-time { flex: none; color: var(--ft-muted); font-variant-numeric: tabular-nums; }
+.ft-gcal-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---- Settings → Calendars ---- */
+.ft-hub-sync { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ft-hub-sync .ft-import-msg, .ft-hub-sync .ft-import-err { flex-basis: 100%; margin: 4px 0 0; }
+.ft-hub-cals { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9rem; }
+.ft-hub-cals th { text-align: left; font-size: 0.78rem; color: var(--ft-muted); text-transform: uppercase; letter-spacing: 0.04em; padding: 4px 6px; border-bottom: 1px solid var(--ft-border); }
+.ft-hub-cals td { padding: 6px; border-bottom: 1px solid var(--ft-border); vertical-align: middle; }
+.ft-hub-cals .ft-input { padding: 4px 6px; font-size: 0.85rem; }
+.ft-hub-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+.ft-hub-feed { display: flex; flex-wrap: wrap; gap: 6px; }
+.ft-hub-link { color: var(--ft-accent); }
+.ft-hub-setup { margin-top: 10px; font-size: 0.9rem; line-height: 1.55; }
+.ft-hub-setup summary { cursor: pointer; font-weight: 700; color: var(--ft-accent); }
+.ft-hub-setup ol { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 6px; }

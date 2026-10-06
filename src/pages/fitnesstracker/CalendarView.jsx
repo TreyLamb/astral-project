@@ -21,6 +21,7 @@ import { loadOrbitBridgeData, setOrbitDayLocation, addOrbitBase, setOrbitDayLoca
 import CalendarSideRail from './CalendarSideRail';
 import CalendarNotes from './CalendarNotes';
 import { useCourseTasks } from './courseTasks';
+import { useGoogleOverlay } from './googleOverlayStore';
 import { blocksForDay, timeRange } from './classSchedule';
 
 // USAF PFRA personal targets — static reference data, not computed from
@@ -235,6 +236,22 @@ function CourseChip({ task }) {
     : <div className={cls} title={title}>{inner}</div>;
 }
 
+// An event from one of his other Google calendars — read-only here (edit it in Google / on the
+// iPhone). Its own strip, like coursework, so it never competes with workout chips for space.
+function GoogleChip({ ev }) {
+  const title = `${ev.title}${ev.time ? ` · ${ev.time}` : ' · all day'} — from Google: ${ev.calName}`;
+  const inner = (
+    <>
+      <span className="ft-gcal-dot" style={{ background: ev.color }} />
+      {ev.time && <span className="ft-gcal-time">{ev.time.replace(':00 ', ' ').replace(' ', '').toLowerCase()}</span>}
+      <span className="ft-gcal-title">{ev.title}</span>
+    </>
+  );
+  return ev.link
+    ? <a className="ft-gcal-chip" href={ev.link} target="_blank" rel="noreferrer" title={title} onClick={(e) => e.stopPropagation()}>{inner}</a>
+    : <div className="ft-gcal-chip" title={title}>{inner}</div>;
+}
+
 function chipLabel(w, units) {
   if (w.distanceM != null) {
     const digits = (units.distance === 'm' || units.distance === 'yd') ? 0 : 2;
@@ -402,7 +419,7 @@ function DayCell({
   showMeals, mealItems, mealTypes, mealSelected, onAddMeal, onEditMeal, onMealCtrlClick, onMealShiftClick,
   allWorkouts, meals, bmr, calorieGoal, bodyWeightKg,
   orbitScheduled, orbitDue, orbitAreaById, onOrbitOpen, orbitEnergyCap,
-  bases, dayLocations, onOpenWhere, sizeVariant, courseDue, classBlocks,
+  bases, dayLocations, onOpenWhere, sizeVariant, courseDue, classBlocks, googleEvents,
 }) {
   const iso = isoDate(date);
   const [over, setOver] = useState(false);
@@ -513,6 +530,11 @@ function DayCell({
       {classBlocks?.length > 0 && (
         <div className="ft-cell-class">
           {classBlocks.map((b) => <ClassChip key={b.id} block={b} />)}
+        </div>
+      )}
+      {googleEvents?.length > 0 && (
+        <div className="ft-cell-gcal">
+          {googleEvents.map((e) => <GoogleChip key={e.id} ev={e} />)}
         </div>
       )}
       {courseDue?.length > 0 && (
@@ -774,6 +796,7 @@ export default function CalendarView() {
   const navigate = useNavigate();
   // Live coursework (see courseTasks.js) — same names the view used when this was a static import.
   const { byDate: COURSE_TASKS_BY_DATE, inRange: courseTasksInRange } = useCourseTasks();
+  const googleByDate = useGoogleOverlay();
   const units = settings.units;
   const groups = resolveGroups(settings);
   const goalsById = useMemo(() => new Map(goals.map((g) => [g.id, g])), [goals]);
@@ -962,6 +985,7 @@ export default function CalendarView() {
   const showCourseChips = settings.calendarPrefs?.showCourseChips !== false;
   // Off by default: every week is identical, so it is noise unless you deliberately want it.
   const showClassChips = settings.calendarPrefs?.showClassChips === true;
+  const showGoogleEvents = settings.calendarPrefs?.showGoogleEvents !== false;
   const courseHorizon = settings.calendarPrefs?.courseHorizon === undefined ? 14 : settings.calendarPrefs.courseHorizon;
   const setCourseHorizon = (h) => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, courseHorizon: h } });
   const saveNotes = (text) => updateSettings({ calendarNotes: text });
@@ -1222,6 +1246,7 @@ export default function CalendarView() {
     bases: orbitBases, dayLocations: orbitDayLocations, onOpenWhere: openWhere,
     courseDue: showCourseChips ? (COURSE_TASKS_BY_DATE[isoDate(date)] || []) : [],
     classBlocks: showClassChips ? blocksForDay(date.getDay()) : [],
+    googleEvents: showGoogleEvents ? (googleByDate[isoDate(date)] || []) : [],
   });
 
   // Shared week-grid header + one week-row (7-day grid + goals/miles side
@@ -1424,6 +1449,14 @@ export default function CalendarView() {
           title="Show Canvas due dates as chips on the calendar days themselves, not just in the rail"
         >
           Coursework
+        </button>
+        <button
+          type="button"
+          className={`ft-toggle-btn${showGoogleEvents ? ' active' : ''}`}
+          onClick={() => toggleCalendarPref('showGoogleEvents')}
+          title="Show events from your other Google calendars (set up in Settings → Calendars)"
+        >
+          Google
         </button>
         <button
           type="button"

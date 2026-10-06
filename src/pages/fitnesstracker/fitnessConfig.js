@@ -113,6 +113,9 @@ export function defaultSettings() {
       // showClassChips defaults OFF: the recurring class week is identical every week and has
       // its own grid at /MFT/schedule, so on the calendar it is opt-in.
       showClassChips: false,
+      // Events from his other Google calendars (Settings → Calendars). On by default: seeing the
+      // dentist appointment next to the planned run is the point of syncing at all.
+      showGoogleEvents: true,
     },
     // Free-text pad on the left of the calendar. Not a checklist — see CalendarNotes.jsx.
     calendarNotes: '',

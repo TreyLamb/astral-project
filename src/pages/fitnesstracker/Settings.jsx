@@ -7,7 +7,7 @@ import { mifflinStJeorBmr } from './calc/bmr';
 import { latestBodyWeightKg } from './calc/calories';
 import { KCAL_PER_G_PROTEIN, KCAL_PER_G_CARB, KCAL_PER_G_FAT, gramsToCalPct, calPctToGrams } from './calc/nutrition';
 import { cmToHeight, heightToCm, heightUnitLabel, kgToWeight, weightToKg } from './units';
-import CalendarSync from './CalendarSync';
+import CalendarHub from './CalendarHub';
 
 const UNIT_OPTIONS = {
   distance: [['mi', 'Miles'], ['km', 'Kilometers']],
@@ -483,7 +483,7 @@ export default function Settings() {
 
       <ResetFutureToPlanned />
 
-      <CalendarSync />
+      <CalendarHub />
     </div>
   );
 }

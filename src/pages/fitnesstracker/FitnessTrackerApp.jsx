@@ -19,6 +19,7 @@ import { todayISO } from './fitnessConfig';
 import useKeyboardInset from '../../hooks/useKeyboardInset';
 import './FitnessTracker.css';
 import HubLink from '../../components/HubLink';
+import { useCalendarAutoSync } from './useCalendarSync';
 
 // Installable-to-home-screen (PWA) is scoped to this sub-app: the manifest <link>
 // is injected only while FitnessTracker is mounted and removed on unmount, so the
@@ -50,6 +51,8 @@ export default function FitnessTrackerApp() {
   useLocation(); // keeps NavLink active-state in sync across nested navigations
   useScopedManifest();
   useKeyboardInset();
+  // Quiet Google Calendar sync while a token is valid (courses/SCHOOL-OPS.md §6).
+  useCalendarAutoSync(fitness);
 
   // No date passed = the topbar "+ Log" button = logging something already done
   // (defaults to completed). A date passed = a calendar-day click = scheduling a

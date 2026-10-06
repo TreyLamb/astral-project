@@ -81,6 +81,22 @@ export function clock12(h, mi) {
 }
 
 /**
+ * An instant (ms or ISO string) as local calendar parts in `tz` — for Google Calendar API events,
+ * which arrive as RFC 3339 dateTimes rather than iCalendar text.
+ * @returns {{ date: string, hhmm: string, time: string, at: string }}
+ */
+export function localParts(instant, tz = DEFAULT_TZ) {
+  const ms = typeof instant === 'number' ? instant : Date.parse(instant);
+  const p = partsIn(ms, tz);
+  return {
+    date: `${p.y}-${pad(p.mo)}-${pad(p.d)}`,
+    hhmm: `${pad(p.h)}:${pad(p.mi)}`,
+    time: clock12(p.h, p.mi),
+    at: new Date(ms).toISOString(),
+  };
+}
+
+/**
  * Decode one DTSTART/DTEND into the course's local frame.
  * @returns {{ date: string, time: string|null, at: string|null, allDay: boolean } | null}
  */
