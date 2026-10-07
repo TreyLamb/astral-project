@@ -1,0 +1,1161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sea Scout Deep Dive</title>
+<meta name="description" content="AFROTC airframe brief, volume II: the SS (Submarine Scout) class in depth - naming, variants, anatomy and the three aeroplane-fuselage cars.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Spectral:ital,wght@0,400;0,600;1,400&family=Roboto+Mono:wght@400;500;700&display=swap">
+<style>
+:root{
+  --paper:#E8E9E3; --surface:#F7F7F3; --plate:#DFE0D8;
+  --ink:#14171A; --ink-2:#464D52; --ink-3:#767D83;
+  --rule:#C7C9C0; --rule-2:#A9ACA1;
+  --oxide:#8E3118; --steel:#2E4D5E; --brass:#8A6A1F;
+  --f-disp:"Oswald","Haettenschweiler","Arial Narrow",sans-serif;
+  --f-body:"Spectral",Georgia,"Times New Roman",serif;
+  --f-mono:"Roboto Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#15171A; --surface:#1C1F23; --plate:#23272C;
+    --ink:#E9EAE4; --ink-2:#B6BBC0; --ink-3:#848A90;
+    --rule:#343A40; --rule-2:#474E55;
+    --oxide:#D4663F; --steel:#7FA8C0; --brass:#C9A24A;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15171A; --surface:#1C1F23; --plate:#23272C;
+  --ink:#E9EAE4; --ink-2:#B6BBC0; --ink-3:#848A90;
+  --rule:#343A40; --rule-2:#474E55;
+  --oxide:#D4663F; --steel:#7FA8C0; --brass:#C9A24A;
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--f-body); font-size:17px; line-height:1.62;
+}
+.wrap{max-width:1080px; margin:0 auto; padding:0 16px 96px;}
+
+/* ---- header ---- */
+header.top{
+  border-bottom:3px double var(--rule-2); margin-bottom:34px;
+  padding:40px 0 22px; position:relative;
+}
+.kicker{
+  font-family:var(--f-mono); font-size:11px; letter-spacing:.17em;
+  text-transform:uppercase; color:var(--ink-3); margin-bottom:14px;
+}
+h1{
+  font-family:var(--f-disp); font-weight:600; font-size:clamp(40px,9vw,78px);
+  line-height:.94; letter-spacing:.012em; margin:0 0 14px; text-transform:uppercase;
+}
+h1 .sub{display:block; color:var(--oxide);}
+.standfirst{font-size:19px; color:var(--ink-2); max-width:62ch; margin:0;}
+.backlink{
+  display:inline-block; margin-top:18px; font-family:var(--f-mono); font-size:12px;
+  color:var(--steel); text-decoration:none; border-bottom:1px solid currentColor;
+}
+
+/* ---- sections ---- */
+section{margin:0 0 54px; scroll-margin-top:16px;}
+h2{
+  font-family:var(--f-disp); font-weight:600; text-transform:uppercase;
+  font-size:clamp(22px,4.2vw,32px); line-height:1.08; letter-spacing:.015em;
+  margin:0 0 6px; padding-top:16px; border-top:2px solid var(--ink);
+  display:flex; gap:14px; align-items:baseline;
+}
+h2 .n{
+  font-family:var(--f-mono); font-size:13px; color:var(--oxide);
+  font-weight:700; flex:none; padding-top:4px;
+}
+h3{
+  font-family:var(--f-disp); font-weight:500; text-transform:uppercase;
+  letter-spacing:.05em; font-size:17px; margin:30px 0 8px; color:var(--oxide);
+}
+h4{font-family:var(--f-disp); font-weight:500; font-size:15px; letter-spacing:.04em;
+   text-transform:uppercase; margin:20px 0 6px; color:var(--ink-2);}
+p{margin:0 0 14px;} p:last-child{margin-bottom:0;}
+strong{font-weight:600;}
+em.term{font-style:normal; font-family:var(--f-mono); font-size:.9em;
+  background:var(--plate); padding:1px 5px; border-radius:2px;}
+
+/* ---- callouts ---- */
+.note{
+  background:var(--surface); border-left:4px solid var(--steel);
+  padding:16px 20px; margin:20px 0; font-size:16px;
+}
+.note.key{border-left-color:var(--oxide);}
+.note.warn{border-left-color:var(--brass);}
+.note .lab{
+  display:block; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ink-3); margin-bottom:7px;
+}
+blockquote{
+  margin:20px 0; padding:4px 0 4px 22px; border-left:3px solid var(--oxide);
+  font-size:20px; font-style:italic; color:var(--ink);
+}
+blockquote cite{
+  display:block; font-size:13px; font-style:normal; font-family:var(--f-mono);
+  color:var(--ink-3); margin-top:9px;
+}
+
+/* ---- tables ---- */
+.tbl{overflow-x:auto; margin:20px 0; -webkit-overflow-scrolling:touch;}
+table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:560px;}
+th,td{text-align:left; padding:8px 11px; border-bottom:1px solid var(--rule); vertical-align:top;}
+th{
+  font-family:var(--f-disp); text-transform:uppercase; letter-spacing:.05em;
+  font-size:12.5px; font-weight:500; color:var(--ink-2);
+  border-bottom:2px solid var(--ink-2); white-space:nowrap;
+}
+td.num,th.num{font-family:var(--f-mono); font-size:13px; white-space:nowrap;}
+tbody tr:hover{background:var(--surface);}
+caption{
+  caption-side:bottom; text-align:left; font-size:12.5px; color:var(--ink-3);
+  padding-top:9px; font-family:var(--f-mono);
+}
+
+/* ---- figures / galleries ---- */
+figure{margin:0;}
+.gal{
+  display:grid; gap:14px; margin:22px 0;
+  grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+}
+.gal figure{
+  background:var(--surface); border:1px solid var(--rule); padding:8px;
+}
+.gal img{width:100%; height:auto; display:block; background:var(--plate);}
+.gal figcaption{
+  font-family:var(--f-mono); font-size:10.5px; line-height:1.45;
+  color:var(--ink-3); margin-top:7px;
+}
+.plate{
+  margin:26px 0; background:var(--surface); border:1px solid var(--rule); padding:12px;
+}
+.plate img{width:100%; height:auto; display:block;}
+.plate figcaption{
+  font-size:14px; color:var(--ink-2); margin-top:11px;
+  padding-top:9px; border-top:1px solid var(--rule);
+}
+.plate figcaption b{font-family:var(--f-disp); text-transform:uppercase;
+  letter-spacing:.04em; font-size:13px; color:var(--oxide);}
+.wide{grid-column:1/-1;}
+
+/* ---- anatomy list ---- */
+dl.parts{margin:18px 0; display:grid; grid-template-columns:auto 1fr; gap:0;}
+dl.parts dt{
+  font-family:var(--f-disp); text-transform:uppercase; letter-spacing:.045em;
+  font-size:13.5px; color:var(--oxide); padding:11px 18px 11px 0;
+  border-top:1px solid var(--rule); white-space:nowrap;
+}
+dl.parts dd{
+  margin:0; padding:11px 0; border-top:1px solid var(--rule); font-size:15.5px;
+}
+@media(max-width:620px){
+  dl.parts{grid-template-columns:1fr;}
+  dl.parts dt{padding-bottom:0; border-top:1px solid var(--rule);}
+  dl.parts dd{padding-top:4px; border-top:0;}
+}
+
+/* ---- Q&A ---- */
+details.qa{
+  border:1px solid var(--rule); background:var(--surface);
+  margin:0 0 10px; padding:0;
+}
+details.qa summary{
+  cursor:pointer; padding:13px 16px; font-weight:600; font-size:16.5px;
+  list-style:none; display:flex; gap:11px; align-items:flex-start;
+}
+details.qa summary::-webkit-details-marker{display:none;}
+details.qa summary::before{
+  content:"?"; font-family:var(--f-mono); color:var(--oxide); font-weight:700;
+  flex:none; font-size:15px; line-height:1.5;
+}
+details.qa[open] summary{border-bottom:1px solid var(--rule);}
+details.qa .a{padding:14px 16px 16px 43px; font-size:16px;}
+details.qa .a p:first-child{margin-top:0;}
+
+ul.tight{margin:12px 0; padding-left:22px;}
+ul.tight li{margin-bottom:7px;}
+
+footer.end{
+  border-top:3px double var(--rule-2); margin-top:48px; padding-top:20px;
+  font-family:var(--f-mono); font-size:12px; color:var(--ink-3); line-height:1.7;
+}
+footer.end a{color:var(--steel);}
+a{color:var(--steel);}
+@media print{
+  body{background:#fff; color:#000; font-size:11pt;}
+  .gal{grid-template-columns:repeat(3,1fr);}
+  details.qa{break-inside:avoid;} details.qa .a{display:block;}
+  section{break-inside:auto;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="kicker">AFROTC &middot; Airframe Brief &middot; Volume II &middot; Deep Dive</div>
+  <h1>Sea Scout<span class="sub">SS Class</span></h1>
+  <p class="standfirst">Everything behind entry 01 of the dossier: where the name comes from,
+  why it is a &ldquo;class&rdquo; at all, every variant that carried the letters SS, the three
+  aeroplane fuselages that were hung under the envelope, and the anatomy of the ship part by
+  part &mdash; built from the 1919 account written by an officer who served in the service.</p>
+  <a class="backlink" href="airship-dossiers.html">&larr; back to the seven-airframe dossier</a>
+</header>
+
+<section id="name">
+<h2><span class="n">01</span><span>Why &ldquo;Sea Scout&rdquo;, and why a &ldquo;class&rdquo;</span></h2>
+
+<h3>The name</h3>
+<p>Both names are real and both are correct, which is why sources disagree. <strong>SS stands for
+<em class="term">Submarine Scout</em></strong> &mdash; that is the original and the operational
+name, and it is what the Royal Naval Air Service called them. <strong>Sea Scout</strong> appears
+alongside it in later and secondary usage. Neither is wrong; if a cadet challenges you, the safe
+answer is:</p>
+
+<blockquote>Submarine Scout. The job was scouting <em>for</em> submarines &mdash; the ship was
+named after its mission, not after the sea.
+<cite>Both expansions appear in the literature; &ldquo;Submarine Scout&rdquo; is the original.</cite></blockquote>
+
+<p>That is worth internalising because it also explains the whole design. This was not a general
+purpose airship that happened to be used against U&#8209;boats. It was a <em>single&#8209;purpose
+anti&#8209;submarine sentry</em>, built to the cheapest specification that could keep two men and
+a wireless set loitering over a shipping lane for eight hours.</p>
+
+<h3>Why it is called a class &mdash; the precise answer</h3>
+<p>This is the part most people get vague about, and there is a documented, specific reason.
+Before 1915 the Royal Navy numbered <strong>every airship it owned in one single running
+sequence</strong>, regardless of type &mdash; No.&nbsp;1 was the rigid <em>Mayfly</em>,
+No.&nbsp;2 the Willows, and so on up to No.&nbsp;22. When the Admiralty decided to mass&#8209;produce
+small anti&#8209;submarine ships, that scheme would have collapsed: dozens of near&#8209;identical
+cheap blimps would have swamped the list and buried the larger ships among them.</p>
+
+<p>So the Navy broke them out. George Whale, who served in the airship service and wrote the
+standard 1919 account, puts it plainly:</p>
+
+<blockquote>&ldquo;Each of these ships was accordingly numbered in its own class, S.S., S.S.P.,
+S.S. Zero, Coastal, C Star and North Sea, from 1 onwards as they were completed.&rdquo;
+<cite>George Whale, <i>British Airships: Past, Present &amp; Future</i> (1919), p.&nbsp;89</cite></blockquote>
+
+<div class="note key">
+  <span class="lab">The answer, in one sentence</span>
+  <p><strong>&ldquo;Class&rdquo; is a numbering system, not just a family resemblance.</strong>
+  An SS airship is called SS&nbsp;1, SS&nbsp;14, SS&nbsp;40 &mdash; numbered <em>within</em> its own
+  class from 1 upward &mdash; instead of taking the next number in the Navy's single airship list.
+  The Navy adopted it in 1915 precisely because it was about to build a great many of them. It is
+  the same logic as a ship class: a shared design, built in quantity, numbered as a group.</p>
+</div>
+
+<p>The rigids kept the old single sequence, which is why their numbers jump so strangely &mdash;
+No.&nbsp;1, then R&nbsp;9, then R&nbsp;23. Whale's own comment on R&nbsp;80 is that the authorities
+called it that &ldquo;in their wisdom &mdash; why, nobody knows.&rdquo;</p>
+
+<div class="plate">
+  <img src="images/ss-airship/01-british-airships-past-present-future-p98.jpg"
+       alt="S.S. 14A in flight: a streamlined envelope with a wingless B.E.2c fuselage slung beneath it">
+  <figcaption><b>S.S. 14A &mdash; the type in one picture.</b> An aeroplane fuselage, stripped of
+  its wings and tail, hanging on wires under a 60,000&nbsp;cubic&#8209;foot gasbag. The envelope
+  carries the ship's name in its own class sequence. Plate from Whale (1919), p.&nbsp;98,
+  captioned &ldquo;S.S. Airship B.E.2&nbsp;C Type&rdquo;. Public domain.</figcaption>
+</div>
+</section>
+
+<section id="origin">
+<h2><span class="n">02</span><span>Three weeks from order to flight</span></h2>
+
+<p>The origin story is unusually well documented and it is the single best thing you can tell a
+room, because the dates are absurd.</p>
+
+<p>On <strong>28 February 1915</strong>, with U&#8209;boats sinking merchant shipping faster than
+the Navy could respond, <strong>Admiral Fisher</strong> sent for Commander E.&nbsp;A.&nbsp;D.
+Masterman and Wing Commander N.&nbsp;F. Usborne and told them he wanted small, fairly fast airships
+to operate against submarines &mdash; <em>and that he wanted them at once</em>.</p>
+
+<p>The team at <strong>RNAS Kingsnorth</strong>, on the Hoo Peninsula, did not design anything new.
+They took a <strong>B.E.2c aeroplane</strong>, removed its wings, tailfin and elevators, and slung
+the fuselage underneath a <strong>disused envelope from HMA No.&nbsp;2, the Willows No.&nbsp;4</strong>.
+That improvised machine became <strong>SS&nbsp;1</strong>.</p>
+
+<div class="tbl">
+<table>
+  <caption>The timeline that makes the story worth telling.</caption>
+  <thead><tr><th>Date</th><th>Event</th></tr></thead>
+  <tbody>
+    <tr><td class="num">28 Feb 1915</td><td>Fisher demands small anti&#8209;submarine airships &ldquo;at once&rdquo;</td></tr>
+    <tr><td class="num">~2 weeks</td><td>Prototype assembled at Kingsnorth and ready for trials</td></tr>
+    <tr><td class="num">18 Mar 1915</td><td>First SS class airship <strong>enters service</strong></td></tr>
+    <tr><td class="num">Total</td><td><strong>Under three weeks</strong>, concept to operational</td></tr>
+  </tbody>
+</table>
+</div>
+
+<blockquote>&ldquo;Now I must have forty!&rdquo;
+<cite>Admiral Fisher, on seeing the prototype fly</cite></blockquote>
+
+<div class="note">
+  <span class="lab">Why this matters for a brief</span>
+  <p>The SS class is a case study in <strong>accepting a worse aircraft sooner</strong>. Nobody
+  thought a wingless B.E.2c under a gasbag was elegant. It was available in three weeks, it cost
+  about <strong>&pound;2,500</strong>, and it could be built by people who already knew how to build
+  aeroplanes. That trade &mdash; good enough, now, in quantity &mdash; is the entire reason the type
+  existed, and it is a point of doctrine you can defend in front of cadre.</p>
+</div>
+
+<div class="gal">
+  <figure>
+    <img src="images/ss-airship/04-british-airships-past-present-future-p66.jpg" alt="Willows Airship No. 4">
+    <figcaption>Willows&rsquo; Airship No.&nbsp;4 &mdash; HMA No.&nbsp;2. Its envelope was reused
+    for the SS&nbsp;1 prototype. Whale (1919) p.66.</figcaption>
+  </figure>
+  <figure>
+    <img src="images/ss-airship/05-submarine-scout-airship-q27563.jpg" alt="Submarine Scout airship">
+    <figcaption>Submarine Scout airship. IWM Q&nbsp;27563.</figcaption>
+  </figure>
+  <figure>
+    <img src="images/ss-airship/06-airship-submarine-scout-car-q27532.jpg" alt="Submarine Scout car">
+    <figcaption>The car itself &mdash; an aeroplane body with skids. IWM Q&nbsp;27532.</figcaption>
+  </figure>
+</div>
+</section>
+
+<section id="variants">
+<h2><span class="n">03</span><span>Yes &mdash; there are multiple versions</span></h2>
+
+<p>This is the other half of your question, and the answer is emphatically yes. <strong>SS is a
+family, not a single aircraft.</strong> Roughly <strong>158 ships of all SS versions and
+variants</strong> were built, of which only about <strong>60 were the original three
+car&#8209;types</strong>. The rest were successive redesigns that kept the SS letters.</p>
+
+<p>The split matters, because it works on two levels at once:</p>
+
+<ul class="tight">
+  <li><strong>Within the original SS</strong> there were <strong>three versions</strong>,
+  distinguished <em>only by whose aeroplane fuselage was used as the car</em> &mdash; B.E.2c,
+  Maurice Farman and Armstrong Whitworth. Same envelope concept, same mission, three different
+  cars.</li>
+  <li><strong>Beyond the original SS</strong> came <strong>four derivative classes</strong> &mdash;
+  SSP, SSZ, SST and SSE &mdash; each with a <em>purpose&#8209;built</em> car rather than a
+  converted aeroplane body.</li>
+</ul>
+
+<h3>The family tree</h3>
+
+<div class="tbl">
+<table>
+  <caption>Figures from Whale (1919) and the surviving specification tables. Dashes mean the
+  source does not give a figure &mdash; say &ldquo;I don't have that one&rdquo; rather than guess.</caption>
+  <thead>
+    <tr>
+      <th>Version</th><th>Car</th><th class="num">Envelope</th><th>Engine</th>
+      <th class="num">Speed</th><th class="num">Endurance</th><th class="num">Built</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>SS B.E.2c</strong></td><td>Wingless B.E.2c fuselage, tractor</td>
+      <td class="num">60,000 ft&sup3;</td><td>75&nbsp;hp Renault</td>
+      <td class="num">50&nbsp;mph</td><td class="num">7&ndash;8 h</td>
+      <td class="num" rowspan="3" style="vertical-align:middle">~60<br><span style="color:var(--ink-3)">(all three)</span></td>
+    </tr>
+    <tr>
+      <td><strong>SS Maurice Farman</strong></td><td>Airships Ltd car, <em>pusher</em></td>
+      <td class="num">60&ndash;70,000 ft&sup3;</td><td>75&nbsp;hp Renault / RR Hawk</td>
+      <td class="num">40&nbsp;mph</td><td class="num">7&ndash;8 h</td>
+    </tr>
+    <tr>
+      <td><strong>SS Armstrong Whitworth</strong></td><td>A.W. F.K. car, tractor, single skid</td>
+      <td class="num">70,000 ft&sup3;</td><td>100&nbsp;hp Green</td>
+      <td class="num">45&nbsp;mph</td><td class="num">12 h</td>
+    </tr>
+    <tr>
+      <td><strong>SSP</strong> &ldquo;Pusher&rdquo;</td><td>First purpose&#8209;built car, seats 3</td>
+      <td class="num">70,000 ft&sup3;</td><td>100&nbsp;hp Green, later 75&nbsp;hp RR</td>
+      <td class="num">52&nbsp;mph</td><td class="num">12 h</td><td class="num">6</td>
+    </tr>
+    <tr>
+      <td><strong>SSZ</strong> &ldquo;Zero&rdquo;</td><td>Boat&#8209;hulled car, seats 3</td>
+      <td class="num">70,000 ft&sup3;</td><td>75&nbsp;hp Rolls&#8209;Royce</td>
+      <td class="num">53&nbsp;mph</td><td class="num">17 h</td><td class="num">70+</td>
+    </tr>
+    <tr>
+      <td><strong>SST</strong> &ldquo;Twin&rdquo;</td><td>Twin&#8209;engine car, seats 5</td>
+      <td class="num">100,000 ft&sup3;</td><td>2&nbsp;&times;&nbsp;RR / Sunbeam</td>
+      <td class="num">57&nbsp;mph</td><td class="num">17 h</td><td class="num">few</td>
+    </tr>
+    <tr>
+      <td><strong>SSE</strong> &ldquo;Experimental&rdquo;</td><td>Experimental SST development</td>
+      <td class="num">&mdash;</td><td>&mdash;</td><td class="num">&mdash;</td>
+      <td class="num">&mdash;</td><td class="num">&mdash;</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note key">
+  <span class="lab">If you remember one progression, remember this one</span>
+  <p>Every change in the family was driven by the <strong>car</strong>, not the gasbag. The envelope
+  went from 60,000 to 70,000&nbsp;ft&sup3; once and then sat still for the whole war. What kept
+  changing was the thing underneath: <em>borrowed aeroplane body &rarr; purpose&#8209;built box
+  &rarr; boat hull &rarr; twin&#8209;engine boat hull</em>. Endurance more than doubled, 7&ndash;8
+  hours to 17, without the ship getting meaningfully bigger.</p>
+</div>
+
+<h3>SSZ &ldquo;Zero&rdquo; &mdash; the one that actually won the war</h3>
+<p>If a cadet asks which SS mattered most, it is not the one you are briefing. The <strong>SS
+Zero</strong> was designed <em>at a south&#8209;coast station by three serving officers</em>, not
+by a contractor, and they took <strong>an ordinary boat as the model for the car</strong> &mdash;
+keel, ribs, three&#8209;ply sides, braced with piano wire. Over <strong>70</strong> were built; it
+became the standard SS.</p>
+
+<p>Its endurance record is the kind of number that ends an argument: <strong>SSZ&nbsp;39 flew a
+patrol of 50 hours 55 minutes.</strong> Others logged 30&nbsp;h&nbsp;20&nbsp;m and a cluster
+between 25&frac12; and 26&frac12; hours, against a nominal 17&#8209;hour design endurance and an
+average patrol of eight.</p>
+
+<p>Whale's verdict on the type is also the doctrinal lesson of the whole class:</p>
+
+<blockquote>&ldquo;A large fleet of airships of comparatively small capacity is of far more value
+for an anti&#8209;submarine campaign than a lesser fleet of ships of infinitely greater capacity.&rdquo;
+<cite>Whale (1919), p.&nbsp;114</cite></blockquote>
+
+<div class="gal">
+  <figure><img src="images/ss-airship/03-british-airships-past-present-future-p114.jpg" alt="S.S. Zero type airship">
+    <figcaption>S.S. Zero type. Whale (1919) p.114. Public domain.</figcaption></figure>
+  <figure><img src="images/ss-airship/02-british-airships-past-present-future-p112.jpg" alt="S.S.P type airship">
+    <figcaption>S.S.P type &mdash; the first purpose&#8209;built car. Whale (1919) p.112.</figcaption></figure>
+  <figure><img src="images/ss-airship/08-sea-scout-zero-ssz-airship-at-howden-q27507.jpg" alt="SSZ at Howden">
+    <figcaption>SSZ at Howden. IWM Q&nbsp;27507.</figcaption></figure>
+  <figure><img src="images/ss-airship/07-ssz-37-over-ship-wwi-iwm-q-48005.jpg" alt="SSZ 37 over a minelaying sloop">
+    <figcaption>SSZ&nbsp;37 over a minelaying sloop &mdash; the job, in one frame. IWM Q&nbsp;48005.</figcaption></figure>
+  <figure><img src="images/ss-airship/10-ssz-class-airship-over-convoy-wwi-iwm-q-20643.jpg" alt="SSZ over a convoy">
+    <figcaption>SSZ escorting a convoy. IWM Q&nbsp;20643.</figcaption></figure>
+  <figure><img src="images/ss-airship/11-ssz-class-blimp-dropping-bomb-wwi-iwm-q-67695.jpg" alt="SSZ dropping a bomb">
+    <figcaption>SSZ dropping a bomb. IWM Q&nbsp;67695.</figcaption></figure>
+  <figure><img src="images/ss-airship/09-ssz-airship-aboard-hms-furious-1918-iwm-q-20640.jpg" alt="SSZ aboard HMS Furious">
+    <figcaption>SSZ aboard HMS Furious, 1918. IWM Q&nbsp;20640.</figcaption></figure>
+  <figure><img src="images/ss-airship/12-airship-ssz17-landingpembroke1917.jpg" alt="SSZ 17 landing at Pembroke">
+    <figcaption>SSZ&nbsp;17 landing at Pembroke, 1917 &mdash; note the ground handling party.</figcaption></figure>
+  <figure><img src="images/ss-airship/13-nh-529-british-naval-airship-ssz-class.jpg" alt="SSZ class airship">
+    <figcaption>SSZ class. US Navy photo NH&nbsp;529.</figcaption></figure>
+  <figure><img src="images/ss-airship/16-balloons-in-the-theatre-of-operations-british-airship-setting-out-on-p.jpg" alt="British airship setting out on patrol">
+    <figcaption>Leaving her mooring to start a patrol. US NARA.</figcaption></figure>
+  <figure><img src="images/ss-airship/17-balloons-in-the-theatre-of-operations-british-dirigibiles-at-their-moo.jpg" alt="British airships at mooring-out stations">
+    <figcaption>At their mooring&#8209;out stations, just before flight. US NARA.</figcaption></figure>
+  <figure><img src="images/ss-airship/15-british-airships-zero-and-parseval.jpg" alt="Zero and Parseval airships">
+    <figcaption>A Zero beside a Parseval &mdash; useful for scale. </figcaption></figure>
+</div>
+</section>
+
+<section id="cars">
+<h2><span class="n">04</span><span>The three cars &mdash; the fuselages</span></h2>
+
+<p>The three original SS versions differ in <strong>one component only</strong>: the car. Same
+mission, same envelope family, same rigging. Whale is explicit that &ldquo;the system of rigging
+to all intents and purposes is the same in all types of S.S. ships, the suspensions being adjusted
+to suit the different makes of car.&rdquo;</p>
+
+<div class="note warn">
+  <span class="lab">A distinction a sharp cadet will catch you on</span>
+  <p>Only <strong>one</strong> of the three was a genuine, literal aeroplane fuselage.</p>
+  <ul class="tight">
+    <li><strong>B.E.2c</strong> &mdash; a <em>real</em> B.E.2c fuselage, stripped. Actual aeroplane.</li>
+    <li><strong>Armstrong Whitworth</strong> &mdash; a car <em>designed by</em> Armstrong Whitworth,
+    closely similar to the B.E.2c arrangement, but built as an airship car.</li>
+    <li><strong>Maurice Farman</strong> &mdash; <strong>not a Farman at all.</strong> It was built by
+    <em>Airships Ltd</em> and is called &ldquo;Maurice Farman&rdquo; purely because it
+    <em>resembled</em> a Maurice Farman aeroplane body. No Farman aircraft was cut up to make it.</li>
+  </ul>
+  <p>So if someone asks &ldquo;did they really hang three different aeroplanes under balloons?&rdquo;
+  the honest answer is: one was an aeroplane, one was an aeroplane&#8209;maker's car, and one just
+  looked like a Farman.</p>
+</div>
+
+<h3>B.E.2c &mdash; the original car</h3>
+<p>The Royal Aircraft Factory B.E.2c was the obvious donor: it was already in mass production,
+it was stable to the point of docility (the quality that made it a death&#8209;trap over the
+Western Front made it ideal for a loitering patrol), and its 75&nbsp;hp Renault was a known
+quantity.</p>
+
+<p>What was done to it, exactly:</p>
+<ul class="tight">
+  <li><strong>Removed:</strong> wings, rudder, elevators, landing wheels, axle and suspension.</li>
+  <li><strong>Added:</strong> two <strong>ash skids</strong> in place of the undercarriage, each
+  carried on three struts.</li>
+  <li><strong>Kept:</strong> the aeroplane's own control fittings &mdash; rudder bar under the feet,
+  a vertical hand wheel for the elevators &mdash; so a pilot flew the airship with aeroplane
+  controls.</li>
+  <li><strong>Engine:</strong> 75&nbsp;hp air&#8209;cooled Renault V8, 438&nbsp;lb, bore 96&nbsp;mm
+  &times; stroke 120&nbsp;mm, driving a four&#8209;bladed <em>tractor</em> propeller through 2:1
+  reduction gear.</li>
+  <li><strong>Seating:</strong> observer/wireless operator forward of the pilot, behind the engine;
+  pilot aft.</li>
+</ul>
+
+<div class="plate">
+  <img src="images/schematics/04-raf-be2c-drawing.jpg" alt="Three-view general arrangement drawing of the Royal Aircraft Factory B.E.2c">
+  <figcaption><b>B.E.2c general arrangement.</b> The fuselage in the centre of this drawing is
+  the component that became the SS car &mdash; take away the wings and tail surfaces and what is
+  left is the airship's control car. Public domain.</figcaption>
+</div>
+
+<h4>The B.E.2c fuselage, close up</h4>
+<div class="gal">
+  <figure><img src="images/be2c-fuselage/08-lt-harry-gantz-on-ground-oscar-brindley-in-cockpit.jpg" alt="B.E.2 cockpit with pilot seated">
+    <figcaption>Cockpit occupied &mdash; shows the seating and the fuselage top decking.</figcaption></figure>
+  <figure><img src="images/be2c-fuselage/02-rfc-aircraft-with-aerial-reconnaissance-camera.jpg" alt="RFC B.E.2c with a reconnaissance camera on the fuselage side">
+    <figcaption>Camera mounted on the fuselage side &mdash; good view of the slab flank.</figcaption></figure>
+  <figure><img src="images/be2c-fuselage/09-operational-b-e-2c.jpg" alt="Operational B.E.2c">
+    <figcaption>Operational B.E.2c.</figcaption></figure>
+  <figure><img src="images/be2c-fuselage/01-british-aircraft-of-the-first-world-war-1914-1918-iwm-q-66016.jpg" alt="B.E.2 airframe detail">
+    <figcaption>IWM Q&nbsp;66016.</figcaption></figure>
+  <figure><img src="images/be2c-fuselage/05-aircraft-in-warfare-1916-plate-iii.jpg" alt="Aircraft in Warfare 1916 plate III">
+    <figcaption><i>Aircraft in Warfare</i> (1916), plate III.</figcaption></figure>
+  <figure><img src="images/be2c-fuselage/06-aviation-in-britain-before-the-first-world-war-rae-o219.jpg" alt="Royal Aircraft Establishment B.E.2 photograph">
+    <figcaption>RAE photograph O219.</figcaption></figure>
+  <figure><img src="images/be2c-fuselage/03-aviation-in-britain-before-the-first-world-war-rae-o584.jpg" alt="Royal Aircraft Establishment B.E.2 photograph">
+    <figcaption>RAE photograph O584.</figcaption></figure>
+  <figure><img src="images/be2c-fuselage/07-british-aircraft-of-the-first-world-war-1914-1918-royal-aircraft-facto.jpg" alt="Royal Aircraft Factory B.E.2">
+    <figcaption>IWM, British Aircraft of the First World War.</figcaption></figure>
+  <figure><img src="images/be2c-fuselage/04-the-british-army-on-the-western-front-1914-1918-q4646.jpg" alt="B.E.2 on the Western Front">
+    <figcaption>Western Front. IWM Q&nbsp;4646.</figcaption></figure>
+  <figure><img src="images/be2c-fuselage/11-royal-aircraft-factory-be2-captured.jpg" alt="Captured B.E.2">
+    <figcaption>A captured example &mdash; unusually clear structural view.</figcaption></figure>
+  <figure><img src="images/be2c-fuselage/10-replica-royal-aircraft-factory-be2e-a2943-g-cjzo-41260788842.jpg" alt="Replica B.E.2e fuselage">
+    <figcaption>Flying replica (B.E.2e) &mdash; modern colour, same fuselage layout.</figcaption></figure>
+  <figure><img src="images/be2c-fuselage/12-a04688wrigley1919.jpg" alt="B.E.2 1919">
+    <figcaption>1919.</figcaption></figure>
+</div>
+
+<h4>The B.E.2c as a complete aeroplane</h4>
+<div class="gal">
+  <figure><img src="images/be2c/01-be2-early-production.jpg" alt="Early production B.E.2">
+    <figcaption>Early production B.E.2.</figcaption></figure>
+  <figure><img src="images/be2c/02-cockpit-of-replica-royal-aircraft-factory-be2e-a2767-g-cjzp-4583864876.jpg" alt="Cockpit of a B.E.2e replica">
+    <figcaption>Cockpit interior, replica &mdash; the instrument layout an SS pilot inherited.</figcaption></figure>
+  <figure><img src="images/be2c/04-british-aircraft-of-the-first-world-war-1914-1918-iwm-q-54985.jpg" alt="B.E.2 of the First World War">
+    <figcaption>IWM Q&nbsp;54985.</figcaption></figure>
+  <figure><img src="images/be2c/07-royal-aircraft-factory-be2-aeroplane.jpg" alt="Royal Aircraft Factory B.E.2 aeroplane">
+    <figcaption>B.E.2 complete.</figcaption></figure>
+  <figure><img src="images/be2c/03-replica-royal-aircraft-factory-be2e-a2767-g-cjzp-31620436877.jpg" alt="Replica B.E.2e in flight">
+    <figcaption>Airworthy replica.</figcaption></figure>
+  <figure><img src="images/be2c/05-replica-royal-aircraft-factory-be2e-a2943-g-cjzo-31777217757.jpg" alt="Replica B.E.2e">
+    <figcaption>Replica, three&#8209;quarter view.</figcaption></figure>
+  <figure><img src="images/be2c/06-replica-royal-aircraft-factory-be2f-2560-49765974873.jpg" alt="Replica B.E.2f">
+    <figcaption>B.E.2f replica.</figcaption></figure>
+  <figure><img src="images/be2c/08-the-battle-of-the-somme-july-november-1916-q4153.jpg" alt="B.E.2 at the Somme">
+    <figcaption>The Somme, 1916. IWM Q&nbsp;4153.</figcaption></figure>
+  <figure><img src="images/be2c/09-the-battle-of-the-somme-july-november-1916-q4154.jpg" alt="B.E.2 at the Somme">
+    <figcaption>The Somme, 1916. IWM Q&nbsp;4154.</figcaption></figure>
+  <figure><img src="images/be2c/10-1913-wind-tunnel-model.jpg" alt="1913 wind tunnel model">
+    <figcaption>1913 wind&#8209;tunnel model &mdash; the stability that made it a good airship car.</figcaption></figure>
+  <figure><img src="images/be2c/11-aircraft-in-warfare-1916-plate-iv.jpg" alt="Aircraft in Warfare 1916 plate IV">
+    <figcaption><i>Aircraft in Warfare</i> (1916), plate IV.</figcaption></figure>
+  <figure><img src="images/be2c/12-bristol-f-2b-in-formation-flight-with-two-royal-aircraft-factory-be2s.jpg" alt="Two B.E.2s in formation with a Bristol F.2B">
+    <figcaption>Two B.E.2s in formation (with a Bristol F.2B).</figcaption></figure>
+</div>
+
+<h3>Maurice Farman &mdash; the pusher car</h3>
+<p>Built by <strong>Airships Ltd</strong>, resembling a Maurice Farman aeroplane body. The decisive
+difference is that it is a <strong>pusher</strong>: engine mounted aft, four&#8209;bladed pusher
+propeller, petrol tanks forward feeding the carburettors by gravity.</p>
+
+<p>It was <strong>slower &mdash; about 40&nbsp;mph</strong> against the B.E.2c's 50 &mdash; and
+nobody minded, because it was far better to work in. Whale records that the loss of speed &ldquo;was
+compensated for owing to the increased comfort provided for the crew, the cars being more roomy and
+suitable for airship work in every way.&rdquo; On an eight&#8209;hour patrol in a North Sea winter,
+roomy beats fast.</p>
+
+<ul class="tight">
+  <li><strong>Seating:</strong> pilot <em>in front</em>, wireless operator behind &mdash; the
+  reverse of the B.E.2c car. Several had a third seat for a passenger or engineer.</li>
+  <li><strong>Dual controls</strong> for rudder and elevator, pilot and observer &mdash; a real
+  safety feature none of the others had.</li>
+  <li><strong>Engines:</strong> normally Renault; one famously fitted with a 75&nbsp;hp
+  <strong>Rolls&#8209;Royce Hawk</strong>, which flew a patrol of <strong>18 hours 20
+  minutes</strong> &mdash; more than double the type's nominal endurance.</li>
+</ul>
+
+<div class="gal">
+  <figure><img src="images/maurice-farman/01-replica-1912-farman-mf-7-longhorn-museu-do-ar-sintra-20-9-2022-5379860.jpg" alt="Replica Maurice Farman MF.7 Longhorn">
+    <figcaption>MF.7 &ldquo;Longhorn&rdquo; replica, Museu do Ar &mdash; the nacelle shape the car copied.</figcaption></figure>
+  <figure><img src="images/maurice-farman/07-farman-pusher-biplane-rae-o786a.jpg" alt="Farman pusher biplane">
+    <figcaption>Farman pusher &mdash; note engine behind the crew nacelle. RAE O786a.</figcaption></figure>
+  <figure><img src="images/maurice-farman/02-ian-f2330a-biplane-maurice-farman-7-longhorn-preveza-1912.jpg" alt="Maurice Farman MF.7 Longhorn, Preveza 1912">
+    <figcaption>MF.7 Longhorn, Preveza 1912.</figcaption></figure>
+  <figure><img src="images/maurice-farman/11-ian-f2330b-biplane-maurice-farman-7-longhorn-preveza-1913.jpg" alt="Maurice Farman MF.7 Longhorn, Preveza 1913">
+    <figcaption>MF.7 Longhorn, Preveza 1913.</figcaption></figure>
+  <figure><img src="images/maurice-farman/08-french-aircraft-of-the-first-world-war-1914-1918-q67059.jpg" alt="French Maurice Farman aircraft">
+    <figcaption>IWM Q&nbsp;67059.</figcaption></figure>
+  <figure><img src="images/maurice-farman/06-the-french-air-force-on-the-western-front-1914-1918-q69536.jpg" alt="Maurice Farman on the Western Front">
+    <figcaption>Western Front. IWM Q&nbsp;69536.</figcaption></figure>
+  <figure><img src="images/maurice-farman/09-ian-f2035-nicopolis-airfield-1912.jpg" alt="Farman at Nicopolis airfield 1912">
+    <figcaption>Nicopolis airfield, 1912.</figcaption></figure>
+  <figure><img src="images/maurice-farman/10-ian-f2330.jpg" alt="Maurice Farman biplane">
+    <figcaption>Maurice Farman biplane.</figcaption></figure>
+  <figure><img src="images/maurice-farman/12-ian-f2704.jpg" alt="Maurice Farman biplane">
+    <figcaption>Maurice Farman biplane.</figcaption></figure>
+  <figure><img src="images/maurice-farman/05-c02797watt1915.jpg" alt="Maurice Farman 1915">
+    <figcaption>1915.</figcaption></figure>
+</div>
+
+<h3>Armstrong Whitworth &mdash; the long&#8209;legged one</h3>
+<p>Armstrong Whitworth's car (the F.K. series, designed by Frederick Koolhoven) was a
+<strong>tractor</strong> layout &ldquo;in all ways generally similar to the B.E.2c&rdquo;, with two
+differences that matter:</p>
+
+<ul class="tight">
+  <li><strong>Single landing skid with buffers</strong>, instead of the B.E.2c's twin ash skids
+  &mdash; the quickest way to tell the two apart in a photograph.</li>
+  <li><strong>Fuel slung from the envelope, not carried in the car.</strong> Two aluminium tanks hung
+  in a fabric sling fed the carburettors through flexible pipes and a two&#8209;way cock. That
+  saved <strong>100&nbsp;lb</strong> against the B.E.2c installation &mdash; and 100&nbsp;lb of
+  saved weight is 100&nbsp;lb of extra fuel, crew kit or bombs.</li>
+</ul>
+
+<p>It needed the larger <strong>70,000&nbsp;ft&sup3;</strong> envelope &mdash; its 100&nbsp;hp
+water&#8209;cooled Green engine was heavy, and on 60,000&nbsp;ft&sup3; &ldquo;the margin of lift was
+decidedly small.&rdquo; The payoff was <strong>12 hours' endurance against the B.E.2c's
+7&ndash;8</strong>.</p>
+
+<div class="note">
+  <span class="lab">The black ship</span>
+  <p>In the summer of 1916 an Armstrong Whitworth SS was rigged to an envelope <strong>doped
+  black</strong> and sent to France for night operations &mdash; successfully. It is the
+  ancestor of every blacked&#8209;out night mission argument you will ever hear, and it is a
+  genuinely unusual fact to have ready.</p>
+</div>
+
+<div class="gal">
+  <figure><img src="images/armstrong-whitworth/01-a-w-f-k-8-cockpit-area.jpg" alt="Armstrong Whitworth F.K.8 cockpit and fuselage, with A.W. maker's plate">
+    <figcaption>F.K.8 fuselage close&#8209;up &mdash; the <b>A&middot;W</b> maker's plate is legible
+    on the nose. The best single fuselage view in this set.</figcaption></figure>
+  <figure><img src="images/armstrong-whitworth/04-a-w-f-k-8-side-view-1.jpg" alt="Armstrong Whitworth F.K.8 side view">
+    <figcaption>F.K.8 side view.</figcaption></figure>
+  <figure><img src="images/armstrong-whitworth/05-a-w-f-k-8-side-view-2.jpg" alt="Armstrong Whitworth F.K.8 side view">
+    <figcaption>F.K.8 side view, second angle.</figcaption></figure>
+  <figure><img src="images/armstrong-whitworth/07-armstrong-whitworth-f-k-3-5519.jpg" alt="Armstrong Whitworth F.K.3">
+    <figcaption>F.K.3 &mdash; the earlier, smaller type.</figcaption></figure>
+  <figure><img src="images/armstrong-whitworth/02-armstrong-whitworth-fk3-captured.jpg" alt="Captured Armstrong Whitworth F.K.3">
+    <figcaption>A captured F.K.3 &mdash; clear structural view.</figcaption></figure>
+  <figure><img src="images/armstrong-whitworth/12-the-royal-flying-corps-on-the-western-front-1914-1918-q12016.jpg" alt="RFC Armstrong Whitworth on the Western Front">
+    <figcaption>RFC, Western Front. IWM Q&nbsp;12016.</figcaption></figure>
+  <figure><img src="images/armstrong-whitworth/08-british-plane-shot-down-near-gevgeli.jpg" alt="British aircraft shot down near Gevgeli">
+    <figcaption>Shot down near Gevgeli.</figcaption></figure>
+  <figure><img src="images/armstrong-whitworth/03-first-qantas-flight-1922-slnsw-fl8579187.jpg" alt="First Qantas flight 1922, Armstrong Whitworth F.K.8">
+    <figcaption>Post&#8209;war F.K.8 in Qantas service, 1922 &mdash; same fuselage, clearer photography.</figcaption></figure>
+  <figure><img src="images/armstrong-whitworth/06-first-qantas-aerial-mail-service-departs-charleville-2-november-1922.jpg" alt="Qantas aerial mail service F.K.8, Charleville 1922">
+    <figcaption>Qantas aerial mail, Charleville, Nov 1922.</figcaption></figure>
+  <figure><img src="images/armstrong-whitworth/10-queensland-state-archives-3051-arrival-at-longreach-of-the-armstrong-w.jpg" alt="Armstrong Whitworth F.K.8 at Longreach">
+    <figcaption>Arrival at Longreach.</figcaption></figure>
+  <figure><img src="images/armstrong-whitworth/11-statelibqld-1-104684-qantas-aircraft-the-armstrong-whitworth-fk8-ca-19.jpg" alt="Qantas Armstrong Whitworth F.K.8">
+    <figcaption>Qantas F.K.8.</figcaption></figure>
+</div>
+
+<div class="note warn">
+  <span class="lab">Honest caveat on these galleries</span>
+  <p>No photograph is known to this brief that shows a <strong>Maurice Farman or Armstrong
+  Whitworth car actually slung under an SS envelope</strong>. The aircraft images above show the
+  <em>aeroplanes</em> those cars derived from or resembled, which is what makes the shape
+  recognisable. The one confirmed car&#8209;under&#8209;envelope image here is the B.E.2c type
+  (Whale plate p.98, top of this document) plus the IWM car photograph. If you show a Farman
+  aeroplane, say &ldquo;this is the aeroplane the car resembled&rdquo; &mdash; do not let it be
+  taken as a photograph of the airship.</p>
+</div>
+</section>
+
+<section id="anatomy">
+<h2><span class="n">05</span><span>Anatomy &mdash; every part, and what it is for</span></h2>
+
+<p>All of the following is from Whale's 1919 account, which describes the SS in engineering detail
+because he expected his readers to be airship men. These are the parts a cadet can ask about.</p>
+
+<h3>First principle: a blimp has no skeleton</h3>
+<div class="note key">
+  <span class="lab">The thing to understand before any part makes sense</span>
+  <p>An SS is a <strong>non&#8209;rigid</strong>. There is no internal frame. <strong>The envelope
+  holds its shape because the gas inside is at a slightly higher pressure than the air
+  outside</strong> &mdash; it is a pressure vessel, like a football. Lose that pressure and the ship
+  does not merely sink, it <em>loses its shape</em>, the nose blows in, and it stops being
+  steerable. Almost every system described below exists to <strong>hold pressure constant</strong>
+  as altitude and temperature change.</p>
+  <p>That is the whole design problem, and it is why &ldquo;blimp&rdquo; is a different machine
+  from a Zeppelin rather than just a smaller one.</p>
+</div>
+
+<h3>The envelope</h3>
+<dl class="parts">
+  <dt>Fabric</dt>
+  <dd><strong>Four layers</strong>: two plies of rubber&#8209;proofed fabric with a layer of rubber
+  between them, plus a further rubber layer on the inner (gas) surface. The rubber is the gas
+  barrier; the fabric carries the load.</dd>
+
+  <dt>Dope</dt>
+  <dd><strong>Five coats</strong>, in a fixed order: two of <em class="term">Delta dope</em>
+  (flexible), two of aluminium dope, one of aluminium varnish. The aluminium is not decoration
+  &mdash; it reflects sunlight, and sunlight heats the gas, raises the pressure and vents hydrogen
+  overboard. Shiny skin = less gas lost.</dd>
+
+  <dt>Shape</dt>
+  <dd>Streamlined: blunt at the nose, tapering to the tail. <strong>143&nbsp;ft 6&nbsp;in long,
+  27&nbsp;ft 9&nbsp;in maximum diameter</strong> on the 60,000&nbsp;ft&sup3; envelope.</dd>
+
+  <dt>Nose stiffening</dt>
+  <dd><strong>24 canes</strong> in fabric pockets radiating from a point 2&frac12;&nbsp;in ahead of
+  the nose, under an aluminium conical cap and a fabric nose cap. Without it the nose blows
+  <em>inward</em> at speed &mdash; the one place where air pressure beats gas pressure.</dd>
+</dl>
+
+<h3>Ballonets &mdash; the single cleverest part</h3>
+<p>If you only explain one system, explain this one, because it is the thing nobody expects.</p>
+
+<p><strong>Inside the gasbag are two more bags &mdash; full of air, not hydrogen.</strong> One
+forward, one aft, <strong>6,375&nbsp;ft&sup3; each</strong>. (The SS&nbsp;1 prototype had only one;
+production ships had two. The SST had four.)</p>
+
+<p>They solve this problem: as the ship climbs, outside pressure falls, so the hydrogen expands.
+With no ballonets you would have to vent precious gas every time you went up. Instead:</p>
+
+<ul class="tight">
+  <li><strong>Climbing</strong> &mdash; hydrogen expands, squeezes the air ballonets, air is pushed
+  out through the air valves. Envelope stays taut, no gas lost.</li>
+  <li><strong>Descending</strong> &mdash; hydrogen contracts, ballonets are re&#8209;inflated with
+  air from the propeller slipstream. Envelope stays taut, no shape lost.</li>
+  <li><strong>Trim</strong> &mdash; filling the forward or aft ballonet preferentially tilts the
+  ship nose&#8209;up or nose&#8209;down.</li>
+</ul>
+
+<dl class="parts">
+  <dt>Air scoop</dt>
+  <dd>A slanting aluminium tube taking air from the <strong>propeller draught</strong> to the
+  underside of the envelope. It is free, continuous ram air whenever the engine is running &mdash;
+  which is also why an engine failure is a pressure emergency, not just a propulsion one.</dd>
+
+  <dt>Air duct</dt>
+  <dd>A longitudinal fabric hose along the underside connecting both ballonet inlets to the scoop.</dd>
+
+  <dt>Crab&#8209;pots</dt>
+  <dd><strong>Non&#8209;return fabric valves</strong>, one each side of the scoop junction. They let
+  air in and refuse to let it back out, so one ballonet cannot empty into the other. The name is
+  period slang and cadets love it &mdash; it works like a lobster pot.</dd>
+
+  <dt>Air valves</dt>
+  <dd>Two automatic, one per ballonet, on the underside. <strong>Set to open at 25&ndash;28&nbsp;mm</strong>
+  of water pressure. Note the detail: air pressure tends to push these valves <em>open</em>, so the
+  spring is mounted <strong>inside</strong> the envelope to hold them shut.</dd>
+</dl>
+
+<div class="plate">
+  <img src="images/schematics/02-british-airships-past-present-future-p120.jpg" alt="Cross-section diagram of a Coastal airship showing curtains, internal rigging and main suspensions">
+  <figcaption><b>Cross&#8209;section &mdash; and a deliberate contrast.</b> This is a
+  <em>Coastal</em> airship, not an SS: three lobes, with <strong>catenary curtains</strong> and
+  <strong>internal rigging</strong> carrying the car load from inside the envelope. The SS does
+  <em>not</em> work this way &mdash; it uses simple external tangential rigging (next section).
+  Shown because &ldquo;catenary curtain&rdquo; is the term most people have heard, and this is what
+  it means. Whale (1919) p.120. Public domain.</figcaption>
+</div>
+
+<div class="plate">
+  <img src="images/schematics/03-british-airships-past-present-future-p32.jpg" alt="Sectional elevation of a North Sea airship showing internal arrangement">
+  <figcaption><b>Sectional elevation &mdash; what is inside the bag.</b> A North Sea airship rather
+  than an SS (bigger, later, a different class), but it is the clearest period drawing of how a
+  non&#8209;rigid is arranged internally: envelope, ballonets, ducting and the car slung beneath.
+  Read it for the principle, and say which class it is if you put it on a slide.
+  Whale (1919) p.32. Public domain.</figcaption>
+</div>
+
+<h3>Gas valves</h3>
+<dl class="parts">
+  <dt>Bottom valve</dt>
+  <dd><strong>Automatic</strong>, spring set to open at <strong>30&ndash;35&nbsp;mm</strong>. Note
+  it opens at a <em>higher</em> pressure than the air valves &mdash; the ship always dumps air
+  before it will dump hydrogen. That ordering is a safety design, not an accident.</dd>
+
+  <dt>Top valve</dt>
+  <dd><strong>Hand controlled only.</strong> The pilot pulls it to descend. Cords led to the
+  pilot's seat through eyes on the envelope.</dd>
+
+  <dt>Construction</dt>
+  <dd>Two wooden rings clamp the envelope fabric, held by studs and butterfly nuts; an aluminium
+  disc seats on a stretched indiarubber ring and is held shut by a compressed spring.</dd>
+</dl>
+
+<h3>Rip panel &mdash; the emergency deflation</h3>
+<p>A <strong>14&nbsp;ft 5&nbsp;in by ~8&nbsp;in</strong> panel on top of the envelope, toward the
+nose. Pulling the <strong>ripping cord</strong> tears it open and dumps the entire gas content in
+seconds.</p>
+<p>You use it when the ship is on the ground in a wind and about to be dragged or rolled. The
+overlap is sewn and taped so that in normal use it is <em>as strong and gastight as any other part
+of the envelope</em> &mdash; it is not a weak spot waiting to fail. The cord runs aft to a pulley
+above the car, then round the side of the envelope and in through a gland.</p>
+
+<h3>Rigging &mdash; how the car actually hangs</h3>
+<p>Whale calls the system &ldquo;simplicity itself&rdquo;, and it is <strong>tangential</strong>
+&mdash; the cables run tangent to the envelope curve rather than through it. The load is spread as
+a branching tree, so no single point on the fabric takes a concentrated pull:</p>
+
+<dl class="parts">
+  <dt>&ldquo;C&rdquo; suspensions</dt>
+  <dd><strong>Six per side</strong>, 25&nbsp;cwt stranded steel cable. These are the main members
+  carrying the car.</dd>
+  <dt>&ldquo;B&rdquo; bridles</dt>
+  <dd>Each C cable branches into two.</dd>
+  <dt>&ldquo;A&rdquo; bridles</dt>
+  <dd>Each B is supported at its ends by these &mdash; so one main suspension ends in
+  <strong>four</strong> attachment points.</dd>
+  <dt>Eta patches</dt>
+  <dd>The attachment itself: a metal <strong>D&#8209;fitting</strong> with webbing bands spread
+  <strong>fanwise</strong> and glued to the envelope. Named for the airship <em>Eta</em>, where the
+  method was developed. This is how you attach a steel cable to a fabric bag without tearing it.</dd>
+</dl>
+
+<div class="note">
+  <span class="lab">Why it is built as a tree</span>
+  <p>Six main cables &times; four A&#8209;bridle ends = the car's whole weight spread over
+  <strong>24 patches per side</strong>, along most of the envelope's length. Hang a 1,000&nbsp;lb
+  car off six points and you tear the fabric; hang it off forty&#8209;eight and each patch carries
+  about twenty pounds.</p>
+</div>
+
+<div class="plate">
+  <img src="images/schematics/01-british-airships-past-present-future-p118.jpg" alt="General arrangement drawing of car suspensions showing main suspensions A to J, handling guys, jackstay and external suspensions">
+  <figcaption><b>General arrangement of car suspensions.</b> The key at the bottom is worth
+  reading aloud: <em>A&ndash;J main suspensions; 1, 4 forward and aft handling guys; 2, 3 midship;
+  5 jackstay; 6&ndash;15 external suspensions; 16 anti&#8209;ripping guys.</em> Again a Coastal
+  drawing, but the fan&#8209;of&#8209;cables principle and the terminology are exactly the SS's.
+  Whale (1919) p.118. Public domain.</figcaption>
+</div>
+
+<h3>Ground handling and mooring</h3>
+<dl class="parts">
+  <dt>Handling guys</dt>
+  <dd><strong>Four</strong> &mdash; two under the bow, two under the stern, each pair from a group
+  of four Eta patches. These are what the ground party grabs. An SS needed a <em>large</em> landing
+  party; the photographs of SSZ&nbsp;17 at Pembroke show why.</dd>
+  <dt>Mooring point</dt>
+  <dd>The forward patch group is the anchoring point. A 25&nbsp;cwt cable bridle runs from it to
+  the forward ends of the car skids; the junction of that bridle and the skid cables is the mooring
+  point, so <strong>strain is divided evenly between envelope and car</strong> rather than being
+  taken by either alone.</dd>
+  <dt>Trail rope</dt>
+  <dd><strong>120&nbsp;ft of 2&#8209;inch manila</strong>, coiled on the car side, dropped by a
+  release gear.</dd>
+  <dt>Grapnel</dt>
+  <dd>On a short rope with an eye that slides down the trail rope and catches on a knot at the end.</dd>
+</dl>
+
+<h3>Fins, rudders and elevators</h3>
+<dl class="parts">
+  <dt>Original layout</dt>
+  <dd><strong>Four fins and rudders set radially</strong> &mdash; two horizontal, two below in an
+  inverted&#8209;V.</dd>
+  <dt>Revised layout</dt>
+  <dd>In many ships the two lower fins were dropped for a <strong>single vertical fin and rudder
+  centrally underneath</strong>. If you are asked why: fewer surfaces to damage on landing, and
+  less to foul the ground party.</dd>
+  <dt>Size</dt>
+  <dd>Three planes, each <strong>16&nbsp;ft &times; 8&nbsp;ft 6&nbsp;in</strong>, gross stabilising
+  area <strong>402&frac12;&nbsp;ft&sup2;</strong>. Original rudders 3&nbsp;ft &times; 8&nbsp;ft
+  6&nbsp;in; with the single&#8209;plane layout, 4&#8209;ft rudders.</dd>
+  <dt>Construction</dt>
+  <dd>Spruce, aluminium and steel tubing, wire&#8209;braced, covered in linen doped and varnished
+  <em>in position</em>. Two steel kingposts per plane.</dd>
+  <dt>Attachment</dt>
+  <dd>Spruce skids fastened to the envelope by <strong>eight lacing patches</strong>, plus stay
+  wires.</dd>
+</dl>
+
+<h3>In the car</h3>
+<dl class="parts">
+  <dt>Controls</dt>
+  <dd>The aeroplane's own: <strong>steering by the feet</strong> (rudder bar), <strong>elevating by
+  a vertical hand wheel</strong> mounted fore&#8209;and&#8209;aft across the seat. Control wires run
+  aft inside the fuselage fairing to the extreme tail.</dd>
+  <dt>Instruments</dt>
+  <dd>Watch &middot; air&#8209;speed indicator <em>in knots</em> &middot; aneroid to 10,000&nbsp;ft
+  &middot; Elliott revolution counter &middot; Clift inclinometer (&plusmn;20&deg;) &middot; map
+  case with celluloid front &middot; oil pressure &middot; petrol pressure &middot; glass petrol
+  level &middot; <strong>two concentric glass gauges for gas pressure</strong>.</dd>
+  <dt>Compass</dt>
+  <dd>On a small wooden pedestal <strong>on the floor between the pilot's legs</strong> &mdash; as
+  far from the engine's iron as the car allows.</dd>
+  <dt>Fuel</dt>
+  <dd>Three tanks: gravity and intermediate (from the aeroplane) plus a bottom tank under the front
+  seat. Petrol forced up to the gravity tank <strong>by air pressure from a hand pump</strong>
+  beside the pilot's seat. The oil tank sits inside the car ahead of the observer.</dd>
+  <dt>Ballast</dt>
+  <dd><strong>14 gallons of water (140&nbsp;lb)</strong> immediately behind the pilot's seat.</dd>
+  <dt>Wireless</dt>
+  <dd>Receiver and transmitter in the car on accumulator batteries, aerial reel outside.
+  <strong>Range 50&ndash;60 miles</strong> &mdash; which is the entire point of the aircraft.</dd>
+  <dt>Armament</dt>
+  <dd>Bombs in frames about the centre of the undercarriage (up to <strong>160&nbsp;lb</strong>);
+  bomb sight by the release gear outside the car to starboard; a <strong>Lewis gun</strong> on a
+  post beside the pilot &mdash; <em>not always carried</em> on early SS ships.</dd>
+</dl>
+
+<div class="note key">
+  <span class="lab">The answer to &ldquo;how did it actually kill submarines?&rdquo;</span>
+  <p>Mostly, <strong>it didn't &mdash; and that was the point.</strong> Over the final 15 months of
+  the war SS&#8209;type ships flew <strong>10,000+ patrols, ~1.5 million miles, 50,000+ hours</strong>.
+  They sighted <strong>49 U&#8209;boats</strong> and 27 were attacked from the air or by ships. The
+  number that matters is different: <strong>only one vessel was ever sunk while being escorted by
+  an airship.</strong></p>
+  <p>A submerged U&#8209;boat is blind and slow. A visible airship overhead forces it down and keeps
+  it there. The weapon was <em>presence</em>, and the wireless set mattered more than the bombs.</p>
+</div>
+</section>
+
+<section id="qa">
+<h2><span class="n">06</span><span>The questions cadets will actually ask</span></h2>
+
+<p>Written as answers you can give out loud. Where the honest answer is &ldquo;disputed&rdquo; or
+&ldquo;I don't know&rdquo;, it says so &mdash; that is a stronger position in a room than a
+confident guess that someone can correct.</p>
+
+<details class="qa" open>
+<summary>Is it SS for Submarine Scout or Sea Scout?</summary>
+<div class="a"><p>Both appear in the literature. <strong>Submarine Scout is the original</strong>
+and the operational name; Sea Scout shows up alongside it, especially in later writing. Named for
+the mission &mdash; scouting for submarines.</p></div>
+</details>
+
+<details class="qa">
+<summary>Why is it called a &ldquo;class&rdquo;?</summary>
+<div class="a"><p>Because in 1915 the Navy stopped numbering these ships in its single running
+airship list and started numbering them <strong>within their own class from 1 upward</strong> &mdash;
+SS, SSP, SS Zero, Coastal, C Star, North Sea. It was a deliberate administrative decision made
+because they were about to build a great many near&#8209;identical ships. The rigids kept the old
+sequence, which is why their numbers jump from No.&nbsp;1 to R&nbsp;9 to R&nbsp;23.</p></div>
+</details>
+
+<details class="qa">
+<summary>Is a blimp the same as a Zeppelin?</summary>
+<div class="a"><p>No, and this is the distinction most worth being crisp about. A
+<strong>Zeppelin is rigid</strong> &mdash; a metal skeleton with separate gas cells inside; it holds
+its shape with no gas at all. An <strong>SS is non&#8209;rigid</strong> &mdash; no frame whatsoever.
+It holds its shape by <strong>internal gas pressure alone</strong>. Lose pressure and it loses its
+shape and its steering. Different machines, not different sizes.</p></div>
+</details>
+
+<details class="qa">
+<summary>What stops the gasbag from bursting as it climbs?</summary>
+<div class="a"><p>The <strong>ballonets</strong> &mdash; two air bags <em>inside</em> the hydrogen
+envelope, 6,375&nbsp;ft&sup3; each. Climbing, the hydrogen expands and squeezes air out of them
+through automatic valves set at 25&ndash;28&nbsp;mm. Descending, they refill from the propeller
+slipstream through the air scoop. The envelope stays taut and no hydrogen is wasted. Filling them
+unevenly also trims the ship nose&#8209;up or nose&#8209;down.</p></div>
+</details>
+
+<details class="qa">
+<summary>What happens if the engine quits?</summary>
+<div class="a"><p>It is worse than it sounds, because the air scoop feeds off the
+<strong>propeller draught</strong>. No engine means no ram air into the ballonets, so a descent can
+no longer be compensated by refilling them &mdash; it becomes a pressure problem as well as a
+propulsion problem. That is precisely why the <strong>SST &ldquo;Twin&rdquo;</strong> was
+developed: Whale says the idea was &ldquo;to render the small type of airship less liable to loss
+from engine failure.&rdquo;</p></div>
+</details>
+
+<details class="qa">
+<summary>Why hydrogen? Wasn't that known to be dangerous?</summary>
+<div class="a">
+<p>Yes, and they used it anyway because <strong>Britain had no practical alternative in 1915.</strong>
+Helium was effectively a United States monopoly and was not available in militarily useful
+quantities to anyone else during the First World War. Hydrogen was also <strong>cheaper, could be
+produced domestically, and gives roughly 8% more lift.</strong></p>
+<p>The mitigation was operational rather than technical: no smoking, careful engine and exhaust
+placement, bonding, and the rip panel to dump gas before a ground accident turned into a fire.</p>
+</div>
+</details>
+
+<details class="qa">
+<summary>Then why did the Hindenburg still use hydrogen in 1937, after all the accidents?</summary>
+<div class="a">
+<p><strong>Because the one country with helium would not sell it.</strong> This is the best version
+of the answer, and it surprises people:</p>
+<ul class="tight">
+  <li>LZ&nbsp;129 <strong>Hindenburg was designed for helium.</strong> Zeppelin knew exactly how
+  dangerous hydrogen was.</li>
+  <li>The United States had a near&#8209;total world monopoly on helium, from natural gas fields in
+  the Texas panhandle.</li>
+  <li>US law &mdash; the <strong>Helium Act of 1925</strong> and the <strong>Helium Control Act of
+  1927</strong> &mdash; made it a strategic mineral and barred export.</li>
+  <li>Germany built the ship gambling it could obtain an export licence. The <strong>National
+  Munitions Control Board refused</strong>, and with the Nazi government in power after 1933 there
+  was no appetite in Washington to reconsider. Zeppelin had to
+  <strong>re&#8209;engineer a finished helium airship to run on hydrogen.</strong></li>
+  <li>Grimly: designed around heavier helium, the ship had <em>surplus</em> lift on hydrogen &mdash;
+  which the company spent on <strong>extra passenger cabins.</strong></li>
+</ul>
+<p><strong>And they had real evidence it could be done safely.</strong> LZ&nbsp;127
+<em>Graf Zeppelin</em>, 1928&ndash;1937, on hydrogen: <strong>590 flights, ~1.1&nbsp;million miles,
+144 ocean crossings, 13,110 passengers, and not one passenger or crewman injured.</strong></p>
+<p>The line to use:</p>
+<blockquote>Everyone had learned the lesson. Only the Americans had the gas.</blockquote>
+<p>And the follow&#8209;up to be ready for: <strong>hydrogen was the fuel, but what ignited it has
+never been definitively established</strong> &mdash; static discharge, St&nbsp;Elmo's fire and the
+skin's doped coating have all been argued. Don't be pushed into naming a settled cause.</p>
+</div>
+</details>
+
+<details class="qa">
+<summary>Why did America use helium when Britain and Germany didn't?</summary>
+<div class="a"><p>Because America had it and they had already paid for the lesson. The
+<strong>Roma</strong> &mdash; entry 02 of the main dossier &mdash; crashed in 1922 on hydrogen,
+killing 34. The US Navy went <strong>all&#8209;helium</strong> afterwards and never went back:
+Akron, Macon, and the L&#8209;, K&#8209; and ZPG&#8209;classes are all helium ships because of
+it.</p></div>
+</details>
+
+<details class="qa">
+<summary>How many were built, and how many versions were there?</summary>
+<div class="a"><p>About <strong>158 of all SS versions and variants.</strong> Of those roughly
+<strong>60</strong> were the original three car&#8209;types (B.E.2c, Maurice Farman, Armstrong
+Whitworth); the <strong>SS Zero alone accounted for 70&#8209;plus</strong>. Then SSP (6), SST and
+the experimental SSE. Each cost about <strong>&pound;2,500</strong>.</p></div>
+</details>
+
+<details class="qa">
+<summary>Did they actually sink any submarines?</summary>
+<div class="a"><p>Very few &mdash; and that is the wrong measure. In the last 15 months of the war
+SS&#8209;types flew <strong>over 10,000 patrols, ~1.5 million miles, 50,000+ hours</strong>,
+sighted <strong>49 U&#8209;boats</strong> and attacked or cued attacks on 27. The decisive figure
+is that <strong>only one ship was ever sunk while under airship escort.</strong> A submerged
+U&#8209;boat is blind and slow; an airship overhead forces it under and keeps it there. The weapon
+was presence, and the <strong>wireless mattered more than the bombs.</strong></p></div>
+</details>
+
+<details class="qa">
+<summary>How long could it stay up?</summary>
+<div class="a"><p>Design endurance ran from <strong>7&ndash;8 hours</strong> (SS B.E.2c) to
+<strong>17 hours</strong> (SSZ and SST). Reality beat it badly. A Hawk&#8209;engined Maurice Farman
+flew <strong>18&nbsp;h&nbsp;20&nbsp;m</strong>; the record is <strong>SSZ&nbsp;39 at 50 hours 55
+minutes</strong>, with others at 30&nbsp;h&nbsp;20&nbsp;m and a cluster around
+25&frac12;&ndash;26&frac12;&nbsp;h. Average patrol was about eight hours.</p></div>
+</details>
+
+<details class="qa">
+<summary>How high could it go?</summary>
+<div class="a"><p>Service ceiling about <strong>5,000&nbsp;ft</strong>, which was plenty &mdash;
+you want to be low enough to see into the water. The <strong>British airship altitude record was
+set by an SS B.E.2c at 10,300&nbsp;ft in the summer of 1916</strong>, double its normal
+ceiling.</p></div>
+</details>
+
+<details class="qa">
+<summary>Who was on board, and what did they do?</summary>
+<div class="a"><p>Normally <strong>two</strong>. The <strong>pilot</strong> steered <em>and</em> ran
+the engine &mdash; no separate engineer. The <strong>observer doubled as the wireless
+operator</strong>, with the set around his seat and the aerial reel outside the car. The Maurice
+Farman car sometimes carried a third for a passenger or engineer and had dual rudder and elevator
+controls. Later SSP and SSZ cars seated three; the SST, five.</p></div>
+</details>
+
+<details class="qa">
+<summary>How do you land something with no brakes and no wheels?</summary>
+<div class="a"><p>You don't, really &mdash; <strong>a ground party catches it.</strong> The ship
+trails a <strong>120&nbsp;ft manila trail rope</strong> dropped by release gear; handlers grab that
+and the <strong>four handling guys</strong> under bow and stern and walk it down. Landing gear is
+<strong>ash skids</strong>, not wheels. If the wind got up and the ship was about to be dragged,
+the pilot pulled the <strong>rip panel</strong> and dumped the gas deliberately.</p></div>
+</details>
+
+<details class="qa">
+<summary>What's a crab-pot?</summary>
+<div class="a"><p>A <strong>non&#8209;return fabric valve</strong> in the air duct either side of
+the scoop junction &mdash; period slang, works like a lobster pot: air in, not back out. It stops
+one ballonet emptying into the other.</p></div>
+</details>
+
+<details class="qa">
+<summary>What's an Eta patch?</summary>
+<div class="a"><p>How you attach a steel cable to a fabric bag without tearing it. A metal
+<strong>D&#8209;fitting</strong> with webbing bands spread <strong>fanwise</strong> and glued to
+the envelope. Named after the airship <em>Eta</em>, where the technique was developed.</p></div>
+</details>
+
+<details class="qa">
+<summary>Why did they use an aeroplane fuselage instead of designing a car?</summary>
+<div class="a"><p><strong>Time.</strong> Fisher said &ldquo;at once&rdquo; on 28 February 1915 and
+the first ship was in service on 18 March &mdash; under three weeks. B.E.2cs were already in mass
+production, and the factories and skills existed. By 1916 they <em>did</em> design proper cars
+(SSP, then the boat&#8209;hulled SSZ) &mdash; as soon as there was time to.</p></div>
+</details>
+
+<details class="qa">
+<summary>If someone asks something I don't know?</summary>
+<div class="a"><p>Say so, then say where the answer lives. &ldquo;I don't have that figure &mdash;
+the standard source is Whale's 1919 <i>British Airships</i>, and I can look it up.&rdquo; This
+brief is built from a period source precisely so you can name it. <strong>A confident wrong number
+is the only real failure mode here.</strong></p></div>
+</details>
+</section>
+
+<section id="sources">
+<h2><span class="n">07</span><span>Sources</span></h2>
+
+<p>The anatomy, specifications and quotations in sections 01, 02, 04 and 05 come from a
+<strong>contemporary account written by a serving officer</strong>, not from a modern summary.
+That is deliberate &mdash; it is the difference between &ldquo;a website said&rdquo; and
+&ldquo;the 1919 standard work says&rdquo;.</p>
+
+<ul class="tight">
+  <li><strong>George Whale, <i>British Airships: Past, Present &amp; Future</i> (1919)</strong>
+  &mdash; late Major, R.A.F. The primary source here: envelope construction, dope schedule,
+  ballonets and crab&#8209;pots, valve pressures, rip panel dimensions, the A/B/C rigging tree and
+  Eta patches, fins, car interiors, instruments, and all three car types. Public domain; full text
+  and plates at the Internet Archive
+  (<a href="https://archive.org/details/britishairshipsp00whal">britishairshipsp00whal</a>).</li>
+  <li><strong>Wikipedia, <a href="https://en.wikipedia.org/wiki/SS_class_airship">SS class airship</a></strong>
+  &mdash; cross&#8209;check on variant specification tables, production totals and the operational
+  statistics for the final 15 months.</li>
+  <li><strong>Wikipedia, <a href="https://en.wikipedia.org/wiki/LZ_127_Graf_Zeppelin">LZ&nbsp;127 Graf Zeppelin</a>
+  and <a href="https://en.wikipedia.org/wiki/LZ_129_Hindenburg">LZ&nbsp;129 Hindenburg</a></strong>
+  &mdash; the Graf Zeppelin operational record and the helium export question.</li>
+  <li><strong>Imperial War Museum</strong> and <strong>US National Archives (NARA)</strong>
+  &mdash; photographs, individually credited in the <code>CREDITS.md</code> file inside each image
+  folder.</li>
+</ul>
+
+<div class="note warn">
+  <span class="lab">Image licensing</span>
+  <p>Every image in this document was taken from <strong>Wikimedia Commons</strong> and is public
+  domain or freely licensed. Each folder under <code>images/</code> carries a
+  <code>CREDITS.md</code> listing, per file, the source page, licence, author and description.
+  If you reuse any of these in slides, that file is where the attribution comes from.</p>
+</div>
+
+<div class="note">
+  <span class="lab">What this brief does not have</span>
+  <p>Honest gaps, so you are not caught out:</p>
+  <ul class="tight">
+    <li><strong>No photograph of a Maurice Farman or Armstrong Whitworth car under an
+    envelope</strong> was found. The aircraft galleries show the aeroplanes those cars derived from
+    or resembled.</li>
+    <li>The <strong>SSE</strong> is a designation with no specification data in these sources.</li>
+    <li>The cross&#8209;section and suspension drawings are <strong>Coastal</strong> airships, used
+    to illustrate terminology. The SS used simpler external tangential rigging and had no catenary
+    curtain.</li>
+    <li>No roster of individual SS ships and their fates is included.</li>
+  </ul>
+</div>
+</section>
+
+<footer class="end">
+  AFROTC airframe brief &middot; Volume II &middot; SS class deep dive<br>
+  Built from George Whale, <i>British Airships: Past, Present &amp; Future</i> (1919), public domain.<br>
+  Companion to <a href="airship-dossiers.html">the seven-airframe dossier</a>.
+  Images: Wikimedia Commons &mdash; see <code>images/&lt;folder&gt;/CREDITS.md</code> for per-file attribution.
+</footer>
+
+</div>
+</body>
+</html>

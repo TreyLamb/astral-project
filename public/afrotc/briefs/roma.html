@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roma Airframe Brief</title>
+<meta name="description" content="AFROTC airframe brief, volume III: the airship Roma - a United States Army Air Service aircraft, and why it qualifies as Air Force heritage.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Spectral:ital,wght@0,400;0,600;1,400&family=Roboto+Mono:wght@400;500;700&display=swap">
+<style>
+:root{
+  --paper:#E8E9E3; --surface:#F7F7F3; --plate:#DFE0D8;
+  --ink:#14171A; --ink-2:#464D52; --ink-3:#767D83;
+  --rule:#C7C9C0; --rule-2:#A9ACA1;
+  --oxide:#8E3118; --steel:#2E4D5E; --brass:#8A6A1F; --go:#2F5D3A;
+  --f-disp:"Oswald","Haettenschweiler","Arial Narrow",sans-serif;
+  --f-body:"Spectral",Georgia,"Times New Roman",serif;
+  --f-mono:"Roboto Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#15171A; --surface:#1C1F23; --plate:#23272C;
+    --ink:#E9EAE4; --ink-2:#B6BBC0; --ink-3:#848A90;
+    --rule:#343A40; --rule-2:#474E55;
+    --oxide:#D4663F; --steel:#7FA8C0; --brass:#C9A24A; --go:#6FAE80;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15171A; --surface:#1C1F23; --plate:#23272C;
+  --ink:#E9EAE4; --ink-2:#B6BBC0; --ink-3:#848A90;
+  --rule:#343A40; --rule-2:#474E55;
+  --oxide:#D4663F; --steel:#7FA8C0; --brass:#C9A24A; --go:#6FAE80;
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--f-body); font-size:17px; line-height:1.62;}
+.wrap{max-width:1080px; margin:0 auto; padding:0 16px 96px;}
+header.top{border-bottom:3px double var(--rule-2); margin-bottom:34px; padding:40px 0 22px;}
+.kicker{font-family:var(--f-mono); font-size:11px; letter-spacing:.17em;
+  text-transform:uppercase; color:var(--ink-3); margin-bottom:14px;}
+h1{font-family:var(--f-disp); font-weight:600; font-size:clamp(44px,11vw,96px);
+  line-height:.9; letter-spacing:.012em; margin:0 0 14px; text-transform:uppercase;}
+h1 .sub{display:block; color:var(--oxide); font-size:.42em; letter-spacing:.04em; margin-top:8px;}
+.standfirst{font-size:19px; color:var(--ink-2); max-width:62ch; margin:0;}
+.backlink{display:inline-block; margin-top:18px; font-family:var(--f-mono); font-size:12px;
+  color:var(--steel); text-decoration:none; border-bottom:1px solid currentColor;}
+section{margin:0 0 54px;}
+h2{font-family:var(--f-disp); font-weight:600; text-transform:uppercase;
+  font-size:clamp(22px,4.2vw,32px); line-height:1.08; letter-spacing:.015em;
+  margin:0 0 6px; padding-top:16px; border-top:2px solid var(--ink);
+  display:flex; gap:14px; align-items:baseline;}
+h2 .n{font-family:var(--f-mono); font-size:13px; color:var(--oxide); font-weight:700;
+  flex:none; padding-top:4px;}
+h3{font-family:var(--f-disp); font-weight:500; text-transform:uppercase; letter-spacing:.05em;
+  font-size:17px; margin:30px 0 8px; color:var(--oxide);}
+h4{font-family:var(--f-disp); font-weight:500; font-size:15px; letter-spacing:.04em;
+  text-transform:uppercase; margin:20px 0 6px; color:var(--ink-2);}
+p{margin:0 0 14px;} p:last-child{margin-bottom:0;}
+strong{font-weight:600;}
+.note{background:var(--surface); border-left:4px solid var(--steel);
+  padding:16px 20px; margin:20px 0; font-size:16px;}
+.note.key{border-left-color:var(--oxide);}
+.note.warn{border-left-color:var(--brass);}
+.note.go{border-left-color:var(--go);}
+.note .lab{display:block; font-family:var(--f-mono); font-size:10.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ink-3); margin-bottom:7px;}
+blockquote{margin:20px 0; padding:4px 0 4px 22px; border-left:3px solid var(--oxide);
+  font-size:20px; font-style:italic;}
+blockquote cite{display:block; font-size:13px; font-style:normal; font-family:var(--f-mono);
+  color:var(--ink-3); margin-top:9px;}
+.tbl{overflow-x:auto; margin:20px 0; -webkit-overflow-scrolling:touch;}
+table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:520px;}
+th,td{text-align:left; padding:8px 11px; border-bottom:1px solid var(--rule); vertical-align:top;}
+th{font-family:var(--f-disp); text-transform:uppercase; letter-spacing:.05em; font-size:12.5px;
+  font-weight:500; color:var(--ink-2); border-bottom:2px solid var(--ink-2); white-space:nowrap;}
+td.num,th.num{font-family:var(--f-mono); font-size:13px; white-space:nowrap;}
+tbody tr:hover{background:var(--surface);}
+caption{caption-side:bottom; text-align:left; font-size:12.5px; color:var(--ink-3);
+  padding-top:9px; font-family:var(--f-mono);}
+.yes{color:var(--go); font-weight:600;} .no{color:var(--oxide);}
+figure{margin:0;}
+.gal{display:grid; gap:14px; margin:22px 0;
+  grid-template-columns:repeat(auto-fill,minmax(210px,1fr));}
+.gal figure{background:var(--surface); border:1px solid var(--rule); padding:8px;}
+.gal img{width:100%; height:auto; display:block; background:var(--plate);}
+.gal figcaption{font-family:var(--f-mono); font-size:10.5px; line-height:1.45;
+  color:var(--ink-3); margin-top:7px;}
+.plate{margin:26px 0; background:var(--surface); border:1px solid var(--rule); padding:12px;}
+.plate img{width:100%; height:auto; display:block;}
+.plate figcaption{font-size:14px; color:var(--ink-2); margin-top:11px;
+  padding-top:9px; border-top:1px solid var(--rule);}
+.plate figcaption b{font-family:var(--f-disp); text-transform:uppercase; letter-spacing:.04em;
+  font-size:13px; color:var(--oxide);}
+details.qa{border:1px solid var(--rule); background:var(--surface); margin:0 0 10px;}
+details.qa summary{cursor:pointer; padding:13px 16px; font-weight:600; font-size:16.5px;
+  list-style:none; display:flex; gap:11px; align-items:flex-start;}
+details.qa summary::-webkit-details-marker{display:none;}
+details.qa summary::before{content:"?"; font-family:var(--f-mono); color:var(--oxide);
+  font-weight:700; flex:none; font-size:15px; line-height:1.5;}
+details.qa[open] summary{border-bottom:1px solid var(--rule);}
+details.qa .a{padding:14px 16px 16px 43px; font-size:16px;}
+details.qa .a p:first-child{margin-top:0;}
+ul.tight{margin:12px 0; padding-left:22px;} ul.tight li{margin-bottom:7px;}
+ol.tl{margin:14px 0; padding-left:0; list-style:none; counter-reset:s;}
+ol.tl li{position:relative; padding:0 0 16px 56px; border-left:2px solid var(--rule);
+  margin-left:10px;}
+ol.tl li::before{counter-increment:s; content:counter(s); position:absolute; left:-15px; top:0;
+  width:28px; height:28px; background:var(--oxide); color:#fff; border-radius:50%;
+  font-family:var(--f-mono); font-size:12px; font-weight:700; display:flex;
+  align-items:center; justify-content:center;}
+ol.tl li:last-child{border-left-color:transparent;}
+ol.tl b{font-family:var(--f-disp); text-transform:uppercase; letter-spacing:.04em; font-size:14px;}
+footer.end{border-top:3px double var(--rule-2); margin-top:48px; padding-top:20px;
+  font-family:var(--f-mono); font-size:12px; color:var(--ink-3); line-height:1.7;}
+a{color:var(--steel);}
+@media print{body{background:#fff;color:#000;font-size:11pt;}
+  .gal{grid-template-columns:repeat(3,1fr);} details.qa .a{display:block;}}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="kicker">AFROTC &middot; Airframe Brief &middot; Volume III &middot; Air Force Heritage</div>
+  <h1>Roma<span class="sub">U.S. Army Air Service &middot; 1921&ndash;1922</span></h1>
+  <p class="standfirst">The largest semi&#8209;rigid airship in the world, bought from Italy, flown
+  by the United States <strong>Army Air Service</strong> out of Langley Field &mdash; and lost in
+  the worst American airship disaster to that date. It is the one airframe in the dossier that is
+  unambiguously <strong>Air Force heritage</strong>, and what it caused is still in the regulations
+  and still on the awards list today.</p>
+  <a class="backlink" href="airship-dossiers.html">&larr; the seven-airframe dossier</a>
+</header>
+
+<section id="counts">
+<h2><span class="n">01</span><span>Does it count as an Air Force airframe? Yes.</span></h2>
+
+<p>Answer this before anything else, because it is the first thing cadre will probe.</p>
+
+<div class="note go">
+  <span class="lab">The one-sentence answer</span>
+  <p><strong>The Roma was operated by the United States Army Air Service, which is a direct
+  organisational ancestor of the United States Air Force.</strong> The Air Force and the Army were
+  a single service until 18 September 1947; the Air Force officially traces its own lineage back to
+  1&nbsp;August&nbsp;1907. An Air Service aircraft is Air Force heritage by the Air Force's own
+  reckoning.</p>
+</div>
+
+<h3>The lineage, with dates</h3>
+<div class="tbl">
+<table>
+  <caption>Official USAF lineage. The Roma sits in the highlighted row.</caption>
+  <thead><tr><th>Organisation</th><th class="num">From</th><th class="num">To</th></tr></thead>
+  <tbody>
+    <tr><td>Aeronautical Division, U.S. Signal Corps</td><td class="num">1 Aug 1907</td><td class="num">18 Jul 1914</td></tr>
+    <tr><td>Aviation Section, U.S. Signal Corps</td><td class="num">18 Jul 1914</td><td class="num">20 May 1918</td></tr>
+    <tr><td>Division of Military Aeronautics</td><td class="num">20 May 1918</td><td class="num">24 May 1918</td></tr>
+    <tr style="background:var(--plate)"><td><strong>Air Service</strong> &mdash; <em>Roma, 1921&ndash;22</em></td>
+        <td class="num"><strong>24 May 1918</strong></td><td class="num"><strong>2 Jul 1926</strong></td></tr>
+    <tr><td>Air Corps</td><td class="num">2 Jul 1926</td><td class="num">18 Sep 1947</td></tr>
+    <tr><td>Army Air Forces</td><td class="num">20 Jun 1941</td><td class="num">18 Sep 1947</td></tr>
+    <tr><td><strong>United States Air Force</strong></td><td class="num"><strong>18 Sep 1947</strong></td><td class="num">&mdash;</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>So &ldquo;Army Air Forces&rdquo; is the name the air arm carried immediately before the 1947
+split &mdash; but it is only the last of several. The sequence worth memorising is
+<strong>Signal Corps &rarr; Air Service &rarr; Air Corps &rarr; Army Air Forces &rarr; Air
+Force</strong>.</p>
+
+<div class="plate">
+  <img src="images/roma/02-italian-airship-roma-over-norfolk-virginia-nara-518863.jpg"
+       alt="The airship Roma over Norfolk, Virginia, 1921; the glass plate is captioned U.S. Army Air Service Photographic School">
+  <figcaption><b>The proof is written on the negative.</b> Bottom edge, in the emulsion:
+  <strong>&ldquo;NORFOLK VA. 11&#8209;21. U.S. ARMY AIR SERVICE PHOTOGRAPHIC SCHOOL.&rdquo;</strong>
+  The ship carries <em>ROMA</em> on the bow, a US star roundel, and the national flag at the tail.
+  If anyone questions whether this is an Air Force airframe, show them the caption. NARA 518863,
+  public domain.</figcaption>
+</div>
+
+<h3>Why the other six entries fail</h3>
+<div class="tbl">
+<table>
+  <thead><tr><th>Dossier entry</th><th>Operator</th><th>Air Force heritage?</th></tr></thead>
+  <tbody>
+    <tr><td>01 Sea Scout (SS)</td><td>Royal Naval Air Service / British RAF</td><td class="no">No &mdash; British</td></tr>
+    <tr style="background:var(--plate)"><td><strong>02 Roma</strong></td><td><strong>U.S. Army Air Service</strong></td><td class="yes">YES</td></tr>
+    <tr><td>03 Graf Zeppelin / Hindenburg</td><td>German, civil</td><td class="no">No</td></tr>
+    <tr><td>04 Akron / Macon</td><td>U.S. <strong>Navy</strong></td><td class="no">No</td></tr>
+    <tr><td>05 L&#8209;class / L&#8209;8</td><td>U.S. <strong>Navy</strong></td><td class="no">No</td></tr>
+    <tr><td>06 K&#8209;class</td><td>U.S. <strong>Navy</strong></td><td class="no">No</td></tr>
+    <tr><td>07 ZPG&#8209;2 / 2W / 3W</td><td>U.S. <strong>Navy</strong></td><td class="no">No</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>Six of seven fail for the same reason: <strong>lighter&#8209;than&#8209;air was overwhelmingly
+a Navy mission.</strong> The Army ran its own airship program from 1908 until
+<strong>1937</strong>, when the Air Corps shut it down and transferred everything remaining to the
+Navy. The Roma belongs to that Army program.</p>
+
+<div class="note key">
+  <span class="lab">A fact that makes the whole topic defensible</span>
+  <p><strong>The U.S. Army's first powered aircraft was an airship, not an aeroplane.</strong>
+  <em>Signal Corps Dirigible No.&nbsp;1</em> was accepted in <strong>1908</strong> &mdash; before
+  the Army bought a Wright aeroplane. Under 20&nbsp;mph, about two hours' endurance, tested at
+  Fort Myer and Fort Omaha, scrapped in 1912.</p>
+  <p>So if a cadet asks why you are briefing a blimp in an Air Force program, the answer is that
+  <strong>lighter&#8209;than&#8209;air is where Air Force aviation started.</strong></p>
+</div>
+
+<div class="gal">
+  <figure><img src="images/usaf-lta/01-signal-corps-dirigible-no-1-afmil-01.jpg" alt="Signal Corps Dirigible No. 1, 1908">
+    <figcaption>Signal Corps Dirigible No.&nbsp;1, 1908 &mdash; the Army's first powered aircraft. af.mil.</figcaption></figure>
+  <figure><img src="images/usaf-lta/04-signal-corps-dirigible-no-1-smithsonian-01g.jpg" alt="Signal Corps Dirigible No. 1">
+    <figcaption>SC&#8209;1. Smithsonian.</figcaption></figure>
+  <figure><img src="images/usaf-lta/06-rs-1-airship.jpg" alt="Goodyear RS-1 Army semi-rigid airship">
+    <figcaption>Goodyear <strong>RS&#8209;1</strong> &mdash; the Army's own semi&#8209;rigid, and the
+    first built in America. Ordered 1923.</figcaption></figure>
+  <figure><img src="images/usaf-lta/08-scott-afb-tc-6-over-hangar-in-the-1920s.jpg" alt="Army TC-6 airship over its hangar at Scott Field">
+    <figcaption>Army <strong>TC&#8209;6</strong> over the hangar at Scott Field &mdash; now Scott AFB.</figcaption></figure>
+  <figure><img src="images/usaf-lta/07-t-c-army-airship-3-28-23-lccn2016847412.jpg" alt="US Army TC-class airship, 1923">
+    <figcaption>Army TC&#8209;class, March 1923. Library of Congress.</figcaption></figure>
+  <figure><img src="images/usaf-lta/09-scott-field-dirigible-coming-out-of-hangar.jpg" alt="Dirigible emerging from a hangar at Scott Field">
+    <figcaption>Walking a ship out at Scott Field.</figcaption></figure>
+</div>
+</section>
+
+<section id="ship">
+<h2><span class="n">02</span><span>The airframe &mdash; what a semi-rigid actually is</span></h2>
+
+<p>This is the technical heart of the brief, and it is the thing that makes Roma more interesting
+than a generic blimp: <strong>it is the middle of the three airship architectures</strong>, and you
+can explain all three in thirty seconds.</p>
+
+<div class="tbl">
+<table>
+  <caption>The three architectures. Roma is the one in the middle &mdash; and the rarest.</caption>
+  <thead><tr><th>Type</th><th>Structure</th><th>What holds its shape</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Non&#8209;rigid</strong><br>(&ldquo;blimp&rdquo;)</td>
+        <td>None at all</td>
+        <td>Gas pressure only. Deflate it and it is a tarp.</td>
+        <td>Navy K&#8209;class; British SS</td></tr>
+    <tr style="background:var(--plate)"><td><strong>Semi&#8209;rigid</strong></td>
+        <td><strong>A rigid keel along the bottom</strong>, nothing else</td>
+        <td>Gas pressure for the envelope; the keel carries loads and holds the line</td>
+        <td><strong>Roma</strong>; Army RS&#8209;1; <i>Norge</i></td></tr>
+    <tr><td><strong>Rigid</strong><br>(&ldquo;Zeppelin&rdquo;)</td>
+        <td>Full metal framework, separate gas cells inside</td>
+        <td>The frame. It holds its shape with no gas at all.</td>
+        <td>Hindenburg; USS Akron</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note key">
+  <span class="lab">What the keel buys you</span>
+  <p>On Roma the <strong>rigid keel ran the length of the underside and carried the control cabin
+  and the crew spaces inside it</strong> &mdash; so there was no separate gondola dangling on
+  wires. It was <strong>partially articulated</strong>, deliberately, so the hull could flex
+  slightly rather than fight the gasbag.</p>
+  <p>That is the whole semi&#8209;rigid bargain: more rigidity and a stronger structure than a
+  blimp, far less weight and cost than a Zeppelin. It is also the architecture that
+  <strong>failed</strong> on 21 February 1922 &mdash; see section 04.</p>
+</div>
+
+<h3>Who built it</h3>
+<p>Designed in Italy by a team led by <strong>Umberto Nobile</strong>, with Celestino Usuelli,
+Eugenio Prassone and Colonel Gaetano Crocco; built by <strong>Stabilimento Costruzioni
+Aeronautiche (SCA)</strong>.</p>
+
+<p>Nobile is worth a sentence, because it raises the stakes: four years after Roma he designed and
+piloted the semi&#8209;rigid <strong><i>Norge</i></strong>, which in 1926 made the
+<strong>first verified flight over the North Pole</strong> with Roald Amundsen aboard. Roma was not
+a crank's project &mdash; it came from the leading semi&#8209;rigid designer in the world.</p>
+
+<h3>Specifications</h3>
+<div class="tbl">
+<table>
+  <caption>The largest semi-rigid airship in the world at the time of purchase.</caption>
+  <tbody>
+    <tr><th>Length</th><td class="num">410 ft (125 m)</td></tr>
+    <tr><th>Diameter</th><td class="num">82 ft (25 m)</td></tr>
+    <tr><th>Height</th><td class="num">92 ft (28 m)</td></tr>
+    <tr><th>Gas volume</th><td class="num">1,193,000 ft&sup3; (33,810 m&sup3;)</td></tr>
+    <tr><th>Lifting gas</th><td class="num"><strong>Hydrogen</strong></td></tr>
+    <tr><th>Empty weight</th><td class="num">34,000 lb (15,400 kg)</td></tr>
+    <tr><th>Max takeoff weight</th><td class="num">76,000 lb (34,500 kg)</td></tr>
+    <tr><th>Engines, as delivered</th><td class="num">6 &times; Ansaldo 4E&#8209;2940 V&#8209;12, 400 hp each</td></tr>
+    <tr><th>Engines, from Dec 1921</th><td class="num">6 &times; <strong>Liberty L&#8209;12</strong></td></tr>
+    <tr><th>Purchase price</th><td class="num">$184,000 (&asymp;$3.3M in 2025)</td></tr>
+    <tr><th>Operator</th><td class="num"><strong>U.S. Army Air Service</strong>, Langley Field, Va.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>For scale against the other dossier entries: Roma's <strong>1,193,000&nbsp;ft&sup3;</strong> is
+roughly <strong>seventeen times</strong> the volume of a British SS Zero's 70,000&nbsp;ft&sup3;,
+and its six engines against the SS's one.</p>
+
+<div class="gal">
+  <figure><img src="images/roma/01-airship-roma-first-test-flight.jpg" alt="Roma on its first test flight">
+    <figcaption>First test flight.</figcaption></figure>
+  <figure><img src="images/roma/03-italian-airship-roma-over-norfolk-va-1922.jpg" alt="Roma over Norfolk, Virginia, 1922">
+    <figcaption>Over Norfolk, Virginia, 1922.</figcaption></figure>
+  <figure><img src="images/roma/09-usaf-050805-f-1234p-001.jpg" alt="The airship Roma, US Air Force photograph">
+    <figcaption>USAF photo archive &mdash; the Air Force itself files Roma as its own.</figcaption></figure>
+  <figure><img src="images/roma/04-roma1.jpg" alt="The airship Roma">
+    <figcaption>Roma.</figcaption></figure>
+  <figure><img src="images/roma/08-ansaldo-v-12-from-the-roma-airship.jpg" alt="An Ansaldo V-12 engine recovered from the airship Roma">
+    <figcaption>An <strong>Ansaldo V&#8209;12 from Roma herself</strong> &mdash; one of the six
+    original engines later replaced by Liberties.</figcaption></figure>
+  <figure><img src="images/roma/11-hangar-at-langley-field-lccn2014711711.jpg" alt="Airship hangar at Langley Field">
+    <figcaption>The hangar at Langley Field. Library of Congress.</figcaption></figure>
+  <figure><img src="images/roma/10-langley-airship-lccn2014696429.jpg" alt="Airship at Langley Field">
+    <figcaption>Langley Field. Library of Congress.</figcaption></figure>
+  <figure><img src="images/usaf-lta/10-mb-2s-at-langley-field-va-on-june-11-1921-061219-f-1234s-018.jpg" alt="Martin MB-2 bombers at Langley Field, June 1921">
+    <figcaption>Langley Field, June 1921 &mdash; MB&#8209;2 bombers, the Air Service Roma joined.</figcaption></figure>
+</div>
+</section>
+
+<section id="service">
+<h2><span class="n">03</span><span>Three months in American service</span></h2>
+
+<p>Roma's entire US career lasted <strong>98 days</strong>. The sequence matters, because several
+of the problems that killed her were visible beforehand.</p>
+
+<ol class="tl">
+  <li><b>1921 &mdash; purchased from Italy</b><br>
+  The Army Air Service buys the ship for <strong>$184,000</strong>. The United States is openly
+  shopping for airship capability and buying foreign because nobody at home builds anything this
+  size.</li>
+
+  <li><b>August 1921 &mdash; arrives in crates</b><br>
+  Dismantled and shipped. On unpacking, <strong>the fabric outer cover is found to have mildewed
+  and weakened.</strong> That is the first warning, and it is in the record before she ever flew
+  for the US.</li>
+
+  <li><b>Autumn 1921 &mdash; assembled at Langley Field</b><br>
+  Rebuilt by US Army Air Service crews in Virginia.</li>
+
+  <li><b>15 November 1921 &mdash; first American flight</b><br>
+  She flies. The NARA photograph in section 01 is from this period.</li>
+
+  <li><b>Late 1921 &mdash; a propeller disintegrates in flight</b><br>
+  It <strong>rips through the envelope and slashes open a gas bag.</strong> The ship returns
+  safely, but that is warning number two.</li>
+
+  <li><b>December 1921 &mdash; re-engined</b><br>
+  The six Italian Ansaldos have been unreliable in cold weather. They come out and
+  <strong>six American Liberty L&#8209;12s</strong> go in &mdash; more power, more weight, a
+  different installation on an airframe designed around something else.</li>
+
+  <li><b>21 February 1922 &mdash; destroyed</b><br>
+  First flight with the new Liberty engines. See the next section.</li>
+</ol>
+
+<div class="note warn">
+  <span class="lab">The judgement call worth making out loud</span>
+  <p>A mildewed cover, a propeller through the gasbag, and an engine swap the airframe was not
+  designed for &mdash; then a <strong>test flight with the new engines carrying 45 people.</strong>
+  Whatever the precise mechanical cause, that passenger manifest is the decision a modern safety
+  officer would stop at. It is a legitimate point to raise in a brief, and it is the kind of
+  observation that shows you did more than read a spec sheet.</p>
+</div>
+</section>
+
+<section id="crash">
+<h2><span class="n">04</span><span>21 February 1922</span></h2>
+
+<p>Roma left Langley Field at <strong>2:00 PM</strong> with <strong>45 people aboard</strong> for
+the first flight on the new Liberty engines. She flew down the Chesapeake Bay shoreline &mdash;
+Buckroe Beach, Fort Monroe, Hampton Roads, Willoughby Spit &mdash; toward the Norfolk Navy Base.</p>
+
+<p>At about <strong>1,000 feet</strong>, over the Army's Norfolk Quartermaster Depot, the
+<strong>box rudder structure failed.</strong> Witnesses on the ground described seeing
+<strong>the entire box rudder slip sideways</strong>. The ship became uncontrollable in an instant
+and flew into the ground.</p>
+
+<p>Just before the bow struck, <strong>Roma hit high&#8209;voltage power lines.</strong> She was
+inflated with <strong>hydrogen</strong>. She burst into flames.</p>
+
+<div class="tbl">
+<table>
+  <caption>45 aboard. The arithmetic is the brief.</caption>
+  <tbody>
+    <tr><th>Aboard</th><td class="num">45</td></tr>
+    <tr><th>Killed</th><td class="num"><strong>34</strong></td></tr>
+    <tr><th>Injured</th><td class="num">8</td></tr>
+    <tr><th>Escaped unharmed</th><td class="num">3</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>Among the dead was <strong>Captain Dale Mabry</strong>, the airship's commanding officer.</p>
+
+<div class="note warn">
+  <span class="lab">Be precise about the cause &mdash; sources differ</span>
+  <p>You will meet two accounts, and the honest move is to give both:</p>
+  <ul class="tight">
+    <li><strong>Box rudder failure</strong> &mdash; the structure carrying the control surfaces let
+    go, and eyewitnesses saw it slip sideways. This is the detailed account.</li>
+    <li><strong>Nose collapse at speed</strong> &mdash; some summaries say the bow caved in during
+    high&#8209;speed flight.</li>
+  </ul>
+  <p>They are not wholly incompatible &mdash; both describe <strong>a structural failure of a
+  semi&#8209;rigid hull under load</strong>, which is the point that matters. What is
+  <em>not</em> in dispute: the structure failed, she hit power lines, and
+  <strong>the hydrogen is what turned a crash into a massacre.</strong> If you are asked for a
+  single cause, say &ldquo;structural failure of the control surfaces; the hydrogen is what made it
+  unsurvivable&rdquo; and note that accounts differ on the detail.</p>
+</div>
+
+<div class="gal">
+  <figure><img src="images/roma/05-t-34-airship-roma-crash.jpg" alt="The wreck of the airship Roma">
+    <figcaption>The wreck.</figcaption></figure>
+  <figure><img src="images/roma/06-roma-burning.jpg" alt="The airship Roma burning">
+    <figcaption>Burning. The hydrogen fire is the reason 34 of 45 died.</figcaption></figure>
+  <figure><img src="images/roma/07-roma-tragedy.jpg" alt="Contemporary coverage of the Roma disaster">
+    <figcaption>Contemporary coverage.</figcaption></figure>
+</div>
+</section>
+
+<section id="legacy">
+<h2><span class="n">05</span><span>What it changed &mdash; and what is still here</span></h2>
+
+<p>This is the strongest section of your brief, because the consequences are not historical
+trivia. <strong>Three of them are still live in today's Air Force.</strong></p>
+
+<h3>1. It ended hydrogen in the US military &mdash; permanently</h3>
+<div class="note key">
+  <p><strong>Roma was the last hydrogen&#8209;inflated airship ever flown by the United States
+  military.</strong> Every subsequent US Army and Navy airship used non&#8209;flammable
+  <strong>helium</strong>. Congress acted on it.</p>
+</div>
+
+<p>This is why your dossier's other American entries &mdash; Akron, Macon, the L&#8209;, K&#8209;
+and ZPG&#8209;classes &mdash; are all helium ships. <strong>They are helium because of this
+crash.</strong> Roma is the hinge the rest of the dossier turns on.</p>
+
+<p>And it is the sharpest possible contrast with entry 03: <strong>the United States banned
+hydrogen in its own airships in 1922 and then refused to export the helium alternative</strong>,
+which is precisely why the Hindenburg was still burning hydrogen fifteen years later.</p>
+
+<h3>2. It produced the first Cheney Award &mdash; still awarded today</h3>
+<p><strong>Master Sergeant Harry A. Chapman</strong> went into the flames to pull his shipmates
+out. For that he became the <strong>first recipient of the Cheney Award</strong>, established in
+1927 and presented to him by <strong>President Calvin Coolidge</strong>.</p>
+
+<div class="note go">
+  <span class="lab">The detail to close your brief on</span>
+  <p>The <strong>Cheney Award is still an active United States Air Force award</strong>, given for
+  &ldquo;an act of valor, extreme fortitude or self&#8209;sacrifice in a humanitarian interest,
+  performed in connection with aircraft.&rdquo; It is named for 1st&nbsp;Lt William H. Cheney,
+  killed in a mid&#8209;air collision over Foggia, Italy, in January 1918.</p>
+  <p><strong>A living Air Force tradition begins at this airframe.</strong> That is as direct an
+  answer to &ldquo;why does this matter to us?&rdquo; as you are going to get.</p>
+</div>
+
+<h3>3. The names are still on the map</h3>
+<ul class="tight">
+  <li><strong>Langley Field is now Langley Air Force Base</strong> &mdash; today part of Joint Base
+  Langley&#8209;Eustis. The old airship site there is still called the <strong>&ldquo;LTA&rdquo;
+  (lighter&#8209;than&#8209;air) area</strong>, and there is a <strong>Roma Road</strong> named in
+  the ship's memory.</li>
+  <li><strong>Scott Field</strong>, where the Army's TC&#8209;class blimps flew, is now
+  <strong>Scott AFB</strong>.</li>
+  <li>Captain <strong>Dale Mabry</strong>'s name was carried by Dale Mabry Field in Tallahassee,
+  Florida. <em>(Flagged: I confirmed Mabry commanded Roma and died in the crash, but did not
+  independently verify the naming of the field &mdash; check before asserting it.)</em></li>
+</ul>
+
+<h3>4. The Army got out of airships entirely</h3>
+<p>The Army Air Corps kept flying lighter&#8209;than&#8209;air for another fifteen years &mdash;
+the Goodyear <strong>RS&#8209;1</strong> semi&#8209;rigid (ordered 1923, the first built in
+America, scrapped 1930) and a long run of <strong>TC&#8209;class</strong> patrol blimps. In
+<strong>mid&#8209;1937 the Air Corps shut the program down</strong> and transferred everything to
+the Navy; only <strong>TC&#8209;13 and TC&#8209;14</strong> were judged serviceable enough to go.</p>
+
+<p>That is why there are no Air Force airships today, and it is the clean closing line for the
+brief: <strong>the Air Force began in lighter&#8209;than&#8209;air and left it in 1937.</strong></p>
+</section>
+
+<section id="qa">
+<h2><span class="n">06</span><span>Questions you will get</span></h2>
+
+<details class="qa" open>
+<summary>Is this even an Air Force airframe?</summary>
+<div class="a"><p>Yes. Operated by the <strong>U.S. Army Air Service</strong>, a direct ancestor of
+the USAF &mdash; Army and Air Force were one service until <strong>18 September 1947</strong>, and
+the Air Force traces its lineage to 1&nbsp;August&nbsp;1907. The original negative of the Norfolk
+photograph is stamped <em>&ldquo;U.S. Army Air Service Photographic School.&rdquo;</em> It was
+based at <strong>Langley Field &mdash; now Langley AFB</strong>, where a road is named after
+it.</p></div>
+</details>
+
+<details class="qa">
+<summary>What was the service called before the Air Force existed?</summary>
+<div class="a"><p>In order: <strong>Aeronautical Division, Signal Corps (1907) &rarr; Aviation
+Section, Signal Corps (1914) &rarr; Air Service (1918) &rarr; Air Corps (1926) &rarr; Army Air
+Forces (1941) &rarr; U.S. Air Force (18 Sep 1947)</strong>. &ldquo;Army Air Forces&rdquo; is the
+immediate predecessor; <strong>Roma was Air Service</strong>.</p></div>
+</details>
+
+<details class="qa">
+<summary>Why was the Army flying airships at all? Isn't that a Navy thing?</summary>
+<div class="a"><p>Mostly yes &mdash; which is why six of the seven airframes in the main dossier
+are Navy. But <strong>the Army's very first powered aircraft was an airship</strong>, Signal Corps
+Dirigible No.&nbsp;1 in <strong>1908</strong>, before it bought an aeroplane. The Army ran coastal
+patrol and observation airships until <strong>1937</strong>, when the Air Corps closed the program
+and handed the remaining ships to the Navy.</p></div>
+</details>
+
+<details class="qa">
+<summary>What's a semi-rigid, and why does it matter here?</summary>
+<div class="a"><p>Three architectures: <strong>non&#8209;rigid</strong> (no structure, gas pressure
+only &mdash; a blimp), <strong>rigid</strong> (full metal frame, holds shape empty &mdash; a
+Zeppelin), and <strong>semi&#8209;rigid</strong> in between: <strong>a rigid keel along the bottom
+and nothing else</strong>. On Roma the keel ran the length of the ship and <em>contained</em> the
+control cabin and crew spaces, and it was deliberately articulated to flex. It matters because
+<strong>it was a structural failure that killed her.</strong></p></div>
+</details>
+
+<details class="qa">
+<summary>What actually caused the crash?</summary>
+<div class="a"><p>A <strong>structural failure of the box rudder</strong> at about 1,000 ft &mdash;
+witnesses saw the whole assembly slip sideways and the ship became instantly uncontrollable. Some
+accounts instead describe a nose collapse at speed. Both describe a hull/control structure failing
+under load. She then struck <strong>high&#8209;voltage power lines</strong>, and the
+<strong>hydrogen</strong> did the rest. <strong>34 of 45 aboard died.</strong></p></div>
+</details>
+
+<details class="qa">
+<summary>Why hydrogen in 1922, when everyone knew it burned?</summary>
+<div class="a"><p>Helium was scarce, expensive and barely in production; hydrogen was cheap,
+plentiful and gives more lift. Roma was also an <strong>Italian ship designed around
+hydrogen</strong> and delivered that way. The crash ended the argument immediately: <strong>Roma
+was the last hydrogen airship the US military ever flew.</strong></p></div>
+</details>
+
+<details class="qa">
+<summary>Did changing the engines cause it?</summary>
+<div class="a"><p>Not directly, and don't claim it did. But it is a legitimate contributing
+concern worth raising: <strong>21 February 1922 was the first flight with the new Liberty
+L&#8209;12s</strong>, swapped in that December for the unreliable Italian Ansaldos. A different
+engine installation on an airframe designed around another one, flown as a test with
+<strong>45 people aboard</strong> &mdash; plus a cover already found mildewed on arrival and a
+propeller that had earlier torn through a gas bag. The pattern is what a safety officer would
+flag.</p></div>
+</details>
+
+<details class="qa">
+<summary>What's the legacy? Why should we care?</summary>
+<div class="a"><p>Three things, all still live:</p>
+<ul class="tight">
+  <li><strong>Helium.</strong> Every US military airship after Roma used it. Akron, Macon, the
+  K&#8209;class and the ZPGs are helium ships <em>because of this crash</em>.</li>
+  <li><strong>The Cheney Award.</strong> MSgt Harry A. Chapman went into the fire to pull men out
+  and became its <strong>first recipient</strong>, decorated by President Coolidge. It is
+  <strong>still awarded by the Air Force today</strong>.</li>
+  <li><strong>Langley.</strong> Still an Air Force base, still has an &ldquo;LTA area&rdquo; and a
+  <strong>Roma Road</strong>.</li>
+</ul></div>
+</details>
+
+<details class="qa">
+<summary>How big was it, really?</summary>
+<div class="a"><p><strong>410 ft long, 82 ft in diameter, 1,193,000 ft&sup3;</strong> &mdash; the
+<strong>largest semi&#8209;rigid airship in the world</strong> when the Army bought it. For scale,
+that is about <strong>seventeen times</strong> the gas volume of a British SS Zero patrol blimp,
+with six engines against one.</p></div>
+</details>
+
+<details class="qa">
+<summary>Who designed it?</summary>
+<div class="a"><p><strong>Umberto Nobile</strong> led the design team (with Usuelli, Prassone and
+Crocco) for Stabilimento Costruzioni Aeronautiche. Four years later Nobile designed and piloted
+the semi&#8209;rigid <i>Norge</i>, which made the <strong>first verified flight over the North
+Pole</strong> in 1926 with Roald Amundsen aboard.</p></div>
+</details>
+</section>
+
+<section id="sources">
+<h2><span class="n">07</span><span>Sources &amp; honest gaps</span></h2>
+<ul class="tight">
+  <li><strong>Air Force Historical Support Division</strong>,
+  <a href="https://www.afhistory.af.mil/FAQs/Fact-Sheets/Article/459016/1907-1947-the-lineage-of-the-us-air-force/">1907&ndash;1947: The Lineage of the US Air Force</a>
+  &mdash; the official lineage dates in section 01. This is the citation to use if the Air Force
+  heritage claim is challenged.</li>
+  <li><strong>Wikipedia, <a href="https://en.wikipedia.org/wiki/Roma_(airship)">Roma (airship)</a></strong>
+  &mdash; specifications, purchase, assembly, the crash sequence and casualty figures.</li>
+  <li><strong>Wikipedia, <a href="https://en.wikipedia.org/wiki/U.S._Army_airships">U.S. Army airships</a></strong>
+  &mdash; Signal Corps Dirigible No.&nbsp;1, RS&#8209;1, the TC&#8209;class, and the 1937 transfer
+  to the Navy.</li>
+  <li><strong>Wikipedia, <a href="https://en.wikipedia.org/wiki/Cheney_Award">Cheney Award</a></strong>
+  &mdash; establishment, namesake, first recipient, and that it remains active.</li>
+  <li><strong>NARA, Library of Congress, af.mil and the Smithsonian</strong> &mdash; photographs,
+  credited per file in <code>images/roma/CREDITS.md</code> and
+  <code>images/usaf-lta/CREDITS.md</code>.</li>
+</ul>
+
+<div class="note warn">
+  <span class="lab">Gaps &mdash; do not assert these</span>
+  <ul class="tight">
+    <li>The <strong>cause is not settled between sources</strong> (box rudder failure vs nose
+    collapse). Give both.</li>
+    <li>The <strong>Dale Mabry Field naming</strong> is widely repeated but I did not verify it
+    against a primary source.</li>
+    <li>The <strong>T&#8209;34 designation</strong> appears attached to Roma in archive filenames;
+    I did not confirm its official origin.</li>
+    <li>No crew roster or full casualty list is included here.</li>
+  </ul>
+</div>
+</section>
+
+<footer class="end">
+  AFROTC airframe brief &middot; Volume III &middot; Roma &mdash; U.S. Army Air Service, 1921&ndash;1922<br>
+  Companion to <a href="airship-dossiers.html">the seven-airframe dossier</a> and
+  <a href="sea-scout.html">the Sea Scout deep dive</a>.<br>
+  Images: NARA, Library of Congress, af.mil, Smithsonian via Wikimedia Commons &mdash; public domain.
+  Per-file attribution in <code>images/&lt;folder&gt;/CREDITS.md</code>.
+</footer>
+
+</div>
+</body>
+</html>
