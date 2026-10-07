@@ -141,3 +141,19 @@ uses it as a to-do list; imposing a row schema would make it worse at that.
 the title's length changed or Week view added its weeks field. It is a `1fr auto 1fr` grid now
 with the tabs in a right-aligned group, and `.ft-view-btn` has a fixed width so Month's smaller
 font can't resize the toggle. Measured: the tabs' left edges are identical in all three views.
+
+---
+
+## Phase 12 — School planner + calendar hub ✅ (2026-10-06/07)
+
+Owner doc: `theknowledgebase/courses/SCHOOL-OPS.md` (workstreams 2 and 2b). In short:
+- **Coursework is live, not frozen at import.** `courseTasks.js` is now a hook over the shared
+  coursework model (`theknowledgebase/courses/coursework/`). The old rail hid every past-due item
+  captured as `todo` and every undated item (CHEM Exam 2, the day before it). Both fixed, tested.
+- **`/MFT/school`** — the planner: opens / start-by / due per item, check-offs (synced via
+  `users/{uid}/prefs/coursework`), Do next, 14-day load chart, missing + unconfirmed lists.
+- **Calendar hub** replaces Phase 5's `CalendarSync.jsx`: Training (workouts) and MFT (events)
+  Google calendars two-way, his other calendars drawn read-only ("Google" toggle), subscribed
+  Canvas / Learning Suite feeds read into the coursework model. Pure planner
+  `calc/calendarHub.js` + end-to-end test against a simulated Google account. Deleting a workout's
+  event in Google only unlinks the workout — calendar sync never deletes logged training data.

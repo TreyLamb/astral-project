@@ -682,6 +682,16 @@ manifest, for standalone mode / label / icon), brings the weekly sign-out straig
   the token is still on disk and **our** load path failed to use it — e.g. the 6s hang fallback
   forcing signed-out — which is our bug and a refresh would likely fix it.
 
+## 🎓 School ops — the agent OWNS chem quizzes, the coursework dashboard and calendar sync
+Since 2026-10-06 (Trey: *"TAKE POINT 100% … build it and maintain it when i ask about it"*).
+Live state, open asks and decisions: **`src/pages/theknowledgebase/courses/SCHOOL-OPS.md`** —
+read it before answering anything about quizzes, homework, exams, due dates or calendars, and
+answer status questions with its §0 protocol (live + links, next 7 days ranked, what's stale,
+exact asks). Surfaces: `/TKB/courses/chem/quizzes`, `/TKB/courses/chem/exam`, `/MFT/school`,
+MFT → Settings → Calendars (Google Calendar is the hub; iPhone syncs with Google natively).
+
+---
+
 ## 🎨 webdesign.md is required reading before any layout work
 `webdesign.md` (same directory) is the binding contract for page layout, the
 counterpart to `gamedesign.md` and `featuredesign.md`. Written 2026-08-13 after

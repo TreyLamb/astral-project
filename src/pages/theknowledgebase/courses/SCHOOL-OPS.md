@@ -64,10 +64,11 @@ Legend: ✅ done & verified · 🟡 built, needs Trey to exercise live · 🔨 i
 | MUST | All-inclusive Ch 1-4 practice (generated + book banks + his real graded items) | ✅ live 2026-10-06 (`f3b2302`): `/TKB/courses/chem/exam` → Exam 2 |
 | MUST | Exam runs lean on new chapters (Exam 2: Ch3 ×7, Ch4 ×7, Ch1 ×3, Ch2 ×3 at 20 Qs), toggleable | ✅ |
 | MUST | Every CHEM quiz has one-click practice scoped to its own sections | ✅ "Practice →" on every CHEM quiz row in `/MFT/school` |
-| MUST | Quiz center in TKB: every quiz with due / sections / status / bank depth / practice | 🔨 |
-| MUST | Which quizzes have real captured items vs. need an export — explicit list | 🔨 |
-| SHOULD | "?" go-deeper concept pages on missed questions (asked 2026-09-08; built then, never pushed) | 🔨 restore from `concepts.js` |
-| SHOULD | Build the bank AHEAD of each quiz: flag thin sections an upcoming quiz covers | 🔨 |
+| MUST | Quiz center in TKB: every quiz with due / sections / status / bank depth / practice | ✅ `/TKB/courses/chem/quizzes` (`4d2887b`) |
+| MUST | Which quizzes have real captured items vs. need an export — explicit list | ✅ "Open items" on the quiz center (only quizzes actually TAKEN; a 0 "missing" has no attempt to export) |
+| MUST | The professor's Exam 2 review sheet in the bank | ✅ all 34, worked (no key exists) — `examReview2Items.js`; "Work the whole sheet" on Exam prep (`d42e88b`) |
+| SHOULD | "Explain further" go-deeper pages on missed questions | ✅ 1-2 → 4-6 (09-08 pages restored + 3-2…4-6 written); opens in a drawer so results survive |
+| SHOULD | Build the bank AHEAD of each quiz: flag thin sections an upcoming quiz covers | 🟡 flagged on the quiz center; **next build: AcademiQ Ch 5 book banks (5-2…5-6) before Quiz 15 on 10-14** |
 | COULD | Quiz-length/time-limit mode matching the real quiz | ⬜ |
 
 ### Workstream 2 — Coursework dashboard
@@ -78,7 +79,7 @@ Legend: ✅ done & verified · 🟡 built, needs Trey to exercise live · 🔨 i
 | MUST | Accuracy test of the old MFT rail against its source | ✅ — **two bugs found and fixed**, see Log |
 | MUST | "Start by" per item (lead time scales with stakes; exams = "study from") | ✅ `leadDays()` |
 | MUST | All 10 registered courses covered | 🟡 CHEM/MICR ×2 ✅. **ESFF 1120, ESMG 3200, AERO ×5 have zero items** until the school feeds are connected (§5) — the planner names them |
-| MUST | Freshness shown; refreshes itself from the Canvas + Learning Suite feeds | 🟡 freshness banner ✅; self-refresh needs §5 steps 1–4 + the calendar hub (🔨) |
+| MUST | Freshness shown; refreshes itself from the Canvas + Learning Suite feeds | 🟡 built; needs §5 steps 1–5 once |
 | SHOULD | Mark-done check-off, synced across devices | ✅ (local + `prefs/coursework`) |
 | SHOULD | "Do next", ranked by points per day of runway, only items in their start window | ✅ |
 | SHOULD | Past-due-but-unconfirmed items shown, not hidden | ✅ (19 of them right now) |
@@ -91,12 +92,12 @@ Legend: ✅ done & verified · 🟡 built, needs Trey to exercise live · 🔨 i
 | | Item | Status |
 |---|---|---|
 | MUST | Architecture decided and written down (§6) | ✅ 2026-10-06 |
-| MUST | Events entered on Google / iPhone appear in MFT | 🔨 calendar hub |
-| MUST | Events entered in MFT appear in Google / iPhone | 🔨 calendar hub |
-| MUST | Worst case one button: **Sync now** | 🔨 |
+| MUST | Events entered on Google / iPhone appear in MFT | 🟡 built + tested against a simulated Google account (`e855095`); first live run = Trey's one click (§5.5) |
+| MUST | Events entered in MFT appear in Google / iPhone | 🟡 same |
+| MUST | Worst case one button: **Sync now** | ✅ Settings → Calendars and `/MFT/school`; auto-sync while a token is valid |
 | MUST | Exact setup steps for the iPhone + Google side | ✅ §6 |
 | SHOULD | Coursework due dates on the iPhone (Google subscribes to the Canvas/LS feeds) | 🟡 needs Trey: §5 |
-| SHOULD | No duplicates / echo loops (every synced event carries its origin) | 🔨 |
+| SHOULD | No duplicates / echo loops (every synced event carries its origin) | ✅ `ftWorkoutId` on every MFT-made event; convergence test passes |
 | COULD | Zero-click background sync (Google Apps Script, hourly) | ⬜ ✂️ deferred until the one-button version is proven live |
 
 ---
@@ -160,7 +161,8 @@ One-time actions, ordered by how much each unblocks. Total ≈ 10 minutes.
    **+** → **From URL** → paste each link → Add. (This alone puts every due date on the iPhone.)
 4. **iPhone ↔ Google** (2 min, if not already): Settings → Calendar → Accounts → Add Account →
    Google → Calendars on. Then Settings → Calendar → **Default Calendar** → a Google calendar.
-5. **One click in MFT** once the hub ships: MFT → Settings → Calendars → Connect → Sync now.
+5. **One click in MFT:** MFT → Settings → Calendars → **Connect Google & sync** (pick the same Google
+   account you use on the site). Then pick the course for each Learning Suite feed in the table.
 6. **(Optional, for graded/missing status)** re-run the Canvas capture (2 min) — the feed carries
    due dates, not submission status. Steps: `INGEST-HOWTO.md` → "Canvas capture".
 7. **Chem quiz attempt PDFs** for every quiz taken since Quiz 4 — the single best study source
@@ -244,3 +246,13 @@ exactly one copy of every event and no app needs to know about any other.
   coursework model (regression tests in `courseworkModel.test.js`). Built `/MFT/school`, rebuilt
   the rail (Do next, Missing, past-due-unconfirmed, start hints, check-offs), exam chips bold on
   the calendar. 4,653 tests pass; build green.
+- **2026-10-06/07** — Quiz center, "Explain further" pages through 4-6, combustion analysis (4-6
+  does teach it — an earlier heading-only scan missed it), sig-fig-safe generated masses. Calendar
+  hub: pure planner + 18 tests, end-to-end test against a simulated Google account (push, phone
+  reschedule, phone event import, feeds, overlay, convergence, deletions both ways); verified in a
+  browser up to Google's sign-in popup. A parallel session (`courses-b1`) transcribed the
+  professor's Exam 2 review sheet; registered here as `examReview2Items.js` with worked answers.
+  Coordination note sent to that session; its uncommitted TKB `CLAUDE.md` / `PLAN.md` edits were
+  left alone. ⚠ The 09-08 "check slide-deck PDFs for Acrobat annotations" rule is still only in
+  `git stash@{0}` — offered to `courses-b1`, fold it into TKB CLAUDE.md / AGENT-PROMPT §4.3 if it
+  hasn't been.
