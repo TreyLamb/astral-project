@@ -1,0 +1,99 @@
+/* AFROTC document hub — every class prefixed arc- (CLAUDE.md). Full-width per webdesign.md. */
+
+.arc-app {
+  --arc-accent: #7cc4ff;
+  --arc-bg: #0a0e14;
+  --arc-panel: #121923;
+  --arc-panel-2: #18212d;
+  --arc-border: rgba(255, 255, 255, 0.09);
+  --arc-text: #e3ecf8;
+  --arc-muted: rgba(198, 212, 234, 0.62);
+  min-height: 100vh;
+  background: var(--arc-bg);
+  color: var(--arc-text);
+  font-size: 17.5px;
+  box-sizing: border-box;
+}
+
+.arc-topbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 8px 10px;
+  background: var(--arc-panel);
+  border-bottom: 1px solid var(--arc-border);
+}
+.arc-site-home { color: var(--arc-muted); font-weight: 600; font-size: 0.9rem; text-decoration: none; padding-right: 14px; border-right: 1px solid var(--arc-border); }
+.arc-site-home:hover { color: var(--arc-text); }
+.arc-title { margin: 0; font-size: 1.15rem; font-weight: 800; color: var(--arc-accent); letter-spacing: 0.04em; }
+
+.arc-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.arc-tabs button {
+  padding: 8px 16px; border-radius: 9px; border: 1px solid var(--arc-border);
+  background: var(--arc-panel-2); color: var(--arc-muted); font: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+}
+.arc-tabs button:hover { color: var(--arc-text); border-color: var(--arc-accent); }
+.arc-tabs button.on { background: rgba(124, 196, 255, 0.15); border-color: var(--arc-accent); color: var(--arc-accent); }
+
+.arc-main { padding: 10px 8px 40px; display: flex; flex-direction: column; gap: 12px; }
+
+.arc-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.arc-blurb { margin: 0; color: var(--arc-muted); font-size: 1rem; flex: 1 1 360px; max-width: 80ch; }
+.arc-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.arc-zoom { display: inline-flex; border: 1px solid var(--arc-border); border-radius: 9px; overflow: hidden; }
+.arc-zoom button { padding: 8px 13px; border: 0; background: var(--arc-panel-2); color: var(--arc-muted); font: inherit; font-weight: 700; cursor: pointer; }
+.arc-zoom button + button { border-left: 1px solid var(--arc-border); }
+.arc-zoom button.on { background: rgba(124, 196, 255, 0.18); color: var(--arc-accent); }
+
+.arc-btn {
+  padding: 8px 14px; border-radius: 9px; border: 1px solid var(--arc-accent);
+  background: rgba(124, 196, 255, 0.12); color: var(--arc-accent);
+  font-weight: 700; font-size: 0.95rem; text-decoration: none;
+}
+.arc-btn:hover { background: rgba(124, 196, 255, 0.22); }
+
+.arc-jump { display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 10px 12px; background: var(--arc-panel); border: 1px solid var(--arc-border); border-radius: 12px; }
+.arc-jump-group { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.arc-jump-group b { font-size: 0.85rem; color: var(--arc-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-right: 2px; }
+.arc-jump button {
+  padding: 6px 11px; border-radius: 8px; border: 1px solid var(--arc-border);
+  background: var(--arc-panel-2); color: var(--arc-text); font: inherit; font-size: 0.9rem; cursor: pointer;
+}
+.arc-jump button:hover { border-color: var(--arc-accent); color: var(--arc-accent); }
+
+/* Pages reflow on their own: as many columns as fit at the chosen page width. */
+.arc-pages { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--arc-page-w, 760px)), 1fr)); gap: 14px; align-items: start; }
+.arc-page { margin: 0; background: var(--arc-panel); border: 1px solid var(--arc-border); border-radius: 12px; overflow: hidden; scroll-margin-top: 64px; }
+.arc-page figcaption { padding: 8px 12px; font-size: 0.9rem; color: var(--arc-muted); border-bottom: 1px solid var(--arc-border); }
+.arc-page img { display: block; width: 100%; height: auto; background: #fff; }
+
+.arc-md {
+  font-size: calc(1.05rem * var(--arc-text, 1));
+  line-height: 1.65;
+  background: var(--arc-panel); border: 1px solid var(--arc-border); border-radius: 12px;
+  padding: 18px 20px; overflow-wrap: anywhere;
+  max-width: min(100%, 110ch);
+}
+.arc-md h1 { font-size: 1.4em; margin: 0 0 12px; }
+.arc-md h2 { font-size: 1.2em; margin: 28px 0 10px; color: var(--arc-accent); border-bottom: 1px solid var(--arc-border); padding-bottom: 6px; }
+.arc-md h3 { font-size: 1.05em; margin: 20px 0 8px; }
+.arc-md p, .arc-md li { margin: 0 0 10px; }
+.arc-md pre { background: var(--arc-panel-2); padding: 12px; border-radius: 8px; overflow-x: auto; font-size: 0.9em; }
+.arc-md code { font-size: 0.92em; }
+.arc-md table { border-collapse: collapse; }
+.arc-md th, .arc-md td { border: 1px solid var(--arc-border); padding: 6px 10px; }
+.arc-md hr { border: 0; border-top: 1px solid var(--arc-border); margin: 22px 0; }
+
+.arc-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.arc-card {
+  display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; text-decoration: none;
+  background: var(--arc-panel); border: 1px solid var(--arc-border); border-radius: 12px; color: var(--arc-text);
+}
+.arc-card:hover { border-color: var(--arc-accent); }
+.arc-card b { font-size: 1.1rem; color: var(--arc-accent); }
+.arc-card span { color: var(--arc-muted); font-size: 1rem; }
+
+@media (max-width: 600px) {
+  .arc-main { padding: 8px 6px 32px; }
+  .arc-site-home { border-right: 0; padding-right: 0; }
+}

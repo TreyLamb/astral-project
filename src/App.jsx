@@ -40,6 +40,7 @@ import PlanningToolApp from './pages/planningTool/PlanningToolApp';
 import VocabVaultApp from './pages/lang/LangApp';
 import EftShoppingApp from './pages/eftShopping/EftShoppingApp';
 import TranscriptToolApp from './pages/TranscriptTool/TranscriptToolApp';
+import AfrotcApp from './pages/afrotc/AfrotcApp';
 import RouteFallback from './pages/RouteFallback';
 import CrashTest from './pages/CrashTest';
 import Boundary, { RouteBoundary } from './components/errors/Boundary';
@@ -97,6 +98,7 @@ function App() {
             <Route path="/POGO" caseSensitive element={<PgoTracker />} />
             <Route path="/POGO-ACCS/*" caseSensitive element={<PogoAccsApp />} />
             <Route path="/EFTsh/*" caseSensitive element={<EftShoppingApp />} />
+            <Route path="/AFROTC/*" caseSensitive element={<AfrotcApp />} />
             {/* Deliberately absent from SITE_LINKS — this one is reached by
                 typing the URL, not from the nav or Home. Its HubLink is the
                 only tie back to the rest of the site. */}
