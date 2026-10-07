@@ -15,6 +15,7 @@
 // /POGO-ACCS resolves before /POGO.
 export const PREFIXES = {
   '/TT': ['tt-'],
+  '/AFROTC': ['arc_'],
   '/MFT': ['fitness_', 'ft.docs.'],
   '/EFTsh': ['eftsh_', 'eftsh-', 'eftmap_', 'eftmap-'],
   '/TKB': ['tkb_', 'afoqt_'],
