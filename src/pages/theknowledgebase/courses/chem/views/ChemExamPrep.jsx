@@ -157,6 +157,23 @@ export default function ChemExamPrep() {
         </section>
       )}
 
+      {exam.id === 'exam-2' && (
+        <section className="chq-sheet-callout">
+          <h3>The professor's Exam 2 review sheet</h3>
+          <p className="chq-note">
+            All 34 of his questions, in his order, worked answers included (no key was handed out — every
+            answer was computed and checked). Q18 is corrected: the handout asks for potassium in a
+            compound that has none.
+          </p>
+          <button
+            className="chq-btn chq-primary"
+            onClick={() => navigate(`/TKB/courses/chem/drill/run?${new URLSearchParams({ sheet: 'exam2-review', label: 'Exam 2 review sheet' })}`)}
+          >
+            Work the whole sheet — 34 questions
+          </button>
+        </section>
+      )}
+
       <button className="chq-btn chq-primary chq-start" onClick={start} disabled={ready === 0}>
         {ready === 0 ? 'No questions for this exam yet' : `Start ${exam.name} practice — ${count} questions`}
       </button>

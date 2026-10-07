@@ -230,7 +230,23 @@
    overlays a live drill. Trey, 2026-09-09: "it's supposed to be available while
    taking a chem drill" — a reference you have to leave the run to read is not
    available during the run. See views/ChemResources.jsx. */
-.chq-res { max-width: 900px; display: flex; flex-direction: column; gap: .4rem; }
+/* Full width, and the blocks flow into as many columns as fit. A reference sheet is tables,
+   not long-form prose, so webdesign.md's "no max-width on a centred column" rule applies —
+   the old `max-width: 900px` with no auto margin pinned it left and left dead space right. */
+.chq-res {
+  max-width: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: .8rem;
+  align-items: start;
+}
+/* Heading, intro and the action row always span the whole width. */
+.chq-res > h2,
+.chq-res > .chq-note,
+.chq-res > .chq-res-top { grid-column: 1 / -1; }
+/* The periodic table is the one block that wants the full span when there is room. */
+.chq-res > .chq-res-block--wide { grid-column: 1 / -1; }
+.chq-res > .chq-res-block { margin-top: 0; }
 .chq-res-top { display: flex; align-items: center; justify-content: space-between; gap: .6rem; flex-wrap: wrap; }
 .chq-res-actions { display: flex; gap: .4rem; flex-wrap: wrap; }
 .chq-res h2 { margin: .3rem 0 0; }
@@ -402,3 +418,7 @@
 .chq-qz-check.on { background: var(--tkb-correct); border-color: var(--tkb-correct); }
 .chq-qz-asks { border-left: 3px solid var(--tkb-unsure); padding: .2rem 0 .2rem .9rem; }
 .chq-qz-asks p { margin: .4rem 0; line-height: 1.55; }
+
+/* The professor's own review sheet, front and centre on exam prep. */
+.chq-sheet-callout { border: 1px solid var(--tkb-accent); border-radius: 10px; padding: .8rem 1rem; background: color-mix(in srgb, var(--tkb-accent) 7%, transparent); }
+.chq-sheet-callout .chq-note { font-size: .95rem; line-height: 1.55; margin: 0 0 .6rem; }

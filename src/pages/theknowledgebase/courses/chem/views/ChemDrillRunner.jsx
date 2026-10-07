@@ -4,7 +4,8 @@ import { useChem } from '../ChemApp';
 import { buildChemDrill } from '../engine/drill';
 import { getChemChapter } from '../curriculum';
 import { recordChemTestOut, recordChemMastery, CHEM_MASTERY_THRESHOLD } from '../chemStorage';
-import { mulberry32 } from '../../../engine/rng';
+import { mulberry32, shuffle } from '../../../engine/rng';
+import { REVIEW2_REAL_ITEMS } from '../examReview2Items';
 import { ChemReferenceContent } from './ChemResources';
 import { ConceptContent } from './ChemConceptView';
 import { conceptPageFor } from '../concepts';
@@ -39,11 +40,29 @@ export default function ChemDrillRunner() {
     [weightParam],
   );
 
+  // ?sheet=exam2-review works the professor's whole Exam 2 review sheet in its own order — every
+  // question once, options shuffled — instead of sampling it like a template pool.
+  const sheet = params.get('sheet');
   const questions = useMemo(() => {
     const rng = mulberry32(Date.now());
+    if (sheet === 'exam2-review') {
+      return REVIEW2_REAL_ITEMS.map((it, i) => {
+        const order = shuffle(it.choices.map((_, j) => j), rng);
+        return {
+          templateId: `sheet-exam2-${i + 1}`,
+          section: it.section,
+          stem: `Q${i + 1}. ${it.stem}`,
+          choices: order.map((j) => it.choices[j]),
+          correctIndex: order.indexOf(it.correctIndex),
+          explanation: it.explanation,
+          errors: null,
+          whys: null,
+        };
+      });
+    }
     return buildChemDrill({ count, rng, chapterId: chapter ? chapter.id : null, distinct: isGate, sections, chapterWeights });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [count, chapter?.id, isGate, sectionParam, chapterWeights]);
+  }, [count, chapter?.id, isGate, sectionParam, chapterWeights, sheet]);
 
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState([]);

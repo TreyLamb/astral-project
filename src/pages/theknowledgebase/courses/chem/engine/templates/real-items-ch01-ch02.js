@@ -23,6 +23,7 @@ import { SECTIONS } from '../../syllabusMap.js';
 import { CH1_REAL_ITEMS, CH1_FACT_ITEMS } from '../../ch1Items.js';
 import { CH2_REAL_ITEMS, CH2_FACT_ITEMS } from '../../ch2Items.js';
 import { REVIEW_REAL_ITEMS, REVIEW_ITERATIONS } from '../../examReviewItems.js';
+import { REVIEW2_REAL_ITEMS } from '../../examReview2Items.js';
 
 const POOLS = [
   { key: 'quiz', label: 'Your real Ch 1 quiz questions', items: CH1_REAL_ITEMS, band: 2 },
@@ -31,6 +32,8 @@ const POOLS = [
   { key: 'ch2def', label: 'Ch 2 definitions from the reading', items: CH2_FACT_ITEMS, band: 1 },
   { key: 'review', label: "Professor's Ch 1-2 review sheet", items: REVIEW_REAL_ITEMS, band: 2 },
   { key: 'reviter', label: 'Review-sheet iterations (same skill, new numbers)', items: REVIEW_ITERATIONS, band: 2 },
+  // Added 2026-10-07 (Exam 2 day): the professor's Exam 2 sheet, 34 Qs across Ch 1-4.
+  { key: 'review2', label: "Professor's Exam 2 review sheet", items: REVIEW2_REAL_ITEMS, band: 2 },
 ];
 
 const sectionInfo = new Map(SECTIONS.map((s) => [s.section, s]));
@@ -58,7 +61,7 @@ for (const pool of POOLS) {
       mental: kind === 'm',
       name: `${pool.label} · §${section}`,
       concepts: sec.concepts,
-      real: pool.key === 'quiz' || pool.key === 'review',
+      real: pool.key === 'quiz' || pool.key === 'review' || pool.key === 'review2',
       generate: (rng, h) => {
         const it = h.pick(items);
         const right = it.choices[it.correctIndex];
