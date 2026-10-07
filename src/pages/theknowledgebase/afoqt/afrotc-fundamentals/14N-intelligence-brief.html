@@ -1,0 +1,1126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Offline copy. Generated 1 Oct 2026.">
+<style>
+    :root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+    html{-webkit-text-size-adjust:100%;}
+    body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",sans-serif;}
+    img{max-width:100%;}
+    [hidden]{display:none!important;}
+</style>
+<title>14N Speaker's Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  :root{
+    --ground:#F5F6F8;
+    --surface:#FFFFFF;
+    --surface-2:#EDEFF3;
+    --ink:#161B22;
+    --ink-2:#3E4854;
+    --ink-3:#6B7683;
+    --rule:#D6DBE2;
+    --rule-2:#C0C7D1;
+    --accent:#1F4E79;
+    --accent-soft:#E4EDF5;
+    --brass:#8A6520;
+    --brass-soft:#F5EDDC;
+    --flag:#8C2F2F;
+    --flag-soft:#F7E6E6;
+
+    --f-display:"Barlow Condensed","Haettenschweiler","Arial Narrow",sans-serif;
+    --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+    --f-mono:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0D1218;
+      --surface:#141B23;
+      --surface-2:#1B242E;
+      --ink:#E7ECF2;
+      --ink-2:#B3BDC9;
+      --ink-3:#7F8B99;
+      --rule:#27323E;
+      --rule-2:#36434F;
+      --accent:#7FB2DC;
+      --accent-soft:#16283A;
+      --brass:#D2A759;
+      --brass-soft:#2A2213;
+      --flag:#E08585;
+      --flag-soft:#2E1A1A;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0D1218;
+    --surface:#141B23;
+    --surface-2:#1B242E;
+    --ink:#E7ECF2;
+    --ink-2:#B3BDC9;
+    --ink-3:#7F8B99;
+    --rule:#27323E;
+    --rule-2:#36434F;
+    --accent:#7FB2DC;
+    --accent-soft:#16283A;
+    --brass:#D2A759;
+    --brass-soft:#2A2213;
+    --flag:#E08585;
+    --flag-soft:#2E1A1A;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:var(--f-body);
+    font-size:17px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding-inline:20px;
+    padding-block:0 72px;
+  }
+
+  /* ---------- masthead ---------- */
+  header.mast{
+    border-bottom:3px solid var(--accent);
+    padding-block:34px 18px;
+    margin-bottom:34px;
+  }
+  .eyebrow{
+    font-family:var(--f-mono);
+    font-size:11.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 14px;
+    margin-bottom:14px;
+  }
+  .eyebrow b{color:var(--accent);font-weight:600;}
+  h1{
+    font-family:var(--f-display);
+    font-weight:700;
+    font-size:clamp(40px,8vw,74px);
+    line-height:.96;
+    letter-spacing:-.005em;
+    margin:0 0 12px;
+    text-wrap:balance;
+    text-transform:uppercase;
+  }
+  h1 span{display:block;color:var(--accent);}
+  .standfirst{
+    font-size:19px;
+    color:var(--ink-2);
+    max-width:64ch;
+    margin:0;
+  }
+
+  /* ---------- layout ---------- */
+  .cols{display:block;}
+  @media(min-width:1000px){
+    .cols{
+      display:grid;
+      grid-template-columns:232px minmax(0,1fr);
+      gap:56px;
+      align-items:start;
+    }
+  }
+  nav.toc{
+    position:sticky;
+    top:calc(env(safe-area-inset-top,0px) + 16px);
+    font-family:var(--f-mono);
+    font-size:12.5px;
+    line-height:1.5;
+    max-height:calc(100vh - 48px);
+    overflow-y:auto;
+    border-left:2px solid var(--rule);
+    padding-left:14px;
+    display:none;
+  }
+  @media(min-width:1000px){nav.toc{display:block;}}
+  nav.toc a{
+    display:block;
+    color:var(--ink-3);
+    text-decoration:none;
+    padding:3px 0;
+  }
+  nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent);}
+  nav.toc .num{color:var(--rule-2);margin-right:7px;}
+
+  main{min-width:0;}
+  section{margin-bottom:56px;scroll-margin-top:24px;}
+  h2{
+    font-family:var(--f-display);
+    text-transform:uppercase;
+    font-weight:700;
+    font-size:clamp(25px,4.2vw,34px);
+    line-height:1.08;
+    letter-spacing:.005em;
+    margin:0 0 6px;
+    text-wrap:balance;
+    display:flex;
+    gap:13px;
+    align-items:baseline;
+  }
+  h2 .num{
+    font-family:var(--f-mono);
+    font-size:13px;
+    font-weight:500;
+    color:var(--accent);
+    letter-spacing:.06em;
+    flex:none;
+  }
+  .sec-rule{height:1px;background:var(--rule);margin:0 0 22px;}
+  h3{
+    font-family:var(--f-display);
+    text-transform:uppercase;
+    letter-spacing:.045em;
+    font-size:18px;
+    font-weight:600;
+    color:var(--ink);
+    margin:30px 0 8px;
+  }
+  p{margin:0 0 15px;max-width:68ch;}
+  ul,ol{margin:0 0 15px;padding-left:22px;max-width:68ch;}
+  li{margin-bottom:7px;}
+  a{color:var(--accent);}
+  strong{font-weight:600;}
+  code,.mono{font-family:var(--f-mono);font-size:.88em;}
+  code{background:var(--surface-2);padding:1px 5px;border-radius:3px;}
+
+  /* ---------- components ---------- */
+  .lede{
+    font-size:19px;
+    color:var(--ink-2);
+    max-width:66ch;
+  }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--rule);
+    padding:20px 22px;
+    margin-bottom:18px;
+  }
+  .card > :last-child{margin-bottom:0;}
+
+  .callout{
+    border-left:3px solid var(--accent);
+    background:var(--accent-soft);
+    padding:15px 18px;
+    margin:0 0 18px;
+    max-width:70ch;
+  }
+  .callout > :last-child{margin-bottom:0;}
+  .callout .tag{
+    font-family:var(--f-mono);
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:block;
+    margin-bottom:5px;
+    font-weight:600;
+  }
+  .callout.warn{border-left-color:var(--brass);background:var(--brass-soft);}
+  .callout.warn .tag{color:var(--brass);}
+  .callout.fix{border-left-color:var(--flag);background:var(--flag-soft);}
+  .callout.fix .tag{color:var(--flag);}
+
+  /* definition rows */
+  dl.rows{margin:0 0 18px;max-width:72ch;}
+  dl.rows > div{
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:2px 18px;
+    padding:11px 0;
+    border-top:1px solid var(--rule);
+  }
+  dl.rows > div:last-child{border-bottom:1px solid var(--rule);}
+  @media(min-width:620px){
+    dl.rows > div{grid-template-columns:168px minmax(0,1fr);gap:0 18px;}
+  }
+  dl.rows dt{
+    font-family:var(--f-mono);
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:.03em;
+    color:var(--accent);
+    text-transform:uppercase;
+    padding-top:4px;
+  }
+  dl.rows dd{margin:0;color:var(--ink-2);}
+  dl.rows dd b{color:var(--ink);font-weight:600;}
+
+  /* pipeline */
+  ol.steps{list-style:none;padding:0;margin:0 0 18px;max-width:72ch;counter-reset:s;}
+  ol.steps li{
+    counter-increment:s;
+    display:grid;
+    grid-template-columns:38px minmax(0,1fr);
+    gap:0 16px;
+    padding:0 0 20px 0;
+    margin:0;
+    position:relative;
+  }
+  ol.steps li::before{
+    content:counter(s,decimal-leading-zero);
+    font-family:var(--f-mono);
+    font-size:12px;
+    font-weight:600;
+    color:var(--surface);
+    background:var(--accent);
+    width:30px;height:30px;
+    display:grid;place-items:center;
+    border-radius:50%;
+  }
+  ol.steps li::after{
+    content:"";
+    position:absolute;
+    left:15px;top:32px;bottom:2px;
+    width:1px;background:var(--rule-2);
+  }
+  ol.steps li:last-child::after{display:none;}
+  ol.steps h4{
+    font-family:var(--f-display);
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    font-size:16.5px;
+    margin:4px 0 4px;
+    font-weight:600;
+  }
+  ol.steps p{margin:0 0 4px;font-size:16px;color:var(--ink-2);}
+
+  /* tables */
+  .scroll{overflow-x:auto;margin:0 0 18px;-webkit-overflow-scrolling:touch;}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:15.5px;}
+  th,td{text-align:left;padding:9px 14px 9px 0;border-bottom:1px solid var(--rule);vertical-align:top;}
+  th{
+    font-family:var(--f-mono);
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+    font-weight:600;
+    border-bottom:1px solid var(--rule-2);
+  }
+  td:first-child{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:500;white-space:nowrap;}
+  td b{font-weight:600;}
+
+  /* Q&A */
+  .qa{border-top:1px solid var(--rule);padding:16px 0;max-width:70ch;}
+  .qa:last-of-type{border-bottom:1px solid var(--rule);}
+  .qa .q{
+    font-family:var(--f-display);
+    text-transform:uppercase;
+    letter-spacing:.035em;
+    font-size:17px;
+    font-weight:600;
+    margin:0 0 7px;
+    color:var(--ink);
+  }
+  .qa p{margin:0 0 10px;color:var(--ink-2);font-size:16px;}
+  .qa p:last-child{margin-bottom:0;}
+  .qa .say{
+    border-left:2px solid var(--brass);
+    padding-left:13px;
+    font-style:italic;
+    color:var(--ink);
+  }
+
+  .pill{
+    display:inline-block;
+    font-family:var(--f-mono);
+    font-size:10.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    padding:2px 8px;
+    border:1px solid var(--rule-2);
+    color:var(--ink-3);
+    border-radius:2px;
+    margin-left:8px;
+    vertical-align:middle;
+    font-weight:500;
+  }
+
+  footer.end{
+    border-top:3px solid var(--accent);
+    margin-top:56px;
+    padding-top:20px;
+    font-family:var(--f-mono);
+    font-size:12.5px;
+    color:var(--ink-3);
+    line-height:1.7;
+  }
+  footer.end a{color:var(--ink-3);}
+  footer.end a:hover{color:var(--accent);}
+
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div class="eyebrow">
+    <span><b>AFSC 14N</b></span>
+    <span>Air Force Intelligence Officer</span>
+    <span>Background brief for the speaker</span>
+    <span>Compiled 30 Sep 2026</span>
+  </div>
+  <h1>Knowing What<br><span>You Don't Know</span></h1>
+  <p class="standfirst">Everything behind the 15 slides — the doctrine, the org chart, the history, the arguments, and the answers to the questions the deck will provoke. All open-source.</p>
+</header>
+
+<div class="cols">
+
+<nav class="toc" aria-label="Contents">
+  <a href="#open" style="color:var(--flag);font-weight:600;"><span class="num">!!</span>Open items</a>
+  <a href="#use"><span class="num">00</span>How to use this</a>
+  <a href="#core"><span class="num">01</span>The core idea</a>
+  <a href="#cycle"><span class="num">02</span>The intelligence cycle</a>
+  <a href="#ints"><span class="num">03</span>The INTs — five, six, seven</a>
+  <a href="#tradecraft"><span class="num">04</span>Analytic tradecraft</a>
+  <a href="#job"><span class="num">05</span>What a 14N does</a>
+  <a href="#dayinlife" style="padding-left:30px;"><span class="num">·</span>Day to day</a>
+  <a href="#tracks" style="padding-left:30px;"><span class="num">·</span>Specialty tracks</a>
+  <a href="#team"><span class="num">06</span>The enlisted force</a>
+  <a href="#pipeline"><span class="num">07</span>Pipeline &amp; clearance</a>
+  <a href="#career"><span class="num">08</span>Career progression</a>
+  <a href="#numbers" style="padding-left:30px;"><span class="num">·</span>By the numbers</a>
+  <a href="#org"><span class="num">09</span>Where intel sits</a>
+  <a href="#platforms"><span class="num">10</span>Platforms &amp; sensors</a>
+  <a href="#history"><span class="num">11</span>Three stories</a>
+  <a href="#today"><span class="num">12</span>What's changing now</a>
+  <a href="#failure"><span class="num">13</span>When intel is wrong</a>
+  <a href="#qa"><span class="num">14</span>Q&amp;A bank</a>
+  <a href="#deck"><span class="num">15</span>Deck fixes — applied</a>
+  <a href="#glossary"><span class="num">16</span>Glossary</a>
+  <a href="#sources"><span class="num">17</span>Sources</a>
+</nav>
+
+<main>
+
+<!-- OPEN ITEMS -->
+<section id="open" style="margin-bottom:46px;">
+  <div style="border:2px solid var(--flag);background:var(--flag-soft);padding:20px 22px;">
+    <div style="font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--flag);font-weight:700;margin-bottom:4px;">Open items — unverified, check before you brief</div>
+    <p style="margin:0 0 16px;max-width:70ch;color:var(--ink-2);">Everything in this brief is sourced except the five items below. These are the things I could <em>not</em> confirm, or that are still outstanding on the deck. Nothing here is a reason to panic — but do not state any of them as settled fact in front of a room.</p>
+
+    <div class="scroll" style="margin:0;">
+    <table style="min-width:580px;">
+      <thead><tr><th style="width:26%;">Item</th><th style="width:36%;">The problem</th><th>What settles it</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--flag);">Slide 9 —<br>course length</td>
+          <td>Your slide says <strong>8.5 weeks</strong>. Open sources give three different answers: ~8 weeks, ~4 months, and <em>six and a half months</em>. The course was rebuilt at some point ("Learning Next"), so older figures may just be stale. <a href="#pipeline">§07</a></td>
+          <td>Anyone who has been through IOT, or your cadre. One question. If you can't confirm it, say "<strong>a few months at Goodfellow</strong>" and move on.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--flag);">14N intake<br>numbers</td>
+          <td>No current public figure for annual 14N accessions, or for total 14N strength. <strong>This is my gap, not evidence it's secret</strong> — every <span class="mono">af.mil</span> page returns 403 to automated retrieval. <a href="#numbers">§08</a></td>
+          <td>Your detachment sees the actual <strong>Enrollment Allocation</strong> figures per career field each year. That is exactly the number you want.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--flag);">14N3 time-in-<br>specialty</td>
+          <td>Sources disagree: <strong>18 months</strong> vs <strong>36 months</strong> in an intelligence assignment before the qualified level. <a href="#career">§08</a></td>
+          <td>The current CFETP. Until then say "around a year and a half to three years depending on the edition."</td>
+        </tr>
+        <tr>
+          <td style="color:var(--flag);">480th ISR Wing<br>data volume</td>
+          <td>The widely repeated <strong>~20 TB/day</strong> figure could not be confirmed against a current official fact sheet — I was reading mirrors. <a href="#org">§09</a></td>
+          <td>The 480th's own page, if you can reach it from a normal browser.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--flag);">Deck —<br>slide badges</td>
+          <td>Not a fact problem, a cosmetic one. Moving the agenda to position 2 left the printed corner numbers out of order: <strong>position 2 prints 03, position 3 prints 02</strong>. Everything else (04–15) is correct.</td>
+          <td>Two characters. Say the word once PowerPoint is closed and I'll fix it.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="margin:16px 0 0;max-width:70ch;font-size:15.5px;color:var(--ink-2);"><strong>Why af.mil kept blocking me:</strong> the authoritative pages for most of the above are on <span class="mono">af.mil</span>, which returns <strong>HTTP 403</strong> to automated requests — both via fetch tooling and a direct request with an ordinary browser user-agent. <strong>They load fine in a real browser.</strong> So if any of these matter to your talk, opening the page yourself is genuinely the fastest fix.</p>
+  </div>
+</section>
+
+<!-- 00 -->
+<section id="use">
+  <h2><span class="num">00</span>How to use this</h2><div class="sec-rule"></div>
+  <p class="lede">Your deck is a 3–5 minute talk. This is the other 95% — the material you draw on when someone asks a follow-up, and the background that makes the delivered version sound like you understand it rather than recite it.</p>
+  <p>Read it once end to end. Then, before you brief, re-read <a href="#core">§01</a>, <a href="#qa">§14</a> and <a href="#deck">§15</a>. Those three carry almost all the practical value on the day.</p>
+
+  <div class="callout warn">
+    <span class="tag">Professional habit worth starting now</span>
+    <p>Everything in this brief is <strong>open source</strong> — official Air Force pages, published joint doctrine, unit fact sheets, and reporting. You do not hold a clearance yet, so you have nothing classified to protect, but the discipline starts before the clearance does: cite where a fact came from, and when you don't know, say you don't know. In this career field, confidently stating something you can't source is the actual failure mode. Practising "I don't know, but here's how I'd find out" in a cadet briefing is not a weakness — it's the habit the job is built on.</p>
+  </div>
+</section>
+
+<!-- 01 -->
+<section id="core">
+  <h2><span class="num">01</span>The core idea</h2><div class="sec-rule"></div>
+
+  <p>If you remember one distinction, make it this one:</p>
+
+  <dl class="rows">
+    <div><dt>Data</dt><dd>A raw reading. A radar return. A line of intercepted traffic. Meaningless alone.</dd></div>
+    <div><dt>Information</dt><dd>Data that has been processed into something legible — a translated message, a geolocated image.</dd></div>
+    <div><dt>Intelligence</dt><dd><b>Information that has been analysed against a decision-maker's actual question.</b> It is defined by the question it answers, not by how it was collected.</dd></div>
+  </dl>
+
+  <p>That last line is the whole career field. An intelligence officer is not a person who collects secrets; they are a person who converts what is knowable into what is <em>decidable</em>. A perfectly accurate report that reaches a commander after the aircraft has launched is not intelligence. It's history.</p>
+
+  <h3>Decision advantage</h3>
+  <p>The term your deck uses on slide 4 is the current doctrinal framing, and it's worth being able to unpack it. <strong>Decision advantage</strong> means making better decisions, faster, than the adversary can react to — which means intelligence is measured relatively, against an opponent's tempo, not absolutely against the truth.</p>
+
+  <p>This is where the OODA loop earns its place in the brief. Colonel John Boyd — a USAF fighter pilot — built it from a study of why American F‑86s beat the technically superior MiG‑15 in Korea. His answer was not better hardware; it was a faster decision cycle. Observe, Orient, Decide, Act. Whoever cycles faster forces the opponent to keep responding to a situation that has already changed.</p>
+
+  <div class="callout">
+    <span class="tag">The point most people miss</span>
+    <p>Intelligence doesn't feed the whole loop — it feeds <strong>Orient</strong>, the step where a commander's mental model of the situation is built. Boyd considered Orient the decisive step. So bad intelligence doesn't merely slow the loop; it <em>corrupts</em> it, and the commander then acts quickly and confidently on a wrong picture. That is a worse outcome than acting slowly. If anyone asks "why does this job matter," that is the strongest available answer.</p>
+  </div>
+</section>
+
+<!-- 02 -->
+<section id="cycle">
+  <h2><span class="num">02</span>The intelligence cycle</h2><div class="sec-rule"></div>
+
+  <p>Your deck doesn't cover this and it is the single biggest gap. The cycle is the formal process the whole career field runs on, and it's the most likely thing a cadre member with an intel background will probe.</p>
+
+  <p>The Air Force teaches it as <strong>PCPAD</strong> — five phases, with assessment and feedback running throughout:</p>
+
+  <ol class="steps">
+    <li><div>
+      <h4>Planning &amp; Direction</h4>
+      <p>A commander states what they need to know. Those become formal intelligence requirements, and the gaps between what's needed and what's known drive everything downstream. This is where an officer spends much of their time.</p>
+    </div></li>
+    <li><div>
+      <h4>Collection</h4>
+      <p>Sensors and sources are tasked against those gaps. Note the verb: collection is <em>tasked</em>, not merely received. Deciding which scarce sensor goes after which gap is its own specialty (collection management).</p>
+    </div></li>
+    <li><div>
+      <h4>Processing &amp; Exploitation</h4>
+      <p>Raw take becomes usable — signals demodulated, imagery rendered, languages translated. Enormous, unglamorous, and where most of the machine-learning investment is going.</p>
+    </div></li>
+    <li><div>
+      <h4>Analysis &amp; Production</h4>
+      <p>The judgement step. Fragments from different disciplines are weighed against each other and turned into an assessment with a stated confidence.</p>
+    </div></li>
+    <li><div>
+      <h4>Dissemination &amp; Integration</h4>
+      <p>Getting it to the person who needs it, in a form they can act on, in time. A brilliant assessment in the wrong format at the wrong classification level is a failed product.</p>
+    </div></li>
+  </ol>
+
+  <div class="callout">
+    <span class="tag">Joint vs. Air Force — a real distinction</span>
+    <p>Joint doctrine (<strong>JP 2-0, <em>Joint Intelligence</em></strong>) describes <strong>six</strong> categories, not five: it breaks out <strong>Evaluation &amp; Feedback</strong> as a category in its own right rather than folding it through the others. Both framings are current and correct in their own lane. If you're asked, "The Air Force teaches PCPAD as five phases with feedback continuous; joint doctrine splits feedback out as a sixth" is a precise, defensible answer that shows you've read past the recruiting page.</p>
+  </div>
+
+  <p>One more thing doctrine stresses and briefers usually forget: it is a <strong>cycle</strong>, not a pipeline. The output of analysis is usually a new gap, which becomes a new collection requirement. Practically, the job never has a "done" state — you are always handing your own unanswered questions back to the front of the process.</p>
+</section>
+
+<!-- 03 -->
+<section id="ints">
+  <h2><span class="num">03</span>The INTs — five, six, or seven</h2><div class="sec-rule"></div>
+
+  <p>Your slide now reads "the five <strong>main collection</strong> disciplines" — changed 1 Oct. Here is why the number is soft, because this is the easiest place for someone to catch you out.</p>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Discipline</th><th>What it is</th><th>Worth knowing</th></tr></thead>
+    <tbody>
+      <tr><td>SIGINT</td><td>Signals intelligence — intercepted transmissions and electronic emissions.</td><td>Splits into <b>COMINT</b> (communications) and <b>ELINT</b> (non-communication emitters, e.g. radars). <b>FISINT</b> (foreign instrumentation, e.g. missile telemetry) is a third sub-type.</td></tr>
+      <tr><td>GEOINT</td><td>Imagery plus the geospatial data and analysis describing it.</td><td>Much broader than "satellite photos" — it includes mapping, terrain and elevation data. Run nationally by <b>NGA</b>.</td></tr>
+      <tr><td>HUMINT</td><td>Information from human sources.</td><td>The oldest discipline by far. Includes overt liaison and diplomatic reporting, not just clandestine agents.</td></tr>
+      <tr><td>MASINT</td><td>Measurement &amp; signature intelligence — technical signatures rather than content.</td><td>Identifying a <em>specific</em> radar or engine by its physical fingerprint. Least understood INT outside the community.</td></tr>
+      <tr><td>OSINT</td><td>Publicly available information, evaluated and analysed.</td><td>The fastest-growing discipline. See <a href="#today">§12</a>.</td></tr>
+      <tr><td>TECHINT</td><td>Technical intelligence — exploitation of foreign equipment and materiel.</td><td><b>In the official 14N list.</b> The Air Force's own career-field documentation names six disciplines and TECHINT is the sixth.</td></tr>
+      <tr><td>CI</td><td>Counterintelligence — detecting and countering foreign intelligence efforts against us.</td><td>JP 2-0 lists CI among the joint intelligence disciplines, giving seven. In the USAF, CI is an <b>OSI</b> mission, not a 14N one.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout fix">
+    <span class="tag">Applied to slide 6 — the reasoning</span>
+    <p>Air Force documentation for the 14N career field lists <strong>six</strong> intelligence disciplines — the five on your slide <strong>plus TECHINT</strong>. Joint doctrine lists <strong>seven</strong> by adding counterintelligence. "Five" is a recruiting-page simplification, so the slide subtitle now says "the five <em>main</em> collection disciplines" and a speaker note explains it. Keep TECHINT and CI in your pocket — if someone asks, you look like you read the career-field standard rather than the brochure.</p>
+  </div>
+
+  <h3>Why fusion is the actual skill</h3>
+  <p>Each INT has a characteristic blind spot, and they're not the same blind spot — which is the entire reason all-source analysis exists:</p>
+  <ul>
+    <li><strong>SIGINT</strong> tells you what someone <em>said</em>, which may be a lie, a drill, or deliberate deception fed to a channel they know is monitored.</li>
+    <li><strong>GEOINT</strong> tells you what was <em>there</em> at one instant — and imagery of a revetment cannot tell you whether the aircraft in it is mission-capable.</li>
+    <li><strong>HUMINT</strong> gives you intent, which no sensor can collect — but it is filtered through a human with motives.</li>
+    <li><strong>MASINT</strong> can confirm the identity of a system with high confidence while saying nothing about what it will be used for.</li>
+    <li><strong>OSINT</strong> is abundant and fast but is the easiest of all to poison deliberately.</li>
+  </ul>
+  <p>Fusion means using each one to cover another's blind spot. When a HUMINT report and imagery disagree, the disagreement is itself information — it usually means someone is concealing something, and that becomes the next collection requirement.</p>
+</section>
+
+<!-- 04 -->
+<section id="tradecraft">
+  <h2><span class="num">04</span>Analytic tradecraft</h2><div class="sec-rule"></div>
+
+  <p>This is the material that most separates someone who has read about the job from someone who understands it. Almost none of it is on your slides and any of it will land well.</p>
+
+  <h3>Source reliability and information credibility are graded separately</h3>
+  <p>A reliable source can still report something implausible; an unreliable source occasionally reports the truth. Analysts therefore rate the two independently. The best-known framework is the NATO <strong>Admiralty System</strong>: source reliability <code>A</code>–<code>F</code>, information credibility <code>1</code>–<code>6</code>. A report graded <code>B2</code> is "usually reliable source, probably true information." An <code>F6</code> is "reliability cannot be judged, truth cannot be judged" — which is not the same as false.</p>
+
+  <h3>Words of estimative probability</h3>
+  <p>Analysts are trained not to write "likely" casually, because the reader will act on it. The intelligence community standardises estimative language so that "<em>almost certainly</em>," "<em>likely</em>," "<em>roughly even chance</em>," "<em>unlikely</em>" and "<em>almost no chance</em>" map to defined probability bands, and so that <strong>confidence</strong> (how good the underlying evidence is) is stated separately from <strong>likelihood</strong> (how probable the outcome is).</p>
+  <div class="callout">
+    <span class="tag">Why this matters more than it sounds</span>
+    <p>You can have <em>high confidence</em> in a <em>low-probability</em> judgement — strong evidence that something probably won't happen. Collapsing those two into one word is how briefings mislead commanders without anyone lying. If you can explain that distinction cleanly, you will sound like you've actually studied the field.</p>
+  </div>
+
+  <h3>Structured analytic techniques</h3>
+  <p>Because analysts are human, the community uses formal methods to attack their own reasoning. Worth naming one or two:</p>
+  <ul>
+    <li><strong>Analysis of Competing Hypotheses (ACH)</strong> — list every plausible explanation, then look for evidence that <em>disconfirms</em> each rather than evidence that supports your favourite. Designed specifically to defeat confirmation bias.</li>
+    <li><strong>Red teaming / devil's advocacy</strong> — someone is formally tasked to argue the opposing case so the assessment has to survive a real attack.</li>
+    <li><strong>Key assumptions check</strong> — write down what you are taking for granted, then ask what breaks if each assumption is wrong. Most intelligence failures are assumption failures, not collection failures.</li>
+  </ul>
+
+  <h3>The mirror-imaging trap</h3>
+  <p>The classic analytic error is assuming an adversary will behave as you would, given the same facts — weighing their options with your values, your risk tolerance and your doctrine. It has driven some of the community's most expensive misses. Naming this in a briefing signals real reading.</p>
+</section>
+
+<!-- 05 -->
+<section id="job">
+  <h2><span class="num">05</span>What a 14N actually does</h2><div class="sec-rule"></div>
+
+  <p>Air Force documentation organises the officer role around <strong>four competencies</strong> — a cleaner structure than "a day in the life," and worth having:</p>
+
+  <dl class="rows">
+    <div><dt>Analysis</dt><dd>Fusing all-source reporting into assessments; owning the accuracy of what the unit publishes.</dd></div>
+    <div><dt>Collection</dt><dd>Writing requirements and managing which sensors and sources get tasked against which gaps.</dd></div>
+    <div><dt>Targeting</dt><dd>Target development, weaponeering, force application, execution planning and combat assessment — kinetic and non-kinetic.</dd></div>
+    <div><dt>Sensing Grid</dt><dd>Employing and integrating the ISR sensor enterprise itself as a system.</dd></div>
+  </dl>
+
+  <h3 id="dayinlife">The day to day, concretely</h3>
+  <p>This is the part of the deck that is easiest to say vaguely and hardest to say well. Four specifics will carry you further than any amount of "fast-paced, dynamic environment."</p>
+
+  <h4 style="font-family:var(--f-display);text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin:22px 0 6px;">1. You work inside a SCIF, and that shapes everything</h4>
+  <p>A <strong>SCIF</strong> (Sensitive Compartmented Information Facility, pronounced "skiff") is an accredited, access-controlled room built to defeat eavesdropping. Practically, for the person working in one:</p>
+  <ul>
+    <li><strong>Your phone does not come in.</strong> It goes in a locker outside. You are unreachable for most of the working day.</li>
+    <li>Usually <strong>no windows</strong>. You can finish a shift with no idea what the weather did.</li>
+    <li>Nothing leaves — no notes, no thumb drives, no photographs of the screen.</li>
+    <li><strong>You cannot talk about your day.</strong> Not to your spouse, not to your parents, not to the friend who asks what you do. "I work intel for the wing" is roughly the whole answer you are allowed to give.</li>
+  </ul>
+  <p>That last one is a genuine lifestyle cost and is worth saying out loud in a career-field brief, because nobody mentions it and it is the thing people actually find hard.</p>
+
+  <h4 style="font-family:var(--f-display);text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin:22px 0 6px;">2. The clock belongs to the flying schedule</h4>
+  <p>At a flying wing the intel shop has to be manned <strong>whenever aircraft are flying</strong>. If the squadron flies a night sortie, somebody from intel is there to brief it and to debrief it when it lands. In garrison a standard week is Monday–Friday, but some billets — especially at operations centres and DCGS sites — run <strong>12-hour shifts, including nights and weekends</strong>. During an exercise or a surge, everybody's hours go up.</p>
+
+  <h4 style="font-family:var(--f-display);text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin:22px 0 6px;">3. A realistic day at a flying wing</h4>
+  <p>Not a schedule you should present as doctrine, but a credible shape of a day — and far more useful to an audience than four abstract bullets:</p>
+  <ul>
+    <li><strong>Early.</strong> In before the aircrew. Read overnight traffic — what came in from national agencies, the theatre, the other INTs — and work out what changed while you were asleep.</li>
+    <li><strong>Mid-morning.</strong> Build and deliver the <strong>pre-mission threat brief</strong>. You stand in front of aircrew, often with fifteen years more experience than you, and tell them what they are flying into. Credibility here is earned by being right repeatedly; it does not come with the rank.</li>
+    <li><strong>Midday.</strong> Production. Your analysts are building the unit's intelligence products; you are directing that work, checking it, and answering the questions the morning threw up.</li>
+    <li><strong>Afternoon.</strong> The non-glamorous half of the job — database and target folder maintenance, updating the recurring products, answering taskings from the group or wing staff, and the <strong>additional duties</strong> every Air Force officer carries regardless of AFSC (writing performance reports, award packages, being the unit's safety or training officer).</li>
+    <li><strong>On landing.</strong> <strong>Post-mission debrief.</strong> Capture what the aircrew actually observed, reconcile it against what you told them, and feed the difference back into collection. This is the step that closes the cycle (<a href="#cycle">§02</a>) and the one most briefers forget.</li>
+  </ul>
+
+  <h4 style="font-family:var(--f-display);text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin:22px 0 6px;">4. You are doing three jobs at once</h4>
+  <p>New lieutenants are consistently surprised by this ratio:</p>
+  <ul>
+    <li><strong>Analyst</strong> — the work you joined for.</li>
+    <li><strong>Leader of enlisted Airmen</strong> — you supervise experienced 1N analysts almost immediately, some of whom have been doing this longer than you have been an adult. Most lieutenants report this, not the analysis, is the hard part.</li>
+    <li><strong>Staff officer</strong> — the paperwork of being an officer, which nobody warns you about and which does not care that you are busy.</li>
+  </ul>
+
+  <div class="callout">
+    <span class="tag">It varies enormously by assignment — say so</span>
+    <p>"A day in the life" is really four different lives, and naming them shows you understand the career field rather than one slide of it:</p>
+    <ul>
+      <li><strong>Flying wing (OSS):</strong> the rhythm above. Closest to operators, most briefing, most visible.</li>
+      <li><strong>DCGS / production centre:</strong> shift work, exploiting live collection, supporting operations happening right now, somewhere else in the world. See <a href="#org">§09</a> on reachback.</li>
+      <li><strong>Staff (MAJCOM, HQ):</strong> requirements, programming, policy. Less analysis, more influence.</li>
+      <li><strong>Joint or national agency:</strong> working alongside DIA, NSA or NGA and the other services. More of the career field ends up here than people expect — see the numbers in <a href="#numbers">§08</a>.</li>
+    </ul>
+  </div>
+
+  <div class="callout warn">
+    <span class="tag">Deployments — answer this honestly</span>
+    <p>Yes, 14Ns deploy, and some deploy forward with fighter squadrons, special operations units or joint commands. But because of <strong>reachback</strong>, a large share of Air Force intelligence is performed from home station regardless of where the fighting is. Tempo depends far more on which unit you land in than on the AFSC itself. "It depends heavily on the assignment" is the accurate answer, not a dodge.</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="tag">Honest framing worth having ready</span>
+    <p>If someone asks what the downside is: a great deal of intelligence work is <em>routine</em> — maintaining databases, building the same recurring products, briefing a threat picture that hasn't changed in a week. The dramatic version is real but rare. The officers who do well are the ones who care about being <em>right</em> and about the team, rather than the ones who came for the mystique. That answer is more credible than pretending the job is constant excitement, and cadre will respect it.</p>
+  </div>
+
+  <h3 id="tracks">The four specialty tracks — unpacking slide 10</h3>
+  <p>These four are not separate entry-level jobs. They are where the career field branches <em>after</em> someone is already qualified — an SEI for officers, a follow-on award for enlisted. The slide states each in four or five words; here is what those words actually mean, because every one of them is the kind of phrase an audience will ask you to expand.</p>
+
+  <h4 style="font-family:var(--f-display);text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin:22px 0 6px;">Targeting — "the most operationally direct role"</h4>
+  <p>It means <strong>the shortest distance between your product and someone pulling a trigger</strong>. Most intelligence produces understanding that shapes a decision later. Targeting produces a product that becomes an action, sometimes within hours.</p>
+  <p>"Kinetic" is the giveaway word in the speaker notes — it means physical force, as opposed to non-kinetic effects like cyber or electronic warfare. Targeting is the most kinetic of the intelligence specialties.</p>
+  <p>What a targeteer actually does: identify and verify what a thing <em>is</em>; work out its function within the adversary's system; characterise its physical vulnerabilities; recommend what weapon and how many will achieve the desired effect (<strong>weaponeering</strong>); estimate what else would be damaged (<strong>collateral damage estimation</strong> — a legal obligation under the Law of Armed Conflict, not a courtesy); and assess afterwards whether it worked and whether it needs re-attack.</p>
+  <div class="callout">
+    <span class="tag">Why it carries the heaviest responsibility</span>
+    <p>If an all-source analyst misjudges intent, the commander makes a worse plan. If a targeteer misidentifies a building, people die who should not have, and it cannot be undone. That asymmetry — not the drama — is the real reason this track is singled out.</p>
+    <p class="say" style="border-left:2px solid var(--brass);padding-left:13px;font-style:italic;margin-top:10px;">"Targeting is where intel output turns into weapons employment — your analysis feeds the strike decision directly, including the legal assessment of what else gets hit."</p>
+  </div>
+
+  <h4 style="font-family:var(--f-display);text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin:22px 0 6px;">Fusion Analyst — "works the same layer as all-source"</h4>
+  <p>Be aware that this is <strong>the weakest line on slide 10</strong>, and sharpen it or be ready for it.</p>
+  <p>What it is reaching for: fusion analysis <em>is</em> all-source analysis — the same inputs, the same skill of reconciling several INTs into one picture. The intended distinction is <strong>tempo, not discipline</strong>:</p>
+  <ul>
+    <li><strong>All-source</strong> builds the deliberate picture on a planning cycle. There is time to weigh evidence, caveat it, and coordinate the assessment.</li>
+    <li><strong>Fusion</strong> does the same work in <strong>minutes, during an operation</strong>, supporting aircraft that are airborne now.</li>
+  </ul>
+  <p>Same discipline, different clock.</p>
+  <div class="callout warn">
+    <span class="tag">Verify this one before you lean on it</span>
+    <p>"Fusion Analyst" maps to <strong>1N4X1</strong>, which in practice carries a strong digital-network and SIGINT flavour rather than being a pure speed variant of 1N0X1 all-source. The slide's framing is a simplification. Check the current enlisted classification directory before presenting it as a clean tempo distinction.</p>
+    <p class="say" style="border-left:2px solid var(--brass);padding-left:13px;font-style:italic;margin-top:10px;">"Same fusing work as all-source, but on an operational clock — supporting a mission in progress rather than planning the next one."</p>
+  </div>
+
+  <h4 style="font-family:var(--f-display);text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin:22px 0 6px;">Collection Management — "which sensor or source"</h4>
+  <p>Two words doing deliberate work. They cover the full span of collection:</p>
+  <ul>
+    <li><strong>Sensor</strong> — a machine. A satellite, a radar, the camera on an RQ-4, a receiver on an RC-135.</li>
+    <li><strong>Source</strong> — a person. A HUMINT contact, a liaison relationship, a debriefed traveller.</li>
+  </ul>
+  <p>So "sensor or source" is shorthand for <em>technical and human collection both</em>.</p>
+  <p>The job itself: there are always far more questions than collection capacity. Satellites pass overhead only at certain times. Aircraft have fuel limits. Sources have access to some things and not others, and pushing them can get them exposed. The collection manager decides what gets looked at, by what, and when.</p>
+  <div class="callout">
+    <span class="tag">The real content of the job is opportunity cost</span>
+    <p>Tasking an asset against question A means question B goes unanswered today. That is why the speaker notes call it one of the hardest judgement calls in intelligence — the decision is not really "what do we collect," it is "what are we willing not to know."</p>
+    <p class="say" style="border-left:2px solid var(--brass);padding-left:13px;font-style:italic;margin-top:10px;">"It's air traffic control for questions — you've got more things you need to know than you have ways to find out, and somebody has to decide what doesn't get answered."</p>
+  </div>
+
+  <h4 style="font-family:var(--f-display);text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin:22px 0 6px;">HUMINT / Special Access — two unrelated things on one card</h4>
+  <p>Know that these are <strong>separate concepts</strong>. The only thing they share is vetting beyond the baseline, which is why they ended up grouped.</p>
+  <p><strong>HUMINT</strong> is intelligence from people, and it is much broader than spies: debriefing defectors and travellers, lawful interrogation of detainees, liaison with partner-nation services, military attachés at embassies, and exploiting captured documents.</p>
+  <p>Its unique value is the thing no sensor can do — <strong>intent</strong>. A satellite sees a tank; it cannot see a decision. Only a person can tell you what the other side <em>means</em> to do next week.</p>
+  <p>Its weakness is the mirror image. Human sources have motives: they can lie, inflate their value to stay useful, be fed false information, or be working for the other side. That is exactly why reliability and credibility are graded separately (<a href="#tradecraft">§04</a>). "<strong>Source handling</strong>" is the tradecraft of recruiting, vetting, meeting and protecting a source — and protecting matters literally, because exposure can get someone killed.</p>
+  <p><strong>Special Access</strong> is not a discipline at all. A <strong>Special Access Program (SAP)</strong> is a security construct: a programme compartmented above normal TS/SCI, with its own access roster, often its own facility and codename. "Additional vetting" means extra scrutiny, sometimes a polygraph, and a formal read-on to that specific programme. You do not apply for it — you are read on because a job requires it.</p>
+  <div class="callout warn">
+    <span class="tag">Know this before you say it</span>
+    <p>Air Force 14N involvement in HUMINT is <strong>limited</strong>. The heavy lifting belongs to DIA's Defense Clandestine Service and to the Army, which owns most tactical HUMINT. If someone asks "do Air Force intelligence officers run agents?" — essentially no, not as a standard career path.</p>
+    <p class="say" style="border-left:2px solid var(--brass);padding-left:13px;font-style:italic;margin-top:10px;">"Two different things on one card: HUMINT is a collection discipline, Special Access is a clearance construct. They're grouped because both need vetting past the baseline."</p>
+  </div>
+</section>
+
+<!-- 06 -->
+<section id="team">
+  <h2><span class="num">06</span>The enlisted force you'll lead</h2><div class="sec-rule"></div>
+
+  <p>Your deck mentions <code>1N0X1</code> only. There is a whole family, and knowing it shows you understand that the officer doesn't do the analysis alone.</p>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th>AFSC</th><th>Specialty</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td>1N0X1</td><td>All-Source Intelligence Analyst</td><td>Builds the fused picture; the analyst core of a wing intel shop.</td></tr>
+      <tr><td>1N1X1</td><td>Geospatial Intelligence</td><td>Imagery and geospatial analysis.</td></tr>
+      <tr><td>1N2X1</td><td>Signals Intelligence Analyst</td><td>Exploits collected signals.</td></tr>
+      <tr><td>1N3X1</td><td>Cryptologic Language Analyst</td><td>Linguists — a lengthy pipeline including the Defense Language Institute.</td></tr>
+      <tr><td>1N4X1</td><td>Fusion Analyst / Digital Network Analyst</td><td>Network and fusion analysis.</td></tr>
+      <tr><td>1N8X1</td><td>Targeting Analyst</td><td>Target development and weaponeering support.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>The practical point for a briefing: a 14N's credibility with these Airmen comes from understanding their disciplines well enough to task them intelligently — not from out-analysing them. A 1N3 linguist has spent well over a year in language training. You will not out-translate them, and you shouldn't try.</p>
+</section>
+
+<!-- 07 -->
+<section id="pipeline">
+  <h2><span class="num">07</span>Pipeline and clearance</h2><div class="sec-rule"></div>
+
+  <h3>Training</h3>
+  <p>All Air Force intelligence training is centred on <strong>Goodfellow AFB, Texas</strong>, with the <strong>315th Training Squadron</strong> running officer training. The initial course — Intelligence Officer Training / the Intelligence Officer Initial Skills Course — is roughly <strong>eight to nine weeks</strong> and covers the disciplines, analytic tradecraft, collection management, targeting methodology and Air Force ISR systems.</p>
+  <div class="callout fix">
+    <span class="tag">⚠ Course length — sources genuinely conflict, and your slide 9 states one as fact</span>
+    <p>Open sources give <strong>three different answers</strong> for the 14N initial course: roughly <strong>8 weeks</strong>, roughly <strong>4 months</strong>, and — in at least one rendering of the 315 TRS fact sheet — <strong>six and a half months</strong>. Your slide 9 currently says "<strong>8.5-week Intelligence Officer Training</strong>."</p>
+    <p>I could not resolve it, because the authoritative pages are all on <span class="mono">af.mil</span>, which returns <strong>403 to every automated request</strong>, including with a normal browser user-agent. Compounding it, the course has been actively redesigned — there was a "Learning Next" beta rebuild of Intelligence Officer Training — so older figures may simply be stale rather than wrong.</p>
+    <p><strong>Verify before you brief this.</strong> Anyone who has been through IOT, or your cadre, can settle it in one question — and a wrong course length is exactly the kind of error someone in the room will have lived through. If you cannot confirm it, say "a few months at Goodfellow" and move on.</p>
+  </div>
+  <p>Goodfellow is a genuinely joint schoolhouse: it trains intelligence personnel for multiple U.S. services and for international partners, which is a nice detail if the conversation turns to joint operations. The <strong>315th Training Squadron alone trains 3,300+ students a year</strong> — see <a href="#numbers">§08</a>.</p>
+  <p>After the initial course, training branches by assignment — follow-on qualification tailored to the platform or mission you'll support, plus home-station training at your gaining unit. A 14N heading to a fighter wing, an RPA unit, a space unit and a production centre do not receive the same follow-on.</p>
+
+  <h3>Clearance</h3>
+  <dl class="rows">
+    <div><dt>What it is</dt><dd>A <b>Tier 5</b> investigation — the deepest level of federal background investigation, formerly called an <b>SSBI</b>. Required for Top Secret and for SCI access.</dd></div>
+    <div><dt>What it involves</dt><dd>Roughly the last ten years: every address, employer, school, foreign contact and financial record, verified by record checks <em>and</em> interviews — including an Enhanced Subject Interview with you and interviews with people who know you.</dd></div>
+    <div><dt>How long</dt><dd>Published figures move. Recent reporting puts Top Secret around <b>6–12 months</b> for most cases, with TS/SCI — which adds SCI indoctrination and sometimes a polygraph — running longer, commonly quoted as <b>6–18 months</b>.</dd></div>
+    <div><dt>After it's granted</dt><dd><b>Continuous vetting</b> has largely replaced the old fixed reinvestigation cycle — you are monitored on an ongoing basis rather than re-investigated every five years.</dd></div>
+  </dl>
+
+  <div class="callout fix">
+    <span class="tag">Applied to slide 8</span>
+    <p>The slide used to say <strong>12–24 months</strong>. That was a fair figure during the big clearance backlog, but it now reads as out of date — current published processing times are materially faster. It now reads "<strong>often under a year, varies by background</strong>", and the speaker note carries the detail. The honest driver of variance is foreign contacts, foreign travel, financial history and dual citizenship — not paperwork sitting on a desk.</p>
+  </div>
+
+  <p>Two things cadets routinely get wrong and you can correct: the investigation is about <strong>honesty and vulnerability to coercion</strong>, not about having a spotless life. Disclosed past drug use or debt is a manageable fact; the same thing concealed and then discovered is disqualifying. And you generally begin the process <em>before</em> you have the clearance — you'll do useful work at lower classification while it's pending.</p>
+</section>
+
+<!-- 08 -->
+<section id="career">
+  <h2><span class="num">08</span>Career progression</h2><div class="sec-rule"></div>
+
+  <dl class="rows">
+    <div><dt>Commitment</dt><dd>The standard initial active-duty service commitment is <b>four years</b>, generally running from commissioning or from completion of initial skills training, whichever is later.</dd></div>
+    <div><dt>Skill levels</dt><dd><b>14N1</b> on completing the initial course; <b>14N3</b> (qualified) after MAJCOM qualification training and time in an intelligence assignment; <b>14N4</b> at the staff level.</dd></div>
+    <div><dt>Rank</dt><dd>Commission as <b>O-1</b>; promotion through <b>O-3 (Captain)</b> is essentially time-based. <b>O-4 (Major)</b> and above are board-selected and competitive.</dd></div>
+    <div><dt>Key jobs</dt><dd>Flight commander as a captain; squadron command as a lieutenant colonel. Between those, staff tours at MAJCOM, joint or national-agency level.</dd></div>
+    <div><dt>SEIs</dt><dd><b>Special Experience Identifiers</b> tag extra training on top of the base AFSC — collection management, targeting, HUMINT, special access. They are tracking codes that make you eligible for taskings, not separate jobs.</dd></div>
+  </dl>
+
+  <div class="callout warn">
+    <span class="tag">Flagged as uncertain — don't state a hard number</span>
+    <p>Sources I checked <strong>disagree</strong> on the time-in-specialty required for the 14N3 qualified level: one gives roughly <strong>18 months</strong> in an intelligence assignment, another states <strong>36 months</strong> performing intelligence functions. I could not resolve which reflects the current Career Field Education and Training Plan. If it comes up, say "around a year and a half to three years depending on the edition of the CFETP — I'd have to check the current one." Do not pick a number and assert it.</p>
+  </div>
+
+  <p>Outside the uniform, the career field has an unusually strong civilian exit: cleared analytic work at the national agencies and their contractors, and the private threat-intelligence industry, both value the exact skill set. Worth mentioning if someone asks "what if I only do four years?" — the answer is that it is one of the most transferable officer specialties.</p>
+
+  <h3 id="numbers">The career field by the numbers</h3>
+  <p>Figures an audience can anchor on. Each one is sourced; read the caveats before you put any of them on a slide.</p>
+
+  <h4 style="font-family:var(--f-display);text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin:22px 0 6px;">Getting commissioned at all</h4>
+  <dl class="rows">
+    <div><dt>AFROTC</dt><dd>~<b>2,000</b> second lieutenants commissioned per year, all specialties.</dd></div>
+    <div><dt>OTS</dt><dd>~<b>2,000–2,200</b> per year recently (Air Force and Space Force combined). It is the surge valve — historically it has produced as many as <b>7,894</b> in a single year.</dd></div>
+    <div><dt>USAFA</dt><dd>~<b>800–900</b> Air Force officers per year, plus ~100 to the Space Force.</dd></div>
+  </dl>
+  <p>So roughly <strong>5,000 new Air Force officers a year across all three sources, across every specialty</strong>. 14N is one of many non-rated fields competing inside that total.</p>
+
+  <h4 style="font-family:var(--f-display);text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin:22px 0 6px;">The schoolhouse</h4>
+  <dl class="rows">
+    <div><dt>315 TRS</dt><dd>Trains <b>3,300+ students annually</b> with 220+ permanent party — Air Force officers and enlisted, plus civilian, joint-service and international students. This is the squadron that runs the 14N course.</dd></div>
+    <div><dt>17 TRG</dt><dd><b>320+ courses</b> and <b>12,000+ graduates a year</b> across ISR, firefighting and special instruments — the whole Goodfellow training enterprise.</dd></div>
+  </dl>
+  <p>The 3,300 figure is the most useful one you have, because it is the population the 14N course sits inside. It is <em>not</em> the number of new intelligence officers — it covers every course the squadron runs, for every service.</p>
+
+  <h4 style="font-family:var(--f-display);text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin:22px 0 6px;">The size of the enterprise</h4>
+  <dl class="rows">
+    <div><dt>16th Air Force</dt><dd>~<b>45,000</b> Total Force Airmen across <b>123 locations</b> (16 AF's own figure); a 2025 estimate puts total personnel including civilians and reservists nearer <b>49,000</b>.</dd></div>
+    <div><dt>480th ISR Wing</dt><dd><b>6,000+</b> personnel; manages <b>$5B+</b> in intelligence resources.</dd></div>
+  </dl>
+
+  <h4 style="font-family:var(--f-display);text-transform:uppercase;letter-spacing:.04em;font-size:16px;margin:22px 0 6px;">The 14N field-grade population</h4>
+  <p>The only hard 14N-specific headcount I could find in open sources is a RAND inventory of <strong>field-grade</strong> (O-4 to O-6) 14N jobs:</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Grade</th><th>Positions</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Major (O-4)</td><td>615</td><td rowspan="4" style="font-family:var(--f-body);">Does <b>not</b> include lieutenants or captains, who are the bulk of the career field. Data is from <b>September 2005</b>.</td></tr>
+      <tr><td>Lt Col (O-5)</td><td>345</td></tr>
+      <tr><td>Colonel (O-6)</td><td>116</td></tr>
+      <tr><td><b>Total</b></td><td><b>1,076</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout">
+    <span class="tag">The genuinely interesting number in that table</span>
+    <p><strong>352 of those 1,076 field-grade jobs — about a third — were joint</strong> (combatant commands and combat support agencies), with another <strong>117 at other agencies such as CIA and NSA</strong>. Taken together, <strong>roughly 44% of senior 14N jobs sat outside the Air Force proper.</strong></p>
+    <p>That is a real argument, not a statistic: this career field pushes you into the joint and national intelligence world faster and harder than most. If someone asks "would I just be stuck on an Air Force base?", that is your answer.</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="tag">⚠ What I could NOT find — treat this as my gap, not a settled fact</span>
+    <p>I could not find a current, public figure for <strong>how many new 14N officers are accessioned or trained per year</strong>, or for the <strong>total number of 14N officers serving</strong>. That is a gap in my search, not evidence the number is secret.</p>
+    <p>What I actually checked: AFROTC classification/allocation board statistics; AFPC personnel demographics by AFSC; the Goodfellow, 315 TRS and 17 TRG fact sheets; the 2024 315 TRS student welcome packet; the Holm Center 14N career flyer; and RAND TR-628. <strong>Every <span class="mono">af.mil</span> page returns HTTP 403 to automated retrieval</strong> — both via fetch tooling and a direct request with a normal browser user-agent — so I was reading search summaries and mirrors rather than the primary pages. The Holm Center flyer link resolves to a navigation page rather than the PDF.</p>
+    <p><strong>The fastest way to get the real number is your own cadre.</strong> AFROTC detachments see the actual Enrollment Allocation figures per career field each year — that is precisely the number you want, and it is one question to the right person. AFPC's personnel data portal is the other route.</p>
+  </div>
+</section>
+
+<!-- 09 -->
+<section id="org">
+  <h2><span class="num">09</span>Where intelligence sits</h2><div class="sec-rule"></div>
+
+  <p>Your slide 12 gives three tiers. Here is the fuller map, with the names that carry weight.</p>
+
+  <h3>At the unit</h3>
+  <p>Intelligence flights sit in the <strong>Operations Support Squadron</strong> under a wing's Operations Group. The staff designator for intelligence at any echelon is <strong>A2</strong> in the Air Force (<strong>J2</strong> joint, <strong>G2</strong> Army). If you hear "the A2," that is the intelligence directorate or its chief.</p>
+
+  <h3>16th Air Force (Air Forces Cyber)</h3>
+  <p>The Air Force's information-warfare numbered air force, stood up in 2019 by merging the old 24th (cyber) and 25th (ISR) Air Forces. It owns the service's ISR mission and capabilities, its cryptologic activities, operational weather, and the defence of Air Force networks. Headquartered at Lackland AFB, Texas. If someone asks "who owns Air Force intelligence," 16 AF is the answer.</p>
+
+  <h3>480th ISR Wing and AF DCGS</h3>
+  <p>At Joint Base Langley-Eustis, Virginia. It leads the <strong>Air Force Distributed Common Ground System</strong> (AF DCGS, the AN/GSQ-272 SENTINEL weapon system) — the globally networked system that processes, exploits and disseminates take from U-2, RQ-4, MQ-9 and other platforms, 24/7. Reported at over 6,000 personnel and more than $5B in resources, handling a reported ~20 terabytes of data per day.</p>
+  <div class="callout">
+    <span class="tag">The concept behind it</span>
+    <p>DCGS is the answer to a real problem: the sensor can be over the Pacific while the analyst exploiting its take sits in Virginia. That's called <strong>reachback</strong> — and it means a lot of Air Force intelligence is performed by people who are not deployed. Good detail if someone asks "do you deploy?" Sometimes yes; but the ISR enterprise deliberately does a great deal of its work from home station.</p>
+  </div>
+
+  <h3>National level</h3>
+  <dl class="rows">
+    <div><dt>NASIC</dt><dd>National Air and Space Intelligence Center, Wright-Patterson AFB. The Air Force's centre for characterising <b>foreign</b> air, space, missile and cyber threats. Its assessments shape acquisition programmes, national policy and treaty verification. It also performs <b>foreign materiel exploitation</b> — reverse-engineering adversary systems.</dd></div>
+    <div><dt>NSIC</dt><dd>National Space Intelligence Center — the Space Force's analytic counterpart, also at Wright-Patterson.</dd></div>
+    <div><dt>DIA / NSA / NGA</dt><dd>Defense Intelligence Agency (all-source defence intelligence), National Security Agency (SIGINT), National Geospatial-Intelligence Agency (GEOINT). Air Force personnel serve in all three.</dd></div>
+  </dl>
+
+  <div class="callout warn">
+    <span class="tag">Current — and a genuinely good thing to know</span>
+    <p>The Air Force has been <strong>splitting intelligence and cyber apart at headquarters level</strong>. The combined <strong>A2/6</strong> directorate — which had intelligence, communications and cyber under one three-star — is being separated so that <strong>A2 focuses purely on ISR</strong>, with a new <strong>A6</strong> three-star owning cyber effects, and electromagnetic spectrum operations moving over to the operations (A3) side. It's part of the "re-optimisation for great power competition" effort. Being able to say "intel and cyber are actually being pulled apart right now, not merged" is current, specific, and very few cadets will know it.</p>
+  </div>
+</section>
+
+<!-- 10 -->
+<section id="platforms">
+  <h2><span class="num">10</span>Platforms and sensors</h2><div class="sec-rule"></div>
+
+  <p>Not on your slides at all, and the single most likely thing an aviation-minded audience asks about.</p>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Platform</th><th>Role</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>U-2 Dragon Lady</td><td>High-altitude reconnaissance</td><td>Flying since the 1950s. Operates around 70,000 ft; pilots wear full pressure suits.</td></tr>
+      <tr><td>RQ-4 Global Hawk</td><td>High-altitude long-endurance unmanned ISR</td><td>Very long sortie durations; broad-area collection.</td></tr>
+      <tr><td>MQ-9 Reaper</td><td>Medium-altitude armed ISR</td><td>Both a sensor and a shooter — which is exactly why targeting tradecraft matters.</td></tr>
+      <tr><td>RC-135 family</td><td>Manned SIGINT / measurement</td><td><b>Rivet Joint</b> (SIGINT), <b>Cobra Ball</b> (ballistic missile measurement), <b>Combat Sent</b> (ELINT). Worth naming — it shows depth.</td></tr>
+      <tr><td>E-3 Sentry (AWACS)</td><td>Airborne battle management and air surveillance</td><td>Being succeeded by the E-7.</td></tr>
+      <tr><td>E-7 Wedgetail</td><td>Next-generation airborne early warning</td><td>The announced AWACS replacement; its programme status has been publicly contested, so speak about it carefully.</td></tr>
+      <tr><td>Space</td><td>Overhead collection, missile warning</td><td>Increasingly Space Force-operated; see NSIC above.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>The honest caveat, and a good one to voice: as a 14N you don't fly these. You write the requirements that task them and you exploit what they bring back. That distinction — between owning the sensor and owning the <em>question</em> — is the clearest way to explain what the career field actually is.</p>
+</section>
+
+<!-- 11 -->
+<section id="history">
+  <h2><span class="num">11</span>Three stories worth having</h2><div class="sec-rule"></div>
+
+  <p>A briefing is remembered for its story, not its bullet list. Any one of these is a strong 30-second insert.</p>
+
+  <h3>Operation Bolo — 2 January 1967 <span class="pill">Best one</span></h3>
+  <p>North Vietnamese MiG-21s would only engage bomb-laden F-105 Thunderchiefs, and avoided F-4 Phantoms. They identified the F-105s partly by the electronic signature of their ECM pods and relied heavily on ground-controlled intercept radar.</p>
+  <p>Colonel Robin Olds and Captain John Stone of the 8th Tactical Fighter Wing built a deception around exactly that. They sent F-4s flying the F-105 profile: same routes, same altitudes, same speeds, same radio call signs, same ECM pods. They chose a day with overcast skies so the MiGs would have to trust their radar controllers rather than their eyes.</p>
+  <p>The MiGs committed to the intercept and found Phantoms. In roughly twelve minutes, seven MiG-21s were destroyed — reportedly about half the operational North Vietnamese MiG-21 force — with no U.S. losses.</p>
+  <div class="callout">
+    <span class="tag">Why this is the right story for your brief</span>
+    <p>Bolo was not won by a better aircraft. It was won because someone understood precisely <em>how the adversary decided what to attack</em> — and then fed that decision process a lie. That is intelligence, targeting and deception fused into an operation, and it is the cleanest possible illustration of your own slide-2 Sun Tzu quote, "All warfare is based on deception." It also lands with an aviation audience.</p>
+  </div>
+
+  <h3>The U-2 and the Cuban Missile Crisis — October 1962</h3>
+  <p>A U-2 overflight returned imagery of Soviet medium-range ballistic missile sites under construction in Cuba. The imagery gave the President a factual basis and — critically — a <em>timeline</em>, since analysts could estimate how long until the sites were operational. It's the canonical case of GEOINT converting a political suspicion into a decision with a clock on it.</p>
+
+  <h3>Desert Storm — 1991</h3>
+  <p>A 38-day air campaign systematically dismantled Iraqi air defences, command and control, and logistics before the ground war began. The combination of stealth, precision weapons and ISR is the moment modern air targeting as a discipline becomes visible. It's also the origin of much of the targeting methodology a 14N learns today.</p>
+</section>
+
+<!-- 12 -->
+<section id="today">
+  <h2><span class="num">12</span>What's changing right now</h2><div class="sec-rule"></div>
+
+  <h3>China is the pacing challenge</h3>
+  <p>Department of the Air Force posture documents describe China as the pacing threat, with the Indo-Pacific as the focal theatre. For intelligence specifically, one detail matters: PLA writings emphasise degrading an adversary's command-and-control and <strong>ISR</strong> early in a conflict to seize information dominance. In other words, the ISR enterprise is not just a supporting capability — it is itself an early target. That reframes the career field as something that has to be able to operate while being actively attacked.</p>
+
+  <h3>The OSINT revolution</h3>
+  <p>Commercial satellite imagery, flight and ship trackers, and social media have moved a large amount of what used to require classified collection into the open. The Russia–Ukraine war is the reference case: troop movements were tracked in near real time from commercial imagery and publicly posted video.</p>
+  <p>The second-order effect is the interesting one, and it's a good thing to raise: when adversary movements are visible to everyone, the analyst's value shifts away from <em>obtaining</em> information and toward <em>verifying</em> it. Open sources are also the easiest to deliberately poison. Volume went up; the premium on judgement went up with it.</p>
+
+  <h3>AI and machine learning</h3>
+  <p>The pressure point is processing and exploitation — phase three of the cycle, where the data volume is crushing. Computer-vision models are already used against commercial satellite imagery to flag changes for human review. The realistic framing, and the one to use, is that automation is being applied to <em>triage</em> — deciding what a human should look at — rather than to producing the judgement itself.</p>
+
+  <div class="callout">
+    <span class="tag">A strong closing line if you want one</span>
+    <p>Every one of these trends increases the amount of available information and none of them reduces uncertainty. That's the durable argument for the career field: the bottleneck was never collection, and automation doesn't remove the requirement for someone accountable for the judgement.</p>
+  </div>
+</section>
+
+<!-- 13 -->
+<section id="failure">
+  <h2><span class="num">13</span>When intelligence is wrong</h2><div class="sec-rule"></div>
+
+  <p>Optional for a 3–5 minute talk, but have it ready — it is the most likely <em>hard</em> question, and handling it well is more impressive than any fact in this brief.</p>
+
+  <p>The community's most-studied failures were overwhelmingly failures of <strong>analysis and assumption</strong>, not of collection. The recurring pattern: an existing belief frames incoming data; contradicting evidence is explained away; uncertainty gets compressed out of the language as the assessment moves up the chain; and the final consumer hears more confidence than the analysts actually had.</p>
+
+  <p>This is precisely why the tradecraft in <a href="#tradecraft">§04</a> exists — ACH, key assumptions checks, red teaming and calibrated estimative language are all institutional responses to specific past failures. They were not invented as academic exercises.</p>
+
+  <div class="callout warn">
+    <span class="tag">If you're asked directly about a specific failure</span>
+    <p>Answer at the level of process, not politics. "The post-mortems generally found the collection wasn't the weak link — the analytic assumptions and the way uncertainty was communicated were — and a lot of current tradecraft standards exist as a direct response to that" is accurate, professional, and doesn't drag you into a political argument in a cadet briefing. Don't speculate beyond what you've actually read.</p>
+  </div>
+</section>
+
+<!-- 14 -->
+<section id="qa">
+  <h2><span class="num">14</span>Q&amp;A bank</h2><div class="sec-rule"></div>
+  <p class="lede">Ranked roughly by how likely you are to be asked. The italic line is a delivery you can use close to verbatim.</p>
+
+  <div class="qa">
+    <div class="q">Do you need a technical degree?</div>
+    <p>No. Any bachelor's degree qualifies. Analytic writing and reasoning matter more than a specific major; language, regional studies, STEM and international relations all show up.</p>
+    <p class="say">"Any degree qualifies — they train you from zero. What they're actually selecting for is whether you can reason carefully and write clearly under time pressure."</p>
+  </div>
+
+  <div class="qa">
+    <div class="q">What does the "N" in 14N stand for?</div>
+    <p>Nothing. AFSC letters are assigned career-field identifiers, not abbreviations. 14-series is officer operations support; 1N is the enlisted intelligence family.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q">Is it like the movies / do you run spies?</div>
+    <p>No. Clandestine human source operations are principally a CIA and defence HUMINT mission. A 14N is a military staff officer who directs collection assets and produces assessments for a commander. Counterintelligence inside the Air Force belongs to OSI, not to 14N.</p>
+    <p class="say">"It's much closer to being an analyst and a manager than a field operative — my job would be making sure the commander's picture of the threat is right, not going out and getting it myself."</p>
+  </div>
+
+  <div class="qa">
+    <div class="q">Do you deploy?</div>
+    <p>Yes, but less predictably than many career fields, because of reachback — the DCGS enterprise means a great deal of ISR exploitation happens from home station regardless of where the sensor is. It depends heavily on the unit you're assigned to.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q">Can you tell us anything classified?</div>
+    <p>Use this one — it's a free win.</p>
+    <p class="say">"I don't hold a clearance yet, so everything in this brief is open-source: Air Force career pages, published joint doctrine and unit fact sheets. Honestly, that's most of the job anyway — knowing what's actually knowable from what you have."</p>
+  </div>
+
+  <div class="qa">
+    <div class="q">How competitive is the career field?</div>
+    <p>Don't invent a number. 14N is consistently among the more sought-after non-rated fields, and allocations vary year to year with Air Force requirements. Say that, and say you'd check the current AFROTC allocation data rather than guess.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q">What if I can't get a clearance?</div>
+    <p>The AFSC requires U.S. citizenship and Top Secret eligibility, so clearance eligibility is a genuine gate. The main risk factors are undisclosed issues, significant foreign contacts or financial problems — and disclosure is almost always better than concealment.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q">What's the difference between intelligence and cyber?</div>
+    <p>Good question to get, because of §09. Intelligence produces understanding; cyber operations produce effects. They were organisationally combined at Air Force headquarters under A2/6 and are now deliberately being pulled apart, with A2 focused on ISR and a new A6 on cyber effects.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q">How does intel differ from targeting?</div>
+    <p>Targeting is one of the four 14N competencies rather than a separate field. It's the most operationally direct of them — target development, weaponeering and combat assessment — and its product can feed a strike decision, which is why it carries the heaviest responsibility.</p>
+  </div>
+
+  <div class="qa">
+    <div class="q">What's the hardest part of the job?</div>
+    <p class="say">"Standing in front of aircrew who've been flying for fifteen years and telling them what they're about to fly into — when you're a brand-new lieutenant. You don't get credibility with your rank; you earn it by being right repeatedly."</p>
+  </div>
+
+  <div class="qa">
+    <div class="q">Something you genuinely don't know</div>
+    <p class="say">"I don't know — and I'd rather say that than guess. I'll find out and get back to you."</p>
+    <p>In this field specifically, that answer is a demonstration of competence, not an admission of failure. Use it without hesitation.</p>
+  </div>
+</section>
+
+<!-- 15 -->
+<section id="deck">
+  <h2><span class="num">15</span>Deck fixes — applied</h2><div class="sec-rule"></div>
+  <p class="lede">All of these are <strong>already in</strong> <span class="mono">Air_Force_Intelligence_Career.pptx</span> as of 1 Oct 2026. The affected speaker notes were updated at the same time so notes and slides agree. Listed so you know what changed and why.</p>
+
+  <div class="callout">
+    <span class="tag">1 — Slide 6 · done</span>
+    <p>"The five disciplines (“INTs”)" → "<strong>The five main collection disciplines</strong> (“INTs”)". Official 14N documentation lists <strong>six</strong> (adds TECHINT); joint doctrine lists seven (adds CI). A speaker note now explains it. See <a href="#ints">§03</a>.</p>
+  </div>
+
+  <div class="callout">
+    <span class="tag">2 — Slide 8 · done</span>
+    <p>"typically 12–24 months" → "<strong>often under a year, varies by background</strong>". The old figure reflected the clearance backlog and read as out of date. Note updated with current figures. See <a href="#pipeline">§07</a>.</p>
+  </div>
+
+  <div class="callout">
+    <span class="tag">3 — Slide 13 · done</span>
+    <p>The quotation marks are gone: <span class="mono">“The first through the fight.”</span> → <span class="mono">The first through the fight.</span> It is <strong>not</strong> a verified Air Force motto, so it now reads as the deck's own framing rather than a citation. Don't introduce it as a quote when you speak. If you'd rather cite something real, the 480th ISR Wing's <em>Non Potestis Latere</em> ("You Can't Hide") is authentic and drops straight into the box.</p>
+  </div>
+
+  <div class="callout warn">
+    <span class="tag">4 — Slide 2 · no change needed</span>
+    <p>"In wartime, truth is so precious that she should always be attended by a bodyguard of lies" is genuinely attributed to Churchill at Tehran in 1943, but it is widely noted that he may have been drawing on an older saying. It's fine to use; just don't build a point on its originality. Left as is.</p>
+  </div>
+
+  <div class="callout">
+    <span class="tag">5 — Slide 2 duplicate · done</span>
+    <p>"All warfare is based on deception" — Sun Tzu, Ch. 1 appeared <strong>twice</strong> among the edge fragments. The second instance is now "<strong>Knowledge of the enemy's dispositions can only be obtained from other men</strong>" — Sun Tzu, <em>Art of War</em> Ch. 13, Lionel Giles translation, 1910. Verified, and a better fit: it is the classical argument for HUMINT.</p>
+  </div>
+
+  <div class="callout fix">
+    <span class="tag">Also fixed — the file itself</span>
+    <p>The deck used to demand repair on every open. Root cause: in <span class="mono">notesSlide16.xml.rels</span>, the notes page belonging to <strong>slide 2</strong> pointed its <span class="mono">slide</span> relationship at <strong>slide 15</strong> — so slide 15 was claimed by two notes slides at once. PowerPoint enforces that 1:1 link strictly and refused to open the file at all, repairing it in memory each time; that's why saving a repaired copy elsewhere never fixed the original. Relationship corrected, package rewritten by PowerPoint, verified content-identical. The pre-fix original is kept as <span class="mono">Air_Force_Intelligence_Career_BROKEN-backup-2026-09-30.pptx</span>.</p>
+  </div>
+
+  <div class="callout">
+    <span class="tag">Structural note</span>
+    <p>Your notes suggest cutting slide 3 (the agenda) if you're tight on the 3–5 minute window — that's right, and an agenda slide is the correct thing to lose first. If you need to cut harder, the quotes slide (2) is decorative by your own notes' admission; slides 4, 6, 8 and 13 are the load-bearing ones. Cutting to <strong>title → mission → INTs → getting there → why it matters</strong> still lands a complete, coherent talk.</p>
+  </div>
+</section>
+
+<!-- 16 -->
+<section id="glossary">
+  <h2><span class="num">16</span>Glossary</h2><div class="sec-rule"></div>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Term</th><th>Expansion</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>AFSC</td><td>Air Force Specialty Code</td><td>The job code. 14N officer, 1N enlisted.</td></tr>
+      <tr><td>A2 / J2 / G2</td><td>Intelligence staff directorate</td><td>A = Air Force, J = joint, G = Army.</td></tr>
+      <tr><td>ACH</td><td>Analysis of Competing Hypotheses</td><td>Structured technique against confirmation bias.</td></tr>
+      <tr><td>ADSC</td><td>Active Duty Service Commitment</td><td>Typically four years initially.</td></tr>
+      <tr><td>CFETP</td><td>Career Field Education &amp; Training Plan</td><td>The formal training standard for an AFSC.</td></tr>
+      <tr><td>COMINT / ELINT</td><td>Communications / Electronic intelligence</td><td>The two principal sub-types of SIGINT.</td></tr>
+      <tr><td>DCGS</td><td>Distributed Common Ground System</td><td>The AF's networked ISR exploitation weapon system.</td></tr>
+      <tr><td>ISR</td><td>Intelligence, Surveillance, Reconnaissance</td><td>The umbrella term for the enterprise.</td></tr>
+      <tr><td>IOT</td><td>Intelligence Officer Training</td><td>Initial skills course at Goodfellow AFB.</td></tr>
+      <tr><td>JP 2-0</td><td>Joint Publication 2-0, <em>Joint Intelligence</em></td><td>The governing joint doctrine document.</td></tr>
+      <tr><td>OSI</td><td>Office of Special Investigations</td><td>Air Force counterintelligence and criminal investigation — not 14N.</td></tr>
+      <tr><td>OSS</td><td>Operations Support Squadron</td><td>Where a wing's intel flight typically sits.</td></tr>
+      <tr><td>PCPAD</td><td>Planning &amp; direction, Collection, Processing &amp; exploitation, Analysis &amp; production, Dissemination</td><td>The Air Force's five-phase intelligence cycle.</td></tr>
+      <tr><td>RPA</td><td>Remotely Piloted Aircraft</td><td>The Air Force's preferred term over "drone".</td></tr>
+      <tr><td>SCI</td><td>Sensitive Compartmented Information</td><td>Access category above Top Secret; needs indoctrination.</td></tr>
+      <tr><td>SEI</td><td>Special Experience Identifier</td><td>Tracking code for extra training beyond the AFSC.</td></tr>
+      <tr><td>Tier 5</td><td>Deepest federal background investigation</td><td>Formerly the SSBI.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- 17 -->
+<section id="sources">
+  <h2><span class="num">17</span>Sources</h2><div class="sec-rule"></div>
+  <p>Your deck's own four sources remain valid — airforce.com career pages, the Holm Center 14N career flyer, Goodfellow AFB / 17th Training Wing material, and the published CFETP. The additional material in this brief draws on:</p>
+  <ul>
+    <li><a href="https://webapp1.dlib.indiana.edu/virtual_disk_library/index.cgi/821003/FID1069/pubs/af/cfetp/cfetp14nx/cfetp14nx.pdf">CFETP 14NX, <em>Intelligence Officer</em></a> — the officer career-field education and training plan: four competencies, six disciplines, skill-level and clearance requirements.</li>
+    <li><a href="https://irp.fas.org/doddir/dod/jp2-0/j2-0ch6.htm">JP 2-0, <em>Joint Intelligence</em></a> — the intelligence cycle categories and the joint list of disciplines.</li>
+    <li><a href="https://www.16af.af.mil/About-Us/Unit-Fact-Sheets/Article/1963035/480th-isr-wing">480th ISR Wing fact sheet</a> and <a href="https://en.wikipedia.org/wiki/Distributed_Common_Ground_System">DCGS background</a> — the AF DCGS / SENTINEL enterprise and its scale.</li>
+    <li><a href="https://defensescoop.com/2024/08/28/air-force-splitting-up-intelligence-cyber-effects-organization/">DefenseScoop, "Air Force splitting up intelligence and cyber effects organization"</a> — the A2/6 split and the new A6.</li>
+    <li><a href="https://en.wikipedia.org/wiki/National_Air_and_Space_Intelligence_Center">NASIC</a> and <a href="https://www.airandspaceforces.com/national-space-intelligence-center-takes-shape/">National Space Intelligence Center</a> — national-level Air and Space Force analytic centres.</li>
+    <li><a href="https://www.nationalmuseum.af.mil/Visit/Museum-Exhibits/Fact-Sheets/Display/Article/196006/operation-bolo/">National Museum of the USAF — Operation Bolo</a> and <a href="https://apps.dtic.mil/sti/tr/pdf/AD1019339.pdf">a DTIC research paper on Bolo</a>.</li>
+    <li><a href="https://clearedjobs.net/guides/security-clearance-timeline">Current security-clearance processing timelines</a> — the basis for the note on slide 8's 12–24 month figure.</li>
+    <li><a href="https://www.armed-services.senate.gov/imo/media/doc/meink_opening_statement.pdf">Department of the Air Force FY2026 posture statement</a> — China as pacing challenge.</li>
+    <li><a href="https://theconversation.com/technology-is-revolutionizing-how-intelligence-is-gathered-and-analyzed-and-opening-a-window-onto-russian-military-activity-around-ukraine-176446">The Conversation on OSINT and commercial imagery</a> — the open-source shift.</li>
+  </ul>
+
+  <div class="callout warn">
+    <span class="tag">Where I'd want a better source before you assert it</span>
+    <p>Two things in this brief rest on sources I could not fully corroborate: the <strong>14N3 time-in-specialty requirement</strong> (18 vs 36 months — see <a href="#career">§08</a>), and the <strong>480th ISR Wing's data-volume figure</strong> (~20 TB/day), which is widely repeated but which I could not confirm against a current official fact sheet — af.mil blocks automated retrieval, so I was reading mirrors. Treat both as approximate. If either matters to your talk, they're worth a manual look at the primary pages.</p>
+  </div>
+</section>
+
+<footer class="end">
+  14N SPEAKER'S BRIEF · Compiled 30 September 2026 · All material open-source<br>
+  Companion to <span class="mono">Air_Force_Intelligence_Career.pptx</span> (15 slides)
+</footer>
+
+</main>
+</div>
+</div>
+
+</body>
+</html>
