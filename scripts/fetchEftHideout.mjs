@@ -49,7 +49,7 @@ const AREA_NAMES = {
   13: 'Library', 14: 'Scav Case', 15: 'Illumination', 16: 'Hall of Fame',
   17: 'Air Filtering Unit', 18: 'Solar Power', 19: 'Booze Generator',
   20: 'Bitcoin Farm', 21: 'Christmas Tree', 22: 'Emergency Wall', 23: 'Gym',
-  24: 'Weapon Rack', 25: 'Weapon Rack', 26: 'Equipment Presets Stand',
+  24: 'Weapon Rack', 25: 'Weapon Rack (secondary)', 26: 'Equipment Presets Stand',
   27: 'Cultist Circle',
 };
 
@@ -269,8 +269,15 @@ async function fromSpt() {
     craftsByArea.get(areaType).push(craft);
   }
 
+  // Area 25 is the Weapon Rack's hidden SECONDARY stand. SPT lists it first, so it used to take the
+  // plain name "Weapon Rack" while the real one (area 24 - the one with the costs, times and trader
+  // requirements) became "Weapon Rack 2": the blank stub was shown as THE weapon rack. Checked against
+  // live areas.json 2026-10-04: 25 has no build cost and no construction time, its only requirement is
+  // "Weapon Rack (24) at the same level", nothing requires it, and it has no crafts. It is not
+  // something you build, so it is not a station.
+  const HIDDEN_AREAS = new Set([25]);
   const stations = areas
-    .filter((a) => AREA_NAMES[a.type])
+    .filter((a) => AREA_NAMES[a.type] && !HIDDEN_AREAS.has(a.type))
     .map((a) => {
       const name = AREA_NAMES[a.type];
       const levels = Object.keys(a.stages || {})

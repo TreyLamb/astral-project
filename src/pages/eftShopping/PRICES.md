@@ -191,3 +191,14 @@ selected mode directly (~15 MB, ~1 s), runs them through `eftPriceBuild.js` (the
 `loadPriceSnapshot` takes whichever of {committed file, local copy} has the newer upstream scan
 time, so a stale local copy can never beat a freshly committed file. A banner offers the refresh
 when the numbers are over a day old. Don't move the transform back into the script only.
+
+## RaidSignal (raidsignal.com) - checked 2026-10-06, NOT a source for us
+A Laravel + Inertia site with a full flea market. Its own page says "Live prices come from tarkov.dev" and its page
+props carry `source: "tarkov.dev"`, `lastSync` (about 20-30 min old when read) and per-item `flea_price`, `offer_count`,
+`price_per_slot`, `best_vendor_price`, 48 h `change_percent`, `priced_at`. So it is a **consumer of tarkov.dev**, one
+step further from the data than we are - not an independent upstream. Its `robots.txt` also disallows `/items/` and
+`/keys/` to AI/model crawlers, so it is not something to scrape.
+What it IS useful for: a spot check. Medical bloodset PvE read 25,439 / 32 offers there (matching the in-game flea), against
+47,777 / 8 offers in the asoloproject sample we use - because tarkov.dev's data manager stores every asoloproject sample in a
+price history (`jobs/update-flea-prices.mjs`) and so smooths a thin or odd one, while we used a single raw sample.
+`api.tarkov.dev/graphql` still answered 422 "GraphQL server unavailable" on 2026-10-06 (5 tries, GET and POST).
