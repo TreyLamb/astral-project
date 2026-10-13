@@ -72,7 +72,7 @@ const slug = (s) => String(s).replace(/[<>:"/\\|?*\x00-\x1f]/g, '').replace(/\s+
  */
 function courseFolder(rec) {
   const raw = String(rec.course_code || rec.name || 'course').split('|')[0].trim();
-  const m = raw.match(/^([A-Z]{2,5})\s*(\d{3,4}[A-Z]?)\b/i);
+  const m = raw.match(/^([A-Z]{2,5})[\s-]*(\d{3,4}[A-Z]?)\b/i);
   return slug(m ? `${m[1].toUpperCase()} ${m[2].toUpperCase()}` : raw);
 }
 const ensure = (d) => fs.mkdirSync(d, { recursive: true });

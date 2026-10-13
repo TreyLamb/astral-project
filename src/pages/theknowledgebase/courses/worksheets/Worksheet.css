@@ -281,3 +281,53 @@
   color: var(--wks-green);
   opacity: 0.9;
 }
+
+/* --- low-confidence answers: a question the key is NOT 100% sure about. Both the flag and the
+   amber highlights on the likely options are ALWAYS visible (Trey asked to see the best guesses
+   without toggling anything); only the green confirmed-answer fill waits for "Show answers".
+   Amber, not green, so it can never be read as a confirmed answer. */
+.wks-question.wks-unsure {
+  border-left-color: var(--wks-amber);
+}
+.wks-unsure-flag {
+  display: inline-block;
+  margin-bottom: 0.2rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--wks-amber);
+  border: 1px solid var(--wks-amber);
+  background: color-mix(in srgb, var(--wks-amber) 10%, transparent);
+}
+.wks-letter.wks-likely-top {
+  background: var(--wks-amber);
+  color: #fff;
+  border-color: var(--wks-amber);
+}
+.wks-letter.wks-likely-alt {
+  border-color: var(--wks-amber);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--wks-amber) 40%, transparent);
+}
+.wks-letter.wks-likely-top.wks-mark-x::before,
+.wks-letter.wks-likely-top.wks-mark-x::after {
+  background: #fff;
+}
+.wks-answer-note strong.wks-unsure-answer {
+  color: var(--wks-amber);
+}
+
+/* --- known-wrong options: Canvas marked this option wrong on a graded attempt. Always a red X,
+   never cleared by the student's own mark cycle (the click handler ignores it), so a confirmed
+   dead end can't be un-marked by accident. */
+.wks-letter.wks-known-wrong {
+  border-color: var(--wks-red);
+  color: var(--wks-red);
+  cursor: default;
+}
+.wks-known-wrong-note {
+  margin-top: 0.3rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--wks-red);
+}

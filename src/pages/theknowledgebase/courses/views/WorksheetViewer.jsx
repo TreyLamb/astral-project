@@ -173,8 +173,17 @@ function questionRelevantKeys(question) {
 const WorksheetQuestion = memo(function WorksheetQuestion({ question, marks, notes, overrides, onCycleMark, onSetNote, onSetOverride, showAnswers }) {
   const stemKey = stemNoteKey(question.id);
   const hasEdit = questionRelevantKeys(question).some((k) => overrides[k] !== undefined);
+  const unsure = question.confidence === 'unsure';
+  const likely = question.likelyOptions ?? [];
+  const knownWrong = question.knownWrong ?? [];
   return (
-    <div className={`wks-question${hasEdit ? ' wks-has-edit' : ''}`}>
+    <div className={`wks-question${hasEdit ? ' wks-has-edit' : ''}${unsure ? ' wks-unsure' : ''}`}>
+      {unsure && (
+        <div className="wks-unsure-flag">
+          &#9888; Not 100% sure — most likely {question.answer}
+          {likely.filter((l) => l !== question.answer).length > 0 && `, then ${likely.filter((l) => l !== question.answer).join(', ')}`}
+        </div>
+      )}
       <WorksheetLine
         className="wks-line-stem"
         prefix={`${question.number}.`}
@@ -187,15 +196,18 @@ const WorksheetQuestion = memo(function WorksheetQuestion({ question, marks, not
       />
       {question.options.map((opt) => {
         const key = markKey(question.id, opt.letter);
-        const mark = marks[key] ?? null;
-        const isCorrect = showAnswers && question.answer === opt.letter;
+        const isKnownWrong = knownWrong.includes(opt.letter);
+        const mark = isKnownWrong ? 'x' : (marks[key] ?? null);
+        const isCorrect = showAnswers && !unsure && question.answer === opt.letter;
+        const isLikelyTop = unsure && question.answer === opt.letter;
+        const isLikelyAlt = unsure && question.answer !== opt.letter && likely.includes(opt.letter);
         return (
           <div className="wks-option-row" key={opt.letter}>
             <button
               type="button"
-              className={`wks-letter${mark ? ` wks-mark-${mark}` : ''}${isCorrect ? ' wks-correct-answer' : ''}`}
-              onClick={() => onCycleMark(key)}
-              aria-label={`Option ${opt.letter}${mark ? `, marked ${MARK_LABELS[mark]}` : ''}${isCorrect ? ', correct answer' : ''}`}
+              className={`wks-letter${mark ? ` wks-mark-${mark}` : ''}${isKnownWrong ? ' wks-known-wrong' : ''}${isCorrect ? ' wks-correct-answer' : ''}${isLikelyTop ? ' wks-likely-top' : ''}${isLikelyAlt ? ' wks-likely-alt' : ''}`}
+              onClick={() => { if (!isKnownWrong) onCycleMark(key); }}
+              aria-label={`Option ${opt.letter}${isKnownWrong ? ', known wrong: marked wrong on your graded OLQ 8 attempt' : mark ? `, marked ${MARK_LABELS[mark]}` : ''}${isCorrect ? ', correct answer' : ''}${isLikelyTop ? ', most likely answer, not certain' : ''}${isLikelyAlt ? ', also plausible, not certain' : ''}`}
             >
               {opt.letter}
             </button>
@@ -211,11 +223,26 @@ const WorksheetQuestion = memo(function WorksheetQuestion({ question, marks, not
           </div>
         );
       })}
+      {knownWrong.length > 0 && (
+        <div className="wks-known-wrong-note">
+          &#10007; Red X = you picked {knownWrong.join(', ')} on your graded OLQ 8 attempt and Canvas marked it wrong.
+        </div>
+      )}
       {showAnswers && question.answer && (
         <div className="wks-answer-note">
-          <strong>Answer: {question.answer}.</strong> {question.answerRationale}
+          {unsure ? (
+            <strong className="wks-unsure-answer">
+              Best guess: {question.answer}{likely.filter((l) => l !== question.answer).length > 0 && ` (also plausible: ${likely.filter((l) => l !== question.answer).join(', ')})`}.
+            </strong>
+          ) : (
+            <strong>Answer: {question.answer}.</strong>
+          )}{' '}
+          {question.answerRationale}
           {question.answerSource === 'derived' && <span className="wks-derived-tag">derived, not an official key</span>}
           {question.answerSource === 'official' && <span className="wks-official-tag">marked correct in the source PDF</span>}
+          {question.answerSource === 'graded' && <span className="wks-official-tag">confirmed by your graded OLQ attempt</span>}
+          {question.answerSource === 'corrected' && <span className="wks-official-tag">corrected after OLQ grading, checked against the chapter text</span>}
+          {question.answerSource === 'checked' && <span className="wks-official-tag">checked against the chapter text</span>}
         </div>
       )}
     </div>

@@ -29,4 +29,31 @@ export const COURSEWORK_PATCHES = [
   },
 ];
 
-export const COURSEWORK_EXTRA = [];
+// ESMG 3200 Week 1 Discussion (Canvas assignment 9346368). Only Week 1's prompt prints these rules;
+// weeks 2-7 do not repeat them, so they are not guessed here.
+const ESMG_W1 = {
+  course: 'ESMG 3200',
+  kind: 'assignment',
+  status: 'todo',
+  url: 'https://uvu.instructure.com/courses/655081/discussion_topics/4571443',
+  source: 'Week 1 Discussion prompt, Canvas, captured 2026-10-12; Trey asked for the extra-credit days on the calendar',
+};
+
+export const COURSEWORK_EXTRA = [
+  {
+    ...ESMG_W1,
+    id: 'manual:esmg3200-w1-xc-day2',
+    title: 'W1 Discussion: extra-credit day 2 (post or reply)',
+    due: '2026-10-13',
+    dueTime: '11:59 PM',
+    note: 'Extra credit = participate on 3 different days. Day 1 is the Monday post.',
+  },
+  {
+    ...ESMG_W1,
+    id: 'manual:esmg3200-w1-replies',
+    title: 'W1 Discussion: reply to 2 classmates (day 3)',
+    due: '2026-10-15',
+    dueTime: '11:59 PM',
+    note: 'Follow-up comments are due Thursday. Substantive, not "I agree". Replying to more than 2 is also extra credit. Same day as Assignment 1.',
+  },
+];

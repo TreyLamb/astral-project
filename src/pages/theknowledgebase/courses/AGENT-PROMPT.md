@@ -795,8 +795,22 @@ Bonding · States of Matter). Ch 9-16 are Chem 2 — **not in scope** unless ask
 Vocabulary-dominant → system **A** is the primary fit, with worksheets (**C**) for the MCI sets.
 
 - `Microbiology/MCI for OLQs 1-4 on MMAHP Ch 1-4.pdf` — 36 pp of real MCQs covering MMAHP
-  Ch 1-4. ⚠️ **It has no answer key anywhere**, despite "Answered and Explained" in the title.
-  Do not fabricate one; work the items and mark your answers as *derived*.
+  Ch 1-4. That UNANSWERED file has no key. 🔴 **But an official key does exist** (corrected
+  2026-10-10): `MICR 2060/files/MCIs for OLQs 1-4 Answered & explained.pdf` marks the correct
+  option with `*` and explains each one. This section used to say "no answer key anywhere",
+  which was wrong, and the `mmahp-ch1-4` worksheet was answered by guessing instead (17 of 254
+  derived answers disagree with the official key). Canvas lists the matching 5-8 / 9-12 files
+  ("MCI for OLQs 5-8 Answered & Explained.pdf") but they are released late and were not captured.
+- **Best ground truth for a worksheet answer, in order:** (1) the instructor's Answered &
+  Explained PDF; (2) a graded Canvas attempt-review PDF (`olq 8 1.pdf`: selected option plus
+  points per question; the "Correct/Wrong answer" label prints ABOVE its question, so trust the
+  score; a wrong question only rules out the option chosen); (3) the professor's own chapter text.
+  **Never key from general biology** — the first AI key was wrong on 6 of 39 gradeable OLQ 8
+  questions because the professor's own table/figure/definition says something different.
+  Anything under 100% gets `confidence: 'unsure'` + `likelyOptions` on the question.
+- Worksheet `answerSource` values: `graded` (confirmed by a graded attempt), `official`
+  (instructor-marked in the source), `corrected` (key was wrong, fixed against the chapter text),
+  `checked` (verified against the chapter text), `derived` (an AI guess, untrusted).
 - Already parsed as worksheet `mmahp-ch1-4` via `scripts/parseMciWorksheet.mjs`. That script is
   written for the whole MCI *family* — re-run it for the next file in the series rather than
   writing a new parser. It hard-fails on structural mismatch by design.
