@@ -1,0 +1,2202 @@
+[
+  {
+    "question": "What power of ten does the SI prefix \"peta-\" (P) represent?",
+    "answer": "× 10¹⁵",
+    "answer_alternates": [
+      "× 10^15",
+      "× 1E15",
+      "10^15",
+      "1E15"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10¹⁵?",
+    "answer": "peta- (P)",
+    "answer_alternates": [
+      "peta",
+      "P"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"peta-\"?",
+    "answer": "P",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"P\" (as in Pm) stand for, and what is its factor?",
+    "answer": "peta- = 10¹⁵",
+    "answer_alternates": [
+      "peta 10¹⁵",
+      "peta"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 petameter (Pm) = ? m",
+    "answer": "10¹⁵ m",
+    "answer_alternates": [
+      "10^15 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? petameters (Pm)",
+    "answer": "10⁻¹⁵ Pm",
+    "answer_alternates": [
+      "10^-15 Pm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"peta-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Large: positive exponent (10¹⁵)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What power of ten does the SI prefix \"tera-\" (T) represent?",
+    "answer": "× 10¹²",
+    "answer_alternates": [
+      "× 10^12",
+      "× 1E12",
+      "10^12",
+      "1E12"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10¹²?",
+    "answer": "tera- (T)",
+    "answer_alternates": [
+      "tera",
+      "T"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"tera-\"?",
+    "answer": "T",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"T\" (as in Tm) stand for, and what is its factor?",
+    "answer": "tera- = 10¹²",
+    "answer_alternates": [
+      "tera 10¹²",
+      "tera"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 terameter (Tm) = ? m",
+    "answer": "10¹² m",
+    "answer_alternates": [
+      "10^12 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? terameters (Tm)",
+    "answer": "10⁻¹² Tm",
+    "answer_alternates": [
+      "10^-12 Tm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"tera-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Large: positive exponent (10¹²)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What power of ten does the SI prefix \"giga-\" (G) represent?",
+    "answer": "× 10⁹",
+    "answer_alternates": [
+      "× 10^9",
+      "× 1E9",
+      "10^9",
+      "1E9"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10⁹?",
+    "answer": "giga- (G)",
+    "answer_alternates": [
+      "giga",
+      "G"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"giga-\"?",
+    "answer": "G",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"G\" (as in Gm) stand for, and what is its factor?",
+    "answer": "giga- = 10⁹",
+    "answer_alternates": [
+      "giga 10⁹",
+      "giga"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 gigameter (Gm) = ? m",
+    "answer": "10⁹ m",
+    "answer_alternates": [
+      "10^9 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? gigameters (Gm)",
+    "answer": "10⁻⁹ Gm",
+    "answer_alternates": [
+      "10^-9 Gm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"giga-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Large: positive exponent (10⁹)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What power of ten does the SI prefix \"mega-\" (M) represent?",
+    "answer": "× 10⁶",
+    "answer_alternates": [
+      "× 10^6",
+      "× 1E6",
+      "10^6",
+      "1E6"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10⁶?",
+    "answer": "mega- (M)",
+    "answer_alternates": [
+      "mega",
+      "M"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"mega-\"?",
+    "answer": "M",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"M\" (as in Mm) stand for, and what is its factor?",
+    "answer": "mega- = 10⁶",
+    "answer_alternates": [
+      "mega 10⁶",
+      "mega"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 megameter (Mm) = ? m",
+    "answer": "10⁶ m",
+    "answer_alternates": [
+      "10^6 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? megameters (Mm)",
+    "answer": "10⁻⁶ Mm",
+    "answer_alternates": [
+      "10^-6 Mm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"mega-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Large: positive exponent (10⁶)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What power of ten does the SI prefix \"kilo-\" (k) represent?",
+    "answer": "× 10³",
+    "answer_alternates": [
+      "× 10^3",
+      "× 1E3",
+      "10^3",
+      "1E3"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10³?",
+    "answer": "kilo- (k)",
+    "answer_alternates": [
+      "kilo",
+      "k"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"kilo-\"?",
+    "answer": "k",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"k\" (as in km) stand for, and what is its factor?",
+    "answer": "kilo- = 10³",
+    "answer_alternates": [
+      "kilo 10³",
+      "kilo"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 kilometer (km) = ? m",
+    "answer": "10³ m",
+    "answer_alternates": [
+      "10^3 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? kilometers (km)",
+    "answer": "10⁻³ km",
+    "answer_alternates": [
+      "10^-3 km"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"kilo-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Large: positive exponent (10³)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What power of ten does the SI prefix \"hecto-\" (h) represent?",
+    "answer": "× 10²",
+    "answer_alternates": [
+      "× 10^2",
+      "× 1E2",
+      "10^2",
+      "1E2"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10²?",
+    "answer": "hecto- (h)",
+    "answer_alternates": [
+      "hecto",
+      "h"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"hecto-\"?",
+    "answer": "h",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"h\" (as in hm) stand for, and what is its factor?",
+    "answer": "hecto- = 10²",
+    "answer_alternates": [
+      "hecto 10²",
+      "hecto"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 hectometer (hm) = ? m",
+    "answer": "10² m",
+    "answer_alternates": [
+      "10^2 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? hectometers (hm)",
+    "answer": "10⁻² hm",
+    "answer_alternates": [
+      "10^-2 hm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"hecto-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Large: positive exponent (10²)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What power of ten does the SI prefix \"deca-\" (da) represent?",
+    "answer": "× 10¹",
+    "answer_alternates": [
+      "× 10^1",
+      "× 10",
+      "10^1",
+      "10"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10¹?",
+    "answer": "deca- (da)",
+    "answer_alternates": [
+      "deca",
+      "da"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"deca-\"?",
+    "answer": "da",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"da\" (as in dam) stand for, and what is its factor?",
+    "answer": "deca- = 10¹",
+    "answer_alternates": [
+      "deca 10¹",
+      "deca"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 decameter (dam) = ? m",
+    "answer": "10¹ m",
+    "answer_alternates": [
+      "10^1 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? decameters (dam)",
+    "answer": "10⁻¹ dam",
+    "answer_alternates": [
+      "10^-1 dam"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"deca-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Large: positive exponent (10¹)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What power of ten does the SI prefix \"deci-\" (d) represent?",
+    "answer": "× 10⁻¹",
+    "answer_alternates": [
+      "× 10^-1",
+      "× 1E-1",
+      "10^-1",
+      "1E-1"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10⁻¹?",
+    "answer": "deci- (d)",
+    "answer_alternates": [
+      "deci",
+      "d"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"deci-\"?",
+    "answer": "d",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"d\" (as in dm) stand for, and what is its factor?",
+    "answer": "deci- = 10⁻¹",
+    "answer_alternates": [
+      "deci 10⁻¹",
+      "deci"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 decimeter (dm) = ? m",
+    "answer": "10⁻¹ m",
+    "answer_alternates": [
+      "10^-1 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? decimeters (dm)",
+    "answer": "10¹ dm",
+    "answer_alternates": [
+      "10^1 dm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"deci-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Small: negative exponent (10⁻¹)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What power of ten does the SI prefix \"centi-\" (c) represent?",
+    "answer": "× 10⁻²",
+    "answer_alternates": [
+      "× 10^-2",
+      "× 1E-2",
+      "10^-2",
+      "1E-2"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10⁻²?",
+    "answer": "centi- (c)",
+    "answer_alternates": [
+      "centi",
+      "c"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"centi-\"?",
+    "answer": "c",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"c\" (as in cm) stand for, and what is its factor?",
+    "answer": "centi- = 10⁻²",
+    "answer_alternates": [
+      "centi 10⁻²",
+      "centi"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 centimeter (cm) = ? m",
+    "answer": "10⁻² m",
+    "answer_alternates": [
+      "10^-2 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? centimeters (cm)",
+    "answer": "10² cm",
+    "answer_alternates": [
+      "10^2 cm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"centi-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Small: negative exponent (10⁻²)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What power of ten does the SI prefix \"milli-\" (m) represent?",
+    "answer": "× 10⁻³",
+    "answer_alternates": [
+      "× 10^-3",
+      "× 1E-3",
+      "10^-3",
+      "1E-3"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10⁻³?",
+    "answer": "milli- (m)",
+    "answer_alternates": [
+      "milli",
+      "m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"milli-\"?",
+    "answer": "m",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"m\" (as in mm) stand for, and what is its factor?",
+    "answer": "milli- = 10⁻³",
+    "answer_alternates": [
+      "milli 10⁻³",
+      "milli"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 millimeter (mm) = ? m",
+    "answer": "10⁻³ m",
+    "answer_alternates": [
+      "10^-3 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? millimeters (mm)",
+    "answer": "10³ mm",
+    "answer_alternates": [
+      "10^3 mm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"milli-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Small: negative exponent (10⁻³)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What power of ten does the SI prefix \"micro-\" (μ) represent?",
+    "answer": "× 10⁻⁶",
+    "answer_alternates": [
+      "× 10^-6",
+      "× 1E-6",
+      "10^-6",
+      "1E-6"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10⁻⁶?",
+    "answer": "micro- (μ)",
+    "answer_alternates": [
+      "micro",
+      "μ"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"micro-\"?",
+    "answer": "μ",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"μ\" (as in μm) stand for, and what is its factor?",
+    "answer": "micro- = 10⁻⁶",
+    "answer_alternates": [
+      "micro 10⁻⁶",
+      "micro"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 micrometer (μm) = ? m",
+    "answer": "10⁻⁶ m",
+    "answer_alternates": [
+      "10^-6 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? micrometers (μm)",
+    "answer": "10⁶ μm",
+    "answer_alternates": [
+      "10^6 μm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"micro-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Small: negative exponent (10⁻⁶)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What power of ten does the SI prefix \"nano-\" (n) represent?",
+    "answer": "× 10⁻⁹",
+    "answer_alternates": [
+      "× 10^-9",
+      "× 1E-9",
+      "10^-9",
+      "1E-9"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10⁻⁹?",
+    "answer": "nano- (n)",
+    "answer_alternates": [
+      "nano",
+      "n"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"nano-\"?",
+    "answer": "n",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"n\" (as in nm) stand for, and what is its factor?",
+    "answer": "nano- = 10⁻⁹",
+    "answer_alternates": [
+      "nano 10⁻⁹",
+      "nano"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 nanometer (nm) = ? m",
+    "answer": "10⁻⁹ m",
+    "answer_alternates": [
+      "10^-9 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? nanometers (nm)",
+    "answer": "10⁹ nm",
+    "answer_alternates": [
+      "10^9 nm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"nano-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Small: negative exponent (10⁻⁹)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What power of ten does the SI prefix \"pico-\" (p) represent?",
+    "answer": "× 10⁻¹²",
+    "answer_alternates": [
+      "× 10^-12",
+      "× 1E-12",
+      "10^-12",
+      "1E-12"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10⁻¹²?",
+    "answer": "pico- (p)",
+    "answer_alternates": [
+      "pico",
+      "p"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"pico-\"?",
+    "answer": "p",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"p\" (as in pm) stand for, and what is its factor?",
+    "answer": "pico- = 10⁻¹²",
+    "answer_alternates": [
+      "pico 10⁻¹²",
+      "pico"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 picometer (pm) = ? m",
+    "answer": "10⁻¹² m",
+    "answer_alternates": [
+      "10^-12 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? picometers (pm)",
+    "answer": "10¹² pm",
+    "answer_alternates": [
+      "10^12 pm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"pico-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Small: negative exponent (10⁻¹²)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What power of ten does the SI prefix \"femto-\" (f) represent?",
+    "answer": "× 10⁻¹⁵",
+    "answer_alternates": [
+      "× 10^-15",
+      "× 1E-15",
+      "10^-15",
+      "1E-15"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Which SI prefix means 10⁻¹⁵?",
+    "answer": "femto- (f)",
+    "answer_alternates": [
+      "femto",
+      "f"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What is the symbol for the SI prefix \"femto-\"?",
+    "answer": "f",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "What does the unit symbol prefix \"f\" (as in fm) stand for, and what is its factor?",
+    "answer": "femto- = 10⁻¹⁵",
+    "answer_alternates": [
+      "femto 10⁻¹⁵",
+      "femto"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 femtometer (fm) = ? m",
+    "answer": "10⁻¹⁵ m",
+    "answer_alternates": [
+      "10^-15 m"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m = ? femtometers (fm)",
+    "answer": "10¹⁵ fm",
+    "answer_alternates": [
+      "10^15 fm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Is \"femto-\" a prefix for very large or very small quantities? Which direction does the exponent go?",
+    "answer": "Small: negative exponent (10⁻¹⁵)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefixes",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 km = how many mm? (Kilometer to millimeter)",
+    "answer": "10⁶ mm",
+    "answer_alternates": [
+      "10^6 mm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 mm = how many km?",
+    "answer": "10⁻⁶ km",
+    "answer_alternates": [
+      "10^-6 km"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 Mm = how many μm? (Megameter to micrometer)",
+    "answer": "10¹² μm",
+    "answer_alternates": [
+      "10^12 μm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 μm = how many Mm?",
+    "answer": "10⁻¹² Mm",
+    "answer_alternates": [
+      "10^-12 Mm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 Gm = how many nm? (Gigameter to nanometer)",
+    "answer": "10¹⁸ nm",
+    "answer_alternates": [
+      "10^18 nm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 nm = how many Gm?",
+    "answer": "10⁻¹⁸ Gm",
+    "answer_alternates": [
+      "10^-18 Gm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 mm = how many μm? (Millimeter to micrometer)",
+    "answer": "10³ μm",
+    "answer_alternates": [
+      "10^3 μm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 μm = how many mm?",
+    "answer": "10⁻³ mm",
+    "answer_alternates": [
+      "10^-3 mm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 μm = how many nm? (Micrometer to nanometer)",
+    "answer": "10³ nm",
+    "answer_alternates": [
+      "10^3 nm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 nm = how many μm?",
+    "answer": "10⁻³ μm",
+    "answer_alternates": [
+      "10^-3 μm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 nm = how many pm? (Nanometer to picometer)",
+    "answer": "10³ pm",
+    "answer_alternates": [
+      "10^3 pm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 pm = how many nm?",
+    "answer": "10⁻³ nm",
+    "answer_alternates": [
+      "10^-3 nm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 pm = how many fm? (Picometer to femtometer)",
+    "answer": "10³ fm",
+    "answer_alternates": [
+      "10^3 fm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 fm = how many pm?",
+    "answer": "10⁻³ pm",
+    "answer_alternates": [
+      "10^-3 pm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 cm = how many mm? (Centimeter to millimeter)",
+    "answer": "10¹ mm",
+    "answer_alternates": [
+      "10^1 mm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 mm = how many cm?",
+    "answer": "10⁻¹ cm",
+    "answer_alternates": [
+      "10^-1 cm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 km = how many cm? (Kilometer to centimeter)",
+    "answer": "10⁵ cm",
+    "answer_alternates": [
+      "10^5 cm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 cm = how many km?",
+    "answer": "10⁻⁵ km",
+    "answer_alternates": [
+      "10^-5 km"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 Tm = how many Gm? (Terameter to gigameter)",
+    "answer": "10³ Gm",
+    "answer_alternates": [
+      "10^3 Gm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 Gm = how many Tm?",
+    "answer": "10⁻³ Tm",
+    "answer_alternates": [
+      "10^-3 Tm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 Pm = how many Tm? (Petameter to terameter)",
+    "answer": "10³ Tm",
+    "answer_alternates": [
+      "10^3 Tm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 Tm = how many Pm?",
+    "answer": "10⁻³ Pm",
+    "answer_alternates": [
+      "10^-3 Pm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 Gm = how many Mm? (Gigameter to megameter)",
+    "answer": "10³ Mm",
+    "answer_alternates": [
+      "10^3 Mm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 Mm = how many Gm?",
+    "answer": "10⁻³ Gm",
+    "answer_alternates": [
+      "10^-3 Gm"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "si-prefix-conversions",
+    "difficulty": "intermediate",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 L = ? mL",
+    "answer": "1,000 mL (10³ mL)",
+    "answer_alternates": [
+      "1000 mL"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 mL = ? cm³ (cc)",
+    "answer": "1 cm³",
+    "answer_alternates": [
+      "1 cc"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 L = ? dm³",
+    "answer": "1 dm³",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 cm³ = ? mL",
+    "answer": "1 mL",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 inch = ? cm (exact)",
+    "answer": "2.54 cm",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 lb = ? g",
+    "answer": "453.59 g (≈ 453.6 g)",
+    "answer_alternates": [
+      "453.6 g"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 oz = ? g",
+    "answer": "28.35 g",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 L = ? qt",
+    "answer": "1.0567 qt (≈ 1.06 qt)",
+    "answer_alternates": [
+      "1.06 qt"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m ≈ ? yd",
+    "answer": "1.094 yd",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 m ≈ ? in",
+    "answer": "39.37 in",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 gal = ? qt",
+    "answer": "4 qt",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 gal = ? L",
+    "answer": "3.78541 L",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "SI base unit of length / mass / time?",
+    "answer": "meter (m) / kilogram (kg) / second (s)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Why is the kilogram, not the gram, the SI base unit of mass — and what is the prefix inside it?",
+    "answer": "The base unit already contains a prefix: kilo- (10³ g)",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "1 MHz = ? Hz; 1 GHz = ? Hz",
+    "answer": "10⁶ Hz; 10⁹ Hz",
+    "answer_alternates": [],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  },
+  {
+    "question": "Convert 1 μs to seconds",
+    "answer": "10⁻⁶ s",
+    "answer_alternates": [
+      "10^-6 s"
+    ],
+    "subject": "CHEM 1210",
+    "subtopic": "unit-equalities",
+    "difficulty": "basic",
+    "pipeline": "quick_fact",
+    "style_tags": [
+      "si-prefixes",
+      "units"
+    ],
+    "source_note": "OpenStax Chemistry Ch 1 (CHEM 1210 AcademiQ text), common SI prefixes table."
+  }
+]

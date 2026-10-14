@@ -232,14 +232,27 @@
   flex-wrap: wrap;
 }
 
-.wks-chapter-select {
+.wks-chapter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.wks-chip {
   background: var(--tkb-surface);
   border: 1px solid var(--tkb-border);
   color: var(--tkb-ink);
-  border-radius: 6px;
-  padding: 0.4rem 0.6rem;
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
   font: inherit;
   font-size: 0.9rem;
+  cursor: pointer;
+}
+.wks-chip:hover { border-color: var(--tkb-accent); }
+.wks-chip.active {
+  background: var(--tkb-accent);
+  border-color: var(--tkb-accent);
+  color: #fff;
 }
 
 /* A solid fill, not just a colored ring - the ring is already used for the student's own

@@ -5807,19 +5807,19 @@
               "options": [
                 {
                   "letter": "A",
-                  "text": "CH3COOH à CH3COO(-) + H(+)."
+                  "text": "CH3COOH → CH3COO(-) + H(+)."
                 },
                 {
                   "letter": "B",
-                  "text": "NH4OH à NH(+) + OH(-)."
+                  "text": "NH4OH → NH(+) + OH(-)."
                 },
                 {
                   "letter": "C",
-                  "text": "KCl à K+ + Cl-."
+                  "text": "KCl → K+ + Cl-."
                 },
                 {
                   "letter": "D",
-                  "text": "O2 à O2."
+                  "text": "O2 → O2."
                 }
               ],
               "answer": "A",
@@ -6324,15 +6324,15 @@
               "options": [
                 {
                   "letter": "A",
-                  "text": "M +N à MN, DG= 11 kcal/mol."
+                  "text": "M +N → MN, DG= 11 kcal/mol."
                 },
                 {
                   "letter": "B",
-                  "text": "X + Y à XY, DG= -11 kcal/mol."
+                  "text": "X + Y → XY, DG= -11 kcal/mol."
                 },
                 {
                   "letter": "C",
-                  "text": "P + Q à PQ, DG= -1.1 kcal/mol."
+                  "text": "P + Q → PQ, DG= -1.1 kcal/mol."
                 }
               ],
               "answer": "A",
@@ -6472,19 +6472,19 @@
               "options": [
                 {
                   "letter": "A",
-                  "text": "AàBàCàD"
+                  "text": "A → B → C → D"
                 },
                 {
                   "letter": "B",
-                  "text": "AàBàCàDàA"
+                  "text": "A → B → C → D → A"
                 },
                 {
                   "letter": "C",
-                  "text": "AàBàCàD; BàEàF"
+                  "text": "A → B → C → D; B → E → F"
                 },
                 {
                   "letter": "D",
-                  "text": "AàBàCàD; BàEàF; EàGàH Oxidation-reduction reactions"
+                  "text": "A → B → C → D; B → E → F; E → G → H Oxidation-reduction reactions"
                 }
               ],
               "answer": "B",
@@ -6494,7 +6494,7 @@
             {
               "id": "ch4-q38",
               "number": 38,
-              "stem": "Only the reactants of a chemical reaction can get oxidized or reduced. For the reaction Ca + F2 à Ca2+ + 2F-,à CaF2, which of the following are oxidized and reduced?",
+              "stem": "Only the reactants of a chemical reaction can get oxidized or reduced. For the reaction Ca + F2 → Ca2+ + 2F-, → CaF2, which of the following are oxidized and reduced?",
               "options": [
                 {
                   "letter": "A",
@@ -6520,7 +6520,7 @@
             {
               "id": "ch4-q39",
               "number": 39,
-              "stem": "In the chemical reaction: pyruvate + NAD+ + CoA à acetyl-CoA + NADH+H+ + CO2, which of the reactants must have got reduced?",
+              "stem": "In the chemical reaction: pyruvate + NAD+ + CoA → acetyl-CoA + NADH+H+ + CO2, which of the reactants must have got reduced?",
               "options": [
                 {
                   "letter": "A",
@@ -6546,15 +6546,15 @@
               "options": [
                 {
                   "letter": "A",
-                  "text": "GTP + ADP à ATP+ GDP"
+                  "text": "GTP + ADP → ATP+ GDP"
                 },
                 {
                   "letter": "B",
-                  "text": "AMP + 2PO4 à ATP"
+                  "text": "AMP + 2PO4 → ATP"
                 },
                 {
                   "letter": "C",
-                  "text": "ADP +PO4 à ATP"
+                  "text": "ADP +PO4 → ATP"
                 }
               ],
               "answer": "A",
@@ -6620,15 +6620,15 @@
               "options": [
                 {
                   "letter": "A",
-                  "text": "A kinase enzyme using the reaction XPO4 + ADPà X+ ATP."
+                  "text": "A kinase enzyme using the reaction XPO4 + ADP → X+ ATP."
                 },
                 {
                   "letter": "B",
-                  "text": "The F1 component of the F0F1 ATP synthase catalyzes the reaction ADP + PO4 à ATP."
+                  "text": "The F1 component of the F0F1 ATP synthase catalyzes the reaction ADP + PO4 → ATP."
                 },
                 {
                   "letter": "C",
-                  "text": "The F0 component of the F0F1 ATP synthase catalyses the reaction XPO4 + ADPà X+ ATP."
+                  "text": "The F0 component of the F0F1 ATP synthase catalyses the reaction XPO4 + ADP → X+ ATP."
                 }
               ],
               "answer": "B",

@@ -27,25 +27,34 @@ export default function WorksheetViewer() {
   const blocks = useMemo(() => (worksheet ? flattenWorksheet(worksheet.data) : []), [worksheet]);
   const chapters = useMemo(() => (worksheet ? listChapters(worksheet.data) : []), [worksheet]);
 
-  // Which chapter to show - 'all' or a chapter number. Remembered per worksheet (a phone-width
-  // grid of 60+ questions across 4 chapters is a lot to scroll past to get back to the one you
-  // were studying), reset if the worksheet itself changes.
+  // Which chapters to show - an array of chapter numbers, empty meaning all. Remembered per
+  // worksheet (a phone-width grid of 60+ questions across 4 chapters is a lot to scroll past to get
+  // back to the ones you were studying). Older saves held 'all' or a single number; both still load.
   const chapterStorageKey = `courses_worksheet_${worksheetId}_chapter`;
-  const [selectedChapter, setSelectedChapter] = useState(() => {
+  const [selectedChapters, setSelectedChapters] = useState(() => {
     try {
-      const saved = localStorage.getItem(chapterStorageKey);
-      return saved ? JSON.parse(saved) : 'all';
+      const saved = JSON.parse(localStorage.getItem(chapterStorageKey));
+      if (Array.isArray(saved)) return saved.filter((n) => Number.isInteger(n));
+      if (Number.isInteger(saved)) return [saved];
+      return [];
     } catch {
-      return 'all';
+      return [];
     }
   });
   useEffect(() => {
-    try { localStorage.setItem(chapterStorageKey, JSON.stringify(selectedChapter)); } catch { /* private mode etc - non-fatal */ }
-  }, [chapterStorageKey, selectedChapter]);
+    try { localStorage.setItem(chapterStorageKey, JSON.stringify(selectedChapters)); } catch { /* private mode etc - non-fatal */ }
+  }, [chapterStorageKey, selectedChapters]);
+
+  const toggleChapter = useCallback((number) => {
+    setSelectedChapters((prev) => {
+      const next = prev.includes(number) ? prev.filter((n) => n !== number) : [...prev, number];
+      return next.length === chapters.length ? [] : next.sort((a, b) => a - b);
+    });
+  }, [chapters.length]);
 
   const visibleBlocks = useMemo(
-    () => (selectedChapter === 'all' ? blocks : blocks.filter((b) => b.chapterNumber === selectedChapter)),
-    [blocks, selectedChapter],
+    () => (selectedChapters.length === 0 ? blocks : blocks.filter((b) => selectedChapters.includes(b.chapterNumber))),
+    [blocks, selectedChapters],
   );
 
   // Both handlers are stable (functional setState, no closed-over state) so
@@ -112,7 +121,7 @@ export default function WorksheetViewer() {
           <div className="crs-title">{worksheet.title}</div>
           <div className="crs-subtitle">
             {visibleQuestionCount} question{visibleQuestionCount === 1 ? '' : 's'}
-            {selectedChapter !== 'all' ? ' in this chapter' : ` of ${worksheet.questionCount} total`} — click a
+            {selectedChapters.length > 0 ? ` in the selected chapter${selectedChapters.length === 1 ? '' : 's'}` : ` of ${worksheet.questionCount} total`} — click a
             letter to circle it, click again for an X, again for a ?, again to clear. Click the blank space on
             any line to jot a note.
             {markedCount > 0 && ` ${markedCount} marked.`}
@@ -121,17 +130,28 @@ export default function WorksheetViewer() {
         </div>
         <div className="wks-header-actions">
           {chapters.length > 1 && (
-            <select
-              className="wks-chapter-select"
-              value={selectedChapter}
-              onChange={(e) => setSelectedChapter(e.target.value === 'all' ? 'all' : Number(e.target.value))}
-              aria-label="Show chapter"
-            >
-              <option value="all">All chapters</option>
+            <div className="wks-chapter-chips" role="group" aria-label="Show chapters">
+              <button
+                type="button"
+                className={`wks-chip${selectedChapters.length === 0 ? ' active' : ''}`}
+                aria-pressed={selectedChapters.length === 0}
+                onClick={() => setSelectedChapters([])}
+              >
+                All
+              </button>
               {chapters.map((c) => (
-                <option key={c.number} value={c.number}>Ch {c.number} — {c.title}</option>
+                <button
+                  key={c.number}
+                  type="button"
+                  className={`wks-chip${selectedChapters.includes(c.number) ? ' active' : ''}`}
+                  aria-pressed={selectedChapters.includes(c.number)}
+                  title={c.title}
+                  onClick={() => toggleChapter(c.number)}
+                >
+                  Ch {c.number}
+                </button>
               ))}
-            </select>
+            </div>
           )}
           <button
             className={`crs-btn${showAnswers ? '' : ' secondary'}`}
@@ -207,7 +227,7 @@ const WorksheetQuestion = memo(function WorksheetQuestion({ question, marks, not
               type="button"
               className={`wks-letter${mark ? ` wks-mark-${mark}` : ''}${isKnownWrong ? ' wks-known-wrong' : ''}${isCorrect ? ' wks-correct-answer' : ''}${isLikelyTop ? ' wks-likely-top' : ''}${isLikelyAlt ? ' wks-likely-alt' : ''}`}
               onClick={() => { if (!isKnownWrong) onCycleMark(key); }}
-              aria-label={`Option ${opt.letter}${isKnownWrong ? ', known wrong: marked wrong on your graded OLQ 8 attempt' : mark ? `, marked ${MARK_LABELS[mark]}` : ''}${isCorrect ? ', correct answer' : ''}${isLikelyTop ? ', most likely answer, not certain' : ''}${isLikelyAlt ? ', also plausible, not certain' : ''}`}
+              aria-label={`Option ${opt.letter}${isKnownWrong ? ', known wrong: marked wrong on one of your graded OLQ attempts' : mark ? `, marked ${MARK_LABELS[mark]}` : ''}${isCorrect ? ', correct answer' : ''}${isLikelyTop ? ', most likely answer, not certain' : ''}${isLikelyAlt ? ', also plausible, not certain' : ''}`}
             >
               {opt.letter}
             </button>
@@ -225,7 +245,7 @@ const WorksheetQuestion = memo(function WorksheetQuestion({ question, marks, not
       })}
       {knownWrong.length > 0 && (
         <div className="wks-known-wrong-note">
-          &#10007; Red X = you picked {knownWrong.join(', ')} on your graded OLQ 8 attempt and Canvas marked it wrong.
+          &#10007; Red X = you picked {knownWrong.join(', ')} on a graded OLQ attempt and Canvas marked it wrong.
         </div>
       )}
       {showAnswers && question.answer && (

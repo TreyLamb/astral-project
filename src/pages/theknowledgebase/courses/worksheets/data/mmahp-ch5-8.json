@@ -38,8 +38,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: Macronutrients are C, N, S, P. Only D pairs a macronutrient (P) with a non-macro element (I). A and B are both macro; C is reversed (Fe is not macro, N is); E is both micro. [§5.1 'Of the 25 essential elements, the cell needs C, N, S, and P in large quantities.' Other elements list includes 'Se, Cl, and I'.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Macronutrients are C, N, S, P. Only D pairs a macronutrient (P) with a non-macro element (I). A and B are both macro; C is reversed (Fe is not macro, N is); E is both micro. [§5.1 'Of the 25 essential elements, the cell needs C, N, S, and P in large quantities.' Other elements list includes 'Se, Cl, and I'.] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q2",
@@ -48,24 +48,24 @@
               "options": [
                 {
                   "letter": "A",
-                  "text": "C + O2 à CO2"
+                  "text": "C + O2 → CO2"
                 },
                 {
                   "letter": "B",
-                  "text": "CO2 + H2O àH2CO3"
+                  "text": "CO2 + H2O → H2CO3"
                 },
                 {
                   "letter": "C",
-                  "text": "CH3COCOOH + CO2 à O2C-CH2COCOOH"
+                  "text": "CH3COCOOH + CO2 → O2C-CH2COCOOH"
                 },
                 {
                   "letter": "D",
-                  "text": "CH3COCOOH + CoA + NAD+ à CO2 + CH3-CO-CoA + NADH + H+"
+                  "text": "CH3COCOOH + CoA + NAD+ → CO2 + CH3-CO-CoA + NADH + H+"
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: C attaches CO2 to pyruvate (an existing organic molecule) to give oxaloacetate. A and B involve no organic acceptor; D releases CO2. [§5.1.1 'carbon fixation, where a CO2 molecule is attached to an existing organic molecule'; §5.2.1 'Gluconeogenesis may involve carbon fixation']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: C attaches CO2 to pyruvate (an existing organic molecule) to give oxaloacetate. A and B involve no organic acceptor; D releases CO2. [§5.1.1 'carbon fixation, where a CO2 molecule is attached to an existing organic molecule'; §5.2.1 'Gluconeogenesis may involve carbon fixation'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q3",
@@ -74,19 +74,19 @@
               "options": [
                 {
                   "letter": "A",
-                  "text": "CO2 + Ribulose bisphosphate à 2 Glyceraldehyde-3-phosphate."
+                  "text": "CO2 + Ribulose bisphosphate → 2 Glyceraldehyde-3-phosphate."
                 },
                 {
                   "letter": "B",
-                  "text": "5 Glyceraldehyde-3-phosphate à 3 Ribulose bisphosphate."
+                  "text": "5 Glyceraldehyde-3-phosphate → 3 Ribulose bisphosphate."
                 },
                 {
                   "letter": "C",
-                  "text": "6 CO2 + 6 H2O à Glucose + 6O2."
+                  "text": "6 CO2 + 6 H2O → Glucose + 6O2."
                 },
                 {
                   "letter": "D",
-                  "text": "H2CO3 à HCO3- + H+."
+                  "text": "H2CO3 → HCO3- + H+."
                 }
               ],
               "answer": "A",
@@ -116,8 +116,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: Predation, parasitism and decomposition are named; the Calvin cycle is the autotroph route. [§5.1.1 'heterotrophs... obtain carbon from autotrophs and other heterotrophs, as decomposers, parasites, and predators']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Predation, parasitism and decomposition are named; the Calvin cycle is the autotroph route. [§5.1.1 'heterotrophs... obtain carbon from autotrophs and other heterotrophs, as decomposers, parasites, and predators'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q5",
@@ -168,11 +168,9 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: The text builds a photosystem from pigments + antennae + reaction center, so 'All these' fits the intended reading. WHY NOT 100%: the same paragraph also says 'Chloroplasts and cyanobacteria have two types of reaction centers, photosystem I and II', literally equating reaction centers with photosystems, which makes C defensible; and pigments alone (A) are only components, not a photosystem. [§5.1.1 'They bind proteins and form light-harvesting antennae. The antennae are part of a larger structure known as the photosystems... Photosystems also have a reaction center with various pigments'] SECOND CHECK (his slides, OpenStax, Exam 2 study guide): The slide names 'photosystem ... and reaction center' as a pair, i.e. the reaction center is a PART of the photosystem, which weakens C and favours the whole-assembly reading (D). Not settled: none of the new files defines a photosystem. The paired OpenStax chapter for photosynthesis (Ch 8) is not among the provided files (OLQ 5 pairs with OpenStax Ch 10, which has no photosystem text); from general knowledge OpenStax describe OUTSIDE REVIEW (two other AI reviewers, 2026-10-12): both chose the same answer as this key; they use general biology, not his key, so this does not remove the flag.",
+              "answerRationale": "Course text: The text builds a photosystem from pigments + antennae + reaction center, so 'All these' fits the intended reading. CONFIRMED BY ELIMINATION on OLQ 5: you picked \"The reaction centers\" (the runner-up) and Canvas marked it wrong, so a photosystem is more than the reaction center alone. His slide pairs a photosystem with its reaction center, and the pigments and antennae are part of it, so \"All these\" is the answer left.",
               "answerSource": "checked",
-              "confidence": "unsure",
-              "likelyOptions": [
-                "D",
+              "knownWrong": [
                 "C"
               ]
             },
@@ -225,13 +223,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: The text names WPO as the specific enzyme that splits water and releases O2, and the option uses the professor's own acronym, so the most specific correct answer is C. WHY NOT 100%: WPO is described as part 'of the photosystem II', so B is also technically true; old key chose B. [§5.1.1 'An enzyme, water- plastoquinone oxidoreductase (WPO), of the photosystem II splits water to release electrons and molecular oxygen. 2H2O -> 4H+ + 4e- + O2'] SECOND CHECK (his slides, OpenStax, Exam 2 study guide): New source does not separate them: the slide nests WPO inside PS II, so B is literally true too. C is kept because the professor offers PS II and WPO as separate options and the stem asks for the specific 'component' that splits water; his text names WPO as that enzyme. Exam 2 guide: photosynthesis not on the exam (OLQ only). Missing: the graded key. OUTSIDE REVIEW (two other AI reviewers, 2026-10-12): both chose the same answer as this key; they use general biology, not his key, so this does not remove the flag.",
-              "answerSource": "corrected",
-              "confidence": "unsure",
-              "likelyOptions": [
-                "C",
-                "B"
-              ]
+              "answerRationale": "Course text: The text names WPO as the specific enzyme that splits water and releases O2, and the option uses the professor's own acronym, so the most specific correct answer is C. Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q9",
@@ -260,11 +253,9 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: The chapter describes the chloroplast enzyme exactly as the respiratory one (same name, same ADP + PO4 substrate, same proton-gradient dependence), so nothing listed distinguishes them: 'None of these'. WHY NOT 100%: the chapter never directly compares the two enzymes or their structure; in real biology the subunits differ in detail (e.g. c-ring size), so C is arguable. Option E text is garbled with a section header. [§5.1.1 'The FoF1 ATP synthases in the thylakoid membrane use the proton gradient to synthesize ATPs using the reaction ADP + PO4 -> ATP'] SECOND CHECK (his slides, OpenStax, Exam 2 study guide): No new source compares chloroplast vs. mitochondrial/E. coli ATP synthase. The professor uses the same name, substrate and proton-gradient mechanism for both, supporting D; C (structural detail differences, e.g. c-ring size) is general-knowledge only. The paired OpenStax photosynthesis/respiration chapter (Ch 8) is not among the provided files. OUTSIDE REVIEW (two other AI reviewers, 2026-10-12): one agreed with D, one chose C (structure) from general biology, where the subunits do differ in detail. Kept D: the professor's Ch 5 text and Lecture 5 slide describe the chloroplast enzyme exactly like the respiratory one (same name, substrate and proton-gradient dependence), and the stem's \"(or E. coli)\" stresses how conserved it is. C stays the runner-up.",
+              "answerRationale": "Course text: The chapter describes the chloroplast enzyme exactly as the respiratory one (same name, same ADP + PO4 substrate, same proton-gradient dependence), so nothing listed distinguishes them: 'None of these'. CONFIRMED BY ELIMINATION on OLQ 5: you picked \"Structure of the enzymes\" (the pick of one outside reviewer) and Canvas marked it wrong. \"All these\" would include structure, so it is out too, and his text gives the two enzymes the same substrate and the same proton-gradient dependence. \"None of these\" is the answer left.",
               "answerSource": "checked",
-              "confidence": "unsure",
-              "likelyOptions": [
-                "D",
+              "knownWrong": [
                 "C"
               ]
             },
@@ -291,8 +282,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Nucleotides, amino acids, proteins and nucleic acids all need nitrogen. Sugars and the fatty-acid/glycerol lipids the chapter describes do not. [§5.2.1 amino acids get '-NH2 group... Ammonium ion or glutamine usually donates the -NH2'; nucleotides made 'using ribose, amino acids, CO2, and ATP'; 'Phospholipids and triglycerides are synthesized using fatty acids and glycerol']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Nucleotides, amino acids, proteins and nucleic acids all need nitrogen. Sugars and the fatty-acid/glycerol lipids the chapter describes do not. [§5.2.1 amino acids get '-NH2 group... Ammonium ion or glutamine usually donates the -NH2'; nucleotides made 'using ribose, amino acids, CO2, and ATP'; 'Phospholipids and triglycerides are synthesized using fatty acids and glycerol'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q11",
@@ -317,8 +308,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: The text names Rhizobium as the endophytic root-nodule diazotroph; the others are free-living or root-associated. [§5.1.2 'free-living bacteria (such the genera Azotobacter and Clostridium), root-associated bacteria (such as genus Azospirillum), endophytic root nodule bacteria (such as the genus Rhizobium']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: The text names Rhizobium as the endophytic root-nodule diazotroph; the others are free-living or root-associated. [§5.1.2 'free-living bacteria (such the genera Azotobacter and Clostridium), root-associated bacteria (such as genus Azospirillum), endophytic root nodule bacteria (such as the genus Rhizobium'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q12",
@@ -327,15 +318,15 @@
               "options": [
                 {
                   "letter": "A",
-                  "text": "HNO3 + NaOH à NaNO3 + H2O."
+                  "text": "HNO3 + NaOH → NaNO3 + H2O."
                 },
                 {
                   "letter": "B",
-                  "text": "2NO2 + O2 à 2 NO3-."
+                  "text": "2NO2 + O2 → 2 NO3-."
                 },
                 {
                   "letter": "C",
-                  "text": "N2 + 3 H2 à 2 NH3."
+                  "text": "N2 + 3 H2 → 2 NH3."
                 }
               ],
               "answer": "C",
@@ -361,8 +352,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Stated directly. [§5.1.2 'Bacteria and archaea synthesize about 200-300 million tons... However, it is not sufficient to support the current global population. To meet global demand, an additional 85 million tons']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Stated directly. [§5.1.2 'Bacteria and archaea synthesize about 200-300 million tons... However, it is not sufficient to support the current global population. To meet global demand, an additional 85 million tons'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q14",
@@ -445,8 +436,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Apatite is named as inorganic; phytic acid and nucleic acids are organic. [§5.1.4 'organic compounds such as phytic acid... and as inorganic phosphates, such as apatite']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Apatite is named as inorganic; phytic acid and nucleic acids are organic. [§5.1.4 'organic compounds such as phytic acid... and as inorganic phosphates, such as apatite'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q17",
@@ -532,8 +523,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: An essential amino acid is one the human cell cannot make (the course's auxotroph logic); option C states exactly that about histidine, while D says arginine CAN be made (so not essential) and A contradicts '9 of the 20'. The chapter does not list histidine by name, but the option carries the deciding clause itself. [§5.2 'human cells cannot synthesize 9 of the 20 amino acids'; Fig/ch. logic: essential = must be taken from food]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: An essential amino acid is one the human cell cannot make (the course's auxotroph logic); option C states exactly that about histidine, while D says arginine CAN be made (so not essential) and A contradicts '9 of the 20'. The chapter does not list histidine by name, but the option carries the deciding clause itself. [§5.2 'human cells cannot synthesize 9 of the 20 amino acids'; Fig/ch. logic: essential = must be taken from food] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q20",
@@ -584,8 +575,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: Stated directly; no other option supplies nitrogen. [§5.2.1 'Some amino acids are synthesized by adding an -NH2 group to the organic acids. Ammonium ion or glutamine usually donates the -NH2 group']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Stated directly; no other option supplies nitrogen. [§5.2.1 'Some amino acids are synthesized by adding an -NH2 group to the organic acids. Ammonium ion or glutamine usually donates the -NH2 group'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q22",
@@ -658,8 +649,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Glucose, UTP and an existing glycogen molecule all appear in the reactions; NADH does not. [§5.2.1 'Glucose-1-PO4 + UTP -> UDP-Glucose... Glycogen(n) + UDP-Glucose -> Glycogen (n+1) + UDP']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Glucose, UTP and an existing glycogen molecule all appear in the reactions; NADH does not. [§5.2.1 'Glucose-1-PO4 + UTP -> UDP-Glucose... Glycogen(n) + UDP-Glucose -> Glycogen (n+1) + UDP'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -693,8 +684,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: Stated directly. E is the glycosyltransferase's job and C is the carrier protein's. Note B is a near-trap: the text says the oligopeptides are made by 'bacterial transpeptidase enzymes' and PBP is a transpeptidase, but the PBP sentence itself names only cross-linking. (Side note: the text says NAG of Lipid II joins a NAM of the old chain, while the Fig. 5.9 caption says NAM-to-NAM; a self-contradiction that does not affect this item.) [§5.2.1 'Finally, a transpeptidase enzyme (also known as the penicillin-binding protein or PBP) cross-links the pentapeptide chains of two NAM entities from two different polysaccharide chains']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Stated directly. E is the glycosyltransferase's job and C is the carrier protein's. Note B is a near-trap: the text says the oligopeptides are made by 'bacterial transpeptidase enzymes' and PBP is a transpeptidase, but the PBP sentence itself names only cross-linking. (Side note: the text says NAG of Lipid II joins a NAM of the old chain, while the Fig. 5.9 caption says NAM-to-NAM; a self-contradiction that does not affect this item.) [§5.2.1 'Finally, a transpeptidase enzyme (also known as the penicillin-binding protein or PBP) cross-links the pentapeptide chains of two NAM entities from two different polysaccharide chains'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q26",
@@ -719,8 +710,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text: Rifamycin is the only one not on the cell-wall list. [§5.2.1 'Several groups of antibiotics (including penicillin, cephalosporin, carbapenem, monobactam, cycloserine, bacitracin, and vancomycin) interfere with bacterial cell wall synthesis'; §5.4 'Rifamycin, an antibiotic, inhibits bacteria...]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Rifamycin is the only one not on the cell-wall list. [§5.2.1 'Several groups of antibiotics (including penicillin, cephalosporin, carbapenem, monobactam, cycloserine, bacitracin, and vancomycin) interfere with bacterial cell wall synthesis'; §5.4 'Rifamycin, an antibiotic, inhibits bacteria...] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -780,8 +771,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text: Stated directly; C and D periods are bacterial terms. [§5.3 'Synthetic (S) phase: ...replicates the genome. The cell enters the S phase only after receiving a robust growth (mitogenic) signal.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Stated directly; C and D periods are bacterial terms. [§5.3 'Synthetic (S) phase: ...replicates the genome. The cell enters the S phase only after receiving a robust growth (mitogenic) signal.'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q29",
@@ -832,8 +823,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: Stated directly. [§5.3 '(v) the sliding clamp loader (proteins) loads a sliding clamp and a DNA polymerase III on the primed DNA. This is the end of the initiation event.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Stated directly. [§5.3 '(v) the sliding clamp loader (proteins) loads a sliding clamp and a DNA polymerase III on the primed DNA. This is the end of the initiation event.'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q31",
@@ -858,8 +849,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: Topoisomerases act on dsDNA knots, not on ssDNA; the other three pairs match Table 5.1. [Table 5.1 'DNA topoisomerases: Cut dsDNA to remove any knots and then ligate and restore dsDNA']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Topoisomerases act on dsDNA knots, not on ssDNA; the other three pairs match Table 5.1. [Table 5.1 'DNA topoisomerases: Cut dsDNA to remove any knots and then ligate and restore dsDNA'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q32",
@@ -910,8 +901,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Leading strand = continuous elongation; A and B describe the lagging strand; D/E name template strands, not the new strand. [Fig. 5.13 caption 'DNA polymerase III elongates the two original RNA primers continuously'; §5.3 'The new DNA strands synthesized from the initial two primers are the leading strands... subsequent primers in the form of Okazaki fragments...]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Leading strand = continuous elongation; A and B describe the lagging strand; D/E name template strands, not the new strand. [Fig. 5.13 caption 'DNA polymerase III elongates the two original RNA primers continuously'; §5.3 'The new DNA strands synthesized from the initial two primers are the leading strands... subsequent primers in the form of Okazaki fragments...] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q34",
@@ -940,8 +931,8 @@
                 }
               ],
               "answer": "E",
-              "answerRationale": "Course text: Pol III does the bulk copying; Pol I only fills in where primers were. [Table 5.1 'DNA polymerase III: Copy ssDNA while hanging on the sliding clamp'; 'DNA polymerase I: Removes RNA primers and replace it']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Pol III does the bulk copying; Pol I only fills in where primers were. [Table 5.1 'DNA polymerase III: Copy ssDNA while hanging on the sliding clamp'; 'DNA polymerase I: Removes RNA primers and replace it'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q35",
@@ -970,8 +961,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: Quinolones target an enzyme; radiation damages DNA, and metronidazole and busulfan bind/damage DNA itself. [§5.3 'Topoisomerase inhibitors: Some drugs, such as topotecan and quinolones, bind and inactivate the DNA topoisomerases']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Quinolones target an enzyme; radiation damages DNA, and metronidazole and busulfan bind/damage DNA itself. [§5.3 'Topoisomerase inhibitors: Some drugs, such as topotecan and quinolones, bind and inactivate the DNA topoisomerases'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -1079,8 +1070,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Coding strand with T->U gives 5'AACCGGUU3'. (Options A and D are textually identical; D has a section header fused on.) [Fig. 5.15 caption 'The transcript (pink) has the same nucleotide sequence as the coding strand, except that the Ts are replaced by Us.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Coding strand with T->U gives 5'AACCGGUU3'. (Options A and D are textually identical; D has a section header fused on.) [Fig. 5.15 caption 'The transcript (pink) has the same nucleotide sequence as the coding strand, except that the Ts are replaced by Us.'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q40",
@@ -1105,8 +1096,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: B swaps introns and exons. A, C and D match the text's definitions of processing, editing ('additional nucleotides are added') and modification. [§5.4 'The process of RNA splicing removes introns and sequentially ligates exons']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: B swaps introns and exons. A, C and D match the text's definitions of processing, editing ('additional nucleotides are added') and modification. [§5.4 'The process of RNA splicing removes introns and sequentially ligates exons'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q41",
@@ -1131,8 +1122,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Stated directly; bacterial pre-rRNA/pre-tRNA are processed (Fig. 5.18A). [§5.4 'Almost all newly synthesized RNAs (i.e., pre-RNAs) except bacterial mRNAs are groomed'; 'Bacterial mRNAs are used without grooming.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Stated directly; bacterial pre-rRNA/pre-tRNA are processed (Fig. 5.18A). [§5.4 'Almost all newly synthesized RNAs (i.e., pre-RNAs) except bacterial mRNAs are groomed'; 'Bacterial mRNAs are used without grooming.'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -1162,8 +1153,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text: B describes rRNA, C and D describe tRNA. [§5.5.1 'All mRNAs have untranslated regions (UTRs)... and one or more open reading frames (ORFs)... The UTR at the 5' end contains... ribosome binding site (RBS)']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: B describes rRNA, C and D describe tRNA. [§5.5.1 'All mRNAs have untranslated regions (UTRs)... and one or more open reading frames (ORFs)... The UTR at the 5' end contains... ribosome binding site (RBS)'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q43",
@@ -1184,8 +1175,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: 16S rRNA is transcribed from an rRNA gene and sits in the 30S subunit per the figure. [Fig. 5.21 (rendered PDF p.18): prokaryote 30S = '16S RNA (1,541 nts), 21 proteins'; 50S = 23S + 5S RNA, 34 proteins; §5.4 rRNA is transcribed from rRNA genes]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: 16S rRNA is transcribed from an rRNA gene and sits in the 30S subunit per the figure. [Fig. 5.21 (rendered PDF p.18): prokaryote 30S = '16S RNA (1,541 nts), 21 proteins'; 50S = 23S + 5S RNA, 34 proteins; §5.4 rRNA is transcribed from rRNA genes] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q44",
@@ -1210,8 +1201,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Two rRNAs and 34 proteins is the bacterial 50S. A is bacterial 30S, B eukaryotic 40S, D eukaryotic 60S. [Fig. 5.21 (rendered PDF p.18): bacterial 50S = 23S RNA + 5S RNA, 34 proteins; eukaryotic 60S = 28S + 5.8S + 5S RNA, 50 proteins]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Two rRNAs and 34 proteins is the bacterial 50S. A is bacterial 30S, B eukaryotic 40S, D eukaryotic 60S. [Fig. 5.21 (rendered PDF p.18): bacterial 50S = 23S RNA + 5S RNA, 34 proteins; eukaryotic 60S = 28S + 5.8S + 5S RNA, 50 proteins] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -1271,8 +1262,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Anticodon 5'CCC3' pairs antiparallel with codon 5'GGG3' = Gly; the text says only one amino acid fits, ruling out E. [§5.5.3 'if the anticodon of the tRNA is 5'GGC3', the codon must be 5'GCC3'... alanine (but no other amino acid)'; Table 5.2 'GGG Gly']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Anticodon 5'CCC3' pairs antiparallel with codon 5'GGG3' = Gly; the text says only one amino acid fits, ruling out E. [§5.5.3 'if the anticodon of the tRNA is 5'GGC3', the codon must be 5'GCC3'... alanine (but no other amino acid)'; Table 5.2 'GGG Gly'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -1302,8 +1293,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: ORF = AUG CCC GGG AAA UUU CAG UGA -> Met-Pro-Gly-Lys-Phe-Gln. [Table 5.2: AUG Met, CCC Pro, GGG Gly, AAA Lys, UUU Phe, CAG Gln, UGA Stop]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: ORF = AUG CCC GGG AAA UUU CAG UGA -> Met-Pro-Gly-Lys-Phe-Gln. [Table 5.2: AUG Met, CCC Pro, GGG Gly, AAA Lys, UUU Phe, CAG Gln, UGA Stop] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q48",
@@ -1324,8 +1315,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Stated directly. [Table 5.2 caption 'six codons for Leu, Ser, and Arg']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Stated directly. [Table 5.2 caption 'six codons for Leu, Ser, and Arg'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q49",
@@ -1376,8 +1367,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text: The figure orders the steps with mRNA binding first. [Fig. 5.23 caption 'A. The 30S ribosome binds to the RBS of an mRNA. B. The initiator tRNA carrying methionine joins the complex... C. A 50S ribosome joins']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: The figure orders the steps with mRNA binding first. [Fig. 5.23 caption 'A. The 30S ribosome binds to the RBS of an mRNA. B. The initiator tRNA carrying methionine joins the complex... C. A 50S ribosome joins'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q51",
@@ -1432,8 +1423,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Entry into the A site happens after translocation, and it is a charged tRNA, not a free amino acid, that enters. A, C, D and E are all listed as translocation effects (E's 'becomes uncharged' technically happens at peptide-bond formation just before, but the move to the E site is translocation). [§5.5.4 'the ribosome moves the mRNA by exactly one codon. This process, called translocation, causes the uncharged tRNA to move to the E site... the peptide-carrying tRNA to move to the P site, leaving the A site vacant... Another charge...]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Entry into the A site happens after translocation, and it is a charged tRNA, not a free amino acid, that enters. A, C, D and E are all listed as translocation effects (E's 'becomes uncharged' technically happens at peptide-bond formation just before, but the move to the E site is translocation). [§5.5.4 'the ribosome moves the mRNA by exactly one codon. This process, called translocation, causes the uncharged tRNA to move to the E site... the peptide-carrying tRNA to move to the P site, leaving the A site vacant... Another charge...] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q53",
@@ -1462,8 +1453,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text: Everything except the released polypeptide is named as reusable. [§5.5.4 'The freed mRNA, tRNA, and ribosomal subunits can be reused for the next round of translation.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Everything except the released polypeptide is named as reusable. [§5.5.4 'The freed mRNA, tRNA, and ribosomal subunits can be reused for the next round of translation.'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -1523,8 +1514,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Streptomycin is the only 30S binder listed. Re-checked against his Lecture 5 slide 38: \"Binding 30S ribosome particle - tetracycline and streptomycin\"; rifamycin is on the transcription slide, and clindamycin, erythromycin and chloramphenicol bind the 50S. Streptomycin is the only 30S binder offered. (The stem says transcription where he means translation.) C.",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Streptomycin is the only 30S binder listed. Re-checked against his Lecture 5 slide 38: \"Binding 30S ribosome particle - tetracycline and streptomycin\"; rifamycin is on the transcription slide, and clindamycin, erythromycin and chloramphenicol bind the 50S. Streptomycin is the only 30S binder offered. (The stem says transcription where he means translation.) C. Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q56",
@@ -1553,8 +1544,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Puromycin is the only 50S binder among the options (tetracycline binds 30S; indinavir, quinolone and metronidazole do not act on ribosomes). Re-checked against his Lecture 5 slide 38: \"Binding 50S ribosome particles - chloramphenicol, erythromycin, clindamycin, linezolid, puromycin\"; tetracycline binds the 30S. Puromycin is the only 50S binder offered. (The stem says transcription where he means translation.) C.",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Puromycin is the only 50S binder among the options (tetracycline binds 30S; indinavir, quinolone and metronidazole do not act on ribosomes). Re-checked against his Lecture 5 slide 38: \"Binding 50S ribosome particles - chloramphenicol, erythromycin, clindamycin, linezolid, puromycin\"; tetracycline binds the 30S. Puromycin is the only 50S binder offered. (The stem says transcription where he means translation.) C. Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -1606,8 +1597,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Phosphate attachment is modification (grooming); until it happens NtrC is not functional. [§5.5.5 'the majority of the freshly synthesized RNAs and proteins are nonfunctional. They must be groomed'; §5.5.4 modification = '-PO4... attached to certain amino acids']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Phosphate attachment is modification (grooming); until it happens NtrC is not functional. [§5.5.5 'the majority of the freshly synthesized RNAs and proteins are nonfunctional. They must be groomed'; §5.5.4 modification = '-PO4... attached to certain amino acids'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q59",
@@ -1636,13 +1627,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Post-translational control acts directly on the functional proteins that set the phenotype, at the last layer, and the text singles it out as the fastest response, so it is the best fit for 'most accurately fine-tunes'. WHY NOT 100%: the chapter never uses the words 'most accurately fine-tunes' for any layer; it ranks layers only by economy (pre-transcription best) and speed (post-translation best). Transcriptional control (D) is the layer the chapter's own lac-operon example uses to dial expression up/down, so it is a possible intended answer. [§5.5.5 'pre-transcriptional regulation is the most economical, and post-translational regulation is the least economical. However, because the proteins are already available, post-translational regulation enables the cell to meet environ...] SECOND CHECK (his slides, OpenStax, Exam 2 study guide): The slide lists the five layers without ranking accuracy. 'Fine-tune' in the text applies to all layers collectively. B rests on the reasoning that the last layer acts on the functional protein itself and is fastest; D (transcriptional, the lac-operon example) remains plausible. OpenStax Ch 11 adds nothing on ranking. Missing: an explicit ranking by precision. OUTSIDE REVIEW (two other AI reviewers, 2026-10-12): both chose the same answer as this key; they use general biology, not his key, so this does not remove the flag.",
-              "answerSource": "checked",
-              "confidence": "unsure",
-              "likelyOptions": [
-                "B",
-                "D"
-              ]
+              "answerRationale": "Course text: Post-translational control acts directly on the functional proteins that set the phenotype, at the last layer, and the text singles it out as the fastest response, so it is the best fit for 'most accurately fine-tunes'. Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q60",
@@ -1693,8 +1679,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text: B is LacY permease, C is lacA transacetylase, D names the wrong ORF. [§5.5.5 'lacZ: It codes for beta-galactosidase, a lactase enzyme that can split lactose to glucose and galactose or isomerize lactose to allolactose.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: B is LacY permease, C is lacA transacetylase, D names the wrong ORF. [§5.5.5 'lacZ: It codes for beta-galactosidase, a lactase enzyme that can split lactose to glucose and galactose or isomerize lactose to allolactose.'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q62",
@@ -1719,8 +1705,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Repressor on operator is stated. cAMP is made only when glucose is low (A wrong), CAP is always present (C wrong), no lactose means no allolactose (D wrong). [§5.5.5 'When E. coli grows in a medium with plenty of glucose but no lactose... the lac repressor, binds the operator (silencer)'; 'When glucose levels are low, the cell synthesizes cyclic AMP'; Fig. 5.27 'levels of CAP proteins and lac ...]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Repressor on operator is stated. cAMP is made only when glucose is low (A wrong), CAP is always present (C wrong), no lactose means no allolactose (D wrong). [§5.5.5 'When E. coli grows in a medium with plenty of glucose but no lactose... the lac repressor, binds the operator (silencer)'; 'When glucose levels are low, the cell synthesizes cyclic AMP'; Fig. 5.27 'levels of CAP proteins and lac ...] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q63",
@@ -1745,8 +1731,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Stated directly. A, C and D can occur when allolactose is present (with glucose absent). Note: the text's sentence 'When E. coli grows in a medium that has both glucose and no lactose' is a typo for 'both glucose and lactose' (it goes on to import lactose). [§5.5.5 'once it binds allolactose, lac repressor cannot bind the operator.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Stated directly. A, C and D can occur when allolactose is present (with glucose absent). Note: the text's sentence 'When E. coli grows in a medium that has both glucose and no lactose' is a typo for 'both glucose and lactose' (it goes on to import lactose). [§5.5.5 'once it binds allolactose, lac repressor cannot bind the operator.'] Confirmed correct on your OLQ 5 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch5-q64",
@@ -1808,8 +1794,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (ch 6 intro / Fig. 6.1): sexual-reproduction progeny inherit DNA from two parents, so inheritance is vertical and each parent contributes about half (~50%).",
-              "answerSource": "checked"
+              "answerRationale": "Course text (ch 6 intro / Fig. 6.1): sexual-reproduction progeny inherit DNA from two parents, so inheritance is vertical and each parent contributes about half (~50%). Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q2",
@@ -1895,8 +1881,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text (§6.2/6.4): mutations help the species evolve ('help the species evolve even in the absence of selective pressure'); they do not prevent evolution. The other options are listed consequences.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.2/6.4): mutations help the species evolve ('help the species evolve even in the absence of selective pressure'); they do not prevent evolution. The other options are listed consequences. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q5",
@@ -1921,8 +1907,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text (§6.1): a transversion swaps a purine for a pyrimidine. GGAA -> GTAA is G (purine) -> T (pyrimidine). B is G -> A, a transition; C and D are insertion/deletion.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.1): a transversion swaps a purine for a pyrimidine. GGAA -> GTAA is G (purine) -> T (pyrimidine). B is G -> A, a transition; C and D are insertion/deletion. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q6",
@@ -1951,8 +1937,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (§6.4): insertion or deletion of one or two nucleotides in the ORF causes a frameshift. Substitutions (E) and changes outside the ORF do not shift the reading frame.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.4): insertion or deletion of one or two nucleotides in the ORF causes a frameshift. Substitutions (E) and changes outside the ORF do not shift the reading frame. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q7",
@@ -1981,8 +1967,8 @@
                 }
               ],
               "answer": "E",
-              "answerRationale": "Course text (§6.4): a nonsense mutation changes a codon into a STOP codon; 'codon changed to an anticodon' is not a mutation type, so E is the mismatch.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.4): a nonsense mutation changes a codon into a STOP codon; 'codon changed to an anticodon' is not a mutation type, so E is the mismatch. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -2034,8 +2020,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (§6.1): about one SNP per 1,000 nucleotides; 3.2 billion / 1,000 = 3.2 million, about 3,000,000 (the text also cites ~3,000,000 differences between two people).",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.1): about one SNP per 1,000 nucleotides; 3.2 billion / 1,000 = 3.2 million, about 3,000,000 (the text also cites ~3,000,000 differences between two people). Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -2065,8 +2051,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Arithmetic from the course's haploid/diploid definitions: the horse gamete carries 32 and the donkey gamete 31, so the mule has 63. Not stated in the text; it follows directly from meiosis.",
-              "answerSource": "checked"
+              "answerRationale": "Arithmetic from the course's haploid/diploid definitions: the horse gamete carries 32 and the donkey gamete 31, so the mule has 63. Not stated in the text; it follows directly from meiosis. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q11",
@@ -2126,8 +2112,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (§6.2, Fig. 6.5): an uncorrected error is passed on after the next replication; only the cell that receives the mismatched strand carries the mutation, so one of two daughter cells.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.2, Fig. 6.5): an uncorrected error is passed on after the next replication; only the cell that receives the mismatched strand carries the mutation, so one of two daughter cells. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q13",
@@ -2179,8 +2165,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (§6.2, Fig. 6.3B): mismatch repair removes a patch of the new strand around the mismatch and DNA polymerase fills the gap.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.2, Fig. 6.3B): mismatch repair removes a patch of the new strand around the mismatch and DNA polymerase fills the gap. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -2214,8 +2200,8 @@
                 }
               ],
               "answer": "E",
-              "answerRationale": "Course text (§6.2): UV (UVB) cross-links adjacent T/T or T/C bases, not G or A. Methyl mercury alkylation, gamma ionization of water, and water removing -NH2 groups and A/G bases are all stated.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.2): UV (UVB) cross-links adjacent T/T or T/C bases, not G or A. Methyl mercury alkylation, gamma ionization of water, and water removing -NH2 groups and A/G bases are all stated. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q16",
@@ -2232,12 +2218,20 @@
                 },
                 {
                   "letter": "C",
-                  "text": "breaking the sugar-phosphate backbone of DNA Repair of damaged DNA"
+                  "text": "breaking the sugar-phosphate backbone of DNA"
                 }
               ],
-              "answer": "A",
-              "answerRationale": "Course text (§6.2): gamma radiation ionizes water to reactive chemicals that break DNA. Cross-linking of bases is the UV effect, so A is the exception.",
-              "answerSource": "checked"
+              "answer": "C",
+              "answerRationale": "CORRECTED AFTER OLQ 6: you picked \"cross-linking bases of DNA\" (the guide's old answer) and Canvas marked it wrong, so it is NOT the answer. The chapter text assigns cross-linking to UVB and says gamma/ionizing radiation ionizes water into reactive chemicals that \"damage the bases and break the DNA backbone\" (Fig 6.4), so the text alone does not explain Canvas's key. That leaves the other two options and nothing settles which one he keyed as the exception. WHY NOT 100%: this is close to a coin flip between \"breaking the sugar-phosphate backbone\" and \"ionizing water to create reactive ions\"; his own OLQ 6 Q22 treats \"Gamma radiation: Ionizes water; the ions create reactive chemicals that break DNA\" as a correct statement, which supports both. If this question comes up again after a later attempt, try the other one.",
+              "answerSource": "corrected",
+              "knownWrong": [
+                "A"
+              ],
+              "confidence": "unsure",
+              "likelyOptions": [
+                "C",
+                "B"
+              ]
             },
             {
               "id": "ch6-q17",
@@ -2288,8 +2282,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text (§6.2, Fig. 6.6C/D): the excision systems detect and remove the damaged base/nucleotides; DNA polymerase then fills the gap and DNA ligase seals it (done by other enzymes).",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.2, Fig. 6.6C/D): the excision systems detect and remove the damaged base/nucleotides; DNA polymerase then fills the gap and DNA ligase seals it (done by other enzymes). Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q19",
@@ -2310,8 +2304,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text (§6.2): NHEJ 'almost always leads to mutations'; SSBR restores the bond and homologous repair uses a template.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.2): NHEJ 'almost always leads to mutations'; SSBR restores the bond and homologous repair uses a template. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -2363,8 +2357,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text (§6.3): 'Mobile DNA, DNA viruses, and oncoviruses are potential biological mutagens.' B is chemical, C is physical.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.3): 'Mobile DNA, DNA viruses, and oncoviruses are potential biological mutagens.' B is chemical, C is physical. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -2398,8 +2392,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (§6.6): viral polymerases have limited proofreading; RNA viruses mutate fastest.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.6): viral polymerases have limited proofreading; RNA viruses mutate fastest. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q23",
@@ -2473,8 +2467,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (§6.5): foreign DNA with no similarity is destroyed by nucleases or, rarely, inserted non-homologously. Strand replacement by recombination needs similarity, so C is not expected.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.5): foreign DNA with no similarity is destroyed by nucleases or, rarely, inserted non-homologously. Strand replacement by recombination needs similarity, so C is not expected. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q26",
@@ -2566,8 +2560,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (§6.5.1): damaged bacteria enter competence, which allows them to take up DNA from the environment.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.5.1): damaged bacteria enter competence, which allows them to take up DNA from the environment. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q30",
@@ -2596,8 +2590,8 @@
                 }
               ],
               "answer": "E",
-              "answerRationale": "Course text (§6.5.1): DNA from dead cells leaks into the environment and competent bacteria take up DNA from the environment; viral or plasmid DNA can also enter. The text sets no restriction on source.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.5.1): DNA from dead cells leaks into the environment and competent bacteria take up DNA from the environment; viral or plasmid DNA can also enter. The text sets no restriction on source. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q31",
@@ -2701,8 +2695,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (§6.5.2): specialized transduction happens when an induced prophage carries a fragment of the host chromosome next to its insertion site. ('isogenic' in the option is a typo for lysogenic.)",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.5.2): specialized transduction happens when an induced prophage carries a fragment of the host chromosome next to its insertion site. ('isogenic' in the option is a typo for lysogenic.) Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -2732,8 +2726,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text (Table 6.1): R factor plasmids carry antibiotic resistance genes.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (Table 6.1): R factor plasmids carry antibiotic resistance genes. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q36",
@@ -2762,8 +2756,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text (§6.5.3): plasmids contain a replication origin that lets them replicate independently of the host; the other features vary by plasmid type.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.5.3): plasmids contain a replication origin that lets them replicate independently of the host; the other features vary by plasmid type. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q37",
@@ -2819,8 +2813,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text (§6.5.3): F' = a free F factor plasmid with a fragment of chromosomal DNA attached.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.5.3): F' = a free F factor plasmid with a fragment of chromosomal DNA attached. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q39",
@@ -2875,8 +2869,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (§6.5.3): 'Unlike sexual reproduction, conjugation does not involve the fusion of two cells.'",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.5.3): 'Unlike sexual reproduction, conjugation does not involve the fusion of two cells.' Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q41",
@@ -2905,8 +2899,8 @@
                 }
               ],
               "answer": "E",
-              "answerRationale": "Course text (§6.5, 6.5.3): incoming DNA may be destroyed, recombined (gene conversion), inserted non-homologously, or persist as a plasmid - which one depends on the DNA.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.5, 6.5.3): incoming DNA may be destroyed, recombined (gene conversion), inserted non-homologously, or persist as a plasmid - which one depends on the DNA. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -2936,8 +2930,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (Section 2 intro / definitions slide): biotechnology = use of living organisms (cheese, A); molecular cloning = copying DNA (PCR, B); recombinant DNA = joining DNA from sources (D); genetic engineering = 'technology of changing the genome of living cells' - bacteria made to produce human growth factor (C). The four options map to those four defined terms. The earlier key chose B (molecular cloning). Re-checked: the chapter defines genetic engineering as \"technology of changing the genome of living cells\". Only C changes a living cell's genome. D is recombinant DNA, a tool made in a test tube; B is molecular cloning; A is ordinary fermentation. C.",
-              "answerSource": "corrected"
+              "answerRationale": "Course text (Section 2 intro / definitions slide): biotechnology = use of living organisms (cheese, A); molecular cloning = copying DNA (PCR, B); recombinant DNA = joining DNA from sources (D); genetic engineering = 'technology of changing the genome of living cells' - bacteria made to produce human growth factor (C). The four options map to those four defined terms. The earlier key chose B (molecular cloning). Re-checked: the chapter defines genetic engineering as \"technology of changing the genome of living cells\". Only C changes a living cell's genome. D is recombinant DNA, a tool made in a test tube; B is molecular cloning; A is ordinary fermentation. C. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -2971,8 +2965,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text (§6.7): lysozyme destroys the bacterial cell wall and lyticase the fungal cell wall; proteases degrade proteins, phenol/chloroform and SDS disrupt membranes/proteins, EDTA chelates metal ions.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.7): lysozyme destroys the bacterial cell wall and lyticase the fungal cell wall; proteases degrade proteins, phenol/chloroform and SDS disrupt membranes/proteins, EDTA chelates metal ions. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q44",
@@ -3001,8 +2995,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text (§6.7): RNA extraction uses guanidinium thiocyanate; DNA extraction uses SDS, proteases, RNase and phenol-chloroform (and EDTA/salt in the buffer).",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.7): RNA extraction uses guanidinium thiocyanate; DNA extraction uses SDS, proteases, RNase and phenol-chloroform (and EDTA/salt in the buffer). Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q45",
@@ -3027,8 +3021,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text (§6.8): cDNA synthesis needs an RNA template, reverse transcriptase, a DNA primer and dNTPs (dATP, dCTP, dGTP, dTTP) - not NTPs.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.8): cDNA synthesis needs an RNA template, reverse transcriptase, a DNA primer and dNTPs (dATP, dCTP, dGTP, dTTP) - not NTPs. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -3085,8 +3079,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (§6.9 and the cloning slide): PCR copies, binary-fission descendants and parthenogenesis (unfertilized egg) are clones; offspring of fertilized eggs combine two parents' DNA.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.9 and the cloning slide): PCR copies, binary-fission descendants and parthenogenesis (unfertilized egg) are clones; offspring of fertilized eggs combine two parents' DNA. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -3112,8 +3106,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (§6.9.2): 95 C melts dsDNA, about 55 C lets primers anneal, 72 C is the polymerase's optimum for extension.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.9.2): 95 C melts dsDNA, about 55 C lets primers anneal, 72 C is the polymerase's optimum for extension. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q49",
@@ -3138,8 +3132,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text (§6.9.2): 'PCR using cDNA template is known as RT-PCR'; reverse transcriptase makes the cDNA from RNA beforehand.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.9.2): 'PCR using cDNA template is known as RT-PCR'; reverse transcriptase makes the cDNA from RNA beforehand. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q50",
@@ -3160,8 +3154,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text (§6.9.2): PCR detects a virus because primers anneal only to their complementary sequence; no purification of the viral DNA is needed.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.9.2): PCR detects a virus because primers anneal only to their complementary sequence; no purification of the viral DNA is needed. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -3191,8 +3185,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text (§6.9.3): the plasmid or viral genome 'contains a replication origin', which is why the recombinant vector replicates in the host.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.9.3): the plasmid or viral genome 'contains a replication origin', which is why the recombinant vector replicates in the host. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q52",
@@ -3217,8 +3211,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text (§6.9.3): PCR clones only <20,000 bp; vector cloning can clone fragments of 500,000 bp.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.9.3): PCR clones only <20,000 bp; vector cloning can clone fragments of 500,000 bp. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q53",
@@ -3273,8 +3267,8 @@
                 }
               ],
               "answer": "E",
-              "answerRationale": "Course text (§6.9.3): a gene gun shoots DNA on gold/copper particles into plant cells.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.9.3): a gene gun shoots DNA on gold/copper particles into plant cells. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -3396,8 +3390,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text (§6.10.5): transgenesis = a gene of one species placed in another's chromosomes; a rice plant carrying a carrot gene is transgenic. Grafting, mule and artificial insemination are not.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.10.5): transgenesis = a gene of one species placed in another's chromosomes; a rice plant carrying a carrot gene is transgenic. Grafting, mule and artificial insemination are not. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q59",
@@ -3422,8 +3416,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (§6.10.5): vaccines are microbial proteins; an edible vaccine delivers the viral protein produced in the plant, so the expressed glycoprotein is the true vaccine.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.10.5): vaccines are microbial proteins; an edible vaccine delivers the viral protein produced in the plant, so the expressed glycoprotein is the true vaccine. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch6-q60",
@@ -3501,8 +3495,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text (§6.12): GenBank/EMBL are the gene sequence databases, Swissprot is protein, TIGR is the complete genome database, PubMed is literature. A single gene's nucleotide sequence -> GenBank.",
-              "answerSource": "checked"
+              "answerRationale": "Course text (§6.12): GenBank/EMBL are the gene sequence databases, Swissprot is protein, TIGR is the complete genome database, PubMed is literature. A single gene's nucleotide sequence -> GenBank. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -3536,11 +3530,9 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text (§6.11): unforeseen gene-therapy effects, human genome editing, genetic privacy and GM-food allergy/IBD are all discussed as real concerns; restoring extinct species is not mentioned. WHY NOT 100%: D is the only option the chapter never raises, but it also says GM foods showed no severe or widespread ill effects, which clashes with the word severe in option E. E is the runner-up. A second, independent check from the chapter text reached the same answer. OUTSIDE REVIEW (two other AI reviewers, 2026-10-12): both chose the same answer as this key; they use general biology, not his key, so this does not remove the flag.",
+              "answerRationale": "Course text (§6.11): unforeseen gene-therapy effects, human genome editing, genetic privacy and GM-food allergy/IBD are all discussed as real concerns; restoring extinct species is not mentioned. CONFIRMED BY ELIMINATION on your OLQ 6 attempt: you picked E and Canvas marked it wrong. A (gene-therapy effects), B (germline manipulation) and C (genetic privacy) are all concerns his chapter lists as real, so D, restoration of extinct species, is the one left as far-fetched.",
               "answerSource": "checked",
-              "confidence": "unsure",
-              "likelyOptions": [
-                "D",
+              "knownWrong": [
                 "E"
               ]
             },
@@ -3567,8 +3559,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text (§6.11): superweeds and super pests 'have not been observed', and the fatal health effects of GM food have not been shown, whereas farmers have actually lost lawsuits to biotech companies over seed patents - the monopoly is real. The earlier key answered superweeds, which the text says have NOT been observed.",
-              "answerSource": "corrected"
+              "answerRationale": "Course text (§6.11): superweeds and super pests 'have not been observed', and the fatal health effects of GM food have not been shown, whereas farmers have actually lost lawsuits to biotech companies over seed patents - the monopoly is real. The earlier key answered superweeds, which the text says have NOT been observed. Confirmed correct on your OLQ 6 attempt 1 (19/20).",
+              "answerSource": "graded"
             }
           ]
         }
@@ -3600,8 +3592,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Unicellular growth = growth in number, so 'a thousand bacteria generated from one' is the reality. A describes growth in size (which the text says does not really happen); C is spore formation, not growth. [PDF p.1 Part 1 intro: 'Subcellular and unicellular microbes grow by number but not by size, because the size of the parent and progeny is about the same.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Unicellular growth = growth in number, so 'a thousand bacteria generated from one' is the reality. A describes growth in size (which the text says does not really happen); C is spore formation, not growth. [PDF p.1 Part 1 intro: 'Subcellular and unicellular microbes grow by number but not by size, because the size of the parent and progeny is about the same.'] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -3631,8 +3623,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: The chapter's stated reason for 'aquatic' is that microbes quickly desiccate in dry/terrestrial settings, i.e. few adaptations to dry environments (D). The '70% of cytoplasm is water' reason in B appears nowhere in the chapter; the old key used a general-textbook fact instead of the professor's own reason. [7.1: 'Almost all microbes can be considered aquatic organisms because they quickly desiccate in open terrestrial environments and are damaged by UV radiation.' Slide: 'All microbes are essentially aquatic'.]",
-              "answerSource": "corrected"
+              "answerRationale": "Course text: The chapter's stated reason for 'aquatic' is that microbes quickly desiccate in dry/terrestrial settings, i.e. few adaptations to dry environments (D). The '70% of cytoplasm is water' reason in B appears nowhere in the chapter; the old key used a general-textbook fact instead of the professor's own reason. [7.1: 'Almost all microbes can be considered aquatic organisms because they quickly desiccate in open terrestrial environments and are damaged by UV radiation.' Slide: 'All microbes are essentially aquatic'.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q3",
@@ -3706,8 +3698,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Biofilms protect bacteria from antimicrobials and host defenses, so a lung biofilm is hardest to treat; the chapter also notes organic substances protect microbes from treatment agents (7.7). Re-checked against the paired OpenStax chapter (9.1): \"Pathogens embedded within biofilms exhibit a higher resistance to antibiotics than their free-floating counterparts.\" C.",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Biofilms protect bacteria from antimicrobials and host defenses, so a lung biofilm is hardest to treat; the chapter also notes organic substances protect microbes from treatment agents (7.7). Re-checked against the paired OpenStax chapter (9.1): \"Pathogens embedded within biofilms exhibit a higher resistance to antibiotics than their free-floating counterparts.\" C. Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q6",
@@ -3732,8 +3724,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text: The chapter names implanted inanimate devices as the biofilm substratum; an IUD or pacemaker matches exactly. [7.1: 'Bloodborne bacteria may also form biofilms on inanimate substances in the body, such as pacemakers and venous catheters.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: The chapter names implanted inanimate devices as the biofilm substratum; an IUD or pacemaker matches exactly. [7.1: 'Bloodborne bacteria may also form biofilms on inanimate substances in the body, such as pacemakers and venous catheters.'] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q7",
@@ -3758,8 +3750,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Respiratory viruses come from people breathing/sneezing, so an occupied office room's air is the source. A cooling tower is classically Legionella (a bacterium), and a modern incinerator captures its aerosols (7.10.1). [7.1 Air: 'Humans and animals release microbes through breathing and sneezing as droplets... The droplets may stay airborne for a few minutes to a few hours... Contaminated air is the primary source of respiratory infections.' Airborne vi...]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Respiratory viruses come from people breathing/sneezing, so an occupied office room's air is the source. A cooling tower is classically Legionella (a bacterium), and a modern incinerator captures its aerosols (7.10.1). [7.1 Air: 'Humans and animals release microbes through breathing and sneezing as droplets... The droplets may stay airborne for a few minutes to a few hours... Contaminated air is the primary source of respiratory infections.' Airborne vi...] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -3819,8 +3811,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: Stated directly in Table 7.1. [Table 7.1: Mesophiles 15 to 42, optimum 37.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Stated directly in Table 7.1. [Table 7.1: Mesophiles 15 to 42, optimum 37.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q10",
@@ -3871,8 +3863,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: In anoxic mud the anaerobe must get ATP without oxygen (fermentation/anaerobic respiration). A is what aerobes need; endospores are a dormancy strategy, not how it lives/grows there. (Option D carries a garbled section header 'Chemical and biological factors of microbial growth'.) [7.2.2 Oxygen: 'Obligate anaerobes (such as the genera Actinomyces, Clostridium...) and obligate fermenters ... thrive by fermenting.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: In anoxic mud the anaerobe must get ATP without oxygen (fermentation/anaerobic respiration). A is what aerobes need; endospores are a dormancy strategy, not how it lives/grows there. (Option D carries a garbled section header 'Chemical and biological factors of microbial growth'.) [7.2.2 Oxygen: 'Obligate anaerobes (such as the genera Actinomyces, Clostridium...) and obligate fermenters ... thrive by fermenting.'] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q12",
@@ -3897,8 +3889,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Stated directly. (Stem says 'oxidase'; the chapter says peroxidase - wording slip, does not change the answer.) [7.2.2: 'The enzymes that detoxify the reactive chemicals include superoxide dismutase (SOD), catalase, and peroxidase.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Stated directly. (Stem says 'oxidase'; the chapter says peroxidase - wording slip, does not change the answer.) [7.2.2: 'The enzymes that detoxify the reactive chemicals include superoxide dismutase (SOD), catalase, and peroxidase.'] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q13",
@@ -3954,8 +3946,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text: Matches the chapter's definition of a microaerophile word for word. [7.2.2: 'Some pathogens (such as Helicobacter pylori and Neisseria gonorrhoeae) require oxygen for respiration but lack an enzyme to detoxify the free radicals. These organisms are called microaerophilic organisms.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Matches the chapter's definition of a microaerophile word for word. [7.2.2: 'Some pathogens (such as Helicobacter pylori and Neisseria gonorrhoeae) require oxygen for respiration but lack an enzyme to detoxify the free radicals. These organisms are called microaerophilic organisms.'] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q15",
@@ -3984,8 +3976,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Singlet oxygen is written 1O2 in the chapter. [7.2.2: 'superoxide (O2-), hydrogen peroxide (H2O2), and singlet oxygen (1O2)'.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Singlet oxygen is written 1O2 in the chapter. [7.2.2: 'superoxide (O2-), hydrogen peroxide (H2O2), and singlet oxygen (1O2)'.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q16",
@@ -4059,8 +4051,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Pathogens in the human body get nitrogen from organic molecules (amino acids, nucleotides), not from N2 gas (nitrogen fixation is a soil-bacteria trait) or nitrate. Carbon, phosphorus (nucleic acids) and sulfur (amino acids) sources are fine. Re-checked: the Ch 5 text says pathogenic microbes get almost all their nutrients from the host body; N2 gas and nitrate are the environmental nitrogen sources, while phosphorus comes from nucleic acids and trace elements from ions dissolved in water. B is the one that is wrong for a pathogen in the body.",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Pathogens in the human body get nitrogen from organic molecules (amino acids, nucleotides), not from N2 gas (nitrogen fixation is a soil-bacteria trait) or nitrate. Carbon, phosphorus (nucleic acids) and sulfur (amino acids) sources are fine. Re-checked: the Ch 5 text says pathogenic microbes get almost all their nutrients from the host body; N2 gas and nitrate are the environmental nitrogen sources, while phosphorus comes from nucleic acids and trace elements from ions dissolved in water. B is the one that is wrong for a pathogen in the body. Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q19",
@@ -4111,8 +4103,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: Separating cells / establishing pure culture is the stated advantage of semisolid media. B is the advantage of broth; A and C are not advantages. [7.3 Broth vs semisolid: 'Broth is used for large-scale microbial culture. However, separating cellular microbes requires a semisolid medium.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Separating cells / establishing pure culture is the stated advantage of semisolid media. B is the advantage of broth; A and C are not advantages. [7.3 Broth vs semisolid: 'Broth is used for large-scale microbial culture. However, separating cellular microbes requires a semisolid medium.'] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q21",
@@ -4190,8 +4182,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Stated directly. [7.5: 'capnophile (CO2-loving) bacteria (such as Campylobacter jejuni) grow in a reduced-oxygen/high CO2 atmosphere.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Stated directly. [7.5: 'capnophile (CO2-loving) bacteria (such as Campylobacter jejuni) grow in a reduced-oxygen/high CO2 atmosphere.'] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q24",
@@ -4212,8 +4204,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text: B and C are the chapter's methods for obligate anaerobes; a candle jar still contains reduced oxygen. [7.5: candle jar is for microaerophiles/capnophiles; strict anaerobes need 'sodium thioglycolate' and 'oxygen-free (i.e., replaced by nitrogen) incubators'.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: B and C are the chapter's methods for obligate anaerobes; a candle jar still contains reduced oxygen. [7.5: candle jar is for microaerophiles/capnophiles; strict anaerobes need 'sodium thioglycolate' and 'oxygen-free (i.e., replaced by nitrogen) incubators'.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q25",
@@ -4322,8 +4314,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Working: ii = 1/10, iii = 1/100, iv = 1/1,000, v = 1/10,000. In this chapter the 0.1 ml plating volume is handled by the separate x10, not folded into df, so df = 1/10,000. The instructor-marked q29 (sample iv -> '34 x 10 x 1,000') confirms this convention. Note: had the plating volume been folded in, the answer would be 1/100,000 (D). [7.6: 'N = n x 10 x dilution factor ... 10 is to compensate for the 0.1 ml sample used for plating'; worked example 'diluted 10,000-fold'.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Working: ii = 1/10, iii = 1/100, iv = 1/1,000, v = 1/10,000. In this chapter the 0.1 ml plating volume is handled by the separate x10, not folded into df, so df = 1/10,000. The instructor-marked q29 (sample iv -> '34 x 10 x 1,000') confirms this convention. Note: had the plating volume been folded in, the answer would be 1/100,000 (D). [7.6: 'N = n x 10 x dilution factor ... 10 is to compensate for the 0.1 ml sample used for plating'; worked example 'diluted 10,000-fold'.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q29",
@@ -4371,8 +4363,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: 0.5 is within 0.2-0.9. [7.6 Turbidity: 'For Escherichia coli growing in LB broth, an A600 value of 0.2-0.9 indicates that the bacterium is in the log phase of growth. An A600 value >1.0 indicates ... stationary phase.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: 0.5 is within 0.2-0.9. [7.6 Turbidity: 'For Escherichia coli growing in LB broth, an A600 value of 0.2-0.9 indicates that the bacterium is in the log phase of growth. An A600 value >1.0 indicates ... stationary phase.'] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q31",
@@ -4393,8 +4385,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text: Working: 120 cfu / 100 ml = 1.20 cfu/ml. Only bacteria able to grow on MacConkey (G-negative) are counted, so not 'all types' (B), and not all G(-) present (non-culturable/0.4-micron-passing cells are missed). [Fig 7.10B: '121 colonies ... the bacterial count was 121 cfu/100 mL, or about 1.2 cfu/mL'; 7.5: MacConkey 'suppresses G(+) bacteria while enteric bacteria grow'.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Working: 120 cfu / 100 ml = 1.20 cfu/ml. Only bacteria able to grow on MacConkey (G-negative) are counted, so not 'all types' (B), and not all G(-) present (non-culturable/0.4-micron-passing cells are missed). [Fig 7.10B: '121 colonies ... the bacterial count was 121 cfu/100 mL, or about 1.2 cfu/mL'; 7.5: MacConkey 'suppresses G(+) bacteria while enteric bacteria grow'.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -4428,8 +4420,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Chemical treatment of an inanimate object with dilute bleach is disinfection (ILD), not sterilization (no endospore claim). Sanitizing is defined as LLD of cooking pots/utensils; antisepsis is for skin; pasteurization is physical. [Table 7.4: 'Disinfection - Elimination of microbes from inanimate objects'; 7.11: 'A 10% Clorox solution may effectively inactivate all viruses and bacterial cells in a few minutes'; Table 7.6 lists chlorine under ILD.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Chemical treatment of an inanimate object with dilute bleach is disinfection (ILD), not sterilization (no endospore claim). Sanitizing is defined as LLD of cooking pots/utensils; antisepsis is for skin; pasteurization is physical. [Table 7.4: 'Disinfection - Elimination of microbes from inanimate objects'; 7.11: 'A 10% Clorox solution may effectively inactivate all viruses and bacterial cells in a few minutes'; Table 7.6 lists chlorine under ILD.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q33",
@@ -4485,8 +4477,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: Degerming is antisepsis (live tissue), done by mechanical or chemical means - B fits the slide. A ('commercial sterilization') is not defined in the chapter and TB-level killing is ILD; C/D swap disinfection (inanimate) and antisepsis (skin); E sterilization removes ALL microbes, not just vegetative cells. Re-checked against his slide 22, 'Definition of the commonly used terms': \"Degerming - low level antisepsis by mechanical/chemical means\". His slide defines disinfection as elimination of microbes on inanimate surfaces and sterilization as freeing an object of ALL live microbes, which rules out C, D and E; OpenStax ties commercial sterilization to C. botulinum, which rules out A. B.",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Degerming is antisepsis (live tissue), done by mechanical or chemical means - B fits the slide. A ('commercial sterilization') is not defined in the chapter and TB-level killing is ILD; C/D swap disinfection (inanimate) and antisepsis (skin); E sterilization removes ALL microbes, not just vegetative cells. Re-checked against his slide 22, 'Definition of the commonly used terms': \"Degerming - low level antisepsis by mechanical/chemical means\". His slide defines disinfection as elimination of microbes on inanimate surfaces and sterilization as freeing an object of ALL live microbes, which rules out C, D and E; OpenStax ties commercial sterilization to C. botulinum, which rules out A. B. Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q35",
@@ -4511,8 +4503,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: D is the chapter's sentence. A and B are reversed; C fails because endospores, cysts and prions are more resilient than Mycobacterium/naked viruses. [7.7: 'In general, a short exposure at a high intensity is equivalent to a longer exposure at a lower intensity.' Also 'The higher the concentration of microbes, the longer the treatment must last'; organic substances protect microbes.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: D is the chapter's sentence. A and B are reversed; C fails because endospores, cysts and prions are more resilient than Mycobacterium/naked viruses. [7.7: 'In general, a short exposure at a high intensity is equivalent to a longer exposure at a lower intensity.' Also 'The higher the concentration of microbes, the longer the treatment must last'; organic substances protect microbes.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q36",
@@ -4541,13 +4533,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: The plasma membrane is the barrier that maintains the cell's internal environment, so its destruction immediately collapses homeostasis (leakage of contents, loss of gradients); the other processes fail as consequences. WHY NOT 100%: not stated in the chapter; D (ATP synthesis, membrane-bound in prokaryotes) is defensible for bacteria, and A ('all metabolic activities') is a plausible over-reach. [7.7 Targets: 'The most vulnerable microbial targets are the lipid membrane, enzymes, and the genome.' The chapter does not say what fails first when the membrane is destroyed.] SECOND CHECK (his slides, OpenStax, Exam 2 study guide): No course source says which function fails FIRST when the membrane is destroyed. Professor's own OLQ 1 key (mci14ans.txt Q3) pairs 'maintain a constant internal condition (homeostasis)' with being a cell, consistent with B. Answer still rests on general biology (membrane = barrier maintaining internal environment; leakage/lysis is immediate). D is the main competitor for prokaryotes (ETC/ATP synthase are membrane-bound). OUTSIDE REVIEW (two other AI reviewers, 2026-10-12): both chose the same answer as this key; they use general biology, not his key, so this does not remove the flag.",
-              "answerSource": "checked",
-              "confidence": "unsure",
-              "likelyOptions": [
-                "B",
-                "D"
-              ]
+              "answerRationale": "Course text: The plasma membrane is the barrier that maintains the cell's internal environment, so its destruction immediately collapses homeostasis (leakage of contents, loss of gradients); the other processes fail as consequences. Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q37",
@@ -4607,8 +4594,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Working: 100,000 = 10^5; three more D values -> 10^4, 10^3, 10^2 = 100/liter. [7.7: 'each D value reduces the microbial count by one log'.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Working: 100,000 = 10^5; three more D values -> 10^4, 10^3, 10^2 = 100/liter. [7.7: 'each D value reduces the microbial count by one log'.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q39",
@@ -4633,8 +4620,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: A heat-durable steel probe that contacts gums/blood gets sterilized (autoclaved); the chapter names endoscopes as the HLD example. [7.7: 'Durable items such as stainless-steel trays can be heat-treated'; 'Critical items should be ... sterilized before use'; Fig 7.13: 'Semi-critical items such as endoscopes must undergo HLD treatment'.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: A heat-durable steel probe that contacts gums/blood gets sterilized (autoclaved); the chapter names endoscopes as the HLD example. [7.7: 'Durable items such as stainless-steel trays can be heat-treated'; 'Critical items should be ... sterilized before use'; Fig 7.13: 'Semi-critical items such as endoscopes must undergo HLD treatment'.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q40",
@@ -4688,9 +4675,17 @@
                   "text": "naked viruses Hand washing"
                 }
               ],
-              "answer": "A",
-              "answerRationale": "Course text: By the chapter resilience ranking (prions > bacterial endospores > protozoan cysts > naked viruses > worm eggs > fungi and fungal spores > vegetative cells > enveloped viruses), killing the most resistant listed group - bacterial/fungal spores - implies killing the rest. Re-checked: Ch 7 section 7.7 says \"All microbes are inactivated if the hardiest one is eliminated\" and ranks resilience prions > bacterial endospores > protozoan cysts > naked viruses > ... > enveloped viruses. Spores are the hardiest option offered, so killing them implies killing the rest. A.",
-              "answerSource": "checked"
+              "answer": "C",
+              "answerRationale": "CORRECTED AFTER OLQ 7: you picked \"bacterial or fungal spores\" (the guide's old answer) and Canvas marked it wrong. The old reasoning was flawed: his Ch 7 section 7.7 ranks resilience prions > bacterial endospores > protozoan cysts > naked viruses > ... > fungi and fungal spores > ... > enveloped viruses, and this option lumps FUNGAL spores (low on that list) in with bacterial ones, so killing \"bacterial or fungal spores\" does not guarantee the rest are dead. The hardiest group left among the options is protozoan cysts, which outrank naked viruses, fungal forms and enveloped viruses. WHY NOT 100%: no source says which option he keyed; naked viruses are the runner-up.",
+              "answerSource": "corrected",
+              "knownWrong": [
+                "A"
+              ],
+              "confidence": "unsure",
+              "likelyOptions": [
+                "C",
+                "E"
+              ]
             },
             {
               "id": "ch7-q42",
@@ -4750,8 +4745,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: A (bar soap), C (soap before wetting), D (filter-free dryer) and E (10 s instead of 20) all contradict the chapter; B is step c. [7.8: CDC steps a) rinse, b) liquid soap, lather at least 20 s, c) 'Rinse hand surfaces well with running water', d) dry; 'Bar soaps ... are not recommended'; dryers only with HEPA filter.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: A (bar soap), C (soap before wetting), D (filter-free dryer) and E (10 s instead of 20) all contradict the chapter; B is step c. [7.8: CDC steps a) rinse, b) liquid soap, lather at least 20 s, c) 'Rinse hand surfaces well with running water', d) dry; 'Bar soaps ... are not recommended'; dryers only with HEPA filter.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q44",
@@ -4802,11 +4797,9 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: The contrast the chapter draws is that regular washing removes only environmental microbes, so medical washing goes further into the resident flora that can shed - D. A (remove all) is impossible; C is the regular-wash purpose. WHY NOT 100%: the chapter never states the purpose of medical washing in one sentence; B ('reduce microbe counts') is a generic but true description. [7.8: 'Regular handwashing is intended to remove environmental microbes from hand surfaces, not the skin's resident microbiota. Medical handwashing ... requires the use of antimicrobial soap (such as povidone-iodine) and additional scrubb...] SECOND CHECK (his slides, OpenStax, Exam 2 study guide): OpenStax supplies the missing purpose sentence: medical/surgical washing targets the RESIDENT (normal) microbiota, beyond the environmental microbes regular washing removes - that is D, and MMAHP's 'shedding' wording matches D's 'readily shed'. B is true of all washing and is the generic distractor. Not on Exam 2 (handwashing excluded); OLQ only. OUTSIDE REVIEW (two other AI reviewers, 2026-10-12): both chose the same answer as this key; they use general biology, not his key, so this does not remove the flag.",
-              "answerSource": "checked",
-              "confidence": "unsure",
-              "likelyOptions": [
-                "D",
+              "answerRationale": "Course text: The contrast the chapter draws is that regular washing removes only environmental microbes, so medical washing goes further into the resident flora that can shed - D. A (remove all) is impossible; C is the regular-wash purpose. CONFIRMED BY ELIMINATION on OLQ 7: you picked \"reduce the microbe counts\" (the runner-up) and Canvas marked it wrong. Option A describes REGULAR handwashing in his text (\"remove environmental microbes ... not the skin's resident microbiota\"), and \"remove all microbes\" is unrealistic, so D is the answer left.",
+              "answerSource": "corrected",
+              "knownWrong": [
                 "B"
               ]
             },
@@ -5000,8 +4993,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: M. tuberculosis is an airborne (aerosolized) life-threatening pathogen -> BSL-3 minimum; double doors are a BSL-3 requirement inherited by BSL-4. [7.9: 'A BSL-3 facility is required for handling pathogenic microbes that can be aerosolized and cause life-threatening infections ... equipped with double-door entrances'; BSL-4 includes BSL-3 requirements.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: M. tuberculosis is an airborne (aerosolized) life-threatening pathogen -> BSL-3 minimum; double doors are a BSL-3 requirement inherited by BSL-4. [7.9: 'A BSL-3 facility is required for handling pathogenic microbes that can be aerosolized and cause life-threatening infections ... equipped with double-door entrances'; BSL-4 includes BSL-3 requirements.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q52",
@@ -5075,12 +5068,15 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text: B (Bunsen burner) is the practice the chapter warns against. Between A and C, the figure caption ranks disposable sterile loops as safer than the conventional metal loops, and Fig 7.4 (pure-culture streaking) uses disposable loops. WHY NOT 100%: the body text names the electric loop burner and the disposable loop together as equally 'safer alternatives', so C (old key) is defensible; the figure caption is the tie-breaker. [7.10.1 Incineration: 'Some microbiologists decontaminate inoculation loops by incinerating them on a Bunsen burner. It may aerosolize microbes ... A safer alternative is to use an electric loop burner or a disposable loop.' Fig 7.18 capt...] SECOND CHECK (his slides, OpenStax, Exam 2 study guide): No new source ranks disposable vs. electric incinerator. OpenStax presents the incinerator only as better than an open flame. The figure caption (disposable safer than metal loops) remains the only tiebreaker -> A. MMAHP Fig 7.4 also streaks with disposable loops. OUTSIDE REVIEW (two other AI reviewers, 2026-10-12): both chose the same answer as this key; they use general biology, not his key, so this does not remove the flag.",
+              "answerRationale": "Course text: B (Bunsen burner) is the practice the chapter warns against. Between A and C, the figure caption ranks disposable sterile loops as safer than the conventional metal loops, and Fig 7.4 (pure-culture streaking) uses disposable loops. WHY NOT 100%: the body text names the electric loop burner and the disposable loop together as equally 'safer alternatives', so C (old key) is defensible; the figure caption is the tie-breaker. [7.10.1 Incineration: 'Some microbiologists decontaminate inoculation loops by incinerating them on a Bunsen burner. It may aerosolize microbes ... A safer alternative is to use an electric loop burner or a disposable loop.' Fig 7.18 capt...] SECOND CHECK (his slides, OpenStax, Exam 2 study guide): No new source ranks disposable vs. electric incinerator. OpenStax presents the incinerator only as better than an open flame. The figure caption (disposable safer than metal loops) remains the only tiebreaker -> A. MMAHP Fig 7.4 also streaks with disposable loops. OUTSIDE REVIEW (two other AI reviewers, 2026-10-12): both chose the same answer as this key; they use general biology, not his key, so this does not remove the flag. OLQ 7 RESULT: you picked the Bunsen-burner option and Canvas marked it wrong, so it is out. The two left are disposable plastic loops (the key) and the loop incinerator; still not settled.",
               "answerSource": "corrected",
               "confidence": "unsure",
               "likelyOptions": [
                 "A",
                 "C"
+              ],
+              "knownWrong": [
+                "B"
               ]
             },
             {
@@ -5106,8 +5102,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: Pressure of at least 15 PSI is what raises steam to 121-135 C. Higher altitude lowers the boiling point (B is backwards). [7.10.1 Autoclaving: 'maintain water vapor at 15 PSI pressure and 121 C ... The elevated pressure is necessary to increase the steam temperature to 121 C'; flash: 28 PSI, 135 C.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: Pressure of at least 15 PSI is what raises steam to 121-135 C. Higher altitude lowers the boiling point (B is backwards). [7.10.1 Autoclaving: 'maintain water vapor at 15 PSI pressure and 121 C ... The elevated pressure is necessary to increase the steam temperature to 121 C'; flash: 28 PSI, 135 C.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -5137,8 +5133,8 @@
                 }
               ],
               "answer": "D",
-              "answerRationale": "Course text: A, B and C each contradict the chapter; running the liquid cycle (conditioning/treatment/exhaust) is correct for the medium bottle. [7.10.1: 'Liquid items must be placed in a loosely capped ... vessel'; 'the autoclave door must not be opened until the exhaust step is complete'; 'Solid objects wrapped in aluminum foil ... may not be sterilized'; slide: 'Solid and liqui...]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: A, B and C each contradict the chapter; running the liquid cycle (conditioning/treatment/exhaust) is correct for the medium bottle. [7.10.1: 'Liquid items must be placed in a loosely capped ... vessel'; 'the autoclave door must not be opened until the exhaust step is complete'; 'Solid objects wrapped in aluminum foil ... may not be sterilized'; slide: 'Solid and liqui...] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q57",
@@ -5189,8 +5185,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: A is traditional batch pasteurization; D is UHT. [7.10.1: 'In the high-temperature, short-time (HTST) method, liquid products are heated for only 15 seconds at 72 C.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: A is traditional batch pasteurization; D is UHT. [7.10.1: 'In the high-temperature, short-time (HTST) method, liquid products are heated for only 15 seconds at 72 C.'] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q59",
@@ -5237,14 +5233,16 @@
                   "text": "Gamma and X-radiation: Ionize water, the resulting free radicals cause single- and double-stranded DNA breaks."
                 }
               ],
-              "answer": "C",
-              "answerRationale": "Course text: Kept B as the textbook-standard mismatch (254 nm UV acts mainly by direct DNA damage/cross-links, not by ionizing water). TEXT CONFLICT: this chapter itself files UVC (100-280 nm, which includes 254 nm) with ionizing radiation and says it 'may ionize water', which would make B a MATCH under the professor's wording. CHANGED on re-check: his Ch 7 text says \"UVC generated by mercury lamps may ionize water molecules, acting like ionizing radiation\" and Fig 7.23 lists UVC with gamma, X-ray and E-beam as ionizing, and Ch 6 says the same, so by HIS text option B matches (real physics says 254 nm UV does not ionize water, but the quiz follows his text). D matches too. That leaves A and C. C says microwaves \"kill microbes\", yet his text says microwave ovens \"fail to uniformly inactivate microbes ... can be used for warming food, not for conventional disinfection\". A (laser heat) is the runner-up. WHY NOT 100%: no source says which option is the mismatch; B was the earlier key. OUTSIDE REVIEW (two other AI reviewers, 2026-10-12): both chose C if the key follows his text, and one noted B is the real-physics mismatch because 254 nm UV is non-ionizing. Real physics would make B the mismatch; his text says UVC ionizes water, so C is kept as the best answer for his quiz and B stays on the list.",
-              "answerSource": "checked",
+              "answer": "B",
+              "answerRationale": "CORRECTED AFTER OLQ 7: you picked the microwave statement (my changed answer, and the pick of both outside AI reviewers) and Canvas marked it wrong. So the mismatch is one of the other three. The original key, B (\"UV light (254 nm): ionizes water\"), is the one that is wrong in real physics: 254 nm UV is non-ionizing and damages DNA by cross-linking bases, even though his Ch 7 text says UVC \"may ionize water\". Gamma/X-ray (D) is a true statement, and laser heat (A) is the runner-up. WHY NOT 100%: nothing states which option he keyed; B is the best remaining.",
+              "answerSource": "corrected",
               "confidence": "unsure",
               "likelyOptions": [
-                "C",
-                "A",
-                "B"
+                "B",
+                "A"
+              ],
+              "knownWrong": [
+                "C"
               ]
             }
           ]
@@ -5305,8 +5303,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text: New question. UV cannot pass through lids, caps or tissue, so B, C, D fail; hood air and thin flowing water films are the chapter's own uses. [7.10.2: 'UV rays do not penetrate well ... UVC is used to treat drinking water, fruit juice, and alcoholic beverages (in thin films), and to decontaminate air and the surfaces of operating rooms and safety cabinets'; Table 7.6 'exposed s...]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: New question. UV cannot pass through lids, caps or tissue, so B, C, D fail; hood air and thin flowing water films are the chapter's own uses. [7.10.2: 'UV rays do not penetrate well ... UVC is used to treat drinking water, fruit juice, and alcoholic beverages (in thin films), and to decontaminate air and the surfaces of operating rooms and safety cabinets'; Table 7.6 'exposed s...] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -5388,8 +5386,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: New question. 0.45 microns is above 0.40, so not all cellular microbes (D) are retained; viruses and dissolved proteins pass. Eukaryotic microbes (several microns) and larger are retained. [7.10.5: 'Filters with 0.1-0.2 micrometer nominal pore size remove all cellular microbes. However, filters with a nominal pore size of 0.40 microns or higher may not retain ... Mycoplasma and Ureaplasma ... and spirochetes (0.35 microns i...]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: New question. 0.45 microns is above 0.40, so not all cellular microbes (D) are retained; viruses and dissolved proteins pass. Eukaryotic microbes (several microns) and larger are retained. [7.10.5: 'Filters with 0.1-0.2 micrometer nominal pore size remove all cellular microbes. However, filters with a nominal pore size of 0.40 microns or higher may not retain ... Mycoplasma and Ureaplasma ... and spirochetes (0.35 microns i...] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -5445,8 +5443,8 @@
                 }
               ],
               "answer": "A",
-              "answerRationale": "Course text: New question. Mechanism = protein/membrane denaturation, and phenolics are the milder agents. D's 'more effective' half is true but cross-linking is the aldehyde/epoxide mechanism; C's 'more expensive' is reversed. [7.11: 'Phenol dissolves lipid membranes and denatures proteins ... Phenol is highly pungent, caustic, expensive, and unstable'; 'Some phenolics are less pungent, inexpensive, and more effective than phenol'; Table 7.6 phenolics '(denatur...]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: New question. Mechanism = protein/membrane denaturation, and phenolics are the milder agents. D's 'more effective' half is true but cross-linking is the aldehyde/epoxide mechanism; C's 'more expensive' is reversed. [7.11: 'Phenol dissolves lipid membranes and denatures proteins ... Phenol is highly pungent, caustic, expensive, and unstable'; 'Some phenolics are less pungent, inexpensive, and more effective than phenol'; Table 7.6 phenolics '(denatur...] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q68",
@@ -5506,8 +5504,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: New question. Cross-linking is the shared biochemical effect; UV is the only physical method the chapter describes as cross-linking. Moist heat and high pressure denature; gamma breaks DNA via radicals; ultrasound disrupts membranes. [7.11: aldehydes and epoxides 'inactivate microbes by cross-linking the -NH2, -OH, -COOH, -SH functional groups of the macromolecules'; 7.10.2: 'High doses of UVA and UVB cross-link DNA, RNA, and proteins'; Fig 7.23C 'UV-induced cross-lin...]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: New question. Cross-linking is the shared biochemical effect; UV is the only physical method the chapter describes as cross-linking. Moist heat and high pressure denature; gamma breaks DNA via radicals; ultrasound disrupts membranes. [7.11: aldehydes and epoxides 'inactivate microbes by cross-linking the -NH2, -OH, -COOH, -SH functional groups of the macromolecules'; 7.10.2: 'High doses of UVA and UVB cross-link DNA, RNA, and proteins'; Fig 7.23C 'UV-induced cross-lin...] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -5590,8 +5588,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: New question. Stated directly; A is explicitly ruled out. [7.11: 'sodium monophosphofluoride (NaFPO4) is added to the municipal water supply ... Fluoride reacts with tooth enamel, preventing tooth decay. Fluoridation of water has no antimicrobial effect.']",
-              "answerSource": "checked"
+              "answerRationale": "Course text: New question. Stated directly; A is explicitly ruled out. [7.11: 'sodium monophosphofluoride (NaFPO4) is added to the municipal water supply ... Fluoride reacts with tooth enamel, preventing tooth decay. Fluoridation of water has no antimicrobial effect.'] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q73",
@@ -5639,8 +5637,8 @@
                 }
               ],
               "answer": "B",
-              "answerRationale": "Course text: New question. Stated directly. [7.11 Metal compounds: 'Bordeaux mixture, an aqueous solution of Ca(OH)2 and CuSO4' (Ca(OH)2 = slaked lime); 'A dilute CuSO4 solution (about 0.1 mg/liter) is highly effective in controlling algal blooms'.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: New question. Stated directly. [7.11 Metal compounds: 'Bordeaux mixture, an aqueous solution of Ca(OH)2 and CuSO4' (Ca(OH)2 = slaked lime); 'A dilute CuSO4 solution (about 0.1 mg/liter) is highly effective in controlling algal blooms'.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             },
             {
               "id": "ch7-q75",
@@ -5669,8 +5667,8 @@
                 }
               ],
               "answer": "E",
-              "answerRationale": "Course text: New question. E directly contradicts the chapter. Minor wording oddities in the others (C says 'benzyl' for benzoyl and 'astringent'; D says 'cooking utensils' for 'food containers') are close paraphrases, not the intended error. [7.11: 'Sodium perborate is used in laundry detergents and some whitening toothpastes, but its primary purpose is bleaching, not disinfection.' Also: ozone for drinking water; 0.2% peracetic acid sterilizes solid surfaces (HLD in Table 7....]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: New question. E directly contradicts the chapter. Minor wording oddities in the others (C says 'benzyl' for benzoyl and 'astringent'; D says 'cooking utensils' for 'food containers') are close paraphrases, not the intended error. [7.11: 'Sodium perborate is used in laundry detergents and some whitening toothpastes, but its primary purpose is bleaching, not disinfection.' Also: ozone for drinking water; 0.2% peracetic acid sterilizes solid surfaces (HLD in Table 7....] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             }
           ]
         },
@@ -5696,8 +5694,8 @@
                 }
               ],
               "answer": "C",
-              "answerRationale": "Course text: New question. A is reversed (soaps reduce surface tension); CHAPS and NP-40 are used for membrane-protein extraction/lysis, not as antimicrobials; the quat benzalkonium chloride is the antimicrobial detergent. [7.11 Soaps and detergents: 'Soaps are less effective in hard water ... Detergents are unaffected by water hardness'; quats 'may inactivate vegetative cells and enveloped viruses ... benzalkonium chloride'.]",
-              "answerSource": "checked"
+              "answerRationale": "Course text: New question. A is reversed (soaps reduce surface tension); CHAPS and NP-40 are used for membrane-protein extraction/lysis, not as antimicrobials; the quat benzalkonium chloride is the antimicrobial detergent. [7.11 Soaps and detergents: 'Soaps are less effective in hard water ... Detergents are unaffected by water hardness'; quats 'may inactivate vegetative cells and enveloped viruses ... benzalkonium chloride'.] Confirmed correct on your OLQ 7 attempt 1 (18/20).",
+              "answerSource": "graded"
             }
           ]
         }
