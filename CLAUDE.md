@@ -389,9 +389,8 @@ covering the room you are trying to identify.
 - **Callouts are settled LAST**, against the finished label picture, then fan out through
   eight directions at four distances. A door is never dropped on collision; if nothing is
   clear it draws anyway.
-- **`Locked Door` is in `DEFAULT_ON`** alongside Extraction, Location and BTR Stop —
-  `visibleCats` is not persisted, so leaving it off meant re-ticking it on every map load.
-  It is 5 callouts on Woods and 55 on Streets.
+- **`Locked Door` is NOT auto-on** (reversed 2026-10-13). Trey's rule: only categories inside a
+  preset flagged ★ default auto-select on load. It is 5 callouts on Woods and 55 on Streets.
 
 ### 🔴 Marker tooltips are FORMATTED now — never inject `marker.desc` raw again
 
@@ -541,9 +540,9 @@ place we override it, so **do not "fix" it back** to match mapgenie.
   new colour. `SpriteMarkerLayer._draw` now measures every ordinary label first, then settles
   the persisting ones against that finished picture, nudging vertically. A BTR label is never
   dropped on collision, only moved; if every candidate collides it draws anyway, on top.
-- **`BTR Stop` is in `DEFAULT_ON`** alongside Extraction and Location. `visibleCats` is NOT
-  persisted — it resets to that set on every map load — so leaving it off meant re-ticking it
-  every single time. It costs six to eight compact red labels now rather than pin art.
+- **`BTR Stop` is NOT auto-on** (reversed 2026-10-13, same rule as Locked Door above). The
+  09-22 preset migration had copied it into his stored "Default view" preset; migration v2 in
+  `MapView.jsx` strips it, and nothing is ever folded into an existing preset again.
 
 ---
 

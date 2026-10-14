@@ -42,24 +42,27 @@ const loadLockIndex = () => {
   return lockIndexPromise;
 };
 
-// Opening a map with all ~40 categories on is an unreadable wall of pins. These four are the
-// orientation layer — where you can leave, where the taxi stops, what the places are called,
-// and where the locked doors are — so they are the only ones on by default. Everything else
-// is opt-in. Extraction/Location were the original two; BTR Stop joined 2026-09-11 (it now
-// draws as compact red text rather than pin art, see eftMapLabels) and Locked Door joined
-// 2026-09-13 (the key overlay Trey asked for).
+// Opening a map with all ~40 categories on is an unreadable wall of pins. Extraction and
+// Location are the orientation layer and seed the starter preset. BTR Stop and Locked Door
+// were added to this list in September and Trey did not want them auto-on — see NEVER_SEEDED.
 //
 // Trey, 2026-09-22: these were never supposed to live as a hardcoded JS constant that only an
 // agent could change — "the only filters that are auto-selected should be ones that are set
-// within a preset." So this list is ONLY the seed/migration data now: it seeds the starter
-// preset for a first-time user (below) and, once, folds these four into whatever preset an
-// existing user already has (see the presetsDefaultMigrated migration in the load effect).
+// within a preset." So this list is ONLY the seed data now: it seeds the starter preset for a
+// first-time user (below). Nothing is ever folded into a preset the user already has.
 // What actually auto-applies on load is `defaultVisibleFromPresets` — the union of every
 // preset with `isDefault: true` — which the user can see, edit, and turn off entirely from the
 // Presets panel (the ★ on each preset row). visibleCats itself is still never persisted
 // directly: anything turned on ad hoc during a session is gone on the next reload, same as
 // before.
-const DEFAULT_ON = new Set(['Extraction', 'Location', 'BTR Stop', 'Locked Door']);
+const DEFAULT_ON = new Set(['Extraction', 'Location']);
+
+// Trey, 2026-10-13: BTR Stop and Locked Door were still switching themselves on at load, against
+// his rule that only what a preset holds auto-selects. The 09-22 migration had copied them into
+// his stored "Default view" preset. They are removed from that seed preset once (migration v2) and
+// the migration no longer folds any category in — an existing preset is never added to by us.
+const NEVER_SEEDED = new Set(['BTR Stop', 'Locked Door']);
+const MIGRATION_VERSION = 2;
 
 /**
  * The Mine category is the one place on this map where trusting the pins can actually get you
@@ -122,14 +125,11 @@ const seedPresets = (categories) => [{
 // any preset already have isDefault" — a user who deliberately un-defaults every preset (to
 // mean "nothing auto-selects") must have that choice survive a reload, not get re-migrated.
 const migrateDefaultPreset = (stored, categories) => {
-  const wanted = defaultVisible(categories);
-  if (!wanted.size) return stored;
-  const idx = stored.findIndex((p) => p.id === 'seed-extract-location');
-  if (idx !== -1) {
-    const merged = new Set([...(stored[idx].categories || []), ...wanted]);
-    return stored.map((p, i) => (i === idx ? { ...p, categories: [...merged], isDefault: true } : p));
-  }
-  return [...stored, { id: 'seed-extract-location', title: 'Default view', categories: [...wanted], isDefault: true }];
+  const strip = new Set((categories || []).filter((c) => NEVER_SEEDED.has(c.title)).map((c) => c.id));
+  if (!strip.size) return stored;
+  return stored.map((p) => (p.id === 'seed-extract-location'
+    ? { ...p, categories: (p.categories || []).filter((id) => !strip.has(id)) }
+    : p));
 };
 
 const uid = () => `p${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
@@ -324,11 +324,11 @@ export default function MapView() {
       setData(d);
 
       const storedPresets = MapStore.getPresets(mapKey);
-      const alreadyMigrated = MapStore.getPresetsDefaultMigrated(mapKey);
+      const migratedAt = Number(MapStore.getPresetsDefaultMigrated(mapKey)) || 0;
       const resolvedPresets = storedPresets == null
         ? seedPresets(d.categories)
-        : alreadyMigrated ? storedPresets : migrateDefaultPreset(storedPresets, d.categories);
-      if (!alreadyMigrated) MapStore.setPresetsDefaultMigrated(mapKey, true);
+        : migratedAt >= MIGRATION_VERSION ? storedPresets : migrateDefaultPreset(storedPresets, d.categories);
+      if (migratedAt < MIGRATION_VERSION) MapStore.setPresetsDefaultMigrated(mapKey, MIGRATION_VERSION);
       setPresets(resolvedPresets);
       setVisibleCats(defaultVisibleFromPresets(resolvedPresets, d.categories));
 
