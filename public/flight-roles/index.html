@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:,">
+<title>Flight Roles Chart</title>
+<style>
+  :root {
+    --bg:#f4f6fa; --fg:#1b2230; --muted:#667085; --card:#ffffff; --line:#d5dae4; --accent:#2b5fd9;
+    --new:#2f9e4f; --ok:#3a78e0; --rpt:#d9a400; --blk:#d33a3a; --na:#1a1a1a; --gold:#ffbf1f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#12151c; --fg:#e8ebf2; --muted:#9aa3b2; --card:#1b2030; --line:#2e3548; --accent:#6b93f0; --na:#000; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:12px 14px 40px; background:var(--bg); color:var(--fg);
+         font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+  h1 { font-size:18px; margin:0 0 2px; }
+  .sub { color:var(--muted); margin:0 0 12px; font-size:12.5px; }
+  .top { display:flex; justify-content:space-between; align-items:flex-start; gap:14px; }
+  .legend-wrap { position:relative; flex:none; }
+  #lgPanel { position:absolute; right:0; top:calc(100% + 6px); z-index:40; width:min(380px, calc(100vw - 28px));
+             background:var(--card); border:1px solid var(--line); border-radius:8px; padding:10px 12px;
+             box-shadow:0 8px 24px rgba(0,0,0,.28); font-size:12.5px; }
+  #lgPanel[hidden] { display:none; }
+  #lgPanel h2 { font-size:13px; margin:0 0 6px; }
+  #lgPanel .lg { display:flex; gap:10px; align-items:flex-start; padding:4px 0; }
+  #lgPanel .lg .chip { flex:none; }
+  #lgPanel .lg b { display:block; }
+  #lgPanel .lg span.t { color:var(--muted); }
+  #lgPanel hr { border:0; border-top:1px solid var(--line); margin:6px 0; }
+  .banner { background:var(--card); border:1px solid var(--accent); border-radius:8px; padding:6px 10px; margin-bottom:10px;
+            display:flex; gap:10px; align-items:center; font-size:12.5px; }
+  .banner[hidden] { display:none; }
+  .bar { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; background:var(--card);
+         border:1px solid var(--line); border-radius:8px; padding:8px 10px; margin-bottom:10px; }
+  .bar label { display:flex; gap:5px; align-items:center; font-size:12.5px; color:var(--muted); }
+  .bar input[type=text], select { background:var(--bg); color:var(--fg); border:1px solid var(--line);
+         border-radius:5px; padding:4px 6px; font:inherit; }
+  button { background:var(--bg); color:var(--fg); border:1px solid var(--line); border-radius:5px;
+           padding:4px 9px; font:inherit; cursor:pointer; }
+  button:hover:not([disabled]) { border-color:var(--accent); }
+  button[disabled] { opacity:.5; cursor:default; }
+  .grow { flex:1; }
+  .chip { display:inline-block; min-width:34px; text-align:center; padding:1px 6px; border-radius:4px;
+          color:#fff; font-weight:600; font-size:11.5px; }
+  .s-new{background:var(--new)} .s-ok{background:var(--ok)} .s-rpt{background:var(--rpt)}
+  .s-blk{background:var(--blk)} .s-na{background:var(--na)}
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 10px; margin-bottom:10px; }
+  .panel h2 { font-size:13px; margin:0 0 6px; }
+  .slate { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:6px 12px; }
+  .slate label { display:flex; flex-direction:column; gap:2px; font-size:12px; color:var(--muted); }
+  .slate select { width:100%; }
+  .warn { margin:8px 0 0; padding:0; list-style:none; font-size:12.5px; }
+  .warn li { padding:2px 0; }
+  .warn .bad { color:var(--blk); } .warn .soft { color:#a77b00; } .warn .good { color:var(--new); }
+  .btns { margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .how { margin-top:8px; font-size:12.5px; color:var(--muted); }
+  .how summary { cursor:pointer; color:var(--fg); }
+  .how ol { margin:6px 0 0; padding-left:20px; }
+  .wrap { overflow-x:auto; background:var(--card); border:1px solid var(--line); border-radius:8px; }
+  table { border-collapse:collapse; width:100%; }
+  col.l { width:1%; }
+  th, td { padding:3px 4px; border-bottom:1px solid var(--line); text-align:center; white-space:nowrap; }
+  th { position:sticky; top:0; background:var(--card); font-size:12px; z-index:1; cursor:pointer; user-select:none; }
+  th.sorted { color:var(--accent); }
+  th.grp { color:var(--muted); font-weight:500; cursor:default; }
+  td.name { text-align:left; font-weight:600; padding-right:8px; }
+  td select { font-size:11.5px; padding:1px 1px; }
+  .rm { margin-left:6px; padding:0 5px; line-height:15px; font-size:12px; color:var(--muted); opacity:.5; }
+  .rm:hover { opacity:1; color:var(--blk); border-color:var(--blk) !important; }
+  .cell { display:flex; width:100%; min-width:58px; max-width:120px; margin:0 auto; height:28px; border-radius:5px; color:#fff; font-weight:700; font-size:12px;
+          align-items:center; justify-content:center; cursor:pointer; border:2px solid transparent; user-select:none; }
+  .cell:hover { filter:brightness(1.15); }
+  .cell.assigned { border-color:var(--gold); box-shadow:0 0 0 2px var(--gold) inset; }
+  .tw { font-weight:600; font-size:12px; }
+  .dim { opacity:.55; }
+  .note { color:var(--muted); font-size:12px; margin-top:10px; }
+  .hb { margin-left:3px; padding:0 4px; font-size:10px; line-height:16px; color:var(--muted); }
+  .hb:hover { color:var(--accent); }
+  .hb.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+  #menu { position:fixed; z-index:50; min-width:220px; max-width:290px; background:var(--card); color:var(--fg);
+          border:1px solid var(--line); border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.28); padding:6px; font-size:12.5px; }
+  #menu[hidden] { display:none; }
+  #menu .mb { display:block; width:100%; text-align:left; border:0; background:none; padding:5px 8px; border-radius:5px; }
+  #menu .mb:hover:not([disabled]) { background:var(--bg); }
+  #menu hr { border:0; border-top:1px solid var(--line); margin:4px 0; }
+  #menu input[type=text] { width:100%; margin:2px 0 5px; }
+  #menu .mlist { max-height:250px; overflow:auto; border:1px solid var(--line); border-radius:5px; padding:2px 4px; }
+  #menu .mi { display:flex; gap:6px; align-items:center; padding:2px; cursor:pointer; white-space:nowrap; }
+  #menu .mc { margin-left:auto; color:var(--muted); padding-left:10px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div>
+    <h1>Flight Roles Chart</h1>
+    <p class="sub">Click a coloured cell to assign that cadet to that role (click again to clear). Use the ▾ on any column header to sort or filter, like Excel. Changes save in this browser only; use “Copy share link” to hand the chart to someone else.</p>
+  </div>
+  <div class="legend-wrap">
+    <button id="lgBtn" aria-expanded="false" aria-controls="lgPanel">Legend ▾</button>
+    <div id="lgPanel" hidden>
+      <h2>What the colours mean</h2>
+      <div class="lg"><span class="chip s-new">new</span><div><b>Never held a role</b><span class="t">This cadet has never had any flight role. Best pick if you want to spread roles around.</span></div></div>
+      <div class="lg"><span class="chip s-ok">ok</span><div><b>Held a different role</b><span class="t">They've had a role before, just not this one. Fine to assign.</span></div></div>
+      <div class="lg"><span class="chip s-rpt">rpt</span><div><b>Repeat from two weeks ago</b><span class="t">They held this exact role two weeks ago. Allowed, but a repeat.</span></div></div>
+      <div class="lg"><span class="chip s-blk">✕</span><div><b>Blocked</b><span class="t">They held this role last week, are the Flight Commander this week, or (for Deputy) were last week's Flight Commander.</span></div></div>
+      <div class="lg"><span class="chip s-na">—</span><div><b>Not eligible</b><span class="t">AS100 cadets can't hold the BCL-only roles (Deputy, Standardization, Academic, Drill &amp; Ceremony).</span></div></div>
+      <div class="lg"><span class="chip" style="background:var(--na);border:2px solid var(--gold)">★</span><div><b>Assigned this week</b><span class="t">Gold outline means this cadet is in that role on this week's slate.</span></div></div>
+      <hr>
+      <div class="lg"><span class="chip" style="background:var(--bg);color:var(--muted);border:1px solid var(--line)">▾</span><div><b>Column menu</b><span class="t">Sort or filter that column. A blue ▾ means a filter is on.</span></div></div>
+    </div>
+  </div>
+</header>
+
+<div class="banner" id="banner" hidden><span id="bannerText"></span><span class="grow"></span><button id="bannerX">Dismiss</button></div>
+
+<div class="bar">
+  <label>Search <input type="text" id="q" placeholder="name…" size="12"></label>
+  <label>Can fill
+    <select id="fRole"><option value="">Any role</option></select>
+  </label>
+  <label><input type="checkbox" id="fNever"> Never held a role</label>
+  <label><input type="checkbox" id="fFree"> Not assigned yet</label>
+  <label>Sort
+    <select id="sKey"></select>
+  </label>
+  <button id="sDir" title="Reverse sort">↑</button>
+  <button id="bClearF" title="Reset every column filter and the search/checkbox filters">Clear all filters</button>
+  <span class="grow"></span>
+  <span id="count" class="sub" style="margin:0"></span>
+</div>
+
+<div class="panel">
+  <h2>This week's slate</h2>
+  <div class="slate" id="slate"></div>
+  <ul class="warn" id="warn"></ul>
+  <div class="btns">
+    <button id="bCopy">Copy slate</button>
+    <button id="bShare">Copy share link</button>
+    <button id="bRoll" title="Lock this week in: slate becomes Wk-1, Wk-1 becomes Wk-2, slate clears">Roll forward to next week</button>
+    <button id="bUndo">Undo last roll</button>
+    <button id="bAdd">Add cadet</button>
+    <button id="bClear">Clear slate</button>
+    <button id="bReset">Reset all data</button>
+    <span id="copied" class="sub" style="margin:0"></span>
+  </div>
+  <p class="sub" style="margin:8px 0 0" id="rolled"></p>
+  <details class="how">
+    <summary>Weekly routine for the Flight Commander</summary>
+    <ol>
+      <li>Pick yourself as Flight Commander at the top of the slate.</li>
+      <li>Fill the other seven roles. Green and blue cells are good picks; the warnings above tell you if a pick breaks a rule.</li>
+      <li>When the week's roles are final, press <b>Roll forward to next week</b>. This week's slate becomes Wk-1, the old Wk-1 becomes Wk-2, and the slate, Flight Commander and “Must” boxes clear.</li>
+      <li>Press <b>Copy share link</b> and send it to the next Flight Commander. The link carries the whole chart, so they open it exactly as you left it.</li>
+    </ol>
+  </details>
+</div>
+
+<div class="wrap"><table id="grid"></table></div>
+
+<p class="note">Rules baked in: BCL-only roles are Deputy, Standardization, Academic and Drill &amp; Ceremony. Same role as last week is blocked, last week's Flight Commander can't be Deputy, and the Flight Commander holds no other role. “Must” is for any cadet your leadership says has to be assigned this week. Captain and POCs aren't listed.</p>
+
+<script>
+const DATA_VERSION = 1;
+const STORE = 'astral.flightRoles';
+
+const ROLES = [
+  { id:'Deputy',          label:'Deputy',          bcl:true  },
+  { id:'Standardization', label:'Standardization', bcl:true  },
+  { id:'Academic',        label:'Academic',        bcl:true  },
+  { id:'Drill',           label:'Drill & Cer.',    bcl:true  },
+  { id:'PT',              label:'Phys. Fitness',   bcl:false },
+  { id:'Morale',          label:'Morale',          bcl:false },
+  { id:'Safety',          label:'Safety/Supply',   bcl:false },
+];
+const ROLE_BY_ID = Object.fromEntries(ROLES.map(r => [r.id, r]));
+const OFFICER = { Standardization:'Standardization Officer', Drill:'Drill and Ceremony Officer', PT:'Physical Fitness Officer', Morale:'Morale Officer', Safety:'Safety/Supply Officer', Deputy:'GMC Deputy', Academic:'Academic Officer' };
+const SHORT = { 'Flight Commander':'Flt Cdr', Deputy:'Deputy', Standardization:'Std', Academic:'Acad', Drill:'D&C', PT:'PT', Morale:'Morale', Safety:'Safety' };
+const HIST_ROLES = [{ id:'Flight Commander', label:'Flight Commander' }, ...ROLES];
+const HIST_ORDER = ['', ...HIST_ROLES.map(r => r.id)];
+const LEVELS = ['100', 'BCL'];
+const LEVEL_LABEL = { '100':'AS100', 'BCL':'BCL' };
+
+/* Roster and history as of the roll-forward on 2026-10-13, after Lamb's final slate:
+   Deputy Brooker, Standardization Burdick, Academic Scott, Drill & Ceremony Nelson (Josh),
+   PT Mason, Morale Garretson, Safety/Supply Klotthor. Wk-1 = that week, Wk-2 = the week before.
+   `had` = held a role earlier than Wk-2 (so "never held a role" stays true to the person). */
+function defaults() {
+  const d = (name, level, wk1, wk2, had) => ({ name, level, wk1:wk1 || '', wk2:wk2 || '', must:false, had:!!had });
+  return {
+    v: DATA_VERSION, rolledOn: '2026-10-13', fc: '', assign: {}, prev: null,
+    cadets: [
+      d('Hatch','BCL','','',true),
+      d('Nelson (Josh)','BCL','Drill'),
+      d('Bell','BCL','','Deputy',true),
+      d('Rogers','BCL','','Standardization'),
+      d('Brooker','BCL','Deputy','Academic'),
+      d('Scott','BCL','Academic','Drill'),
+      d('Burdick','BCL','Standardization','',true),
+      d('Jensen','BCL','','',true),
+      d('Nelson (Brady)','BCL','','',true),
+      d('Thrift','BCL','','Flight Commander'),
+      d('Stevens','BCL','','Safety',true),
+      d('Garretson','100','Morale'),
+      d('Klotthor','100','Safety'),
+      d('Mason','100','PT'),
+      d('Wiegman','100','','PT'),
+      d('Lund','100','','Morale'),
+      d('Schwalb','100','','',true),
+      d('Lamb','BCL','Flight Commander','',true),
+    ],
+  };
+}
+
+/* ---------- state, persistence, sharing ---------- */
+function sanitize(d, keepPrev) {
+  if (!d || typeof d !== 'object' || !Array.isArray(d.cadets) || d.cadets.length > 80) return null;
+  const seen = new Set(), cadets = [];
+  for (const c of d.cadets) {
+    const name = String((c && c.name) || '').trim().slice(0, 40);
+    if (!name || seen.has(name)) continue;
+    seen.add(name);
+    cadets.push({
+      name, level: c.level === '100' ? '100' : 'BCL',
+      wk1: HIST_ORDER.includes(c.wk1) ? c.wk1 : '', wk2: HIST_ORDER.includes(c.wk2) ? c.wk2 : '',
+      must: !!c.must, had: !!c.had,
+    });
+  }
+  if (!cadets.length) return null;
+  const assign = {};
+  for (const r of ROLES) { const n = d.assign && d.assign[r.id]; if (typeof n === 'string' && seen.has(n)) assign[r.id] = n; }
+  return {
+    v: DATA_VERSION, rolledOn: String(d.rolledOn || '').slice(0, 10),
+    fc: typeof d.fc === 'string' && seen.has(d.fc) ? d.fc : '',
+    assign, cadets, prev: keepPrev && typeof d.prev === 'string' ? d.prev : null,
+  };
+}
+function shareable(st) { return { v:st.v, rolledOn:st.rolledOn, fc:st.fc, assign:st.assign, cadets:st.cadets }; }
+function encodeShare(o) {
+  return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function decodeShare(h) {
+  try {
+    const b = h.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(decodeURIComponent(escape(atob(b + '==='.slice((b.length + 3) % 4)))));
+  } catch (e) { return null; }
+}
+
+let notice = '';
+function initialState() {
+  const m = location.hash.match(/^#s=(.+)$/);
+  if (m) {
+    const d = sanitize(decodeShare(m[1]));
+    if (d) {
+      try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+      notice = 'Loaded from a shared link. This browser now holds its own copy; your changes won\'t affect the sender\'s.';
+      return d;
+    }
+  }
+  try {
+    const raw = localStorage.getItem(STORE);
+    if (raw) {
+      const j = JSON.parse(raw);
+      if (j && j.v === DATA_VERSION) { const d = sanitize(j, true); if (d) return d; }
+    }
+  } catch (e) {}
+  return defaults();
+}
+let S = initialState();
+function save() { try { localStorage.setItem(STORE, JSON.stringify(S)); } catch (e) {} }
+save();
+
+let view = { q:'', role:'', never:false, free:false, sortKey:'orig', dir:1, excl:{} };
+
+const esc = s => String(s).replace(/[&<>"]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m]));
+const byName = n => S.cadets.find(c => c.name === n);
+function $(s) { return document.querySelector(s); }
+function todayISO() {
+  const t = new Date();
+  return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+}
+
+/* ---------- rules ---------- */
+function held(c) { return (c.wk1 ? 1 : 0) + (c.wk2 ? 1 : 0); }
+const everHeld = c => held(c) > 0 || c.had;
+
+function cellState(c, r) {
+  if (c.name === S.fc) return 'blk';
+  if (r.bcl && c.level === '100') return 'na';
+  if (c.wk1 === r.id || (r.id === 'Deputy' && c.wk1 === 'Flight Commander')) return 'blk';
+  if (c.wk2 === r.id) return 'rpt';
+  if (!everHeld(c)) return 'new';
+  return 'ok';
+}
+const GLYPH = { new:'new', ok:'ok', rpt:'rpt', blk:'✕', na:'—' };
+const RANK  = { new:0, ok:1, rpt:2, blk:4, na:5 };
+
+function tip(c, r, st) {
+  if (c.name === S.fc) return c.name + ' is the Flight Commander this week';
+  if (st === 'na')  return c.name + ' is ' + LEVEL_LABEL[c.level] + '; ' + r.label + ' is BCL-only';
+  if (st === 'blk') return r.id === 'Deputy' && c.wk1 === 'Flight Commander' && c.wk1 !== r.id
+    ? c.name + ' was last week\'s Flight Commander and can\'t be Deputy' : c.name + ' held ' + r.label + ' last week';
+  if (st === 'rpt') return c.name + ' held ' + r.label + ' two weeks ago';
+  if (st === 'new') return c.name + ' has never held a role';
+  return c.name + ' has held a different role, not ' + r.label;
+}
+
+function assignedRole(name) { return ROLES.find(r => S.assign[r.id] === name); }
+function setAssign(roleId, name) {
+  if (!name) { delete S.assign[roleId]; return; }
+  for (const r of ROLES) if (S.assign[r.id] === name) delete S.assign[r.id];
+  S.assign[roleId] = name;
+}
+function setFC(name) {
+  S.fc = name;
+  if (name) for (const r of ROLES) if (S.assign[r.id] === name) delete S.assign[r.id];
+}
+
+/* ---------- columns, filtering, sorting ---------- */
+const STATUS_LABEL = { new:'New (never held any role)', ok:'OK (held a different role)', rpt:'Repeat (held it 2 wks ago)', blk:'Blocked', na:'Not eligible (AS100)' };
+const histShow = v => v ? SHORT[v] : '(blank)';
+const weekOf = c => c.name === S.fc ? 'fc' : (assignedRole(c.name) ? assignedRole(c.name).id : '');
+
+const COLS = [
+  { key:'name',  label:'Cadet', kind:'text', val:c => c.name, show:v => v, sv:c => c.name.toLowerCase() },
+  { key:'level', label:'Level', kind:'text', val:c => c.level, show:v => LEVEL_LABEL[v], order:LEVELS, sv:c => LEVELS.indexOf(c.level) },
+  { key:'wk1',   label:'Wk-1',  kind:'text', val:c => c.wk1 || '', show:histShow, order:HIST_ORDER, sv:c => HIST_ORDER.indexOf(c.wk1 || '') },
+  { key:'wk2',   label:'Wk-2',  kind:'text', val:c => c.wk2 || '', show:histShow, order:HIST_ORDER, sv:c => HIST_ORDER.indexOf(c.wk2 || '') },
+  { key:'held',  label:'Held',  kind:'num',  val:c => String(held(c)), show:v => v, order:['0','1','2'], sv:c => held(c) },
+  { key:'must',  label:'Must',  kind:'text', val:c => c.must ? 'yes' : 'no', show:v => v === 'yes' ? 'Yes' : 'No', order:['yes','no'], sv:c => c.must ? 0 : 1 },
+  ...ROLES.map(r => ({ key:'role:' + r.id, label:r.label, kind:'fit', val:c => cellState(c, r), show:v => STATUS_LABEL[v],
+                       order:['new','ok','rpt','blk','na'], sv:c => RANK[cellState(c, r)] })),
+  { key:'week',  label:'This week', kind:'text', val:c => weekOf(c), show:v => v === 'fc' ? 'Flight Commander' : v ? ROLE_BY_ID[v].label : '(none)',
+    order:['fc', '', ...ROLES.map(r => r.id)], sv:c => { const w = weekOf(c); return w === 'fc' ? -1 : w ? ROLES.indexOf(ROLE_BY_ID[w]) : 99; } },
+];
+const COL_BY_KEY = Object.fromEntries(COLS.map(c => [c.key, c]));
+
+function visibleCadets() {
+  const q = view.q.trim().toLowerCase();
+  const list = S.cadets.map((c, i) => ({ c, i })).filter(({ c }) => {
+    if (q && !c.name.toLowerCase().includes(q)) return false;
+    if (view.never && everHeld(c)) return false;
+    if (view.free && (assignedRole(c.name) || c.name === S.fc)) return false;
+    if (view.role) {
+      const st = cellState(c, ROLE_BY_ID[view.role]);
+      if (st === 'na' || st === 'blk') return false;
+    }
+    for (const col of COLS) {
+      const ex = view.excl[col.key];
+      if (ex && ex.has(col.val(c))) return false;
+    }
+    return true;
+  });
+  const col = COL_BY_KEY[view.sortKey];
+  list.sort((a, b) => {
+    let r = 0;
+    if (col) {
+      const x = col.sv(a.c), y = col.sv(b.c);
+      r = typeof x === 'string' ? x.localeCompare(y) : x - y;
+    }
+    return r ? r * view.dir : a.i - b.i;
+  });
+  return list.map(x => x.c);
+}
+function activeFilterCount() {
+  return Object.keys(view.excl).length + (view.q.trim() ? 1 : 0) + (view.never ? 1 : 0) + (view.free ? 1 : 0) + (view.role ? 1 : 0);
+}
+
+/* ---------- rendering ---------- */
+function renderSlate() {
+  const people = S.cadets.map(c => '<option value="' + esc(c.name) + '">' + esc(c.name) + '</option>').join('');
+  $('#slate').innerHTML =
+    '<label>GMC Flight Commander<select data-fc><option value="">— choose yourself —</option>' + people + '</select></label>' +
+    ROLES.map(r => '<label>' + esc(r.label) + (r.bcl ? ' (BCL only)' : '') +
+      '<select data-slate="' + r.id + '"><option value="">— empty —</option>' + people + '</select></label>').join('');
+  $('#slate [data-fc]').value = S.fc;
+  for (const sel of document.querySelectorAll('[data-slate]')) sel.value = S.assign[sel.dataset.slate] || '';
+}
+
+function renderWarn() {
+  const out = [];
+  if (!S.fc) out.push('<li class="bad">Pick the Flight Commander (you) at the top of the slate.</li>');
+  for (const r of ROLES) {
+    const n = S.assign[r.id];
+    if (!n) { out.push('<li class="bad">' + esc(r.label) + ' is empty.</li>'); continue; }
+    const c = byName(n);
+    if (!c) continue;
+    const st = cellState(c, r);
+    if (st === 'na' || st === 'blk') out.push('<li class="bad">' + esc(tip(c, r, st)) + '.</li>');
+    else if (st === 'rpt') out.push('<li class="soft">' + esc(tip(c, r, st)) + ' — legal, but a repeat.</li>');
+  }
+  for (const c of S.cadets) if (c.must && !assignedRole(c.name) && c.name !== S.fc) out.push('<li class="bad">' + esc(c.name) + ' must be assigned a position and isn\'t.</li>');
+  if (!out.length) out.push('<li class="good">Slate is full and every pick passes the rules.</li>');
+  $('#warn').innerHTML = out.join('');
+  $('#rolled').textContent = S.rolledOn ? 'History last rolled forward on ' + S.rolledOn + '.' : '';
+  $('#bUndo').disabled = !S.prev;
+}
+
+function arrow(key) { return view.sortKey === key ? (view.dir === 1 ? ' ▲' : ' ▼') : ''; }
+function hdr(key) {
+  const col = COL_BY_KEY[key];
+  const on = view.excl[key] && view.excl[key].size;
+  return '<th data-col="' + key + '" class="' + (view.sortKey === key ? 'sorted' : '') + '"' + (key === 'name' ? ' style="text-align:left"' : '') + '>' +
+    esc(col.label) + arrow(key) + '<button class="hb' + (on ? ' on' : '') + '" data-col="' + key + '" title="Sort / filter ' + esc(col.label) + '">▾</button></th>';
+}
+
+function renderGrid() {
+  const rows = visibleCadets();
+  let h = '<colgroup>' + '<col class="l">'.repeat(6) + ROLES.map(() => '<col>').join('') + '<col class="l"></colgroup><thead><tr>' +
+    '<th class="grp"></th><th class="grp"></th><th colspan="3" class="grp">Past roles</th><th class="grp"></th>' +
+    '<th colspan="4" class="grp">BCL-only</th><th colspan="3" class="grp">Open to BC &amp; BCL</th><th class="grp"></th></tr><tr>' +
+    COLS.map(c => hdr(c.key)).join('') + '</tr></thead><tbody>';
+
+  const histOpts = sel => '<option value=""></option>' + HIST_ROLES.map(r => '<option value="' + r.id + '"' + (sel === r.id ? ' selected' : '') + '>' + esc(SHORT[r.id]) + '</option>').join('');
+  const lvlOpts = sel => LEVELS.map(l => '<option value="' + l + '"' + (sel === l ? ' selected' : '') + '>' + LEVEL_LABEL[l] + '</option>').join('');
+
+  for (const c of rows) {
+    const w = weekOf(c);
+    h += '<tr data-name="' + esc(c.name) + '">' +
+      '<td class="name">' + esc(c.name) + '<button class="rm" title="Remove ' + esc(c.name) + ' from the chart">×</button></td>' +
+      '<td><select data-f="level">' + lvlOpts(c.level) + '</select></td>' +
+      '<td><select data-f="wk1">' + histOpts(c.wk1) + '</select></td>' +
+      '<td><select data-f="wk2">' + histOpts(c.wk2) + '</select></td>' +
+      '<td title="Weeks held in the last two">' + held(c) + '</td>' +
+      '<td><input type="checkbox" data-f="must"' + (c.must ? ' checked' : '') + '></td>';
+    for (const r of ROLES) {
+      const st = cellState(c, r);
+      const isA = S.assign[r.id] === c.name;
+      h += '<td><span class="cell s-' + st + (isA ? ' assigned' : '') + '" data-role="' + r.id + '" title="' + esc(tip(c, r, st)) + '">' +
+           (isA ? '★' : GLYPH[st]) + '</span></td>';
+    }
+    h += '<td class="tw">' + (w === 'fc' ? 'Flight Commander' : w ? esc(ROLE_BY_ID[w].label) : '<span class="dim">—</span>') + '</td></tr>';
+  }
+  h += '</tbody>';
+  $('#grid').innerHTML = h;
+  $('#count').textContent = 'Showing ' + rows.length + ' of ' + S.cadets.length;
+  const n = activeFilterCount();
+  $('#bClearF').textContent = n ? 'Clear all filters (' + n + ')' : 'Clear all filters';
+  $('#bClearF').disabled = !n;
+}
+
+function renderBanner() {
+  $('#banner').hidden = !notice;
+  $('#bannerText').textContent = notice;
+}
+function renderAll() { renderSlate(); renderWarn(); renderGrid(); renderBanner(); }
+
+/* ---------- Excel-style column menu ---------- */
+const menu = document.createElement('div');
+menu.id = 'menu'; menu.hidden = true;
+document.body.appendChild(menu);
+let menuCol = null, menuQ = '';
+const SORT_LABELS = { text:['Sort A → Z', 'Sort Z → A'], num:['Sort smallest → largest', 'Sort largest → smallest'], fit:['Best fit first', 'Worst fit first'] };
+
+function colValues(col) {
+  return col.order || [...new Set(S.cadets.map(col.val))].sort((a, b) => a.localeCompare(b));
+}
+function shownValues() {
+  const q = menuQ.toLowerCase();
+  return colValues(menuCol).filter(v => menuCol.show(v).toLowerCase().includes(q));
+}
+function openMenu(key, anchor) {
+  menuCol = COL_BY_KEY[key]; menuQ = '';
+  menu.hidden = false;
+  renderMenu();
+  const r = anchor.getBoundingClientRect();
+  menu.style.top = (r.bottom + 4) + 'px';
+  menu.style.left = Math.max(4, Math.min(r.left, window.innerWidth - menu.offsetWidth - 8)) + 'px';
+}
+function closeMenu() { menu.hidden = true; menuCol = null; }
+function renderMenu() {
+  const col = menuCol, ex = view.excl[col.key];
+  const [a, b] = SORT_LABELS[col.kind];
+  const mark = d => (view.sortKey === col.key && view.dir === d) ? '✓ ' : '';
+  menu.innerHTML =
+    '<button class="mb" data-act="asc">' + mark(1) + a + '</button>' +
+    '<button class="mb" data-act="desc">' + mark(-1) + b + '</button>' +
+    '<hr>' +
+    '<button class="mb" data-act="clear"' + (ex && ex.size ? '' : ' disabled') + '>Clear filter from “' + esc(col.label) + '”</button>' +
+    '<hr>' +
+    '<input type="text" id="mq" placeholder="Search…" autocomplete="off">' +
+    '<div class="mlist" id="mlist"></div>';
+  renderList();
+}
+function renderList() {
+  const col = menuCol, ex = view.excl[col.key] || new Set();
+  const shown = shownValues();
+  const allOn = shown.length > 0 && shown.every(v => !ex.has(v));
+  const count = v => S.cadets.filter(c => col.val(c) === v).length;
+  $('#mlist').innerHTML =
+    '<label class="mi"><input type="checkbox" data-all' + (allOn ? ' checked' : '') + '> (Select all)</label>' +
+    shown.map(v => '<label class="mi"><input type="checkbox" data-v="' + esc(v) + '"' + (ex.has(v) ? '' : ' checked') + '> ' +
+      esc(col.show(v)) + '<span class="mc">' + count(v) + '</span></label>').join('');
+}
+function syncSort() { $('#sKey').value = view.sortKey; $('#sDir').textContent = view.dir === 1 ? '↑' : '↓'; }
+
+menu.addEventListener('click', e => {
+  const act = e.target.closest('[data-act]');
+  if (!act || act.disabled || !menuCol) return;
+  if (act.dataset.act === 'clear') { delete view.excl[menuCol.key]; renderGrid(); renderMenu(); return; }
+  view.sortKey = menuCol.key; view.dir = act.dataset.act === 'asc' ? 1 : -1;
+  syncSort(); renderGrid(); closeMenu();
+});
+menu.addEventListener('input', e => { if (e.target.id === 'mq') { menuQ = e.target.value; renderList(); } });
+menu.addEventListener('change', e => {
+  if (!menuCol) return;
+  const key = menuCol.key;
+  const ex = view.excl[key] || (view.excl[key] = new Set());
+  if (e.target.matches('[data-all]')) {
+    for (const v of shownValues()) { if (e.target.checked) ex.delete(v); else ex.add(v); }
+  } else if (e.target.matches('[data-v]')) {
+    if (e.target.checked) ex.delete(e.target.dataset.v); else ex.add(e.target.dataset.v);
+  }
+  if (!ex.size) delete view.excl[key];
+  renderList(); renderGrid();
+  const clr = menu.querySelector('[data-act=clear]');
+  if (clr) clr.disabled = !view.excl[key];
+});
+document.addEventListener('mousedown', e => {
+  if (!menu.hidden && !menu.contains(e.target) && !e.target.closest('.hb')) closeMenu();
+  const lp = $('#lgPanel');
+  if (!lp.hidden && !lp.contains(e.target) && e.target !== $('#lgBtn')) setLegend(false);
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMenu(); setLegend(false); } });
+window.addEventListener('scroll', e => { if (!menu.hidden && !menu.contains(e.target)) closeMenu(); }, true);
+window.addEventListener('resize', closeMenu);
+
+/* ---------- legend ---------- */
+function setLegend(open) {
+  $('#lgPanel').hidden = !open;
+  $('#lgBtn').setAttribute('aria-expanded', String(open));
+  $('#lgBtn').textContent = open ? 'Legend ▴' : 'Legend ▾';
+}
+
+/* ---------- weekly actions ---------- */
+function rollForward() {
+  const snap = JSON.stringify(shareable(S));
+  const next = S.cadets.map(c => {
+    const a = assignedRole(c.name);
+    const role = c.name === S.fc ? 'Flight Commander' : (a ? a.id : '');
+    return { name:c.name, level:c.level, wk2:c.wk1, wk1:role, had:c.had || !!c.wk2, must:false };
+  });
+  S.prev = snap; S.cadets = next; S.assign = {}; S.fc = ''; S.rolledOn = todayISO();
+}
+
+/* ---------- wiring ---------- */
+(function init() {
+  $('#fRole').innerHTML += ROLES.map(r => '<option value="' + r.id + '">' + esc(r.label) + '</option>').join('');
+  $('#sKey').innerHTML = '<option value="orig">Original order</option>' + COLS.map(c => '<option value="' + c.key + '">' + esc(c.label) + '</option>').join('');
+
+  $('#lgBtn').addEventListener('click', () => setLegend($('#lgPanel').hidden));
+  $('#bannerX').addEventListener('click', () => { notice = ''; renderBanner(); });
+
+  $('#q').addEventListener('input', e => { view.q = e.target.value; renderGrid(); });
+  $('#fRole').addEventListener('change', e => {
+    view.role = e.target.value;
+    if (view.role) { view.sortKey = 'role:' + view.role; view.dir = 1; syncSort(); }
+    renderGrid();
+  });
+  $('#fNever').addEventListener('change', e => { view.never = e.target.checked; renderGrid(); });
+  $('#fFree').addEventListener('change', e => { view.free = e.target.checked; renderGrid(); });
+  $('#sKey').addEventListener('change', e => { view.sortKey = e.target.value; syncSort(); renderGrid(); });
+  $('#sDir').addEventListener('click', () => { view.dir *= -1; syncSort(); renderGrid(); });
+  $('#bClearF').addEventListener('click', () => {
+    view.excl = {}; view.q = ''; view.never = false; view.free = false; view.role = '';
+    $('#q').value = ''; $('#fNever').checked = false; $('#fFree').checked = false; $('#fRole').value = '';
+    closeMenu(); renderGrid();
+  });
+
+  $('#grid').addEventListener('click', e => {
+    const hb = e.target.closest('.hb');
+    if (hb) {
+      if (!menu.hidden && menuCol && menuCol.key === hb.dataset.col) closeMenu(); else openMenu(hb.dataset.col, hb);
+      return;
+    }
+    const rm = e.target.closest('.rm');
+    if (rm) {
+      const name = rm.closest('tr').dataset.name;
+      if (!confirm('Remove ' + name + ' from the chart?')) return;
+      S.cadets = S.cadets.filter(c => c.name !== name);
+      for (const r of ROLES) if (S.assign[r.id] === name) delete S.assign[r.id];
+      if (S.fc === name) S.fc = '';
+      save(); renderAll(); return;
+    }
+    const th = e.target.closest('th[data-col]');
+    if (th) {
+      const k = th.dataset.col;
+      if (view.sortKey === k) view.dir *= -1; else { view.sortKey = k; view.dir = 1; }
+      syncSort(); renderGrid(); return;
+    }
+    const cell = e.target.closest('.cell');
+    if (cell) {
+      const name = cell.closest('tr').dataset.name, role = cell.dataset.role;
+      setAssign(role, S.assign[role] === name ? '' : name);
+      if (S.fc === name) S.fc = '';
+      save(); renderAll();
+    }
+  });
+  $('#grid').addEventListener('change', e => {
+    const f = e.target.dataset.f;
+    if (!f) return;
+    const c = byName(e.target.closest('tr').dataset.name);
+    c[f] = f === 'must' ? e.target.checked : e.target.value;
+    save(); renderAll();
+  });
+  $('#slate').addEventListener('change', e => {
+    if (e.target.dataset.fc !== undefined) { setFC(e.target.value); save(); renderAll(); return; }
+    const id = e.target.dataset.slate;
+    if (!id) return;
+    setAssign(id, e.target.value);
+    if (S.fc === e.target.value) S.fc = '';
+    save(); renderAll();
+  });
+
+  const flash = msg => { $('#copied').textContent = msg; setTimeout(() => { $('#copied').textContent = ''; }, 3500); };
+  const copy = async (text, ok) => {
+    try { await navigator.clipboard.writeText(text); flash(ok); }
+    catch (e) { window.prompt('Copy this:', text); }
+  };
+
+  $('#bCopy').addEventListener('click', () => {
+    const lines = ['GMC Flight Commander: ' + (S.fc || '—')].concat(ROLES.map(r => OFFICER[r.id] + ': ' + (S.assign[r.id] || '—')));
+    copy(lines.join('\n'), 'Slate copied.');
+  });
+  $('#bShare').addEventListener('click', () => {
+    const url = location.href.split('#')[0] + '#s=' + encodeShare(shareable(S));
+    copy(url, 'Share link copied (' + url.length + ' characters).');
+  });
+  $('#bRoll').addEventListener('click', () => {
+    if (!confirm('Roll forward to next week?\n\nThis week\'s slate becomes Wk-1, the old Wk-1 becomes Wk-2, and the slate, Flight Commander and "Must" boxes clear.\n\nYou can undo it once with "Undo last roll".')) return;
+    rollForward(); save(); renderAll(); flash('Rolled forward.');
+  });
+  $('#bUndo').addEventListener('click', () => {
+    const d = S.prev ? sanitize(JSON.parse(S.prev)) : null;
+    if (!d) return;
+    S = d; save(); renderAll(); flash('Roll undone.');
+  });
+  $('#bAdd').addEventListener('click', () => {
+    const name = (window.prompt('Cadet name, as it should appear in the chart:') || '').trim().slice(0, 40);
+    if (!name) return;
+    if (S.cadets.some(c => c.name.toLowerCase() === name.toLowerCase())) { alert(name + ' is already in the chart.'); return; }
+    const bcl = confirm(name + ' — AS200/250 (BCL)?\n\nOK = BCL, Cancel = AS100');
+    S.cadets.push({ name, level: bcl ? 'BCL' : '100', wk1:'', wk2:'', must:false, had:false });
+    save(); renderAll();
+  });
+  $('#bClear').addEventListener('click', () => { S.assign = {}; save(); renderAll(); });
+  $('#bReset').addEventListener('click', () => {
+    if (!confirm('Reset the whole chart (roster, levels, history and slate) to the data this page shipped with?')) return;
+    S = defaults(); save(); renderAll();
+  });
+
+  syncSort();
+  renderAll();
+})();
+</script>
+</body>
+</html>
