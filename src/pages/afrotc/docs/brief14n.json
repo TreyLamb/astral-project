@@ -3,129 +3,152 @@
   "n": 1,
   "title": "Air Force Intelligence",
   "notes": [
-   "your hook — you have about 3–5 minutes total, don't over-explain the title itself.",
-   "— a commander can't act on what they don't know."
+   "Open with the hook. You have three to four minutes in total, so do not spend any of it explaining the title.",
+   "One sentence to land early: a commander cannot act on what they do not know, and intelligence officers are the people who find out."
   ]
  },
  {
   "n": 2,
-  "title": "Overview",
+  "title": "What we’ll cover",
   "notes": [
-   "This is a roadmap slide — mainly useful if you're running the longer version of this talk.",
-   "If you're tight on the 3–5 minute window, you can cut this slide entirely and go straight from the title to the mission slide — an agenda slide costs you 20–30 seconds you may not have. If you keep it, don't read every line, just name the topics."
+   "This is a roadmap. Name the six topics in one sentence and move on. Reading every card aloud costs time you do not have.",
+   "If you run short on time, cut this slide first and go straight from the title to the next one."
   ]
  },
  {
   "n": 3,
-  "title": "In Their Own Words",
+  "title": "Where Intel fits Air Force-wide",
   "notes": [
-   "You asked for Einstein specifically, but I left him out — the “Information is not knowledge, the only source of knowledge is experience” line usually pinned on him is confirmed misattributed (the Einstein Archives have no record of it; it traces to Frank Zappa in 1979, not Einstein). I swapped in Sherman Kent instead, who's arguably a better fit anyway — he's literally called “the father of intelligence analysis” and spent 17 years at the CIA formalizing the discipline.",
-   "Every quote here (center and the scattered edge fragments) is independently verified against a primary or authoritative source, not pulled from a quote-aggregator site and trusted blindly: Sun Tzu's Art of War (multiple chapters), Lao Tzu's Tao Te Ching, George Washington's actual 1777 letter to Col. Elias Dayton (via the Library of Congress / Founders Archives), Sherman Kent's 1949 book, Churchill's remark at the Tehran Conference (authentic, though possibly based on an older Russian proverb — noted for completeness), and Francis Bacon's 1597 “Meditationes Sacrae” (his real original wording — the famous Latin “scientia potentia est” is actually Thomas Hobbes', not Bacon's).",
-   "FIXED 2026-10-01: this slide previously printed \"All warfare is based on deception\" TWICE among the edge fragments. The second one has been replaced with \"Knowledge of the enemy's dispositions can only be obtained from other men\" (Sun Tzu, Art of War Ch. 13, Lionel Giles translation, 1910) - verified, and a better fit because it is the classical argument for HUMINT. The edge quotes still echo a couple of the center themes on purpose rather than reaching for something unverified just to fill space. This slide was built for fun/visual interest per your request, not as required content — delete it freely if it doesn't fit the tone of your talk."
+   "Squadron and wing level: at a flying wing the intelligence flight normally sits in the Operations Support Squadron, under the Operations Group. Some intelligence officers are attached to a flying squadron itself. [Sources 7, 18]",
+   "MAJCOM level: a MAJCOM is a major command. Examples are Air Combat Command (ACC), Air Mobility Command (AMC), Air Force Special Operations Command (AFSOC), and Pacific Air Forces (PACAF). ACC calls itself the lead command for fighter, command and control, intelligence, surveillance and reconnaissance. MAJCOM intelligence staffs oversee training, qualification, and standards for their units. [Source 19]",
+   "Be careful with one old phrase: the earlier version of this slide said MAJCOMs \"set intelligence requirements and priorities.\" That is an oversimplification. During an operation, the priorities come from the commander being supported, through that commander’s priority intelligence requirements. [Sources 1, 19]",
+   "National level: NASIC (National Air and Space Intelligence Center) is at Wright-Patterson AFB, Ohio. It characterizes foreign air, space, missile, and cyber threats and also exploits captured foreign equipment. Its heritage goes back to 1917 at McCook Field. In World War II its predecessors studied captured enemy aircraft at Wright Field. [Source 20]",
+   "DIA provides military intelligence to warfighters and defense policymakers. NSA leads U.S. signals intelligence and cybersecurity. NGA’s director is the national functional manager for geospatial intelligence. NSIC is the Space Force’s intelligence center, also at Wright-Patterson. None of these is an Air Force-only organization, except NASIC. [Source 21]"
   ]
  },
  {
   "n": 4,
-  "title": "The Mission",
+  "title": "Requirements",
   "notes": [
-   "Colonel John Boyd, a USAF fighter pilot and strategist, developed it after studying why American F-86 pilots consistently beat the technically superior MiG-15 in Korea: not better hardware, but faster decision cycles. He formalized the idea in his 1976 essay \"Destruction and Creation\" and his 1986 briefing \"Patterns of Conflict.\" The core claim: whoever cycles through Observe → Orient → Decide → Act faster than their opponent can react is effectively always fighting yesterday's situation — they're \"behind the loop.\"",
-   "Intelligence's role: the \"Orient\" step is where a decision-maker's mental model of the situation gets built, and that model is only as good as the intelligence feeding it. Bad or late intelligence doesn't just slow the loop down, it corrupts it — the commander acts confidently on wrong information. That's the strongest answer if anyone asks \"why does this job matter\": intel officers are the input to the fastest possible decision cycle, not just people filing reports."
+   "Degree: airforce.com asks for a bachelor’s degree in one of these fields: science, humanities, social sciences, structured analysis, engineering, or mathematics. That covers most majors, but it is not the same as \"any degree.\" The officer directory points to a 14N education matrix that is not public, so confirm the exact list with your detachment. Also on airforce.com: a passing AFOQT score. [Sources 7, 1]",
+   "Citizenship: the 14N pages do not say it in so many words. It comes from two rules above them. Federal law limits a regular commission to U.S. citizens (10 U.S.C. 532), and intelligence community policy says anyone who needs SCI access must be a U.S. citizen (ICD 704). [Source 11]",
+   "Tier 5: this is the investigation that used to be called an SSBI. The 2016 officer directory said SSBI; the current one says Tier 5. It looks back up to 10 years for where you lived, worked, and went to school, and 7 years for things like foreign contacts and finances. It includes an Enhanced Subject Interview with you, plus record checks and interviews with references. [Sources 1, 12]",
+   "Timing: the old figure of 12–24 months reflects the backlog of 2018 and 2019, when end-to-end Top Secret cases took about 410 days. Government data for fiscal 2026 show the investigation step itself at about 60 days. The whole process for the fastest 90 percent of cases reads around five months off the chart. That last figure is read from a chart, so say \"around five months.\" No official source gives a separate number for SCI. SCI access and a polygraph can add time. [Source 13]",
+   "You can get the entry-level AFSC before the investigation finishes, if you hold an interim Top Secret clearance. The officer directory says so directly. [Source 1]",
+   "No prior experience: the entry requirement is completing the Intelligence Officer Initial Skills Course, which you take after commissioning. Nothing in the directory asks for prior intelligence work. [Source 1]",
+   "SEIs, in plain terms: DAFMAN 36-2100 says SEIs \"identify special experience and training not otherwise identified\" and that they are \"not substitutes for AFSCs.\" An officer SEI is a three-character code: one activity-code character and a two-character experience set. The officer directory says SEIs carry no AFSC restrictions, so a code is not tied to one career field. A unit commander awards an SEI once you meet its criteria. Once awarded it stays on your record and does not expire, though it can be withdrawn if you lose the qualification, for example by losing your clearance. So a 14N who earns an SEI is still a 14N. [Sources 1, 3]",
+   "An officer SEI is not even tied to a specialty. DAFMAN 36-2100 says the personnel system has no way to associate officer SEIs with AFSCs. You earn one by meeting its training and experience criteria, not just by sitting in a coded job. [Source 3]",
+   "Which SEIs 14Ns can earn: the current officer SEI tables are behind a Common Access Card login, so they cannot be checked from outside. The only published list I could open is the 2010 officer directory. Its experience sets for 14N include targeting, analysis, collection management, HUMINT, SIGINT, MASINT, imagery, geospatial, ISR operations, space, and special operations. It has nothing for \"special access programs.\" The earlier version of this slide listed that, so it came off. [Source 22]"
   ]
  },
  {
   "n": 5,
-  "title": "Two Tracks, One Mission",
+  "title": "The training pipeline",
   "notes": [
-   "You commission via AFROTC, OTS, or USAFA — that line got trimmed off the card since your own path (AFROTC) already makes it obvious, but it's worth having ready if asked.",
-   "One fact that got cut when the career-progression slide was removed, and is worth keeping in your back pocket: new officers commission as O-1 (2nd Lieutenant) and promote automatically through O-3 (Captain) based on time in service — no board required until Major (O-4). Say the word if you want a rank-timeline slide added back in.",
-   "Also useful for Q&A: \"14N\" and \"1N0X1\" are Air Force Specialty Codes (AFSCs). The 14-series is officer-level; 1N is intelligence enlisted. The \"N\" doesn't abbreviate anything specific — it's just the assigned career-field letter."
+   "Course length: say \"several months.\" The earlier version of this slide said 8.5 weeks, and that number was wrong for this course. On airforce.com, 8.5 weeks is the length of Officer Training School at Maxwell AFB, Alabama. The page never mentions the intelligence course or Goodfellow. [Source 7]",
+   "No official source I could reach gives the real length. The best estimate is about six months, from a cadet-detachment AFSC guide, and a 2020 Guard vacancy notice gives about 26 weeks. Other websites say about four months and about eight weeks. A redesign of the course, called Learning Next, began as a beta in 2018. Ask your cadre or anyone who has been through it. [Sources 8, 16, 17]",
+   "Official course names: the officer directory calls it the \"Intelligence Officer Initial Skills Course.\" Goodfellow’s fact sheet lists it as the \"14N1 – Intelligence Officer Course,\" taught by the 315th Training Squadron. [Sources 1, 8]",
+   "Skill levels: 14N1 is awarded when you finish that course. 14N3, the fully qualified level, needs mission qualification (the directory names IQT/MQT and mission certification) and at least 36 months performing intelligence functions. An older 2002 training plan says 18 months. The current directory says 36. [Source 1]",
+   "First assignment: at a flying wing, the intelligence flight normally sits in the Operations Support Squadron under the Operations Group. Some officers are attached to a flying squadron instead. [Sources 7, 18]",
+   "Goodfellow: the 17th Training Group says it trains all of the Air Force’s intelligence courses. Some training is delivered elsewhere, such as language training at the Defense Language Institute in Monterey and human intelligence training at Fort Huachuca. For scale, the 315th Training Squadron trains more than 3,300 students a year with over 220 permanent staff. [Source 8]"
   ]
  },
  {
   "n": 6,
-  "title": "Raw Data → Usable Intel",
+  "title": "Why intel exists",
   "notes": [
-   "SIMPLIFIED to 5:\u000b6 and 7: TechINT, and CI – CI is OSI mission.\u000b A little more depth on each, useful if someone asks a follow-up question:",
-   "SIGINT splits into two sub-types: COMINT (intercepted communications) and ELINT (non-communication signals, like radar emissions).",
-   "GEOINT is run nationally by the NGA (National Geospatial-Intelligence Agency) and is broader than \"satellite photos\" — it includes mapping, terrain data, and anything imagery-derived.",
-   "HUMINT is by far the oldest form of intelligence (older than any technology-based INT) and includes legitimate liaison/diplomatic contacts, not just clandestine sources.",
-   "MASINT is the least well-known INT outside the community — it's about technical signatures rather than content: recognizing a specific radar or engine by its electronic \"fingerprint\" rather than intercepting what it's saying.",
-   "OSINT has grown enormously because of social media and commercial satellite imagery — a lot of what used to require classified collection is now publicly purchasable or scrapable.",
-   "Why the slide now says \"five MAIN collection disciplines\": the Air Force's own 14N career-field documentation lists SIX disciplines - these five plus TECHINT (technical intelligence, the exploitation of captured or acquired foreign equipment). Joint doctrine (JP 2-0) lists SEVEN by adding counterintelligence (CI), though in the Air Force CI is an OSI mission, not a 14N one. \"Five\" is a recruiting-page simplification, so if anyone pushes on the number, that is the answer - and it shows you read the career-field standard rather than the brochure."
+   "About the heading: this slide used to be titled \"The Mission.\" That was the earlier writer’s label, not an official mission. The Air Force’s mission statement is \"to fly, fight, and win…airpower anytime, anywhere\" (released 8 April 2021). \"My mission is to Fly, Fight, and Win\" is a line from the Airman’s Creed (2007). Intelligence officers do not have a separate mission statement. What the Air Force does publish for the 14N is the specialty summary in the officer directory, and the sentence on this slide comes from it. [Sources 1, 23]",
+   "The official sentence is: \"Leads and performs intelligence activities across the full range of military operations supporting the Air Force’s Service Core Function (SCF) of Global Integrated Intelligence, Surveillance and Reconnaissance (ISR).\" The rest of the slide paraphrases duties 2.4 and 2.5 in the same directory. The headline, \"how the Air Force knows what it doesn’t know,\" is a slogan we wrote, not Air Force wording. [Source 1]",
+   "OODA: Colonel John Boyd was an Air Force fighter pilot who retired in 1975. The loop appears in his briefing \"Patterns of Conflict.\" The best-known version of that briefing is dated December 1986. His 1976 essay \"Destruction and Creation\" does not mention the loop. [Source 15]",
+   "Boyd and Korea: Boyd used the F-86 against the MiG-15 as an example, even though the MiG could climb higher and faster. Accounts of his reasoning credit two things about the F-86: its bubble canopy, which let pilots see more, and its fully hydraulic flight controls, which let them change maneuvers faster. So it was a faster observe-and-act cycle. It is not correct to say hardware did not matter. Avoid quoting a kill ratio. Published figures such as 8 to 1 and 10 to 1 were later revised downward. [Sources 15, 24]",
+   "Decision advantage: the Air Force’s ISR strategic vision from about 2013 is titled \"AF ISR 2023: Delivering Decision Advantage.\" It says ISR should lead to \"compressed observe, orient, decide, and act (OODA) loops.\" AFDP 2-0 (May 2026) defines decision advantage as \"the ability to make better, faster, and more effective decisions than an adversary.\" I could not confirm that the current National Intelligence Strategy uses the phrase, so credit it to Air Force doctrine. [Sources 4, 6]",
+   "The line \"intelligence feeds the Orient step\" is our own way of connecting the two ideas. It is a fair reading, but it is not a quotation from Boyd or from doctrine."
   ]
  },
  {
   "n": 7,
-  "title": "Putting It Together",
+  "title": "The officer role, and the team beside it",
   "notes": [
-   "The formal DoD definition (Joint Publication 2-0): all-source intelligence is intelligence products, organizations, and activities that incorporate all sources of information — HUMINT, GEOINT, MASINT, SIGINT, and OSINT — into one finished product. That's the actual doctrinal wording, not slide paraphrase.",
-   "One tradecraft detail that shows real understanding if it comes up: analysts commonly grade a source's reliability and a specific report's credibility separately (a reliable source can still report something implausible, and vice versa). A well-known framework for this is the NATO \"Admiralty System,\" which rates source reliability A–F and information credibility 1–6 (e.g. \"B2\" = usually reliable source, probably true information). You don't need this on the slide — it's just a good answer if someone asks \"how do they know what to trust?\""
+   "Officer duties come from the officer directory. It says officers \"direct, plan, manage, and conduct\" intelligence activities, serve as \"the commander’s senior intelligence advisor,\" lead Airmen through the intelligence process, produce fused all-source analysis, and manage collection. Do not say officers brief aircrew \"before every mission.\" No official source says that. Enlisted analysts also brief before missions. Say \"briefs commanders and aircrew.\" [Source 1]",
+   "The enlisted side is a family of specialties, not just 1N0X1. From the enlisted directory: 1N0X1 All Source Intelligence Analyst; 1N1X1 Geospatial Intelligence; 1N2X1 Signals Intelligence; 1N3X1 Cryptologic Language Analyst; 1N4X1 Cyber Intelligence; 1N4X2 Cryptologic Analyst and Reporter; 1N7X1 Human Intelligence Specialist; 1N8X1 Targeting Analyst. [Source 2]",
+   "Reading the codes: in 14N, the 1 is the career group (Operations), the 14 is the utilization field (intelligence and information operations), the N is a functional-area letter, and the last digit is the skill level. DAFMAN 36-2100 does not say the N stands for a word, and I found no official source that gives it a meaning. Say \"it is a classification code.\" Also, 14 is not \"operations support.\" That is the 16-series. [Source 3]",
+   "Rank: new officers commission as second lieutenants. Promotion to first lieutenant and captain is close to automatic for officers in good standing, but it is not guaranteed. An officer can be found not qualified, and captain goes through a promotion process with selects and non-selects. The first truly competitive board is for major. [Source 25]"
   ]
  },
  {
   "n": 8,
-  "title": "Getting There",
+  "title": "The five main collection disciplines (“INTs”)",
   "notes": [
-   "\"Tier 5 Investigation\" used to be called an SSBI (Single Scope Background Investigation) — same process, renamed. It's the deepest level of federal background investigation, required for Top Secret access and anything involving Sensitive Compartmented Information (SCI).",
-   "It covers roughly the last 10 years of your life: every address, employer, school, foreign contact, and financial record, verified through record checks plus in-person interviews — including an \"Enhanced Subject Interview\" with you directly, and interviews with people who know you personally and professionally. That's genuinely why it takes as long as it does - it's real investigative legwork, not paperwork sitting on a desk. On timing: the slide used to say 12–24 months, which reflected the old clearance backlog and now reads as out of date. Current published processing figures put Top Secret commonly under a year, with TS/SCI (which adds SCI indoctrination and sometimes a polygraph) running longer. The honest driver of variance is your own background - foreign contacts, foreign travel, finances, dual citizenship - not paperwork speed.",
-   "SEIs (Special Experience Identifiers) are a tracking code the Air Force uses to flag who's had extra training beyond their base AFSC — they're not separate jobs, just tags that make someone eligible for specialized taskings."
+   "Who performs the INTs? The sources support a split that is close to, but not exactly, \"enlisted perform and officers fuse.\" On the enlisted side, the specialties are mostly organized by discipline: geospatial (1N1), signals (1N2), language (1N3), cyber (1N4), and human intelligence (1N7), plus all-source (1N0) and targeting (1N8). No enlisted specialty is titled MASINT or OSINT. [Source 2]",
+   "On the officer side there is one AFSC, 14N, with no discipline shredouts. The directory says officers use \"subject matter expertise in the six intelligence disciplines\" and lead Airmen through the intelligence process. It also has officers doing hands-on work: producing fused all-source analysis and \"directing, scheduling, and controlling specific collection platforms, sensors and HUMINT sources.\" RAND’s 2009 study says nine older officer specialties were merged into the single 14N in 1994 to produce \"broadened specialists.\" Officers can still build depth in one area through assignments and SEIs. [Sources 1, 26]",
+   "Why the slide says \"five main\": the officer directory lists six disciplines, adding technical intelligence (TECHINT), which is the exploitation of foreign equipment. Joint doctrine (JP 2-0, 2013 edition) lists seven by adding counterintelligence. In the Air Force, counterintelligence belongs to the Special Investigations career area (OSI), not to 14N. [Sources 1, 9]",
+   "SIGINT has three sub-types, not two: communications intelligence (COMINT), electronic intelligence (ELINT, such as radar emissions), and foreign instrumentation signals intelligence (FISINT, such as missile telemetry). [Source 9]",
+   "GEOINT is imagery, imagery intelligence, and geospatial information, which includes mapping, charting, and geodetic data. NGA’s director is the national functional manager for it. [Sources 9, 21]",
+   "HUMINT: a government OPSEC handbook calls it \"the oldest method for collecting information about a foreign power\" and notes that most of it is collected openly by diplomats and attachés. That handbook is from 1996, so attribute the phrase to it. [Source 27]",
+   "MASINT is measurement of the physical attributes of targets and events to characterize and identify them. Careful with the \"radar fingerprint\" example: identifying a specific radar by its signal is also called technical ELINT. An engine or aircraft signature is a cleaner MASINT example. [Source 9]",
+   "OSINT: the 2024 intelligence community OSINT strategy says it is \"increasingly important and growing in demand.\" Reporting credits social media and commercial satellite imagery. \"Enormously\" is our word, not a measured fact. [Source 28]"
   ]
  },
  {
   "n": 9,
-  "title": "From Commissioning To The Squadron",
+  "title": "The four areas a 14N builds depth in",
   "notes": [
-   "IOT (Intelligence Officer Training) at Goodfellow AFB is the shared starting point for every 14N regardless of what they'll eventually support — it teaches the common foundation: tradecraft, briefing skills, basic threat analysis.",
-   "After that, \"follow-on training\" is where it branches hard: a 14N headed to a fighter squadron trains differently than one headed to an RPA (drone) unit, a space unit, or an intelligence production center — the course is tailored to whatever platform or mission they're actually assigned to.",
-   "\"Operations Group\" is the standard organizational layer at a flying wing — it sits under the Wing Commander and owns the flying squadrons directly. That's where a 14N is typically embedded, not off in a separate intel-only unit."
+   "These four are what the officer directory calls the \"functional competencies\" of the 14N: Analysis, Collection, Targeting, and Sensing Grid Activities. They replace the earlier slide, which listed four \"specialty tracks.\" Two of those four were not tracks at all. [Source 1]",
+   "Where the old slide went wrong: \"Fusion Analyst\" is not a 14N track. The enlisted specialty 1N4X1 is titled Cyber Intelligence in the enlisted directory. A 2026 Guard vacancy notice used \"Fusion Analyst\" as a job title for a 1N4X1 position. The phrase \"works the same layer as all-source\" does not appear in Air Force or joint publications, so it has been removed. \"HUMINT / Special Access\" was two unrelated things on one card. [Sources 2, 29]",
+   "Targeting: the directory says officers perform \"kinetic and non-kinetic target development, weaponeering, precision point mensuration, force application, execution planning, and combat assessment.\" Enlisted targeteers are 1N8X1 Targeting Analysts, a career field that dates to about 2019. Officers who go deep in targeting can earn a targeting SEI. [Sources 1, 2]",
+   "Collection: the directory says officers convert intelligence requirements into collection requirements, set priorities, task collection sources, monitor results, and re-task as needed. [Source 1]",
+   "Sensing Grid Activities: this is the newest item. Older material, including the 2016 directory, lists \"Integration\" as the fourth competency instead. If someone quotes an older list, that is why. [Source 1]",
+   "HUMINT in the Air Force is small. There is an enlisted HUMINT specialty (1N7X1, created in 2015) and officers can earn a HUMINT SEI, but most Defense Department HUMINT belongs to DIA’s Defense Clandestine Service and the Army. Army doctrine says the Air Force and Navy \"have limited HUMINT collection capability.\" [Sources 2, 14]",
+   "Special access: a Special Access Program is a program with safeguards beyond those normally required for classified information. Access requires a formal indoctrination, and a polygraph may be required. It is a security arrangement, not an intelligence discipline or a career track. [Source 30]"
   ]
  },
  {
   "n": 10,
-  "title": "Beyond The Baseline",
+  "title": "All-source analysis: the real job",
   "notes": [
-   "Speciality/specialization tracks:\u000b\u000bThese four aren't separate entry-level jobs — they're where the career field branches after someone is already qualified (an SEI for officers, a follow-on award for enlisted).",
-   "Targeting (1N8X1) is generally the most kinetic / operationally direct specialty — its product can directly feed a strike decision, which also means it carries the heaviest weight of responsibility in the field.",
-   "Collection management is less a separate specialty than a skill experienced analysts grow into — deciding where to point limited collection assets is one of the hardest judgment calls in intelligence, because there's never enough collection capacity to answer every open question."
+   "The joint definition of all-source intelligence, from JP 2-0 and the DoD Dictionary, is: \"Intelligence products and/or organizations and activities that incorporate all sources of information in the production of finished intelligence.\" The earlier notes listed the INTs inside the definition. The real definition does not, so that was not the doctrinal wording. [Sources 9, 10]",
+   "Trusting sources: analysts grade the reliability of a source and the credibility of the information separately. The scale is A through F for reliability and 1 through 6 for information. A B2 report is from a usually reliable source and is probably true. An F or a 6 means \"cannot be judged,\" which is not the same as false. U.S. Army doctrine (FM 2-22.3) prints this scale. The names \"Admiralty System\" and \"NATO system\" come from secondary sources, because the NATO publication is not public. [Source 14]",
+   "Stating confidence: intelligence community standards (ICD 203) require fixed likelihood words, from \"almost no chance\" through \"almost certain,\" each tied to a probability band. They also say not to mix a confidence level and a likelihood in the same sentence. [Source 11]",
+   "Fighting bias: Analysis of Competing Hypotheses, developed by Richards Heuer, asks the analyst to look for evidence that disconfirms each explanation instead of only supporting the first one. The U.S. Government’s 2009 Tradecraft Primer lists it with the key assumptions check and red team analysis. [Source 31]"
   ]
  },
  {
   "n": 11,
-  "title": "On The Job",
+  "title": "A day in the life",
   "notes": [
-   "Worth knowing for Q&A: a lot of real-world intel work happens in a SCIF (Sensitive Compartmented Information Facility) — a secure, access-controlled space where classified material can be discussed and processed.",
-   "Ops tempo is genuinely shift-based rather than 9-to-5. Units supporting real-time or combat operations often run their intelligence shop 24/7 in rotating shifts, which is a different rhythm than a lot of other Air Force jobs."
+   "Where this comes from: the four rows are the parts of the day that have official sources. They do not describe a clock schedule. The earlier brief gave a \"realistic day\" by time (early morning, mid-morning, and so on). No source supports those times, so do not present them as fact.",
+   "Pre-mission briefing: a 2019 Lakenheath article describes the intelligence step-brief before a sortie and the debrief afterward. A 2019 Little Rock article calls pre-mission briefings the core objective of the 19th Operations Support Squadron intelligence section. The 1N0X1 training plan lists \"Prepare and Present a Pre-Mission Briefing\" as a core task. [Sources 5, 32, 33]",
+   "Analysis and production: the officer directory says officers produce \"timely and accurate fused intelligence analysis\" and direct intelligence activities and organizations. [Source 1]",
+   "Debrief: the 1N0X1 training plan lists \"Conduct Debriefing / Prepare Mission Report (MISREP).\" The debrief captures what the aircrew observed and feeds it back into collection. [Sources 5, 32]",
+   "More that is sourced: the AFROTC AFSC guide lists a 14N’s daily duties as \"Read reports, network with fellow Intelligence Officers, refine data, build briefs, brief warfighters and decision-makers.\" A 2020 Altus AFB article describes pre-deployment threat briefs and Isolated Personnel Reports (ISOPREPs), which are also in the 1N0X1 training plan. [Sources 17, 18, 5]",
+   "Hours: the line \"the day follows the flying schedule\" is our summary, not a quotation. It follows from briefs and debriefs happening around flying. For deployed and real-world operations, a 2007 Air Force article says the 379th Air Expeditionary Wing intelligence flight \"runs 24/7\" and its squadron teams did too. I found no official source that says home-station shops work rotating 24/7 shifts, so say \"deployed and real-world operations centers run 24/7.\" The word \"overnight\" came off the slide for the same reason. [Source 18]",
+   "SCIF: a SCIF is an accredited facility where sensitive compartmented information is processed, stored, and discussed. The security office decides which electronics may go in. In practice, personal phones and smartwatches stay outside. [Source 34]",
+   "Ask your cadre if someone presses you on a typical day. They can describe it from experience, and you can say the rows above come from official duty descriptions."
   ]
  },
  {
   "n": 12,
-  "title": "Bigger Picture",
+  "title": "What we covered",
   "notes": [
-   "MAJCOM examples worth naming if asked: ACC (Air Combat Command, fighters/ISR), AMC (Air Mobility Command, airlift/tankers), AFSOC (Air Force Special Operations Command), PACAF (Pacific Air Forces) — each sets its own intelligence priorities within DoD-wide requirements.",
-   "On the national agencies: NASIC (National Air and Space Intelligence Center) is headquartered at Wright-Patterson AFB in Ohio. Its job is analyzing foreign air, space, missile, and cyber threats, and it actually traces its lineage back to WWII, when captured enemy aircraft were studied at that same base. DIA (Defense Intelligence Agency) is the overall DoD-wide intelligence agency — NASIC feeds it specialized air-threat analysis. NSA (National Security Agency) runs the nation's signals intelligence collection and also holds the government's primary cybersecurity mission. None of these three are Air Force-only — they're joint/national organizations — but Air Force intelligence people feed them and draw on their products constantly."
+   "This is your safety net. If you run short on time, you can jump from the INTs slide straight to this one and still land a complete talk.",
+   "It mirrors slide 2 so the audience hears the same six topics again, this time as the answers."
   ]
  },
  {
   "n": 13,
-  "title": "Why It Matters",
+  "title": "Sources",
   "notes": [
-   "FIXED 2026-10-01: the quotation marks have been removed from \"The first through the fight,\" so it now reads as this deck's own framing rather than a cited quote. It is NOT a verified official Air Force motto - it could not be confirmed as real - so do not introduce it as one when you speak. Say it as your own line, or drop it.",
-   "Real, verifiable ISR/intelligence-adjacent mottos if you'd rather use something authentic: 25th Air Force's \"Freedom Through Vigilance,\" or the 480th ISR Wing's \"Non Potestis Latere\" (\"You Can't Hide\"). Either will drop straight into the box - the 480th ISR Wing line fits this slide best, since the 480th runs the AF DCGS enterprise the slide is really describing."
+   "This slide is a reference. It is not meant to be read aloud. Each numbered entry below has its full title and every link. Where a page was only available as an archived copy, the first link is the archive.",
+   "The full source list, with every link, is in the Sources section at the bottom of this page."
   ]
  },
  {
   "n": 14,
-  "title": "Summary",
+  "title": "In their own words (not used)",
   "notes": [
-   "This is your safety net if you run short on time live — if you need to cut slides on the fly, you could jump straight from slide 5 (the five INTs) to this one and still land a complete, coherent talk."
-  ]
- },
- {
-  "n": 15,
-  "title": "Further Reading",
-  "notes": [
-   "These are the four sources I actually used to build this deck's factual content — real citations, not filler: airforce.com's official career pages, AFROTC's Holm Center career flyer (PDF), Goodfellow AFB / 17th Training Wing's own article on IOT, and the Air Force's official published training standard (CFETP 1N1X1) for the enlisted side, hosted on e-publishing.af.mil.",
-   "Everything added in these speaker notes beyond the slides themselves — the Boyd/OODA history, NASIC's background, the Tier 5/SSBI details, the Admiralty source-rating system — came from additional verified web searches during this conversation, not from memory, so it should hold up if a cadre member or classmate pushes on any of it."
+   "This slide is not part of the talk. It is kept at the end for reference.",
+   "Sun Tzu quotes match the Lionel Giles translation (1910): Chapter 1, \"All warfare is based on deception,\" and Chapter 13, \"Knowledge of the enemy’s dispositions can only be obtained from other men.\"",
+   "Churchill: the official U.S. minutes of the Tehran Conference (30 November 1943) record him saying \"truth deserves a bodyguard of lies.\" The polished wording on the slide, \"In wartime, truth is so precious that she should always be attended by a bodyguard of lies,\" comes from his later memoir, \"Closing the Ring.\" [Source 35]"
   ]
  }
 ]

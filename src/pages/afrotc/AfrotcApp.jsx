@@ -6,6 +6,8 @@ import HubLink from '../../components/HubLink';
 import handbookMd from './docs/det855-handbook.md?raw';
 import quizzesMd from './docs/warrior-knowledge-quizzes.md?raw';
 import brief14n from './docs/brief14n.json';
+import brief14nClaims from './docs/brief14nClaims.json';
+import briefMd from './docs/14n-speakers-brief.md?raw';
 import './Afrotc.css';
 
 // To add a document: drop its pages/markdown in, then add one entry here.
@@ -47,9 +49,13 @@ const DOCS = [
     pdf: '/afrotc/AFROTC_QRC_Study_Packet.pdf',
   },
   {
-    slug: 'brief14n', label: '14N Brief', kind: 'slides', slides: brief14n, dir: '/afrotc/briefs/14n',
-    blurb: 'Intelligence Officer (14N) career-field brief: every slide beside its speaker notes. Target 3-4 minutes. Deck last saved Oct 1.',
+    slug: 'brief14n', label: '14N Brief', kind: 'slides', slides: brief14n, dir: '/afrotc/briefs/14n', claims: brief14nClaims,
+    blurb: 'Intelligence Officer (14N) career-field brief, rebuilt 15 Oct 2026 after every claim was checked. Each slide sits beside its speaker notes. Open "Where this comes from" under a slide to see each claim, whether it held up, and the source. Target 3-4 minutes.',
     pptx: '/afrotc/briefs/14n/Air_Force_Intelligence_Career.pptx',
+  },
+  {
+    slug: 'brief14n-text', label: '14N Speaker’s Brief', kind: 'markdown', content: briefMd, claims: brief14nClaims,
+    blurb: 'The background brief behind the 14N deck: what changed, your three questions answered, the likely Q&A, and the numbered source list. Read Parts 1, 2 and 4 first.',
   },
   {
     slug: 'handbook', label: 'Det 855 Handbook', kind: 'markdown', content: handbookMd,
@@ -146,7 +152,52 @@ function MarkdownDoc({ doc, zoomDef, zoom, setZoom }) {
       <article className="arc-md" style={{ '--arc-text': zoomDef.text }}>
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{doc.content}</ReactMarkdown>
       </article>
+      {doc.claims?.brief?.length ? (
+        <section className="arc-ledger">
+          <h2>Claims checked for this brief</h2>
+          <p className="arc-blurb">{doc.claims.brief.length} claims that appear only in the background brief, each with the verdict and the source. Slide claims are under each slide on the 14N Brief tab.</p>
+          <ClaimList claims={doc.claims.brief} open />
+        </section>
+      ) : null}
     </>
+  );
+}
+
+const STATUS_LABEL = {
+  verified: 'Confirmed',
+  partly: 'Partly right',
+  disputed: 'Sources disagree',
+  wrong: 'Was wrong',
+  unverified: 'No source found',
+};
+
+function ClaimList({ claims, open }) {
+  if (!claims?.length) return null;
+  return (
+    <details className="arc-claims" open={open}>
+      <summary>Where this comes from: {claims.length} claim{claims.length === 1 ? '' : 's'} checked</summary>
+      {claims.map((c) => (
+        <div key={c.id} className={`arc-claim arc-st-${c.status}`}>
+          <div className="arc-claim-top">
+            <span className="arc-claim-badge">{STATUS_LABEL[c.status] ?? c.status}</span>
+            <span className="arc-claim-text">{c.claim}</span>
+          </div>
+          <p className="arc-claim-finding">{c.finding}</p>
+          {c.correction ? <p className="arc-claim-say"><b>What to say:</b> {c.correction}</p> : null}
+          {c.sources?.length ? (
+            <ul className="arc-claim-src">
+              {c.sources.map((s, i) => (
+                <li key={i}>
+                  {s.url ? <a href={s.url} target="_blank" rel="noreferrer">{s.title}</a> : <span>{s.title}</span>}
+                  <span className="arc-src-pub"> — {s.publisher}{s.access === 'archive' ? ' (archived copy)' : s.access === 'snippet' ? ' (search snippet only)' : ''}</span>
+                  {s.quote ? <q className="arc-src-quote">{s.quote}</q> : null}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+      ))}
+    </details>
   );
 }
 
@@ -183,10 +234,31 @@ function SlidesDoc({ doc, zoomDef, zoom, setZoom }) {
                 {s.notes.length ? s.notes.map((p, i) => <p key={i}>{p}</p>) : <p className="arc-none">No notes on this slide.</p>}
               </div>
             </div>
+            <ClaimList claims={doc.claims?.bySlide?.[s.n]} />
           </section>
         ))}
       </div>
+      <SourceList sources={doc.claims?.sources} />
     </>
+  );
+}
+
+function SourceList({ sources }) {
+  if (!sources?.length) return null;
+  return (
+    <section className="arc-ledger" id="arc-sources">
+      <h2>Sources</h2>
+      <p className="arc-blurb">The numbers in the speaker notes, such as [Source 1], match these. Many af.mil pages block automated requests but open in a normal browser. Archived copies are marked.</p>
+      <ol className="arc-sources">
+        {sources.map((x) => (
+          <li key={x.n} value={x.n}>
+            <b>{x.t}</b> <span className="arc-src-pub">— {x.p}</span>
+            <div>{x.u.map((u, i) => (<a key={i} href={u} target="_blank" rel="noreferrer">{u.includes('web.archive.org') ? 'archived copy' : 'link'}{x.u.length > 1 ? ` ${i + 1}` : ''}</a>))}</div>
+            {x.note ? <i className="arc-src-pub">{x.note}</i> : null}
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }
 

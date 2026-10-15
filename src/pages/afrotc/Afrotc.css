@@ -108,7 +108,35 @@
 .arc-slide-notes .arc-none { color: var(--arc-muted); font-style: italic; }
 @media (max-width: 900px) { .arc-slide-pair { grid-template-columns: minmax(0, 1fr); } }
 
+.arc-claims { margin-top: 12px; border-top: 1px solid var(--arc-border); padding-top: 10px; font-size: calc(0.95rem * var(--arc-text, 1)); }
+.arc-claims > summary { cursor: pointer; font-weight: 700; color: var(--arc-accent); }
+.arc-claim { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: var(--arc-panel-2); border-left: 4px solid var(--arc-muted); }
+.arc-claim.arc-st-verified { border-left-color: #4fbf7a; }
+.arc-claim.arc-st-partly { border-left-color: #f0b44c; }
+.arc-claim.arc-st-disputed { border-left-color: #e68a3c; }
+.arc-claim.arc-st-wrong { border-left-color: #ef5d5d; }
+.arc-claim.arc-st-unverified { border-left-color: #9aa7bd; }
+.arc-claim-top { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.arc-claim-badge { font-size: 0.78em; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.08); white-space: nowrap; }
+.arc-claim-text { font-weight: 600; flex: 1 1 320px; overflow-wrap: anywhere; }
+.arc-claim p { margin: 6px 0 0; overflow-wrap: anywhere; }
+.arc-claim-say { color: #ffd98a; }
+.arc-claim-src { margin: 8px 0 0; padding-left: 18px; }
+.arc-claim-src li { margin: 4px 0; overflow-wrap: anywhere; }
+.arc-claim-src a { color: var(--arc-accent); }
+.arc-src-pub { color: var(--arc-muted); }
+.arc-src-quote { display: block; margin: 2px 0 0 4px; color: var(--arc-muted); font-style: italic; }
+.arc-src-quote::before { content: '“'; }
+.arc-src-quote::after { content: '”'; }
+
 @media (max-width: 600px) {
   .arc-main { padding: 8px 6px 32px; }
   .arc-site-home { border-right: 0; padding-right: 0; }
 }
+
+.arc-ledger { margin-top: 18px; padding: 16px 18px; background: var(--arc-panel); border: 1px solid var(--arc-border); border-radius: 12px; }
+.arc-ledger h2 { margin: 0 0 6px; font-size: 1.2rem; color: var(--arc-accent); }
+.arc-sources { margin: 10px 0 0; padding-left: 28px; font-size: calc(0.95rem * var(--arc-text, 1)); }
+.arc-sources li { margin: 0 0 12px; overflow-wrap: anywhere; }
+.arc-sources a { color: var(--arc-accent); margin-right: 12px; }
+.arc-md table { display: block; overflow-x: auto; }
