@@ -259,7 +259,7 @@ const WorksheetQuestion = memo(function WorksheetQuestion({ question, marks, not
           )}{' '}
           {question.answerRationale}
           {question.answerSource === 'derived' && <span className="wks-derived-tag">derived, not an official key</span>}
-          {question.answerSource === 'official' && <span className="wks-official-tag">marked correct in the source PDF</span>}
+          {question.answerSource === 'official' && <span className="wks-official-tag">official key from your professor (MCI Answered &amp; Explained)</span>}
           {question.answerSource === 'graded' && <span className="wks-official-tag">confirmed by your graded OLQ attempt</span>}
           {question.answerSource === 'corrected' && <span className="wks-official-tag">corrected after OLQ grading, checked against the chapter text</span>}
           {question.answerSource === 'checked' && <span className="wks-official-tag">checked against the chapter text</span>}

@@ -799,8 +799,13 @@ Vocabulary-dominant → system **A** is the primary fit, with worksheets (**C**)
   2026-10-10): `MICR 2060/files/MCIs for OLQs 1-4 Answered & explained.pdf` marks the correct
   option with `*` and explains each one. This section used to say "no answer key anywhere",
   which was wrong, and the `mmahp-ch1-4` worksheet was answered by guessing instead (17 of 254
-  derived answers disagree with the official key). Canvas lists the matching 5-8 / 9-12 files
-  ("MCI for OLQs 5-8 Answered & Explained.pdf") but they are released late and were not captured.
+  derived answers disagree with the official key). The 5-8 key ("MCI for OLQs 5-8 Answered &
+  Explained.pdf") was downloaded 2026-10-13 and applied: **every `mmahp-ch5-8` answer is now
+  `answerSource: 'official'`**, with his explanation as the rationale. The key opens with the exam
+  (OLQs 9-12 on Nov 8, 13-16 on Dec 6) and appears to need the OLQs submitted first. Apply a new one with
+  `node scripts/importMicrKey.mjs "<key.pdf>" --worksheet <file> [--apply]` (dry run by default). 🔴 **Read
+  `MICR2060-ANSWER-LOGIC.md` first**: in the key the `*` is the answer and the "Ans is X" letter can be
+  stale; it also records the five questions the study guide got wrong and the professor's logic behind each.
 - **Best ground truth for a worksheet answer, in order:** (1) the instructor's Answered &
   Explained PDF; (2) a graded Canvas attempt-review PDF (`olq 8 1.pdf`: selected option plus
   points per question; the "Correct/Wrong answer" label prints ABOVE its question, so trust the

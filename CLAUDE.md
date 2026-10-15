@@ -264,6 +264,33 @@ The live tarkov.dev refresh moved from the top bar to **Settings → Data source
 down, its REST fallback is PVP-only, and a prominent "Get prices" button next to a page already
 full of prices invited you to replace good numbers with worse ones.
 
+### 🔓 SPT's full `items.json` IS reachable — via SP-Tushonka, not sp-tarkov
+
+Found 2026-10-14. The "LFS quota exhausted, don't retry" note above is about **sp-tarkov/server**.
+tarkov.dev's own pipeline (`the-hideout/tarkov-data-manager`, `modules/tarkov-data-spt.mjs`)
+reads BSG's templates from **`SP-Tushonka/server-csharp`** (pushed 2026-10-12), whose LFS
+objects are served by **its own server**, `lfs.sp-tushonka.com/sp-tushonka/server-csharp/objects/<oid>`
+— no GitHub quota. Raw path:
+`raw.githubusercontent.com/SP-Tushonka/server-csharp/main/Libraries/SPTushonka.Server.Assets/SPT_Data/database/`.
+`fetchMaybeLfs()` in `scripts/fetchEftSpace.mjs` resolves a pointer to the blob. That gives the
+full 19.6 MB templates file (every Width/Height/ExtraSize/slot filter/grid), the locale, and the
+handbook. Other EFT scripts still use the old sp-tarkov paths; switch them over only when one
+actually needs the newer data.
+
+### ℹ️ EFT Stash Space (`/EFTsh/space`) — mod-on-mod packing, computed, not listed
+
+Added 2026-10-14 (`eftSpaceLogic.js`, pure + tested; `npm run eft:space` builds
+`data/spaceSnapshot.json`, lazy-loaded). Trey wanted the mount/handguard space tricks he
+*doesn't* know, so nothing is hand-written — every pairing falls out of the game's size rule:
+**assembly = root Width×Height + per-direction MAX ExtraSize of every attached mod (any depth)
++ SUM of ExtraSizeForceAdd mods. A child's own Width/Height never counts.** Read from SPT's
+`InventoryHelper.GetSizeByInventoryItemHash`, which mirrors the client; folding is not modelled.
+- `bestFill` is **greedy and depth-capped** — a strong lower bound, not a proven optimum.
+- Only **handbook** items count; without that a dev "Lucky DEVELOPER junkbox" and a retired
+  6×50 Terraplane topped the container chart.
+- ✂️ Weapons aren't modelled as hosts, and the pile planner gives one host per item type (no
+  stash bin-packing, and it doesn't reuse hosts you already have).
+
 ### ℹ️ EFT craft loops (`/EFTsh/loops`) — a generic engine, not a hand-written list
 
 Added 2026-09-10. Trey described a loop he runs — buy Scav Vests and PACA armour cheaply,
@@ -688,6 +715,12 @@ read it before answering anything about quizzes, homework, exams, due dates or c
 answer status questions with its §0 protocol (live + links, next 7 days ranked, what's stale,
 exact asks). Surfaces: `/TKB/courses/chem/quizzes`, `/TKB/courses/chem/exam`, `/MFT/school`,
 MFT → Settings → Calendars (Google Calendar is the hub; iPhone syncs with Google natively).
+
+**Planning, "what's due", "update me", ROTC duties, busy weeks → use the `chief-of-staff` skill**
+(user-level: `C:\Users\Trey\.claude\skills\chief-of-staff\`, works in every repo). The live plan across ALL
+courses + AFROTC is `G:\My Drive\SupplementalCourseDocs\_ChiefOfStaff\STATE.md` (Google Drive: cloud-backed,
+readable on his phone); read it first and update it as facts arrive. A backup of the skill sits beside it. Added 2026-10-14 at Trey's
+request: *"I don't have to walk you through what i want from you."*
 
 ---
 

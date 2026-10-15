@@ -65,6 +65,7 @@ const NOT_ITEMS = new Set([
   'glukhar', 'birdeye', 'big pipe', 'knight', 'cultist priest',
   'black division', 'usd', 'drinks', 'medical', 'usec operative',
   'skill', 'quest', 'raid', 'labs', 'the lab access keycard holder',
+  'icebreaker', 'arena', 'lasthero', 'last hero', 'seasons', 'prestige',
 ]);
 
 // Objective verbs that mean "you must physically hold this item".
@@ -116,6 +117,48 @@ async function fetchWikitext(titles) {
     if (p.missing) continue;
     const text = p.revisions?.[0]?.slots?.main?.content;
     if (text) out.set(p.title, text);
+  }
+  return out;
+}
+
+/**
+ * Template ids for items the SPT locale predates, read off the wiki's own item
+ * pages: `{{Infobox item|...|node = 6937ecf8628ee476240c07cb|...}}`.
+ *
+ * Only a SINGLE id is accepted. A page whose node lists several (Dogtag is one
+ * page for BEAR and USEC and every seasonal variant) is ambiguous, and a quest
+ * item attached to the wrong template id would silently light up the wrong row
+ * in the sell-check — so those stay name-only and unresolved.
+ */
+async function resolveViaWiki(names) {
+  const out = new Map();
+  for (let i = 0; i < names.length; i += BATCH) {
+    const slice = names.slice(i, i + BATCH);
+    const u = new URL(WIKI);
+    u.searchParams.set('action', 'query');
+    u.searchParams.set('prop', 'revisions');
+    u.searchParams.set('rvprop', 'content');
+    u.searchParams.set('rvslots', 'main');
+    u.searchParams.set('redirects', '1');
+    u.searchParams.set('titles', slice.join('|'));
+    u.searchParams.set('format', 'json');
+    u.searchParams.set('formatversion', '2');
+    const d = await getJson(u);
+    const alias = new Map();
+    for (const r of [...(d.query.normalized || []), ...(d.query.redirects || [])]) alias.set(r.from, r.to);
+    const resolveTitle = (t) => { let cur = t; for (let k = 0; k < 4 && alias.has(cur); k += 1) cur = alias.get(cur); return cur; };
+    const idByTitle = new Map();
+    for (const p of d.query.pages || []) {
+      const text = p.revisions?.[0]?.slots?.main?.content;
+      if (!text || !/\{\{\s*Infobox item/i.test(text)) continue;
+      const node = text.match(/\|\s*node\s*=([\s\S]*?)(?:\n\||\n\}\})/i);
+      const ids = node ? [...new Set(node[1].match(/\b[0-9a-f]{24}\b/g) || [])] : [];
+      if (ids.length === 1) idByTitle.set(p.title, ids[0]);
+    }
+    for (const name of slice) {
+      const id = idByTitle.get(resolveTitle(name));
+      if (id) out.set(name, id);
+    }
   }
   return out;
 }
@@ -249,6 +292,18 @@ function parseLoyalty(reqBody) {
 }
 
 /**
+ * The infobox now carries `|LL requirement = 2` — the giver's loyalty level
+ * needed to be offered the quest — which replaced most of the prose
+ * "Must reach Loyalty Level N with X" lines. Prose entries win when both exist.
+ */
+function mergeLoyalty(fromProse, box, giver) {
+  const level = Number(plain(box['ll requirement'] ?? ''));
+  if (!giver || !Number.isFinite(level) || level < 1) return fromProse;
+  if (fromProse.some((l) => l.trader === giver)) return fromProse;
+  return [{ trader: giver, level }, ...fromProse];
+}
+
+/**
  * Item requirements from the Objectives section.
  *
  * "Find 3 X in raid" and "Hand over the 3 X" are the SAME three items written
@@ -260,13 +315,55 @@ function parseItems(objBody, resolveId, isQuestTitle) {
   const found = new Map();
   for (const { raw } of bullets(objBody)) {
     if (!ITEM_VERB.test(raw)) continue;
-    const countMatch = raw.match(/\b(?:find|hand over|handover|obtain|stash|deliver|bring|provide|give)\b[^[\d]*(\d[\d,]*)/i);
-    const count = countMatch ? Number(countMatch[1].replace(/,/g, '')) : 1;
     const fir = /found in raid|in raid/i.test(raw);
-    for (const { target, label } of linkTargets(raw)) {
+    // The "in raid" link sits between the verb and the number in the current
+    // wording ("Find the item [[Found in raid|in raid]]: 10 [[Bundle of wires]]"),
+    // and the old count regex stopped at its bracket and read every one of those
+    // as 1. It is flattened to plain text first so only item links remain.
+    const line = raw.replace(/\[\[Found in raid\|[^\]]*\]\]/gi, ' in raid ');
+    const links = [];
+    const linkRe = /\[\[([^|\]#]+)(?:#[^|\]]*)?(?:\|([^\]]*))?\]\]/g;
+    let lm = linkRe.exec(line);
+    while (lm) {
+      links.push({ target: lm[1].trim(), label: plain(lm[2] ?? lm[1]), start: lm.index, end: lm.index + lm[0].length });
+      lm = linkRe.exec(line);
+    }
+    // A count belongs to the link it sits in front of, and a bare "A, B, or C"
+    // list inherits the count of the first — "15 Malboro, Wilston, or Strike" is
+    // fifteen cigarettes of any of the three, not three separate requirements.
+    let prevCount = 1;
+    let prevEnd = 0;
+    const staged = links.map((l, i) => {
+      const gap = line.slice(prevEnd, l.start);
+      const nums = [...gap.matchAll(/(\d[\d,]*)/g)];
+      const bareJoin = i > 0 && /^[\s,]*(?:(or|and)\b)?[\s,]*$/i.test(gap);
+      let count;
+      if (nums.length) count = Number(nums[nums.length - 1][1].replace(/,/g, ''));
+      else if (bareJoin) count = prevCount;
+      else count = 1;
+      prevCount = count;
+      prevEnd = l.end;
+      return { ...l, count, joinedByOr: bareJoin && /\bor\b/i.test(gap) };
+    });
+    // An "or" anywhere in a chain makes the whole chain alternatives.
+    const anyOfIdx = new Set();
+    for (let i = 0; i < staged.length; i += 1) {
+      if (staged[i].joinedByOr) {
+        let a = i;
+        while (a > 0 && /^[\s,]*(?:(or|and)\b)?[\s,]*$/i.test(line.slice(staged[a - 1].end, staged[a].start))) a -= 1;
+        for (let k = a; k <= i; k += 1) anyOfIdx.add(k);
+      }
+    }
+    for (const [idx, { target, label, count }] of staged.entries()) {
       const key = norm(target);
       if (!key || NOT_ITEMS.has(key)) continue;
       if (/^:?(category|file|image|template):/i.test(target)) continue;
+      // "from [[Dorm room 303 key|Dorm room 303]]" is the place the item is
+      // found, written as a link to the key that opens it — not a thing to carry.
+      // Only after a place preposition: "Find 10 [[TerraGroup Labs access keycard|…keycards]]"
+      // is a real item, and so is any key the objective says to hand over.
+      if (/\bkey(?:card)?$/i.test(target) && label !== target
+        && /\b(?:from|at|in|inside|within|on|near|to|behind)\s+(?:the\s+)?$/i.test(line.slice(Math.max(0, staged[idx].start - 24), staged[idx].start))) continue;
       const id = resolveId(target) ?? resolveId(label);
       // Objective lines cross-link other quests ("as part of [[Setup]]") and
       // bosses. Neither is a thing you carry, and both otherwise survive the
@@ -280,14 +377,19 @@ function parseItems(objBody, resolveId, isQuestTitle) {
       if (prev) {
         prev.count = Math.max(prev.count, count);
         prev.foundInRaid = prev.foundInRaid || fir;
+        if (anyOfIdx.has(idx)) prev.anyOf = true;
       } else {
-        found.set(key, {
+        const entry = {
           itemId: id ?? null,
           name: target,
           count,
           foundInRaid: fir,
           unresolved: !id,
-        });
+        };
+        // Alternatives: any ONE of the listed items satisfies the objective, so
+        // the count is a total across them, not per item.
+        if (anyOfIdx.has(idx)) entry.anyOf = true;
+        found.set(key, entry);
       }
     }
   }
@@ -315,7 +417,7 @@ function parseQuest(title, text, resolveId, isQuestTitle) {
     trader: splitLinkList(box['given by'])[0] ?? null,
     map: splitLinkList(box.location)[0] ?? null,
     minLevel: parseMinLevel(reqBody, text),
-    loyalty: parseLoyalty(reqBody),
+    loyalty: mergeLoyalty(parseLoyalty(reqBody), box, splitLinkList(box['given by'])[0]),
     previous: splitLinkList(box.previous),
     leadsTo: splitLinkList(box['leads to']),
     related: [...splitLinkList(box.related), ...splitLinkList(box.related2)],
@@ -370,6 +472,8 @@ async function main() {
     for (const title of slice) {
       const text = pages.get(title);
       if (!text) { failed.push(title); continue; }
+      // Category:Quests also holds the "Quests" index page itself.
+      if (!/\{\{\s*Infobox quest/i.test(text)) continue;
       try {
         quests.push(parseQuest(title, text, resolveId, isQuestTitle));
       } catch (err) {
@@ -382,6 +486,17 @@ async function main() {
   process.stdout.write('\n');
 
   quests.sort((a, b) => a.name.localeCompare(b.name));
+
+  console.log('→ items newer than the SPT locale (wiki item pages) …');
+  const unresolvedNames = [...new Set(quests.flatMap((q) => q.items.filter((i) => i.unresolved).map((i) => i.name)))];
+  const viaWiki = await resolveViaWiki(unresolvedNames);
+  for (const q of quests) {
+    for (const item of q.items) {
+      const id = item.unresolved ? viaWiki.get(item.name) : null;
+      if (id) { item.itemId = id; item.unresolved = false; }
+    }
+  }
+  console.log(`  ok — ${viaWiki.size} of ${unresolvedNames.length} resolved`);
 
   const withItems = quests.filter((q) => q.items.length);
   const itemLinks = withItems.reduce((n, q) => n + q.items.length, 0);

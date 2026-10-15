@@ -25,6 +25,7 @@ import MapView from './views/MapView';
 import CraftTreeView from './views/CraftTreeView';
 import CraftLoopsView from './views/CraftLoopsView';
 import ItemUsesView from './views/ItemUsesView';
+import SpaceView from './views/SpaceView';
 import Boundary from '../../components/errors/Boundary';
 
 import './EftShopping.css';
@@ -42,6 +43,7 @@ const TABS = [
   { to: '/crafts', label: 'Craft Tree' },
   { to: '/loops', label: 'Craft Loops' },
   { to: '/uses', label: 'Item Uses' },
+  { to: '/space', label: 'Stash Space' },
   { to: '/list', label: 'Shopping List' },
   { to: '/order', label: 'Build Order' },
   { to: '/watchlist', label: 'Buy Below' },
@@ -421,6 +423,7 @@ export default function EftShoppingApp() {
             <Route path="crafts" element={<CraftTreeView />} />
             <Route path="loops" element={<CraftLoopsView />} />
             <Route path="uses" element={<ItemUsesView />} />
+            <Route path="space" element={<SpaceView />} />
             <Route path="list" element={<ShoppingListView />} />
             <Route path="order" element={<BuildOrderView />} />
             <Route path="station/:stationKey" element={<StationView />} />

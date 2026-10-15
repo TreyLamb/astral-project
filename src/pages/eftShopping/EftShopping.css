@@ -4695,3 +4695,68 @@
   font-size: 10px; font-weight: 800; line-height: 1;
   cursor: help;
 }
+
+/* ---------- Stash Space (views/SpaceView.jsx) ---------- */
+
+.eft-space .eft-panel { width: 100%; }
+.eft-space-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+.eft-space-search { position: relative; max-width: 560px; margin-bottom: 12px; }
+.eft-space-search .eft-input { width: 100%; }
+.eft-space-hits {
+  list-style: none; margin: 4px 0 0; padding: 4px; position: absolute; z-index: 5; left: 0; right: 0;
+  background: var(--eft-raised); border: 1px solid var(--eft-line-bright); border-radius: 8px;
+  max-height: 360px; overflow-y: auto;
+}
+.eft-space-hits button {
+  display: flex; justify-content: space-between; gap: 10px; width: 100%; padding: 5px 6px;
+  background: none; border: 0; color: inherit; text-align: left; cursor: pointer; border-radius: 6px;
+}
+.eft-space-hits button:hover, .eft-space-hits button:focus-visible { background: var(--eft-fill-gold); }
+.eft-space-mod { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+.eft-space-icon { width: 26px; height: 26px; object-fit: contain; flex: none; }
+.eft-space-link {
+  background: none; border: 0; padding: 0; color: var(--eft-tan-bright); cursor: pointer;
+  text-align: left; font: inherit;
+}
+.eft-space-link:hover { text-decoration: underline; }
+.eft-space-dim { color: var(--eft-text-faint); font-size: 0.85em; }
+.eft-space-good { color: var(--eft-green); font-weight: 700; }
+.eft-space-bad { color: var(--eft-red); }
+.eft-space-meh { opacity: 0.6; }
+.eft-space-h { margin: 18px 0 8px; color: var(--eft-tan); font-size: 0.95rem; letter-spacing: 0.06em; }
+.eft-space-pickhead { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.eft-space-table { width: 100%; }
+.eft-space-table td { vertical-align: middle; }
+.eft-space-cells { display: inline-grid; gap: 1px; vertical-align: middle; }
+.eft-space-cells > span { width: 11px; height: 11px; border-radius: 2px; }
+.eft-space-cells.eft-is-host > span { background: var(--eft-tan); }
+.eft-space-cells.eft-is-child > span { background: var(--eft-blue); }
+.eft-space-cells.eft-is-packed > span { background: var(--eft-green); }
+.eft-space-ba { display: inline-flex; align-items: center; gap: 6px; margin-right: 6px; }
+.eft-space-ba-part { display: inline-flex; align-items: center; gap: 6px; }
+.eft-space-plus, .eft-space-arrow { color: var(--eft-text-faint); }
+.eft-space-fillsum { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 6px; }
+.eft-space-tree { list-style: none; margin: 0; padding-left: 18px; border-left: 1px dashed var(--eft-line-bright); }
+.eft-space-tree.eft-is-root { border-left: 0; padding-left: 0; }
+.eft-space-node { padding: 1px 0; }
+.eft-space-noderow { display: flex; align-items: center; gap: 4px; min-height: 28px; }
+.eft-space-slot {
+  display: inline-block; min-width: 92px; margin-right: 6px; color: var(--eft-text-faint);
+  font-family: var(--eft-mono); font-size: 0.78em;
+}
+.eft-space-treerow td { background: var(--eft-fill-neutral); }
+.eft-space-stats { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
+.eft-space-alts { margin-top: 2px; }
+.eft-space-accepts { max-width: 320px; }
+.eft-space-excl { color: var(--eft-red); }
+
+@media (max-width: 700px) {
+  .eft-space-table { display: block; overflow-x: auto; }
+  .eft-space-slot { min-width: 0; }
+}
+.eft-space-ctl { display: inline-flex; align-items: center; gap: 6px; }
+.eft-space-ctllabel { color: var(--eft-text-faint); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.eft-space-railchip {
+  margin-left: 4px; padding: 0 6px; border-radius: 999px; font-size: 0.72rem;
+  color: var(--eft-text-faint); border: 1px dashed var(--eft-line-bright);
+}

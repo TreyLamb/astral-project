@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import HubLink from '../../components/HubLink';
 import handbookMd from './docs/det855-handbook.md?raw';
+import quizzesMd from './docs/warrior-knowledge-quizzes.md?raw';
 import './Afrotc.css';
 
 // To add a document: drop its pages/markdown in, then add one entry here.
@@ -45,6 +46,10 @@ const DOCS = [
   {
     slug: 'handbook', label: 'Det 855 Handbook', kind: 'markdown', content: handbookMd,
     blurb: 'Running transcript of the physical Det 855 pocket handbook. Not an official document.',
+  },
+  {
+    slug: 'quizzes', label: 'Warrior Knowledge Quizzes', kind: 'markdown', content: quizzesMd,
+    blurb: 'Weeks 1 and 2 of the weekly quiz, word for word, with answers marked sure or best-guess.',
   },
   { slug: 'tools', label: 'Study tools', kind: 'links' },
 ];

@@ -1,0 +1,5 @@
+# eftscan: downloaded icons + local config
+cache/
+config.local.json
+__pycache__/
+fs_*.png

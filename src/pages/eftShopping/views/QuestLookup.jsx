@@ -18,6 +18,12 @@ import { itemIcon } from '../eftApi';
  * worth carrying".
  */
 
+// The wiki's 2026-10 quest rework moved most gates from player level to the
+// giver's loyalty level, so a missing level is no longer "no gate".
+const gateLabel = (quest, prefix) => (quest.minLevel
+  ? `${prefix} ${quest.minLevel}`
+  : quest.loyalty?.[0] ? `${quest.loyalty[0].trader} LL${quest.loyalty[0].level}` : 'No gate listed');
+
 export function QuestChip({ quests, open, onToggle }) {
   if (!quests?.total) return null;
 
@@ -75,7 +81,7 @@ export function QuestList({ index, itemId, items, done, onToggleDone, onOpen }) 
                 </button>
                 {quest.trader ? <span className="eft-chip eft-is-trader">{quest.trader}</span> : null}
                 <span className="eft-chip eft-is-level">
-                  {quest.minLevel ? `Lv ${quest.minLevel}` : 'No level gate'}
+                  {gateLabel(quest, 'Lv')}
                 </span>
                 <span className={`eft-chip${foundInRaid ? ' eft-is-fir' : ''}`}>
                   {count}× {foundInRaid ? 'FIR' : 'any'}
@@ -196,7 +202,7 @@ export function QuestDetail({ index, questId, items, done, onToggleDone, onOpen,
               {quest.trader ? <span className="eft-chip eft-is-trader">{quest.trader}</span> : null}
               {quest.map ? <span className="eft-chip">{quest.map}</span> : null}
               <span className="eft-chip eft-is-level">
-                {quest.minLevel ? `Level ${quest.minLevel}` : 'No level gate'}
+                {gateLabel(quest, 'Level')}
               </span>
               {quest.kappa ? <span className="eft-chip eft-is-kappa">Required for Kappa</span> : null}
             </div>
@@ -258,6 +264,7 @@ export function QuestDetail({ index, questId, items, done, onToggleDone, onOpen,
                     </span>
                     <span className="eft-chip">{need.count}×</span>
                     {need.foundInRaid ? <span className="eft-chip eft-is-fir">FIR</span> : null}
+                    {need.anyOf ? <span className="eft-chip" title="Any one of the items marked this way satisfies the objective">or</span> : null}
                   </div>
                 ))}
               </div>

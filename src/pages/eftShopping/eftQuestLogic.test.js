@@ -283,11 +283,22 @@ describe('the shipped quest index', () => {
   });
 
   it('reads a level gate off the requirements prose', () => {
-    expect(questByName(live, 'The Extortionist').minLevel).toBe(7);
+    expect(questByName(live, 'Cease Fire!').minLevel).toBe(10);
+  });
+
+  it('reads the loyalty gate off the infobox', () => {
+    // The 2026-10 wiki rework put most gates in |LL requirement| instead of prose.
+    expect(questByName(live, 'Bad Habit').loyalty).toEqual([{ trader: 'Mechanic', level: 1 }]);
+  });
+
+  it('keeps "15 of A, B or C" as alternatives with one shared count', () => {
+    const cigs = questByName(live, 'Bad Habit').items;
+    expect(cigs).toHaveLength(3);
+    expect(cigs.every((i) => i.count === 15 && i.anyOf && i.foundInRaid)).toBe(true);
   });
 
   it('links quests into a chain', () => {
-    const tree = questTree(live, questByName(live, 'The Extortionist').id);
+    const tree = questTree(live, questByName(live, 'Broadcast - Part 4').id);
     expect(tree.previous.length).toBeGreaterThan(0);
   });
 
