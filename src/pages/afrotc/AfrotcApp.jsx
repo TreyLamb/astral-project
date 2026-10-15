@@ -5,12 +5,15 @@ import remarkGfm from 'remark-gfm';
 import HubLink from '../../components/HubLink';
 import handbookMd from './docs/det855-handbook.md?raw';
 import quizzesMd from './docs/warrior-knowledge-quizzes.md?raw';
+import brief14n from './docs/brief14n.json';
 import './Afrotc.css';
 
 // To add a document: drop its pages/markdown in, then add one entry here.
 //   pages    - scanned/PDF pages shown as images (works on iPhone, where an embedded PDF only shows page 1)
 //   markdown - rendered text
 //   links    - cards pointing at tools that already live elsewhere on the site
+//   slides   - a deck rendered to images (public/afrotc/briefs/<dir>/slide-NN.jpg) beside its speaker notes
+//              (docs/<name>.json). Re-render: LibreOffice -> PDF -> one JPEG per page.
 const QRC_PAGES = [
   { n: 1, qrc: 'MARCH', title: 'MARCH mapped onto the QRCs (not an AFTTP page)', group: 'MARCH' },
   { n: 2, qrc: '19.1', title: 'General self-aid & buddy care (casualty evaluation)', group: 'TCCC' },
@@ -42,6 +45,11 @@ const DOCS = [
     slug: 'qrc', label: 'QRC Study Packet', kind: 'pages',
     blurb: 'AFTTP 3-4 Airman’s Manual quick reference cards: a MARCH cross-reference, all of TCCC (QRC 19.1–19.14), MEDEVAC 9-line, weapon safety (QRC 7.1), and the 5-Cs and IED/UXO cards (QRC 14.1–15.1). Manual pages 64–76, 13 (QRC 7.1 only) and 51–58.',
     pdf: '/afrotc/AFROTC_QRC_Study_Packet.pdf',
+  },
+  {
+    slug: 'brief14n', label: '14N Brief', kind: 'slides', slides: brief14n, dir: '/afrotc/briefs/14n',
+    blurb: 'Intelligence Officer (14N) career-field brief: every slide beside its speaker notes. Target 3-4 minutes. Deck last saved Oct 1.',
+    pptx: '/afrotc/briefs/14n/Air_Force_Intelligence_Career.pptx',
   },
   {
     slug: 'handbook', label: 'Det 855 Handbook', kind: 'markdown', content: handbookMd,
@@ -142,6 +150,46 @@ function MarkdownDoc({ doc, zoomDef, zoom, setZoom }) {
   );
 }
 
+function SlidesDoc({ doc, zoomDef, zoom, setZoom }) {
+  const jump = (n) => document.getElementById(`arc-s${n}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  return (
+    <>
+      <div className="arc-toolbar">
+        <p className="arc-blurb">{doc.blurb}</p>
+        <div className="arc-tools">
+          <ZoomBar zoom={zoom} setZoom={setZoom} />
+          <a className="arc-btn" href={doc.pptx} download>Download PowerPoint</a>
+        </div>
+      </div>
+      <nav className="arc-jump" aria-label="Jump to a slide">
+        <div className="arc-jump-group">
+          <b>Slide</b>
+          {doc.slides.map((s) => (
+            <button key={s.n} type="button" onClick={() => jump(s.n)} title={s.title}>{s.n}</button>
+          ))}
+        </div>
+      </nav>
+      <div className="arc-slides" style={{ '--arc-text': zoomDef.text }}>
+        {doc.slides.map((s) => (
+          <section key={s.n} id={`arc-s${s.n}`} className="arc-slide">
+            <h2 className="arc-slide-head"><span>{s.n}</span>{s.title}</h2>
+            <div className="arc-slide-pair">
+              <img
+                src={`${doc.dir}/slide-${String(s.n).padStart(2, '0')}.jpg`}
+                alt={`Slide ${s.n}: ${s.title}`} loading={s.n <= 2 ? 'eager' : 'lazy'} width="1600" height="900"
+              />
+              <div className="arc-slide-notes">
+                <b>Speaker notes</b>
+                {s.notes.length ? s.notes.map((p, i) => <p key={i}>{p}</p>) : <p className="arc-none">No notes on this slide.</p>}
+              </div>
+            </div>
+          </section>
+        ))}
+      </div>
+    </>
+  );
+}
+
 function LinksDoc() {
   return (
     <div className="arc-cards">
@@ -183,6 +231,7 @@ export default function AfrotcApp() {
       <main className="arc-main">
         {doc.kind === 'pages' && <PagesDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
         {doc.kind === 'markdown' && <MarkdownDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
+        {doc.kind === 'slides' && <SlidesDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
         {doc.kind === 'links' && <LinksDoc />}
       </main>
     </div>
